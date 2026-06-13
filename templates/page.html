@@ -27,6 +27,20 @@
             </div>
         </header>
 
+        {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
+        <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
+            <div class="ad-banner__image">
+                <img src="{{ get_url(path='img/banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')">
+                <span class="ad-banner__icon" aria-hidden="true">🐻</span>
+            </div>
+            <div class="ad-banner__text">
+                <span class="ad-banner__label">QUẢNG CÁO</span>
+                <h3 class="ad-banner__title">Đặt banner quảng cáo của bạn tại đây</h3>
+                <p class="ad-banner__desc">Nhấp để về trang chủ — Khu vực này sẽ hiển thị quảng cáo khi có hợp đồng.</p>
+            </div>
+            <span class="ad-banner__arrow" aria-hidden="true">→</span>
+        </a>
+
         <div class="post-single__content">
             {{ page.content | safe }}
         </div>

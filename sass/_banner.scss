@@ -1,0 +1,127 @@
+.ad-banner {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: center;
+
+  margin: 0 2.5rem 2rem;
+  padding: 1.25rem 1.5rem;
+
+  background: linear-gradient(135deg, #0d1525 0%, #1a1f3a 50%, #2d1b3d 100%);
+  color: #fff;
+  border-left: 4px solid #d63d3d;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 50%, rgba(214, 61, 61, 0.18), transparent 55%),
+      radial-gradient(circle at 90% 80%, rgba(167, 139, 250, 0.15), transparent 55%);
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+    color: #fff;
+  }
+
+  &__image {
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #6d4c2b 0%, #8b6635 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+    }
+
+    &--placeholder img { display: none; }
+  }
+
+  &__icon {
+    font-size: 4rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    pointer-events: none;
+  }
+
+  // Hide emoji when image loads successfully
+  &__image:not(.ad-banner__image--placeholder) &__icon { display: none; }
+
+  &__text {
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__label {
+    display: inline-block;
+    background: #d63d3d;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    padding: 0.25rem 0.6rem;
+    margin-bottom: 0.6rem;
+    border-radius: 2px;
+    font-family: $font-mono;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.25rem;
+    color: #fff;
+    margin: 0 0 0.35rem;
+    line-height: 1.3;
+    font-weight: 800;
+  }
+
+  &__desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  &__arrow {
+    font-size: 1.75rem;
+    color: #d63d3d;
+    font-weight: 700;
+    padding-right: 0.5rem;
+    transition: transform .2s ease;
+  }
+
+  &:hover &__arrow {
+    transform: translateX(4px);
+  }
+}
+
+@media (max-width: 720px) {
+  .ad-banner {
+    grid-template-columns: 90px 1fr;
+    margin: 0 1.25rem 1.5rem;
+    padding: 1rem;
+    gap: 1rem;
+
+    &__arrow { display: none; }
+    &__icon { font-size: 2.5rem; }
+    &__title { font-size: 1rem; }
+    &__desc { font-size: 0.8rem; }
+    &__label { font-size: 0.6rem; padding: 0.2rem 0.45rem; margin-bottom: 0.4rem; }
+  }
+}
