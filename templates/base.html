@@ -15,12 +15,27 @@
 </head>
 <body>
 
-    {# Site title block #}
+    {# Header: logo left + ad banner right #}
     <header class="site-header">
-        <a class="site-title-link" href="{{ config.base_url }}">
-            <h1 class="site-title">{{ config.title }}</h1>
-        </a>
-        <p class="site-tagline">{{ config.extra.tagline }}</p>
+        <div class="container site-header__inner">
+            <a class="site-title-link" href="{{ config.base_url }}">
+                <span class="site-title">{{ config.title }}</span>
+                <span class="site-tagline">{{ config.extra.tagline }}</span>
+            </a>
+
+            <a class="header-ad" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
+                <div class="header-ad__icon">
+                    <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')">
+                    <span class="header-ad__emoji" aria-hidden="true">🐻</span>
+                </div>
+                <div class="header-ad__text">
+                    <span class="header-ad__label">QUẢNG CÁO</span>
+                    <strong class="header-ad__title">Đặt banner của bạn tại đây</strong>
+                    <span class="header-ad__desc">Khu vực 728×90 sẵn sàng cho banner ngang — Liên hệ admin để hợp tác.</span>
+                </div>
+                <span class="header-ad__arrow" aria-hidden="true">→</span>
+            </a>
+        </div>
     </header>
 
     {# Sticky navbar #}
