@@ -1,5 +1,5 @@
 +++
-title = "Dùng Sass/SCSS trong Zola: tự build CSS không cần Node"
+title = "MUỐN Dùng Sass/SCSS trong Zola: tự build CSS không cần Node"
 date = 2026-06-03
 
 [taxonomies]
@@ -8,6 +8,7 @@ tags = ["zola", "sass", "css"]
 
 [extra]
 thumbnail = "https://picsum.photos/seed/sass/600/400"
+featured = true
 +++
 
 Zola tích hợp sẵn trình biên dịch Sass — bỏ thư mục `sass/` vào project và bật flag.
