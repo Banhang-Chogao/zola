@@ -36,12 +36,20 @@
   const GIST_ID = "9e75490dacb5333bec86f8e175b7b4d0";
   // ====================================
 
-  // Dùng GitHub Gist API thay vì raw URL — API CORS native + trả về file list
-  // → tự tìm file JSON đầu tiên, không cần biết filename chính xác
-  // Cache 5 phút (ts giảm tần suất gọi API)
-  const API_URL =
-    "https://api.github.com/gists/" + GIST_ID +
-    "?ts=" + Math.floor(Date.now() / 300000);
+  // Raw gist URL có CORS native + NO RATE LIMIT (CDN tĩnh).
+  // Thử lần lượt các tên file phổ biến (Gist default đặt gistfile1.txt
+  // nếu user không đổi). User chỉ cần đảm bảo 1 trong các tên này khớp.
+  const RAW_BASE =
+    "https://gist.githubusercontent.com/" + GIST_USER + "/" + GIST_ID + "/raw/";
+  const FILENAMES = [
+    "posts.json",
+    "gistfile1.txt",
+    "gistfile1.json",
+    "gistfile1.md",
+    "data.json",
+    "blog.json",
+  ];
+  const CACHE_BUSTER = "?ts=" + Math.floor(Date.now() / 60000); // 1 phút
 
   const statusEl = document.querySelector("[data-status]");
   const listEl = document.querySelector("[data-drive-posts]");
@@ -134,38 +142,37 @@
       // Đợi marked + DOMPurify load (defer)
       await new Promise((r) => setTimeout(r, 400));
 
-      setStatus("Đang tải từ Gist…", "loading");
-      const res = await fetch(API_URL, {
-        cache: "no-store",
-        headers: { Accept: "application/vnd.github+json" },
-      });
-      if (!res.ok) {
-        if (res.status === 404) throw new Error("Gist không tồn tại (404). Kiểm tra GIST_ID + gist phải public.");
-        if (res.status === 403) throw new Error("GitHub API rate limit (60 req/h/IP). Đợi 1 giờ.");
-        throw new Error("HTTP " + res.status);
+      // Thử fetch lần lượt các filename phổ biến tới khi 1 cái trả 200
+      let raw = null;
+      let usedName = null;
+      let lastStatus = null;
+      for (let i = 0; i < FILENAMES.length; i++) {
+        const name = FILENAMES[i];
+        setStatus("Đang thử file: " + name + " (" + (i + 1) + "/" + FILENAMES.length + ")", "loading");
+        try {
+          const r = await fetch(RAW_BASE + name + CACHE_BUSTER, { cache: "no-store" });
+          lastStatus = r.status;
+          if (!r.ok) {
+            console.warn("[posts] " + name + " → HTTP " + r.status);
+            continue;
+          }
+          const text = await r.text();
+          if (text && text.trim()) {
+            raw = text;
+            usedName = name;
+            console.log("[posts] loaded file:", name);
+            break;
+          }
+        } catch (err) {
+          console.warn("[posts] fetch error", name, err.message);
+        }
       }
 
-      const gist = await res.json();
-      const files = gist.files || {};
-      const fileNames = Object.keys(files);
-      if (!fileNames.length) throw new Error("Gist không có file nào");
-
-      // Tìm file JSON đầu tiên, hoặc file đầu tiên nếu không có .json
-      let target = fileNames.find((n) => n.toLowerCase().endsWith(".json")) || fileNames[0];
-      const file = files[target];
-      let raw = file.content;
-
-      // Nếu content bị truncate (file > 1MB), fetch raw URL bổ sung
-      if (file.truncated && file.raw_url) {
-        console.log("[posts] gist file truncated, fetching raw");
-        const rawRes = await fetch(file.raw_url, { cache: "no-store" });
-        if (!rawRes.ok) throw new Error("Raw fetch HTTP " + rawRes.status);
-        raw = await rawRes.text();
+      if (!raw) {
+        throw new Error("Không tìm được file nào trong gist (thử " + FILENAMES.length + " tên phổ biến, last status " + lastStatus + "). Đổi tên file trong gist thành 'posts.json'.");
       }
 
-      if (!raw || !raw.trim()) throw new Error("File '" + target + "' rỗng");
-
-      console.log("[posts] using gist file:", target);
+      console.log("[posts] using gist file:", usedName);
       const data = JSON.parse(raw);
       const posts = Array.isArray(data.posts) ? data.posts : (Array.isArray(data) ? data : []);
       if (!posts.length) {
