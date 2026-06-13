@@ -1,0 +1,35 @@
+{% macro card(name, icon, color, topic, tag2, feed) %}
+    <article class="news-card" data-feed="{{ feed }}" style="--accent: {{ color }};">
+        <div class="news-card__tags">
+            <span class="tag tag--update" data-update>CẬP NHẬT</span>
+            <span class="tag tag--{{ tag2 }}">
+                {%- if tag2 == "travel"  %}DU LỊCH
+                {%- elif tag2 == "news"    %}THỜI SỰ
+                {%- elif tag2 == "world"   %}THẾ GIỚI
+                {%- elif tag2 == "society" %}XÃ HỘI
+                {%- else %}{{ tag2 | upper }}{% endif -%}
+            </span>
+        </div>
+
+        <h2 class="news-card__title">{{ name }}</h2>
+        <p class="news-card__subtitle"><span class="topic">{{ topic }}</span> · <span class="count">đang tải…</span></p>
+
+        <ol class="news-card__list">
+            {% for i in range(end=6) %}
+                <li class="news-item news-item--skeleton">
+                    <span class="news-item__num">{% if i + 1 < 10 %}0{% endif %}{{ i + 1 }}</span>
+                    <div class="news-item__body">
+                        <span class="news-item__title">&nbsp;</span>
+                        <span class="news-item__time">&nbsp;</span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+
+        <footer class="news-card__footer">
+            <span class="news-card__brand">{{ icon }} {{ name }}</span>
+            <span class="news-card__clock">--:--</span>
+            <span class="news-card__date">--/--/----</span>
+        </footer>
+    </article>
+{% endmacro card %}
