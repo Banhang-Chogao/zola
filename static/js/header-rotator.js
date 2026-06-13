@@ -20,14 +20,12 @@
     const clockEl = ghSlide.querySelector(".header-github__clock");
 
     const pad = (n) => (n < 10 ? "0" + n : "" + n);
-    const tick = () => {
-      const d = new Date();
-      clockEl.textContent =
-        pad(d.getHours()) + ":" + pad(d.getMinutes()) + " " +
-        pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear();
-    };
-    tick();
-    setInterval(tick, 30000);
+    const formatDateTime = (d) =>
+      pad(d.getHours()) + ":" + pad(d.getMinutes()) + " " +
+      pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear();
+
+    // Đợi data về thì hiển thị thời điểm commit (KHÔNG còn realtime current time)
+    clockEl.textContent = "đang tải…";
 
     fetch("https://api.github.com/repos/" + repo + "/commits?per_page=1", {
       headers: { Accept: "application/vnd.github+json" },
@@ -44,11 +42,24 @@
         msgEl.textContent = title;
         hashEl.textContent = sha;
         noteEl.textContent = "Code mới nhất đã được GitHub ghi nhận.";
+
+        // Thời điểm commit (committer.date ưu tiên, fallback author.date)
+        const isoDate =
+          (c.commit.committer && c.commit.committer.date) ||
+          (c.commit.author && c.commit.author.date);
+        if (isoDate) {
+          const commitDate = new Date(isoDate);
+          clockEl.textContent = formatDateTime(commitDate);
+          clockEl.setAttribute("title", "Commit lúc " + commitDate.toString());
+        } else {
+          clockEl.textContent = "--:-- --/--/----";
+        }
       })
       .catch((err) => {
         msgEl.textContent = "Không tải được commit";
         hashEl.textContent = "ERROR";
         noteEl.textContent = err.message;
+        clockEl.textContent = "--:-- --/--/----";
         const tags = ghSlide.querySelector(".header-github__tags");
         const active = tags && tags.querySelector(".tag--active");
         if (active) {

@@ -396,7 +396,12 @@
   }
 
   &__brand { color: #a78bfa; font-weight: 600; }
-  &__clock { color: #86efac; font-weight: 700; }
+  &__clock {
+    color: #86efac;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
 }
 
 @media (max-width: 720px) {
@@ -408,6 +413,7 @@
     &__commit strong { font-size: 0.72rem; }
     &__meta { font-size: 0.62rem; }
     &__side { font-size: 0.62rem; }
+    &__clock { font-size: 0.72rem; }
     &__tags .tag { font-size: 0.55rem; padding: 0.12rem 0.4rem; }
     &__meta .dot, &__meta span:last-child { display: none; }
   }

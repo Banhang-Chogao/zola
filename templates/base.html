@@ -24,26 +24,29 @@
             </a>
 
             {#
-                Header rotator: luân phiên giữa Ad banner (A) và GitHub status (B) mỗi 3s.
-                Tắt tính năng: đổi data-rotate="false" → chỉ slide đầu hiển thị (ad banner).
+                Khu vực bên cạnh logo — hiện đang TẮT banner quảng cáo, chỉ giữ GitHub status.
+                Để bật lại rotation Ad ⇄ GitHub: uncomment block "Slide A" bên dưới và đổi
+                data-rotate="true". Banner quảng cáo dưới tiêu đề bài viết KHÔNG bị ảnh hưởng.
             #}
-            <div class="header-rotator" data-rotate="true" data-interval="3000">
-                {# Slide A: Ad banner #}
-                <a class="header-ad header-rotator__slide is-active" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
-                    <div class="header-ad__icon">
-                        <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')">
-                        <span class="header-ad__emoji" aria-hidden="true">🐻</span>
-                    </div>
-                    <div class="header-ad__text">
-                        <span class="header-ad__label">QUẢNG CÁO</span>
-                        <strong class="header-ad__title">Đặt banner của bạn tại đây</strong>
-                        <span class="header-ad__desc">Khu vực 728×90 sẵn sàng cho banner ngang — Liên hệ admin để hợp tác.</span>
-                    </div>
-                    <span class="header-ad__arrow" aria-hidden="true">→</span>
-                </a>
+            <div class="header-rotator" data-rotate="false" data-interval="3000">
+                {#
+                    {# Slide A: Ad banner — TẠM TẮT
+                    <a class="header-ad header-rotator__slide" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
+                        <div class="header-ad__icon">
+                            <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')">
+                            <span class="header-ad__emoji" aria-hidden="true">🐻</span>
+                        </div>
+                        <div class="header-ad__text">
+                            <span class="header-ad__label">QUẢNG CÁO</span>
+                            <strong class="header-ad__title">Đặt banner của bạn tại đây</strong>
+                            <span class="header-ad__desc">Khu vực 728×90 sẵn sàng cho banner ngang — Liên hệ admin để hợp tác.</span>
+                        </div>
+                        <span class="header-ad__arrow" aria-hidden="true">→</span>
+                    </a>
+                #}
 
-                {# Slide B: GitHub commit status #}
-                <a class="header-github header-rotator__slide" href="https://github.com/Banhang-Chogao/zola" target="_blank" rel="noopener" data-repo="Banhang-Chogao/zola" title="Xem repo trên GitHub">
+                {# Slide B: GitHub commit status — đang là slide duy nhất #}
+                <a class="header-github header-rotator__slide is-active" href="https://github.com/Banhang-Chogao/zola" target="_blank" rel="noopener" data-repo="Banhang-Chogao/zola" title="Xem repo trên GitHub">
                     <div class="header-github__tags">
                         <span class="tag tag--active">HOẠT ĐỘNG</span>
                         <span class="tag tag--code">SOURCE CODE</span>
@@ -62,7 +65,7 @@
                         </div>
                         <div class="header-github__side">
                             <span class="header-github__brand">⌘ GitHub</span>
-                            <span class="header-github__clock">--:-- --/--/----</span>
+                            <span class="header-github__clock" title="Thời điểm commit được push">--:-- --/--/----</span>
                         </div>
                     </div>
                 </a>
