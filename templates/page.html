@@ -71,43 +71,6 @@
                 </div>
             </footer>
         {% endif %}
-
-        {# COMMENT SECTION — Giscus (GitHub Discussions backend) #}
-        <section class="comments-section">
-            <h3 class="comments-section__title">Bình luận</h3>
-            <p class="comments-section__note">
-                Đăng nhập bằng <strong>tài khoản GitHub</strong> để bình luận.
-                <small>(Để bật bình luận bằng Gmail, xem hướng dẫn switch sang Disqus/Firebase ở README)</small>
-            </p>
-
-            {% if config.extra.giscus_repo_id and config.extra.giscus_category_id %}
-                <script src="https://giscus.app/client.js"
-                    data-repo="Banhang-Chogao/zola"
-                    data-repo-id="{{ config.extra.giscus_repo_id }}"
-                    data-category="{{ config.extra.giscus_category | default(value='General') }}"
-                    data-category-id="{{ config.extra.giscus_category_id }}"
-                    data-mapping="pathname"
-                    data-strict="0"
-                    data-reactions-enabled="1"
-                    data-emit-metadata="0"
-                    data-input-position="top"
-                    data-theme="light"
-                    data-lang="vi"
-                    crossorigin="anonymous"
-                    async>
-                </script>
-            {% else %}
-                <div class="comments-setup-notice">
-                    <h4>⚙ Bình luận chưa được kích hoạt</h4>
-                    <p>Cần setup Giscus trước. Làm theo 3 bước:</p>
-                    <ol>
-                        <li>Vào <a href="https://github.com/Banhang-Chogao/zola/settings#discussions-feature" target="_blank">Settings → Features</a>, tick <strong>Discussions</strong></li>
-                        <li>Cài <a href="https://github.com/apps/giscus" target="_blank">Giscus App</a> cho repo</li>
-                        <li>Vào <a href="https://giscus.app" target="_blank">giscus.app</a>, paste repo URL, copy 2 giá trị <code>data-repo-id</code> + <code>data-category-id</code> dán vào <code>config.toml</code></li>
-                    </ol>
-                </div>
-            {% endif %}
-        </section>
     </article>
 {% endblock main %}
 
