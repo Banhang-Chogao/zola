@@ -4,20 +4,13 @@
 # =================================================================
 
 backend:
-  name: github
-  repo: Banhang-Chogao/zola
+  name: git-gateway
   branch: main
-  # === OAUTH PROXY (production) ===
-  # GitHub Pages KHÔNG có backend → Decap CMS cần OAuth proxy để đổi code lấy token.
-  # Sửa 2 dòng dưới sau khi deploy proxy:
-  #   base_url: https://your-oauth-proxy.example.com
-  #   auth_endpoint: auth
 
 # === LOCAL BACKEND (development) ===
 # Khi bật local_backend, mở terminal chạy `npx decap-server &` (port 8081),
 # rồi truy cập http://localhost:1111/admin/ — CMS sẽ ghi file trực tiếp xuống disk
-# không cần OAuth. Trên production deployed (banhang-chogao.github.io) cờ này
-# bị bỏ qua tự động vì proxy ở localhost không có.
+# không cần OAuth. Trên production deployed (Netlify) cờ này bị bỏ qua tự động.
 local_backend: true
 
 # Bật editorial workflow: bài viết qua trạng thái Draft → In Review → Ready → Published

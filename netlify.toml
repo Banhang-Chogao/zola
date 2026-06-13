@@ -1,0 +1,12 @@
+[build]
+  publish = "public"
+  command = "curl -sLO https://github.com/getzola/zola/releases/download/v0.20.0/zola-v0.20.0-x86_64-unknown-linux-gnu.tar.gz && tar -xzf zola-v0.20.0-x86_64-unknown-linux-gnu.tar.gz && ./zola build"
+
+[build.environment]
+  ZOLA_VERSION = "0.20.0"
+
+# /cms shortcut → /admin/
+[[redirects]]
+  from = "/cms"
+  to = "/admin/"
+  status = 301
