@@ -25,6 +25,7 @@ tagline = "Duy Nguyen"
 menu = [
     {url = "$BASE_URL", name = "TRANG CHÍNH"},
     {url = "$BASE_URL/categories/posting", name = "POSTING"},
+    {url = "$BASE_URL/drive", name = "BÀI MỚI"},
     {url = "$BASE_URL/doc-bao", name = "ĐỌC BÁO"},
     {url = "$BASE_URL/about", name = "GIỚI THIỆU"},
 ]

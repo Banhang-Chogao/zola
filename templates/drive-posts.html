@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Bài mới từ Drive | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    {# Markdown parser CDN cho convert content → HTML #}
+    <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js" defer></script>
+{% endblock %}
+
+{% block main %}
+    <header class="section-header">
+        <h2 class="section-header__title">BÀI MỚI TỪ DRIVE</h2>
+    </header>
+    <p class="section-subtitle">
+        Bài viết được tải động từ file JSON public trên Google Drive — không cần build lại site mỗi khi sửa nội dung.
+    </p>
+
+    <div class="drive-status" data-status>
+        <span class="drive-status__dot"></span>
+        <span class="drive-status__msg">Đang tải từ Drive…</span>
+    </div>
+
+    <div class="post-list" data-drive-posts>
+        {# JS render vào đây #}
+    </div>
+{% endblock main %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/drive-posts.js') }}" defer></script>
+{% endblock %}
