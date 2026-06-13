@@ -1,0 +1,81 @@
+# =================================================================
+# Decap CMS — LOCAL-ONLY mode
+# Chỉ hoạt động khi chạy `npx decap-server` ở port 8081 + truy cập
+# http://localhost:1111/admin/ (không phải production URL).
+# =================================================================
+
+backend:
+  name: github
+  repo: Banhang-Chogao/zola
+  branch: main
+
+# Bật local proxy backend — admin/index.html chỉ load Decap CMS khi
+# hostname là localhost, nên backend github bên trên chỉ là placeholder.
+local_backend: true
+
+# Media upload (ảnh trong bài viết) → static/img/uploads/
+media_folder: "static/img/uploads"
+public_folder: "/img/uploads"
+
+# Hiển thị tiếng Việt
+locale: vi
+
+# Bật editorial workflow: bài qua trạng thái Draft → In Review → Ready → Published
+# Mỗi action → tạo PR/commit
+publish_mode: editorial_workflow
+
+site_url: https://banhang-chogao.github.io/zola
+display_url: https://banhang-chogao.github.io/zola
+
+# =================================================================
+# Collections — map đến cấu trúc content/ của Zola
+# =================================================================
+collections:
+
+  - name: "blog"
+    label: "Bài viết blog"
+    label_singular: "bài viết"
+    description: "Bài viết hiển thị ở trang chủ. Mỗi bài tạo file content/{slug}.md"
+    folder: "content"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} · {{date | date('DD/MM/YYYY')}}"
+    extension: "md"
+    format: "toml-frontmatter"
+    fields:
+      - {label: "Tiêu đề", name: "title", widget: "string"}
+      - {label: "Ngày đăng", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+
+      - label: "Phân loại"
+        name: "taxonomies"
+        widget: "object"
+        fields:
+          - {label: "Categories", name: "categories", widget: "list", default: ["Posting"], hint: "Mỗi category là 1 mục"}
+          - {label: "Tags", name: "tags", widget: "list", default: [], required: false, hint: "Mỗi tag là 1 mục"}
+
+      - label: "Tuỳ chọn thêm"
+        name: "extra"
+        widget: "object"
+        required: false
+        fields:
+          - {label: "Ảnh thumbnail", name: "thumbnail", widget: "image", required: false, hint: "URL hoặc upload"}
+          - {label: "Bài nổi bật?", name: "featured", widget: "boolean", default: false, required: false, hint: "Tick để bài lên Featured Post"}
+
+      - {label: "Nội dung", name: "body", widget: "markdown"}
+
+  - name: "pages"
+    label: "Trang tĩnh"
+    label_singular: "trang"
+    description: "Các trang không phải bài viết: Giới thiệu, Liên hệ..."
+    folder: "content/pages"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "toml-frontmatter"
+    fields:
+      - {label: "Tiêu đề", name: "title", widget: "string"}
+      - {label: "Đường dẫn", name: "path", widget: "string", hint: "Ví dụ: about → /about/"}
+      - {label: "Template", name: "template", widget: "select", options: ["about.html", "page.html"], default: "about.html"}
+      - {label: "Nội dung", name: "body", widget: "markdown"}
