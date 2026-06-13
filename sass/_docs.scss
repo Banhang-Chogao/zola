@@ -1,9 +1,11 @@
 .documentation {
   padding: 3rem;
   display: flex;
+  gap: 2rem;
+  align-items: flex-start;
 
   &__sidebar {
-    margin-right: 2rem;
+    flex: 0 0 220px;
     min-width: 220px;
 
     ul {
@@ -40,8 +42,8 @@
   }
 
   &__content {
-    width: 60%;
-    margin-left: 2rem;
+    flex: 1 1 auto;
+    min-width: 0;
 
     h1, h2, h3, h4, h5, h6 {
       .zola-anchor {
@@ -114,16 +116,22 @@
     flex-direction: column;
     padding: 2rem;
 
-    &__content {
+    &__sidebar,
+    &__content,
+    &__right {
+      flex: 1 1 auto;
       width: 100%;
-      margin-left: 0;
+      min-width: 0;
     }
 
     &__sidebar {
       border-top: 1px solid $background;
       order: 1;
-      margin-right: 0;
       margin-top: 1rem;
+    }
+
+    &__right {
+      order: 2;
     }
   }
 }

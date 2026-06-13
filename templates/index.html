@@ -83,6 +83,37 @@
                             {{ root.content | safe }}
                         {% endblock doc_content %}
                     </div>
+                    {% block right_sidebar %}
+                        <aside class="documentation__right">
+                            <article class="deploy-card" data-repo="Banhang-Chogao/zola">
+                                <div class="deploy-card__tags">
+                                    <span class="tag tag--active" data-status>HOẠT ĐỘNG</span>
+                                    <span class="tag tag--code">SOURCE CODE</span>
+                                </div>
+
+                                <h2 class="deploy-card__title">GitHub</h2>
+                                <p class="deploy-card__subtitle">Lưu mã nguồn, lịch sử thay đổi và kích hoạt quy trình deploy khi có code mới.</p>
+
+                                <div class="deploy-card__status">
+                                    <h3 class="deploy-card__status-title" data-headline>Đang kiểm tra trạng thái…</h3>
+                                    <p class="deploy-card__commit" data-commit>------- - đang tải commit</p>
+                                </div>
+
+                                <div class="deploy-banner" data-banner>
+                                    <h4 class="deploy-banner__title" data-banner-title>Đang xử lý</h4>
+                                    <p class="deploy-banner__msg" data-banner-msg>Đang truy vấn GitHub Actions để biết tình trạng deploy.</p>
+                                </div>
+
+                                <hr class="deploy-card__divider" data-divider>
+
+                                <footer class="deploy-card__footer">
+                                    <span class="deploy-card__brand">⌘ GitHub</span>
+                                    <span class="deploy-card__clock">--:-- --/--/----</span>
+                                </footer>
+                            </article>
+                        </aside>
+                        <script src="{{ get_url(path='js/deploy.js') }}" defer></script>
+                    {% endblock right_sidebar %}
                 </div>
             {% endblock content %}
         </div>
