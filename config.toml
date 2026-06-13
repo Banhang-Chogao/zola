@@ -6,10 +6,10 @@ compile_sass = true
 build_search_index = true
 
 [markdown]
+highlight_code = true
+highlight_theme = "catppuccin-mocha"
+extra_syntaxes_and_themes = ["highlight_themes"]
 external_links_class = "external"
-
-[markdown.highlighting]
-theme = "catppuccin-mocha"
 
 [extra]
 author = "Banhang Chogao"

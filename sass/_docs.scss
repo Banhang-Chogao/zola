@@ -62,9 +62,9 @@
     }
 
     pre {
-      background-color: #2e2e2e;
-      color: #eee;
-      border-radius: 4px;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
     }
 
     p code, li code:not(pre code) {
