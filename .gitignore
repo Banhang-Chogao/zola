@@ -1,0 +1,10 @@
+public/
+.DS_Store
+*.swp
+
+# Sensitive: never commit tokens/keys
+ghp_*
+*.pem
+*.key
+.env
+.env.*

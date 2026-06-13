@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+        <meta name="author" content="{{ config.extra.author }}">
+        <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+        <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
+    </head>
+    <body>
+
+        <header>
+            <a class="header__logo white" href="{{ config.base_url }}">Zola</a>
+            <nav>
+                <ul>
+                    <li><a class="white" href="#" class="nav-link">Tài liệu</a></li>
+                    <li><a class="white" href="#" class="nav-link">Giao diện</a></li>
+                    <li><a class="white external" href="#" class="nav-link">Diễn đàn</a></li>
+                    <li><a class="white external" href="https://github.com/Banhang-Chogao/zola" class="nav-link">GitHub</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="content {% block extra_content_class %}{% endblock extra_content_class %}">
+            {% block content %}
+                <div class="hero">
+                    <h1>Static site engine tất-cả-trong-một của bạn</h1>
+                    <p class="hero__tagline">
+                        Quên các dependency đi. Mọi thứ bạn cần đều nằm trong một file binary duy nhất.
+                    </p>
+                    <a href="#" class="button">Bắt đầu ngay</a>
+                </div>
+
+                <div class="inverted-colours selling-points">
+                    <div class="selling-points__content container">
+                        <div class="selling-point">
+                            <h2>Không phụ thuộc</h2>
+                            <p>
+                                Zola là một file thực thi duy nhất, đã tích hợp sẵn biên dịch Sass, syntax highlighting,
+                                mục lục và rất nhiều tính năng khác mà bình thường bạn phải cài đặt thêm môi trường
+                                hoặc thêm các thư viện JavaScript vào trang web của mình.
+                            </p>
+                        </div>
+
+                        <div class="selling-point">
+                            <h2>Nhanh như chớp</h2>
+                            <p>
+                                Một trang web trung bình sẽ được build trong chưa đến một giây,
+                                bao gồm cả biên dịch Sass và syntax highlighting.
+                            </p>
+                        </div>
+
+                        <div class="selling-point">
+                            <h2>Khả năng mở rộng</h2>
+                            <p>
+                                Zola render toàn bộ trang web thành file tĩnh, giúp bạn xử lý
+                                mọi loại lưu lượng truy cập một cách dễ dàng mà không phải lo lắng về
+                                việc quản lý server hay cơ sở dữ liệu.
+                            </p>
+                        </div>
+
+                        <div class="selling-point">
+                            <h2>Dễ sử dụng</h2>
+                            <p>
+                                Từ giao diện dòng lệnh đến template engine, mọi thứ đều được thiết kế để
+                                trực quan và dễ dùng. Đừng tin lời tôi nói — hãy xem
+                                <a href="#">tài liệu</a> và tự kiểm chứng.
+                            </p>
+                        </div>
+
+                        <div class="selling-point">
+                            <h2>Linh hoạt</h2>
+                            <p>
+                                Zola không cản đường bạn, để bạn tập trung vào nội dung — dù là blog,
+                                trang kiến thức, landing page, hay kết hợp tất cả lại.
+                            </p>
+                        </div>
+
+                        <div class="selling-point">
+                            <h2>Markdown nâng cao</h2>
+                            <p>
+                                Zola tích hợp sẵn <a href="#">shortcode</a> và
+                                <a href="#">liên kết nội bộ</a>
+                                giúp việc viết nội dung của bạn trở nên dễ dàng hơn.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            {% endblock content %}
+        </div>
+        <footer>
+            ©2026 — <a class="white" href="https://github.com/Banhang-Chogao/zola">Banhang Chogao</a> và các cộng tác viên
+        </footer>
+
+    </body>
+</html>
