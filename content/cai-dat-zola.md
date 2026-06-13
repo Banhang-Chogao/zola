@@ -1,5 +1,5 @@
 +++
-title = "Cài đặt Zola trên các hệ điều hành phổ biến"
+title = "Feature: Cài đặt Zola trên các hệ điều hành phổ biến"
 date = 2026-06-11
 
 [taxonomies]
@@ -8,6 +8,7 @@ tags = ["zola", "cài đặt"]
 
 [extra]
 thumbnail = "https://picsum.photos/seed/cai-dat/600/400"
+featured = true
 +++
 
 Zola được phân phối dưới dạng một file binary duy nhất, không có dependency.
