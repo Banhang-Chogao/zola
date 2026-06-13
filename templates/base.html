@@ -26,6 +26,7 @@
                 </span>
             </a>
 
+            <div class="header-side">
             {#
                 Khu vực bên cạnh logo — hiện đang TẮT banner quảng cáo, chỉ giữ GitHub status.
                 Để bật lại rotation Ad ⇄ GitHub: uncomment block "Slide A" bên dưới và đổi
@@ -49,7 +50,7 @@
                 #}
 
                 {# Slide B: GitHub commit status — đang là slide duy nhất #}
-                <a class="header-github header-rotator__slide is-active" href="https://github.com/Banhang-Chogao/zola" target="_blank" rel="noopener" data-repo="Banhang-Chogao/zola" title="Xem repo trên GitHub">
+                <a class="header-github header-rotator__slide is-active" href="https://github.com/Banhang-Chogao/zola" target="_blank" rel="noopener" data-repo-actions="Banhang-Chogao/zola" data-repo="Banhang-Chogao/zola" title="Xem repo trên GitHub">
                     <div class="header-github__tags">
                         <span class="tag tag--active">HOẠT ĐỘNG</span>
                         <span class="tag tag--code">SOURCE CODE</span>
@@ -73,6 +74,15 @@
                     </div>
                 </a>
             </div>
+
+            {# Pending queue: workflow đang chạy / chờ trên GitHub Actions #}
+            <div class="deploy-queue" data-deploy-queue data-repo="Banhang-Chogao/zola">
+                <span class="deploy-queue__badge" data-queue-badge>PENDING QUEUE</span>
+                <div class="deploy-queue__items" data-queue-target>
+                    <span class="deploy-queue__msg">đang kiểm tra…</span>
+                </div>
+            </div>
+            </div> {# /.header-side #}
         </div>
     </header>
 

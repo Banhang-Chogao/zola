@@ -124,6 +124,77 @@
     }
   }
 
+  // ===== Deploy queue (GitHub Actions runs) =====
+  loadDeployQueue();
+  setInterval(loadDeployQueue, 30000);
+
+  function loadDeployQueue() {
+    const queueEl = document.querySelector("[data-deploy-queue]");
+    if (!queueEl) return;
+    const repo = queueEl.dataset.repo;
+    const target = queueEl.querySelector("[data-queue-target]");
+    const badge = queueEl.querySelector("[data-queue-badge]");
+
+    fetch("https://api.github.com/repos/" + repo + "/actions/runs?per_page=20", {
+      headers: { Accept: "application/vnd.github+json" },
+    })
+      .then((r) => {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then((data) => {
+        const runs = (data.workflow_runs || []).filter(
+          (r) => r.status === "queued" || r.status === "in_progress" || r.status === "waiting"
+        );
+        renderQueue(runs, target, badge);
+      })
+      .catch((err) => {
+        badge.textContent = "QUEUE ERROR";
+        target.innerHTML = '<span class="deploy-queue__msg">' + escapeHtml(err.message) + "</span>";
+      });
+  }
+
+  function renderQueue(runs, target, badge) {
+    if (runs.length === 0) {
+      badge.textContent = "✓ DEPLOYED";
+      badge.classList.add("deploy-queue__badge--success");
+      target.innerHTML =
+        '<span class="deploy-queue__msg">' +
+        '<span class="status-dot status-dot--success"></span>' +
+        " Hàng đợi trống — mọi commit đã deploy xong</span>";
+      return;
+    }
+    badge.textContent = "PENDING QUEUE (" + runs.length + ")";
+    badge.classList.remove("deploy-queue__badge--success");
+
+    target.innerHTML = runs
+      .map((r) => {
+        const sha = r.head_sha.substring(0, 7);
+        const isRunning = r.status === "in_progress";
+        const statusClass = isRunning ? "running" : "queued";
+        const label = isRunning ? "đang deploy" : "chờ";
+        const msg = (r.head_commit && r.head_commit.message) || "";
+        const firstLine = msg.split("\n")[0];
+        return (
+          '<a class="deploy-queue__item deploy-queue__item--' + statusClass + '" ' +
+          'href="' + escapeAttr(r.html_url) + '" target="_blank" rel="noopener" ' +
+          'title="' + escapeAttr(firstLine) + '">' +
+          '<span class="status-dot status-dot--' + statusClass + '"></span>' +
+          '<code>' + escapeHtml(sha) + '</code>' +
+          '<span>' + escapeHtml(label) + '</span>' +
+          '</a>'
+        );
+      })
+      .join("");
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, (c) =>
+      ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c])
+    );
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+
   // ===== Rotation =====
   if (rotator.dataset.rotate !== "true") return;
   const slides = rotator.querySelectorAll(".header-rotator__slide");
