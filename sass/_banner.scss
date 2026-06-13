@@ -257,3 +257,158 @@
     &__label { font-size: 0.55rem; padding: 0.1rem 0.4rem; }
   }
 }
+
+/* ----- Header rotator (chuyển luân phiên slides) ----- */
+
+.header-rotator {
+  display: grid;
+  min-width: 0;
+
+  &__slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .4s ease, transform .4s ease;
+    transform: translateY(6px);
+
+    &.is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ----- Header GitHub status block ----- */
+
+.header-github {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.85rem 1.2rem;
+
+  background: linear-gradient(135deg, #0a0f1d 0%, #0d1525 100%);
+  color: #e2e8f0;
+  border-radius: 6px;
+  border-left: 4px solid #22c55e;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  min-height: 88px;
+  font-family: $font-body;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 5% 50%, rgba(34, 197, 94, 0.12), transparent 50%),
+      radial-gradient(circle at 95% 50%, rgba(167, 139, 250, 0.10), transparent 55%);
+    pointer-events: none;
+  }
+
+  &:hover { color: #fff; }
+
+  &__tags {
+    display: flex;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+
+    .tag {
+      display: inline-block;
+      padding: 0.18rem 0.5rem;
+      border: 1.5px solid currentColor;
+      border-radius: 3px;
+      font-family: $font-mono;
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      background: transparent;
+    }
+    .tag--active { color: #22c55e; }
+    .tag--code   { color: #a78bfa; }
+    .tag--error  { color: #f59e0b; }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  &__brand-title {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+  }
+
+  &__commit {
+    margin: 0;
+    line-height: 1.3;
+
+    strong {
+      display: block;
+      color: #f1f5f9;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__meta {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    color: #94a3b8;
+
+    code {
+      color: #cbd5e1;
+      background: transparent;
+      padding: 0;
+    }
+
+    .dot { color: #475569; padding: 0 0.2rem; }
+  }
+
+  &__side {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-family: $font-mono;
+    font-size: 0.72rem;
+  }
+
+  &__brand { color: #a78bfa; font-weight: 600; }
+  &__clock { color: #86efac; font-weight: 700; }
+}
+
+@media (max-width: 720px) {
+  .header-github {
+    padding: 0.7rem 0.85rem;
+    min-height: 64px;
+
+    &__brand-title { font-size: 0.85rem; }
+    &__commit strong { font-size: 0.72rem; }
+    &__meta { font-size: 0.62rem; }
+    &__side { font-size: 0.62rem; }
+    &__tags .tag { font-size: 0.55rem; padding: 0.12rem 0.4rem; }
+    &__meta .dot, &__meta span:last-child { display: none; }
+  }
+}
