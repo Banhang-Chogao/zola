@@ -30,7 +30,7 @@
  */
 (function () {
   // ============= CẤU HÌNH =============
-  const DRIVE_FILE_ID = "PASTE_FILE_ID_HERE"; // 👈 dán FILE_ID Google Drive vào đây
+  const DRIVE_FILE_ID = "1mHlqPXvQyZuPqAeJV9OOxwo5mAp2otk8"; // 👈 FILE_ID file posts.json trên Drive
 
   // CORS proxy (Drive không trả CORS header)
   const PROXY = "https://api.allorigins.win/get?url=";
