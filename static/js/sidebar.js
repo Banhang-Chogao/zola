@@ -75,23 +75,31 @@
   }
 
   function pickFeatured(events) {
+    // ƯU TIÊN 1: Bài user TỰ TICK featured = true → luôn thắng (override analytics)
+    const manualFeatured = posts.filter((p) => p.featured);
+    if (manualFeatured.length > 0) {
+      // Nếu nhiều bài cùng featured, lấy bài mới nhất (posts đã sort date desc)
+      console.log("[featured] manual pick:", manualFeatured[0].title);
+      return manualFeatured[0];
+    }
+
+    // ƯU TIÊN 2: Không có bài nào tick featured → dùng analytics
     const since7d = Date.now() - SEVEN_DAYS_MS;
     let scored = posts.map((p) => {
       const views7d = countEvents(events, p.permalink, "view", since7d);
       const clicks7d = countEvents(events, p.permalink, "click", since7d);
       const fullReads = countEvents(events, p.permalink, "full", null);
-      const analyticsScore = views7d + 0.6 * clicks7d - 0.5 * fullReads;
-      const manualBoost = p.featured ? 0.5 : 0;
-      return { post: p, score: analyticsScore + manualBoost };
+      const score = views7d + 0.6 * clicks7d - 0.5 * fullReads;
+      return { post: p, score: score };
     });
 
     const hasAnyAnalytics = scored.some((s) => s.score > 0);
     if (!hasAnyAnalytics) {
-      // Fallback: extra.featured → bài mới nhất
-      const manual = posts.find((p) => p.featured);
-      return manual || posts[0];
+      console.log("[featured] fallback: newest post");
+      return posts[0]; // bài mới nhất
     }
     scored.sort((a, b) => b.score - a.score);
+    console.log("[featured] analytics pick:", scored[0].post.title, "score:", scored[0].score);
     return scored[0].post;
   }
 
