@@ -3,8 +3,12 @@ title = "Chào mừng bạn đến với blog"
 date = 2026-06-13
 
 [taxonomies]
-categories = ["Bài viết"]
+categories = ["Posting"]
 tags = ["giới thiệu"]
+
+[extra]
+thumbnail = "https://picsum.photos/seed/chao-mung/600/400"
+featured = true
 +++
 
 Đây là bài viết đầu tiên của blog. Trang web này được tạo bằng [Zola](https://www.getzola.org/),

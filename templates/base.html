@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
+    <meta name="author" content="{{ config.extra.author }}">
+    <title>{% block title %}{{ config.title }}{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap">
+    <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    {# Site title block #}
+    <header class="site-header">
+        <a class="site-title-link" href="{{ config.base_url }}">
+            <h1 class="site-title">{{ config.title }}</h1>
+        </a>
+        <p class="site-tagline">{{ config.extra.tagline }}</p>
+    </header>
+
+    {# Sticky navbar #}
+    <nav class="navbar" id="navbar">
+        <div class="navbar__inner">
+            <ul class="navbar__menu">
+                {% for item in config.extra.menu %}
+                    <li><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <button class="navbar__search" aria-label="Tìm kiếm" onclick="document.body.classList.toggle('search-open')">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="layout-grid">
+            <div class="main-column">
+                {% block main %}{% endblock %}
+            </div>
+
+            {% block sidebar %}
+                {% set root = get_section(path="_index.md") %}
+                <aside class="sidebar">
+                    {# FEATURED POST #}
+                    {% set_global featured = false %}
+                    {% for page in root.pages %}
+                        {% if page.extra.featured and not featured %}
+                            {% set_global featured = page %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if not featured %}{% set_global featured = root.pages | first %}{% endif %}
+
+                    <section class="sidebar-block">
+                        <h3 class="sidebar-label">FEATURED POST</h3>
+                        <article class="featured-card">
+                            {% if featured.extra.thumbnail %}
+                                <a class="featured-card__image" href="{{ featured.permalink }}">
+                                    {% if featured.taxonomies.categories %}
+                                        <span class="cat-tag">{{ featured.taxonomies.categories[0] | upper }}</span>
+                                    {% endif %}
+                                    <img src="{{ featured.extra.thumbnail }}" alt="{{ featured.title }}" loading="lazy">
+                                </a>
+                            {% endif %}
+                            <h4 class="featured-card__title">
+                                <a href="{{ featured.permalink }}">{{ featured.title }}</a>
+                            </h4>
+                            <div class="post-meta">
+                                <span class="post-meta__author">{{ config.extra.author }}</span>
+                                <span class="post-meta__date">{{ featured.date | date(format="%b %d, %Y") }}</span>
+                            </div>
+                        </article>
+                    </section>
+
+                    {# RANDOM POSTS #}
+                    <section class="sidebar-block">
+                        <h3 class="sidebar-label">RANDOM POSTS</h3>
+                        <ul class="random-list">
+                            {% for page in root.pages | slice(end=5) %}
+                                <li class="random-item">
+                                    {% if page.extra.thumbnail %}
+                                        <a class="random-item__image" href="{{ page.permalink }}">
+                                            <img src="{{ page.extra.thumbnail }}" alt="" loading="lazy">
+                                        </a>
+                                    {% endif %}
+                                    <div class="random-item__body">
+                                        <h5 class="random-item__title">
+                                            <a href="{{ page.permalink }}">{{ page.title }}</a>
+                                        </h5>
+                                        <time class="random-item__date">{{ page.date | date(format="%b %d, %Y") }}</time>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+
+                    {# CATEGORIES #}
+                    <section class="sidebar-block">
+                        <h3 class="sidebar-label">DANH MỤC</h3>
+                        <ul class="cat-list">
+                            {% set cats = get_taxonomy(kind="categories") %}
+                            {% for c in cats.items %}
+                                <li>
+                                    <a href="{{ c.permalink }}">{{ c.name }}</a>
+                                    <span class="cat-list__count">{{ c.pages | length }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                </aside>
+            {% endblock sidebar %}
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

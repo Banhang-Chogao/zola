@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <header class="section-header">
+        <h2 class="section-header__title">{{ page.title | upper }}</h2>
+    </header>
+
+    <article class="post-single__content">
+        {{ page.content | safe }}
+    </article>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

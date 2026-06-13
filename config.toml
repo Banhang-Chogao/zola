@@ -1,14 +1,13 @@
 base_url = "https://banhang-chogao.github.io/zola"
-title = "Zola"
-description = "Blog cá nhân — viết bằng Zola, theme Clean Blog."
-theme = "zola-clean-blog"
+title = "Duy Nguyen"
+description = "Blog cá nhân — viết bằng Zola"
 
 compile_sass = true
 build_search_index = false
 
 taxonomies = [
-    {name = "categories", rss = true, paginate_by = 5},
-    {name = "tags", rss = true, paginate_by = 5},
+    {name = "categories", rss = true, paginate_by = 10},
+    {name = "tags", rss = true, paginate_by = 10},
 ]
 
 [markdown]
@@ -18,15 +17,12 @@ extra_syntaxes_and_themes = ["highlight_themes"]
 external_links_class = "external"
 
 [extra]
-author = "Banhang Chogao"
+author = "duynguyenlog"
+tagline = "Duy Nguyen"
 
-clean_blog_menu = [
-    {url = "$BASE_URL", name = "Trang chủ"},
-    {url = "$BASE_URL/doc-bao", name = "Đọc báo"},
-    {url = "$BASE_URL/about", name = "Giới thiệu"},
-]
-
-clean_blog_social = [
-    {url = "https://github.com/Banhang-Chogao/zola", icon = "fab fa-github"},
-    {url = "$BASE_URL/rss.xml", icon = "fas fa-rss"},
+menu = [
+    {url = "$BASE_URL", name = "TRANG CHÍNH"},
+    {url = "$BASE_URL/categories/posting", name = "POSTING"},
+    {url = "$BASE_URL/doc-bao", name = "ĐỌC BÁO"},
+    {url = "$BASE_URL/about", name = "GIỚI THIỆU"},
 ]

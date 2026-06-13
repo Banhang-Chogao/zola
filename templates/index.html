@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <header class="section-header">
+        <h2 class="section-header__title">RECENT POSTS</h2>
+    </header>
+
+    <div class="post-list">
+        {% for page in paginator.pages %}
+            <article class="post-card">
+                {% if page.extra.thumbnail %}
+                    <a class="post-card__image" href="{{ page.permalink }}">
+                        {% if page.taxonomies.categories %}
+                            <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
+                        {% endif %}
+                        <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="lazy">
+                    </a>
+                {% endif %}
+                <div class="post-card__body">
+                    <h3 class="post-card__title">
+                        <a href="{{ page.permalink }}">{{ page.title }}</a>
+                    </h3>
+                    <div class="post-meta">
+                        <span class="post-meta__author">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            {{ config.extra.author }}
+                        </span>
+                        <span class="post-meta__date">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            {{ page.date | date(format="%b %d, %Y") }}
+                        </span>
+                    </div>
+                    <p class="post-card__summary">{{ page.summary | safe | striptags | truncate(length=200) }}</p>
+                    <a class="read-more" href="{{ page.permalink }}">READ MORE <span class="read-more__arrow">»</span></a>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+
+    {# Pagination #}
+    <nav class="pagination">
+        {% if paginator.previous %}
+            <a class="pagination__btn pagination__btn--prev" href="{{ paginator.previous }}">« Trang trước</a>
+        {% endif %}
+        <span class="pagination__info">
+            Trang {{ paginator.current_index }} / {{ paginator.number_pagers }}
+        </span>
+        {% if paginator.next %}
+            <a class="pagination__btn pagination__btn--next" href="{{ paginator.next }}">Trang sau »</a>
+        {% endif %}
+    </nav>
+{% endblock main %}

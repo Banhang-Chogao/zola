@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <article class="post-single">
+        {% if page.extra.thumbnail %}
+            <div class="post-single__hero">
+                {% if page.taxonomies.categories %}
+                    <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
+                {% endif %}
+                <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}">
+            </div>
+        {% endif %}
+
+        <header class="post-single__header">
+            <h1 class="post-single__title">{{ page.title }}</h1>
+            <div class="post-meta">
+                <span class="post-meta__author">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    {{ config.extra.author }}
+                </span>
+                <span class="post-meta__date">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    {{ page.date | date(format="%b %d, %Y") }}
+                </span>
+            </div>
+        </header>
+
+        <div class="post-single__content">
+            {{ page.content | safe }}
+        </div>
+
+        {% if page.taxonomies.tags %}
+            <footer class="post-single__footer">
+                <div class="tag-list">
+                    <span class="tag-list__label">TAGS:</span>
+                    {% for tag in page.taxonomies.tags %}
+                        <a class="tag-list__tag" href="{{ get_taxonomy_url(kind='tags', name=tag) }}">#{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </footer>
+        {% endif %}
+    </article>
+{% endblock main %}
