@@ -138,12 +138,13 @@
   function renderFeatured(p) {
     const target = document.querySelector('[data-target="featured"]');
     if (!target) return;
-    const author = document.querySelector(".header-ad__title") ? "duynguyenlog" : "duynguyenlog";
+    const author = "duynguyenlog";
     const cat = p.category ? `<span class="cat-tag">${escapeHtml(p.category.toUpperCase())}</span>` : "";
     const thumb = p.thumbnail ? `
       <a class="featured-card__image" href="${escapeHtml(p.permalink)}">
         ${cat}
         <img src="${escapeHtml(p.thumbnail)}" alt="${escapeHtml(p.title)}" loading="lazy">
+        <span class="rank-overlay rank-overlay--lg" aria-hidden="true">1</span>
       </a>` : "";
     target.innerHTML = `
       ${thumb}
@@ -160,11 +161,12 @@
   function renderRandom(list) {
     const target = document.querySelector('[data-target="random"]');
     if (!target) return;
-    target.innerHTML = list.map((p) => `
+    target.innerHTML = list.map((p, i) => `
       <li class="random-item">
         ${p.thumbnail ? `
           <a class="random-item__image" href="${escapeHtml(p.permalink)}">
             <img src="${escapeHtml(p.thumbnail)}" alt="" loading="lazy">
+            <span class="rank-overlay" aria-hidden="true">${i + 1}</span>
           </a>` : ""}
         <div class="random-item__body">
           <h5 class="random-item__title">

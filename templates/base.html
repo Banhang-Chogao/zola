@@ -137,6 +137,7 @@
                                         <span class="cat-tag">{{ featured.taxonomies.categories[0] | upper }}</span>
                                     {% endif %}
                                     <img src="{{ featured.extra.thumbnail }}" alt="{{ featured.title }}" loading="lazy">
+                                    <span class="rank-overlay rank-overlay--lg" aria-hidden="true">1</span>
                                 </a>
                             {% endif %}
                             <h4 class="featured-card__title">
@@ -158,6 +159,7 @@
                                     {% if page.extra.thumbnail %}
                                         <a class="random-item__image" href="{{ page.permalink }}">
                                             <img src="{{ page.extra.thumbnail }}" alt="" loading="lazy">
+                                            <span class="rank-overlay" aria-hidden="true">{{ loop.index }}</span>
                                         </a>
                                     {% endif %}
                                     <div class="random-item__body">
