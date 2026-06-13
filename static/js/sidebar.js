@@ -1,0 +1,221 @@
+/**
+ * Sidebar picker — Featured Posts + Random Posts với personalization qua localStorage.
+ *
+ * KIẾN TRÚC:
+ *   - posts-data: JSON inline trong base.html, chứa metadata tất cả bài viết
+ *   - localStorage["zola-events"]: array các sự kiện {url, ts, type}
+ *       type = "view"  (load trang bài)
+ *           | "click" (click vào link bài từ trang khác)
+ *           | "full"  (cuộn >= 90% nội dung — đọc trọn vẹn)
+ *
+ * CÔNG THỨC PICK:
+ *   FEATURED = bài có score cao nhất:
+ *       score = views_7d + 0.6 * clicks_7d - 0.5 * full_reads_total
+ *       (bài view nhiều trong 7 ngày, nhưng phạt nếu đọc trọn → ưu tiên bài còn dở dang)
+ *       Fallback nếu chưa có data: extra.featured = true → bài mới nhất
+ *
+ *   RANDOM = weighted-random pick 5 bài, weight = exp(-age_days / 30)
+ *       → bài mới có xác suất cao gấp e^(age/30) lần bài cũ
+ *       → bài mới publish hôm nay weight = 1, bài 30 ngày trước weight = 0.37
+ *       → bài mới luôn được xem xét tự động, không cần config thủ công
+ *
+ * TẮT/BẬT TÍNH NĂNG:
+ *   - Tắt rotation random: gỡ tag <section data-widget="random"> hoặc bỏ script này
+ *   - Tắt analytics: thêm sessionStorage.setItem("zola-no-track", "1") trong DevTools
+ *   - Reset data:    localStorage.removeItem("zola-events")
+ */
+(function () {
+  const STORAGE_KEY = "zola-events";
+  const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+  const RANDOM_COUNT = 5;
+  const HALF_LIFE_DAYS = 30;
+  const NO_TRACK = sessionStorage.getItem("zola-no-track") === "1";
+
+  // ---------- Storage helpers ----------
+  function loadEvents() {
+    try {
+      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      if (!Array.isArray(arr)) return [];
+      // Auto prune events older than 30 days to keep storage small
+      const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+      return arr.filter((e) => e.ts >= cutoff);
+    } catch {
+      return [];
+    }
+  }
+
+  function pushEvent(url, type) {
+    if (NO_TRACK) return;
+    const events = loadEvents();
+    events.push({ url, ts: Date.now(), type });
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+    } catch {
+      // localStorage full or disabled — silently ignore
+    }
+  }
+
+  // ---------- Load posts data ----------
+  const dataEl = document.getElementById("posts-data");
+  if (!dataEl) return;
+  let posts;
+  try {
+    posts = JSON.parse(dataEl.textContent);
+  } catch (e) {
+    console.warn("[sidebar] posts-data parse failed", e);
+    return;
+  }
+  if (!Array.isArray(posts) || posts.length === 0) return;
+
+  // ---------- Scoring ----------
+  function countEvents(events, url, type, since) {
+    return events.filter(
+      (e) => e.url === url && e.type === type && (since == null || e.ts >= since)
+    ).length;
+  }
+
+  function pickFeatured(events) {
+    const since7d = Date.now() - SEVEN_DAYS_MS;
+    let scored = posts.map((p) => {
+      const views7d = countEvents(events, p.permalink, "view", since7d);
+      const clicks7d = countEvents(events, p.permalink, "click", since7d);
+      const fullReads = countEvents(events, p.permalink, "full", null);
+      const analyticsScore = views7d + 0.6 * clicks7d - 0.5 * fullReads;
+      const manualBoost = p.featured ? 0.5 : 0;
+      return { post: p, score: analyticsScore + manualBoost };
+    });
+
+    const hasAnyAnalytics = scored.some((s) => s.score > 0);
+    if (!hasAnyAnalytics) {
+      // Fallback: extra.featured → bài mới nhất
+      const manual = posts.find((p) => p.featured);
+      return manual || posts[0];
+    }
+    scored.sort((a, b) => b.score - a.score);
+    return scored[0].post;
+  }
+
+  function ageInDays(dateStr) {
+    const ms = Date.now() - new Date(dateStr).getTime();
+    return Math.max(0, ms / (1000 * 60 * 60 * 24));
+  }
+
+  function pickRandom(n) {
+    const pool = posts.map((p) => ({
+      post: p,
+      weight: Math.exp(-ageInDays(p.date) / HALF_LIFE_DAYS),
+    }));
+
+    const picked = [];
+    for (let i = 0; i < n && pool.length > 0; i++) {
+      const total = pool.reduce((s, x) => s + x.weight, 0);
+      let r = Math.random() * total;
+      let idx = 0;
+      for (; idx < pool.length; idx++) {
+        r -= pool[idx].weight;
+        if (r <= 0) break;
+      }
+      if (idx >= pool.length) idx = pool.length - 1;
+      picked.push(pool[idx].post);
+      pool.splice(idx, 1);
+    }
+    return picked;
+  }
+
+  // ---------- Rendering ----------
+  function fmtDate(iso) {
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const d = new Date(iso);
+    return months[d.getMonth()] + " " + String(d.getDate()).padStart(2, "0") + ", " + d.getFullYear();
+  }
+
+  function escapeHtml(s) {
+    return String(s || "").replace(/[&<>"']/g, (c) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+    })[c]);
+  }
+
+  function renderFeatured(p) {
+    const target = document.querySelector('[data-target="featured"]');
+    if (!target) return;
+    const author = document.querySelector(".header-ad__title") ? "duynguyenlog" : "duynguyenlog";
+    const cat = p.category ? `<span class="cat-tag">${escapeHtml(p.category.toUpperCase())}</span>` : "";
+    const thumb = p.thumbnail ? `
+      <a class="featured-card__image" href="${escapeHtml(p.permalink)}">
+        ${cat}
+        <img src="${escapeHtml(p.thumbnail)}" alt="${escapeHtml(p.title)}" loading="lazy">
+      </a>` : "";
+    target.innerHTML = `
+      ${thumb}
+      <h4 class="featured-card__title">
+        <a href="${escapeHtml(p.permalink)}">${escapeHtml(p.title)}</a>
+      </h4>
+      <div class="post-meta">
+        <span class="post-meta__author">${author}</span>
+        <span class="post-meta__date">${fmtDate(p.date)}</span>
+      </div>
+    `;
+  }
+
+  function renderRandom(list) {
+    const target = document.querySelector('[data-target="random"]');
+    if (!target) return;
+    target.innerHTML = list.map((p) => `
+      <li class="random-item">
+        ${p.thumbnail ? `
+          <a class="random-item__image" href="${escapeHtml(p.permalink)}">
+            <img src="${escapeHtml(p.thumbnail)}" alt="" loading="lazy">
+          </a>` : ""}
+        <div class="random-item__body">
+          <h5 class="random-item__title">
+            <a href="${escapeHtml(p.permalink)}">${escapeHtml(p.title)}</a>
+          </h5>
+          <time class="random-item__date">${fmtDate(p.date)}</time>
+        </div>
+      </li>
+    `).join("");
+  }
+
+  // ---------- Event tracking ----------
+
+  // Click on any link to a post → "click" event
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest("a[href]");
+    if (!link) return;
+    const href = link.href;
+    if (posts.some((p) => p.permalink === href)) {
+      pushEvent(href, "click");
+    }
+  });
+
+  // Current page is a post → "view" event
+  const currentUrl = window.location.href.replace(/#.*$/, "").replace(/\?.*$/, "");
+  const normalized = currentUrl.endsWith("/") ? currentUrl : currentUrl + "/";
+  const currentPost = posts.find((p) => {
+    const pp = p.permalink.endsWith("/") ? p.permalink : p.permalink + "/";
+    return pp === normalized;
+  });
+  if (currentPost) {
+    pushEvent(currentPost.permalink, "view");
+
+    // Track 90% scroll → "full" event (only once per page load)
+    let fullSent = false;
+    const onScroll = () => {
+      if (fullSent) return;
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      if (docH <= 0) return;
+      const pct = window.scrollY / docH;
+      if (pct >= 0.9) {
+        pushEvent(currentPost.permalink, "full");
+        fullSent = true;
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  // ---------- Initial render ----------
+  const events = loadEvents();
+  renderFeatured(pickFeatured(events));
+  renderRandom(pickRandom(RANDOM_COUNT));
+})();

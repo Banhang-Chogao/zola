@@ -95,8 +95,28 @@
 
             {% block sidebar %}
                 {% set root = get_section(path="_index.md") %}
+
+                {#
+                    Inject toàn bộ metadata bài viết vào JSON inline để JS pick featured/random
+                    có tính cá nhân hoá (dựa view + click trong localStorage).
+                #}
+                <script type="application/json" id="posts-data">
+                [
+                {%- for page in root.pages -%}
+                    {
+                        "title": {{ page.title | json_encode | safe }},
+                        "permalink": {{ page.permalink | json_encode | safe }},
+                        "date": {{ page.date | json_encode | safe }},
+                        "thumbnail": {{ page.extra.thumbnail | default(value="") | json_encode | safe }},
+                        "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
+                        "featured": {% if page.extra.featured %}true{% else %}false{% endif %}
+                    }{%- if not loop.last -%},{%- endif -%}
+                {%- endfor -%}
+                ]
+                </script>
+
                 <aside class="sidebar">
-                    {# FEATURED POST #}
+                    {# FEATURED POST — placeholder, JS sẽ thay nội dung dựa analytics #}
                     {% set_global featured = false %}
                     {% for page in root.pages %}
                         {% if page.extra.featured and not featured %}
@@ -105,9 +125,9 @@
                     {% endfor %}
                     {% if not featured %}{% set_global featured = root.pages | first %}{% endif %}
 
-                    <section class="sidebar-block">
+                    <section class="sidebar-block" data-widget="featured">
                         <h3 class="sidebar-label">FEATURED POST</h3>
-                        <article class="featured-card">
+                        <article class="featured-card" data-target="featured">
                             {% if featured.extra.thumbnail %}
                                 <a class="featured-card__image" href="{{ featured.permalink }}">
                                     {% if featured.taxonomies.categories %}
@@ -126,10 +146,10 @@
                         </article>
                     </section>
 
-                    {# RANDOM POSTS #}
-                    <section class="sidebar-block">
+                    {# RANDOM POSTS — placeholder, JS sẽ reshuffle theo weighted random #}
+                    <section class="sidebar-block" data-widget="random">
                         <h3 class="sidebar-label">RANDOM POSTS</h3>
-                        <ul class="random-list">
+                        <ul class="random-list" data-target="random">
                             {% for page in root.pages | slice(end=5) %}
                                 <li class="random-item">
                                     {% if page.extra.thumbnail %}
@@ -173,6 +193,7 @@
     </footer>
 
     <script src="{{ get_url(path='js/header-rotator.js') }}" defer></script>
+    <script src="{{ get_url(path='js/sidebar.js') }}" defer></script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>
