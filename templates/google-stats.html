@@ -88,5 +88,8 @@
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/google-stats.js') }}" defer></script>
+    {% if config.extra.pagespeed_api_key %}
+    <script>window.PAGESPEED_API_KEY = "{{ config.extra.pagespeed_api_key }}";</script>
+    {% endif %}
     <script src="{{ get_url(path='js/pagespeed.js') }}" defer></script>
 {% endblock %}

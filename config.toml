@@ -34,3 +34,7 @@ menu = [
 # Google Analytics 4 Measurement ID — để trống nếu chưa setup.
 # Khi có, GA tracking script sẽ tự load trên mọi page.
 ga_measurement_id = "G-K9DXHPPGGR"
+
+# Google PageSpeed Insights API key (optional) — tăng quota từ ~400 → 25K req/day
+# Lấy free tại https://console.cloud.google.com/apis/credentials
+pagespeed_api_key = ""

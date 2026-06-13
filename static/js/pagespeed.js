@@ -9,13 +9,18 @@
   const TARGET_URL = "https://banhang-chogao.github.io/zola/";
   const STRATEGY = "mobile"; // hoặc "desktop"
   const CACHE_KEY = "zola-pagespeed";
-  const CACHE_TTL = 60 * 60 * 1000; // 1h
+  const CACHE_TTL = 6 * 60 * 60 * 1000; // 6h — giảm tải rate limit
+
+  // API key (optional): paste vào window.PAGESPEED_API_KEY trong template
+  // Khi có key, quota tăng từ ~400/day → 25.000/day
+  const API_KEY = window.PAGESPEED_API_KEY || "";
 
   const apiUrl =
     "https://www.googleapis.com/pagespeedonline/v5/runPagespeed" +
     "?url=" + encodeURIComponent(TARGET_URL) +
     "&strategy=" + STRATEGY +
-    "&category=performance&category=accessibility&category=best-practices&category=seo";
+    "&category=performance&category=accessibility&category=best-practices&category=seo" +
+    (API_KEY ? "&key=" + API_KEY : "");
 
   // ===== UTIL =====
   function $(s) { return document.querySelector(s); }
@@ -176,17 +181,57 @@
 
     try {
       const res = await fetch(apiUrl);
-      if (!res.ok) throw new Error("HTTP " + res.status);
+      if (!res.ok) {
+        if (res.status === 429) {
+          throw new Error("RATE_LIMIT");
+        }
+        throw new Error("HTTP " + res.status);
+      }
       const json = await res.json();
       saveCache(json);
       display(json, Date.now(), "fresh");
     } catch (err) {
-      $("[data-target='ps-scores']").innerHTML = `
-        <div class="ps-error">
-          ✗ Lỗi gọi PageSpeed API: ${escapeHtml(err.message)}<br>
-          <small>API có thể đang chậm/maintain. Đợi vài phút thử lại.</small>
-        </div>
-      `;
+      if (err.message === "RATE_LIMIT") {
+        $("[data-target='ps-scores']").innerHTML = `
+          <div class="ps-error">
+            <strong>⚠️ HTTP 429 — Rate limit PageSpeed API</strong><br><br>
+            Free tier không key bị giới hạn rất chặt (~400 req/ngày/IP).<br>
+            <strong>Giải pháp</strong>: tạo Google API key miễn phí để tăng quota lên <strong>25.000 req/day</strong>.<br><br>
+
+            <details class="ps-key-help">
+              <summary><strong>📖 Cách lấy API key (5 phút, không trả tiền)</strong></summary>
+              <ol>
+                <li>Vào <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener">Google Cloud Console → Credentials</a></li>
+                <li>Login Google → tạo project nếu chưa có (Project name: "Blog PageSpeed")</li>
+                <li>Click <strong>+ Create Credentials → API key</strong></li>
+                <li>Copy chuỗi <code>AIzaSyXXXXXXXXXXXXXXXXXXXX</code></li>
+                <li>(Optional, recommended) Click <strong>Restrict Key</strong>:
+                  <ul>
+                    <li>API restrictions → chọn <strong>PageSpeed Insights API</strong></li>
+                    <li>Website restrictions → thêm <code>https://banhang-chogao.github.io/*</code></li>
+                  </ul>
+                </li>
+                <li>Còn 1 bước cuối: enable <strong>PageSpeed Insights API</strong>:
+                  <ul>
+                    <li>Vào <a href="https://console.cloud.google.com/apis/library/pagespeedonline.googleapis.com" target="_blank" rel="noopener">PageSpeed Insights API library</a></li>
+                    <li>Click <strong>Enable</strong></li>
+                  </ul>
+                </li>
+                <li>Gửi API key cho Claude/admin để paste vào config</li>
+              </ol>
+            </details>
+
+            <br><small>Hoặc đợi ~1 giờ rate limit reset rồi <button class="ps-refresh" onclick="location.reload()">↻ Reload</button></small>
+          </div>
+        `;
+      } else {
+        $("[data-target='ps-scores']").innerHTML = `
+          <div class="ps-error">
+            ✗ Lỗi gọi PageSpeed API: ${escapeHtml(err.message)}<br>
+            <small>Đợi vài phút thử lại hoặc reload page.</small>
+          </div>
+        `;
+      }
     }
   }
 
