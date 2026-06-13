@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+
+{% block doc_content %}
+    <h1>{{ page.title }}</h1>
+    <p class="post-meta"><time>{{ page.date | date(format="%d/%m/%Y") }}</time></p>
+    {{ page.content | safe }}
+{% endblock doc_content %}
