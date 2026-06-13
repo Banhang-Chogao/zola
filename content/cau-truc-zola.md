@@ -1,5 +1,5 @@
 +++
-title = "Hiểu về Section & Page trong Zola"
+title = "Section & Page trong Zola"
 date = 2026-06-12
 
 [taxonomies]
