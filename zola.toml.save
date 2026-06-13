@@ -1,4 +1,4 @@
-# The URL the site will be built for
+mv zola.toml config.toml# The URL the site will be built for
 base_url = "https://example.com"
 
 # Whether to automatically compile all Sass files in the sass directory
