@@ -11,10 +11,12 @@ taxonomies = [
 ]
 
 [markdown]
-highlight_code = true
-highlight_theme = "catppuccin-mocha"
-extra_syntaxes_and_themes = ["highlight_themes"]
 external_links_class = "external"
+
+[markdown.highlighting]
+enabled = true
+theme = "catppuccin-mocha"
+extra_syntaxes_and_themes = ["highlight_themes"]
 
 [extra]
 author = "duynguyenlog"
