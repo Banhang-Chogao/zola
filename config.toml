@@ -1,9 +1,15 @@
 base_url = "https://banhang-chogao.github.io/zola"
 title = "Zola"
-description = "Mọi thứ bạn cần để tạo một static site engine, gói gọn trong một file binary."
+description = "Blog cá nhân — viết bằng Zola, theme Clean Blog."
+theme = "zola-clean-blog"
 
 compile_sass = true
-build_search_index = true
+build_search_index = false
+
+taxonomies = [
+    {name = "categories", rss = true, paginate_by = 5},
+    {name = "tags", rss = true, paginate_by = 5},
+]
 
 [markdown]
 highlight_code = true
@@ -13,3 +19,14 @@ external_links_class = "external"
 
 [extra]
 author = "Banhang Chogao"
+
+clean_blog_menu = [
+    {url = "$BASE_URL", name = "Trang chủ"},
+    {url = "$BASE_URL/doc-bao", name = "Đọc báo"},
+    {url = "$BASE_URL/about", name = "Giới thiệu"},
+]
+
+clean_blog_social = [
+    {url = "https://github.com/Banhang-Chogao/zola", icon = "fab fa-github"},
+    {url = "$BASE_URL/rss.xml", icon = "fas fa-rss"},
+]

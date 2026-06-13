@@ -3,24 +3,37 @@
 
 {% block title %}Đọc báo | {{ config.title }}{% endblock title %}
 
-{% block top_widgets %}{% endblock top_widgets %}
+{% block analytics %}
+<link rel="stylesheet" href="{{ get_url(path='site.css') }}">
+{% endblock analytics %}
 
-{% block content %}
-    <div class="content--reversed">
-    <div class="news-page">
-        <header class="news-page__header">
-            <h1>Đọc báo</h1>
-            <p>Đọc nhanh tiêu đề mới nhất từ các tờ báo Việt Nam, cập nhật trực tiếp qua RSS.</p>
-        </header>
-
-        <div class="news-grid">
-            {{ m::card(name="VnExpress",   icon="✈",  color="#1572bd", topic="Du lịch",      tag2="travel",  feed="https://vnexpress.net/rss/du-lich.rss") }}
-            {{ m::card(name="Tuổi Trẻ",    icon="📰", color="#2ea14e", topic="Tin mới nhất", tag2="news",    feed="https://tuoitre.vn/rss/tin-moi-nhat.rss") }}
-            {{ m::card(name="Báo Tin Tức", icon="🌐", color="#d63d3d", topic="Thế giới",     tag2="world",   feed="https://baotintuc.vn/the-gioi.rss") }}
-            {{ m::card(name="Dân Trí",     icon="🔖", color="#ed6b02", topic="Trang chủ",    tag2="society", feed="https://dantri.com.vn/trang-chu.rss") }}
+{% block header %}
+<header class="masthead" style="background-image: url('{{ get_url(path="/img/post-bg.jpg") }}')">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <h1>Đọc báo</h1>
+                    <span class="subheading">Tiêu đề mới nhất từ các tờ báo Việt Nam, fetch trực tiếp qua RSS.</span>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
+</header>
+{% endblock header %}
 
-    <script src="{{ get_url(path='js/news.js') }}" defer></script>
+{% block content %}
+<div class="container news-container">
+    <div class="news-grid">
+        {{ m::card(name="VnExpress",   icon="✈",  color="#1572bd", topic="Du lịch",      tag2="travel",  feed="https://vnexpress.net/rss/du-lich.rss") }}
+        {{ m::card(name="Tuổi Trẻ",    icon="📰", color="#2ea14e", topic="Tin mới nhất", tag2="news",    feed="https://tuoitre.vn/rss/tin-moi-nhat.rss") }}
+        {{ m::card(name="Báo Tin Tức", icon="🌐", color="#d63d3d", topic="Thế giới",     tag2="world",   feed="https://baotintuc.vn/the-gioi.rss") }}
+        {{ m::card(name="Dân Trí",     icon="🔖", color="#ed6b02", topic="Trang chủ",    tag2="society", feed="https://dantri.com.vn/trang-chu.rss") }}
+    </div>
+</div>
 {% endblock content %}
+
+{% block extrascripts %}
+<script src="{{ get_url(path='js/news.js') }}" defer></script>
+{% endblock extrascripts %}
