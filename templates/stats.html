@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Thống kê | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <header class="section-header"><h2 class="section-header__title">📊 THỐNG KÊ</h2></header>
+    <p class="section-subtitle">
+        Speed Insights + analytics đo trực tiếp trên trình duyệt này. Dữ liệu cá nhân hoá, không chia sẻ.
+    </p>
+
+    <div id="stats-app">
+        <p class="stats-loading">Đang tổng hợp dữ liệu…</p>
+    </div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/stats-page.js') }}" defer></script>
+{% endblock %}
