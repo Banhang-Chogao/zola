@@ -32,12 +32,15 @@
   // ============= CẤU HÌNH =============
   const DRIVE_FILE_ID = "1mHlqPXvQyZuPqAeJV9OOxwo5mAp2otk8"; // 👈 FILE_ID file posts.json trên Drive
 
-  // CORS proxy (Drive không trả CORS header)
-  const PROXY = "https://api.allorigins.win/get?url=";
+  // Drive không có CORS header → cần proxy. Có nhiều backup nếu 1 cái die.
+  const DRIVE_URL = "https://drive.google.com/uc?export=download&id=" + DRIVE_FILE_ID;
+  const PROXIES = [
+    { url: "https://corsproxy.io/?", direct: true },
+    { url: "https://api.codetabs.com/v1/proxy?quest=", direct: true },
+    { url: "https://api.allorigins.win/raw?url=", direct: true },
+    { url: "https://api.allorigins.win/get?url=", direct: false }, // trả JSON wrap {contents}
+  ];
   // ====================================
-
-  const driveUrl = "https://drive.google.com/uc?export=download&id=" + DRIVE_FILE_ID;
-  const fetchUrl = PROXY + encodeURIComponent(driveUrl);
 
   const statusEl = document.querySelector("[data-status]");
   const listEl = document.querySelector("[data-drive-posts]");
@@ -132,15 +135,39 @@
       // Đợi marked + DOMPurify load (defer)
       await new Promise((r) => setTimeout(r, 400));
 
-      setStatus("Đang tải từ Drive…", "loading");
-      const res = await fetch(fetchUrl, { cache: "no-store" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const wrapped = await res.json();
-      let raw = wrapped.contents;
+      // Thử lần lượt từng proxy, dừng khi 1 cái thành công
+      let raw = null;
+      let lastErr = null;
+      for (let i = 0; i < PROXIES.length; i++) {
+        const p = PROXIES[i];
+        setStatus("Đang tải từ Drive… (proxy " + (i + 1) + "/" + PROXIES.length + ")", "loading");
+        try {
+          const fetchUrl = p.url + encodeURIComponent(DRIVE_URL);
+          const res = await fetch(fetchUrl, { cache: "no-store" });
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          if (p.direct) {
+            raw = await res.text();
+          } else {
+            const wrapped = await res.json();
+            raw = wrapped.contents;
+          }
+          if (raw && typeof raw === "string" && raw.trim().length > 0) {
+            console.log("[drive-posts] proxy OK:", p.url);
+            break;
+          }
+        } catch (err) {
+          console.warn("[drive-posts] proxy fail:", p.url, err.message);
+          lastErr = err;
+        }
+      }
 
-      // Drive có thể wrap trong HTML (file lớn) — strip nếu có
+      if (!raw) {
+        throw lastErr || new Error("Tất cả proxy đều fail");
+      }
+
+      // Drive đôi khi wrap trong HTML (file > 25MB hoặc virus scan)
       if (typeof raw === "string" && raw.trim().startsWith("<")) {
-        throw new Error("File quá lớn, Drive trả HTML interstitial thay vì JSON");
+        throw new Error("Drive trả HTML interstitial — file quá lớn hoặc chưa public");
       }
 
       const data = JSON.parse(raw);
