@@ -15,7 +15,7 @@ Tải về và bỏ vào `PATH` là dùng được ngay.
 
 <!-- more -->
 
-## Linux
+## HE DIEU HANH LINUX
 
 ```bash
 curl -sLO https://github.com/getzola/zola/releases/latest/download/zola-v0.20.0-x86_64-unknown-linux-gnu.tar.gz
