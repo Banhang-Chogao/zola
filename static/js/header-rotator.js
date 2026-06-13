@@ -84,43 +84,65 @@
    *           → cho con số duy nhất ổn định cho mỗi commit
    */
   function updateBlogVersion(commits) {
-    const verEl = document.querySelector("[data-blog-version]");
-    const idEl = document.querySelector("[data-blog-id]");
-    if (!verEl || !idEl) return;
+    try {
+      const verEl = document.querySelector("[data-blog-version]");
+      const idEl = document.querySelector("[data-blog-id]");
+      if (!verEl || !idEl) {
+        console.warn("[blog-version] missing selectors", { verEl, idEl });
+        return;
+      }
+      if (!Array.isArray(commits) || !commits.length) {
+        console.warn("[blog-version] empty commits", commits);
+        return;
+      }
 
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const day = now.getDay(); // 0=Sun..6=Sat
-    const daysSinceMonday = (day + 6) % 7;
-    const startOfWeek = new Date(startOfDay);
-    startOfWeek.setDate(startOfWeek.getDate() - daysSinceMonday);
+      const now = new Date();
+      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const day = now.getDay(); // 0=Sun..6=Sat
+      const daysSinceMonday = (day + 6) % 7;
+      const startOfWeek = new Date(startOfDay);
+      startOfWeek.setDate(startOfWeek.getDate() - daysSinceMonday);
 
-    const dateOf = (c) =>
-      new Date((c.commit.committer && c.commit.committer.date) || c.commit.author.date);
+      const dateOf = (c) => {
+        const iso =
+          (c && c.commit && c.commit.committer && c.commit.committer.date) ||
+          (c && c.commit && c.commit.author && c.commit.author.date);
+        return iso ? new Date(iso) : new Date(0);
+      };
 
-    const todayCount = commits.filter((c) => dateOf(c) >= startOfDay).length;
-    const weekCount = commits.filter((c) => dateOf(c) >= startOfWeek).length;
+      const todayCount = commits.filter((c) => dateOf(c) >= startOfDay).length;
+      const weekCount = commits.filter((c) => dateOf(c) >= startOfWeek).length;
 
-    const major = 1;
-    const minor = weekCount;
-    const patch = todayCount;
+      const major = 1;
+      const minor = weekCount;
+      const patch = todayCount;
 
-    // SHA → 6 digit numeric id
-    const latest = commits[0];
-    const hex = latest.sha.substring(0, 8);
-    const decimal = parseInt(hex, 16);
-    const numericId = String(decimal % 1000000).padStart(6, "0");
+      // SHA → 6 digit numeric id (parse hex an toàn cả khi sha kỳ lạ)
+      const latest = commits[0];
+      let numericId = "------";
+      if (latest && latest.sha) {
+        const hex = latest.sha.substring(0, 8);
+        const decimal = parseInt(hex, 16);
+        if (!isNaN(decimal)) {
+          numericId = String(decimal % 1000000).padStart(6, "0");
+        }
+      }
 
-    verEl.textContent = major + "." + minor + "." + patch;
-    idEl.textContent = "v" + numericId;
+      verEl.textContent = major + "." + minor + "." + patch;
+      idEl.textContent = "v" + numericId;
 
-    const root = document.querySelector("[data-blog-version-root]");
-    if (root) {
-      root.setAttribute(
-        "title",
-        "Tuần này có " + weekCount + " commit, hôm nay có " + patch + " commit. " +
-        "ID dựa trên SHA " + latest.sha.substring(0, 7)
-      );
+      const root = document.querySelector("[data-blog-version-root]");
+      if (root && latest) {
+        root.setAttribute(
+          "title",
+          "Tuần này có " + weekCount + " commit, hôm nay có " + patch + " commit. " +
+          "ID dựa trên SHA " + latest.sha.substring(0, 7)
+        );
+      }
+
+      console.log("[blog-version] OK", { major, minor, patch, numericId });
+    } catch (err) {
+      console.error("[blog-version] crashed", err);
     }
   }
 

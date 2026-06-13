@@ -133,41 +133,43 @@
 /* ----- Rank overlay (số xếp hạng mờ trên thumbnail) ----- */
 
 .rank-overlay {
+  /* Canh giữa thumbnail */
   position: absolute;
-  bottom: -0.18em;
-  left: -0.02em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   font-family: $font-heading;
-  font-size: 3.2rem;
+  font-size: 3.8rem;
   font-weight: 900;
-  line-height: 0.85;
+  line-height: 1;
   letter-spacing: -0.06em;
 
-  /* Vừa mờ vừa rõ: fill trắng 55% + stroke trắng nhẹ + đổ bóng đen */
-  color: rgba(255, 255, 255, 0.55);
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+  /* Đậm hơn — opacity tăng từ 0.55 lên 0.92 */
+  color: rgba(255, 255, 255, 0.92);
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.75);
 
   text-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.55),
-    0 1px 2px rgba(0, 0, 0, 0.45);
+    0 4px 16px rgba(0, 0, 0, 0.85),
+    0 2px 6px rgba(0, 0, 0, 0.7),
+    0 0 2px rgba(0, 0, 0, 0.5);
 
   pointer-events: none;
   user-select: none;
   z-index: 3;
-  transition: color .2s ease, transform .2s ease;
+  transition: color .2s ease, transform .2s ease, text-shadow .2s ease;
 
   &--lg {
-    font-size: 6rem;
-    bottom: -0.18em;
-    -webkit-text-stroke-width: 2px;
+    font-size: 7rem;
+    -webkit-text-stroke-width: 2.5px;
   }
 }
 
-/* Khi hover lên thumbnail, số rõ hơn xíu */
+/* Khi hover lên thumbnail, số phóng to nhẹ + nét trắng hơn */
 .random-item__image:hover .rank-overlay,
 .featured-card__image:hover .rank-overlay {
-  color: rgba(255, 255, 255, 0.85);
-  transform: translateY(-1px);
+  color: rgba(255, 255, 255, 1);
+  transform: translate(-50%, -50%) scale(1.06);
 }
 
 /* Đảm bảo container có position relative để overlay bám đúng vị trí */
