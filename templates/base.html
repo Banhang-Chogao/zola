@@ -9,7 +9,17 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+
+    {# Manrope chỉ dùng 3 weight thật sự cần (400/600/700) — Poppins đã bỏ vì không dùng.
+       Load non-blocking qua trick media=print → swap về all khi tải xong → cải thiện FCP/LCP. #}
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
+        media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"></noscript>
+
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
 
     {# Speed Insights tracking — đo Core Web Vitals mọi page #}
