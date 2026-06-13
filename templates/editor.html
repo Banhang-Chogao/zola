@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Trình soạn bài | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js" defer></script>
+{% endblock %}
+
+{% block main %}
+    <div class="editor-app" id="editor-app">
+        {# ===== LOGIN VIEW ===== #}
+        <section class="editor-view" data-view="login">
+            <header class="section-header"><h2 class="section-header__title">ĐĂNG NHẬP CMS</h2></header>
+
+            <div class="editor-card">
+                <h3>Cần GitHub Personal Access Token để viết bài</h3>
+                <p class="editor-help">
+                    Token sẽ được lưu trong <strong>trình duyệt này</strong> (localStorage)
+                    để CMS có thể đẩy file <code>.md</code> trực tiếp vào repo. Không gửi đi đâu khác.
+                </p>
+
+                <details class="editor-help">
+                    <summary><strong>Cách tạo token (1 lần, ~2 phút)</strong></summary>
+                    <ol>
+                        <li>Mở <a href="https://github.com/settings/tokens/new?scopes=repo&description=Blog%20CMS" target="_blank">GitHub → Settings → Developer settings → Personal access tokens → New token (classic)</a></li>
+                        <li><strong>Note</strong>: <code>Blog CMS</code></li>
+                        <li><strong>Expiration</strong>: 90 days (hoặc No expiration nếu chấp nhận rủi ro)</li>
+                        <li><strong>Scopes</strong>: tick <code>repo</code> (full control of repositories)</li>
+                        <li>Click <strong>Generate token</strong> → copy chuỗi <code>ghp_xxxxxxxx...</code></li>
+                        <li>Dán vào ô dưới đây</li>
+                    </ol>
+                </details>
+
+                <form data-form="login" autocomplete="off">
+                    <label class="editor-label">GitHub Personal Access Token</label>
+                    <input type="password" name="token" placeholder="ghp_..." class="editor-input" required>
+                    <button type="submit" class="editor-btn editor-btn--primary">Lưu &amp; vào CMS</button>
+                </form>
+            </div>
+        </section>
+
+        {# ===== LIST VIEW ===== #}
+        <section class="editor-view" data-view="list" hidden>
+            <header class="section-header"><h2 class="section-header__title">DANH SÁCH BÀI VIẾT</h2></header>
+
+            <div class="editor-toolbar">
+                <button class="editor-btn editor-btn--primary" data-action="new">+ Viết bài mới</button>
+                <button class="editor-btn editor-btn--ghost" data-action="reload">↻ Tải lại</button>
+                <button class="editor-btn editor-btn--ghost" data-action="logout">⏻ Đăng xuất</button>
+            </div>
+
+            <div class="editor-status" data-status></div>
+
+            <table class="editor-table" data-target="post-table">
+                <thead>
+                    <tr><th>Tiêu đề</th><th>Ngày</th><th>Category</th><th></th></tr>
+                </thead>
+                <tbody data-target="post-rows">
+                    <tr><td colspan="4" class="editor-empty">Đang tải…</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        {# ===== EDITOR VIEW ===== #}
+        <section class="editor-view" data-view="edit" hidden>
+            <header class="section-header"><h2 class="section-header__title" data-target="edit-title">VIẾT BÀI MỚI</h2></header>
+
+            <form data-form="post" class="editor-form">
+                <div class="editor-grid">
+                    <label class="editor-field">
+                        <span>Tiêu đề *</span>
+                        <input type="text" name="title" required class="editor-input">
+                    </label>
+
+                    <label class="editor-field">
+                        <span>Slug (URL)</span>
+                        <input type="text" name="slug" placeholder="tu-dong-tu-tieu-de" class="editor-input">
+                    </label>
+
+                    <label class="editor-field">
+                        <span>Ngày đăng *</span>
+                        <input type="date" name="date" required class="editor-input">
+                    </label>
+
+                    <label class="editor-field">
+                        <span>Category</span>
+                        <input type="text" name="category" value="Posting" class="editor-input">
+                    </label>
+
+                    <label class="editor-field editor-field--full">
+                        <span>Tags (cách nhau bởi dấu phẩy)</span>
+                        <input type="text" name="tags" placeholder="zola, github, cms" class="editor-input">
+                    </label>
+
+                    <label class="editor-field editor-field--full">
+                        <span>Ảnh thumbnail (URL)</span>
+                        <input type="url" name="thumbnail" placeholder="https://..." class="editor-input">
+                    </label>
+
+                    <label class="editor-field editor-field--check">
+                        <input type="checkbox" name="featured"> <span>Bài nổi bật (lên Featured Post)</span>
+                    </label>
+                </div>
+
+                <div class="editor-content-wrap">
+                    <div class="editor-content-tabs">
+                        <button type="button" class="editor-tab is-active" data-tab="write">✎ Viết</button>
+                        <button type="button" class="editor-tab" data-tab="preview">👁 Preview</button>
+                    </div>
+                    <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="# Nội dung markdown..." required></textarea>
+                    <div data-tab-pane="preview" class="editor-preview" hidden>
+                        <em>Click tab "Preview" sau khi gõ nội dung</em>
+                    </div>
+                </div>
+
+                <div class="editor-toolbar editor-toolbar--bottom">
+                    <button type="submit" class="editor-btn editor-btn--primary">💾 Lưu lên GitHub</button>
+                    <button type="button" class="editor-btn editor-btn--danger" data-action="delete" hidden>🗑 Xoá bài</button>
+                    <button type="button" class="editor-btn editor-btn--ghost" data-action="back">← Quay lại</button>
+                </div>
+
+                <div class="editor-status" data-target="save-status"></div>
+            </form>
+        </section>
+    </div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/editor.js') }}" defer></script>
+{% endblock %}
