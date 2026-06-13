@@ -352,9 +352,22 @@ tags = ${tagsStr}
     });
   });
 
+  // ============= URL PARAM HANDLING =============
+  // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola
+  function checkUrlParam() {
+    const params = new URLSearchParams(location.search);
+    const slug = params.get("slug");
+    if (slug && state.token) {
+      const path = CONTENT_DIR + "/" + slug + ".md";
+      openEditor(path);
+      return true;
+    }
+    return false;
+  }
+
   // ============= INIT =============
   if (state.token) {
-    enterDashboard();
+    if (!checkUrlParam()) enterDashboard();
   } else {
     showView("login");
   }

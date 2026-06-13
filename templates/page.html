@@ -25,6 +25,22 @@
                     {{ page.date | date(format="%b %d, %Y") }}
                 </span>
             </div>
+
+            {# Stats badge — populated by post-stats.js từ localStorage #}
+            <div class="post-stats" data-post-stats></div>
+
+            {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
+            <div class="post-actions" data-post-actions hidden>
+                {% set slug = page.path | trim_start_matches(pat="/") | trim_end_matches(pat="/") %}
+                <a class="edit-btn" href="{{ config.base_url }}/editor/?slug={{ slug }}">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Sửa bài
+                </a>
+                <a class="edit-btn edit-btn--ghost" href="https://github.com/Banhang-Chogao/zola/edit/main/{{ page.relative_path }}" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Sửa trên GitHub
+                </a>
+            </div>
         </header>
 
         {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
@@ -55,5 +71,53 @@
                 </div>
             </footer>
         {% endif %}
+
+        {# COMMENT SECTION — Giscus (GitHub Discussions backend) #}
+        <section class="comments-section">
+            <h3 class="comments-section__title">Bình luận</h3>
+            <p class="comments-section__note">
+                Đăng nhập bằng <strong>tài khoản GitHub</strong> để bình luận.
+                <small>(Để bật bình luận bằng Gmail, xem hướng dẫn switch sang Disqus/Firebase ở README)</small>
+            </p>
+
+            {% if config.extra.giscus_repo_id and config.extra.giscus_category_id %}
+                <script src="https://giscus.app/client.js"
+                    data-repo="Banhang-Chogao/zola"
+                    data-repo-id="{{ config.extra.giscus_repo_id }}"
+                    data-category="{{ config.extra.giscus_category | default(value='General') }}"
+                    data-category-id="{{ config.extra.giscus_category_id }}"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="top"
+                    data-theme="light"
+                    data-lang="vi"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            {% else %}
+                <div class="comments-setup-notice">
+                    <h4>⚙ Bình luận chưa được kích hoạt</h4>
+                    <p>Cần setup Giscus trước. Làm theo 3 bước:</p>
+                    <ol>
+                        <li>Vào <a href="https://github.com/Banhang-Chogao/zola/settings#discussions-feature" target="_blank">Settings → Features</a>, tick <strong>Discussions</strong></li>
+                        <li>Cài <a href="https://github.com/apps/giscus" target="_blank">Giscus App</a> cho repo</li>
+                        <li>Vào <a href="https://giscus.app" target="_blank">giscus.app</a>, paste repo URL, copy 2 giá trị <code>data-repo-id</code> + <code>data-category-id</code> dán vào <code>config.toml</code></li>
+                    </ol>
+                </div>
+            {% endif %}
+        </section>
     </article>
 {% endblock main %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
+    <script>
+        // Show edit button nếu user có PAT (admin đã login CMS)
+        if (localStorage.getItem("zola-cms-token")) {
+            const actions = document.querySelector("[data-post-actions]");
+            if (actions) actions.hidden = false;
+        }
+    </script>
+{% endblock %}
