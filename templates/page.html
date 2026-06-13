@@ -9,7 +9,8 @@
                 {% if page.taxonomies.categories %}
                     <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
                 {% endif %}
-                <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}">
+                {# Hero image là LCP candidate trên trang bài — fetchpriority high #}
+                <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" fetchpriority="high" decoding="async">
             </div>
         {% endif %}
 
