@@ -24,6 +24,37 @@
         </header>
 
         <div class="content content--reversed">
+            {% block top_widgets %}
+                <section class="github-section">
+                    <article class="github-card" data-repo="Banhang-Chogao/zola">
+                        <div class="github-card__tags">
+                            <span class="tag tag--active">HOẠT ĐỘNG</span>
+                            <span class="tag tag--code">SOURCE CODE</span>
+                        </div>
+
+                        <h2 class="github-card__title">GitHub</h2>
+                        <p class="github-card__subtitle">Lưu mã nguồn, lịch sử thay đổi và kích hoạt quy trình deploy khi có code mới.</p>
+
+                        <div class="commit-box">
+                            <h3 class="commit-box__msg">Đang tải commit mới nhất…</h3>
+                            <p class="commit-box__meta">
+                                <span class="commit-box__hash">-------</span>
+                                <span class="commit-box__sep">·</span>
+                                <span class="commit-box__note">Đang kết nối tới GitHub API.</span>
+                            </p>
+                        </div>
+
+                        <hr class="github-card__divider">
+
+                        <footer class="github-card__footer">
+                            <span class="github-card__brand">⌘ GitHub</span>
+                            <span class="github-card__clock">--:-- --/--/----</span>
+                        </footer>
+                    </article>
+                </section>
+                <script src="{{ get_url(path='js/github.js') }}" defer></script>
+            {% endblock top_widgets %}
+
             {% block content %}
                 {% set root = get_section(path="_index.md") %}
                 <div class="documentation">
