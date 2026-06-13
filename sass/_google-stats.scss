@@ -1,0 +1,169 @@
+/* ============= GOOGLE STATS PAGE ============= */
+
+.ga-page {
+  font-family: $font-body;
+  color: #111;
+}
+
+.ga-header {
+  margin-bottom: 1.5rem;
+}
+
+.ga-title {
+  font-family: $font-heading;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.ga-meta {
+  color: #6b7280;
+  font-size: 0.92rem;
+  margin: 0;
+
+  span { font-weight: 600; color: #374151; }
+}
+
+/* ============= 5 METRIC CARDS ============= */
+.ga-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ga-card {
+  background: #fff;
+  border: 2.5px solid #111;
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  border-radius: 4px;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__label {
+    font-family: $font-mono;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #6b7280;
+    text-transform: uppercase;
+  }
+
+  &__value {
+    font-family: $font-heading;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #111;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ============= 2 BOX GRID ============= */
+.ga-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ga-box {
+  background: #fff;
+  border: 2.5px solid #111;
+  border-radius: 4px;
+  overflow: hidden;
+
+  &__header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 2.5px solid #111;
+
+    h2 {
+      font-family: $font-heading;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #111;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+  }
+}
+
+/* ============= LIST OF ITEMS ============= */
+.ga-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  &__empty {
+    padding: 2rem 1.5rem;
+    color: #9ca3af;
+    font-style: italic;
+    text-align: center;
+  }
+
+  &__row {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f3f4f6;
+
+    &:last-child { border-bottom: 0; }
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+  }
+
+  &__name {
+    font-weight: 700;
+    color: #111;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+
+    &:hover { color: #d63d3d; }
+  }
+
+  &__count {
+    color: #6b7280;
+    font-size: 0.88rem;
+    font-family: $font-mono;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+/* ============= HORIZONTAL BAR ============= */
+.ga-bar {
+  width: 100%;
+  height: 4px;
+  background: #f3f4f6;
+  border-radius: 2px;
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    background: #111;
+    transition: width .3s ease;
+  }
+}
+
+/* ============= RESPONSIVE ============= */
+@media (max-width: 960px) {
+  .ga-metrics { grid-template-columns: repeat(2, 1fr); }
+  .ga-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 540px) {
+  .ga-metrics { grid-template-columns: 1fr 1fr; }
+  .ga-title { font-size: 1.7rem; }
+  .ga-card__value { font-size: 1.8rem; }
+  .ga-card { min-height: 100px; padding: 1rem; }
+}
