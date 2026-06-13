@@ -18,9 +18,12 @@
     {# Header: logo left + ad banner right #}
     <header class="site-header">
         <div class="container site-header__inner">
-            <a class="site-title-link" href="{{ config.base_url }}">
+            <a class="site-title-link" href="{{ config.base_url }}" data-blog-version-root>
                 <span class="site-title">{{ config.title }}</span>
-                <span class="site-tagline">{{ config.extra.tagline }}</span>
+                <span class="site-tagline">
+                    Phiên bản blog: <strong class="version-num" data-blog-version>—.—.—</strong>
+                    <strong class="version-id" data-blog-id>v------</strong>
+                </span>
             </a>
 
             {#

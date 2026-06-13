@@ -27,16 +27,17 @@
     // Đợi data về thì hiển thị thời điểm commit (KHÔNG còn realtime current time)
     clockEl.textContent = "đang tải…";
 
-    fetch("https://api.github.com/repos/" + repo + "/commits?per_page=1", {
+    // Fetch 100 commit gần nhất để vừa lấy commit cuối, vừa đếm cho version
+    fetch("https://api.github.com/repos/" + repo + "/commits?per_page=100", {
       headers: { Accept: "application/vnd.github+json" },
     })
       .then((r) => {
         if (!r.ok) throw new Error("HTTP " + r.status);
         return r.json();
       })
-      .then((data) => {
-        const c = Array.isArray(data) && data[0];
-        if (!c) throw new Error("no commits");
+      .then((commits) => {
+        if (!Array.isArray(commits) || !commits.length) throw new Error("no commits");
+        const c = commits[0];
         const sha = c.sha.substring(0, 7);
         const title = (c.commit.message || "").split("\n")[0];
         msgEl.textContent = title;
@@ -54,6 +55,9 @@
         } else {
           clockEl.textContent = "--:-- --/--/----";
         }
+
+        // ===== Tính phiên bản blog =====
+        updateBlogVersion(commits);
       })
       .catch((err) => {
         msgEl.textContent = "Không tải được commit";
@@ -68,6 +72,56 @@
           active.classList.add("tag--error");
         }
       });
+  }
+
+  /**
+   * Tính phiên bản blog từ danh sách commits.
+   * Format: MAJOR.MINOR.PATCH v{6-digit-id}
+   *   MAJOR = 1 (cố định)
+   *   MINOR = số commit trong tuần hiện tại (từ thứ 2 đầu tuần đến hiện tại)
+   *   PATCH = số commit trong ngày hôm nay
+   *   ID    = SHA của commit cuối → parse 6 ký tự hex đầu → decimal mod 1,000,000
+   *           → cho con số duy nhất ổn định cho mỗi commit
+   */
+  function updateBlogVersion(commits) {
+    const verEl = document.querySelector("[data-blog-version]");
+    const idEl = document.querySelector("[data-blog-id]");
+    if (!verEl || !idEl) return;
+
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const day = now.getDay(); // 0=Sun..6=Sat
+    const daysSinceMonday = (day + 6) % 7;
+    const startOfWeek = new Date(startOfDay);
+    startOfWeek.setDate(startOfWeek.getDate() - daysSinceMonday);
+
+    const dateOf = (c) =>
+      new Date((c.commit.committer && c.commit.committer.date) || c.commit.author.date);
+
+    const todayCount = commits.filter((c) => dateOf(c) >= startOfDay).length;
+    const weekCount = commits.filter((c) => dateOf(c) >= startOfWeek).length;
+
+    const major = 1;
+    const minor = weekCount;
+    const patch = todayCount;
+
+    // SHA → 6 digit numeric id
+    const latest = commits[0];
+    const hex = latest.sha.substring(0, 8);
+    const decimal = parseInt(hex, 16);
+    const numericId = String(decimal % 1000000).padStart(6, "0");
+
+    verEl.textContent = major + "." + minor + "." + patch;
+    idEl.textContent = "v" + numericId;
+
+    const root = document.querySelector("[data-blog-version-root]");
+    if (root) {
+      root.setAttribute(
+        "title",
+        "Tuần này có " + weekCount + " commit, hôm nay có " + patch + " commit. " +
+        "ID dựa trên SHA " + latest.sha.substring(0, 7)
+      );
+    }
   }
 
   // ===== Rotation =====
