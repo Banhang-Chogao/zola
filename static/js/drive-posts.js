@@ -34,14 +34,14 @@
   // ============= CẤU HÌNH =============
   const GIST_USER = "Banhang-Chogao";
   const GIST_ID = "9e75490dacb5333bec86f8e175b7b4d0";
-  const GIST_FILE = "posts.json";
   // ====================================
 
-  // Gist raw URL có CORS native — fetch trực tiếp không cần proxy
-  // Thêm timestamp param để bypass cache CDN khi user vừa update gist
-  const POSTS_URL =
-    "https://gist.githubusercontent.com/" + GIST_USER + "/" + GIST_ID +
-    "/raw/" + GIST_FILE + "?ts=" + Math.floor(Date.now() / 60000); // cache 1 phút
+  // Dùng GitHub Gist API thay vì raw URL — API CORS native + trả về file list
+  // → tự tìm file JSON đầu tiên, không cần biết filename chính xác
+  // Cache 5 phút (ts giảm tần suất gọi API)
+  const API_URL =
+    "https://api.github.com/gists/" + GIST_ID +
+    "?ts=" + Math.floor(Date.now() / 300000);
 
   const statusEl = document.querySelector("[data-status]");
   const listEl = document.querySelector("[data-drive-posts]");
@@ -135,17 +135,37 @@
       await new Promise((r) => setTimeout(r, 400));
 
       setStatus("Đang tải từ Gist…", "loading");
-      const res = await fetch(POSTS_URL, { cache: "no-store" });
+      const res = await fetch(API_URL, {
+        cache: "no-store",
+        headers: { Accept: "application/vnd.github+json" },
+      });
       if (!res.ok) {
-        if (res.status === 404) throw new Error("Gist không tồn tại hoặc file posts.json không có");
+        if (res.status === 404) throw new Error("Gist không tồn tại (404). Kiểm tra GIST_ID + gist phải public.");
+        if (res.status === 403) throw new Error("GitHub API rate limit (60 req/h/IP). Đợi 1 giờ.");
         throw new Error("HTTP " + res.status);
       }
 
-      const raw = await res.text();
-      if (!raw || !raw.trim()) {
-        throw new Error("Gist trả về rỗng");
+      const gist = await res.json();
+      const files = gist.files || {};
+      const fileNames = Object.keys(files);
+      if (!fileNames.length) throw new Error("Gist không có file nào");
+
+      // Tìm file JSON đầu tiên, hoặc file đầu tiên nếu không có .json
+      let target = fileNames.find((n) => n.toLowerCase().endsWith(".json")) || fileNames[0];
+      const file = files[target];
+      let raw = file.content;
+
+      // Nếu content bị truncate (file > 1MB), fetch raw URL bổ sung
+      if (file.truncated && file.raw_url) {
+        console.log("[posts] gist file truncated, fetching raw");
+        const rawRes = await fetch(file.raw_url, { cache: "no-store" });
+        if (!rawRes.ok) throw new Error("Raw fetch HTTP " + rawRes.status);
+        raw = await rawRes.text();
       }
 
+      if (!raw || !raw.trim()) throw new Error("File '" + target + "' rỗng");
+
+      console.log("[posts] using gist file:", target);
       const data = JSON.parse(raw);
       const posts = Array.isArray(data.posts) ? data.posts : (Array.isArray(data) ? data : []);
       if (!posts.length) {
@@ -168,7 +188,7 @@
           <p>Kiểm tra:</p>
           <ol>
             <li>Gist <strong>public</strong>? Vào <a href="https://gist.github.com/${escapeHtml(GIST_USER)}/${escapeHtml(GIST_ID)}" target="_blank">gist URL</a> ở tab incognito (không login), thấy file không?</li>
-            <li>Filename trong gist đúng là <code>${escapeHtml(GIST_FILE)}</code>?</li>
+            <li>Trong gist có ít nhất 1 file <code>.json</code>?</li>
             <li>Nội dung JSON đúng cú pháp? Kiểm tra ở <a href="https://jsonlint.com" target="_blank">jsonlint.com</a></li>
           </ol>
         </div>
