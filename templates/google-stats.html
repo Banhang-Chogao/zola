@@ -47,6 +47,40 @@
                 </ul>
             </section>
         </div>
+
+        {# ===== PAGESPEED INSIGHTS ===== #}
+        <header class="ga-header" style="margin-top: 3rem;">
+            <h1 class="ga-title">Google PageSpeed Insights</h1>
+            <p class="ga-meta">
+                <span data-ps-meta>Đang đo bằng Lighthouse…</span>
+                <button class="ps-refresh" data-action="ps-refresh" hidden>↻ Đo lại</button>
+            </p>
+        </header>
+
+        <div class="ps-scores" data-target="ps-scores">
+            <div class="ps-loading">
+                <div class="ps-loading__spinner"></div>
+                <p>Đang chạy Lighthouse audit qua Google PageSpeed API… <em>(~30 giây)</em></p>
+            </div>
+        </div>
+
+        <div class="ps-metrics" data-target="ps-metrics" hidden></div>
+
+        <div class="ga-box" data-target="ps-opportunities-box" hidden>
+            <header class="ga-box__header">
+                <h2>Cơ hội cải thiện</h2>
+                <p class="ga-box__subtitle">Các đề xuất giúp trang tải nhanh hơn</p>
+            </header>
+            <ul class="ps-audits" data-target="ps-opportunities"></ul>
+        </div>
+
+        <div class="ga-box" data-target="ps-diagnostics-box" hidden>
+            <header class="ga-box__header">
+                <h2>Chẩn đoán</h2>
+                <p class="ga-box__subtitle">Thông tin bổ sung về hiệu suất trang</p>
+            </header>
+            <ul class="ps-audits" data-target="ps-diagnostics"></ul>
+        </div>
     </div>
 {% endblock main %}
 
@@ -54,4 +88,5 @@
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/google-stats.js') }}" defer></script>
+    <script src="{{ get_url(path='js/pagespeed.js') }}" defer></script>
 {% endblock %}
