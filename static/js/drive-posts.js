@@ -1,46 +1,47 @@
 /**
- * Drive Posts loader
+ * Posts loader — fetch JSON từ GitHub Gist (CORS native, không cần proxy)
  * ============================================================
- * Fetch file JSON public trên Google Drive → parse → render
- * thành các bài viết HTML hiển thị ngay trên blog.
  *
  * CÁCH SETUP:
- * 1. Tạo file posts.json đúng schema bên dưới
- * 2. Upload lên Google Drive
- * 3. Right click file → Share → "Anyone with the link" → Viewer
- * 4. Copy share URL — dạng: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
- * 5. Lấy FILE_ID (đoạn giữa /d/ và /view) → paste vào DRIVE_FILE_ID dưới
+ * 1. Vào https://gist.github.com → New gist
+ * 2. Filename: posts.json
+ * 3. Paste JSON theo schema bên dưới
+ * 4. Click "Create public gist"
+ * 5. Copy gist URL, lấy GIST_ID (đoạn hex dài cuối URL)
+ * 6. Paste vào GIST_ID dưới
  *
- * JSON SCHEMA (file posts.json trên Drive):
+ * EDIT BÀI VIẾT:
+ *   Vào lại gist URL → click "Edit" → sửa → "Update public gist"
+ *   → Reload blog → bài mới hiện ra trong vài giây (no rebuild)
+ *
+ * JSON SCHEMA:
  * {
  *   "posts": [
  *     {
  *       "title": "Tiêu đề bài",
- *       "slug": "tieu-de-bai",                    // optional, tự sinh nếu thiếu
+ *       "slug": "tieu-de-bai",                    // optional
  *       "date": "2026-06-14",                     // YYYY-MM-DD
  *       "category": "Posting",
  *       "tags": ["zola", "drive"],
- *       "thumbnail": "https://...",               // URL ảnh, optional
- *       "summary": "Tóm tắt 1-2 câu",            // hiển thị ngắn
- *       "content": "**Markdown** nội dung đầy đủ..."
- *     },
- *     { ... }
+ *       "thumbnail": "https://...",
+ *       "summary": "Tóm tắt 1-2 câu",
+ *       "content": "**Markdown** body..."
+ *     }
  *   ]
  * }
  */
 (function () {
   // ============= CẤU HÌNH =============
-  const DRIVE_FILE_ID = "1mHlqPXvQyZuPqAeJV9OOxwo5mAp2otk8"; // 👈 FILE_ID file posts.json trên Drive
-
-  // Drive không có CORS header → cần proxy. Có nhiều backup nếu 1 cái die.
-  const DRIVE_URL = "https://drive.google.com/uc?export=download&id=" + DRIVE_FILE_ID;
-  const PROXIES = [
-    { url: "https://corsproxy.io/?", direct: true },
-    { url: "https://api.codetabs.com/v1/proxy?quest=", direct: true },
-    { url: "https://api.allorigins.win/raw?url=", direct: true },
-    { url: "https://api.allorigins.win/get?url=", direct: false }, // trả JSON wrap {contents}
-  ];
+  const GIST_USER = "Banhang-Chogao";
+  const GIST_ID = "9e75490dacb5333bec86f8e175b7b4d0";
+  const GIST_FILE = "posts.json";
   // ====================================
+
+  // Gist raw URL có CORS native — fetch trực tiếp không cần proxy
+  // Thêm timestamp param để bypass cache CDN khi user vừa update gist
+  const POSTS_URL =
+    "https://gist.githubusercontent.com/" + GIST_USER + "/" + GIST_ID +
+    "/raw/" + GIST_FILE + "?ts=" + Math.floor(Date.now() / 60000); // cache 1 phút
 
   const statusEl = document.querySelector("[data-status]");
   const listEl = document.querySelector("[data-drive-posts]");
@@ -83,7 +84,6 @@
         <img src="${escapeHtml(p.thumbnail)}" alt="${escapeHtml(p.title)}" loading="lazy">
       </a>` : "";
 
-    // Markdown body → HTML (sanitized)
     let bodyHtml = "";
     if (p.content && window.marked && window.DOMPurify) {
       bodyHtml = window.DOMPurify.sanitize(window.marked.parse(p.content));
@@ -99,7 +99,7 @@
         <div class="post-card__body">
           <h3 class="post-card__title">${escapeHtml(p.title || "Untitled")}</h3>
           <div class="post-meta">
-            <span class="post-meta__author">drive</span>
+            <span class="post-meta__author">gist</span>
             <span class="post-meta__date">${fmtDate(p.date || "")}</span>
           </div>
           <p class="post-card__summary">${summary}</p>
@@ -113,18 +113,17 @@
   }
 
   async function load() {
-    if (DRIVE_FILE_ID === "PASTE_FILE_ID_HERE" || !DRIVE_FILE_ID) {
-      setStatus("⚙ Chưa cấu hình DRIVE_FILE_ID trong static/js/drive-posts.js", "error");
+    if (!GIST_ID || GIST_ID.startsWith("PASTE")) {
+      setStatus("⚙ Chưa cấu hình GIST_ID trong static/js/drive-posts.js", "error");
       listEl.innerHTML = `
         <div class="drive-setup-notice">
-          <h3>Cần cấu hình trước khi dùng</h3>
+          <h3>Cần cấu hình GitHub Gist trước khi dùng</h3>
           <ol>
-            <li>Tạo file <code>posts.json</code> theo schema (xem comment đầu file <code>static/js/drive-posts.js</code>)</li>
-            <li>Upload lên Google Drive</li>
-            <li>Right-click → <strong>Share</strong> → <strong>Anyone with the link</strong> → Viewer</li>
-            <li>Copy link, lấy phần ID giữa <code>/d/</code> và <code>/view</code></li>
-            <li>Mở file <code>static/js/drive-posts.js</code>, sửa dòng <code>DRIVE_FILE_ID = "..."</code></li>
-            <li>Commit + push</li>
+            <li>Vào <a href="https://gist.github.com">gist.github.com</a> → New gist</li>
+            <li>Filename: <code>posts.json</code></li>
+            <li>Paste content theo schema</li>
+            <li>Click <strong>Create public gist</strong></li>
+            <li>Copy URL → extract GIST_ID → paste vào file <code>static/js/drive-posts.js</code></li>
           </ol>
         </div>
       `;
@@ -135,56 +134,45 @@
       // Đợi marked + DOMPurify load (defer)
       await new Promise((r) => setTimeout(r, 400));
 
-      // Thử lần lượt từng proxy, dừng khi 1 cái thành công
-      let raw = null;
-      let lastErr = null;
-      for (let i = 0; i < PROXIES.length; i++) {
-        const p = PROXIES[i];
-        setStatus("Đang tải từ Drive… (proxy " + (i + 1) + "/" + PROXIES.length + ")", "loading");
-        try {
-          const fetchUrl = p.url + encodeURIComponent(DRIVE_URL);
-          const res = await fetch(fetchUrl, { cache: "no-store" });
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          if (p.direct) {
-            raw = await res.text();
-          } else {
-            const wrapped = await res.json();
-            raw = wrapped.contents;
-          }
-          if (raw && typeof raw === "string" && raw.trim().length > 0) {
-            console.log("[drive-posts] proxy OK:", p.url);
-            break;
-          }
-        } catch (err) {
-          console.warn("[drive-posts] proxy fail:", p.url, err.message);
-          lastErr = err;
-        }
+      setStatus("Đang tải từ Gist…", "loading");
+      const res = await fetch(POSTS_URL, { cache: "no-store" });
+      if (!res.ok) {
+        if (res.status === 404) throw new Error("Gist không tồn tại hoặc file posts.json không có");
+        throw new Error("HTTP " + res.status);
       }
 
-      if (!raw) {
-        throw lastErr || new Error("Tất cả proxy đều fail");
-      }
-
-      // Drive đôi khi wrap trong HTML (file > 25MB hoặc virus scan)
-      if (typeof raw === "string" && raw.trim().startsWith("<")) {
-        throw new Error("Drive trả HTML interstitial — file quá lớn hoặc chưa public");
+      const raw = await res.text();
+      if (!raw || !raw.trim()) {
+        throw new Error("Gist trả về rỗng");
       }
 
       const data = JSON.parse(raw);
       const posts = Array.isArray(data.posts) ? data.posts : (Array.isArray(data) ? data : []);
       if (!posts.length) {
-        setStatus("Không có bài viết nào trong file JSON", "empty");
+        setStatus("Không có bài viết nào trong gist", "empty");
         return;
       }
 
-      // Sort bài mới nhất lên đầu
       posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
 
       listEl.innerHTML = posts.map(renderPost).join("");
-      setStatus(`✓ Đã tải ${posts.length} bài từ Drive`, "success");
+      setStatus("✓ Đã tải " + posts.length + " bài từ Gist", "success");
+
+      console.log("[posts] loaded from gist:", { count: posts.length, gistId: GIST_ID });
     } catch (err) {
-      console.error("[drive-posts]", err);
-      setStatus("✗ Không tải được Drive: " + err.message, "error");
+      console.error("[posts]", err);
+      setStatus("✗ Không tải được Gist: " + err.message, "error");
+      listEl.innerHTML = `
+        <div class="drive-setup-notice">
+          <h3>Lỗi: ${escapeHtml(err.message)}</h3>
+          <p>Kiểm tra:</p>
+          <ol>
+            <li>Gist <strong>public</strong>? Vào <a href="https://gist.github.com/${escapeHtml(GIST_USER)}/${escapeHtml(GIST_ID)}" target="_blank">gist URL</a> ở tab incognito (không login), thấy file không?</li>
+            <li>Filename trong gist đúng là <code>${escapeHtml(GIST_FILE)}</code>?</li>
+            <li>Nội dung JSON đúng cú pháp? Kiểm tra ở <a href="https://jsonlint.com" target="_blank">jsonlint.com</a></li>
+          </ol>
+        </div>
+      `;
     }
   }
 
