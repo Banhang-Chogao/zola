@@ -1,3 +1,38 @@
+{# ============================================================================
+   GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
+   - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
+   - Local dev: không có token → skip fetch, hiển thị placeholder.
+   - User visit: 0 API call → không bao giờ dính quota 60/h.
+   ========================================================================== #}
+{% set gh_token = get_env(name="ZOLA_GH_TOKEN", default="") %}
+{% set commits = false %}
+{% if gh_token %}
+    {% set commits = load_data(
+        url="https://api.github.com/repos/Banhang-Chogao/zola/commits?per_page=100",
+        format="json",
+        required=false,
+        headers=["Authorization=Bearer " ~ gh_token, "Accept=application/vnd.github+json", "User-Agent=zola-build"]
+    ) %}
+{% endif %}
+
+{% set latest_commit = false %}
+{% set today_count = 0 %}
+{% set week_count = 0 %}
+{% set numeric_id = "------" %}
+
+{% if commits and commits.0 and commits.0.sha %}
+    {% set_global latest_commit = commits.0 %}
+    {% set now_ts = now(timestamp=true) %}
+    {% set today_start = now_ts - (now_ts % 86400) %}
+    {% set week_ago = now_ts - 604800 %}
+    {% for c in commits %}
+        {% set ts = c.commit.author.date | date(format="%s") | int %}
+        {% if ts >= today_start %}{% set_global today_count = today_count + 1 %}{% endif %}
+        {% if ts >= week_ago %}{% set_global week_count = week_count + 1 %}{% endif %}
+    {% endfor %}
+    {% set_global numeric_id = latest_commit.sha | truncate(length=6, end="") %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -44,11 +79,13 @@
     {# Header: logo left + ad banner right #}
     <header class="site-header">
         <div class="container site-header__inner">
-            <a class="site-title-link" href="{{ config.base_url }}" data-blog-version-root>
+            <a class="site-title-link" href="{{ config.base_url }}"
+               {% if latest_commit %}title="Tuần này có {{ week_count }} commit, hôm nay có {{ today_count }} commit. ID dựa trên SHA {{ latest_commit.sha | truncate(length=7, end='') }}"{% endif %}>
                 <span class="site-title">{{ config.title }}</span>
                 <span class="site-tagline">
-                    Phiên bản blog: <strong class="version-num" data-blog-version>—.—.—</strong>
-                    <strong class="version-id" data-blog-id>v------</strong>
+                    Phiên bản blog:
+                    <strong class="version-num">1.{{ week_count }}.{{ today_count }}</strong>
+                    <strong class="version-id">v{{ numeric_id }}</strong>
                 </span>
             </a>
 
@@ -75,37 +112,60 @@
                     </a>
                 #}
 
-                {# Slide B: GitHub commit status — đang là slide duy nhất #}
-                <a class="header-github header-rotator__slide is-active" href="https://github.com/Banhang-Chogao/zola" target="_blank" rel="noopener" data-repo-actions="Banhang-Chogao/zola" data-repo="Banhang-Chogao/zola" title="Xem repo trên GitHub">
+                {# Slide B: GitHub commit status — render từ load_data (build-time) #}
+                <a class="header-github header-rotator__slide is-active" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
                     <div class="header-github__tags">
-                        <span class="tag tag--active">HOẠT ĐỘNG</span>
+                        {% if latest_commit %}
+                            <span class="tag tag--active">HOẠT ĐỘNG</span>
+                        {% else %}
+                            <span class="tag tag--code">OFFLINE BUILD</span>
+                        {% endif %}
                         <span class="tag tag--code">SOURCE CODE</span>
                     </div>
                     <div class="header-github__row">
                         <div class="header-github__main">
                             <span class="header-github__brand-title">GitHub</span>
                             <p class="header-github__commit">
-                                <strong data-commit-msg>Đang tải commit mới nhất…</strong>
-                                <span class="header-github__meta">
-                                    <code data-commit-hash>-------</code>
-                                    <span class="dot">·</span>
-                                    <span data-commit-note>Code mới nhất đã được GitHub ghi nhận.</span>
-                                </span>
+                                {% if latest_commit %}
+                                    <strong>{{ latest_commit.commit.message | split(pat="\n") | first | truncate(length=80) }}</strong>
+                                    <span class="header-github__meta">
+                                        <code>{{ latest_commit.sha | truncate(length=7, end="") }}</code>
+                                        <span class="dot">·</span>
+                                        <span>Commit đã được bake vào build này.</span>
+                                    </span>
+                                {% else %}
+                                    <strong>Local build — chưa có commit data</strong>
+                                    <span class="header-github__meta">
+                                        <code>local</code>
+                                        <span class="dot">·</span>
+                                        <span>CI build sẽ fetch commit mới nhất.</span>
+                                    </span>
+                                {% endif %}
                             </p>
                         </div>
                         <div class="header-github__side">
                             <span class="header-github__brand">⌘ GitHub</span>
-                            <span class="header-github__clock" title="Thời điểm commit được push">--:-- --/--/----</span>
+                            <span class="header-github__clock" title="Thời điểm commit được push">
+                                {%- if latest_commit -%}
+                                    {{ latest_commit.commit.author.date | date(format="%H:%M %d/%m/%Y") }}
+                                {%- else -%}
+                                    --:-- --/--/----
+                                {%- endif -%}
+                            </span>
                         </div>
                     </div>
                 </a>
             </div>
 
-            {# Pending queue: workflow đang chạy / chờ trên GitHub Actions #}
-            <div class="deploy-queue" data-deploy-queue data-repo="Banhang-Chogao/zola">
-                <span class="deploy-queue__badge" data-queue-badge>PENDING QUEUE</span>
-                <div class="deploy-queue__items" data-queue-target>
-                    <span class="deploy-queue__msg">đang kiểm tra…</span>
+            {# Deploy status — luôn DEPLOYED vì user thấy trang = build đã deploy xong.
+               (Trước đây fetch GitHub Actions client-side → tốn quota; nay bake static.) #}
+            <div class="deploy-queue">
+                <span class="deploy-queue__badge deploy-queue__badge--success">✓ DEPLOYED</span>
+                <div class="deploy-queue__items">
+                    <span class="deploy-queue__msg">
+                        <span class="status-dot status-dot--success"></span>
+                        Build hiện tại đã deploy lên GitHub Pages
+                    </span>
                 </div>
             </div>
             </div> {# /.header-side #}

@@ -35,7 +35,7 @@
                             {{ page.date | date(format="%b %d, %Y") }}
                         </span>
                     </div>
-                    <p class="post-card__summary">{{ page.summary | safe | striptags | truncate(length=200) }}</p>
+                    <p class="post-card__summary">{{ page.summary | default(value="") | safe | striptags | truncate(length=200) }}</p>
                     <a class="read-more" href="{{ page.permalink }}">READ MORE <span class="read-more__arrow">»</span></a>
                 </div>
             </article>
