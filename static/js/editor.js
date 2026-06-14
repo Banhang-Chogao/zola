@@ -307,6 +307,27 @@ tags = ${tagsStr}
     if (!slug) { alert("Cần tiêu đề hoặc slug"); return; }
     if (!fm.title || !fm.date) { alert("Thiếu tiêu đề hoặc ngày"); return; }
 
+    // Validate body có nội dung text thực sự — tránh case Zola không trích được
+    // summary → page.summary = null → templates crash với `striptags` filter →
+    // toàn bộ site không build → bài viết không lên web.
+    // Bỏ markdown markup (URL, ![]() image, #, *, -, [], code fence) trước khi đếm.
+    const plainText = body
+      .replace(/```[\s\S]*?```/g, "")           // code blocks
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")     // images
+      .replace(/\[[^\]]*\]\([^)]*\)/g, "")      // links
+      .replace(/https?:\/\/\S+/g, "")           // raw URLs
+      .replace(/[#*_>`\-+|]/g, "")              // markdown markup chars
+      .replace(/\s+/g, " ")
+      .trim();
+    if (plainText.length < 50) {
+      alert(
+        "Nội dung quá ngắn (cần ≥ 50 ký tự text, hiện có " + plainText.length + ").\n\n" +
+        "Bài chỉ có URL/hình → Zola không trích được summary → build fail → " +
+        "site không update. Hãy thêm vài câu mô tả."
+      );
+      return;
+    }
+
     const path = CONTENT_DIR + "/" + slug + ".md";
     const content = buildFrontmatter(fm, body);
     const message = state.editing ? "Sửa bài: " + fm.title : "Bài mới: " + fm.title;
