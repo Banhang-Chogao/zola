@@ -14,7 +14,9 @@
   const OWNER = "Banhang-Chogao";
   const REPO = "zola";
   const BRANCH = "main";
-  const CONTENT_DIR = "content";
+  // Bài viết sống trong content/posting/ (section đã config sort + paginate).
+  // Trang chủ (/) và section /posting/ đều đọc từ đây.
+  const CONTENT_DIR = "content/posting";
   const API = "https://api.github.com";
 
   const TOKEN_KEY = "zola-cms-token";
