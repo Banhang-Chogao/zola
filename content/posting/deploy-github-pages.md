@@ -1,6 +1,7 @@
 +++
 title = "Deploy Zola lên GitHub Pages bằng GitHub Actions"
 date = 2026-06-07
+aliases = ["/deploy-github-pages/"]
 
 [taxonomies]
 categories = ["Posting"]

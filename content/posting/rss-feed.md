@@ -1,6 +1,7 @@
 +++
 title = "Tạo RSS feed cho blog Zola không cần plugin"
 date = 2026-06-04
+aliases = ["/rss-feed/"]
 
 [taxonomies]
 categories = ["Posting"]

@@ -84,7 +84,15 @@
 
                     <label class="editor-field">
                         <span>Category</span>
-                        <input type="text" name="category" value="Posting" class="editor-input">
+                        <select name="category" class="editor-input" data-category-select required>
+                            {# Options inject từ JSON dưới đây qua editor.js #}
+                            <option value="Posting">Posting</option>
+                            <option value="__new__">＋ Tạo mới…</option>
+                        </select>
+                    </label>
+                    <label class="editor-field" data-category-new-wrap hidden>
+                        <span>Tên category mới</span>
+                        <input type="text" name="category_new" placeholder="VD: Du lịch, Home" class="editor-input" data-category-new>
                     </label>
 
                     <label class="editor-field editor-field--full">
@@ -128,5 +136,12 @@
 {% block sidebar %}{% endblock %}
 
 {% block extra_scripts %}
+    {# Bake danh sách category hiện có từ taxonomy → editor.js đọc populate dropdown #}
+    {% set cats = get_taxonomy(kind="categories") %}
+    <script type="application/json" id="categories-data">
+        [{% for c in cats.items -%}
+            {{ c.name | json_encode | safe }}{% if not loop.last %},{% endif %}
+        {%- endfor %}]
+    </script>
     <script src="{{ get_url(path='js/editor.js') }}" defer></script>
 {% endblock %}

@@ -219,13 +219,23 @@
                 </script>
 
                 <aside class="sidebar">
-                    {# FEATURED POST — placeholder, JS sẽ thay nội dung dựa analytics #}
+                    {# FEATURED POST — bài tick gần nhất (max featured_at) lên đầu.
+                       Fallback: bài featured bất kỳ → bài mới nhất. #}
                     {% set_global featured = false %}
+                    {% set_global featured_ts = "" %}
                     {% for page in root.pages %}
-                        {% if page.extra.featured and not featured %}
-                            {% set_global featured = page %}
+                        {% if page.extra.featured and page.extra.featured_at %}
+                            {% if page.extra.featured_at > featured_ts %}
+                                {% set_global featured = page %}
+                                {% set_global featured_ts = page.extra.featured_at %}
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
+                    {% if not featured %}
+                        {% for page in root.pages %}
+                            {% if page.extra.featured and not featured %}{% set_global featured = page %}{% endif %}
+                        {% endfor %}
+                    {% endif %}
                     {% if not featured %}{% set_global featured = root.pages | first %}{% endif %}
 
                     <section class="sidebar-block" data-widget="featured">

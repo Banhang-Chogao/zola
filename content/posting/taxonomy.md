@@ -1,6 +1,7 @@
 +++
 title = "Taxonomy: phân loại bài viết với categories và tags"
 date = 2026-06-05
+aliases = ["/taxonomy/"]
 
 [taxonomies]
 categories = ["Posting"]

@@ -1,6 +1,7 @@
 +++
 title = "Template engine Tera trong Zola: dùng sao cho đúng"
 date = 2026-06-09
+aliases = ["/template-tera/"]
 
 [taxonomies]
 categories = ["Posting"]

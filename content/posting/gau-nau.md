@@ -1,6 +1,7 @@
 +++
 title = "gau nau"
 date = 2026-06-14
+aliases = ["/gau-nau/"]
 
 [taxonomies]
 categories = ["Posting"]

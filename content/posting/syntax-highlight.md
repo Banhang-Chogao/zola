@@ -1,6 +1,7 @@
 +++
 title = "Bật syntax highlighting cho code block trong Zola"
 date = 2026-06-06
+aliases = ["/syntax-highlight/"]
 
 [taxonomies]
 categories = ["Posting"]

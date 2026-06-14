@@ -1,6 +1,7 @@
 +++
 title = "Chào mừng bạn đến với blog"
 date = 2026-06-13
+aliases = ["/chao-mung-ban/"]
 
 [taxonomies]
 categories = ["Posting"]
