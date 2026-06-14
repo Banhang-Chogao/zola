@@ -510,6 +510,7 @@ tags = ${tagsStr}
       form.date.value = todayIso();
       state.editing = null;
       rebuildCategoryOptions("Posting");
+      updateCounter();
       showView("edit");
       return;
     }
@@ -534,6 +535,7 @@ tags = ${tagsStr}
       form.thumbnail.value = fm.thumbnail;
       form.featured.checked = fm.featured;
       form.body.value = body.trim();
+      updateCounter();
       setStatus("save-status", "✓ Đã tải bài", "success");
     }).catch((err) => {
       setStatus("save-status", "✗ " + err.message, "error");
@@ -641,6 +643,148 @@ tags = ${tagsStr}
     enterDashboard();
   });
 
+  // ============= MARKDOWN TOOLBAR + SHORTCUTS + COUNTER =============
+  const bodyTextarea = $("[name='body']");
+
+  // Bọc/unbọc selection bằng prefix+suffix. Toggle off nếu selection đã wrapped.
+  // Selection rỗng → insert placeholder + highlight để user gõ đè ngay.
+  function wrapInline(prefix, suffix, placeholder) {
+    const ta = bodyTextarea;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const sel = ta.value.slice(start, end);
+    const before = ta.value.slice(0, start);
+    const after = ta.value.slice(end);
+
+    if (sel.length >= prefix.length + suffix.length &&
+        sel.startsWith(prefix) && sel.endsWith(suffix)) {
+      // Toggle off: bỏ wrap
+      const inner = sel.slice(prefix.length, sel.length - suffix.length);
+      ta.value = before + inner + after;
+      ta.selectionStart = start;
+      ta.selectionEnd = start + inner.length;
+    } else {
+      const insert = sel || placeholder;
+      ta.value = before + prefix + insert + suffix + after;
+      if (sel) {
+        ta.selectionStart = start + prefix.length;
+        ta.selectionEnd = end + prefix.length;
+      } else {
+        ta.selectionStart = start + prefix.length;
+        ta.selectionEnd = start + prefix.length + placeholder.length;
+      }
+    }
+    ta.focus();
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  // Toggle line-prefix (heading/quote/list). Mở rộng phạm vi sang toàn bộ line
+  // chứa cursor → strip nếu đã có prefix, thêm vào nếu chưa.
+  function togglePrefix(prefix) {
+    const ta = bodyTextarea;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const value = ta.value;
+
+    const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+    let lineEnd = value.indexOf("\n", end);
+    if (lineEnd === -1) lineEnd = value.length;
+
+    const line = value.slice(lineStart, lineEnd);
+    const newLine = line.startsWith(prefix) ? line.slice(prefix.length) : prefix + line;
+
+    ta.value = value.slice(0, lineStart) + newLine + value.slice(lineEnd);
+    const delta = newLine.length - line.length;
+    ta.selectionStart = Math.max(lineStart, start + delta);
+    ta.selectionEnd = end + delta;
+    ta.focus();
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  const MD_ACTIONS = {
+    bold:      { type: "inline", prefix: "**",    suffix: "**",     placeholder: "đậm" },
+    italic:    { type: "inline", prefix: "*",     suffix: "*",      placeholder: "nghiêng" },
+    code:      { type: "inline", prefix: "`",     suffix: "`",      placeholder: "code" },
+    link:      { type: "inline", prefix: "[",     suffix: "](url)", placeholder: "text" },
+    image:     { type: "inline", prefix: "![",    suffix: "](url)", placeholder: "alt" },
+    codeblock: { type: "inline", prefix: "```\n", suffix: "\n```",  placeholder: "code" },
+    heading:   { type: "prefix", prefix: "## " },
+    quote:     { type: "prefix", prefix: "> " },
+    ul:        { type: "prefix", prefix: "- " },
+    ol:        { type: "prefix", prefix: "1. " },
+  };
+
+  function applyMdAction(action) {
+    const cfg = MD_ACTIONS[action];
+    if (!cfg) return;
+    if (cfg.type === "inline") wrapInline(cfg.prefix, cfg.suffix, cfg.placeholder);
+    else togglePrefix(cfg.prefix);
+  }
+
+  $$("[data-md]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      applyMdAction(btn.dataset.md);
+    });
+  });
+
+  // Keyboard shortcuts — scope: editForm only (tránh hijack browser khi user
+  // ở list/login view). Ctrl+S = save anywhere trong form. Ctrl+B/I/K/E = MD
+  // chỉ khi textarea body focused. Ctrl+H KHÔNG bind vì xung đột history nguy hiểm.
+  const MD_SHORTCUTS = { b: "bold", i: "italic", k: "link", e: "code" };
+  const editForm = $("[data-form='post']");
+
+  editForm.addEventListener("keydown", (e) => {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    if (e.altKey || e.shiftKey) return;
+    const key = e.key.toLowerCase();
+
+    if (key === "s") {
+      e.preventDefault();
+      if (typeof editForm.requestSubmit === "function") editForm.requestSubmit();
+      else editForm.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+      return;
+    }
+
+    if (document.activeElement !== bodyTextarea) return;
+    if (MD_SHORTCUTS[key]) {
+      e.preventDefault();
+      applyMdAction(MD_SHORTCUTS[key]);
+    }
+  });
+
+  // Counter realtime — words + chars. Warning state khi <MIN_CHARS để user
+  // thấy lỗi trước khi bấm Save (đồng bộ với threshold 50 ở validate submit).
+  const MIN_CHARS = 50;
+  const counterWords = $("[data-counter-words]");
+  const counterChars = $("[data-counter-chars]");
+  const counterHint  = $("[data-counter-hint]");
+  const counterRoot  = $("[data-counter]");
+
+  function updateCounter() {
+    const val = bodyTextarea.value;
+    const trimmed = val.trim();
+    const words = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
+    const chars = val.length;
+    if (counterWords) counterWords.textContent = words.toLocaleString("vi-VN");
+    if (counterChars) counterChars.textContent = chars.toLocaleString("vi-VN");
+
+    if (counterRoot) {
+      const isWarn = chars > 0 && chars < MIN_CHARS;
+      counterRoot.classList.toggle("editor-counter--warning", isWarn);
+      if (counterHint) {
+        if (isWarn) {
+          counterHint.textContent = "(cần thêm " + (MIN_CHARS - chars) + ")";
+          counterHint.hidden = false;
+        } else {
+          counterHint.hidden = true;
+        }
+      }
+    }
+  }
+  bodyTextarea.addEventListener("input", updateCounter);
+  updateCounter(); // initial render khi load page
+
   // ============= MARKDOWN PREVIEW TABS =============
   $$(".editor-tab").forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -648,8 +792,12 @@ tags = ${tagsStr}
       tab.classList.add("is-active");
       const target = tab.dataset.tab;
       $$("[data-tab-pane]").forEach((p) => p.hidden = p.dataset.tabPane !== target);
+      // Ẩn toolbar + counter ở tab Preview cho gọn
+      const toolbar = $("[data-toolbar]");
+      if (toolbar) toolbar.hidden = target !== "write";
+      if (counterRoot) counterRoot.hidden = target !== "write";
       if (target === "preview" && window.marked) {
-        const body = $("[name='body']").value;
+        const body = bodyTextarea.value;
         $("[data-tab-pane='preview']").innerHTML = window.marked.parse(body || "*(rỗng)*");
       }
     });
