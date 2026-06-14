@@ -26,8 +26,10 @@
   // ============= STATE & UTIL =============
   let state = {
     token: localStorage.getItem(TOKEN_KEY) || null,
-    posts: [],     // file metadata list từ GitHub
-    editing: null, // { path, sha, frontmatter, body }
+    posts: [],          // unified display list: { slug, title, date, category, featured, isNew? }
+    bakeMetadata: [],   // raw bake từ <script id="posts-metadata">, immutable trong session
+    editing: null,      // { path, sha, wasFeatured, featuredAt }
+    filter: { query: "", sort: "date-desc" },
   };
 
   function $(sel, parent) { return (parent || root).querySelector(sel); }
@@ -71,6 +73,88 @@
     return decodeURIComponent(escape(atob(b64.replace(/\n/g, ""))));
   }
 
+  function debounce(fn, ms) {
+    let t;
+    return function () {
+      const args = arguments;
+      clearTimeout(t);
+      t = setTimeout(() => fn.apply(null, args), ms);
+    };
+  }
+
+  // Normalize tiếng Việt cho search: bỏ dấu + đ→d + lowercase. Cho phép gõ
+  // "doc bao" matched với "Đọc Báo".
+  function normalizeStr(s) {
+    return String(s || "").toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/đ/g, "d");
+  }
+
+  // ============= LIST METADATA — BAKE + CACHE =============
+
+  // localStorage cache cho slug list lấy từ background refresh.
+  // TTL 60s đủ ngắn để bắt bài vừa publish, đủ dài để spam Reload không tốn quota.
+  const LIST_CACHE_KEY = "zola-cms-postlist-cache";
+  const LIST_CACHE_TTL = 60 * 1000;
+
+  // Parse JSON bake từ <script id="posts-metadata"> embed bởi editor.html.
+  // Stale ~1 phút sau khi user publish bài mới (chờ Zola rebuild) — background
+  // refresh sẽ phát hiện + mark badge "🆕" lên UI cho bài chưa kịp build.
+  function loadBakeMetadata() {
+    try {
+      const raw = document.getElementById("posts-metadata");
+      if (!raw) return [];
+      const arr = JSON.parse(raw.textContent || "[]");
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+      console.warn("[CMS] Bake metadata parse fail:", e.message);
+      return [];
+    }
+  }
+
+  function readListCache() {
+    try {
+      const raw = localStorage.getItem(LIST_CACHE_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data || (Date.now() - data.timestamp) > LIST_CACHE_TTL) return null;
+      return Array.isArray(data.slugs) ? data.slugs : null;
+    } catch (e) { return null; }
+  }
+
+  function writeListCache(slugs) {
+    try {
+      localStorage.setItem(LIST_CACHE_KEY, JSON.stringify({
+        timestamp: Date.now(),
+        slugs: slugs,
+      }));
+    } catch (e) { /* localStorage full/disabled — skip cache */ }
+  }
+
+  function invalidateListCache() {
+    try { localStorage.removeItem(LIST_CACHE_KEY); } catch (e) {}
+  }
+
+  // Pure: filter + sort state.posts theo state.filter, return array mới.
+  function getDisplayPosts() {
+    const posts = state.posts.slice();
+    const q = normalizeStr(state.filter.query);
+    const filtered = q ? posts.filter((p) => {
+      const hay = normalizeStr((p.title || "") + " " + (p.slug || "") + " " + (p.category || ""));
+      return hay.includes(q);
+    }) : posts;
+
+    switch (state.filter.sort) {
+      case "date-asc":
+        return filtered.sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+      case "title-asc":
+        return filtered.sort((a, b) => normalizeStr(a.title).localeCompare(normalizeStr(b.title)));
+      case "date-desc":
+      default:
+        return filtered.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    }
+  }
+
   // ============= API CALLS =============
   async function api(path, opts) {
     opts = opts || {};
@@ -96,13 +180,46 @@
     return res.json();
   }
 
-  async function listPosts() {
-    // GET contents/content → list file ở root
+  // 1 API call: lấy danh sách slug .md trong content/posting/. Dùng để diff với
+  // bake metadata, KHÔNG fetch content từng file (tránh N+1).
+  async function fetchPostSlugs() {
     const list = await api("/repos/" + OWNER + "/" + REPO + "/contents/" + CONTENT_DIR + "?ref=" + BRANCH);
-    // Lọc file .md ở root (không phải _index, không phải subfolder)
     return list
       .filter((f) => f.type === "file" && f.name.endsWith(".md") && !f.name.startsWith("_"))
-      .map((f) => ({ name: f.name, path: f.path, sha: f.sha, slug: f.name.replace(/\.md$/, "") }));
+      .map((f) => f.name.replace(/\.md$/, ""));
+  }
+
+  // Background refresh: fetch slug list thật từ repo → diff với bake để biết
+  // bài nào MỚI publish (chưa build → badge "🆕") và bài nào đã DELETE.
+  // Local edits trong state.posts được preserve (ưu tiên cao nhất).
+  // Silent fail nếu offline — giữ nguyên bake data.
+  async function refreshInBackground() {
+    let apiSlugs = readListCache();
+    if (!apiSlugs) {
+      try {
+        apiSlugs = await fetchPostSlugs();
+        writeListCache(apiSlugs);
+      } catch (e) {
+        console.warn("[CMS] Background refresh failed:", e.message);
+        return;
+      }
+    }
+
+    const bakeBySlug = new Map(state.bakeMetadata.map((p) => [p.slug, p]));
+    const localBySlug = new Map(state.posts.map((p) => [p.slug, p]));
+
+    // Merge: ưu tiên local > bake > default. isNew=true nếu chưa có trong bake.
+    state.posts = apiSlugs.map((slug) => {
+      const inBake = bakeBySlug.has(slug);
+      if (localBySlug.has(slug)) {
+        return Object.assign({}, localBySlug.get(slug), { isNew: !inBake });
+      }
+      if (inBake) {
+        return Object.assign({}, bakeBySlug.get(slug), { isNew: false });
+      }
+      return { slug, title: slug, date: "", category: "", featured: false, isNew: true };
+    });
+    renderPostList();
   }
 
   async function getPost(path) {
@@ -214,40 +331,80 @@ tags = ${tagsStr}
     enterDashboard();
   });
 
-  async function enterDashboard() {
+  let bakeLoaded = false;
+  function enterDashboard(force) {
     showView("list");
-    setStatus("[data-status]", "Đang tải danh sách bài viết…", "info");
-    try {
-      state.posts = await listPosts();
-      renderPostList();
-      setStatus("[data-status]", "✓ " + state.posts.length + " bài viết", "success");
-    } catch (err) {
-      setStatus("[data-status]", "✗ " + err.message, "error");
+
+    // Lần đầu vào: load bake → render instant (0ms). Lần sau giữ state.posts hiện có
+    // để preserve local edits chưa propagate qua background refresh.
+    if (!bakeLoaded) {
+      state.bakeMetadata = loadBakeMetadata();
+      state.posts = state.bakeMetadata.slice();
+      bakeLoaded = true;
     }
+    renderPostList();
+    setStatus("[data-status]", state.posts.length + " bài viết", "info");
+
+    if (force) invalidateListCache();
+    // Idle delay 500ms cho first paint không bị block. Force = fetch ngay.
+    setTimeout(() => refreshInBackground(), force ? 0 : 500);
   }
 
   // ============= LIST VIEW =============
   function renderPostList() {
     const tbody = $("[data-target='post-rows']");
+    const counter = $("[data-target='post-count']");
+    const displayPosts = getDisplayPosts();
+
+    if (counter) counter.textContent = displayPosts.length + "/" + state.posts.length;
+
     if (!state.posts.length) {
       tbody.innerHTML = '<tr><td colspan="4" class="editor-empty">Chưa có bài nào. Click "+ Viết bài mới".</td></tr>';
       return;
     }
-    tbody.innerHTML = state.posts.map((p) => `
-      <tr>
-        <td><strong>${escapeHtml(p.slug)}</strong></td>
-        <td>—</td>
-        <td>—</td>
-        <td><button class="editor-btn editor-btn--small" data-edit="${escapeHtml(p.path)}">Sửa</button></td>
-      </tr>
-    `).join("");
+    if (!displayPosts.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="editor-empty">Không có bài khớp.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = displayPosts.map((p) => {
+      const badges = [];
+      if (p.featured) badges.push('<span class="editor-badge editor-badge--featured" title="Bài nổi bật">⭐</span>');
+      if (p.isNew) badges.push('<span class="editor-badge editor-badge--new" title="Vừa publish, đang build (~1 phút)">🆕</span>');
+      const path = CONTENT_DIR + "/" + p.slug + ".md";
+      const dateCell = p.date ? escapeHtml(p.date) : '<em class="editor-pending">đang build…</em>';
+      return '<tr>' +
+        '<td><strong>' + escapeHtml(p.title || p.slug) + '</strong>' + badges.join("") + '</td>' +
+        '<td>' + dateCell + '</td>' +
+        '<td>' + escapeHtml(p.category || "—") + '</td>' +
+        '<td><button class="editor-btn editor-btn--small" data-edit="' + escapeHtml(path) + '">Sửa</button></td>' +
+      '</tr>';
+    }).join("");
 
     tbody.querySelectorAll("[data-edit]").forEach((btn) => {
       btn.addEventListener("click", () => openEditor(btn.dataset.edit));
     });
   }
 
-  $("[data-action='reload']").addEventListener("click", enterDashboard);
+  $("[data-action='reload']").addEventListener("click", () => enterDashboard(true));
+
+  // Search input — debounce 100ms để không lag khi gõ nhanh.
+  const searchInput = $("[data-search]");
+  if (searchInput) {
+    searchInput.addEventListener("input", debounce(() => {
+      state.filter.query = searchInput.value;
+      renderPostList();
+    }, 100));
+  }
+
+  // Sort dropdown — re-render ngay khi đổi.
+  const sortSelect = $("[data-sort]");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", () => {
+      state.filter.sort = sortSelect.value;
+      renderPostList();
+    });
+  }
 
   $("[data-action='logout']").addEventListener("click", () => {
     if (!confirm("Đăng xuất + xoá token khỏi trình duyệt?")) return;
@@ -442,8 +599,20 @@ tags = ${tagsStr}
     try {
       await putPost(path, content, state.editing ? state.editing.sha : null, message);
       setStatus("save-status", "✓ Đã lưu lên GitHub. GitHub Actions đang build site (~1 phút) để cập nhật bài lên web.", "success");
-      // refresh list trong background
-      listPosts().then((posts) => { state.posts = posts; });
+      // Update state.posts in-place — preserve UI position khi user "Quay lại" list.
+      // Bake metadata stale ~1 phút cho đến rebuild, nhưng UI hiển thị metadata mới gõ.
+      const savedPost = {
+        slug: slug,
+        title: fm.title,
+        date: fm.date,
+        category: fm.category,
+        featured: fm.featured,
+        isNew: !state.editing,
+      };
+      const idx = state.posts.findIndex((p) => p.slug === slug);
+      if (idx >= 0) state.posts[idx] = savedPost;
+      else state.posts.unshift(savedPost);
+      invalidateListCache(); // ép background refresh tiếp theo fetch tươi
     } catch (err) {
       setStatus("save-status", "✗ " + err.message, "error");
     }
@@ -454,8 +623,15 @@ tags = ${tagsStr}
     if (!confirm("Xoá bài này vĩnh viễn?")) return;
     try {
       await deletePost(state.editing.path, state.editing.sha, "Xoá bài");
+      // Remove khỏi state.posts ngay (bake stale tới khi rebuild).
+      const deletedSlug = state.editing.path
+        .replace(new RegExp("^" + CONTENT_DIR + "/"), "")
+        .replace(/\.md$/, "");
+      state.posts = state.posts.filter((p) => p.slug !== deletedSlug);
+      invalidateListCache();
       setStatus("save-status", "✓ Đã xoá", "success");
-      enterDashboard();
+      showView("list");
+      renderPostList();
     } catch (err) {
       setStatus("save-status", "✗ " + err.message, "error");
     }

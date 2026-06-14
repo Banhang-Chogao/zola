@@ -51,6 +51,21 @@
 
             <div class="editor-status" data-status></div>
 
+            <div class="editor-filter-row">
+                <div class="editor-search-wrap">
+                    <span class="editor-search-icon" aria-hidden="true">🔍</span>
+                    <input type="search" class="editor-input editor-search-input"
+                           placeholder="Tìm bài (tiêu đề, slug, category)…"
+                           data-search aria-label="Tìm bài viết">
+                </div>
+                <select class="editor-input editor-sort-select" data-sort aria-label="Sắp xếp">
+                    <option value="date-desc">Mới nhất</option>
+                    <option value="date-asc">Cũ nhất</option>
+                    <option value="title-asc">A → Z</option>
+                </select>
+                <span class="editor-count" data-target="post-count" aria-live="polite">0/0</span>
+            </div>
+
             <table class="editor-table" data-target="post-table">
                 <thead>
                     <tr><th>Tiêu đề</th><th>Ngày</th><th>Category</th><th></th></tr>
@@ -144,6 +159,23 @@
             {{ c.name | json_encode | safe }}{% if not loop.last %},{% endif %}
         {%- endfor %}]
     </script>
+
+    {# Bake metadata bài viết (slug + title + date + category + featured) →
+       editor.js render list view tức thì 0ms, không cần fetch GitHub API. Background
+       refresh sẽ diff với API thật để mark bài mới publish (chưa kịp build). #}
+    {% set posting_section = get_section(path="posting/_index.md") %}
+    <script type="application/json" id="posts-metadata">
+        [{% for page in posting_section.pages -%}
+            {
+                "slug": {{ page.slug | json_encode | safe }},
+                "title": {{ page.title | json_encode | safe }},
+                "date": {{ page.date | json_encode | safe }},
+                "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
+                "featured": {% if page.extra.featured %}true{% else %}false{% endif %}
+            }{% if not loop.last %},{% endif %}
+        {%- endfor %}]
+    </script>
+
     {# Cache-bust theo commit SHA → mỗi lần deploy mới, browser tự fetch JS mới #}
     <script src="{{ get_url(path='js/editor.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
 {% endblock %}

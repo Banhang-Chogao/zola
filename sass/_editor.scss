@@ -151,6 +151,93 @@
   &--error { background: #fef2f2; color: #991b1b; }
 }
 
+/* ============= LIST FILTER ROW ============= */
+.editor-filter-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.editor-search-wrap {
+  position: relative;
+  flex: 1 1 240px;
+  min-width: 200px;
+}
+
+.editor-search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.45;
+  pointer-events: none;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.editor-search-input {
+  padding-left: 2.4rem;
+
+  &::-webkit-search-cancel-button {
+    cursor: pointer;
+    opacity: 0.5;
+    &:hover { opacity: 1; }
+  }
+}
+
+.editor-sort-select {
+  flex: 0 1 auto;
+  width: auto;
+  min-width: 130px;
+  padding-right: 1.8rem;
+  cursor: pointer;
+}
+
+.editor-count {
+  color: #777;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  min-width: 54px;
+  text-align: right;
+}
+
+@media (max-width: 560px) {
+  .editor-filter-row {
+    .editor-search-wrap { flex: 1 1 100%; }
+    .editor-sort-select { flex: 1 1 auto; }
+    .editor-count { flex: 0 0 auto; }
+  }
+}
+
+/* ============= LIST BADGES ============= */
+.editor-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  font-size: 0.78rem;
+  vertical-align: middle;
+  cursor: help;
+  line-height: 1;
+
+  &--new {
+    animation: editor-badge-pulse 1.8s ease-in-out infinite;
+  }
+}
+
+@keyframes editor-badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.92); }
+}
+
+.editor-pending {
+  color: #999;
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
 /* ============= LIST TABLE ============= */
 .editor-table {
   width: 100%;
