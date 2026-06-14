@@ -32,7 +32,8 @@
 
             {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
             <div class="post-actions" data-post-actions hidden>
-                {% set slug = page.path | trim_start_matches(pat="/") | trim_end_matches(pat="/") %}
+                {# page.path = "/posting/{slug}/" → tách lấy đoạn cuối (slug thuần) #}
+                {% set slug = page.path | trim_start_matches(pat="/posting/") | trim_end_matches(pat="/") %}
                 <a class="edit-btn" href="{{ config.base_url }}/editor/?slug={{ slug }}">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     Sửa bài

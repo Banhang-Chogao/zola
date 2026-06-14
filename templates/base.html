@@ -196,7 +196,8 @@
             </div>
 
             {% block sidebar %}
-                {% set root = get_section(path="_index.md") %}
+                {# Bài viết sống trong section content/posting/, không phải root #}
+                {% set root = get_section(path="posting/_index.md") %}
 
                 {#
                     Inject toàn bộ metadata bài viết vào JSON inline để JS pick featured/random

@@ -7,8 +7,12 @@
         <h2 class="section-header__title">{{ section.title | upper }}</h2>
     </header>
 
+    {# Khi section có paginate_by, Zola truyền `paginator` và `section.pages` rỗng.
+       Khi không paginate, ngược lại. Fallback cover cả 2 trường hợp. #}
+    {% if paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = section.pages %}{% endif %}
+
     <div class="post-list">
-        {% for page in section.pages %}
+        {% for page in pages %}
             <article class="post-card">
                 {% if page.extra.thumbnail %}
                     <a class="post-card__image" href="{{ page.permalink }}">
@@ -28,6 +32,18 @@
             </article>
         {% endfor %}
     </div>
+
+    {% if paginator and paginator.number_pagers > 1 %}
+        <nav class="pagination">
+            {% if paginator.previous %}
+                <a class="pagination__btn pagination__btn--prev" href="{{ paginator.previous }}">« Trang trước</a>
+            {% endif %}
+            <span class="pagination__info">Trang {{ paginator.current_index }} / {{ paginator.number_pagers }}</span>
+            {% if paginator.next %}
+                <a class="pagination__btn pagination__btn--next" href="{{ paginator.next }}">Trang sau »</a>
+            {% endif %}
+        </nav>
+    {% endif %}
 {% endblock main %}
 
 {% block sidebar %}{% endblock %}
