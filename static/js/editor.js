@@ -258,6 +258,22 @@ tags = ${tagsStr}
 
   $("[data-action='new']").addEventListener("click", () => openEditor(null));
 
+  // ============= AUTO-SLUG FROM TITLE =============
+  // Khi user gõ tiêu đề, tự fill slug field theo realtime. Nếu user đã sửa slug
+  // bằng tay → khoá auto-fill (slugLocked=true). Xoá rỗng slug → mở khoá lại.
+  const titleInput = $("[name='title']");
+  const slugInput = $("[name='slug']");
+  let slugLocked = false;
+
+  titleInput.addEventListener("input", () => {
+    if (slugLocked) return;
+    slugInput.value = slugify(titleInput.value);
+  });
+  slugInput.addEventListener("input", () => {
+    // User chủ động sửa slug → khoá auto-fill. Xoá rỗng → mở khoá.
+    slugLocked = slugInput.value.trim().length > 0;
+  });
+
   // ============= CATEGORY DROPDOWN =============
   // Categories baked vào page qua <script id="categories-data"> từ editor.html.
   // User có thể thêm category mới qua option "Tạo mới" — không cần round-trip API.
@@ -327,6 +343,8 @@ tags = ${tagsStr}
     const form = $("[data-form='post']");
     form.reset();
     $("[data-target='save-status']").textContent = "";
+    // Bài mới chưa có slug → mở khoá auto-fill. Edit bài cũ sẽ set lại bên dưới.
+    slugLocked = false;
 
     if (!path) {
       // New post
@@ -348,6 +366,8 @@ tags = ${tagsStr}
     getPost(path).then((data) => {
       const { fm, body } = parseFrontmatter(data.content);
       state.editing = { path: data.path, sha: data.sha, wasFeatured: fm.featured, featuredAt: fm.featured_at };
+      // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
+      slugLocked = true;
       form.title.value = fm.title;
       // Loại prefix folder (content/posting/) khỏi slug input
       form.slug.value = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
