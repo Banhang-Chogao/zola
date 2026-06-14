@@ -1,6 +1,7 @@
 +++
 title = "Shortcode trong Zola: nhúng nội dung động vào Markdown"
 date = 2026-06-08
+aliases = ["/shortcode/"]
 
 [taxonomies]
 categories = ["Posting"]

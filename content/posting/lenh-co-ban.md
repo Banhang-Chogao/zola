@@ -1,6 +1,7 @@
 +++
 title = "Các lệnh CLI cơ bản nhất của Zola dành cho người mới"
 date = 2026-06-10
+aliases = ["/lenh-co-ban/"]
 
 [taxonomies]
 categories = ["Posting"]

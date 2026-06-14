@@ -141,7 +141,7 @@
     const fmText = m[1];
     const body = m[2] || "";
 
-    const fm = { title: "", date: "", category: "Posting", tags: [], thumbnail: "", featured: false };
+    const fm = { title: "", date: "", category: "Posting", tags: [], thumbnail: "", featured: false, featured_at: "" };
 
     const lines = fmText.split("\n");
     let section = "root";
@@ -171,6 +171,7 @@
       } else if (section === "extra") {
         if (key === "thumbnail") fm.thumbnail = val;
         else if (key === "featured") fm.featured = val === true;
+        else if (key === "featured_at") fm.featured_at = val;
       }
     }
 
@@ -190,7 +191,12 @@ tags = ${tagsStr}
 [extra]
 `;
     if (fm.thumbnail) fmText += `thumbnail = "${fm.thumbnail}"\n`;
-    if (fm.featured) fmText += `featured = true\n`;
+    if (fm.featured) {
+      fmText += `featured = true\n`;
+      // featured_at = thời điểm tick — bài tick sau cùng có timestamp lớn nhất,
+      // template sort desc → bài đó lên đầu Featured.
+      if (fm.featured_at) fmText += `featured_at = "${fm.featured_at}"\n`;
+    }
     fmText += "+++\n\n";
     return fmText + body;
   }
@@ -252,6 +258,50 @@ tags = ${tagsStr}
 
   $("[data-action='new']").addEventListener("click", () => openEditor(null));
 
+  // ============= CATEGORY DROPDOWN =============
+  // Categories baked vào page qua <script id="categories-data"> từ editor.html.
+  // User có thể thêm category mới qua option "Tạo mới" — không cần round-trip API.
+  let knownCategories = [];
+  try {
+    const raw = document.getElementById("categories-data");
+    if (raw) knownCategories = JSON.parse(raw.textContent || "[]");
+  } catch (e) { knownCategories = []; }
+  // Luôn đảm bảo có "Posting" làm default fallback
+  if (!knownCategories.includes("Posting")) knownCategories.unshift("Posting");
+
+  const catSelect = $("[data-category-select]");
+  const catNewWrap = $("[data-category-new-wrap]");
+  const catNewInput = $("[data-category-new]");
+
+  function rebuildCategoryOptions(selected) {
+    catSelect.innerHTML =
+      knownCategories.map((c) =>
+        `<option value="${escapeHtml(c)}"${c === selected ? " selected" : ""}>${escapeHtml(c)}</option>`
+      ).join("") +
+      `<option value="__new__">＋ Tạo mới…</option>`;
+    // Nếu category đã chọn không nằm trong list (đã bị xoá khỏi taxonomy) → thêm vào
+    if (selected && !knownCategories.includes(selected) && selected !== "__new__") {
+      catSelect.insertAdjacentHTML("afterbegin",
+        `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)} (cũ)</option>`);
+    }
+  }
+
+  catSelect.addEventListener("change", () => {
+    const isNew = catSelect.value === "__new__";
+    catNewWrap.hidden = !isNew;
+    if (isNew) { catNewInput.required = true; catNewInput.focus(); }
+    else { catNewInput.required = false; catNewInput.value = ""; }
+  });
+
+  function getSelectedCategory() {
+    if (catSelect.value === "__new__") {
+      const v = catNewInput.value.trim();
+      if (v && !knownCategories.includes(v)) knownCategories.push(v);
+      return v || "Posting";
+    }
+    return catSelect.value || "Posting";
+  }
+
   // ============= EDITOR VIEW =============
   function openEditor(path) {
     const form = $("[data-form='post']");
@@ -264,6 +314,8 @@ tags = ${tagsStr}
       $("[data-action='delete']").hidden = true;
       form.date.value = todayIso();
       state.editing = null;
+      rebuildCategoryOptions("Posting");
+      catNewWrap.hidden = true;
       showView("edit");
       return;
     }
@@ -276,11 +328,13 @@ tags = ${tagsStr}
 
     getPost(path).then((data) => {
       const { fm, body } = parseFrontmatter(data.content);
-      state.editing = { path: data.path, sha: data.sha };
+      state.editing = { path: data.path, sha: data.sha, wasFeatured: fm.featured, featuredAt: fm.featured_at };
       form.title.value = fm.title;
-      form.slug.value = data.path.replace(/^content\//, "").replace(/\.md$/, "");
+      // Loại prefix folder (content/posting/) khỏi slug input
+      form.slug.value = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
       form.date.value = fm.date;
-      form.category.value = fm.category;
+      rebuildCategoryOptions(fm.category);
+      catNewWrap.hidden = true;
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
       form.featured.checked = fm.featured;
@@ -295,13 +349,25 @@ tags = ${tagsStr}
     e.preventDefault();
     const form = e.target;
 
+    const isFeatured = form.featured.checked;
+    // Featured-at logic: chỉ STAMP timestamp khi transition false→true (lần đầu tick),
+    // hoặc khi tạo bài mới đã tick sẵn. Đã featured rồi mà save lại → giữ timestamp cũ
+    // để không đẩy bài lên đầu mỗi lần edit. Untick → xoá luôn.
+    let featuredAt = "";
+    if (isFeatured) {
+      const wasFeatured = state.editing && state.editing.wasFeatured;
+      const oldStamp = state.editing && state.editing.featuredAt;
+      featuredAt = (wasFeatured && oldStamp) ? oldStamp : new Date().toISOString();
+    }
+
     const fm = {
       title: form.title.value.trim(),
       date: form.date.value,
-      category: form.category.value.trim() || "Posting",
+      category: getSelectedCategory(),
       tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
       thumbnail: form.thumbnail.value.trim(),
-      featured: form.featured.checked,
+      featured: isFeatured,
+      featured_at: featuredAt,
     };
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title));

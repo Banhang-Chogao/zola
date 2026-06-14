@@ -1,6 +1,7 @@
 +++
 title = "Section & Page trong Zola"
 date = 2026-06-12
+aliases = ["/cau-truc-zola/"]
 
 [taxonomies]
 categories = ["Posting"]

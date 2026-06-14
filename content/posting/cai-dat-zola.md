@@ -1,6 +1,7 @@
 +++
 title = "Feature: Cài đặt Zola trên các hệ điều hành phổ biến"
 date = 2026-06-11
+aliases = ["/cai-dat-zola/"]
 
 [taxonomies]
 categories = ["Posting"]

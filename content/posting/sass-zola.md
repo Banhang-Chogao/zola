@@ -1,6 +1,7 @@
 +++
 title = "MUỐN Dùng Sass/SCSS trong Zola: tự build CSS không cần Node"
 date = 2026-06-03
+aliases = ["/sass-zola/"]
 
 [taxonomies]
 categories = ["Posting"]

@@ -1,6 +1,7 @@
 +++
 title = "Markdown mở rộng trong Zola: bảng, footnote, internal link"
 date = 2026-06-02
+aliases = ["/markdown-mo-rong/"]
 
 [taxonomies]
 categories = ["Posting"]
