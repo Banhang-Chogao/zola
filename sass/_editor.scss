@@ -309,6 +309,15 @@
   }
 }
 
+.editor-category-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+
+  select { flex: 1; }
+  button { flex-shrink: 0; white-space: nowrap; }
+}
+
 @media (max-width: 720px) {
   .editor-grid { grid-template-columns: 1fr; }
   .editor-form, .editor-card { padding: 1.25rem; }

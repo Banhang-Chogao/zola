@@ -84,15 +84,16 @@
 
                     <label class="editor-field">
                         <span>Category</span>
-                        <select name="category" class="editor-input" data-category-select required>
-                            {# Options inject từ JSON dưới đây qua editor.js #}
-                            <option value="Posting">Posting</option>
-                            <option value="__new__">＋ Tạo mới…</option>
-                        </select>
+                        <div class="editor-category-row">
+                            <select name="category" class="editor-input" data-category-select required>
+                                <option value="Posting">Posting</option>
+                            </select>
+                            <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-action="new-category" title="Thêm category mới">＋ Mới</button>
+                        </div>
                     </label>
                     <label class="editor-field" data-category-new-wrap hidden>
                         <span>Tên category mới</span>
-                        <input type="text" name="category_new" placeholder="VD: Du lịch, Home" class="editor-input" data-category-new>
+                        <input type="text" name="category_new" placeholder="VD: Du lịch, Home, Ẩm thực" class="editor-input" data-category-new>
                     </label>
 
                     <label class="editor-field editor-field--full">

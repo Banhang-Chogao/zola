@@ -272,29 +272,49 @@ tags = ${tagsStr}
   const catSelect = $("[data-category-select]");
   const catNewWrap = $("[data-category-new-wrap]");
   const catNewInput = $("[data-category-new]");
+  const catAddBtn = $("[data-action='new-category']");
+
+  let inNewMode = false; // true khi user đang gõ category mới
 
   function rebuildCategoryOptions(selected) {
-    catSelect.innerHTML =
-      knownCategories.map((c) =>
-        `<option value="${escapeHtml(c)}"${c === selected ? " selected" : ""}>${escapeHtml(c)}</option>`
-      ).join("") +
-      `<option value="__new__">＋ Tạo mới…</option>`;
+    catSelect.innerHTML = knownCategories.map((c) =>
+      `<option value="${escapeHtml(c)}"${c === selected ? " selected" : ""}>${escapeHtml(c)}</option>`
+    ).join("");
     // Nếu category đã chọn không nằm trong list (đã bị xoá khỏi taxonomy) → thêm vào
-    if (selected && !knownCategories.includes(selected) && selected !== "__new__") {
+    if (selected && !knownCategories.includes(selected)) {
       catSelect.insertAdjacentHTML("afterbegin",
         `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)} (cũ)</option>`);
     }
+    exitNewMode();
   }
 
-  catSelect.addEventListener("change", () => {
-    const isNew = catSelect.value === "__new__";
-    catNewWrap.hidden = !isNew;
-    if (isNew) { catNewInput.required = true; catNewInput.focus(); }
-    else { catNewInput.required = false; catNewInput.value = ""; }
+  function enterNewMode() {
+    inNewMode = true;
+    catNewWrap.hidden = false;
+    catSelect.disabled = true;
+    catNewInput.required = true;
+    catNewInput.focus();
+    catAddBtn.textContent = "✕ Huỷ";
+    catAddBtn.title = "Huỷ tạo category mới";
+  }
+
+  function exitNewMode() {
+    inNewMode = false;
+    catNewWrap.hidden = true;
+    catSelect.disabled = false;
+    catNewInput.required = false;
+    catNewInput.value = "";
+    catAddBtn.textContent = "＋ Mới";
+    catAddBtn.title = "Thêm category mới";
+  }
+
+  catAddBtn.addEventListener("click", () => {
+    if (inNewMode) exitNewMode();
+    else enterNewMode();
   });
 
   function getSelectedCategory() {
-    if (catSelect.value === "__new__") {
+    if (inNewMode) {
       const v = catNewInput.value.trim();
       if (v && !knownCategories.includes(v)) knownCategories.push(v);
       return v || "Posting";
@@ -315,7 +335,6 @@ tags = ${tagsStr}
       form.date.value = todayIso();
       state.editing = null;
       rebuildCategoryOptions("Posting");
-      catNewWrap.hidden = true;
       showView("edit");
       return;
     }
@@ -334,7 +353,6 @@ tags = ${tagsStr}
       form.slug.value = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
       form.date.value = fm.date;
       rebuildCategoryOptions(fm.category);
-      catNewWrap.hidden = true;
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
       form.featured.checked = fm.featured;
