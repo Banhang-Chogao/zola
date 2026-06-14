@@ -144,5 +144,6 @@
             {{ c.name | json_encode | safe }}{% if not loop.last %},{% endif %}
         {%- endfor %}]
     </script>
-    <script src="{{ get_url(path='js/editor.js') }}" defer></script>
+    {# Cache-bust theo commit SHA → mỗi lần deploy mới, browser tự fetch JS mới #}
+    <script src="{{ get_url(path='js/editor.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
 {% endblock %}
