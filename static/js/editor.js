@@ -769,6 +769,135 @@ tags = ${tagsStr}
     }
   });
 
+  // ============= PUBLISH TO GITHUB =============
+  // Đẩy bài trực tiếp lên repo qua backend /cms/save-post. Backend dùng
+  // access_token GitHub (Redis-side) để PUT content/posting/{slug}.md.
+  // Sau push: GitHub Actions auto-build + deploy ~1-2 phút.
+  $("[data-action='publish']").addEventListener("click", async (e) => {
+    e.preventDefault();
+    const form = $("[data-form='post']");
+    if (!form.reportValidity()) return; // browser native validation
+
+    const sid = getSid();
+    if (!sid) {
+      alert("Phiên đăng nhập đã hết. Đăng nhập lại để publish.");
+      showView("login");
+      return;
+    }
+    if (!AUTH_API) {
+      alert("Backend chưa cấu hình.");
+      return;
+    }
+
+    // Collect form data (giống logic submit Tải .md)
+    const isFeatured = form.featured.checked;
+    let featuredAt = "";
+    if (isFeatured) {
+      const wasFeatured = state.editing && state.editing.wasFeatured;
+      const oldStamp = state.editing && state.editing.featuredAt;
+      featuredAt = (wasFeatured && oldStamp) ? oldStamp : new Date().toISOString();
+    }
+    const fm = {
+      title: form.title.value.trim(),
+      date: form.date.value,
+      category: getSelectedCategory(),
+      tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
+      thumbnail: form.thumbnail.value.trim(),
+      featured: isFeatured,
+      featured_at: featuredAt,
+    };
+    const body = form.body.value;
+    const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
+    if (!slug || !fm.title || !fm.date) {
+      alert("Thiếu tiêu đề, slug hoặc ngày.");
+      return;
+    }
+
+    // Same body length validate as Tải .md submit
+    const plainText = body
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/[#*_>`\-+|]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (plainText.length < 50) {
+      alert("Nội dung quá ngắn (cần ≥ 50 ký tự).");
+      return;
+    }
+
+    const content = buildFrontmatter(fm, body);
+    const message = state.editing
+      ? "CMS: cập nhật bài '" + fm.title + "'"
+      : "CMS: bài mới '" + fm.title + "'";
+
+    if (!confirm("Đăng bài '" + fm.title + "' lên GitHub?\n\nFile: " +
+                 CONTENT_DIR + "/" + slug + ".md\n\nGitHub Actions sẽ tự build + deploy ~1-2 phút.")) {
+      return;
+    }
+
+    setStatus("save-status", "Đang đẩy lên GitHub…", "info");
+
+    try {
+      const res = await fetch(AUTH_API + "/cms/save-post", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + sid,
+          "Content-Type": "application/json",
+        },
+        credentials: "omit",
+        body: JSON.stringify({ slug, content, message }),
+      });
+
+      if (res.status === 401) {
+        clearSid();
+        alert("Phiên hết hạn. Đăng nhập lại.");
+        showView("login");
+        return;
+      }
+      if (res.status === 403) {
+        setStatus("save-status",
+          "✗ GitHub OAuth thiếu scope 'public_repo'. Đăng xuất và đăng nhập lại để cấp quyền.",
+          "error");
+        return;
+      }
+
+      const data = await res.json();
+      if (!res.ok) {
+        setStatus("save-status", "✗ " + (data.detail || "GitHub API lỗi"), "error");
+        return;
+      }
+
+      const commitLink = data.commit_url
+        ? ' · <a href="' + data.commit_url + '" target="_blank" rel="noopener">Xem commit</a>'
+        : "";
+      const statusEl = $("[data-target='save-status']");
+      statusEl.className = "editor-status editor-status--success";
+      statusEl.innerHTML = "✓ Đã " + (data.action === "updated" ? "cập nhật" : "đăng mới") +
+        " <strong>" + escapeHtml(data.path) + "</strong>. " +
+        "Deploy ETA: " + escapeHtml(data.deploy_eta) + commitLink;
+
+      // Update state.posts in-place — preserve UI position
+      const savedPost = {
+        slug: slug,
+        title: fm.title,
+        date: fm.date,
+        category: fm.category,
+        featured: fm.featured,
+        isNew: !state.editing,
+      };
+      const idx = state.posts.findIndex((p) => p.slug === slug);
+      if (idx >= 0) state.posts[idx] = savedPost;
+      else state.posts.unshift(savedPost);
+      invalidateListCache();
+      discardDraft(slug);
+      lastDraftSlug = slug;
+    } catch (err) {
+      setStatus("save-status", "✗ Lỗi mạng: " + err.message, "error");
+    }
+  });
+
   $("[data-action='delete']").addEventListener("click", async () => {
     if (!state.editing) return;
     if (!confirm("Xoá bài này vĩnh viễn?")) return;
