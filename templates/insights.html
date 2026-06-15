@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}GitHub Insights | {{ config.title }}{% endblock %}
+
+{% block main %}
+    {% set data = load_data(path="changelog.json", required=false) %}
+    {% set pr_items = data.items | default(value=[]) %}
+    {% set total_prs = pr_items | length %}
+
+    {% set now_ts = now(timestamp=true) %}
+    {% set week_ago_ts = now_ts - 604800 %}
+
+    {% set total_commits = 0 %}
+    {% if commits %}{% set total_commits = commits | length %}{% endif %}
+
+    <section class="insights">
+
+        <header class="insights__period">
+            <h2 class="insights__period-range">
+                {{ week_ago_ts | date(format="%B %-d, %Y", timezone="Asia/Ho_Chi_Minh") }}
+                – {{ now_ts | date(format="%B %-d, %Y", timezone="Asia/Ho_Chi_Minh") }}
+            </h2>
+            <span class="insights__period-badge">Period: 1 week ▾</span>
+        </header>
+
+        <div class="insights__grid">
+
+            {# ===== LEFT: TIMELINE OF PRs ===== #}
+            <div class="insights__left">
+                <header class="insights__details-head">
+                    <span class="insights__details-icon" aria-hidden="true">⌥</span>
+                    <h3 class="insights__details-title">{{ total_prs }} pull requests merged by 1 person</h3>
+                </header>
+
+                <ol class="insights__timeline" aria-label="Pull requests timeline">
+                    {% for item in pr_items %}
+                    <li class="insights__pr">
+                        <span class="insights__pr-dot" aria-hidden="true"></span>
+                        <div class="insights__pr-body">
+                            <h4 class="insights__pr-title">
+                                {% if item.pr %}
+                                <a href="https://github.com/Banhang-Chogao/zola/pull/{{ item.pr }}"
+                                   target="_blank" rel="noopener">{{ item.title }}</a>
+                                {% else %}
+                                {{ item.title }}
+                                {% endif %}
+                            </h4>
+                            <p class="insights__pr-meta">
+                                {% if item.pr %}<span class="insights__pr-num">#{{ item.pr }}</span>{% endif %}
+                                merged
+                                <time datetime="{{ item.date }}">{{ item.date }}</time>
+                            </p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </div>
+
+            {# ===== RIGHT: OVERVIEW STATS ===== #}
+            <div class="insights__right">
+
+                <header class="insights__right-header">
+                    <h3 class="insights__overview-title">Overview</h3>
+                    <a class="insights__source"
+                       href="https://github.com/Banhang-Chogao/zola/pulse?period=weekly"
+                       target="_blank" rel="noopener"
+                       title="Xem trực tiếp trên GitHub Pulse">
+                        Nguồn : Github Pulse <span aria-hidden="true">↗</span>
+                    </a>
+                </header>
+
+                {# Active bar — 2 thanh PRs (tím full) vs Issues (xám empty) #}
+                <div class="insights__active">
+                    <div class="insights__active-bars">
+                        <div class="insights__bar insights__bar--prs" style="width: 100%"></div>
+                        <div class="insights__bar insights__bar--issues" style="width: 100%"></div>
+                    </div>
+                    <div class="insights__active-labels">
+                        <span class="insights__active-label">
+                            <strong>{{ total_prs }}</strong> Active pull requests
+                        </span>
+                        <span class="insights__active-label">
+                            <strong>0</strong> Active issues
+                        </span>
+                    </div>
+                </div>
+
+                {# 4 stat cards với icon SVG #}
+                <div class="insights__stats-grid">
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#8957e5;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">{{ total_prs }}</div>
+                        <div class="insights__stat-label">Merged pull requests</div>
+                    </div>
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#2da44e;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M1.643 3.143 1.5 4.357v7.286A2.857 2.857 0 0 0 4.357 14.5h7.286A2.857 2.857 0 0 0 14.5 11.643V4.357A2.857 2.857 0 0 0 11.643 1.5H4.357A2.857 2.857 0 0 0 1.5 4.357l.143-1.214Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">0</div>
+                        <div class="insights__stat-label">Open pull requests</div>
+                    </div>
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#8957e5;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M11.28 6.78a.75.75 0 0 0-1.06-1.06L7.25 8.69 5.78 7.22a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0l3.5-3.5Z"/>
+                                <path d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7-5.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">0</div>
+                        <div class="insights__stat-label">Closed issues</div>
+                    </div>
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#2da44e;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
+                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">0</div>
+                        <div class="insights__stat-label">New issues</div>
+                    </div>
+                </div>
+
+                <div class="insights__bottom">
+                    {# Summary card #}
+                    <div class="insights__card">
+                        <h4 class="insights__card-title">Summary</h4>
+                        <p class="insights__summary-text">
+                            Excluding merges, <strong>1 author</strong> đã push
+                            <strong>{{ total_commits }} commits</strong> lên
+                            <code>main</code> và toàn bộ branches.
+                        </p>
+                        <p class="insights__summary-text">
+                            Trên <code>main</code>, đã có <strong>{{ total_prs }} PR</strong>
+                            merged trong khoảng thời gian này.
+                        </p>
+                    </div>
+
+                    {# Top Committers — simple CSS bar chart #}
+                    <div class="insights__card">
+                        <h4 class="insights__card-title">Top Committers</h4>
+                        <ol class="insights__committers">
+                            <li class="insights__committer">
+                                <span class="insights__committer-avatar"
+                                      style="background:linear-gradient(135deg,#d63d3d,#b91c1c);">D</span>
+                                <div class="insights__committer-bar-wrap">
+                                    <div class="insights__committer-name">Banhang-Chogao</div>
+                                    <div class="insights__committer-bar">
+                                        <div class="insights__committer-fill" style="width:100%;"></div>
+                                    </div>
+                                </div>
+                                <span class="insights__committer-count">{{ total_prs }}</span>
+                            </li>
+                            <li class="insights__committer">
+                                <span class="insights__committer-avatar"
+                                      style="background:linear-gradient(135deg,#475569,#1e293b);">🤖</span>
+                                <div class="insights__committer-bar-wrap">
+                                    <div class="insights__committer-name">github-actions[bot]</div>
+                                    <div class="insights__committer-bar">
+                                        <div class="insights__committer-fill" style="width:35%;"></div>
+                                    </div>
+                                </div>
+                                <span class="insights__committer-count">{{ total_prs }}</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
