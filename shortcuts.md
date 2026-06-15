@@ -123,6 +123,42 @@ Bonus columns nếu user muốn detail:
 
 KHÔNG diễn giải dài, chỉ output bảng + 1 dòng summary.
 
+### `seo` — Tối ưu SEO cho bài blog mới trong 5h gần nhất
+
+Hành động: Scan `content/posting/*.md` với frontmatter `date` ≥ now() − 5h
+(hoặc file mtime ≥ 5h). Với mỗi bài match, apply checklist tối ưu SEO:
+
+**Frontmatter checks:**
+- `title` ≤ 70 ký tự (Google SERP cut-off). Quá dài → đề xuất rút gọn.
+- `description` trong frontmatter (Tera template render meta description).
+  Nếu thiếu → tự generate từ đoạn đầu body (max 160 ký tự).
+- `[taxonomies] tags` ≥ 3 và liên quan keywords.
+- `[extra] thumbnail` Open Graph image, aspect 1200×630 chuẩn.
+
+**Body checks:**
+- H1 chỉ 1 lần (Zola tự render từ `title` → trong body dùng H2+ thôi).
+- H2/H3 chứa keyword chính phụ.
+- Alt text trên `![...](url)` images không rỗng.
+- Internal links tới ≥ 2 bài liên quan khác (cross-reference network).
+- External authoritative links (paper, docs) → tăng E-E-A-T signal.
+
+**Auto-actions Claude làm:**
+1. Đọc `[taxonomies]` tags + suy ra keyword chính.
+2. Thêm `description` field vào frontmatter nếu thiếu.
+3. Generate JSON-LD Article schema (qua macro `seo.html` nếu chưa có).
+4. Đề xuất 2-3 internal link tới bài đã có dựa trên semantic similarity
+   (data/related.json).
+5. Verify Open Graph meta + Twitter Card meta đang render.
+
+**Output**: bảng tóm tắt mỗi bài:
+
+| Slug | Title len | Description | Tags | Internal links | Status |
+|---|---|---|---|---|---|
+| post-A | 58 ✓ | added | 5 ✓ | 2 added | ✅ optimized |
+| post-B | 78 ❌ | exists | 7 ✓ | 0 | ⚠ title too long |
+
+Commit + push + PR + merge nếu auto-actions không cần user approval.
+
 ### `run list` — Hiển thị bảng workflow runs
 
 Hành động: Output Markdown table 4 cột, format chuẩn để user audit workflow.
