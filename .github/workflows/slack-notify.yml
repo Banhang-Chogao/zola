@@ -1,0 +1,70 @@
+name: Slack Commit Notification
+
+# Trigger: push lên bất kỳ branch nào → gửi notification về Slack channel.
+# Có thể thu hẹp scope qua branches array (vd: [main, develop]).
+#
+# Yêu cầu GitHub Secret: SLACK_WEBHOOK_URL (lấy từ Slack Incoming Webhook).
+
+on:
+  push:
+    branches:
+      - '**'   # mọi nhánh; đổi thành [main] để chỉ notify main
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  notify:
+    # Bỏ qua commit có [skip ci] trong message
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send commit info to Slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": "New commit on *${{ github.repository }}*",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Commit mới trên ${{ github.repository }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n`${{ github.ref_name }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author:*\n${{ github.actor }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Commit message:*\n${{ github.event.head_commit.message }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.event.head_commit.url }}|Xem commit trên GitHub>"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
