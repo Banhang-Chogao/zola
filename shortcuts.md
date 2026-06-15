@@ -171,6 +171,19 @@ Ví dụ user gõ:
 - Code snippets test được (nếu tech)
 - Facts verify được (citation)
 
+### `score` — Trigger workflow Build Semantic Related Posts
+
+Hành động: trigger manual `build-related.yml` qua workflow_dispatch.
+
+1. `mcp__github__actions_run_trigger` với `workflow_id=build-related.yml`,
+   `ref=main`
+2. Output: "Triggered Build Semantic Related Posts. Check status với
+   `run list build-related.yml` sau ~3 phút."
+3. KHÔNG poll status — user tự check qua tab Actions hoặc gõ `run list`.
+
+Use case: sau khi viết bài mới, gõ `score` để rebuild data/related.json
++ data/scores.json ngay, không đợi cron `*/5 * * * *`.
+
 ### `seo` — Tối ưu SEO cho bài blog mới trong 5h gần nhất
 
 Hành động: Scan `content/posting/*.md` với frontmatter `date` ≥ now() − 5h
@@ -274,6 +287,62 @@ từ git history (commit trước 11:37 ngày 15/06/2026).
    - Báo cáo proactively nếu phát hiện regression
 
 ---
+
+## 4.4. Link quản lý PR (cập nhật 13:22 ngày 15/06/2026)
+
+**Source of truth**: https://github.com/Banhang-Chogao/zola/pulls
+
+Claude PHẢI:
+1. **Track tất cả PRs** tại link trên — đây là dashboard duy nhất, không
+   được dựa vào cache local.
+2. **Tự động đưa changes mới vào hàng đợi**: mỗi feature/fix mới →
+   commit vào branch hiện tại → append vào PR đang open (nếu có) hoặc
+   tạo PR mới.
+3. **Gom đủ ~10 changes** trước khi user trigger `manual #<số PR>`.
+4. **Quy trình phê duyệt**:
+   - User tự vào https://github.com/Banhang-Chogao/zola/pulls
+   - Click PR cần deploy → bấm nút **Approve** trực tiếp trên GitHub web
+   - Sau Approve → user gõ `manual #<số PR>` cho Claude
+   - Claude merge + deploy
+5. **KHÔNG được merge** PR khi chưa thấy:
+   - User gõ lệnh `manual #X`, HOẶC
+   - User gõ `gg` + xác nhận, HOẶC
+   - Lỗi HOTFIX critical (ngoại lệ documented)
+
+Mỗi lần tạo PR mới, Claude PHẢI nhắc user link manage:
+"PR #X created. Total open: N. Manage at: https://github.com/Banhang-Chogao/zola/pulls"
+
+## 4.5. Quy trình Deploy GỘP (FINAL — cập nhật 13:28 ngày 15/06/2026)
+
+**Rule cuối cùng (overrides mọi rule trước đó về deploy)**:
+
+1. **KHÔNG tạo branch riêng cho mỗi content**. Tất cả content/fix
+   commit thẳng vào branch dev chính `claude/bold-gauss-51gh3c`. PR
+   đang open trên branch đó tự update theo mỗi commit.
+
+2. **Mỗi content mới = 1 commit** (không tạo PR mới mỗi lần). Claude
+   track tổng commit count trong PR đang open.
+
+3. **Khi commit count ≥ 10** → Claude **TỰ ĐỘNG**:
+   - Verify CI status đang green
+   - Squash merge PR vào main → trigger deploy production
+   - Branch dev tự sạch sau merge (rebase main)
+   - Báo cáo: "Auto-deploy: merged batch of N commits"
+
+4. **`manual #<số PR>` (override)**: user gọi để deploy NGAY 1 PR cụ
+   thể không đợi đủ 10. Claude verify CI + merge + deploy ngay.
+
+5. **`gg` (override)**: list open PRs + user confirm merge batch.
+
+6. **HOTFIX critical** (Tera bug, deploy block): auto-fix + auto-merge
+   ngay, không đợi gom batch.
+
+## 4.6. Hard rules (KHÔNG được vi phạm)
+
+- **KHÔNG tạo branch mới** cho mỗi content. Cherry-pick hoặc commit
+  thẳng vào branch dev chính.
+- **KHÔNG auto-merge khi commit count < 10** (trừ HOTFIX, manual #X, gg).
+- Output mỗi lần append commit: `Commit #N/10 added to PR #X. <description>`
 
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
 
