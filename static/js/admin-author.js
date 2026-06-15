@@ -261,6 +261,42 @@
     });
   }
 
+  // ============= GISCUS SETUP =============
+  const giscusBtn = $("[data-action='giscus-fetch']");
+  const giscusOut = $("[data-giscus-out]");
+  if (giscusBtn && giscusOut) {
+    giscusBtn.addEventListener("click", async function () {
+      const sid = getSid();
+      if (!sid) { alert("Đăng nhập trước"); return; }
+      giscusBtn.disabled = true;
+      giscusOut.hidden = false;
+      giscusOut.textContent = "Đang query GraphQL...";
+      try {
+        const res = await fetch(AUTH_API + "/cms/giscus/setup", {
+          headers: { "Authorization": "Bearer " + sid },
+          credentials: "omit",
+        });
+        const data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+          giscusOut.textContent = "❌ " + (data.detail || "Lỗi: kiểm tra Discussions đã bật + Giscus app installed chưa.");
+          return;
+        }
+        const s = data.suggested || {};
+        const snippet =
+          "[extra.giscus]\n" +
+          'repo        = "Banhang-Chogao/zola"\n' +
+          'repo_id     = "' + (s.repo_id || "") + '"\n' +
+          'category    = "' + (s.category || "General") + '"\n' +
+          'category_id = "' + (s.category_id || "") + '"';
+        giscusOut.textContent = snippet + "\n\n# Copy block trên paste vào config.toml + push";
+      } catch (e) {
+        giscusOut.textContent = "❌ Network error: " + e.message;
+      } finally {
+        giscusBtn.disabled = false;
+      }
+    });
+  }
+
   // ============= INIT =============
   async function init() {
     consumeUrlHashSid();
