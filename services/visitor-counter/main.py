@@ -354,28 +354,117 @@ async def require_session(authorization: str) -> dict:
     return json.loads(raw)
 
 
-# ============= TMDB Movies =============
+# ============= IMDB (via public scraper proxy) =============
+# Walker linh hoạt parse mọi JSON shape — không lock vào schema cụ thể.
+# Chấp nhận response dạng list of dict, hoặc nested {results|data|description}.
+_IMDB_TITLE_KEYS  = ("title", "Title", "name", "originalTitle", "imdbTitle", "displayName", "l")
+_IMDB_LINK_KEYS   = ("link", "url", "imdbUrl", "imdbId", "id", "imdbID")
+_IMDB_DESC_KEYS   = ("description", "plot", "Plot", "summary", "synopsis", "overview", "intro", "s")
+_IMDB_POSTER_KEYS = ("image", "poster", "Poster", "imageUrl", "image_url", "primaryImage",
+                     "thumbnail", "i", "img")
+_IMDB_RATING_KEYS = ("rating", "imdbRating", "imDbRating", "Rating", "score", "averageRating",
+                     "aggregateRating", "vote_average", "r")
+_IMDB_DATE_KEYS   = ("year", "Year", "releaseDate", "release_date", "datePublished", "y")
+
+
+def _first_str(obj: dict, keys) -> str:
+    for k in keys:
+        v = obj.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+        if isinstance(v, (int, float)):
+            return str(v)
+    return ""
+
+
+def _first_image(obj: dict, base_url: str) -> str:
+    """Image có thể là string URL, dict {url|imageUrl}, hoặc nested object."""
+    for k in _IMDB_POSTER_KEYS:
+        v = obj.get(k)
+        if isinstance(v, str) and v.strip():
+            return _normalize_link(v.strip(), base_url)
+        if isinstance(v, dict):
+            url = v.get("url") or v.get("imageUrl") or v.get("src") or ""
+            if isinstance(url, str) and url.strip():
+                return _normalize_link(url.strip(), base_url)
+    return ""
+
+
+def _imdb_link_for(obj: dict) -> str:
+    """Compose IMDB URL từ id 'tt0123456' nếu chưa có link full."""
+    raw = _first_str(obj, _IMDB_LINK_KEYS)
+    if not raw:
+        return ""
+    if raw.startswith(("http://", "https://")):
+        return raw
+    if raw.startswith("/"):
+        return "https://www.imdb.com" + raw
+    # IMDB ID format 'tt0123456' → construct URL
+    if re.match(r"^tt\d{6,}$", raw):
+        return f"https://www.imdb.com/title/{raw}/"
+    return ""
+
+
+def _extract_imdb_items(node, items: list, base_url: str, depth: int = 0) -> None:
+    """Walk JSON tìm objects có shape title+link → push items, cap 10."""
+    if depth > 6 or len(items) >= 10:
+        return
+
+    if isinstance(node, list):
+        for child in node:
+            if isinstance(child, dict):
+                title = _first_str(child, _IMDB_TITLE_KEYS)
+                link  = _imdb_link_for(child)
+                if title and link and len(title) >= 2:
+                    rating_raw = _first_str(child, _IMDB_RATING_KEYS)
+                    rating = ""
+                    if rating_raw:
+                        try:
+                            rating = f"{float(rating_raw):.1f}"
+                        except (TypeError, ValueError):
+                            rating = rating_raw[:5]
+                    items.append({
+                        "title":     title[:300],
+                        "link":      link,
+                        "summary":   _first_str(child, _IMDB_DESC_KEYS)[:500],
+                        "published": _first_str(child, _IMDB_DATE_KEYS)[:50],
+                        "thumbnail": _first_image(child, base_url),
+                        "rating":    rating,
+                    })
+                    if len(items) >= 10:
+                        return
+            _extract_imdb_items(child, items, base_url, depth + 1)
+    elif isinstance(node, dict):
+        # Ưu tiên các key chứa array results trước (description, results, data)
+        for prio_key in ("description", "results", "data", "items", "movies", "titles"):
+            v = node.get(prio_key)
+            if isinstance(v, list):
+                _extract_imdb_items(v, items, base_url, depth + 1)
+                if len(items) >= 10:
+                    return
+        # Sau đó walk các giá trị còn lại
+        for k, v in node.items():
+            if k in ("description", "results", "data", "items", "movies", "titles"):
+                continue
+            _extract_imdb_items(v, items, base_url, depth + 1)
+            if len(items) >= 10:
+                return
+
+
 @app.get("/api/movies")
-async def tmdb_movies():
+async def imdb_movies():
     """
-    Trả 10 phim phổ biến từ TMDB. Primary language=vi-VN, fallback en-US
-    cho movie có overview rỗng. Redis cache 24h tránh hit rate limit TMDB
-    (40 req/10s free tier).
+    Trả tối đa 10 phim từ IMDB scraper proxy (imdb.iamidiotareyoutoo.com).
+    Endpoint configurable qua IMDB_API_URL env var — đổi không cần redeploy.
 
-    Public endpoint — không cần auth, trả empty + error nếu fail.
+    Walker linh hoạt: chấp nhận response JSON dạng list-of-dict hoặc nested
+    {description: [...]} / {results: [...]} → fields title/link/desc/poster/
+    rating được match qua list synonym → không lock schema.
+
+    Redis cache 24h. Lỗi → graceful degrade items=[].
     """
-    if not TMDB_API_KEY:
-        return {
-            "source": "TMDB",
-            "title": "Phim phổ biến — TMDB",
-            "count": 0,
-            "items": [],
-            "from_cache": False,
-            "error": "tmdb_not_configured",
-        }
-
     r = await get_redis()
-    cache_key = "tmdb:movies:popular:vi"
+    cache_key = f"imdb:movies:{hash(IMDB_API_URL) & 0xffffffff:x}"
     cached = await r.get(cache_key)
     if cached:
         try:
@@ -386,78 +475,39 @@ async def tmdb_movies():
         except json.JSONDecodeError:
             pass
 
-    items = []
+    items: list = []
     try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            headers = {
-                "User-Agent": "blog-backend/2.1",
-                "Accept": "application/json",
-            }
-            primary = await client.get(
-                "https://api.themoviedb.org/3/movie/popular",
-                params={
-                    "api_key": TMDB_API_KEY,
-                    "language": "vi-VN",
-                    "region":   "VN",
-                    "page":     1,
-                },
-                headers=headers,
-            )
-            primary.raise_for_status()
-            pdata = primary.json()
-            top10 = (pdata.get("results") or [])[:10]
-
-            # Fallback en-US chỉ fetch khi có movie thiếu overview
-            empty_ids = {m.get("id") for m in top10 if not (m.get("overview") or "").strip()}
-            en_map = {}
-            if empty_ids:
-                en = await client.get(
-                    "https://api.themoviedb.org/3/movie/popular",
-                    params={"api_key": TMDB_API_KEY, "language": "en-US", "page": 1},
-                    headers=headers,
-                )
-                if en.status_code == 200:
-                    for m in (en.json().get("results") or []):
-                        if m.get("id") in empty_ids:
-                            en_map[m["id"]] = (m.get("overview") or "").strip()
-
-        for m in top10:
-            mid = m.get("id")
-            overview = (m.get("overview") or "").strip() or en_map.get(mid, "")
-            poster = m.get("poster_path") or ""
-            thumb = f"{TMDB_IMG_BASE}{poster}" if poster else ""
-            rating_raw = m.get("vote_average")
-            rating = ""
-            if rating_raw is not None:
-                try:
-                    rating = f"{float(rating_raw):.1f}"
-                except (TypeError, ValueError):
-                    rating = ""
-            items.append({
-                "title":     (m.get("title") or m.get("original_title") or "")[:300],
-                "link":      f"https://www.themoviedb.org/movie/{mid}" if mid else "",
-                "summary":   overview[:500],
-                "published": (m.get("release_date") or "")[:50],
-                "thumbnail": thumb,
-                "rating":    rating,
-            })
+        async with httpx.AsyncClient(
+            timeout=20.0,
+            follow_redirects=True,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                              "AppleWebKit/537.36 (KHTML, like Gecko) "
+                              "Chrome/131.0.0.0 Safari/537.36",
+                "Accept": "application/json, */*;q=0.9",
+            },
+        ) as client:
+            res = await client.get(IMDB_API_URL)
+        res.raise_for_status()
+        data = res.json()
+        _extract_imdb_items(data, items, "https://www.imdb.com")
     except Exception:
         return {
-            "source": "TMDB",
-            "title": "Phim phổ biến — TMDB",
-            "count": 0,
-            "items": [],
+            "source":     "IMDB",
+            "title":      "Tin tức Điện ảnh — IMDB",
+            "count":      0,
+            "items":      [],
             "from_cache": False,
-            "error": "fetch_failed",
+            "error":      "fetch_failed",
         }
 
     payload = {
-        "source": "TMDB",
-        "title":  "Phim phổ biến — TMDB",
+        "source": "IMDB",
+        "title":  "Tin tức Điện ảnh — IMDB",
         "count":  len(items),
         "items":  items,
     }
-    ttl = TMDB_CACHE_TTL if items else 300
+    ttl = IMDB_CACHE_TTL if items else 300
     await r.setex(cache_key, ttl, json.dumps(payload, ensure_ascii=False))
     payload["from_cache"] = False
     return payload
@@ -719,11 +769,16 @@ CURATED_FEEDS = {
 
 NEWS_CACHE_TTL = int(os.getenv("NEWS_CACHE_TTL", "1800"))  # 30 phút default cho RSS
 
-# TMDB (themoviedb.org) API config. Lấy free key tại
-# https://www.themoviedb.org/settings/api → v3 auth.
-TMDB_API_KEY    = os.getenv("TMDB_API_KEY", "")
-TMDB_CACHE_TTL  = int(os.getenv("TMDB_CACHE_TTL", "86400"))  # 24h — phim phổ biến thay đổi chậm
-TMDB_IMG_BASE   = "https://image.tmdb.org/t/p/w500"
+# IMDB scraper proxy (free public service) cho /api/movies.
+# Docs: https://imdb.iamidiotareyoutoo.com/docs/index.html
+# URL endpoint có thể đổi qua env mà không cần redeploy code.
+# Default = search query 'trending' — nếu service có endpoint khác cho
+# popular/top, set IMDB_API_URL trên Render.
+IMDB_API_URL    = os.getenv(
+    "IMDB_API_URL",
+    "https://imdb.iamidiotareyoutoo.com/search?q=trending",
+)
+IMDB_CACHE_TTL  = int(os.getenv("IMDB_CACHE_TTL", "86400"))  # 24h
 
 # User-Agent giả lập browser thật. Trip.com block requests không có UA
 # rõ ràng. KHÔNG fake quá nhiều header → một số site detect inconsistency.
@@ -1260,6 +1315,6 @@ async def root():
             "GET  /api/check-rss":"Parse RSS feed (auth required)",
             "GET  /api/news/{slug}":"Curated news (Redis cached, public)",
             "POST /cms/save-post":"Publish post lên blog GitHub (auth required)",
-            "GET  /api/movies":"TMDB popular movies (Redis cached 24h, public)",
+            "GET  /api/movies":"IMDB movies via scraper proxy (Redis cached 24h, public)",
         },
     }

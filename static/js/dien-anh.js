@@ -114,10 +114,10 @@
         credentials: "omit",
         cache: "no-store",
       });
-      if (!res.ok) { showError("TMDB"); return; }
+      if (!res.ok) { showError("IMDB"); return; }
       const data = await res.json();
       if (data.error || !data.items || !data.items.length) {
-        showError(data.source || "TMDB");
+        showError(data.source || "IMDB");
         return;
       }
       showCards(data);
