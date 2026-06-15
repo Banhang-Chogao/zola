@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Dynamic Theme Switching — BrandingX ↔ Z-X (4 layer CSS/JS/UI/QA)",
+      "tag": "chore",
+      "pr": 129,
+      "lines_added": 409,
+      "lines_removed": 42,
+      "highlights": [
+        "--c-bg-page / --c-bg-surface / --c-bg-soft",
+        "--c-text-heading / --c-text-body / --c-text-muted",
+        "--c-accent / --c-accent-hover / --c-accent-soft",
+        "--c-decoration (tag/promo color)",
+        "--c-border / --c-border-strong"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Phần 2/2 Z-X: thêm sass/_zx.scss đầy đủ + wire vào site.scss",
       "tag": "chore",
       "pr": 128,
