@@ -52,11 +52,12 @@
        frame-ancestors 'none': chống clickjacking, /editor/ không thể iframe. #}
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
-        script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com;
+        script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
         connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://*.onrender.com https://*.railway.app;
+        frame-src https://giscus.app;
         frame-ancestors 'none';
         base-uri 'self';
         form-action 'self';

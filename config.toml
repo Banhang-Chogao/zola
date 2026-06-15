@@ -59,6 +59,19 @@ menu = [
 # Khi có, GA tracking script sẽ tự load trên mọi page.
 ga_measurement_id = "G-K9DXHPPGGR"
 
+# ============= GISCUS COMMENTS (GitHub Discussions) =============
+# Setup:
+#   1. Settings → Features → bật Discussions cho repo
+#   2. Install app https://github.com/apps/giscus
+#   3. Vào https://giscus.app → chọn repo Banhang-Chogao/zola
+#      → copy 2 ID dán vào dưới
+# Để trống repo_id hoặc category_id = macro silent skip, không render comment box.
+[extra.giscus]
+repo        = "Banhang-Chogao/zola"
+repo_id     = ""
+category    = "General"
+category_id = ""
+
 # Visitor counter backend URL — để trống cho đến khi deploy
 # services/visitor-counter/ lên Render hoặc Railway. Khi có URL,
 # meta tag + script + footer span sẽ tự bật. Xem

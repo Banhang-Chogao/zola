@@ -426,3 +426,50 @@
   }
 }
 
+/* ============= GISCUS COMMENTS SECTION ============= */
+.giscus-section {
+  margin: 2.5rem 0 1rem;
+
+  &__head {
+    border-bottom: 2px solid #0f172a;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    display: inline-block;
+    margin: 0;
+    padding: 0.7rem 1.25rem;
+    background: #0f172a;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+  }
+
+  &__sub {
+    margin: 0 0 0.5rem;
+    font-size: 0.82rem;
+    color: #64748b;
+    font-style: italic;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.giscus-wrapper {
+  /* Giscus tự render iframe responsive — cho padding nhẹ + min-height
+     placeholder để layout không nhảy khi script load lazy */
+  min-height: 200px;
+  padding: 0 0.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .giscus-section__head { border-bottom-color: #cbd5e1; }
+  .giscus-section__title { background: #cbd5e1; color: #0f172a; }
+  .giscus-section__sub { color: #94a3b8; }
+}
+
