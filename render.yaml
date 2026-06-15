@@ -60,3 +60,8 @@ services:
         sync: false
       - key: GH_CLIENT_SECRET
         sync: false
+      # TMDB API key — lấy free tại
+      # https://www.themoviedb.org/settings/api (v3 auth). Để trống nếu
+      # không dùng /api/movies → endpoint sẽ trả error 'tmdb_not_configured'.
+      - key: TMDB_API_KEY
+        sync: false
