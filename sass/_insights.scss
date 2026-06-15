@@ -2,10 +2,23 @@
 /* 2-column layout: timeline PR list trái + Overview stats phải.
    Mô phỏng UI github.com/repo/pulse?period=weekly với palette blog. */
 
+/* Insights page = full-bleed: bỏ sidebar slot + nới max-width container.
+   - .layout-grid:has(.insights) → kill right column (340px sidebar) → main
+     column chiếm 100% container width
+   - main.container có chứa .insights → nâng max-width từ 1280 → 1800px
+     gấp đôi diện tích usable so với bản constrained cũ */
+.layout-grid:has(.insights) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+main.container:has(.insights) {
+  max-width: 1800px;
+}
+
 .insights {
-  max-width: 1100px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0;
 }
 
 .insights__period {
@@ -38,8 +51,10 @@
 
 .insights__grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 1.5rem;
+  /* Wider canvas: cho timeline rộng hơn (2fr) để PR title không xuống dòng
+     gấp, Overview side giữ ~1fr cho cards. Gap nới ra 2rem cho breathing. */
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
 }
 
 /* ============= LEFT: Timeline ============= */
@@ -362,17 +377,33 @@
 }
 
 /* ============= RESPONSIVE ============= */
-@media (max-width: 960px) {
+/* Tablet (≤1100px): timeline + overview stack vertical, sidebar đã bỏ
+   từ layout-grid:has(.insights) nên 1fr full width. */
+@media (max-width: 1100px) {
   .insights__grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 }
 
 @media (max-width: 640px) {
-  .insights__period-range { font-size: 1.2rem; }
+  main.container:has(.insights) { padding: 0 14px; }
+  .insights__period-range { font-size: 1.15rem; }
+  .insights__period { gap: 0.5rem; margin-bottom: 1rem; }
   .insights__stats-grid { grid-template-columns: 1fr 1fr; }
   .insights__bottom { grid-template-columns: 1fr; }
   .insights__left { padding: 1rem 1.1rem; }
+  .insights__active { padding: 0.85rem 1rem; }
+  .insights__pr-title { font-size: 0.88rem; }
+}
+
+@media (max-width: 380px) {
+  /* Phone hẹp: stat 1 hàng 1 card cho dễ đọc thay vì 2x2 chen chúc */
+  .insights__stats-grid { grid-template-columns: 1fr; }
+  .insights__stat {
+    border-right: 0 !important;
+    &:not(:last-child) { border-bottom: 1px solid #d0d7de; }
+  }
 }
 
 /* ============= DARK MODE ============= */
