@@ -450,6 +450,29 @@
   &[hidden] { display: none; }
 }
 
+.editor-preview__warn {
+  color: #b91c1c;
+  background: #fef2f2;
+  padding: 0.5rem 0.75rem;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  font-style: italic;
+  display: block;
+  margin: 0 0 0.75rem;
+}
+
+.editor-preview__raw {
+  background: #fafafa;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
 .editor-preview {
   padding: 1.25rem 1.5rem;
   min-height: 320px;
