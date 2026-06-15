@@ -471,6 +471,16 @@
             </div>
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
+                {# GA status pill — responsive, hiển thị state tracking. #}
+                {% if config.extra.ga_measurement_id %}
+                <span class="ga-status ga-status--active" title="Google Analytics đang tracking — Measurement ID: {{ config.extra.ga_measurement_id }}">
+                    📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
+                </span>
+                {% else %}
+                <span class="ga-status ga-status--pending" title="Chưa cấu hình Google Analytics — sửa config.toml ga_measurement_id để bật">
+                    ⏳ ĐANG CHỜ MEASUREMENT ID
+                </span>
+                {% endif %}
             </div>
             <div class="site-footer__right">
                 <a href="{{ config.base_url | safe }}/stats/" class="site-footer__stats-link"
@@ -493,8 +503,8 @@
 
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====
        Đặt ngay trước </body> thay vì <head> → KHÔNG block initial paint.
-       Auto-load chỉ khi config.extra.ga_measurement_id có giá trị.
-       Sửa MEASUREMENT_ID bằng cách điền config.toml [extra] ga_measurement_id. #}
+       Khi ga_measurement_id rỗng → script PLACEHOLDER với chuỗi
+       'ĐANG CHỜ MEASUREMENT ID' để user dễ tìm + thay sau. #}
     {% if config.extra.ga_measurement_id %}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>
     <script>
@@ -502,6 +512,16 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', '{{ config.extra.ga_measurement_id }}');
+    </script>
+    {% else %}
+    <!-- Google Analytics 4 — chưa active, đang chờ MEASUREMENT ID -->
+    <script>
+        // Sửa MEASUREMENT_ID dưới đây với ID thật từ
+        // https://analytics.google.com → Admin → Data Streams → Web stream
+        // → Measurement ID dạng "G-XXXXXXXXXX". Sau đó set vào
+        // config.toml [extra] ga_measurement_id để Tera auto-bake.
+        const GA_MEASUREMENT_ID = 'ĐANG CHỜ MEASUREMENT ID';
+        console.info('[GA4] ' + GA_MEASUREMENT_ID + ' — set config.toml ga_measurement_id để bật tracking');
     </script>
     {% endif %}
 </body>
