@@ -23,10 +23,15 @@
 {% if commits and commits.0 and commits.0.sha %}
     {% set_global latest_commit = commits.0 %}
     {% set now_ts = now(timestamp=true) %}
-    {% set today_start = now_ts - (now_ts % 86400) %}
+    {# Day boundary tính theo giờ Việt Nam (UTC+7) thay vì UTC. Trước đây
+       today_start = UTC midnight = 07:00 VN → user VN tính 'hôm nay' sai 7h. #}
+    {% set vn_offset = 25200 %}
+    {% set today_start = now_ts - ((now_ts + vn_offset) % 86400) %}
     {% set week_ago = now_ts - 604800 %}
     {% for c in commits %}
-        {% set ts = c.commit.author.date | date(format="%s") | int %}
+        {# committer.date = khi commit landed trên branch (chính xác hơn
+           author.date với cherry-pick / rebase đẩy author.date về quá khứ). #}
+        {% set ts = c.commit.committer.date | date(format="%s") | int %}
         {% if ts >= today_start %}{% set_global today_count = today_count + 1 %}{% endif %}
         {% if ts >= week_ago %}{% set_global week_count = week_count + 1 %}{% endif %}
     {% endfor %}
@@ -164,9 +169,12 @@
                         </div>
                         <div class="header-github__side">
                             <span class="header-github__brand">⌘ GitHub</span>
-                            <span class="header-github__clock" title="Thời điểm commit được push">
+                            <span class="header-github__clock" title="Thời điểm commit lên main (giờ Việt Nam UTC+7)">
                                 {%- if latest_commit -%}
-                                    {{ latest_commit.commit.author.date | date(format="%H:%M %d/%m/%Y") }}
+                                    {# committer.date = khi commit được apply lên branch (chính xác hơn
+                                       author.date trong case cherry-pick/rebase). Timezone Asia/Ho_Chi_Minh
+                                       để khớp giờ user Việt Nam — trước đây hiển thị UTC bị lệch 7h. #}
+                                    {{ latest_commit.commit.committer.date | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
                                 {%- else -%}
                                     --:-- --/--/----
                                 {%- endif -%}
