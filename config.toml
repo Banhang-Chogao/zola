@@ -42,7 +42,7 @@ ga_measurement_id = "G-K9DXHPPGGR"
 # services/visitor-counter/ lên Render hoặc Railway. Khi có URL,
 # meta tag + script + footer span sẽ tự bật. Xem
 # services/visitor-counter/README.md để deploy.
-visitor_api_url = ""
+visitor_api_url = "https://blog-visitor-api.onrender.com"
 
 # CMS auth backend URL — nếu deploy auth tách khỏi visitor counter.
 # Để trống = reuse visitor_api_url (cùng service FastAPI mở rộng).
