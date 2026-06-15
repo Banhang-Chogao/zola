@@ -11,34 +11,40 @@
 
 {% block main %}
     <div class="editor-app" id="editor-app">
-        {# ===== LOGIN VIEW ===== #}
+        {# ===== OTP MODAL (replace PAT login form) =====
+           Khi vào /editor/, modal phủ giữa màn hình yêu cầu mã OTP 4 số.
+           Pass mã → showView('list'). Mã sai → clear input + error message.
+           Trạng thái OTP lưu trong sessionStorage (không localStorage, không
+           cookies) → đóng tab/trình duyệt là mất, phải nhập lại. #}
         <section class="editor-view" data-view="login">
-            <header class="section-header"><h2 class="section-header__title">ĐĂNG NHẬP CMS</h2></header>
-
-            <div class="editor-card">
-                <h3>Cần GitHub Personal Access Token để viết bài</h3>
-                <p class="editor-help">
-                    Token sẽ được lưu trong <strong>trình duyệt này</strong> (localStorage)
-                    để CMS có thể đẩy file <code>.md</code> trực tiếp vào repo. Không gửi đi đâu khác.
-                </p>
-
-                <details class="editor-help">
-                    <summary><strong>Cách tạo token (1 lần, ~2 phút)</strong></summary>
-                    <ol>
-                        <li>Mở <a href="https://github.com/settings/tokens/new?scopes=repo&description=Blog%20CMS" target="_blank">GitHub → Settings → Developer settings → Personal access tokens → New token (classic)</a></li>
-                        <li><strong>Note</strong>: <code>Blog CMS</code></li>
-                        <li><strong>Expiration</strong>: 90 days (hoặc No expiration nếu chấp nhận rủi ro)</li>
-                        <li><strong>Scopes</strong>: tick <code>repo</code> (full control of repositories)</li>
-                        <li>Click <strong>Generate token</strong> → copy chuỗi <code>ghp_xxxxxxxx...</code></li>
-                        <li>Dán vào ô dưới đây</li>
-                    </ol>
-                </details>
-
-                <form data-form="login" autocomplete="off">
-                    <label class="editor-label">GitHub Personal Access Token</label>
-                    <input type="password" name="token" placeholder="ghp_..." class="editor-input" required>
-                    <button type="submit" class="editor-btn editor-btn--primary">Lưu &amp; vào CMS</button>
-                </form>
+            <div class="editor-otp" role="dialog" aria-modal="true" aria-labelledby="otp-title">
+                <div class="editor-otp__modal">
+                    <h2 class="editor-otp__title" id="otp-title">Xác thực CMS</h2>
+                    <p class="editor-otp__sub">Nhập mã OTP 4 số để vào trình soạn thảo</p>
+                    <form data-form="otp" autocomplete="off" novalidate>
+                        <input
+                            type="password"
+                            name="otp"
+                            class="editor-otp__input"
+                            autocomplete="off"
+                            autocorrect="off"
+                            autocapitalize="off"
+                            spellcheck="false"
+                            data-lpignore="true"
+                            data-1p-ignore="true"
+                            data-bwignore="true"
+                            data-form-type="other"
+                            maxlength="4"
+                            inputmode="numeric"
+                            pattern="[0-9]{4}"
+                            placeholder="••••"
+                            required
+                            autofocus
+                            aria-label="Mã OTP 4 chữ số">
+                        <button type="submit" class="editor-btn editor-btn--primary editor-otp__submit">Xác thực</button>
+                        <p class="editor-otp__msg" data-otp-msg role="status" aria-live="polite"></p>
+                    </form>
+                </div>
             </div>
         </section>
 

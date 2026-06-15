@@ -4,6 +4,94 @@
   font-family: $font-body;
 }
 
+/* ============= OTP MODAL (auth gate) ============= */
+/* Overlay phủ giữa màn hình, nhận 4 số → setOtpPassed + enterDashboard.
+   Input type=password + autocomplete=off + data-lpignore + data-1p-ignore
+   để chặn password manager autofill (Bitwarden / 1Password / LastPass). */
+.editor-otp {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.editor-otp__modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem 2.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  animation: editor-otp-pop .18s ease-out;
+}
+
+@keyframes editor-otp-pop {
+  from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);   }
+}
+
+.editor-otp__title {
+  margin: 0 0 0.4rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.editor-otp__sub {
+  margin: 0 0 1.5rem;
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+.editor-otp__input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 1.65rem;
+  letter-spacing: 0.55rem;
+  text-align: center;
+  font-family: $font-mono;
+  font-weight: 700;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #111;
+  transition: all .15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #1572bd;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(21, 114, 189, 0.15);
+  }
+}
+
+.editor-otp__submit {
+  width: 100%;
+  margin-top: 0.85rem;
+  padding: 0.7rem 1rem;
+  justify-content: center;
+}
+
+.editor-otp__msg {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  min-height: 1.2em;
+  color: #64748b;
+
+  &--error {
+    color: #b91c1c;
+    font-weight: 600;
+  }
+}
+
 .editor-view {
   &[hidden] { display: none; }
 }

@@ -19,13 +19,22 @@
   const CONTENT_DIR = "content/posting";
   const API = "https://api.github.com";
 
-  const TOKEN_KEY = "zola-cms-token";
+  /* ============= AUTH (OTP + JIT PAT) =============
+     OTP_CODE = mã cố định 4 số mở UI editor. sessionStorage flag — đóng tab
+     là mất, phải nhập lại. KHÔNG dùng localStorage hay cookies.
+     PAT (GitHub Personal Access Token) cần cho API call save/edit/delete →
+     prompt JIT lần đầu cần. PAT chỉ giữ trong memory (biến `pat`), reload
+     page là mất, prompt lại khi gọi API tiếp. */
+  const OTP_CODE = "0512";
+  const OTP_SESSION_KEY = "zola-cms-otp-ok";
+
+  let pat = null; // in-memory only — không bao giờ persist
+
   const root = document.getElementById("editor-app");
   if (!root) return;
 
   // ============= STATE & UTIL =============
   let state = {
-    token: localStorage.getItem(TOKEN_KEY) || null,
     posts: [],          // unified display list: { slug, title, date, category, featured, isNew? }
     bakeMetadata: [],   // raw bake từ <script id="posts-metadata">, immutable trong session
     editing: null,      // { path, sha, wasFeatured, featuredAt }
@@ -156,22 +165,42 @@
   }
 
   // ============= API CALLS =============
+
+  /* Prompt PAT JIT — chỉ hỏi khi cần (1st save/edit/delete trong session).
+     PAT chỉ giữ memory, reload page là mất. User phải copy lại từ
+     password manager mỗi lần reload — đỡ rủi ro để PAT mò ra localStorage. */
+  function promptForPat() {
+    const token = window.prompt(
+      "Cần GitHub PAT để gọi API GitHub (KHÔNG lưu localStorage, mất khi reload).\n" +
+      "Tạo tại https://github.com/settings/tokens (scope 'repo'):"
+    );
+    if (!token) return null;
+    const trimmed = token.trim();
+    if (!trimmed.startsWith("ghp_") && !trimmed.startsWith("github_pat_")) {
+      alert("Token sai format. Cần bắt đầu bằng 'ghp_' hoặc 'github_pat_'.");
+      return null;
+    }
+    return trimmed;
+  }
+
   async function api(path, opts) {
+    if (!pat) {
+      pat = promptForPat();
+      if (!pat) throw new Error("Hủy — cần PAT để gọi GitHub API");
+    }
     opts = opts || {};
     const res = await fetch(API + path, {
       ...opts,
       headers: {
         Accept: "application/vnd.github+json",
-        Authorization: "token " + state.token,
+        Authorization: "token " + pat,
         "X-GitHub-Api-Version": "2022-11-28",
         ...(opts.headers || {}),
       },
     });
     if (res.status === 401) {
-      localStorage.removeItem(TOKEN_KEY);
-      state.token = null;
-      showView("login");
-      throw new Error("Token không hợp lệ — vui lòng đăng nhập lại");
+      pat = null; // clear bad PAT, prompt lại lần sau
+      throw new Error("PAT không hợp lệ — nhập lại khi gọi tiếp");
     }
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
@@ -318,17 +347,36 @@ tags = ${tagsStr}
     return fmText + body;
   }
 
-  // ============= LOGIN =============
-  $("[data-form='login']").addEventListener("submit", (e) => {
+  // ============= OTP GATE =============
+  function isOtpPassed() {
+    try { return sessionStorage.getItem(OTP_SESSION_KEY) === "1"; }
+    catch (e) { return false; }
+  }
+  function setOtpPassed() {
+    try { sessionStorage.setItem(OTP_SESSION_KEY, "1"); } catch (e) {}
+  }
+  function clearOtpSession() {
+    try { sessionStorage.removeItem(OTP_SESSION_KEY); } catch (e) {}
+  }
+
+  $("[data-form='otp']").addEventListener("submit", (e) => {
     e.preventDefault();
-    const token = e.target.token.value.trim();
-    if (!token.startsWith("ghp_") && !token.startsWith("github_pat_")) {
-      alert("Token không đúng format. Token bắt đầu bằng 'ghp_' hoặc 'github_pat_'.");
-      return;
+    const input = e.target.otp;
+    const code = String(input.value || "").trim();
+    const msgEl = $("[data-otp-msg]");
+    if (code === OTP_CODE) {
+      setOtpPassed();
+      input.value = "";
+      if (msgEl) { msgEl.textContent = ""; msgEl.className = "editor-otp__msg"; }
+      enterDashboard();
+    } else {
+      if (msgEl) {
+        msgEl.textContent = "Mã không đúng. Thử lại.";
+        msgEl.className = "editor-otp__msg editor-otp__msg--error";
+      }
+      input.value = "";
+      input.focus();
     }
-    state.token = token;
-    localStorage.setItem(TOKEN_KEY, token);
-    enterDashboard();
   });
 
   let bakeLoaded = false;
@@ -407,10 +455,12 @@ tags = ${tagsStr}
   }
 
   $("[data-action='logout']").addEventListener("click", () => {
-    if (!confirm("Đăng xuất + xoá token khỏi trình duyệt?")) return;
-    localStorage.removeItem(TOKEN_KEY);
-    state.token = null;
+    if (!confirm("Khoá phiên CMS? (cần nhập OTP lại để vào)")) return;
+    clearOtpSession();
+    pat = null;
     showView("login");
+    const otpInput = $("[data-form='otp'] [name='otp']");
+    if (otpInput) otpInput.focus();
   });
 
   $("[data-action='new']").addEventListener("click", () => openEditor(null));
@@ -1255,11 +1305,11 @@ tags = ${tagsStr}
   setEditorMode(getInitialMode());
 
   // ============= URL PARAM HANDLING =============
-  // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola
+  // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola — yêu cầu OTP pass trước
   function checkUrlParam() {
     const params = new URLSearchParams(location.search);
     const slug = params.get("slug");
-    if (slug && state.token) {
+    if (slug && isOtpPassed()) {
       const path = CONTENT_DIR + "/" + slug + ".md";
       openEditor(path);
       return true;
@@ -1268,7 +1318,10 @@ tags = ${tagsStr}
   }
 
   // ============= INIT =============
-  if (state.token) {
+  // OTP đã pass trong sessionStorage (cùng tab) → vào dashboard ngay.
+  // Chưa pass → show OTP modal. Tab close → sessionStorage clear → phải
+  // nhập lại OTP mỗi lần vào lại.
+  if (isOtpPassed()) {
     if (!checkUrlParam()) enterDashboard();
   } else {
     showView("login");
