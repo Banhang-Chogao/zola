@@ -533,7 +533,7 @@
                    fallback (Tera KHÔNG support {k:v} syntax). #}
                 {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
                 {% if ga_stats %}
-                {% set is_demo = ga_stats._status == "waiting_for_secret" %}
+                {% set is_demo = ga_stats._status | default(value="") == "waiting_for_secret" %}
                 <div class="ga-stats{% if is_demo %} ga-stats--demo{% endif %}">
                     <header class="ga-stats__head">
                         <h4 class="ga-stats__title">📊 GOOGLE ANALYTICS STATS</h4>
