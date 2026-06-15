@@ -24,6 +24,23 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 ## 2. Phím tắt (Shortcuts)
 
+### `help` — Hiển thị danh sách tất cả phím tắt active
+
+Khi user gõ `help` (hoặc `/help`), Claude output bảng tóm tắt tất cả
+shortcuts hiện có trong file này với mô tả ngắn ≤1 dòng/shortcut.
+
+Format bắt buộc:
+
+| Shortcut | Mục đích |
+|---|---|
+| `gg` | Merge open PRs to production |
+| `ad` | Full blog audit (perf+sec+seo+a11y) |
+| `ff` | Full Fix & Deploy comprehensive |
+| ... | ... |
+
+Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
+`/shortcuts.md`"). KHÔNG diễn giải dài, chỉ liệt kê.
+
 ### `gg` — Deploy to production
 
 Hành động:
