@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Mobile UX Threads-feel: frosted navbar + tap feedback + smooth scroll",
+      "tag": "chore",
+      "pr": 76,
+      "lines_added": 512,
+      "lines_removed": 6,
+      "highlights": [
+        "background: rgba(17, 17, 17, 0.88) thay solid #111",
+        "backdrop-filter: saturate(180%) blur(14px) → trong suốt subtle, blur content phía dưới khi scroll",
+        "Fallback solid nếu browser không support (Firefox < 103) → vẫn đẹp",
+        "Shadow 2 lớp: viền sáng 1px trên + bóng đổ dưới → depth giống iOS header",
+        "scroll-behavior: smooth cho mọi anchor link"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Bulk Delete posts (GraphQL 1-commit batch + AJAX modal UI)",
       "tag": "remove",
       "pr": 75,
