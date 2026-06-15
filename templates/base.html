@@ -439,6 +439,43 @@
                 </div>
             </div>
         </div>
+        {# ===== TAG CLOUD ===== #}
+        {# Render build-time từ get_taxonomy(tags). Mỗi tag thành pill
+           với color cycle 8 màu + size tier sm/md/lg theo số bài. #}
+        <div class="footer-tags-section">
+            <div class="container">
+                <header class="footer-tags-section__head">
+                    <h3 class="footer-tags-section__title">🏷 TAG CLOUD</h3>
+                    {% set tag_taxo = get_taxonomy(kind="tags") %}
+                    <span class="footer-tags-section__count">{{ tag_taxo.items | length }} tags</span>
+                </header>
+                <div class="footer-tag-cloud">
+                    {% if tag_taxo.items | length > 0 %}
+                        {% set_global tag_max = 1 %}
+                        {% for t in tag_taxo.items %}
+                            {% set cnt = t.pages | length %}
+                            {% if cnt > tag_max %}{% set_global tag_max = cnt %}{% endif %}
+                        {% endfor %}
+                        {% for t in tag_taxo.items %}
+                            {% set cnt = t.pages | length %}
+                            {% set tier = "sm" %}
+                            {% if cnt * 100 >= tag_max * 70 %}{% set tier = "lg" %}
+                            {% elif cnt * 100 >= tag_max * 35 %}{% set tier = "md" %}
+                            {% endif %}
+                            {% set ci = loop.index0 % 8 %}
+                            <a class="tag-pill tag-pill--{{ tier }} tag-pill--c{{ ci }}"
+                               href="{{ t.permalink }}"
+                               title="{{ cnt }} bài viết với tag '{{ t.name }}'">
+                                #{{ t.name }}<span class="tag-pill__count">{{ cnt }}</span>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        <p class="footer-tags-section__empty">Chưa có tag nào.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
         <div class="container site-footer__main">
             <div class="site-footer__left">
                 <a href="{{ config.base_url | safe }}/admin-author/" class="site-footer__author-mgmt"
