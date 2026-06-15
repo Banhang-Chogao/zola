@@ -52,14 +52,31 @@ jobs:
       - name: Build related index
         run: python scripts/build_related.py
 
-      - name: Commit if changed
+      - name: Commit if changed (with race-safe retry)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [[ -n "$(git status --porcelain data/related.json)" ]]; then
-            git add data/related.json
+
+          # Add cả related.json + scores.json (script emit cả 2)
+          if git status --porcelain data/related.json data/scores.json | grep -q .; then
+            git add data/related.json data/scores.json
             git commit -m "Cập nhật: rebuild semantic related posts ($(date +%Y-%m-%d))"
-            git push
           else
             echo "No changes to commit."
+            exit 0
           fi
+
+          # Race-safe push: nếu reject vì non-fast-forward, fetch+rebase+retry
+          # tối đa 3 lần. Bảo vệ race khi PR khác merge song song.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Push thành công attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected attempt $attempt, fetch+rebase main..."
+            git fetch origin main
+            git rebase origin/main || { echo "Rebase conflict, abort"; git rebase --abort; exit 1; }
+            sleep $((attempt * 5))
+          done
+          echo "Push failed sau 3 retry — escalate"
+          exit 1

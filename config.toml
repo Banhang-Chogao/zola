@@ -64,6 +64,13 @@ menu = [
 # Property ID: 541698865 (tham chiếu Admin → Property Settings)
 ga_measurement_id = "G-REFBXH86Z5"
 
+# ============= GOATCOUNTER (visitor count, no backend) =============
+# Free 100k pageviews/tháng, không cookie, không cold-start.
+# Setup: tạo account miễn phí tại https://www.goatcounter.com
+# → code (subdomain) sẽ là "banhang-chogao" hoặc tên bạn chọn
+# → set vào đây để bật. Khi trống = visitor counter ẨN hoàn toàn.
+goatcounter_code = ""
+
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
 #   1. Settings → Features → bật Discussions cho repo
