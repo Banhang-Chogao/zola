@@ -36,10 +36,47 @@ Format bắt buộc:
 | `gg` | Merge open PRs to production |
 | `ad` | Full blog audit (perf+sec+seo+a11y) |
 | `ff` | Full Fix & Deploy comprehensive |
+| `cautruc9` | Show ASCII folder tree của blog |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
 `/shortcuts.md`"). KHÔNG diễn giải dài, chỉ liệt kê.
+
+### `cautruc9` — Show folder structure của blog
+
+Khi user gõ `cautruc9`, Claude render cấu trúc thư mục của repo theo
+format **ASCII tree + emoji icon + inline comment Vietnamese** — kiểu
+gọn-readable như screenshot user đã cung cấp.
+
+**Quy tắc render**:
+
+1. Root = `zola/` (tên repo).
+2. Dùng ký tự ASCII: `├── `, `│   `, `└── ` (không dùng box-drawing
+   Unicode kiểu khác).
+3. Mỗi entry có **emoji icon** prefix hợp ngữ cảnh:
+   - 📁 hoặc thiếu = folder
+   - 📄 = config/markdown text
+   - 🚀 = script shell helper (`push.sh`, `setup-hooks.sh`)
+   - ⚙️ = workflow CI/CD (`.github/workflows/*.yml`)
+   - 🎨 = SCSS / theme tokens
+   - 📝 = CMS / editor
+   - ⚡ = performance / vitals
+   - 🔤 = fonts
+   - 🧮 = converter / tool
+4. Inline `# Vietnamese comment` ≤8 chữ giải thích mục đích mỗi entry
+   quan trọng. KHÔNG comment trên entry trivial (file thường lệ).
+5. **Gom files cùng nhóm** trên 1 dòng để gọn, vd:
+   `_reset.scss / _layout.scss / _navbar.scss`.
+6. **Liệt kê tới depth 2** mặc định (root + 1 lớp con). Nếu folder con
+   quan trọng (`content/`, `templates/`, `sass/`, `static/js/`) → mở
+   thêm 1 lớp nữa.
+7. KHÔNG liệt kê: `node_modules/`, `__pycache__/`, `.git/`, `public/`,
+   `target/`, hidden file trừ `.github/`, `.gitignore`.
+8. Wrap toàn bộ trong code block ```` ``` ```` để monospace align.
+
+**Output cuối**: ≤80 dòng, đọc 1 lần thấy ngay layer build-time
+(Zola: content/templates/sass/data) + runtime (static/js) + external
+(services/.github).
 
 ### `prm` — Merge TẤT CẢ open PRs nhanh nhất + cache bust
 
