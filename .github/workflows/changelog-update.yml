@@ -19,7 +19,7 @@ permissions:
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
-  ACTIONS_RUNNER_HOOK_NODE_PATH: "/usr/bin/node"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update:
