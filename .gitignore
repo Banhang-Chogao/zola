@@ -4,6 +4,14 @@ public/
 __pycache__/
 *.pyc
 
+# Workflow log artifacts — không bao giờ commit
+perf-fix.txt
+perf-scan.txt
+perf-summary.txt
+fix-log.txt
+fixed-summary.txt
+pr-body.md
+
 # Sensitive: never commit tokens/keys
 ghp_*
 *.pem
