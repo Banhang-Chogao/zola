@@ -1,0 +1,58 @@
+name: QA-Failed Auto-Healing
+
+# Trigger: KHI 1 workflow khác kết thúc với status failure.
+# Script qa-failed.py phân tích logs, fix pattern an toàn, push → re-deploy.
+# Pattern không khớp → tạo GitHub issue + escalate cho user.
+
+on:
+  workflow_run:
+    workflows:
+      - "Deploy"
+      - "Performance Audit"
+      - "Build Semantic Related Posts"
+      - "QA Gatekeeper"
+      - "Security Audit"
+      - "Self-Healing QA"
+    types: [completed]
+
+permissions:
+  contents: write
+  issues: write
+  actions: read
+
+concurrency:
+  group: qa-failed-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  heal:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run qa-failed.py
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
+          FAILED_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 qa-failed.py
+          echo "qa-failed exit: $?"
+
+      - name: Upload log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-failed-log-${{ github.event.workflow_run.id }}
+          path: qa-failed.log
+          if-no-files-found: ignore
+          retention-days: 14
