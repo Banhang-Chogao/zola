@@ -322,8 +322,7 @@ blog** mà không cần backend server, không cần GPU runtime, không cần
 trả phí inference per request.
 
 Để xem implementation cụ thể của pipeline này, đọc thêm bài
-[Ngày thứ hai của blog: 100 PR và stack công nghệ tự nâng cấp](/posting/cong-nghe-blog-day-2/)
-và [Hành trình công nghệ ngày đầu](/posting/cong-nghe-blog-duy-nguyen/)
+[Hành trình công nghệ ngày đầu](/posting/cong-nghe-blog-duy-nguyen/)
 để hiểu architecture overall.
 
 Repo gốc: [github.com/UKPLab/sentence-transformers](https://github.com/UKPLab/sentence-transformers).
