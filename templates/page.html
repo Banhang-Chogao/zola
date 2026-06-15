@@ -129,8 +129,10 @@
         {% set root = get_section(path="posting/_index.md") %}
         {% set_global related = [] %}
 
-        {# Semantic: load_data trả {} nếu file trống/missing → safe. #}
-        {% set rel_data = load_data(path="data/related.json", required=false) | default(value={}) %}
+        {# Semantic: required=false → load_data trả false/empty nếu file
+           không tồn tại. Tera KHÔNG support default(value={}) literal dict
+           → check defensive bằng if rel_data thay vì dùng default filter. #}
+        {% set rel_data = load_data(path="data/related.json", required=false) %}
         {% if rel_data and rel_data[current_slug] %}
             {% for entry in rel_data[current_slug] %}
                 {% if related | length < 3 %}
