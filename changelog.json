@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Giscus comments macro + auto light/dark theme",
+      "tag": "chore",
+      "pr": 56,
+      "lines_added": 123,
+      "lines_removed": 35,
+      "highlights": [
+        "templates/macros/giscus.html — macro {% macro comments() %} silent skip nếu config thiếu",
+        "templates/page.html — {% import %} + {{ giscus::comments() }} cuối article (sau Related Articles)",
+        "templates/base.html CSP: script-src + https://giscus.app, frame-src https://giscus.app",
+        "config.toml [extra.giscus]: repo/repo_id/category/category_id",
+        "sass/_single.scss .giscus-section: header pill design system + dark mode adaptive"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Author Box bỏ social + bio Vietnamese 150 từ về công nghệ và du lịch",
       "tag": "chore",
       "pr": 55,
