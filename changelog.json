@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "trang /insights — GitHub Insights 2 cột (timeline + overview)",
+      "tag": "feat",
+      "pr": 35,
+      "lines_added": 609,
+      "lines_removed": 0,
+      "highlights": [
+        "LEFT (60%) — Timeline: PR list từ changelog.json, vertical line gradient + dot tím nhô ra, title link tới PR",
+        "RIGHT (40%) — Overview: Active bar PRs/Issues + 4 stat cards (Merged/Open/Closed/New) + Summary card + Top Committers bar chart",
+        "≤960px: 2 cột → stack 1 cột",
+        "≤640px: stat cards thu nhỏ, bottom cards stack",
+        "Dark mode adaptive qua prefers-color-scheme: dark"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "CMS editor: DRAFT-ONLY mode (bỏ hoàn toàn PAT)",
       "tag": "chore",
       "pr": 34,
