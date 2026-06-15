@@ -35,9 +35,13 @@
        - White-list email check server-side, client KHÔNG bypass được */
 
   const SESSION_KEY = "zola-cms-session-id";
+  // Fallback chain: meta cms-auth → meta visitor-api → hardcode prod URL
   const AUTH_API = (function () {
-    const meta = document.querySelector('meta[name="zola-cms-auth-api"]');
-    return (meta && meta.getAttribute("content")) || "";
+    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
+    if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
+    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
+    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
+    return "https://blog-visitor-api.onrender.com";
   })();
 
   let currentUser = null; // { email, username, name, avatar }
