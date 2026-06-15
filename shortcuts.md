@@ -41,6 +41,36 @@ Format bắt buộc:
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
 `/shortcuts.md`"). KHÔNG diễn giải dài, chỉ liệt kê.
 
+### `prm` — Merge TẤT CẢ open PRs nhanh nhất + cache bust
+
+Override "TẠM NGƯNG AUTO-MERGE" rule — user explicit gọi `prm` =
+quyết định batch merge mọi PR đang open.
+
+**Hành động**:
+1. List tất cả open PRs (`mcp__github__list_pull_requests state=open`)
+2. **Sequential squash merge** từng PR (theo thứ tự tạo)
+3. Sau khi merge hết → trigger deploy đợt cuối (push commit nhẹ vào main)
+4. **Cache bust strategies**:
+   - GitHub Pages tự serve fresh sau deploy (`Cache-Control: max-age=600`)
+   - Site.css đã có hash qua `get_url()` Zola — auto cache bust
+   - Bump version comment trong `config.toml` hoặc `static/version.txt`
+     để force fresh CDN edge
+5. **Hướng dẫn user** clear cache:
+   - **Desktop**: `Ctrl+Shift+R` (Win/Linux) hoặc `Cmd+Shift+R` (Mac)
+   - **iPhone Safari**: Settings → Safari → Clear History and Website Data
+   - **DevTools Network**: tick "Disable cache" → reload
+
+**Output** ngắn ≤100 words:
+
+| PR | Status |
+|---|---|
+| #X | ✅ merged |
+| #Y | ✅ merged |
+| Total | N merged → deploy đang chạy |
+
+Lý do tồn tại `prm` (vs `gg` chỉ list): `prm` là override TỐC ĐỘ.
+Khi user muốn xem feature mới NGAY, không cần check từng PR.
+
 ### `gg` — Deploy to production
 
 Hành động:
