@@ -78,6 +78,19 @@
                     <button type="button" class="editor-btn editor-btn--ghost" data-action="logout" style="margin-left:auto">⏻ Đăng xuất</button>
                 </div>
             </form>
+
+            {# ===== GISCUS SETUP HELPER ===== #}
+            <details class="admin-author-giscus">
+                <summary>🔧 Setup Giscus comments (1 click lấy IDs)</summary>
+                <div class="admin-author-giscus__body">
+                    <p>Yêu cầu: Discussions đã bật + Giscus app đã install vào repo.
+                       Click button → backend query GraphQL → trả IDs sẵn để copy vào <code>config.toml</code>.</p>
+                    <button type="button" class="editor-btn editor-btn--primary editor-btn--small" data-action="giscus-fetch">
+                        Fetch repo_id + category_id
+                    </button>
+                    <pre class="admin-author-giscus__output" data-giscus-out hidden></pre>
+                </div>
+            </details>
         </section>
     </div>
 {% endblock main %}
