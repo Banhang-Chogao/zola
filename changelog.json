@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Style: mở rộng /insights/ full-width (gấp đôi diện tích) + responsive",
+      "tag": "chore",
+      "pr": 37,
+      "lines_added": 37,
+      "lines_removed": 6,
+      "highlights": [
+        ".layout-grid:has(.insights) → kill 340px sidebar column (insights vốn empty {% block sidebar %} nhưng grid vẫn allocate)",
+        "main.container:has(.insights) → nâng max-width **** → 1800px",
+        "Bỏ max-width: 1100px trên .insights, dùng width: 100%",
+        "insights__grid 1.4fr 1fr → 2fr 1fr, gap 1.5 → 2rem",
+        "Timeline rộng hơn → PR title 1 dòng, Overview side breathing"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Real-time Visitor Counter (FastAPI + Redis + JS frontend)",
       "tag": "feat",
       "pr": 36,
