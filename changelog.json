@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm: qa-failed.py auto-healing pipeline cho failed workflows",
+      "tag": "chore",
+      "pr": 84,
+      "lines_added": 280,
+      "lines_removed": 1,
+      "highlights": [
+        "KHÔNG đoán fix khi không match pattern",
+        "KHÔNG force-push để giải quyết race (có thể hỏng work)",
+        "Mọi lỗi unknown → issue chi tiết để user investigate"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm: shortcuts.md + Security Audit cron + build_tags.py",
       "tag": "security",
       "pr": 83,
