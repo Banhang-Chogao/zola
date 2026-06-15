@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Tối ưu image: LCP above-the-fold eager + CLS width/height chuẩn 2026",
+      "tag": "chore",
+      "pr": 81,
+      "lines_added": 242,
+      "lines_removed": 92,
+      "highlights": [
+        "Hiện tại: ảnh từ Unsplash + uploaded CMS (JPG/PNG)",
+        "Giải pháp: dùng Squoosh.app hoặc CLI cwebp -q 80 input.jpg -o output.webp cho ảnh upload qua CMS",
+        "Tự động hóa: Cloudflare Image Resizing (free tier 100k req/month) — proxy URL thêm ?format=webp&width=800",
+        "✅ KHÔNG đụng CSS overflow/height/position global → scroll desktop an toàn",
+        "✅ KHÔNG đụng layout/grid → bố cục giữ nguyên"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Tag Cloud: grid layout 5 cột với card badge + responsive 4/3/2 cột",
       "tag": "chore",
       "pr": 80,
