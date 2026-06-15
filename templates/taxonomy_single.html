@@ -16,7 +16,7 @@
                         {% if page.taxonomies.categories %}
                             <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
                         {% endif %}
-                        <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="lazy">
+                        <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="lazy" decoding="async">
                     </a>
                 {% endif %}
                 <div class="post-card__body">
