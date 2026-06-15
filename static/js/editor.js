@@ -19,20 +19,19 @@
   const CONTENT_DIR = "content/posting";
   const API = "https://api.github.com";
 
-  /* ============= AUTH (OTP hash + JIT PAT) =============
-     OTP gate dùng SHA-256 hash thay vì plaintext value — source KHÔNG còn
-     chứa mã raw, chỉ giữ hash 64 hex chars. User nhập value, JS hash qua
-     Web Crypto API và so sánh với OTP_HASH.
+  /* ============= AUTH (OTP only — DRAFT-ONLY mode) =============
+     Editor chuyển sang DRAFT-ONLY (không push GitHub trực tiếp):
+     - OTP gate vào editor như cũ (SHA-256 hash, KHÔNG plaintext)
+     - Save → tải file .md về máy → user git add + commit + push thủ công
+     - Edit bài existing → fetch GitHub API unauth (60/h IP, đủ dùng cá nhân)
+     - Delete bài → alert, làm thủ công qua git rm
+     - PAT REMOVED toàn bộ (không còn prompt, không sessionStorage, không
+       in-memory)
 
-     LƯU Ý: hash chỉ obfuscation — 4 chữ số có 10000 tổ hợp, brute-force
-     hash trivially trong <1s. Đây là chống casual viewer, không phải bảo
-     mật thật. Defense thật vẫn là PAT GitHub.
-
-     sessionStorage flag cho OTP + PAT — đóng tab là mất, phải nhập lại.
-     KHÔNG localStorage, KHÔNG cookies. */
+     Lý do: GitHub Pages = static = không backend giữ PAT. Hardcode PAT =
+     leak public. CF Worker phương án A user không chọn → chọn B draft-only. */
   const OTP_HASH = "78c72f67941a420cd4e5ee9fdabcaeaba6d72f16160915085f9802220fd83799";
   const OTP_SESSION_KEY = "zola-cms-otp-ok";
-  const PAT_SESSION_KEY = "zola-cms-pat";
 
   async function sha256Hex(str) {
     const buf = new TextEncoder().encode(String(str || ""));
@@ -42,18 +41,7 @@
       .join("");
   }
 
-  function loadStoredPat() {
-    try { return sessionStorage.getItem(PAT_SESSION_KEY) || null; }
-    catch (e) { return null; }
-  }
-  function storePat(value) {
-    try { sessionStorage.setItem(PAT_SESSION_KEY, value); } catch (e) {}
-  }
-  function clearStoredPat() {
-    try { sessionStorage.removeItem(PAT_SESSION_KEY); } catch (e) {}
-  }
-
-  let pat = loadStoredPat(); // load từ sessionStorage nếu đã nhập trước đó
+  /* Draft-only: KHÔNG PAT. Save = download file, không authenticate GitHub. */
 
   const root = document.getElementById("editor-app");
   if (!root) return;
@@ -191,44 +179,25 @@
 
   // ============= API CALLS =============
 
-  /* Prompt PAT JIT — chỉ hỏi LẦN ĐẦU mỗi tab session. Sau khi nhập thành
-     công, persist vào sessionStorage để mọi API call sau đó (save, edit,
-     delete, reload page trong cùng tab) đều dùng cached PAT, không hỏi lại.
-     Tab close → sessionStorage clear → re-prompt khi vào lại. */
-  function promptForPat() {
-    const token = window.prompt(
-      "Nhập GitHub PAT MỘT LẦN cho phiên này (cache sessionStorage, tab close = clear).\n" +
-      "Tạo tại https://github.com/settings/tokens (scope 'repo'):"
-    );
-    if (!token) return null;
-    const trimmed = token.trim();
-    if (!trimmed.startsWith("ghp_") && !trimmed.startsWith("github_pat_")) {
-      alert("Token sai format. Cần bắt đầu bằng 'ghp_' hoặc 'github_pat_'.");
-      return null;
-    }
-    storePat(trimmed); // cache cho mọi API call sau
-    return trimmed;
-  }
-
+  /* Unauth GitHub API — public repo nên READ (list contents, get file) hoạt
+     động không auth. Rate limit 60 req/h cho IP unauth — đủ cho 1 user cá
+     nhân chỉnh sửa bài thỉnh thoảng. WRITE (put/delete) đã chuyển sang
+     download file thay vì gọi API. */
   async function api(path, opts) {
-    if (!pat) {
-      pat = promptForPat();
-      if (!pat) throw new Error("Hủy — cần PAT để gọi GitHub API");
-    }
     opts = opts || {};
     const res = await fetch(API + path, {
       ...opts,
       headers: {
         Accept: "application/vnd.github+json",
-        Authorization: "token " + pat,
         "X-GitHub-Api-Version": "2022-11-28",
         ...(opts.headers || {}),
       },
     });
-    if (res.status === 401) {
-      pat = null;
-      clearStoredPat(); // PAT sai → clear cache, prompt lại lần sau
-      throw new Error("PAT không hợp lệ — nhập lại khi gọi tiếp");
+    if (res.status === 403) {
+      const remaining = res.headers.get("X-RateLimit-Remaining");
+      if (remaining === "0") {
+        throw new Error("GitHub API rate limit 60/h cho IP đã hết — đợi 1h hoặc dùng VPN/mobile network");
+      }
     }
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
@@ -285,26 +254,35 @@
     return { sha: file.sha, content, path: file.path };
   }
 
-  async function putPost(path, content, sha, message) {
-    const body = {
-      message: message,
-      content: b64encode(content),
-      branch: BRANCH,
-    };
-    if (sha) body.sha = sha;
-    return api("/repos/" + OWNER + "/" + REPO + "/contents/" + path, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+  /* Draft-only putPost: tải file .md về máy thay vì PUT lên GitHub.
+     User chạy thủ công `git add content/posting/{slug}.md && git commit
+     && git push` để publish. */
+  function putPost(path, content, sha, message) {
+    const filename = path.split("/").pop();
+    const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    return Promise.resolve({ downloaded: filename });
   }
 
-  async function deletePost(path, sha, message) {
-    return api("/repos/" + OWNER + "/" + REPO + "/contents/" + path, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: message, sha: sha, branch: BRANCH }),
-    });
+  /* Draft-only deletePost: không thể xoá qua API (cần PAT). User phải
+     git rm thủ công. Alert hướng dẫn. */
+  function deletePost(path, sha, message) {
+    alert(
+      "Chế độ Draft-only: xoá bài phải làm thủ công.\n\n" +
+      "Chạy local trong repo:\n" +
+      "  git rm " + path + "\n" +
+      "  git commit -m \"" + (message || "Xoá bài") + "\"\n" +
+      "  git push"
+    );
+    return Promise.reject(new Error("delete unavailable in draft-only mode"));
   }
 
   // ============= FRONTMATTER PARSE/BUILD =============
@@ -484,10 +462,8 @@ tags = ${tagsStr}
   }
 
   $("[data-action='logout']").addEventListener("click", () => {
-    if (!confirm("Khoá phiên CMS? (cần nhập OTP + PAT lại để vào)")) return;
+    if (!confirm("Khoá phiên CMS? (cần nhập OTP lại để vào)")) return;
     clearOtpSession();
-    clearStoredPat();
-    pat = null;
     showView("login");
     const otpInput = $("[data-form='otp'] [name='otp']");
     if (otpInput) otpInput.focus();
@@ -687,10 +663,13 @@ tags = ${tagsStr}
     const content = buildFrontmatter(fm, body);
     const message = state.editing ? "Sửa bài: " + fm.title : "Bài mới: " + fm.title;
 
-    setStatus("save-status", "Đang đẩy file lên GitHub…", "info");
+    setStatus("save-status", "Đang tạo file .md…", "info");
     try {
       await putPost(path, content, state.editing ? state.editing.sha : null, message);
-      setStatus("save-status", "✓ Đã lưu lên GitHub. GitHub Actions đang build site (~1 phút) để cập nhật bài lên web.", "success");
+      setStatus("save-status",
+        "✓ File '" + slug + ".md' đã tải về. Chạy local: " +
+        "git add " + path + " && git commit -m \"" + message + "\" && git push",
+        "success");
       // Update state.posts in-place — preserve UI position khi user "Quay lại" list.
       // Bake metadata stale ~1 phút cho đến rebuild, nhưng UI hiển thị metadata mới gõ.
       const savedPost = {
