@@ -21,13 +21,23 @@
     return pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear();
   }
 
+  // Security: chỉ accept http/https URLs từ RSS link. Block javascript:, data:,
+  // file:, vbscript:, … — RSS từ external feed (VnExpress, Tuổi Trẻ, …) không
+  // được trust 100%, nếu feed bị compromise thì link bẩn không thành XSS sink.
+  function safeUrl(url) {
+    if (typeof url !== "string") return "#";
+    const trimmed = url.trim();
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    return "#";
+  }
+
   function parseFeed(xmlText) {
     const xml = new DOMParser().parseFromString(xmlText, "text/xml");
     if (xml.querySelector("parsererror")) throw new Error("invalid xml");
     const items = Array.from(xml.querySelectorAll("item")).slice(0, 6);
     return items.map((item) => {
       const title = (item.querySelector("title")?.textContent || "").trim();
-      const link = (item.querySelector("link")?.textContent || "#").trim();
+      const link = safeUrl(item.querySelector("link")?.textContent || "#");
       const pubDate = item.querySelector("pubDate")?.textContent;
       const date = pubDate ? new Date(pubDate) : new Date();
       return { title, link, date };
@@ -40,14 +50,26 @@
     items.forEach((it, i) => {
       const li = document.createElement("li");
       li.className = "news-item";
-      li.innerHTML =
-        '<span class="news-item__num">' + pad(i + 1) + "</span>" +
-        '<div class="news-item__body">' +
-        '<a class="news-item__title" href="' + it.link + '" target="_blank" rel="noopener"></a>' +
-        '<span class="news-item__time"></span>' +
-        "</div>";
-      li.querySelector(".news-item__title").textContent = it.title;
-      li.querySelector(".news-item__time").textContent = timeAgo(it.date);
+      // Tạo DOM elements thay vì concat innerHTML — title/link bypass HTML parser
+      // hoàn toàn, không có vector XSS dù RSS feed có chứa chuỗi độc hại.
+      const num = document.createElement("span");
+      num.className = "news-item__num";
+      num.textContent = pad(i + 1);
+      const body = document.createElement("div");
+      body.className = "news-item__body";
+      const a = document.createElement("a");
+      a.className = "news-item__title";
+      a.href = it.link;            // safeUrl đã validate
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = it.title;    // textContent → không parse HTML
+      const time = document.createElement("span");
+      time.className = "news-item__time";
+      time.textContent = timeAgo(it.date);
+      body.appendChild(a);
+      body.appendChild(time);
+      li.appendChild(num);
+      li.appendChild(body);
       list.appendChild(li);
     });
     const count = card.querySelector(".count");
@@ -56,12 +78,21 @@
 
   function renderError(card, msg) {
     const list = card.querySelector(".news-card__list");
-    list.innerHTML =
-      '<li class="news-item news-item--error">' +
-      '<div class="news-error">' +
-      '<div class="news-error__title">Không tải được tin</div>' +
-      '<div class="news-error__msg">' + (msg || "fetch failed") + "</div>" +
-      "</div></li>";
+    list.innerHTML = ""; // clear safely
+    const li = document.createElement("li");
+    li.className = "news-item news-item--error";
+    const errDiv = document.createElement("div");
+    errDiv.className = "news-error";
+    const title = document.createElement("div");
+    title.className = "news-error__title";
+    title.textContent = "Không tải được tin";
+    const msgDiv = document.createElement("div");
+    msgDiv.className = "news-error__msg";
+    msgDiv.textContent = msg || "fetch failed"; // textContent — escape mọi HTML
+    errDiv.appendChild(title);
+    errDiv.appendChild(msgDiv);
+    li.appendChild(errDiv);
+    list.appendChild(li);
     const tags = card.querySelector(".news-card__tags");
     const updateTag = tags.querySelector("[data-update]");
     if (updateTag) {

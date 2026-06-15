@@ -1,0 +1,21 @@
+# security.txt — RFC 9116
+# https://banhang-chogao.github.io/zola/.well-known/security.txt
+
+Contact: https://github.com/Banhang-Chogao/zola/security/advisories/new
+Expires: 2027-06-15T00:00:00.000Z
+Preferred-Languages: vi, en
+Canonical: https://banhang-chogao.github.io/zola/.well-known/security.txt
+
+# Báo lỗi bảo mật:
+#   1. Mở GitHub Security Advisory (private) tại link Contact trên
+#   2. Hoặc tạo issue có nhãn 'security' nếu lỗ hổng đã public
+#   3. Hứa hẹn phản hồi trong 72 giờ
+#
+# Phạm vi:
+#   - Blog static + Mini CMS tại /editor/
+#   - JavaScript modules trong /js/
+#   - Bake metadata exposure / XSS / CSRF / supply chain
+#
+# Ngoài phạm vi:
+#   - Brute-force OTP gate ở footer (intentional security-by-obscurity)
+#   - Google PageSpeed API key trong config.toml (rate-limited theo HTTP referer)
