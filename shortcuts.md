@@ -40,6 +40,7 @@ Format bắt buộc:
 | `SEO9` | Tu bổ SEO site-wide đạt Lighthouse 100/100 (Google Search Central) |
 | `SEO10` | Loop audit + fix từng lỗi đến khi 0 issue (Google SEO Starter Guide) |
 | `SEO11` | Hybrid SEO9+SEO10: phase 1 bulk Lighthouse + phase 2 loop polish |
+| `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
@@ -137,24 +138,70 @@ Hành động:
    - Accessibility: ARIA, keyboard nav, contrast
 4. Output punch list ≤200 words: done / warnings / errors, sorted severity.
 
-### `ff` — Full Fix & Deploy
+### `ff` — Full Fix & Deploy (với Python lib picker)
 
 Hành động:
+
 1. **Liệt kê** tất cả failed workflow runs (≥ 24h gần nhất) +
    failed PR checks + failed deploy.
-2. **Phân tích log** mỗi failed run theo logic `qa-failed.py`:
-   - Đợi run status = `completed` (poll mỗi 30s, max 5 lần = 2.5 phút)
-   - CHỈ fetch logs sau khi completed → tránh "still in progress" error
-3. **Auto-fix** pattern đã biết:
-   - `ModuleNotFoundError` → append dep vào requirements.txt
+
+2. **Detect lỗi LẶP/CRITICAL** chặn deploy:
+   - **Repeat**: cùng pattern stderr xuất hiện ≥ 2 failed run trong 24h
+   - **Critical**: failed run trên `deploy.yml` chính (không phải workflow phụ)
+   - Sort theo (repeat × 2 + critical × 3) priority — fix cái cao nhất trước.
+
+3. **LIST PYTHON LIBRARIES HIỆN CÓ** (NEW per user rule):
+   - Chạy `pip list --format=json` → parse name + version
+   - Output bảng top 30 lib (sort theo relevance với failed pattern):
+
+     | Lib | Version | Phù hợp fix pattern |
+     |---|---|---|
+     | anthropic | 0.109.1 | AI diagnose → scripts/ff.py |
+     | loguru | 0.7.3 | Log structured để bắt lỗi sớm |
+     | ruff | 0.15.8 | Auto-fix Python syntax/import |
+     | mypy | 1.19.1 | Catch type bug trước commit |
+     | pydantic | 2.13.4 | Validate config.toml + data/*.json schema |
+     | pre-commit | 4.6.0 | Block commit có lỗi trước push |
+     | ... | ... | ... |
+
+4. **Pick library phù hợp nhất** cho repeated/critical pattern:
+
+| Failed pattern | Lib gợi ý | Cách áp dụng |
+|---|---|---|
+| `ModuleNotFoundError` recurring | `pip-tools` / `pipdeptree` | Audit deps tree, pin version |
+| Tera literal dict lặp lại (đã 3 lần) | `pydantic` | Define model cho data/*.json, fail-fast trước build |
+| JSON parse error data/*.json | `pydantic` | Schema validation runtime |
+| Python type error scripts/ | `mypy` (strict mode) | Run mypy trong pre-commit, block commit lỗi type |
+| Python syntax/format inconsistent | `ruff --fix` | Auto-fix pre-commit hook |
+| HTTP retry race condition | `tenacity` | Decorator @retry exponential backoff |
+| Date/time parse issue | `python-dateutil` | Robust ISO 8601 parsing |
+| Test flaky | `pytest-rerunfailures` | Retry tự động test fail intermittent |
+| Slack webhook payload limit | (existing truncate step) | Verify cap 2500 chars chạy đúng |
+| AI client timeout | `anthropic` + `tenacity` | Retry with backoff, switch model |
+
+5. **Auto-fix** pattern đã biết (cập nhật mở rộng):
+   - `ModuleNotFoundError` → append dep vào requirements.txt + `pip install`
    - Tera/Zola syntax → chạy `qa_check.py --fix safe`
+   - **Tera lỗi lặp ≥3 lần** → tạo `pydantic` model validator + thêm vào
+     pre-commit hook (block tương lai)
    - Git race non-fast-forward → escalate (không tự force push)
    - Workflow permission denied → escalate
-   - Unknown pattern → tạo issue + escalate
-4. **Push** fix lên `main` → trigger deploy lại.
-5. **Báo cáo tổng kết** sau khi xong:
+   - Python type error → `mypy --strict` rồi `ruff --fix --unsafe-fixes`
+   - Unknown pattern → tạo issue + escalate + gợi ý lib từ bảng 4
+
+6. **Push** fix lên branch `claude/*` → tạo PR. **KHÔNG auto-merge**
+   (rule 16:00). User gõ `manual #X` để deploy lại.
+
+7. **Báo cáo tổng kết** sau khi xong:
    - Failed runs found / fixed / escalated
-   - Production deploy status
+   - Repeated patterns detected (lib gợi ý)
+   - PR tạo + lệnh `manual #X`
+   - Production deploy status hiện tại
+
+**Tại sao step 3-4 mới**: user feedback — nhiều lỗi (vd Tera literal dict
+lặp 3 lần) cần solution tổng thể, không fix-once-broken-again. Pick lib
+phù hợp giải quyết tận gốc (vd: `pydantic` schema chặn build sớm) thay
+vì fix file rồi mai lại sai chỗ khác.
 
 ### `healing` — Kích hoạt QA-Healing thủ công
 
@@ -599,6 +646,107 @@ Phase 2 result: N iter, 0 issue remain
   thiếu items mà Google mới update.
 - `SEO11`: best-of-both. Phase 1 quick-win Lighthouse, phase 2 catch
   edge case Starter Guide mới. PR cuối có 2 section review riêng.
+
+### `morning` — Macro chạy chuỗi tất cả shortcut
+
+**Mục đích**: 1 lệnh sáng startup chạy toàn bộ shortcut khác để có
+bức tranh trạng thái + tự apply audit/fix/SEO/security trong 1 lần.
+
+**Quy tắc loại trừ**:
+- Bỏ chính `morning` (tránh infinite loop).
+- Bỏ shortcut cần **argument** mà không có default:
+  - `topic:` (cần đề tài)
+  - `manual #X` (cần PR number cụ thể)
+  - `help` (chỉ render bảng — không có hành động)
+- Bỏ shortcut **overlap chức năng** (tránh chạy 2 lần work giống):
+  - Giữ `SEO11` (hybrid), bỏ `SEO9` + `SEO10`
+  - Giữ `ff`, bỏ `healing` (overlap pattern fix)
+  - `pp` (HOTFIX) chỉ chạy nếu phát hiện deploy đỏ — conditional
+
+**Thứ tự thực thi (non-conflict, 6 phase)**:
+
+```
+┌─ PHASE A — Snapshot (read-only, baseline state) ─────────────┐
+│ 1. cautruc9   — folder tree (in ra để confirm structure)    │
+│ 2. ??         — deploy status A/B/C/D table                  │
+│ 3. run list   — workflow runs hiện tại                       │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ PHASE B — Audit + trigger workflows (no state change) ─────┐
+│ 4. bm         — security leak scan toàn repo + git history  │
+│ 5. ad         — full blog audit (workflow_dispatch async)   │
+│ 6. pef        — performance audit (Lighthouse mobile/desk)  │
+│ 7. score      — trigger build-related.yml (rebuild SBERT)   │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ PHASE C — Content optimize (create PRs, không merge) ───────┐
+│ 8. seo        — optimize bài blog mới ≤5h                    │
+│ 9. SEO11      — site-wide hybrid Lighthouse + Starter Guide  │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ PHASE D — Fix failed runs (create PRs, không merge) ────────┐
+│ 10. ff        — analyze failed workflow + auto-fix pattern   │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ PHASE E — Conditional HOTFIX ───────────────────────────────┐
+│ 11. pp        — CHỈ chạy nếu phase D detect deploy đỏ critical │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ PHASE F — Merge gate (cuối cùng, consume PRs phases C+D) ──┐
+│ 12. gg        — list PRs trạng thái (tuân rule 16:00 list-only) │
+│ 13. prm       — override merge ALL open PRs (per shortcut)   │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Tại sao thứ tự này tránh xung đột**:
+
+| Risk | Mitigation |
+|---|---|
+| `ff` + `healing` cùng auto-fix → 2 PR cùng pattern | Skip `healing`, giữ `ff` |
+| `SEO9/10/11` overlap | Giữ `SEO11` (hybrid), skip 2 cái còn lại |
+| `prm` merge trước khi `ff`/`SEO11` tạo PR | `prm` ở phase F cuối → consume hết PR mới tạo |
+| `ad` + `pef` cùng trigger performance audit | `ad` chỉ dispatch async; `pef` chạy local Lighthouse → bổ trợ |
+| `score` rebuild related khi `seo` đang sửa bài | `score` chỉ async trigger; `seo` modify content. SBERT rebuild sau merge tự nhiên |
+| `bm` phát hiện leak trong commit `ff` tạo | `bm` chạy phase B (trước `ff`) → baseline; nếu `ff` tạo leak mới sẽ bị catch lần `morning` sau |
+
+**Output sau morning** (≤500 words, gộp tất cả phase):
+
+```markdown
+## ☀ Morning Brief — <timestamp>
+
+### Phase A — Snapshot
+- Repo structure: <cây folder gọn>
+- Deploy status: X commits A, Y D
+- Workflow runs: N pending / M failed
+
+### Phase B — Audit
+- Security: 0 leaks (or list)
+- Audit workflows: dispatched (perf-audit + security-audit + pef)
+- Score rebuild: triggered
+
+### Phase C — Content + SEO
+- New posts optimized: N (slugs)
+- SEO11 PR: #<số> (phase 1: X fixes, phase 2: Y iter)
+
+### Phase D — Fix
+- ff PR: #<số> (Z failed runs analyzed)
+
+### Phase E — HOTFIX
+- (none) hoặc: pp PR #<số>
+
+### Phase F — Merge
+- gg: N open PRs listed
+- prm: M PRs merged → deploy queued
+```
+
+**Skip điều kiện**:
+- Nếu phase B `bm` phát hiện leak → BREAK toàn bộ morning, escalate
+  user fix trước (security ưu tiên cao nhất).
+- Nếu phase C `SEO11` phase 1 fail >2 hạng mục → skip phase 2 + phase D.
+- Nếu phase D `ff` không có failed run → skip phase E.
+
+**KHÔNG được skip rule 16:00 cho `gg`** — `gg` ở phase F chỉ list,
+không merge. Chỉ `prm` (đã là override explicit) mới merge.
 
 ### `run list` — Hiển thị bảng workflow runs
 
