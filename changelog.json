@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Author Box + Related Articles cuối mỗi bài viết",
+      "tag": "chore",
+      "pr": 54,
+      "lines_added": 1053,
+      "lines_removed": 131,
+      "highlights": [
+        "Name có verified badge inline (Meta blue check)",
+        "URL italic màu đỏ",
+        "4 social icons (FB, IG, YT, GitHub) — SVG inline, hover gradient đỏ + lift -2px",
+        "author_avatar, author_url, author_bio",
+        "Iterate section posting → filter cùng category đầu, exclude bài hiện tại, slice 3"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Category management — categories.json + auto-sync khi save post",
       "tag": "chore",
       "pr": 53,
