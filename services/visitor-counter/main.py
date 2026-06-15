@@ -356,15 +356,24 @@ async def require_session(authorization: str) -> dict:
 
 # ============= IMDB (via public scraper proxy) =============
 # Walker linh hoạt parse mọi JSON shape — không lock vào schema cụ thể.
-# Chấp nhận response dạng list of dict, hoặc nested {results|data|description}.
-_IMDB_TITLE_KEYS  = ("title", "Title", "name", "originalTitle", "imdbTitle", "displayName", "l")
-_IMDB_LINK_KEYS   = ("link", "url", "imdbUrl", "imdbId", "id", "imdbID")
-_IMDB_DESC_KEYS   = ("description", "plot", "Plot", "summary", "synopsis", "overview", "intro", "s")
-_IMDB_POSTER_KEYS = ("image", "poster", "Poster", "imageUrl", "image_url", "primaryImage",
-                     "thumbnail", "i", "img")
-_IMDB_RATING_KEYS = ("rating", "imdbRating", "imDbRating", "Rating", "score", "averageRating",
-                     "aggregateRating", "vote_average", "r")
-_IMDB_DATE_KEYS   = ("year", "Year", "releaseDate", "release_date", "datePublished", "y")
+# Schema thực tế từ imdb.iamidiotareyoutoo.com:
+#   {ok: true, description: [{#TITLE, #YEAR, #IMDB_ID, #IMDB_URL,
+#    #IMG_POSTER, #ACTORS, #AKA, #RANK, ...}], error_code: 200}
+# Keys prefix '#' uppercase — đã add vào synonym list.
+_IMDB_TITLE_KEYS  = ("#TITLE", "title", "Title", "name", "originalTitle",
+                     "imdbTitle", "displayName", "l")
+_IMDB_LINK_KEYS   = ("#IMDB_URL", "link", "url", "imdbUrl", "#IMDB_ID",
+                     "imdbId", "id", "imdbID")
+# #ACTORS (string cast) làm summary fallback — không có plot/overview trong
+# search response. #AKA fallback nữa.
+_IMDB_DESC_KEYS   = ("description", "plot", "Plot", "summary", "synopsis",
+                     "overview", "#ACTORS", "#AKA", "intro", "s")
+_IMDB_POSTER_KEYS = ("#IMG_POSTER", "image", "poster", "Poster", "imageUrl",
+                     "image_url", "primaryImage", "thumbnail", "i", "img")
+_IMDB_RATING_KEYS = ("rating", "imdbRating", "imDbRating", "Rating", "score",
+                     "averageRating", "aggregateRating", "vote_average", "r")
+_IMDB_DATE_KEYS   = ("#YEAR", "year", "Year", "releaseDate", "release_date",
+                     "datePublished", "y")
 
 
 def _first_str(obj: dict, keys) -> str:
