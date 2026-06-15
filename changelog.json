@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "SCSS syntax check + Zola build smoke test + bỏ menu Báo chí/Điện ảnh",
+      "tag": "chore",
+      "pr": 58,
+      "lines_added": 267,
+      "lines_removed": 38,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-15",
       "title": "SCSS _editor.scss btn--success thiếu body → deploy fail (HOTFIX)",
       "tag": "fix",
       "pr": 57,
