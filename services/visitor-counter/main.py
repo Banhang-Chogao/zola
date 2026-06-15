@@ -39,6 +39,7 @@ Triết lý security:
 """
 
 import asyncio
+import base64
 import json
 import os
 import re
@@ -175,9 +176,12 @@ async def auth_login(return_to: str = "/editor/"):
     r = await get_redis()
     await r.setex(f"oauth_state:{state}", 600, return_to)
 
+    # Scope public_repo cần để PUT file content qua /repos/.../contents/{path}
+    # khi user đăng bài trực tiếp lên blog từ /editor/. read:user + user:email
+    # phục vụ check whitelist + lấy profile.
     params = urlencode({
         "client_id": GH_CLIENT_ID,
-        "scope": "read:user user:email",
+        "scope": "read:user user:email public_repo",
         "state": state,
         "redirect_uri": f"{BACKEND_URL}/auth/callback",
         "allow_signup": "false",
@@ -331,6 +335,133 @@ async def require_session(authorization: str) -> dict:
     return json.loads(raw)
 
 
+# ============= CMS — Publish Post to GitHub =============
+# Cấu hình repo target — hiện chỉ phục vụ blog của owner. Mở rộng:
+# read từ env nếu cần multi-repo.
+CMS_REPO_OWNER  = os.getenv("CMS_REPO_OWNER",  "Banhang-Chogao")
+CMS_REPO_NAME   = os.getenv("CMS_REPO_NAME",   "zola")
+CMS_REPO_BRANCH = os.getenv("CMS_REPO_BRANCH", "main")
+# Cố định path để giới hạn quyền: user không thể ghi file ra ngoài thư mục
+# content. Đây là defense-in-depth — kể cả slug chứa '../' cũng bị regex
+# validate chặn từ trước.
+CMS_CONTENT_DIR = "content/posting"
+
+# Slug hợp lệ: a-z + 0-9 + dash, 2-80 ký tự. Khớp pattern Zola slug.
+_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,79}$")
+
+
+@app.post("/cms/save-post")
+async def cms_save_post(request: Request, authorization: str = Header(default="")):
+    """
+    Tạo hoặc cập nhật file .md trong content/posting/ qua GitHub Contents API
+    với access_token user đã lưu Redis-side.
+
+    Body JSON:
+      slug    — tên file (sẽ thành content/posting/{slug}.md)
+      content — toàn bộ markdown bao gồm frontmatter
+      message — commit message (optional, default 'CMS: <slug>')
+
+    Headers:
+      Authorization: Bearer <sid>  — session từ OAuth login
+
+    Security:
+      - require_session check sid valid → có access_token Redis-side
+      - Slug regex chặn path traversal (../ etc.)
+      - Path cố định CMS_CONTENT_DIR → user KHÔNG ghi được ra ngoài
+      - Content size cap 200KB tránh spam
+      - PUT có sha if file tồn tại → tránh ghi đè concurrent
+
+    Sau push: GitHub Actions auto-rebuild Zola + deploy Pages ~1-2 phút.
+    """
+    session = await require_session(authorization)
+    access_token = session.get("access_token")
+    if not access_token:
+        raise HTTPException(401, "no_access_token")
+
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+
+    slug    = str(body.get("slug", "")).strip().lower()
+    content = body.get("content", "")
+    message = str(body.get("message", "")).strip()
+
+    if not _SLUG_RE.match(slug):
+        raise HTTPException(400, "invalid_slug")
+    if not isinstance(content, str) or not content.strip():
+        raise HTTPException(400, "empty_content")
+    if len(content) > 200_000:
+        raise HTTPException(400, "content_too_large")
+    if not message:
+        message = f"CMS: {slug}"
+
+    path = f"{CMS_CONTENT_DIR}/{slug}.md"
+    api_url = (
+        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}"
+        f"/contents/{path}"
+    )
+    gh_headers = {
+        "Authorization":         f"Bearer {access_token}",
+        "Accept":                "application/vnd.github+json",
+        "X-GitHub-Api-Version":  "2022-11-28",
+        "User-Agent":            "zola-cms-publish",
+    }
+
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        # 1. GET hiện trạng để biết sha (cho update). 404 → file mới.
+        existing_sha = None
+        try:
+            head = await client.get(
+                api_url,
+                params={"ref": CMS_REPO_BRANCH},
+                headers=gh_headers,
+            )
+            if head.status_code == 200:
+                existing_sha = head.json().get("sha")
+            elif head.status_code not in (200, 404):
+                raise HTTPException(502, f"github_check_failed: {head.status_code}")
+        except httpx.HTTPError:
+            raise HTTPException(502, "github_unreachable")
+
+        # 2. PUT create or update
+        payload = {
+            "message": message[:200],
+            "content": base64.b64encode(content.encode("utf-8")).decode("ascii"),
+            "branch":  CMS_REPO_BRANCH,
+        }
+        if existing_sha:
+            payload["sha"] = existing_sha
+
+        try:
+            put_res = await client.put(api_url, headers=gh_headers, json=payload)
+        except httpx.HTTPError:
+            raise HTTPException(502, "github_unreachable")
+
+        if put_res.status_code not in (200, 201):
+            err_body = {}
+            try:
+                err_body = put_res.json()
+            except json.JSONDecodeError:
+                pass
+            err_msg = err_body.get("message", "github_api_error")
+            # 403 thường = scope thiếu (cần public_repo). 422 = sha conflict.
+            raise HTTPException(
+                put_res.status_code if put_res.status_code in (403, 422) else 502,
+                f"github_api: {err_msg}",
+            )
+
+        data = put_res.json()
+        return {
+            "ok":         True,
+            "action":     "updated" if existing_sha else "created",
+            "path":       path,
+            "commit_url": data.get("commit", {}).get("html_url", ""),
+            "commit_sha": data.get("commit", {}).get("sha", ""),
+            "deploy_eta": "1-2 phút (GitHub Actions auto-build + deploy)",
+        }
+
+
 # ============= RSS Checker =============
 # Validate URL trước khi đưa cho feedparser — tránh SSRF qua scheme khác
 # (file://, gopher://, internal IP). feedparser tự follow redirect, nên
@@ -435,14 +566,26 @@ async def check_rss(
 # request tới source.
 CURATED_FEEDS = {
     "du-lich": {
-        # Trip.com scrape attempt thất bại (SPA Next.js, BeautifulSoup
-        # chỉ thấy skeleton). Fallback sang VnExpress Du lịch RSS — chuẩn
-        # RSS, parse 100% ổn định bằng feedparser.
-        "url":    "https://vnexpress.net/rss/du-lich.rss",
-        "title":  "Tin tức Du lịch — VnExpress",
-        "source": "VnExpress",
-        "type":   "rss",
-        "cache_ttl": 1800,  # 30 phút — news refresh thường xuyên
+        # Chiến lược 2 lớp:
+        #   1. Primary: Trip.com toplist Hàn Quốc (curl_cffi TLS-impersonate
+        #      Chrome + parse __NEXT_DATA__). Content "cẩm nang/trải nghiệm"
+        #      đúng phong cách user muốn.
+        #   2. Fallback: VnExpress Du lịch RSS (feedparser) nếu Trip.com fail
+        #      cho bất kỳ lý do gì → page vẫn có content.
+        # Endpoint tự thử Trip.com trước, empty → switch sang RSS.
+        "primary": {
+            "url":    "https://www.trip.com/toplist/tripbest/south-korea-best-things-to-do-10070100042090/",
+            "type":   "scrape_trip",
+            "source": "Trip.com",
+            "title":  "Top trải nghiệm Du lịch Hàn Quốc — Trip.com",
+        },
+        "fallback": {
+            "url":    "https://vnexpress.net/rss/du-lich.rss",
+            "type":   "rss",
+            "source": "VnExpress",
+            "title":  "Tin tức Du lịch — VnExpress",
+        },
+        "cache_ttl": 86400,  # 24h khi Trip.com OK, 30 phút khi fallback RSS
     },
 }
 
@@ -686,63 +829,278 @@ async def _scrape_toplist(url: str) -> list:
     return unique[:10]
 
 
+# ============= Trip.com TLS-Impersonated Scrape =============
+# httpx + BeautifulSoup thông thường thất bại với Trip.com vì:
+#  1. Cloudflare/Akamai phát hiện TLS fingerprint của Python → block
+#  2. Trang là Next.js SPA → HTML server-render chỉ là skeleton, content
+#     bake vào <script id="__NEXT_DATA__"> JSON cần parse riêng
+#
+# Giải pháp: curl_cffi giả lập Chrome TLS exactly → vượt Cloudflare,
+# rồi tìm __NEXT_DATA__ JSON trong HTML và walk recursive để extract items.
+
+# Import lazy để tránh hard fail nếu curl_cffi không build được trên platform.
+try:
+    from curl_cffi import requests as curl_requests
+    _CURL_CFFI_AVAILABLE = True
+except ImportError:
+    curl_requests = None
+    _CURL_CFFI_AVAILABLE = False
+
+
+def _walk_extract_toplist(node, base_url: str, items: list, depth: int = 0) -> None:
+    """
+    Walk recursive qua JSON tree tìm các array chứa entry với 'name|title' +
+    'url|link' + 'description|summary'. Đây là pattern chung của toplist
+    Trip.com bake trong __NEXT_DATA__.
+    Cap depth=8 để không infinite loop với circular refs.
+    """
+    if depth > 8 or len(items) >= 30:
+        return
+
+    if isinstance(node, list):
+        for child in node:
+            # Detect entry-shape: dict có title-like + url-like
+            if isinstance(child, dict):
+                title = (
+                    child.get("name") or child.get("title")
+                    or child.get("productName") or child.get("poiName")
+                    or child.get("displayName") or ""
+                )
+                link_raw = (
+                    child.get("url") or child.get("link") or child.get("detailUrl")
+                    or child.get("href") or child.get("productUrl") or ""
+                )
+                title = str(title).strip() if title else ""
+                link = _normalize_link(str(link_raw), base_url) if link_raw else ""
+                if title and link and len(title) >= 5:
+                    img_raw = (
+                        child.get("imageUrl") or child.get("image")
+                        or child.get("cover") or child.get("pic") or ""
+                    )
+                    if isinstance(img_raw, dict):
+                        img_raw = img_raw.get("url") or img_raw.get("dynamicUrl") or ""
+                    img = _normalize_link(str(img_raw or ""), base_url)
+
+                    desc = (
+                        child.get("description") or child.get("intro")
+                        or child.get("summary") or child.get("subtitle") or ""
+                    )
+                    rating_raw = (
+                        child.get("rating") or child.get("score")
+                        or child.get("commentScore") or child.get("avgScore") or ""
+                    )
+                    rating = ""
+                    if rating_raw not in ("", None):
+                        try:
+                            rating = f"{float(rating_raw):.1f}"
+                        except (TypeError, ValueError):
+                            rating = str(rating_raw)[:5]
+
+                    items.append({
+                        "title":     title[:300],
+                        "link":      link[:1000],
+                        "summary":   str(desc).strip()[:500],
+                        "published": "",
+                        "thumbnail": img,
+                        "rating":    rating,
+                    })
+            _walk_extract_toplist(child, base_url, items, depth + 1)
+    elif isinstance(node, dict):
+        for v in node.values():
+            _walk_extract_toplist(v, base_url, items, depth + 1)
+
+
+async def _scrape_trip_via_curl_cffi(url: str) -> list:
+    """
+    TLS-impersonated fetch + __NEXT_DATA__ extraction cho Trip.com.
+
+    Flow:
+      1. curl_cffi GET với impersonate=chrome131 → vượt Cloudflare TLS detect
+      2. Tìm <script id="__NEXT_DATA__">{...}</script> trong HTML
+      3. Parse JSON, walk recursive tìm array có entry shape title+link
+      4. Dedupe theo link, trả tối đa 10
+
+    Nếu curl_cffi không available (build fail), trả [] silent — fallback
+    về _scrape_toplist (httpx + BS).
+    """
+    if not _CURL_CFFI_AVAILABLE:
+        return []
+
+    def _sync_fetch():
+        # impersonate='chrome131' = full TLS fingerprint mới nhất (curl_cffi 0.7+)
+        return curl_requests.get(
+            url,
+            impersonate="chrome131",
+            headers={
+                "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7,ko-KR;q=0.6",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Referer": "https://www.trip.com/",
+                "Cache-Control": "no-cache",
+            },
+            timeout=25,
+        )
+
+    try:
+        res = await asyncio.to_thread(_sync_fetch)
+    except Exception:
+        return []
+    if res.status_code != 200:
+        return []
+
+    html = res.text
+
+    # Tìm __NEXT_DATA__ — Next.js bake initial state ở script id này
+    m = re.search(
+        r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',
+        html, re.DOTALL,
+    )
+    if not m:
+        # Fallback: tìm bất kỳ <script application/json> nào lớn (>5KB)
+        scripts = re.findall(
+            r'<script[^>]+type=["\']application/json["\'][^>]*>(.*?)</script>',
+            html, re.DOTALL,
+        )
+        scripts = [s for s in scripts if len(s) > 5000]
+        if not scripts:
+            return []
+        # Try parse từng cái, dùng cái nào có items hợp lệ
+        for s in scripts:
+            try:
+                data = json.loads(s)
+            except json.JSONDecodeError:
+                continue
+            items: list = []
+            _walk_extract_toplist(data, url, items)
+            if items:
+                # Dedupe by link, giữ thứ tự
+                seen = set()
+                unique = []
+                for it in items:
+                    if it["link"] in seen:
+                        continue
+                    seen.add(it["link"])
+                    unique.append(it)
+                return unique[:10]
+        return []
+
+    try:
+        data = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return []
+
+    items: list = []
+    _walk_extract_toplist(data, url, items)
+
+    seen = set()
+    unique = []
+    for it in items:
+        if it["link"] in seen:
+            continue
+        seen.add(it["link"])
+        unique.append(it)
+    return unique[:10]
+
+
+async def _fetch_for_config(cfg: dict) -> list:
+    """Dispatch theo type. Wrap exception → trả [] để outer xử fallback."""
+    try:
+        t = cfg.get("type", "rss")
+        if t == "rss":
+            return await _fetch_and_parse_feed(cfg["url"])
+        elif t == "scrape":
+            return await _scrape_toplist(cfg["url"])
+        elif t == "scrape_trip":
+            return await _scrape_trip_via_curl_cffi(cfg["url"])
+        else:
+            return []
+    except Exception:
+        return []
+
+
 @app.get("/api/news/{slug}")
 async def curated_news(slug: str):
     """
-    Trả tối đa 10 items từ curated source. Dispatch theo feed_cfg.type:
-      - 'rss'    → feedparser (default cache NEWS_CACHE_TTL = 30m)
-      - 'scrape' → BeautifulSoup (per-feed cache_ttl, default 24h)
+    Trả tối đa 10 items từ curated source.
 
-    Lỗi network/parse → trả 200 với items=[] + error code, FE graceful
-    degrade hiển thị "tạm thời không có tin". KHÔNG raise 500.
+    Config có thể là:
+      - Flat: {url, type, source, title, cache_ttl}
+      - Layered: {primary: {...}, fallback: {...}, cache_ttl}
+        → thử primary trước (Trip.com), empty → fallback (VnExpress RSS)
+
+    Cache key bao gồm source ACTUAL trả → nếu fallback chạy, cache đúng nguồn.
+
+    Lỗi/empty → trả 200 với error code, FE graceful degrade.
     """
     feed_cfg = CURATED_FEEDS.get(slug)
     if not feed_cfg:
         raise HTTPException(404, "feed_not_found")
 
-    # Cache key bao gồm source name → khi đổi CURATED_FEEDS từ Trip.com sang
-    # VnExpress, key thay đổi tự động, không serve stale data của source cũ.
-    # Source cũ trong Redis sẽ tự expire theo TTL — không cần manual flush.
-    source_id = re.sub(r"[^a-z0-9]+", "_", feed_cfg["source"].lower()).strip("_")
-    cache_key = f"news_cache:{slug}:{source_id}"
+    # Layered config check
+    is_layered = "primary" in feed_cfg and "fallback" in feed_cfg
+
     r = await get_redis()
 
-    cached = await r.get(cache_key)
-    if cached:
-        try:
-            data = json.loads(cached)
-            data["from_cache"] = True
-            return data
-        except (json.JSONDecodeError, KeyError):
-            pass
+    # Cache key dùng slug + active source (sẽ biết sau khi fetch xong).
+    # Cache lookup thử cả 2 source cho layered config.
+    candidate_sources = []
+    if is_layered:
+        candidate_sources = [feed_cfg["primary"]["source"], feed_cfg["fallback"]["source"]]
+    else:
+        candidate_sources = [feed_cfg["source"]]
 
-    source_type = feed_cfg.get("type", "rss")
-    try:
-        if source_type == "scrape":
-            items = await _scrape_toplist(feed_cfg["url"])
-        else:
-            items = await _fetch_and_parse_feed(feed_cfg["url"])
-    except Exception:
-        return {
-            "source":     feed_cfg["source"],
-            "title":      feed_cfg["title"],
-            "count":      0,
-            "items":      [],
-            "from_cache": False,
-            "error":      "fetch_failed",
-        }
+    for src in candidate_sources:
+        source_id = re.sub(r"[^a-z0-9]+", "_", src.lower()).strip("_")
+        cache_key = f"news_cache:{slug}:{source_id}"
+        cached = await r.get(cache_key)
+        if cached:
+            try:
+                data = json.loads(cached)
+                if data.get("items"):  # chỉ dùng cache nếu có items thật
+                    data["from_cache"] = True
+                    return data
+            except (json.JSONDecodeError, KeyError):
+                continue
+
+    # Cache miss → fetch
+    if is_layered:
+        primary_cfg = feed_cfg["primary"]
+        items = await _fetch_for_config(primary_cfg)
+        active_cfg = primary_cfg
+        if not items:
+            fallback_cfg = feed_cfg["fallback"]
+            items = await _fetch_for_config(fallback_cfg)
+            active_cfg = fallback_cfg
+    else:
+        items = await _fetch_for_config(feed_cfg)
+        active_cfg = feed_cfg
 
     payload = {
-        "source": feed_cfg["source"],
-        "title":  feed_cfg["title"],
+        "source": active_cfg["source"],
+        "title":  active_cfg["title"],
         "count":  len(items),
         "items":  items,
     }
 
-    default_ttl = feed_cfg.get("cache_ttl") or NEWS_CACHE_TTL
-    ttl = default_ttl if items else 300
-    await r.setex(cache_key, ttl, json.dumps(payload, ensure_ascii=False))
+    if not items:
+        # Empty → cache 5 phút để tránh hammer source khi tạm down
+        source_id = re.sub(r"[^a-z0-9]+", "_", active_cfg["source"].lower()).strip("_")
+        await r.setex(
+            f"news_cache:{slug}:{source_id}",
+            300,
+            json.dumps(payload, ensure_ascii=False),
+        )
+        payload["from_cache"] = False
+        payload["error"] = "fetch_failed"
+        return payload
 
+    # Có items → cache theo TTL config (24h Trip.com, 30m RSS fallback)
+    default_ttl = feed_cfg.get("cache_ttl") or NEWS_CACHE_TTL
+    source_id = re.sub(r"[^a-z0-9]+", "_", active_cfg["source"].lower()).strip("_")
+    await r.setex(
+        f"news_cache:{slug}:{source_id}",
+        default_ttl,
+        json.dumps(payload, ensure_ascii=False),
+    )
     payload["from_cache"] = False
     return payload
 
@@ -766,6 +1124,7 @@ async def root():
             "GET  /auth/me":      "Validate session (Bearer)",
             "POST /auth/logout":  "Destroy session (Bearer)",
             "GET  /api/check-rss":"Parse RSS feed (auth required)",
-            "GET  /api/news/{slug}":"Curated news (Redis cached 30m, public)",
+            "GET  /api/news/{slug}":"Curated news (Redis cached, public)",
+            "POST /cms/save-post":"Publish post lên blog GitHub (auth required)",
         },
     }
