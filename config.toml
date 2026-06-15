@@ -35,3 +35,9 @@ menu = [
 # Google Analytics 4 Measurement ID — để trống nếu chưa setup.
 # Khi có, GA tracking script sẽ tự load trên mọi page.
 ga_measurement_id = "G-K9DXHPPGGR"
+
+# Visitor counter backend URL — để trống cho đến khi deploy
+# services/visitor-counter/ lên Render hoặc Railway. Khi có URL,
+# meta tag + script + footer span sẽ tự bật. Xem
+# services/visitor-counter/README.md để deploy.
+visitor_api_url = ""

@@ -28,4 +28,16 @@
       border-bottom-color: #d63d3d;
     }
   }
+
+  &__visitors {
+    color: #888;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+
+    #visitor-count {
+      color: #fff;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+  }
 }

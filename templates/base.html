@@ -56,12 +56,17 @@
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com;
+        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://*.onrender.com https://*.railway.app;
         frame-ancestors 'none';
         base-uri 'self';
         form-action 'self';
     ">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    {# Visitor counter API URL — bake build-time. Để trống ⇒ script silent skip. #}
+    {% if config.extra.visitor_api_url %}
+    <meta name="zola-visitor-api" content="{{ config.extra.visitor_api_url | safe }}">
+    {% endif %}
 
     <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
@@ -384,6 +389,12 @@
                 {# OTP gate — security-by-obscurity, chỉ tránh casual click vào /editor/.
                    Tầng bảo vệ thật là PAT GitHub mà editor.js yêu cầu để save. #}
                 <a href="{{ config.base_url | safe }}/editor/" class="site-footer__admin" data-auth-trigger>Admin</a>
+                {% if config.extra.visitor_api_url %}
+                <span class="site-footer__sep" aria-hidden="true">·</span>
+                <span class="site-footer__visitors" title="Tổng lượt truy cập real-time">
+                    👁 <span id="visitor-count">—</span> lượt truy cập
+                </span>
+                {% endif %}
             </p>
         </div>
     </footer>
@@ -392,6 +403,9 @@
     <script src="{{ get_url(path='js/sidebar.js') }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}" defer></script>
+    {% if config.extra.visitor_api_url %}
+    <script src="{{ get_url(path='js/visitor-counter.js') }}" defer></script>
+    {% endif %}
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>
