@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "SEO11 phase 1 (clean) + slash commands /phimtat /thememoi",
+      "tag": "cleanup",
+      "pr": 146,
+      "lines_added": 215,
+      "lines_removed": 1,
+      "highlights": [
+        "Per-page <meta name=\"description\"> chain: page.description → page.summary (truncate 160) → config.description",
+        "<link rel=\"canonical\"> dùng current_url",
+        "Open Graph block đầy đủ: og:type / og:title / og:description / og:url / og:image (1200×630) / og:site_name / og:locale=vi_VN + article:published_time / modified_time / author / section / tags",
+        "Twitter Card summary_large_image",
+        "JSON-LD Article (post) / WebSite (homepage), dùng json_encode chống injection"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Staging Queue widget + Timezone GMT+7 (dd/mm/yyyy)",
       "tag": "chore",
       "pr": 145,
