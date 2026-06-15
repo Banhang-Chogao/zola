@@ -27,14 +27,9 @@ menu = [
     {url = "$BASE_URL/categories/posting", name = "POSTING"},
     {url = "$BASE_URL/editor", name = "✎ VIẾT BÀI"},
     {url = "$BASE_URL/converter", name = "한 KOREAN CONVERTER"},
-    {url = "$BASE_URL/google-stats", name = "GOOGLE THỐNG KÊ"},
     {url = "$BASE_URL/about", name = "GIỚI THIỆU"},
 ]
 
 # Google Analytics 4 Measurement ID — để trống nếu chưa setup.
 # Khi có, GA tracking script sẽ tự load trên mọi page.
 ga_measurement_id = "G-K9DXHPPGGR"
-
-# Google PageSpeed Insights API key (optional) — tăng quota từ ~400 → 25K req/day
-# Lấy free tại https://console.cloud.google.com/apis/credentials
-pagespeed_api_key = "AIzaSyDCTRCbtiPOs4xN4IEUtkAZSUCnyQlOn3E"

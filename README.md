@@ -18,7 +18,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/deploy.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=Deploy)](https://github.com/Banhang-Chogao/zola/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](#)
 
-[**🌐 Xem live**](https://banhang-chogao.github.io/zola/) · [**📝 Viết bài (CMS)**](https://banhang-chogao.github.io/zola/editor) · [**📊 Speed Insights**](https://banhang-chogao.github.io/zola/stats)
+[**🌐 Xem live**](https://banhang-chogao.github.io/zola/) · [**📝 Viết bài (CMS)**](https://banhang-chogao.github.io/zola/editor) · [**한 Korean Converter**](https://banhang-chogao.github.io/zola/converter/) · [**📊 Speed Insights**](https://banhang-chogao.github.io/zola/stats)
 
 </div>
 
@@ -81,10 +81,6 @@
   </tr>
   <tr>
     <td align="center">
-      <img src="https://img.shields.io/badge/-PageSpeed-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="PageSpeed"/>
-      <br><sub>Insights API v5</sub>
-    </td>
-    <td align="center">
       <img src="https://img.shields.io/badge/-Web%20Vitals-34A853?style=for-the-badge&logo=google&logoColor=white" alt="Web Vitals"/>
       <br><sub>LCP · INP · CLS</sub>
     </td>
@@ -108,9 +104,6 @@ Trang `/editor/` cho phép **đăng nhập bằng GitHub PAT**, viết bài bằ
 
 ### ⚡ Speed Insights (Core Web Vitals)
 Tự đo **LCP / FCP / INP / CLS / TTFB** trên mọi page load qua thư viện [`web-vitals`](https://github.com/GoogleChrome/web-vitals) của Google. Lưu 500 sample gần nhất vào `localStorage`, hiển thị dashboard tại `/stats/`.
-
-### 📊 Google Stats Dashboard
-Trang `/google-stats/` mô phỏng giao diện Google Analytics — kết hợp **GA4 tracking** (qua `gtag.js`) + **PageSpeed Insights API v5** để show real-time Performance / Accessibility / SEO score của chính trang.
 
 ### 🎯 Featured & Random Posts cá nhân hoá
 Sidebar JS đọc `posts-data` JSON inline, **weighted random** dựa trên view / click count lưu `localStorage` — mỗi visitor thấy một danh sách khác nhau.
@@ -168,7 +161,6 @@ Comment system dùng **GitHub Discussions** làm backend — không spam, không
             │  │    · GitHub API   (commit status, queue)   │  │
             │  │    · web-vitals   (Core Web Vitals)        │  │
             │  │    · GA4 gtag     (analytics)              │  │
-            │  │    · PageSpeed v5 (perf score)             │  │
             │  │    · Giscus       (comments)               │  │
             │  └────────────────────────────────────────────┘  │
             └──────────────────────────────────────────────────┘
@@ -180,28 +172,27 @@ Comment system dùng **GitHub Discussions** làm backend — không spam, không
 
 ```
 zola/
-├── 📄 config.toml                  # Zola config + GA4/PageSpeed/Giscus keys
+├── 📄 config.toml                  # Zola config + GA4 measurement id
 ├── 🚀 push.sh                       # Shortcut commit & push
 ├── 📁 content/                      # Markdown bài viết
 │   ├── _index.md
 │   ├── pages/                       # About + static pages
 │   ├── editor/                      # CMS landing
-│   ├── stats/                       # Speed Insights landing
-│   └── google-stats/                # GA4 dashboard landing
+│   └── stats/                       # Speed Insights landing
 ├── 📁 templates/                    # Tera templates
 │   ├── base.html                    # Shell layout (header + nav + sidebar)
 │   ├── index.html / section.html / page.html
 │   ├── editor.html                  # 📝 Mini CMS UI
-│   ├── google-stats.html            # 📊 Analytics dashboard
 │   └── stats.html                   # ⚡ Web Vitals dashboard
 ├── 📁 sass/                         # SCSS modules
 │   ├── site.scss                    # Entry point
 │   ├── _reset.scss / _layout.scss / _navbar.scss / _sidebar.scss
 │   ├── _banner.scss / _post.scss / _single.scss
-│   ├── _editor.scss / _stats.scss / _google-stats.scss
+│   ├── _editor.scss / _stats.scss
 │   ├── _footer.scss / _fonts.scss
 ├── 📁 static/
 │   ├── 🔤 fonts/                    # Ericsson Hilda (5 weights)
+│   ├── 🧮 converter/                # Korean number-to-words tool
 │   └── 📜 js/                       # Vanilla JS modules
 │       ├── header-rotator.js        # GitHub live status banner
 │       ├── sidebar.js               # Featured / random posts
@@ -209,8 +200,6 @@ zola/
 │       ├── auth.js                  # OTP gate cho /editor/
 │       ├── speed-vitals.js          # Core Web Vitals tracker
 │       ├── stats-page.js            # Vitals dashboard renderer
-│       ├── google-stats.js          # GA4 dashboard
-│       ├── pagespeed.js             # PageSpeed Insights loader
 │       └── post-stats.js            # Per-post analytics badge
 ├── 🎨 highlight_themes/             # Catppuccin Mocha .tmTheme
 └── ⚙  .github/workflows/deploy.yml  # CI/CD pipeline
@@ -264,13 +253,6 @@ Tất cả config nằm trong `config.toml`:
 [extra]
 # Google Analytics 4 — để trống = tắt tracking
 ga_measurement_id = "G-XXXXXXXXXX"
-
-# PageSpeed API key — không bắt buộc, nhưng tăng quota 400 → 25K req/day
-pagespeed_api_key = ""
-
-# Giscus comments — lấy 2 ID tại https://giscus.app
-giscus_repo_id = ""
-giscus_category_id = ""
 
 # Menu navigation
 menu = [
