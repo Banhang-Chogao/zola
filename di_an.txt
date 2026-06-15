@@ -1,0 +1,7 @@
+File test deploy rule mới (tạo lúc 2026-06-15 13:20 UTC).
+
+Mục đích: verify quy trình deploy gộp + lệnh `manual #<số PR>` hoạt động đúng.
+
+- File này nằm ở root repo, không ảnh hưởng build Zola
+- Sau khi merge → file tự push lên GitHub main branch
+- Có thể xoá sau khi test xong
