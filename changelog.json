@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "PAT cache + mask OTP/secret patterns trong changelog",
+      "tag": "security",
+      "pr": 29,
+      "lines_added": 63,
+      "lines_removed": 13,
+      "highlights": [
+        "changelog.json: 0512 → **** (PR #27 entry)",
+        "update_changelog.py: thêm mask_secrets() áp dụng trên title + highlights",
+        "6 patterns: ghp_, github_pat_, sk-, AIzaSy, AKIA, OTP/mã/code+digits"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Header layout v2: deploy card sang LEFT cùng title, GitHub box full right",
       "tag": "chore",
       "pr": 28,
