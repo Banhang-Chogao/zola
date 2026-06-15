@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Gỡ triệt để visitor counter + GoatCounter (giữ CMS backend)",
+      "tag": "chore",
+      "pr": 99,
+      "lines_added": 69,
+      "lines_removed": 355,
+      "highlights": [
+        "/cms/save-post (publish post)",
+        "/cms/author (avatar + bio upload)",
+        "/cms/posts/bulk-delete (GraphQL batch)",
+        "/cms/giscus/setup",
+        "GitHub OAuth flow"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Auto-throttle build-related cron + shortcut 'll' liệt kê cron 3 workflows",
       "tag": "chore",
       "pr": 98,
