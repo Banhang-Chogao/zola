@@ -24,13 +24,13 @@
     font-size: 1.75rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: #111;
+    color: $brand-ink-900;
   }
 
   &__count {
     font-family: $font-meta;
     font-size: 0.85rem;
-    color: #888;
+    color: $brand-ink-500;
     background: #f1f1f1;
     padding: 0.2rem 0.65rem;
     border-radius: 999px;
@@ -38,7 +38,7 @@
 
   &__desc {
     font-size: 0.95rem;
-    color: #555;
+    color: $brand-ink-500;
     line-height: 1.65;
     margin: 0;
     max-width: 720px;
@@ -53,7 +53,7 @@
   }
 
   &__empty {
-    background: #fafafa;
+    background: $brand-mist;
     border: 1px dashed #ddd;
     border-radius: 8px;
     padding: 2rem;
@@ -62,7 +62,7 @@
 
     code {
       background: #1a1a1a;
-      color: #fafafa;
+      color: $brand-mist;
       padding: 0.2rem 0.5rem;
       border-radius: 3px;
       font-family: $font-mono;
@@ -78,8 +78,8 @@
     flex-wrap: wrap;
     gap: 1rem;
     padding: 0.85rem 1rem;
-    background: #fafafa;
-    border: 1px solid #ececec;
+    background: $brand-mist;
+    border: 1px solid $brand-edge;
     border-radius: 10px;
     margin-bottom: 1rem;
   }
@@ -108,17 +108,17 @@
     padding: 0.4rem 0.9rem;
     border-radius: 999px;
     border: 1px solid #ddd;
-    background: #fff;
-    color: #333;
+    background: $brand-snow;
+    color: $brand-ink-800;
     cursor: pointer;
     transition: all .15s ease;
 
-    &:hover { border-color: #333; }
+    &:hover { border-color: $brand-ink-800; }
 
     &--active {
-      background: #111;
-      color: #fff;
-      border-color: #111;
+      background: $brand-ink-900;
+      color: $brand-snow;
+      border-color: $brand-ink-900;
     }
   }
 
@@ -134,19 +134,19 @@
     padding: 0.42rem 0.85rem;
     border: 1px solid #ddd;
     border-radius: 6px;
-    background: #fff;
+    background: $brand-snow;
     cursor: pointer;
-    color: #111;
+    color: $brand-ink-900;
 
-    &:focus { border-color: #111; outline: none; }
+    &:focus { border-color: $brand-ink-900; outline: none; }
   }
 
   /* ===== Table ===== */
   &__table-wrap {
     overflow-x: auto;
-    border: 1px solid #ececec;
+    border: 1px solid $brand-edge;
     border-radius: 10px;
-    background: #fff;
+    background: $brand-snow;
   }
 
   &__table {
@@ -163,9 +163,9 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #777;
-    border-bottom: 1px solid #ececec;
-    background: #fbfbfb;
+    color: $brand-ink-500;
+    border-bottom: 1px solid $brand-edge;
+    background: $brand-mist;
     white-space: nowrap;
 
     &--rank   { width: 50px; text-align: center; }
@@ -176,19 +176,19 @@
 
   &__row {
     transition: background .12s ease;
-    &:hover { background: #fafafa; }
-    &:not(:last-child) .scoring__td { border-bottom: 1px solid #f3f3f3; }
+    &:hover { background: $brand-mist; }
+    &:not(:last-child) .scoring__td { border-bottom: 1px solid $brand-fog; }
   }
 
   &__td {
     padding: 0.85rem 1rem;
     vertical-align: middle;
-    color: #2d2d2d;
+    color: $brand-ink-800;
 
     &--rank {
       text-align: center;
       font-family: $font-mono;
-      color: #999;
+      color: $brand-ink-400;
       font-size: 0.82rem;
       font-variant-numeric: tabular-nums;
     }
@@ -196,7 +196,7 @@
     &--score { text-align: center; }
     &--date {
       font-family: $font-meta;
-      color: #777;
+      color: $brand-ink-500;
       font-size: 0.85rem;
       font-variant-numeric: tabular-nums;
     }
@@ -205,16 +205,16 @@
 
   &__link {
     font-weight: 600;
-    color: #111;
+    color: $brand-ink-900;
     text-decoration: none;
-    &:hover { color: #d63d3d; text-decoration: underline; }
+    &:hover { color: $brand-signal-red; text-decoration: underline; }
   }
 
   &__neighbors {
     display: block;
     font-family: $font-meta;
     font-size: 0.72rem;
-    color: #999;
+    color: $brand-ink-400;
     margin-top: 0.15rem;
   }
 
@@ -230,7 +230,7 @@
     font-weight: 700;
     font-size: 0.85rem;
     font-variant-numeric: tabular-nums;
-    color: #fff;
+    color: $brand-snow;
 
     &--high {
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -239,7 +239,7 @@
       background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     }
     &--low {
-      background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+      background: linear-gradient(135deg, $brand-ink-400 0%, $brand-ink-500 100%);
     }
   }
 
@@ -251,20 +251,20 @@
     height: 32px;
     border-radius: 6px;
     background: #f1f1f1;
-    color: #333;
+    color: $brand-ink-800;
     text-decoration: none;
     font-size: 1.1rem;
     transition: background .15s ease, transform .15s ease;
     &:hover {
-      background: #111;
-      color: #fff;
+      background: $brand-ink-900;
+      color: $brand-snow;
       transform: translateX(2px);
     }
   }
 
   &__empty-filter {
     text-align: center;
-    color: #888;
+    color: $brand-ink-500;
     padding: 2rem;
     font-style: italic;
   }
@@ -300,12 +300,12 @@
     }
 
     &__row {
-      background: #fff;
-      border: 1px solid #ececec;
+      background: $brand-snow;
+      border: 1px solid $brand-edge;
       border-radius: 10px;
       padding: 0.85rem 1rem;
       margin-bottom: 0.65rem;
-      &:hover { background: #fff; }
+      &:hover { background: $brand-snow; }
       &:not(:last-child) .scoring__td { border-bottom: 0; }
     }
 
@@ -321,13 +321,13 @@
         order: -1;
         margin-bottom: 0.5rem;
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid #f3f3f3;
+        border-bottom: 1px solid $brand-fog;
       }
       &--date {
         font-size: 0.78rem;
         &::before {
           content: "Cập nhật: ";
-          color: #aaa;
+          color: $brand-ink-400;
           margin-right: 0.35rem;
         }
       }

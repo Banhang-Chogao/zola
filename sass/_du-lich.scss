@@ -27,7 +27,7 @@ main.container:has(.du-lich) {
   font-size: 2rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #0f172a;
+  color: $brand-ink-900;
   line-height: 1.2;
 
   .du-lich__icon {
@@ -36,7 +36,7 @@ main.container:has(.du-lich) {
 
   /* "Znews" với verified badge inline */
   .du-lich__source {
-    color: #d63d3d;
+    color: $brand-signal-red;
     display: inline-flex;
     align-items: center;
 
@@ -51,7 +51,7 @@ main.container:has(.du-lich) {
 .du-lich__sub {
   margin: 0;
   font-size: 0.92rem;
-  color: #64748b;
+  color: $brand-ink-500;
   max-width: 540px;
   margin: 0 auto;
   line-height: 1.5;
@@ -69,8 +69,8 @@ main.container:has(.du-lich) {
 .du-lich-card {
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: $brand-snow;
+  border: 1px solid $brand-edge-strong;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
   text-decoration: none;
@@ -82,9 +82,9 @@ main.container:has(.du-lich) {
   &:hover {
     box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1);
     transform: translateY(-3px);
-    border-color: #cbd5e1;
+    border-color: $brand-ink-300;
 
-    .du-lich-card__title { color: #d63d3d; }
+    .du-lich-card__title { color: $brand-signal-red; }
     .du-lich-card__thumb img { transform: scale(1.08); }
   }
 
@@ -99,8 +99,8 @@ main.container:has(.du-lich) {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #d63d3d, #b91c1c);
-    color: #fff;
+    background: linear-gradient(135deg, $brand-signal-red, #b91c1c);
+    color: $brand-snow;
     border-radius: 8px;
     font-weight: 800;
     font-size: 0.88rem;
@@ -113,7 +113,7 @@ main.container:has(.du-lich) {
     width: 100%;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    background: #f1f5f9;
+    background: $brand-fog;
     flex-shrink: 0;
 
     img {
@@ -138,7 +138,7 @@ main.container:has(.du-lich) {
     margin: 0 0 0.4rem;
     font-size: 0.92rem;
     font-weight: 700;
-    color: #0f172a;
+    color: $brand-ink-900;
     line-height: 1.35;
     letter-spacing: -0.005em;
     transition: color .15s ease;
@@ -151,7 +151,7 @@ main.container:has(.du-lich) {
   &__summary {
     margin: 0 0 0.65rem;
     font-size: 0.78rem;
-    color: #64748b;
+    color: $brand-ink-500;
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -165,7 +165,7 @@ main.container:has(.du-lich) {
     align-items: center;
     gap: 0.5rem;
     font-size: 0.7rem;
-    color: #94a3b8;
+    color: $brand-ink-400;
     font-variant-numeric: tabular-nums;
     flex-wrap: wrap;
     margin-top: auto;
@@ -177,7 +177,7 @@ main.container:has(.du-lich) {
   }
 
   &__source {
-    color: #d63d3d;
+    color: $brand-signal-red;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -221,7 +221,7 @@ main.container:has(.du-lich) {
     content: "";
     width: 100%;
     aspect-ratio: 16 / 10;
-    background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+    background: linear-gradient(90deg, $brand-fog 0%, $brand-edge-strong 50%, $brand-fog 100%);
     background-size: 200% 100%;
     animation: du-lich-shimmer 1.4s linear infinite;
   }
@@ -237,7 +237,7 @@ main.container:has(.du-lich) {
 
 .du-lich-card__skeleton-bar {
   height: 14px;
-  background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+  background: linear-gradient(90deg, $brand-fog 0%, $brand-edge-strong 50%, $brand-fog 100%);
   background-size: 200% 100%;
   animation: du-lich-shimmer 1.4s linear infinite;
   border-radius: 6px;
@@ -280,9 +280,9 @@ main.container:has(.du-lich) {
   justify-content: space-between;
   gap: 0.85rem;
   padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid $brand-edge-strong;
   font-size: 0.82rem;
-  color: #94a3b8;
+  color: $brand-ink-400;
   flex-wrap: wrap;
 }
 
@@ -332,27 +332,27 @@ main.container:has(.du-lich) {
 
 /* ============= DARK MODE ============= */
 @media (prefers-color-scheme: dark) {
-  .du-lich__title { color: #f1f5f9; }
-  .du-lich__sub, .du-lich__footer, .du-lich__cache-info { color: #64748b; }
+  .du-lich__title { color: $brand-fog; }
+  .du-lich__sub, .du-lich__footer, .du-lich__cache-info { color: $brand-ink-500; }
 
   .du-lich-card {
-    background: #1e293b;
+    background: $brand-ink-800;
     border-color: #334155;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
     &:hover {
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-      border-color: #475569;
+      border-color: $brand-ink-500;
     }
 
-    &__title    { color: #f1f5f9; }
-    &__summary  { color: #cbd5e1; }
-    &__meta     { color: #64748b; }
-    &__arrow    { color: #475569; }
+    &__title    { color: $brand-fog; }
+    &__summary  { color: $brand-ink-300; }
+    &__meta     { color: $brand-ink-500; }
+    &__arrow    { color: $brand-ink-500; }
   }
 
   .du-lich-card__skeleton-bar {
-    background: linear-gradient(90deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+    background: linear-gradient(90deg, $brand-ink-800 0%, #334155 50%, $brand-ink-800 100%);
     background-size: 200% 100%;
   }
 

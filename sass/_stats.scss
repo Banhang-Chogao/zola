@@ -2,7 +2,7 @@
 
 .stats-loading {
   text-align: center;
-  color: #777;
+  color: $brand-ink-500;
   padding: 3rem 0;
 }
 
@@ -14,28 +14,28 @@
   font-family: $font-heading;
   font-size: 1.2rem;
   font-weight: 800;
-  color: #111;
+  color: $brand-ink-900;
   margin: 0 0 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #111;
+  border-bottom: 2px solid $brand-ink-900;
   display: inline-block;
 }
 
 .stats-help {
-  color: #555;
+  color: $brand-ink-500;
   font-size: 0.9rem;
   margin: 0 0 1rem;
   line-height: 1.55;
 
-  a { color: #1572bd; border-bottom: 1px solid rgba(21,114,189,0.3); }
-  a:hover { color: #d63d3d; border-bottom-color: #d63d3d; }
+  a { color: $brand-trust-cyan; border-bottom: 1px solid rgba(21,114,189,0.3); }
+  a:hover { color: $brand-signal-red; border-bottom-color: $brand-signal-red; }
 }
 
 .stats-empty {
-  color: #999;
+  color: $brand-ink-400;
   font-style: italic;
   padding: 1.5rem;
-  background: #fafafa;
+  background: $brand-mist;
   border-radius: 4px;
   text-align: center;
 }
@@ -48,7 +48,7 @@
 }
 
 .summary-card {
-  background: #fff;
+  background: $brand-snow;
   padding: 1.25rem 1rem;
   border-radius: 6px;
   text-align: center;
@@ -58,14 +58,14 @@
     font-family: $font-heading;
     font-size: 2rem;
     font-weight: 800;
-    color: #111;
+    color: $brand-ink-900;
     line-height: 1;
   }
 
   &__label {
     margin-top: 0.4rem;
     font-size: 0.78rem;
-    color: #777;
+    color: $brand-ink-500;
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
@@ -79,7 +79,7 @@
 }
 
 .vital-card {
-  background: #fff;
+  background: $brand-snow;
   padding: 1.25rem;
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
@@ -96,7 +96,7 @@
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.1em;
-    color: #777;
+    color: $brand-ink-500;
     margin-bottom: 0.5rem;
   }
 
@@ -104,7 +104,7 @@
     font-family: $font-heading;
     font-size: 1.85rem;
     font-weight: 800;
-    color: #111;
+    color: $brand-ink-900;
     line-height: 1;
   }
 
@@ -117,7 +117,7 @@
   &--good &__label        { color: #16a34a; }
   &--needs-improvement &__label { color: #d97706; }
   &--poor &__label        { color: #dc2626; }
-  &--unknown &__label     { color: #999; }
+  &--unknown &__label     { color: $brand-ink-400; }
 
   &__meta {
     margin-top: 0.75rem;
@@ -164,7 +164,7 @@
     justify-content: center;
     height: 26px;
     font-size: 0.75rem;
-    color: #999;
+    color: $brand-ink-400;
     font-style: italic;
   }
 }
@@ -176,7 +176,7 @@
   gap: 0.2rem;
   align-items: end;
   height: 140px;
-  background: #fff;
+  background: $brand-snow;
   padding: 1rem 0.8rem 1.75rem;
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
@@ -191,7 +191,7 @@
   cursor: pointer;
 
   &__fill {
-    background: linear-gradient(to top, #d63d3d, #f87171);
+    background: linear-gradient(to top, $brand-signal-red, #f87171);
     border-radius: 2px 2px 0 0;
     min-height: 2px;
   }
@@ -206,7 +206,7 @@
     text-align: center;
     font-family: $font-mono;
     font-size: 0.55rem;
-    color: #999;
+    color: $brand-ink-400;
   }
 }
 
@@ -218,7 +218,7 @@
 }
 
 .event-type {
-  background: #fff;
+  background: $brand-snow;
   padding: 1.5rem 1rem;
   border-radius: 6px;
   text-align: center;
@@ -226,21 +226,21 @@
   border-top: 3px solid #d1d5db;
 
   &--click { border-top-color: #f59e0b; }
-  &--view  { border-top-color: #1572bd; }
+  &--view  { border-top-color: $brand-trust-cyan; }
   &--full  { border-top-color: #22c55e; }
 
   &__count {
     font-family: $font-heading;
     font-size: 2.4rem;
     font-weight: 800;
-    color: #111;
+    color: $brand-ink-900;
     line-height: 1;
   }
 
   &__label {
     margin-top: 0.4rem;
     font-size: 0.85rem;
-    color: #555;
+    color: $brand-ink-500;
     font-weight: 600;
   }
 }
@@ -248,7 +248,7 @@
 /* ============= TABLE ============= */
 .stats-table {
   width: 100%;
-  background: #fff;
+  background: $brand-snow;
   border-collapse: collapse;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   border-radius: 6px;
@@ -261,15 +261,15 @@
   }
 
   th {
-    background: #f8f8f8;
+    background: $brand-mist;
     font-size: 0.72rem;
     letter-spacing: 0.1em;
-    color: #555;
+    color: $brand-ink-500;
     text-transform: uppercase;
   }
 
   tbody tr:last-child td { border-bottom: 0; }
-  tbody tr:hover { background: #fafafa; }
+  tbody tr:hover { background: $brand-mist; }
 
   td code {
     background: #f3f4f6;
@@ -278,5 +278,5 @@
     font-size: 0.85em;
   }
 
-  td a:hover code { color: #d63d3d; }
+  td a:hover code { color: $brand-signal-red; }
 }

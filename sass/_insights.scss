@@ -34,14 +34,14 @@ main.container:has(.insights) {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #0f172a;
+  color: $brand-ink-900;
   letter-spacing: -0.01em;
 }
 
 .insights__period-badge {
   display: inline-block;
   padding: 0.4rem 0.85rem;
-  background: #fff;
+  background: $brand-snow;
   border: 1px solid #d0d7de;
   border-radius: 6px;
   font-size: 0.82rem;
@@ -59,7 +59,7 @@ main.container:has(.insights) {
 
 /* ============= LEFT: Timeline ============= */
 .insights__left {
-  background: #fff;
+  background: $brand-snow;
   border: 1px solid #d0d7de;
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
@@ -125,7 +125,7 @@ main.container:has(.insights) {
   margin-left: -0.5rem;
   position: relative;
   z-index: 1;
-  box-shadow: 0 0 0 3px #fff;
+  box-shadow: 0 0 0 3px $brand-snow;
 }
 
 .insights__pr-body { flex: 1; min-width: 0; }
@@ -188,7 +188,7 @@ main.container:has(.insights) {
 
 /* Active bar */
 .insights__active {
-  background: #fff;
+  background: $brand-snow;
   border: 1px solid #d0d7de;
   border-radius: 8px;
   padding: 1rem 1.25rem;
@@ -227,7 +227,7 @@ main.container:has(.insights) {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0;
-  background: #fff;
+  background: $brand-snow;
   border: 1px solid #d0d7de;
   border-radius: 8px;
   overflow: hidden;
@@ -276,7 +276,7 @@ main.container:has(.insights) {
 }
 
 .insights__card {
-  background: #fff;
+  background: $brand-snow;
   border: 1px solid #d0d7de;
   border-radius: 8px;
   padding: 0.95rem 1.1rem;
@@ -333,7 +333,7 @@ main.container:has(.insights) {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  color: #fff;
+  color: $brand-snow;
   font-size: 0.7rem;
   font-weight: 700;
   line-height: 1;
@@ -408,18 +408,18 @@ main.container:has(.insights) {
 
 /* ============= DARK MODE ============= */
 @media (prefers-color-scheme: dark) {
-  .insights__period-range { color: #f1f5f9; }
+  .insights__period-range { color: $brand-fog; }
   .insights__period-badge {
-    background: #1e293b;
+    background: $brand-ink-800;
     border-color: #334155;
-    color: #94a3b8;
+    color: $brand-ink-400;
   }
 
   .insights__left,
   .insights__active,
   .insights__stats-grid,
   .insights__card {
-    background: #1e293b;
+    background: $brand-ink-800;
     border-color: #334155;
   }
 
@@ -427,20 +427,20 @@ main.container:has(.insights) {
   .insights__details-title,
   .insights__overview-title,
   .insights__stat-num,
-  .insights__card-title { color: #f1f5f9; }
+  .insights__card-title { color: $brand-fog; }
 
   .insights__pr { border-bottom-color: #334155; }
-  .insights__pr-title a { color: #f1f5f9; }
+  .insights__pr-title a { color: $brand-fog; }
   .insights__pr-title a:hover { color: #60a5fa; }
-  .insights__pr-dot { box-shadow: 0 0 0 3px #1e293b; }
+  .insights__pr-dot { box-shadow: 0 0 0 3px $brand-ink-800; }
   .insights__pr-meta,
   .insights__active-labels,
   .insights__stat-label,
   .insights__summary-text,
-  .insights__committer-name { color: #94a3b8; }
+  .insights__committer-name { color: $brand-ink-400; }
   .insights__active-label strong,
   .insights__summary-text strong,
-  .insights__committer-count { color: #f1f5f9; }
+  .insights__committer-count { color: $brand-fog; }
 
   .insights__stat { border-color: #334155; }
   .insights__bar--issues { background: #334155; }
@@ -448,6 +448,6 @@ main.container:has(.insights) {
   .insights__source { color: #60a5fa; }
   .insights__pr-num { color: #60a5fa; }
 
-  .insights__summary-text code { background: #0f172a; color: #cbd5e1; }
-  .insights__committer-bar { background: #0f172a; }
+  .insights__summary-text code { background: $brand-ink-900; color: $brand-ink-300; }
+  .insights__committer-bar { background: $brand-ink-900; }
 }

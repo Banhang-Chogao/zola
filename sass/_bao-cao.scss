@@ -11,7 +11,7 @@
 
   &__head {
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid #ececec;
+    border-bottom: 1px solid $brand-edge;
     padding-bottom: 1rem;
   }
 
@@ -20,12 +20,12 @@
     font-size: 1.85rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: #111;
+    color: $brand-ink-900;
     margin: 0 0 0.45rem;
   }
 
   &__desc {
-    color: #555;
+    color: $brand-ink-500;
     font-size: 0.95rem;
     line-height: 1.65;
     margin: 0;
@@ -63,11 +63,11 @@
     p {
       margin: 0;
       font-size: 0.88rem;
-      color: #555;
+      color: $brand-ink-500;
       line-height: 1.5;
 
       a {
-        color: #d63d3d;
+        color: $brand-signal-red;
         font-weight: 600;
         border-bottom: 1px dotted;
       }
@@ -89,8 +89,8 @@
 
   /* Latest report card */
   &__latest {
-    background: #fafafa;
-    border: 1px solid #ececec;
+    background: $brand-mist;
+    border: 1px solid $brand-edge;
     border-radius: 10px;
     padding: 1.25rem 1.5rem;
     margin-bottom: 1.75rem;
@@ -109,20 +109,20 @@
     font-family: $font-heading;
     font-size: 1.1rem;
     font-weight: 800;
-    color: #111;
+    color: $brand-ink-900;
     margin: 0;
   }
 
   &__latest-date {
     font-family: $font-meta;
     font-size: 0.8rem;
-    color: #888;
+    color: $brand-ink-500;
     font-variant-numeric: tabular-nums;
   }
 
   &__latest-body {
     font-size: 0.9rem;
-    color: #2d2d2d;
+    color: $brand-ink-800;
     line-height: 1.65;
 
     table {
@@ -133,7 +133,7 @@
       th, td {
         text-align: left;
         padding: 0.45rem 0.65rem;
-        border-bottom: 1px solid #ececec;
+        border-bottom: 1px solid $brand-edge;
       }
 
       th {
@@ -141,8 +141,8 @@
         font-size: 0.72rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: #777;
-        background: #fff;
+        color: $brand-ink-500;
+        background: $brand-snow;
       }
     }
   }
@@ -153,8 +153,8 @@
     gap: 0.4rem;
     margin-top: 0.85rem;
     padding: 0.5rem 0.95rem;
-    background: #111;
-    color: #fff;
+    background: $brand-ink-900;
+    color: $brand-snow;
     text-decoration: none;
     border-radius: 6px;
     font-family: $font-ui;
@@ -170,7 +170,7 @@
     }
 
     &:hover {
-      background: #d63d3d;
+      background: $brand-signal-red;
       transform: translateY(-1px);
     }
   }
@@ -180,24 +180,24 @@
     font-family: $font-heading;
     font-size: 1rem;
     font-weight: 800;
-    color: #111;
+    color: $brand-ink-900;
     margin: 0 0 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
 
   &__empty {
-    background: #fafafa;
+    background: $brand-mist;
     border: 1px dashed #ddd;
     border-radius: 8px;
     padding: 1.5rem;
     text-align: center;
-    color: #777;
+    color: $brand-ink-500;
     font-size: 0.9rem;
 
     code {
       background: #1a1a1a;
-      color: #fff;
+      color: $brand-snow;
       padding: 0.1rem 0.5rem;
       border-radius: 3px;
       font-family: $font-mono;
@@ -208,7 +208,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    border: 1px solid #ececec;
+    border: 1px solid $brand-edge;
     border-radius: 10px;
     overflow: hidden;
   }
@@ -219,29 +219,29 @@
     align-items: center;
     gap: 1rem;
     padding: 0.85rem 1rem;
-    background: #fff;
+    background: $brand-snow;
     transition: background .12s ease;
 
     &:not(:last-child) {
-      border-bottom: 1px solid #f3f3f3;
+      border-bottom: 1px solid $brand-fog;
     }
 
     &:hover {
-      background: #fafafa;
+      background: $brand-mist;
     }
   }
 
   &__item-name code {
     font-family: $font-mono;
     font-size: 0.85rem;
-    color: #111;
+    color: $brand-ink-900;
     font-weight: 500;
   }
 
   &__item-date {
     font-family: $font-meta;
     font-size: 0.78rem;
-    color: #888;
+    color: $brand-ink-500;
     font-variant-numeric: tabular-nums;
   }
 
@@ -258,24 +258,24 @@
   }
 
   &__item-download {
-    background: #111;
-    color: #fff;
+    background: $brand-ink-900;
+    color: $brand-snow;
     transition: background .15s ease;
-    &:hover { background: #d63d3d; }
+    &:hover { background: $brand-signal-red; }
   }
 
   &__item-locked {
     background: #f1f1f1;
-    color: #999;
+    color: $brand-ink-400;
     cursor: not-allowed;
   }
 
   &__foot {
     margin-top: 2rem;
     padding-top: 1rem;
-    border-top: 1px solid #ececec;
+    border-top: 1px solid $brand-edge;
     font-size: 0.82rem;
-    color: #888;
+    color: $brand-ink-500;
     line-height: 1.65;
 
     p { margin: 0 0 0.55rem; }
@@ -289,7 +289,7 @@
       font-size: 0.85em;
     }
 
-    strong { color: #2d2d2d; }
+    strong { color: $brand-ink-800; }
   }
 }
 
