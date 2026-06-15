@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "meta zola-cms-auth-api không render khi cms_auth_url = \"\"",
+      "tag": "fix",
+      "pr": 45,
+      "lines_added": 83,
+      "lines_removed": 27,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-15",
       "title": "cache key news include source ID → auto-invalidate khi đổi config",
       "tag": "fix",
       "pr": 44,
