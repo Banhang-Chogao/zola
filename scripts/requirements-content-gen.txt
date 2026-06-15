@@ -5,9 +5,10 @@
 # --- LLM gateway: unified API cho Claude / GPT / OpenRouter / Ollama ---
 litellm>=1.50
 
-# --- LangChain core + community (ChatLiteLLM wrapper, ChatPromptTemplate) ---
+# --- LangChain core + ChatLiteLLM wrapper standalone (langchain-community
+# đã sunset chat_models, ChatLiteLLM giờ ở package riêng) ---
 langchain-core>=0.3
-langchain-community>=0.3
+langchain-litellm>=0.7
 
 # --- Embedding retrieval (cùng model với build_related.py để share cache) ---
 sentence-transformers>=3.0
