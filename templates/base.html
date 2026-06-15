@@ -102,16 +102,8 @@
     <script src="https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js" defer></script>
     <script src="{{ get_url(path='js/speed-vitals.js') }}" defer></script>
 
-    {# Google Analytics 4 — auto load khi config.extra.ga_measurement_id có giá trị #}
-    {% if config.extra.ga_measurement_id %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '{{ config.extra.ga_measurement_id }}');
-    </script>
-    {% endif %}
+    {# Google Analytics 4 đã được dời xuống trước </body> để tối ưu page
+       load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
 
     {% block extra_head %}{% endblock %}
 </head>
@@ -498,5 +490,19 @@
     <script src="{{ get_url(path='js/visitor-counter.js') }}" defer></script>
     {% endif %}
     {% block extra_scripts %}{% endblock %}
+
+    {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====
+       Đặt ngay trước </body> thay vì <head> → KHÔNG block initial paint.
+       Auto-load chỉ khi config.extra.ga_measurement_id có giá trị.
+       Sửa MEASUREMENT_ID bằng cách điền config.toml [extra] ga_measurement_id. #}
+    {% if config.extra.ga_measurement_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ config.extra.ga_measurement_id }}');
+    </script>
+    {% endif %}
 </body>
 </html>

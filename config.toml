@@ -56,9 +56,11 @@ menu = [
     {url = "$BASE_URL/about", name = "GIỚI THIỆU"},
 ]
 
-# Google Analytics 4 Measurement ID — để trống nếu chưa setup.
-# Khi có, GA tracking script sẽ tự load trên mọi page.
-ga_measurement_id = "G-K9DXHPPGGR"
+# ============= GOOGLE ANALYTICS 4 =============
+# Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams
+# → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX"
+# Để trống = GA tracking script không load (silent skip).
+ga_measurement_id = ""
 
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
