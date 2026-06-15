@@ -184,14 +184,15 @@
                 </a>
             </div>
 
-            {# Deploy status — luôn DEPLOYED vì user thấy trang = build đã deploy xong.
-               (Trước đây fetch GitHub Actions client-side → tốn quota; nay bake static.) #}
-            <div class="deploy-queue">
-                <span class="deploy-queue__badge deploy-queue__badge--success">✓ DEPLOYED</span>
+            {# Deploy status — real-time fetch qua deploy-status.js. Static
+               '✓ DEPLOYED' là fallback nếu fetch fail (offline/rate-limit/CSP).
+               JS sẽ update badge text/class + message text + timestamp tương đối. #}
+            <div class="deploy-queue" data-deploy-status>
+                <span class="deploy-queue__badge deploy-queue__badge--success" data-deploy-badge>✓ DEPLOYED</span>
                 <div class="deploy-queue__items">
                     <span class="deploy-queue__msg">
                         <span class="status-dot status-dot--success"></span>
-                        Build hiện tại đã deploy lên GitHub Pages
+                        <span data-deploy-text>Build hiện tại đã deploy lên GitHub Pages</span>
                     </span>
                 </div>
             </div>
@@ -342,6 +343,7 @@
     <script src="{{ get_url(path='js/header-rotator.js') }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}" defer></script>
+    <script src="{{ get_url(path='js/deploy-status.js') }}" defer></script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>
