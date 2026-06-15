@@ -2,6 +2,51 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm Content Generation Pipeline (LangChain + LiteLLM)",
+      "tag": "chore",
+      "pr": 131,
+      "lines_added": 569,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/content_gen.py — pipeline RAG-based dùng LangChain LCEL + LiteLLM wrapper (swap Claude / GPT / OpenRouter qua 1 flag --model)",
+        "scripts/prompts/ — prompt library 4 file theo category (default / du-lich / cong-nghe / am-thuc), mỗi file encode giọng riêng để tránh AI viết đồng nhất toàn blog",
+        "scripts/requirements-content-gen.txt — deps tách riêng (LangChain ~200MB không nhét vào requirements.txt của build_related.py)",
+        "draft — idea rời rạc → bản nháp đầy đủ",
+        "refine — giữ ý bản nháp tay, chỉ sửa văn phong"
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "title": "E-X (Ericsson Newsroom) branding theme — third design system",
+      "tag": "feat",
+      "pr": 130,
+      "lines_added": 1647,
+      "lines_removed": 0,
+      "highlights": [
+        "New design tokens (sass/_ex-tokens.scss):",
+        "Energy Blue palette (#1174E5 as north star)",
+        "High-contrast monochrome text hierarchy (#0C0C0C → #707070)",
+        "Restrained accent colors (yellow for awards, red for breaking news, green for sustainability)",
+        "Subtle surface tiers (snow, mist, fog, cloud)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "title": "Dynamic Theme Switching — BrandingX ↔ Z-X (4 layer CSS/JS/UI/QA)",
+      "tag": "chore",
+      "pr": 129,
+      "lines_added": 409,
+      "lines_removed": 42,
+      "highlights": [
+        "--c-bg-page / --c-bg-surface / --c-bg-soft",
+        "--c-text-heading / --c-text-body / --c-text-muted",
+        "--c-accent / --c-accent-hover / --c-accent-soft",
+        "--c-decoration (tag/promo color)",
+        "--c-border / --c-border-strong"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Phần 2/2 Z-X: thêm sass/_zx.scss đầy đủ + wire vào site.scss",
       "tag": "chore",
       "pr": 128,

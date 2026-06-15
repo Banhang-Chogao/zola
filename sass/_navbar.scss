@@ -1,11 +1,11 @@
 .navbar {
   /* Momo-style light header — white background với border bottom subtle.
      Text-only navigation với pink underline active state. */
-  background: $brand-snow;
+  background: var(--c-bg-surface);
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid $brand-edge;
+  border-bottom: 1px solid var(--c-border);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   padding-top: env(safe-area-inset-top);
   transition: box-shadow .25s ease;
@@ -29,7 +29,7 @@
     a {
       /* Inter cho UI menu — clean text only, normal case theo momo */
       font-family: $font-ui;
-      color: $brand-ink-500;
+      color: var(--c-text-muted);
       padding: 1.25rem 1.1rem;
       font-size: 0.95rem;
       font-weight: 600;
@@ -42,29 +42,51 @@
       margin-bottom: -1px;     /* overlap border navbar */
       transition: color .15s ease, border-color .15s ease;
 
-      /* Active state momo: text đậm + pink/red underline */
+      /* Active state momo: text đậm + accent underline (theme-aware) */
       &.is-active {
-        color: $brand-signal-red;
+        color: var(--c-accent);
         font-weight: 700;
-        border-bottom-color: $brand-signal-red;
+        border-bottom-color: var(--c-accent);
       }
 
       &:hover {
-        color: $brand-signal-red;
+        color: var(--c-accent);
       }
     }
   }
 
-  &__search {
+  &__search,
+  &__theme {
     background: transparent;
     border: none;
-    color: $brand-ink-500;
-    padding: 0 1.5rem;
+    color: var(--c-text-muted);
+    padding: 0 1rem;
     display: flex;
     align-items: center;
-    transition: color .15s ease;
+    justify-content: center;
+    transition: color .15s ease, background .15s ease;
+    cursor: pointer;
 
-    &:hover { color: $brand-signal-red; }
+    &:hover { color: var(--c-accent); }
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--c-focus-ring);
+      border-radius: 6px;
+    }
+  }
+
+  /* Theme switcher button: icon mặt trời / mặt trăng, góc phải navbar */
+  &__theme {
+    padding: 0 0.85rem;
+
+    &[aria-pressed="true"] {
+      color: var(--c-accent);
+    }
+
+    .navbar__theme-icon {
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   /* Burger button — desktop ẩn, mobile hiện. 3 line ngang animated → X
