@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Render Blueprint deploy + Visitor demo mode + fix changelog double-prefix",
+      "tag": "fix",
+      "pr": 39,
+      "lines_added": 181,
+      "lines_removed": 11,
+      "highlights": [
+        "services/visitor-counter/render.yaml: khai báo 2 service (Redis + Web), Render tự dựng + inject REDIS_URL từ Redis service",
+        "Region singapore cho latency tốt với user VN",
+        "6 env vars bake (CORS, BLOG_URL, ADMIN_EMAILS, TTLs), 3 vars sync:false (BACKEND_URL, GH_CLIENT_ID, GH_CLIENT_SECRET) → user fill khi apply",
+        "README.md mục mới \"⚡ Quick deploy\" 3 bước rõ ràng",
+        "Badge \"🚧 DEMO\" thay \"LIVE\" (amber palette phân biệt)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm tính năng: GitHub OAuth CMS + RSS Checker + Du lịch (Znews) + UI sync + commit msg chuẩn",
       "tag": "chore",
       "pr": 38,
