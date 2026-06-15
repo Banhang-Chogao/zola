@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm workflow ai-pipeline chạy 3 bước batch trên Actions",
+      "tag": "chore",
+      "pr": 141,
+      "lines_added": 354,
+      "lines_removed": 0,
+      "highlights": [
+        "ANTHROPIC_API_KEY chỉ inject vào step 3 (batch_frontmatter), 2 step embedding không đụng",
+        "HF model cache (~/.cache/huggingface) reuse từ build-related.yml → first run ~2 phút, sau ~30s"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Expand GA stats with 5 advanced metrics + top country/device chips",
       "tag": "chore",
       "pr": 139,
