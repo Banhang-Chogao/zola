@@ -64,13 +64,6 @@ menu = [
 # Property ID: 541698865 (tham chiếu Admin → Property Settings)
 ga_measurement_id = "G-REFBXH86Z5"
 
-# ============= GOATCOUNTER (visitor count, no backend) =============
-# Free 100k pageviews/tháng, không cookie, không cold-start.
-# Setup: tạo account miễn phí tại https://www.goatcounter.com
-# → code (subdomain) sẽ là "banhang-chogao" hoặc tên bạn chọn
-# → set vào đây để bật. Khi trống = visitor counter ẨN hoàn toàn.
-goatcounter_code = "banhang-chogao"
-
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
 #   1. Settings → Features → bật Discussions cho repo
@@ -84,12 +77,5 @@ repo_id     = "R_kgDOS5xLPw"
 category    = "General"
 category_id = "DIC_kwDOS5xLP84C_Fx6"
 
-# Visitor counter backend URL — để trống cho đến khi deploy
-# services/visitor-counter/ lên Render hoặc Railway. Khi có URL,
-# meta tag + script + footer span sẽ tự bật. Xem
-# services/visitor-counter/README.md để deploy.
-visitor_api_url = "https://blog-visitor-api.onrender.com"
-
-# CMS auth backend URL — nếu deploy auth tách khỏi visitor counter.
-# Để trống = reuse visitor_api_url (cùng service FastAPI mở rộng).
+# CMS auth backend URL — FastAPI service trên Render.
 cms_auth_url = ""

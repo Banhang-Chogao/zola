@@ -67,17 +67,8 @@
     ">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    {# Visitor counter API URL — bake build-time. Để trống ⇒ script silent skip. #}
-    {% if config.extra.visitor_api_url %}
-    <meta name="zola-visitor-api" content="{{ config.extra.visitor_api_url | safe }}">
-    {% endif %}
-
-    {# CMS auth backend (cùng service với visitor counter — extend FastAPI).
-       Default = visitor_api_url, override bằng cms_auth_url nếu deploy riêng.
-       Lưu ý: Tera default() chỉ trigger khi undefined, KHÔNG khi empty string.
-       Phải check truthy explicit để fallback đúng khi cms_auth_url = "". #}
+    {# CMS auth backend FastAPI — set qua config.extra.cms_auth_url. #}
     {% set_global cms_auth = config.extra.cms_auth_url | default(value="") %}
-    {% if not cms_auth %}{% set_global cms_auth = config.extra.visitor_api_url | default(value="") %}{% endif %}
     {% if cms_auth %}
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
@@ -399,38 +390,6 @@
     </main>
 
     <footer class="site-footer">
-        {# Visitor counter qua GoatCounter — free 100k pageviews/tháng,
-           privacy-friendly không cookie, không cold-start. Counter realtime
-           với badge embed. Backend cũ visitor-counter/* đã DEPRECATED. #}
-        {% if config.extra.goatcounter_code %}
-        <div class="visitor-counter">
-            <div class="container">
-                <div class="visitor-counter__card">
-                    <div class="visitor-counter__head">
-                        <span class="visitor-counter__live">
-                            <span class="visitor-counter__pulse" aria-hidden="true"></span>
-                            LIVE
-                        </span>
-                        <span class="visitor-counter__label">👁 Tổng lượt truy cập</span>
-                    </div>
-                    <div class="visitor-counter__display" aria-live="polite">
-                        <a href="https://{{ config.extra.goatcounter_code }}.goatcounter.com"
-                           target="_blank" rel="noopener"
-                           title="Xem dashboard GoatCounter chi tiết">
-                            <img class="visitor-counter__badge"
-                                 src="https://{{ config.extra.goatcounter_code }}.goatcounter.com/counter//TOTAL.svg"
-                                 alt="Visitor count"
-                                 width="200" height="60">
-                        </a>
-                    </div>
-                    <p class="visitor-counter__caption">
-                        Đếm real-time qua GoatCounter (free 100k pv/tháng) — privacy-friendly,
-                        không cookie, không cold-start backend.
-                    </p>
-                </div>
-            </div>
-        </div>
-        {% endif %}
         {# ===== TAG CLOUD ===== #}
         {# Render build-time từ get_taxonomy(tags). Mỗi tag thành pill
            với color cycle 8 màu + size tier sm/md/lg theo số bài. #}
@@ -600,9 +559,6 @@
     <script src="{{ get_url(path='js/auth.js') }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
-    {% if config.extra.visitor_api_url %}
-    <script src="{{ get_url(path='js/visitor-counter.js') }}" defer></script>
-    {% endif %}
     {% block extra_scripts %}{% endblock %}
 
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====
@@ -631,12 +587,5 @@
     </script>
     {% endif %}
 
-    {# ===== GOATCOUNTER tracking — free 100k pv/tháng, no cold-start =====
-       Async load, không block render. Không cookie, GDPR-friendly.
-       Setup: tạo account tại goatcounter.com → set code vào config.toml. #}
-    {% if config.extra.goatcounter_code %}
-    <script data-goatcounter="https://{{ config.extra.goatcounter_code }}.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
-    {% endif %}
 </body>
 </html>
