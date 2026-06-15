@@ -15,6 +15,7 @@ Run in CI:
 import json
 import re
 import sys
+import tomllib
 from pathlib import Path
 
 import frontmatter
@@ -45,6 +46,25 @@ def strip_markdown(text: str) -> str:
     return text
 
 
+def parse_post(path: Path) -> tuple[dict, str]:
+    """Zola dùng TOML frontmatter (+++) còn python-frontmatter default YAML.
+    Detect format theo prefix → TOML qua tomllib stdlib, YAML qua frontmatter."""
+    text = path.read_text(encoding="utf-8")
+    if text.startswith("+++"):
+        m = re.match(r"^\+\+\+\s*\n(.*?)\n\+\+\+\s*\n?(.*)$", text, re.DOTALL)
+        if not m:
+            return {}, text
+        try:
+            return tomllib.loads(m.group(1)), m.group(2)
+        except tomllib.TOMLDecodeError as e:
+            print(f"WARN: TOML parse fail {path.name}: {e}", file=sys.stderr)
+            return {}, m.group(2)
+    if text.startswith("---"):
+        post = frontmatter.loads(text)
+        return post.metadata, post.content
+    return {}, text
+
+
 def load_posts():
     posts = []
     if not CONTENT_DIR.exists():
@@ -54,19 +74,18 @@ def load_posts():
         if path.name.startswith("_"):
             continue
         try:
-            with open(path, "r", encoding="utf-8") as f:
-                post = frontmatter.load(f)
+            meta, content = parse_post(path)
         except Exception as e:
             print(f"WARN: skip {path.name}: {e}", file=sys.stderr)
             continue
-        slug = post.metadata.get("slug") or path.stem
-        title = post.metadata.get("title", "")
-        date = post.metadata.get("date", "")
+        slug = meta.get("slug") or path.stem
+        title = meta.get("title", "") or ""
+        date = meta.get("date", "")
         # date có thể là datetime object hoặc string → normalize
         date_str = date.isoformat() if hasattr(date, "isoformat") else str(date)
-        tags = post.metadata.get("taxonomies", {}).get("tags", [])
-        cats = post.metadata.get("taxonomies", {}).get("categories", [])
-        body = strip_markdown(post.content)
+        tags = meta.get("taxonomies", {}).get("tags", [])
+        cats = meta.get("taxonomies", {}).get("categories", [])
+        body = strip_markdown(content)
         # Concat title + cats + tags + body (cap 2000 chars để fit model
         # context 512 tokens, model tự truncate phần dư)
         text_parts = [title, " ".join(cats), " ".join(tags), body[:2000]]

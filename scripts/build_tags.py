@@ -13,6 +13,8 @@ Chạy local: python scripts/build_tags.py
 Chạy CI: triggered by .github/workflows/build-related.yml (cùng workflow)
 """
 import json
+import re
+import tomllib
 from collections import Counter
 from pathlib import Path
 
@@ -23,18 +25,27 @@ CONTENT_DIR = ROOT / "content" / "posting"
 OUTPUT = ROOT / "static" / "data" / "all-tags.json"
 
 
+def parse_meta(path: Path) -> dict:
+    """Zola dùng TOML +++ frontmatter, không phải YAML mặc định."""
+    text = path.read_text(encoding="utf-8")
+    if text.startswith("+++"):
+        m = re.match(r"^\+\+\+\s*\n(.*?)\n\+\+\+", text, re.DOTALL)
+        if not m: return {}
+        try: return tomllib.loads(m.group(1))
+        except Exception: return {}
+    if text.startswith("---"):
+        return frontmatter.loads(text).metadata
+    return {}
+
+
 def main():
     counter = Counter()
     if CONTENT_DIR.exists():
         for path in CONTENT_DIR.glob("*.md"):
             if path.name.startswith("_"):
                 continue
-            try:
-                with open(path, "r", encoding="utf-8") as f:
-                    post = frontmatter.load(f)
-            except Exception:
-                continue
-            tags = post.metadata.get("taxonomies", {}).get("tags", []) or []
+            meta = parse_meta(path)
+            tags = meta.get("taxonomies", {}).get("tags", []) or []
             for t in tags:
                 t = (t or "").strip()
                 if t:
