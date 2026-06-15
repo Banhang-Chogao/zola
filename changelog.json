@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Phần 2/2 Z-X: thêm sass/_zx.scss đầy đủ + wire vào site.scss",
+      "tag": "chore",
+      "pr": 128,
+      "lines_added": 901,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/_zx.scss (NEW, ~900 dòng): full styling cho .zx__* BEM",
+        "sass/site.scss: @import \"zx-tokens\"; @import \"zx\"; thêm sau \"branding\"",
+        ".zx-btn — 4 variants: --primary (blue 600), --secondary (outline), --ghost, --promo (orange)",
+        ".zx-card — radius 14px, hover shadow-lg lift",
+        ".zx-field + .zx-input — focus ring 3px blue 600 18% alpha"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "thêm link Z-X vào navbar menu (user không thấy được)",
       "tag": "fix",
       "pr": 127,
