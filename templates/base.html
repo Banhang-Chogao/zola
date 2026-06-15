@@ -90,14 +90,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
 
-    {# Manrope chỉ dùng 3 weight thật sự cần (400/600/700) — Poppins đã bỏ vì không dùng.
-       Load non-blocking qua trick media=print → swap về all khi tải xong → cải thiện FCP/LCP. #}
-    <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
-        media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"></noscript>
+    {# Typography stack: Manrope (primary body + heading) + Inter (UI/menu)
+       + Be Vietnam Pro (meta/diacritics tiếng Việt). 1 request gộp font-family
+       Google Fonts. Load non-blocking qua media=print swap → cải thiện FCP/LCP.
+       display=swap → text hiện ngay với system fallback, swap khi font ready. #}
+    {% set google_fonts = "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500&display=swap" %}
+    <link rel="preload" as="style" href="{{ google_fonts }}">
+    <link rel="stylesheet" href="{{ google_fonts }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ google_fonts }}"></noscript>
 
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
 

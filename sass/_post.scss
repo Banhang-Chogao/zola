@@ -76,11 +76,15 @@
 }
 
 .post-meta {
+  /* Be Vietnam Pro cho meta — diacritics tiếng Việt mềm mại,
+     pair tốt với Manrope body cho dates + author */
+  font-family: $font-meta;
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
   color: #999;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 500;
   margin-bottom: 0.5rem;
 
   span {
