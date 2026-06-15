@@ -354,6 +354,115 @@ async def require_session(authorization: str) -> dict:
     return json.loads(raw)
 
 
+# ============= TMDB Movies =============
+@app.get("/api/movies")
+async def tmdb_movies():
+    """
+    Trả 10 phim phổ biến từ TMDB. Primary language=vi-VN, fallback en-US
+    cho movie có overview rỗng. Redis cache 24h tránh hit rate limit TMDB
+    (40 req/10s free tier).
+
+    Public endpoint — không cần auth, trả empty + error nếu fail.
+    """
+    if not TMDB_API_KEY:
+        return {
+            "source": "TMDB",
+            "title": "Phim phổ biến — TMDB",
+            "count": 0,
+            "items": [],
+            "from_cache": False,
+            "error": "tmdb_not_configured",
+        }
+
+    r = await get_redis()
+    cache_key = "tmdb:movies:popular:vi"
+    cached = await r.get(cache_key)
+    if cached:
+        try:
+            data = json.loads(cached)
+            if data.get("items"):
+                data["from_cache"] = True
+                return data
+        except json.JSONDecodeError:
+            pass
+
+    items = []
+    try:
+        async with httpx.AsyncClient(timeout=15.0) as client:
+            headers = {
+                "User-Agent": "blog-backend/2.1",
+                "Accept": "application/json",
+            }
+            primary = await client.get(
+                "https://api.themoviedb.org/3/movie/popular",
+                params={
+                    "api_key": TMDB_API_KEY,
+                    "language": "vi-VN",
+                    "region":   "VN",
+                    "page":     1,
+                },
+                headers=headers,
+            )
+            primary.raise_for_status()
+            pdata = primary.json()
+            top10 = (pdata.get("results") or [])[:10]
+
+            # Fallback en-US chỉ fetch khi có movie thiếu overview
+            empty_ids = {m.get("id") for m in top10 if not (m.get("overview") or "").strip()}
+            en_map = {}
+            if empty_ids:
+                en = await client.get(
+                    "https://api.themoviedb.org/3/movie/popular",
+                    params={"api_key": TMDB_API_KEY, "language": "en-US", "page": 1},
+                    headers=headers,
+                )
+                if en.status_code == 200:
+                    for m in (en.json().get("results") or []):
+                        if m.get("id") in empty_ids:
+                            en_map[m["id"]] = (m.get("overview") or "").strip()
+
+        for m in top10:
+            mid = m.get("id")
+            overview = (m.get("overview") or "").strip() or en_map.get(mid, "")
+            poster = m.get("poster_path") or ""
+            thumb = f"{TMDB_IMG_BASE}{poster}" if poster else ""
+            rating_raw = m.get("vote_average")
+            rating = ""
+            if rating_raw is not None:
+                try:
+                    rating = f"{float(rating_raw):.1f}"
+                except (TypeError, ValueError):
+                    rating = ""
+            items.append({
+                "title":     (m.get("title") or m.get("original_title") or "")[:300],
+                "link":      f"https://www.themoviedb.org/movie/{mid}" if mid else "",
+                "summary":   overview[:500],
+                "published": (m.get("release_date") or "")[:50],
+                "thumbnail": thumb,
+                "rating":    rating,
+            })
+    except Exception:
+        return {
+            "source": "TMDB",
+            "title": "Phim phổ biến — TMDB",
+            "count": 0,
+            "items": [],
+            "from_cache": False,
+            "error": "fetch_failed",
+        }
+
+    payload = {
+        "source": "TMDB",
+        "title":  "Phim phổ biến — TMDB",
+        "count":  len(items),
+        "items":  items,
+    }
+    ttl = TMDB_CACHE_TTL if items else 300
+    await r.setex(cache_key, ttl, json.dumps(payload, ensure_ascii=False))
+    payload["from_cache"] = False
+    return payload
+
+
 # ============= CMS — Publish Post to GitHub =============
 # Cấu hình repo target — hiện chỉ phục vụ blog của owner. Mở rộng:
 # read từ env nếu cần multi-repo.
@@ -609,6 +718,12 @@ CURATED_FEEDS = {
 }
 
 NEWS_CACHE_TTL = int(os.getenv("NEWS_CACHE_TTL", "1800"))  # 30 phút default cho RSS
+
+# TMDB (themoviedb.org) API config. Lấy free key tại
+# https://www.themoviedb.org/settings/api → v3 auth.
+TMDB_API_KEY    = os.getenv("TMDB_API_KEY", "")
+TMDB_CACHE_TTL  = int(os.getenv("TMDB_CACHE_TTL", "86400"))  # 24h — phim phổ biến thay đổi chậm
+TMDB_IMG_BASE   = "https://image.tmdb.org/t/p/w500"
 
 # User-Agent giả lập browser thật. Trip.com block requests không có UA
 # rõ ràng. KHÔNG fake quá nhiều header → một số site detect inconsistency.
@@ -1145,5 +1260,6 @@ async def root():
             "GET  /api/check-rss":"Parse RSS feed (auth required)",
             "GET  /api/news/{slug}":"Curated news (Redis cached, public)",
             "POST /cms/save-post":"Publish post lên blog GitHub (auth required)",
+            "GET  /api/movies":"TMDB popular movies (Redis cached 24h, public)",
         },
     }
