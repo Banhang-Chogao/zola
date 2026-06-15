@@ -32,6 +32,8 @@
     li { display: flex; }
 
     a {
+      /* Inter cho UI menu — geometric, clean, pair tốt với Manrope body */
+      font-family: $font-ui;
       color: #fff;
       padding: 1.1rem 1.5rem;
       font-size: 0.75rem;

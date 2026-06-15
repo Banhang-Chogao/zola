@@ -2,12 +2,17 @@
 
 html, body { margin: 0; padding: 0; }
 
+/* ===== TYPOGRAPHY DESKTOP (global) =====
+   Manrope round + friendly → tăng size 17px (từ 16) + line-height 1.7
+   để dễ đọc nhưng vẫn cân đối. letter-spacing 0 vì Manrope đã round sẵn,
+   không cần expand. */
 body {
   font-family: $font-body;
   background: #f8f8f8;
   color: #2d2d2d;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.7;
+  letter-spacing: 0;
   overflow-wrap: break-word;
 }
 
@@ -19,11 +24,18 @@ a:hover { color: #d63d3d; }
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  /* Manrope display: hơi tighter để headings không bị thưa */
+  letter-spacing: -0.015em;
   margin: 0;
-  line-height: 1.25;
+  line-height: 1.2;
   color: #111;
 }
+h1 { font-size: 2.6rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.05rem; }
+h6 { font-size: 0.95rem; letter-spacing: 0.02em; text-transform: uppercase; }
 
 button { font-family: inherit; cursor: pointer; }
 
@@ -53,6 +65,18 @@ ul, ol { padding: 0; margin: 0; list-style: none; }
   }
   /* Base font giảm nhẹ trên tablet cho proportion hài hoà */
   html { font-size: 15.5px; }
+
+  /* ===== TYPOGRAPHY MOBILE =====
+     Body 16px (giảm từ 17px desktop) + line-height 1.65 đủ thoáng
+     cho viewport hẹp. Headings nhỏ hơn cho proportion. */
+  body {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.65rem; }
+  h3 { font-size: 1.3rem; }
+  h4 { font-size: 1.1rem; }
 }
 
 @media (max-width: 540px) {
@@ -62,6 +86,11 @@ ul, ol { padding: 0; margin: 0; list-style: none; }
   }
   /* Mobile: font base 15px → các rem tự scale theo */
   html { font-size: 15px; }
+
+  /* Mobile nhỏ: thêm 1 step giảm body */
+  body { font-size: 15.5px; }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
 }
 
 @media (max-width: 380px) {

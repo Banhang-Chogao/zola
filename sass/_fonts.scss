@@ -1,43 +1,14 @@
-@font-face {
-  font-family: "Ericsson Hilda";
-  src: url("/fonts/EricssonHilda-ExtraLight.ttf") format("truetype");
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
+/* ===== Typography stack (Manrope-first) =====
+   Manrope (primary body + heading): round, friendly, dễ đọc, full Vietnamese.
+   Inter (UI/menu/button): clean geometric — pair well với Manrope cho nav.
+   Be Vietnam Pro (meta/dates/author): mềm mại, diacritics tiếng Việt cực đẹp.
+   Mono: keep system (SF Mono trên Mac, Consolas trên Windows).
 
-@font-face {
-  font-family: "Ericsson Hilda";
-  src: url("/fonts/EricssonHilda-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
+   Fonts load qua <link> Google Fonts trong base.html (font-display:swap).
+   Variables here CHỈ define stack fallback — không @font-face tự host. */
 
-@font-face {
-  font-family: "Ericsson Hilda";
-  src: url("/fonts/EricssonHilda-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Ericsson Hilda";
-  src: url("/fonts/EricssonHilda-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Ericsson Hilda";
-  src: url("/fonts/EricssonHilda-ExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-$font-body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$font-heading: "Ericsson Hilda", "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
-$font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+$font-body:    "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-heading: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$font-ui:      "Inter", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-meta:    "Be Vietnam Pro", "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
