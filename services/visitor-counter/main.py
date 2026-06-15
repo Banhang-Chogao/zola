@@ -354,6 +354,115 @@ async def require_session(authorization: str) -> dict:
     return json.loads(raw)
 
 
+# ============= DEBUG — Trip.com scrape diagnostic =============
+@app.get("/api/debug/trip")
+async def debug_trip_scrape():
+    """
+    Diagnostic endpoint cho Trip.com scrape — trả thông tin chi tiết để biết
+    tại sao primary scraper return empty: curl_cffi available? status code?
+    HTML length? __NEXT_DATA__ tồn tại? walker tìm được item nào?
+
+    KHÔNG cache, mỗi call fetch tươi. Public để dễ test.
+    """
+    feed_cfg = CURATED_FEEDS.get("du-lich") or {}
+    primary = feed_cfg.get("primary") or feed_cfg
+    url = primary.get("url", "")
+
+    info = {
+        "url":                  url,
+        "curl_cffi_available":  _CURL_CFFI_AVAILABLE,
+        "step":                 "init",
+    }
+
+    if not url:
+        info["error"] = "no_url_configured"
+        return info
+
+    if not _CURL_CFFI_AVAILABLE:
+        info["error"] = "curl_cffi_not_installed"
+        info["hint"] = "Check Render build logs — curl-cffi wheel có thể fail install"
+        return info
+
+    def _sync_fetch():
+        return curl_requests.get(
+            url,
+            impersonate="chrome131",
+            headers={
+                "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Referer": "https://www.trip.com/",
+            },
+            timeout=25,
+        )
+
+    info["step"] = "fetching"
+    try:
+        res = await asyncio.to_thread(_sync_fetch)
+    except Exception as e:
+        info["error"] = "fetch_exception"
+        info["exception_type"] = type(e).__name__
+        info["exception_msg"]  = str(e)[:300]
+        return info
+
+    info["status_code"]   = res.status_code
+    info["content_type"]  = res.headers.get("content-type", "")[:100]
+    info["html_length"]   = len(res.text)
+    info["step"]          = "parsing"
+
+    # Detect Cloudflare challenge page
+    txt_lower = res.text[:5000].lower()
+    info["cloudflare_signs"] = any(s in txt_lower for s in [
+        "cf-chl-", "challenge-platform", "ray id:", "checking your browser",
+        "cloudflare", "just a moment",
+    ])
+
+    # Page title — confirm real content vs challenge
+    m_title = re.search(r'<title>(.*?)</title>', res.text, re.DOTALL | re.IGNORECASE)
+    info["page_title"] = (m_title.group(1).strip()[:200] if m_title else "")
+
+    # __NEXT_DATA__ presence
+    m_next = re.search(
+        r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',
+        res.text, re.DOTALL,
+    )
+    info["has_next_data"] = bool(m_next)
+    if m_next:
+        info["next_data_length"] = len(m_next.group(1))
+        try:
+            nd_json = json.loads(m_next.group(1))
+            # Walk top-level keys để xem structure
+            if isinstance(nd_json, dict):
+                info["next_data_top_keys"] = list(nd_json.keys())[:10]
+                # Common Next.js path: props.pageProps.*
+                pp = (nd_json.get("props") or {}).get("pageProps") or {}
+                if pp:
+                    info["page_props_keys"] = list(pp.keys())[:20]
+        except json.JSONDecodeError:
+            info["next_data_parse_error"] = True
+
+    # Generic application/json scripts (alternate)
+    json_scripts = re.findall(
+        r'<script[^>]+type=["\']application/json["\'][^>]*>(.*?)</script>',
+        res.text, re.DOTALL,
+    )
+    info["json_script_count"]    = len(json_scripts)
+    info["json_script_lengths"]  = [len(s) for s in json_scripts[:5]]
+
+    # Run actual walker
+    info["step"] = "walking"
+    try:
+        items = await _scrape_trip_via_curl_cffi(url)
+        info["items_extracted"] = len(items)
+        if items:
+            info["sample_item_keys"] = list(items[0].keys())
+            info["sample_titles"]    = [it.get("title", "")[:80] for it in items[:3]]
+    except Exception as e:
+        info["walker_exception"] = f"{type(e).__name__}: {str(e)[:200]}"
+
+    info["step"] = "done"
+    return info
+
+
 # ============= IMDB (via public scraper proxy) =============
 # Walker linh hoạt parse mọi JSON shape — không lock vào schema cụ thể.
 # Schema thực tế từ imdb.iamidiotareyoutoo.com:
