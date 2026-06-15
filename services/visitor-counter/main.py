@@ -425,6 +425,108 @@ async def check_rss(
     }
 
 
+# ============= Curated News Feeds (public, Redis cached) =============
+# Map slug → RSS source. Thêm chuyên mục bằng cách append vào dict này.
+# KHÔNG cho user nhập URL tự do (đã có /api/check-rss cho admin) → giảm
+# attack surface, đảm bảo cache key cố định không bị bloat.
+CURATED_FEEDS = {
+    "du-lich": {
+        "url":   "https://znews.vn/du-lich.rss",
+        "title": "Tin tức Du lịch — Znews",
+        "source": "Znews",
+    },
+}
+
+NEWS_CACHE_TTL = int(os.getenv("NEWS_CACHE_TTL", "1800"))  # 30 phút default
+
+
+async def _fetch_and_parse_feed(url: str) -> list:
+    """Fetch + parse RSS feed → list of dict {title, link, published, summary}."""
+    feed = await asyncio.wait_for(
+        asyncio.to_thread(feedparser.parse, url),
+        timeout=15.0,
+    )
+    entries = getattr(feed, "entries", None) or []
+    items = []
+    for e in entries[:10]:
+        title = (e.get("title") or "").strip()
+        link  = (e.get("link")  or "").strip()
+        if not (title and link and link.startswith(("http://", "https://"))):
+            continue
+        # published có thể ở các field khác nhau: published, updated, pubDate
+        published = (
+            e.get("published") or e.get("updated") or e.get("pubDate") or ""
+        ).strip()
+        # summary có thể là plain hoặc HTML — feedparser tự strip về .summary
+        # nhưng vẫn có thể chứa HTML tags → frontend phải escape
+        summary = (e.get("summary") or e.get("description") or "").strip()
+        items.append({
+            "title":     title[:300],
+            "link":      link[:1000],
+            "published": published[:50],
+            "summary":   summary[:500],
+        })
+    return items
+
+
+@app.get("/api/news/{slug}")
+async def curated_news(slug: str):
+    """
+    Trả 10 bài news mới từ curated source theo slug.
+    Redis cache 30 phút (NEWS_CACHE_TTL) → first request lock Znews, các
+    request sau hit cache. Stale-but-served cũng OK với news (không phải
+    real-time critical).
+
+    Lỗi từ Znews (network, parse) → trả 200 với items=[] + cached_at=null,
+    frontend graceful degrade hiển thị "tạm thời không có tin".
+    """
+    feed_cfg = CURATED_FEEDS.get(slug)
+    if not feed_cfg:
+        raise HTTPException(404, "feed_not_found")
+
+    cache_key = f"news_cache:{slug}"
+    r = await get_redis()
+
+    # Cache hit → trả ngay, KHÔNG fetch Znews
+    cached = await r.get(cache_key)
+    if cached:
+        try:
+            data = json.loads(cached)
+            data["from_cache"] = True
+            return data
+        except (json.JSONDecodeError, KeyError):
+            pass  # cache corrupt → re-fetch
+
+    # Cache miss → fetch + parse + cache
+    try:
+        items = await _fetch_and_parse_feed(feed_cfg["url"])
+    except Exception:
+        # Znews unreachable / parse fail → trả empty (FE graceful degrade).
+        # KHÔNG raise 500 vì user vẫn vào được trang, chỉ thiếu news.
+        return {
+            "source":     feed_cfg["source"],
+            "title":      feed_cfg["title"],
+            "count":      0,
+            "items":      [],
+            "from_cache": False,
+            "error":      "fetch_failed",
+        }
+
+    payload = {
+        "source": feed_cfg["source"],
+        "title":  feed_cfg["title"],
+        "count":  len(items),
+        "items":  items,
+    }
+    # Cache cả empty result (TTL ngắn hơn = 5 phút) để tránh hammer source
+    # khi tạm down. Có items → cache TTL đầy đủ.
+    ttl = NEWS_CACHE_TTL if items else 300
+    await r.setex(cache_key, ttl, json.dumps(payload, ensure_ascii=False))
+
+    payload["from_cache"] = False
+    return payload
+
+
 # ============= Misc =============
 @app.get("/")
 async def root():
@@ -444,5 +546,6 @@ async def root():
             "GET  /auth/me":      "Validate session (Bearer)",
             "POST /auth/logout":  "Destroy session (Bearer)",
             "GET  /api/check-rss":"Parse RSS feed (auth required)",
+            "GET  /api/news/{slug}":"Curated news (Redis cached 30m, public)",
         },
     }

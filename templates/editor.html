@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/verified.html" as v %}
 
 {% block title %}Trình soạn bài | {{ config.title }}{% endblock %}
 
@@ -49,11 +50,13 @@
 
         {# ===== LIST VIEW ===== #}
         <section class="editor-view" data-view="list" hidden>
-            {# User info bar — populated by editor.js sau /auth/me success #}
+            {# User info bar — populated by editor.js sau /auth/me success.
+               Verified badge cạnh tên xác nhận chính chủ admin (giống các nơi
+               khác: header, post-meta, sidebar). #}
             <div class="editor-user-bar" data-user-bar hidden>
                 <img class="editor-user-bar__avatar" data-user-avatar src="" alt="" loading="lazy">
                 <span class="editor-user-bar__info">
-                    <strong data-user-name></strong>
+                    <strong><span data-user-name></span>{{ v::badge() }}</strong>
                     <span class="editor-user-bar__email" data-user-email></span>
                 </span>
                 <span class="editor-user-bar__role" title="Quyền truy cập">ADMIN</span>

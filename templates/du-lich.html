@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import "macros/verified.html" as v %}
+
+{% block title %}Du lịch — Tin từ Znews | {{ config.title }}{% endblock %}
+{% block description %}Tin tức Du lịch mới nhất từ Znews — cập nhật real-time với 30 phút cache.{% endblock %}
+
+{% block main %}
+    <section class="du-lich">
+        <header class="du-lich__header">
+            <h1 class="du-lich__title">
+                <span class="du-lich__icon" aria-hidden="true">✈️</span>
+                Tin tức Du lịch từ <span class="du-lich__source">Znews{{ v::badge() }}</span>
+            </h1>
+            <p class="du-lich__sub">
+                10 bài viết mới nhất từ chuyên mục Du lịch của Znews. Cache 30 phút,
+                cập nhật tự động.
+            </p>
+        </header>
+
+        {# Loading state — JS swap khi data arrived #}
+        <div class="du-lich__status" data-status>
+            <div class="du-lich__skeleton" aria-hidden="true">
+                {% for i in [1,2,3,4] %}
+                <div class="du-lich-card du-lich-card--skeleton">
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--title"></div>
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--meta"></div>
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--summary"></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# List cards — populated by JS #}
+        <div class="du-lich__list" data-list hidden></div>
+
+        {# Error state — fallback nếu API down #}
+        <div class="du-lich__error" data-error hidden role="alert">
+            <span class="du-lich__error-icon" aria-hidden="true">📡</span>
+            <div>
+                <strong>Tạm thời không lấy được tin từ Znews</strong>
+                <p>Backend có thể đang khởi động hoặc Znews thay đổi cấu trúc.
+                   Thử tải lại trang sau vài phút.</p>
+            </div>
+        </div>
+
+        {# Footer info — show cache status + retry button #}
+        <footer class="du-lich__footer" data-footer hidden>
+            <span class="du-lich__cache-info" data-cache-info></span>
+            <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-reload>↻ Tải lại</button>
+        </footer>
+    </section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/du-lich.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}
