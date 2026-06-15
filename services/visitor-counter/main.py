@@ -700,7 +700,11 @@ async def curated_news(slug: str):
     if not feed_cfg:
         raise HTTPException(404, "feed_not_found")
 
-    cache_key = f"news_cache:{slug}"
+    # Cache key bao gồm source name → khi đổi CURATED_FEEDS từ Trip.com sang
+    # VnExpress, key thay đổi tự động, không serve stale data của source cũ.
+    # Source cũ trong Redis sẽ tự expire theo TTL — không cần manual flush.
+    source_id = re.sub(r"[^a-z0-9]+", "_", feed_cfg["source"].lower()).strip("_")
+    cache_key = f"news_cache:{slug}:{source_id}"
     r = await get_redis()
 
     cached = await r.get(cache_key)
