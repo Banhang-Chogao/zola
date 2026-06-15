@@ -69,13 +69,63 @@ Hành động:
    - Failed runs found / fixed / escalated
    - Production deploy status
 
+### `healing` — Kích hoạt QA-Healing thủ công
+
+Hành động: chạy QA-Healing on-demand. Khác `ff`: ALWAYS chạy baseline
+qa_check.py trước fix, output detail per step.
+
+1. Liệt kê failed runs gần nhất (default 5).
+2. **Baseline QA**: `python3 qa_check.py` trước intervention.
+3. **Auto-fix** qa-failed.py pattern matching.
+4. **Re-deploy**: commit + push main → trigger deploy.yml.
+5. **Verify**: poll deploy run mới đến success (max 5 phút).
+6. Nếu run mới vẫn fail sau heal → tạo issue label `healing-failed`.
+
+### `sec` — Chạy Security Audit toàn bộ blog
+
+Hành động:
+1. Trigger `security-audit.yml` qua workflow_dispatch.
+2. Poll run đến khi completed (max 3 phút).
+3. Download summary artifact + parse:
+   - Python deps vulnerabilities (backend + scripts)
+   - Secret leaks (gitleaks)
+   - Workflow permission misconfigs
+4. Output report ≤200 words: severity HIGH/MEDIUM/LOW + top 3 issues.
+5. Nếu HIGH ≥ 1 → tạo issue label `security` để follow up.
+
+### `pef` — Chạy Performance Audit toàn bộ blog
+
+Hành động:
+1. Trigger `perf-audit.yml` qua workflow_dispatch.
+2. Poll run đến khi completed (max 5 phút).
+3. Đọc kết quả `qa_check.py --perf`:
+   - Image loading attribute coverage
+   - Lazy/eager loading issues
+   - Missing width/height attributes
+4. Nếu workflow tự tạo PR fix → review diff (no layout/scroll touch) → merge nếu safe.
+5. Bonus tại chỗ: Lighthouse mobile estimate (LCP/CLS/INP) cho homepage + 1 post.
+6. Output report ≤150 words: scores + auto-fix applied + remaining issues.
+
 ---
 
-## 3. Quy trình QA-Failed & Tự động hoá
+## 3. Workflow Auto-Heal — quy trình chuẩn
+
+Mọi action/workflow failed PHẢI đi qua pipeline 3 bước:
+
+```
+[FAILED] ─→ QA check (qa_check.py + log analysis)
+         ─→ Tự fix (qa-failed.py pattern matching)
+         ─→ Re-deploy (commit + push → trigger deploy.yml)
+```
+
+**Claude tự quyết định** (không hỏi user):
+- Phiên bản Node.js phù hợp với từng action (smart eval per section 1)
+- Hướng xử lý lỗi tối ưu (conservative khi unknown, aggressive khi pattern rõ)
+- Khi nào escalate qua issue thay vì cố fix mù
 
 Workflow handler `.github/workflows/qa-failed-handler.yml` ĐÃ BỊ GỠ
-(theo yêu cầu user lúc 11:37). Script `qa-failed.py` giữ lại để chạy
-manual qua shortcut `ff`.
+(user request 11:37). `qa-failed.py` giữ lại — chạy manual qua các
+shortcut `ff` / `healing`.
 
 Nguyên tắc khi chạy `qa-failed.py`:
 - **Buffer + retry**: sleep 30s trước khi poll, max 5 lần × 30s
