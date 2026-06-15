@@ -527,13 +527,18 @@
                 </div>
 
                 {# ===== GA STATS LIVE TABLE =====
-                   Bảng visitors today/week/month từ GA Data API.
-                   data/ga-stats.json populate qua workflow ga-stats.yml hourly. #}
+                   Always render — placeholder 0 nếu workflow chưa fetch
+                   được (chưa setup secret/grant access). data/ga-stats.json
+                   populate qua workflow ga-stats.yml hourly. #}
                 {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
-                {% if ga_stats and ga_stats.month_users %}
-                <div class="ga-stats">
+                {% if not ga_stats %}{% set ga_stats = {today_users:0, today_pageviews:0, week_users:0, week_pageviews:0, month_users:0, month_pageviews:0, updated_at:"chưa fetch", _status:"waiting_for_secret"} %}{% endif %}
+                {% set is_demo = ga_stats._status == "waiting_for_secret" %}
+                <div class="ga-stats{% if is_demo %} ga-stats--demo{% endif %}">
                     <header class="ga-stats__head">
                         <h4 class="ga-stats__title">📊 GOOGLE ANALYTICS STATS</h4>
+                        {% if is_demo %}
+                        <span class="ga-stats__demo-badge">⏳ DEMO</span>
+                        {% endif %}
                         <a class="ga-stats__refresh"
                            href="https://analytics.google.com/analytics/web/?pli=1#/a250151829p541698865/reports/intelligenthome"
                            target="_blank" rel="noopener"
@@ -557,11 +562,14 @@
                         </div>
                     </div>
                     <p class="ga-stats__updated">
+                        {% if is_demo %}
+                        ⚠ Chờ workflow lần đầu — cần thêm GitHub Secret <code>GA_SERVICE_ACCOUNT_KEY</code> + grant Service Account quyền Viewer trên GA Property.
+                        {% else %}
                         Cập nhật: <code>{{ ga_stats.updated_at | truncate(length=16, end="") | replace(from="T", to=" ") }} UTC</code>
                         — fetch hourly từ GA4 Data API
+                        {% endif %}
                     </p>
                 </div>
-                {% endif %}
             </div>
         </div>
 
