@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "trang /du-lich/ chuyển từ Znews RSS sang Trip.com scrape",
+      "tag": "refactor",
+      "pr": 40,
+      "lines_added": 291,
+      "lines_removed": 36,
+      "highlights": [
+        "requirements.txt: thêm beautifulsoup4 4.12.3 + lxml 5.3.0",
+        "CURATED_FEEDS dict mở rộng với type (rss|scrape) + cache_ttl per-feed → du-lich type=scrape, ttl=86400 (24h)",
+        "SCRAPER_HEADERS: User-Agent giả Chrome 131 + Accept-Language vi-VN",
+        "_extract_jsonld_items(): ưu tiên parse JSON-LD ItemList schema → selector ổn định, không đổi theo CSS class. Lấy name/url/description/image/aggregateRating",
+        "_extract_fallback_items(): dự phòng tìm article/li/div + heading + link khi không có JSON-LD"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Render Blueprint deploy + Visitor demo mode + fix changelog double-prefix",
       "tag": "fix",
       "pr": 39,
