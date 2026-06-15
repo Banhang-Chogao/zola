@@ -534,11 +534,15 @@
             </div>
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
-                {# GA status pill — responsive, hiển thị state tracking. #}
+                {# GA status pill → click mở GA dashboard intelligenthome.
+                   Property ID 541698865 hardcode trong URL — match config. #}
                 {% if config.extra.ga_measurement_id %}
-                <span class="ga-status ga-status--active" title="Google Analytics đang tracking — Measurement ID: {{ config.extra.ga_measurement_id }}">
+                <a class="ga-status ga-status--active"
+                   href="https://analytics.google.com/analytics/web/?pli=1#/a250151829p541698865/reports/intelligenthome"
+                   target="_blank" rel="noopener"
+                   title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
                     📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
-                </span>
+                </a>
                 {% else %}
                 <span class="ga-status ga-status--pending" title="Chưa cấu hình Google Analytics — sửa config.toml ga_measurement_id để bật">
                     ⏳ ĐANG CHỜ MEASUREMENT ID
