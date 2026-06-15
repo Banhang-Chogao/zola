@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Tuần 2: internal linking suggester",
+      "tag": "chore",
+      "pr": 137,
+      "lines_added": 232,
+      "lines_removed": 0,
+      "highlights": [
+        "data/link_suggestions.json (machine-readable cho tooling)",
+        "Markdown report stdout, group theo source post, có sẵn excerpt + markdown_hint để paste"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Tuần 1: batch frontmatter enhancer + topic gap analysis",
       "tag": "chore",
       "pr": 136,
