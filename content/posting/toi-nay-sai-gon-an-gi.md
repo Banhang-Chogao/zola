@@ -187,5 +187,7 @@ Nếu bạn cũng đang phân vân tối nay đi đâu, hy vọng list này giú
 quyết định nhanh hơn. Còn nếu bạn có quán ruột nào chưa thấy trong
 đây — comment cho mình biết.
 
-Đọc thêm về [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/)
+Đọc thêm: [Mùa nào đi Hàn đẹp nhất?](/posting/mua-nao-di-han-la-dep-nhat/)
+nếu bạn đang lên kế hoạch chuyến đi xa, hay [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/posting/tet-doan-ngo-han-viet-trung/)
+để hiểu văn hóa ẩm thực lễ tiết, hoặc [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/)
 nếu bạn quan tâm phía sau hậu trường blog này.

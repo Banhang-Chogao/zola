@@ -171,6 +171,43 @@ Ví dụ user gõ:
 - Code snippets test được (nếu tech)
 - Facts verify được (citation)
 
+### `bm` — Bảo mật check leak credentials/secrets toàn repo
+
+Hành động full security audit cho leak:
+
+1. **Scan patterns** (regex + gitleaks-style):
+   - GitHub PAT: `ghp_*`, `github_pat_*`
+   - AWS keys: `AKIA[0-9A-Z]{16}`, `aws_secret_access_key`
+   - Google: `AIza[0-9A-Za-z_-]{35}`, Service Account JSON
+   - OpenAI: `sk-[A-Za-z0-9]{48}`
+   - Stripe: `sk_live_*`, `pk_live_*`
+   - Slack: `xox[abp]-*`
+   - Generic: `password=`, `secret=`, `api_key=`, `private_key=`,
+     `bearer token`, `BEGIN PRIVATE KEY`
+2. **Scope quét**:
+   - File checked-in trên main branch
+   - Git history 100 commits gần nhất (nếu leak rồi xoá → vẫn còn trong history)
+   - File specific: `config.toml`, `*.env`, `.env.*`, `README.md`,
+     `services/**`, `content/**`, `static/**`
+3. **Nếu phát hiện leak**:
+   - **Apply fix** ngay:
+     - Replace secret bằng placeholder + commit
+     - Thêm pattern vào `.gitignore`
+     - Nếu trong history → suggest `git filter-repo` hoặc BFG
+   - **Tạo GitHub Issue** với label `security` + tag `@user` để
+     trigger email notification:
+     - Title: `[BM] Security leak detected: <type> in <file>`
+     - Body: chi tiết file/line/pattern + cách rotate credential
+   - **Tạo PR cô lập** chứa fix:
+     - Title: `Security fix: redact <type> in <file>`
+     - Body: mô tả + warning user phải rotate credential
+4. **Nếu KHÔNG phát hiện** → output: `BM scan clean. No leak detected.`
+5. **Email notification**: thông qua GitHub Issue mention
+   `@Banhang-Chogao` → GitHub tự gửi email đến tamsudev.com@gmail.com.
+
+CONSERVATIVE: chỉ flag pattern 95%+ confident (avoid false positive
+như `secret=` trong tutorial code). Test mode trước khi flag prod.
+
 ### `score` — Trigger workflow Build Semantic Related Posts
 
 Hành động: trigger manual `build-related.yml` qua workflow_dispatch.
