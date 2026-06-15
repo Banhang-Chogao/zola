@@ -108,18 +108,27 @@
     order: -1; /* burger ở bên trái */
   }
 
-  /* Menu: hidden by default, slide-down khi open */
+  /* Menu: hidden by default, slide-down khi open.
+     FIX UI mobile: chuyển từ position:absolute → fixed để menu chiếm
+     trọn màn hình từ dưới navbar đến đáy (incl. safe-area-inset-bottom).
+     overflow-y: auto + max-height đủ cho phép cuộn khi nhiều items. */
   .navbar__menu {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 52px;   /* dưới navbar */
     left: 0;
     right: 0;
+    bottom: 0;   /* chiếm trọn xuống đáy */
     flex-direction: column;
     background: #fff;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .3s ease;
+    /* Default ẩn: dịch lên trên hoàn toàn */
+    transform: translateY(-100%);
+    transition: transform .3s ease;
+    visibility: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Padding bottom đảm bảo item cuối không bị Home Indicator iPhone che */
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
     z-index: 99;
 
     li {
@@ -158,11 +167,13 @@
     }
   }
 
-  /* Khi mở: expand menu + show backdrop + burger → X icon */
+  /* Khi mở: slide menu xuống chiếm toàn bộ vùng dưới navbar.
+     Bỏ max-height/80vh cũ, dùng position:fixed + bottom:0 + translateY
+     để menu chiếm full screen → scroll thoải mái nếu nhiều items. */
   .navbar.is-open {
     .navbar__menu {
-      max-height: 80vh;
-      overflow-y: auto;
+      transform: translateY(0);
+      visibility: visible;
     }
     .navbar__backdrop {
       display: block;
