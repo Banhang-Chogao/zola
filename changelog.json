@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm: shortcuts.md + Security Audit cron + build_tags.py",
+      "tag": "security",
+      "pr": 83,
+      "lines_added": 207,
+      "lines_removed": 0,
+      "highlights": [
+        "pip-audit: scan services/visitor-counter/requirements.txt + scripts/requirements.txt cho CVE",
+        "gitleaks: scan toàn repo cho secret leak (PAT, API key, password)",
+        "Workflow misconfig: kiểm tra mỗi .github/workflows/*.yml có permissions: block không",
+        "Output artifacts retention 30 ngày",
+        "KHÔNG tự fix → user review báo cáo"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm: Semantic Related Posts qua sentence-transformers embeddings",
       "tag": "chore",
       "pr": 82,
