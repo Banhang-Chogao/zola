@@ -845,9 +845,154 @@ CMS_REPO_BRANCH = os.getenv("CMS_REPO_BRANCH", "main")
 # content. Đây là defense-in-depth — kể cả slug chứa '../' cũng bị regex
 # validate chặn từ trước.
 CMS_CONTENT_DIR = "content/posting"
+# File lưu danh sách category dùng cho CMS dropdown. Sống trong repo →
+# persist qua mọi Render restart, versioned trong git.
+CMS_CATEGORIES_PATH = "categories.json"
 
 # Slug hợp lệ: a-z + 0-9 + dash, 2-80 ký tự. Khớp pattern Zola slug.
 _SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,79}$")
+_CATEGORY_RE = re.compile(r"^[\wÀ-ſḀ-ỿ\s\-+&()]{1,100}$", re.UNICODE)
+
+
+# ============= Helpers GitHub Contents API =============
+async def _gh_get_file(client: httpx.AsyncClient, path: str, token: str) -> tuple:
+    """GET file content qua Contents API. Return (sha, decoded_text) hoặc (None, None) nếu 404."""
+    res = await client.get(
+        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}/contents/{path}",
+        params={"ref": CMS_REPO_BRANCH},
+        headers={
+            "Authorization":        f"Bearer {token}",
+            "Accept":               "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent":           "zola-cms",
+        },
+    )
+    if res.status_code == 404:
+        return None, None
+    if res.status_code != 200:
+        raise HTTPException(502, f"github_read_failed_{res.status_code}")
+    data = res.json()
+    try:
+        decoded = base64.b64decode(data.get("content", "")).decode("utf-8")
+    except Exception:
+        decoded = ""
+    return data.get("sha"), decoded
+
+
+async def _gh_put_file(client: httpx.AsyncClient, path: str, content: str,
+                        sha: Optional[str], message: str, token: str) -> dict:
+    """PUT (create/update) file qua Contents API."""
+    payload = {
+        "message": message[:200],
+        "content": base64.b64encode(content.encode("utf-8")).decode("ascii"),
+        "branch":  CMS_REPO_BRANCH,
+    }
+    if sha:
+        payload["sha"] = sha
+    res = await client.put(
+        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}/contents/{path}",
+        headers={
+            "Authorization":        f"Bearer {token}",
+            "Accept":               "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent":           "zola-cms",
+        },
+        json=payload,
+    )
+    if res.status_code not in (200, 201):
+        err = {}
+        try: err = res.json()
+        except json.JSONDecodeError: pass
+        raise HTTPException(
+            res.status_code if res.status_code in (403, 422) else 502,
+            f"github_api: {err.get('message', 'error')}",
+        )
+    return res.json()
+
+
+async def _load_categories(client: httpx.AsyncClient, token: str) -> tuple:
+    """Load categories.json từ repo. Default ['Posting'] nếu file thiếu/lỗi."""
+    sha, text = await _gh_get_file(client, CMS_CATEGORIES_PATH, token)
+    if not text:
+        return sha, ["Posting"]
+    try:
+        data = json.loads(text)
+        cats = data.get("categories", []) if isinstance(data, dict) else []
+        cats = [c.strip() for c in cats if isinstance(c, str) and c.strip()]
+        return sha, cats or ["Posting"]
+    except json.JSONDecodeError:
+        return sha, ["Posting"]
+
+
+# ============= Categories Endpoints =============
+@app.get("/api/categories/list")
+async def categories_list(authorization: str = Header(default="")):
+    """Trả danh sách category từ categories.json (auth required)."""
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        _, cats = await _load_categories(client, token)
+    return {"categories": cats}
+
+
+@app.post("/api/categories/add")
+async def categories_add(request: Request, authorization: str = Header(default="")):
+    """
+    Append 1 category mới vào categories.json. Idempotent — đã có thì trả
+    {added: false}. Tạo file mới nếu chưa tồn tại.
+    """
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+    name = str(body.get("name", "")).strip()
+    if not name or not _CATEGORY_RE.match(name):
+        raise HTTPException(400, "invalid_name")
+
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        sha, cats = await _load_categories(client, token)
+        if name in cats:
+            return {"ok": True, "categories": cats, "added": False}
+        cats.append(name)
+        new_text = json.dumps({"categories": cats}, ensure_ascii=False, indent=2) + "\n"
+        await _gh_put_file(client, CMS_CATEGORIES_PATH, new_text, sha,
+                           f"CMS: thêm category '{name}'", token)
+    return {"ok": True, "categories": cats, "added": True}
+
+
+# ============= CMS Helper: auto-add category khi save post =============
+_CATEGORY_FRONTMATTER_RE = re.compile(
+    r'\[taxonomies\][^\[]*?categories\s*=\s*\[\s*"([^"]+)"',
+    re.DOTALL,
+)
+
+
+async def _ensure_category(client: httpx.AsyncClient, name: str, token: str) -> None:
+    """
+    Best-effort: nếu post có category chưa nằm trong categories.json,
+    auto-append. KHÔNG raise — không block save flow nếu fail.
+    """
+    if not name or not _CATEGORY_RE.match(name):
+        return
+    try:
+        sha, cats = await _load_categories(client, token)
+        if name in cats:
+            return
+        cats.append(name)
+        new_text = json.dumps({"categories": cats}, ensure_ascii=False, indent=2) + "\n"
+        await _gh_put_file(client, CMS_CATEGORIES_PATH, new_text, sha,
+                           f"CMS: auto-add category '{name}'", token)
+    except HTTPException:
+        return
+    except Exception:
+        return
 
 
 @app.post("/cms/save-post")
@@ -897,61 +1042,28 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
         message = f"CMS: {slug}"
 
     path = f"{CMS_CONTENT_DIR}/{slug}.md"
-    api_url = (
-        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}"
-        f"/contents/{path}"
-    )
-    gh_headers = {
-        "Authorization":         f"Bearer {access_token}",
-        "Accept":                "application/vnd.github+json",
-        "X-GitHub-Api-Version":  "2022-11-28",
-        "User-Agent":            "zola-cms-publish",
-    }
 
     async with httpx.AsyncClient(timeout=20.0) as client:
-        # 1. GET hiện trạng để biết sha (cho update). 404 → file mới.
-        existing_sha = None
+        # 1. Đọc sha hiện trạng cho update. 404 → file mới.
         try:
-            head = await client.get(
-                api_url,
-                params={"ref": CMS_REPO_BRANCH},
-                headers=gh_headers,
-            )
-            if head.status_code == 200:
-                existing_sha = head.json().get("sha")
-            elif head.status_code not in (200, 404):
-                raise HTTPException(502, f"github_check_failed: {head.status_code}")
-        except httpx.HTTPError:
-            raise HTTPException(502, "github_unreachable")
+            existing_sha, _ = await _gh_get_file(client, path, access_token)
+        except HTTPException:
+            existing_sha = None
 
-        # 2. PUT create or update
-        payload = {
-            "message": message[:200],
-            "content": base64.b64encode(content.encode("utf-8")).decode("ascii"),
-            "branch":  CMS_REPO_BRANCH,
-        }
-        if existing_sha:
-            payload["sha"] = existing_sha
-
+        # 2. PUT create/update file .md
         try:
-            put_res = await client.put(api_url, headers=gh_headers, json=payload)
-        except httpx.HTTPError:
-            raise HTTPException(502, "github_unreachable")
-
-        if put_res.status_code not in (200, 201):
-            err_body = {}
-            try:
-                err_body = put_res.json()
-            except json.JSONDecodeError:
-                pass
-            err_msg = err_body.get("message", "github_api_error")
-            # 403 thường = scope thiếu (cần public_repo). 422 = sha conflict.
-            raise HTTPException(
-                put_res.status_code if put_res.status_code in (403, 422) else 502,
-                f"github_api: {err_msg}",
+            data = await _gh_put_file(
+                client, path, content, existing_sha, message, access_token,
             )
+        except HTTPException:
+            raise
 
-        data = put_res.json()
+        # 3. Best-effort: nếu post có category mới (không trong categories.json),
+        #    auto-append. Không block save flow nếu fail.
+        cat_match = _CATEGORY_FRONTMATTER_RE.search(content)
+        if cat_match:
+            await _ensure_category(client, cat_match.group(1).strip(), access_token)
+
         return {
             "ok":         True,
             "action":     "updated" if existing_sha else "created",
@@ -1639,6 +1751,8 @@ async def root():
             "GET  /api/check-rss":"Parse RSS feed (auth required)",
             "GET  /api/news/{slug}":"Curated news (Redis cached, public)",
             "POST /cms/save-post":"Publish post lên blog GitHub (auth required)",
+            "GET  /api/categories/list":"Danh sách categories từ repo (auth required)",
+            "POST /api/categories/add":"Thêm category mới (auth required)",
             "GET  /api/movies":"IMDB movies via scraper proxy (Redis cached 24h, public)",
         },
     }

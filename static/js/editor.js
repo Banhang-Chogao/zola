@@ -479,6 +479,8 @@ tags = ${tagsStr}
     if (force) invalidateListCache();
     // Idle delay 500ms cho first paint không bị block. Force = fetch ngay.
     setTimeout(() => refreshInBackground(), force ? 0 : 500);
+    // Fetch categories tươi từ repo (categories.json). Run idle parallel.
+    setTimeout(() => fetchCategoriesFromBackend(), 200);
   }
 
   // ============= LIST VIEW =============
@@ -565,15 +567,58 @@ tags = ${tagsStr}
   });
 
   // ============= CATEGORY DROPDOWN =============
-  // Categories baked vào page qua <script id="categories-data"> từ editor.html.
-  // User có thể thêm category mới qua option "Tạo mới" — không cần round-trip API.
+  // Source of truth: categories.json trong repo (qua backend
+  // /api/categories/list). Bake từ <script id="categories-data"> chỉ làm
+  // fallback ban đầu cho FCP nhanh trước khi fetch API trả về.
+  // Save bài → backend auto-add nếu category chưa tồn tại trong JSON.
   let knownCategories = [];
   try {
     const raw = document.getElementById("categories-data");
     if (raw) knownCategories = JSON.parse(raw.textContent || "[]");
   } catch (e) { knownCategories = []; }
-  // Luôn đảm bảo có "Posting" làm default fallback
   if (!knownCategories.includes("Posting")) knownCategories.unshift("Posting");
+
+  async function fetchCategoriesFromBackend() {
+    if (!AUTH_API) return;
+    const sid = getSid();
+    if (!sid) return;
+    try {
+      const res = await fetch(AUTH_API + "/api/categories/list", {
+        headers: { "Authorization": "Bearer " + sid },
+        credentials: "omit",
+        cache: "no-store",
+      });
+      if (res.status === 401) { clearSid(); return; }
+      if (!res.ok) return;
+      const data = await res.json();
+      if (Array.isArray(data.categories) && data.categories.length) {
+        knownCategories = data.categories.slice();
+        if (!knownCategories.includes("Posting")) knownCategories.unshift("Posting");
+        // Re-render dropdown giữ selection hiện tại
+        const cur = catSelect ? catSelect.value : "Posting";
+        rebuildCategoryOptions(cur);
+      }
+    } catch (e) { /* network fail → giữ baked list */ }
+  }
+
+  async function saveCategoryToBackend(name) {
+    if (!AUTH_API) throw new Error("Backend chưa cấu hình");
+    const sid = getSid();
+    if (!sid) throw new Error("Phiên hết hạn");
+    const res = await fetch(AUTH_API + "/api/categories/add", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + sid,
+        "Content-Type": "application/json",
+      },
+      credentials: "omit",
+      body: JSON.stringify({ name }),
+    });
+    if (res.status === 401) { clearSid(); throw new Error("Phiên hết hạn"); }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.detail || "API lỗi");
+    return data; // {ok, categories, added}
+  }
 
   const catSelect = $("[data-category-select]");
   const catNewWrap = $("[data-category-new-wrap]");
@@ -618,6 +663,51 @@ tags = ${tagsStr}
     if (inNewMode) exitNewMode();
     else enterNewMode();
   });
+
+  // ============= LƯU CATEGORY → BACKEND =============
+  const catSaveBtn = $("[data-action='save-category']");
+  const catSaveMsg = $("[data-category-save-msg]");
+
+  function setCatSaveMsg(msg, type) {
+    if (!catSaveMsg) return;
+    catSaveMsg.className = "editor-category-new-hint editor-category-new-hint--" + (type || "info");
+    catSaveMsg.textContent = msg || "";
+  }
+
+  if (catSaveBtn) {
+    catSaveBtn.addEventListener("click", async function () {
+      const name = (catNewInput.value || "").trim();
+      if (!name) {
+        setCatSaveMsg("Nhập tên category trước.", "error");
+        return;
+      }
+      catSaveBtn.disabled = true;
+      setCatSaveMsg("Đang lưu lên repo…", "info");
+      try {
+        const data = await saveCategoryToBackend(name);
+        if (Array.isArray(data.categories)) {
+          knownCategories = data.categories.slice();
+          if (!knownCategories.includes("Posting")) knownCategories.unshift("Posting");
+        }
+        // Rebuild dropdown với category mới được chọn ngay
+        rebuildCategoryOptions(name);
+        setCatSaveMsg(
+          data.added
+            ? "✓ Đã lưu '" + name + "' vào categories.json"
+            : "ℹ Category '" + name + "' đã tồn tại — đã chọn",
+          data.added ? "success" : "info"
+        );
+        catNewInput.value = "";
+        catSelect.value = name;
+        // Tự thoát new-mode sau ~1s để user thấy success message
+        setTimeout(function () { exitNewMode(); setCatSaveMsg("", "info"); }, 1200);
+      } catch (err) {
+        setCatSaveMsg("✗ " + err.message, "error");
+      } finally {
+        catSaveBtn.disabled = false;
+      }
+    });
+  }
 
   function getSelectedCategory() {
     if (inNewMode) {

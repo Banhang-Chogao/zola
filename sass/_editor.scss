@@ -309,17 +309,6 @@
 
   /* Success — primary đăng bài action, gradient xanh, prominent */
   &--success {
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
-    color: #fff;
-    box-shadow: 0 1px 3px rgba(22, 163, 74, 0.3);
-    font-weight: 800;
-
-    &:hover {
-      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
-      box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4);
-      transform: translateY(-1px);
-    }
-  }
 
   &--small {
     padding: 0.4rem 0.75rem;
@@ -989,4 +978,26 @@
 @media (max-width: 720px) {
   .editor-grid { grid-template-columns: 1fr; }
   .editor-form, .editor-card { padding: 1.25rem; }
+}
+
+/* ============= CATEGORY NEW INPUT — Lưu button inline ============= */
+.editor-category-new-row {
+  display: flex;
+  gap: 0.55rem;
+  align-items: stretch;
+
+  .editor-input { flex: 1; min-width: 0; }
+  .editor-btn   { flex-shrink: 0; align-self: stretch; }
+}
+
+.editor-category-new-hint {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  min-height: 1.2em;
+
+  &--info    { color: #64748b; }
+  &--success { color: #166534; font-weight: 600; }
+  &--error   { color: #991b1b; font-weight: 600; }
 }
