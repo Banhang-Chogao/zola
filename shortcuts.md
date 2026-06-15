@@ -248,9 +248,13 @@ Hành động: output bảng cron schedule + ý nghĩa cho **3 workflow QA core*
 
 | Workflow | File | Cron | Ý nghĩa human-readable |
 |---|---|---|---|
-| QA Gatekeeper | `.github/workflows/qa.yml` | (no schedule) | Trigger trên PR + push main |
-| Security Audit | `.github/workflows/security-audit.yml` | `0 3 * * 6` | Thứ 7 hàng tuần 03:00 UTC |
-| Self-Healing QA | `.github/workflows/self-healing.yml` | `0 */6 * * *` | Mỗi 6 tiếng |
+| QA Gatekeeper | `.github/workflows/qa.yml` | `0 4 * * *` + PR/push | Daily 11:00 GMT+7 + event-based |
+| Security Audit | `.github/workflows/security-audit.yml` | `0 3 * * 6` + `0 4 * * *` | Thứ 7 weekly + Daily 11:00 GMT+7 |
+| Self-Healing QA | `.github/workflows/self-healing.yml` | `0 */6 * * *` + `0 4 * * *` | Mỗi 6 tiếng + Daily 11:00 GMT+7 |
+
+**Quy tắc daily 11:00 GMT+7** (set 2026-06-15 user request):
+Cả 3 workflow QA core BẮT BUỘC có cron `0 4 * * *` (= 11:00 VN time)
+để baseline check mỗi sáng — bất kể tuần lễ thường hay weekend.
 
 Bonus columns nếu user muốn detail:
 - Last run status (✅ success / ❌ failure / 🔄 in_progress)

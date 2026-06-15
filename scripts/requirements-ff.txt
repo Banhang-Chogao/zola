@@ -19,3 +19,13 @@ pydantic>=2.7
 
 # --- Git pre-commit hook framework ---
 pre-commit>=3.7
+
+# --- Dependency audit (catch ModuleNotFoundError + version conflict sớm) ---
+pip-tools>=7.5            # pip-compile + sync khoá version reproducible
+pipdeptree>=3.1           # render dependency tree, phát hiện conflict
+
+# --- HTTP retry với exponential backoff ---
+tenacity>=9.0             # @retry decorator chống race condition
+
+# --- Test flakiness mitigation ---
+pytest-rerunfailures>=16.0  # auto-rerun N lần test fail intermittent
