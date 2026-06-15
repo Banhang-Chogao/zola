@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Cập nhật shortcuts.md: thêm 'run list' format chuẩn 4 cột",
+      "tag": "chore",
+      "pr": 92,
+      "lines_added": 22,
+      "lines_removed": 0,
+      "highlights": [
+        "Gộp run ID cùng workflow + cause vào 1 row → giảm clutter",
+        "Cause: ≤60 ký tự, inline code cho symbol code",
+        "Status icons:",
+        "✅ Resolved by PR #X — fix đã merge",
+        "✅ Resolved — không tự trigger nữa"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Cập nhật shortcuts.md: thêm healing, sec, pef + Workflow Auto-Heal rule",
       "tag": "chore",
       "pr": 91,
