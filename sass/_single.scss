@@ -1,5 +1,5 @@
 .post-single {
-  background: #fff;
+  background: $brand-snow;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 
   &__hero {
@@ -28,7 +28,7 @@
     padding: 0 2.5rem 2rem;
     font-size: 1rem;
     line-height: 1.7;
-    color: #333;
+    color: $brand-ink-800;
 
     h2 { margin: 2rem 0 1rem; font-size: 1.5rem; }
     h3 { margin: 1.5rem 0 0.75rem; font-size: 1.25rem; }
@@ -38,21 +38,21 @@
     li { margin-bottom: 0.35rem; }
 
     a {
-      color: #1572bd;
-      border-bottom: 1px solid rgba(21, 114, 189, 0.3);
-      &:hover { color: #d63d3d; border-bottom-color: #d63d3d; }
+      color: $brand-trust-cyan;
+      border-bottom: 1px solid rgba(8, 145, 178, 0.3);
+      &:hover { color: $brand-signal-red; border-bottom-color: $brand-signal-red; }
     }
 
     blockquote {
-      border-left: 4px solid #d63d3d;
+      border-left: 4px solid $brand-signal-red;
       padding: 0.5rem 0 0.5rem 1rem;
       margin: 1.5rem 0;
-      color: #555;
+      color: $brand-ink-500;
       font-style: italic;
     }
 
     p code, li code {
-      background: #f3f3f3;
+      background: $brand-fog;
       padding: 0.15rem 0.4rem;
       border-radius: 3px;
       font-family: $font-mono;
@@ -73,14 +73,14 @@
       border-collapse: collapse;
       margin: 1rem 0 1.5rem;
 
-      th, td { padding: 0.6rem 0.85rem; border-bottom: 1px solid #eee; text-align: left; }
-      th { background: #f8f8f8; font-weight: 700; }
+      th, td { padding: 0.6rem 0.85rem; border-bottom: 1px solid $brand-edge; text-align: left; }
+      th { background: $brand-mist; font-weight: 700; }
     }
   }
 
   &__footer {
     padding: 1rem 2.5rem 2rem;
-    border-top: 1px dashed #eee;
+    border-top: 1px dashed $brand-edge;
   }
 }
 
@@ -92,7 +92,7 @@
 
   &__label {
     font-weight: 800;
-    color: #111;
+    color: $brand-ink-900;
     font-size: 0.8rem;
     letter-spacing: 0.08em;
     margin-right: 0.5rem;
