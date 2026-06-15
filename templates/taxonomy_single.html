@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/verified.html" as v %}
 
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
@@ -23,7 +24,7 @@
                         <a href="{{ page.permalink }}">{{ page.title }}</a>
                     </h3>
                     <div class="post-meta">
-                        <span class="post-meta__author">{{ config.extra.author }}</span>
+                        <span class="post-meta__author">{{ config.extra.author }}{{ v::badge() }}</span>
                         <span class="post-meta__date">{{ page.date | date(format="%b %d, %Y") }}</span>
                     </div>
                     <p class="post-card__summary">{{ page.summary | default(value="") | safe | striptags | truncate(length=200) }}</p>

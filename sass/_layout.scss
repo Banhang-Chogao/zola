@@ -44,6 +44,23 @@
   transition: color .15s ease;
 }
 
+/* Verified badge inline cạnh tên tác giả — kích thước scale theo line-height
+   container (1em ≈ chiều cao chữ 'n'). align middle với chữ thường. Hiển thị
+   trên page.html, index.html, taxonomy_single.html, base.html sidebar. */
+.verified-badge--author {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  margin-left: 0.25em;
+  vertical-align: -0.12em;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgba(29, 78, 216, 0.2));
+
+  svg { width: 100%; height: 100%; display: block; }
+}
+
 /* Meta Verified-style badge — gradient blue circle với checkmark trắng.
    Drop-shadow nhỏ cho hiệu ứng nổi. Scale theo font-size title. */
 .site-verified-badge {
