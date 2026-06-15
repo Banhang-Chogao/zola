@@ -87,15 +87,51 @@
                 <span class="editor-count" data-target="post-count" aria-live="polite">0/0</span>
             </div>
 
+            {# Bulk action bar — chỉ hiện khi có ít nhất 1 bài tick #}
+            <div class="editor-bulk-bar" data-bulk-bar hidden>
+                <span class="editor-bulk-bar__info">
+                    <strong data-bulk-count>0</strong> bài được chọn
+                </span>
+                <button type="button" class="editor-btn editor-btn--danger editor-btn--small" data-action="bulk-delete">
+                    🗑 Xoá mục đã chọn
+                </button>
+                <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-action="bulk-clear">
+                    Bỏ chọn
+                </button>
+            </div>
+
             <table class="editor-table" data-target="post-table">
                 <thead>
-                    <tr><th>Tiêu đề</th><th>Ngày</th><th>Category</th><th></th></tr>
+                    <tr>
+                        <th class="editor-table__check">
+                            <input type="checkbox" data-select-all aria-label="Chọn tất cả bài">
+                        </th>
+                        <th>Tiêu đề</th><th>Ngày</th><th>Category</th><th></th>
+                    </tr>
                 </thead>
                 <tbody data-target="post-rows">
-                    <tr><td colspan="4" class="editor-empty">Đang tải…</td></tr>
+                    <tr><td colspan="5" class="editor-empty">Đang tải…</td></tr>
                 </tbody>
             </table>
         </section>
+
+        {# ===== BULK DELETE CONFIRMATION MODAL ===== #}
+        <div class="editor-modal" data-modal="bulk-delete" hidden>
+            <div class="editor-modal__backdrop" data-modal-close></div>
+            <div class="editor-modal__content" role="dialog" aria-modal="true" aria-labelledby="bulk-modal-title">
+                <h3 class="editor-modal__title" id="bulk-modal-title">⚠ Xác nhận xoá hàng loạt</h3>
+                <p class="editor-modal__msg">
+                    Sẽ xoá <strong data-modal-count>0</strong> bài viết khỏi repo.
+                    <br><strong>Thao tác KHÔNG thể hoàn tác.</strong>
+                </p>
+                <ul class="editor-modal__list" data-modal-list></ul>
+                <div class="editor-modal__status" data-modal-status></div>
+                <div class="editor-modal__actions">
+                    <button type="button" class="editor-btn editor-btn--ghost" data-modal-close>Huỷ</button>
+                    <button type="button" class="editor-btn editor-btn--danger" data-modal-confirm>🗑 Xoá ngay</button>
+                </div>
+            </div>
+        </div>
 
         {# ===== EDITOR VIEW ===== #}
         <section class="editor-view" data-view="edit" hidden>
