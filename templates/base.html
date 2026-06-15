@@ -1,3 +1,4 @@
+{% import "macros/verified.html" as v_author %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
    - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
@@ -329,7 +330,7 @@
                                 <a href="{{ featured.permalink }}">{{ featured.title }}</a>
                             </h4>
                             <div class="post-meta">
-                                <span class="post-meta__author">{{ config.extra.author }}</span>
+                                <span class="post-meta__author">{{ config.extra.author }}{{ v_author::badge() }}</span>
                                 <span class="post-meta__date">{{ featured.date | date(format="%b %d, %Y") }}</span>
                             </div>
                         </article>
