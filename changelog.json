@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "iPhone Dynamic Island + Home Indicator safe-area-inset",
+      "tag": "chore",
+      "pr": 74,
+      "lines_added": 36,
+      "lines_removed": 7,
+      "highlights": [
+        "100% CSS env() — KHÔNG JS detection",
+        "KHÔNG library, KHÔNG 3rd party",
+        "Browser cũ ignore env() → fallback base value (work everywhere)",
+        "env() là CSS computed value, browser tính 1 lần lúc load → KHÔNG runtime layout shift",
+        "0 impact LCP/FCP/INP"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Mobile optimization toàn diện (Momo-style) + ngăn CLS",
       "tag": "chore",
       "pr": 73,
