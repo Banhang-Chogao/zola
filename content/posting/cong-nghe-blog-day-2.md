@@ -1,11 +1,11 @@
 +++
 title = "Ngày thứ hai của blog: 100 PR và stack công nghệ tự nâng cấp"
 date = 2026-06-15
+aliases = ["/cong-nghe-blog-day-2/"]
 
 [taxonomies]
 categories = ["Ẩm thực"]
-tags = ["zola", "tech stack", "github actions", "vanilla js", "cms", "ai", "sentence-transformers", "fastapi", "ci/cd"]
-
+tags = ["ai", "ci/cd", "cms", "fastapi", "github actions", "sentence-transformers", "tech stack", "vanilla js", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/cong-nghe-day-2/600/400"
 featured = false
