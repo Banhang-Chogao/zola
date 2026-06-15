@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "HOTFIX KHẨN: fix Tera syntax page.html + restore FORCE Node24 + gỡ qa-failed-handler",
+      "tag": "fix",
+      "pr": 89,
+      "lines_added": 11,
+      "lines_removed": 82,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-15",
       "title": "Hotfix qa-failed.py: wait run completion + workflow buffer 30s",
       "tag": "chore",
       "pr": 88,
