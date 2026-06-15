@@ -96,11 +96,21 @@ jobs:
 
           existing=$(gh pr list --head perf/auto-optimize --state open --json number --jq '.[0].number')
           if [ -z "$existing" ]; then
-            gh pr create \
+            # Gracefully degrade: nếu repo chặn Actions tạo PR (Settings →
+            # Actions → Workflow permissions chưa tích 'Allow GitHub Actions
+            # to create and approve pull requests') → fallback in URL +
+            # NOT fail job.
+            if ! gh pr create \
               --base main --head perf/auto-optimize \
               --title "🚀 Perf audit: ${fixed_count} file(s) optimized" \
-              --body-file pr-body.md
+              --body-file pr-body.md; then
+              echo "⚠ Không tạo được PR auto — repo chặn Actions create PR."
+              echo "→ Tạo tay: https://github.com/${{ github.repository }}/pull/new/perf/auto-optimize"
+              echo "Hoặc bật: Settings → Actions → General → Workflow permissions →"
+              echo "         'Allow GitHub Actions to create and approve pull requests'"
+            fi
           else
             echo "PR #${existing} đã mở — head pointer auto-update sau force-push"
-            gh pr comment "${existing}" --body-file pr-body.md
+            gh pr comment "${existing}" --body-file pr-body.md || \
+              echo "⚠ Không comment được lên PR #${existing} — kiểm tra permissions."
           fi

@@ -96,11 +96,17 @@ jobs:
 
           existing=$(gh pr list --head fix/auto-qa --state open --json number --jq '.[0].number')
           if [ -z "$existing" ]; then
-            gh pr create \
+            # Gracefully degrade nếu repo chặn Actions tạo PR
+            if ! gh pr create \
               --base main --head fix/auto-qa \
               --title "🤖 Self-healing: ${fixed_count} mechanical fix(es)" \
-              --body-file pr-body.md
+              --body-file pr-body.md; then
+              echo "⚠ Không tạo PR auto — bật repo Settings → Actions → Workflow permissions →"
+              echo "    'Allow GitHub Actions to create and approve pull requests'"
+              echo "→ Tạo tay: https://github.com/${{ github.repository }}/pull/new/fix/auto-qa"
+            fi
           else
             echo "PR #${existing} đã mở — head pointer auto-update sau force-push"
-            gh pr comment "${existing}" --body-file pr-body.md
+            gh pr comment "${existing}" --body-file pr-body.md || \
+              echo "⚠ Không comment được — kiểm tra permissions."
           fi
