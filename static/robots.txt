@@ -1,0 +1,12 @@
+# robots.txt — Blog "Duy Nguyen" (Zola SSG, deployed GitHub Pages)
+# https://banhang-chogao.github.io/zola/
+
+User-agent: *
+Allow: /
+
+# Disallow noisy / utility paths không cần index
+Disallow: /editor/
+Disallow: /admin-author/
+
+# Sitemap auto-generated bởi Zola (file sitemap.xml ở root sau build)
+Sitemap: https://banhang-chogao.github.io/zola/sitemap.xml

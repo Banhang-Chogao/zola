@@ -77,9 +77,125 @@
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
 
-    <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
+    {# ============================================================
+       ===== SEO META BLOCK (Lighthouse 100/100 target) =====
+       ============================================================
+       Phân cấp ưu tiên cho mỗi page (tự động compute):
+       - page.description (frontmatter) → ưu tiên cao nhất
+       - page.summary (auto-generated từ content) → fallback
+       - config.description (site-wide) → fallback cuối cùng
+
+       Áp dụng cho:
+       - <meta name="description">  → SERP snippet
+       - <meta property="og:*">     → Facebook/LinkedIn/Zalo preview
+       - <meta name="twitter:*">    → Twitter/X preview
+       - <link rel="canonical">     → tránh duplicate content
+       - <script type="application/ld+json"> → rich snippet schema.org
+       ============================================================ #}
+
+    {# Per-page description chain: frontmatter → summary → config #}
+    {% set page_description = config.description %}
+    {% if page %}
+        {% if page.description %}
+            {% set_global page_description = page.description %}
+        {% elif page.summary %}
+            {% set_global page_description = page.summary | striptags | trim | truncate(length=160, end="…") %}
+        {% endif %}
+    {% elif section and section.description %}
+        {% set_global page_description = section.description %}
+    {% endif %}
+
+    {# Per-page title: dùng cùng logic block title nhưng cũng compute cho OG #}
+    {% set page_title_full = config.title %}
+    {% if page %}
+        {% set_global page_title_full = page.title ~ " | " ~ config.title %}
+    {% elif section %}
+        {% set_global page_title_full = section.title ~ " | " ~ config.title %}
+    {% endif %}
+
+    {# Per-page canonical URL (Zola provides current_url cho page rendered) #}
+    {% set canonical_url = config.base_url %}
+    {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
+
+    {# OG image: ưu tiên page thumbnail, fallback site-wide default (img/og-default.jpg) #}
+    {% set og_image = config.base_url ~ "/img/og-default.jpg" %}
+    {% if page and page.extra.thumbnail %}
+        {% set_global og_image = page.extra.thumbnail %}
+    {% elif section and section.extra.thumbnail %}
+        {% set_global og_image = section.extra.thumbnail %}
+    {% endif %}
+
+    <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
     <title>{% block title %}{{ config.title }}{% endblock %}</title>
+
+    {# ===== Canonical (chống duplicate content cho query string / pagination) ===== #}
+    <link rel="canonical" href="{{ canonical_url | safe }}">
+
+    {# ===== Open Graph (Facebook, LinkedIn, Zalo, Telegram preview) ===== #}
+    <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
+    <meta property="og:title" content="{{ page_title_full }}">
+    <meta property="og:description" content="{{ page_description }}">
+    <meta property="og:url" content="{{ canonical_url | safe }}">
+    <meta property="og:image" content="{{ og_image | safe }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ config.title }}">
+    <meta property="og:locale" content="vi_VN">
+    {% if page %}
+    <meta property="article:published_time" content="{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">
+    {% if page.updated %}<meta property="article:modified_time" content="{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">{% endif %}
+    <meta property="article:author" content="{{ config.extra.author }}">
+    {% if page.taxonomies.categories %}<meta property="article:section" content="{{ page.taxonomies.categories | first }}">{% endif %}
+    {% if page.taxonomies.tags %}{% for tag in page.taxonomies.tags %}
+    <meta property="article:tag" content="{{ tag }}">{% endfor %}{% endif %}
+    {% endif %}
+
+    {# ===== Twitter Card ===== #}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page_title_full }}">
+    <meta name="twitter:description" content="{{ page_description }}">
+    <meta name="twitter:image" content="{{ og_image | safe }}">
+
+    {# ===== JSON-LD structured data (rich snippet schema.org) =====
+       Page (article) → Article schema với headline, image, datePublished.
+       Section/Index → WebSite schema với SearchAction potential. #}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        {% if page %}
+        "@type": "Article",
+        "headline": {{ page.title | json_encode | safe }},
+        "image": [{{ og_image | json_encode | safe }}],
+        "datePublished": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",
+        {% if page.updated %}"dateModified": "{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% else %}"dateModified": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% endif %}
+        "author": {
+            "@type": "Person",
+            "name": {{ config.extra.author | json_encode | safe }}{% if config.extra.author_url %},
+            "url": {{ config.extra.author_url | json_encode | safe }}{% endif %}
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": {{ config.title | json_encode | safe }},
+            "url": "{{ config.base_url | safe }}"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ canonical_url | safe }}"
+        },
+        "description": {{ page_description | json_encode | safe }}
+        {% else %}
+        "@type": "WebSite",
+        "name": {{ config.title | json_encode | safe }},
+        "url": "{{ config.base_url | safe }}",
+        "description": {{ page_description | json_encode | safe }},
+        "publisher": {
+            "@type": "Organization",
+            "name": {{ config.title | json_encode | safe }}
+        }
+        {% endif %}
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
