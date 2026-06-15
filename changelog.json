@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "OAuth callback double base path /zola/zola/ → 404",
+      "tag": "fix",
+      "pr": 47,
+      "lines_added": 703,
+      "lines_removed": 164,
+      "highlights": [
+        "BLOG_URL env var = https://banhang-chogao.github.io/zola (có sẵn base path /zola)",
+        "Client gửi return_to = location.pathname trên blog đã bao gồm /zola luôn (vd /zola/baochi/)",
+        "Backend cộng BLOG_URL + return_to → https://banhang-chogao.github.io/zola/zola/baochi/"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "nút Đăng lên blog + grid 4 cột Du lịch + Trip.com curl_cffi",
       "tag": "chore",
       "pr": 46,
