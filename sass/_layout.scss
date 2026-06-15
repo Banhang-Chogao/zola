@@ -118,7 +118,7 @@
 
 @media (max-width: 720px) {
   .site-header {
-    padding: 1rem 0 0.85rem;
+    padding: 0.85rem 0 0.7rem;
 
     &__inner {
       grid-template-columns: 1fr;
@@ -128,20 +128,43 @@
   }
   .site-title-link { align-items: center; }
   .site-title-wrap { justify-content: center; }
-  .site-title { font-size: 1.6rem; }
-  .site-verified-badge { width: 22px; height: 22px; }
+  .site-title { font-size: 1.5rem; line-height: 1.1; }
+  .site-verified-badge { width: 20px; height: 20px; }
 
   /* Momo-style minimal mobile header: ẩn deploy card + GitHub side panel.
-     Chỉ giữ logo + version chip → header gọn nhẹ, tập trung reading. Người
-     dùng cần deploy/commit info có thể vào /changelog/ hoặc /insights/. */
+     Chỉ giữ logo + version chip → header gọn nhẹ, tập trung reading. */
   .header-deploy-card,
   .header-side {
     display: none;
   }
   .site-tagline {
     justify-content: center;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
   }
+
+  /* Layout grid: stack single column trên mobile (đã có trong _layout
+     @max-width: 960px), thêm margin compact để tận dụng viewport. */
+  .layout-grid {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  /* Section header pill responsive — không tràn ngang */
+  .section-header__title {
+    font-size: 0.78rem;
+    padding: 0.7rem 1rem 0.6rem;
+    &::after {
+      right: -16px;
+      border-right-width: 16px;
+      border-bottom-width: 42px;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .site-title { font-size: 1.3rem; }
+  .site-tagline { font-size: 0.7rem; }
 }
 
 .layout-grid {

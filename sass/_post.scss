@@ -248,3 +248,91 @@
   code { background: #fff; padding: 0.1rem 0.5rem; border-radius: 2px; font-family: $font-mono; }
   strong { color: #b45309; }
 }
+
+/* ============= MOBILE OPTIMIZATIONS (post cards + content) ============= */
+@media (max-width: 720px) {
+  /* Post card list — compact padding, font tight cho mobile */
+  .post-card {
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+
+    &__title {
+      font-size: 1.15rem;
+      line-height: 1.35;
+    }
+
+    &__meta {
+      font-size: 0.75rem;
+      gap: 0.6rem;
+    }
+
+    &__excerpt {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      -webkit-line-clamp: 3; /* limit excerpt 3 lines mobile */
+    }
+
+    &__image {
+      /* aspect-ratio preserve để không CLS khi image lazy load */
+      aspect-ratio: 16/10;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  /* Hero image post single — edge-to-edge effect cho mobile */
+  .post-single__hero {
+    margin-left: -16px;
+    margin-right: -16px;
+    border-radius: 0;
+    aspect-ratio: 16/10;
+
+    img {
+      border-radius: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .post-single__title {
+    font-size: 1.6rem;
+    line-height: 1.3;
+  }
+
+  .post-single__content {
+    font-size: 0.96rem;
+    line-height: 1.7;
+    /* Allow content images to be edge-to-edge nếu muốn */
+    img { max-width: 100%; height: auto; }
+
+    /* Code blocks: cho phép scroll ngang trong code, không scroll cả page */
+    pre {
+      overflow-x: auto;
+      font-size: 0.82rem;
+      padding: 0.85rem;
+      margin-left: -8px;
+      margin-right: -8px;
+      border-radius: 6px;
+    }
+
+    /* Inline code không break giữa từ */
+    p code, li code { word-break: break-word; }
+
+    /* Tables responsive — wrap container scroll */
+    table {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .post-single__title { font-size: 1.4rem; }
+  .post-single__content { font-size: 0.92rem; }
+  .post-card__title { font-size: 1.05rem; }
+}
