@@ -1,0 +1,208 @@
+/* ============================================================
+   ===== MOMO BLOG DESIGN TOKENS =====
+   ============================================================
+   Phân tích từ momo.vn/blog reference. CSS custom properties để
+   tái sử dụng trong card, hero, tabs. Khớp với _home-momo.scss. */
+
+:root {
+  /* ===== COLORS ===== */
+
+  /* Primary brand — MoMo pink/magenta */
+  --momo-pink:           #ec4899;
+  --momo-pink-light:     #f9a8d4;
+  --momo-pink-bg:        #fdf2f8;
+
+  /* Accent — category labels */
+  --momo-blue:           #0891b2;     /* Tài Chính */
+  --momo-cyan-light:     #e0f7fa;
+  --momo-purple:         #7c3aed;     /* Game */
+  --momo-orange:         #f97316;     /* Insights */
+
+  /* Text hierarchy */
+  --momo-text-strong:    #0f172a;     /* H1, H2 title */
+  --momo-text-body:      #1e293b;     /* paragraph */
+  --momo-text-muted:     #64748b;     /* meta, excerpt */
+  --momo-text-soft:      #94a3b8;     /* small italic */
+
+  /* Backgrounds */
+  --momo-bg-page:        #ffffff;
+  --momo-bg-card:        #ffffff;
+  --momo-bg-soft:        #f8fafc;
+  --momo-bg-hover:       #f1f5f9;
+
+  /* Borders */
+  --momo-border-light:   #ececec;
+  --momo-border-med:     #e2e8f0;
+  --momo-border-strong:  #cbd5e1;
+
+  /* ===== TYPOGRAPHY ===== */
+
+  /* Font families */
+  --momo-font-heading:   "Manrope", system-ui, -apple-system, sans-serif;
+  --momo-font-body:      "Manrope", system-ui, -apple-system, sans-serif;
+  --momo-font-ui:        "Inter",   system-ui, -apple-system, sans-serif;
+
+  /* Font sizes (Desktop) */
+  --momo-h1:             2rem;        /* 32px hero title */
+  --momo-h2:             1.5rem;      /* 24px card title */
+  --momo-h3:             1.15rem;     /* 18.4px card title (grid) */
+  --momo-body:           1rem;        /* 16px body */
+  --momo-meta:           0.85rem;     /* 13.6px date, author */
+  --momo-cat:            0.78rem;     /* 12.5px category label */
+  --momo-small:          0.72rem;     /* 11.5px hint */
+
+  /* Font weights */
+  --momo-weight-bold:    800;
+  --momo-weight-semibold: 700;
+  --momo-weight-medium:  600;
+  --momo-weight-regular: 400;
+
+  /* Line height */
+  --momo-line-tight:     1.2;         /* titles */
+  --momo-line-normal:    1.5;         /* excerpt */
+  --momo-line-relaxed:   1.65;        /* paragraph long */
+
+  /* Letter spacing */
+  --momo-ls-tight:       -0.02em;     /* large headlines */
+  --momo-ls-normal:      0;
+  --momo-ls-wide:        0.04em;      /* category labels uppercase */
+
+  /* ===== SPACING ===== */
+
+  --momo-space-xs:       0.25rem;     /* 4px */
+  --momo-space-sm:       0.5rem;      /* 8px */
+  --momo-space-md:       1rem;        /* 16px */
+  --momo-space-lg:       1.5rem;      /* 24px */
+  --momo-space-xl:       2rem;        /* 32px */
+  --momo-space-2xl:      3rem;        /* 48px */
+  --momo-space-3xl:      4rem;        /* 64px */
+
+  /* ===== RADIUS ===== */
+
+  --momo-radius-sm:      6px;
+  --momo-radius-md:      8px;
+  --momo-radius-lg:      12px;        /* card image */
+  --momo-radius-xl:      16px;
+  --momo-radius-full:    9999px;      /* pill */
+
+  /* ===== SHADOW (hover) ===== */
+
+  --momo-shadow-card:    0 1px 3px rgba(15, 23, 42, 0.04);
+  --momo-shadow-hover:   0 8px 24px rgba(15, 23, 42, 0.08);
+  --momo-shadow-lift:    0 12px 36px rgba(15, 23, 42, 0.12);
+
+  /* ===== TRANSITIONS ===== */
+
+  --momo-trans-fast:     .15s ease;
+  --momo-trans-med:      .25s ease;
+  --momo-trans-slow:     .35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ===== ASPECT RATIOS ===== */
+
+  --momo-aspect-hero:    16/11;       /* featured hero card image */
+  --momo-aspect-card:    16/10;       /* grid card image */
+  --momo-aspect-square:  1/1;         /* avatar */
+}
+
+/* ============================================================
+   ===== REUSABLE MOMO CARD COMPONENT =====
+   ============================================================
+   Pattern: image trên + body (cat, insight italic, title, excerpt).
+   Dùng cho .home-card hoặc bất kỳ grid post nào. */
+
+.momo-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--momo-space-md);
+  background: var(--momo-bg-card);
+  transition: transform var(--momo-trans-fast);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  &__image {
+    display: block;
+    aspect-ratio: var(--momo-aspect-card);
+    overflow: hidden;
+    border-radius: var(--momo-radius-lg);
+    background: var(--momo-bg-soft);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--momo-trans-slow);
+    }
+
+    &:hover img { transform: scale(1.04); }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--momo-space-xs);
+  }
+
+  &__cat {
+    font-family: var(--momo-font-ui);
+    font-size: var(--momo-cat);
+    font-weight: var(--momo-weight-semibold);
+    color: var(--momo-pink);
+    letter-spacing: var(--momo-ls-normal);
+  }
+
+  &__insight {
+    font-family: var(--momo-font-body);
+    font-size: var(--momo-meta);
+    font-style: italic;
+    color: var(--momo-text-soft);
+  }
+
+  &__title {
+    font-family: var(--momo-font-heading);
+    font-size: var(--momo-h3);
+    font-weight: var(--momo-weight-bold);
+    line-height: var(--momo-line-tight);
+    letter-spacing: var(--momo-ls-tight);
+    color: var(--momo-text-strong);
+    margin: 0;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      &:hover { color: var(--momo-pink); }
+    }
+  }
+
+  &__excerpt {
+    font-family: var(--momo-font-body);
+    font-size: 0.88rem;
+    line-height: var(--momo-line-normal);
+    color: var(--momo-text-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__meta {
+    display: flex;
+    gap: var(--momo-space-md);
+    font-family: var(--momo-font-body);
+    font-size: var(--momo-meta);
+    color: var(--momo-text-soft);
+    margin-top: var(--momo-space-xs);
+  }
+}
+
+/* Mobile responsive ≤ 720px */
+@media (max-width: 720px) {
+  .momo-card {
+    gap: var(--momo-space-sm);
+
+    &__title { font-size: 1.05rem; }
+    &__excerpt { -webkit-line-clamp: 2; }
+  }
+}
