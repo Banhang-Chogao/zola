@@ -354,6 +354,115 @@ async def require_session(authorization: str) -> dict:
     return json.loads(raw)
 
 
+# ============= DEBUG — Trip.com scrape diagnostic =============
+@app.get("/api/debug/trip")
+async def debug_trip_scrape():
+    """
+    Diagnostic endpoint cho Trip.com scrape — trả thông tin chi tiết để biết
+    tại sao primary scraper return empty: curl_cffi available? status code?
+    HTML length? __NEXT_DATA__ tồn tại? walker tìm được item nào?
+
+    KHÔNG cache, mỗi call fetch tươi. Public để dễ test.
+    """
+    feed_cfg = CURATED_FEEDS.get("du-lich") or {}
+    primary = feed_cfg.get("primary") or feed_cfg
+    url = primary.get("url", "")
+
+    info = {
+        "url":                  url,
+        "curl_cffi_available":  _CURL_CFFI_AVAILABLE,
+        "step":                 "init",
+    }
+
+    if not url:
+        info["error"] = "no_url_configured"
+        return info
+
+    if not _CURL_CFFI_AVAILABLE:
+        info["error"] = "curl_cffi_not_installed"
+        info["hint"] = "Check Render build logs — curl-cffi wheel có thể fail install"
+        return info
+
+    def _sync_fetch():
+        return curl_requests.get(
+            url,
+            impersonate="chrome131",
+            headers={
+                "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Referer": "https://www.trip.com/",
+            },
+            timeout=25,
+        )
+
+    info["step"] = "fetching"
+    try:
+        res = await asyncio.to_thread(_sync_fetch)
+    except Exception as e:
+        info["error"] = "fetch_exception"
+        info["exception_type"] = type(e).__name__
+        info["exception_msg"]  = str(e)[:300]
+        return info
+
+    info["status_code"]   = res.status_code
+    info["content_type"]  = res.headers.get("content-type", "")[:100]
+    info["html_length"]   = len(res.text)
+    info["step"]          = "parsing"
+
+    # Detect Cloudflare challenge page
+    txt_lower = res.text[:5000].lower()
+    info["cloudflare_signs"] = any(s in txt_lower for s in [
+        "cf-chl-", "challenge-platform", "ray id:", "checking your browser",
+        "cloudflare", "just a moment",
+    ])
+
+    # Page title — confirm real content vs challenge
+    m_title = re.search(r'<title>(.*?)</title>', res.text, re.DOTALL | re.IGNORECASE)
+    info["page_title"] = (m_title.group(1).strip()[:200] if m_title else "")
+
+    # __NEXT_DATA__ presence
+    m_next = re.search(
+        r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',
+        res.text, re.DOTALL,
+    )
+    info["has_next_data"] = bool(m_next)
+    if m_next:
+        info["next_data_length"] = len(m_next.group(1))
+        try:
+            nd_json = json.loads(m_next.group(1))
+            # Walk top-level keys để xem structure
+            if isinstance(nd_json, dict):
+                info["next_data_top_keys"] = list(nd_json.keys())[:10]
+                # Common Next.js path: props.pageProps.*
+                pp = (nd_json.get("props") or {}).get("pageProps") or {}
+                if pp:
+                    info["page_props_keys"] = list(pp.keys())[:20]
+        except json.JSONDecodeError:
+            info["next_data_parse_error"] = True
+
+    # Generic application/json scripts (alternate)
+    json_scripts = re.findall(
+        r'<script[^>]+type=["\']application/json["\'][^>]*>(.*?)</script>',
+        res.text, re.DOTALL,
+    )
+    info["json_script_count"]    = len(json_scripts)
+    info["json_script_lengths"]  = [len(s) for s in json_scripts[:5]]
+
+    # Run actual walker
+    info["step"] = "walking"
+    try:
+        items = await _scrape_trip_via_curl_cffi(url)
+        info["items_extracted"] = len(items)
+        if items:
+            info["sample_item_keys"] = list(items[0].keys())
+            info["sample_titles"]    = [it.get("title", "")[:80] for it in items[:3]]
+    except Exception as e:
+        info["walker_exception"] = f"{type(e).__name__}: {str(e)[:200]}"
+
+    info["step"] = "done"
+    return info
+
+
 # ============= IMDB (via public scraper proxy) =============
 # Walker linh hoạt parse mọi JSON shape — không lock vào schema cụ thể.
 # Schema thực tế từ imdb.iamidiotareyoutoo.com:
@@ -414,61 +523,196 @@ def _imdb_link_for(obj: dict) -> str:
     return ""
 
 
+def _imdb_nested_title(obj: dict) -> str:
+    """
+    IMDB GraphQL data có pattern nested: titleText.text, primaryTitle.text.
+    Check trước flat key, sau đó nested {text|primaryText|originalText}.
+    """
+    direct = _first_str(obj, _IMDB_TITLE_KEYS)
+    if direct:
+        return direct
+    for nk in ("titleText", "title", "originalTitleText", "primaryTitle", "name"):
+        v = obj.get(nk)
+        if isinstance(v, dict):
+            t = (v.get("text") or v.get("primaryText") or v.get("plainText") or "")
+            if isinstance(t, str) and t.strip():
+                return t.strip()
+        elif isinstance(v, str) and v.strip():
+            return v.strip()
+    return ""
+
+
+def _imdb_nested_image(obj: dict, base_url: str) -> str:
+    """IMDB primaryImage.url là nested object phổ biến cho poster."""
+    direct = _first_image(obj, base_url)
+    if direct:
+        return direct
+    for nk in ("primaryImage", "image", "poster", "thumbnail"):
+        v = obj.get(nk)
+        if isinstance(v, dict):
+            url = v.get("url") or v.get("imageUrl") or ""
+            if isinstance(url, str) and url.strip():
+                return _normalize_link(url.strip(), base_url)
+    return ""
+
+
+def _imdb_nested_link(obj: dict) -> str:
+    """tconst 'tt12345' có thể nằm ở obj.id hoặc obj.node.id."""
+    direct = _imdb_link_for(obj)
+    if direct:
+        return direct
+    # node wrapper (GraphQL connection edges)
+    node = obj.get("node")
+    if isinstance(node, dict):
+        return _imdb_link_for(node)
+    return ""
+
+
+def _imdb_nested_date(obj: dict) -> str:
+    direct = _first_str(obj, _IMDB_DATE_KEYS)
+    if direct:
+        return direct
+    # releaseDate.year + month + day → string
+    for nk in ("releaseDate", "releaseYear", "datePublished"):
+        v = obj.get(nk)
+        if isinstance(v, dict):
+            y = v.get("year") or v.get("y") or ""
+            m = v.get("month") or v.get("m") or ""
+            d = v.get("day") or v.get("d") or ""
+            parts = [str(p) for p in (y, m, d) if p]
+            if parts:
+                return "-".join(parts)
+        elif isinstance(v, (int, str)) and v:
+            return str(v)
+    return ""
+
+
+def _imdb_nested_rating(obj: dict) -> str:
+    direct = _first_str(obj, _IMDB_RATING_KEYS)
+    if direct:
+        try:
+            return f"{float(direct):.1f}"
+        except (TypeError, ValueError):
+            return direct[:5]
+    # ratingsSummary.aggregateRating (GraphQL)
+    for nk in ("ratingsSummary", "ratings", "rating"):
+        v = obj.get(nk)
+        if isinstance(v, dict):
+            r = v.get("aggregateRating") or v.get("value") or v.get("ratingValue") or ""
+            if r is not None and r != "":
+                try:
+                    return f"{float(r):.1f}"
+                except (TypeError, ValueError):
+                    return str(r)[:5]
+    return ""
+
+
 def _extract_imdb_items(node, items: list, base_url: str, depth: int = 0) -> None:
-    """Walk JSON tìm objects có shape title+link → push items, cap 10."""
-    if depth > 6 or len(items) >= 10:
+    """
+    Walk JSON tìm objects có shape title+link → push items, cap 10.
+    Hỗ trợ cả flat (proxy search response) và nested GraphQL (IMDB calendar
+    __NEXT_DATA__) qua helper _imdb_nested_*.
+    """
+    if depth > 8 or len(items) >= 10:
         return
 
     if isinstance(node, list):
         for child in node:
             if isinstance(child, dict):
-                title = _first_str(child, _IMDB_TITLE_KEYS)
-                link  = _imdb_link_for(child)
+                # GraphQL connection edges wrapper: {node: {...real entry...}}
+                effective = child.get("node") if isinstance(child.get("node"), dict) else child
+                title = _imdb_nested_title(effective)
+                link  = _imdb_nested_link(effective)
                 if title and link and len(title) >= 2:
-                    rating_raw = _first_str(child, _IMDB_RATING_KEYS)
-                    rating = ""
-                    if rating_raw:
-                        try:
-                            rating = f"{float(rating_raw):.1f}"
-                        except (TypeError, ValueError):
-                            rating = rating_raw[:5]
                     items.append({
                         "title":     title[:300],
                         "link":      link,
-                        "summary":   _first_str(child, _IMDB_DESC_KEYS)[:500],
-                        "published": _first_str(child, _IMDB_DATE_KEYS)[:50],
-                        "thumbnail": _first_image(child, base_url),
-                        "rating":    rating,
+                        "summary":   _first_str(effective, _IMDB_DESC_KEYS)[:500],
+                        "published": _imdb_nested_date(effective)[:50],
+                        "thumbnail": _imdb_nested_image(effective, base_url),
+                        "rating":    _imdb_nested_rating(effective),
                     })
                     if len(items) >= 10:
                         return
             _extract_imdb_items(child, items, base_url, depth + 1)
     elif isinstance(node, dict):
-        # Ưu tiên các key chứa array results trước (description, results, data)
-        for prio_key in ("description", "results", "data", "items", "movies", "titles"):
+        # Ưu tiên array key phổ biến
+        for prio_key in ("description", "results", "data", "items", "movies",
+                          "titles", "edges", "list", "aboveTheFoldData",
+                          "calendarTitles", "releases"):
             v = node.get(prio_key)
             if isinstance(v, list):
                 _extract_imdb_items(v, items, base_url, depth + 1)
                 if len(items) >= 10:
                     return
-        # Sau đó walk các giá trị còn lại
+        # Walk các giá trị còn lại
         for k, v in node.items():
-            if k in ("description", "results", "data", "items", "movies", "titles"):
+            if k in ("description", "results", "data", "items", "movies",
+                     "titles", "edges", "list", "aboveTheFoldData",
+                     "calendarTitles", "releases"):
                 continue
             _extract_imdb_items(v, items, base_url, depth + 1)
             if len(items) >= 10:
                 return
 
 
+async def _fetch_imdb_html(url: str) -> tuple:
+    """
+    Fetch IMDB.com HTML với TLS impersonate Chrome → bypass bot detection.
+    Trả tuple (html_text, status_code). Empty string nếu fail.
+    """
+    if not _CURL_CFFI_AVAILABLE:
+        return "", 0
+
+    def _sync():
+        return curl_requests.get(
+            url,
+            impersonate="chrome131",
+            headers={
+                "Accept-Language": "en-US,en;q=0.9,vi-VN;q=0.8",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Referer": "https://www.imdb.com/",
+                "Cache-Control": "no-cache",
+            },
+            timeout=25,
+        )
+
+    try:
+        res = await asyncio.to_thread(_sync)
+    except Exception:
+        return "", 0
+    return (res.text, res.status_code) if res.status_code == 200 else ("", res.status_code)
+
+
+def _parse_next_data_items(html: str, base_url: str) -> list:
+    """Extract __NEXT_DATA__ JSON từ HTML và walk tìm IMDB entries."""
+    if not html:
+        return []
+    m = re.search(
+        r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',
+        html, re.DOTALL,
+    )
+    if not m:
+        return []
+    try:
+        data = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return []
+    items: list = []
+    _extract_imdb_items(data, items, base_url)
+    return items[:10]
+
+
 @app.get("/api/movies")
 async def imdb_movies():
     """
-    Trả tối đa 10 phim từ IMDB scraper proxy (imdb.iamidiotareyoutoo.com).
-    Endpoint configurable qua IMDB_API_URL env var — đổi không cần redeploy.
+    Trả tối đa 10 phim từ IMDB. URL configurable qua IMDB_API_URL env var.
 
-    Walker linh hoạt: chấp nhận response JSON dạng list-of-dict hoặc nested
-    {description: [...]} / {results: [...]} → fields title/link/desc/poster/
-    rating được match qua list synonym → không lock schema.
+    Dispatch theo URL host:
+      - imdb.com → HTML scrape với curl_cffi TLS impersonate + parse
+        __NEXT_DATA__ (Next.js). Calendar/title pages dùng GraphQL nested
+        structure, walker đã handle qua _imdb_nested_*
+      - khác → JSON fetch httpx, walker direct (proxy services trả JSON sạch)
 
     Redis cache 24h. Lỗi → graceful degrade items=[].
     """
@@ -484,22 +728,29 @@ async def imdb_movies():
         except json.JSONDecodeError:
             pass
 
+    parsed = urlparse(IMDB_API_URL)
+    is_imdb_direct = "imdb.com" in (parsed.netloc or "").lower()
+
     items: list = []
     try:
-        async with httpx.AsyncClient(
-            timeout=20.0,
-            follow_redirects=True,
-            headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                              "AppleWebKit/537.36 (KHTML, like Gecko) "
-                              "Chrome/131.0.0.0 Safari/537.36",
-                "Accept": "application/json, */*;q=0.9",
-            },
-        ) as client:
-            res = await client.get(IMDB_API_URL)
-        res.raise_for_status()
-        data = res.json()
-        _extract_imdb_items(data, items, "https://www.imdb.com")
+        if is_imdb_direct:
+            html, status = await _fetch_imdb_html(IMDB_API_URL)
+            items = _parse_next_data_items(html, "https://www.imdb.com")
+        else:
+            async with httpx.AsyncClient(
+                timeout=20.0,
+                follow_redirects=True,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                                  "Chrome/131.0.0.0 Safari/537.36",
+                    "Accept": "application/json, */*;q=0.9",
+                },
+            ) as client:
+                res = await client.get(IMDB_API_URL)
+            res.raise_for_status()
+            data = res.json()
+            _extract_imdb_items(data, items, "https://www.imdb.com")
     except Exception:
         return {
             "source":     "IMDB",
@@ -520,6 +771,68 @@ async def imdb_movies():
     await r.setex(cache_key, ttl, json.dumps(payload, ensure_ascii=False))
     payload["from_cache"] = False
     return payload
+
+
+@app.get("/api/debug/imdb")
+async def debug_imdb_scrape():
+    """Diagnostic cho IMDB scrape — trả raw info để biết tại sao empty."""
+    url = IMDB_API_URL
+    parsed = urlparse(url)
+    is_imdb_direct = "imdb.com" in (parsed.netloc or "").lower()
+
+    info = {
+        "url":                  url,
+        "is_imdb_direct":       is_imdb_direct,
+        "curl_cffi_available":  _CURL_CFFI_AVAILABLE,
+    }
+
+    if is_imdb_direct:
+        if not _CURL_CFFI_AVAILABLE:
+            info["error"] = "curl_cffi_not_installed"
+            return info
+        html, status = await _fetch_imdb_html(url)
+        info["status_code"] = status
+        info["html_length"] = len(html)
+        if html:
+            m_title = re.search(r'<title>(.*?)</title>', html, re.DOTALL | re.IGNORECASE)
+            info["page_title"] = (m_title.group(1).strip()[:200] if m_title else "")
+            m_next = re.search(
+                r'<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)</script>',
+                html, re.DOTALL,
+            )
+            info["has_next_data"] = bool(m_next)
+            if m_next:
+                info["next_data_length"] = len(m_next.group(1))
+                try:
+                    nd = json.loads(m_next.group(1))
+                    if isinstance(nd, dict):
+                        info["top_keys"] = list(nd.keys())[:10]
+                        pp = (nd.get("props") or {}).get("pageProps") or {}
+                        if pp:
+                            info["page_props_keys"] = list(pp.keys())[:20]
+                except json.JSONDecodeError:
+                    info["next_data_parse_error"] = True
+            items = _parse_next_data_items(html, "https://www.imdb.com")
+            info["items_extracted"] = len(items)
+            info["sample_titles"]   = [it.get("title", "")[:80] for it in items[:5]]
+    else:
+        # JSON proxy mode
+        try:
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                res = await client.get(url)
+            info["status_code"]    = res.status_code
+            info["content_type"]   = res.headers.get("content-type", "")[:100]
+            data = res.json()
+            info["json_top_type"] = type(data).__name__
+            if isinstance(data, dict):
+                info["json_top_keys"] = list(data.keys())[:10]
+            items: list = []
+            _extract_imdb_items(data, items, "https://www.imdb.com")
+            info["items_extracted"] = len(items)
+            info["sample_titles"]   = [it.get("title", "")[:80] for it in items[:5]]
+        except Exception as e:
+            info["exception"] = f"{type(e).__name__}: {str(e)[:200]}"
+    return info
 
 
 # ============= CMS — Publish Post to GitHub =============
@@ -785,7 +1098,9 @@ NEWS_CACHE_TTL = int(os.getenv("NEWS_CACHE_TTL", "1800"))  # 30 phút default ch
 # popular/top, set IMDB_API_URL trên Render.
 IMDB_API_URL    = os.getenv(
     "IMDB_API_URL",
-    "https://imdb.iamidiotareyoutoo.com/search?q=trending",
+    # Default: IMDB calendar (upcoming releases). User có thể đổi qua env
+    # sang proxy search như imdb.iamidiotareyoutoo.com/search?q=...
+    "https://www.imdb.com/calendar/?ref_=tt_nv_menu",
 )
 IMDB_CACHE_TTL  = int(os.getenv("IMDB_CACHE_TTL", "86400"))  # 24h
 
