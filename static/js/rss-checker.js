@@ -191,6 +191,30 @@
     errorMsg.textContent = msg || "Không thể lấy tin từ nguồn này.";
   }
 
+  // attemptFetch: 1 lần gọi API, return {ok: bool, data?, status?, reason?}
+  async function attemptFetch(url) {
+    try {
+      const sid = getSid();
+      const res = await fetch(
+        AUTH_API + "/api/check-rss?url=" + encodeURIComponent(url),
+        {
+          headers: { "Authorization": "Bearer " + sid },
+          credentials: "omit",
+          cache: "no-store",
+        }
+      );
+      if (res.status === 401) return { ok: false, reason: "unauth" };
+      if (!res.ok)             return { ok: false, reason: "http_" + res.status };
+      const data = await res.json();
+      if (!data.items || !data.items.length) {
+        return { ok: false, reason: "empty" };
+      }
+      return { ok: true, data: data };
+    } catch (err) {
+      return { ok: false, reason: "network" };
+    }
+  }
+
   if (form) {
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -203,29 +227,32 @@
       errorBox.hidden = true;
 
       try {
-        const sid = getSid();
-        const res = await fetch(AUTH_API + "/api/check-rss?url=" + encodeURIComponent(url), {
-          headers: { "Authorization": "Bearer " + sid },
-          credentials: "omit",
-          cache: "no-store",
-        });
-        if (res.status === 401) {
+        // Attempt 1
+        let result = await attemptFetch(url);
+        if (result.ok) { showResult(result.data); return; }
+        if (result.reason === "unauth") {
           clearSid();
           showView("login");
           return;
         }
-        if (!res.ok) {
-          showError("Không thể lấy tin từ nguồn này.");
+
+        // Attempt 2 — auto retry 1 lần sau 800ms (tránh dồn dập gây thêm
+        // throttle bên server). User KHÔNG cần làm gì.
+        if (extractLbl) extractLbl.textContent = "Thử lại…";
+        await new Promise(function (r) { setTimeout(r, 800); });
+
+        result = await attemptFetch(url);
+        if (result.ok) { showResult(result.data); return; }
+        if (result.reason === "unauth") {
+          clearSid();
+          showView("login");
           return;
         }
-        const data = await res.json();
-        if (!data.items || !data.items.length) {
-          showError("Không thể lấy tin từ nguồn này.");
-          return;
-        }
-        showResult(data);
+
+        // 2 lần fail → kết luận source không hỗ trợ
+        showError("Nhà cung cấp này không hỗ trợ. Vui lòng thử URL RSS khác.");
       } catch (err) {
-        showError("Lỗi kết nối backend. Thử lại.");
+        showError("Lỗi kết nối backend.");
       } finally {
         setLoading(false);
       }
@@ -247,6 +274,11 @@
     const user = await fetchMe();
     if (user) {
       populateUserBar(user);
+      // Reset form state — đảm bảo KHÔNG hiển thị error/result cũ khi
+      // mới vào trang. Tool chỉ chạy khi user gõ URL + click Extract.
+      if (errorBox) errorBox.hidden = true;
+      if (resultBox) resultBox.hidden = true;
+      if (urlInput) urlInput.value = "";
       showView("main");
       urlInput.focus();
     } else {
