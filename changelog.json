@@ -2,6 +2,17 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "HOTFIX (pp): Tera ga_stats._status not found block deploy",
+      "tag": "chore",
+      "pr": 119,
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [
+        "{% set is_demo = ga_stats._status == \"waiting_for_secret\" %}"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Auto-deploy batch: 10 commits (mobile UX + momo homepage + content + features)",
       "tag": "chore",
       "pr": 118,
