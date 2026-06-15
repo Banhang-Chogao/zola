@@ -108,7 +108,7 @@ SECRET_MASK_PATTERNS = [
     (re.compile(r"AKIA[0-9A-Z]{12,}"),                  "AKIA****"),
     # OTP-style: 4-6 digits xuất hiện sau từ 'OTP' / 'mã' / 'code' / 'pin'
     # trên cùng dòng. Lazy match → bắt mọi digit-sequence dù có digit khác
-    # xen giữa (vd. "OTP modal 4 số (0512)" → "OTP modal 4 số (****)").
+    # xen giữa (vd. 'OTP modal 4 số (****)' lúc input có raw value).
     (re.compile(r"((?:OTP|otp|OTPs|mã|code|pin|PIN)\b[^\n]*?)\b\d{4,6}\b"),
                                                          r"\1****"),
 ]
