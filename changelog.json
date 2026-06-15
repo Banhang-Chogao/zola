@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Gỡ AI Content Generation Pipeline (LangChain + LiteLLM)",
+      "tag": "chore",
+      "pr": 143,
+      "lines_added": 0,
+      "lines_removed": 897,
+      "highlights": [
+        "scripts/content_gen.py — sinh draft từ idea",
+        "scripts/batch_frontmatter.py — regen frontmatter qua LLM",
+        "scripts/prompts/ (4 file) — prompt library theo category",
+        "scripts/requirements-content-gen.txt — langchain-core, langchain-litellm, litellm",
+        ".github/workflows/ai-pipeline.yml — workflow_dispatch trigger"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm workflow ai-pipeline chạy 3 bước batch trên Actions",
       "tag": "chore",
       "pr": 141,
