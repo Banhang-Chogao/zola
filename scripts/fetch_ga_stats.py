@@ -4,7 +4,7 @@ Fetch Google Analytics 4 stats qua Data API, output data/ga-stats.json.
 Service Account key: env GA_SERVICE_ACCOUNT_KEY (JSON string).
 Property: 541698865 (GA4 'banhang-chogao' blog).
 
-Output format:
+Output format (mở rộng — gồm 6 chỉ số cơ bản + 5 chỉ số nâng cao 30d):
 {
   "updated_at": "2026-06-15T12:30:00Z",
   "today_users": 42,
@@ -12,7 +12,14 @@ Output format:
   "week_users": 312,
   "week_pageviews": 654,
   "month_users": 1205,
-  "month_pageviews": 2847
+  "month_pageviews": 2847,
+  "month_sessions": 1543,
+  "month_new_users": 912,
+  "month_bounce_rate_pct": 33,
+  "month_avg_session_duration_str": "1m 23s",
+  "month_engagement_rate_pct": 67,
+  "top_country": "Vietnam",
+  "top_device": "mobile"
 }
 
 Chạy local (debug):
@@ -30,6 +37,7 @@ from google.analytics.data_v1beta.types import (
     DateRange,
     Dimension,
     Metric,
+    OrderBy,
     RunReportRequest,
 )
 from google.oauth2 import service_account
@@ -72,11 +80,85 @@ def fetch_metric(client, start: str, end: str) -> dict:
     }
 
 
+def fetch_extended_30d(client) -> dict:
+    """5 chỉ số nâng cao cho 30 ngày: sessions, new users, bounce, avg duration, engagement."""
+    req = RunReportRequest(
+        property=f"properties/{PROPERTY_ID}",
+        date_ranges=[DateRange(start_date="30daysAgo", end_date="today")],
+        metrics=[
+            Metric(name="sessions"),
+            Metric(name="newUsers"),
+            Metric(name="bounceRate"),
+            Metric(name="averageSessionDuration"),
+            Metric(name="engagementRate"),
+        ],
+    )
+    res = client.run_report(req)
+    if not res.rows:
+        return {
+            "sessions": 0,
+            "new_users": 0,
+            "bounce_rate_pct": 0,
+            "avg_session_duration_str": "0s",
+            "engagement_rate_pct": 0,
+        }
+    v = res.rows[0].metric_values
+    sessions = int(v[0].value)
+    new_users = int(v[1].value)
+    bounce_rate = float(v[2].value) if v[2].value else 0.0
+    avg_dur_sec = float(v[3].value) if v[3].value else 0.0
+    engagement = float(v[4].value) if v[4].value else 0.0
+    return {
+        "sessions": sessions,
+        "new_users": new_users,
+        "bounce_rate_pct": round(bounce_rate * 100),
+        "avg_session_duration_str": format_duration(avg_dur_sec),
+        "engagement_rate_pct": round(engagement * 100),
+    }
+
+
+def fetch_top_dimension(client, dim: str, start: str = "7daysAgo") -> str:
+    """Lấy giá trị dimension top 1 (country / deviceCategory) trong 7 ngày."""
+    req = RunReportRequest(
+        property=f"properties/{PROPERTY_ID}",
+        date_ranges=[DateRange(start_date=start, end_date="today")],
+        dimensions=[Dimension(name=dim)],
+        metrics=[Metric(name="activeUsers")],
+        order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="activeUsers"), desc=True)],
+        limit=1,
+    )
+    res = client.run_report(req)
+    if not res.rows or not res.rows[0].dimension_values:
+        return "—"
+    val = res.rows[0].dimension_values[0].value
+    return val or "—"
+
+
+def format_duration(seconds: float) -> str:
+    """Format giây thành 'Xm Ys' (hoặc 'Ys' nếu <60s)."""
+    total = int(round(seconds))
+    if total < 60:
+        return f"{total}s"
+    m, s = divmod(total, 60)
+    return f"{m}m {s}s"
+
+
 def main():
     client = get_client()
     today = fetch_metric(client, "today", "today")
     week = fetch_metric(client, "7daysAgo", "today")
     month = fetch_metric(client, "30daysAgo", "today")
+    ext = fetch_extended_30d(client)
+    try:
+        top_country = fetch_top_dimension(client, "country")
+    except Exception as e:
+        print(f"WARN: country fetch fail: {e}", file=sys.stderr)
+        top_country = "—"
+    try:
+        top_device = fetch_top_dimension(client, "deviceCategory")
+    except Exception as e:
+        print(f"WARN: device fetch fail: {e}", file=sys.stderr)
+        top_device = "—"
 
     result = {
         "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -86,6 +168,13 @@ def main():
         "week_pageviews":   week["pageviews"],
         "month_users":      month["users"],
         "month_pageviews":  month["pageviews"],
+        "month_sessions":                  ext["sessions"],
+        "month_new_users":                 ext["new_users"],
+        "month_bounce_rate_pct":           ext["bounce_rate_pct"],
+        "month_avg_session_duration_str": ext["avg_session_duration_str"],
+        "month_engagement_rate_pct":       ext["engagement_rate_pct"],
+        "top_country":                     top_country,
+        "top_device":                      top_device,
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(

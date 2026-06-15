@@ -584,6 +584,60 @@
                             <span class="ga-stats__sub">users · {{ ga_stats.month_pageviews }} views</span>
                         </div>
                     </div>
+
+                    {# ===== EXTENDED METRICS (30d) =====
+                       Row thứ 2 với 5 chỉ số GA4 nâng cao: Sessions, New Users,
+                       Bounce, Avg Duration, Engagement. Default value=0 để
+                       template không vỡ khi JSON cũ chưa có các trường này. #}
+                    <div class="ga-stats__grid ga-stats__grid--extended">
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Sessions</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_sessions | default(value=0) }}</span>
+                            <span class="ga-stats__sub">phiên · 30d</span>
+                        </div>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">New Users</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_new_users | default(value=0) }}</span>
+                            <span class="ga-stats__sub">user mới · 30d</span>
+                        </div>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Bounce</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span></span>
+                            <span class="ga-stats__sub">tỷ lệ thoát · 30d</span>
+                        </div>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Avg Session</span>
+                            <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text">{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}</span>
+                            <span class="ga-stats__sub">thời lượng · 30d</span>
+                        </div>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Engagement</span>
+                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span></span>
+                            <span class="ga-stats__sub">tương tác · 30d</span>
+                        </div>
+                    </div>
+
+                    {# ===== TOP DIMENSIONS (chips inline) =====
+                       Quốc gia + thiết bị top 7d, render dạng 2 chip nhỏ. #}
+                    {% if ga_stats.top_country or ga_stats.top_device %}
+                    <div class="ga-stats__chips">
+                        {% if ga_stats.top_country %}
+                        <span class="ga-stats__chip">
+                            <span class="ga-stats__chip-icon">🌍</span>
+                            <span class="ga-stats__chip-label">Top quốc gia (7d)</span>
+                            <span class="ga-stats__chip-val">{{ ga_stats.top_country }}</span>
+                        </span>
+                        {% endif %}
+                        {% if ga_stats.top_device %}
+                        <span class="ga-stats__chip">
+                            <span class="ga-stats__chip-icon">📱</span>
+                            <span class="ga-stats__chip-label">Top thiết bị (7d)</span>
+                            <span class="ga-stats__chip-val">{{ ga_stats.top_device }}</span>
+                        </span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
                     <p class="ga-stats__updated">
                         {% if is_demo %}
                         ⚠ Chờ workflow lần đầu — cần thêm GitHub Secret <code>GA_SERVICE_ACCOUNT_KEY</code> + grant Service Account quyền Viewer trên GA Property.
