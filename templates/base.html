@@ -525,6 +525,43 @@
                         </div>
                     </div>
                 </div>
+
+                {# ===== GA STATS LIVE TABLE =====
+                   Bảng visitors today/week/month từ GA Data API.
+                   data/ga-stats.json populate qua workflow ga-stats.yml hourly. #}
+                {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
+                {% if ga_stats and ga_stats.month_users %}
+                <div class="ga-stats">
+                    <header class="ga-stats__head">
+                        <h4 class="ga-stats__title">📊 GOOGLE ANALYTICS STATS</h4>
+                        <a class="ga-stats__refresh"
+                           href="https://analytics.google.com/analytics/web/?pli=1#/a250151829p541698865/reports/intelligenthome"
+                           target="_blank" rel="noopener"
+                           title="Mở GA dashboard chi tiết">→ Dashboard</a>
+                    </header>
+                    <div class="ga-stats__grid">
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">Hôm nay</span>
+                            <span class="ga-stats__num">{{ ga_stats.today_users }}</span>
+                            <span class="ga-stats__sub">users · {{ ga_stats.today_pageviews }} views</span>
+                        </div>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">7 ngày</span>
+                            <span class="ga-stats__num">{{ ga_stats.week_users }}</span>
+                            <span class="ga-stats__sub">users · {{ ga_stats.week_pageviews }} views</span>
+                        </div>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">30 ngày</span>
+                            <span class="ga-stats__num">{{ ga_stats.month_users }}</span>
+                            <span class="ga-stats__sub">users · {{ ga_stats.month_pageviews }} views</span>
+                        </div>
+                    </div>
+                    <p class="ga-stats__updated">
+                        Cập nhật: <code>{{ ga_stats.updated_at | truncate(length=16, end="") | replace(from="T", to=" ") }} UTC</code>
+                        — fetch hourly từ GA4 Data API
+                    </p>
+                </div>
+                {% endif %}
             </div>
         </div>
 
