@@ -835,6 +835,25 @@ tags = ${tagsStr}
   // ============= LIVE PREVIEW RENDER (debounce 500ms) =============
   // Reuse window.marked (loaded từ CDN ở editor.html), không thêm dependency.
   // Render no-op khi mode = write (preview không visible) → 0 waste compute.
+
+  // Security: sanitize HTML từ marked.parse trước khi innerHTML. marked@12 đã
+  // bỏ built-in sanitizer; body markdown được author kiểm soát NHƯNG nếu repo
+  // bị compromise (leaked PAT), attacker có thể push markdown chứa <script>
+  // → khi admin mở /editor/ → script chạy trong context có PAT → exfil PAT.
+  // Helper này strip script/iframe/object/embed + on* attrs + javascript:/data:
+  // URLs. Không bulletproof bằng DOMPurify nhưng đủ defense-in-depth.
+  function sanitizeHtml(html) {
+    return String(html)
+      .replace(/<script\b[\s\S]*?<\/script\s*>/gi, "")
+      .replace(/<style\b[\s\S]*?<\/style\s*>/gi, "")
+      .replace(/<(iframe|object|embed|link|meta|base|form)\b[\s\S]*?>/gi, "")
+      .replace(/\s+on\w+\s*=\s*"[^"]*"/gi, "")
+      .replace(/\s+on\w+\s*=\s*'[^']*'/gi, "")
+      .replace(/\s+on\w+\s*=\s*[^\s>]+/gi, "")
+      .replace(/\s+(href|src|action|formaction)\s*=\s*"\s*(javascript|data|vbscript):[^"]*"/gi, ' $1="#"')
+      .replace(/\s+(href|src|action|formaction)\s*=\s*'\s*(javascript|data|vbscript):[^']*'/gi, " $1='#'");
+  }
+
   let lastRenderedBody = null;
   function renderPreview() {
     if (!window.marked || !contentWrap) return;
@@ -844,7 +863,8 @@ tags = ${tagsStr}
     lastRenderedBody = body;
     const previewPane = $("[data-tab-pane='preview']");
     if (previewPane) {
-      previewPane.innerHTML = window.marked.parse(body || "*(rỗng)*");
+      const raw = window.marked.parse(body || "*(rỗng)*");
+      previewPane.innerHTML = sanitizeHtml(raw);
     }
   }
   const debouncedRender = debounce(renderPreview, 500);
