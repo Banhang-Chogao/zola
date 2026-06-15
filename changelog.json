@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "nút Đăng lên blog + grid 4 cột Du lịch + Trip.com curl_cffi",
+      "tag": "chore",
+      "pr": 46,
+      "lines_added": 683,
+      "lines_removed": 163,
+      "highlights": [
+        "OAuth scope thêm public_repo (cần để PUT)",
+        "Slug regex chống path traversal, content cap 200KB",
+        "GET sha hiện trạng → create or update đúng",
+        "Status banner xanh hiển thị link commit + ETA"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "meta zola-cms-auth-api không render khi cms_auth_url = \"\"",
       "tag": "fix",
       "pr": 45,
