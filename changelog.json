@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "bật Giscus comments với IDs thật",
+      "tag": "chore",
+      "pr": 67,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "repo_id = \"R_kgDOS5xLPw\"",
+        "category_id = \"DIC_kwDOS5xLP84C_Fx6\"",
+        "category = \"General\"",
+        "Theme preferred_color_scheme (auto sáng/tối theo browser)",
+        "Mapping pathname (1 thread per URL)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "JS fallback hardcode prod URL khi meta tag không có",
       "tag": "fix",
       "pr": 66,
