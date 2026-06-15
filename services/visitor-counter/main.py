@@ -65,6 +65,10 @@ GH_CLIENT_ID     = os.getenv("GH_CLIENT_ID", "")
 GH_CLIENT_SECRET = os.getenv("GH_CLIENT_SECRET", "")
 BACKEND_URL      = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
 BLOG_URL         = os.getenv("BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+# Base path component của BLOG_URL — vd "/zola". Dùng để strip khi return_to
+# từ client đã có prefix này (do location.pathname trên GitHub Pages bao gồm
+# subpath). Tránh URL kép kiểu /zola/zola/baochi/.
+_BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 
 # White-list email — comma-separated trong env. Strip + lowercase để so sánh
 # robust với GitHub email (vốn được trả về lowercase nhưng phòng config typo).
@@ -147,6 +151,21 @@ async def stats():
 def _redirect_with_error(error: str) -> RedirectResponse:
     """Redirect blog /editor/ với query ?error=... để JS hiển thị thông báo."""
     return RedirectResponse(f"{BLOG_URL}/editor/?auth_error={error}")
+
+
+def _build_blog_url(return_to: str, fragment: str = "") -> str:
+    """
+    Compose URL về blog, strip duplicate base path nếu client gửi đầy đủ
+    (vd '/zola/baochi/' khi BLOG_URL đã có '/zola' suffix → kéo về '/baochi/').
+    """
+    rt = return_to or "/"
+    if _BLOG_BASE_PATH and rt.startswith(_BLOG_BASE_PATH + "/"):
+        rt = rt[len(_BLOG_BASE_PATH):]
+    if _BLOG_BASE_PATH and rt == _BLOG_BASE_PATH:
+        rt = "/"
+    if not rt.startswith("/"):
+        rt = "/" + rt
+    return f"{BLOG_URL}{rt}" + (f"#{fragment}" if fragment else "")
 
 
 def _is_allowed_email(verified_emails: set) -> bool:
@@ -275,7 +294,7 @@ async def auth_callback(code: str = "", state: str = ""):
 
     # URL fragment (#) — browser KHÔNG gửi # cho server, JS đọc rồi xoá hash.
     # An toàn hơn query string (?sid=...) vì query có thể leak qua referer header.
-    return RedirectResponse(f"{BLOG_URL}{return_to}#sid={sid}")
+    return RedirectResponse(_build_blog_url(return_to, fragment=f"sid={sid}"))
 
 
 def _extract_sid(authorization: str) -> str:
