@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Header: Meta Verified badge + bold label + audit/fix version logic",
+      "tag": "fix",
+      "pr": 25,
+      "lines_added": 62,
+      "lines_removed": 5,
+      "highlights": [
+        "SVG inline scalloped 12-lobe (style Meta Verified)",
+        "Gradient #60A5FA → #1D4ED8",
+        "White checkmark + drop-shadow nhẹ",
+        "26px desktop, 22px mobile",
+        "Restructure CSS: chip styling tách khỏi base strong selector"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "auto-update changelog.json mỗi khi PR merge (real-time)",
       "tag": "feat",
       "pr": 24,
