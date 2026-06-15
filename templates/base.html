@@ -194,9 +194,6 @@
                             <span class="header-github__brand">⌘ GitHub</span>
                             <span class="header-github__clock" title="Thời điểm commit lên main (giờ Việt Nam UTC+7)">
                                 {%- if latest_commit -%}
-                                    {# committer.date = khi commit được apply lên branch (chính xác hơn
-                                       author.date trong case cherry-pick/rebase). Timezone Asia/Ho_Chi_Minh
-                                       để khớp giờ user Việt Nam — trước đây hiển thị UTC bị lệch 7h. #}
                                     {{ latest_commit.commit.committer.date | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
                                 {%- else -%}
                                     --:-- --/--/----
@@ -204,20 +201,46 @@
                             </span>
                         </div>
                     </div>
+
+                    {# DEPLOYED row — nằm gọn TRONG GitHub box, không tách riêng.
+                       Real-time fetch qua deploy-status.js (cùng [data-deploy-status]
+                       attr với card bên phải → share 1 fetch, sync 1 state). #}
+                    <div class="header-github__deploy" data-deploy-status>
+                        <span class="header-github__deploy-badge header-github__deploy-badge--success" data-deploy-badge>✓ DEPLOYED</span>
+                        <span class="header-github__deploy-msg">
+                            <span class="status-dot status-dot--success"></span>
+                            <span data-deploy-text>Build hiện tại đã deploy lên GitHub Pages</span>
+                        </span>
+                    </div>
                 </a>
             </div>
 
-            {# Deploy status — real-time fetch qua deploy-status.js. Static
-               '✓ DEPLOYED' là fallback nếu fetch fail (offline/rate-limit/CSP).
-               JS sẽ update badge text/class + message text + timestamp tương đối. #}
-            <div class="deploy-queue" data-deploy-status>
-                <span class="deploy-queue__badge deploy-queue__badge--success" data-deploy-badge>✓ DEPLOYED</span>
-                <div class="deploy-queue__items">
-                    <span class="deploy-queue__msg">
-                        <span class="status-dot status-dot--success"></span>
-                        <span data-deploy-text>Build hiện tại đã deploy lên GitHub Pages</span>
-                    </span>
-                </div>
+            {# Latest deployments card (github-pages style) — bên phải GitHub box,
+               mô phỏng UI 'Latest deployments from pinned environments' của
+               GitHub. Trước đây nằm /changelog, giờ chuyển lên header mọi page.
+               Real-time fetch qua deploy-status.js cùng với DEPLOYED row. #}
+            <div class="header-deploy-card is-success" data-deploy-status data-deploy-card>
+                <p class="header-deploy-card__label">Latest deployments from pinned environments</p>
+                <a class="header-deploy-card__panel"
+                   href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
+                   target="_blank" rel="noopener">
+                    <div class="header-deploy-card__head">
+                        <span class="header-deploy-card__icon" data-deploy-icon aria-hidden="true">✓</span>
+                        <span class="header-deploy-card__title">github-pages</span>
+                        <span class="header-deploy-card__ext" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
+                                <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5A1.75 1.75 0 0 0 3.75 14h8.5A1.75 1.75 0 0 0 14 12.25v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-8.5a.25.25 0 0 1 .25-.25h3a.75.75 0 0 0 0-1.5h-3Zm8 1H10A.75.75 0 0 1 10 1.5h3.25c.41 0 .75.34.75.75V5.5a.75.75 0 0 1-1.5 0V4.06L8.78 7.78a.75.75 0 0 1-1.06-1.06L11.44 3Z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="header-deploy-card__body">
+                        <span class="header-deploy-card__row">
+                            Last <span data-deploy-verb>deployed</span>
+                            <span data-deploy-time>—</span>
+                        </span>
+                        <span class="header-deploy-card__url">{{ config.base_url | safe }}/</span>
+                    </div>
+                </a>
             </div>
             </div> {# /.header-side #}
         </div>
