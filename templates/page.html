@@ -120,26 +120,46 @@
             </div>
         </aside>
 
-        {# ===== RELATED ARTICLES ===== #}
-        {# Zola không có built-in page.related → tìm thủ công:
-           Lấy section posting → filter bài cùng category đầu, exclude bài
-           hiện tại, sort by date desc, slice 3 đầu. Nếu không đủ 3, fallback
-           lấy bài mới nhất bất kỳ. #}
+        {# ===== RELATED ARTICLES =====
+           Ưu tiên đọc semantic related từ data/related.json (built bởi
+           scripts/build_related.py qua sentence-transformers embedding +
+           cosine similarity). Fallback: same category, rồi latest. #}
         {% set current_slug = page.slug %}
         {% set current_cat = page.taxonomies.categories | default(value=[]) | first | default(value="") %}
         {% set root = get_section(path="posting/_index.md") %}
         {% set_global related = [] %}
-        {% if current_cat %}
+
+        {# Semantic: load_data trả {} nếu file trống/missing → safe. #}
+        {% set rel_data = load_data(path="data/related.json", required=false) | default(value={}) %}
+        {% if rel_data and rel_data[current_slug] %}
+            {% for entry in rel_data[current_slug] %}
+                {% if related | length < 3 %}
+                    {% for p in root.pages %}
+                        {% if p.slug == entry.slug and related | length < 3 %}
+                            {% set_global related = related | concat(with=[p]) %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {# Fallback 1: same category #}
+        {% if related | length < 3 and current_cat %}
             {% for p in root.pages %}
                 {% if p.slug != current_slug
                    and p.taxonomies.categories
                    and p.taxonomies.categories | first == current_cat
                    and related | length < 3 %}
-                    {% set_global related = related | concat(with=[p]) %}
+                    {% set found = false %}
+                    {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                    {% if not found %}
+                        {% set_global related = related | concat(with=[p]) %}
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         {% endif %}
-        {# Fallback: nếu chưa đủ 3, lấy bài mới nhất không phải current #}
+
+        {# Fallback 2: latest #}
         {% if related | length < 3 %}
             {% for p in root.pages %}
                 {% if p.slug != current_slug and related | length < 3 %}
