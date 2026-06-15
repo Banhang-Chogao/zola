@@ -363,7 +363,7 @@
                             </h4>
                             <div class="post-meta">
                                 <span class="post-meta__author">{{ config.extra.author }}{{ v_author::badge() }}</span>
-                                <span class="post-meta__date">{{ featured.date | date(format="%b %d, %Y") }}</span>
+                                <span class="post-meta__date">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
                             </div>
                         </article>
                     </section>
@@ -386,7 +386,7 @@
                                         <h5 class="random-item__title">
                                             <a href="{{ page.permalink }}">{{ page.title }}</a>
                                         </h5>
-                                        <time class="random-item__date">{{ page.date | date(format="%b %d, %Y") }}</time>
+                                        <time class="random-item__date">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
                                     </div>
                                 </li>
                             {% endfor %}
@@ -457,7 +457,7 @@
         {% set qa_posts = get_section(path="posting/_index.md") %}
         {% set qa_cats = get_taxonomy(kind="categories") %}
         {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
-        {% set qa_now = now() | date(format="%d/%m/%Y") %}
+        {% set qa_now = now() | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
         {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
 
         <div class="footer-qa">
@@ -688,6 +688,7 @@
     <script src="{{ get_url(path='js/sidebar.js') }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}" defer></script>
+    <script src="{{ get_url(path='js/staging-queue.js') }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
     <script src="{{ get_url(path='js/theme-switcher.js') }}" defer></script>
     {% block extra_scripts %}{% endblock %}

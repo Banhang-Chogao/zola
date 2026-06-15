@@ -132,9 +132,12 @@
 
   // ---------- Rendering ----------
   function fmtDate(iso) {
-    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const d = new Date(iso);
-    return months[d.getMonth()] + " " + String(d.getDate()).padStart(2, "0") + ", " + d.getFullYear();
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("vi-VN", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+      timeZone: "Asia/Ho_Chi_Minh",
+    });
   }
 
   function escapeHtml(s) {

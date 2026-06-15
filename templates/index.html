@@ -41,7 +41,7 @@
                 </p>
                 <div class="home-hero__meta">
                     <span class="home-hero__author">{{ config.extra.author }}{{ v::badge() }}</span>
-                    <span class="home-hero__date">{{ featured.date | date(format="%d/%m/%Y") }}</span>
+                    <span class="home-hero__date">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
                 </div>
             </div>
         </article>
