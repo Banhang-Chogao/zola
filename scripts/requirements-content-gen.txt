@@ -1,0 +1,20 @@
+# Dependencies cho scripts/content_gen.py — Content Generation Pipeline.
+# Tách riêng vì LangChain + LiteLLM ecosystem nặng (~200MB), chỉ dev
+# local cần. Không đụng vào requirements.txt chính (build_related.py).
+
+# --- LLM gateway: unified API cho Claude / GPT / OpenRouter / Ollama ---
+litellm>=1.50
+
+# --- LangChain core + community (ChatLiteLLM wrapper, ChatPromptTemplate) ---
+langchain-core>=0.3
+langchain-community>=0.3
+
+# --- Embedding retrieval (cùng model với build_related.py để share cache) ---
+sentence-transformers>=3.0
+numpy>=1.26
+
+# --- Frontmatter parsing fallback (TOML đã có sẵn trong stdlib tomllib) ---
+python-frontmatter>=1.0
+
+# --- Slug generation tiếng Việt (bỏ dấu, ký tự đặc biệt) ---
+python-slugify>=8.0
