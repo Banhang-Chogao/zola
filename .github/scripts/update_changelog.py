@@ -78,13 +78,28 @@ def infer_tag(title: str, labels: list) -> str:
 
 
 def clean_title(title: str) -> str:
-    """Strip leading prefix kiểu 'Add: ', 'Fix - ', 'feat:' cho display gọn."""
-    return re.sub(
+    """
+    Strip leading prefix kiểu 'Add: ', 'Fix - ', 'feat:' cho display gọn.
+    Hỗ trợ cả Vietnamese prefix ('Thêm tính năng:', 'Sửa lỗi:', 'Cập nhật:',
+    'Bảo mật:', 'Gỡ bỏ:', 'Tái cấu trúc:', 'Dọn dẹp:') để tránh nhân đôi
+    khi PR title đã dùng convention mới — bot sẽ stamp lại từ tag inference.
+    """
+    cleaned = title.strip()
+    # English prefixes (legacy)
+    cleaned = re.sub(
         r"^(add|new|feat|fix|remove|delete|security|refactor|move|update|cleanup|chore|docs)[\s:\-]+",
         "",
-        title.strip(),
+        cleaned,
         flags=re.IGNORECASE,
-    ).strip()
+    )
+    # Vietnamese prefixes (new convention) — strip phrase + ":" / "-"
+    cleaned = re.sub(
+        r"^(thêm tính năng|sửa lỗi|cập nhật|bảo mật|gỡ bỏ|tái cấu trúc|dọn dẹp|style)\s*[:\-]\s*",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    return cleaned.strip()
 
 
 def strip_md_formatting(text: str) -> str:

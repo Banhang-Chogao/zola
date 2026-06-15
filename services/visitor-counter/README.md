@@ -1,4 +1,56 @@
-# Blog Visitor Counter
+# Blog Backend — Visitor Counter + GitHub OAuth + News API
+
+FastAPI + Redis service đa dụng cho blog: visitor counter, GitHub OAuth
+cho CMS, RSS Checker, curated news feeds (Znews Du lịch).
+
+---
+
+## ⚡ Quick deploy (Render Blueprint — 3 phút)
+
+File `render.yaml` đã có sẵn → Render tự dựng Redis + Web Service +
+inject `REDIS_URL`. Bạn chỉ cần điền 3 env vars là chạy.
+
+### Bước 1: Tạo GitHub OAuth App (~1 phút)
+
+1. Vào https://github.com/settings/developers → **New OAuth App**
+2. Điền:
+   - Application name: `Blog CMS Auth`
+   - Homepage URL: `https://banhang-chogao.github.io/zola`
+   - Authorization callback URL:
+     `https://blog-visitor-api.onrender.com/auth/callback`
+3. Register → màn hình hiển thị **Client ID** (copy)
+4. Generate a new client secret → copy ngay (chỉ hiện 1 lần)
+
+### Bước 2: Apply Blueprint trên Render (~1 phút)
+
+1. Vào https://dashboard.render.com/blueprints
+2. **New Blueprint Instance** → connect repo `Banhang-Chogao/zola`
+3. Render đọc `services/visitor-counter/render.yaml` → preview 2 service
+   sẽ tạo: `blog-redis` (Redis) + `blog-visitor-api` (Web)
+4. **Điền 3 env vars sync:false**:
+   - `BACKEND_URL`: `https://blog-visitor-api.onrender.com`
+     (Render assign URL theo tên service)
+   - `GH_CLIENT_ID`: dán từ Bước 1
+   - `GH_CLIENT_SECRET`: dán từ Bước 1
+5. **Apply** → Render build + deploy ~2-3 phút
+
+### Bước 3: Bật trên blog (~1 phút)
+
+Sửa `config.toml` ở repo root:
+```toml
+[extra]
+visitor_api_url = "https://blog-visitor-api.onrender.com"
+```
+
+Commit + push → CI auto-build → tất cả tính năng tự bật:
+- Footer visitor counter clock chuyển từ DEMO → LIVE
+- `/editor/` login GitHub OAuth hoạt động
+- `/baochi/` RSS Checker tool sẵn sàng
+- `/du-lich/` fetch cards Znews + cache 30 phút
+
+---
+
+## 📋 Manual deploy (nếu không dùng Blueprint)
 
 FastAPI + Redis service tối giản đếm lượt truy cập real-time cho blog.
 
