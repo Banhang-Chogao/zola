@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Author Box bỏ social + bio Vietnamese 150 từ về công nghệ và du lịch",
+      "tag": "chore",
+      "pr": 55,
+      "lines_added": 17,
+      "lines_removed": 34,
+      "highlights": [
+        "Social icons (FB/IG/YT/GitHub) nhìn rối → bỏ hoàn toàn",
+        "author_avatar trỏ /img/author-avatar.jpg (user upload sau)",
+        "author_url → blog chính banhang-chogao.github.io/zola",
+        "author_bio Vietnamese ~150 từ chủ đề công nghệ + du lịch",
+        "Developer VN khám phá điểm chung công nghệ + du lịch"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Author Box + Related Articles cuối mỗi bài viết",
       "tag": "chore",
       "pr": 54,
