@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Author Management self-service + Web Vitals footer link + Giscus auto-fetch IDs",
+      "tag": "chore",
+      "pr": 60,
+      "lines_added": 788,
+      "lines_removed": 19,
+      "highlights": [
+        "GET /cms/author — trả author.json",
+        "POST /cms/author — multipart {avatar?, name?, url?, bio?}. Validate MIME image/{jpeg,png,webp,gif}, max 5MB",
+        "Helpers: _gh_get_sha() + _gh_put_binary() reuse cho mọi binary upload tương lai",
+        "Form 2 cột: avatar block (input file + preview FileReader) + meta block (name + url + bio textarea char count)",
+        "Pattern auth giống /editor/ /baochi/"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Performance audit — qa_check perf check + workflow tự tạo PR review",
       "tag": "chore",
       "pr": 59,
