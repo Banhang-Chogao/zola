@@ -38,15 +38,17 @@ Triết lý security:
   - State param ngăn CSRF cho OAuth flow
 """
 
+import asyncio
 import json
 import os
 import re
 import secrets
 from typing import Optional
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 
+import feedparser
 import httpx
-from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi import FastAPI, Header, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 import redis.asyncio as redis
@@ -313,15 +315,126 @@ async def auth_logout(authorization: str = Header(default="")):
     return {"ok": True}
 
 
+# ============= Authentication Helper =============
+async def require_session(authorization: str) -> dict:
+    """
+    Validate Bearer sid, trả session dict hoặc raise 401. Dùng cho mọi
+    endpoint cần authenticated user. NEVER log session content vì có
+    chứa access_token.
+    """
+    sid = _extract_sid(authorization)
+    r = await get_redis()
+    raw = await r.get(f"session:{sid}")
+    if not raw:
+        raise HTTPException(401, "invalid_session")
+    return json.loads(raw)
+
+
+# ============= RSS Checker =============
+# Validate URL trước khi đưa cho feedparser — tránh SSRF qua scheme khác
+# (file://, gopher://, internal IP). feedparser tự follow redirect, nên
+# ngăn ngay từ input.
+_VALID_URL_SCHEMES = {"http", "https"}
+# Disallow internal/private hostnames — tránh SSRF tới Redis (127.0.0.1:6379)
+# hoặc metadata service (169.254.169.254).
+_BLOCKED_HOSTS = re.compile(
+    r"^(localhost|127\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|"
+    r"169\.254\.|0\.|::1|fc|fd|fe80:)",
+    re.IGNORECASE,
+)
+
+
+def _validate_rss_url(url: str) -> Optional[str]:
+    """Return error message nếu URL không an toàn, None nếu OK."""
+    if not url or len(url) > 2000:
+        return "invalid_url"
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return "invalid_url"
+    if parsed.scheme.lower() not in _VALID_URL_SCHEMES:
+        return "invalid_scheme"
+    host = (parsed.hostname or "").strip()
+    if not host:
+        return "invalid_host"
+    if _BLOCKED_HOSTS.match(host):
+        return "blocked_host"
+    return None
+
+
+@app.get("/api/check-rss")
+async def check_rss(
+    url: str = Query(..., description="RSS / Atom feed URL"),
+    authorization: str = Header(default=""),
+):
+    """
+    Parse RSS feed qua feedparser, trả 10 entry đầu (title + link).
+    Yêu cầu session valid → chỉ admin đã login mới gọi được.
+
+    Lưu ý privacy: KHÔNG log URL hoặc nội dung feed. Toàn bộ flow là
+    in-memory, không write file, không Redis cache.
+    """
+    await require_session(authorization)
+
+    err = _validate_rss_url(url)
+    if err:
+        raise HTTPException(400, err)
+
+    # feedparser là sync API → chạy trong threadpool để không block event loop.
+    # asyncio.to_thread tối thiểu vì feedparser có thể blocking 5-15s với
+    # remote fetch + XML parse cho feed lớn.
+    try:
+        feed = await asyncio.wait_for(
+            asyncio.to_thread(feedparser.parse, url),
+            timeout=15.0,
+        )
+    except asyncio.TimeoutError:
+        raise HTTPException(400, "timeout")
+    except Exception:
+        raise HTTPException(400, "parse_failed")
+
+    # feedparser KHÔNG raise — trả object có .bozo=True khi malformed.
+    # entries empty hoặc bozo + no entries → coi như fail (FE hiển thị
+    # "không lấy được tin từ nguồn này").
+    entries = getattr(feed, "entries", None) or []
+    if not entries:
+        raise HTTPException(400, "no_entries")
+
+    items = []
+    for e in entries[:10]:
+        title = (e.get("title") or "").strip()
+        link  = (e.get("link")  or "").strip()
+        # Chỉ trả entry có cả title + link hợp lệ
+        if title and link and link.startswith(("http://", "https://")):
+            items.append({"title": title[:300], "link": link[:1000]})
+
+    if not items:
+        raise HTTPException(400, "no_valid_entries")
+
+    # feed.feed.title cho title của source (vd "VnExpress - Tin nhanh")
+    source_title = ""
+    try:
+        source_title = (feed.feed.get("title") or "").strip()[:200]
+    except Exception:
+        pass
+
+    return {
+        "source_title": source_title,
+        "count":        len(items),
+        "items":        items,
+    }
+
+
 # ============= Misc =============
 @app.get("/")
 async def root():
     return {
         "service": "blog-backend",
-        "version": "2.0.0",
+        "version": "2.1.0",
         "features": {
             "visitor_counter": True,
             "github_oauth":    bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
+            "rss_checker":     True,
         },
         "endpoints": {
             "POST /track":        "Visitor counter increment",
@@ -330,5 +443,6 @@ async def root():
             "GET  /auth/callback":"OAuth callback (GitHub uses this)",
             "GET  /auth/me":      "Validate session (Bearer)",
             "POST /auth/logout":  "Destroy session (Bearer)",
+            "GET  /api/check-rss":"Parse RSS feed (auth required)",
         },
     }
