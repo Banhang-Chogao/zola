@@ -52,7 +52,7 @@
                     {% endif %}
 
                     <div class="changelog__meta">
-                        <time class="changelog__date" datetime="{{ item.date }}">{{ item.date }}</time>
+                        <time class="changelog__date" datetime="{{ item.date }}">{{ item.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
                         {% if item.pr %}
                         <a class="changelog__pr-link" href="https://github.com/Banhang-Chogao/zola/pull/{{ item.pr }}" target="_blank" rel="noopener">PR #{{ item.pr }}</a>
                         {% endif %}

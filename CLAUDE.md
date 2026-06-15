@@ -64,3 +64,33 @@ Trước khi tạo PR cho thay đổi CSS:
 - Mental check: thay đổi này có ảnh hưởng desktop scroll không?
 - Mental check: thay đổi này có ảnh hưởng mobile menu open/close không?
 - Nếu sửa `overflow`, `height`, `position` → ghi rõ trong PR description vì sao thay đổi an toàn.
+
+## Quy tắc hiển thị thời gian (Timezone & Date format)
+
+Áp dụng cho MỌI nơi hiển thị ngày/giờ trên blog (templates Tera, static JS,
+script Python sinh nội dung public).
+
+### 1. Timezone bắt buộc: GMT+7 (Asia/Ho_Chi_Minh)
+
+- Mọi filter `date` trong Tera template PHẢI có `timezone="Asia/Ho_Chi_Minh"`.
+  Ví dụ: `{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}`
+- JS hiển thị giờ dùng `toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh", ... })`.
+- Script Python format datetime công khai → `ZoneInfo("Asia/Ho_Chi_Minh")`
+  (chuẩn stdlib `zoneinfo`).
+
+### 2. Định dạng ngày tháng năm: kiểu Việt Nam
+
+- **Ngày**: `dd/mm/yyyy` (ví dụ `15/06/2026`). KHÔNG dùng `Jun 15, 2026`,
+  `June 15, 2026`, hay `2026-06-15` cho display.
+- **Giờ kèm ngày**: `HH:MM dd/mm/yyyy` (ví dụ `23:39 15/06/2026`).
+- **Tera format string**: `%d/%m/%Y` (date) hoặc `%H:%M %d/%m/%Y` (datetime).
+- **JS**: `toLocaleString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })`.
+- **ISO 8601** (`2026-06-15T...`) chỉ dùng cho `datetime` attribute (machine
+  readable), `data-date` JS sort, hoặc frontmatter — KHÔNG bao giờ là text
+  hiển thị cuối cùng.
+
+### 3. Quy trình khi thêm code mới có hiển thị ngày/giờ
+
+- Mental check: code mới này có hiển thị thời gian trên blog không?
+- Nếu có → áp dụng 2 rule trên trước khi commit.
+- Sửa code cũ có English format (`%b`, `%B`, `Jan/Feb/...`) → convert sang VN.

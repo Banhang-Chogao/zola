@@ -17,8 +17,8 @@
 
         <header class="insights__period">
             <h2 class="insights__period-range">
-                {{ week_ago_ts | date(format="%B %-d, %Y", timezone="Asia/Ho_Chi_Minh") }}
-                – {{ now_ts | date(format="%B %-d, %Y", timezone="Asia/Ho_Chi_Minh") }}
+                {{ week_ago_ts | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
+                – {{ now_ts | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
             </h2>
             <span class="insights__period-badge">Period: 1 week ▾</span>
         </header>
