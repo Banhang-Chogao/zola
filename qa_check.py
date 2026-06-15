@@ -64,6 +64,15 @@ BOLD   = lambda s: _c("1",  s)
 DIM    = lambda s: _c("2",  s)
 
 
+class Fix:
+    """Mechanical fix có thể apply lên content. apply_fn idempotent."""
+    __slots__ = ("path", "description", "apply_fn")
+    def __init__(self, path, description, apply_fn):
+        self.path = path
+        self.description = description
+        self.apply_fn = apply_fn  # (content: str) -> str
+
+
 class Issue:
     __slots__ = ("level", "path", "line", "message")
     def __init__(self, level, path, line, message):
@@ -240,12 +249,168 @@ def check_seo(path, content):
     return issues
 
 
+# ============= SAFE FIXERS (mechanical only — không đoán nội dung) =============
+# Mỗi fixer: nhận str content, return str content mới. IDEMPOTENT: chạy 2 lần
+# trên cùng input → cùng output. An toàn khi chain với fix khác.
+
+TAGS_LINE_RE = re.compile(r"^(tags\s*=\s*)\[(.*?)\]\s*$", re.MULTILINE)
+CATEGORIES_LINE_RE = re.compile(r"^(categories\s*=\s*)\[(.*?)\]\s*$", re.MULTILINE)
+ALIASES_LINE_RE = re.compile(r"^aliases\s*=", re.MULTILINE)
+DATE_SLASH_RE = re.compile(r"^(date\s*=\s*)(\d{4})/(\d{2})/(\d{2})\s*$", re.MULTILINE)
+
+
+def _normalize_taxonomy_array(items_text):
+    """Parse '"Zola", "Web"' → ['zola', 'web'] lowercase + dedupe + sort."""
+    items = [s.strip().strip('"\'') for s in items_text.split(",") if s.strip()]
+    return sorted({t.lower().strip() for t in items if t.strip()})
+
+
+def fix_normalize_tags(content):
+    """Tags: lowercase + dedupe + sort. Skip nếu đã chuẩn."""
+    def replacer(m):
+        normalized = _normalize_taxonomy_array(m.group(2))
+        return f'{m.group(1)}[{", ".join(f"{chr(34)}{t}{chr(34)}" for t in normalized)}]'
+    return TAGS_LINE_RE.sub(replacer, content)
+
+
+def fix_normalize_categories(content):
+    """Categories: lowercase first char? Không — categories có thể là tên riêng
+    (vd. 'Posting' là proper noun). Chỉ trim + dedupe, KHÔNG lowercase."""
+    def replacer(m):
+        items = [s.strip().strip('"\'') for s in m.group(2).split(",") if s.strip()]
+        deduped = list(dict.fromkeys(items))  # preserve order, dedupe
+        return f'{m.group(1)}[{", ".join(f"{chr(34)}{c}{chr(34)}" for c in deduped)}]'
+    return CATEGORIES_LINE_RE.sub(replacer, content)
+
+
+def fix_date_slash_to_dash(content):
+    """date = 2026/06/14 → 2026-06-14."""
+    return DATE_SLASH_RE.sub(r"\1\2-\3-\4", content)
+
+
+def fix_trim_frontmatter_trailing(content):
+    """Strip trailing whitespace trên mỗi dòng frontmatter."""
+    m = FRONTMATTER_RE.match(content)
+    if not m:
+        return content
+    fm_lines = [line.rstrip() for line in m.group(1).split("\n")]
+    return f"+++\n{chr(10).join(fm_lines)}\n+++\n{m.group(2)}"
+
+
+def fix_trailing_newline(content):
+    """Đảm bảo file kết thúc bằng đúng 1 newline."""
+    return content.rstrip("\n") + "\n"
+
+
+def make_fix_add_aliases(slug):
+    """Closure factory: thêm aliases line sau date nếu chưa có."""
+    def fixer(content):
+        if ALIASES_LINE_RE.search(content):
+            return content
+        # Insert sau dòng date trong frontmatter
+        replacement = f'\\g<0>\naliases = ["/{slug}/"]'
+        return re.sub(r"^date\s*=.*$", replacement, content, count=1, flags=re.MULTILINE)
+    return fixer
+
+
+def detect_safe_fixes(path, content, fm):
+    """Detect các vấn đề mechanical có thể auto-fix safely. Return list[Fix]."""
+    fixes = []
+
+    # Tags: detect nếu khác bản normalized
+    tax = fm.get("taxonomies", {}) or {}
+    tags = tax.get("tags", []) or []
+    if tags:
+        normalized = sorted({t.lower().strip() for t in tags if isinstance(t, str) and t.strip()})
+        if normalized != tags:
+            fixes.append(Fix(path,
+                f'Normalize tags {tags} → {normalized} (lowercase + dedupe + sort)',
+                fix_normalize_tags))
+
+    # Categories: detect duplicate
+    cats = tax.get("categories", []) or []
+    if cats:
+        deduped = list(dict.fromkeys(c for c in cats if isinstance(c, str)))
+        if deduped != cats:
+            fixes.append(Fix(path,
+                f'Dedupe categories {cats} → {deduped}',
+                fix_normalize_categories))
+
+    # Date slash format
+    if DATE_SLASH_RE.search(content):
+        fixes.append(Fix(path,
+            "Date format: YYYY/MM/DD → YYYY-MM-DD",
+            fix_date_slash_to_dash))
+
+    # Trailing whitespace trong frontmatter
+    m = FRONTMATTER_RE.match(content)
+    if m:
+        fm_text = m.group(1)
+        if any(line != line.rstrip() for line in fm_text.split("\n")):
+            fixes.append(Fix(path,
+                "Trim trailing whitespace trong frontmatter",
+                fix_trim_frontmatter_trailing))
+
+    # Trailing newline
+    if not content.endswith("\n") or content.endswith("\n\n\n"):
+        fixes.append(Fix(path,
+            "Đảm bảo file kết thúc bằng đúng 1 newline",
+            fix_trailing_newline))
+
+    # Aliases auto-fill (deterministic, không đoán nội dung — chỉ suy từ slug)
+    if not ALIASES_LINE_RE.search(content) and fm.get("title"):
+        slug = path.stem
+        fixes.append(Fix(path,
+            f'Add missing aliases ["/{slug}/"]',
+            make_fix_add_aliases(slug)))
+
+    return fixes
+
+
+def apply_fixes(all_fixes):
+    """Group fixes theo path, chain apply trên từng file. Return số file đã sửa."""
+    from collections import defaultdict
+    by_path = defaultdict(list)
+    for fix in all_fixes:
+        by_path[fix.path].append(fix)
+
+    touched = 0
+    for path, fixes in by_path.items():
+        try:
+            full_path = REPO_ROOT / path if not Path(path).is_absolute() else Path(path)
+            original = full_path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        content = original
+        for fix in fixes:
+            content = fix.apply_fn(content)
+        if content != original:
+            full_path.write_text(content, encoding="utf-8")
+            touched += 1
+            for fix in fixes:
+                # In ra để workflow capture vào PR body
+                print(f"FIXED: {fix.path}: {fix.description}")
+    return touched
+
+
 def main():
-    targets = sys.argv[1:]
+    import argparse
+    parser = argparse.ArgumentParser(
+        description="QA Gatekeeper — scan conflict markers, secrets, SEO basic.",
+        epilog="Exit 0 = pass (có thể có warning), 1 = ≥1 error.",
+    )
+    parser.add_argument("--fix", nargs="?", const="safe", choices=["safe"],
+                        help="Auto-fix mode (chỉ 'safe' — mechanical fixes, không đoán nội dung)")
+    parser.add_argument("targets", nargs="*",
+                        help="Files cụ thể để scan (default: toàn repo)")
+    args = parser.parse_args()
+    fix_mode = args.fix
+
     all_issues = []
+    all_fixes = []
     scanned = 0
 
-    for path in iter_files(targets):
+    for path in iter_files(args.targets):
         try:
             content = path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
@@ -254,14 +419,24 @@ def main():
         try:
             rel = path.relative_to(REPO_ROOT) if path.is_absolute() else path
         except ValueError:
-            # File ngoài REPO_ROOT (vd. test ad-hoc) — dùng absolute path
             rel = path
         all_issues.extend(check_conflicts(rel, content))
         all_issues.extend(check_secrets(rel, content))
         if path.suffix == ".md":
             all_issues.extend(check_seo(rel, content))
+            # Detect fixable issues riêng cho posting
+            if "content/posting" in str(rel).replace("\\", "/") and not path.name.startswith("_"):
+                fm, _ = parse_frontmatter(content)
+                if fm is not None:
+                    all_fixes.extend(detect_safe_fixes(rel, content, fm))
 
     print(f"{BOLD('[QA]')} Scanned {scanned} files\n")
+
+    # Apply fixes trước khi report — để summary phản ánh state sau fix
+    fixed_count = 0
+    if fix_mode and all_fixes:
+        fixed_count = apply_fixes(all_fixes)
+        print()
 
     errors = [i for i in all_issues if i.level == "error"]
     warnings = [i for i in all_issues if i.level == "warning"]
@@ -272,10 +447,19 @@ def main():
     if all_issues:
         print()
 
-    summary = f"Summary: {len(errors)} error(s), {len(warnings)} warning(s)"
-    if errors:
+    if fix_mode:
+        summary = f"Summary: {fixed_count} file(s) auto-fixed, {len(errors)} remaining error(s), {len(warnings)} warning(s)"
+    else:
+        summary = f"Summary: {len(errors)} error(s), {len(warnings)} warning(s)"
+
+    if errors and not fix_mode:
         print(RED(BOLD(summary)))
         return 1
+    if fix_mode:
+        # --fix mode: luôn exit 0 nếu không có internal error → workflow tiếp tục
+        # commit + PR. Errors còn lại sẽ được flag bởi non-fix CI run trên PR.
+        print(GREEN(summary) if fixed_count else YELLOW(summary) if warnings else GREEN(BOLD("✓ Không có gì cần auto-fix")))
+        return 0
     if warnings:
         print(YELLOW(summary))
     else:
