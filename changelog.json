@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Hotfix: build-related race condition + migrate visitor counter to GoatCounter",
+      "tag": "chore",
+      "pr": 95,
+      "lines_added": 891,
+      "lines_removed": 22,
+      "highlights": [
+        "Free 100k pageviews/tháng",
+        "KHÔNG cold-start (luôn live)",
+        "Privacy-friendly, không cookie, GDPR OK",
+        "Public dashboard share được"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm: QA Dashboard footer — 6 card metrics build-time snapshot",
       "tag": "chore",
       "pr": 94,
