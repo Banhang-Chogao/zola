@@ -56,12 +56,17 @@
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com;
+        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://*.onrender.com https://*.railway.app;
         frame-ancestors 'none';
         base-uri 'self';
         form-action 'self';
     ">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    {# Visitor counter API URL — bake build-time. Để trống ⇒ script silent skip. #}
+    {% if config.extra.visitor_api_url %}
+    <meta name="zola-visitor-api" content="{{ config.extra.visitor_api_url | safe }}">
+    {% endif %}
 
     <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
@@ -248,10 +253,20 @@
         </div>
     </header>
 
-    {# Sticky navbar #}
+    {# Sticky navbar — mobile burger menu pattern (Momo-style).
+       Trên desktop hiển thị tất cả menu items inline. Trên mobile,
+       collapse vào burger, JS toggles .is-open để slide-down panel. #}
     <nav class="navbar" id="navbar">
         <div class="navbar__inner">
-            <ul class="navbar__menu">
+            {# Burger button — chỉ visible trên mobile via CSS #}
+            <button class="navbar__burger" aria-label="Mở menu" aria-expanded="false"
+                    aria-controls="navbar-menu" data-burger>
+                <span class="navbar__burger-line"></span>
+                <span class="navbar__burger-line"></span>
+                <span class="navbar__burger-line"></span>
+            </button>
+
+            <ul class="navbar__menu" id="navbar-menu">
                 {% for item in config.extra.menu %}
                     <li><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
                 {% endfor %}
@@ -263,6 +278,8 @@
                 </svg>
             </button>
         </div>
+        {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
+        <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
     </nav>
 
     <main class="container">
@@ -378,6 +395,29 @@
     </main>
 
     <footer class="site-footer">
+        {% if config.extra.visitor_api_url %}
+        {# Visitor counter clock — odometer-style hiển thị dưới footer.
+           Render khi backend deployed (config có URL); ẩn hoàn toàn khi chưa. #}
+        <div class="visitor-counter">
+            <div class="container">
+                <div class="visitor-counter__card">
+                    <div class="visitor-counter__head">
+                        <span class="visitor-counter__live">
+                            <span class="visitor-counter__pulse" aria-hidden="true"></span>
+                            LIVE
+                        </span>
+                        <span class="visitor-counter__label">👁 Tổng lượt truy cập</span>
+                    </div>
+                    <div class="visitor-counter__display" aria-live="polite">
+                        <span id="visitor-count" class="visitor-counter__digits">—</span>
+                    </div>
+                    <p class="visitor-counter__caption">
+                        Đếm real-time từ backend FastAPI + Redis. Bot và crawler đã được lọc bỏ.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         <div class="container">
             <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola
                 <span class="site-footer__sep" aria-hidden="true">·</span>
@@ -392,6 +432,10 @@
     <script src="{{ get_url(path='js/sidebar.js') }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}" defer></script>
+    <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
+    {% if config.extra.visitor_api_url %}
+    <script src="{{ get_url(path='js/visitor-counter.js') }}" defer></script>
+    {% endif %}
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

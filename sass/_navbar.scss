@@ -47,14 +47,141 @@
 
     &:hover { background: #d63d3d; }
   }
+
+  /* Burger button — desktop ẩn, mobile hiện. 3 line ngang animated → X
+     khi menu open (transform translate Y + rotate). */
+  &__burger {
+    display: none;
+    background: transparent;
+    border: none;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0;
+    cursor: pointer;
+    margin: 0;
+
+    &-line {
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform .22s ease, opacity .15s ease;
+      transform-origin: center;
+    }
+  }
+
+  &__backdrop {
+    display: none;
+  }
 }
 
+/* ========== MOBILE BURGER MENU (Momo-style) ==========
+   Trigger: ≤ 720px. Hide menu items, show burger button. Khi
+   .is-open: slide-down panel với menu vertical, backdrop overlay. */
 @media (max-width: 720px) {
   .navbar__inner {
-    overflow-x: auto;
+    padding: 0 16px;
+    align-items: center;
+    min-height: 52px;
   }
-  .navbar__menu a {
-    padding: 1rem 0.9rem;
-    font-size: 0.7rem;
+
+  /* Burger visible */
+  .navbar__burger {
+    display: flex;
+    order: -1; /* burger ở bên trái */
   }
+
+  /* Menu: hidden by default, slide-down khi open */
+  .navbar__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+    z-index: 99;
+
+    li {
+      display: block;
+      border-bottom: 1px solid #eee;
+
+      &:last-child { border-bottom: none; }
+    }
+
+    a {
+      color: #222;
+      padding: 1.05rem 1.25rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      width: 100%;
+      justify-content: flex-start;
+      position: relative;
+
+      /* Chevron arrow phải — visual hint tap được */
+      &::after {
+        content: "›";
+        position: absolute;
+        right: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 1;
+      }
+
+      &:hover {
+        background: #fafafa;
+        color: #d63d3d;
+      }
+    }
+  }
+
+  /* Khi mở: expand menu + show backdrop + burger → X icon */
+  .navbar.is-open {
+    .navbar__menu {
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .navbar__backdrop {
+      display: block;
+      position: fixed;
+      top: 52px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 98;
+      animation: navbar-fade-in .2s ease;
+    }
+    /* Burger → X: line 1 xuống xoay 45°, line 2 ẩn, line 3 lên xoay -45° */
+    .navbar__burger-line {
+      &:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      &:nth-child(2) { opacity: 0; }
+      &:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    }
+  }
+
+  /* Search button compact trên mobile */
+  .navbar__search {
+    padding: 0 1rem;
+  }
+}
+
+@keyframes navbar-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Lock body scroll khi mobile menu open — không cho user scroll bg */
+body.navbar-open {
+  overflow: hidden;
 }

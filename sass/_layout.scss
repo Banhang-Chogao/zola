@@ -118,11 +118,11 @@
 
 @media (max-width: 720px) {
   .site-header {
-    padding: 1.25rem 0 1rem;
+    padding: 1rem 0 0.85rem;
 
     &__inner {
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 0.5rem;
       text-align: center;
     }
   }
@@ -130,6 +130,18 @@
   .site-title-wrap { justify-content: center; }
   .site-title { font-size: 1.6rem; }
   .site-verified-badge { width: 22px; height: 22px; }
+
+  /* Momo-style minimal mobile header: ẩn deploy card + GitHub side panel.
+     Chỉ giữ logo + version chip → header gọn nhẹ, tập trung reading. Người
+     dùng cần deploy/commit info có thể vào /changelog/ hoặc /insights/. */
+  .header-deploy-card,
+  .header-side {
+    display: none;
+  }
+  .site-tagline {
+    justify-content: center;
+    font-size: 0.78rem;
+  }
 }
 
 .layout-grid {
