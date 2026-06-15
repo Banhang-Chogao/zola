@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm: QA Dashboard footer — 6 card metrics build-time snapshot",
+      "tag": "chore",
+      "pr": 94,
+      "lines_added": 839,
+      "lines_removed": 1,
+      "highlights": [
+        "data/scores.json (Semantic Scoring count)",
+        "changelog.json (PR Activity)",
+        "get_taxonomy(kind=\"tags\") + get_taxonomy(kind=\"categories\") (Tag Network)",
+        "get_section(\"posting/_index.md\") (Deploy posts count)",
+        "now() | date() (build timestamp)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm: Scoring Card — bảng điểm semantic của tất cả bài viết",
       "tag": "chore",
       "pr": 93,
