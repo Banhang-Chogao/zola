@@ -38,6 +38,7 @@ Format bắt buộc:
 | `ff` | Full Fix & Deploy comprehensive |
 | `cautruc9` | Show ASCII folder tree của blog |
 | `SEO9` | Tu bổ SEO site-wide đạt Lighthouse 100/100 (Google Search Central) |
+| `SEO10` | Loop audit + fix từng lỗi đến khi 0 issue (Google SEO Starter Guide) |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
@@ -427,6 +428,92 @@ Central guidelines (https://developers.google.com/search/docs).
 
 **KHÔNG được auto-merge** — tuân thủ rule 16:00. Tạo PR + nhắc user
 `manual #<số>`.
+
+### `SEO10` — Loop audit + fix từng lỗi đến khi 0 issue
+
+Khác `SEO9` (single-pass + auto-fix bulk). `SEO10` là **iterative loop**
+chạy đến khi audit không còn lỗi nào.
+
+**Nguồn chuẩn**: Google SEO Starter Guide chính thức
+https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+(luôn fetch URL này MỖI lần invoke để lấy phiên bản mới nhất — Google
+update guide định kỳ).
+
+**Workflow loop**:
+
+```
+iter = 1
+while iter ≤ MAX_ITER (default 20):
+    1. Fetch Google SEO Starter Guide (WebFetch URL trên)
+    2. Re-derive checklist từ guide hiện tại (không hardcode — dynamic)
+    3. Audit toàn site: templates/ + content/ + config.toml + static/robots.txt
+    4. Nếu issues_count == 0 → BREAK (success)
+    5. Sort issues theo priority (Google's "Critical" → "Recommended" → "Optional")
+    6. Pick TOP 1 issue (highest priority + đơn giản nhất → đảm bảo progress)
+    7. Apply fix ĐÚNG 1 issue đó (1 commit / 1 file change)
+    8. Verify: re-run zola build → pass
+    9. Log iter N: { issue, file, before, after }
+    10. iter++
+```
+
+**Hard rules trong loop**:
+
+- **1 iter = 1 commit**. KHÔNG batch fix.
+- **Mỗi iter** PHẢI verify `zola build` PASS trước khi tiếp.
+- **Mỗi iter** PHẢI ghi log `.ff/seo10-log.jsonl` (audit trail).
+- **MAX_ITER = 20** safety cap. Nếu chưa clean → escalate user với
+  list issue còn lại.
+- **KHÔNG đoán content** cho `<img alt>` — gặp alt thiếu → escalate
+  với danh sách file user phải fill manual.
+- **KHÔNG auto-merge** (rule 16:00). Cuối loop: tạo 1 PR gộp tất cả
+  iter, nhắc user `manual #<số>`.
+
+**Priority order theo Google Starter Guide**:
+
+1. **Critical** (block index/crawl):
+   - `robots.txt` block toàn site
+   - Sitemap thiếu / invalid XML
+   - `<title>` thiếu / duplicate / > 60 chars
+   - `<meta description>` thiếu / > 160 chars
+   - `noindex` meta tag sai trên content pages
+2. **Important** (giảm SERP):
+   - Canonical thiếu / sai
+   - Open Graph thiếu (giảm CTR social)
+   - JSON-LD Article thiếu (giảm rich snippet)
+   - Heading hierarchy sai (H1 không có / nhiều H1)
+   - URL có ký tự lạ / quá dài
+3. **Recommended** (E-E-A-T + UX):
+   - Image alt missing
+   - Internal link descriptive text
+   - hreflang nếu multi-lang
+   - Mobile viewport
+   - HTTPS verify
+4. **Optional** (polish):
+   - Twitter Card (legacy)
+   - Schema.org thêm types (FAQPage, HowTo, BreadcrumbList)
+   - Lazy load `<img loading="lazy">`
+
+**Output sau loop**:
+
+| Iter | Issue | File | Action | Status |
+|---|---|---|---|---|
+| 1 | Title > 60 chars | content/posting/foo.md | Rút "Cách quản lý..." → "Quản lý..." | ✅ Fixed |
+| 2 | OG image missing | templates/base.html | Inject macro seo.html | ✅ Fixed |
+| ... | ... | ... | ... | ... |
+| N | (clean) | — | — | ✅ 0 issues remain |
+
+**Final summary**:
+- Total iters: N
+- Critical fixed: X
+- Important fixed: Y
+- Recommended fixed: Z
+- Escalated (need human): img alt × M files
+- PR: #<số> đang chờ `manual #<số>` merge
+
+**Use case khác `SEO9`**:
+- `SEO9`: 1 lần audit → 1 PR fix safe → done, không re-verify
+- `SEO10`: loop tới sạch 100% → mỗi fix là 1 commit để rollback dễ →
+  cuối cùng PR có audit trail per-issue, code review dễ hơn
 
 ### `run list` — Hiển thị bảng workflow runs
 
