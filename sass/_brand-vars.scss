@@ -1,0 +1,44 @@
+/* ============================================================
+   ===== BRANDINGX COLOR VARIABLES =====
+   ============================================================
+   SCSS variables tương ứng tokens trong /branding/ guideline.
+   Dùng cho tất cả SCSS files để đồng bộ màu sắc toàn blog.
+
+   Quy tắc:
+   - Heading + primary text → $brand-ink-900
+   - Body paragraph → $brand-ink-800
+   - Muted meta/caption → $brand-ink-500
+   - CTA/active/error → $brand-signal-red
+   - Category tags/decoration → $brand-hot-pink
+   - Link/info/finance category → $brand-trust-cyan
+   - Surface bg → $brand-snow (white) hoặc $brand-mist (soft)
+   - Border/divider → $brand-edge */
+
+/* Ink — text hierarchy */
+$brand-ink-900:        #0f172a;
+$brand-ink-800:        #1e293b;
+$brand-ink-700:        #334155;
+$brand-ink-500:        #64748b;
+$brand-ink-400:        #94a3b8;
+$brand-ink-300:        #cbd5e1;
+
+/* Accent */
+$brand-signal-red:     #d63d3d;
+$brand-signal-red-dk:  #b8302d;
+$brand-hot-pink:       #ec4899;
+$brand-trust-cyan:     #0891b2;
+
+/* Surface */
+$brand-snow:           #ffffff;
+$brand-mist:           #f8fafc;
+$brand-fog:            #f1f5f9;
+
+/* Border */
+$brand-edge:           #ececec;
+$brand-edge-strong:    #e2e8f0;
+
+/* Status colors (kept for warnings/success) */
+$brand-success:        #047a3f;
+$brand-success-bg:     rgba(74, 222, 128, 0.1);
+$brand-warning:        #92760a;
+$brand-warning-bg:     rgba(245, 158, 11, 0.12);

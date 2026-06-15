@@ -1,6 +1,6 @@
 .site-footer {
-  background: #111;
-  color: #999;
+  background: $brand-ink-900;
+  color: $brand-ink-400;
   /* Home Indicator clearance: cộng safe-area-inset-bottom vào padding
      bottom → trên iPhone (X+) nội dung không dính sát Home Indicator. */
   padding: 0 0 calc(1.75rem + env(safe-area-inset-bottom));

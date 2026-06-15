@@ -8,8 +8,8 @@ html, body { margin: 0; padding: 0; }
    không cần expand. */
 body {
   font-family: $font-body;
-  background: #f8f8f8;
-  color: #2d2d2d;
+  background: $brand-mist;
+  color: $brand-ink-800;
   font-size: 17px;
   line-height: 1.7;
   letter-spacing: 0;
@@ -19,7 +19,7 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 
 a { color: inherit; text-decoration: none; transition: color .15s ease; }
-a:hover { color: #d63d3d; }
+a:hover { color: $brand-signal-red; }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-heading;
@@ -28,7 +28,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.015em;
   margin: 0;
   line-height: 1.2;
-  color: #111;
+  color: $brand-ink-900;
 }
 h1 { font-size: 2.6rem; }
 h2 { font-size: 2rem; }
