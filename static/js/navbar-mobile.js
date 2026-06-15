@@ -1,16 +1,16 @@
 /**
- * Mobile burger menu toggle — Momo-style.
+ * Mobile navbar — Momo-style horizontal scroll tabs.
  *
- * Pattern:
- *   - Burger button → toggle .is-open trên .navbar
- *   - .is-open → CSS slide-down menu + show backdrop + burger thành X
- *   - Click backdrop hoặc menu link → đóng menu
- *   - body.navbar-open lock background scroll
+ * Mobile (≤720px):
+ *   - KHÔNG dùng burger drawer nữa
+ *   - Menu hiển thị ngang dạng tabs scroll horizontal
+ *   - Strip emoji prefix khỏi menu items (text-only như momo)
+ *   - Active tab có underline đỏ
+ *   - Scroll active tab vào view khi load
  *
- * Accessibility:
- *   - aria-expanded sync với open state
- *   - aria-hidden trên backdrop
- *   - Escape key đóng menu
+ * Desktop (>720px):
+ *   - Menu inline bình thường, không can thiệp
+ *   - Emoji giữ nguyên
  */
 (function () {
   "use strict";
@@ -18,48 +18,78 @@
   const navbar = document.getElementById("navbar");
   if (!navbar) return;
 
-  const burger = navbar.querySelector("[data-burger]");
-  const backdrop = navbar.querySelector("[data-backdrop]");
   const menu = document.getElementById("navbar-menu");
-  if (!burger || !menu) return;
+  if (!menu) return;
 
-  function setOpen(open) {
-    navbar.classList.toggle("is-open", open);
-    document.body.classList.toggle("navbar-open", open);
-    burger.setAttribute("aria-expanded", open ? "true" : "false");
-    burger.setAttribute("aria-label", open ? "Đóng menu" : "Mở menu");
-    if (backdrop) backdrop.setAttribute("aria-hidden", open ? "false" : "true");
-  }
+  const links = Array.from(menu.querySelectorAll("a"));
 
-  burger.addEventListener("click", function () {
-    setOpen(!navbar.classList.contains("is-open"));
-  });
-
-  // Click backdrop → close
-  if (backdrop) {
-    backdrop.addEventListener("click", function () { setOpen(false); });
-  }
-
-  // Click menu link → close (user đã chọn xong, ẩn menu)
-  menu.querySelectorAll("a").forEach(function (a) {
-    a.addEventListener("click", function () { setOpen(false); });
-  });
-
-  // Escape → close
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && navbar.classList.contains("is-open")) {
-      setOpen(false);
+  // Cache original text (có emoji) để restore khi rotate sang desktop
+  links.forEach((a) => {
+    if (!a.dataset.originalText) {
+      a.dataset.originalText = a.textContent.trim();
     }
   });
 
-  // Resize ra desktop → reset state (tránh stuck open khi user xoay tablet)
+  /**
+   * Strip leading non-letter characters (emoji, ✎, ✈️, 📊, ✓, etc.)
+   * Regex \p{L} = unicode letter, \p{N} = unicode number, /u flag bắt buộc.
+   * Trim whitespace + space sau emoji.
+   */
+  function stripEmoji(text) {
+    return text.replace(/^[^\p{L}\p{N}]+/u, "").trim();
+  }
+
+  function applyMobileText() {
+    const isMobile = window.matchMedia("(max-width: 720px)").matches;
+    links.forEach((a) => {
+      a.textContent = isMobile ? stripEmoji(a.dataset.originalText) : a.dataset.originalText;
+    });
+  }
+
+  /**
+   * Đánh dấu active tab dựa trên current URL path.
+   * Logic: link href trùng với pathname hiện tại → add is-active.
+   */
+  function markActive() {
+    const path = window.location.pathname.replace(/\/$/, "") || "/";
+    links.forEach((a) => {
+      try {
+        const url = new URL(a.href);
+        const linkPath = url.pathname.replace(/\/$/, "") || "/";
+        a.classList.toggle("is-active", linkPath === path);
+      } catch (e) {
+        // ignore malformed href
+      }
+    });
+  }
+
+  /**
+   * Scroll active tab vào giữa viewport mobile (UX tốt nhất).
+   * Chỉ chạy lần đầu load + khi resize sang mobile.
+   */
+  function scrollActiveIntoView() {
+    const isMobile = window.matchMedia("(max-width: 720px)").matches;
+    if (!isMobile) return;
+    const active = menu.querySelector("a.is-active");
+    if (!active) return;
+    // setTimeout đợi layout ổn định trước khi scroll
+    setTimeout(() => {
+      active.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
+    }, 50);
+  }
+
+  // Init
+  applyMobileText();
+  markActive();
+  scrollActiveIntoView();
+
+  // Resize handler
   let resizeT;
   window.addEventListener("resize", function () {
     clearTimeout(resizeT);
     resizeT = setTimeout(function () {
-      if (window.innerWidth > 720 && navbar.classList.contains("is-open")) {
-        setOpen(false);
-      }
+      applyMobileText();
+      scrollActiveIntoView();
     }, 150);
   });
 })();
