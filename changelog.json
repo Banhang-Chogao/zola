@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Hotfix: chuyển từ FORCE_JS_NODE24 sang setup-node@v4 native opt-in",
+      "tag": "refactor",
+      "pr": 87,
+      "lines_added": 56,
+      "lines_removed": 15,
+      "highlights": [
+        "uses: actions/checkout@v4",
+        "uses: actions/setup-python@v5",
+        "uses: actions/checkout@v4",
+        "name: Setup Node.js 24",
+        "uses: actions/setup-python@v5"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Typography Manrope-first + Inter UI + Be Vietnam Pro meta",
       "tag": "chore",
       "pr": 86,
