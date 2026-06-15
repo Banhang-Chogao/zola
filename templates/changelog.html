@@ -13,6 +13,45 @@
             <p class="changelog__sub">Lịch sử cập nhật & PR của blog · gần đây nhất ở trên</p>
         </header>
 
+        {# ===== STAGING QUEUE WIDGET =====
+           Hydrate qua static/js/staging-queue.js (GitHub API + sessionStorage 60s).
+           Empty-state mặc định nếu fetch fail / chưa load — không phá UX. #}
+        <aside class="staging-queue" data-staging-queue hidden>
+            <header class="staging-queue__header">
+                <h2 class="staging-queue__title">
+                    <svg class="staging-queue__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    Đang xếp hàng deploy
+                    <span class="staging-queue__count" data-staging-count>0</span>
+                </h2>
+                <p class="staging-queue__sub">PR đang chờ merge vào <code>main</code> · cập nhật khi reload</p>
+            </header>
+
+            <ol class="staging-queue__list" data-staging-list></ol>
+
+            <p class="staging-queue__empty" data-staging-empty hidden>Không có PR nào đang chờ. Tất cả đã được merge.</p>
+
+            <template data-staging-template>
+                <li class="staging-queue__item">
+                    <div class="staging-queue__pulse" aria-hidden="true"></div>
+                    <div class="staging-queue__content">
+                        <div class="staging-queue__head">
+                            <h3 class="staging-queue__item-title" data-pr-title></h3>
+                            <a class="staging-queue__pr-link" data-pr-link target="_blank" rel="noopener"></a>
+                        </div>
+                        <p class="staging-queue__body" data-pr-body></p>
+                        <div class="staging-queue__meta">
+                            <span class="staging-queue__author" data-pr-author></span>
+                            <span class="staging-queue__dot">·</span>
+                            <time class="staging-queue__wait" data-pr-wait></time>
+                        </div>
+                    </div>
+                </li>
+            </template>
+        </aside>
+
         {% if data and data.items %}
         <ol class="changelog__list">
             {% for item in data.items %}
