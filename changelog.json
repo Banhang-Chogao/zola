@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "E-X (Ericsson Newsroom) branding theme — third design system",
+      "tag": "feat",
+      "pr": 130,
+      "lines_added": 1647,
+      "lines_removed": 0,
+      "highlights": [
+        "New design tokens (sass/_ex-tokens.scss):",
+        "Energy Blue palette (#1174E5 as north star)",
+        "High-contrast monochrome text hierarchy (#0C0C0C → #707070)",
+        "Restrained accent colors (yellow for awards, red for breaking news, green for sustainability)",
+        "Subtle surface tiers (snow, mist, fog, cloud)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Dynamic Theme Switching — BrandingX ↔ Z-X (4 layer CSS/JS/UI/QA)",
       "tag": "chore",
       "pr": 129,
