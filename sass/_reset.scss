@@ -78,6 +78,40 @@ html, body {
   overflow-x: hidden;
 }
 
+/* Smooth scroll + scroll-padding cho sticky navbar (~52px tablet, 60px+
+   khi có Dynamic Island). Anchor link nhảy tới sẽ tự offset khỏi navbar. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(60px + env(safe-area-inset-top));
+}
+
+/* Threads-style font rendering: kerning + ligatures + tabular numbers
+   khi cần. Tự render mượt hơn trên iOS Safari. */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  /* iOS: ngăn rubber-band scroll khi đến đầu/cuối trang gây flash */
+  overscroll-behavior-y: contain;
+}
+
+/* Tap highlight subtle (Threads-feel) thay vì màu xanh mặc định iOS */
+* {
+  -webkit-tap-highlight-color: rgba(214, 61, 61, 0.08);
+}
+
+/* Tap feedback active state cho mọi link + button — scale nhẹ + opacity */
+@media (hover: none) and (pointer: coarse) {
+  a:active,
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+    transition: transform .08s ease-out, opacity .08s ease-out;
+  }
+}
+
 /* Touch target tối thiểu 44x44px (Apple/Google guideline) cho mọi
    button + link clickable. Đảm bảo dễ tap trên mobile bằng ngón cái. */
 @media (max-width: 720px) {
