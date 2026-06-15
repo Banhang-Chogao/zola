@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Bật GoatCounter: goatcounter_code = banhang-chogao",
+      "tag": "chore",
+      "pr": 96,
+      "lines_added": 50,
+      "lines_removed": 17,
+      "highlights": [
+        "Tracking: https://banhang-chogao.goatcounter.com/count",
+        "Counter badge: https://banhang-chogao.goatcounter.com/counter//TOTAL.svg",
+        "Dashboard public: https://banhang-chogao.goatcounter.com",
+        "Visitor counter section HIỆN (trước đó ẨN vì code rỗng)",
+        "LIVE badge xanh + counter realtime"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Hotfix: build-related race condition + migrate visitor counter to GoatCounter",
       "tag": "chore",
       "pr": 95,
