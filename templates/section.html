@@ -16,7 +16,17 @@
             <article class="post-card">
                 {% if page.extra.thumbnail %}
                     <a class="post-card__image" href="{{ page.permalink }}">
-                        <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="lazy" decoding="async">
+                        {# LCP optimization: bài đầu tiên = above-the-fold,
+                           load eager + fetchpriority high. Còn lại lazy. #}
+                        {% if loop.first %}
+                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                                 width="800" height="600"
+                                 loading="eager" fetchpriority="high" decoding="async">
+                        {% else %}
+                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                                 width="800" height="600"
+                                 loading="lazy" decoding="async">
+                        {% endif %}
                     </a>
                 {% endif %}
                 <div class="post-card__body">

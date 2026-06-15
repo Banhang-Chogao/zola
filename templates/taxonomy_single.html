@@ -16,7 +16,16 @@
                         {% if page.taxonomies.categories %}
                             <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
                         {% endif %}
-                        <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="lazy" decoding="async">
+                        {# LCP: bài đầu tiên load eager + high priority, rest lazy. #}
+                        {% if loop.first %}
+                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                                 width="800" height="600"
+                                 loading="eager" fetchpriority="high" decoding="async">
+                        {% else %}
+                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                                 width="800" height="600"
+                                 loading="lazy" decoding="async">
+                        {% endif %}
                     </a>
                 {% endif %}
                 <div class="post-card__body">
