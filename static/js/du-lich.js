@@ -99,16 +99,20 @@
 
     footerEl.hidden = false;
     cacheInfoEl.textContent = data.from_cache
-      ? "📦 Hiển thị từ cache (refresh mỗi 24h)"
+      ? "📦 Hiển thị từ cache (refresh mỗi 30 phút)"
       : "🔄 Vừa fetch mới từ " + sourceLabel;
   }
 
-  function showError() {
+  function showError(sourceName) {
     statusEl.hidden = true;
     listEl.hidden = true;
     errorEl.hidden = false;
     footerEl.hidden = false;
     cacheInfoEl.textContent = "";
+    const titleEl = root.querySelector("[data-error-title]");
+    if (titleEl && sourceName) {
+      titleEl.textContent = "Tạm thời không lấy được tin từ " + sourceName;
+    }
   }
 
   async function load() {
@@ -123,12 +127,15 @@
         credentials: "omit",
         cache: "no-store",
       });
-      if (!res.ok) { showError(); return; }
+      if (!res.ok) { showError("nguồn"); return; }
       const data = await res.json();
-      if (data.error) { showError(); return; }
+      if (data.error || !data.items || !data.items.length) {
+        showError(data.source || "nguồn");
+        return;
+      }
       showCards(data);
     } catch (e) {
-      showError();
+      showError("backend");
     }
   }
 
