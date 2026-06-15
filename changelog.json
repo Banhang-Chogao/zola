@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "GA Stats footer: luôn render với DEMO placeholder mode",
+      "tag": "chore",
+      "pr": 103,
+      "lines_added": 51,
+      "lines_removed": 6,
+      "highlights": [
+        "DEMO mode (chưa có data): amber palette + badge ⏳ DEMO + caption hướng dẫn setup",
+        "LIVE mode (sau khi setup xong): green palette + số thật + \"Cập nhật: ... UTC\"",
+        "data/ga-stats.json ban đầu có _status: \"waiting_for_secret\" → DEMO",
+        "Workflow chạy thành công → fetch_ga_stats.py overwrite (no _status field) → LIVE tự động"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm: GA Stats live ở footer — backend cron 1h fetch GA Data API",
       "tag": "chore",
       "pr": 102,
