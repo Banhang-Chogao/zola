@@ -71,10 +71,11 @@ ul, ol { padding: 0; margin: 0; list-style: none; }
   }
 }
 
-/* Prevent horizontal scroll khi 1 element nào đó overflow accidentally —
-   defense in depth. Body luôn = viewport width, không bao giờ scroll ngang. */
-html, body {
-  max-width: 100vw;
+/* Prevent horizontal scroll khi 1 element overflow accidentally — defense
+   in depth. CHỈ áp trên body, KHÔNG áp html. Pattern html+body cùng
+   overflow-x: hidden là anti-pattern → khoá scroll vertical iOS Safari +
+   xung đột position: sticky navbar. html giữ scroll tự nhiên. */
+body {
   overflow-x: hidden;
 }
 

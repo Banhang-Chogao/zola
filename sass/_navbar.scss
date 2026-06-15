@@ -192,7 +192,11 @@
   to { opacity: 1; }
 }
 
-/* Lock body scroll khi mobile menu open — không cho user scroll bg */
-body.navbar-open {
-  overflow: hidden;
+/* Lock body scroll khi mobile menu open — không cho user scroll bg.
+   SCOPE mobile only (≤720px) để TUYỆT ĐỐI không khoá scroll desktop
+   khi class navbar-open dính nhầm vì lý do nào đó. */
+@media (max-width: 720px) {
+  body.navbar-open {
+    overflow: hidden;
+  }
 }
