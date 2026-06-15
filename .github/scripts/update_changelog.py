@@ -96,6 +96,33 @@ def strip_md_formatting(text: str) -> str:
     return text.strip()
 
 
+# Mask secret-like patterns trước khi ghi vào changelog.json. Defense in depth:
+# kể cả PR title/body của user có lỡ chứa OTP/token/key, bot tự sanitize.
+SECRET_MASK_PATTERNS = [
+    # GitHub PAT prefixes
+    (re.compile(r"ghp_[A-Za-z0-9]{8,}"),                "ghp_****"),
+    (re.compile(r"github_pat_[A-Za-z0-9_]{10,}"),       "github_pat_****"),
+    # Generic API key prefixes
+    (re.compile(r"sk-[A-Za-z0-9]{8,}"),                 "sk-****"),
+    (re.compile(r"AIzaSy[A-Za-z0-9_-]{20,}"),           "AIzaSy****"),
+    (re.compile(r"AKIA[0-9A-Z]{12,}"),                  "AKIA****"),
+    # OTP-style: 4-6 digits xuất hiện sau từ 'OTP' / 'mã' / 'code' / 'pin'
+    # trên cùng dòng. Lazy match → bắt mọi digit-sequence dù có digit khác
+    # xen giữa (vd. "OTP modal 4 số (0512)" → "OTP modal 4 số (****)").
+    (re.compile(r"((?:OTP|otp|OTPs|mã|code|pin|PIN)\b[^\n]*?)\b\d{4,6}\b"),
+                                                         r"\1****"),
+]
+
+
+def mask_secrets(text: str) -> str:
+    """Thay thế các pattern giống secret bằng **** trước khi persist."""
+    if not text:
+        return text
+    for pattern, replacement in SECRET_MASK_PATTERNS:
+        text = pattern.sub(replacement, text)
+    return text
+
+
 def extract_highlights(body: str, max_items: int = 5, max_len: int = 200) -> list:
     """Trích bullet point đầu tiên từ PR body. Skip table separators, headers."""
     if not body:
@@ -133,14 +160,16 @@ def main() -> int:
 
     date = pr_merged_at.split("T")[0] if pr_merged_at else ""
 
+    # Mask secrets trên cả title và mỗi highlight — defense in depth, kể cả
+    # PR author lỡ paste token/OTP vào title hoặc body, bot không để lộ.
     entry = {
         "date": date,
-        "title": clean_title(pr_title),
+        "title": mask_secrets(clean_title(pr_title)),
         "tag": infer_tag(pr_title, pr_labels),
         "pr": pr_number,
         "lines_added": pr_additions,
         "lines_removed": pr_deletions,
-        "highlights": extract_highlights(pr_body),
+        "highlights": [mask_secrets(h) for h in extract_highlights(pr_body)],
     }
 
     if not CHANGELOG.exists():
