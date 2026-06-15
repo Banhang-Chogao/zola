@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm: Semantic Related Posts qua sentence-transformers embeddings",
+      "tag": "chore",
+      "pr": 82,
+      "lines_added": 448,
+      "lines_removed": 100,
+      "highlights": [
+        "On push: content/posting/*.md thay đổi → rebuild ngay",
+        "Weekly cron: Sunday 02:00 UTC → đảm bảo \"động\" theo thời gian",
+        "Manual: gh workflow run build-related.yml từ tab Actions",
+        "384 dimensions, 120MB",
+        "50+ languages incl. Vietnamese"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Tối ưu image: LCP above-the-fold eager + CLS width/height chuẩn 2026",
       "tag": "chore",
       "pr": 81,
