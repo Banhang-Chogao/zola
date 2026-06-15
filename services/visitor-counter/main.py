@@ -435,11 +435,14 @@ async def check_rss(
 # request tới source.
 CURATED_FEEDS = {
     "du-lich": {
-        "url":    "https://www.trip.com/toplist/tripbest/south-korea-best-things-to-do-10070100042090/",
-        "title":  "Top trải nghiệm Du lịch Hàn Quốc — Trip.com",
-        "source": "Trip.com",
-        "type":   "scrape",
-        "cache_ttl": 86400,  # 24h — toplist content stable
+        # Trip.com scrape attempt thất bại (SPA Next.js, BeautifulSoup
+        # chỉ thấy skeleton). Fallback sang VnExpress Du lịch RSS — chuẩn
+        # RSS, parse 100% ổn định bằng feedparser.
+        "url":    "https://vnexpress.net/rss/du-lich.rss",
+        "title":  "Tin tức Du lịch — VnExpress",
+        "source": "VnExpress",
+        "type":   "rss",
+        "cache_ttl": 1800,  # 30 phút — news refresh thường xuyên
     },
 }
 
@@ -459,8 +462,44 @@ SCRAPER_HEADERS = {
 }
 
 
+def _extract_rss_thumbnail(entry) -> str:
+    """
+    RSS entry có thể có image ở nhiều field khác nhau:
+    - <enclosure url=... type=image/*>
+    - <media:content url=... medium=image>
+    - <media:thumbnail url=...>
+    - <img src=...> trong summary HTML (VnExpress style)
+    """
+    # 1. enclosures (RSS 2.0)
+    for enc in entry.get("enclosures", []) or []:
+        if isinstance(enc, dict):
+            t = (enc.get("type") or "").lower()
+            href = enc.get("href") or enc.get("url") or ""
+            if t.startswith("image/") and href:
+                return href
+            if href and not t and href.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+                return href
+
+    # 2. media:content / media:thumbnail (MRSS)
+    media = entry.get("media_content") or entry.get("media_thumbnail") or []
+    if isinstance(media, list):
+        for m in media:
+            if isinstance(m, dict):
+                url_v = m.get("url") or ""
+                if url_v:
+                    return url_v
+
+    # 3. img src trong summary HTML — fallback nếu RSS không có media tag.
+    # VnExpress nhúng <img> trong <description>.
+    summary_html = entry.get("summary") or entry.get("description") or ""
+    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', summary_html, re.IGNORECASE)
+    if m:
+        return m.group(1)
+    return ""
+
+
 async def _fetch_and_parse_feed(url: str) -> list:
-    """Fetch + parse RSS feed → list of dict {title, link, published, summary}."""
+    """Fetch + parse RSS feed → list of dict {title, link, published, summary, thumbnail}."""
     feed = await asyncio.wait_for(
         asyncio.to_thread(feedparser.parse, url),
         timeout=15.0,
@@ -476,12 +515,13 @@ async def _fetch_and_parse_feed(url: str) -> list:
             e.get("published") or e.get("updated") or e.get("pubDate") or ""
         ).strip()
         summary = (e.get("summary") or e.get("description") or "").strip()
+        thumbnail = _extract_rss_thumbnail(e)
         items.append({
             "title":     title[:300],
             "link":      link[:1000],
             "published": published[:50],
             "summary":   summary[:500],
-            "thumbnail": "",
+            "thumbnail": thumbnail[:1000],
             "rating":    "",
         })
     return items

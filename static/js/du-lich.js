@@ -99,7 +99,7 @@
 
     footerEl.hidden = false;
     cacheInfoEl.textContent = data.from_cache
-      ? "📦 Hiển thị từ cache (refresh mỗi 24h)"
+      ? "📦 Hiển thị từ cache (refresh mỗi 30 phút)"
       : "🔄 Vừa fetch mới từ " + sourceLabel;
   }
 
