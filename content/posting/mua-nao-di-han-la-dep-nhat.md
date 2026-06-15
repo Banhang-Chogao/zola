@@ -2,11 +2,11 @@
 title = "Mùa nào đi Hàn là đẹp nhất? So sánh 4 mùa cho dân du lịch Việt"
 description = "Phân tích chi tiết 4 mùa Hàn Quốc: xuân hoa anh đào, hè biển đảo, thu lá vàng, đông tuyết. Mùa nào hợp ngân sách, ai nên đi, và lịch trình tham khảo."
 date = 2026-06-15
+aliases = ["/mua-nao-di-han-la-dep-nhat/"]
 
 [taxonomies]
 categories = ["Du lịch"]
-tags = ["hàn quốc", "korea", "du lịch", "mùa", "anh đào", "lá vàng", "tuyết", "seoul", "busan", "jeju"]
-
+tags = ["anh đào", "busan", "du lịch", "hàn quốc", "jeju", "korea", "lá vàng", "mùa", "seoul", "tuyết"]
 [extra]
 thumbnail = "https://picsum.photos/seed/mua-nao-di-han/600/400"
 featured = false
