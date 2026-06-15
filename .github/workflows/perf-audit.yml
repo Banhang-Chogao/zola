@@ -61,10 +61,15 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Single rolling branch — force-push để PR luôn reflect snapshot mới nhất
+          # Single rolling branch — force-push để PR luôn reflect snapshot mới nhất.
+          # CHỈ commit templates/ + static/ — KHÔNG add log files (perf-*.txt) vào.
+          # .gitignore cũng exclude log files để defense-in-depth.
           git checkout -B perf/auto-optimize
-          git add -A
-          git commit -m "Perf: auto-optimize ($(date -u +%FT%TZ))"
+          git add templates/ static/ sass/ content/ config.toml 2>/dev/null || true
+          git commit -m "Perf: auto-optimize ($(date -u +%FT%TZ))" || {
+            echo "Nothing to commit (chỉ có log files được sinh)"
+            exit 0
+          }
           git push -f origin perf/auto-optimize
 
           fixed_count=$(wc -l < perf-summary.txt | tr -d ' ')
