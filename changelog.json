@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "🚀 Perf audit: 6 file(s) optimized",
+      "tag": "chore",
+      "pr": 63,
+      "lines_added": 53,
+      "lines_removed": 9,
+      "highlights": [
+        "Thêm loading=\"lazy\" vào <img> tags thiếu (skip LCP hero có fetchpriority=high)",
+        "Thêm decoding=\"async\" vào <img> tags thiếu",
+        "KHÔNG thay đổi: source images, JS/CSS, content, layout"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Tag Cloud footer với pills colorful + size tier theo popularity",
       "tag": "chore",
       "pr": 69,
