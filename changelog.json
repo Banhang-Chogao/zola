@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Restructure header: DEPLOYED INSIDE GitHub box + github-pages card bên phải",
+      "tag": "chore",
+      "pr": 26,
+      "lines_added": 280,
+      "lines_removed": 215,
+      "highlights": [
+        "2 element [data-deploy-status] → JS dùng querySelectorAll update đồng bộ",
+        "Share 1 fetch, 1 cache 60s → 0 extra API call",
+        "Mobile <900px: stack column như cũ (deploy card full width)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Header: Meta Verified badge + bold label + audit/fix version logic",
       "tag": "fix",
       "pr": 25,
