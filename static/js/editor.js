@@ -856,20 +856,49 @@ tags = ${tagsStr}
 
   let lastRenderedBody = null;
   function renderPreview() {
-    if (!window.marked || !contentWrap) return;
+    if (!contentWrap) return;
     if (contentWrap.classList.contains("editor-content-wrap--mode-write")) return;
     const body = bodyTextarea.value;
     if (body === lastRenderedBody) return;
     lastRenderedBody = body;
     const previewPane = $("[data-tab-pane='preview']");
-    if (previewPane) {
+    if (!previewPane) return;
+
+    // Fallback: nếu marked.min.js fail load (CDN down, SRI mismatch, CSP block,
+    // network unstable), preview vẫn hiển thị raw text + warning thay vì câm
+    // lặng. Trước đây silent return → user tưởng preview chết.
+    if (!window.marked) {
+      previewPane.innerHTML =
+        '<div class="editor-preview__warn">⚠ marked.min.js chưa load. ' +
+        'Kiểm tra Console + Network tab. Tạm thời hiển thị raw text:</div>' +
+        '<pre class="editor-preview__raw">' + escapeHtml(body || "(rỗng)") + '</pre>';
+      // Retry render khi marked load sau 500ms (defer + slow network)
+      setTimeout(() => { if (window.marked) { lastRenderedBody = null; renderPreview(); } }, 500);
+      return;
+    }
+
+    try {
       const raw = window.marked.parse(body || "*(rỗng)*");
       previewPane.innerHTML = sanitizeHtml(raw);
+    } catch (e) {
+      previewPane.innerHTML = '<em class="editor-preview__warn">Lỗi parse markdown: ' +
+        escapeHtml(e.message) + '</em>';
     }
   }
   const debouncedRender = debounce(renderPreview, 500);
 
   bodyTextarea.addEventListener("input", debouncedRender);
+
+  // Trigger lại 1 lần sau khi defer scripts đã chắc chắn load xong — phòng case
+  // editor.js init trước marked.min.js (rare nhưng có thể nếu CDN slow).
+  if (document.readyState === "complete") {
+    setTimeout(() => { lastRenderedBody = null; renderPreview(); }, 100);
+  } else {
+    window.addEventListener("load", () => {
+      lastRenderedBody = null;
+      renderPreview();
+    });
+  }
 
   $$(".editor-tab").forEach((tab) => {
     tab.addEventListener("click", () => setEditorMode(tab.dataset.tab));
