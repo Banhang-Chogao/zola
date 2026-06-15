@@ -1,0 +1,67 @@
+name: Auto-update changelog.json
+
+# Trigger mỗi khi PR đóng. Job chỉ chạy nếu PR thực sự MERGED (không
+# phải close không merge) và base branch là main. Bot bot github-actions
+# sẽ commit + push entry mới vào changelog.json lên main.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+# Queue nếu có nhiều PR merge gần nhau → tránh race condition trên JSON
+concurrency:
+  group: changelog-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Append entry to changelog.json
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_ADDITIONS: ${{ github.event.pull_request.additions }}
+          PR_DELETIONS: ${{ github.event.pull_request.deletions }}
+          PR_MERGED_AT: ${{ github.event.pull_request.merged_at }}
+          PR_LABELS: ${{ toJson(github.event.pull_request.labels) }}
+        run: python3 .github/scripts/update_changelog.py
+
+      - name: Commit + push nếu có thay đổi
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add changelog.json
+          if git diff --cached --quiet; then
+            echo "PR #${{ github.event.pull_request.number }} đã có trong changelog — skip"
+            exit 0
+          fi
+          git commit -m "Auto-changelog: PR #${{ github.event.pull_request.number }}"
+          # Retry push tối đa 3 lần nếu main bị update concurrent
+          for i in 1 2 3; do
+            git pull --rebase origin main || true
+            if git push origin main; then
+              echo "✓ Pushed changelog update (try $i)"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "✗ Push failed sau 3 retries"
+          exit 1
