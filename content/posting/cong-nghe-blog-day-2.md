@@ -1,5 +1,6 @@
 +++
 title = "Ngày thứ hai của blog: 100 PR và stack công nghệ tự nâng cấp"
+description = "Tổng kết 100+ pull request và tech stack tự nâng cấp trong ngày 2: AI semantic related posts, QA dashboard footer, mobile UX Threads-feel, typography Manrope, GA stats live, image LCP/CLS chuẩn 2026."
 date = 2026-06-15
 aliases = ["/cong-nghe-blog-day-2/"]
 
@@ -25,6 +26,9 @@ trực tiếp từ `changelog.json` build-time qua Zola `load_data`.
 
 Tính năng quan trọng nhất triển khai ngày 2: hệ thống **related posts
 dựa trên ngữ nghĩa**, không chỉ category hoặc tag matching thông thường.
+Nếu muốn đi sâu vào kỹ thuật, đọc bài
+[Sentence Transformers (SBERT): kiến trúc, training và ứng dụng](/posting/sentence-transformers-sbert-deep-dive/)
+để hiểu chi tiết bi-encoder + cosine similarity.
 
 Pipeline build-time:
 
