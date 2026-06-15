@@ -26,6 +26,145 @@
   color: #64748b;
 }
 
+/* ============= DEPLOY STATUS CARD (changelog header) ============= */
+/* Mô phỏng UI 'Latest deployments from pinned environments' của GitHub.
+   Style đồng bộ với Stats box + Meta Verified badge — cùng palette xanh
+   accent, border subtle, dark mode adaptive. */
+.changelog__deploy-label {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 0.82rem;
+  color: #64748b;
+  text-align: left;
+}
+
+.changelog__deploy-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem 1.1rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 0.85rem;
+  margin: 0 0 2rem;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+
+  &:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #22c55e;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: background .2s ease, transform .2s ease;
+  }
+
+  &__title {
+    font-weight: 700;
+    color: #0f172a;
+    flex: 1;
+    font-size: 0.92rem;
+  }
+
+  &__ext {
+    color: #64748b;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: color .15s ease, transform .15s ease;
+
+    &:hover {
+      color: #0866ff;
+      transform: translate(1px, -1px);
+    }
+    svg { display: block; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    color: #64748b;
+    font-size: 0.82rem;
+    padding-left: 1.7rem;
+  }
+
+  &__row {
+    [data-deploy-verb] {
+      color: #166534;
+      font-weight: 600;
+    }
+    [data-deploy-time] {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  &__url {
+    color: #0866ff;
+    text-decoration: none;
+    word-break: break-all;
+    border-bottom: 1px dotted rgba(8, 102, 255, 0.3);
+    transition: border-bottom-style .12s ease;
+
+    &:hover { border-bottom-style: solid; }
+  }
+
+  /* State variants — icon color + verb color */
+  &.is-success .changelog__deploy-card__icon { background: #22c55e; }
+  &.is-progress {
+    .changelog__deploy-card__icon {
+      background: #3b82f6;
+      animation: deploy-card-pulse 1.5s ease-in-out infinite;
+    }
+    [data-deploy-verb] { color: #1e40af; }
+  }
+  &.is-queued {
+    .changelog__deploy-card__icon {
+      background: #f59e0b;
+      animation: deploy-card-pulse 1.5s ease-in-out infinite;
+    }
+    [data-deploy-verb] { color: #92400e; }
+  }
+  &.is-error {
+    .changelog__deploy-card__icon { background: #ef4444; }
+    [data-deploy-verb] { color: #991b1b; }
+  }
+}
+
+@keyframes deploy-card-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1;   }
+  50%      { transform: scale(0.9); opacity: 0.7; }
+}
+
+@media (max-width: 480px) {
+  .changelog__deploy-card {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.8rem;
+
+    &__body { padding-left: 0; gap: 0.25rem; }
+    &__title { font-size: 0.85rem; }
+  }
+}
+
 .changelog__list {
   list-style: none;
   margin: 0;
@@ -241,6 +380,29 @@
   .changelog__stats-rem { color: #fca5a5; }
   .changelog__stats-net { color: #cbd5e1; }
   .changelog__stats-dot { color: #475569; }
+
+  /* Deploy card dark variants */
+  .changelog__deploy-label { color: #94a3b8; }
+  .changelog__deploy-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  .changelog__deploy-card:hover {
+    border-color: #475569;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  }
+  .changelog__deploy-card__title { color: #f1f5f9; }
+  .changelog__deploy-card__body { color: #94a3b8; }
+  .changelog__deploy-card__ext { color: #94a3b8; }
+  .changelog__deploy-card__ext:hover { color: #60A5FA; }
+  .changelog__deploy-card__url {
+    color: #60A5FA;
+    border-bottom-color: rgba(96, 165, 250, 0.35);
+  }
+  .changelog__deploy-card.is-success [data-deploy-verb] { color: #4ade80; }
+  .changelog__deploy-card.is-progress [data-deploy-verb] { color: #93c5fd; }
+  .changelog__deploy-card.is-queued [data-deploy-verb] { color: #fcd34d; }
+  .changelog__deploy-card.is-error [data-deploy-verb] { color: #fca5a5; }
 
   .changelog__footer {
     border-top-color: #334155;
