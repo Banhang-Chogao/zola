@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "JS fallback hardcode prod URL khi meta tag không có",
+      "tag": "fix",
+      "pr": 66,
+      "lines_added": 21,
+      "lines_removed": 6,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-15",
       "title": "Render backend down — thêm python-multipart vào requirements.txt",
       "tag": "fix",
       "pr": 65,
