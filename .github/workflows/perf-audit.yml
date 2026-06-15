@@ -1,0 +1,106 @@
+name: Performance Audit
+
+# Cron 1 lần/tuần (Chủ nhật 02:00 UTC = 09:00 VN): quét perf, auto-fix
+# SAFE (chỉ <img> tags thêm loading/decoding), tạo PR riêng cho user
+# review trước khi merge. KHÔNG tự merge.
+#
+# Workflow_dispatch để chạy thủ công bất kỳ lúc nào.
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+concurrency:
+  group: perf-audit
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run perf scan (report only)
+        run: python3 qa_check.py --perf 2>&1 | tee perf-scan.txt
+
+      - name: Apply SAFE perf auto-fix (img lazy/decoding)
+        id: fix
+        run: |
+          python3 qa_check.py --perf --fix perf 2>&1 | tee perf-fix.txt
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "✓ Không có perf fix nào cần apply"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            grep '^FIXED:' perf-fix.txt > perf-summary.txt || echo "(không có dòng FIXED)" > perf-summary.txt
+          fi
+
+      - name: Mở PR perf/auto-optimize cho user review
+        if: steps.fix.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Single rolling branch — force-push để PR luôn reflect snapshot mới nhất
+          git checkout -B perf/auto-optimize
+          git add -A
+          git commit -m "Perf: auto-optimize ($(date -u +%FT%TZ))"
+          git push -f origin perf/auto-optimize
+
+          fixed_count=$(wc -l < perf-summary.txt | tr -d ' ')
+          {
+            echo "## 🚀 Performance auto-audit"
+            echo ""
+            echo "**Quét lúc**: \`$(date -u +%FT%TZ)\`"
+            echo "**Số file fixed**: \`${fixed_count}\`"
+            echo ""
+            echo "### Auto-fix đã áp dụng"
+            echo '```'
+            cat perf-summary.txt
+            echo '```'
+            echo ""
+            echo "### Phạm vi SAFE auto-fix"
+            echo "- Thêm \`loading=\"lazy\"\` vào \`<img>\` tags thiếu (skip LCP hero có fetchpriority=high)"
+            echo "- Thêm \`decoding=\"async\"\` vào \`<img>\` tags thiếu"
+            echo "- **KHÔNG thay đổi**: source images, JS/CSS, content, layout"
+            echo ""
+            echo "### Cảnh báo còn lại (cần review thủ công)"
+            echo '```'
+            grep '^⚠.*PERF' perf-scan.txt | head -30 || echo "(không có warning PERF)"
+            echo '```'
+            echo ""
+            echo "### Workflow"
+            echo "PR force-push mỗi tuần (cron Chủ nhật 02:00 UTC). Review diff → merge nếu OK,"
+            echo "hoặc đóng PR + xoá branch \`perf/auto-optimize\` nếu fix không phù hợp."
+          } > pr-body.md
+
+          existing=$(gh pr list --head perf/auto-optimize --state open --json number --jq '.[0].number')
+          if [ -z "$existing" ]; then
+            gh pr create \
+              --base main --head perf/auto-optimize \
+              --title "🚀 Perf audit: ${fixed_count} file(s) optimized" \
+              --body-file pr-body.md
+          else
+            echo "PR #${existing} đã mở — head pointer auto-update sau force-push"
+            gh pr comment "${existing}" --body-file pr-body.md
+          fi

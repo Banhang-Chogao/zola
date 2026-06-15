@@ -31,6 +31,18 @@ REPO_ROOT = Path(__file__).resolve().parent
 # File extensions cần scan conflict + secrets
 SOURCE_EXTS = {".js", ".html", ".scss", ".css", ".md", ".py", ".yml", ".yaml", ".toml", ".sh"}
 
+# Performance thresholds (bytes). Quá ngưỡng → warning để user review.
+# Chọn ngưỡng theo budget recommended cho personal blog (web.dev/perf-budgets).
+PERF_THRESHOLDS = {
+    "js_warn":     50_000,    # 50KB unminified
+    "css_warn":    50_000,
+    "img_warn":    250_000,   # 250KB (gồm hero JPG ~150KB)
+    "html_warn":   100_000,
+}
+
+# Image extensions cho perf scan.
+IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"}
+
 # Thư mục skip toàn bộ (output build, vendor, etc.)
 SKIP_DIRS = {".git", "public", "node_modules", "__pycache__", ".pytest_cache", "artifacts"}
 
@@ -129,6 +141,105 @@ def check_conflicts(path, content):
 _SCSS_BLOCK_COMMENT_RE = re.compile(r"/\*.*?\*/", re.DOTALL)
 _SCSS_LINE_COMMENT_RE  = re.compile(r"//[^\n]*")
 _SCSS_STRING_RE        = re.compile(r'"(?:[^"\\]|\\.)*"' r"|'(?:[^'\\]|\\.)*'")
+
+
+# ============= Performance Check =============
+# Mục đích: phát hiện asset nặng (JS/CSS/ảnh quá ngưỡng), <img> thiếu
+# lazy loading, external CDN nhiều. Output dạng warning để user review;
+# fix_perf() áp dụng SAFE auto-fix (chỉ add attr loading/decoding).
+
+_IMG_TAG_RE = re.compile(r'<img\b([^>]*)>', re.IGNORECASE)
+_HAS_LOADING_RE  = re.compile(r'\bloading\s*=', re.IGNORECASE)
+_HAS_DECODING_RE = re.compile(r'\bdecoding\s*=', re.IGNORECASE)
+_HAS_FETCHPRIO_RE = re.compile(r'\bfetchpriority\s*=', re.IGNORECASE)
+_CDN_LINK_RE = re.compile(
+    r'(?:src|href)=["\']https?://([^/"\']+)',
+    re.IGNORECASE,
+)
+
+
+def check_perf_file_size(path, raw_bytes):
+    """Check kích thước file. Trả issue warning nếu vượt ngưỡng."""
+    issues = []
+    size = len(raw_bytes)
+    sfx = path.suffix.lower()
+    kb = size // 1024
+
+    if sfx == ".js" and size > PERF_THRESHOLDS["js_warn"]:
+        issues.append(Issue("warning", path, 1,
+            f"PERF: JS file {kb}KB > {PERF_THRESHOLDS['js_warn']//1024}KB — "
+            f"tối ưu: tách module, minify production, defer load"))
+    elif sfx in (".css", ".scss") and size > PERF_THRESHOLDS["css_warn"]:
+        issues.append(Issue("warning", path, 1,
+            f"PERF: CSS file {kb}KB > {PERF_THRESHOLDS['css_warn']//1024}KB — "
+            f"tối ưu: split critical CSS, purge unused"))
+    elif sfx in IMAGE_EXTS and sfx != ".svg" and size > PERF_THRESHOLDS["img_warn"]:
+        issues.append(Issue("warning", path, 1,
+            f"PERF: ảnh {kb}KB > {PERF_THRESHOLDS['img_warn']//1024}KB — "
+            f"tối ưu: resize ≤1280px, convert webp, quality 80"))
+    elif sfx == ".html" and size > PERF_THRESHOLDS["html_warn"]:
+        issues.append(Issue("warning", path, 1,
+            f"PERF: HTML {kb}KB > {PERF_THRESHOLDS['html_warn']//1024}KB — "
+            f"tối ưu: tách content sections, lazy-load below-fold"))
+    return issues
+
+
+def check_perf_html(path, content):
+    """Check HTML/template: <img> thiếu lazy, đếm external CDN."""
+    issues = []
+    if path.suffix not in {".html"}:
+        return issues
+
+    # 1. <img> thiếu loading + decoding (skip nếu có fetchpriority=high — LCP)
+    for m in _IMG_TAG_RE.finditer(content):
+        attrs = m.group(1)
+        if _HAS_FETCHPRIO_RE.search(attrs):
+            continue  # LCP image — KHÔNG cần lazy
+        line = content[:m.start()].count("\n") + 1
+        missing = []
+        if not _HAS_LOADING_RE.search(attrs):
+            missing.append('loading="lazy"')
+        if not _HAS_DECODING_RE.search(attrs):
+            missing.append('decoding="async"')
+        if missing:
+            issues.append(Issue("warning", path, line,
+                f"PERF: <img> thiếu {' + '.join(missing)} — auto-fixable"))
+
+    # 2. Đếm external CDN host (cần preconnect)
+    cdn_hosts = set()
+    for m in _CDN_LINK_RE.finditer(content):
+        host = m.group(1).lower()
+        # Self-host KHÔNG tính
+        if host.endswith("github.io"):
+            continue
+        cdn_hosts.add(host)
+    if len(cdn_hosts) > 5:
+        issues.append(Issue("warning", path, 1,
+            f"PERF: {len(cdn_hosts)} external CDN ({', '.join(sorted(cdn_hosts)[:5])}…) — "
+            f"thêm <link rel=preconnect> cho top 3 domain"))
+    return issues
+
+
+def fix_perf_html(content):
+    """SAFE auto-fix: add loading=lazy + decoding=async vào <img> thiếu.
+       KHÔNG đè fetchpriority=high (LCP image). Trả (new_content, count_fixed)."""
+    fix_count = 0
+    def _patch(m):
+        nonlocal fix_count
+        attrs = m.group(1)
+        if _HAS_FETCHPRIO_RE.search(attrs):
+            return m.group(0)  # giữ nguyên LCP image
+        if _HAS_LOADING_RE.search(attrs) and _HAS_DECODING_RE.search(attrs):
+            return m.group(0)
+        new_attrs = attrs.rstrip()
+        if not _HAS_LOADING_RE.search(attrs):
+            new_attrs += ' loading="lazy"'
+        if not _HAS_DECODING_RE.search(attrs):
+            new_attrs += ' decoding="async"'
+        fix_count += 1
+        return f"<img{new_attrs}>"
+    new_content = _IMG_TAG_RE.sub(_patch, content)
+    return new_content, fix_count
 
 
 def _scss_strip_noise(content: str) -> str:
@@ -493,8 +604,10 @@ def main():
         description="QA Gatekeeper — scan conflict markers, secrets, SEO basic.",
         epilog="Exit 0 = pass (có thể có warning), 1 = ≥1 error.",
     )
-    parser.add_argument("--fix", nargs="?", const="safe", choices=["safe"],
-                        help="Auto-fix mode (chỉ 'safe' — mechanical fixes, không đoán nội dung)")
+    parser.add_argument("--fix", nargs="?", const="safe", choices=["safe", "perf"],
+                        help="Auto-fix mode: 'safe' (frontmatter mechanical) hoặc 'perf' (HTML/template img lazy)")
+    parser.add_argument("--perf", action="store_true",
+                        help="Chạy thêm performance check (file size, lazy load, CDN count)")
     parser.add_argument("targets", nargs="*",
                         help="Files cụ thể để scan (default: toàn repo)")
     args = parser.parse_args()
@@ -503,17 +616,49 @@ def main():
     all_issues = []
     all_fixes = []
     scanned = 0
+    perf_fix_count = 0
+    perf_fixed_files = []
+
+    # Perf scan mở rộng SOURCE_EXTS để bao gồm ảnh
+    scan_exts = SOURCE_EXTS | IMAGE_EXTS if args.perf or args.fix == "perf" else SOURCE_EXTS
 
     for path in iter_files(args.targets):
+        # Đọc bytes trước (perf scan dùng size). Decode UTF-8 chỉ cho text files.
         try:
-            content = path.read_text(encoding="utf-8")
-        except (UnicodeDecodeError, OSError):
+            raw = path.read_bytes()
+        except OSError:
             continue
+        is_text = path.suffix.lower() in SOURCE_EXTS
+        content = ""
+        if is_text:
+            try:
+                content = raw.decode("utf-8")
+            except UnicodeDecodeError:
+                continue
         scanned += 1
         try:
             rel = path.relative_to(REPO_ROOT) if path.is_absolute() else path
         except ValueError:
             rel = path
+
+        # Perf checks — chạy cả cho image files
+        if args.perf:
+            all_issues.extend(check_perf_file_size(rel, raw))
+            if is_text:
+                all_issues.extend(check_perf_html(rel, content))
+
+        # Perf auto-fix HTML/template img tags
+        if args.fix == "perf" and path.suffix == ".html":
+            new_content, n = fix_perf_html(content)
+            if n > 0:
+                path.write_text(new_content, encoding="utf-8")
+                perf_fix_count += n
+                perf_fixed_files.append((str(rel), n))
+            content = new_content
+
+        if not is_text:
+            continue
+
         all_issues.extend(check_conflicts(rel, content))
         all_issues.extend(check_secrets(rel, content))
         all_issues.extend(check_scss_syntax(rel, content))
@@ -527,9 +672,10 @@ def main():
 
     print(f"{BOLD('[QA]')} Scanned {scanned} files\n")
 
-    # Apply fixes trước khi report — để summary phản ánh state sau fix
+    # Apply content fixes CHỈ ở --fix safe mode (perf mode đã apply img
+    # fixes inline trong loop ở trên, không touch content frontmatter)
     fixed_count = 0
-    if fix_mode and all_fixes:
+    if fix_mode == "safe" and all_fixes:
         fixed_count = apply_fixes(all_fixes)
         print()
 
@@ -542,7 +688,12 @@ def main():
     if all_issues:
         print()
 
-    if fix_mode:
+    if fix_mode == "perf":
+        perf_msg = f", {perf_fix_count} <img> tags fixed in {len(perf_fixed_files)} file(s)" if perf_fix_count else ""
+        summary = f"Summary: {len(errors)} error(s), {len(warnings)} warning(s){perf_msg}"
+        for fpath, n in perf_fixed_files:
+            print(GREEN(f"FIXED: {fpath} — {n} <img> tags add loading/decoding"))
+    elif fix_mode:
         summary = f"Summary: {fixed_count} file(s) auto-fixed, {len(errors)} remaining error(s), {len(warnings)} warning(s)"
     else:
         summary = f"Summary: {len(errors)} error(s), {len(warnings)} warning(s)"
