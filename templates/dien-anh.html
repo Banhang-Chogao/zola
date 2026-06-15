@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 
-{% block title %}Điện ảnh — Phim phổ biến | {{ config.title }}{% endblock %}
-{% block description %}Top phim phổ biến nhất từ TMDB — cache 24h, refresh tự động.{% endblock %}
+{% block title %}Điện ảnh — Tin từ IMDB | {{ config.title }}{% endblock %}
+{% block description %}Tin tức điện ảnh từ IMDB scraper proxy — cache 24h, refresh tự động.{% endblock %}
 
 {% block main %}
     {# Tận dụng nguyên SCSS .du-lich (grid 4 cột + card vertical + thumbnail
        16:10 + rank overlay) cho /dien-anh/ — kiến trúc giống hệt, chỉ khác
-       nội dung (phim thay tin tức) + endpoint backend (/api/movies). #}
+       nội dung + endpoint backend (/api/movies → IMDB scraper proxy). #}
     <section class="du-lich">
         <header class="du-lich__header">
             <h1 class="du-lich__title">
                 <span class="du-lich__icon" aria-hidden="true">🎬</span>
-                Phim phổ biến từ <span class="du-lich__source">TMDB{{ v::badge() }}</span>
+                Tin tức Điện ảnh từ <span class="du-lich__source">IMDB{{ v::badge() }}</span>
             </h1>
             <p class="du-lich__sub">
-                10 phim đang phổ biến nhất từ The Movie Database. Cache 24h,
-                refresh tự động. Mô tả tiếng Việt, fallback English khi thiếu.
+                Tin tức + danh sách phim từ IMDB scraper proxy. Cache 24h,
+                refresh tự động. Có thể đổi nguồn (search, top, popular...)
+                qua env var <code>IMDB_API_URL</code>.
             </p>
         </header>
 
@@ -37,11 +38,10 @@
         <div class="du-lich__error" data-error hidden role="alert">
             <span class="du-lich__error-icon" aria-hidden="true">🎞</span>
             <div>
-                <strong data-error-title>Tạm thời không lấy được phim từ TMDB</strong>
+                <strong data-error-title>Tạm thời không lấy được tin từ IMDB</strong>
                 <p data-error-detail>
                     Backend có thể đang khởi động (free tier sleep ~30s), hoặc
-                    TMDB_API_KEY chưa được cấu hình trên Render. Thử tải lại
-                    sau vài phút.
+                    IMDB_API_URL trả schema không match. Thử tải lại sau vài phút.
                 </p>
             </div>
         </div>
