@@ -426,6 +426,27 @@
   flex-direction: column;
   gap: 0.5rem;
   min-width: 0;
+
+  /* Desktop ≥900px: header-rotator (GitHub banner) bên trái + deploy-queue
+     box compact bên phải, side-by-side cho gọn. Mobile vẫn stack vertical. */
+  @media (min-width: 900px) {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.6rem;
+
+    > .header-rotator { flex: 1 1 auto; min-width: 0; }
+    > .deploy-queue {
+      flex: 0 0 240px;
+      align-items: flex-start;
+      align-self: stretch;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.4rem;
+
+      .deploy-queue__items { flex: 0 1 auto; }
+      .deploy-queue__msg   { font-size: 0.72rem; }
+    }
+  }
 }
 
 /* ----- Deploy queue (pending GitHub Actions runs) ----- */

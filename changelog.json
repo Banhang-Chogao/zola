@@ -2,6 +2,49 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Latest Deployment Status card cho /changelog",
+      "tag": "feat",
+      "pr": 22,
+      "lines_added": 261,
+      "lines_removed": 35,
+      "highlights": [
+        "Card mô phỏng UI 'Latest deployments from pinned environments' của GitHub",
+        "3 dòng: icon + github-pages + external link · Last deployed · URL",
+        "Refactor deploy-status.js: querySelectorAll handle nhiều container (header + card share 1 fetch)",
+        "Dark mode adaptive, mobile responsive (≤480px)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "title": "Move deploy status real-time từ /changelog → header (mọi page)",
+      "tag": "refactor",
+      "pr": 21,
+      "lines_added": 123,
+      "lines_removed": 253,
+      "highlights": [
+        "Rename changelog-deploy.js → deploy-status.js (generic)",
+        "Refactor JS target [data-deploy-badge] + [data-deploy-text] thay innerHTML rewrite",
+        "base.html: data-* attrs vào .deploy-queue + load JS",
+        "Xoá 137 dòng .changelog__deploy* styles không còn dùng"
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "title": "Changelog page + Meta Verified badge + line stats per PR",
+      "tag": "feat",
+      "pr": 20,
+      "lines_added": 749,
+      "lines_removed": 0,
+      "highlights": [
+        "Trang /changelog render từ changelog.json qua load_data",
+        "Meta Verified-style badge inline SVG gradient #60A5FA → #1D4ED8",
+        "Stats row '−X · +Y · Net Z' mỗi entry, font mono",
+        "Dark mode auto + mobile responsive + 7 tag colors",
+        "Bonus: deploy status box real-time embedded trong page"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Remove google-stats + fix marked CDN unversioned",
       "tag": "cleanup",
       "pr": 19,
