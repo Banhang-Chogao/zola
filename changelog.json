@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Real-time Visitor Counter (FastAPI + Redis + JS frontend)",
+      "tag": "feat",
+      "pr": 36,
+      "lines_added": 748,
+      "lines_removed": 10,
+      "highlights": [
+        "FastAPI async + redis.asyncio singleton, INCR atomic counter (concurrent-safe không cần lock)",
+        "POST /track — tăng count nếu UA không phải bot, GET /stats — trả tổng",
+        "Regex single-pass bot filter (search engines, social previews, libs)",
+        "CORS chỉ allow CORS_ORIGIN (mặc định blog GitHub Pages URL)",
+        "Procfile + runtime.txt + .env.example sẵn sàng cho Render hoặc Railway free tier"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "trang /insights — GitHub Insights 2 cột (timeline + overview)",
       "tag": "feat",
       "pr": 35,
