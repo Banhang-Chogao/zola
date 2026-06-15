@@ -92,100 +92,106 @@
   }
 }
 
-/* ========== MOBILE BURGER MENU (Momo-style) ==========
-   Trigger: ≤ 720px. Hide menu items, show burger button. Khi
-   .is-open: slide-down panel với menu vertical, backdrop overlay. */
+/* ========== MOBILE HORIZONTAL TABS (Momo-style) ==========
+   Trigger: ≤ 720px. KHÔNG dùng burger drawer nữa, thay bằng tab nav
+   ngang scroll horizontal giống momo.vn. Tên menu text-only (JS strip
+   emoji). Active tab có underline đỏ. */
 @media (max-width: 720px) {
   .navbar__inner {
-    padding: 0 16px;
-    align-items: center;
-    min-height: 52px;
+    padding: 0;
+    align-items: stretch;
+    min-height: 48px;
   }
 
-  /* Burger visible */
-  .navbar__burger {
-    display: flex;
-    order: -1; /* burger ở bên trái */
+  /* Hide burger + backdrop — không dùng drawer pattern nữa */
+  .navbar__burger,
+  .navbar__backdrop {
+    display: none !important;
   }
 
-  /* Menu: hidden by default, slide-down khi open */
+  /* Menu = horizontal scroll tabs giống momo. Reset hết style drawer cũ. */
   .navbar__menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background: #fff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .3s ease;
-    z-index: 99;
+    /* Reset từ desktop/burger styles */
+    position: static;
+    flex-direction: row;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    transition: none;
+    visibility: visible;
+    padding: 0 8px;
+    margin: 0;
+    /* Horizontal scroll */
+    display: flex;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
 
     li {
-      display: block;
-      border-bottom: 1px solid #eee;
-
-      &:last-child { border-bottom: none; }
+      display: flex;
+      flex-shrink: 0;
+      border-bottom: none;
+      scroll-snap-align: start;
     }
 
     a {
-      color: #222;
-      padding: 1.05rem 1.25rem;
+      color: #d1d5db;
+      padding: 0.95rem 0.85rem 0.85rem;
+      font-family: $font-ui;
       font-size: 0.85rem;
-      letter-spacing: 0.06em;
-      width: 100%;
-      justify-content: flex-start;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: none;   /* momo lowercase/normal, KHÔNG UPPERCASE */
+      white-space: nowrap;
       position: relative;
+      border-bottom: 2px solid transparent;
+      transition: color .15s ease, border-color .15s ease;
+      width: auto;
+      justify-content: center;
 
-      /* Chevron arrow phải — visual hint tap được */
-      &::after {
-        content: "›";
-        position: absolute;
-        right: 1.25rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #999;
-        font-size: 1.4rem;
-        font-weight: 400;
-        line-height: 1;
+      /* Underline đỏ active state — giống momo */
+      &.is-active {
+        color: #fff;
+        border-bottom-color: #d63d3d;
       }
 
       &:hover {
-        background: #fafafa;
-        color: #d63d3d;
+        background: transparent;
+        color: #fff;
       }
     }
   }
 
-  /* Khi mở: expand menu + show backdrop + burger → X icon */
-  .navbar.is-open {
-    .navbar__menu {
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    .navbar__backdrop {
-      display: block;
-      position: fixed;
-      top: 52px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 98;
-      animation: navbar-fade-in .2s ease;
-    }
-    /* Burger → X: line 1 xuống xoay 45°, line 2 ẩn, line 3 lên xoay -45° */
-    .navbar__burger-line {
-      &:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-      &:nth-child(2) { opacity: 0; }
-      &:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    }
-  }
-
-  /* Search button compact trên mobile */
+  /* Search button giữ bên phải, compact */
   .navbar__search {
     padding: 0 1rem;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
+  /* Gradient mask cuối phải — visual hint còn scroll được, giống momo */
+  .navbar__inner {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 32px;
+      background: linear-gradient(to left,
+        rgba(17, 17, 17, 0.88) 0%,
+        rgba(17, 17, 17, 0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
   }
 }
 

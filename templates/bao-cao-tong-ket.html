@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Báo cáo tổng kết | {{ config.title }}{% endblock %}
+
+{% block main %}
+    {% set reports_index = load_data(path="data/reports-index.json", required=false) %}
+    {% set reports = [] %}
+    {% if reports_index and reports_index.reports %}
+        {% set reports = reports_index.reports %}
+    {% endif %}
+
+    <section class="bao-cao">
+        <header class="bao-cao__head">
+            <h2 class="bao-cao__title">📋 BÁO CÁO TỔNG KẾT</h2>
+            <p class="bao-cao__desc">
+                Lịch sử các báo cáo deploy status được tạo qua phím tắt
+                <code>??</code> trong chat. Chỉ admin đăng nhập bằng tài
+                khoản GitHub mới tải về được — visitor lạ chỉ xem preview.
+            </p>
+        </header>
+
+        {# Auth gate banner — JS sẽ swap nội dung tuỳ trạng thái auth #}
+        <div class="bao-cao__auth" data-auth-gate>
+            <div class="bao-cao__auth-state" data-auth-anon>
+                <span class="bao-cao__auth-icon">🔒</span>
+                <div>
+                    <strong>Bạn đang ở chế độ KHÁCH</strong>
+                    <p>Đăng nhập GitHub admin qua trang
+                    <a href="{{ config.base_url }}/editor/">/editor/</a>
+                    để tải file <code>.md</code> chi tiết về.</p>
+                </div>
+            </div>
+            <div class="bao-cao__auth-state bao-cao__auth-state--admin" data-auth-admin hidden>
+                <span class="bao-cao__auth-icon">✅</span>
+                <div>
+                    <strong>Đã xác thực admin GitHub</strong>
+                    <p>Bạn có thể tải tất cả file <code>.md</code> báo cáo về máy.</p>
+                </div>
+            </div>
+        </div>
+
+        {# Latest report — embed nội dung báo cáo mới nhất #}
+        {% if reports | length > 0 %}
+            {% set latest = reports | first %}
+            <article class="bao-cao__latest">
+                <header class="bao-cao__latest-head">
+                    <h3 class="bao-cao__latest-title">Báo cáo mới nhất</h3>
+                    <time class="bao-cao__latest-date">{{ latest.created_at | default(value="") }}</time>
+                </header>
+                <div class="bao-cao__latest-body" data-report-preview>
+                    {{ latest.preview | default(value="(Chưa có preview)") | safe }}
+                </div>
+                <a class="bao-cao__download"
+                   href="{{ config.base_url }}/data/reports/{{ latest.filename }}"
+                   download
+                   data-auth-required
+                   hidden>
+                    ⬇ Tải file <code>{{ latest.filename }}</code>
+                </a>
+            </article>
+        {% endif %}
+
+        {# Lịch sử báo cáo — list tất cả file .md #}
+        <section class="bao-cao__history">
+            <h3 class="bao-cao__history-title">Lịch sử báo cáo ({{ reports | length }})</h3>
+            {% if reports | length == 0 %}
+                <p class="bao-cao__empty">
+                    Chưa có báo cáo nào. Gõ <code>??</code> trong chat với Claude
+                    để tạo báo cáo đầu tiên.
+                </p>
+            {% else %}
+                <ul class="bao-cao__list">
+                    {% for r in reports %}
+                        <li class="bao-cao__item">
+                            <span class="bao-cao__item-name">
+                                <code>{{ r.filename }}</code>
+                            </span>
+                            <span class="bao-cao__item-date">
+                                {{ r.created_at | default(value="—") }}
+                            </span>
+                            <a class="bao-cao__item-download"
+                               href="{{ config.base_url }}/data/reports/{{ r.filename }}"
+                               download
+                               data-auth-required
+                               hidden>⬇</a>
+                            <span class="bao-cao__item-locked" data-auth-locked>🔒</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+
+        <footer class="bao-cao__foot">
+            <p>
+                <strong>Cơ chế bảo mật:</strong> file <code>.md</code> nằm trong
+                <code>/static/data/reports/</code> — public theo design GitHub Pages.
+                Để protect THẬT, cần backend endpoint check OAuth GitHub trước
+                khi serve file (phase 2).
+            </p>
+            <p>
+                Hiện tại JS gate ẩn nút tải nếu chưa login. Vẫn có thể truy cập
+                trực tiếp URL nếu biết filename — đây là protection cơ bản, không
+                phải security tuyệt đối.
+            </p>
+        </footer>
+    </section>
+
+    <script src="{{ get_url(path='js/bao-cao.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
