@@ -4,18 +4,18 @@ QA-Failed pipeline: auto-analyze failed workflow runs, attempt safe fixes.
 Trigger: .github/workflows/qa-failed-handler.yml chạy khi 1 workflow nào
 khác fail. Script này:
 
-1. Fetch logs failed run qua `gh run view` (env GITHUB_RUN_ID).
-2. Parse stderr tìm error pattern đã biết.
-3. Apply fix nếu match pattern an toàn:
+1. WAIT cho run status = "completed" (retry max 5 lần, 30s/lần).
+2. Fetch logs qua `gh run view --log-failed` chỉ KHI status completed.
+3. Parse stderr tìm error pattern đã biết.
+4. Apply safe fix nếu match pattern:
    - ModuleNotFoundError → append module vào requirements.txt liên quan
    - frontmatter YAML invalid → chạy qa_check.py --fix safe
    - git push rejected non-fast-forward → no-op (chỉ log, không tự force push)
    - GitHub Actions permission denied → log + notify (cần repo settings)
-4. Nếu apply được fix → commit + push lên main → trigger deploy lại.
-5. Nếu KHÔNG match pattern → tạo GitHub issue chi tiết + exit 1.
+5. Apply được → commit + push lên main → trigger deploy lại.
+6. KHÔNG match pattern → tạo GitHub issue chi tiết + exit 1.
 
-CONSERVATIVE: Script chỉ fix khi 100% chắc, không đoán. Lỗi chưa biết
-luôn báo cáo về user qua issue.
+CONSERVATIVE: Script chỉ fix khi 100% chắc. Lỗi chưa biết → escalate.
 
 Run local (debug):
     GITHUB_RUN_ID=12345 GITHUB_REPOSITORY=owner/repo python qa-failed.py
@@ -25,10 +25,15 @@ import os
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 LOG_FILE = ROOT / "qa-failed.log"
+
+# Retry config — đợi run state "completed" trước khi fetch logs
+MAX_WAIT_ATTEMPTS = 5
+WAIT_BACKOFF_SECONDS = 30  # 5 × 30s = 2.5 phút max
 
 
 def log(msg: str) -> None:
@@ -50,7 +55,38 @@ def sh(cmd: list, check: bool = True, capture: bool = True) -> str:
     return out
 
 
+def get_run_status(run_id: str) -> dict:
+    """Return {status, conclusion}. status in {queued, in_progress, completed}.
+    conclusion in {success, failure, cancelled, ...} chỉ valid khi completed."""
+    try:
+        out = sh(["gh", "run", "view", run_id, "--json", "status,conclusion"],
+                 check=False)
+        return json.loads(out.strip().split("\n")[-1])
+    except Exception as e:
+        log(f"get_run_status error: {e}")
+        return {"status": "unknown", "conclusion": None}
+
+
+def wait_for_completion(run_id: str) -> bool:
+    """Poll run status đến khi completed. Return True nếu hoàn tất trong
+    timeout, False nếu vẫn in_progress sau MAX_WAIT_ATTEMPTS."""
+    for attempt in range(1, MAX_WAIT_ATTEMPTS + 1):
+        info = get_run_status(run_id)
+        status = info.get("status", "unknown")
+        log(f"poll #{attempt}/{MAX_WAIT_ATTEMPTS} run {run_id}: status={status}")
+        if status == "completed":
+            return True
+        if status == "unknown":
+            # gh CLI lỗi — return False để escalate
+            return False
+        if attempt < MAX_WAIT_ATTEMPTS:
+            time.sleep(WAIT_BACKOFF_SECONDS)
+    return False
+
+
 def fetch_logs(run_id: str) -> str:
+    """Fetch logs failed jobs. CHỈ gọi sau khi wait_for_completion=True
+    để tránh 'still in progress' error."""
     try:
         return sh(["gh", "run", "view", run_id, "--log-failed"], check=False)
     except Exception as e:
@@ -153,12 +189,26 @@ def main() -> int:
         return 1
 
     log(f"analyzing failed run {run_id} ({workflow_name})")
+
+    # WAIT: GitHub Actions có lag giữa "fail event triggered" và "logs ready".
+    # Nếu fetch quá sớm → 'still in progress' error → classify nhầm unknown.
+    if not wait_for_completion(run_id):
+        log(f"run {run_id} vẫn chưa completed sau {MAX_WAIT_ATTEMPTS * WAIT_BACKOFF_SECONDS}s → escalate")
+        create_issue(
+            f"QA-Failed: run {run_id} không kết thúc trong timeout",
+            f"Workflow `{workflow_name}` (run {run_id}) vẫn ở status in_progress / unknown "
+            f"sau {MAX_WAIT_ATTEMPTS} lần poll × {WAIT_BACKOFF_SECONDS}s. "
+            f"Có thể: 1) job hung/timeout, 2) gh CLI auth lỗi, 3) GitHub API lag bất thường. "
+            f"Cần investigate manually."
+        )
+        return 1
+
     logs = fetch_logs(run_id)
     if not logs:
         log("empty logs, cannot analyze")
         create_issue(
             f"QA-Failed: empty logs cho run {run_id}",
-            f"Workflow `{workflow_name}` failed but logs không fetch được. Cần investigate manually."
+            f"Workflow `{workflow_name}` failed nhưng logs không fetch được dù status=completed. Cần investigate manually."
         )
         return 1
 
