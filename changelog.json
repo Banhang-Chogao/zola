@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Gỡ phần còn lại của AI pipeline (analyze_topics, build_internal_links, qa_style + data)",
+      "tag": "chore",
+      "pr": 144,
+      "lines_added": 0,
+      "lines_removed": 1711,
+      "highlights": [
+        "scripts/analyze_topics.py — k-means topic map",
+        "scripts/build_internal_links.py — paragraph link suggester",
+        "scripts/qa_style.py — style consistency check",
+        "data/topic_map.json — output 11 bài, 5 cluster",
+        "data/link_suggestions.json — 84 link suggestion"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "ff tooling: thêm pip-tools + pipdeptree + tenacity + pytest-rerunfailures",
       "tag": "chore",
       "pr": 142,
