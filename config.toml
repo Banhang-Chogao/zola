@@ -46,15 +46,17 @@ chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 # external API (RSS feeds, IMDB) gây cảm giác blog 'nặng'. Page + content
 # section + JS GIỮ trong repo — chỉ ẩn khỏi nav, có thể bật lại sau.
 menu = [
-    {url = "$BASE_URL", name = "TRANG CHÍNH"},
-    {url = "$BASE_URL/categories/posting", name = "POSTING"},
-    {url = "$BASE_URL/editor", name = "✎ VIẾT BÀI"},
-    {url = "$BASE_URL/du-lich", name = "✈️ DU LỊCH"},
-    {url = "$BASE_URL/converter", name = "한 KOREAN CONVERTER"},
-    {url = "$BASE_URL/changelog", name = "✓ CHANGELOG"},
-    {url = "$BASE_URL/insights", name = "📊 INSIGHTS"},
-    {url = "$BASE_URL/scoring", name = "🏆 SCORING"},
-    {url = "$BASE_URL/about", name = "GIỚI THIỆU"},
+    {url = "$BASE_URL", name = "Trang chính"},
+    {url = "$BASE_URL/categories/posting", name = "Bài viết"},
+    {url = "$BASE_URL/editor", name = "Viết bài"},
+    {url = "$BASE_URL/categories/du-lich", name = "Du lịch"},
+    {url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ"},
+    {url = "$BASE_URL/categories/am-thuc", name = "Ẩm thực"},
+    {url = "$BASE_URL/converter", name = "Korean Converter"},
+    {url = "$BASE_URL/changelog", name = "Changelog"},
+    {url = "$BASE_URL/insights", name = "Insights"},
+    {url = "$BASE_URL/scoring", name = "Scoring"},
+    {url = "$BASE_URL/about", name = "Giới thiệu"},
 ]
 
 # ============= GOOGLE ANALYTICS 4 =============

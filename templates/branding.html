@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block title %}BrandingX | Hệ thống nhận diện thương hiệu{% endblock %}
+
+{% block main %}
+<section class="brandx">
+    {# ===== HEADER nội bộ với logo + minimal nav ===== #}
+    <header class="brandx__header">
+        <div class="brandx__brand">
+            <span class="brandx__logo-mark" aria-hidden="true">▣</span>
+            <span class="brandx__logo-text">BrandingX</span>
+        </div>
+        <nav class="brandx__nav">
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+            <a href="#components">Components</a>
+            <a href="#grid">Grid</a>
+        </nav>
+    </header>
+
+    {# ===== MANIFESTO ===== #}
+    <section class="brandx__manifesto">
+        <p class="brandx__manifesto-eyebrow">Design Manifesto</p>
+        <h1 class="brandx__manifesto-title">
+            Tối giản đến tận cùng. Hiện đại đến từng pixel.
+        </h1>
+        <p class="brandx__manifesto-sub">
+            BrandingX không phải một bộ rule. Đây là một cách suy nghĩ:
+            mỗi quyết định thiết kế phục vụ rõ ràng một mục đích người dùng.
+        </p>
+    </section>
+
+    {# ===== 1. COLOR PALETTE ===== #}
+    <section id="colors" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">01</span>
+            <h2 class="brandx__section-title">Color Palette</h2>
+            <p class="brandx__section-desc">
+                Color system 3 tầng: Primary (brand), Secondary (support),
+                Accent (alert + emphasis). Mỗi màu có 5 sắc độ neutral 50-900.
+            </p>
+        </header>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Primary — Brand</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #0f172a">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Ink 900</strong>
+                        <code>#0f172a</code>
+                        <span>Heading, primary text</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #1e293b">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Ink 800</strong>
+                        <code>#1e293b</code>
+                        <span>Body text</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #64748b">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Ink 500</strong>
+                        <code>#64748b</code>
+                        <span>Muted text, captions</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Accent — Highlight</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #d63d3d">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Signal Red</strong>
+                        <code>#d63d3d</code>
+                        <span>CTA, active state, error</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #ec4899">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Hot Pink</strong>
+                        <code>#ec4899</code>
+                        <span>Category tags, decorative</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #0891b2">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Trust Cyan</strong>
+                        <code>#0891b2</code>
+                        <span>Link, info, finance category</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Surface — Background</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #ffffff">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Snow</strong>
+                        <code>#ffffff</code>
+                        <span>Default surface</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #f8fafc">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Mist</strong>
+                        <code>#f8fafc</code>
+                        <span>Soft section bg</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #ececec">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Edge</strong>
+                        <code>#ececec</code>
+                        <span>Borders, dividers</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Tư duy:</strong> Palette ưu tiên contrast cao (WCAG AAA cho text body).
+            Pink + Red không pair cùng layer — pink dùng cho tags decoration, red cho action.
+            Cyan dành riêng finance/info — tránh dùng cho action vì gây nhầm lẫn link.
+        </aside>
+    </section>
+
+    {# ===== 2. TYPOGRAPHY ===== #}
+    <section id="typography" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">02</span>
+            <h2 class="brandx__section-title">Typography</h2>
+            <p class="brandx__section-desc">
+                Single typeface Manrope cho mọi role. Geometric round nhưng vẫn
+                cleaner so với competitors. Hỗ trợ Tiếng Việt diacritics hoàn hảo.
+            </p>
+        </header>
+
+        <div class="brandx__type-scale">
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 3rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;">
+                    Display
+                </div>
+                <div class="brandx__type-meta">
+                    <code>3rem (48px) / 800 / -0.02em / lh 1.1</code>
+                    <span>Hero, landing headlines</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2;">
+                    Heading 1
+                </div>
+                <div class="brandx__type-meta">
+                    <code>2rem (32px) / 800 / -0.02em / lh 1.2</code>
+                    <span>Page title, hero card</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 1.5rem; font-weight: 700; line-height: 1.25;">
+                    Heading 2
+                </div>
+                <div class="brandx__type-meta">
+                    <code>1.5rem (24px) / 700 / lh 1.25</code>
+                    <span>Section title</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 1.15rem; font-weight: 700; line-height: 1.3;">
+                    Heading 3
+                </div>
+                <div class="brandx__type-meta">
+                    <code>1.15rem (18.4px) / 700 / lh 1.3</code>
+                    <span>Card title, subsection</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 1rem; font-weight: 400; line-height: 1.65;">
+                    Body text — phù hợp cho đoạn dài 1.65 line-height vừa thoáng vừa đọc nhanh.
+                </div>
+                <div class="brandx__type-meta">
+                    <code>1rem (16px) / 400 / lh 1.65</code>
+                    <span>Paragraph body</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 0.85rem; font-weight: 500; color: #64748b;">
+                    Caption — meta info, date, author byline.
+                </div>
+                <div class="brandx__type-meta">
+                    <code>0.85rem (13.6px) / 500 / muted</code>
+                    <span>Metadata, captions</span>
+                </div>
+            </article>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Tư duy:</strong> Single typeface giảm cognitive load + load 1 web font request.
+            Manrope round friendly nhưng bold 800 vẫn có authority cho heading. Letter-spacing
+            âm cho heading lớn (>24px) để chữ "đậm" thị giác hơn, không nhỏ cho body.
+        </aside>
+    </section>
+
+    {# ===== 3. UI COMPONENTS ===== #}
+    <section id="components" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">03</span>
+            <h2 class="brandx__section-title">UI Components</h2>
+            <p class="brandx__section-desc">
+                4 atom cơ bản: Button, Card, Input, Icon. Mọi composition phức tạp
+                xây từ 4 atom này.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>Buttons</h4>
+                <div class="brandx__comp-demo">
+                    <button class="brandx-btn brandx-btn--primary">Primary action</button>
+                    <button class="brandx-btn brandx-btn--secondary">Secondary</button>
+                    <button class="brandx-btn brandx-btn--ghost">Ghost</button>
+                </div>
+                <p>3 tier: Primary (1 per view), Secondary (alternative), Ghost (tertiary/cancel).</p>
+            </article>
+
+            <article class="brandx__comp">
+                <h4>Card</h4>
+                <div class="brandx__comp-demo">
+                    <div class="brandx-card">
+                        <strong>Card title</strong>
+                        <p>Subtle border, no shadow at rest. Hover lifts +2px.</p>
+                    </div>
+                </div>
+                <p>Flat at rest, depth on interaction. radius 12px.</p>
+            </article>
+
+            <article class="brandx__comp">
+                <h4>Input</h4>
+                <div class="brandx__comp-demo">
+                    <label class="brandx-field">
+                        <span>Email address</span>
+                        <input type="email" placeholder="you@brandingx.io" class="brandx-input">
+                    </label>
+                </div>
+                <p>Stacked label, single border, focus ring 3px accent color.</p>
+            </article>
+
+            <article class="brandx__comp">
+                <h4>Icon</h4>
+                <div class="brandx__comp-demo brandx__comp-demo--icons">
+                    <span aria-hidden="true">○</span>
+                    <span aria-hidden="true">△</span>
+                    <span aria-hidden="true">□</span>
+                    <span aria-hidden="true">◇</span>
+                </div>
+                <p>Stroke 2px, square 24×24 viewbox. Geometric primitives ưu tiên.</p>
+            </article>
+        </div>
+    </section>
+
+    {# ===== 4. GRID & SPACING ===== #}
+    <section id="grid" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">04</span>
+            <h2 class="brandx__section-title">Grid & Spacing</h2>
+            <p class="brandx__section-desc">
+                12-column grid, max-width 1280px. Spacing scale 8px base.
+                Mobile-first responsive.
+            </p>
+        </header>
+
+        <div class="brandx__grid-demo">
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+        </div>
+
+        <table class="brandx__spacing-table">
+            <thead>
+                <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>--space-xs</code></td><td>4px</td><td>Icon gap, tight inline</td></tr>
+                <tr><td><code>--space-sm</code></td><td>8px</td><td>Card body gap</td></tr>
+                <tr><td><code>--space-md</code></td><td>16px</td><td>Standard rhythm</td></tr>
+                <tr><td><code>--space-lg</code></td><td>24px</td><td>Section internal</td></tr>
+                <tr><td><code>--space-xl</code></td><td>32px</td><td>Section gap</td></tr>
+                <tr><td><code>--space-2xl</code></td><td>48px</td><td>Major section divide</td></tr>
+            </tbody>
+        </table>
+
+        <aside class="brandx__rationale">
+            <strong>Tư duy:</strong> 8px base = chia chẵn cho mọi viewport, đồng bộ với
+            Material/Apple HIG. 12-cột chia hết cho 2/3/4/6 — flexible cho mọi layout.
+            Max-width 1280px = optimal reading + còn margin sides cho 1440p+ monitors.
+        </aside>
+    </section>
+
+    {# ===== FOOTER ===== #}
+    <footer class="brandx__foot">
+        <p>BrandingX — Internal Brand Guideline v1.0</p>
+        <p>Maintained by <a href="{{ config.base_url }}/about/">Duy Nguyen</a></p>
+    </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
