@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "bỏ link admin footer + workflow fail-soft khi repo chặn PR creation",
+      "tag": "fix",
+      "pr": 62,
+      "lines_added": 23,
+      "lines_removed": 10,
+      "highlights": [
+        "perf-audit.yml + self-healing.yml: wrap gh pr create với fallback. Repo chặn → print URL tạo tay + KHÔNG exit 1",
+        "Push branch vẫn thành công như trước"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "nút Setup Giscus trong /admin-author/ → 1 click lấy IDs",
       "tag": "chore",
       "pr": 61,
