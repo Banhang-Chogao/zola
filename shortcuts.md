@@ -41,6 +41,8 @@ Format bắt buộc:
 | `SEO10` | Loop audit + fix từng lỗi đến khi 0 issue (Google SEO Starter Guide) |
 | `SEO11` | Hybrid SEO9+SEO10: phase 1 bulk Lighthouse + phase 2 loop polish |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
+| `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
+| `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
@@ -304,6 +306,90 @@ Ví dụ user gõ:
 - Có quan điểm cá nhân (1st person "mình"/"tôi"), không liệt kê khô
 - Code snippets test được (nếu tech)
 - Facts verify được (citation)
+
+### `topic10` — Viết 10 bài Du lịch (cùng cluster, chủ đề ngẫu nhiên)
+
+**Mục đích**: test giả thuyết Google **topical authority** — 10 bài
+cùng lĩnh vực Du lịch, internal link chéo nhau, xem hệ thống ranking
+có boost cụm bài này so với bài đơn lẻ không.
+
+**Format**: user gõ đúng `topic10` (không cần argument). Lĩnh vực
+mặc định fix cứng = **Du lịch**. Nếu muốn lĩnh vực khác, dùng biến
+thể tương lai (chưa support, hiện chỉ Du lịch).
+
+**Hành động Claude** (làm 1 lèo, KHÔNG hỏi user):
+
+1. **Sinh 10 chủ đề ngẫu nhiên cùng cluster Du lịch**. Phân bố để đa
+   dạng intent search nhưng vẫn cùng niche:
+   - 3 bài **điểm đến trong nước** (Việt Nam: Đà Lạt, Hà Giang, Phú Quốc, Huế, Sa Pa, Côn Đảo, Mộc Châu…)
+   - 2 bài **điểm đến nước ngoài** (Nhật, Hàn, Thái, Đài Loan, Bali…)
+   - 2 bài **kinh nghiệm / mẹo du lịch** (đóng vali, săn vé rẻ, đi 1 mình, bảo hiểm, visa…)
+   - 2 bài **du lịch theo mùa / chủ đề** (mùa thu, mùa hoa, lễ hội, food tour, trekking…)
+   - 1 bài **so sánh / review** (Đà Lạt vs Sa Pa, homestay vs khách sạn, group tour vs tự túc…)
+
+   KHÔNG trùng chủ đề với bài đã có trong `content/du-lich/`. Check
+   slug existed trước khi chốt.
+
+2. **Mỗi bài** tuân theo spec `topic:` (mục trên), riêng các điểm sau:
+   - `categories = ["Du lịch"]` (fix cứng cho cả 10)
+   - `tags`: 3-8 tag, **bắt buộc** có chung 1-2 tag pillar
+     (`du-lich`, `kinh-nghiem-du-lich` hoặc `viet-nam`/`nuoc-ngoai`)
+     + tag riêng theo địa điểm/chủ đề con
+   - `date`: stagger lùi 0/1/2/3…/9 ngày để không cùng timestamp
+     (Google ghét batch dump cùng giây)
+   - Body 1200-2000 từ (ngắn hơn `topic:` đơn vì làm 10 bài cùng lúc,
+     ưu tiên quantity + cross-link)
+
+3. **Internal link cluster (BẮT BUỘC)** — đây là phần test topical
+   authority:
+   - Mỗi bài link sang **≥3 bài khác trong batch 10 này** (anchor
+     text semantic, không generic "xem thêm")
+   - 1 bài chọn làm **pillar** (thường là bài "kinh nghiệm du lịch"
+     tổng quát nhất) → 9 bài còn lại đều link về pillar
+   - Pillar link sang cả 9 bài con (hub-spoke pattern)
+
+4. **Slug**: kebab-case không dấu, ≤60 ký tự, unique trong batch +
+   không clash với `content/du-lich/*` hiện có.
+
+5. **Thumbnail**: dùng `https://picsum.photos/seed/<slug>/600/400`
+   với seed khác nhau từng bài (auto unique do slug unique).
+
+6. **File location**: tất cả vào `content/du-lich/<slug>.md`.
+
+7. **Commit strategy**:
+   - 1 commit duy nhất cho cả 10 bài (atomic, dễ revert)
+   - Commit message: `Thêm 10 bài Du lịch (topic10 cluster test topical authority)`
+   - Body commit liệt kê 10 slug + tag pillar chung
+   - Push lên branch dev `claude/friendly-hawking-x4bb5m`
+   - **KHÔNG merge tự động** — user tự gõ `prm` hoặc `gg` khi muốn
+
+8. **Output bảng tổng kết** sau khi push xong:
+
+   | # | Slug | Title | Sub-cluster | Internal links | Words |
+   |---|---|---|---|---|---|
+   | 1 | da-lat-thang-12 | … | trong-nước | →2,5,7 | 1450 |
+   | … | … | … | … | … | … |
+
+   Cuối bảng: 1 dòng "Pillar = bài #X. Tổng từ = N. Tag chung = `du-lich`."
+
+**Quality bar** (kế thừa `topic:` + bổ sung):
+- 10 bài KHÔNG được paraphrase nhau → mỗi bài cần unique angle/data
+- Tag pillar overlap nhưng tag con phải khác nhau (tránh duplicate
+  taxonomy index)
+- Internal anchor text không lặp ("xem bài này" ❌ → "kinh nghiệm
+  săn vé rẻ tới Đà Nẵng" ✅)
+- Stagger date để Google index tự nhiên, không nghi spam batch
+
+**Lý do thiết kế** (trả lời câu hỏi user "hệ thống chấm điểm có liên
+quan cùng chủ đề không"):
+
+Có. Google từ 2022 (Helpful Content System) + 2023 (E-E-A-T
+update) đánh giá **topical authority** — site nào có nhiều bài cùng
+cluster + internal link chặt sẽ được boost so với site rải rác mỗi
+chủ đề 1 bài. `topic10` mô phỏng đúng pattern "pillar + 9 cluster
+posts" mà các SEO agency lớn dùng. Sau khi deploy 10 bài, đợi 2-4
+tuần rồi check Search Console: nếu impression cluster Du lịch tăng
+đáng kể so với baseline → confirm topical authority có hiệu lực.
 
 ### `bm` — Bảo mật check leak credentials/secrets toàn repo
 
@@ -658,6 +744,9 @@ bức tranh trạng thái + tự apply audit/fix/SEO/security trong 1 lần.
   - `topic:` (cần đề tài)
   - `manual #X` (cần PR number cụ thể)
   - `help` (chỉ render bảng — không có hành động)
+- Bỏ shortcut **sinh nội dung mới** (không thuộc cycle audit/deploy):
+  - `topic10` (10 bài Du lịch — user chủ động gọi khi muốn test
+    topical authority, không nên auto trong morning)
 - Bỏ shortcut **overlap chức năng** (tránh chạy 2 lần work giống):
   - Giữ `SEO11` (hybrid), bỏ `SEO9` + `SEO10`
   - Giữ `ff`, bỏ `healing` (overlap pattern fix)

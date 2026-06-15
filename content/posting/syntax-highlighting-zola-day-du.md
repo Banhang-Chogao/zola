@@ -2,11 +2,11 @@
 title = "Syntax highlighting trong Zola: từ cơ bản đến custom theme"
 description = "Hướng dẫn đầy đủ syntax highlighting trong Zola qua Syntect: built-in themes, custom theme tmTheme, extra syntaxes, line numbers, performance vs client-side highlighter."
 date = 2026-06-15
+aliases = ["/syntax-highlighting-zola-day-du/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "syntax highlighting", "syntect", "tutorial", "rust", "ssg", "code block", "tutorial nâng cao"]
-
+tags = ["code block", "rust", "ssg", "syntax highlighting", "syntect", "tutorial", "tutorial nâng cao", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/syntax-highlighting-zola/600/400"
 featured = false

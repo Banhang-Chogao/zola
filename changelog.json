@@ -2,6 +2,48 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Bài blog mới: Summer Korea — 4 điểm dừng mùa hè (1480 words)",
+      "tag": "chore",
+      "pr": 135,
+      "lines_added": 211,
+      "lines_removed": 0,
+      "highlights": [
+        "Body: 1480 words (target 1500w ±5%)",
+        "Total file: 1570 words (gồm frontmatter)",
+        "mua-nao-di-han-la-dep-nhat.md — intro liên kết",
+        "thang-6-di-han-an-gi-lam-gi.md — outro liên kết",
+        "tet-doan-ngo-han-viet-trung.md — cultural reference"
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "title": "Thêm phím tắt topic10: viết 10 bài Du lịch cùng cluster (test topical…",
+      "tag": "chore",
+      "pr": 132,
+      "lines_added": 89,
+      "lines_removed": 0,
+      "highlights": [
+        "Sinh 10 chủ đề ngẫu nhiên thuộc Du lịch (3 trong nước, 2 nước ngoài, 2 kinh nghiệm, 2 theo mùa, 1 review/so sánh)",
+        "Cluster pattern pillar + 9 spoke, internal link chéo bắt buộc ≥3 link/bài",
+        "Tag pillar overlap, stagger date 0-9 ngày tránh batch dump",
+        "Single commit, không auto-merge — user chủ động prm/gg",
+        "Bảng tổng kết slug/title/sub-cluster/links/words sau khi push"
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "title": "Sửa import: ChatLiteLLM → langchain-litellm package",
+      "tag": "fix",
+      "pr": 133,
+      "lines_added": 4,
+      "lines_removed": 3,
+      "highlights": [
+        "scripts/content_gen.py: from langchain_litellm import ChatLiteLLM",
+        "scripts/requirements-content-gen.txt: thay langchain-community>=0.3 bằng langchain-litellm>=0.7"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm Content Generation Pipeline (LangChain + LiteLLM)",
       "tag": "chore",
       "pr": 131,

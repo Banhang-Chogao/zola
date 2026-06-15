@@ -2,11 +2,11 @@
 title = "Tối nay ở Sài Gòn ăn gì? 12 món ngon dân thổ địa hay rủ nhau ăn"
 description = "Gợi ý 12 quán ăn buổi tối ở Sài Gòn từ street food đến quán ngồi: hủ tiếu Nam Vang, ốc Vĩnh Khánh, cơm tấm sườn cọng, bún mắm, phá lấu, chè... có địa chỉ và giá."
 date = 2026-06-15
+aliases = ["/toi-nay-sai-gon-an-gi/"]
 
 [taxonomies]
 categories = ["Ẩm thực"]
-tags = ["sài gòn", "tp hcm", "ẩm thực", "street food", "ăn tối", "du lịch", "review"]
-
+tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối", "ẩm thực"]
 [extra]
 thumbnail = "https://picsum.photos/seed/toi-nay-sai-gon-an-gi/600/400"
 featured = false
