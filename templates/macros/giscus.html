@@ -1,0 +1,40 @@
+{# Macro: Giscus comments — GitHub Discussions backed.
+   data-theme=preferred_color_scheme → tự động sáng/tối theo trình duyệt.
+   data-mapping=pathname → 1 discussion per blog post URL.
+
+   Setup user:
+     1. Bật Discussions tại Settings → Features → Discussions
+     2. Install app https://github.com/apps/giscus
+     3. Vào https://giscus.app → chọn repo → copy data-repo-id + data-category-id
+     4. Set config.toml [extra.giscus] repo_id, category_id (xem default bên dưới)
+
+   Gọi: {% import "macros/giscus.html" as giscus %} → {{ giscus::comments() }}
+   Macro KHÔNG render gì nếu config thiếu — silent skip để dev local sạch. #}
+{% macro comments() %}
+{% if config.extra.giscus and config.extra.giscus.repo_id and config.extra.giscus.category_id %}
+<section class="giscus-section" aria-label="Bình luận">
+    <header class="giscus-section__head">
+        <h3 class="giscus-section__title">💬 BÌNH LUẬN</h3>
+        <p class="giscus-section__sub">Đăng nhập GitHub để comment. Hỗ trợ markdown, reaction, reply.</p>
+    </header>
+    <div class="giscus-wrapper">
+        <script src="https://giscus.app/client.js"
+                data-repo="{{ config.extra.giscus.repo | default(value='Banhang-Chogao/zola') }}"
+                data-repo-id="{{ config.extra.giscus.repo_id }}"
+                data-category="{{ config.extra.giscus.category | default(value='General') }}"
+                data-category-id="{{ config.extra.giscus.category_id }}"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="preferred_color_scheme"
+                data-lang="vi"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+</section>
+{% endif %}
+{% endmacro comments %}

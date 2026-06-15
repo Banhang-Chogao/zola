@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
+{% import "macros/giscus.html" as giscus %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
@@ -159,6 +160,9 @@
             </div>
         </section>
         {% endif %}
+
+        {# ===== GISCUS COMMENTS ===== #}
+        {{ giscus::comments() }}
     </article>
 {% endblock main %}
 
