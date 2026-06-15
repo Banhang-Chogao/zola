@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "IMDB Calendar direct scrape + Trip.com debug endpoint",
+      "tag": "chore",
+      "pr": 51,
+      "lines_added": 378,
+      "lines_removed": 52,
+      "highlights": [
+        "imdb.com → curl_cffi impersonate=chrome131 fetch HTML + extract __NEXT_DATA__ + walker recursive",
+        "khác → httpx JSON, walker direct (proxy services)",
+        "titleText.text, primaryTitle.text → title",
+        "primaryImage.url → thumbnail",
+        "id (tconst), node.id (GraphQL edges) → link"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "IMDB walker không nhận diện schema #-prefix (imdb.iamidiotareyoutoo.com)",
       "tag": "fix",
       "pr": 50,
