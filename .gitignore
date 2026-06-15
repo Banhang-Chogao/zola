@@ -1,6 +1,8 @@
 public/
 .DS_Store
 *.swp
+__pycache__/
+*.pyc
 
 # Sensitive: never commit tokens/keys
 ghp_*
