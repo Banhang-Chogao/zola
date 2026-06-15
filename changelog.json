@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "3-in-1: POSTINGS wordmark + Z-X WIP + cautruc9 shortcut",
+      "tag": "chore",
+      "pr": 125,
+      "lines_added": 1756,
+      "lines_removed": 325,
+      "highlights": [
+        "templates/index.html: thay <nav class=\"home-tabs\"> (Mới nhất +",
+        "sass/_home-momo.scss:",
+        "Global desktop: .home-tabs → display: flex; justify-content: space-between;",
+        "Màu chữ: rgba(214, 61, 61, 0.38) — BrandingX signal red #d63d3d",
+        "Mobile (@media max-width: 720px): scale font 1.05rem."
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "ff Fix: Slack workflow truncate commit message tránh invalid_blocks",
       "tag": "fix",
       "pr": 124,
