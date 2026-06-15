@@ -81,6 +81,14 @@
             <header class="section-header"><h2 class="section-header__title" data-target="edit-title">VIẾT BÀI MỚI</h2></header>
 
             <form data-form="post" class="editor-form">
+                {# Banner khôi phục draft — hiển thị khi mở bài có draft trong localStorage #}
+                <div class="editor-draft-banner" data-draft-banner hidden role="status">
+                    <span class="editor-draft-banner__icon" aria-hidden="true">📝</span>
+                    <span class="editor-draft-banner__msg" data-draft-banner-msg></span>
+                    <button type="button" class="editor-btn editor-btn--small editor-btn--primary" data-action="draft-restore">Khôi phục</button>
+                    <button type="button" class="editor-btn editor-btn--small editor-btn--ghost" data-action="draft-discard">Bỏ qua</button>
+                </div>
+
                 <div class="editor-grid">
                     <label class="editor-field">
                         <span>Tiêu đề *</span>
@@ -126,9 +134,10 @@
                     </label>
                 </div>
 
-                <div class="editor-content-wrap">
+                <div class="editor-content-wrap" data-content-wrap>
                     <div class="editor-content-tabs">
-                        <button type="button" class="editor-tab is-active" data-tab="write">✎ Viết</button>
+                        <button type="button" class="editor-tab" data-tab="write">✎ Viết</button>
+                        <button type="button" class="editor-tab editor-tab--split" data-tab="split">⇄ Split</button>
                         <button type="button" class="editor-tab" data-tab="preview">👁 Preview</button>
                     </div>
 
@@ -169,9 +178,12 @@
                         </button>
                     </div>
 
-                    <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="# Nội dung markdown..." required></textarea>
-                    <div data-tab-pane="preview" class="editor-preview" hidden>
-                        <em>Click tab "Preview" sau khi gõ nội dung</em>
+                    {# Wrap 2 pane vào content-body để CSS grid thành 2 cột ở split mode #}
+                    <div class="editor-content-body" data-content-body>
+                        <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="# Nội dung markdown..." required></textarea>
+                        <div data-tab-pane="preview" class="editor-preview">
+                            <em>Bắt đầu gõ để xem preview…</em>
+                        </div>
                     </div>
 
                     {# Counter realtime: từ + ký tự. Đổi sang warning state khi <50 ký tự

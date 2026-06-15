@@ -499,6 +499,88 @@
   button { flex-shrink: 0; white-space: nowrap; }
 }
 
+/* ============= EDITOR CONTENT BODY (split mode container) ============= */
+.editor-content-body {
+  display: block; // default: panes stack (mode write/preview chỉ show 1 pane)
+}
+
+/* Mode classes — CSS điều khiển pane visibility, không cần hidden attr */
+.editor-content-wrap--mode-write {
+  [data-tab-pane="preview"] { display: none; }
+}
+
+.editor-content-wrap--mode-preview {
+  [data-tab-pane="write"] { display: none; }
+  .editor-md-toolbar { display: none; }
+  .editor-counter { display: none; }
+}
+
+.editor-content-wrap--mode-split {
+  @media (min-width: 900px) {
+    .editor-content-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+
+      > [data-tab-pane] {
+        min-height: 400px;
+        max-height: 70vh;
+      }
+      > [data-tab-pane="write"]   { overflow: hidden; } // textarea tự scroll
+      > [data-tab-pane="preview"] {
+        border-left: 1px solid #e5e7eb;
+        overflow-y: auto;
+      }
+    }
+  }
+  @media (max-width: 899px) {
+    // Mobile fallback: ẩn preview, hiện như write mode
+    [data-tab-pane="preview"] { display: none; }
+  }
+}
+
+/* Hide nút Split trên mobile vì không vừa layout */
+@media (max-width: 899px) {
+  .editor-tab--split { display: none; }
+}
+
+/* ============= DRAFT RECOVERY BANNER ============= */
+.editor-draft-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  margin: 0 0 1.25rem;
+  font-size: 0.88rem;
+  color: #1e40af;
+  animation: editor-draft-banner-slide .25s ease-out;
+
+  &[hidden] { display: none; }
+
+  &__icon {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+  &__msg {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+
+  @media (max-width: 560px) {
+    flex-wrap: wrap;
+    &__msg { flex: 1 1 100%; }
+  }
+}
+
+@keyframes editor-draft-banner-slide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 720px) {
   .editor-grid { grid-template-columns: 1fr; }
   .editor-form, .editor-card { padding: 1.25rem; }

@@ -500,6 +500,7 @@ tags = ${tagsStr}
     const form = $("[data-form='post']");
     form.reset();
     $("[data-target='save-status']").textContent = "";
+    hideDraftBanner(); // reset banner cũ từ session trước
     // Bài mới chưa có slug → mở khoá auto-fill. Edit bài cũ sẽ set lại bên dưới.
     slugLocked = false;
 
@@ -509,8 +510,11 @@ tags = ${tagsStr}
       $("[data-action='delete']").hidden = true;
       form.date.value = todayIso();
       state.editing = null;
+      lastDraftSlug = null; // bài mới chưa có slug
       rebuildCategoryOptions("Posting");
       updateCounter();
+      lastRenderedBody = null;
+      renderPreview();
       showView("edit");
       return;
     }
@@ -528,7 +532,9 @@ tags = ${tagsStr}
       slugLocked = true;
       form.title.value = fm.title;
       // Loại prefix folder (content/posting/) khỏi slug input
-      form.slug.value = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
+      const slug = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
+      form.slug.value = slug;
+      lastDraftSlug = slug; // track để autosave xoá draft cũ khi user đổi slug
       form.date.value = fm.date;
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
@@ -536,7 +542,11 @@ tags = ${tagsStr}
       form.featured.checked = fm.featured;
       form.body.value = body.trim();
       updateCounter();
+      lastRenderedBody = null;
+      renderPreview();
       setStatus("save-status", "✓ Đã tải bài", "success");
+      // Check có draft chưa lưu cho slug này không — hiển thị banner khôi phục
+      checkDraftFor(slug);
     }).catch((err) => {
       setStatus("save-status", "✗ " + err.message, "error");
     });
@@ -615,6 +625,9 @@ tags = ${tagsStr}
       if (idx >= 0) state.posts[idx] = savedPost;
       else state.posts.unshift(savedPost);
       invalidateListCache(); // ép background refresh tiếp theo fetch tươi
+      // Cleanup draft localStorage — bài đã commit lên repo, không cần giữ draft
+      discardDraft(slug);
+      lastDraftSlug = slug;
     } catch (err) {
       setStatus("save-status", "✗ " + err.message, "error");
     }
@@ -631,6 +644,7 @@ tags = ${tagsStr}
         .replace(/\.md$/, "");
       state.posts = state.posts.filter((p) => p.slug !== deletedSlug);
       invalidateListCache();
+      discardDraft(deletedSlug); // dọn draft tương ứng
       setStatus("save-status", "✓ Đã xoá", "success");
       showView("list");
       renderPostList();
@@ -785,23 +799,173 @@ tags = ${tagsStr}
   bodyTextarea.addEventListener("input", updateCounter);
   updateCounter(); // initial render khi load page
 
-  // ============= MARKDOWN PREVIEW TABS =============
+  // ============= EDITOR MODE (write / split / preview) =============
+  // Mode-class system thay cho hidden attr juggling. CSS điều khiển pane visibility,
+  // toolbar/counter ẩn ở preview mode qua media query + mode class.
+  const MODE_KEY = "zola-cms-editor-mode";
+  const contentWrap = $("[data-content-wrap]");
+
+  function getInitialMode() {
+    const saved = localStorage.getItem(MODE_KEY);
+    if (saved === "write" || saved === "split" || saved === "preview") return saved;
+    // Default: split trên desktop ≥900px, write trên mobile (split không vừa)
+    return window.matchMedia("(min-width: 900px)").matches ? "split" : "write";
+  }
+
+  function setEditorMode(mode) {
+    if (!contentWrap) return;
+    contentWrap.classList.remove(
+      "editor-content-wrap--mode-write",
+      "editor-content-wrap--mode-split",
+      "editor-content-wrap--mode-preview"
+    );
+    contentWrap.classList.add("editor-content-wrap--mode-" + mode);
+    $$(".editor-tab").forEach((t) => {
+      t.classList.toggle("is-active", t.dataset.tab === mode);
+    });
+    try { localStorage.setItem(MODE_KEY, mode); } catch (e) {}
+    // Force re-render preview vì mode mới có thể vừa show preview
+    lastRenderedBody = null;
+    renderPreview();
+  }
+
+  // ============= LIVE PREVIEW RENDER (debounce 500ms) =============
+  // Reuse window.marked (loaded từ CDN ở editor.html), không thêm dependency.
+  // Render no-op khi mode = write (preview không visible) → 0 waste compute.
+  let lastRenderedBody = null;
+  function renderPreview() {
+    if (!window.marked || !contentWrap) return;
+    if (contentWrap.classList.contains("editor-content-wrap--mode-write")) return;
+    const body = bodyTextarea.value;
+    if (body === lastRenderedBody) return;
+    lastRenderedBody = body;
+    const previewPane = $("[data-tab-pane='preview']");
+    if (previewPane) {
+      previewPane.innerHTML = window.marked.parse(body || "*(rỗng)*");
+    }
+  }
+  const debouncedRender = debounce(renderPreview, 500);
+
+  bodyTextarea.addEventListener("input", debouncedRender);
+
   $$(".editor-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      $$(".editor-tab").forEach((t) => t.classList.remove("is-active"));
-      tab.classList.add("is-active");
-      const target = tab.dataset.tab;
-      $$("[data-tab-pane]").forEach((p) => p.hidden = p.dataset.tabPane !== target);
-      // Ẩn toolbar + counter ở tab Preview cho gọn
-      const toolbar = $("[data-toolbar]");
-      if (toolbar) toolbar.hidden = target !== "write";
-      if (counterRoot) counterRoot.hidden = target !== "write";
-      if (target === "preview" && window.marked) {
-        const body = bodyTextarea.value;
-        $("[data-tab-pane='preview']").innerHTML = window.marked.parse(body || "*(rỗng)*");
-      }
+    tab.addEventListener("click", () => setEditorMode(tab.dataset.tab));
+  });
+
+  // ============= AUTOSAVE DRAFT (debounce 1s) =============
+  // Lưu mọi field hiện tại vào localStorage theo slug. Skip nếu slug rỗng
+  // (không có key để truy xuất sau). Track lastDraftSlug để dọn draft cũ
+  // khi user đổi title → slug đổi theo (tránh sinh ghost draft).
+  const DRAFT_PREFIX = "zola-cms-draft-";
+  let lastDraftSlug = null;
+
+  function autosaveDraft() {
+    const slug = ($("[name='slug']").value || "").trim();
+    if (!slug) return;
+    if (lastDraftSlug && lastDraftSlug !== slug) {
+      try { localStorage.removeItem(DRAFT_PREFIX + lastDraftSlug); } catch (e) {}
+    }
+    lastDraftSlug = slug;
+    const form = editForm;
+    const payload = {
+      timestamp: Date.now(),
+      title: form.title.value,
+      slug: slug,
+      date: form.date.value,
+      category: getSelectedCategory(),
+      tags: form.tags.value,
+      thumbnail: form.thumbnail.value,
+      featured: form.featured.checked,
+      body: form.body.value,
+    };
+    try {
+      localStorage.setItem(DRAFT_PREFIX + slug, JSON.stringify(payload));
+    } catch (e) { /* quota exceeded — silent fail */ }
+  }
+  const debouncedAutosave = debounce(autosaveDraft, 1000);
+
+  // Listen mọi thay đổi form (input/change), skip click trên draft-banner buttons
+  ["input", "change"].forEach((evt) => {
+    editForm.addEventListener(evt, (e) => {
+      if (e.target && e.target.closest && e.target.closest("[data-draft-banner]")) return;
+      debouncedAutosave();
     });
   });
+
+  // ============= DRAFT RECOVERY BANNER =============
+  const draftBanner = $("[data-draft-banner]");
+  const draftBannerMsg = $("[data-draft-banner-msg]");
+  let pendingDraft = null;
+
+  function formatAgo(timestamp) {
+    const mins = Math.round((Date.now() - timestamp) / 60000);
+    if (mins < 1) return "vừa xong";
+    if (mins < 60) return mins + " phút trước";
+    const hours = Math.round(mins / 60);
+    if (hours < 24) return hours + " giờ trước";
+    return Math.round(hours / 24) + " ngày trước";
+  }
+
+  function showDraftBanner(draft) {
+    if (!draftBanner || !draftBannerMsg) return;
+    pendingDraft = draft;
+    const ts = new Date(draft.timestamp);
+    const timeStr = ts.toLocaleString("vi-VN", {
+      hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit",
+    });
+    draftBannerMsg.textContent = "Có bản nháp chưa lưu (lúc " + timeStr + ", " + formatAgo(draft.timestamp) + ")";
+    draftBanner.hidden = false;
+  }
+
+  function hideDraftBanner() {
+    if (draftBanner) draftBanner.hidden = true;
+    pendingDraft = null;
+  }
+
+  function applyDraftToForm(draft) {
+    const form = editForm;
+    form.title.value = draft.title || "";
+    form.slug.value = draft.slug || "";
+    form.date.value = draft.date || "";
+    form.tags.value = draft.tags || "";
+    form.thumbnail.value = draft.thumbnail || "";
+    form.featured.checked = !!draft.featured;
+    form.body.value = draft.body || "";
+    rebuildCategoryOptions(draft.category || "Posting");
+    slugLocked = true; // draft đã có slug → khoá auto-fill từ title
+    updateCounter();
+    lastRenderedBody = null;
+    renderPreview();
+  }
+
+  function checkDraftFor(slug) {
+    if (!slug) return;
+    try {
+      const raw = localStorage.getItem(DRAFT_PREFIX + slug);
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (!draft || !draft.timestamp || !draft.slug) return;
+      showDraftBanner(draft);
+    } catch (e) { /* silent */ }
+  }
+
+  function discardDraft(slug) {
+    if (!slug) return;
+    try { localStorage.removeItem(DRAFT_PREFIX + slug); } catch (e) {}
+  }
+
+  $("[data-action='draft-restore']").addEventListener("click", () => {
+    if (pendingDraft) applyDraftToForm(pendingDraft);
+    hideDraftBanner();
+  });
+
+  $("[data-action='draft-discard']").addEventListener("click", () => {
+    if (pendingDraft) discardDraft(pendingDraft.slug);
+    hideDraftBanner();
+  });
+
+  // Init mode trên contentWrap — phải gọi sau khi renderPreview defined.
+  setEditorMode(getInitialMode());
 
   // ============= URL PARAM HANDLING =============
   // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola
