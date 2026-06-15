@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "GA module — visible pill responsive + placeholder ĐANG CHỜ MEASUREMENT ID",
+      "tag": "chore",
+      "pr": 72,
+      "lines_added": 68,
+      "lines_removed": 2,
+      "highlights": [
+        "✅ Responsive (mobile + desktop)",
+        "✅ Placeholder rõ ràng 'ĐANG CHỜ MEASUREMENT ID' khi chưa có ID",
+        "✅ gtag.js chuẩn + CSS",
+        "Có ID → load gtag.js chuẩn",
+        "Chưa có ID → render placeholder block:"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Google Analytics 4 dời từ &lt;head&gt; xuống trước &lt;/body&gt;",
       "tag": "chore",
       "pr": 71,
