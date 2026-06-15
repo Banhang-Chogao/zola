@@ -5,6 +5,10 @@
       "slug": "rss-feed"
     },
     {
+      "score": 0.3883,
+      "slug": "syntax-highlighting-zola-day-du"
+    },
+    {
       "score": 0.3252,
       "slug": "template-tera"
     },
@@ -15,10 +19,6 @@
     {
       "score": 0.2195,
       "slug": "sentence-transformers-sbert-deep-dive"
-    },
-    {
-      "score": 0.1657,
-      "slug": "toi-nay-sai-gon-an-gi"
     }
   ],
   "mua-nao-di-han-la-dep-nhat": [
@@ -29,9 +29,17 @@
     {
       "score": 0.5109,
       "slug": "toi-nay-sai-gon-an-gi"
+    },
+    {
+      "score": 0.4179,
+      "slug": "tet-doan-ngo-han-viet-trung"
     }
   ],
   "rss-feed": [
+    {
+      "score": 0.5313,
+      "slug": "syntax-highlighting-zola-day-du"
+    },
     {
       "score": 0.5055,
       "slug": "syntax-highlight"
@@ -51,6 +59,10 @@
   ],
   "sentence-transformers-sbert-deep-dive": [
     {
+      "score": 0.3045,
+      "slug": "syntax-highlighting-zola-day-du"
+    },
+    {
       "score": 0.2726,
       "slug": "syntax-highlight"
     },
@@ -64,6 +76,10 @@
     }
   ],
   "syntax-highlight": [
+    {
+      "score": 0.9152,
+      "slug": "syntax-highlighting-zola-day-du"
+    },
     {
       "score": 0.5055,
       "slug": "rss-feed"
@@ -79,13 +95,35 @@
     {
       "score": 0.2726,
       "slug": "sentence-transformers-sbert-deep-dive"
+    }
+  ],
+  "syntax-highlighting-zola-day-du": [
+    {
+      "score": 0.9152,
+      "slug": "syntax-highlight"
     },
     {
-      "score": 0.1971,
-      "slug": "toi-nay-sai-gon-an-gi"
+      "score": 0.5313,
+      "slug": "rss-feed"
+    },
+    {
+      "score": 0.4774,
+      "slug": "template-tera"
+    },
+    {
+      "score": 0.3883,
+      "slug": "cong-nghe-blog-duy-nguyen"
+    },
+    {
+      "score": 0.3045,
+      "slug": "sentence-transformers-sbert-deep-dive"
     }
   ],
   "template-tera": [
+    {
+      "score": 0.4774,
+      "slug": "syntax-highlighting-zola-day-du"
+    },
     {
       "score": 0.4706,
       "slug": "syntax-highlight"
@@ -99,7 +137,33 @@
       "slug": "rss-feed"
     }
   ],
+  "tet-doan-ngo-han-viet-trung": [
+    {
+      "score": 0.558,
+      "slug": "thang-6-di-han-an-gi-lam-gi"
+    },
+    {
+      "score": 0.485,
+      "slug": "toi-nay-sai-gon-an-gi"
+    },
+    {
+      "score": 0.4179,
+      "slug": "mua-nao-di-han-la-dep-nhat"
+    },
+    {
+      "score": 0.1551,
+      "slug": "cong-nghe-blog-duy-nguyen"
+    },
+    {
+      "score": 0.1529,
+      "slug": "syntax-highlighting-zola-day-du"
+    }
+  ],
   "thang-6-di-han-an-gi-lam-gi": [
+    {
+      "score": 0.558,
+      "slug": "tet-doan-ngo-han-viet-trung"
+    },
     {
       "score": 0.5387,
       "slug": "mua-nao-di-han-la-dep-nhat"
@@ -115,20 +179,20 @@
       "slug": "mua-nao-di-han-la-dep-nhat"
     },
     {
+      "score": 0.485,
+      "slug": "tet-doan-ngo-han-viet-trung"
+    },
+    {
       "score": 0.3825,
       "slug": "thang-6-di-han-an-gi-lam-gi"
     },
     {
+      "score": 0.2116,
+      "slug": "syntax-highlighting-zola-day-du"
+    },
+    {
       "score": 0.1971,
       "slug": "syntax-highlight"
-    },
-    {
-      "score": 0.1763,
-      "slug": "rss-feed"
-    },
-    {
-      "score": 0.1657,
-      "slug": "cong-nghe-blog-duy-nguyen"
     }
   ]
 }
