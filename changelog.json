@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm tính năng: GitHub OAuth CMS + RSS Checker + Du lịch (Znews) + UI sync + commit msg chuẩn",
+      "tag": "chore",
+      "pr": 38,
+      "lines_added": 2283,
+      "lines_removed": 262,
+      "highlights": [
+        "Backend services/visitor-counter/main.py: 4 endpoint mới GET /auth/login, GET /auth/callback, GET /auth/me, POST /auth/logout",
+        "Email white-list ADMIN_EMAILS=tamsudev.com@gmail.com (server-side, không bypass client)",
+        "access_token GitHub giữ Redis-side, client chỉ có opaque sid 32-byte",
+        "Session Redis TTL 2h idle timeout",
+        "sessionStorage trên client (KHÔNG localStorage, KHÔNG cookie)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Style: mở rộng /insights/ full-width (gấp đôi diện tích) + responsive",
       "tag": "chore",
       "pr": 37,
