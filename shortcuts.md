@@ -138,24 +138,70 @@ Hành động:
    - Accessibility: ARIA, keyboard nav, contrast
 4. Output punch list ≤200 words: done / warnings / errors, sorted severity.
 
-### `ff` — Full Fix & Deploy
+### `ff` — Full Fix & Deploy (với Python lib picker)
 
 Hành động:
+
 1. **Liệt kê** tất cả failed workflow runs (≥ 24h gần nhất) +
    failed PR checks + failed deploy.
-2. **Phân tích log** mỗi failed run theo logic `qa-failed.py`:
-   - Đợi run status = `completed` (poll mỗi 30s, max 5 lần = 2.5 phút)
-   - CHỈ fetch logs sau khi completed → tránh "still in progress" error
-3. **Auto-fix** pattern đã biết:
-   - `ModuleNotFoundError` → append dep vào requirements.txt
+
+2. **Detect lỗi LẶP/CRITICAL** chặn deploy:
+   - **Repeat**: cùng pattern stderr xuất hiện ≥ 2 failed run trong 24h
+   - **Critical**: failed run trên `deploy.yml` chính (không phải workflow phụ)
+   - Sort theo (repeat × 2 + critical × 3) priority — fix cái cao nhất trước.
+
+3. **LIST PYTHON LIBRARIES HIỆN CÓ** (NEW per user rule):
+   - Chạy `pip list --format=json` → parse name + version
+   - Output bảng top 30 lib (sort theo relevance với failed pattern):
+
+     | Lib | Version | Phù hợp fix pattern |
+     |---|---|---|
+     | anthropic | 0.109.1 | AI diagnose → scripts/ff.py |
+     | loguru | 0.7.3 | Log structured để bắt lỗi sớm |
+     | ruff | 0.15.8 | Auto-fix Python syntax/import |
+     | mypy | 1.19.1 | Catch type bug trước commit |
+     | pydantic | 2.13.4 | Validate config.toml + data/*.json schema |
+     | pre-commit | 4.6.0 | Block commit có lỗi trước push |
+     | ... | ... | ... |
+
+4. **Pick library phù hợp nhất** cho repeated/critical pattern:
+
+| Failed pattern | Lib gợi ý | Cách áp dụng |
+|---|---|---|
+| `ModuleNotFoundError` recurring | `pip-tools` / `pipdeptree` | Audit deps tree, pin version |
+| Tera literal dict lặp lại (đã 3 lần) | `pydantic` | Define model cho data/*.json, fail-fast trước build |
+| JSON parse error data/*.json | `pydantic` | Schema validation runtime |
+| Python type error scripts/ | `mypy` (strict mode) | Run mypy trong pre-commit, block commit lỗi type |
+| Python syntax/format inconsistent | `ruff --fix` | Auto-fix pre-commit hook |
+| HTTP retry race condition | `tenacity` | Decorator @retry exponential backoff |
+| Date/time parse issue | `python-dateutil` | Robust ISO 8601 parsing |
+| Test flaky | `pytest-rerunfailures` | Retry tự động test fail intermittent |
+| Slack webhook payload limit | (existing truncate step) | Verify cap 2500 chars chạy đúng |
+| AI client timeout | `anthropic` + `tenacity` | Retry with backoff, switch model |
+
+5. **Auto-fix** pattern đã biết (cập nhật mở rộng):
+   - `ModuleNotFoundError` → append dep vào requirements.txt + `pip install`
    - Tera/Zola syntax → chạy `qa_check.py --fix safe`
+   - **Tera lỗi lặp ≥3 lần** → tạo `pydantic` model validator + thêm vào
+     pre-commit hook (block tương lai)
    - Git race non-fast-forward → escalate (không tự force push)
    - Workflow permission denied → escalate
-   - Unknown pattern → tạo issue + escalate
-4. **Push** fix lên `main` → trigger deploy lại.
-5. **Báo cáo tổng kết** sau khi xong:
+   - Python type error → `mypy --strict` rồi `ruff --fix --unsafe-fixes`
+   - Unknown pattern → tạo issue + escalate + gợi ý lib từ bảng 4
+
+6. **Push** fix lên branch `claude/*` → tạo PR. **KHÔNG auto-merge**
+   (rule 16:00). User gõ `manual #X` để deploy lại.
+
+7. **Báo cáo tổng kết** sau khi xong:
    - Failed runs found / fixed / escalated
-   - Production deploy status
+   - Repeated patterns detected (lib gợi ý)
+   - PR tạo + lệnh `manual #X`
+   - Production deploy status hiện tại
+
+**Tại sao step 3-4 mới**: user feedback — nhiều lỗi (vd Tera literal dict
+lặp 3 lần) cần solution tổng thể, không fix-once-broken-again. Pick lib
+phù hợp giải quyết tận gốc (vd: `pydantic` schema chặn build sớm) thay
+vì fix file rồi mai lại sai chỗ khác.
 
 ### `healing` — Kích hoạt QA-Healing thủ công
 
