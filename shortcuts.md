@@ -312,36 +312,37 @@ Claude PHẢI:
 Mỗi lần tạo PR mới, Claude PHẢI nhắc user link manage:
 "PR #X created. Total open: N. Manage at: https://github.com/Banhang-Chogao/zola/pulls"
 
-## 4.5. Quy trình Deploy GỘP (cập nhật 13:16 ngày 15/06/2026)
+## 4.5. Quy trình Deploy GỘP (FINAL — cập nhật 13:28 ngày 15/06/2026)
 
-**TRƯỚC** (deprecated): Claude tự merge từng PR nhỏ ngay → tần suất
-deploy production cao.
+**Rule cuối cùng (overrides mọi rule trước đó về deploy)**:
 
-**TỪ NAY**:
+1. **KHÔNG tạo branch riêng cho mỗi content**. Tất cả content/fix
+   commit thẳng vào branch dev chính `claude/bold-gauss-51gh3c`. PR
+   đang open trên branch đó tự update theo mỗi commit.
 
-1. **Gộp thay đổi**: Claude tạo PR cho mỗi feature/fix, NHƯNG **KHÔNG
-   auto-merge**. Để PR `open` để gom 10 PR (hoặc nhóm tính năng hoàn
-   chỉnh) trước khi deploy production.
+2. **Mỗi content mới = 1 commit** (không tạo PR mới mỗi lần). Claude
+   track tổng commit count trong PR đang open.
 
-2. **Lệnh manual deploy** — cú pháp `manual #<số PR>` (ví dụ `manual
-   #123`):
-   - Claude kiểm tra PR đó (CI status, conflicts, content)
-   - Fix lỗi nếu có (rebase, syntax bug, etc.)
-   - **Squash merge** vào main → trigger deploy production
-   - Report kết quả
+3. **Khi commit count ≥ 10** → Claude **TỰ ĐỘNG**:
+   - Verify CI status đang green
+   - Squash merge PR vào main → trigger deploy production
+   - Branch dev tự sạch sau merge (rebase main)
+   - Báo cáo: "Auto-deploy: merged batch of N commits"
 
-3. **`gg` cập nhật**: list TẤT CẢ open PR → confirm với user trước khi
-   merge hết (không auto-merge bừa nữa). User có thể nói "merge hết"
-   hoặc "merge PR #X, #Y only".
+4. **`manual #<số PR>` (override)**: user gọi để deploy NGAY 1 PR cụ
+   thể không đợi đủ 10. Claude verify CI + merge + deploy ngay.
 
-4. **Ngoại lệ HOTFIX**: lỗi CRITICAL block production (Tera syntax,
-   deploy fail) → Claude auto-fix + auto-merge ngay, không đợi gom 10.
+5. **`gg` (override)**: list open PRs + user confirm merge batch.
 
-5. **Workflow PR mới**:
-   - Tạo PR
-   - KHÔNG merge
-   - Output: `PR #X created, waiting for batch deploy. Total open: N PRs.`
-   - User tự trigger `manual #X` hoặc `gg` khi sẵn sàng deploy
+6. **HOTFIX critical** (Tera bug, deploy block): auto-fix + auto-merge
+   ngay, không đợi gom batch.
+
+## 4.6. Hard rules (KHÔNG được vi phạm)
+
+- **KHÔNG tạo branch mới** cho mỗi content. Cherry-pick hoặc commit
+  thẳng vào branch dev chính.
+- **KHÔNG auto-merge khi commit count < 10** (trừ HOTFIX, manual #X, gg).
+- Output mỗi lần append commit: `Commit #N/10 added to PR #X. <description>`
 
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
 
