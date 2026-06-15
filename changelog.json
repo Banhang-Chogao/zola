@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Render backend down — thêm python-multipart vào requirements.txt",
+      "tag": "fix",
+      "pr": 65,
+      "lines_added": 26,
+      "lines_removed": 10,
+      "highlights": [
+        "/cms/author GET + POST (Author Management form)",
+        "/cms/giscus/setup (button Setup Giscus)",
+        "/auth/, /api/, /track, /stats (đều down chung)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "bỏ link admin footer + workflow fail-soft khi repo chặn PR creation",
       "tag": "fix",
       "pr": 62,
