@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "CMS auth: OTP modal thay PAT login, PAT JIT in-memory",
+      "tag": "chore",
+      "pr": 27,
+      "lines_added": 476,
+      "lines_removed": 264,
+      "highlights": [
+        "Bỏ login PAT form, dùng OTP modal 4 số (0512)",
+        "PAT chỉ in-memory, KHÔNG localStorage / cookies",
+        "OTP session trong sessionStorage → đóng tab là mất → nhập lại",
+        "autocomplete=\"off\"",
+        "data-lpignore=\"true\" (LastPass)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Restructure header: DEPLOYED INSIDE GitHub box + github-pages card bên phải",
       "tag": "chore",
       "pr": 26,
