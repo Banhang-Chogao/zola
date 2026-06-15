@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Cập nhật shortcuts.md: thêm ff + node policy thông minh + nguyên tắc bất biến",
+      "tag": "chore",
+      "pr": 90,
+      "lines_added": 105,
+      "lines_removed": 115,
+      "highlights": [
+        "KHÔNG force phiên bản cứng cho mọi workflow",
+        "Smart eval: ưu tiên Node 24+ nếu action support",
+        "FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 chỉ dùng tạm đến 16/06/2026",
+        "setup-node@v4 with node-version: '24' chỉ khi workflow có shell node/npm command",
+        "Verify runner warning log mỗi deploy fail → adapt nếu GitHub đổi guidance"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "HOTFIX KHẨN: fix Tera syntax page.html + restore FORCE Node24 + gỡ qa-failed-handler",
       "tag": "fix",
       "pr": 89,
