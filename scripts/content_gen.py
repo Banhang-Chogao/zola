@@ -43,9 +43,9 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from slugify import slugify
 
-from langchain_community.chat_models import ChatLiteLLM
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_litellm import ChatLiteLLM
 
 # ============= PATHS =============
 ROOT = Path(__file__).resolve().parent.parent
