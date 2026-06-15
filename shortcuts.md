@@ -397,37 +397,55 @@ Claude PHẢI:
 Mỗi lần tạo PR mới, Claude PHẢI nhắc user link manage:
 "PR #X created. Total open: N. Manage at: https://github.com/Banhang-Chogao/zola/pulls"
 
-## 4.5. Quy trình Deploy GỘP (FINAL — cập nhật 13:28 ngày 15/06/2026)
+## 4.5. Quy trình Deploy (FINAL FINAL — cập nhật 16:00 ngày 15/06/2026)
 
-**Rule cuối cùng (overrides mọi rule trước đó về deploy)**:
+**🚨 RULE MỚI (override tất cả rule deploy trước đó)**:
 
-1. **KHÔNG tạo branch riêng cho mỗi content**. Tất cả content/fix
-   commit thẳng vào branch dev chính `claude/bold-gauss-51gh3c`. PR
-   đang open trên branch đó tự update theo mỗi commit.
+**TẠM NGƯNG QUYỀN AUTO-MERGE HOÀN TOÀN**. Claude tuyệt đối KHÔNG được
+merge bất kỳ PR nào tự động. User PHẢI manually check + decide.
 
-2. **Mỗi content mới = 1 commit** (không tạo PR mới mỗi lần). Claude
-   track tổng commit count trong PR đang open.
+### Quy trình bắt buộc
 
-3. **Khi commit count ≥ 10** → Claude **TỰ ĐỘNG**:
-   - Verify CI status đang green
-   - Squash merge PR vào main → trigger deploy production
-   - Branch dev tự sạch sau merge (rebase main)
-   - Báo cáo: "Auto-deploy: merged batch of N commits"
+1. **Mỗi commit = 1 PR riêng**:
+   - Sau MỖI commit (content, fix, feature), Claude PHẢI tạo PR riêng
+   - KHÔNG gom batch ≥10 nữa
+   - KHÔNG đợi đủ commit count
 
-4. **`manual #<số PR>` (override)**: user gọi để deploy NGAY 1 PR cụ
-   thể không đợi đủ 10. Claude verify CI + merge + deploy ngay.
+2. **KHÔNG auto-merge dưới BẤT KỲ điều kiện nào**:
+   - KHÔNG kể đủ 10 commits
+   - KHÔNG kể `gg` shortcut
+   - KHÔNG kể HOTFIX critical
+   - CHỈ MERGE khi user gõ `manual #<số PR>` explicit
 
-5. **`gg` (override)**: list open PRs + user confirm merge batch.
+3. **User là gatekeeper duy nhất**:
+   - User vào https://github.com/Banhang-Chogao/zola/pulls
+   - Check PR manually (diff, CI status, description)
+   - **User DECIDE** lên prod hay không
+   - User gõ `manual #<số PR>` → Claude merge + deploy
 
-6. **HOTFIX critical** (Tera bug, deploy block): auto-fix + auto-merge
-   ngay, không đợi gom batch.
+4. **Override các shortcut hành vi**:
+   - `gg`: chỉ LIST open PRs + URL, KHÔNG merge
+   - `pp`: tạo PR hotfix, KHÔNG merge — user phải `manual #X`
+   - `manual #X`: VẪN merge ngay (user explicit yêu cầu)
+   - `ff`: phân tích + fix + tạo PR, KHÔNG merge
+
+5. **HOTFIX critical** (deploy đỏ): Claude vẫn tạo PR fix, nhưng
+   KHÔNG auto-merge. Output cảnh báo URGENT để user manual phê duyệt.
+
+### Output sau mỗi commit
+
+```
+Commit #X created → PR #Y opened.
+Manage at: https://github.com/Banhang-Chogao/zola/pulls
+Để deploy: gõ `manual #Y` sau khi Approve trên GitHub.
+```
 
 ## 4.6. Hard rules (KHÔNG được vi phạm)
 
-- **KHÔNG tạo branch mới** cho mỗi content. Cherry-pick hoặc commit
-  thẳng vào branch dev chính.
-- **KHÔNG auto-merge khi commit count < 10** (trừ HOTFIX, manual #X, gg).
-- Output mỗi lần append commit: `Commit #N/10 added to PR #X. <description>`
+- **KHÔNG auto-merge** kể cả khi đủ điều kiện cũ
+- **CHỈ merge khi `manual #X`** explicit
+- **KHÔNG tạo branch mới** cho mỗi content (commit vào branch dev chính)
+- Output mỗi PR mới PHẢI nhắc link manage và lệnh `manual #X`
 
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
 
