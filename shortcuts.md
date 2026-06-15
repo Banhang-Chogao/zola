@@ -24,6 +24,19 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 ## 2. Phím tắt (Shortcuts)
 
+### `phimtat` — Slash command `/phimtat` liệt kê tất cả phím tắt active
+
+Slash command `.claude/commands/phimtat.md` — khi user gõ `/phimtat` trong
+Claude Code, đọc file này và output bảng Markdown 2 cột (tên · mô tả).
+Phiên bản canonical của `help` dưới dạng Claude Code slash command.
+
+### `thememoi` — Slash command `/thememoi` audit + áp 3 theme mới
+
+Slash command `.claude/commands/thememoi.md` — khi user gõ `/thememoi`,
+Claude grep tất cả file SCSS tìm component chưa override theo 3 theme
+(Z-X, E-X, Hila Ericsson), apply override scoped `:root[data-theme="..."]`,
+verify SCSS compile. CHỈ giao diện + bố cục, KHÔNG đổi content/DOM.
+
 ### `help` — Hiển thị danh sách tất cả phím tắt active
 
 Khi user gõ `help` (hoặc `/help`), Claude output bảng tóm tắt tất cả
