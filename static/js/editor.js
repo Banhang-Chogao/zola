@@ -22,13 +22,30 @@
   /* ============= AUTH (OTP + JIT PAT) =============
      OTP_CODE = mã cố định 4 số mở UI editor. sessionStorage flag — đóng tab
      là mất, phải nhập lại. KHÔNG dùng localStorage hay cookies.
-     PAT (GitHub Personal Access Token) cần cho API call save/edit/delete →
-     prompt JIT lần đầu cần. PAT chỉ giữ trong memory (biến `pat`), reload
-     page là mất, prompt lại khi gọi API tiếp. */
+
+     PAT (GitHub Personal Access Token) bắt buộc cho API call save/edit/delete
+     (GitHub Pages là static → không backend → token PHẢI từ browser). PAT
+     cache trong sessionStorage cùng lifecycle với OTP:
+       - User nhập 1 LẦN sau OTP (prompt JIT lần đầu cần)
+       - Sau đó save bao nhiêu lần cũng không bị hỏi lại
+       - Tab close → sessionStorage clear → re-prompt khi vào lại
+     KHÔNG localStorage, KHÔNG cookies — đúng nguyên tắc bảo mật cũ. */
   const OTP_CODE = "0512";
   const OTP_SESSION_KEY = "zola-cms-otp-ok";
+  const PAT_SESSION_KEY = "zola-cms-pat";
 
-  let pat = null; // in-memory only — không bao giờ persist
+  function loadStoredPat() {
+    try { return sessionStorage.getItem(PAT_SESSION_KEY) || null; }
+    catch (e) { return null; }
+  }
+  function storePat(value) {
+    try { sessionStorage.setItem(PAT_SESSION_KEY, value); } catch (e) {}
+  }
+  function clearStoredPat() {
+    try { sessionStorage.removeItem(PAT_SESSION_KEY); } catch (e) {}
+  }
+
+  let pat = loadStoredPat(); // load từ sessionStorage nếu đã nhập trước đó
 
   const root = document.getElementById("editor-app");
   if (!root) return;
@@ -166,12 +183,13 @@
 
   // ============= API CALLS =============
 
-  /* Prompt PAT JIT — chỉ hỏi khi cần (1st save/edit/delete trong session).
-     PAT chỉ giữ memory, reload page là mất. User phải copy lại từ
-     password manager mỗi lần reload — đỡ rủi ro để PAT mò ra localStorage. */
+  /* Prompt PAT JIT — chỉ hỏi LẦN ĐẦU mỗi tab session. Sau khi nhập thành
+     công, persist vào sessionStorage để mọi API call sau đó (save, edit,
+     delete, reload page trong cùng tab) đều dùng cached PAT, không hỏi lại.
+     Tab close → sessionStorage clear → re-prompt khi vào lại. */
   function promptForPat() {
     const token = window.prompt(
-      "Cần GitHub PAT để gọi API GitHub (KHÔNG lưu localStorage, mất khi reload).\n" +
+      "Nhập GitHub PAT MỘT LẦN cho phiên này (cache sessionStorage, tab close = clear).\n" +
       "Tạo tại https://github.com/settings/tokens (scope 'repo'):"
     );
     if (!token) return null;
@@ -180,6 +198,7 @@
       alert("Token sai format. Cần bắt đầu bằng 'ghp_' hoặc 'github_pat_'.");
       return null;
     }
+    storePat(trimmed); // cache cho mọi API call sau
     return trimmed;
   }
 
@@ -199,7 +218,8 @@
       },
     });
     if (res.status === 401) {
-      pat = null; // clear bad PAT, prompt lại lần sau
+      pat = null;
+      clearStoredPat(); // PAT sai → clear cache, prompt lại lần sau
       throw new Error("PAT không hợp lệ — nhập lại khi gọi tiếp");
     }
     if (!res.ok) {
@@ -455,8 +475,9 @@ tags = ${tagsStr}
   }
 
   $("[data-action='logout']").addEventListener("click", () => {
-    if (!confirm("Khoá phiên CMS? (cần nhập OTP lại để vào)")) return;
+    if (!confirm("Khoá phiên CMS? (cần nhập OTP + PAT lại để vào)")) return;
     clearOtpSession();
+    clearStoredPat();
     pat = null;
     showView("login");
     const otpInput = $("[data-form='otp'] [name='otp']");

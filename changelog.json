@@ -21,7 +21,7 @@
       "lines_added": 476,
       "lines_removed": 264,
       "highlights": [
-        "Bỏ login PAT form, dùng OTP modal 4 số (0512)",
+        "Bỏ login PAT form, dùng OTP modal 4 số (****)",
         "PAT chỉ in-memory, KHÔNG localStorage / cookies",
         "OTP session trong sessionStorage → đóng tab là mất → nhập lại",
         "autocomplete=\"off\"",
