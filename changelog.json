@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "/du-lich/ Trip.com scrape empty → fallback VnExpress RSS + extract thumbnail",
+      "tag": "fix",
+      "pr": 43,
+      "lines_added": 73,
+      "lines_removed": 24,
+      "highlights": [
+        "CURATED_FEEDS['du-lich'] đổi URL → https://vnexpress.net/rss/du-lich.rss",
+        "type: rss dùng feedparser (chuẩn, 100% ổn định)",
+        "source: VnExpress, cache 30 phút",
+        "du-lich.html header: \"Tin tức Du lịch từ VnExpress\" + verified badge",
+        "du-lich.js cache info: \"refresh mỗi 30 phút\""
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "di chuyển render.yaml ra repo root cho Blueprint default path",
       "tag": "fix",
       "pr": 42,
