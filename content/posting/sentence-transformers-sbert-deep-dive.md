@@ -1,11 +1,11 @@
 +++
 title = "Sentence Transformers (SBERT): nghiên cứu sâu về kiến trúc, training và ứng dụng thực tế"
 date = 2026-06-15
+aliases = ["/sentence-transformers-sbert-deep-dive/"]
 
 [taxonomies]
 categories = ["Ẩm thực"]
-tags = ["ai", "sentence-transformers", "sbert", "nlp", "deep learning", "embeddings", "bert", "python", "pytorch", "machine learning"]
-
+tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", "python", "pytorch", "sbert", "sentence-transformers"]
 [extra]
 thumbnail = "https://picsum.photos/seed/sbert-research/600/400"
 featured = false
