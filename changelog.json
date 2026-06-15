@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "trang /dien-anh/ TMDB phim phổ biến (Redis 24h cache)",
+      "tag": "chore",
+      "pr": 48,
+      "lines_added": 333,
+      "lines_removed": 0,
+      "highlights": [
+        "TMDB v3 API: /movie/popular?language=vi-VN&region=VN",
+        "Fallback en-US chỉ khi vi-VN thiếu overview (1 conditional fetch, không waste request)",
+        "Map TMDB fields → schema chung: title/link/summary/published(year)/thumbnail(poster w500)/rating(vote_average)",
+        "Redis cache 24h (TMDB_CACHE_TTL) — phim popular ổn định, giảm hit rate limit free 40 req/10s",
+        "Graceful: empty/error → trả 200 với error field, FE fallback"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "OAuth callback double base path /zola/zola/ → 404",
       "tag": "fix",
       "pr": 47,
