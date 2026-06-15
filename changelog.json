@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Hotfix qa-failed.py: wait run completion + workflow buffer 30s",
+      "tag": "chore",
+      "pr": 88,
+      "lines_added": 64,
+      "lines_removed": 8,
+      "highlights": [
+        "name: Buffer GitHub API log lag",
+        "name: Run qa-failed.py",
+        "Hết retry vẫn in_progress → job hung",
+        "gh CLI lỗi auth → status unknown",
+        "Logs fetch OK nhưng KHÔNG match pattern fix → genuinely unknown error"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Hotfix: chuyển từ FORCE_JS_NODE24 sang setup-node@v4 native opt-in",
       "tag": "refactor",
       "pr": 87,
