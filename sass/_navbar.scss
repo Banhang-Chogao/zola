@@ -1,19 +1,14 @@
 .navbar {
-  /* Threads-style frosted glass header — translucent + backdrop blur.
-     Tự fallback solid #111 nếu browser không support backdrop-filter
-     (Firefox < 103, old Safari) → vẫn đẹp. */
-  background: rgba(17, 17, 17, 0.88);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  /* Momo-style light header — white background với border bottom subtle.
+     Text-only navigation với pink underline active state. */
+  background: #ffffff;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04),
-              0 2px 14px rgba(0, 0, 0, 0.18);
-  /* Dynamic Island clearance: env(safe-area-inset-top) trên iPhone 14
-     Pro+/Dynamic Island. Sticky navbar tự đẩy XUỐNG khỏi vùng bị che. */
+  border-bottom: 1px solid #ececec;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   padding-top: env(safe-area-inset-top);
-  transition: background .25s ease;
+  transition: box-shadow .25s ease;
 
   &__inner {
     max-width: 1280px;
@@ -27,25 +22,35 @@
 
   &__menu {
     display: flex;
-    gap: 0;
+    gap: 0.25rem;
 
     li { display: flex; }
 
     a {
-      /* Inter cho UI menu — geometric, clean, pair tốt với Manrope body */
+      /* Inter cho UI menu — clean text only, normal case theo momo */
       font-family: $font-ui;
-      color: #fff;
-      padding: 1.1rem 1.5rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      color: #475569;
+      padding: 1.25rem 1.1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0;
+      text-transform: none;
       display: flex;
       align-items: center;
+      position: relative;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;     /* overlap border navbar */
+      transition: color .15s ease, border-color .15s ease;
+
+      /* Active state momo: text đậm + pink/red underline */
+      &.is-active {
+        color: #d63d3d;
+        font-weight: 700;
+        border-bottom-color: #d63d3d;
+      }
 
       &:hover {
-        background: #d63d3d;
-        color: #fff;
+        color: #d63d3d;
       }
     }
   }
@@ -53,12 +58,13 @@
   &__search {
     background: transparent;
     border: none;
-    color: #fff;
+    color: #475569;
     padding: 0 1.5rem;
     display: flex;
     align-items: center;
+    transition: color .15s ease;
 
-    &:hover { background: #d63d3d; }
+    &:hover { color: #d63d3d; }
   }
 
   /* Burger button — desktop ẩn, mobile hiện. 3 line ngang animated → X
@@ -80,7 +86,7 @@
     &-line {
       width: 22px;
       height: 2px;
-      background: #fff;
+      background: #1e293b;
       border-radius: 2px;
       transition: transform .22s ease, opacity .15s ease;
       transform-origin: center;
@@ -141,29 +147,30 @@
     }
 
     a {
-      color: #d1d5db;
+      color: #475569;
       padding: 0.95rem 0.85rem 0.85rem;
       font-family: $font-ui;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      letter-spacing: 0.02em;
-      text-transform: none;   /* momo lowercase/normal, KHÔNG UPPERCASE */
+      letter-spacing: 0;
+      text-transform: none;
       white-space: nowrap;
       position: relative;
-      border-bottom: 2px solid transparent;
+      border-bottom: 3px solid transparent;
       transition: color .15s ease, border-color .15s ease;
       width: auto;
       justify-content: center;
 
-      /* Underline đỏ active state — giống momo */
+      /* Underline đỏ active state momo style */
       &.is-active {
-        color: #fff;
+        color: #d63d3d;
+        font-weight: 700;
         border-bottom-color: #d63d3d;
       }
 
       &:hover {
         background: transparent;
-        color: #fff;
+        color: #d63d3d;
       }
     }
   }
@@ -187,8 +194,8 @@
       bottom: 0;
       width: 32px;
       background: linear-gradient(to left,
-        rgba(17, 17, 17, 0.88) 0%,
-        rgba(17, 17, 17, 0) 100%);
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 100%);
       pointer-events: none;
       z-index: 1;
     }
