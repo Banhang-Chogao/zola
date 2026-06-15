@@ -60,18 +60,36 @@
       return;
     }
 
+    const sourceLabel = data.source ? escapeHtml(data.source) : "Nguồn";
+
     listEl.innerHTML = data.items.map(function (it, idx) {
       const summary = stripHtml(it.summary).slice(0, 220);
       const dateStr = formatDate(it.published);
-      return '<a class="du-lich-card" href="' + escapeHtml(it.link) +
-        '" target="_blank" rel="noopener noreferrer">' +
+      const thumb   = it.thumbnail ? escapeHtml(it.thumbnail) : "";
+      const rating  = it.rating ? escapeHtml(it.rating) : "";
+
+      // Thumbnail: hide if image fail load → graceful degrade
+      const thumbHtml = thumb
+        ? '<div class="du-lich-card__thumb"><img src="' + thumb +
+          '" alt="" loading="lazy" onerror="this.parentNode.style.display=\'none\'"></div>'
+        : "";
+
+      const ratingHtml = rating
+        ? '<span class="du-lich-card__rating" title="Đánh giá từ ' + sourceLabel +
+          '">⭐ ' + rating + '</span>'
+        : "";
+
+      return '<a class="du-lich-card' + (thumb ? ' du-lich-card--has-thumb' : '') +
+        '" href="' + escapeHtml(it.link) + '" target="_blank" rel="noopener noreferrer">' +
         '<div class="du-lich-card__rank" aria-hidden="true">' + (idx + 1) + '</div>' +
+        thumbHtml +
         '<div class="du-lich-card__body">' +
           '<h3 class="du-lich-card__title">' + escapeHtml(it.title) + '</h3>' +
           (summary ? '<p class="du-lich-card__summary">' + escapeHtml(summary) + '…</p>' : "") +
           '<div class="du-lich-card__meta">' +
+            ratingHtml +
             (dateStr ? '<span class="du-lich-card__date">📅 ' + escapeHtml(dateStr) + '</span>' : "") +
-            '<span class="du-lich-card__source">Znews · Du lịch</span>' +
+            '<span class="du-lich-card__source">' + sourceLabel + ' · Du lịch</span>' +
           '</div>' +
         '</div>' +
         '<div class="du-lich-card__arrow" aria-hidden="true">→</div>' +
@@ -81,8 +99,8 @@
 
     footerEl.hidden = false;
     cacheInfoEl.textContent = data.from_cache
-      ? "📦 Hiển thị từ cache (cập nhật mỗi 30 phút)"
-      : "🔄 Vừa fetch mới từ Znews";
+      ? "📦 Hiển thị từ cache (refresh mỗi 24h)"
+      : "🔄 Vừa fetch mới từ " + sourceLabel;
   }
 
   function showError() {

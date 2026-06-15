@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 
-{% block title %}Du lịch — Tin từ Znews | {{ config.title }}{% endblock %}
-{% block description %}Tin tức Du lịch mới nhất từ Znews — cập nhật real-time với 30 phút cache.{% endblock %}
+{% block title %}Du lịch Hàn Quốc — Top trải nghiệm | {{ config.title }}{% endblock %}
+{% block description %}Top 10 trải nghiệm Du lịch Hàn Quốc nổi bật — tổng hợp từ Trip.com, refresh mỗi 24h.{% endblock %}
 
 {% block main %}
     <section class="du-lich">
         <header class="du-lich__header">
             <h1 class="du-lich__title">
                 <span class="du-lich__icon" aria-hidden="true">✈️</span>
-                Tin tức Du lịch từ <span class="du-lich__source">Znews{{ v::badge() }}</span>
+                Top trải nghiệm Du lịch <span class="du-lich__source">Trip.com{{ v::badge() }}</span>
             </h1>
             <p class="du-lich__sub">
-                10 bài viết mới nhất từ chuyên mục Du lịch của Znews. Cache 30 phút,
-                cập nhật tự động.
+                10 điểm đến nổi bật cho hành trình Hàn Quốc — tổng hợp từ trang
+                <em>toplist</em> của Trip.com. Cache 24h, refresh tự động.
             </p>
         </header>
 

@@ -44,10 +44,11 @@ import os
 import re
 import secrets
 from typing import Optional
-from urllib.parse import urlencode, urlparse
+from urllib.parse import urlencode, urljoin, urlparse
 
 import feedparser
 import httpx
+from bs4 import BeautifulSoup
 from fastapi import FastAPI, Header, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
@@ -426,18 +427,36 @@ async def check_rss(
 
 
 # ============= Curated News Feeds (public, Redis cached) =============
-# Map slug → RSS source. Thêm chuyên mục bằng cách append vào dict này.
-# KHÔNG cho user nhập URL tự do (đã có /api/check-rss cho admin) → giảm
-# attack surface, đảm bảo cache key cố định không bị bloat.
+# Map slug → source config. Type 'rss' dùng feedparser, type 'scrape'
+# dùng BeautifulSoup. Thêm chuyên mục bằng cách append dict.
+#
+# ToS: scraping Trip.com nằm trong "vùng xám" — không thường vi phạm
+# robots.txt nhưng có thể trái Terms of Service. Cache 24h để giảm số
+# request tới source.
 CURATED_FEEDS = {
     "du-lich": {
-        "url":   "https://znews.vn/du-lich.rss",
-        "title": "Tin tức Du lịch — Znews",
-        "source": "Znews",
+        "url":    "https://www.trip.com/toplist/tripbest/south-korea-best-things-to-do-10070100042090/",
+        "title":  "Top trải nghiệm Du lịch Hàn Quốc — Trip.com",
+        "source": "Trip.com",
+        "type":   "scrape",
+        "cache_ttl": 86400,  # 24h — toplist content stable
     },
 }
 
-NEWS_CACHE_TTL = int(os.getenv("NEWS_CACHE_TTL", "1800"))  # 30 phút default
+NEWS_CACHE_TTL = int(os.getenv("NEWS_CACHE_TTL", "1800"))  # 30 phút default cho RSS
+
+# User-Agent giả lập browser thật. Trip.com block requests không có UA
+# rõ ràng. KHÔNG fake quá nhiều header → một số site detect inconsistency.
+SCRAPER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/131.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Cache-Control": "no-cache",
+}
 
 
 async def _fetch_and_parse_feed(url: str) -> list:
@@ -453,32 +472,189 @@ async def _fetch_and_parse_feed(url: str) -> list:
         link  = (e.get("link")  or "").strip()
         if not (title and link and link.startswith(("http://", "https://"))):
             continue
-        # published có thể ở các field khác nhau: published, updated, pubDate
         published = (
             e.get("published") or e.get("updated") or e.get("pubDate") or ""
         ).strip()
-        # summary có thể là plain hoặc HTML — feedparser tự strip về .summary
-        # nhưng vẫn có thể chứa HTML tags → frontend phải escape
         summary = (e.get("summary") or e.get("description") or "").strip()
         items.append({
             "title":     title[:300],
             "link":      link[:1000],
             "published": published[:50],
             "summary":   summary[:500],
+            "thumbnail": "",
+            "rating":    "",
         })
     return items
+
+
+# ============= Web Scraper (Trip.com toplist) =============
+def _truncate(text: str, n: int) -> str:
+    return (text or "").strip()[:n]
+
+
+def _normalize_link(href: str, base: str) -> str:
+    """Resolve relative → absolute. Reject javascript:/data:/mailto: schemes."""
+    if not href:
+        return ""
+    href = href.strip()
+    if href.startswith(("javascript:", "data:", "mailto:")):
+        return ""
+    if href.startswith("//"):
+        href = "https:" + href
+    if href.startswith("/"):
+        href = urljoin(base, href)
+    if not href.startswith(("http://", "https://")):
+        return ""
+    return href
+
+
+def _extract_jsonld_items(soup: BeautifulSoup, base_url: str) -> list:
+    """
+    Extract items từ JSON-LD ItemList schema — cách ổn định nhất.
+    Trip.com embed ItemList structured data trong <script type="application/
+    ld+json"> cho SEO. Selector này KHÔNG đổi theo CSS class lurng.
+    """
+    items = []
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        try:
+            data = json.loads(script.string or "")
+        except (json.JSONDecodeError, TypeError):
+            continue
+        candidates = data if isinstance(data, list) else [data]
+        for c in candidates:
+            if not isinstance(c, dict):
+                continue
+            elements = c.get("itemListElement") or []
+            for el in elements:
+                if not isinstance(el, dict):
+                    continue
+                item = el.get("item") if isinstance(el.get("item"), dict) else el
+                if not isinstance(item, dict):
+                    continue
+                title = _truncate(item.get("name"), 300)
+                link  = _normalize_link(item.get("url") or "", base_url)
+                if not (title and link):
+                    continue
+                # Image có thể là string, list, hoặc dict {url}
+                img = item.get("image")
+                if isinstance(img, dict):
+                    img = img.get("url") or img.get("contentUrl") or ""
+                elif isinstance(img, list) and img:
+                    img = img[0] if isinstance(img[0], str) else ""
+                if not isinstance(img, str):
+                    img = ""
+                rating = ""
+                ar = item.get("aggregateRating")
+                if isinstance(ar, dict):
+                    rv = ar.get("ratingValue")
+                    if rv is not None:
+                        try:
+                            rating = f"{float(rv):.1f}"
+                        except (TypeError, ValueError):
+                            rating = str(rv)[:5]
+                items.append({
+                    "title":       title,
+                    "link":        link,
+                    "summary":     _truncate(item.get("description"), 500),
+                    "published":   "",
+                    "thumbnail":   _normalize_link(img, base_url),
+                    "rating":      rating,
+                })
+    return items
+
+
+def _extract_fallback_items(soup: BeautifulSoup, base_url: str) -> list:
+    """
+    Fallback parser khi không có JSON-LD. Tìm <article>/<li>/<div> chứa
+    heading + link. Less reliable nhưng đỡ phải fail hoàn toàn.
+    """
+    items = []
+    seen_links = set()
+
+    for tag in soup.find_all(["article", "li", "div"], limit=200):
+        heading = tag.find(["h1", "h2", "h3", "h4"])
+        link_tag = tag.find("a", href=True)
+        if not (heading and link_tag):
+            continue
+
+        title = _truncate(heading.get_text(separator=" ", strip=True), 300)
+        link  = _normalize_link(link_tag.get("href", ""), base_url)
+        if not (title and link) or link in seen_links:
+            continue
+        if len(title) < 8 or title.lower() in {"home", "more", "next", "previous"}:
+            continue
+        seen_links.add(link)
+
+        img_tag = tag.find("img")
+        thumbnail = ""
+        if img_tag:
+            thumbnail = (
+                img_tag.get("src") or img_tag.get("data-src")
+                or img_tag.get("data-original") or ""
+            )
+            thumbnail = _normalize_link(thumbnail, base_url)
+
+        summary = ""
+        for p in tag.find_all(["p", "span", "div"], limit=5):
+            if p == heading or heading in p.find_all():
+                continue
+            text = p.get_text(separator=" ", strip=True)
+            if 20 <= len(text) <= 500:
+                summary = _truncate(text, 500)
+                break
+
+        items.append({
+            "title":     title,
+            "link":      link,
+            "summary":   summary,
+            "published": "",
+            "thumbnail": thumbnail,
+            "rating":    "",
+        })
+        if len(items) >= 30:
+            break
+    return items
+
+
+async def _scrape_toplist(url: str) -> list:
+    """
+    Fetch HTML via httpx với UA giả browser → parse BeautifulSoup (lxml).
+    Ưu tiên JSON-LD → fallback HTML pattern. Trả tối đa 10 items.
+    """
+    async with httpx.AsyncClient(
+        headers=SCRAPER_HEADERS,
+        timeout=20.0,
+        follow_redirects=True,
+    ) as client:
+        res = await client.get(url)
+    if res.status_code != 200:
+        return []
+
+    soup = await asyncio.to_thread(BeautifulSoup, res.text, "lxml")
+
+    items = _extract_jsonld_items(soup, url)
+    if not items:
+        items = _extract_fallback_items(soup, url)
+
+    seen = set()
+    unique = []
+    for it in items:
+        if it["link"] in seen:
+            continue
+        seen.add(it["link"])
+        unique.append(it)
+    return unique[:10]
 
 
 @app.get("/api/news/{slug}")
 async def curated_news(slug: str):
     """
-    Trả 10 bài news mới từ curated source theo slug.
-    Redis cache 30 phút (NEWS_CACHE_TTL) → first request lock Znews, các
-    request sau hit cache. Stale-but-served cũng OK với news (không phải
-    real-time critical).
+    Trả tối đa 10 items từ curated source. Dispatch theo feed_cfg.type:
+      - 'rss'    → feedparser (default cache NEWS_CACHE_TTL = 30m)
+      - 'scrape' → BeautifulSoup (per-feed cache_ttl, default 24h)
 
-    Lỗi từ Znews (network, parse) → trả 200 với items=[] + cached_at=null,
-    frontend graceful degrade hiển thị "tạm thời không có tin".
+    Lỗi network/parse → trả 200 với items=[] + error code, FE graceful
+    degrade hiển thị "tạm thời không có tin". KHÔNG raise 500.
     """
     feed_cfg = CURATED_FEEDS.get(slug)
     if not feed_cfg:
@@ -487,7 +663,6 @@ async def curated_news(slug: str):
     cache_key = f"news_cache:{slug}"
     r = await get_redis()
 
-    # Cache hit → trả ngay, KHÔNG fetch Znews
     cached = await r.get(cache_key)
     if cached:
         try:
@@ -495,14 +670,15 @@ async def curated_news(slug: str):
             data["from_cache"] = True
             return data
         except (json.JSONDecodeError, KeyError):
-            pass  # cache corrupt → re-fetch
+            pass
 
-    # Cache miss → fetch + parse + cache
+    source_type = feed_cfg.get("type", "rss")
     try:
-        items = await _fetch_and_parse_feed(feed_cfg["url"])
+        if source_type == "scrape":
+            items = await _scrape_toplist(feed_cfg["url"])
+        else:
+            items = await _fetch_and_parse_feed(feed_cfg["url"])
     except Exception:
-        # Znews unreachable / parse fail → trả empty (FE graceful degrade).
-        # KHÔNG raise 500 vì user vẫn vào được trang, chỉ thiếu news.
         return {
             "source":     feed_cfg["source"],
             "title":      feed_cfg["title"],
@@ -518,9 +694,9 @@ async def curated_news(slug: str):
         "count":  len(items),
         "items":  items,
     }
-    # Cache cả empty result (TTL ngắn hơn = 5 phút) để tránh hammer source
-    # khi tạm down. Có items → cache TTL đầy đủ.
-    ttl = NEWS_CACHE_TTL if items else 300
+
+    default_ttl = feed_cfg.get("cache_ttl") or NEWS_CACHE_TTL
+    ttl = default_ttl if items else 300
     await r.setex(cache_key, ttl, json.dumps(payload, ensure_ascii=False))
 
     payload["from_cache"] = False
