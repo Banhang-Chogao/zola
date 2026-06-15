@@ -1,0 +1,898 @@
+/* ============================================================
+   ===== Z-X BRANDING GUIDELINE PAGE — DESKTOP (global) =====
+   ============================================================
+   Template /zx/ — Zalo-X branding inspired by ZaloPay Blog.
+   Dùng tokens prefix $zx-* (xem _zx-tokens.scss). Tách biệt
+   hoàn toàn với BrandingX ($brand-*) để dễ swap theme.
+
+   Quy tắc: chỉ scope vào `.zx` root + `.zx__*` BEM + `.zx-*`
+   atomic. KHÔNG đụng html/body/* global per CLAUDE.md. */
+
+.zx {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  font-family: $font-body;
+  color: $zx-ink-700;
+  background: $zx-mist;
+  line-height: 1.7;
+
+  /* ===== HEADER ===== */
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid $zx-edge;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  &__logo-mark {
+    width: 48px;
+    height: 48px;
+    border-radius: $zx-radius-md;
+    background: $zx-blue-600;
+    color: $zx-snow;
+    font-family: $font-heading;
+    font-size: 1.6rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: -0.04em;
+    box-shadow: $zx-shadow-md;
+  }
+
+  &__logo-text {
+    font-family: $font-heading;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: $zx-ink-900;
+    letter-spacing: -0.025em;
+    line-height: 1;
+  }
+
+  &__logo-sub {
+    font-size: 0.78rem;
+    color: $zx-ink-500;
+    margin-top: 0.2rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    a {
+      font-family: $font-ui;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: $zx-ink-500;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: $zx-blue-600;
+      }
+    }
+  }
+
+  /* ===== MANIFESTO ===== */
+  &__manifesto {
+    background: $zx-snow;
+    border-radius: $zx-radius-lg;
+    padding: 3rem 2.5rem;
+    margin-bottom: 4rem;
+    box-shadow: $zx-shadow-sm;
+    border: 1px solid $zx-edge;
+  }
+
+  &__manifesto-eyebrow {
+    font-family: $font-ui;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $zx-blue-600;
+    margin: 0 0 1rem;
+  }
+
+  &__manifesto-title {
+    font-family: $font-heading;
+    font-size: 2.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: $zx-ink-900;
+    margin: 0 0 1.25rem;
+
+    span {
+      color: $zx-blue-600;
+    }
+  }
+
+  &__manifesto-sub {
+    font-size: 1.05rem;
+    color: $zx-ink-700;
+    line-height: 1.7;
+    margin: 0 0 2rem;
+    max-width: 720px;
+
+    strong {
+      color: $zx-ink-900;
+      font-weight: 700;
+    }
+  }
+
+  &__principles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+
+    article {
+      background: $zx-mist;
+      border-radius: $zx-radius-md;
+      padding: 1.5rem 1.5rem 1.6rem;
+      border-left: 3px solid $zx-blue-600;
+
+      h3 {
+        font-family: $font-heading;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: $zx-ink-900;
+        margin: 0.55rem 0 0.5rem;
+        letter-spacing: -0.015em;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: $zx-ink-600;
+        line-height: 1.65;
+        margin: 0;
+      }
+    }
+  }
+
+  &__principle-num {
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: $zx-blue-600;
+    letter-spacing: 0.08em;
+  }
+
+  /* ===== SECTION (Color/Type/Components/Grid) ===== */
+  &__section {
+    margin-bottom: 4rem;
+  }
+
+  &__section-head {
+    margin-bottom: 2rem;
+  }
+
+  &__section-num {
+    display: inline-block;
+    font-family: $font-mono;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: $zx-blue-600;
+    background: $zx-blue-100;
+    padding: 0.25rem 0.65rem;
+    border-radius: $zx-radius-sm;
+    margin-bottom: 0.85rem;
+  }
+
+  &__section-title {
+    font-family: $font-heading;
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: $zx-ink-900;
+    margin: 0 0 0.6rem;
+  }
+
+  &__section-desc {
+    font-size: 0.95rem;
+    color: $zx-ink-600;
+    line-height: 1.7;
+    max-width: 680px;
+    margin: 0;
+  }
+
+  /* ===== COLOR PALETTE ===== */
+  &__color-group {
+    margin-bottom: 2.5rem;
+  }
+
+  &__group-label {
+    font-family: $font-ui;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: $zx-ink-700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 1rem;
+  }
+
+  &__swatches {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  &__swatch {
+    background: $zx-snow;
+    border-radius: $zx-radius-md;
+    overflow: hidden;
+    border: 1px solid $zx-edge;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: $zx-shadow-md;
+    }
+
+    &--feature {
+      border: 2px solid $zx-blue-600;
+      box-shadow: $zx-shadow-md;
+    }
+  }
+
+  &__swatch-chip {
+    height: 80px;
+    background: var(--c);
+
+    &--border {
+      box-shadow: inset 0 0 0 1px $zx-edge;
+    }
+  }
+
+  &__swatch-info {
+    padding: 0.85rem 0.95rem 1rem;
+
+    strong {
+      display: block;
+      font-family: $font-ui;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: $zx-ink-900;
+      margin-bottom: 0.25rem;
+    }
+
+    code {
+      display: block;
+      font-family: $font-mono;
+      font-size: 0.78rem;
+      color: $zx-ink-700;
+      margin-bottom: 0.3rem;
+    }
+
+    span {
+      display: block;
+      font-size: 0.75rem;
+      color: $zx-ink-500;
+      line-height: 1.45;
+    }
+  }
+
+  /* ===== RATIONALE ASIDE ===== */
+  &__rationale {
+    background: $zx-blue-50;
+    border-left: 3px solid $zx-blue-600;
+    border-radius: 0 $zx-radius-md $zx-radius-md 0;
+    padding: 1.1rem 1.4rem;
+    margin-top: 1.75rem;
+    font-size: 0.9rem;
+    color: $zx-ink-700;
+    line-height: 1.65;
+
+    strong {
+      color: $zx-blue-700;
+      font-weight: 700;
+    }
+  }
+
+  /* ===== TYPOGRAPHY SCALE ===== */
+  &__type-scale {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  &__type-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    background: $zx-snow;
+    border-radius: $zx-radius-md;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid $zx-edge;
+  }
+
+  &__type-sample {
+    overflow: hidden;
+    word-break: break-word;
+  }
+
+  &__type-meta {
+    code {
+      display: inline-block;
+      font-family: $font-mono;
+      font-size: 0.78rem;
+      color: $zx-ink-800;
+      background: $zx-fog;
+      padding: 0.25rem 0.55rem;
+      border-radius: $zx-radius-sm;
+      margin-bottom: 0.45rem;
+    }
+
+    span {
+      display: block;
+      font-size: 0.82rem;
+      color: $zx-ink-500;
+    }
+  }
+
+  /* ===== UI COMPONENTS GRID ===== */
+  &__comp-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  &__comp {
+    background: $zx-snow;
+    border-radius: $zx-radius-lg;
+    padding: 1.5rem 1.5rem 1.75rem;
+    border: 1px solid $zx-edge;
+
+    h4 {
+      font-family: $font-ui;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: $zx-ink-500;
+      margin: 0 0 1rem;
+    }
+
+    p {
+      font-size: 0.82rem;
+      color: $zx-ink-500;
+      line-height: 1.55;
+      margin: 1rem 0 0;
+    }
+  }
+
+  &__comp-demo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: flex-start;
+
+    &--stat {
+      display: block;
+    }
+  }
+
+  /* ===== GRID DEMO ===== */
+  &__grid-demo {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+
+    div {
+      height: 56px;
+      background: $zx-blue-100;
+      border-radius: $zx-radius-sm;
+      border: 1px solid $zx-blue-200;
+    }
+  }
+
+  /* ===== COMPARISON TABLE vs BrandingX ===== */
+  &__compare {
+    background: $zx-snow;
+    border-radius: $zx-radius-lg;
+    padding: 2.5rem 2rem;
+    border: 1px solid $zx-edge;
+
+    h3 {
+      font-family: $font-heading;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: $zx-ink-900;
+      margin: 2.5rem 0 1.25rem;
+      letter-spacing: -0.015em;
+    }
+  }
+
+  &__compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+
+    thead {
+      background: $zx-mist;
+
+      th {
+        text-align: left;
+        font-family: $font-ui;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: $zx-ink-700;
+        padding: 0.85rem 1rem;
+        border-bottom: 2px solid $zx-edge-strong;
+      }
+    }
+
+    tbody {
+      tr {
+        transition: background 0.12s ease;
+
+        &:hover {
+          background: $zx-blue-50;
+        }
+      }
+
+      td {
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid $zx-edge;
+        color: $zx-ink-700;
+        line-height: 1.5;
+
+        &:first-child {
+          color: $zx-ink-900;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  /* ===== FEASIBILITY CARDS ===== */
+  &__feasibility {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+
+  &__feas-card {
+    background: $zx-mist;
+    border-radius: $zx-radius-md;
+    padding: 1.5rem 1.5rem 1.6rem;
+    border-top: 4px solid $zx-blue-600;
+
+    h4 {
+      font-family: $font-heading;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: $zx-ink-900;
+      margin: 0 0 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      list-style: disc;
+
+      li {
+        font-size: 0.86rem;
+        color: $zx-ink-700;
+        line-height: 1.6;
+        margin-bottom: 0.6rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        code {
+          font-family: $font-mono;
+          font-size: 0.8rem;
+          color: $zx-blue-700;
+          background: $zx-blue-100;
+          padding: 0.1rem 0.4rem;
+          border-radius: 4px;
+        }
+
+        strong {
+          color: $zx-ink-900;
+          font-weight: 700;
+        }
+      }
+    }
+
+    &--ok {
+      border-top-color: $zx-success;
+      background: $zx-success-bg;
+    }
+
+    &--warn {
+      border-top-color: $zx-accent-orange;
+      background: $zx-accent-orange-bg;
+    }
+
+    &--info {
+      border-top-color: $zx-blue-600;
+      background: $zx-blue-50;
+    }
+  }
+
+  /* ===== FOOTER ===== */
+  &__foot {
+    margin-top: 4rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid $zx-edge;
+    text-align: center;
+
+    p {
+      font-size: 0.82rem;
+      color: $zx-ink-500;
+      margin: 0 0 0.4rem;
+
+      &:last-child {
+        margin: 0;
+      }
+
+      a {
+        color: $zx-blue-600;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+/* ===== Z-X ATOMIC COMPONENTS ===== */
+.zx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-family: $font-ui;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 0.65rem 1.25rem;
+  border-radius: $zx-radius-md;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.12s ease,
+              box-shadow 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &--primary {
+    background: $zx-blue-600;
+    color: $zx-snow;
+    box-shadow: $zx-shadow-sm;
+
+    &:hover {
+      background: $zx-blue-700;
+      box-shadow: $zx-shadow-md;
+    }
+  }
+
+  &--secondary {
+    background: transparent;
+    color: $zx-blue-600;
+    border-color: $zx-blue-600;
+
+    &:hover {
+      background: $zx-blue-50;
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $zx-ink-500;
+
+    &:hover {
+      color: $zx-ink-800;
+      background: $zx-fog;
+    }
+  }
+
+  &--promo {
+    background: $zx-accent-orange;
+    color: $zx-snow;
+    box-shadow: $zx-shadow-sm;
+
+    &:hover {
+      background: $zx-accent-orange-dk;
+      box-shadow: $zx-shadow-md;
+    }
+  }
+}
+
+.zx-card {
+  background: $zx-snow;
+  border-radius: $zx-radius-lg;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid $zx-edge;
+  box-shadow: $zx-shadow-sm;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 280px;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+
+  &:hover {
+    box-shadow: $zx-shadow-lg;
+    transform: translateY(-2px);
+  }
+
+  &__tag {
+    align-self: flex-start;
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $zx-blue-600;
+    background: $zx-blue-100;
+    padding: 0.2rem 0.55rem;
+    border-radius: $zx-radius-full;
+  }
+
+  strong {
+    font-family: $font-heading;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $zx-ink-900;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: $zx-ink-500;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.zx-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 280px;
+
+  span {
+    font-family: $font-ui;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $zx-ink-700;
+  }
+}
+
+.zx-input {
+  font-family: $font-mono;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.65rem 0.85rem;
+  border-radius: $zx-radius-md;
+  border: 1px solid $zx-edge-strong;
+  background: $zx-snow;
+  color: $zx-ink-900;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $zx-blue-600;
+    box-shadow: 0 0 0 3px rgba(0, 104, 255, 0.18);
+  }
+
+  &::placeholder {
+    color: $zx-ink-300;
+  }
+}
+
+.zx-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: $zx-snow;
+  border-radius: $zx-radius-lg;
+  padding: 1.25rem 1.35rem 1.4rem;
+  border: 1px solid $zx-edge;
+  box-shadow: $zx-shadow-sm;
+  max-width: 280px;
+
+  &__label {
+    font-family: $font-ui;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $zx-ink-500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__amount {
+    font-family: $font-mono;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: $zx-success;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+
+  &__delta {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $zx-success;
+  }
+}
+
+/* ============================================================
+   ===== Z-X BRANDING GUIDELINE PAGE — MOBILE (≤ 720px) =====
+   ============================================================ */
+@media (max-width: 720px) {
+  .zx {
+    padding: 1.25rem 1rem 2.5rem;
+
+    &__header {
+      gap: 1rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    &__nav {
+      gap: 1rem;
+      width: 100%;
+
+      a {
+        font-size: 0.82rem;
+      }
+    }
+
+    &__manifesto {
+      padding: 1.75rem 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    &__manifesto-title {
+      font-size: 1.85rem;
+    }
+
+    &__manifesto-sub {
+      font-size: 0.95rem;
+    }
+
+    &__principles {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+
+      article {
+        padding: 1.1rem 1.1rem 1.2rem;
+
+        h3 { font-size: 0.98rem; }
+        p  { font-size: 0.85rem; }
+      }
+    }
+
+    &__section {
+      margin-bottom: 2.5rem;
+    }
+
+    &__section-title {
+      font-size: 1.5rem;
+    }
+
+    &__section-desc {
+      font-size: 0.88rem;
+    }
+
+    &__swatches {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    &__swatch-chip {
+      height: 60px;
+    }
+
+    &__type-row {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      padding: 1.15rem 1.1rem;
+    }
+
+    &__comp-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    &__comp {
+      padding: 1.15rem 1.1rem 1.25rem;
+    }
+
+    &__grid-demo {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.35rem;
+
+      div {
+        height: 36px;
+      }
+    }
+
+    &__compare {
+      padding: 1.5rem 1.1rem 1.75rem;
+
+      h3 { font-size: 1.1rem; }
+    }
+
+    &__compare-table {
+      font-size: 0.78rem;
+
+      th, td {
+        padding: 0.55rem 0.55rem;
+      }
+    }
+
+    &__feasibility {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+
+    &__feas-card {
+      padding: 1.15rem 1.1rem 1.25rem;
+
+      h4 { font-size: 0.98rem; }
+      ul li { font-size: 0.82rem; }
+    }
+
+    &__foot {
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+
+      p { font-size: 0.76rem; }
+    }
+  }
+
+  .zx-btn {
+    font-size: 0.85rem;
+    padding: 0.55rem 1.05rem;
+  }
+
+  .zx-card,
+  .zx-stat,
+  .zx-field {
+    max-width: 100%;
+  }
+
+  .zx-stat__amount {
+    font-size: 1.4rem;
+  }
+}
