@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Verified Badge cạnh tên tác giả mọi nơi",
+      "tag": "feat",
+      "pr": 33,
+      "lines_added": 37,
+      "lines_removed": 4,
+      "highlights": [
+        "New: templates/macros/verified.html — Tera macro {{ v::badge() }} (single inline SVG, reusable)",
+        "Edit: 4 templates + 1 SCSS — import macro + apply badge",
+        "width/height: 1em → scale theo line-height container (chiều cao chữ 'n')",
+        "vertical-align: -0.12em → căn middle với chữ thường",
+        "margin-left: 0.25em → khoảng cách subtle với tên"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "bài 'Hành trình công nghệ — Dưới nắp ca-pô của blog'",
       "tag": "feat",
       "pr": 32,
