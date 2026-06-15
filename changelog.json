@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Bật Google Analytics 4: G-REFBXH86Z5 (Property 541698865)",
+      "tag": "chore",
+      "pr": 77,
+      "lines_added": 5,
+      "lines_removed": 2,
+      "highlights": [
+        "Measurement ID: G-REFBXH86Z5 → set vào config.toml ga_measurement_id",
+        "Property ID: 541698865 → ghi vào comment (config.toml + HTML comment trong template) để trace",
+        "HTML comment trong block GA4 active: <!-- GA4 Measurement ID: G-REFBXH86Z5 | Property ID: 541698865 -->",
+        "Footer pill: ⏳ ĐANG CHỜ MEASUREMENT ID (amber)",
+        "Trước </body>: chỉ console.info placeholder, không load gtag.js"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Mobile UX Threads-feel: frosted navbar + tap feedback + smooth scroll",
       "tag": "chore",
       "pr": 76,
