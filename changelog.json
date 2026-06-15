@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "IMDB walker không nhận diện schema #-prefix (imdb.iamidiotareyoutoo.com)",
+      "tag": "fix",
+      "pr": 50,
+      "lines_added": 18,
+      "lines_removed": 9,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-15",
       "title": "/api/movies từ TMDB sang IMDB scraper proxy (URL configurable env)",
       "tag": "chore",
       "pr": 49,
