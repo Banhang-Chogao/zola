@@ -438,24 +438,21 @@
                     {% set tag_taxo = get_taxonomy(kind="tags") %}
                     <span class="footer-tags-section__count">{{ tag_taxo.items | length }} tags</span>
                 </header>
-                <div class="footer-tag-cloud">
+                {# Grid layout: mỗi tag = 1 cell có border, badge màu phía
+                   trên + mô tả số bài phía dưới. 5 cột desktop → 4/3/2 cột
+                   responsive theo viewport. Uniform cell size. #}
+                <div class="tag-grid">
                     {% if tag_taxo.items | length > 0 %}
-                        {% set_global tag_max = 1 %}
                         {% for t in tag_taxo.items %}
                             {% set cnt = t.pages | length %}
-                            {% if cnt > tag_max %}{% set_global tag_max = cnt %}{% endif %}
-                        {% endfor %}
-                        {% for t in tag_taxo.items %}
-                            {% set cnt = t.pages | length %}
-                            {% set tier = "sm" %}
-                            {% if cnt * 100 >= tag_max * 70 %}{% set tier = "lg" %}
-                            {% elif cnt * 100 >= tag_max * 35 %}{% set tier = "md" %}
-                            {% endif %}
                             {% set ci = loop.index0 % 8 %}
-                            <a class="tag-pill tag-pill--{{ tier }} tag-pill--c{{ ci }}"
+                            <a class="tag-card"
                                href="{{ t.permalink }}"
                                title="{{ cnt }} bài viết với tag '{{ t.name }}'">
-                                #{{ t.name }}<span class="tag-pill__count">{{ cnt }}</span>
+                                <span class="tag-card__badge tag-card__badge--c{{ ci }}">
+                                    #{{ t.name | upper }}
+                                </span>
+                                <span class="tag-card__desc">{{ cnt }} bài viết</span>
                             </a>
                         {% endfor %}
                     {% else %}

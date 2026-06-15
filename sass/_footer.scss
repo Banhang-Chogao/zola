@@ -155,28 +155,11 @@
   }
 }
 
-/* Tag cloud: tránh overflow horizontal trên mobile + pills không quá dài */
+/* Tag section header điều chỉnh nhỏ trên mobile rất hẹp */
 @media (max-width: 540px) {
   .footer-tags-section {
-    padding: 1.25rem 0 1.5rem;
-    overflow-x: hidden;
-
-    &__head { flex-direction: column; gap: 0.25rem; margin-bottom: 0.85rem; }
     &__title { font-size: 0.78rem; }
     &__count { font-size: 0.72rem; }
-  }
-  .footer-tag-cloud {
-    padding: 0 0.5rem;
-    gap: 0.35rem;
-  }
-  .tag-pill {
-    max-width: calc(100vw - 2rem);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    &--lg { font-size: 0.78rem; padding: 0.38rem 0.8rem; }
-    &--md { font-size: 0.72rem; padding: 0.34rem 0.7rem; }
-    &--sm { font-size: 0.66rem; padding: 0.3rem 0.6rem; }
   }
 }
 
@@ -357,68 +340,129 @@
   }
 }
 
-.footer-tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.55rem;
-  max-width: 980px;
+/* ============================================================
+   ===== DESKTOP — TAG GRID (global, không media query) =====
+   ============================================================
+   Bố cục: 5 cột grid uniform. Mỗi cell = .tag-card (border + bg).
+   Bên trong: badge màu phía trên + mô tả số bài phía dưới.
+   Inspired bởi tech-stack showcase grid. */
+.tag-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
-/* Tag pill — 3 sizes + 8 colors. Colors cycle theo loop.index → tag
-   xuất hiện consistent. Tier size phản ánh popularity. */
-.tag-pill {
-  display: inline-flex;
+.tag-card {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.4rem 0.85rem;
-  border-radius: 999px;
-  font-weight: 700;
-  color: #fff;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 1.4rem 0.75rem;
+  min-height: 120px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
   text-decoration: none;
-  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
-  letter-spacing: 0.01em;
+  transition: transform .18s ease, box-shadow .18s ease,
+              border-color .18s ease, background .18s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+    border-color: #d4d4d4;
+    background: #fff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Badge "logo" — pill chữ HOA màu nổi bật, padding chắc tay
+     để giống chip technology trong ảnh mẫu */
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.95rem;
+    border-radius: 5px;
     color: #fff;
+    font-weight: 800;
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* 8 color palette cycle qua loop.index0 % 8 */
+    &--c0 { background: #ef4444; }
+    &--c1 { background: #1e293b; }
+    &--c2 { background: #c2638e; }
+    &--c3 { background: #facc15; color: #1a1a1a; }
+    &--c4 { background: #dc2626; }
+    &--c5 { background: #3b82f6; }
+    &--c6 { background: #f97316; }
+    &--c7 { background: #10b981; }
   }
 
-  &__count {
-    opacity: 0.7;
-    font-size: 0.85em;
+  /* Mô tả ngắn dưới badge */
+  &__desc {
+    color: #555;
+    font-size: 0.82rem;
     font-weight: 500;
-    font-variant-numeric: tabular-nums;
+    text-align: center;
+    line-height: 1.4;
   }
-
-  /* Size tiers */
-  &--sm { font-size: 0.72rem; padding: 0.32rem 0.7rem; }
-  &--md { font-size: 0.82rem; padding: 0.42rem 0.95rem; }
-  &--lg { font-size: 0.92rem; padding: 0.52rem 1.1rem; font-weight: 800; }
-
-  /* 8 color palette cycle qua loop.index0 % 8 */
-  &--c0 { background: #ef4444; }
-  &--c1 { background: #3b82f6; }
-  &--c2 { background: #10b981; }
-  &--c3 { background: #a855f7; }
-  &--c4 { background: #f97316; }
-  &--c5 { background: #06b6d4; }
-  &--c6 { background: #ec4899; }
-  &--c7 { background: #84cc16; color: #0a0a0a; }
 }
 
-@media (max-width: 540px) {
+/* ============================================================
+   ===== MOBILE — TAG GRID responsive (media queries) =====
+   ============================================================
+   Co cột theo viewport, KHÔNG đụng global selector hay scroll. */
+
+/* Tablet rộng: 4 cột */
+@media (max-width: 1024px) {
+  .tag-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet hẹp / mobile lớn: 3 cột */
+@media (max-width: 720px) {
+  .tag-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 0 0.25rem;
+  }
+  .tag-card {
+    padding: 1.1rem 0.5rem;
+    min-height: 105px;
+    gap: 0.65rem;
+    &__badge {
+      font-size: 0.66rem;
+      padding: 0.42rem 0.65rem;
+      letter-spacing: 0.08em;
+    }
+    &__desc {
+      font-size: 0.75rem;
+    }
+  }
   .footer-tags-section {
     padding: 1.25rem 0 1.5rem;
     &__head { flex-direction: column; gap: 0.25rem; }
   }
-  .footer-tag-cloud { gap: 0.4rem; }
-  .tag-pill--lg { font-size: 0.85rem; padding: 0.42rem 0.9rem; }
-  .tag-pill--md { font-size: 0.78rem; padding: 0.38rem 0.8rem; }
-  .tag-pill--sm { font-size: 0.7rem; padding: 0.3rem 0.65rem; }
+}
+
+/* Mobile nhỏ: 2 cột để badge không bị crop */
+@media (max-width: 480px) {
+  .tag-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .tag-card {
+    min-height: 100px;
+    &__badge { font-size: 0.7rem; padding: 0.45rem 0.75rem; }
+  }
 }
 
 /* Mobile: scale xuống cho hợp viewport hẹp + reserve height tránh CLS.
