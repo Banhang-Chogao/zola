@@ -527,11 +527,12 @@
                 </div>
 
                 {# ===== GA STATS LIVE TABLE =====
-                   Always render — placeholder 0 nếu workflow chưa fetch
-                   được (chưa setup secret/grant access). data/ga-stats.json
-                   populate qua workflow ga-stats.yml hourly. #}
+                   Always render — placeholder 0 nếu workflow chưa fetch.
+                   data/ga-stats.json LUÔN tồn tại (committed initial với
+                   _status="waiting_for_secret") nên không cần literal dict
+                   fallback (Tera KHÔNG support {k:v} syntax). #}
                 {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
-                {% if not ga_stats %}{% set ga_stats = {today_users:0, today_pageviews:0, week_users:0, week_pageviews:0, month_users:0, month_pageviews:0, updated_at:"chưa fetch", _status:"waiting_for_secret"} %}{% endif %}
+                {% if ga_stats %}
                 {% set is_demo = ga_stats._status == "waiting_for_secret" %}
                 <div class="ga-stats{% if is_demo %} ga-stats--demo{% endif %}">
                     <header class="ga-stats__head">
@@ -570,6 +571,7 @@
                         {% endif %}
                     </p>
                 </div>
+                {% endif %}
             </div>
         </div>
 
