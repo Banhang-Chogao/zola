@@ -33,13 +33,15 @@
         {# List cards — populated by JS #}
         <div class="du-lich__list" data-list hidden></div>
 
-        {# Error state — fallback nếu API down #}
+        {# Error state — message dynamic theo nguồn (JS điền data-source) #}
         <div class="du-lich__error" data-error hidden role="alert">
             <span class="du-lich__error-icon" aria-hidden="true">📡</span>
             <div>
-                <strong>Tạm thời không lấy được tin từ Znews</strong>
-                <p>Backend có thể đang khởi động hoặc Znews thay đổi cấu trúc.
-                   Thử tải lại trang sau vài phút.</p>
+                <strong data-error-title>Tạm thời không lấy được tin từ nguồn</strong>
+                <p data-error-detail>
+                    Backend có thể đang khởi động (free tier sleep ~30s), hoặc nguồn
+                    đang block scraper. Thử tải lại sau vài phút.
+                </p>
             </div>
         </div>
 
