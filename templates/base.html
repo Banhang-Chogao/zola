@@ -143,7 +143,9 @@
     <meta property="og:site_name" content="{{ config.title }}">
     <meta property="og:locale" content="vi_VN">
     {% if page %}
+    {% if page.date %}
     <meta property="article:published_time" content="{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">
+    {% endif %}
     {% if page.updated %}<meta property="article:modified_time" content="{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}">{% endif %}
     <meta property="article:author" content="{{ config.extra.author }}">
     {% if page.taxonomies.categories %}<meta property="article:section" content="{{ page.taxonomies.categories | first }}">{% endif %}
@@ -167,8 +169,8 @@
         "@type": "Article",
         "headline": {{ page.title | json_encode | safe }},
         "image": [{{ og_image | json_encode | safe }}],
-        "datePublished": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",
-        {% if page.updated %}"dateModified": "{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% else %}"dateModified": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% endif %}
+        {% if page.date %}"datePublished": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% endif %}
+        {% if page.updated %}"dateModified": "{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% elif page.date %}"dateModified": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% endif %}
         "author": {
             "@type": "Person",
             "name": {{ config.extra.author | json_encode | safe }}{% if config.extra.author_url %},
