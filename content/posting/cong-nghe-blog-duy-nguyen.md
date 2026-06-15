@@ -1,18 +1,18 @@
 +++
 title = "Hành trình công nghệ: Dưới nắp ca-pô của blog cá nhân Duy Nguyen"
 date = 2026-06-15
-aliases = ["/cong-nghe-blog-duy-nguyen/"]
 
 [taxonomies]
-categories = ["Posting"]
+categories = ["Ẩm thực"]
 tags = ["zola", "tech stack", "github actions", "vanilla js", "cms"]
 
 [extra]
 thumbnail = "https://picsum.photos/seed/cong-nghe-blog-duy-nguyen/600/400"
 featured = true
+featured_at = "2026-06-15T09:43:31.498Z"
 +++
 
-![Hành trình công nghệ](link-ảnh)
+![Hành trình công nghệ]
 
 Blog này không phải một template "fork-and-deploy". Mỗi tính năng đều
 được viết tay từ đầu — không framework JavaScript, không runtime
