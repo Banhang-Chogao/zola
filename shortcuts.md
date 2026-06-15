@@ -106,6 +106,28 @@ Hành động:
 5. Bonus tại chỗ: Lighthouse mobile estimate (LCP/CLS/INP) cho homepage + 1 post.
 6. Output report ≤150 words: scores + auto-fix applied + remaining issues.
 
+### `run list` — Hiển thị bảng workflow runs
+
+Hành động: Output Markdown table 4 cột, format chuẩn để user audit workflow.
+
+**Format bắt buộc**:
+
+| Run ID | Workflow | Cause | Status |
+|---|---|---|---|
+| #<id1>, #<id2> (gộp nếu cùng cause + workflow) | <workflow name> | <root cause ngắn gọn> | ✅ Resolved by PR #X / ⚠ Pending / ❌ Active |
+
+**Quy tắc nội dung**:
+- Gộp nhiều run ID cùng workflow + cùng cause vào 1 row (e.g., `#A, #B, #C (3 runs)`)
+- Cause: 1 dòng ≤ 60 ký tự, dùng inline code cho symbol (`default(value={})`)
+- Status icons:
+  - ✅ Resolved by PR #X — fix đã merge
+  - ✅ Resolved — không tự trigger nữa (handler removed/disabled)
+  - ⚠ Pending fix — đang work in progress
+  - ❌ Active failure — chưa có hướng giải quyết
+- Sort theo: Status (❌ trước, ⚠ giữa, ✅ sau) → recency desc
+
+**Scope mặc định**: 20 run gần nhất trên `main`. Kèm context (e.g., `run list deploy.yml`) → filter theo workflow đó.
+
 ---
 
 ## 3. Workflow Auto-Heal — quy trình chuẩn
