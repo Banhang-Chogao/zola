@@ -2,6 +2,17 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Auto-throttle build-related cron + shortcut 'll' liệt kê cron 3 workflows",
+      "tag": "chore",
+      "pr": 98,
+      "lines_added": 67,
+      "lines_removed": 0,
+      "highlights": [
+        "cron: '0 0 16 6 *'   # 16/06 00:00 UTC mỗi năm"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Bật GoatCounter: goatcounter_code = banhang-chogao",
       "tag": "chore",
       "pr": 96,
