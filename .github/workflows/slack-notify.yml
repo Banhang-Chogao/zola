@@ -1,8 +1,8 @@
 name: Slack Commit Notification
 
 # Trigger push lên bất kỳ branch → gửi notification về Slack.
-# FIX vs version trước: dùng toJSON() để escape commit message
-# (commit có newline/quote sẽ break JSON nếu inject trực tiếp).
+# FIX: truncate commit message để không vượt Slack Block Kit limit 3000 chars
+# (squash merge với nhiều commits có thể tạo message rất dài → invalid_blocks).
 #
 # Yêu cầu GitHub Secret: SLACK_WEBHOOK_URL (lấy từ Slack Incoming Webhook).
 
@@ -23,11 +23,27 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
+      - name: Truncate commit message
+        id: trim
+        env:
+          FULL_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          # Cap 2500 chars (buffer cho prefix + JSON escape)
+          # Slack Block Kit text limit = 3000 chars per element
+          MSG="${FULL_MSG:0:2500}"
+          if [ ${#FULL_MSG} -gt 2500 ]; then
+            MSG="$MSG\n\n... [truncated, full: ${#FULL_MSG} chars]"
+          fi
+          # Multiline env var for next step
+          {
+            echo 'msg<<EOF'
+            echo "$MSG"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Send commit info to Slack
         uses: slackapi/slack-github-action@v1.27.0
         with:
-          # toJSON() tự động escape \n, ", \ trong commit message
-          # → JSON luôn valid dù message có co-author lines, newlines, etc.
           payload: |
             {
               "text": "New commit on ${{ github.repository }}",
@@ -56,7 +72,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ${{ toJSON(format('*Commit message:*\n{0}', github.event.head_commit.message)) }}
+                    "text": ${{ toJSON(format('*Commit message:*\n{0}', steps.trim.outputs.msg)) }}
                   }
                 },
                 {
