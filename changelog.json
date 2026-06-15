@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Bulk Delete posts (GraphQL 1-commit batch + AJAX modal UI)",
+      "tag": "remove",
+      "pr": 75,
+      "lines_added": 469,
+      "lines_removed": 4,
+      "highlights": [
+        "Auth required (require_session + access_token)",
+        "Mỗi slug validate qua _SLUG_RE → chống path traversal",
+        "Path cố định content/posting/{slug}.md → giới hạn scope",
+        "Dedupe + max 50 slugs/lần",
+        "GraphQL variables parameterized → KHÔNG injection (giống prepared statement SQL)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "iPhone Dynamic Island + Home Indicator safe-area-inset",
       "tag": "chore",
       "pr": 74,
