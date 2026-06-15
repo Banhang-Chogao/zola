@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "HOTFIX KHẨN: Tera literal dict {k:v} block deploy — lỗi LẶP LẠI lần 3",
+      "tag": "fix",
+      "pr": 107,
+      "lines_added": 332,
+      "lines_removed": 4,
+      "highlights": [
+        "PR #89 scoring.html",
+        "PR #101 qa_changelog",
+        "Giờ PR #103 ga_stats"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm bài research: Sentence Transformers (SBERT) — kiến trúc, training, ứng dụng",
       "tag": "chore",
       "pr": 106,
