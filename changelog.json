@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Thêm: GA Stats live ở footer — backend cron 1h fetch GA Data API",
+      "tag": "chore",
+      "pr": 102,
+      "lines_added": 411,
+      "lines_removed": 363,
+      "highlights": [
+        "Name: GA_SERVICE_ACCOUNT_KEY",
+        "Value: paste JSON content mới",
+        "Hôm nay: users + pageviews",
+        "7 ngày: users + pageviews",
+        "30 ngày: users + pageviews"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "HOTFIX KHẨN: Tera literal dict block deploy + PR summary format chuẩn",
       "tag": "chore",
       "pr": 101,
