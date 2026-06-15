@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "CMS editor: DRAFT-ONLY mode (bỏ hoàn toàn PAT)",
+      "tag": "chore",
+      "pr": 34,
+      "lines_added": 58,
+      "lines_removed": 79,
+      "highlights": [
+        "Bỏ HOÀN TOÀN PAT lifecycle: PAT_SESSION_KEY, helpers, prompt, 401 handler",
+        "api() unauth: read-only via 60/h IP limit (đủ cho cá nhân)",
+        "putPost(): tải file .md về máy thay vì PUT",
+        "deletePost(): alert hướng dẫn git rm thủ công",
+        "Button: 💾 Lưu lên GitHub → 📥 Tải file .md"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Verified Badge cạnh tên tác giả mọi nơi",
       "tag": "feat",
       "pr": 33,
