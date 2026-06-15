@@ -52,7 +52,7 @@
         {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
         <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
             <div class="ad-banner__image">
-                <img src="{{ get_url(path='img/banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')">
+                <img src="{{ get_url(path='img/banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
                 <span class="ad-banner__icon" aria-hidden="true">🐻</span>
             </div>
             <div class="ad-banner__text">
@@ -160,7 +160,7 @@
                                 <span class="related-card__cat">{{ p.taxonomies.categories | first }}</span>
                             {% endif %}
                             {% if p.extra.thumbnail %}
-                                <img src="{{ p.extra.thumbnail }}" alt="{{ p.title }}" loading="lazy">
+                                <img src="{{ p.extra.thumbnail }}" alt="{{ p.title }}" loading="lazy" decoding="async">
                             {% endif %}
                         </a>
                         <h4 class="related-card__title">
