@@ -1,0 +1,21 @@
+# Dependencies cho scripts/ff.py — AI-Agent debug/deploy Zola.
+# Tách khỏi requirements.txt chính để cài tuỳ chọn (chỉ dev local cần).
+
+# --- Core AI client (chọn 1 trong 2) ---
+anthropic>=0.40
+# openai>=1.50           # uncomment nếu muốn dùng OpenAI thay Anthropic
+
+# --- Logging ---
+loguru>=0.7
+
+# --- Code quality (Ruff replaces flake8 + isort + pyupgrade) ---
+ruff>=0.6
+
+# --- Static typing ---
+mypy>=1.10
+
+# --- Config validation (Pydantic v2) ---
+pydantic>=2.7
+
+# --- Git pre-commit hook framework ---
+pre-commit>=3.7
