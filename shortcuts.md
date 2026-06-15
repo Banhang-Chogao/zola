@@ -171,6 +171,19 @@ Ví dụ user gõ:
 - Code snippets test được (nếu tech)
 - Facts verify được (citation)
 
+### `score` — Trigger workflow Build Semantic Related Posts
+
+Hành động: trigger manual `build-related.yml` qua workflow_dispatch.
+
+1. `mcp__github__actions_run_trigger` với `workflow_id=build-related.yml`,
+   `ref=main`
+2. Output: "Triggered Build Semantic Related Posts. Check status với
+   `run list build-related.yml` sau ~3 phút."
+3. KHÔNG poll status — user tự check qua tab Actions hoặc gõ `run list`.
+
+Use case: sau khi viết bài mới, gõ `score` để rebuild data/related.json
++ data/scores.json ngay, không đợi cron `*/5 * * * *`.
+
 ### `seo` — Tối ưu SEO cho bài blog mới trong 5h gần nhất
 
 Hành động: Scan `content/posting/*.md` với frontmatter `date` ≥ now() − 5h
