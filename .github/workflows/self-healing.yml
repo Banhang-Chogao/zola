@@ -22,9 +22,9 @@ permissions:
   contents: write
   pull-requests: write
 
-# Force JS actions chạy trên Node.js 24 (default từ 16/06/2026).
+# Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ACTIONS_RUNNER_HOOK_NODE_PATH: "/usr/bin/node"
 
 jobs:
   heal:
@@ -36,6 +36,11 @@ jobs:
           ref: main
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
 
       - name: Set up Python
         uses: actions/setup-python@v5

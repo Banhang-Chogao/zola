@@ -14,10 +14,11 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# Force JS actions chạy trên Node.js 24 (default từ 16/06/2026). Set
-# top-level → mọi job auto-inherit, không cần duplicate trong từng job.
+# Native Node.js 24 opt-in (best practice thay vì FORCE env): mỗi job
+# setup-node@v4 explicit + ACTIONS_RUNNER_HOOK_NODE_PATH ép runner ưu
+# tiên Node 24 path cho mọi JS action sau đó.
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ACTIONS_RUNNER_HOOK_NODE_PATH: "/usr/bin/node"
 
 jobs:
   build:
@@ -25,6 +26,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
 
       - name: Install Zola
         run: |

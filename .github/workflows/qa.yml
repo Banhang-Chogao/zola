@@ -10,9 +10,9 @@ on:
   push:
     branches: [main]
 
-# Force JS actions chạy trên Node.js 24 (default từ 16/06/2026).
+# Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ACTIONS_RUNNER_HOOK_NODE_PATH: "/usr/bin/node"
 
 jobs:
   qa-check:
@@ -20,6 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
 
       - name: Set up Python
         uses: actions/setup-python@v5
