@@ -42,13 +42,14 @@ phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã g
 chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 """
 
+# Menu navigation. Đã bỏ 📰 BÁO CHÍ và 🎬 ĐIỆN ẢNH vì cả 2 trang fetch
+# external API (RSS feeds, IMDB) gây cảm giác blog 'nặng'. Page + content
+# section + JS GIỮ trong repo — chỉ ẩn khỏi nav, có thể bật lại sau.
 menu = [
     {url = "$BASE_URL", name = "TRANG CHÍNH"},
     {url = "$BASE_URL/categories/posting", name = "POSTING"},
     {url = "$BASE_URL/editor", name = "✎ VIẾT BÀI"},
-    {url = "$BASE_URL/baochi", name = "📰 BÁO CHÍ"},
     {url = "$BASE_URL/du-lich", name = "✈️ DU LỊCH"},
-    {url = "$BASE_URL/dien-anh", name = "🎬 ĐIỆN ẢNH"},
     {url = "$BASE_URL/converter", name = "한 KOREAN CONVERTER"},
     {url = "$BASE_URL/changelog", name = "✓ CHANGELOG"},
     {url = "$BASE_URL/insights", name = "📊 INSIGHTS"},

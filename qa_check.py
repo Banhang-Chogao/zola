@@ -114,6 +114,100 @@ def check_conflicts(path, content):
     return issues
 
 
+# ============= SCSS/CSS Syntax Check =============
+# Lightweight bracket/parens balance + empty-rule detection. KHÔNG full
+# SCSS parser — chỉ catch lỗi mechanical phổ biến:
+#   1. Unbalanced { vs } → bug PR #57 (block .editor-btn--success không có
+#      body, mất `}`) → deploy fail
+#   2. Unbalanced ( vs ) trong values (mismatched gradient/calc/var)
+#   3. Empty rule body: 'selector { }' với KHÔNG declarations và KHÔNG
+#      nested rules → có thể là edit hỏng nửa chừng
+#
+# Strip block comments /* ... */ + line comments // ... + string literals
+# trước khi count để tránh false positive với { } trong content/url().
+
+_SCSS_BLOCK_COMMENT_RE = re.compile(r"/\*.*?\*/", re.DOTALL)
+_SCSS_LINE_COMMENT_RE  = re.compile(r"//[^\n]*")
+_SCSS_STRING_RE        = re.compile(r'"(?:[^"\\]|\\.)*"' r"|'(?:[^'\\]|\\.)*'")
+
+
+def _scss_strip_noise(content: str) -> str:
+    """Remove comments + string literals → giữ structural tokens cho count."""
+    content = _SCSS_BLOCK_COMMENT_RE.sub("", content)
+    content = _SCSS_LINE_COMMENT_RE.sub("", content)
+    content = _SCSS_STRING_RE.sub('""', content)
+    return content
+
+
+def check_scss_syntax(path, content):
+    """
+    Catch SCSS syntax errors trước khi Zola/Sass parser fail.
+    Tập trung trên lỗi mechanical: thiếu '}', thiếu ')', empty rule body.
+    """
+    if path.suffix not in {".scss", ".css"}:
+        return []
+    issues = []
+    stripped = _scss_strip_noise(content)
+
+    # 1. Balance { vs }
+    open_braces  = stripped.count("{")
+    close_braces = stripped.count("}")
+    if open_braces != close_braces:
+        # Locate first unmatched: simple stack scan trên stripped
+        depth = 0
+        last_open_line = 0
+        for i, ch in enumerate(stripped):
+            if ch == "{":
+                depth += 1
+                last_open_line = stripped[:i].count("\n") + 1
+            elif ch == "}":
+                depth -= 1
+                if depth < 0:
+                    line = stripped[:i].count("\n") + 1
+                    issues.append(Issue("error", path, line,
+                        f"SCSS thừa '}}' close brace (depth âm). Có thể thiếu '{{' phía trên."))
+                    depth = 0  # reset, tiếp tục scan
+        if depth > 0:
+            issues.append(Issue("error", path, last_open_line,
+                f"SCSS thiếu '}}' (còn {depth} block chưa đóng — bắt đầu từ dòng {last_open_line})."))
+
+    # 2. Balance ( vs ) — quan trọng cho gradient/calc/var values
+    open_parens  = stripped.count("(")
+    close_parens = stripped.count(")")
+    if open_parens != close_parens:
+        diff = abs(open_parens - close_parens)
+        token = "(" if open_parens > close_parens else ")"
+        issues.append(Issue("error", path, 1,
+            f"SCSS unbalanced parens: thừa {diff} ký tự '{token}'."))
+
+    # 3. Empty rule body — selector { } (chỉ whitespace bên trong) trong
+    # original content (CHƯA strip comment). Có comment bên trong =
+    # placeholder intentional, skip.
+    empty_rule_re = re.compile(r"([^{};]+?)\{(\s*)\}")
+    for m in empty_rule_re.finditer(content):
+        sel = m.group(1).strip()
+        inner = m.group(2)
+        if not sel or len(sel) > 200:
+            continue
+        if sel.startswith(("@", "%", "0", "1", "/*", "//")):
+            continue
+        # Inner có comment / chỉ whitespace + comment → intentional placeholder
+        if "/*" in inner or "//" in inner:
+            continue
+        # Inner whitespace only → flag warning (có thể edit hỏng nửa chừng)
+        # Nhưng nếu match cùng line với inline comment ở dòng đó → skip
+        line_start = content.rfind("\n", 0, m.start()) + 1
+        line_end   = content.find("\n", m.end())
+        line_text  = content[line_start: line_end if line_end >= 0 else len(content)]
+        if "/*" in line_text:
+            continue
+        line = content[:m.start()].count("\n") + 1
+        issues.append(Issue("warning", path, line,
+            f"SCSS rule rỗng '{sel[:60]}{{...}}' — có thể edit hỏng nửa chừng?"))
+
+    return issues
+
+
 def check_secrets(path, content):
     """Scan hardcoded secrets. Return list[Issue]."""
     # Skip chính file qa_check.py — chứa các regex pattern dễ false positive
@@ -422,6 +516,7 @@ def main():
             rel = path
         all_issues.extend(check_conflicts(rel, content))
         all_issues.extend(check_secrets(rel, content))
+        all_issues.extend(check_scss_syntax(rel, content))
         if path.suffix == ".md":
             all_issues.extend(check_seo(rel, content))
             # Detect fixable issues riêng cho posting
