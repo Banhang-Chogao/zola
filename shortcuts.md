@@ -123,6 +123,54 @@ Bonus columns nếu user muốn detail:
 
 KHÔNG diễn giải dài, chỉ output bảng + 1 dòng summary.
 
+### `topic: <chủ đề>` — Tự research + viết bài + deploy
+
+Format: `topic: <nội dung chủ đề>` (không quote, có dấu hai chấm).
+
+Ví dụ user gõ:
+- `topic: nên ghé thăm nơi nào ở Hàn Quốc thời điểm này`
+- `topic: cách tối ưu Lighthouse score lên 100`
+- `topic: phở Hà Nội vs phở Sài Gòn`
+
+**Hành động Claude**:
+1. **Research**: tự tổng hợp kiến thức về chủ đề. Nếu cần data thời sự
+   (mùa, thời tiết, sự kiện hiện tại) → dùng WebSearch tool. Nếu là
+   chủ đề kỹ thuật → dùng knowledge sẵn + web fetch authoritative
+   source.
+2. **Chọn category** phù hợp từ `categories.json`:
+   - Du lịch / địa điểm → `Du lịch` hoặc `Ẩm thực`
+   - Tech / coding → `Posting` hoặc `Ẩm thực`
+   - Văn hóa / con người → `Posting`
+3. **Tạo slug** kebab-case từ chủ đề (max 60 ký tự, bỏ dấu tiếng Việt).
+4. **TOML frontmatter** chuẩn:
+   ```toml
+   +++
+   title = "<Title hấp dẫn ≤70 ký tự>"
+   date = <today>
+   [taxonomies]
+   categories = ["<category>"]
+   tags = [<3-8 tags relevant>]
+   [extra]
+   thumbnail = "https://picsum.photos/seed/<slug>/600/400"
+   featured = false
+   +++
+   ```
+5. **Body markdown** 1500-2500 từ:
+   - Đoạn mở đầu hook + `<!-- more -->` cho summary
+   - 5-10 sections với H2/H3
+   - Code snippets nếu là tech
+   - Internal links sang ≥2 bài đã có (semantic relevance)
+   - External authoritative links (paper, docs, official sites)
+   - Kết thúc với call-to-action hoặc reference repo/source
+6. **Commit + push + PR + merge** ngay, KHÔNG hỏi user.
+7. Output bảng PR summary chuẩn format section 5.
+
+**Quality bar**:
+- Tiếng Việt tự nhiên, không Google Translate
+- Có quan điểm cá nhân (1st person "mình"/"tôi"), không liệt kê khô
+- Code snippets test được (nếu tech)
+- Facts verify được (citation)
+
 ### `seo` — Tối ưu SEO cho bài blog mới trong 5h gần nhất
 
 Hành động: Scan `content/posting/*.md` với frontmatter `date` ≥ now() − 5h
