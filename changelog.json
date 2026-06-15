@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "HOTFIX: khôi phục scroll trang — gỡ overflow-x hidden trên html",
+      "tag": "chore",
+      "pr": 78,
+      "lines_added": 17,
+      "lines_removed": 9,
+      "highlights": [
+        "overscroll-behavior-y: contain — chỉ ngăn rubber-band, KHÔNG khoá scroll",
+        "scroll-behavior: smooth + scroll-padding-top — anchor jump",
+        "Backdrop blur navbar (Threads-feel)",
+        "Tap-highlight + tap-active feedback mobile"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Bật Google Analytics 4: G-REFBXH86Z5 (Property 541698865)",
       "tag": "chore",
       "pr": 77,
