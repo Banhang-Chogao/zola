@@ -1,5 +1,6 @@
 +++
 title = "Hành trình công nghệ: Dưới nắp ca-pô của blog cá nhân Duy Nguyen"
+description = "Stack 3 lớp tối giản: Zola + GitHub Pages + GitHub Actions. Mini CMS vanilla JS, QA Gatekeeper auto-fix, defense in depth, $0/tháng. Lighthouse 99/100."
 date = 2026-06-15
 aliases = ["/cong-nghe-blog-duy-nguyen/"]
 
@@ -159,6 +160,9 @@ Nếu bạn cũng đang chọn stack cho blog cá nhân, lời khuyên duy nhấ
 viết. Thêm khi cần, không thêm khi không.
 
 ---
+
+Đọc thêm chi tiết về [QA Gatekeeper: bí quyết blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/)
+hoặc [Sentence Transformers SBERT cho semantic related posts](/posting/sentence-transformers-sbert-deep-dive/).
 
 **Repo công khai**: [github.com/Banhang-Chogao/zola](https://github.com/Banhang-Chogao/zola).
 Mọi feature mô tả ở trên đều có thể đọc source trực tiếp.
