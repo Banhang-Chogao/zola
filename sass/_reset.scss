@@ -35,6 +35,40 @@ ul, ol { padding: 0; margin: 0; list-style: none; }
   padding: 0 24px;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 720px) {
   .container { padding: 0 16px; }
+  /* Base font giảm nhẹ trên tablet cho proportion hài hoà */
+  html { font-size: 15.5px; }
+}
+
+@media (max-width: 540px) {
+  .container { padding: 0 14px; }
+  /* Mobile: font base 15px → các rem tự scale theo */
+  html { font-size: 15px; }
+}
+
+@media (max-width: 380px) {
+  .container { padding: 0 12px; }
+}
+
+/* Prevent horizontal scroll khi 1 element nào đó overflow accidentally —
+   defense in depth. Body luôn = viewport width, không bao giờ scroll ngang. */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Touch target tối thiểu 44x44px (Apple/Google guideline) cho mọi
+   button + link clickable. Đảm bảo dễ tap trên mobile bằng ngón cái. */
+@media (max-width: 720px) {
+  button,
+  a.editor-btn,
+  .navbar__menu a,
+  .navbar__burger,
+  .footer-card a,
+  .site-footer__author-mgmt,
+  .site-footer__stats-link {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

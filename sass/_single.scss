@@ -484,3 +484,44 @@
   .giscus-section__sub { color: #94a3b8; }
 }
 
+/* ============= MOBILE OPTIMIZATIONS (author box + giscus) ============= */
+@media (max-width: 720px) {
+  .author-box {
+    /* Aspect-ratio reserve để không CLS khi avatar lazy load */
+    &__avatar {
+      aspect-ratio: 1;
+      img { aspect-ratio: 1; }
+    }
+    &__name { font-size: 1rem; }
+    &__url { font-size: 0.78rem; }
+    &__bio { font-size: 0.88rem; line-height: 1.6; }
+  }
+
+  /* Giscus iframe mobile-friendly */
+  .giscus-section {
+    margin: 2rem 0 0.5rem;
+
+    &__title {
+      font-size: 0.72rem;
+      padding: 0.55rem 0.95rem;
+    }
+    &__sub {
+      font-size: 0.74rem;
+      width: 100%; /* full width khi stack vertical */
+      flex: none;
+    }
+  }
+  .giscus-wrapper {
+    padding: 0; /* edge-to-edge mobile */
+    min-height: 280px; /* reserve cao hơn cho mobile keyboard */
+  }
+}
+
+@media (max-width: 380px) {
+  .author-box__bio { font-size: 0.85rem; }
+  .related-articles__title {
+    font-size: 0.72rem;
+    padding: 0.55rem 0.95rem;
+  }
+}
+
