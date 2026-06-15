@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Google Analytics 4 dời từ &lt;head&gt; xuống trước &lt;/body&gt;",
+      "tag": "chore",
+      "pr": 71,
+      "lines_added": 21,
+      "lines_removed": 13,
+      "highlights": [
+        "Vị trí: chèn vào footer (trước </body>) → tối ưu page load",
+        "Chuẩn: gtag.js mới nhất (đã đúng)",
+        "MEASUREMENT_ID: để trống cho user tự điền",
+        "Bỏ GA block khỏi <head> (sau speed-vitals.js)",
+        "Thêm GA block ngay trước </body>, sau {% block extra_scripts %}"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "workflow auto commit nhầm log files + xoá rác từ PR #63",
       "tag": "remove",
       "pr": 70,
