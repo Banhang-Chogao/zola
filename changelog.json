@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "🤖 Self-healing: 18 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 97,
+      "lines_added": 18,
+      "lines_removed": 29,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "GA Stats footer: luôn render với DEMO placeholder mode",
       "tag": "chore",
       "pr": 103,
