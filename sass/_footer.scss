@@ -9,4 +9,23 @@
   strong { color: #fff; }
 
   a:hover { color: #d63d3d; }
+
+  &__sep {
+    margin: 0 0.4rem;
+    color: #555;
+  }
+
+  &__admin {
+    color: #666;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    border-bottom: 1px dotted #444;
+    transition: color .15s ease, border-color .15s ease;
+
+    &:hover {
+      color: #d63d3d;
+      border-bottom-color: #d63d3d;
+    }
+  }
 }

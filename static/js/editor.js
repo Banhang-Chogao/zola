@@ -500,6 +500,7 @@ tags = ${tagsStr}
     const form = $("[data-form='post']");
     form.reset();
     $("[data-target='save-status']").textContent = "";
+    hideDraftBanner(); // reset banner cũ từ session trước
     // Bài mới chưa có slug → mở khoá auto-fill. Edit bài cũ sẽ set lại bên dưới.
     slugLocked = false;
 
@@ -509,7 +510,11 @@ tags = ${tagsStr}
       $("[data-action='delete']").hidden = true;
       form.date.value = todayIso();
       state.editing = null;
+      lastDraftSlug = null; // bài mới chưa có slug
       rebuildCategoryOptions("Posting");
+      updateCounter();
+      lastRenderedBody = null;
+      renderPreview();
       showView("edit");
       return;
     }
@@ -527,14 +532,21 @@ tags = ${tagsStr}
       slugLocked = true;
       form.title.value = fm.title;
       // Loại prefix folder (content/posting/) khỏi slug input
-      form.slug.value = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
+      const slug = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
+      form.slug.value = slug;
+      lastDraftSlug = slug; // track để autosave xoá draft cũ khi user đổi slug
       form.date.value = fm.date;
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
       form.featured.checked = fm.featured;
       form.body.value = body.trim();
+      updateCounter();
+      lastRenderedBody = null;
+      renderPreview();
       setStatus("save-status", "✓ Đã tải bài", "success");
+      // Check có draft chưa lưu cho slug này không — hiển thị banner khôi phục
+      checkDraftFor(slug);
     }).catch((err) => {
       setStatus("save-status", "✗ " + err.message, "error");
     });
@@ -613,6 +625,9 @@ tags = ${tagsStr}
       if (idx >= 0) state.posts[idx] = savedPost;
       else state.posts.unshift(savedPost);
       invalidateListCache(); // ép background refresh tiếp theo fetch tươi
+      // Cleanup draft localStorage — bài đã commit lên repo, không cần giữ draft
+      discardDraft(slug);
+      lastDraftSlug = slug;
     } catch (err) {
       setStatus("save-status", "✗ " + err.message, "error");
     }
@@ -629,6 +644,7 @@ tags = ${tagsStr}
         .replace(/\.md$/, "");
       state.posts = state.posts.filter((p) => p.slug !== deletedSlug);
       invalidateListCache();
+      discardDraft(deletedSlug); // dọn draft tương ứng
       setStatus("save-status", "✓ Đã xoá", "success");
       showView("list");
       renderPostList();
@@ -641,19 +657,553 @@ tags = ${tagsStr}
     enterDashboard();
   });
 
-  // ============= MARKDOWN PREVIEW TABS =============
-  $$(".editor-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      $$(".editor-tab").forEach((t) => t.classList.remove("is-active"));
-      tab.classList.add("is-active");
-      const target = tab.dataset.tab;
-      $$("[data-tab-pane]").forEach((p) => p.hidden = p.dataset.tabPane !== target);
-      if (target === "preview" && window.marked) {
-        const body = $("[name='body']").value;
-        $("[data-tab-pane='preview']").innerHTML = window.marked.parse(body || "*(rỗng)*");
+  // ============= MARKDOWN TOOLBAR + SHORTCUTS + COUNTER =============
+  const bodyTextarea = $("[name='body']");
+
+  // Bọc/unbọc selection bằng prefix+suffix. Toggle off nếu selection đã wrapped.
+  // Selection rỗng → insert placeholder + highlight để user gõ đè ngay.
+  function wrapInline(prefix, suffix, placeholder) {
+    const ta = bodyTextarea;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const sel = ta.value.slice(start, end);
+    const before = ta.value.slice(0, start);
+    const after = ta.value.slice(end);
+
+    if (sel.length >= prefix.length + suffix.length &&
+        sel.startsWith(prefix) && sel.endsWith(suffix)) {
+      // Toggle off: bỏ wrap
+      const inner = sel.slice(prefix.length, sel.length - suffix.length);
+      ta.value = before + inner + after;
+      ta.selectionStart = start;
+      ta.selectionEnd = start + inner.length;
+    } else {
+      const insert = sel || placeholder;
+      ta.value = before + prefix + insert + suffix + after;
+      if (sel) {
+        ta.selectionStart = start + prefix.length;
+        ta.selectionEnd = end + prefix.length;
+      } else {
+        ta.selectionStart = start + prefix.length;
+        ta.selectionEnd = start + prefix.length + placeholder.length;
       }
+    }
+    ta.focus();
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  // Toggle line-prefix (heading/quote/list). Mở rộng phạm vi sang toàn bộ line
+  // chứa cursor → strip nếu đã có prefix, thêm vào nếu chưa.
+  function togglePrefix(prefix) {
+    const ta = bodyTextarea;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const value = ta.value;
+
+    const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+    let lineEnd = value.indexOf("\n", end);
+    if (lineEnd === -1) lineEnd = value.length;
+
+    const line = value.slice(lineStart, lineEnd);
+    const newLine = line.startsWith(prefix) ? line.slice(prefix.length) : prefix + line;
+
+    ta.value = value.slice(0, lineStart) + newLine + value.slice(lineEnd);
+    const delta = newLine.length - line.length;
+    ta.selectionStart = Math.max(lineStart, start + delta);
+    ta.selectionEnd = end + delta;
+    ta.focus();
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  const MD_ACTIONS = {
+    bold:      { type: "inline", prefix: "**",    suffix: "**",     placeholder: "đậm" },
+    italic:    { type: "inline", prefix: "*",     suffix: "*",      placeholder: "nghiêng" },
+    code:      { type: "inline", prefix: "`",     suffix: "`",      placeholder: "code" },
+    link:      { type: "inline", prefix: "[",     suffix: "](url)", placeholder: "text" },
+    image:     { type: "inline", prefix: "![",    suffix: "](url)", placeholder: "alt" },
+    codeblock: { type: "inline", prefix: "```\n", suffix: "\n```",  placeholder: "code" },
+    heading:   { type: "prefix", prefix: "## " },  // legacy alias cho toolbar button
+    h1:        { type: "prefix", prefix: "# " },
+    h2:        { type: "prefix", prefix: "## " },
+    h3:        { type: "prefix", prefix: "### " },
+    quote:     { type: "prefix", prefix: "> " },
+    ul:        { type: "prefix", prefix: "- " },
+    ol:        { type: "prefix", prefix: "1. " },
+  };
+
+  function applyMdAction(action) {
+    const cfg = MD_ACTIONS[action];
+    if (!cfg) return;
+    if (cfg.type === "inline") wrapInline(cfg.prefix, cfg.suffix, cfg.placeholder);
+    else togglePrefix(cfg.prefix);
+  }
+
+  $$("[data-md]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      applyMdAction(btn.dataset.md);
     });
   });
+
+  // Keyboard shortcuts — scope: editForm only (tránh hijack browser khi user
+  // ở list/login view). Ctrl+S = save anywhere trong form. Ctrl+B/I/K/E = MD
+  // chỉ khi textarea body focused. Ctrl+H KHÔNG bind vì xung đột history nguy hiểm.
+  const MD_SHORTCUTS = { b: "bold", i: "italic", k: "link", e: "code" };
+  const editForm = $("[data-form='post']");
+
+  editForm.addEventListener("keydown", (e) => {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    if (e.altKey || e.shiftKey) return;
+    const key = e.key.toLowerCase();
+
+    if (key === "s") {
+      e.preventDefault();
+      if (typeof editForm.requestSubmit === "function") editForm.requestSubmit();
+      else editForm.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+      return;
+    }
+
+    if (document.activeElement !== bodyTextarea) return;
+    if (MD_SHORTCUTS[key]) {
+      e.preventDefault();
+      applyMdAction(MD_SHORTCUTS[key]);
+    }
+  });
+
+  // Counter realtime — words + chars. Warning state khi <MIN_CHARS để user
+  // thấy lỗi trước khi bấm Save (đồng bộ với threshold 50 ở validate submit).
+  const MIN_CHARS = 50;
+  const counterWords = $("[data-counter-words]");
+  const counterChars = $("[data-counter-chars]");
+  const counterHint  = $("[data-counter-hint]");
+  const counterRoot  = $("[data-counter]");
+
+  function updateCounter() {
+    const val = bodyTextarea.value;
+    const trimmed = val.trim();
+    const words = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
+    const chars = val.length;
+    if (counterWords) counterWords.textContent = words.toLocaleString("vi-VN");
+    if (counterChars) counterChars.textContent = chars.toLocaleString("vi-VN");
+
+    if (counterRoot) {
+      const isWarn = chars > 0 && chars < MIN_CHARS;
+      counterRoot.classList.toggle("editor-counter--warning", isWarn);
+      if (counterHint) {
+        if (isWarn) {
+          counterHint.textContent = "(cần thêm " + (MIN_CHARS - chars) + ")";
+          counterHint.hidden = false;
+        } else {
+          counterHint.hidden = true;
+        }
+      }
+    }
+  }
+  bodyTextarea.addEventListener("input", updateCounter);
+  updateCounter(); // initial render khi load page
+
+  // ============= EDITOR MODE (write / split / preview) =============
+  // Mode-class system thay cho hidden attr juggling. CSS điều khiển pane visibility,
+  // toolbar/counter ẩn ở preview mode qua media query + mode class.
+  const MODE_KEY = "zola-cms-editor-mode";
+  const contentWrap = $("[data-content-wrap]");
+
+  function getInitialMode() {
+    const saved = localStorage.getItem(MODE_KEY);
+    if (saved === "write" || saved === "split" || saved === "preview") return saved;
+    // Default: split trên desktop ≥900px, write trên mobile (split không vừa)
+    return window.matchMedia("(min-width: 900px)").matches ? "split" : "write";
+  }
+
+  function setEditorMode(mode) {
+    if (!contentWrap) return;
+    contentWrap.classList.remove(
+      "editor-content-wrap--mode-write",
+      "editor-content-wrap--mode-split",
+      "editor-content-wrap--mode-preview"
+    );
+    contentWrap.classList.add("editor-content-wrap--mode-" + mode);
+    $$(".editor-tab").forEach((t) => {
+      t.classList.toggle("is-active", t.dataset.tab === mode);
+    });
+    try { localStorage.setItem(MODE_KEY, mode); } catch (e) {}
+    // Force re-render preview vì mode mới có thể vừa show preview
+    lastRenderedBody = null;
+    renderPreview();
+  }
+
+  // ============= LIVE PREVIEW RENDER (debounce 500ms) =============
+  // Reuse window.marked (loaded từ CDN ở editor.html), không thêm dependency.
+  // Render no-op khi mode = write (preview không visible) → 0 waste compute.
+  let lastRenderedBody = null;
+  function renderPreview() {
+    if (!window.marked || !contentWrap) return;
+    if (contentWrap.classList.contains("editor-content-wrap--mode-write")) return;
+    const body = bodyTextarea.value;
+    if (body === lastRenderedBody) return;
+    lastRenderedBody = body;
+    const previewPane = $("[data-tab-pane='preview']");
+    if (previewPane) {
+      previewPane.innerHTML = window.marked.parse(body || "*(rỗng)*");
+    }
+  }
+  const debouncedRender = debounce(renderPreview, 500);
+
+  bodyTextarea.addEventListener("input", debouncedRender);
+
+  $$(".editor-tab").forEach((tab) => {
+    tab.addEventListener("click", () => setEditorMode(tab.dataset.tab));
+  });
+
+  // ============= AUTOSAVE DRAFT (debounce 1s) =============
+  // Lưu mọi field hiện tại vào localStorage theo slug. Skip nếu slug rỗng
+  // (không có key để truy xuất sau). Track lastDraftSlug để dọn draft cũ
+  // khi user đổi title → slug đổi theo (tránh sinh ghost draft).
+  const DRAFT_PREFIX = "zola-cms-draft-";
+  let lastDraftSlug = null;
+
+  function autosaveDraft() {
+    const slug = ($("[name='slug']").value || "").trim();
+    if (!slug) return;
+    if (lastDraftSlug && lastDraftSlug !== slug) {
+      try { localStorage.removeItem(DRAFT_PREFIX + lastDraftSlug); } catch (e) {}
+    }
+    lastDraftSlug = slug;
+    const form = editForm;
+    const payload = {
+      timestamp: Date.now(),
+      title: form.title.value,
+      slug: slug,
+      date: form.date.value,
+      category: getSelectedCategory(),
+      tags: form.tags.value,
+      thumbnail: form.thumbnail.value,
+      featured: form.featured.checked,
+      body: form.body.value,
+    };
+    try {
+      localStorage.setItem(DRAFT_PREFIX + slug, JSON.stringify(payload));
+    } catch (e) { /* quota exceeded — silent fail */ }
+  }
+  const debouncedAutosave = debounce(autosaveDraft, 1000);
+
+  // Listen mọi thay đổi form (input/change), skip click trên draft-banner buttons
+  ["input", "change"].forEach((evt) => {
+    editForm.addEventListener(evt, (e) => {
+      if (e.target && e.target.closest && e.target.closest("[data-draft-banner]")) return;
+      debouncedAutosave();
+    });
+  });
+
+  // ============= DRAFT RECOVERY BANNER =============
+  const draftBanner = $("[data-draft-banner]");
+  const draftBannerMsg = $("[data-draft-banner-msg]");
+  let pendingDraft = null;
+
+  function formatAgo(timestamp) {
+    const mins = Math.round((Date.now() - timestamp) / 60000);
+    if (mins < 1) return "vừa xong";
+    if (mins < 60) return mins + " phút trước";
+    const hours = Math.round(mins / 60);
+    if (hours < 24) return hours + " giờ trước";
+    return Math.round(hours / 24) + " ngày trước";
+  }
+
+  function showDraftBanner(draft) {
+    if (!draftBanner || !draftBannerMsg) return;
+    pendingDraft = draft;
+    const ts = new Date(draft.timestamp);
+    const timeStr = ts.toLocaleString("vi-VN", {
+      hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit",
+    });
+    draftBannerMsg.textContent = "Có bản nháp chưa lưu (lúc " + timeStr + ", " + formatAgo(draft.timestamp) + ")";
+    draftBanner.hidden = false;
+  }
+
+  function hideDraftBanner() {
+    if (draftBanner) draftBanner.hidden = true;
+    pendingDraft = null;
+  }
+
+  function applyDraftToForm(draft) {
+    const form = editForm;
+    form.title.value = draft.title || "";
+    form.slug.value = draft.slug || "";
+    form.date.value = draft.date || "";
+    form.tags.value = draft.tags || "";
+    form.thumbnail.value = draft.thumbnail || "";
+    form.featured.checked = !!draft.featured;
+    form.body.value = draft.body || "";
+    rebuildCategoryOptions(draft.category || "Posting");
+    slugLocked = true; // draft đã có slug → khoá auto-fill từ title
+    updateCounter();
+    lastRenderedBody = null;
+    renderPreview();
+  }
+
+  function checkDraftFor(slug) {
+    if (!slug) return;
+    try {
+      const raw = localStorage.getItem(DRAFT_PREFIX + slug);
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (!draft || !draft.timestamp || !draft.slug) return;
+      showDraftBanner(draft);
+    } catch (e) { /* silent */ }
+  }
+
+  function discardDraft(slug) {
+    if (!slug) return;
+    try { localStorage.removeItem(DRAFT_PREFIX + slug); } catch (e) {}
+  }
+
+  $("[data-action='draft-restore']").addEventListener("click", () => {
+    if (pendingDraft) applyDraftToForm(pendingDraft);
+    hideDraftBanner();
+  });
+
+  $("[data-action='draft-discard']").addEventListener("click", () => {
+    if (pendingDraft) discardDraft(pendingDraft.slug);
+    hideDraftBanner();
+  });
+
+  // ============= SLASH COMMAND MENU =============
+  // Gõ "/" ở line-start hoặc sau whitespace → hiện floating menu suggest
+  // các block markdown. Tận dụng applyMdAction đã có — không duplicate wrap logic.
+  // Position cursor: mirror div technique, 0 dependency.
+
+  const SLASH_ITEMS = [
+    { keys: ["h1", "heading-1"],          label: "Heading 1",     icon: "H1",  action: "h1",        hint: "#" },
+    { keys: ["h2", "heading-2", "heading"], label: "Heading 2",   icon: "H2",  action: "h2",        hint: "##" },
+    { keys: ["h3", "heading-3"],          label: "Heading 3",     icon: "H3",  action: "h3",        hint: "###" },
+    { keys: ["quote", "blockquote", "trich-dan"], label: "Quote", icon: "❝",   action: "quote",     hint: ">" },
+    { keys: ["code", "inline-code"],      label: "Code inline",   icon: "</>",  action: "code",     hint: "`code`" },
+    { keys: ["codeblock", "code-block", "cb"], label: "Code block", icon: "{}", action: "codeblock", hint: "```" },
+    { keys: ["list", "ul", "bullet", "danh-sach"], label: "Bullet list", icon: "•", action: "ul",  hint: "-" },
+    { keys: ["numbered", "ol", "ordered", "so-thu-tu"], label: "Numbered list", icon: "1.", action: "ol", hint: "1." },
+    { keys: ["image", "img", "anh", "hinh"], label: "Image",      icon: "🖼",  action: "image",     hint: "![]()" },
+    { keys: ["link", "url"],              label: "Link",          icon: "🔗",  action: "link",      hint: "[]()" },
+    { keys: ["bold", "b", "dam"],         label: "Bold",          icon: "B",   action: "bold",      hint: "**" },
+    { keys: ["italic", "i", "nghieng"],   label: "Italic",        icon: "I",   action: "italic",    hint: "*" },
+  ];
+
+  const slashState = { open: false, triggerStart: -1, filter: "", activeIndex: 0 };
+  const slashMenu = $("[data-slash-menu]");
+  const slashList = $("[data-slash-list]");
+
+  // Mirror div technique — clone style của textarea vào hidden div, đo position
+  // của span sentinel để lấy pixel coords của caret. Return viewport coords để
+  // dùng với position:fixed (không bị scroll-offset ngoài context).
+  function getCaretCoordinates(ta, caretPos) {
+    const div = document.createElement("div");
+    const style = window.getComputedStyle(ta);
+    const props = [
+      "boxSizing", "width", "height",
+      "fontSize", "fontFamily", "fontWeight", "fontStyle",
+      "lineHeight", "letterSpacing", "wordSpacing", "textAlign",
+      "paddingTop", "paddingRight", "paddingBottom", "paddingLeft",
+      "borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth",
+    ];
+    props.forEach((p) => { div.style[p] = style[p]; });
+    div.style.position = "absolute";
+    div.style.visibility = "hidden";
+    div.style.top = "-9999px";
+    div.style.left = "-9999px";
+    div.style.whiteSpace = "pre-wrap";
+    div.style.wordWrap = "break-word";
+    div.style.overflow = "hidden";
+
+    div.textContent = ta.value.substring(0, caretPos);
+    const span = document.createElement("span");
+    span.textContent = "."; // sentinel để đo, không matter content
+    div.appendChild(span);
+    document.body.appendChild(div);
+
+    const spanRect = span.getBoundingClientRect();
+    const divRect = div.getBoundingClientRect();
+    const taRect = ta.getBoundingClientRect();
+    document.body.removeChild(div);
+
+    return {
+      left: taRect.left + (spanRect.left - divRect.left) - ta.scrollLeft,
+      top:  taRect.top  + (spanRect.top  - divRect.top)  - ta.scrollTop,
+      lineHeight: parseFloat(style.lineHeight) || 20,
+    };
+  }
+
+  function getFilteredSlashItems() {
+    if (!slashState.filter) return SLASH_ITEMS;
+    const q = normalizeStr(slashState.filter);
+    return SLASH_ITEMS.filter((item) => {
+      if (normalizeStr(item.label).includes(q)) return true;
+      return item.keys.some((k) => k.includes(q));
+    });
+  }
+
+  function renderSlashMenu() {
+    if (!slashList) return;
+    const items = getFilteredSlashItems();
+    if (slashState.activeIndex >= items.length) {
+      slashState.activeIndex = items.length ? items.length - 1 : 0;
+    }
+    if (!items.length) {
+      slashList.innerHTML = '<li class="editor-slash-menu__empty">Không có lệnh nào khớp</li>';
+      return;
+    }
+    slashList.innerHTML = items.map((item, idx) =>
+      '<li class="editor-slash-menu__item' + (idx === slashState.activeIndex ? ' is-active' : '') +
+      '" data-slash-action="' + escapeHtml(item.action) + '" role="option"' +
+      (idx === slashState.activeIndex ? ' aria-selected="true"' : '') + '>' +
+        '<span class="editor-slash-menu__icon">' + escapeHtml(item.icon) + '</span>' +
+        '<span class="editor-slash-menu__label">' + escapeHtml(item.label) + '</span>' +
+        '<span class="editor-slash-menu__hint">' + escapeHtml(item.hint) + '</span>' +
+      '</li>'
+    ).join("");
+
+    // mousedown + preventDefault giữ focus textarea (không dùng click vì click
+    // làm blur textarea trước khi handler chạy).
+    slashList.querySelectorAll("[data-slash-action]").forEach((li) => {
+      li.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        selectSlashItem(li.dataset.slashAction);
+      });
+    });
+  }
+
+  function positionSlashMenu() {
+    if (!slashMenu || !slashState.open) return;
+    const coords = getCaretCoordinates(bodyTextarea, slashState.triggerStart);
+    slashMenu.style.left = Math.max(8, coords.left) + "px";
+    // Tentative: dưới cursor 4px
+    let top = coords.top + coords.lineHeight + 4;
+    slashMenu.style.top = top + "px";
+    // Sau khi render, check overflow viewport bottom → flip lên trên
+    const menuRect = slashMenu.getBoundingClientRect();
+    if (menuRect.bottom > window.innerHeight - 8) {
+      const flipped = coords.top - menuRect.height - 4;
+      slashMenu.style.top = Math.max(8, flipped) + "px";
+    }
+    // Horizontal overflow: đẩy vào trong
+    if (menuRect.right > window.innerWidth - 8) {
+      const newLeft = window.innerWidth - menuRect.width - 8;
+      slashMenu.style.left = Math.max(8, newLeft) + "px";
+    }
+  }
+
+  function openSlashMenu(triggerStart) {
+    if (!slashMenu) return;
+    slashState.open = true;
+    slashState.triggerStart = triggerStart;
+    slashState.filter = "";
+    slashState.activeIndex = 0;
+    slashMenu.hidden = false;
+    renderSlashMenu();
+    positionSlashMenu();
+  }
+
+  function closeSlashMenu() {
+    if (!slashMenu || !slashState.open) return;
+    slashState.open = false;
+    slashState.triggerStart = -1;
+    slashState.filter = "";
+    slashState.activeIndex = 0;
+    slashMenu.hidden = true;
+  }
+
+  function updateSlashFilter() {
+    if (!slashState.open) return;
+    const ta = bodyTextarea;
+    const cursorPos = ta.selectionStart;
+
+    // Backspace xoá xuống dưới trigger → đóng menu
+    if (cursorPos <= slashState.triggerStart) {
+      closeSlashMenu();
+      return;
+    }
+
+    const filterText = ta.value.substring(slashState.triggerStart + 1, cursorPos);
+    // Whitespace hoặc newline trong filter → đóng menu (user đã thoát context "/")
+    if (/[\s\n]/.test(filterText)) {
+      closeSlashMenu();
+      return;
+    }
+
+    slashState.filter = filterText;
+    slashState.activeIndex = 0;
+    renderSlashMenu();
+    // Không cần re-position — giữ menu ở triggerStart để tránh nhảy theo filter
+  }
+
+  function selectSlashItem(action) {
+    const ta = bodyTextarea;
+    const triggerStart = slashState.triggerStart;
+    const cursorPos = ta.selectionStart;
+
+    // Xoá đoạn "/<filter>" khỏi textarea trước khi apply action
+    ta.value = ta.value.slice(0, triggerStart) + ta.value.slice(cursorPos);
+    ta.selectionStart = ta.selectionEnd = triggerStart;
+
+    closeSlashMenu();
+    // applyMdAction sẽ tự dispatch input event → counter + preview cập nhật
+    applyMdAction(action);
+  }
+
+  // Trigger detection — input event (sau khi "/" đã vào value)
+  bodyTextarea.addEventListener("input", (e) => {
+    if (slashState.open) {
+      updateSlashFilter();
+      return;
+    }
+    // Chỉ trigger khi user gõ thẳng "/" (không paste, không IME compose)
+    if (e.inputType !== "insertText" || e.data !== "/") return;
+    const pos = bodyTextarea.selectionStart;
+    const triggerPos = pos - 1; // index của "/" vừa typed
+    // Trigger only khi "/" ở đầu textarea hoặc sau \n hoặc sau whitespace
+    if (triggerPos === 0) {
+      openSlashMenu(triggerPos);
+      return;
+    }
+    const charBefore = bodyTextarea.value[triggerPos - 1];
+    if (charBefore === "\n" || /\s/.test(charBefore)) {
+      openSlashMenu(triggerPos);
+    }
+  });
+
+  // Keyboard nav — bind trên bodyTextarea (capture phase trước editForm bubble)
+  bodyTextarea.addEventListener("keydown", (e) => {
+    if (!slashState.open) return;
+    const items = getFilteredSlashItems();
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (items.length) slashState.activeIndex = (slashState.activeIndex + 1) % items.length;
+      renderSlashMenu();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (items.length) slashState.activeIndex = (slashState.activeIndex - 1 + items.length) % items.length;
+      renderSlashMenu();
+    } else if (e.key === "Enter" || e.key === "Tab") {
+      e.preventDefault();
+      if (items.length) selectSlashItem(items[slashState.activeIndex].action);
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      closeSlashMenu();
+    }
+  });
+
+  // Click outside menu → đóng. Skip nếu click vào textarea (user có thể click
+  // để di chuyển cursor mà vẫn giữ menu — nhưng filter sẽ stale → đóng cho gọn).
+  document.addEventListener("mousedown", (e) => {
+    if (!slashState.open) return;
+    if (slashMenu && slashMenu.contains(e.target)) return;
+    closeSlashMenu();
+  });
+
+  // Scroll viewport hoặc textarea → đóng menu (position:fixed không follow scroll)
+  bodyTextarea.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); });
+  window.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); }, { passive: true });
+
+  // Init mode trên contentWrap — phải gọi sau khi renderPreview defined.
+  setEditorMode(getInitialMode());
 
   // ============= URL PARAM HANDLING =============
   // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola

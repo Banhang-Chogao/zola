@@ -356,6 +356,100 @@
   &:focus { box-shadow: none; }
 }
 
+/* ============= MARKDOWN TOOLBAR ============= */
+.editor-md-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  background: #fafafa;
+  border-bottom: 1px solid #e5e7eb;
+
+  &[hidden] { display: none; }
+}
+
+.editor-md-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #555;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: background .12s ease, color .12s ease, border-color .12s ease, transform .08s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: #fff;
+    color: #111;
+    border-color: #d1d5db;
+  }
+
+  &:active {
+    transform: translateY(1px);
+    background: #f0f0f0;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: #1572bd;
+    box-shadow: 0 0 0 2px rgba(21, 114, 189, .18);
+  }
+}
+
+.editor-md-sep {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: #d1d5db;
+  margin: 0 4px;
+}
+
+/* ============= COUNTER ============= */
+.editor-counter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 6px 12px;
+  background: #fafafa;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.78rem;
+  color: #777;
+  font-variant-numeric: tabular-nums;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+
+  &[hidden] { display: none; }
+
+  &--warning {
+    color: #b91c1c;
+    background: #fef2f2;
+    border-top-color: #fca5a5;
+  }
+}
+
+.editor-counter__hint {
+  font-weight: 700;
+
+  &[hidden] { display: none; }
+}
+
 .editor-preview {
   padding: 1.25rem 1.5rem;
   min-height: 320px;
@@ -403,6 +497,202 @@
 
   select { flex: 1; }
   button { flex-shrink: 0; white-space: nowrap; }
+}
+
+/* ============= EDITOR CONTENT BODY (split mode container) ============= */
+.editor-content-body {
+  display: block; // default: panes stack (mode write/preview chỉ show 1 pane)
+}
+
+/* Mode classes — CSS điều khiển pane visibility, không cần hidden attr */
+.editor-content-wrap--mode-write {
+  [data-tab-pane="preview"] { display: none; }
+}
+
+.editor-content-wrap--mode-preview {
+  [data-tab-pane="write"] { display: none; }
+  .editor-md-toolbar { display: none; }
+  .editor-counter { display: none; }
+}
+
+.editor-content-wrap--mode-split {
+  @media (min-width: 900px) {
+    .editor-content-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+
+      > [data-tab-pane] {
+        min-height: 400px;
+        max-height: 70vh;
+      }
+      > [data-tab-pane="write"]   { overflow: hidden; } // textarea tự scroll
+      > [data-tab-pane="preview"] {
+        border-left: 1px solid #e5e7eb;
+        overflow-y: auto;
+      }
+    }
+  }
+  @media (max-width: 899px) {
+    // Mobile fallback: ẩn preview, hiện như write mode
+    [data-tab-pane="preview"] { display: none; }
+  }
+}
+
+/* Hide nút Split trên mobile vì không vừa layout */
+@media (max-width: 899px) {
+  .editor-tab--split { display: none; }
+}
+
+/* ============= DRAFT RECOVERY BANNER ============= */
+.editor-draft-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1rem;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 4px;
+  margin: 0 0 1.25rem;
+  font-size: 0.88rem;
+  color: #1e40af;
+  animation: editor-draft-banner-slide .25s ease-out;
+
+  &[hidden] { display: none; }
+
+  &__icon {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+  &__msg {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+
+  @media (max-width: 560px) {
+    flex-wrap: wrap;
+    &__msg { flex: 1 1 100%; }
+  }
+}
+
+@keyframes editor-draft-banner-slide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============= SLASH COMMAND MENU ============= */
+.editor-slash-menu {
+  position: fixed;
+  z-index: 100;
+  width: 320px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+  font-size: 0.88rem;
+  animation: editor-slash-menu-fade .12s ease-out;
+
+  &[hidden] { display: none; }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: background .1s ease;
+
+    &:hover,
+    &.is-active {
+      background: #eff6ff;
+    }
+    &.is-active {
+      box-shadow: inset 3px 0 0 #1572bd;
+    }
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background: #f3f4f6;
+    border-radius: 4px;
+    color: #111;
+    font-weight: 700;
+    font-size: 0.82rem;
+    font-family: $font-mono;
+    line-height: 1;
+  }
+
+  &__label {
+    flex: 1;
+    min-width: 0;
+    color: #111;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__hint {
+    flex-shrink: 0;
+    color: #999;
+    font-family: $font-mono;
+    font-size: 0.76rem;
+  }
+
+  &__empty {
+    padding: 1rem 12px;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    list-style: none;
+  }
+
+  &__footer {
+    padding: 6px 12px;
+    border-top: 1px solid #e5e7eb;
+    background: #fafafa;
+    color: #777;
+    font-size: 0.72rem;
+    text-align: center;
+
+    kbd {
+      display: inline-block;
+      padding: 1px 5px;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      font-family: $font-mono;
+      font-size: 0.7rem;
+      color: #555;
+      margin: 0 1px;
+    }
+  }
+}
+
+@keyframes editor-slash-menu-fade {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 560px) {
+  .editor-slash-menu {
+    width: calc(100vw - 24px);
+    max-width: 320px;
+  }
 }
 
 @media (max-width: 720px) {

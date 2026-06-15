@@ -303,12 +303,18 @@
 
     <footer class="site-footer">
         <div class="container">
-            <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
+            <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola
+                <span class="site-footer__sep" aria-hidden="true">·</span>
+                {# OTP gate — security-by-obscurity, chỉ tránh casual click vào /editor/.
+                   Tầng bảo vệ thật là PAT GitHub mà editor.js yêu cầu để save. #}
+                <a href="{{ config.base_url | safe }}/editor/" class="site-footer__admin" data-auth-trigger>Admin</a>
+            </p>
         </div>
     </footer>
 
     <script src="{{ get_url(path='js/header-rotator.js') }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}" defer></script>
+    <script src="{{ get_url(path='js/auth.js') }}" defer></script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

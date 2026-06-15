@@ -1,0 +1,28 @@
+name: QA Gatekeeper
+
+# Chạy trên PR vào main và push thẳng main. Nếu qa_check.py fail (exit !=0),
+# pipeline đỏ → PR không merge được (nếu repo bật required status check).
+# Chạy song song với deploy.yml — không block deploy nếu chỉ là warning.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  qa-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run QA checks
+        # qa_check.py stdlib only — không cần pip install.
+        # Exit 0 = pass (kể cả khi có warning), exit 1 = có error → fail job.
+        run: python3 qa_check.py

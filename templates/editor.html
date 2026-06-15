@@ -81,6 +81,14 @@
             <header class="section-header"><h2 class="section-header__title" data-target="edit-title">VIẾT BÀI MỚI</h2></header>
 
             <form data-form="post" class="editor-form">
+                {# Banner khôi phục draft — hiển thị khi mở bài có draft trong localStorage #}
+                <div class="editor-draft-banner" data-draft-banner hidden role="status">
+                    <span class="editor-draft-banner__icon" aria-hidden="true">📝</span>
+                    <span class="editor-draft-banner__msg" data-draft-banner-msg></span>
+                    <button type="button" class="editor-btn editor-btn--small editor-btn--primary" data-action="draft-restore">Khôi phục</button>
+                    <button type="button" class="editor-btn editor-btn--small editor-btn--ghost" data-action="draft-discard">Bỏ qua</button>
+                </div>
+
                 <div class="editor-grid">
                     <label class="editor-field">
                         <span>Tiêu đề *</span>
@@ -126,14 +134,64 @@
                     </label>
                 </div>
 
-                <div class="editor-content-wrap">
+                <div class="editor-content-wrap" data-content-wrap>
                     <div class="editor-content-tabs">
-                        <button type="button" class="editor-tab is-active" data-tab="write">✎ Viết</button>
+                        <button type="button" class="editor-tab" data-tab="write">✎ Viết</button>
+                        <button type="button" class="editor-tab editor-tab--split" data-tab="split">⇄ Split</button>
                         <button type="button" class="editor-tab" data-tab="preview">👁 Preview</button>
                     </div>
-                    <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="# Nội dung markdown..." required></textarea>
-                    <div data-tab-pane="preview" class="editor-preview" hidden>
-                        <em>Click tab "Preview" sau khi gõ nội dung</em>
+
+                    {# Toolbar markdown — 10 nút + 2 separator, inline SVG (Lucide style).
+                       Ẩn khi tab Preview active (toggle qua data-toolbar attr trong JS). #}
+                    <div class="editor-md-toolbar" data-toolbar role="toolbar" aria-label="Định dạng markdown">
+                        <button type="button" class="editor-md-btn" data-md="bold" title="Đậm (Ctrl+B)" aria-label="Đậm">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
+                        </button>
+                        <button type="button" class="editor-md-btn" data-md="italic" title="Nghiêng (Ctrl+I)" aria-label="Nghiêng">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/></svg>
+                        </button>
+                        <button type="button" class="editor-md-btn" data-md="heading" title="Tiêu đề mục (##)" aria-label="Heading">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16"/><path d="M18 4v16"/><path d="M6 12h12"/></svg>
+                        </button>
+                        <span class="editor-md-sep" aria-hidden="true"></span>
+                        <button type="button" class="editor-md-btn" data-md="link" title="Link (Ctrl+K)" aria-label="Link">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        </button>
+                        <button type="button" class="editor-md-btn" data-md="image" title="Ảnh" aria-label="Ảnh">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                        </button>
+                        <button type="button" class="editor-md-btn" data-md="quote" title="Trích dẫn" aria-label="Trích dẫn">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+                        </button>
+                        <span class="editor-md-sep" aria-hidden="true"></span>
+                        <button type="button" class="editor-md-btn" data-md="code" title="Code inline (Ctrl+E)" aria-label="Code inline">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        </button>
+                        <button type="button" class="editor-md-btn" data-md="codeblock" title="Code block" aria-label="Code block">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m8 10-2 2 2 2"/><path d="m16 10 2 2-2 2"/></svg>
+                        </button>
+                        <button type="button" class="editor-md-btn" data-md="ul" title="Bullet list" aria-label="Bullet list">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+                        </button>
+                        <button type="button" class="editor-md-btn" data-md="ol" title="Numbered list" aria-label="Numbered list">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="10" x2="21" y1="6" y2="6"/><line x1="10" x2="21" y1="12" y2="12"/><line x1="10" x2="21" y1="18" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+                        </button>
+                    </div>
+
+                    {# Wrap 2 pane vào content-body để CSS grid thành 2 cột ở split mode #}
+                    <div class="editor-content-body" data-content-body>
+                        <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="# Nội dung markdown..." required></textarea>
+                        <div data-tab-pane="preview" class="editor-preview">
+                            <em>Bắt đầu gõ để xem preview…</em>
+                        </div>
+                    </div>
+
+                    {# Counter realtime: từ + ký tự. Đổi sang warning state khi <50 ký tự
+                       (đồng bộ với threshold validate trong submit handler). #}
+                    <div class="editor-counter" data-counter aria-live="polite">
+                        <span data-counter-words>0</span> từ ·
+                        <span data-counter-chars>0</span> ký tự
+                        <span class="editor-counter__hint" data-counter-hint hidden></span>
                     </div>
                 </div>
 
@@ -146,6 +204,15 @@
                 <div class="editor-status" data-target="save-status"></div>
             </form>
         </section>
+
+        {# Slash command menu — floating, position:fixed, JS điều khiển hiển thị
+           qua getCaretCoordinates (mirror div technique) #}
+        <div class="editor-slash-menu" data-slash-menu hidden role="listbox" tabindex="-1" aria-label="Slash command menu">
+            <ul class="editor-slash-menu__list" data-slash-list></ul>
+            <div class="editor-slash-menu__footer">
+                <kbd>↑↓</kbd> điều hướng · <kbd>Enter</kbd>/<kbd>Tab</kbd> chọn · <kbd>Esc</kbd> đóng
+            </div>
+        </div>
     </div>
 {% endblock main %}
 
