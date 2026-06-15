@@ -36,10 +36,50 @@ Format bắt buộc:
 | `gg` | Merge open PRs to production |
 | `ad` | Full blog audit (perf+sec+seo+a11y) |
 | `ff` | Full Fix & Deploy comprehensive |
+| `cautruc9` | Show ASCII folder tree của blog |
+| `SEO9` | Tu bổ SEO site-wide đạt Lighthouse 100/100 (Google Search Central) |
+| `SEO10` | Loop audit + fix từng lỗi đến khi 0 issue (Google SEO Starter Guide) |
+| `SEO11` | Hybrid SEO9+SEO10: phase 1 bulk Lighthouse + phase 2 loop polish |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
 `/shortcuts.md`"). KHÔNG diễn giải dài, chỉ liệt kê.
+
+### `cautruc9` — Show folder structure của blog
+
+Khi user gõ `cautruc9`, Claude render cấu trúc thư mục của repo theo
+format **ASCII tree + emoji icon + inline comment Vietnamese** — kiểu
+gọn-readable như screenshot user đã cung cấp.
+
+**Quy tắc render**:
+
+1. Root = `zola/` (tên repo).
+2. Dùng ký tự ASCII: `├── `, `│   `, `└── ` (không dùng box-drawing
+   Unicode kiểu khác).
+3. Mỗi entry có **emoji icon** prefix hợp ngữ cảnh:
+   - 📁 hoặc thiếu = folder
+   - 📄 = config/markdown text
+   - 🚀 = script shell helper (`push.sh`, `setup-hooks.sh`)
+   - ⚙️ = workflow CI/CD (`.github/workflows/*.yml`)
+   - 🎨 = SCSS / theme tokens
+   - 📝 = CMS / editor
+   - ⚡ = performance / vitals
+   - 🔤 = fonts
+   - 🧮 = converter / tool
+4. Inline `# Vietnamese comment` ≤8 chữ giải thích mục đích mỗi entry
+   quan trọng. KHÔNG comment trên entry trivial (file thường lệ).
+5. **Gom files cùng nhóm** trên 1 dòng để gọn, vd:
+   `_reset.scss / _layout.scss / _navbar.scss`.
+6. **Liệt kê tới depth 2** mặc định (root + 1 lớp con). Nếu folder con
+   quan trọng (`content/`, `templates/`, `sass/`, `static/js/`) → mở
+   thêm 1 lớp nữa.
+7. KHÔNG liệt kê: `node_modules/`, `__pycache__/`, `.git/`, `public/`,
+   `target/`, hidden file trừ `.github/`, `.gitignore`.
+8. Wrap toàn bộ trong code block ```` ``` ```` để monospace align.
+
+**Output cuối**: ≤80 dòng, đọc 1 lần thấy ngay layer build-time
+(Zola: content/templates/sass/data) + runtime (static/js) + external
+(services/.github).
 
 ### `prm` — Merge TẤT CẢ open PRs nhanh nhất + cache bust
 
@@ -334,6 +374,231 @@ Hành động: Scan `content/posting/*.md` với frontmatter `date` ≥ now() �
 | post-B | 78 ❌ | exists | 7 ✓ | 0 | ⚠ title too long |
 
 Commit + push + PR + merge nếu auto-actions không cần user approval.
+
+### `SEO9` — Tu bổ SEO toàn site đạt chuẩn Google 100%
+
+Khác `seo` (chỉ bài mới 5h). `SEO9` là **site-wide audit + fix** nhắm
+mục tiêu **Lighthouse SEO category = 100/100** dựa theo Google Search
+Central guidelines (https://developers.google.com/search/docs).
+
+**12 hạng mục bắt buộc kiểm + tự fix nếu phát hiện thiếu**:
+
+| # | Yêu cầu Google | Implementation Zola |
+|---|---|---|
+| 1 | `<title>` ≤ 60 ký tự, unique mỗi page | Tera `{% block title %}` trong từng template; verify không trùng |
+| 2 | `<meta name="description">` ≤ 160 ký tự | `base.html` render từ `page.description` / `section.description` / `config.description` |
+| 3 | `<link rel="canonical">` | Render `{{ current_url }}` mỗi page trong `base.html` |
+| 4 | `viewport` mobile-friendly | `<meta name="viewport" content="width=device-width, initial-scale=1">` đã có — verify |
+| 5 | `lang` attribute trên `<html>` | `<html lang="vi">` trong `base.html` |
+| 6 | Open Graph (og:title/description/image/url/type) | Macro `seo.html` render tất cả; image 1200×630 |
+| 7 | Twitter Card (`summary_large_image`) | Cùng macro `seo.html` |
+| 8 | JSON-LD structured data | Article schema cho post, BreadcrumbList cho section, Organization cho homepage |
+| 9 | `sitemap.xml` valid + submit Search Console | Zola tự render `sitemap.xml`. Verify `<lastmod>` đúng + ping Google |
+| 10 | `robots.txt` allow crawling | `static/robots.txt`: `User-agent: * Allow: / Sitemap: <url>` |
+| 11 | Image `[alt]` non-empty | Grep `<img>` không có `alt=`; require alt cho mọi ảnh trừ decorative (`aria-hidden`) |
+| 12 | Internal linking + crawl depth ≤ 3 | Mọi post reachable từ homepage trong ≤ 3 clicks |
+
+**Hành động khi user gõ `SEO9`**:
+
+1. **Audit**: scan tất cả `templates/*.html` + `content/**/*.md` +
+   `config.toml`. Output bảng 12 dòng (yêu cầu / pass-fail / file ảnh hưởng).
+2. **Auto-fix safe**:
+   - Thiếu `description` page → generate từ summary 160 chars
+   - Thiếu canonical → inject vào `base.html`
+   - Thiếu lang="vi" → add
+   - Thiếu OG/Twitter macro → tạo `templates/macros/seo.html` + include
+   - Thiếu JSON-LD → render Article schema trong `page.html`
+   - `robots.txt` thiếu sitemap → append
+   - `<img>` thiếu alt → liệt kê file cần manual add (KHÔNG đoán nội dung alt)
+3. **Pages-specific**:
+   - Trigger PageSpeed Insights (`fetch_pagespeed.py`) cho 5 URL chính
+     (homepage, /posting/, 1 bài random, /branding/, /scoring/)
+   - Verify Mobile + Desktop scores SEO ≥ 95/100
+4. **Trigger sitemap ping Google**: GET
+   `https://www.google.com/ping?sitemap=<url>` sau khi deploy
+5. **Output report** ≤ 300 words:
+
+| # | Hạng mục | Before | After | File touched |
+|---|---|---|---|---|
+| 1 | Title length | 8 pages > 60 chars | 0 ❌ → user fix manual | content/posting/*.md |
+| 2 | Meta description | 12 missing | 12 added | base.html, page.html |
+| 3 | JSON-LD | none | Article + Breadcrumb | macros/seo.html (new) |
+| ... | ... | ... | ... | ... |
+
+**Final score**: ước tính Lighthouse SEO 100/100 sau khi merge fix PR.
+
+**KHÔNG được auto-merge** — tuân thủ rule 16:00. Tạo PR + nhắc user
+`manual #<số>`.
+
+### `SEO10` — Loop audit + fix từng lỗi đến khi 0 issue
+
+Khác `SEO9` (single-pass + auto-fix bulk). `SEO10` là **iterative loop**
+chạy đến khi audit không còn lỗi nào.
+
+**Nguồn chuẩn**: Google SEO Starter Guide chính thức
+https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+(luôn fetch URL này MỖI lần invoke để lấy phiên bản mới nhất — Google
+update guide định kỳ).
+
+**Workflow loop**:
+
+```
+iter = 1
+while iter ≤ MAX_ITER (default 20):
+    1. Fetch Google SEO Starter Guide (WebFetch URL trên)
+    2. Re-derive checklist từ guide hiện tại (không hardcode — dynamic)
+    3. Audit toàn site: templates/ + content/ + config.toml + static/robots.txt
+    4. Nếu issues_count == 0 → BREAK (success)
+    5. Sort issues theo priority (Google's "Critical" → "Recommended" → "Optional")
+    6. Pick TOP 1 issue (highest priority + đơn giản nhất → đảm bảo progress)
+    7. Apply fix ĐÚNG 1 issue đó (1 commit / 1 file change)
+    8. Verify: re-run zola build → pass
+    9. Log iter N: { issue, file, before, after }
+    10. iter++
+```
+
+**Hard rules trong loop**:
+
+- **1 iter = 1 commit**. KHÔNG batch fix.
+- **Mỗi iter** PHẢI verify `zola build` PASS trước khi tiếp.
+- **Mỗi iter** PHẢI ghi log `.ff/seo10-log.jsonl` (audit trail).
+- **MAX_ITER = 20** safety cap. Nếu chưa clean → escalate user với
+  list issue còn lại.
+- **KHÔNG đoán content** cho `<img alt>` — gặp alt thiếu → escalate
+  với danh sách file user phải fill manual.
+- **KHÔNG auto-merge** (rule 16:00). Cuối loop: tạo 1 PR gộp tất cả
+  iter, nhắc user `manual #<số>`.
+
+**Priority order theo Google Starter Guide**:
+
+1. **Critical** (block index/crawl):
+   - `robots.txt` block toàn site
+   - Sitemap thiếu / invalid XML
+   - `<title>` thiếu / duplicate / > 60 chars
+   - `<meta description>` thiếu / > 160 chars
+   - `noindex` meta tag sai trên content pages
+2. **Important** (giảm SERP):
+   - Canonical thiếu / sai
+   - Open Graph thiếu (giảm CTR social)
+   - JSON-LD Article thiếu (giảm rich snippet)
+   - Heading hierarchy sai (H1 không có / nhiều H1)
+   - URL có ký tự lạ / quá dài
+3. **Recommended** (E-E-A-T + UX):
+   - Image alt missing
+   - Internal link descriptive text
+   - hreflang nếu multi-lang
+   - Mobile viewport
+   - HTTPS verify
+4. **Optional** (polish):
+   - Twitter Card (legacy)
+   - Schema.org thêm types (FAQPage, HowTo, BreadcrumbList)
+   - Lazy load `<img loading="lazy">`
+
+**Output sau loop**:
+
+| Iter | Issue | File | Action | Status |
+|---|---|---|---|---|
+| 1 | Title > 60 chars | content/posting/foo.md | Rút "Cách quản lý..." → "Quản lý..." | ✅ Fixed |
+| 2 | OG image missing | templates/base.html | Inject macro seo.html | ✅ Fixed |
+| ... | ... | ... | ... | ... |
+| N | (clean) | — | — | ✅ 0 issues remain |
+
+**Final summary**:
+- Total iters: N
+- Critical fixed: X
+- Important fixed: Y
+- Recommended fixed: Z
+- Escalated (need human): img alt × M files
+- PR: #<số> đang chờ `manual #<số>` merge
+
+**Use case khác `SEO9`**:
+- `SEO9`: 1 lần audit → 1 PR fix safe → done, không re-verify
+- `SEO10`: loop tới sạch 100% → mỗi fix là 1 commit để rollback dễ →
+  cuối cùng PR có audit trail per-issue, code review dễ hơn
+
+### `SEO11` — Hybrid 2-phase: bulk fix + loop polish
+
+Tổng hợp hài hoà ưu điểm của `SEO9` (bulk + Lighthouse-aligned, nhanh)
+và `SEO10` (loop + Starter Guide dynamic, sạch tới 100%). Mục tiêu:
+**1 PR duy nhất** chứa 2 phase rõ ràng, code review nhẹ + Lighthouse
+SEO = 100/100.
+
+**Workflow 2 phase**:
+
+```
+PHASE 1 — Bulk safe-fix (SEO9 mode)
+  1. Audit 12 hạng mục Lighthouse cố định (xem SEO9 table)
+  2. Apply auto-fix safe trong 1 commit gộp
+     - description / canonical / lang / OG macro / JSON-LD /
+       robots.txt sitemap / viewport
+  3. zola build PASS → commit "SEO11 phase 1: bulk Lighthouse fixes"
+
+PHASE 2 — Iterative polish (SEO10 mode)
+  4. Fetch Google SEO Starter Guide URL chính thức
+     https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+  5. Re-audit dynamic checklist từ guide hiện tại
+  6. Loop iter 1..MAX_ITER (default 15, thấp hơn SEO10 vì phase 1 đã quét bulk):
+     a. Pick TOP 1 issue priority cao nhất còn lại
+     b. Apply fix 1 issue → 1 commit nhỏ
+        "SEO11 phase 2 iter N: <issue label>"
+     c. zola build PASS verify
+     d. iter++
+  7. Nếu MAX_ITER hết mà còn issue → escalate user với punch list
+
+PHASE 3 — Verification (chung)
+  8. Trigger fetch_pagespeed.py cho 5 URL chính
+  9. Verify SEO mobile + desktop ≥ 95
+  10. Ping sitemap Google Search (nếu deploy thành công)
+  11. Tạo 1 PR gộp tất cả commit phase 1 + 2
+  12. Output summary report (xem bên dưới)
+```
+
+**Hard rules**:
+
+- Phase 1 PHẢI thành công (≥10/12 hạng mục pass) MỚI sang phase 2.
+  Nếu phase 1 fail >2 hạng mục → escalate user, không sang phase 2.
+- Phase 2 mỗi iter = 1 commit (audit trail). KHÔNG batch.
+- Phase 2 mỗi iter PHẢI `zola build` PASS trước khi commit.
+- KHÔNG đoán content cho `<img alt>` → escalate user manual.
+- KHÔNG auto-merge (rule 16:00). Tạo PR + nhắc `manual #<số>`.
+
+**Output report cuối cùng**:
+
+```
+## SEO11 Hybrid Audit Report
+
+### Phase 1 — Bulk fix (1 commit)
+| # | Hạng mục Lighthouse | Before | After |
+|---|---|---|---|
+| 1 | Title length | 8 violation | 8 fixed |
+| 2 | Meta description | 12 missing | 12 added |
+| ... | ... | ... | ... |
+Phase 1 result: 11/12 ✓ → sang phase 2
+
+### Phase 2 — Iterative polish (N commits)
+| Iter | Issue | File | Action | Status |
+|---|---|---|---|---|
+| 1 | OG image dimensions | base.html | Add 1200×630 ref | ✅ |
+| 2 | Canonical absolute URL | base.html | Strip trailing / | ✅ |
+| ... | ... | ... | ... | ... |
+Phase 2 result: N iter, 0 issue remain
+
+### Phase 3 — Verification
+- PageSpeed Mobile SEO: 100/100 ✓
+- PageSpeed Desktop SEO: 100/100 ✓
+- Sitemap ping Google: triggered ✓
+- Escalated to user: 3 img cần alt manual
+
+### PR
+#<số> — chờ `manual #<số>` merge
+```
+
+**Use case khác cả 2**:
+- `SEO9`: quick win 1 shot. Tốt khi tin checklist Lighthouse đã đủ.
+- `SEO10`: deep cleanup, tốn iter. Tốt khi nghi ngờ checklist cũ
+  thiếu items mà Google mới update.
+- `SEO11`: best-of-both. Phase 1 quick-win Lighthouse, phase 2 catch
+  edge case Starter Guide mới. PR cuối có 2 section review riêng.
 
 ### `run list` — Hiển thị bảng workflow runs
 

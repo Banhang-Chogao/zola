@@ -1,0 +1,55 @@
+/* ============================================================
+   ===== Z-X DESIGN TOKENS (ZaloPay-inspired) =====
+   ============================================================
+   Theme thứ hai cho blog — switch giữa BrandingX (MoMo) và Z-X
+   (ZaloPay). Tokens dùng prefix $zx- để không conflict với $brand-*. */
+
+/* ===== Z-Blue (Brand primary) ===== */
+$zx-blue-700:          #0050D6;
+$zx-blue-600:          #0068FF;   /* ZaloPay signature electric blue */
+$zx-blue-500:          #2563EB;
+$zx-blue-400:          #3B82F6;
+$zx-blue-300:          #60A5FA;
+$zx-blue-200:          #93C5FD;
+$zx-blue-100:          #DBEAFE;
+$zx-blue-50:           #EFF6FF;
+
+/* ===== Z-Ink (Text hierarchy — deep navy thay vì pure black) ===== */
+$zx-ink-900:           #0B1834;   /* deep navy heading */
+$zx-ink-800:           #102347;
+$zx-ink-700:           #1E3A5F;   /* body */
+$zx-ink-600:           #334E73;
+$zx-ink-500:           #4F6D93;   /* muted */
+$zx-ink-400:           #6B7F9C;
+$zx-ink-300:           #94A3B8;
+
+/* ===== Z-Accent (Promo orange — ZaloPay khuyến mãi vibe) ===== */
+$zx-accent-orange:     #FF6B00;
+$zx-accent-orange-dk:  #E55A00;
+$zx-accent-orange-bg:  #FFF4E6;
+
+/* ===== Z-Success (Money positive — green slight) ===== */
+$zx-success:           #00A88E;
+$zx-success-bg:        #E6FAF6;
+
+/* ===== Z-Surface ===== */
+$zx-snow:              #FFFFFF;
+$zx-mist:              #F5F8FF;   /* very subtle blue tint */
+$zx-fog:               #EEF2F9;
+$zx-cloud:             #DDE5F0;
+
+/* ===== Z-Border ===== */
+$zx-edge:              #E0E7F0;
+$zx-edge-strong:       #C7D2E0;
+
+/* ===== Z-Shadow (deeper blue tint shadows — fintech depth) ===== */
+$zx-shadow-sm:         0 1px 3px rgba(11, 24, 52, 0.06);
+$zx-shadow-md:         0 4px 12px rgba(11, 24, 52, 0.08);
+$zx-shadow-lg:         0 12px 32px rgba(0, 104, 255, 0.12);
+
+/* ===== Z-Radius ===== */
+$zx-radius-sm:         6px;
+$zx-radius-md:         10px;
+$zx-radius-lg:         14px;       /* hơi to hơn BrandingX (12px) */
+$zx-radius-xl:         20px;
+$zx-radius-full:       9999px;
