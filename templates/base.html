@@ -110,6 +110,7 @@
                bao giờ giảm. Cap 100 do GitHub API per_page=100 — đủ dùng vài năm. #}
             {% set commit_count = 0 %}
             {% if commits %}{% set commit_count = commits | length %}{% endif %}
+            <div class="site-header__left">
             <a class="site-title-link" href="{{ config.base_url }}"
                {% if latest_commit %}title="Tổng {{ commit_count }} commit · Tuần này {{ week_count }} · Hôm nay {{ today_count }} · SHA {{ latest_commit.sha | truncate(length=7, end='') }}"{% endif %}>
                 <span class="site-title-wrap">
@@ -135,6 +136,33 @@
                     <strong class="version-id">v{{ numeric_id }}</strong>
                 </span>
             </a>
+
+            {# Latest deployments card — Ở LEFT, ngay dưới title block (theo
+               user feedback). GitHub box bên phải sẽ giãn đủ full width còn lại. #}
+            <div class="header-deploy-card is-success" data-deploy-status data-deploy-card>
+                <p class="header-deploy-card__label">Latest deployments from pinned environments</p>
+                <a class="header-deploy-card__panel"
+                   href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
+                   target="_blank" rel="noopener">
+                    <div class="header-deploy-card__head">
+                        <span class="header-deploy-card__icon" data-deploy-icon aria-hidden="true">✓</span>
+                        <span class="header-deploy-card__title">github-pages</span>
+                        <span class="header-deploy-card__ext" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
+                                <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5A1.75 1.75 0 0 0 3.75 14h8.5A1.75 1.75 0 0 0 14 12.25v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-8.5a.25.25 0 0 1 .25-.25h3a.75.75 0 0 0 0-1.5h-3Zm8 1H10A.75.75 0 0 1 10 1.5h3.25c.41 0 .75.34.75.75V5.5a.75.75 0 0 1-1.5 0V4.06L8.78 7.78a.75.75 0 0 1-1.06-1.06L11.44 3Z"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="header-deploy-card__body">
+                        <span class="header-deploy-card__row">
+                            Last <span data-deploy-verb>deployed</span>
+                            <span data-deploy-time>—</span>
+                        </span>
+                        <span class="header-deploy-card__url">{{ config.base_url | safe }}/</span>
+                    </div>
+                </a>
+            </div>
+            </div> {# /.site-header__left #}
 
             <div class="header-side">
             {#
@@ -215,33 +243,6 @@
                 </a>
             </div>
 
-            {# Latest deployments card (github-pages style) — bên phải GitHub box,
-               mô phỏng UI 'Latest deployments from pinned environments' của
-               GitHub. Trước đây nằm /changelog, giờ chuyển lên header mọi page.
-               Real-time fetch qua deploy-status.js cùng với DEPLOYED row. #}
-            <div class="header-deploy-card is-success" data-deploy-status data-deploy-card>
-                <p class="header-deploy-card__label">Latest deployments from pinned environments</p>
-                <a class="header-deploy-card__panel"
-                   href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
-                   target="_blank" rel="noopener">
-                    <div class="header-deploy-card__head">
-                        <span class="header-deploy-card__icon" data-deploy-icon aria-hidden="true">✓</span>
-                        <span class="header-deploy-card__title">github-pages</span>
-                        <span class="header-deploy-card__ext" aria-hidden="true">
-                            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
-                                <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5A1.75 1.75 0 0 0 3.75 14h8.5A1.75 1.75 0 0 0 14 12.25v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-8.5a.25.25 0 0 1 .25-.25h3a.75.75 0 0 0 0-1.5h-3Zm8 1H10A.75.75 0 0 1 10 1.5h3.25c.41 0 .75.34.75.75V5.5a.75.75 0 0 1-1.5 0V4.06L8.78 7.78a.75.75 0 0 1-1.06-1.06L11.44 3Z"/>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="header-deploy-card__body">
-                        <span class="header-deploy-card__row">
-                            Last <span data-deploy-verb>deployed</span>
-                            <span data-deploy-time>—</span>
-                        </span>
-                        <span class="header-deploy-card__url">{{ config.base_url | safe }}/</span>
-                    </div>
-                </a>
-            </div>
             </div> {# /.header-side #}
         </div>
     </header>
