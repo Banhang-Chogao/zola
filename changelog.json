@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Header layout v2: deploy card sang LEFT cùng title, GitHub box full right",
+      "tag": "chore",
+      "pr": 28,
+      "lines_added": 41,
+      "lines_removed": 37,
+      "highlights": [
+        "Build Zola 336ms · QA pass · 11 elements site-header__left | header-deploy-card trong HTML output",
+        "GitHub box giờ có TOÀN BỘ right column → không còn bị \"lệch do co lại\"",
+        "Deploy card 300px cố định left → \"vừa đủ đừng quá dài\""
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "CMS auth: OTP modal thay PAT login, PAT JIT in-memory",
       "tag": "chore",
       "pr": 27,
