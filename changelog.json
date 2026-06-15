@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "nút Setup Giscus trong /admin-author/ → 1 click lấy IDs",
+      "tag": "chore",
+      "pr": 61,
+      "lines_added": 106,
+      "lines_removed": 0,
+      "highlights": [
+        "<details> block \"🔧 Setup Giscus comments\" (collapse)",
+        "Click \"Fetch repo_id + category_id\" → JS gọi endpoint với Authorization header",
+        "Render config TOML snippet vào dark output box (terminal feel)",
+        "User copy/paste vào config.toml + push",
+        "401: chưa login"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Author Management self-service + Web Vitals footer link + Giscus auto-fetch IDs",
       "tag": "chore",
       "pr": 60,
