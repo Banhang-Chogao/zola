@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "auto-update changelog.json mỗi khi PR merge (real-time)",
+      "tag": "feat",
+      "pr": 24,
+      "lines_added": 306,
+      "lines_removed": 0,
+      "highlights": [
+        "PR body empty → highlights: []",
+        "changelog.json missing → tạo skeleton {items: []}",
+        "Push conflict (concurrent deploy bot) → pull-rebase + retry 3 lần",
+        "Workflow re-trigger → idempotent: skip nếu PR đã có trong items",
+        "Concurrency group queue → tránh race condition nếu nhiều PR merge gần nhau"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Latest Deployment Status card cho /changelog",
       "tag": "feat",
       "pr": 22,
