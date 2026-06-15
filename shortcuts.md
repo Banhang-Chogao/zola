@@ -1,48 +1,109 @@
-# Phím tắt tương tác với Claude
+# Phím tắt & Quy trình làm việc với Claude
 
-Source of truth cho các shortcut commands giữa user và Claude. Khi user
-gõ shortcut, Claude THỰC THI NGAY, không hỏi lại, không giải thích dài.
+Source of truth cho các shortcut commands + nguyên tắc vận hành. Khi
+user gõ shortcut, Claude THỰC THI NGAY, không hỏi lại, không giải thích
+dài.
 
-## `gg` — Deploy to production
+---
 
-Hành động: Claude check tất cả PR đang mở trên repo. Với mỗi PR chưa
-merge, Claude:
-1. Verify CI status (nếu CI failing → báo lỗi cụ thể, không merge bừa)
-2. Squash merge PR vào `main` (trigger deploy.yml tự động)
-3. Confirm deploy thành công qua GitHub Pages
+## 1. Cơ chế chọn phiên bản Node.js (Thông minh & Linh hoạt)
 
-Sau khi merge xong → ngắn gọn báo cáo: `Merged PR #X, #Y. Production deploy đang chạy.`
+KHÔNG force phiên bản Node mặc định cho mọi workflow. Khi sửa lỗi hoặc
+tạo workflow mới, Claude phải tự đánh giá:
 
-KHÔNG hỏi lại. KHÔNG giải thích flow. Chỉ thực thi.
+- **Ưu tiên Node.js 24+** nếu action hỗ trợ tốt (hầu hết @v4/@v5 của
+  `actions/*` đã ổn định trên Node 24 từ tháng 6/2026).
+- Dùng `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` env tạm thời đến
+  16/06/2026 vì runner vẫn default Node 20. Sau ngày này → bỏ env.
+- Dùng `actions/setup-node@v4 with: node-version: '24'` cho workflow có
+  chạy shell commands `node`/`npm`.
+- Kiểm tra runner warning log mỗi lần deploy fail → adapt nếu GitHub
+  thay đổi guidance.
 
-## `ad` — Audit blog
+---
 
-Hành động: Claude tự động chạy full audit, bao gồm:
-1. **Performance**: Lighthouse score (LCP, CLS, INP, TBT) trên homepage + 1 post
-2. **Code quality**: scripts/qa_check.py + check console errors
-3. **Security**: dependency vulnerabilities (`npm audit` không áp dụng, check `requirements.txt`/Python deps), exposed secrets, CORS misconfig
-4. **SEO**: meta tags, alt tags, sitemap, structured data
-5. **Accessibility**: ARIA, keyboard nav, color contrast (lưu ý trên SCSS palette)
+## 2. Phím tắt (Shortcuts)
 
-Output: punch list ≤200 words: done / warnings / errors, sorted by severity.
+### `gg` — Deploy to production
 
-## Auto-healing pipeline
+Hành động:
+1. List tất cả PR đang mở (`mcp__github__list_pull_requests state=open`)
+2. Với mỗi PR chưa merge:
+   - Verify CI status (nếu CI failing → không merge bừa, escalate)
+   - Squash merge vào `main` (trigger deploy.yml tự động)
+3. Verify deploy mới nhất (`actions_list` deploy.yml) đang chạy
+4. Báo cáo ngắn: `Merged PR #X, #Y. Production deploy đang chạy.`
 
-Khi BẤT KỲ workflow nào fail (Deploy, Performance Audit, Security Audit,
-Build Related, QA Gatekeeper, Self-Healing QA):
+KHÔNG hỏi lại. KHÔNG giải thích flow.
 
-→ Workflow `.github/workflows/qa-failed-handler.yml` tự động trigger
-→ Chạy `qa-failed.py` phân tích logs
-→ Match pattern (ModuleNotFoundError / frontmatter / git race / permission)
-→ Apply safe fix nếu match → commit + push main → deploy tự re-trigger
-→ KHÔNG match pattern hoặc fix fail → tạo GitHub issue `qa-failed` label
-  + log artifact 14 ngày để user investigate
+### `ad` — Audit blog
 
-Khi user gõ `gg`, Claude phải xác nhận auto-healing đang active. Nếu
-workflow `qa-failed-handler.yml` bị disable → báo cáo ngay.
+Hành động:
+1. Verify cron jobs `perf-audit.yml` + `security-audit.yml` còn active
+   trên GitHub Actions. Nếu disabled → BÁO USER NGAY.
+2. Trigger manual audit qua `workflow_dispatch` cho cả 2.
+3. Chạy bổ sung tại chỗ:
+   - Performance: Lighthouse mobile (LCP/CLS/INP/TBT)
+   - Code quality: scripts/qa_check.py
+   - Security: pip-audit + gitleaks dependencies
+   - SEO: meta tags, alt tags, sitemap, structured data
+   - Accessibility: ARIA, keyboard nav, contrast
+4. Output punch list ≤200 words: done / warnings / errors, sorted severity.
 
-## Quy tắc thực thi shortcut
+### `ff` — Full Fix & Deploy
 
-- Shortcut PHẢI là single line, no extra context.
-- Nếu user gõ shortcut KÈM thêm context (e.g., `gg PR #82 only`) → exec với scope hẹp.
+Hành động:
+1. **Liệt kê** tất cả failed workflow runs (≥ 24h gần nhất) +
+   failed PR checks + failed deploy.
+2. **Phân tích log** mỗi failed run theo logic `qa-failed.py`:
+   - Đợi run status = `completed` (poll mỗi 30s, max 5 lần = 2.5 phút)
+   - CHỈ fetch logs sau khi completed → tránh "still in progress" error
+3. **Auto-fix** pattern đã biết:
+   - `ModuleNotFoundError` → append dep vào requirements.txt
+   - Tera/Zola syntax → chạy `qa_check.py --fix safe`
+   - Git race non-fast-forward → escalate (không tự force push)
+   - Workflow permission denied → escalate
+   - Unknown pattern → tạo issue + escalate
+4. **Push** fix lên `main` → trigger deploy lại.
+5. **Báo cáo tổng kết** sau khi xong:
+   - Failed runs found / fixed / escalated
+   - Production deploy status
+
+---
+
+## 3. Quy trình QA-Failed & Tự động hoá
+
+Workflow handler `.github/workflows/qa-failed-handler.yml` ĐÃ BỊ GỠ
+(theo yêu cầu user lúc 11:37). Script `qa-failed.py` giữ lại để chạy
+manual qua shortcut `ff`.
+
+Nguyên tắc khi chạy `qa-failed.py`:
+- **Buffer + retry**: sleep 30s trước khi poll, max 5 lần × 30s
+- **CHỈ** tạo issue khi exhaust retry HOẶC unknown pattern HOẶC fix fail
+- **CONSERVATIVE**: KHÔNG đoán fix, không force-push để giải quyết race
+
+Nếu user muốn re-enable handler workflow → restore file `qa-failed-handler.yml`
+từ git history (commit trước 11:37 ngày 15/06/2026).
+
+---
+
+## 4. Nguyên tắc thực thi (BẤT BIẾN)
+
+1. **KHÔNG vỡ scroll desktop**: cấm anti-pattern `html, body { overflow-x: hidden }`,
+   cấm `overflow: hidden` body không scope mobile, cấm `height: 100vh` thừa.
+   (chi tiết: `CLAUDE.md`)
+2. **KHÔNG vỡ layout**: code mới phải verify Lighthouse CLS ≤ 0.1 trước merge.
+3. **Responsive bắt buộc**: mọi thay đổi CSS phải có Mobile (≤720px) + Desktop
+   tách biệt block, có comment header `/* ===== DESKTOP ===== */` + `/* ===== MOBILE ===== */`.
+4. **Trách nhiệm ổn định**: Claude chịu trách nhiệm đảm bảo blog luôn green:
+   - Deploy fail → fix ngay trong cùng turn
+   - Verify CI status sau mỗi merge
+   - Báo cáo proactively nếu phát hiện regression
+
+---
+
+## 5. Quy tắc thực thi shortcut
+
+- Shortcut PHẢI single line, no extra context.
+- Nếu user gõ shortcut KÈM context (e.g., `gg PR #82 only`) → exec scope hẹp.
 - Shortcut KHÔNG hiệu lực giữa câu nói dài. Phải đứng ĐẦU message.
