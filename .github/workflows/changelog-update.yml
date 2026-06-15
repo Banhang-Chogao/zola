@@ -34,6 +34,7 @@ jobs:
           python-version: '3.11'
 
       - name: Append entry to changelog.json
+        id: changelog
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_TITLE: ${{ github.event.pull_request.title }}
@@ -45,20 +46,26 @@ jobs:
         run: python3 .github/scripts/update_changelog.py
 
       - name: Commit + push nếu có thay đổi
+        if: steps.changelog.outputs.changed == 'true'
+        env:
+          COMMIT_MESSAGE: ${{ steps.changelog.outputs.commit_message }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add changelog.json
           if git diff --cached --quiet; then
-            echo "PR #${{ github.event.pull_request.number }} đã có trong changelog — skip"
+            echo "Không có thay đổi để commit — skip"
             exit 0
           fi
-          git commit -m "Auto-changelog: PR #${{ github.event.pull_request.number }}"
+          # Commit message từ python script: 'Thêm tính năng: <title>' /
+          # 'Sửa lỗi: <title>' / 'Cập nhật: <title>' — phản ánh nội dung
+          # thật của PR thay vì 'Auto-changelog: PR #N' generic.
+          git commit -m "$COMMIT_MESSAGE"
           # Retry push tối đa 3 lần nếu main bị update concurrent
           for i in 1 2 3; do
             git pull --rebase origin main || true
             if git push origin main; then
-              echo "✓ Pushed changelog update (try $i)"
+              echo "✓ Pushed changelog update (try $i): $COMMIT_MESSAGE"
               exit 0
             fi
             sleep 2

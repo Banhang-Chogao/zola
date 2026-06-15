@@ -68,6 +68,13 @@
     <meta name="zola-visitor-api" content="{{ config.extra.visitor_api_url | safe }}">
     {% endif %}
 
+    {# CMS auth backend (cùng service với visitor counter — extend FastAPI).
+       Default = visitor_api_url, override bằng cms_auth_url nếu deploy riêng. #}
+    {% set cms_auth = config.extra.cms_auth_url | default(value=config.extra.visitor_api_url | default(value="")) %}
+    {% if cms_auth %}
+    <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
+    {% endif %}
+
     <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
     <title>{% block title %}{{ config.title }}{% endblock %}</title>

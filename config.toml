@@ -41,3 +41,7 @@ ga_measurement_id = "G-K9DXHPPGGR"
 # meta tag + script + footer span sẽ tự bật. Xem
 # services/visitor-counter/README.md để deploy.
 visitor_api_url = ""
+
+# CMS auth backend URL — nếu deploy auth tách khỏi visitor counter.
+# Để trống = reuse visitor_api_url (cùng service FastAPI mở rộng).
+cms_auth_url = ""

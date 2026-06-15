@@ -4,11 +4,11 @@
   font-family: $font-body;
 }
 
-/* ============= OTP MODAL (auth gate) ============= */
-/* Overlay phủ giữa màn hình, nhận 4 số → setOtpPassed + enterDashboard.
-   Input type=password + autocomplete=off + data-lpignore + data-1p-ignore
-   để chặn password manager autofill (Bitwarden / 1Password / LastPass). */
-.editor-otp {
+/* ============= GITHUB LOGIN MODAL ============= */
+/* GitHub OAuth là cổng đăng nhập duy nhất. Backend FastAPI check email
+   whitelist → tạo session Redis TTL 2h → redirect /editor/#sid=... .
+   Login UI tối giản: icon + title + button GitHub. */
+.editor-login {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.55);
@@ -21,74 +21,140 @@
   padding: 1rem;
 }
 
-.editor-otp__modal {
+.editor-login__modal {
   background: #fff;
-  border-radius: 12px;
-  padding: 2rem 2.25rem;
+  border-radius: 14px;
+  padding: 2.25rem 2.25rem 1.75rem;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-  max-width: 360px;
+  max-width: 420px;
   width: 100%;
   text-align: center;
-  animation: editor-otp-pop .18s ease-out;
+  animation: editor-login-pop .18s ease-out;
 }
 
-@keyframes editor-otp-pop {
+@keyframes editor-login-pop {
   from { opacity: 0; transform: translateY(-8px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0)    scale(1);   }
 }
 
-.editor-otp__title {
-  margin: 0 0 0.4rem;
-  font-size: 1.35rem;
+.editor-login__icon {
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.editor-login__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.01em;
 }
 
-.editor-otp__sub {
-  margin: 0 0 1.5rem;
+.editor-login__sub {
+  margin: 0 0 1.4rem;
   font-size: 0.88rem;
   color: #64748b;
+  line-height: 1.5;
 }
 
-.editor-otp__input {
+.editor-login__error {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.editor-login__button {
   width: 100%;
   padding: 0.85rem 1rem;
-  font-size: 1.65rem;
-  letter-spacing: 0.55rem;
-  text-align: center;
-  font-family: $font-mono;
-  font-weight: 700;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 6px;
-  background: #f8fafc;
-  color: #111;
-  transition: all .15s ease;
+  justify-content: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  background: #24292f;
+  border: none;
+  color: #fff;
 
-  &:focus {
-    outline: none;
-    border-color: #1572bd;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(21, 114, 189, 0.15);
+  &:hover {
+    background: #1f2328;
+    color: #fff;
+  }
+
+  svg {
+    flex-shrink: 0;
   }
 }
 
-.editor-otp__submit {
-  width: 100%;
-  margin-top: 0.85rem;
-  padding: 0.7rem 1rem;
-  justify-content: center;
+.editor-login__hint {
+  margin: 1rem 0 0;
+  font-size: 0.78rem;
+  color: #b45309;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  text-align: left;
 }
 
-.editor-otp__msg {
-  margin: 0.5rem 0 0;
-  font-size: 0.82rem;
-  min-height: 1.2em;
-  color: #64748b;
+/* ============= USER INFO BAR (sau khi auth) ============= */
+.editor-user-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
 
-  &--error {
-    color: #b91c1c;
-    font-weight: 600;
+  &__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    min-width: 0;
+    flex: 1;
+
+    strong {
+      color: #0f172a;
+      font-size: 0.92rem;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__email {
+    color: #64748b;
+    font-size: 0.78rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__role {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 0.32rem 0.6rem;
+    border-radius: 999px;
+    flex-shrink: 0;
   }
 }
 

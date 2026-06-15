@@ -11,45 +11,54 @@
 
 {% block main %}
     <div class="editor-app" id="editor-app">
-        {# ===== OTP MODAL (replace PAT login form) =====
-           Khi vào /editor/, modal phủ giữa màn hình yêu cầu mã OTP 4 số.
-           Pass mã → showView('list'). Mã sai → clear input + error message.
-           Trạng thái OTP lưu trong sessionStorage (không localStorage, không
-           cookies) → đóng tab/trình duyệt là mất, phải nhập lại. #}
+        {# ===== GITHUB LOGIN VIEW =====
+           GitHub OAuth là cổng vào duy nhất. Editor.js đọc <meta name=
+           "zola-cms-auth-api"> để gọi backend. Auth flow:
+             1. Click "Đăng nhập GitHub" → redirect backend/auth/login
+             2. GitHub OAuth → backend check email white-list
+             3. Redirect /editor/#sid=... → JS đọc hash, sessionStorage
+             4. /auth/me validate → show dashboard
+           Email được phép vào CMS được config trên backend (env ADMIN_EMAILS). #}
         <section class="editor-view" data-view="login">
-            <div class="editor-otp" role="dialog" aria-modal="true" aria-labelledby="otp-title">
-                <div class="editor-otp__modal">
-                    <h2 class="editor-otp__title" id="otp-title">Xác thực CMS</h2>
-                    <p class="editor-otp__sub">Nhập mã OTP 4 số để vào trình soạn thảo</p>
-                    <form data-form="otp" autocomplete="off" novalidate>
-                        <input
-                            type="password"
-                            name="otp"
-                            class="editor-otp__input"
-                            autocomplete="off"
-                            autocorrect="off"
-                            autocapitalize="off"
-                            spellcheck="false"
-                            data-lpignore="true"
-                            data-1p-ignore="true"
-                            data-bwignore="true"
-                            data-form-type="other"
-                            maxlength="4"
-                            inputmode="numeric"
-                            pattern="[0-9]{4}"
-                            placeholder="••••"
-                            required
-                            autofocus
-                            aria-label="Mã OTP 4 chữ số">
-                        <button type="submit" class="editor-btn editor-btn--primary editor-otp__submit">Xác thực</button>
-                        <p class="editor-otp__msg" data-otp-msg role="status" aria-live="polite"></p>
-                    </form>
+            <div class="editor-login" role="dialog" aria-labelledby="login-title">
+                <div class="editor-login__modal">
+                    <div class="editor-login__icon" aria-hidden="true">🔐</div>
+                    <h2 class="editor-login__title" id="login-title">Xác thực CMS</h2>
+                    <p class="editor-login__sub">
+                        Đăng nhập qua GitHub. Chỉ tài khoản có email trong white-list mới
+                        được phép vào trình soạn thảo.
+                    </p>
+
+                    {# Hiển thị error từ backend qua ?auth_error=... (callback redirect) #}
+                    <p class="editor-login__error" data-login-error role="status" aria-live="polite" hidden></p>
+
+                    <button type="button" class="editor-btn editor-btn--primary editor-login__button" data-action="github-login">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                        </svg>
+                        <span>Đăng nhập với GitHub</span>
+                    </button>
+
+                    {# Hint cho user nếu backend chưa configure (visitor_api_url trống) #}
+                    <p class="editor-login__hint" data-login-hint hidden>
+                        ⚠ Backend auth chưa được cấu hình. Liên hệ admin để bật.
+                    </p>
                 </div>
             </div>
         </section>
 
         {# ===== LIST VIEW ===== #}
         <section class="editor-view" data-view="list" hidden>
+            {# User info bar — populated by editor.js sau /auth/me success #}
+            <div class="editor-user-bar" data-user-bar hidden>
+                <img class="editor-user-bar__avatar" data-user-avatar src="" alt="" loading="lazy">
+                <span class="editor-user-bar__info">
+                    <strong data-user-name></strong>
+                    <span class="editor-user-bar__email" data-user-email></span>
+                </span>
+                <span class="editor-user-bar__role" title="Quyền truy cập">ADMIN</span>
+            </div>
+
             <header class="section-header"><h2 class="section-header__title">DANH SÁCH BÀI VIẾT</h2></header>
 
             <div class="editor-toolbar">
