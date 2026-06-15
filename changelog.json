@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "di chuyển render.yaml ra repo root cho Blueprint default path",
+      "tag": "fix",
+      "pr": 42,
+      "lines_added": 3,
+      "lines_removed": 3,
+      "highlights": [
+        "git mv services/visitor-counter/render.yaml → render.yaml",
+        "rootDir: services/visitor-counter giữ nguyên (path relative repo root)",
+        "README.md update reference path"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "trang /du-lich/ chuyển từ Znews RSS sang Trip.com scrape",
       "tag": "refactor",
       "pr": 40,
