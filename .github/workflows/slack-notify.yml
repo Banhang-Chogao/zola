@@ -1,0 +1,73 @@
+name: Slack Commit Notification
+
+# Trigger push lên bất kỳ branch → gửi notification về Slack.
+# FIX vs version trước: dùng toJSON() để escape commit message
+# (commit có newline/quote sẽ break JSON nếu inject trực tiếp).
+#
+# Yêu cầu GitHub Secret: SLACK_WEBHOOK_URL (lấy từ Slack Incoming Webhook).
+
+on:
+  push:
+    branches:
+      - '**'
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  notify:
+    # Bỏ qua commit có [skip ci]
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send commit info to Slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          # toJSON() tự động escape \n, ", \ trong commit message
+          # → JSON luôn valid dù message có co-author lines, newlines, etc.
+          payload: |
+            {
+              "text": "New commit on ${{ github.repository }}",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Commit mới trên ${{ github.repository }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n`${{ github.ref_name }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author:*\n${{ github.actor }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ${{ toJSON(format('*Commit message:*\n{0}', github.event.head_commit.message)) }}
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ github.event.head_commit.url }}|Xem commit trên GitHub>"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
