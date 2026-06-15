@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "workflow auto commit nhầm log files + xoá rác từ PR #63",
+      "tag": "remove",
+      "pr": 70,
+      "lines_added": 31,
+      "lines_removed": 63,
+      "highlights": [
+        "perf-fix.txt, perf-scan.txt, perf-summary.txt",
+        "fix-log.txt, fixed-summary.txt",
+        "pr-body.md",
+        "perf-audit: templates/ static/ sass/ content/ config.toml",
+        "self-healing: content/"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "🚀 Perf audit: 6 file(s) optimized",
       "tag": "chore",
       "pr": 63,
