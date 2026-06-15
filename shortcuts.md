@@ -288,6 +288,30 @@ từ git history (commit trước 11:37 ngày 15/06/2026).
 
 ---
 
+## 4.4. Link quản lý PR (cập nhật 13:22 ngày 15/06/2026)
+
+**Source of truth**: https://github.com/Banhang-Chogao/zola/pulls
+
+Claude PHẢI:
+1. **Track tất cả PRs** tại link trên — đây là dashboard duy nhất, không
+   được dựa vào cache local.
+2. **Tự động đưa changes mới vào hàng đợi**: mỗi feature/fix mới →
+   commit vào branch hiện tại → append vào PR đang open (nếu có) hoặc
+   tạo PR mới.
+3. **Gom đủ ~10 changes** trước khi user trigger `manual #<số PR>`.
+4. **Quy trình phê duyệt**:
+   - User tự vào https://github.com/Banhang-Chogao/zola/pulls
+   - Click PR cần deploy → bấm nút **Approve** trực tiếp trên GitHub web
+   - Sau Approve → user gõ `manual #<số PR>` cho Claude
+   - Claude merge + deploy
+5. **KHÔNG được merge** PR khi chưa thấy:
+   - User gõ lệnh `manual #X`, HOẶC
+   - User gõ `gg` + xác nhận, HOẶC
+   - Lỗi HOTFIX critical (ngoại lệ documented)
+
+Mỗi lần tạo PR mới, Claude PHẢI nhắc user link manage:
+"PR #X created. Total open: N. Manage at: https://github.com/Banhang-Chogao/zola/pulls"
+
 ## 4.5. Quy trình Deploy GỘP (cập nhật 13:16 ngày 15/06/2026)
 
 **TRƯỚC** (deprecated): Claude tự merge từng PR nhỏ ngay → tần suất
