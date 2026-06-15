@@ -427,15 +427,10 @@
   gap: 0.5rem;
   min-width: 0;
 
-  /* Desktop ≥900px: GitHub box bên trái (flex: 1, có DEPLOYED row inside) +
-     'Latest deployments' card bên phải (compact 260px). Mobile stack column. */
-  @media (min-width: 900px) {
-    flex-direction: row;
-    align-items: stretch;
-    gap: 0.7rem;
+  > .header-rotator { flex: 1 1 auto; min-width: 0; width: 100%; }
 
-    > .header-rotator       { flex: 1 1 auto; min-width: 0; }
-    > .header-deploy-card   { flex: 0 0 260px; align-self: stretch; }
+  /* Legacy fallback nếu .deploy-queue được tái thêm sau này */
+  @media (min-width: 900px) {
     > .deploy-queue {
       flex: 0 0 240px;
       align-items: flex-start;
