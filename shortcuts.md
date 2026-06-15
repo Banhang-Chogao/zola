@@ -191,7 +191,25 @@ từ git history (commit trước 11:37 ngày 15/06/2026).
 
 ---
 
-## 5. Quy tắc thực thi shortcut
+## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
+
+Sau MỌI lần merge PR thành công, Claude PHẢI output bảng 3 cột:
+
+| PR | Title | Status |
+|---|---|---|
+| #X | <PR title ngắn gọn> | ✅ |
+| #Y | <PR title ngắn gọn> | ✅ |
+
+Quy tắc:
+- Format MARKDOWN TABLE 3 cột chuẩn, KHÔNG dùng bullet list
+- Cột Status: ✅ (merged) / ❌ (failed) / ⏳ (in progress)
+- Nếu 1 turn merge nhiều PR → liệt kê HẾT trong cùng bảng
+- Header "Tổng kết N PR vừa merged" trước bảng (N = số PR)
+- Sau bảng có thể kèm 1-2 dòng note ngắn nếu cần (e.g., production deploy status)
+
+KHÔNG dài dòng, KHÔNG diễn giải nội dung PR (đã có trong PR body).
+
+## 6. Quy tắc thực thi shortcut
 
 - Shortcut PHẢI single line, no extra context.
 - Nếu user gõ shortcut KÈM context (e.g., `gg PR #82 only`) → exec scope hẹp.
