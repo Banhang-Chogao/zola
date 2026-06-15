@@ -14,6 +14,11 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+# Force JS actions chạy trên Node.js 24 (default từ 16/06/2026). Set
+# top-level → mọi job auto-inherit, không cần duplicate trong từng job.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
