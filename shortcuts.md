@@ -24,6 +24,19 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 ## 2. Phím tắt (Shortcuts)
 
+### `phimtat` — Slash command `/phimtat` liệt kê tất cả phím tắt active
+
+Slash command `.claude/commands/phimtat.md` — khi user gõ `/phimtat` trong
+Claude Code, đọc file này và output bảng Markdown 2 cột (tên · mô tả).
+Phiên bản canonical của `help` dưới dạng Claude Code slash command.
+
+### `thememoi` — Slash command `/thememoi` audit + áp 3 theme mới
+
+Slash command `.claude/commands/thememoi.md` — khi user gõ `/thememoi`,
+Claude grep tất cả file SCSS tìm component chưa override theo 3 theme
+(Z-X, E-X, Hila Ericsson), apply override scoped `:root[data-theme="..."]`,
+verify SCSS compile. CHỈ giao diện + bố cục, KHÔNG đổi content/DOM.
+
 ### `help` — Hiển thị danh sách tất cả phím tắt active
 
 Khi user gõ `help` (hoặc `/help`), Claude output bảng tóm tắt tất cả
@@ -248,9 +261,13 @@ Hành động: output bảng cron schedule + ý nghĩa cho **3 workflow QA core*
 
 | Workflow | File | Cron | Ý nghĩa human-readable |
 |---|---|---|---|
-| QA Gatekeeper | `.github/workflows/qa.yml` | (no schedule) | Trigger trên PR + push main |
-| Security Audit | `.github/workflows/security-audit.yml` | `0 3 * * 6` | Thứ 7 hàng tuần 03:00 UTC |
-| Self-Healing QA | `.github/workflows/self-healing.yml` | `0 */6 * * *` | Mỗi 6 tiếng |
+| QA Gatekeeper | `.github/workflows/qa.yml` | `0 4 * * *` + PR/push | Daily 11:00 GMT+7 + event-based |
+| Security Audit | `.github/workflows/security-audit.yml` | `0 3 * * 6` + `0 4 * * *` | Thứ 7 weekly + Daily 11:00 GMT+7 |
+| Self-Healing QA | `.github/workflows/self-healing.yml` | `0 */6 * * *` + `0 4 * * *` | Mỗi 6 tiếng + Daily 11:00 GMT+7 |
+
+**Quy tắc daily 11:00 GMT+7** (set 2026-06-15 user request):
+Cả 3 workflow QA core BẮT BUỘC có cron `0 4 * * *` (= 11:00 VN time)
+để baseline check mỗi sáng — bất kể tuần lễ thường hay weekend.
 
 Bonus columns nếu user muốn detail:
 - Last run status (✅ success / ❌ failure / 🔄 in_progress)

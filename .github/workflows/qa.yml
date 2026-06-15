@@ -9,6 +9,10 @@ on:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    # Daily 11:00 GMT+7 = 04:00 UTC — baseline QA snapshot
+    - cron: '0 4 * * *'
+  workflow_dispatch:
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
