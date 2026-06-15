@@ -507,8 +507,10 @@
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====
        Đặt ngay trước </body> thay vì <head> → KHÔNG block initial paint.
        Khi ga_measurement_id rỗng → script PLACEHOLDER với chuỗi
-       'ĐANG CHỜ MEASUREMENT ID' để user dễ tìm + thay sau. #}
+       'ĐANG CHỜ MEASUREMENT ID' để user dễ tìm + thay sau.
+       Property ID 541698865 — tham chiếu Admin → Property Settings. #}
     {% if config.extra.ga_measurement_id %}
+    <!-- GA4 Measurement ID: {{ config.extra.ga_measurement_id }} | Property ID: 541698865 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];

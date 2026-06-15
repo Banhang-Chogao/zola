@@ -60,7 +60,8 @@ menu = [
 # Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams
 # → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX"
 # Để trống = GA tracking script không load (silent skip).
-ga_measurement_id = ""
+# Property ID: 541698865 (tham chiếu Admin → Property Settings)
+ga_measurement_id = "G-REFBXH86Z5"
 
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
