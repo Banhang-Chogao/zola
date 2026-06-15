@@ -50,7 +50,7 @@ from urllib.parse import urlencode, urljoin, urlparse
 import feedparser
 import httpx
 from bs4 import BeautifulSoup
-from fastapi import FastAPI, Header, HTTPException, Query, Request
+from fastapi import FastAPI, File, Form, Header, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 import redis.asyncio as redis
@@ -879,6 +879,56 @@ async def _gh_get_file(client: httpx.AsyncClient, path: str, token: str) -> tupl
     return data.get("sha"), decoded
 
 
+async def _gh_get_sha(client: httpx.AsyncClient, path: str, token: str) -> Optional[str]:
+    """Get sha của file. None nếu 404. Dùng cho binary file."""
+    res = await client.get(
+        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}/contents/{path}",
+        params={"ref": CMS_REPO_BRANCH},
+        headers={
+            "Authorization":        f"Bearer {token}",
+            "Accept":               "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent":           "zola-cms",
+        },
+    )
+    if res.status_code == 404:
+        return None
+    if res.status_code != 200:
+        raise HTTPException(502, f"github_read_failed_{res.status_code}")
+    return res.json().get("sha")
+
+
+async def _gh_put_binary(client: httpx.AsyncClient, path: str, raw_bytes: bytes,
+                          sha: Optional[str], message: str, token: str) -> dict:
+    """PUT binary file qua Contents API. raw_bytes → base64."""
+    payload = {
+        "message": message[:200],
+        "content": base64.b64encode(raw_bytes).decode("ascii"),
+        "branch":  CMS_REPO_BRANCH,
+    }
+    if sha:
+        payload["sha"] = sha
+    res = await client.put(
+        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}/contents/{path}",
+        headers={
+            "Authorization":        f"Bearer {token}",
+            "Accept":               "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent":           "zola-cms",
+        },
+        json=payload,
+    )
+    if res.status_code not in (200, 201):
+        err = {}
+        try: err = res.json()
+        except json.JSONDecodeError: pass
+        raise HTTPException(
+            res.status_code if res.status_code in (403, 422) else 502,
+            f"github_api: {err.get('message', 'error')}",
+        )
+    return res.json()
+
+
 async def _gh_put_file(client: httpx.AsyncClient, path: str, content: str,
                         sha: Optional[str], message: str, token: str) -> dict:
     """PUT (create/update) file qua Contents API."""
@@ -1072,6 +1122,152 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
             "commit_sha": data.get("commit", {}).get("sha", ""),
             "deploy_eta": "1-2 phút (GitHub Actions auto-build + deploy)",
         }
+
+
+# ============= CMS — Author Management =============
+CMS_AUTHOR_JSON_PATH  = "author.json"
+CMS_AVATAR_PATH       = "static/img/author-avatar.jpg"
+_MAX_AVATAR_BYTES     = 5 * 1024 * 1024
+_ALLOWED_AVATAR_MIMES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
+
+
+@app.get("/cms/author")
+async def cms_author_get(authorization: str = Header(default="")):
+    """Đọc author.json (auth required)."""
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        sha, text = await _gh_get_file(client, CMS_AUTHOR_JSON_PATH, token)
+    if not text:
+        return {"data": {"name": "", "url": "", "bio": "", "avatar_path": "/img/author-avatar.jpg"}}
+    try:
+        return {"data": json.loads(text)}
+    except json.JSONDecodeError:
+        raise HTTPException(500, "author_json_corrupt")
+
+
+@app.post("/cms/author")
+async def cms_author_update(
+    avatar: Optional[UploadFile] = File(None),
+    name:   str = Form(""),
+    url:    str = Form(""),
+    bio:    str = Form(""),
+    authorization: str = Header(default=""),
+):
+    """
+    Multipart: avatar file (optional, max 5MB) + name/url/bio text.
+    Avatar → upload static/img/author-avatar.jpg.
+    Metadata → merge vào author.json.
+    """
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+
+    name = (name or "").strip()[:100]
+    url  = (url  or "").strip()[:300]
+    bio  = (bio  or "").strip()[:5000]
+
+    commits = []
+    updated_avatar = False
+    updated_meta   = False
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        if avatar is not None and avatar.filename:
+            mime = (avatar.content_type or "").lower()
+            if mime not in _ALLOWED_AVATAR_MIMES:
+                raise HTTPException(400, f"invalid_mime_{mime}")
+            raw = await avatar.read()
+            if len(raw) > _MAX_AVATAR_BYTES:
+                raise HTTPException(400, "avatar_too_large_5mb")
+            if len(raw) < 100:
+                raise HTTPException(400, "avatar_empty")
+            try:
+                sha = await _gh_get_sha(client, CMS_AVATAR_PATH, token)
+            except HTTPException:
+                sha = None
+            data = await _gh_put_binary(
+                client, CMS_AVATAR_PATH, raw, sha,
+                "CMS: cập nhật author avatar", token,
+            )
+            commits.append({"type": "avatar", "url": data.get("commit", {}).get("html_url", "")})
+            updated_avatar = True
+
+        if any([name, url, bio]):
+            sha_j, text = await _gh_get_file(client, CMS_AUTHOR_JSON_PATH, token)
+            try:
+                current = json.loads(text) if text else {}
+            except json.JSONDecodeError:
+                current = {}
+            if not isinstance(current, dict):
+                current = {}
+            if name: current["name"] = name
+            if url:  current["url"]  = url
+            if bio:  current["bio"]  = bio
+            current["avatar_path"] = "/img/author-avatar.jpg"
+            new_text = json.dumps(current, ensure_ascii=False, indent=2) + "\n"
+            data = await _gh_put_file(
+                client, CMS_AUTHOR_JSON_PATH, new_text, sha_j,
+                "CMS: cập nhật author info", token,
+            )
+            commits.append({"type": "meta", "url": data.get("commit", {}).get("html_url", "")})
+            updated_meta = True
+
+    if not (updated_avatar or updated_meta):
+        raise HTTPException(400, "nothing_to_update")
+
+    return {
+        "ok":             True,
+        "updated_avatar": updated_avatar,
+        "updated_meta":   updated_meta,
+        "commits":        commits,
+        "deploy_eta":     "1-2 phút (Pages auto-build)",
+    }
+
+
+# ============= CMS — Giscus Auto-Fetch IDs =============
+@app.get("/cms/giscus/setup")
+async def cms_giscus_setup(authorization: str = Header(default="")):
+    """Fetch repo_id + discussion category IDs qua GraphQL → user khỏi vào giscus.app."""
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+
+    query = (
+        "query { repository(owner: \"" + CMS_REPO_OWNER + "\", "
+        "name: \"" + CMS_REPO_NAME + "\") { id "
+        "discussionCategories(first: 25) { nodes { id name emoji } } } }"
+    )
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        res = await client.post(
+            "https://api.github.com/graphql",
+            headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json", "User-Agent": "zola-cms"},
+            json={"query": query},
+        )
+    if res.status_code != 200:
+        raise HTTPException(502, f"graphql_failed_{res.status_code}")
+    data = res.json()
+    if "errors" in data and data["errors"]:
+        msg = data["errors"][0].get("message", "graphql_error")
+        raise HTTPException(400, f"graphql: {msg}")
+    repo = ((data.get("data") or {}).get("repository") or {})
+    repo_id = repo.get("id", "")
+    cats = ((repo.get("discussionCategories") or {}).get("nodes") or [])
+    if not cats:
+        raise HTTPException(400, "no_categories_check_discussions_enabled")
+    suggested = next((c for c in cats if c.get("name") == "General"), cats[0])
+    return {
+        "repo_id": repo_id,
+        "categories": [{"id": c.get("id"), "name": c.get("name"), "emoji": c.get("emoji")} for c in cats],
+        "suggested": {
+            "repo_id":     repo_id,
+            "category_id": suggested.get("id"),
+            "category":    suggested.get("name"),
+        },
+    }
 
 
 # ============= RSS Checker =============

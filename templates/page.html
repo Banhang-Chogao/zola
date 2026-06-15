@@ -79,27 +79,38 @@
         {% endif %}
 
         {# ===== AUTHOR BOX ===== #}
-        {# Hiển thị info tác giả cuối mỗi bài: avatar + tên + bio + social.
-           Tất cả từ config.extra → sửa 1 chỗ ảnh hưởng mọi bài. #}
+        {# Đọc author info từ author.json (source of truth) → update qua
+           /admin-author/ mà không edit config.toml + push manual. Fallback
+           config.extra nếu file thiếu (dev local hoặc lần đầu). #}
+        {% set author_data = load_data(path="author.json", required=false) %}
+        {% set author_name = author_data.name | default(value=config.extra.author) %}
+        {% set author_url = author_data.url | default(value=config.extra.author_url | default(value="")) %}
+        {% set author_bio = author_data.bio | default(value=config.extra.author_bio | default(value="")) %}
+        {% set author_avatar = author_data.avatar_path | default(value=config.extra.author_avatar | default(value="")) %}
+        {% if author_avatar and not author_avatar is starting_with("http") %}
+            {% set author_avatar = config.base_url ~ author_avatar %}
+        {% endif %}
+
         <aside class="author-box" aria-label="Tác giả">
             <a class="author-box__avatar"
-               {% if config.extra.author_url %}href="{{ config.extra.author_url }}" target="_blank" rel="noopener"{% endif %}>
-                <img src="{{ config.extra.author_avatar | default(value='') }}"
-                     alt="{{ config.extra.author }}"
+               {% if author_url %}href="{{ author_url }}" target="_blank" rel="noopener"{% endif %}>
+                <img src="{{ author_avatar }}"
+                     alt="{{ author_name }}"
                      loading="lazy"
+                     decoding="async"
                      onerror="this.style.display='none'">
             </a>
             <div class="author-box__body">
                 <h3 class="author-box__name">
-                    {{ config.extra.author }}{{ v::badge() }}
+                    {{ author_name }}{{ v::badge() }}
                 </h3>
-                {% if config.extra.author_url %}
-                    <a class="author-box__url" href="{{ config.extra.author_url }}" target="_blank" rel="noopener">
-                        {{ config.extra.author_url | replace(from='https://', to='') | replace(from='http://', to='') }}
+                {% if author_url %}
+                    <a class="author-box__url" href="{{ author_url }}" target="_blank" rel="noopener">
+                        {{ author_url | replace(from='https://', to='') | replace(from='http://', to='') }}
                     </a>
                 {% endif %}
-                {% if config.extra.author_bio %}
-                    <p class="author-box__bio">{{ config.extra.author_bio }}</p>
+                {% if author_bio %}
+                    <p class="author-box__bio">{{ author_bio }}</p>
                 {% endif %}
             </div>
         </aside>

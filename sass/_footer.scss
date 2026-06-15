@@ -32,6 +32,71 @@
   > .container:last-child {
     padding-top: 1.75rem;
   }
+
+  /* 3-column footer: Author Mgmt góc trái + copyright/Admin trung tâm.
+     Author Mgmt link nổi bật vì utility cho admin (user yêu cầu). */
+  &__main {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  &__left { justify-self: start; }
+  &__center { text-align: center; }
+
+  &__right { justify-self: end; }
+
+  &__stats-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.95rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #d1d5db;
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.25);
+    border-radius: 8px;
+    transition: background .15s ease, color .15s ease, transform .12s ease;
+
+    &:hover {
+      background: rgba(74, 222, 128, 0.25);
+      color: #fff;
+      border-color: rgba(74, 222, 128, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__author-mgmt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.95rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #d1d5db;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    transition: background .15s ease, color .15s ease, transform .12s ease;
+
+    &:hover {
+      background: rgba(214, 61, 61, 0.2);
+      color: #fff;
+      border-color: rgba(214, 61, 61, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+
+  @media (max-width: 720px) {
+    &__main {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    &__left, &__right { justify-self: center; }
+  }
 }
 
 /* ========== VISITOR COUNTER — CLOCK / ODOMETER ==========
