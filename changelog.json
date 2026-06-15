@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Typography Manrope-first + Inter UI + Be Vietnam Pro meta",
+      "tag": "chore",
+      "pr": 86,
+      "lines_added": 70,
+      "lines_removed": 56,
+      "highlights": [
+        "Gộp 3 font vào 1 request → 1 round-trip",
+        "font-display: swap → text hiện ngay với system fallback",
+        "media=print onload swap → non-blocking FCP/LCP",
+        "Body: 17px (từ 16) + line-height 1.7 (từ 1.6)",
+        "letter-spacing 0 (Manrope đã round, không expand)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Hotfix: enforce Node.js 24 trên 2 workflow mới thiếu env",
       "tag": "chore",
       "pr": 85,
