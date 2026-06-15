@@ -19,29 +19,128 @@
   const CONTENT_DIR = "content/posting";
   const API = "https://api.github.com";
 
-  /* ============= AUTH (OTP only — DRAFT-ONLY mode) =============
-     Editor chuyển sang DRAFT-ONLY (không push GitHub trực tiếp):
-     - OTP gate vào editor như cũ (SHA-256 hash, KHÔNG plaintext)
-     - Save → tải file .md về máy → user git add + commit + push thủ công
-     - Edit bài existing → fetch GitHub API unauth (60/h IP, đủ dùng cá nhân)
-     - Delete bài → alert, làm thủ công qua git rm
-     - PAT REMOVED toàn bộ (không còn prompt, không sessionStorage, không
-       in-memory)
+  /* ============= AUTH (GitHub OAuth via FastAPI backend) =============
+     OAuth flow (replaces OTP):
+       1. User click "Đăng nhập GitHub" → redirect BACKEND/auth/login
+       2. GitHub OAuth → BACKEND callback → check email white-list
+       3. Backend redirect /editor/#sid=... → JS đọc hash → sessionStorage
+       4. /auth/me validate session mỗi page load
+       5. Save bài = download .md (DRAFT-ONLY mode giữ nguyên từ PR #34)
 
-     Lý do: GitHub Pages = static = không backend giữ PAT. Hardcode PAT =
-     leak public. CF Worker phương án A user không chọn → chọn B draft-only. */
-  const OTP_HASH = "78c72f67941a420cd4e5ee9fdabcaeaba6d72f16160915085f9802220fd83799";
-  const OTP_SESSION_KEY = "zola-cms-otp-ok";
+     Security:
+       - sid là opaque random 32-byte, KHÔNG carry info
+       - access_token GitHub giữ Redis-side trên backend, KHÔNG về client
+       - sessionStorage → auto-clear khi đóng tab
+       - Backend TTL 2h → idle quá tự logout
+       - White-list email check server-side, client KHÔNG bypass được */
 
-  async function sha256Hex(str) {
-    const buf = new TextEncoder().encode(String(str || ""));
-    const hash = await crypto.subtle.digest("SHA-256", buf);
-    return Array.from(new Uint8Array(hash))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
+  const SESSION_KEY = "zola-cms-session-id";
+  const AUTH_API = (function () {
+    const meta = document.querySelector('meta[name="zola-cms-auth-api"]');
+    return (meta && meta.getAttribute("content")) || "";
+  })();
+
+  let currentUser = null; // { email, username, name, avatar }
+
+  function getSid() {
+    try { return sessionStorage.getItem(SESSION_KEY) || ""; }
+    catch (e) { return ""; }
+  }
+  function setSid(sid) {
+    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+  }
+  function clearSid() {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
-  /* Draft-only: KHÔNG PAT. Save = download file, không authenticate GitHub. */
+  // Đọc #sid=... từ URL fragment sau OAuth callback redirect.
+  // Hash KHÔNG được gửi server → an toàn hơn query string với referer leak.
+  function consumeUrlHashSid() {
+    if (!location.hash) return;
+    const m = location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);
+    if (!m) return;
+    setSid(m[1]);
+    // Xoá hash khỏi URL bar (không reload, không history entry)
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+
+  // Đọc ?auth_error=... từ query (backend redirect khi denied / fail)
+  function consumeUrlAuthError() {
+    const params = new URLSearchParams(location.search);
+    const err = params.get("auth_error");
+    if (!err) return null;
+    params.delete("auth_error");
+    const newQs = params.toString();
+    history.replaceState(null, "", location.pathname + (newQs ? "?" + newQs : ""));
+    return err;
+  }
+
+  async function fetchMe() {
+    const sid = getSid();
+    if (!sid || !AUTH_API) return null;
+    try {
+      const res = await fetch(AUTH_API + "/auth/me", {
+        headers: { "Authorization": "Bearer " + sid },
+        credentials: "omit",
+        cache: "no-store",
+      });
+      if (res.status === 401) { clearSid(); return null; }
+      if (!res.ok) return null;
+      return await res.json();
+    } catch (e) {
+      return null; // network fail → coi như chưa login, không phá UI
+    }
+  }
+
+  async function logoutRemote() {
+    const sid = getSid();
+    if (!sid || !AUTH_API) { clearSid(); return; }
+    try {
+      await fetch(AUTH_API + "/auth/logout", {
+        method: "POST",
+        headers: { "Authorization": "Bearer " + sid },
+        credentials: "omit",
+        keepalive: true,
+      });
+    } catch (e) { /* network fail OK — session client-side đã clear */ }
+    clearSid();
+  }
+
+  const AUTH_ERROR_MESSAGES = {
+    access_denied:                "Truy cập bị từ chối: Bạn không có quyền quản trị blog này.",
+    invalid_state:                "Phiên đăng nhập hết hạn. Vui lòng thử lại.",
+    missing_params:               "GitHub callback thiếu tham số. Thử lại.",
+    token_exchange_failed:        "Lỗi xác thực GitHub. Thử lại sau.",
+    github_unreachable:           "Không kết nối được GitHub. Kiểm tra mạng.",
+    github_profile_fetch_failed:  "Không đọc được profile GitHub. Thử lại.",
+  };
+
+  function showLoginError(code) {
+    const el = $("[data-login-error]");
+    if (!el) return;
+    el.textContent = AUTH_ERROR_MESSAGES[code] || ("Lỗi xác thực: " + code);
+    el.hidden = false;
+  }
+
+  function showLoginHint() {
+    const el = $("[data-login-hint]");
+    if (el) el.hidden = false;
+  }
+
+  function populateUserBar(user) {
+    const bar = $("[data-user-bar]");
+    if (!bar) return;
+    const avatar = $("[data-user-avatar]");
+    const name = $("[data-user-name]");
+    const email = $("[data-user-email]");
+    if (avatar && user.avatar) {
+      avatar.src = user.avatar;
+      avatar.alt = user.username || "";
+    }
+    if (name)  name.textContent  = user.name || user.username || "";
+    if (email) email.textContent = user.email || "";
+    bar.hidden = false;
+  }
 
   const root = document.getElementById("editor-app");
   if (!root) return;
@@ -353,38 +452,15 @@ tags = ${tagsStr}
     return fmText + body;
   }
 
-  // ============= OTP GATE =============
-  function isOtpPassed() {
-    try { return sessionStorage.getItem(OTP_SESSION_KEY) === "1"; }
-    catch (e) { return false; }
+  // ============= LOGIN BUTTON → REDIRECT GITHUB OAUTH =============
+  const loginBtn = $("[data-action='github-login']");
+  if (loginBtn) {
+    loginBtn.addEventListener("click", function () {
+      if (!AUTH_API) { showLoginHint(); return; }
+      const returnTo = location.pathname + location.search;
+      location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(returnTo);
+    });
   }
-  function setOtpPassed() {
-    try { sessionStorage.setItem(OTP_SESSION_KEY, "1"); } catch (e) {}
-  }
-  function clearOtpSession() {
-    try { sessionStorage.removeItem(OTP_SESSION_KEY); } catch (e) {}
-  }
-
-  $("[data-form='otp']").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const input = e.target.otp;
-    const code = String(input.value || "").trim();
-    const msgEl = $("[data-otp-msg]");
-    const hash = await sha256Hex(code);
-    if (hash === OTP_HASH) {
-      setOtpPassed();
-      input.value = "";
-      if (msgEl) { msgEl.textContent = ""; msgEl.className = "editor-otp__msg"; }
-      enterDashboard();
-    } else {
-      if (msgEl) {
-        msgEl.textContent = "Mã không đúng. Thử lại.";
-        msgEl.className = "editor-otp__msg editor-otp__msg--error";
-      }
-      input.value = "";
-      input.focus();
-    }
-  });
 
   let bakeLoaded = false;
   function enterDashboard(force) {
@@ -461,12 +537,13 @@ tags = ${tagsStr}
     });
   }
 
-  $("[data-action='logout']").addEventListener("click", () => {
-    if (!confirm("Khoá phiên CMS? (cần nhập OTP lại để vào)")) return;
-    clearOtpSession();
+  $("[data-action='logout']").addEventListener("click", async () => {
+    if (!confirm("Đăng xuất khỏi CMS?")) return;
+    await logoutRemote();
+    currentUser = null;
+    const bar = $("[data-user-bar]");
+    if (bar) bar.hidden = true;
     showView("login");
-    const otpInput = $("[data-form='otp'] [name='otp']");
-    if (otpInput) otpInput.focus();
   });
 
   $("[data-action='new']").addEventListener("click", () => openEditor(null));
@@ -1314,11 +1391,11 @@ tags = ${tagsStr}
   setEditorMode(getInitialMode());
 
   // ============= URL PARAM HANDLING =============
-  // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola — yêu cầu OTP pass trước
+  // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola — yêu cầu session valid trước
   function checkUrlParam() {
     const params = new URLSearchParams(location.search);
     const slug = params.get("slug");
-    if (slug && isOtpPassed()) {
+    if (slug) {
       const path = CONTENT_DIR + "/" + slug + ".md";
       openEditor(path);
       return true;
@@ -1326,13 +1403,37 @@ tags = ${tagsStr}
     return false;
   }
 
-  // ============= INIT =============
-  // OTP đã pass trong sessionStorage (cùng tab) → vào dashboard ngay.
-  // Chưa pass → show OTP modal. Tab close → sessionStorage clear → phải
-  // nhập lại OTP mỗi lần vào lại.
-  if (isOtpPassed()) {
-    if (!checkUrlParam()) enterDashboard();
-  } else {
+  // ============= INIT — GitHub OAuth Flow =============
+  async function init() {
+    // 1. Consume #sid=... từ callback redirect (nếu vừa OAuth xong)
+    consumeUrlHashSid();
+    // 2. Consume ?auth_error=... (backend redirect khi denied)
+    const errCode = consumeUrlAuthError();
+    if (errCode) showLoginError(errCode);
+
+    // 3. Nếu backend chưa configure → hiển thị hint trên login view
+    if (!AUTH_API) {
+      showLoginHint();
+      showView("login");
+      return;
+    }
+
+    // 4. Có sid → validate qua backend /auth/me
+    const sid = getSid();
+    if (sid) {
+      const user = await fetchMe();
+      if (user) {
+        currentUser = user;
+        populateUserBar(user);
+        if (!checkUrlParam()) enterDashboard();
+        return;
+      }
+      // Session expired/invalid → đã clearSid trong fetchMe
+    }
+
+    // 5. Chưa login → show login screen
     showView("login");
   }
+
+  init();
 })();

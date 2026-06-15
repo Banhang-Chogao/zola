@@ -1,40 +1,81 @@
 """
-Blog Visitor Counter — minimal FastAPI service backed by Redis.
+Blog backend — visitor counter + GitHub OAuth gateway cho CMS.
 
 Endpoints:
-  POST /track   → increment counter if request là user thật (không phải bot)
-  GET  /stats   → trả về tổng count hiện tại
-  GET  /        → health check + endpoint discovery
+  Visitor counter:
+    POST /track      → increment counter nếu UA không phải bot
+    GET  /stats      → trả tổng count hiện tại
 
-Env vars (set trên Render/Railway dashboard):
-  REDIS_URL     — redis://default:password@host:port (bắt buộc)
-  CORS_ORIGIN   — origin được phép gọi API (default: blog GitHub Pages URL)
-  COUNTER_KEY   — Redis key chứa count (default: 'blog:visitors')
+  GitHub OAuth (cổng đăng nhập CMS):
+    GET  /auth/login           → redirect đến GitHub authorize page
+    GET  /auth/callback        → GitHub callback, exchange code → check email →
+                                 redirect blog với session_id trong URL fragment
+    GET  /auth/me              → validate session (Header: Authorization: Bearer SID)
+    POST /auth/logout          → xoá session khỏi Redis
 
-Triết lý: stateless, async, single Redis key. Không database SQL, không
-session. INCR là atomic op nên không cần lock — concurrent track requests
-xử lý đúng cả khi cả triệu visitor cùng lúc.
+  Misc:
+    GET  /          → health check + endpoint discovery
+
+Env vars (set Render/Railway dashboard):
+  REDIS_URL          — redis://... (bắt buộc, dùng cho counter + session)
+  CORS_ORIGIN        — origin được phép gọi API (default: blog GitHub Pages)
+  COUNTER_KEY        — Redis key chứa counter (default: 'blog:visitors')
+
+  GH_CLIENT_ID       — GitHub OAuth App Client ID
+  GH_CLIENT_SECRET   — GitHub OAuth App Client Secret (NEVER expose client)
+  BACKEND_URL        — URL public của service này (cho redirect_uri OAuth)
+  BLOG_URL           — URL blog (để redirect về sau auth)
+  ADMIN_EMAILS       — danh sách email được phép vào CMS, ngăn cách ',' (default
+                       'tamsudev.com@gmail.com'). Thêm contributor: append email.
+  SESSION_TTL        — session sống bao lâu giây (default 7200 = 2h). Redis
+                       auto-expire session khi hết → admin idle 2h phải login lại.
+
+Triết lý security:
+  - client_secret CHỈ trên server, không bao giờ về client
+  - access_token GitHub được giữ Redis-side, client chỉ có opaque session_id
+  - session_id là URL-safe 32-byte random, không encode info → không brute-force được
+  - Email whitelist server-side → client KHÔNG thể bypass
+  - State param ngăn CSRF cho OAuth flow
 """
 
+import asyncio
+import json
 import os
 import re
+import secrets
 from typing import Optional
+from urllib.parse import urlencode, urlparse
 
-from fastapi import FastAPI, Request
+import feedparser
+import httpx
+from fastapi import FastAPI, Header, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 import redis.asyncio as redis
 
 
 # ============= Configuration =============
-# Đọc từ env vars — KHÔNG hardcode credentials.
 REDIS_URL   = os.getenv("REDIS_URL", "redis://localhost:6379")
 CORS_ORIGIN = os.getenv("CORS_ORIGIN", "https://banhang-chogao.github.io")
 COUNTER_KEY = os.getenv("COUNTER_KEY", "blog:visitors")
 
+GH_CLIENT_ID     = os.getenv("GH_CLIENT_ID", "")
+GH_CLIENT_SECRET = os.getenv("GH_CLIENT_SECRET", "")
+BACKEND_URL      = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
+BLOG_URL         = os.getenv("BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+
+# White-list email — comma-separated trong env. Strip + lowercase để so sánh
+# robust với GitHub email (vốn được trả về lowercase nhưng phòng config typo).
+ADMIN_EMAILS = {
+    e.strip().lower()
+    for e in os.getenv("ADMIN_EMAILS", "tamsudev.com@gmail.com").split(",")
+    if e.strip()
+}
+
+SESSION_TTL = int(os.getenv("SESSION_TTL", "7200"))  # 2h default (idle timeout)
+
 
 # ============= Bot Detection =============
-# Common crawler/bot signatures. Regex single-pass cho hiệu năng.
-# Coverage: search engines, social previews, monitors, scrapers, libraries.
 BOT_PATTERNS = re.compile(
     r"bot|crawler|spider|crawl|slurp|mediapartners|preview|fetcher|"
     r"facebookexternalhit|whatsapp|telegram|twitterbot|linkedinbot|"
@@ -45,7 +86,6 @@ BOT_PATTERNS = re.compile(
 
 
 def is_bot(user_agent: str) -> bool:
-    """Detect common bot/crawler User-Agent. Empty/short UA cũng coi là bot."""
     if not user_agent or len(user_agent) < 10:
         return True
     return bool(BOT_PATTERNS.search(user_agent))
@@ -53,16 +93,15 @@ def is_bot(user_agent: str) -> bool:
 
 # ============= FastAPI App =============
 app = FastAPI(
-    title="Blog Visitor Counter",
-    version="1.0.0",
-    # Disable /docs + /redoc trong production — service public, không cần expose schema
+    title="Blog Backend (counter + CMS auth)",
+    version="2.0.0",
     docs_url=None,
     redoc_url=None,
     openapi_url=None,
 )
 
-# CORS middleware — chỉ cho phép origin của blog gọi API.
-# Tránh ai khác abuse API từ domain khác.
+# CORS allow blog origin only — auth endpoints chỉ trả JSON cho blog,
+# OAuth redirect dùng full page navigation (không cần CORS).
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[CORS_ORIGIN],
@@ -71,26 +110,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Redis client — singleton, async, reuse connection pool.
 _redis_client: Optional[redis.Redis] = None
 
 
 async def get_redis() -> redis.Redis:
-    """Lazy init Redis client. decode_responses=True → return str thay vì bytes."""
     global _redis_client
     if _redis_client is None:
         _redis_client = redis.from_url(REDIS_URL, decode_responses=True)
     return _redis_client
 
 
-# ============= Endpoints =============
+# ============= Visitor Counter Endpoints =============
 @app.post("/track")
 async def track(request: Request):
-    """
-    Tăng visitor count nếu request từ user thật.
-    Bot → silent skip (return 200 nhưng counted=False) để không tiết lộ
-    detection logic cho scrapers.
-    """
     ua = request.headers.get("user-agent", "")
     if is_bot(ua):
         return {"ok": True, "counted": False}
@@ -102,21 +134,418 @@ async def track(request: Request):
 
 @app.get("/stats")
 async def stats():
-    """Trả về count hiện tại. Key chưa tồn tại → 0."""
     r = await get_redis()
     raw = await r.get(COUNTER_KEY)
     count = int(raw) if raw else 0
     return {"count": count}
 
 
+# ============= GitHub OAuth — Auth Flow =============
+
+def _redirect_with_error(error: str) -> RedirectResponse:
+    """Redirect blog /editor/ với query ?error=... để JS hiển thị thông báo."""
+    return RedirectResponse(f"{BLOG_URL}/editor/?auth_error={error}")
+
+
+def _is_allowed_email(verified_emails: set) -> bool:
+    """
+    Kiểm tra ít nhất 1 email verified của user khớp white-list.
+
+    Tách thành helper để dễ thay logic sau: ví dụ chuyển sang
+    GitHub Collaborator API thay vì email check, chỉ cần sửa hàm này.
+    """
+    return bool(verified_emails & ADMIN_EMAILS)
+
+
+@app.get("/auth/login")
+async def auth_login(return_to: str = "/editor/"):
+    """
+    Bắt đầu OAuth: tạo state random (CSRF protect), lưu Redis 10 phút,
+    redirect user đến GitHub authorize page.
+    """
+    if not GH_CLIENT_ID:
+        raise HTTPException(500, "GH_CLIENT_ID chưa configure trên server")
+
+    # Sanitize return_to: chỉ cho phép path tương đối, ngăn open redirect
+    if not return_to.startswith("/"):
+        return_to = "/editor/"
+
+    state = secrets.token_urlsafe(24)
+    r = await get_redis()
+    await r.setex(f"oauth_state:{state}", 600, return_to)
+
+    params = urlencode({
+        "client_id": GH_CLIENT_ID,
+        "scope": "read:user user:email",
+        "state": state,
+        "redirect_uri": f"{BACKEND_URL}/auth/callback",
+        "allow_signup": "false",
+    })
+    return RedirectResponse(f"https://github.com/login/oauth/authorize?{params}")
+
+
+@app.get("/auth/callback")
+async def auth_callback(code: str = "", state: str = ""):
+    """
+    GitHub redirect tới đây sau khi user authorize.
+    1. Verify state (CSRF)
+    2. Exchange code → access_token
+    3. Fetch user emails → check white-list
+    4. Tạo session Redis (TTL 8h), redirect blog với sid trong URL fragment
+
+    URL fragment (#sid=...) KHÔNG gửi server → an toàn hơn query string.
+    """
+    if not code or not state:
+        return _redirect_with_error("missing_params")
+
+    r = await get_redis()
+    return_to = await r.getdel(f"oauth_state:{state}")
+    if not return_to:
+        return _redirect_with_error("invalid_state")
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        # Exchange code → access_token
+        try:
+            token_res = await client.post(
+                "https://github.com/login/oauth/access_token",
+                headers={"Accept": "application/json"},
+                data={
+                    "client_id": GH_CLIENT_ID,
+                    "client_secret": GH_CLIENT_SECRET,
+                    "code": code,
+                    "redirect_uri": f"{BACKEND_URL}/auth/callback",
+                },
+            )
+        except httpx.HTTPError:
+            return _redirect_with_error("github_unreachable")
+
+        token_data = token_res.json() if token_res.status_code == 200 else {}
+        access_token = token_data.get("access_token")
+        if not access_token:
+            return _redirect_with_error("token_exchange_failed")
+
+        gh_headers = {
+            "Authorization": f"Bearer {access_token}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        }
+
+        # Fetch verified emails — required scope: user:email
+        try:
+            emails_res = await client.get("https://api.github.com/user/emails", headers=gh_headers)
+            user_res   = await client.get("https://api.github.com/user",        headers=gh_headers)
+        except httpx.HTTPError:
+            return _redirect_with_error("github_unreachable")
+
+        if emails_res.status_code != 200 or user_res.status_code != 200:
+            return _redirect_with_error("github_profile_fetch_failed")
+
+        emails = emails_res.json()
+        # Chỉ chấp nhận email verified — GitHub có flag .verified cho mỗi email
+        verified_emails = {
+            (e.get("email") or "").lower()
+            for e in emails
+            if e.get("verified") and e.get("email")
+        }
+
+        if not _is_allowed_email(verified_emails):
+            return _redirect_with_error("access_denied")
+
+        user = user_res.json()
+
+    # Tạo session opaque — sid là 43 ký tự URL-safe, không carry info,
+    # không thể brute force trong thời gian session sống.
+    sid = secrets.token_urlsafe(32)
+    matched_email = next(iter(verified_emails & ADMIN_EMAILS), None)
+    session = {
+        "email":        matched_email,
+        "username":     user.get("login", ""),
+        "name":         user.get("name") or user.get("login", ""),
+        "avatar":       user.get("avatar_url", ""),
+        # access_token được lưu server-side cho tương lai (vd commit qua API).
+        # KHÔNG bao giờ trả về client qua endpoint /auth/me.
+        "access_token": access_token,
+    }
+    await r.setex(f"session:{sid}", SESSION_TTL, json.dumps(session))
+
+    # URL fragment (#) — browser KHÔNG gửi # cho server, JS đọc rồi xoá hash.
+    # An toàn hơn query string (?sid=...) vì query có thể leak qua referer header.
+    return RedirectResponse(f"{BLOG_URL}{return_to}#sid={sid}")
+
+
+def _extract_sid(authorization: str) -> str:
+    """Bóc 'Bearer <sid>' header, raise 401 nếu sai format."""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(401, "missing_token")
+    sid = authorization[7:].strip()
+    if not sid:
+        raise HTTPException(401, "missing_token")
+    return sid
+
+
+@app.get("/auth/me")
+async def auth_me(authorization: str = Header(default="")):
+    """
+    Validate session, trả profile public (KHÔNG bao gồm access_token).
+    Client gọi mỗi lần load /editor/ để check session còn valid.
+    """
+    sid = _extract_sid(authorization)
+    r = await get_redis()
+    raw = await r.get(f"session:{sid}")
+    if not raw:
+        raise HTTPException(401, "invalid_session")
+    s = json.loads(raw)
+    return {
+        "email":    s.get("email"),
+        "username": s.get("username"),
+        "name":     s.get("name"),
+        "avatar":   s.get("avatar"),
+    }
+
+
+@app.post("/auth/logout")
+async def auth_logout(authorization: str = Header(default="")):
+    """Xoá session khỏi Redis. Không lỗi nếu session đã hết hạn."""
+    try:
+        sid = _extract_sid(authorization)
+    except HTTPException:
+        return {"ok": True}
+    r = await get_redis()
+    await r.delete(f"session:{sid}")
+    return {"ok": True}
+
+
+# ============= Authentication Helper =============
+async def require_session(authorization: str) -> dict:
+    """
+    Validate Bearer sid, trả session dict hoặc raise 401. Dùng cho mọi
+    endpoint cần authenticated user. NEVER log session content vì có
+    chứa access_token.
+    """
+    sid = _extract_sid(authorization)
+    r = await get_redis()
+    raw = await r.get(f"session:{sid}")
+    if not raw:
+        raise HTTPException(401, "invalid_session")
+    return json.loads(raw)
+
+
+# ============= RSS Checker =============
+# Validate URL trước khi đưa cho feedparser — tránh SSRF qua scheme khác
+# (file://, gopher://, internal IP). feedparser tự follow redirect, nên
+# ngăn ngay từ input.
+_VALID_URL_SCHEMES = {"http", "https"}
+# Disallow internal/private hostnames — tránh SSRF tới Redis (127.0.0.1:6379)
+# hoặc metadata service (169.254.169.254).
+_BLOCKED_HOSTS = re.compile(
+    r"^(localhost|127\.|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|"
+    r"169\.254\.|0\.|::1|fc|fd|fe80:)",
+    re.IGNORECASE,
+)
+
+
+def _validate_rss_url(url: str) -> Optional[str]:
+    """Return error message nếu URL không an toàn, None nếu OK."""
+    if not url or len(url) > 2000:
+        return "invalid_url"
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return "invalid_url"
+    if parsed.scheme.lower() not in _VALID_URL_SCHEMES:
+        return "invalid_scheme"
+    host = (parsed.hostname or "").strip()
+    if not host:
+        return "invalid_host"
+    if _BLOCKED_HOSTS.match(host):
+        return "blocked_host"
+    return None
+
+
+@app.get("/api/check-rss")
+async def check_rss(
+    url: str = Query(..., description="RSS / Atom feed URL"),
+    authorization: str = Header(default=""),
+):
+    """
+    Parse RSS feed qua feedparser, trả 10 entry đầu (title + link).
+    Yêu cầu session valid → chỉ admin đã login mới gọi được.
+
+    Lưu ý privacy: KHÔNG log URL hoặc nội dung feed. Toàn bộ flow là
+    in-memory, không write file, không Redis cache.
+    """
+    await require_session(authorization)
+
+    err = _validate_rss_url(url)
+    if err:
+        raise HTTPException(400, err)
+
+    # feedparser là sync API → chạy trong threadpool để không block event loop.
+    # asyncio.to_thread tối thiểu vì feedparser có thể blocking 5-15s với
+    # remote fetch + XML parse cho feed lớn.
+    try:
+        feed = await asyncio.wait_for(
+            asyncio.to_thread(feedparser.parse, url),
+            timeout=15.0,
+        )
+    except asyncio.TimeoutError:
+        raise HTTPException(400, "timeout")
+    except Exception:
+        raise HTTPException(400, "parse_failed")
+
+    # feedparser KHÔNG raise — trả object có .bozo=True khi malformed.
+    # entries empty hoặc bozo + no entries → coi như fail (FE hiển thị
+    # "không lấy được tin từ nguồn này").
+    entries = getattr(feed, "entries", None) or []
+    if not entries:
+        raise HTTPException(400, "no_entries")
+
+    items = []
+    for e in entries[:10]:
+        title = (e.get("title") or "").strip()
+        link  = (e.get("link")  or "").strip()
+        # Chỉ trả entry có cả title + link hợp lệ
+        if title and link and link.startswith(("http://", "https://")):
+            items.append({"title": title[:300], "link": link[:1000]})
+
+    if not items:
+        raise HTTPException(400, "no_valid_entries")
+
+    # feed.feed.title cho title của source (vd "VnExpress - Tin nhanh")
+    source_title = ""
+    try:
+        source_title = (feed.feed.get("title") or "").strip()[:200]
+    except Exception:
+        pass
+
+    return {
+        "source_title": source_title,
+        "count":        len(items),
+        "items":        items,
+    }
+
+
+# ============= Curated News Feeds (public, Redis cached) =============
+# Map slug → RSS source. Thêm chuyên mục bằng cách append vào dict này.
+# KHÔNG cho user nhập URL tự do (đã có /api/check-rss cho admin) → giảm
+# attack surface, đảm bảo cache key cố định không bị bloat.
+CURATED_FEEDS = {
+    "du-lich": {
+        "url":   "https://znews.vn/du-lich.rss",
+        "title": "Tin tức Du lịch — Znews",
+        "source": "Znews",
+    },
+}
+
+NEWS_CACHE_TTL = int(os.getenv("NEWS_CACHE_TTL", "1800"))  # 30 phút default
+
+
+async def _fetch_and_parse_feed(url: str) -> list:
+    """Fetch + parse RSS feed → list of dict {title, link, published, summary}."""
+    feed = await asyncio.wait_for(
+        asyncio.to_thread(feedparser.parse, url),
+        timeout=15.0,
+    )
+    entries = getattr(feed, "entries", None) or []
+    items = []
+    for e in entries[:10]:
+        title = (e.get("title") or "").strip()
+        link  = (e.get("link")  or "").strip()
+        if not (title and link and link.startswith(("http://", "https://"))):
+            continue
+        # published có thể ở các field khác nhau: published, updated, pubDate
+        published = (
+            e.get("published") or e.get("updated") or e.get("pubDate") or ""
+        ).strip()
+        # summary có thể là plain hoặc HTML — feedparser tự strip về .summary
+        # nhưng vẫn có thể chứa HTML tags → frontend phải escape
+        summary = (e.get("summary") or e.get("description") or "").strip()
+        items.append({
+            "title":     title[:300],
+            "link":      link[:1000],
+            "published": published[:50],
+            "summary":   summary[:500],
+        })
+    return items
+
+
+@app.get("/api/news/{slug}")
+async def curated_news(slug: str):
+    """
+    Trả 10 bài news mới từ curated source theo slug.
+    Redis cache 30 phút (NEWS_CACHE_TTL) → first request lock Znews, các
+    request sau hit cache. Stale-but-served cũng OK với news (không phải
+    real-time critical).
+
+    Lỗi từ Znews (network, parse) → trả 200 với items=[] + cached_at=null,
+    frontend graceful degrade hiển thị "tạm thời không có tin".
+    """
+    feed_cfg = CURATED_FEEDS.get(slug)
+    if not feed_cfg:
+        raise HTTPException(404, "feed_not_found")
+
+    cache_key = f"news_cache:{slug}"
+    r = await get_redis()
+
+    # Cache hit → trả ngay, KHÔNG fetch Znews
+    cached = await r.get(cache_key)
+    if cached:
+        try:
+            data = json.loads(cached)
+            data["from_cache"] = True
+            return data
+        except (json.JSONDecodeError, KeyError):
+            pass  # cache corrupt → re-fetch
+
+    # Cache miss → fetch + parse + cache
+    try:
+        items = await _fetch_and_parse_feed(feed_cfg["url"])
+    except Exception:
+        # Znews unreachable / parse fail → trả empty (FE graceful degrade).
+        # KHÔNG raise 500 vì user vẫn vào được trang, chỉ thiếu news.
+        return {
+            "source":     feed_cfg["source"],
+            "title":      feed_cfg["title"],
+            "count":      0,
+            "items":      [],
+            "from_cache": False,
+            "error":      "fetch_failed",
+        }
+
+    payload = {
+        "source": feed_cfg["source"],
+        "title":  feed_cfg["title"],
+        "count":  len(items),
+        "items":  items,
+    }
+    # Cache cả empty result (TTL ngắn hơn = 5 phút) để tránh hammer source
+    # khi tạm down. Có items → cache TTL đầy đủ.
+    ttl = NEWS_CACHE_TTL if items else 300
+    await r.setex(cache_key, ttl, json.dumps(payload, ensure_ascii=False))
+
+    payload["from_cache"] = False
+    return payload
+
+
+# ============= Misc =============
 @app.get("/")
 async def root():
-    """Health check + endpoint discovery."""
     return {
-        "service": "visitor-counter",
-        "version": "1.0.0",
+        "service": "blog-backend",
+        "version": "2.1.0",
+        "features": {
+            "visitor_counter": True,
+            "github_oauth":    bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
+            "rss_checker":     True,
+        },
         "endpoints": {
-            "POST /track": "Increment counter (bot filtered)",
-            "GET /stats": "Get current count",
+            "POST /track":        "Visitor counter increment",
+            "GET  /stats":        "Visitor counter total",
+            "GET  /auth/login":   "Start GitHub OAuth flow",
+            "GET  /auth/callback":"OAuth callback (GitHub uses this)",
+            "GET  /auth/me":      "Validate session (Bearer)",
+            "POST /auth/logout":  "Destroy session (Bearer)",
+            "GET  /api/check-rss":"Parse RSS feed (auth required)",
+            "GET  /api/news/{slug}":"Curated news (Redis cached 30m, public)",
         },
     }

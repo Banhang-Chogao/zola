@@ -4,11 +4,11 @@
   font-family: $font-body;
 }
 
-/* ============= OTP MODAL (auth gate) ============= */
-/* Overlay phủ giữa màn hình, nhận 4 số → setOtpPassed + enterDashboard.
-   Input type=password + autocomplete=off + data-lpignore + data-1p-ignore
-   để chặn password manager autofill (Bitwarden / 1Password / LastPass). */
-.editor-otp {
+/* ============= GITHUB LOGIN MODAL ============= */
+/* GitHub OAuth là cổng đăng nhập duy nhất. Backend FastAPI check email
+   whitelist → tạo session Redis TTL 2h → redirect /editor/#sid=... .
+   Login UI tối giản: icon + title + button GitHub. */
+.editor-login {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.55);
@@ -21,74 +21,140 @@
   padding: 1rem;
 }
 
-.editor-otp__modal {
+.editor-login__modal {
   background: #fff;
-  border-radius: 12px;
-  padding: 2rem 2.25rem;
+  border-radius: 14px;
+  padding: 2.25rem 2.25rem 1.75rem;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-  max-width: 360px;
+  max-width: 420px;
   width: 100%;
   text-align: center;
-  animation: editor-otp-pop .18s ease-out;
+  animation: editor-login-pop .18s ease-out;
 }
 
-@keyframes editor-otp-pop {
+@keyframes editor-login-pop {
   from { opacity: 0; transform: translateY(-8px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0)    scale(1);   }
 }
 
-.editor-otp__title {
-  margin: 0 0 0.4rem;
-  font-size: 1.35rem;
+.editor-login__icon {
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.editor-login__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.01em;
 }
 
-.editor-otp__sub {
-  margin: 0 0 1.5rem;
+.editor-login__sub {
+  margin: 0 0 1.4rem;
   font-size: 0.88rem;
   color: #64748b;
+  line-height: 1.5;
 }
 
-.editor-otp__input {
+.editor-login__error {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.editor-login__button {
   width: 100%;
   padding: 0.85rem 1rem;
-  font-size: 1.65rem;
-  letter-spacing: 0.55rem;
-  text-align: center;
-  font-family: $font-mono;
-  font-weight: 700;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 6px;
-  background: #f8fafc;
-  color: #111;
-  transition: all .15s ease;
+  justify-content: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  background: #24292f;
+  border: none;
+  color: #fff;
 
-  &:focus {
-    outline: none;
-    border-color: #1572bd;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(21, 114, 189, 0.15);
+  &:hover {
+    background: #1f2328;
+    color: #fff;
+  }
+
+  svg {
+    flex-shrink: 0;
   }
 }
 
-.editor-otp__submit {
-  width: 100%;
-  margin-top: 0.85rem;
-  padding: 0.7rem 1rem;
-  justify-content: center;
+.editor-login__hint {
+  margin: 1rem 0 0;
+  font-size: 0.78rem;
+  color: #b45309;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 0.55rem 0.75rem;
+  text-align: left;
 }
 
-.editor-otp__msg {
-  margin: 0.5rem 0 0;
-  font-size: 0.82rem;
-  min-height: 1.2em;
-  color: #64748b;
+/* ============= USER INFO BAR (sau khi auth) ============= */
+.editor-user-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
 
-  &--error {
-    color: #b91c1c;
-    font-weight: 600;
+  &__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    min-width: 0;
+    flex: 1;
+
+    strong {
+      color: #0f172a;
+      font-size: 0.92rem;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__email {
+    color: #64748b;
+    font-size: 0.78rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__role {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 0.32rem 0.6rem;
+    border-radius: 999px;
+    flex-shrink: 0;
   }
 }
 
@@ -145,21 +211,28 @@
   font-size: 0.9rem;
 }
 
+/* ============= INPUT FIELDS — Changelog design system ============= */
+/* Border-radius 8px, slate palette, focus ring đỏ chủ đạo của blog. */
 .editor-input {
   width: 100%;
-  padding: 0.65rem 0.85rem;
-  border: 1.5px solid #d1d5db;
-  border-radius: 4px;
+  padding: 0.7rem 0.95rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
   font-family: $font-body;
   font-size: 0.95rem;
-  color: #111;
+  color: #0f172a;
   background: #fff;
-  transition: border-color .15s ease;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+
+  &::placeholder { color: #94a3b8; }
+
+  &:hover { border-color: #94a3b8; }
 
   &:focus {
     outline: none;
-    border-color: #1572bd;
-    box-shadow: 0 0 0 3px rgba(21, 114, 189, 0.15);
+    border-color: #d63d3d;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(214, 61, 61, 0.12);
   }
 }
 
@@ -169,74 +242,157 @@
   font-family: $font-mono;
   font-size: 0.92rem;
   line-height: 1.6;
+  background: #fafbfc;
+
+  &:focus { background: #fff; }
 }
 
+/* ============= BUTTONS — Card-like, hover lift effect ============= */
 .editor-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.1rem;
-  border-radius: 4px;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: 8px;
   font-family: $font-body;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   font-weight: 700;
   cursor: pointer;
   border: 1.5px solid transparent;
-  transition: all .15s ease;
+  transition: background .15s ease, color .15s ease, border-color .15s ease,
+              transform .12s ease, box-shadow .15s ease;
   text-decoration: none;
+  letter-spacing: 0.02em;
+
+  &:active { transform: translateY(0); }
 
   &--primary {
-    background: #111;
+    background: #d63d3d;
     color: #fff;
-    &:hover { background: #d63d3d; }
+    box-shadow: 0 1px 2px rgba(214, 61, 61, 0.25);
+
+    &:hover {
+      background: #b91c1c;
+      box-shadow: 0 4px 12px rgba(214, 61, 61, 0.3);
+      transform: translateY(-1px);
+    }
   }
+
   &--ghost {
-    background: transparent;
-    color: #555;
-    border-color: #d1d5db;
-    &:hover { background: #f5f5f5; color: #111; }
+    background: #fff;
+    color: #475569;
+    border-color: #cbd5e1;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+
+    &:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #94a3b8;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+      transform: translateY(-1px);
+    }
   }
+
   &--danger {
     background: #fef2f2;
     color: #b91c1c;
     border-color: #fca5a5;
-    &:hover { background: #fee2e2; }
+
+    &:hover {
+      background: #fee2e2;
+      border-color: #f87171;
+      box-shadow: 0 2px 6px rgba(185, 28, 28, 0.15);
+      transform: translateY(-1px);
+    }
   }
+
   &--small {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.76rem;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
   }
 }
 
+/* ============= TOOLBAR ============= */
 .editor-toolbar {
   display: flex;
-  gap: 0.6rem;
+  gap: 0.65rem;
   flex-wrap: wrap;
   margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
+  padding-bottom: 1.1rem;
   border-bottom: 1px solid #e5e7eb;
 
   &--bottom {
     border-bottom: 0;
     border-top: 1px solid #e5e7eb;
-    padding-top: 1rem;
+    padding-top: 1.1rem;
     padding-bottom: 0;
     margin-top: 1.25rem;
     margin-bottom: 0;
   }
 }
 
+/* ============= STATUS MESSAGES — Icon + color theo changelog ============= */
+/* Mỗi state có icon riêng (✓ / ⚠ / ℹ) qua ::before. Border bo 8px + shadow
+   nhẹ giống card changelog. Color palette match changelog (xanh lá #166534,
+   đỏ #991b1b, xanh dương #1e40af). */
 .editor-status {
-  padding: 0.65rem 1rem;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  margin: 0.75rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  margin: 0.85rem 0;
+  border: 1px solid transparent;
+  font-weight: 500;
+  line-height: 1.45;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  animation: editor-status-in .2s ease-out;
 
   &:empty { display: none; }
 
-  &--info { background: #eff6ff; color: #1e40af; }
-  &--success { background: #f0fdf4; color: #166534; }
-  &--error { background: #fef2f2; color: #991b1b; }
+  &::before {
+    content: "";
+    flex-shrink: 0;
+    font-weight: 800;
+    width: 18px;
+    text-align: center;
+    line-height: 1.45;
+  }
+
+  &--info {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1e40af;
+    &::before { content: "ℹ"; }
+  }
+
+  &--success {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #166534;
+    &::before { content: "✓"; }
+  }
+
+  &--error {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+    &::before { content: "⚠"; }
+  }
+}
+
+@keyframes editor-status-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ============= LIST FILTER ROW ============= */
@@ -327,46 +483,56 @@
 }
 
 /* ============= LIST TABLE ============= */
+/* ============= POST LIST TABLE — Changelog card style ============= */
 .editor-table {
   width: 100%;
   background: #fff;
   border-collapse: collapse;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 
   th, td {
-    padding: 0.85rem 1rem;
+    padding: 0.95rem 1.15rem;
     text-align: left;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f1f5f9;
   }
 
   th {
-    background: #f8f8f8;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    color: #555;
+    background: #f8fafc;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: #475569;
     text-transform: uppercase;
+    font-weight: 800;
   }
 
-  tbody tr:hover { background: #fafafa; }
+  tbody tr {
+    transition: background .12s ease, transform .12s ease;
+    &:hover {
+      background: #fafbfc;
+    }
+    &:last-child td { border-bottom: 0; }
+  }
 
-  td strong { color: #111; }
+  td strong { color: #0f172a; font-weight: 700; }
 
   .editor-empty {
     text-align: center;
-    color: #999;
+    color: #94a3b8;
     font-style: italic;
     padding: 2.5rem 1rem;
   }
 }
 
-/* ============= EDITOR FORM ============= */
+/* ============= EDITOR FORM — Changelog card style ============= */
 .editor-form {
   background: #fff;
-  padding: 2rem;
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  padding: 2rem 2.25rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
 
 .editor-grid {

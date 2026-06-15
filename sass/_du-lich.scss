@@ -1,0 +1,297 @@
+/* ============= DU LỊCH NEWS PAGE ============= */
+/* Cards layout, đồng bộ với changelog: white card + e5e7eb border + 12px
+   radius + 1px 3px shadow. Hover lift + stronger shadow. */
+
+.du-lich {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+}
+
+.du-lich__header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.du-lich__title {
+  margin: 0 0 0.6rem;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  line-height: 1.2;
+
+  .du-lich__icon {
+    margin-right: 0.35rem;
+  }
+
+  /* "Znews" với verified badge inline */
+  .du-lich__source {
+    color: #d63d3d;
+    display: inline-flex;
+    align-items: center;
+
+    .verified-badge--author {
+      width: 0.85em;
+      height: 0.85em;
+      margin-left: 0.2em;
+    }
+  }
+}
+
+.du-lich__sub {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #64748b;
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ============= LIST + CARDS ============= */
+.du-lich__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.du-lich-card {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow .2s ease, transform .2s ease, border-color .15s ease;
+
+  &:hover {
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+
+    .du-lich-card__title { color: #d63d3d; }
+    .du-lich-card__arrow {
+      color: #d63d3d;
+      transform: translateX(4px);
+    }
+  }
+
+  &__rank {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #d63d3d, #b91c1c);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 2px 6px rgba(214, 61, 61, 0.25);
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0 0 0.35rem;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    transition: color .15s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__summary {
+    margin: 0 0 0.55rem;
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.74rem;
+    color: #94a3b8;
+    font-variant-numeric: tabular-nums;
+    flex-wrap: wrap;
+  }
+
+  &__date {
+    letter-spacing: 0.02em;
+  }
+
+  &__source {
+    color: #d63d3d;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.18rem 0.55rem;
+    background: rgba(214, 61, 61, 0.08);
+    border-radius: 999px;
+    font-size: 0.66rem;
+  }
+
+  &__arrow {
+    align-self: center;
+    flex-shrink: 0;
+    color: #cbd5e1;
+    font-size: 1.4rem;
+    line-height: 1;
+    transition: transform .2s ease, color .2s ease;
+  }
+}
+
+/* ============= SKELETON LOADING ============= */
+.du-lich__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.du-lich-card--skeleton {
+  display: block;
+  padding: 1.15rem 1.35rem;
+  pointer-events: none;
+
+  &:hover { transform: none; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04); }
+}
+
+.du-lich-card__skeleton-bar {
+  height: 14px;
+  background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+  background-size: 200% 100%;
+  animation: du-lich-shimmer 1.4s linear infinite;
+  border-radius: 6px;
+  margin-bottom: 0.55rem;
+
+  &--title   { width: 75%; height: 18px; }
+  &--meta    { width: 35%; height: 11px; }
+  &--summary { width: 95%; height: 13px; margin-bottom: 0; }
+}
+
+@keyframes du-lich-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ============= ERROR + FOOTER ============= */
+.du-lich__error {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  color: #991b1b;
+
+  strong { font-size: 1rem; }
+  p { margin: 0.3rem 0 0; font-size: 0.88rem; color: #b91c1c; line-height: 1.55; }
+
+  &-icon {
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+}
+
+.du-lich__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.du-lich__cache-info {
+  letter-spacing: 0.02em;
+}
+
+/* ============= RESPONSIVE ============= */
+@media (max-width: 640px) {
+  .du-lich__title { font-size: 1.5rem; }
+  .du-lich__sub { font-size: 0.85rem; }
+
+  .du-lich-card {
+    padding: 0.95rem 1rem;
+    gap: 0.75rem;
+
+    &__rank {
+      width: 32px;
+      height: 32px;
+      font-size: 0.88rem;
+    }
+
+    &__title { font-size: 0.95rem; }
+    &__summary { font-size: 0.82rem; -webkit-line-clamp: 3; }
+    &__arrow { display: none; }
+  }
+
+  .du-lich__footer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+
+/* ============= DARK MODE ============= */
+@media (prefers-color-scheme: dark) {
+  .du-lich__title { color: #f1f5f9; }
+  .du-lich__sub, .du-lich__footer, .du-lich__cache-info { color: #64748b; }
+
+  .du-lich-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      border-color: #475569;
+    }
+
+    &__title    { color: #f1f5f9; }
+    &__summary  { color: #cbd5e1; }
+    &__meta     { color: #64748b; }
+    &__arrow    { color: #475569; }
+  }
+
+  .du-lich-card__skeleton-bar {
+    background: linear-gradient(90deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+    background-size: 200% 100%;
+  }
+
+  .du-lich__error {
+    background: rgba(127, 29, 29, 0.2);
+    border-color: rgba(220, 38, 38, 0.3);
+    color: #fca5a5;
+
+    p { color: #f87171; }
+  }
+
+  .du-lich__footer { border-top-color: #334155; }
+}

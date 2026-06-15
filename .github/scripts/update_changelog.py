@@ -126,6 +126,42 @@ def mask_secrets(text: str) -> str:
     return text
 
 
+# Tag → Vietnamese commit prefix. Map tay để commit history chuyên nghiệp:
+# 'feat' → 'Thêm tính năng', 'fix' → 'Sửa lỗi', còn lại → 'Cập nhật'.
+# Workflow đọc commit_message output thay vì hardcode 'Auto-changelog: PR #N'.
+COMMIT_PREFIX_MAP = {
+    "feat":      "Thêm tính năng",
+    "fix":       "Sửa lỗi",
+    "security":  "Bảo mật",
+    "remove":    "Gỡ bỏ",
+    "refactor":  "Tái cấu trúc",
+    "cleanup":   "Dọn dẹp",
+    "chore":     "Cập nhật",
+}
+
+
+def build_commit_message(tag: str, clean_title_text: str) -> str:
+    """Tạo commit message dạng 'Thêm tính năng: <title>' / 'Sửa lỗi: <title>' / ..."""
+    prefix = COMMIT_PREFIX_MAP.get(tag, "Cập nhật")
+    return f"{prefix}: {clean_title_text}"
+
+
+def write_github_output(commit_message: str, changed: bool) -> None:
+    """
+    Ghi output vào $GITHUB_OUTPUT để workflow đọc qua
+    steps.<id>.outputs.{commit_message,changed}. No-op khi chạy local.
+    """
+    gh_out = os.environ.get("GITHUB_OUTPUT")
+    if not gh_out:
+        return
+    # Multi-line value cần delimiter EOF (GitHub Actions spec)
+    with open(gh_out, "a", encoding="utf-8") as f:
+        f.write("commit_message<<COMMIT_MSG_EOF\n")
+        f.write(commit_message + "\n")
+        f.write("COMMIT_MSG_EOF\n")
+        f.write(f"changed={'true' if changed else 'false'}\n")
+
+
 def extract_highlights(body: str, max_items: int = 5, max_len: int = 200) -> list:
     """Trích bullet point đầu tiên từ PR body. Skip table separators, headers."""
     if not body:
@@ -189,6 +225,7 @@ def main() -> int:
     # Idempotent — nếu PR đã có (vd. workflow re-run), bỏ qua
     if any(i.get("pr") == pr_number for i in items):
         print(f"PR #{pr_number} đã có trong changelog — skip")
+        write_github_output("", changed=False)
         return 0
 
     # Prepend (gần đây nhất ở trên)
@@ -199,7 +236,14 @@ def main() -> int:
         json.dumps(data, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+
+    # Build commit message từ tag + clean title đã masked secrets.
+    # entry["title"] đã pass qua clean_title + mask_secrets ở trên → an toàn dùng.
+    commit_message = build_commit_message(entry["tag"], entry["title"])
+    write_github_output(commit_message, changed=True)
+
     print(f"✓ Added PR #{pr_number} ({entry['tag']}) to changelog.json")
+    print(f"  Commit message: {commit_message}")
     return 0
 
 

@@ -1,38 +1,52 @@
 /**
- * OTP gate cho link Admin → /editor/.
+ * CMS auth gate — GitHub OAuth là cổng đăng nhập duy nhất.
  *
- * Dùng SHA-256 hash thay vì plaintext value — source KHÔNG còn chứa mã raw,
- * chỉ giữ hash 64 hex chars. User nhập value, JS hash qua Web Crypto API
- * và so sánh với OTP_HASH.
+ * Trước đây: OTP modal (4 số hashed SHA-256). Giờ thay bằng full OAuth flow
+ * qua backend FastAPI (services/visitor-counter/main.py).
  *
- * LƯU Ý: Đây KHÔNG phải bảo mật thật — 4 chữ số có 10000 tổ hợp,
- * brute-force hash trivially trong <1s. Mục đích duy nhất là tránh visitor
- * vô tình click vào trang CMS. Tầng bảo vệ thật vẫn là PAT GitHub.
+ * Flow:
+ *   1. User click [data-auth-trigger] (link Admin ở footer)
+ *   2. Redirect đến BACKEND/auth/login?return_to=/editor/
+ *   3. Backend redirect GitHub authorize
+ *   4. User authorize → GitHub redirect BACKEND/auth/callback
+ *   5. Backend check email whitelist → redirect BLOG_URL/editor/#sid=...
+ *   6. /editor/ load editor.js, đọc #sid, lưu sessionStorage, validate qua /auth/me
+ *
+ * Config:
+ *   - Backend URL bake từ <meta name="zola-cms-auth-api">
+ *   - Nếu meta tag trống → user vào /editor/ thẳng, editor.js tự handle login UI
+ *
+ * Security:
+ *   - KHÔNG OTP modal trên trang chủ (đã bỏ)
+ *   - KHÔNG localStorage / cookie
+ *   - sid là opaque, JWT thật giữ Redis-side trên backend
  */
 (function () {
-  const OTP_HASH = "78c72f67941a420cd4e5ee9fdabcaeaba6d72f16160915085f9802220fd83799";
+  "use strict";
+
   const triggers = document.querySelectorAll("[data-auth-trigger]");
   if (!triggers.length) return;
 
-  async function sha256Hex(str) {
-    const buf = new TextEncoder().encode(String(str || ""));
-    const hash = await crypto.subtle.digest("SHA-256", buf);
-    return Array.from(new Uint8Array(hash))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-  }
+  const meta = document.querySelector('meta[name="zola-cms-auth-api"]');
+  const apiUrl = (meta && meta.getAttribute("content")) || "";
 
-  triggers.forEach((el) => {
-    el.addEventListener("click", async (e) => {
+  triggers.forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      // Nếu backend chưa configure → fallback navigate thẳng /editor/,
+      // editor.js sẽ hiển thị thông báo "chưa config auth".
+      if (!apiUrl) return;
+
       e.preventDefault();
-      const code = window.prompt("Nhập mã truy cập:");
-      if (code === null) return; // user bấm Cancel
-      const hash = await sha256Hex(code);
-      if (hash === OTP_HASH) {
-        window.location.href = el.getAttribute("href") || "/";
-      } else {
-        alert("Sai mã!");
-      }
+      const returnTo = el.getAttribute("href") || "/editor/";
+      // Chỉ truyền path tương đối — backend cũng validate lại để chống open redirect.
+      let returnPath = "/editor/";
+      try {
+        const u = new URL(returnTo, location.origin);
+        if (u.origin === location.origin) returnPath = u.pathname + u.search;
+      } catch (err) { /* invalid href → giữ default */ }
+
+      const url = apiUrl + "/auth/login?return_to=" + encodeURIComponent(returnPath);
+      window.location.href = url;
     });
   });
 })();

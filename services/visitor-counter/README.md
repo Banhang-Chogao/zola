@@ -96,9 +96,83 @@ Sửa `config.toml` ở repo zola (root):
 ```toml
 [extra]
 visitor_api_url = "https://blog-visitor-api.onrender.com"
+# cms_auth_url để trống = reuse visitor_api_url (cùng service FastAPI)
+cms_auth_url = ""
 ```
 
 Commit + push → CI auto-deploy → footer blog hiển thị visitor count.
+
+---
+
+## 🔐 Setup GitHub OAuth (CMS auth)
+
+Service này cũng làm OAuth gateway cho `/editor/` (mini CMS). Email
+white-list quyết định ai được vào, hard-coded server-side (không bypass
+client được).
+
+### Bước 1: Tạo GitHub OAuth App
+
+1. Vào https://github.com/settings/developers → **New OAuth App**
+2. Điền:
+   - **Application name**: `Blog CMS Auth` (hoặc tên gì cũng được)
+   - **Homepage URL**: `https://banhang-chogao.github.io/zola`
+   - **Authorization callback URL**:
+     `https://blog-visitor-api.onrender.com/auth/callback`
+     (= `${BACKEND_URL}/auth/callback`, PHẢI MATCH EXACT)
+3. **Register application** → màn hình hiển thị **Client ID**
+4. Click **Generate a new client secret** → copy ngay (chỉ hiện 1 lần)
+
+### Bước 2: Set env vars trên Render
+
+Trong **Environment Variables** của Web Service:
+
+| Key | Value |
+|---|---|
+| `GH_CLIENT_ID` | Client ID vừa lấy ở Bước 1 |
+| `GH_CLIENT_SECRET` | Client Secret vừa lấy ở Bước 1 |
+| `BACKEND_URL` | `https://blog-visitor-api.onrender.com` |
+| `BLOG_URL` | `https://banhang-chogao.github.io/zola` |
+| `ADMIN_EMAILS` | `tamsudev.com@gmail.com` (comma-separated cho nhiều) |
+| `SESSION_TTL` | `7200` (2 giờ idle, optional) |
+
+Click **Save Changes** → Render auto-restart service.
+
+### Bước 3: Test flow
+
+1. Mở `https://banhang-chogao.github.io/zola/editor/`
+2. Click "Đăng nhập với GitHub"
+3. Authorize trên GitHub (lần đầu)
+4. Nếu email khớp white-list → redirect về `/editor/` với session active,
+   user bar hiển thị avatar + tên
+5. Nếu email KHÔNG khớp → redirect `/editor/?auth_error=access_denied`
+   với thông báo "Truy cập bị từ chối"
+
+### Mở rộng: thêm Contributor
+
+Append email vào `ADMIN_EMAILS`:
+```
+ADMIN_EMAILS=tamsudev.com@gmail.com,other.contributor@example.com
+```
+
+Hoặc thay logic email white-list bằng GitHub Collaborator API check —
+sửa hàm `_is_allowed_email()` trong `main.py`:
+
+```python
+def _is_allowed_email(verified_emails: set) -> bool:
+    # TODO: thay bằng async call tới
+    # GET /repos/{owner}/{repo}/collaborators/{username}/permission
+    return bool(verified_emails & ADMIN_EMAILS)
+```
+
+### Bảo mật
+
+- `client_secret` CHỈ trên Render env vars, không bao giờ bake vào client JS
+- `access_token` của GitHub được giữ Redis-side, client chỉ có opaque `sid`
+- `sid` là 32-byte URL-safe random → không brute-force trong session lifetime
+- sessionStorage trên client → auto-clear khi đóng tab
+- Redis `SETEX` TTL 2h → idle quá tự logout
+- Email white-list check server-side, client KHÔNG thể bypass
+- State param trong OAuth flow ngăn CSRF
 
 ---
 
