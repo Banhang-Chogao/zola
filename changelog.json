@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "thêm link BrandingX vào navbar menu (user không thấy được)",
+      "tag": "fix",
+      "pr": 122,
+      "lines_added": 74,
+      "lines_removed": 27,
+      "highlights": [
+        "Navbar desktop: hiện tab \"BrandingX\" giữa Scoring và Giới thiệu",
+        "Navbar mobile (≤720px): tab horizontal scroll cũng có",
+        "Click → vào trang BrandingX với 4 sections (Colors / Typography / Components / Grid)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Cập nhật quy tắc: TẠM NGƯNG QUYỀN AUTO-MERGE — user manual gatekeeper",
       "tag": "chore",
       "pr": 121,
