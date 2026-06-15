@@ -5,14 +5,14 @@
 }
 
 .sidebar-block {
-  background: #fff;
+  background: $brand-snow;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .sidebar-label {
-  background: #111;
-  color: #fff;
+  background: $brand-ink-900;
+  color: $brand-snow;
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   padding: 0.55rem 0.9rem;
@@ -26,8 +26,8 @@
     position: absolute;
     right: -10px;
     top: 0;
-    border-top: 14px solid #111;
-    border-bottom: 14px solid #111;
+    border-top: 14px solid $brand-ink-900;
+    border-bottom: 14px solid $brand-ink-900;
     border-right: 10px solid transparent;
   }
 }
@@ -39,7 +39,7 @@
     aspect-ratio: 16 / 10;
     overflow: hidden;
     margin-bottom: 1rem;
-    background: #eee;
+    background: $brand-edge;
 
     img {
       width: 100%;
@@ -53,7 +53,7 @@
     line-height: 1.35;
     margin-bottom: 0.5rem;
 
-    a:hover { color: #d63d3d; }
+    a:hover { color: $brand-signal-red; }
   }
 }
 
@@ -73,7 +73,7 @@
     display: block;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background: #eee;
+    background: $brand-edge;
 
     img {
       width: 100%;
@@ -91,17 +91,17 @@
     line-height: 1.35;
     margin-bottom: 0.3rem;
     font-weight: 700;
-    color: #111;
+    color: $brand-ink-900;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 
-    a:hover { color: #d63d3d; }
+    a:hover { color: $brand-signal-red; }
   }
 
   &__date {
-    color: #999;
+    color: $brand-ink-400;
     font-size: 0.75rem;
   }
 }
@@ -112,19 +112,19 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.6rem 0;
-    border-bottom: 1px dashed #eee;
-    color: #333;
+    border-bottom: 1px dashed $brand-edge;
+    color: $brand-ink-800;
     font-size: 0.9rem;
 
     &:last-child { border-bottom: none; }
 
-    a:hover { color: #d63d3d; }
+    a:hover { color: $brand-signal-red; }
   }
 
   &__count {
-    color: #999;
+    color: $brand-ink-400;
     font-size: 0.8rem;
-    background: #f3f3f3;
+    background: $brand-fog;
     padding: 0.15rem 0.55rem;
     border-radius: 999px;
   }

@@ -1,11 +1,11 @@
 .navbar {
   /* Momo-style light header — white background với border bottom subtle.
      Text-only navigation với pink underline active state. */
-  background: #ffffff;
+  background: $brand-snow;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid $brand-edge;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   padding-top: env(safe-area-inset-top);
   transition: box-shadow .25s ease;
@@ -29,7 +29,7 @@
     a {
       /* Inter cho UI menu — clean text only, normal case theo momo */
       font-family: $font-ui;
-      color: #475569;
+      color: $brand-ink-500;
       padding: 1.25rem 1.1rem;
       font-size: 0.95rem;
       font-weight: 600;
@@ -44,13 +44,13 @@
 
       /* Active state momo: text đậm + pink/red underline */
       &.is-active {
-        color: #d63d3d;
+        color: $brand-signal-red;
         font-weight: 700;
-        border-bottom-color: #d63d3d;
+        border-bottom-color: $brand-signal-red;
       }
 
       &:hover {
-        color: #d63d3d;
+        color: $brand-signal-red;
       }
     }
   }
@@ -58,13 +58,13 @@
   &__search {
     background: transparent;
     border: none;
-    color: #475569;
+    color: $brand-ink-500;
     padding: 0 1.5rem;
     display: flex;
     align-items: center;
     transition: color .15s ease;
 
-    &:hover { color: #d63d3d; }
+    &:hover { color: $brand-signal-red; }
   }
 
   /* Burger button — desktop ẩn, mobile hiện. 3 line ngang animated → X
@@ -86,7 +86,7 @@
     &-line {
       width: 22px;
       height: 2px;
-      background: #1e293b;
+      background: $brand-ink-800;
       border-radius: 2px;
       transition: transform .22s ease, opacity .15s ease;
       transform-origin: center;
@@ -147,7 +147,7 @@
     }
 
     a {
-      color: #475569;
+      color: $brand-ink-500;
       padding: 0.95rem 0.85rem 0.85rem;
       font-family: $font-ui;
       font-size: 0.9rem;
@@ -163,14 +163,14 @@
 
       /* Underline đỏ active state momo style */
       &.is-active {
-        color: #d63d3d;
+        color: $brand-signal-red;
         font-weight: 700;
-        border-bottom-color: #d63d3d;
+        border-bottom-color: $brand-signal-red;
       }
 
       &:hover {
         background: transparent;
-        color: #d63d3d;
+        color: $brand-signal-red;
       }
     }
   }
