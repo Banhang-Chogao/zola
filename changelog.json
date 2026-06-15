@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Category management — categories.json + auto-sync khi save post",
+      "tag": "chore",
+      "pr": 53,
+      "lines_added": 717,
+      "lines_removed": 131,
+      "highlights": [
+        "GET /api/categories/list (auth) — fetch fresh categories từ repo",
+        "POST /api/categories/add (auth) — append + PUT categories.json. Idempotent: đã có → {added: false}",
+        "Validate Unicode: tiếng Việt có dấu OK, 100 chars max",
+        "cms_save_post tích hợp _ensure_category: nếu post có category mới (parse từ frontmatter [taxonomies]) → auto-append vào categories.json best-effort",
+        "editor.html: nút \"💾 Lưu\" inline cạnh input \"Tên category mới\" + message feedback"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "/baochi/ không auto-run + retry 1 lần + thông báo provider rõ ràng",
       "tag": "fix",
       "pr": 52,
