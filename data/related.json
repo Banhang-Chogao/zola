@@ -1,31 +1,5 @@
 {
-  "cong-nghe-blog-day-2": [
-    {
-      "score": 0.7138,
-      "slug": "cong-nghe-blog-duy-nguyen"
-    },
-    {
-      "score": 0.4693,
-      "slug": "rss-feed"
-    },
-    {
-      "score": 0.3844,
-      "slug": "syntax-highlight"
-    },
-    {
-      "score": 0.3189,
-      "slug": "template-tera"
-    },
-    {
-      "score": 0.2642,
-      "slug": "sentence-transformers-sbert-deep-dive"
-    }
-  ],
   "cong-nghe-blog-duy-nguyen": [
-    {
-      "score": 0.7138,
-      "slug": "cong-nghe-blog-day-2"
-    },
     {
       "score": 0.4277,
       "slug": "rss-feed"
@@ -41,6 +15,20 @@
     {
       "score": 0.2195,
       "slug": "sentence-transformers-sbert-deep-dive"
+    },
+    {
+      "score": 0.1657,
+      "slug": "toi-nay-sai-gon-an-gi"
+    }
+  ],
+  "mua-nao-di-han-la-dep-nhat": [
+    {
+      "score": 0.5387,
+      "slug": "thang-6-di-han-an-gi-lam-gi"
+    },
+    {
+      "score": 0.5109,
+      "slug": "toi-nay-sai-gon-an-gi"
     }
   ],
   "rss-feed": [
@@ -49,16 +37,16 @@
       "slug": "syntax-highlight"
     },
     {
-      "score": 0.4693,
-      "slug": "cong-nghe-blog-day-2"
-    },
-    {
       "score": 0.4277,
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
       "score": 0.3017,
       "slug": "template-tera"
+    },
+    {
+      "score": 0.1763,
+      "slug": "toi-nay-sai-gon-an-gi"
     }
   ],
   "sentence-transformers-sbert-deep-dive": [
@@ -67,12 +55,12 @@
       "slug": "syntax-highlight"
     },
     {
-      "score": 0.2642,
-      "slug": "cong-nghe-blog-day-2"
-    },
-    {
       "score": 0.2195,
       "slug": "cong-nghe-blog-duy-nguyen"
+    },
+    {
+      "score": 0.1523,
+      "slug": "toi-nay-sai-gon-an-gi"
     }
   ],
   "syntax-highlight": [
@@ -85,16 +73,16 @@
       "slug": "template-tera"
     },
     {
-      "score": 0.3844,
-      "slug": "cong-nghe-blog-day-2"
-    },
-    {
       "score": 0.2786,
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
       "score": 0.2726,
       "slug": "sentence-transformers-sbert-deep-dive"
+    },
+    {
+      "score": 0.1971,
+      "slug": "toi-nay-sai-gon-an-gi"
     }
   ],
   "template-tera": [
@@ -107,12 +95,40 @@
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.3189,
-      "slug": "cong-nghe-blog-day-2"
-    },
-    {
       "score": 0.3017,
       "slug": "rss-feed"
+    }
+  ],
+  "thang-6-di-han-an-gi-lam-gi": [
+    {
+      "score": 0.5387,
+      "slug": "mua-nao-di-han-la-dep-nhat"
+    },
+    {
+      "score": 0.3825,
+      "slug": "toi-nay-sai-gon-an-gi"
+    }
+  ],
+  "toi-nay-sai-gon-an-gi": [
+    {
+      "score": 0.5109,
+      "slug": "mua-nao-di-han-la-dep-nhat"
+    },
+    {
+      "score": 0.3825,
+      "slug": "thang-6-di-han-an-gi-lam-gi"
+    },
+    {
+      "score": 0.1971,
+      "slug": "syntax-highlight"
+    },
+    {
+      "score": 0.1763,
+      "slug": "rss-feed"
+    },
+    {
+      "score": 0.1657,
+      "slug": "cong-nghe-blog-duy-nguyen"
     }
   ]
 }
