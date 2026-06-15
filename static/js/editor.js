@@ -722,7 +722,10 @@ tags = ${tagsStr}
     link:      { type: "inline", prefix: "[",     suffix: "](url)", placeholder: "text" },
     image:     { type: "inline", prefix: "![",    suffix: "](url)", placeholder: "alt" },
     codeblock: { type: "inline", prefix: "```\n", suffix: "\n```",  placeholder: "code" },
-    heading:   { type: "prefix", prefix: "## " },
+    heading:   { type: "prefix", prefix: "## " },  // legacy alias cho toolbar button
+    h1:        { type: "prefix", prefix: "# " },
+    h2:        { type: "prefix", prefix: "## " },
+    h3:        { type: "prefix", prefix: "### " },
     quote:     { type: "prefix", prefix: "> " },
     ul:        { type: "prefix", prefix: "- " },
     ol:        { type: "prefix", prefix: "1. " },
@@ -963,6 +966,241 @@ tags = ${tagsStr}
     if (pendingDraft) discardDraft(pendingDraft.slug);
     hideDraftBanner();
   });
+
+  // ============= SLASH COMMAND MENU =============
+  // Gõ "/" ở line-start hoặc sau whitespace → hiện floating menu suggest
+  // các block markdown. Tận dụng applyMdAction đã có — không duplicate wrap logic.
+  // Position cursor: mirror div technique, 0 dependency.
+
+  const SLASH_ITEMS = [
+    { keys: ["h1", "heading-1"],          label: "Heading 1",     icon: "H1",  action: "h1",        hint: "#" },
+    { keys: ["h2", "heading-2", "heading"], label: "Heading 2",   icon: "H2",  action: "h2",        hint: "##" },
+    { keys: ["h3", "heading-3"],          label: "Heading 3",     icon: "H3",  action: "h3",        hint: "###" },
+    { keys: ["quote", "blockquote", "trich-dan"], label: "Quote", icon: "❝",   action: "quote",     hint: ">" },
+    { keys: ["code", "inline-code"],      label: "Code inline",   icon: "</>",  action: "code",     hint: "`code`" },
+    { keys: ["codeblock", "code-block", "cb"], label: "Code block", icon: "{}", action: "codeblock", hint: "```" },
+    { keys: ["list", "ul", "bullet", "danh-sach"], label: "Bullet list", icon: "•", action: "ul",  hint: "-" },
+    { keys: ["numbered", "ol", "ordered", "so-thu-tu"], label: "Numbered list", icon: "1.", action: "ol", hint: "1." },
+    { keys: ["image", "img", "anh", "hinh"], label: "Image",      icon: "🖼",  action: "image",     hint: "![]()" },
+    { keys: ["link", "url"],              label: "Link",          icon: "🔗",  action: "link",      hint: "[]()" },
+    { keys: ["bold", "b", "dam"],         label: "Bold",          icon: "B",   action: "bold",      hint: "**" },
+    { keys: ["italic", "i", "nghieng"],   label: "Italic",        icon: "I",   action: "italic",    hint: "*" },
+  ];
+
+  const slashState = { open: false, triggerStart: -1, filter: "", activeIndex: 0 };
+  const slashMenu = $("[data-slash-menu]");
+  const slashList = $("[data-slash-list]");
+
+  // Mirror div technique — clone style của textarea vào hidden div, đo position
+  // của span sentinel để lấy pixel coords của caret. Return viewport coords để
+  // dùng với position:fixed (không bị scroll-offset ngoài context).
+  function getCaretCoordinates(ta, caretPos) {
+    const div = document.createElement("div");
+    const style = window.getComputedStyle(ta);
+    const props = [
+      "boxSizing", "width", "height",
+      "fontSize", "fontFamily", "fontWeight", "fontStyle",
+      "lineHeight", "letterSpacing", "wordSpacing", "textAlign",
+      "paddingTop", "paddingRight", "paddingBottom", "paddingLeft",
+      "borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth",
+    ];
+    props.forEach((p) => { div.style[p] = style[p]; });
+    div.style.position = "absolute";
+    div.style.visibility = "hidden";
+    div.style.top = "-9999px";
+    div.style.left = "-9999px";
+    div.style.whiteSpace = "pre-wrap";
+    div.style.wordWrap = "break-word";
+    div.style.overflow = "hidden";
+
+    div.textContent = ta.value.substring(0, caretPos);
+    const span = document.createElement("span");
+    span.textContent = "."; // sentinel để đo, không matter content
+    div.appendChild(span);
+    document.body.appendChild(div);
+
+    const spanRect = span.getBoundingClientRect();
+    const divRect = div.getBoundingClientRect();
+    const taRect = ta.getBoundingClientRect();
+    document.body.removeChild(div);
+
+    return {
+      left: taRect.left + (spanRect.left - divRect.left) - ta.scrollLeft,
+      top:  taRect.top  + (spanRect.top  - divRect.top)  - ta.scrollTop,
+      lineHeight: parseFloat(style.lineHeight) || 20,
+    };
+  }
+
+  function getFilteredSlashItems() {
+    if (!slashState.filter) return SLASH_ITEMS;
+    const q = normalizeStr(slashState.filter);
+    return SLASH_ITEMS.filter((item) => {
+      if (normalizeStr(item.label).includes(q)) return true;
+      return item.keys.some((k) => k.includes(q));
+    });
+  }
+
+  function renderSlashMenu() {
+    if (!slashList) return;
+    const items = getFilteredSlashItems();
+    if (slashState.activeIndex >= items.length) {
+      slashState.activeIndex = items.length ? items.length - 1 : 0;
+    }
+    if (!items.length) {
+      slashList.innerHTML = '<li class="editor-slash-menu__empty">Không có lệnh nào khớp</li>';
+      return;
+    }
+    slashList.innerHTML = items.map((item, idx) =>
+      '<li class="editor-slash-menu__item' + (idx === slashState.activeIndex ? ' is-active' : '') +
+      '" data-slash-action="' + escapeHtml(item.action) + '" role="option"' +
+      (idx === slashState.activeIndex ? ' aria-selected="true"' : '') + '>' +
+        '<span class="editor-slash-menu__icon">' + escapeHtml(item.icon) + '</span>' +
+        '<span class="editor-slash-menu__label">' + escapeHtml(item.label) + '</span>' +
+        '<span class="editor-slash-menu__hint">' + escapeHtml(item.hint) + '</span>' +
+      '</li>'
+    ).join("");
+
+    // mousedown + preventDefault giữ focus textarea (không dùng click vì click
+    // làm blur textarea trước khi handler chạy).
+    slashList.querySelectorAll("[data-slash-action]").forEach((li) => {
+      li.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        selectSlashItem(li.dataset.slashAction);
+      });
+    });
+  }
+
+  function positionSlashMenu() {
+    if (!slashMenu || !slashState.open) return;
+    const coords = getCaretCoordinates(bodyTextarea, slashState.triggerStart);
+    slashMenu.style.left = Math.max(8, coords.left) + "px";
+    // Tentative: dưới cursor 4px
+    let top = coords.top + coords.lineHeight + 4;
+    slashMenu.style.top = top + "px";
+    // Sau khi render, check overflow viewport bottom → flip lên trên
+    const menuRect = slashMenu.getBoundingClientRect();
+    if (menuRect.bottom > window.innerHeight - 8) {
+      const flipped = coords.top - menuRect.height - 4;
+      slashMenu.style.top = Math.max(8, flipped) + "px";
+    }
+    // Horizontal overflow: đẩy vào trong
+    if (menuRect.right > window.innerWidth - 8) {
+      const newLeft = window.innerWidth - menuRect.width - 8;
+      slashMenu.style.left = Math.max(8, newLeft) + "px";
+    }
+  }
+
+  function openSlashMenu(triggerStart) {
+    if (!slashMenu) return;
+    slashState.open = true;
+    slashState.triggerStart = triggerStart;
+    slashState.filter = "";
+    slashState.activeIndex = 0;
+    slashMenu.hidden = false;
+    renderSlashMenu();
+    positionSlashMenu();
+  }
+
+  function closeSlashMenu() {
+    if (!slashMenu || !slashState.open) return;
+    slashState.open = false;
+    slashState.triggerStart = -1;
+    slashState.filter = "";
+    slashState.activeIndex = 0;
+    slashMenu.hidden = true;
+  }
+
+  function updateSlashFilter() {
+    if (!slashState.open) return;
+    const ta = bodyTextarea;
+    const cursorPos = ta.selectionStart;
+
+    // Backspace xoá xuống dưới trigger → đóng menu
+    if (cursorPos <= slashState.triggerStart) {
+      closeSlashMenu();
+      return;
+    }
+
+    const filterText = ta.value.substring(slashState.triggerStart + 1, cursorPos);
+    // Whitespace hoặc newline trong filter → đóng menu (user đã thoát context "/")
+    if (/[\s\n]/.test(filterText)) {
+      closeSlashMenu();
+      return;
+    }
+
+    slashState.filter = filterText;
+    slashState.activeIndex = 0;
+    renderSlashMenu();
+    // Không cần re-position — giữ menu ở triggerStart để tránh nhảy theo filter
+  }
+
+  function selectSlashItem(action) {
+    const ta = bodyTextarea;
+    const triggerStart = slashState.triggerStart;
+    const cursorPos = ta.selectionStart;
+
+    // Xoá đoạn "/<filter>" khỏi textarea trước khi apply action
+    ta.value = ta.value.slice(0, triggerStart) + ta.value.slice(cursorPos);
+    ta.selectionStart = ta.selectionEnd = triggerStart;
+
+    closeSlashMenu();
+    // applyMdAction sẽ tự dispatch input event → counter + preview cập nhật
+    applyMdAction(action);
+  }
+
+  // Trigger detection — input event (sau khi "/" đã vào value)
+  bodyTextarea.addEventListener("input", (e) => {
+    if (slashState.open) {
+      updateSlashFilter();
+      return;
+    }
+    // Chỉ trigger khi user gõ thẳng "/" (không paste, không IME compose)
+    if (e.inputType !== "insertText" || e.data !== "/") return;
+    const pos = bodyTextarea.selectionStart;
+    const triggerPos = pos - 1; // index của "/" vừa typed
+    // Trigger only khi "/" ở đầu textarea hoặc sau \n hoặc sau whitespace
+    if (triggerPos === 0) {
+      openSlashMenu(triggerPos);
+      return;
+    }
+    const charBefore = bodyTextarea.value[triggerPos - 1];
+    if (charBefore === "\n" || /\s/.test(charBefore)) {
+      openSlashMenu(triggerPos);
+    }
+  });
+
+  // Keyboard nav — bind trên bodyTextarea (capture phase trước editForm bubble)
+  bodyTextarea.addEventListener("keydown", (e) => {
+    if (!slashState.open) return;
+    const items = getFilteredSlashItems();
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (items.length) slashState.activeIndex = (slashState.activeIndex + 1) % items.length;
+      renderSlashMenu();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (items.length) slashState.activeIndex = (slashState.activeIndex - 1 + items.length) % items.length;
+      renderSlashMenu();
+    } else if (e.key === "Enter" || e.key === "Tab") {
+      e.preventDefault();
+      if (items.length) selectSlashItem(items[slashState.activeIndex].action);
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      closeSlashMenu();
+    }
+  });
+
+  // Click outside menu → đóng. Skip nếu click vào textarea (user có thể click
+  // để di chuyển cursor mà vẫn giữ menu — nhưng filter sẽ stale → đóng cho gọn).
+  document.addEventListener("mousedown", (e) => {
+    if (!slashState.open) return;
+    if (slashMenu && slashMenu.contains(e.target)) return;
+    closeSlashMenu();
+  });
+
+  // Scroll viewport hoặc textarea → đóng menu (position:fixed không follow scroll)
+  bodyTextarea.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); });
+  window.addEventListener("scroll", () => { if (slashState.open) closeSlashMenu(); }, { passive: true });
 
   // Init mode trên contentWrap — phải gọi sau khi renderPreview defined.
   setEditorMode(getInitialMode());

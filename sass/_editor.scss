@@ -581,6 +581,120 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ============= SLASH COMMAND MENU ============= */
+.editor-slash-menu {
+  position: fixed;
+  z-index: 100;
+  width: 320px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+  font-size: 0.88rem;
+  animation: editor-slash-menu-fade .12s ease-out;
+
+  &[hidden] { display: none; }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: background .1s ease;
+
+    &:hover,
+    &.is-active {
+      background: #eff6ff;
+    }
+    &.is-active {
+      box-shadow: inset 3px 0 0 #1572bd;
+    }
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background: #f3f4f6;
+    border-radius: 4px;
+    color: #111;
+    font-weight: 700;
+    font-size: 0.82rem;
+    font-family: $font-mono;
+    line-height: 1;
+  }
+
+  &__label {
+    flex: 1;
+    min-width: 0;
+    color: #111;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__hint {
+    flex-shrink: 0;
+    color: #999;
+    font-family: $font-mono;
+    font-size: 0.76rem;
+  }
+
+  &__empty {
+    padding: 1rem 12px;
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    list-style: none;
+  }
+
+  &__footer {
+    padding: 6px 12px;
+    border-top: 1px solid #e5e7eb;
+    background: #fafafa;
+    color: #777;
+    font-size: 0.72rem;
+    text-align: center;
+
+    kbd {
+      display: inline-block;
+      padding: 1px 5px;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      font-family: $font-mono;
+      font-size: 0.7rem;
+      color: #555;
+      margin: 0 1px;
+    }
+  }
+}
+
+@keyframes editor-slash-menu-fade {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 560px) {
+  .editor-slash-menu {
+    width: calc(100vw - 24px);
+    max-width: 320px;
+  }
+}
+
 @media (max-width: 720px) {
   .editor-grid { grid-template-columns: 1fr; }
   .editor-form, .editor-card { padding: 1.25rem; }

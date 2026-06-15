@@ -204,6 +204,15 @@
                 <div class="editor-status" data-target="save-status"></div>
             </form>
         </section>
+
+        {# Slash command menu — floating, position:fixed, JS điều khiển hiển thị
+           qua getCaretCoordinates (mirror div technique) #}
+        <div class="editor-slash-menu" data-slash-menu hidden role="listbox" tabindex="-1" aria-label="Slash command menu">
+            <ul class="editor-slash-menu__list" data-slash-list></ul>
+            <div class="editor-slash-menu__footer">
+                <kbd>↑↓</kbd> điều hướng · <kbd>Enter</kbd>/<kbd>Tab</kbd> chọn · <kbd>Esc</kbd> đóng
+            </div>
+        </div>
     </div>
 {% endblock main %}
 
