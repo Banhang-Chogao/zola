@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "🤖 Self-healing: 2 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 108,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "HOTFIX KHẨN: Tera literal dict {k:v} block deploy — lỗi LẶP LẠI lần 3",
       "tag": "fix",
       "pr": 107,
