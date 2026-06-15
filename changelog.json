@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Tag Cloud footer với pills colorful + size tier theo popularity",
+      "tag": "chore",
+      "pr": 69,
+      "lines_added": 140,
+      "lines_removed": 0,
+      "highlights": [
+        "Pills colorful với 3 size tier theo popularity:",
+        "lg: tag có ≥70% bài (cao nhất)",
+        "md: 35-70%",
+        "sm: rest",
+        "8 màu palette cycle theo loop.index0 % 8 → mỗi tag có màu cố định không random reload"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Giscus comment width hẹp → force 100% width",
       "tag": "fix",
       "pr": 68,
