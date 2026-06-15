@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Sửa import: ChatLiteLLM → langchain-litellm package",
+      "tag": "fix",
+      "pr": 133,
+      "lines_added": 4,
+      "lines_removed": 3,
+      "highlights": [
+        "scripts/content_gen.py: from langchain_litellm import ChatLiteLLM",
+        "scripts/requirements-content-gen.txt: thay langchain-community>=0.3 bằng langchain-litellm>=0.7"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm Content Generation Pipeline (LangChain + LiteLLM)",
       "tag": "chore",
       "pr": 131,
