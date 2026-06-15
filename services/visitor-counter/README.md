@@ -25,8 +25,8 @@ inject `REDIS_URL`. Bạn chỉ cần điền 3 env vars là chạy.
 
 1. Vào https://dashboard.render.com/blueprints
 2. **New Blueprint Instance** → connect repo `Banhang-Chogao/zola`
-3. Render đọc `services/visitor-counter/render.yaml` → preview 2 service
-   sẽ tạo: `blog-redis` (Redis) + `blog-visitor-api` (Web)
+3. Render đọc `render.yaml` ở repo root → preview 2 service sẽ tạo:
+   `blog-redis` (Redis) + `blog-visitor-api` (Web)
 4. **Điền 3 env vars sync:false**:
    - `BACKEND_URL`: `https://blog-visitor-api.onrender.com`
      (Render assign URL theo tên service)
