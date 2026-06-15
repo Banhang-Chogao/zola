@@ -29,26 +29,46 @@ button { font-family: inherit; cursor: pointer; }
 
 ul, ol { padding: 0; margin: 0; list-style: none; }
 
+/* ============= iPhone Safe Area Insets =============
+   Bật bởi <meta viewport-fit=cover>. Các env(safe-area-inset-*) trả
+   pixel offset từ Dynamic Island / Home Indicator / Notch:
+   - top: vùng Dynamic Island (iPhone 14 Pro+, 15 Pro+, 16 Pro, 17 Pro)
+   - bottom: vùng Home Indicator (iPhone X trở lên)
+   - left/right: vùng notch khi landscape
+   Browser cũ KHÔNG support env() → fallback 0 tự động (safe). */
+
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 24px;
+  /* max() đảm bảo padding ngang TỐI THIỂU 24px DÙ env() = 0,
+     đồng thời cộng safe-area cho landscape iPhone (notch bên trái/phải). */
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
 }
 
 @media (max-width: 720px) {
-  .container { padding: 0 16px; }
+  .container {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
   /* Base font giảm nhẹ trên tablet cho proportion hài hoà */
   html { font-size: 15.5px; }
 }
 
 @media (max-width: 540px) {
-  .container { padding: 0 14px; }
+  .container {
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
   /* Mobile: font base 15px → các rem tự scale theo */
   html { font-size: 15px; }
 }
 
 @media (max-width: 380px) {
-  .container { padding: 0 12px; }
+  .container {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
 }
 
 /* Prevent horizontal scroll khi 1 element nào đó overflow accidentally —
