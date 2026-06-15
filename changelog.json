@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "OTP plaintext → SHA-256 hash trong source (Web Crypto API)",
+      "tag": "security",
+      "pr": 31,
+      "lines_added": 46,
+      "lines_removed": 28,
+      "highlights": [
+        "Build Zola 520ms · QA pass",
+        "grep -rn \"<raw value>\" trên source = 0 matches (clean)",
+        "Test sha256Hex: input đúng → match, input sai → reject, empty → reject",
+        "SHA-256 của 4-digit value có 10000 tổ hợp → brute-force trivially <1s",
+        "Hash chỉ obfuscation chống casual viewer (mở DevTools thấy hash thay vì plaintext)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "gitignore __pycache__ + *.pyc",
       "tag": "chore",
       "pr": 30,
