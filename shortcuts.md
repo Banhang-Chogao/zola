@@ -208,6 +208,37 @@ Hành động full security audit cho leak:
 CONSERVATIVE: chỉ flag pattern 95%+ confident (avoid false positive
 như `secret=` trong tutorial code). Test mode trước khi flag prod.
 
+### `??` — Tại sao chưa thấy tính năng lên production?
+
+User hỏi 2 dấu hỏi liên tiếp = đang phàn nàn "đã commit xong nhiều rồi
+mà tính năng chưa thấy trên blog real". Claude PHẢI:
+
+1. **List 10 commits gần nhất** trên branch dev `claude/bold-gauss-51gh3c`
+   (`git log origin/main..HEAD --oneline`) + commits đã merge vào main
+   gần đây.
+
+2. **Với mỗi commit**, check 4 trạng thái:
+   - **A**: commit có trong branch dev nhưng CHƯA merge main → chờ batch
+   - **B**: commit đã merge main, deploy đang chạy (in_progress) → đợi
+   - **C**: commit đã merge main, deploy FAIL → vì sao (Tera bug, etc.)
+   - **D**: commit đã merge main, deploy SUCCESS → tính năng đã live
+     (user reload sai cache?)
+
+3. **Output bảng thống kê** format:
+
+| Commit | Title | Branch | Status | Nguyên nhân chưa live |
+|---|---|---|---|---|
+| #abc1234 | Mobile menu fix | dev | A | Chưa merge — chờ batch ≥10 commits |
+| #def5678 | Slack workflow | main | C | Deploy fail: Tera literal dict (line 534) |
+| #ghi9012 | Author-box | main | D | ✅ LIVE — user thử reload Ctrl+Shift+R |
+
+4. **Hành động đề xuất** ngay cuối:
+   - Nếu nhiều A → gợi ý `manual #X` hoặc đợi đủ 10
+   - Nếu C → fix hotfix ngay (vì block deploy)
+   - Nếu D nhưng user vẫn không thấy → hard reload + clear CDN cache
+
+KHÔNG hỏi user, exec ngay.
+
 ### `score` — Trigger workflow Build Semantic Related Posts
 
 Hành động: trigger manual `build-related.yml` qua workflow_dispatch.
