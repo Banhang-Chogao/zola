@@ -5,8 +5,7 @@ aliases = ["/cai-dat-zola/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "cài đặt"]
-
+tags = ["cài đặt", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/cai-dat/600/400"
 featured = true

@@ -1,11 +1,11 @@
 +++
 title = "Hành trình công nghệ: Dưới nắp ca-pô của blog cá nhân Duy Nguyen"
 date = 2026-06-15
+aliases = ["/cong-nghe-blog-duy-nguyen/"]
 
 [taxonomies]
 categories = ["Ẩm thực"]
-tags = ["zola", "tech stack", "github actions", "vanilla js", "cms"]
-
+tags = ["cms", "github actions", "tech stack", "vanilla js", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/cong-nghe-blog-duy-nguyen/600/400"
 featured = true

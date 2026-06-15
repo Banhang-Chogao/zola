@@ -5,8 +5,7 @@ aliases = ["/shortcode/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "shortcode"]
-
+tags = ["shortcode", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/shortcode/600/400"
 +++

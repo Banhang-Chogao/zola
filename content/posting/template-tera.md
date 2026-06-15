@@ -5,8 +5,7 @@ aliases = ["/template-tera/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "tera", "template"]
-
+tags = ["template", "tera", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/tera/600/400"
 +++

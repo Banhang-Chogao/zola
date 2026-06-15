@@ -5,8 +5,7 @@ aliases = ["/lenh-co-ban/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "CLI"]
-
+tags = ["cli", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/lenh/600/400"
 +++
