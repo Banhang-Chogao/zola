@@ -488,6 +488,29 @@ tags = ${tagsStr}
   }
 
   // ============= LIST VIEW =============
+  // ============= BULK SELECTION STATE =============
+  const selectedSlugs = new Set();
+
+  function updateBulkBar() {
+    const bar = $("[data-bulk-bar]");
+    const count = $("[data-bulk-count]");
+    if (!bar) return;
+    if (selectedSlugs.size === 0) {
+      bar.hidden = true;
+    } else {
+      bar.hidden = false;
+      if (count) count.textContent = selectedSlugs.size;
+    }
+    // Sync "select all" checkbox state
+    const selectAll = $("[data-select-all]");
+    if (selectAll) {
+      const displayPosts = getDisplayPosts();
+      const visibleSelected = displayPosts.filter((p) => selectedSlugs.has(p.slug)).length;
+      selectAll.checked = displayPosts.length > 0 && visibleSelected === displayPosts.length;
+      selectAll.indeterminate = visibleSelected > 0 && visibleSelected < displayPosts.length;
+    }
+  }
+
   function renderPostList() {
     const tbody = $("[data-target='post-rows']");
     const counter = $("[data-target='post-count']");
@@ -496,11 +519,13 @@ tags = ${tagsStr}
     if (counter) counter.textContent = displayPosts.length + "/" + state.posts.length;
 
     if (!state.posts.length) {
-      tbody.innerHTML = '<tr><td colspan="4" class="editor-empty">Chưa có bài nào. Click "+ Viết bài mới".</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Chưa có bài nào. Click "+ Viết bài mới".</td></tr>';
+      updateBulkBar();
       return;
     }
     if (!displayPosts.length) {
-      tbody.innerHTML = '<tr><td colspan="4" class="editor-empty">Không có bài khớp.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Không có bài khớp.</td></tr>';
+      updateBulkBar();
       return;
     }
 
@@ -510,7 +535,9 @@ tags = ${tagsStr}
       if (p.isNew) badges.push('<span class="editor-badge editor-badge--new" title="Vừa publish, đang build (~1 phút)">🆕</span>');
       const path = CONTENT_DIR + "/" + p.slug + ".md";
       const dateCell = p.date ? escapeHtml(p.date) : '<em class="editor-pending">đang build…</em>';
+      const checked = selectedSlugs.has(p.slug) ? " checked" : "";
       return '<tr>' +
+        '<td class="editor-table__check"><input type="checkbox" data-row-select value="' + escapeHtml(p.slug) + '" aria-label="Chọn bài \'' + escapeHtml(p.title || p.slug) + '\'"' + checked + '></td>' +
         '<td><strong>' + escapeHtml(p.title || p.slug) + '</strong>' + badges.join("") + '</td>' +
         '<td>' + dateCell + '</td>' +
         '<td>' + escapeHtml(p.category || "—") + '</td>' +
@@ -521,7 +548,142 @@ tags = ${tagsStr}
     tbody.querySelectorAll("[data-edit]").forEach((btn) => {
       btn.addEventListener("click", () => openEditor(btn.dataset.edit));
     });
+    tbody.querySelectorAll("[data-row-select]").forEach((cb) => {
+      cb.addEventListener("change", () => {
+        if (cb.checked) selectedSlugs.add(cb.value);
+        else selectedSlugs.delete(cb.value);
+        updateBulkBar();
+      });
+    });
+    updateBulkBar();
   }
+
+  // ============= BULK ACTIONS =============
+  // Select all checkbox in header
+  const selectAllCb = $("[data-select-all]");
+  if (selectAllCb) {
+    selectAllCb.addEventListener("change", () => {
+      const displayPosts = getDisplayPosts();
+      if (selectAllCb.checked) {
+        displayPosts.forEach((p) => selectedSlugs.add(p.slug));
+      } else {
+        displayPosts.forEach((p) => selectedSlugs.delete(p.slug));
+      }
+      renderPostList();
+    });
+  }
+
+  // Clear selection button
+  $("[data-action='bulk-clear']").addEventListener("click", () => {
+    selectedSlugs.clear();
+    renderPostList();
+  });
+
+  // Bulk delete button → open modal
+  $("[data-action='bulk-delete']").addEventListener("click", () => {
+    if (selectedSlugs.size === 0) return;
+    openBulkModal();
+  });
+
+  function openBulkModal() {
+    const modal = $("[data-modal='bulk-delete']");
+    const countEl = $("[data-modal-count]");
+    const listEl = $("[data-modal-list]");
+    const statusEl = $("[data-modal-status]");
+    if (!modal) return;
+    countEl.textContent = selectedSlugs.size;
+    statusEl.textContent = "";
+    statusEl.className = "editor-modal__status";
+    // Render list of slugs (max 10 visible, ... + count if more)
+    const slugArr = Array.from(selectedSlugs);
+    const shown = slugArr.slice(0, 10);
+    const extra = slugArr.length - shown.length;
+    listEl.innerHTML = shown.map((s) => '<li><code>' + escapeHtml(s) + '.md</code></li>').join("") +
+      (extra > 0 ? '<li><em>… và ' + extra + ' bài nữa</em></li>' : "");
+    modal.hidden = false;
+    document.body.classList.add("editor-modal-open");
+  }
+
+  function closeBulkModal() {
+    const modal = $("[data-modal='bulk-delete']");
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove("editor-modal-open");
+  }
+
+  $$("[data-modal-close]").forEach((el) => {
+    el.addEventListener("click", closeBulkModal);
+  });
+
+  $("[data-modal-confirm]").addEventListener("click", async () => {
+    if (!AUTH_API) {
+      alert("Backend chưa cấu hình");
+      return;
+    }
+    const sid = getSid();
+    if (!sid) {
+      alert("Phiên hết hạn");
+      showView("login");
+      return;
+    }
+    const slugs = Array.from(selectedSlugs);
+    if (slugs.length === 0) return;
+
+    const confirmBtn = $("[data-modal-confirm]");
+    const statusEl = $("[data-modal-status]");
+    confirmBtn.disabled = true;
+    statusEl.className = "editor-modal__status editor-modal__status--info";
+    statusEl.textContent = "Đang xoá " + slugs.length + " bài…";
+
+    try {
+      const res = await fetch(AUTH_API + "/cms/posts/bulk-delete", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + sid,
+          "Content-Type": "application/json",
+        },
+        credentials: "omit",
+        body: JSON.stringify({ slugs: slugs }),
+      });
+      if (res.status === 401) {
+        clearSid();
+        showView("login");
+        return;
+      }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        statusEl.className = "editor-modal__status editor-modal__status--error";
+        statusEl.textContent = "✗ " + (data.detail || "API lỗi (" + res.status + ")");
+        return;
+      }
+      // Success: update state, close modal, re-render
+      state.posts = state.posts.filter((p) => !selectedSlugs.has(p.slug));
+      selectedSlugs.clear();
+      invalidateListCache();
+      const commitLink = data.commit_url
+        ? ' · <a href="' + data.commit_url + '" target="_blank" rel="noopener">Xem commit</a>'
+        : "";
+      statusEl.className = "editor-modal__status editor-modal__status--success";
+      statusEl.innerHTML = "✓ Đã xoá " + data.deleted_count + " bài" + commitLink +
+        ". Deploy ETA: " + escapeHtml(data.deploy_eta || "~2 phút");
+      renderPostList();
+      // Auto-close sau 2.5s để user thấy success message
+      setTimeout(closeBulkModal, 2500);
+    } catch (err) {
+      statusEl.className = "editor-modal__status editor-modal__status--error";
+      statusEl.textContent = "✗ Lỗi mạng: " + err.message;
+    } finally {
+      confirmBtn.disabled = false;
+    }
+  });
+
+  // Escape key closes modal
+  document.addEventListener("keydown", (e) => {
+    const modal = $("[data-modal='bulk-delete']");
+    if (e.key === "Escape" && modal && !modal.hidden) {
+      closeBulkModal();
+    }
+  });
 
   $("[data-action='reload']").addEventListener("click", () => enterDashboard(true));
 

@@ -1270,6 +1270,121 @@ async def cms_giscus_setup(authorization: str = Header(default="")):
     }
 
 
+# ============= CMS — Bulk Delete Posts =============
+@app.post("/cms/posts/bulk-delete")
+async def cms_bulk_delete(request: Request, authorization: str = Header(default="")):
+    """
+    Xoá hàng loạt posts trong 1 commit qua GraphQL createCommitOnBranch.
+    Hiệu quả hơn REST DELETE từng file: 1 API call + 1 commit thay vì N.
+
+    Body JSON: {slugs: ["slug1", "slug2", ...]} max 50 slugs/lần.
+
+    Security:
+    - require_session → có sid + access_token Redis-side
+    - Mỗi slug validate qua _SLUG_RE (a-z0-9-) → chống path traversal
+    - Path cố định content/posting/{slug}.md → user KHÔNG xoá ngoài thư mục
+    - GraphQL parameterized variables → KHÔNG injection (giống prepared
+      statement trong SQL: tách query khỏi data)
+    """
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+
+    slugs = body.get("slugs", [])
+    if not isinstance(slugs, list) or len(slugs) == 0:
+        raise HTTPException(400, "empty_slugs")
+    if len(slugs) > 50:
+        raise HTTPException(400, "too_many_slugs_max_50")
+
+    # Validate + dedupe + build paths
+    seen = set()
+    paths = []
+    for s in slugs:
+        if not isinstance(s, str) or not _SLUG_RE.match(s):
+            raise HTTPException(400, f"invalid_slug: {s[:50] if isinstance(s, str) else type(s).__name__}")
+        if s in seen:
+            continue
+        seen.add(s)
+        paths.append(f"{CMS_CONTENT_DIR}/{s}.md")
+
+    gh_headers = {
+        "Authorization":        f"Bearer {token}",
+        "Accept":               "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent":           "zola-cms",
+    }
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        # 1. Fetch HEAD oid để pass expectedHeadOid (concurrent safety)
+        try:
+            sha_res = await client.get(
+                f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}"
+                f"/git/ref/heads/{CMS_REPO_BRANCH}",
+                headers=gh_headers,
+            )
+        except httpx.HTTPError:
+            raise HTTPException(502, "github_unreachable")
+        if sha_res.status_code != 200:
+            raise HTTPException(502, f"fetch_head_failed_{sha_res.status_code}")
+        head_oid = (sha_res.json().get("object") or {}).get("sha", "")
+        if not head_oid:
+            raise HTTPException(502, "no_head_sha")
+
+        # 2. GraphQL createCommitOnBranch — deletions array
+        mutation = """
+        mutation BulkDelete($input: CreateCommitOnBranchInput!) {
+          createCommitOnBranch(input: $input) {
+            commit { url oid }
+          }
+        }
+        """
+        variables = {
+            "input": {
+                "branch": {
+                    "repositoryNameWithOwner": f"{CMS_REPO_OWNER}/{CMS_REPO_NAME}",
+                    "branchName": CMS_REPO_BRANCH,
+                },
+                "message": {"headline": f"CMS: bulk xoá {len(paths)} bài viết"},
+                "fileChanges": {"deletions": [{"path": p} for p in paths]},
+                "expectedHeadOid": head_oid,
+            }
+        }
+        try:
+            gql_res = await client.post(
+                "https://api.github.com/graphql",
+                headers=gh_headers,
+                json={"query": mutation, "variables": variables},
+            )
+        except httpx.HTTPError:
+            raise HTTPException(502, "graphql_unreachable")
+
+    if gql_res.status_code != 200:
+        raise HTTPException(502, f"graphql_failed_{gql_res.status_code}")
+
+    gql_data = gql_res.json()
+    if "errors" in gql_data and gql_data["errors"]:
+        err = gql_data["errors"][0].get("message", "graphql_error")
+        # 422 = concurrent update (expectedHeadOid mismatch) — caller retry
+        code = 422 if "expectedHeadOid" in err.lower() else 400
+        raise HTTPException(code, f"graphql: {err}")
+
+    commit_info = (((gql_data.get("data") or {}).get("createCommitOnBranch")) or {}).get("commit") or {}
+    return {
+        "ok":             True,
+        "deleted_count":  len(paths),
+        "deleted_slugs":  list(seen),
+        "commit_url":     commit_info.get("url", ""),
+        "commit_oid":     commit_info.get("oid", ""),
+        "deploy_eta":     "1-2 phút (Pages auto-build)",
+    }
+
+
 # ============= RSS Checker =============
 # Validate URL trước khi đưa cho feedparser — tránh SSRF qua scheme khác
 # (file://, gopher://, internal IP). feedparser tự follow redirect, nên
