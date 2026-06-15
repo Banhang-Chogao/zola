@@ -11,6 +11,35 @@
         <header class="changelog__header">
             <h1 class="changelog__title-main">Changelog</h1>
             <p class="changelog__sub">Lịch sử cập nhật & PR của blog · gần đây nhất ở trên</p>
+
+            {# Latest Deployment Status — fetch real-time qua deploy-status.js
+               (cùng script với header banner). Cấu trúc mô phỏng GitHub
+               'Latest deployments from pinned environments' UI. #}
+            <p class="changelog__deploy-label">Latest deployments from pinned environments</p>
+            <div class="changelog__deploy-card is-success" data-deploy-status data-deploy-card role="status" aria-live="polite">
+                <div class="changelog__deploy-card__head">
+                    <span class="changelog__deploy-card__icon" data-deploy-icon aria-hidden="true">✓</span>
+                    <span class="changelog__deploy-card__title">github-pages</span>
+                    <a class="changelog__deploy-card__ext" data-deploy-link
+                       href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
+                       target="_blank" rel="noopener" aria-label="Open deployments on GitHub">
+                        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+                            <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5A1.75 1.75 0 0 0 3.75 14h8.5A1.75 1.75 0 0 0 14 12.25v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-8.5a.25.25 0 0 1 .25-.25h3a.75.75 0 0 0 0-1.5h-3Zm8 1H10A.75.75 0 0 1 10 1.5h3.25c.41 0 .75.34.75.75V5.5a.75.75 0 0 1-1.5 0V4.06L8.78 7.78a.75.75 0 0 1-1.06-1.06L11.44 3Z"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="changelog__deploy-card__body">
+                    <span class="changelog__deploy-card__row">
+                        Last <span data-deploy-verb>deployed</span>
+                        <span data-deploy-time>—</span>
+                    </span>
+                    <a class="changelog__deploy-card__url"
+                       href="{{ config.base_url | safe }}/"
+                       target="_blank" rel="noopener">
+                        {{ config.base_url | safe }}/
+                    </a>
+                </div>
+            </div>
         </header>
 
         {% if data and data.items %}
