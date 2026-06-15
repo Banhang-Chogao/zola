@@ -5,8 +5,7 @@ aliases = ["/cau-truc-zola/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "kiến thức cơ bản"]
-
+tags = ["kiến thức cơ bản", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/cau-truc/600/400"
 +++

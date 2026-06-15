@@ -5,8 +5,7 @@ aliases = ["/syntax-highlight/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "syntax", "highlight"]
-
+tags = ["highlight", "syntax", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/syntax/600/400"
 +++

@@ -5,8 +5,7 @@ aliases = ["/taxonomy/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "taxonomy"]
-
+tags = ["taxonomy", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/taxonomy/600/400"
 +++

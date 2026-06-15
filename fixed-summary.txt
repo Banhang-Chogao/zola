@@ -1,0 +1,16 @@
+FIXED: content/posting/gau-nau.md: Đảm bảo file kết thúc bằng đúng 1 newline
+FIXED: content/posting/lenh-co-ban.md: Normalize tags ['zola', 'CLI'] → ['cli', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/template-tera.md: Normalize tags ['zola', 'tera', 'template'] → ['template', 'tera', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/rss-feed.md: Normalize tags ['zola', 'rss'] → ['rss', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/markdown-mo-rong.md: Normalize tags ['zola', 'markdown'] → ['markdown', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/sass-zola.md: Normalize tags ['zola', 'sass', 'css'] → ['css', 'sass', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/sass-zola.md: Đảm bảo file kết thúc bằng đúng 1 newline
+FIXED: content/posting/cai-dat-zola.md: Normalize tags ['zola', 'cài đặt'] → ['cài đặt', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/cai-dat-zola.md: Đảm bảo file kết thúc bằng đúng 1 newline
+FIXED: content/posting/cong-nghe-blog-duy-nguyen.md: Normalize tags ['zola', 'tech stack', 'github actions', 'vanilla js', 'cms'] → ['cms', 'github actions', 'tech stack', 'vanilla js', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/cau-truc-zola.md: Normalize tags ['zola', 'kiến thức cơ bản'] → ['kiến thức cơ bản', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/cau-truc-zola.md: Đảm bảo file kết thúc bằng đúng 1 newline
+FIXED: content/posting/deploy-github-pages.md: Normalize tags ['zola', 'deploy', 'github'] → ['deploy', 'github', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/taxonomy.md: Normalize tags ['zola', 'taxonomy'] → ['taxonomy', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/syntax-highlight.md: Normalize tags ['zola', 'syntax', 'highlight'] → ['highlight', 'syntax', 'zola'] (lowercase + dedupe + sort)
+FIXED: content/posting/shortcode.md: Normalize tags ['zola', 'shortcode'] → ['shortcode', 'zola'] (lowercase + dedupe + sort)
