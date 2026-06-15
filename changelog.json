@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Cập nhật shortcuts.md: thêm healing, sec, pef + Workflow Auto-Heal rule",
+      "tag": "chore",
+      "pr": 91,
+      "lines_added": 53,
+      "lines_removed": 3,
+      "highlights": [
+        "healing: kích hoạt QA-Healing thủ công với baseline qa_check.py + fix + verify",
+        "sec: trigger security-audit.yml + parse summary + escalate HIGH severity",
+        "pef: trigger perf-audit.yml + Lighthouse mobile estimate + review auto-fix PR",
+        "Node.js version phù hợp từng action",
+        "Hướng xử lý lỗi tối ưu (conservative/aggressive)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Cập nhật shortcuts.md: thêm ff + node policy thông minh + nguyên tắc bất biến",
       "tag": "chore",
       "pr": 90,
