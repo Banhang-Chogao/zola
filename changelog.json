@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Apply BrandingX colors — 10 files còn lại (255 replacements)",
+      "tag": "chore",
+      "pr": 123,
+      "lines_added": 320,
+      "lines_removed": 273,
+      "highlights": [
+        "_editor.scss (179 colors — internal CMS, không public visibility)",
+        "_banner.scss (70 colors — deprecated component)"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "thêm link BrandingX vào navbar menu (user không thấy được)",
       "tag": "fix",
       "pr": 122,
