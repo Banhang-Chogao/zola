@@ -18,11 +18,16 @@
                         {% if page.taxonomies.categories %}
                             <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
                         {% endif %}
-                        {# Card đầu tiên là LCP candidate — eager + fetchpriority high #}
+                        {# Card đầu tiên = LCP candidate — eager + fetchpriority high.
+                           width/height = 800/600 matching aspect-ratio 4/3 CSS. #}
                         {% if loop.first %}
-                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="eager" fetchpriority="high" decoding="async">
+                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                                 width="800" height="600"
+                                 loading="eager" fetchpriority="high" decoding="async">
                         {% else %}
-                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" loading="lazy" decoding="async">
+                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                                 width="800" height="600"
+                                 loading="lazy" decoding="async">
                         {% endif %}
                     </a>
                 {% endif %}

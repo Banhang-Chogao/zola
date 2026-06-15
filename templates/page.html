@@ -11,8 +11,12 @@
                 {% if page.taxonomies.categories %}
                     <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
                 {% endif %}
-                {# Hero image là LCP candidate trên trang bài — fetchpriority high #}
-                <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}" fetchpriority="high" decoding="async">
+                {# Hero image = LCP candidate. eager + fetchpriority high
+                   + width/height (aspect 16/7 matching CSS) → browser
+                   reserve space tránh CLS dù CSS chưa kịp parse. #}
+                <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                     width="1600" height="700"
+                     loading="eager" fetchpriority="high" decoding="async">
             </div>
         {% endif %}
 
@@ -96,6 +100,7 @@
                {% if author_url %}href="{{ author_url }}" target="_blank" rel="noopener"{% endif %}>
                 <img src="{{ author_avatar }}"
                      alt="{{ author_name }}"
+                     width="80" height="80"
                      loading="lazy"
                      decoding="async"
                      onerror="this.style.display='none'">
@@ -160,7 +165,9 @@
                                 <span class="related-card__cat">{{ p.taxonomies.categories | first }}</span>
                             {% endif %}
                             {% if p.extra.thumbnail %}
-                                <img src="{{ p.extra.thumbnail }}" alt="{{ p.title }}" loading="lazy" decoding="async">
+                                <img src="{{ p.extra.thumbnail }}" alt="{{ p.title }}"
+                                     width="800" height="500"
+                                     loading="lazy" decoding="async">
                             {% endif %}
                         </a>
                         <h4 class="related-card__title">
