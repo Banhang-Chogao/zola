@@ -4,43 +4,28 @@
    Layout giống momo.vn/blog: horizontal tabs phía trên, hero card
    2 cột (image trái + content phải), grid 3 cột posts thường. */
 
+/* Decorative wordmark "POSTINGS" — letters spaced evenly across full width.
+   Replaces the previous category tabs. Color = BrandingX signal red #d63d3d
+   với opacity giảm để hài hoà tổng thể (không cướp sự chú ý khỏi hero card). */
 .home-tabs {
   display: flex;
   align-items: center;
-  gap: 1.85rem;
-  padding: 0 0.25rem 1rem;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.6rem 0.5rem 1rem;
   border-bottom: 1px solid #ececec;
   margin-bottom: 1.75rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  position: relative;
 
-  &::-webkit-scrollbar { display: none; }
-
-  &__item {
-    font-family: $font-ui;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #555;
-    text-decoration: none;
-    white-space: nowrap;
-    padding: 0.55rem 0.25rem;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -1px;
-    transition: color .15s ease, border-color .15s ease;
-
-    &--active,
-    &:hover {
-      color: #d63d3d;
-      border-bottom-color: #d63d3d;
-    }
-  }
-
-  &__arrow {
-    margin-left: auto;
-    color: #999;
-    font-size: 1.2rem;
-    flex-shrink: 0;
+  &__letter {
+    flex: 1 1 0;
+    text-align: center;
+    font-family: $font-heading;
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: rgba(214, 61, 61, 0.38);
+    user-select: none;
   }
 }
 
@@ -222,16 +207,13 @@
 /* Mobile: 1 cột + tabs nhỏ + spacing thu gọn */
 @media (max-width: 720px) {
   .home-tabs {
-    gap: 1.25rem;
-    padding-bottom: 0.85rem;
+    padding: 0.4rem 0.25rem 0.75rem;
     margin-bottom: 1.25rem;
 
-    &__item {
-      font-size: 0.88rem;
-      padding: 0.45rem 0.15rem;
-      border-bottom-width: 2px;
+    &__letter {
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
     }
-    &__arrow { display: none; }
   }
 
   .home-hero {

@@ -7,15 +7,17 @@
     {% set all_pages = posting.pages %}
     {% set featured = all_pages | first %}
 
-    {# Momo-style horizontal category tabs (desktop + mobile, scroll ngang) #}
-    <nav class="home-tabs" aria-label="Phân loại bài viết">
-        {% set tag_taxo = get_taxonomy(kind="categories") %}
-        <a href="{{ config.base_url }}" class="home-tabs__item home-tabs__item--active">Mới nhất</a>
-        {% for cat in tag_taxo.items %}
-            <a href="{{ cat.permalink }}" class="home-tabs__item">{{ cat.name }}</a>
-        {% endfor %}
-        <span class="home-tabs__arrow" aria-hidden="true">→</span>
-    </nav>
+    {# Decorative wordmark banner — letters POSTINGS spread evenly #}
+    <div class="home-tabs" aria-hidden="true">
+        <span class="home-tabs__letter">P</span>
+        <span class="home-tabs__letter">O</span>
+        <span class="home-tabs__letter">S</span>
+        <span class="home-tabs__letter">T</span>
+        <span class="home-tabs__letter">I</span>
+        <span class="home-tabs__letter">N</span>
+        <span class="home-tabs__letter">G</span>
+        <span class="home-tabs__letter">S</span>
+    </div>
 
     {# Featured hero card — bài đầu tiên, layout 2 cột (image trái + content phải) #}
     {% if featured %}
