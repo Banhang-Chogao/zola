@@ -19,20 +19,28 @@
   const CONTENT_DIR = "content/posting";
   const API = "https://api.github.com";
 
-  /* ============= AUTH (OTP + JIT PAT) =============
-     OTP_CODE = mã cố định 4 số mở UI editor. sessionStorage flag — đóng tab
-     là mất, phải nhập lại. KHÔNG dùng localStorage hay cookies.
+  /* ============= AUTH (OTP hash + JIT PAT) =============
+     OTP gate dùng SHA-256 hash thay vì plaintext value — source KHÔNG còn
+     chứa mã raw, chỉ giữ hash 64 hex chars. User nhập value, JS hash qua
+     Web Crypto API và so sánh với OTP_HASH.
 
-     PAT (GitHub Personal Access Token) bắt buộc cho API call save/edit/delete
-     (GitHub Pages là static → không backend → token PHẢI từ browser). PAT
-     cache trong sessionStorage cùng lifecycle với OTP:
-       - User nhập 1 LẦN sau OTP (prompt JIT lần đầu cần)
-       - Sau đó save bao nhiêu lần cũng không bị hỏi lại
-       - Tab close → sessionStorage clear → re-prompt khi vào lại
-     KHÔNG localStorage, KHÔNG cookies — đúng nguyên tắc bảo mật cũ. */
-  const OTP_CODE = "0512";
+     LƯU Ý: hash chỉ obfuscation — 4 chữ số có 10000 tổ hợp, brute-force
+     hash trivially trong <1s. Đây là chống casual viewer, không phải bảo
+     mật thật. Defense thật vẫn là PAT GitHub.
+
+     sessionStorage flag cho OTP + PAT — đóng tab là mất, phải nhập lại.
+     KHÔNG localStorage, KHÔNG cookies. */
+  const OTP_HASH = "78c72f67941a420cd4e5ee9fdabcaeaba6d72f16160915085f9802220fd83799";
   const OTP_SESSION_KEY = "zola-cms-otp-ok";
   const PAT_SESSION_KEY = "zola-cms-pat";
+
+  async function sha256Hex(str) {
+    const buf = new TextEncoder().encode(String(str || ""));
+    const hash = await crypto.subtle.digest("SHA-256", buf);
+    return Array.from(new Uint8Array(hash))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
 
   function loadStoredPat() {
     try { return sessionStorage.getItem(PAT_SESSION_KEY) || null; }
@@ -379,12 +387,13 @@ tags = ${tagsStr}
     try { sessionStorage.removeItem(OTP_SESSION_KEY); } catch (e) {}
   }
 
-  $("[data-form='otp']").addEventListener("submit", (e) => {
+  $("[data-form='otp']").addEventListener("submit", async (e) => {
     e.preventDefault();
     const input = e.target.otp;
     const code = String(input.value || "").trim();
     const msgEl = $("[data-otp-msg]");
-    if (code === OTP_CODE) {
+    const hash = await sha256Hex(code);
+    if (hash === OTP_HASH) {
       setOtpPassed();
       input.value = "";
       if (msgEl) { msgEl.textContent = ""; msgEl.className = "editor-otp__msg"; }
