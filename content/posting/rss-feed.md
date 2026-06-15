@@ -5,8 +5,7 @@ aliases = ["/rss-feed/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "rss"]
-
+tags = ["rss", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/rss/600/400"
 +++

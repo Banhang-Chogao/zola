@@ -5,8 +5,7 @@ aliases = ["/sass-zola/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "sass", "css"]
-
+tags = ["css", "sass", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/sass/600/400"
 featured = true

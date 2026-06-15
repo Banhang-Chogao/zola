@@ -5,8 +5,7 @@ aliases = ["/markdown-mo-rong/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "markdown"]
-
+tags = ["markdown", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/markdown/600/400"
 +++

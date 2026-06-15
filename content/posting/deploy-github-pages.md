@@ -5,8 +5,7 @@ aliases = ["/deploy-github-pages/"]
 
 [taxonomies]
 categories = ["Posting"]
-tags = ["zola", "deploy", "github"]
-
+tags = ["deploy", "github", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/deploy/600/400"
 +++
