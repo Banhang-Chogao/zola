@@ -20,9 +20,9 @@ permissions:
   issues: write
   actions: read
 
-# Force JS actions chạy Node.js 24 (default từ 16/06/2026)
+# Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ACTIONS_RUNNER_HOOK_NODE_PATH: "/usr/bin/node"
 
 concurrency:
   group: qa-failed-${{ github.event.workflow_run.head_branch }}
@@ -37,6 +37,11 @@ jobs:
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
 
       - uses: actions/setup-python@v5
         with:
