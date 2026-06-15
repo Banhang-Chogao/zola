@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "cache key news include source ID → auto-invalidate khi đổi config",
+      "tag": "fix",
+      "pr": 44,
+      "lines_added": 78,
+      "lines_removed": 25,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-15",
       "title": "/du-lich/ Trip.com scrape empty → fallback VnExpress RSS + extract thumbnail",
       "tag": "fix",
       "pr": 43,
