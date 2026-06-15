@@ -1,5 +1,6 @@
 +++
-title = "Sentence Transformers (SBERT): nghiên cứu sâu về kiến trúc, training và ứng dụng thực tế"
+title = "Sentence Transformers (SBERT): kiến trúc, training và ứng dụng"
+description = "Phân tích sâu kiến trúc bi-encoder, 4 phương pháp training (softmax, contrastive, triplet, MNR), multilingual distillation và case study build-time semantic search trên Zola GitHub Pages."
 date = 2026-06-15
 aliases = ["/sentence-transformers-sbert-deep-dive/"]
 
@@ -319,6 +320,11 @@ Actions, output JSON tĩnh, web load 0 cost runtime. Đó là minh chứng:
 AI deep learning hoàn toàn có thể áp dụng cho **static site personal
 blog** mà không cần backend server, không cần GPU runtime, không cần
 trả phí inference per request.
+
+Để xem implementation cụ thể của pipeline này, đọc thêm bài
+[Ngày thứ hai của blog: 100 PR và stack công nghệ tự nâng cấp](/posting/cong-nghe-blog-day-2/)
+và [Hành trình công nghệ ngày đầu](/posting/cong-nghe-blog-duy-nguyen/)
+để hiểu architecture overall.
 
 Repo gốc: [github.com/UKPLab/sentence-transformers](https://github.com/UKPLab/sentence-transformers).
 Documentation: [sbert.net](https://www.sbert.net). Paper gốc:
