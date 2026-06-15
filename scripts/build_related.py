@@ -24,6 +24,7 @@ from sentence_transformers import SentenceTransformer
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = ROOT / "content" / "posting"
 OUTPUT_FILE = ROOT / "data" / "related.json"
+SCORES_FILE = ROOT / "data" / "scores.json"
 
 # Multilingual model: ~120MB, hỗ trợ Tiếng Việt tốt, đủ nhanh cho blog
 # vài chục bài. Có thể đổi thành paraphrase-multilingual-mpnet-base-v2
@@ -60,6 +61,9 @@ def load_posts():
             continue
         slug = post.metadata.get("slug") or path.stem
         title = post.metadata.get("title", "")
+        date = post.metadata.get("date", "")
+        # date có thể là datetime object hoặc string → normalize
+        date_str = date.isoformat() if hasattr(date, "isoformat") else str(date)
         tags = post.metadata.get("taxonomies", {}).get("tags", [])
         cats = post.metadata.get("taxonomies", {}).get("categories", [])
         body = strip_markdown(post.content)
@@ -67,7 +71,12 @@ def load_posts():
         # context 512 tokens, model tự truncate phần dư)
         text_parts = [title, " ".join(cats), " ".join(tags), body[:2000]]
         text = ". ".join(p for p in text_parts if p)
-        posts.append({"slug": slug, "text": text, "title": title})
+        posts.append({
+            "slug": slug,
+            "text": text,
+            "title": title,
+            "date": date_str,
+        })
     return posts
 
 
@@ -112,6 +121,34 @@ def main():
         encoding="utf-8",
     )
     print(f"Wrote {OUTPUT_FILE.relative_to(ROOT)} ({len(result)} entries)")
+
+    # ===== SCORING CARD: per-post aggregate scores =====
+    # score = mean of top-N related scores → đo "connectedness" của bài
+    # trong network. High score = bài có nhiều bài tương đồng nội dung.
+    scores_list = []
+    for post in posts:
+        related = result.get(post["slug"], [])
+        if related:
+            avg = sum(r["score"] for r in related) / len(related)
+            top = max(r["score"] for r in related)
+        else:
+            avg = 0.0
+            top = 0.0
+        scores_list.append({
+            "slug": post["slug"],
+            "title": post["title"],
+            "date": post["date"],
+            "score": round(avg, 4),
+            "top_score": round(top, 4),
+            "neighbors": len(related),
+        })
+    # Sort score desc cho default render
+    scores_list.sort(key=lambda x: x["score"], reverse=True)
+    SCORES_FILE.write_text(
+        json.dumps(scores_list, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"Wrote {SCORES_FILE.relative_to(ROOT)} ({len(scores_list)} entries)")
 
 
 if __name__ == "__main__":
