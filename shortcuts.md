@@ -275,6 +275,37 @@ từ git history (commit trước 11:37 ngày 15/06/2026).
 
 ---
 
+## 4.5. Quy trình Deploy GỘP (cập nhật 13:16 ngày 15/06/2026)
+
+**TRƯỚC** (deprecated): Claude tự merge từng PR nhỏ ngay → tần suất
+deploy production cao.
+
+**TỪ NAY**:
+
+1. **Gộp thay đổi**: Claude tạo PR cho mỗi feature/fix, NHƯNG **KHÔNG
+   auto-merge**. Để PR `open` để gom 10 PR (hoặc nhóm tính năng hoàn
+   chỉnh) trước khi deploy production.
+
+2. **Lệnh manual deploy** — cú pháp `manual #<số PR>` (ví dụ `manual
+   #123`):
+   - Claude kiểm tra PR đó (CI status, conflicts, content)
+   - Fix lỗi nếu có (rebase, syntax bug, etc.)
+   - **Squash merge** vào main → trigger deploy production
+   - Report kết quả
+
+3. **`gg` cập nhật**: list TẤT CẢ open PR → confirm với user trước khi
+   merge hết (không auto-merge bừa nữa). User có thể nói "merge hết"
+   hoặc "merge PR #X, #Y only".
+
+4. **Ngoại lệ HOTFIX**: lỗi CRITICAL block production (Tera syntax,
+   deploy fail) → Claude auto-fix + auto-merge ngay, không đợi gom 10.
+
+5. **Workflow PR mới**:
+   - Tạo PR
+   - KHÔNG merge
+   - Output: `PR #X created, waiting for batch deploy. Total open: N PRs.`
+   - User tự trigger `manual #X` hoặc `gg` khi sẵn sàng deploy
+
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
 
 Sau MỌI lần merge PR thành công, Claude PHẢI output bảng 3 cột:
