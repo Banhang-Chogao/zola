@@ -26,7 +26,22 @@ Hành động: Claude tự động chạy full audit, bao gồm:
 
 Output: punch list ≤200 words: done / warnings / errors, sorted by severity.
 
-## Quy tắc thực thi
+## Auto-healing pipeline
+
+Khi BẤT KỲ workflow nào fail (Deploy, Performance Audit, Security Audit,
+Build Related, QA Gatekeeper, Self-Healing QA):
+
+→ Workflow `.github/workflows/qa-failed-handler.yml` tự động trigger
+→ Chạy `qa-failed.py` phân tích logs
+→ Match pattern (ModuleNotFoundError / frontmatter / git race / permission)
+→ Apply safe fix nếu match → commit + push main → deploy tự re-trigger
+→ KHÔNG match pattern hoặc fix fail → tạo GitHub issue `qa-failed` label
+  + log artifact 14 ngày để user investigate
+
+Khi user gõ `gg`, Claude phải xác nhận auto-healing đang active. Nếu
+workflow `qa-failed-handler.yml` bị disable → báo cáo ngay.
+
+## Quy tắc thực thi shortcut
 
 - Shortcut PHẢI là single line, no extra context.
 - Nếu user gõ shortcut KÈM thêm context (e.g., `gg PR #82 only`) → exec với scope hẹp.
