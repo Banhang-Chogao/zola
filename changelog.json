@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Hotfix: enforce Node.js 24 trên 2 workflow mới thiếu env",
+      "tag": "chore",
+      "pr": 85,
+      "lines_added": 8,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm: qa-failed.py auto-healing pipeline cho failed workflows",
       "tag": "chore",
       "pr": 84,
