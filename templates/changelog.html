@@ -11,6 +11,16 @@
         <header class="changelog__header">
             <h1 class="changelog__title-main">Changelog</h1>
             <p class="changelog__sub">Lịch sử cập nhật & PR của blog · gần đây nhất ở trên</p>
+
+            {# Deploy status real-time qua GitHub API — fetch client-side với cache
+               sessionStorage 60s. Initial state: loading. JS sẽ update className
+               + content sau khi API trả về. Fallback 'N/A' nếu offline/rate-limit. #}
+            <div class="changelog__deploy changelog__deploy--loading" data-deploy-status role="status" aria-live="polite">
+                <span class="changelog__deploy-icon" aria-hidden="true">⋯</span>
+                <span class="changelog__deploy-label">DEPLOY:</span>
+                <span class="changelog__deploy-state">LOADING…</span>
+                <span class="changelog__deploy-time"></span>
+            </div>
         </header>
 
         {% if data and data.items %}
@@ -81,3 +91,7 @@
 {% endblock main %}
 
 {% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/changelog-deploy.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}
