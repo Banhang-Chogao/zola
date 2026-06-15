@@ -499,3 +499,133 @@
     }
   }
 }
+
+/* ============================================================
+   ===== QA DASHBOARD — DESKTOP (global) =====
+   ============================================================
+   6 card metrics build-time, grid 3 cột uniform. Mỗi card có border,
+   labels màu phía trên (NÂNG CAO/CƠ BẢN style), title, footer count+date. */
+.footer-qa {
+  background: #fff;
+  border-top: 1px solid #ececec;
+  padding: 2rem 0 1.5rem;
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  &__title {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111;
+    margin: 0;
+  }
+  &__sub {
+    font-family: $font-meta;
+    font-size: 0.8rem;
+    color: #888;
+  }
+}
+
+.qa-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.qa-card {
+  background: #fff;
+  border: 1.5px solid #1a1a1a;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__labels {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  &__label {
+    display: inline-block;
+    font-family: $font-ui;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.55rem;
+    border: 1.5px solid;
+    line-height: 1;
+
+    &--red    { color: #c0282d; border-color: #c0282d; background: #fff0f0; }
+    &--green  { color: #047a3f; border-color: #047a3f; background: #ecfdf5; }
+    &--blue   { color: #1d4ed8; border-color: #1d4ed8; background: #eff6ff; }
+    &--yellow { color: #92760a; border-color: #d4b317; background: #fef9c3; }
+    &--orange { color: #b3450e; border-color: #b3450e; background: #fff7ed; }
+    &--purple { color: #6b21a8; border-color: #6b21a8; background: #faf5ff; }
+    &--gray   { color: #2d2d2d; border-color: #2d2d2d; background: #f5f5f5; }
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111;
+    margin: 0;
+    line-height: 1.25;
+    flex: 1;
+  }
+
+  &__foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid #ececec;
+    font-family: $font-meta;
+    font-size: 0.78rem;
+  }
+  &__count { color: #555; font-weight: 500; }
+  &__date  { color: #999; font-variant-numeric: tabular-nums; }
+}
+
+/* ============================================================
+   ===== QA DASHBOARD — MOBILE (≤720px → 2 cột, ≤480px → 1 cột) =====
+   ============================================================ */
+@media (max-width: 1024px) {
+  .qa-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .footer-qa {
+    padding: 1.5rem 0 1.25rem;
+    &__head {
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    &__title { font-size: 0.9rem; }
+    &__sub   { font-size: 0.72rem; }
+  }
+  .qa-grid { gap: 0.65rem; }
+  .qa-card {
+    padding: 0.85rem 0.95rem;
+    gap: 0.55rem;
+    &__title { font-size: 1rem; }
+    &__label { font-size: 0.6rem; padding: 0.18rem 0.45rem; }
+    &__foot  { font-size: 0.72rem; flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+  }
+}
+@media (max-width: 480px) {
+  .qa-grid { grid-template-columns: 1fr; }
+}
