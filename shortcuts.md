@@ -106,6 +106,23 @@ Hành động:
 5. Bonus tại chỗ: Lighthouse mobile estimate (LCP/CLS/INP) cho homepage + 1 post.
 6. Output report ≤150 words: scores + auto-fix applied + remaining issues.
 
+### `ll` — Liệt kê chu kỳ cron của 3 workflows trọng yếu
+
+Hành động: output bảng cron schedule + ý nghĩa cho **3 workflow QA core**:
+
+| Workflow | File | Cron | Ý nghĩa human-readable |
+|---|---|---|---|
+| QA Gatekeeper | `.github/workflows/qa.yml` | (no schedule) | Trigger trên PR + push main |
+| Security Audit | `.github/workflows/security-audit.yml` | `0 3 * * 6` | Thứ 7 hàng tuần 03:00 UTC |
+| Self-Healing QA | `.github/workflows/self-healing.yml` | `0 */6 * * *` | Mỗi 6 tiếng |
+
+Bonus columns nếu user muốn detail:
+- Last run status (✅ success / ❌ failure / 🔄 in_progress)
+- Next scheduled run (tính từ cron expression + now)
+- Runs/tháng estimate
+
+KHÔNG diễn giải dài, chỉ output bảng + 1 dòng summary.
+
 ### `run list` — Hiển thị bảng workflow runs
 
 Hành động: Output Markdown table 4 cột, format chuẩn để user audit workflow.
