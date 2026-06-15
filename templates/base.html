@@ -402,29 +402,39 @@
     </main>
 
     <footer class="site-footer">
-        {% if config.extra.visitor_api_url %}
-        {# Visitor counter clock — odometer-style hiển thị dưới footer.
-           Render khi backend deployed (config có URL); ẩn hoàn toàn khi chưa. #}
-        <div class="visitor-counter">
+        {# Visitor counter clock — luôn render. Khi visitor_api_url có giá trị
+           → script tự fetch real count. Khi trống → demo mode hiển thị
+           placeholder để user thấy layout + biết cần deploy backend. #}
+        <div class="visitor-counter{% if not config.extra.visitor_api_url %} visitor-counter--demo{% endif %}">
             <div class="container">
                 <div class="visitor-counter__card">
                     <div class="visitor-counter__head">
+                        {% if config.extra.visitor_api_url %}
                         <span class="visitor-counter__live">
                             <span class="visitor-counter__pulse" aria-hidden="true"></span>
                             LIVE
                         </span>
+                        {% else %}
+                        <span class="visitor-counter__live visitor-counter__live--demo">
+                            🚧 DEMO
+                        </span>
+                        {% endif %}
                         <span class="visitor-counter__label">👁 Tổng lượt truy cập</span>
                     </div>
                     <div class="visitor-counter__display" aria-live="polite">
-                        <span id="visitor-count" class="visitor-counter__digits">—</span>
+                        <span id="visitor-count" class="visitor-counter__digits">{% if config.extra.visitor_api_url %}—{% else %}1,234{% endif %}</span>
                     </div>
                     <p class="visitor-counter__caption">
+                        {% if config.extra.visitor_api_url %}
                         Đếm real-time từ backend FastAPI + Redis. Bot và crawler đã được lọc bỏ.
+                        {% else %}
+                        ⚠ Backend chưa deploy — số liệu đang ở demo mode.
+                        Xem <code>services/visitor-counter/README.md</code> để bật.
+                        {% endif %}
                     </p>
                 </div>
             </div>
         </div>
-        {% endif %}
         <div class="container">
             <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola
                 <span class="site-footer__sep" aria-hidden="true">·</span>

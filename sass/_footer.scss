@@ -95,6 +95,37 @@
     letter-spacing: 0.05em;
   }
 
+  /* Demo mode — orange/amber palette phân biệt với live (green).
+     Hiển thị placeholder 1,234 khi backend chưa deploy, để user thấy
+     layout. Caption code highlight tên file README. */
+  &--demo {
+    .visitor-counter__card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.04) 100%);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+    .visitor-counter__digits {
+      color: #fbbf24;
+      text-shadow:
+        0 0 12px rgba(251, 191, 36, 0.45),
+        0 0 28px rgba(251, 191, 36, 0.25);
+      opacity: 0.85;
+    }
+    .visitor-counter__caption code {
+      background: #1f2937;
+      color: #fbbf24;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-family: $font-mono;
+      font-size: 0.92em;
+    }
+  }
+
+  &__live--demo {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.35);
+  }
+
   /* Odometer-style display — large mono digits, tabular-nums để
      không nhảy ngang khi count update từ X → X+1. */
   &__display {

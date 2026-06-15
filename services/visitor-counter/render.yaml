@@ -1,0 +1,62 @@
+# Render Blueprint — 1-click deploy cho blog backend.
+#
+# Cách dùng:
+#   1. Vào https://dashboard.render.com/blueprints
+#   2. Click "New Blueprint Instance"
+#   3. Connect repo Banhang-Chogao/zola
+#   4. Render đọc file này → tự tạo Redis + Web Service
+#   5. Bạn điền 3 env vars sync:false bên dưới → click Apply
+#   6. Sau khi Web Service running, copy URL, dán vào config.toml
+#      `visitor_api_url = "https://blog-visitor-api.onrender.com"`
+#
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  # ============= Redis (free 25MB) =============
+  - type: redis
+    name: blog-redis
+    plan: free
+    region: singapore       # gần Việt Nam cho latency thấp
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: []         # chỉ internal services trong Render kết nối được
+
+  # ============= FastAPI Web Service =============
+  - type: web
+    name: blog-visitor-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/visitor-counter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+
+    envVars:
+      # Redis — Render auto-inject internal connection URL
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: blog-redis
+          property: connectionString
+
+      # Public config — bake luôn vào blueprint
+      - key: CORS_ORIGIN
+        value: https://banhang-chogao.github.io
+      - key: BLOG_URL
+        value: https://banhang-chogao.github.io/zola
+      - key: ADMIN_EMAILS
+        value: tamsudev.com@gmail.com
+      - key: SESSION_TTL
+        value: "7200"
+      - key: COUNTER_KEY
+        value: blog:visitors
+      - key: NEWS_CACHE_TTL
+        value: "1800"
+
+      # Sync=false → user phải điền sau khi Render assign URL + tạo OAuth App
+      # KHÔNG bake secret vào blueprint vì file này commit public repo.
+      - key: BACKEND_URL
+        sync: false
+      - key: GH_CLIENT_ID
+        sync: false
+      - key: GH_CLIENT_SECRET
+        sync: false
