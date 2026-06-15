@@ -18,7 +18,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/deploy.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=Deploy)](https://github.com/Banhang-Chogao/zola/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](#)
 
-[**🌐 Xem live**](https://banhang-chogao.github.io/zola/) · [**📝 Viết bài (CMS)**](https://banhang-chogao.github.io/zola/editor) · [**📊 Speed Insights**](https://banhang-chogao.github.io/zola/stats) · [**📰 Đọc báo**](https://banhang-chogao.github.io/zola/doc-bao)
+[**🌐 Xem live**](https://banhang-chogao.github.io/zola/) · [**📝 Viết bài (CMS)**](https://banhang-chogao.github.io/zola/editor) · [**📊 Speed Insights**](https://banhang-chogao.github.io/zola/stats)
 
 </div>
 
@@ -93,10 +93,6 @@
       <br><sub>MD render</sub>
     </td>
     <td align="center">
-      <img src="https://img.shields.io/badge/-RSS-FFA500?style=for-the-badge&logo=rss&logoColor=white" alt="RSS"/>
-      <br><sub>News aggregator</sub>
-    </td>
-    <td align="center">
       <img src="https://img.shields.io/badge/-Catppuccin-F5C2E7?style=for-the-badge&logo=catppuccin&logoColor=black" alt="Catppuccin"/>
       <br><sub>Syntax theme</sub>
     </td>
@@ -115,9 +111,6 @@ Tự đo **LCP / FCP / INP / CLS / TTFB** trên mọi page load qua thư viện 
 
 ### 📊 Google Stats Dashboard
 Trang `/google-stats/` mô phỏng giao diện Google Analytics — kết hợp **GA4 tracking** (qua `gtag.js`) + **PageSpeed Insights API v5** để show real-time Performance / Accessibility / SEO score của chính trang.
-
-### 📰 News Aggregator (RSS reader)
-Trang `/doc-bao/` fetch RSS feed của **VnExpress, Tuổi Trẻ, Báo Tin Tức, …** trực tiếp từ client qua CORS proxy (`api.allorigins.win`), parse XML rồi render thành grid card đẹp.
 
 ### 🎯 Featured & Random Posts cá nhân hoá
 Sidebar JS đọc `posts-data` JSON inline, **weighted random** dựa trên view / click count lưu `localStorage` — mỗi visitor thấy một danh sách khác nhau.
@@ -176,7 +169,6 @@ Comment system dùng **GitHub Discussions** làm backend — không spam, không
             │  │    · web-vitals   (Core Web Vitals)        │  │
             │  │    · GA4 gtag     (analytics)              │  │
             │  │    · PageSpeed v5 (perf score)             │  │
-            │  │    · RSS proxy    (news feed)              │  │
             │  │    · Giscus       (comments)               │  │
             │  └────────────────────────────────────────────┘  │
             └──────────────────────────────────────────────────┘
@@ -193,7 +185,6 @@ zola/
 ├── 📁 content/                      # Markdown bài viết
 │   ├── _index.md
 │   ├── pages/                       # About + static pages
-│   ├── doc-bao/                     # RSS reader landing
 │   ├── editor/                      # CMS landing
 │   ├── stats/                       # Speed Insights landing
 │   └── google-stats/                # GA4 dashboard landing
@@ -201,23 +192,21 @@ zola/
 │   ├── base.html                    # Shell layout (header + nav + sidebar)
 │   ├── index.html / section.html / page.html
 │   ├── editor.html                  # 📝 Mini CMS UI
-│   ├── doc-bao.html                 # 📰 News reader UI
 │   ├── google-stats.html            # 📊 Analytics dashboard
-│   ├── stats.html                   # ⚡ Web Vitals dashboard
-│   └── macros/                      # Reusable Tera macros
-├── 📁 sass/                         # 13 SCSS modules
+│   └── stats.html                   # ⚡ Web Vitals dashboard
+├── 📁 sass/                         # SCSS modules
 │   ├── site.scss                    # Entry point
 │   ├── _reset.scss / _layout.scss / _navbar.scss / _sidebar.scss
-│   ├── _banner.scss / _post.scss / _single.scss / _news.scss
+│   ├── _banner.scss / _post.scss / _single.scss
 │   ├── _editor.scss / _stats.scss / _google-stats.scss
 │   ├── _footer.scss / _fonts.scss
 ├── 📁 static/
 │   ├── 🔤 fonts/                    # Ericsson Hilda (5 weights)
-│   └── 📜 js/                       # 9 Vanilla JS modules
+│   └── 📜 js/                       # Vanilla JS modules
 │       ├── header-rotator.js        # GitHub live status banner
 │       ├── sidebar.js               # Featured / random posts
 │       ├── editor.js                # Mini CMS logic (PAT auth + PUT)
-│       ├── news.js                  # RSS fetcher + parser
+│       ├── auth.js                  # OTP gate cho /editor/
 │       ├── speed-vitals.js          # Core Web Vitals tracker
 │       ├── stats-page.js            # Vitals dashboard renderer
 │       ├── google-stats.js          # GA4 dashboard
@@ -313,7 +302,7 @@ menu = [
 1. **Zero runtime dependencies** — không bundler, không `npm install`, không `node_modules/`. Mỗi JS file là IIFE chạy thẳng.
 2. **Static-first** — toàn bộ HTML pre-render tại build time. JS chỉ enhance, không gate content.
 3. **Progressive enhancement** — tắt JS vẫn đọc được bài, vẫn navigate được. JS chỉ thêm bell & whistle.
-4. **Client-side everything** — analytics, comments, CMS, news… đều fetch từ trình duyệt visitor → server cost = $0.
+4. **Client-side everything** — analytics, CMS… đều fetch từ trình duyệt visitor → server cost = $0.
 5. **Vietnamese-first** — UI, content, copy đều bằng tiếng Việt.
 
 ---
