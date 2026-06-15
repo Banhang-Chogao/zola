@@ -1,5 +1,5 @@
 .post-single {
-  background: $brand-snow;
+  background: var(--c-bg-surface);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 
   &__hero {
@@ -28,7 +28,7 @@
     padding: 0 2.5rem 2rem;
     font-size: 1rem;
     line-height: 1.7;
-    color: $brand-ink-800;
+    color: var(--c-text-body);
 
     h2 { margin: 2rem 0 1rem; font-size: 1.5rem; }
     h3 { margin: 1.5rem 0 0.75rem; font-size: 1.25rem; }
@@ -38,21 +38,21 @@
     li { margin-bottom: 0.35rem; }
 
     a {
-      color: $brand-trust-cyan;
-      border-bottom: 1px solid rgba(8, 145, 178, 0.3);
-      &:hover { color: $brand-signal-red; border-bottom-color: $brand-signal-red; }
+      color: var(--c-accent);
+      border-bottom: 1px solid var(--c-accent-soft);
+      &:hover { color: var(--c-accent-hover); border-bottom-color: var(--c-accent-hover); }
     }
 
     blockquote {
-      border-left: 4px solid $brand-signal-red;
+      border-left: 4px solid var(--c-accent);
       padding: 0.5rem 0 0.5rem 1rem;
       margin: 1.5rem 0;
-      color: $brand-ink-500;
+      color: var(--c-text-muted);
       font-style: italic;
     }
 
     p code, li code {
-      background: $brand-fog;
+      background: var(--c-bg-soft);
       padding: 0.15rem 0.4rem;
       border-radius: 3px;
       font-family: $font-mono;
@@ -561,4 +561,3 @@
     padding: 0.55rem 0.95rem;
   }
 }
-
