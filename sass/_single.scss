@@ -462,9 +462,20 @@
 
 .giscus-wrapper {
   /* Giscus tự render iframe responsive — cho padding nhẹ + min-height
-     placeholder để layout không nhảy khi script load lazy */
+     placeholder để layout không nhảy khi script load lazy.
+     width: 100% bắt buộc — Giscus inject <div class="giscus"> + iframe
+     mà default có thể không stretch nếu parent display block bị nén. */
+  width: 100%;
   min-height: 200px;
   padding: 0 0.25rem;
+
+  .giscus,
+  .giscus-frame,
+  iframe.giscus-frame {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
