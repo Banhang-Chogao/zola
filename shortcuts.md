@@ -39,6 +39,7 @@ Format bắt buộc:
 | `cautruc9` | Show ASCII folder tree của blog |
 | `SEO9` | Tu bổ SEO site-wide đạt Lighthouse 100/100 (Google Search Central) |
 | `SEO10` | Loop audit + fix từng lỗi đến khi 0 issue (Google SEO Starter Guide) |
+| `SEO11` | Hybrid SEO9+SEO10: phase 1 bulk Lighthouse + phase 2 loop polish |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
@@ -514,6 +515,90 @@ while iter ≤ MAX_ITER (default 20):
 - `SEO9`: 1 lần audit → 1 PR fix safe → done, không re-verify
 - `SEO10`: loop tới sạch 100% → mỗi fix là 1 commit để rollback dễ →
   cuối cùng PR có audit trail per-issue, code review dễ hơn
+
+### `SEO11` — Hybrid 2-phase: bulk fix + loop polish
+
+Tổng hợp hài hoà ưu điểm của `SEO9` (bulk + Lighthouse-aligned, nhanh)
+và `SEO10` (loop + Starter Guide dynamic, sạch tới 100%). Mục tiêu:
+**1 PR duy nhất** chứa 2 phase rõ ràng, code review nhẹ + Lighthouse
+SEO = 100/100.
+
+**Workflow 2 phase**:
+
+```
+PHASE 1 — Bulk safe-fix (SEO9 mode)
+  1. Audit 12 hạng mục Lighthouse cố định (xem SEO9 table)
+  2. Apply auto-fix safe trong 1 commit gộp
+     - description / canonical / lang / OG macro / JSON-LD /
+       robots.txt sitemap / viewport
+  3. zola build PASS → commit "SEO11 phase 1: bulk Lighthouse fixes"
+
+PHASE 2 — Iterative polish (SEO10 mode)
+  4. Fetch Google SEO Starter Guide URL chính thức
+     https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+  5. Re-audit dynamic checklist từ guide hiện tại
+  6. Loop iter 1..MAX_ITER (default 15, thấp hơn SEO10 vì phase 1 đã quét bulk):
+     a. Pick TOP 1 issue priority cao nhất còn lại
+     b. Apply fix 1 issue → 1 commit nhỏ
+        "SEO11 phase 2 iter N: <issue label>"
+     c. zola build PASS verify
+     d. iter++
+  7. Nếu MAX_ITER hết mà còn issue → escalate user với punch list
+
+PHASE 3 — Verification (chung)
+  8. Trigger fetch_pagespeed.py cho 5 URL chính
+  9. Verify SEO mobile + desktop ≥ 95
+  10. Ping sitemap Google Search (nếu deploy thành công)
+  11. Tạo 1 PR gộp tất cả commit phase 1 + 2
+  12. Output summary report (xem bên dưới)
+```
+
+**Hard rules**:
+
+- Phase 1 PHẢI thành công (≥10/12 hạng mục pass) MỚI sang phase 2.
+  Nếu phase 1 fail >2 hạng mục → escalate user, không sang phase 2.
+- Phase 2 mỗi iter = 1 commit (audit trail). KHÔNG batch.
+- Phase 2 mỗi iter PHẢI `zola build` PASS trước khi commit.
+- KHÔNG đoán content cho `<img alt>` → escalate user manual.
+- KHÔNG auto-merge (rule 16:00). Tạo PR + nhắc `manual #<số>`.
+
+**Output report cuối cùng**:
+
+```
+## SEO11 Hybrid Audit Report
+
+### Phase 1 — Bulk fix (1 commit)
+| # | Hạng mục Lighthouse | Before | After |
+|---|---|---|---|
+| 1 | Title length | 8 violation | 8 fixed |
+| 2 | Meta description | 12 missing | 12 added |
+| ... | ... | ... | ... |
+Phase 1 result: 11/12 ✓ → sang phase 2
+
+### Phase 2 — Iterative polish (N commits)
+| Iter | Issue | File | Action | Status |
+|---|---|---|---|---|
+| 1 | OG image dimensions | base.html | Add 1200×630 ref | ✅ |
+| 2 | Canonical absolute URL | base.html | Strip trailing / | ✅ |
+| ... | ... | ... | ... | ... |
+Phase 2 result: N iter, 0 issue remain
+
+### Phase 3 — Verification
+- PageSpeed Mobile SEO: 100/100 ✓
+- PageSpeed Desktop SEO: 100/100 ✓
+- Sitemap ping Google: triggered ✓
+- Escalated to user: 3 img cần alt manual
+
+### PR
+#<số> — chờ `manual #<số>` merge
+```
+
+**Use case khác cả 2**:
+- `SEO9`: quick win 1 shot. Tốt khi tin checklist Lighthouse đã đủ.
+- `SEO10`: deep cleanup, tốn iter. Tốt khi nghi ngờ checklist cũ
+  thiếu items mà Google mới update.
+- `SEO11`: best-of-both. Phase 1 quick-win Lighthouse, phase 2 catch
+  edge case Starter Guide mới. PR cuối có 2 section review riêng.
 
 ### `run list` — Hiển thị bảng workflow runs
 
