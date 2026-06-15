@@ -47,6 +47,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      # Buffer 30s: workflow_run event trigger NGAY khi failed event fire,
+      # nhưng GitHub API thường chậm 10-30s mới expose logs đầy đủ.
+      # Đợi đây thay vì để script poll giúp giảm số lần retry trong script.
+      - name: Buffer GitHub API log lag
+        run: sleep 30
+
       - name: Run qa-failed.py
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
