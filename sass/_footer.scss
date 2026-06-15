@@ -533,3 +533,31 @@
 @media (max-width: 480px) {
   .ga-stats__grid { grid-template-columns: 1fr; }
 }
+
+/* DEMO mode khi chưa setup secret — amber/orange palette phân biệt với live (green) */
+.ga-stats--demo {
+  background: linear-gradient(135deg, #1f1106 0%, #0d0703 100%);
+  border-color: rgba(245, 158, 11, 0.25);
+
+  .ga-stats__num {
+    color: #fbbf24;
+    text-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+    opacity: 0.85;
+  }
+}
+
+.ga-stats__demo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  font-family: $font-ui;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-left: 0.5rem;
+}
