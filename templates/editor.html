@@ -3,11 +3,10 @@
 {% block title %}Trình soạn bài | {{ config.title }}{% endblock %}
 
 {% block extra_head %}
-    {# SRI integrity check: nếu jsdelivr CDN bị compromise hoặc serve content
-       khác, browser sẽ từ chối load — không bao giờ exec arbitrary JS. #}
-    <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"
-            integrity="sha384-YEteyAKbjYSLDrpbBY0aFgK1CrQHo0Erb5XT/MU5FYvkb3SmPSZSisW7LOYTKvTx"
-            crossorigin="anonymous" defer></script>
+    {# Marked CDN unversioned (latest stable). Bỏ SRI vì hash thay đổi theo
+       version mới — defer giữ load order: marked load xong rồi mới tới
+       editor.js (cả 2 đều defer → execute theo DOM order, browser spec). #}
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
 {% endblock %}
 
 {% block main %}
