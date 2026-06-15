@@ -22,6 +22,18 @@ extra_syntaxes_and_themes = ["highlight_themes"]
 author = "duynguyenlog"
 tagline = "Duy Nguyen"
 
+# Author box hiển thị cuối mỗi bài viết.
+# Bio, avatar, social media — sửa ở đây ảnh hưởng mọi bài.
+author_avatar = "https://avatars.githubusercontent.com/Banhang-Chogao"
+author_url    = "https://banhang-chogao.github.io/zola"
+author_bio    = "Mình là Duy Nguyen, blogger viết về công nghệ, du lịch và trải nghiệm cuộc sống. Hân hạnh làm quen với mọi người."
+
+[extra.author_social]
+facebook  = ""
+instagram = ""
+youtube   = ""
+github    = "https://github.com/Banhang-Chogao"
+
 menu = [
     {url = "$BASE_URL", name = "TRANG CHÍNH"},
     {url = "$BASE_URL/categories/posting", name = "POSTING"},
