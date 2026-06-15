@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Performance audit — qa_check perf check + workflow tự tạo PR review",
+      "tag": "chore",
+      "pr": 59,
+      "lines_added": 264,
+      "lines_removed": 7,
+      "highlights": [
+        "python3 qa_check.py --perf — báo cáo warnings",
+        "python3 qa_check.py --perf --fix perf — apply auto-fix img tags",
+        "Cron Chủ nhật 02:00 UTC (= 09:00 VN), 1 lần/tuần",
+        "workflow_dispatch để chạy thủ công ngay",
+        "Quy trình:"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "SCSS syntax check + Zola build smoke test + bỏ menu Báo chí/Điện ảnh",
       "tag": "chore",
       "pr": 58,
