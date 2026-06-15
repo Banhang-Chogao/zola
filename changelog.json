@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Staging Queue widget + Timezone GMT+7 (dd/mm/yyyy)",
+      "tag": "chore",
+      "pr": 145,
+      "lines_added": 453,
+      "lines_removed": 12,
+      "highlights": [
+        "20f26ef Chuẩn hoá hiển thị thời gian toàn blog → GMT+7 (Asia/Ho_Chi_Minh) + format dd/mm/yyyy. Thêm rule vào CLAUDE.md.",
+        "80c927e Thêm widget \"Đang xếp hàng deploy\" lên trang Changelog — fetch open PRs từ GitHub API + cache sessionStorage 60s."
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Gỡ phần còn lại của AI pipeline (analyze_topics, build_internal_links, qa_style + data)",
       "tag": "chore",
       "pr": 144,
