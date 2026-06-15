@@ -43,7 +43,10 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
+       Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
+       Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
     {# Content-Security-Policy — meta tag vì GitHub Pages không cho custom HTTP
        headers. Layer defense chống XSS: nếu attacker inject script qua content
