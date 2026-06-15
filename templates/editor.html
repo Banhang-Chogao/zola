@@ -137,7 +137,11 @@
                     </label>
                     <label class="editor-field" data-category-new-wrap hidden>
                         <span>Tên category mới</span>
-                        <input type="text" name="category_new" placeholder="VD: Du lịch, Home, Ẩm thực" class="editor-input" data-category-new>
+                        <div class="editor-category-new-row">
+                            <input type="text" name="category_new" placeholder="VD: Du lịch, Ẩm thực, Công nghệ" class="editor-input" data-category-new>
+                            <button type="button" class="editor-btn editor-btn--primary editor-btn--small" data-action="save-category" title="Lưu vào categories.json + refresh dropdown">💾 Lưu</button>
+                        </div>
+                        <span class="editor-category-new-hint" data-category-save-msg></span>
                     </label>
 
                     <label class="editor-field editor-field--full">
