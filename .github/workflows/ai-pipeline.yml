@@ -1,0 +1,107 @@
+name: AI Content Pipeline
+
+# Trigger thủ công qua "Run workflow" trong GitHub Actions tab.
+# 3 bước:
+#   1. analyze_topics → data/topic_map.json (k-means + Mermaid mindmap)
+#   2. build_internal_links → data/link_suggestions.json (paragraph-level)
+#   3. batch_frontmatter --apply → regen description/tags cho bài weak metadata
+#
+# qa_style.py không nằm trong batch này — nó dành cho check từng draft mới
+# trước khi commit, không phải để chạy 1-shot trên pool hiện có.
+#
+# Tất cả thay đổi auto-commit về main trong 1 commit duy nhất, dễ revert
+# nếu output không ưng (`git revert <sha>`).
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply_frontmatter:
+        description: 'Apply batch_frontmatter changes? (false = dry-run preview only)'
+        required: true
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: ai-pipeline
+  cancel-in-progress: false  # không huỷ giữa chừng — có thể đã sửa file
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: scripts/requirements-content-gen.txt
+
+      - name: Cache HuggingFace model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-paraphrase-multilingual-MiniLM-L12-v2
+
+      - name: Install dependencies
+        run: pip install --quiet -r scripts/requirements-content-gen.txt
+
+      - name: Step 1 — Topic map analysis
+        run: |
+          mkdir -p data
+          python scripts/analyze_topics.py
+
+      - name: Step 2 — Internal link suggestions
+        run: python scripts/build_internal_links.py
+
+      - name: Step 3a — Batch frontmatter (APPLY)
+        if: github.event.inputs.apply_frontmatter == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/batch_frontmatter.py --apply --yes
+
+      - name: Step 3b — Batch frontmatter (DRY-RUN preview)
+        if: github.event.inputs.apply_frontmatter == 'false'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/batch_frontmatter.py
+
+      - name: Commit & push (race-safe retry)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Stage tất cả thay đổi có thể: data files + content/posting nếu apply
+          git add data/topic_map.json data/link_suggestions.json content/posting/
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          MSG="AI pipeline: topic map + link suggestions"
+          if [ "${{ github.event.inputs.apply_frontmatter }}" = "true" ]; then
+            MSG="$MSG + frontmatter regen"
+          fi
+          git commit -m "$MSG ($(date +%Y-%m-%d))"
+
+          # Race-safe push pattern (copy từ build-related.yml)
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Push thành công attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected attempt $attempt, fetch+rebase main..."
+            git fetch origin main
+            git rebase origin/main || { echo "Rebase conflict, abort"; git rebase --abort; exit 1; }
+            sleep $((attempt * 5))
+          done
+          echo "Push failed sau 3 retry"
+          exit 1
