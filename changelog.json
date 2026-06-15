@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "GA pill ở footer thành link → mở dashboard GA intelligenthome",
+      "tag": "chore",
+      "pr": 100,
+      "lines_added": 76,
+      "lines_removed": 358,
+      "highlights": [
+        "<span class=\"ga-status ga-status--active\" title=\"...\">",
+        "</span>",
+        "Click pill → tab mới với GA dashboard intelligenthome view",
+        "rel=\"noopener\" bảo mật cho target=\"_blank\"",
+        "Chỉ user có quyền GA Property 541698865 xem được số liệu"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Gỡ triệt để visitor counter + GoatCounter (giữ CMS backend)",
       "tag": "chore",
       "pr": 99,
