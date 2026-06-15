@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "Expand GA stats with 5 advanced metrics + top country/device chips",
+      "tag": "chore",
+      "pr": 139,
+      "lines_added": 233,
+      "lines_removed": 8,
+      "highlights": [
+        "Added fetch_extended_30d() to retrieve 5 GA4 advanced metrics for 30-day period",
+        "Added fetch_top_dimension() to fetch top-1 country and device category (7-day window)",
+        "Added format_duration() helper to convert seconds to human-readable format (e.g., \"1m 23s\")",
+        "Extended JSON output with 7 new fields: month_sessions, month_new_users, month_bounce_rate_pct, month_avg_session_duration_str, month_engagement_rate_pct, top_country, top_device",
+        "Added error handling for dimension fetches with fallback to \"—\""
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Tuần 3: style consistency QA gate",
       "tag": "chore",
       "pr": 138,
