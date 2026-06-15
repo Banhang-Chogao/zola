@@ -206,5 +206,7 @@ xuân + thu, **đi hè rẻ + Jeju biển** cho compelte 4 mùa.
 Hàn Quốc không quá xa, không quá đắt, không quá lạ — và mỗi mùa
 mang một câu chuyện khác. Đi nhiều lần được, không cần ép 1 lần.
 
-Đọc thêm về [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/)
+Đọc thêm các bài liên quan: [Tháng 6 đi Hàn ăn gì và làm gì?](/posting/thang-6-di-han-an-gi-lam-gi/)
+nếu bạn dự định đi sớm, [Tết Đoan Ngọ 3 nước Đông Á khác nhau thế nào?](/posting/tet-doan-ngo-han-viet-trung/)
+để hiểu văn hóa Hàn so với Việt-Trung, hoặc [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/)
 nếu bạn quan tâm cách mình ghi lại trải nghiệm du lịch qua web tĩnh.

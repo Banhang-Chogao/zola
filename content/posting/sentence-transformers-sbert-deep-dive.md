@@ -323,7 +323,8 @@ trả phí inference per request.
 
 Để xem implementation cụ thể của pipeline này, đọc thêm bài
 [Hành trình công nghệ ngày đầu](/posting/cong-nghe-blog-duy-nguyen/)
-để hiểu architecture overall.
+hoặc [Syntax highlighting trong Zola: từ cơ bản đến custom theme](/posting/syntax-highlighting-zola-day-du/)
+nếu bạn quan tâm Zola SSG nói chung.
 
 Repo gốc: [github.com/UKPLab/sentence-transformers](https://github.com/UKPLab/sentence-transformers).
 Documentation: [sbert.net](https://www.sbert.net). Paper gốc:
