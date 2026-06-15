@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-15",
+      "title": "thêm link Z-X vào navbar menu (user không thấy được)",
+      "tag": "fix",
+      "pr": 127,
+      "lines_added": 1,
+      "lines_removed": 0,
+      "highlights": [
+        "BrandingX → quên (PR #122)",
+        "Báo cáo tổng kết → quên (PR #122)",
+        "Z-X → quên (PR #125) ← lần này",
+        "✅ Route /zx/ LIVE từ PR #125",
+        "✅ Template templates/zx.html đầy đủ (Manifesto + Color + Typography"
+      ]
+    },
+    {
+      "date": "2026-06-15",
       "title": "Thêm phím tắt morning — macro chuỗi shortcut non-conflict",
       "tag": "chore",
       "pr": 126,
