@@ -486,15 +486,52 @@
 
 /* ============= MOBILE OPTIMIZATIONS (author box + giscus) ============= */
 @media (max-width: 720px) {
+  /* Author box mobile: stack vertical, avatar to + canh trái,
+     name/URL/bio đều canh trái, bio text-align: justify.
+     KHÔNG canh giữa như default desktop. */
   .author-box {
-    /* Aspect-ratio reserve để không CLS khi avatar lazy load */
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 1rem;
+    padding: 1.5rem 1.25rem;
+
+    /* Avatar to hơn trên mobile (giống image mẫu), canh trái */
     &__avatar {
+      width: 140px;
+      height: 140px;
       aspect-ratio: 1;
+      align-self: flex-start;
       img { aspect-ratio: 1; }
     }
-    &__name { font-size: 1rem; }
-    &__url { font-size: 0.78rem; }
-    &__bio { font-size: 0.88rem; line-height: 1.6; }
+
+    &__body {
+      width: 100%;
+      text-align: left;
+    }
+
+    &__name {
+      font-size: 1.25rem;
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    &__url {
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    &__bio {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      text-align: justify;
+      hyphens: auto;
+      -webkit-hyphens: auto;
+    }
+
+    &__social {
+      justify-content: flex-start;
+    }
   }
 
   /* Giscus iframe mobile-friendly */
