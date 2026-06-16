@@ -1,6 +1,10 @@
 .site-footer {
-  background: var(--c-text-heading);
-  color: var(--c-text-muted);
+  /* Footer là dải TỐI cố định (dark-footer pattern). KHÔNG dùng token
+     var(--c-text-heading) vì token này đảo màu ở dark-mode (#000 -> #fff)
+     → nền footer thành trắng, chữ trắng biến mất. Màu cố định cho ổn định
+     cả light & dark. (QA band con vẫn nền trắng #fff cố định riêng.) */
+  background: #0a0a0a;
+  color: #9aa4b2;
   /* Home Indicator clearance: cộng safe-area-inset-bottom vào padding
      bottom → trên iPhone (X+) nội dung không dính sát Home Indicator. */
   padding: 0 0 calc(1.75rem + env(safe-area-inset-bottom));

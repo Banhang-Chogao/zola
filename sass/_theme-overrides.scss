@@ -252,20 +252,23 @@
 
   .site-tagline { color: var(--c-text-muted); }
 
-  /* ===== 10. FOOTER TAGS + QA DASHBOARD ===== */
+  /* ===== 10. FOOTER TAGS + QA DASHBOARD =====
+     Footer có nền CỐ ĐỊNH (dải tag tối + QA band trắng #fff) → KHÔNG dùng
+     token đảo theo dark-mode, set màu cố định khớp từng nền để chữ luôn đọc
+     rõ ở cả 2 mode (fix bug white-on-white / black-on-black). */
   .footer-tags-section__title {
-    color: var(--c-text-heading);
+    color: #f0f3f8;                /* sáng trên dải tag tối */
     letter-spacing: $heading-ls;
   }
 
-  .footer-tags-section__count { color: var(--c-text-muted); }
+  .footer-tags-section__count { color: #9aa4b2; }
 
   .footer-qa__title {
-    color: var(--c-text-heading);
+    color: #111;                   /* tối trên QA band trắng */
     letter-spacing: $heading-ls;
   }
 
-  .footer-qa__sub { color: var(--c-text-muted); }
+  .footer-qa__sub { color: #888; }
 
   /* ===== 11. PAGINATION ===== */
   .pagination__btn {

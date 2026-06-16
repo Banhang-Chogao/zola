@@ -11,7 +11,7 @@
   transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &__inner {
-    max-width: 1280px;
+    max-width: 1500px;   /* khớp .container (1500) để navbar thẳng hàng nội dung */
     margin: 0 auto;
     padding-left: max(24px, env(safe-area-inset-left));
     padding-right: max(24px, env(safe-area-inset-right));

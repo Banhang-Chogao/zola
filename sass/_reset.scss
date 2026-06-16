@@ -50,7 +50,10 @@ ul, ol { padding: 0; margin: 0; list-style: none; }
    Browser cũ KHÔNG support env() → fallback 0 tự động (safe). */
 
 .container {
-  max-width: 1280px;
+  /* Nới rộng vùng nội dung desktop (1280 -> 1500) theo yêu cầu — main blog
+     + sidebar rộng hơn, bớt khoảng trắng 2 bên. Trang riêng vẫn override
+     được (insights 1800, du-lich 1100 qua :has()). Mobile dùng full-width. */
+  max-width: 1500px;
   margin: 0 auto;
   /* max() đảm bảo padding ngang TỐI THIỂU 24px DÙ env() = 0,
      đồng thời cộng safe-area cho landscape iPhone (notch bên trái/phải). */

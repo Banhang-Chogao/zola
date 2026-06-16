@@ -179,7 +179,9 @@
 
 .layout-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
+  /* Sidebar phải rộng hơn (340 -> 400); main-column (1fr) tự giãn theo
+     .container 1500 → cả 2 cột rộng hơn. Mobile (≤960) vẫn stack 1 cột. */
+  grid-template-columns: minmax(0, 1fr) 400px;
   gap: 30px;
   margin-top: 1.75rem;
   margin-bottom: 3rem;
