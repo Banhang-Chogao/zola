@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
+{% import "macros/img.html" as img %}
 
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
@@ -11,23 +12,21 @@
     <div class="post-list">
         {% for page in paginator.pages %}
             <article class="post-card">
-                {% if page.extra.thumbnail %}
-                    <a class="post-card__image" href="{{ page.permalink }}">
-                        {% if page.taxonomies.categories %}
-                            <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
-                        {% endif %}
-                        {# LCP: bài đầu tiên load eager + high priority, rest lazy. #}
-                        {% if loop.first %}
-                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
-                                 width="800" height="600"
-                                 loading="eager" fetchpriority="high" decoding="async">
-                        {% else %}
-                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
-                                 width="800" height="600"
-                                 loading="lazy" decoding="async">
-                        {% endif %}
-                    </a>
-                {% endif %}
+                <a class="post-card__image" href="{{ page.permalink }}">
+                    {% if page.taxonomies.categories %}
+                        <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
+                    {% endif %}
+                    {# LCP: bài đầu tiên load eager + high priority, rest lazy. #}
+                    {% if loop.first %}
+                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                             width="800" height="600"
+                             loading="eager" fetchpriority="high" decoding="async">
+                    {% else %}
+                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                             width="800" height="600"
+                             loading="lazy" decoding="async">
+                    {% endif %}
+                </a>
                 <div class="post-card__body">
                     <h3 class="post-card__title">
                         <a href="{{ page.permalink }}">{{ page.title }}</a>

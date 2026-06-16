@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Bảo hiểm", "Báo chí"]
 tags = ["bhyt", "bảo hiểm y tế", "hộ gia đình", "lương cơ sở", "chính sách", "tài chính cá nhân"]
 [extra]
-thumbnail = "https://picsum.photos/seed/muc-dong-bhyt-ho-gia-dinh-2026/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 [[extra.faq]]
 q = "Mức đóng BHYT hộ gia đình từ 01/7/2026 là bao nhiêu?"

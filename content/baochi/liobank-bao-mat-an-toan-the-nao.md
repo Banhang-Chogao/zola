@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "bảo mật", "an toàn giao dịch", "series liobank"]
 [extra]
-thumbnail = "https://picsum.photos/seed/liobank-bao-mat-an-toan/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "Liobank bảo mật"
 featured = false
 

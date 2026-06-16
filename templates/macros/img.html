@@ -27,3 +27,19 @@
        {% if height %}height="{{ height }}"{% endif %}>
 </picture>
 {%- endmacro picture_webp %}
+
+{# ============================================================================
+   Macro thumb_src — trả về URL ảnh thumbnail, FALLBACK placeholder thương hiệu.
+
+   Bài/section nào KHÔNG khai báo `[extra] thumbnail` (hoặc để rỗng) sẽ tự dùng
+   ảnh placeholder cố định (/img/placeholder/placeholder.svg) — gradient xanh
+   thương hiệu, KHÔNG chữ. Tránh thẻ <img> vỡ và tránh ảnh random không liên
+   quan. Alt text do template gọi tự truyền (lấy từ tiêu đề/nội dung bài).
+
+   Dùng:
+     <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}"
+          alt="{{ page.title }}">
+   ============================================================================ #}
+{% macro thumb_src(thumb="") -%}
+{%- if thumb -%}{{ thumb }}{%- else -%}{{ get_url(path="img/placeholder/placeholder.svg") }}{%- endif -%}
+{%- endmacro thumb_src %}

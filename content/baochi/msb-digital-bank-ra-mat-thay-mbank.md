@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "tài chính", "msb", "msb-digital-bank", "ngân hàng số"]
 [extra]
-thumbnail = "https://picsum.photos/seed/msb-digital-bank/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "MSB Digital Bank"
 featured = false
 
