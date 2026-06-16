@@ -1,6 +1,6 @@
 .site-header {
   padding: 1.75rem 0 1.5rem;
-  background: $brand-mist;
+  background: var(--c-bg-page);
 
   &__inner {
     display: grid;
@@ -24,7 +24,7 @@
   gap: 0.2rem;
   text-decoration: none;
 
-  &:hover .site-title { color: $brand-signal-red; }
+  &:hover .site-title { color: var(--c-accent); }
 }
 
 /* Wrap title + verified badge inline */
@@ -38,7 +38,7 @@
   font-family: $font-heading;
   font-size: 2.1rem;
   font-weight: 800;
-  color: $brand-ink-900;
+  color: var(--c-text-heading);
   letter-spacing: -0.02em;
   line-height: 1;
   transition: color .15s ease;
@@ -74,7 +74,7 @@
 }
 
 .site-tagline {
-  color: $brand-ink-500;
+  color: var(--c-text-muted);
   font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
@@ -83,7 +83,7 @@
 
   /* Label 'Phiên bản blog:' — bold đậm, KHÔNG có chip background */
   &__label {
-    color: $brand-ink-800;
+    color: var(--c-text-body);
     font-weight: 800;
     background: none;
     padding: 0;
@@ -95,7 +95,7 @@
   /* Chip styling chỉ áp dụng cho version chips (num + id) */
   .version-num,
   .version-id {
-    color: $brand-ink-900;
+    color: var(--c-text-heading);
     font-weight: 800;
     font-family: $font-mono;
     background: #f1f1f1;
@@ -184,13 +184,13 @@
 }
 
 .section-header__title {
-  background: $brand-snow;
+  background: var(--c-bg-surface);
   border-top: 4px solid #1a8f44;
   padding: 0.85rem 1.5rem 0.75rem;
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.12em;
-  color: $brand-ink-900;
+  color: var(--c-text-heading);
   display: inline-block;
   position: relative;
 
@@ -202,7 +202,7 @@
     border-top: 4px solid #1a8f44;
     border-left: 0 solid transparent;
     border-right: 20px solid transparent;
-    border-bottom: 49px solid $brand-snow;
+    border-bottom: 49px solid var(--c-bg-surface);
     width: 0;
     height: 0;
     pointer-events: none;
@@ -210,7 +210,7 @@
 }
 
 .section-subtitle {
-  color: $brand-ink-500;
+  color: var(--c-text-muted);
   margin: -0.5rem 0 1.5rem;
   font-size: 0.95rem;
 }
@@ -224,8 +224,8 @@
   padding: 1.5rem 0;
 
   &__btn {
-    background: $brand-ink-900;
-    color: $brand-snow;
+    background: var(--c-text-heading);
+    color: var(--c-bg-surface);
     padding: 0.7rem 1.2rem;
     font-size: 0.75rem;
     font-weight: 700;
@@ -233,13 +233,13 @@
     text-transform: uppercase;
 
     &:hover {
-      background: $brand-signal-red;
-      color: $brand-snow;
+      background: var(--c-accent);
+      color: var(--c-bg-surface);
     }
   }
 
   &__info {
-    color: $brand-ink-500;
+    color: var(--c-text-muted);
     font-size: 0.85rem;
     flex: 1;
     text-align: center;
