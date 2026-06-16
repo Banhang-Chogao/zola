@@ -8,7 +8,7 @@ aliases = ["/toi-nay-sai-gon-an-gi/"]
 categories = ["Ẩm thực"]
 tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối", "ẩm thực"]
 [extra]
-thumbnail = "https://picsum.photos/seed/toi-nay-sai-gon-an-gi/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"
 featured = false
 [[extra.faq]]
 q = "Tối nay ở Sài Gòn nên ăn gì?"

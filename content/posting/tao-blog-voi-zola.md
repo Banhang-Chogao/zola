@@ -7,7 +7,7 @@ date = 2026-06-16
 categories = ["Công nghệ"]
 tags = ["zola", "static site generator", "github pages", "github actions", "blog", "rust", "markdown", "tutorial"]
 [extra]
-thumbnail = "https://picsum.photos/seed/tao-blog-voi-zola/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 featured = true
 
 [[extra.faq]]

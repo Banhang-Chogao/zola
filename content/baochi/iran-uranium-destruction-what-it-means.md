@@ -5,7 +5,7 @@ date = 2026-06-16
 categories = ["Thế giới"]
 tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế"]
 [extra]
-thumbnail = "https://picsum.photos/seed/iran-uranium-deal/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
 featured = false
 +++
 

@@ -8,7 +8,7 @@ aliases = ["/mua-nao-di-han-la-dep-nhat/"]
 categories = ["Du lịch"]
 tags = ["anh đào", "busan", "du lịch", "hàn quốc", "jeju", "korea", "lá vàng", "mùa", "seoul", "tuyết"]
 [extra]
-thumbnail = "https://picsum.photos/seed/mua-nao-di-han/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/mua-nao-di-han-la-dep-nhat.svg"
 featured = false
 [[extra.faq]]
 q = "Đi Hàn Quốc mùa nào đẹp nhất?"

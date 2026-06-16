@@ -8,7 +8,7 @@ aliases = ["/tet-doan-ngo-han-viet-trung/"]
 categories = ["Du lịch"]
 tags = ["hàn quốc", "lễ hội", "phong tục", "trung quốc", "tết", "việt nam", "văn hóa", "đoan ngọ"]
 [extra]
-thumbnail = "https://picsum.photos/seed/tet-doan-ngo-3-nuoc/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tet-doan-ngo-han-viet-trung.svg"
 featured = false
 [[extra.faq]]
 q = "Tết Đoan Ngọ là ngày nào?"

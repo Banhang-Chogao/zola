@@ -5,7 +5,7 @@ date = 2026-06-16
 categories = ["Thế giới"]
 tags = ["kinh-tế", "địa-chính-trị", "năng-lượng", "dầu-mỏ", "thị-trường-tài-chính"]
 [extra]
-thumbnail = "https://picsum.photos/seed/my-iran-peace-deal/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/my-iran-peace-deal-global-energy.svg"
 featured = false
 +++
 

@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Ngân hàng"]
 tags = ["ngân hàng", "tài chính", "private-banking", "bidv", "đầu tư"]
 [extra]
-thumbnail = "https://picsum.photos/seed/bidv-flagship-private-banking-tphcm/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/bidv-flagship-private-banking-tphcm.svg"
 featured = false
 [[extra.faq]]
 q = "Private Banking là gì?"

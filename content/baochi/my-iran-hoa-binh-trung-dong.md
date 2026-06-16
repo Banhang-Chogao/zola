@@ -5,7 +5,7 @@ date = 2026-06-16
 categories = ["Thế giới"]
 tags = ["quốc tế", "an-ninh", "mỹ-iran", "trung-đông"]
 [extra]
-thumbnail = "https://picsum.photos/seed/my-iran-hoa-binh-trung-dong/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/my-iran-hoa-binh-trung-dong.svg"
 featured = false
 +++
 
