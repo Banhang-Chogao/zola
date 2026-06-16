@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "docs(claude): thư viện VACCINE + fixer từ audit toàn bộ lịch sử CI failed",
+      "tag": "chore",
+      "pr": 256,
+      "lines_added": 53,
+      "lines_removed": 0,
+      "highlights": [
+        "CLAUDE.md: thêm mục \"### 4. THƯ VIỆN VACCINE\" trong rule Deploy (hiệu lực cao nhất), gồm:",
+        "Giao thức auto-fix: khớp Dấu hiệu → chạy FIXER ngay (không chẩn đoán lại); không khớp → ff/ff9 rồi append vaccine mới.",
+        "3 vaccine V1–V3, mỗi cái có Dấu hiệu / Nguyên nhân / FIXER cụ thể (file + dòng + lệnh).",
+        "qa_check.py pass.",
+        "build-related run #37 (commit fix) = success (đã xác nhận hết 401)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "fix(related): repo-id HuggingFace đầy đủ — hết 401, build-related hết fail",
       "tag": "fix",
       "pr": 255,
