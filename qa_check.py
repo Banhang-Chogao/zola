@@ -244,9 +244,10 @@ def fix_perf_html(content):
 
 def _scss_strip_noise(content: str) -> str:
     """Remove comments + string literals → giữ structural tokens cho count."""
+    # IMPORTANT: Strip strings FIRST to avoid matching // inside URLs as comments
+    content = _SCSS_STRING_RE.sub('""', content)
     content = _SCSS_BLOCK_COMMENT_RE.sub("", content)
     content = _SCSS_LINE_COMMENT_RE.sub("", content)
-    content = _SCSS_STRING_RE.sub('""', content)
     return content
 
 
