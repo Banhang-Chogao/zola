@@ -46,6 +46,10 @@
 
   &__auth-state {
     display: flex;
+    // BẮT BUỘC: class set display:flex sẽ ĐÈ thuộc tính HTML `hidden` (UA style
+    // [hidden]{display:none} thua selector class) → box admin/anon hiện sai. Phải
+    // có rule này để JS auth-gate (toggle .hidden) hoạt động đúng.
+    &[hidden] { display: none; }
     align-items: flex-start;
     gap: 0.85rem;
     padding: 1rem 1.25rem;
@@ -149,6 +153,7 @@
 
   &__download {
     display: inline-flex;
+    &[hidden] { display: none; }   // tôn trọng `hidden` của JS auth-gate (guest KHÔNG thấy nút tải)
     align-items: center;
     gap: 0.4rem;
     margin-top: 0.85rem;
@@ -248,6 +253,7 @@
   &__item-download,
   &__item-locked {
     display: inline-flex;
+    &[hidden] { display: none; }   // guest: ẩn nút tải, chỉ hiện 🔒 (JS toggle qua `hidden`)
     align-items: center;
     justify-content: center;
     width: 32px;
