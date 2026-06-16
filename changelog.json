@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Font Guideline (Ericsson Hilda) — trang specimen + showcase trang chủ",
+      "tag": "feat",
+      "pr": 197,
+      "lines_added": 1138,
+      "lines_removed": 21,
+      "highlights": [
+        "Hero specimen — wordmark \"Hilda\" cỡ lớn render bằng chính typeface.",
+        "Câu chuyện & facts — Letters from Sweden (Göran Söderström), hợp tác Stockholm Design Lab, đặt tên theo Hilda (vợ Lars Magnus Ericsson), digital-first, Latin/Greek/Cyrillic.",
+        "5 weights — ExtraLight · Light · Medium · Bold · ExtraBold.",
+        "Type scale, bộ ký tự (uppercase/lowercase/numerals).",
+        "Type tester trực tiếp (đổi text / weight / size) — JS thuần, không thư viện."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Remove deprecated BrandingX theme — Z-X + Hilda only",
       "tag": "fix",
       "pr": 191,
