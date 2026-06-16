@@ -53,6 +53,8 @@ Một góc nhìn riêng của tôi: chính vì các chương trình ngân hàng 
 
 Theo tôi, nếu trong vòng bạn bè của bạn có người đang thật sự cân nhắc mở thẻ tín dụng, thì đây là chương trình đáng tận dụng: bạn được thưởng, người kia có thẻ để dùng, đôi bên cùng có lợi. Nhưng tôi sẽ không khuyên bạn mời bừa cả danh bạ chỉ để cày 500.000đ — vừa phiền người khác, vừa không hiệu quả vì điều kiện thưởng gắn với việc duyệt hạn mức thật.
 
+Nếu bạn đang muốn mở thẻ Liobank, có thể dùng luôn **link giới thiệu của tôi**: [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ). Hãy **sao chép link và mở bằng trình duyệt** (Chrome, Safari…) thay vì bấm trực tiếp trong Zalo/Messenger, sau đó tải ứng dụng và kích hoạt **thẻ vật lý Liobank** để được nhận hoàn tiền.
+
 Nếu bạn quan tâm tới trải nghiệm ngân hàng số nói chung, có thể đọc thêm bài [MSB ra mắt MSB Digital Bank thay mBank](/baochi/msb-digital-bank-ra-mat-thay-mbank/) của tôi để so sánh cách các nhà băng đang đẩy mạnh nền tảng số. Còn thông tin chi tiết, chính xác và mới nhất về thể lệ chương trình thì bạn nên đối chiếu trực tiếp trong app hoặc tại [website chính thức của Liobank](https://www.liobank.com.vn/), vì điều khoản có thể được cập nhật theo từng giai đoạn.
 
 ## Tóm lại
