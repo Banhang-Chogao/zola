@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO Phase 2: 2 bài mới (Tạo blog Zola A–Z + Lịch trình Busan tự túc)",
+      "tag": "chore",
+      "pr": 228,
+      "lines_added": 340,
+      "lines_removed": 0,
+      "highlights": [
+        "✅ Build OK, 2 trang sinh đúng",
+        "✅ FAQPage + BreadcrumbList valid (JSON-LD 0 lỗi)",
+        "✅ Mọi internal link resolve tới bài có thật",
+        "✅ qa_check.py pass",
+        "✅ Category đúng (Công nghệ / Du lịch), featured = true"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "SEO Phase 1: FAQ block + FAQPage & BreadcrumbList schema",
       "tag": "chore",
       "pr": 227,
