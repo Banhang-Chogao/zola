@@ -97,6 +97,22 @@ workflow nào đang đỏ.
   trên ở repo (Settings → Actions → General → Workflow permissions), hoặc cấp PAT
   `secrets.GH_PAT` (pull-requests: write) cho step. Việc này cần thao tác trên
   GitHub settings/secrets — Claude KHÔNG tự làm được bằng code, phải nhờ user bật.
+  ĐÃ BẬT (16/06/2026) → auto-PR perf-audit hoạt động (vd PR #257).
+
+#### V4 — `perf-audit` auto-fixer chèn `loading/decoding` vào `<img>` trong COMMENT
+
+- **Dấu hiệu:** PR "🚀 Perf audit" sửa file `.html` nhưng diff chèn
+  `loading="lazy" decoding="async"` vào GIỮA văn xuôi/comment, vd
+  `dùng <img> thường` → `dùng <img loading="lazy" decoding="async"> thường`, hoặc
+  thêm attr vào ví dụ `<img>` nằm trong block comment Tera `{# #}`.
+- **Nguyên nhân:** trong `qa_check.py`, `_IMG_TAG_RE` match `<img` ở MỌI nơi, kể
+  cả trong comment Tera `{# #}` và HTML `<!-- -->` → checker cảnh báo nhầm +
+  fixer chèn rác vào tài liệu (may nằm trong comment nên không vỡ build).
+- **FIXER:** `qa_check.py` đã loại trừ comment qua `_comment_spans()` +
+  `_in_spans()` (regex `_COMMENT_SPAN_RE = \{#.*?#\}|<!--.*?-->`) trong cả
+  `check_perf_html` lẫn `fix_perf_html`. Nếu fixer còn chèn nhầm chỗ khác → mở
+  rộng `_COMMENT_SPAN_RE` / bỏ qua context tương ứng. KHÔNG merge PR perf-audit
+  chứa edit rác trong comment; đóng PR + để run sau regenerate sạch.
 
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
@@ -303,6 +319,11 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   `placeholder-wide.svg` (16:9, ảnh trong bài), `placeholder-square.svg` (1:1).
 - SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước. OG/social
   vẫn fallback `img/og-default.jpg` (raster) vì mạng xã hội không render SVG.
+- **Fallback runtime (ảnh CÓ src nhưng load lỗi/404):** `base.html` có 1 listener
+  `error` (capture phase) đổi mọi `<img>` load fail sang placeholder → KHÔNG bao
+  giờ hiện icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ lo bài THIẾU
+  thumbnail). Bắt được cả ảnh do JS dựng sau (sidebar random/featured). Khi thêm
+  chỗ render `<img>` mới KHÔNG cần lặp lại — listener toàn cục lo hết.
 
 ## Quy tắc Bảo mật (Static host — thực tế GitHub Pages)
 

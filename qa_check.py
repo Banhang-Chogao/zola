@@ -157,6 +157,21 @@ _CDN_LINK_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Comment Tera ({# #}) + HTML (<!-- -->). Phải BỎ QUA <img> nằm trong comment:
+# perf-fix từng chèn nhầm loading/decoding vào ví dụ <img> và văn xuôi trong
+# comment (vd "dùng <img> thường" → "<img loading=...> thường") → edit rác.
+_COMMENT_SPAN_RE = re.compile(r"\{#.*?#\}|<!--.*?-->", re.DOTALL)
+
+
+def _comment_spans(content):
+    """Trả list (start, end) các vùng comment để loại trừ khi quét <img>."""
+    return [(m.start(), m.end()) for m in _COMMENT_SPAN_RE.finditer(content)]
+
+
+def _in_spans(pos, spans):
+    """pos có nằm trong bất kỳ vùng (start, end) nào không."""
+    return any(s <= pos < e for s, e in spans)
+
 
 def check_perf_file_size(path, raw_bytes):
     """Check kích thước file. Trả issue warning nếu vượt ngưỡng."""
@@ -191,7 +206,10 @@ def check_perf_html(path, content):
         return issues
 
     # 1. <img> thiếu loading + decoding (skip nếu có fetchpriority=high — LCP)
+    spans = _comment_spans(content)
     for m in _IMG_TAG_RE.finditer(content):
+        if _in_spans(m.start(), spans):
+            continue  # <img> trong comment/văn xuôi — KHÔNG phải tag thật
         attrs = m.group(1)
         if _HAS_FETCHPRIO_RE.search(attrs):
             continue  # LCP image — KHÔNG cần lazy
@@ -224,8 +242,11 @@ def fix_perf_html(content):
     """SAFE auto-fix: add loading=lazy + decoding=async vào <img> thiếu.
        KHÔNG đè fetchpriority=high (LCP image). Trả (new_content, count_fixed)."""
     fix_count = 0
+    spans = _comment_spans(content)
     def _patch(m):
         nonlocal fix_count
+        if _in_spans(m.start(), spans):
+            return m.group(0)  # <img> trong comment/văn xuôi — KHÔNG đụng
         attrs = m.group(1)
         if _HAS_FETCHPRIO_RE.search(attrs):
             return m.group(0)  # giữ nguyên LCP image
