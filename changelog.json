@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Trang chủ — hàng 3 card ngang dưới hero (bài 2-4)",
+      "tag": "feat",
+      "pr": 215,
+      "lines_added": 36,
+      "lines_removed": 5,
+      "highlights": [
+        "Chèn 1 hàng .home-grid (3 cột) gồm 3 bài mới tiếp theo (slice(1,4)) ngay dưới hero, trước 2 block promo.",
+        "Grid phía dưới re-slice thành slice(4,13) (bài 5+). Pagination khi >13 bài.",
+        "Dùng lại .home-grid + .home-card, KHÔNG thêm CSS → đồng bộ style top row & grid dưới.",
+        "Chỉ sửa templates/index.html; không đụng DOM component khác, không đổi CSS.",
+        "Tera tag cân bằng: if 10/10, for 2/2."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Footer 2 cột (QA · GA) + tag cloud text-only ra sidebar",
       "tag": "feat",
       "pr": 214,
