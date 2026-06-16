@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO suite + fix build-related 429 + category scheme (Tất cả/Báo chí/Banking)",
+      "tag": "fix",
+      "pr": 231,
+      "lines_added": 2811,
+      "lines_removed": 74,
+      "highlights": [
+        "build-related.yml fail liên tục vì transformers bản mới gọi HF Hub API online → 429 Too Many Requests.",
+        "Fix: scripts/build_related.py nạp model từ cache cục bộ (snapshot_download(local_files_only=True)) → transformers coi là local, bỏ qua call online. Cold cache → fallback online + retry backoff.",
+        "Đổi Posting → Tất cả (mặc định mọi bài); thêm Báo chí (mặc định bài viết qua phím tắt bb/nhánh baochi).",
+        "Giữ category theo content: Banking, Công nghệ, Du lịch, Ẩm thực.",
+        "Sửa 2 bài công nghệ bị gắn nhầm Ẩm thực → Công nghệ."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "SEO11 + fix menu: rút 12 title về ≤65 ký tự + Banking→Ngân hàng (hết 404)",
       "tag": "fix",
       "pr": 235,
