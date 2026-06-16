@@ -9,6 +9,18 @@ tags = ["ngân hàng", "liobank", "quản lý chi tiêu", "tài chính cá nhân
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.jpg"
 seo_keyword = "quản lý chi tiêu Liobank"
 featured = false
+
+[[extra.faq]]
+q = "App Liobank giúp quản lý chi tiêu thế nào?"
+a = "App ghi lại lịch sử giao dịch tức thì, tự phân loại chi tiêu theo nhóm như ăn uống, mua sắm, hóa đơn; đồng thời theo dõi dư nợ và ngày đến hạn của thẻ tín dụng để tránh trả trễ."
+
+[[extra.faq]]
+q = "Dùng thẻ tín dụng Liobank có dễ bị ngập nợ không?"
+a = "Không, nếu bạn trả đủ dư nợ đúng hạn. Thẻ tín dụng dùng có kỷ luật còn giúp gom dòng tiền về một đầu mối và được miễn lãi trong kỳ; vấn đề nằm ở thói quen người dùng chứ không phải chiếc thẻ."
+
+[[extra.faq]]
+q = "Có thói quen nào giúp kiểm soát chi tiêu tốt hơn?"
+a = "Xem lại giao dịch mỗi tối một phút, đặt hạn mức tự nhắc cho từng nhóm chi tiêu, tận dụng phân loại tự động của app, và luôn trả nợ đúng hạn."
 +++
 
 > 📚 **Series Liobank (Phần 5/5)** — Khép lại hành trình từ [Liobank là gì](/baochi/liobank-la-gi-ngan-hang-so-noi-bat/), bài cuối nói về thứ giúp bạn dùng thẻ một cách bền vững: kỷ luật chi tiêu.

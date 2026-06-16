@@ -9,6 +9,22 @@ tags = ["ngân hàng", "liobank", "mở thẻ tín dụng", "ekyc", "series liob
 thumbnail = "https://picsum.photos/seed/mo-the-liobank-online/600/400"
 seo_keyword = "mở thẻ tín dụng Liobank"
 featured = false
+
+[[extra.faq]]
+q = "Mở thẻ tín dụng Liobank online mất bao lâu?"
+a = "Thao tác trên app chỉ khoảng vài phút nhờ định danh điện tử (eKYC); phần còn lại là chờ hệ thống xét duyệt hạn mức tín dụng."
+
+[[extra.faq]]
+q = "Mở thẻ Liobank cần chuẩn bị giấy tờ gì?"
+a = "Cần CCCD gắn chip bản gốc còn rõ nét, điện thoại lắp SIM chính chủ để nhận OTP, và một nơi đủ sáng để quét khuôn mặt chính xác."
+
+[[extra.faq]]
+q = "Thẻ phi vật lý và thẻ vật lý Liobank khác nhau thế nào?"
+a = "Thẻ phi vật lý dùng được gần như ngay sau khi duyệt để thanh toán online; thẻ vật lý là thẻ nhựa gửi về nhà, kích hoạt trong app sau khi nhận."
+
+[[extra.faq]]
+q = "Vì sao nên kích hoạt thẻ vật lý sau khi nhận?"
+a = "Để dùng đầy đủ tính năng của thẻ, và nếu bạn đăng ký qua link giới thiệu thì việc kích hoạt thẻ vật lý thành công mới giúp người giới thiệu được tính thưởng."
 +++
 
 > 📚 **Series Liobank (Phần 2/5)** — Tiếp nối [Phần 1: Liobank là gì](/baochi/liobank-la-gi-ngan-hang-so-noi-bat/), bài này tôi đi sâu vào bước thực tế đầu tiên: mở thẻ.
