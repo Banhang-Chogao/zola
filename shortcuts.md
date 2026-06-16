@@ -899,6 +899,48 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 
 KHÔNG auto-merge — chỉ approve, user quyết định merge.
 
+### `ff9` — Smart Conflict Resolver (Python-powered)
+
+**Mục đích**: Tự động detect + analyze + resolve git conflicts trong open PRs.
+
+**Hành động**:
+
+1. **Scan conflicts**:
+   - List tất cả open PRs
+   - Checkout từng branch, merge main → detect conflicts
+   - Report PRs có conflicts
+
+2. **Analyze conflicts** (Python):
+   - Dùng `libparse` / `ast` để parse conflicted files (JSON, TOML, Python, JS)
+   - Identify conflict pattern:
+     - **Merge conflict markers** (`<<<<<<<`, `=======`, `>>>>>>>`)
+     - **Type**: Content conflict vs structural (Schema) conflict
+     - **Severity**: Safe (whitespace/comment) vs Risky (logic)
+   - Suggest resolution strategy:
+     - `OURS` (keep main) / `THEIRS` (keep branch)
+     - `MANUAL` (require human review)
+
+3. **Auto-resolve** (safe patterns only):
+   - Whitespace/formatting conflicts → normalize
+   - TOML/JSON schema conflicts → merge-tool guided
+   - Comment/doc conflicts → keep both
+   - Code logic conflicts → escalate MANUAL
+
+4. **Apply fixes**:
+   - Commit resolve + push lên branch
+   - Trigger GitHub to re-check merge status
+
+5. **Output report**:
+
+| PR | Branch | Files with conflict | Strategy | Status |
+|---|---|---|---|---|
+| #X | claude/foo | config.toml | AUTO (TOML merge) | ✅ Resolved |
+| #Y | claude/bar | site.scss (2x) | MANUAL (logic) | ⚠️ Escalated |
+
+**Final summary**: "X conflicts resolved auto, Y require manual review. Ready to merge."
+
+**Safe fallback**: Nếu conflict quá phức tạp → output diff + escalate user manual review.
+
 ---
 
 ## 3. Workflow Auto-Heal — quy trình chuẩn
