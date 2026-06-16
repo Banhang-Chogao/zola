@@ -105,11 +105,12 @@
         {% set_global page_description = section.description %}
     {% endif %}
 
-    {# Per-page title: dùng cùng logic block title nhưng cũng compute cho OG #}
+    {# Per-page title: dùng cùng logic block title nhưng cũng compute cho OG.
+       Guard section.title null vì root _index.md không có title field. #}
     {% set page_title_full = config.title %}
-    {% if page %}
+    {% if page and page.title %}
         {% set_global page_title_full = page.title ~ " | " ~ config.title %}
-    {% elif section %}
+    {% elif section and section.title %}
         {% set_global page_title_full = section.title ~ " | " ~ config.title %}
     {% endif %}
 
