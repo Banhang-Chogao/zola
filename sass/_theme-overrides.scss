@@ -324,12 +324,10 @@
 /* ============================================================
    ===== HILDA UX POLISH — interaction states (guideline) =====
    ============================================================
-   Hilda-only (KHÔNG đụng Z-X / shared mixin). Hiện thực hoá
-   guideline rule 5 "Smooth transitions 0.3s ease": nâng shadow
-   resting → hover mượt + lift nhẹ, focus ring WCAG.
-   CHỈ hover/focus — KHÔNG sửa layout, overflow, height, position. */
+   Hilda-only (KHÔNG đụng Z-X / shared mixin). Hiện thực guideline rule
+   "Smooth transitions 0.3s ease": hover nâng shadow + lift nhẹ, focus ring
+   WCAG. CHỈ hover/focus — KHÔNG sửa layout, overflow, height, position. */
 :root[data-theme="hilda"] {
-  /* Card: resting → hover nâng mượt (shadow đã set ở mixin) + lift nhẹ */
   .post-card {
     transition:
       border-color 0.3s ease,
@@ -339,7 +337,6 @@
     &:hover { transform: translateY(-2px); }
   }
 
-  /* CTA (read-more): darken mượt + lift nhẹ */
   .read-more {
     transition:
       background-color 0.3s ease,
@@ -352,7 +349,6 @@
     }
   }
 
-  /* Tag + pagination: fill mượt khi hover */
   .tag-list__tag,
   .pagination__btn {
     transition:
@@ -361,7 +357,6 @@
       border-color 0.3s ease;
   }
 
-  /* Focus ring — keyboard nav rõ ràng (WCAG AA) */
   a:focus-visible,
   button:focus-visible,
   .theme-dropdown__item:focus-visible {
@@ -370,8 +365,8 @@
   }
 }
 
-/* Tôn trọng prefers-reduced-motion: tắt lift/transition cho người
-   nhạy cảm chuyển động (a11y). Áp dụng cho Hilda interaction states. */
+/* Tôn trọng prefers-reduced-motion: tắt lift/transition cho người nhạy cảm
+   chuyển động (a11y). Áp dụng cho Hilda interaction states. */
 @media (prefers-reduced-motion: reduce) {
   :root[data-theme="hilda"] {
     .post-card,
