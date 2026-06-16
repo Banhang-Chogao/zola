@@ -999,6 +999,79 @@
     font-size: 14px;
   }
 
+  &__local {
+    margin-top: 16px;
+  }
+
+  &__count {
+    color: #003784;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  &__results {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__result {
+    padding: 14px 16px;
+    background: #f4f4f4;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+
+  &__result-title {
+    display: inline-block;
+    color: #003784;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+
+    &:hover {
+      color: #002566;
+      text-decoration: underline;
+    }
+  }
+
+  &__result-meta {
+    margin-top: 4px;
+    color: #666666;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  &__result-snippet {
+    margin: 8px 0 0;
+    color: #333333;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  &__google {
+    margin-top: 16px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 16px;
+
+    summary {
+      color: #666666;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    &[open] summary {
+      color: #003784;
+      margin-bottom: 12px;
+    }
+  }
+
   &__gse {
     min-height: 160px;
 

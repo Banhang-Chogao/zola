@@ -585,28 +585,52 @@
                     </svg>
                 </button>
             </div>
+            <form class="site-search__fallback" action="https://www.google.com/search" method="get" target="_blank" rel="noopener" data-local-search-form>
+                <input type="hidden" name="sitesearch" value="banhang-chogao.github.io/zola">
+                <label class="site-search__field">
+                    <span class="site-search__field-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="search" name="q" placeholder="Nhập từ khóa..." autocomplete="off" data-search-input>
+                </label>
+                <button class="site-search__submit" type="submit">Google</button>
+            </form>
+            <div class="site-search__local" data-local-search-results aria-live="polite">
+                <p class="site-search__note">Nhập từ khóa để tìm trực tiếp trong bài viết của blog.</p>
+            </div>
             {% if search_cx %}
-                <div class="site-search__gse">
-                    <div class="gcse-search" data-linktarget="_self"></div>
-                </div>
-            {% else %}
-                <form class="site-search__fallback" action="https://www.google.com/search" method="get" target="_blank" rel="noopener">
-                    <input type="hidden" name="sitesearch" value="banhang-chogao.github.io/zola">
-                    <label class="site-search__field">
-                        <span class="site-search__field-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="7"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
-                        </span>
-                        <input type="search" name="q" placeholder="Nhập từ khóa..." autocomplete="off" data-search-input>
-                    </label>
-                    <button class="site-search__submit" type="submit">Tìm kiếm</button>
-                </form>
-                <p class="site-search__note">Chưa cấu hình Google CSE ID, đang dùng Google site search tạm thời.</p>
+                <details class="site-search__google">
+                    <summary>Kết quả Google đã index</summary>
+                    <div class="site-search__gse">
+                        <div class="gcse-search" data-linktarget="_self"></div>
+                    </div>
+                </details>
             {% endif %}
         </section>
     </div>
+    {% set search_posting = get_section(path="posting/_index.md") %}
+    {% set search_baochi = get_section(path="baochi/_index.md") %}
+    {% set search_pages = search_posting.pages | concat(with=search_baochi.pages) | sort(attribute="date") | reverse %}
+    <script type="application/json" id="site-search-data">
+    [
+    {%- for page in search_pages -%}
+        {
+            "title": {{ page.title | json_encode | safe }},
+            "url": {{ page.permalink | json_encode | safe }},
+            "date": {{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") | json_encode | safe }},
+            "description": {{ page.description | default(value="") | json_encode | safe }},
+            "summary": {{ page.summary | default(value="") | striptags | json_encode | safe }},
+            "body": {{ page.content | striptags | truncate(length=2400, end="") | json_encode | safe }},
+            "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
+            "tags": {% if page.taxonomies.tags %}{{ page.taxonomies.tags | join(sep=" ") | json_encode | safe }}{% else %}""{% endif %},
+            "keyword": {{ page.extra.seo_keyword | default(value="") | json_encode | safe }}
+        }{%- if not loop.last -%},{%- endif -%}
+    {%- endfor -%}
+    ]
+    </script>
 
     <main class="container">
         <div class="layout-grid">
