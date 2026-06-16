@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 
+{# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
+{% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
+
 {% block main %}
     {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
        Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI

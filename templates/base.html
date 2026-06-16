@@ -134,6 +134,12 @@
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
+
+    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
+    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
+    {# ===== Google Search Console verification — điền mã ở config.extra.google_site_verification ===== #}
+    {% if config.extra.google_site_verification %}<meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">{% endif %}
+
     <title>{% block title %}{{ config.title }}{% endblock %}</title>
 
     {# ===== Canonical (chống duplicate content cho query string / pagination) ===== #}
@@ -192,7 +198,11 @@
         "publisher": {
             "@type": "Organization",
             "name": {{ config.title | json_encode | safe }},
-            "url": "{{ config.base_url | safe }}"
+            "url": "{{ config.base_url | safe }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ config.base_url | safe }}/img/author-avatar.jpg"
+            }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",

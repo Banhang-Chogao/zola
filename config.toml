@@ -1,6 +1,6 @@
 base_url = "https://banhang-chogao.github.io/zola"
 title = "Duy Nguyen"
-description = "Blog cá nhân — viết bằng Zola"
+description = "Blog cá nhân của Duy Nguyen về công nghệ, du lịch và ẩm thực — chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ."
 # Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
 # xml:lang="vi" thay vì mặc định "en", khớp <html lang="vi">.
 default_language = "vi"
@@ -58,6 +58,7 @@ chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 # Item KHÔNG có 'children' = link đơn bình thường (tương thích ngược).
 # Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
+    { name = "Trang chủ", url = "$BASE_URL/" },
     { name = "Bài viết", url = "$BASE_URL/categories/posting", children = [
         { url = "$BASE_URL/categories/posting",  name = "Tất cả bài viết" },
         { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
@@ -85,6 +86,18 @@ menu = [
 # Để trống = GA tracking script không load (silent skip).
 # Property ID: 541698865 (tham chiếu Admin → Property Settings)
 ga_measurement_id = "G-REFBXH86Z5"
+
+# ============= GOOGLE SEARCH CONSOLE =============
+# Xác minh sở hữu site → mở khoá submit sitemap + "Request Indexing"
+# (cách NHANH NHẤT để bài mới lên Google thay vì chờ crawl tự nhiên).
+# Cách lấy mã:
+#   1. Vào https://search.google.com/search-console → Add property
+#      → chọn "URL prefix" → nhập https://banhang-chogao.github.io/zola/
+#   2. Chọn phương thức xác minh "HTML tag"
+#   3. Copy phần content="..." trong thẻ <meta google-site-verification ...>
+#      rồi dán giá trị đó vào dưới (chỉ phần trong dấu nháy).
+# Để trống = không render meta (silent skip).
+google_site_verification = ""
 
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
