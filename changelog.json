@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "fix(img): ảnh placeholder thương hiệu cho bài không có ảnh (thay picsum không liên quan)",
+      "tag": "fix",
+      "pr": 254,
+      "lines_added": 277,
+      "lines_removed": 83,
+      "highlights": [
+        "scripts/make_placeholder.py — sinh SVG placeholder 3 tỉ lệ vào static/img/placeholder/ (không cần thư viện ngoài, chạy lại idempotent):",
+        "placeholder.svg (3:2) — thumbnail / list / hero",
+        "placeholder-wide.svg (16:9) — ảnh trong nội dung bài",
+        "placeholder-square.svg (1:1) — khối vuông",
+        "templates/macros/img.html — macro thumb_src(thumb): trả thumbnail hoặc fallback placeholder."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "nangcap: nâng cấp 25 bài cũ điểm SEO QA < 90 lên đạt chuẩn A (≥90)",
       "tag": "chore",
       "pr": 253,
