@@ -2,6 +2,47 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Hotfix: trang chủ hiển thị bài viết từ MỌI section (gộp posting/ + baochi/)",
+      "tag": "chore",
+      "pr": 220,
+      "lines_added": 61,
+      "lines_removed": 27,
+      "highlights": [
+        "templates/index.html — trang chủ hiển thị mọi bài, tối đa 13 bài/trang (hero 1 + hàng 3 + lưới 9). Lưới dùng danh sách rest (loại hero ra) → không trùng, không sót.",
+        "templates/base.html — sidebar Featured/Random + JSON posts-data + đếm \"bài viết live\" phản ánh đúng mọi bài.",
+        "templates/page.html — \"bài viết liên quan\" lấy từ mọi section.",
+        "✅ zola build (v0.22.1) OK, 0 orphan",
+        "✅ qa_check.py pass (142 files)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Bật lại: banner quảng cáo luân phiên với GitHub status mỗi 3s",
+      "tag": "chore",
+      "pr": 219,
+      "lines_added": 19,
+      "lines_removed": 20,
+      "highlights": [
+        "Bỏ comment Slide A (.header-ad), đặt data-rotate=\"true\"",
+        "Chuyển is-active sang Slide A (slide đầu DOM) để nhịp 3s chuẩn ngay từ lần chuyển đầu; gỡ is-active khỏi Slide B (GitHub)",
+        "interval 3000ms (3 giây) như cũ"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Cập nhật rule deploy: bật auto-merge + auto-deploy lên production",
+      "tag": "chore",
+      "pr": 218,
+      "lines_added": 62,
+      "lines_removed": 36,
+      "highlights": [
+        "CLAUDE.md: thêm section canonical \"Quy tắc Deploy & Production\" (hiệu lực cao nhất, ghi đè mọi rule deploy cũ).",
+        "shortcuts.md §4.5/§4.6: đảo từ chặn auto-merge sang bật auto-merge + auto-deploy, vô hiệu mọi tham chiếu \"(rule 16:00)\" rải rác.",
+        "shortcuts.md: ff step 6 auto-merge + deploy thay vì chờ manual #X."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "QA dashboard: hiển thị số liệu thật cho card Performance & Security",
       "tag": "security",
       "pr": 217,
