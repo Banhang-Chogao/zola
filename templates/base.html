@@ -108,7 +108,7 @@
         {% if page.description %}
             {% set_global page_description = page.description %}
         {% elif page.summary %}
-            {% set_global page_description = page.summary | striptags | trim | truncate(length=160, end="…") %}
+            {% set_global page_description = page.summary | striptags | trim | truncate(length=159, end="…") %}
         {% endif %}
     {% elif section %}
         {% if section.description %}
