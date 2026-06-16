@@ -390,24 +390,66 @@
                     <li><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
                 {% endfor %}
             </ul>
-            <button class="navbar__theme" id="theme-switch-btn"
-                    type="button"
-                    aria-pressed="false"
-                    aria-label="Đang dùng theme BrandingX. Click chuyển sang Z-X">
-                {# Icon BrandingX = mặt trời (warm playful) #}
-                <span data-theme-label="default" class="navbar__theme-icon">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="4"></circle>
-                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-                    </svg>
-                </span>
-                {# Icon Z-X = mặt trăng + sao (trust fintech vibe) #}
-                <span data-theme-label="zx" class="navbar__theme-icon" hidden>
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </span>
-            </button>
+            {# ===== THEME DROPDOWN (4-option: BrandingX / Z-X / E-X / Hila) =====
+               Phase 3: Replace 2-option toggle button với dropdown menu.
+               JS (theme-switcher.js Phase 2) handle: toggle dropdown, option select,
+               keyboard nav (Escape), outside click. CSS (_navbar.scss) style.
+               Colored dots per theme: BrandingX red, Z-X blue, E-X blue, Hila gradient. #}
+            <div class="theme-toggle" data-theme-toggle>
+                <button class="theme-toggle__btn" type="button"
+                        aria-haspopup="true" aria-expanded="false"
+                        aria-label="Chọn theme">
+                    <span class="theme-toggle__dot" aria-hidden="true"></span>
+                    <span class="theme-toggle__current" data-theme-current>BrandingX</span>
+                    <span class="theme-toggle__caret" aria-hidden="true">▾</span>
+                </button>
+                <ul class="theme-toggle__menu" data-theme-menu hidden>
+                    <li>
+                        <button class="theme-toggle__opt" type="button"
+                                data-theme-set="" aria-checked="true">
+                            <span class="theme-toggle__opt__dot" style="background:#d63d3d"></span>
+                            <span class="theme-toggle__opt__name">
+                                BrandingX
+                                <span class="theme-toggle__opt__sub">MoMo · playful red</span>
+                            </span>
+                            <span class="theme-toggle__opt__check">✓</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="theme-toggle__opt" type="button"
+                                data-theme-set="zx" aria-checked="false">
+                            <span class="theme-toggle__opt__dot" style="background:#0068FF"></span>
+                            <span class="theme-toggle__opt__name">
+                                Z-X
+                                <span class="theme-toggle__opt__sub">ZaloPay · fintech blue</span>
+                            </span>
+                            <span class="theme-toggle__opt__check">✓</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="theme-toggle__opt" type="button"
+                                data-theme-set="ex" aria-checked="false">
+                            <span class="theme-toggle__opt__dot" style="background:#1174E5"></span>
+                            <span class="theme-toggle__opt__name">
+                                E-X
+                                <span class="theme-toggle__opt__sub">Ericsson · newsroom energy</span>
+                            </span>
+                            <span class="theme-toggle__opt__check">✓</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="theme-toggle__opt" type="button"
+                                data-theme-set="hila" aria-checked="false">
+                            <span class="theme-toggle__opt__dot" style="background:linear-gradient(135deg,#1174E5 0%,#0C0C0C 100%)"></span>
+                            <span class="theme-toggle__opt__name">
+                                Hila Ericsson
+                                <span class="theme-toggle__opt__sub">E-X sharp + black border</span>
+                            </span>
+                            <span class="theme-toggle__opt__check">✓</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
             <button class="navbar__search" aria-label="Tìm kiếm" onclick="document.body.classList.toggle('search-open')">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="7"></circle>
