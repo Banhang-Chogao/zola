@@ -2,10 +2,11 @@
 title = "Ăn khuya Sài Gòn: 10 món & khu dân cú đêm hay ăn (mở sau 11h)"
 description = "Ăn khuya Sài Gòn ở đâu, món gì? 10 món ăn đêm và các khu mở sau 11h: ốc Vĩnh Khánh quận 4, hủ tiếu quận 5, cháo, mì cay cho dân cú đêm."
 date = 2026-06-16
+aliases = ["/an-khuya-sai-gon/"]
 
 [taxonomies]
 categories = ["Tất cả", "Ẩm thực"]
-tags = ["ẩm thực", "sài gòn", "ăn khuya", "ăn đêm", "món ngon", "tphcm"]
+tags = ["món ngon", "sài gòn", "tphcm", "ăn khuya", "ăn đêm", "ẩm thực"]
 [extra]
 seo_keyword = "ăn khuya Sài Gòn"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/an-khuya-sai-gon.svg"

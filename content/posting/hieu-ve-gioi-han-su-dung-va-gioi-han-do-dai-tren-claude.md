@@ -1,11 +1,11 @@
 +++
 title = "Hiểu về Giới hạn Sử dụng và Giới hạn Độ dài trên Claude"
 date = 2026-06-16
+aliases = ["/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/"]
 
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["claude", "using limit", "giới hạn sử dụng"]
-
+tags = ["claude", "giới hạn sử dụng", "using limit"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = true

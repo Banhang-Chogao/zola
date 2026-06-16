@@ -2,10 +2,11 @@
 title = "Trời mưa Sài Gòn ăn gì cho ấm bụng? 8 món & quán mở giờ mưa"
 description = "Trời mưa Sài Gòn nên ăn gì? 8 món nóng hổi ấm bụng ngày mưa: bún bò, lẩu, cháo, ốc, bánh xèo... kèm khu vực và mẹo chọn quán mở khi mưa."
 date = 2026-06-16
+aliases = ["/troi-mua-sai-gon-an-gi/"]
 
 [taxonomies]
 categories = ["Tất cả", "Ẩm thực"]
-tags = ["ẩm thực", "sài gòn", "món ngon", "trời mưa", "ăn gì", "tphcm"]
+tags = ["món ngon", "sài gòn", "tphcm", "trời mưa", "ăn gì", "ẩm thực"]
 [extra]
 seo_keyword = "trời mưa Sài Gòn ăn gì"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/troi-mua-sai-gon-an-gi.svg"
