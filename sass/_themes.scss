@@ -1,7 +1,9 @@
 /* ============================================================
-   ===== DYNAMIC THEME SYSTEM — 2 themes (Z-X + Hilda) =====
+   ===== THEME SYSTEM — Hilda (Ericsson Professional) =====
    ============================================================
-   Semantic token naming (consistent across themes):
+   Single theme: Hilda (Ericsson blue professional style)
+
+   Semantic token naming:
    - --c-bg-page       : page background
    - --c-bg-surface    : card / panel surface
    - --c-bg-soft       : tinted soft bg (hover, callout)
@@ -11,69 +13,26 @@
    - --c-accent        : primary CTA / link / brand
    - --c-accent-hover  : darker hover state
    - --c-accent-soft   : tag bg, badge bg
-   - --c-decoration    : secondary accent (tag pink / promo orange)
+   - --c-decoration    : secondary accent (red action buttons)
    - --c-border        : default divider
    - --c-border-strong : table border, input border
    - --c-shadow-md     : card shadow
    - --c-shadow-lg     : hover lift shadow
-
-   Themes:
-   - :root (default) — Z-X (ZaloPay electric blue, fintech trust)
-   - :root[data-theme="hilda"] — Hilda (Ericsson professional blue)
 */
 
-/* ===== Z-X (ZaloPay) — DEFAULT THEME (FINTECH BLUE) ===== */
+/* ===== HILDA (Ericsson - Professional Blue) - DEFAULT THEME ===== */
 :root {
-  /* Surface — blue tint subtle */
-  --c-bg-page:        #f5f8ff;  /* $zx-mist */
-  --c-bg-surface:     #ffffff;  /* $zx-snow */
-  --c-bg-soft:        #eef2f9;  /* $zx-fog */
-
-  /* Text — deep navy (not pure black) */
-  --c-text-heading:   #0b1834;  /* $zx-ink-900 */
-  --c-text-body:      #1e3a5f;  /* $zx-ink-700 */
-  --c-text-muted:     #4f6d93;  /* $zx-ink-500 */
-
-  /* Accent — electric blue (fintech trust) */
-  --c-accent:         #0068ff;  /* $zx-blue-600 */
-  --c-accent-hover:   #0050d6;  /* $zx-blue-700 */
-  --c-accent-soft:    rgba(0, 104, 255, 0.1);
-
-  /* Decoration — promo orange (khuyến mãi only) */
-  --c-decoration:     #ff6b00;  /* $zx-accent-orange */
-
-  /* Border */
-  --c-border:         #e0e7f0;  /* $zx-edge */
-  --c-border-strong:  #c7d2e0;  /* $zx-edge-strong */
-
-  /* Shadow — blue tint (fintech depth) */
-  --c-shadow-md:      0 4px 12px rgba(11, 24, 52, 0.08);
-  --c-shadow-lg:      0 12px 32px rgba(0, 104, 255, 0.12);
-
-  /* Status — money green */
-  --c-success:        #00a88e;
-  --c-warning:        #b86d00;
-
-  /* Focus ring — blue */
-  --c-focus-ring:     rgba(0, 104, 255, 0.35);
-
-  /* Color scheme for native form controls */
-  color-scheme: light;
-}
-
-/* ===== HILDA (Ericsson - Professional Style) ===== */
-:root[data-theme="hilda"] {
   /* Surface — white with light gray tint */
   --c-bg-page:        #f4f4f4;  /* Light Gray */
   --c-bg-surface:     #ffffff;  /* White */
   --c-bg-soft:        #f4f4f4;  /* Soft background */
 
-  /* Text — deep navy (headings) to gray (muted) */
+  /* Text — pure black to gray */
   --c-text-heading:   #000000;  /* Pure Black */
   --c-text-body:      #333333;  /* Charcoal */
   --c-text-muted:     #666666;  /* Gray */
 
-  /* Accent — Ericsson Blue */
+  /* Accent — Ericsson Blue (professional) */
   --c-accent:         #003784;  /* Ericsson Blue (primary) */
   --c-accent-hover:   #002566;  /* Darker blue for hover */
   --c-accent-soft:    rgba(0, 55, 132, 0.1);
@@ -89,9 +48,9 @@
   --c-shadow-md:      0 2px 4px rgba(0, 55, 132, 0.08);
   --c-shadow-lg:      0 8px 16px rgba(0, 55, 132, 0.12);
 
-  /* Status — teal for success */
-  --c-success:        #00a69d;
-  --c-warning:        #ff9500;
+  /* Status */
+  --c-success:        #00a69d;  /* Teal for success */
+  --c-warning:        #ff9500;  /* Orange for warning */
 
   /* Focus ring */
   --c-focus-ring:     rgba(0, 55, 132, 0.35);
@@ -104,7 +63,7 @@
 }
 
 /* ===== Smooth transitions when theme properties change =====
-   Applied to body for smooth UX. Fade effect for theme switching. */
+   Applied to body for smooth UX. */
 body {
   transition:
     background-color 0.3s ease,

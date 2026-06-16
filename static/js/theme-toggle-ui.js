@@ -29,11 +29,7 @@
 
   /* ===== Map theme name to display label ===== */
   var themeLabels = {
-    "": "BrandingX",
-    "brandingx": "BrandingX",
-    "zx": "Z-X",
-    "ex": "E-X",
-    "hila": "Hila Ericsson"
+    "hilda": "Hilda (Ericsson Blue)"
   };
 
   /* ===== Get display label for theme ===== */
