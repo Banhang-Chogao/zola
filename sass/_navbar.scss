@@ -8,7 +8,7 @@
   border-bottom: 1px solid var(--c-border);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   padding-top: env(safe-area-inset-top);
-  transition: box-shadow .25s ease;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &__inner {
     max-width: 1280px;
@@ -40,7 +40,7 @@
       position: relative;
       border-bottom: 3px solid transparent;
       margin-bottom: -1px;     /* overlap border navbar */
-      transition: color .15s ease, border-color .15s ease;
+      transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
       /* Active state momo: text đậm + accent underline (theme-aware) */
       &.is-active {
@@ -140,7 +140,7 @@
   .theme-toggle__caret {
     font-size: 0.65rem;
     opacity: 0.6;
-    transition: transform 0.18s ease;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .theme-toggle__btn[aria-expanded="true"] .theme-toggle__caret {
@@ -448,7 +448,7 @@
     display: inline-flex;
     align-items: center;
     color: var(--c-text-muted);
-    transition: transform .2s ease;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &.is-open &__chevron {
@@ -469,7 +469,7 @@
     border-radius: 10px;
     box-shadow: var(--c-shadow-lg);
     z-index: 110;
-    animation: theme-switcher-pop .18s ease;
+    animation: theme-switcher-pop 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     &[hidden] { display: none; }
 
@@ -551,8 +551,8 @@
 }
 
 @keyframes theme-switcher-pop {
-  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ============================================================

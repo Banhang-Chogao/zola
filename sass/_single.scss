@@ -37,6 +37,15 @@
     ol { list-style: decimal; }
     li { margin-bottom: 0.35rem; }
 
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
     a {
       color: var(--c-accent);
       border-bottom: 1px solid var(--c-accent-soft);
@@ -576,6 +585,17 @@
       }
 
       p { margin: 0 0 0.85rem; }
+
+      /* Images on mobile: contained, responsive, no overflow */
+      img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: 1.25rem 0;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      }
 
       /* Callout/highlight boxes — ZaloPay style */
       blockquote {
