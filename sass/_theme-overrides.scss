@@ -1,0 +1,376 @@
+/* ============================================================
+   ===== THEME OVERRIDES — full component coverage =====
+   ============================================================
+   Phase 4 (Hybrid refactor từ PR #140):
+   - COLOR tokens dùng var(--c-*) (Phase 1) → auto-update khi
+     toggle theme. KHÔNG hardcode hex per theme block.
+   - NON-COLOR tokens (radius, shadow, kicker-spacing) override
+     per theme qua SCSS mixin (build-time).
+
+   Themes có rules trong file này:
+   - data-theme="zx"   → ZaloPay (soft radius 14px, blue accent)
+   - data-theme="ex"   → Ericsson nhẹ (radius 6px, blue)
+   - data-theme="hila" → Newsroom full (sharp 4px, black border)
+
+   Default BrandingX KHÔNG override → zero regression với existing
+   styling.
+
+   ============================================================
+   Quy tắc CLAUDE.md tuân thủ:
+   - Mọi rule scoped dưới `:root[data-theme="..."]`
+   - KHÔNG sửa `overflow`, `height`, `position`, `display`
+   - Mobile media query (≤720px) tách block riêng cuối file. */
+
+/* ============================================================
+   ===== MIXIN: full component coverage (color = var(--c-*)) =====
+   ============================================================ */
+@mixin theme-overrides(
+  $radius-card,       // card border-radius
+  $radius-tag,        // tag/button border-radius
+  $shadow-card,       // card resting shadow
+  $shadow-card-hover, // card hover shadow
+  $kicker-spacing,    // uppercase label letter-spacing
+  $heading-ls         // letter-spacing cho heading
+) {
+  /* ===== 1. POST CARD GRID (home, category, section list) ===== */
+  .post-card {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-card;
+    box-shadow: $shadow-card;
+
+    &:hover {
+      border-color: var(--c-border-strong);
+      box-shadow: $shadow-card-hover;
+    }
+
+    &__title {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+
+      a {
+        color: inherit;
+        &:hover { color: var(--c-accent); }
+      }
+    }
+
+    &__summary { color: var(--c-text-muted); }
+  }
+
+  /* ===== 2. CATEGORY TAG (badge trên thumbnail) ===== */
+  .cat-tag {
+    background: var(--c-accent);
+    color: var(--c-bg-surface);
+    border-radius: $radius-tag;
+    letter-spacing: $kicker-spacing;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* ===== 3. READ-MORE BUTTON (cuối card) ===== */
+  .read-more {
+    background: var(--c-accent);
+    color: var(--c-bg-surface);
+    border-radius: $radius-tag;
+    letter-spacing: $kicker-spacing;
+    border-left-color: var(--c-accent-hover);
+
+    &:hover {
+      background: var(--c-accent-hover);
+      color: var(--c-bg-surface);
+    }
+  }
+
+  /* ===== 4. SIDEBAR (block, label flag, featured, random, cat-list) ===== */
+  .sidebar-block {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-tag;
+    box-shadow: $shadow-card;
+  }
+
+  .sidebar-label {
+    background: var(--c-text-heading);
+    color: var(--c-bg-surface);
+    letter-spacing: $kicker-spacing;
+    font-weight: 700;
+    border-radius: $radius-tag;
+
+    &::after {
+      border-top-color: var(--c-text-heading);
+      border-bottom-color: var(--c-text-heading);
+    }
+  }
+
+  .featured-card__title {
+    color: var(--c-text-heading);
+
+    a {
+      color: inherit;
+      &:hover { color: var(--c-accent); }
+    }
+  }
+
+  .random-item {
+    &__title {
+      color: var(--c-text-heading);
+
+      a {
+        color: inherit;
+        &:hover { color: var(--c-accent); }
+      }
+    }
+
+    &__date { color: var(--c-text-muted); }
+  }
+
+  .cat-list {
+    li {
+      color: var(--c-text-body);
+      border-bottom-color: var(--c-border);
+
+      a:hover { color: var(--c-accent); }
+    }
+
+    &__count {
+      color: var(--c-text-muted);
+      background: var(--c-bg-soft);
+    }
+  }
+
+  /* ===== 5. RELATED ARTICLES (cuối mỗi post) ===== */
+  .related-articles__title {
+    color: var(--c-text-heading);
+    letter-spacing: $kicker-spacing;
+  }
+
+  .related-card {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-card;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+    &:hover {
+      border-color: var(--c-border-strong);
+      box-shadow: $shadow-card-hover;
+    }
+
+    &__cat {
+      background: var(--c-accent);
+      color: var(--c-bg-surface);
+      border-radius: $radius-tag;
+      letter-spacing: $kicker-spacing;
+    }
+
+    &__title {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+
+      a {
+        color: inherit;
+        &:hover { color: var(--c-accent); }
+      }
+    }
+  }
+
+  /* ===== 6. TAG LIST (cuối article) ===== */
+  .tag-list {
+    &__label {
+      color: var(--c-text-heading);
+      letter-spacing: $kicker-spacing;
+    }
+
+    &__tag {
+      background: var(--c-bg-soft);
+      color: var(--c-text-body);
+      border-radius: $radius-tag;
+
+      &:hover {
+        background: var(--c-accent);
+        color: var(--c-bg-surface);
+      }
+    }
+  }
+
+  /* ===== 7. POST SINGLE (article body) ===== */
+  .post-single {
+    background: var(--c-bg-surface);
+    box-shadow: $shadow-card;
+
+    &__title {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+    }
+
+    &__content {
+      color: var(--c-text-body);
+
+      h2, h3, h4 {
+        color: var(--c-text-heading);
+        letter-spacing: $heading-ls;
+      }
+
+      a {
+        color: var(--c-accent);
+        border-bottom-color: var(--c-accent-soft);
+
+        &:hover {
+          color: var(--c-accent-hover);
+          border-bottom-color: var(--c-accent-hover);
+        }
+      }
+
+      blockquote {
+        border-left-color: var(--c-accent);
+        color: var(--c-text-muted);
+      }
+
+      p code, li code { background: var(--c-bg-soft); }
+
+      table {
+        th, td { border-bottom-color: var(--c-border); }
+        th { background: var(--c-bg-soft); color: var(--c-text-heading); }
+      }
+    }
+
+    &__footer { border-top-color: var(--c-border); }
+  }
+
+  /* ===== 8. SECTION HEADER (taxonomy + category page) ===== */
+  .section-header__title {
+    color: var(--c-text-heading);
+    letter-spacing: $heading-ls;
+  }
+
+  .section-subtitle { color: var(--c-text-muted); }
+
+  /* ===== 9. SITE HEADER (title + tagline) ===== */
+  .site-title {
+    color: var(--c-text-heading);
+    letter-spacing: $heading-ls;
+  }
+
+  .site-tagline { color: var(--c-text-muted); }
+
+  /* ===== 10. FOOTER TAGS + QA DASHBOARD ===== */
+  .footer-tags-section__title {
+    color: var(--c-text-heading);
+    letter-spacing: $heading-ls;
+  }
+
+  .footer-tags-section__count { color: var(--c-text-muted); }
+
+  .footer-qa__title {
+    color: var(--c-text-heading);
+    letter-spacing: $heading-ls;
+  }
+
+  .footer-qa__sub { color: var(--c-text-muted); }
+
+  /* ===== 11. PAGINATION ===== */
+  .pagination__btn {
+    color: var(--c-text-body);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-tag;
+
+    &:hover {
+      color: var(--c-accent);
+      border-color: var(--c-accent);
+    }
+  }
+
+  .pagination__info { color: var(--c-text-muted); }
+
+  /* ===== 12. AUTHOR BOX (cuối post) ===== */
+  .author-box {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-card;
+
+    &__name {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+    }
+
+    &__url { color: var(--c-accent); }
+    &__bio { color: var(--c-text-body); }
+  }
+
+  /* ===== 13. POST META (date, author byline) ===== */
+  .post-meta { color: var(--c-text-muted); }
+
+  /* ===== 14. THEME-TOGGLE button current label ===== */
+  .theme-toggle__btn { color: var(--c-text-body); }
+}
+
+/* ============================================================
+   ===== APPLY MIXIN cho 3 themes =====
+   ============================================================
+   Color values từ Phase 1 (--c-*). Mixin chỉ inject non-color
+   tokens (radius / shadow / kicker / heading-ls) per theme. */
+
+/* ===== Z-X (ZaloPay) — soft app-like blue tint ===== */
+:root[data-theme="zx"] {
+  @include theme-overrides(
+    $radius-card:        $zx-radius-lg,       /* 14px soft */
+    $radius-tag:         $zx-radius-sm,       /* 6px */
+    $shadow-card:        $zx-shadow-sm,
+    $shadow-card-hover:  $zx-shadow-lg,
+    $kicker-spacing:     0.08em,
+    $heading-ls:         -0.025em
+  );
+}
+
+/* ===== E-X (Ericsson nhẹ) — medium radius, blue accent ===== */
+:root[data-theme="ex"] {
+  @include theme-overrides(
+    $radius-card:        $ex-radius-md,       /* 6px */
+    $radius-tag:         $ex-radius-xs,       /* 2px sharp */
+    $shadow-card:        $ex-shadow-xs,
+    $shadow-card-hover:  $ex-shadow-md,
+    $kicker-spacing:     0.10em,
+    $heading-ls:         -0.02em
+  );
+}
+
+/* ===== HILA ERICSSON — full newsroom corporate ===== */
+:root[data-theme="hila"] {
+  @include theme-overrides(
+    $radius-card:        $ex-radius-sm,       /* 4px sharpest */
+    $radius-tag:         $ex-radius-xs,
+    $shadow-card:        $ex-shadow-xs,
+    $shadow-card-hover:  $ex-shadow-md,
+    $kicker-spacing:     0.14em,              /* Ericsson newsroom wide kicker */
+    $heading-ls:         -0.025em
+  );
+  /* Hila signature: --c-border-strong: #0C0C0C đã set trong Phase 1 */
+}
+
+/* ============================================================
+   ===== MOBILE (≤ 720px) — rút spacing tránh overflow =====
+   ============================================================ */
+@media (max-width: 720px) {
+  :root[data-theme="zx"],
+  :root[data-theme="ex"],
+  :root[data-theme="hila"] {
+    .cat-tag,
+    .sidebar-label {
+      letter-spacing: 0.08em;     /* rút nhẹ tránh wrap khó đọc trên mobile */
+      font-size: 0.65rem;
+    }
+
+    .related-articles__title,
+    .tag-list__label {
+      letter-spacing: 0.08em;
+    }
+
+    .post-card__title,
+    .post-single__title,
+    .section-header__title,
+    .site-title,
+    .related-card__title,
+    .author-box__name {
+      letter-spacing: -0.015em;
+    }
+  }
+}
