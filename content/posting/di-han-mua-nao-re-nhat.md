@@ -1,12 +1,13 @@
 +++
 title = "Đi Hàn mùa nào rẻ nhất? Xếp hạng 12 tháng theo giá & thời tiết"
-description = "So sánh chi phí du lịch Hàn Quốc theo từng tháng: tháng nào vé máy bay rẻ, ít đông, thời tiết ổn. Bảng xếp hạng 12 tháng giúp chọn thời điểm đi Hàn tiết kiệm nhất."
+description = "Đi Hàn mùa nào rẻ? So sánh chi phí du lịch Hàn Quốc 12 tháng: tháng nào vé máy bay rẻ, ít đông, thời tiết ổn — bảng xếp hạng chọn thời điểm tiết kiệm nhất."
 date = 2026-06-16
 
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch hàn quốc", "hàn quốc", "ngân sách", "chi phí", "mùa du lịch", "tiết kiệm"]
 [extra]
+seo_keyword = "đi Hàn mùa nào rẻ"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/di-han-mua-nao-re-nhat.svg"
 featured = false
 
@@ -54,7 +55,7 @@ Giá phụ thuộc 3 yếu tố: **mùa cao/thấp điểm**, **dịp lễ** và
 
 > Giá mang tính tương đối theo mùa, chưa tính biến động khuyến mãi. Luôn so giá vé trước khi chốt.
 
-## Mùa rẻ nhất: đông ngoài lễ & đầu hè
+## Đi Hàn mùa nào rẻ nhất: đông ngoài lễ & đầu hè
 
 - **Tháng 1–2 (né Tết):** rẻ nhất. Lạnh nhưng có tuyết, trượt tuyết, suối nước nóng, mùa sale. Chỉ cần đồ ấm tốt.
 - **Đầu tháng 6:** chớm hè, trước cao điểm nghỉ hè và trước mùa mưa jangma — giá còn mềm, thời tiết dễ chịu. Xem thêm [tháng 6 đi Hàn ăn gì, làm gì](/zola/posting/thang-6-di-han-an-gi-lam-gi/).
@@ -71,6 +72,14 @@ Giá phụ thuộc 3 yếu tố: **mùa cao/thấp điểm**, **dịp lễ** và
 - **Đi tự túc + metro** thay vì tour; mua thẻ **T-money**.
 - Gộp điểm theo vùng để đỡ di chuyển — ví dụ ghép Busan vào lịch trình, xem [lịch trình Busan tự túc 3N2Đ](/zola/posting/lich-trinh-busan-tu-tuc-3-ngay-2-dem/).
 
+## Đặt vé thế nào để bắt đúng mùa rẻ?
+
+Biết mùa rẻ thôi chưa đủ — cách đặt mới quyết định bạn tiết kiệm được bao nhiêu. Vé máy bay quốc tế thường mở bán trước **6–11 tháng**, và mức giá tốt nhất hay rơi vào khoảng **2–3 tháng trước ngày bay** cho chặng đi Hàn. Đặt quá sát ngày (dưới 3 tuần) giá thường vọt lên, trừ khi vớ được vé "giải phóng chỗ" phút chót — vốn rất hên xui.
+
+Một mẹo thực tế: bật **theo dõi giá** trên Google Flights hoặc Skyscanner, đặt cảnh báo cho 2–3 khung ngày linh hoạt. Bay vào **giữa tuần** (thứ Ba, thứ Tư) gần như luôn rẻ hơn cuối tuần, và tránh khởi hành sát các kỳ nghỉ lễ của cả Việt Nam lẫn Hàn Quốc. Nếu lịch của bạn co giãn được vài ngày, chỉ riêng việc dời ngày bay khỏi cao điểm đã có thể tiết kiệm vài triệu đồng — đủ cho cả một ngày ăn chơi ở Seoul.
+
 ## Kết
 
 Muốn rẻ: đi **mùa đông ngoài lễ** hoặc **đầu hè**, đặt sớm, đi tự túc. Muốn đẹp: chấp nhận trả giá cao cho mùa anh đào/lá đỏ. Biết rõ "được gì – mất gì" theo từng tháng là cách lên kế hoạch thông minh nhất cho chuyến Hàn của bạn.
+
+📚 Tham khảo lịch thời tiết và sự kiện theo mùa trên trang du lịch chính thức [Visit Korea](https://english.visitkorea.or.kr/).
