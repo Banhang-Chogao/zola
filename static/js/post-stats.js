@@ -42,9 +42,10 @@
     }
   });
   const avgSec = completedReads ? (totalReadMs / completedReads) / 1000 : 0;
+  const builtInStats = container.innerHTML.trim();
 
   // Render
-  container.innerHTML = `
+  container.innerHTML = builtInStats + `
     <span class="post-stat" title="Lượt mở bài này">
       <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>

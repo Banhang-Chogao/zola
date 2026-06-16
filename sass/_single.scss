@@ -172,6 +172,33 @@
     font-weight: 700;
     font-family: $font-mono;
   }
+
+  &--seo {
+    color: #334155;
+
+    strong {
+      color: #0f172a;
+    }
+  }
+
+  &__suffix {
+    color: #94a3b8;
+    margin-left: -0.25rem;
+  }
+
+  &__grade {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.35rem;
+    padding: 0 0.4rem;
+    border-radius: 4px;
+    background: #dcfce7;
+    color: #166534;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 1;
+  }
 }
 
 /* ============= EDIT BUTTONS ============= */

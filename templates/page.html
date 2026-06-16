@@ -33,8 +33,26 @@
                 </span>
             </div>
 
-            {# Stats badge — populated by post-stats.js từ localStorage #}
-            <div class="post-stats" data-post-stats></div>
+            {# Stats badge — SEO score render từ DB build-time, reading stats do JS bổ sung. #}
+            {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
+            {% set page_parts = page.path | trim_start_matches(pat="/") | trim_end_matches(pat="/") | split(pat="/") %}
+            {% set content_path = "content/" ~ page_parts.0 ~ "/" ~ page.slug ~ ".md" %}
+            {% set_global seo_post = false %}
+            {% if seo_data and seo_data.posts and seo_data.posts[content_path] %}
+                {% set_global seo_post = seo_data.posts[content_path] %}
+            {% endif %}
+            <div class="post-stats" data-post-stats>
+                {% if seo_post %}
+                    <span class="post-stat post-stat--seo" title="Điểm SEO on-page của bài này từ Bảng Vàng SEO">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 14l3-3"></path>
+                            <path d="M3.34 19a10 10 0 1 1 17.32 0"></path>
+                        </svg>
+                        SEO <strong>{{ seo_post.score | round(precision=0) }}</strong><span class="post-stat__suffix">/100</span>
+                        <span class="post-stat__grade">{{ seo_post.grade }}</span>
+                    </span>
+                {% endif %}
+            </div>
 
             {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
             <div class="post-actions" data-post-actions hidden>
