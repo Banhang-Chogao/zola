@@ -2,7 +2,7 @@
 title = "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD"
 date = 2026-06-16
 [taxonomies]
-categories = ["Thế giới"]
+categories = ["Thế giới", "Báo chí"]
 tags = ["công-nghệ-quân-sự", "an-toàn-hàng-không", "kỹ-thuật", "sự-cố", "điều-tra-kỹ-thuật"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/f18-crash-when-technology-fails.svg"

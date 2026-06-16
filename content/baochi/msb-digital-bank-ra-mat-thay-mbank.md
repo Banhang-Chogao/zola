@@ -3,7 +3,7 @@ title = "MSB Digital Bank thay mBank từ 1/6/2026: khách cần làm gì?"
 description = "Từ 01/06/2026 MSB khai tử mBank, thay bằng app MSB Digital Bank. Hướng dẫn 3 bước chuyển đổi, mốc ngừng mBank và cách tránh lừa đảo mùa đổi app."
 date = 2026-06-16
 [taxonomies]
-categories = ["Ngân hàng"]
+categories = ["Ngân hàng", "Báo chí"]
 tags = ["ngân hàng", "tài chính", "msb", "msb-digital-bank", "ngân hàng số"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/msb-digital-bank-ra-mat-thay-mbank.svg"

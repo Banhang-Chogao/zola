@@ -1045,6 +1045,9 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
    - Extract title, publish date (nếu có), nội dung chính
    - Detect category từ nội dung: 
      - "Du lịch", "Ẩm thực", "Công nghệ", "Sức khỏe" → map vào `categories.json`
+   - **BẮT BUỘC**: mọi bài sinh bằng `bb` PHẢI có category `"Báo chí"` (thêm vào
+     cùng category auto-detect, ví dụ `categories = ["Bảo hiểm", "Báo chí"]`).
+     Nếu category mới chưa có trong `categories.json` → thêm vào file đó.
    - Sinh slug kebab-case từ title
 
 4. **Rewrite engine**:
@@ -1060,7 +1063,7 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
    title = "<Tiêu đề hấp dẫn ≤70 ký tự>"
    date = <hôm nay>
    [taxonomies]
-   categories = ["<auto-detected>"]
+   categories = ["<auto-detected>", "Báo chí"]
    tags = [<3-6 tags relevant>]
    [extra]
    thumbnail = "https://picsum.photos/seed/<slug>/600/400"
