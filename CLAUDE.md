@@ -238,6 +238,19 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 - `og:image` / ảnh social meta giữ định dạng gốc (`.jpg/.png`) cho tương thích;
   KHÔNG thay bằng webp ở thẻ meta OG/Twitter.
 
+### Ảnh Placeholder mặc định (bài KHÔNG có ảnh)
+
+- KHÔNG dùng ảnh random ngoài (vd `picsum.photos`) làm thumbnail — nội dung
+  không liên quan bài viết. KHÔNG nhúng chữ baked cứng lên ảnh minh hoạ.
+- Bài/section nào thiếu `[extra] thumbnail` → template TỰ chèn placeholder
+  thương hiệu (gradient xanh `#38bdf8 → #1d4ed8`, KHÔNG chữ) qua macro
+  `img::thumb_src` (`templates/macros/img.html`). Alt text lấy từ tiêu đề bài.
+- Bộ placeholder cố định ở `static/img/placeholder/` (sinh bằng
+  `python3 scripts/make_placeholder.py`): `placeholder.svg` (3:2, thumbnail),
+  `placeholder-wide.svg` (16:9, ảnh trong bài), `placeholder-square.svg` (1:1).
+- SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước. OG/social
+  vẫn fallback `img/og-default.jpg` (raster) vì mạng xã hội không render SVG.
+
 ## Quy tắc Bảo mật (Static host — thực tế GitHub Pages)
 
 - Blog là **Zola static site deploy GitHub Pages, repo public** → KHÔNG có

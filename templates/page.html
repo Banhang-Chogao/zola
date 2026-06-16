@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 {% import "macros/giscus.html" as giscus %}
+{% import "macros/img.html" as img %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
 {% block main %}
     <article class="post-single">
-        {% if page.extra.thumbnail %}
             <div class="post-single__hero">
                 {% if page.taxonomies.categories %}
                     <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
                 {% endif %}
                 {# Hero image = LCP candidate. eager + fetchpriority high
                    + width/height (aspect 16/7 matching CSS) → browser
-                   reserve space tránh CLS dù CSS chưa kịp parse. #}
-                <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                   reserve space tránh CLS dù CSS chưa kịp parse.
+                   Bài chưa có thumbnail → placeholder thương hiệu (macro img). #}
+                <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
                      width="1600" height="700"
                      loading="eager" fetchpriority="high" decoding="async">
             </div>
-        {% endif %}
 
         <header class="post-single__header">
             <h1 class="post-single__title">{{ page.title }}</h1>
@@ -203,11 +203,9 @@
                             {% if p.taxonomies.categories %}
                                 <span class="related-card__cat">{{ p.taxonomies.categories | first }}</span>
                             {% endif %}
-                            {% if p.extra.thumbnail %}
-                                <img src="{{ p.extra.thumbnail }}" alt="{{ p.title }}"
-                                     width="800" height="500"
-                                     loading="lazy" decoding="async">
-                            {% endif %}
+                            <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}"
+                                 width="800" height="500"
+                                 loading="lazy" decoding="async">
                         </a>
                         <h4 class="related-card__title">
                             <a href="{{ p.permalink }}">{{ p.title }}</a>

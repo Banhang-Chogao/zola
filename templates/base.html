@@ -1,4 +1,5 @@
 {% import "macros/verified.html" as v_author %}
+{% import "macros/img.html" as img %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
    - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
@@ -568,7 +569,7 @@
                         "title": {{ page.title | json_encode | safe }},
                         "permalink": {{ page.permalink | json_encode | safe }},
                         "date": {{ page.date | json_encode | safe }},
-                        "thumbnail": {{ page.extra.thumbnail | default(value="") | json_encode | safe }},
+                        "thumbnail": {{ img::thumb_src(thumb=page.extra.thumbnail | default(value="")) | json_encode | safe }},
                         "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
                         "featured": {% if page.extra.featured %}true{% else %}false{% endif %}
                     }{%- if not loop.last -%},{%- endif -%}
@@ -588,17 +589,15 @@
                     <section class="sidebar-block" data-widget="featured">
                         <h3 class="sidebar-label">FEATURED POST</h3>
                         <article class="featured-card" data-target="featured">
-                            {% if featured.extra.thumbnail %}
-                                <a class="featured-card__image" href="{{ featured.permalink }}">
-                                    {% if featured.taxonomies.categories %}
-                                        <span class="cat-tag">{{ featured.taxonomies.categories[0] | upper }}</span>
-                                    {% endif %}
-                                    <img src="{{ featured.extra.thumbnail }}" alt="{{ featured.title }}"
-                                         width="800" height="500"
-                                         loading="lazy" decoding="async">
-                                    <span class="rank-overlay rank-overlay--lg" aria-hidden="true">1</span>
-                                </a>
-                            {% endif %}
+                            <a class="featured-card__image" href="{{ featured.permalink }}">
+                                {% if featured.taxonomies.categories %}
+                                    <span class="cat-tag">{{ featured.taxonomies.categories[0] | upper }}</span>
+                                {% endif %}
+                                <img src="{{ img::thumb_src(thumb=featured.extra.thumbnail | default(value='')) }}" alt="{{ featured.title }}"
+                                     width="800" height="500"
+                                     loading="lazy" decoding="async">
+                                <span class="rank-overlay rank-overlay--lg" aria-hidden="true">1</span>
+                            </a>
                             <h4 class="featured-card__title">
                                 <a href="{{ featured.permalink }}">{{ featured.title }}</a>
                             </h4>
@@ -615,14 +614,12 @@
                         <ul class="random-list" data-target="random">
                             {% for page in root_pages | slice(end=5) %}
                                 <li class="random-item">
-                                    {% if page.extra.thumbnail %}
-                                        <a class="random-item__image" href="{{ page.permalink }}">
-                                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
-                                                 width="100" height="100"
-                                                 loading="lazy" decoding="async">
-                                            <span class="rank-overlay" aria-hidden="true">{{ loop.index }}</span>
-                                        </a>
-                                    {% endif %}
+                                    <a class="random-item__image" href="{{ page.permalink }}">
+                                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                                             width="100" height="100"
+                                             loading="lazy" decoding="async">
+                                        <span class="rank-overlay" aria-hidden="true">{{ loop.index }}</span>
+                                    </a>
                                     <div class="random-item__body">
                                         <h5 class="random-item__title">
                                             <a href="{{ page.permalink }}">{{ page.title }}</a>

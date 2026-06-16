@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
+{% import "macros/img.html" as img %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
 {% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
@@ -43,11 +44,9 @@
     {% if featured %}
         <article class="home-hero">
             <a class="home-hero__image" href="{{ featured.permalink }}">
-                {% if featured.extra.thumbnail %}
-                    <img src="{{ featured.extra.thumbnail }}" alt="{{ featured.title }}"
-                         width="1200" height="800"
-                         loading="eager" fetchpriority="high" decoding="async">
-                {% endif %}
+                <img src="{{ img::thumb_src(thumb=featured.extra.thumbnail | default(value='')) }}" alt="{{ featured.title }}"
+                     width="1200" height="800"
+                     loading="eager" fetchpriority="high" decoding="async">
             </a>
             <div class="home-hero__body">
                 {% if featured.taxonomies.categories %}
@@ -74,11 +73,9 @@
             {% for page in rest | slice(end=3) %}
                 <article class="home-card">
                     <a class="home-card__image" href="{{ page.permalink }}">
-                        {% if page.extra.thumbnail %}
-                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
-                                 width="800" height="500"
-                                 loading="lazy" decoding="async">
-                        {% endif %}
+                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                             width="800" height="500"
+                             loading="lazy" decoding="async">
                     </a>
                     <div class="home-card__body">
                         {% if page.taxonomies.categories %}
@@ -127,11 +124,9 @@
             {% for page in rest | slice(start=3, end=12) %}
                 <article class="home-card">
                     <a class="home-card__image" href="{{ page.permalink }}">
-                        {% if page.extra.thumbnail %}
-                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
-                                 width="800" height="500"
-                                 loading="lazy" decoding="async">
-                        {% endif %}
+                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                             width="800" height="500"
+                             loading="lazy" decoding="async">
                     </a>
                     <div class="home-card__body">
                         {% if page.taxonomies.categories %}

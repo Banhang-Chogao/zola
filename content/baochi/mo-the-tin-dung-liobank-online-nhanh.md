@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "mở thẻ tín dụng", "ekyc", "series liobank"]
 [extra]
-thumbnail = "https://picsum.photos/seed/mo-the-liobank-online/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "mở thẻ tín dụng Liobank"
 featured = false
 
