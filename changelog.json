@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "fix(report) + feat(cms): chặn guest tải report + mở rộng editor + brand button CMS",
+      "tag": "fix",
+      "pr": 260,
+      "lines_added": 86,
+      "lines_removed": 0,
+      "highlights": [
+        "Mở rộng editor: bỏ cột sidebar + nới container max-width: 1400px qua pattern :has(.editor-app) (giống .insights/.du-lich) → form 2 cột + split preview rộng rãi, dễ thao tác. Chỉ ảnh hưởng /editor/, kh",
+        "Button \"Content Management System (CMS)\": badge gradient 5 màu chạy động, bo pill, hơi nghiêng nghịch ngợm, hover scale + đổi glow, chip CMS + ngôi sao xoay. Tôn trọng prefers-reduced-motion.",
+        "qa_check.py pass (gồm SCSS brace check).",
+        "CSS scoped component, không sửa global .container/.layout-grid trần (chỉ qua :has)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "chore(ci): throttle build-related cron 5min→1h, xoá auto-throttle.yml (đang fail)",
       "tag": "remove",
       "pr": 259,
