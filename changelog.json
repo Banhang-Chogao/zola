@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Bật lại: banner quảng cáo luân phiên với GitHub status mỗi 3s",
+      "tag": "chore",
+      "pr": 219,
+      "lines_added": 19,
+      "lines_removed": 20,
+      "highlights": [
+        "Bỏ comment Slide A (.header-ad), đặt data-rotate=\"true\"",
+        "Chuyển is-active sang Slide A (slide đầu DOM) để nhịp 3s chuẩn ngay từ lần chuyển đầu; gỡ is-active khỏi Slide B (GitHub)",
+        "interval 3000ms (3 giây) như cũ"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Cập nhật rule deploy: bật auto-merge + auto-deploy lên production",
       "tag": "chore",
       "pr": 218,
