@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "feat(report): chặn THẬT bằng backend FastAPI OAuth (gỡ report khỏi repo public)",
+      "tag": "chore",
+      "pr": 263,
+      "lines_added": 392,
+      "lines_removed": 139,
+      "highlights": [
+        "GET /reports — list metadata (auth).",
+        "GET /reports/{file} — nội dung .md (auth), 404 nếu thiếu.",
+        "POST /reports — tạo/ghi đè (auth).",
+        "POST /reports/delete — xoá (auth).",
+        "Lưu report:doc:* + report:meta trong Redis; validate filename chống path traversal; cap 500KB."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "feat(navbar): nền gradient xanh + bảng chữ cái trắng mờ (font FreightSans Pro)",
       "tag": "chore",
       "pr": 262,
