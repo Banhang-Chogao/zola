@@ -151,15 +151,10 @@
     padding: 0 1rem;
   }
 
-  /* Section header pill responsive — không tràn ngang, touch-friendly */
+  /* Section header responsive — Hilda block title, không dùng ribbon lệch. */
   .section-header__title {
     font-size: 0.82rem;
-    padding: 0.8rem 1.25rem 0.7rem;
-    &::after {
-      right: -18px;
-      border-right-width: 18px;
-      border-bottom-width: 46px;
-    }
+    padding: 0.8rem 1rem 0.7rem;
   }
 
   /* Pagination button — improve touch target size */
@@ -191,33 +186,27 @@
 
 .section-header {
   position: relative;
-  display: inline-block;
+  display: block;
   margin-bottom: 1.5rem;
 }
 
 .section-header__title {
   background: var(--c-bg-surface);
-  border-top: 4px solid #1a8f44;
-  padding: 0.85rem 1.5rem 0.75rem;
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  border: 1px solid #e0e0e0;
+  border-left: 4px solid #003784;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   color: var(--c-text-heading);
   display: inline-block;
   position: relative;
+  text-transform: uppercase;
 
   &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: -20px;
-    border-top: 4px solid #1a8f44;
-    border-left: 0 solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 49px solid var(--c-bg-surface);
-    width: 0;
-    height: 0;
-    pointer-events: none;
+    content: none;
   }
 }
 

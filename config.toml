@@ -107,6 +107,13 @@ ga_measurement_id = "G-REFBXH86Z5"
 # Để trống = không render meta (silent skip).
 google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
 
+# ============= GOOGLE PROGRAMMABLE SEARCH ENGINE =============
+# Search engine ID (cx) lấy tại https://programmablesearchengine.google.com/
+# → tạo engine giới hạn site https://banhang-chogao.github.io/zola/
+# → copy "Search engine ID" dán vào đây. Để trống = fallback mở Google với
+# truy vấn site:banhang-chogao.github.io/zola nên nút tìm kiếm vẫn hoạt động.
+google_cse_cx = "533c848cb0eb14de2"
+
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
 #   1. Settings → Features → bật Discussions cho repo

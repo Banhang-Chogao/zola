@@ -324,6 +324,14 @@
    "Smooth transitions 0.3s ease": hover nâng shadow + lift nhẹ, focus ring
    WCAG. CHỈ hover/focus — KHÔNG sửa layout, overflow, height, position. */
 :root[data-theme="hilda"] {
+  .sidebar-label::after {
+    content: none;
+  }
+
+  .section-header__title {
+    letter-spacing: 0.05em;
+  }
+
   .post-card {
     transition:
       border-color 0.3s ease,

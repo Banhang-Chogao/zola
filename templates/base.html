@@ -72,15 +72,15 @@
        frame-ancestors 'none': chống clickjacking, /editor/ không thể iframe. #}
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
-        script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app;
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app https://cse.google.com https://www.google.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google.com https://cse.google.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://*.onrender.com https://*.railway.app;
-        frame-src https://giscus.app;
+        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app;
+        frame-src https://giscus.app https://www.google.com;
         frame-ancestors 'none';
         base-uri 'self';
-        form-action 'self';
+        form-action 'self' https://www.google.com;
     ">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -558,7 +558,7 @@
             </ul>
             {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
                Hilda (set bởi inline script ở <head>). #}
-            <button class="navbar__search" aria-label="Tìm kiếm" onclick="document.body.classList.toggle('search-open')">
+            <button class="navbar__search" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" data-search-open>
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="7"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -568,6 +568,45 @@
         {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
         <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
     </nav>
+
+    {% set search_cx = config.extra.google_cse_cx | default(value="") %}
+    <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
+        <div class="site-search__backdrop" data-search-close></div>
+        <section class="site-search__panel">
+            <div class="site-search__head">
+                <div>
+                    <p class="site-search__eyebrow">Google Search</p>
+                    <h2 class="site-search__title" id="site-search-title">Tìm trong blog</h2>
+                </div>
+                <button class="site-search__close" type="button" aria-label="Đóng tìm kiếm" data-search-close>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            {% if search_cx %}
+                <div class="site-search__gse">
+                    <div class="gcse-search" data-linktarget="_self"></div>
+                </div>
+            {% else %}
+                <form class="site-search__fallback" action="https://www.google.com/search" method="get" target="_blank" rel="noopener">
+                    <input type="hidden" name="sitesearch" value="banhang-chogao.github.io/zola">
+                    <label class="site-search__field">
+                        <span class="site-search__field-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="7"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </span>
+                        <input type="search" name="q" placeholder="Nhập từ khóa..." autocomplete="off" data-search-input>
+                    </label>
+                    <button class="site-search__submit" type="submit">Tìm kiếm</button>
+                </form>
+                <p class="site-search__note">Chưa cấu hình Google CSE ID, đang dùng Google site search tạm thời.</p>
+            {% endif %}
+        </section>
+    </div>
 
     <main class="container">
         <div class="layout-grid">
@@ -994,6 +1033,10 @@
     <script src="{{ get_url(path='js/staging-queue.js') }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}" defer></script>
+    <script src="{{ get_url(path='js/site-search.js') }}" defer></script>
+    {% if search_cx %}
+        <script async src="https://cse.google.com/cse.js?cx={{ search_cx | urlencode }}"></script>
+    {% endif %}
     <script src="{{ get_url(path='js/theme-switcher.js') }}" defer></script>
     <script src="{{ get_url(path='js/theme-dropdown.js') }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
