@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO Phase 3: thay picsum bằng ảnh bìa SVG on-brand (giữ OG raster)",
+      "tag": "chore",
+      "pr": 230,
+      "lines_added": 280,
+      "lines_removed": 20,
+      "highlights": [
+        "*static/img/covers/.svg** — 17 ảnh bìa SVG: gradient theo category (Công nghệ/Du lịch/Ẩm thực/Ngân hàng/Thế giới) + tiêu đề bài + wordmark \"DUY NGUYEN\". Nhẹ, nhanh, liên quan, không phụ thuộc dịch vụ ",
+        "17 bài: thumbnail từ picsum.photos → ảnh bìa SVG nội bộ. Hết picsum.",
+        "base.html: og:image / twitter:image / Article-schema image chỉ nhận ảnh raster — nếu thumbnail là .svg thì fallback img/og-default.jpg (mạng xã hội không render SVG). Thêm hỗ trợ page.extra.og_image đ",
+        "✅ Build OK, 17 SVG valid XML",
+        "✅ Ảnh bìa hiển thị trên trang (hero + card)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Thêm bài: Bên trong MSB Digital Bank — công nghệ và bảo mật",
       "tag": "security",
       "pr": 229,
