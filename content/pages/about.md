@@ -1,5 +1,6 @@
 +++
 title = "Giới thiệu"
+description = "Giới thiệu về blog Duy Nguyen: dự án viết bằng Zola, mã nguồn mở trên GitHub và tự động deploy qua GitHub Actions mỗi khi có commit mới."
 path = "about"
 template = "about.html"
 +++

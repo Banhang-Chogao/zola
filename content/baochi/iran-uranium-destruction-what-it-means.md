@@ -1,5 +1,6 @@
 +++
 title = "Uranium Iran: từ lập trường cứng sang ngoại giao"
+description = "Thỏa thuận tiêu hủy kho uranium làm giàu của Iran: vì sao bước ngoại giao Mỹ - Iran này đánh dấu chuyển từ lập trường cứng sang chính trị thực dụng."
 date = 2026-06-16
 [taxonomies]
 categories = ["Tất cả", "Thế giới", "Báo chí"]
