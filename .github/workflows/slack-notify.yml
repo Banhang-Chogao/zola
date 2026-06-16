@@ -44,6 +44,11 @@ jobs:
       - name: Send commit info to Slack
         uses: slackapi/slack-github-action@v3.0.3
         with:
+          # slack-github-action v2+ đổi API: dùng input `webhook` +
+          # `webhook-type: incoming-webhook` thay cho env SLACK_WEBHOOK_URL/TYPE
+          # kiểu v1. (Dependabot từng bump v1.27.0 → v3.0.3 làm vỡ workflow.)
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
           payload: |
             {
               "text": "New commit on ${{ github.repository }}",
@@ -84,6 +89,3 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
