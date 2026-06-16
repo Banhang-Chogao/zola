@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "HOTFIX: Guard section.title null (deploy đỏ Phase 1-4)",
+      "tag": "chore",
+      "pr": 159,
+      "lines_added": 4,
+      "lines_removed": 3,
+      "highlights": [
+        "27585006562 (Phase 1) — failure",
+        "27585147428 (Phase 2) — failure",
+        "27585259211 (Phase 3) — failure",
+        "27585725939 (Phase 4) — queued (sẽ fail nếu không fix)",
+        "{% if page %} → {% if page and page.title %}"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Phase 4: Port theme-overrides.scss — 14 components × 3 themes",
       "tag": "chore",
       "pr": 157,
