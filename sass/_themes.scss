@@ -1,10 +1,11 @@
 /* ============================================================
    ===== DYNAMIC THEME SWITCHING — CSS CUSTOM PROPERTIES =====
    ============================================================
-   3 theme:
+   4 theme:
    - BrandingX (MoMo, default :root)
    - Z-X (ZaloPay, :root[data-theme="zx"])
-   - E-X (Ericsson Newsroom, :root[data-theme="ex"])
+   - E-X (Ericsson Newsroom light, :root[data-theme="ex"])
+   - Hila (Ericsson Dark Editorial, :root[data-theme="hila"])
 
    Thêm theme mới? Tạo block `:root[data-theme="<name>"]` override
    override 14 semantic token bên dưới — KHÔNG cần đụng selector
@@ -142,6 +143,47 @@
 
   /* Focus ring — energy blue glow */
   --c-focus-ring:     rgba(17, 116, 229, 0.35);
+}
+
+/* ===== Hila Ericsson (Dark Editorial) — OVERRIDE khi data-theme="hila" =====
+   Same Ericsson DNA với E-X nhưng inverted: dark navy surface +
+   white text + brighter electric blue accent. Mapping từ $hila-* tokens.
+   color-scheme: dark → native form controls auto-match. */
+:root[data-theme="hila"] {
+  color-scheme: dark;
+
+  /* Surface — dark navy tiers */
+  --c-bg-page:        #0a1628;  /* $hila-ink-900 */
+  --c-bg-surface:     #142036;  /* $hila-ink-800 */
+  --c-bg-soft:        #1b2842;  /* $hila-ink-700 */
+
+  /* Text — near-pure white */
+  --c-text-heading:   #f5f8ff;  /* $hila-snow */
+  --c-text-body:      #c7d2e0;  /* $hila-cloud */
+  --c-text-muted:     #8595ac;  /* $hila-mist */
+
+  /* Accent — brighter electric blue cho dark contrast */
+  --c-accent:         #2c8af0;  /* $hila-blue-700 */
+  --c-accent-hover:   #4fa3f5;  /* $hila-blue-600 — lift hover thay vì deepen */
+  --c-accent-soft:    rgba(44, 138, 240, 0.15);
+
+  /* Decoration — Energy Yellow brighter cho dark */
+  --c-decoration:     #ffd93d;  /* $hila-yellow */
+
+  /* Border — dark dividers */
+  --c-border:         #2a3850;  /* $hila-ink-600 */
+  --c-border-strong:  #3d4f6f;  /* $hila-ink-500 */
+
+  /* Shadow — black deep + blue glow lift */
+  --c-shadow-md:      0 4px 12px rgba(0, 0, 0, 0.4);
+  --c-shadow-lg:      0 12px 32px rgba(44, 138, 240, 0.25);
+
+  /* Status — brighter cho dark */
+  --c-success:        #00c896;
+  --c-warning:        #e0a800;
+
+  /* Focus ring — energy blue glow stronger */
+  --c-focus-ring:     rgba(44, 138, 240, 0.5);
 }
 
 /* ===== Smooth transition khi user toggle theme =====

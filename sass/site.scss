@@ -26,3 +26,7 @@
 @import "zx";
 @import "ex-tokens";
 @import "ex";
+@import "hila-tokens";
+/* Theme overrides PHẢI import cuối cùng — CSS source order
+   khiến selector ở đây thắng selector trùng tên trong các file trước. */
+@import "theme-overrides";

@@ -215,36 +215,8 @@
   font-size: 0.95rem;
 }
 
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2rem;
-  padding: 1.5rem 0;
-
-  &__btn {
-    background: $brand-ink-900;
-    color: $brand-snow;
-    padding: 0.7rem 1.2rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-
-    &:hover {
-      background: $brand-signal-red;
-      color: $brand-snow;
-    }
-  }
-
-  &__info {
-    color: $brand-ink-500;
-    font-size: 0.85rem;
-    flex: 1;
-    text-align: center;
-  }
-}
+/* .pagination → ported sang _theme-overrides.scss (Phase 4 Group 1).
+   Style mới dùng var(--c-*) để theme switcher có tác dụng. */
 
 @media (max-width: 960px) {
   .layout-grid {

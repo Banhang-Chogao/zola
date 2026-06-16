@@ -1,0 +1,78 @@
+/* ============================================================
+   ===== THEME OVERRIDES — Components ported sang Design Tokens =====
+   ============================================================
+   File này là HOME cho component đã refactor từ SCSS vars
+   compile-time ($brand-*, $zx-*…) sang CSS custom properties
+   runtime (var(--c-*)). Mỗi component port xong → di chuyển từ
+   _layout.scss / _post.scss / etc. sang đây.
+
+   Sau khi port, component tự động đổi màu khi user switch theme
+   (đổi data-theme attribute) — KHÔNG cần JS extra.
+
+   ===== Mapping bảng tham chiếu (SCSS var → CSS token) =====
+   $brand-ink-900       → var(--c-text-heading)
+   $brand-ink-800       → var(--c-text-body)
+   $brand-ink-500       → var(--c-text-muted)
+   $brand-snow          → var(--c-bg-surface)
+   $brand-mist          → var(--c-bg-page)
+   $brand-fog           → var(--c-bg-soft)
+   $brand-signal-red    → var(--c-accent)
+   $brand-signal-red-dk → var(--c-accent-hover)
+   $brand-hot-pink      → var(--c-decoration)
+   $brand-edge          → var(--c-border)
+   $brand-edge-strong   → var(--c-border-strong)
+
+   ===== Quy tắc port =====
+   1. Giữ NGUYÊN class name (vd .pagination) để KHÔNG cần sửa template.
+   2. Import file này SAU file gốc (xem site.scss order) → CSS source
+      order khiến override này thắng.
+   3. XÓA block tương ứng trong file gốc (_layout.scss/...) sau khi port
+      để tránh dead code duplicate.
+
+   ===== Group 1 (Core UI) =====
+   [x] .pagination — port từ _layout.scss
+   [-] .post-card  — SKIP, đã dùng var(--c-*) sẵn từ trước
+   ============================================================ */
+
+/* ============================================================
+   ===== .pagination (port từ _layout.scss) =====
+   ============================================================
+   Component prev/next page navigator. Trước port dùng hardcoded
+   $brand-* compile-time → switcher không có tác dụng. Sau port
+   dùng var(--c-*) runtime → đổi theo 4 theme. */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+
+  &__btn {
+    background: var(--c-text-heading);     /* $brand-ink-900 */
+    color: var(--c-bg-surface);            /* $brand-snow */
+    padding: 0.7rem 1.2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.18s ease, color 0.18s ease;
+
+    &:hover {
+      background: var(--c-accent);         /* $brand-signal-red */
+      color: var(--c-bg-surface);          /* $brand-snow */
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--c-focus-ring);
+    }
+  }
+
+  &__info {
+    color: var(--c-text-muted);            /* $brand-ink-500 */
+    font-size: 0.85rem;
+    flex: 1;
+    text-align: center;
+  }
+}

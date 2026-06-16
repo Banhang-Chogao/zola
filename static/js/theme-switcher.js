@@ -43,6 +43,16 @@
       '<path d="M15 18h-5"></path>' +
       '<path d="M10 6h8v4h-8z"></path>' +
     '</svg>';
+  /* Hila = tower/broadcast (Ericsson telecom DNA, dark editorial feel) */
+  var ICON_TOWER =
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M5 4.5a8 8 0 0 1 14 0"></path>' +
+      '<path d="M7.5 7a5 5 0 0 1 9 0"></path>' +
+      '<path d="M10 10a2 2 0 0 1 4 0"></path>' +
+      '<path d="M12 11v3"></path>' +
+      '<path d="M9 21l3-7 3 7"></path>' +
+      '<path d="M10 18h4"></path>' +
+    '</svg>';
 
   var THEMES = [
     {
@@ -60,8 +70,14 @@
     {
       name: 'ex',
       label: 'E-X',
-      desc: 'Ericsson Newsroom — corporate',
+      desc: 'Ericsson Newsroom — corporate light',
       icon: ICON_NEWSROOM
+    },
+    {
+      name: 'hila',
+      label: 'Hila',
+      desc: 'Ericsson — dark editorial',
+      icon: ICON_TOWER
     }
   ];
 

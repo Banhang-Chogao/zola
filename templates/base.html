@@ -47,8 +47,8 @@
     {# Anti-flash theme switcher: ĐỌC localStorage + set data-theme NGAY
        trước khi CSS render → tránh user thấy flash từ default sang Z-X/E-X
        khi đã chọn theme trước đó. PHẢI là script đầu tiên trong <head>.
-       Allowed = {zx, ex}; thêm theme 4 → push key vào object `a`. #}
-    <script>(function(){try{var t=localStorage.getItem('blog-theme');var a={zx:1,ex:1};if(t&&a[t]){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+       Allowed = {zx, ex, hila}. Thêm theme mới → push key vào object `a`. #}
+    <script>(function(){try{var t=localStorage.getItem('blog-theme');var a={zx:1,ex:1,hila:1};if(t&&a[t]){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
