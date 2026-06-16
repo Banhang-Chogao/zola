@@ -109,7 +109,7 @@
     {% set page_title_full = config.title %}
     {% if page %}
         {% set_global page_title_full = page.title ~ " | " ~ config.title %}
-    {% elif section %}
+    {% elif section and section.title %}
         {% set_global page_title_full = section.title ~ " | " ~ config.title %}
     {% endif %}
 
@@ -481,7 +481,7 @@
                             </h4>
                             <div class="post-meta">
                                 <span class="post-meta__author">{{ config.extra.author }}{{ v_author::badge() }}</span>
-                                <span class="post-meta__date">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                                {% if featured.date %}<span class="post-meta__date">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>{% endif %}
                             </div>
                         </article>
                     </section>
@@ -504,7 +504,7 @@
                                         <h5 class="random-item__title">
                                             <a href="{{ page.permalink }}">{{ page.title }}</a>
                                         </h5>
-                                        <time class="random-item__date">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                                        {% if page.date %}<time class="random-item__date">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>{% endif %}
                                     </div>
                                 </li>
                             {% endfor %}
