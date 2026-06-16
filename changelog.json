@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Shortcut content9 + script check_content_seo.py (soi SEO content/)",
+      "tag": "feat",
+      "pr": 204,
+      "lines_added": 1191,
+      "lines_removed": 0,
+      "highlights": [
+        "Front matter TOML (+++): báo file thiếu title / description.",
+        "Body: báo ảnh markdown [](...) + <img> thiếu/empty alt.",
+        "Output danh sách file lỗi + lý do; exit 1 nếu có lỗi (CI gate được).",
+        "content9 → soi source .md (sửa ngay tại front matter).",
+        "diemtoiuu → chấm HTML build trong public/."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Shortcut diemtoiuu — chấm điểm SEO toàn site + báo cáo chi tiết",
       "tag": "feat",
       "pr": 203,
