@@ -138,6 +138,12 @@
     {# ===== Canonical (chống duplicate content cho query string / pagination) ===== #}
     <link rel="canonical" href="{{ canonical_url | safe }}">
 
+    {# ===== Feed auto-discovery (RSS + Atom) =====
+       Cho phép feed reader (Feedly, Inoreader…) + crawler tự phát hiện feed.
+       generate_feeds=true sinh atom.xml & rss.xml ở root sau build. #}
+    <link rel="alternate" type="application/atom+xml" title="{{ config.title }} — Atom" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ config.title }} — RSS" href="{{ get_url(path='rss.xml', trailing_slash=false) }}">
+
     {# ===== Open Graph (Facebook, LinkedIn, Zalo, Telegram preview) ===== #}
     <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
     <meta property="og:title" content="{{ page_title_full }}">

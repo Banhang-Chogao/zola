@@ -1,13 +1,23 @@
 base_url = "https://banhang-chogao.github.io/zola"
 title = "Duy Nguyen"
 description = "Blog cá nhân — viết bằng Zola"
+# Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
+# xml:lang="vi" thay vì mặc định "en", khớp <html lang="vi">.
+default_language = "vi"
 
 compile_sass = true
 build_search_index = false
 
+# SEO: sinh feed RSS/Atom toàn site + cho từng taxonomy.
+# Zola 0.19+ đổi `generate_rss`→`generate_feeds`, taxonomy `rss`→`feed`.
+# Mặc định generate_feeds=false → trước đây blog KHÔNG có feed nào (chỉ có
+# sitemap.xml). Bật lên để feed reader + Google Discover bắt được nội dung.
+generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
+
 taxonomies = [
-    {name = "categories", rss = true, paginate_by = 10},
-    {name = "tags", rss = true, paginate_by = 10},
+    {name = "categories", feed = true, paginate_by = 10},
+    {name = "tags", feed = true, paginate_by = 10},
 ]
 
 [markdown]
