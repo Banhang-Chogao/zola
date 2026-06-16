@@ -826,6 +826,15 @@
   .navbar__dropdown-label { color: rgba(255, 255, 255, 0.82); }
   .navbar__dropdown-trigger:hover { color: #fff; }
 
+  /* QUAN TRỌNG: submenu xổ xuống là panel nền TRẮNG → chữ phải TỐI (rule chữ
+     trắng .navbar__menu a ở trên đè nhầm vào link submenu vì nó nằm trong menu).
+     Đặt sau để thắng theo source order. */
+  .navbar__submenu a {
+    color: var(--c-text-body);
+    &:hover { color: var(--c-accent); }
+    &.is-active { color: var(--c-accent); border-bottom-color: transparent; }
+  }
+
   /* Theme toggle + icon buttons sang trắng */
   .theme-toggle__btn {
     color: rgba(255, 255, 255, 0.9);
