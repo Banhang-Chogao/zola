@@ -206,13 +206,13 @@ All spacing follows **8px base unit** (multiples):
 
 ---
 
-## 🔄 Theme Toggle
+## 🎨 Single Theme (Hilda)
 
-Hilda theme có thể được chuyển đổi từ theme mặc định (Z-X) thông qua nút toggle 🎨 trên Navbar.
+Blog sử dụng **Hilda (Ericsson Blue)** làm theme duy nhất. Không có theme toggle.
 
-- **Click để chuyển:** Z-X ↔ Hilda
-- **Fade transition:** 0.3s smooth
-- **Persistent:** Lưu lựa chọn vào localStorage
+- **Default theme:** Hilda Professional
+- **Color scheme:** Ericsson Blue (#003784)
+- **Style:** Clean, sharp, professional aesthetic
 
 ---
 

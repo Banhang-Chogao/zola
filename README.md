@@ -303,12 +303,11 @@ Built with ❤️ by [**@duynguyenlog**](https://github.com/Banhang-Chogao) · S
 
 Blog hiện hỗ trợ **multi-theme switching** với persistent localStorage:
 
-### Themes Available
+### Theme
 
 | Theme | Color Palette | Style | Font |
 |---|---|---|---|
-| **Z-X** (Default) | ZaloPay Blue (#0068FF) | Soft, fintech modern | System fonts |
-| **Hilda** (Secondary) | Ericsson Blue (#003784) | Sharp, professional | Ericsson Hilda OTF |
+| **Hilda** (Default) | Ericsson Blue (#003784) | Professional, clean | Ericsson Hilda OTF |
 
 ### Adding a New Theme (Guide for Developers)
 
@@ -362,7 +361,7 @@ $mytheme-shadow-sm:    0 2px 4px rgba(0,0,0,0.08);
 
 **`static/js/theme-switcher.js`**
 ```javascript
-var VALID_THEMES = ["zx", "hilda", "mytheme"];  // Add your theme here
+var VALID_THEMES = ["hilda"];  // Single theme: Hilda (Ericsson Blue)
 ```
 
 #### Step 5: Update Imports
