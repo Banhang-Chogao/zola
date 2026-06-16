@@ -984,6 +984,76 @@ main (production)
 
 **Safe fallback**: Nếu conflict quá phức tạp → output diff + escalate user manual review.
 
+### `bb` — Xử lý bài báo từ Dân Trí / VnExpress (Interactive article processor)
+
+**Mục đích**: Copy-paste nội dung bài báo từ Dân Trí/VnExpress → Claude tự viết lại theo phong cách blog cá nhân → auto-commit vào nhánh `baochi` → PR → merge ngay.
+
+**Hành động**:
+
+1. **Prompt user**:
+   - Gõ `bb`
+   - Claude hỏi: "📰 Dán nội dung bài báo (hoặc chỉ heading + URL):"
+   
+2. **Nhập liệu**:
+   - User copy-paste full bài hoặc chỉ title + nội dung chính
+   - Format chấp nhận: text thô hoặc đã format markdown
+   - URL bài báo (optional, để tham khảo source)
+
+3. **Parse + analyze**:
+   - Extract title, publish date (nếu có), nội dung chính
+   - Detect category từ nội dung: 
+     - "Du lịch", "Ẩm thực", "Công nghệ", "Sức khỏe" → map vào `categories.json`
+   - Sinh slug kebab-case từ title
+
+4. **Rewrite engine**:
+   - Claude viết lại bài từ đầu (KHÔNG paraphrase máy móc)
+   - Giọng cá nhân: 1st person ("mình", "tôi"), quan điểm riêng
+   - Tổng hợp kiến thức từ nội dung gốc → mở rộng góc nhìn độc lập
+   - Thêm internal links tới 2-3 bài liên quan nếu có
+   - Output 800-1500 từ, tự nhiên Tiếng Việt
+
+5. **Build frontmatter**:
+   ```toml
+   +++
+   title = "<Tiêu đề hấp dẫn ≤70 ký tự>"
+   date = <hôm nay>
+   [taxonomies]
+   categories = ["<auto-detected>"]
+   tags = [<3-6 tags relevant>]
+   [extra]
+   thumbnail = "https://picsum.photos/seed/<slug>/600/400"
+   featured = false
+   +++
+   ```
+
+6. **Auto-workflow**:
+   - Checkout nhánh `baochi` (hoặc create nếu không tồn tại)
+   - Write file `content/baochi/<slug>.md`
+   - Commit: `feat: Add Dân Trí article — <short title>`
+   - Push lên `baochi`
+   - Tạo PR từ `baochi` → `main`
+   - **MERGE NGAY** (bypass 16:00 rule vì là article aggregation, KHÔNG code)
+   - Trigger deploy
+
+7. **Output summary**:
+   ```
+   ✅ Bài báo xử lý thành công
+   📝 Slug: <slug>
+   🏷️ Category: <auto-detected>
+   🔗 PR: #<số> → merged
+   🚀 Deploy: in progress
+   ```
+
+**Quality checks**:
+- Tiếng Việt tự nhiên, KHÔNG AI-generated flavor
+- KHÔNG plagiarize từ bài gốc → trích dẫn source properly
+- Có quan điểm cá nhân hoặc góc nhìn mới
+- Internal links semantic (không generic "xem thêm")
+
+**Network fallback**:
+- Nếu user cung cấp URL nhưng network blocked → skip crawl, dùng content họ paste
+- Không vì không fetch được mà block shortcut
+
 ---
 
 ## 3. Workflow Auto-Heal — quy trình chuẩn
