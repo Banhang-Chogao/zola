@@ -8,11 +8,10 @@ on:
       - 'scripts/build_related.py'
       - 'scripts/requirements.txt'
   schedule:
-    # Mỗi 5 phút — rebuild liên tục (user yêu cầu).
-    # ⚠ WARNING: ~2 phút/run × 12 runs/giờ × 24h = ~576 min/ngày.
-    # GitHub Actions free tier 2000 min/tháng → exceed sau ~3.5 ngày.
-    # Cân nhắc giảm xuống '*/30 * * * *' (30 phút) nếu sợ vượt quota.
-    - cron: '*/5 * * * *'
+    # Mỗi GIỜ — đủ tươi cho related posts mà KHÔNG đốt quota Actions.
+    # (Trước đây '*/5' mỗi 5 phút ~576 min/ngày → vượt free tier sau ~3.5 ngày;
+    #  đã throttle trực tiếp tại đây, gỡ workflow auto-throttle.yml one-shot.)
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 permissions:
