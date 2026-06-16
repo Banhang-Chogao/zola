@@ -899,38 +899,48 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 
 KHÔNG auto-merge — chỉ approve, user quyết định merge.
 
-### `prn` — PR Now (Auto-create PRs for unmerged branches)
+### `prn` — PR Now (Create feature branch + PR to staging)
 
-**Mục đích**: Tự động quét branches chưa có PR, tạo PR + push vào nhánh chỉ định.
+**Mục đích**: Tạo feature branch riêng từ uncommitted/current changes, push PR vào staging (KHÔNG main).
 
 **Hành động**:
 
-1. **Scan branches**:
-   - List tất cả branches (exclude main, master, staging)
-   - Kiểm tra branch nào chưa có open PR
-   - Filter: branches có commits chưa merge
+1. **Detect current state**:
+   - Kiểm tra current branch (thường là main hoặc dev)
+   - Scan commits chưa push (hoặc chưa có PR)
+   - Generate tên branch: `claude/<description>-<random>` từ last commit
 
-2. **Tạo PR tự động**:
-   - Mỗi branch → tạo PR với:
-     - Title: branch name + last commit message (≤70 chars)
-     - Body: list commits trong branch (auto-generated)
-     - Base: [user-specified branch] (default: `main`)
-   - Không auto-merge — giữ pending
+2. **Tạo feature branch**:
+   - Checkout branch mới: `git checkout -b claude/...`
+   - Copy commits từ current → feature branch
+   - Push feature branch lên remote
 
-3. **Batch create**:
-   - Sequential create PR (tránh race condition)
-   - Mỗi PR output: `#X created`
+3. **Tạo PR**:
+   - Title: last commit message (≤70 chars)
+   - Body: list commits + "ready for staging review"
+   - **Base branch: `staging` hoặc `develop`** (KHÔNG main)
+   - Status: **pending** (không auto-merge)
 
-4. **Output bảng summary**:
+4. **Output**:
 
-| Branch | Commits | PR | Status |
-|---|---|---|---|
-| `claude/foo` | 3 | #160 | ✅ Created |
-| `claude/bar` | 2 | #161 | ✅ Created |
+```
+✅ Feature branch created: claude/feature-abc123
+✅ PR #X created → staging (chờ review)
+   Manage: https://github.com/.../pull/X
+```
 
-**Final**: "N PRs created. Chờ `manual #X` để merge."
+**Workflow**:
+```
+main (stable)
+  ↓ (user gõ `prn`)
+claude/feature-abc (develop/test)
+  ↓ (PR to staging for review)
+staging (test before main)
+  ↓ (after review, manual merge to main)
+main (production)
+```
 
-KHÔNG auto-merge — tuân thủ rule "manual approval only".
+**NOT auto-merge** — giữ pending, user `manual #X` → merge staging → main.
 
 ### `ff9` — Smart Conflict Resolver (Python-powered)
 
