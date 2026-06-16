@@ -1,20 +1,62 @@
 /* ============================================================
-   ===== HILDA FONTS — Ericsson Proprietary Font =====
+   ===== HILDA FONTS — Ericsson Hilda (self-hosted, official) =====
    ============================================================
-   @font-face for Ericsson Hilda OTF
-   Fallback: Inter, Roboto from Google Fonts
-*/
+   Font Ericsson Hilda chính chủ, self-host trong static/fonts/
+   (serve qua 'self' → CSP-safe, không phụ thuộc CDN ngoài, không bị
+   Content-Security-Policy chặn như bản raw.githubusercontent cũ).
 
-/* ===== Ericsson Hilda Font Import (from GitHub) ===== */
+   Weights có sẵn (5 file .ttf ~95KB):
+   ExtraLight 200 · Light 300 · Medium 500 · Bold 700 · ExtraBold 800.
+
+   Dùng @font-face WEIGHT-RANGE để map đúng guideline mà không cần
+   synthetic weight (không có file 400/600 riêng):
+   - 400 (Regular body) → Medium glyphs (đậm vừa, đọc rõ trên nền sáng)
+   - 600 (SemiBold H3)  → Bold glyphs
+   - 700 (Bold H1/H2)   → Bold glyphs
+   Browser chỉ tải weight thực sự dùng trên trang → không phí băng thông.
+
+   Đây là NGUỒN CHUẨN của family 'Ericsson Hilda' cho cả site (theme
+   Hilda + trang Font Guideline). _hilda-fonts import trước _font-guideline
+   nên family sẵn sàng cho mọi specimen.
+
+   url() là RELATIVE so với site.css: cùng cấp root ({base_url}/site.css ↔
+   {base_url}/fonts/…) → resolve đúng kể cả khi chạy ở subpath /zola/. */
+
 @font-face {
   font-family: 'Ericsson Hilda';
-  src: url('https://raw.githubusercontent.com/Verten/umi_design/master/src/assets/font/hilda/ericsson-hilda-mono-regular.otf') format('opentype');
-  font-weight: 400;
-  font-display: swap;  /* Prevent FOUC, use system font while loading */
+  src: url('fonts/EricssonHilda-ExtraLight.ttf') format('truetype');
+  font-weight: 100 200;
+  font-style: normal;
+  font-display: swap;
 }
-
-/* ===== Google Fonts Fallback (Inter) ===== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-Medium.ttf') format('truetype');
+  font-weight: 400 500;   /* Regular body map → Medium */
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-Bold.ttf') format('truetype');
+  font-weight: 600 700;   /* SemiBold + Bold map → Bold */
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-ExtraBold.ttf') format('truetype');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ===== Apply Font Stack to Hilda Theme ===== */
 :root[data-theme="hilda"] {
@@ -28,4 +70,13 @@
   --hilda-font-weight-regular: 400;
   --hilda-font-weight-semibold: 600;
   --hilda-font-weight-bold: 700;
+}
+
+/* ===== Crisp professional rendering =====
+   Antialiased + legibility → chữ Ericsson sắc, sạch. CHỈ ảnh hưởng render
+   chữ của theme Hilda, KHÔNG đụng layout. */
+:root[data-theme="hilda"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
