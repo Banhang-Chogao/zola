@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Hotfix: trang chủ hiển thị bài viết từ MỌI section (gộp posting/ + baochi/)",
+      "tag": "chore",
+      "pr": 220,
+      "lines_added": 61,
+      "lines_removed": 27,
+      "highlights": [
+        "templates/index.html — trang chủ hiển thị mọi bài, tối đa 13 bài/trang (hero 1 + hàng 3 + lưới 9). Lưới dùng danh sách rest (loại hero ra) → không trùng, không sót.",
+        "templates/base.html — sidebar Featured/Random + JSON posts-data + đếm \"bài viết live\" phản ánh đúng mọi bài.",
+        "templates/page.html — \"bài viết liên quan\" lấy từ mọi section.",
+        "✅ zola build (v0.22.1) OK, 0 orphan",
+        "✅ qa_check.py pass (142 files)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Bật lại: banner quảng cáo luân phiên với GitHub status mỗi 3s",
       "tag": "chore",
       "pr": 219,
