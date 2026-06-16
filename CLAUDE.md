@@ -133,3 +133,37 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 - Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
 - Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
   cần tạo PR trùng.
+
+## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
+
+Áp dụng cho MỌI lần viết hoặc sửa bài viết trong `content/` (đuôi `.md`,
+không tính trang `_index`).
+
+### 1. Luôn tối ưu SEO khi viết bài
+
+Mỗi bài mới PHẢI có đủ tín hiệu SEO on-page trong front matter + nội dung:
+
+- `title` (20–65 ký tự, chứa từ khoá chính ở nửa đầu).
+- `description` (50–160 ký tự) — KHÔNG để Zola tự cắt summary.
+- `[extra] seo_keyword = "..."` — khai báo từ khoá chính để chấm điểm chính xác.
+- `[extra] thumbnail` (og:image), slug chữ-thường-nối-gạch-ngang không dấu.
+- Từ khoá chính xuất hiện ở: title, đoạn mở đầu, ít nhất 1 heading H2.
+- ≥ 2 heading H2, ≥ 3 tag, ≥ 1 internal link + ≥ 1 external link uy tín.
+- Độ dài ≥ 600 từ, đoạn văn không quá dài (readability).
+
+### 2. Hệ thống tự chấm điểm + lưu DB
+
+Mỗi lần viết/sửa bài, hệ thống TỰ chấm SEO qua `scripts/seo_qa_checker.py`
+(thang 100 điểm bám tiêu chí on-page của Google) và lưu điểm + lịch sử vào
+**DB `data/seo-qa-scores.json`**. Việc này chạy tự động qua PostToolUse hook
+(`scripts/seo_qa_hook.py`, cấu hình ở `.claude/settings.json`).
+
+- Chấm thủ công 1 bài: `python3 scripts/seo_qa_checker.py content/<đường-dẫn>.md`
+- Chấm lại toàn bộ: `python3 scripts/seo_qa_checker.py --all`
+- Bài < 70 điểm → script exit code 2 (CI có thể dùng để chặn).
+
+### 3. Trang Insights điểm SEO (về sau)
+
+DB `data/seo-qa-scores.json` là nguồn dữ liệu để dựng trang Insights "điểm SEO
+của blog" sau này. KHÔNG xoá file này; mỗi lần chấm chỉ append thêm mốc lịch sử
+(`history`, giữ tối đa 20 mốc/bài).
