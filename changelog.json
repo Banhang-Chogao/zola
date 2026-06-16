@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Add Branding Guideline page + homepage CTA",
+      "tag": "feat",
+      "pr": 182,
+      "lines_added": 241,
+      "lines_removed": 0,
+      "highlights": [
+        "Visual color palette (Primary, Accent, Neutral) with hex codes",
+        "Typography showcase (Ericsson Hilda OTF font, sizes, weights)",
+        "UI Design System (4px radius, shadows, 8px spacing)",
+        "Component examples (buttons, badges, contrast tests)",
+        "WCAG AAA accessibility verification"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Complete theme switcher — BrandingX ↔ Z-X",
       "tag": "feat",
       "pr": 181,
