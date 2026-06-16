@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "gỡ Dependabot khỏi hệ thống",
+      "tag": "chore",
+      "pr": 247,
+      "lines_added": 0,
+      "lines_removed": 55,
+      "highlights": [
+        "Không có PR Dependabot nào đang mở cần đóng.",
+        "Không có workflow nào khác tham chiếu Dependabot.",
+        ".github/dependabot.yml không còn tồn tại → Dependabot ngừng tạo PR."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "docs(bb9): cú pháp phím tắt thành `bb9 &lt;topic&gt;`",
       "tag": "chore",
       "pr": 246,
