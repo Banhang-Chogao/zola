@@ -1,6 +1,19 @@
 {
   "items": [
     {
+      "date": "2026-06-16",
+      "title": "HOTFIX: Guard page.date null trong OG + JSON-LD (deploy đỏ)",
+      "tag": "chore",
+      "pr": 148,
+      "lines_added": 4,
+      "lines_removed": 2,
+      "highlights": [
+        "Wrap <meta property=\"article:published_time\"> với {% if page.date %}",
+        "Wrap datePublished JSON-LD với {% if page.date %}",
+        "dateModified fallback chain: page.updated → page.date → omit field"
+      ]
+    },
+    {
       "date": "2026-06-15",
       "title": "SEO11 phase 1 (clean) + slash commands /phimtat /thememoi",
       "tag": "cleanup",
