@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Cập nhật rule Git — 1 nhánh chung + manual merge",
+      "tag": "chore",
+      "pr": 206,
+      "lines_added": 11,
+      "lines_removed": 5,
+      "highlights": [
+        "Làm rõ: MỌI thay đổi (kể cả nhỏ) đều phải qua PR, chờ user duyệt tay.",
+        "Dùng chung 1 nhánh claude/seo-1j0frj cho mọi PR (\"10 PR 1 nhánh\") — không tạo nhánh lẻ, để user tiện xem/quản lý. Ghi rõ quy trình lặp: reset về origin/main → commit → push → PR → user merge tay → lặp",
+        "Nhấn mạnh: KHÔNG auto-merge kể cả khi CI xanh. CI xanh không phải tín hiệu merge — luôn chờ user gõ manual #X / prm / gg."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Xóa workflow AI Diagnose (tốn phí Anthropic API)",
       "tag": "chore",
       "pr": 205,
