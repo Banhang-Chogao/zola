@@ -15,7 +15,7 @@
 
   var STORAGE_KEY = "blog-theme";
   var VALID_THEMES = ["zx", "hilda"];
-  var DEFAULT_THEME = "zx";
+  var DEFAULT_THEME = "hilda";
   var ATTR = "data-theme";
   var root = document.documentElement;
 
