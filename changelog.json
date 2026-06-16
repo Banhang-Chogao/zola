@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "🔥 HOTFIX: Revert broken theme system — unblock deploy",
+      "tag": "fix",
+      "pr": 189,
+      "lines_added": 48,
+      "lines_removed": 69,
+      "highlights": [
+        "❌ 7763c53: Set Z-X as default theme",
+        "❌ 4a3d968: Merge conflict resolution",
+        "❌ 23e6f13: Original Z-X default feature",
+        "✅ Theme dropdown working (Z-X + Hilda)",
+        "✅ Dependabot removed cleanly"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Remove Dependabot automation from project",
       "tag": "chore",
       "pr": 184,
