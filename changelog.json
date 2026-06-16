@@ -2,6 +2,104 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO: thêm mã xác minh Google Search Console",
+      "tag": "chore",
+      "pr": 223,
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [
+        "✅ zola build OK · qa_check.py pass",
+        "✅ Meta xác minh xuất hiện trên trang chủ + bài + /posting/"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Hiển thị bài ở /posting/ (gộp mọi section) + nút Trang chủ + SEO/Google indexing",
+      "tag": "chore",
+      "pr": 221,
+      "lines_added": 35,
+      "lines_removed": 4,
+      "highlights": [
+        "templates/section.html — khi render section \"posting\" → gộp bài từ MỌI section (posting/ + baochi/), sort ngày giảm dần.",
+        "content/posting/_index.md — bỏ paginate_by (Zola không phân trang xuyên-section) → /posting/ render đủ toàn bộ bài, tránh trang /page/N/ trùng.",
+        "config.toml — thêm mục \"Trang chủ\" đầu navbar → https://banhang-chogao.github.io/zola/.",
+        "config.toml — extra.google_site_verification + render <meta google-site-verification> khi có mã → mở khoá xác minh Google Search Console.",
+        "templates/base.html — <meta name=\"robots\" content=\"index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1\"> + publisher.logo trong JSON-LD."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Hotfix: trang chủ hiển thị bài viết từ MỌI section (gộp posting/ + baochi/)",
+      "tag": "chore",
+      "pr": 220,
+      "lines_added": 61,
+      "lines_removed": 27,
+      "highlights": [
+        "templates/index.html — trang chủ hiển thị mọi bài, tối đa 13 bài/trang (hero 1 + hàng 3 + lưới 9). Lưới dùng danh sách rest (loại hero ra) → không trùng, không sót.",
+        "templates/base.html — sidebar Featured/Random + JSON posts-data + đếm \"bài viết live\" phản ánh đúng mọi bài.",
+        "templates/page.html — \"bài viết liên quan\" lấy từ mọi section.",
+        "✅ zola build (v0.22.1) OK, 0 orphan",
+        "✅ qa_check.py pass (142 files)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Bật lại: banner quảng cáo luân phiên với GitHub status mỗi 3s",
+      "tag": "chore",
+      "pr": 219,
+      "lines_added": 19,
+      "lines_removed": 20,
+      "highlights": [
+        "Bỏ comment Slide A (.header-ad), đặt data-rotate=\"true\"",
+        "Chuyển is-active sang Slide A (slide đầu DOM) để nhịp 3s chuẩn ngay từ lần chuyển đầu; gỡ is-active khỏi Slide B (GitHub)",
+        "interval 3000ms (3 giây) như cũ"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Cập nhật rule deploy: bật auto-merge + auto-deploy lên production",
+      "tag": "chore",
+      "pr": 218,
+      "lines_added": 62,
+      "lines_removed": 36,
+      "highlights": [
+        "CLAUDE.md: thêm section canonical \"Quy tắc Deploy & Production\" (hiệu lực cao nhất, ghi đè mọi rule deploy cũ).",
+        "shortcuts.md §4.5/§4.6: đảo từ chặn auto-merge sang bật auto-merge + auto-deploy, vô hiệu mọi tham chiếu \"(rule 16:00)\" rải rác.",
+        "shortcuts.md: ff step 6 auto-merge + deploy thay vì chờ manual #X."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "QA dashboard: hiển thị số liệu thật cho card Performance & Security",
+      "tag": "security",
+      "pr": 217,
+      "lines_added": 89,
+      "lines_removed": 10,
+      "highlights": [
+        "Performance Audit → Cron CN 02:00 UTC",
+        "Security Scan → pip-audit + gitleaks",
+        "Performance: đọc điểm Lighthouse từ data/pagespeed.json (ưu tiên desktop, fallback mobile khi free-API throttle về 0) + ngày updated_at.",
+        "Security: đọc số CVE + secret leak từ data/security.json.",
+        "PR Activity: sửa ngày ISO rò ra ngoài → dd/mm/yyyy + Asia/Ho_Chi_Minh."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Thêm bài: chọn ngách nội dung giữ chân người đọc",
+      "tag": "chore",
+      "pr": 216,
+      "lines_added": 77,
+      "lines_removed": 0,
+      "highlights": [
+        "Category: Công nghệ",
+        "Tags: blog, content-strategy, seo, engagement, mobile-ux",
+        "Độ dài: ~1.450 từ, giọng cá nhân (\"mình\"), có <!-- more --> summary break",
+        "Chủ đề: chiến lược chọn ngách nội dung để tăng engagement / giảm bounce rate — 3 nhóm ngách (kỹ thuật-dữ liệu, nghề nghiệp-thương hiệu, đam mê cộng đồng) + bảng so sánh mức độ tương tác + lưu ý UX mob",
+        "Internal links (3, đúng ngữ cảnh): SBERT · Công nghệ blog · QA Gatekeeper."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Trang chủ — hàng 3 card ngang dưới hero (bài 2-4)",
       "tag": "feat",
       "pr": 215,

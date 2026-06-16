@@ -206,8 +206,8 @@ Hành động:
    - Python type error → `mypy --strict` rồi `ruff --fix --unsafe-fixes`
    - Unknown pattern → tạo issue + escalate + gợi ý lib từ bảng 4
 
-6. **Push** fix lên branch `claude/*` → tạo PR. **KHÔNG auto-merge**
-   (rule 16:00). User gõ `manual #X` để deploy lại.
+6. **Push** fix → auto-merge vào `main` khi build xanh (theo §4.5).
+   Auto deploy lại production, KHÔNG cần `manual #X`.
 
 7. **Báo cáo tổng kết** sau khi xong:
    - Failed runs found / fixed / escalated
@@ -1166,55 +1166,52 @@ Claude PHẢI:
 Mỗi lần tạo PR mới, Claude PHẢI nhắc user link manage:
 "PR #X created. Total open: N. Manage at: https://github.com/Banhang-Chogao/zola/pulls"
 
-## 4.5. Quy trình Deploy (FINAL FINAL — cập nhật 16:00 ngày 15/06/2026)
+## 4.5. Quy trình Deploy (MỚI NHẤT — cập nhật 16/06/2026)
 
-**🚨 RULE MỚI (override tất cả rule deploy trước đó)**:
+**🚨 RULE MỚI (ghi đè TẤT CẢ rule deploy trước đó, kể cả "FINAL FINAL 16:00")**:
 
-**TẠM NGƯNG QUYỀN AUTO-MERGE HOÀN TOÀN**. Claude tuyệt đối KHÔNG được
-merge bất kỳ PR nào tự động. User PHẢI manually check + decide.
+**BẬT AUTO-MERGE + AUTO-DEPLOY HOÀN TOÀN.** Để tiết kiệm thời gian, Claude
+TỰ ĐỘNG commit → merge → deploy, user KHÔNG phải làm tay. Rule "TẠM NGƯNG
+QUYỀN AUTO-MERGE" / "rule 16:00" trước đây **ĐÃ BỊ HỦY**.
+
+> Mọi tham chiếu "(rule 16:00)" và "KHÔNG auto-merge" rải rác trong file này
+> (các shortcut `morning`, `seo10`, `gg`, `prm`, `ff`, `pp`...) đều **VÔ HIỆU**,
+> thay bằng quy trình auto-deploy ở mục này. Rule gốc (canonical) nằm ở `CLAUDE.md`.
 
 ### Quy trình bắt buộc
 
-1. **Mỗi commit = 1 PR riêng**:
-   - Sau MỖI commit (content, fix, feature), Claude PHẢI tạo PR riêng
-   - KHÔNG gom batch ≥10 nữa
-   - KHÔNG đợi đủ commit count
+1. **Auto commit + auto merge**:
+   - Sau mỗi thay đổi, Claude tự commit (message rõ ràng) và tự merge vào `main`.
+   - KHÔNG đợi `manual #X`, KHÔNG gom batch ≥10, KHÔNG chờ 16:00.
 
-2. **KHÔNG auto-merge dưới BẤT KỲ điều kiện nào**:
-   - KHÔNG kể đủ 10 commits
-   - KHÔNG kể `gg` shortcut
-   - KHÔNG kể HOTFIX critical
-   - CHỈ MERGE khi user gõ `manual #<số PR>` explicit
+2. **Điều kiện lên production (cả 3 PHẢI đạt)**:
+   - Commit/push thành công (không lỗi git).
+   - QA checker approve — `qa_check.py` / `qa.yml` pass (chỉ error/exit≠0 mới chặn, warning KHÔNG chặn).
+   - Build KHÔNG failed — `deploy.yml` xanh.
+   - Đủ 3 → auto merge + auto deploy lên production (GitHub Pages), KHÔNG hỏi lại.
 
-3. **User là gatekeeper duy nhất**:
-   - User vào https://github.com/Banhang-Chogao/zola/pulls
-   - Check PR manually (diff, CI status, description)
-   - **User DECIDE** lên prod hay không
-   - User gõ `manual #<số PR>` → Claude merge + deploy
+3. **Khi build failed → fix rồi deploy**:
+   - Chạy `ff` (Full Fix & Deploy, Python lib picker) HOẶC `ff9` (Smart
+     Conflict Resolver, Python-powered) để fix.
+   - Build xanh trở lại → auto deploy, KHÔNG cần `manual #X`.
 
-4. **Override các shortcut hành vi**:
-   - `gg`: chỉ LIST open PRs + URL, KHÔNG merge
-   - `pp`: tạo PR hotfix, KHÔNG merge — user phải `manual #X`
-   - `manual #X`: VẪN merge ngay (user explicit yêu cầu)
-   - `ff`: phân tích + fix + tạo PR, KHÔNG merge
+4. **Hành vi shortcut sau khi bật auto-merge**:
+   - `gg`, `pp`, `ff`, `prm`...: ĐƯỢC auto-merge khi đủ điều kiện mục 2.
+   - `manual #X`: vẫn dùng được để merge thủ công 1 PR cụ thể khi cần.
 
-5. **HOTFIX critical** (deploy đỏ): Claude vẫn tạo PR fix, nhưng
-   KHÔNG auto-merge. Output cảnh báo URGENT để user manual phê duyệt.
-
-### Output sau mỗi commit
+### Output sau mỗi deploy
 
 ```
-Commit #X created → PR #Y opened.
-Manage at: https://github.com/Banhang-Chogao/zola/pulls
-Để deploy: gõ `manual #Y` sau khi Approve trên GitHub.
+Commit #X → merged vào main → deploy.yml building.
+QA: pass | Build: xanh → production updating.
 ```
 
 ## 4.6. Hard rules (KHÔNG được vi phạm)
 
-- **KHÔNG auto-merge** kể cả khi đủ điều kiện cũ
-- **CHỈ merge khi `manual #X`** explicit
-- **KHÔNG tạo branch mới** cho mỗi content (commit vào branch dev chính)
-- Output mỗi PR mới PHẢI nhắc link manage và lệnh `manual #X`
+- **ĐƯỢC auto-merge + auto-deploy** khi đủ 3 điều kiện ở §4.5 (commit OK + QA pass + build xanh)
+- **Build failed** → BẮT BUỘC chạy `ff` / `ff9` fix trước, KHÔNG bỏ mặc deploy đỏ
+- **KHÔNG tạo branch mới** cho mỗi content (commit vào branch dev chính / merge `main`)
+- Sau mỗi lần merge/deploy PHẢI output bảng báo cáo (xem §5)
 
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
 

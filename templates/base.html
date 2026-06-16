@@ -149,6 +149,12 @@
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
+
+    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
+    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
+    {# ===== Google Search Console verification — điền mã ở config.extra.google_site_verification ===== #}
+    {% if config.extra.google_site_verification %}<meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">{% endif %}
+
     <title>{% block title %}{{ config.title }}{% endblock %}</title>
 
     {# ===== Canonical (chống duplicate content cho query string / pagination) ===== #}
@@ -207,7 +213,11 @@
         "publisher": {
             "@type": "Organization",
             "name": {{ config.title | json_encode | safe }},
-            "url": "{{ config.base_url | safe }}"
+            "url": "{{ config.base_url | safe }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ config.base_url | safe }}/img/author-avatar.jpg"
+            }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -319,29 +329,28 @@
 
             <div class="header-side">
             {#
-                Khu vực bên cạnh logo — hiện đang TẮT banner quảng cáo, chỉ giữ GitHub status.
-                Để bật lại rotation Ad ⇄ GitHub: uncomment block "Slide A" bên dưới và đổi
-                data-rotate="true". Banner quảng cáo dưới tiêu đề bài viết KHÔNG bị ảnh hưởng.
+                Khu vực bên cạnh logo — rotation Ad ⇄ GitHub đang BẬT (luân phiên mỗi 3s).
+                Để tắt lại banner quảng cáo: comment block "Slide A" bên dưới, đổi
+                data-rotate="false" và trả is-active về "Slide B" (GitHub). Banner quảng
+                cáo dưới tiêu đề bài viết KHÔNG bị ảnh hưởng.
             #}
-            <div class="header-rotator" data-rotate="false" data-interval="3000">
-                {#
-                    {# Slide A: Ad banner — TẠM TẮT
-                    <a class="header-ad header-rotator__slide" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
-                        <div class="header-ad__icon">
-                            <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
-                            <span class="header-ad__emoji" aria-hidden="true">🐻</span>
-                        </div>
-                        <div class="header-ad__text">
-                            <span class="header-ad__label">QUẢNG CÁO</span>
-                            <strong class="header-ad__title">Đặt banner của bạn tại đây</strong>
-                            <span class="header-ad__desc">Khu vực 728×90 sẵn sàng cho banner ngang — Liên hệ admin để hợp tác.</span>
-                        </div>
-                        <span class="header-ad__arrow" aria-hidden="true">→</span>
-                    </a>
-                #}
+            <div class="header-rotator" data-rotate="true" data-interval="3000">
+                {# Slide A: Ad banner — slide đầu (is-active) khi load, rồi rotate sang GitHub #}
+                <a class="header-ad header-rotator__slide is-active" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
+                    <div class="header-ad__icon">
+                        <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
+                        <span class="header-ad__emoji" aria-hidden="true">🐻</span>
+                    </div>
+                    <div class="header-ad__text">
+                        <span class="header-ad__label">QUẢNG CÁO</span>
+                        <strong class="header-ad__title">Đặt banner của bạn tại đây</strong>
+                        <span class="header-ad__desc">Khu vực 728×90 sẵn sàng cho banner ngang — Liên hệ admin để hợp tác.</span>
+                    </div>
+                    <span class="header-ad__arrow" aria-hidden="true">→</span>
+                </a>
 
                 {# Slide B: GitHub commit status — render từ load_data (build-time) #}
-                <a class="header-github header-rotator__slide is-active" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
+                <a class="header-github header-rotator__slide" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
                     <div class="header-github__tags">
                         {% if latest_commit %}
                             <span class="tag tag--active">HOẠT ĐỘNG</span>
@@ -476,8 +485,12 @@
             </div>
 
             {% block sidebar %}
-                {# Bài viết sống trong section content/posting/, không phải root #}
-                {% set root = get_section(path="posting/_index.md") %}
+                {# HOTFIX: gộp bài từ mọi section (posting/, baochi/, …) + sort ngày
+                   giảm dần → sidebar (featured/random/JSON) phản ánh đúng MỌI bài,
+                   đồng bộ với trang chủ. #}
+                {% set s_posting = get_section(path="posting/_index.md") %}
+                {% set s_baochi = get_section(path="baochi/_index.md") %}
+                {% set root_pages = s_posting.pages | concat(with=s_baochi.pages) | sort(attribute="date") | reverse %}
 
                 {#
                     Inject toàn bộ metadata bài viết vào JSON inline để JS pick featured/random
@@ -485,7 +498,7 @@
                 #}
                 <script type="application/json" id="posts-data">
                 [
-                {%- for page in root.pages -%}
+                {%- for page in root_pages -%}
                     {
                         "title": {{ page.title | json_encode | safe }},
                         "permalink": {{ page.permalink | json_encode | safe }},
@@ -499,18 +512,13 @@
                 </script>
 
                 <aside class="sidebar">
-                    {# FEATURED POST — Zola Tera so sánh '>' yêu cầu number,
-                       featured_at là ISO string → fail. Đơn giản hoá: lấy
-                       featured đầu tiên theo thứ tự root.pages (đã sort date
-                       desc default → bài featured mới nhất tự lên top). #}
+                    {# FEATURED = bài mới nhất (auto) → đồng bộ hero trang chủ; tự
+                       nhường chỗ khi có bài mới hơn. Gỡ thủ công: extra.unfeatured=true. #}
                     {% set_global featured = false %}
-                    {% for page in root.pages %}
-                        {% if page.extra.featured and not featured %}
-                            {% set_global featured = page %}
-                        {% endif %}
+                    {% for page in root_pages %}
+                        {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
                     {% endfor %}
-                    {# Cuối cùng: nếu không có bài featured nào, lấy bài mới nhất #}
-                    {% if not featured %}{% set_global featured = root.pages | first %}{% endif %}
+                    {% if not featured %}{% set_global featured = root_pages | first %}{% endif %}
 
                     <section class="sidebar-block" data-widget="featured">
                         <h3 class="sidebar-label">FEATURED POST</h3>
@@ -540,7 +548,7 @@
                     <section class="sidebar-block" data-widget="random">
                         <h3 class="sidebar-label">RANDOM POSTS</h3>
                         <ul class="random-list" data-target="random">
-                            {% for page in root.pages | slice(end=5) %}
+                            {% for page in root_pages | slice(end=5) %}
                                 <li class="random-item">
                                     {% if page.extra.thumbnail %}
                                         <a class="random-item__image" href="{{ page.permalink }}">
@@ -603,10 +611,27 @@
         {% set qa_changelog_items = [] %}
         {% if qa_changelog and qa_changelog.items %}{% set_global qa_changelog_items = qa_changelog.items %}{% endif %}
         {% set qa_posts = get_section(path="posting/_index.md") %}
+        {% set qa_baochi = get_section(path="baochi/_index.md") %}
+        {% set qa_n_posting = qa_posts.pages | length %}
+        {% set qa_n_baochi = qa_baochi.pages | length %}
+        {% set qa_posts_total = qa_n_posting + qa_n_baochi %}
         {% set qa_cats = get_taxonomy(kind="categories") %}
         {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
         {% set qa_now = now() | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
         {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
+        {# Performance: điểm Lighthouse lấy trực tiếp từ data/pagespeed.json
+           (workflow pagespeed.yml fetch PageSpeed Insights API mỗi giờ). Ưu tiên
+           desktop (ổn định); mobile free-API hay bị throttle về 0 → fallback. #}
+        {% set qa_pagespeed = load_data(path="data/pagespeed.json", required=false) %}
+        {% set qa_ps_perf = 0 %}
+        {% if qa_pagespeed %}
+            {% set ps_d = qa_pagespeed.desktop.performance | default(value=0) %}
+            {% set ps_m = qa_pagespeed.mobile.performance | default(value=0) %}
+            {% if ps_d > 0 %}{% set_global qa_ps_perf = ps_d %}{% else %}{% set_global qa_ps_perf = ps_m %}{% endif %}
+        {% endif %}
+        {# Security: số liệu lần quét gần nhất từ data/security.json
+           (workflow security-audit.yml commit pip-audit + gitleaks + misconfig). #}
+        {% set qa_security = load_data(path="data/security.json", required=false) %}
 
         <div class="footer-qa">
             <div class="container">
@@ -620,19 +645,19 @@
                 <div class="qa-grid">
                     {# Card 1: Performance #}
                     <div class="qa-card qa-card--perf"
-                         title="Performance Audit — workflow tự đo tốc độ tải trang (Lighthouse) chạy theo lịch hằng tuần.">
+                         title="Performance Audit — điểm Lighthouse (Performance) lấy trực tiếp từ PageSpeed Insights API, cập nhật mỗi giờ.">
                         <div class="qa-card__top">
                             <span class="qa-card__icon" aria-hidden="true">⚡</span>
                             <div class="qa-card__labels">
                                 <span class="qa-card__label qa-card__label--green">AUTO</span>
-                                <span class="qa-card__label qa-card__label--gray">WEEKLY</span>
+                                <span class="qa-card__label qa-card__label--gray">LIVE</span>
                             </div>
                         </div>
                         <h4 class="qa-card__title">Performance Audit</h4>
-                        <p class="qa-card__desc">Tự động đo tốc độ tải trang hằng tuần bằng Lighthouse.</p>
+                        <p class="qa-card__desc">Điểm Lighthouse Performance đo trực tiếp từ PageSpeed Insights.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">Cron CN 02:00 UTC</span>
-                            <span class="qa-card__date">{{ qa_now }}</span>
+                            <span class="qa-card__count">{% if qa_pagespeed %}{{ qa_ps_perf }}/100 điểm{% else %}Cron CN 02:00 UTC{% endif %}</span>
+                            <span class="qa-card__date">{% if qa_pagespeed and qa_pagespeed.updated_at %}{{ qa_pagespeed.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}</span>
                         </div>
                     </div>
 
@@ -647,10 +672,10 @@
                             </div>
                         </div>
                         <h4 class="qa-card__title">Security Scan</h4>
-                        <p class="qa-card__desc">Quét lỗ hổng thư viện &amp; rò rỉ secret định kỳ.</p>
+                        <p class="qa-card__desc">Số lỗ hổng thư viện &amp; rò rỉ secret từ lần quét gần nhất.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">pip-audit + gitleaks</span>
-                            <span class="qa-card__date">T7 03:00 UTC</span>
+                            <span class="qa-card__count">{% if qa_security %}{{ qa_security.py_vulns | default(value=0) }} CVE · {{ qa_security.secret_leaks | default(value=0) }} leak{% else %}pip-audit + gitleaks{% endif %}</span>
+                            <span class="qa-card__date">{% if qa_security and qa_security.updated_at %}{{ qa_security.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}T7 03:00 UTC{% endif %}</span>
                         </div>
                     </div>
 
@@ -687,7 +712,7 @@
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{{ qa_changelog_items | length }} PRs</span>
                             <span class="qa-card__date">
-                                {% if qa_latest_pr %}{{ qa_latest_pr.date | default(value=qa_now) | truncate(length=10, end="") }}{% else %}—{% endif %}
+                                {% if qa_latest_pr and qa_latest_pr.date %}{{ qa_latest_pr.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}
                             </span>
                         </div>
                     </div>
@@ -723,7 +748,7 @@
                         <h4 class="qa-card__title">Production Deploy</h4>
                         <p class="qa-card__desc">Số bài đang xuất bản trực tiếp trên GitHub Pages.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">{{ qa_posts.pages | length }} bài viết live</span>
+                            <span class="qa-card__count">{{ qa_posts_total }} bài viết live</span>
                             <span class="qa-card__date">{{ qa_now }}</span>
                         </div>
                     </div>

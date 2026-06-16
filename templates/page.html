@@ -126,7 +126,11 @@
            cosine similarity). Fallback: same category, rồi latest. #}
         {% set current_slug = page.slug %}
         {% set current_cat = page.taxonomies.categories | default(value=[]) | first | default(value="") %}
-        {% set root = get_section(path="posting/_index.md") %}
+        {# HOTFIX: related lấy từ MỌI section (posting/, baochi/, …) để bài ở
+           section nào cũng có thể xuất hiện như bài liên quan. #}
+        {% set rp_posting = get_section(path="posting/_index.md") %}
+        {% set rp_baochi = get_section(path="baochi/_index.md") %}
+        {% set root_pages = rp_posting.pages | concat(with=rp_baochi.pages) | sort(attribute="date") | reverse %}
         {% set_global related = [] %}
 
         {# Semantic: required=false → load_data trả false/empty nếu file
@@ -136,7 +140,7 @@
         {% if rel_data and rel_data[current_slug] %}
             {% for entry in rel_data[current_slug] %}
                 {% if related | length < 3 %}
-                    {% for p in root.pages %}
+                    {% for p in root_pages %}
                         {% if p.slug == entry.slug and related | length < 3 %}
                             {% set_global related = related | concat(with=[p]) %}
                         {% endif %}
@@ -147,7 +151,7 @@
 
         {# Fallback 1: same category #}
         {% if related | length < 3 and current_cat %}
-            {% for p in root.pages %}
+            {% for p in root_pages %}
                 {% if p.slug != current_slug
                    and p.taxonomies.categories
                    and p.taxonomies.categories | first == current_cat
@@ -163,7 +167,7 @@
 
         {# Fallback 2: latest #}
         {% if related | length < 3 %}
-            {% for p in root.pages %}
+            {% for p in root_pages %}
                 {% if p.slug != current_slug and related | length < 3 %}
                     {% set found = false %}
                     {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}

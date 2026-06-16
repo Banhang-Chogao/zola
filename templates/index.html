@@ -1,11 +1,31 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 
+{# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
+{% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
+
 {% block main %}
-    {# Bài viết sống trong content/posting/. Trang chủ momo-style: 1 featured to + grid 3 cột posts thường. #}
+    {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
+       Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI
+       bài, không phân biệt section/category; bài mới nhất luôn tự lên đầu. #}
     {% set posting = get_section(path="posting/_index.md") %}
-    {% set all_pages = posting.pages %}
-    {% set featured = all_pages | first %}
+    {% set baochi = get_section(path="baochi/_index.md") %}
+    {% set all_pages = posting.pages | concat(with=baochi.pages) | sort(attribute="date") | reverse %}
+
+    {# Featured/hero = bài mới nhất (auto) → tự nhường chỗ khi có bài mới hơn.
+       Gỡ thủ công 1 bài khỏi featured: set extra.unfeatured = true (CMS/frontmatter). #}
+    {% set_global featured = false %}
+    {% for page in all_pages %}
+        {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
+    {% endfor %}
+    {% if not featured %}{% set_global featured = all_pages | first %}{% endif %}
+
+    {# Các bài còn lại (loại bài hero ra để khỏi trùng) — xếp vào các hàng card
+       bên dưới theo đúng thứ tự ngày, không sót bài nào. #}
+    {% set_global rest = [] %}
+    {% for page in all_pages %}
+        {% if page.slug != featured.slug %}{% set_global rest = rest | concat(with=[page]) %}{% endif %}
+    {% endfor %}
 
     {# Decorative wordmark banner — letters POSTINGS spread evenly #}
     <div class="home-tabs" aria-hidden="true">
@@ -49,9 +69,9 @@
 
     {# Hàng 3 card ngang ngay dưới hero — 3 bài mới tiếp theo (2,3,4). Dùng lại
        .home-grid (3 cột) + .home-card cho đồng bộ với grid phía dưới. #}
-    {% if all_pages | length > 1 %}
+    {% if rest | length > 0 %}
         <section class="home-grid">
-            {% for page in all_pages | slice(start=1, end=4) %}
+            {% for page in rest | slice(end=3) %}
                 <article class="home-card">
                     <a class="home-card__image" href="{{ page.permalink }}">
                         {% if page.extra.thumbnail %}
@@ -101,10 +121,10 @@
     </section>
 
     {# Grid phần CÒN LẠI — bài 5 trở đi (hero + 3 card ngang + 2 block promo
-       đã hiển thị ở trên). #}
-    {% if all_pages | length > 4 %}
+       đã hiển thị ở trên). Tối đa 13 bài/trang: hero(1) + 3 + 9 = 13. #}
+    {% if rest | length > 3 %}
         <section class="home-grid">
-            {% for page in all_pages | slice(start=4, end=13) %}
+            {% for page in rest | slice(start=3, end=12) %}
                 <article class="home-card">
                     <a class="home-card__image" href="{{ page.permalink }}">
                         {% if page.extra.thumbnail %}
