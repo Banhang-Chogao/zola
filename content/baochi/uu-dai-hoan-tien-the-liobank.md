@@ -9,6 +9,22 @@ tags = ["ngân hàng", "liobank", "hoàn tiền", "cashback", "series liobank"]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.jpg"
 seo_keyword = "ưu đãi hoàn tiền Liobank"
 featured = false
+
+[[extra.faq]]
+q = "Ưu đãi hoàn tiền Liobank hoạt động thế nào?"
+a = "Mỗi khi bạn thanh toán bằng thẻ, một phần tiền đã chi được trả ngược lại tài khoản. Khoản hoàn thường được cộng tự động và hiển thị rõ trên app."
+
+[[extra.faq]]
+q = "Tiêu thế nào để được hoàn tiền nhiều nhất?"
+a = "Dồn các chi tiêu định kỳ như hóa đơn, đặt đồ ăn, mua sắm online vào thẻ; ưu tiên nhóm có mức hoàn cao; và luôn thanh toán dư nợ đúng hạn để không bị lãi ăn mất phần hoàn."
+
+[[extra.faq]]
+q = "Hoàn tiền Liobank có bị giới hạn không?"
+a = "Thường có mức trần hoàn tiền cho mỗi kỳ, nên bạn nên nắm trước để không kỳ vọng quá mức."
+
+[[extra.faq]]
+q = "Chạy theo hoàn tiền có rủi ro gì?"
+a = "Rủi ro lớn nhất là tiêu nhiều hơn nhu cầu thật chỉ để được hoàn. Nguyên tắc an toàn là chỉ tiêu khoản kiểu gì cũng phải tiêu và trả đủ dư nợ đúng hạn."
 +++
 
 > 📚 **Series Liobank (Phần 3/5)** — Sau khi [mở thẻ Liobank online](/baochi/mo-the-tin-dung-liobank-online-nhanh/) ở Phần 2, giờ là lúc bàn tới thứ vui nhất: tiêu tiền sao cho được hoàn lại.
@@ -16,6 +32,8 @@ featured = false
 Với tôi, một chiếc thẻ tín dụng chỉ thật sự "đáng" khi nó trả lại cho mình thứ gì đó mỗi lần quẹt. Đó là lý do **ưu đãi hoàn tiền Liobank** là phần tôi thích nhất trong cả series này. Nhưng hoàn tiền cũng có nghệ thuật của nó — tiêu đúng chỗ thì lời, tiêu sai thì chẳng được bao nhiêu.
 
 <!-- more -->
+
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
 
 ![App Liobank - tab Tiền Cashback và danh sách giao dịch hoàn tiền](https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.jpg)
 

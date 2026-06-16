@@ -9,6 +9,22 @@ tags = ["ngân hàng", "msb", "msb-digital-bank", "xác thực cccd", "ngân hà
 thumbnail = "https://picsum.photos/seed/xac-thuc-cccd-msb/600/400"
 seo_keyword = "xác thực CCCD MSB Digital Bank"
 featured = false
+
+[[extra.faq]]
+q = "Vì sao phải xác thực CCCD trên MSB Digital Bank?"
+a = "Đây là yêu cầu định danh điện tử (eKYC) theo quy định mới của ngành ngân hàng: mỗi tài khoản phải gắn với một CCCD gắn chip và khuôn mặt thật của chủ tài khoản. Khi chuyển từ mBank sang nền tảng mới, hệ thống yêu cầu đối chiếu lại giấy tờ một lần."
+
+[[extra.faq]]
+q = "Xác thực CCCD MSB Digital Bank mất bao lâu?"
+a = "Quy trình chuẩn chỉ khoảng 3 đến 5 phút nếu bạn đã chuẩn bị sẵn CCCD gắn chip, điện thoại nhận OTP và đứng ở nơi đủ sáng."
+
+[[extra.faq]]
+q = "Quét khuôn mặt không nhận thì phải làm sao?"
+a = "Hãy bỏ kính và khẩu trang, đứng ở nơi đủ sáng, để mặt chính diện trong khung và tránh ngược sáng; làm theo hướng dẫn chớp mắt hoặc quay nhẹ đầu nếu app yêu cầu."
+
+[[extra.faq]]
+q = "Không nhận được OTP khi xác thực thì xử lý thế nào?"
+a = "Kiểm tra sóng, tắt chặn tin nhắn lạ rồi bấm gửi lại sau 60 giây. Nếu số điện thoại đã đổi so với lúc đăng ký, bạn buộc phải ra quầy để cập nhật."
 +++
 
 Sau khi MSB khai tử app mBank và chuyển sang siêu ứng dụng mới, câu hỏi tôi nhận được nhiều nhất không phải "app có đẹp không" mà là "làm sao xác thực CCCD MSB Digital Bank cho xong". Nghe thì đơn giản, nhưng nếu làm sai một bước — nhập nhầm số, quét khuôn mặt không nhận — là kẹt cả buổi không chuyển được tiền. Bài này tôi viết lại quy trình thật gọn, kèm cả những lỗi hay gặp và cách xử lý, để bạn làm một lần là xong.
