@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Ngân hàng"]
 tags = ["msb", "msb-digital-bank", "ngân hàng số", "công nghệ", "bảo mật"]
 [extra]
-thumbnail = "https://picsum.photos/seed/msb-digital-bank-cong-nghe-bao-mat/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/msb-digital-bank-cong-nghe-bao-mat.svg"
 featured = false
 [[extra.faq]]
 q = "MSB Digital Bank dùng công nghệ bảo mật gì?"
