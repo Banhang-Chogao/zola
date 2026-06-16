@@ -1,0 +1,697 @@
+/* ============================================================
+   ===== FONT GUIDELINE — Ericsson Hilda specimen page =====
+   ============================================================
+   Trang giới thiệu typeface Ericsson Hilda theo phong cách
+   foundry (Letters from Sweden): nhiều khoảng trắng, chữ lớn,
+   typeface tự trình diễn chính nó.
+
+   Self-host @font-face từ static/fonts/ (served từ 'self' →
+   tuân thủ CSP font-src 'self'). Trước đây _hilda-fonts.scss
+   trỏ tới raw.githubusercontent.com → bị CSP chặn, font không
+   bao giờ load. Các face dưới đây là nguồn chuẩn cho cả site. */
+
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('fonts/EricssonHilda-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== Local tokens (self-contained, không phụ thuộc import order) ===== */
+$fg-blue:        #003784;  /* Ericsson Blue */
+$fg-blue-dark:   #002566;
+$fg-teal:        #00a69d;
+$fg-red:         #e30613;
+$fg-ink:         #0a0a0a;
+$fg-body:        #333333;
+$fg-muted:       #6a6a6a;
+$fg-border:      #e3e3e3;
+$fg-paper:       #ffffff;
+$fg-soft:        #f5f5f5;
+
+$fg-specimen: 'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+/* ============================================================
+   ===== DESKTOP (global) =====
+   ============================================================ */
+
+.fontguide {
+  max-width: 1180px;
+  margin: 0 auto 5rem;
+  padding: 0 2rem;
+  color: $fg-body;
+  font-family: $font-body;
+  -webkit-font-smoothing: antialiased;
+
+  /* Mỗi block phân tách bằng đường kẻ mảnh — nhịp foundry */
+  &__section {
+    padding: 4.5rem 0;
+    border-top: 1px solid $fg-border;
+  }
+
+  &__eyebrow {
+    font-family: $font-ui;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: $fg-blue;
+    margin: 0 0 1.25rem;
+  }
+
+  &__label {
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: $fg-muted;
+    margin: 0 0 2rem;
+  }
+
+  /* ---------- HERO ---------- */
+  &__hero {
+    padding: 3.5rem 0 4rem;
+    text-align: center;
+  }
+
+  &__wordmark {
+    font-family: $fg-specimen;
+    font-weight: 800;
+    font-size: clamp(4rem, 18vw, 13rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: $fg-ink;
+    margin: 0;
+  }
+
+  &__hero-sub {
+    font-family: $fg-specimen;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 3vw, 1.9rem);
+    color: $fg-muted;
+    margin: 1.5rem 0 0;
+    letter-spacing: -0.01em;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 3.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid $fg-border;
+  }
+
+  &__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.5rem 0;
+
+    dt {
+      font-family: $font-ui;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: $fg-muted;
+    }
+    dd {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: $fg-ink;
+    }
+  }
+
+  /* ---------- BIG STATEMENT ---------- */
+  &__statement {
+    font-family: $fg-specimen;
+    font-weight: 300;
+    font-size: clamp(1.6rem, 4.6vw, 3.4rem);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: $fg-ink;
+    margin: 0;
+    max-width: 16ch;
+
+    em {
+      font-style: normal;
+      font-weight: 700;
+      color: $fg-blue;
+    }
+  }
+
+  /* ---------- ABOUT ---------- */
+  &__about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 3.5rem;
+  }
+
+  &__prose {
+    font-size: 1.05rem;
+    line-height: 1.75;
+
+    p { margin: 0 0 1.1rem; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: $fg-ink; font-weight: 700; }
+  }
+
+  &__facts {
+    margin: 0;
+    border-top: 2px solid $fg-ink;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid $fg-border;
+    }
+    dt {
+      font-family: $font-ui;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: $fg-muted;
+    }
+    dd {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $fg-ink;
+      text-align: right;
+    }
+  }
+
+  /* ---------- SPECIMEN ---------- */
+  &__glyph-row {
+    font-family: $fg-specimen;
+    font-weight: 800;
+    font-size: clamp(5rem, 22vw, 18rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: $fg-ink;
+    margin: 0 0 1.5rem;
+  }
+
+  &__pangram {
+    font-family: $fg-specimen;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 4vw, 2.6rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: $fg-body;
+    margin: 0;
+  }
+
+  /* ---------- WEIGHTS ---------- */
+  &__weights {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  &__weight {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 2rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid $fg-border;
+
+    &:last-child { border-bottom: 0; }
+  }
+
+  &__weight-name {
+    font-family: $font-ui;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: $fg-ink;
+
+    span {
+      display: block;
+      font-weight: 500;
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      color: $fg-muted;
+      margin-top: 0.25rem;
+    }
+  }
+
+  &__weight-sample {
+    font-family: $fg-specimen;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: $fg-ink;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &--200 { font-weight: 200; }
+    &--300 { font-weight: 300; }
+    &--500 { font-weight: 500; }
+    &--700 { font-weight: 700; }
+    &--800 { font-weight: 800; }
+  }
+
+  /* ---------- TYPE SCALE ---------- */
+  &__scale-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    align-items: baseline;
+    gap: 2rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid $fg-border;
+  }
+
+  &__scale-sample {
+    font-family: $fg-specimen;
+    color: $fg-ink;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__scale-spec {
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    color: $fg-muted;
+    text-align: right;
+
+    strong {
+      display: block;
+      font-family: $font-ui;
+      font-size: 0.82rem;
+      color: $fg-ink;
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  /* ---------- CHARACTER SET ---------- */
+  &__charset {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  &__charset-block h3 {
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $fg-muted;
+    margin: 0 0 1rem;
+  }
+
+  &__glyphs {
+    font-family: $fg-specimen;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    color: $fg-ink;
+    word-spacing: 0.15em;
+    margin: 0;
+  }
+
+  /* ---------- TYPE TESTER ---------- */
+  &__tester-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__tester-input {
+    flex: 1 1 320px;
+    font-family: $font-body;
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid $fg-border;
+    border-radius: 4px;
+    color: $fg-ink;
+    background: $fg-paper;
+
+    &:focus {
+      outline: none;
+      border-color: $fg-blue;
+      box-shadow: 0 0 0 3px rgba(0, 55, 132, 0.15);
+    }
+  }
+
+  &__tester-size {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    color: $fg-muted;
+
+    input[type="range"] { accent-color: $fg-blue; width: 160px; }
+  }
+
+  &__tester-weights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__tester-w {
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid $fg-border;
+    border-radius: 4px;
+    background: $fg-paper;
+    color: $fg-muted;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover { border-color: $fg-blue; color: $fg-blue; }
+    &.is-active { background: $fg-blue; border-color: $fg-blue; color: #fff; }
+  }
+
+  &__tester-preview {
+    font-family: $fg-specimen;
+    font-weight: 500;
+    font-size: 4rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: $fg-ink;
+    margin: 0;
+    word-break: break-word;
+    min-height: 1.2em;
+  }
+
+  /* ---------- COLOR ---------- */
+  &__colors {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  &__swatch {
+    border: 1px solid $fg-border;
+    border-radius: 4px;
+    overflow: hidden;
+
+    &-chip { height: 120px; }
+
+    &-info {
+      padding: 0.9rem 1rem 1.1rem;
+      strong { display: block; font-size: 0.92rem; color: $fg-ink; }
+      code {
+        display: block;
+        font-family: $font-mono;
+        font-size: 0.8rem;
+        color: $fg-muted;
+        margin-top: 0.3rem;
+      }
+      span { display: block; font-size: 0.78rem; color: $fg-muted; margin-top: 0.35rem; }
+    }
+  }
+
+  /* ---------- USAGE (Do / Don't) ---------- */
+  &__usage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  &__usage-col {
+    border-top: 3px solid;
+    padding-top: 1.25rem;
+
+    &--do { border-color: $fg-teal; }
+    &--dont { border-color: $fg-red; }
+
+    h3 {
+      font-family: $font-ui;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin: 0 0 1rem;
+    }
+    &--do h3 { color: $fg-teal; }
+    &--dont h3 { color: $fg-red; }
+
+    ul { margin: 0; padding: 0; list-style: none; }
+    li {
+      position: relative;
+      padding: 0.55rem 0 0.55rem 1.6rem;
+      font-size: 0.96rem;
+      line-height: 1.55;
+      border-bottom: 1px solid $fg-border;
+    }
+    li::before {
+      position: absolute;
+      left: 0;
+      top: 0.55rem;
+      font-weight: 800;
+    }
+    &--do li::before { content: "✓"; color: $fg-teal; }
+    &--dont li::before { content: "✕"; color: $fg-red; }
+  }
+
+  /* ---------- HISTORY ---------- */
+  &__awards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  &__award {
+    background: $fg-soft;
+    border-radius: 4px;
+    padding: 2rem;
+
+    &-dot {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: $fg-red;
+      margin-bottom: 1rem;
+    }
+    h3 { margin: 0 0 0.5rem; font-size: 1.15rem; color: $fg-ink; }
+    p { margin: 0; font-size: 0.95rem; line-height: 1.6; color: $fg-body; }
+    time {
+      display: block;
+      margin-top: 1rem;
+      font-family: $font-mono;
+      font-size: 0.78rem;
+      color: $fg-muted;
+    }
+  }
+
+  /* ---------- CREDITS / FOOTER ---------- */
+  &__credits {
+    text-align: center;
+    padding-top: 4rem;
+
+    p { margin: 0.4rem 0; font-size: 0.95rem; color: $fg-muted; }
+    strong { color: $fg-ink; }
+    a { color: $fg-blue; text-decoration: none; border-bottom: 1px solid currentColor; }
+  }
+
+  &__note {
+    margin-top: 2rem !important;
+    font-size: 0.82rem !important;
+    color: $fg-muted;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+}
+
+/* Section title chung dùng cho specimen page */
+.fontguide__section-title {
+  font-family: $font-heading;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: $fg-ink;
+  margin: 0 0 0.75rem;
+}
+
+.fontguide__section-desc {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: $fg-muted;
+  max-width: 56ch;
+  margin: 0 0 2.5rem;
+}
+
+/* Trang specimen riêng (font.html) ẩn sidebar → cho main-column tràn full
+   width. Scoped bằng :has() nên CHỈ áp dụng đúng trang này, không đụng
+   layout-grid global của các trang khác. */
+.main-column:has(.fontguide) { grid-column: 1 / -1; }
+
+/* ============================================================
+   ===== HOME — Font showcase band (đặt trên trang chủ) =====
+   ============================================================ */
+.home-font {
+  position: relative;
+  margin: 40px 0;
+  padding: 3rem 2.5rem;
+  background: $fg-blue;
+  border-radius: 4px;
+  overflow: hidden;
+  color: #fff;
+
+  &__bg {
+    position: absolute;
+    right: -2%;
+    bottom: -28%;
+    font-family: $fg-specimen;
+    font-weight: 800;
+    font-size: 22rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__inner { position: relative; z-index: 1; max-width: 40rem; }
+
+  &__eyebrow {
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 0 1rem;
+  }
+
+  &__title {
+    font-family: $fg-specimen;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+  }
+
+  &__desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0 0 1.75rem;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    color: $fg-blue;
+    font-family: $font-ui;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease;
+
+    &:hover { transform: translateX(3px); background: #f0f4fa; }
+  }
+}
+
+/* ============================================================
+   ===== MOBILE (≤ 720px) =====
+   ============================================================ */
+@media (max-width: 720px) {
+  .fontguide {
+    padding: 0 1.25rem;
+    margin-bottom: 3rem;
+
+    &__section { padding: 3rem 0; }
+    &__hero { padding: 2rem 0 2.5rem; }
+
+    &__meta { gap: 0 1.75rem; margin-top: 2rem; }
+
+    &__about-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+    &__weight {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 1.2rem 0;
+    }
+    &__weight-sample { white-space: normal; }
+
+    &__scale-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    &__scale-spec { text-align: left; }
+    &__scale-sample { white-space: normal; }
+
+    &__usage { grid-template-columns: 1fr; gap: 1.5rem; }
+
+    &__colors { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
+
+    &__awards { grid-template-columns: 1fr; }
+
+    &__tester-preview { font-size: 2.5rem; }
+    &__tester-size input[type="range"] { width: 120px; }
+  }
+
+  .home-font {
+    margin: 28px 0;
+    padding: 2rem 1.5rem;
+
+    &__bg { font-size: 12rem; bottom: -18%; right: -8%; }
+    &__inner { max-width: 100%; }
+  }
+}
+
+/* ============================================================
+   ===== MOBILE NHỎ (≤ 380px) =====
+   ============================================================ */
+@media (max-width: 380px) {
+  .fontguide {
+    &__colors { grid-template-columns: 1fr; }
+    &__meta { gap: 0 1.25rem; }
+  }
+  .home-font__bg { font-size: 9rem; }
+}

@@ -5,13 +5,11 @@
    Fallback: Inter, Roboto from Google Fonts
 */
 
-/* ===== Ericsson Hilda Font Import (from GitHub) ===== */
-@font-face {
-  font-family: 'Ericsson Hilda';
-  src: url('https://raw.githubusercontent.com/Verten/umi_design/master/src/assets/font/hilda/ericsson-hilda-mono-regular.otf') format('opentype');
-  font-weight: 400;
-  font-display: swap;  /* Prevent FOUC, use system font while loading */
-}
+/* ===== Ericsson Hilda Font — self-hosted ===== */
+/* @font-face đã chuyển sang _font-guideline.scss, trỏ tới
+   static/fonts/EricssonHilda-*.ttf (served từ 'self' → hợp lệ với CSP).
+   Bản cũ trỏ raw.githubusercontent.com bị CSP (font-src 'self') chặn nên
+   font không bao giờ load. Self-host khắc phục triệt để + đủ 5 weights. */
 
 /* ===== Google Fonts Fallback (Inter) ===== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
