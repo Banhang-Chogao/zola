@@ -203,3 +203,124 @@ button {
 
 /* Anti-flash safety: nếu JS disabled hoặc localStorage thất bại,
    default theme = BrandingX (không có data-theme attribute). */
+
+/* ============================================================
+   ===== HILA ERICSSON — STRUCTURAL OVERRIDES =====
+   ============================================================
+   Vượt phạm vi color: sharp 4px border-radius, kicker spacing
+   wide 0.14em, near-black border hover → Hila signature gravity
+   newsroom corporate. Tất cả rule scoped dưới :root[data-theme="hila"]
+   → không ảnh hưởng BrandingX/Z-X/E-X.
+
+   Quy tắc CLAUDE.md tuân thủ: zero touch html/body/* global;
+   chỉ override component class khi data-theme="hila" active. */
+
+:root[data-theme="hila"] {
+  /* Post card grid (home, category lists) — sharp + black border hover */
+  .post-card {
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+    transition: border-color .18s ease, box-shadow .18s ease;
+
+    &:hover {
+      border-color: var(--c-border-strong);   /* near-black #0C0C0C signature */
+      box-shadow: var(--c-shadow-lg);
+    }
+
+    &__title { letter-spacing: -0.025em; }
+  }
+
+  /* Cat-tag badge (thumbnail) — wide newsroom kicker */
+  .cat-tag {
+    background: var(--c-accent);              /* Energy Blue thay Hot Pink */
+    border-radius: 2px;
+    letter-spacing: 0.14em;                   /* wide kicker */
+  }
+
+  /* Read-more button */
+  .read-more {
+    border-radius: 2px;
+    letter-spacing: 0.14em;
+  }
+
+  /* Sidebar block + label flag */
+  .sidebar-block {
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+  }
+
+  .sidebar-label {
+    letter-spacing: 0.14em;                   /* Ericsson kicker spacing */
+    border-radius: 2px;
+  }
+
+  /* Random + featured titles — tight heading */
+  .featured-card__title,
+  .random-item__title { letter-spacing: -0.025em; }
+
+  /* Related card */
+  .related-card {
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+
+    &:hover { border-color: var(--c-border-strong); }
+
+    &__title { letter-spacing: -0.025em; }
+
+    &__cat {
+      background: var(--c-accent);
+      border-radius: 2px;
+      letter-spacing: 0.14em;
+    }
+  }
+
+  /* Tag list (article footer) */
+  .tag-list__label { letter-spacing: 0.14em; }
+  .tag-list__tag   { border-radius: 2px; }
+
+  /* Post single body */
+  .post-single {
+    border-radius: 4px;
+
+    &__title { letter-spacing: -0.025em; }
+  }
+
+  /* Section header (taxonomy + category list page) */
+  .section-header__title { letter-spacing: -0.025em; }
+
+  /* Site header */
+  .site-title { letter-spacing: -0.025em; }
+
+  /* Footer tag cards */
+  .tag-card { border-radius: 2px; }
+
+  /* Author box */
+  .author-box {
+    border: 1px solid var(--c-border);
+    border-radius: 4px;
+
+    &__name { letter-spacing: -0.025em; }
+  }
+
+  /* Pagination */
+  .pagination__btn { border-radius: 2px; }
+}
+
+/* ============================================================
+   ===== MOBILE (≤ 720px) — Hila spacing rút tránh overflow =====
+   ============================================================ */
+@media (max-width: 720px) {
+  :root[data-theme="hila"] {
+    .cat-tag,
+    .sidebar-label,
+    .tag-list__label,
+    .read-more { letter-spacing: 0.08em; }
+
+    .post-card__title,
+    .post-single__title,
+    .section-header__title,
+    .site-title,
+    .related-card__title,
+    .author-box__name { letter-spacing: -0.015em; }
+  }
+}

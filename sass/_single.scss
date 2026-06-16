@@ -73,14 +73,14 @@
       border-collapse: collapse;
       margin: 1rem 0 1.5rem;
 
-      th, td { padding: 0.6rem 0.85rem; border-bottom: 1px solid $brand-edge; text-align: left; }
-      th { background: $brand-mist; font-weight: 700; }
+      th, td { padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--c-border); text-align: left; }
+      th { background: var(--c-bg-page); font-weight: 700; }
     }
   }
 
   &__footer {
     padding: 1rem 2.5rem 2rem;
-    border-top: 1px dashed $brand-edge;
+    border-top: 1px dashed var(--c-border);
   }
 }
 
@@ -92,7 +92,7 @@
 
   &__label {
     font-weight: 800;
-    color: $brand-ink-900;
+    color: var(--c-text-heading);
     font-size: 0.8rem;
     letter-spacing: 0.08em;
     margin-right: 0.5rem;
