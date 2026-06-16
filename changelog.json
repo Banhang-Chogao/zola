@@ -2,6 +2,46 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "test: kiểm tra Slack notification trên production",
+      "tag": "chore",
+      "pr": 249,
+      "lines_added": 7,
+      "lines_removed": 55,
+      "highlights": [
+        "File nằm trong data/, không được Zola publish ra site → an toàn.",
+        "Có thể xoá sau khi test xong.",
+        "Sau khi merge → push lên main → workflow Slack Commit Notification chạy, conclusion success, và tin nhắn xuất hiện trong kênh Slack."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "fix(ci): sửa Slack notify fail do Dependabot bump slack-github-action v1→v3",
+      "tag": "fix",
+      "pr": 248,
+      "lines_added": 5,
+      "lines_removed": 3,
+      "highlights": [
+        "slack-notify.yml: migrate sang API v3 — thêm webhook + webhook-type: incoming-webhook trong with, bỏ env block cũ. Giữ nguyên payload Block Kit.",
+        "Các action actions/* khác (checkout@v6, setup-node@v6...) tương thích ngược, qa/deploy vẫn pass — KHÔNG đụng.",
+        "YAML valid.",
+        "Push branch này tự chạy slack-notify → kiểm tra job notify xanh trước khi merge."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "gỡ Dependabot khỏi hệ thống",
+      "tag": "chore",
+      "pr": 247,
+      "lines_added": 0,
+      "lines_removed": 55,
+      "highlights": [
+        "Không có PR Dependabot nào đang mở cần đóng.",
+        "Không có workflow nào khác tham chiếu Dependabot.",
+        ".github/dependabot.yml không còn tồn tại → Dependabot ngừng tạo PR."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "docs(bb9): cú pháp phím tắt thành `bb9 &lt;topic&gt;`",
       "tag": "chore",
       "pr": 246,
