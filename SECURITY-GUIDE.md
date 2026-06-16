@@ -161,6 +161,140 @@ git log --oneline --all | head -50
 
 ---
 
+## 8. Security Standards & Checklist 📋
+
+Những tiêu chuẩn bảo mật bắt buộc khi phát triển blog:
+
+### **A) Code Security**
+- ✅ **Mỗi commit phải review** trước merge vào main
+- ✅ **Không commit secrets** (API keys, passwords)
+  - Use `.gitignore` cho `.env`, `secrets.json`
+  - Không commit GitHub token, Cloudflare API key
+- ✅ **Dependencies up-to-date**
+  - Dependabot auto-check weekly
+  - Review & merge security patches ngay
+- ✅ **Pre-commit hooks**
+  - `.pre-commit-config.yaml` đã setup
+  - Chạy trước commit để catch issues
+
+### **B) Git Security**
+- ✅ **Commit messages phải descriptive**
+  - Good: `docs: Thêm security guide`
+  - Bad: `update` hoặc `fix bug`
+- ✅ **Never force-push to main**
+  - `git push --force` chỉ dùng ngoại lệ, review trước
+- ✅ **Regular backup**
+  - Git history = automatic backup
+  - Giữ 4 bản backup gần nhất
+
+### **C) Deployment Security**
+- ✅ **GitHub Pages HTTPS bắt buộc**
+  - Settings → Pages → "Enforce HTTPS" = ON
+  - Tự động renew certificate
+- ✅ **Security headers bắt buộc**
+  - `Strict-Transport-Security: max-age=31536000`
+  - `X-Content-Type-Options: nosniff`
+  - `X-Frame-Options: SAMEORIGIN`
+- ✅ **DDoS protection luôn bật**
+  - GitHub Pages: tự động
+  - Custom domain: dùng Cloudflare
+
+### **D) Admin Access Security**
+- ✅ **Admin account cần mạnh**
+  - Password ≥ 16 ký tự, mix A-Z + 0-9 + special
+  - Example: `K9@mPx#Lq2$vN8wZ`
+- ✅ **GitHub 2FA bắt buộc**
+  - Settings → Security → Two-factor authentication
+  - Dùng authenticator app (không SMS)
+- ✅ **Review repo collaborators**
+  - Settings → Collaborators
+  - Chỉ trusted users mới được access
+
+### **E) Monitoring & Audit**
+- ✅ **Enable GitHub audit logs**
+  - Settings → Audit log
+  - Review quy tăng kỳ (hàng tháng)
+- ✅ **Monitor Dependabot alerts**
+  - Notifications → Check ngày
+  - Fix security patches trong 3 ngày
+- ✅ **Check GitHub Actions logs**
+  - Actions → security-audit.yml
+  - Đảm bảo không có failures
+- ✅ **Emergency procedure ready**
+  - Biết cách recover từ git history
+  - Backup restore plan sẵn sàng
+
+### **F) Content Security**
+- ✅ **Markdown files chỉ user tin tưởng mới edit**
+  - Branch protection: require review
+  - Settings → Branches → "Require pull request reviews" = ON
+- ✅ **Blog configuration (config.toml)**
+  - Không public sensitive config
+  - `.gitignore` → exclude `.env` file
+- ✅ **Assets/Images validation**
+  - Check file size (>10MB = reject)
+  - Check file type (whitelist: jpg, png, webp)
+
+### **G) Khi Có Sự Cố (Incident Response)**
+1. **Phát hiện sự cố** → git log xem lịch sử
+2. **Ngay lập tức revert** → `git revert <bad-commit>`
+3. **Push revert** → CI/CD auto-redeploy
+4. **Post-mortem** → tìm nguyên nhân
+5. **Update documentation** → update SECURITY-GUIDE.md
+
+---
+
+## Checklist Bảo Mật Hàng Ngày
+
+```
+HÀNG NGÀY:
+☐ Check GitHub Dependabot notifications (1 min)
+☐ Review any new security alerts (2 min)
+
+HÀNG TUẦN:
+☐ Pull/rebase main branch locally (1 min)
+☐ Review git log cho commits bất thường (2 min)
+☐ Dependabot auto-merges patch updates (auto)
+
+HÀNG THÁNG:
+☐ Check GitHub audit logs (5 min)
+☐ Review collaborators list (2 min)
+☐ Verify 2FA still enabled (1 min)
+☐ Test recovery procedure (5 min)
+
+HÀNG NĂM (hoặc khi cần):
+☐ Full security audit
+☐ Rotate sensitive credentials
+☐ Review & update SECURITY-GUIDE.md
+☐ Security training review
+```
+
+---
+
+## Quick Reference — Bảo Mật Checklist Khi Publish
+
+**Trước mỗi push:**
+```bash
+# 1. Kiểm tra code
+git diff origin/main
+
+# 2. Kiểm tra không có secrets
+git log -p | grep -i "secret\|api_key\|password"
+
+# 3. Kiểm tra dependencies
+cargo audit  # hoặc tương đương
+
+# 4. Commit với message chi tiết
+git commit -m "Category: Brief description + why"
+
+# 5. Push
+git push origin <branch>
+
+# 6. GitHub Actions tự chạy security-audit.yml
+```
+
+---
+
 ## Tóm Tắt Bảo Mật Hiện Tại
 
 | Tính Năng | Status | Ghi Chú |
