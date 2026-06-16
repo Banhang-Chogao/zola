@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "🚀 Perf audit: 1 file(s) optimized",
+      "tag": "chore",
+      "pr": 257,
+      "lines_added": 3,
+      "lines_removed": 3,
+      "highlights": [
+        "Thêm loading=\"lazy\" vào <img> tags thiếu (skip LCP hero có fetchpriority=high)",
+        "Thêm decoding=\"async\" vào <img> tags thiếu",
+        "KHÔNG thay đổi: source images, JS/CSS, content, layout"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "docs(claude): thư viện VACCINE + fixer từ audit toàn bộ lịch sử CI failed",
       "tag": "chore",
       "pr": 256,
