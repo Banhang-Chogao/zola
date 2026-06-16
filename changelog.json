@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "🤖 Self-healing: 21 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 265,
+      "lines_added": 23,
+      "lines_removed": 14,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "feat(navbar): nền teal #00a69d + gỡ hoàn toàn theme selector",
       "tag": "chore",
       "pr": 264,
