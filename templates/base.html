@@ -592,6 +592,19 @@
         {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
         {% set qa_now = now() | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
         {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
+        {# Performance: điểm Lighthouse lấy trực tiếp từ data/pagespeed.json
+           (workflow pagespeed.yml fetch PageSpeed Insights API mỗi giờ). Ưu tiên
+           desktop (ổn định); mobile free-API hay bị throttle về 0 → fallback. #}
+        {% set qa_pagespeed = load_data(path="data/pagespeed.json", required=false) %}
+        {% set qa_ps_perf = 0 %}
+        {% if qa_pagespeed %}
+            {% set ps_d = qa_pagespeed.desktop.performance | default(value=0) %}
+            {% set ps_m = qa_pagespeed.mobile.performance | default(value=0) %}
+            {% if ps_d > 0 %}{% set_global qa_ps_perf = ps_d %}{% else %}{% set_global qa_ps_perf = ps_m %}{% endif %}
+        {% endif %}
+        {# Security: số liệu lần quét gần nhất từ data/security.json
+           (workflow security-audit.yml commit pip-audit + gitleaks + misconfig). #}
+        {% set qa_security = load_data(path="data/security.json", required=false) %}
 
         <div class="footer-qa">
             <div class="container">
@@ -605,19 +618,19 @@
                 <div class="qa-grid">
                     {# Card 1: Performance #}
                     <div class="qa-card qa-card--perf"
-                         title="Performance Audit — workflow tự đo tốc độ tải trang (Lighthouse) chạy theo lịch hằng tuần.">
+                         title="Performance Audit — điểm Lighthouse (Performance) lấy trực tiếp từ PageSpeed Insights API, cập nhật mỗi giờ.">
                         <div class="qa-card__top">
                             <span class="qa-card__icon" aria-hidden="true">⚡</span>
                             <div class="qa-card__labels">
                                 <span class="qa-card__label qa-card__label--green">AUTO</span>
-                                <span class="qa-card__label qa-card__label--gray">WEEKLY</span>
+                                <span class="qa-card__label qa-card__label--gray">LIVE</span>
                             </div>
                         </div>
                         <h4 class="qa-card__title">Performance Audit</h4>
-                        <p class="qa-card__desc">Tự động đo tốc độ tải trang hằng tuần bằng Lighthouse.</p>
+                        <p class="qa-card__desc">Điểm Lighthouse Performance đo trực tiếp từ PageSpeed Insights.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">Cron CN 02:00 UTC</span>
-                            <span class="qa-card__date">{{ qa_now }}</span>
+                            <span class="qa-card__count">{% if qa_pagespeed %}{{ qa_ps_perf }}/100 điểm{% else %}Cron CN 02:00 UTC{% endif %}</span>
+                            <span class="qa-card__date">{% if qa_pagespeed and qa_pagespeed.updated_at %}{{ qa_pagespeed.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}</span>
                         </div>
                     </div>
 
@@ -632,10 +645,10 @@
                             </div>
                         </div>
                         <h4 class="qa-card__title">Security Scan</h4>
-                        <p class="qa-card__desc">Quét lỗ hổng thư viện &amp; rò rỉ secret định kỳ.</p>
+                        <p class="qa-card__desc">Số lỗ hổng thư viện &amp; rò rỉ secret từ lần quét gần nhất.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">pip-audit + gitleaks</span>
-                            <span class="qa-card__date">T7 03:00 UTC</span>
+                            <span class="qa-card__count">{% if qa_security %}{{ qa_security.py_vulns | default(value=0) }} CVE · {{ qa_security.secret_leaks | default(value=0) }} leak{% else %}pip-audit + gitleaks{% endif %}</span>
+                            <span class="qa-card__date">{% if qa_security and qa_security.updated_at %}{{ qa_security.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}T7 03:00 UTC{% endif %}</span>
                         </div>
                     </div>
 
@@ -672,7 +685,7 @@
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{{ qa_changelog_items | length }} PRs</span>
                             <span class="qa-card__date">
-                                {% if qa_latest_pr %}{{ qa_latest_pr.date | default(value=qa_now) | truncate(length=10, end="") }}{% else %}—{% endif %}
+                                {% if qa_latest_pr and qa_latest_pr.date %}{{ qa_latest_pr.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}
                             </span>
                         </div>
                     </div>
