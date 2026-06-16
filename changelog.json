@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Phase 1: Extend themes.scss với E-X + Hila Ericsson tokens",
+      "tag": "chore",
+      "pr": 150,
+      "lines_added": 76,
+      "lines_removed": 0,
+      "highlights": [
+        "E-X (Ericsson Newsroom) theme",
+        "Map từ PR #140:",
+        "--theme-primary (#1174E5) → --c-accent",
+        "--theme-primary-hover (#0058A3) → --c-accent-hover",
+        "--theme-accent (#FFCD00) → --c-decoration"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "HOTFIX: Guard page.date null trong OG + JSON-LD (deploy đỏ)",
       "tag": "chore",
       "pr": 148,
