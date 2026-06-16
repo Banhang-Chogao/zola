@@ -1,0 +1,67 @@
+name: Keepalive Scheduler
+
+# ============================================================================
+# VÌ SAO CÓ FILE NÀY
+# GitHub `schedule:` cron là BEST-EFFORT: hay bị delay (có khi vài tiếng) hoặc
+# SKIP hoàn toàn, đặc biệt với workflow nặng (QA / Security / Self-Healing).
+# Hệ quả: mốc "11:00 GMT+7 mỗi sáng" KHÔNG được đảm bảo (đã thực tế bị bỏ lỡ).
+#
+# CÁCH KHẮC PHỤC
+# Workflow này CỰC NHẸ (chỉ vài lệnh gọi API, không build, không cài deps) →
+# GitHub có khả năng chạy nó đúng giờ cao hơn nhiều so với workflow nặng.
+# Khi chạy, nó tự dispatch 3 QA workflow core lúc ~04:00 UTC (11:00 GMT+7).
+#
+# ĐỘ TIN CẬY
+# - Nhiều mốc cron dự phòng (04:00 / 04:10 / 04:25 UTC): chỉ cần 1 mốc fire là đủ.
+# - Guard idempotent: nếu trong ngày (UTC) đã có run `workflow_dispatch` của
+#   target rồi thì BỎ QUA → các mốc cron sau không kích trùng, và nếu user đã
+#   chạy tay buổi sáng thì cũng không chạy lại. Run do PR/push KHÔNG tính
+#   (lọc theo event=workflow_dispatch) nên baseline sáng vẫn luôn được đảm bảo.
+# ============================================================================
+
+on:
+  schedule:
+    - cron: '0 4 * * *'    # 11:00 GMT+7 — mốc chính
+    - cron: '10 4 * * *'   # +10' dự phòng nếu mốc chính bị skip
+    - cron: '25 4 * * *'   # +25' dự phòng lần 2
+  workflow_dispatch:        # cho phép kích tay bất kỳ lúc nào
+
+# actions:write cần để gọi workflow_dispatch sang workflow khác.
+# GITHUB_TOKEN dispatch workflow_dispatch SẼ tạo run mới (đây là ngoại lệ
+# duy nhất của cơ chế chống đệ quy của GITHUB_TOKEN).
+permissions:
+  actions: write
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch 3 QA workflow (idempotent theo ngày UTC)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          today=$(date -u +%Y-%m-%d)
+          echo "🕚 Keepalive chạy lúc $(date -u +%H:%M) UTC ($(TZ=Asia/Ho_Chi_Minh date +%H:%M) GMT+7) — ngày UTC $today"
+
+          for wf in qa.yml security-audit.yml self-healing.yml; do
+            # Đếm run đã được DISPATCH trong hôm nay (bỏ qua run do PR/push).
+            count=$(gh api \
+              "repos/$REPO/actions/workflows/$wf/runs?event=workflow_dispatch&created=%3E%3D${today}T00:00:00Z&per_page=100" \
+              --jq '.workflow_runs | length')
+
+            if [ "$count" -gt 0 ]; then
+              echo "⏭  $wf: đã có $count run workflow_dispatch hôm nay → bỏ qua (idempotent)"
+            else
+              echo "▶  $wf: chưa có run hôm nay → dispatch trên main"
+              gh api -X POST "repos/$REPO/actions/workflows/$wf/dispatches" -f ref=main
+              echo "✅ $wf đã được kích"
+            fi
+          done
+
+          echo "🏁 Keepalive xong."
