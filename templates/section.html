@@ -4,7 +4,7 @@
 
 {% block main %}
     <header class="section-header">
-        <h2 class="section-header__title">{{ section.title | upper }}</h2>
+        <h1 class="section-header__title">{{ section.title | upper }}</h1>
     </header>
 
     {# Khi section có paginate_by, Zola truyền `paginator` và `section.pages` rỗng.
