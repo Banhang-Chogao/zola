@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Footer 2 cột (QA · GA) + tag cloud text-only ra sidebar",
+      "tag": "feat",
+      "pr": 214,
+      "lines_added": 79,
+      "lines_removed": 199,
+      "highlights": [
+        "Gỡ tag cloud khỏi footer (bỏ luôn style cũ .tag-grid / .tag-card / .footer-tags-section).",
+        "Thêm vào sidebar phải dạng .tag-cloud text-only: chữ thuần #tag, nhỏ gọn hết mức, theme-aware (var(--c-*), hover → accent), số bài hiển thị ở title (rê chuột) cho tối giản.",
+        "Hiển thị trên các trang dùng sidebar mặc định (trang chủ + bài viết).",
+        "Footer split theo mobile-first: base 1 cột (stack) → @media (min-width: 981px) mới 2 cột. Desktop/mobile tách block rõ ràng.",
+        ".tag-cloud dùng semantic token → hài hoà light/dark."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Footer ổn định dark-mode + nới rộng layout desktop (1500/400)",
       "tag": "fix",
       "pr": 213,
