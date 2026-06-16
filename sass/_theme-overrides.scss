@@ -304,22 +304,10 @@
 }
 
 /* ============================================================
-   ===== APPLY MIXIN cho 3 themes =====
+   ===== APPLY MIXIN — Hilda (single theme) =====
    ============================================================
-   Color values từ Phase 1 (--c-*). Mixin chỉ inject non-color
-   tokens (radius / shadow / kicker / heading-ls) per theme. */
-
-/* ===== Z-X (ZaloPay) — soft app-like blue tint ===== */
-:root[data-theme="zx"] {
-  @include theme-overrides(
-    $radius-card:        $zx-radius-lg,       /* 14px soft */
-    $radius-tag:         $zx-radius-sm,       /* 6px */
-    $shadow-card:        $zx-shadow-sm,
-    $shadow-card-hover:  $zx-shadow-lg,
-    $kicker-spacing:     0.08em,
-    $heading-ls:         -0.025em
-  );
-}
+   Color values qua --c-* tokens. Mixin chỉ inject non-color
+   tokens (radius / shadow / kicker / heading-ls). */
 
 /* ===== HILDA (Ericsson) — sharp, professional ===== */
 :root[data-theme="hilda"] {
