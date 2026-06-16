@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Footer ổn định dark-mode + nới rộng layout desktop (1500/400)",
+      "tag": "fix",
+      "pr": 213,
+      "lines_added": 22,
+      "lines_removed": 10,
+      "highlights": [
+        ".site-footer nền: var(--c-text-heading) (đảo #000↔#fff ở dark-mode → nền trắng, chữ trắng biến mất) → #0a0a0a cố định.",
+        "Footer tag/QA title: bỏ token đảo → màu cố định khớp nền (sáng trên dải tag tối, tối trên QA band trắng).",
+        "Fix luôn bug có sẵn: tiêu đề TAG CLOUD #000-trên-#000 vô hình ở light-mode.",
+        "⚠️ Lưu ý: bản redesign footer #212 trên main redesign layout tag cloud nhưng không sửa bug dark-mode này → fix vẫn cần thiết. Merge đã giữ nguyên redesign #212 (tag-grid compact 840px, canh phải) + ch",
+        ".container + .navbar__inner: **** → 1500px."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Thu nhỏ tag cloud + redesign QA Dashboard footer",
       "tag": "feat",
       "pr": 212,
