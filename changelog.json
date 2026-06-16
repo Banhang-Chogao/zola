@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Add bb shortcut — interactive article processor",
+      "tag": "feat",
+      "pr": 175,
+      "lines_added": 70,
+      "lines_removed": 0,
+      "highlights": [
+        "User provides article content (copy-paste, no crawling needed)",
+        "Claude rewrites in personal blog style with unique perspective",
+        "Auto-detects category and generates frontmatter",
+        "Creates branch baochi, commits, PR, and merges immediately",
+        "Network failure fallback: works even when external crawling blocked"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "test: Auto-merge9 test PR #06",
       "tag": "chore",
       "pr": 170,
