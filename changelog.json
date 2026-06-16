@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Thêm bài: Bên trong MSB Digital Bank — công nghệ và bảo mật",
+      "tag": "security",
+      "pr": 229,
+      "lines_added": 77,
+      "lines_removed": 0,
+      "highlights": [
+        "Nội dung: nền tảng Backbase, xác thực FIDO, Face authentication, Bshield, eKYC (ePay/Trusting Social/Bộ Công an); phân tích cá nhân hoá theo hành vi, tín dụng duyệt tự động 100%, tối ưu dòng tiền — kè",
+        "SEO: title 48 ký tự (rendered <title> 61 ≤ 65), meta description ~150 ký tự, 3 khối FAQ → FAQPage schema, 3 internal link @/ tới bài liên quan (MSB migration, BIDV Private Banking, \"dưới nắp ca-pô blo",
+        "categories = [\"Ngân hàng\"] đồng bộ 2 bài banking hiện có.",
+        "zola build ✅ (21 pages, internal @/ links resolve, FAQPage JSON-LD render)",
+        "qa_check.py ✅ All QA checks passed"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "SEO Phase 2: 2 bài mới (Tạo blog Zola A–Z + Lịch trình Busan tự túc)",
       "tag": "chore",
       "pr": 228,
