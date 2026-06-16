@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "feat(navbar): nền teal #00a69d + gỡ hoàn toàn theme selector",
+      "tag": "chore",
+      "pr": 264,
+      "lines_added": 16,
+      "lines_removed": 23,
+      "highlights": [
+        "Nền navbar đổi từ gradient xanh dương → #00a69d (teal đặc), shadow + mask cuộn mobile cũng chuyển teal.",
+        "Gỡ hoàn toàn theme selector (nút 🎨 .theme-dropdown) khỏi navbar. Blog mặc định theme Hilda (đã set bởi inline script ở <head>); các script theme đều guard if(!btn) return nên no-op an toàn khi thiếu m",
+        "Giữ nguyên: bảng chữ cái trắng mờ trải đều (FreightSans Pro) + chữ menu trắng.",
+        "qa_check.py pass; zola build (qa-check) compile SASS."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "feat(report): chặn THẬT bằng backend FastAPI OAuth (gỡ report khỏi repo public)",
       "tag": "chore",
       "pr": 263,
