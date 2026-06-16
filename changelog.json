@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Phase 2: Refactor theme-switcher.js → 4-option dropdown",
+      "tag": "refactor",
+      "pr": 152,
+      "lines_added": 169,
+      "lines_removed": 43,
+      "highlights": [
+        "Themes: \"\" (BrandingX), \"zx\" (Z-X), \"ex\" (E-X), \"hila\" (Hila)",
+        "THEME_NAMES mapping: theme value → display name",
+        "ALL_THEMES: [\"\"，\"zx\"，\"ex\"，\"hila\"]",
+        "localStorage key: \"blog-theme\" (KHÔNG đổi)",
+        "Auto-migration: \"default\" → \"\" (normalize old stored values)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Phase 1: Extend themes.scss với E-X + Hila Ericsson tokens",
       "tag": "chore",
       "pr": 150,
