@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "perf-audit fixer bỏ qua &lt;img&gt; trong comment + fallback ảnh lỗi → placeholder",
+      "tag": "fix",
+      "pr": 258,
+      "lines_added": 51,
+      "lines_removed": 3,
+      "highlights": [
+        "qa_check.py pass.",
+        "perf-fixer test: chỉ sửa <img> thật, bỏ qua comment/LCP."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "🚀 Perf audit: 1 file(s) optimized",
       "tag": "chore",
       "pr": 257,
