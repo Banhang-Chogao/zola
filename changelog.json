@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Professional theme dropdown menu redesign",
+      "tag": "refactor",
+      "pr": 183,
+      "lines_added": 358,
+      "lines_removed": 99,
+      "highlights": [
+        "Replaced text-based toggle button with icon-only trigger (🎨 palette icon) for minimal navbar footprint",
+        "Implemented smooth fade-in animation when dropdown opens",
+        "Added hover effects on menu items for clear visual feedback",
+        "Display check-mark (✓) next to the currently active theme",
+        "Clean, minimal design matching professional standards"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Claude/test auto merge9",
       "tag": "chore",
       "pr": 179,
