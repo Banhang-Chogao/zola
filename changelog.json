@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Hiển thị bài ở /posting/ (gộp mọi section) + nút Trang chủ + SEO/Google indexing",
+      "tag": "chore",
+      "pr": 221,
+      "lines_added": 35,
+      "lines_removed": 4,
+      "highlights": [
+        "templates/section.html — khi render section \"posting\" → gộp bài từ MỌI section (posting/ + baochi/), sort ngày giảm dần.",
+        "content/posting/_index.md — bỏ paginate_by (Zola không phân trang xuyên-section) → /posting/ render đủ toàn bộ bài, tránh trang /page/N/ trùng.",
+        "config.toml — thêm mục \"Trang chủ\" đầu navbar → https://banhang-chogao.github.io/zola/.",
+        "config.toml — extra.google_site_verification + render <meta google-site-verification> khi có mã → mở khoá xác minh Google Search Console.",
+        "templates/base.html — <meta name=\"robots\" content=\"index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1\"> + publisher.logo trong JSON-LD."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Hotfix: trang chủ hiển thị bài viết từ MỌI section (gộp posting/ + baochi/)",
       "tag": "chore",
       "pr": 220,
