@@ -8,5 +8,11 @@ Allow: /
 Disallow: /editor/
 Disallow: /admin-author/
 
+# File đính kèm / báo cáo: ẩn khỏi search engine (LƯU Ý: GitHub Pages là host
+# tĩnh → đây CHỈ chặn index, KHÔNG chặn được truy cập trực tiếp nếu biết URL.
+# Muốn chặn tải thật phải đưa qua backend có auth — xem CLAUDE.md §Bảo mật.)
+Disallow: /data/reports/
+Disallow: /data/
+
 # Sitemap auto-generated bởi Zola (file sitemap.xml ở root sau build)
 Sitemap: https://banhang-chogao.github.io/zola/sitemap.xml

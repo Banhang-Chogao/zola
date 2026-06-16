@@ -79,7 +79,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "<${{ github.event.head_commit.url }}|Xem commit trên GitHub>"
+                    "text": "<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|Xem commit trên GitHub>"
                   }
                 }
               ]

@@ -1,0 +1,65 @@
+name: Optimize images (WebP)
+
+# Tự sinh bản .webp SONG SONG cho mọi ảnh raster (.jpg/.jpeg/.png) khi push
+# lên main. Giữ nguyên file gốc (theo quyết định user 16/06/2026) → template
+# dùng <picture> ưu tiên webp + fallback. Commit .webp ngược lại repo.
+#
+# KHÔNG vòng lặp vô tận: paths filter chỉ match ảnh raster; commit chỉ thêm
+# file .webp (không khớp filter) nên không tự kích hoạt lại. Kèm [skip ci] cho chắc.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'static/**/*.jpg'
+      - 'static/**/*.jpeg'
+      - 'static/**/*.png'
+      - 'content/**/*.jpg'
+      - 'content/**/*.jpeg'
+      - 'content/**/*.png'
+  # Quét định kỳ: bắt mọi ảnh raster còn sót chưa có .webp (kể cả ảnh cũ
+  # không bị đụng trong push) → đảm bảo "luôn tự động cố gắng chuyển webp".
+  schedule:
+    - cron: '0 4 * * *'    # Hằng ngày 11:00 GMT+7 = 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: optimize-images
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  webp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Pillow
+        run: pip install --quiet Pillow
+
+      - name: Generate .webp alongside rasters
+        run: |
+          python3 scripts/to_webp.py static/img content || true
+
+      - name: Commit generated webp (nếu có)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain '*.webp')" ]; then
+            git add '*.webp'
+            git commit -m "chore(img): auto-generate WebP alongside rasters [skip ci]"
+            for i in 1 2 4 8; do git push && break || sleep $i; done
+          else
+            echo "Không có .webp mới — bỏ qua commit."
+          fi
