@@ -47,7 +47,7 @@
        trước khi CSS render → tránh user thấy flash từ default sang theme đã chọn
        khi đã lưu theme trước đó. PHẢI là script đầu tiên trong <head>.
        Z-X is default theme. Supports: Z-X (default), Hilda (user choice) #}
-    <script>(function(){try{var t=localStorage.getItem('blog-theme');if(t==='hilda'){document.documentElement.setAttribute('data-theme','hilda');}else{document.documentElement.removeAttribute('data-theme');}}catch(e){}})();</script>
+    <script>(function(){try{var t=localStorage.getItem('blog-theme');if(t==='zx'){document.documentElement.removeAttribute('data-theme');}else{document.documentElement.setAttribute('data-theme','hilda');}}catch(e){}})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
