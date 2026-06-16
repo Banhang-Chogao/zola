@@ -65,6 +65,48 @@ Trước khi tạo PR cho thay đổi CSS:
 - Mental check: thay đổi này có ảnh hưởng mobile menu open/close không?
 - Nếu sửa `overflow`, `height`, `position` → ghi rõ trong PR description vì sao thay đổi an toàn.
 
+## Quy trình Git & Pull Request (Bắt Buộc)
+
+### 1. Mọi thay đổi code → Phải qua PR (Cấm push trực tiếp)
+
+- **KHÔNG** push commits trực tiếp lên `main`
+- **PHẢI** tạo feature branch (`claude/*`) → commit → push → **tạo PR**
+- Ngoại lệ hotfix critical: tạo PR + ghi rõ `[HOTFIX]` trong title
+
+### 2. Nhánh hợp nhất: Chỉ định (Tùy user quyết định)
+
+- Tất cả PRs gom về **nhánh chỉ định** user (mặc định: `main`)
+- Nếu user muốn nhánh khác (vd: `staging`, `release`) → thay đổi base branch tại lúc tạo PR
+- KHÔNG tự ý gom PRs vào nhánh khác
+
+### 3. Review & Merge: Manual Only (Cấm Auto-merge)
+
+- **KHÔNG auto-merge** bất kỳ PR nào (kể cả nhỏ, cấp độ cao)
+- PRs luôn giữ trạng thái **chờ (pending)** đến khi user gõ lệnh:
+  - `manual #X` — merge PR này
+  - `prm` — merge tất cả open PRs
+  - `gg` — list + merge với confirmation
+- Tuyệt đối chờ user approval rõ ràng
+
+### 4. Commit message: Tối ưu token
+
+Format:
+```
+<type>: <description (≤70 chars)>
+
+[optional body — chỉ nếu cần detail]
+```
+
+Types: `feat` / `fix` / `docs` / `chore` / `refactor` / `test` / `perf`
+
+Example:
+```
+feat: Add manu9 shortcut — auto-approve Claude PRs
+
+Khi user gõ 'manu9', tự động approve PRs do Claude tạo.
+Sẵn sàng merge với `prm` hoặc `manual #X`.
+```
+
 ## Quy tắc hiển thị thời gian (Timezone & Date format)
 
 Áp dụng cho MỌI nơi hiển thị ngày/giờ trên blog (templates Tera, static JS,
