@@ -559,45 +559,25 @@
                             {% endfor %}
                         </ul>
                     </section>
+
+                    {# TAGS — text-only, gọn nhẹ; hover xem số bài (title) #}
+                    <section class="sidebar-block">
+                        <h3 class="sidebar-label">TAGS</h3>
+                        {% set sb_tags = get_taxonomy(kind="tags") %}
+                        <div class="tag-cloud">
+                            {% for t in sb_tags.items %}
+                                <a class="tag-cloud__item" href="{{ t.permalink }}" title="{{ t.pages | length }} bài viết">#{{ t.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </section>
                 </aside>
             {% endblock sidebar %}
         </div>
     </main>
 
     <footer class="site-footer">
-        {# ===== TAG CLOUD ===== #}
-        {# Render build-time từ get_taxonomy(tags). Mỗi tag thành pill
-           với color cycle 8 màu + size tier sm/md/lg theo số bài. #}
-        <div class="footer-tags-section">
-            <div class="container">
-                <header class="footer-tags-section__head">
-                    <h3 class="footer-tags-section__title">🏷 TAG CLOUD</h3>
-                    {% set tag_taxo = get_taxonomy(kind="tags") %}
-                    <span class="footer-tags-section__count">{{ tag_taxo.items | length }} tags</span>
-                </header>
-                {# Grid layout: mỗi tag = 1 cell có border, badge màu phía
-                   trên + mô tả số bài phía dưới. 5 cột desktop → 4/3/2 cột
-                   responsive theo viewport. Uniform cell size. #}
-                <div class="tag-grid">
-                    {% if tag_taxo.items | length > 0 %}
-                        {% for t in tag_taxo.items %}
-                            {% set cnt = t.pages | length %}
-                            {% set ci = loop.index0 % 8 %}
-                            <a class="tag-card"
-                               href="{{ t.permalink }}"
-                               title="{{ cnt }} bài viết với tag '{{ t.name }}'">
-                                <span class="tag-card__badge tag-card__badge--c{{ ci }}">
-                                    #{{ t.name | upper }}
-                                </span>
-                                <span class="tag-card__desc">{{ cnt }} bài viết</span>
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <p class="footer-tags-section__empty">Chưa có tag nào.</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        {# Tag cloud đã chuyển sang RIGHT SIDEBAR (text-only) — xem block
+           "TAGS" trong {% block sidebar %} phía trên. #}
 
         {# ===== QA DASHBOARD =====
            6 card metrics QA real-time (build-time snapshot). Tự gia giảm
@@ -615,6 +595,9 @@
 
         <div class="footer-qa">
             <div class="container">
+                {# Bố cục 2 cột: QA Dashboard (trái) · Google Analytics (phải) #}
+                <div class="footer-qa__split">
+                <div class="footer-qa__left">
                 <header class="footer-qa__head">
                     <h3 class="footer-qa__title">⚡ QA DASHBOARD</h3>
                     <span class="footer-qa__sub">Build-time snapshot · {{ qa_now }}</span>
@@ -730,6 +713,8 @@
                         </div>
                     </div>
                 </div>
+                </div>{# /.footer-qa__left #}
+                <div class="footer-qa__right">
 
                 {# ===== GA STATS LIVE TABLE =====
                    Always render — placeholder 0 nếu workflow chưa fetch.
@@ -831,6 +816,8 @@
                     </p>
                 </div>
                 {% endif %}
+                </div>{# /.footer-qa__right #}
+                </div>{# /.footer-qa__split #}
             </div>
         </div>
 
