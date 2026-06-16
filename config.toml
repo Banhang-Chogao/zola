@@ -58,6 +58,7 @@ chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 # Item KHÔNG có 'children' = link đơn bình thường (tương thích ngược).
 # Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
+    { name = "Trang chủ", url = "$BASE_URL/" },
     { name = "Bài viết", url = "$BASE_URL/categories/posting", children = [
         { url = "$BASE_URL/categories/posting",  name = "Tất cả bài viết" },
         { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },

@@ -9,7 +9,13 @@
 
     {# Khi section có paginate_by, Zola truyền `paginator` và `section.pages` rỗng.
        Khi không paginate, ngược lại. Fallback cover cả 2 trường hợp. #}
-    {% if paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = section.pages %}{% endif %}
+    {# HOTFIX: section "posting" = trang tổng hợp bài viết → gộp bài từ MỌI section
+       (posting/ + baochi/, …) + sort ngày giảm dần để /posting/ hiển thị đồng nhất
+       với trang chủ: mọi bài đều xuất hiện, không phân biệt thư mục. #}
+    {% if section.relative_path == "posting/_index.md" %}
+        {% set s_baochi = get_section(path="baochi/_index.md") %}
+        {% set pages = section.pages | concat(with=s_baochi.pages) | sort(attribute="date") | reverse %}
+    {% elif paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = section.pages %}{% endif %}
 
     <div class="post-list">
         {% for page in pages %}
