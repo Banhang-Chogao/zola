@@ -233,8 +233,11 @@
   /* ===== MOBILE (≤ 720px) ===== */
   @media (max-width: 720px) {
     .theme-toggle__btn {
-      padding: 0 0.65rem;
+      padding: 0 1rem;
       font-size: 0.78rem;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
 
       .theme-toggle__current {
         display: none;
@@ -242,8 +245,16 @@
     }
 
     .theme-toggle__menu {
-      right: 0.25rem;
-      min-width: 200px;
+      right: 0.5rem;
+      min-width: 220px;
+      max-width: calc(100vw - 32px);
+    }
+
+    .theme-toggle__opt {
+      padding: 0.75rem 0.85rem;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
     }
   }
 
@@ -286,7 +297,7 @@
   .navbar__inner {
     padding: 0;
     align-items: stretch;
-    min-height: 48px;
+    min-height: 52px;
   }
 
   /* Hide burger + backdrop — không dùng drawer pattern nữa */
@@ -305,7 +316,7 @@
     transform: none;
     transition: none;
     visibility: visible;
-    padding: 0 8px;
+    padding: 0 12px;
     margin: 0;
     /* Horizontal scroll */
     display: flex;
@@ -328,7 +339,7 @@
 
     a {
       color: $brand-ink-500;
-      padding: 0.95rem 0.85rem 0.85rem;
+      padding: 1rem 1rem 0.9rem;
       font-family: $font-ui;
       font-size: 0.9rem;
       font-weight: 600;
@@ -340,6 +351,9 @@
       transition: color .15s ease, border-color .15s ease;
       width: auto;
       justify-content: center;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
 
       /* Underline đỏ active state momo style */
       &.is-active {
@@ -355,11 +369,15 @@
     }
   }
 
-  /* Search button giữ bên phải, compact */
+  /* Search button giữ bên phải, touch-friendly size */
   .navbar__search {
-    padding: 0 1rem;
+    padding: 0 1.2rem;
     flex-shrink: 0;
     align-self: stretch;
+    min-width: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Gradient mask cuối phải — visual hint còn scroll được, giống momo */
@@ -372,7 +390,7 @@
       right: 0;
       top: 0;
       bottom: 0;
-      width: 32px;
+      width: 40px;
       background: linear-gradient(to left,
         rgba(255, 255, 255, 1) 0%,
         rgba(255, 255, 255, 0) 100%);

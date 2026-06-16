@@ -149,10 +149,25 @@ body {
   a.editor-btn,
   .navbar__menu a,
   .navbar__burger,
+  .navbar__search,
   .footer-card a,
   .site-footer__author-mgmt,
-  .site-footer__stats-link {
+  .site-footer__stats-link,
+  .theme-toggle__btn,
+  .theme-toggle__opt {
     min-height: 44px;
     min-width: 44px;
+  }
+
+  /* Improve touch target padding for interactive elements */
+  button,
+  a[href],
+  [role="button"] {
+    padding: max(0.5em, 8px) max(0.75em, 12px);
+  }
+
+  /* Ensure clickable elements have proper spacing */
+  a, button, [role="button"] {
+    touch-action: manipulation;
   }
 }
