@@ -1109,6 +1109,13 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 ### `bb9` — Viết bài + hẹn giờ đăng (scheduled publish n+3, buổi tối)
 
+**Cú pháp gọi (BẮT BUỘC)**: `bb9 <tên chủ đề>` — LUÔN kèm **tên chủ đề** ngay
+sau phím tắt, KHÔNG gõ trơ `bb9`. Tên chủ đề chính là đề tài để Claude tự viết
+bài (khác `bb` là dán sẵn nội dung báo). Ví dụ:
+`bb9 ưu điểm thẻ tín dụng Liobank`, `bb9 mẹo tiết kiệm điện mùa hè`.
+Nếu user gõ `bb9` mà thiếu tên chủ đề → HỎI lại "viết về chủ đề gì?", KHÔNG tự
+bịa chủ đề.
+
 **Mục đích**: Viết bài BẤT CỨ LÚC NÀO nhưng KHÔNG đăng ngay — lưu dạng **draft**
 và hẹn tự động đẩy lên production **3 ngày sau (n+3), vào buổi tối**, với điều
 kiện vượt qua QA gate. Đây là biến thể "hẹn giờ" của `bb`.
