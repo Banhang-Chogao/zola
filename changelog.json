@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "fix(related): repo-id HuggingFace đầy đủ — hết 401, build-related hết fail",
+      "tag": "fix",
+      "pr": 255,
+      "lines_added": 7,
+      "lines_removed": 2,
+      "highlights": [
+        "SentenceTransformer tự suy prefix sentence-transformers/ cho tên model trần.",
+        "snapshot_download thì KHÔNG → tên trần paraphrase-multilingual-MiniLM-L12-v2 bị HF tra như repo top-level không tồn tại → trả 401 Repository Not Found → fail cả build.",
+        "py_compile OK.",
+        "Sau merge, push đổi scripts/build_related.py sẽ trigger lại build-related.yml → kiểm tra build xanh thật."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "fix(img): ảnh placeholder thương hiệu cho bài không có ảnh (thay picsum không liên quan)",
       "tag": "fix",
       "pr": 254,
