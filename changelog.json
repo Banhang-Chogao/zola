@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "PLANNING: Hilda theme (Option C) — secondary theme for Ericsson branding",
+      "tag": "chore",
+      "pr": 180,
+      "lines_added": 908,
+      "lines_removed": 71,
+      "highlights": [
+        "sass/_hilda-tokens.scss — Color, spacing, typography variables",
+        "sass/_hilda-fonts.scss — Google Fonts import (Inter)",
+        "sass/_hilda-overrides.scss — Component styling per theme",
+        "sass/_theme-switcher-styles.scss — Toggle button styles",
+        "sass/_themes.scss — Add Hilda :root[data-theme=\"hilda\"] block"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Add Branding Guideline page + homepage CTA",
       "tag": "feat",
       "pr": 182,
