@@ -8,6 +8,7 @@ aliases = ["/thang-6-di-han-an-gi-lam-gi/"]
 categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch", "festival", "hàn quốc", "jeju", "korea", "mùa hè", "seoul", "tháng 6", "ẩm thực"]
 [extra]
+seo_keyword = "du lịch Hàn Quốc tháng 6"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/thang-6-di-han-an-gi-lam-gi.svg"
 featured = false
 [[extra.faq]]
@@ -26,7 +27,7 @@ a = "Tắm biển Busan và Jeju khi bãi biển bắt đầu mở, dạo công 
 
 ![Tháng 6 ở Hàn]
 
-Tháng 6 ở Hàn là **giai đoạn chuyển mùa kỳ lạ**: nửa đầu tháng còn khô
+Du lịch Hàn Quốc tháng 6 rơi vào một **giai đoạn chuyển mùa kỳ lạ**: nửa đầu tháng còn khô
 ráo, mát mẻ như tháng 5; nửa cuối tháng bắt đầu **mùa mưa (장마,
 jangma)** kéo dài đến giữa tháng 7. Đi tháng 6 nghĩa là phải biết chọn
 2 tuần đầu hoặc canh trước cơn mưa. Bù lại, đây là **mùa rẻ thứ 2 sau
@@ -36,7 +37,7 @@ sau lần đi Seoul + Jeju đầu tháng 6 năm 2025.
 
 <!-- more -->
 
-## Thời tiết tháng 6 — chia làm 2 nửa
+## Thời tiết du lịch Hàn Quốc tháng 6 — chia làm 2 nửa
 
 **Tuần 1-2 (1/6 - 14/6)**: 20-26°C ban ngày, 16-19°C ban đêm. Khô,
 nắng nhẹ, gió mát. Đây là **window vàng** — gần như tốt nhất cả năm
@@ -232,3 +233,5 @@ Bạn cũng có thể đọc bài [Mùa nào đi Hàn đẹp nhất?](/posting/m
 để so sánh tháng 6 với các tháng khác trong năm. Hoặc nếu muốn ăn
 ngon ngay tại Việt Nam, gợi ý
 [12 món ngon Sài Gòn tối nay](/posting/toi-nay-sai-gon-an-gi/) cho bạn.
+
+📚 Cập nhật lịch lễ hội và điểm đến mùa hè trên trang du lịch chính thức [Visit Korea](https://english.visitkorea.or.kr/).

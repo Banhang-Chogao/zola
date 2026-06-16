@@ -8,6 +8,7 @@ aliases = ["/mua-nao-di-han-la-dep-nhat/"]
 categories = ["Tất cả", "Du lịch"]
 tags = ["anh đào", "busan", "du lịch", "hàn quốc", "jeju", "korea", "lá vàng", "mùa", "seoul", "tuyết"]
 [extra]
+seo_keyword = "đi Hàn mùa nào đẹp"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/mua-nao-di-han-la-dep-nhat.svg"
 featured = false
 [[extra.faq]]
@@ -206,7 +207,7 @@ nếu bạn chưa thấy tuyết, đây là **trải nghiệm life-changing**.
 - **Cuối tháng 11 - đầu tháng 12**: hết lá vàng, chưa có tuyết. Cảnh
   trơ trụi
 
-## Kết: tùy bạn yêu gì
+## Kết: đi Hàn mùa nào đẹp còn tùy bạn yêu gì
 
 Nếu bạn hỏi mình "đi 1 lần thôi nên đi mùa nào?" — mình trả lời
 **giữa tháng 10**. Lá vàng + thời tiết hoàn hảo + ánh sáng vàng nhẹ
@@ -217,6 +218,8 @@ xuân + thu, **đi hè rẻ + Jeju biển** cho compelte 4 mùa.
 
 Hàn Quốc không quá xa, không quá đắt, không quá lạ — và mỗi mùa
 mang một câu chuyện khác. Đi nhiều lần được, không cần ép 1 lần.
+
+📚 Xem thêm thông tin mùa & điểm đến trên trang du lịch chính thức [Visit Korea (Tổng cục Du lịch Hàn Quốc)](https://english.visitkorea.or.kr/).
 
 Đọc thêm các bài liên quan: [Tháng 6 đi Hàn ăn gì và làm gì?](/posting/thang-6-di-han-an-gi-lam-gi/)
 nếu bạn dự định đi sớm, [Tết Đoan Ngọ 3 nước Đông Á khác nhau thế nào?](/posting/tet-doan-ngo-han-viet-trung/)

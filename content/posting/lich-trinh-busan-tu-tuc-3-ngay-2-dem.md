@@ -7,6 +7,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch hàn quốc", "busan", "lịch trình", "tự túc", "hàn quốc", "du lịch"]
 [extra]
+seo_keyword = "Busan tự túc"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/lich-trinh-busan-tu-tuc-3-ngay-2-dem.svg"
 featured = true
 
@@ -86,3 +87,5 @@ Busan là lựa chọn tuyệt vời cho chuyến Hàn Quốc tự túc: **biể
 Ba ngày là đủ để cảm nhận trọn vẹn Busan: một buổi sáng tĩnh lặng ở chùa ven biển, một chiều rực rỡ ở làng Gamcheon, và một đêm lung linh bên cầu Gwangan. Lịch trình trên có thể co giãn tùy sức đi của bạn.
 
 Muốn đi vào mùa hè? Đọc thêm [4 điểm dừng Hàn Quốc mùa hè](/zola/posting/summer-korea-4-diem-dung-mua-he/) (có Busan) và [tháng 6 đi Hàn ăn gì, làm gì](/zola/posting/thang-6-di-han-an-gi-lam-gi/) để bắt đúng thời tiết và món ngon theo mùa.
+
+📚 Tra cứu điểm đến, sự kiện và bản đồ trên trang du lịch chính thức [Visit Busan](https://www.visitbusan.net/en/).

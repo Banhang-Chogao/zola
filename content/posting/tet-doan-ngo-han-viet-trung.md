@@ -8,6 +8,7 @@ aliases = ["/tet-doan-ngo-han-viet-trung/"]
 categories = ["Tất cả", "Du lịch"]
 tags = ["hàn quốc", "lễ hội", "phong tục", "trung quốc", "tết", "việt nam", "văn hóa", "đoan ngọ"]
 [extra]
+seo_keyword = "Tết Đoan Ngọ"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tet-doan-ngo-han-viet-trung.svg"
 featured = false
 [[extra.faq]]
@@ -253,5 +254,6 @@ Nếu thích du lịch ẩm thực gần nhà, gợi ý
 [12 quán ngon Sài Gòn tối nay](/posting/toi-nay-sai-gon-an-gi/) cho
 bạn.
 
-Reference: UNESCO ICH list (Duanwu 2009, Gangneung Danoje 2005),
-*Samguk Yusa* (Korea), *Sử ký Tư Mã Thiên* (Khuất Nguyên).
+Reference: [UNESCO Intangible Cultural Heritage list](https://ich.unesco.org/en/lists)
+(Duanwu 2009, Gangneung Danoje 2005), *Samguk Yusa* (Korea),
+*Sử ký Tư Mã Thiên* (Khuất Nguyên).
