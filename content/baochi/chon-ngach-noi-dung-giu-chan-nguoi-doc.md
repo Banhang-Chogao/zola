@@ -1,5 +1,6 @@
 +++
 title = "Chọn ngách nội dung để blog giữ chân người đọc"
+description = "Cách chọn ngách nội dung giúp blog giữ chân người đọc: tăng time on page, giảm bounce rate bằng hướng dẫn kỹ thuật và internal linking đúng ngữ cảnh."
 date = 2026-06-16
 [taxonomies]
 categories = ["Tất cả", "Công nghệ", "Báo chí"]

@@ -1,5 +1,6 @@
 +++
 title = "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD"
+description = "Vụ rơi tiêm kích F/A-18 trị giá 57 triệu USD ở Washington: ghế thoát hiểm cứu phi công và bài học về điều tra kỹ thuật khi công nghệ gặp sự cố."
 date = 2026-06-16
 [taxonomies]
 categories = ["Tất cả", "Thế giới", "Báo chí"]
