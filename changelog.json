@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Series Liobank 5 phần — ưu điểm & dẫn hướng đăng ký",
+      "tag": "feat",
+      "pr": 243,
+      "lines_added": 1720,
+      "lines_removed": 65,
+      "highlights": [
+        "Tất cả category [\"Tất cả\", \"Báo chí\", \"Ngân hàng\"], SEO QA 100/100 (A+).",
+        "Phần 3 & 5 dùng ảnh app thật (static/img/covers/liobank-app-quan-ly-chi-tieu.jpg).",
+        "Mỗi bài có CTA link giới thiệu + hướng dẫn mở link an toàn.",
+        "Build Zola xanh (deploy.yml).",
+        "5 bài hiển thị tại /baochi/<slug>/, liên kết series hoạt động."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "ci(deps): bật Dependabot (gated CI) + webp sweep tự động hằng ngày",
       "tag": "chore",
       "pr": 239,
