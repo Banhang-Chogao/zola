@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/mua-nao-di-han-la-dep-nhat/"]
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["anh đào", "busan", "du lịch", "hàn quốc", "jeju", "korea", "lá vàng", "mùa", "seoul", "tuyết"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/mua-nao-di-han-la-dep-nhat.svg"

@@ -4,7 +4,7 @@ description = "Lịch trình Busan tự túc 3 ngày 2 đêm cho người Việt
 date = 2026-06-16
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch hàn quốc", "busan", "lịch trình", "tự túc", "hàn quốc", "du lịch"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/lich-trinh-busan-tu-tuc-3-ngay-2-dem.svg"

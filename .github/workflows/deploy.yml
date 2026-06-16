@@ -45,7 +45,12 @@ jobs:
           # Template (base.html) đọc env này để fetch commit qua load_data ở build-time,
           # bake thẳng vào HTML → user visit = 0 API call, không bao giờ dính quota 60/h.
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: zola build
+        run: |
+          # Lấy đúng phiên bản Zola đang build → template (base.html) đọc qua
+          # get_env(ZOLA_VERSION) để ghép thành số phiên bản blog: 'vX.Y.Z · <sha>'.
+          export ZOLA_VERSION="$(zola --version | awk '{print $2}')"
+          echo "Building with Zola $ZOLA_VERSION"
+          zola build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

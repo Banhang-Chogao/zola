@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/thang-6-di-han-an-gi-lam-gi/"]
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch", "festival", "hàn quốc", "jeju", "korea", "mùa hè", "seoul", "tháng 6", "ẩm thực"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/thang-6-di-han-an-gi-lam-gi.svg"

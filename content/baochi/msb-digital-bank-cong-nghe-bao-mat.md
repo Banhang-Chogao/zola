@@ -3,7 +3,7 @@ title = "Bên trong MSB Digital Bank: công nghệ và bảo mật"
 description = "Đội mũ developer soi công nghệ bên trong MSB Digital Bank thay mBank: nền tảng Backbase, xác thực FIDO, nhận diện khuôn mặt, eKYC và cá nhân hoá theo hành vi."
 date = 2026-06-16
 [taxonomies]
-categories = ["Ngân hàng", "Báo chí"]
+categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["msb", "msb-digital-bank", "ngân hàng số", "công nghệ", "bảo mật"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/msb-digital-bank-cong-nghe-bao-mat.svg"

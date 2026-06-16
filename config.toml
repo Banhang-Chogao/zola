@@ -59,15 +59,19 @@ chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 # Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },
-    { name = "Bài viết", url = "$BASE_URL/categories/posting", children = [
-        { url = "$BASE_URL/categories/posting",  name = "Tất cả bài viết" },
+    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
+        { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
+        { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
+        { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
         { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
         { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },
         { url = "$BASE_URL/categories/am-thuc",  name = "Ẩm thực" },
         { url = "$BASE_URL/categories/ngan-hang",  name = "Ngân hàng" },
+        { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
     ] },
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
         { url = "$BASE_URL/editor",    name = "Viết bài" },
+        { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
         { url = "$BASE_URL/converter", name = "Korean Converter" },
         { url = "$BASE_URL/changelog", name = "Changelog" },
         { url = "$BASE_URL/insights",  name = "Insights" },

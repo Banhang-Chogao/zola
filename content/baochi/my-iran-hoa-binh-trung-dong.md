@@ -2,7 +2,7 @@
 title = "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?"
 date = 2026-06-16
 [taxonomies]
-categories = ["Thế giới", "Báo chí"]
+categories = ["Tất cả", "Thế giới", "Báo chí"]
 tags = ["quốc tế", "an-ninh", "mỹ-iran", "trung-đông"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/my-iran-hoa-binh-trung-dong.svg"

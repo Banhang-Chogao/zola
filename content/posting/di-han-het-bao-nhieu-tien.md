@@ -4,7 +4,7 @@ description = "Đi Hàn Quốc tự túc hết bao nhiêu tiền? Bóc tách chi
 date = 2026-06-16
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch hàn quốc", "chi phí", "ngân sách", "tự túc", "seoul", "busan"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/di-han-het-bao-nhieu-tien.svg"

@@ -4,7 +4,7 @@ description = "So sánh chi phí du lịch Hàn Quốc theo từng tháng: thán
 date = 2026-06-16
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch hàn quốc", "hàn quốc", "ngân sách", "chi phí", "mùa du lịch", "tiết kiệm"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/di-han-mua-nao-re-nhat.svg"

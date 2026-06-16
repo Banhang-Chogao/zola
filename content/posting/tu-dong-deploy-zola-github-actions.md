@@ -4,7 +4,7 @@ description = "Hướng dẫn viết file deploy.yml để tự động build v�
 date = 2026-06-16
 
 [taxonomies]
-categories = ["Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["zola", "github actions", "github pages", "ci/cd", "deploy", "devops", "tự động hoá", "tutorial"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tu-dong-deploy-zola-github-actions.svg"

@@ -20,14 +20,30 @@
 
 Đủ cả 3 → auto merge + auto deploy, KHÔNG hỏi lại.
 
-### 3. Khi build failed → fix rồi mới lên production
+### 3. Build failed → LẬP TỨC chạy `ff` / `ff9` (BẮT BUỘC, tự động)
 
-Nếu build failed (deploy đỏ / QA error), KHÔNG bỏ mặc. Chạy 1 trong 2 phím tắt để fix rồi deploy lại:
+> ⚠️ Rule sự kiện, hiệu lực cao nhất. **MỖI LẦN** có sự kiện bản build bị
+> **failed** thì PHẢI **LẬP TỨC** chạy 1 trong 2 phím tắt để fix — KHÔNG hỏi,
+> KHÔNG bỏ mặc, KHÔNG để build đỏ nằm im.
+
+**Sự kiện kích hoạt** (bất kỳ cái nào):
+- `deploy.yml` build đỏ (fail trên `main` hoặc PR).
+- `qa.yml` / `qa_check.py` exit ≠ 0 (error chặn).
+- Bất kỳ CI check nào của PR chuyển sang trạng thái `failure`.
+
+**Hành động bắt buộc, ngay khi nhận sự kiện**:
 
 - **`ff`** — Full Fix & Deploy (với Python lib picker).
-- **`ff9`** — Smart Conflict Resolver (Python-powered).
+- **`ff9`** — Smart Conflict Resolver (Python-powered) — ưu tiên khi lỗi do
+  merge conflict.
 
-Sau khi `ff` / `ff9` fix xong và build xanh → auto deploy lên production, KHÔNG cần `manual #X`.
+**Quy tắc lặp ("fix cho bằng được")**: chạy `ff`/`ff9` → đợi build lại → nếu
+VẪN failed thì re-diagnose và chạy lại, lặp tới khi build **xanh**. Một vòng
+chưa xong không phải là dừng. Chỉ dừng khi build xanh, HOẶC lỗi thực sự ngoài
+phạm vi (lúc đó báo lại chẩn đoán + chỗ kẹt, không im lặng).
+
+Sau khi `ff` / `ff9` fix xong và build xanh → auto merge + auto deploy lên
+production, KHÔNG cần `manual #X`.
 
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
@@ -133,3 +149,54 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 - Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
 - Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
   cần tạo PR trùng.
+
+## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
+
+Áp dụng cho MỌI lần viết hoặc sửa bài viết trong `content/` (đuôi `.md`,
+không tính trang `_index`).
+
+### 1. Luôn tối ưu SEO khi viết bài
+
+Mỗi bài mới PHẢI có đủ tín hiệu SEO on-page trong front matter + nội dung:
+
+- `title` (20–65 ký tự, chứa từ khoá chính ở nửa đầu).
+- `description` (50–160 ký tự) — KHÔNG để Zola tự cắt summary.
+- `[extra] seo_keyword = "..."` — khai báo từ khoá chính để chấm điểm chính xác.
+- `[extra] thumbnail` (og:image), slug chữ-thường-nối-gạch-ngang không dấu.
+- Từ khoá chính xuất hiện ở: title, đoạn mở đầu, ít nhất 1 heading H2.
+- ≥ 2 heading H2, ≥ 3 tag, ≥ 1 internal link + ≥ 1 external link uy tín.
+- Độ dài ≥ 600 từ, đoạn văn không quá dài (readability).
+
+### 2. Hệ thống tự chấm điểm + lưu DB
+
+Mỗi lần viết/sửa bài, hệ thống TỰ chấm SEO qua `scripts/seo_qa_checker.py`
+(thang 100 điểm bám tiêu chí on-page của Google) và lưu điểm + lịch sử vào
+**DB `data/seo-qa-scores.json`**. Việc này chạy tự động qua PostToolUse hook
+(`scripts/seo_qa_hook.py`, cấu hình ở `.claude/settings.json`).
+
+- Chấm thủ công 1 bài: `python3 scripts/seo_qa_checker.py content/<đường-dẫn>.md`
+- Chấm lại toàn bộ: `python3 scripts/seo_qa_checker.py --all`
+- Bài < 70 điểm → script exit code 2 (CI có thể dùng để chặn).
+
+### 3. Trang Insights điểm SEO (về sau)
+
+DB `data/seo-qa-scores.json` là nguồn dữ liệu để dựng trang Insights "điểm SEO
+của blog" sau này. KHÔNG xoá file này; mỗi lần chấm chỉ append thêm mốc lịch sử
+(`history`, giữ tối đa 20 mốc/bài).
+
+## Quy tắc Category (BẮT BUỘC)
+
+- Category **"Tất cả"** là category mặc định của MỌI bài viết (slug `tat-ca`,
+  URL `/categories/tat-ca/`). Menu "Tất cả bài viết" trỏ tới URL này.
+- Mỗi bài viết PHẢI có `"Tất cả"` đứng ĐẦU mảng `categories`, kèm theo các
+  category chuyên mục khác (nếu có) mà người viết chọn. Ví dụ:
+  - Bài thường: `categories = ["Tất cả"]`
+  - Bài có chuyên mục: `categories = ["Tất cả", "Du lịch"]`,
+    `["Tất cả", "Banking"]`, `["Tất cả", "Công nghệ"]`…
+- KHÔNG dùng lại category cũ tên `"Posting"` (đã đổi thành `"Tất cả"`).
+- Giá trị phải khớp CHÍNH XÁC chuỗi `"Tất cả"` (chữ "c" thường) để Zola gom
+  đúng một taxonomy term, tránh lỗi trùng slug.
+- **Bài viết qua phím tắt `bb`** (nhánh `baochi`, `content/baochi/`) PHẢI có
+  thêm category mặc định `"Báo chí"` (slug `bao-chi`) — đứng ngay sau `"Tất cả"`,
+  trước category theo content. Ví dụ: `["Tất cả", "Báo chí", "Banking"]`.
+- Danh sách category hợp lệ cho editor/CMS khai báo trong `categories.json`.

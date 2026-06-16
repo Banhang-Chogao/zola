@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/tet-doan-ngo-han-viet-trung/"]
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["hàn quốc", "lễ hội", "phong tục", "trung quốc", "tết", "việt nam", "văn hóa", "đoan ngọ"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tet-doan-ngo-han-viet-trung.svg"

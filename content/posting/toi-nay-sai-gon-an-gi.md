@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/toi-nay-sai-gon-an-gi/"]
 
 [taxonomies]
-categories = ["Ẩm thực"]
+categories = ["Tất cả", "Ẩm thực"]
 tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối", "ẩm thực"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"

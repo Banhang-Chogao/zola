@@ -4,7 +4,7 @@ description = "Hướng dẫn tạo blog cá nhân với Zola từ con số 0: c
 date = 2026-06-16
 
 [taxonomies]
-categories = ["Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["zola", "static site generator", "github pages", "github actions", "blog", "rust", "markdown", "tutorial"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"

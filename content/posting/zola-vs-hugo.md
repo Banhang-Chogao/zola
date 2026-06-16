@@ -4,7 +4,7 @@ description = "So sánh Zola và Hugo cho blog cá nhân: ngôn ngữ, tốc đ�
 date = 2026-06-16
 
 [taxonomies]
-categories = ["Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["zola", "hugo", "static site generator", "so sánh", "blog", "ssg"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/zola-vs-hugo.svg"
