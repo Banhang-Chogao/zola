@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Xóa workflow AI Diagnose (tốn phí Anthropic API)",
+      "tag": "chore",
+      "pr": 205,
+      "lines_added": 0,
+      "lines_removed": 131,
+      "highlights": [
+        "Xóa: .github/workflows/ai-diagnose.yml.",
+        "GIỮ: scripts/ff.py (+ ff-agent.md, requirements-ff.txt) — dùng cho shortcut ff chạy tay khi user chủ động muốn, không tự động tốn phí.",
+        "Deploy fail sẽ không còn tự gọi API / tạo issue nữa.",
+        "8 issue auto-diagnose cũ sẽ được đóng riêng (cleanup)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Shortcut content9 + script check_content_seo.py (soi SEO content/)",
       "tag": "feat",
       "pr": 204,
