@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Keepalive Scheduler — ép 3 QA workflow chạy đúng 11:00 GMT+7",
+      "tag": "feat",
+      "pr": 201,
+      "lines_added": 67,
+      "lines_removed": 0,
+      "highlights": [
+        "QA Gatekeeper: schedule runs = 0",
+        "Security Audit: schedule runs = 0",
+        "Self-Healing: scheduled run gần nhất là 15/06 19:59 UTC",
+        "3 mốc cron dự phòng: 04:00 / 04:10 / 04:25 UTC — chỉ cần 1 mốc fire là đủ.",
+        "Guard idempotent theo ngày UTC: nếu target đã có run workflow_dispatch trong ngày thì bỏ qua → các mốc dự phòng không kích trùng; user kích tay buổi sáng cũng không bị chạy lại."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "🤖 Self-healing: 2 mechanical fix(es)",
       "tag": "fix",
       "pr": 200,
