@@ -1,5 +1,5 @@
 +++
-title = "Mùa nào đi Hàn là đẹp nhất? So sánh 4 mùa cho dân du lịch Việt"
+title = "Mùa nào đi Hàn đẹp nhất? So sánh 4 mùa trong năm"
 description = "Phân tích chi tiết 4 mùa Hàn Quốc: xuân hoa anh đào, hè biển đảo, thu lá vàng, đông tuyết. Mùa nào hợp ngân sách, ai nên đi, và lịch trình tham khảo."
 date = 2026-06-15
 aliases = ["/mua-nao-di-han-la-dep-nhat/"]

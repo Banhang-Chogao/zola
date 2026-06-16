@@ -99,16 +99,31 @@
        - <script type="application/ld+json"> → rich snippet schema.org
        ============================================================ #}
 
-    {# Per-page description chain: frontmatter → summary → config #}
+    {# Per-page description chain: frontmatter → summary → section/taxonomy → config.
+       Sinh description RIÊNG cho từng trang section/tag/category để tránh ~110 trang
+       cùng dùng 1 config.description (duplicate meta description → Google trừ điểm),
+       đồng thời đảm bảo độ dài 50–160 ký tự (chuẩn SERP). #}
     {% set page_description = config.description %}
     {% if page %}
         {% if page.description %}
             {% set_global page_description = page.description %}
         {% elif page.summary %}
-            {% set_global page_description = page.summary | striptags | trim | truncate(length=160, end="…") %}
+            {% set_global page_description = page.summary | striptags | trim | truncate(length=159, end="…") %}
         {% endif %}
-    {% elif section and section.description %}
-        {% set_global page_description = section.description %}
+    {% elif section %}
+        {% if section.description %}
+            {% set_global page_description = section.description %}
+        {% elif section.title %}
+            {% set_global page_description = "Tổng hợp các bài viết thuộc chuyên mục " ~ section.title ~ " trên blog " ~ config.title ~ " — công nghệ, du lịch và những trải nghiệm cá nhân." %}
+        {% endif %}
+    {% elif term %}
+        {% set_global page_description = "Tất cả bài viết gắn với chủ đề " ~ term.name ~ " trên blog " ~ config.title ~ " — tuyển chọn nội dung công nghệ, du lịch và đời sống quanh chủ đề này." %}
+    {% elif taxonomy %}
+        {% if taxonomy.name == "tags" %}
+            {% set_global page_description = "Mục lục toàn bộ thẻ (tags) phân loại bài viết trên blog " ~ config.title ~ " — duyệt nhanh nội dung theo đúng chủ đề bạn quan tâm." %}
+        {% else %}
+            {% set_global page_description = "Danh sách các chuyên mục bài viết trên blog " ~ config.title ~ " — công nghệ, du lịch, ẩm thực và nhiều chủ đề thú vị khác." %}
+        {% endif %}
     {% endif %}
 
     {# Per-page title: dùng cùng logic block title nhưng cũng compute cho OG.
@@ -323,7 +338,7 @@
                 {# Slide A: Ad banner — slide đầu (is-active) khi load, rồi rotate sang GitHub #}
                 <a class="header-ad header-rotator__slide is-active" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
                     <div class="header-ad__icon">
-                        <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
+                        <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
                         <span class="header-ad__emoji" aria-hidden="true">🐻</span>
                     </div>
                     <div class="header-ad__text">
@@ -537,7 +552,7 @@
                                 <li class="random-item">
                                     {% if page.extra.thumbnail %}
                                         <a class="random-item__image" href="{{ page.permalink }}">
-                                            <img src="{{ page.extra.thumbnail }}" alt=""
+                                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
                                                  width="100" height="100"
                                                  loading="lazy" decoding="async">
                                             <span class="rank-overlay" aria-hidden="true">{{ loop.index }}</span>

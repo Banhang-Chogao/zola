@@ -1,6 +1,6 @@
 +++
-title = "Sentence Transformers (SBERT): kiến trúc, training và ứng dụng"
-description = "Phân tích sâu kiến trúc bi-encoder, 4 phương pháp training (softmax, contrastive, triplet, MNR), multilingual distillation và case study build-time semantic search trên Zola GitHub Pages."
+title = "Sentence Transformers (SBERT): kiến trúc & ứng dụng"
+description = "Phân tích kiến trúc bi-encoder, 4 cách training (softmax, contrastive, triplet, MNR), multilingual distillation và case study semantic search trên Zola."
 date = 2026-06-15
 aliases = ["/sentence-transformers-sbert-deep-dive/"]
 
