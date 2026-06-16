@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Redirect /categories/posting → /categories/tat-ca (tránh 404 URL cũ)",
+      "tag": "chore",
+      "pr": 236,
+      "lines_added": 18,
+      "lines_removed": 0,
+      "highlights": [
+        "Thêm static/categories/posting/index.html: trang redirect (meta refresh 0s + location.replace + <link rel=canonical> + noindex,follow) chuyển /categories/posting/ → /categories/tat-ca/.",
+        "Zola copy static/ → public/; vì không còn bài nào dùng category Posting nên không xung đột với taxonomy.",
+        "Chỉ thêm 1 file tĩnh, không đụng layout/CSS/global.",
+        "noindex,follow + canonical → Google gộp tín hiệu về trang mới, gỡ URL cũ khỏi index.",
+        "zola build (0.22.1): 32 pages, 0 lỗi."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Bài Liobank — giới thiệu bạn bè nhận thưởng đến 500.000đ",
       "tag": "feat",
       "pr": 238,
