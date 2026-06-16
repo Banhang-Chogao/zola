@@ -17,6 +17,10 @@ on:
       - 'content/**/*.jpg'
       - 'content/**/*.jpeg'
       - 'content/**/*.png'
+  # Quét định kỳ: bắt mọi ảnh raster còn sót chưa có .webp (kể cả ảnh cũ
+  # không bị đụng trong push) → đảm bảo "luôn tự động cố gắng chuyển webp".
+  schedule:
+    - cron: '0 4 * * *'    # Hằng ngày 11:00 GMT+7 = 04:00 UTC
   workflow_dispatch:
 
 permissions:

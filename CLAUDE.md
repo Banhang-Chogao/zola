@@ -208,8 +208,9 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 
 - Sau khi upload/thêm ảnh `.jpg/.jpeg/.png` trong lúc viết bài → PHẢI sinh bản
   `.webp` **song song** cùng tên cạnh bên (giữ nguyên file gốc, KHÔNG xoá/đổi).
-  - Tự động: workflow `optimize-images.yml` chạy khi push ảnh raster lên `main`,
-    sinh `.webp` + commit ngược lại.
+  - Tự động (LUÔN BẬT): workflow `optimize-images.yml` chạy (a) khi push ảnh
+    raster lên `main`, và (b) quét định kỳ hằng ngày 11:00 GMT+7 → bắt cả ảnh
+    cũ còn sót chưa có `.webp`. Mục tiêu: mọi ảnh raster nội bộ đều có `.webp`.
   - Thủ công / trong shortcut `bb`: chạy `python3 scripts/to_webp.py <path>`.
 - Hiển thị ảnh nội bộ qua macro `picture_webp` (`templates/macros/img.html`):
   render `<picture>` ưu tiên `.webp` + fallback file gốc cho browser cũ.
@@ -231,3 +232,17 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 - KHÔNG hardcode secret trong repo/workflow. Đưa input từ `github.event.*` vào
   env var hoặc dùng context tin cậy (`github.sha`...), KHÔNG nội suy thẳng vào
   `run:`/payload (chống script injection).
+
+### Dependabot (BẬT qua `.github/dependabot.yml`)
+
+- Dependabot CHỈ mở PR cập nhật dependency (GitHub Actions + Python deps), gom
+  nhóm, weekly. Nó **KHÔNG push thẳng vào `main`** → không tự làm đỏ production.
+- **KHÔNG gây xung đột build site**: Zola binary pin cứng version trong
+  `deploy.yml`, Dependabot không đụng tới. Nó chỉ bump action versions + deps
+  của script/service phụ.
+- **Quy tắc merge PR Dependabot** (gate bắt buộc, cùng chuẩn deploy):
+  1. PR phải PASS `qa-check` + build xanh → mới được merge. PR đỏ → KHÔNG merge.
+  2. Nếu một bump làm fail CI/build → chạy phím tắt **`ff`** (Full Fix & Deploy)
+     để auto-fix; fix xong + xanh → merge. Nếu không fix được → ĐÓNG PR đó, giữ
+     version cũ, KHÔNG ép merge.
+  3. Tuyệt đối KHÔNG auto-merge PR Dependabot khi đang đỏ chỉ để "cho xong".
