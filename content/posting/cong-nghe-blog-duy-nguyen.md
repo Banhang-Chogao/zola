@@ -1,5 +1,5 @@
 +++
-title = "Hành trình công nghệ: Dưới nắp ca-pô của blog cá nhân Duy Nguyen"
+title = "Dưới nắp ca-pô: công nghệ vận hành blog cá nhân"
 description = "Stack 3 lớp tối giản: Zola + GitHub Pages + GitHub Actions. Mini CMS vanilla JS, QA Gatekeeper auto-fix, defense in depth, $0/tháng. Lighthouse 99/100."
 date = 2026-06-15
 aliases = ["/cong-nghe-blog-duy-nguyen/"]

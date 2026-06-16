@@ -1,5 +1,5 @@
 +++
-title = "Summer Korea: 4 điểm dừng phải đi cho mùa hè trong mơ"
+title = "Summer Korea: 4 điểm dừng cho mùa hè trong mơ"
 description = "Hành trình mùa hè ở Hàn Quốc qua 4 spot: Seoul (Hàn River), Busan (biển), Seoraksan (hiking), Jeju (thiên nhiên). Mỗi nơi kèm hoạt động, món ăn nên thử và budget tip thực tế cho dân travel Việt."
 date = 2026-06-15
 aliases = ["/summer-korea-4-diem-dung-mua-he/"]

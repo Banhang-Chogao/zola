@@ -1,5 +1,5 @@
 +++
-title = "BIDV mở Private Banking ở Sài Gòn: cuộc chơi của giới siêu giàu"
+title = "BIDV mở Private Banking ở Sài Gòn cho giới siêu giàu"
 date = 2026-06-16
 [taxonomies]
 categories = ["Posting"]

@@ -1,5 +1,5 @@
 +++
-title = "Thỏa thuận hòa bình Mỹ-Iran: bước ngoặt hay bước chân trên cát?"
+title = "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?"
 date = 2026-06-16
 [taxonomies]
 categories = ["Posting"]

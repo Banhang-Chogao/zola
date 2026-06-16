@@ -1,5 +1,5 @@
 +++
-title = "Tháng 6 đi Hàn ăn gì và làm gì? Tất cả những điều dân thổ địa biết"
+title = "Tháng 6 đi Hàn ăn gì, làm gì? Cẩm nang thổ địa"
 description = "Hướng dẫn chi tiết tháng 6 ở Hàn Quốc: trước-sau mùa mưa, festival, biển Busan-Jeju mở cửa, naengmyeon-bingsu mát lạnh, đặc sản hè không nên bỏ lỡ."
 date = 2026-06-15
 aliases = ["/thang-6-di-han-an-gi-lam-gi/"]
