@@ -43,11 +43,15 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    {# Anti-flash theme switcher: ĐỌC localStorage + set data-theme NGAY
-       trước khi CSS render → tránh user thấy flash từ default sang theme đã chọn
-       khi đã lưu theme trước đó. PHẢI là script đầu tiên trong <head>.
-       Z-X is default theme. Supports: Z-X (default), Hilda (user choice) #}
-    <script>(function(){try{var t=localStorage.getItem('blog-theme');if(t==='zx'){document.documentElement.removeAttribute('data-theme');}else{document.documentElement.setAttribute('data-theme','hilda');}}catch(e){}})();</script>
+    {# Anti-flash theme + zero-flash font (PHẢI là script đầu tiên trong <head>):
+       1. ĐỌC localStorage → set data-theme NGAY trước khi CSS render → tránh
+          flash khi user đã lưu theme. Hilda là DEFAULT (trừ khi user chọn Z-X).
+       2. Nếu theme = Hilda → inject <link rel="preload"> font Ericsson Hilda
+          (Medium = body, Bold = heading) để chữ chuẩn hiện ngay lần paint đầu.
+          CHỈ preload khi Hilda active → KHÔNG phí băng thông cho user Z-X.
+          CSP-safe: as="font" + nguồn 'self' (khớp font-src). crossorigin để
+          match CORS-fetch của @font-face, tránh tải 2 lần. #}
+    <script>(function(){try{var t=localStorage.getItem('blog-theme');if(t==='zx'){document.documentElement.removeAttribute('data-theme');return;}document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.ttf') }}','{{ get_url(path='fonts/EricssonHilda-Bold.ttf') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/ttf';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
