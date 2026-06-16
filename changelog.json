@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Bật RSS/Atom feed + feed discovery cho SEO",
+      "tag": "feat",
+      "pr": 199,
+      "lines_added": 18,
+      "lines_removed": 2,
+      "highlights": [
+        "generate_feeds=true + feed_filenames atom.xml/rss.xml (trước đây",
+        "Sửa taxonomy rss=true -> feed=true (Zola 0.19+ đổi tên key).",
+        "Thêm <link rel=alternate> Atom+RSS trong <head> để reader/crawler",
+        "default_language=vi -> feed mang xml:lang vi khớp <html lang=vi>."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Claude/affectionate feynman 2s7rh5",
       "tag": "chore",
       "pr": 196,
