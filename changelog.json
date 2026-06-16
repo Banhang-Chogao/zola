@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Set Z-X as default theme (ZaloPay fintech)",
+      "tag": "feat",
+      "pr": 187,
+      "lines_added": 51,
+      "lines_removed": 50,
+      "highlights": [
+        ":root (default) → Z-X CSS variables (fintech blue #0068ff)",
+        ":root[data-theme=\"brandingx\"] → BrandingX alternative (hot pink #ec4899)",
+        "Swapped theme definitions to reflect Z-X as primary",
+        "DEFAULT_THEME = \"zx\" (was \"brandingx\")",
+        "Updated setTheme() logic:"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Remove Dependabot automation from project",
       "tag": "chore",
       "pr": 184,
