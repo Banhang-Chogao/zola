@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Remove Dependabot automation from project",
+      "tag": "chore",
+      "pr": 184,
+      "lines_added": 373,
+      "lines_removed": 316,
+      "highlights": [
+        "Removed Dependabot version update configuration",
+        "Previously configured: Cargo weekly updates, GitHub Actions weekly updates",
+        "Auto-merge settings for patch/minor versions",
+        "Removed automated merge workflow triggered by Dependabot PRs",
+        "Previously auto-approved and merged patch/minor dependency updates"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Professional theme dropdown menu redesign",
       "tag": "refactor",
       "pr": 183,
