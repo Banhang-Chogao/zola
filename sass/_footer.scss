@@ -50,6 +50,20 @@
   &__left { justify-self: start; }
   &__center { text-align: center; }
 
+  /* Legal links (Giới thiệu · Liên hệ · Privacy · Terms) — trust signal
+     cho AdSense, nằm dưới copyright. Selector mới, không đụng layout cũ. */
+  &__legal {
+    margin: 0.35rem 0 0;
+    font-size: 0.8rem;
+    opacity: 0.85;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+  }
+
   &__right { justify-self: end; }
 
   /* GA status pill — responsive, nằm dưới copyright trong footer center.

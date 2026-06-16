@@ -9,6 +9,18 @@ tags = ["ngân hàng", "liobank", "ngân hàng số", "thẻ tín dụng", "seri
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.png"
 seo_keyword = "Liobank là gì"
 featured = false
+
+[[extra.faq]]
+q = "Liobank là gì?"
+a = "Liobank là một ngân hàng số: bạn mở thẻ, quản lý tiền và giao dịch hoàn toàn trên ứng dụng điện thoại, gần như không cần tới quầy."
+
+[[extra.faq]]
+q = "Liobank có những ưu điểm nổi bật gì?"
+a = "Năm điểm chính: mở thẻ online nhanh bằng eKYC, hoàn tiền khi chi tiêu, bảo mật nhiều lớp, quản lý chi tiêu trực quan trên app, và chương trình giới thiệu bạn bè nhận thưởng."
+
+[[extra.faq]]
+q = "Liobank hợp với những ai?"
+a = "Hợp nhất với người trẻ, dân văn phòng và freelancer quen thao tác trên điện thoại, ngại thủ tục giấy tờ và hay thanh toán online."
 +++
 
 > 📚 **Series Liobank (Phần 1/5)** — Mình viết loạt bài này để chia sẻ trải nghiệm dùng Liobank một cách có hệ thống, từ tổng quan cho tới từng tính năng cụ thể. Đây là bài mở màn.
@@ -16,6 +28,8 @@ featured = false
 Dạo gần đây tôi nhận được khá nhiều câu hỏi kiểu "**Liobank là gì** mà thấy nhiều người rủ mở thẻ thế?". Thay vì trả lời lẻ tẻ từng người, tôi quyết định viết hẳn một series 5 phần để nói cho ra ngô ra khoai: Liobank là gì, mạnh ở đâu, dùng có an toàn không, và làm sao tận dụng tối đa. Bài đầu tiên này tôi đi từ bức tranh tổng quan trước.
 
 <!-- more -->
+
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
 
 ![Mascot sư tử Liobank - tổng quan ngân hàng số](https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.png)
 

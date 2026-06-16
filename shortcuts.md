@@ -1124,7 +1124,8 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
    - Giọng cá nhân: 1st person ("mình", "tôi"), quan điểm riêng
    - Tổng hợp kiến thức từ nội dung gốc → mở rộng góc nhìn độc lập
    - Thêm internal links tới 2-3 bài liên quan nếu có
-   - Output 800-1500 từ, tự nhiên Tiếng Việt
+   - Output tối thiểu ~1000 từ (lý tưởng 1000–1800), tự nhiên Tiếng Việt
+     (xem "Tiêu chí AdSense-friendly" bên dưới)
 
 5. **Build frontmatter** (tuân thủ rule SEO + rule Category trong CLAUDE.md):
    ```toml
@@ -1169,6 +1170,32 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 - Có quan điểm cá nhân hoặc góc nhìn mới
 - Internal links semantic (không generic "xem thêm")
 
+**Tiêu chí AdSense-friendly (BẮT BUỘC — áp dụng cho cả `bb` và `bb9`)**:
+
+> Mục tiêu: nội dung đủ chuẩn để Google AdSense duyệt + giữ E-E-A-T. Mọi bài
+> sinh bằng `bb`/`bb9` PHẢI đạt:
+
+- **Độ dài tối thiểu ~1000 từ** (nâng từ 800; lý tưởng 1000–1800). Bài mỏng
+  < 800 từ KHÔNG đăng — viết sâu thêm hoặc gộp.
+- **Nội dung gốc, nghiên cứu kỹ, giá trị thật** — không xào nấu máy móc, không
+  chỉ tóm tắt 1 nguồn. Thêm phân tích/quan điểm/ví dụ của riêng mình.
+- **Định dạng tốt**: ≥ 2 heading H2 (ưu tiên H2/H3 dạng câu hỏi để bắt PAA),
+  đoạn ngắn dễ đọc, ≥ 1 ảnh minh hoạ có `alt`.
+- **Block FAQ + `FAQPage` schema** (`[[extra.faq]]`, 3–5 câu) cho bài
+  so-sánh/how-to/"là gì"/giá cả/du lịch/banking. Bài tin ngắn/quan điểm thì
+  KHÔNG nhồi FAQ.
+- **YMYL (tài chính/ngân hàng/bảo hiểm/y tế/pháp lý)**: nêu rõ "chỉ mang tính
+  tham khảo, không phải lời khuyên chuyên nghiệp"; đối chiếu nguồn chính thức;
+  link tới trang [Điều khoản & Miễn trừ](/terms/) khi cần.
+- **Disclosure affiliate/referral (BẮT BUỘC khi bài có link giới thiệu/affiliate)**:
+  chèn ngay sau `<!-- more -->` một blockquote minh bạch, ví dụ:
+  `> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu. Nếu bạn đăng ký qua
+  liên kết, tác giả có thể nhận thưởng — bạn không mất thêm chi phí. Chi tiết
+  tại [Điều khoản & Miễn trừ](/terms/).`
+- **Tránh nội dung bị AdSense cấm/hạn chế**: không nội dung người lớn, cờ bạc,
+  vi phạm bản quyền, gây hiểu lầm, hoặc kêu gọi click quảng cáo.
+- **Internal + external links** uy tín, có thật (không bịa URL).
+
 **Network fallback**:
 - Nếu user cung cấp URL nhưng network blocked → skip crawl, dùng content họ paste
 - Không vì không fetch được mà block shortcut
@@ -1195,9 +1222,10 @@ buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể
 
 **Hành động**:
 
-1. Từ `<topic>` → viết bài mới (giọng cá nhân 1st person, 800–1500 từ), frontmatter
-   SEO đầy đủ, category `["Tất cả", "<auto theo topic>", "Báo chí"]`, tự sinh slug
-   kebab-case từ topic, ảnh nội bộ (nếu có) → sinh `.webp` theo rule Ảnh.
+1. Từ `<topic>` → viết bài mới (giọng cá nhân 1st person, **tối thiểu ~1000 từ**,
+   tuân thủ đủ "Tiêu chí AdSense-friendly" ở mục `bb`), frontmatter SEO đầy đủ,
+   category `["Tất cả", "<auto theo topic>", "Báo chí"]`, tự sinh slug kebab-case
+   từ topic, ảnh nội bộ (nếu có) → sinh `.webp` theo rule Ảnh.
 2. **Khác `bb`**: KHÔNG merge/đăng ngay. Frontmatter thêm:
    ```toml
    date = <ngày n+3, tức hôm nay + 3>

@@ -9,6 +9,18 @@ tags = ["ngân hàng", "liobank", "bảo mật", "an toàn giao dịch", "series
 thumbnail = "https://picsum.photos/seed/liobank-bao-mat-an-toan/600/400"
 seo_keyword = "Liobank bảo mật"
 featured = false
+
+[[extra.faq]]
+q = "Liobank bảo mật bằng những lớp nào?"
+a = "Liobank dùng nhiều lớp: định danh điện tử eKYC gắn CCCD với khuôn mặt, xác thực sinh trắc học khi đăng nhập và giao dịch, OTP cho giao dịch, cùng cảnh báo tức thời mỗi khi có phát sinh."
+
+[[extra.faq]]
+q = "Mất điện thoại thì tiền trong Liobank có bị mất không?"
+a = "Không dễ mất: người nhặt được vẫn cần vân tay hoặc khuôn mặt của bạn để vào app và cần OTP để giao dịch. Việc nên làm ngay là gọi hotline báo khoá và đăng nhập trên thiết bị khác để khoá thẻ."
+
+[[extra.faq]]
+q = "Làm sao tránh bị lừa đảo mạo danh Liobank?"
+a = "Chỉ thao tác trong app tải từ App Store hoặc Google Play, tuyệt đối không nhập CCCD, mật khẩu hay OTP vào link lạ. Liobank không bao giờ gọi điện hay nhắn tin yêu cầu bạn cung cấp OTP hoặc mật khẩu."
 +++
 
 > 📚 **Series Liobank (Phần 4/5)** — Sau khi nói về [hoàn tiền](/baochi/uu-dai-hoan-tien-the-liobank/) ở Phần 3, bài này trả lời câu hỏi nhiều người lo nhất khi dùng ngân hàng số.
@@ -16,6 +28,8 @@ featured = false
 "Tiền nằm hết trong app, lỡ mất điện thoại thì sao?" — đây là câu tôi nghe nhiều nhất mỗi khi khuyên ai đó dùng ngân hàng số. Nên ở phần này tôi sẽ nói thẳng về chuyện **Liobank bảo mật** thế nào, và quan trọng hơn, bạn cần làm gì để tự bảo vệ mình. Vì thực tế, đa số rủi ro không đến từ ngân hàng mà đến từ chính thói quen người dùng.
 
 <!-- more -->
+
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
 
 ## Liobank bảo mật bằng những lớp nào?
 

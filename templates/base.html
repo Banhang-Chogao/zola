@@ -935,6 +935,12 @@
             </div>
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
+                <p class="site-footer__legal">
+                    <a href="{{ config.base_url | safe }}/about/">Giới thiệu</a> ·
+                    <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
+                    <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
+                    <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a>
+                </p>
                 {# GA status pill → click mở GA dashboard intelligenthome.
                    Property ID 541698865 hardcode trong URL — match config. #}
                 {% if config.extra.ga_measurement_id %}
