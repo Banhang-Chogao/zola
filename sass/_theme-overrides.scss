@@ -453,6 +453,7 @@
      Đồng bộ nốt focus-ring về 4px cho khớp brand "all 4px"
      (dropdown .theme-dropdown đã 4px sẵn). */
   .navbar__search,
+  .navbar__cache,
   .navbar__theme {
     &:focus-visible { border-radius: 4px; }
   }

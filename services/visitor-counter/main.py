@@ -880,6 +880,26 @@ async def _gh_get_file(client: httpx.AsyncClient, path: str, token: str) -> tupl
     return data.get("sha"), decoded
 
 
+async def _gh_list_dir(client: httpx.AsyncClient, path: str, token: str) -> list:
+    """GET directory listing qua Contents API. Return [] nếu directory thiếu."""
+    res = await client.get(
+        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}/contents/{path}",
+        params={"ref": CMS_REPO_BRANCH},
+        headers={
+            "Authorization":        f"Bearer {token}",
+            "Accept":               "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent":           "zola-cms",
+        },
+    )
+    if res.status_code == 404:
+        return []
+    if res.status_code != 200:
+        raise HTTPException(502, f"github_read_failed_{res.status_code}")
+    data = res.json()
+    return data if isinstance(data, list) else []
+
+
 async def _gh_get_sha(client: httpx.AsyncClient, path: str, token: str) -> Optional[str]:
     """Get sha của file. None nếu 404. Dùng cho binary file."""
     res = await client.get(
@@ -1023,6 +1043,10 @@ _CATEGORY_FRONTMATTER_RE = re.compile(
     r'\[taxonomies\][^\[]*?categories\s*=\s*\[\s*"([^"]+)"',
     re.DOTALL,
 )
+_EXTRA_BLOCK_RE = re.compile(r"(?ms)^(\[extra\]\s*\n)(.*?)(?=^\[|\Z)")
+_FEATURED_TRUE_RE = re.compile(r"(?m)^featured\s*=\s*true\s*$")
+_FEATURED_LINE_RE = re.compile(r"(?m)^featured\s*=\s*true\s*\n?")
+_FEATURED_AT_LINE_RE = re.compile(r'(?m)^featured_at\s*=\s*"[^"]*"\s*\n?')
 
 
 async def _ensure_category(client: httpx.AsyncClient, name: str, token: str) -> None:
@@ -1044,6 +1068,65 @@ async def _ensure_category(client: httpx.AsyncClient, name: str, token: str) -> 
         return
     except Exception:
         return
+
+
+def _frontmatter_forces_featured(content: str) -> bool:
+    extra = _EXTRA_BLOCK_RE.search(content or "")
+    return bool(extra and _FEATURED_TRUE_RE.search(extra.group(2)))
+
+
+def _demote_featured_frontmatter(content: str) -> str:
+    """Remove manual Featured override from a markdown file's [extra] block."""
+    def replace_extra(match: re.Match) -> str:
+        body = _FEATURED_LINE_RE.sub("", match.group(2))
+        body = _FEATURED_AT_LINE_RE.sub("", body)
+        return match.group(1) + body
+
+    return _EXTRA_BLOCK_RE.sub(replace_extra, content or "", count=1)
+
+
+async def _demote_other_featured_posts(
+    client: httpx.AsyncClient,
+    selected_path: str,
+    selected_slug: str,
+    token: str,
+) -> int:
+    """
+    Force Featured semantics for CMS publish: when one post is selected, clear
+    older manual overrides from every other post in the CMS content directory.
+    """
+    entries = await _gh_list_dir(client, CMS_CONTENT_DIR, token)
+    demoted = 0
+
+    for entry in entries:
+        path = entry.get("path", "")
+        if (
+            entry.get("type") != "file"
+            or not path.endswith(".md")
+            or path.endswith("/_index.md")
+            or path == selected_path
+        ):
+            continue
+
+        sha, text = await _gh_get_file(client, path, token)
+        if not sha or not _frontmatter_forces_featured(text):
+            continue
+
+        demoted_text = _demote_featured_frontmatter(text)
+        if demoted_text == text:
+            continue
+
+        await _gh_put_file(
+            client,
+            path,
+            demoted_text,
+            sha,
+            f"CMS: bỏ Featured cũ khi chọn '{selected_slug}'",
+            token,
+        )
+        demoted += 1
+
+    return demoted
 
 
 @app.post("/cms/save-post")
@@ -1093,6 +1176,7 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
         message = f"CMS: {slug}"
 
     path = f"{CMS_CONTENT_DIR}/{slug}.md"
+    force_featured = _frontmatter_forces_featured(content)
 
     async with httpx.AsyncClient(timeout=20.0) as client:
         # 1. Đọc sha hiện trạng cho update. 404 → file mới.
@@ -1115,12 +1199,21 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
         if cat_match:
             await _ensure_category(client, cat_match.group(1).strip(), access_token)
 
+        # 4. Featured override: nếu bài này được chọn thủ công làm Featured,
+        #    gỡ featured ở các bài khác để template/render không thể chọn nhầm.
+        demoted_featured = 0
+        if force_featured:
+            demoted_featured = await _demote_other_featured_posts(
+                client, path, slug, access_token,
+            )
+
         return {
             "ok":         True,
             "action":     "updated" if existing_sha else "created",
             "path":       path,
             "commit_url": data.get("commit", {}).get("html_url", ""),
             "commit_sha": data.get("commit", {}).get("sha", ""),
+            "demoted_featured": demoted_featured,
             "deploy_eta": "1-2 phút (GitHub Actions auto-build + deploy)",
         }
 

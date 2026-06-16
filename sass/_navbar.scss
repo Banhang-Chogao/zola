@@ -55,6 +55,15 @@
     }
   }
 
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  &__cache,
   &__search,
   &__theme {
     background: transparent;
@@ -75,6 +84,23 @@
       outline: none;
       box-shadow: 0 0 0 3px var(--c-focus-ring);
     }
+
+    &:disabled {
+      cursor: progress;
+      opacity: 0.72;
+    }
+  }
+
+  &__cache {
+    gap: 0.45rem;
+    align-self: center;
+    min-height: 40px;
+    margin-right: 0.35rem;
+    padding: 0 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   /* Theme switcher trigger button — icon active + chevron dropdown.
@@ -372,6 +398,14 @@
   }
 
   /* Search button giữ bên phải, touch-friendly size */
+  .navbar__cache {
+    min-width: auto;
+    min-height: 44px;
+    padding: 0 0.75rem;
+    margin-right: 0.15rem;
+    font-size: 0.72rem;
+  }
+
   .navbar__search {
     padding: 0 1.2rem;
     flex-shrink: 0;
@@ -844,6 +878,7 @@
     &[aria-expanded="true"] { color: #fff; border-bottom-color: #fff; }
   }
   .navbar__theme,
+  .navbar__cache,
   .navbar__search {
     color: rgba(255, 255, 255, 0.9);
     border-color: rgba(255, 255, 255, 0.28);

@@ -258,6 +258,7 @@
 
   function invalidateListCache() {
     try { localStorage.removeItem(LIST_CACHE_KEY); } catch (e) {}
+    try { sessionStorage.removeItem(LIST_CACHE_KEY); } catch (e) {}
   }
 
   // Pure: filter + sort state.posts theo state.filter, return array mới.
@@ -278,6 +279,38 @@
       default:
         return filtered.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
     }
+  }
+
+  function postPermalink(post) {
+    if (post.permalink) return post.permalink;
+    const base = location.pathname.replace(/\/editor\/?$/, "").replace(/\/$/, "");
+    return location.origin + base + "/" + CONTENT_DIR.replace(/^content\//, "") + "/" + post.slug + "/";
+  }
+
+  function renderHeaderWidget() {
+    const widget = $("[data-header-widget]");
+    if (!widget) return;
+    const total = $("[data-header-total]");
+    const latestLink = $("[data-header-latest]");
+    const posts = state.posts
+      .filter((p) => p && p.slug)
+      .slice()
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+    if (total) total.textContent = String(posts.length);
+    if (latestLink) {
+      const latest = posts[0];
+      if (latest) {
+        latestLink.textContent = latest.title || latest.slug;
+        latestLink.href = postPermalink(latest);
+        latestLink.title = (latest.title || latest.slug) + " - " + latestLink.href;
+      } else {
+        latestLink.textContent = "-";
+        latestLink.removeAttribute("href");
+        latestLink.removeAttribute("title");
+      }
+    }
+    widget.hidden = false;
   }
 
   // ============= API CALLS =============
@@ -322,23 +355,29 @@
   // bài nào MỚI publish (chưa build → badge "🆕") và bài nào đã DELETE.
   // Local edits trong state.posts được preserve (ưu tiên cao nhất).
   // Silent fail nếu offline — giữ nguyên bake data.
-  async function refreshInBackground() {
-    let apiSlugs = readListCache();
+  async function refreshInBackground(options) {
+    const force = !!(options && options.force);
+    let apiSlugs = force ? null : readListCache();
     if (!apiSlugs) {
       try {
         apiSlugs = await fetchPostSlugs();
-        writeListCache(apiSlugs);
+        if (!force) writeListCache(apiSlugs);
       } catch (e) {
         console.warn("[CMS] Background refresh failed:", e.message);
-        return;
+        if (force) throw e;
+        return false;
       }
     }
 
     const bakeBySlug = new Map(state.bakeMetadata.map((p) => [p.slug, p]));
     const localBySlug = new Map(state.posts.map((p) => [p.slug, p]));
+    const mergedSlugs = apiSlugs.slice();
+    state.bakeMetadata.forEach((p) => {
+      if (p.slug && !mergedSlugs.includes(p.slug)) mergedSlugs.push(p.slug);
+    });
 
     // Merge: ưu tiên local > bake > default. isNew=true nếu chưa có trong bake.
-    state.posts = apiSlugs.map((slug) => {
+    state.posts = mergedSlugs.map((slug) => {
       const inBake = bakeBySlug.has(slug);
       if (localBySlug.has(slug)) {
         return Object.assign({}, localBySlug.get(slug), { isNew: !inBake });
@@ -349,6 +388,7 @@
       return { slug, title: slug, date: "", category: "", featured: false, isNew: true };
     });
     renderPostList();
+    return true;
   }
 
   async function getPost(path) {
@@ -482,7 +522,7 @@ tags = ${tagsStr}
 
     if (force) invalidateListCache();
     // Idle delay 500ms cho first paint không bị block. Force = fetch ngay.
-    setTimeout(() => refreshInBackground(), force ? 0 : 500);
+    setTimeout(() => refreshInBackground({ force: force }), force ? 0 : 500);
     // Fetch categories tươi từ repo (categories.json). Run idle parallel.
     setTimeout(() => fetchCategoriesFromBackend(), 200);
   }
@@ -516,6 +556,7 @@ tags = ${tagsStr}
     const counter = $("[data-target='post-count']");
     const displayPosts = getDisplayPosts();
 
+    renderHeaderWidget();
     if (counter) counter.textContent = displayPosts.length + "/" + state.posts.length;
 
     if (!state.posts.length) {
@@ -685,7 +726,41 @@ tags = ${tagsStr}
     }
   });
 
-  $("[data-action='reload']").addEventListener("click", () => enterDashboard(true));
+  function setReloadLoading(btn, isLoading) {
+    if (!btn) return;
+    if (!btn.dataset.idleHtml) btn.dataset.idleHtml = btn.innerHTML;
+    btn.disabled = isLoading;
+    btn.classList.toggle("is-loading", isLoading);
+    btn.setAttribute("aria-busy", isLoading ? "true" : "false");
+    btn.innerHTML = isLoading
+      ? '<span class="editor-btn__spinner" aria-hidden="true"></span><span>Đang tải...</span>'
+      : btn.dataset.idleHtml;
+  }
+
+  async function reloadPostsFromSource(btn) {
+    invalidateListCache();
+    setReloadLoading(btn, true);
+    setStatus("[data-status]", "Đang xoá cache và quét lại GitHub…", "info");
+    const tbody = $("[data-target='post-rows']");
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Đang tải lại danh sách bài viết…</td></tr>';
+    }
+
+    try {
+      await refreshInBackground({ force: true });
+      setStatus("[data-status]", "✓ Đã cập nhật danh sách mới nhất (" + state.posts.length + " bài)", "success");
+    } catch (err) {
+      renderPostList();
+      setStatus("[data-status]", "✗ Không tải lại được: " + err.message, "error");
+    } finally {
+      setReloadLoading(btn, false);
+    }
+  }
+
+  const reloadBtn = $("[data-action='reload']");
+  if (reloadBtn) {
+    reloadBtn.addEventListener("click", () => reloadPostsFromSource(reloadBtn));
+  }
 
   // Search input — debounce 100ms để không lag khi gõ nhanh.
   const searchInput = $("[data-search]");
@@ -946,14 +1021,11 @@ tags = ${tagsStr}
     const form = e.target;
 
     const isFeatured = form.featured.checked;
-    // Featured-at logic: chỉ STAMP timestamp khi transition false→true (lần đầu tick),
-    // hoặc khi tạo bài mới đã tick sẵn. Đã featured rồi mà save lại → giữ timestamp cũ
-    // để không đẩy bài lên đầu mỗi lần edit. Untick → xoá luôn.
+    // Featured-at logic: mỗi lần save/publish với checkbox bật đều STAMP lại
+    // để lựa chọn thủ công mới nhất luôn là override thắng mọi auto-pick.
     let featuredAt = "";
     if (isFeatured) {
-      const wasFeatured = state.editing && state.editing.wasFeatured;
-      const oldStamp = state.editing && state.editing.featuredAt;
-      featuredAt = (wasFeatured && oldStamp) ? oldStamp : new Date().toISOString();
+      featuredAt = new Date().toISOString();
     }
 
     const fm = {
@@ -1008,6 +1080,7 @@ tags = ${tagsStr}
       const savedPost = {
         slug: slug,
         title: fm.title,
+        permalink: postPermalink({ slug: slug }),
         date: fm.date,
         category: fm.category,
         featured: fm.featured,
@@ -1049,9 +1122,7 @@ tags = ${tagsStr}
     const isFeatured = form.featured.checked;
     let featuredAt = "";
     if (isFeatured) {
-      const wasFeatured = state.editing && state.editing.wasFeatured;
-      const oldStamp = state.editing && state.editing.featuredAt;
-      featuredAt = (wasFeatured && oldStamp) ? oldStamp : new Date().toISOString();
+      featuredAt = new Date().toISOString();
     }
     const fm = {
       title: form.title.value.trim(),
@@ -1138,6 +1209,7 @@ tags = ${tagsStr}
       const savedPost = {
         slug: slug,
         title: fm.title,
+        permalink: postPermalink({ slug: slug }),
         date: fm.date,
         category: fm.category,
         featured: fm.featured,

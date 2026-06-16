@@ -13,12 +13,17 @@
     {% set baochi = get_section(path="baochi/_index.md") %}
     {% set all_pages = posting.pages | concat(with=baochi.pages) | sort(attribute="date") | reverse %}
 
-    {# Featured/hero = bài mới nhất (auto) → tự nhường chỗ khi có bài mới hơn.
-       Gỡ thủ công 1 bài khỏi featured: set extra.unfeatured = true (CMS/frontmatter). #}
+    {# Featured/hero: manual extra.featured=true thắng auto-pick. CMS publish
+       sẽ demote các bài featured cũ để chỉ còn đúng một override thủ công. #}
     {% set_global featured = false %}
     {% for page in all_pages %}
-        {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
+        {% if not featured and page.extra.featured %}{% set_global featured = page %}{% endif %}
     {% endfor %}
+    {% if not featured %}
+        {% for page in all_pages %}
+            {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
+        {% endfor %}
+    {% endif %}
     {% if not featured %}{% set_global featured = all_pages | first %}{% endif %}
 
     {# Các bài còn lại (loại bài hero ra để khỏi trùng) — xếp vào các hàng card
