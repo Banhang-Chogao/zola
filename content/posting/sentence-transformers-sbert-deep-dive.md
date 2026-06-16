@@ -8,6 +8,7 @@ aliases = ["/sentence-transformers-sbert-deep-dive/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", "python", "pytorch", "sbert", "sentence-transformers"]
 [extra]
+seo_keyword = "Sentence Transformers"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/sentence-transformers-sbert-deep-dive.svg"
 featured = false
 [[extra.faq]]
@@ -59,7 +60,7 @@ nhất**, sau đó tính cosine similarity trên vector. Độ phức tạp gi�
 O(N²) inference xuống O(N) inference + O(N²) dot product (rất nhanh
 trên numpy).
 
-## 2. Kiến trúc bi-encoder
+## 2. Kiến trúc bi-encoder của Sentence Transformers
 
 ```
 Sentence A ──► [BERT] ──► [Pooling] ──► Vector A (768-dim)

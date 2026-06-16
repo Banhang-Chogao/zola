@@ -6,6 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Bảo hiểm", "Báo chí"]
 tags = ["bhyt", "bảo hiểm y tế", "hộ gia đình", "lương cơ sở", "chính sách", "tài chính cá nhân"]
 [extra]
+seo_keyword = "BHYT hộ gia đình"
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 [[extra.faq]]
@@ -31,7 +32,7 @@ Gốc rễ nằm ở con số lương cơ sở. Theo Nghị định 161/2026/NĐ
 
 Cụ thể, theo khoản 5 Điều 6 Nghị định 188/2025/NĐ-CP, mức đóng hằng tháng bằng **4,5% lương cơ sở**. Người tham gia có thể đóng theo hộ gia đình hoặc tự đóng theo cá nhân. Nghe thì giống nhau, nhưng có một điểm rất đáng tiền mà nhiều người không để ý: nếu cả nhà cùng tham gia, từ người thứ hai trở đi sẽ được **giảm trừ** kha khá.
 
-## Cách tính: người sau đóng ít hơn người trước
+## BHYT hộ gia đình: cách tính người sau đóng ít hơn người trước
 
 Đây là phần mình thấy hay nhất, và cũng là lý do tại sao nên rủ cả nhà cùng tham gia thay vì mỗi người đăng ký lẻ một nơi.
 
@@ -81,6 +82,8 @@ Thứ nhất, đừng nhìn mức đóng tăng như một khoản "thuế" bị 
 Thứ hai, nếu nhà bạn chưa ai tham gia, hãy tận dụng cơ chế giảm trừ — đăng ký cả hộ cùng lúc sẽ tiết kiệm hơn hẳn so với mỗi người một nơi. Đây là khoản chi nên được đưa vào kế hoạch tài chính của gia đình, giống như cách mình vẫn nghĩ về việc quản lý tiền nong nói chung. Mình từng viết rằng dù bạn có vài chục tỷ hay vài chục triệu thì những nguyên tắc phòng thủ tài chính vẫn giống nhau — trong bài [Private Banking nhìn từ chi nhánh BIDV ở Sài Gòn](@/baochi/bidv-flagship-private-banking-tphcm.md) — và một tấm thẻ BHYT chính là lớp phòng thủ cơ bản nhất, ai cũng nên có.
 
 Thứ ba, mong là những quy định "biết điều" như miễn quy kết trốn đóng khi gặp thiên tai, dịch bệnh sẽ được áp dụng linh hoạt trong thực tế, chứ không kẹt ở thủ tục. Chính sách hay nằm ở chỗ thực thi cho ra hồn.
+
+📚 Tra cứu chính sách và mức đóng chính thức tại [Cổng thông tin Bảo hiểm xã hội Việt Nam](https://baohiemxahoi.gov.vn/).
 
 Tóm lại: từ 01/7/2026, người thứ nhất trong hộ đóng **1.366.200 đồng/năm**, các thành viên sau được giảm dần. Một con số không nhỏ nhưng cũng không phải quá sức — và mình tin nó đáng để chi, vì sức khỏe là thứ chẳng ai mặc cả được.
 

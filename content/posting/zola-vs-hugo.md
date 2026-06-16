@@ -1,12 +1,13 @@
 +++
-title = "Zola vs Hugo: nên chọn static site generator nào cho blog cá nhân?"
-description = "So sánh Zola và Hugo cho blog cá nhân: ngôn ngữ, tốc độ build, template, tính năng tích hợp, kho theme và độ khó. Bảng so sánh chi tiết và gợi ý nên chọn cái nào."
+title = "Zola vs Hugo: chọn SSG nào cho blog cá nhân?"
+description = "So sánh Zola vs Hugo cho blog cá nhân: ngôn ngữ, tốc độ build, template, kho theme và độ khó — kèm bảng chi tiết và gợi ý nên chọn cái nào."
 date = 2026-06-16
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["zola", "hugo", "static site generator", "so sánh", "blog", "ssg"]
 [extra]
+seo_keyword = "Zola vs Hugo"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/zola-vs-hugo.svg"
 featured = false
 
@@ -27,11 +28,11 @@ q = "Có nên chuyển từ Hugo sang Zola không?"
 a = "Nếu Hugo đang chạy tốt thì không cần đổi. Cân nhắc Zola khi bạn thấy template Go của Hugo quá rối và muốn cú pháp dễ đọc hơn, hoặc thích sự tối giản một-binary-đủ-mọi-thứ. Việc chuyển đổi tốn công viết lại template."
 +++
 
-Khi muốn làm blog tĩnh, hai cái tên hay được nhắc nhất là **Zola** và **Hugo**. Cả hai đều miễn phí, nhanh và là một file thực thi duy nhất. Vậy **nên chọn cái nào?** Bài này so sánh thẳng từng tiêu chí để bạn quyết định nhanh.
+Khi muốn làm blog tĩnh, hai cái tên hay được nhắc nhất là **Zola** và **Hugo**. Cả hai đều miễn phí, nhanh và là một file thực thi duy nhất. Vậy **Zola vs Hugo — nên chọn cái nào?** Bài này so sánh thẳng từng tiêu chí để bạn quyết định nhanh.
 
 > Mới tinh? Xem trước [hướng dẫn tạo blog với Zola từ A–Z](/zola/posting/tao-blog-voi-zola/) để hình dung quy trình.
 
-## Bảng so sánh nhanh
+## Bảng so sánh nhanh Zola vs Hugo
 
 | Tiêu chí | Zola | Hugo |
 |---|---|---|
@@ -65,6 +66,14 @@ Khi muốn làm blog tĩnh, hai cái tên hay được nhắc nhất là **Zola*
 Với **blog cá nhân**, mình nghiêng về **Zola** vì cú pháp template dễ chịu và triết lý "một binary đủ mọi thứ" giúp bạn tập trung viết thay vì cấu hình — chính blog này là ví dụ. Nhưng nếu bạn **không muốn đụng code giao diện** mà cần theme đẹp ngay, **Hugo** là lựa chọn an toàn nhờ kho theme khổng lồ.
 
 Quan trọng hơn cả công cụ: chọn một cái rồi **bắt tay làm và viết đều**. Cả hai đều đủ tốt để nuôi một blog nhiều năm.
+
+## Hệ sinh thái, tài liệu và đường học
+
+Một yếu tố ít người để ý khi cân **Zola vs Hugo** là *đường học* (learning curve) và chất lượng tài liệu. Hugo có [tài liệu chính thức](https://gohugo.io/documentation/) đồ sộ, hàng nghìn bài blog hướng dẫn và câu hỏi trên Stack Overflow — gần như mọi tình huống bạn gặp đều đã có người giải. Đổi lại, sự phong phú đó đi kèm độ phức tạp: Hugo có nhiều khái niệm (page bundles, taxonomies, render hooks, shortcodes) và hệ thống template Go đòi hỏi làm quen.
+
+Zola đi theo hướng ngược lại: [tài liệu](https://www.getzola.org/documentation/) ngắn gọn, đọc một buổi là nắm được gần hết, vì bản thân công cụ ít khái niệm hơn. Cộng đồng nhỏ hơn nên đôi khi bạn phải tự đọc source hoặc hỏi trên forum, nhưng với một blog cá nhân thì hiếm khi chạm tới giới hạn đó.
+
+Về bảo trì lâu dài, cả hai đều phát hành đều đặn và ổn định. Hugo cập nhật nhanh hơn, nhiều tính năng mới; Zola thay đổi chậm và thận trọng — một điểm cộng nếu bạn ngại phải sửa template mỗi lần nâng cấp. Nói cách khác: chọn Hugo nếu bạn muốn một hệ sinh thái "có sẵn mọi thứ"; chọn Zola nếu bạn muốn một công cụ gọn, ít bất ngờ và dễ tự kiểm soát.
 
 ## Kết
 

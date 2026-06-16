@@ -1,12 +1,13 @@
 +++
 title = "Tự động deploy blog Zola lên GitHub Pages bằng GitHub Actions"
-description = "Hướng dẫn viết file deploy.yml để tự động build và deploy blog Zola lên GitHub Pages mỗi khi push: giải thích từng dòng workflow, phân quyền, cache và xử lý lỗi."
+description = "Cách viết deploy.yml để tự động build và deploy blog Zola lên GitHub Pages mỗi khi push: giải thích từng dòng workflow, phân quyền và xử lý lỗi."
 date = 2026-06-16
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["zola", "github actions", "github pages", "ci/cd", "deploy", "devops", "tự động hoá", "tutorial"]
 [extra]
+seo_keyword = "deploy Zola GitHub Pages"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tu-dong-deploy-zola-github-actions.svg"
 featured = false
 
@@ -27,9 +28,9 @@ q = "Có cần nhánh gh-pages riêng không?"
 a = "Không, nếu dùng cách deploy bằng GitHub Pages Actions (actions/deploy-pages). Cách này deploy thẳng artifact, không cần tạo và đẩy vào nhánh gh-pages như phương pháp cũ."
 +++
 
-Sau khi đã [tạo blog với Zola](/zola/posting/tao-blog-voi-zola/), việc bạn muốn tiếp theo chắc chắn là: **mỗi lần viết bài xong, push lên là blog tự cập nhật** — không phải build tay, không phải kéo thả file. Bài này hướng dẫn viết file **`deploy.yml`** cho GitHub Actions, **giải thích từng phần** để bạn hiểu chứ không chỉ copy.
+Sau khi đã [tạo blog với Zola](/zola/posting/tao-blog-voi-zola/), việc bạn muốn tiếp theo chắc chắn là: **mỗi lần viết bài xong, push lên là blog tự cập nhật** — không phải build tay, không phải kéo thả file. Bài này hướng dẫn viết file **`deploy.yml`** để **deploy Zola lên GitHub Pages** bằng GitHub Actions, **giải thích từng phần** để bạn hiểu chứ không chỉ copy.
 
-## Cơ chế tổng quan
+## Cơ chế deploy Zola lên GitHub Pages
 
 GitHub Actions là dịch vụ CI/CD tích hợp sẵn trong mọi repo GitHub. Ý tưởng:
 
@@ -120,6 +121,12 @@ Vào **Settings → Pages** của repo, mục *Build and deployment* chọn **So
 - **Theme trống** → quên `submodules: true`.
 - **CSS/ảnh 404** → sai `base_url` (thiếu đuôi `/repo`).
 - **Trang không đổi** → Pages chưa chọn Source = GitHub Actions, hoặc workflow lỗi (xem tab Actions).
+
+## Tên miền riêng và HTTPS
+
+Khi pipeline đã chạy, bạn có thể gắn **tên miền riêng** thay cho đường `github.io`. Vào **Settings → Pages → Custom domain**, nhập domain của bạn rồi thêm bản ghi DNS trỏ về GitHub (CNAME tới `<tên-github>.github.io` cho subdomain, hoặc các A record cho apex domain). GitHub tự cấp **chứng chỉ HTTPS miễn phí** qua Let's Encrypt sau khi DNS xác thực — nhớ bật *Enforce HTTPS*. Một lưu ý nhỏ: khi đổi sang domain riêng, hãy cập nhật lại `base_url` trong `config.toml` cho khớp, nếu không CSS và link nội bộ sẽ trỏ sai.
+
+Quy trình deploy bằng GitHub Actions ở trên bám sát [tài liệu GitHub Pages chính thức](https://docs.github.com/en/pages) và [hướng dẫn deploy Zola](https://www.getzola.org/documentation/deployment/github-pages/) — nếu workflow đổi hành vi sau này, hai nguồn đó luôn là chỗ kiểm chứng đầu tiên.
 
 ## Kết
 

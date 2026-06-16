@@ -6,6 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Thế giới", "Báo chí"]
 tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế"]
 [extra]
+seo_keyword = "uranium Iran"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
 featured = false
 +++
@@ -14,7 +15,7 @@ Tin tức mới nhất từ Phó Tổng thống Mỹ JD Vance khiến tôi suy n
 
 <!-- more -->
 
-## Vấn đề uranium: phức tạp hơn con số
+## Vấn đề uranium của Iran: phức tạp hơn con số
 
 Iran hiện sở hữu hơn 400kg uranium làm giàu tới 60% — con số đủ để chế tạo ít nhất 10 quả bom nguyên tử theo ước tính của các chuyên gia. Đây không phải là hình ảnh tượng trưng. Đây là vốn quân sự thực thụ.
 
@@ -50,3 +51,5 @@ Thỏa thuận uranium của Iran-Mỹ có vẻ là ví dụ của xu hướng n
 Kết quả? Kỳ vọng là Iran mất kho uranium (giảm đe dọa hạt nhân), Mỹ tránh một cuộc xung đột mới (tiết kiệm chi phí quân sự), và thế giới được hưởng một Trung Đông ít bất ổn hơn.
 
 Đó có phải là điều tốt? Tôi tin là vậy. Nhưng hãy theo dõi những tháng tới — vì trong ngoại giao, những gì được viết trên giấy và những gì xảy ra trong thực tế có thể rất khác nhau.
+
+📚 Tìm hiểu thêm về [uranium làm giàu (enriched uranium) trên Wikipedia](https://en.wikipedia.org/wiki/Enriched_uranium) và vai trò giám sát của [IAEA](https://www.iaea.org/). Đọc tiếp bối cảnh rộng hơn: [Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?](@/baochi/my-iran-peace-deal-global-energy.md).

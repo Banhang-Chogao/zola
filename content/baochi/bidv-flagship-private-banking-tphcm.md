@@ -6,6 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["ngân hàng", "tài chính", "private-banking", "bidv", "đầu tư"]
 [extra]
+seo_keyword = "Private Banking"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/bidv-flagship-private-banking-tphcm.svg"
 featured = false
 [[extra.faq]]
@@ -71,5 +72,7 @@ Thứ hai, dù phần lớn chúng ta không phải khách hàng của những c
 Thứ ba, tôi mong khoảng cách giữa "giới tinh hoa" được phục vụ trong những căn phòng riêng tư và phần còn lại của xã hội đừng ngày một xa thêm. Một nền tài chính khỏe mạnh không chỉ là nơi người giàu giữ được tiền, mà còn là nơi người bình thường có cơ hội bắt đầu tích lũy.
 
 Còn cái chi nhánh hoa mai vàng ở 153 Hai Bà Trưng? Với tôi, nó vừa là biểu tượng của một Việt Nam đang giàu lên, vừa là lời nhắc nhẹ nhàng: dù ở mức tài sản nào, biết giữ tiền luôn khó hơn biết kiếm tiền.
+
+📚 Tìm hiểu mô hình [Private Banking trên Wikipedia](https://en.wikipedia.org/wiki/Private_banking) và đối tác quản lý tài sản [Edmond de Rothschild](https://www.edmond-de-rothschild.com/).
 
 *Nguồn: Tổng hợp từ thông cáo của BIDV đăng trên báo chí trong nước.*
