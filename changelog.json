@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "feat(bb9): đăng bài hẹn giờ — viết draft, auto đăng n+3 buổi tối qua QA gate",
+      "tag": "chore",
+      "pr": 244,
+      "lines_added": 261,
+      "lines_removed": 0,
+      "highlights": [
+        "Draft = draft = true + [extra] publish_at = \"<n+3>T20:00:00+07:00\". Zola bỏ qua draft → không lên site dù nằm trên main.",
+        "scripts/scheduled_publish.py: cron buổi tối flip bài tới hạn (draft=false, set date, xoá publish_at). Đã test: bài quá khứ → publish, bài tương lai → giữ draft. ✅",
+        ".github/workflows/scheduled-publish.yml: cron 0 13   * (20:00 GMT+7) + dispatch. QA gate: chạy qa_check.py + Zola build trước; PASS mới commit+push (→ deploy). FAIL → không đăng, mở issue (xử lý bằng ",
+        "shortcuts.md: phím tắt bb9 (biến thể hẹn giờ của bb).",
+        "CLAUDE.md: rule \"Đăng bài hẹn giờ\"."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Series Liobank 5 phần — ưu điểm & dẫn hướng đăng ký",
       "tag": "feat",
       "pr": 243,
