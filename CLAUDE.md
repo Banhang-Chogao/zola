@@ -94,3 +94,13 @@ script Python sinh nội dung public).
 - Mental check: code mới này có hiển thị thời gian trên blog không?
 - Nếu có → áp dụng 2 rule trên trước khi commit.
 - Sửa code cũ có English format (`%b`, `%B`, `Jan/Feb/...`) → convert sang VN.
+
+## Quy tắc Git / Pull Request
+
+Bắt buộc với MỌI task có thay đổi code (đã commit + push).
+
+- Làm xong BẤT KỲ việc gì → **LUÔN mở Pull Request** về `main` cho branch
+  vừa làm. Không để thay đổi nằm im trên feature branch mà thiếu PR.
+- Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
+- Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
+  cần tạo PR trùng.
