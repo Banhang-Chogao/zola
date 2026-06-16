@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Thu nhỏ tag cloud + redesign QA Dashboard footer",
+      "tag": "feat",
+      "pr": 212,
+      "lines_added": 170,
+      "lines_removed": 60,
+      "highlights": [
+        "Badge gọn lại cỡ chip \"Tech Stack\" (font 0.62rem, padding nhỏ), card min-height 120px → 52px, grid 5 cột max-width 840px.",
+        "Canh phải trong footer — scope riêng @media (min-width: 721px) nên mobile giữ nguyên (các @media max-width sẵn có vẫn định nghĩa size mobile).",
+        "Mỗi card thêm icon chip + 1 dòng mô tả tiếng Việt giải thích chỉ số là gì (giải quyết \"chưa hiểu chỉ số\") + title tooltip đầy đủ khi hover.",
+        "Số liệu tô màu accent, card bo góc mềm, viền nhạt, hover nhấc + đổ bóng (đồng bộ với tag card).",
+        "Toàn bộ dùng Ericsson Blue đơn sắc để khớp hướng brand mới (tag badge + label upstream vừa chuyển xanh) → footer nhất quán 1 tông."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Claude/happy newton jaf5qq",
       "tag": "chore",
       "pr": 211,
