@@ -1,5 +1,5 @@
 /* ============================================================
-   ===== DYNAMIC THEME SYSTEM — 2 themes (Z-X ↔ BrandingX) =====
+   ===== DYNAMIC THEME SYSTEM — 2 themes (Z-X + Hilda) =====
    ============================================================
    Semantic token naming (consistent across themes):
    - --c-bg-page       : page background
@@ -19,7 +19,7 @@
 
    Themes:
    - :root (default) — Z-X (ZaloPay electric blue, fintech trust)
-   - :root[data-theme="brandingx"] — BrandingX (MoMo pink + red, warm playful)
+   - :root[data-theme="hilda"] — Hilda (Ericsson professional blue)
 */
 
 /* ===== Z-X (ZaloPay) — DEFAULT THEME (FINTECH BLUE) ===== */
@@ -61,40 +61,46 @@
   color-scheme: light;
 }
 
-/* ===== BRANDINGX (MoMo) — ALTERNATIVE THEME ===== */
-:root[data-theme="brandingx"] {
-  /* Surface — neutral, no tint */
-  --c-bg-page:        #f8fafc;  /* $brand-mist — neutral soft bg */
-  --c-bg-surface:     #ffffff;  /* $brand-snow */
-  --c-bg-soft:        #f1f5f9;  /* $brand-fog */
+/* ===== HILDA (Ericsson - Professional Style) ===== */
+:root[data-theme="hilda"] {
+  /* Surface — white with light gray tint */
+  --c-bg-page:        #f4f4f4;  /* Light Gray */
+  --c-bg-surface:     #ffffff;  /* White */
+  --c-bg-soft:        #f4f4f4;  /* Soft background */
 
-  /* Text — pure dark hierarchy */
-  --c-text-heading:   #0f172a;  /* $brand-ink-900 */
-  --c-text-body:      #1e293b;  /* $brand-ink-800 */
-  --c-text-muted:     #64748b;  /* $brand-ink-500 */
+  /* Text — deep navy (headings) to gray (muted) */
+  --c-text-heading:   #000000;  /* Pure Black */
+  --c-text-body:      #333333;  /* Charcoal */
+  --c-text-muted:     #666666;  /* Gray */
 
-  /* Accent — hot pink (MoMo playful) */
-  --c-accent:         #ec4899;  /* $brand-hot-pink */
-  --c-accent-hover:   #db2777;  /* darker pink on hover */
-  --c-accent-soft:    rgba(236, 72, 153, 0.1);
+  /* Accent — Ericsson Blue */
+  --c-accent:         #003784;  /* Ericsson Blue (primary) */
+  --c-accent-hover:   #002566;  /* Darker blue for hover */
+  --c-accent-soft:    rgba(0, 55, 132, 0.1);
 
-  /* Decoration — signal red (category tag, promo) */
-  --c-decoration:     #d63d3d;  /* $brand-signal-red */
+  /* Decoration — Red for CTAs */
+  --c-decoration:     #e30613;  /* Red action buttons */
 
   /* Border */
-  --c-border:         #ececec;  /* $brand-edge */
-  --c-border-strong:  #e2e8f0;  /* $brand-edge-strong */
+  --c-border:         #e0e0e0;  /* Light divider */
+  --c-border-strong:  #d0d0d0;  /* Darker divider */
 
-  /* Shadow — neutral gray (no color tint) */
-  --c-shadow-md:      0 4px 12px rgba(0, 0, 0, 0.08);
-  --c-shadow-lg:      0 12px 32px rgba(0, 0, 0, 0.12);
+  /* Shadow — professional depth (subtle) */
+  --c-shadow-md:      0 2px 4px rgba(0, 55, 132, 0.08);
+  --c-shadow-lg:      0 8px 16px rgba(0, 55, 132, 0.12);
 
-  /* Status — money green (positive amount) */
-  --c-success:        #047a3f;
-  --c-warning:        #92760a;
+  /* Status — teal for success */
+  --c-success:        #00a69d;
+  --c-warning:        #ff9500;
 
-  /* Focus ring — pink */
-  --c-focus-ring:     rgba(236, 72, 153, 0.35);
+  /* Focus ring */
+  --c-focus-ring:     rgba(0, 55, 132, 0.35);
+
+  /* Color scheme for native form controls */
+  color-scheme: light;
+
+  /* Font stack */
+  font-family: 'Ericsson Hilda', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* ===== HILDA (Ericsson - Professional Style) ===== */
