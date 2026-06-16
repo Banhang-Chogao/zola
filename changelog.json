@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO11: Tối ưu SEO toàn site đạt 100/100 (Lighthouse + Starter Guide)",
+      "tag": "chore",
+      "pr": 222,
+      "lines_added": 497,
+      "lines_removed": 889,
+      "highlights": [
+        "Không đụng layout/scroll desktop: mọi h2→h1 đều trên class đã ghim font-size (section-header__title 0.85rem, scoring__title 1.75rem, bao-cao__title 1.85rem) → render y hệt.",
+        ".visually-hidden là utility mới (additive), không sửa selector global nào, không overflow/height/position trên html/body.",
+        "Không thêm hiển thị ngày/giờ mới (rule timezone GMT+7 không phát sinh).",
+        "Title đổi không đổi slug → URL ổn định, internal link không gãy.",
+        "seo_score.py: 100.0/100 A+, 114/114 trang A+, hạ tầng đủ."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "SEO: tự động ping IndexNow (Bing/Yandex/Seznam/Naver/DuckDuckGo) khi đăng bài",
       "tag": "chore",
       "pr": 225,
