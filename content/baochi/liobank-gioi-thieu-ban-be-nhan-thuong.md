@@ -9,6 +9,22 @@ tags = ["ngân hàng", "liobank", "thẻ tín dụng", "giới thiệu nhận th
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.png"
 seo_keyword = "giới thiệu Liobank nhận thưởng"
 featured = false
+
+[[extra.faq]]
+q = "Giới thiệu bạn mở thẻ Liobank được thưởng bao nhiêu?"
+a = "Mỗi lượt giới thiệu thành công, bạn nhận 150.000đ nếu người được mời có hạn mức dưới 5 triệu, hoặc 500.000đ nếu hạn mức từ 5 triệu trở lên."
+
+[[extra.faq]]
+q = "Khi nào tôi nhận được tiền thưởng giới thiệu Liobank?"
+a = "Bạn nhận thưởng sau khi người được giới thiệu được phê duyệt hạn mức tín dụng. Nếu họ chưa được cấp hạn mức thì lượt đó chưa tính, bạn có thể giới thiệu thêm người khác để có thêm cơ hội."
+
+[[extra.faq]]
+q = "Người được mời cần làm gì để lượt giới thiệu được tính?"
+a = "Họ phải tải app Liobank qua đúng link hoặc mã QR giới thiệu của bạn, rồi kích hoạt thẻ Liobank (vật lý hoặc phi vật lý) thành công."
+
+[[extra.faq]]
+q = "Gửi link giới thiệu Liobank sao cho an toàn và không lỗi?"
+a = "Người được mời nên sao chép link và mở bằng trình duyệt thay vì bấm trực tiếp trong Zalo hay Messenger; khi quét QR thì dùng camera điện thoại thay vì tính năng quét tích hợp trong app chat."
 +++
 
 Mấy hôm nay nhóm bạn của tôi rủ nhau khá rôm rả về chuyện **giới thiệu Liobank nhận thưởng**: chỉ cần mời bạn bè mở thẻ thành công là có thể nhận tới 500.000đ cho mỗi lượt. Nghe thì hấp dẫn, nhưng tôi vốn cẩn thận với mấy chương trình "mời bạn nhận tiền", nên đã ngồi đọc kỹ thể lệ rồi viết lại đây cho gọn — để bạn nào quan tâm thì làm một lần là hiểu, và quan trọng hơn là làm sao tránh mất tiền oan vì click nhầm link giả.
