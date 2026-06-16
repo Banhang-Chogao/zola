@@ -333,9 +333,17 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   tác dụng — ai biết URL vẫn tải được).
 - `content/*.md` KHÔNG bị serve (Zola compile ra HTML). Chỉ file trong `static/`
   mới được copy nguyên trạng lên site → KHÔNG đặt file nhạy cảm trong `static/`.
-- File báo cáo `static/data/reports/*.md` là public theo thiết kế; chỉ ẩn khỏi
-  search qua `robots.txt`. Muốn chặn tải THẬT phải đưa qua backend có auth
-  (FastAPI/Cloudflare Worker) — đây là việc lớn, chỉ làm khi user yêu cầu rõ.
+- **Báo cáo (`??`) đã chuyển sang BACKEND-GATED (chặn THẬT, 16/06/2026):** file
+  `.md` KHÔNG còn nằm trong `static/` hay repo public nữa. Nội dung lưu trong
+  Redis của backend FastAPI (`services/visitor-counter/main.py`), chỉ tải được
+  qua endpoint `GET /reports/{file}` sau khi `require_session` pass (OAuth GitHub
+  + email whitelist `ADMIN_EMAILS`). Trang `/bao-cao-tong-ket/` + `bao-cao.js`
+  gọi backend (login → `/auth/me` → `/reports`), tải bằng fetch+Blob (Bearer sid).
+  - Đẩy báo cáo mới lên backend: `POST /reports` (auth). Phím tắt `??` sinh file
+    `.md` rồi dùng `python3 scripts/push_report.py <file> --sid <sid>` để đẩy
+    (KHÔNG commit .md report vào repo public nữa).
+  - Vẫn đúng nguyên tắc gốc: chỉ những gì NẰM TRONG repo/static mới public. Report
+    giờ nằm ngoài repo → khách không có URL trực tiếp để tải.
 - KHÔNG hardcode secret trong repo/workflow. Đưa input từ `github.event.*` vào
   env var hoặc dùng context tin cậy (`github.sha`...), KHÔNG nội suy thẳng vào
   `run:`/payload (chống script injection).
