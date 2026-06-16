@@ -8,7 +8,7 @@ aliases = ["/sentence-transformers-sbert-deep-dive/"]
 categories = ["Công nghệ"]
 tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", "python", "pytorch", "sbert", "sentence-transformers"]
 [extra]
-thumbnail = "https://picsum.photos/seed/sbert-research/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/sentence-transformers-sbert-deep-dive.svg"
 featured = false
 [[extra.faq]]
 q = "Sentence Transformers (SBERT) là gì?"

@@ -8,7 +8,7 @@ aliases = ["/summer-korea-4-diem-dung-mua-he/"]
 categories = ["Du lịch"]
 tags = ["budget travel", "busan", "du lịch", "hiking", "hàn quốc", "hàn river", "jeju", "korea", "mùa hè", "seoraksan", "seoul", "ẩm thực"]
 [extra]
-thumbnail = "https://picsum.photos/seed/summer-korea-4-spots/1200/800"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/summer-korea-4-diem-dung-mua-he.svg"
 featured = false
 [[extra.faq]]
 q = "Mùa hè ở Hàn Quốc nên đi đâu?"

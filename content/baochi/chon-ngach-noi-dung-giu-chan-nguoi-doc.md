@@ -5,7 +5,7 @@ date = 2026-06-16
 categories = ["Công nghệ"]
 tags = ["blog", "content-strategy", "seo", "engagement", "mobile-ux"]
 [extra]
-thumbnail = "https://picsum.photos/seed/chon-ngach-noi-dung-giu-chan-nguoi-doc/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
 featured = false
 +++
 

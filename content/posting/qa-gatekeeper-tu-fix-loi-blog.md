@@ -8,7 +8,7 @@ aliases = ["/qa-gatekeeper-tu-fix-loi-blog/"]
 categories = ["Công nghệ"]
 tags = ["automation", "blog", "ci/cd", "devops", "github actions", "qa", "self-healing", "zola"]
 [extra]
-thumbnail = "https://picsum.photos/seed/qa-gatekeeper/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/qa-gatekeeper-tu-fix-loi-blog.svg"
 featured = false
 [[extra.faq]]
 q = "QA Gatekeeper hoạt động thế nào?"
