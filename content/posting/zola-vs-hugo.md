@@ -2,10 +2,11 @@
 title = "Zola vs Hugo: chọn SSG nào cho blog cá nhân?"
 description = "So sánh Zola vs Hugo cho blog cá nhân: ngôn ngữ, tốc độ build, template, kho theme và độ khó — kèm bảng chi tiết và gợi ý nên chọn cái nào."
 date = 2026-06-16
+aliases = ["/zola-vs-hugo/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "hugo", "static site generator", "so sánh", "blog", "ssg"]
+tags = ["blog", "hugo", "so sánh", "ssg", "static site generator", "zola"]
 [extra]
 seo_keyword = "Zola vs Hugo"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/zola-vs-hugo.svg"

@@ -1,6 +1,7 @@
 +++
 title = "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya"
 date = 2026-06-15
+aliases = ["/toi-nay-sai-gon-an-gi/"]
 
 [taxonomies]
 categories = ["Tất cả"]
