@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "thẻ tín dụng", "giới thiệu nhận thưởng", "referral"]
 [extra]
-thumbnail = "https://picsum.photos/seed/liobank-gioi-thieu-ban-be/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.png"
 seo_keyword = "giới thiệu Liobank nhận thưởng"
 featured = false
 +++
@@ -14,6 +14,8 @@ featured = false
 Mấy hôm nay nhóm bạn của tôi rủ nhau khá rôm rả về chuyện **giới thiệu Liobank nhận thưởng**: chỉ cần mời bạn bè mở thẻ thành công là có thể nhận tới 500.000đ cho mỗi lượt. Nghe thì hấp dẫn, nhưng tôi vốn cẩn thận với mấy chương trình "mời bạn nhận tiền", nên đã ngồi đọc kỹ thể lệ rồi viết lại đây cho gọn — để bạn nào quan tâm thì làm một lần là hiểu, và quan trọng hơn là làm sao tránh mất tiền oan vì click nhầm link giả.
 
 <!-- more -->
+
+![Mascot sư tử Liobank xem bóng đá - chương trình giới thiệu nhận thưởng](https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.png)
 
 ## Chương trình giới thiệu Liobank nhận thưởng là gì?
 
