@@ -1107,11 +1107,17 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 ---
 
-### `bb9` — Viết bài + hẹn giờ đăng (scheduled publish n+3, buổi tối)
+### `bb9 <topic>` — Viết bài theo chủ đề + hẹn giờ đăng (scheduled publish n+3, buổi tối)
 
-**Mục đích**: Viết bài BẤT CỨ LÚC NÀO nhưng KHÔNG đăng ngay — lưu dạng **draft**
-và hẹn tự động đẩy lên production **3 ngày sau (n+3), vào buổi tối**, với điều
-kiện vượt qua QA gate. Đây là biến thể "hẹn giờ" của `bb`.
+**Cú pháp BẮT BUỘC**: `bb9 <topic>` — luôn kèm **chủ đề** ngay sau phím tắt.
+Ví dụ: `bb9 cách tiết kiệm điện mùa hè`, `bb9 du lịch Đà Lạt tự túc`.
+- Nếu user gõ `bb9` mà KHÔNG kèm topic → hỏi lại: "📝 Chủ đề bài viết là gì?"
+- Khác `bb` (dán nội dung báo chí có sẵn): `bb9` **tự sáng tác bài mới** từ
+  `<topic>` user đưa (không cần paste bài gốc).
+
+**Mục đích**: Từ một chủ đề, tự viết bài mới BẤT CỨ LÚC NÀO nhưng KHÔNG đăng ngay
+— lưu dạng **draft** và hẹn tự động đẩy lên production **3 ngày sau (n+3), vào
+buổi tối**, với điều kiện vượt qua QA gate.
 
 > Về SEO/Google: Google KHÔNG có quy định bắt buộc phải trì hoãn đăng — bài mới
 > được index nhanh là tốt. Trì hoãn n+3 chỉ là buffer để review/giãn lịch đăng,
@@ -1120,8 +1126,9 @@ kiện vượt qua QA gate. Đây là biến thể "hẹn giờ" của `bb`.
 
 **Hành động**:
 
-1. Viết lại bài y hệt quy trình `bb` (giọng cá nhân, frontmatter SEO, category
-   `["Tất cả", "<auto>", "Báo chí"]`, ảnh nội bộ → sinh `.webp` theo rule Ảnh).
+1. Từ `<topic>` → viết bài mới (giọng cá nhân 1st person, 800–1500 từ), frontmatter
+   SEO đầy đủ, category `["Tất cả", "<auto theo topic>", "Báo chí"]`, tự sinh slug
+   kebab-case từ topic, ảnh nội bộ (nếu có) → sinh `.webp` theo rule Ảnh.
 2. **Khác `bb`**: KHÔNG merge/đăng ngay. Frontmatter thêm:
    ```toml
    date = <ngày n+3, tức hôm nay + 3>
