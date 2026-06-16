@@ -80,6 +80,34 @@ WEIGHTS = {
 }
 
 
+def read_fm(path):
+    """Đọc front matter TOML của 1 file .md (trả dict, hoặc None nếu lỗi)."""
+    try:
+        text = path.read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return None
+    m = FM.match(text)
+    if not m:
+        return None
+    try:
+        return tomllib.loads(m.group(1))
+    except tomllib.TOMLDecodeError:
+        return None
+
+
+def is_article(fm):
+    """Bài viết thật = có date và KHÔNG dùng template tuỳ biến.
+    Trang công cụ/landing (font.md, scoring.md, seo-bang-vang.md...) khai báo
+    `template` và/hoặc không có `date` → không chấm, không đưa vào bảng SEO."""
+    if not isinstance(fm, dict):
+        return False
+    if fm.get("template"):
+        return False
+    if not fm.get("date"):
+        return False
+    return True
+
+
 def grade(score):
     if score >= 95:
         return "A+"
@@ -392,10 +420,18 @@ def main():
     now = datetime.now(VN_TZ)
     db = load_db() if write_db else None
     worst = 100.0
+    scored_any = False
 
     for p in targets:
-        # Bỏ qua trang section / không phải bài viết.
-        if p.name.startswith("_index"):
+        # Bỏ qua trang section + trang công cụ/landing (không phải bài viết).
+        if p.name.startswith("_index") or not is_article(read_fm(p)):
+            try:
+                rel = p.relative_to(REPO).as_posix()
+            except ValueError:
+                rel = p.as_posix()
+            # Nếu trang này từng lọt vào DB → dọn ra cho sạch bảng.
+            if write_db and db is not None:
+                db.get("posts", {}).pop(rel, None)
             continue
         res = score_post(p)
         try:
@@ -403,18 +439,24 @@ def main():
         except ValueError:
             rel = p.as_posix()
         print_card(rel, res)
+        scored_any = True
         worst = min(worst, res["score"])
         if write_db and db is not None:
             save_to_db(db, rel, res, now)
 
     if write_db and db is not None:
+        # Dọn các entry trỏ tới file đã xoá hoặc không còn là bài viết.
+        for rel in list(db.get("posts", {})):
+            fp = (REPO / rel)
+            if not fp.is_file() or not is_article(read_fm(fp)):
+                db["posts"].pop(rel, None)
         DATA.mkdir(exist_ok=True)
         DB_PATH.write_text(json.dumps(db, ensure_ascii=False, indent=2),
                            encoding="utf-8")
         print(f"💾 Đã lưu điểm vào {DB_PATH.relative_to(REPO)}")
 
     # Exit code: bài < 70 điểm → fail (CI / hook có thể chặn).
-    sys.exit(0 if worst >= 70 else 2)
+    sys.exit(0 if worst >= 70 or not scored_any else 2)
 
 
 if __name__ == "__main__":

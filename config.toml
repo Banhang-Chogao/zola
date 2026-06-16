@@ -68,6 +68,7 @@ menu = [
     ] },
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
         { url = "$BASE_URL/editor",    name = "Viết bài" },
+        { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
         { url = "$BASE_URL/converter", name = "Korean Converter" },
         { url = "$BASE_URL/changelog", name = "Changelog" },
         { url = "$BASE_URL/insights",  name = "Insights" },
