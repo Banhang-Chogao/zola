@@ -321,38 +321,11 @@
   );
 }
 
-/* ===== E-X (Ericsson nhẹ) — medium radius, blue accent ===== */
-:root[data-theme="ex"] {
-  @include theme-overrides(
-    $radius-card:        $ex-radius-md,       /* 6px */
-    $radius-tag:         $ex-radius-xs,       /* 2px sharp */
-    $shadow-card:        $ex-shadow-xs,
-    $shadow-card-hover:  $ex-shadow-md,
-    $kicker-spacing:     0.10em,
-    $heading-ls:         -0.02em
-  );
-}
-
-/* ===== HILA ERICSSON — full newsroom corporate ===== */
-:root[data-theme="hila"] {
-  @include theme-overrides(
-    $radius-card:        $ex-radius-sm,       /* 4px sharpest */
-    $radius-tag:         $ex-radius-xs,
-    $shadow-card:        $ex-shadow-xs,
-    $shadow-card-hover:  $ex-shadow-md,
-    $kicker-spacing:     0.14em,              /* Ericsson newsroom wide kicker */
-    $heading-ls:         -0.025em
-  );
-  /* Hila signature: --c-border-strong: #0C0C0C đã set trong Phase 1 */
-}
-
 /* ============================================================
-   ===== MOBILE (≤ 720px) — rút spacing tránh overflow =====
+   ===== MOBILE (≤ 720px) — Z-X spacing optimization =====
    ============================================================ */
 @media (max-width: 720px) {
-  :root[data-theme="zx"],
-  :root[data-theme="ex"],
-  :root[data-theme="hila"] {
+  :root {
     .cat-tag,
     .sidebar-label {
       letter-spacing: 0.08em;     /* rút nhẹ tránh wrap khó đọc trên mobile */
