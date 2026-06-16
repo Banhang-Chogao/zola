@@ -899,6 +899,39 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 
 KHÔNG auto-merge — chỉ approve, user quyết định merge.
 
+### `prn` — PR Now (Auto-create PRs for unmerged branches)
+
+**Mục đích**: Tự động quét branches chưa có PR, tạo PR + push vào nhánh chỉ định.
+
+**Hành động**:
+
+1. **Scan branches**:
+   - List tất cả branches (exclude main, master, staging)
+   - Kiểm tra branch nào chưa có open PR
+   - Filter: branches có commits chưa merge
+
+2. **Tạo PR tự động**:
+   - Mỗi branch → tạo PR với:
+     - Title: branch name + last commit message (≤70 chars)
+     - Body: list commits trong branch (auto-generated)
+     - Base: [user-specified branch] (default: `main`)
+   - Không auto-merge — giữ pending
+
+3. **Batch create**:
+   - Sequential create PR (tránh race condition)
+   - Mỗi PR output: `#X created`
+
+4. **Output bảng summary**:
+
+| Branch | Commits | PR | Status |
+|---|---|---|---|
+| `claude/foo` | 3 | #160 | ✅ Created |
+| `claude/bar` | 2 | #161 | ✅ Created |
+
+**Final**: "N PRs created. Chờ `manual #X` để merge."
+
+KHÔNG auto-merge — tuân thủ rule "manual approval only".
+
 ### `ff9` — Smart Conflict Resolver (Python-powered)
 
 **Mục đích**: Tự động detect + analyze + resolve git conflicts trong open PRs.
