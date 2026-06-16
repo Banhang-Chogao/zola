@@ -21,10 +21,10 @@
 
   var STORAGE_KEY = "blog-theme";
   var THEMES = {
-    brandingx: "brandingx",  // default: MoMo
-    zx: "zx"                 // ZaloPay fintech
+    brandingx: "brandingx",  // MoMo
+    zx: "zx"                 // default: ZaloPay fintech
   };
-  var DEFAULT_THEME = "brandingx";
+  var DEFAULT_THEME = "zx";
   var ATTR = "data-theme";
   var root = document.documentElement;
 
@@ -60,8 +60,9 @@
 
     var prevTheme = getTheme();
 
-    // Apply to DOM (remove data-theme for default, set for others)
-    if (name === DEFAULT_THEME) {
+    // Apply to DOM
+    // Z-X is default: remove data-theme attribute for Z-X, set for others
+    if (name === "zx") {
       root.removeAttribute(ATTR);
     } else {
       root.setAttribute(ATTR, name);
