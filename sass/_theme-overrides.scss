@@ -321,8 +321,20 @@
   );
 }
 
+/* ===== HILDA (Ericsson) — sharp, professional ===== */
+:root[data-theme="hilda"] {
+  @include theme-overrides(
+    $radius-card:        4px,                    /* Sharp corners */
+    $radius-tag:         4px,                    /* Consistent sharp */
+    $shadow-card:        0 2px 4px rgba(0, 55, 132, 0.08),
+    $shadow-card-hover:  0 8px 16px rgba(0, 55, 132, 0.12),
+    $kicker-spacing:     0.05em,                 /* Tighter spacing */
+    $heading-ls:         -0.02em
+  );
+}
+
 /* ============================================================
-   ===== MOBILE (≤ 720px) — Z-X spacing optimization =====
+   ===== MOBILE (≤ 720px) — Responsive spacing optimization =====
    ============================================================ */
 @media (max-width: 720px) {
   :root {

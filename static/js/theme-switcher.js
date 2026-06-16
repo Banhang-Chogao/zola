@@ -1,116 +1,103 @@
 /* ============================================================
-   ===== THEME SWITCHER — BrandingX ↔ Z-X (Dynamic) =====
+   ===== THEME SWITCHER — Multi-theme Support (Z-X + Hilda) =====
    ============================================================
-   Dual theme system with smooth transitions:
-   - "brandingx" (default) — MoMo pink + red, warm playful
-   - "zx" — ZaloPay electric blue, fintech trust
-
-   Persist: localStorage["blog-theme"] = "zx" | "brandingx"
-   Anti-flash: Inline IIFE dalam base.html <head> sudah apply
-   data-theme sebelum paint. File ini handle UI interaction.
+   Persistent theme switching with localStorage
 
    API:
-   - window.ThemeSwitcher.getTheme() : "brandingx" | "zx"
-   - window.ThemeSwitcher.setTheme("zx")
-   - window.ThemeSwitcher.toggle() : switch ke theme lain
-   - Event "themechange" pada document dengan detail: { theme, prevTheme }
+   - window.ThemeSwitcher.getTheme() : "zx" | "hilda"
+   - window.ThemeSwitcher.setTheme("hilda")
+   - window.ThemeSwitcher.toggleTheme() : returns new theme
+   - Event "themechange" dispatched on document
 */
 
 (function () {
   "use strict";
 
   var STORAGE_KEY = "blog-theme";
-  var THEMES = {
-    brandingx: "brandingx",  // default: MoMo
-    zx: "zx"                 // ZaloPay fintech
-  };
-  var DEFAULT_THEME = "brandingx";
+  var VALID_THEMES = ["zx", "hilda"];
+  var DEFAULT_THEME = "zx";
   var ATTR = "data-theme";
   var root = document.documentElement;
 
-  /* ===== Get current theme from DOM or localStorage ===== */
+  /* ===== Get current theme from localStorage or DOM ===== */
   function getTheme() {
     var stored = null;
     try {
       stored = localStorage.getItem(STORAGE_KEY);
     } catch (e) {
-      /* localStorage blocked */
+      /* localStorage blocked; silent fail, continue */
     }
 
-    // Use stored theme if valid, otherwise check DOM data-theme, fallback default
-    if (stored && THEMES[stored]) {
+    // Return stored theme if valid, otherwise get from DOM or use default
+    if (stored && VALID_THEMES.indexOf(stored) > -1) {
       return stored;
     }
 
-    var domTheme = root.getAttribute(ATTR);
-    if (domTheme && THEMES[domTheme]) {
-      return domTheme;
-    }
-
-    return DEFAULT_THEME;
+    var current = root.getAttribute(ATTR);
+    return (current && VALID_THEMES.indexOf(current) > -1) ? current : DEFAULT_THEME;
   }
 
   /* ===== Apply theme to DOM + localStorage ===== */
   function setTheme(name) {
-    // Validate theme name
-    if (!THEMES[name]) {
-      console.warn("[ThemeSwitcher] Invalid theme: " + name);
-      return;
+    // Validate theme
+    if (VALID_THEMES.indexOf(name) === -1) {
+      name = DEFAULT_THEME;
     }
 
-    var prevTheme = getTheme();
-
-    // Apply to DOM (remove data-theme for default, set for others)
-    if (name === DEFAULT_THEME) {
-      root.removeAttribute(ATTR);
-    } else {
-      root.setAttribute(ATTR, name);
-    }
+    // Apply to DOM (triggers CSS variable changes)
+    root.setAttribute(ATTR, name);
 
     // Persist to localStorage
     try {
       localStorage.setItem(STORAGE_KEY, name);
     } catch (e) {
-      /* localStorage blocked; silent fail */
+      /* localStorage blocked; silent fail, theme still works */
     }
 
-    // Dispatch event for external listeners (only if actually changed)
-    if (name !== prevTheme) {
-      document.dispatchEvent(
-        new CustomEvent("themechange", {
-          detail: { theme: name, prevTheme: prevTheme }
-        })
-      );
-    }
+    // Dispatch custom event for external listeners
+    document.dispatchEvent(new CustomEvent("themechange", {
+      detail: {
+        theme: name,
+        timestamp: new Date().toISOString()
+      }
+    }));
   }
 
-  /* ===== Toggle between BrandingX ↔ Z-X ===== */
-  function toggle() {
+  /* ===== Toggle between Z-X and Hilda ===== */
+  function toggleTheme() {
     var current = getTheme();
-    var next = current === "zx" ? "brandingx" : "zx";
+    var next = current === "zx" ? "hilda" : "zx";
     setTheme(next);
+    return next;
   }
 
-  /* ===== Init on DOM ready (apply stored theme before paint) ===== */
+  /* ===== Initialize on DOM ready ===== */
   function init() {
-    var current = getTheme();
-    if (current !== DEFAULT_THEME) {
-      root.setAttribute(ATTR, current);
-    }
+    var savedTheme = getTheme();
+    setTheme(savedTheme);
   }
 
+  // Run init when DOM is ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
     init();
   }
 
-  /* ===== Expose API ===== */
+  /* ===== Update toggle button label when theme changes ===== */
+  document.addEventListener("themechange", function(event) {
+    var label = document.getElementById("theme-label");
+    if (label) {
+      label.textContent = event.detail.theme === "zx" ? "Z-X" : "Hilda";
+    }
+  });
+
+  /* ===== Expose Public API ===== */
   window.ThemeSwitcher = {
     getTheme: getTheme,
     setTheme: setTheme,
-    toggle: toggle,
-    THEMES: THEMES,
+    toggleTheme: toggleTheme,
+    VALID_THEMES: VALID_THEMES,
     DEFAULT_THEME: DEFAULT_THEME
   };
 })();

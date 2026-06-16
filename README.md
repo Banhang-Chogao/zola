@@ -297,6 +297,102 @@ Built with ❤️ by [**@duynguyenlog**](https://github.com/Banhang-Chogao) · S
 
 ---
 
+---
+
+## 🎨 Theme System (Multi-theme Architecture)
+
+Blog hiện hỗ trợ **multi-theme switching** với persistent localStorage:
+
+### Themes Available
+
+| Theme | Color Palette | Style | Font |
+|---|---|---|---|
+| **Z-X** (Default) | ZaloPay Blue (#0068FF) | Soft, fintech modern | System fonts |
+| **Hilda** (Secondary) | Ericsson Blue (#003784) | Sharp, professional | Ericsson Hilda OTF |
+
+### Adding a New Theme (Guide for Developers)
+
+#### Step 1: Create Token Files
+
+```bash
+# Create color & typography tokens
+touch sass/_mytheme-tokens.scss
+touch sass/_mytheme-fonts.scss
+```
+
+**Example: `_mytheme-tokens.scss`**
+```scss
+$mytheme-primary:      #COLOR;
+$mytheme-accent:       #COLOR;
+$mytheme-border:       #COLOR;
+$mytheme-radius-sm:    4px;
+$mytheme-shadow-sm:    0 2px 4px rgba(0,0,0,0.08);
+```
+
+#### Step 2: Define Theme Variables in `_themes.scss`
+
+```scss
+:root[data-theme="mytheme"] {
+  --c-bg-page:        #fff;
+  --c-text-heading:   #000;
+  --c-accent:         #COLOR;
+  --c-border:         #COLOR;
+  --c-shadow-md:      /* shadow value */;
+  /* ...add all 15+ CSS variables... */
+  font-family: 'Your Font', fallback, sans-serif;
+}
+```
+
+#### Step 3: Add Component Overrides in `_theme-overrides.scss`
+
+```scss
+:root[data-theme="mytheme"] {
+  @include theme-overrides(
+    $radius-card:        4px,
+    $radius-tag:         4px,
+    $shadow-card:        $mytheme-shadow-sm,
+    $shadow-card-hover:  $mytheme-shadow-lg,
+    $kicker-spacing:     0.05em,
+    $heading-ls:         -0.02em
+  );
+}
+```
+
+#### Step 4: Register in JavaScript
+
+**`static/js/theme-switcher.js`**
+```javascript
+var VALID_THEMES = ["zx", "hilda", "mytheme"];  // Add your theme here
+```
+
+#### Step 5: Update Imports
+
+**`sass/site.scss`**
+```scss
+@import "mytheme-tokens";
+@import "mytheme-fonts";  // if custom font
+```
+
+#### Step 6: Update Toggle Button
+
+**`templates/base.html`** (optional, if supporting 3+ themes)
+```html
+<!-- Dropdown or multi-choice instead of binary toggle -->
+```
+
+### Verification Checklist
+
+- [ ] All 15+ CSS variables defined (check against mixin params)
+- [ ] Color contrast ≥ 4.5:1 for normal text (WCAG AA)
+- [ ] Font loads correctly (use `font-display: swap` for OTF)
+- [ ] All component classes styled (post-card, buttons, sidebar, etc.)
+- [ ] Mobile responsive rules scoped to `@media (max-width: 720px)`
+- [ ] localStorage persists theme choice
+- [ ] Fade transition smooth (0.3s)
+- [ ] SCSS compiles without errors
+
+---
+
 `< made with rust, sass, and a lot of vanilla js />`
 
 </div>
