@@ -55,6 +55,7 @@ Format bắt buộc:
 | `SEO11` | Hybrid SEO9+SEO10: phase 1 bulk Lighthouse + phase 2 loop polish |
 | `diemtoiuu` | Python chấm điểm SEO toàn site (public/) + in báo cáo chi tiết tại chỗ |
 | `content9` | Auto chạy check_content_seo.py — soi front matter + ảnh thiếu alt trong content/ |
+| `nangcap` | Tự chọn bài cũ điểm SEO QA thấp + nâng cấp nội dung đạt chuẩn (≥85/B) |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
@@ -794,6 +795,73 @@ Phase 2 result: N iter, 0 issue remain
   thiếu items mà Google mới update.
 - `SEO11`: best-of-both. Phase 1 quick-win Lighthouse, phase 2 catch
   edge case Starter Guide mới. PR cuối có 2 section review riêng.
+
+### `nangcap` — Nâng cấp bài viết cũ đạt chuẩn SEO/AdSense QA
+
+**Mục đích**: quét lại TOÀN BỘ bài cũ bằng đúng bộ chấm điểm sẵn có
+(`scripts/seo_qa_checker.py`, thang 100đ bám tiêu chí on-page Google — cũng là
+chuẩn nội dung để qua AdSense review), tự **chọn** bài điểm thấp và **nâng cấp**
+nội dung cho đạt chuẩn. Claude TỰ QUYẾT bài nào cần sửa, không hỏi lại.
+
+Khác `content9` (chỉ soi front matter thiếu title/description/alt) và `SEO9/10/11`
+(sửa template + meta site-wide): `nangcap` **sửa thẳng nội dung bài** (`content/**/*.md`)
+để kéo điểm SEO QA từng bài lên. KHÔNG đụng template/CSS/desktop.
+
+**Cú pháp**:
+- `nangcap` — tự chọn & nâng cấp loạt bài điểm thấp nhất (mặc định tối đa **5
+  bài**/lần để PR gọn, dễ review).
+- `nangcap N` — giới hạn N bài.
+- `nangcap content/<đường-dẫn>.md` — ép nâng cấp đúng 1 bài chỉ định.
+
+**Workflow**:
+
+```
+1. Refresh DB điểm: python3 scripts/seo_qa_checker.py --all
+   → ghi data/seo-qa-scores.json (điểm + breakdown + issues mỗi bài).
+2. Đọc DB, CHỌN bài cần nâng cấp (Claude tự quyết, ưu tiên):
+   - score < 80 (hạng C/D/F) — sửa từ THẤP NHẤT lên.
+   - hoặc bài mất ≥ 1 nhóm điểm lớn: keyword (20đ), word_count (10đ),
+     description (10đ), headings (8đ).
+   - Bỏ qua bài đã ≥ 85 (hạng B+ trở lên) — coi như đạt chuẩn.
+3. Với MỖI bài đã chọn, sửa đúng tiêu chí bị mất điểm — SAFE, KHÔNG bịa:
+   - [extra] seo_keyword: suy từ khoá chính theo title/chủ đề (mở khoá 20đ).
+   - Đưa keyword vào: title (nửa đầu) · đoạn mở đầu · ≥ 1 heading H2.
+     Chỉ chỉnh nhẹ câu chữ, GIỮ NGUYÊN ý + sự thật của bài.
+   - description 50–160 ký tự, chứa keyword (không để Zola tự cắt summary).
+   - Thêm ≥ 1 internal link (@/... tới bài/section liên quan) + ≥ 1 external
+     link tới NGUỒN UY TÍN, CÓ THẬT (không bịa URL).
+   - Đảm bảo: ≥ 2 heading H2 · ≥ 3 tag · [extra] thumbnail (og:image) ·
+     mọi ảnh có alt · có date.
+   - Bài < 600 từ → viết bổ sung đoạn ĐÚNG CHỦ ĐỀ cho đủ độ sâu (không nhồi
+     keyword, không độn chữ vô nghĩa).
+   - Đoạn > 150 từ → tách nhỏ cho readability.
+   - Tuân thủ rule Category ("Tất cả" đầu mảng) + Ảnh WebP + Timezone GMT+7.
+4. Re-score bài vừa sửa (PostToolUse hook tự chấm + lưu DB). Mục tiêu mỗi bài
+   ≥ 85 (hạng B), lý tưởng ≥ 90 (A). Chưa đạt → chỉnh tiếp tới khi đạt hoặc
+   chỉ còn tiêu chí ngoài tầm safe-fix (báo lại punch list).
+5. zola build PASS (binary pin trong deploy.yml) + qa_check.py PASS.
+6. Auto commit → auto merge → auto deploy theo CLAUDE.md §"Auto hết". Build đỏ
+   → LẬP TỨC ff/ff9 cho tới xanh.
+```
+
+**Hard rules**:
+- TUYỆT ĐỐI không bịa số liệu/sự kiện/nguồn để lấy điểm — thà điểm thấp còn hơn
+  sai sự thật. external link phải là trang thật, uy tín, đúng ngữ cảnh.
+- Không đổi ý nghĩa/giọng bài gốc; chỉ bồi đắp + chuẩn hoá tín hiệu SEO.
+- `<img alt>` cần mô tả nội dung ảnh thật — nếu không suy được an toàn thì để
+  alt mô tả chung theo title, KHÔNG bịa chi tiết ảnh.
+- Mỗi bài nâng cấp = 1 commit rõ ràng (audit trail): `nangcap: <slug> C→A (76→92)`.
+
+**Output report** (≤ 250 từ):
+
+| Bài | Trước | Sau | Tiêu chí đã vá |
+|---|---|---|---|
+| baochi/f18-crash… | 70 (C) | 92 (A) | seo_keyword, internal+external link |
+| posting/zola-vs-hugo | 78 (C) | 90 (A) | description, kw_heading |
+| ... | ... | ... | ... |
+
+Cuối report: số bài đã nâng, điểm trung bình trước→sau, bài còn < 85 (nếu có)
+kèm lý do (ngoài safe-fix scope).
 
 ### `morning` — Macro chạy chuỗi tất cả shortcut
 
