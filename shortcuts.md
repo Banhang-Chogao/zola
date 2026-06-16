@@ -1107,6 +1107,52 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 ---
 
+### `bb9` — Viết bài + hẹn giờ đăng (scheduled publish n+3, buổi tối)
+
+**Mục đích**: Viết bài BẤT CỨ LÚC NÀO nhưng KHÔNG đăng ngay — lưu dạng **draft**
+và hẹn tự động đẩy lên production **3 ngày sau (n+3), vào buổi tối**, với điều
+kiện vượt qua QA gate. Đây là biến thể "hẹn giờ" của `bb`.
+
+> Về SEO/Google: Google KHÔNG có quy định bắt buộc phải trì hoãn đăng — bài mới
+> được index nhanh là tốt. Trì hoãn n+3 chỉ là buffer để review/giãn lịch đăng,
+> KHÔNG hại SEO; quan trọng hơn là đăng đều đặn (consistency). Mặc định n+3 ngày,
+> có thể chỉnh số ngày nếu user yêu cầu.
+
+**Hành động**:
+
+1. Viết lại bài y hệt quy trình `bb` (giọng cá nhân, frontmatter SEO, category
+   `["Tất cả", "<auto>", "Báo chí"]`, ảnh nội bộ → sinh `.webp` theo rule Ảnh).
+2. **Khác `bb`**: KHÔNG merge/đăng ngay. Frontmatter thêm:
+   ```toml
+   date = <ngày n+3, tức hôm nay + 3>
+   draft = true
+   [extra]
+   publish_at = "<n+3>T20:00:00+07:00"   # 20:00 buổi tối, giờ VN
+   ```
+   - `draft = true` → Zola build BỎ QUA, bài không lên site.
+   - `publish_at` = ngày viết + 3, lúc **20:00 GMT+7**.
+3. Commit draft (`feat(draft): hẹn đăng <title> lúc <publish_at>`), push + merge
+   vào `main` (draft nằm trên main vẫn AN TOÀN — không lên site vì `draft=true`).
+4. **Tự động sau đó**: workflow `scheduled-publish.yml` chạy mỗi tối (cron 20:00
+   GMT+7) → `scripts/scheduled_publish.py` flip bài tới hạn (`draft=false`, set
+   `date`, xoá `publish_at`) → nếu **PASS QA** (`qa_check.py` + Zola build) thì
+   commit + push → deploy production. **Fail QA → KHÔNG đăng**, mở issue để fix
+   (chạy `ff`).
+
+**Output summary**:
+```
+✅ Bài đã lưu draft + hẹn đăng
+📝 Slug: <slug>
+🗓️ Đăng tự động: <n+3> lúc 20:00 (GMT+7)
+🔒 Trạng thái: draft (chưa lên site)
+🤖 Gate: scheduled-publish.yml → QA pass mới lên production
+```
+
+**Đăng sớm thủ công**: chạy `python3 scripts/scheduled_publish.py` (sau khi sửa
+`publish_at` về quá khứ) hoặc trigger workflow `scheduled-publish` (workflow_dispatch).
+
+---
+
 ## 3. Workflow Auto-Heal — quy trình chuẩn
 
 Mọi action/workflow failed PHẢI đi qua pipeline 3 bước:
