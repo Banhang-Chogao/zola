@@ -1043,10 +1043,11 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 3. **Parse + analyze**:
    - Extract title, publish date (nếu có), nội dung chính
-   - Detect category từ nội dung: 
-     - "Du lịch", "Ẩm thực", "Công nghệ", "Sức khỏe" → map vào `categories.json`
-   - **BẮT BUỘC**: mọi bài sinh bằng `bb` PHẢI có category `"Báo chí"` (thêm vào
-     cùng category auto-detect, ví dụ `categories = ["Bảo hiểm", "Báo chí"]`).
+   - Detect category theo content từ nội dung:
+     - "Du lịch", "Ẩm thực", "Công nghệ", "Ngân hàng", "Thế giới", "Bảo hiểm", "Điện ảnh"… → map vào `categories.json`
+   - **BẮT BUỘC**: mọi bài sinh bằng `bb` PHẢI có category mặc định `"Tất cả"`
+     (đứng đầu) + `"Báo chí"`, kèm category auto-detect theo content. Ví dụ
+     `categories = ["Tất cả", "Bảo hiểm", "Báo chí"]`.
      Nếu category mới chưa có trong `categories.json` → thêm vào file đó.
    - Sinh slug kebab-case từ title
 
@@ -1057,19 +1058,24 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
    - Thêm internal links tới 2-3 bài liên quan nếu có
    - Output 800-1500 từ, tự nhiên Tiếng Việt
 
-5. **Build frontmatter**:
+5. **Build frontmatter** (tuân thủ rule SEO + rule Category trong CLAUDE.md):
    ```toml
    +++
-   title = "<Tiêu đề hấp dẫn ≤70 ký tự>"
+   title = "<Tiêu đề hấp dẫn 20–65 ký tự, chứa từ khoá chính>"
+   description = "<50–160 ký tự, chứa từ khoá chính>"
    date = <hôm nay>
    [taxonomies]
-   categories = ["<auto-detected>", "Báo chí"]
+   categories = ["Tất cả", "<content-category auto-detected>", "Báo chí"]
    tags = [<3-6 tags relevant>]
    [extra]
    thumbnail = "https://picsum.photos/seed/<slug>/600/400"
+   seo_keyword = "<từ khoá chính>"
    featured = false
    +++
    ```
+   - **Bắt buộc**: bài viết bằng `bb` thuộc nhánh `baochi` → LUÔN có category
+     mặc định `"Tất cả"` + `"Báo chí"`, kèm category theo content nếu detect được.
+   - Nếu không detect được content-category → chỉ `["Tất cả", "Báo chí"]`.
 
 6. **Auto-workflow**:
    - Checkout nhánh `baochi` (hoặc create nếu không tồn tại)

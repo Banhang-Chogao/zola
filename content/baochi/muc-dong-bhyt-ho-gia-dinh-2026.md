@@ -1,9 +1,9 @@
 +++
-title = "BHYT hộ gia đình từ 01/7/2026: đóng bao nhiêu, giảm trừ ra sao?"
-description = "Từ 01/7/2026 lương cơ sở tăng lên 2,53 triệu, kéo theo mức đóng BHYT hộ gia đình thay đổi. Mình giải thích cách tính, mức giảm trừ từng người và vài lưu ý thực tế."
+title = "BHYT hộ gia đình 2026: đóng bao nhiêu, giảm trừ?"
+description = "Từ 01/7/2026 lương cơ sở tăng lên 2,53 triệu, mức đóng BHYT hộ gia đình cũng đổi. Mình giải thích cách tính, mức giảm trừ từng người và vài lưu ý thực tế."
 date = 2026-06-16
 [taxonomies]
-categories = ["Bảo hiểm", "Báo chí"]
+categories = ["Tất cả", "Bảo hiểm", "Báo chí"]
 tags = ["bhyt", "bảo hiểm y tế", "hộ gia đình", "lương cơ sở", "chính sách", "tài chính cá nhân"]
 [extra]
 thumbnail = "https://picsum.photos/seed/muc-dong-bhyt-ho-gia-dinh-2026/600/400"

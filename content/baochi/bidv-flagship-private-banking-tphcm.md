@@ -1,9 +1,9 @@
 +++
-title = "Private Banking là gì? Nhìn từ chi nhánh BIDV ở Sài Gòn"
+title = "Private Banking là gì? Nhìn từ BIDV Sài Gòn"
 description = "Private Banking là gì và vì sao ngân hàng Việt đua phục vụ giới siêu giàu? Góc nhìn từ chi nhánh flagship BIDV vừa khai trương tại Sài Gòn 11/6/2026."
 date = 2026-06-16
 [taxonomies]
-categories = ["Ngân hàng", "Báo chí"]
+categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["ngân hàng", "tài chính", "private-banking", "bidv", "đầu tư"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/bidv-flagship-private-banking-tphcm.svg"

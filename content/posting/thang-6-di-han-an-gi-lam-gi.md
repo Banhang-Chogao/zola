@@ -1,11 +1,11 @@
 +++
-title = "Du lịch Hàn Quốc tháng 6: ăn gì, làm gì, thời tiết & mùa mưa"
+title = "Du lịch Hàn Quốc tháng 6: ăn gì, làm gì?"
 description = "Hướng dẫn chi tiết tháng 6 ở Hàn Quốc: trước-sau mùa mưa, festival, biển Busan-Jeju mở cửa, naengmyeon-bingsu mát lạnh, đặc sản hè không nên bỏ lỡ."
 date = 2026-06-15
 aliases = ["/thang-6-di-han-an-gi-lam-gi/"]
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["du lịch", "festival", "hàn quốc", "jeju", "korea", "mùa hè", "seoul", "tháng 6", "ẩm thực"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/thang-6-di-han-an-gi-lam-gi.svg"

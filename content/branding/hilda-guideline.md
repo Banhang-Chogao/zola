@@ -4,7 +4,7 @@ description = "Visual branding guide for Hilda theme (Ericsson Professional Styl
 date = 2026-06-16
 
 [taxonomies]
-categories = []
+categories = ["Tất cả"]
 tags = ["branding", "design-system", "hilda"]
 
 [extra]

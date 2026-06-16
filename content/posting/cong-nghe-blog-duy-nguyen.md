@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/cong-nghe-blog-duy-nguyen/"]
 
 [taxonomies]
-categories = ["Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["cms", "github actions", "tech stack", "vanilla js", "zola"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/cong-nghe-blog-duy-nguyen.svg"

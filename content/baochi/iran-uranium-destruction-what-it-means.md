@@ -2,7 +2,7 @@
 title = "Uranium Iran: từ lập trường cứng sang ngoại giao"
 date = 2026-06-16
 [taxonomies]
-categories = ["Thế giới", "Báo chí"]
+categories = ["Tất cả", "Thế giới", "Báo chí"]
 tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"

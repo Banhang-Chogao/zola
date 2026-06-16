@@ -2,6 +2,64 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO suite + fix build-related 429 + category scheme (Tất cả/Báo chí/Banking)",
+      "tag": "fix",
+      "pr": 231,
+      "lines_added": 2811,
+      "lines_removed": 74,
+      "highlights": [
+        "build-related.yml fail liên tục vì transformers bản mới gọi HF Hub API online → 429 Too Many Requests.",
+        "Fix: scripts/build_related.py nạp model từ cache cục bộ (snapshot_download(local_files_only=True)) → transformers coi là local, bỏ qua call online. Cold cache → fallback online + retry backoff.",
+        "Đổi Posting → Tất cả (mặc định mọi bài); thêm Báo chí (mặc định bài viết qua phím tắt bb/nhánh baochi).",
+        "Giữ category theo content: Banking, Công nghệ, Du lịch, Ẩm thực.",
+        "Sửa 2 bài công nghệ bị gắn nhầm Ẩm thực → Công nghệ."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "SEO11 + fix menu: rút 12 title về ≤65 ký tự + Banking→Ngân hàng (hết 404)",
+      "tag": "fix",
+      "pr": 235,
+      "lines_added": 129,
+      "lines_removed": 19,
+      "highlights": [
+        "zola build ✅ · qa_check.py ✅ All QA checks passed",
+        "seo_score.py: 100.0/100, 0 trang lỗi",
+        "Menu: /categories/ngan-hang/ tồn tại, /categories/banking không còn → hết 404"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "SEO: thêm 6 bài backlog (Zola/CI · du lịch Hàn · ẩm thực) + ảnh bìa",
+      "tag": "chore",
+      "pr": 234,
+      "lines_added": 600,
+      "lines_removed": 1,
+      "highlights": [
+        "tu-dong-deploy-zola-github-actions — giải thích deploy.yml từng dòng",
+        "zola-vs-hugo — so sánh (định dạng bắt featured snippet)",
+        "di-han-mua-nao-re-nhat — xếp hạng 12 tháng theo giá/thời tiết (góc ngân sách)",
+        "di-han-het-bao-nhieu-tien — bóc chi phí Seoul–Busan 6 ngày (content gap)",
+        "troi-mua-sai-gon-an-gi — seasonal mùa mưa, cạnh tranh thấp"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "feat(baochi): Thêm category \"Bảo hiểm\" + \"Báo chí\", gắn \"Báo chí\" cho mọi bài bb",
+      "tag": "chore",
+      "pr": 233,
+      "lines_added": 15,
+      "lines_removed": 10,
+      "highlights": [
+        "categories.json: thêm \"Bảo hiểm\" và \"Báo chí\".",
+        "Gắn \"Báo chí\" vào tất cả bài trong content/baochi/ (9 bài), giữ nguyên category gốc — ví dụ [\"Ngân hàng\", \"Báo chí\"], [\"Thế giới\", \"Báo chí\"], [\"Bảo hiểm\", \"Báo chí\"].",
+        "Cập nhật rule shortcut bb trong shortcuts.md: từ nay mọi bài bb mặc định có \"Báo chí\", và nếu category mới chưa có trong categories.json thì tự thêm.",
+        "Build Zola xanh; trang taxonomy categories/bao-chi gom đủ các bài báo.",
+        "QA check (qa.yml) pass."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Add article — Mức đóng BHYT hộ gia đình từ 01/7/2026",
       "tag": "feat",
       "pr": 232,

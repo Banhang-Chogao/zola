@@ -99,6 +99,42 @@ def load_posts():
     return posts
 
 
+def load_model(name: str):
+    """Nạp SBERT model resilient với lỗi HF Hub 429 (Too Many Requests).
+
+    transformers bản mới gọi model_info() ONLINE (qua _patch_mistral_regex /
+    is_base_mistral) mỗi khi nhận repo-id → schedule chạy dày dễ dính 429, fail
+    cả build. Workaround độc lập version: resolve snapshot model từ CACHE CỤC BỘ
+    (đã được actions/cache khôi phục) rồi nạp bằng ĐƯỜNG DẪN local → transformers
+    coi là local, BỎ QUA hẳn call online. Cold cache → tải online + retry backoff.
+    """
+    import time
+    from huggingface_hub import snapshot_download
+
+    # 1. Ưu tiên cache cục bộ — 0 network call, tránh 429 hoàn toàn.
+    try:
+        local_dir = snapshot_download(name, local_files_only=True)
+        print(f"Model load từ cache cục bộ: {local_dir}")
+        return SentenceTransformer(local_dir)
+    except Exception as e:
+        print(f"Chưa có cache cục bộ ({e}); chuyển sang tải online + retry...",
+              file=sys.stderr)
+
+    # 2. Cold cache: tải online, retry exponential backoff khi gặp 429/lỗi mạng.
+    last_err = None
+    for attempt in range(1, 5):
+        try:
+            local_dir = snapshot_download(name)
+            return SentenceTransformer(local_dir)
+        except Exception as e:
+            last_err = e
+            wait = 2 ** attempt
+            print(f"Tải model lần {attempt} lỗi: {e}; chờ {wait}s rồi thử lại...",
+                  file=sys.stderr)
+            time.sleep(wait)
+    raise RuntimeError(f"Không nạp được model sau 4 lần thử: {last_err}")
+
+
 def main():
     posts = load_posts()
     print(f"Loaded {len(posts)} posts.")
@@ -110,7 +146,7 @@ def main():
         return
 
     print(f"Loading model: {MODEL_NAME}")
-    model = SentenceTransformer(MODEL_NAME)
+    model = load_model(MODEL_NAME)
 
     print("Encoding...")
     embeddings = model.encode(

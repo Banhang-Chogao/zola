@@ -1,0 +1,308 @@
+/* ============================================================
+   ===== BẢNG VÀNG SEO =====
+   ============================================================
+   Trang liệt kê điểm SEO từng bài viết (data/seo-qa-scores.json).
+   UI/UX tuân thủ Hilda Guideline (Ericsson Professional Style):
+   - Ericsson Blue #003784 · Teal #00a69d · CTA Red #e30613
+   - border-radius: 4px · spacing 8px base
+   - shadow resting 0 2px 4px rgba(0,55,132,.08) / hover 0 8px 16px ...,.12
+   - font Ericsson Hilda (kế thừa từ body) */
+
+$seo-blue:      #003784;
+$seo-blue-dk:   #002566;
+$seo-teal:      #00a69d;
+$seo-red:       #e30613;
+$seo-amber:     #92760a;
+$seo-orange:    #c2660a;
+$seo-ink:       #333333;
+$seo-muted:     #666666;
+$seo-border:    #e0e0e0;
+$seo-fog:       #f4f4f4;
+
+.seo-board {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 8px 0 40px;
+    color: $seo-ink;
+
+    /* ===== Header ===== */
+    &__title-row {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    &__title {
+        font-size: 32px;
+        font-weight: 700;
+        color: $seo-blue;
+        letter-spacing: -0.02em;
+        margin: 0;
+    }
+
+    &__count {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #fff;
+        background: $seo-teal;
+        padding: 6px 12px;
+        border-radius: 4px;
+    }
+
+    &__desc {
+        font-size: 16px;
+        line-height: 1.6;
+        color: $seo-muted;
+        margin: 16px 0 24px;
+        max-width: 720px;
+    }
+
+    /* ===== Thẻ tổng quan ===== */
+    &__summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    &__stat {
+        background: #fff;
+        border: 1px solid $seo-border;
+        border-radius: 4px;
+        padding: 24px 16px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+            box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+            transform: translateY(-2px);
+        }
+    }
+
+    &__stat-num {
+        display: block;
+        font-size: 32px;
+        font-weight: 800;
+        color: $seo-blue;
+        line-height: 1.1;
+    }
+
+    &__stat-label {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: $seo-muted;
+    }
+
+    /* ===== Điều khiển ===== */
+    &__controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    &__sort-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: $seo-ink;
+    }
+
+    &__select {
+        font: inherit;
+        font-size: 14px;
+        color: $seo-ink;
+        background: #fff;
+        border: 1px solid $seo-border;
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: $seo-blue;
+        }
+    }
+
+    /* ===== Bảng ===== */
+    &__table-wrap {
+        overflow-x: auto;
+        border: 1px solid $seo-border;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+        background: #fff;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+    }
+
+    &__th {
+        text-align: left;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #fff;
+        background: $seo-blue;
+        padding: 12px 16px;
+        white-space: nowrap;
+
+        &--rank { width: 44px; text-align: center; }
+        &--num { width: 64px; text-align: right; }
+        &--score { width: 180px; }
+        &--grade { width: 72px; text-align: center; }
+        &--action { width: 56px; text-align: center; }
+    }
+
+    &__row {
+        border-top: 1px solid $seo-border;
+        transition: background 0.3s ease;
+
+        &:hover { background: $seo-fog; }
+    }
+
+    &__td {
+        padding: 12px 16px;
+        vertical-align: middle;
+
+        &--rank { text-align: center; color: $seo-muted; font-weight: 600; }
+        &--num { text-align: right; color: $seo-muted; font-variant-numeric: tabular-nums; }
+        &--grade { text-align: center; }
+        &--action { text-align: center; }
+    }
+
+    &__link {
+        color: $seo-blue;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover { color: $seo-teal; text-decoration: underline; }
+    }
+
+    &__kw {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        color: $seo-muted;
+    }
+
+    /* ===== Thanh điểm ===== */
+    &__bar-wrap {
+        position: relative;
+        display: block;
+        height: 22px;
+        background: $seo-fog;
+        border-radius: 4px;
+        overflow: hidden;
+        min-width: 120px;
+    }
+
+    &__bar {
+        position: absolute;
+        inset: 0 auto 0 0;
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.6s ease;
+
+        &--a { background: $seo-teal; }
+        &--b { background: $seo-blue; }
+        &--c { background: $seo-amber; }
+        &--d { background: $seo-orange; }
+        &--f { background: $seo-red; }
+    }
+
+    &__bar-val {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        color: $seo-blue;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== Badge hạng ===== */
+    &__grade {
+        display: inline-block;
+        min-width: 32px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+
+        &--a { background: $seo-teal; }
+        &--b { background: $seo-blue; }
+        &--c { background: $seo-amber; }
+        &--d { background: $seo-orange; }
+        &--f { background: $seo-red; }
+    }
+
+    /* ===== Nút mở ===== */
+    &__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        background: $seo-blue;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        transition: background 0.3s ease;
+
+        &:hover { background: $seo-blue-dk; }
+    }
+
+    &__updated {
+        margin-top: 16px;
+        font-size: 12px;
+        color: $seo-muted;
+        text-align: right;
+    }
+
+    &__empty {
+        padding: 40px;
+        text-align: center;
+        color: $seo-muted;
+        background: $seo-fog;
+        border: 1px solid $seo-border;
+        border-radius: 4px;
+    }
+}
+
+/* ===== MOBILE (≤ 720px) ===== */
+@media (max-width: 720px) {
+    .seo-board {
+        &__title { font-size: 26px; }
+
+        &__summary {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        &__stat { padding: 16px; }
+        &__stat-num { font-size: 26px; }
+
+        &__table { font-size: 14px; }
+        &__th, &__td { padding: 10px 10px; }
+        &__kw { display: none; }
+    }
+}
