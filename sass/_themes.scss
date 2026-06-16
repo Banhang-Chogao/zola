@@ -1,10 +1,9 @@
 /* ============================================================
-   ===== DYNAMIC THEME SWITCHING — CSS CUSTOM PROPERTIES =====
+   ===== DYNAMIC THEME — Z-X (ZaloPay · fintech blue) ONLY =====
    ============================================================
-   2 theme: BrandingX (MoMo style, default :root) và Z-X (ZaloPay
-   style, :root[data-theme="zx"]).
+   Single theme system: Z-X (ZaloPay style, :root).
 
-   Quy ước đặt tên semantic (không bound chặt brand):
+   Semantic token naming (consistent across themes):
    - --c-bg-page       : page background
    - --c-bg-surface    : card / panel surface
    - --c-bg-soft       : tinted soft bg (hover, callout)
@@ -19,53 +18,10 @@
    - --c-border-strong : table border, input border
    - --c-shadow-md     : card shadow
    - --c-shadow-lg     : hover lift shadow
+*/
 
-   Mỗi token chứa cùng SEMANTIC role nhưng VALUE thay đổi theo theme.
-   Khi user toggle, attribute data-theme="zx" trên <html> kích hoạt
-   block override → toàn site đổi màu runtime.
-
-   Hardcoded fallback hex value vẫn giữ trong _brand-vars.scss và
-   _zx-tokens.scss để các SCSS file legacy chưa migrate dùng
-   được — không break gì. */
-
-/* ===== BrandingX (MoMo) — DEFAULT theme ===== */
+/* ===== Z-X (ZaloPay · fintech blue) — SINGLE THEME ===== */
 :root {
-  /* Surface */
-  --c-bg-page:        #f8fafc;  /* $brand-mist */
-  --c-bg-surface:     #ffffff;  /* $brand-snow */
-  --c-bg-soft:        #f1f5f9;  /* $brand-fog */
-
-  /* Text hierarchy */
-  --c-text-heading:   #0f172a;  /* $brand-ink-900 */
-  --c-text-body:      #1e293b;  /* $brand-ink-800 */
-  --c-text-muted:     #64748b;  /* $brand-ink-500 */
-
-  /* Accent (primary CTA + link) */
-  --c-accent:         #d63d3d;  /* $brand-signal-red */
-  --c-accent-hover:   #b8302d;  /* $brand-signal-red-dk */
-  --c-accent-soft:    rgba(214, 61, 61, 0.1);
-
-  /* Decoration (tag, secondary highlight) */
-  --c-decoration:     #ec4899;  /* $brand-hot-pink */
-
-  /* Border */
-  --c-border:         #ececec;  /* $brand-edge */
-  --c-border-strong:  #e2e8f0;  /* $brand-edge-strong */
-
-  /* Shadow (neutral tint) */
-  --c-shadow-md:      0 4px 12px rgba(0, 0, 0, 0.06);
-  --c-shadow-lg:      0 12px 32px rgba(0, 0, 0, 0.1);
-
-  /* Status (giữ chung 2 theme) */
-  --c-success:        #047a3f;
-  --c-warning:        #92760a;
-
-  /* Focus ring (a11y) */
-  --c-focus-ring:     rgba(214, 61, 61, 0.35);
-}
-
-/* ===== Z-X (ZaloPay) — OVERRIDE khi data-theme="zx" ===== */
-:root[data-theme="zx"] {
   /* Surface — blue tint subtle */
   --c-bg-page:        #f5f8ff;  /* $zx-mist */
   --c-bg-surface:     #ffffff;  /* $zx-snow */
@@ -98,18 +54,13 @@
 
   /* Focus ring */
   --c-focus-ring:     rgba(0, 104, 255, 0.35);
-}
 
-/* ===== Smooth transition khi user toggle theme =====
-   Áp lên các property thay đổi cho UX mượt. Scope vào body để
-   tránh transition individual element gây jank.
-
-   color-scheme: native form controls (scrollbar, autofill) auto
-   match theme. */
-:root {
+  /* Color scheme for native form controls */
   color-scheme: light;
 }
 
+/* ===== Smooth transitions when theme properties change =====
+   Applied to body for smooth UX. */
 body {
   transition:
     background-color 0.25s ease,
@@ -123,204 +74,4 @@ button {
     background-color 0.2s ease,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
-}
-
-/* ===== E-X (Ericsson Newsroom) — OVERRIDE khi data-theme="ex" =====
-   Corporate newsroom aesthetic: energy blue accent, high-contrast
-   black-on-white (ex-ink-1000), sharp corners (radius 4px), generous
-   whitespace. Tokens tham chiếu từ PR #140 (_ex-tokens.scss). */
-:root[data-theme="ex"] {
-  /* Surface — very subtle off-white (corporate clean) */
-  --c-bg-page:        #FAFAFA;  /* $ex-mist */
-  --c-bg-surface:     #FFFFFF;  /* $ex-snow */
-  --c-bg-soft:        #F2F2F2;  /* $ex-fog */
-
-  /* Text — near-pure black contrast (editorial) */
-  --c-text-heading:   #0C0C0C;  /* $ex-ink-1000 */
-  --c-text-body:      #242424;  /* $ex-ink-800 */
-  --c-text-muted:     #707070;  /* $ex-ink-500 */
-
-  /* Accent — Ericsson Energy Blue (north star signal) */
-  --c-accent:         #1174E5;  /* $ex-blue-600 */
-  --c-accent-hover:   #0058A3;  /* $ex-blue-800 */
-  --c-accent-soft:    rgba(17, 116, 229, 0.1);
-
-  /* Decoration — Energy Yellow (restrained highlight) */
-  --c-decoration:     #FFCD00;  /* $ex-yellow */
-
-  /* Border — corporate sharper than Z-X */
-  --c-border:         #E5E5E5;  /* $ex-edge */
-  --c-border-strong:  #CCCCCC;  /* $ex-edge-strong */
-
-  /* Shadow — very light (whitespace + borders do depth) */
-  --c-shadow-md:      0 6px 18px rgba(12, 12, 12, 0.08);
-  --c-shadow-lg:      0 16px 40px rgba(17, 116, 229, 0.12);
-
-  /* Status — E-X specific (green for sustainability) */
-  --c-success:        #00853E;  /* $ex-green */
-  --c-warning:        #E32C25;  /* $ex-red (breaking news alert) */
-
-  /* Focus ring */
-  --c-focus-ring:     rgba(17, 116, 229, 0.35);
-}
-
-/* ===== Hila Ericsson (SPECIAL VARIANT) — OVERRIDE khi data-theme="hila" =====
-   Hila = E-X + signature black border hover (--c-border-strong: #0C0C0C).
-   Tất cả token khác kế thừa từ E-X, chỉ override border & heading tone
-   thêm black để "Hila sharp" uniqueness. */
-:root[data-theme="hila"] {
-  /* Inherit E-X surface & text base */
-  --c-bg-page:        #FAFAFA;
-  --c-bg-surface:     #FFFFFF;
-  --c-bg-soft:        #F2F2F2;
-  --c-text-heading:   #0C0C0C;
-  --c-text-body:      #242424;
-  --c-text-muted:     #707070;
-
-  /* Accent — Energy Blue (same as E-X) */
-  --c-accent:         #1174E5;
-  --c-accent-hover:   #0058A3;
-  --c-accent-soft:    rgba(17, 116, 229, 0.1);
-
-  /* Decoration — Energy Yellow (same as E-X) */
-  --c-decoration:     #FFCD00;
-
-  /* Border — Hila SIGNATURE: pure black hover border (editorial bite) */
-  --c-border:         #E5E5E5;
-  --c-border-strong:  #0C0C0C;  /* ← Hila's signature: near-pure black */
-
-  /* Shadow (same as E-X) */
-  --c-shadow-md:      0 6px 18px rgba(12, 12, 12, 0.08);
-  --c-shadow-lg:      0 16px 40px rgba(17, 116, 229, 0.12);
-
-  /* Status (same as E-X) */
-  --c-success:        #00853E;
-  --c-warning:        #E32C25;
-
-  /* Focus ring (same as E-X) */
-  --c-focus-ring:     rgba(17, 116, 229, 0.35);
-}
-
-/* Anti-flash safety: nếu JS disabled hoặc localStorage thất bại,
-   default theme = BrandingX (không có data-theme attribute). */
-
-/* ============================================================
-   ===== HILA ERICSSON — STRUCTURAL OVERRIDES =====
-   ============================================================
-   Vượt phạm vi color: sharp 4px border-radius, kicker spacing
-   wide 0.14em, near-black border hover → Hila signature gravity
-   newsroom corporate. Tất cả rule scoped dưới :root[data-theme="hila"]
-   → không ảnh hưởng BrandingX/Z-X/E-X.
-
-   Quy tắc CLAUDE.md tuân thủ: zero touch html/body/* global;
-   chỉ override component class khi data-theme="hila" active. */
-
-:root[data-theme="hila"] {
-  /* Post card grid (home, category lists) — sharp + black border hover */
-  .post-card {
-    border: 1px solid var(--c-border);
-    border-radius: 4px;
-    transition: border-color .18s ease, box-shadow .18s ease;
-
-    &:hover {
-      border-color: var(--c-border-strong);   /* near-black #0C0C0C signature */
-      box-shadow: var(--c-shadow-lg);
-    }
-
-    &__title { letter-spacing: -0.025em; }
-  }
-
-  /* Cat-tag badge (thumbnail) — wide newsroom kicker */
-  .cat-tag {
-    background: var(--c-accent);              /* Energy Blue thay Hot Pink */
-    border-radius: 2px;
-    letter-spacing: 0.14em;                   /* wide kicker */
-  }
-
-  /* Read-more button */
-  .read-more {
-    border-radius: 2px;
-    letter-spacing: 0.14em;
-  }
-
-  /* Sidebar block + label flag */
-  .sidebar-block {
-    border: 1px solid var(--c-border);
-    border-radius: 4px;
-  }
-
-  .sidebar-label {
-    letter-spacing: 0.14em;                   /* Ericsson kicker spacing */
-    border-radius: 2px;
-  }
-
-  /* Random + featured titles — tight heading */
-  .featured-card__title,
-  .random-item__title { letter-spacing: -0.025em; }
-
-  /* Related card */
-  .related-card {
-    border: 1px solid var(--c-border);
-    border-radius: 4px;
-
-    &:hover { border-color: var(--c-border-strong); }
-
-    &__title { letter-spacing: -0.025em; }
-
-    &__cat {
-      background: var(--c-accent);
-      border-radius: 2px;
-      letter-spacing: 0.14em;
-    }
-  }
-
-  /* Tag list (article footer) */
-  .tag-list__label { letter-spacing: 0.14em; }
-  .tag-list__tag   { border-radius: 2px; }
-
-  /* Post single body */
-  .post-single {
-    border-radius: 4px;
-
-    &__title { letter-spacing: -0.025em; }
-  }
-
-  /* Section header (taxonomy + category list page) */
-  .section-header__title { letter-spacing: -0.025em; }
-
-  /* Site header */
-  .site-title { letter-spacing: -0.025em; }
-
-  /* Footer tag cards */
-  .tag-card { border-radius: 2px; }
-
-  /* Author box */
-  .author-box {
-    border: 1px solid var(--c-border);
-    border-radius: 4px;
-
-    &__name { letter-spacing: -0.025em; }
-  }
-
-  /* Pagination */
-  .pagination__btn { border-radius: 2px; }
-}
-
-/* ============================================================
-   ===== MOBILE (≤ 720px) — Hila spacing rút tránh overflow =====
-   ============================================================ */
-@media (max-width: 720px) {
-  :root[data-theme="hila"] {
-    .cat-tag,
-    .sidebar-label,
-    .tag-list__label,
-    .read-more { letter-spacing: 0.08em; }
-
-    .post-card__title,
-    .post-single__title,
-    .section-header__title,
-    .site-title,
-    .related-card__title,
-    .author-box__name { letter-spacing: -0.015em; }
-  }
 }

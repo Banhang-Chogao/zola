@@ -2,6 +2,30 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Add manu9 PR approval shortcut",
+      "tag": "feat",
+      "pr": 162,
+      "lines_added": 204,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Blog Security Guide — Backup, Bảo vệ Editor, Dependabot, DDoS",
+      "tag": "chore",
+      "pr": 160,
+      "lines_added": 973,
+      "lines_removed": 0,
+      "highlights": [
+        "Git history = tự động backup mỗi commit",
+        "Recover trong <2 phút nếu sự cố",
+        "Hiện tại: Static (no login) → An toàn",
+        "3 options login nếu cần tương lai (Supabase, Netlify, Custom Backend)",
+        ".github/dependabot.yml: Cargo + GitHub Actions updates"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "HOTFIX: Guard section.title null (deploy đỏ Phase 1-4)",
       "tag": "chore",
       "pr": 159,

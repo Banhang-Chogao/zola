@@ -876,6 +876,114 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 
 **Scope mặc định**: 20 run gần nhất trên `main`. Kèm context (e.g., `run list deploy.yml`) → filter theo workflow đó.
 
+### `manu9` — Auto-approve tất cả PRs do Claude tạo
+
+**Mục đích**: Batch approve PRs pending do Claude/automation tạo, chuẩn bị cho merge.
+
+**Hành động**:
+1. List tất cả open PRs (`mcp__github__list_pull_requests state=open`)
+2. Filter PRs có author = `github-actions[bot]` hoặc branch name chứa `claude/`
+3. Submit approval review cho mỗi PR:
+   - Method: `pull_request_review_write` với event=`APPROVE`
+   - Body: "✅ Approved by automation"
+4. Output bảng tóm tắt:
+
+| PR | Title | Author | Status |
+|---|---|---|---|
+| #X | ... | github-actions[bot] | ✅ Approved |
+| #Y | ... | claude/* | ✅ Approved |
+
+**Scope**: Chỉ approve PRs do **automation/Claude** tạo, KHÔNG approve manual PRs từ user.
+
+**Output cuối**: "N PRs approved. Sẵn sàng merge với `prm` hoặc `manual #X`."
+
+KHÔNG auto-merge — chỉ approve, user quyết định merge.
+
+### `prn` — PR Now (Create feature branch + PR to staging)
+
+**Mục đích**: Tạo feature branch riêng từ uncommitted/current changes, push PR vào staging (KHÔNG main).
+
+**Hành động**:
+
+1. **Detect current state**:
+   - Kiểm tra current branch (thường là main hoặc dev)
+   - Scan commits chưa push (hoặc chưa có PR)
+   - Generate tên branch: `claude/<description>-<random>` từ last commit
+
+2. **Tạo feature branch**:
+   - Checkout branch mới: `git checkout -b claude/...`
+   - Copy commits từ current → feature branch
+   - Push feature branch lên remote
+
+3. **Tạo PR**:
+   - Title: last commit message (≤70 chars)
+   - Body: list commits + "ready for staging review"
+   - **Base branch: `staging` hoặc `develop`** (KHÔNG main)
+   - Status: **pending** (không auto-merge)
+
+4. **Output**:
+
+```
+✅ Feature branch created: claude/feature-abc123
+✅ PR #X created → staging (chờ review)
+   Manage: https://github.com/.../pull/X
+```
+
+**Workflow**:
+```
+main (stable)
+  ↓ (user gõ `prn`)
+claude/feature-abc (develop/test)
+  ↓ (PR to staging for review)
+staging (test before main)
+  ↓ (after review, manual merge to main)
+main (production)
+```
+
+**NOT auto-merge** — giữ pending, user `manual #X` → merge staging → main.
+
+### `ff9` — Smart Conflict Resolver (Python-powered)
+
+**Mục đích**: Tự động detect + analyze + resolve git conflicts trong open PRs.
+
+**Hành động**:
+
+1. **Scan conflicts**:
+   - List tất cả open PRs
+   - Checkout từng branch, merge main → detect conflicts
+   - Report PRs có conflicts
+
+2. **Analyze conflicts** (Python):
+   - Dùng `libparse` / `ast` để parse conflicted files (JSON, TOML, Python, JS)
+   - Identify conflict pattern:
+     - **Merge conflict markers** (`<<<<<<<`, `=======`, `>>>>>>>`)
+     - **Type**: Content conflict vs structural (Schema) conflict
+     - **Severity**: Safe (whitespace/comment) vs Risky (logic)
+   - Suggest resolution strategy:
+     - `OURS` (keep main) / `THEIRS` (keep branch)
+     - `MANUAL` (require human review)
+
+3. **Auto-resolve** (safe patterns only):
+   - Whitespace/formatting conflicts → normalize
+   - TOML/JSON schema conflicts → merge-tool guided
+   - Comment/doc conflicts → keep both
+   - Code logic conflicts → escalate MANUAL
+
+4. **Apply fixes**:
+   - Commit resolve + push lên branch
+   - Trigger GitHub to re-check merge status
+
+5. **Output report**:
+
+| PR | Branch | Files with conflict | Strategy | Status |
+|---|---|---|---|---|
+| #X | claude/foo | config.toml | AUTO (TOML merge) | ✅ Resolved |
+| #Y | claude/bar | site.scss (2x) | MANUAL (logic) | ⚠️ Escalated |
+
+**Final summary**: "X conflicts resolved auto, Y require manual review. Ready to merge."
+
+**Safe fallback**: Nếu conflict quá phức tạp → output diff + escalate user manual review.
+
 ---
 
 ## 3. Workflow Auto-Heal — quy trình chuẩn
