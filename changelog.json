@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Banking category + bài blog MSB Digital Bank ra mắt thay mBank",
+      "tag": "feat",
+      "pr": 224,
+      "lines_added": 55,
+      "lines_removed": 0,
+      "highlights": [
+        "Tạo category mới \"Banking\": thêm vào dropdown menu Bài viết trong config.toml (/categories/banking).",
+        "Viết bài blog SEO về sự kiện MSB chính thức ra mắt MSB Digital Bank thay thế app mBank từ 01/06/2026 — đặt trong content/baochi/msb-digital-bank-ra-mat-thay-mbank.md với categories = [\"Banking\"] để kí",
+        "Từ khoá chính MSB Digital Bank đặt ngay H2 đầu tiên.",
+        "Long-tail làm H2 riêng: cách chuyển từ mBank, xác thực lại CCCD, khi nào mBank ngừng hoạt động.",
+        "Slug banking, tags: ngân hàng, tài chính, msb, msb-digital-bank, ngân hàng số."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "SEO: thêm mã xác minh Google Search Console",
       "tag": "chore",
       "pr": 223,
