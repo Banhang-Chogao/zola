@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "QA dashboard: hiển thị số liệu thật cho card Performance & Security",
+      "tag": "security",
+      "pr": 217,
+      "lines_added": 89,
+      "lines_removed": 10,
+      "highlights": [
+        "Performance Audit → Cron CN 02:00 UTC",
+        "Security Scan → pip-audit + gitleaks",
+        "Performance: đọc điểm Lighthouse từ data/pagespeed.json (ưu tiên desktop, fallback mobile khi free-API throttle về 0) + ngày updated_at.",
+        "Security: đọc số CVE + secret leak từ data/security.json.",
+        "PR Activity: sửa ngày ISO rò ra ngoài → dd/mm/yyyy + Asia/Ho_Chi_Minh."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Thêm bài: chọn ngách nội dung giữ chân người đọc",
       "tag": "chore",
       "pr": 216,
