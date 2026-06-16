@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Hybrid 4-theme system: Z-X / E-X / Hila Ericsson trên kiến trúc --c-* của main",
+      "tag": "chore",
+      "pr": 140,
+      "lines_added": 158,
+      "lines_removed": 37,
+      "highlights": [
+        "sass/_themes.scss — extend 2→4 theme + structural tokens (radius, kicker-ls, heading-ls, border-hover)",
+        "static/js/theme-switcher.js — THEMES array cycle 4, dynamic aria-label, querySelectorAll labels",
+        "templates/base.html — FOUC accept ex/hila, thêm 2 SVG icon button (E-X square, Hila newspaper)",
+        "sass/_sidebar.scss (16 instances)",
+        "sass/_single.scss (4 instances — table, footer dashed border, related title)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Phase 2: Refactor theme-switcher.js → 4-option dropdown",
       "tag": "refactor",
       "pr": 152,
