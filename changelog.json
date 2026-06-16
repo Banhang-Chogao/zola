@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO Phase 1: FAQ block + FAQPage & BreadcrumbList schema",
+      "tag": "chore",
+      "pr": 227,
+      "lines_added": 261,
+      "lines_removed": 0,
+      "highlights": [
+        "base.html: thêm 2 khối JSON-LD",
+        "BreadcrumbList (Trang chủ → Section → Bài) cho mọi trang bài.",
+        "FAQPage sinh tự động từ page.extra.faq.",
+        "page.html: render block \"Câu hỏi thường gặp\" (accordion <details>, không cần JS) cuối bài.",
+        "sass/_faq.scss: style component FAQ (component mới, không đụng selector global — tuân thủ rule CSS)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "chiến lược SEO + bộ từ khoá (Công nghệ/Du lịch Hàn/Ẩm thực/Ngân hàng)",
       "tag": "chore",
       "pr": 226,
