@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO: tự động ping IndexNow (Bing/Yandex/Seznam/Naver/DuckDuckGo) khi đăng bài",
+      "tag": "chore",
+      "pr": 225,
+      "lines_added": 156,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/indexnow.py — gom URL (trang chủ + /posting/ + mọi bài posting/ & baochi/) → POST api.indexnow.org (1 endpoint fan-out mọi engine). Best-effort: lỗi mạng/HTTP không làm fail workflow. Có --dry",
+        ".github/workflows/indexnow.yml — trigger khi push content/posting/ hoặc content/baochi/ vào main (đúng lúc \"viết bài xong\") + workflow_dispatch để chạy tay.",
+        "static/<key>.txt — file xác minh sở hữu host cho IndexNow (key đặt dưới /zola/ → keyLocation hợp lệ cho mọi URL submit).",
+        "✅ Dry-run gom đúng 16 URL; keyLocation = …/zola/<key>.txt",
+        "✅ Build serve key file tại /zola/<key>.txt (nội dung == key)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Banking category + bài blog MSB Digital Bank ra mắt thay mBank",
       "tag": "feat",
       "pr": 224,
