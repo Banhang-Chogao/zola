@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "chore(ci): throttle build-related cron 5min→1h, xoá auto-throttle.yml (đang fail)",
+      "tag": "remove",
+      "pr": 259,
+      "lines_added": 4,
+      "lines_removed": 55,
+      "highlights": [
+        "build-related.yml: cron '/5    ' → '0    *' (mỗi giờ — đủ tươi cho related posts, KHÔNG đốt quota Actions: trước đây ~576 min/ngày dễ vượt free tier).",
+        "Xoá hẳn auto-throttle.yml (đã hết tác dụng + đang fail).",
+        "qa_check.py pass.",
+        "build-related.yml YAML hợp lệ, cron mới 0    .",
+        "Không workflow nào còn phụ thuộc auto-throttle."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "perf-audit fixer bỏ qua &lt;img&gt; trong comment + fallback ảnh lỗi → placeholder",
       "tag": "fix",
       "pr": 258,
