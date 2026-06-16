@@ -461,8 +461,12 @@
             </div>
 
             {% block sidebar %}
-                {# Bài viết sống trong section content/posting/, không phải root #}
-                {% set root = get_section(path="posting/_index.md") %}
+                {# HOTFIX: gộp bài từ mọi section (posting/, baochi/, …) + sort ngày
+                   giảm dần → sidebar (featured/random/JSON) phản ánh đúng MỌI bài,
+                   đồng bộ với trang chủ. #}
+                {% set s_posting = get_section(path="posting/_index.md") %}
+                {% set s_baochi = get_section(path="baochi/_index.md") %}
+                {% set root_pages = s_posting.pages | concat(with=s_baochi.pages) | sort(attribute="date") | reverse %}
 
                 {#
                     Inject toàn bộ metadata bài viết vào JSON inline để JS pick featured/random
@@ -470,7 +474,7 @@
                 #}
                 <script type="application/json" id="posts-data">
                 [
-                {%- for page in root.pages -%}
+                {%- for page in root_pages -%}
                     {
                         "title": {{ page.title | json_encode | safe }},
                         "permalink": {{ page.permalink | json_encode | safe }},
@@ -484,18 +488,13 @@
                 </script>
 
                 <aside class="sidebar">
-                    {# FEATURED POST — Zola Tera so sánh '>' yêu cầu number,
-                       featured_at là ISO string → fail. Đơn giản hoá: lấy
-                       featured đầu tiên theo thứ tự root.pages (đã sort date
-                       desc default → bài featured mới nhất tự lên top). #}
+                    {# FEATURED = bài mới nhất (auto) → đồng bộ hero trang chủ; tự
+                       nhường chỗ khi có bài mới hơn. Gỡ thủ công: extra.unfeatured=true. #}
                     {% set_global featured = false %}
-                    {% for page in root.pages %}
-                        {% if page.extra.featured and not featured %}
-                            {% set_global featured = page %}
-                        {% endif %}
+                    {% for page in root_pages %}
+                        {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
                     {% endfor %}
-                    {# Cuối cùng: nếu không có bài featured nào, lấy bài mới nhất #}
-                    {% if not featured %}{% set_global featured = root.pages | first %}{% endif %}
+                    {% if not featured %}{% set_global featured = root_pages | first %}{% endif %}
 
                     <section class="sidebar-block" data-widget="featured">
                         <h3 class="sidebar-label">FEATURED POST</h3>
@@ -525,7 +524,7 @@
                     <section class="sidebar-block" data-widget="random">
                         <h3 class="sidebar-label">RANDOM POSTS</h3>
                         <ul class="random-list" data-target="random">
-                            {% for page in root.pages | slice(end=5) %}
+                            {% for page in root_pages | slice(end=5) %}
                                 <li class="random-item">
                                     {% if page.extra.thumbnail %}
                                         <a class="random-item__image" href="{{ page.permalink }}">
@@ -588,6 +587,10 @@
         {% set qa_changelog_items = [] %}
         {% if qa_changelog and qa_changelog.items %}{% set_global qa_changelog_items = qa_changelog.items %}{% endif %}
         {% set qa_posts = get_section(path="posting/_index.md") %}
+        {% set qa_baochi = get_section(path="baochi/_index.md") %}
+        {% set qa_n_posting = qa_posts.pages | length %}
+        {% set qa_n_baochi = qa_baochi.pages | length %}
+        {% set qa_posts_total = qa_n_posting + qa_n_baochi %}
         {% set qa_cats = get_taxonomy(kind="categories") %}
         {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
         {% set qa_now = now() | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
@@ -721,7 +724,7 @@
                         <h4 class="qa-card__title">Production Deploy</h4>
                         <p class="qa-card__desc">Số bài đang xuất bản trực tiếp trên GitHub Pages.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">{{ qa_posts.pages | length }} bài viết live</span>
+                            <span class="qa-card__count">{{ qa_posts_total }} bài viết live</span>
                             <span class="qa-card__date">{{ qa_now }}</span>
                         </div>
                     </div>
