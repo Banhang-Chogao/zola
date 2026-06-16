@@ -29,6 +29,8 @@ a = "Chỉ thao tác trong app tải từ App Store hoặc Google Play, tuyệt 
 
 <!-- more -->
 
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
+
 ## Liobank bảo mật bằng những lớp nào?
 
 Một ngân hàng số nghiêm túc luôn dựng nhiều lớp khoá, và Liobank đi theo chuẩn chung của ngành:
