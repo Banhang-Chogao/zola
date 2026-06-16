@@ -2,7 +2,7 @@
 title = "Khi máy bay chiến đấu 57 triệu USD rơi: bài học từ sự cố F/A-18"
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả"]
+categories = ["Tất cả", "Báo chí"]
 tags = ["công-nghệ-quân-sự", "an-toàn-hàng-không", "kỹ-thuật", "sự-cố", "điều-tra-kỹ-thuật"]
 [extra]
 thumbnail = "https://picsum.photos/seed/f18-crash-incident/600/400"

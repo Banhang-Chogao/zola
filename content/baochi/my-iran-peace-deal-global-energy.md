@@ -2,7 +2,7 @@
 title = "Thỏa thuận hòa bình Mỹ-Iran: tại sao nó quan trọng với túi tiền bạn"
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả"]
+categories = ["Tất cả", "Báo chí"]
 tags = ["kinh-tế", "địa-chính-trị", "năng-lượng", "dầu-mỏ", "thị-trường-tài-chính"]
 [extra]
 thumbnail = "https://picsum.photos/seed/my-iran-peace-deal/600/400"

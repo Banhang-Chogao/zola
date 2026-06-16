@@ -2,7 +2,7 @@
 title = "BIDV mở Private Banking ở Sài Gòn: cuộc chơi của giới siêu giàu"
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả"]
+categories = ["Tất cả", "Báo chí"]
 tags = ["ngân hàng", "tài chính", "private-banking", "bidv", "đầu tư"]
 [extra]
 thumbnail = "https://picsum.photos/seed/bidv-flagship-private-banking-tphcm/600/400"
