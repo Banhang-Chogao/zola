@@ -10,6 +10,18 @@ tags = ["budget travel", "busan", "du lịch", "hiking", "hàn quốc", "hàn ri
 [extra]
 thumbnail = "https://picsum.photos/seed/summer-korea-4-spots/1200/800"
 featured = false
+[[extra.faq]]
+q = "Mùa hè ở Hàn Quốc nên đi đâu?"
+a = "Bốn điểm đáng đi mùa hè: Seoul (dạo sông Hàn, cung điện), Busan (biển Haeundae), núi Seoraksan (leo núi mát mẻ) và đảo Jeju (biển, thác, thiên nhiên). Kết hợp được cả thành phố, biển và núi trong một chuyến."
+
+[[extra.faq]]
+q = "Mùa hè đi Hàn có nóng không?"
+a = "Có, tháng 7 và 8 khá nóng ẩm và rơi vào mùa mưa jangma. Nên mang ô, mặc đồ thoáng mát, chống nắng và ưu tiên hoạt động trong nhà hoặc lên núi, ra biển để tránh nóng giữa trưa."
+
+[[extra.faq]]
+q = "Đi Hàn mùa hè cần chuẩn bị gì?"
+a = "Đồ mỏng thoáng, một áo khoác nhẹ cho phòng điều hoà, ô gấp phòng mưa bất chợt, kem chống nắng và giày đi bộ thoải mái. Nên đặt phòng và vé các điểm hot sớm vì hè cũng là mùa cao điểm nội địa."
+
 +++
 
 ![Summer Korea 4 điểm dừng]

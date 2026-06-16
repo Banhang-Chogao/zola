@@ -10,6 +10,18 @@ tags = ["anh đào", "busan", "du lịch", "hàn quốc", "jeju", "korea", "lá 
 [extra]
 thumbnail = "https://picsum.photos/seed/mua-nao-di-han/600/400"
 featured = false
+[[extra.faq]]
+q = "Đi Hàn Quốc mùa nào đẹp nhất?"
+a = "Mùa xuân (cuối tháng 3 đến tháng 4) ngắm hoa anh đào và mùa thu (tháng 10 đến 11) lá vàng lá đỏ là hai mùa được yêu thích nhất nhờ thời tiết mát mẻ, cảnh đẹp. Mùa đông hợp người mê tuyết, mùa hè hợp biển đảo nhưng nóng ẩm."
+
+[[extra.faq]]
+q = "Đi Hàn mùa nào rẻ nhất?"
+a = "Thường là mùa đông (trừ dịp Giáng sinh và Tết) và đầu hè, khi không phải cao điểm hoa anh đào hay lá đỏ. Vé máy bay và tour giai đoạn này mềm hơn và ít đông khách hơn."
+
+[[extra.faq]]
+q = "Nên đi Hàn vào tháng mấy?"
+a = "Ưu tiên cảnh đẹp thì tháng 4 (hoa anh đào) hoặc tháng 10 đến 11 (lá đỏ). Ưu tiên ngân sách thì tháng 12 đến tháng 2 hoặc tháng 6. Nên tránh tháng 7 và đầu tháng 8 vì mùa mưa jangma và nóng ẩm."
+
 +++
 
 ![Mùa nào đi Hàn đẹp nhất]

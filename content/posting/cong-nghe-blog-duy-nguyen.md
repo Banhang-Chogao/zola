@@ -11,6 +11,18 @@ tags = ["cms", "github actions", "tech stack", "vanilla js", "zola"]
 thumbnail = "https://picsum.photos/seed/cong-nghe-blog-duy-nguyen/600/400"
 featured = true
 featured_at = "2026-06-15T09:43:31.498Z"
+[[extra.faq]]
+q = "Tự xây blog cá nhân hết bao nhiêu tiền?"
+a = "Gần như 0 đồng mỗi tháng nếu dùng static site generator (Zola) host trên GitHub Pages miễn phí và build bằng GitHub Actions. Bạn chỉ tốn thêm nếu muốn tên miền riêng, khoảng vài trăm nghìn đồng một năm."
+
+[[extra.faq]]
+q = "Static site generator là gì?"
+a = "Là công cụ biến file Markdown cùng template thành các trang HTML tĩnh sẵn sàng phục vụ. Vì không cần database hay server động nên trang tải rất nhanh, bảo mật cao và host được miễn phí. Ví dụ: Zola, Hugo, Eleventy."
+
+[[extra.faq]]
+q = "Vì sao chọn Zola thay vì WordPress?"
+a = "Zola tạo trang tĩnh nên nhanh, an toàn, miễn phí host và không phải lo cập nhật bảo mật liên tục như WordPress. Đổi lại bạn cần quen Markdown và Git. Phù hợp người thích tối giản, tốc độ và toàn quyền kiểm soát."
+
 +++
 
 ![Hành trình công nghệ]

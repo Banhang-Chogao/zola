@@ -10,6 +10,22 @@ tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", 
 [extra]
 thumbnail = "https://picsum.photos/seed/sbert-research/600/400"
 featured = false
+[[extra.faq]]
+q = "Sentence Transformers (SBERT) là gì?"
+a = "SBERT (Sentence-BERT) là biến thể của BERT dùng kiến trúc bi-encoder để mã hoá cả câu thành một vector embedding cố định. Nhờ đó có thể so sánh độ tương đồng ngữ nghĩa giữa các câu bằng cosine similarity rất nhanh, thay vì đưa từng cặp câu qua BERT."
+
+[[extra.faq]]
+q = "SBERT khác BERT gốc thế nào?"
+a = "BERT gốc phải ghép 2 câu vào cùng một lần chạy để so sánh (cross-encoder) nên rất chậm khi có nhiều câu. SBERT mã hoá mỗi câu độc lập thành vector một lần rồi so sánh vector, nhanh hơn hàng nghìn lần cho bài toán tìm kiếm ngữ nghĩa."
+
+[[extra.faq]]
+q = "Model SBERT nào dùng tốt cho tiếng Việt?"
+a = "Các model đa ngôn ngữ như paraphrase-multilingual-MiniLM-L12-v2 hay distiluse-base-multilingual-cased hỗ trợ tiếng Việt khá tốt và nhẹ. Cần chất lượng cao hơn thì fine-tune trên dữ liệu tiếng Việt riêng."
+
+[[extra.faq]]
+q = "Bi-encoder và cross-encoder khác gì nhau?"
+a = "Bi-encoder mã hoá mỗi câu thành vector riêng nên nhanh, hợp tìm kiếm quy mô lớn. Cross-encoder đưa cả cặp câu vào model cùng lúc nên chính xác hơn nhưng chậm. Thực tế thường dùng bi-encoder lọc nhanh rồi cross-encoder xếp hạng lại top kết quả."
+
 +++
 
 ![Sentence Transformers SBERT]
