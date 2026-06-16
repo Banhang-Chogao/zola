@@ -41,6 +41,13 @@ jobs:
         # SCSS check bắt mất '{' / '}' trước khi Zola compile fail trong deploy.
         run: python3 qa_check.py
 
+      - name: AdSense policy QA gate (content + site-wide compliance)
+        # adsense_qa_checker.py stdlib only — quét MỌI bài + compliance toàn
+        # site theo chính sách Google AdSense. Exit 2 (BLOCK) → chặn lên
+        # production; REVIEW/warning KHÔNG chặn. --no-db: CI không ghi DB
+        # (DB cập nhật qua hook + chạy local), tránh commit rác trên runner.
+        run: python3 scripts/adsense_qa_checker.py --all --no-db
+
       # Defense-in-depth: thực sự run Zola build trong CI để bắt lỗi syntax
       # Tera template + SCSS compile mà Python check không phát hiện được.
       # Bug #57 (SCSS empty body block) chỉ cần ~5s Zola check là catch ngay.
