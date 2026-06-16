@@ -399,7 +399,29 @@
 
             <ul class="navbar__menu" id="navbar-menu">
                 {% for item in config.extra.menu %}
-                    <li><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
+                    {% if item.children %}
+                        {# Category có sub-category → dropdown xổ xuống. Trigger là
+                           <button> (toggle), trang đại diện nằm ở child đầu tiên. #}
+                        <li class="navbar__item navbar__item--has-children" data-nav-dropdown>
+                            <button type="button" class="navbar__dropdown-trigger"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span class="navbar__dropdown-label">{{ item.name }}</span>
+                                <svg class="navbar__chevron" width="12" height="12" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2.5"
+                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <ul class="navbar__submenu" role="menu">
+                                {% for child in item.children %}
+                                    <li role="none"><a role="menuitem" href="{{ child.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ child.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        {# Link đơn (không có children) — giữ nguyên hành vi cũ. #}
+                        <li class="navbar__item"><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
+                    {% endif %}
                 {% endfor %}
             </ul>
             {# ===== THEME DROPDOWN — Z-X + Hilda =====
@@ -820,6 +842,7 @@
     <script src="{{ get_url(path='js/deploy-status.js') }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
+    <script src="{{ get_url(path='js/navbar-dropdown.js') }}" defer></script>
     <script src="{{ get_url(path='js/theme-switcher.js') }}" defer></script>
     <script src="{{ get_url(path='js/theme-dropdown.js') }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}

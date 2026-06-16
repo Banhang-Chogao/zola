@@ -588,3 +588,179 @@
     font-size: 0.7rem;
   }
 }
+
+/* ============================================================
+   ===== NAVBAR CATEGORY DROPDOWN — DESKTOP (global) =====
+   ============================================================
+   Cấu trúc 2 tầng Category → Sub-category. Trigger là <button> trông
+   giống link nav thường; submenu xổ xuống dạng panel absolute. Mở bằng
+   hover (chỉ thiết bị có chuột — xem @media hover bên dưới) HOẶC click/tap
+   (class .is-open do navbar-dropdown.js toggle). Màu full semantic token
+   var(--c-*) nên tự thích ứng theme. CHỈ thêm selector mới, không sửa
+   .navbar__menu a sẵn có (desktop ổn định giữ nguyên). */
+.navbar__item--has-children {
+  position: relative;
+}
+
+.navbar__dropdown-trigger {
+  /* Khớp .navbar__menu a: cùng padding/font/underline-active. */
+  font-family: $font-ui;
+  color: var(--c-text-muted);
+  padding: 1.25rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;          /* overlap border navbar như <a> */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover { color: var(--c-accent); }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--c-focus-ring);
+    border-radius: 6px;
+  }
+
+  /* Active khi đang ở 1 trang con của nhóm (navbar-dropdown.js thêm). */
+  &.is-active {
+    color: var(--c-accent);
+    font-weight: 700;
+    border-bottom-color: var(--c-accent);
+  }
+}
+
+.navbar__chevron {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar__item--has-children.is-open .navbar__chevron {
+  transform: rotate(180deg);
+}
+
+.navbar__submenu {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  min-width: 210px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  box-shadow: var(--c-shadow-lg);
+  z-index: 200;
+  /* Ẩn mặc định — animate mở mượt. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+  li { display: block; }
+
+  a {
+    display: block;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    border-bottom: none;         /* reset underline tab của .navbar__menu a */
+    margin-bottom: 0;
+    color: var(--c-text-body);
+    font-family: $font-ui;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--c-bg-soft);
+      color: var(--c-accent);
+      outline: none;
+    }
+
+    &.is-active {
+      background: var(--c-bg-soft);
+      color: var(--c-accent);
+      border-bottom: none;       /* không hiện gạch chân tab trong dropdown */
+    }
+  }
+}
+
+/* Mở qua click/tap (mọi thiết bị) — JS toggle .is-open. */
+.navbar__item--has-children.is-open .navbar__submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Mở qua hover — CHỈ thiết bị có chuột thật (desktop). Tránh kẹt mở trên
+   touch (nơi tap = click, không có hover). */
+@media (hover: hover) and (pointer: fine) {
+  .navbar__item--has-children:hover .navbar__submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .navbar__item--has-children:hover .navbar__dropdown-trigger {
+    color: var(--c-accent);
+  }
+  .navbar__item--has-children:hover .navbar__chevron {
+    transform: rotate(180deg);
+  }
+}
+
+/* ============================================================
+   ===== NAVBAR CATEGORY DROPDOWN — MOBILE (≤ 720px) =====
+   ============================================================
+   3 nhóm chính vừa khít màn hình → KHÔNG cần scroll ngang. Cho
+   .navbar__menu overflow: visible để panel submenu xổ xuống không bị
+   cắt. Submenu canh trái trigger, giới hạn trong viewport. Mở/đóng bằng
+   tap (class .is-open) vì hover đã bị tắt ở @media hover phía trên.
+   Toàn bộ scope trong media query mobile — desktop không bị ảnh hưởng. */
+@media (max-width: 720px) {
+  /* Bỏ scroll ngang + cho dropdown thoát khỏi khung overflow. */
+  .navbar__menu {
+    overflow: visible;
+  }
+
+  /* Ẩn gradient mask cuối phải (không còn scroll ngang nữa). */
+  .navbar__inner::after {
+    display: none;
+  }
+
+  /* Trigger touch-friendly. */
+  .navbar__dropdown-trigger {
+    padding: 1rem 0.85rem;
+    min-height: 48px;
+    font-size: 0.9rem;
+  }
+
+  /* Submenu = panel xổ xuống dưới trigger, không tràn viewport. */
+  .navbar__submenu {
+    top: calc(100% + 2px);
+    left: 6px;
+    min-width: 200px;
+    max-width: calc(100vw - 24px);
+  }
+
+  /* Link trong submenu — touch target ≥ 44px. */
+  .navbar__submenu a {
+    padding: 0.7rem 0.85rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+  }
+}

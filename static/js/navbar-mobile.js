@@ -70,7 +70,9 @@
   function scrollActiveIntoView() {
     const isMobile = window.matchMedia("(max-width: 720px)").matches;
     if (!isMobile) return;
-    const active = menu.querySelector("a.is-active");
+    // CHỈ xét link top-level (con trực tiếp). Tránh scroll nhầm tới 1 link
+    // đang ẩn trong submenu dropdown (gây nhảy trang lúc load).
+    const active = menu.querySelector(":scope > li > a.is-active");
     if (!active) return;
     // setTimeout đợi layout ổn định trước khi scroll
     setTimeout(() => {
