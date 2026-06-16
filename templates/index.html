@@ -47,33 +47,11 @@
         </article>
     {% endif %}
 
-    {# ===== FONT GUIDELINE BAND — showcase Ericsson Hilda ngay trên trang chủ ===== #}
-    <section class="home-font">
-        <span class="home-font__bg" aria-hidden="true">Aa</span>
-        <div class="home-font__inner">
-            <p class="home-font__eyebrow">Font Guideline · Letters from Sweden</p>
-            <h2 class="home-font__title">Ericsson Hilda</h2>
-            <p class="home-font__desc">
-                Typeface độc quyền của Ericsson — humanist sans-serif, digital-first.
-                Khám phá lịch sử, các độ đậm, type scale và quy tắc sử dụng.
-            </p>
-            <a class="home-font__cta" href="{{ config.base_url }}/font/">Xem Font Guideline →</a>
-        </div>
-    </section>
-
-    {# Branding Guideline CTA — Hiển thị link tới trang branding Hilda theme #}
-    <section class="home-branding-cta" style="margin: 40px 0; padding: 30px; background: var(--c-bg-soft); border-radius: 4px; text-align: center;">
-        <h2 style="color: var(--c-text-heading); font-size: 20px; margin-bottom: 12px;">🎨 Design System</h2>
-        <p style="color: var(--c-text-muted); margin-bottom: 16px;">Khám phá hướng dẫn thiết kế Hilda theme — palette màu, typography, và UI rules</p>
-        <a href="https://banhang-chogao.github.io/zola/branding/hilda-guideline/" style="display: inline-block; background: var(--c-accent); color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='var(--c-accent-hover)'" onmouseout="this.style.background='var(--c-accent)'"">
-            Xem Branding Guideline →
-        </a>
-    </section>
-
-    {# Grid 3 cột posts thường — bỏ qua bài featured đầu tiên #}
+    {# Hàng 3 card ngang ngay dưới hero — 3 bài mới tiếp theo (2,3,4). Dùng lại
+       .home-grid (3 cột) + .home-card cho đồng bộ với grid phía dưới. #}
     {% if all_pages | length > 1 %}
         <section class="home-grid">
-            {% for page in all_pages | slice(start=1, end=10) %}
+            {% for page in all_pages | slice(start=1, end=4) %}
                 <article class="home-card">
                     <a class="home-card__image" href="{{ page.permalink }}">
                         {% if page.extra.thumbnail %}
@@ -99,9 +77,62 @@
         </section>
     {% endif %}
 
-    {% if all_pages | length > 10 %}
+    {# ===== FONT GUIDELINE BAND — showcase Ericsson Hilda ngay trên trang chủ ===== #}
+    <section class="home-font">
+        <span class="home-font__bg" aria-hidden="true">Aa</span>
+        <div class="home-font__inner">
+            <p class="home-font__eyebrow">Font Guideline · Letters from Sweden</p>
+            <h2 class="home-font__title">Ericsson Hilda</h2>
+            <p class="home-font__desc">
+                Typeface độc quyền của Ericsson — humanist sans-serif, digital-first.
+                Khám phá lịch sử, các độ đậm, type scale và quy tắc sử dụng.
+            </p>
+            <a class="home-font__cta" href="{{ config.base_url }}/font/">Xem Font Guideline →</a>
+        </div>
+    </section>
+
+    {# Branding Guideline CTA — Hiển thị link tới trang branding Hilda theme #}
+    <section class="home-branding-cta" style="margin: 40px 0; padding: 30px; background: var(--c-bg-soft); border-radius: 4px; text-align: center;">
+        <h2 style="color: var(--c-text-heading); font-size: 20px; margin-bottom: 12px;">🎨 Design System</h2>
+        <p style="color: var(--c-text-muted); margin-bottom: 16px;">Khám phá hướng dẫn thiết kế Hilda theme — palette màu, typography, và UI rules</p>
+        <a href="https://banhang-chogao.github.io/zola/branding/hilda-guideline/" style="display: inline-block; background: var(--c-accent); color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='var(--c-accent-hover)'" onmouseout="this.style.background='var(--c-accent)'"">
+            Xem Branding Guideline →
+        </a>
+    </section>
+
+    {# Grid phần CÒN LẠI — bài 5 trở đi (hero + 3 card ngang + 2 block promo
+       đã hiển thị ở trên). #}
+    {% if all_pages | length > 4 %}
+        <section class="home-grid">
+            {% for page in all_pages | slice(start=4, end=13) %}
+                <article class="home-card">
+                    <a class="home-card__image" href="{{ page.permalink }}">
+                        {% if page.extra.thumbnail %}
+                            <img src="{{ page.extra.thumbnail }}" alt="{{ page.title }}"
+                                 width="800" height="500"
+                                 loading="lazy" decoding="async">
+                        {% endif %}
+                    </a>
+                    <div class="home-card__body">
+                        {% if page.taxonomies.categories %}
+                            <span class="home-card__cat">{{ page.taxonomies.categories[0] }}</span>
+                        {% endif %}
+                        <span class="home-card__insight">Insights khán giả</span>
+                        <h3 class="home-card__title">
+                            <a href="{{ page.permalink }}">{{ page.title }}</a>
+                        </h3>
+                        <p class="home-card__desc">
+                            {{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=140)) }}
+                        </p>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    {% endif %}
+
+    {% if all_pages | length > 13 %}
         <nav class="pagination">
-            <span class="pagination__info">Hiển thị 10 / {{ all_pages | length }} bài</span>
+            <span class="pagination__info">Hiển thị 13 / {{ all_pages | length }} bài</span>
             <a class="pagination__btn pagination__btn--next" href="{{ posting.permalink }}">Xem tất cả »</a>
         </nav>
     {% endif %}
