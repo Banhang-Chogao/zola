@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Gộp navbar còn 3 mục (Bài viết · Công cụ · Giới thiệu)",
+      "tag": "feat",
+      "pr": 202,
+      "lines_added": 21,
+      "lines_removed": 16,
+      "highlights": [
+        "3 mục: Bài viết (/categories/posting) · Công cụ (/editor) · Giới thiệu (/about)",
+        "Xoá link chết Z-X (/zx đã 404 sau khi chuyển Hilda-only)",
+        "\"Trang chính\" bỏ khỏi nav — logo site-title đã link về home",
+        "Các mục phụ (Du lịch/Công nghệ/Ẩm thực, Converter, Changelog/Insights/Scoring/BrandingX/Font/Báo cáo) comment-out trong config.toml: giữ nguyên trang + content, bật lại = bỏ #",
+        "Chỉ sửa config.extra.menu trong config.toml. KHÔNG đụng template/CSS/content."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Bật RSS/Atom feed + feed discovery cho SEO",
       "tag": "feat",
       "pr": 199,
