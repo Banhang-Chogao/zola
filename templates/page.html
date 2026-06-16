@@ -56,7 +56,7 @@
         {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
         <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
             <div class="ad-banner__image">
-                <img src="{{ get_url(path='img/banner.jpg') }}" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
+                <img src="{{ get_url(path='img/banner.jpg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
                 <span class="ad-banner__icon" aria-hidden="true">🐻</span>
             </div>
             <div class="ad-banner__text">
@@ -70,6 +70,19 @@
         <div class="post-single__content">
             {{ page.content | safe }}
         </div>
+
+        {# ===== FAQ (Câu hỏi thường gặp) → JSON-LD FAQPage sinh ở base.html ===== #}
+        {% if page.extra.faq %}
+        <section class="faq" aria-labelledby="faq-heading">
+            <h2 class="faq__title" id="faq-heading">Câu hỏi thường gặp</h2>
+            {% for item in page.extra.faq %}
+            <details class="faq__item"{% if loop.first %} open{% endif %}>
+                <summary class="faq__q">{{ item.q }}</summary>
+                <div class="faq__a">{{ item.a }}</div>
+            </details>
+            {% endfor %}
+        </section>
+        {% endif %}
 
         {% if page.taxonomies.tags %}
             <footer class="post-single__footer">

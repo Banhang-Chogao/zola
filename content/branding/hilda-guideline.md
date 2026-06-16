@@ -11,8 +11,6 @@ tags = ["branding", "design-system", "hilda"]
 featured = false
 +++
 
-# Hilda Theme — Branding Guideline
-
 Hướng dẫn thiết kế trực quan cho theme **Hilda** (Phong cách Ericsson chuyên nghiệp).
 
 ---
@@ -85,7 +83,7 @@ Fallback: Inter, Roboto, System Font
 ### Font Sizes & Weights
 
 <div style="margin: 30px 0;">
-  <h1 style="font-size: 32px; font-weight: 700; color: #003784; margin: 20px 0;">Heading 1 (32px, Bold)</h1>
+  <div style="font-size: 32px; font-weight: 700; color: #003784; margin: 20px 0;">Heading 1 (32px, Bold)</div>
   <h2 style="font-size: 28px; font-weight: 700; color: #003784; margin: 20px 0;">Heading 2 (28px, Bold)</h2>
   <h3 style="font-size: 24px; font-weight: 600; color: #003784; margin: 20px 0;">Heading 3 (24px, SemiBold)</h3>
   <p style="font-size: 16px; font-weight: 400; color: #333333; line-height: 1.6; margin: 20px 0;">

@@ -2,6 +2,93 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO Phase 1: FAQ block + FAQPage & BreadcrumbList schema",
+      "tag": "chore",
+      "pr": 227,
+      "lines_added": 261,
+      "lines_removed": 0,
+      "highlights": [
+        "base.html: thêm 2 khối JSON-LD",
+        "BreadcrumbList (Trang chủ → Section → Bài) cho mọi trang bài.",
+        "FAQPage sinh tự động từ page.extra.faq.",
+        "page.html: render block \"Câu hỏi thường gặp\" (accordion <details>, không cần JS) cuối bài.",
+        "sass/_faq.scss: style component FAQ (component mới, không đụng selector global — tuân thủ rule CSS)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "chiến lược SEO + bộ từ khoá (Công nghệ/Du lịch Hàn/Ẩm thực/Ngân hàng)",
+      "tag": "chore",
+      "pr": 226,
+      "lines_added": 328,
+      "lines_removed": 20,
+      "highlights": [
+        "Định hướng cốt lõi: bỏ phụ thuộc brand search → xây topical authority + long-tail + E-E-A-T ngôi thứ nhất.",
+        "Thứ tự ưu tiên: 🥇 Công nghệ (Zola — gần như không đối thủ tiếng Việt) → 🥈 Du lịch Hàn (Busan/Jeju tự túc) → 🥉 Ẩm thực (long-tail ngữ cảnh) → ⚠️ Ngân hàng (YMYL, làm nhẹ).",
+        "Bộ từ khoá từng mảng: primary + long-tail clusters + content gap + 5 bài nên viết + map bài hiện có.",
+        "Topic cluster (pillar + cluster + internal link), checklist on-page, SEO kỹ thuật (đã có gì / cần thêm), lộ trình 90 ngày, đo lường.",
+        "🐞 cong-nghe-blog-duy-nguyen & sentence-transformers-sbert-deep-dive đang gắn sai category [\"Ẩm thực\"] (là bài tech)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "SEO11: Tối ưu SEO toàn site đạt 100/100 (Lighthouse + Starter Guide)",
+      "tag": "chore",
+      "pr": 222,
+      "lines_added": 497,
+      "lines_removed": 889,
+      "highlights": [
+        "Không đụng layout/scroll desktop: mọi h2→h1 đều trên class đã ghim font-size (section-header__title 0.85rem, scoring__title 1.75rem, bao-cao__title 1.85rem) → render y hệt.",
+        ".visually-hidden là utility mới (additive), không sửa selector global nào, không overflow/height/position trên html/body.",
+        "Không thêm hiển thị ngày/giờ mới (rule timezone GMT+7 không phát sinh).",
+        "Title đổi không đổi slug → URL ổn định, internal link không gãy.",
+        "seo_score.py: 100.0/100 A+, 114/114 trang A+, hạ tầng đủ."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "SEO: tự động ping IndexNow (Bing/Yandex/Seznam/Naver/DuckDuckGo) khi đăng bài",
+      "tag": "chore",
+      "pr": 225,
+      "lines_added": 156,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/indexnow.py — gom URL (trang chủ + /posting/ + mọi bài posting/ & baochi/) → POST api.indexnow.org (1 endpoint fan-out mọi engine). Best-effort: lỗi mạng/HTTP không làm fail workflow. Có --dry",
+        ".github/workflows/indexnow.yml — trigger khi push content/posting/ hoặc content/baochi/ vào main (đúng lúc \"viết bài xong\") + workflow_dispatch để chạy tay.",
+        "static/<key>.txt — file xác minh sở hữu host cho IndexNow (key đặt dưới /zola/ → keyLocation hợp lệ cho mọi URL submit).",
+        "✅ Dry-run gom đúng 16 URL; keyLocation = …/zola/<key>.txt",
+        "✅ Build serve key file tại /zola/<key>.txt (nội dung == key)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Banking category + bài blog MSB Digital Bank ra mắt thay mBank",
+      "tag": "feat",
+      "pr": 224,
+      "lines_added": 55,
+      "lines_removed": 0,
+      "highlights": [
+        "Tạo category mới \"Banking\": thêm vào dropdown menu Bài viết trong config.toml (/categories/banking).",
+        "Viết bài blog SEO về sự kiện MSB chính thức ra mắt MSB Digital Bank thay thế app mBank từ 01/06/2026 — đặt trong content/baochi/msb-digital-bank-ra-mat-thay-mbank.md với categories = [\"Banking\"] để kí",
+        "Từ khoá chính MSB Digital Bank đặt ngay H2 đầu tiên.",
+        "Long-tail làm H2 riêng: cách chuyển từ mBank, xác thực lại CCCD, khi nào mBank ngừng hoạt động.",
+        "Slug banking, tags: ngân hàng, tài chính, msb, msb-digital-bank, ngân hàng số."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "SEO: thêm mã xác minh Google Search Console",
+      "tag": "chore",
+      "pr": 223,
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [
+        "✅ zola build OK · qa_check.py pass",
+        "✅ Meta xác minh xuất hiện trên trang chủ + bài + /posting/"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Hiển thị bài ở /posting/ (gộp mọi section) + nút Trang chủ + SEO/Google indexing",
       "tag": "chore",
       "pr": 221,

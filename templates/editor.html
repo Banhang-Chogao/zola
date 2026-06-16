@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block main %}
+    <h1 class="visually-hidden">Trình soạn thảo bài viết</h1>
     <div class="editor-app" id="editor-app">
         {# ===== GITHUB LOGIN VIEW =====
            GitHub OAuth là cổng vào duy nhất. Editor.js đọc <meta name=
@@ -54,7 +55,7 @@
                Verified badge cạnh tên xác nhận chính chủ admin (giống các nơi
                khác: header, post-meta, sidebar). #}
             <div class="editor-user-bar" data-user-bar hidden>
-                <img class="editor-user-bar__avatar" data-user-avatar src="" alt="" loading="lazy" decoding="async">
+                <img class="editor-user-bar__avatar" data-user-avatar src="" alt="Ảnh đại diện" loading="lazy" decoding="async">
                 <span class="editor-user-bar__info">
                     <strong><span data-user-name></span>{{ v::badge() }}</strong>
                     <span class="editor-user-bar__email" data-user-email></span>

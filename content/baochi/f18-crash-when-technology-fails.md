@@ -1,5 +1,5 @@
 +++
-title = "Khi máy bay chiến đấu 57 triệu USD rơi: bài học từ sự cố F/A-18"
+title = "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD"
 date = 2026-06-16
 [taxonomies]
 categories = ["Tất cả", "Báo chí"]

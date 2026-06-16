@@ -1,5 +1,5 @@
 +++
-title = "Tháng 6 đi Hàn ăn gì và làm gì? Tất cả những điều dân thổ địa biết"
+title = "Du lịch Hàn Quốc tháng 6: ăn gì, làm gì, thời tiết & mùa mưa"
 description = "Hướng dẫn chi tiết tháng 6 ở Hàn Quốc: trước-sau mùa mưa, festival, biển Busan-Jeju mở cửa, naengmyeon-bingsu mát lạnh, đặc sản hè không nên bỏ lỡ."
 date = 2026-06-15
 aliases = ["/thang-6-di-han-an-gi-lam-gi/"]
@@ -10,6 +10,18 @@ tags = ["du lịch", "festival", "hàn quốc", "jeju", "korea", "mùa hè", "se
 [extra]
 thumbnail = "https://picsum.photos/seed/thang-6-di-han/600/400"
 featured = false
+[[extra.faq]]
+q = "Tháng 6 đi Hàn Quốc có mưa không?"
+a = "Tháng 6 là giai đoạn chớm mùa mưa jangma ở Hàn, mưa bắt đầu xuất hiện nhưng chưa nhiều như tháng 7. Trời ấm dần và thỉnh thoảng có mưa rào nên bạn nên mang theo ô gấp."
+
+[[extra.faq]]
+q = "Tháng 6 đi Hàn nên ăn gì?"
+a = "Mùa hè chớm nóng hợp các món mát như naengmyeon (mì lạnh), bingsu (đá bào) và hải sản tươi ở Busan. Đây cũng là mùa nhiều quán bán các món giải nhiệt đặc trưng."
+
+[[extra.faq]]
+q = "Tháng 6 đi Hàn làm gì?"
+a = "Tắm biển Busan và Jeju khi bãi biển bắt đầu mở, dạo công viên và cung điện ở Seoul lúc trời chưa quá nóng, tham gia các lễ hội đầu hè. Nên tránh giờ trưa nắng gắt và canh lịch mưa."
+
 +++
 
 ![Tháng 6 ở Hàn]

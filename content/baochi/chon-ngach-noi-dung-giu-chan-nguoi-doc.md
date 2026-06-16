@@ -1,5 +1,5 @@
 +++
-title = "Chọn ngách nội dung để blog giữ chân người đọc lâu hơn"
+title = "Chọn ngách nội dung để blog giữ chân người đọc"
 date = 2026-06-16
 [taxonomies]
 categories = ["Tất cả", "Báo chí", "Công nghệ"]

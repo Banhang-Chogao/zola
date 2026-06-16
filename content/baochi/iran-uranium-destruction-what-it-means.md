@@ -1,5 +1,5 @@
 +++
-title = "Uranium của Iran: khi quốc tế từ lập trường cứng sang ngoại giao"
+title = "Uranium Iran: từ lập trường cứng sang ngoại giao"
 date = 2026-06-16
 [taxonomies]
 categories = ["Tất cả", "Báo chí"]

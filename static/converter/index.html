@@ -6,6 +6,42 @@
     <meta name="description" content="Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.">
     <title>Số → Chữ Hán Hàn · 한자어 수사 변환기</title>
 
+    <!-- ===== SEO: canonical + Open Graph + Twitter + JSON-LD =====
+         Trang tĩnh (không qua Tera) nên khai báo trực tiếp. URL/base hardcode
+         khớp config.toml base_url. -->
+    <link rel="canonical" href="https://banhang-chogao.github.io/zola/converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Số → Chữ Hán Hàn · 한자어 수사 변환기">
+    <meta property="og:description" content="Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.">
+    <meta property="og:url" content="https://banhang-chogao.github.io/zola/converter/">
+    <meta property="og:image" content="https://banhang-chogao.github.io/zola/img/og-default.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Duy Nguyen">
+    <meta property="og:locale" content="vi_VN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Số → Chữ Hán Hàn · 한자어 수사 변환기">
+    <meta name="twitter:description" content="Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.">
+    <meta name="twitter:image" content="https://banhang-chogao.github.io/zola/img/og-default.jpg">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Số → Chữ Hán Hàn · 한자어 수사 변환기",
+        "url": "https://banhang-chogao.github.io/zola/converter/",
+        "description": "Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any (web browser)",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "VND" },
+        "inLanguage": "vi-VN",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Duy Nguyen",
+            "url": "https://banhang-chogao.github.io/zola"
+        }
+    }
+    </script>
+
     <!-- CSS namespaced với prefix .nk- (numbers-korean) để không conflict
          khi nhúng vào blog. Toàn bộ style scoped trong .nk-app wrapper. -->
     <style>
