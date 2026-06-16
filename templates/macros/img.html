@@ -1,0 +1,29 @@
+{# ============================================================================
+   Macro ảnh WebP — phục vụ bản .webp (nhẹ hơn) kèm fallback file gốc.
+
+   Dùng kèm pipeline scripts/to_webp.py + workflow optimize-images.yml: với mỗi
+   ảnh nội bộ .jpg/.png đã có sẵn bản .webp cùng tên cạnh bên. Macro này render
+   <picture> để browser hỗ trợ webp lấy bản nhẹ, browser cũ fallback file gốc.
+
+   CHỈ dùng cho ảnh NỘI BỘ (static/...). Ảnh ngoài (picsum, CDN) không có .webp
+   nên cứ dùng <img> thường.
+
+   Tham số:
+     - src:     đường dẫn ảnh gốc (vd "/img/covers/abc.jpg")
+     - alt:     alt text
+     - cls:     class (optional)
+     - loading: "lazy" (mặc định) | "eager"
+     - sizes/width/height: optional, tốt cho CLS
+   ============================================================================ #}
+{% macro picture_webp(src, alt="", cls="", loading="lazy", width="", height="") %}
+{%- set ext = src | split(pat=".") | last -%}
+{%- set webp = src | replace(from="." ~ ext, to=".webp") -%}
+<picture>
+  <source srcset="{{ webp }}" type="image/webp">
+  <img src="{{ src }}" alt="{{ alt }}"
+       {% if cls %}class="{{ cls }}"{% endif %}
+       loading="{{ loading }}" decoding="async"
+       {% if width %}width="{{ width }}"{% endif %}
+       {% if height %}height="{{ height }}"{% endif %}>
+</picture>
+{%- endmacro picture_webp %}
