@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Remove deprecated BrandingX theme — Z-X + Hilda only",
+      "tag": "fix",
+      "pr": 191,
+      "lines_added": 34,
+      "lines_removed": 28,
+      "highlights": [
+        "CSS has :root[data-theme=\"brandingx\"] variables",
+        "JS theme-switcher only supports: \"zx\" (default) + \"hilda\"",
+        "Mismatch causes CSS compilation/validation errors",
+        "✅ Remove BrandingX CSS variables completely",
+        "✅ Keep Z-X (default) — ZaloPay fintech blue"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "🔥 HOTFIX: Revert broken theme system — unblock deploy",
       "tag": "fix",
       "pr": 189,
