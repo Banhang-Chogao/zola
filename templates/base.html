@@ -43,14 +43,15 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    {# Anti-flash theme switcher + font preload (PHẢI là script đầu tiên <head>):
-       ĐỌC localStorage → set data-theme NGAY trước khi CSS render → tránh flash.
-       Z-X VẪN là default; Hilda là lựa chọn của user. Khi Hilda active →
-       inject <link rel="preload"> cho Ericsson Hilda (Medium=body, Bold=heading)
-       để chữ chuẩn hiện ngay lần paint đầu. CHỈ preload khi Hilda → không phí
-       băng thông cho user Z-X. CSP-safe: as="font" nguồn 'self' (khớp font-src);
-       crossorigin match CORS-fetch của @font-face, tránh tải 2 lần. #}
-    <script>(function(){try{var t=localStorage.getItem('blog-theme');if(t==='hilda'){document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.ttf') }}','{{ get_url(path='fonts/EricssonHilda-Bold.ttf') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/ttf';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}else{document.documentElement.removeAttribute('data-theme');}}catch(e){}})();</script>
+    {# Zero-flash font + theme (PHẢI là script đầu tiên trong <head>):
+       Hilda là theme DUY NHẤT → set data-theme="hilda" NGAY trước khi CSS
+       render để các rule [data-theme="hilda"] (font vars, smoothing, UX polish)
+       áp dụng ngay lần paint đầu, không flash.
+       Inject <link rel="preload"> font Ericsson Hilda (Medium = body,
+       Bold = heading) → chữ chuẩn hiện ngay lần paint đầu.
+       CSP-safe: as="font" + nguồn 'self' (khớp font-src). crossorigin để
+       match CORS-fetch của @font-face, tránh tải 2 lần. #}
+    <script>(function(){try{document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.ttf') }}','{{ get_url(path='fonts/EricssonHilda-Bold.ttf') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/ttf';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
@@ -404,14 +405,7 @@
                     <span class="theme-dropdown__icon">🎨</span>
                 </button>
                 <ul class="theme-dropdown__menu" role="listbox" hidden>
-                    <li role="option" aria-selected="false">
-                        <button class="theme-dropdown__item" data-theme-value="zx" type="button">
-                            <span class="theme-dropdown__check">✓</span>
-                            <span class="theme-dropdown__name">Z-X</span>
-                            <span class="theme-dropdown__desc">ZaloPay fintech</span>
-                        </button>
-                    </li>
-                    <li role="option" aria-selected="false">
+                    <li role="option" aria-selected="true">
                         <button class="theme-dropdown__item" data-theme-value="hilda" type="button">
                             <span class="theme-dropdown__check">✓</span>
                             <span class="theme-dropdown__name">Hilda</span>

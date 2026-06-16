@@ -304,22 +304,10 @@
 }
 
 /* ============================================================
-   ===== APPLY MIXIN cho 3 themes =====
+   ===== APPLY MIXIN — Hilda (single theme) =====
    ============================================================
-   Color values từ Phase 1 (--c-*). Mixin chỉ inject non-color
-   tokens (radius / shadow / kicker / heading-ls) per theme. */
-
-/* ===== Z-X (ZaloPay) — soft app-like blue tint ===== */
-:root[data-theme="zx"] {
-  @include theme-overrides(
-    $radius-card:        $zx-radius-lg,       /* 14px soft */
-    $radius-tag:         $zx-radius-sm,       /* 6px */
-    $shadow-card:        $zx-shadow-sm,
-    $shadow-card-hover:  $zx-shadow-lg,
-    $kicker-spacing:     0.08em,
-    $heading-ls:         -0.025em
-  );
-}
+   Color values qua --c-* tokens. Mixin chỉ inject non-color
+   tokens (radius / shadow / kicker / heading-ls). */
 
 /* ===== HILDA (Ericsson) — sharp, professional ===== */
 :root[data-theme="hilda"] {
@@ -413,5 +401,65 @@
     .author-box__name {
       letter-spacing: -0.015em;
     }
+  }
+}
+
+/* ============================================================
+   ===== HILDA COMPONENTS — buttons / badges / pagination =====
+   ============================================================
+   Chuẩn hoá theo guideline: CTA 12/24px·14px/600, badge/tag
+   6/12px·12px/600, pagination 8/16px·14px, radius 4px (từ mixin).
+   Scoped Hilda. DESKTOP + MOBILE tách block (rule 4) để rule
+   Hilda specificity cao không "đè" mất responsive global. */
+
+/* ----- DESKTOP (Hilda) ----- */
+:root[data-theme="hilda"] {
+  /* CTA Button (read-more) — guideline Primary CTA */
+  .read-more {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  /* Badge — category tag trên thumbnail */
+  .cat-tag {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Tag pills (cuối bài) — đồng bộ badge */
+  .tag-list__tag {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Pagination — nút vuông 4px, chữ 14px */
+  .pagination__btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* Navbar — nền trắng + link hover #003784 đã có sẵn qua var(--c-*).
+     Đồng bộ nốt focus-ring về 4px cho khớp brand "all 4px"
+     (dropdown .theme-dropdown đã 4px sẵn). */
+  .navbar__search,
+  .navbar__theme {
+    &:focus-visible { border-radius: 4px; }
+  }
+}
+
+/* ----- MOBILE (Hilda, ≤720px) — giữ responsive, chống bẫy specificity ----- */
+@media (max-width: 720px) {
+  :root[data-theme="hilda"] {
+    .read-more       { padding: 10px 18px; font-size: 13px; }
+    .cat-tag         { padding: 4px 10px;  font-size: 0.65rem; }  /* khớp mobile cũ */
+    .tag-list__tag   { padding: 5px 10px;  font-size: 12px; }
+    .pagination__btn { padding: 8px 14px;  font-size: 13px; }
   }
 }
