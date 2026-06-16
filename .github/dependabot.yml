@@ -1,0 +1,39 @@
+version: 2
+
+updates:
+  # Rust/Cargo dependencies (Zola core + plugins)
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    commit-message:
+      prefix: "chore(deps): "
+      prefix-develop: "chore(deps-dev): "
+    allow:
+      - dependency-type: "all"
+    reviewers:
+      - "Banhang-Chogao"
+    assignees:
+      - "Banhang-Chogao"
+    labels:
+      - "dependencies"
+      - "security"
+
+  # GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+    commit-message:
+      prefix: "ci(deps): "
+    allow:
+      - dependency-type: "all"
+    reviewers:
+      - "Banhang-Chogao"
+    labels:
+      - "ci"
+      - "dependencies"

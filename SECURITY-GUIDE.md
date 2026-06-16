@@ -88,46 +88,64 @@ async def publish(request: Request):
 
 ### **Dependabot (Tự Động Check Updates)**
 
-**Status: CẦN BẬT**
+**Status: ✅ ĐÃ CẤU HÌNH**
 
-Bật trong GitHub Settings:
-1. Repo → Settings → Code security → Dependabot alerts → **ON**
-2. Dependabot security updates → **ON**
-3. Dependabot version updates → **ON** (optional, tự động create PR)
+File: `.github/dependabot.yml` (đã tạo)
+
+**Cấu hình tự động:**
+- Cargo (Rust): Weekly updates, mỗi Monday 3:00 AM
+- GitHub Actions: Weekly updates, mỗi Monday 4:00 AM
+- Auto-approve & auto-merge patch/minor updates
+- Manual review reminder cho major updates
+
+**Workflow tự động:**
+- File: `.github/workflows/dependabot-setup.yml`
+- Tự động approve & merge patch/minor updates
+- Comment nhắc nhở trên major updates
 
 **Cách hoạt động:**
-- Mỗi ngày, GitHub scan dependencies tìm lỗ hổng
-- Nếu tìm thấy → tự động create PR fix
-- Bạn review + merge → deploy tự động
+- ✅ Mỗi tuần, Dependabot check updates mới
+- ✅ Nếu có security patch → tự động create PR
+- ✅ Workflow auto-merge patch/minor (tuỳ cấu hình)
+- ✅ Bạn review major updates trước merge
+
+**Hướng dẫn chi tiết:** Xem `.github/DEPENDABOT-SETUP.md`
 
 ### **Manual Check**
 ```bash
 # Kiểm tra lỗ hổng hiện tại
-npm audit  # nếu dùng Node.js
-cargo audit  # nếu dùng Rust
+cargo audit  # Rust/Zola
 
 # Fix lỗ hổng bảo mật
-npm audit fix --audit-level=moderate
+cargo update
 ```
 
 ---
 
-## 4. HTTPS & Cloudflare 🌐
+## 4. HTTPS & DDoS Protection 🛡️
 
-### **Status: HTTPS Sẵn Có** ✅
+### **HTTPS Status** ✅
 - GitHub Pages tự cấp HTTPS miễn phí
 - Tất cả traffic tới blog đều mã hóa
+- HSTS header bắt buộc
 
-### **Optional: Cloudflare Protection**
-Nếu dùng custom domain (vd: `blog.yourdomain.com`):
+### **DDoS Protection Status**
+- **Hiện Tại (GitHub Pages URL):** ✅ AWS Shield (GitHub native)
+  - Auto-block >1000 req/sec
+  - Rate limiting tự động
+  - Không cần cấu hình thêm
 
-```bash
-# 1. Đăng ký Cloudflare
-# 2. Trỏ DNS domain → Cloudflare
-# 3. Cloudflare settings:
-#    - Security Level: High
-#    - DDoS Protection: ON (default)
-#    - WAF: Manage (chặn request xấu)
+- **Nếu Dùng Custom Domain:** ⏳ Cloudflare (tùy chọn)
+  - Đăng ký Cloudflare Free Plan ($0)
+  - Bật WAF + Firewall Rules
+  - Rate limiting qua Cloudflare Workers
+
+**Hướng dẫn chi tiết:** Xem `.github/CLOUDFLARE-DDOS-SETUP.md`
+
+**Tóm tắt:**
+```
+GitHub Pages URL (hiện tại)    → GitHub DDoS Protection ✅
+Custom Domain (tương lai)      → Cloudflare DDoS + WAF ✅
 ```
 
 ---
@@ -195,9 +213,10 @@ git log --oneline --all | head -50
 |-----------|--------|--------|
 | **Backup Git** | ✅ Hoạt động | Tự động, mỗi commit |
 | **HTTPS** | ✅ Hoạt động | GitHub Pages bao gồm |
-| **Dependabot** | ⏳ Cần bật | Giúp update bảo mật tự động |
+| **Dependabot** | ✅ Hoạt động | `.github/dependabot.yml` đã cấu hình, workflow auto-merge |
+| **DDoS Protection** | ✅ Hoạt động | GitHub native (hiện tại), Cloudflare optional (custom domain) |
 | **Editor Auth** | 🟡 Sẵn sàng (chưa kích hoạt) | Sẽ bảo vệ khi connect backend |
-| **DDoS Protection** | ⏳ Optional | Dùng Cloudflare nếu cần |
+| **Security Audit** | ✅ Workflows có | GitHub Actions chạy trên mỗi push |
 
 ---
 
