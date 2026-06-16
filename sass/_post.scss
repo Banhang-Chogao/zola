@@ -96,29 +96,8 @@
   svg { opacity: 0.7; }
 }
 
-.read-more {
-  align-self: flex-start;
-  background: var(--c-text-heading);
-  color: var(--c-bg-surface);
-  padding: 0.55rem 1rem;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  border-left: 4px solid #1572bd;
-
-  &:hover {
-    background: var(--c-accent);
-    color: var(--c-bg-surface);
-  }
-
-  &__arrow {
-    font-weight: 700;
-  }
-}
+/* .read-more → ported to _theme-overrides.scss (Phase 4 Group 3).
+   Border-left blue #1572bd hardcode → đổi sang var(--c-accent). */
 
 @media (max-width: 640px) {
   .post-card {
