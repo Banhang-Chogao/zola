@@ -764,3 +764,86 @@
     white-space: normal;
   }
 }
+
+/* ============================================================================
+   NAVBAR DECOR — nền gradient xanh (giống ảnh placeholder) + bảng chữ cái
+   trắng mờ rải rác (font FreightSans Pro kiểu Starbucks). Scope toàn bộ trong
+   .navbar, KHÔNG đụng layout/menu structure. Letters nằm ở lớp riêng (absolute
+   + overflow:hidden) phía sau menu → KHÔNG cắt dropdown của navbar.
+   ============================================================================ */
+@font-face {
+  font-family: 'FreightSans Pro';
+  src: url('fonts/FreightSansPro-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FreightSans Pro';
+  src: url('fonts/FreightSansPro-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+.navbar {
+  /* Gradient xanh thương hiệu (đồng bộ ảnh placeholder #38bdf8 → #1d4ed8) */
+  background: linear-gradient(120deg, #38bdf8 0%, #2563eb 55%, #1d4ed8 100%);
+  border-bottom-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 2px 10px rgba(29, 78, 216, 0.25);
+
+  /* Menu phải nổi trên lớp chữ cái trang trí */
+  .navbar__inner { position: relative; z-index: 1; }
+
+  /* ----- Lớp chữ cái trang trí (faint, dịu mắt) ----- */
+  &__letters {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    font-family: 'FreightSans Pro', "Helvetica Neue", Arial, sans-serif;
+    color: #ffffff;
+
+    span {
+      position: absolute;
+      line-height: 1;
+      font-weight: 700;
+      white-space: nowrap;
+      /* vị trí / xoay / cỡ / opacity đặt inline trong base.html */
+    }
+  }
+
+  /* ----- Chữ menu sang trắng cho hợp nền xanh ----- */
+  .navbar__menu a {
+    color: rgba(255, 255, 255, 0.82);
+    &:hover { color: #fff; }
+    &.is-active {
+      color: #fff;
+      border-bottom-color: #fff;
+    }
+  }
+  .navbar__dropdown-trigger,
+  .navbar__dropdown-label { color: rgba(255, 255, 255, 0.82); }
+  .navbar__dropdown-trigger:hover { color: #fff; }
+
+  /* Theme toggle + icon buttons sang trắng */
+  .theme-toggle__btn {
+    color: rgba(255, 255, 255, 0.9);
+    &:hover { color: #fff; }
+    &[aria-expanded="true"] { color: #fff; border-bottom-color: #fff; }
+  }
+  .navbar__theme,
+  .navbar__search {
+    color: rgba(255, 255, 255, 0.9);
+    &:hover { color: #fff; }
+  }
+}
+
+/* Mobile: đổi gradient-mask phải từ trắng → xanh đậm cho khớp nền navbar mới */
+@media (max-width: 720px) {
+  .navbar .navbar__inner::after {
+    background: linear-gradient(to left,
+      rgba(29, 78, 216, 0.92) 0%,
+      rgba(29, 78, 216, 0) 100%);
+  }
+}
