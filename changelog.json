@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "nangcap: nâng cấp 25 bài cũ điểm SEO QA < 90 lên đạt chuẩn A (≥90)",
+      "tag": "chore",
+      "pr": 253,
+      "lines_added": 1060,
+      "lines_removed": 514,
+      "highlights": [
+        "33 bài quét → 25 bài < 90 đã nâng cấp · điểm trung bình 99.7 · 30/33 đạt 100.",
+        "0 bài còn < 90.",
+        "Khai báo [extra] seo_keyword + đưa keyword vào title / đoạn mở đầu / 1 heading H2 (mở khoá 20đ).",
+        "Thêm internal link (cluster bài liên quan) + external link tới nguồn uy tín có thật: Wikipedia, IAEA, Visit Korea/Busan, Michelin Guide, UNESCO, GitHub/Zola docs, WCAG, Cổng BHXH Việt Nam, Korail…",
+        "Cắt description về ≤160, rút title dài (zola-vs-hugo), bổ sung thumbnail (hilda-guideline)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "SEO9: meta description duy nhất cho 17 trang section + bài thiếu mô tả",
       "tag": "chore",
       "pr": 251,
