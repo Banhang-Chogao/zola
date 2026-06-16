@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "🤖 Self-healing: 2 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 200,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Gộp navbar còn 3 mục (Bài viết · Công cụ · Giới thiệu)",
       "tag": "feat",
       "pr": 202,
