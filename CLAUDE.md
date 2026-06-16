@@ -20,14 +20,30 @@
 
 Đủ cả 3 → auto merge + auto deploy, KHÔNG hỏi lại.
 
-### 3. Khi build failed → fix rồi mới lên production
+### 3. Build failed → LẬP TỨC chạy `ff` / `ff9` (BẮT BUỘC, tự động)
 
-Nếu build failed (deploy đỏ / QA error), KHÔNG bỏ mặc. Chạy 1 trong 2 phím tắt để fix rồi deploy lại:
+> ⚠️ Rule sự kiện, hiệu lực cao nhất. **MỖI LẦN** có sự kiện bản build bị
+> **failed** thì PHẢI **LẬP TỨC** chạy 1 trong 2 phím tắt để fix — KHÔNG hỏi,
+> KHÔNG bỏ mặc, KHÔNG để build đỏ nằm im.
+
+**Sự kiện kích hoạt** (bất kỳ cái nào):
+- `deploy.yml` build đỏ (fail trên `main` hoặc PR).
+- `qa.yml` / `qa_check.py` exit ≠ 0 (error chặn).
+- Bất kỳ CI check nào của PR chuyển sang trạng thái `failure`.
+
+**Hành động bắt buộc, ngay khi nhận sự kiện**:
 
 - **`ff`** — Full Fix & Deploy (với Python lib picker).
-- **`ff9`** — Smart Conflict Resolver (Python-powered).
+- **`ff9`** — Smart Conflict Resolver (Python-powered) — ưu tiên khi lỗi do
+  merge conflict.
 
-Sau khi `ff` / `ff9` fix xong và build xanh → auto deploy lên production, KHÔNG cần `manual #X`.
+**Quy tắc lặp ("fix cho bằng được")**: chạy `ff`/`ff9` → đợi build lại → nếu
+VẪN failed thì re-diagnose và chạy lại, lặp tới khi build **xanh**. Một vòng
+chưa xong không phải là dừng. Chỉ dừng khi build xanh, HOẶC lỗi thực sự ngoài
+phạm vi (lúc đó báo lại chẩn đoán + chỗ kẹt, không im lặng).
+
+Sau khi `ff` / `ff9` fix xong và build xanh → auto merge + auto deploy lên
+production, KHÔNG cần `manual #X`.
 
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
