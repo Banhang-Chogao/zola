@@ -1,0 +1,54 @@
+/* ============================================================
+   ===== HILA ERICSSON DESIGN TOKENS (Dark Editorial variant) =====
+   ============================================================
+   Theme thứ tư cho blog — song song E-X (Ericsson Newsroom light).
+   Hila = dark editorial mode: deep navy background, white text,
+   electric blue accent. Cùng Ericsson DNA với E-X nhưng inverted
+   surface để showcase theme system flexibility.
+
+   Tokens dùng prefix $hila- để tách biệt $brand-* / $zx-* / $ex-*.
+
+   Tinh thần visual:
+   - Dark surface tiers (navy → slate → onyx) cho depth editorial.
+   - Electric blue làm signal, brighter hơn E-X cho contrast trên dark.
+   - White text near-pure cho headlines (high contrast WCAG AA+).
+   - Energy yellow giữ làm decoration accent. */
+
+/* ===== H-Blue (Hila Electric Blue — signature, brighter cho dark) ===== */
+$hila-blue-900:        #0050D6;
+$hila-blue-800:        #1174E5;
+$hila-blue-700:        #2C8AF0;
+$hila-blue-600:        #4FA3F5;   /* dark surface accent */
+$hila-blue-500:        #6FB6F8;
+$hila-blue-300:        #A7D1FB;
+$hila-blue-100:        #DCEBFD;
+
+/* ===== H-Ink (Dark surface tiers — navy → slate → onyx) ===== */
+$hila-ink-1000:        #050D1C;   /* deepest void */
+$hila-ink-900:         #0A1628;   /* page bg */
+$hila-ink-800:         #142036;   /* card surface */
+$hila-ink-700:         #1B2842;   /* hover soft */
+$hila-ink-600:         #2A3850;   /* border */
+$hila-ink-500:         #3D4F6F;   /* border strong */
+$hila-ink-400:         #5A6F90;
+$hila-ink-300:         #8595AC;   /* muted text */
+
+/* ===== H-Light (Text tiers — white near-pure) ===== */
+$hila-snow:            #F5F8FF;   /* heading near-white */
+$hila-cloud:           #C7D2E0;   /* body */
+$hila-mist:            #8595AC;   /* muted */
+
+/* ===== H-Accent (Energy Yellow + Vivid Red — same Ericsson DNA) ===== */
+$hila-yellow:          #FFD93D;   /* slightly brighter cho dark contrast */
+$hila-red:             #FF5247;
+$hila-green:           #00C896;   /* brighter sustainability */
+
+/* ===== H-Shadow (Black-deep + blue glow cho dark lift) ===== */
+$hila-shadow-sm:       0 1px 3px rgba(0, 0, 0, 0.3);
+$hila-shadow-md:       0 4px 12px rgba(0, 0, 0, 0.4);
+$hila-shadow-lg:       0 12px 32px rgba(44, 138, 240, 0.25);
+
+/* ===== H-Radius (giữ sharp như E-X — corporate editorial) ===== */
+$hila-radius-sm:       4px;
+$hila-radius-md:       6px;
+$hila-radius-lg:       8px;
