@@ -1,0 +1,45 @@
+{# ============================================================
+   ===== NAVBAR MACROS =====
+   ============================================================
+   Component dropdown chọn theme (BrandingX / Z-X / E-X).
+   Markup chỉ là shell — JS populate icon + options từ THEMES
+   config trong static/js/theme-switcher.js (single source of truth).
+
+   Gọi: {% import "macros/navbar.html" as nav %}
+        {{ nav::theme_switcher() }}
+
+   Thêm theme thứ 4 (Hila Ericsson…) → KHÔNG cần sửa macro này;
+   chỉ push entry vào THEMES (JS) + block :root[data-theme="..."]
+   (sass/_themes.scss). #}
+
+{% macro theme_switcher() %}
+<div class="theme-switcher" data-theme-switcher>
+    <button class="navbar__theme theme-switcher__trigger"
+            id="theme-switch-btn"
+            type="button"
+            aria-haspopup="menu"
+            aria-controls="theme-switch-menu"
+            aria-expanded="false"
+            aria-label="Chọn theme giao diện">
+        {# JS inject <svg> icon theme đang active vào span này #}
+        <span class="theme-switcher__trigger-icon"
+              data-theme-trigger-icon
+              aria-hidden="true"></span>
+        <span class="theme-switcher__chevron" aria-hidden="true">
+            <svg viewBox="0 0 12 8" width="10" height="6" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="1 1.5 6 6.5 11 1.5"></polyline>
+            </svg>
+        </span>
+    </button>
+    {# Menu list — JS render <li> cho từng theme từ THEMES array.
+       role="menu" + child role="menuitemradio" để screen reader
+       hiểu đây là single-choice picker. #}
+    <ul class="theme-switcher__menu"
+        id="theme-switch-menu"
+        role="menu"
+        aria-labelledby="theme-switch-btn"
+        hidden></ul>
+</div>
+{% endmacro theme_switcher %}
