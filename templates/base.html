@@ -139,11 +139,16 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {# OG image: ưu tiên page thumbnail, fallback site-wide default (img/og-default.jpg) #}
+    {# OG image: social KHÔNG render được SVG → chỉ nhận ảnh raster (jpg/png/webp).
+       Ưu tiên page.extra.og_image (raster do user cấp); rồi thumbnail nếu KHÔNG
+       phải .svg; cuối cùng fallback ảnh mặc định raster (img/og-default.jpg).
+       Ảnh bìa SVG vẫn hiển thị trên trang (qua thumbnail), chỉ không dùng cho OG. #}
     {% set og_image = config.base_url ~ "/img/og-default.jpg" %}
-    {% if page and page.extra.thumbnail %}
+    {% if page and page.extra.og_image %}
+        {% set_global og_image = page.extra.og_image %}
+    {% elif page and page.extra.thumbnail and not page.extra.thumbnail is ending_with(".svg") %}
         {% set_global og_image = page.extra.thumbnail %}
-    {% elif section and section.extra.thumbnail %}
+    {% elif section and section.extra.thumbnail and not section.extra.thumbnail is ending_with(".svg") %}
         {% set_global og_image = section.extra.thumbnail %}
     {% endif %}
 

@@ -8,7 +8,7 @@ aliases = ["/thang-6-di-han-an-gi-lam-gi/"]
 categories = ["Du lịch"]
 tags = ["du lịch", "festival", "hàn quốc", "jeju", "korea", "mùa hè", "seoul", "tháng 6", "ẩm thực"]
 [extra]
-thumbnail = "https://picsum.photos/seed/thang-6-di-han/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/thang-6-di-han-an-gi-lam-gi.svg"
 featured = false
 [[extra.faq]]
 q = "Tháng 6 đi Hàn Quốc có mưa không?"

@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Ngân hàng"]
 tags = ["ngân hàng", "tài chính", "msb", "msb-digital-bank", "ngân hàng số"]
 [extra]
-thumbnail = "https://picsum.photos/seed/msb-digital-bank/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/msb-digital-bank-ra-mat-thay-mbank.svg"
 featured = false
 [[extra.faq]]
 q = "MSB Digital Bank thay mBank từ khi nào?"
