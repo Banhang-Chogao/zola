@@ -1,20 +1,90 @@
 {
+  "an-khuya-sai-gon": [
+    {
+      "score": 0.7064,
+      "slug": "toi-nay-sai-gon-an-gi"
+    },
+    {
+      "score": 0.5818,
+      "slug": "thang-6-di-han-an-gi-lam-gi"
+    },
+    {
+      "score": 0.5467,
+      "slug": "troi-mua-sai-gon-an-gi"
+    },
+    {
+      "score": 0.5376,
+      "slug": "tet-doan-ngo-han-viet-trung"
+    },
+    {
+      "score": 0.5266,
+      "slug": "summer-korea-4-diem-dung-mua-he"
+    }
+  ],
   "cong-nghe-blog-duy-nguyen": [
     {
       "score": 0.7473,
       "slug": "tao-blog-voi-zola"
     },
     {
+      "score": 0.7278,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
+    {
       "score": 0.5377,
       "slug": "qa-gatekeeper-tu-fix-loi-blog"
     },
     {
-      "score": 0.1761,
-      "slug": "sentence-transformers-sbert-deep-dive"
+      "score": 0.5218,
+      "slug": "zola-vs-hugo"
     },
     {
-      "score": 0.1676,
+      "score": 0.1761,
+      "slug": "sentence-transformers-sbert-deep-dive"
+    }
+  ],
+  "di-han-het-bao-nhieu-tien": [
+    {
+      "score": 0.7703,
+      "slug": "di-han-mua-nao-re-nhat"
+    },
+    {
+      "score": 0.7249,
       "slug": "summer-korea-4-diem-dung-mua-he"
+    },
+    {
+      "score": 0.7123,
+      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
+    },
+    {
+      "score": 0.6102,
+      "slug": "mua-nao-di-han-la-dep-nhat"
+    },
+    {
+      "score": 0.566,
+      "slug": "thang-6-di-han-an-gi-lam-gi"
+    }
+  ],
+  "di-han-mua-nao-re-nhat": [
+    {
+      "score": 0.7703,
+      "slug": "di-han-het-bao-nhieu-tien"
+    },
+    {
+      "score": 0.6678,
+      "slug": "mua-nao-di-han-la-dep-nhat"
+    },
+    {
+      "score": 0.6018,
+      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
+    },
+    {
+      "score": 0.5451,
+      "slug": "summer-korea-4-diem-dung-mua-he"
+    },
+    {
+      "score": 0.5339,
+      "slug": "thang-6-di-han-an-gi-lam-gi"
     }
   ],
   "lich-trinh-busan-tu-tuc-3-ngay-2-dem": [
@@ -23,23 +93,31 @@
       "slug": "summer-korea-4-diem-dung-mua-he"
     },
     {
+      "score": 0.7123,
+      "slug": "di-han-het-bao-nhieu-tien"
+    },
+    {
+      "score": 0.6018,
+      "slug": "di-han-mua-nao-re-nhat"
+    },
+    {
       "score": 0.5546,
       "slug": "thang-6-di-han-an-gi-lam-gi"
     },
     {
-      "score": 0.445,
-      "slug": "mua-nao-di-han-la-dep-nhat"
-    },
-    {
-      "score": 0.4426,
-      "slug": "tet-doan-ngo-han-viet-trung"
-    },
-    {
-      "score": 0.3356,
-      "slug": "toi-nay-sai-gon-an-gi"
+      "score": 0.515,
+      "slug": "an-khuya-sai-gon"
     }
   ],
   "mua-nao-di-han-la-dep-nhat": [
+    {
+      "score": 0.6678,
+      "slug": "di-han-mua-nao-re-nhat"
+    },
+    {
+      "score": 0.6102,
+      "slug": "di-han-het-bao-nhieu-tien"
+    },
     {
       "score": 0.551,
       "slug": "summer-korea-4-diem-dung-mua-he"
@@ -51,17 +129,13 @@
     {
       "score": 0.4575,
       "slug": "toi-nay-sai-gon-an-gi"
-    },
-    {
-      "score": 0.445,
-      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
-    },
-    {
-      "score": 0.3695,
-      "slug": "tet-doan-ngo-han-viet-trung"
     }
   ],
   "qa-gatekeeper-tu-fix-loi-blog": [
+    {
+      "score": 0.6544,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
     {
       "score": 0.6007,
       "slug": "tao-blog-voi-zola"
@@ -71,15 +145,19 @@
       "slug": "cong-nghe-blog-duy-nguyen"
     },
     {
-      "score": 0.2386,
-      "slug": "sentence-transformers-sbert-deep-dive"
+      "score": 0.4282,
+      "slug": "zola-vs-hugo"
     },
     {
-      "score": 0.162,
-      "slug": "toi-nay-sai-gon-an-gi"
+      "score": 0.2386,
+      "slug": "sentence-transformers-sbert-deep-dive"
     }
   ],
   "sentence-transformers-sbert-deep-dive": [
+    {
+      "score": 0.2534,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
     {
       "score": 0.2386,
       "slug": "qa-gatekeeper-tu-fix-loi-blog"
@@ -103,6 +181,10 @@
       "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
     },
     {
+      "score": 0.7249,
+      "slug": "di-han-het-bao-nhieu-tien"
+    },
+    {
       "score": 0.7227,
       "slug": "thang-6-di-han-an-gi-lam-gi"
     },
@@ -111,18 +193,22 @@
       "slug": "mua-nao-di-han-la-dep-nhat"
     },
     {
-      "score": 0.5421,
-      "slug": "tet-doan-ngo-han-viet-trung"
-    },
-    {
-      "score": 0.4534,
-      "slug": "toi-nay-sai-gon-an-gi"
+      "score": 0.5451,
+      "slug": "di-han-mua-nao-re-nhat"
     }
   ],
   "tao-blog-voi-zola": [
     {
+      "score": 0.8332,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
+    {
       "score": 0.7473,
       "slug": "cong-nghe-blog-duy-nguyen"
+    },
+    {
+      "score": 0.7248,
+      "slug": "zola-vs-hugo"
     },
     {
       "score": 0.6007,
@@ -131,10 +217,6 @@
     {
       "score": 0.2062,
       "slug": "summer-korea-4-diem-dung-mua-he"
-    },
-    {
-      "score": 0.168,
-      "slug": "sentence-transformers-sbert-deep-dive"
     }
   ],
   "tet-doan-ngo-han-viet-trung": [
@@ -147,16 +229,16 @@
       "slug": "summer-korea-4-diem-dung-mua-he"
     },
     {
+      "score": 0.5376,
+      "slug": "an-khuya-sai-gon"
+    },
+    {
       "score": 0.4426,
       "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
     },
     {
-      "score": 0.3755,
-      "slug": "toi-nay-sai-gon-an-gi"
-    },
-    {
-      "score": 0.3695,
-      "slug": "mua-nao-di-han-la-dep-nhat"
+      "score": 0.3997,
+      "slug": "di-han-mua-nao-re-nhat"
     }
   ],
   "thang-6-di-han-an-gi-lam-gi": [
@@ -169,19 +251,23 @@
       "slug": "toi-nay-sai-gon-an-gi"
     },
     {
+      "score": 0.5818,
+      "slug": "an-khuya-sai-gon"
+    },
+    {
       "score": 0.5743,
       "slug": "tet-doan-ngo-han-viet-trung"
     },
     {
-      "score": 0.5546,
-      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
-    },
-    {
-      "score": 0.501,
-      "slug": "mua-nao-di-han-la-dep-nhat"
+      "score": 0.566,
+      "slug": "di-han-het-bao-nhieu-tien"
     }
   ],
   "toi-nay-sai-gon-an-gi": [
+    {
+      "score": 0.7064,
+      "slug": "an-khuya-sai-gon"
+    },
     {
       "score": 0.5872,
       "slug": "thang-6-di-han-an-gi-lam-gi"
@@ -195,12 +281,74 @@
       "slug": "summer-korea-4-diem-dung-mua-he"
     },
     {
-      "score": 0.3755,
-      "slug": "tet-doan-ngo-han-viet-trung"
+      "score": 0.4156,
+      "slug": "troi-mua-sai-gon-an-gi"
+    }
+  ],
+  "troi-mua-sai-gon-an-gi": [
+    {
+      "score": 0.5591,
+      "slug": "thang-6-di-han-an-gi-lam-gi"
     },
     {
-      "score": 0.3356,
-      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
+      "score": 0.5467,
+      "slug": "an-khuya-sai-gon"
+    },
+    {
+      "score": 0.4156,
+      "slug": "toi-nay-sai-gon-an-gi"
+    },
+    {
+      "score": 0.3962,
+      "slug": "mua-nao-di-han-la-dep-nhat"
+    },
+    {
+      "score": 0.3907,
+      "slug": "summer-korea-4-diem-dung-mua-he"
+    }
+  ],
+  "tu-dong-deploy-zola-github-actions": [
+    {
+      "score": 0.8332,
+      "slug": "tao-blog-voi-zola"
+    },
+    {
+      "score": 0.7278,
+      "slug": "cong-nghe-blog-duy-nguyen"
+    },
+    {
+      "score": 0.6544,
+      "slug": "qa-gatekeeper-tu-fix-loi-blog"
+    },
+    {
+      "score": 0.6051,
+      "slug": "zola-vs-hugo"
+    },
+    {
+      "score": 0.2534,
+      "slug": "sentence-transformers-sbert-deep-dive"
+    }
+  ],
+  "zola-vs-hugo": [
+    {
+      "score": 0.7248,
+      "slug": "tao-blog-voi-zola"
+    },
+    {
+      "score": 0.6051,
+      "slug": "tu-dong-deploy-zola-github-actions"
+    },
+    {
+      "score": 0.5218,
+      "slug": "cong-nghe-blog-duy-nguyen"
+    },
+    {
+      "score": 0.4282,
+      "slug": "qa-gatekeeper-tu-fix-loi-blog"
+    },
+    {
+      "score": 0.2644,
+      "slug": "mua-nao-di-han-la-dep-nhat"
     }
   ]
 }
