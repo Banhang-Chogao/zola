@@ -52,25 +52,30 @@ phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã g
 chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 """
 
-# Menu navigation. Đã bỏ 📰 BÁO CHÍ và 🎬 ĐIỆN ẢNH vì cả 2 trang fetch
-# external API (RSS feeds, IMDB) gây cảm giác blog 'nặng'. Page + content
-# section + JS GIỮ trong repo — chỉ ẩn khỏi nav, có thể bật lại sau.
+# Menu navigation — GỘP CÒN 3 MỤC (theo chức năng) cho gọn, hết rối 15 mục.
+# "Trang chính" bỏ khỏi nav vì site-title (logo) đã link về home.
+# Các mục phụ bên dưới comment-out: GIỮ nguyên trang + content + JS trong
+# repo, chỉ ẩn khỏi nav — bật lại = bỏ dấu '#' (đúng pattern cũ).
+# Z-X đã XOÁ hẳn vì trang /zx không còn tồn tại (đã chuyển Hilda-only).
 menu = [
-    {url = "$BASE_URL", name = "Trang chính"},
     {url = "$BASE_URL/categories/posting", name = "Bài viết"},
-    {url = "$BASE_URL/editor", name = "Viết bài"},
-    {url = "$BASE_URL/categories/du-lich", name = "Du lịch"},
-    {url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ"},
-    {url = "$BASE_URL/categories/am-thuc", name = "Ẩm thực"},
-    {url = "$BASE_URL/converter", name = "Korean Converter"},
-    {url = "$BASE_URL/changelog", name = "Changelog"},
-    {url = "$BASE_URL/insights", name = "Insights"},
-    {url = "$BASE_URL/scoring", name = "Scoring"},
-    {url = "$BASE_URL/branding", name = "BrandingX"},
-    {url = "$BASE_URL/zx", name = "Z-X"},
-    {url = "$BASE_URL/font", name = "Font Guideline"},
-    {url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết"},
+    {url = "$BASE_URL/editor", name = "Công cụ"},
     {url = "$BASE_URL/about", name = "Giới thiệu"},
+
+    # ---- Ẩn khỏi nav (bật lại = bỏ '#') ----
+    # Nội dung theo chủ đề (vẫn truy cập qua trang /categories + sidebar):
+    # {url = "$BASE_URL/categories/du-lich", name = "Du lịch"},
+    # {url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ"},
+    # {url = "$BASE_URL/categories/am-thuc", name = "Ẩm thực"},
+    # Công cụ phụ:
+    # {url = "$BASE_URL/converter", name = "Korean Converter"},
+    # Dev / Meta:
+    # {url = "$BASE_URL/changelog", name = "Changelog"},
+    # {url = "$BASE_URL/insights", name = "Insights"},
+    # {url = "$BASE_URL/scoring", name = "Scoring"},
+    # {url = "$BASE_URL/branding", name = "BrandingX"},
+    # {url = "$BASE_URL/font", name = "Font Guideline"},
+    # {url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết"},
 ]
 
 # ============= GOOGLE ANALYTICS 4 =============
