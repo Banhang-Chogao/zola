@@ -1,5 +1,5 @@
 +++
-title = "Tạo blog với Zola từ A–Z (2026): cài đặt → deploy GitHub Pages"
+title = "Tạo blog với Zola từ A–Z: deploy GitHub Pages"
 description = "Hướng dẫn tạo blog cá nhân với Zola từ con số 0: cài đặt trên Windows/Mac/Linux, cấu trúc thư mục, viết bài Markdown, theme và deploy miễn phí lên GitHub Pages."
 date = 2026-06-16
 

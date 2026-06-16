@@ -1,6 +1,6 @@
 +++
-title = "Lịch trình Busan tự túc 3 ngày 2 đêm: điểm đến, chi phí (2026)"
-description = "Lịch trình du lịch Busan tự túc 3 ngày 2 đêm cho người Việt: Gamcheon, Haeundae, Gwangalli, chùa Haedong Yonggungsa, di chuyển bằng metro, chi phí tham khảo và mẹo."
+title = "Busan tự túc 3 ngày 2 đêm: điểm đến & chi phí 2026"
+description = "Lịch trình Busan tự túc 3 ngày 2 đêm cho người Việt: Gamcheon, Haeundae, Gwangalli, chùa Haedong Yonggungsa, di chuyển metro, chi phí và mẹo."
 date = 2026-06-16
 
 [taxonomies]

@@ -1,5 +1,5 @@
 +++
-title = "Du lịch Hàn Quốc mùa hè đi đâu? Seoul, Busan, Seoraksan, Jeju"
+title = "Du lịch Hàn Quốc mùa hè: Seoul, Busan, Jeju"
 description = "Du lịch Hàn Quốc mùa hè qua 4 điểm: Seoul (sông Hàn), Busan (biển), Seoraksan (leo núi), Jeju. Hoạt động, món ăn nên thử và mẹo ngân sách cho dân du lịch Việt."
 date = 2026-06-15
 aliases = ["/summer-korea-4-diem-dung-mua-he/"]
