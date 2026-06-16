@@ -54,6 +54,7 @@ Format bắt buộc:
 | `SEO10` | Loop audit + fix từng lỗi đến khi 0 issue (Google SEO Starter Guide) |
 | `SEO11` | Hybrid SEO9+SEO10: phase 1 bulk Lighthouse + phase 2 loop polish |
 | `diemtoiuu` | Python chấm điểm SEO toàn site (public/) + in báo cáo chi tiết tại chỗ |
+| `content9` | Auto chạy check_content_seo.py — soi front matter + ảnh thiếu alt trong content/ |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
@@ -300,6 +301,25 @@ tầng (0.95–1.00 theo robots/sitemap/feed).
 
 Thêm `--json` → ghi `data/seo-scores.json` (cho template/đồ thị về sau).
 Exit code: `0` nếu điểm ≥ 70, `2` nếu < 70 (để CI gate nếu cần).
+
+### `content9` — Chấm điểm SEO content (front matter + alt ảnh)
+
+Khi user gõ `content9`, Claude chạy NGAY:
+
+```
+python3 scripts/check_content_seo.py
+```
+
+Script (stdlib only) quét mọi `content/**/*.md`:
+- Front matter TOML (`+++`): báo file thiếu `title` hoặc `description`.
+- Body: báo ảnh markdown `![](...)` và `<img>` thiếu/empty `alt`.
+
+Output: **danh sách file lỗi + lý do**, dòng cuối tổng số file lỗi. Exit
+`1` nếu có lỗi (gate CI được), `0` nếu sạch. Claude in nguyên kết quả +
+1 dòng tóm tắt, KHÔNG giải thích lý thuyết.
+
+Khác `diemtoiuu`: `content9` soi **source `.md`** (sửa được ngay tại
+frontmatter), còn `diemtoiuu` chấm **HTML đã build** trong `public/`.
 
 ### `topic: <chủ đề>` — Tự research + viết bài + deploy
 
