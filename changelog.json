@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Cập nhật rule deploy: bật auto-merge + auto-deploy lên production",
+      "tag": "chore",
+      "pr": 218,
+      "lines_added": 62,
+      "lines_removed": 36,
+      "highlights": [
+        "CLAUDE.md: thêm section canonical \"Quy tắc Deploy & Production\" (hiệu lực cao nhất, ghi đè mọi rule deploy cũ).",
+        "shortcuts.md §4.5/§4.6: đảo từ chặn auto-merge sang bật auto-merge + auto-deploy, vô hiệu mọi tham chiếu \"(rule 16:00)\" rải rác.",
+        "shortcuts.md: ff step 6 auto-merge + deploy thay vì chờ manual #X."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "QA dashboard: hiển thị số liệu thật cho card Performance & Security",
       "tag": "security",
       "pr": 217,
