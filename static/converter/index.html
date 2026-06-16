@@ -166,7 +166,7 @@
 
         .nk-footer {
             margin-top: 1.5rem;
-            padding-top: 1rem;
+            padding-top: 1.5rem;
             border-top: 1px solid #e2e8f0;
             font-size: 0.78rem;
             color: #94a3b8;
@@ -177,6 +177,30 @@
             padding: 1px 5px;
             border-radius: 3px;
             font-size: 0.85em;
+        }
+
+        .nk-back-btn {
+            display: inline-block;
+            margin-top: 1.25rem;
+            padding: 0.5rem 1rem;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .15s ease;
+        }
+        .nk-back-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+        .nk-back-btn:active {
+            transform: translateY(0);
         }
 
         @media (max-width: 480px) {
@@ -258,6 +282,7 @@
         <footer class="nk-footer">
             Đơn vị mỗi 4 chữ số: <code>만</code> 10⁴ · <code>억</code> 10⁸ · <code>조</code> 10¹² · <code>경</code> 10¹⁶
             <br>0 dependency · Vanilla JS · Hoạt động offline sau lần đầu load
+            <br><a href="/" class="nk-back-btn">← Quay lại Home</a>
         </footer>
     </div>
 
