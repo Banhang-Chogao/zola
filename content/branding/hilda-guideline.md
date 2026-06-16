@@ -8,6 +8,8 @@ categories = ["Tất cả"]
 tags = ["branding", "design-system", "hilda"]
 
 [extra]
+seo_keyword = "theme Hilda"
+thumbnail = "https://banhang-chogao.github.io/zola/img/og-default.jpg"
 featured = false
 +++
 
@@ -228,3 +230,7 @@ Blog sử dụng **Hilda (Ericsson Blue)** làm theme duy nhất. Không có the
 **Last Updated:** 2026-06-16  
 **Theme Version:** Hilda 1.0  
 **Status:** Ready for Production
+
+---
+
+📚 Tiêu chí tương phản màu tham chiếu theo [WCAG 2.1 (W3C)](https://www.w3.org/WAI/WCAG21/quickref/). Xem cách theme **Hilda** được áp dụng trong thực tế ở bài [công nghệ vận hành blog cá nhân](@/posting/cong-nghe-blog-duy-nguyen.md).
