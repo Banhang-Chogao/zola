@@ -1,8 +1,14 @@
 /* ============================================================
    ===== DYNAMIC THEME SWITCHING — CSS CUSTOM PROPERTIES =====
    ============================================================
-   2 theme: BrandingX (MoMo style, default :root) và Z-X (ZaloPay
-   style, :root[data-theme="zx"]).
+   3 theme:
+   - BrandingX (MoMo, default :root)
+   - Z-X (ZaloPay, :root[data-theme="zx"])
+   - E-X (Ericsson Newsroom, :root[data-theme="ex"])
+
+   Thêm theme mới? Tạo block `:root[data-theme="<name>"]` override
+   override 14 semantic token bên dưới — KHÔNG cần đụng selector
+   global. JS validate name qua THEMES array trong theme-switcher.js.
 
    Quy ước đặt tên semantic (không bound chặt brand):
    - --c-bg-page       : page background
@@ -98,6 +104,44 @@
 
   /* Focus ring */
   --c-focus-ring:     rgba(0, 104, 255, 0.35);
+}
+
+/* ===== E-X (Ericsson Newsroom) — OVERRIDE khi data-theme="ex" =====
+   Corporate editorial: black-on-white contrast cao, blue làm signal
+   duy nhất, whitespace generous. Mapping từ $ex-* tokens. */
+:root[data-theme="ex"] {
+  /* Surface — near-white tiers, không tint màu */
+  --c-bg-page:        #fafafa;  /* $ex-mist */
+  --c-bg-surface:     #ffffff;  /* $ex-snow */
+  --c-bg-soft:        #f2f2f2;  /* $ex-fog */
+
+  /* Text — near-pure black newsroom contrast */
+  --c-text-heading:   #0c0c0c;  /* $ex-ink-1000 */
+  --c-text-body:      #242424;  /* $ex-ink-800 */
+  --c-text-muted:     #707070;  /* $ex-ink-500 */
+
+  /* Accent — Ericsson Energy Blue */
+  --c-accent:         #1174e5;  /* $ex-blue-600 */
+  --c-accent-hover:   #0a6bc9;  /* $ex-blue-700 */
+  --c-accent-soft:    rgba(17, 116, 229, 0.1);
+
+  /* Decoration — Energy Yellow (awards, highlight restrained) */
+  --c-decoration:     #ffcd00;  /* $ex-yellow */
+
+  /* Border — sharper, more present */
+  --c-border:         #e5e5e5;  /* $ex-edge */
+  --c-border-strong:  #cccccc;  /* $ex-edge-strong */
+
+  /* Shadow — corporate subtle, blue tint cho hover lift */
+  --c-shadow-md:      0 6px 18px rgba(12, 12, 12, 0.08);
+  --c-shadow-lg:      0 16px 40px rgba(17, 116, 229, 0.12);
+
+  /* Status — Ericsson green sustainability */
+  --c-success:        #00853e;  /* $ex-green */
+  --c-warning:        #b86d00;
+
+  /* Focus ring — energy blue glow */
+  --c-focus-ring:     rgba(17, 116, 229, 0.35);
 }
 
 /* ===== Smooth transition khi user toggle theme =====

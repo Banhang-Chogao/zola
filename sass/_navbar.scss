@@ -75,13 +75,10 @@
     }
   }
 
-  /* Theme switcher button: icon mặt trời / mặt trăng, góc phải navbar */
+  /* Theme switcher trigger button — icon active + chevron dropdown.
+     Color via .theme-switcher__trigger (xem block riêng dưới). */
   &__theme {
     padding: 0 0.85rem;
-
-    &[aria-pressed="true"] {
-      color: var(--c-accent);
-    }
 
     .navbar__theme-icon {
       display: inline-flex;
@@ -235,5 +232,180 @@
 @media (max-width: 720px) {
   body.navbar-open {
     overflow: hidden;
+  }
+}
+
+/* ============================================================
+   ===== THEME SWITCHER DROPDOWN — DESKTOP (global) =====
+   ============================================================
+   3-state picker (BrandingX / Z-X / E-X). Container relative để
+   menu float absolute theo trigger. Color full theme-aware qua
+   semantic tokens (var(--c-*)).
+
+   Vị trí trong navbar: nằm trong .navbar__inner cạnh menu items.
+   `.is-open` class lên container khi menu mở (JS toggle) → xoay
+   chevron + hover ring trigger. */
+.theme-switcher {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &[aria-expanded="true"] {
+      color: var(--c-accent);
+    }
+  }
+
+  &__trigger-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__chevron {
+    display: inline-flex;
+    align-items: center;
+    color: var(--c-text-muted);
+    transition: transform .2s ease;
+  }
+
+  &.is-open &__chevron {
+    transform: rotate(180deg);
+    color: var(--c-accent);
+  }
+
+  &__menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 260px;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    box-shadow: var(--c-shadow-lg);
+    z-index: 110;
+    animation: theme-switcher-pop .18s ease;
+
+    &[hidden] { display: none; }
+
+    li { display: block; }
+  }
+
+  &__option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.7rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--c-text-body);
+    font-family: $font-ui;
+    font-size: 0.9rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--c-bg-soft);
+      outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--c-focus-ring);
+    }
+
+    &.is-active {
+      color: var(--c-accent);
+
+      .theme-switcher__option-check {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+  &__option-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--c-accent);
+    flex-shrink: 0;
+  }
+
+  &__option-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__option-label {
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
+  }
+
+  &__option-desc {
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  &__option-check {
+    display: inline-flex;
+    color: var(--c-accent);
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity .12s ease, transform .12s ease;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes theme-switcher-pop {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ============================================================
+   ===== THEME SWITCHER DROPDOWN — MOBILE (≤ 720px) =====
+   ============================================================
+   Trên mobile navbar = horizontal scroll tabs (xem block ≤720px
+   phía trên). Theme switcher cần flex-shrink + align-self stretch
+   để không bị crush khi menu list dài. */
+@media (max-width: 720px) {
+  .theme-switcher {
+    flex-shrink: 0;
+    align-self: stretch;
+    /* Trên mobile push ra trên gradient mask cuối phải (z-index: 1
+       của ::after) — cần z-index lớn hơn để click vẫn được trigger. */
+    z-index: 2;
+  }
+
+  .theme-switcher__trigger {
+    padding: 0 0.85rem;
+  }
+
+  .theme-switcher__menu {
+    right: 4px;
+    min-width: 240px;
+    max-width: calc(100vw - 16px);
+  }
+
+  .theme-switcher__option {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .theme-switcher__option-desc {
+    font-size: 0.7rem;
   }
 }
