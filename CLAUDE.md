@@ -69,9 +69,14 @@ Trước khi tạo PR cho thay đổi CSS:
 
 ### 1. Mọi thay đổi code → Phải qua PR (Cấm push trực tiếp)
 
-- **KHÔNG** push commits trực tiếp lên `main`
-- **PHẢI** tạo feature branch (`claude/*`) → commit → push → **tạo PR**
-- Ngoại lệ hotfix critical: tạo PR + ghi rõ `[HOTFIX]` trong title
+- **KHÔNG** push commits trực tiếp lên `main`. MỌI thay đổi (kể cả nhỏ:
+  config, doc, script) → commit → push → **tạo PR**, chờ user duyệt tay.
+- **DÙNG CHUNG 1 NHÁNH** cho tất cả PR: `claude/seo-1j0frj` (nhánh làm
+  việc cố định). KHÔNG tạo nhánh lẻ mới mỗi lần — gom hết về 1 nhánh để
+  user tiện xem & quản lý ("10 PR 1 nhánh").
+  - Quy trình lặp: reset nhánh về `origin/main` mới nhất → commit thay đổi
+    mới → push (force-with-lease) → tạo PR → user merge tay → lặp lại.
+- Ngoại lệ hotfix critical: vẫn qua PR, ghi rõ `[HOTFIX]` trong title.
 
 ### 2. Nhánh hợp nhất: Chỉ định (Tùy user quyết định)
 
@@ -81,12 +86,13 @@ Trước khi tạo PR cho thay đổi CSS:
 
 ### 3. Review & Merge: Manual Only (Cấm Auto-merge)
 
-- **KHÔNG auto-merge** bất kỳ PR nào (kể cả nhỏ, cấp độ cao)
+- **KHÔNG auto-merge** bất kỳ PR nào — kể cả khi CI đã xanh. Claude
+  TUYỆT ĐỐI không tự merge. Mọi PR chờ user **duyệt tay**.
 - PRs luôn giữ trạng thái **chờ (pending)** đến khi user gõ lệnh:
   - `manual #X` — merge PR này
   - `prm` — merge tất cả open PRs
   - `gg` — list + merge với confirmation
-- Tuyệt đối chờ user approval rõ ràng
+- Tuyệt đối chờ user approval rõ ràng. CI xanh KHÔNG phải tín hiệu để merge.
 
 ### 4. Commit message: Tối ưu token
 
