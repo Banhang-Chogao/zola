@@ -2,6 +2,36 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "ci(deps): bật Dependabot (gated CI) + webp sweep tự động hằng ngày",
+      "tag": "chore",
+      "pr": 239,
+      "lines_added": 76,
+      "lines_removed": 2,
+      "highlights": [
+        "optimize-images.yml: thêm cron hằng ngày 11:00 GMT+7 → quét bắt cả ảnh cũ còn sót chưa có .webp (không chỉ ảnh vừa push). Đã trigger 1 lần thủ công cho 2 ảnh sẵn có.",
+        "CLAUDE.md: rule WebP nâng thành \"LUÔN BẬT\".",
+        "Ecosystems: github-actions (/) + pip (visitor-counter, scripts). Weekly, grouped, giới hạn open-PR.",
+        "Không gây xung đột build site: Zola binary pin cứng trong deploy.yml, Dependabot không đụng. Nó chỉ mở PR (không push thẳng main).",
+        "Rule auto-fix (CLAUDE.md): PR Dependabot phải PASS qa-check + build mới merge; nếu bump làm đỏ → chạy ff auto-fix, không fix được thì đóng PR giữ version cũ; không bao giờ merge khi đỏ."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Redirect /categories/posting → /categories/tat-ca (tránh 404 URL cũ)",
+      "tag": "chore",
+      "pr": 236,
+      "lines_added": 18,
+      "lines_removed": 0,
+      "highlights": [
+        "Thêm static/categories/posting/index.html: trang redirect (meta refresh 0s + location.replace + <link rel=canonical> + noindex,follow) chuyển /categories/posting/ → /categories/tat-ca/.",
+        "Zola copy static/ → public/; vì không còn bài nào dùng category Posting nên không xung đột với taxonomy.",
+        "Chỉ thêm 1 file tĩnh, không đụng layout/CSS/global.",
+        "noindex,follow + canonical → Google gộp tín hiệu về trang mới, gỡ URL cũ khỏi index.",
+        "zola build (0.22.1): 32 pages, 0 lỗi."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Bài Liobank — giới thiệu bạn bè nhận thưởng đến 500.000đ",
       "tag": "feat",
       "pr": 238,
