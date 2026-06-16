@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Khôi phục menu — dropdown Category → Sub-category (hết ẩn)",
+      "tag": "fix",
+      "pr": 207,
+      "lines_added": 351,
+      "lines_removed": 25,
+      "highlights": [
+        "config.toml: menu thêm children (inline table lồng, hợp lệ TOML 1.0.0). Item không có children vẫn render link đơn (tương thích ngược).",
+        "templates/base.html: render <button> trigger + <ul.navbar__submenu> khi có children; thêm include navbar-dropdown.js.",
+        "sass/_navbar.scss: CSS dropdown, tách 2 block DESKTOP (global) / MOBILE (≤720px).",
+        "static/js/navbar-dropdown.js (mới): toggle/đóng/bàn phím + đánh dấu nhóm cha active.",
+        "static/js/navbar-mobile.js: scrollActiveIntoView chỉ xét link top-level (tránh nhảy trang khi child đang ẩn)."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Cập nhật rule Git — 1 nhánh chung + manual merge",
       "tag": "chore",
       "pr": 206,
