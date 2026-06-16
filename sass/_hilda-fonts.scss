@@ -1,0 +1,31 @@
+/* ============================================================
+   ===== HILDA FONTS — Ericsson Proprietary Font =====
+   ============================================================
+   @font-face for Ericsson Hilda OTF
+   Fallback: Inter, Roboto from Google Fonts
+*/
+
+/* ===== Ericsson Hilda Font Import (from GitHub) ===== */
+@font-face {
+  font-family: 'Ericsson Hilda';
+  src: url('https://raw.githubusercontent.com/Verten/umi_design/master/src/assets/font/hilda/ericsson-hilda-mono-regular.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;  /* Prevent FOUC, use system font while loading */
+}
+
+/* ===== Google Fonts Fallback (Inter) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* ===== Apply Font Stack to Hilda Theme ===== */
+:root[data-theme="hilda"] {
+  --hilda-font-family: 'Ericsson Hilda', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--hilda-font-family);
+}
+
+/* ===== Font Size & Weight Variables ===== */
+:root[data-theme="hilda"] {
+  --hilda-font-size-base: 16px;
+  --hilda-font-weight-regular: 400;
+  --hilda-font-weight-semibold: 600;
+  --hilda-font-weight-bold: 700;
+}

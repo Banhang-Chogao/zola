@@ -1,0 +1,55 @@
+/* ============================================================
+   ===== HILDA TOKENS — Ericsson Professional Style =====
+   ============================================================
+   Color palette, typography, and spacing for Hilda theme.
+   Primary: #003784 (Ericsson Blue)
+   Font: Ericsson Hilda (OTF) or fallback to Inter/Roboto
+*/
+
+/* ===== Color Tokens ===== */
+$hilda-primary:          #003784;  /* Ericsson Blue */
+$hilda-primary-hover:    #002566;  /* Darker blue for hover */
+$hilda-secondary:        #00a69d;  /* Teal */
+$hilda-accent-cta:       #e30613;  /* Red for action buttons */
+
+$hilda-white:            #ffffff;
+$hilda-light-gray:       #f4f4f4;
+$hilda-text-heading:     #000000;
+$hilda-text-body:        #333333;
+$hilda-text-muted:       #666666;
+$hilda-border:           #e0e0e0;
+$hilda-border-strong:    #d0d0d0;
+
+/* Shadows */
+$hilda-shadow-sm:        0 2px 4px rgba(0, 55, 132, 0.08);
+$hilda-shadow-lg:        0 8px 16px rgba(0, 55, 132, 0.12);
+
+/* Status colors */
+$hilda-success:          #00a69d;  /* Teal for success */
+$hilda-warning:          #ff9500;  /* Orange for warnings */
+$hilda-focus-ring:       rgba(0, 55, 132, 0.35);
+
+/* ===== Typography Tokens ===== */
+$hilda-font-family:      'Ericsson Hilda', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$hilda-font-size-base:   16px;
+$hilda-font-weight-regular:   400;
+$hilda-font-weight-semibold:  600;
+$hilda-font-weight-bold:      700;
+$hilda-letter-spacing-tight:  -0.02em;
+$hilda-letter-spacing-normal: 0em;
+$hilda-letter-spacing-wide:   0.05em;
+
+/* ===== Spacing & Radius Tokens ===== */
+$hilda-radius-sm:        4px;   /* Sharp corners (professional) */
+$hilda-radius-md:        4px;   /* Consistent sharp design */
+$hilda-radius-lg:        4px;   /* No soft curves */
+
+$hilda-spacing-xs:       4px;
+$hilda-spacing-sm:       8px;
+$hilda-spacing-md:       16px;
+$hilda-spacing-lg:       24px;
+$hilda-spacing-xl:       32px;
+$hilda-spacing-2xl:      40px;
+
+/* ===== Transition & Animation ===== */
+$hilda-transition-fade:  0.3s ease;  /* Fade transition for theme switch */
