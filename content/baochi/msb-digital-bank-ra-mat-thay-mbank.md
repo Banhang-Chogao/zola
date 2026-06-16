@@ -1,5 +1,5 @@
 +++
-title = "MSB chính thức ra mắt MSB Digital Bank: app mới thay mBank, khách cần làm gì?"
+title = "MSB Digital Bank thay mBank: khách cần làm gì?"
 date = 2026-06-16
 [taxonomies]
 categories = ["Banking"]
