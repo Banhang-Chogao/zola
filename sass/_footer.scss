@@ -159,163 +159,11 @@
   }
 }
 
-/* Tag section header điều chỉnh nhỏ trên mobile rất hẹp */
-@media (max-width: 540px) {
-  .footer-tags-section {
-    &__title { font-size: 0.78rem; }
-    &__count { font-size: 0.72rem; }
-  }
-}
-
 /* ============================================================
-   ===== DESKTOP — TAG GRID (global, không media query) =====
+   ===== TAG CLOUD đã chuyển sang RIGHT SIDEBAR (text-only) =====
    ============================================================
-   COMPACT theo mẫu "Tech Stack" (shields for-the-badge): cell nhỏ,
-   badge gọn + số bài nhỏ phía dưới. 5 cột uniform, max-width hẹp.
-   Right-align (canh phải footer) đặt riêng ở block @media min-width:721
-   bên dưới — desktop only, mobile giữ nguyên (các @media max-width
-   sẵn có đã tự định nghĩa size mobile). */
-.tag-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  max-width: 840px;
-  margin: 0 auto;        /* mặc định center; canh phải ở @media ≥721 */
-}
-
-.tag-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  padding: 0.5rem 0.5rem;
-  min-height: 52px;
-  background: #fafafa;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: transform .18s ease, box-shadow .18s ease,
-              border-color .18s ease, background .18s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    border-color: #d4d4d4;
-    background: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-
-  /* Badge "logo" — pill chữ HOA gọn (cỡ chip tech-stack mẫu) */
-  &__badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.3rem 0.6rem;
-    border-radius: 5px;
-    color: #fff;
-    font-weight: 800;
-    font-size: 0.62rem;
-    letter-spacing: 0.06em;
-    line-height: 1;
-    white-space: nowrap;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    /* Đơn sắc Ericsson Blue — cycle 3 tone xanh (primary/navy/bright) qua
-       loop.index0 % 8. Bỏ palette cầu vồng cũ cho tối giản kiểu Ericsson.
-       Chữ trắng (color: #fff ở trên) đọc rõ trên cả 3 tone. */
-    &--c0 { background: #003784; }
-    &--c1 { background: #002566; }
-    &--c2 { background: #0a5cb8; }
-    &--c3 { background: #003784; }
-    &--c4 { background: #002566; }
-    &--c5 { background: #0a5cb8; }
-    &--c6 { background: #003784; }
-    &--c7 { background: #002566; }
-  }
-
-  /* Mô tả ngắn dưới badge */
-  &__desc {
-    color: #555;
-    font-size: 0.66rem;
-    font-weight: 500;
-    text-align: center;
-    line-height: 1.3;
-  }
-}
-
-/* ============================================================
-   ===== DESKTOP (≥ 721px) — CANH PHẢI tag cloud trong footer =====
-   ============================================================
-   Đẩy grid + header bar sang mép phải footer. Scope min-width:721
-   → tuyệt đối không ảnh hưởng mobile (mobile vẫn full-width center). */
-@media (min-width: 721px) {
-  .tag-grid {
-    margin: 0 0 0 auto;          /* canh phải: chừa khoảng trống bên trái */
-  }
-
-  .footer-tags-section__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.75rem;
-    max-width: 840px;
-    margin: 0 0 0.8rem auto;     /* header bar khớp width grid + canh phải */
-  }
-
-  .footer-tags-section__title { margin: 0; }
-}
-
-/* ============================================================
-   ===== MOBILE — TAG GRID responsive (media queries) =====
-   ============================================================
-   Co cột theo viewport, KHÔNG đụng global selector hay scroll. */
-
-/* Tablet rộng: 4 cột */
-@media (max-width: 1024px) {
-  .tag-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Tablet hẹp / mobile lớn: 3 cột */
-@media (max-width: 720px) {
-  .tag-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 0 0.25rem;
-  }
-  .tag-card {
-    padding: 1.1rem 0.5rem;
-    min-height: 105px;
-    gap: 0.65rem;
-    &__badge {
-      font-size: 0.66rem;
-      padding: 0.42rem 0.65rem;
-      letter-spacing: 0.08em;
-    }
-    &__desc {
-      font-size: 0.75rem;
-    }
-  }
-  .footer-tags-section {
-    padding: 1.25rem 0 1.5rem;
-    &__head { flex-direction: column; gap: 0.25rem; }
-  }
-}
-
-/* Mobile nhỏ: 2 cột để badge không bị crop */
-@media (max-width: 480px) {
-  .tag-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-  .tag-card {
-    min-height: 100px;
-    &__badge { font-size: 0.7rem; padding: 0.45rem 0.75rem; }
-  }
-}
+   Style cũ (.tag-grid / .tag-card / .footer-tags-section) đã gỡ vì
+   không còn dùng. Tag cloud mới = .tag-cloud trong _sidebar.scss. */
 
 /* ============================================================
    ===== QA DASHBOARD — DESKTOP (global) =====
@@ -349,6 +197,37 @@
     font-size: 0.8rem;
     color: #888;
   }
+}
+
+/* ============================================================
+   ===== FOOTER SPLIT — QA Dashboard (trái) · GA Stats (phải) =====
+   ============================================================
+   Mobile-first: mặc định xếp chồng (1 cột). Desktop (≥981px) tách 2
+   cột song song — QA bên trái, Google Analytics bên phải. */
+.footer-qa__split {
+  display: grid;
+  grid-template-columns: 1fr;        /* mặc định: stack (mobile/tablet hẹp) */
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.footer-qa__left,
+.footer-qa__right { min-width: 0; }
+
+@media (min-width: 981px) {
+  .footer-qa__split {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+  }
+  /* Header căn trái + QA grid 2 cột gọn trong nửa trái */
+  .footer-qa__split .footer-qa__head { justify-content: flex-start; }
+  .footer-qa__split .qa-grid {
+    max-width: none;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* GA fill trọn cột phải (bỏ căn giữa + cap width của bản standalone) */
+  .footer-qa__split .ga-stats { max-width: none; margin: 0; }
 }
 
 .qa-grid {
