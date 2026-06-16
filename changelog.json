@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Phase 4: Port theme-overrides.scss — 14 components × 3 themes",
+      "tag": "chore",
+      "pr": 157,
+      "lines_added": 377,
+      "lines_removed": 0,
+      "highlights": [
+        "Mixin theme-overrides(6 params): chỉ inject non-color tokens",
+        "$radius-card, $radius-tag (border-radius)",
+        "$shadow-card, $shadow-card-hover (depth)",
+        "$kicker-spacing, $heading-ls (typography)",
+        "*Colors hardcoded var(--c-)** inside mixin (Phase 1 đã set per theme)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Phase 3: Update base.html dropdown markup + navbar CSS",
       "tag": "chore",
       "pr": 154,
