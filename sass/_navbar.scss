@@ -89,6 +89,167 @@
     }
   }
 
+  /* ===== THEME DROPDOWN (4-option) — Phase 3 =====
+     Replace .navbar__theme toggle button. */
+  .theme-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    font-family: $font-ui;
+  }
+
+  .theme-toggle__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0 1rem;
+    font-family: $font-ui;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $brand-ink-500;
+    height: 100%;
+    transition: color 0.15s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+
+    &:hover {
+      color: var(--c-accent);
+    }
+
+    &[aria-expanded="true"] {
+      color: var(--c-accent);
+      border-bottom-color: var(--c-accent);
+    }
+  }
+
+  .theme-toggle__dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--c-accent);
+    border: 2px solid $brand-snow;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+
+  .theme-toggle__current {
+    font-weight: 700;
+  }
+
+  .theme-toggle__caret {
+    font-size: 0.65rem;
+    opacity: 0.6;
+    transition: transform 0.18s ease;
+  }
+
+  .theme-toggle__btn[aria-expanded="true"] .theme-toggle__caret {
+    transform: rotate(180deg);
+  }
+
+  .theme-toggle__menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0.5rem;
+    background: $brand-snow;
+    border: 1px solid var(--c-border);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    min-width: 220px;
+    padding: 0.5rem;
+    margin: 0;
+    list-style: none;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    &[hidden] {
+      display: none;
+    }
+
+    li {
+      display: block;
+    }
+  }
+
+  .theme-toggle__opt {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: transparent;
+    border: none;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: $font-ui;
+    font-size: 0.88rem;
+    color: $brand-ink-800;
+    text-align: left;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: var(--c-bg-soft);
+    }
+
+    &[aria-checked="true"] {
+      background: var(--c-bg-soft);
+      color: var(--c-text-heading);
+      font-weight: 700;
+    }
+
+    &__dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    &__name {
+      flex: 1;
+      line-height: 1.1;
+    }
+
+    &__sub {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--c-text-muted);
+      font-weight: 500;
+      margin-top: 0.15rem;
+    }
+
+    &__check {
+      color: var(--c-accent);
+      font-weight: 700;
+      opacity: 0;
+
+      [aria-checked="true"] & {
+        opacity: 1;
+      }
+    }
+  }
+
+  /* ===== MOBILE (≤ 720px) ===== */
+  @media (max-width: 720px) {
+    .theme-toggle__btn {
+      padding: 0 0.65rem;
+      font-size: 0.78rem;
+
+      .theme-toggle__current {
+        display: none;
+      }
+    }
+
+    .theme-toggle__menu {
+      right: 0.25rem;
+      min-width: 200px;
+    }
+  }
+
   /* Burger button — desktop ẩn, mobile hiện. 3 line ngang animated → X
      khi menu open (transform translate Y + rotate). */
   &__burger {
