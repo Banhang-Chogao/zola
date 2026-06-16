@@ -45,6 +45,28 @@ phạm vi (lúc đó báo lại chẩn đoán + chỗ kẹt, không im lặng).
 Sau khi `ff` / `ff9` fix xong và build xanh → auto merge + auto deploy lên
 production, KHÔNG cần `manual #X`.
 
+### 4. Thư viện lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
+
+> 📚 Bộ "kinh nghiệm" tích luỹ: khi gặp lại đúng dấu hiệu lỗi dưới đây, áp dụng
+> NGAY cách fix tương ứng, KHÔNG cần chẩn đoán lại từ đầu. Mỗi lần phát hiện một
+> lỗi build mới + cách fix bền vững → APPEND thêm vào danh sách này.
+
+- **`build-related.yml` (Build Semantic Related Posts) fail — HuggingFace 401
+  "Repository Not Found" / "Invalid username or password"**:
+  - Dấu hiệu: log `snapshot_download` báo `401 Client Error` + `Repository Not
+    Found for url: https://huggingface.co/api/models/<tên-model>` cho model
+    SBERT (vd `paraphrase-multilingual-MiniLM-L12-v2`).
+  - Nguyên nhân: model id để **trần** (thiếu org). `huggingface_hub.snapshot_download`
+    KHÔNG tự thêm prefix `sentence-transformers/` như class `SentenceTransformer`
+    → HF tra repo top-level không tồn tại → 401. KHÔNG phải lỗi mạng/quota,
+    KHÔNG phải conflict với tool chấm điểm/SEO/QA.
+  - Fix bền vững: trong `scripts/build_related.py`, đặt `MODEL_NAME` là repo-id
+    ĐẦY ĐỦ kèm org, vd `"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"`.
+    Quy tắc chung: mọi chỗ gọi `snapshot_download` / API HF Hub PHẢI dùng repo-id
+    đầy đủ `org/model`, không dùng tên trần.
+  - Lưu ý phụ: cron `*/5 * * * *` chạy lại mỗi 5 phút → lỗi này spam fail liên
+    tục cho tới khi sửa repo-id; sửa xong là hết.
+
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
 Quy tắc bắt buộc, có hiệu lực với mọi yêu cầu liên quan đến CSS/UI/layout.
