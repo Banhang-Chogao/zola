@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Xoá 10 file test-feature-*.txt (rác test auto-merge9)",
+      "tag": "chore",
+      "pr": 209,
+      "lines_added": 0,
+      "lines_removed": 10,
+      "highlights": [
+        "✅ Nội dung chỉ là chuỗi demo test, không code/asset thật.",
+        "✅ grep toàn repo (.html, .toml, .scss, .js, .md): không file nào tham chiếu tới chúng → xoá không vỡ build/link.",
+        "✅ Branch đã sync với main mới nhất nên PR này chỉ chứa 10 phép xoá, không lẫn thay đổi khác."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Đồng bộ shortcut prn với rule mới (1 nhánh chung + base main)",
       "tag": "chore",
       "pr": 208,
