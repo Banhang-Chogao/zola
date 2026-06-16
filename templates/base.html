@@ -621,12 +621,17 @@
                 </header>
                 <div class="qa-grid">
                     {# Card 1: Performance #}
-                    <div class="qa-card">
-                        <div class="qa-card__labels">
-                            <span class="qa-card__label qa-card__label--green">AUTO</span>
-                            <span class="qa-card__label qa-card__label--gray">WEEKLY</span>
+                    <div class="qa-card qa-card--perf"
+                         title="Performance Audit — workflow tự đo tốc độ tải trang (Lighthouse) chạy theo lịch hằng tuần.">
+                        <div class="qa-card__top">
+                            <span class="qa-card__icon" aria-hidden="true">⚡</span>
+                            <div class="qa-card__labels">
+                                <span class="qa-card__label qa-card__label--green">AUTO</span>
+                                <span class="qa-card__label qa-card__label--gray">WEEKLY</span>
+                            </div>
                         </div>
                         <h4 class="qa-card__title">Performance Audit</h4>
+                        <p class="qa-card__desc">Tự động đo tốc độ tải trang hằng tuần bằng Lighthouse.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">Cron CN 02:00 UTC</span>
                             <span class="qa-card__date">{{ qa_now }}</span>
@@ -634,12 +639,17 @@
                     </div>
 
                     {# Card 2: Security #}
-                    <div class="qa-card">
-                        <div class="qa-card__labels">
-                            <span class="qa-card__label qa-card__label--red">CRON</span>
-                            <span class="qa-card__label qa-card__label--gray">AUDIT</span>
+                    <div class="qa-card qa-card--sec"
+                         title="Security Scan — quét lỗ hổng thư viện Python (pip-audit) + rò rỉ secret (gitleaks) theo lịch.">
+                        <div class="qa-card__top">
+                            <span class="qa-card__icon" aria-hidden="true">🛡️</span>
+                            <div class="qa-card__labels">
+                                <span class="qa-card__label qa-card__label--red">CRON</span>
+                                <span class="qa-card__label qa-card__label--gray">AUDIT</span>
+                            </div>
                         </div>
                         <h4 class="qa-card__title">Security Scan</h4>
+                        <p class="qa-card__desc">Quét lỗ hổng thư viện &amp; rò rỉ secret định kỳ.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">pip-audit + gitleaks</span>
                             <span class="qa-card__date">T7 03:00 UTC</span>
@@ -647,12 +657,17 @@
                     </div>
 
                     {# Card 3: AI Semantic Scores #}
-                    <div class="qa-card">
-                        <div class="qa-card__labels">
-                            <span class="qa-card__label qa-card__label--purple">AI</span>
-                            <span class="qa-card__label qa-card__label--yellow">PYTORCH</span>
+                    <div class="qa-card qa-card--ai"
+                         title="Semantic Scoring — số bài được model AI (SBERT/PyTorch) chấm độ tương đồng để gợi ý 'bài liên quan'.">
+                        <div class="qa-card__top">
+                            <span class="qa-card__icon" aria-hidden="true">🧠</span>
+                            <div class="qa-card__labels">
+                                <span class="qa-card__label qa-card__label--purple">AI</span>
+                                <span class="qa-card__label qa-card__label--yellow">PYTORCH</span>
+                            </div>
                         </div>
                         <h4 class="qa-card__title">Semantic Scoring</h4>
+                        <p class="qa-card__desc">Số bài được AI (SBERT) chấm độ tương đồng để gợi ý bài liên quan.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{{ qa_scores | length }} bài scored</span>
                             <span class="qa-card__date">{{ qa_now }}</span>
@@ -660,12 +675,17 @@
                     </div>
 
                     {# Card 4: PR Activity #}
-                    <div class="qa-card">
-                        <div class="qa-card__labels">
-                            <span class="qa-card__label qa-card__label--blue">GITHUB</span>
-                            <span class="qa-card__label qa-card__label--green">AUTO</span>
+                    <div class="qa-card qa-card--pr"
+                         title="PR Activity — tổng số pull request đã merge, lấy từ changelog.json (nhật ký thay đổi).">
+                        <div class="qa-card__top">
+                            <span class="qa-card__icon" aria-hidden="true">🔀</span>
+                            <div class="qa-card__labels">
+                                <span class="qa-card__label qa-card__label--blue">GITHUB</span>
+                                <span class="qa-card__label qa-card__label--green">AUTO</span>
+                            </div>
                         </div>
                         <h4 class="qa-card__title">PR Activity</h4>
+                        <p class="qa-card__desc">Tổng pull request đã merge — nhật ký thay đổi của blog.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{{ qa_changelog_items | length }} PRs</span>
                             <span class="qa-card__date">
@@ -675,12 +695,17 @@
                     </div>
 
                     {# Card 5: Tag Network #}
-                    <div class="qa-card">
-                        <div class="qa-card__labels">
-                            <span class="qa-card__label qa-card__label--orange">STATIC</span>
-                            <span class="qa-card__label qa-card__label--gray">BUILD</span>
+                    <div class="qa-card qa-card--tag"
+                         title="Tag Network — số thẻ (tags) và chuyên mục (categories) đang phân loại bài viết.">
+                        <div class="qa-card__top">
+                            <span class="qa-card__icon" aria-hidden="true">🏷️</span>
+                            <div class="qa-card__labels">
+                                <span class="qa-card__label qa-card__label--orange">STATIC</span>
+                                <span class="qa-card__label qa-card__label--gray">BUILD</span>
+                            </div>
                         </div>
                         <h4 class="qa-card__title">Tag Network</h4>
+                        <p class="qa-card__desc">Số thẻ &amp; chuyên mục đang phân loại toàn bộ bài viết.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{{ qa_tag_taxo.items | length }} tags · {{ qa_cats.items | length }} categories</span>
                             <span class="qa-card__date">{{ qa_now }}</span>
@@ -688,12 +713,17 @@
                     </div>
 
                     {# Card 6: Deploy #}
-                    <div class="qa-card">
-                        <div class="qa-card__labels">
-                            <span class="qa-card__label qa-card__label--green">LIVE</span>
-                            <span class="qa-card__label qa-card__label--blue">PAGES</span>
+                    <div class="qa-card qa-card--deploy"
+                         title="Production Deploy — số bài đang xuất bản trực tiếp trên GitHub Pages.">
+                        <div class="qa-card__top">
+                            <span class="qa-card__icon" aria-hidden="true">🚀</span>
+                            <div class="qa-card__labels">
+                                <span class="qa-card__label qa-card__label--green">LIVE</span>
+                                <span class="qa-card__label qa-card__label--blue">PAGES</span>
+                            </div>
                         </div>
                         <h4 class="qa-card__title">Production Deploy</h4>
+                        <p class="qa-card__desc">Số bài đang xuất bản trực tiếp trên GitHub Pages.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{{ qa_posts.pages | length }} bài viết live</span>
                             <span class="qa-card__date">{{ qa_now }}</span>
