@@ -785,10 +785,10 @@
 }
 
 .navbar {
-  /* Gradient xanh thương hiệu (đồng bộ ảnh placeholder #38bdf8 → #1d4ed8) */
-  background: linear-gradient(120deg, #38bdf8 0%, #2563eb 55%, #1d4ed8 100%);
+  /* Nền xanh teal đặc #00a69d (theo yêu cầu user) */
+  background: #00a69d;
   border-bottom-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 2px 10px rgba(29, 78, 216, 0.25);
+  box-shadow: 0 2px 10px rgba(0, 166, 157, 0.3);
 
   /* Menu phải nổi trên lớp chữ cái trang trí */
   .navbar__inner { position: relative; z-index: 1; }
@@ -826,6 +826,15 @@
   .navbar__dropdown-label { color: rgba(255, 255, 255, 0.82); }
   .navbar__dropdown-trigger:hover { color: #fff; }
 
+  /* QUAN TRỌNG: submenu xổ xuống là panel nền TRẮNG → chữ phải TỐI (rule chữ
+     trắng .navbar__menu a ở trên đè nhầm vào link submenu vì nó nằm trong menu).
+     Đặt sau để thắng theo source order. */
+  .navbar__submenu a {
+    color: var(--c-text-body);
+    &:hover { color: var(--c-accent); }
+    &.is-active { color: var(--c-accent); border-bottom-color: transparent; }
+  }
+
   /* Theme toggle + icon buttons sang trắng */
   .theme-toggle__btn {
     color: rgba(255, 255, 255, 0.9);
@@ -843,7 +852,7 @@
 @media (max-width: 720px) {
   .navbar .navbar__inner::after {
     background: linear-gradient(to left,
-      rgba(29, 78, 216, 0.92) 0%,
-      rgba(29, 78, 216, 0) 100%);
+      rgba(0, 166, 157, 0.92) 0%,
+      rgba(0, 166, 157, 0) 100%);
   }
 }
