@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Shortcut diemtoiuu — chấm điểm SEO toàn site + báo cáo chi tiết",
+      "tag": "feat",
+      "pr": 203,
+      "lines_added": 382,
+      "lines_removed": 0,
+      "highlights": [
+        "Quét mọi public/*.html (HTML đã build = thứ crawler thật sự thấy).",
+        "Tự loại trang alias/redirect của Zola (meta http-equiv=refresh, title \"Redirect\") để không kéo điểm oan — đây là bug đã phát hiện & fix ngay trong lúc test (loại 100 trang redirect → điểm từ 50 lên 79",
+        "Chấm 13 tiêu chí/trang (tổng 100): title · meta description · canonical · og:title/description/image/type · twitter:card · JSON-LD · đúng 1 <h1> · viewport · <html lang> · img alt coverage.",
+        "Cộng hạ tầng site: robots.txt · sitemap.xml · atom.xml · rss.xml (hệ số 0.95–1.00).",
+        "Báo cáo: điểm site /100 + hạng, thời điểm chấm GMT+7 HH:MM dd/mm/yyyy, phân bố hạng, bảng từng trang (điểm thấp→cao) + vấn đề, top tín hiệu thiếu, gợi ý ưu tiên."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Keepalive Scheduler — ép 3 QA workflow chạy đúng 11:00 GMT+7",
       "tag": "feat",
       "pr": 201,
