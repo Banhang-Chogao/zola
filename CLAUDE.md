@@ -1,5 +1,34 @@
 # CLAUDE.md — Quy tắc làm việc
 
+## Quy tắc Deploy & Production (MỚI NHẤT — ghi đè TẤT CẢ rule deploy/auto-merge trước đó)
+
+> ⚠️ **Rule này là MỚI NHẤT (16/06/2026), hiệu lực CAO NHẤT.** Nó **ghi đè hoàn toàn** mọi rule deploy cũ: "rule 16:00", "TẠM NGƯNG QUYỀN AUTO-MERGE", và mọi câu "KHÔNG auto-merge" rải rác trong `shortcuts.md` (§4.5, §4.6, các loop `morning` / `seo10` / `gg` / `prm`...). Khi mâu thuẫn → LẤY rule này.
+
+### 1. Auto hết — không thao tác tay
+
+Để tiết kiệm thời gian, MỌI thay đổi lên GitHub đều tự động, user KHÔNG phải làm tay:
+
+- **Auto commit** — commit thẳng, message rõ ràng.
+- **Auto merge** — tự merge vào `main`. KHÔNG đợi `manual #X`, KHÔNG gom batch, KHÔNG chờ 16:00.
+- **Auto deploy** — merge vào `main` → workflow `deploy.yml` tự build & deploy lên production (GitHub Pages).
+
+### 2. Điều kiện cho lên production (cả 3 PHẢI đạt)
+
+1. **Commit/push thành công** (không lỗi git).
+2. **QA checker approve** — `qa_check.py` (workflow `qa.yml`) pass; chỉ error/exit≠0 mới chặn, warning KHÔNG chặn.
+3. **Build KHÔNG failed** — `deploy.yml` build xanh.
+
+Đủ cả 3 → auto merge + auto deploy, KHÔNG hỏi lại.
+
+### 3. Khi build failed → fix rồi mới lên production
+
+Nếu build failed (deploy đỏ / QA error), KHÔNG bỏ mặc. Chạy 1 trong 2 phím tắt để fix rồi deploy lại:
+
+- **`ff`** — Full Fix & Deploy (với Python lib picker).
+- **`ff9`** — Smart Conflict Resolver (Python-powered).
+
+Sau khi `ff` / `ff9` fix xong và build xanh → auto deploy lên production, KHÔNG cần `manual #X`.
+
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
 Quy tắc bắt buộc, có hiệu lực với mọi yêu cầu liên quan đến CSS/UI/layout.
