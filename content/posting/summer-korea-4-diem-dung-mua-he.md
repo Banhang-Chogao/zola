@@ -1,5 +1,5 @@
 +++
-title = "Du lịch Hàn Quốc mùa hè đi đâu? Seoul, Busan, Seoraksan, Jeju"
+title = "Du lịch Hàn Quốc mùa hè: Seoul, Busan, Jeju"
 description = "Du lịch Hàn Quốc mùa hè qua 4 điểm: Seoul (sông Hàn), Busan (biển), Seoraksan (leo núi), Jeju. Hoạt động, món ăn nên thử và mẹo ngân sách cho dân du lịch Việt."
 date = 2026-06-15
 aliases = ["/summer-korea-4-diem-dung-mua-he/"]
@@ -8,7 +8,7 @@ aliases = ["/summer-korea-4-diem-dung-mua-he/"]
 categories = ["Tất cả", "Du lịch"]
 tags = ["budget travel", "busan", "du lịch", "hiking", "hàn quốc", "hàn river", "jeju", "korea", "mùa hè", "seoraksan", "seoul", "ẩm thực"]
 [extra]
-thumbnail = "https://picsum.photos/seed/summer-korea-4-spots/1200/800"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/summer-korea-4-diem-dung-mua-he.svg"
 featured = false
 [[extra.faq]]
 q = "Mùa hè ở Hàn Quốc nên đi đâu?"

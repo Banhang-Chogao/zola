@@ -62,10 +62,12 @@ menu = [
     { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
         { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
         { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
+        { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
         { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
         { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },
         { url = "$BASE_URL/categories/am-thuc",  name = "Ẩm thực" },
-        { url = "$BASE_URL/categories/banking",  name = "Banking" },
+        { url = "$BASE_URL/categories/ngan-hang",  name = "Ngân hàng" },
+        { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
     ] },
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
         { url = "$BASE_URL/editor",    name = "Viết bài" },

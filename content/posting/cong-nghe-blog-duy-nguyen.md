@@ -8,7 +8,7 @@ aliases = ["/cong-nghe-blog-duy-nguyen/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["cms", "github actions", "tech stack", "vanilla js", "zola"]
 [extra]
-thumbnail = "https://picsum.photos/seed/cong-nghe-blog-duy-nguyen/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/cong-nghe-blog-duy-nguyen.svg"
 featured = true
 featured_at = "2026-06-15T09:43:31.498Z"
 [[extra.faq]]

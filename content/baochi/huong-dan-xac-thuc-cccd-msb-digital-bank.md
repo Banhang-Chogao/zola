@@ -3,7 +3,7 @@ title = "Hướng dẫn xác thực CCCD trên MSB Digital Bank từ A–Z"
 description = "Hướng dẫn chi tiết cách xác thực lại CCCD trên MSB Digital Bank khi chuyển từ mBank: tải app, nhập OTP, quét khuôn mặt và xử lý các lỗi thường gặp."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Banking"]
+categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "msb", "msb-digital-bank", "xác thực cccd", "ngân hàng số"]
 [extra]
 thumbnail = "https://picsum.photos/seed/xac-thuc-cccd-msb/600/400"

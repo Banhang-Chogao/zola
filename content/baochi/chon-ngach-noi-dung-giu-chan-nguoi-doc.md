@@ -2,10 +2,10 @@
 title = "Chọn ngách nội dung để blog giữ chân người đọc"
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí", "Công nghệ"]
+categories = ["Tất cả", "Công nghệ", "Báo chí"]
 tags = ["blog", "content-strategy", "seo", "engagement", "mobile-ux"]
 [extra]
-thumbnail = "https://picsum.photos/seed/chon-ngach-noi-dung-giu-chan-nguoi-doc/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
 featured = false
 +++
 

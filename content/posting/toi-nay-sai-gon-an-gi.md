@@ -1,5 +1,5 @@
 +++
-title = "Tối nay ở Sài Gòn ăn gì? 12 quán ăn tối & ăn khuya (2026)"
+title = "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya"
 description = "Gợi ý 12 quán ăn tối ở Sài Gòn từ street food đến quán ngồi: hủ tiếu Nam Vang, ốc Vĩnh Khánh, cơm tấm, bún mắm, phá lấu, chè... kèm địa chỉ và giá."
 date = 2026-06-15
 aliases = ["/toi-nay-sai-gon-an-gi/"]
@@ -8,7 +8,7 @@ aliases = ["/toi-nay-sai-gon-an-gi/"]
 categories = ["Tất cả", "Ẩm thực"]
 tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối", "ẩm thực"]
 [extra]
-thumbnail = "https://picsum.photos/seed/toi-nay-sai-gon-an-gi/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"
 featured = false
 [[extra.faq]]
 q = "Tối nay ở Sài Gòn nên ăn gì?"

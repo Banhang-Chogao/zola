@@ -2,10 +2,10 @@
 title = "Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?"
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Báo chí"]
+categories = ["Tất cả", "Thế giới", "Báo chí"]
 tags = ["kinh-tế", "địa-chính-trị", "năng-lượng", "dầu-mỏ", "thị-trường-tài-chính"]
 [extra]
-thumbnail = "https://picsum.photos/seed/my-iran-peace-deal/600/400"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/my-iran-peace-deal-global-energy.svg"
 featured = false
 +++
 
