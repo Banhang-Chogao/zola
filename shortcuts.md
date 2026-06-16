@@ -53,6 +53,7 @@ Format bắt buộc:
 | `SEO9` | Tu bổ SEO site-wide đạt Lighthouse 100/100 (Google Search Central) |
 | `SEO10` | Loop audit + fix từng lỗi đến khi 0 issue (Google SEO Starter Guide) |
 | `SEO11` | Hybrid SEO9+SEO10: phase 1 bulk Lighthouse + phase 2 loop polish |
+| `diemtoiuu` | Python chấm điểm SEO toàn site (public/) + in báo cáo chi tiết tại chỗ |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
@@ -275,6 +276,30 @@ Bonus columns nếu user muốn detail:
 - Runs/tháng estimate
 
 KHÔNG diễn giải dài, chỉ output bảng + 1 dòng summary.
+
+### `diemtoiuu` — Chấm điểm SEO toàn site + báo cáo chi tiết
+
+Hành động Claude khi user gõ `diemtoiuu`:
+
+1. **Build site**: `zola build` (tạo `public/` mới nhất — chấm trên HTML
+   thật mà crawler nhìn thấy, không chấm trên source `.md`).
+2. **Chạm điểm**: `python3 scripts/seo_score.py` (stdlib only, không cần
+   pip). Script quét MỌI trang HTML trong `public/`, tự **loại trang
+   alias/redirect** (Zola stub `meta refresh`) để không kéo điểm oan.
+3. **Hiển thị báo cáo chi tiết NGAY tại thời điểm chấm**, gồm:
+   - Điểm SEO site `/100` + hạng (A+…F), thời điểm chấm (GMT+7, `HH:MM dd/mm/yyyy`).
+   - Trạng thái hạ tầng: robots.txt · sitemap.xml · atom.xml · rss.xml.
+   - Phân bố hạng + bảng từng trang (điểm thấp → cao) kèm vấn đề chính.
+   - Top tín hiệu thiếu phổ biến (số trang dính) + gợi ý ưu tiên.
+
+**Thang điểm mỗi trang (tổng 100)**: title(12) · meta description(14) ·
+canonical(8) · og:title(6) · og:description(6) · og:image(8) · og:type(4) ·
+twitter:card(6) · JSON-LD(10) · đúng 1 `<h1>`(10) · viewport(4) ·
+`<html lang>`(4) · img alt coverage(8). Điểm site = TB trang × hệ số hạ
+tầng (0.95–1.00 theo robots/sitemap/feed).
+
+Thêm `--json` → ghi `data/seo-scores.json` (cho template/đồ thị về sau).
+Exit code: `0` nếu điểm ≥ 70, `2` nếu < 70 (để CI gate nếu cần).
 
 ### `topic: <chủ đề>` — Tự research + viết bài + deploy
 
