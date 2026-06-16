@@ -2,6 +2,7 @@
    ===== THEME SWITCHER — Multi-theme Support (Z-X + Hilda) =====
    ============================================================
    Persistent theme switching with localStorage
+   Z-X is default theme (fintech blue)
 
    API:
    - window.ThemeSwitcher.getTheme() : "zx" | "hilda"
@@ -15,7 +16,7 @@
 
   var STORAGE_KEY = "blog-theme";
   var VALID_THEMES = ["zx", "hilda"];
-  var DEFAULT_THEME = "zx";
+  var DEFAULT_THEME = "zx";  // Z-X is default (fintech blue)
   var ATTR = "data-theme";
   var root = document.documentElement;
 
@@ -44,8 +45,13 @@
       name = DEFAULT_THEME;
     }
 
-    // Apply to DOM (triggers CSS variable changes)
-    root.setAttribute(ATTR, name);
+    // Apply to DOM
+    // Z-X is default: remove data-theme for Z-X (uses :root), set for others
+    if (name === "zx") {
+      root.removeAttribute(ATTR);
+    } else {
+      root.setAttribute(ATTR, name);
+    }
 
     // Persist to localStorage
     try {

@@ -1,5 +1,5 @@
 /* ============================================================
-   ===== DYNAMIC THEME SYSTEM — 2 themes (BrandingX ↔ Z-X) =====
+   ===== DYNAMIC THEME SYSTEM — 2 themes (Z-X ↔ BrandingX) =====
    ============================================================
    Semantic token naming (consistent across themes):
    - --c-bg-page       : page background
@@ -18,51 +18,12 @@
    - --c-shadow-lg     : hover lift shadow
 
    Themes:
-   - :root (default) — BrandingX (MoMo pink + red, warm playful)
-   - :root[data-theme="zx"] — Z-X (ZaloPay electric blue, fintech trust)
+   - :root (default) — Z-X (ZaloPay electric blue, fintech trust)
+   - :root[data-theme="brandingx"] — BrandingX (MoMo pink + red, warm playful)
 */
 
-/* ===== BRANDINGX (MoMo) — DEFAULT THEME ===== */
+/* ===== Z-X (ZaloPay) — DEFAULT THEME (FINTECH BLUE) ===== */
 :root {
-  /* Surface — neutral, no tint */
-  --c-bg-page:        #f8fafc;  /* $brand-mist — neutral soft bg */
-  --c-bg-surface:     #ffffff;  /* $brand-snow */
-  --c-bg-soft:        #f1f5f9;  /* $brand-fog */
-
-  /* Text — pure dark hierarchy */
-  --c-text-heading:   #0f172a;  /* $brand-ink-900 */
-  --c-text-body:      #1e293b;  /* $brand-ink-800 */
-  --c-text-muted:     #64748b;  /* $brand-ink-500 */
-
-  /* Accent — hot pink (MoMo playful) */
-  --c-accent:         #ec4899;  /* $brand-hot-pink */
-  --c-accent-hover:   #db2777;  /* darker pink on hover */
-  --c-accent-soft:    rgba(236, 72, 153, 0.1);
-
-  /* Decoration — signal red (category tag, promo) */
-  --c-decoration:     #d63d3d;  /* $brand-signal-red */
-
-  /* Border */
-  --c-border:         #ececec;  /* $brand-edge */
-  --c-border-strong:  #e2e8f0;  /* $brand-edge-strong */
-
-  /* Shadow — neutral gray (no color tint) */
-  --c-shadow-md:      0 4px 12px rgba(0, 0, 0, 0.08);
-  --c-shadow-lg:      0 12px 32px rgba(0, 0, 0, 0.12);
-
-  /* Status — money green (positive amount) */
-  --c-success:        #047a3f;
-  --c-warning:        #92760a;
-
-  /* Focus ring — pink */
-  --c-focus-ring:     rgba(236, 72, 153, 0.35);
-
-  /* Color scheme for native form controls */
-  color-scheme: light;
-}
-
-/* ===== Z-X (ZaloPay) — FINTECH BLUE THEME ===== */
-:root[data-theme="zx"] {
   /* Surface — blue tint subtle */
   --c-bg-page:        #f5f8ff;  /* $zx-mist */
   --c-bg-surface:     #ffffff;  /* $zx-snow */
@@ -95,6 +56,45 @@
 
   /* Focus ring — blue */
   --c-focus-ring:     rgba(0, 104, 255, 0.35);
+
+  /* Color scheme for native form controls */
+  color-scheme: light;
+}
+
+/* ===== BRANDINGX (MoMo) — ALTERNATIVE THEME ===== */
+:root[data-theme="brandingx"] {
+  /* Surface — neutral, no tint */
+  --c-bg-page:        #f8fafc;  /* $brand-mist — neutral soft bg */
+  --c-bg-surface:     #ffffff;  /* $brand-snow */
+  --c-bg-soft:        #f1f5f9;  /* $brand-fog */
+
+  /* Text — pure dark hierarchy */
+  --c-text-heading:   #0f172a;  /* $brand-ink-900 */
+  --c-text-body:      #1e293b;  /* $brand-ink-800 */
+  --c-text-muted:     #64748b;  /* $brand-ink-500 */
+
+  /* Accent — hot pink (MoMo playful) */
+  --c-accent:         #ec4899;  /* $brand-hot-pink */
+  --c-accent-hover:   #db2777;  /* darker pink on hover */
+  --c-accent-soft:    rgba(236, 72, 153, 0.1);
+
+  /* Decoration — signal red (category tag, promo) */
+  --c-decoration:     #d63d3d;  /* $brand-signal-red */
+
+  /* Border */
+  --c-border:         #ececec;  /* $brand-edge */
+  --c-border-strong:  #e2e8f0;  /* $brand-edge-strong */
+
+  /* Shadow — neutral gray (no color tint) */
+  --c-shadow-md:      0 4px 12px rgba(0, 0, 0, 0.08);
+  --c-shadow-lg:      0 12px 32px rgba(0, 0, 0, 0.12);
+
+  /* Status — money green (positive amount) */
+  --c-success:        #047a3f;
+  --c-warning:        #92760a;
+
+  /* Focus ring — pink */
+  --c-focus-ring:     rgba(236, 72, 153, 0.35);
 }
 
 /* ===== HILDA (Ericsson - Professional Style) ===== */
