@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "feat(adsense): trang pháp lý + E-E-A-T + disclosure + tiêu chí bb/bb9",
+      "tag": "chore",
+      "pr": 252,
+      "lines_added": 482,
+      "lines_removed": 50,
+      "highlights": [
+        "content/pages/privacy.md — Chính sách bảo mật (cookies, Google AdSense, GA, opt-out)",
+        "content/pages/contact.md — Liên hệ (email tamsudev.com@gmail.com)",
+        "content/pages/terms.md — Điều khoản & Miễn trừ (bản quyền, YMYL, affiliate)",
+        "Mở rộng about.md thành tiểu sử tác giả thật + cam kết nội dung",
+        "Sửa author.json bio (bỏ placeholder tiếng Anh)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "feat(seo): thêm FAQ + FAQPage schema cho 8 bài banking/how-to",
       "tag": "chore",
       "pr": 250,
