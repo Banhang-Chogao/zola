@@ -2,30 +2,30 @@
 # Tách khỏi requirements.txt chính để cài tuỳ chọn (chỉ dev local cần).
 
 # --- Core AI client (chọn 1 trong 2) ---
-anthropic>=0.40
+anthropic>=0.109.2
 # openai>=1.50           # uncomment nếu muốn dùng OpenAI thay Anthropic
 
 # --- Logging ---
-loguru>=0.7
+loguru>=0.7.3
 
 # --- Code quality (Ruff replaces flake8 + isort + pyupgrade) ---
-ruff>=0.6
+ruff>=0.15.17
 
 # --- Static typing ---
-mypy>=1.10
+mypy>=2.1.0
 
 # --- Config validation (Pydantic v2) ---
-pydantic>=2.7
+pydantic>=2.13.4
 
 # --- Git pre-commit hook framework ---
-pre-commit>=3.7
+pre-commit>=4.6.0
 
 # --- Dependency audit (catch ModuleNotFoundError + version conflict sớm) ---
-pip-tools>=7.5            # pip-compile + sync khoá version reproducible
+pip-tools>=7.5.3            # pip-compile + sync khoá version reproducible
 pipdeptree>=3.1           # render dependency tree, phát hiện conflict
 
 # --- HTTP retry với exponential backoff ---
-tenacity>=9.0             # @retry decorator chống race condition
+tenacity>=9.1.4             # @retry decorator chống race condition
 
 # --- Test flakiness mitigation ---
-pytest-rerunfailures>=16.0  # auto-rerun N lần test fail intermittent
+pytest-rerunfailures>=16.3  # auto-rerun N lần test fail intermittent
