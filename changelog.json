@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "test: kiểm tra Slack notification trên production",
+      "tag": "chore",
+      "pr": 249,
+      "lines_added": 7,
+      "lines_removed": 55,
+      "highlights": [
+        "File nằm trong data/, không được Zola publish ra site → an toàn.",
+        "Có thể xoá sau khi test xong.",
+        "Sau khi merge → push lên main → workflow Slack Commit Notification chạy, conclusion success, và tin nhắn xuất hiện trong kênh Slack."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "fix(ci): sửa Slack notify fail do Dependabot bump slack-github-action v1→v3",
       "tag": "fix",
       "pr": 248,
