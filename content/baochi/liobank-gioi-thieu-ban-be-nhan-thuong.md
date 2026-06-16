@@ -31,6 +31,8 @@ Mấy hôm nay nhóm bạn của tôi rủ nhau khá rôm rả về chuyện **g
 
 <!-- more -->
 
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
+
 ![Mascot sư tử Liobank xem bóng đá - chương trình giới thiệu nhận thưởng](https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.png)
 
 ## Chương trình giới thiệu Liobank nhận thưởng là gì?

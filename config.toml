@@ -81,6 +81,9 @@ menu = [
     ] },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
         { url = "$BASE_URL/about",            name = "Giới thiệu" },
+        { url = "$BASE_URL/contact",          name = "Liên hệ" },
+        { url = "$BASE_URL/privacy",          name = "Chính sách bảo mật" },
+        { url = "$BASE_URL/terms",            name = "Điều khoản & Miễn trừ" },
         { url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết" },
     ] },
 ]

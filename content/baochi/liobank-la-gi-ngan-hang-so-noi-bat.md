@@ -29,6 +29,8 @@ Dạo gần đây tôi nhận được khá nhiều câu hỏi kiểu "**Liobank
 
 <!-- more -->
 
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
+
 ![Mascot sư tử Liobank - tổng quan ngân hàng số](https://banhang-chogao.github.io/zola/img/covers/liobank-gioi-thieu-ban-be-nhan-thuong.png)
 
 ## Liobank là gì?

@@ -33,6 +33,8 @@ Với tôi, một chiếc thẻ tín dụng chỉ thật sự "đáng" khi nó t
 
 <!-- more -->
 
+> 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
+
 ![App Liobank - tab Tiền Cashback và danh sách giao dịch hoàn tiền](https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.jpg)
 
 ## Ưu đãi hoàn tiền Liobank hoạt động thế nào?
