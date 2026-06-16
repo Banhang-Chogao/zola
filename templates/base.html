@@ -19,7 +19,7 @@
 {% set latest_commit = false %}
 {% set today_count = 0 %}
 {% set week_count = 0 %}
-{% set numeric_id = "------" %}
+{% set numeric_id = "-------" %}
 
 {% if commits and commits.0 and commits.0.sha %}
     {% set_global latest_commit = commits.0 %}
@@ -36,7 +36,7 @@
         {% if ts >= today_start %}{% set_global today_count = today_count + 1 %}{% endif %}
         {% if ts >= week_ago %}{% set_global week_count = week_count + 1 %}{% endif %}
     {% endfor %}
-    {% set_global numeric_id = latest_commit.sha | truncate(length=6, end="") %}
+    {% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}
 {% endif %}
 
 <!DOCTYPE html>
@@ -251,16 +251,19 @@
     {# Header: logo left + ad banner right #}
     <header class="site-header">
         <div class="container site-header__inner">
-            {# Version scheme: '1.0.{commit_count}' monotonic theo tổng commit fetched.
-               Trước đây '1.{week}.{today}' KHÔNG monotonic (week giảm khi commits
-               cũ trôi qua 7 ngày, today reset 0 mỗi midnight VN) → vi phạm yêu
-               cầu 'trình tự tăng dần'. Patch giờ chỉ tăng theo commit count, không
-               bao giờ giảm. Cap 100 do GitHub API per_page=100 — đủ dùng vài năm. #}
+            {# Version scheme: '<zola_version>·<commit_id>'.
+               - zola_ver = phiên bản Zola DÙNG ĐỂ BUILD bản hiện tại, lấy từ
+                 env ZOLA_VERSION (deploy.yml export `zola --version` trước khi
+                 build). Local build không set → default theo bản pin trong CI.
+               - numeric_id = SHA commit mới nhất (7 ký tự) tương ứng bản build đó.
+               Ghép lại = số phiên bản blog: 'vX.Y.Z · <sha>'. commit_count vẫn
+               giữ cho tooltip (tổng commit fetched). #}
             {% set commit_count = 0 %}
             {% if commits %}{% set commit_count = commits | length %}{% endif %}
+            {% set zola_ver = get_env(name="ZOLA_VERSION", default="0.22.1") %}
             <div class="site-header__left">
             <a class="site-title-link" href="{{ config.base_url }}"
-               {% if latest_commit %}title="Tổng {{ commit_count }} commit · Tuần này {{ week_count }} · Hôm nay {{ today_count }} · SHA {{ latest_commit.sha | truncate(length=7, end='') }}"{% endif %}>
+               {% if latest_commit %}title="Build Zola v{{ zola_ver }} · SHA {{ latest_commit.sha | truncate(length=7, end='') }} · Tổng {{ commit_count }} commit · Tuần này {{ week_count }} · Hôm nay {{ today_count }}"{% endif %}>
                 <span class="site-title-wrap">
                     <span class="site-title">{{ config.title }}</span>
                     {# Meta Verified-style badge — xác nhận chính chủ. SVG inline,
@@ -280,8 +283,8 @@
                 </span>
                 <span class="site-tagline">
                     <strong class="site-tagline__label">Phiên bản blog:</strong>
-                    <strong class="version-num">1.0.{{ commit_count }}</strong>
-                    <strong class="version-id">v{{ numeric_id }}</strong>
+                    <strong class="version-num">v{{ zola_ver }}</strong>
+                    <strong class="version-id">#{{ numeric_id }}</strong>
                 </span>
             </a>
 
