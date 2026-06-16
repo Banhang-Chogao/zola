@@ -2,6 +2,36 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Add Branding Guideline page + homepage CTA",
+      "tag": "feat",
+      "pr": 182,
+      "lines_added": 241,
+      "lines_removed": 0,
+      "highlights": [
+        "Visual color palette (Primary, Accent, Neutral) with hex codes",
+        "Typography showcase (Ericsson Hilda OTF font, sizes, weights)",
+        "UI Design System (4px radius, shadows, 8px spacing)",
+        "Component examples (buttons, badges, contrast tests)",
+        "WCAG AAA accessibility verification"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Complete theme switcher — BrandingX ↔ Z-X",
+      "tag": "feat",
+      "pr": 181,
+      "lines_added": 506,
+      "lines_removed": 35,
+      "highlights": [
+        "Dual theme support: BrandingX (default, MoMo pink) ↔ Z-X (ZaloPay electric blue)",
+        "Dynamic CSS Variables: :root (BrandingX) vs :root[data-theme=\"zx\"] (Z-X)",
+        "Persistent storage: localStorage + anti-flash inline script",
+        "Interactive UI: Dropdown menu with 4 theme options (BrandingX, Z-X, E-X, Hila)",
+        "Keyboard navigation: Arrow keys, Escape, Home/End support"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Add Dân Trí article — sự cố F/A-18 và hệ thống an toàn",
       "tag": "feat",
       "pr": 178,
