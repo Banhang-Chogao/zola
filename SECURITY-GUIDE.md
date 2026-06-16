@@ -40,39 +40,23 @@ cms_auth_url = ""  # Backend KHÔNG kết nối (cố ý)
 
 ## 3. Bảo Mật Dependencies 🔄
 
-### **Dependabot (Tự Động Check Updates)**
+**Manual Dependency Check:**
 
-**Status: ✅ ĐÃ CẤU HÌNH**
-
-File: `.github/dependabot.yml` (đã tạo)
-
-**Cấu hình tự động:**
-- Cargo (Rust): Weekly updates, mỗi Monday 3:00 AM
-- GitHub Actions: Weekly updates, mỗi Monday 4:00 AM
-- Auto-approve & auto-merge patch/minor updates
-- Manual review reminder cho major updates
-
-**Workflow tự động:**
-- File: `.github/workflows/dependabot-setup.yml`
-- Tự động approve & merge patch/minor updates
-- Comment nhắc nhở trên major updates
-
-**Cách hoạt động:**
-- ✅ Mỗi tuần, Dependabot check updates mới
-- ✅ Nếu có security patch → tự động create PR
-- ✅ Workflow auto-merge patch/minor (tuỳ cấu hình)
-- ✅ Bạn review major updates trước merge
-
-**Hướng dẫn chi tiết:** Xem `.github/DEPENDABOT-SETUP.md`
-
-### **Manual Check**
 ```bash
 # Kiểm tra lỗ hổng hiện tại
 cargo audit  # Rust/Zola
 
-# Fix lỗ hổng bảo mật
+# Update dependencies
 cargo update
+
+# Check cho lỗ hổng (nếu có)
+cargo audit fix
 ```
+
+**Quy trình:**
+- Định kỳ chạy `cargo audit` để kiểm tra security vulnerabilities
+- Update dependencies khi cần thiết
+- Review changelog trước khi cập nhật major versions
 
 ---
 
@@ -134,7 +118,6 @@ git push origin main  # CI/CD tự trigger, build & deploy
 | Item | Frequency | Action |
 |------|-----------|--------|
 | Git backup | Automatic | ✅ Commit frequently |
-| Dependabot alerts | Daily | 🔍 Check GitHub notifications |
 | HTTPS validity | Auto-renew | ✅ GitHub Pages handles |
 | `/editor` auth | Manual | 📧 Verify admin whitelist if backend connected |
 | Code security | Automatic | 🔐 GitHub Actions runs on push |
@@ -171,8 +154,8 @@ Những tiêu chuẩn bảo mật bắt buộc khi phát triển blog:
   - Use `.gitignore` cho `.env`, `secrets.json`
   - Không commit GitHub token, Cloudflare API key
 - ✅ **Dependencies up-to-date**
-  - Dependabot auto-check weekly
-  - Review & merge security patches ngay
+  - Chạy `cargo audit` định kỳ để check security vulnerabilities
+  - Update dependencies khi cần thiết
 - ✅ **Pre-commit hooks**
   - `.pre-commit-config.yaml` đã setup
   - Chạy trước commit để catch issues
@@ -248,15 +231,14 @@ Những tiêu chuẩn bảo mật bắt buộc khi phát triển blog:
 
 ```
 HÀNG NGÀY:
-☐ Check GitHub Dependabot notifications (1 min)
-☐ Review any new security alerts (2 min)
+☐ Review any new GitHub security alerts (2 min)
 
 HÀNG TUẦN:
 ☐ Pull/rebase main branch locally (1 min)
 ☐ Review git log cho commits bất thường (2 min)
-☐ Dependabot auto-merges patch updates (auto)
 
 HÀNG THÁNG:
+☐ Run 'cargo audit' để check dependencies (5 min)
 ☐ Check GitHub audit logs (5 min)
 ☐ Review collaborators list (2 min)
 ☐ Verify 2FA still enabled (1 min)
@@ -302,7 +284,7 @@ git push origin <branch>
 | **Backup Git** | ✅ Hoạt động | Tự động, mỗi commit → GitHub |
 | **HTTPS** | ✅ Hoạt động | GitHub Pages cấp SSL miễn phí |
 | **DDoS Protection** | ✅ Hoạt động | GitHub native AWS Shield (hiện tại) |
-| **Dependabot** | ✅ Hoạt động | Auto-check + auto-merge patch/minor updates |
+| **Dependency Management** | ✅ Manual | Sử dụng `cargo audit` định kỳ |
 | **Editor (/editor)** | 🟢 **STATIC (NO LOGIN)** | Trang demo, không activate login flow |
 | **Security Audit** | ✅ Workflows có | GitHub Actions scan code trên mỗi push |
 
