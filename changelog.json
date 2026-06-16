@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "feat(navbar): nền gradient xanh + bảng chữ cái trắng mờ (font FreightSans Pro)",
+      "tag": "chore",
+      "pr": 262,
+      "lines_added": 118,
+      "lines_removed": 0,
+      "highlights": [
+        "Nền: gradient xanh thương hiệu #38bdf8 → #2563eb → #1d4ed8 (đồng bộ placeholder).",
+        "Chữ cái trang trí: 30 chữ A–Z rải ngẫu nhiên vị trí + chiều xoay + cỡ, màu trắng opacity 0.05–0.13 (mờ, dịu mắt, không chói), font FreightSans Pro (self-host 2 weight 500/700).",
+        "An toàn: lớp chữ nằm trong <div class=\"navbar__letters\" aria-hidden pointer-events:none> absolute + overflow:hidden riêng → KHÔNG cắt dropdown menu, không chặn click. Menu nằm trên (z-index:1).",
+        "Chữ menu / dropdown / theme-toggle chuyển trắng cho hợp nền; mask cuộn phải mobile đổi sang xanh đậm. Tôn trọng prefers-reduced-motion.",
+        "qa_check.py pass (SCSS brace check); zola build (qa-check) sẽ compile SASS."
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Add MSB credit card article",
       "tag": "feat",
       "pr": 261,
