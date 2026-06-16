@@ -1,5 +1,5 @@
 +++
-title = "QA Gatekeeper: blog tự fix lỗi 24/7 không cần dev"
+title = "QA Gatekeeper: blog tự fix lỗi 24/7 với CI/CD GitHub Actions"
 description = "Phân tích kiến trúc QA Gatekeeper trong CI/CD blog cá nhân: từ pre-commit hook đến self-healing GitHub Actions, viết 100 PR/ngày không phá production."
 date = 2026-06-15
 aliases = ["/qa-gatekeeper-tu-fix-loi-blog/"]

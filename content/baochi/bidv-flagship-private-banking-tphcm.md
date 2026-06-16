@@ -1,8 +1,9 @@
 +++
-title = "BIDV mở Private Banking ở Sài Gòn cho giới siêu giàu"
+title = "Private Banking là gì? Nhìn từ chi nhánh BIDV ở Sài Gòn"
+description = "Private Banking là gì và vì sao ngân hàng Việt đua phục vụ giới siêu giàu? Góc nhìn từ chi nhánh flagship BIDV vừa khai trương tại Sài Gòn 11/6/2026."
 date = 2026-06-16
 [taxonomies]
-categories = ["Posting"]
+categories = ["Ngân hàng"]
 tags = ["ngân hàng", "tài chính", "private-banking", "bidv", "đầu tư"]
 [extra]
 thumbnail = "https://picsum.photos/seed/bidv-flagship-private-banking-tphcm/600/400"

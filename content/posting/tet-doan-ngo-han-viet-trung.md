@@ -1,5 +1,5 @@
 +++
-title = "Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?"
+title = "Tết Đoan Ngọ ở Hàn, Việt, Trung khác gì nhau? (mùng 5/5 âm lịch)"
 description = "So sánh Tết Đoan Ngọ (5/5 âm lịch) ở 3 nước Đông Á: tên gọi, nguồn gốc, hoạt động, món ăn. Lễ Gangneung Danoje UNESCO, Dragon Boat TQ, diệt sâu bọ VN."
 date = 2026-06-15
 aliases = ["/tet-doan-ngo-han-viet-trung/"]

@@ -2,7 +2,7 @@
 title = "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD"
 date = 2026-06-16
 [taxonomies]
-categories = ["Posting"]
+categories = ["Thế giới"]
 tags = ["công-nghệ-quân-sự", "an-toàn-hàng-không", "kỹ-thuật", "sự-cố", "điều-tra-kỹ-thuật"]
 [extra]
 thumbnail = "https://picsum.photos/seed/f18-crash-incident/600/400"

@@ -1,11 +1,11 @@
 +++
-title = "Dưới nắp ca-pô: công nghệ vận hành blog cá nhân"
-description = "Stack 3 lớp tối giản: Zola + GitHub Pages + GitHub Actions. Mini CMS vanilla JS, QA Gatekeeper auto-fix, defense in depth, $0/tháng. Lighthouse 99/100."
+title = "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages"
+description = "Tự xây blog cá nhân với stack tối giản Zola + GitHub Pages + GitHub Actions: mini CMS vanilla JS, QA Gatekeeper auto-fix, $0/tháng, Lighthouse 99/100."
 date = 2026-06-15
 aliases = ["/cong-nghe-blog-duy-nguyen/"]
 
 [taxonomies]
-categories = ["Ẩm thực"]
+categories = ["Công nghệ"]
 tags = ["cms", "github actions", "tech stack", "vanilla js", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/cong-nghe-blog-duy-nguyen/600/400"

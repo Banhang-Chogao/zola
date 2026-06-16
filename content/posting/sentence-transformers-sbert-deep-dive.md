@@ -1,11 +1,11 @@
 +++
-title = "Sentence Transformers (SBERT): kiến trúc & ứng dụng"
+title = "Sentence Transformers (SBERT) là gì? Kiến trúc & ứng dụng"
 description = "Phân tích kiến trúc bi-encoder, 4 cách training (softmax, contrastive, triplet, MNR), multilingual distillation và case study semantic search trên Zola."
 date = 2026-06-15
 aliases = ["/sentence-transformers-sbert-deep-dive/"]
 
 [taxonomies]
-categories = ["Ẩm thực"]
+categories = ["Công nghệ"]
 tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", "python", "pytorch", "sbert", "sentence-transformers"]
 [extra]
 thumbnail = "https://picsum.photos/seed/sbert-research/600/400"
