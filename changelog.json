@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO11 + fix menu: rút 12 title về ≤65 ký tự + Banking→Ngân hàng (hết 404)",
+      "tag": "fix",
+      "pr": 235,
+      "lines_added": 129,
+      "lines_removed": 19,
+      "highlights": [
+        "zola build ✅ · qa_check.py ✅ All QA checks passed",
+        "seo_score.py: 100.0/100, 0 trang lỗi",
+        "Menu: /categories/ngan-hang/ tồn tại, /categories/banking không còn → hết 404"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "SEO: thêm 6 bài backlog (Zola/CI · du lịch Hàn · ẩm thực) + ảnh bìa",
       "tag": "chore",
       "pr": 234,
