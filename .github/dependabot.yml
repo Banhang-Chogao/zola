@@ -1,0 +1,55 @@
+version: 2
+
+# Dependabot — bật qua config-as-code. CHỈ mở PR cập nhật, KHÔNG tự push vào
+# main → mọi PR đều phải qua `qa-check` + build trước khi merge (không bao giờ
+# làm đỏ production). Gom nhóm (grouped) + giới hạn open-PR để tránh nhiễu.
+#
+# Lưu ý xung đột build: Dependabot KHÔNG đụng Zola (binary pin sẵn trong
+# deploy.yml). Nó chỉ bump GitHub Actions + Python deps của script/service phụ.
+# Nếu một bump làm fail CI → PR đỏ, KHÔNG merge; chạy `ff` để auto-fix hoặc đóng PR.
+
+updates:
+  # 1) GitHub Actions versions (an toàn nhất, nên ưu tiên)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "03:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      actions-all:
+        patterns: ["*"]
+
+  # 2) Python deps — visitor-counter service
+  - package-ecosystem: "pip"
+    directory: "/services/visitor-counter"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "03:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "deps(visitor-counter)"
+    groups:
+      pip-all:
+        patterns: ["*"]
+
+  # 3) Python deps — scripts
+  - package-ecosystem: "pip"
+    directory: "/scripts"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "03:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "deps(scripts)"
+    groups:
+      pip-all:
+        patterns: ["*"]
