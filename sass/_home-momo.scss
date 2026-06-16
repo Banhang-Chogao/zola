@@ -5,15 +5,15 @@
    2 cột (image trái + content phải), grid 3 cột posts thường. */
 
 /* Decorative wordmark "POSTINGS" — letters spaced evenly across full width.
-   Replaces the previous category tabs. Color = BrandingX signal red #d63d3d
-   với opacity giảm để hài hoà tổng thể (không cướp sự chú ý khỏi hero card). */
+   Màu = Ericsson Blue (var(--c-accent)) với opacity thấp → tint xanh thương
+   hiệu, tự thích nghi dark mode, không cướp chú ý khỏi hero card. */
 .home-tabs {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   padding: 0.6rem 0.5rem 1rem;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid var(--c-border);
   margin-bottom: 1.75rem;
 
   &__letter {
@@ -24,7 +24,8 @@
     font-weight: 800;
     letter-spacing: 0.02em;
     line-height: 1;
-    color: rgba(214, 61, 61, 0.38);
+    color: var(--c-accent);
+    opacity: 0.18;
     user-select: none;
   }
 }
@@ -41,8 +42,8 @@
     display: block;
     aspect-ratio: 16 / 11;
     overflow: hidden;
-    border-radius: 12px;
-    background: #f1f5f9;
+    border-radius: 4px;
+    background: var(--c-bg-soft);
 
     img {
       width: 100%;
@@ -66,7 +67,8 @@
     font-family: $font-ui;
     font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   &__title {
@@ -87,7 +89,7 @@
 
   &__desc {
     margin: 0;
-    color: #475569;
+    color: var(--c-text-body);
     font-size: 1rem;
     line-height: 1.65;
   }
@@ -97,11 +99,11 @@
     gap: 1.25rem;
     font-family: $font-meta;
     font-size: 0.85rem;
-    color: #888;
+    color: var(--c-text-muted);
     margin-top: 0.25rem;
   }
 
-  &__author { color: #475569; font-weight: 500; }
+  &__author { color: var(--c-text-body); font-weight: 600; }
   &__date   { font-variant-numeric: tabular-nums; }
 }
 
@@ -122,8 +124,8 @@
     display: block;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    border-radius: 10px;
-    background: #f1f5f9;
+    border-radius: 4px;
+    background: var(--c-bg-soft);
 
     img {
       width: 100%;
@@ -146,15 +148,15 @@
     font-family: $font-ui;
     font-size: 0.7rem;
     font-weight: 700;
-    color: var(--c-decoration);
-    text-transform: none;
-    letter-spacing: 0.02em;
+    color: var(--c-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   &__insight {
     font-family: $font-meta;
     font-size: 0.78rem;
-    color: #94a3b8;
+    color: var(--c-text-muted);
     font-style: italic;
   }
 
@@ -176,7 +178,7 @@
 
   &__desc {
     margin: 0;
-    color: #64748b;
+    color: var(--c-text-muted);
     font-size: 0.88rem;
     line-height: 1.55;
     display: -webkit-box;

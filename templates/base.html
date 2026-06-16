@@ -48,10 +48,11 @@
        render để các rule [data-theme="hilda"] (font vars, smoothing, UX polish)
        áp dụng ngay lần paint đầu, không flash.
        Inject <link rel="preload"> font Ericsson Hilda (Medium = body,
-       Bold = heading) → chữ chuẩn hiện ngay lần paint đầu.
+       Bold + ExtraBold = heading/title weight 700-800) → chữ chuẩn hiện
+       ngay lần paint đầu, không flash Manrope fallback.
        CSP-safe: as="font" + nguồn 'self' (khớp font-src). crossorigin để
        match CORS-fetch của @font-face, tránh tải 2 lần. #}
-    <script>(function(){try{document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.ttf') }}','{{ get_url(path='fonts/EricssonHilda-Bold.ttf') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/ttf';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
+    <script>(function(){try{document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.ttf') }}','{{ get_url(path='fonts/EricssonHilda-Bold.ttf') }}','{{ get_url(path='fonts/EricssonHilda-ExtraBold.ttf') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/ttf';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}

@@ -1,14 +1,16 @@
-/* ===== Typography stack (Manrope-first) =====
-   Manrope (primary body + heading): round, friendly, dễ đọc, full Vietnamese.
-   Inter (UI/menu/button): clean geometric — pair well với Manrope cho nav.
-   Be Vietnam Pro (meta/dates/author): mềm mại, diacritics tiếng Việt cực đẹp.
-   Mono: keep system (SF Mono trên Mac, Consolas trên Windows).
+/* ===== Typography stack (Ericsson Hilda-first) =====
+   Ericsson Hilda (brand typeface, self-host trong _hilda-fonts.scss) đứng
+   ĐẦU mọi stack → toàn site render bằng Hilda cho giống Ericsson. Manrope/
+   Inter/Be Vietnam Pro giữ vai trò FALLBACK per-glyph: ký tự tiếng Việt nào
+   Hilda thiếu glyph thì browser tự lấy từ font kế tiếp (đều có full Vietnamese).
+   Manrope: round, full Vietnamese. Inter: UI/menu. Be Vietnam Pro: dates/meta.
+   Mono: keep system (SF Mono / Consolas) — KHÔNG đổi, code luôn monospace.
 
-   Fonts load qua <link> Google Fonts trong base.html (font-display:swap).
-   Variables here CHỈ define stack fallback — không @font-face tự host. */
+   Web fonts load qua <link> Google Fonts (base.html) + @font-face self-host
+   (Hilda) — đều font-display:swap. */
 
-$font-body:    "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$font-heading: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-$font-ui:      "Inter", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-$font-meta:    "Be Vietnam Pro", "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+$font-body:    "Ericsson Hilda", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-heading: "Ericsson Hilda", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$font-ui:      "Ericsson Hilda", "Inter", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-meta:    "Ericsson Hilda", "Be Vietnam Pro", "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
 $font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
