@@ -392,62 +392,27 @@
                     <li><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
                 {% endfor %}
             </ul>
-            {# ===== THEME DROPDOWN (4-option: BrandingX / Z-X / E-X / Hila) =====
-               Phase 3: Replace 2-option toggle button với dropdown menu.
-               JS (theme-switcher.js Phase 2) handle: toggle dropdown, option select,
-               keyboard nav (Escape), outside click. CSS (_navbar.scss) style.
-               Colored dots per theme: BrandingX red, Z-X blue, E-X blue, Hila gradient. #}
-            <div class="theme-toggle" data-theme-toggle>
-                <button class="theme-toggle__btn" type="button"
-                        aria-haspopup="true" aria-expanded="false"
+            {# ===== THEME DROPDOWN — Z-X + Hilda =====
+               Dropdown menu with palette icon, smooth animations, keyboard nav. #}
+            <div class="theme-dropdown" data-theme-dropdown>
+                <button class="theme-dropdown__trigger" type="button"
+                        aria-haspopup="listbox" aria-expanded="false"
                         aria-label="Chọn theme">
-                    <span class="theme-toggle__dot" aria-hidden="true"></span>
-                    <span class="theme-toggle__current" data-theme-current>BrandingX</span>
-                    <span class="theme-toggle__caret" aria-hidden="true">▾</span>
+                    <span class="theme-dropdown__icon">🎨</span>
                 </button>
-                <ul class="theme-toggle__menu" data-theme-menu hidden>
-                    <li>
-                        <button class="theme-toggle__opt" type="button"
-                                data-theme-set="" aria-checked="true">
-                            <span class="theme-toggle__opt__dot" style="background:#d63d3d"></span>
-                            <span class="theme-toggle__opt__name">
-                                BrandingX
-                                <span class="theme-toggle__opt__sub">MoMo · playful red</span>
-                            </span>
-                            <span class="theme-toggle__opt__check">✓</span>
+                <ul class="theme-dropdown__menu" role="listbox" hidden>
+                    <li role="option" aria-selected="false">
+                        <button class="theme-dropdown__item" data-theme-value="zx" type="button">
+                            <span class="theme-dropdown__check">✓</span>
+                            <span class="theme-dropdown__name">Z-X</span>
+                            <span class="theme-dropdown__desc">ZaloPay fintech</span>
                         </button>
                     </li>
-                    <li>
-                        <button class="theme-toggle__opt" type="button"
-                                data-theme-set="zx" aria-checked="false">
-                            <span class="theme-toggle__opt__dot" style="background:#0068FF"></span>
-                            <span class="theme-toggle__opt__name">
-                                Z-X
-                                <span class="theme-toggle__opt__sub">ZaloPay · fintech blue</span>
-                            </span>
-                            <span class="theme-toggle__opt__check">✓</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="theme-toggle__opt" type="button"
-                                data-theme-set="ex" aria-checked="false">
-                            <span class="theme-toggle__opt__dot" style="background:#1174E5"></span>
-                            <span class="theme-toggle__opt__name">
-                                E-X
-                                <span class="theme-toggle__opt__sub">Ericsson · newsroom energy</span>
-                            </span>
-                            <span class="theme-toggle__opt__check">✓</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="theme-toggle__opt" type="button"
-                                data-theme-set="hila" aria-checked="false">
-                            <span class="theme-toggle__opt__dot" style="background:linear-gradient(135deg,#1174E5 0%,#0C0C0C 100%)"></span>
-                            <span class="theme-toggle__opt__name">
-                                Hila Ericsson
-                                <span class="theme-toggle__opt__sub">E-X sharp + black border</span>
-                            </span>
-                            <span class="theme-toggle__opt__check">✓</span>
+                    <li role="option" aria-selected="false">
+                        <button class="theme-dropdown__item" data-theme-value="hilda" type="button">
+                            <span class="theme-dropdown__check">✓</span>
+                            <span class="theme-dropdown__name">Hilda</span>
+                            <span class="theme-dropdown__desc">Ericsson professional</span>
                         </button>
                     </li>
                 </ul>
@@ -457,11 +422,6 @@
                     <circle cx="11" cy="11" r="7"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-            </button>
-            {# Theme toggle button — Z-X ↔ Hilda #}
-            <button id="theme-toggle-btn" class="theme-toggle" aria-label="Chuyển đổi theme" title="Chuyển đổi theme">
-                <span class="theme-icon">🎨</span>
-                <span class="theme-label" id="theme-label">Hilda</span>
             </button>
         </div>
         {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
@@ -858,6 +818,7 @@
     <script src="{{ get_url(path='js/staging-queue.js') }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
     <script src="{{ get_url(path='js/theme-switcher.js') }}" defer></script>
+    <script src="{{ get_url(path='js/theme-dropdown.js') }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>
     (function() {
