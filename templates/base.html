@@ -237,6 +237,63 @@
     }
     </script>
 
+    {# ===== BreadcrumbList schema (Trang chủ → Section → Bài) =====
+       Giúp Google hiển thị breadcrumb trong kết quả + hiểu cấu trúc site. #}
+    {% if page and page.components | length > 0 %}
+    {% set sec_slug = page.components | first %}
+    {% if sec_slug == "posting" %}{% set sec_name = "Bài viết" %}
+    {% elif sec_slug == "baochi" %}{% set sec_name = "Báo chí" %}
+    {% else %}{% set sec_name = sec_slug | capitalize %}{% endif %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": {{ config.title | json_encode | safe }},
+                "item": "{{ config.base_url | safe }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ sec_name | json_encode | safe }},
+                "item": "{{ config.base_url | safe }}/{{ sec_slug }}/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": {{ page.title | json_encode | safe }},
+                "item": "{{ page.permalink | safe }}"
+            }
+        ]
+    }
+    </script>
+    {% endif %}
+
+    {# ===== FAQPage schema — sinh từ page.extra.faq (block FAQ cuối bài) =====
+       Bắt rich result FAQ + People Also Ask. json_encode để escape an toàn. #}
+    {% if page and page.extra.faq %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {% for item in page.extra.faq %}{% if not loop.first %},{% endif %}
+            {
+                "@type": "Question",
+                "name": {{ item.q | json_encode | safe }},
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": {{ item.a | json_encode | safe }}
+                }
+            }{% endfor %}
+        ]
+    }
+    </script>
+    {% endif %}
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>

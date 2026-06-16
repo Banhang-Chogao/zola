@@ -1,0 +1,66 @@
+/* ============================================================
+   ===== FAQ (Câu hỏi thường gặp) =====
+   ============================================================
+   Accordion <details>/<summary>, KHÔNG cần JS. Render cuối bài từ
+   page.extra.faq → đồng thời sinh JSON-LD FAQPage (base.html) để
+   bắt rich result + People Also Ask.
+   Component MỚI — không đụng selector global. Dùng brand vars. */
+
+.faq {
+  margin: 2.75rem 0 0;
+}
+
+.faq__title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: $brand-ink-900;
+  margin: 0 0 1.1rem;
+}
+
+.faq__item {
+  border: 1px solid $brand-edge-strong;
+  border-radius: 12px;
+  background: $brand-snow;
+  margin-bottom: 0.7rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.faq__item[open] {
+  border-color: $brand-trust-cyan;
+}
+
+.faq__q {
+  cursor: pointer;
+  list-style: none;
+  padding: 1rem 1.2rem;
+  font-weight: 600;
+  color: $brand-ink-900;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+
+.faq__q::after {
+  content: "+";
+  font-size: 1.45rem;
+  line-height: 1;
+  color: $brand-trust-cyan;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.faq__item[open] .faq__q::after {
+  transform: rotate(45deg);
+}
+
+.faq__a {
+  padding: 0 1.2rem 1.1rem;
+  color: $brand-ink-800;
+  line-height: 1.7;
+}

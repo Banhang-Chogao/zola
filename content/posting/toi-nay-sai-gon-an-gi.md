@@ -10,6 +10,18 @@ tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối"
 [extra]
 thumbnail = "https://picsum.photos/seed/toi-nay-sai-gon-an-gi/600/400"
 featured = false
+[[extra.faq]]
+q = "Tối nay ở Sài Gòn nên ăn gì?"
+a = "Tuỳ khẩu vị: muốn nhanh gọn có cơm tấm, hủ tiếu; muốn lai rai có ốc Vĩnh Khánh, phá lấu; muốn no ấm có bún mắm, súp cua. Bài viết gợi ý 12 món kèm khu vực để bạn chọn nhanh."
+
+[[extra.faq]]
+q = "Ăn khuya ở Sài Gòn khu nào ngon?"
+a = "Quận 4 nổi tiếng ốc Vĩnh Khánh, Quận 5 Chợ Lớn nhiều hủ tiếu và món Hoa, Quận 1 và Quận 3 có nhiều quán mở khuya. Đây là các khu dân địa phương hay tụ tập ăn đêm."
+
+[[extra.faq]]
+q = "Ăn gì ở Sài Gòn ngon mà rẻ?"
+a = "Các món đường phố như bánh tráng trộn, phá lấu, ốc, cơm tấm, bột chiên thường dưới 50 nghìn mà ngon. Ăn ở quán bình dân khu địa phương vừa rẻ vừa đúng vị hơn khu trung tâm du lịch."
+
 +++
 
 ![Sài Gòn ăn tối]

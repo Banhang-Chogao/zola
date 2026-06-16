@@ -10,6 +10,18 @@ tags = ["automation", "blog", "ci/cd", "devops", "github actions", "qa", "self-h
 [extra]
 thumbnail = "https://picsum.photos/seed/qa-gatekeeper/600/400"
 featured = false
+[[extra.faq]]
+q = "QA Gatekeeper hoạt động thế nào?"
+a = "Đây là cơ chế CI/CD nhiều lớp: pre-commit hook chặn lỗi ngay từ máy local, GitHub Actions chạy qa_check.py kiểm tra build và HTML, cùng workflow tự sửa (self-healing) các lỗi thường gặp trước khi merge, giúp blog không cần dev trực 24/7."
+
+[[extra.faq]]
+q = "CI/CD cho blog cá nhân có cần thiết không?"
+a = "Có, nếu bạn xuất bản thường xuyên hoặc tự động hoá nội dung. CI/CD bắt lỗi build, link hỏng, ảnh thiếu trước khi lên production, tránh đẩy trang lỗi cho người đọc. Với GitHub Actions thì hoàn toàn miễn phí cho repo cá nhân."
+
+[[extra.faq]]
+q = "Self-healing CI là gì?"
+a = "Là pipeline có khả năng tự phát hiện và sửa một số lỗi phổ biến (format, metadata thiếu, lỗi build nhẹ) rồi commit lại, thay vì chỉ báo đỏ và dừng. Nhờ vậy phần lớn sự cố được xử lý tự động mà không cần can thiệp tay."
+
 +++
 
 ![QA Gatekeeper architecture]

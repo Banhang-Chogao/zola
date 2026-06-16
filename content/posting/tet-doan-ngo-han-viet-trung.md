@@ -10,6 +10,18 @@ tags = ["hàn quốc", "lễ hội", "phong tục", "trung quốc", "tết", "vi
 [extra]
 thumbnail = "https://picsum.photos/seed/tet-doan-ngo-3-nuoc/600/400"
 featured = false
+[[extra.faq]]
+q = "Tết Đoan Ngọ là ngày nào?"
+a = "Tết Đoan Ngọ rơi vào mùng 5 tháng 5 âm lịch hằng năm (năm 2026 nhằm khoảng giữa tháng 6 dương lịch). Đây là ngày lễ chung của nhiều nước Đông Á nhưng tên gọi và phong tục mỗi nơi mỗi khác."
+
+[[extra.faq]]
+q = "Tết Đoan Ngọ ở Hàn Quốc gọi là gì?"
+a = "Ở Hàn gọi là Dano. Nổi tiếng nhất là lễ hội Gangneung Danoje đã được UNESCO công nhận là di sản văn hoá phi vật thể, với nhiều nghi lễ truyền thống, vật dân gian và biểu diễn."
+
+[[extra.faq]]
+q = "Tết Đoan Ngọ ba nước Hàn, Việt, Trung khác nhau thế nào?"
+a = "Việt Nam coi là ngày diệt sâu bọ, ăn cơm rượu và trái cây. Trung Quốc đua thuyền rồng, ăn bánh ú tưởng nhớ Khuất Nguyên. Hàn Quốc tổ chức lễ Dano với nghi lễ và trò chơi dân gian, ít gắn với ẩm thực hơn."
+
 +++
 
 ![Tết Đoan Ngọ 3 nước]

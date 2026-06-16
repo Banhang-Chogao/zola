@@ -71,6 +71,19 @@
             {{ page.content | safe }}
         </div>
 
+        {# ===== FAQ (Câu hỏi thường gặp) → JSON-LD FAQPage sinh ở base.html ===== #}
+        {% if page.extra.faq %}
+        <section class="faq" aria-labelledby="faq-heading">
+            <h2 class="faq__title" id="faq-heading">Câu hỏi thường gặp</h2>
+            {% for item in page.extra.faq %}
+            <details class="faq__item"{% if loop.first %} open{% endif %}>
+                <summary class="faq__q">{{ item.q }}</summary>
+                <div class="faq__a">{{ item.a }}</div>
+            </details>
+            {% endfor %}
+        </section>
+        {% endif %}
+
         {% if page.taxonomies.tags %}
             <footer class="post-single__footer">
                 <div class="tag-list">
