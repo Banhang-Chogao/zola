@@ -44,6 +44,7 @@ import json
 import os
 import re
 import secrets
+from datetime import datetime, timezone
 from typing import Optional
 from urllib.parse import urlencode, urljoin, urlparse
 
@@ -2042,11 +2043,117 @@ async def curated_news(slug: str):
 
 
 # ============= Misc =============
+# ============= Secure Reports (Redis-stored, OAuth-gated) =============
+# Report .md KHÔNG nằm trong repo public → chỉ tải được qua các endpoint dưới
+# sau khi require_session pass (OAuth GitHub + email whitelist). Đây là chặn
+# THẬT (khác UX-gate cũ). Lưu trong Redis:
+#   report:doc:{filename}  → nội dung .md (string)
+#   report:meta            → hash: field=filename, value=json{created_at,size,preview}
+_REPORT_FILE_RE   = re.compile(r"^[a-z0-9][a-z0-9._-]{1,100}\.md$", re.IGNORECASE)
+_REPORT_DOC_PREFIX = "report:doc:"
+_REPORT_META_KEY   = "report:meta"
+_MAX_REPORT_BYTES  = 500_000
+
+
+def _valid_report_name(name: str) -> str:
+    """Chặn path traversal: chỉ cho tên file .md an toàn, không '/' hay '..'."""
+    name = (name or "").strip()
+    if "/" in name or ".." in name or not _REPORT_FILE_RE.match(name):
+        raise HTTPException(400, "invalid_filename")
+    return name
+
+
+@app.get("/reports")
+async def reports_list(authorization: str = Header(default="")):
+    """List metadata mọi report (auth required). KHÔNG trả nội dung đầy đủ."""
+    await require_session(authorization)
+    r = await get_redis()
+    meta = await r.hgetall(_REPORT_META_KEY)
+    items = []
+    for fn, raw in meta.items():
+        try:
+            m = json.loads(raw)
+        except json.JSONDecodeError:
+            m = {}
+        items.append({
+            "filename":   fn,
+            "created_at": m.get("created_at", ""),
+            "size":       m.get("size", 0),
+            "preview":    m.get("preview", ""),
+        })
+    items.sort(key=lambda x: x["created_at"], reverse=True)
+    return {"reports": items, "count": len(items)}
+
+
+@app.get("/reports/{filename}")
+async def reports_get(filename: str, authorization: str = Header(default="")):
+    """Trả nội dung .md của 1 report (auth required). 404 nếu không có."""
+    await require_session(authorization)
+    fn = _valid_report_name(filename)
+    r = await get_redis()
+    content = await r.get(_REPORT_DOC_PREFIX + fn)
+    if content is None:
+        raise HTTPException(404, "report_not_found")
+    meta_raw = await r.hget(_REPORT_META_KEY, fn)
+    meta = json.loads(meta_raw) if meta_raw else {}
+    return {"filename": fn, "content": content, "created_at": meta.get("created_at", "")}
+
+
+@app.post("/reports")
+async def reports_put(request: Request, authorization: str = Header(default="")):
+    """
+    Tạo/ghi đè 1 report (auth required). Dùng cho phím tắt `??` đẩy báo cáo lên
+    backend thay vì commit .md vào repo public.
+
+    Body JSON: {filename, content, created_at?}
+    """
+    await require_session(authorization)
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+
+    fn = _valid_report_name(str(body.get("filename", "")))
+    content = body.get("content", "")
+    if not isinstance(content, str) or not content.strip():
+        raise HTTPException(400, "empty_content")
+    if len(content.encode("utf-8")) > _MAX_REPORT_BYTES:
+        raise HTTPException(400, "content_too_large")
+
+    created_at = str(body.get("created_at", "")).strip() or \
+        datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    preview = re.sub(r"\s+", " ", content).strip()[:240]
+
+    r = await get_redis()
+    await r.set(_REPORT_DOC_PREFIX + fn, content)
+    await r.hset(_REPORT_META_KEY, fn, json.dumps({
+        "created_at": created_at,
+        "size":       len(content.encode("utf-8")),
+        "preview":    preview,
+    }))
+    return {"ok": True, "filename": fn, "created_at": created_at}
+
+
+@app.post("/reports/delete")
+async def reports_delete(request: Request, authorization: str = Header(default="")):
+    """Xoá 1 report (auth required). POST (không DELETE) để khớp CORS allow-methods."""
+    await require_session(authorization)
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+    fn = _valid_report_name(str(body.get("filename", "")))
+    r = await get_redis()
+    await r.delete(_REPORT_DOC_PREFIX + fn)
+    await r.hdel(_REPORT_META_KEY, fn)
+    return {"ok": True, "filename": fn}
+
+
 @app.get("/")
 async def root():
     return {
         "service": "blog-backend",
-        "version": "2.1.0",
+        "version": "2.2.0",
         "features": {
             "visitor_counter": True,
             "github_oauth":    bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
@@ -2065,5 +2172,9 @@ async def root():
             "GET  /api/categories/list":"Danh sách categories từ repo (auth required)",
             "POST /api/categories/add":"Thêm category mới (auth required)",
             "GET  /api/movies":"IMDB movies via scraper proxy (Redis cached 24h, public)",
+            "GET  /reports":      "List report metadata (auth required)",
+            "GET  /reports/{file}":"Download report .md content (auth required)",
+            "POST /reports":      "Create/overwrite a report (auth required)",
+            "POST /reports/delete":"Delete a report (auth required)",
         },
     }
