@@ -1109,15 +1109,16 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 ### `bb9 <topic>` — Viết bài theo chủ đề + hẹn giờ đăng (scheduled publish n+3, buổi tối)
 
-**Cú pháp BẮT BUỘC**: `bb9 <topic>` — luôn kèm **chủ đề** ngay sau phím tắt.
-Ví dụ: `bb9 cách tiết kiệm điện mùa hè`, `bb9 du lịch Đà Lạt tự túc`.
-- Nếu user gõ `bb9` mà KHÔNG kèm topic → hỏi lại: "📝 Chủ đề bài viết là gì?"
-- Khác `bb` (dán nội dung báo chí có sẵn): `bb9` **tự sáng tác bài mới** từ
-  `<topic>` user đưa (không cần paste bài gốc).
+**Cú pháp gọi (BẮT BUỘC)**: `bb9 <tên chủ đề>` — LUÔN kèm **tên chủ đề** ngay
+sau phím tắt, KHÔNG gõ trơ `bb9`. Tên chủ đề chính là đề tài để Claude tự viết
+bài (khác `bb` là dán sẵn nội dung báo). Ví dụ:
+`bb9 ưu điểm thẻ tín dụng Liobank`, `bb9 mẹo tiết kiệm điện mùa hè`.
+Nếu user gõ `bb9` mà thiếu tên chủ đề → HỎI lại "viết về chủ đề gì?", KHÔNG tự
+bịa chủ đề.
 
 **Mục đích**: Từ một chủ đề, tự viết bài mới BẤT CỨ LÚC NÀO nhưng KHÔNG đăng ngay
 — lưu dạng **draft** và hẹn tự động đẩy lên production **3 ngày sau (n+3), vào
-buổi tối**, với điều kiện vượt qua QA gate.
+buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể "hẹn giờ" của `bb`.
 
 > Về SEO/Google: Google KHÔNG có quy định bắt buộc phải trì hoãn đăng — bài mới
 > được index nhanh là tốt. Trì hoãn n+3 chỉ là buffer để review/giãn lịch đăng,
