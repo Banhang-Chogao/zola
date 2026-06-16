@@ -1,28 +1,15 @@
 +++
 title = "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya"
-description = "Gợi ý 12 quán ăn tối ở Sài Gòn từ street food đến quán ngồi: hủ tiếu Nam Vang, ốc Vĩnh Khánh, cơm tấm, bún mắm, phá lấu, chè... kèm địa chỉ và giá."
 date = 2026-06-15
-aliases = ["/toi-nay-sai-gon-an-gi/"]
 
 [taxonomies]
-categories = ["Tất cả", "Ẩm thực"]
+categories = ["Tất cả"]
 tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối", "ẩm thực"]
+
 [extra]
-seo_keyword = "Sài Gòn ăn gì"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"
-featured = false
-[[extra.faq]]
-q = "Tối nay ở Sài Gòn nên ăn gì?"
-a = "Tuỳ khẩu vị: muốn nhanh gọn có cơm tấm, hủ tiếu; muốn lai rai có ốc Vĩnh Khánh, phá lấu; muốn no ấm có bún mắm, súp cua. Bài viết gợi ý 12 món kèm khu vực để bạn chọn nhanh."
-
-[[extra.faq]]
-q = "Ăn khuya ở Sài Gòn khu nào ngon?"
-a = "Quận 4 nổi tiếng ốc Vĩnh Khánh, Quận 5 Chợ Lớn nhiều hủ tiếu và món Hoa, Quận 1 và Quận 3 có nhiều quán mở khuya. Đây là các khu dân địa phương hay tụ tập ăn đêm."
-
-[[extra.faq]]
-q = "Ăn gì ở Sài Gòn ngon mà rẻ?"
-a = "Các món đường phố như bánh tráng trộn, phá lấu, ốc, cơm tấm, bột chiên thường dưới 50 nghìn mà ngon. Ăn ở quán bình dân khu địa phương vừa rẻ vừa đúng vị hơn khu trung tâm du lịch."
-
+featured = true
+featured_at = "2026-06-16T16:54:23.510Z"
 +++
 
 ![Sài Gòn ăn tối]
