@@ -1,21 +1,15 @@
 /* ============================================================
-   ===== THEME SWITCHER — Multi-theme Support (Z-X + Hilda) =====
+   ===== THEME SWITCHER — Single Theme (Hilda only) =====
    ============================================================
-   Persistent theme switching with localStorage
-
-   API:
-   - window.ThemeSwitcher.getTheme() : "zx" | "hilda"
-   - window.ThemeSwitcher.setTheme("hilda")
-   - window.ThemeSwitcher.toggleTheme() : returns new theme
-   - Event "themechange" dispatched on document
+   Persistent theme with localStorage (single theme, no switching)
 */
 
 (function () {
   "use strict";
 
   var STORAGE_KEY = "blog-theme";
-  var VALID_THEMES = ["zx", "hilda"];
-  var DEFAULT_THEME = "zx";
+  var VALID_THEMES = ["hilda"];
+  var DEFAULT_THEME = "hilda";
   var ATTR = "data-theme";
   var root = document.documentElement;
 
@@ -63,14 +57,6 @@
     }));
   }
 
-  /* ===== Toggle between Z-X and Hilda ===== */
-  function toggleTheme() {
-    var current = getTheme();
-    var next = current === "zx" ? "hilda" : "zx";
-    setTheme(next);
-    return next;
-  }
-
   /* ===== Initialize on DOM ready ===== */
   function init() {
     var savedTheme = getTheme();
@@ -84,19 +70,11 @@
     init();
   }
 
-  /* ===== Update toggle button label when theme changes ===== */
-  document.addEventListener("themechange", function(event) {
-    var label = document.getElementById("theme-label");
-    if (label) {
-      label.textContent = event.detail.theme === "zx" ? "Z-X" : "Hilda";
-    }
-  });
-
   /* ===== Expose Public API ===== */
   window.ThemeSwitcher = {
     getTheme: getTheme,
     setTheme: setTheme,
-    toggleTheme: toggleTheme,
+    toggleTheme: function() { return DEFAULT_THEME; }, // No-op: only 1 theme
     VALID_THEMES: VALID_THEMES,
     DEFAULT_THEME: DEFAULT_THEME
   };
