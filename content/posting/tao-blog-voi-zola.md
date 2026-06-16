@@ -7,6 +7,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Công nghệ"]
 tags = ["zola", "static site generator", "github pages", "github actions", "blog", "rust", "markdown", "tutorial"]
 [extra]
+seo_keyword = "tạo blog với Zola"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 featured = true
 
@@ -79,7 +80,7 @@ Kiểm tra cài đặt thành công:
 zola --version
 ```
 
-## Bước 2 — Khởi tạo site mới
+## Bước 2 — Tạo blog với Zola: khởi tạo site mới
 
 ```bash
 zola init my-blog

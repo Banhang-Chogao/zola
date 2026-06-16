@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-16T21:45:00.246818+07:00",
+  "updated_at": "2026-06-16T21:47:42.704631+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB ra mắt MSB Digital Bank: app mới thay mBank, cần làm gì?",
@@ -1006,11 +1006,11 @@
     "content/posting/cong-nghe-blog-duy-nguyen.md": {
       "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
       "slug": "cong-nghe-blog-duy-nguyen",
-      "keyword": "",
-      "score": 80.0,
-      "grade": "B",
-      "word_count": 903,
-      "scored_at": "2026-06-16T21:35:51.532429+07:00",
+      "keyword": "blog cá nhân Zola",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 915,
+      "scored_at": "2026-06-16T21:46:40.068019+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -1029,15 +1029,15 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -1077,9 +1077,7 @@
           "max": 3
         }
       },
-      "issues": [
-        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword"
-      ],
+      "issues": [],
       "history": [
         {
           "scored_at": "2026-06-16T18:16:29.174117+07:00",
@@ -1100,6 +1098,21 @@
           "scored_at": "2026-06-16T21:35:51.532429+07:00",
           "score": 80.0,
           "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-16T21:46:31.397682+07:00",
+          "score": 88.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-16T21:46:36.429157+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-16T21:46:40.068019+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
@@ -1202,11 +1215,11 @@
     "content/posting/qa-gatekeeper-tu-fix-loi-blog.md": {
       "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
       "slug": "qa-gatekeeper-tu-fix-loi-blog",
-      "keyword": "",
-      "score": 76.8,
-      "grade": "C",
+      "keyword": "QA Gatekeeper",
+      "score": 96.8,
+      "grade": "A+",
       "word_count": 1326,
-      "scored_at": "2026-06-16T21:35:51.532429+07:00",
+      "scored_at": "2026-06-16T21:47:04.041776+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -1225,15 +1238,15 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -1274,7 +1287,6 @@
         }
       },
       "issues": [
-        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword",
         "không nên dùng H1 (#) trong body — title đã là H1"
       ],
       "history": [
@@ -1292,17 +1304,22 @@
           "scored_at": "2026-06-16T21:35:51.532429+07:00",
           "score": 76.8,
           "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-16T21:47:04.041776+07:00",
+          "score": 96.8,
+          "grade": "A+"
         }
       ]
     },
     "content/posting/sentence-transformers-sbert-deep-dive.md": {
       "title": "Sentence Transformers (SBERT) là gì? Kiến trúc",
       "slug": "sentence-transformers-sbert-deep-dive",
-      "keyword": "",
-      "score": 76.8,
-      "grade": "C",
-      "word_count": 1376,
-      "scored_at": "2026-06-16T21:35:51.532429+07:00",
+      "keyword": "Sentence Transformers",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 1379,
+      "scored_at": "2026-06-16T21:47:24.649554+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -1321,15 +1338,15 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -1370,7 +1387,6 @@
         }
       },
       "issues": [
-        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword",
         "không nên dùng H1 (#) trong body — title đã là H1"
       ],
       "history": [
@@ -1393,17 +1409,27 @@
           "scored_at": "2026-06-16T21:35:51.532429+07:00",
           "score": 76.8,
           "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-16T21:47:19.066641+07:00",
+          "score": 90.8,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-16T21:47:24.649554+07:00",
+          "score": 96.8,
+          "grade": "A+"
         }
       ]
     },
     "content/posting/summer-korea-4-diem-dung-mua-he.md": {
       "title": "Du lịch Hàn Quốc mùa hè: Seoul, Busan, Jeju",
       "slug": "summer-korea-4-diem-dung-mua-he",
-      "keyword": "",
-      "score": 80.0,
-      "grade": "B",
-      "word_count": 1473,
-      "scored_at": "2026-06-16T21:35:51.532429+07:00",
+      "keyword": "du lịch Hàn Quốc mùa hè",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1481,
+      "scored_at": "2026-06-16T21:46:06.869574+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -1422,15 +1448,15 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -1470,9 +1496,7 @@
           "max": 3
         }
       },
-      "issues": [
-        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword"
-      ],
+      "issues": [],
       "history": [
         {
           "scored_at": "2026-06-16T18:16:29.174117+07:00",
@@ -1488,6 +1512,21 @@
           "scored_at": "2026-06-16T21:35:51.532429+07:00",
           "score": 80.0,
           "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-16T21:45:34.734111+07:00",
+          "score": 88.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-16T21:46:02.658180+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-16T21:46:06.869574+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
@@ -2906,11 +2945,11 @@
     "content/posting/tao-blog-voi-zola.md": {
       "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
       "slug": "tao-blog-voi-zola",
-      "keyword": "",
-      "score": 76.8,
-      "grade": "C",
-      "word_count": 683,
-      "scored_at": "2026-06-16T21:35:51.532429+07:00",
+      "keyword": "tạo blog với Zola",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 687,
+      "scored_at": "2026-06-16T21:47:42.704631+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -2929,15 +2968,15 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -2978,7 +3017,6 @@
         }
       },
       "issues": [
-        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword",
         "không nên dùng H1 (#) trong body — title đã là H1"
       ],
       "history": [
@@ -2991,6 +3029,16 @@
           "scored_at": "2026-06-16T21:35:51.532429+07:00",
           "score": 76.8,
           "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-16T21:47:35.738567+07:00",
+          "score": 90.8,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-16T21:47:42.704631+07:00",
+          "score": 96.8,
+          "grade": "A+"
         }
       ]
     },
