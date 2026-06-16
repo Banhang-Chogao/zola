@@ -21,3 +21,8 @@ ghp_*
 
 # ff.py AI-Agent — logs + teach feedback (local only)
 .ff/
+
+# Zola binary tooling extracted vào repo lúc setup môi trường (man pages +
+# license của Zola) — KHÔNG phải nội dung blog, không commit.
+artifacts/
+LICENSE
