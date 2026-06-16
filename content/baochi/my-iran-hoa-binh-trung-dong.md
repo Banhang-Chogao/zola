@@ -2,7 +2,7 @@
 title = "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?"
 date = 2026-06-16
 [taxonomies]
-categories = ["Posting"]
+categories = ["Thế giới"]
 tags = ["quốc tế", "an-ninh", "mỹ-iran", "trung-đông"]
 [extra]
 thumbnail = "https://picsum.photos/seed/my-iran-hoa-binh-trung-dong/600/400"
