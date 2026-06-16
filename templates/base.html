@@ -44,9 +44,10 @@
 <head>
     <meta charset="UTF-8">
     {# Anti-flash theme switcher: ĐỌC localStorage + set data-theme NGAY
-       trước khi CSS render → tránh user thấy flash từ default sang Z-X
-       khi đã chọn theme trước đó. PHẢI là script đầu tiên trong <head>. #}
-    <script>(function(){try{var t=localStorage.getItem('blog-theme');if(t==='zx'){document.documentElement.setAttribute('data-theme','zx');}}catch(e){}})();</script>
+       trước khi CSS render → tránh user thấy flash từ default sang theme đã chọn
+       khi đã lưu theme trước đó. PHẢI là script đầu tiên trong <head>.
+       Supports: Z-X (default) hoặc Hilda (user choice) #}
+    <script>(function(){try{var t=localStorage.getItem('blog-theme');if(t==='hilda'||t==='zx'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
@@ -457,6 +458,11 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
             </button>
+            {# Theme toggle button — Z-X ↔ Hilda #}
+            <button id="theme-toggle-btn" class="theme-toggle" aria-label="Chuyển đổi theme" title="Chuyển đổi theme">
+                <span class="theme-icon">🎨</span>
+                <span class="theme-label" id="theme-label">Hilda</span>
+            </button>
         </div>
         {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
         <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
@@ -852,6 +858,45 @@
     <script src="{{ get_url(path='js/staging-queue.js') }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
     <script src="{{ get_url(path='js/theme-switcher.js') }}" defer></script>
+    {# Hook up theme toggle button to ThemeSwitcher API #}
+    <script defer>
+    (function() {
+      function setupThemeToggle() {
+        var btn = document.getElementById('theme-toggle-btn');
+        var label = document.getElementById('theme-label');
+        if (!btn) return;
+
+        // Set initial label
+        if (label && window.ThemeSwitcher) {
+          label.textContent = window.ThemeSwitcher.getTheme() === 'zx' ? 'Z-X' : 'Hilda';
+        }
+
+        // Click handler
+        btn.addEventListener('click', function() {
+          if (window.ThemeSwitcher) {
+            var nextTheme = window.ThemeSwitcher.toggleTheme();
+            if (label) {
+              label.textContent = nextTheme === 'zx' ? 'Z-X' : 'Hilda';
+            }
+          }
+        });
+
+        // Listen for external theme changes
+        document.addEventListener('themechange', function(e) {
+          if (label) {
+            label.textContent = e.detail.theme === 'zx' ? 'Z-X' : 'Hilda';
+          }
+        });
+      }
+
+      // Setup when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupThemeToggle);
+      } else {
+        setupThemeToggle();
+      }
+    })();
+    </script>
     {% block extra_scripts %}{% endblock %}
 
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====

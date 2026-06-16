@@ -2,6 +2,150 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Claude/test auto merge9",
+      "tag": "chore",
+      "pr": 179,
+      "lines_added": 10,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-16",
+      "title": "PLANNING: Hilda theme (Option C) — secondary theme for Ericsson branding",
+      "tag": "chore",
+      "pr": 180,
+      "lines_added": 908,
+      "lines_removed": 71,
+      "highlights": [
+        "sass/_hilda-tokens.scss — Color, spacing, typography variables",
+        "sass/_hilda-fonts.scss — Google Fonts import (Inter)",
+        "sass/_hilda-overrides.scss — Component styling per theme",
+        "sass/_theme-switcher-styles.scss — Toggle button styles",
+        "sass/_themes.scss — Add Hilda :root[data-theme=\"hilda\"] block"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Add Branding Guideline page + homepage CTA",
+      "tag": "feat",
+      "pr": 182,
+      "lines_added": 241,
+      "lines_removed": 0,
+      "highlights": [
+        "Visual color palette (Primary, Accent, Neutral) with hex codes",
+        "Typography showcase (Ericsson Hilda OTF font, sizes, weights)",
+        "UI Design System (4px radius, shadows, 8px spacing)",
+        "Component examples (buttons, badges, contrast tests)",
+        "WCAG AAA accessibility verification"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Complete theme switcher — BrandingX ↔ Z-X",
+      "tag": "feat",
+      "pr": 181,
+      "lines_added": 506,
+      "lines_removed": 35,
+      "highlights": [
+        "Dual theme support: BrandingX (default, MoMo pink) ↔ Z-X (ZaloPay electric blue)",
+        "Dynamic CSS Variables: :root (BrandingX) vs :root[data-theme=\"zx\"] (Z-X)",
+        "Persistent storage: localStorage + anti-flash inline script",
+        "Interactive UI: Dropdown menu with 4 theme options (BrandingX, Z-X, E-X, Hila)",
+        "Keyboard navigation: Arrow keys, Escape, Home/End support"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Add Dân Trí article — sự cố F/A-18 và hệ thống an toàn",
+      "tag": "feat",
+      "pr": 178,
+      "lines_added": 76,
+      "lines_removed": 0,
+      "highlights": [
+        "Original: News report of F/A-18 crash, pilot ejection, investigation details",
+        "Rewritten: Analysis of safety systems, investigation process, engineering lessons learned",
+        "Personal reflection on technology, risk management, and system resilience"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Add Dân Trí article — uranium của Iran và ngoại giao Mỹ",
+      "tag": "feat",
+      "pr": 177,
+      "lines_added": 51,
+      "lines_removed": 0,
+      "highlights": [
+        "Original: Technical announcement from VP JD Vance about uranium destruction plan",
+        "Rewritten: Analysis of what the diplomatic language means, context of Iran's stockpile, shift from military to diplomatic approach"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Add Dân Trí article — thỏa thuận hòa bình Mỹ-Iran",
+      "tag": "feat",
+      "pr": 176,
+      "lines_added": 52,
+      "lines_removed": 0,
+      "highlights": [
+        "Original article discusses oil price drops, market reactions, and economic implications",
+        "Rewritten version adds personal narrative and deeper analysis",
+        "Added internal linking to related economic topics",
+        "Focuses on practical implications for readers (cost of living, inflation)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Add bb shortcut — interactive article processor",
+      "tag": "feat",
+      "pr": 175,
+      "lines_added": 70,
+      "lines_removed": 0,
+      "highlights": [
+        "User provides article content (copy-paste, no crawling needed)",
+        "Claude rewrites in personal blog style with unique perspective",
+        "Auto-detects category and generates frontmatter",
+        "Creates branch baochi, commits, PR, and merges immediately",
+        "Network failure fallback: works even when external crawling blocked"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "test: Auto-merge9 test PR #06",
+      "tag": "chore",
+      "pr": 170,
+      "lines_added": 1,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-16",
+      "title": "test: Auto-merge9 test PR #05",
+      "tag": "chore",
+      "pr": 169,
+      "lines_added": 1,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-16",
+      "title": "test: Auto-merge9 test PR #01",
+      "tag": "chore",
+      "pr": 165,
+      "lines_added": 1,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Phase4 port groups refactoring",
+      "tag": "chore",
+      "pr": 161,
+      "lines_added": 278,
+      "lines_removed": 28,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-16",
       "title": "Add manu9 PR approval shortcut",
       "tag": "feat",
       "pr": 162,
