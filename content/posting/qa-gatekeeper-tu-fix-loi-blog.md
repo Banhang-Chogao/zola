@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/qa-gatekeeper-tu-fix-loi-blog/"]
 
 [taxonomies]
-categories = ["Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["automation", "blog", "ci/cd", "devops", "github actions", "qa", "self-healing", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/qa-gatekeeper/600/400"

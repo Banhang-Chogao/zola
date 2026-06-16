@@ -2,7 +2,7 @@
 title = "Thỏa thuận hòa bình Mỹ-Iran: bước ngoặt hay bước chân trên cát?"
 date = 2026-06-16
 [taxonomies]
-categories = ["Posting"]
+categories = ["Tất cả"]
 tags = ["quốc tế", "an-ninh", "mỹ-iran", "trung-đông"]
 [extra]
 thumbnail = "https://picsum.photos/seed/my-iran-hoa-binh-trung-dong/600/400"

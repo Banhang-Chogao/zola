@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/cong-nghe-blog-duy-nguyen/"]
 
 [taxonomies]
-categories = ["Ẩm thực"]
+categories = ["Tất cả", "Ẩm thực"]
 tags = ["cms", "github actions", "tech stack", "vanilla js", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/cong-nghe-blog-duy-nguyen/600/400"

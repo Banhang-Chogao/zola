@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/sentence-transformers-sbert-deep-dive/"]
 
 [taxonomies]
-categories = ["Ẩm thực"]
+categories = ["Tất cả", "Ẩm thực"]
 tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", "python", "pytorch", "sbert", "sentence-transformers"]
 [extra]
 thumbnail = "https://picsum.photos/seed/sbert-research/600/400"

@@ -2,7 +2,7 @@
 title = "Chọn ngách nội dung để blog giữ chân người đọc lâu hơn"
 date = 2026-06-16
 [taxonomies]
-categories = ["Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "content-strategy", "seo", "engagement", "mobile-ux"]
 [extra]
 thumbnail = "https://picsum.photos/seed/chon-ngach-noi-dung-giu-chan-nguoi-doc/600/400"

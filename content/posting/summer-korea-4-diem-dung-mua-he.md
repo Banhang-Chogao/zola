@@ -5,7 +5,7 @@ date = 2026-06-15
 aliases = ["/summer-korea-4-diem-dung-mua-he/"]
 
 [taxonomies]
-categories = ["Du lịch"]
+categories = ["Tất cả", "Du lịch"]
 tags = ["budget travel", "busan", "du lịch", "hiking", "hàn quốc", "hàn river", "jeju", "korea", "mùa hè", "seoraksan", "seoul", "ẩm thực"]
 [extra]
 thumbnail = "https://picsum.photos/seed/summer-korea-4-spots/1200/800"

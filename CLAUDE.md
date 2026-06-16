@@ -167,3 +167,16 @@ Mỗi lần viết/sửa bài, hệ thống TỰ chấm SEO qua `scripts/seo_qa_
 DB `data/seo-qa-scores.json` là nguồn dữ liệu để dựng trang Insights "điểm SEO
 của blog" sau này. KHÔNG xoá file này; mỗi lần chấm chỉ append thêm mốc lịch sử
 (`history`, giữ tối đa 20 mốc/bài).
+
+## Quy tắc Category (BẮT BUỘC)
+
+- Category **"Tất cả"** là category mặc định của MỌI bài viết (slug `tat-ca`,
+  URL `/categories/tat-ca/`). Menu "Tất cả bài viết" trỏ tới URL này.
+- Mỗi bài viết PHẢI có `"Tất cả"` đứng ĐẦU mảng `categories`, kèm theo các
+  category chuyên mục khác (nếu có) mà người viết chọn. Ví dụ:
+  - Bài thường: `categories = ["Tất cả"]`
+  - Bài có chuyên mục: `categories = ["Tất cả", "Du lịch"]`,
+    `["Tất cả", "Banking"]`, `["Tất cả", "Công nghệ"]`…
+- KHÔNG dùng lại category cũ tên `"Posting"` (đã đổi thành `"Tất cả"`).
+- Giá trị phải khớp CHÍNH XÁC chuỗi `"Tất cả"` (chữ "c" thường) để Zola gom
+  đúng một taxonomy term, tránh lỗi trùng slug.
