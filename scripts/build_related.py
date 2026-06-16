@@ -28,9 +28,14 @@ OUTPUT_FILE = ROOT / "data" / "related.json"
 SCORES_FILE = ROOT / "data" / "scores.json"
 
 # Multilingual model: ~120MB, hỗ trợ Tiếng Việt tốt, đủ nhanh cho blog
-# vài chục bài. Có thể đổi thành paraphrase-multilingual-mpnet-base-v2
+# vài chục bài. Có thể đổi thành sentence-transformers/paraphrase-multilingual-mpnet-base-v2
 # (~500MB) cho accuracy cao hơn nhưng build chậm gấp 3.
-MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
+#
+# ⚠ PHẢI để repo-id ĐẦY ĐỦ kèm org "sentence-transformers/". `SentenceTransformer`
+# tự suy prefix cho tên trần, nhưng `huggingface_hub.snapshot_download` (ta dùng ở
+# load_model để né 429) thì KHÔNG → tên trần làm HF tìm repo top-level không tồn
+# tại → 401 "Repository Not Found", fail toàn bộ build.
+MODEL_NAME = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 TOP_N = 5
 MIN_SCORE = 0.15  # filter junk pairs
 
