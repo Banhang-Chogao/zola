@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "SEO9: meta description duy nhất cho 17 trang section + bài thiếu mô tả",
+      "tag": "chore",
+      "pr": 251,
+      "lines_added": 298,
+      "lines_removed": 53,
+      "highlights": [
+        "Homepage + 11 section _index: posting, baochi, du-lich, dien-anh,",
+        "pages/about.md + 5 bài baochi: chon-ngach-noi-dung, iran-uranium,",
+        "Title vài bài posting/baochi > 60 ký tự (chỉ là warning ở qa_check.py,",
+        "Một số bài chưa khai [extra] seo_keyword / thiếu external link — tối ưu sâu",
+        "✅ python3 qa_check.py → All QA checks passed (178 files)"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "feat(adsense): trang pháp lý + E-E-A-T + disclosure + tiêu chí bb/bb9",
       "tag": "chore",
       "pr": 252,
