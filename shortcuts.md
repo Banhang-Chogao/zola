@@ -876,6 +876,29 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 
 **Scope mặc định**: 20 run gần nhất trên `main`. Kèm context (e.g., `run list deploy.yml`) → filter theo workflow đó.
 
+### `manu9` — Auto-approve tất cả PRs do Claude tạo
+
+**Mục đích**: Batch approve PRs pending do Claude/automation tạo, chuẩn bị cho merge.
+
+**Hành động**:
+1. List tất cả open PRs (`mcp__github__list_pull_requests state=open`)
+2. Filter PRs có author = `github-actions[bot]` hoặc branch name chứa `claude/`
+3. Submit approval review cho mỗi PR:
+   - Method: `pull_request_review_write` với event=`APPROVE`
+   - Body: "✅ Approved by automation"
+4. Output bảng tóm tắt:
+
+| PR | Title | Author | Status |
+|---|---|---|---|
+| #X | ... | github-actions[bot] | ✅ Approved |
+| #Y | ... | claude/* | ✅ Approved |
+
+**Scope**: Chỉ approve PRs do **automation/Claude** tạo, KHÔNG approve manual PRs từ user.
+
+**Output cuối**: "N PRs approved. Sẵn sàng merge với `prm` hoặc `manual #X`."
+
+KHÔNG auto-merge — chỉ approve, user quyết định merge.
+
 ---
 
 ## 3. Workflow Auto-Heal — quy trình chuẩn
