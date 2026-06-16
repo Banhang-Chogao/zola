@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-16",
+      "title": "Phase 3: Update base.html dropdown markup + navbar CSS",
+      "tag": "chore",
+      "pr": 154,
+      "lines_added": 221,
+      "lines_removed": 18,
+      "highlights": [
+        "Old .navbar__theme button (id=\"theme-switch-btn\") — 2-option toggle",
+        "data-theme-label icons (sun/moon)",
+        ".theme-toggle container (data-theme-toggle)",
+        ".theme-toggle__btn: main button (aria-haspopup, aria-expanded)",
+        "dot, current theme name, caret"
+      ]
+    },
+    {
+      "date": "2026-06-16",
       "title": "Hybrid 4-theme system: Z-X / E-X / Hila Ericsson trên kiến trúc --c-* của main",
       "tag": "chore",
       "pr": 140,
