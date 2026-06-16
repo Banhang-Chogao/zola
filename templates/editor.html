@@ -13,6 +13,14 @@
 {% block main %}
     <h1 class="visually-hidden">Trình soạn thảo bài viết</h1>
     <div class="editor-app" id="editor-app">
+        {# Brand badge — danh xưng hệ thống, style "ngầu + nghịch ngợm" nhiều màu #}
+        <div class="cms-brand">
+            <a class="cms-brand__btn" href="{{ config.base_url }}/editor/" title="Content Management System">
+                <span class="cms-brand__spark" aria-hidden="true">✦</span>
+                Content Management System
+                <span class="cms-brand__tag">CMS</span>
+            </a>
+        </div>
         {# ===== GITHUB LOGIN VIEW =====
            GitHub OAuth là cổng vào duy nhất. Editor.js đọc <meta name=
            "zola-cms-auth-api"> để gọi backend. Auth flow:

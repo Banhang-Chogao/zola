@@ -4,6 +4,78 @@
   font-family: $font-body;
 }
 
+/* CMS = full-bleed: bỏ cột sidebar + nới rộng container để form + split preview
+   dễ nhìn dễ thao tác hơn. Theo đúng pattern .insights / .du-lich (dùng :has),
+   chỉ ảnh hưởng trang /editor/ — KHÔNG đụng layout global các trang khác. */
+.layout-grid:has(.editor-app) {
+  grid-template-columns: minmax(0, 1fr);
+}
+main.container:has(.editor-app) {
+  max-width: 1400px;
+}
+
+/* ===== CMS brand button — badge "ngầu + nghịch ngợm" nhiều màu ===== */
+.cms-brand {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 1.5rem;
+}
+.cms-brand__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.3px;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  // Gradient nhiều màu chạy động (rainbow ngầu)
+  background: linear-gradient(110deg, #6366f1, #ec4899, #f59e0b, #10b981, #3b82f6, #6366f1);
+  background-size: 300% 100%;
+  animation: cms-flow 8s linear infinite;
+  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.35), 0 2px 6px rgba(236, 72, 153, 0.3);
+  transform: rotate(-1.5deg);   // nghịch ngợm: hơi nghiêng
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 0 12px 30px rgba(99, 102, 241, 0.45), 0 4px 10px rgba(245, 158, 11, 0.35);
+  }
+  &:active { transform: rotate(0deg) scale(0.98); }
+
+  // Chip "CMS" nổi bật bên trong
+  .cms-brand__tag {
+    background: rgba(255, 255, 255, 0.92);
+    color: #6d28d9;
+    font-weight: 900;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    padding: 0.12rem 0.5rem;
+    border-radius: 6px;
+  }
+  // Ngôi sao lấp lánh xoay nhẹ
+  .cms-brand__spark {
+    font-size: 1.1rem;
+    animation: cms-spin 4s linear infinite;
+  }
+}
+@keyframes cms-flow {
+  to { background-position: 300% 0; }
+}
+@keyframes cms-spin {
+  to { transform: rotate(360deg); }
+}
+// Tôn trọng người dùng tắt hiệu ứng chuyển động
+@media (prefers-reduced-motion: reduce) {
+  .cms-brand__btn { animation: none; }
+  .cms-brand__spark { animation: none; }
+}
+
 /* ============= GITHUB LOGIN MODAL ============= */
 /* GitHub OAuth là cổng đăng nhập duy nhất. Backend FastAPI check email
    whitelist → tạo session Redis TTL 2h → redirect /editor/#sid=... .
