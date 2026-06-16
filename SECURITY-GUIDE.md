@@ -13,74 +13,28 @@
 
 ## 2. Bảo Vệ `/editor` Endpoint
 
-### **Status Hiện Tại: An Toàn** 🟢
+### **Status Hiện Tại: An Toàn** 🟢 **STATIC (NO LOGIN)**
 
 ```toml
-cms_auth_url = ""  # Backend chưa kết nối
+cms_auth_url = ""  # Backend KHÔNG kết nối (cố ý)
 ```
 
-- `/editor` page hiển thị tĩnh (HTML + JS)
-- **Không có authentication endpoint** → an toàn
-- Chỉ có form UI, không connect backend
-- Khi user vào `/editor/` → thấy hint: "Backend auth chưa được cấu hình"
+**Quyết định:** `/editor` sẽ giữ **tĩnh (static), không có login**.
 
-### **Khi Kết Nối Backend (Tương Lai)**
+**Lý do:**
+- ✅ Blog là static site (Zola/GitHub Pages) → không cần editor trực tuyến
+- ✅ Nếu cần viết → edit Markdown locally + push GitHub
+- ✅ Không cần backend phức tạp, DDoS attack, OAuth vulnerability
+- ✅ `/editor` là demo UI, không activate login flow
 
-Nếu bạn setup FastAPI backend + GitHub OAuth, cần áp dụng:
+**Cách sử dụng:**
+- Viết bài locally: `zola serve` → preview locally
+- Edit file Markdown: `content/posting/bai-moi.md`
+- Commit + push GitHub → CI/CD auto-deploy
 
-#### **A) Email Whitelist (Bắt Buộc)**
-```python
-# Backend env variables
-ADMIN_EMAILS=your_email@example.com,other_admin@example.com
-GITHUB_CLIENT_ID=xxx
-GITHUB_CLIENT_SECRET=xxx
-JWT_SECRET=very_long_random_key_here
-```
-
-- Chỉ email trong whitelist mới được login
-- Người khác vào `/editor/` sẽ bị reject
-
-#### **B) Security Headers**
-```python
-# Backend responses khi /auth/* hoặc /editor
-response.headers["X-Frame-Options"] = "SAMEORIGIN"  # Prevent clickjacking
-response.headers["X-Content-Type-Options"] = "nosniff"
-response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline'"
-response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-```
-
-#### **C) Rate Limiting**
-```python
-# Block after 5 failed login attempts per IP in 15 minutes
-from slowapi import Limiter
-
-limiter = Limiter(key_func=get_remote_address)
-
-@app.post("/auth/login")
-@limiter.limit("5/15 minutes")
-async def login(request: Request):
-    # GitHub OAuth flow
-    pass
-```
-
-#### **D) CSRF Token Validation**
-```python
-# Editor.js sẽ kèm CSRF token khi publish/delete
-# Backend validate để prevent CSRF attacks
-@app.post("/editor/posts")
-async def publish(request: Request):
-    csrf_token = request.headers.get("X-CSRF-Token")
-    if not validate_csrf(csrf_token):
-        raise HTTPException(status_code=403, detail="CSRF validation failed")
-```
-
-#### **E) Audit Log**
-```python
-# Log tất cả hành động admin (publish, delete, edit)
-# File: logs/editor-audit.log
-2026-06-16 10:23:45 | your_email@example.com | CREATE | "Tiêu đề bài" | by @username
-2026-06-16 10:24:12 | your_email@example.com | DELETE | "Bài cũ" | by @username
-```
+**Nếu Muốn Enable Login (Tương Lai):**
+- Option: Supabase OAuth (không cần backend) - Recommend
+- Xem `.github/EDITOR-LOGIN-OPTIONS.md` để so sánh 3 approaches
 
 ---
 
@@ -211,12 +165,12 @@ git log --oneline --all | head -50
 
 | Tính Năng | Status | Ghi Chú |
 |-----------|--------|--------|
-| **Backup Git** | ✅ Hoạt động | Tự động, mỗi commit |
-| **HTTPS** | ✅ Hoạt động | GitHub Pages bao gồm |
-| **Dependabot** | ✅ Hoạt động | `.github/dependabot.yml` đã cấu hình, workflow auto-merge |
-| **DDoS Protection** | ✅ Hoạt động | GitHub native (hiện tại), Cloudflare optional (custom domain) |
-| **Editor Auth** | 🟡 Sẵn sàng (chưa kích hoạt) | Sẽ bảo vệ khi connect backend |
-| **Security Audit** | ✅ Workflows có | GitHub Actions chạy trên mỗi push |
+| **Backup Git** | ✅ Hoạt động | Tự động, mỗi commit → GitHub |
+| **HTTPS** | ✅ Hoạt động | GitHub Pages cấp SSL miễn phí |
+| **DDoS Protection** | ✅ Hoạt động | GitHub native AWS Shield (hiện tại) |
+| **Dependabot** | ✅ Hoạt động | Auto-check + auto-merge patch/minor updates |
+| **Editor (/editor)** | 🟢 **STATIC (NO LOGIN)** | Trang demo, không activate login flow |
+| **Security Audit** | ✅ Workflows có | GitHub Actions scan code trên mỗi push |
 
 ---
 
