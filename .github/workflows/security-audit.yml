@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write      # cần để commit data/security.json (QA dashboard snapshot)
   issues: write
   security-events: write
 
@@ -111,6 +111,65 @@ jobs:
           fi
           echo "- Workflow misconfig: ${{ steps.wfcheck.outputs.workflow_issues }}" >> summary.md
           cat summary.md
+
+      # ---------- Build-time QA snapshot cho dashboard footer ----------
+      - name: Write data/security.json (QA dashboard snapshot)
+        env:
+          WF_ISSUES: ${{ steps.wfcheck.outputs.workflow_issues }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+
+          def count_vulns(path):
+              try:
+                  d = json.load(open(path))
+                  return sum(len(p.get("vulns", [])) for p in d.get("dependencies", []))
+              except Exception:
+                  return 0
+
+          def count_leaks(path):
+              try:
+                  return len(json.load(open(path)))
+              except Exception:
+                  return 0
+
+          py_vulns = count_vulns("be-vulns.json") + count_vulns("scripts-vulns.json")
+          secret_leaks = count_leaks("gitleaks-report.json")
+          try:
+              wf_issues = int(os.environ.get("WF_ISSUES", "0") or "0")
+          except ValueError:
+              wf_issues = 0
+
+          data = {
+              "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+              "py_vulns": py_vulns,
+              "secret_leaks": secret_leaks,
+              "workflow_issues": wf_issues,
+              "total": py_vulns + secret_leaks + wf_issues,
+          }
+          os.makedirs("data", exist_ok=True)
+          with open("data/security.json", "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+              f.write("\n")
+          print(json.dumps(data, indent=2))
+          PY
+
+      - name: Commit data/security.json to main (race-safe)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git status --porcelain data/security.json | grep -q .; then
+            echo "Không có thay đổi security.json"; exit 0
+          fi
+          git add data/security.json
+          git commit -m "Cập nhật: security audit snapshot ($(date -u +%FT%TZ))"
+          for i in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            git fetch origin main && git rebase origin/main
+            sleep $((i * 5))
+          done
+          exit 1
 
       - name: Upload artifacts
         if: always()
