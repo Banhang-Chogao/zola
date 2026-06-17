@@ -42,14 +42,15 @@ jobs:
         id: prmeta
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           set -euo pipefail
           NUM=""
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.pr_number }}" ]; then
             NUM="${{ inputs.pr_number }}"
           else
-            MSG="${{ github.event.head_commit.message }}"
-            NUM=$(echo "$MSG" | grep -oE '(Merge pull request #|\(#)[0-9]+' | grep -oE '[0-9]+' | head -1 || true)
+            MSG="$HEAD_COMMIT_MSG"
+            NUM=$(echo "$MSG" | head -1 | grep -oE '(Merge pull request #|\(#)[0-9]+' | grep -oE '[0-9]+' | head -1 || true)
             if [ -z "$NUM" ]; then
               NUM=$(echo "$MSG" | grep -oE '#[0-9]+' | head -1 | tr -d '#' || true)
             fi
