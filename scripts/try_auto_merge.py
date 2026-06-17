@@ -148,8 +148,9 @@ def post_skip_comment(number: int, reason: str, *, force: bool = False) -> None:
         f"{SKIP_COMMENT_MARKER}\n"
         f"**Auto-merge skip** — PR #{number}\n\n"
         f"- **Lý do:** {reason}\n"
-        f"- **Cần làm:** Approve workflows trên PR (nếu CI = `action_required`), "
+        f"- **Cần làm:** Đợi `workflow_run` relay (QA/PR Policy), set `WORKFLOW_BOT_PAT`, "
         f"hoặc gắn label `no-auto-merge` nếu cần review tay.\n"
+        f"- **Doc:** `.github/ACTIONS-PERMISSIONS.md`\n"
         f"- Script: `scripts/try_auto_merge.py`"
     )
     _comment_pr(number, body)

@@ -34,6 +34,7 @@ jobs:
 
       - name: Open PR if changed (never push main)
         env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_TITLE: "chore: refresh Google Trends VN hot search"
           PR_BODY: |

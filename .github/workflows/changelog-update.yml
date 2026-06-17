@@ -58,6 +58,7 @@ jobs:
       - name: Open PR if changed (never push main)
         if: steps.changelog.outputs.changed == 'true'
         env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MESSAGE: ${{ steps.changelog.outputs.commit_message }}
           PR_TITLE: "chore: changelog after PR #${{ github.event.pull_request.number }}"
