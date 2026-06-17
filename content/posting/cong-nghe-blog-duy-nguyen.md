@@ -10,8 +10,6 @@ tags = ["cms", "github actions", "tech stack", "vanilla js", "zola"]
 [extra]
 seo_keyword = "blog cá nhân Zola"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/cong-nghe-blog-duy-nguyen.svg"
-featured = true
-featured_at = "2026-06-15T09:43:31.498Z"
 [[extra.faq]]
 q = "Tự xây blog cá nhân hết bao nhiêu tiền?"
 a = "Gần như 0 đồng mỗi tháng nếu dùng static site generator (Zola) host trên GitHub Pages miễn phí và build bằng GitHub Actions. Bạn chỉ tốn thêm nếu muốn tên miền riêng, khoảng vài trăm nghìn đồng một năm."
