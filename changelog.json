@@ -2,6 +2,16 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "fix(ci): correct gh pr view --jq syntax in changelog workflow",
+      "tag": "fix",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "fdef42e4a576",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-17",
       "title": "fix(ci): stash local changes before pull in push_to_main.sh",
       "tag": "fix",
       "lines_added": 12,
