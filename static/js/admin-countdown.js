@@ -144,7 +144,9 @@
     var end = targetMs(cfg.targetDate, cfg.targetTime, cfg.timezone);
     var left = Math.max(0, end - Date.now());
     if (end <= Date.now()) {
-      el.innerHTML = 'Sự kiện đã diễn ra: <strong>' + cfg.title + "</strong>";
+      el.innerHTML =
+        '<span class="footer-countdown__past">Sự kiện đã diễn ra: ' +
+        '<strong class="footer-countdown__title">' + cfg.title + "</strong></span>";
       return;
     }
     var sec = Math.floor(left / 1000);
@@ -153,17 +155,34 @@
     var minutes = Math.floor((sec % 3600) / 60);
     var seconds = sec % 60;
     var pad = function (n) { return String(n).padStart(2, "0"); };
+    function digitSpan(value, unit) {
+      return (
+        '<span class="footer-countdown__unit" aria-hidden="true">' +
+        '<span class="footer-countdown__digit">' + value + "</span> " +
+        unit +
+        "</span>"
+      );
+    }
     var body = "";
     if (cfg.displayMode === "full") {
-      body = days + " ngày " + pad(hours) + " giờ " + pad(minutes) + " phút " + pad(seconds) + " giây";
+      body =
+        digitSpan(days, "ngày") + " " +
+        digitSpan(pad(hours), "giờ") + " " +
+        digitSpan(pad(minutes), "phút") + " " +
+        digitSpan(pad(seconds), "giây");
     } else if (cfg.displayMode === "days_hours_minutes") {
-      body = days + " ngày " + pad(hours) + " giờ " + pad(minutes) + " phút";
+      body =
+        digitSpan(days, "ngày") + " " +
+        digitSpan(pad(hours), "giờ") + " " +
+        digitSpan(pad(minutes), "phút");
     } else {
-      body = days + " ngày";
+      body = digitSpan(days, "ngày");
     }
     el.innerHTML =
-      cfg.footerTextPrefix + " <strong class=\"footer-countdown__digit\">" + body + "</strong> " +
-      cfg.footerTextSuffix + ": <strong>" + cfg.title + "</strong>";
+      '<span class="footer-countdown__prefix">' + cfg.footerTextPrefix + "</span> " +
+      body + " " +
+      '<span class="footer-countdown__suffix">' + cfg.footerTextSuffix + ":</span> " +
+      '<strong class="footer-countdown__title">' + cfg.title + "</strong>";
   }
 
   var previewTimer = null;
