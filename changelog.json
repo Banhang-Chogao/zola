@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "hotfix: fix GitHub Pages 404s from missing /zola/ base path",
+      "tag": "fix",
+      "pr": 274,
+      "lines_added": 282,
+      "lines_removed": 85,
+      "highlights": [
+        "95 link thiếu /zola/ trong 33 file markdown",
+        "Trước fix: ~30 trang HTML có href=\"/baochi/...\" hoặc href=\"/posting/...\" (404 trên production)",
+        "Sau fix: 0 link thiếu prefix",
+        "Canonical: https://banhang-chogao.github.io/zola/baochi/uu-dai-hoan-tien-the-liobank/ ✓",
+        "Body links: href=\"/zola/baochi/...\" ✓"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "feature: auto-generate references section at end of posts",
       "tag": "chore",
       "pr": 273,
