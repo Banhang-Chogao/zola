@@ -506,6 +506,67 @@ main.container:has(.insights) {
   color: #8b949e;
 }
 
+.insights__compliance-fixes {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed #eaeef2;
+}
+
+.insights__compliance-fixes-title {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #57606a;
+}
+
+.insights__compliance-fixes-meta {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  color: #8b949e;
+}
+
+.insights__compliance-fix-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.insights__compliance-fix-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: #57606a;
+}
+
+.insights__compliance-fix-badge {
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+
+  .insights__compliance-fix-item--fixed & {
+    background: rgba($brand-success, 0.15);
+    color: darken($brand-success, 8%);
+  }
+
+  .insights__compliance-fix-item--failed & {
+    background: rgba($brand-signal-red, 0.12);
+    color: $brand-signal-red;
+  }
+}
+
+.insights__compliance-fix-text strong {
+  font-weight: 600;
+  color: #24292f;
+}
+
 .insights__compliance-empty {
   margin: 0;
   font-size: 0.8rem;

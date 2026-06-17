@@ -6,6 +6,30 @@ dài.
 
 ---
 
+## 0. Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
+
+**Khi Claude kết nối / làm việc với repo GitHub `Banhang-Chogao/zola` lần
+đầu tiên trong một session** (lần đầu dùng GitHub MCP, `gh`, hoặc `git` trỏ
+repo này), Claude PHẢI:
+
+1. **Đọc file này** (`shortcuts.md`) — source of truth duy nhất cho phím tắt.
+2. **Liệt kê ngay** bảng tóm tắt tất cả phím tắt active (format giống `help` /
+   `phimtat`): cột `Phím tắt` · `Mô tả ngắn`, kèm tổng số.
+3. **Ghi nhớ** nội dung từng shortcut trong session — khi user gọi tên phím
+   tắt (đứng đầu message, single line) → **THỰC THI NGAY** theo mô tả section
+   tương ứng trong file này, không hỏi lại, không giải thích dài.
+
+**Nhận diện "lần đầu connect"**: chưa đọc `shortcuts.md` trong session hiện tại,
+hoặc user vừa mở task mới liên quan repo zola mà chưa thấy bảng phím tắt.
+
+**Ngoại lệ**: user gõ thẳng một phím tắt ngay message đầu → đọc `shortcuts.md`
++ thực thi shortcut đó (có thể bỏ bước list đầy đủ nếu user chỉ muốn tốc độ).
+
+Chi tiết từng phím tắt: §2 bên dưới. Canonical copy rule: `CLAUDE.md` §
+"Bootstrap session GitHub".
+
+---
+
 ## 1. Cơ chế chọn phiên bản Node.js (Thông minh & Linh hoạt)
 
 KHÔNG force phiên bản Node mặc định cho mọi workflow. Khi sửa lỗi hoặc
@@ -1262,9 +1286,11 @@ buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể
 Mọi action/workflow failed PHẢI đi qua pipeline 3 bước:
 
 ```
-[FAILED] ─→ QA check (qa_check.py + log analysis)
-         ─→ Tự fix (qa-failed.py pattern matching)
-         ─→ Re-deploy (commit + push → trigger deploy.yml)
+[FAILED] ─→ Thu log (gh run view --log-failed)
+         ─→ Đối chiếu vaccine (vaccine_rules.py ↔ CLAUDE.md)
+         ─→ Safe fix (qa-failed.py)
+         ─→ Branch fix/ci-auto-<run_id> → PR → QA.yml validate
+         ─→ Chờ review thủ công (KHÔNG push main, KHÔNG auto-merge)
 ```
 
 **Claude tự quyết định** (không hỏi user):
@@ -1272,9 +1298,13 @@ Mọi action/workflow failed PHẢI đi qua pipeline 3 bước:
 - Hướng xử lý lỗi tối ưu (conservative khi unknown, aggressive khi pattern rõ)
 - Khi nào escalate qua issue thay vì cố fix mù
 
-Workflow handler `.github/workflows/qa-failed-handler.yml` ĐÃ BỊ GỠ
-(user request 11:37). `qa-failed.py` giữ lại — chạy manual qua các
-shortcut `ff` / `healing`.
+Workflow handler cũ `qa-failed-handler.yml` đã gỡ (15/06/2026 11:37, PR #89).
+Thay bằng `.github/workflows/build-failure-handler.yml` (16/06/2026):
+trigger khi `deploy.yml` / `qa.yml` fail → `qa-failed.py` → branch
+`fix/ci-auto-<run_id>` → PR (KHÔNG push main, KHÔNG auto-merge).
+Vaccine rules: `scripts/vaccine_rules.py` ↔ CLAUDE.md V1–V4.
+
+`qa-failed.py` vẫn chạy manual qua shortcut `ff` / `healing` khi cần.
 
 Nguyên tắc khi chạy `qa-failed.py`:
 - **Buffer + retry**: sleep 30s trước khi poll, max 5 lần × 30s

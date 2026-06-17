@@ -95,12 +95,14 @@ class PageParser(HTMLParser):
             if a.get("alt", "").strip():
                 self.img_with_alt += 1
         elif tag == "a" and a.get("href"):
-            self.links.append(a["href"])
+            href = a["href"]
+            self.links.append(href)
+            if href.startswith("#"):
+                cls = a.get("class", "").lower()
+                if "skip" in cls or "skip" in a.get("id", "").lower():
+                    self.has_skip = True
         elif tag == "main":
             self.has_main = True
-        elif tag == "a" and a.get("href", "").startswith("#"):
-            if "skip" in a.get("class", "").lower() or "skip" in a.get("id", "").lower():
-                self.has_skip = True
         elif tag == "script":
             if a.get("type", "").lower() == "application/ld+json":
                 self.has_jsonld = True

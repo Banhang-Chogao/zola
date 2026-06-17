@@ -1,5 +1,5 @@
 +++
-title = "Trời mưa Sài Gòn ăn gì cho ấm bụng? 8 món & quán mở giờ mưa"
+title = "Trời mưa Sài Gòn ăn gì? 8 món ấm bụng"
 description = "Trời mưa Sài Gòn nên ăn gì? 8 món nóng hổi ấm bụng ngày mưa: bún bò, lẩu, cháo, ốc, bánh xèo... kèm khu vực và mẹo chọn quán mở khi mưa."
 date = 2026-06-16
 aliases = ["/troi-mua-sai-gon-an-gi/"]
@@ -31,7 +31,7 @@ a = "Phần lớn quán bún, phở, cháo, lẩu trong khu dân cư vẫn mở 
 
 Sài Gòn mưa là một kiểu thời tiết riêng: trời xám, gió mát, và tự nhiên thèm một thứ gì đó **nóng hổi, đậm đà**. Mùa mưa kéo dài từ tháng 5 đến tháng 11 nên câu hỏi *"trời mưa ăn gì"* gần như tuần nào cũng có. Dưới đây là **8 món ấm bụng** dân thổ địa hay rủ nhau ăn ngày mưa, kèm khu vực gợi ý.
 
-> Muốn danh sách rộng hơn cho mọi buổi tối, xem [tối nay ở Sài Gòn ăn gì](/zola/posting/toi-nay-sai-gon-an-gi/).
+> Muốn danh sách rộng hơn cho mọi buổi tối, xem [tối nay ở Sài Gòn ăn gì](/posting/toi-nay-sai-gon-an-gi/).
 
 ## 1. Bún bò Huế
 Nước dùng cay nồng sả ớt, nóng bốc khói — "chân ái" ngày mưa. Khu Quận 3, Phú Nhuận, Quận 1 nhiều quán ngon.
@@ -74,6 +74,6 @@ Một điểm thú vị nữa: mưa Sài Gòn thường **đến nhanh, đi nhan
 
 Trời mưa Sài Gòn không phải để ngại ra đường — mà là cái cớ hoàn hảo cho một tô bún bò cay xè hay nồi lẩu nóng cùng bạn bè. Lần tới thấy trời chuyển mây, bạn đã có sẵn 8 lựa chọn ấm bụng.
 
-Đói nữa thì lướt tiếp [12 quán ăn tối & ăn khuya ở Sài Gòn](/zola/posting/toi-nay-sai-gon-an-gi/) nhé.
+Đói nữa thì lướt tiếp [12 quán ăn tối & ăn khuya ở Sài Gòn](/posting/toi-nay-sai-gon-an-gi/) nhé.
 
 📚 Tò mò mùa mưa Sài Gòn kéo dài ra sao? Xem [khí hậu Thành phố Hồ Chí Minh trên Wikipedia](https://vi.wikipedia.org/wiki/Th%C3%A0nh_ph%E1%BB%91_H%E1%BB%93_Ch%C3%AD_Minh#Kh%C3%AD_h%E1%BA%ADu).

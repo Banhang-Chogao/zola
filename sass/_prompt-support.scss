@@ -1,0 +1,195 @@
+/* ===== PROMPT SUPPORT — tool page ===== */
+
+.psupport {
+  max-width: 1100px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1.5rem;
+  font-family: $font-body;
+
+  &__head {
+    margin-bottom: 1.5rem;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $brand-ink-900;
+    margin: 0 0 0.5rem;
+  }
+
+  &__desc {
+    margin: 0;
+    max-width: 720px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: $brand-ink-500;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  &__panel {
+    background: $brand-snow;
+    border: 1px solid $brand-edge;
+    border-radius: 8px;
+    padding: 1rem 1.1rem 1.1rem;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.06);
+  }
+
+  &__panel--output {
+    position: sticky;
+    top: 1rem;
+  }
+
+  &__label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $brand-ink-500;
+    margin-bottom: 0.55rem;
+  }
+
+  &__input {
+    width: 100%;
+    min-height: 320px;
+    resize: vertical;
+    border: 1.5px solid $brand-edge-strong;
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    font-family: $font-mono;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: $brand-ink-900;
+    background: $brand-mist;
+    tab-size: 2;
+    white-space: pre-wrap;
+    word-break: break-word;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $brand-trust-cyan;
+      background: $brand-snow;
+      box-shadow: 0 0 0 3px rgba(0, 55, 132, 0.12);
+    }
+
+    &::placeholder {
+      color: $brand-ink-400;
+      opacity: 0.85;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 0.85rem;
+  }
+
+  &__btn {
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    font-family: $font-body;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    &--primary {
+      background: $brand-trust-cyan;
+      color: #fff;
+
+      &:hover:not(:disabled) {
+        background: #002566;
+      }
+    }
+
+    &--ghost {
+      background: $brand-snow;
+      border-color: $brand-edge-strong;
+      color: $brand-ink-800;
+
+      &:hover:not(:disabled) {
+        border-color: $brand-trust-cyan;
+        color: $brand-trust-cyan;
+      }
+    }
+  }
+
+  &__status {
+    font-size: 0.82rem;
+    color: $brand-ink-500;
+
+    &--ok {
+      color: $brand-success;
+    }
+
+    &--err {
+      color: $brand-signal-red;
+    }
+  }
+
+  &__output-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.55rem;
+  }
+
+  &__meta {
+    font-family: $font-meta;
+    font-size: 0.78rem;
+    color: $brand-ink-500;
+    white-space: nowrap;
+  }
+
+  &__output {
+    margin: 0;
+    min-height: 320px;
+    max-height: 520px;
+    overflow: auto;
+    border: 1.5px solid $brand-edge;
+    border-radius: 6px;
+    background: #0f172a;
+    padding: 1rem 1.1rem;
+
+    code {
+      display: block;
+      font-family: $font-mono;
+      font-size: 0.84rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .psupport {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__panel--output {
+      position: static;
+    }
+  }
+}
