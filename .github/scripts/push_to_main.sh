@@ -34,7 +34,19 @@ git config user.email "github-actions[bot]@users.noreply.github.com"
 
 git fetch origin main
 git checkout main
+
+# Scripts often modify files before calling this helper; stash so pull --rebase succeeds.
+STASHED=false
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  git stash push -u -m "push_to_main: pre-pull"
+  STASHED=true
+fi
+
 git pull --rebase origin main
+
+if [ "$STASHED" = "true" ]; then
+  git stash pop
+fi
 
 HAS_CHANGE=false
 for f in "${FILES[@]}"; do
