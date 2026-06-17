@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(qa): Related Posts QA checker — topic cluster scoring",
+      "tag": "chore",
+      "pr": 278,
+      "lines_added": 721,
+      "lines_removed": 200,
+      "highlights": [
+        "Quét posting + baochi (39+ bài)",
+        "Phân tích category, tags, seo_keyword, title, description, body",
+        "Gom topic cluster: Du lịch, Ẩm thực, Công nghệ, Tài chính, Thế giới, Khuyến mãi",
+        "Related: ưu tiên cùng cluster, cross-topic chỉ khi thiếu neighbor + penalty 0.35x",
+        "--fix ghi data/related.json + data/scores.json"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "Feature/seo foundation series",
       "tag": "chore",
       "pr": 277,
