@@ -2,7 +2,7 @@
 
 Áp dụng trên GitHub: **Settings → Branches → Branch protection rules** cho `main`.
 
-## Cấu hình cho Auto-Merge Policy (2026-06-17)
+## Cấu hình — FULLY AUTOMATED OPERATIONS (2026-06-18)
 
 | Setting | Giá trị |
 |---------|---------|
@@ -11,7 +11,8 @@
 | Required approvals | **0** |
 | Dismiss stale pull request approvals when new commits are pushed | (tùy chọn) |
 | Require status checks to pass before merging | ✅ |
-| Status checks | `QA Gatekeeper`, `PR Policy` |
+| Status checks | `qa-check`, `policy` (hoặc tên workflow `QA Gatekeeper`, `PR Policy`) |
+| Allow auto-merge | ✅ (Settings → General → Allow auto-merge) |
 | Require conversation resolution before merging | (tùy chọn) |
 | Include administrators | ✅ |
 | Allow force pushes | ❌ |
@@ -20,9 +21,11 @@
 ## Auto-merge workflow
 
 - File: `.github/workflows/auto-merge.yml`
+- Policy: `data/auto-merge-policy.json`, `scripts/auto_merge_policy.py`
 - Script: `scripts/try_auto_merge.py`
 - Merge method: squash
 - Label sau merge: `auto-merged`
+- Protected domain → skip auto-merge, comment lý do trên PR
 
 ## Bypass cho GitHub Actions (nếu cần)
 

@@ -1,12 +1,16 @@
-# Quy trình vận hành — PR + Auto-Merge
+# Quy trình vận hành — FULLY AUTOMATED OPERATIONS
 
-> **Hiệu lực:** 17/06/2026 (cập nhật auto-merge). Vẫn qua PR; merge tự động khi CI pass.
+> **Hiệu lực:** 18/06/2026. Vẫn qua PR; **mặc định auto-merge** khi CI pass.
 
 ## Nguyên tắc
 
 Mọi thay đổi **phải đi qua Pull Request**. **Không** push/commit trực tiếp `main`.
 
-**Auto-merge:** `auto-merge.yml` merge PR khi QA Gatekeeper + PR Policy xanh.
+**Auto-merge:** `auto-merge.yml` + `scripts/try_auto_merge.py` — policy `data/auto-merge-policy.json`.
+
+**Required checks (job names):** `qa-check` (QA Gatekeeper), `policy` (PR Policy). Build + link checker nằm trong `qa-check`.
+
+**Manual review chỉ khi:** protected domain (security, auth, oauth, payment, paywall, `.github/workflows/*`, …) — xem `scripts/auto_merge_policy.py`.
 
 **Theo dõi:** `data/merge-report.json` (script `fetch_merge_report.py`).
 

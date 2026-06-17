@@ -1,9 +1,20 @@
 # CLAUDE.md — Quy tắc làm việc
 
+## Repository Automation Policy (effective 2026-06-18 — FULLY AUTOMATED OPERATIONS)
+
+> **Default:** Auto-merge sau khi required CI pass. **Không** chờ human approval cho PR low-risk.
+> Config: `data/auto-merge-policy.json` · Engine: `scripts/auto_merge_policy.py` · Runner: `auto-merge.yml`.
+
+| | |
+|--|--|
+| **Auto-merge** | chore, qa, autofix, dashboard, reports, compliance (≥95), bot maintenance, CLAUDE.md learning |
+| **Manual review** | security, auth, oauth, login, admin, payment, paywall, `.github/workflows/*`, deployment infra |
+
+Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIONS-PERMISSIONS.md`.
+
 ## Auto-Merge Policy (effective 2026-06-17 — ghi đè rule PR-only thủ công)
 
-> **Rule MỚI NHẤT.** CI pass → **auto-merge `main`**, không chờ human approval.
-> Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `auto-merge.yml`.
+> CI pass → **auto-merge `main`**, không chờ human approval (trừ protected domain).
 
 ### 1. Vẫn qua PR — không push thẳng `main`
 
@@ -13,7 +24,7 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 
 1. Tạo branch: `feature/`, `fix/`, `chore/`, …
 2. Push → mở PR vào `main`
-3. **`auto-merge.yml`** merge tự động khi **QA Gatekeeper** + **PR Policy** pass
+3. **`auto-merge.yml`** merge tự động khi **qa-check** + **policy** pass (QA Gatekeeper + PR Policy)
 4. `deploy.yml` chạy sau merge → GitHub Pages
 
 **Không hỏi user** trước khi merge. Gắn label `no-auto-merge` hoặc `manual-review` nếu cần giữ PR chờ tay.
@@ -820,7 +831,7 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 **Severity:** LOW · MEDIUM · HIGH · CRITICAL.
 
-**Auto-fix:** chỉ khi `confidence >= 90%` → branch `qa/rule-checker-auto-*` → PR với label **`no-auto-merge`** (không auto-merge).
+**Auto-fix:** chỉ khi `confidence >= 90%` → branch `qa/rule-checker-auto-*` → PR **auto-merge** khi CI pass (trừ protected domain).
 
 **Anti-loop:** dừng khi cùng conflict auto-fix ≥3 lần hoặc >2 PR rule-checker mở.
 

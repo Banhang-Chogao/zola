@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+"""Unit tests — auto-merge policy (FULLY AUTOMATED OPERATIONS)."""
+from __future__ import annotations
+
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from auto_merge_policy import (
+    PrContext,
+    checks_pass,
+    evaluate,
+    is_dashboard_refresh_pr,
+    protected_hits,
+)
+
+
+def _ctx(**kwargs) -> PrContext:
+    defaults = {
+        "number": 1,
+        "title": "chore: refresh Merge Report data",
+        "body": "Automated update",
+        "head_ref": "chore/merge-report-data",
+        "actor": "github-actions[bot]",
+        "labels": set(),
+        "paths": ["data/merge-report.json"],
+        "checks": [
+            {"name": "qa-check", "conclusion": "SUCCESS"},
+            {"name": "policy", "conclusion": "SUCCESS"},
+        ],
+    }
+    defaults.update(kwargs)
+    return PrContext(**defaults)
+
+
+class TestChecksPass(unittest.TestCase):
+    def test_job_names_qa_policy(self):
+        ok, _ = checks_pass(_ctx())
+        self.assertTrue(ok)
+
+    def test_missing_qa_check(self):
+        ok, msg = checks_pass(_ctx(checks=[{"name": "policy", "conclusion": "SUCCESS"}]))
+        self.assertFalse(ok)
+        self.assertIn("QA Gatekeeper", msg)
+
+    def test_failed_policy(self):
+        ok, msg = checks_pass(
+            _ctx(checks=[
+                {"name": "qa-check", "conclusion": "SUCCESS"},
+                {"name": "policy", "conclusion": "FAILURE"},
+            ])
+        )
+        self.assertFalse(ok)
+        self.assertIn("policy", msg)
+
+
+class TestProtectedDomains(unittest.TestCase):
+    def test_workflow_change_blocks(self):
+        hits = protected_hits(_ctx(paths=[".github/workflows/deploy.yml"]))
+        self.assertTrue(hits)
+
+    def test_auto_merge_workflow_exception(self):
+        hits = protected_hits(_ctx(paths=[".github/workflows/auto-merge.yml"]))
+        self.assertFalse(hits)
+
+    def test_oauth_title_blocks(self):
+        hits = protected_hits(_ctx(title="fix(f-dashboard): restore GitHub OAuth login"))
+        self.assertTrue(any("oauth" in h or "login" in h for h in hits))
+
+    def test_chore_data_allowed(self):
+        ready, reason, cat = evaluate(_ctx())
+        self.assertTrue(ready, reason)
+        self.assertEqual(cat, "auto_eligible")
+
+
+class TestCategories(unittest.TestCase):
+    def test_dashboard_refresh(self):
+        self.assertTrue(is_dashboard_refresh_pr(_ctx(title="chore: refresh Build Dashboard data")))
+
+    def test_compliance_autofix(self):
+        ready, _, cat = evaluate(
+            _ctx(
+                title="qa: Compliance Score audit + auto-fix",
+                paths=["data/compliance-score.json"],
+                compliance_score=97.0,
+            )
+        )
+        self.assertTrue(ready)
+        self.assertEqual(cat, "auto_eligible")
+
+    def test_compliance_low_score_manual(self):
+        ready, reason, cat = evaluate(
+            _ctx(
+                title="qa: Compliance Score audit + auto-fix",
+                paths=["data/compliance-score.json"],
+                compliance_score=80.0,
+            )
+        )
+        self.assertFalse(ready)
+        self.assertIn("Compliance score", reason)
+        self.assertEqual(cat, "manual_required")
+
+    def test_no_auto_merge_label(self):
+        ready, reason, cat = evaluate(_ctx(labels={"no-auto-merge"}))
+        self.assertFalse(ready)
+        self.assertIn("Label", reason)
+        self.assertEqual(cat, "blocked")
+
+
+if __name__ == "__main__":
+    unittest.main()

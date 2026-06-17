@@ -1,5 +1,7 @@
 """
-Auto-merge PR vào main khi required CI checks pass.
+Auto-merge PR vào main khi required CI checks pass (FULLY AUTOMATED OPERATIONS).
+
+Policy: scripts/auto_merge_policy.py + data/auto-merge-policy.json
 
 Chạy từ workflow auto-merge.yml hoặc local:
   GITHUB_TOKEN=... python scripts/try_auto_merge.py --pr 313
@@ -8,32 +10,36 @@ Chạy từ workflow auto-merge.yml hoặc local:
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
-import re
 import sys
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
+
+from auto_merge_policy import (
+    LOOP_STATE_FILE,
+    PrContext,
+    evaluate,
+    is_bot_actor,
+    parse_compliance_score_from_paths,
+)
 
 REPO = os.environ.get("GITHUB_REPOSITORY", "Banhang-Chogao/zola")
 TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or ""
 API = "https://api.github.com"
 
-REQUIRED_CHECKS = frozenset({"QA Gatekeeper", "PR Policy"})
-OK_CONCLUSIONS = frozenset({"success", "skipped", "neutral"})
-BLOCKED_LABELS = frozenset({"no-auto-merge", "manual-review"})
 BLOCKED_ACTORS = frozenset({
     "dependabot[bot]",
     "renovate[bot]",
     "github-advanced-security[bot]",
 })
-SENSITIVE_PATH_RE = re.compile(
-    r"(^|/)\.github/workflows/|"
-    r"(^|/)(services/paywall|backend/admin|private_content)(/|$)|"
-    r"(paywall|payment|security|admin)",
-    re.I,
-)
 SKIP_COMMENT_MARKER = "<!-- auto-merge-skip -->"
 
 
@@ -64,42 +70,6 @@ def _api(method: str, path: str, body: dict | None = None) -> Any:
         raise RuntimeError(f"GitHub API unreachable: {e}") from e
 
 
-def _checks_green(pr: dict) -> tuple[bool, str]:
-    rollup = pr.get("statusCheckRollup") or []
-    if not rollup:
-        return False, "Chưa có status check"
-
-    seen: set[str] = set()
-    for item in rollup:
-        name = item.get("name") or ""
-        conclusion = (item.get("conclusion") or "").lower()
-        if name in REQUIRED_CHECKS:
-            seen.add(name)
-            if conclusion not in OK_CONCLUSIONS:
-                return False, f"Check '{name}' = {conclusion or 'pending'}"
-
-    missing = REQUIRED_CHECKS - seen
-    if missing:
-        return False, f"Thiếu checks: {', '.join(sorted(missing))}"
-
-    return True, "CI xanh"
-
-
-def _blocked(pr: dict) -> str | None:
-    if pr.get("isDraft"):
-        return "PR là draft"
-    user = (pr.get("user") or {}).get("login") or ""
-    if user in BLOCKED_ACTORS or user.endswith("[bot]") and user != "github-actions[bot]":
-        return f"Actor bị chặn: {user}"
-    if pr.get("headRefName") == "main":
-        return "Head branch là main"
-    labels = {lb.get("name", "") for lb in (pr.get("labels") or [])}
-    hit = labels & BLOCKED_LABELS
-    if hit:
-        return f"Label chặn auto-merge: {', '.join(sorted(hit))}"
-    return None
-
-
 def _merge_pr(number: int, method: str = "squash") -> dict:
     owner, name = REPO.split("/", 1)
     return _api(
@@ -107,6 +77,16 @@ def _merge_pr(number: int, method: str = "squash") -> dict:
         f"/repos/{owner}/{name}/pulls/{number}/merge",
         {"merge_method": method},
     )
+
+
+def _delete_branch(ref: str) -> None:
+    if not ref or ref == "main":
+        return
+    owner, name = REPO.split("/", 1)
+    try:
+        _api("DELETE", f"/repos/{owner}/{name}/git/refs/heads/{ref}")
+    except RuntimeError:
+        pass
 
 
 def _label_pr(number: int, label: str) -> None:
@@ -135,8 +115,7 @@ def _has_skip_comment(number: int) -> bool:
     except RuntimeError:
         return False
     for c in comments or []:
-        body = c.get("body") or ""
-        if SKIP_COMMENT_MARKER in body:
+        if SKIP_COMMENT_MARKER in (c.get("body") or ""):
             return True
     return False
 
@@ -148,9 +127,9 @@ def post_skip_comment(number: int, reason: str, *, force: bool = False) -> None:
         f"{SKIP_COMMENT_MARKER}\n"
         f"**Auto-merge skip** — PR #{number}\n\n"
         f"- **Lý do:** {reason}\n"
-        f"- **Cần làm:** Đợi `workflow_run` relay (QA/PR Policy), set `WORKFLOW_BOT_PAT`, "
-        f"hoặc gắn label `no-auto-merge` nếu cần review tay.\n"
-        f"- **Doc:** `.github/ACTIONS-PERMISSIONS.md`\n"
+        f"- **Policy:** `FULLY AUTOMATED OPERATIONS` — chỉ protected domain cần review tay.\n"
+        f"- **Override:** gắn label `no-auto-merge` hoặc `manual-review`.\n"
+        f"- **Doc:** `data/auto-merge-policy.json`, `.github/ACTIONS-PERMISSIONS.md`\n"
         f"- Script: `scripts/try_auto_merge.py`"
     )
     _comment_pr(number, body)
@@ -174,40 +153,118 @@ def _fetch_pr_files(number: int) -> list[str]:
     return paths
 
 
-def _sensitive_paths(number: int) -> str | None:
-    paths = _fetch_pr_files(number)
-    if not paths:
+def _fetch_file_at_ref(path: str, ref: str) -> str | None:
+    owner, name = REPO.split("/", 1)
+    try:
+        data = _api("GET", f"/repos/{owner}/{name}/contents/{path}?ref={ref}")
+        content = data.get("content")
+        if not content:
+            return None
+        return base64.b64decode(content).decode("utf-8")
+    except RuntimeError:
         return None
-    hits = [p for p in paths if SENSITIVE_PATH_RE.search(p)]
-    if hits:
-        return f"File nhạy cảm: {', '.join(sorted(hits)[:5])}"
+
+
+def _fetch_pr_checks(number: int, pr: dict) -> list[dict[str, str]]:
+    owner, name = REPO.split("/", 1)
+    head_sha = (pr.get("head") or {}).get("sha") or ""
+    if not head_sha:
+        return []
+    checks = _api(
+        "GET",
+        f"/repos/{owner}/{name}/commits/{head_sha}/check-runs?per_page=100",
+    )
+    return [
+        {"name": c.get("name"), "conclusion": (c.get("conclusion") or "").upper()}
+        for c in (checks.get("check_runs") or [])
+    ]
+
+
+def _build_context(pr: dict, number: int) -> PrContext:
+    paths = _fetch_pr_files(number)
+    head_ref = pr.get("headRefName") or (pr.get("head") or {}).get("ref") or ""
+    head_sha = (pr.get("head") or {}).get("sha") or ""
+    labels = {lb.get("name", "") for lb in (pr.get("labels") or [])}
+    checks = _fetch_pr_checks(number, pr)
+
+    def loader(p: str) -> str | None:
+        return _fetch_file_at_ref(p, head_sha)
+
+    compliance = parse_compliance_score_from_paths(paths, loader)
+
+    return PrContext(
+        number=number,
+        title=pr.get("title") or "",
+        body=pr.get("body") or "",
+        head_ref=head_ref,
+        actor=(pr.get("user") or {}).get("login") or "",
+        labels=labels,
+        paths=paths,
+        checks=checks,
+        compliance_score=compliance,
+    )
+
+
+def _blocked_actor(actor: str) -> str | None:
+    if actor in BLOCKED_ACTORS:
+        return f"Actor bị chặn: {actor}"
+    if actor.endswith("[bot]") and not is_bot_actor(actor):
+        return f"Actor bot không tin cậy: {actor}"
     return None
 
 
+def _record_merge_event(ctx: PrContext) -> None:
+    state_path = LOOP_STATE_FILE
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        state = {"events": [], "blocked_patterns": []}
+    events = state.setdefault("events", [])
+    events.append({
+        "at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "pr": ctx.number,
+        "signature": ctx.title.strip().lower()[:80],
+        "head_ref": ctx.head_ref,
+    })
+    window = 24
+    state["events"] = events[-window:]
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return
+    try:
+        state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    except OSError:
+        pass
+
+
 def evaluate_pr(pr: dict, *, number: int | None = None) -> tuple[bool, str]:
-    reason = _blocked(pr)
-    if reason:
-        return False, reason
+    pr_num = number or pr.get("number")
+    if not pr_num:
+        return False, "Thiếu PR number"
+
+    if pr.get("isDraft"):
+        return False, "PR là draft"
+    if pr.get("headRefName") == "main" or (pr.get("head") or {}).get("ref") == "main":
+        return False, "Head branch là main"
+
+    actor = (pr.get("user") or {}).get("login") or ""
+    actor_block = _blocked_actor(actor)
+    if actor_block:
+        return False, actor_block
+
     if pr.get("mergeable") is False:
         return False, "PR không mergeable (conflict?)"
     state = (pr.get("mergeable_state") or pr.get("mergeStateStatus") or "").lower()
     if state in ("dirty", "blocked"):
         return False, f"mergeable_state={state}"
-    pr_num = number or pr.get("number")
-    if pr_num:
-        sensitive = _sensitive_paths(int(pr_num))
-        if sensitive:
-            return False, sensitive
-    ok, msg = _checks_green(pr)
-    if not ok:
-        return False, msg
-    return True, "Sẵn sàng auto-merge"
+
+    ctx = _build_context(pr, int(pr_num))
+    ready, reason, _category = evaluate(ctx)
+    return ready, reason
 
 
 def try_merge_pr(number: int, *, dry_run: bool = False) -> int:
     owner, name = REPO.split("/", 1)
     pr_data = _api("GET", f"/repos/{owner}/{name}/pulls/{number}")
-    pr_data = _fetch_pr_checks(number, pr_data)
 
     ready, reason = evaluate_pr(pr_data, number=number)
     title = pr_data.get("title", "")
@@ -222,30 +279,16 @@ def try_merge_pr(number: int, *, dry_run: bool = False) -> int:
         print("  dry-run — would merge")
         return 0
 
+    ctx = _build_context(pr_data, number)
     result = _merge_pr(number)
     if result.get("merged"):
         print(f"  merged — sha {result.get('sha', '')[:7]}")
         _label_pr(number, "auto-merged")
+        _delete_branch(ctx.head_ref)
+        _record_merge_event(ctx)
         return 0
     print(f"  merge failed: {result}")
     return 1
-
-
-def _fetch_pr_checks(number: int, pr: dict) -> dict:
-    owner, name = REPO.split("/", 1)
-    head_sha = (pr.get("head") or {}).get("sha") or ""
-    if not head_sha:
-        return pr
-    checks = _api(
-        "GET",
-        f"/repos/{owner}/{name}/commits/{head_sha}/check-runs?per_page=100",
-    )
-    pr = dict(pr)
-    pr["statusCheckRollup"] = [
-        {"name": c.get("name"), "conclusion": (c.get("conclusion") or "").upper()}
-        for c in (checks.get("check_runs") or [])
-    ]
-    return pr
 
 
 def _paginate_open_prs() -> list[dict]:
@@ -274,7 +317,6 @@ def scan_open(*, dry_run: bool = False) -> int:
         number = pr.get("number")
         if not number:
             continue
-        pr = _fetch_pr_checks(number, pr)
         ready, reason = evaluate_pr(pr, number=number)
         if not ready:
             print(f"PR #{number}: skip — {reason}")
@@ -285,10 +327,13 @@ def scan_open(*, dry_run: bool = False) -> int:
             print(f"PR #{number}: dry-run — would merge")
             continue
         try:
+            ctx = _build_context(pr, number)
             result = _merge_pr(number)
             if result.get("merged"):
                 print(f"PR #{number}: merged ✓")
                 _label_pr(number, "auto-merged")
+                _delete_branch(ctx.head_ref)
+                _record_merge_event(ctx)
             else:
                 print(f"PR #{number}: merge failed — {result}")
                 exit_code = 1
@@ -299,7 +344,7 @@ def scan_open(*, dry_run: bool = False) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Auto-merge PR khi CI pass")
+    parser = argparse.ArgumentParser(description="Auto-merge PR khi CI pass (FULLY AUTOMATED)")
     parser.add_argument("--pr", type=int, help="Merge một PR cụ thể")
     parser.add_argument("--scan-open", action="store_true", help="Quét mọi PR open")
     parser.add_argument("--dry-run", action="store_true")
