@@ -7,6 +7,21 @@
     {% set pr_items = data.items | default(value=[]) %}
     {% set total_prs = pr_items | length %}
 
+    {% set builds_data = load_data(path="data/build-dashboard.json", required=false) %}
+    {% if builds_data %}
+        {% set build_items = builds_data.builds | default(value=[]) %}
+        {% set build_success = builds_data.stats.success | default(value=0) %}
+        {% set build_failure = builds_data.stats.failure | default(value=0) %}
+        {% set build_source = builds_data.source_repo | default(value="https://github.com/Banhang-Chogao/zola") %}
+        {% set build_updated = builds_data.updated_at | default(value="") %}
+    {% else %}
+        {% set build_items = [] %}
+        {% set build_success = 0 %}
+        {% set build_failure = 0 %}
+        {% set build_source = "https://github.com/Banhang-Chogao/zola" %}
+        {% set build_updated = "" %}
+    {% endif %}
+
     {% set now_ts = now(timestamp=true) %}
     {% set week_ago_ts = now_ts - 604800 %}
 
@@ -171,6 +186,75 @@
                             </li>
                         </ol>
                     </div>
+                </div>
+
+                {# ===== BUILD DASHBOARD (dưới Overview, cột phải) ===== #}
+                <div class="insights__build">
+                    <header class="insights__build-head">
+                        <h3 class="insights__build-title">Build Dashboard</h3>
+                        <span class="insights__build-meta">
+                            {{ build_success }} thành công · {{ build_failure }} thất bại
+                        </span>
+                    </header>
+
+                    {% if build_items | length > 0 %}
+                    <ol class="insights__build-list" aria-label="Lịch sử build GitHub Actions">
+                        {% for build in build_items %}
+                        <li class="insights__build-item{% if build.success %} insights__build-item--ok{% else %} insights__build-item--fail{% endif %}">
+                            <div class="insights__build-status" aria-hidden="true">
+                                {% if build.success %}✓{% else %}✗{% endif %}
+                            </div>
+                            <div class="insights__build-body">
+                                <p class="insights__build-summary">{{ build.summary_vi }}</p>
+                                <p class="insights__build-row">
+                                    {% if build.commit_short %}
+                                    <a class="insights__build-commit"
+                                       href="{{ build.commit_url }}"
+                                       target="_blank" rel="noopener"
+                                       title="Commit {{ build.commit_id }}">
+                                        {{ build.commit_short }}
+                                    </a>
+                                    {% endif %}
+                                    <span class="insights__build-num">#{{ build.run_number }}</span>
+                                    <span class="insights__build-badge{% if build.success %} insights__build-badge--ok{% else %} insights__build-badge--fail{% endif %}">
+                                        {{ build.status_vi }}
+                                    </span>
+                                </p>
+                                {% if build.cause_vi %}
+                                <p class="insights__build-cause">{{ build.cause_vi }}</p>
+                                {% endif %}
+                                {% if build.run_url %}
+                                <a class="insights__build-link"
+                                   href="{{ build.run_url }}"
+                                   target="_blank" rel="noopener">
+                                    Xem run trên GitHub <span aria-hidden="true">↗</span>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p class="insights__build-empty">
+                        Chưa có dữ liệu build. Workflow
+                        <code>build-dashboard.yml</code> sẽ cập nhật sau lần deploy tiếp theo.
+                    </p>
+                    {% endif %}
+
+                    <footer class="insights__build-foot">
+                        <a class="insights__source"
+                           href="{{ build_source }}/actions"
+                           target="_blank" rel="noopener"
+                           title="Xem GitHub Actions">
+                            Nguồn : {{ build_source }}
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                        {% if build_updated %}
+                        <time class="insights__build-updated" datetime="{{ build_updated }}">
+                            Cập nhật {{ build_updated }}
+                        </time>
+                        {% endif %}
+                    </footer>
                 </div>
 
             </div>
