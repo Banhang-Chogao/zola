@@ -5,12 +5,22 @@
 }
 
 /* ----- Login gate (GitHub OAuth) ----- */
+/* display:flex đè thuộc tính HTML `hidden` — phải tôn trọng [hidden] để auth-gate ẩn login sau OAuth */
 .fd-login-view {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 55vh;
   padding: 2rem 1.5rem;
+
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.f-dashboard[hidden],
+.fd-user-bar[hidden] {
+  display: none !important;
 }
 
 .fd-login__card {
