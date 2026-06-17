@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T20:12:26Z",
+  "updated_at": "2026-06-17T20:15:54Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
@@ -11,6 +11,28 @@
     "in_progress": 0
   },
   "builds": [
+    {
+      "id": 27716889248,
+      "run_number": 474,
+      "commit_id": "28a9891b6f3e54371d230b7e02c987bdceb1b929",
+      "commit_short": "28a9891",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/28a9891b6f3e54371d230b7e02c987bdceb1b929",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27716889248",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #474 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-17T20:13:49Z) [skip changelog]",
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "success",
+      "cancel_reason": "",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T20:14:32Z",
+      "duration_sec": 56
+    },
     {
       "id": 27716705737,
       "run_number": 473,
@@ -648,28 +670,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T19:09:08Z",
       "duration_sec": 52
-    },
-    {
-      "id": 27713050102,
-      "run_number": 459,
-      "commit_id": "2ed6ee714a5c37b984a2b0e87cb4621718398fe1",
-      "commit_short": "2ed6ee7",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/2ed6ee714a5c37b984a2b0e87cb4621718398fe1",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27713050102",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #459 — Deploy blog lên GitHub Pages: feat(f-dashboard): PDF page numbers, red watermark, Mysign badge, mer… (#364)",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T19:06:16Z",
-      "duration_sec": 84
     }
   ]
 }
