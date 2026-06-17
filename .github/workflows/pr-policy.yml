@@ -1,0 +1,20 @@
+name: PR Policy
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+
+env:
+  TARGET_BRANCH: main
+
+jobs:
+  feature-branch-only:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Block PR from main
+        if: github.head_ref == 'main'
+        run: |
+          echo "::error::PR phải từ nhánh feature, không từ main."
+          exit 1
+      - run: echo "branch=${{ github.head_ref }} ok"

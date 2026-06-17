@@ -1,0 +1,78 @@
+name: Batch Merge
+
+# Quy trình: nhánh riêng → PR → review APPROVED → QA xanh → workflow_dispatch
+# → Environment approval (manual) → merge tối đa BATCH_SIZE PR vào main.
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: Max PRs per batch
+        required: false
+        default: '10'
+
+env:
+  TARGET_BRANCH: main
+  BATCH_SIZE: ${{ github.event.inputs.batch_size || vars.BATCH_SIZE || '10' }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: batch-merge
+  cancel-in-progress: false
+
+jobs:
+  manual-approval:
+    runs-on: ubuntu-latest
+    environment: batch-production
+    steps:
+      - run: echo "approved batch_size=${BATCH_SIZE}"
+
+  merge-batch:
+    needs: manual-approval
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Merge approved PRs (max ${{ env.BATCH_SIZE }})
+        run: |
+          set -euo pipefail
+          merged=0
+          limit="${BATCH_SIZE}"
+
+          gh pr list --base "${TARGET_BRANCH}" --state open --limit 100 \
+            --json number,reviewDecision,mergeable,statusCheckRollup > /tmp/prs.json
+
+          mapfile -t prs < <(jq -r --argjson lim "$limit" '
+            [.[]
+              | select(.reviewDecision == "APPROVED")
+              | select(.mergeable == "MERGEABLE")
+              | select(
+                  (.statusCheckRollup | length) == 0
+                  or (.statusCheckRollup | all(
+                    .conclusion == "SUCCESS"
+                    or .conclusion == "SKIPPED"
+                    or .conclusion == "NEUTRAL"
+                    or .conclusion == null
+                  ))
+                )
+            ] | .[0:$lim] | .[].number
+          ' /tmp/prs.json)
+
+          if [ ${#prs[@]} -eq 0 ] || [ -z "${prs[0]:-}" ]; then
+            echo "Không có PR approved + mergeable + CI xanh."
+            exit 0
+          fi
+
+          for num in "${prs[@]}"; do
+            [ -z "$num" ] && continue
+            gh pr merge "$num" --merge --delete-branch
+            echo "merged=#${num}"
+            merged=$((merged + 1))
+            [ "$merged" -ge "$limit" ] && break
+          done
+
+          echo "total_merged=${merged}"
