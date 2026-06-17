@@ -1,15 +1,18 @@
 name: Auto-update changelog.json
 
-# Trigger mỗi khi PR đóng. Job chỉ chạy nếu PR thực sự MERGED (không
-# phải close không merge) và base branch là main. Bot bot github-actions
-# Bot tạo PR chore/changelog-sync (KHÔNG push main) sau khi PR merged.
+# Trigger khi PR merge vào main (push event) — KHÔNG pull_request (tránh approval gate).
+# Bot tạo PR chore/changelog-sync (KHÔNG push main) sau khi ghi changelog.
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number (optional — auto-detect từ merge commit)"
+        required: false
+        type: string
 
-# Queue nếu có nhiều PR merge gần nhau → tránh race condition trên JSON
 concurrency:
   group: changelog-update
   cancel-in-progress: false
@@ -19,13 +22,14 @@ permissions:
   pull-requests: write
   actions: write
 
-# Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update:
-    if: github.event.pull_request.merged == true
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || !contains(github.event.head_commit.message, '[skip changelog]')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
@@ -34,35 +38,85 @@ jobs:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Resolve merged PR number
+        id: prmeta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          NUM=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.pr_number }}" ]; then
+            NUM="${{ inputs.pr_number }}"
+          else
+            MSG="${{ github.event.head_commit.message }}"
+            NUM=$(echo "$MSG" | grep -oE '(Merge pull request #|\(#)[0-9]+' | grep -oE '[0-9]+' | head -1 || true)
+            if [ -z "$NUM" ]; then
+              NUM=$(echo "$MSG" | grep -oE '#[0-9]+' | head -1 | tr -d '#' || true)
+            fi
+          fi
+          if [ -z "$NUM" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "No PR number in merge commit — skip changelog"
+            exit 0
+          fi
+          MERGED=$(gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" --json merged --jq '.merged')
+          if [ "$MERGED" != "true" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "PR #${NUM} not merged — skip"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "number=$NUM" >> "$GITHUB_OUTPUT"
+          gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" \
+            --json title,body,additions,deletions,mergedAt,labels \
+            > pr-meta.json
+          echo "title<<EOF" >> "$GITHUB_OUTPUT"
+          jq -r '.title' pr-meta.json >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "body<<EOF" >> "$GITHUB_OUTPUT"
+          jq -r '.body // ""' pr-meta.json >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "additions=$(jq -r '.additions' pr-meta.json)" >> "$GITHUB_OUTPUT"
+          echo "deletions=$(jq -r '.deletions' pr-meta.json)" >> "$GITHUB_OUTPUT"
+          echo "merged_at=$(jq -r '.mergedAt' pr-meta.json)" >> "$GITHUB_OUTPUT"
+          echo "labels=$(jq -c '.labels' pr-meta.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Skip — not a PR merge
+        if: steps.prmeta.outputs.skip == 'true'
+        run: echo "Changelog update skipped."
+
       - name: Setup Node.js 24
+        if: steps.prmeta.outputs.skip != 'true'
         uses: actions/setup-node@v6
         with:
           node-version: '24'
 
       - name: Set up Python
+        if: steps.prmeta.outputs.skip != 'true'
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Append entry to changelog.json
+        if: steps.prmeta.outputs.skip != 'true'
         id: changelog
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_BODY: ${{ github.event.pull_request.body }}
-          PR_ADDITIONS: ${{ github.event.pull_request.additions }}
-          PR_DELETIONS: ${{ github.event.pull_request.deletions }}
-          PR_MERGED_AT: ${{ github.event.pull_request.merged_at }}
-          PR_LABELS: ${{ toJson(github.event.pull_request.labels) }}
+          PR_NUMBER: ${{ steps.prmeta.outputs.number }}
+          PR_TITLE: ${{ steps.prmeta.outputs.title }}
+          PR_BODY: ${{ steps.prmeta.outputs.body }}
+          PR_ADDITIONS: ${{ steps.prmeta.outputs.additions }}
+          PR_DELETIONS: ${{ steps.prmeta.outputs.deletions }}
+          PR_MERGED_AT: ${{ steps.prmeta.outputs.merged_at }}
+          PR_LABELS: ${{ steps.prmeta.outputs.labels }}
         run: python3 .github/scripts/update_changelog.py
 
       - name: Open PR if changed (never push main)
-        if: steps.changelog.outputs.changed == 'true'
+        if: steps.prmeta.outputs.skip != 'true' && steps.changelog.outputs.changed == 'true'
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MESSAGE: ${{ steps.changelog.outputs.commit_message }}
-          PR_TITLE: "chore: changelog after PR #${{ github.event.pull_request.number }}"
+          PR_TITLE: "chore: changelog after PR #${{ steps.prmeta.outputs.number }}"
         run: |
           chmod +x .github/scripts/push_via_pr.sh
           .github/scripts/push_via_pr.sh chore/changelog-sync \

@@ -5,10 +5,9 @@ name: QA Gatekeeper
 # Chạy song song với deploy.yml — không block deploy nếu chỉ là warning.
 
 on:
-  pull_request:
-    branches: [main]
+  # Push mọi branch — CI chạy tự động, không "workflows awaiting approval" (bot PR).
+  # KHÔNG dùng pull_request: GitHub chặn + yêu cầu maintainer approve trên bot PR.
   push:
-    branches: [main]
   schedule:
     # Daily 11:00 GMT+7 = 04:00 UTC — baseline QA snapshot
     - cron: '0 4 * * *'
@@ -39,26 +38,23 @@ permissions:
   actions: read
   pull-requests: read
 
-# Bot PRs (GITHUB_TOKEN): skip pull_request (blocked → Action required UI);
-# CI runs via workflow_dispatch from push_via_pr.sh or workflow_run relay.
+# Bot PRs: CI qua push event (push_via_pr.sh) + workflow_run relay + workflow_dispatch.
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+concurrency:
+  group: qa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   qa-check:
     if: >-
-      (
-        github.event_name != 'pull_request'
-        || github.event.pull_request.user.login != 'github-actions[bot]'
-      )
-      && (
-        github.event_name != 'workflow_run'
-        || (
-          github.event.workflow_run.conclusion == 'success'
-          && github.event.workflow_run.head_repository.full_name == github.repository
-        )
+      github.event_name != 'workflow_run'
+      || (
+        github.event.workflow_run.conclusion == 'success'
+        && github.event.workflow_run.head_repository.full_name == github.repository
       )
     runs-on: ubuntu-latest
     steps:
