@@ -14,7 +14,7 @@ write_pr_outputs() {
     echo "skip=false"
     echo "head_ref=$(echo "$pr" | jq -r '.head.ref // .headRefName')"
     echo "head_sha=$(echo "$pr" | jq -r '.head.sha // .headRefOid')"
-    echo "actor=$(echo "$pr" | jq -r '.user.login')"
+    echo "actor=$(echo "$pr" | jq -r '.author.login // .user.login // empty')"
     echo "title<<EOF"
     echo "$pr" | jq -r '.title'
     echo "EOF"
@@ -34,8 +34,8 @@ if [ -n "$SHA" ]; then
 fi
 
 pr=$(gh pr list --repo "$REPO" --state open --base main \
-  --json headRefName,headRefOid,updatedAt,user,title,body,baseRefOid \
-  --jq '[.[] | select(.headRefName | test("^(chore|qa|autofix|content)/")) | select(.user.login == "github-actions[bot]")] | sort_by(.updatedAt) | last')
+  --json headRefName,headRefOid,updatedAt,author,title,body,baseRefOid \
+  --jq '[.[] | select(.headRefName | test("^(chore|qa|autofix|content)/")) | select((.author.login // .user.login) == "github-actions[bot]")] | sort_by(.updatedAt) | last')
 
 if [ -z "$pr" ] || [ "$pr" = "null" ]; then
   echo "skip=true" >> "$OUT"

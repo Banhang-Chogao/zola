@@ -35,6 +35,18 @@ class BotPrCiRelayTests(unittest.TestCase):
         self.assertIn("workflow_dispatch:", text)
         self.assertIn("github-actions[bot]", text)
 
+    def test_pr_policy_uses_gh_author_field(self):
+        """gh pr list GraphQL uses author.login (user field removed in gh 2.86+)."""
+        text = (REPO / ".github/workflows/pr-policy.yml").read_text(encoding="utf-8")
+        self.assertIn("author", text)
+        self.assertIn(".author.login // .user.login", text)
+        self.assertNotIn("baseRefOid,user --jq", text)
+
+    def test_resolve_open_bot_pr_uses_gh_author_field(self):
+        text = (REPO / ".github/scripts/resolve_open_bot_pr.sh").read_text(encoding="utf-8")
+        self.assertIn("author", text)
+        self.assertIn(".author.login // .user.login", text)
+
     def test_auto_merge_skips_bot_pull_request(self):
         text = (REPO / ".github/workflows/auto-merge.yml").read_text(encoding="utf-8")
         self.assertIn("github-actions[bot]", text)

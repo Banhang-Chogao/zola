@@ -73,14 +73,14 @@ jobs:
           set -euo pipefail
           ref="${{ github.ref_name }}"
           pr=$(gh pr list --repo "${GITHUB_REPOSITORY}" --head "$ref" --base main --state open \
-            --json number,title,body,headRefOid,baseRefOid,user --jq '.[0]')
+            --json number,title,body,headRefOid,baseRefOid,headRefName,author --jq '.[0]')
           if [ -z "$pr" ] || [ "$pr" = "null" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "No open PR for branch ${ref}"
             exit 0
           fi
           echo "skip=false" >> "$GITHUB_OUTPUT"
-          echo "actor=$(echo "$pr" | jq -r '.user.login')" >> "$GITHUB_OUTPUT"
+          echo "actor=$(echo "$pr" | jq -r '.author.login // .user.login // empty')" >> "$GITHUB_OUTPUT"
           echo "title<<EOF" >> "$GITHUB_OUTPUT"
           echo "$pr" | jq -r '.title' >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
