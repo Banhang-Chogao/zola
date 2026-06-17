@@ -17,6 +17,11 @@
         {% set build_in_progress = builds_data.stats.in_progress | default(value=0) %}
         {% set build_source = builds_data.source_repo | default(value="https://github.com/Banhang-Chogao/zola") %}
         {% set build_updated = builds_data.updated_at | default(value="") %}
+        {% set build_history = builds_data.history | default(value=[]) %}
+        {% set build_latest = builds_data.latest_workflows | default(value=[]) %}
+        {% set build_fetch_error = builds_data.fetch_error | default(value="") %}
+        {% set build_fetch_error_at = builds_data.fetch_error_at | default(value="") %}
+        {% set build_cadence = builds_data.history_cadence_min | default(value=5) %}
     {% else %}
         {% set build_items = [] %}
         {% set build_success = 0 %}
@@ -26,6 +31,11 @@
         {% set build_in_progress = 0 %}
         {% set build_source = "https://github.com/Banhang-Chogao/zola" %}
         {% set build_updated = "" %}
+        {% set build_history = [] %}
+        {% set build_latest = [] %}
+        {% set build_fetch_error = "" %}
+        {% set build_fetch_error_at = "" %}
+        {% set build_cadence = 5 %}
     {% endif %}
 
     {% set merge_data = load_data(path="data/merge-report.json", required=false) %}
@@ -383,8 +393,81 @@
                             {{ build_success }} thành công · {{ build_failure }} thất bại
                             {%- if build_cancelled > 0 %} · {{ build_cancelled }} đã huỷ{% endif -%}
                             {%- if build_in_progress > 0 %} · {{ build_in_progress }} đang chạy{% endif -%}
+                            · quét mỗi {{ build_cadence }} phút
                         </span>
                     </header>
+
+                    {% if build_fetch_error %}
+                    <p class="insights__build-warn" role="status">
+                        ⚠ Không quét được GitHub Actions lúc này — hiển thị dữ liệu cache gần nhất.
+                        {% if build_fetch_error_at %}
+                        <time datetime="{{ build_fetch_error_at }}">({{ build_fetch_error_at }})</time>
+                        {% endif %}
+                    </p>
+                    {% endif %}
+
+                    {% if build_latest | length > 0 %}
+                    <div class="insights__build-latest" aria-label="Trạng thái deploy/QA mới nhất">
+                        {% for wf in build_latest %}
+                        {% set wf_norm = wf.status_normalized | default(value="unknown") %}
+                        <div class="insights__build-latest-item insights__build-latest-item--{{ wf_norm }}">
+                            <span class="insights__build-latest-label">
+                                {% if wf.workflow_file == "deploy.yml" %}Deploy{% elif wf.workflow_file == "qa.yml" %}QA{% else %}{{ wf.workflow_file }}{% endif %}
+                            </span>
+                            <span class="insights__build-badge insights__build-badge--{{ wf_norm }}">
+                                {{ wf.status_vi | default(value=wf_norm) }}
+                            </span>
+                            {% if wf.run_number %}
+                            <span class="insights__build-num">#{{ wf.run_number }}</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if build_history | length > 0 %}
+                    {% set hist_count = build_history | length %}
+                    <div class="insights__build-trend" aria-label="Xu hướng trạng thái theo thời gian">
+                        <h4 class="insights__build-trend-title">Trend ({{ hist_count }} mốc)</h4>
+                        <div class="insights__build-trend-bars">
+                            {% for point in build_history %}
+                            {% if loop.index > hist_count - 24 %}
+                            {% set pt_in_prog = point.stats.in_progress | default(value=0) %}
+                            {% set pt_fail = point.stats.failure | default(value=0) %}
+                            {% set trend_class = "ok" %}
+                            {% if pt_fail > 0 %}{% set trend_class = "fail" %}
+                            {% elif pt_in_prog > 0 %}{% set trend_class = "run" %}{% endif %}
+                            <span class="insights__build-trend-bar insights__build-trend-bar--{{ trend_class }}"
+                                  title="{{ point.recorded_at }} · {{ point.type | default(value='snapshot') }}">
+                            </span>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="insights__build-trend-legend">
+                            <span>■</span> ổn định
+                            <span class="insights__build-trend-legend--run">■</span> đang chạy
+                            <span class="insights__build-trend-legend--fail">■</span> lỗi
+                        </p>
+                    </div>
+
+                    <ol class="insights__build-history" aria-label="Timeline snapshot mỗi 5 phút">
+                        {% for point in build_history %}
+                        {% if loop.index > hist_count - 8 %}
+                        <li class="insights__build-history-item insights__build-history-item--{{ point.type | default(value='change') }}">
+                            <time class="insights__build-history-time" datetime="{{ point.recorded_at }}">
+                                {{ point.recorded_at }}
+                            </time>
+                            <span class="insights__build-history-type">{{ point.type | default(value="change") }}</span>
+                            <span class="insights__build-history-stats">
+                                {{ point.stats.success | default(value=0) }}✓
+                                {{ point.stats.failure | default(value=0) }}✗
+                                {{ point.stats.in_progress | default(value=0) }}…
+                            </span>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
 
                     {% if build_items | length > 0 %}
                     <ol class="insights__build-list" aria-label="Lịch sử build GitHub Actions">

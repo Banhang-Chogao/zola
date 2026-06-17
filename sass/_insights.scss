@@ -933,6 +933,122 @@ main.container:has(.insights) {
   color: #8b949e;
 }
 
+.insights__build-warn {
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: #9a6700;
+  background: #fff8c5;
+  border: 1px solid #f0e6a8;
+}
+
+.insights__build-latest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.insights__build-latest-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid #eaeef2;
+  background: #fff;
+  font-size: 0.74rem;
+}
+
+.insights__build-latest-label {
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.insights__build-trend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.insights__build-trend-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #57606a;
+}
+
+.insights__build-trend-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  min-height: 1.5rem;
+}
+
+.insights__build-trend-bar {
+  flex: 1;
+  min-width: 4px;
+  height: 1.25rem;
+  border-radius: 2px;
+  background: #2da44e;
+
+  &--run { background: #0969da; }
+  &--fail { background: #cf222e; }
+}
+
+.insights__build-trend-legend {
+  margin: 0;
+  font-size: 0.68rem;
+  color: #8b949e;
+
+  span { margin-right: 0.35rem; }
+
+  &--run { color: #0969da; }
+  &--fail { color: #cf222e; }
+}
+
+.insights__build-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 8rem;
+  overflow-y: auto;
+}
+
+.insights__build-history-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  font-size: 0.7rem;
+  color: #57606a;
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed #eaeef2;
+
+  &--change .insights__build-history-type { color: #0969da; }
+  &--checkpoint .insights__build-history-type { color: #8b949e; }
+}
+
+.insights__build-history-time {
+  font-variant-numeric: tabular-nums;
+  color: #1f2328;
+}
+
+.insights__build-history-type {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  letter-spacing: 0.03em;
+}
+
+.insights__build-history-stats {
+  font-variant-numeric: tabular-nums;
+}
+
 /* ============= RESPONSIVE ============= */
 /* Tablet (≤1100px): timeline + overview stack vertical, sidebar đã bỏ
    từ layout-grid:has(.insights) nên 1fr full width. */

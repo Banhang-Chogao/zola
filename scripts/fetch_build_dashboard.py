@@ -40,6 +40,11 @@ TRACKED_WORKFLOWS = ("deploy.yml", "qa.yml")
 MAX_RUNS_PER_WORKFLOW = 15
 MAX_TOTAL_BUILDS = 30
 
+# Lịch sử snapshot mỗi 5 phút (cron */5) — giữ ~7 ngày
+HISTORY_CADENCE_SEC = 5 * 60
+CHECKPOINT_INTERVAL_SEC = 60 * 60  # heartbeat khi trạng thái không đổi
+MAX_HISTORY_ENTRIES = 2016  # 7d × 24h × 12 mốc/h
+
 
 def _api_get(path: str) -> Any:
     if not TOKEN:
@@ -346,6 +351,105 @@ def _parse_duration(run: dict) -> int | None:
         return None
 
 
+def _iso_now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _workflow_snapshot(builds: list[dict]) -> dict[str, dict]:
+    """Run mới nhất theo từng workflow được theo dõi."""
+    snap: dict[str, dict] = {}
+    for b in builds:
+        wf = b.get("workflow_file")
+        if wf in TRACKED_WORKFLOWS and wf not in snap:
+            snap[wf] = {
+                "id": b.get("id"),
+                "run_number": b.get("run_number"),
+                "status_normalized": b.get("status_normalized"),
+                "status_vi": b.get("status_vi"),
+                "gh_status": b.get("gh_status"),
+                "conclusion": b.get("conclusion"),
+                "started_at": b.get("started_at"),
+                "summary_vi": b.get("summary_vi"),
+                "run_url": b.get("run_url"),
+            }
+    return snap
+
+
+def _snapshot_signature(snapshot: dict[str, dict]) -> str:
+    parts: list[str] = []
+    for wf in TRACKED_WORKFLOWS:
+        s = snapshot.get(wf) or {}
+        parts.append(
+            f"{wf}:{s.get('id')}:{s.get('status_normalized')}:{s.get('gh_status')}"
+        )
+    return "|".join(parts)
+
+
+def append_history(
+    existing: list[dict] | None,
+    *,
+    now: datetime,
+    stats: dict[str, int],
+    snapshot: dict[str, dict],
+) -> list[dict]:
+    """
+    Ghi thêm mốc lịch sử khi trạng thái đổi hoặc cần checkpoint.
+    Bỏ qua duplicate trong cùng chu kỳ 5 phút nếu không đổi.
+    """
+    history = list(existing or [])
+    entry: dict[str, Any] = {
+        "recorded_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "stats": dict(stats),
+        "workflows": snapshot,
+    }
+
+    last = history[-1] if history else None
+    if last:
+        last_sig = _snapshot_signature(last.get("workflows") or {})
+        new_sig = _snapshot_signature(snapshot)
+        if last_sig == new_sig:
+            last_ts = _parse_ts(last.get("recorded_at") or "")
+            if last_ts:
+                delta = (now - last_ts).total_seconds()
+                if delta < HISTORY_CADENCE_SEC:
+                    return history
+                if delta < CHECKPOINT_INTERVAL_SEC:
+                    return history
+            entry["type"] = "checkpoint"
+        else:
+            entry["type"] = "change"
+    else:
+        entry["type"] = "change"
+
+    history.append(entry)
+    return history[-MAX_HISTORY_ENTRIES:]
+
+
+def load_existing() -> dict[str, Any]:
+    if not OUTPUT.exists():
+        return {}
+    try:
+        return json.loads(OUTPUT.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def persist_fetch_error(message: str) -> int:
+    """Giữ cache/history cũ, ghi cảnh báo lỗi nhẹ cho dashboard."""
+    existing = load_existing()
+    if not existing:
+        print(f"ERROR: {message}", file=sys.stderr)
+        return 1
+    existing["fetch_error"] = message[:300]
+    existing["fetch_error_at"] = _iso_now()
+    OUTPUT.write_text(
+        json.dumps(existing, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print("Giữ nguyên build-dashboard.json — ghi fetch_error cho UI.", file=sys.stderr)
+    return 0
+
+
 def fetch_builds() -> list[dict]:
     workflows = _paginate(f"/repos/{REPO}/actions/workflows", "workflows", 100)
     by_file = {
@@ -437,15 +541,11 @@ def fetch_builds() -> list[dict]:
 
 def main() -> int:
     print(f"Fetching build dashboard for {REPO}...", flush=True)
+    existing = load_existing()
     try:
         builds = fetch_builds()
     except RuntimeError as e:
-        print(f"ERROR: {e}", file=sys.stderr)
-        # Giữ file cũ nếu fetch fail trong CI
-        if OUTPUT.exists():
-            print("Giữ nguyên build-dashboard.json hiện có.", file=sys.stderr)
-            return 0
-        return 1
+        return persist_fetch_error(str(e))
 
     def _norm(b: dict) -> str:
         return b.get("status_normalized") or normalize_status(
@@ -458,28 +558,54 @@ def main() -> int:
     skipped_n = sum(1 for b in builds if _norm(b) == "skipped")
     in_progress_n = sum(1 for b in builds if _norm(b) == "in_progress")
 
+    now = datetime.now(timezone.utc)
+    stats = {
+        "total": len(builds),
+        "success": success_n,
+        "failure": failure_n,
+        "cancelled": cancelled_n,
+        "skipped": skipped_n,
+        "in_progress": in_progress_n,
+    }
+    snapshot = _workflow_snapshot(builds)
+    latest_workflows = [
+        {"workflow_file": wf, **(snapshot.get(wf) or {})}
+        for wf in TRACKED_WORKFLOWS
+        if wf in snapshot
+    ]
+    history = append_history(
+        existing.get("history"),
+        now=now,
+        stats=stats,
+        snapshot=snapshot,
+    )
+
     owner, name = REPO.split("/", 1)
     payload = {
-        "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "updated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "history_cadence_min": HISTORY_CADENCE_SEC // 60,
         "source_repo": f"https://github.com/{owner}/{name}",
         "source_label": "GitHub Actions",
-        "stats": {
-            "total": len(builds),
-            "success": success_n,
-            "failure": failure_n,
-            "cancelled": cancelled_n,
-            "skipped": skipped_n,
-            "in_progress": in_progress_n,
-        },
+        "stats": stats,
+        "latest_by_workflow": snapshot,
+        "latest_workflows": latest_workflows,
+        "history": history,
         "builds": builds,
     }
+    if existing.get("fetch_error"):
+        payload["last_fetch_error"] = existing.get("fetch_error")
+        payload["last_fetch_error_at"] = existing.get("fetch_error_at")
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(f"Wrote {len(builds)} builds → {OUTPUT.relative_to(ROOT)}", flush=True)
+    print(
+        f"Wrote {len(builds)} builds, {len(history)} history → "
+        f"{OUTPUT.relative_to(ROOT)}",
+        flush=True,
+    )
     return 0
 
 

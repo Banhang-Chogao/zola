@@ -1,7 +1,7 @@
 name: Fetch Build Dashboard
 
 # Thu thập lịch sử GitHub Actions (deploy + QA) → data/build-dashboard.json
-# để trang /insights/ render Build Dashboard.
+# Snapshot mỗi 5 phút (cron */5) + sau mỗi deploy/QA — trang /insights/ đọc history.
 #
 # SECRETS (tùy chọn):
 #   BUILD_DASHBOARD_AI_API_KEY — OpenAI-compatible key để phân tích log lỗi
@@ -18,7 +18,7 @@ on:
       - "QA Gatekeeper"
     types: [completed]
   schedule:
-    - cron: '45 * * * *'   # mỗi giờ phút 45 (lệch GA/PageSpeed)
+    - cron: '*/5 * * * *'   # mỗi 5 phút — snapshot lịch sử build/deploy
   workflow_dispatch:
 
 permissions:
