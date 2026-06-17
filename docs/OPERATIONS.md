@@ -1,28 +1,25 @@
-# Quy trình vận hành — PR-only (bắt buộc)
+# Quy trình vận hành — PR + Auto-Merge
 
-> **Hiệu lực:** 17/06/2026. Rule này ghi đè mọi hướng dẫn cũ về push/merge trực tiếp `main`.
+> **Hiệu lực:** 17/06/2026 (cập nhật auto-merge). Vẫn qua PR; merge tự động khi CI pass.
 
 ## Nguyên tắc
 
-Mọi thay đổi (code, content, config, workflow, data generated, automation) **phải đi qua Pull Request**.
+Mọi thay đổi **phải đi qua Pull Request**. **Không** push/commit trực tiếp `main`.
 
-**Tuyệt đối không:**
+**Auto-merge:** `auto-merge.yml` merge PR khi QA Gatekeeper + PR Policy xanh.
 
-- Commit trực tiếp vào `main`
-- Push trực tiếp vào `main`
-- Merge thẳng local vào `main` rồi push
-- Auto-merge PR (kể cả CI xanh)
-- Bypass manual review
-- Gom nhiều tính năng không liên quan vào một PR
+**Theo dõi:** `data/merge-report.json` (script `fetch_merge_report.py`).
+
+**Chặn auto-merge:** label `no-auto-merge` hoặc `manual-review`.
 
 ## Quy trình cho mỗi yêu cầu
 
 1. `git fetch origin main && git checkout -b <prefix>/<mô-tả> origin/main`
 2. Commit toàn bộ thay đổi của **một** yêu cầu/tính năng
-3. `git push -u origin <branch>`
-4. Tạo PR vào `main` — chờ review
-5. User merge thủ công trên GitHub
-6. `deploy.yml` chạy sau merge → build & deploy production
+3. `git push -u origin <branch>` → tạo PR vào `main`
+4. CI pass → **auto-merge** (không chờ review tay)
+5. `deploy.yml` chạy sau merge → build & deploy production
+6. `merge-report.yml` cập nhật lịch sử merge
 
 ### Quy ước tên branch
 
@@ -47,16 +44,16 @@ Ví dụ: `fix/performance-audit-checker`, `qa/lighthouse-auto-checker`
 
 Workflow automation **không được** `git push origin HEAD:main`.
 
-Pattern bắt buộc: `.github/scripts/push_via_pr.sh` → branch riêng → PR → user merge.
+Pattern: `.github/scripts/push_via_pr.sh` → branch riêng → PR → **auto-merge** khi CI pass.
 
-Workflow tuân thủ: `perf-audit`, `self-healing`, `pagespeed`, `build-dashboard`, `ga-stats`, `changelog-update`, `scheduled-publish`, `optimize-images`, `compliance-score`, `build-related`, `security-audit`.
+Workflow tuân thủ: `auto-merge`, `merge-report`, `perf-audit`, `self-healing`, `pagespeed`, `build-dashboard`, `ga-stats`, `changelog-update`, `scheduled-publish`, `optimize-images`, `compliance-score`, `build-related`, `security-audit`.
 
 ## Branch protection (`main`)
 
 Cấu hình khuyến nghị (Settings → Branches → Add rule):
 
 - Require pull request before merging
-- Required approvals: **1** (manual)
+- Required approvals: **0** (auto-merge — xem `.github/BRANCH-PROTECTION.md`)
 - Dismiss stale approvals when new commits are pushed
 - Require status checks: `QA Gatekeeper`, `PR Policy` (và các check bắt buộc khác)
 - Require conversation resolution

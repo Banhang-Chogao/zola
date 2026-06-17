@@ -1,50 +1,40 @@
 # CLAUDE.md — Quy tắc làm việc
 
-## Quy tắc Deploy & Production (MỚI NHẤT — PR-only, ghi đè mọi rule cũ)
+## Auto-Merge Policy (effective 2026-06-17 — ghi đè rule PR-only thủ công)
 
-> ⚠️ **Rule MỚI NHẤT (17/06/2026), hiệu lực CAO NHẤT.** Ghi đè hoàn toàn rule
-> "auto-merge + auto-deploy" (16/06/2026), "rule 16:00", batch-merge tự động,
-> và mọi hướng dẫn push thẳng `main` trong `shortcuts.md`. Khi mâu thuẫn → **LẤY rule này**.
-> Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`.
+> **Rule MỚI NHẤT.** CI pass → **auto-merge `main`**, không chờ human approval.
+> Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `auto-merge.yml`.
 
-### 1. Không được commit/push/merge trực tiếp vào `main`
+### 1. Vẫn qua PR — không push thẳng `main`
 
-Mọi thay đổi (code, content, config, workflow, automation, generated file) **phải qua Pull Request**.
+Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit/push trực tiếp `main`.
 
-**Tuyệt đối không:**
-- Commit / push / merge trực tiếp vào `main`
-- Auto-merge PR (kể cả CI xanh, kể cả `batch-merge.yml`)
-- Bypass manual review
-- Gom nhiều yêu cầu khác nhau vào một PR nếu không cùng tính năng
+### 2. Auto-merge khi CI xanh
 
-### 2. Quy trình bắt buộc (mỗi yêu cầu = một branch + một PR)
+1. Tạo branch: `feature/`, `fix/`, `chore/`, …
+2. Push → mở PR vào `main`
+3. **`auto-merge.yml`** merge tự động khi **QA Gatekeeper** + **PR Policy** pass
+4. `deploy.yml` chạy sau merge → GitHub Pages
 
-1. Tạo branch riêng từ `main`: `feature/`, `fix/`, `qa/`, `content/`, `chore/`, `policy/`
-2. Commit toàn bộ thay đổi của yêu cầu đó vào branch
-3. Push branch → tạo PR vào `main`
-4. **Chờ user review và merge thủ công** — Claude/agent KHÔNG tự merge
-5. Deploy production chỉ sau khi PR được merge (`deploy.yml` trigger push `main` từ merge)
+**Không hỏi user** trước khi merge. Gắn label `no-auto-merge` hoặc `manual-review` nếu cần giữ PR chờ tay.
 
-### 3. Điều kiện merge (user quyết định, CI hỗ trợ)
+### 3. Merge Report (thay review thủ công)
 
-Trước khi user merge, PR nên đạt:
-1. `qa_check.py` / `qa.yml` pass (error/exit≠0 chặn)
-2. `zola build` pass trên CI
-3. PR Policy pass (title/body mô tả đủ)
-
-**Claude KHÔNG tự merge** dù đủ điều kiện. Chỉ nhắc user review.
+- Script: `scripts/fetch_merge_report.py` → `data/merge-report.json`
+- Workflow: `merge-report.yml` (sau push `main` + hourly)
+- Mỗi entry: PR #, title, summary_vi, change_type, merged_at, build_run_number
+- Đọc report thay vì duyệt từng PR
 
 ### 4. Build failed trên PR → fix trên cùng branch
 
-- Chạy `ff` / `ff9` để diagnose + fix
-- Commit fix vào **cùng branch/PR** — KHÔNG push `main`
-- Lặp tới khi CI xanh → chờ user merge lại
+- Fix trên **cùng branch/PR** — không push `main`
+- CI xanh → auto-merge
 
 ### 5. Automation / bot
 
-Workflow GitHub Actions **KHÔNG** `git push origin HEAD:main`. Dùng
-`.github/scripts/push_via_pr.sh` → branch riêng → PR → user merge.
-`main-guard.yml` chặn push trực tiếp (bot + human không qua PR).
+- Bot **không** `git push origin HEAD:main` trực tiếp
+- Data refresh: `push_via_pr.sh` → PR → auto-merge khi CI pass
+- `main-guard.yml`: cho phép bot merge qua PR (auto-merge commit)
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
@@ -404,11 +394,11 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 Tự động quét PR open bị merge conflict với `main`, resolve an toàn, chạy QA/build,
 tạo PR fix riêng `autofix/conflict-pr-<N>` để user review thủ công.
 
-### Quy tắc BẮT BUỘC (ghi đè auto-merge ở trên cho luồng autofix)
+### Quy tắc BẮT BUỘC (autofix)
 
 - **KHÔNG** commit/push trực tiếp vào `main`.
 - **KHÔNG** force-push vào branch của người khác.
-- **KHÔNG** auto-merge PR autofix — user review và merge tay.
+- PR autofix auto-merge khi CI pass (giống policy chung); gắn `no-auto-merge` nếu cần review tay.
 - **KHÔNG** tự sửa file nhạy cảm (`.env`, secrets, tokens, keys).
 - Nếu không chắc chắn → đánh dấu `needs manual review`, comment trên PR gốc.
 

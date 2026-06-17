@@ -72,11 +72,11 @@ else
 fi
 
 PR_TITLE="${PR_TITLE:-$COMMIT_MSG}"
-PR_BODY="${PR_BODY:-**Automated update** — requires manual review and merge into \`main\`.
+PR_BODY="${PR_BODY:-**Automated update** — sẽ **auto-merge** vào \`main\` khi CI pass (QA Gatekeeper + PR Policy).
 
 - Workflow: \`${GITHUB_WORKFLOW:-unknown}\`
 - Branch: \`${BRANCH}\`
-- **KHÔNG** auto-merge}"
+- Gắn label \`no-auto-merge\` nếu cần giữ PR chờ review tay}"
 
 REPO="${GITHUB_REPOSITORY:?GITHUB_REPOSITORY required}"
 existing=$(gh pr list --repo "$REPO" --head "$BRANCH" --base main --state open \
