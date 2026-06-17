@@ -158,7 +158,7 @@ def scan_claude_md(conflicts: list[Conflict]) -> None:
         (
             "claude_auto_vs_manual_merge",
             r"auto-merge.*main",
-            r"(?:required approvals|phải chờ human duyệt|bắt buộc review thủ công trước merge)",
+            r"(?:required approvals:\s*[1-9]|phải chờ human duyệt|bắt buộc review thủ công trước merge|không auto-merge mặc định)",
             "MEDIUM",
             "Policy hiện tại: auto-merge khi CI pass; gắn label no-auto-merge nếu cần review tay.",
             0.75,
@@ -182,22 +182,31 @@ def scan_claude_md(conflicts: list[Conflict]) -> None:
     ]
 
     for cid, pat_a, pat_b, sev, resolution, conf in pairs:
-        if re.search(pat_a, lower) and re.search(pat_b, lower):
-            ma = re.search(pat_a, lower)
-            mb = re.search(pat_b, lower)
-            conflicts.append(
-                Conflict(
-                    id=cid,
-                    category="CLAUDE.md",
-                    severity=sev,
-                    title=f"Rule mâu thuẫn trong CLAUDE.md: {cid}",
-                    rule_a=text[max(0, ma.start() - 40) : ma.end() + 80].strip() if ma else pat_a,
-                    rule_b=text[max(0, mb.start() - 40) : mb.end() + 80].strip() if mb else pat_b,
-                    resolution=resolution,
-                    confidence=conf,
-                    files=[str(CLAUDE_MD.relative_to(REPO_ROOT))],
-                )
+        ma = re.search(pat_a, lower)
+        mb = re.search(pat_b, lower)
+        if not ma or not mb:
+            continue
+        if cid == "claude_auto_vs_manual_merge" and re.search(
+            r"required approvals\s*=\s*0", lower
+        ):
+            continue
+        if cid == "claude_cancelled_classification":
+            window = lower[max(0, ma.start() - 20) : ma.start()]
+            if re.search(r"không|never|dont", window):
+                continue
+        conflicts.append(
+            Conflict(
+                id=cid,
+                category="CLAUDE.md",
+                severity=sev,
+                title=f"Rule mâu thuẫn trong CLAUDE.md: {cid}",
+                rule_a=text[max(0, ma.start() - 40) : ma.end() + 80].strip(),
+                rule_b=text[max(0, mb.start() - 40) : mb.end() + 80].strip(),
+                resolution=resolution,
+                confidence=conf,
+                files=[str(CLAUDE_MD.relative_to(REPO_ROOT))],
             )
+        )
 
     sections = re.findall(r"^##\s+(.+)$", text, re.MULTILINE)
     seen: dict[str, int] = {}
