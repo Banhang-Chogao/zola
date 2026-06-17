@@ -208,7 +208,7 @@ Sau [audit Policies Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-
 
 ## Bạn nên làm gì sau bài 5? {#sau-bai-5}
 
-Sau khi hiểu **Restrictions**, bước tiếp trong series là **phân biệt Policies và Restrictions** thực chiến (Bài 6) và **helpful content** (Bài 7). Trước mắt:
+Sau khi hiểu **Restrictions**, bước tiếp trong series là [**Bài 6: Phân biệt Policies và Restrictions**](/zola/posting/phan-biet-policies-va-restrictions-adsense/) thực chiến và **helpful content** (Bài 7). Trước mắt:
 
 1. **Map từng section site** — tag mental "restricted" vs "safe for full fill".
 2. **Đọc** [Policy center](https://support.google.com/adsense/answer/7003627?hl=en) — phân biệt violation vs limited ads.
@@ -222,4 +222,4 @@ Chưa pass eligibility? [Bài 2](/zola/posting/dieu-kien-du-tu-cach-adsense/). C
 
 Publisher blog giáo dục AdSense/SEO ít chạm content restrictions — nhưng cần tránh behavioral (ad/content che nhau) và biết khi mở rộng chủ đề nhạy cảm. Hiểu Restrictions giúp giải thích **"đã duyệt mà ad ít"** — không phải lúc nào cũng do SEO hay invalid traffic.
 
-Series: Bài 1 (khung) → Bài 2 (eligibility) → Bài 3 (readiness) → Bài 4 (Policies cấm) → **Bài 5** (Restrictions giới hạn). Tiếp theo: **phân biệt Policies vs Restrictions** khi đọc Policy center và lên kế hoạch chủ đề site.
+Series: Bài 1 (khung) → Bài 2 (eligibility) → Bài 3 (readiness) → Bài 4 (Policies cấm) → **Bài 5** (Restrictions giới hạn). Tiếp theo: [**Bài 6: Phân biệt Policies và Restrictions**](/zola/posting/phan-biet-policies-va-restrictions-adsense/) — đọc Policy center và lên kế hoạch chủ đề site.

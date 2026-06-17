@@ -57,6 +57,70 @@
     "external_count": 2,
     "internal_count": 3
   },
+  "content/posting/chan-trang-khoi-google-search.md": {
+    "external": [
+      {
+        "title": "block search indexing",
+        "url": "https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag",
+        "kind": "external"
+      },
+      {
+        "title": "documentation",
+        "url": "https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt",
+        "kind": "external"
+      },
+      {
+        "title": "Google SEO Starter Guide",
+        "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+        "kind": "external"
+      },
+      {
+        "title": "Removals tool",
+        "url": "https://search.google.com/search-console/removals",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 1: SEO là gì & Search Essentials",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 2: Google Search hoạt động — crawl, index, ranking",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-search-hoat-dong-the-nao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 3: Bao lâu để thấy kết quả SEO?",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/bao-lau-de-thay-ket-qua-seo/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 4: Giúp Google tìm nội dung",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/giup-google-tim-noi-dung-site/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 5: Google có nhìn thấy trang giống người dùng?",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-nhin-trang-giong-nguoi-dung/",
+        "kind": "internal"
+      },
+      {
+        "title": "static/robots.txt",
+        "url": "https://banhang-chogao.github.io/zola/robots.txt",
+        "kind": "internal"
+      },
+      {
+        "title": "AdSense series",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Nội dung dựa trên tài liệu chính thức Google Search Central (SEO Starter Guide, robots meta tag, robots.txt). Google có thể cập nhật khuyến nghị bất cứ lúc nào — nên đối chiếu phiên bản mới nhất trên developers.google.com/search.",
+    "external_count": 4,
+    "internal_count": 7
+  },
   "content/posting/cong-nghe-blog-duy-nguyen.md": {
     "external": [
       {
@@ -532,11 +596,16 @@
         "title": "Bài 4: Giúp Google tìm nội dung",
         "url": "https://banhang-chogao.github.io/zola/zola/posting/giup-google-tim-noi-dung-site/",
         "kind": "internal"
+      },
+      {
+        "title": "**Bài 6: Chặn trang khỏi Google Search**",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/chan-trang-khoi-google-search/",
+        "kind": "internal"
       }
     ],
     "copyright": "Nội dung dựa trên tài liệu chính thức Google Search Central (SEO Starter Guide, URL Inspection, JavaScript SEO). Google có thể cập nhật khuyến nghị bất cứ lúc nào — nên đối chiếu phiên bản mới nhất trên developers.google.com/search.",
     "external_count": 5,
-    "internal_count": 4
+    "internal_count": 5
   },
   "content/posting/google-publisher-policies-noi-dung-bi-cam.md": {
     "external": [
@@ -660,11 +729,16 @@
         "title": "SEO Foundation",
         "url": "https://banhang-chogao.github.io/zola/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/",
         "kind": "internal"
+      },
+      {
+        "title": "**Bài 6: Phân biệt Policies và Restrictions**",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/phan-biet-policies-va-restrictions-adsense/",
+        "kind": "internal"
       }
     ],
     "copyright": "Nội dung dựa trên tài liệu chính thức Google AdSense Help (Google Publisher Restrictions, AdSense Program policies). Google có thể cập nhật danh mục Restrictions bất cứ lúc nào — publisher có trách nhiệm theo dõi phiên bản mới nhất theo Terms and Conditions.",
     "external_count": 5,
-    "internal_count": 5
+    "internal_count": 6
   },
   "content/posting/google-search-hoat-dong-the-nao.md": {
     "external": [
@@ -974,6 +1048,70 @@
     "copyright": "Nội dung giáo dục tổng hợp từ Wikipedia, tài liệu công khai IAEA, World Nuclear Association và báo cáo giám sát quốc tế. Không nhằm mô tả thiết kế vũ khí, hướng dẫn phá hoại cơ sở, hoặc quy trình vận hành nhạy cảm chi tiết.",
     "external_count": 4,
     "internal_count": 7
+  },
+  "content/posting/phan-biet-policies-va-restrictions-adsense.md": {
+    "external": [
+      {
+        "title": "10437795",
+        "url": "https://support.google.com/adsense/answer/10437795",
+        "kind": "external"
+      },
+      {
+        "title": "9335564",
+        "url": "https://support.google.com/adsense/answer/9335564",
+        "kind": "external"
+      },
+      {
+        "title": "AdSense Program policies",
+        "url": "https://support.google.com/adsense/answer/48182",
+        "kind": "external"
+      },
+      {
+        "title": "online gambling",
+        "url": "https://support.google.com/publisherpolicies/answer/10437963",
+        "kind": "external"
+      },
+      {
+        "title": "Policy center",
+        "url": "https://support.google.com/adsense/answer/7003627",
+        "kind": "external"
+      },
+      {
+        "title": "Publisher Policies Help Center",
+        "url": "https://support.google.com/publisherpolicies",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 1: Google AdSense là gì & khung Program policies",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 2: Điều kiện đủ tư cách AdSense",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/dieu-kien-du-tu-cach-adsense/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 3: Website sẵn sàng cho AdSense",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/website-san-sang-cho-adsense/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 4: Google Publisher Policies — nội dung bị cấm",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-publisher-policies-noi-dung-bi-cam/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 5: Google Publisher Restrictions — nội dung hạn chế",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-publisher-restrictions-noi-dung-han-che/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Nội dung dựa trên tài liệu chính thức Google AdSense Help (Publisher Policies, Publisher Restrictions, Policy center). Google có thể cập nhật nhãn và quy trình xử lý bất cứ lúc nào — publisher có trách nhiệm đối chiếu phiên bản mới nhất theo Terms and Conditions.",
+    "external_count": 6,
+    "internal_count": 5
   },
   "content/posting/qa-gatekeeper-tu-fix-loi-blog.md": {
     "external": [

@@ -219,7 +219,7 @@ Sau mỗi bài publish quan trọng:
 
 ## Bạn nên làm gì sau bài 5? {#sau-bai-5}
 
-Khi đã xác nhận Google **thấy đủ nội dung**, bước tiếp trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là **chặn trang khỏi index khi cần** (noindex) và **tổ chức site** — series Bài 6–7. Trước mắt:
+Khi đã xác nhận Google **thấy đủ nội dung**, bước tiếp trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là [**Bài 6: Chặn trang khỏi Google Search**](/zola/posting/chan-trang-khoi-google-search/) (noindex, robots) và **tổ chức site** (Bài 7). Trước mắt:
 
 1. **Test 3–5 URL pillar** — home, Bài 1 SEO, Bài 1 AdSense bằng URL Inspection.
 2. **Sửa** mọi lệch HTML trước khi đẩy traffic ([Bài 4](/zola/posting/giup-google-tim-noi-dung-site/) internal link).
@@ -233,4 +233,4 @@ Chưa giúp Google tìm URL? [Bài 4](/zola/posting/giup-google-tim-noi-dung-sit
 
 Blog **Zola tĩnh** có lợi thế: markdown → HTML đầy đủ, ít phụ thuộc JS. Vẫn tránh nội dung ẩn spam, robots chặn nhầm, và mobile/desktop text khác nhau.
 
-Series: Bài 1 (Essentials) → Bài 2 (crawl/index) → Bài 3 (thời gian) → Bài 4 (giúp Google tìm) → **Bài 5** (Google thấy trang giống user?). Tiếp theo: **chặn trang khỏi Google Search** khi cần — noindex và robots.
+Series: Bài 1 (Essentials) → Bài 2 (crawl/index) → Bài 3 (thời gian) → Bài 4 (giúp Google tìm) → **Bài 5** (Google thấy trang giống user?). Tiếp theo: [**Bài 6: Chặn trang khỏi Google Search**](/zola/posting/chan-trang-khoi-google-search/) — noindex và robots.
