@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T16:02:44Z",
+  "updated_at": "2026-06-17T16:04:42Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 30,
-    "success": 28,
+    "total": 29,
+    "success": 27,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27702560663,
+      "run_number": 612,
+      "commit_id": "6426ec787a87a92ec660a15c5cdbbab93dc3cf69",
+      "commit_short": "6426ec7",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/6426ec787a87a92ec660a15c5cdbbab93dc3cf69",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27702560663",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #612 — Kiểm tra QA Gatekeeper: Merge pull request #278 from Banhang-Chogao/qa/fix-related-posts-seo",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T16:03:59Z",
+      "duration_sec": 25
+    },
     {
       "id": 27701978064,
       "run_number": 381,
@@ -484,40 +501,6 @@
       "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
       "started_at": "2026-06-17T13:20:55Z",
       "duration_sec": 92
-    },
-    {
-      "id": 27691986843,
-      "run_number": 367,
-      "commit_id": "6072283177ac34053cc837bab0b0835c00f2bdfc",
-      "commit_short": "6072283",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/6072283177ac34053cc837bab0b0835c00f2bdfc",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27691986843",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #367 — Deploy blog lên GitHub Pages: feat(insights): Compliance Score audit + 3h GitHub Actions workflow",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T13:20:24Z",
-      "duration_sec": 206
-    },
-    {
-      "id": 27691987043,
-      "run_number": 586,
-      "commit_id": "6072283177ac34053cc837bab0b0835c00f2bdfc",
-      "commit_short": "6072283",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/6072283177ac34053cc837bab0b0835c00f2bdfc",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27691987043",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #586 — Kiểm tra QA Gatekeeper: feat(insights): Compliance Score audit + 3h GitHub Actions workflow",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T13:20:24Z",
-      "duration_sec": 30
     }
   ]
 }
