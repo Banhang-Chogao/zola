@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T18:31:11Z",
+  "updated_at": "2026-06-17T18:41:50Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "245/247 in range"
+          "detail": "250/252 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "247/247 complete"
+          "detail": "252/252 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "247/247 set"
+          "detail": "252/252 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "244/247 single H1"
+          "detail": "249/252 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "247/247 with lang"
+          "detail": "252/252 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "247/247 ready"
+          "detail": "252/252 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "244/247 pages"
+          "detail": "249/252 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "246/247 pages covered"
+          "detail": "251/252 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "43/43 articles"
+          "detail": "44/44 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "43/43 tagged"
+          "detail": "44/44 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "43/43 substantive"
+          "detail": "44/44 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 238 unique",
+          "detail": "1 broken / 243 unique",
           "broken": [
             {
               "source_page": "/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
@@ -206,7 +206,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "243/247 pages"
+          "detail": "248/252 pages"
         },
         {
           "label": "Skip navigation",
@@ -242,8 +242,8 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 247,
-  "articles_scanned": 47,
+  "pages_scanned": 252,
+  "articles_scanned": 48,
   "fix_log": [
     {
       "category": "Links",
@@ -251,7 +251,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 2 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build); public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build)",
-      "at": "2026-06-17T18:31:11Z"
+      "at": "2026-06-17T18:41:50Z"
     }
   ],
   "fix_summary": {
