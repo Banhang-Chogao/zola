@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T20:18:58Z",
+  "updated_at": "2026-06-17T20:24:23Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,7 +21,7 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "251/253 in range"
+          "detail": "253/253 in range"
         },
         {
           "label": "Descriptions",
@@ -46,7 +46,7 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "250/253 single H1"
+          "detail": "253/253 single H1"
         },
         {
           "label": "Document language",
@@ -61,7 +61,7 @@
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "250/253 pages"
+          "detail": "253/253 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "251/253 pages covered"
+          "detail": "253/253 pages covered"
         },
         {
           "label": "Image weight",
@@ -251,7 +251,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 2 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build); public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build)",
-      "at": "2026-06-17T20:18:58Z"
+      "at": "2026-06-17T20:24:23Z"
     }
   ],
   "fix_summary": {
