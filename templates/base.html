@@ -258,6 +258,13 @@
     {% if sec_slug == "posting" %}{% set sec_name = "Bài viết" %}
     {% elif sec_slug == "baochi" %}{% set sec_name = "Báo chí" %}
     {% else %}{% set sec_name = sec_slug | capitalize %}{% endif %}
+    {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+    {% set in_series = false %}
+    {% set series_pillar_url = "" %}
+    {% if series_manifest and page.extra.series and page.extra.series == series_manifest.id %}
+        {% set_global in_series = true %}
+        {% set_global series_pillar_url = config.base_url ~ "/" ~ series_manifest.section ~ "/" ~ series_manifest.pillar_slug ~ "/" %}
+    {% endif %}
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -274,13 +281,25 @@
                 "position": 2,
                 "name": {{ sec_name | json_encode | safe }},
                 "item": "{{ config.base_url | safe }}/{{ sec_slug }}/"
+            }{% if in_series %},
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": {{ series_manifest.title_vi | json_encode | safe }},
+                "item": "{{ series_pillar_url | safe }}"
             },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": {{ page.title | json_encode | safe }},
+                "item": "{{ page.permalink | safe }}"
+            }{% else %},
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": {{ page.title | json_encode | safe }},
                 "item": "{{ page.permalink | safe }}"
-            }
+            }{% endif %}
         ]
     }
     </script>
