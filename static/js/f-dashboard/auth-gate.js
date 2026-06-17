@@ -156,8 +156,6 @@
     const logoutBtn = root.querySelector("[data-fd-action='logout']");
     const hint = root.querySelector("[data-fd-login-hint]");
 
-    if (!AUTH_API && hint) hint.hidden = false;
-
     if (loginBtn) {
       loginBtn.addEventListener("click", () => {
         if (!AUTH_API) {
@@ -175,12 +173,24 @@
       });
     }
 
-    const user = await fetchMe();
-    if (user) {
-      currentUser = user;
-      populateUserBar(user);
+    if (!AUTH_API) {
+      if (hint) hint.hidden = false;
+      showView("login");
+      return null;
+    }
+
+    const sid = getSid();
+    if (sid) {
       showView("dashboard");
-      return user;
+      const user = await fetchMe();
+      if (user) {
+        currentUser = user;
+        populateUserBar(user);
+        showView("dashboard");
+        return user;
+      }
+      showView("login");
+      return null;
     }
 
     showView("login");

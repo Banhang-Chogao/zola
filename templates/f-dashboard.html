@@ -73,11 +73,11 @@
                     <button type="button" class="fd-btn fd-btn--export" id="fd-export-json" disabled title="Tải JSON rồi wipe phiên">
                         <span aria-hidden="true">📥</span> Export to JSON
                     </button>
-                    <button type="button" class="fd-btn fd-btn--export fd-btn--pdf" id="fd-export-pdf" disabled title="PDF infographic + watermark vô hình, rồi xóa phiên">
-                        <span aria-hidden="true">📄</span> Export PDF Infographic
+                    <button type="button" class="fd-btn fd-btn--export fd-btn--pdf" id="fd-export-pdf" disabled title="PDF landscape A4 + Nokia font + watermark trace, rồi xóa phiên">
+                        <span aria-hidden="true">📄</span> Export PDF Report
                     </button>
                 </div>
-                <p class="fd-export-bar__note">Auto-download → wipe ngay. PDF có watermark vô hình: <code>16hex_blog-url</code>. Không lưu persistent online.</p>
+                <p class="fd-export-bar__note">Auto-download → wipe ngay. PDF landscape A4, font Nokia Pure, watermark trace: <code>16hex_blog-url</code>. Không lưu persistent online.</p>
             </div>
         </section>
 
@@ -219,6 +219,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/auth-gate.js') }}" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/parser.js') }}" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/storage.js') }}" defer></script>

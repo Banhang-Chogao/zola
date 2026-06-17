@@ -735,7 +735,7 @@ Trang công cụ tài chính cá nhân tại `/tools/f-dashboard/` — upload sa
 | **Auto-Download & Wipe** | Nút «Export JSON» và «Export PDF Infographic». Trigger download → **xóa ngay** toàn bộ IndexedDB. **Không** persistent online storage (không GitHub, không server, không `/static`). |
 | **Access Control** | Chỉ user **GitHub-authenticated** (reuse CMS OAuth: `cms_auth_url`, session `zola-cms-session-id`, `/auth/me`). Trang login trước dashboard. |
 | **UI/UX — Health tiers** | Hiển thị rõ 5 cấp Financial Health (Excellent → Danger) kèm score range + mô tả; highlight tier hiện tại. |
-| **PDF watermark** | Watermark **vô hình** (in chìm): `{16hex_lowercase}_{blog_url_no_protocol}` trên mọi trang PDF. JSON export gồm `series_id` + `watermark`. |
+| **PDF watermark** | Watermark trace (opacity ~0.08–0.16, lặp chéo + trung tâm): `{16hex_lowercase}_{blog_url_no_protocol}` trên mọi trang PDF. JSON export gồm `series_id` + `watermark`. |
 
 **Kiến trúc (static site):** Blog Zola trên GitHub Pages không có server upload. Luồng chạy **100% client-side**:
 
@@ -815,7 +815,16 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 
 **F-Dashboard flow:** `auth-gate.js` → `GET {cms_auth_url}/auth/login?return_to=/zola/tools/f-dashboard/` → GitHub → callback → redirect `https://banhang-chogao.github.io/zola/tools/f-dashboard/#sid=...` → `fetchMe()` → hiện dashboard.
 - **Ephemeral:** `exportAndWipe()` — download → `clearAll()` ngay; no persistent online storage.
-- **PDF watermark (invisible):** `SHA256-style 16 hex lowercase` + `_` + `banhang-chogao.github.io/zola` (no `https://`).
+- **PDF watermark (trace):** `SHA256-style 16 hex lowercase` + `_` + `banhang-chogao.github.io/zola` (no `https://`).
+
+## F-Dashboard PDF Export Rules
+
+- Always embed Unicode-capable Vietnamese fonts.
+- Prefer Nokia Pure/Nokia Headline for F-Dashboard reports.
+- Do not rely on browser fallback fonts for PDF.
+- Use landscape A4 for bank-style transaction reports.
+- Watermark must be visible enough for copyright tracing but not block content.
+- Authenticated F-Dashboard users must never see the login CTA again after successful login.
 
 ### File map
 
@@ -824,6 +833,7 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Trang | `content/tools/f-dashboard.md`, `templates/f-dashboard.html` |
 | Styles | `sass/_f-dashboard.scss` |
 | Client JS | `static/js/f-dashboard/*.js` (`auth-gate.js`, `export.js`, …) |
+| PDF fonts | `static/fonts/nokia-pure/*.ttf` (Nokia Pure/Headline, embedded via jsPDF) |
 | Python parser | `scripts/f_dashboard_parse_excel.py` |
 | Python insights | `scripts/f_dashboard_insights.py` |
 | Tests | `scripts/test_f_dashboard.py` |
