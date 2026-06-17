@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T21:01:15Z",
+  "updated_at": "2026-06-17T23:09:01Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "254/254 in range"
+          "detail": "255/255 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "254/254 complete"
+          "detail": "255/255 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "254/254 set"
+          "detail": "255/255 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "254/254 single H1"
+          "detail": "255/255 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "254/254 with lang"
+          "detail": "255/255 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "254/254 ready"
+          "detail": "255/255 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "254/254 pages"
+          "detail": "255/255 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "254/254 pages covered"
+          "detail": "255/255 pages covered"
         },
         {
           "label": "Image weight",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 245 unique",
+          "detail": "1 broken / 246 unique",
           "broken": [
             {
               "source_page": "/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
@@ -206,7 +206,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "250/254 pages"
+          "detail": "251/255 pages"
         },
         {
           "label": "Skip navigation",
@@ -242,7 +242,7 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 254,
+  "pages_scanned": 255,
   "articles_scanned": 48,
   "fix_log": [
     {
@@ -251,7 +251,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 2 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build); public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build)",
-      "at": "2026-06-17T21:01:15Z"
+      "at": "2026-06-17T23:09:01Z"
     }
   ],
   "fix_summary": {
