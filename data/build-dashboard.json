@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T15:55:18Z",
+  "updated_at": "2026-06-17T15:59:02Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 27,
+    "total": 30,
+    "success": 28,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27701978064,
+      "run_number": 381,
+      "commit_id": "df2a37330e0e97286426d18a91f95e3d96ca51ea",
+      "commit_short": "df2a373",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/df2a37330e0e97286426d18a91f95e3d96ca51ea",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27701978064",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #381 — Deploy blog lên GitHub Pages: Merge pull request #277 from Banhang-Chogao/feature/seo-foundation-series",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:54:40Z",
+      "duration_sec": 240
+    },
     {
       "id": 27701978015,
       "run_number": 610,
