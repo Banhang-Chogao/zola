@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T16:13:14Z",
+  "updated_at": "2026-06-17T16:14:56Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 30,
+    "total": 29,
     "success": 28,
     "failure": 0,
-    "cancelled": 2
+    "cancelled": 1
   },
   "builds": [
+    {
+      "id": 27703185232,
+      "run_number": 615,
+      "commit_id": "a524d8ddd052c8cda1be942c1e29eb05fea8441c",
+      "commit_short": "a524d8d",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/a524d8ddd052c8cda1be942c1e29eb05fea8441c",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27703185232",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #615 — Kiểm tra QA Gatekeeper: Merge pull request #281 from Banhang-Chogao/series/science/01-uranium-la-gi",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T16:14:20Z",
+      "duration_sec": 22
+    },
     {
       "id": 27702560678,
       "run_number": 382,
@@ -484,40 +501,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T13:22:24Z",
       "duration_sec": 25
-    },
-    {
-      "id": 27692020386,
-      "run_number": 587,
-      "commit_id": "7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
-      "commit_short": "7c844e8",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692020386",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #587 — Kiểm tra QA Gatekeeper: fix(compliance): parse TOML taxonomies + /zola/ link prefix",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T13:20:57Z",
-      "duration_sec": 27
-    },
-    {
-      "id": 27692018968,
-      "run_number": 368,
-      "commit_id": "7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
-      "commit_short": "7c844e8",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692018968",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #368 — Deploy blog lên GitHub Pages: fix(compliance): parse TOML taxonomies + /zola/ link prefix",
-      "status_vi": "Đã huỷ",
-      "success": false,
-      "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
-      "started_at": "2026-06-17T13:20:55Z",
-      "duration_sec": 92
     }
   ]
 }
