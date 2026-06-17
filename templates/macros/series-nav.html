@@ -1,9 +1,15 @@
-{# Series navigation — đọc manifest data/seo-foundation-series.json.
-   Hiển thị khi page.extra.series khớp manifest.id.
-   Mỗi bài mới trong series: cập nhật manifest (status + slug) + extra.series_part. #}
+{# Series navigation — đọc manifest theo page.extra.series.
+   Manifests: seo-foundation → seo-foundation-series.json
+              adsense-foundation → adsense-foundation-series.json
+   Mỗi bài mới: cập nhật manifest (status + slug) + extra.series_part. #}
 {% macro nav(page) %}
-{% set manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
-{% if manifest and page.extra.series and page.extra.series == manifest.id %}
+{% set manifest = false %}
+{% if page.extra and page.extra.series is defined and page.extra.series == "seo-foundation" %}
+    {% set manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+{% elif page.extra and page.extra.series is defined and page.extra.series == "adsense-foundation" %}
+    {% set manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
+{% endif %}
+{% if manifest and page.extra and page.extra.series is defined and page.extra.series == manifest.id %}
     {% set current_part = page.extra.series_part | default(value=0) %}
     {% set prev_part = false %}
     {% set next_part = false %}

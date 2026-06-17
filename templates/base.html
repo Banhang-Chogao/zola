@@ -258,10 +258,15 @@
     {% if sec_slug == "posting" %}{% set sec_name = "Bài viết" %}
     {% elif sec_slug == "baochi" %}{% set sec_name = "Báo chí" %}
     {% else %}{% set sec_name = sec_slug | capitalize %}{% endif %}
-    {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+    {% set series_manifest = false %}
+    {% if page.extra and page.extra.series is defined and page.extra.series == "seo-foundation" %}
+        {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+    {% elif page.extra and page.extra.series is defined and page.extra.series == "adsense-foundation" %}
+        {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
+    {% endif %}
     {% set in_series = false %}
     {% set series_pillar_url = "" %}
-    {% if series_manifest and page.extra.series and page.extra.series == series_manifest.id %}
+    {% if series_manifest and page.extra and page.extra.series is defined and page.extra.series == series_manifest.id %}
         {% set_global in_series = true %}
         {% set_global series_pillar_url = config.base_url ~ "/" ~ series_manifest.section ~ "/" ~ series_manifest.pillar_slug ~ "/" %}
     {% endif %}
