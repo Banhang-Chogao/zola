@@ -1,5 +1,5 @@
 +++
-title = "Tự động deploy blog Zola lên GitHub Pages bằng GitHub Actions"
+title = "Deploy blog Zola lên GitHub Pages tự động"
 description = "Cách viết deploy.yml để tự động build và deploy blog Zola lên GitHub Pages mỗi khi push: giải thích từng dòng workflow, phân quyền và xử lý lỗi."
 date = 2026-06-16
 aliases = ["/tu-dong-deploy-zola-github-actions/"]
