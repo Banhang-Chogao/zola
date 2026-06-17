@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "fix(qa): rule-checker scanner 0 false positives",
+      "tag": "fix",
+      "pr": 327,
+      "lines_added": 32,
+      "lines_removed": 23,
+      "highlights": [
+        "Skip required approvals = 0 vs auto-merge (aligned)",
+        "Skip classify cancelled khi có «không» trước",
+        "Reset loop_detected state",
+        "CLAUDE.md learning cập nhật"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "changelog after PR #314",
       "tag": "chore",
       "pr": 318,
