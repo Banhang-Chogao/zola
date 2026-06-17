@@ -1,5 +1,5 @@
 +++
-title = "Trời mưa Sài Gòn ăn gì cho ấm bụng? 8 món & quán mở giờ mưa"
+title = "Trời mưa Sài Gòn ăn gì? 8 món ấm bụng"
 description = "Trời mưa Sài Gòn nên ăn gì? 8 món nóng hổi ấm bụng ngày mưa: bún bò, lẩu, cháo, ốc, bánh xèo... kèm khu vực và mẹo chọn quán mở khi mưa."
 date = 2026-06-16
 aliases = ["/troi-mua-sai-gon-an-gi/"]
