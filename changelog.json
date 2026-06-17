@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "ci: build-failure handler + SEO11 polish + prompt-support",
+      "tag": "chore",
+      "pr": 270,
+      "lines_added": 3452,
+      "lines_removed": 522,
+      "highlights": [
+        "CI auto-fix: build-failure-handler.yml, rewrite qa-failed.py, scripts/vaccine_rules.py — PR flow, không push main",
+        "SEO11: Lighthouse meta/title/OG fixes (10 iter) + nâng 4 bài lên A+",
+        "Compliance: cron 12h audit + auto-fix warn/fail",
+        "UI: trang /prompt-support/ (template + SCSS + JS)",
+        "Workflow: pr-approval.yml, cập nhật pr-policy / main-guard"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "ci: remove Dependabot; enforce feature branch PR batch-of-10 merge",
       "tag": "remove",
       "pr": 268,
