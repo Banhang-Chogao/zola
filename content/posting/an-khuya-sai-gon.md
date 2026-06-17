@@ -5,11 +5,12 @@ date = 2026-06-16
 aliases = ["/an-khuya-sai-gon/"]
 
 [taxonomies]
-categories = ["Ẩm thực"]
+categories = ["Tất cả", "Ẩm thực"]
 tags = ["món ngon", "sài gòn", "tphcm", "ăn khuya", "ăn đêm", "ẩm thực"]
 
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/an-khuya-sai-gon.svg"
+seo_keyword = "ăn khuya Sài Gòn"
 +++
 
 Sài Gòn là thành phố **không ngủ** — và dân cú đêm thì luôn có chỗ để lấp đầy cái bụng lúc nửa khuya. Nếu bạn hay thức muộn, đi chơi về trễ, hoặc đơn giản là thèm ăn đêm, đây là **10 món & khu ăn khuya** quen thuộc, nhiều nơi mở **sau 11h đêm**.
