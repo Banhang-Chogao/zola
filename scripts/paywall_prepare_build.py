@@ -22,6 +22,9 @@ CONTENT = ROOT / "content"
 PRIVATE = ROOT / "private_content"
 BACKUP = ROOT / "data" / ".paywall-content-backup.json"
 
+PREMIUM_CATEGORY = "premium"
+DEFAULT_PREMIUM_PRICE = 100_000
+
 
 def _parse_zola_md(text: str) -> tuple[dict, str, str] | None:
     """Return (metadata, body, frontmatter_block) or None if not Zola TOML."""
@@ -66,9 +69,33 @@ def _teaser(body: str, words: int) -> str:
     return text
 
 
+def _has_premium_category(meta: dict) -> bool:
+    tax = meta.get("taxonomies") or {}
+    cats = tax.get("categories") or []
+    return PREMIUM_CATEGORY in cats
+
+
 def _is_premium(meta: dict) -> bool:
     extra = meta.get("extra") or {}
-    return bool(meta.get("premium") or extra.get("premium"))
+    if meta.get("premium") or extra.get("premium"):
+        return True
+    return _has_premium_category(meta)
+
+
+def _inject_premium_flags(fm_block: str, meta: dict) -> str:
+    """Ensure [extra] premium + price for category-based posts (Zola template reads extra)."""
+    if not _has_premium_category(meta):
+        return fm_block
+    extra = meta.get("extra") or {}
+    if extra.get("premium"):
+        return fm_block
+    block = fm_block
+    if "premium = true" not in block:
+        block = block.replace("[extra]\n", "[extra]\npremium = true\n", 1)
+    price_line = f"price = {DEFAULT_PREMIUM_PRICE}"
+    if price_line not in block and "price =" not in block:
+        block = block.replace("[extra]\n", f"[extra]\n{price_line}\n", 1)
+    return block
 
 
 def _premium_meta(meta: dict) -> dict:
@@ -108,7 +135,8 @@ def strip_premium() -> int:
         private_path.write_text(stored_premium, encoding="utf-8")
 
         backup[str(md.relative_to(ROOT))] = body
-        _write_zola_md(md, fm_block, _teaser(body, teaser_words))
+        fm_out = _inject_premium_flags(fm_block, meta)
+        _write_zola_md(md, fm_out, _teaser(body, teaser_words))
         count += 1
 
     BACKUP.parent.mkdir(parents=True, exist_ok=True)

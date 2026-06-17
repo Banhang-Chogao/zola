@@ -24,13 +24,21 @@
   var sessionKey = SESSION_PREFIX + postId;
 
   function storageGet(key) {
-    try { return sessionStorage.getItem(key) || ""; } catch (e) { return ""; }
+    try {
+      return localStorage.getItem(key) || sessionStorage.getItem(key) || "";
+    } catch (e) { return ""; }
   }
   function storageSet(key, val) {
-    try { sessionStorage.setItem(key, val); } catch (e) {}
+    try {
+      localStorage.setItem(key, val);
+      sessionStorage.removeItem(key);
+    } catch (e) {}
   }
   function storageRemove(key) {
-    try { sessionStorage.removeItem(key); } catch (e) {}
+    try {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    } catch (e) {}
   }
 
   function getToken() {
@@ -235,7 +243,7 @@
     var el = box.querySelector("[data-paywall-price]");
     if (!el) return;
     var n = parseInt(el.getAttribute("data-paywall-price"), 10);
-    if (!isNaN(n)) el.textContent = n.toLocaleString("vi-VN") + "đ";
+    if (!isNaN(n)) el.textContent = n.toLocaleString("vi-VN") + " VNĐ";
   })();
 
   tryRestoreSession();
