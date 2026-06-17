@@ -1,9 +1,28 @@
 {
-  "updated_at": "2026-06-17T17:33:45Z",
+  "updated_at": "2026-06-17T17:56:08Z",
   "summary": {
-    "broken_count": 0,
-    "checked_unique": 226,
-    "status": "pass"
+    "broken_count": 1,
+    "checked_unique": 234,
+    "status": "warn"
   },
-  "links": []
+  "links": [
+    {
+      "source_page": "/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+      "source_file": "public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html",
+      "href": "/zola/pages/privacy/",
+      "target": "/pages/privacy/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+      "source_file": "public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html",
+      "href": "https://banhang-chogao.github.io/zola/zola/pages/privacy/",
+      "target": "/pages/privacy/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    }
+  ]
 }
