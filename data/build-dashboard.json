@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T16:14:56Z",
+  "updated_at": "2026-06-17T16:15:37Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 28,
+    "total": 30,
+    "success": 29,
     "failure": 0,
     "cancelled": 1
   },
   "builds": [
+    {
+      "id": 27703186950,
+      "run_number": 383,
+      "commit_id": "a524d8ddd052c8cda1be942c1e29eb05fea8441c",
+      "commit_short": "a524d8d",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/a524d8ddd052c8cda1be942c1e29eb05fea8441c",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27703186950",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #383 — Deploy blog lên GitHub Pages: Merge pull request #281 from Banhang-Chogao/series/science/01-uranium-la-gi",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T16:14:22Z",
+      "duration_sec": 61
+    },
     {
       "id": 27703185232,
       "run_number": 615,
