@@ -1,14 +1,48 @@
 {
-  "updated_at": "2026-06-17T13:28:22Z",
+  "updated_at": "2026-06-17T13:28:59Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 27,
-    "success": 25,
+    "total": 29,
+    "success": 27,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27692466395,
+      "run_number": 591,
+      "commit_id": "d40acdca6bd1d0436e462c2136e03794bfbb9b92",
+      "commit_short": "d40acdc",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/d40acdca6bd1d0436e462c2136e03794bfbb9b92",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692466395",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #591 — Kiểm tra QA Gatekeeper: chore: replace legacy admin email in .env.example",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:28:05Z",
+      "duration_sec": 32
+    },
+    {
+      "id": 27692317128,
+      "run_number": 371,
+      "commit_id": "f9827226e9a57beab14189ea7b3094b175dba65d",
+      "commit_short": "f982722",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/f9827226e9a57beab14189ea7b3094b175dba65d",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692317128",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #371 — Deploy blog lên GitHub Pages: ci: PR policy + main guard + batch merge (10 PR/batch)",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:25:41Z",
+      "duration_sec": 195
+    },
     {
       "id": 27692317065,
       "run_number": 590,
