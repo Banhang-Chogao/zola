@@ -114,6 +114,20 @@ workflow nào đang đỏ.
   rộng `_COMMENT_SPAN_RE` / bỏ qua context tương ứng. KHÔNG merge PR perf-audit
   chứa edit rác trong comment; đóng PR + để run sau regenerate sạch.
 
+## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
+
+Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
+session (GitHub MCP, `gh`, `git` trỏ repo này), PHẢI:
+
+1. **Đọc** `shortcuts.md` (source of truth phím tắt).
+2. **Liệt kê** bảng tóm tắt tất cả phím tắt active (`Phím tắt` · `Mô tả ngắn` +
+   tổng số) — format giống `help` / `phimtat`.
+3. **Thực thi** khi user gọi phím tắt: message bắt đầu bằng tên shortcut (single
+   line) → làm NGAY theo section tương ứng trong `shortcuts.md`, không hỏi lại.
+
+Nếu message đầu tiên đã là một phím tắt cụ thể → đọc file + thực thi shortcut đó
+(có thể bỏ list đầy đủ nếu user chỉ cần tốc độ). Chi tiết: `shortcuts.md` §0.
+
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
 Quy tắc bắt buộc, có hiệu lực với mọi yêu cầu liên quan đến CSS/UI/layout.

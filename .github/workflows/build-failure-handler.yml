@@ -1,0 +1,88 @@
+name: Build Failure Auto-Remediation
+
+# Kích hoạt khi deploy hoặc QA Gatekeeper fail trên main.
+# Thu thập log → đối chiếu vaccine CLAUDE.md → safe fix → branch riêng → PR.
+# KHÔNG push main, KHÔNG auto-merge. QA.yml chạy lại trên PR để validate build.
+
+on:
+  workflow_run:
+    workflows:
+      - "Build and deploy Zola site to GitHub Pages"
+      - "QA Gatekeeper"
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: build-failure-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+
+jobs:
+  remediate:
+    if: >-
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      # GitHub API thường lag 10–30s sau workflow_run event.
+      - name: Buffer log availability
+        run: sleep 30
+
+      - name: Analyze failure and open fix PR
+        id: fix
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FAILED_RUN_ID: ${{ github.event.workflow_run.id }}
+          FAILED_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          FAILED_WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 qa-failed.py
+
+      - name: Install Zola for post-fix validation
+        if: steps.fix.outputs.pr_created == 'true'
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Validate Zola build on fix branch
+        if: steps.fix.outputs.pr_created == 'true'
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git fetch origin "${{ steps.fix.outputs.branch }}"
+          git checkout "${{ steps.fix.outputs.branch }}"
+          zola build
+
+      - name: Upload remediation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-failure-log-${{ github.event.workflow_run.id }}
+          path: qa-failed.log
+          if-no-files-found: ignore
+          retention-days: 14

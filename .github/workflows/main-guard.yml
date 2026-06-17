@@ -1,7 +1,5 @@
 name: Main Branch Guard
 
-# Chặn push trực tiếp main (trừ github-actions[bot] sau batch merge).
-
 on:
   push:
     branches: [main]
@@ -16,5 +14,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "::error::Direct push to ${TARGET_BRANCH} forbidden. Use feature branch → PR → batch merge."
+          echo "::error::Direct push to ${TARGET_BRANCH} forbidden. Feature branch → PR → manual approval → batch merge."
           exit 1

@@ -1,0 +1,17 @@
+name: PR Manual Approval
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+  TARGET_BRANCH: main
+
+jobs:
+  manual-approval:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    environment: pr-review
+    steps:
+      - run: echo "PR #${{ github.event.pull_request.number }} approved"

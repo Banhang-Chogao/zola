@@ -1,9 +1,5 @@
 name: Batch Merge
 
-# feature branch → PR → manual review APPROVED → QA xanh
-# workflow_dispatch → environment batch-production (manual approval)
-# Merge CHỈ khi đủ đúng 10 PR approved; không auto-merge.
-
 on:
   workflow_dispatch:
 
@@ -63,11 +59,7 @@ jobs:
             exit 1
           fi
 
-          merged=0
           for num in "${prs[@]}"; do
             gh pr merge "$num" --merge --delete-branch
             echo "merged=#${num}"
-            merged=$((merged + 1))
           done
-
-          echo "total_merged=${merged}"

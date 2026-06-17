@@ -1,25 +1,24 @@
 """
-QA-Failed pipeline: auto-analyze failed workflow runs, attempt safe fixes.
+Build-failure auto-remediation: analyze failed workflow runs, apply safe fixes,
+open PR for manual review (KHÔNG push main, KHÔNG auto-merge).
 
-Trigger: .github/workflows/qa-failed-handler.yml chạy khi 1 workflow nào
-khác fail. Script này:
+Trigger: .github/workflows/build-failure-handler.yml khi deploy.yml hoặc
+qa.yml fail trên main.
 
-1. WAIT cho run status = "completed" (retry max 5 lần, 30s/lần).
-2. Fetch logs qua `gh run view --log-failed` chỉ KHI status completed.
-3. Parse stderr tìm error pattern đã biết.
-4. Apply safe fix nếu match pattern:
-   - ModuleNotFoundError → append module vào requirements.txt liên quan
-   - frontmatter YAML invalid → chạy qa_check.py --fix safe
-   - git push rejected non-fast-forward → no-op (chỉ log, không tự force push)
-   - GitHub Actions permission denied → log + notify (cần repo settings)
-5. Apply được → commit + push lên main → trigger deploy lại.
-6. KHÔNG match pattern → tạo GitHub issue chi tiết + exit 1.
+Pipeline:
+  1. WAIT run status = completed (retry max 5 × 30s).
+  2. Fetch logs qua `gh run view --log-failed`.
+  3. Đối chiếu log với vaccine rules (scripts/vaccine_rules.py ↔ CLAUDE.md V1–V4).
+  4. Apply safe fix nếu match.
+  5. Tạo branch riêng `fix/ci-auto-<run_id>` → commit → push → PR.
+  6. QA.yml + Zola build chạy lại trên PR (manual approval qua pr-review env).
+  7. Unknown / manual-only → tạo GitHub issue.
 
-CONSERVATIVE: Script chỉ fix khi 100% chắc. Lỗi chưa biết → escalate.
-
-Run local (debug):
-    GITHUB_RUN_ID=12345 GITHUB_REPOSITORY=owner/repo python qa-failed.py
+Run local:
+    FAILED_RUN_ID=12345 GITHUB_REPOSITORY=owner/repo python3 qa-failed.py
 """
+from __future__ import annotations
+
 import json
 import os
 import re
@@ -30,10 +29,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 LOG_FILE = ROOT / "qa-failed.log"
+CLAUDE_MD = ROOT / "CLAUDE.md"
 
-# Retry config — đợi run state "completed" trước khi fetch logs
+sys.path.insert(0, str(ROOT / "scripts"))
+from vaccine_rules import VACCINE_RULES, match_vaccine, vaccine_summary  # noqa: E402
+
 MAX_WAIT_ATTEMPTS = 5
-WAIT_BACKOFF_SECONDS = 30  # 5 × 30s = 2.5 phút max
+WAIT_BACKOFF_SECONDS = 30
 
 
 def log(msg: str) -> None:
@@ -43,11 +45,17 @@ def log(msg: str) -> None:
         f.write(line + "\n")
 
 
+def _github_output(key: str, value: str) -> None:
+    out_path = os.environ.get("GITHUB_OUTPUT")
+    if not out_path:
+        return
+    with open(out_path, "a", encoding="utf-8") as f:
+        f.write(f"{key}={value}\n")
+
+
 def sh(cmd: list, check: bool = True, capture: bool = True) -> str:
     log(f"$ {' '.join(cmd)}")
-    res = subprocess.run(
-        cmd, capture_output=capture, text=True, check=False
-    )
+    res = subprocess.run(cmd, capture_output=capture, text=True, check=False)
     out = (res.stdout or "") + (res.stderr or "")
     if check and res.returncode != 0:
         log(f"FAILED (exit {res.returncode}): {out[:500]}")
@@ -55,12 +63,19 @@ def sh(cmd: list, check: bool = True, capture: bool = True) -> str:
     return out
 
 
+def sh_rc(cmd: list) -> int:
+    log(f"$ {' '.join(cmd)}")
+    return subprocess.run(cmd, capture_output=True, text=True, check=False).returncode
+
+
 def get_run_status(run_id: str) -> dict:
-    """Return {status, conclusion}. status in {queued, in_progress, completed}.
-    conclusion in {success, failure, cancelled, ...} chỉ valid khi completed."""
     try:
-        out = sh(["gh", "run", "view", run_id, "--json", "status,conclusion"],
+        out = sh(["gh", "run", "view", run_id, "--json", "status,conclusion,html_url"],
                  check=False)
+        for line in out.strip().splitlines():
+            line = line.strip()
+            if line.startswith("{"):
+                return json.loads(line)
         return json.loads(out.strip().split("\n")[-1])
     except Exception as e:
         log(f"get_run_status error: {e}")
@@ -68,8 +83,6 @@ def get_run_status(run_id: str) -> dict:
 
 
 def wait_for_completion(run_id: str) -> bool:
-    """Poll run status đến khi completed. Return True nếu hoàn tất trong
-    timeout, False nếu vẫn in_progress sau MAX_WAIT_ATTEMPTS."""
     for attempt in range(1, MAX_WAIT_ATTEMPTS + 1):
         info = get_run_status(run_id)
         status = info.get("status", "unknown")
@@ -77,7 +90,6 @@ def wait_for_completion(run_id: str) -> bool:
         if status == "completed":
             return True
         if status == "unknown":
-            # gh CLI lỗi — return False để escalate
             return False
         if attempt < MAX_WAIT_ATTEMPTS:
             time.sleep(WAIT_BACKOFF_SECONDS)
@@ -85,8 +97,6 @@ def wait_for_completion(run_id: str) -> bool:
 
 
 def fetch_logs(run_id: str) -> str:
-    """Fetch logs failed jobs. CHỈ gọi sau khi wait_for_completion=True
-    để tránh 'still in progress' error."""
     try:
         return sh(["gh", "run", "view", run_id, "--log-failed"], check=False)
     except Exception as e:
@@ -95,34 +105,35 @@ def fetch_logs(run_id: str) -> str:
 
 
 def detect_pattern(logs: str) -> dict | None:
-    # 1. Python ModuleNotFoundError
-    m = re.search(r"ModuleNotFoundError: No module named ['\"]([^'\"]+)['\"]", logs)
-    if m:
-        return {"kind": "missing_python_dep", "module": m.group(1)}
+    rule = match_vaccine(logs)
+    if not rule:
+        return None
 
-    # 2. Zola build error (frontmatter / template syntax)
-    if "Failed to build the site" in logs or "frontmatter" in logs.lower():
-        m2 = re.search(r"(content/posting/[^\s:]+\.md)", logs)
-        return {"kind": "frontmatter_issue", "file": m2.group(1) if m2 else None}
+    pattern: dict = {
+        "kind": rule.fixer_kind,
+        "vaccine_id": rule.vaccine_id,
+        "vaccine_name": rule.name,
+        "manual_only": rule.manual_only,
+        "rule": rule,
+    }
 
-    # 3. Git push non-fast-forward → likely race condition, không tự fix
-    if "non-fast-forward" in logs or "Updates were rejected" in logs:
-        return {"kind": "git_race", "fix": "manual"}
+    if rule.fixer_kind == "missing_python_dep":
+        m = re.search(r"ModuleNotFoundError: No module named ['\"]([^'\"]+)['\"]", logs)
+        if m:
+            pattern["module"] = m.group(1)
 
-    # 4. Workflow permissions error
-    if "Resource not accessible by integration" in logs or "permission denied" in logs.lower():
-        return {"kind": "workflow_permission", "fix": "manual"}
+    if rule.fixer_kind == "frontmatter_issue":
+        m2 = re.search(r"(content/[^\s:]+\.md)", logs)
+        pattern["file"] = m2.group(1) if m2 else None
 
-    return None
+    return pattern
 
 
 def fix_missing_python_dep(module: str) -> bool:
-    # Map module → likely requirements file (heuristic)
     candidates = [
         ROOT / "services" / "visitor-counter" / "requirements.txt",
         ROOT / "scripts" / "requirements.txt",
     ]
-    # Map common runtime modules to known versions (extend as needed)
     pinned = {
         "frontmatter": "python-frontmatter==1.1.0",
         "numpy": "numpy==2.1.3",
@@ -131,7 +142,11 @@ def fix_missing_python_dep(module: str) -> bool:
         "redis": "redis==5.2.0",
     }
     line = pinned.get(module, module)
-    target = candidates[1] if "sentence" in module or "frontmatter" in module else candidates[0]
+    target = (
+        candidates[1]
+        if "sentence" in module or "frontmatter" in module
+        else candidates[0]
+    )
     if not target.exists():
         log(f"target {target} missing, skip")
         return False
@@ -144,110 +159,265 @@ def fix_missing_python_dep(module: str) -> bool:
     return True
 
 
-def fix_frontmatter(target_file: str | None) -> bool:
+def fix_hf_model_org_prefix() -> bool:
+    """V1 FIXER — đảm bảo MODEL_NAME có org prefix sentence-transformers/."""
+    path = ROOT / "scripts" / "build_related.py"
+    if not path.exists():
+        return False
+    text = path.read_text(encoding="utf-8")
+    full = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    if full in text:
+        log("V1: MODEL_NAME đã đúng org prefix")
+        return False
+    new_text, n = re.subn(
+        r'MODEL_NAME\s*=\s*["\']paraphrase-multilingual-MiniLM-L12-v2["\']',
+        f'MODEL_NAME = "{full}"',
+        text,
+    )
+    if n == 0:
+        return False
+    path.write_text(new_text, encoding="utf-8")
+    log(f"V1: updated MODEL_NAME → {full}")
+    return True
+
+
+def fix_frontmatter(_target_file: str | None) -> bool:
     qa = ROOT / "qa_check.py"
     if not qa.exists():
         log("qa_check.py missing, cannot safe-fix")
         return False
     sh(["python3", "qa_check.py", "--fix", "safe"], check=False)
-    res = sh(["git", "diff", "--quiet"], check=False)
-    if res.strip() == "":
-        return True
+    return sh_rc(["git", "diff", "--quiet"]) != 0
+
+
+def apply_fix(pattern: dict) -> bool:
+    kind = pattern["kind"]
+    if kind == "missing_python_dep":
+        module = pattern.get("module")
+        return bool(module and fix_missing_python_dep(module))
+    if kind == "hf_model_org_prefix":
+        return fix_hf_model_org_prefix()
+    if kind == "frontmatter_issue":
+        return fix_frontmatter(pattern.get("file"))
     return False
 
 
-def git_commit_push(message: str) -> bool:
+def git_setup() -> None:
     sh(["git", "config", "user.name", "github-actions[bot]"], check=False)
-    sh(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False)
-    diff = sh(["git", "status", "--porcelain"], check=False)
-    if not diff.strip():
-        log("no changes to commit")
+    sh(
+        ["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"],
+        check=False,
+    )
+
+
+def has_changes() -> bool:
+    return sh_rc(["git", "diff", "--quiet"]) != 0 or sh_rc(["git", "diff", "--cached", "--quiet"]) != 0
+
+
+def create_fix_pr(
+    *,
+    run_id: str,
+    workflow_name: str,
+    workflow_url: str,
+    pattern: dict,
+    logs: str,
+) -> bool:
+    branch = f"fix/ci-auto-{run_id}"
+    rule = pattern.get("rule")
+    vaccine_block = vaccine_summary(rule, logs) if rule else ""
+
+    git_setup()
+    sh(["git", "checkout", "-B", branch], check=False)
+
+    # Chỉ stage file source — không add log artifacts
+    sh(
+        [
+            "git", "add",
+            "content/", "scripts/", "sass/", "templates/", "static/",
+            "config.toml", "qa_check.py",
+            "services/visitor-counter/requirements.txt",
+            "scripts/requirements.txt",
+        ],
+        check=False,
+    )
+
+    if not has_changes():
+        log("no staged changes after fix")
         return False
-    sh(["git", "add", "-A"], check=False)
-    sh(["git", "commit", "-m", message], check=False)
-    try:
-        sh(["git", "push", "origin", "HEAD:main"], check=True)
-        return True
-    except Exception as e:
-        log(f"push failed: {e}")
-        return False
+
+    commit_msg = (
+        f"fix(ci): auto-remediation {pattern.get('vaccine_id', '?')} "
+        f"— {pattern.get('vaccine_name', pattern['kind'])} (run {run_id})"
+    )
+    sh(["git", "commit", "-m", commit_msg], check=False)
+    sh(["git", "push", "-f", "origin", branch], check=True)
+
+    snippet = logs[-2500:]
+    pr_body = "\n".join([
+        "## Build Failure Auto-Remediation",
+        "",
+        f"**Failed workflow**: `{workflow_name}`",
+        f"**Run**: [{run_id}]({workflow_url})",
+        f"**Branch**: `{branch}`",
+        "",
+        vaccine_block,
+        "### Phạm vi fix",
+        "- Chỉ mechanical/safe fixes đã có trong vaccine CLAUDE.md",
+        "- **KHÔNG** auto-merge — cần review thủ công",
+        "",
+        "### Log tail (2500 chars)",
+        "```",
+        snippet,
+        "```",
+        "",
+        "### Verify",
+        "- QA Gatekeeper + Zola build smoke test chạy trên PR này",
+        "- Merge thủ công sau khi CI xanh + review diff",
+    ])
+
+    pr_body_path = ROOT / "pr-body-ci-auto.md"
+    pr_body_path.write_text(pr_body, encoding="utf-8")
+
+    title = (
+        f"fix(ci): {pattern.get('vaccine_id', 'auto')} "
+        f"{pattern.get('vaccine_name', pattern['kind'])[:40]} (run {run_id})"
+    )
+
+    existing = sh(
+        ["gh", "pr", "list", "--head", branch, "--state", "open", "--json", "number", "--jq", ".[0].number"],
+        check=False,
+    ).strip()
+
+    if existing:
+        log(f"PR #{existing} already open for {branch}")
+        sh(["gh", "pr", "comment", existing, "--body-file", str(pr_body_path)], check=False)
+        pr_num = existing
+    else:
+        create_out = sh(
+            [
+                "gh", "pr", "create",
+                "--base", "main",
+                "--head", branch,
+                "--title", title,
+                "--body-file", str(pr_body_path),
+            ],
+            check=False,
+        )
+        m = re.search(r"https://github.com/.+/pull/(\d+)", create_out)
+        if not m:
+            log(f"PR create may have failed: {create_out[:300]}")
+            return False
+        pr_num = m.group(1)
+        log(f"created PR #{pr_num}")
+
+    _github_output("pr_created", "true")
+    _github_output("branch", branch)
+    _github_output("pr_number", pr_num)
+    return True
 
 
 def create_issue(title: str, body: str) -> None:
     try:
-        sh(["gh", "issue", "create", "--title", title, "--body", body, "--label", "qa-failed"],
-           check=False)
+        sh(
+            ["gh", "issue", "create", "--title", title, "--body", body, "--label", "qa-failed"],
+            check=False,
+        )
     except Exception as e:
         log(f"issue create failed: {e}")
 
 
+def load_claude_vaccine_refs() -> str:
+    if not CLAUDE_MD.exists():
+        return ""
+    text = CLAUDE_MD.read_text(encoding="utf-8")
+    if "THƯ VIỆN VACCINE" not in text:
+        return ""
+    return "CLAUDE.md vaccine library loaded"
+
+
 def main() -> int:
-    run_id = os.environ.get("GITHUB_RUN_ID") or os.environ.get("FAILED_RUN_ID")
+    run_id = os.environ.get("FAILED_RUN_ID") or os.environ.get("GITHUB_RUN_ID")
     workflow_name = os.environ.get("FAILED_WORKFLOW_NAME", "?")
+    workflow_url = os.environ.get("FAILED_WORKFLOW_URL", "")
+
+    _github_output("pr_created", "false")
+    _github_output("branch", "")
+
     if not run_id:
-        log("no GITHUB_RUN_ID / FAILED_RUN_ID — exit")
+        log("no FAILED_RUN_ID / GITHUB_RUN_ID — exit")
         return 1
 
     log(f"analyzing failed run {run_id} ({workflow_name})")
+    log(load_claude_vaccine_refs() or "CLAUDE.md not found — using vaccine_rules.py only")
 
-    # WAIT: GitHub Actions có lag giữa "fail event triggered" và "logs ready".
-    # Nếu fetch quá sớm → 'still in progress' error → classify nhầm unknown.
     if not wait_for_completion(run_id):
-        log(f"run {run_id} vẫn chưa completed sau {MAX_WAIT_ATTEMPTS * WAIT_BACKOFF_SECONDS}s → escalate")
         create_issue(
-            f"QA-Failed: run {run_id} không kết thúc trong timeout",
-            f"Workflow `{workflow_name}` (run {run_id}) vẫn ở status in_progress / unknown "
-            f"sau {MAX_WAIT_ATTEMPTS} lần poll × {WAIT_BACKOFF_SECONDS}s. "
-            f"Có thể: 1) job hung/timeout, 2) gh CLI auth lỗi, 3) GitHub API lag bất thường. "
-            f"Cần investigate manually."
+            f"Build-failure: run {run_id} timeout",
+            f"Workflow `{workflow_name}` (run {run_id}) chưa completed sau "
+            f"{MAX_WAIT_ATTEMPTS}×{WAIT_BACKOFF_SECONDS}s. Cần investigate manually.",
         )
         return 1
 
     logs = fetch_logs(run_id)
     if not logs:
-        log("empty logs, cannot analyze")
         create_issue(
-            f"QA-Failed: empty logs cho run {run_id}",
-            f"Workflow `{workflow_name}` failed nhưng logs không fetch được dù status=completed. Cần investigate manually."
+            f"Build-failure: empty logs run {run_id}",
+            f"Workflow `{workflow_name}` failed nhưng không fetch được log.",
         )
         return 1
 
     pattern = detect_pattern(logs)
     if not pattern:
         log("unknown error pattern → escalate")
-        snippet = logs[-3000:]
         create_issue(
-            f"QA-Failed: unknown error in {workflow_name} (run {run_id})",
-            f"## Auto-detect failed\n\nKhông match pattern fix nào đã biết. Cần manual review.\n\n### Log tail (last 3000 chars)\n```\n{snippet}\n```"
+            f"Build-failure: unknown error {workflow_name} (run {run_id})",
+            "## Không khớp vaccine nào\n\n"
+            f"Cần chạy `ff` / `ff9` thủ công hoặc append vaccine mới vào CLAUDE.md.\n\n"
+            f"### Log tail\n```\n{logs[-3000:]}\n```",
         )
         return 1
 
-    log(f"detected pattern: {pattern}")
+    log(f"matched vaccine {pattern.get('vaccine_id')}: {pattern}")
 
-    if pattern["kind"] == "missing_python_dep":
-        if fix_missing_python_dep(pattern["module"]):
-            if git_commit_push(f"Self-healing: thêm dep '{pattern['module']}' (qa-failed run {run_id})"):
-                log("✓ fixed + pushed → deploy sẽ tự re-trigger")
-                return 0
-
-    elif pattern["kind"] == "frontmatter_issue":
-        if fix_frontmatter(pattern.get("file")):
-            if git_commit_push(f"Self-healing: fix frontmatter (qa-failed run {run_id})"):
-                log("✓ fixed + pushed")
-                return 0
-
-    elif pattern["kind"] in ("git_race", "workflow_permission"):
-        log(f"pattern {pattern['kind']} cần manual fix → escalate")
+    if pattern.get("manual_only"):
         create_issue(
-            f"QA-Failed: {pattern['kind']} in {workflow_name}",
-            f"Pattern `{pattern['kind']}` không tự fix được. Run {run_id}.\n\nXem `fix: manual` field trong detect_pattern() để biết steps."
+            f"Build-failure: {pattern['vaccine_id']} manual fix ({workflow_name})",
+            vaccine_summary(pattern["rule"], logs)
+            + f"\nRun: {workflow_url or run_id}\n\n"
+            "Pattern chỉ có hướng dẫn thủ công trong CLAUDE.md — không auto-apply.",
         )
         return 1
 
-    log("fix not applied / push failed → escalate")
+    if not apply_fix(pattern):
+        log("no automatic fix applied")
+        create_issue(
+            f"Build-failure: {pattern['kind']} chưa fix được (run {run_id})",
+            vaccine_summary(pattern["rule"], logs)
+            + "\nDetector khớp nhưng fixer không tạo thay đổi.",
+        )
+        return 1
+
+    if not has_changes():
+        log("fixer ran but no git diff")
+        create_issue(
+            f"Build-failure: {pattern['kind']} no diff (run {run_id})",
+            "Pattern khớp, fixer chạy nhưng không có thay đổi file.",
+        )
+        return 1
+
+    if create_fix_pr(
+        run_id=run_id,
+        workflow_name=workflow_name,
+        workflow_url=workflow_url,
+        pattern=pattern,
+        logs=logs,
+    ):
+        log("remediation PR opened — awaiting manual review")
+        return 0
+
     create_issue(
-        f"QA-Failed: {pattern['kind']} chưa fix được (run {run_id})",
-        f"Detected pattern `{pattern['kind']}` nhưng auto-fix không thành công. Cần investigate."
+        f"Build-failure: PR create failed (run {run_id})",
+        "Fix đã apply local nhưng không tạo được PR. Kiểm tra workflow permissions.",
     )
     return 1
 

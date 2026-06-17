@@ -1,0 +1,36 @@
+{
+  "audited_at": "2026-06-17T15:19:34+00:00",
+  "url": "https://banhang-chogao.github.io/zola/",
+  "audit_type": "lighthouse_pagespeed_v5",
+  "source": "cached_pagespeed_json",
+  "api_error": "HTTP Error 429: Too Many Requests",
+  "mobile": {
+    "performance": 66,
+    "accessibility": 84,
+    "best_practices": 96,
+    "seo": 100,
+    "lcp": "5.9 s",
+    "cls": "0",
+    "fcp": "3.2 s",
+    "tbt": "200 ms",
+    "si": "5.4 s"
+  },
+  "desktop": {
+    "performance": 66,
+    "accessibility": 80,
+    "best_practices": 96,
+    "seo": 100,
+    "lcp": "1.5 s",
+    "cls": "0",
+    "fcp": "0.8 s",
+    "tbt": "630 ms",
+    "si": "2.1 s"
+  },
+  "primary_score": 66,
+  "regression": {
+    "has_previous": true,
+    "score_delta": 0,
+    "regression": false,
+    "details": []
+  }
+}
