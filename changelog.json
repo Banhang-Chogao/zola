@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "style(footer): align countdown band with Hilda theme + QA footer",
+      "tag": "chore",
+      "lines_added": 95,
+      "lines_removed": 47,
+      "highlights": [
+        "Số đếm: chip nền #eef3fb, chữ Ericsson Blue #003784, font Hilda 700",
+        "Prefix/suffix/unit: Be Vietnam Pro meta, màu muted #666",
+        "Tiêu đề sự kiện: Hilda 800, #000",
+        "Card: border/shadow giống .qa-card",
+        "Admin preview: HTML markup đồng bộ với footer live"
+      ],
+      "pr": 383
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(ci): free-first AI Diagnose — replace Claude workflow dependency",
       "tag": "chore",
       "lines_added": 873,
