@@ -29,6 +29,7 @@ PUBLIC = REPO / "public"
 CONTENT = REPO / "content"
 DATA = REPO / "data"
 OUT_FILE = DATA / "compliance-score.json"
+LINK_REPORT_FILE = DATA / "compliance-link-report.json"
 
 VN_TZ = timezone(timedelta(hours=7))
 BASE_URL = "https://banhang-chogao.github.io/zola"
@@ -498,7 +499,26 @@ def run_audit() -> dict:
     broken_set: set[str] = set()
     checked_set: set[str] = set()
     missing_prefix_set: set[str] = set()
-    for _, p in pages:
+    broken_details: list[dict] = []
+    seen_broken: set[tuple[str, str, str]] = set()
+
+    def _page_source(rel: str) -> str:
+        if rel == "/":
+            return "public/index.html"
+        path = PUBLIC / rel.lstrip("/")
+        if rel.endswith("/"):
+            html = path / "index.html"
+            return f"public/{html.relative_to(PUBLIC).as_posix()}" if html.is_file() else f"public{rel}"
+        html = Path(str(path) + ".html")
+        if html.is_file():
+            return f"public/{html.relative_to(PUBLIC).as_posix()}"
+        idx = path / "index.html"
+        if idx.is_file():
+            return f"public/{idx.relative_to(PUBLIC).as_posix()}"
+        return f"public{rel}"
+
+    for page_rel, p in pages:
+        source = _page_source(page_rel)
         for href in p.links:
             href_s = href.strip()
             if href_s.startswith("/") and not href_s.startswith(SITE_PREFIX + "/"):
@@ -513,14 +533,31 @@ def run_audit() -> dict:
             if alt in pub_paths or (norm + "index.html") in pub_paths:
                 continue
             broken_set.add(norm)
+            key = (source, href_s, norm)
+            if key not in seen_broken:
+                seen_broken.add(key)
+                broken_details.append({
+                    "source_page": page_rel,
+                    "source_file": source,
+                    "href": href_s,
+                    "target": norm,
+                    "status": "404",
+                    "reason": "Target not found in public/ after zola build",
+                    "auto_fix_status": "pending",
+                })
+
     broken = len(broken_set)
     checked = len(checked_set)
     link_status = "pass" if broken == 0 else ("warn" if broken <= 5 else "fail")
-    cat_items["links"].append({
+    link_detail = "all valid" if broken == 0 else f"{broken} broken / {checked} unique"
+    link_item: dict = {
         "label": "Internal links",
         "status": link_status,
-        "detail": "all valid" if broken == 0 else f"{broken} broken / {checked} unique",
-    })
+        "detail": link_detail,
+    }
+    if broken_details:
+        link_item["broken"] = broken_details[:20]
+    cat_items["links"].append(link_item)
     prefix_missing = len(missing_prefix_set)
     prefix_status = "pass" if prefix_missing == 0 else ("warn" if prefix_missing <= 5 else "fail")
     cat_items["links"].append({
@@ -600,6 +637,15 @@ def run_audit() -> dict:
     highlights = highlights[:8]
 
     now = datetime.now(timezone.utc)
+    link_report = {
+        "updated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "summary": {
+            "broken_count": broken,
+            "checked_unique": checked,
+            "status": link_status,
+        },
+        "links": broken_details,
+    }
     return {
         "updated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "score": score,
@@ -615,6 +661,7 @@ def run_audit() -> dict:
         "highlights": highlights,
         "pages_scanned": len(pages),
         "articles_scanned": len(articles),
+        "link_report": link_report,
     }
 
 
@@ -625,6 +672,11 @@ def main() -> int:
 
     result = run_audit()
     DATA.mkdir(exist_ok=True)
+    link_report = result.pop("link_report", {"links": [], "summary": {}})
+    LINK_REPORT_FILE.write_text(
+        json.dumps(link_report, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     OUT_FILE.write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",

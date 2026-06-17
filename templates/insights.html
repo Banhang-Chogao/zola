@@ -42,6 +42,7 @@
         {% set compliance_pages = compliance_data.pages_scanned | default(value=0) %}
         {% set compliance_fix_log = compliance_data.fix_log | default(value=[]) %}
         {% set compliance_fix_summary = compliance_data.fix_summary | default(value=false) %}
+        {% set compliance_link_report = load_data(path="data/compliance-link-report.json", required=false) %}
     {% else %}
         {% set compliance_score = 0 %}
         {% set compliance_grade = "—" %}
@@ -55,6 +56,7 @@
         {% set compliance_pages = 0 %}
         {% set compliance_fix_log = [] %}
         {% set compliance_fix_summary = false %}
+        {% set compliance_link_report = false %}
     {% endif %}
 
     {% set now_ts = now(timestamp=true) %}
@@ -247,13 +249,35 @@
                     </ul>
                     {% endif %}
 
+                    {% if compliance_link_report and compliance_link_report.links | length > 0 %}
+                    <div class="insights__compliance-links" aria-label="Broken internal links">
+                        <p class="insights__compliance-fixes-title">Broken internal links</p>
+                        <ul class="insights__compliance-fix-list">
+                            {% for lk in compliance_link_report.links %}
+                            {% if loop.index0 < 5 %}
+                            <li class="insights__compliance-fix-item insights__compliance-fix-item--failed">
+                                <span class="insights__compliance-fix-badge">broken</span>
+                                <span class="insights__compliance-fix-text">
+                                    <strong>{{ lk.source_file | default(value=lk.source_page) }}</strong><br>
+                                    Target: <code>{{ lk.target }}</code><br>
+                                    Reason: {{ lk.reason | default(value="404 Not Found") }}
+                                </span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% elif compliance_link_report and compliance_link_report.summary.broken_count == 0 %}
+                    <p class="insights__compliance-links-ok">No broken internal links found</p>
+                    {% endif %}
+
                     {% if compliance_fix_log | length > 0 %}
                     <div class="insights__compliance-fixes" aria-label="Auto-fix log">
                         <p class="insights__compliance-fixes-title">Auto-fix (ưu tiên thấp)</p>
                         {% if compliance_fix_summary %}
                         <p class="insights__compliance-fixes-meta">
                             {{ compliance_fix_summary.fixed }} đã sửa ·
-                            {{ compliance_fix_summary.failed }} thất bại ·
+                            {{ compliance_fix_summary.failed }} autofix miss ·
                             {{ compliance_fix_summary.skipped }} bỏ qua
                         </p>
                         {% endif %}
@@ -261,9 +285,13 @@
                             {% for fx in compliance_fix_log %}
                             {% if fx.outcome == "failed" or fx.outcome == "fixed" %}
                             <li class="insights__compliance-fix-item insights__compliance-fix-item--{{ fx.outcome }}">
-                                <span class="insights__compliance-fix-badge">{{ fx.outcome }}</span>
+                                <span class="insights__compliance-fix-badge">
+                                    {% if fx.outcome == "failed" %}autofix{% else %}{{ fx.outcome }}{% endif %}
+                                </span>
                                 <span class="insights__compliance-fix-text">
-                                    <strong>{{ fx.category }}: {{ fx.label }}</strong> — {{ fx.message }}
+                                    <strong>{{ fx.category }}: {{ fx.label }}</strong>
+                                    (check: {{ fx.check_status | default(value="warn") }}) —
+                                    {{ fx.message }}
                                 </span>
                             </li>
                             {% endif %}

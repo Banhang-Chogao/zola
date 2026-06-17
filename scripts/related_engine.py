@@ -143,6 +143,9 @@ def load_posts() -> list[PostRecord]:
                 print(f"WARN: skip {path}: {exc}", file=sys.stderr)
                 continue
 
+            if meta.get("draft") is True:
+                continue
+
             tax = meta.get("taxonomies") or {}
             cats = [c for c in tax.get("categories", []) if c not in SKIP_CATEGORIES]
             tags = list(tax.get("tags", []) or [])
