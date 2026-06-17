@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:25:52Z",
+  "updated_at": "2026-06-17T13:26:34Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 27,
-    "success": 25,
+    "total": 28,
+    "success": 26,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27692317065,
+      "run_number": 590,
+      "commit_id": "f9827226e9a57beab14189ea7b3094b175dba65d",
+      "commit_short": "f982722",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/f9827226e9a57beab14189ea7b3094b175dba65d",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692317065",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #590 — Kiểm tra QA Gatekeeper: ci: PR policy + main guard + batch merge (10 PR/batch)",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:25:41Z",
+      "duration_sec": 19
+    },
     {
       "id": 27692267616,
       "run_number": 370,
