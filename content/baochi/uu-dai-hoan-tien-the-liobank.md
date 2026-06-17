@@ -62,7 +62,7 @@ Muốn hiểu thêm vì sao kỷ luật chi tiêu lại quan trọng, mời bạ
 
 Ngoài hoàn tiền khi chi tiêu, Liobank còn có chương trình giới thiệu bạn bè nhận thưởng tới 500.000đ mỗi lượt — tôi đã viết riêng một bài chi tiết: [giới thiệu bạn mở thẻ Liobank nhận thưởng](/zola/baochi/liobank-gioi-thieu-ban-be-nhan-thuong/). Tức là lợi ích đến từ hai phía: tiêu được hoàn, mời bạn được thưởng.
 
-Nếu bạn muốn bắt đầu, đăng ký qua **link giới thiệu của tôi**: [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) (nhớ sao chép link mở bằng trình duyệt, rồi kích hoạt thẻ vật lý để nhận hoàn tiền). Điều khoản ưu đãi cập nhật mới nhất luôn xem tại [website Liobank](https://www.liobank.com.vn/).
+Nếu bạn muốn bắt đầu, đăng ký qua **link giới thiệu của tôi**: [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) (nhớ sao chép link mở bằng trình duyệt, rồi kích hoạt thẻ vật lý để nhận hoàn tiền). Điều khoản ưu đãi cập nhật mới nhất luôn xem tại [website Liobank](https://liobank.vn/).
 
 ## Tóm lại
 

@@ -69,7 +69,7 @@ Vậy là trọn bộ 5 phần về Liobank đã xong:
 - Phần 4: [Bảo mật an toàn](/zola/baochi/liobank-bao-mat-an-toan-the-nao/)
 - Phần 5: Quản lý chi tiêu (bài này)
 
-Nếu cả series đã thuyết phục được bạn, hãy thử trải nghiệm: đăng ký qua **link giới thiệu của tôi** [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) — sao chép link mở bằng trình duyệt, tải app và kích hoạt thẻ vật lý để nhận hoàn tiền. Đừng quên Liobank còn có [chương trình giới thiệu nhận thưởng tới 500.000đ](/zola/baochi/liobank-gioi-thieu-ban-be-nhan-thuong/) khi bạn mời thêm bạn bè. Thông tin chính thức luôn xem tại [website Liobank](https://www.liobank.com.vn/).
+Nếu cả series đã thuyết phục được bạn, hãy thử trải nghiệm: đăng ký qua **link giới thiệu của tôi** [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) — sao chép link mở bằng trình duyệt, tải app và kích hoạt thẻ vật lý để nhận hoàn tiền. Đừng quên Liobank còn có [chương trình giới thiệu nhận thưởng tới 500.000đ](/zola/baochi/liobank-gioi-thieu-ban-be-nhan-thuong/) khi bạn mời thêm bạn bè. Thông tin chính thức luôn xem tại [website Liobank](https://liobank.vn/).
 
 ## Tóm lại
 

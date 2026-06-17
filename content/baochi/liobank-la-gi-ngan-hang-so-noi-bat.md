@@ -69,6 +69,6 @@ Ngược lại, nếu bạn vẫn thích cầm sổ tiết kiệm giấy và ra 
 
 ## Muốn thử Liobank ngay?
 
-Nếu đọc xong bạn đã muốn trải nghiệm, có thể đăng ký qua **link giới thiệu của tôi**: [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ). Mẹo nhỏ: hãy **sao chép link và mở bằng trình duyệt** (Chrome, Safari) thay vì bấm trực tiếp trong Zalo/Messenger, rồi tải app và kích hoạt thẻ vật lý để được nhận hoàn tiền. Thông tin chính thức bạn luôn nên đối chiếu tại [website Liobank](https://www.liobank.com.vn/).
+Nếu đọc xong bạn đã muốn trải nghiệm, có thể đăng ký qua **link giới thiệu của tôi**: [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ). Mẹo nhỏ: hãy **sao chép link và mở bằng trình duyệt** (Chrome, Safari) thay vì bấm trực tiếp trong Zalo/Messenger, rồi tải app và kích hoạt thẻ vật lý để được nhận hoàn tiền. Thông tin chính thức bạn luôn nên đối chiếu tại [website Liobank](https://liobank.vn/).
 
 Hẹn bạn ở Phần 2, nơi tôi hướng dẫn mở thẻ Liobank online từ A đến Z.

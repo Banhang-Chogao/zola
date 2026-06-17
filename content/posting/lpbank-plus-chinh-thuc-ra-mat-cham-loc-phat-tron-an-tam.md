@@ -16,7 +16,7 @@ seo_keyword = "LPBank Plus"
 
 Từ ngày 28/03/2026, LPBank chính thức giới thiệu LPBank Plus – ứng dụng ngân hàng số thế hệ mới được phát triển theo định hướng AI-first, đưa trí tuệ nhân tạo vào trải nghiệm ngân hàng hằng ngày để giúp giao dịch trở nên nhanh hơn, thuận tiện hơn và an toàn hơn.
 
-Theo [báo cáo McKinsey Global Banking Annual Review 2025](https://www.mckinsey.com/industries/financial-services/our-insights/global-banking-annual-review), trải nghiệm khách hàng đang trở thành yếu tố cạnh tranh quan trọng của ngành ngân hàng trên toàn cầu. Xuất phát từ nhu cầu thực tế của khách hàng và những thay đổi trong hành vi sử dụng dịch vụ số, LPBank phát triển LPBank Plus với mong muốn mang đến một trải nghiệm ngân hàng hiện đại, dễ sử dụng và phù hợp hơn với từng người dùng.
+Theo [báo cáo McKinsey Global Banking Annual Review 2025](https://web.archive.org/web/20250101000000/https://www.mckinsey.com/industries/financial-services/our-insights/global-banking-annual-review), trải nghiệm khách hàng đang trở thành yếu tố cạnh tranh quan trọng của ngành ngân hàng trên toàn cầu. Xuất phát từ nhu cầu thực tế của khách hàng và những thay đổi trong hành vi sử dụng dịch vụ số, LPBank phát triển LPBank Plus với mong muốn mang đến một trải nghiệm ngân hàng hiện đại, dễ sử dụng và phù hợp hơn với từng người dùng.
 
 LPBank Plus được xây dựng dựa trên 3 giá trị cốt lõi:
 

@@ -62,4 +62,4 @@ Tôi nói thẳng: phần lớn vụ mất tiền không phải do hệ thống 
 
 ## Tóm lại
 
-Liobank bảo mật theo nhiều lớp eKYC, sinh trắc học, OTP và cảnh báo tức thời — đủ để bạn yên tâm giao dịch mỗi ngày. Nhưng lớp khoá mạnh nhất vẫn là sự cảnh giác của chính bạn: không nhập thông tin vào link lạ, không đọc OTP cho bất kỳ ai. Nếu muốn trải nghiệm thử, đăng ký qua [link giới thiệu của tôi](https://liobank.vn/rr/qyAJ) (sao chép mở bằng trình duyệt) và xem điều khoản tại [website Liobank](https://www.liobank.com.vn/). Phần cuối series, tôi sẽ nói về [quản lý chi tiêu với app Liobank](/zola/baochi/quan-ly-chi-tieu-voi-app-liobank/).
+Liobank bảo mật theo nhiều lớp eKYC, sinh trắc học, OTP và cảnh báo tức thời — đủ để bạn yên tâm giao dịch mỗi ngày. Nhưng lớp khoá mạnh nhất vẫn là sự cảnh giác của chính bạn: không nhập thông tin vào link lạ, không đọc OTP cho bất kỳ ai. Nếu muốn trải nghiệm thử, đăng ký qua [link giới thiệu của tôi](https://liobank.vn/rr/qyAJ) (sao chép mở bằng trình duyệt) và xem điều khoản tại [website Liobank](https://liobank.vn/). Phần cuối series, tôi sẽ nói về [quản lý chi tiêu với app Liobank](/zola/baochi/quan-ly-chi-tieu-voi-app-liobank/).
