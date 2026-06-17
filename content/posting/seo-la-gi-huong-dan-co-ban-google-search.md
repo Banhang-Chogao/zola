@@ -79,7 +79,7 @@ Cách làm này khớp chiến lược blog tôi đã ghi trong nội bộ: **pi
 Các bài sau sẽ lần lượt cover toàn bộ [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide):
 
 1. **Bài 1** (bài này): SEO là gì & Search Essentials.
-2. **Bài 2**: Google Search hoạt động thế nào — crawl, index, serve *(sẽ có link khi PR #2 merge)*.
+2. **Bài 2**: [Google Search hoạt động thế nào](/zola/posting/google-search-hoat-dong-the-nao/) — crawl, index, serve.
 3. **Bài 3**: Bao lâu để thấy kết quả SEO?
 4. **Bài 4**: Giúp Google tìm nội dung (sitemap, liên kết, `site:`).
 5. **Bài 5–15**: Cấu trúc URL, canonical, nội dung people-first, anchor text, title/snippet, ảnh/video, quảng bá & myth SEO.
