@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T23:51:24Z",
+  "updated_at": "2026-06-17T23:53:15Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
@@ -13,15 +13,15 @@
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27726917760,
-      "run_number": 565,
+      "id": 27727214981,
+      "run_number": 566,
       "status_normalized": "success",
       "status_vi": "Thành công",
       "gh_status": "completed",
       "conclusion": "success",
-      "started_at": "2026-06-17T23:43:47Z",
-      "summary_vi": "Build #565 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-17T23:43:44Z) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726917760"
+      "started_at": "2026-06-17T23:51:27Z",
+      "summary_vi": "Build #566 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T23:51:25Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727214981"
     },
     "qa.yml": {
       "id": 27726789059,
@@ -38,15 +38,15 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27726917760,
-      "run_number": 565,
+      "id": 27727214981,
+      "run_number": 566,
       "status_normalized": "success",
       "status_vi": "Thành công",
       "gh_status": "completed",
       "conclusion": "success",
-      "started_at": "2026-06-17T23:43:47Z",
-      "summary_vi": "Build #565 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-17T23:43:44Z) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726917760"
+      "started_at": "2026-06-17T23:51:27Z",
+      "summary_vi": "Build #566 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T23:51:25Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727214981"
     },
     {
       "workflow_file": "qa.yml",
@@ -1177,9 +1177,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-17T23:53:15Z",
+      "stats": {
+        "total": 30,
+        "success": 21,
+        "failure": 0,
+        "cancelled": 9,
+        "skipped": 0,
+        "in_progress": 0
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27727214981,
+          "run_number": 566,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-17T23:51:27Z",
+          "summary_vi": "Build #566 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T23:51:25Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727214981"
+        },
+        "qa.yml": {
+          "id": 27726789059,
+          "run_number": 1497,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-17T23:40:34Z",
+          "summary_vi": "Build #1497 — Kiểm tra QA Gatekeeper: feat(sidebar): add Google Rank SEO authority widget (#387)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726789059"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27727214981,
+      "run_number": 566,
+      "commit_id": "9ca47240d38f1a1e860be274677e6cc807e8e2ec",
+      "commit_short": "9ca4724",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/9ca47240d38f1a1e860be274677e6cc807e8e2ec",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727214981",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #566 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T23:51:25Z) [skip changelog]",
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "success",
+      "cancel_reason": "",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T23:51:27Z",
+      "duration_sec": 46
+    },
     {
       "id": 27726917760,
       "run_number": 565,
@@ -1531,28 +1589,6 @@
       "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #553).",
       "started_at": "2026-06-17T23:34:11Z",
       "duration_sec": 5
-    },
-    {
-      "id": 27726544324,
-      "run_number": 551,
-      "commit_id": "08aef02d2496e338d7d88b54a43d6c536cdd4d58",
-      "commit_short": "08aef02",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/08aef02d2496e338d7d88b54a43d6c536cdd4d58",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726544324",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #551 — Deploy blog lên GitHub Pages: feat(sidebar): add Google Rank SEO authority widget (#385)",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T23:34:09Z",
-      "duration_sec": 53
     },
     {
       "id": 27726544339,
