@@ -46,6 +46,9 @@ jobs:
         run: |
           python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard -v
 
+      - name: L-Dashboard frontend smoke (source)
+        run: python3 -m unittest scripts.test_l_dashboard_smoke.LDashboardSmokeTest.test_auth_gate_uses_ld_view_dataset scripts.test_l_dashboard_smoke.LDashboardSmokeTest.test_template_has_login_and_dashboard_views scripts.test_l_dashboard_smoke.LDashboardSmokeTest.test_show_view_logic_matches_f_dashboard_pattern -v
+
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
         run: python3 qa_check.py
 
@@ -65,6 +68,9 @@ jobs:
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: zola build
+
+      - name: L-Dashboard frontend smoke (built HTML)
+        run: python3 -m unittest scripts.test_l_dashboard_smoke.LDashboardSmokeTest.test_built_page_renders_sections -v
 
       - name: Check GitHub Pages base path in internal links
         run: python3 scripts/check_internal_links.py
