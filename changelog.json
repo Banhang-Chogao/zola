@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 351,
+      "lines_added": 325,
+      "lines_removed": 325,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "Gắn label no-auto-merge nếu cần giữ PR chờ review tay"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(prompt-support): v2 token-efficient prompt optimizer for AI agents",
       "tag": "chore",
       "pr": 346,
