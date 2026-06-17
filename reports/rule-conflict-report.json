@@ -1,100 +1,18 @@
 {
-  "updated_at": "2026-06-17T17:25:12Z",
+  "updated_at": "2026-06-17T17:30:23Z",
   "repo": "Banhang-Chogao/zola",
   "summary": {
-    "total_conflicts": 5,
+    "total_conflicts": 0,
     "by_severity": {
       "LOW": 0,
       "MEDIUM": 0,
-      "HIGH": 4,
-      "CRITICAL": 1
+      "HIGH": 0,
+      "CRITICAL": 0
     },
     "loop_detected": false,
     "loop_reason": "",
     "fixes_applied": [],
     "auto_fix_threshold": 0.9
   },
-  "conflicts": [
-    {
-      "id": "claude_cancelled_classification",
-      "category": "CLAUDE.md",
-      "severity": "HIGH",
-      "title": "Rule mâu thuẫn trong CLAUDE.md: claude_cancelled_classification",
-      "rule_a": "ard.py` |\n| **Prevention rule** | Không classify GitHub Actions `cancelled` là `failed`. Concurrency cancellation = non-critical trừ khi **mọi** deploy run mới nhất",
-      "rule_b": "dashboard.py` |\n| **Prevention rule** | Không classify GitHub Actions `cancelled` là `failed`. Concurrency cancellation = non-critical trừ khi **mọi** deploy run mới nhất",
-      "resolution": "GitHub conclusion cancelled ≠ failure; dashboard dùng status_normalized.",
-      "confidence": 0.92,
-      "files": [
-        "CLAUDE.md"
-      ],
-      "auto_fixable": false
-    },
-    {
-      "id": "agent_opposing_fix_links_restore_links",
-      "category": "AI Agents",
-      "severity": "HIGH",
-      "title": "Bot sửa link vs bot khôi phục link",
-      "rule_a": "fix_links: scripts/.venv-fd/lib/python3.14/site-packages/pip/_internal/locations/base.py, scripts/.venv-fd/lib/python3.14/site-packages/pip/_internal/metadata/importlib/_envs.py, scripts/autofix_conflicts.py, scripts/check_internal_links.py",
-      "rule_b": "restore_links: scripts/qa-auto-rule-checker.py",
-      "resolution": "Làm rõ precedence trong CLAUDE.md; gắn no-auto-merge cho bot report-only.",
-      "confidence": 0.72,
-      "files": [
-        "scripts/.venv-fd/lib/python3.14/site-packages/pip/_internal/locations/base.py",
-        "scripts/.venv-fd/lib/python3.14/site-packages/pip/_internal/metadata/importlib/_envs.py",
-        "scripts/autofix_conflicts.py",
-        "scripts/check_internal_links.py",
-        "scripts/compliance_audit.py",
-        "scripts/compliance_fix.py"
-      ],
-      "auto_fixable": false
-    },
-    {
-      "id": "agent_opposing_auto_merge_block_merge",
-      "category": "AI Agents",
-      "severity": "HIGH",
-      "title": "Auto-merge vs chặn merge thủ công",
-      "rule_a": "auto_merge: scripts/autofix_conflicts.py, scripts/fetch_merge_report.py, scripts/performance_qa_checker.py, scripts/qa-auto-rule-checker.py",
-      "rule_b": "block_merge: scripts/autofix_conflicts.py, scripts/performance_qa_checker.py, scripts/qa-auto-rule-checker.py, scripts/try_auto_merge.py",
-      "resolution": "Làm rõ precedence trong CLAUDE.md; gắn no-auto-merge cho bot report-only.",
-      "confidence": 0.72,
-      "files": [
-        "scripts/autofix_conflicts.py",
-        "scripts/fetch_merge_report.py",
-        "scripts/performance_qa_checker.py",
-        "scripts/qa-auto-rule-checker.py",
-        "scripts/try_auto_merge.py",
-        ".github/scripts/push_via_pr.sh"
-      ],
-      "auto_fixable": false
-    },
-    {
-      "id": "workflow_duplicate_deploy_main",
-      "category": "GitHub Workflows",
-      "severity": "HIGH",
-      "title": "Nhiều workflow deploy trên push main",
-      "rule_a": "deploy.yml (Build and deploy Zola site to GitHub Pages); qa.yml (QA Gatekeeper)",
-      "rule_b": "Chỉ một workflow nên deploy production (deploy.yml)",
-      "resolution": "Gộp deploy logic hoặc tắt deploy trùng trên các workflow phụ.",
-      "confidence": 0.7,
-      "files": [
-        ".github/workflows/"
-      ],
-      "auto_fixable": false
-    },
-    {
-      "id": "seo_robots_disallow_root",
-      "category": "SEO Rules",
-      "severity": "CRITICAL",
-      "title": "robots.txt Disallow / xung đột với meta index",
-      "rule_a": "robots.txt: Disallow /",
-      "rule_b": "base.html: index, follow",
-      "resolution": "Sửa robots.txt Allow / và khai báo Sitemap.",
-      "confidence": 0.98,
-      "files": [
-        "static/robots.txt",
-        "templates/base.html"
-      ],
-      "auto_fixable": true
-    }
-  ]
+  "conflicts": []
 }

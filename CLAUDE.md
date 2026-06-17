@@ -777,3 +777,16 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 **Anti-loop:** dừng khi cùng conflict auto-fix ≥3 lần hoặc >2 PR rule-checker mở.
 
 **Manual:** `python3 scripts/qa-auto-rule-checker.py --dry-run`
+
+## QA Rule Checker Learning
+
+**Date:** 2026-06-18T00:00:00Z
+
+**Conflict:** `seo_robots_disallow_root` CRITICAL — false positive (scanner khớp `Disallow: /editor/` như `Disallow: /`).
+
+**Root Cause:** Regex `disallow: /` substring match trên `Disallow: /data/`, `/editor/`; `fix_attempts` tăng khi conflict còn tồn tại dù không sửa file → anti-loop STOP giả.
+
+**Resolution:** `_robots_disallows_root()` chỉ match `Disallow: /` end-of-line; bỏ qua `.venv*` trong agent scan; deploy workflow = `pages: write` only; `fix_attempts` chỉ khi file thật sự đổi.
+
+**Prevention:** Chạy `--dry-run` sau khi sửa scanner; reset `data/qa-rule-checker-state.json` khi loop flag do false positive.
+
