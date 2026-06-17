@@ -579,13 +579,12 @@
         <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
     </nav>
 
-    {% set search_cx = config.extra.google_cse_cx | default(value="") %}
     <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
         <div class="site-search__backdrop" data-search-close></div>
         <section class="site-search__panel">
             <div class="site-search__head">
                 <div>
-                    <p class="site-search__eyebrow">Google Search</p>
+                    <p class="site-search__eyebrow">Search nội bộ</p>
                     <h2 class="site-search__title" id="site-search-title">Tìm trong blog</h2>
                 </div>
                 <button class="site-search__close" type="button" aria-label="Đóng tìm kiếm" data-search-close>
@@ -595,8 +594,7 @@
                     </svg>
                 </button>
             </div>
-            <form class="site-search__fallback" action="https://www.google.com/search" method="get" target="_blank" rel="noopener" data-local-search-form>
-                <input type="hidden" name="sitesearch" value="banhang-chogao.github.io/zola">
+            <form class="site-search__fallback" role="search" data-local-search-form>
                 <label class="site-search__field">
                     <span class="site-search__field-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
@@ -606,19 +604,11 @@
                     </span>
                     <input type="search" name="q" placeholder="Nhập từ khóa..." autocomplete="off" data-search-input>
                 </label>
-                <button class="site-search__submit" type="submit">Google</button>
+                <button class="site-search__submit" type="submit">Tìm</button>
             </form>
             <div class="site-search__local" data-local-search-results aria-live="polite">
                 <p class="site-search__note">Nhập từ khóa để tìm trực tiếp trong bài viết của blog.</p>
             </div>
-            {% if search_cx %}
-                <details class="site-search__google">
-                    <summary>Kết quả Google đã index</summary>
-                    <div class="site-search__gse">
-                        <div class="gcse-search" data-linktarget="_self"></div>
-                    </div>
-                </details>
-            {% endif %}
         </section>
     </div>
     {% set search_posting = get_section(path="posting/_index.md") %}
@@ -633,7 +623,7 @@
             "date": {{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") | json_encode | safe }},
             "description": {{ page.description | default(value="") | json_encode | safe }},
             "summary": {{ page.summary | default(value="") | striptags | json_encode | safe }},
-            "body": {{ page.content | striptags | truncate(length=2400, end="") | json_encode | safe }},
+            "body": {{ page.content | striptags | json_encode | safe }},
             "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
             "tags": {% if page.taxonomies.tags %}{{ page.taxonomies.tags | join(sep=" ") | json_encode | safe }}{% else %}""{% endif %},
             "keyword": {{ page.extra.seo_keyword | default(value="") | json_encode | safe }}
@@ -736,13 +726,13 @@
                     </section>
 
                     {# CATEGORIES #}
-                    <section class="sidebar-block">
+                    <section class="sidebar-block sidebar-block--categories">
                         <h3 class="sidebar-label">DANH MỤC</h3>
                         <ul class="cat-list">
                             {% set cats = get_taxonomy(kind="categories") %}
                             {% for c in cats.items %}
-                                <li>
-                                    <a href="{{ c.permalink }}">{{ c.name }}</a>
+                                <li class="cat-list__item">
+                                    <a class="cat-list__link" href="{{ c.permalink }}">{{ c.name }}</a>
                                     <span class="cat-list__count">{{ c.pages | length }}</span>
                                 </li>
                             {% endfor %}
@@ -1075,9 +1065,6 @@
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/cache-clear.js') }}?v={{ asset_version }}" defer></script>
-    {% if search_cx %}
-        <script async src="https://cse.google.com/cse.js?cx={{ search_cx | urlencode }}"></script>
-    {% endif %}
     <script src="{{ get_url(path='js/theme-switcher.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}

@@ -897,7 +897,7 @@
 }
 
 /* ============================================================================
-   SITE SEARCH — Google Programmable Search modal
+   SITE SEARCH — local/offline blog search modal
    Hilda: white panel, Ericsson Blue accent, 4px radius, 8px spacing scale.
    ============================================================================ */
 .site-search {
@@ -1038,6 +1038,43 @@
     margin-top: 16px;
   }
 
+  &__summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+
+    div {
+      min-width: 0;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background: #f8fafc;
+    }
+
+    span {
+      display: block;
+      color: #666666;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    strong {
+      display: block;
+      min-width: 0;
+      margin-top: 4px;
+      color: #003784;
+      font-size: 18px;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
   &__count {
     color: #003784;
     font-size: 13px;
@@ -1075,6 +1112,21 @@
     }
   }
 
+  &__result-url {
+    display: block;
+    margin-top: 6px;
+    color: #00756f;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      color: #005a55;
+      text-decoration: underline;
+    }
+  }
+
   &__result-meta {
     margin-top: 4px;
     color: #666666;
@@ -1089,57 +1141,6 @@
     line-height: 1.55;
   }
 
-  &__google {
-    margin-top: 16px;
-    border-top: 1px solid #e0e0e0;
-    padding-top: 16px;
-
-    summary {
-      color: #666666;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    &[open] summary {
-      color: #003784;
-      margin-bottom: 12px;
-    }
-  }
-
-  &__gse {
-    min-height: 160px;
-
-    .gsc-control-cse {
-      padding: 0;
-      border: 0;
-      background: transparent;
-      font-family: inherit;
-    }
-
-    .gsc-input-box,
-    table.gsc-search-box td.gsc-input {
-      border-color: #e0e0e0;
-    }
-
-    input.gsc-input {
-      font-size: 16px;
-      color: #333333;
-    }
-
-    .gsc-search-button-v2 {
-      min-width: 48px;
-      height: 44px;
-      padding: 10px 16px;
-      border: 0;
-      border-radius: 4px;
-      background: #003784;
-
-      &:hover {
-        background: #002566;
-      }
-    }
-  }
 }
 
 body.search-open {
@@ -1160,6 +1161,10 @@ body.search-open {
     }
 
     &__fallback {
+      grid-template-columns: 1fr;
+    }
+
+    &__summary {
       grid-template-columns: 1fr;
     }
 

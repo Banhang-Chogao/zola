@@ -7,13 +7,8 @@
    - NON-COLOR tokens (radius, shadow, kicker-spacing) override
      per theme qua SCSS mixin (build-time).
 
-   Themes có rules trong file này:
-   - data-theme="zx"   → ZaloPay (soft radius 14px, blue accent)
-   - data-theme="ex"   → Ericsson nhẹ (radius 6px, blue)
-   - data-theme="hila" → Newsroom full (sharp 4px, black border)
-
-   Default BrandingX KHÔNG override → zero regression với existing
-   styling.
+   Theme hiện hành: Hilda/Ericsson Professional. Các block legacy vẫn được
+   giữ để build ổn định, nhưng lớp cuối file cưỡng bức UI về Hilda tokens.
 
    ============================================================
    Quy tắc CLAUDE.md tuân thủ:
@@ -466,5 +461,295 @@
     .cat-tag         { padding: 4px 10px;  font-size: 0.65rem; }  /* khớp mobile cũ */
     .tag-list__tag   { padding: 5px 10px;  font-size: 12px; }
     .pagination__btn { padding: 8px 14px;  font-size: 13px; }
+  }
+}
+
+/* ============================================================
+   ===== HILDA COMPLIANCE PATCH — shell, CMS, search, docs =====
+   ============================================================
+   Final override layer for older UI surfaces that still carried pre-Hilda
+   colors, pill radii, or rainbow gradients. */
+:root,
+:root[data-theme="hilda"] {
+  .cms-brand__btn {
+    border-radius: 4px;
+    background: #003784;
+    background-size: auto;
+    animation: none;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+    transform: none;
+    letter-spacing: 0.05em;
+
+    &:hover {
+      background: #002566;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+    }
+
+    .cms-brand__tag {
+      color: #003784;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .cms-brand__spark {
+      animation: none;
+    }
+  }
+
+  .editor-login__modal,
+  .editor-user-bar,
+  .editor-header-widget,
+  .editor-card,
+  .editor-status,
+  .editor-modal__content,
+  .editor-draft-banner,
+  .editor-table,
+  .editor-preview,
+  .editor-content-wrap {
+    border-radius: 4px;
+    border-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+  }
+
+  .editor-header-widget {
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .editor-header-widget__stat,
+  .editor-header-widget__latest,
+  .editor-input,
+  .editor-btn,
+  .editor-badge,
+  .editor-md-btn,
+  .editor-tab,
+  .editor-modal__content,
+  .editor-login__error,
+  .editor-login__hint {
+    border-radius: 4px;
+  }
+
+  .editor-header-widget__stat,
+  .editor-header-widget__latest,
+  .site-search__summary div {
+    background: #f4f4f4;
+    border-color: #e0e0e0;
+  }
+
+  .editor-header-widget__icon {
+    color: #003784;
+    border-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .editor-user-bar__role,
+  .editor-btn--success,
+  .editor-status--success {
+    background: #00a69d;
+    border-color: #00a69d;
+    color: #ffffff;
+  }
+
+  .editor-input {
+    border-color: #d0d0d0;
+    color: #333333;
+
+    &::placeholder { color: #666666; }
+
+    &:hover { border-color: #003784; }
+
+    &:focus {
+      border-color: #003784;
+      box-shadow: 0 0 0 3px rgba(0, 55, 132, 0.16);
+    }
+  }
+
+  .editor-btn--primary,
+  .editor-login__button,
+  .site-search__submit {
+    background: #003784;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+
+    &:hover {
+      background: #002566;
+      color: #ffffff;
+      box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+    }
+  }
+
+  .editor-btn--danger,
+  .editor-status--error {
+    background: #e30613;
+    border-color: #e30613;
+    color: #ffffff;
+  }
+
+  .editor-btn--ghost,
+  .editor-search-input,
+  .site-search__field,
+  .site-search__result {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    color: #333333;
+  }
+
+  .editor-help a,
+  .editor-header-widget a,
+  .site-search__result-title,
+  .site-search__result-url {
+    color: #003784;
+
+    &:hover {
+      color: #002566;
+      border-bottom-color: rgba(0, 55, 132, 0.35);
+    }
+  }
+
+  .site-search__panel {
+    border-radius: 4px;
+    border-color: #e0e0e0;
+    border-top-color: #003784;
+    box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+  }
+
+  .site-search__eyebrow,
+  .site-search__summary strong,
+  .site-search__count {
+    color: #003784;
+  }
+
+  .brandx__logo-text::after {
+    content: " Hilda";
+    color: #003784;
+  }
+
+  .brandx__swatch,
+  .brandx__comp,
+  .brandx-card,
+  .brandx-input,
+  .brandx-btn,
+  .brandx__type-row,
+  .brandx__rationale {
+    border-radius: 4px;
+    border-color: #e0e0e0;
+  }
+
+  .brandx__swatch:hover,
+  .brandx-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+  }
+
+  .post-single,
+  .author-box,
+  .related-card,
+  .taxonomy-list li,
+  .summary-card,
+  .vital-card,
+  .insights__details,
+  .insights__card,
+  .insights__stat,
+  .scoring-card,
+  .scoring-board,
+  .bao-cao-card,
+  .report-card,
+  .du-lich-card,
+  .fontguide__meta-item,
+  .fontguide__facts,
+  .fontguide__weight,
+  .fontguide__charset-block,
+  .fontguide__usage-col,
+  .fontguide__award,
+  .ad-banner,
+  .header-ad {
+    border-radius: 4px;
+    border-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+  }
+
+  .ad-banner,
+  .header-ad {
+    background: #003784;
+    border-left-color: #00a69d;
+
+    &::before {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent);
+    }
+  }
+
+  .ad-banner__image,
+  .header-ad__image,
+  .post-single__content img,
+  .author-box__avatar,
+  .du-lich-card__thumb,
+  .fontguide__swatch-chip {
+    border-radius: 4px;
+  }
+
+  .ad-banner__label,
+  .header-ad__label,
+  .post-stat__grade,
+  .footer-status,
+  .footer-qa__chip,
+  .scoring-badge,
+  .du-lich-card__rating,
+  .du-lich-card__source,
+  .brandx__section-num,
+  .brandx__group-label {
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .ad-banner__label,
+  .header-ad__label,
+  .edit-btn,
+  .brandx-btn--primary {
+    background: #003784;
+    border-color: #003784;
+    color: #ffffff;
+
+    &:hover {
+      background: #002566;
+      border-color: #002566;
+      color: #ffffff;
+    }
+  }
+
+  .ad-banner__arrow,
+  .header-ad__arrow,
+  .tag-list__tag:hover,
+  .taxonomy-list li:hover,
+  .post-stat--seo strong,
+  .author-box__name,
+  .single-meta a,
+  .fontguide__eyebrow,
+  .fontguide__section-title,
+  .brandx__section-title,
+  .brandx__swatch-info code,
+  .brandx__type-meta code {
+    color: #003784;
+  }
+
+  .tag-list__tag,
+  .brandx-btn--secondary,
+  .brandx-btn--ghost {
+    background: #f4f4f4;
+    border-color: #e0e0e0;
+    color: #333333;
+    border-radius: 4px;
+  }
+
+  .author-box,
+  .post-actions,
+  .post-stats {
+    border-color: #e0e0e0;
+  }
+
+  .edit-btn--ghost:hover,
+  .brandx-btn--secondary:hover,
+  .brandx-btn--ghost:hover {
+    background: #f4f4f4;
+    border-color: #003784;
+    color: #003784;
   }
 }
