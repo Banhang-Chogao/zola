@@ -608,7 +608,7 @@ Central guidelines (https://developers.google.com/search/docs).
    - `<img>` thiếu alt → liệt kê file cần manual add (KHÔNG đoán nội dung alt)
 3. **Pages-specific**:
    - Trigger PageSpeed Insights (`fetch_pagespeed.py`) cho 5 URL chính
-     (homepage, /posting/, 1 bài random, /branding/, /scoring/)
+     (homepage, /posting/, 1 bài random, /branding-guideline/, /scoring/)
    - Verify Mobile + Desktop scores SEO ≥ 95/100
 4. **Trigger sitemap ping Google**: GET
    `https://www.google.com/ping?sitemap=<url>` sau khi deploy

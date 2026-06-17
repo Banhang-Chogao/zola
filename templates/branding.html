@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}Hilda Branding | Hệ thống nhận diện thương hiệu{% endblock %}
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
 
 {% block main %}
 <section class="brandx">
@@ -8,7 +9,7 @@
     <header class="brandx__header">
         <div class="brandx__brand">
             <span class="brandx__logo-mark" aria-hidden="true">▣</span>
-            <span class="brandx__logo-text">Hilda Branding</span>
+            <span class="brandx__logo-text">Branding Guideline</span>
         </div>
         <nav class="brandx__nav">
             <a href="#colors">Colors</a>
@@ -308,7 +309,7 @@
 
     {# ===== FOOTER ===== #}
     <footer class="brandx__foot">
-        <p>Hilda Branding — Internal Brand Guideline v1.0</p>
+        <p>Branding Guideline — Hilda Design System v1.0</p>
         <p>Maintained by <a href="{{ config.base_url }}/about/">Duy Nguyen</a></p>
     </footer>
 </section>

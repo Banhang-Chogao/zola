@@ -76,7 +76,7 @@ menu = [
         { url = "$BASE_URL/changelog", name = "Changelog" },
         { url = "$BASE_URL/insights",  name = "Insights" },
         { url = "$BASE_URL/scoring",   name = "Scoring" },
-        { url = "$BASE_URL/branding",  name = "Branding" },
+        { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
         { url = "$BASE_URL/font",      name = "Font Guideline" },
     ] },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
