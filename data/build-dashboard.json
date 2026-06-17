@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T15:42:40Z",
+  "updated_at": "2026-06-17T15:49:45Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 27,
+    "total": 30,
+    "success": 28,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27701167734,
+      "run_number": 380,
+      "commit_id": "89d14939be36e33970f2fa42278944cc848c0d33",
+      "commit_short": "89d1493",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/89d14939be36e33970f2fa42278944cc848c0d33",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27701167734",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #380 — Deploy blog lên GitHub Pages: Merge pull request #275 from Banhang-Chogao/feat/cms-refresh-on-login",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:41:42Z",
+      "duration_sec": 466
+    },
     {
       "id": 27701167644,
       "run_number": 608,
