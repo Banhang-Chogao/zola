@@ -1,5 +1,5 @@
 +++
-title = "Thẻ tín dụng MSB: Hướng dẫn chi tiết ưu đãi và cách sử dụng hiệu quả"
+title = "Thẻ tín dụng MSB: ưu đãi và cách dùng hiệu quả"
 description = "Giải thích chi tiết thẻ tín dụng MSB, từ ưu đãi miễn phí, tích điểm x10, trả góp 0%, đến điều kiện áp dụng. Cách sử dụng thẻ tín dụng thông minh để tối đa hóa lợi ích."
 date = 2026-06-16
 [taxonomies]

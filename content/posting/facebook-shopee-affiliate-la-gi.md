@@ -1,5 +1,6 @@
 +++
-title = "Facebook Shopee Affiliate là gì? Hướng dẫn kiếm tiền từ nội dung cho người mới bắt đầu"
+title = "Facebook Shopee Affiliate là gì? Hướng dẫn người mới"
+description = "Facebook Shopee Affiliate là gì? Cách kết nối Facebook với Shopee, tính hoa hồng và chiến lược kiếm tiền từ nội dung cho người mới."
 date = 2026-06-17
 aliases = ["/facebook-shopee-affiliate-la-gi/"]
 

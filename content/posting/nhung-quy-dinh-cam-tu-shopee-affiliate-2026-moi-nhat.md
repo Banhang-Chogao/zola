@@ -1,5 +1,6 @@
 +++
 title = "Những Quy Định Cấm Từ Shopee Affiliate 2026 Mới Nhất"
+description = "Quy định cấm từ Shopee Affiliate 2026 mới nhất: từ khóa không được dùng, vi phạm thường gặp và cách tránh bị khóa tài khoản."
 date = 2026-06-17
 aliases = ["/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat/"]
 

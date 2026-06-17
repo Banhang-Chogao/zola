@@ -126,7 +126,8 @@
             {% set_global page_description = "Tổng hợp các bài viết thuộc chuyên mục " ~ section.title ~ " trên blog " ~ config.title ~ " — công nghệ, du lịch và những trải nghiệm cá nhân." %}
         {% endif %}
     {% elif term %}
-        {% set_global page_description = "Tất cả bài viết gắn với chủ đề " ~ term.name ~ " trên blog " ~ config.title ~ " — tuyển chọn nội dung công nghệ, du lịch và đời sống quanh chủ đề này." %}
+        {% set term_label = term.name | truncate(length=48, end="…") %}
+        {% set_global page_description = "Bài viết gắn thẻ " ~ term_label ~ " trên blog " ~ config.title ~ " — nội dung công nghệ, du lịch và đời sống." %}
     {% elif taxonomy %}
         {% if taxonomy.name == "tags" %}
             {% set_global page_description = "Mục lục toàn bộ thẻ (tags) phân loại bài viết trên blog " ~ config.title ~ " — duyệt nhanh nội dung theo đúng chủ đề bạn quan tâm." %}
@@ -134,6 +135,7 @@
             {% set_global page_description = "Danh sách các chuyên mục bài viết trên blog " ~ config.title ~ " — công nghệ, du lịch, ẩm thực và nhiều chủ đề thú vị khác." %}
         {% endif %}
     {% endif %}
+    {% set_global page_description = page_description | striptags | trim | truncate(length=159, end="…") %}
 
     {# Per-page title: dùng cùng logic block title nhưng cũng compute cho OG.
        Guard section.title null vì root _index.md không có title field. #}

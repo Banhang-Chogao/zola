@@ -1,5 +1,6 @@
 +++
 title = "Hiểu về Giới hạn Sử dụng và Giới hạn Độ dài trên Claude"
+description = "Phân biệt giới hạn sử dụng và giới hạn độ dài trên Claude AI, cách tối ưu prompt và tránh bị chặn khi làm việc với model."
 date = 2026-06-16
 aliases = ["/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/"]
 

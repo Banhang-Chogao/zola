@@ -1,5 +1,5 @@
 +++
-title = "Đi Hàn mùa nào rẻ nhất? Xếp hạng 12 tháng theo giá & thời tiết"
+title = "Đi Hàn mùa nào rẻ nhất? 12 tháng theo giá"
 description = "Đi Hàn mùa nào rẻ? So sánh chi phí du lịch Hàn Quốc 12 tháng: tháng nào vé máy bay rẻ, ít đông, thời tiết ổn — bảng xếp hạng chọn thời điểm tiết kiệm nhất."
 date = 2026-06-16
 aliases = ["/di-han-mua-nao-re-nhat/"]

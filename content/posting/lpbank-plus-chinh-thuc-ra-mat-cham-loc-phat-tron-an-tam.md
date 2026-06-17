@@ -1,5 +1,6 @@
 +++
 title = "LPBank Plus chính thức ra mắt - Chạm Lộc Phát, Trọn An tâm"
+description = "LPBank Plus ra mắt 28/03/2026: app ngân hàng số AI-first, giao dịch nhanh hơn và trải nghiệm Chạm Lộc Phát, Trọn An tâm."
 date = 2026-06-17
 aliases = ["/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam/"]
 

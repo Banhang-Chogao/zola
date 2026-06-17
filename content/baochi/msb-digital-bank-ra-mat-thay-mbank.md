@@ -1,5 +1,5 @@
 +++
-title = "MSB ra mắt MSB Digital Bank: app mới thay mBank, cần làm gì?"
+title = "MSB Digital Bank thay mBank: cần làm gì?"
 description = "MSB chính thức ra mắt MSB Digital Bank thay thế mBank từ 01/06/2026. Cách tải app mới, xác thực lại CCCD và chuyển dữ liệu chỉ trong 5 phút."
 date = 2026-06-16
 [taxonomies]

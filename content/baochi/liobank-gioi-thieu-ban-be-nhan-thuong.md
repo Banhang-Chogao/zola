@@ -1,5 +1,5 @@
 +++
-title = "Giới thiệu bạn mở thẻ Liobank: nhận thưởng đến 500.000đ"
+title = "Giới thiệu bạn mở thẻ Liobank: thưởng đến 500k"
 description = "Cách tham gia chương trình giới thiệu Liobank nhận thưởng đến 500.000đ mỗi lượt: mời bạn mở thẻ, mức thưởng theo hạn mức và mẹo gửi link, quét QR an toàn."
 date = 2026-06-16
 [taxonomies]

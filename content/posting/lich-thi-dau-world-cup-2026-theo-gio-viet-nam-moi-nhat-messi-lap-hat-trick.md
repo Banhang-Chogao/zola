@@ -1,5 +1,6 @@
 +++
-title = "Lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất: Messi lập hat-trick"
+title = "Lịch World Cup 2026 giờ Việt Nam: Messi hat-trick"
+description = "Lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất, Argentina thắng mở màn và Messi lập hat-trick trong trận đầu hành trình."
 date = 2026-06-17
 aliases = ["/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/"]
 

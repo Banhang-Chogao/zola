@@ -1,5 +1,6 @@
 +++
 title = "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya"
+description = "Tối nay Sài Gòn ăn gì? Gợi ý 12 quán ăn tối và khuya từ bình dân đến sang — lẩu, nướng, hải sản, món Việt và quốc tế."
 date = 2026-06-15
 aliases = ["/toi-nay-sai-gon-an-gi/"]
 

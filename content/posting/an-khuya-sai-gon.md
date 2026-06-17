@@ -1,5 +1,6 @@
 +++
-title = "Ăn khuya Sài Gòn: 10 món & khu dân cú đêm hay ăn (mở sau 11h)"
+title = "Ăn khuya Sài Gòn: 10 món mở sau 11h"
+description = "Ăn khuya Sài Gòn: 10 món và khu dân cú đêm nổi tiếng mở sau 11h — phố ốc, chợ Lớn, bún đêm và quán mở khuya cho dân Sài Gòn."
 date = 2026-06-16
 aliases = ["/an-khuya-sai-gon/"]
 
