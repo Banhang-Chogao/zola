@@ -140,21 +140,136 @@ FAILURE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 
-def analyze_cause_vi(logs: str, conclusion: str | None) -> str:
-    if conclusion in ("success", "skipped"):
-        return "Không có lỗi — build hoàn tất bình thường."
+IN_PROGRESS_GH_STATUSES = frozenset({
+    "queued", "in_progress", "waiting", "pending", "requested",
+})
+
+
+def normalize_status(conclusion: str | None, gh_status: str | None) -> str:
+    """Dashboard status — tách khỏi GitHub conclusion thô."""
+    if gh_status in IN_PROGRESS_GH_STATUSES:
+        return "in_progress"
+    if conclusion == "success":
+        return "success"
+    if conclusion == "failure":
+        return "failed"
     if conclusion == "cancelled":
-        return "Build bị huỷ thủ công hoặc do concurrency."
+        return "cancelled"
+    if conclusion == "skipped":
+        return "skipped"
+    return "unknown"
+
+
+def status_vi(normalized: str) -> str:
+    labels = {
+        "success": "Thành công",
+        "failed": "Thất bại",
+        "cancelled": "Đã huỷ",
+        "skipped": "Bỏ qua",
+        "in_progress": "Đang chạy",
+        "unknown": "Không xác định",
+    }
+    return labels.get(normalized, "Không xác định")
+
+
+def is_build_error(normalized: str) -> bool:
+    """Chỉ failure là lỗi nghiêm trọng — cancelled/skipped không tính."""
+    return normalized == "failed"
+
+
+def _parse_ts(ts: str) -> datetime | None:
+    if not ts:
+        return None
+    try:
+        return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def _find_superseding_run(run: dict, peers: list[dict]) -> dict | None:
+    """Run mới hơn cùng workflow có thể khiến run hiện tại bị huỷ (concurrency queue)."""
+    started = _parse_ts(run.get("run_started_at") or run.get("created_at") or "")
+    if not started:
+        return None
+    candidates: list[tuple[datetime, dict]] = []
+    for peer in peers:
+        if peer.get("id") == run.get("id"):
+            continue
+        peer_started = _parse_ts(peer.get("run_started_at") or peer.get("created_at") or "")
+        if peer_started and peer_started > started:
+            delta = (peer_started - started).total_seconds()
+            if delta <= 1800:
+                candidates.append((peer_started, peer))
+    if not candidates:
+        return None
+    return min(candidates, key=lambda item: item[0])[1]
+
+
+def analyze_cancel_cause_vi(
+    run: dict,
+    peers: list[dict],
+    workflow_file: str,
+) -> tuple[str, str]:
+    """
+    Trả về (cancel_reason_vi, cause_vi).
+    GitHub concurrency với cancel-in-progress:false vẫn huỷ run đang pending
+    khi có run mới vào cùng group — đây là hành vi bình thường, không phải lỗi.
+    """
+    superseder = _find_superseding_run(run, peers)
+    if superseder:
+        newer_num = superseder.get("run_number", "?")
+        msg = (
+            f"Đã huỷ do concurrency — run mới hơn đã được kích hoạt "
+            f"(Build #{newer_num})."
+        )
+        return "concurrency", msg
+
+    duration = _parse_duration(run)
+    if duration is not None and duration <= 15:
+        return (
+            "concurrency",
+            "Đã huỷ do concurrency — có thể bị thay thế bởi push/merge liên tiếp lên main.",
+        )
+
+    if workflow_file == "deploy.yml":
+        return (
+            "superseded",
+            "Deploy bị huỷ — thường do nhiều merge liên tiếp; kiểm tra run deploy mới nhất.",
+        )
+
+    return "manual", "Huỷ thủ công hoặc nguyên nhân không xác định — xem log trên GitHub."
+
+
+def analyze_cause_vi(
+    logs: str,
+    conclusion: str | None,
+    *,
+    normalized: str,
+    run: dict | None = None,
+    peers: list[dict] | None = None,
+    workflow_file: str = "",
+) -> tuple[str, str]:
+    """Trả về (cancel_reason_vi hoặc '', cause_vi)."""
+    if normalized == "success":
+        return "", "Không có lỗi — build hoàn tất bình thường."
+    if normalized == "skipped":
+        return "", "Bước bị bỏ qua theo điều kiện workflow — không phải lỗi."
+    if normalized == "in_progress":
+        return "", "Build đang chạy — chờ kết quả trên GitHub Actions."
+    if normalized == "cancelled":
+        if run is not None and peers is not None:
+            return analyze_cancel_cause_vi(run, peers, workflow_file)
+        return "unknown", "Build bị huỷ — xem chi tiết trên GitHub Actions."
     if not logs.strip():
-        return "Không lấy được log — kiểm tra trực tiếp trên GitHub Actions."
+        return "", "Không lấy được log — kiểm tra trực tiếp trên GitHub Actions."
 
     for pattern, template in FAILURE_PATTERNS:
         m = pattern.search(logs)
         if m:
             try:
-                return template.format(*m.groups())
+                return "", template.format(*m.groups())
             except (IndexError, TypeError):
-                return template
+                return "", template
 
     # Optional: gọi AI nếu có API key (OpenAI-compatible)
     ai_key = os.environ.get("BUILD_DASHBOARD_AI_API_KEY", "")
@@ -165,9 +280,9 @@ def analyze_cause_vi(logs: str, conclusion: str | None) -> str:
     if ai_key and len(logs) > 50:
         cause = _ai_analyze_vi(logs[:3000], ai_key, ai_url)
         if cause:
-            return cause
+            return "", cause
 
-    return "Lỗi chưa phân loại — xem log GitHub Actions để chẩn đoán thêm."
+    return "", "Lỗi workflow — xem log GitHub Actions để chẩn đoán thêm."
 
 
 def _ai_analyze_vi(log_excerpt: str, api_key: str, api_url: str) -> str:
@@ -218,18 +333,6 @@ def summarize_vi(workflow_file: str, run_number: int, commit_msg: str) -> str:
     return f"Build #{run_number} — {label}"
 
 
-def status_vi(conclusion: str | None) -> tuple[str, bool]:
-    if conclusion == "success":
-        return "Thành công", True
-    if conclusion == "failure":
-        return "Thất bại", False
-    if conclusion == "cancelled":
-        return "Đã huỷ", False
-    if conclusion == "skipped":
-        return "Bỏ qua", True
-    return "Không xác định", False
-
-
 def _parse_duration(run: dict) -> int | None:
     started = run.get("run_started_at") or run.get("created_at")
     updated = run.get("updated_at")
@@ -268,9 +371,11 @@ def fetch_builds() -> list[dict]:
         print(f"  {wf_file}: {len(runs)} runs", flush=True)
 
         for run in runs:
-            if run.get("status") != "completed":
-                continue
+            gh_status = run.get("status") or ""
             conclusion = run.get("conclusion")
+            if gh_status != "completed" and gh_status not in IN_PROGRESS_GH_STATUSES:
+                continue
+
             run_id = run["id"]
             run_number = run.get("run_number", 0)
             head_sha = (run.get("head_sha") or "")[:40]
@@ -279,12 +384,28 @@ def fetch_builds() -> list[dict]:
             if isinstance(head, dict):
                 commit_msg = head.get("message") or ""
 
+            normalized = normalize_status(conclusion, gh_status)
             logs = ""
-            if conclusion == "failure":
+            if normalized == "failed":
                 logs = _fetch_failed_log_snippet(run_id)
 
-            status_label, success = status_vi(conclusion)
-            cause = analyze_cause_vi(logs, conclusion)
+            cancel_reason = ""
+            if normalized == "cancelled":
+                cancel_reason, cause = analyze_cause_vi(
+                    logs,
+                    conclusion,
+                    normalized=normalized,
+                    run=run,
+                    peers=runs,
+                    workflow_file=wf_file,
+                )
+            else:
+                cancel_reason, cause = analyze_cause_vi(
+                    logs,
+                    conclusion,
+                    normalized=normalized,
+                    workflow_file=wf_file,
+                )
 
             all_builds.append({
                 "id": run_id,
@@ -297,9 +418,14 @@ def fetch_builds() -> list[dict]:
                 "workflow": run.get("name") or wf.get("name", ""),
                 "workflow_file": wf_file,
                 "summary_vi": summarize_vi(wf_file, run_number, commit_msg),
-                "status_vi": status_label,
-                "success": success,
-                "conclusion": conclusion or "unknown",
+                "status_vi": status_vi(normalized),
+                "status_normalized": normalized,
+                "gh_status": gh_status,
+                "success": normalized == "success",
+                "is_error": is_build_error(normalized),
+                "severity": "critical" if normalized == "failed" else "info",
+                "conclusion": conclusion or ("in_progress" if normalized == "in_progress" else "unknown"),
+                "cancel_reason": cancel_reason,
                 "cause_vi": cause,
                 "started_at": run.get("run_started_at") or run.get("created_at", ""),
                 "duration_sec": _parse_duration(run),
@@ -321,9 +447,16 @@ def main() -> int:
             return 0
         return 1
 
-    success_n = sum(1 for b in builds if b.get("success"))
-    failure_n = sum(1 for b in builds if b.get("conclusion") == "failure")
-    cancelled_n = sum(1 for b in builds if b.get("conclusion") == "cancelled")
+    def _norm(b: dict) -> str:
+        return b.get("status_normalized") or normalize_status(
+            b.get("conclusion"), b.get("gh_status"),
+        )
+
+    success_n = sum(1 for b in builds if _norm(b) == "success")
+    failure_n = sum(1 for b in builds if _norm(b) == "failed")
+    cancelled_n = sum(1 for b in builds if _norm(b) == "cancelled")
+    skipped_n = sum(1 for b in builds if _norm(b) == "skipped")
+    in_progress_n = sum(1 for b in builds if _norm(b) == "in_progress")
 
     owner, name = REPO.split("/", 1)
     payload = {
@@ -335,6 +468,8 @@ def main() -> int:
             "success": success_n,
             "failure": failure_n,
             "cancelled": cancelled_n,
+            "skipped": skipped_n,
+            "in_progress": in_progress_n,
         },
         "builds": builds,
     }

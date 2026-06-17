@@ -19,10 +19,19 @@ jobs:
   block-direct-push:
     runs-on: ubuntu-latest
     steps:
-      - name: Block bot direct push
+      - name: Block bot direct push (allow PR merge commits)
         if: github.actor == 'github-actions[bot]'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "::error title=Bot direct push blocked::github-actions[bot] must use push_via_pr.sh → feature branch → PR. Never push main."
+          set -euo pipefail
+          prs=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls" \
+            --jq 'length' 2>/dev/null || echo "0")
+          if [ "$prs" -gt 0 ]; then
+            echo "✓ Bot merge via PR (auto-merge) — allowed"
+            exit 0
+          fi
+          echo "::error title=Bot direct push blocked::github-actions[bot] must merge via PR (auto-merge.yml). Never push main directly."
           exit 1
 
       - name: Allow only PR-merge commits for humans

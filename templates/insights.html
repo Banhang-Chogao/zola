@@ -12,14 +12,35 @@
         {% set build_items = builds_data.builds | default(value=[]) %}
         {% set build_success = builds_data.stats.success | default(value=0) %}
         {% set build_failure = builds_data.stats.failure | default(value=0) %}
+        {% set build_cancelled = builds_data.stats.cancelled | default(value=0) %}
+        {% set build_skipped = builds_data.stats.skipped | default(value=0) %}
+        {% set build_in_progress = builds_data.stats.in_progress | default(value=0) %}
         {% set build_source = builds_data.source_repo | default(value="https://github.com/Banhang-Chogao/zola") %}
         {% set build_updated = builds_data.updated_at | default(value="") %}
     {% else %}
         {% set build_items = [] %}
         {% set build_success = 0 %}
         {% set build_failure = 0 %}
+        {% set build_cancelled = 0 %}
+        {% set build_skipped = 0 %}
+        {% set build_in_progress = 0 %}
         {% set build_source = "https://github.com/Banhang-Chogao/zola" %}
         {% set build_updated = "" %}
+    {% endif %}
+
+    {% set merge_data = load_data(path="data/merge-report.json", required=false) %}
+    {% if merge_data %}
+        {% set merge_items = merge_data.merges | default(value=[]) %}
+        {% set merge_total = merge_data.stats.total | default(value=0) %}
+        {% set merge_today = merge_data.stats.today | default(value=0) %}
+        {% set merge_updated = merge_data.updated_at | default(value="") %}
+        {% set merge_source = merge_data.source_repo | default(value="https://github.com/Banhang-Chogao/zola") %}
+    {% else %}
+        {% set merge_items = [] %}
+        {% set merge_total = 0 %}
+        {% set merge_today = 0 %}
+        {% set merge_updated = "" %}
+        {% set merge_source = "https://github.com/Banhang-Chogao/zola" %}
     {% endif %}
 
     {% set compliance_data = load_data(path="data/compliance-score.json", required=false) %}
@@ -36,6 +57,7 @@
         {% set compliance_pages = compliance_data.pages_scanned | default(value=0) %}
         {% set compliance_fix_log = compliance_data.fix_log | default(value=[]) %}
         {% set compliance_fix_summary = compliance_data.fix_summary | default(value=false) %}
+        {% set compliance_link_report = load_data(path="data/compliance-link-report.json", required=false) %}
     {% else %}
         {% set compliance_score = 0 %}
         {% set compliance_grade = "—" %}
@@ -49,6 +71,7 @@
         {% set compliance_pages = 0 %}
         {% set compliance_fix_log = [] %}
         {% set compliance_fix_summary = false %}
+        {% set compliance_link_report = false %}
     {% endif %}
 
     {% set now_ts = now(timestamp=true) %}
@@ -241,13 +264,35 @@
                     </ul>
                     {% endif %}
 
+                    {% if compliance_link_report and compliance_link_report.links | length > 0 %}
+                    <div class="insights__compliance-links" aria-label="Broken internal links">
+                        <p class="insights__compliance-fixes-title">Broken internal links</p>
+                        <ul class="insights__compliance-fix-list">
+                            {% for lk in compliance_link_report.links %}
+                            {% if loop.index0 < 5 %}
+                            <li class="insights__compliance-fix-item insights__compliance-fix-item--failed">
+                                <span class="insights__compliance-fix-badge">broken</span>
+                                <span class="insights__compliance-fix-text">
+                                    <strong>{{ lk.source_file | default(value=lk.source_page) }}</strong><br>
+                                    Target: <code>{{ lk.target }}</code><br>
+                                    Reason: {{ lk.reason | default(value="404 Not Found") }}
+                                </span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% elif compliance_link_report and compliance_link_report.summary.broken_count == 0 %}
+                    <p class="insights__compliance-links-ok">No broken internal links found</p>
+                    {% endif %}
+
                     {% if compliance_fix_log | length > 0 %}
                     <div class="insights__compliance-fixes" aria-label="Auto-fix log">
                         <p class="insights__compliance-fixes-title">Auto-fix (ưu tiên thấp)</p>
                         {% if compliance_fix_summary %}
                         <p class="insights__compliance-fixes-meta">
                             {{ compliance_fix_summary.fixed }} đã sửa ·
-                            {{ compliance_fix_summary.failed }} thất bại ·
+                            {{ compliance_fix_summary.failed }} autofix miss ·
                             {{ compliance_fix_summary.skipped }} bỏ qua
                         </p>
                         {% endif %}
@@ -255,9 +300,13 @@
                             {% for fx in compliance_fix_log %}
                             {% if fx.outcome == "failed" or fx.outcome == "fixed" %}
                             <li class="insights__compliance-fix-item insights__compliance-fix-item--{{ fx.outcome }}">
-                                <span class="insights__compliance-fix-badge">{{ fx.outcome }}</span>
+                                <span class="insights__compliance-fix-badge">
+                                    {% if fx.outcome == "failed" %}autofix{% else %}{{ fx.outcome }}{% endif %}
+                                </span>
                                 <span class="insights__compliance-fix-text">
-                                    <strong>{{ fx.category }}: {{ fx.label }}</strong> — {{ fx.message }}
+                                    <strong>{{ fx.category }}: {{ fx.label }}</strong>
+                                    (check: {{ fx.check_status | default(value="warn") }}) —
+                                    {{ fx.message }}
                                 </span>
                             </li>
                             {% endif %}
@@ -332,15 +381,24 @@
                         <h3 class="insights__build-title">Build Dashboard</h3>
                         <span class="insights__build-meta">
                             {{ build_success }} thành công · {{ build_failure }} thất bại
+                            {%- if build_cancelled > 0 %} · {{ build_cancelled }} đã huỷ{% endif -%}
+                            {%- if build_in_progress > 0 %} · {{ build_in_progress }} đang chạy{% endif -%}
                         </span>
                     </header>
 
                     {% if build_items | length > 0 %}
                     <ol class="insights__build-list" aria-label="Lịch sử build GitHub Actions">
                         {% for build in build_items %}
-                        <li class="insights__build-item{% if build.success %} insights__build-item--ok{% else %} insights__build-item--fail{% endif %}">
+                        {% set build_norm = build.status_normalized | default(value=build.conclusion) %}
+                        {% if build_norm == "failure" %}{% set build_norm = "failed" %}{% endif %}
+                        <li class="insights__build-item insights__build-item--{{ build_norm }}">
                             <div class="insights__build-status" aria-hidden="true">
-                                {% if build.success %}✓{% else %}✗{% endif %}
+                                {% if build_norm == "success" %}✓
+                                {% elif build_norm == "failed" %}✗
+                                {% elif build_norm == "cancelled" %}⊘
+                                {% elif build_norm == "skipped" %}–
+                                {% elif build_norm == "in_progress" %}…
+                                {% else %}?{% endif %}
                             </div>
                             <div class="insights__build-body">
                                 <p class="insights__build-summary">{{ build.summary_vi }}</p>
@@ -354,9 +412,15 @@
                                     </a>
                                     {% endif %}
                                     <span class="insights__build-num">#{{ build.run_number }}</span>
-                                    <span class="insights__build-badge{% if build.success %} insights__build-badge--ok{% else %} insights__build-badge--fail{% endif %}">
+                                    <span class="insights__build-badge insights__build-badge--{{ build_norm }}">
                                         {{ build.status_vi }}
                                     </span>
+                                    {% if build.conclusion %}
+                                    <span class="insights__build-raw"
+                                          title="GitHub conclusion thô">
+                                        {{ build.conclusion }}
+                                    </span>
+                                    {% endif %}
                                 </p>
                                 {% if build.cause_vi %}
                                 <p class="insights__build-cause">{{ build.cause_vi }}</p>
@@ -390,6 +454,68 @@
                         {% if build_updated %}
                         <time class="insights__build-updated" datetime="{{ build_updated }}">
                             Cập nhật {{ build_updated }}
+                        </time>
+                        {% endif %}
+                    </footer>
+                </div>
+
+                {# ===== AUTO-MERGE REPORT ===== #}
+                <div class="insights__build insights__merge">
+                    <header class="insights__build-head">
+                        <h3 class="insights__build-title">Auto-Merge Report</h3>
+                        <span class="insights__build-meta">
+                            {{ merge_total }} merge · {{ merge_today }} hôm nay
+                        </span>
+                    </header>
+
+                    {% if merge_items | length > 0 %}
+                    <ol class="insights__build-list" aria-label="Lịch sử auto-merge">
+                        {% for m in merge_items %}
+                        {% if loop.index <= 12 %}
+                        <li class="insights__build-item insights__build-item--ok">
+                            <div class="insights__build-status" aria-hidden="true">⊕</div>
+                            <div class="insights__build-body">
+                                <p class="insights__build-summary">
+                                    <a href="{{ m.pr_url }}" target="_blank" rel="noopener">#{{ m.pr_number }}</a>
+                                    {{ m.pr_title }}
+                                </p>
+                                <p class="insights__build-row">
+                                    <span class="insights__build-badge insights__build-badge--ok">{{ m.change_type }}</span>
+                                    {% if m.merge_commit_short %}
+                                    <span class="insights__build-num">{{ m.merge_commit_short }}</span>
+                                    {% endif %}
+                                    {% if m.build_run_number %}
+                                    <span class="insights__build-num">build #{{ m.build_run_number }}</span>
+                                    {% endif %}
+                                </p>
+                                {% if m.summary_vi %}
+                                <p class="insights__build-cause">{{ m.summary_vi }}</p>
+                                {% endif %}
+                                {% if m.merged_at %}
+                                <time class="insights__build-updated" datetime="{{ m.merged_at }}">{{ m.merged_at }}</time>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p class="insights__build-empty">
+                        Chưa có merge nào sau ngày bật auto-merge.
+                        Workflow <code>merge-report.yml</code> sẽ ghi lại từ đây.
+                    </p>
+                    {% endif %}
+
+                    <footer class="insights__build-foot">
+                        <a class="insights__source"
+                           href="{{ merge_source }}/pulls?q=is%3Apr+is%3Amerged"
+                           target="_blank" rel="noopener">
+                            Nguồn : {{ merge_source }}
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                        {% if merge_updated %}
+                        <time class="insights__build-updated" datetime="{{ merge_updated }}">
+                            Cập nhật {{ merge_updated }}
                         </time>
                         {% endif %}
                     </footer>
