@@ -57,7 +57,7 @@ jobs:
           fi
 
           if [ "$MODE" = "pr" ]; then
-            STATE=$(gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" --json state --jq -r '.state')
+            STATE=$(gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" --json state --jq '.state')
             if [ "$STATE" != "MERGED" ]; then
               echo "skip=true" >> "$GITHUB_OUTPUT"
               echo "PR #${NUM} not merged — skip"
