@@ -18,7 +18,6 @@ concurrency:
 
 permissions:
   contents: write
-  pull-requests: write
   issues: write
   security-events: write
   actions: write
@@ -157,15 +156,13 @@ jobs:
           print(json.dumps(data, indent=2))
           PY
 
-      - name: Open PR if changed (never push main)
+      - name: Push to main if changed
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_TITLE: "chore: security audit snapshot"
         run: |
-          chmod +x .github/scripts/push_via_pr.sh
-          .github/scripts/push_via_pr.sh chore/security-data \
-            "Cập nhật: security audit snapshot ($(date -u +%FT%TZ))" \
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: security audit snapshot ($(date -u +%FT%TZ))" \
             data/security.json
 
       - name: Upload artifacts

@@ -1,46 +1,17 @@
 name: QA Gatekeeper
 
-# Chạy trên PR vào main và push thẳng main. Nếu qa_check.py fail (exit !=0),
-# pipeline đỏ → PR không merge được (nếu repo bật required status check).
-# Chạy song song với deploy.yml — không block deploy nếu chỉ là warning.
+# Chạy trên mọi push (kể cả main). qa_check.py fail → pipeline đỏ.
 
 on:
-  # Push mọi branch — CI chạy tự động, không "workflows awaiting approval" (bot PR).
-  # KHÔNG dùng pull_request: GitHub chặn + yêu cầu maintainer approve trên bot PR.
   push:
   schedule:
-    # Daily 11:00 GMT+7 = 04:00 UTC — baseline QA snapshot
     - cron: '0 4 * * *'
   workflow_dispatch:
-  # Relay: PR do GITHUB_TOKEN tạo không kích hoạt pull_request — chạy QA trên head_sha sau bot workflow.
-  workflow_run:
-    workflows:
-      - "Fetch Build Dashboard"
-      - "Compliance Score Audit"
-      - "Fetch Merge Report"
-      - "Build Semantic Related Posts"
-      - "Fetch Google Trends VN"
-      - "Fetch GA Stats"
-      - "Fetch PageSpeed Insights"
-      - "Optimize images (WebP)"
-      - "Security Audit"
-      - "Auto-update changelog.json"
-      - "Scheduled publish (đăng bài hẹn giờ)"
-      - "Build Failure Auto-Remediation"
-      - "Self-Healing QA"
-      - "Autofix Merge Conflicts"
-      - "Performance QA Checker"
-      - "QA Rule Checker"
-    types: [completed]
 
 permissions:
   contents: read
   actions: read
-  pull-requests: read
 
-# Bot PRs: CI qua push event (push_via_pr.sh) + workflow_run relay + workflow_dispatch.
-
-# Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -50,90 +21,49 @@ concurrency:
 
 jobs:
   qa-check:
-    if: >-
-      github.event_name != 'workflow_run'
-      || (
-        github.event.workflow_run.conclusion == 'success'
-        && github.event.workflow_run.head_repository.full_name == github.repository
-      )
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve bot PR head (workflow_run relay)
-        if: github.event_name == 'workflow_run'
-        id: botpr
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          chmod +x .github/scripts/resolve_open_bot_pr.sh
-          .github/scripts/resolve_open_bot_pr.sh "${{ github.event.workflow_run.head_sha }}"
-
-      - name: Skip — no bot PR for relay
-        if: github.event_name == 'workflow_run' && steps.botpr.outputs.skip == 'true'
-        run: echo "QA relay skipped — no open bot maintenance PR."
-
       - name: Checkout
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         uses: actions/checkout@v6
-        with:
-          ref: ${{ steps.botpr.outputs.head_sha || github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup Node.js 24
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         uses: actions/setup-node@v6
         with:
           node-version: '24'
 
       - name: Set up Python
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Install test dependencies (paywall + F-Dashboard)
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         run: |
           pip install -r backend/requirements.txt
           pip install -r scripts/requirements-f-dashboard.txt
 
       - name: Unit tests — paywall + F-Dashboard
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         run: |
           python3 -m unittest scripts.test_paywall scripts.test_f_dashboard -v
 
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
-        # qa_check.py stdlib only — không cần pip install.
-        # Exit 0 = pass (kể cả khi có warning), exit 1 = có error → fail job.
-        # SCSS check bắt mất '{' / '}' trước khi Zola compile fail trong deploy.
         run: python3 qa_check.py
 
-      # Defense-in-depth: thực sự run Zola build trong CI để bắt lỗi syntax
-      # Tera template + SCSS compile mà Python check không phát hiện được.
-      # Bug #57 (SCSS empty body block) chỉ cần ~5s Zola check là catch ngay.
       - name: Install Zola for build check
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         run: |
           curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/
 
       - name: Build reference index
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         run: python3 scripts/build_references.py
 
       - name: Strip premium content before build
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
         run: python3 scripts/paywall_prepare_build.py --strip
 
       - name: Zola build smoke test
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
-        # ZOLA_GH_TOKEN cho load_data fetch commits (template base.html).
-        # Token QA workflow read-only — chỉ build, không deploy.
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: zola build
 
       - name: Check GitHub Pages base path in internal links
-        if: github.event_name != 'workflow_run' || steps.botpr.outputs.skip != 'true'
-        # Fail CI if any href="/..." lacks /zola/ — causes 404 on project site.
         run: python3 scripts/check_internal_links.py

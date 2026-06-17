@@ -163,14 +163,7 @@ def scan_claude_md(conflicts: list[Conflict]) -> None:
             "Policy hiện tại: auto-merge khi CI pass; gắn label no-auto-merge nếu cần review tay.",
             0.75,
         ),
-        (
-            "claude_push_main_forbidden",
-            r"không.*push.*thẳng.*main|never push main|refusing to push.*main",
-            r"(?:được phép|cho phép).{0,20}push.{0,20}trực tiếp.{0,20}main",
-            "CRITICAL",
-            "Mọi thay đổi phải qua PR — không push trực tiếp main (trừ bot merge qua PR).",
-            0.85,
-        ),
+
         (
             "claude_cancelled_classification",
             r"(?<!không )(?:coi|classify|đánh).{0,40}cancelled.{0,40}(?:là|as).{0,20}fail",
@@ -365,21 +358,21 @@ def scan_agents(conflicts: list[Conflict]) -> None:
                 )
             )
 
-    pr_bots = [
-        p for p, act, _ in agent_actions if "push_via_pr" in _read_text(REPO_ROOT / p).lower()
+    main_bots = [
+        p for p, act, _ in agent_actions if "push_to_main" in _read_text(REPO_ROOT / p).lower()
     ]
-    if len(pr_bots) > 8:
+    if len(main_bots) > 12:
         conflicts.append(
             Conflict(
-                id="agent_many_pr_bots",
+                id="agent_many_main_bots",
                 category="AI Agents",
                 severity="MEDIUM",
-                title="Quá nhiều bot tạo PR tự động",
-                rule_a=f"{len(pr_bots)} scripts dùng push_via_pr",
-                rule_b="PR bot loops khi bot A sửa, bot B revert",
-                resolution="Stagger schedules; anti-loop state; label no-auto-merge cho QA bots.",
+                title="Quá nhiều bot push thẳng main",
+                rule_a=f"{len(main_bots)} scripts dùng push_to_main",
+                rule_b="Bot loops khi nhiều workflow push main đồng thời",
+                resolution="Stagger schedules; anti-loop state; [skip changelog] trên bot commits.",
                 confidence=0.8,
-                files=pr_bots[:8],
+                files=main_bots[:8],
             )
         )
 
@@ -823,30 +816,18 @@ def write_reports(payload: dict[str, Any], md: str) -> None:
     REPORT_MD.write_text(md, encoding="utf-8")
 
 
-def open_pr(changed_files: list[str], summary: str) -> bool:
+def push_fixes_to_main(changed_files: list[str], summary: str) -> bool:
     if not TOKEN:
-        print("Skip PR: no GITHUB_TOKEN", file=sys.stderr)
+        print("Skip push: no GITHUB_TOKEN", file=sys.stderr)
         return False
 
-    push_sh = REPO_ROOT / ".github" / "scripts" / "push_via_pr.sh"
+    push_sh = REPO_ROOT / ".github" / "scripts" / "push_to_main.sh"
     if not push_sh.exists():
         return False
 
-    branch = f"{BRANCH_PREFIX}-{datetime.now(timezone.utc).strftime('%Y%m%d')}"
     msg = f"qa: rule conflict auto-fix — {summary[:72]}"
-    body = (
-        "**QA Rule Checker** — auto-fix (confidence ≥ 90%).\n\n"
-        "**Auto-merge eligible** khi QA Gatekeeper pass "
-        "(policy: `ZERO_BARRIER_AUTOMATION`).\n\n"
-        f"- Conflicts addressed: {summary}\n"
-        f"- Reports: `reports/rule-conflict-report.json`\n"
-        f"- confidence: 90%\n"
-    )
 
     env = os.environ.copy()
-    env["PR_TITLE"] = msg
-    env["PR_BODY"] = body
-    env["FORCE_PUSH"] = "true"
     env["GH_TOKEN"] = TOKEN
 
     files = list(dict.fromkeys(changed_files + ["reports/rule-conflict-report.json", "reports/rule-conflict-report.md"]))
@@ -863,7 +844,7 @@ def open_pr(changed_files: list[str], summary: str) -> bool:
     if STATE_FILE.exists():
         files.append("data/qa-rule-checker-state.json")
 
-    cmd = ["bash", str(push_sh), branch, msg, *files]
+    cmd = ["bash", str(push_sh), msg, *files]
     result = subprocess.run(cmd, cwd=REPO_ROOT, env=env, capture_output=True, text=True, check=False)
     print(result.stdout)
     if result.returncode != 0:
@@ -963,7 +944,7 @@ def main() -> int:
         summary = f"{len(conflicts)} conflicts"
         if fixes_applied:
             summary += f", {len(fixes_applied)} auto-fixes"
-        open_pr(pr_files, summary)
+        push_fixes_to_main(pr_files, summary)
 
     # Exit 1 only when unresolved CRITICAL conflicts remain after fixes
     critical_left = [

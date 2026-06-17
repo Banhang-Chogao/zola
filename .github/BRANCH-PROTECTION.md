@@ -2,51 +2,26 @@
 
 Áp dụng trên GitHub: **Settings → Branches → Branch protection rules** cho `main`.
 
-## Cấu hình — ZERO_BARRIER_AUTOMATION (2026-06-18)
+## Cấu hình — DIRECT PUSH (2026-06-18)
 
 | Setting | Giá trị |
 |---------|---------|
 | Branch name pattern | `main` |
-| Require a pull request before merging | ✅ |
-| Required approvals | **0** |
-| Dismiss stale pull request approvals when new commits are pushed | (tùy chọn) |
-| Require status checks to pass before merging | ✅ |
-| Status checks | `qa-check` (workflow `QA Gatekeeper`) |
-| Allow auto-merge | ✅ (Settings → General → Allow auto-merge) |
-| Require conversation resolution before merging | (tùy chọn) |
-| Include administrators | ✅ |
+| Require a pull request before merging | **❌ TẮT** |
+| Require status checks to pass before merging | (tùy chọn) `qa-check` |
 | Allow force pushes | ❌ |
 | Allow deletions | ❌ |
 
-## Auto-merge workflow
+## Quy trình
 
-- File: `.github/workflows/auto-merge.yml`
-- Policy: `data/auto-merge-policy.json`, `scripts/auto_merge_policy.py`
-- Script: `scripts/try_auto_merge.py`
-- Merge method: squash
-- Label sau merge: `auto-merged`
-- Mọi PR CI xanh → auto-merge (không protected domain, không manual gate)
+```
+git commit → git push origin main → QA + Deploy tự chạy → Xong
+```
 
-## Bypass cho GitHub Actions (nếu cần)
-
-Nếu merge vẫn bị chặn dù approvals = 0:
-
-1. Settings → Actions → General → **Workflow permissions** → Read and write
-2. Hoặc thêm rule: allow `github-actions[bot]` bypass required pull requests (chỉ khi cần)
+Không branch feature, không PR, không auto-merge.
 
 ## Kiểm tra
 
 ```bash
-# Phải FAIL — push trực tiếp:
-git checkout main && git commit --allow-empty -m "test" && git push origin main
-
-# Phải PASS — PR + CI xanh → auto-merge.yml merge
-```
-
-## Merge Report
-
-Sau mỗi merge: `merge-report.yml` cập nhật `data/merge-report.json`.
-
-```bash
-GITHUB_TOKEN=... python3 scripts/fetch_merge_report.py
+git push origin main   # phải thành công ngay
 ```

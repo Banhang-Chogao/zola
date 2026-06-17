@@ -21,7 +21,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   actions: write
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
@@ -64,13 +63,11 @@ jobs:
       - name: Build references index
         run: python3 scripts/build_references.py
 
-      - name: Open PR if changed (never push main)
+      - name: Push to main if changed
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_TITLE: "chore: rebuild semantic related posts + references"
         run: |
-          chmod +x .github/scripts/push_via_pr.sh
-          .github/scripts/push_via_pr.sh chore/related-posts-data \
-            "Cập nhật: rebuild related posts + references ($(date +%Y-%m-%d))" \
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: rebuild related posts + references ($(date +%Y-%m-%d))" \
             data/related.json data/scores.json data/references.json

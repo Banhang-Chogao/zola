@@ -200,31 +200,42 @@ def extract_highlights(body: str, max_items: int = 5, max_len: int = 200) -> lis
 
 
 def main() -> int:
+    mode = os.environ.get("CHANGELOG_MODE", "pr").strip().lower()
     try:
-        pr_number = int(os.environ["PR_NUMBER"])
         pr_title = os.environ["PR_TITLE"].strip()
         pr_body = os.environ.get("PR_BODY", "") or ""
         pr_additions = int(os.environ.get("PR_ADDITIONS", "0"))
         pr_deletions = int(os.environ.get("PR_DELETIONS", "0"))
-        pr_merged_at = os.environ["PR_MERGED_AT"]
+        pr_merged_at = os.environ.get("PR_MERGED_AT", "") or ""
         pr_labels = json.loads(os.environ.get("PR_LABELS", "[]") or "[]")
+        pr_number = int(os.environ["PR_NUMBER"]) if mode == "pr" else 0
+        commit_sha = os.environ.get("COMMIT_SHA", "").strip()
     except (KeyError, ValueError) as e:
         print(f"✗ Env config sai: {e}", file=sys.stderr)
         return 1
 
+    if mode == "commit" and not commit_sha:
+        print("✗ COMMIT_SHA required for commit mode", file=sys.stderr)
+        return 1
+    if mode == "pr" and pr_number <= 0:
+        print("✗ PR_NUMBER required for pr mode", file=sys.stderr)
+        return 1
+
     date = pr_merged_at.split("T")[0] if pr_merged_at else ""
 
-    # Mask secrets trên cả title và mỗi highlight — defense in depth, kể cả
-    # PR author lỡ paste token/OTP vào title hoặc body, bot không để lộ.
     entry = {
         "date": date,
         "title": mask_secrets(clean_title(pr_title)),
         "tag": infer_tag(pr_title, pr_labels),
-        "pr": pr_number,
         "lines_added": pr_additions,
         "lines_removed": pr_deletions,
         "highlights": [mask_secrets(h) for h in extract_highlights(pr_body)],
     }
+    if mode == "commit":
+        entry["commit"] = commit_sha[:12]
+        entry["pr"] = 0
+    else:
+        entry["pr"] = pr_number
 
     if not CHANGELOG.exists():
         data = {"items": []}
@@ -237,8 +248,12 @@ def main() -> int:
 
     items = data.get("items", [])
 
-    # Idempotent — nếu PR đã có (vd. workflow re-run), bỏ qua
-    if any(i.get("pr") == pr_number for i in items):
+    if mode == "commit":
+        if any(i.get("commit") == commit_sha[:12] for i in items):
+            print(f"Commit {commit_sha[:12]} đã có trong changelog — skip")
+            write_github_output("", changed=False)
+            return 0
+    elif any(i.get("pr") == pr_number for i in items):
         print(f"PR #{pr_number} đã có trong changelog — skip")
         write_github_output("", changed=False)
         return 0
@@ -257,7 +272,10 @@ def main() -> int:
     commit_message = build_commit_message(entry["tag"], entry["title"])
     write_github_output(commit_message, changed=True)
 
-    print(f"✓ Added PR #{pr_number} ({entry['tag']}) to changelog.json")
+    if mode == "commit":
+        print(f"✓ Added commit {commit_sha[:12]} ({entry['tag']}) to changelog.json")
+    else:
+        print(f"✓ Added PR #{pr_number} ({entry['tag']}) to changelog.json")
     print(f"  Commit message: {commit_message}")
     return 0
 

@@ -13,7 +13,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   actions: write
 
 env:
@@ -41,13 +40,11 @@ jobs:
           GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
         run: python scripts/fetch_ga_stats.py
 
-      - name: Open PR if changed (never push main)
+      - name: Push to main if changed
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_TITLE: "chore: refresh GA stats"
         run: |
-          chmod +x .github/scripts/push_via_pr.sh
-          .github/scripts/push_via_pr.sh chore/ga-stats-data \
-            "Cập nhật: refresh GA stats ($(date -u +%FT%TZ))" \
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh GA stats ($(date -u +%FT%TZ))" \
             data/ga-stats.json

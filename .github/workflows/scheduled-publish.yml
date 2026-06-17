@@ -1,8 +1,7 @@
 name: Scheduled publish (đăng bài hẹn giờ)
 
 # Đăng bài draft đã tới giờ hẹn (phím tắt bb9 lưu draft + publish_at).
-# Chạy mỗi tối: flip draft -> published, tạo PR content/scheduled-publish
-# (KHÔNG push main) nếu PASS QA gate.
+# Chạy mỗi tối: flip draft -> published, push thẳng main nếu PASS QA gate.
 # Nếu QA fail → KHÔNG publish, revert + mở issue để user xử lý (theo rule deploy).
 
 on:
@@ -13,7 +12,6 @@ on:
 permissions:
   contents: write
   issues: write
-  pull-requests: write
   actions: write
 
 concurrency:
@@ -61,15 +59,13 @@ jobs:
           sudo mv zola /usr/local/bin/
           zola build
 
-      - name: Open PR (publish — never push main)
+      - name: Push published content to main
         if: steps.flip.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_TITLE: "content: scheduled publish — bài hẹn giờ tới hạn"
         run: |
-          chmod +x .github/scripts/push_via_pr.sh
-          .github/scripts/push_via_pr.sh content/scheduled-publish \
-            "feat(publish): đăng bài hẹn giờ tới hạn (scheduled publish)" \
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "feat(publish): đăng bài hẹn giờ tới hạn (scheduled publish)" \
             content/
 
       - name: Báo lỗi nếu QA fail (mở issue, KHÔNG publish)

@@ -1,7 +1,6 @@
 name: Auto-update changelog.json
 
-# Trigger khi PR merge vào main (push event) — KHÔNG pull_request (tránh approval gate).
-# Bot tạo PR chore/changelog-sync (KHÔNG push main) sau khi ghi changelog.
+# Trigger khi push lên main. Ghi changelog → push thẳng main (không PR).
 
 on:
   push:
@@ -9,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: "PR number (optional — auto-detect từ merge commit)"
+        description: "PR number (optional — legacy merge commits)"
         required: false
         type: string
 
@@ -19,7 +18,6 @@ concurrency:
 
 permissions:
   contents: write
-  pull-requests: write
   actions: write
 
 env:
@@ -38,87 +36,109 @@ jobs:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Resolve merged PR number
-        id: prmeta
+      - name: Resolve commit metadata
+        id: meta
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
           set -euo pipefail
+          MODE="commit"
           NUM=""
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.pr_number }}" ]; then
             NUM="${{ inputs.pr_number }}"
+            MODE="pr"
           else
-            MSG="${{ github.event.head_commit.message }}"
-            NUM=$(echo "$MSG" | grep -oE '(Merge pull request #|\(#)[0-9]+' | grep -oE '[0-9]+' | head -1 || true)
-            if [ -z "$NUM" ]; then
-              NUM=$(echo "$MSG" | grep -oE '#[0-9]+' | head -1 | tr -d '#' || true)
+            MSG="$HEAD_COMMIT_MSG"
+            NUM=$(echo "$MSG" | head -1 | grep -oE '(Merge pull request #|\(#)[0-9]+' | grep -oE '[0-9]+' | head -1 || true)
+            if [ -n "$NUM" ]; then
+              MODE="pr"
             fi
           fi
-          if [ -z "$NUM" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "No PR number in merge commit — skip changelog"
-            exit 0
-          fi
-          MERGED=$(gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" --json merged --jq '.merged')
-          if [ "$MERGED" != "true" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "PR #${NUM} not merged — skip"
-            exit 0
-          fi
-          echo "skip=false" >> "$GITHUB_OUTPUT"
-          echo "number=$NUM" >> "$GITHUB_OUTPUT"
-          gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" \
-            --json title,body,additions,deletions,mergedAt,labels \
-            > pr-meta.json
-          echo "title<<EOF" >> "$GITHUB_OUTPUT"
-          jq -r '.title' pr-meta.json >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-          echo "body<<EOF" >> "$GITHUB_OUTPUT"
-          jq -r '.body // ""' pr-meta.json >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-          echo "additions=$(jq -r '.additions' pr-meta.json)" >> "$GITHUB_OUTPUT"
-          echo "deletions=$(jq -r '.deletions' pr-meta.json)" >> "$GITHUB_OUTPUT"
-          echo "merged_at=$(jq -r '.mergedAt' pr-meta.json)" >> "$GITHUB_OUTPUT"
-          echo "labels=$(jq -c '.labels' pr-meta.json)" >> "$GITHUB_OUTPUT"
 
-      - name: Skip — not a PR merge
-        if: steps.prmeta.outputs.skip == 'true'
+          if [ "$MODE" = "pr" ]; then
+            MERGED=$(gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" --json merged --jq '.merged')
+            if [ "$MERGED" != "true" ]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "PR #${NUM} not merged — skip"
+              exit 0
+            fi
+            gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" \
+              --json title,body,additions,deletions,mergedAt,labels \
+              > meta.json
+            echo "mode=pr" >> "$GITHUB_OUTPUT"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "number=$NUM" >> "$GITHUB_OUTPUT"
+            echo "title<<EOF" >> "$GITHUB_OUTPUT"
+            jq -r '.title' meta.json >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            echo "body<<EOF" >> "$GITHUB_OUTPUT"
+            jq -r '.body // ""' meta.json >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            echo "additions=$(jq -r '.additions' meta.json)" >> "$GITHUB_OUTPUT"
+            echo "deletions=$(jq -r '.deletions' meta.json)" >> "$GITHUB_OUTPUT"
+            echo "merged_at=$(jq -r '.mergedAt' meta.json)" >> "$GITHUB_OUTPUT"
+            echo "labels=$(jq -c '.labels' meta.json)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          TITLE=$(echo "$HEAD_COMMIT_MSG" | head -1)
+          if [ -z "$TITLE" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Empty commit message — skip"
+            exit 0
+          fi
+
+          STATS=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}" \
+            --jq '{additions: .stats.additions, deletions: .stats.deletions, date: .commit.committer.date}')
+          echo "mode=commit" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "sha=${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+          echo "title<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$TITLE" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "additions=$(echo "$STATS" | jq -r '.additions // 0')" >> "$GITHUB_OUTPUT"
+          echo "deletions=$(echo "$STATS" | jq -r '.deletions // 0')" >> "$GITHUB_OUTPUT"
+          echo "merged_at=$(echo "$STATS" | jq -r '.date // ""')" >> "$GITHUB_OUTPUT"
+          echo "labels=[]" >> "$GITHUB_OUTPUT"
+
+      - name: Skip — nothing to log
+        if: steps.meta.outputs.skip == 'true'
         run: echo "Changelog update skipped."
 
       - name: Setup Node.js 24
-        if: steps.prmeta.outputs.skip != 'true'
+        if: steps.meta.outputs.skip != 'true'
         uses: actions/setup-node@v6
         with:
           node-version: '24'
 
       - name: Set up Python
-        if: steps.prmeta.outputs.skip != 'true'
+        if: steps.meta.outputs.skip != 'true'
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Append entry to changelog.json
-        if: steps.prmeta.outputs.skip != 'true'
+        if: steps.meta.outputs.skip != 'true'
         id: changelog
         env:
-          PR_NUMBER: ${{ steps.prmeta.outputs.number }}
-          PR_TITLE: ${{ steps.prmeta.outputs.title }}
-          PR_BODY: ${{ steps.prmeta.outputs.body }}
-          PR_ADDITIONS: ${{ steps.prmeta.outputs.additions }}
-          PR_DELETIONS: ${{ steps.prmeta.outputs.deletions }}
-          PR_MERGED_AT: ${{ steps.prmeta.outputs.merged_at }}
-          PR_LABELS: ${{ steps.prmeta.outputs.labels }}
+          CHANGELOG_MODE: ${{ steps.meta.outputs.mode }}
+          PR_NUMBER: ${{ steps.meta.outputs.number }}
+          COMMIT_SHA: ${{ steps.meta.outputs.sha }}
+          PR_BODY: ${{ steps.meta.outputs.body }}
+          PR_ADDITIONS: ${{ steps.meta.outputs.additions }}
+          PR_DELETIONS: ${{ steps.meta.outputs.deletions }}
+          PR_MERGED_AT: ${{ steps.meta.outputs.merged_at }}
+          PR_LABELS: ${{ steps.meta.outputs.labels }}
         run: python3 .github/scripts/update_changelog.py
 
-      - name: Open PR if changed (never push main)
-        if: steps.prmeta.outputs.skip != 'true' && steps.changelog.outputs.changed == 'true'
+      - name: Push changelog to main
+        if: steps.meta.outputs.skip != 'true' && steps.changelog.outputs.changed == 'true'
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MESSAGE: ${{ steps.changelog.outputs.commit_message }}
-          PR_TITLE: "chore: changelog after PR #${{ steps.prmeta.outputs.number }}"
+          SKIP_CHANGELOG_TAG: "false"
         run: |
-          chmod +x .github/scripts/push_via_pr.sh
-          .github/scripts/push_via_pr.sh chore/changelog-sync \
-            "$COMMIT_MESSAGE" \
-            changelog.json
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "$COMMIT_MESSAGE" changelog.json

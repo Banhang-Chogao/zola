@@ -1,17 +1,11 @@
 name: Self-Healing QA
 
-# ZERO_BARRIER: cron 6h — auto-fix mechanical issues, PR rolling branch
-# `fix/auto-qa` → auto-merge khi CI pass → deploy production.
-#
-# Concurrency group: nếu lần chạy trước còn dang dở, lần mới sẽ QUEUE thay vì
-# cancel → tránh race condition force-push 2 lần liên tiếp.
-#
-# Workflow_dispatch để test manual sau khi merge.
+# Cron 6h — auto-fix mechanical issues → push thẳng main.
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours (00/06/12/18 UTC)
-    - cron: '0 4 * * *'    # Daily 11:00 GMT+7 = 04:00 UTC
+    - cron: '0 */6 * * *'
+    - cron: '0 4 * * *'
   workflow_dispatch:
 
 concurrency:
@@ -20,9 +14,7 @@ concurrency:
 
 permissions:
   contents: write
-  pull-requests: write
 
-# Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -53,70 +45,18 @@ jobs:
           python3 qa_check.py --fix safe 2>&1 | tee fix-log.txt
           if git diff --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Nothing to auto-fix — skipping PR step."
+            echo "Nothing to auto-fix — skip."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            grep '^FIXED:' fix-log.txt > fixed-summary.txt || echo "(không có dòng FIXED)" > fixed-summary.txt
           fi
 
-      - name: Open or update auto-fix PR
+      - name: Push fixes to main
         if: steps.fix.outputs.changed == 'true'
         env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Single rolling branch: force-push để PR luôn reflect snapshot mới nhất.
-          # CHỈ commit content/ — KHÔNG add log files (fix-log.txt, fixed-summary.txt).
-          # .gitignore cũng exclude.
-          git checkout -B fix/auto-qa
-          git add content/ 2>/dev/null || true
-          git commit -m "Self-healing: auto-fix QA mechanical issues ($(date -u +%FT%TZ))" || {
-            echo "Nothing to commit"
-            exit 0
-          }
-          git push -f origin fix/auto-qa
-
-          # PR body: tóm tắt số file fixed + chi tiết từng fix
-          fixed_count=$(wc -l < fixed-summary.txt | tr -d ' ')
-          {
-            echo "## 🤖 Self-healing QA bot — auto-fix log"
-            echo ""
-            echo "**Quét lúc**: \`$(date -u +%FT%TZ)\`"
-            echo "**Số fixes**: \`${fixed_count}\`"
-            echo ""
-            echo "### Chi tiết"
-            echo '```'
-            cat fixed-summary.txt
-            echo '```'
-            echo ""
-            echo "### Phạm vi safe fixes (mechanical only — không đoán nội dung)"
-            echo "- Normalize tags: lowercase + dedupe + sort"
-            echo "- Dedupe categories"
-            echo "- Date format: \`YYYY/MM/DD\` → \`YYYY-MM-DD\`"
-            echo "- Trim trailing whitespace trong frontmatter"
-            echo "- Đảm bảo file kết thúc bằng 1 newline"
-            echo "- Add missing aliases từ slug (deterministic)"
-            echo ""
-            echo "### Workflow"
-            echo "PR này được force-push mỗi 6 tiếng — luôn reflect snapshot mới nhất."
-            echo "CI pass → auto-merge → deploy production (ZERO_BARRIER)."
-          } > pr-body.md
-
-          existing=$(gh pr list --head fix/auto-qa --state open --json number --jq '.[0].number')
-          if [ -z "$existing" ]; then
-            # Gracefully degrade nếu repo chặn Actions tạo PR
-            if ! gh pr create \
-              --base main --head fix/auto-qa \
-              --title "🤖 Self-healing: ${fixed_count} mechanical fix(es)" \
-              --body-file pr-body.md; then
-              echo "⚠ Không tạo PR auto — bật repo Settings → Actions → Workflow permissions →"
-              echo "    'Allow GitHub Actions to create and approve pull requests'"
-              echo "→ Tạo tay: https://github.com/${{ github.repository }}/pull/new/fix/auto-qa"
-            fi
-          else
-            echo "PR #${existing} đã mở — head pointer auto-update sau force-push"
-            gh pr comment "${existing}" --body-file pr-body.md || \
-              echo "⚠ Không comment được — kiểm tra permissions."
-          fi
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh \
+            "Self-healing: auto-fix QA mechanical issues ($(date -u +%FT%TZ))" \
+            content/

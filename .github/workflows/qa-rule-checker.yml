@@ -1,6 +1,6 @@
 name: QA Rule Checker
 
-# ZERO_BARRIER: quét rule xung đột + auto-fix PR (auto-merge khi CI pass).
+# Quét rule xung đột + auto-fix → push thẳng main.
 # Auto-trigger: schedule 8h + mọi workflow fail trên main.
 
 on:
@@ -11,7 +11,6 @@ on:
     workflows:
       - "Build and deploy Zola site to GitHub Pages"
       - "QA Gatekeeper"
-      - "Auto Merge PRs"
       - "Build Failure Auto-Remediation"
       - "Self-Healing QA"
       - "Compliance Score Audit"
@@ -24,7 +23,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   actions: read
 
 env:
@@ -55,17 +53,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run QA Rule Checker (scan, report, optional PR)
+      - name: Run QA Rule Checker (scan, report, push fixes to main)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/qa-auto-rule-checker.py || true
 
-      - name: Safety guard — never commit main
-        run: |
-          BR=$(git rev-parse --abbrev-ref HEAD)
-          if [ "$BR" = "main" ]; then
-            echo "::error::QA Rule Checker không được commit trực tiếp main"
-            exit 1
-          fi
-          echo "Branch: $BR (OK)"

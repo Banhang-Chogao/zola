@@ -11,7 +11,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   actions: write
 
 env:
@@ -37,19 +36,11 @@ jobs:
           MERGE_REPORT_SINCE: "2026-06-17T00:00:00Z"
         run: python3 scripts/fetch_merge_report.py
 
-      - name: Open PR if changed (never push main)
+      - name: Push to main if changed
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_TITLE: "chore: refresh Merge Report data"
-          PR_BODY: |
-            **Automated Merge Report** — cập nhật `data/merge-report.json`.
-
-            - Workflow: Merge Report
-            - Branch: `chore/merge-report-data`
-            - Sẽ auto-merge khi CI pass
         run: |
-          chmod +x .github/scripts/push_via_pr.sh
-          .github/scripts/push_via_pr.sh chore/merge-report-data \
-            "Cập nhật: refresh Merge Report ($(date -u +%FT%TZ))" \
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh Merge Report ($(date -u +%FT%TZ))" \
             data/merge-report.json

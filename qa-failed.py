@@ -1,6 +1,6 @@
 """
 Build-failure auto-remediation: analyze failed workflow runs, apply safe fixes,
-open PR (KHÔNG push main) → auto-merge khi CI pass → deploy production.
+push fix thẳng main → deploy production.
 
 Trigger: .github/workflows/build-failure-handler.yml khi workflow fail trên main.
 
@@ -9,8 +9,8 @@ Pipeline:
   2. Fetch logs qua `gh run view --log-failed`.
   3. Đối chiếu log với vaccine rules (scripts/vaccine_rules.py ↔ CLAUDE.md V1–V4).
   4. Apply safe fix nếu match.
-  5. Tạo branch riêng `fix/ci-auto-<run_id>` → commit → push → PR.
-  6. QA.yml + Zola build chạy lại trên PR; auto-merge.yml merge khi CI xanh.
+  5. Commit → push thẳng main.
+  6. QA.yml + deploy chạy lại trên push main.
   7. Unknown / manual-only → tạo GitHub issue.
 
 Run local:
@@ -213,22 +213,16 @@ def has_changes() -> bool:
     return sh_rc(["git", "diff", "--quiet"]) != 0 or sh_rc(["git", "diff", "--cached", "--quiet"]) != 0
 
 
-def create_fix_pr(
+def push_fix_to_main(
     *,
     run_id: str,
-    workflow_name: str,
-    workflow_url: str,
     pattern: dict,
-    logs: str,
 ) -> bool:
-    branch = f"fix/ci-auto-{run_id}"
-    rule = pattern.get("rule")
-    vaccine_block = vaccine_summary(rule, logs) if rule else ""
-
     git_setup()
-    sh(["git", "checkout", "-B", branch], check=False)
+    sh(["git", "fetch", "origin", "main"], check=False)
+    sh(["git", "checkout", "main"], check=False)
+    sh(["git", "pull", "--rebase", "origin", "main"], check=False)
 
-    # Chỉ stage file source — không add log artifacts
     sh(
         [
             "git", "add",
@@ -246,72 +240,12 @@ def create_fix_pr(
 
     commit_msg = (
         f"fix(ci): auto-remediation {pattern.get('vaccine_id', '?')} "
-        f"— {pattern.get('vaccine_name', pattern['kind'])} (run {run_id})"
+        f"— {pattern.get('vaccine_name', pattern['kind'])} (run {run_id}) [skip changelog]"
     )
     sh(["git", "commit", "-m", commit_msg], check=False)
-    sh(["git", "push", "-f", "origin", branch], check=True)
-
-    snippet = logs[-2500:]
-    pr_body = "\n".join([
-        "## Build Failure Auto-Remediation",
-        "",
-        f"**Failed workflow**: `{workflow_name}`",
-        f"**Run**: [{run_id}]({workflow_url})",
-        f"**Branch**: `{branch}`",
-        "",
-        vaccine_block,
-        "### Phạm vi fix",
-        "- Chỉ mechanical/safe fixes đã có trong vaccine CLAUDE.md",
-        "- CI pass → **auto-merge** → deploy production (ZERO_BARRIER)",
-        "",
-        "### Log tail (2500 chars)",
-        "```",
-        snippet,
-        "```",
-        "",
-        "### Verify",
-        "- QA Gatekeeper + Zola build smoke test chạy trên PR này",
-        "- Auto-merge khi CI xanh — không cần human approval",
-    ])
-
-    pr_body_path = ROOT / "pr-body-ci-auto.md"
-    pr_body_path.write_text(pr_body, encoding="utf-8")
-
-    title = (
-        f"fix(ci): {pattern.get('vaccine_id', 'auto')} "
-        f"{pattern.get('vaccine_name', pattern['kind'])[:40]} (run {run_id})"
-    )
-
-    existing = sh(
-        ["gh", "pr", "list", "--head", branch, "--state", "open", "--json", "number", "--jq", ".[0].number"],
-        check=False,
-    ).strip()
-
-    if existing:
-        log(f"PR #{existing} already open for {branch}")
-        sh(["gh", "pr", "comment", existing, "--body-file", str(pr_body_path)], check=False)
-        pr_num = existing
-    else:
-        create_out = sh(
-            [
-                "gh", "pr", "create",
-                "--base", "main",
-                "--head", branch,
-                "--title", title,
-                "--body-file", str(pr_body_path),
-            ],
-            check=False,
-        )
-        m = re.search(r"https://github.com/.+/pull/(\d+)", create_out)
-        if not m:
-            log(f"PR create may have failed: {create_out[:300]}")
-            return False
-        pr_num = m.group(1)
-        log(f"created PR #{pr_num}")
-
-    _github_output("pr_created", "true")
-    _github_output("branch", branch)
-    _github_output("pr_number", pr_num)
+    sh(["git", "push", "origin", "HEAD:main"], check=True)
+    log("pushed fix directly to main")
+    _github_output("pushed", "true")
     return True
 
 
@@ -339,8 +273,7 @@ def main() -> int:
     workflow_name = os.environ.get("FAILED_WORKFLOW_NAME", "?")
     workflow_url = os.environ.get("FAILED_WORKFLOW_URL", "")
 
-    _github_output("pr_created", "false")
-    _github_output("branch", "")
+    _github_output("pushed", "false")
 
     if not run_id:
         log("no FAILED_RUN_ID / GITHUB_RUN_ID — exit")
@@ -404,19 +337,13 @@ def main() -> int:
         )
         return 1
 
-    if create_fix_pr(
-        run_id=run_id,
-        workflow_name=workflow_name,
-        workflow_url=workflow_url,
-        pattern=pattern,
-        logs=logs,
-    ):
-        log("remediation PR opened — awaiting CI → auto-merge")
+    if push_fix_to_main(run_id=run_id, pattern=pattern):
+        log("remediation pushed to main — awaiting CI → deploy")
         return 0
 
     create_issue(
-        f"Build-failure: PR create failed (run {run_id})",
-        "Fix đã apply local nhưng không tạo được PR. Kiểm tra workflow permissions.",
+        f"Build-failure: push to main failed (run {run_id})",
+        "Fix đã apply local nhưng không push được lên main. Kiểm tra workflow permissions.",
     )
     return 1
 

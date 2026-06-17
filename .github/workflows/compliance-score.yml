@@ -15,7 +15,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   actions: write
 
 env:
@@ -66,15 +65,13 @@ jobs:
           python3 scripts/compliance_audit.py
           python3 scripts/compliance_fix.py
 
-      - name: Open PR if changed (never push main)
+      - name: Push to main if changed
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_TITLE: "qa: Compliance Score audit + auto-fix"
         run: |
-          chmod +x .github/scripts/push_via_pr.sh
-          .github/scripts/push_via_pr.sh qa/compliance-auto \
-            "Cập nhật: Compliance Score + auto-fix ($(date -u +%FT%TZ))" \
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: Compliance Score + auto-fix ($(date -u +%FT%TZ))" \
             data/compliance-score.json data/compliance-link-report.json \
             data/seo-qa-scores.json data/scores.json data/related.json \
             content/ templates/ static/ sass/ scripts/
