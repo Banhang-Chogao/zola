@@ -20,6 +20,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 DATA = REPO / "data"
 SCORE_FILE = DATA / "compliance-score.json"
+LINK_REPORT_FILE = DATA / "compliance-link-report.json"
+SCORES_FILE = DATA / "scores.json"
+RELATED_FILE = DATA / "related.json"
 CONTENT = REPO / "content"
 TEMPLATES = REPO / "templates"
 STATIC = REPO / "static"
@@ -104,9 +107,86 @@ def fix_skip_navigation(log: list[dict]) -> bool:
     return True
 
 
+def _draft_slugs() -> set[str]:
+    slugs: set[str] = set()
+    for md in CONTENT.rglob("*.md"):
+        try:
+            raw = md.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        if re.search(r"^draft\s*=\s*true", raw, re.MULTILINE):
+            slugs.add(md.stem)
+    return slugs
+
+
+def _purge_draft_from_scoring_data(draft_slugs: set[str]) -> bool:
+    """Remove draft posts from scores.json + related.json (scoring page dead links)."""
+    if not draft_slugs:
+        return False
+    changed = False
+
+    if SCORES_FILE.is_file():
+        try:
+            scores = json.loads(SCORES_FILE.read_text(encoding="utf-8"))
+            if isinstance(scores, list):
+                new_scores = [s for s in scores if s.get("slug") not in draft_slugs]
+                if len(new_scores) != len(scores):
+                    SCORES_FILE.write_text(
+                        json.dumps(new_scores, ensure_ascii=False, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
+                    changed = True
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    if RELATED_FILE.is_file():
+        try:
+            related = json.loads(RELATED_FILE.read_text(encoding="utf-8"))
+            if isinstance(related, dict):
+                for slug in draft_slugs:
+                    if slug in related:
+                        del related[slug]
+                        changed = True
+                for key, entries in list(related.items()):
+                    if not isinstance(entries, list):
+                        continue
+                    filtered = [e for e in entries if e.get("slug") not in draft_slugs]
+                    if len(filtered) != len(entries):
+                        related[key] = filtered
+                        changed = True
+                if changed:
+                    RELATED_FILE.write_text(
+                        json.dumps(related, ensure_ascii=False, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    return changed
+
+
+def _load_link_report() -> list[dict]:
+    if not LINK_REPORT_FILE.is_file():
+        return []
+    try:
+        data = json.loads(LINK_REPORT_FILE.read_text(encoding="utf-8"))
+        return list(data.get("links") or [])
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
 def fix_internal_links(log: list[dict]) -> bool:
     """Repair known broken internal href patterns (Links: Internal links)."""
     changed = False
+    link_report = _load_link_report()
+    fixed_targets: list[str] = []
+
+    # 0) Draft posts listed on scoring page → purge from generated JSON
+    draft_slugs = _draft_slugs()
+    if _purge_draft_from_scoring_data(draft_slugs):
+        changed = True
+        for slug in sorted(draft_slugs):
+            fixed_targets.append(f"draft:{slug} (removed from scores.json)")
 
     # 1) Markdown: ensure GitHub Pages /zola/ prefix on root-absolute links
     _md_link_re = re.compile(r"\]\((/[^)\s\"'#]+)")
@@ -187,18 +267,38 @@ def fix_internal_links(log: list[dict]) -> bool:
             pass
 
     if changed:
+        msg = "Đã sửa: " + "; ".join(fixed_targets) if fixed_targets else (
+            "Đã thêm prefix /zola/, sửa bài không tồn tại, changelog.json và converter"
+        )
         log.append(_log_entry(
             category="Links", label="Internal links", status="warn",
             outcome="fixed",
-            message="Đã thêm prefix /zola/, sửa bài không tồn tại, changelog.json và converter",
+            message=msg,
         ))
         return True
 
-    log.append(_log_entry(
-        category="Links", label="Internal links", status="warn",
-        outcome="failed",
-        message="Không tìm thấy pattern link hỏng đã biết — cần sửa thủ công",
-    ))
+    if link_report:
+        samples = []
+        for entry in link_report[:3]:
+            samples.append(
+                f"{entry.get('source_file', '?')} → {entry.get('target', '?')} "
+                f"({entry.get('reason', 'broken')})"
+            )
+        detail = "; ".join(samples)
+        log.append(_log_entry(
+            category="Links", label="Internal links", status="warn",
+            outcome="failed",
+            message=(
+                f"Còn {len(link_report)} link hỏng — xem data/compliance-link-report.json. "
+                f"Ví dụ: {detail}"
+            ),
+        ))
+    else:
+        log.append(_log_entry(
+            category="Links", label="Internal links", status="warn",
+            outcome="skipped",
+            message="Không có báo cáo link chi tiết — chạy compliance_audit.py trước",
+        ))
     return False
 
 

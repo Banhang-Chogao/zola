@@ -73,5 +73,6 @@ jobs:
           chmod +x .github/scripts/push_via_pr.sh
           .github/scripts/push_via_pr.sh qa/compliance-auto \
             "Cập nhật: Compliance Score + auto-fix ($(date -u +%FT%TZ))" \
-            data/compliance-score.json data/seo-qa-scores.json \
-            content/ templates/ static/ sass/
+            data/compliance-score.json data/compliance-link-report.json \
+            data/seo-qa-scores.json data/scores.json data/related.json \
+            content/ templates/ static/ sass/ scripts/

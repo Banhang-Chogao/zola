@@ -52,7 +52,7 @@ Trong [năng lượng hạt nhân](https://en.wikipedia.org/wiki/Nuclear_power),
 Điểm then chốt khoa học:
 
 1. **Uranium tự nhiên quá "nghèo" U-235** — khoảng 0,7% — không đủ để duy trì phản ứng dây chuyền trong hầu hết lò nước nhẹ (LWR) dùng nhiên liệu uranium.
-2. Cần **làm giàu** (enrichment) để tăng tỷ lệ U-235 — chủ đề [Bài 2](/zola/posting/uranium-lam-giau-la-gi/) sẽ giải thích.
+2. Cần **làm giàu** (enrichment) để tăng tỷ lệ U-235 — chủ đề Bài 2 (sắp ra trong series) sẽ giải thích; bối cảnh tin tức xem [hub uranium Iran](/zola/baochi/iran-uranium-destruction-what-it-means/).
 3. Nhiên liệu đã qua lò trở thành **nhiên liệu đã dùng** (spent fuel) — chứa đồng vị phóng xạ mới; xử lý thuộc [chu trình nhiên liệu hạt nhân](https://en.wikipedia.org/wiki/Nuclear_fuel_cycle).
 
 Điện hạt nhân cung cấp một phần đáng kể điện lưới ở nhiều quốc gia (Pháp, Hoa Kỳ một phần, Nhật Bản trước Fukushima…) — đây là **ứng dụng hòa bình** phổ biến nhất của uranium trong đời sống công cộng.
