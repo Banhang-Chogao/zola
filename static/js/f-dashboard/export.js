@@ -163,11 +163,10 @@
     setRgb(doc, INK);
   }
 
-  function drawPageNumber(doc, pageNum, totalPages, pageW, pageH) {
-    setFont(doc, "normal", 8);
-    setRgb(doc, MUTED);
-    doc.text("Trang " + pageNum + "/" + totalPages, pageW / 2, pageH - 6, { align: "center" });
+  function drawPageNumber(doc, pageNum, totalPages, pageW, pageH, margin) {
+    setFont(doc, "bold", 9);
     setRgb(doc, INK);
+    doc.text(pageNum + "/" + totalPages, pageW - margin, pageH - 6, { align: "right" });
   }
 
   function finalizePdfPages(doc, series, payload) {
@@ -179,7 +178,7 @@
       doc.setPage(i);
       stampWatermark(doc, series, pageW, pageH);
       drawDigitalSignature(doc, payload, pageW, margin);
-      drawPageNumber(doc, i, total, pageW, pageH);
+      drawPageNumber(doc, i, total, pageW, pageH, margin);
     }
   }
 
