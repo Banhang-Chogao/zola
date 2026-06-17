@@ -1,6 +1,7 @@
 +++
 title = "Ăn khuya Sài Gòn: 10 món & khu dân cú đêm hay ăn (mở sau 11h)"
 date = 2026-06-16
+aliases = ["/an-khuya-sai-gon/"]
 
 [taxonomies]
 categories = ["Ẩm thực"]

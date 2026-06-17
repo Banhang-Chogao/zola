@@ -1,11 +1,11 @@
 +++
 title = "Lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất: Messi lập hat-trick"
 date = 2026-06-17
+aliases = ["/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/"]
 
 [taxonomies]
 categories = ["Báo chí"]
-tags = ["LịchthiđấuWorldCup2026", "Lịch thi đấu World Cup 2026 theo giờ Việt Nam"]
-
+tags = ["lịch thi đấu world cup 2026 theo giờ việt nam", "lịchthiđấuworldcup2026"]
 [extra]
 thumbnail = "https://drive.google.com/file/d/1ms272pvewMsfU-vaNJ1XR7jpmVrDuYKi/view?usp=sharing"
 +++

@@ -1,6 +1,7 @@
 +++
 title = "Facebook Shopee Affiliate là gì? Hướng dẫn kiếm tiền từ nội dung cho người mới bắt đầu"
 date = 2026-06-17
+aliases = ["/facebook-shopee-affiliate-la-gi/"]
 
 [taxonomies]
 categories = ["Công nghệ"]
