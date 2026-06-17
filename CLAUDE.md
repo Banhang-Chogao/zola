@@ -782,11 +782,11 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 **Date:** 2026-06-18T00:00:00Z
 
-**Conflict:** `seo_robots_disallow_root` CRITICAL — false positive (scanner khớp `Disallow: /editor/` như `Disallow: /`).
+**Conflict:** False positives — `seo_robots_disallow_root`, `claude_auto_vs_manual_merge`, `claude_cancelled_classification`.
 
-**Root Cause:** Regex `disallow: /` substring match trên `Disallow: /data/`, `/editor/`; `fix_attempts` tăng khi conflict còn tồn tại dù không sửa file → anti-loop STOP giả.
+**Root Cause:** (1) Substring `disallow: /` khớp `/editor/`. (2) `Required approvals = 0` bị coi là mâu thuẫn auto-merge. (3) Prevention rule «Không classify cancelled là failed» bị đọc thành conflict với chính nó. (4) `fix_attempts` tăng khi không sửa file → anti-loop STOP giả.
 
-**Resolution:** `_robots_disallows_root()` chỉ match `Disallow: /` end-of-line; bỏ qua `.venv*` trong agent scan; deploy workflow = `pages: write` only; `fix_attempts` chỉ khi file thật sự đổi.
+**Resolution:** `_robots_disallows_root()` EOL-only; skip `.venv*`; `required approvals = 0` = aligned với auto-merge; bỏ qua `classify cancelled` khi có «không» trước đó; `fix_attempts` chỉ khi file đổi; reset `loop_detected` khi scan sạch.
 
-**Prevention:** Chạy `--dry-run` sau khi sửa scanner; reset `data/qa-rule-checker-state.json` khi loop flag do false positive.
+**Prevention:** `python3 scripts/qa-auto-rule-checker.py --dry-run` → 0 conflicts trước khi merge; reset state khi loop do FP.
 
