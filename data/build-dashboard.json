@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:43:39Z",
+  "updated_at": "2026-06-17T13:45:25Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 27,
+    "total": 30,
+    "success": 28,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27693409806,
+      "run_number": 374,
+      "commit_id": "80dc1b6b42b2d358d1c2efb8e1caf816d2c34dba",
+      "commit_short": "80dc1b6",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/80dc1b6b42b2d358d1c2efb8e1caf816d2c34dba",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27693409806",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #374 — Deploy blog lên GitHub Pages: fix(ci): Slack notify non-blocking when webhook fails",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:43:02Z",
+      "duration_sec": 125
+    },
     {
       "id": 27693409948,
       "run_number": 594,
