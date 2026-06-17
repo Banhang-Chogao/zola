@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -64,19 +65,13 @@ jobs:
           python3 scripts/compliance_audit.py
           python3 scripts/compliance_fix.py
 
-      - name: Commit if changed (race-safe)
+      - name: Open PR if changed (never push main)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: "qa: Compliance Score audit + auto-fix"
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/compliance-score.json data/seo-qa-scores.json \
-            content/ templates/ static/ sass/ 2>/dev/null || true
-          if git diff --cached --quiet; then
-            echo "Không có thay đổi compliance"; exit 0
-          fi
-          git commit -m "Cập nhật: Compliance Score + auto-fix ($(date -u +%FT%TZ))"
-          for i in 1 2 3; do
-            if git push origin HEAD:main; then exit 0; fi
-            git fetch origin main && git rebase origin/main
-            sleep $((i * 5))
-          done
-          exit 1
+          chmod +x .github/scripts/push_via_pr.sh
+          .github/scripts/push_via_pr.sh qa/compliance-auto \
+            "Cập nhật: Compliance Score + auto-fix ($(date -u +%FT%TZ))" \
+            data/compliance-score.json data/seo-qa-scores.json \
+            content/ templates/ static/ sass/
