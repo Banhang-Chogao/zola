@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-06-17T13:26:34Z",
+  "updated_at": "2026-06-17T13:28:22Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 28,
-    "success": 26,
+    "total": 27,
+    "success": 25,
     "failure": 0,
     "cancelled": 2
   },
@@ -59,6 +59,23 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T13:24:54Z",
       "duration_sec": 31
+    },
+    {
+      "id": 27692111172,
+      "run_number": 369,
+      "commit_id": "c408b0c53c4a6b364f25397103cf0e0bf628904d",
+      "commit_short": "c408b0c",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/c408b0c53c4a6b364f25397103cf0e0bf628904d",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692111172",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #369 — Deploy blog lên GitHub Pages: feat(media-guard): friction for casual image/attachment saving",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:22:25Z",
+      "duration_sec": 336
     },
     {
       "id": 27692110264,
@@ -450,40 +467,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T12:27:23Z",
       "duration_sec": 21
-    },
-    {
-      "id": 27688096340,
-      "run_number": 357,
-      "commit_id": "9aa698c283da2d3a60f68f595f4aadc1ce4c2a01",
-      "commit_short": "9aa698c",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/9aa698c283da2d3a60f68f595f4aadc1ce4c2a01",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27688096340",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #357 — Deploy blog lên GitHub Pages: fix: restore full editor.js + add Ctrl+Alt+9 shortcut (finish last part)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:13:39Z",
-      "duration_sec": 84
-    },
-    {
-      "id": 27688096199,
-      "run_number": 575,
-      "commit_id": "9aa698c283da2d3a60f68f595f4aadc1ce4c2a01",
-      "commit_short": "9aa698c",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/9aa698c283da2d3a60f68f595f4aadc1ce4c2a01",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27688096199",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #575 — Kiểm tra QA Gatekeeper: fix: restore full editor.js + add Ctrl+Alt+9 shortcut (finish last part)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:13:39Z",
-      "duration_sec": 25
     }
   ]
 }
