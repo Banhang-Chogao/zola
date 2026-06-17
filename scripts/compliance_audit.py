@@ -497,8 +497,12 @@ def run_audit() -> dict:
     # --- Links ---
     broken_set: set[str] = set()
     checked_set: set[str] = set()
+    missing_prefix_set: set[str] = set()
     for _, p in pages:
         for href in p.links:
+            href_s = href.strip()
+            if href_s.startswith("/") and not href_s.startswith(SITE_PREFIX + "/"):
+                missing_prefix_set.add(href_s.split("#")[0].split("?")[0])
             norm = _normalize_href(href)
             if not norm:
                 continue
@@ -516,6 +520,17 @@ def run_audit() -> dict:
         "label": "Internal links",
         "status": link_status,
         "detail": "all valid" if broken == 0 else f"{broken} broken / {checked} unique",
+    })
+    prefix_missing = len(missing_prefix_set)
+    prefix_status = "pass" if prefix_missing == 0 else ("warn" if prefix_missing <= 5 else "fail")
+    cat_items["links"].append({
+        "label": "GitHub Pages base path",
+        "status": prefix_status,
+        "detail": (
+            f"all hrefs use {SITE_PREFIX}/"
+            if prefix_missing == 0
+            else f"{prefix_missing} href(s) missing {SITE_PREFIX}/"
+        ),
     })
 
     # --- Access ---

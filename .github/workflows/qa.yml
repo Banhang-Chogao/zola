@@ -56,3 +56,7 @@ jobs:
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: zola build
+
+      - name: Check GitHub Pages base path in internal links
+        # Fail CI if any href="/..." lacks /zola/ — causes 404 on project site.
+        run: python3 scripts/check_internal_links.py
