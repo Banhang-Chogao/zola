@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T20:23:54Z",
+  "updated_at": "2026-06-17T20:24:10Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
@@ -12,6 +12,28 @@
   },
   "builds": [
     {
+      "id": 27717431234,
+      "run_number": 486,
+      "commit_id": "074049344c85e5b4e3e18cc4c0b5a4b7787d2fad",
+      "commit_short": "0740493",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/074049344c85e5b4e3e18cc4c0b5a4b7787d2fad",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27717431234",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #486 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T20:23:54Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "pending",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-17T20:23:57Z",
+      "duration_sec": 3
+    },
+    {
       "id": 27717388425,
       "run_number": 485,
       "commit_id": "12d11bd87c62577661e411612c0ab3c4414159fc",
@@ -23,7 +45,7 @@
       "summary_vi": "Build #485 — Deploy blog lên GitHub Pages: Cập nhật: SEO11 phase 2 iter 1: h1 on static asset indexes",
       "status_vi": "Đang chạy",
       "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "gh_status": "in_progress",
       "success": false,
       "is_error": false,
       "severity": "info",
@@ -31,7 +53,7 @@
       "cancel_reason": "",
       "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
       "started_at": "2026-06-17T20:23:13Z",
-      "duration_sec": 10
+      "duration_sec": 49
     },
     {
       "id": 27717375709,
@@ -65,17 +87,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #484 — Deploy blog lên GitHub Pages: SEO11 phase 2 iter 1: h1 on static asset indexes",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T20:22:59Z",
-      "duration_sec": 48
+      "duration_sec": 58
     },
     {
       "id": 27717194023,
@@ -406,28 +428,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T20:08:39Z",
       "duration_sec": 40
-    },
-    {
-      "id": 27716451949,
-      "run_number": 471,
-      "commit_id": "ad8e92f33274f568c48e843900535e0291da1d63",
-      "commit_short": "ad8e92f",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/ad8e92f33274f568c48e843900535e0291da1d63",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27716451949",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #471 — Deploy blog lên GitHub Pages: fix(ci): use gh pr state field and pass PR_TITLE to changelog script",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T20:06:39Z",
-      "duration_sec": 80
     },
     {
       "id": 27716450496,
