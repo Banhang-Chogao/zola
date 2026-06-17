@@ -222,33 +222,27 @@
     updateExportButtons();
   }
 
-  async function handleExportJson() {
+  async function runExport(format) {
     if (!allTransactions.length) return;
-    if (!confirm("Tải file JSON và xóa toàn bộ dữ liệu phiên này khỏi trình duyệt?")) return;
 
-    const payload = getInsightsPayload();
+    const label = format === "pdf" ? "PDF báo cáo" : "JSON";
+    if (!confirm(`Tải ${label} về máy và xóa ngay toàn bộ dữ liệu phiên? (Không lưu online)`)) return;
+
+    const btn = format === "pdf" ? els.exportPdf : els.exportJson;
+    if (btn) btn.disabled = true;
+
     try {
-      const series = FDashboardExport.exportJson(allTransactions, payload);
-      await wipeSessionData();
-      setStatus(`Đã tải JSON · watermark series ${series} · dữ liệu phiên đã xóa.`, "success");
+      const { watermark } = await FDashboardExport.exportAndWipe(
+        format,
+        allTransactions,
+        getInsightsPayload(),
+        wipeSessionData
+      );
+      setStatus(`Đã tải ${label} · phiên đã xóa · trace: ${watermark}`, "success");
     } catch (err) {
       console.error(err);
-      setStatus(err.message || "Xuất JSON thất bại.", "error");
-    }
-  }
-
-  async function handleExportPdf() {
-    if (!allTransactions.length) return;
-    if (!confirm("Tải báo cáo PDF (watermark blockchain series) và xóa dữ liệu phiên?")) return;
-
-    const payload = getInsightsPayload();
-    try {
-      const series = FDashboardExport.exportPdf(allTransactions, payload);
-      await wipeSessionData();
-      setStatus(`Đã tải PDF · watermark ${series}_${FDashboardExport.BLOG_DOMAIN} · dữ liệu phiên đã xóa.`, "success");
-    } catch (err) {
-      console.error(err);
-      setStatus(err.message || "Xuất PDF thất bại.", "error");
+      setStatus(err.message || `Xuất ${label} thất bại.`, "error");
+      updateExportButtons();
     }
   }
 
@@ -321,8 +315,8 @@
       el.addEventListener(ev, applyFilters);
     });
 
-    if (els.exportJson) els.exportJson.addEventListener("click", handleExportJson);
-    if (els.exportPdf) els.exportPdf.addEventListener("click", handleExportPdf);
+    if (els.exportJson) els.exportJson.addEventListener("click", () => runExport("json"));
+    if (els.exportPdf) els.exportPdf.addEventListener("click", () => runExport("pdf"));
   }
 
   async function startDashboard() {

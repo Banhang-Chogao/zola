@@ -70,14 +70,14 @@
             <div class="fd-export-bar" id="fd-export-bar">
                 <p class="fd-export-bar__label">Xuất &amp; xóa phiên (không lưu trên server)</p>
                 <div class="fd-export-bar__actions">
-                    <button type="button" class="fd-btn fd-btn--export" id="fd-export-json" disabled title="Tải JSON rồi xóa dữ liệu local">
-                        <span aria-hidden="true">📥</span> Xuất JSON
+                    <button type="button" class="fd-btn fd-btn--export" id="fd-export-json" disabled title="Tải JSON rồi wipe phiên">
+                        <span aria-hidden="true">📥</span> Export to JSON
                     </button>
-                    <button type="button" class="fd-btn fd-btn--export fd-btn--pdf" id="fd-export-pdf" disabled title="Tải báo cáo PDF infographic rồi xóa dữ liệu local">
-                        <span aria-hidden="true">📄</span> Xuất PDF báo cáo
+                    <button type="button" class="fd-btn fd-btn--export fd-btn--pdf" id="fd-export-pdf" disabled title="PDF infographic + watermark vô hình, rồi xóa phiên">
+                        <span aria-hidden="true">📄</span> Export PDF Infographic
                     </button>
                 </div>
-                <p class="fd-export-bar__note">Sau khi tải, toàn bộ giao dịch trong phiên này bị xóa khỏi trình duyệt.</p>
+                <p class="fd-export-bar__note">Auto-download → wipe ngay. PDF có watermark vô hình: <code>16hex_blog-url</code>. Không lưu persistent online.</p>
             </div>
         </section>
 

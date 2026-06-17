@@ -692,14 +692,26 @@ Vẫn chặn: dependabot, renovate, workflow auto-merge **không** whitelist.
 
 Trang công cụ tài chính cá nhân tại `/tools/f-dashboard/` — upload sao kê Excel VietinBank, phân tích thu/chi, sức khỏe tài chính, biểu đồ và AI insights.
 
+### Product spec (Frontend)
+
+| Pillar | Requirement |
+|--------|-------------|
+| **Auto-Download & Wipe** | Nút «Export JSON» và «Export PDF Infographic». Trigger download → **xóa ngay** toàn bộ IndexedDB. **Không** persistent online storage (không GitHub, không server, không `/static`). |
+| **Access Control** | Chỉ user **GitHub-authenticated** (reuse CMS OAuth: `cms_auth_url`, session `zola-cms-session-id`, `/auth/me`). Trang login trước dashboard. |
+| **UI/UX — Health tiers** | Hiển thị rõ 5 cấp Financial Health (Excellent → Danger) kèm score range + mô tả; highlight tier hiện tại. |
+| **PDF watermark** | Watermark **vô hình** (in chìm): `{16hex_lowercase}_{blog_url_no_protocol}` trên mọi trang PDF. JSON export gồm `series_id` + `watermark`. |
+
 **Kiến trúc (static site):** Blog Zola trên GitHub Pages không có server upload. Luồng chạy **100% client-side**:
 
 ```text
+GitHub OAuth gate (auth-gate.js)
+      ↓
 Excel VietinBank (browser)
-      ↓ SheetJS parser (static/js/f-dashboard/parser.js)
+      ↓ SheetJS parser (parser.js)
       ↓ SHA256 deduplicate
-      ↓ AES-GCM encrypted IndexedDB (static/js/f-dashboard/storage.js)
+      ↓ AES-GCM encrypted IndexedDB (storage.js) — ephemeral session only
       ↓ Insights + Charts (insights.js, charts.js)
+      ↓ Export JSON/PDF (export.js) → auto-download → wipe storage
 ```
 
 Python scripts (`scripts/f_dashboard_parse_excel.py`, `scripts/f_dashboard_insights.py`) mirror logic cho test/CI — **không** lưu dữ liệu người dùng.
@@ -735,7 +747,15 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 - **Expense Ratio:** `Tổng chi / Tổng thu`
 - **Net Cash Flow:** `Thu - Chi`
 - **Financial Score:** 0–100 từ saving rate, expense ratio, net flow, độ dài dữ liệu
-- **Labels:** Excellent (≥85), Good (≥70), Average (≥50), Risky (≥30), Danger (&lt;30)
+- **Tiers (UI + PDF):**
+
+| Tier | Score | Ý nghĩa |
+|------|-------|---------|
+| Excellent | ≥ 85 | Tích lũy mạnh, chi tiêu kiểm soát |
+| Good | 70 – 84 | Cân bằng tốt, tiết kiệm đủ |
+| Average | 50 – 69 | Trung bình, cần theo dõi chi |
+| Risky | 30 – 49 | Chi gần/vượt thu |
+| Danger | &lt; 30 | Thâm hụt kéo dài |
 
 ### Security Rules
 
@@ -743,9 +763,9 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 - **Không** lưu trong `/static`, `/public`, hoặc commit git.
 - Dữ liệu chỉ trên **IndexedDB local**, mã hóa **AES-GCM** (key sinh per-browser).
 - Không gửi sao kê lên server — parse hoàn toàn trong trình duyệt.
-- **Auth:** `/tools/f-dashboard/` yêu cầu GitHub OAuth (cùng CMS `cms_auth_url` / session `zola-cms-session-id`).
-- **Ephemeral:** Xuất JSON hoặc PDF → tải về local → **xóa IndexedDB ngay** (không tích lũy online).
-- **PDF watermark:** 16 ký tự hex thường (blockchain series) + `_` + blog domain, in chìm trên mọi trang.
+- **Auth:** `/tools/f-dashboard/` — GitHub OAuth only (CMS flow).
+- **Ephemeral:** `exportAndWipe()` — download → `clearAll()` ngay; no persistent online storage.
+- **PDF watermark (invisible):** `SHA256-style 16 hex lowercase` + `_` + `banhang-chogao.github.io/zola` (no `https://`).
 
 ### File map
 
