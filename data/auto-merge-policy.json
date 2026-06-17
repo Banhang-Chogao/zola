@@ -1,71 +1,29 @@
 {
-  "mode": "FULLY_AUTOMATED_OPERATIONS",
+  "mode": "ZERO_BARRIER_AUTOMATION",
   "effective_date": "2026-06-18",
   "default": "auto_merge_when_checks_pass",
+  "description": "Blog sạch — không kiểm duyệt trung gian. CI pass → auto-merge → deploy production ngay.",
   "required_checks": {
     "QA Gatekeeper": ["qa-check", "QA Gatekeeper"],
     "PR Policy": ["policy", "PR Policy"]
   },
-  "protected_domain_keywords": [
-    "security",
-    "authentication",
-    "oauth",
-    "login",
-    "admin",
-    "payment",
-    "momo",
-    "paywall",
-    "private-data",
-    "github-actions-permissions",
-    "deployment-infrastructure",
-    "branch-protection",
-    "repository-secrets"
-  ],
-  "protected_path_prefixes": [
-    ".github/workflows/",
-    ".github/actions/",
-    "security/",
-    "auth/",
-    "admin/"
-  ],
-  "protected_path_exceptions": [
-    ".github/workflows/auto-merge.yml",
-    ".github/workflows/merge-report.yml",
-    ".github/workflows/qa.yml",
-    ".github/workflows/pr-policy.yml",
-    "scripts/try_auto_merge.py",
-    "scripts/auto_merge_policy.py",
-    "scripts/fetch_merge_report.py",
-    "data/auto-merge-policy.json"
-  ],
+  "protected_domain_keywords": [],
+  "protected_path_prefixes": [],
+  "protected_path_exceptions": [],
   "auto_eligible_branch_prefixes": [
     "chore/",
     "qa/",
     "autofix/",
-    "fix/auto-merge",
-    "policy/auto-merge"
+    "fix/",
+    "feature/",
+    "content/",
+    "policy/"
   ],
-  "auto_eligible_title_patterns": [
-    "chore:",
-    "qa:",
-    "autofix",
-    "refresh build dashboard",
-    "refresh merge report",
-    "refresh google trends",
-    "changelog",
-    "compliance score audit",
-    "rule conflict auto-fix",
-    "optimize images",
-    "related posts",
-    "performance qa",
-    "self-healing",
-    "merge report",
-    "build dashboard"
-  ],
+  "auto_eligible_title_patterns": [],
   "bot_actors": ["github-actions[bot]"],
-  "blocked_labels": ["no-auto-merge", "manual-review", "human-review-required"],
-  "compliance_auto_merge_min_score": 95,
-  "bot_confidence_min": 0.9,
+  "blocked_labels": [],
+  "compliance_auto_merge_min_score": 0,
+  "bot_confidence_min": 0,
   "anti_loop_window": 12,
-  "anti_loop_repeat_threshold": 3
+  "anti_loop_repeat_threshold": 5
 }

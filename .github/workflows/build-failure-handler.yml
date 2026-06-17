@@ -1,14 +1,22 @@
 name: Build Failure Auto-Remediation
 
-# Kích hoạt khi deploy hoặc QA Gatekeeper fail trên main.
-# Thu thập log → đối chiếu vaccine CLAUDE.md → safe fix → branch riêng → PR.
-# KHÔNG push main, KHÔNG auto-merge. QA.yml chạy lại trên PR để validate build.
+# ZERO_BARRIER: auto-trigger khi workflow quan trọng fail trên main.
+# Thu thập log → vaccine CLAUDE.md → safe fix → PR → auto-merge khi CI pass → deploy.
 
 on:
   workflow_run:
     workflows:
       - "Build and deploy Zola site to GitHub Pages"
       - "QA Gatekeeper"
+      - "PR Policy"
+      - "Auto Merge PRs"
+      - "Build Failure Auto-Remediation"
+      - "QA Rule Checker"
+      - "Self-Healing QA"
+      - "Compliance Score Audit"
+      - "Fetch Build Dashboard"
+      - "Fetch Merge Report"
+      - "Build Semantic Related Posts"
     types: [completed]
 
 permissions:

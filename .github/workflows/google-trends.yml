@@ -40,7 +40,7 @@ jobs:
           PR_TITLE: "chore: refresh Google Trends VN hot search"
           PR_BODY: |
             Automated refresh of `data/google-trends-vn.json` for sidebar widget.
-            **Requires manual review and merge.** No direct push to `main`.
+            CI pass → auto-merge → deploy production (ZERO_BARRIER). No direct push to `main`.
         run: |
           chmod +x .github/scripts/push_via_pr.sh
           .github/scripts/push_via_pr.sh chore/google-trends-data \

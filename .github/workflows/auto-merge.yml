@@ -1,6 +1,6 @@
 name: Auto Merge PRs
 
-# FULLY AUTOMATED OPERATIONS — CI pass → merge main (không chờ human approval).
+# ZERO_BARRIER_AUTOMATION — CI pass → merge main → deploy production ngay.
 # Policy: data/auto-merge-policy.json + scripts/auto_merge_policy.py
 # Branch protection: required approvals = 0 (xem .github/BRANCH-PROTECTION.md).
 

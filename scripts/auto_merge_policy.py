@@ -1,8 +1,11 @@
 """
-Repository auto-merge policy — FULLY AUTOMATED OPERATIONS.
+Repository auto-merge policy — ZERO_BARRIER_AUTOMATION.
 
 Config: data/auto-merge-policy.json
 Used by: scripts/try_auto_merge.py
+
+CI pass (qa-check + policy) → auto-merge → deploy.yml → production.
+Không protected domain, không manual approval, không label chặn.
 """
 from __future__ import annotations
 
@@ -23,40 +26,19 @@ DEFAULT_POLICY: dict[str, Any] = {
         "QA Gatekeeper": ["qa-check", "QA Gatekeeper"],
         "PR Policy": ["policy", "PR Policy"],
     },
-    "protected_domain_keywords": [
-        "security", "authentication", "oauth", "login", "admin", "payment",
-        "momo", "paywall", "private-data", "github-actions-permissions",
-        "deployment-infrastructure", "branch-protection", "repository-secrets",
-    ],
-    "protected_path_prefixes": [
-        ".github/workflows/", ".github/actions/", "security/", "auth/", "admin/",
-    ],
-    "protected_path_exceptions": [
-        ".github/workflows/auto-merge.yml",
-        ".github/workflows/merge-report.yml",
-        ".github/workflows/qa.yml",
-        ".github/workflows/pr-policy.yml",
-        "scripts/try_auto_merge.py",
-        "scripts/auto_merge_policy.py",
-        "scripts/fetch_merge_report.py",
-        "data/auto-merge-policy.json",
-    ],
+    "protected_domain_keywords": [],
+    "protected_path_prefixes": [],
+    "protected_path_exceptions": [],
     "auto_eligible_branch_prefixes": [
-        "chore/", "qa/", "autofix/", "fix/auto-merge", "policy/auto-merge",
+        "chore/", "qa/", "autofix/", "fix/", "feature/", "content/", "policy/",
     ],
-    "auto_eligible_title_patterns": [
-        "chore:", "qa:", "autofix", "refresh build dashboard",
-        "refresh merge report", "refresh google trends", "changelog",
-        "compliance score audit", "rule conflict auto-fix", "optimize images",
-        "related posts", "performance qa", "self-healing", "merge report",
-        "build dashboard",
-    ],
+    "auto_eligible_title_patterns": [],
     "bot_actors": ["github-actions[bot]"],
-    "blocked_labels": ["no-auto-merge", "manual-review", "human-review-required"],
-    "compliance_auto_merge_min_score": 95,
-    "bot_confidence_min": 0.9,
+    "blocked_labels": [],
+    "compliance_auto_merge_min_score": 0,
+    "bot_confidence_min": 0,
     "anti_loop_window": 12,
-    "anti_loop_repeat_threshold": 3,
+    "anti_loop_repeat_threshold": 5,
 }
 
 
@@ -207,60 +189,23 @@ def detect_anti_loop(ctx: PrContext, policy: dict[str, Any] | None = None) -> st
 def evaluate(ctx: PrContext, policy: dict[str, Any] | None = None) -> tuple[bool, str, str]:
     """
     Returns (ready, reason, category).
-    category: auto_eligible | manual_required | blocked
+    category: auto_eligible | blocked
     """
     policy = policy or load_policy()
 
     blocked_labels = set(policy.get("blocked_labels", []))
-    if ctx.labels & blocked_labels:
+    if blocked_labels and ctx.labels & blocked_labels:
         return False, f"Label chặn: {', '.join(sorted(ctx.labels & blocked_labels))}", "blocked"
 
     loop = detect_anti_loop(ctx, policy)
     if loop:
-        return False, loop, "manual_required"
+        return False, loop, "blocked"
 
     ok, msg = checks_pass(ctx, policy)
     if not ok:
         return False, msg, "blocked"
 
-    if is_claude_learning_only(ctx.paths):
-        return True, "CLAUDE.md / reports learning — auto-merge", "auto_eligible"
-
-    if is_dashboard_refresh_pr(ctx):
-        return True, "Dashboard/report refresh — auto-merge", "auto_eligible"
-
-    if is_compliance_autofix_pr(ctx):
-        min_score = float(policy.get("compliance_auto_merge_min_score", 95))
-        if ctx.compliance_score is not None and ctx.compliance_score < min_score:
-            return False, f"Compliance score {ctx.compliance_score} < {min_score}", "manual_required"
-        workflow_hits = [p for p in ctx.paths if p.startswith(".github/workflows/")]
-        if workflow_hits:
-            return False, f"Compliance PR đụng workflow: {workflow_hits[0]}", "manual_required"
-        return True, "Compliance auto-fix — auto-merge", "auto_eligible"
-
-    if is_bot_actor(ctx.actor) and is_maintenance_pr(ctx):
-        return True, "Bot maintenance PR — auto-merge", "auto_eligible"
-
-    if is_maintenance_pr(ctx):
-        return True, "Maintenance/chore — auto-merge", "auto_eligible"
-
-    protected = protected_hits(ctx, policy)
-    if protected:
-        preview = ", ".join(protected[:4])
-        if len(protected) > 4:
-            preview += "…"
-        return False, f"Protected domain — manual review: {preview}", "manual_required"
-
-    if "confidence" in _norm(ctx.body):
-        m = re.search(r"confidence\s*[=≥:]?\s*(\d+(?:\.\d+)?)\s*%?", ctx.body, re.I)
-        if m:
-            conf = float(m.group(1))
-            if conf > 1:
-                conf /= 100.0
-            if conf >= float(policy.get("bot_confidence_min", 0.9)):
-                return True, f"Bot fix confidence {conf:.0%} — auto-merge", "auto_eligible"
-
-    return True, "Default auto-merge — CI pass, không protected", "auto_eligible"
+    return True, "ZERO_BARRIER — CI pass → auto-merge → deploy production", "auto_eligible"
 
 
 def parse_compliance_score_from_paths(paths: list[str], file_loader) -> float | None:

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Unit tests — auto-merge policy (FULLY AUTOMATED OPERATIONS)."""
+"""Unit tests — auto-merge policy (ZERO_BARRIER_AUTOMATION)."""
 from __future__ import annotations
 
 import sys
@@ -56,21 +56,29 @@ class TestChecksPass(unittest.TestCase):
         self.assertIn("policy", msg)
 
 
-class TestProtectedDomains(unittest.TestCase):
-    def test_workflow_change_blocks(self):
+class TestZeroBarrier(unittest.TestCase):
+    def test_workflow_change_allowed(self):
         hits = protected_hits(_ctx(paths=[".github/workflows/deploy.yml"]))
-        self.assertTrue(hits)
-
-    def test_auto_merge_workflow_exception(self):
-        hits = protected_hits(_ctx(paths=[".github/workflows/auto-merge.yml"]))
         self.assertFalse(hits)
 
-    def test_oauth_title_blocks(self):
+    def test_oauth_title_allowed(self):
         hits = protected_hits(_ctx(title="fix(f-dashboard): restore GitHub OAuth login"))
-        self.assertTrue(any("oauth" in h or "login" in h for h in hits))
+        self.assertFalse(hits)
 
-    def test_chore_data_allowed(self):
+    def test_chore_data_auto_merge(self):
         ready, reason, cat = evaluate(_ctx())
+        self.assertTrue(ready, reason)
+        self.assertEqual(cat, "auto_eligible")
+        self.assertIn("ZERO_BARRIER", reason)
+
+    def test_workflow_pr_auto_merge(self):
+        ready, reason, cat = evaluate(
+            _ctx(
+                title="fix(ci): update deploy workflow",
+                head_ref="fix/deploy-workflow",
+                paths=[".github/workflows/deploy.yml"],
+            )
+        )
         self.assertTrue(ready, reason)
         self.assertEqual(cat, "auto_eligible")
 
@@ -90,7 +98,7 @@ class TestCategories(unittest.TestCase):
         self.assertTrue(ready)
         self.assertEqual(cat, "auto_eligible")
 
-    def test_compliance_low_score_manual(self):
+    def test_compliance_low_score_still_auto_merge(self):
         ready, reason, cat = evaluate(
             _ctx(
                 title="qa: Compliance Score audit + auto-fix",
@@ -98,15 +106,13 @@ class TestCategories(unittest.TestCase):
                 compliance_score=80.0,
             )
         )
-        self.assertFalse(ready)
-        self.assertIn("Compliance score", reason)
-        self.assertEqual(cat, "manual_required")
+        self.assertTrue(ready, reason)
+        self.assertEqual(cat, "auto_eligible")
 
-    def test_no_auto_merge_label(self):
+    def test_no_auto_merge_label_ignored(self):
         ready, reason, cat = evaluate(_ctx(labels={"no-auto-merge"}))
-        self.assertFalse(ready)
-        self.assertIn("Label", reason)
-        self.assertEqual(cat, "blocked")
+        self.assertTrue(ready, reason)
+        self.assertEqual(cat, "auto_eligible")
 
 
 if __name__ == "__main__":

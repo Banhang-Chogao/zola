@@ -65,6 +65,5 @@ Maintenance workflows (`Fetch Build Dashboard`, `Fetch Merge Report`, `Complianc
 ## Residual risk
 
 - Without `WORKFLOW_BOT_PAT`, CI depends on `workflow_dispatch` chain — monitor `trigger_bot_pr_ci.sh` warnings in workflow logs
-- Fork PRs still require maintainer approval (by design)
-- Protected-domain PRs still require manual review (policy)
+- Fork PRs still require maintainer approval (GitHub platform — outside repo config)
 - After `gh` CLI upgrades on `ubuntu-latest`, re-run `scripts/test_bot_pr_ci_relay.py` if bot PR policy fails again

@@ -25,13 +25,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: List PRs ready for manual merge
+      - name: List PRs ready for auto-merge
         run: |
           set -euo pipefail
           gh pr list --base "${TARGET_BRANCH}" --state open --limit 100 \
             --json number,title,reviewDecision,mergeable,statusCheckRollup > /tmp/prs.json
 
-          echo "## PRs ready for manual merge"
+          echo "## PRs ready for auto-merge"
           echo ""
           jq -r '
             [.[]
