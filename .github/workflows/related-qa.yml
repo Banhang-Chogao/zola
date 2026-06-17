@@ -1,0 +1,71 @@
+name: Related Posts QA Checker
+
+on:
+  schedule:
+    # 22:00 Asia/Ho_Chi_Minh (UTC+7) = 15:00 UTC
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: related-qa
+  cancel-in-progress: false
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+
+      - name: Cache HuggingFace model
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/huggingface
+          key: hf-paraphrase-multilingual-MiniLM-L12-v2
+
+      - name: Install dependencies
+        run: pip install --quiet -r scripts/requirements.txt
+
+      - name: Run Related Posts QA Checker
+        run: python3 scripts/related_qa_checker.py --fix
+
+      - name: Commit if changed (race-safe retry)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git status --porcelain data/related.json data/scores.json data/related-qa-report.json reports/related-qa-latest.md | grep -q .; then
+            git add data/related.json data/scores.json data/related-qa-report.json reports/related-qa-latest.md
+            git commit -m "Cập nhật: Related Posts QA — topic cluster fix ($(date +%Y-%m-%dT%H:%MZ))"
+          else
+            echo "No related QA changes to commit."
+            exit 0
+          fi
+
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Push thành công attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected attempt $attempt, fetch+rebase main..."
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort; exit 1; }
+            sleep $((attempt * 5))
+          done
+          exit 1

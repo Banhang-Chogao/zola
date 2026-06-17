@@ -14,9 +14,9 @@
                 <span class="scoring__count">{{ total }} bài</span>
             </div>
             <p class="scoring__desc">
-                Semantic similarity score tính từ <code>sentence-transformers</code>
-                multilingual embeddings + cosine similarity. Score cao = bài có nhiều
-                bài tương đồng ngữ nghĩa trên blog (well-connected).
+                Topic-aware semantic score: <code>sentence-transformers</code> +
+                cosine similarity, ưu tiên related cùng cluster (Du lịch, Ẩm thực,
+                Công nghệ, Tài chính…). Score ≥70 = xanh. QA tự chạy 22:00 giờ VN.
             </p>
         </header>
 
@@ -74,10 +74,14 @@
                                 data-title="{{ s.title }}">
                                 <td class="scoring__td scoring__td--rank">{{ loop.index }}</td>
                                 <td class="scoring__td scoring__td--title">
-                                    <a href="{{ config.base_url }}/posting/{{ s.slug }}/" class="scoring__link">
+                                    {% set sec = s.section | default(value="posting") %}
+                                    <a href="{{ config.base_url }}/{{ sec }}/{{ s.slug }}/" class="scoring__link">
                                         {{ s.title }}
                                     </a>
-                                    <span class="scoring__neighbors">{{ s.neighbors }} liên quan</span>
+                                    <span class="scoring__neighbors">
+                                        {{ s.neighbors }} liên quan
+                                        {% if s.cluster_label %} · {{ s.cluster_label }}{% endif %}
+                                    </span>
                                 </td>
                                 <td class="scoring__td scoring__td--score">
                                     <span class="scoring__badge scoring__badge--{{ tier }}">
@@ -92,7 +96,7 @@
                                     {% endif %}
                                 </td>
                                 <td class="scoring__td scoring__td--action">
-                                    <a href="{{ config.base_url }}/posting/{{ s.slug }}/"
+                                    <a href="{{ config.base_url }}/{{ sec }}/{{ s.slug }}/"
                                        class="scoring__btn" title="Đọc bài">→</a>
                                 </td>
                             </tr>

@@ -8,6 +8,8 @@ on:
       - 'content/baochi/**.md'
       - 'content/pages/**.md'
       - 'scripts/build_related.py'
+      - 'scripts/related_engine.py'
+      - 'scripts/related_qa_checker.py'
       - 'scripts/build_references.py'
       - 'scripts/requirements.txt'
   schedule:
