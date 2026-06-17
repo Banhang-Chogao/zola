@@ -353,16 +353,7 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   env var hoặc dùng context tin cậy (`github.sha`...), KHÔNG nội suy thẳng vào
   `run:`/payload (chống script injection).
 
-### Dependabot (BẬT qua `.github/dependabot.yml`)
+### Dependabot — TẮT (không auto-dependency updates)
 
-- Dependabot CHỈ mở PR cập nhật dependency (GitHub Actions + Python deps), gom
-  nhóm, weekly. Nó **KHÔNG push thẳng vào `main`** → không tự làm đỏ production.
-- **KHÔNG gây xung đột build site**: Zola binary pin cứng version trong
-  `deploy.yml`, Dependabot không đụng tới. Nó chỉ bump action versions + deps
-  của script/service phụ.
-- **Quy tắc merge PR Dependabot** (gate bắt buộc, cùng chuẩn deploy):
-  1. PR phải PASS `qa-check` + build xanh → mới được merge. PR đỏ → KHÔNG merge.
-  2. Nếu một bump làm fail CI/build → chạy phím tắt **`ff`** (Full Fix & Deploy)
-     để auto-fix; fix xong + xanh → merge. Nếu không fix được → ĐÓNG PR đó, giữ
-     version cũ, KHÔNG ép merge.
-  3. Tuyệt đối KHÔNG auto-merge PR Dependabot khi đang đỏ chỉ để "cho xong".
+- **KHÔNG** dùng Dependabot / auto-bump dependency. Cập nhật action/deps thủ công
+  qua feature branch → PR → review → batch merge (10 PR).

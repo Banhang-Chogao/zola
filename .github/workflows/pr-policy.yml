@@ -1,5 +1,7 @@
 name: PR Policy
 
+# Mọi thay đổi vào main phải qua PR từ nhánh feature.
+
 on:
   pull_request:
     branches: [main]
@@ -15,6 +17,6 @@ jobs:
       - name: Block PR from main
         if: github.head_ref == 'main'
         run: |
-          echo "::error::PR phải từ nhánh feature, không từ main."
+          echo "::error::PR must originate from a feature branch, not main."
           exit 1
       - run: echo "branch=${{ github.head_ref }} ok"
