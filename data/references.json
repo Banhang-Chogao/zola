@@ -640,6 +640,50 @@
     "external_count": 2,
     "internal_count": 3
   },
+  "content/posting/uranium-la-gi-tai-sao-quan-trong.md": {
+    "external": [
+      {
+        "title": "chu trình nhiên liệu hạt nhân",
+        "url": "https://en.wikipedia.org/wiki/Nuclear_fuel_cycle",
+        "kind": "external"
+      },
+      {
+        "title": "Cơ quan Năng lượng Nguyên tử Quốc tế",
+        "url": "https://www.iaea.org/",
+        "kind": "external"
+      },
+      {
+        "title": "năng lượng hạt nhân",
+        "url": "https://en.wikipedia.org/wiki/Nuclear_power",
+        "kind": "external"
+      },
+      {
+        "title": "Wikipedia mô tả",
+        "url": "https://en.wikipedia.org/wiki/Uranium-235",
+        "kind": "external"
+      },
+      {
+        "title": "Wikipedia về Uranium",
+        "url": "https://en.wikipedia.org/wiki/Uranium",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "tin uranium Iran",
+        "url": "https://banhang-chogao.github.io/zola/zola/baochi/iran-uranium-destruction-what-it-means/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 2",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/uranium-lam-giau-la-gi/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Nội dung giáo dục tổng hợp từ Wikipedia và tài liệu công khai của IAEA. Không nhằm hướng dẫn kỹ thuật vũ khí hạt nhân.",
+    "external_count": 5,
+    "internal_count": 2
+  },
   "content/posting/zola-vs-hugo.md": {
     "external": [
       {
@@ -711,13 +755,13 @@
   "content/baochi/bidv-flagship-private-banking-tphcm.md": {
     "external": [
       {
-        "title": "Edmond de Rothschild",
-        "url": "https://www.edmond-de-rothschild.com/",
+        "title": "Private Banking trên Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Private_banking",
         "kind": "external"
       },
       {
-        "title": "Private Banking trên Wikipedia",
-        "url": "https://en.wikipedia.org/wiki/Private_banking",
+        "title": "Edmond de Rothschild",
+        "url": "https://www.edmond-de-rothschild.com/",
         "kind": "external"
       }
     ],
@@ -728,7 +772,7 @@
         "kind": "internal"
       }
     ],
-    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Edmond de Rothschild và Private Banking trên Wikipedia. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Private Banking trên Wikipedia và Edmond de Rothschild. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
     "internal_count": 1
   },
@@ -800,28 +844,22 @@
     "internal_count": 1
   },
   "content/baochi/iran-uranium-destruction-what-it-means.md": {
-    "external": [
-      {
-        "title": "IAEA",
-        "url": "https://www.iaea.org/",
-        "kind": "external"
-      },
-      {
-        "title": "uranium làm giàu (enriched uranium) trên Wikipedia",
-        "url": "https://en.wikipedia.org/wiki/Enriched_uranium",
-        "kind": "external"
-      }
-    ],
+    "external": [],
     "internal": [
       {
+        "title": "Uranium là gì?",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/uranium-la-gi-tai-sao-quan-trong/",
+        "kind": "internal"
+      },
+      {
         "title": "Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?",
-        "url": "https://banhang-chogao.github.io/zola/baochi/my-iran-peace-deal-global-energy/",
+        "url": "https://banhang-chogao.github.io/zola/zola/baochi/my-iran-peace-deal-global-energy/",
         "kind": "internal"
       }
     ],
-    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ IAEA và uranium làm giàu (enriched uranium) trên Wikipedia. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
-    "external_count": 2,
-    "internal_count": 1
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 2
   },
   "content/baochi/liobank-bao-mat-an-toan-the-nao.md": {
     "external": [

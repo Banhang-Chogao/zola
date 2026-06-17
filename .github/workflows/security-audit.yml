@@ -17,7 +17,8 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write      # cần để commit data/security.json (QA dashboard snapshot)
+  contents: write
+  pull-requests: write
   issues: write
   security-events: write
 
@@ -155,21 +156,15 @@ jobs:
           print(json.dumps(data, indent=2))
           PY
 
-      - name: Commit data/security.json to main (race-safe)
+      - name: Open PR if changed (never push main)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: "chore: security audit snapshot"
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if ! git status --porcelain data/security.json | grep -q .; then
-            echo "Không có thay đổi security.json"; exit 0
-          fi
-          git add data/security.json
-          git commit -m "Cập nhật: security audit snapshot ($(date -u +%FT%TZ))"
-          for i in 1 2 3; do
-            if git push origin HEAD:main; then exit 0; fi
-            git fetch origin main && git rebase origin/main
-            sleep $((i * 5))
-          done
-          exit 1
+          chmod +x .github/scripts/push_via_pr.sh
+          .github/scripts/push_via_pr.sh chore/security-data \
+            "Cập nhật: security audit snapshot ($(date -u +%FT%TZ))" \
+            data/security.json
 
       - name: Upload artifacts
         if: always()

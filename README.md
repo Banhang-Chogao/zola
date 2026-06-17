@@ -30,6 +30,10 @@
 
 > **5,500+ dòng code · 50+ commits · 0 dependency runtime · 100% static**
 
+### Contributing / vận hành
+
+Mọi thay đổi **phải qua Pull Request** — không commit/push trực tiếp `main`. Xem [docs/OPERATIONS.md](docs/OPERATIONS.md) và [.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md).
+
 ---
 
 ## 🛠️ Tech Stack
@@ -202,8 +206,23 @@ zola/
 │       ├── stats-page.js            # Vitals dashboard renderer
 │       └── post-stats.js            # Per-post analytics badge
 ├── 🎨 highlight_themes/             # Catppuccin Mocha .tmTheme
-└── ⚙  .github/workflows/deploy.yml  # CI/CD pipeline
+├── 📁 scripts/
+│   └── autofix_conflicts.py         # Python Autofixer (ff9 backend)
+└── ⚙  .github/workflows/
+    ├── deploy.yml                   # CI/CD pipeline
+    └── autofix-conflicts.yml        # Auto-resolve PR merge conflicts → fix PR
 ```
+
+### Autofixer (merge conflict PR)
+
+Workflow `autofix-conflicts.yml` chạy mỗi 30 phút (và `workflow_dispatch`):
+
+1. Quét PR open bị conflict với `main`
+2. Tạo nhánh `autofix/conflict-pr-<N>`, merge `main`, resolve markers an toàn
+3. Chạy `qa_check.py` → `build_references.py` → `zola build` → `check_internal_links.py`
+4. Mở PR fix riêng — **không** push `main`, **không** auto-merge
+
+State dedup: `data/autofix-conflicts-state.json`. Learning log: `CLAUDE.md` § Autofixer.
 
 ---
 
@@ -227,14 +246,14 @@ Mỗi khi sửa `.md` / `.html` / `.scss` → Zola live-reload tức thì.
 ### Deploy
 
 ```bash
-# Cách 1: dùng push.sh
-./push.sh "your commit message"
-
-# Cách 2: thủ công
-git add . && git commit -m "..." && git push
+# Feature branch → PR → manual merge (bắt buộc — xem docs/OPERATIONS.md)
+git checkout -b feature/my-change origin/main
+git add . && git commit -m "..."
+git push -u origin feature/my-change
+# Tạo PR trên GitHub → review → merge
 ```
 
-GitHub Actions sẽ tự build & deploy lên Pages trong ~1 phút. Watch live status ngay trên header banner của blog.
+Sau khi PR merge vào `main`, GitHub Actions tự build & deploy lên Pages trong ~1 phút.
 
 ### Viết bài qua trình duyệt (không cần clone)
 

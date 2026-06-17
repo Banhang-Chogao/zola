@@ -6,8 +6,7 @@ aliases = ["/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-ha
 
 [taxonomies]
 categories = ["Tất cả", "Báo chí"]
-tags = ["lịch thi đấu world cup 2026", "world cup 2026", "messi", "argentina", "bóng đá"]
-
+tags = ["argentina", "bóng đá", "lịch thi đấu world cup 2026", "messi", "world cup 2026"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
 seo_keyword = "lịch thi đấu World Cup 2026"

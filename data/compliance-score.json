@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-17T15:59:03Z",
-  "score": 100.0,
+  "updated_at": "2026-06-17T16:54:57Z",
+  "score": 97.8,
   "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 23,
-    "warn": 0,
+    "pass": 22,
+    "warn": 1,
     "fail": 0,
     "total": 23
   },
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "228/228 in range"
+          "detail": "234/234 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "228/228 complete"
+          "detail": "234/234 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "228/228 set"
+          "detail": "234/234 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "226/228 single H1"
+          "detail": "232/234 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "228/228 with lang"
+          "detail": "234/234 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "228/228 ready"
+          "detail": "234/234 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "225/228 pages"
+          "detail": "231/234 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "228/228 pages covered"
+          "detail": "234/234 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "40/40 articles"
+          "detail": "41/41 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "40/40 tagged"
+          "detail": "41/41 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "40/40 substantive"
+          "detail": "41/41 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,15 +158,15 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
-      "pass": 2,
-      "warn": 0,
+      "score": 75.0,
+      "pass": 1,
+      "warn": 1,
       "fail": 0,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "warn",
+          "detail": "2 broken / 227 unique"
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "224/228 pages"
+          "detail": "230/234 pages"
         },
         {
           "label": "Skip navigation",
@@ -197,6 +197,10 @@
     }
   ],
   "highlights": [
+    {
+      "type": "warn",
+      "text": "Links: Internal links"
+    },
     {
       "type": "pass",
       "text": "Metadata: Page titles"
@@ -216,28 +220,24 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 228,
-  "articles_scanned": 44,
+  "pages_scanned": 234,
+  "articles_scanned": 45,
   "fix_log": [
     {
-      "category": "—",
-      "label": "Tất cả mục",
-      "check_status": "pass",
-      "outcome": "skipped",
-      "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-17T15:59:03Z"
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Không tìm thấy pattern link hỏng đã biết — cần sửa thủ công",
+      "at": "2026-06-17T16:54:57Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 0,
-    "skipped": 1
+    "failed": 1,
+    "skipped": 0
   }
 }

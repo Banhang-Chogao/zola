@@ -62,6 +62,7 @@ menu = [
     { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
         { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
         { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
+        { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" },
         { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
         { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
         { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },

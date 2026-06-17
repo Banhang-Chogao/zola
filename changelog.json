@@ -2,6 +2,166 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 303,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "changelog after PR #300",
+      "tag": "chore",
+      "pr": 305,
+      "lines_added": 13,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 299,
+      "lines_added": 225,
+      "lines_removed": 259,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "🤖 Self-healing: 14 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 301,
+      "lines_added": 14,
+      "lines_removed": 16,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 294,
+      "lines_added": 224,
+      "lines_removed": 173,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 293,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 289,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "changelog after PR #272",
+      "tag": "chore",
+      "pr": 287,
+      "lines_added": 9,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "Feat/devops no dependabot batch 10",
+      "tag": "chore",
+      "pr": 286,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(sidebar): Today hot search — Google Trends Vietnam (25 keywords)",
+      "tag": "chore",
+      "pr": 283,
+      "lines_added": 701,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/fetch_google_trends.py — batchexecute (primary), RSS fallback, cache fallback",
+        "data/google-trends-vn.json — build-time data",
+        "templates/macros/hot-search.html + SCSS Google Trends–style rank list",
+        "deploy.yml — fetch trước zola build",
+        "google-trends.yml — refresh hourly → PR chore/google-trends-data"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(science): uranium series infra + Bài 01 + hub Iran article",
+      "tag": "chore",
+      "pr": 281,
+      "lines_added": 396,
+      "lines_removed": 36,
+      "highlights": [
+        "science-uranium-series.json manifest (5 parts)",
+        "Category Khoa học: categories.json + menu",
+        "series-hub macro, multi-series nav/related/breadcrumb",
+        "Bài 01: Uranium là gì (posting/)",
+        "Iran article: hub_series, category Khoa học, đọc thêm"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(qa): Related Posts QA checker — topic cluster scoring",
+      "tag": "chore",
+      "pr": 278,
+      "lines_added": 721,
+      "lines_removed": 200,
+      "highlights": [
+        "Quét posting + baochi (39+ bài)",
+        "Phân tích category, tags, seo_keyword, title, description, body",
+        "Gom topic cluster: Du lịch, Ẩm thực, Công nghệ, Tài chính, Thế giới, Khuyến mãi",
+        "Related: ưu tiên cùng cluster, cross-topic chỉ khi thiếu neighbor + penalty 0.35x",
+        "--fix ghi data/related.json + data/scores.json"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "Feature/seo foundation series",
       "tag": "chore",
       "pr": 277,

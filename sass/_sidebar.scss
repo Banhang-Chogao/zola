@@ -226,6 +226,148 @@
   }
 }
 
+/* ===== TODAY HOT SEARCH (Google Trends VN) ===== */
+.sidebar-block--hot-search {
+  --hot-rank-size: 1.65rem;
+
+  .hot-search__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: -0.35rem 0 0.85rem;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+  }
+
+  .hot-search__geo {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .hot-search__updated {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hot-search__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    max-height: 26rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-border) transparent;
+  }
+
+  .hot-search__item {
+    display: grid;
+    grid-template-columns: var(--hot-rank-size) 1fr auto;
+    align-items: center;
+    gap: 0.45rem 0.5rem;
+    padding: 0.42rem 0.35rem;
+    border-radius: 6px;
+    border-bottom: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    transition: background 0.15s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: color-mix(in srgb, var(--c-accent) 8%, transparent);
+    }
+
+    &.is-top .hot-search__rank {
+      color: #ea4335;
+      font-weight: 900;
+    }
+
+    &.is-top .hot-search__trend-icon {
+      color: #ea4335;
+    }
+  }
+
+  .hot-search__rank {
+    font-family: $font-heading;
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--c-text-muted);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hot-search__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover .hot-search__keyword {
+      color: var(--c-accent);
+    }
+  }
+
+  .hot-search__keyword {
+    font-size: 0.84rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--c-text-heading);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.15s ease;
+  }
+
+  .hot-search__volume {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--c-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .hot-search__trend-icon {
+    font-size: 0.55rem;
+    line-height: 1;
+    color: #34a853;
+    opacity: 0.85;
+  }
+
+  .hot-search__source {
+    margin: 0.85rem 0 0;
+    padding-top: 0.65rem;
+    border-top: 1px dashed var(--c-border);
+    font-size: 0.68rem;
+    color: var(--c-text-muted);
+
+    a {
+      color: var(--c-accent);
+      text-decoration: none;
+
+      &:hover { text-decoration: underline; }
+    }
+  }
+
+  .hot-search__badge {
+    display: inline-block;
+    margin-left: 0.35rem;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #b45309;
+    background: #fef3c7;
+    border-radius: 4px;
+  }
+}
+
 /* ===== TAG CLOUD (sidebar) — text-only, gọn hết mức, theme-aware =====
    Danh sách thẻ dạng chữ thuần (không badge/khung màu), wrap nhiều dòng,
    font nhỏ hài hoà với sidebar. Hover đổi sang màu accent. Số bài đặt ở
@@ -335,6 +477,14 @@
 
     &__date {
       font-size: 0.78rem;
+    }
+  }
+
+  .sidebar-block--hot-search {
+    --hot-rank-size: 1.75rem;
+
+    .hot-search__keyword {
+      font-size: 0.88rem;
     }
   }
 

@@ -2,7 +2,7 @@ name: Auto-update changelog.json
 
 # Trigger mỗi khi PR đóng. Job chỉ chạy nếu PR thực sự MERGED (không
 # phải close không merge) và base branch là main. Bot bot github-actions
-# sẽ commit + push entry mới vào changelog.json lên main.
+# Bot tạo PR chore/changelog-sync (KHÔNG push main) sau khi PR merged.
 
 on:
   pull_request:
@@ -16,6 +16,7 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
@@ -54,30 +55,14 @@ jobs:
           PR_LABELS: ${{ toJson(github.event.pull_request.labels) }}
         run: python3 .github/scripts/update_changelog.py
 
-      - name: Commit + push nếu có thay đổi
+      - name: Open PR if changed (never push main)
         if: steps.changelog.outputs.changed == 'true'
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_MESSAGE: ${{ steps.changelog.outputs.commit_message }}
+          PR_TITLE: "chore: changelog after PR #${{ github.event.pull_request.number }}"
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add changelog.json
-          if git diff --cached --quiet; then
-            echo "Không có thay đổi để commit — skip"
-            exit 0
-          fi
-          # Commit message từ python script: 'Thêm tính năng: <title>' /
-          # 'Sửa lỗi: <title>' / 'Cập nhật: <title>' — phản ánh nội dung
-          # thật của PR thay vì 'Auto-changelog: PR #N' generic.
-          git commit -m "$COMMIT_MESSAGE"
-          # Retry push tối đa 3 lần nếu main bị update concurrent
-          for i in 1 2 3; do
-            git pull --rebase origin main || true
-            if git push origin main; then
-              echo "✓ Pushed changelog update (try $i): $COMMIT_MESSAGE"
-              exit 0
-            fi
-            sleep 2
-          done
-          echo "✗ Push failed sau 3 retries"
-          exit 1
+          chmod +x .github/scripts/push_via_pr.sh
+          .github/scripts/push_via_pr.sh chore/changelog-sync \
+            "$COMMIT_MESSAGE" \
+            changelog.json

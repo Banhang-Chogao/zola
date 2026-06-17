@@ -2,9 +2,10 @@
 title = "SEO là gì? Hướng dẫn cơ bản từ Google Search Central"
 description = "SEO là gì và vì sao blog mới cần hiểu Search Essentials trước khi đuổi thứ hạng? Series Nền tảng SEO — Bài 1/15 bám Google SEO Starter Guide."
 date = 2026-06-17
+aliases = ["/seo-la-gi-huong-dan-co-ban-google-search/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["seo", "google search", "seo foundation series", "blog", "zola"]
+tags = ["blog", "google search", "seo", "seo foundation series", "zola"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "seo là gì"

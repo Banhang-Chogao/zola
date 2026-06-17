@@ -51,6 +51,9 @@ OFFICIAL_DOMAIN_TITLES = {
     "english.visitkorea.or.kr": "Visit Korea",
     "affiliate.shopee.vn": "Shopee Affiliate Program",
     "guide.michelin.com": "Michelin Guide",
+    "en.wikipedia.org": "Wikipedia",
+    "www.iaea.org": "IAEA",
+    "iaea.org": "IAEA",
 }
 
 GENERIC_LINK_TEXT = frozenset({
