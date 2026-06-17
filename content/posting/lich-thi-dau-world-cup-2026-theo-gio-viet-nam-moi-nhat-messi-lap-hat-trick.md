@@ -3,7 +3,7 @@ title = "Lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất: Me
 date = 2026-06-17
 
 [taxonomies]
-categories = ["Ngân hàng"]
+categories = ["Báo chí"]
 tags = ["LịchthiđấuWorldCup2026", "Lịch thi đấu World Cup 2026 theo giờ Việt Nam"]
 
 [extra]
