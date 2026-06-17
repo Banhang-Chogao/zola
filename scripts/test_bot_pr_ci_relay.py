@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static tests for bot PR CI relay (Action required fix)."""
+"""Static tests for bot PR CI relay (no workflow approval gate)."""
 from __future__ import annotations
 
 import unittest
@@ -12,14 +12,29 @@ class BotPrCiRelayTests(unittest.TestCase):
     def test_pr_policy_removed(self):
         self.assertFalse(
             (REPO / ".github/workflows/pr-policy.yml").exists(),
-            "pr-policy.yml must be deleted — ZERO_BARRIER has no PR policy gate",
+            "pr-policy.yml must be deleted",
         )
 
-    def test_trigger_script_dispatches_qa_only(self):
-        p = REPO / ".github/scripts/trigger_bot_pr_ci.sh"
-        self.assertTrue(p.is_file())
-        text = p.read_text(encoding="utf-8")
+    def test_no_pull_request_triggers(self):
+        """pull_request on bot PRs causes 'workflows awaiting approval' UI."""
+        import re
+
+        for wf in (REPO / ".github/workflows").glob("*.yml"):
+            text = wf.read_text(encoding="utf-8")
+            self.assertIsNone(
+                re.search(r"^  pull_request:\s*$", text, re.MULTILINE),
+                f"{wf.name} must not use pull_request trigger",
+            )
+
+    def test_qa_uses_push_trigger(self):
+        text = (REPO / ".github/workflows/qa.yml").read_text(encoding="utf-8")
+        self.assertIn("push:", text)
+        self.assertIn("workflow_dispatch:", text)
+
+    def test_trigger_script_dispatches_qa_and_auto_merge(self):
+        text = (REPO / ".github/scripts/trigger_bot_pr_ci.sh").read_text(encoding="utf-8")
         self.assertIn("QA Gatekeeper", text)
+        self.assertIn("Auto Merge PRs", text)
         self.assertNotIn("PR Policy", text)
 
     def test_resolve_script_exists(self):
@@ -31,20 +46,19 @@ class BotPrCiRelayTests(unittest.TestCase):
         text = (REPO / ".github/scripts/push_via_pr.sh").read_text(encoding="utf-8")
         self.assertIn("trigger_bot_pr_ci.sh", text)
 
-    def test_qa_skips_bot_pull_request(self):
-        text = (REPO / ".github/workflows/qa.yml").read_text(encoding="utf-8")
-        self.assertIn("github-actions[bot]", text)
-        self.assertNotIn("head_branch != 'main'", text)
-
     def test_resolve_open_bot_pr_uses_gh_author_field(self):
         text = (REPO / ".github/scripts/resolve_open_bot_pr.sh").read_text(encoding="utf-8")
         self.assertIn("author", text)
         self.assertIn(".author.login // .user.login", text)
 
-    def test_auto_merge_skips_bot_pull_request(self):
+    def test_auto_merge_uses_workflow_run_not_pull_request(self):
         text = (REPO / ".github/workflows/auto-merge.yml").read_text(encoding="utf-8")
-        self.assertIn("github-actions[bot]", text)
-        self.assertNotIn("PR Policy", text)
+        self.assertIn("workflow_run:", text)
+        self.assertIn("QA Gatekeeper", text)
+
+    def test_changelog_triggers_on_push_main(self):
+        text = (REPO / ".github/workflows/changelog-update.yml").read_text(encoding="utf-8")
+        self.assertIn("branches: [main]", text)
 
     def test_maintenance_workflows_have_actions_write(self):
         workflows = [

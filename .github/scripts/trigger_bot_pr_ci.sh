@@ -38,3 +38,5 @@ dispatch() {
 }
 
 dispatch "QA Gatekeeper" || true
+# Auto Merge chạy qua workflow_run sau QA — dispatch backup nếu relay chậm
+dispatch "Auto Merge PRs" || true

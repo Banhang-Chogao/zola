@@ -1,49 +1,74 @@
 # GitHub Actions — permissions & workflow approval
 
-## Root cause: "Action required" on bot PRs
+## "Workflows awaiting approval" — nguyên nhân & fix
 
-| # | Cause | Effect |
-|---|-------|--------|
-| 1 | **GITHUB_TOKEN PR gate** | `pull_request` workflows blocked on PRs opened by `github-actions[bot]` |
-| 2 | **Relay `head_branch != main`** | `workflow_run` relay skipped for scheduled maintenance on `main` |
-| 3 | **Wrong relay SHA** | `workflow_run.head_sha` = `main`, not PR head → no PR found |
+GitHub **không cho phép** tắt hoàn toàn approval gate cho PR do `github-actions[bot]` tạo bằng `GITHUB_TOKEN` khi workflow dùng trigger `pull_request`. UI hiện **"3 workflows awaiting approval"** dù job đã skip.
 
-Full report: `docs/ROOT-CAUSE-ACTION-REQUIRED.md`
+| Nguyên nhân | Fix trong repo |
+|-------------|----------------|
+| `pull_request` trigger trên bot PR | **Đã xóa** — dùng `push` + `workflow_dispatch` + `workflow_run` |
+| `pr-policy.yml` | **Đã xóa** |
+| Fork PR từ outside collaborator | Cấu hình Settings (bên dưới) |
 
-## Permanent fix (in repo)
+Chi tiết: `docs/ROOT-CAUSE-ACTION-REQUIRED.md`
 
-1. **`push_via_pr.sh`** → **`trigger_bot_pr_ci.sh`** dispatches `QA Gatekeeper` on branch (`workflow_dispatch`)
-2. **`qa.yml` / `auto-merge.yml`** — skip `pull_request` when actor is `github-actions[bot]` (no ghost Action required)
-3. **`resolve_open_bot_pr.sh`** — fallback PR resolution for `workflow_run` relay
-4. **`actions: write`** on maintenance workflows that dispatch CI
+## Luồng CI tự động (ZERO_BARRIER)
 
-## GitHub repo Settings (admin)
+```
+push_via_pr.sh → push feature branch
+    → QA Gatekeeper (push event, không approval)
+    → Auto Merge PRs (workflow_run sau QA)
+    → merge main → deploy.yml → production
+```
 
-**Settings → Actions → General**
+Backup: `trigger_bot_pr_ci.sh` dispatch `QA Gatekeeper` + `Auto Merge PRs` trên branch.
 
-| Setting | Value |
-|---------|-------|
-| Workflow permissions | **Read and write** |
-| Fork PR workflows | Require approval for **outside collaborators** only |
+## GitHub repo Settings — BẮT BUỘC cấu hình thủ công
 
-**Settings → Branches → `main`**
+Vào: **https://github.com/Banhang-Chogao/zola/settings/actions**
 
-- Required checks: `qa-check` (QA Gatekeeper only — PR Policy removed)
-- Required approvals: **0**
-- Allow auto-merge: **On**
+### Actions → General
 
-**Settings → Environments → `github-pages`**
+| Setting | Giá trị đúng |
+|---------|----------------|
+| **Actions permissions** | Allow all actions and reusable workflows |
+| **Workflow permissions** | **Read and write permissions** |
+| **Allow GitHub Actions to create and approve pull requests** | ✅ **Bật (checked)** |
+| **Fork pull request workflows** | Require approval for **outside collaborators** only (không chọn "all") |
 
-- Only `deploy.yml` job `deploy` — not QA/chore
+### Actions → General → Approval for running fork pull request workflows
+
+- ❌ Không chọn "Require approval for first-time contributors" (nếu có tùy chọn riêng)
+- Chỉ giữ bảo vệ cho fork từ **outside collaborators**
+
+### Settings → Branches → `main` → Edit
+
+| Setting | Giá trị |
+|---------|---------|
+| Required approvals | **0** |
+| Required status checks | Chỉ `qa-check` — **gỡ** `policy` / `PR Policy` nếu còn |
+| Allow auto-merge | ✅ On (Settings → General → Allow auto-merge) |
+
+### Settings → Environments → `github-pages`
+
+- Chỉ `deploy.yml` — không gate QA/chore
 
 ## Optional: `WORKFLOW_BOT_PAT` secret
 
 Fine-grained PAT (scope: `contents`, `pull_requests`, `actions`).
 
-When set, `push_via_pr.sh` uses PAT → `pull_request` CI runs natively; `trigger_bot_pr_ci.sh` skips dispatch.
+Khi set, `push_via_pr.sh` mở PR bằng PAT → `pull_request` CI chạy native (không cần push relay). Không bắt buộc sau fix push-based CI.
+
+## Unstick bot PRs đang kẹt "awaiting approval"
+
+Sau merge fix này, với PR bot đang mở:
+
+1. Re-run workflow **QA Gatekeeper** (`workflow_dispatch` trên head branch), hoặc
+2. Push empty commit: `git commit --allow-empty && git push`, hoặc
+3. Close + để maintenance workflow tạo PR mới
 
 ## Rule
 
-- Never re-add `pr-approval.yml` / `manual-approval` check
-- Never push `main` directly (`main-guard.yml`)
-- Bot maintenance PRs: CI via dispatch or PAT — not owner "Approve workflows"
+- Không thêm lại `pull_request` trigger trên QA / auto-merge / changelog
+- Không thêm lại `pr-approval.yml` / `pr-policy.yml`
+- Không push `main` trực tiếp (`main-guard.yml`)

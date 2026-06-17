@@ -28,15 +28,16 @@ Maintenance workflows (`Fetch Build Dashboard`, `Fetch Merge Report`, `Complianc
 
 `workflow_run.head_sha` is the commit the **source workflow** ran on (usually `main`), not the new commit on `chore/*` created by `push_via_pr.sh`. `commits/{sha}/pulls` API returns nothing → relay exited silently.
 
-## Permanent fix (this PR)
+## Permanent fix (2026-06-18 — no approval gate)
 
 | Layer | Change |
 |-------|--------|
-| **Primary** | `push_via_pr.sh` → `trigger_bot_pr_ci.sh` dispatches `QA Gatekeeper` via `workflow_dispatch` on feature branch |
-| **UI** | Skip `pull_request` jobs when `user.login == github-actions[bot]` — no ghost Action required rows |
-| **Fallback relay** | Remove `head_branch != main`; `resolve_open_bot_pr.sh` finds open `chore/*` / `qa/*` PR when SHA lookup fails |
-| **Permissions** | `actions: write` on all maintenance workflows that dispatch CI |
-| **Optional** | Secret `WORKFLOW_BOT_PAT` — PAT opens PR → native `pull_request` CI (no dispatch) |
+| **Primary** | **Xóa `pull_request` trigger** khỏi `qa.yml`, `auto-merge.yml`, `changelog-update.yml` |
+| **CI path** | `push` feature branch → QA Gatekeeper (không approval) → `workflow_run` → Auto Merge |
+| **Backup** | `trigger_bot_pr_ci.sh` dispatch QA + Auto Merge via `workflow_dispatch` |
+| **Relay** | `resolve_open_bot_pr.sh` + `workflow_run` cho maintenance workflows trên `main` |
+| **Removed** | `pr-policy.yml` — không còn PR Policy gate |
+| **Optional** | `WORKFLOW_BOT_PAT` — PAT mở PR (native CI) |
 
 ## Repository settings (admin — not in git)
 
