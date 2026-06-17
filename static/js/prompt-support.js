@@ -5,6 +5,8 @@
 (function () {
   "use strict";
 
+  const OUTPUT_PLACEHOLDER = "Cải thiện ngay hoặc Generate Prompt để xem kết quả.";
+
   const REPO_SLUG = "Banhang-Chogao/zola";
   const REPO_RULES_SHORT = [
     "Branch + PR only.",
@@ -149,8 +151,10 @@
 
   const inputEl = root.querySelector("[data-psupport-input]");
   const outputCode = root.querySelector("[data-psupport-code]");
+  const improveBtn = root.querySelector("[data-psupport-improve]");
   const generateBtn = root.querySelector("[data-psupport-generate]");
   const lintBtn = root.querySelector("[data-psupport-lint]");
+  const copyPrimaryBtn = root.querySelector("[data-psupport-copy]");
   const compareBtn = root.querySelector("[data-psupport-compare]");
   const statusEl = root.querySelector("[data-psupport-status]");
   const budgetEl = root.querySelector("[data-psupport-budget]");
@@ -844,13 +848,26 @@
     };
   }
 
+  function isPlaceholderOutput(text) {
+    const t = (text || "").trim();
+    return !t || t === OUTPUT_PLACEHOLDER || t === "Generate Prompt để xem kết quả.";
+  }
+
+  function getActiveOutputText() {
+    const fromMode = modeOutputs[lastActiveMode];
+    if (fromMode && !isPlaceholderOutput(fromMode)) return fromMode;
+    const fromDom = outputCode ? outputCode.textContent : "";
+    return isPlaceholderOutput(fromDom) ? "" : fromDom.trim();
+  }
+
   function setCopyButtonsEnabled(enabled) {
+    if (copyPrimaryBtn) copyPrimaryBtn.disabled = !enabled;
     Object.values(copyBtns).forEach((btn) => {
       if (btn) btn.disabled = !enabled;
     });
   }
 
-  function generate() {
+  function generate(statusMsg) {
     const raw = normalize(inputEl.value);
     if (!raw) {
       setStatus("Nhập yêu cầu trước.", "err");
@@ -896,7 +913,11 @@
       renderCompareDiff(removals);
     }
 
-    setStatus("Đã tạo prompt (" + MODES[activeMode].label + ").", "ok");
+    setStatus(statusMsg || "Đã tạo prompt (" + MODES[activeMode].label + ").", "ok");
+  }
+
+  function improveNow() {
+    generate("Đã cải thiện prompt — bấm Copy Prompt để dùng.");
   }
 
   function runLintOnly() {
@@ -912,22 +933,46 @@
     setStatus("Lint xong.", "ok");
   }
 
-  async function copyText(text) {
+  async function copyText(text, triggerBtn) {
+    if (!text || isPlaceholderOutput(text)) {
+      setStatus("Cải thiện ngay trước khi copy.", "err");
+      return;
+    }
+
     try {
       await navigator.clipboard.writeText(text);
-      setStatus("Đã copy.", "ok");
+      setStatus("Đã copy prompt.", "ok");
     } catch {
       const ta = document.createElement("textarea");
       ta.value = text;
       ta.setAttribute("readonly", "");
       ta.style.position = "fixed";
       ta.style.left = "-9999px";
+      ta.style.opacity = "0";
       document.body.appendChild(ta);
+      ta.focus();
       ta.select();
       document.execCommand("copy");
       document.body.removeChild(ta);
-      setStatus("Đã copy.", "ok");
+      setStatus("Đã copy prompt.", "ok");
     }
+
+    if (triggerBtn && typeof triggerBtn.blur === "function") {
+      triggerBtn.blur();
+    }
+    if (window.getSelection) {
+      const sel = window.getSelection();
+      if (sel && sel.removeAllRanges) sel.removeAllRanges();
+    }
+  }
+
+  function copyActivePrompt(triggerBtn) {
+    const text = getActiveOutputText();
+    if (!text) {
+      setStatus("Cải thiện ngay trước khi copy.", "err");
+      return;
+    }
+    copyText(text, triggerBtn);
   }
 
   function toggleCompare() {
@@ -941,23 +986,28 @@
     }
   }
 
-  generateBtn.addEventListener("click", generate);
-  lintBtn.addEventListener("click", runLintOnly);
-  compareBtn.addEventListener("click", toggleCompare);
+  if (improveBtn) improveBtn.addEventListener("click", improveNow);
+  if (generateBtn) generateBtn.addEventListener("click", () => generate());
+  if (lintBtn) lintBtn.addEventListener("click", runLintOnly);
+  if (compareBtn) compareBtn.addEventListener("click", toggleCompare);
+
+  if (copyPrimaryBtn) {
+    copyPrimaryBtn.addEventListener("click", () => copyActivePrompt(copyPrimaryBtn));
+  }
 
   Object.entries(copyBtns).forEach(([mode, btn]) => {
     if (!btn) return;
     btn.addEventListener("click", () => {
       const text = modeOutputs[mode];
-      if (text) copyText(text);
-      else setStatus("Generate trước.", "err");
+      if (text) copyText(text, btn);
+      else setStatus("Cải thiện ngay trước khi copy.", "err");
     });
   });
 
   inputEl.addEventListener("keydown", (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
       e.preventDefault();
-      generate();
+      improveNow();
     }
   });
 })();
