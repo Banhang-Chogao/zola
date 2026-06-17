@@ -2,9 +2,10 @@
 title = "Uranium là gì? Vì sao nguyên tố này quan trọng"
 description = "Uranium là gì, đồng vị U-235/U-238 và vì sao nguyên tố này trung tâm của năng lượng hạt nhân hòa bình? Series Khoa học 1/5 — giáo dục, trung lập."
 date = 2026-06-17
+aliases = ["/uranium-la-gi-tai-sao-quan-trong/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["uranium", "hạt nhân", "năng lượng", "science uranium series", "khoa học"]
+tags = ["hạt nhân", "khoa học", "năng lượng", "science uranium series", "uranium"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "uranium là gì"
