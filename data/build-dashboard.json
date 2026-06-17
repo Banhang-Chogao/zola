@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-06-17T13:23:04Z",
+  "updated_at": "2026-06-17T13:24:05Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 28,
-    "success": 27,
+    "total": 29,
+    "success": 28,
     "failure": 0,
     "cancelled": 1
   },
@@ -59,6 +59,23 @@
       "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
       "started_at": "2026-06-17T13:20:55Z",
       "duration_sec": 92
+    },
+    {
+      "id": 27691986843,
+      "run_number": 367,
+      "commit_id": "6072283177ac34053cc837bab0b0835c00f2bdfc",
+      "commit_short": "6072283",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/6072283177ac34053cc837bab0b0835c00f2bdfc",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27691986843",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #367 — Deploy blog lên GitHub Pages: feat(insights): Compliance Score audit + 3h GitHub Actions workflow",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:20:24Z",
+      "duration_sec": 206
     },
     {
       "id": 27691987043,
