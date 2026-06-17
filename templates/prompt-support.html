@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Prompt Support | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <section class="psupport" data-prompt-support>
+        <header class="psupport__head">
+            <h1 class="psupport__title">Prompt Support</h1>
+            <p class="psupport__desc">
+                Dán yêu cầu coding — công cụ sẽ rút gọn, nhận vai trò AI phù hợp
+                và sinh prompt tối ưu token nhưng vẫn giữ mục tiêu, ràng buộc và chi tiết kỹ thuật.
+            </p>
+        </header>
+
+        <div class="psupport__grid">
+            <div class="psupport__panel">
+                <label class="psupport__label" for="psupport-input">Yêu cầu coding</label>
+                <textarea
+                    id="psupport-input"
+                    class="psupport__input"
+                    data-psupport-input
+                    rows="14"
+                    spellcheck="false"
+                    placeholder="Ví dụ:&#10;Tôi muốn bạn giúp tôi tạo một component navbar có dropdown menu cho blog Zola.&#10;Phải dùng SCSS hiện có, không thêm dependency mới.&#10;Hỗ trợ mobile và keyboard navigation.&#10;&#10;```scss&#10;// existing pattern&#10;.navbar__dropdown { ... }&#10;```"
+                ></textarea>
+                <div class="psupport__actions">
+                    <button type="button" class="psupport__btn psupport__btn--primary" data-psupport-generate>
+                        Generate Prompt
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-copy disabled>
+                        Copy Prompt
+                    </button>
+                    <span class="psupport__status" data-psupport-status role="status" aria-live="polite"></span>
+                </div>
+            </div>
+
+            <div class="psupport__panel psupport__panel--output">
+                <div class="psupport__output-head">
+                    <span class="psupport__label">Prompt tối ưu</span>
+                    <span class="psupport__meta" data-psupport-meta hidden></span>
+                </div>
+                <pre class="psupport__output" data-psupport-output aria-label="Optimized prompt output"><code data-psupport-code>Generate Prompt để xem kết quả.</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ get_url(path='js/prompt-support.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
