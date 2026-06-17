@@ -8,8 +8,6 @@ categories = ["Công nghệ"]
 tags = ["claude", "giới hạn sử dụng", "using limit"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
-featured = true
-featured_at = "2026-06-16T17:02:05.380Z"
 +++
 
 Hướng dẫn Tối ưu
