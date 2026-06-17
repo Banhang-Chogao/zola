@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-17T13:21:42Z",
+  "updated_at": "2026-06-17T13:22:49Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 28,
-    "success": 28,
+    "total": 27,
+    "success": 26,
     "failure": 0,
-    "cancelled": 0
+    "cancelled": 1
   },
   "builds": [
     {
@@ -25,6 +25,23 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T13:20:57Z",
       "duration_sec": 27
+    },
+    {
+      "id": 27692018968,
+      "run_number": 368,
+      "commit_id": "7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
+      "commit_short": "7c844e8",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692018968",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #368 — Deploy blog lên GitHub Pages: fix(compliance): parse TOML taxonomies + /zola/ link prefix",
+      "status_vi": "Đã huỷ",
+      "success": false,
+      "conclusion": "cancelled",
+      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "started_at": "2026-06-17T13:20:55Z",
+      "duration_sec": 92
     },
     {
       "id": 27691987043,
@@ -450,40 +467,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T12:10:10Z",
       "duration_sec": 33
-    },
-    {
-      "id": 27687888905,
-      "run_number": 354,
-      "commit_id": "423ad4080357ab4fef7fbf85a3a2877eac4a6ce8",
-      "commit_short": "423ad40",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/423ad4080357ab4fef7fbf85a3a2877eac4a6ce8",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27687888905",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #354 — Deploy blog lên GitHub Pages: feat: add mobile CSS for draft-manager__head and .draft-card (finish unfinished from Claude)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:09:53Z",
-      "duration_sec": 46
-    },
-    {
-      "id": 27687888827,
-      "run_number": 572,
-      "commit_id": "423ad4080357ab4fef7fbf85a3a2877eac4a6ce8",
-      "commit_short": "423ad40",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/423ad4080357ab4fef7fbf85a3a2877eac4a6ce8",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27687888827",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #572 — Kiểm tra QA Gatekeeper: feat: add mobile CSS for draft-manager__head and .draft-card (finish unfinished from Claude)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:09:53Z",
-      "duration_sec": 26
     }
   ]
 }
