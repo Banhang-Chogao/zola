@@ -497,3 +497,26 @@ _(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau 
 | **Files** | `scripts/compliance_audit.py`, `scripts/compliance_fix.py`, `scripts/related_engine.py`, `templates/insights.html`, `content/posting/uranium-la-gi-tai-sao-quan-trong.md`, `data/scores.json`, `data/related.json` |
 | **Resolution** | Audit ghi `data/compliance-link-report.json` + `broken[]` chi tiết; purge draft khỏi `scores.json`/`related.json`; sửa link series; dashboard hiện broken link cụ thể; autofix badge đổi thành `autofix` |
 | **Prevention** | `related_engine.load_posts()` bỏ qua `draft=true`; chạy `build_references.py` **trước** `zola build`; kiểm tra `compliance-link-report.json` khi warn Links |
+
+## Merge Session
+
+**Date:** 2026-06-17T17:15:00Z
+
+**Merged (rebase):**
+- #313 — fix(dashboard): cancelled deploy runs Build #387/#388
+- #309 — fix: compliance internal links (rebased, conflict CLAUDE.md + compliance-score.json)
+- #311 — qa: compliance score refresh (regenerated 100/100, không rollback #309)
+- #312 — chore: build dashboard refresh (giữ status_normalized từ #313)
+- #310 — chore: changelog maintenance session entries
+
+**Validation:**
+- `zola build`: PASS
+- `compliance_audit.py`: PASS (100/100 A+)
+- `test_compliance_links.py`: PASS (3/3)
+- `test_build_dashboard.py`: PASS (7/7)
+- `check_internal_links.py`: PASS
+
+**Lessons:**
+- #309 conflict với #313 ở `CLAUDE.md` → giữ **cả hai** learning sections (Build Dashboard + Compliance)
+- #311/#312 PR bot cũ chứa data stale — **không merge as-is**; regenerate từ main sau #313/#309
+- Merge order: dashboard fix (#313) → compliance fix (#309) → data refresh (#311, #312) → changelog (#310)
