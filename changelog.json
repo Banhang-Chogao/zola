@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "changelog after PR #272",
+      "tag": "chore",
+      "pr": 287,
+      "lines_added": 9,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "Feat/devops no dependabot batch 10",
       "tag": "chore",
       "pr": 286,
