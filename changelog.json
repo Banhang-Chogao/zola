@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(cms): auto-refresh post list from GitHub on login",
+      "tag": "chore",
+      "pr": 275,
+      "lines_added": 61,
+      "lines_removed": 12,
+      "highlights": [
+        "Sau xác thực thành công (/auth/me), gọi enterDashboard(true) — fetch ngay từ GitHub API",
+        "Xóa localStorage cache slug list trước khi fetch",
+        "GitHub API dùng cache: no-store",
+        "Force refresh chỉ tin slug từ repo hiện tại (không merge slug đã xóa khỏi repo)",
+        "Hiển thị loading state trong lúc fetch; fallback về bake nếu API lỗi"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "hotfix: fix GitHub Pages 404s from missing /zola/ base path",
       "tag": "fix",
       "pr": 274,
