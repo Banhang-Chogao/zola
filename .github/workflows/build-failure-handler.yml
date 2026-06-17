@@ -63,6 +63,9 @@ jobs:
           FAILED_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
           FAILED_WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          # Free-first: never call Claude from CI unless explicitly enabled.
+          AI_DIAGNOSE_USE_CLAUDE: "0"
+          AI_DIAGNOSE_USE_OLLAMA: "0"
         run: python3 qa-failed.py
 
       - name: Install Zola for post-fix validation
