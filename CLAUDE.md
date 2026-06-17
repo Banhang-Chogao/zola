@@ -498,6 +498,15 @@ _(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau 
 | **Rule mới** | Khi 2 PR cùng feature area (prompt-support v2 rồi v3): merge `main` vào branch mới **trước** review; ưu tiên phiên bản feature cao hơn nếu superset rõ ràng; luôn restore từ commit PR sạch thay vì `checkout --ours` khi markers còn trong working tree |
 | **Rủi ro còn lại** | Không — v3 giữ SCSS variables blog (`$brand-*`), không đổi theme global |
 
+### Prompt Support — Copy vs Lint UX (2026-06-18)
+
+| Field | Detail |
+|-------|--------|
+| **Triệu chứng** | User nhầm **Lint Prompt** với copy; nút copy variant bị `disabled` (mờ/xám) trước khi Generate; bấm copy có thể bôi đen text selection |
+| **Nguyên nhân** | v3 chỉ có copy theo mode (Ultra/Compact/…) sau Generate; Lint là kiểm tra chất lượng riêng — không copy clipboard |
+| **Cách fix** | Thêm CTA **Cải thiện ngay** (primary, Ctrl/Cmd+Enter) + **Copy Prompt** (copy mode đang hiển thị); `user-select: none` + `blur()` sau copy; variant copy gom vào `<details>` |
+| **Validation** | `node --check static/js/prompt-support.js` PASS; `zola build` PASS; built `/prompt-support/` có `data-psupport-improve`, `data-psupport-copy` |
+
 ### PR #284 — `feat/autofix-conflicts` (2026-06-17)
 
 | Field | Detail |

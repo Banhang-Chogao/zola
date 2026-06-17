@@ -8,7 +8,7 @@
             <h1 class="psupport__title">Prompt Support</h1>
             <p class="psupport__desc">
                 Token Optimization Engine — nén yêu cầu thô thành coding-agent prompt ngắn, rõ, tiết kiệm token.
-                Tự chọn độ dài (Auto), chấm điểm, lint, và so sánh before/after.
+                Dán yêu cầu thô → <strong>Cải thiện ngay</strong> → <strong>Copy Prompt</strong>. Lint chỉ kiểm tra chất lượng, không copy.
             </p>
         </header>
 
@@ -69,10 +69,13 @@
                 </div>
 
                 <div class="psupport__actions">
-                    <button type="button" class="psupport__btn psupport__btn--primary" data-psupport-generate>
+                    <button type="button" class="psupport__btn psupport__btn--primary" data-psupport-improve>
+                        Cải thiện ngay
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-generate>
                         Generate Prompt
                     </button>
-                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-lint>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-lint title="Kiểm tra chất lượng prompt — không copy">
                         Lint Prompt
                     </button>
                     <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-compare aria-pressed="false">
@@ -85,27 +88,39 @@
             <div class="psupport__panel psupport__panel--output">
                 <div class="psupport__output-head">
                     <span class="psupport__label">Prompt tối ưu</span>
+                    <button
+                        type="button"
+                        class="psupport__btn psupport__btn--copy"
+                        data-psupport-copy
+                        disabled
+                        title="Copy prompt đang hiển thị (mode đã chọn)"
+                    >
+                        Copy Prompt
+                    </button>
                 </div>
 
                 <div class="psupport__budget" data-psupport-budget hidden aria-label="Token budget"></div>
                 <div class="psupport__scores" data-psupport-scores hidden aria-label="Quality scores"></div>
 
-                <pre class="psupport__output" data-psupport-output aria-label="Optimized prompt output"><code data-psupport-code>Generate Prompt để xem kết quả.</code></pre>
+                <pre class="psupport__output" data-psupport-output aria-label="Optimized prompt output"><code data-psupport-code>Cải thiện ngay hoặc Generate Prompt để xem kết quả.</code></pre>
 
-                <div class="psupport__copy-row" aria-label="Copy prompt variants">
-                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-ultra disabled>
-                        Copy Ultra Compact
-                    </button>
-                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-compact disabled>
-                        Copy Compact
-                    </button>
-                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-standard disabled>
-                        Copy Standard
-                    </button>
-                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-full disabled>
-                        Copy Full Spec
-                    </button>
-                </div>
+                <details class="psupport__copy-variants">
+                    <summary class="psupport__copy-variants-label">Copy theo mode khác</summary>
+                    <div class="psupport__copy-row" aria-label="Copy prompt variants">
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-ultra disabled>
+                            Ultra Compact
+                        </button>
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-compact disabled>
+                            Compact
+                        </button>
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-standard disabled>
+                            Standard
+                        </button>
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-full disabled>
+                            Full Spec
+                        </button>
+                    </div>
+                </details>
 
                 <div class="psupport__lint-results" data-psupport-lint-results hidden></div>
                 <div class="psupport__tips" data-psupport-tips hidden></div>
