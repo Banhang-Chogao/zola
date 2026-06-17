@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-06-17T15:34:12Z",
+  "updated_at": "2026-06-17T15:35:07Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 28,
-    "success": 26,
+    "total": 29,
+    "success": 27,
     "failure": 0,
     "cancelled": 2
   },
@@ -25,6 +25,23 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T15:33:26Z",
       "duration_sec": 30
+    },
+    {
+      "id": 27700605384,
+      "run_number": 378,
+      "commit_id": "099a77d98e483369ac42cb6e3a772ffd180c80b8",
+      "commit_short": "099a77d",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/099a77d98e483369ac42cb6e3a772ffd180c80b8",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27700605384",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #378 — Deploy blog lên GitHub Pages: Merge pull request #273 from Banhang-Chogao/feature/auto-references-section",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:32:50Z",
+      "duration_sec": 111
     },
     {
       "id": 27700605364,
