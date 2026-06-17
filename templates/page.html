@@ -170,9 +170,14 @@
         {% set root_pages = rp_posting.pages | concat(with=rp_baochi.pages) | sort(attribute="date") | reverse %}
         {% set_global related = [] %}
 
-        {# Series cluster: ưu tiên bài cùng SEO Foundation Series trước semantic/category. #}
-        {% if page.extra.series %}
-            {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+        {# Series cluster: ưu tiên bài cùng series trước semantic/category. #}
+        {% if page.extra and page.extra.series is defined %}
+            {% set series_manifest = false %}
+            {% if page.extra.series == "seo-foundation" %}
+                {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "adsense-foundation" %}
+                {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
+            {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}
                     {% if item.status == "published" and item.slug != current_slug and related | length < 3 %}

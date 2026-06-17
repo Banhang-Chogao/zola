@@ -38,6 +38,9 @@ STATIC_ASSET_PREFIXES = ("/img/", "/js/", "/css/", "/fonts/")
 OFFICIAL_DOMAIN_TITLES = {
     "developers.google.com": "Google Search Central",
     "search.google.com": "Google Search Central",
+    "support.google.com": "Google AdSense Help",
+    "adsense.google.com": "Google AdSense",
+    "www.google.com": "Google",
     "docs.github.com": "GitHub Docs",
     "github.com": "GitHub",
     "developers.cloudflare.com": "Cloudflare Docs",
