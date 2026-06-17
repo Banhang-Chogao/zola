@@ -755,3 +755,25 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Python insights | `scripts/f_dashboard_insights.py` |
 | Tests | `scripts/test_f_dashboard.py` |
 | Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
+
+## QA Auto Rule Checker
+
+Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **8 giờ** (`qa-rule-checker.yml`).
+
+| Thành phần | Path |
+|------------|------|
+| Agent | `scripts/qa-auto-rule-checker.py` |
+| Tests | `scripts/test_qa_auto_rule_checker.py` |
+| Workflow | `.github/workflows/qa-rule-checker.yml` |
+| Reports | `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md` |
+| State / anti-loop | `data/qa-rule-checker-state.json` |
+
+**Quét:** CLAUDE.md · `.github/workflows/*` · `scripts/` · dashboards · content/SEO rules.
+
+**Severity:** LOW · MEDIUM · HIGH · CRITICAL.
+
+**Auto-fix:** chỉ khi `confidence >= 90%` → branch `qa/rule-checker-auto-*` → PR với label **`no-auto-merge`** (không auto-merge).
+
+**Anti-loop:** dừng khi cùng conflict auto-fix ≥3 lần hoặc >2 PR rule-checker mở.
+
+**Manual:** `python3 scripts/qa-auto-rule-checker.py --dry-run`
