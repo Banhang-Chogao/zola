@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-17T23:10:35Z",
+  "updated_at": "2026-06-17T23:21:29Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 99,
-    "today": 99,
-    "this_week": 99,
-    "this_month": 99,
+    "total": 101,
+    "today": 101,
+    "this_week": 101,
+    "this_month": 101,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 33,
       "feature": 23,
-      "fix": 31,
       "unknown": 2,
       "chore": 39,
       "content": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 382,
+      "pr_title": "fix(links): repair 11 broken external URLs flagged by zola check",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/382",
+      "merged_at": "2026-06-17T23:18:08Z",
+      "merge_commit_sha": "80f2c97421e2e9ee302ed78cf540ee1f83dc340f",
+      "merge_commit_short": "80f2c97",
+      "head_branch": "fix/external-broken-links",
+      "summary_vi": "Fixes all 11 broken external links reported by `zola check`.",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 526,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725927481",
+      "build_conclusion": "cancelled"
+    },
     {
       "pr_number": 379,
       "pr_title": "feat(paywall): reactivate premium via category + 100k VND pricing",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 517,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725514200",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 374,
@@ -54,9 +73,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 491,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27717835908",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 370,
@@ -1550,6 +1569,25 @@
       "head_branch": "chore/build-dashboard-data",
       "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
       "change_type": "chore",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 289,
+      "pr_title": "qa: Compliance Score audit + auto-fix",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/289",
+      "merged_at": "2026-06-17T16:26:00Z",
+      "merge_commit_sha": "24d5a1670a8ea1cc41d4a436bca596bba5758eda",
+      "merge_commit_short": "24d5a16",
+      "head_branch": "qa/compliance-auto",
+      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
+      "change_type": "fix",
       "files_changed": null,
       "additions": null,
       "deletions": null,
