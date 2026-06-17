@@ -510,3 +510,180 @@ _(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau 
 - #309 conflict với #313 ở `CLAUDE.md` → giữ **cả hai** learning sections (Build Dashboard + Compliance)
 - #311/#312 PR bot cũ chứa data stale — **không merge as-is**; regenerate từ main sau #313/#309
 - Merge order: dashboard fix (#313) → compliance fix (#309) → data refresh (#311, #312) → changelog (#310)
+- #314 merge tay sau maintenance — rebase + sửa `pr-policy.yml` whitelist `auto-merge.yml`
+
+---
+
+## Hệ thống tham khảo — Playbook phiên 2026-06-17
+
+> **Mục đích:** Khi dashboard/CI báo lỗi hoặc cần merge khẩn nhiều PR, đọc section này **trước** khi sửa workflow hoặc merge. Chi tiết sâu: các section Build Dashboard, Compliance, Merge Session phía trên.
+
+### 1. Chẩn đoán nhanh — Dashboard báo lỗi nhưng site vẫn chạy
+
+| Triệu chứng | Đừng làm | Làm đúng |
+|-------------|----------|----------|
+| Build Dashboard thẻ đỏ `✗`, `conclusion: cancelled` | Sửa `deploy.yml` concurrency | Kiểm tra `stats.failure` — nếu `0` và deploy mới nhất `success` → **logic dashboard**, không phải site down |
+| Compliance 97–100 A+ nhưng log `FAILED — Links` | Coi compliance FAIL | Phân biệt **autofix outcome** vs **compliance stats.fail**; đọc `data/compliance-link-report.json` |
+| Nhiều deploy `cancelled` liên tiếp | Panic rollback | Bình thường khi **batch merge** — run pending bị thay trong group `pages`; xác nhận run **mới nhất** |
+
+**Rule vàng:** Luôn kiểm tra **run/commit deploy mới nhất** trước khi đánh site health degraded.
+
+### 2. Build Dashboard — cancelled ≠ failed
+
+**Dấu hiệu:** `build.success: false` + `conclusion: cancelled` + card `--fail` đỏ.
+
+**Root cause điển hình:** `fetch_build_dashboard.py` map `cancelled → success: false`; `insights.html` dùng `build.success` cho CSS.
+
+**Fix pattern:**
+- Field: `status_normalized` (`success` | `failed` | `cancelled` | `skipped` | `in_progress`)
+- `is_error: true` **chỉ** khi `failed`
+- UI: class `--cancelled` (vàng ⊘), không dùng `--fail`
+- Message: phát hiện superseding run → `Đã huỷ do concurrency — run mới hơn (Build #N)`
+
+**Workflow deploy:** `deploy.yml` giữ `concurrency.group: pages` + `cancel-in-progress: false` — **không đổi** trừ khi mọi deploy mới nhất đều fail thật.
+
+**Test:** `python3 scripts/test_build_dashboard.py`
+
+### 3. Compliance Dashboard — false “FAILED”
+
+**Dấu hiệu:** Score A+ nhưng Auto-fix log đỏ; `stats.fail = 0`.
+
+**Root cause điển hình:**
+1. Link hỏng **thật** (series planned chưa publish, draft trong `scores.json`)
+2. Autofixer không biết pattern mới → `outcome: failed` trên log, không phải compliance fail
+3. UI gắn badge `failed` cho autofix → user hiểu nhầm
+
+**Fix pattern:**
+- `compliance_audit.py` → `data/compliance-link-report.json` với `broken[]` (source, target, reason)
+- `related_engine.load_posts()` skip `draft=true`
+- Purge draft khỏi `scores.json` / `related.json`
+- Dashboard: hiện broken link cụ thể; badge autofix = `autofix` không phải `failed`
+- Chạy `build_references.py` **trước** `zola build`
+
+**Validation bundle:**
+```bash
+python3 scripts/build_references.py
+python3 scripts/compliance_audit.py
+python3 scripts/test_compliance_links.py
+python3 scripts/check_internal_links.py
+zola build
+```
+
+### 4. Maintenance merge — nhiều PR chồng chéo
+
+**Thứ tự ưu tiên (đã chứng minh 17/06/2026):**
+
+```
+1. Fix logic (dashboard #313, compliance #309)
+2. Rebase từng PR lên latest main
+3. Data refresh bot (#311 compliance, #312 build-dashboard) — REGENERATE, không merge stale
+4. Changelog/docs (#310)
+5. Policy/infra (#314 auto-merge)
+```
+
+**Merge method:** User yêu cầu debug history → **rebase merge**, không squash cả batch.
+
+**Conflict thường gặp:**
+
+| File | Chiến lược |
+|------|------------|
+| `CLAUDE.md` | **Append** learning sections — không chọn một bên |
+| `data/compliance-score.json` | Giữ bản **score cao hơn / fix mới hơn** (#309 → 100.0) |
+| `data/build-dashboard.json` | Giữ schema mới (`status_normalized`) từ fix #313, rồi refresh timestamp |
+| `templates/insights.html` | Merge cả build dashboard + compliance UI blocks |
+| `templates/base.html`, `series-nav.html`, `page.html` | Thêm `elif` cho **mỗi** series manifest — không thay thế series cũ |
+
+**PR bot data (`qa/compliance-auto`, `chore/build-dashboard-data`):**
+- Chỉ đổi timestamp trên data **cũ** → merge sẽ **rollback** fix logic
+- Cách đúng: `git checkout -B <branch> origin/main` → chạy `compliance_audit.py` hoặc migrate `build-dashboard.json` → push → merge
+
+### 5. Multi-series template pattern
+
+Khi thêm series mới (`adsense-foundation`, `science-uranium`, …):
+
+```
+base.html, macros/series-nav.html, page.html:
+  {% if page.extra.series == "seo-foundation" %} → seo-foundation-series.json
+  {% elif page.extra.series == "adsense-foundation" %} → adsense-foundation-series.json
+  {% elif page.extra.series == "science-uranium" %} → science-uranium-series.json
+```
+
+`page.html` hub: `page.extra.hub_series` cho cluster related posts (science-uranium).
+
+### 6. Auto-merge policy (#314) — bẫy PR Policy
+
+**Triệu chứng:** PR `auto-merge.yml` pass qa-check nhưng **policy FAIL**.
+
+**Root cause:** `pr-policy.yml` grep `auto-merge` chặn **cả** file `.github/workflows/auto-merge.yml`.
+
+**Fix:** Whitelist trong `pr-policy.yml`:
+- `.github/workflows/auto-merge.yml`
+- `.github/workflows/merge-report.yml`
+- `scripts/try_auto_merge.py`
+- `scripts/fetch_merge_report.py`
+
+Vẫn chặn: dependabot, renovate, workflow auto-merge **không** whitelist.
+
+**Sau merge #314:** Branch protection `main` → Required approvals = **0** (`.github/BRANCH-PROTECTION.md`).
+
+**Chặn auto-merge một PR:** label `no-auto-merge` hoặc `manual-review`.
+
+**Lệnh user:** `manual #N` = merge tay PR #N (rebase), thường sau khi auto-merge chưa bật hoặc PR policy/infra.
+
+### 7. Validation checklist — trước và sau merge
+
+| Bước | Lệnh | Pass khi |
+|------|------|----------|
+| Build site | `zola build` | exit 0 |
+| References | `python3 scripts/build_references.py` | Wrote data/references.json |
+| Internal links | `python3 scripts/check_internal_links.py` | OK |
+| Compliance | `python3 scripts/compliance_audit.py` | 100/100, 0 broken |
+| Compliance tests | `python3 scripts/test_compliance_links.py` | 3/3 |
+| Dashboard tests | `python3 scripts/test_build_dashboard.py` | 7/7 |
+| Merge report tests | `python3 scripts/test_merge_report.py` | 4/4 |
+
+**Lưu ý:** `qa_check.py` có thể báo false positive conflict marker trong `.venv-related/` — không phải lỗi repo; CI `qa.yml` là nguồn truth trên PR.
+
+### 8. Khi user báo "build failed" trên Grok Build Dashboard
+
+```
+1. Lấy run_id / build # từ data/build-dashboard.json
+2. GitHub API: conclusion = cancelled | failure | success ?
+3. cancelled + deploy mới hơn success → NON-CRITICAL (ghi dashboard)
+4. failure → đọc log job, tra Vaccine library (§4 CLAUDE.md)
+5. Không sửa deploy.yml concurrency chỉ vì cancelled history
+```
+
+### 9. File map — ai sở hữu gì
+
+| Vấn đề | Script / file chính | Data output |
+|--------|---------------------|-------------|
+| Build history UI | `fetch_build_dashboard.py`, `insights.html`, `_insights.scss` | `data/build-dashboard.json` |
+| Merge history UI | `fetch_merge_report.py`, `insights.html` | `data/merge-report.json` |
+| Compliance score | `compliance_audit.py`, `compliance_fix.py` | `data/compliance-score.json`, `compliance-link-report.json` |
+| Internal links | `check_internal_links.py`, `build_references.py` | `data/references.json` |
+| Auto-merge | `try_auto_merge.py`, `auto-merge.yml` | label `auto-merged` trên PR |
+| Bot data PR | `push_via_pr.sh` | branch `chore/*`, `qa/*` |
+
+### 10. Prevention rules (ghi nhớ lâu dài)
+
+1. **Không** classify GitHub `cancelled` là `failed` trên dashboard.
+2. **Không** merge PR bot data nếu chỉ refresh timestamp trên schema/score cũ.
+3. **Không** rollback fix logic mới hơn khi resolve conflict JSON data.
+4. **Luôn** rebase PR lên `origin/main` trước maintenance merge.
+5. **Luôn** append `CLAUDE.md` learning sau mỗi phiên điều tra — không ghi đè section cũ.
+6. **Phân biệt** 3 lớp: GitHub `conclusion` thô → `status_normalized` → UI severity (`is_error`).
+7. Confirm **latest deploy run success** trước khi báo production degraded.
+8. Series template: mỗi series = một `elif` + một `data/*-series.json` — không hardcode một manifest.
+
+### 11. PR đã xử lý trong phiên này (tham chiếu)
+
+| PR | Kết quả | Ghi chú |
+|----|---------|---------|
+| #313 | Merged | Dashboard cancelled status |
+| #309 | Merged | Compliance links + diagnostics |
+| #311 | Merged | Regenerated compliance 100/100 |
+| #312 | Merged | Dashboard refresh giữ status_normalized |
+| #310 | Merged | Changelog + Merge Session |
+| #314 | Merged (manual) | Auto-merge + Merge Report + pr-policy whitelist |
+| #280 | Fixed (session trước) | Series template conflict adsense + science-uranium |
