@@ -260,11 +260,12 @@ Trước [Sign up](https://adsense.google.com/adsense/signup), tôi chạy check
 
 ## Bạn nên làm gì sau bài 3? {#sau-bai-3}
 
-Khi checklist trên đã tick, bạn **gần sẵn sàng apply** — nhưng còn một lớp nữa: **nội dung cấm và hạn chế** trong Google Publisher Policies. Series sẽ đi tiếp ở các bài sau (chưa publish) về Policies vs Restrictions; trước mắt:
+Khi checklist trên đã tick, bạn **gần sẵn sàng apply** — nhưng còn một lớp nữa: **nội dung cấm và hạn chế** trong Google Publisher Policies. Bước tiếp theo:
 
-1. **Đối chiếu** toàn site với [Google Publisher Policies](https://support.google.com/adsense/answer/9335564?hl=en).
-2. **Hoàn thiện SEO** — site có audience thật giúp cả review lẫn doanh thu sau này ([SEO series](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/)).
-3. **Apply** khi tự tin trả lời "yes" cho ba câu hỏi Google trong bài này.
+1. **Đọc** [**Bài 4: Google Publisher Policies — nội dung bị cấm**](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) — audit scraped, adult, dangerous content trước apply.
+2. **Đối chiếu** toàn site với [Google Publisher Policies](https://support.google.com/adsense/answer/9335564?hl=en).
+3. **Hoàn thiện SEO** — site có audience thật giúp cả review lẫn doanh thu sau này ([SEO series](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/)).
+4. **Apply** khi tự tin trả lời "yes" cho ba câu hỏi Google trong bài này.
 
 Đừng apply khi site còn "Under construction" trên nửa trang — một lần từ chối không chặn vĩnh viễn, nhưng lãng phí thời gian và tạo stress không cần thiết.
 
@@ -274,4 +275,4 @@ Khi checklist trên đã tick, bạn **gần sẵn sàng apply** — nhưng còn
 
 About, Privacy, Contact và menu nhất quán là phần publisher hay bỏ qua nhưng reviewer hay kiểm tra. Blog Zola đạt readiness khi kết hợp nội dung series gốc, HTML tĩnh nhẹ, và trang phụ trợ đầy đủ.
 
-Series tiếp: các bài về **Google Publisher Policies** và **Restrictions** — phân tích nội dung cấm và giới hạn quảng cáo chi tiết hơn khung [Bài 1](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/).
+Series: Bài 1 (khung policies) → Bài 2 (eligibility) → **Bài 3** (site readiness). Tiếp theo: [**Bài 4: Google Publisher Policies — nội dung bị cấm**](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) — phân tích nội dung cấm hiển thị quảng cáo chi tiết hơn khung [Bài 1](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/).

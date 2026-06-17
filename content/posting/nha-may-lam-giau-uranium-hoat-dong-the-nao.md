@@ -201,7 +201,7 @@ Nếu bạn cần chi tiết kỹ thuật sâu, hãy dùng tài liệu chuyên n
 1. [Uranium là gì?](/zola/posting/uranium-la-gi-tai-sao-quan-trong/)
 2. [Làm giàu là gì? Các mức %](/zola/posting/uranium-lam-giau-la-gi/)
 3. **Bài 3** (bài này): Nhà máy làm giàu hoạt động thế nào?
-4. **Bài 4**: Điện hạt nhân khác vũ khí hạt nhân *(sắp ra mắt)*
+4. [**Điện hạt nhân khác vũ khí hạt nhân**](/zola/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/)
 5. **Bài 5**: Phá hủy cơ sở / tiêu hủy vật liệu *(sắp ra mắt)*
 
 ## Tóm lại {#tom-lai}
@@ -210,4 +210,4 @@ Nếu bạn cần chi tiết kỹ thuật sâu, hãy dùng tài liệu chuyên n
 
 **Product** đi làm nhiên liệu lò; **tails** thành depleted uranium cần quản lý. **IAEA** kiểm tra sổ sách và thiết bị tại cơ sở — nền để đọc [tin uranium Iran](/zola/baochi/iran-uranium-destruction-what-it-means/) với hiểu biết khoa học, không chỉ con số kg trên headline.
 
-Tiếp theo: **Bài 4 — Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?** — phân biệt phản ứng dây chuyền có kiểm soát trong lò điện với bối cảnh vũ khí trong giáo dục công cộng.
+Tiếp theo: [**Bài 4: Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?**](/zola/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/) — phân biệt phản ứng dây chuyền có kiểm soát trong lò điện với bối cảnh vũ khí trong giáo dục công cộng.

@@ -217,11 +217,12 @@ Sau deploy Zola, tôi chạy checklist này rồi **đặt lịch nhắc 3 tuầ
 
 ## Bạn nên làm gì sau bài 3? {#sau-bai-3}
 
-Khi đã đặt timeline đúng, bước tiếp theo trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là **giúp Google tìm nội dung** — `site:` operator, liên kết, sitemap. Series sẽ cover ở bài sau; trước mắt:
+Khi đã đặt timeline đúng, bước tiếp theo trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là **giúp Google tìm nội dung** — `site:` operator, liên kết, sitemap:
 
-1. **Đảm bảo pipeline Bài 2** không kẹt — crawl và index trước khi sốt ruột về rank.
-2. **Tiếp tục cluster** — Bài 3 link Bài 1–2; mỗi bài mới củng cố topical authority.
-3. **Kiên nhẫn iterate** — Google khuyên vậy; SEO blog cá nhân là marathon.
+1. **Đọc** [**Bài 4: Giúp Google tìm nội dung**](/zola/posting/giup-google-tim-noi-dung-site/) — sitemap, internal link, Search Console sau deploy.
+2. **Đảm bảo pipeline Bài 2** không kẹt — crawl và index trước khi sốt ruột về rank.
+3. **Tiếp tục cluster** — Bài 3 link Bài 1–2; mỗi bài mới củng cố topical authority.
+4. **Kiên nhẫn iterate** — Google khuyên vậy; SEO blog cá nhân là marathon.
 
 Nếu chưa có Search Console, quay [Bài 1](/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/). Nếu chưa hiểu crawl vs index, đọc lại [Bài 2](/zola/posting/google-search-hoat-dong-the-nao/).
 
@@ -231,4 +232,4 @@ Nếu chưa có Search Console, quay [Bài 1](/zola/posting/seo-la-gi-huong-dan-
 
 Blog Zola mới deploy phải đi qua crawl → index → ranking — timeline tuần là bình thường. Đo bằng Search Console, so sánh organic với ads đúng bài toán, và iterate khi đã có dữ liệu — không đổi title hàng ngày vì impatience.
 
-Series: Bài 1 (SEO & Essentials) → Bài 2 (pipeline Search) → **Bài 3** (thời gian thấy impact). Tiếp theo: giúp Google **tìm và khám phá** nội dung site bạn.
+Series: Bài 1 (SEO & Essentials) → Bài 2 (pipeline Search) → **Bài 3** (thời gian thấy impact). Tiếp theo: [**Bài 4: Giúp Google tìm nội dung**](/zola/posting/giup-google-tim-noi-dung-site/) — `site:` operator, liên kết và sitemap.
