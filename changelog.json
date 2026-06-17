@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(ci): FULLY AUTOMATED OPERATIONS merge policy",
+      "tag": "chore",
+      "pr": 349,
+      "lines_added": 640,
+      "lines_removed": 113,
+      "highlights": [
+        "data/auto-merge-policy.json — config machine-readable",
+        "scripts/auto_merge_policy.py — classify PR: auto-eligible vs manual-required",
+        "scripts/test_auto_merge_policy.py — 11 unit tests",
+        "Anti-loop protection (data/auto-merge-loop-state.json)",
+        "Delete branch sau merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(f-dashboard): GitHub auth, JSON/PDF export, health legend",
       "tag": "chore",
       "pr": 334,
