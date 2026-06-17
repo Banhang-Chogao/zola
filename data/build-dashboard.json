@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T15:17:33Z",
+  "updated_at": "2026-06-17T15:24:15Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 30,
-    "success": 28,
+    "total": 29,
+    "success": 27,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27700019400,
+      "run_number": 600,
+      "commit_id": "fc49297fb1d43e767ebca4cf782a97691b7cc9ff",
+      "commit_short": "fc49297",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/fc49297fb1d43e767ebca4cf782a97691b7cc9ff",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27700019400",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #600 — Kiểm tra QA Gatekeeper: Merge pull request #271 from Banhang-Chogao/qa/performance-auto-fix-20260617",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:23:39Z",
+      "duration_sec": 25
+    },
     {
       "id": 27699454227,
       "run_number": 598,
@@ -484,40 +501,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T13:09:32Z",
       "duration_sec": 48
-    },
-    {
-      "id": 27690254120,
-      "run_number": 362,
-      "commit_id": "e352fe16b476c98e7516a6e39d4de084e6383280",
-      "commit_short": "e352fe1",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/e352fe16b476c98e7516a6e39d4de084e6383280",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27690254120",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #362 — Deploy blog lên GitHub Pages: revert: Rollback deploy.yml to state before today's changes (Option B)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:51:27Z",
-      "duration_sec": 60
-    },
-    {
-      "id": 27690254161,
-      "run_number": 580,
-      "commit_id": "e352fe16b476c98e7516a6e39d4de084e6383280",
-      "commit_short": "e352fe1",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/e352fe16b476c98e7516a6e39d4de084e6383280",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27690254161",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #580 — Kiểm tra QA Gatekeeper: revert: Rollback deploy.yml to state before today's changes (Option B)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:51:27Z",
-      "duration_sec": 22
     }
   ]
 }
