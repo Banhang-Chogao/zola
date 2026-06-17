@@ -1333,6 +1333,101 @@ async def cms_author_update(
     }
 
 
+# ============= CMS — Footer Countdown =============
+CMS_COUNTDOWN_JSON_PATH = "data/footer-countdown.json"
+_COUNTDOWN_DISPLAY_MODES = frozenset({"days", "days_hours_minutes", "full"})
+_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_TIME_RE = re.compile(r"^\d{2}:\d{2}$")
+
+
+def _validate_countdown_payload(body: dict) -> dict:
+    """Normalize + validate footer countdown config."""
+    if not isinstance(body, dict):
+        raise HTTPException(400, "invalid_json_body")
+    enabled = bool(body.get("enabled", False))
+    title = str(body.get("title", "")).strip()[:200]
+    target_date = str(body.get("targetDate", "")).strip()
+    target_time = str(body.get("targetTime", "00:00")).strip() or "00:00"
+    timezone = str(body.get("timezone", "Asia/Ho_Chi_Minh")).strip()[:64] or "Asia/Ho_Chi_Minh"
+    display_mode = str(body.get("displayMode", "days")).strip()
+    prefix = str(body.get("footerTextPrefix", "Còn")).strip()[:50] or "Còn"
+    suffix = str(body.get("footerTextSuffix", "nữa là tới")).strip()[:50] or "nữa là tới"
+
+    if display_mode not in _COUNTDOWN_DISPLAY_MODES:
+        raise HTTPException(400, "invalid_display_mode")
+    if enabled:
+        if not title:
+            raise HTTPException(400, "title_required_when_enabled")
+        if not target_date or not _DATE_RE.match(target_date):
+            raise HTTPException(400, "invalid_target_date")
+        if not _TIME_RE.match(target_time):
+            raise HTTPException(400, "invalid_target_time")
+
+    from datetime import datetime, timezone as dt_tz
+
+    now = datetime.now(dt_tz.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return {
+        "updated_at": now,
+        "enabled": enabled,
+        "title": title,
+        "targetDate": target_date,
+        "targetTime": target_time,
+        "timezone": timezone,
+        "displayMode": display_mode,
+        "footerTextPrefix": prefix,
+        "footerTextSuffix": suffix,
+    }
+
+
+@app.get("/cms/footer-countdown")
+async def cms_footer_countdown_get(authorization: str = Header(default="")):
+    """Đọc data/footer-countdown.json (auth required)."""
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        _, text = await _gh_get_file(client, CMS_COUNTDOWN_JSON_PATH, token)
+    if not text:
+        return {"data": _validate_countdown_payload({"enabled": False})}
+    try:
+        return {"data": json.loads(text)}
+    except json.JSONDecodeError:
+        raise HTTPException(500, "countdown_json_corrupt")
+
+
+@app.post("/cms/footer-countdown")
+async def cms_footer_countdown_update(request: Request, authorization: str = Header(default="")):
+    """Ghi data/footer-countdown.json từ admin UI."""
+    session = await require_session(authorization)
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(400, "invalid_json")
+    payload = _validate_countdown_payload(body)
+    new_text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        sha, _ = await _gh_get_file(client, CMS_COUNTDOWN_JSON_PATH, token)
+        data = await _gh_put_file(
+            client,
+            CMS_COUNTDOWN_JSON_PATH,
+            new_text,
+            sha,
+            "CMS: cập nhật footer countdown",
+            token,
+        )
+    commit_url = data.get("commit", {}).get("html_url", "")
+    return {
+        "ok": True,
+        "data": payload,
+        "commit_url": commit_url,
+        "deploy_eta": "1-2 phút (Pages auto-build)",
+    }
+
+
 # ============= CMS — Giscus Auto-Fetch IDs =============
 @app.get("/cms/giscus/setup")
 async def cms_giscus_setup(authorization: str = Header(default="")):

@@ -1,0 +1,135 @@
+/* Footer countdown band — sits between QA dashboard and dark footer bar.
+   Matches footer-qa white band + Ericsson Blue accent. */
+
+.footer-countdown {
+  background: #fff;
+  border-top: 1px solid #ececec;
+  padding: 1.25rem 0 1.5rem;
+
+  &__card {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.1rem 1.35rem;
+    background: linear-gradient(135deg, #eef3fb 0%, #fff 55%);
+    border: 1px solid rgba(0, 55, 132, 0.12);
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 55, 132, 0.06);
+    text-align: center;
+  }
+
+  &__text {
+    margin: 0;
+    font-family: $font-ui;
+    font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+    line-height: 1.55;
+    color: #1a1a2e;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  &__loading {
+    opacity: 0.65;
+  }
+
+  &__prefix,
+  &__suffix {
+    font-weight: 600;
+    color: #334155;
+  }
+
+  &__unit {
+    display: inline-block;
+    white-space: nowrap;
+    margin: 0 0.12rem;
+  }
+
+  &__digit {
+    display: inline-block;
+    min-width: 2.2ch;
+    font-family: $font-heading;
+    font-size: clamp(1.65rem, 5.5vw, 2.35rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #003784;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+    vertical-align: baseline;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-weight: 800;
+    color: #0a0a0a;
+    letter-spacing: -0.02em;
+  }
+
+  &__past {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: #475569;
+    font-weight: 600;
+
+    .footer-countdown__title {
+      color: #003784;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 0 1.25rem;
+
+    &__card {
+      padding: 1rem 0.85rem;
+      border-radius: 12px;
+    }
+
+    &__text {
+      line-height: 1.65;
+    }
+
+    &__unit {
+      display: inline;
+    }
+  }
+}
+
+/* Admin countdown page */
+.admin-countdown {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+
+  &__preview {
+    margin: 1.5rem 0 2rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #eef3fb 0%, #fff 60%);
+    border: 1px solid rgba(0, 55, 132, 0.15);
+    border-radius: 14px;
+    text-align: center;
+  }
+
+  &__preview-label {
+    font-family: $font-meta;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin: 0 0 0.75rem;
+  }
+
+  &__field-hint {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0.25rem 0 0;
+  }
+
+  .editor-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+
+    @media (max-width: 560px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
