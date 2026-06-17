@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "changelog after PR #300",
+      "tag": "chore",
+      "pr": 305,
+      "lines_added": 13,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "refresh Build Dashboard data",
       "tag": "chore",
       "pr": 299,
