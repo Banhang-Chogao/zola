@@ -43,7 +43,7 @@ jobs:
 
       - name: Unit tests — paywall + F-Dashboard
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard -v
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard -v
 
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
         run: python3 qa_check.py

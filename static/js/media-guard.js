@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  if (/\/(editor|admin-author|tools\/f-dashboard)(\/|$)/.test(location.pathname)) return;
+  if (/\/(editor|admin-author|tools\/f-dashboard|tools\/l-dashboard)(\/|$)/.test(location.pathname)) return;
   if (document.getElementById('editor-app')) return;
 
   var ATTACH_RE = /\.(pdf|zip|rar|7z|tar|gz|docx?|xlsx?|pptx?|epub|mp3|mp4|webm|avi|mov)(\?|#|$)/i;
