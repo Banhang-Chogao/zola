@@ -1,10 +1,11 @@
 {# Paywall box — hiển thị sau teaser cho bài premium. Full content fetch qua API. #}
+{% import "macros/premium.html" as premium %}
 {% macro box(page, config) %}
 {% set post_id = page.extra.premium_post_id | default(value=page.slug) %}
 {% set post_title = page.extra.premium_title | default(value=page.title) %}
-{% set price = page.extra.price | default(value=29000) %}
+{% set price = page.extra.price | default(value=config.extra.paywall_default_price | default(value=100000)) %}
 {% set price_fmt = price | int %}
-{% set momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr" %}
+{% set momo_link = config.extra.momo_payment_link | default(value="https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr") %}
 
 <section class="paywall-box" id="paywall-box"
          data-post-id="{{ post_id }}"
@@ -14,9 +15,10 @@
          aria-labelledby="paywall-heading">
     <header class="paywall-box__header">
         <span class="paywall-box__badge" aria-hidden="true">🔒</span>
-        <h2 class="paywall-box__title" id="paywall-heading">Bài viết trả phí</h2>
-        <p class="paywall-box__lead">Bạn cần thanh toán để đọc toàn bộ bài viết này.</p>
-        <p class="paywall-box__price">Giá: <strong data-paywall-price="{{ price_fmt }}">{{ price_fmt }}đ</strong></p>
+        {{ premium::badge() }}
+        <h2 class="paywall-box__title" id="paywall-heading">Bài viết Premium</h2>
+        <p class="paywall-box__lead">Mua quyền truy cập để đọc toàn bộ nội dung.</p>
+        <p class="paywall-box__price">Giá mở khóa: <strong data-paywall-price="{{ price_fmt }}">{{ price_fmt }}</strong></p>
     </header>
 
     <div class="paywall-box__steps">

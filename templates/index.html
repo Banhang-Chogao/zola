@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 {% import "macros/img.html" as img %}
+{% import "macros/premium.html" as premium %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
 {% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
@@ -54,7 +55,9 @@
                      loading="eager" fetchpriority="high" decoding="async">
             </a>
             <div class="home-hero__body">
-                {% if featured.taxonomies.categories %}
+                {% if featured.extra.premium %}
+                    {{ premium::badge() }}
+                {% elif featured.taxonomies.categories %}
                     <span class="home-hero__cat">{{ featured.taxonomies.categories[0] }}</span>
                 {% endif %}
                 <h1 class="home-hero__title">
@@ -76,14 +79,16 @@
     {% if rest | length > 0 %}
         <section class="home-grid">
             {% for page in rest | slice(end=3) %}
-                <article class="home-card">
+                <article class="home-card{% if page.extra.premium %} home-card--premium{% endif %}">
                     <a class="home-card__image" href="{{ page.permalink }}">
                         <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
                              width="800" height="500"
                              loading="lazy" decoding="async">
                     </a>
                     <div class="home-card__body">
-                        {% if page.taxonomies.categories %}
+                        {% if page.extra.premium %}
+                            {{ premium::badge() }}
+                        {% elif page.taxonomies.categories %}
                             <span class="home-card__cat">{{ page.taxonomies.categories[0] }}</span>
                         {% endif %}
                         <span class="home-card__insight">Insights khán giả</span>

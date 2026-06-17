@@ -69,6 +69,7 @@ menu = [
         { url = "$BASE_URL/categories/am-thuc",  name = "Ẩm thực" },
         { url = "$BASE_URL/categories/ngan-hang",  name = "Ngân hàng" },
         { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
+        { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
     ] },
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
         { url = "$BASE_URL/editor",    name = "Viết bài" },
@@ -123,7 +124,10 @@ google_cse_cx = "533c848cb0eb14de2"
 cms_auth_url = "https://blog-visitor-api.onrender.com"
 
 # Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
-paywall_api_url = ""
+paywall_api_url = "https://blog-paywall-api.onrender.com"
+# Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
+paywall_default_price = 100000
+momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr"
 
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
