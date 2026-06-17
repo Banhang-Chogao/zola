@@ -9,6 +9,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
+SCRIPTS = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPTS))
+
 from openpyxl import Workbook
 from openpyxl.styles import Font
 
