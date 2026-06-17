@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "changelog after PR #314",
+      "tag": "chore",
+      "pr": 318,
+      "lines_added": 15,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "Gắn label no-auto-merge nếu cần giữ PR chờ review tay"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(qa): QA Auto Rule Checker — phát hiện rule xung đột mỗi 8h",
       "tag": "chore",
       "pr": 322,
