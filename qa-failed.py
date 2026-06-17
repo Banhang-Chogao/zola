@@ -11,7 +11,7 @@ Pipeline:
   3. Đối chiếu log với vaccine rules (scripts/vaccine_rules.py ↔ CLAUDE.md V1–V4).
   4. Apply safe fix nếu match.
   5. Tạo branch riêng `fix/ci-auto-<run_id>` → commit → push → PR.
-  6. QA.yml + Zola build chạy lại trên PR (manual approval qua pr-review env).
+  6. QA.yml + Zola build chạy lại trên PR; merge thủ công qua GitHub PR review.
   7. Unknown / manual-only → tạo GitHub issue.
 
 Run local:
