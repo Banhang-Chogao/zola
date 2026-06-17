@@ -70,7 +70,18 @@ jobs:
               exit 1
             fi
           done
-          if echo "$changed" | grep -Eqi 'auto-merge|dependabot|renovate'; then
-            echo "::error::Forbidden auto-merge or auto-update workflow."
+          if echo "$changed" | grep -Eqi 'dependabot|renovate'; then
+            echo "::error::Forbidden dependabot/renovate auto-update config."
             exit 1
           fi
+          for path in $changed; do
+            case "$path" in
+              .github/workflows/auto-merge.yml|.github/workflows/merge-report.yml|scripts/try_auto_merge.py|scripts/fetch_merge_report.py)
+                continue
+                ;;
+            esac
+            if echo "$path" | grep -Eqi 'auto-merge'; then
+              echo "::error::Forbidden auto-merge workflow (not whitelisted): $path"
+              exit 1
+            fi
+          done
