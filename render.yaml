@@ -45,6 +45,8 @@ services:
         value: https://banhang-chogao.github.io/zola
       - key: ADMIN_EMAILS
         value: 292648126+Banhang-Chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
       - key: SESSION_TTL
         value: "7200"
       - key: COUNTER_KEY

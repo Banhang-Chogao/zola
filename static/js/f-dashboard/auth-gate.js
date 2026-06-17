@@ -84,9 +84,18 @@
     }
   }
 
+  /** Path tương đối gửi backend — strip cache-bust / auth_error khỏi query. */
+  function buildReturnPath() {
+    const params = new URLSearchParams(location.search);
+    params.delete("_fresh");
+    params.delete("auth_error");
+    const qs = params.toString();
+    return location.pathname + (qs ? "?" + qs : "");
+  }
+
   function login() {
     if (!AUTH_API) return;
-    const returnPath = location.pathname + location.search;
+    const returnPath = buildReturnPath();
     window.location.href =
       AUTH_API + "/auth/login?return_to=" + encodeURIComponent(returnPath);
   }

@@ -87,8 +87,11 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
 
-    {# CMS auth backend FastAPI — set qua config.extra.cms_auth_url. #}
+    {# CMS auth backend FastAPI — config.extra.cms_auth_url (không nest dưới giscus). #}
     {% set_global cms_auth = config.extra.cms_auth_url | default(value="") %}
+    {% if cms_auth == "" and config.extra.giscus is defined %}
+    {% set_global cms_auth = config.extra.giscus.cms_auth_url | default(value="") %}
+    {% endif %}
     {% if cms_auth %}
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}

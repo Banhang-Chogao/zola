@@ -78,6 +78,11 @@ ADMIN_EMAILS = {
     for e in os.getenv("ADMIN_EMAILS", "292648126+Banhang-Chogao@users.noreply.github.com").split(",")
     if e.strip()
 }
+ADMIN_USERNAMES = {
+    u.strip().lower()
+    for u in os.getenv("ADMIN_USERNAMES", "banhang-chogao").split(",")
+    if u.strip()
+}
 
 SESSION_TTL = int(os.getenv("SESSION_TTL", "7200"))  # 2h default (idle timeout)
 
@@ -149,9 +154,12 @@ async def stats():
 
 # ============= GitHub OAuth — Auth Flow =============
 
-def _redirect_with_error(error: str) -> RedirectResponse:
-    """Redirect blog /editor/ với query ?error=... để JS hiển thị thông báo."""
-    return RedirectResponse(f"{BLOG_URL}/editor/?auth_error={error}")
+def _redirect_with_error(error: str, return_to: str = "/editor/") -> RedirectResponse:
+    """Redirect về trang gốc (return_to) với ?auth_error=... để JS hiển thị thông báo."""
+    rt = return_to if return_to.startswith("/") else "/editor/"
+    base = _build_blog_url(rt)
+    sep = "&" if "?" in base else "?"
+    return RedirectResponse(f"{base}{sep}auth_error={error}")
 
 
 def _build_blog_url(return_to: str, fragment: str = "") -> str:
@@ -177,6 +185,11 @@ def _is_allowed_email(verified_emails: set) -> bool:
     GitHub Collaborator API thay vì email check, chỉ cần sửa hàm này.
     """
     return bool(verified_emails & ADMIN_EMAILS)
+
+
+def _is_allowed_user(username: str) -> bool:
+    """Fallback whitelist theo GitHub login (vd banhang-chogao)."""
+    return (username or "").strip().lower() in ADMIN_USERNAMES
 
 
 @app.get("/auth/login")
@@ -242,12 +255,12 @@ async def auth_callback(code: str = "", state: str = ""):
                 },
             )
         except httpx.HTTPError:
-            return _redirect_with_error("github_unreachable")
+            return _redirect_with_error("github_unreachable", return_to)
 
         token_data = token_res.json() if token_res.status_code == 200 else {}
         access_token = token_data.get("access_token")
         if not access_token:
-            return _redirect_with_error("token_exchange_failed")
+            return _redirect_with_error("token_exchange_failed", return_to)
 
         gh_headers = {
             "Authorization": f"Bearer {access_token}",
@@ -260,12 +273,13 @@ async def auth_callback(code: str = "", state: str = ""):
             emails_res = await client.get("https://api.github.com/user/emails", headers=gh_headers)
             user_res   = await client.get("https://api.github.com/user",        headers=gh_headers)
         except httpx.HTTPError:
-            return _redirect_with_error("github_unreachable")
+            return _redirect_with_error("github_unreachable", return_to)
 
         if emails_res.status_code != 200 or user_res.status_code != 200:
-            return _redirect_with_error("github_profile_fetch_failed")
+            return _redirect_with_error("github_profile_fetch_failed", return_to)
 
         emails = emails_res.json()
+        user = user_res.json()
         # Chỉ chấp nhận email verified — GitHub có flag .verified cho mỗi email
         verified_emails = {
             (e.get("email") or "").lower()
@@ -273,10 +287,8 @@ async def auth_callback(code: str = "", state: str = ""):
             if e.get("verified") and e.get("email")
         }
 
-        if not _is_allowed_email(verified_emails):
-            return _redirect_with_error("access_denied")
-
-        user = user_res.json()
+        if not _is_allowed_email(verified_emails) and not _is_allowed_user(user.get("login", "")):
+            return _redirect_with_error("access_denied", return_to)
 
     # Tạo session opaque — sid là 43 ký tự URL-safe, không carry info,
     # không thể brute force trong thời gian session sống.

@@ -776,6 +776,20 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 - Dữ liệu chỉ trên **IndexedDB local**, mã hóa **AES-GCM** (key sinh per-browser).
 - Không gửi sao kê lên server — parse hoàn toàn trong trình duyệt.
 - **Auth:** `/tools/f-dashboard/` — GitHub OAuth only (CMS flow).
+
+### OAuth / Login (F-Dashboard + CMS)
+
+| Config | Vị trí | Ghi chú |
+|--------|--------|---------|
+| `cms_auth_url` | `config.toml` → **`[extra]`** (không nest trong `[extra.giscus]`) | Render meta `zola-cms-auth-api` |
+| Backend | `services/visitor-counter` (`blog-visitor-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/me` |
+| Session key | `sessionStorage` → `zola-cms-session-id` | Chung CMS + F-Dashboard |
+| `return_to` | Client gửi `location.pathname` (vd `/zola/tools/f-dashboard/`) | Backend strip `/zola` prefix → redirect `#sid=...` |
+| Whitelist | `ADMIN_EMAILS` + `ADMIN_USERNAMES` (Render env) | Email verified **hoặc** GitHub login `banhang-chogao` |
+| OAuth callback | GitHub App → `{BACKEND_URL}/auth/callback` | **Không** cần thêm callback riêng cho F-Dashboard (cùng app CMS) |
+| Lỗi auth | `?auth_error=...` trên **đúng** `return_to` | Không ép về `/editor/` |
+
+**F-Dashboard flow:** `auth-gate.js` → `GET {cms_auth_url}/auth/login?return_to=/zola/tools/f-dashboard/` → GitHub → callback → redirect `https://banhang-chogao.github.io/zola/tools/f-dashboard/#sid=...` → `fetchMe()` → hiện dashboard.
 - **Ephemeral:** `exportAndWipe()` — download → `clearAll()` ngay; no persistent online storage.
 - **PDF watermark (invisible):** `SHA256-style 16 hex lowercase` + `_` + `banhang-chogao.github.io/zola` (no `https://`).
 
