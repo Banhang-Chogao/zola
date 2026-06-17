@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "QA: Daily performance checker (00:00 GMT+7) + Lighthouse audit automa…",
+      "tag": "chore",
+      "pr": 271,
+      "lines_added": 760,
+      "lines_removed": 105,
+      "highlights": [
+        "Extend perf-audit.yml: cron 0 17   * (00:00 Asia/Ho_Chi_Minh)",
+        "Add performance_qa_checker.py: PageSpeed audit, regression compare, SAFE fix PR",
+        "Extend fetch_pagespeed.py with CWV, resource weight, render-blocking metrics",
+        "Store audit snapshot baseline; upload reports as CI artifacts",
+        "NEVER push/merge main — branch qa/performance-auto-fix-YYYYMMDD only"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "Feat/devops no dependabot batch 10",
       "tag": "chore",
       "pr": 269,
