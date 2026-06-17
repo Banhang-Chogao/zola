@@ -1,0 +1,31 @@
+/* ===== MEDIA GUARD — casual anti-download friction (images + attachments) =====
+   Deterrent layer only. Text selection in articles stays enabled.
+   Scoped to content/media surfaces — not nav chrome or CMS forms. */
+
+.post-single__content img,
+.post-single__content picture,
+.post-single__hero img,
+.post-card__image img,
+.home-hero__image img,
+.home-card__image img,
+.featured-card__image img,
+.random-item__image img,
+.related-card__image img,
+.ad-banner__image img,
+.header-ad img,
+.media-guard {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.post-single__content a.media-guard--attach,
+a.media-guard--attach {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* Visible media stays renderable — no pointer-events:none on images. */
