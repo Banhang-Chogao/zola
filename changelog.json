@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(f-dashboard): GitHub auth, JSON/PDF export, health legend",
+      "tag": "chore",
+      "pr": 334,
+      "lines_added": 3578,
+      "lines_removed": 132,
+      "highlights": [
+        "🔐 GitHub OAuth gate — cùng flow CMS /editor/ (cms_auth_url, session zola-cms-session-id)",
+        "📥 Xuất JSON — tải auto + xóa IndexedDB ngay sau download",
+        "📄 Xuất PDF infographic — báo cáo tổng hợp + watermark chìm {16hex}_{blog_domain}",
+        "📊 Health legend — định nghĩa Excellent/Good/Average/Risky/Danger + highlight cấp hiện tại",
+        "⚡ Phiên tạm — không lưu tích lũy online; chỉ IndexedDB browser đến khi export"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "refresh Google Trends VN hot search",
       "tag": "chore",
       "pr": 332,
