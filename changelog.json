@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 365,
+      "lines_added": 3,
+      "lines_removed": 3,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "Gắn label no-auto-merge nếu cần giữ PR chờ review tay"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "refresh Build Dashboard data",
       "tag": "chore",
       "pr": 351,
