@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/references.html" as references %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
@@ -7,8 +8,11 @@
         <h1 class="section-header__title">{{ page.title | upper }}</h1>
     </header>
 
-    <article class="post-single__content">
-        {{ page.content | safe }}
+    <article class="post-single">
+        <div class="post-single__content">
+            {{ page.content | safe }}
+        </div>
+        {{ references::section(page=page) }}
     </article>
 {% endblock main %}
 
