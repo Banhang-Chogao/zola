@@ -1,5 +1,116 @@
 /* ===== F-DASHBOARD — Personal finance from VietinBank statements ===== */
 
+.f-dashboard-app {
+  min-height: 50vh;
+}
+
+/* ----- Login gate (GitHub OAuth) ----- */
+.fd-login-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 55vh;
+  padding: 2rem 1.5rem;
+}
+
+.fd-login__card {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  padding: 2rem 1.75rem;
+  background: $brand-snow;
+  border: 1px solid $brand-edge;
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+}
+
+.fd-login__icon {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.fd-login__title {
+  font-family: $font-heading;
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  color: $brand-ink-900;
+}
+
+.fd-login__sub {
+  font-size: 0.9rem;
+  color: $brand-ink-500;
+  line-height: 1.65;
+  margin: 0 0 1.25rem;
+}
+
+.fd-login__error {
+  font-size: 0.88rem;
+  color: $brand-signal-red;
+  margin: 0 0 1rem;
+}
+
+.fd-login__hint {
+  font-size: 0.82rem;
+  color: $brand-warning;
+  margin: 1rem 0 0;
+}
+
+.fd-login__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: center;
+}
+
+/* ----- User bar ----- */
+.fd-user-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  margin-bottom: 1rem;
+  background: $brand-mist;
+  border: 1px solid $brand-edge;
+  border-radius: 10px;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    object-fit: cover;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.88rem;
+    flex: 1;
+    min-width: 0;
+
+    strong {
+      color: $brand-ink-900;
+    }
+  }
+
+  &__email {
+    font-size: 0.78rem;
+    color: $brand-ink-500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__logout {
+    flex-shrink: 0;
+  }
+}
+
 .f-dashboard {
   max-width: 1180px;
   margin: 1.5rem auto 3rem;
@@ -33,6 +144,16 @@
     background: rgba(0, 55, 132, 0.08);
     padding: 0.2rem 0.65rem;
     border-radius: 999px;
+  }
+
+  &__ephemeral {
+    font-family: $font-meta;
+    font-size: 0.72rem;
+    color: $brand-warning;
+    background: rgba(245, 158, 11, 0.1);
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    margin-left: auto;
   }
 
   &__desc {
@@ -123,14 +244,77 @@
   border: 1px solid $brand-edge;
   cursor: pointer;
   background: $brand-snow;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background: $brand-trust-cyan;
+    border-color: $brand-trust-cyan;
+    color: #fff;
+    font-weight: 600;
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+  }
 
   &--ghost {
     color: $brand-ink-500;
 
-    &:hover {
+    &:hover:not(:disabled) {
       border-color: $brand-signal-red;
       color: $brand-signal-red;
     }
+  }
+
+  &--export {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    color: $brand-trust-cyan;
+    border-color: rgba(0, 55, 132, 0.25);
+    background: rgba(0, 55, 132, 0.04);
+
+    &:hover:not(:disabled) {
+      background: rgba(0, 55, 132, 0.1);
+      border-color: $brand-trust-cyan;
+    }
+  }
+
+  &--pdf {
+    color: $brand-ink-800;
+    border-color: $brand-edge-strong;
+    background: $brand-snow;
+  }
+}
+
+.fd-export-bar {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px dashed $brand-edge;
+
+  &__label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $brand-ink-700;
+    margin: 0 0 0.65rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  &__note {
+    font-size: 0.78rem;
+    color: $brand-ink-500;
+    margin: 0.65rem 0 0;
   }
 }
 
@@ -319,6 +503,69 @@
   }
 }
 
+.fd-health-legend {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.1rem;
+  background: $brand-mist;
+  border-radius: 10px;
+  border: 1px solid $brand-edge;
+
+  &__title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: $brand-ink-800;
+    margin: 0 0 0.75rem;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 88px 56px 1fr;
+    gap: 0.5rem 0.75rem;
+    align-items: baseline;
+    font-size: 0.82rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    transition: background 0.15s;
+
+    &--active {
+      background: rgba(0, 55, 132, 0.08);
+      outline: 1px solid rgba(0, 55, 132, 0.15);
+    }
+  }
+
+  &__badge {
+    font-weight: 700;
+    font-family: $font-meta;
+    font-size: 0.78rem;
+  }
+
+  &__range {
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $brand-ink-500;
+  }
+
+  &__desc {
+    color: $brand-ink-700;
+    line-height: 1.45;
+  }
+
+  &__item--excellent .fd-health-legend__badge { color: $brand-success; }
+  &__item--good .fd-health-legend__badge { color: darken($brand-success, 8%); }
+  &__item--average .fd-health-legend__badge { color: $brand-warning; }
+  &__item--risky .fd-health-legend__badge { color: darken($brand-signal-red, 10%); }
+  &__item--danger .fd-health-legend__badge { color: $brand-signal-red; }
+}
+
 .fd-charts {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -367,6 +614,20 @@
 @media (max-width: 768px) {
   .f-dashboard {
     padding: 0 1rem;
+  }
+
+  .fd-head__row {
+    flex-wrap: wrap;
+  }
+
+  .fd-head__ephemeral {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .fd-health-legend__item {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
   }
 
   .fd-charts {

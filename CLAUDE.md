@@ -692,14 +692,26 @@ Vẫn chặn: dependabot, renovate, workflow auto-merge **không** whitelist.
 
 Trang công cụ tài chính cá nhân tại `/tools/f-dashboard/` — upload sao kê Excel VietinBank, phân tích thu/chi, sức khỏe tài chính, biểu đồ và AI insights.
 
+### Product spec (Frontend)
+
+| Pillar | Requirement |
+|--------|-------------|
+| **Auto-Download & Wipe** | Nút «Export JSON» và «Export PDF Infographic». Trigger download → **xóa ngay** toàn bộ IndexedDB. **Không** persistent online storage (không GitHub, không server, không `/static`). |
+| **Access Control** | Chỉ user **GitHub-authenticated** (reuse CMS OAuth: `cms_auth_url`, session `zola-cms-session-id`, `/auth/me`). Trang login trước dashboard. |
+| **UI/UX — Health tiers** | Hiển thị rõ 5 cấp Financial Health (Excellent → Danger) kèm score range + mô tả; highlight tier hiện tại. |
+| **PDF watermark** | Watermark **vô hình** (in chìm): `{16hex_lowercase}_{blog_url_no_protocol}` trên mọi trang PDF. JSON export gồm `series_id` + `watermark`. |
+
 **Kiến trúc (static site):** Blog Zola trên GitHub Pages không có server upload. Luồng chạy **100% client-side**:
 
 ```text
+GitHub OAuth gate (auth-gate.js)
+      ↓
 Excel VietinBank (browser)
-      ↓ SheetJS parser (static/js/f-dashboard/parser.js)
+      ↓ SheetJS parser (parser.js)
       ↓ SHA256 deduplicate
-      ↓ AES-GCM encrypted IndexedDB (static/js/f-dashboard/storage.js)
+      ↓ AES-GCM encrypted IndexedDB (storage.js) — ephemeral session only
       ↓ Insights + Charts (insights.js, charts.js)
+      ↓ Export JSON/PDF (export.js) → auto-download → wipe storage
 ```
 
 Python scripts (`scripts/f_dashboard_parse_excel.py`, `scripts/f_dashboard_insights.py`) mirror logic cho test/CI — **không** lưu dữ liệu người dùng.
@@ -735,7 +747,15 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 - **Expense Ratio:** `Tổng chi / Tổng thu`
 - **Net Cash Flow:** `Thu - Chi`
 - **Financial Score:** 0–100 từ saving rate, expense ratio, net flow, độ dài dữ liệu
-- **Labels:** Excellent (≥85), Good (≥70), Average (≥50), Risky (≥30), Danger (&lt;30)
+- **Tiers (UI + PDF):**
+
+| Tier | Score | Ý nghĩa |
+|------|-------|---------|
+| Excellent | ≥ 85 | Tích lũy mạnh, chi tiêu kiểm soát |
+| Good | 70 – 84 | Cân bằng tốt, tiết kiệm đủ |
+| Average | 50 – 69 | Trung bình, cần theo dõi chi |
+| Risky | 30 – 49 | Chi gần/vượt thu |
+| Danger | &lt; 30 | Thâm hụt kéo dài |
 
 ### Security Rules
 
@@ -743,6 +763,9 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 - **Không** lưu trong `/static`, `/public`, hoặc commit git.
 - Dữ liệu chỉ trên **IndexedDB local**, mã hóa **AES-GCM** (key sinh per-browser).
 - Không gửi sao kê lên server — parse hoàn toàn trong trình duyệt.
+- **Auth:** `/tools/f-dashboard/` — GitHub OAuth only (CMS flow).
+- **Ephemeral:** `exportAndWipe()` — download → `clearAll()` ngay; no persistent online storage.
+- **PDF watermark (invisible):** `SHA256-style 16 hex lowercase` + `_` + `banhang-chogao.github.io/zola` (no `https://`).
 
 ### File map
 
@@ -750,7 +773,7 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 |------------|------|
 | Trang | `content/tools/f-dashboard.md`, `templates/f-dashboard.html` |
 | Styles | `sass/_f-dashboard.scss` |
-| Client JS | `static/js/f-dashboard/*.js` |
+| Client JS | `static/js/f-dashboard/*.js` (`auth-gate.js`, `export.js`, …) |
 | Python parser | `scripts/f_dashboard_parse_excel.py` |
 | Python insights | `scripts/f_dashboard_insights.py` |
 | Tests | `scripts/test_f_dashboard.py` |
@@ -790,17 +813,36 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 **Prevention:** `python3 scripts/qa-auto-rule-checker.py --dry-run` → 0 conflicts trước khi merge; reset state khi loop do FP.
 
-## Paywall System Rules
+## Premium Paywall Rules
 
 - Never publish full premium content in static HTML.
 - Premium posts render teaser only (`paywall_prepare_build.py --strip` trước `zola build`).
+- Frontmatter: `premium = true`, `price`, `premium_post_id` (vd `premium-fintech-001`).
+- Full premium body: `private_content/{premium_post_id}.md` — backend only, không commit vào `public/`.
 - Unlock requires email + approve code + post_id validation.
 - Approve code must be hashed in database (SHA256), không lưu plaintext.
 - Admin confirmation is manual after Momo payment.
-- Momo payment link: `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr`
-- Do not hardcode SMTP secrets — dùng `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
-- Print output must include watermark (`trace_code_16` + blog domain).
-- Read-only protection is deterrent, not absolute DRM.
-- Full premium body: `private_content/{premium_post_id}.md` — backend only.
 - Docs: `docs/paywall.md` · Admin: `/admin/paywall/` · API: `backend/paywall_app.py`
+- Deploy: `services/paywall/` + `render.yaml` → `blog-paywall-api` · set `paywall_api_url` in `config.toml`.
+
+## Momo Payment Rules
+
+- Payment link mặc định: `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr`
+- Override qua env `MOMO_PAYMENT_LINK` trên backend.
+- Flow: đọc teaser → thanh toán Momo → gửi yêu cầu (email) → admin xác nhận → generate approve code → gửi email.
+- Không có webhook Momo — xác nhận thanh toán thủ công qua admin panel.
+
+## Watermark Rules
+
+- Dynamic watermark overlay khi đọc online: `blogName • emailHash • postId • traceCode`.
+- Print/PDF: `@media print` chèn watermark `{traceCode16}_{blogDomain}` + bản quyền.
+- Ví dụ in: `A9F328BC71D06E2A_banhang-chogao.github.io` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
+- `POST /api/paywall/log-print` ghi log khi user in.
+
+## Security Rules (Paywall + F-Dashboard)
+
+- **F-Dashboard:** không public Excel/JSON/dump; dữ liệu chỉ IndexedDB mã hóa AES-GCM trên browser; không upload server.
+- **Paywall:** không hardcode SMTP secrets — `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
+- **Paywall:** admin token qua `PAYWALL_ADMIN_TOKEN`; `/admin/paywall/` disallow trong `robots.txt`.
+- Read-only protection (disable copy/right-click) là deterrent, không phải DRM tuyệt đối.
 

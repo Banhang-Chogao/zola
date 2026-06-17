@@ -1,5 +1,8 @@
 +++
 title = "F-Dashboard"
-description = "Hệ thống quản lý tài chính cá nhân từ sao kê VietinBank — upload Excel, phân tích thu chi, sức khỏe tài chính."
+description = "Công cụ tài chính VietinBank — GitHub auth, phân tích thu/chi, export JSON/PDF rồi xóa phiên. Không lưu online."
 template = "f-dashboard.html"
+
+[extra]
+seo_keyword = "f-dashboard tài chính cá nhân vietinbank"
 +++

@@ -35,6 +35,15 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install test dependencies (paywall + F-Dashboard)
+        run: |
+          pip install -r backend/requirements.txt
+          pip install -r scripts/requirements-f-dashboard.txt
+
+      - name: Unit tests — paywall + F-Dashboard
+        run: |
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard -v
+
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
         # qa_check.py stdlib only — không cần pip install.
         # Exit 0 = pass (kể cả khi có warning), exit 1 = có error → fail job.
