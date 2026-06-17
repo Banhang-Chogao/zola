@@ -1,49 +1,50 @@
 # CLAUDE.md — Quy tắc làm việc
 
-## Quy tắc Deploy & Production (MỚI NHẤT — ghi đè TẤT CẢ rule deploy/auto-merge trước đó)
+## Quy tắc Deploy & Production (MỚI NHẤT — PR-only, ghi đè mọi rule cũ)
 
-> ⚠️ **Rule này là MỚI NHẤT (16/06/2026), hiệu lực CAO NHẤT.** Nó **ghi đè hoàn toàn** mọi rule deploy cũ: "rule 16:00", "TẠM NGƯNG QUYỀN AUTO-MERGE", và mọi câu "KHÔNG auto-merge" rải rác trong `shortcuts.md` (§4.5, §4.6, các loop `morning` / `seo10` / `gg` / `prm`...). Khi mâu thuẫn → LẤY rule này.
+> ⚠️ **Rule MỚI NHẤT (17/06/2026), hiệu lực CAO NHẤT.** Ghi đè hoàn toàn rule
+> "auto-merge + auto-deploy" (16/06/2026), "rule 16:00", batch-merge tự động,
+> và mọi hướng dẫn push thẳng `main` trong `shortcuts.md`. Khi mâu thuẫn → **LẤY rule này**.
+> Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`.
 
-### 1. Auto hết — không thao tác tay
+### 1. Không được commit/push/merge trực tiếp vào `main`
 
-Để tiết kiệm thời gian, MỌI thay đổi lên GitHub đều tự động, user KHÔNG phải làm tay:
+Mọi thay đổi (code, content, config, workflow, automation, generated file) **phải qua Pull Request**.
 
-- **Auto commit** — commit thẳng, message rõ ràng.
-- **Auto merge** — tự merge vào `main`. KHÔNG đợi `manual #X`, KHÔNG gom batch, KHÔNG chờ 16:00.
-- **Auto deploy** — merge vào `main` → workflow `deploy.yml` tự build & deploy lên production (GitHub Pages).
+**Tuyệt đối không:**
+- Commit / push / merge trực tiếp vào `main`
+- Auto-merge PR (kể cả CI xanh, kể cả `batch-merge.yml`)
+- Bypass manual review
+- Gom nhiều yêu cầu khác nhau vào một PR nếu không cùng tính năng
 
-### 2. Điều kiện cho lên production (cả 3 PHẢI đạt)
+### 2. Quy trình bắt buộc (mỗi yêu cầu = một branch + một PR)
 
-1. **Commit/push thành công** (không lỗi git).
-2. **QA checker approve** — `qa_check.py` (workflow `qa.yml`) pass; chỉ error/exit≠0 mới chặn, warning KHÔNG chặn.
-3. **Build KHÔNG failed** — `deploy.yml` build xanh.
+1. Tạo branch riêng từ `main`: `feature/`, `fix/`, `qa/`, `content/`, `chore/`, `policy/`
+2. Commit toàn bộ thay đổi của yêu cầu đó vào branch
+3. Push branch → tạo PR vào `main`
+4. **Chờ user review và merge thủ công** — Claude/agent KHÔNG tự merge
+5. Deploy production chỉ sau khi PR được merge (`deploy.yml` trigger push `main` từ merge)
 
-Đủ cả 3 → auto merge + auto deploy, KHÔNG hỏi lại.
+### 3. Điều kiện merge (user quyết định, CI hỗ trợ)
 
-### 3. Build failed → LẬP TỨC chạy `ff` / `ff9` (BẮT BUỘC, tự động)
+Trước khi user merge, PR nên đạt:
+1. `qa_check.py` / `qa.yml` pass (error/exit≠0 chặn)
+2. `zola build` pass trên CI
+3. PR Policy pass (title/body mô tả đủ)
 
-> ⚠️ Rule sự kiện, hiệu lực cao nhất. **MỖI LẦN** có sự kiện bản build bị
-> **failed** thì PHẢI **LẬP TỨC** chạy 1 trong 2 phím tắt để fix — KHÔNG hỏi,
-> KHÔNG bỏ mặc, KHÔNG để build đỏ nằm im.
+**Claude KHÔNG tự merge** dù đủ điều kiện. Chỉ nhắc user review.
 
-**Sự kiện kích hoạt** (bất kỳ cái nào):
-- `deploy.yml` build đỏ (fail trên `main` hoặc PR).
-- `qa.yml` / `qa_check.py` exit ≠ 0 (error chặn).
-- Bất kỳ CI check nào của PR chuyển sang trạng thái `failure`.
+### 4. Build failed trên PR → fix trên cùng branch
 
-**Hành động bắt buộc, ngay khi nhận sự kiện**:
+- Chạy `ff` / `ff9` để diagnose + fix
+- Commit fix vào **cùng branch/PR** — KHÔNG push `main`
+- Lặp tới khi CI xanh → chờ user merge lại
 
-- **`ff`** — Full Fix & Deploy (với Python lib picker).
-- **`ff9`** — Smart Conflict Resolver (Python-powered) — ưu tiên khi lỗi do
-  merge conflict.
+### 5. Automation / bot
 
-**Quy tắc lặp ("fix cho bằng được")**: chạy `ff`/`ff9` → đợi build lại → nếu
-VẪN failed thì re-diagnose và chạy lại, lặp tới khi build **xanh**. Một vòng
-chưa xong không phải là dừng. Chỉ dừng khi build xanh, HOẶC lỗi thực sự ngoài
-phạm vi (lúc đó báo lại chẩn đoán + chỗ kẹt, không im lặng).
-
-Sau khi `ff` / `ff9` fix xong và build xanh → auto merge + auto deploy lên
-production, KHÔNG cần `manual #X`.
+Workflow GitHub Actions **KHÔNG** `git push origin HEAD:main`. Dùng
+`.github/scripts/push_via_pr.sh` → branch riêng → PR → user merge.
+`main-guard.yml` chặn push trực tiếp (bot + human không qua PR).
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
@@ -317,8 +318,9 @@ vào **buổi tối 20:00 GMT+7**), chỉ lên production khi vượt qua QA.
 - `date` của bài hẹn = ngày dự kiến đăng (n+3) để hiển thị đúng ngày.
 - Workflow `scheduled-publish.yml` (cron 20:00 GMT+7) chạy `scripts/scheduled_publish.py`:
   bài nào `publish_at <= now` → flip `draft=false`, set `date`, xoá `publish_at`.
-  - **CHỈ** commit + push lên `main` (→ deploy) NẾU **PASS QA** (`qa_check.py` +
-    Zola build). Fail QA → KHÔNG đăng, mở issue + dùng `ff` để fix.
+  - Workflow tạo PR `content/scheduled-publish` (KHÔNG push `main`) NẾU **PASS QA**
+    (`qa_check.py` + Zola build). Fail QA → KHÔNG đăng, mở issue + dùng `ff` để fix.
+    User merge PR → deploy.
 - Về Google/SEO: KHÔNG có rule bắt buộc trì hoãn; n+3 chỉ là buffer review, không
   hại SEO. Đăng đều đặn quan trọng hơn. Số ngày có thể chỉnh theo yêu cầu user.
 - `bb9 <topic>` = biến thể "hẹn giờ" của `bb`, tự viết bài từ topic (vẫn tuân
@@ -390,4 +392,4 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 ### Dependabot — TẮT (không auto-dependency updates)
 
 - **KHÔNG** dùng Dependabot / auto-bump dependency. Cập nhật action/deps thủ công
-  qua feature branch → PR → review → batch merge (10 PR).
+  qua feature branch → PR → review → user merge thủ công (từng PR).

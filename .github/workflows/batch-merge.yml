@@ -1,43 +1,39 @@
-name: Batch Merge
+name: Batch Merge Readiness Report
+
+# DEPRECATED auto-merge: chỉ báo cáo PR sẵn sàng merge — KHÔNG tự merge.
+# User merge thủ công từng PR trên GitHub UI.
+# Rule: docs/OPERATIONS.md (17/06/2026)
 
 on:
   workflow_dispatch:
 
 env:
   TARGET_BRANCH: main
-  BATCH_SIZE: "10"
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  pull-requests: read
 
 concurrency:
-  group: batch-merge
+  group: batch-merge-report
   cancel-in-progress: false
 
 jobs:
-  manual-approval:
-    runs-on: ubuntu-latest
-    environment: batch-production
-    steps:
-      - run: echo "batch-production approved — require exactly ${BATCH_SIZE} PRs"
-
-  merge-batch:
-    needs: manual-approval
+  report:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
 
-      - name: Merge exactly 10 approved PRs
+      - name: List PRs ready for manual merge
         run: |
           set -euo pipefail
-          limit="${BATCH_SIZE}"
-
           gh pr list --base "${TARGET_BRANCH}" --state open --limit 100 \
-            --json number,reviewDecision,mergeable,statusCheckRollup > /tmp/prs.json
+            --json number,title,reviewDecision,mergeable,statusCheckRollup > /tmp/prs.json
 
-          mapfile -t prs < <(jq -r '
+          echo "## PRs ready for manual merge"
+          echo ""
+          jq -r '
             [.[]
               | select(.reviewDecision == "APPROVED")
               | select(.mergeable == "MERGEABLE")
@@ -50,16 +46,16 @@ jobs:
                     or .conclusion == null
                   ))
                 )
-            ] | .[].number
-          ' /tmp/prs.json)
+            ]
+            | if length == 0 then
+                "*(Không có PR approved + CI xanh)*"
+              else
+                .[] | "- #\(.number): \(.title)"
+              end
+          ' /tmp/prs.json
 
-          ready=${#prs[@]}
-          if [ "$ready" -ne "$limit" ]; then
-            echo "::error::Batch merge requires exactly ${limit} approved PRs; found ${ready}."
-            exit 1
-          fi
-
-          for num in "${prs[@]}"; do
-            gh pr merge "$num" --merge --delete-branch
-            echo "merged=#${num}"
-          done
+          ready=$(jq '[.[] | select(.reviewDecision == "APPROVED") | select(.mergeable == "MERGEABLE")] | length' /tmp/prs.json)
+          echo ""
+          echo "Total ready: ${ready}"
+          echo ""
+          echo "⚠ Auto-merge DISABLED. Merge thủ công: https://github.com/${GITHUB_REPOSITORY}/pulls"

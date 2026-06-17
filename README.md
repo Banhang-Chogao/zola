@@ -30,6 +30,10 @@
 
 > **5,500+ dòng code · 50+ commits · 0 dependency runtime · 100% static**
 
+### Contributing / vận hành
+
+Mọi thay đổi **phải qua Pull Request** — không commit/push trực tiếp `main`. Xem [docs/OPERATIONS.md](docs/OPERATIONS.md) và [.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md).
+
 ---
 
 ## 🛠️ Tech Stack
@@ -227,14 +231,14 @@ Mỗi khi sửa `.md` / `.html` / `.scss` → Zola live-reload tức thì.
 ### Deploy
 
 ```bash
-# Cách 1: dùng push.sh
-./push.sh "your commit message"
-
-# Cách 2: thủ công
-git add . && git commit -m "..." && git push
+# Feature branch → PR → manual merge (bắt buộc — xem docs/OPERATIONS.md)
+git checkout -b feature/my-change origin/main
+git add . && git commit -m "..."
+git push -u origin feature/my-change
+# Tạo PR trên GitHub → review → merge
 ```
 
-GitHub Actions sẽ tự build & deploy lên Pages trong ~1 phút. Watch live status ngay trên header banner của blog.
+Sau khi PR merge vào `main`, GitHub Actions tự build & deploy lên Pages trong ~1 phút.
 
 ### Viết bài qua trình duyệt (không cần clone)
 
