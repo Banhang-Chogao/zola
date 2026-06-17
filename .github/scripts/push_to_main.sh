@@ -76,3 +76,17 @@ REMOTE_URL="https://x-access-token:${AUTH_TOKEN}@github.com/${REPO}.git"
 git push "$REMOTE_URL" HEAD:main
 
 echo "✓ Pushed directly to main"
+
+# Pushes via GITHUB_TOKEN (github-actions[bot]) do not trigger downstream workflows.
+# WORKFLOW_BOT_PAT pushes behave like a normal user and fire push triggers.
+if [ -z "${WORKFLOW_BOT_PAT:-}" ]; then
+  if command -v gh >/dev/null 2>&1; then
+    if gh workflow run deploy.yml --ref main; then
+      echo "✓ Triggered deploy.yml (bot-push workaround)"
+    else
+      echo "::warning::push_to_main: failed to trigger deploy.yml — run workflow_dispatch manually"
+    fi
+  else
+    echo "::warning::push_to_main: gh not found — deploy not auto-triggered after bot push"
+  fi
+fi
