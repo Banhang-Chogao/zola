@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-06-17T22:58:14Z",
+  "updated_at": "2026-06-17T23:10:35Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 98,
-    "today": 98,
-    "this_week": 98,
-    "this_month": 98,
+    "total": 99,
+    "today": 99,
+    "this_week": 99,
+    "this_month": 99,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 22,
+      "feature": 23,
       "fix": 31,
       "unknown": 2,
       "chore": 39,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 379,
+      "pr_title": "feat(paywall): reactivate premium via category + 100k VND pricing",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/379",
+      "merged_at": "2026-06-17T23:07:41Z",
+      "merge_commit_sha": "a321b45756a0c8787a9d1ba933c96ffe0bdb1f79",
+      "merge_commit_short": "a321b45",
+      "head_branch": "feat/premium-content-reactivate",
+      "summary_vi": "Reactivates the premium paywall system with category-based detection and 100.000 VNĐ default pricing.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 517,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725514200",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 374,
       "pr_title": "Add LPBank L-Dashboard statement analyzer",
