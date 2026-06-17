@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:18:17Z",
+  "updated_at": "2026-06-17T13:19:13Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 29,
+    "total": 30,
+    "success": 30,
     "failure": 0,
     "cancelled": 0
   },
   "builds": [
+    {
+      "id": 27691819034,
+      "run_number": 366,
+      "commit_id": "531dfca1011ab09adfb10c51348f60a04d8ac8d6",
+      "commit_short": "531dfca",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/531dfca1011ab09adfb10c51348f60a04d8ac8d6",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27691819034",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #366 — Deploy blog lên GitHub Pages: feat(insights): thêm Build Dashboard từ GitHub Actions",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:17:40Z",
+      "duration_sec": 75
+    },
     {
       "id": 27691817857,
       "run_number": 585,
