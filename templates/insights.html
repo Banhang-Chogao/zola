@@ -22,6 +22,31 @@
         {% set build_updated = "" %}
     {% endif %}
 
+    {% set compliance_data = load_data(path="data/compliance-score.json", required=false) %}
+    {% if compliance_data %}
+        {% set compliance_score = compliance_data.score | default(value=0) %}
+        {% set compliance_grade = compliance_data.grade | default(value="—") %}
+        {% set compliance_mood = compliance_data.mood | default(value="attention") %}
+        {% set compliance_pass = compliance_data.stats.pass | default(value=0) %}
+        {% set compliance_warn = compliance_data.stats.warn | default(value=0) %}
+        {% set compliance_fail = compliance_data.stats.fail | default(value=0) %}
+        {% set compliance_categories = compliance_data.categories | default(value=[]) %}
+        {% set compliance_highlights = compliance_data.highlights | default(value=[]) %}
+        {% set compliance_updated = compliance_data.updated_at | default(value="") %}
+        {% set compliance_pages = compliance_data.pages_scanned | default(value=0) %}
+    {% else %}
+        {% set compliance_score = 0 %}
+        {% set compliance_grade = "—" %}
+        {% set compliance_mood = "attention" %}
+        {% set compliance_pass = 0 %}
+        {% set compliance_warn = 0 %}
+        {% set compliance_fail = 0 %}
+        {% set compliance_categories = [] %}
+        {% set compliance_highlights = [] %}
+        {% set compliance_updated = "" %}
+        {% set compliance_pages = 0 %}
+    {% endif %}
+
     {% set now_ts = now(timestamp=true) %}
     {% set week_ago_ts = now_ts - 604800 %}
 
@@ -141,6 +166,90 @@
                         <div class="insights__stat-num">0</div>
                         <div class="insights__stat-label">New issues</div>
                     </div>
+                </div>
+
+                {# ===== COMPLIANCE SCORE (trong Overview) ===== #}
+                <div class="insights__compliance insights__compliance--{{ compliance_mood }}">
+                    <header class="insights__compliance-head">
+                        <h4 class="insights__compliance-title">Compliance Score</h4>
+                        {% if compliance_pages > 0 %}
+                        <span class="insights__compliance-meta">{{ compliance_pages }} pages</span>
+                        {% endif %}
+                    </header>
+
+                    {% if compliance_data %}
+                    <div class="insights__compliance-body">
+                        <div class="insights__compliance-ring-wrap"
+                             style="--compliance-pct: {{ compliance_score }};">
+                            <div class="insights__compliance-ring" aria-hidden="true">
+                                <div class="insights__compliance-ring-inner">
+                                    <span class="insights__compliance-value">{{ compliance_score }}</span>
+                                    <span class="insights__compliance-grade">{{ compliance_grade }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="insights__compliance-side">
+                            <ul class="insights__compliance-stats" aria-label="Check summary">
+                                <li class="insights__compliance-stat insights__compliance-stat--pass">
+                                    <span class="insights__compliance-stat-num">{{ compliance_pass }}</span>
+                                    <span class="insights__compliance-stat-label">Pass</span>
+                                </li>
+                                <li class="insights__compliance-stat insights__compliance-stat--warn">
+                                    <span class="insights__compliance-stat-num">{{ compliance_warn }}</span>
+                                    <span class="insights__compliance-stat-label">Review</span>
+                                </li>
+                                <li class="insights__compliance-stat insights__compliance-stat--fail">
+                                    <span class="insights__compliance-stat-num">{{ compliance_fail }}</span>
+                                    <span class="insights__compliance-stat-label">Fix</span>
+                                </li>
+                            </ul>
+
+                            {% if compliance_categories | length > 0 %}
+                            <ul class="insights__compliance-cats" aria-label="Category scores">
+                                {% for cat in compliance_categories %}
+                                <li class="insights__compliance-cat">
+                                    <div class="insights__compliance-cat-head">
+                                        <span class="insights__compliance-cat-label">{{ cat.label }}</span>
+                                        <span class="insights__compliance-cat-score">{{ cat.score }}</span>
+                                    </div>
+                                    <div class="insights__compliance-cat-bar" aria-hidden="true">
+                                        <div class="insights__compliance-cat-fill"
+                                             style="width: {{ cat.score }}%;"></div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if compliance_highlights | length > 0 %}
+                    <ul class="insights__compliance-notes" aria-label="Recent signals">
+                        {% for note in compliance_highlights %}
+                        {% if loop.index0 < 4 %}
+                        <li class="insights__compliance-note insights__compliance-note--{{ note.type }}">
+                            <span class="insights__compliance-note-dot" aria-hidden="true"></span>
+                            {{ note.text }}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {% if compliance_updated %}
+                    <footer class="insights__compliance-foot">
+                        <time datetime="{{ compliance_updated }}">
+                            Cập nhật {{ compliance_updated }}
+                        </time>
+                    </footer>
+                    {% endif %}
+                    {% else %}
+                    <p class="insights__compliance-empty">
+                        Chưa có dữ liệu. Workflow
+                        <code>compliance-score.yml</code> sẽ cập nhật sau lần audit tiếp theo.
+                    </p>
+                    {% endif %}
                 </div>
 
                 <div class="insights__bottom">

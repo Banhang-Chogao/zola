@@ -1,0 +1,222 @@
+{
+  "updated_at": "2026-06-17T13:19:21Z",
+  "score": 79.5,
+  "grade": "C",
+  "mood": "attention",
+  "stats": {
+    "pass": 16,
+    "warn": 3,
+    "fail": 3,
+    "total": 22
+  },
+  "categories": [
+    {
+      "id": "metadata",
+      "label": "Metadata",
+      "score": 100.0,
+      "pass": 3,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Page titles",
+          "status": "pass",
+          "detail": "200/213 in range"
+        },
+        {
+          "label": "Descriptions",
+          "status": "pass",
+          "detail": "210/213 complete"
+        },
+        {
+          "label": "Canonical URLs",
+          "status": "pass",
+          "detail": "212/213 set"
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "label": "Structure",
+      "score": 100.0,
+      "pass": 4,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Heading focus",
+          "status": "pass",
+          "detail": "212/213 single H1"
+        },
+        {
+          "label": "Document language",
+          "status": "pass",
+          "detail": "213/213 with lang"
+        },
+        {
+          "label": "Mobile viewport",
+          "status": "pass",
+          "detail": "213/213 ready"
+        },
+        {
+          "label": "Structured data",
+          "status": "pass",
+          "detail": "212/213 pages"
+        }
+      ]
+    },
+    {
+      "id": "media",
+      "label": "Media",
+      "score": 66.7,
+      "pass": 1,
+      "warn": 2,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Image descriptions",
+          "status": "pass",
+          "detail": "213/213 pages covered"
+        },
+        {
+          "label": "Image weight",
+          "status": "warn",
+          "detail": "1 large file(s)"
+        },
+        {
+          "label": "Image formats",
+          "status": "warn",
+          "detail": "1 heavy PNG/GIF"
+        }
+      ]
+    },
+    {
+      "id": "discovery",
+      "label": "Discovery",
+      "score": 100.0,
+      "pass": 4,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Crawler rules",
+          "status": "pass",
+          "detail": "robots.txt OK"
+        },
+        {
+          "label": "Sitemap",
+          "status": "pass",
+          "detail": "present"
+        },
+        {
+          "label": "Atom feed",
+          "status": "pass",
+          "detail": "present"
+        },
+        {
+          "label": "RSS feed",
+          "status": "pass",
+          "detail": "present"
+        }
+      ]
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "score": 60.0,
+      "pass": 3,
+      "warn": 0,
+      "fail": 2,
+      "items": [
+        {
+          "label": "Publish dates",
+          "status": "fail",
+          "detail": "0/38 articles"
+        },
+        {
+          "label": "Taxonomies",
+          "status": "fail",
+          "detail": "0/38 tagged"
+        },
+        {
+          "label": "Article depth",
+          "status": "pass",
+          "detail": "38/38 substantive"
+        },
+        {
+          "label": "Unique titles",
+          "status": "pass",
+          "detail": "no duplicates"
+        },
+        {
+          "label": "Unique slugs",
+          "status": "pass",
+          "detail": "no duplicates"
+        }
+      ]
+    },
+    {
+      "id": "links",
+      "label": "Links",
+      "score": 0.0,
+      "pass": 0,
+      "warn": 0,
+      "fail": 1,
+      "items": [
+        {
+          "label": "Internal links",
+          "status": "fail",
+          "detail": "31 broken / 38685 checked"
+        }
+      ]
+    },
+    {
+      "id": "access",
+      "label": "Access",
+      "score": 75.0,
+      "pass": 1,
+      "warn": 1,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Main landmarks",
+          "status": "pass",
+          "detail": "211/213 pages"
+        },
+        {
+          "label": "Skip navigation",
+          "status": "warn",
+          "detail": "not detected in HTML"
+        }
+      ]
+    }
+  ],
+  "highlights": [
+    {
+      "type": "warn",
+      "text": "Media: Image weight"
+    },
+    {
+      "type": "warn",
+      "text": "Media: Image formats"
+    },
+    {
+      "type": "fail",
+      "text": "Content: Publish dates"
+    },
+    {
+      "type": "fail",
+      "text": "Content: Taxonomies"
+    },
+    {
+      "type": "fail",
+      "text": "Links: Internal links"
+    },
+    {
+      "type": "warn",
+      "text": "Access: Skip navigation"
+    }
+  ],
+  "pages_scanned": 213,
+  "articles_scanned": 42
+}
