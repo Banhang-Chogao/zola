@@ -12,10 +12,10 @@ tags = []
 +++
 
 Facebook Shopee Affiliate là gì? Được mở quyền kết nối Facebook với Shopee có kiếm được tiền không? Đây là những câu hỏi được rất nhiều nhà sáng tạo nội dung quan tâm khi nhận được thông báo mở tính năng Affiliate trên Facebook.
-![alt](url)
+![Minh họa Facebook Shopee Affiliate](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
 Trong bài viết này, bạn sẽ hiểu rõ cơ chế hoạt động của Facebook Shopee Affiliate, cách tính hoa hồng, cách bắt đầu từ con số 0 và những chiến lược giúp người mới có đơn hàng đầu tiên nhanh hơn.
 
-# Facebook Shopee Affiliate là gì?
+## Facebook Shopee Affiliate là gì?
 **Facebook Shopee Affiliate** là hình thức kiếm tiền bằng cách giới thiệu sản phẩm từ Shopee thông qua nội dung trên Facebook.
 
 Người tham gia sẽ:
