@@ -93,7 +93,11 @@
                                 data-title="{{ p.title }}">
                                 <td class="seo-board__td seo-board__td--rank"></td>
                                 <td class="seo-board__td seo-board__td--title">
+                                    {% if p.published | default(value=true) == false %}
+                                    <span class="seo-board__link seo-board__link--draft">{{ p.title }} <em>(nháp)</em></span>
+                                    {% else %}
                                     <a href="{{ url }}" class="seo-board__link">{{ p.title }}</a>
+                                    {% endif %}
                                     {% if p.keyword %}
                                         <span class="seo-board__kw">🔑 {{ p.keyword }}</span>
                                     {% endif %}
@@ -110,7 +114,11 @@
                                     <span class="seo-board__grade seo-board__grade--{{ tier }}">{{ p.grade }}</span>
                                 </td>
                                 <td class="seo-board__td seo-board__td--action">
+                                    {% if p.published | default(value=true) == false %}
+                                    <span class="seo-board__btn seo-board__btn--draft" title="Bài nháp">—</span>
+                                    {% else %}
                                     <a href="{{ url }}" class="seo-board__btn" title="Đọc bài">→</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

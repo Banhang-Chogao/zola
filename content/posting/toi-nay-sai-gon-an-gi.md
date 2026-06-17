@@ -1,5 +1,6 @@
 +++
 title = "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya"
+description = "Tối nay Sài Gòn ăn gì? Gợi ý 12 quán ăn tối và khuya từ bình dân đến sang — lẩu, nướng, hải sản, món Việt và quốc tế."
 date = 2026-06-15
 aliases = ["/toi-nay-sai-gon-an-gi/"]
 
@@ -9,9 +10,12 @@ tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối"
 
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"
+seo_keyword = "tối nay Sài Gòn ăn gì"
 +++
 
-![Sài Gòn ăn tối]
+![Tối nay Sài Gòn ăn gì — gợi ý quán ăn tối và khuya](https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg)
+
+## Tối nay Sài Gòn ăn gì? Gợi ý nhanh
 
 7 giờ tối, vừa tan ca, kẹt xe Cộng Hòa rồi vào trung tâm — câu hỏi
 muôn thuở của dân Sài Gòn: **tối nay ăn gì?** Bài này là danh sách

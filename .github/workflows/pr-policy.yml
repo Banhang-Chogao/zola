@@ -1,7 +1,5 @@
 name: PR Policy
 
-# Mọi thay đổi vào main phải qua PR từ nhánh feature.
-
 on:
   pull_request:
     branches: [main]
@@ -9,9 +7,11 @@ on:
 
 env:
   TARGET_BRANCH: main
+  MIN_TITLE_LEN: "12"
+  MIN_BODY_LEN: "30"
 
 jobs:
-  feature-branch-only:
+  policy:
     runs-on: ubuntu-latest
     steps:
       - name: Block PR from main
@@ -19,4 +19,58 @@ jobs:
         run: |
           echo "::error::PR must originate from a feature branch, not main."
           exit 1
-      - run: echo "branch=${{ github.head_ref }} ok"
+
+      - name: Block bot and auto-update PRs
+        env:
+          ACTOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          case "$ACTOR" in
+            dependabot[bot]|renovate[bot]|github-advanced-security[bot])
+              echo "::error::Bot PRs are forbidden: $ACTOR"
+              exit 1
+              ;;
+          esac
+          case "$ACTOR" in
+            snyk-*|*-bot)
+              echo "::error::Security/auto-update bot PRs are forbidden: $ACTOR"
+              exit 1
+              ;;
+          esac
+
+      - name: Require functional PR description
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          if [ ${#PR_TITLE} -lt "${MIN_TITLE_LEN}" ]; then
+            echo "::error::PR title must describe the functional change."
+            exit 1
+          fi
+          body_compact=$(printf '%s' "$PR_BODY" | tr -d '[:space:]')
+          if [ ${#body_compact} -lt "${MIN_BODY_LEN}" ]; then
+            echo "::error::PR body must include a clear functional description."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Reject forbidden auto-update configs
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          forbidden='.github/dependabot.yml .github/dependabot.yaml renovate.json renovate.json5 .renovaterc .renovaterc.json'
+          changed=$(git diff --name-only "$base" "$head")
+          for path in $forbidden; do
+            if echo "$changed" | grep -qx "$path"; then
+              echo "::error::Forbidden auto-update config: $path"
+              exit 1
+            fi
+          done
+          if echo "$changed" | grep -Eqi 'auto-merge|dependabot|renovate'; then
+            echo "::error::Forbidden auto-merge or auto-update workflow."
+            exit 1
+          fi
