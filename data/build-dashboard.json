@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T23:18:59Z",
+  "updated_at": "2026-06-17T23:20:16Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
@@ -7,21 +7,21 @@
     "total": 30,
     "success": 22,
     "failure": 0,
-    "cancelled": 4,
+    "cancelled": 6,
     "skipped": 1,
-    "in_progress": 3
+    "in_progress": 1
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27725954512,
-      "run_number": 529,
+      "id": 27725995544,
+      "run_number": 531,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
-      "gh_status": "pending",
+      "gh_status": "in_progress",
       "conclusion": "in_progress",
-      "started_at": "2026-06-17T23:18:54Z",
-      "summary_vi": "Build #529 — Deploy blog lên GitHub Pages: Cập nhật: Compliance Score + auto-fix (2026-06-17T23:18:51Z) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725954512"
+      "started_at": "2026-06-17T23:20:00Z",
+      "summary_vi": "Build #531 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-17) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725995544"
     },
     "qa.yml": {
       "id": 27725927473,
@@ -38,15 +38,15 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27725954512,
-      "run_number": 529,
+      "id": 27725995544,
+      "run_number": 531,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
-      "gh_status": "pending",
+      "gh_status": "in_progress",
       "conclusion": "in_progress",
-      "started_at": "2026-06-17T23:18:54Z",
-      "summary_vi": "Build #529 — Deploy blog lên GitHub Pages: Cập nhật: Compliance Score + auto-fix (2026-06-17T23:18:51Z) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725954512"
+      "started_at": "2026-06-17T23:20:00Z",
+      "summary_vi": "Build #531 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-17) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725995544"
     },
     {
       "workflow_file": "qa.yml",
@@ -673,9 +673,89 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-17T23:20:16Z",
+      "stats": {
+        "total": 30,
+        "success": 22,
+        "failure": 0,
+        "cancelled": 6,
+        "skipped": 1,
+        "in_progress": 1
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27725995544,
+          "run_number": 531,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "in_progress",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-17T23:20:00Z",
+          "summary_vi": "Build #531 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-17) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725995544"
+        },
+        "qa.yml": {
+          "id": 27725927473,
+          "run_number": 1484,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-17T23:18:11Z",
+          "summary_vi": "Build #1484 — Kiểm tra QA Gatekeeper: fix(links): repair 11 broken external URLs flagged by zola check (#382)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725927473"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27725995544,
+      "run_number": 531,
+      "commit_id": "9381e5aa5a7f71013376cf0321fa1d3a5ffbfb7f",
+      "commit_short": "9381e5a",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/9381e5aa5a7f71013376cf0321fa1d3a5ffbfb7f",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725995544",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #531 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-17) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "in_progress",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-17T23:20:00Z",
+      "duration_sec": 13
+    },
+    {
+      "id": 27725959427,
+      "run_number": 530,
+      "commit_id": "a23ab827171589144e1f9837be8a5a188f039e82",
+      "commit_short": "a23ab82",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/a23ab827171589144e1f9837be8a5a188f039e82",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725959427",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #530 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T23:18:59Z) [skip changelog]",
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "success",
+      "cancel_reason": "",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T23:19:03Z",
+      "duration_sec": 65
+    },
     {
       "id": 27725954512,
       "run_number": 529,
@@ -686,17 +766,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #529 — Deploy blog lên GitHub Pages: Cập nhật: Compliance Score + auto-fix (2026-06-17T23:18:51Z) [skip changelog]",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #530).",
       "started_at": "2026-06-17T23:18:54Z",
-      "duration_sec": 2
+      "duration_sec": 11
     },
     {
       "id": 27725944599,
@@ -708,17 +788,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #528 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T23:18:35Z) [skip changelog]",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #529).",
       "started_at": "2026-06-17T23:18:38Z",
-      "duration_sec": 2
+      "duration_sec": 19
     },
     {
       "id": 27725934030,
@@ -730,17 +810,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #527 — Deploy blog lên GitHub Pages: Sửa lỗi: fix(links): repair 11 broken external URLs flagged by zola check",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T23:18:21Z",
-      "duration_sec": 20
+      "duration_sec": 60
     },
     {
       "id": 27725927481,
@@ -1005,50 +1085,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T23:07:44Z",
       "duration_sec": 35
-    },
-    {
-      "id": 27725107725,
-      "run_number": 516,
-      "commit_id": "88bf8601ecd11945847e7bc8280aa8b7bbd4bb8e",
-      "commit_short": "88bf860",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/88bf8601ecd11945847e7bc8280aa8b7bbd4bb8e",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27725107725",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #516 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-17T22:58:14Z) [skip changelog]",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T22:58:17Z",
-      "duration_sec": 47
-    },
-    {
-      "id": 27724974597,
-      "run_number": 515,
-      "commit_id": "62f0a15ecee890b4df2eeda2be0aef2e95c7a94e",
-      "commit_short": "62f0a15",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/62f0a15ecee890b4df2eeda2be0aef2e95c7a94e",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27724974597",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #515 — Deploy blog lên GitHub Pages: QA: Performance optimization (2026-06-17T22:55:04Z) [skip changelog]",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T22:55:06Z",
-      "duration_sec": 48
     },
     {
       "id": 27719427339,
