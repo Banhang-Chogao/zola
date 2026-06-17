@@ -743,6 +743,9 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 - **Không** lưu trong `/static`, `/public`, hoặc commit git.
 - Dữ liệu chỉ trên **IndexedDB local**, mã hóa **AES-GCM** (key sinh per-browser).
 - Không gửi sao kê lên server — parse hoàn toàn trong trình duyệt.
+- **Auth:** `/tools/f-dashboard/` yêu cầu GitHub OAuth (cùng CMS `cms_auth_url` / session `zola-cms-session-id`).
+- **Ephemeral:** Xuất JSON hoặc PDF → tải về local → **xóa IndexedDB ngay** (không tích lũy online).
+- **PDF watermark:** 16 ký tự hex thường (blockchain series) + `_` + blog domain, in chìm trên mọi trang.
 
 ### File map
 
@@ -750,7 +753,7 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 |------------|------|
 | Trang | `content/tools/f-dashboard.md`, `templates/f-dashboard.html` |
 | Styles | `sass/_f-dashboard.scss` |
-| Client JS | `static/js/f-dashboard/*.js` |
+| Client JS | `static/js/f-dashboard/*.js` (`auth-gate.js`, `export.js`, …) |
 | Python parser | `scripts/f_dashboard_parse_excel.py` |
 | Python insights | `scripts/f_dashboard_insights.py` |
 | Tests | `scripts/test_f_dashboard.py` |

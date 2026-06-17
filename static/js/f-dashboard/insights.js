@@ -21,6 +21,14 @@
     [0, "Danger"],
   ];
 
+  const HEALTH_LEVELS = [
+    { min: 85, label: "Excellent", desc: "Tích lũy mạnh, chi tiêu kiểm soát, dòng tiền dương ổn định." },
+    { min: 70, label: "Good", desc: "Cân bằng tốt — tiết kiệm đủ, chi tiêu hợp lý so với thu nhập." },
+    { min: 50, label: "Average", desc: "Trung bình — cần theo dõi chi tiêu, tỷ lệ chi/thu còn cao." },
+    { min: 30, label: "Risky", desc: "Rủi ro — chi gần hoặc vượt thu, ít dư tiền mặt." },
+    { min: 0, label: "Danger", desc: "Nguy hiểm — thâm hụt kéo dài, cần cắt giảm chi ngay." },
+  ];
+
   function normDesc(text) {
     return String(text).toLowerCase().trim().replace(/\s+/g, " ");
   }
@@ -241,6 +249,7 @@
   }
 
   global.FDashboardInsights = {
+    HEALTH_LEVELS,
     buildInsightsPayload,
     categorizeExpense,
     computeSummary,

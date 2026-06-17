@@ -8,6 +8,7 @@
   let allTransactions = [];
   let filteredTransactions = [];
   let currentPage = 1;
+  let dashboardReady = false;
 
   const els = {};
 
@@ -30,13 +31,20 @@
     els.filterMonth = $("#fd-filter-month");
     els.filterType = $("#fd-filter-type");
     els.filterKeyword = $("#fd-filter-keyword");
-    els.clearData = $("#fd-clear-data");
+    els.exportJson = $("#fd-export-json");
+    els.exportPdf = $("#fd-export-pdf");
   }
 
   function setStatus(msg, type) {
     if (!els.uploadStatus) return;
     els.uploadStatus.textContent = msg;
     els.uploadStatus.dataset.type = type || "info";
+  }
+
+  function updateExportButtons() {
+    const hasData = allTransactions.length > 0;
+    if (els.exportJson) els.exportJson.disabled = !hasData;
+    if (els.exportPdf) els.exportPdf.disabled = !hasData;
   }
 
   function applyFilters() {
@@ -64,14 +72,27 @@
     renderFilteredSummary();
   }
 
+  function getInsightsPayload() {
+    const txs = filteredTransactions.length ? filteredTransactions : allTransactions;
+    return FDashboardInsights.buildInsightsPayload(txs);
+  }
+
   function renderFilteredSummary() {
-    const payload = FDashboardInsights.buildInsightsPayload(
-      filteredTransactions.length ? filteredTransactions : allTransactions
-    );
+    const payload = getInsightsPayload();
     renderSummary(payload.summary);
     renderHealth(payload.health);
     FDashboardCharts.renderAll(payload.charts);
     renderInsights(payload.insights);
+    highlightHealthLegend(payload.health.health_label);
+  }
+
+  function highlightHealthLegend(label) {
+    const legend = $("#fd-health-legend");
+    if (!legend) return;
+    const key = (label || "").toLowerCase();
+    legend.querySelectorAll(".fd-health-legend__item").forEach((el) => {
+      el.classList.toggle("fd-health-legend__item--active", el.classList.contains("fd-health-legend__item--" + key));
+    });
   }
 
   function renderSummary(summary) {
@@ -105,7 +126,11 @@
 
   function renderInsights(insights) {
     if (!els.insights) return;
-    els.insights.innerHTML = insights.map((t) => `<li>${t}</li>`).join("");
+    if (!insights.length) {
+      els.insights.innerHTML = "<li>Upload sao kê để nhận nhận xét tự động từ dữ liệu giao dịch.</li>";
+      return;
+    }
+    els.insights.innerHTML = insights.map((t) => `<li>${escapeHtml(t)}</li>`).join("");
   }
 
   function renderTable() {
@@ -181,6 +206,52 @@
     if (current) els.filterMonth.value = current;
   }
 
+  async function wipeSessionData() {
+    await FDashboardStorage.clearAll();
+    allTransactions = [];
+    filteredTransactions = [];
+    currentPage = 1;
+    if (els.filterDate) els.filterDate.value = "";
+    if (els.filterDateFrom) els.filterDateFrom.value = "";
+    if (els.filterDateTo) els.filterDateTo.value = "";
+    if (els.filterKeyword) els.filterKeyword.value = "";
+    if (els.filterType) els.filterType.value = "all";
+    populateMonthFilter();
+    renderTable();
+    renderFilteredSummary();
+    updateExportButtons();
+  }
+
+  async function handleExportJson() {
+    if (!allTransactions.length) return;
+    if (!confirm("Tải file JSON và xóa toàn bộ dữ liệu phiên này khỏi trình duyệt?")) return;
+
+    const payload = getInsightsPayload();
+    try {
+      const series = FDashboardExport.exportJson(allTransactions, payload);
+      await wipeSessionData();
+      setStatus(`Đã tải JSON · watermark series ${series} · dữ liệu phiên đã xóa.`, "success");
+    } catch (err) {
+      console.error(err);
+      setStatus(err.message || "Xuất JSON thất bại.", "error");
+    }
+  }
+
+  async function handleExportPdf() {
+    if (!allTransactions.length) return;
+    if (!confirm("Tải báo cáo PDF (watermark blockchain series) và xóa dữ liệu phiên?")) return;
+
+    const payload = getInsightsPayload();
+    try {
+      const series = FDashboardExport.exportPdf(allTransactions, payload);
+      await wipeSessionData();
+      setStatus(`Đã tải PDF · watermark ${series}_${FDashboardExport.BLOG_DOMAIN} · dữ liệu phiên đã xóa.`, "success");
+    } catch (err) {
+      console.error(err);
+      setStatus(err.message || "Xuất PDF thất bại.", "error");
+    }
+  }
+
   async function handleFile(file) {
     if (!file) return;
     if (!/\.xlsx?$/i.test(file.name)) {
@@ -216,6 +287,7 @@
     filteredTransactions = [...allTransactions];
     populateMonthFilter();
     applyFilters();
+    updateExportButtons();
   }
 
   function bindEvents() {
@@ -249,25 +321,25 @@
       el.addEventListener(ev, applyFilters);
     });
 
-    if (els.clearData) {
-      els.clearData.addEventListener("click", async () => {
-        if (!confirm("Xóa toàn bộ dữ liệu F-Dashboard trên trình duyệt này?")) return;
-        await FDashboardStorage.clearAll();
-        allTransactions = [];
-        filteredTransactions = [];
-        currentPage = 1;
-        renderTable();
-        renderFilteredSummary();
-        setStatus("Đã xóa dữ liệu local.", "info");
-      });
-    }
+    if (els.exportJson) els.exportJson.addEventListener("click", handleExportJson);
+    if (els.exportPdf) els.exportPdf.addEventListener("click", handleExportPdf);
   }
 
-  async function init() {
-    if (!document.querySelector(".f-dashboard")) return;
+  async function startDashboard() {
+    if (dashboardReady) return;
+    dashboardReady = true;
     cacheElements();
     bindEvents();
     await refresh();
+  }
+
+  async function init() {
+    if (!document.getElementById("fd-app")) return;
+
+    const user = await FDashboardAuth.init();
+    if (user) {
+      await startDashboard();
+    }
   }
 
   if (document.readyState === "loading") {
