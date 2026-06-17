@@ -202,8 +202,23 @@ zola/
 │       ├── stats-page.js            # Vitals dashboard renderer
 │       └── post-stats.js            # Per-post analytics badge
 ├── 🎨 highlight_themes/             # Catppuccin Mocha .tmTheme
-└── ⚙  .github/workflows/deploy.yml  # CI/CD pipeline
+├── 📁 scripts/
+│   └── autofix_conflicts.py         # Python Autofixer (ff9 backend)
+└── ⚙  .github/workflows/
+    ├── deploy.yml                   # CI/CD pipeline
+    └── autofix-conflicts.yml        # Auto-resolve PR merge conflicts → fix PR
 ```
+
+### Autofixer (merge conflict PR)
+
+Workflow `autofix-conflicts.yml` chạy mỗi 30 phút (và `workflow_dispatch`):
+
+1. Quét PR open bị conflict với `main`
+2. Tạo nhánh `autofix/conflict-pr-<N>`, merge `main`, resolve markers an toàn
+3. Chạy `qa_check.py` → `build_references.py` → `zola build` → `check_internal_links.py`
+4. Mở PR fix riêng — **không** push `main`, **không** auto-merge
+
+State dedup: `data/autofix-conflicts-state.json`. Learning log: `CLAUDE.md` § Autofixer.
 
 ---
 

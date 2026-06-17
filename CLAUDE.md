@@ -391,3 +391,72 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 
 - **KHÔNG** dùng Dependabot / auto-bump dependency. Cập nhật action/deps thủ công
   qua feature branch → PR → review → batch merge (10 PR).
+
+## Autofixer Conflict Resolver (Python — `scripts/autofix_conflicts.py`)
+
+> Workflow: `.github/workflows/autofix-conflicts.yml` — cron mỗi 30 phút + `workflow_dispatch`.
+> State dedup: `data/autofix-conflicts-state.json`.
+
+### Mục tiêu
+
+Tự động quét PR open bị merge conflict với `main`, resolve an toàn, chạy QA/build,
+tạo PR fix riêng `autofix/conflict-pr-<N>` để user review thủ công.
+
+### Quy tắc BẮT BUỘC (ghi đè auto-merge ở trên cho luồng autofix)
+
+- **KHÔNG** commit/push trực tiếp vào `main`.
+- **KHÔNG** force-push vào branch của người khác.
+- **KHÔNG** auto-merge PR autofix — user review và merge tay.
+- **KHÔNG** tự sửa file nhạy cảm (`.env`, secrets, tokens, keys).
+- Nếu không chắc chắn → đánh dấu `needs manual review`, comment trên PR gốc.
+
+### Chiến lược resolve (ưu tiên)
+
+| Loại file | Chiến lược |
+|-----------|------------|
+| `content/posting/*.md` (bài mới) | Giữ nội dung PR; merge frontmatter (title/date/slug/category/tags từ PR) |
+| `config.toml`, `.github/`, deploy/security | Giữ `main` |
+| sidebar/menu/nav/category/series JSON | Merge cả hai bên, dedupe, sort |
+| Template/HTML | Merge dòng nếu overlap cao; logic khác → manual |
+| SCSS/CSS | Merge rules không trùng; structural conflict → manual |
+| Không chắc | **Manual** — không đoán |
+
+### Validation sau resolve
+
+1. `python3 qa_check.py`
+2. `python3 scripts/build_references.py`
+3. `zola build` (cần `ZOLA_GH_TOKEN`)
+4. `python3 scripts/check_internal_links.py`
+
+Chỉ tạo autofix PR khi **tất cả** bước pass và **không còn** conflict markers.
+
+### Dedup / state
+
+- Key: `source_pr_head_sha` + `main_head_sha` trong `data/autofix-conflicts-state.json`.
+- Bỏ qua nếu đã có autofix PR open cho cùng head SHA.
+- Re-run khi PR gốc có commit mới (head SHA đổi).
+
+### Chạy thủ công
+
+```bash
+# Scan tất cả PR conflict
+GH_TOKEN=... python3 scripts/autofix_conflicts.py
+
+# Chỉ PR #280
+GH_TOKEN=... python3 scripts/autofix_conflicts.py --pr 280
+
+# Dry-run (chỉ scan)
+python3 scripts/autofix_conflicts.py --dry-run
+```
+
+Hoặc: GitHub Actions → **Autofix Merge Conflicts** → **Run workflow** (optional `pr_number`).
+
+### Khi AI agent gặp conflict thủ công
+
+1. Đọc log dưới đây (`## Autofixer Conflict Learning Log`) trước khi resolve tay.
+2. Sau khi resolve conflict (dù bằng autofix hay tay), **append** entry mới vào log.
+3. Ưu tiên pattern đã học — không lặp lại lỗi resolve sai sidebar/config.
+
+## Autofixer Conflict Learning Log
+
+_(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau mỗi lần xử lý.)_
