@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 294,
+      "lines_added": 224,
+      "lines_removed": 173,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "qa: Compliance Score audit + auto-fix",
       "tag": "fix",
       "pr": 293,
