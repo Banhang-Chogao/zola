@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-17T13:19:21Z",
-  "score": 79.5,
-  "grade": "C",
-  "mood": "attention",
+  "updated_at": "2026-06-17T13:20:43Z",
+  "score": 90.9,
+  "grade": "A",
+  "mood": "good",
   "stats": {
-    "pass": 16,
-    "warn": 3,
-    "fail": 3,
+    "pass": 18,
+    "warn": 4,
+    "fail": 0,
     "total": 22
   },
   "categories": [
@@ -123,20 +123,20 @@
     {
       "id": "content",
       "label": "Content",
-      "score": 60.0,
-      "pass": 3,
+      "score": 100.0,
+      "pass": 5,
       "warn": 0,
-      "fail": 2,
+      "fail": 0,
       "items": [
         {
           "label": "Publish dates",
-          "status": "fail",
-          "detail": "0/38 articles"
+          "status": "pass",
+          "detail": "38/38 articles"
         },
         {
           "label": "Taxonomies",
-          "status": "fail",
-          "detail": "0/38 tagged"
+          "status": "pass",
+          "detail": "38/38 tagged"
         },
         {
           "label": "Article depth",
@@ -158,15 +158,15 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 0.0,
+      "score": 50.0,
       "pass": 0,
-      "warn": 0,
-      "fail": 1,
+      "warn": 1,
+      "fail": 0,
       "items": [
         {
           "label": "Internal links",
-          "status": "fail",
-          "detail": "31 broken / 38685 checked"
+          "status": "warn",
+          "detail": "4 broken / 210 unique"
         }
       ]
     },
@@ -201,20 +201,20 @@
       "text": "Media: Image formats"
     },
     {
-      "type": "fail",
-      "text": "Content: Publish dates"
-    },
-    {
-      "type": "fail",
-      "text": "Content: Taxonomies"
-    },
-    {
-      "type": "fail",
+      "type": "warn",
       "text": "Links: Internal links"
     },
     {
       "type": "warn",
       "text": "Access: Skip navigation"
+    },
+    {
+      "type": "pass",
+      "text": "Metadata: Page titles"
+    },
+    {
+      "type": "pass",
+      "text": "Metadata: Descriptions"
     }
   ],
   "pages_scanned": 213,

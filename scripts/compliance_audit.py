@@ -32,6 +32,7 @@ OUT_FILE = DATA / "compliance-score.json"
 
 VN_TZ = timezone(timedelta(hours=7))
 BASE_URL = "https://banhang-chogao.github.io/zola"
+SITE_PREFIX = "/zola"  # GitHub Pages subpath — strip from internal hrefs
 
 TITLE_MIN, TITLE_MAX = 10, 65
 DESC_MIN, DESC_MAX = 50, 160
@@ -159,6 +160,16 @@ def _mood(score: float) -> str:
     return "needs_work"
 
 
+def _parse_array(val: str) -> list[str]:
+    val = val.strip()
+    if not val.startswith("[") or not val.endswith("]"):
+        return [val.strip('"').strip("'")] if val else []
+    inner = val[1:-1].strip()
+    if not inner:
+        return []
+    return [x.strip().strip('"').strip("'") for x in inner.split(",")]
+
+
 def _parse_frontmatter(text: str) -> tuple[dict, str]:
     if not text.startswith("+++"):
         return {}, text
@@ -168,20 +179,29 @@ def _parse_frontmatter(text: str) -> tuple[dict, str]:
     block = text[3:end]
     body = text[end + 3 :].lstrip("\n")
     meta: dict = {}
-    for line in block.splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" in line:
-            continue
-        if "=" not in line:
-            continue
-        key, val = line.split("=", 1)
-        key = key.strip()
-        val = val.strip().strip('"').strip("'")
-        if val.startswith("[") and val.endswith("]"):
-            inner = val[1:-1].strip()
-            meta[key] = [] if not inner else [x.strip().strip('"').strip("'") for x in inner.split(",")]
-        else:
-            meta[key] = val
+
+    title_m = re.search(r'^title\s*=\s*"([^"]+)"', block, re.MULTILINE)
+    if title_m:
+        meta["title"] = title_m.group(1)
+    date_m = re.search(r'^date\s*=\s*"?([^"\n]+)"?', block, re.MULTILINE)
+    if date_m:
+        meta["date"] = date_m.group(1).strip()
+
+    tax_m = re.search(r"\[taxonomies\]\s*\n(.*?)(?:\n\[|\Z)", block, re.DOTALL)
+    if tax_m:
+        tax_block = tax_m.group(1)
+        cat_m = re.search(r"categories\s*=\s*(\[[^\]]*\])", tax_block)
+        tag_m = re.search(r"tags\s*=\s*(\[[^\]]*\])", tax_block)
+        if cat_m:
+            meta["categories"] = _parse_array(cat_m.group(1))
+        if tag_m:
+            meta["tags"] = _parse_array(tag_m.group(1))
+    else:
+        for key in ("tags", "categories"):
+            m = re.search(rf"^{key}\s*=\s*(\[[^\]]*\])", block, re.MULTILINE)
+            if m:
+                meta[key] = _parse_array(m.group(1))
+
     return meta, body
 
 
@@ -252,6 +272,8 @@ def _normalize_href(href: str) -> str | None:
     path = parsed.path or "/"
     if not path.startswith("/"):
         path = "/" + path
+    if path.startswith(SITE_PREFIX):
+        path = path[len(SITE_PREFIX) :] or "/"
     if path != "/" and not path.endswith("/") and "." not in Path(path).name:
         path += "/"
     return path.split("#")[0].split("?")[0] or "/"
@@ -471,24 +493,27 @@ def run_audit() -> dict:
     ])
 
     # --- Links ---
-    broken = 0
-    checked = 0
+    broken_set: set[str] = set()
+    checked_set: set[str] = set()
     for _, p in pages:
         for href in p.links:
             norm = _normalize_href(href)
             if not norm:
                 continue
-            checked += 1
-            if norm not in pub_paths:
-                # allow root-relative without trailing slash variants
-                alt = norm.rstrip("/") + "/"
-                if alt not in pub_paths and norm + "index.html" not in pub_paths:
-                    broken += 1
+            checked_set.add(norm)
+            if norm in pub_paths:
+                continue
+            alt = norm.rstrip("/") + "/"
+            if alt in pub_paths or (norm + "index.html") in pub_paths:
+                continue
+            broken_set.add(norm)
+    broken = len(broken_set)
+    checked = len(checked_set)
     link_status = "pass" if broken == 0 else ("warn" if broken <= 5 else "fail")
     cat_items["links"].append({
         "label": "Internal links",
         "status": link_status,
-        "detail": "all valid" if broken == 0 else f"{broken} broken / {checked} checked",
+        "detail": "all valid" if broken == 0 else f"{broken} broken / {checked} unique",
     })
 
     # --- Access ---
