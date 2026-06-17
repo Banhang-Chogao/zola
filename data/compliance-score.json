@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-06-17T15:17:54Z",
-  "score": 100.0,
+  "updated_at": "2026-06-17T16:08:02Z",
+  "score": 97.8,
   "grade": "A+",
   "mood": "good",
   "stats": {
     "pass": 22,
-    "warn": 0,
+    "warn": 1,
     "fail": 0,
-    "total": 22
+    "total": 23
   },
   "categories": [
     {
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "224/224 in range"
+          "detail": "228/228 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "224/224 complete"
+          "detail": "228/228 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "224/224 set"
+          "detail": "228/228 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "222/224 single H1"
+          "detail": "226/228 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "224/224 with lang"
+          "detail": "228/228 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "224/224 ready"
+          "detail": "228/228 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "221/224 pages"
+          "detail": "225/228 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "224/224 pages covered"
+          "detail": "228/228 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "39/39 articles"
+          "detail": "40/40 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "39/39 tagged"
+          "detail": "40/40 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "39/39 substantive"
+          "detail": "40/40 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,15 +158,20 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
+      "score": 75.0,
       "pass": 1,
-      "warn": 0,
+      "warn": 1,
       "fail": 0,
       "items": [
         {
           "label": "Internal links",
+          "status": "warn",
+          "detail": "1 broken / 220 unique"
+        },
+        {
+          "label": "GitHub Pages base path",
           "status": "pass",
-          "detail": "all valid"
+          "detail": "all hrefs use /zola/"
         }
       ]
     },
@@ -181,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "220/224 pages"
+          "detail": "224/228 pages"
         },
         {
           "label": "Skip navigation",
@@ -192,6 +197,10 @@
     }
   ],
   "highlights": [
+    {
+      "type": "warn",
+      "text": "Links: Internal links"
+    },
     {
       "type": "pass",
       "text": "Metadata: Page titles"
@@ -211,28 +220,24 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 224,
-  "articles_scanned": 43,
+  "pages_scanned": 228,
+  "articles_scanned": 44,
   "fix_log": [
     {
-      "category": "—",
-      "label": "Tất cả mục",
-      "check_status": "pass",
-      "outcome": "skipped",
-      "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-17T15:17:54Z"
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Không tìm thấy pattern link hỏng đã biết — cần sửa thủ công",
+      "at": "2026-06-17T16:08:02Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 0,
-    "skipped": 1
+    "failed": 1,
+    "skipped": 0
   }
 }

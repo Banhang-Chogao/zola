@@ -5,7 +5,12 @@ on:
     branches: [main]
     paths:
       - 'content/posting/**.md'
+      - 'content/baochi/**.md'
+      - 'content/pages/**.md'
       - 'scripts/build_related.py'
+      - 'scripts/related_engine.py'
+      - 'scripts/related_qa_checker.py'
+      - 'scripts/build_references.py'
       - 'scripts/requirements.txt'
   schedule:
     # Mỗi GIỜ — đủ tươi cho related posts mà KHÔNG đốt quota Actions.
@@ -55,12 +60,15 @@ jobs:
       - name: Build related index
         run: python scripts/build_related.py
 
+      - name: Build references index
+        run: python3 scripts/build_references.py
+
       - name: Open PR if changed (never push main)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_TITLE: "chore: rebuild semantic related posts"
+          PR_TITLE: "chore: rebuild semantic related posts + references"
         run: |
           chmod +x .github/scripts/push_via_pr.sh
           .github/scripts/push_via_pr.sh chore/related-posts-data \
-            "Cập nhật: rebuild semantic related posts ($(date +%Y-%m-%d))" \
-            data/related.json data/scores.json
+            "Cập nhật: rebuild related posts + references ($(date +%Y-%m-%d))" \
+            data/related.json data/scores.json data/references.json

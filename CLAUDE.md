@@ -268,6 +268,26 @@ DB `data/seo-qa-scores.json` là nguồn dữ liệu để dựng trang Insights
 của blog" sau này. KHÔNG xoá file này; mỗi lần chấm chỉ append thêm mốc lịch sử
 (`history`, giữ tối đa 20 mốc/bài).
 
+## Quy tắc Tham chiếu cuối bài (References — BẮT BUỘC)
+
+Mọi bài mới/cập nhật (`content/posting/`, `content/baochi/`, `content/pages/`)
+tự động có block **「Tham khảo & Nguồn dữ liệu」** cuối bài (macro
+`references::section`, data từ `scripts/build_references.py`).
+
+1. **Liên kết ngoài** — quét markdown/HTML trong bài, dedupe, ưu tiên nguồn official.
+2. **Liên kết nội bộ** — tổng hợp link tới bài/chuyên mục trong blog.
+3. **Bản quyền & ghi nguồn** — tự sinh khi có nguồn ngoài; override qua frontmatter.
+
+Frontmatter tùy chọn (`[extra]`):
+
+- `references_skip = true` — ẩn toàn bộ block
+- `references_skip_copyright = true` — bỏ mục bản quyền
+- `references_copyright = "..."` — text bản quyền tùy chỉnh
+- `[[extra.references_external]]` / `references_internal` — bổ sung nguồn thủ công:
+  `{ title = "...", url = "..." }`
+
+Chạy `python3 scripts/build_references.py` trước `zola build` (CI tự chạy).
+
 ## Quy tắc Category (BẮT BUỘC)
 
 - Category **"Tất cả"** là category mặc định của MỌI bài viết (slug `tat-ca`,
