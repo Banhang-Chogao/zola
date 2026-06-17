@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:49:42Z",
+  "updated_at": "2026-06-17T13:51:35Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 27,
+    "total": 30,
+    "success": 28,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27693797202,
+      "run_number": 375,
+      "commit_id": "c34bd9a93b0f268b3301d640330ddeb7c3890bca",
+      "commit_short": "c34bd9a",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/c34bd9a93b0f268b3301d640330ddeb7c3890bca",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27693797202",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #375 — Deploy blog lên GitHub Pages: Merge pull request #268 from Banhang-Chogao/feat/devops-no-dependabot-batch-10",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:49:04Z",
+      "duration_sec": 125
+    },
     {
       "id": 27693794853,
       "run_number": 596,
