@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:21:11Z",
+  "updated_at": "2026-06-17T13:21:42Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 27,
-    "success": 27,
+    "total": 28,
+    "success": 28,
     "failure": 0,
     "cancelled": 0
   },
   "builds": [
+    {
+      "id": 27692020386,
+      "run_number": 587,
+      "commit_id": "7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
+      "commit_short": "7c844e8",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/7c844e83bca2cb15e595c17bc7a7b2299a3bf8be",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692020386",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #587 — Kiểm tra QA Gatekeeper: fix(compliance): parse TOML taxonomies + /zola/ link prefix",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:20:57Z",
+      "duration_sec": 27
+    },
     {
       "id": 27691987043,
       "run_number": 586,
