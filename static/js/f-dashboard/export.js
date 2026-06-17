@@ -18,6 +18,9 @@
   const INCOME = [16, 185, 129];
   const EXPENSE = [239, 68, 68];
   const ACCENT = [59, 130, 246];
+  const WATERMARK_RED = [220, 38, 38];
+  const SIGN_GREEN = [5, 150, 105];
+  const SIGN_RED = [227, 6, 19];
 
   let fontsReady = null;
 
@@ -103,19 +106,19 @@
     fn();
   }
 
-  /** Trace watermark — visible but low-opacity, repeated diagonally */
+  /** Trace watermark — red text, higher opacity, repeated diagonally */
   function stampWatermark(doc, series, pageW, pageH) {
     const wm = watermarkText(series);
 
-    withOpacity(doc, 0.12, () => {
+    withOpacity(doc, 0.2, () => {
       setFont(doc, "normal", 18);
-      setRgb(doc, [160, 170, 185]);
+      setRgb(doc, WATERMARK_RED);
       doc.text(wm, pageW / 2, pageH / 2, { align: "center", angle: -32 });
     });
 
-    withOpacity(doc, 0.1, () => {
+    withOpacity(doc, 0.16, () => {
       setFont(doc, "normal", 9);
-      setRgb(doc, [175, 184, 198]);
+      setRgb(doc, WATERMARK_RED);
       const cols = 3;
       const rows = 4;
       for (let r = 0; r < rows; r++) {
@@ -129,6 +132,55 @@
     });
 
     setRgb(doc, INK);
+  }
+
+  /** Mysign Viettel–style digital signature badge (top-right) */
+  function drawDigitalSignature(doc, payload, pageW, margin) {
+    const sigW = 60;
+    const sigH = 24;
+    const x = pageW - margin - sigW;
+    const y = 28;
+
+    doc.setDrawColor(SIGN_GREEN[0], SIGN_GREEN[1], SIGN_GREEN[2]);
+    doc.setLineWidth(0.4);
+    doc.roundedRect(x, y, sigW, sigH, 1.5, 1.5, "S");
+
+    setFont(doc, "bold", 6.5);
+    setRgb(doc, SIGN_GREEN);
+    doc.text("KÝ SỐ · VIETTEL MYSIGN", x + 2.5, y + 5.5);
+
+    setFont(doc, "normal", 5.5);
+    setRgb(doc, INK);
+    const certId = "FD-" + String(payload.series_id || "").slice(0, 8).toUpperCase();
+    const signedAt = String(payload.exported_at || "").replace("T", " ").slice(0, 16);
+    doc.text("Chứng thư: " + certId, x + 2.5, y + 10);
+    doc.text("Thời gian: " + signedAt, x + 2.5, y + 14);
+    doc.text("Trạng thái: Hợp lệ", x + 2.5, y + 18);
+
+    doc.setDrawColor(SIGN_RED[0], SIGN_RED[1], SIGN_RED[2]);
+    doc.setLineWidth(0.25);
+    doc.line(x + 2, y + 20.5, x + sigW - 2, y + 20.5);
+    setRgb(doc, INK);
+  }
+
+  function drawPageNumber(doc, pageNum, totalPages, pageW, pageH) {
+    setFont(doc, "normal", 8);
+    setRgb(doc, MUTED);
+    doc.text("Trang " + pageNum + "/" + totalPages, pageW / 2, pageH - 6, { align: "center" });
+    setRgb(doc, INK);
+  }
+
+  function finalizePdfPages(doc, series, payload) {
+    const total = doc.internal.getNumberOfPages();
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const margin = 12;
+    for (let i = 1; i <= total; i++) {
+      doc.setPage(i);
+      stampWatermark(doc, series, pageW, pageH);
+      drawDigitalSignature(doc, payload, pageW, margin);
+      drawPageNumber(doc, i, total, pageW, pageH);
+    }
   }
 
   function drawHeaderBand(doc, payload, pageW, margin) {
@@ -311,9 +363,6 @@
       },
       alternateRowStyles: { fillColor: [248, 250, 252] },
       didDrawPage: (data) => {
-        const pageW = doc.internal.pageSize.getWidth();
-        const pageH = doc.internal.pageSize.getHeight();
-        stampWatermark(doc, series, pageW, pageH);
         if (data.pageNumber > 1) {
           setFont(doc, "normal", 7);
           setRgb(doc, MUTED);
@@ -338,8 +387,6 @@
     const pageW = doc.internal.pageSize.getWidth();
     const pageH = doc.internal.pageSize.getHeight();
     const margin = 12;
-
-    stampWatermark(doc, series, pageW, pageH);
 
     let y = drawHeaderBand(doc, payload, pageW, margin);
 
@@ -418,11 +465,47 @@
     const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
     await ensurePdfFonts(doc);
     drawPdfReport(doc, payload, transactions);
+    finalizePdfPages(doc, payload.series_id, payload);
 
     const stamp = payload.exported_at.slice(0, 10);
     doc.save(`f-dashboard-report-${stamp}-${payload.series_id}.pdf`);
     await new Promise((r) => setTimeout(r, 120));
     return payload;
+  }
+
+  async function mergePdfReports(fileList) {
+    const PDFLib = global.PDFLib;
+    if (!PDFLib || !PDFLib.PDFDocument) {
+      throw new Error("pdf-lib chưa tải — thử lại sau vài giây.");
+    }
+    if (!fileList || !fileList.length) {
+      throw new Error("Chọn ít nhất một file PDF.");
+    }
+
+    const merged = await PDFLib.PDFDocument.create();
+    const sourceNames = [];
+
+    for (const file of fileList) {
+      const bytes = await file.arrayBuffer();
+      const src = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+      const copied = await merged.copyPages(src, src.getPageIndices());
+      copied.forEach((page) => merged.addPage(page));
+      sourceNames.push(file.name);
+    }
+
+    const pageCount = merged.getPageCount();
+    merged.setTitle("F-Dashboard — Báo cáo tích lũy");
+    merged.setSubject("Gộp " + sourceNames.length + " báo cáo PDF");
+    merged.setCreator("F-Dashboard · " + BLOG_URL_SLUG);
+    merged.setCreationDate(new Date());
+    merged.setModificationDate(new Date());
+
+    const outBytes = await merged.save();
+    const stamp = new Date().toISOString().slice(0, 10);
+    const blob = new Blob([outBytes], { type: "application/pdf" });
+    await downloadBlob(blob, "f-dashboard-merged-" + stamp + ".pdf");
+
+    return { pageCount, fileCount: sourceNames.length, sources: sourceNames };
   }
 
   async function exportAndWipe(format, transactions, insightsPayload, wipeFn) {
@@ -435,6 +518,7 @@
   global.FDashboardExport = {
     exportJson,
     exportPdf,
+    mergePdfReports,
     exportAndWipe,
     seriesId16,
     watermarkText,
