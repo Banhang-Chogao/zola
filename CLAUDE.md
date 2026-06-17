@@ -889,15 +889,15 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 ## QA Rule Checker Learning
 
-**Date:** 2026-06-18T00:00:00Z
+**Date:** 2026-06-17T19:34:37Z
 
-**Conflict:** False positives — `seo_robots_disallow_root`, `claude_auto_vs_manual_merge`, `claude_cancelled_classification`.
+**Conflict:** Auto-merge vs chặn merge thủ công (HIGH)
 
-**Root Cause:** (1) Substring `disallow: /` khớp `/editor/`. (2) `Required approvals = 0` bị coi là mâu thuẫn auto-merge. (3) Prevention rule «Không classify cancelled là failed» bị đọc thành conflict với chính nó. (4) `fix_attempts` tăng khi không sửa file → anti-loop STOP giả.
+**Root Cause:** auto_merge: scripts/auto_merge_policy.py, scripts/try_auto_merge.py… vs block_merge: .github/scripts/push_via_pr.sh…
 
-**Resolution:** `_robots_disallows_root()` EOL-only; skip `.venv*`; `required approvals = 0` = aligned với auto-merge; bỏ qua `classify cancelled` khi có «không» trước đó; `fix_attempts` chỉ khi file đổi; reset `loop_detected` khi scan sạch.
+**Resolution:** Làm rõ precedence trong CLAUDE.md; gắn no-auto-merge cho bot report-only.
 
-**Prevention:** `python3 scripts/qa-auto-rule-checker.py --dry-run` → 0 conflicts trước khi merge; reset state khi loop do FP.
+**Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 8h; đồng bộ CLAUDE.md khi đổi policy.
 
 ## Premium Paywall Rules
 
