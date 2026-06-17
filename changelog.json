@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 303,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "changelog after PR #300",
       "tag": "chore",
       "pr": 305,
