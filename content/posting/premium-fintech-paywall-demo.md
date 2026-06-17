@@ -6,8 +6,7 @@ aliases = ["/premium-fintech-paywall-demo/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Công nghệ"]
-tags = ["fintech", "paywall", "monetization", "blog", "premium"]
-
+tags = ["blog", "fintech", "monetization", "paywall", "premium"]
 [extra]
 premium = true
 price = 100000
