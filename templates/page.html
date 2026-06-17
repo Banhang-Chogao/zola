@@ -203,6 +203,8 @@
             {% set series_manifest = false %}
             {% if page.extra.series == "seo-foundation" %}
                 {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "adsense-foundation" %}
+                {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
             {% elif page.extra.series == "science-uranium" %}
                 {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
             {% endif %}
