@@ -1,11 +1,11 @@
 +++
 title = "Những Quy Định Cấm Từ Shopee Affiliate 2026 Mới Nhất"
 date = 2026-06-17
+aliases = ["/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat/"]
 
 [taxonomies]
 categories = ["làm affiliate"]
-tags = ["làm affiliate", "làm affiliate trên shopee", "kiếm tiền từ facebook reels"]
-
+tags = ["kiếm tiền từ facebook reels", "làm affiliate", "làm affiliate trên shopee"]
 [extra]
 featured = true
 featured_at = "2026-06-17T08:18:16.919Z"

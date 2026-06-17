@@ -1,11 +1,11 @@
 +++
 title = "LPBank Plus chính thức ra mắt - Chạm Lộc Phát, Trọn An tâm"
 date = 2026-06-17
+aliases = ["/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam/"]
 
 [taxonomies]
 categories = ["Ngân hàng"]
-tags = ["LPBank Plus", "ngân hàng Lộc Phát", "Digitalk Banking"]
-
+tags = ["digitalk banking", "lpbank plus", "ngân hàng lộc phát"]
 [extra]
 thumbnail = "https://lpbank.com.vn/api/content-file/public/file/view/397a0807-8f47-434e-87e5-c2162959730c"
 +++
