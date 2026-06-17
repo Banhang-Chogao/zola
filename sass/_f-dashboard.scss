@@ -1,0 +1,380 @@
+/* ===== F-DASHBOARD — Personal finance from VietinBank statements ===== */
+
+.f-dashboard {
+  max-width: 1180px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1.5rem;
+  font-family: $font-body;
+}
+
+.fd-head {
+  margin-bottom: 1.75rem;
+
+  &__row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $brand-ink-900;
+    margin: 0;
+  }
+
+  &__badge {
+    font-family: $font-meta;
+    font-size: 0.8rem;
+    color: $brand-trust-cyan;
+    background: rgba(0, 55, 132, 0.08);
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+  }
+
+  &__desc {
+    font-size: 0.95rem;
+    color: $brand-ink-500;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 760px;
+
+    code {
+      background: $brand-mist;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      font-size: 0.88em;
+      font-family: $font-mono;
+    }
+  }
+}
+
+.fd-panel {
+  background: $brand-snow;
+  border: 1px solid $brand-edge;
+  border-radius: 10px;
+  padding: 1.25rem 1.35rem;
+  margin-bottom: 1.25rem;
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $brand-ink-900;
+    margin: 0 0 1rem;
+  }
+}
+
+.fd-upload {
+  border: 2px dashed $brand-edge-strong;
+  border-radius: 10px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: $brand-mist;
+
+  &:hover,
+  &--active {
+    border-color: $brand-trust-cyan;
+    background: rgba(0, 55, 132, 0.04);
+  }
+
+  &__icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__text {
+    margin: 0 0 0.35rem;
+    font-size: 0.95rem;
+    color: $brand-ink-800;
+
+    code {
+      font-family: $font-mono;
+      font-size: 0.9em;
+    }
+  }
+
+  &__hint {
+    margin: 0;
+    font-size: 0.82rem;
+    color: $brand-ink-500;
+  }
+
+  &__status {
+    margin: 0.85rem 0 0.5rem;
+    font-size: 0.88rem;
+    color: $brand-ink-500;
+
+    &[data-type="success"] { color: $brand-success; }
+    &[data-type="error"] { color: $brand-signal-red; }
+  }
+}
+
+.fd-btn {
+  font-family: $font-body;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid $brand-edge;
+  cursor: pointer;
+  background: $brand-snow;
+
+  &--ghost {
+    color: $brand-ink-500;
+
+    &:hover {
+      border-color: $brand-signal-red;
+      color: $brand-signal-red;
+    }
+  }
+}
+
+.fd-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem;
+  background: $brand-mist;
+  border-radius: 8px;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    &--wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__label {
+    font-size: 0.78rem;
+    color: $brand-ink-500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__value {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $brand-ink-900;
+
+    &--income { color: $brand-success; }
+    &--expense { color: $brand-signal-red; }
+  }
+}
+
+.fd-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.fd-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  color: $brand-ink-500;
+
+  &--grow {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  &__input {
+    font-family: $font-body;
+    font-size: 0.88rem;
+    padding: 0.4rem 0.55rem;
+    border: 1px solid $brand-edge;
+    border-radius: 6px;
+    background: $brand-snow;
+  }
+}
+
+.fd-table-wrap {
+  overflow-x: auto;
+  border: 1px solid $brand-edge;
+  border-radius: 8px;
+}
+
+.fd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+
+  th {
+    text-align: left;
+    padding: 0.65rem 0.75rem;
+    background: $brand-mist;
+    font-weight: 600;
+    color: $brand-ink-800;
+    border-bottom: 1px solid $brand-edge;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid $brand-fog;
+    vertical-align: top;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  &__desc {
+    max-width: 360px;
+    word-break: break-word;
+  }
+
+  &__empty {
+    text-align: center;
+    color: $brand-ink-500;
+    padding: 2rem !important;
+  }
+}
+
+.fd-amount {
+  font-family: $font-mono;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &--income { color: $brand-success; }
+  &--expense { color: $brand-signal-red; }
+}
+
+.fd-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+
+  &__info {
+    font-size: 0.82rem;
+    color: $brand-ink-500;
+    margin-right: auto;
+  }
+
+  &__btn {
+    font-size: 0.82rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid $brand-edge;
+    border-radius: 6px;
+    background: $brand-snow;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.fd-health {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+
+  &__metric {
+    background: $brand-mist;
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.82rem;
+    color: $brand-ink-500;
+
+    strong {
+      font-size: 1.15rem;
+      color: $brand-ink-900;
+    }
+
+    &--score {
+      em {
+        font-style: normal;
+        font-size: 0.78rem;
+        color: $brand-trust-cyan;
+      }
+    }
+  }
+
+  &__score {
+    &--excellent,
+    &--good { color: $brand-success !important; }
+    &--average { color: $brand-warning !important; }
+    &--risky,
+    &--danger { color: $brand-signal-red !important; }
+  }
+}
+
+.fd-charts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.fd-chart {
+  border: 1px solid $brand-edge;
+  border-radius: 8px;
+  padding: 0.85rem;
+
+  &--area,
+  &--waterfall {
+    grid-column: 1 / -1;
+  }
+
+  &__label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $brand-ink-700;
+    margin: 0 0 0.5rem;
+  }
+
+  &__canvas-wrap {
+    position: relative;
+    height: 220px;
+
+    &--wide {
+      height: 260px;
+    }
+  }
+}
+
+.fd-insights {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: $brand-ink-800;
+  line-height: 1.7;
+  font-size: 0.92rem;
+
+  li + li {
+    margin-top: 0.35rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .f-dashboard {
+    padding: 0 1rem;
+  }
+
+  .fd-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .fd-chart--area,
+  .fd-chart--waterfall {
+    grid-column: auto;
+  }
+}

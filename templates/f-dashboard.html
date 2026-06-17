@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}F-Dashboard | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+{% endblock %}
+
+{% block main %}
+<section class="f-dashboard">
+    <header class="fd-head">
+        <div class="fd-head__row">
+            <h1 class="fd-head__title">F-Dashboard</h1>
+            <span class="fd-head__badge">VietinBank</span>
+        </div>
+        <p class="fd-head__desc">
+            Upload sao kê Excel VietinBank → parse → deduplicate → lưu trữ mã hóa trên trình duyệt (IndexedDB).
+            Dữ liệu tài chính <strong>không</strong> gửi lên server, không lưu trong <code>/static</code> hay <code>/public</code>.
+        </p>
+    </header>
+
+    {# ===== KHU VỰC 1: Upload ===== #}
+    <section class="fd-panel fd-upload-panel">
+        <h2 class="fd-panel__title">Upload sao kê</h2>
+        <div class="fd-upload" id="fd-upload-zone" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn file Excel VietinBank">
+            <input type="file" id="fd-upload" class="fd-upload__input" accept=".xlsx,.xls" hidden>
+            <div class="fd-upload__icon" aria-hidden="true">📊</div>
+            <p class="fd-upload__text">Kéo thả file <code>SaoKe_VietinBank_*.xlsx</code> hoặc bấm để chọn</p>
+            <p class="fd-upload__hint">Hỗ trợ cột STT · Ngày · Nội dung · Số tiền GD · Số dư</p>
+        </div>
+        <p class="fd-upload__status" id="fd-upload-status" data-type="info">Chưa có file nào được upload.</p>
+        <button type="button" class="fd-btn fd-btn--ghost" id="fd-clear-data">Xóa dữ liệu local</button>
+    </section>
+
+    {# ===== KHU VỰC 4: Financial Health + Charts ===== #}
+    <section class="fd-panel fd-health-panel">
+        <h2 class="fd-panel__title">Sức khỏe tài chính</h2>
+        <div class="fd-health" id="fd-health"></div>
+        <div class="fd-charts">
+            <div class="fd-chart fd-chart--gauge">
+                <h3 class="fd-chart__label">Financial Health Gauge</h3>
+                <div class="fd-chart__canvas-wrap"><canvas id="fd-chart-gauge" aria-label="Điểm sức khỏe tài chính"></canvas></div>
+            </div>
+            <div class="fd-chart fd-chart--donut">
+                <h3 class="fd-chart__label">Thu vs Chi</h3>
+                <div class="fd-chart__canvas-wrap"><canvas id="fd-chart-donut" aria-label="Biểu đồ donut thu chi"></canvas></div>
+            </div>
+            <div class="fd-chart fd-chart--area">
+                <h3 class="fd-chart__label">Dòng tiền theo thời gian</h3>
+                <div class="fd-chart__canvas-wrap fd-chart__canvas-wrap--wide"><canvas id="fd-chart-area" aria-label="Biểu đồ area dòng tiền"></canvas></div>
+            </div>
+            <div class="fd-chart fd-chart--treemap">
+                <h3 class="fd-chart__label">Nhóm chi tiêu lớn</h3>
+                <div class="fd-chart__canvas-wrap"><canvas id="fd-chart-treemap" aria-label="Biểu đồ treemap chi tiêu"></canvas></div>
+            </div>
+            <div class="fd-chart fd-chart--waterfall">
+                <h3 class="fd-chart__label">Luồng tiền</h3>
+                <div class="fd-chart__canvas-wrap fd-chart__canvas-wrap--wide"><canvas id="fd-chart-waterfall" aria-label="Biểu đồ waterfall luồng tiền"></canvas></div>
+            </div>
+        </div>
+    </section>
+
+    {# ===== AI Insights ===== #}
+    <section class="fd-panel fd-insights-panel">
+        <h2 class="fd-panel__title">AI Insights</h2>
+        <ul class="fd-insights" id="fd-insights-list">
+            <li>Upload sao kê để nhận nhận xét tự động từ dữ liệu giao dịch.</li>
+        </ul>
+    </section>
+
+    {# ===== KHU VỰC 2 & 3: Bảng thống kê + Tổng kết ===== #}
+    <section class="fd-panel fd-table-panel">
+        <h2 class="fd-panel__title">Bảng thống kê</h2>
+
+        <div class="fd-summary" id="fd-summary">
+            <div class="fd-summary__item"><span class="fd-summary__label">Tổng thu</span><span class="fd-summary__value">—</span></div>
+            <div class="fd-summary__item"><span class="fd-summary__label">Tổng chi</span><span class="fd-summary__value">—</span></div>
+            <div class="fd-summary__item"><span class="fd-summary__label">Chênh lệch</span><span class="fd-summary__value">—</span></div>
+            <div class="fd-summary__item"><span class="fd-summary__label">Số giao dịch</span><span class="fd-summary__value">0</span></div>
+            <div class="fd-summary__item fd-summary__item--wide"><span class="fd-summary__label">Khoảng thời gian</span><span class="fd-summary__value">—</span></div>
+        </div>
+
+        <div class="fd-filters">
+            <label class="fd-filter">
+                <span>Ngày</span>
+                <input type="date" id="fd-filter-date" class="fd-filter__input">
+            </label>
+            <label class="fd-filter">
+                <span>Tháng</span>
+                <select id="fd-filter-month" class="fd-filter__input">
+                    <option value="">Tất cả tháng</option>
+                </select>
+            </label>
+            <label class="fd-filter">
+                <span>Loại</span>
+                <select id="fd-filter-type" class="fd-filter__input">
+                    <option value="all">Tất cả</option>
+                    <option value="income">Thu</option>
+                    <option value="expense">Chi</option>
+                </select>
+            </label>
+            <label class="fd-filter fd-filter--grow">
+                <span>Từ khóa</span>
+                <input type="search" id="fd-filter-keyword" class="fd-filter__input" placeholder="Tìm trong nội dung…">
+            </label>
+        </div>
+
+        <div class="fd-table-wrap">
+            <table class="fd-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ngày</th>
+                        <th>Nội dung</th>
+                        <th>Số tiền</th>
+                        <th>Số dư</th>
+                    </tr>
+                </thead>
+                <tbody id="fd-table-body">
+                    <tr><td colspan="5" class="fd-table__empty">Chưa có giao dịch — hãy upload sao kê VietinBank.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="fd-pagination" id="fd-pagination"></div>
+    </section>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js" defer></script>
+    <script src="{{ get_url(path='js/f-dashboard/parser.js') }}" defer></script>
+    <script src="{{ get_url(path='js/f-dashboard/storage.js') }}" defer></script>
+    <script src="{{ get_url(path='js/f-dashboard/insights.js') }}" defer></script>
+    <script src="{{ get_url(path='js/f-dashboard/charts.js') }}" defer></script>
+    <script src="{{ get_url(path='js/f-dashboard/app.js') }}" defer></script>
+{% endblock %}

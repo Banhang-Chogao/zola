@@ -2,6 +2,64 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "chore: maintenance merge session — dashboard + compliance + data refresh",
+      "tag": "chore",
+      "pr": 310,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "Merged #313 cancelled deploy dashboard fix",
+        "Merged #309 compliance internal links 100/100",
+        "Merged #311 compliance score refresh",
+        "Merged #312 build dashboard refresh (status_normalized)"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "chore: refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 312,
+      "lines_added": 5,
+      "lines_removed": 5,
+      "highlights": [
+        "data/build-dashboard.json — refresh sau #313, giữ status_normalized"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 311,
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [
+        "data/compliance-score.json — 100/100 A+ sau #309"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "fix: compliance internal links — root cause + diagnostics",
+      "tag": "fix",
+      "pr": 309,
+      "lines_added": 315,
+      "lines_removed": 96,
+      "highlights": [
+        "compliance-link-report.json, compliance_audit.py, insights broken-link UI"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "fix(dashboard): phân loại cancelled deploy runs — Build #387/#388",
+      "tag": "fix",
+      "pr": 313,
+      "lines_added": 517,
+      "lines_removed": 77,
+      "highlights": [
+        "fetch_build_dashboard.py status_normalized, cancelled UI styles"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "qa: Compliance Score audit + auto-fix",
       "tag": "fix",
       "pr": 303,

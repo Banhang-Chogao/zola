@@ -1,8 +1,8 @@
 name: Batch Merge Readiness Report
 
-# DEPRECATED auto-merge: chỉ báo cáo PR sẵn sàng merge — KHÔNG tự merge.
-# User merge thủ công từng PR trên GitHub UI.
-# Rule: docs/OPERATIONS.md (17/06/2026)
+# DEPRECATED: auto-merge chuyển sang auto-merge.yml.
+# Workflow này chỉ báo cáo PR sẵn sàng merge (tham khảo).
+# Rule: docs/OPERATIONS.md — Auto-Merge Policy
 
 on:
   workflow_dispatch:
@@ -58,4 +58,4 @@ jobs:
           echo ""
           echo "Total ready: ${ready}"
           echo ""
-          echo "⚠ Auto-merge DISABLED. Merge thủ công: https://github.com/${GITHUB_REPOSITORY}/pulls"
+          echo "ℹ Auto-merge: xem workflow auto-merge.yml — https://github.com/${GITHUB_REPOSITORY}/actions/workflows/auto-merge.yml"
