@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:22:49Z",
+  "updated_at": "2026-06-17T13:23:04Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 27,
-    "success": 26,
+    "total": 28,
+    "success": 27,
     "failure": 0,
     "cancelled": 1
   },
   "builds": [
+    {
+      "id": 27692110264,
+      "run_number": 588,
+      "commit_id": "c408b0c53c4a6b364f25397103cf0e0bf628904d",
+      "commit_short": "c408b0c",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/c408b0c53c4a6b364f25397103cf0e0bf628904d",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692110264",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #588 — Kiểm tra QA Gatekeeper: feat(media-guard): friction for casual image/attachment saving",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:22:24Z",
+      "duration_sec": 25
+    },
     {
       "id": 27692020386,
       "run_number": 587,
