@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:28:59Z",
+  "updated_at": "2026-06-17T13:29:38Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 27,
+    "total": 28,
+    "success": 26,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27692520899,
+      "run_number": 592,
+      "commit_id": "1b10909b883d6a7dac348409cf2e20936a3e3b9f",
+      "commit_short": "1b10909",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/1b10909b883d6a7dac348409cf2e20936a3e3b9f",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27692520899",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #592 — Kiểm tra QA Gatekeeper: chore(deps): restore Dependabot — monthly grouped GitHub Actions only",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:28:58Z",
+      "duration_sec": 22
+    },
     {
       "id": 27692466395,
       "run_number": 591,
@@ -467,40 +484,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T12:27:26Z",
       "duration_sec": 26
-    },
-    {
-      "id": 27688868129,
-      "run_number": 358,
-      "commit_id": "1ed26b591ad84821dfa1468dc620d102c205c0a9",
-      "commit_short": "1ed26b5",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/1ed26b591ad84821dfa1468dc620d102c205c0a9",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27688868129",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #358 — Deploy blog lên GitHub Pages: feat: Add standalone Timer page at /timer/",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:27:23Z",
-      "duration_sec": 70
-    },
-    {
-      "id": 27688868190,
-      "run_number": 576,
-      "commit_id": "1ed26b591ad84821dfa1468dc620d102c205c0a9",
-      "commit_short": "1ed26b5",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/1ed26b591ad84821dfa1468dc620d102c205c0a9",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27688868190",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #576 — Kiểm tra QA Gatekeeper: feat: Add standalone Timer page at /timer/",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:27:23Z",
-      "duration_sec": 21
     }
   ]
 }
