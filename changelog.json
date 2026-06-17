@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(qa): QA Auto Rule Checker — phát hiện rule xung đột mỗi 8h",
+      "tag": "chore",
+      "pr": 322,
+      "lines_added": 1217,
+      "lines_removed": 0,
+      "highlights": [
+        "reports/rule-conflict-report.json",
+        "reports/rule-conflict-report.md",
+        "data/qa-rule-checker-state.json (anti-loop)",
+        "Append ## QA Rule Checker Learning vào CLAUDE.md",
+        "confidence >= 90% → sửa + PR branch qa/rule-checker-auto-*"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "chore: maintenance merge session — dashboard + compliance + data refresh",
       "tag": "chore",
       "pr": 310,
