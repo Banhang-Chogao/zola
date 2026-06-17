@@ -43,6 +43,9 @@ jobs:
       - name: Build reference index
         run: python3 scripts/build_references.py
 
+      - name: Fetch Google Trends VN (hot search sidebar)
+        run: python3 scripts/fetch_google_trends.py --limit 25
+
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

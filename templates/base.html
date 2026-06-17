@@ -1,4 +1,5 @@
 {% import "macros/verified.html" as v_author %}
+{% import "macros/hot-search.html" as hot_search %}
 {% import "macros/img.html" as img %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
@@ -729,6 +730,8 @@
                             </div>
                         </article>
                     </section>
+
+                    {{ hot_search::widget() }}
 
                     {# RANDOM POSTS — placeholder, JS sẽ reshuffle theo weighted random #}
                     <section class="sidebar-block" data-widget="random">
