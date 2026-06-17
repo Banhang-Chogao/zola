@@ -2,6 +2,17 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "fix(links): repair 11 broken external URLs flagged by zola check",
+      "tag": "fix",
+      "lines_added": 11,
+      "lines_removed": 11,
+      "highlights": [
+        "zola check — 0 broken links"
+      ],
+      "pr": 382
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(paywall): reactivate premium via category + 100k VND pricing",
       "tag": "chore",
       "lines_added": 182,
