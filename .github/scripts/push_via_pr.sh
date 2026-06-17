@@ -107,7 +107,10 @@ else
 fi
 
 if [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "null" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  chmod +x "${SCRIPT_DIR}/trigger_bot_pr_ci.sh"
+  "${SCRIPT_DIR}/trigger_bot_pr_ci.sh" "$BRANCH" || true
   if [ -z "${WORKFLOW_BOT_PAT:-}" ]; then
-    gh pr comment "$REPO" "$PR_NUMBER" --body "**CI relay:** PR bot dùng \`GITHUB_TOKEN\` — \`QA Gatekeeper\` + \`PR Policy\` sẽ chạy tự động qua \`workflow_run\` relay (không cần Approve workflows)." || true
+    gh pr comment "$REPO" "$PR_NUMBER" --body "**CI relay:** Bot PR dùng \`GITHUB_TOKEN\` — \`QA Gatekeeper\` + \`PR Policy\` đã dispatch tự động trên \`${BRANCH}\` (không cần Approve workflows)." || true
   fi
 fi

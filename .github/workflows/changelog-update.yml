@@ -17,6 +17,7 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:

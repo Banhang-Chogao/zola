@@ -487,6 +487,17 @@ Hoặc: GitHub Actions → **Autofix Merge Conflicts** → **Run workflow** (opt
 
 _(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau mỗi lần xử lý.)_
 
+### Action required on bot maintenance PRs (2026-06-18)
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | PRs `github-actions[bot]` (#355–#361) — 0 check runs, UI **Action required**, auto-merge stuck |
+| **Root cause** | (1) GITHUB_TOKEN không kích hoạt `pull_request` workflows; (2) relay `workflow_run` skip khi `head_branch == main`; (3) relay SHA trỏ `main` không phải PR head |
+| **Fix** | `trigger_bot_pr_ci.sh` dispatch QA+Policy sau `push_via_pr`; skip `pull_request` cho bot actor; `resolve_open_bot_pr.sh`; `actions: write` trên maintenance workflows |
+| **Doc** | `docs/ROOT-CAUSE-ACTION-REQUIRED.md`, `.github/ACTIONS-PERMISSIONS.md` |
+| **Test** | `python3 scripts/test_bot_pr_ci_relay.py` |
+| **Prevention** | Không dùng relay `head_branch != main` cho schedule workflows; luôn dispatch CI từ `push_via_pr` khi không có `WORKFLOW_BOT_PAT` |
+
 ### PR #353 — `feature/prompt-support-token-engine` (2026-06-18)
 
 | Field | Detail |
