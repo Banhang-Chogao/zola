@@ -174,7 +174,7 @@
     "date": "2026-06-16",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.643,
+    "score": 0.6432,
     "top_score": 0.8318,
     "neighbors": 5,
     "tier": "mid"
@@ -240,18 +240,6 @@
     "tier": "mid"
   },
   {
-    "slug": "zola-vs-hugo",
-    "section": "posting",
-    "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
-    "date": "2026-06-16",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.5466,
-    "top_score": 0.6681,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "qa-gatekeeper-tu-fix-loi-blog",
     "section": "posting",
     "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
@@ -261,6 +249,30 @@
     "score": 0.5455,
     "top_score": 0.6544,
     "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "zola-vs-hugo",
+    "section": "posting",
+    "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
+    "date": "2026-06-16",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.5451,
+    "top_score": 0.6681,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "my-iran-hoa-binh-trung-dong",
+    "section": "baochi",
+    "title": "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?",
+    "date": "2026-06-16",
+    "cluster": "the-gioi",
+    "cluster_label": "Thế giới",
+    "score": 0.508,
+    "top_score": 0.7594,
+    "neighbors": 4,
     "tier": "mid"
   },
   {
@@ -276,26 +288,14 @@
     "tier": "mid"
   },
   {
-    "slug": "my-iran-hoa-binh-trung-dong",
-    "section": "baochi",
-    "title": "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?",
-    "date": "2026-06-16",
-    "cluster": "the-gioi",
-    "cluster_label": "Thế giới",
-    "score": 0.5058,
-    "top_score": 0.7594,
-    "neighbors": 4,
-    "tier": "mid"
-  },
-  {
     "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc",
     "section": "baochi",
     "title": "Chọn ngách nội dung để blog giữ chân người đọc",
     "date": "2026-06-16",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.4957,
-    "top_score": 0.5496,
+    "score": 0.4944,
+    "top_score": 0.543,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -306,7 +306,7 @@
     "date": "2026-06-16",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.4804,
+    "score": 0.4778,
     "top_score": 0.5355,
     "neighbors": 5,
     "tier": "mid"
@@ -318,21 +318,9 @@
     "date": "2026-06-16",
     "cluster": "the-gioi",
     "cluster_label": "Thế giới",
-    "score": 0.4692,
+    "score": 0.4713,
     "top_score": 0.7594,
     "neighbors": 4,
-    "tier": "mid"
-  },
-  {
-    "slug": "seo-la-gi-huong-dan-co-ban-google-search",
-    "section": "posting",
-    "title": "SEO là gì? Hướng dẫn cơ bản từ Google Search Central",
-    "date": "2026-06-17",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.4586,
-    "top_score": 0.5496,
-    "neighbors": 5,
     "tier": "mid"
   },
   {
@@ -360,14 +348,14 @@
     "tier": "mid"
   },
   {
-    "slug": "lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam",
+    "slug": "seo-la-gi-huong-dan-co-ban-google-search",
     "section": "posting",
-    "title": "LPBank Plus ra mắt: Chạm Lộc Phát, Trọn An tâm",
+    "title": "SEO là gì? Hướng dẫn cơ bản từ Google Search Central",
     "date": "2026-06-17",
-    "cluster": "tai-chinh",
-    "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.4419,
-    "top_score": 0.5008,
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.4479,
+    "top_score": 0.543,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -384,13 +372,25 @@
     "tier": "mid"
   },
   {
+    "slug": "lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam",
+    "section": "posting",
+    "title": "LPBank Plus ra mắt: Chạm Lộc Phát, Trọn An tâm",
+    "date": "2026-06-17",
+    "cluster": "tai-chinh",
+    "cluster_label": "Tài chính & Ngân hàng",
+    "score": 0.4372,
+    "top_score": 0.5019,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "iran-uranium-destruction-what-it-means",
     "section": "baochi",
     "title": "Uranium Iran: từ lập trường cứng sang ngoại giao",
     "date": "2026-06-16",
     "cluster": "the-gioi",
     "cluster_label": "Thế giới",
-    "score": 0.4052,
+    "score": 0.4055,
     "top_score": 0.6565,
     "neighbors": 5,
     "tier": "mid"
@@ -402,8 +402,8 @@
     "date": "2026-06-17",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.3665,
-    "top_score": 0.6437,
+    "score": 0.3633,
+    "top_score": 0.6431,
     "neighbors": 5,
     "tier": "low"
   },
@@ -414,8 +414,8 @@
     "date": "2026-06-17",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.3393,
-    "top_score": 0.6437,
+    "score": 0.3374,
+    "top_score": 0.6431,
     "neighbors": 5,
     "tier": "low"
   },
@@ -426,7 +426,7 @@
     "date": "2026-06-16",
     "cluster": "the-gioi",
     "cluster_label": "Thế giới",
-    "score": 0.3004,
+    "score": 0.301,
     "top_score": 0.3656,
     "neighbors": 4,
     "tier": "low"
@@ -438,8 +438,8 @@
     "date": "2026-06-15",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.2955,
-    "top_score": 0.3442,
+    "score": 0.296,
+    "top_score": 0.3435,
     "neighbors": 5,
     "tier": "low"
   },
@@ -450,8 +450,8 @@
     "date": "2026-06-16",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.274,
-    "top_score": 0.3442,
+    "score": 0.269,
+    "top_score": 0.3435,
     "neighbors": 5,
     "tier": "low"
   },
@@ -462,8 +462,8 @@
     "date": "2026-06-17",
     "cluster": "khoa-hoc",
     "cluster_label": "Khoa học",
-    "score": 0.2489,
-    "top_score": 0.2489,
+    "score": 0.2482,
+    "top_score": 0.2482,
     "neighbors": 1,
     "tier": "low"
   },
@@ -486,8 +486,8 @@
     "date": "2026-06-17",
     "cluster": "the-gioi",
     "cluster_label": "Thế giới",
-    "score": 0.1781,
-    "top_score": 0.2502,
+    "score": 0.1836,
+    "top_score": 0.2588,
     "neighbors": 4,
     "tier": "low"
   }
