@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-06-17T20:09:35Z",
+  "updated_at": "2026-06-17T20:10:44Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
     "total": 30,
-    "success": 21,
+    "success": 22,
     "failure": 1,
     "cancelled": 1,
     "skipped": 6,
-    "in_progress": 1
+    "in_progress": 0
   },
   "builds": [
     {
@@ -21,17 +21,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #472 — Deploy blog lên GitHub Pages: fix(ci): stash local changes before pull in push_to_main.sh",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T20:08:39Z",
-      "duration_sec": 38
+      "duration_sec": 98
     },
     {
       "id": 27716563360,
