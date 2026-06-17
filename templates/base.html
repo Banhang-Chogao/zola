@@ -1,5 +1,6 @@
 {% import "macros/verified.html" as v_author %}
 {% import "macros/hot-search.html" as hot_search %}
+{% import "macros/google-rank.html" as google_rank %}
 {% import "macros/img.html" as img %}
 {% import "macros/footer-countdown.html" as footer_countdown %}
 {# ============================================================================
@@ -96,6 +97,7 @@
     {% if cms_auth %}
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
 
     {% set_global paywall_api = config.extra.paywall_api_url | default(value="") %}
     {% if paywall_api %}
@@ -791,6 +793,8 @@
                             {% endfor %}
                         </div>
                     </section>
+
+                    {{ google_rank::widget() }}
                 </aside>
             {% endblock sidebar %}
         </div>
@@ -1106,6 +1110,7 @@
 
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
