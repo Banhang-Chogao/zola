@@ -84,7 +84,7 @@ Uranium **có phóng xạ** — nhưng mức độ phụ thuộc đồng vị, k
 ## Lộ trình 5 bài
 
 1. **Bài 1** (bài này): Uranium là gì và vì sao quan trọng.
-2. **Bài 2**: Uranium làm giàu là gì? *(sắp ra mắt)*
+2. **Bài 2**: [Uranium làm giàu là gì?](/zola/posting/uranium-lam-giau-la-gi/)
 3. **Bài 3**: Nhà máy làm giàu hoạt động thế nào? *(sắp ra mắt)*
 4. **Bài 4**: Điện hạt nhân khác vũ khí hạt nhân *(sắp ra mắt)*
 5. **Bài 5**: Phá hủy cơ sở / tiêu hủy vật liệu — điều gì xảy ra? *(sắp ra mắt)*
