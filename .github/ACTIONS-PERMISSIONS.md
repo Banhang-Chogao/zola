@@ -1,57 +1,53 @@
 # GitHub Actions — permissions & workflow approval
 
-## Vì sao workflow từng bị chặn (action_required)
+## Root cause: "Action required" on bot PRs
 
-| Nguyên nhân | Triệu chứng | Fix trong repo |
-|-------------|-------------|----------------|
-| **GITHUB_TOKEN tạo PR** | PR `github-actions[bot]` → `pull_request` workflows không tự chạy; UI bắt "Approve workflows" | `workflow_run` relay trong `qa.yml` + `pr-policy.yml` |
-| **`pr-approval.yml` (đã xóa)** | Check `PR Manual Approval / manual-approval` fail mọi PR | Đã remove — dùng branch protection + review thủ công khi cần |
-| **Fork PR** | Workflow chờ approval maintainer | Giữ GitHub Setting (fork protection) — không bypass bằng code |
-| **Deploy `environment: github-pages`** | Chỉ job deploy trên `push main` — không ảnh hưởng PR QA | Tách deploy production; QA/chore không dùng environment gate |
+| # | Cause | Effect |
+|---|-------|--------|
+| 1 | **GITHUB_TOKEN PR gate** | `pull_request` workflows blocked on PRs opened by `github-actions[bot]` |
+| 2 | **Relay `head_branch != main`** | `workflow_run` relay skipped for scheduled maintenance on `main` |
+| 3 | **Wrong relay SHA** | `workflow_run.head_sha` = `main`, not PR head → no PR found |
 
-## GitHub repo Settings (admin — không commit được)
+Full report: `docs/ROOT-CAUSE-ACTION-REQUIRED.md`
+
+## Permanent fix (in repo)
+
+1. **`push_via_pr.sh`** → **`trigger_bot_pr_ci.sh`** dispatches `QA Gatekeeper` + `PR Policy` on branch (`workflow_dispatch`)
+2. **`qa.yml` / `pr-policy.yml` / `auto-merge.yml`** — skip `pull_request` when actor is `github-actions[bot]` (no ghost Action required)
+3. **`resolve_open_bot_pr.sh`** — fallback PR resolution for `workflow_run` relay
+4. **`actions: write`** on maintenance workflows that dispatch CI
+
+## GitHub repo Settings (admin)
 
 **Settings → Actions → General**
 
-| Setting | Khuyến nghị |
-|---------|-------------|
-| Actions permissions | **Allow all actions** (hoặc allowlist org) |
-| Workflow permissions | **Read and write** (cho bot merge, PR, pages) |
-| Fork PR workflows | Bật; **Require approval for outside collaborators** (giữ cho fork) |
-| Approval for running fork PR workflows | Chỉ fork — same-repo bot PR dùng relay |
-
-**Settings → Environments → `github-pages`**
-
-- Chỉ `deploy.yml` job `deploy` dùng environment này (production).
-- Không gắn environment vào QA / chore / bot PR workflows.
+| Setting | Value |
+|---------|-------|
+| Workflow permissions | **Read and write** |
+| Fork PR workflows | Require approval for **outside collaborators** only |
 
 **Settings → Branches → `main`**
 
-- Required checks: `QA Gatekeeper`, `PR Policy`
-- Required approvals: **0** (auto-merge policy)
-- Không thêm check `manual-approval`
+- Required checks: `qa-check`, `policy`
+- Required approvals: **0**
+- Allow auto-merge: **On**
 
-## Tùy chọn: `WORKFLOW_BOT_PAT` (secret)
+**Settings → Environments → `github-pages`**
 
-Fine-grained hoặc classic PAT của repo admin (scope: `contents`, `pull_requests`).
+- Only `deploy.yml` job `deploy` — not QA/chore
 
-Khi set secret `WORKFLOW_BOT_PAT`, `push_via_pr.sh` push + mở PR bằng PAT → `pull_request` workflows chạy trực tiếp (không cần relay).
+## Optional: `WORKFLOW_BOT_PAT` secret
 
-Không bắt buộc nếu relay đã bật.
+Fine-grained PAT (scope: `contents`, `pull_requests`, `actions`).
 
-## Workflow relay (bot PR)
+When set, `push_via_pr.sh` uses PAT → `pull_request` CI runs natively; `trigger_bot_pr_ci.sh` skips dispatch.
 
-Các workflow tạo PR qua `push_via_pr.sh` kích relay sau khi hoàn tất:
+## Manual review exceptions
 
-- `qa.yml` (`QA Gatekeeper`) — checkout `workflow_run.head_sha`
-- `pr-policy.yml` (`PR Policy`) — resolve PR qua API, chạy `pr_policy_checks.sh`
+Protected domain / paths → `scripts/auto_merge_policy.py` blocks auto-merge. Labels: `no-auto-merge`, `manual-review`.
 
-Danh sách nguồn: xem `workflow_run.workflows` trong `qa.yml` / `pr-policy.yml`.
+## Rule
 
-## Rule an toàn (không đổi)
-
-- Không push trực tiếp `main` (`main-guard.yml`)
-- Auto-merge mặc định khi CI pass (`FULLY AUTOMATED OPERATIONS`)
-- Không auto-merge: protected domain hoặc label `no-auto-merge` / `manual-review`
-- Deploy production qua `deploy.yml` + environment `github-pages`
-- Fork/untrusted: giữ approval ở GitHub Settings
+- Never re-add `pr-approval.yml` / `manual-approval` check
+- Never push `main` directly (`main-guard.yml`)
+- Bot maintenance PRs: CI via dispatch or PAT — not owner "Approve workflows"
