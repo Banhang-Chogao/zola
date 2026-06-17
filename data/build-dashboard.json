@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T15:27:38Z",
+  "updated_at": "2026-06-17T15:31:15Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 27,
+    "total": 30,
+    "success": 28,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27700019299,
+      "run_number": 377,
+      "commit_id": "fc49297fb1d43e767ebca4cf782a97691b7cc9ff",
+      "commit_short": "fc49297",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/fc49297fb1d43e767ebca4cf782a97691b7cc9ff",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27700019299",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #377 — Deploy blog lên GitHub Pages: Merge pull request #271 from Banhang-Chogao/qa/performance-auto-fix-20260617",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:23:39Z",
+      "duration_sec": 236
+    },
     {
       "id": 27700019400,
       "run_number": 600,
