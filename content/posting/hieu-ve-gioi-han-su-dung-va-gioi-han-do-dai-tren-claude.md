@@ -6,8 +6,7 @@ aliases = ["/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["claude", "giới hạn sử dụng", "using limit", "ai", "prompt"]
-
+tags = ["ai", "claude", "giới hạn sử dụng", "prompt", "using limit"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "giới hạn sử dụng Claude"

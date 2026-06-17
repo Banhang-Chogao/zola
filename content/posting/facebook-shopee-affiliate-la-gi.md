@@ -6,8 +6,7 @@ aliases = ["/facebook-shopee-affiliate-la-gi/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["facebook shopee affiliate", "shopee affiliate", "kiếm tiền online", "affiliate marketing"]
-
+tags = ["affiliate marketing", "facebook shopee affiliate", "kiếm tiền online", "shopee affiliate"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
 seo_keyword = "Facebook Shopee Affiliate"

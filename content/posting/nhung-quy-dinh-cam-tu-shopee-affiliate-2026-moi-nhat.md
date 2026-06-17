@@ -6,7 +6,7 @@ aliases = ["/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["shopee affiliate", "quy định cấm từ", "làm affiliate", "kiếm tiền từ facebook reels", "affiliate marketing"]
+tags = ["affiliate marketing", "kiếm tiền từ facebook reels", "làm affiliate", "quy định cấm từ", "shopee affiliate"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
 seo_keyword = "quy định cấm từ Shopee Affiliate"
