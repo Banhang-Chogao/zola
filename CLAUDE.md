@@ -36,6 +36,16 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 - Data refresh: `push_via_pr.sh` → PR → auto-merge khi CI pass
 - `main-guard.yml`: cho phép bot merge qua PR (auto-merge commit)
 
+### 5b. Auto-merge Bot-created Maintenance PRs
+
+- Bot-created PRs dạng chore/report refresh/dashboard data có thể auto-merge nếu:
+  - checks pass,
+  - không conflict,
+  - không đụng workflow/security/payment/admin/paywall,
+  - không có label `no-auto-merge`.
+- Nếu không merge được, bot phải **comment lý do cụ thể** thay vì im lặng (`try_auto_merge.py` → `post_skip_comment`).
+- **Action required:** PR do `github-actions[bot]` tạo có thể bị GitHub chặn CI (`QA Gatekeeper` / `PR Policy` = `action_required`) — repo owner cần **Approve workflows** trên PR; sau đó auto-merge chạy lại hoặc `manual #N`.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
@@ -686,6 +696,8 @@ Vẫn chặn: dependabot, renovate, workflow auto-merge **không** whitelist.
 | #312 | Merged | Dashboard refresh giữ status_normalized |
 | #310 | Merged | Changelog + Merge Session |
 | #314 | Merged (manual) | Auto-merge + Merge Report + pr-policy whitelist |
+| #325–#330, #332 | Merged (manual) | Bot maintenance — CI `action_required` → owner approve workflows |
+| #335–#338 | Merged (manual) | Cùng root cause: 0 check runs; data-only chore/qa refresh |
 | #280 | Fixed (session trước) | Series template conflict adsense + science-uranium |
 
 ## F-Dashboard
