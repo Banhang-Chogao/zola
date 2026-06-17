@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T16:04:42Z",
+  "updated_at": "2026-06-17T16:07:57Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 29,
-    "success": 27,
+    "total": 30,
+    "success": 28,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27702560678,
+      "run_number": 382,
+      "commit_id": "6426ec787a87a92ec660a15c5cdbbab93dc3cf69",
+      "commit_short": "6426ec7",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/6426ec787a87a92ec660a15c5cdbbab93dc3cf69",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27702560678",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #382 — Deploy blog lên GitHub Pages: Merge pull request #278 from Banhang-Chogao/qa/fix-related-posts-seo",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T16:03:59Z",
+      "duration_sec": 221
+    },
     {
       "id": 27702560663,
       "run_number": 612,
