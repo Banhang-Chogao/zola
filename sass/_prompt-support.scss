@@ -1,7 +1,7 @@
-/* ===== PROMPT SUPPORT — tool page ===== */
+/* ===== PROMPT SUPPORT — Token Optimization Engine ===== */
 
 .psupport {
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 1.5rem auto 3rem;
   padding: 0 1.5rem;
   font-family: $font-body;
@@ -21,7 +21,7 @@
 
   &__desc {
     margin: 0;
-    max-width: 720px;
+    max-width: 760px;
     font-size: 0.95rem;
     line-height: 1.65;
     color: $brand-ink-500;
@@ -59,7 +59,7 @@
 
   &__input {
     width: 100%;
-    min-height: 320px;
+    min-height: 260px;
     resize: vertical;
     border: 1.5px solid $brand-edge-strong;
     border-radius: 6px;
@@ -87,6 +87,91 @@
     }
   }
 
+  &__controls {
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid $brand-edge;
+  }
+
+  &__control-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__select-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: $brand-ink-500;
+  }
+
+  &__select {
+    min-width: 148px;
+    border: 1.5px solid $brand-edge-strong;
+    border-radius: 6px;
+    padding: 0.45rem 0.6rem;
+    font-family: $font-body;
+    font-size: 0.88rem;
+    color: $brand-ink-900;
+    background: $brand-snow;
+
+    &:focus {
+      outline: none;
+      border-color: $brand-trust-cyan;
+      box-shadow: 0 0 0 2px rgba(0, 55, 132, 0.1);
+    }
+  }
+
+  &__task-badge,
+  &__mode-badge {
+    align-self: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 0.3rem 0.65rem;
+  }
+
+  &__task-badge {
+    color: $brand-trust-cyan;
+    background: rgba(0, 55, 132, 0.08);
+    border: 1px solid rgba(0, 55, 132, 0.15);
+    margin-left: auto;
+  }
+
+  &__mode-badge {
+    color: #92400e;
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(180, 83, 9, 0.2);
+  }
+
+  &__checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  &__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: $brand-ink-700;
+    cursor: pointer;
+
+    input {
+      accent-color: $brand-trust-cyan;
+    }
+  }
+
   &__actions {
     display: flex;
     flex-wrap: wrap;
@@ -111,6 +196,11 @@
       cursor: not-allowed;
     }
 
+    &--sm {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.78rem;
+    }
+
     &--primary {
       background: $brand-trust-cyan;
       color: #fff;
@@ -128,6 +218,12 @@
       &:hover:not(:disabled) {
         border-color: $brand-trust-cyan;
         color: $brand-trust-cyan;
+      }
+
+      &[aria-pressed="true"] {
+        border-color: $brand-trust-cyan;
+        color: $brand-trust-cyan;
+        background: rgba(0, 55, 132, 0.06);
       }
     }
   }
@@ -153,17 +249,81 @@
     margin-bottom: 0.55rem;
   }
 
-  &__meta {
-    font-family: $font-meta;
+  &__budget {
+    margin-bottom: 0.65rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 6px;
+    border: 1px solid $brand-edge;
+    background: rgba(0, 55, 132, 0.04);
     font-size: 0.78rem;
+    color: $brand-ink-700;
+  }
+
+  &__budget-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem 0.75rem;
+
+    strong {
+      color: $brand-ink-500;
+      font-weight: 600;
+    }
+  }
+
+  &__scores {
+    margin-bottom: 0.65rem;
+  }
+
+  &__score-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+  }
+
+  &__score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    border-radius: 6px;
+    border: 1px solid $brand-edge;
+    background: $brand-mist;
+    font-size: 0.75rem;
+
+    &--wide {
+      grid-column: 1 / -1;
+      background: rgba(0, 55, 132, 0.06);
+      border-color: rgba(0, 55, 132, 0.15);
+    }
+  }
+
+  &__score-label {
     color: $brand-ink-500;
-    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  &__score-value {
+    font-family: $font-mono;
+    font-weight: 700;
+  }
+
+  &__score--good .psupport__score-value {
+    color: $brand-success;
+  }
+
+  &__score--mid .psupport__score-value {
+    color: #b45309;
+  }
+
+  &__score--low .psupport__score-value {
+    color: $brand-signal-red;
   }
 
   &__output {
     margin: 0;
-    min-height: 320px;
-    max-height: 520px;
+    min-height: 240px;
+    max-height: 420px;
     overflow: auto;
     border: 1.5px solid $brand-edge;
     border-radius: 6px;
@@ -180,16 +340,208 @@
       word-break: break-word;
     }
   }
+
+  &__copy-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.65rem;
+  }
+
+  &__lint-results {
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid $brand-edge;
+    background: $brand-mist;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: $brand-ink-700;
+
+    strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: $brand-ink-800;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+  }
+
+  &__lint {
+    &--ok {
+      color: $brand-success;
+    }
+
+    &--warn {
+      color: #b45309;
+    }
+
+    &--err {
+      color: $brand-signal-red;
+    }
+  }
+
+  &__tips {
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid rgba(180, 83, 9, 0.25);
+    background: rgba(251, 191, 36, 0.08);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: $brand-ink-700;
+
+    strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: #92400e;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+  }
+
+  &__compare-panel {
+    margin-top: 1.25rem;
+    padding: 1rem 1.1rem;
+    background: $brand-snow;
+    border: 1px solid $brand-edge;
+    border-radius: 8px;
+  }
+
+  &__compare-title {
+    font-family: $font-heading;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $brand-ink-800;
+    margin: 0 0 0.75rem;
+  }
+
+  &__compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  &__compare-pre {
+    margin: 0;
+    min-height: 140px;
+    max-height: 280px;
+    overflow: auto;
+    border: 1.5px solid $brand-edge;
+    border-radius: 6px;
+    background: $brand-mist;
+    padding: 0.75rem;
+
+    code {
+      font-family: $font-mono;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: $brand-ink-800;
+    }
+
+    &--after code {
+      color: $brand-trust-cyan;
+    }
+  }
+
+  &__diff-section {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid $brand-edge;
+  }
+
+  &__diff-empty {
+    margin: 0;
+    font-size: 0.82rem;
+    color: $brand-ink-500;
+  }
+
+  &__diff-list {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: $brand-ink-700;
+  }
+
+  &__diff-list li {
+    padding: 0.35rem 0;
+    border-bottom: 1px solid $brand-edge;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__diff-reason {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    background: $brand-ink-500;
+    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
+    margin-right: 0.4rem;
+  }
 }
 
 @media (max-width: 900px) {
   .psupport {
+    padding: 0 1rem;
+
     &__grid {
       grid-template-columns: 1fr;
     }
 
     &__panel--output {
       position: static;
+    }
+
+    &__compare-grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__score-grid,
+    &__budget-grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__task-badge {
+      margin-left: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    &__mode-badge {
+      width: 100%;
+      text-align: center;
+    }
+
+    &__copy-row {
+      flex-direction: column;
+
+      .psupport__btn {
+        width: 100%;
+      }
     }
   }
 }
