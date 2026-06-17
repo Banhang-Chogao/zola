@@ -34,6 +34,8 @@
         {% set compliance_highlights = compliance_data.highlights | default(value=[]) %}
         {% set compliance_updated = compliance_data.updated_at | default(value="") %}
         {% set compliance_pages = compliance_data.pages_scanned | default(value=0) %}
+        {% set compliance_fix_log = compliance_data.fix_log | default(value=[]) %}
+        {% set compliance_fix_summary = compliance_data.fix_summary | default(value=false) %}
     {% else %}
         {% set compliance_score = 0 %}
         {% set compliance_grade = "—" %}
@@ -45,6 +47,8 @@
         {% set compliance_highlights = [] %}
         {% set compliance_updated = "" %}
         {% set compliance_pages = 0 %}
+        {% set compliance_fix_log = [] %}
+        {% set compliance_fix_summary = false %}
     {% endif %}
 
     {% set now_ts = now(timestamp=true) %}
@@ -235,6 +239,31 @@
                         {% endif %}
                         {% endfor %}
                     </ul>
+                    {% endif %}
+
+                    {% if compliance_fix_log | length > 0 %}
+                    <div class="insights__compliance-fixes" aria-label="Auto-fix log">
+                        <p class="insights__compliance-fixes-title">Auto-fix (ưu tiên thấp)</p>
+                        {% if compliance_fix_summary %}
+                        <p class="insights__compliance-fixes-meta">
+                            {{ compliance_fix_summary.fixed }} đã sửa ·
+                            {{ compliance_fix_summary.failed }} thất bại ·
+                            {{ compliance_fix_summary.skipped }} bỏ qua
+                        </p>
+                        {% endif %}
+                        <ul class="insights__compliance-fix-list">
+                            {% for fx in compliance_fix_log %}
+                            {% if fx.outcome == "failed" or fx.outcome == "fixed" %}
+                            <li class="insights__compliance-fix-item insights__compliance-fix-item--{{ fx.outcome }}">
+                                <span class="insights__compliance-fix-badge">{{ fx.outcome }}</span>
+                                <span class="insights__compliance-fix-text">
+                                    <strong>{{ fx.category }}: {{ fx.label }}</strong> — {{ fx.message }}
+                                </span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
                     {% endif %}
 
                     {% if compliance_updated %}
