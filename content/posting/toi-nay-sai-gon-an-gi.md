@@ -9,8 +9,6 @@ tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối"
 
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"
-featured = true
-featured_at = "2026-06-16T16:54:23.510Z"
 +++
 
 ![Sài Gòn ăn tối]
