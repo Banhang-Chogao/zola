@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T17:12:20Z",
+  "updated_at": "2026-06-17T17:33:45Z",
   "score": 100.0,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "234/234 in range"
+          "detail": "235/235 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "234/234 complete"
+          "detail": "235/235 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "234/234 set"
+          "detail": "235/235 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "232/234 single H1"
+          "detail": "233/235 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "234/234 with lang"
+          "detail": "235/235 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "234/234 ready"
+          "detail": "235/235 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "231/234 pages"
+          "detail": "232/235 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "234/234 pages covered"
+          "detail": "235/235 pages covered"
         },
         {
           "label": "Image weight",
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "230/234 pages"
+          "detail": "231/235 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,6 +222,22 @@
       "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 234,
-  "articles_scanned": 45
+  "pages_scanned": 235,
+  "articles_scanned": 45,
+  "fix_log": [
+    {
+      "category": "—",
+      "label": "Tất cả mục",
+      "check_status": "pass",
+      "outcome": "skipped",
+      "message": "Không có mục warn/fail — bỏ qua auto-fix",
+      "at": "2026-06-17T17:33:45Z"
+    }
+  ],
+  "fix_summary": {
+    "attempted": 1,
+    "fixed": 0,
+    "failed": 0,
+    "skipped": 1
+  }
 }
