@@ -323,6 +323,7 @@
     opts = opts || {};
     const res = await fetch(API + path, {
       ...opts,
+      cache: "no-store",
       headers: {
         Accept: "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
@@ -371,10 +372,16 @@
 
     const bakeBySlug = new Map(state.bakeMetadata.map((p) => [p.slug, p]));
     const localBySlug = new Map(state.posts.map((p) => [p.slug, p]));
-    const mergedSlugs = apiSlugs.slice();
-    state.bakeMetadata.forEach((p) => {
-      if (p.slug && !mergedSlugs.includes(p.slug)) mergedSlugs.push(p.slug);
-    });
+    // Force refresh sau login: chỉ tin API (repo hiện tại), không giữ slug đã xoá khỏi repo.
+    const mergedSlugs = force
+      ? apiSlugs.slice()
+      : (function () {
+          const slugs = apiSlugs.slice();
+          state.bakeMetadata.forEach((p) => {
+            if (p.slug && !slugs.includes(p.slug)) slugs.push(p.slug);
+          });
+          return slugs;
+        })();
 
     // Merge: ưu tiên local > bake > default. isNew=true nếu chưa có trong bake.
     state.posts = mergedSlugs.map((slug) => {
@@ -507,11 +514,56 @@ tags = ${tagsStr}
   }
 
   let bakeLoaded = false;
-  function enterDashboard(force) {
+
+  function showDashboardLoading(message) {
+    setStatus("[data-status]", message || "Đang tải dữ liệu mới nhất từ GitHub…", "info");
+    const tbody = $("[data-target='post-rows']");
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Đang tải danh sách bài viết…</td></tr>';
+    }
+    const total = $("[data-header-total]");
+    if (total) total.textContent = "…";
+    const counter = $("[data-target='post-count']");
+    if (counter) counter.textContent = "…";
+  }
+
+  // force=true: sau login / mở CMS — luôn fetch tươi từ GitHub, bỏ cache cũ.
+  // force=false: quay lại từ editor — giữ state.posts hiện có (local edits).
+  async function enterDashboard(force) {
     showView("list");
 
-    // Lần đầu vào: load bake → render instant (0ms). Lần sau giữ state.posts hiện có
-    // để preserve local edits chưa propagate qua background refresh.
+    if (force) {
+      invalidateListCache();
+      selectedSlugs.clear();
+      showDashboardLoading();
+
+      // Bake chỉ làm baseline diff (badge 🆕), không dùng làm số liệu hiển thị.
+      state.bakeMetadata = loadBakeMetadata();
+      bakeLoaded = true;
+      state.posts = [];
+
+      try {
+        await refreshInBackground({ force: true });
+        setStatus(
+          "[data-status]",
+          "✓ " + state.posts.length + " bài viết (cập nhật từ GitHub)",
+          "success"
+        );
+      } catch (err) {
+        state.posts = state.bakeMetadata.slice();
+        renderPostList();
+        setStatus(
+          "[data-status]",
+          "⚠ Không tải được GitHub — hiển thị dữ liệu build: " + err.message,
+          "error"
+        );
+      }
+      fetchCategoriesFromBackend();
+      return;
+    }
+
+    // Lần đầu vào (không force): load bake → render instant (0ms). Lần sau giữ
+    // state.posts hiện có để preserve local edits chưa propagate qua background refresh.
     if (!bakeLoaded) {
       state.bakeMetadata = loadBakeMetadata();
       state.posts = state.bakeMetadata.slice();
@@ -520,10 +572,7 @@ tags = ${tagsStr}
     renderPostList();
     setStatus("[data-status]", state.posts.length + " bài viết", "info");
 
-    if (force) invalidateListCache();
-    // Idle delay 500ms cho first paint không bị block. Force = fetch ngay.
-    setTimeout(() => refreshInBackground({ force: force }), force ? 0 : 500);
-    // Fetch categories tươi từ repo (categories.json). Run idle parallel.
+    setTimeout(() => refreshInBackground({ force: false }), 500);
     setTimeout(() => fetchCategoriesFromBackend(), 200);
   }
 
@@ -1883,7 +1932,7 @@ tags = ${tagsStr}
       if (user) {
         currentUser = user;
         populateUserBar(user);
-        if (!checkUrlParam()) enterDashboard();
+        if (!checkUrlParam()) await enterDashboard(true);
         return;
       }
       // Session expired/invalid → đã clearSid trong fetchMe
