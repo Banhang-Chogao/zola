@@ -36,12 +36,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install test dependencies (paywall + F-Dashboard)
+      - name: Install test dependencies (paywall + F-Dashboard + L-Dashboard)
         run: |
           pip install -r backend/requirements.txt
           pip install -r scripts/requirements-f-dashboard.txt
+          pip install -r scripts/requirements-l-dashboard.txt
 
-      - name: Unit tests — paywall + F-Dashboard
+      - name: Unit tests — paywall + F-Dashboard + L-Dashboard
         run: |
           python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard -v
 
