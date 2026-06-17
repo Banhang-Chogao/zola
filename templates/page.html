@@ -4,6 +4,7 @@
 {% import "macros/img.html" as img %}
 {% import "macros/references.html" as references %}
 {% import "macros/series-nav.html" as series %}
+{% import "macros/series-hub.html" as series_hub %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
@@ -91,6 +92,8 @@
             {{ page.content | safe }}
         </div>
 
+        {{ series_hub::callout(page=page) }}
+
         {{ series::nav(page=page) }}
 
         {{ references::section(page=page) }}
@@ -162,7 +165,12 @@
            scripts/build_related.py qua sentence-transformers embedding +
            cosine similarity). Fallback: same category, rồi latest. #}
         {% set current_slug = page.slug %}
-        {% set current_cat = page.taxonomies.categories | default(value=[]) | first | default(value="") %}
+        {% set current_cat = "" %}
+        {% for cat in page.taxonomies.categories | default(value=[]) %}
+            {% if cat != "Tất cả" and cat != "Báo chí" and current_cat == "" %}
+                {% set_global current_cat = cat %}
+            {% endif %}
+        {% endfor %}
         {# HOTFIX: related lấy từ MỌI section (posting/, baochi/, …) để bài ở
            section nào cũng có thể xuất hiện như bài liên quan. #}
         {% set rp_posting = get_section(path="posting/_index.md") %}
@@ -170,12 +178,37 @@
         {% set root_pages = rp_posting.pages | concat(with=rp_baochi.pages) | sort(attribute="date") | reverse %}
         {% set_global related = [] %}
 
-        {# Series cluster: ưu tiên bài cùng SEO Foundation Series trước semantic/category. #}
-        {% if page.extra.series %}
-            {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+        {# Hub series (bài báo gốc): ưu tiên toàn bộ series khoa học. #}
+        {% if page.extra and page.extra.hub_series is defined and page.extra.hub_series == "science-uranium" %}
+            {% set hub_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% if hub_manifest %}
+                {% for item in hub_manifest.parts %}
+                    {% if item.status == "published" and item.slug != current_slug %}
+                        {% for p in root_pages %}
+                            {% if p.slug == item.slug and related | length < 5 %}
+                                {% set found = false %}
+                                {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                                {% if not found %}
+                                    {% set_global related = related | concat(with=[p]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        {# Series cluster: ưu tiên bài cùng series trước semantic/category. #}
+        {% if page.extra and page.extra.series is defined %}
+            {% set series_manifest = false %}
+            {% if page.extra.series == "seo-foundation" %}
+                {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "science-uranium" %}
+                {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}
-                    {% if item.status == "published" and item.slug != current_slug and related | length < 3 %}
+                    {% if item.status == "published" and item.slug != current_slug and related | length < 5 %}
                         {% for p in root_pages %}
                             {% if p.slug == item.slug %}
                                 {% set found = false %}
@@ -187,6 +220,18 @@
                         {% endfor %}
                     {% endif %}
                 {% endfor %}
+                {# Liên kết ngược về bài báo hub #}
+                {% if series_manifest.hub_slug is defined and series_manifest.hub_section is defined and related | length < 5 %}
+                    {% for p in root_pages %}
+                        {% if p.slug == series_manifest.hub_slug %}
+                            {% set found = false %}
+                            {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                            {% if not found %}
+                                {% set_global related = related | concat(with=[p]) %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             {% endif %}
         {% endif %}
 

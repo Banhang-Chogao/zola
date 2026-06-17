@@ -1,0 +1,32 @@
+{# Hub callout — hiển thị trên bài báo gốc (extra.hub_series).
+   Liệt kê toàn bộ series; bài published có link, planned hiển thị "sắp ra mắt". #}
+{% macro callout(page) %}
+{% if page.extra and page.extra.hub_series is defined %}
+    {% set manifest = false %}
+    {% if page.extra.hub_series == "science-uranium" %}
+        {% set manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+    {% endif %}
+    {% if manifest %}
+    <aside class="series-hub" aria-label="{{ manifest.title_vi }}">
+        <h2 class="series-hub__title" id="series-hub-heading">📚 Muốn hiểu sâu hơn?</h2>
+        <p class="series-hub__desc">
+            <strong>{{ manifest.title_vi }}</strong> — cụm bài giáo dục khoa học giúp bạn đọc hiểu bối cảnh đằng sau tin tức, bám các khái niệm từ
+            <a href="{{ manifest.source_url }}" target="_blank" rel="noopener noreferrer">{{ manifest.source_label }}</a>.
+        </p>
+        <ol class="series-hub__list">
+            {% for item in manifest.parts %}
+            <li class="series-hub__item{% if item.status != 'published' %} is-planned{% endif %}">
+                {% if item.status == "published" %}
+                    <a href="{{ get_url(path='@/' ~ manifest.section ~ '/' ~ item.slug ~ '.md') }}">
+                        <strong>Bài {{ item.part }}:</strong> {{ item.title }}
+                    </a>
+                {% else %}
+                    <span><strong>Bài {{ item.part }}:</strong> {{ item.title }} <em>(sắp ra mắt)</em></span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </aside>
+    {% endif %}
+{% endif %}
+{% endmacro %}
