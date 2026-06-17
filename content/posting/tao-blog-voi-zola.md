@@ -40,7 +40,7 @@ Vì là trang tĩnh (không cần database hay server động), blog Zola:
 - **Host miễn phí** — chạy được trên GitHub Pages, Netlify, Cloudflare Pages.
 - **Tích hợp sẵn** Sass, tìm kiếm, syntax highlight, sitemap, RSS — không cần plugin.
 
-> Muốn hiểu sâu hơn về stack vận hành một blog tĩnh thực tế (CMS mini, CI/CD, tự động hoá), đọc thêm bài [Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages](/posting/cong-nghe-blog-duy-nguyen/).
+> Muốn hiểu sâu hơn về stack vận hành một blog tĩnh thực tế (CMS mini, CI/CD, tự động hoá), đọc thêm bài [Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages](/zola/posting/cong-nghe-blog-duy-nguyen/).
 
 ## Chuẩn bị
 
@@ -228,7 +228,7 @@ jobs:
       - uses: actions/deploy-pages@v4
 ```
 
-Vào **Settings → Pages** của repo, ở mục *Build and deployment* chọn **Source = GitHub Actions**. Từ giờ mỗi lần `git push` lên nhánh `main`, blog tự build và lên sóng. Đây cũng là nền tảng để [tự động hoá QA và self-healing CI](/posting/qa-gatekeeper-tu-fix-loi-blog/) sau này.
+Vào **Settings → Pages** của repo, ở mục *Build and deployment* chọn **Source = GitHub Actions**. Từ giờ mỗi lần `git push` lên nhánh `main`, blog tự build và lên sóng. Đây cũng là nền tảng để [tự động hoá QA và self-healing CI](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/) sau này.
 
 ## Bước 8 — Tối ưu SEO cơ bản
 
@@ -249,4 +249,4 @@ Zola lo phần khó giúp bạn, chỉ cần bật:
 
 Chỉ với một file binary và một repo GitHub, bạn đã có blog **miễn phí, nhanh, an toàn** và tự động deploy. Bước tiếp theo nên làm: tùy biến template Tera cho ra chất riêng, thêm bình luận (giscus), và dựng pipeline tự động hoá nội dung.
 
-Nếu bạn tò mò một blog Zola "đời thực" được vận hành thế nào — từ CMS mini viết bằng vanilla JS đến hệ thống tự fix lỗi — hãy đọc tiếp [Tự xây blog cá nhân $0/tháng](/posting/cong-nghe-blog-duy-nguyen/) và [QA Gatekeeper: blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/).
+Nếu bạn tò mò một blog Zola "đời thực" được vận hành thế nào — từ CMS mini viết bằng vanilla JS đến hệ thống tự fix lỗi — hãy đọc tiếp [Tự xây blog cá nhân $0/tháng](/zola/posting/cong-nghe-blog-duy-nguyen/) và [QA Gatekeeper: blog tự fix lỗi 24/7](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/).

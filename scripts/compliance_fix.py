@@ -108,13 +108,22 @@ def fix_internal_links(log: list[dict]) -> bool:
     """Repair known broken internal href patterns (Links: Internal links)."""
     changed = False
 
-    # 1) Markdown: /zola/posting/ → /posting/
+    # 1) Markdown: ensure GitHub Pages /zola/ prefix on root-absolute links
+    _md_link_re = re.compile(r"\]\((/[^)\s\"'#]+)")
+    site_prefix = "/zola"
     for md in CONTENT.rglob("*.md"):
         try:
             raw = md.read_text(encoding="utf-8")
         except OSError:
             continue
-        new = raw.replace("](/zola/", "](/")
+
+        def _add_prefix(m: re.Match[str]) -> str:
+            path = m.group(1)
+            if path.startswith(f"{site_prefix}/") or path == site_prefix:
+                return m.group(0)
+            return f"]({site_prefix}{path}"
+
+        new = _md_link_re.sub(_add_prefix, raw)
         if new != raw:
             md.write_text(new, encoding="utf-8")
             changed = True
@@ -181,7 +190,7 @@ def fix_internal_links(log: list[dict]) -> bool:
         log.append(_log_entry(
             category="Links", label="Internal links", status="warn",
             outcome="fixed",
-            message="Đã sửa link /zola/, bài không tồn tại, changelog.json và converter",
+            message="Đã thêm prefix /zola/, sửa bài không tồn tại, changelog.json và converter",
         ))
         return True
 

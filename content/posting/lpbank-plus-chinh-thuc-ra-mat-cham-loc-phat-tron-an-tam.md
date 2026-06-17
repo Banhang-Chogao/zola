@@ -84,4 +84,4 @@ LPBank Plus là một trong những dấu mốc quan trọng trong hành trình 
 
 Tải LPBank Plus ngay hôm nay để trải nghiệm ngân hàng số thế hệ mới với AI đồng hành trong từng giao dịch và nhận cơ hội sở hữu những phần quà hấp dẫn trong mùa hè này.
 
-Đọc thêm: [Hiểu về giới hạn sử dụng và độ dài trên Claude](/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/) về công nghệ AI, hoặc [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/) để khám phá xu hướng chuyển đổi số.
+Đọc thêm: [Hiểu về giới hạn sử dụng và độ dài trên Claude](/zola/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/) về công nghệ AI, hoặc [hành trình công nghệ blog cá nhân](/zola/posting/cong-nghe-blog-duy-nguyen/) để khám phá xu hướng chuyển đổi số.

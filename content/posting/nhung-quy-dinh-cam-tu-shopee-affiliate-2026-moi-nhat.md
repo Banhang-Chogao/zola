@@ -229,4 +229,4 @@ Hiểu rõ những quy định cấm từ Shopee Affiliate là bước đầu ti
 
 Thay vì tìm cách "lách luật", hãy tập trung vào việc xây dựng nội dung chất lượng, chia sẻ trải nghiệm thực tế và tạo giá trị cho người dùng. Đó mới là con đường kiếm tiền bền vững với Shopee Affiliate.
 
-Đọc thêm: [Facebook Shopee Affiliate là gì? Hướng dẫn người mới](/posting/facebook-shopee-affiliate-la-gi/) để bắt đầu kiếm tiền đúng cách, hoặc [QA Gatekeeper: blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/) nếu bạn đang xây kênh nội dung tự động hóa.
+Đọc thêm: [Facebook Shopee Affiliate là gì? Hướng dẫn người mới](/zola/posting/facebook-shopee-affiliate-la-gi/) để bắt đầu kiếm tiền đúng cách, hoặc [QA Gatekeeper: blog tự fix lỗi 24/7](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/) nếu bạn đang xây kênh nội dung tự động hóa.

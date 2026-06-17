@@ -45,7 +45,7 @@ Giới hạn độ dài liên quan trực tiếp đến "cửa sổ ngữ cảnh
 - **Điều chỉnh cài đặt "Nỗ lực":** Nếu tác vụ đơn giản, hãy tắt tính năng "extended thinking" hoặc giảm mức độ "effort" của AI.
 - **Tắt các công cụ không cần thiết:** Tạm thời tắt tìm kiếm web, Research hoặc các connectors nếu không cần dùng đến để tiết kiệm token tiêu thụ.
 
-Nếu bạn đang xây pipeline AI cho blog hoặc CMS, nên đọc thêm [Sentence Transformers SBERT cho semantic related posts](/posting/sentence-transformers-sbert-deep-dive/) và [QA Gatekeeper: blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/) để hiểu cách tích hợp AI vào quy trình nội dung mà vẫn kiểm soát chi phí token.
+Nếu bạn đang xây pipeline AI cho blog hoặc CMS, nên đọc thêm [Sentence Transformers SBERT cho semantic related posts](/zola/posting/sentence-transformers-sbert-deep-dive/) và [QA Gatekeeper: blog tự fix lỗi 24/7](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/) để hiểu cách tích hợp AI vào quy trình nội dung mà vẫn kiểm soát chi phí token.
 
 ## Kết luận
 
