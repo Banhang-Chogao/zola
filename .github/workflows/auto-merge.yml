@@ -1,7 +1,8 @@
 name: Auto Merge PRs
 
-# CI pass → merge vào main tự động (không chờ human approval).
-# Cần branch protection: required approvals = 0 (xem .github/BRANCH-PROTECTION.md).
+# FULLY AUTOMATED OPERATIONS — CI pass → merge main (không chờ human approval).
+# Policy: data/auto-merge-policy.json + scripts/auto_merge_policy.py
+# Branch protection: required approvals = 0 (xem .github/BRANCH-PROTECTION.md).
 
 on:
   pull_request:

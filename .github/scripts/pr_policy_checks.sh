@@ -57,7 +57,7 @@ if echo "$changed" | grep -Eqi 'dependabot|renovate'; then
 fi
 for path in $changed; do
   case "$path" in
-    .github/workflows/auto-merge.yml|.github/workflows/merge-report.yml|scripts/try_auto_merge.py|scripts/fetch_merge_report.py)
+    .github/workflows/auto-merge.yml|.github/workflows/merge-report.yml|scripts/try_auto_merge.py|scripts/auto_merge_policy.py|scripts/fetch_merge_report.py|data/auto-merge-policy.json|data/auto-merge-loop-state.json)
       continue
       ;;
   esac

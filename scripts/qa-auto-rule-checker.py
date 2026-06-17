@@ -836,9 +836,11 @@ def open_pr(changed_files: list[str], summary: str) -> bool:
     msg = f"qa: rule conflict auto-fix — {summary[:72]}"
     body = (
         "**QA Rule Checker** — auto-fix (confidence ≥ 90%).\n\n"
-        "**KHÔNG auto-merge** — cần review thủ công.\n\n"
+        "**Auto-merge eligible** khi QA Gatekeeper + PR Policy pass "
+        "(policy: `FULLY AUTOMATED OPERATIONS`).\n\n"
         f"- Conflicts addressed: {summary}\n"
         f"- Reports: `reports/rule-conflict-report.json`\n"
+        f"- confidence: 90%\n"
     )
 
     env = os.environ.copy()
@@ -868,15 +870,6 @@ def open_pr(changed_files: list[str], summary: str) -> bool:
         print(result.stderr, file=sys.stderr)
         return False
 
-    prs = _api_get(f"/repos/{REPO}/pulls?head={REPO.split('/')[0]}:{branch}&state=open")
-    if isinstance(prs, list) and prs:
-        pr_num = prs[0]["number"]
-        subprocess.run(
-            ["gh", "pr", "edit", str(pr_num), "--repo", REPO, "--add-label", "no-auto-merge"],
-            cwd=REPO_ROOT,
-            env=env,
-            check=False,
-        )
     return True
 
 

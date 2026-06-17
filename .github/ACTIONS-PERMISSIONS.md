@@ -51,6 +51,7 @@ Danh sách nguồn: xem `workflow_run.workflows` trong `qa.yml` / `pr-policy.yml
 ## Rule an toàn (không đổi)
 
 - Không push trực tiếp `main` (`main-guard.yml`)
-- Không auto-merge PR nhạy cảm (label `no-auto-merge`)
+- Auto-merge mặc định khi CI pass (`FULLY AUTOMATED OPERATIONS`)
+- Không auto-merge: protected domain hoặc label `no-auto-merge` / `manual-review`
 - Deploy production qua `deploy.yml` + environment `github-pages`
 - Fork/untrusted: giữ approval ở GitHub Settings
