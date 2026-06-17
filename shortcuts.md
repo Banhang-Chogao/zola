@@ -1331,73 +1331,63 @@ từ git history (commit trước 11:37 ngày 15/06/2026).
 
 ---
 
-## 4.4. Link quản lý PR (cập nhật 13:22 ngày 15/06/2026)
+## 4.4. Link quản lý PR (cập nhật 18/06/2026 — ZERO_BARRIER)
 
 **Source of truth**: https://github.com/Banhang-Chogao/zola/pulls
 
 Claude PHẢI:
-1. **Track tất cả PRs** tại link trên — đây là dashboard duy nhất, không
-   được dựa vào cache local.
-2. **Tự động đưa changes mới vào hàng đợi**: mỗi feature/fix mới →
-   commit vào branch hiện tại → append vào PR đang open (nếu có) hoặc
-   tạo PR mới.
-3. **Gom đủ ~10 changes** trước khi user trigger `manual #<số PR>`.
-4. **Quy trình phê duyệt**:
-   - User tự vào https://github.com/Banhang-Chogao/zola/pulls
-   - Click PR cần deploy → bấm nút **Approve** trực tiếp trên GitHub web
-   - Sau Approve → user gõ `manual #<số PR>` cho Claude
-   - Claude merge + deploy
-5. **KHÔNG được merge** PR khi chưa thấy:
-   - User gõ lệnh `manual #X`, HOẶC
-   - User gõ `gg` + xác nhận, HOẶC
-   - Lỗi HOTFIX critical (ngoại lệ documented)
+1. **Track tất cả PRs** tại link trên — dashboard duy nhất, không cache local.
+2. **Mỗi feature/fix** → branch riêng → PR vào `main`.
+3. **CI pass → auto-merge ngay** qua `auto-merge.yml` — không chờ user.
+4. **Deploy production** tự động sau merge (`deploy.yml`).
+5. **Workflow fail trên main** → `build-failure-handler.yml` + `qa-rule-checker.yml`
+   auto-trigger → auto-fix PR → auto-merge khi CI xanh.
 
-Mỗi lần tạo PR mới, Claude PHẢI nhắc user link manage:
-"PR #X created. Total open: N. Manage at: https://github.com/Banhang-Chogao/zola/pulls"
+Mỗi lần tạo PR mới:
+"PR #X created. CI xanh → auto-merge → deploy. Track: https://github.com/Banhang-Chogao/zola/pulls"
 
-## 4.5. Quy trình Deploy (MỚI NHẤT — PR-only, 17/06/2026)
+## 4.5. Quy trình Deploy (MỚI NHẤT — ZERO_BARRIER, 18/06/2026)
 
-**🚨 RULE MỚI (ghi đè rule auto-merge 16/06/2026 và mọi rule deploy trước đó)**:
+**🚨 RULE (ghi đè mọi rule PR-only / manual merge trước đó)**:
 
-**PR-ONLY — KHÔNG push/merge trực tiếp `main`.** Mọi thay đổi qua Pull Request,
-user merge thủ công. Rule canonical: `CLAUDE.md`, `docs/OPERATIONS.md`.
+**PR → auto-merge → deploy production.** Không kiểm duyệt trung gian.
+Canonical: `CLAUDE.md`, `docs/OPERATIONS.md`, `data/auto-merge-policy.json`.
 
 ### Quy trình bắt buộc
 
 1. **Một yêu cầu = một branch + một PR**:
    - `feature/`, `fix/`, `qa/`, `content/`, `chore/`, `policy/` + mô tả ngắn
-   - Claude commit lên branch, push, tạo PR — **KHÔNG tự merge**
+   - Commit → push → tạo PR
 
-2. **Điều kiện trước khi user merge** (CI hỗ trợ):
-   - `qa_check.py` / `qa.yml` pass
-   - `zola build` pass
-   - PR Policy pass (title/body đủ mô tả)
+2. **Auto-merge khi CI xanh**:
+   - `qa-check` (QA Gatekeeper) pass
+   - `auto-merge.yml` squash-merge vào `main`
 
 3. **Deploy production**:
-   - Chỉ sau khi user merge PR vào `main` → `deploy.yml` tự chạy
+   - Merge vào `main` → `deploy.yml` chạy ngay → GitHub Pages
 
 4. **Build failed trên PR**:
    - `ff` / `ff9` fix trên **cùng branch/PR** — KHÔNG push `main`
 
-5. **`manual #X` / `prm`**:
-   - `manual #X`: user merge PR #X thủ công trên GitHub
-   - `prm`: báo cáo PR sẵn sàng merge — **KHÔNG auto-merge** (`batch-merge.yml` chỉ report)
+5. **Build failed trên main**:
+   - `build-failure-handler.yml` + `qa-rule-checker.yml` auto-trigger
+   - Safe fix → PR → auto-merge → deploy lại
 
 ### Output sau khi tạo PR
 
 ```
-PR #X created on branch <name>. Awaiting manual review/merge.
-Manage: https://github.com/Banhang-Chogao/zola/pulls
+PR #X created on branch <name>. CI pass → auto-merge → deploy production.
+Track: https://github.com/Banhang-Chogao/zola/pulls
 ```
 
 ## 4.6. Hard rules (KHÔNG được vi phạm)
 
-- **KHÔNG** commit/push/merge trực tiếp `main` (human + bot)
-- **KHÔNG** auto-merge PR — kể cả CI xanh
+- **KHÔNG** commit/push trực tiếp `main` (human + bot) — luôn qua PR
+- **PHẢI** auto-merge khi CI xanh — không chờ user
 - **Một PR = một tính năng/fix** — không gom việc không liên quan
-- **Build failed** → fix trên branch PR, chờ user merge lại
+- **Build failed** → fix trên branch PR hoặc auto-remediation trên main
 - Automation dùng `push_via_pr.sh` — không `git push origin HEAD:main`
-- Sau mỗi lần user merge PR PHẢI output bảng báo cáo (xem §5)
+- Sau mỗi lần merge PR PHẢI output bảng báo cáo (xem §5)
 
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
 

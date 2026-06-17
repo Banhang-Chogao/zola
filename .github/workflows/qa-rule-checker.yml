@@ -1,12 +1,26 @@
 name: QA Rule Checker
 
-# Phát hiện rule/policy/workflow/automation xung đột → báo cáo + PR fix (không auto-merge).
-# Schedule: mỗi 8 giờ UTC.
+# ZERO_BARRIER: quét rule xung đột + auto-fix PR (auto-merge khi CI pass).
+# Auto-trigger: schedule 8h + mọi workflow fail trên main.
 
 on:
   schedule:
     - cron: '0 */8 * * *'
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build and deploy Zola site to GitHub Pages"
+      - "QA Gatekeeper"
+      - "Auto Merge PRs"
+      - "Build Failure Auto-Remediation"
+      - "Self-Healing QA"
+      - "Compliance Score Audit"
+      - "Fetch Build Dashboard"
+      - "Fetch Merge Report"
+      - "Build Semantic Related Posts"
+      - "Performance Audit"
+      - "Security Audit"
+    types: [completed]
 
 permissions:
   contents: write
@@ -22,7 +36,15 @@ concurrency:
 
 jobs:
   rule-check:
-    if: github.repository == 'Banhang-Chogao/zola'
+    if: >-
+      github.repository == 'Banhang-Chogao/zola' &&
+      (
+        github.event_name != 'workflow_run' ||
+        (
+          github.event.workflow_run.conclusion == 'failure' &&
+          github.event.workflow_run.head_branch == 'main'
+        )
+      )
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

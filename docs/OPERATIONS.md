@@ -1,6 +1,6 @@
-# Quy trình vận hành — FULLY AUTOMATED OPERATIONS
+# Quy trình vận hành — ZERO_BARRIER_AUTOMATION
 
-> **Hiệu lực:** 18/06/2026. Vẫn qua PR; **mặc định auto-merge** khi CI pass.
+> **Hiệu lực:** 18/06/2026. Vẫn qua PR; **100% auto-merge** khi CI pass → deploy production ngay.
 
 ## Nguyên tắc
 
@@ -8,13 +8,13 @@ Mọi thay đổi **phải đi qua Pull Request**. **Không** push/commit trực
 
 **Auto-merge:** `auto-merge.yml` + `scripts/try_auto_merge.py` — policy `data/auto-merge-policy.json`.
 
-**Required checks (job names):** `qa-check` (QA Gatekeeper), `policy` (PR Policy). Build + link checker nằm trong `qa-check`.
+**Required checks (job names):** `qa-check` (QA Gatekeeper). Build + link checker nằm trong `qa-check`. Không có PR Policy gate.
 
-**Manual review chỉ khi:** protected domain (security, auth, oauth, payment, paywall, `.github/workflows/*`, …) — xem `scripts/auto_merge_policy.py`.
+**Manual review:** ❌ Không — blog sạch, không protected domain, không label chặn.
 
 **Theo dõi:** `data/merge-report.json` (script `fetch_merge_report.py`).
 
-**Chặn auto-merge:** label `no-auto-merge` hoặc `manual-review`.
+**Workflow fail trên main:** `build-failure-handler.yml` + `qa-rule-checker.yml` auto-trigger → phân tích + auto-fix PR → auto-merge khi CI pass.
 
 ## Quy trình cho mỗi yêu cầu
 
@@ -59,7 +59,7 @@ Cấu hình khuyến nghị (Settings → Branches → Add rule):
 - Require pull request before merging
 - Required approvals: **0** (auto-merge — xem `.github/BRANCH-PROTECTION.md`)
 - Dismiss stale approvals when new commits are pushed
-- Require status checks: `QA Gatekeeper`, `PR Policy` (và các check bắt buộc khác)
+- Require status checks: `QA Gatekeeper` / `qa-check`
 - Require conversation resolution
 - **Do not allow bypassing** (kể cả admin, kể cả bot)
 - Restrict who can push: **nobody** (chỉ merge qua PR)

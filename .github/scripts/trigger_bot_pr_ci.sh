@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# trigger_bot_pr_ci.sh — Dispatch QA Gatekeeper + PR Policy on bot maintenance branch.
+# trigger_bot_pr_ci.sh — Dispatch QA Gatekeeper on bot maintenance branch.
 #
 # Root cause: PRs opened via GITHUB_TOKEN do not trigger pull_request workflows.
 # workflow_run relay also fails when source workflow runs on main (schedule/push).
@@ -38,4 +38,3 @@ dispatch() {
 }
 
 dispatch "QA Gatekeeper" || true
-dispatch "PR Policy" || true

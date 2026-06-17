@@ -127,8 +127,7 @@ def post_skip_comment(number: int, reason: str, *, force: bool = False) -> None:
         f"{SKIP_COMMENT_MARKER}\n"
         f"**Auto-merge skip** — PR #{number}\n\n"
         f"- **Lý do:** {reason}\n"
-        f"- **Policy:** `FULLY AUTOMATED OPERATIONS` — chỉ protected domain cần review tay.\n"
-        f"- **Override:** gắn label `no-auto-merge` hoặc `manual-review`.\n"
+        f"- **Policy:** `ZERO_BARRIER_AUTOMATION` — CI pass → auto-merge → deploy.\n"
         f"- **Doc:** `data/auto-merge-policy.json`, `.github/ACTIONS-PERMISSIONS.md`\n"
         f"- Script: `scripts/try_auto_merge.py`"
     )

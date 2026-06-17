@@ -1,9 +1,8 @@
 """
 Build-failure auto-remediation: analyze failed workflow runs, apply safe fixes,
-open PR for manual review (KHÔNG push main, KHÔNG auto-merge).
+open PR (KHÔNG push main) → auto-merge khi CI pass → deploy production.
 
-Trigger: .github/workflows/build-failure-handler.yml khi deploy.yml hoặc
-qa.yml fail trên main.
+Trigger: .github/workflows/build-failure-handler.yml khi workflow fail trên main.
 
 Pipeline:
   1. WAIT run status = completed (retry max 5 × 30s).
@@ -11,7 +10,7 @@ Pipeline:
   3. Đối chiếu log với vaccine rules (scripts/vaccine_rules.py ↔ CLAUDE.md V1–V4).
   4. Apply safe fix nếu match.
   5. Tạo branch riêng `fix/ci-auto-<run_id>` → commit → push → PR.
-  6. QA.yml + Zola build chạy lại trên PR; merge thủ công qua GitHub PR review.
+  6. QA.yml + Zola build chạy lại trên PR; auto-merge.yml merge khi CI xanh.
   7. Unknown / manual-only → tạo GitHub issue.
 
 Run local:
@@ -263,7 +262,7 @@ def create_fix_pr(
         vaccine_block,
         "### Phạm vi fix",
         "- Chỉ mechanical/safe fixes đã có trong vaccine CLAUDE.md",
-        "- **KHÔNG** auto-merge — cần review thủ công",
+        "- CI pass → **auto-merge** → deploy production (ZERO_BARRIER)",
         "",
         "### Log tail (2500 chars)",
         "```",
@@ -272,7 +271,7 @@ def create_fix_pr(
         "",
         "### Verify",
         "- QA Gatekeeper + Zola build smoke test chạy trên PR này",
-        "- Merge thủ công sau khi CI xanh + review diff",
+        "- Auto-merge khi CI xanh — không cần human approval",
     ])
 
     pr_body_path = ROOT / "pr-body-ci-auto.md"
@@ -412,7 +411,7 @@ def main() -> int:
         pattern=pattern,
         logs=logs,
     ):
-        log("remediation PR opened — awaiting manual review")
+        log("remediation PR opened — awaiting CI → auto-merge")
         return 0
 
     create_issue(

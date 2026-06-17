@@ -9,12 +9,18 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 class BotPrCiRelayTests(unittest.TestCase):
-    def test_trigger_script_exists(self):
+    def test_pr_policy_removed(self):
+        self.assertFalse(
+            (REPO / ".github/workflows/pr-policy.yml").exists(),
+            "pr-policy.yml must be deleted — ZERO_BARRIER has no PR policy gate",
+        )
+
+    def test_trigger_script_dispatches_qa_only(self):
         p = REPO / ".github/scripts/trigger_bot_pr_ci.sh"
         self.assertTrue(p.is_file())
         text = p.read_text(encoding="utf-8")
         self.assertIn("QA Gatekeeper", text)
-        self.assertIn("PR Policy", text)
+        self.assertNotIn("PR Policy", text)
 
     def test_resolve_script_exists(self):
         p = REPO / ".github/scripts/resolve_open_bot_pr.sh"
@@ -30,18 +36,6 @@ class BotPrCiRelayTests(unittest.TestCase):
         self.assertIn("github-actions[bot]", text)
         self.assertNotIn("head_branch != 'main'", text)
 
-    def test_pr_policy_has_workflow_dispatch(self):
-        text = (REPO / ".github/workflows/pr-policy.yml").read_text(encoding="utf-8")
-        self.assertIn("workflow_dispatch:", text)
-        self.assertIn("github-actions[bot]", text)
-
-    def test_pr_policy_uses_gh_author_field(self):
-        """gh pr list GraphQL uses author.login (user field removed in gh 2.86+)."""
-        text = (REPO / ".github/workflows/pr-policy.yml").read_text(encoding="utf-8")
-        self.assertIn("author", text)
-        self.assertIn(".author.login // .user.login", text)
-        self.assertNotIn("baseRefOid,user --jq", text)
-
     def test_resolve_open_bot_pr_uses_gh_author_field(self):
         text = (REPO / ".github/scripts/resolve_open_bot_pr.sh").read_text(encoding="utf-8")
         self.assertIn("author", text)
@@ -50,6 +44,7 @@ class BotPrCiRelayTests(unittest.TestCase):
     def test_auto_merge_skips_bot_pull_request(self):
         text = (REPO / ".github/workflows/auto-merge.yml").read_text(encoding="utf-8")
         self.assertIn("github-actions[bot]", text)
+        self.assertNotIn("PR Policy", text)
 
     def test_maintenance_workflows_have_actions_write(self):
         workflows = [

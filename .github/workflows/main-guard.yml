@@ -43,10 +43,10 @@ jobs:
           prs=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls" \
             --jq 'length' 2>/dev/null || echo "0")
           if [ "$prs" -gt 0 ]; then
-            echo "✓ Commit ${GITHUB_SHA:0:7} linked to PR — allowed (manual merge path)"
+            echo "✓ Commit ${GITHUB_SHA:0:7} linked to PR — allowed (auto-merge path)"
             exit 0
           fi
-          echo "::error title=Direct push blocked::Push to ${TARGET_BRANCH} forbidden. Use feature branch → PR → manual merge."
+          echo "::error title=Direct push blocked::Push to ${TARGET_BRANCH} forbidden. Use feature branch → PR → auto-merge."
           echo "Actor: ${{ github.actor }}"
           echo "See docs/OPERATIONS.md"
           exit 1

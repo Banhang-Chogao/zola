@@ -1,8 +1,7 @@
 name: Self-Healing QA
 
-# Cron 6 tiếng/lần: quét repo, auto-fix mechanical issues (tags lowercase,
-# date format, trailing whitespace, aliases auto-fill), push lên branch
-# `fix/auto-qa` (single rolling), mở 1 PR duy nhất cho user review + merge.
+# ZERO_BARRIER: cron 6h — auto-fix mechanical issues, PR rolling branch
+# `fix/auto-qa` → auto-merge khi CI pass → deploy production.
 #
 # Concurrency group: nếu lần chạy trước còn dang dở, lần mới sẽ QUEUE thay vì
 # cancel → tránh race condition force-push 2 lần liên tiếp.
@@ -102,7 +101,7 @@ jobs:
             echo ""
             echo "### Workflow"
             echo "PR này được force-push mỗi 6 tiếng — luôn reflect snapshot mới nhất."
-            echo "Hãy review diff rồi merge. Nếu fixes không ok, đóng PR + xoá branch \`fix/auto-qa\`."
+            echo "CI pass → auto-merge → deploy production (ZERO_BARRIER)."
           } > pr-body.md
 
           existing=$(gh pr list --head fix/auto-qa --state open --json number --jq '.[0].number')
