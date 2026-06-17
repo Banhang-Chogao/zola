@@ -790,3 +790,17 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 **Prevention:** `python3 scripts/qa-auto-rule-checker.py --dry-run` → 0 conflicts trước khi merge; reset state khi loop do FP.
 
+## Paywall System Rules
+
+- Never publish full premium content in static HTML.
+- Premium posts render teaser only (`paywall_prepare_build.py --strip` trước `zola build`).
+- Unlock requires email + approve code + post_id validation.
+- Approve code must be hashed in database (SHA256), không lưu plaintext.
+- Admin confirmation is manual after Momo payment.
+- Momo payment link: `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr`
+- Do not hardcode SMTP secrets — dùng `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
+- Print output must include watermark (`trace_code_16` + blog domain).
+- Read-only protection is deterrent, not absolute DRM.
+- Full premium body: `private_content/{premium_post_id}.md` — backend only.
+- Docs: `docs/paywall.md` · Admin: `/admin/paywall/` · API: `backend/paywall_app.py`
+

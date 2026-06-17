@@ -5,6 +5,7 @@
 {% import "macros/references.html" as references %}
 {% import "macros/series-nav.html" as series %}
 {% import "macros/series-hub.html" as series_hub %}
+{% import "macros/paywall.html" as paywall %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
@@ -88,9 +89,16 @@
             <span class="ad-banner__arrow" aria-hidden="true">→</span>
         </a>
 
+        {% if page.extra.premium %}
+        <div class="post-single__content post-single__content--teaser">
+            {{ page.content | safe }}
+        </div>
+        {{ paywall::box(page=page, config=config) }}
+        {% else %}
         <div class="post-single__content">
             {{ page.content | safe }}
         </div>
+        {% endif %}
 
         {{ series_hub::callout(page=page) }}
 
@@ -314,6 +322,9 @@
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
+    {% if page.extra.premium %}
+    <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+    {% endif %}
     <script>
         // Show edit button nếu user có PAT (admin đã login CMS)
         if (localStorage.getItem("zola-cms-token")) {

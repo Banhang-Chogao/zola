@@ -132,3 +132,6 @@ category_id = "DIC_kwDOS5xLP84C_Fx6"
 
 # CMS auth backend URL — FastAPI service trên Render.
 cms_auth_url = "https://blog-visitor-api.onrender.com"
+
+# Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
+paywall_api_url = ""
