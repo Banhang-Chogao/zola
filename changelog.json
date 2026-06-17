@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(paywall): reactivate premium via category + 100k VND pricing",
+      "tag": "chore",
+      "lines_added": 182,
+      "lines_removed": 178,
+      "highlights": [
+        "categories = [\"premium\"] triggers premium paywall via paywall_prepare_build.py",
+        "Injects extra.premium = true + price = 100000 into frontmatter at strip time (Tera in operator unreliable for arrays)",
+        "Enables paywall API: paywall_api_url = \"https://blog-paywall-api.onrender.com\", paywall_default_price = 100000",
+        "UI: gold ⭐ Premium badge, updated CTA, teaser fade, localStorage unlock tokens",
+        "Demo: premium-fintech-paywall-demo.md uses categories = [\"premium\"]"
+      ],
+      "pr": 379
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(footer): countdown box + admin config page",
       "tag": "chore",
       "lines_added": 915,
