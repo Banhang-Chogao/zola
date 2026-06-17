@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: '24'
 
-      # Cache Zola binary to speed up subsequent builds
+      # Cache Zola binary
       - name: Cache Zola
         uses: actions/cache@v4
         with:
@@ -72,3 +72,53 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      # Slack notification on successful deploy
+      - name: Notify Slack on success
+        if: success()
+        uses: slackapi/slack-github-action@v3.0.3
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "✅ Deploy thành công - ${{ github.repository }}",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "✅ Deploy thành công"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repository:*\n${{ github.repository }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n`${{ github.ref_name }}`"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "<${{ steps.deployment.outputs.page_url }}|Xem website đã deploy>"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "Deploy bởi ${{ github.actor }} • ${{ github.event.head_commit.message }}"
+                    }
+                  ]
+                }
+              ]
+            }
