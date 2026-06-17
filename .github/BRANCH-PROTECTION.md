@@ -1,16 +1,19 @@
 # Branch protection — `main`
 
-Áp dụng trên GitHub: **Settings → Branches → Branch protection rules** cho `main`.
+## Trạng thái hiện tại
 
-## Cấu hình — DIRECT PUSH (2026-06-18)
+**Không có branch protection rule** trên `main` — direct push được phép.
+
+Đã xác minh qua GitHub API (`/repos/Banhang-Chogao/zola/branches/main` → `protected: false`).
+
+## Không bật lại các rule sau
 
 | Setting | Giá trị |
 |---------|---------|
-| Branch name pattern | `main` |
-| Require a pull request before merging | **❌ TẮT** |
-| Require status checks to pass before merging | (tùy chọn) `qa-check` |
-| Allow force pushes | ❌ |
-| Allow deletions | ❌ |
+| Require a pull request before merging | ❌ Tắt |
+| Required status checks before merging | ❌ Tắt (QA chạy song song, không chặn push) |
+| Restrict who can push | ❌ Tắt |
+| Lock branch | ❌ Tắt |
 
 ## Quy trình
 
@@ -18,10 +21,22 @@
 git commit → git push origin main → QA + Deploy tự chạy → Xong
 ```
 
-Không branch feature, không PR, không auto-merge.
-
 ## Kiểm tra
 
 ```bash
+curl -s https://api.github.com/repos/Banhang-Chogao/zola/branches/main \
+  | python3 -c "import sys,json; print('protected:', json.load(sys.stdin)['protected'])"
+# Kỳ vọng: protected: False
+
 git push origin main   # phải thành công ngay
+```
+
+## Nếu ai đó bật lại protection
+
+Repo admin gỡ rule tại: **Settings → Branches → `main` → Delete rule**
+
+Hoặc CLI (cần `gh auth login`):
+
+```bash
+gh api -X DELETE repos/Banhang-Chogao/zola/branches/main/protection
 ```
