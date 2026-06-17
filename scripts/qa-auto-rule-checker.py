@@ -304,10 +304,8 @@ def scan_agents(conflicts: list[Conflict]) -> None:
     patterns = [
         (r"fix\s+links|internal\s+link", "fix_links"),
         (r"restore\s+links|revert\s+links", "restore_links"),
-        (r"try_auto_merge|auto-merge\.yml", "auto_merge"),
-        (r"no-auto-merge|manual-review", "block_merge"),
+        (r"push_to_main\.sh", "push_main"),
         (r"compliance_fix\.py", "compliance_fix"),
-        (r"autofix_conflicts", "autofix_conflict"),
     ]
 
     search_dirs = [SCRIPTS_DIR, REPO_ROOT / ".github" / "scripts"]
@@ -335,7 +333,6 @@ def scan_agents(conflicts: list[Conflict]) -> None:
 
     opposing = [
         ("fix_links", "restore_links", "Bot sửa link vs bot khôi phục link"),
-        ("auto_merge", "block_merge", "Auto-merge vs chặn merge thủ công"),
     ]
     for a, b, title in opposing:
         set_a = set(actions_by_type.get(a, []))

@@ -4,7 +4,7 @@ Performance QA Checker — audit Lighthouse/PageSpeed, so sánh regression,
 đề xuất fix SAFE (img lazy/decoding qua qa_check.py).
 
 Dùng trong perf-audit.yml (cron 00:00 Asia/Ho_Chi_Minh).
-KHÔNG push/merge main — chỉ output report + branch fix cho PR.
+SAFE fixes được push thẳng main qua push_to_main.sh.
 """
 from __future__ import annotations
 
@@ -301,10 +301,10 @@ def write_pr_body(
         "### Risk assessment",
         "- **SAFE fixes** (img lazy/decoding): risk **low** — không đổi layout/LCP hero",
         "- **Manual fixes** (JS defer, CSS purge, image resize): risk **medium** — cần review diff",
-        "- **KHÔNG** auto-merge; **KHÔNG** push trực tiếp `main`",
+        "- SAFE fixes: push thẳng `main` sau QA pass",
         "",
         "### Cách validate",
-        "1. Review diff trên branch này",
+        "1. Review diff trên commit main",
         "2. `python3 qa_check.py --perf` — không error mới",
         "3. `zola build` — build pass",
         "4. Sau merge + deploy: chờ `pagespeed.yml` cập nhật `data/pagespeed.json`",
