@@ -56,7 +56,7 @@ Headline viết *"Iran có hơn 400 kg uranium làm giàu 60%"* — nhưng **60%
 Hai điểm khoa học cần nhớ:
 
 - **Độ làm giàu** được biểu diễn bằng **% U-235** trong tổng khối lượng uranium (không phải % quặng, không phải kg tuyệt đối). Ví dụ: 3% nghĩa là cứ 100 nguyên tử uranium trong mẫu, khoảng 3 là U-235.
-- Quá trình làm giàu **khó về mặt vật lý** vì U-235 và U-238 có khối lượng hạt nhân gần như nhau — phải dựa trên sự khác biệt rất nhỏ về khối lượng (phương pháp phổ biến được mô tả công khai gồm ly tâm khí UF₆ hoặc khuếch tán — chi tiết vận hành thuộc Bài 3).
+- Quá trình làm giàu **khó về mặt vật lý** vì U-235 và U-238 có khối lượng hạt nhân gần như nhau — phải dựa trên sự khác biệt rất nhỏ về khối lượng (phương pháp phổ biến được mô tả công khai gồm ly tâm khí UF₆ hoặc khuếch tán — chi tiết khái niệm ở [Bài 3](/zola/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/)).
 
 Uranium sau khai thác quặng thường được chuyển thành hợp chất như **uranium hexafluoride (UF₆)** — dạng khí ở nhiệt độ phòng — rồi mới đưa vào các bước làm giàu. Phần "đuôi" (depleted uranium, DU) — tức phần đã bị loại bớt U-235 — vẫn là vật liệu hạt nhân cần quản lý theo quy định.
 
@@ -181,7 +181,7 @@ Tài liệu IAEA về [nuclear safeguards](https://www.iaea.org/topics/nuclear-s
 
 1. **Bài 1**: [Uranium là gì? Vì sao quan trọng?](/zola/posting/uranium-la-gi-tai-sao-quan-trong/)
 2. **Bài 2** (bài này): Uranium làm giàu là gì? Các mức độ.
-3. **Bài 3**: Nhà máy làm giàu hoạt động thế nào? *(sắp ra mắt)*
+3. [**Bài 3**: Nhà máy làm giàu hoạt động thế nào?](/zola/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/)
 4. **Bài 4**: Điện hạt nhân khác vũ khí hạt nhân *(sắp ra mắt)*
 5. **Bài 5**: Phá hủy cơ sở / tiêu hủy vật liệu — điều gì xảy ra? *(sắp ra mắt)*
 
@@ -191,4 +191,4 @@ Tài liệu IAEA về [nuclear safeguards](https://www.iaea.org/topics/nuclear-s
 
 Cùng một quy trình khoa học, nhưng **mức độ và mục đích** khiến IAEA và ngoại giao can thiệp khác nhau — đó là cầu nối giữa vật lý hạt nhân và headline.
 
-Tiếp theo: **Bài 3 — Nhà máy làm giàu hoạt động thế nào?** — ly tâm khí, khuếch tán, và vì sao làm giàu là bài toán công nghệ khó (vẫn ở mức giáo dục, không hướng dẫn vận hành nhạy cảm).
+Tiếp theo: [**Bài 3 — Nhà máy làm giàu hoạt động thế nào?**](/zola/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/) — ly tâm khí, khuếch tán, và vì sao làm giàu là bài toán công nghệ khó (vẫn ở mức giáo dục, không hướng dẫn vận hành nhạy cảm).

@@ -23,6 +23,35 @@
     "external_count": 1,
     "internal_count": 2
   },
+  "content/posting/bao-lau-de-thay-ket-qua-seo.md": {
+    "external": [
+      {
+        "title": "How long until I see impact in search results?",
+        "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+        "kind": "external"
+      },
+      {
+        "title": "spam policies",
+        "url": "https://developers.google.com/search/docs/essentials/spam-policies",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 1: SEO là gì & Search Essentials",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 2: Google Search hoạt động thế nào — crawl, index, ranking",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-search-hoat-dong-the-nao/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ How long until I see impact in search results? và spam policies. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 2
+  },
   "content/posting/cong-nghe-blog-duy-nguyen.md": {
     "external": [
       {
@@ -208,11 +237,16 @@
         "title": "SEO Foundation Series",
         "url": "https://banhang-chogao.github.io/zola/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/",
         "kind": "internal"
+      },
+      {
+        "title": "**Bài 3: Website sẵn sàng cho AdSense**",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/website-san-sang-cho-adsense/",
+        "kind": "internal"
       }
     ],
     "copyright": "Nội dung dựa trên tài liệu chính thức Google AdSense Help (Eligibility requirements for AdSense, Owning the site you want to use to participate in AdSense). Google có thể cập nhật yêu cầu bất cứ lúc nào — publisher có trách nhiệm theo dõi và tuân thủ phiên bản mới nhất theo Terms and Conditions.",
     "external_count": 17,
-    "internal_count": 3
+    "internal_count": 4
   },
   "content/posting/facebook-shopee-affiliate-la-gi.md": {
     "external": [
@@ -345,11 +379,16 @@
         "title": "tạo blog với Zola",
         "url": "https://banhang-chogao.github.io/zola/zola/posting/tao-blog-voi-zola/",
         "kind": "internal"
+      },
+      {
+        "title": "Bài 3",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/bao-lau-de-thay-ket-qua-seo/",
+        "kind": "internal"
       }
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ crawling và indexing, Documentation, How Google Search works và Search Essentials. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 4,
-    "internal_count": 2
+    "internal_count": 3
   },
   "content/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude.md": {
     "external": [
@@ -474,6 +513,60 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Visit Korea (Tổng cục Du lịch Hàn Quốc). Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 3
+  },
+  "content/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao.md": {
+    "external": [
+      {
+        "title": "chu trình nhiên liệu hạt nhân",
+        "url": "https://en.wikipedia.org/wiki/Nuclear_fuel_cycle",
+        "kind": "external"
+      },
+      {
+        "title": "Cơ quan IAEA",
+        "url": "https://www.iaea.org/topics/nuclear-safeguards",
+        "kind": "external"
+      },
+      {
+        "title": "Wikipedia UF₆",
+        "url": "https://en.wikipedia.org/wiki/Uranium_hexafluoride",
+        "kind": "external"
+      },
+      {
+        "title": "Wikipedia về uranium enrichment",
+        "url": "https://en.wikipedia.org/wiki/Uranium_enrichment",
+        "kind": "external"
+      },
+      {
+        "title": "Wikipedia — gas centrifuge",
+        "url": "https://en.wikipedia.org/wiki/Gas_centrifuge",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 1: Uranium là gì?",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/uranium-la-gi-tai-sao-quan-trong/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 2: Làm giàu là gì, các mức 0,7%–90%",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/uranium-lam-giau-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "tin uranium Iran",
+        "url": "https://banhang-chogao.github.io/zola/zola/baochi/iran-uranium-destruction-what-it-means/",
+        "kind": "internal"
+      },
+      {
+        "title": "ứng dụng hòa bình và giám sát",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/uranium-lam-giau-la-gi/#ung-dung-hoa-binh-va-boi-canh-giam-sat",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Nội dung giáo dục tổng hợp từ Wikipedia, tài liệu công khai IAEA và mô tả khoa học phổ thông. Không nhằm hướng dẫn thiết kế, vận hành hoặc tối ưu cơ sở làm giàu cho mục đích nhạy cảm.",
+    "external_count": 5,
+    "internal_count": 4
   },
   "content/posting/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat.md": {
     "external": [],
@@ -880,11 +973,95 @@
         "title": "tin uranium Iran",
         "url": "https://banhang-chogao.github.io/zola/zola/baochi/iran-uranium-destruction-what-it-means/",
         "kind": "internal"
+      },
+      {
+        "title": "Bài 3",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/",
+        "kind": "internal"
       }
     ],
     "copyright": "Nội dung giáo dục tổng hợp từ Wikipedia và tài liệu công khai của IAEA. Không nhằm hướng dẫn kỹ thuật vũ khí hạt nhân.",
     "external_count": 5,
-    "internal_count": 2
+    "internal_count": 3
+  },
+  "content/posting/website-san-sang-cho-adsense.md": {
+    "external": [
+      {
+        "title": "employing a clear structure to guide users",
+        "url": "https://support.google.com/adsense/answer/2893020",
+        "kind": "external"
+      },
+      {
+        "title": "Google Publisher Policies",
+        "url": "https://support.google.com/adsense/answer/9335564",
+        "kind": "external"
+      },
+      {
+        "title": "Make sure your site's pages are ready for AdSense",
+        "url": "https://support.google.com/adsense/answer/7299563",
+        "kind": "external"
+      },
+      {
+        "title": "Program policies",
+        "url": "https://support.google.com/adsense/answer/48182",
+        "kind": "external"
+      },
+      {
+        "title": "Sign up for AdSense",
+        "url": "https://adsense.google.com/adsense/signup",
+        "kind": "external"
+      },
+      {
+        "title": "Spam policies for Google web search",
+        "url": "https://developers.google.com/search/docs/essentials/spam-policies",
+        "kind": "external"
+      },
+      {
+        "title": "user-generated content",
+        "url": "https://support.google.com/adsense/answer/1355699",
+        "kind": "external"
+      },
+      {
+        "title": "AdSense site approvals playlist",
+        "url": "https://www.youtube.com/playlist",
+        "kind": "external"
+      },
+      {
+        "title": "Creating outstanding website content",
+        "url": "https://blog.google/products/adsense/creating-outstanding-website-content-3-steps",
+        "kind": "external"
+      },
+      {
+        "title": "Refining your website's user experience in 3 steps",
+        "url": "https://blog.google/products/adsense/refining-your-websites-user-experience-in-3-steps",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 1: Google AdSense là gì & khung Program policies",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 2: Điều kiện đủ tư cách AdSense",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/dieu-kien-du-tu-cach-adsense/",
+        "kind": "internal"
+      },
+      {
+        "title": "SEO Foundation Series",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/seo-la-gi-huong-dan-co-ban-google-search/",
+        "kind": "internal"
+      },
+      {
+        "title": "SEO series",
+        "url": "https://banhang-chogao.github.io/zola/zola/posting/google-search-hoat-dong-the-nao/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Nội dung dựa trên tài liệu chính thức Google AdSense Help (Make sure your site's pages are ready for AdSense, user experience guidelines). Google có thể cập nhật yêu cầu bất cứ lúc nào — publisher có trách nhiệm theo dõi và tuân thủ phiên bản mới nhất theo Terms and Conditions.",
+    "external_count": 10,
+    "internal_count": 4
   },
   "content/posting/zola-vs-hugo.md": {
     "external": [
