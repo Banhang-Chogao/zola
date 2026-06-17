@@ -183,6 +183,92 @@
     font-family: $font-meta;
   }
 
+  .google-rank__autofix {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--c-border);
+  }
+
+  .google-rank__autofix-title {
+    margin: 0 0 0.45rem;
+    font-family: $font-meta;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+
+  .google-rank__autofix-progress-label {
+    margin: 0 0 0.4rem;
+    font-size: 0.76rem;
+    color: var(--c-text-muted);
+
+    strong {
+      color: var(--c-text-heading);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .google-rank__autofix-bar {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c-border) 65%, transparent);
+    overflow: hidden;
+    margin-bottom: 0.55rem;
+  }
+
+  .google-rank__autofix-fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #7cb342, #00a69d);
+    transition: width 0.4s ease;
+    min-width: 0;
+  }
+
+  .google-rank__autofix-stats {
+    margin: 0;
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    dt {
+      margin: 0;
+      color: var(--c-text-muted);
+      font-weight: 600;
+    }
+
+    dd {
+      margin: 0;
+      font-weight: 700;
+      color: var(--c-text-heading);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .google-rank__autofix-task,
+  .google-rank__autofix-reason {
+    margin: 0.45rem 0 0;
+    font-size: 0.68rem;
+    line-height: 1.45;
+    color: var(--c-text-muted);
+  }
+
+  .google-rank__autofix-updated {
+    margin: 0.35rem 0 0;
+    font-size: 0.62rem;
+    color: var(--c-text-muted);
+    font-family: $font-meta;
+  }
+
   /* Score-tier accent tint on badge + number */
   &[data-score-tier="low"] {
     --gr-accent: #e30613;

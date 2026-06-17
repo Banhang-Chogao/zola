@@ -1,0 +1,576 @@
+{
+  "updatedAt": "2026-06-18T06:52:03+0700",
+  "status": "scanning",
+  "statusLabel": "ĐANG QUÉT",
+  "progressPercent": 30,
+  "scoreBefore": 92,
+  "scoreAfterEstimate": 92,
+  "fixedCount": 0,
+  "unfixedCount": 24,
+  "manualReviewCount": 24,
+  "currentTask": "Adding copyright sections",
+  "blockerReason": "cần duyệt thủ công / thiếu source / rủi ro phá layout",
+  "items": [
+    {
+      "type": "broken_internal_link",
+      "file": "content/posting/google-adsense-la-gi-chinh-sach-chuong-trinh.md",
+      "status": "pending",
+      "reason": "Link hỏng /zola/pages/privacy/ → /zola/privacy/",
+      "impactEstimate": "+0.3"
+    },
+    {
+      "type": "broken_internal_link",
+      "file": "content/posting/google-adsense-la-gi-chinh-sach-chuong-trinh.md",
+      "status": "pending",
+      "reason": "Link hỏng /pages/privacy/ → /zola/privacy/",
+      "impactEstimate": "+0.3"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/baochi/f18-crash-when-technology-fails.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/baochi/iran-uranium-destruction-what-it-means.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/baochi/my-iran-hoa-binh-trung-dong.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/baochi/my-iran-peace-deal-global-energy.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/baochi/the-tin-dung-msb-huong-dan-chi-tiet.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/an-khuya-sai-gon.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/facebook-shopee-affiliate-la-gi.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/premium-fintech-paywall-demo.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_article_schema",
+      "file": "content/posting/toi-nay-sai-gon-an-gi.md",
+      "status": "pending",
+      "reason": "Thiếu FAQ schema ([[extra.faq]])",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "duplicate_h1",
+      "file": "content/posting/qa-gatekeeper-tu-fix-loi-blog.md",
+      "status": "pending",
+      "reason": "Body có H1 trùng title trang",
+      "impactEstimate": "+0.3"
+    },
+    {
+      "type": "duplicate_h1",
+      "file": "content/posting/sentence-transformers-sbert-deep-dive.md",
+      "status": "pending",
+      "reason": "Body có H1 trùng title trang",
+      "impactEstimate": "+0.3"
+    },
+    {
+      "type": "duplicate_h1",
+      "file": "content/posting/tao-blog-voi-zola.md",
+      "status": "pending",
+      "reason": "Body có H1 trùng title trang",
+      "impactEstimate": "+0.3"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/f18-crash-when-technology-fails.md",
+      "status": "manual_review",
+      "reason": "Bài 860 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank.md",
+      "status": "manual_review",
+      "reason": "Bài 713 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/iran-uranium-destruction-what-it-means.md",
+      "status": "manual_review",
+      "reason": "Bài 734 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/liobank-bao-mat-an-toan-the-nao.md",
+      "status": "manual_review",
+      "reason": "Bài 693 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/liobank-la-gi-ngan-hang-so-noi-bat.md",
+      "status": "manual_review",
+      "reason": "Bài 730 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/mo-the-tin-dung-liobank-online-nhanh.md",
+      "status": "manual_review",
+      "reason": "Bài 710 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/my-iran-peace-deal-global-energy.md",
+      "status": "manual_review",
+      "reason": "Bài 761 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/quan-ly-chi-tieu-voi-app-liobank.md",
+      "status": "manual_review",
+      "reason": "Bài 660 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/baochi/uu-dai-hoan-tien-the-liobank.md",
+      "status": "manual_review",
+      "reason": "Bài 682 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/an-khuya-sai-gon.md",
+      "status": "manual_review",
+      "reason": "Bài 617 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/cong-nghe-blog-duy-nguyen.md",
+      "status": "manual_review",
+      "reason": "Bài 915 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/di-han-het-bao-nhieu-tien.md",
+      "status": "manual_review",
+      "reason": "Bài 717 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/di-han-mua-nao-re-nhat.md",
+      "status": "manual_review",
+      "reason": "Bài 686 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude.md",
+      "status": "manual_review",
+      "reason": "Bài 619 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick.md",
+      "status": "manual_review",
+      "reason": "Bài 801 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/lich-trinh-busan-tu-tuc-3-ngay-2-dem.md",
+      "status": "manual_review",
+      "reason": "Bài 735 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam.md",
+      "status": "manual_review",
+      "reason": "Bài 958 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/premium-fintech-paywall-demo.md",
+      "status": "manual_review",
+      "reason": "Bài 163 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/seo-la-gi-huong-dan-co-ban-google-search.md",
+      "status": "manual_review",
+      "reason": "Bài 976 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/tao-blog-voi-zola.md",
+      "status": "manual_review",
+      "reason": "Bài 687 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/troi-mua-sai-gon-an-gi.md",
+      "status": "manual_review",
+      "reason": "Bài 691 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/tu-dong-deploy-zola-github-actions.md",
+      "status": "manual_review",
+      "reason": "Bài 606 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/uranium-la-gi-tai-sao-quan-trong.md",
+      "status": "manual_review",
+      "reason": "Bài 968 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "post_under_1000_words",
+      "file": "content/posting/zola-vs-hugo.md",
+      "status": "manual_review",
+      "reason": "Bài 638 từ — cần mở rộng nội dung thủ công",
+      "impactEstimate": "+1.2"
+    },
+    {
+      "type": "missing_internal_links",
+      "file": "content/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi.md",
+      "status": "pending",
+      "reason": "Không có internal link",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_internal_links",
+      "file": "content/posting/premium-fintech-paywall-demo.md",
+      "status": "pending",
+      "reason": "Không có internal link",
+      "impactEstimate": "+0.5"
+    },
+    {
+      "type": "missing_external_reference",
+      "file": "content/baochi/iran-uranium-destruction-what-it-means.md",
+      "status": "pending",
+      "reason": "Thiếu external link / nguồn tham khảo",
+      "impactEstimate": "+0.3"
+    },
+    {
+      "type": "missing_external_reference",
+      "file": "content/posting/premium-fintech-paywall-demo.md",
+      "status": "pending",
+      "reason": "Thiếu external link / nguồn tham khảo",
+      "impactEstimate": "+0.3"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/bidv-flagship-private-banking-tphcm.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/f18-crash-when-technology-fails.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/iran-uranium-destruction-what-it-means.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/liobank-bao-mat-an-toan-the-nao.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/liobank-gioi-thieu-ban-be-nhan-thuong.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/liobank-la-gi-ngan-hang-so-noi-bat.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/mo-the-tin-dung-liobank-online-nhanh.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/msb-digital-bank-cong-nghe-bao-mat.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/muc-dong-bhyt-ho-gia-dinh-2026.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/my-iran-hoa-binh-trung-dong.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/my-iran-peace-deal-global-energy.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/quan-ly-chi-tieu-voi-app-liobank.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/the-tin-dung-msb-huong-dan-chi-tiet.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/baochi/uu-dai-hoan-tien-the-liobank.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/an-khuya-sai-gon.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/cong-nghe-blog-duy-nguyen.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/di-han-het-bao-nhieu-tien.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/di-han-mua-nao-re-nhat.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/dieu-kien-du-tu-cach-adsense.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/facebook-shopee-affiliate-la-gi.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/google-adsense-la-gi-chinh-sach-chuong-trinh.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/google-search-hoat-dong-the-nao.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/lich-trinh-busan-tu-tuc-3-ngay-2-dem.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/mua-nao-di-han-la-dep-nhat.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    },
+    {
+      "type": "missing_copyright_section",
+      "file": "content/posting/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat.md",
+      "status": "pending",
+      "reason": "Thiếu mục bản quyền/trích dẫn",
+      "impactEstimate": "+0.2"
+    }
+  ],
+  "itemsTotal": 94
+}

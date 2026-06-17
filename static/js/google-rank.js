@@ -120,17 +120,58 @@
     if (!shouldRefresh()) {
       var cached = cacheGet();
       if (cached && cached.payload) applyPayload(cached.payload);
-      return;
+    } else {
+      fetchRemote().then(function (remote) {
+        if (remote && remote.score != null) {
+          applyPayload(remote);
+          cacheSet(remote);
+        } else if (embedded) {
+          cacheSet(embedded);
+        }
+      });
     }
 
-    fetchRemote().then(function (remote) {
-      if (remote && remote.score != null) {
-        applyPayload(remote);
-        cacheSet(remote);
-      } else if (embedded) {
-        cacheSet(embedded);
-      }
+    fetchAutofixReport();
+  }
+
+  function applyAutofixReport(report) {
+    if (!report || report.progressPercent == null) return;
+    var pct = Number(report.progressPercent);
+    var pctEl = root.querySelector("[data-gr-af-pct]");
+    var fill = root.querySelector("[data-gr-af-fill]");
+    var bar = root.querySelector("[data-gr-af-bar]");
+    if (pctEl) pctEl.textContent = String(pct);
+    if (fill) fill.style.width = pct + "%";
+    if (bar) bar.setAttribute("aria-valuenow", String(pct));
+
+    var map = [
+      ["data-gr-af-status", report.statusLabel || report.status],
+      ["data-gr-af-before", report.scoreBefore],
+      ["data-gr-af-after", report.scoreAfterEstimate],
+      ["data-gr-af-fixed", report.fixedCount != null ? report.fixedCount + " lỗi" : null],
+      ["data-gr-af-unfixed", report.unfixedCount != null ? report.unfixedCount + " lỗi" : null],
+      ["data-gr-af-manual", report.manualReviewCount != null ? report.manualReviewCount + " mục" : null],
+      ["data-gr-af-task", report.currentTask],
+      ["data-gr-af-reason", report.blockerReason ? "Lý do: " + report.blockerReason : null],
+    ];
+    map.forEach(function (pair) {
+      var el = root.querySelector("[" + pair[0] + "]");
+      if (el && pair[1] != null) el.textContent = String(pair[1]);
     });
+  }
+
+  function fetchAutofixReport() {
+    if (!base) return;
+    var url = base + "/data/seo-rank-autofix-report.json?_=" + Date.now();
+    fetch(url, { credentials: "omit", cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then(function (report) {
+        if (report) applyAutofixReport(report);
+      })
+      .catch(function () {});
   }
 
   if (document.readyState === "loading") {
