@@ -3,12 +3,13 @@ title = "Uranium Iran: từ lập trường cứng sang ngoại giao"
 description = "Thỏa thuận tiêu hủy kho uranium làm giàu của Iran: vì sao bước ngoại giao Mỹ - Iran này đánh dấu chuyển từ lập trường cứng sang chính trị thực dụng."
 date = 2026-06-16
 [taxonomies]
-categories = ["Tất cả", "Thế giới", "Báo chí"]
-tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế"]
+categories = ["Tất cả", "Khoa học", "Thế giới", "Báo chí"]
+tags = ["địa-chính-trị", "năng-lượng-hạt-nhân", "iran", "mỹ", "thỏa-thuận-quốc-tế", "science uranium series"]
 [extra]
 seo_keyword = "uranium Iran"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
 featured = false
+hub_series = "science-uranium"
 +++
 
 Tin tức mới nhất từ Phó Tổng thống Mỹ JD Vance khiến tôi suy ngẫm về một thực tế: đôi khi những bước ngoại giao nhỏ là dấu hiệu của những thay đổi lớn. Thỏa thuận tiêu hủy uranium làm giàu của Iran không đơn giản là một vấn đề kỹ thuật — nó là cuộc ngoại giao từ lập trường cứng nhắc sang lối chính trị thực dụng.
@@ -52,4 +53,8 @@ Kết quả? Kỳ vọng là Iran mất kho uranium (giảm đe dọa hạt nhâ
 
 Đó có phải là điều tốt? Tôi tin là vậy. Nhưng hãy theo dõi những tháng tới — vì trong ngoại giao, những gì được viết trên giấy và những gì xảy ra trong thực tế có thể rất khác nhau.
 
-📚 Tìm hiểu thêm về [uranium làm giàu (enriched uranium) trên Wikipedia](https://en.wikipedia.org/wiki/Enriched_uranium) và vai trò giám sát của [IAEA](https://www.iaea.org/). Đọc tiếp bối cảnh rộng hơn: [Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?](@/baochi/my-iran-peace-deal-global-energy.md).
+## Đọc thêm — bối cảnh khoa học
+
+Headline về *uranium làm giàu 60%* hoặc *IAEA tiêu hủy* dễ gây bối rối nếu thiếu nền tảng. Tôi đã mở **Series Khoa học — Uranium & năng lượng hạt nhân** (5 bài) — giáo dục, trung lập — bắt đầu từ [Uranium là gì?](/zola/posting/uranium-la-gi-tai-sao-quan-trong/). Danh sách đầy đủ hiển thị ngay bên dưới bài này.
+
+Muốn bối cảnh địa chính trị rộng hơn? [Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?](/zola/baochi/my-iran-peace-deal-global-energy/)

@@ -423,7 +423,63 @@
   }
 }
 
+/* ============= SERIES HUB (bài báo → cụm khoa học) ============= */
+.series-hub {
+  margin: 2rem 2.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid var(--c-accent, #2563eb);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+
+  &__title {
+    margin: 0 0 0.65rem;
+    font-size: 1.15rem;
+    color: var(--c-text-heading, #0f172a);
+  }
+
+  &__desc {
+    margin: 0 0 1rem;
+    font-size: 0.92rem;
+    color: var(--c-text-muted, #64748b);
+    line-height: 1.55;
+  }
+
+  &__list {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  &__item {
+    margin-bottom: 0.4rem;
+
+    &.is-planned {
+      color: var(--c-text-muted, #94a3b8);
+
+      em {
+        font-style: normal;
+        font-size: 0.82rem;
+      }
+    }
+
+    a {
+      color: var(--c-accent, #2563eb);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
+  .series-hub {
+    margin: 1.5rem 1.25rem 0;
+    padding: 1rem 1.1rem;
+  }
+
   .series-nav {
     margin: 1.5rem 1.25rem 0;
     padding: 1rem 1.1rem;
