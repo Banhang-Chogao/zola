@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(footer): dual countdown format — days | hours + minutes",
+      "tag": "chore",
+      "lines_added": 172,
+      "lines_removed": 134,
+      "highlights": [
+        "X = total remaining days",
+        "Y = total remaining hours",
+        "Z = minute remainder within current hour",
+        "Updates every 60 seconds",
+        "test_footer_countdown — 6/6 pass"
+      ],
+      "pr": 386
+    },
+    {
+      "date": "2026-06-17",
       "title": "style(footer): align countdown band with Hilda theme + QA footer",
       "tag": "chore",
       "lines_added": 95,
