@@ -56,8 +56,15 @@ Maintenance workflows (`Fetch Build Dashboard`, `Fetch Merge Report`, `Complianc
 4. Confirm `Auto Merge PRs` merges when checks green
 5. Stuck PRs #355–#361: re-run source workflow or close/reopen after merge
 
+### 4. `gh pr list --json user` removed (gh CLI 2.86+)
+
+`PR Policy` `workflow_dispatch` step queried `--json …,user` and `.user.login`. Newer `gh` exposes **`author`** instead → job exits `Unknown JSON field: "user"` → `policy` check **failure** → auto-merge blocked.
+
+**Fix:** use `author` with fallback `.author.login // .user.login` in `pr-policy.yml` and `resolve_open_bot_pr.sh`.
+
 ## Residual risk
 
 - Without `WORKFLOW_BOT_PAT`, CI depends on `workflow_dispatch` chain — monitor `trigger_bot_pr_ci.sh` warnings in workflow logs
 - Fork PRs still require maintainer approval (by design)
 - Protected-domain PRs still require manual review (policy)
+- After `gh` CLI upgrades on `ubuntu-latest`, re-run `scripts/test_bot_pr_ci_relay.py` if bot PR policy fails again

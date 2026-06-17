@@ -68,6 +68,7 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
   - không có label `no-auto-merge`.
 - Nếu không merge được, bot phải **comment lý do cụ thể** thay vì im lặng (`try_auto_merge.py` → `post_skip_comment`).
 - **GITHUB_TOKEN PR gate:** PR do workflow tạo bằng `GITHUB_TOKEN` không kích hoạt `pull_request` events. **Fix:** `push_via_pr.sh` → `trigger_bot_pr_ci.sh` dispatch QA+Policy; skip `pull_request` cho `github-actions[bot]`; relay fallback `resolve_open_bot_pr.sh`. Tùy chọn `WORKFLOW_BOT_PAT`. Chi tiết: `docs/ROOT-CAUSE-ACTION-REQUIRED.md`.
+- **`gh pr list --json user`:** GitHub CLI 2.86+ dùng `author` thay `user` → `PR Policy` workflow_dispatch crash `Unknown JSON field: "user"`. **Fix:** `--json author` + jq `.author.login // .user.login` trong `pr-policy.yml` và `resolve_open_bot_pr.sh`. Test: `scripts/test_bot_pr_ci_relay.py`.
 - **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
