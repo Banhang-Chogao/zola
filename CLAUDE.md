@@ -687,3 +687,71 @@ Vẫn chặn: dependabot, renovate, workflow auto-merge **không** whitelist.
 | #310 | Merged | Changelog + Merge Session |
 | #314 | Merged (manual) | Auto-merge + Merge Report + pr-policy whitelist |
 | #280 | Fixed (session trước) | Series template conflict adsense + science-uranium |
+
+## F-Dashboard
+
+Trang công cụ tài chính cá nhân tại `/tools/f-dashboard/` — upload sao kê Excel VietinBank, phân tích thu/chi, sức khỏe tài chính, biểu đồ và AI insights.
+
+**Kiến trúc (static site):** Blog Zola trên GitHub Pages không có server upload. Luồng chạy **100% client-side**:
+
+```text
+Excel VietinBank (browser)
+      ↓ SheetJS parser (static/js/f-dashboard/parser.js)
+      ↓ SHA256 deduplicate
+      ↓ AES-GCM encrypted IndexedDB (static/js/f-dashboard/storage.js)
+      ↓ Insights + Charts (insights.js, charts.js)
+```
+
+Python scripts (`scripts/f_dashboard_parse_excel.py`, `scripts/f_dashboard_insights.py`) mirror logic cho test/CI — **không** lưu dữ liệu người dùng.
+
+### VietinBank Parser Rules
+
+- Bỏ qua metadata đầu file (VietinBank, số TK, khoảng ngày, loại tiền).
+- Tìm dòng header bảng: `STT`, `Ngày`, `Nội dung`, `Số tiền GD`, `Số dư` (không phân biệt hoa/thường, có/không dấu).
+- Parse ngày: `DD/MM/YYYY HH:MM:SS` → ISO `YYYY-MM-DDTHH:MM:SS`.
+- Parse số tiền: bỏ dấu phẩy, ưu tiên dấu `+`/`-` trên chuỗi.
+
+### Thu / Chi (Income / Expense)
+
+Ưu tiên (không phụ thuộc màu Excel):
+
+1. `amount < 0` → `expense`
+2. `amount > 0` → `income`
+3. Màu font Excel (đỏ/xanh) chỉ là tín hiệu phụ khi `amount === 0`
+
+### Deduplicate Rules
+
+```text
+transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
+```
+
+- Đã tồn tại `transaction_id` → **SKIP**
+- Chưa có → **INSERT**
+- Upload cùng file N lần không nhân đôi dữ liệu.
+
+### Financial Health Rules
+
+- **Saving Rate:** `(Tổng thu - Tổng chi) / Tổng thu`
+- **Expense Ratio:** `Tổng chi / Tổng thu`
+- **Net Cash Flow:** `Thu - Chi`
+- **Financial Score:** 0–100 từ saving rate, expense ratio, net flow, độ dài dữ liệu
+- **Labels:** Excellent (≥85), Good (≥70), Average (≥50), Risky (≥30), Danger (&lt;30)
+
+### Security Rules
+
+- **Không** public file Excel, JSON sao kê, database dump.
+- **Không** lưu trong `/static`, `/public`, hoặc commit git.
+- Dữ liệu chỉ trên **IndexedDB local**, mã hóa **AES-GCM** (key sinh per-browser).
+- Không gửi sao kê lên server — parse hoàn toàn trong trình duyệt.
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Trang | `content/tools/f-dashboard.md`, `templates/f-dashboard.html` |
+| Styles | `sass/_f-dashboard.scss` |
+| Client JS | `static/js/f-dashboard/*.js` |
+| Python parser | `scripts/f_dashboard_parse_excel.py` |
+| Python insights | `scripts/f_dashboard_insights.py` |
+| Tests | `scripts/test_f_dashboard.py` |
+| Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
