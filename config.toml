@@ -34,9 +34,9 @@ tagline = "Duy Nguyen"
 
 # Author box hiển thị cuối mỗi bài viết.
 # Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
-# Avatar: upload file ảnh vào static/img/author-avatar.jpg trong repo,
+# Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
 # Zola sẽ serve tại path dưới sau khi build.
-author_avatar = "https://banhang-chogao.github.io/zola/img/author-avatar.jpg"
+author_avatar = "https://banhang-chogao.github.io/zola/img/author-avatar.webp"
 author_url    = "https://banhang-chogao.github.io/zola"
 author_bio    = """\
 Mình là Duy Nguyen — một developer Việt Nam mê khám phá điểm chung giữa \
@@ -62,6 +62,7 @@ menu = [
     { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
         { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
         { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
+        { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" },
         { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
         { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
         { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },
@@ -76,7 +77,9 @@ menu = [
         { url = "$BASE_URL/changelog", name = "Changelog" },
         { url = "$BASE_URL/insights",  name = "Insights" },
         { url = "$BASE_URL/scoring",   name = "Scoring" },
-        { url = "$BASE_URL/branding",  name = "BrandingX" },
+        { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
+        { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
+        { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
         { url = "$BASE_URL/font",      name = "Font Guideline" },
     ] },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
@@ -107,6 +110,20 @@ ga_measurement_id = "G-REFBXH86Z5"
 # Để trống = không render meta (silent skip).
 google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
 
+# ============= GOOGLE PROGRAMMABLE SEARCH ENGINE =============
+# Search engine ID (cx) lấy tại https://programmablesearchengine.google.com/
+# → tạo engine giới hạn site https://banhang-chogao.github.io/zola/
+# → copy "Search engine ID" dán vào đây. Để trống = fallback mở Google với
+# truy vấn site:banhang-chogao.github.io/zola nên nút tìm kiếm vẫn hoạt động.
+google_cse_cx = "533c848cb0eb14de2"
+
+# CMS auth backend — FastAPI OAuth (cùng service visitor-counter trên Render).
+# PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta zola-cms-auth-api sẽ không render).
+cms_auth_url = "https://blog-visitor-api.onrender.com"
+
+# Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
+paywall_api_url = ""
+
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:
 #   1. Settings → Features → bật Discussions cho repo
@@ -119,6 +136,3 @@ repo        = "Banhang-Chogao/zola"
 repo_id     = "R_kgDOS5xLPw"
 category    = "General"
 category_id = "DIC_kwDOS5xLP84C_Fx6"
-
-# CMS auth backend URL — FastAPI service trên Render.
-cms_auth_url = ""

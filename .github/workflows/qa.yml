@@ -13,6 +13,31 @@ on:
     # Daily 11:00 GMT+7 = 04:00 UTC — baseline QA snapshot
     - cron: '0 4 * * *'
   workflow_dispatch:
+  # Relay: PR do GITHUB_TOKEN tạo không kích hoạt pull_request — chạy QA trên head_sha sau bot workflow.
+  workflow_run:
+    workflows:
+      - "Fetch Build Dashboard"
+      - "Compliance Score Audit"
+      - "Fetch Merge Report"
+      - "Build Semantic Related Posts"
+      - "Fetch Google Trends VN"
+      - "Fetch GA Stats"
+      - "Fetch PageSpeed Insights"
+      - "Optimize images (WebP)"
+      - "Security Audit"
+      - "Auto-update changelog.json"
+      - "Scheduled publish (đăng bài hẹn giờ)"
+      - "Build Failure Auto-Remediation"
+      - "Self-Healing QA"
+      - "Autofix Merge Conflicts"
+      - "Performance QA Checker"
+      - "QA Rule Checker"
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
@@ -20,10 +45,17 @@ env:
 
 jobs:
   qa-check:
+    if: >-
+      github.event_name != 'workflow_run'
+      || (github.event.workflow_run.conclusion == 'success'
+          && github.event.workflow_run.head_branch != 'main'
+          && github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup Node.js 24
         uses: actions/setup-node@v6
@@ -34,6 +66,15 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+
+      - name: Install test dependencies (paywall + F-Dashboard)
+        run: |
+          pip install -r backend/requirements.txt
+          pip install -r scripts/requirements-f-dashboard.txt
+
+      - name: Unit tests — paywall + F-Dashboard
+        run: |
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard -v
 
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
         # qa_check.py stdlib only — không cần pip install.
@@ -50,9 +91,19 @@ jobs:
           tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/
 
+      - name: Build reference index
+        run: python3 scripts/build_references.py
+
+      - name: Strip premium content before build
+        run: python3 scripts/paywall_prepare_build.py --strip
+
       - name: Zola build smoke test
         # ZOLA_GH_TOKEN cho load_data fetch commits (template base.html).
         # Token QA workflow read-only — chỉ build, không deploy.
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: zola build
+
+      - name: Check GitHub Pages base path in internal links
+        # Fail CI if any href="/..." lacks /zola/ — causes 404 on project site.
+        run: python3 scripts/check_internal_links.py

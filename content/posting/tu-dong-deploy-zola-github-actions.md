@@ -1,11 +1,12 @@
 +++
-title = "Tự động deploy blog Zola lên GitHub Pages bằng GitHub Actions"
+title = "Deploy blog Zola lên GitHub Pages tự động"
 description = "Cách viết deploy.yml để tự động build và deploy blog Zola lên GitHub Pages mỗi khi push: giải thích từng dòng workflow, phân quyền và xử lý lỗi."
 date = 2026-06-16
+aliases = ["/tu-dong-deploy-zola-github-actions/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "github actions", "github pages", "ci/cd", "deploy", "devops", "tự động hoá", "tutorial"]
+tags = ["ci/cd", "deploy", "devops", "github actions", "github pages", "tutorial", "tự động hoá", "zola"]
 [extra]
 seo_keyword = "deploy Zola GitHub Pages"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tu-dong-deploy-zola-github-actions.svg"

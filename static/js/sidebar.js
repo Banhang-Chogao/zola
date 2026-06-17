@@ -12,7 +12,8 @@
  *   FEATURED = bài có score cao nhất:
  *       score = views_7d + 0.6 * clicks_7d - 0.5 * full_reads_total
  *       (bài view nhiều trong 7 ngày, nhưng phạt nếu đọc trọn → ưu tiên bài còn dở dang)
- *       Fallback nếu chưa có data: extra.featured = true → bài mới nhất
+ *       Override nếu có bài extra.featured = true: chọn featured_at mới nhất
+ *       Fallback nếu chưa có override: analytics → bài mới nhất
  *
  *   RANDOM = weighted-random pick 5 bài, weight = exp(-age_days / 30)
  *       → bài mới có xác suất cao gấp e^(age/30) lần bài cũ
@@ -75,12 +76,20 @@
   }
 
   function pickFeatured(events) {
-    // ƯU TIÊN 1: Bài user TỰ TICK featured = true → luôn thắng (override analytics)
-    const manualFeatured = posts.filter((p) => p.featured);
+    // ƯU TIÊN 1: Bài user TỰ TICK featured = true → luôn thắng (override analytics).
+    // Nếu nhiều bài cùng featured, bài được CMS stamp featured_at mới nhất thắng.
+    const manualFeatured = posts
+      .map((post, index) => ({ post, index }))
+      .filter((item) => item.post.featured)
+      .sort((a, b) => {
+        const bStamp = b.post.featured_at || "";
+        const aStamp = a.post.featured_at || "";
+        if (aStamp !== bStamp) return bStamp.localeCompare(aStamp);
+        return a.index - b.index; // posts đã sort date desc, giữ bài mới hơn khi không có stamp
+      });
     if (manualFeatured.length > 0) {
-      // Nếu nhiều bài cùng featured, lấy bài mới nhất (posts đã sort date desc)
-      console.log("[featured] manual pick:", manualFeatured[0].title);
-      return manualFeatured[0];
+      console.log("[featured] manual pick:", manualFeatured[0].post.title);
+      return manualFeatured[0].post;
     }
 
     // ƯU TIÊN 2: Không có bài nào tick featured → dùng analytics

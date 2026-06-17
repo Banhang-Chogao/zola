@@ -1,5 +1,5 @@
 +++
-title = "MSB ra mắt MSB Digital Bank: app mới thay mBank, cần làm gì?"
+title = "MSB Digital Bank thay mBank: cần làm gì?"
 description = "MSB chính thức ra mắt MSB Digital Bank thay thế mBank từ 01/06/2026. Cách tải app mới, xác thực lại CCCD và chuyển dữ liệu chỉ trong 5 phút."
 date = 2026-06-16
 [taxonomies]
@@ -73,6 +73,6 @@ Lời khuyên thực tế: cứ kiên nhẫn chờ tới đợt của mình. Khi
 
 Điều khiến tôi chú ý không chỉ là cái app, mà là xu hướng đằng sau. MSB không phải ngân hàng đầu tiên, và chắc chắn không phải cuối cùng, làm chuyện này. Hàng loạt nhà băng đang thay nền tảng cũ bằng kiến trúc digital banking quốc tế như Backbase, vừa để siết bảo mật theo quy định định danh điện tử mới, vừa để chạy đua trải nghiệm với các ví điện tử và ngân hàng số thuần tuý.
 
-Nếu bạn quan tâm tới chuyện các nhà băng Việt đang chạy đua nâng cấp dịch vụ, có thể đọc thêm bài tôi viết về [BIDV mở Private Banking ở Sài Gòn](/baochi/bidv-flagship-private-banking-tphcm/) — một mảnh ghép khác của cùng xu hướng. Thông tin chính thức về quá trình chuyển đổi, bạn nên xem trực tiếp tại [trang hướng dẫn của MSB](https://www.msb.com.vn/ve-chung-toi/tin-tuc-va-su-kien/ve-msb/huong-dan-dang-nhap-nen-tang-so-danh-cho-ca-nhan/).
+Nếu bạn quan tâm tới chuyện các nhà băng Việt đang chạy đua nâng cấp dịch vụ, có thể đọc thêm bài tôi viết về [BIDV mở Private Banking ở Sài Gòn](/zola/baochi/bidv-flagship-private-banking-tphcm/) — một mảnh ghép khác của cùng xu hướng. Thông tin chính thức về quá trình chuyển đổi, bạn nên xem trực tiếp tại [trang hướng dẫn của MSB](https://www.msb.com.vn/ve-chung-toi/tin-tuc-va-su-kien/ve-msb/huong-dan-dang-nhap-nen-tang-so-danh-cho-ca-nhan/).
 
 Với người dùng như chúng ta, đổi app đúng là phiền — phải tải lại, xác thực lại, làm quen giao diện mới. Nhưng nhìn xa hơn, đây là cái giá hợp lý để đổi lấy một nền tảng an toàn và bền hơn. Lời khuyên của tôi rất đơn giản: cứ chuyển sớm, làm theo đúng ba bước, và chỉ tải app từ kho ứng dụng chính thức để tránh bị kẻ gian lợi dụng "mùa đổi app" để lừa đảo.

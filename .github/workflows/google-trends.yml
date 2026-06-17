@@ -1,0 +1,47 @@
+name: Fetch Google Trends VN
+
+# Hourly refresh for sidebar "Today hot search" widget.
+# Uses batchexecute (trends.google.com/trending?geo=VN) with RSS + cache fallback.
+
+on:
+  schedule:
+    - cron: '30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: google-trends
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Fetch Google Trends VN
+        run: python3 scripts/fetch_google_trends.py --limit 25
+
+      - name: Open PR if changed (never push main)
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: "chore: refresh Google Trends VN hot search"
+          PR_BODY: |
+            Automated refresh of `data/google-trends-vn.json` for sidebar widget.
+            **Requires manual review and merge.** No direct push to `main`.
+        run: |
+          chmod +x .github/scripts/push_via_pr.sh
+          .github/scripts/push_via_pr.sh chore/google-trends-data \
+            "Cập nhật: Google Trends VN hot search ($(date -u +%FT%TZ))" \
+            data/google-trends-vn.json

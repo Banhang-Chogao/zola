@@ -1,11 +1,12 @@
 +++
-title = "Đi Hàn hết bao nhiêu tiền? Bóc chi phí chuyến Seoul–Busan 6 ngày"
+title = "Đi Hàn hết bao nhiêu tiền? Seoul–Busan 6 ngày"
 description = "Đi Hàn Quốc tự túc hết bao nhiêu tiền? Bóc chi tiết chi phí chuyến Seoul–Busan 6 ngày 5 đêm: vé máy bay, khách sạn, ăn uống, đi lại và mua sắm."
 date = 2026-06-16
+aliases = ["/di-han-het-bao-nhieu-tien/"]
 
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
-tags = ["du lịch hàn quốc", "chi phí", "ngân sách", "tự túc", "seoul", "busan"]
+tags = ["busan", "chi phí", "du lịch hàn quốc", "ngân sách", "seoul", "tự túc"]
 [extra]
 seo_keyword = "đi Hàn hết bao nhiêu tiền"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/di-han-het-bao-nhieu-tien.svg"

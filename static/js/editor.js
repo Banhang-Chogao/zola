@@ -258,6 +258,7 @@
 
   function invalidateListCache() {
     try { localStorage.removeItem(LIST_CACHE_KEY); } catch (e) {}
+    try { sessionStorage.removeItem(LIST_CACHE_KEY); } catch (e) {}
   }
 
   // Pure: filter + sort state.posts theo state.filter, return array mới.
@@ -280,6 +281,38 @@
     }
   }
 
+  function postPermalink(post) {
+    if (post.permalink) return post.permalink;
+    const base = location.pathname.replace(/\/editor\/?$/, "").replace(/\/$/, "");
+    return location.origin + base + "/" + CONTENT_DIR.replace(/^content\//, "") + "/" + post.slug + "/";
+  }
+
+  function renderHeaderWidget() {
+    const widget = $("[data-header-widget]");
+    if (!widget) return;
+    const total = $("[data-header-total]");
+    const latestLink = $("[data-header-latest]");
+    const posts = state.posts
+      .filter((p) => p && p.slug)
+      .slice()
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+    if (total) total.textContent = String(posts.length);
+    if (latestLink) {
+      const latest = posts[0];
+      if (latest) {
+        latestLink.textContent = latest.title || latest.slug;
+        latestLink.href = postPermalink(latest);
+        latestLink.title = (latest.title || latest.slug) + " - " + latestLink.href;
+      } else {
+        latestLink.textContent = "-";
+        latestLink.removeAttribute("href");
+        latestLink.removeAttribute("title");
+      }
+    }
+    widget.hidden = false;
+  }
+
   // ============= API CALLS =============
 
   /* Unauth GitHub API — public repo nên READ (list contents, get file) hoạt
@@ -290,6 +323,7 @@
     opts = opts || {};
     const res = await fetch(API + path, {
       ...opts,
+      cache: "no-store",
       headers: {
         Accept: "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
@@ -322,23 +356,35 @@
   // bài nào MỚI publish (chưa build → badge "🆕") và bài nào đã DELETE.
   // Local edits trong state.posts được preserve (ưu tiên cao nhất).
   // Silent fail nếu offline — giữ nguyên bake data.
-  async function refreshInBackground() {
-    let apiSlugs = readListCache();
+  async function refreshInBackground(options) {
+    const force = !!(options && options.force);
+    let apiSlugs = force ? null : readListCache();
     if (!apiSlugs) {
       try {
         apiSlugs = await fetchPostSlugs();
-        writeListCache(apiSlugs);
+        if (!force) writeListCache(apiSlugs);
       } catch (e) {
         console.warn("[CMS] Background refresh failed:", e.message);
-        return;
+        if (force) throw e;
+        return false;
       }
     }
 
     const bakeBySlug = new Map(state.bakeMetadata.map((p) => [p.slug, p]));
     const localBySlug = new Map(state.posts.map((p) => [p.slug, p]));
+    // Force refresh sau login: chỉ tin API (repo hiện tại), không giữ slug đã xoá khỏi repo.
+    const mergedSlugs = force
+      ? apiSlugs.slice()
+      : (function () {
+          const slugs = apiSlugs.slice();
+          state.bakeMetadata.forEach((p) => {
+            if (p.slug && !slugs.includes(p.slug)) slugs.push(p.slug);
+          });
+          return slugs;
+        })();
 
     // Merge: ưu tiên local > bake > default. isNew=true nếu chưa có trong bake.
-    state.posts = apiSlugs.map((slug) => {
+    state.posts = mergedSlugs.map((slug) => {
       const inBake = bakeBySlug.has(slug);
       if (localBySlug.has(slug)) {
         return Object.assign({}, localBySlug.get(slug), { isNew: !inBake });
@@ -349,6 +395,7 @@
       return { slug, title: slug, date: "", category: "", featured: false, isNew: true };
     });
     renderPostList();
+    return true;
   }
 
   async function getPost(path) {
@@ -467,11 +514,56 @@ tags = ${tagsStr}
   }
 
   let bakeLoaded = false;
-  function enterDashboard(force) {
+
+  function showDashboardLoading(message) {
+    setStatus("[data-status]", message || "Đang tải dữ liệu mới nhất từ GitHub…", "info");
+    const tbody = $("[data-target='post-rows']");
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Đang tải danh sách bài viết…</td></tr>';
+    }
+    const total = $("[data-header-total]");
+    if (total) total.textContent = "…";
+    const counter = $("[data-target='post-count']");
+    if (counter) counter.textContent = "…";
+  }
+
+  // force=true: sau login / mở CMS — luôn fetch tươi từ GitHub, bỏ cache cũ.
+  // force=false: quay lại từ editor — giữ state.posts hiện có (local edits).
+  async function enterDashboard(force) {
     showView("list");
 
-    // Lần đầu vào: load bake → render instant (0ms). Lần sau giữ state.posts hiện có
-    // để preserve local edits chưa propagate qua background refresh.
+    if (force) {
+      invalidateListCache();
+      selectedSlugs.clear();
+      showDashboardLoading();
+
+      // Bake chỉ làm baseline diff (badge 🆕), không dùng làm số liệu hiển thị.
+      state.bakeMetadata = loadBakeMetadata();
+      bakeLoaded = true;
+      state.posts = [];
+
+      try {
+        await refreshInBackground({ force: true });
+        setStatus(
+          "[data-status]",
+          "✓ " + state.posts.length + " bài viết (cập nhật từ GitHub)",
+          "success"
+        );
+      } catch (err) {
+        state.posts = state.bakeMetadata.slice();
+        renderPostList();
+        setStatus(
+          "[data-status]",
+          "⚠ Không tải được GitHub — hiển thị dữ liệu build: " + err.message,
+          "error"
+        );
+      }
+      fetchCategoriesFromBackend();
+      return;
+    }
+
+    // Lần đầu vào (không force): load bake → render instant (0ms). Lần sau giữ
+    // state.posts hiện có để preserve local edits chưa propagate qua background refresh.
     if (!bakeLoaded) {
       state.bakeMetadata = loadBakeMetadata();
       state.posts = state.bakeMetadata.slice();
@@ -480,10 +572,7 @@ tags = ${tagsStr}
     renderPostList();
     setStatus("[data-status]", state.posts.length + " bài viết", "info");
 
-    if (force) invalidateListCache();
-    // Idle delay 500ms cho first paint không bị block. Force = fetch ngay.
-    setTimeout(() => refreshInBackground(), force ? 0 : 500);
-    // Fetch categories tươi từ repo (categories.json). Run idle parallel.
+    setTimeout(() => refreshInBackground({ force: false }), 500);
     setTimeout(() => fetchCategoriesFromBackend(), 200);
   }
 
@@ -516,6 +605,7 @@ tags = ${tagsStr}
     const counter = $("[data-target='post-count']");
     const displayPosts = getDisplayPosts();
 
+    renderHeaderWidget();
     if (counter) counter.textContent = displayPosts.length + "/" + state.posts.length;
 
     if (!state.posts.length) {
@@ -685,7 +775,41 @@ tags = ${tagsStr}
     }
   });
 
-  $("[data-action='reload']").addEventListener("click", () => enterDashboard(true));
+  function setReloadLoading(btn, isLoading) {
+    if (!btn) return;
+    if (!btn.dataset.idleHtml) btn.dataset.idleHtml = btn.innerHTML;
+    btn.disabled = isLoading;
+    btn.classList.toggle("is-loading", isLoading);
+    btn.setAttribute("aria-busy", isLoading ? "true" : "false");
+    btn.innerHTML = isLoading
+      ? '<span class="editor-btn__spinner" aria-hidden="true"></span><span>Đang tải...</span>'
+      : btn.dataset.idleHtml;
+  }
+
+  async function reloadPostsFromSource(btn) {
+    invalidateListCache();
+    setReloadLoading(btn, true);
+    setStatus("[data-status]", "Đang xoá cache và quét lại GitHub…", "info");
+    const tbody = $("[data-target='post-rows']");
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" class="editor-empty">Đang tải lại danh sách bài viết…</td></tr>';
+    }
+
+    try {
+      await refreshInBackground({ force: true });
+      setStatus("[data-status]", "✓ Đã cập nhật danh sách mới nhất (" + state.posts.length + " bài)", "success");
+    } catch (err) {
+      renderPostList();
+      setStatus("[data-status]", "✗ Không tải lại được: " + err.message, "error");
+    } finally {
+      setReloadLoading(btn, false);
+    }
+  }
+
+  const reloadBtn = $("[data-action='reload']");
+  if (reloadBtn) {
+    reloadBtn.addEventListener("click", () => reloadPostsFromSource(reloadBtn));
+  }
 
   // Search input — debounce 100ms để không lag khi gõ nhanh.
   const searchInput = $("[data-search]");
@@ -946,14 +1070,11 @@ tags = ${tagsStr}
     const form = e.target;
 
     const isFeatured = form.featured.checked;
-    // Featured-at logic: chỉ STAMP timestamp khi transition false→true (lần đầu tick),
-    // hoặc khi tạo bài mới đã tick sẵn. Đã featured rồi mà save lại → giữ timestamp cũ
-    // để không đẩy bài lên đầu mỗi lần edit. Untick → xoá luôn.
+    // Featured-at logic: mỗi lần save/publish với checkbox bật đều STAMP lại
+    // để lựa chọn thủ công mới nhất luôn là override thắng mọi auto-pick.
     let featuredAt = "";
     if (isFeatured) {
-      const wasFeatured = state.editing && state.editing.wasFeatured;
-      const oldStamp = state.editing && state.editing.featuredAt;
-      featuredAt = (wasFeatured && oldStamp) ? oldStamp : new Date().toISOString();
+      featuredAt = new Date().toISOString();
     }
 
     const fm = {
@@ -1008,6 +1129,7 @@ tags = ${tagsStr}
       const savedPost = {
         slug: slug,
         title: fm.title,
+        permalink: postPermalink({ slug: slug }),
         date: fm.date,
         category: fm.category,
         featured: fm.featured,
@@ -1049,9 +1171,7 @@ tags = ${tagsStr}
     const isFeatured = form.featured.checked;
     let featuredAt = "";
     if (isFeatured) {
-      const wasFeatured = state.editing && state.editing.wasFeatured;
-      const oldStamp = state.editing && state.editing.featuredAt;
-      featuredAt = (wasFeatured && oldStamp) ? oldStamp : new Date().toISOString();
+      featuredAt = new Date().toISOString();
     }
     const fm = {
       title: form.title.value.trim(),
@@ -1138,6 +1258,7 @@ tags = ${tagsStr}
       const savedPost = {
         slug: slug,
         title: fm.title,
+        permalink: postPermalink({ slug: slug }),
         date: fm.date,
         category: fm.category,
         featured: fm.featured,
@@ -1811,7 +1932,7 @@ tags = ${tagsStr}
       if (user) {
         currentUser = user;
         populateUserBar(user);
-        if (!checkUrlParam()) enterDashboard();
+        if (!checkUrlParam()) await enterDashboard(true);
         return;
       }
       // Session expired/invalid → đã clearSid trong fetchMe
@@ -1820,6 +1941,20 @@ tags = ${tagsStr}
     // 5. Chưa login → show login screen
     showView("login");
   }
+
+  // Shortcut Ctrl+Alt+9: mở manual Auto Draft workflow
+  document.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.altKey && (e.key === "9" || e.key === "(")) {
+      e.preventDefault();
+      window.open("https://github.com/Banhang-Chogao/zola/actions/workflows/auto-draft.yml", "_blank");
+      const status = document.querySelector("[data-status]");
+      if (status) {
+        status.textContent = 'Đã mở tab Auto Draft workflow — bấm "Run workflow" để tạo draft thủ công';
+        status.className = "editor-status editor-status--info";
+        setTimeout(() => { if (status) status.textContent = ""; }, 4000);
+      }
+    }
+  });
 
   init();
 })();

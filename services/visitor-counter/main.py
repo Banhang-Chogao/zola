@@ -26,7 +26,7 @@ Env vars (set Render/Railway dashboard):
   BACKEND_URL        — URL public của service này (cho redirect_uri OAuth)
   BLOG_URL           — URL blog (để redirect về sau auth)
   ADMIN_EMAILS       — danh sách email được phép vào CMS, ngăn cách ',' (default
-                       'tamsudev.com@gmail.com'). Thêm contributor: append email.
+                       '292648126+Banhang-Chogao@users.noreply.github.com'). Thêm contributor: append email.
   SESSION_TTL        — session sống bao lâu giây (default 7200 = 2h). Redis
                        auto-expire session khi hết → admin idle 2h phải login lại.
 
@@ -44,6 +44,7 @@ import json
 import os
 import re
 import secrets
+from datetime import datetime, timezone
 from typing import Optional
 from urllib.parse import urlencode, urljoin, urlparse
 
@@ -74,8 +75,13 @@ _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 # robust với GitHub email (vốn được trả về lowercase nhưng phòng config typo).
 ADMIN_EMAILS = {
     e.strip().lower()
-    for e in os.getenv("ADMIN_EMAILS", "tamsudev.com@gmail.com").split(",")
+    for e in os.getenv("ADMIN_EMAILS", "292648126+Banhang-Chogao@users.noreply.github.com").split(",")
     if e.strip()
+}
+ADMIN_USERNAMES = {
+    u.strip().lower()
+    for u in os.getenv("ADMIN_USERNAMES", "banhang-chogao").split(",")
+    if u.strip()
 }
 
 SESSION_TTL = int(os.getenv("SESSION_TTL", "7200"))  # 2h default (idle timeout)
@@ -148,9 +154,12 @@ async def stats():
 
 # ============= GitHub OAuth — Auth Flow =============
 
-def _redirect_with_error(error: str) -> RedirectResponse:
-    """Redirect blog /editor/ với query ?error=... để JS hiển thị thông báo."""
-    return RedirectResponse(f"{BLOG_URL}/editor/?auth_error={error}")
+def _redirect_with_error(error: str, return_to: str = "/editor/") -> RedirectResponse:
+    """Redirect về trang gốc (return_to) với ?auth_error=... để JS hiển thị thông báo."""
+    rt = return_to if return_to.startswith("/") else "/editor/"
+    base = _build_blog_url(rt)
+    sep = "&" if "?" in base else "?"
+    return RedirectResponse(f"{base}{sep}auth_error={error}")
 
 
 def _build_blog_url(return_to: str, fragment: str = "") -> str:
@@ -176,6 +185,11 @@ def _is_allowed_email(verified_emails: set) -> bool:
     GitHub Collaborator API thay vì email check, chỉ cần sửa hàm này.
     """
     return bool(verified_emails & ADMIN_EMAILS)
+
+
+def _is_allowed_user(username: str) -> bool:
+    """Fallback whitelist theo GitHub login (vd banhang-chogao)."""
+    return (username or "").strip().lower() in ADMIN_USERNAMES
 
 
 @app.get("/auth/login")
@@ -241,12 +255,12 @@ async def auth_callback(code: str = "", state: str = ""):
                 },
             )
         except httpx.HTTPError:
-            return _redirect_with_error("github_unreachable")
+            return _redirect_with_error("github_unreachable", return_to)
 
         token_data = token_res.json() if token_res.status_code == 200 else {}
         access_token = token_data.get("access_token")
         if not access_token:
-            return _redirect_with_error("token_exchange_failed")
+            return _redirect_with_error("token_exchange_failed", return_to)
 
         gh_headers = {
             "Authorization": f"Bearer {access_token}",
@@ -259,12 +273,13 @@ async def auth_callback(code: str = "", state: str = ""):
             emails_res = await client.get("https://api.github.com/user/emails", headers=gh_headers)
             user_res   = await client.get("https://api.github.com/user",        headers=gh_headers)
         except httpx.HTTPError:
-            return _redirect_with_error("github_unreachable")
+            return _redirect_with_error("github_unreachable", return_to)
 
         if emails_res.status_code != 200 or user_res.status_code != 200:
-            return _redirect_with_error("github_profile_fetch_failed")
+            return _redirect_with_error("github_profile_fetch_failed", return_to)
 
         emails = emails_res.json()
+        user = user_res.json()
         # Chỉ chấp nhận email verified — GitHub có flag .verified cho mỗi email
         verified_emails = {
             (e.get("email") or "").lower()
@@ -272,10 +287,8 @@ async def auth_callback(code: str = "", state: str = ""):
             if e.get("verified") and e.get("email")
         }
 
-        if not _is_allowed_email(verified_emails):
-            return _redirect_with_error("access_denied")
-
-        user = user_res.json()
+        if not _is_allowed_email(verified_emails) and not _is_allowed_user(user.get("login", "")):
+            return _redirect_with_error("access_denied", return_to)
 
     # Tạo session opaque — sid là 43 ký tự URL-safe, không carry info,
     # không thể brute force trong thời gian session sống.
@@ -879,6 +892,26 @@ async def _gh_get_file(client: httpx.AsyncClient, path: str, token: str) -> tupl
     return data.get("sha"), decoded
 
 
+async def _gh_list_dir(client: httpx.AsyncClient, path: str, token: str) -> list:
+    """GET directory listing qua Contents API. Return [] nếu directory thiếu."""
+    res = await client.get(
+        f"https://api.github.com/repos/{CMS_REPO_OWNER}/{CMS_REPO_NAME}/contents/{path}",
+        params={"ref": CMS_REPO_BRANCH},
+        headers={
+            "Authorization":        f"Bearer {token}",
+            "Accept":               "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent":           "zola-cms",
+        },
+    )
+    if res.status_code == 404:
+        return []
+    if res.status_code != 200:
+        raise HTTPException(502, f"github_read_failed_{res.status_code}")
+    data = res.json()
+    return data if isinstance(data, list) else []
+
+
 async def _gh_get_sha(client: httpx.AsyncClient, path: str, token: str) -> Optional[str]:
     """Get sha của file. None nếu 404. Dùng cho binary file."""
     res = await client.get(
@@ -1022,6 +1055,10 @@ _CATEGORY_FRONTMATTER_RE = re.compile(
     r'\[taxonomies\][^\[]*?categories\s*=\s*\[\s*"([^"]+)"',
     re.DOTALL,
 )
+_EXTRA_BLOCK_RE = re.compile(r"(?ms)^(\[extra\]\s*\n)(.*?)(?=^\[|\Z)")
+_FEATURED_TRUE_RE = re.compile(r"(?m)^featured\s*=\s*true\s*$")
+_FEATURED_LINE_RE = re.compile(r"(?m)^featured\s*=\s*true\s*\n?")
+_FEATURED_AT_LINE_RE = re.compile(r'(?m)^featured_at\s*=\s*"[^"]*"\s*\n?')
 
 
 async def _ensure_category(client: httpx.AsyncClient, name: str, token: str) -> None:
@@ -1043,6 +1080,65 @@ async def _ensure_category(client: httpx.AsyncClient, name: str, token: str) -> 
         return
     except Exception:
         return
+
+
+def _frontmatter_forces_featured(content: str) -> bool:
+    extra = _EXTRA_BLOCK_RE.search(content or "")
+    return bool(extra and _FEATURED_TRUE_RE.search(extra.group(2)))
+
+
+def _demote_featured_frontmatter(content: str) -> str:
+    """Remove manual Featured override from a markdown file's [extra] block."""
+    def replace_extra(match: re.Match) -> str:
+        body = _FEATURED_LINE_RE.sub("", match.group(2))
+        body = _FEATURED_AT_LINE_RE.sub("", body)
+        return match.group(1) + body
+
+    return _EXTRA_BLOCK_RE.sub(replace_extra, content or "", count=1)
+
+
+async def _demote_other_featured_posts(
+    client: httpx.AsyncClient,
+    selected_path: str,
+    selected_slug: str,
+    token: str,
+) -> int:
+    """
+    Force Featured semantics for CMS publish: when one post is selected, clear
+    older manual overrides from every other post in the CMS content directory.
+    """
+    entries = await _gh_list_dir(client, CMS_CONTENT_DIR, token)
+    demoted = 0
+
+    for entry in entries:
+        path = entry.get("path", "")
+        if (
+            entry.get("type") != "file"
+            or not path.endswith(".md")
+            or path.endswith("/_index.md")
+            or path == selected_path
+        ):
+            continue
+
+        sha, text = await _gh_get_file(client, path, token)
+        if not sha or not _frontmatter_forces_featured(text):
+            continue
+
+        demoted_text = _demote_featured_frontmatter(text)
+        if demoted_text == text:
+            continue
+
+        await _gh_put_file(
+            client,
+            path,
+            demoted_text,
+            sha,
+            f"CMS: bỏ Featured cũ khi chọn '{selected_slug}'",
+            token,
+        )
+        demoted += 1
+
+    return demoted
 
 
 @app.post("/cms/save-post")
@@ -1092,6 +1188,7 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
         message = f"CMS: {slug}"
 
     path = f"{CMS_CONTENT_DIR}/{slug}.md"
+    force_featured = _frontmatter_forces_featured(content)
 
     async with httpx.AsyncClient(timeout=20.0) as client:
         # 1. Đọc sha hiện trạng cho update. 404 → file mới.
@@ -1114,19 +1211,28 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
         if cat_match:
             await _ensure_category(client, cat_match.group(1).strip(), access_token)
 
+        # 4. Featured override: nếu bài này được chọn thủ công làm Featured,
+        #    gỡ featured ở các bài khác để template/render không thể chọn nhầm.
+        demoted_featured = 0
+        if force_featured:
+            demoted_featured = await _demote_other_featured_posts(
+                client, path, slug, access_token,
+            )
+
         return {
             "ok":         True,
             "action":     "updated" if existing_sha else "created",
             "path":       path,
             "commit_url": data.get("commit", {}).get("html_url", ""),
             "commit_sha": data.get("commit", {}).get("sha", ""),
+            "demoted_featured": demoted_featured,
             "deploy_eta": "1-2 phút (GitHub Actions auto-build + deploy)",
         }
 
 
 # ============= CMS — Author Management =============
 CMS_AUTHOR_JSON_PATH  = "author.json"
-CMS_AVATAR_PATH       = "static/img/author-avatar.jpg"
+CMS_AVATAR_PATH       = "static/img/author-avatar.webp"
 _MAX_AVATAR_BYTES     = 5 * 1024 * 1024
 _ALLOWED_AVATAR_MIMES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
 
@@ -1141,7 +1247,7 @@ async def cms_author_get(authorization: str = Header(default="")):
     async with httpx.AsyncClient(timeout=15.0) as client:
         sha, text = await _gh_get_file(client, CMS_AUTHOR_JSON_PATH, token)
     if not text:
-        return {"data": {"name": "", "url": "", "bio": "", "avatar_path": "/img/author-avatar.jpg"}}
+        return {"data": {"name": "", "url": "", "bio": "", "avatar_path": "/img/author-avatar.webp"}}
     try:
         return {"data": json.loads(text)}
     except json.JSONDecodeError:
@@ -1158,7 +1264,7 @@ async def cms_author_update(
 ):
     """
     Multipart: avatar file (optional, max 5MB) + name/url/bio text.
-    Avatar → upload static/img/author-avatar.jpg.
+    Avatar → upload static/img/author-avatar.webp.
     Metadata → merge vào author.json.
     """
     session = await require_session(authorization)
@@ -1206,7 +1312,7 @@ async def cms_author_update(
             if name: current["name"] = name
             if url:  current["url"]  = url
             if bio:  current["bio"]  = bio
-            current["avatar_path"] = "/img/author-avatar.jpg"
+            current["avatar_path"] = "/img/author-avatar.webp"
             new_text = json.dumps(current, ensure_ascii=False, indent=2) + "\n"
             data = await _gh_put_file(
                 client, CMS_AUTHOR_JSON_PATH, new_text, sha_j,
@@ -2042,11 +2148,117 @@ async def curated_news(slug: str):
 
 
 # ============= Misc =============
+# ============= Secure Reports (Redis-stored, OAuth-gated) =============
+# Report .md KHÔNG nằm trong repo public → chỉ tải được qua các endpoint dưới
+# sau khi require_session pass (OAuth GitHub + email whitelist). Đây là chặn
+# THẬT (khác UX-gate cũ). Lưu trong Redis:
+#   report:doc:{filename}  → nội dung .md (string)
+#   report:meta            → hash: field=filename, value=json{created_at,size,preview}
+_REPORT_FILE_RE   = re.compile(r"^[a-z0-9][a-z0-9._-]{1,100}\.md$", re.IGNORECASE)
+_REPORT_DOC_PREFIX = "report:doc:"
+_REPORT_META_KEY   = "report:meta"
+_MAX_REPORT_BYTES  = 500_000
+
+
+def _valid_report_name(name: str) -> str:
+    """Chặn path traversal: chỉ cho tên file .md an toàn, không '/' hay '..'."""
+    name = (name or "").strip()
+    if "/" in name or ".." in name or not _REPORT_FILE_RE.match(name):
+        raise HTTPException(400, "invalid_filename")
+    return name
+
+
+@app.get("/reports")
+async def reports_list(authorization: str = Header(default="")):
+    """List metadata mọi report (auth required). KHÔNG trả nội dung đầy đủ."""
+    await require_session(authorization)
+    r = await get_redis()
+    meta = await r.hgetall(_REPORT_META_KEY)
+    items = []
+    for fn, raw in meta.items():
+        try:
+            m = json.loads(raw)
+        except json.JSONDecodeError:
+            m = {}
+        items.append({
+            "filename":   fn,
+            "created_at": m.get("created_at", ""),
+            "size":       m.get("size", 0),
+            "preview":    m.get("preview", ""),
+        })
+    items.sort(key=lambda x: x["created_at"], reverse=True)
+    return {"reports": items, "count": len(items)}
+
+
+@app.get("/reports/{filename}")
+async def reports_get(filename: str, authorization: str = Header(default="")):
+    """Trả nội dung .md của 1 report (auth required). 404 nếu không có."""
+    await require_session(authorization)
+    fn = _valid_report_name(filename)
+    r = await get_redis()
+    content = await r.get(_REPORT_DOC_PREFIX + fn)
+    if content is None:
+        raise HTTPException(404, "report_not_found")
+    meta_raw = await r.hget(_REPORT_META_KEY, fn)
+    meta = json.loads(meta_raw) if meta_raw else {}
+    return {"filename": fn, "content": content, "created_at": meta.get("created_at", "")}
+
+
+@app.post("/reports")
+async def reports_put(request: Request, authorization: str = Header(default="")):
+    """
+    Tạo/ghi đè 1 report (auth required). Dùng cho phím tắt `??` đẩy báo cáo lên
+    backend thay vì commit .md vào repo public.
+
+    Body JSON: {filename, content, created_at?}
+    """
+    await require_session(authorization)
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+
+    fn = _valid_report_name(str(body.get("filename", "")))
+    content = body.get("content", "")
+    if not isinstance(content, str) or not content.strip():
+        raise HTTPException(400, "empty_content")
+    if len(content.encode("utf-8")) > _MAX_REPORT_BYTES:
+        raise HTTPException(400, "content_too_large")
+
+    created_at = str(body.get("created_at", "")).strip() or \
+        datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    preview = re.sub(r"\s+", " ", content).strip()[:240]
+
+    r = await get_redis()
+    await r.set(_REPORT_DOC_PREFIX + fn, content)
+    await r.hset(_REPORT_META_KEY, fn, json.dumps({
+        "created_at": created_at,
+        "size":       len(content.encode("utf-8")),
+        "preview":    preview,
+    }))
+    return {"ok": True, "filename": fn, "created_at": created_at}
+
+
+@app.post("/reports/delete")
+async def reports_delete(request: Request, authorization: str = Header(default="")):
+    """Xoá 1 report (auth required). POST (không DELETE) để khớp CORS allow-methods."""
+    await require_session(authorization)
+    try:
+        body = await request.json()
+    except json.JSONDecodeError:
+        raise HTTPException(400, "invalid_json")
+    fn = _valid_report_name(str(body.get("filename", "")))
+    r = await get_redis()
+    await r.delete(_REPORT_DOC_PREFIX + fn)
+    await r.hdel(_REPORT_META_KEY, fn)
+    return {"ok": True, "filename": fn}
+
+
 @app.get("/")
 async def root():
     return {
         "service": "blog-backend",
-        "version": "2.1.0",
+        "version": "2.2.0",
         "features": {
             "visitor_counter": True,
             "github_oauth":    bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
@@ -2065,5 +2277,9 @@ async def root():
             "GET  /api/categories/list":"Danh sách categories từ repo (auth required)",
             "POST /api/categories/add":"Thêm category mới (auth required)",
             "GET  /api/movies":"IMDB movies via scraper proxy (Redis cached 24h, public)",
+            "GET  /reports":      "List report metadata (auth required)",
+            "GET  /reports/{file}":"Download report .md content (auth required)",
+            "POST /reports":      "Create/overwrite a report (auth required)",
+            "POST /reports/delete":"Delete a report (auth required)",
         },
     }

@@ -1,31 +1,16 @@
 +++
-title = "Ăn khuya Sài Gòn: 10 món & khu dân cú đêm hay ăn (mở sau 11h)"
-description = "Ăn khuya Sài Gòn ở đâu, món gì? 10 món ăn đêm và các khu mở sau 11h: ốc Vĩnh Khánh quận 4, hủ tiếu quận 5, cháo, mì cay cho dân cú đêm."
+title = "Ăn khuya Sài Gòn: 10 món mở sau 11h"
+description = "Ăn khuya Sài Gòn: 10 món và khu dân cú đêm nổi tiếng mở sau 11h — phố ốc, chợ Lớn, bún đêm và quán mở khuya cho dân Sài Gòn."
 date = 2026-06-16
+aliases = ["/an-khuya-sai-gon/"]
 
 [taxonomies]
 categories = ["Tất cả", "Ẩm thực"]
-tags = ["ẩm thực", "sài gòn", "ăn khuya", "ăn đêm", "món ngon", "tphcm"]
+tags = ["món ngon", "sài gòn", "tphcm", "ăn khuya", "ăn đêm", "ẩm thực"]
+
 [extra]
-seo_keyword = "ăn khuya Sài Gòn"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/an-khuya-sai-gon.svg"
-featured = false
-
-[[extra.faq]]
-q = "Ăn khuya ở Sài Gòn khu nào ngon?"
-a = "Nổi tiếng nhất là phố ốc Vĩnh Khánh quận 4, khu Chợ Lớn quận 5 với hủ tiếu và món Hoa, cùng nhiều quán rải rác ở quận 1, quận 3, quận 10. Đây là các khu dân địa phương hay tụ tập ăn đêm, nhiều quán mở tới khuya."
-
-[[extra.faq]]
-q = "Sài Gòn ăn khuya món gì ngon?"
-a = "Hợp ăn đêm là ốc, hủ tiếu gõ, cháo lòng, mì cay, lẩu, bánh mì, phá lấu, bột chiên và chè. Vừa rẻ vừa nhanh, lại có không khí nhộn nhịp đặc trưng của Sài Gòn về đêm."
-
-[[extra.faq]]
-q = "Quán ăn khuya Sài Gòn thường mở tới mấy giờ?"
-a = "Nhiều quán ăn đêm mở từ tối tới 1-2 giờ sáng, một số quán ốc, cháo, hủ tiếu gõ và bánh mì bán gần như xuyên đêm. Nên gọi trước hoặc kiểm tra giờ vì lịch có thể đổi theo ngày trong tuần."
-
-[[extra.faq]]
-q = "Đi ăn khuya Sài Gòn có an toàn không?"
-a = "Các khu ăn đêm đông đúc như Vĩnh Khánh, Chợ Lớn khá an toàn vì luôn nhộn nhịp. Vẫn nên giữ ví, điện thoại cẩn thận, gửi xe đúng chỗ và ưu tiên quán đông khách, có chỗ để xe rõ ràng."
+seo_keyword = "ăn khuya Sài Gòn"
 +++
 
 Sài Gòn là thành phố **không ngủ** — và dân cú đêm thì luôn có chỗ để lấp đầy cái bụng lúc nửa khuya. Nếu bạn hay thức muộn, đi chơi về trễ, hoặc đơn giản là thèm ăn đêm, đây là **10 món & khu ăn khuya** quen thuộc, nhiều nơi mở **sau 11h đêm**.

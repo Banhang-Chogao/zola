@@ -1,0 +1,263 @@
+{
+  "updated_at": "2026-06-17T18:31:11Z",
+  "score": 97.8,
+  "grade": "A+",
+  "mood": "good",
+  "stats": {
+    "pass": 22,
+    "warn": 1,
+    "fail": 0,
+    "total": 23
+  },
+  "categories": [
+    {
+      "id": "metadata",
+      "label": "Metadata",
+      "score": 100.0,
+      "pass": 3,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Page titles",
+          "status": "pass",
+          "detail": "245/247 in range"
+        },
+        {
+          "label": "Descriptions",
+          "status": "pass",
+          "detail": "247/247 complete"
+        },
+        {
+          "label": "Canonical URLs",
+          "status": "pass",
+          "detail": "247/247 set"
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "label": "Structure",
+      "score": 100.0,
+      "pass": 4,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Heading focus",
+          "status": "pass",
+          "detail": "244/247 single H1"
+        },
+        {
+          "label": "Document language",
+          "status": "pass",
+          "detail": "247/247 with lang"
+        },
+        {
+          "label": "Mobile viewport",
+          "status": "pass",
+          "detail": "247/247 ready"
+        },
+        {
+          "label": "Structured data",
+          "status": "pass",
+          "detail": "244/247 pages"
+        }
+      ]
+    },
+    {
+      "id": "media",
+      "label": "Media",
+      "score": 100.0,
+      "pass": 3,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Image descriptions",
+          "status": "pass",
+          "detail": "246/247 pages covered"
+        },
+        {
+          "label": "Image weight",
+          "status": "pass",
+          "detail": "within budget"
+        },
+        {
+          "label": "Image formats",
+          "status": "pass",
+          "detail": "formats OK"
+        }
+      ]
+    },
+    {
+      "id": "discovery",
+      "label": "Discovery",
+      "score": 100.0,
+      "pass": 4,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Crawler rules",
+          "status": "pass",
+          "detail": "robots.txt OK"
+        },
+        {
+          "label": "Sitemap",
+          "status": "pass",
+          "detail": "present"
+        },
+        {
+          "label": "Atom feed",
+          "status": "pass",
+          "detail": "present"
+        },
+        {
+          "label": "RSS feed",
+          "status": "pass",
+          "detail": "present"
+        }
+      ]
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "score": 100.0,
+      "pass": 5,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Publish dates",
+          "status": "pass",
+          "detail": "43/43 articles"
+        },
+        {
+          "label": "Taxonomies",
+          "status": "pass",
+          "detail": "43/43 tagged"
+        },
+        {
+          "label": "Article depth",
+          "status": "pass",
+          "detail": "43/43 substantive"
+        },
+        {
+          "label": "Unique titles",
+          "status": "pass",
+          "detail": "no duplicates"
+        },
+        {
+          "label": "Unique slugs",
+          "status": "pass",
+          "detail": "no duplicates"
+        }
+      ]
+    },
+    {
+      "id": "links",
+      "label": "Links",
+      "score": 75.0,
+      "pass": 1,
+      "warn": 1,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Internal links",
+          "status": "warn",
+          "detail": "1 broken / 238 unique",
+          "broken": [
+            {
+              "source_page": "/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+              "source_file": "public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html",
+              "href": "/zola/pages/privacy/",
+              "target": "/pages/privacy/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/",
+              "source_file": "public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html",
+              "href": "https://banhang-chogao.github.io/zola/zola/pages/privacy/",
+              "target": "/pages/privacy/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
+        },
+        {
+          "label": "GitHub Pages base path",
+          "status": "pass",
+          "detail": "all hrefs use /zola/"
+        }
+      ]
+    },
+    {
+      "id": "access",
+      "label": "Access",
+      "score": 100.0,
+      "pass": 2,
+      "warn": 0,
+      "fail": 0,
+      "items": [
+        {
+          "label": "Main landmarks",
+          "status": "pass",
+          "detail": "243/247 pages"
+        },
+        {
+          "label": "Skip navigation",
+          "status": "pass",
+          "detail": "detected"
+        }
+      ]
+    }
+  ],
+  "highlights": [
+    {
+      "type": "warn",
+      "text": "Links: Internal links"
+    },
+    {
+      "type": "pass",
+      "text": "Metadata: Page titles"
+    },
+    {
+      "type": "pass",
+      "text": "Metadata: Descriptions"
+    },
+    {
+      "type": "pass",
+      "text": "Metadata: Canonical URLs"
+    },
+    {
+      "type": "pass",
+      "text": "Structure: Heading focus"
+    },
+    {
+      "type": "pass",
+      "text": "Structure: Document language"
+    }
+  ],
+  "pages_scanned": 247,
+  "articles_scanned": 47,
+  "fix_log": [
+    {
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Còn 2 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build); public/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/index.html → /pages/privacy/ (Target not found in public/ after zola build)",
+      "at": "2026-06-17T18:31:11Z"
+    }
+  ],
+  "fix_summary": {
+    "attempted": 1,
+    "fixed": 0,
+    "failed": 1,
+    "skipped": 0
+  }
+}

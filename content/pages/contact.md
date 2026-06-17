@@ -6,12 +6,12 @@ template = "about.html"
 +++
 
 Cảm ơn bạn đã ghé blog. Nếu bạn có góp ý về bài viết, muốn hợp tác nội dung, báo
-lỗi kỹ thuật, hay thắc mắc về [chính sách bảo mật](/privacy/), mình luôn sẵn lòng
+lỗi kỹ thuật, hay thắc mắc về [chính sách bảo mật](/zola/privacy/), mình luôn sẵn lòng
 lắng nghe.
 
 ## Email
 
-📧 **tamsudev.com@gmail.com**
+📧 **292648126+Banhang-Chogao@users.noreply.github.com**
 
 Đây là kênh liên hệ chính thức và nhanh nhất. Mình cố gắng phản hồi trong vòng
 **1–2 ngày làm việc**.

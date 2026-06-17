@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}BrandingX | Hệ thống nhận diện thương hiệu{% endblock %}
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
 
 {% block main %}
 <section class="brandx">
@@ -8,7 +9,7 @@
     <header class="brandx__header">
         <div class="brandx__brand">
             <span class="brandx__logo-mark" aria-hidden="true">▣</span>
-            <span class="brandx__logo-text">BrandingX</span>
+            <span class="brandx__logo-text">Branding Guideline</span>
         </div>
         <nav class="brandx__nav">
             <a href="#colors">Colors</a>
@@ -25,8 +26,8 @@
             Tối giản đến tận cùng. Hiện đại đến từng pixel.
         </h1>
         <p class="brandx__manifesto-sub">
-            BrandingX không phải một bộ rule. Đây là một cách suy nghĩ:
-            mỗi quyết định thiết kế phục vụ rõ ràng một mục đích người dùng.
+            Hilda là hệ nhận diện Ericsson Professional cho blog:
+            rõ ràng, sắc nét, nhất quán và ưu tiên khả năng đọc.
         </p>
     </section>
 
@@ -36,36 +37,36 @@
             <span class="brandx__section-num">01</span>
             <h2 class="brandx__section-title">Color Palette</h2>
             <p class="brandx__section-desc">
-                Color system 3 tầng: Primary (brand), Secondary (support),
-                Accent (alert + emphasis). Mỗi màu có 5 sắc độ neutral 50-900.
+                Palette Hilda dùng Ericsson Blue làm màu chủ đạo, Teal cho trạng thái hỗ trợ,
+                Red cho CTA/cảnh báo và neutral grayscale cho nội dung.
             </p>
         </header>
 
         <div class="brandx__color-group">
             <h3 class="brandx__group-label">Primary — Brand</h3>
             <div class="brandx__swatches">
-                <article class="brandx__swatch" style="--color: #0f172a">
+                <article class="brandx__swatch" style="--color: #003784">
                     <div class="brandx__swatch-chip"></div>
                     <div class="brandx__swatch-info">
-                        <strong>Ink 900</strong>
-                        <code>#0f172a</code>
-                        <span>Heading, primary text</span>
+                        <strong>Ericsson Blue</strong>
+                        <code>#003784</code>
+                        <span>Brand, link, primary CTA</span>
                     </div>
                 </article>
-                <article class="brandx__swatch" style="--color: #1e293b">
+                <article class="brandx__swatch" style="--color: #00a69d">
                     <div class="brandx__swatch-chip"></div>
                     <div class="brandx__swatch-info">
-                        <strong>Ink 800</strong>
-                        <code>#1e293b</code>
-                        <span>Body text</span>
+                        <strong>Teal</strong>
+                        <code>#00a69d</code>
+                        <span>Support, success, secondary signal</span>
                     </div>
                 </article>
-                <article class="brandx__swatch" style="--color: #64748b">
+                <article class="brandx__swatch" style="--color: #e30613">
                     <div class="brandx__swatch-chip"></div>
                     <div class="brandx__swatch-info">
-                        <strong>Ink 500</strong>
-                        <code>#64748b</code>
-                        <span>Muted text, captions</span>
+                        <strong>CTA Red</strong>
+                        <code>#e30613</code>
+                        <span>Action, alert, destructive state</span>
                     </div>
                 </article>
             </div>
@@ -74,28 +75,28 @@
         <div class="brandx__color-group">
             <h3 class="brandx__group-label">Accent — Highlight</h3>
             <div class="brandx__swatches">
-                <article class="brandx__swatch" style="--color: #d63d3d">
+                <article class="brandx__swatch" style="--color: #000000">
                     <div class="brandx__swatch-chip"></div>
                     <div class="brandx__swatch-info">
-                        <strong>Signal Red</strong>
-                        <code>#d63d3d</code>
-                        <span>CTA, active state, error</span>
+                        <strong>Text Black</strong>
+                        <code>#000000</code>
+                        <span>Headings, primary text</span>
                     </div>
                 </article>
-                <article class="brandx__swatch" style="--color: #ec4899">
+                <article class="brandx__swatch" style="--color: #333333">
                     <div class="brandx__swatch-chip"></div>
                     <div class="brandx__swatch-info">
-                        <strong>Hot Pink</strong>
-                        <code>#ec4899</code>
-                        <span>Category tags, decorative</span>
+                        <strong>Body</strong>
+                        <code>#333333</code>
+                        <span>Paragraph body</span>
                     </div>
                 </article>
-                <article class="brandx__swatch" style="--color: #0891b2">
+                <article class="brandx__swatch" style="--color: #666666">
                     <div class="brandx__swatch-chip"></div>
                     <div class="brandx__swatch-info">
-                        <strong>Trust Cyan</strong>
-                        <code>#0891b2</code>
-                        <span>Link, info, finance category</span>
+                        <strong>Muted</strong>
+                        <code>#666666</code>
+                        <span>Metadata, captions</span>
                     </div>
                 </article>
             </div>
@@ -132,9 +133,8 @@
         </div>
 
         <aside class="brandx__rationale">
-            <strong>Tư duy:</strong> Palette ưu tiên contrast cao (WCAG AAA cho text body).
-            Pink + Red không pair cùng layer — pink dùng cho tags decoration, red cho action.
-            Cyan dành riêng finance/info — tránh dùng cho action vì gây nhầm lẫn link.
+            <strong>Tư duy:</strong> Palette ưu tiên contrast cao (WCAG AA/AAA).
+            Blue là nhận diện chính; Teal là trạng thái hỗ trợ; Red chỉ dành cho CTA/cảnh báo.
         </aside>
     </section>
 
@@ -144,8 +144,8 @@
             <span class="brandx__section-num">02</span>
             <h2 class="brandx__section-title">Typography</h2>
             <p class="brandx__section-desc">
-                Single typeface Manrope cho mọi role. Geometric round nhưng vẫn
-                cleaner so với competitors. Hỗ trợ Tiếng Việt diacritics hoàn hảo.
+                Typeface chính là Ericsson Hilda. Fallback Inter/Roboto chỉ dùng khi trình duyệt
+                cần glyph bổ sung cho tiếng Việt hoặc hệ thống.
             </p>
         </header>
 
@@ -196,7 +196,7 @@
                 </div>
             </article>
             <article class="brandx__type-row">
-                <div class="brandx__type-sample" style="font-size: 0.85rem; font-weight: 500; color: #64748b;">
+                <div class="brandx__type-sample" style="font-size: 0.85rem; font-weight: 500; color: #666666;">
                     Caption — meta info, date, author byline.
                 </div>
                 <div class="brandx__type-meta">
@@ -207,9 +207,8 @@
         </div>
 
         <aside class="brandx__rationale">
-            <strong>Tư duy:</strong> Single typeface giảm cognitive load + load 1 web font request.
-            Manrope round friendly nhưng bold 800 vẫn có authority cho heading. Letter-spacing
-            âm cho heading lớn (>24px) để chữ "đậm" thị giác hơn, không nhỏ cho body.
+            <strong>Tư duy:</strong> Ericsson Hilda đặt sự rõ ràng lên trước. Heading dùng
+            letter-spacing âm nhẹ; body giữ spacing tự nhiên để đọc lâu không mỏi.
         </aside>
     </section>
 
@@ -243,7 +242,7 @@
                         <p>Subtle border, no shadow at rest. Hover lifts +2px.</p>
                     </div>
                 </div>
-                <p>Flat at rest, depth on interaction. radius 12px.</p>
+                <p>Flat at rest, depth on interaction. Radius cố định 4px.</p>
             </article>
 
             <article class="brandx__comp">
@@ -251,7 +250,7 @@
                 <div class="brandx__comp-demo">
                     <label class="brandx-field">
                         <span>Email address</span>
-                        <input type="email" placeholder="you@brandingx.io" class="brandx-input">
+                        <input type="email" placeholder="you@hilda.example" class="brandx-input">
                     </label>
                 </div>
                 <p>Stacked label, single border, focus ring 3px accent color.</p>
@@ -310,7 +309,7 @@
 
     {# ===== FOOTER ===== #}
     <footer class="brandx__foot">
-        <p>BrandingX — Internal Brand Guideline v1.0</p>
+        <p>Branding Guideline — Hilda Design System v1.0</p>
         <p>Maintained by <a href="{{ config.base_url }}/about/">Duy Nguyen</a></p>
     </footer>
 </section>

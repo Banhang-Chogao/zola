@@ -71,6 +71,23 @@
                 <span class="editor-user-bar__role" title="Quyền truy cập">ADMIN</span>
             </div>
 
+            <div class="editor-header-widget" data-header-widget hidden>
+                <div class="editor-header-widget__stat">
+                    <span class="editor-header-widget__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M4 19.5V4a2 2 0 0 1 2-2h11"/><path d="M6 22h12a2 2 0 0 0 2-2V6H8a2 2 0 0 0-2 2v14"/><path d="M10 10h6"/><path d="M10 14h6"/></svg>
+                    </span>
+                    <span class="editor-header-widget__label">Tổng số bài viết</span>
+                    <strong data-header-total>0</strong>
+                </div>
+                <div class="editor-header-widget__latest">
+                    <span class="editor-header-widget__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="M5 10h14"/><path d="M5 15h14"/></svg>
+                    </span>
+                    <span class="editor-header-widget__label">Bài mới nhất</span>
+                    <a href="#" data-header-latest target="_blank" rel="noopener">-</a>
+                </div>
+            </div>
+
             <header class="section-header"><h2 class="section-header__title">DANH SÁCH BÀI VIẾT</h2></header>
 
             <div class="editor-toolbar">
@@ -309,6 +326,7 @@
             {
                 "slug": {{ page.slug | json_encode | safe }},
                 "title": {{ page.title | json_encode | safe }},
+                "permalink": {{ page.permalink | json_encode | safe }},
                 "date": {{ page.date | json_encode | safe }},
                 "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
                 "featured": {% if page.extra.featured %}true{% else %}false{% endif %}

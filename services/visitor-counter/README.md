@@ -158,9 +158,10 @@ Commit + push → CI auto-deploy → footer blog hiển thị visitor count.
 
 ## 🔐 Setup GitHub OAuth (CMS auth)
 
-Service này cũng làm OAuth gateway cho `/editor/` (mini CMS). Email
-white-list quyết định ai được vào, hard-coded server-side (không bypass
-client được).
+Service này làm OAuth gateway cho `/editor/` (CMS) và `/tools/f-dashboard/`
+(F-Dashboard). Cùng một GitHub OAuth App + callback — client chỉ khác
+`return_to` (path tương đối). Whitelist email/username server-side (không
+bypass client được).
 
 ### Bước 1: Tạo GitHub OAuth App
 
@@ -184,26 +185,30 @@ Trong **Environment Variables** của Web Service:
 | `GH_CLIENT_SECRET` | Client Secret vừa lấy ở Bước 1 |
 | `BACKEND_URL` | `https://blog-visitor-api.onrender.com` |
 | `BLOG_URL` | `https://banhang-chogao.github.io/zola` |
-| `ADMIN_EMAILS` | `tamsudev.com@gmail.com` (comma-separated cho nhiều) |
+| `ADMIN_EMAILS` | `292648126+Banhang-Chogao@users.noreply.github.com` (comma-separated cho nhiều) |
+| `ADMIN_USERNAMES` | `banhang-chogao` (fallback nếu email noreply chưa verify) |
 | `SESSION_TTL` | `7200` (2 giờ idle, optional) |
 
 Click **Save Changes** → Render auto-restart service.
 
 ### Bước 3: Test flow
 
-1. Mở `https://banhang-chogao.github.io/zola/editor/`
-2. Click "Đăng nhập với GitHub"
-3. Authorize trên GitHub (lần đầu)
-4. Nếu email khớp white-list → redirect về `/editor/` với session active,
-   user bar hiển thị avatar + tên
-5. Nếu email KHÔNG khớp → redirect `/editor/?auth_error=access_denied`
-   với thông báo "Truy cập bị từ chối"
+**CMS:** `https://banhang-chogao.github.io/zola/editor/`  
+**F-Dashboard:** `https://banhang-chogao.github.io/zola/tools/f-dashboard/`
+
+1. Click "Đăng nhập với GitHub"
+2. Authorize trên GitHub (lần đầu)
+3. Nếu whitelist pass → redirect về **đúng trang** (`return_to`) với `#sid=...`
+4. Nếu denied → `?auth_error=access_denied` trên trang gốc (không ép về `/editor/`)
+
+`config.toml` — `cms_auth_url` phải nằm dưới `[extra]` (không trong `[extra.giscus]`)
+để meta `zola-cms-auth-api` render trên mọi trang.
 
 ### Mở rộng: thêm Contributor
 
 Append email vào `ADMIN_EMAILS`:
 ```
-ADMIN_EMAILS=tamsudev.com@gmail.com,other.contributor@example.com
+ADMIN_EMAILS=292648126+Banhang-Chogao@users.noreply.github.com,other.contributor@example.com
 ```
 
 Hoặc thay logic email white-list bằng GitHub Collaborator API check —

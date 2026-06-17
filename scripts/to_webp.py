@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """
-to_webp.py — Sinh bản .webp SONG SONG cho ảnh raster trong blog.
+to_webp.py — Convert ảnh raster sang .webp (định dạng phát hành duy nhất).
 
-Chiến lược (theo quyết định của user 16/06/2026): KHÔNG xoá/đổi file gốc.
-Với mỗi ảnh .jpg/.jpeg/.png trong thư mục đích, tạo thêm file .webp cùng tên
-cạnh bên (vd: cover.jpg -> cover.webp). Template dùng <picture> để ưu tiên
-webp + fallback file gốc (xem macro `picture_webp` trong templates/macros/img.html).
+Với mỗi ảnh .jpg/.jpeg/.png, tạo file .webp cùng tên. Dùng --replace để xoá
+raster sau convert thành công (workflow optimize-images.yml).
 
 - BỎ QUA .svg (ảnh vector, không nên rasterize) và .gif (giữ animation).
 - BỎ QUA nếu .webp đã tồn tại và mới hơn file gốc (idempotent — chạy lại không tốn công).
@@ -87,6 +85,8 @@ def main() -> int:
                     help="File hoặc thư mục cần quét (mặc định: static/img)")
     ap.add_argument("--quality", type=int, default=82, help="Chất lượng webp (0-100)")
     ap.add_argument("--force", action="store_true", help="Convert lại kể cả khi đã có webp mới")
+    ap.add_argument("--replace", action="store_true",
+                    help="Xoá file raster gốc sau khi convert .webp thành công")
     args = ap.parse_args()
 
     targets = args.targets or DEFAULT_TARGETS
@@ -115,6 +115,9 @@ def main() -> int:
         if ok:
             converted += 1
             print(f"  ✓ {src} -> {dst.name}")
+            if args.replace and src.exists():
+                src.unlink()
+                print(f"    − removed {src.name}")
         else:
             failed += 1
             print(f"  ✗ FAILED {src}")

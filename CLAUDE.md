@@ -1,49 +1,74 @@
 # CLAUDE.md — Quy tắc làm việc
 
-## Quy tắc Deploy & Production (MỚI NHẤT — ghi đè TẤT CẢ rule deploy/auto-merge trước đó)
+## Repository Automation Policy (effective 2026-06-18 — FULLY AUTOMATED OPERATIONS)
 
-> ⚠️ **Rule này là MỚI NHẤT (16/06/2026), hiệu lực CAO NHẤT.** Nó **ghi đè hoàn toàn** mọi rule deploy cũ: "rule 16:00", "TẠM NGƯNG QUYỀN AUTO-MERGE", và mọi câu "KHÔNG auto-merge" rải rác trong `shortcuts.md` (§4.5, §4.6, các loop `morning` / `seo10` / `gg` / `prm`...). Khi mâu thuẫn → LẤY rule này.
+> **Default:** Auto-merge sau khi required CI pass. **Không** chờ human approval cho PR low-risk.
+> Config: `data/auto-merge-policy.json` · Engine: `scripts/auto_merge_policy.py` · Runner: `auto-merge.yml`.
 
-### 1. Auto hết — không thao tác tay
+| | |
+|--|--|
+| **Auto-merge** | chore, qa, autofix, dashboard, reports, compliance (≥95), bot maintenance, CLAUDE.md learning |
+| **Manual review** | security, auth, oauth, login, admin, payment, paywall, `.github/workflows/*`, deployment infra |
 
-Để tiết kiệm thời gian, MỌI thay đổi lên GitHub đều tự động, user KHÔNG phải làm tay:
+Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIONS-PERMISSIONS.md`.
 
-- **Auto commit** — commit thẳng, message rõ ràng.
-- **Auto merge** — tự merge vào `main`. KHÔNG đợi `manual #X`, KHÔNG gom batch, KHÔNG chờ 16:00.
-- **Auto deploy** — merge vào `main` → workflow `deploy.yml` tự build & deploy lên production (GitHub Pages).
+## Auto-Merge Policy (effective 2026-06-17 — ghi đè rule PR-only thủ công)
 
-### 2. Điều kiện cho lên production (cả 3 PHẢI đạt)
+> CI pass → **auto-merge `main`**, không chờ human approval (trừ protected domain).
 
-1. **Commit/push thành công** (không lỗi git).
-2. **QA checker approve** — `qa_check.py` (workflow `qa.yml`) pass; chỉ error/exit≠0 mới chặn, warning KHÔNG chặn.
-3. **Build KHÔNG failed** — `deploy.yml` build xanh.
+### 1. Vẫn qua PR — không push thẳng `main`
 
-Đủ cả 3 → auto merge + auto deploy, KHÔNG hỏi lại.
+Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit/push trực tiếp `main`.
 
-### 3. Build failed → LẬP TỨC chạy `ff` / `ff9` (BẮT BUỘC, tự động)
+### 2. Auto-merge khi CI xanh
 
-> ⚠️ Rule sự kiện, hiệu lực cao nhất. **MỖI LẦN** có sự kiện bản build bị
-> **failed** thì PHẢI **LẬP TỨC** chạy 1 trong 2 phím tắt để fix — KHÔNG hỏi,
-> KHÔNG bỏ mặc, KHÔNG để build đỏ nằm im.
+1. Tạo branch: `feature/`, `fix/`, `chore/`, …
+2. Push → mở PR vào `main`
+3. **`auto-merge.yml`** merge tự động khi **qa-check** + **policy** pass (QA Gatekeeper + PR Policy)
+4. `deploy.yml` chạy sau merge → GitHub Pages
 
-**Sự kiện kích hoạt** (bất kỳ cái nào):
-- `deploy.yml` build đỏ (fail trên `main` hoặc PR).
-- `qa.yml` / `qa_check.py` exit ≠ 0 (error chặn).
-- Bất kỳ CI check nào của PR chuyển sang trạng thái `failure`.
+**Không hỏi user** trước khi merge. Gắn label `no-auto-merge` hoặc `manual-review` nếu cần giữ PR chờ tay.
 
-**Hành động bắt buộc, ngay khi nhận sự kiện**:
+### 3. Merge Report (thay review thủ công)
 
-- **`ff`** — Full Fix & Deploy (với Python lib picker).
-- **`ff9`** — Smart Conflict Resolver (Python-powered) — ưu tiên khi lỗi do
-  merge conflict.
+- Script: `scripts/fetch_merge_report.py` → `data/merge-report.json`
+- Workflow: `merge-report.yml` (sau push `main` + hourly)
+- Mỗi entry: PR #, title, summary_vi, change_type, merged_at, build_run_number
+- Đọc report thay vì duyệt từng PR
 
-**Quy tắc lặp ("fix cho bằng được")**: chạy `ff`/`ff9` → đợi build lại → nếu
-VẪN failed thì re-diagnose và chạy lại, lặp tới khi build **xanh**. Một vòng
-chưa xong không phải là dừng. Chỉ dừng khi build xanh, HOẶC lỗi thực sự ngoài
-phạm vi (lúc đó báo lại chẩn đoán + chỗ kẹt, không im lặng).
+### 4. Build failed trên PR → fix trên cùng branch
 
-Sau khi `ff` / `ff9` fix xong và build xanh → auto merge + auto deploy lên
-production, KHÔNG cần `manual #X`.
+- Fix trên **cùng branch/PR** — không push `main`
+- CI xanh → auto-merge
+
+### 5. Automation / bot
+
+- Bot **không** `git push origin HEAD:main` trực tiếp
+- Data refresh: `push_via_pr.sh` → PR → auto-merge khi CI pass
+- `main-guard.yml`: cho phép bot merge qua PR (auto-merge commit)
+
+### 5a. Workflow permissions (2026-06-18)
+
+| Loại workflow | Chạy tự động? | Ghi chú |
+|---------------|---------------|---------|
+| QA / PR Policy / chore bot PR | ✅ | `workflow_run` relay hoặc `WORKFLOW_BOT_PAT` |
+| Human PR (same repo) | ✅ | `pull_request` bình thường |
+| Fork PR | ⏳ approval | GitHub Settings — giữ bảo vệ |
+| Deploy production (`github-pages` env) | ✅ push `main` only | Không gate QA PR |
+| `manual-approval` / `pr-approval.yml` | ❌ removed | Không thêm lại |
+
+**Settings:** `.github/ACTIONS-PERMISSIONS.md` — Workflow permissions = Read and write; fork approval chỉ cho outside collaborators.
+
+### 5b. Auto-merge Bot-created Maintenance PRs
+
+- Bot-created PRs dạng chore/report refresh/dashboard data có thể auto-merge nếu:
+  - checks pass,
+  - không conflict,
+  - không đụng workflow/security/payment/admin/paywall,
+  - không có label `no-auto-merge`.
+- Nếu không merge được, bot phải **comment lý do cụ thể** thay vì im lặng (`try_auto_merge.py` → `post_skip_comment`).
+- **GITHUB_TOKEN PR gate:** PR do workflow tạo bằng `GITHUB_TOKEN` không kích hoạt `pull_request` events. **Fix:** `qa.yml` + `pr-policy.yml` relay qua `workflow_run`; tùy chọn secret `WORKFLOW_BOT_PAT`. Chi tiết: `.github/ACTIONS-PERMISSIONS.md`.
+- **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
@@ -113,6 +138,20 @@ workflow nào đang đỏ.
   `check_perf_html` lẫn `fix_perf_html`. Nếu fixer còn chèn nhầm chỗ khác → mở
   rộng `_COMMENT_SPAN_RE` / bỏ qua context tương ứng. KHÔNG merge PR perf-audit
   chứa edit rác trong comment; đóng PR + để run sau regenerate sạch.
+
+## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
+
+Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
+session (GitHub MCP, `gh`, `git` trỏ repo này), PHẢI:
+
+1. **Đọc** `shortcuts.md` (source of truth phím tắt).
+2. **Liệt kê** bảng tóm tắt tất cả phím tắt active (`Phím tắt` · `Mô tả ngắn` +
+   tổng số) — format giống `help` / `phimtat`.
+3. **Thực thi** khi user gọi phím tắt: message bắt đầu bằng tên shortcut (single
+   line) → làm NGAY theo section tương ứng trong `shortcuts.md`, không hỏi lại.
+
+Nếu message đầu tiên đã là một phím tắt cụ thể → đọc file + thực thi shortcut đó
+(có thể bỏ list đầy đủ nếu user chỉ cần tốc độ). Chi tiết: `shortcuts.md` §0.
 
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
@@ -253,6 +292,26 @@ DB `data/seo-qa-scores.json` là nguồn dữ liệu để dựng trang Insights
 của blog" sau này. KHÔNG xoá file này; mỗi lần chấm chỉ append thêm mốc lịch sử
 (`history`, giữ tối đa 20 mốc/bài).
 
+## Quy tắc Tham chiếu cuối bài (References — BẮT BUỘC)
+
+Mọi bài mới/cập nhật (`content/posting/`, `content/baochi/`, `content/pages/`)
+tự động có block **「Tham khảo & Nguồn dữ liệu」** cuối bài (macro
+`references::section`, data từ `scripts/build_references.py`).
+
+1. **Liên kết ngoài** — quét markdown/HTML trong bài, dedupe, ưu tiên nguồn official.
+2. **Liên kết nội bộ** — tổng hợp link tới bài/chuyên mục trong blog.
+3. **Bản quyền & ghi nguồn** — tự sinh khi có nguồn ngoài; override qua frontmatter.
+
+Frontmatter tùy chọn (`[extra]`):
+
+- `references_skip = true` — ẩn toàn bộ block
+- `references_skip_copyright = true` — bỏ mục bản quyền
+- `references_copyright = "..."` — text bản quyền tùy chỉnh
+- `[[extra.references_external]]` / `references_internal` — bổ sung nguồn thủ công:
+  `{ title = "...", url = "..." }`
+
+Chạy `python3 scripts/build_references.py` trước `zola build` (CI tự chạy).
+
 ## Quy tắc Category (BẮT BUỘC)
 
 - Category **"Tất cả"** là category mặc định của MỌI bài viết (slug `tat-ca`,
@@ -283,29 +342,29 @@ vào **buổi tối 20:00 GMT+7**), chỉ lên production khi vượt qua QA.
 - `date` của bài hẹn = ngày dự kiến đăng (n+3) để hiển thị đúng ngày.
 - Workflow `scheduled-publish.yml` (cron 20:00 GMT+7) chạy `scripts/scheduled_publish.py`:
   bài nào `publish_at <= now` → flip `draft=false`, set `date`, xoá `publish_at`.
-  - **CHỈ** commit + push lên `main` (→ deploy) NẾU **PASS QA** (`qa_check.py` +
-    Zola build). Fail QA → KHÔNG đăng, mở issue + dùng `ff` để fix.
+  - Workflow tạo PR `content/scheduled-publish` (KHÔNG push `main`) NẾU **PASS QA**
+    (`qa_check.py` + Zola build). Fail QA → KHÔNG đăng, mở issue + dùng `ff` để fix.
+    User merge PR → deploy.
 - Về Google/SEO: KHÔNG có rule bắt buộc trì hoãn; n+3 chỉ là buffer review, không
   hại SEO. Đăng đều đặn quan trọng hơn. Số ngày có thể chỉnh theo yêu cầu user.
 - `bb9 <topic>` = biến thể "hẹn giờ" của `bb`, tự viết bài từ topic (vẫn tuân
   thủ rule Category + Ảnh WebP).
 
-## Quy tắc Ảnh (WebP — BẮT BUỘC)
+## Quy tắc Ảnh (WebP — BẮT BUỘC, phát hành duy nhất)
 
 Áp dụng cho MỌI ảnh raster NỘI BỘ (lưu trong `static/...` hoặc `content/...`),
 không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soát được).
 
-- Sau khi upload/thêm ảnh `.jpg/.jpeg/.png` trong lúc viết bài → PHẢI sinh bản
-  `.webp` **song song** cùng tên cạnh bên (giữ nguyên file gốc, KHÔNG xoá/đổi).
-  - Tự động (LUÔN BẬT): workflow `optimize-images.yml` chạy (a) khi push ảnh
-    raster lên `main`, và (b) quét định kỳ hằng ngày 11:00 GMT+7 → bắt cả ảnh
-    cũ còn sót chưa có `.webp`. Mục tiêu: mọi ảnh raster nội bộ đều có `.webp`.
-  - Thủ công / trong shortcut `bb`: chạy `python3 scripts/to_webp.py <path>`.
-- Hiển thị ảnh nội bộ qua macro `picture_webp` (`templates/macros/img.html`):
-  render `<picture>` ưu tiên `.webp` + fallback file gốc cho browser cũ.
+- Upload tạm `.jpg/.jpeg/.png` → workflow `optimize-images.yml` convert sang
+  `.webp` và **xoá raster gốc** (`scripts/to_webp.py --replace`). Thủ công:
+  `python3 scripts/to_webp.py --replace static/img`.
+- **Phát hành / tham chiếu chỉ `.webp`** cho raster (templates, config, content
+  URL, OG/Twitter/schema). Macro `thumb_src` / `picture_webp` chuẩn hoá legacy
+  `.jpg/.png` → `.webp` khi render.
 - KHÔNG convert `.svg` (vector) và `.gif` (giữ animation).
-- `og:image` / ảnh social meta giữ định dạng gốc (`.jpg/.png`) cho tương thích;
-  KHÔNG thay bằng webp ở thẻ meta OG/Twitter.
+- **Tradeoff (chấp nhận):** browser cực cũ không hỗ trợ WebP hiếm gặp; OG/social
+  dùng `.webp` (Facebook/X/Google đều hỗ trợ). Không giữ song song jpg/png trên
+  site — giảm bandwith + thống nhất pipeline.
 
 ### Ảnh Placeholder mặc định (bài KHÔNG có ảnh)
 
@@ -318,7 +377,7 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   `python3 scripts/make_placeholder.py`): `placeholder.svg` (3:2, thumbnail),
   `placeholder-wide.svg` (16:9, ảnh trong bài), `placeholder-square.svg` (1:1).
 - SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước. OG/social
-  vẫn fallback `img/og-default.jpg` (raster) vì mạng xã hội không render SVG.
+  fallback `img/og-default.webp` khi thumbnail là `.svg` (mạng xã hội không render SVG).
 - **Fallback runtime (ảnh CÓ src nhưng load lỗi/404):** `base.html` có 1 listener
   `error` (capture phase) đổi mọi `<img>` load fail sang placeholder → KHÔNG bao
   giờ hiện icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ lo bài THIẾU
@@ -329,27 +388,521 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 
 - Blog là **Zola static site deploy GitHub Pages, repo public** → KHÔNG có
   server-side, KHÔNG thể chặn tải file hay "ẩn URL thật". Mọi file đã publish
-  là URL công khai. Đừng hứa/giả lập "chặn download" bằng JS client-side (vô
-  tác dụng — ai biết URL vẫn tải được).
+  là URL công khai. **Friction client-side** (`media-guard.js`, CSS) chỉ giảm
+  tải/sao casual — KHÔNG hứa chặn tuyệt đối; ai biết URL vẫn tải được.
+- **Meta security** (CSP, `X-Content-Type-Options`, `X-Frame-Options`,
+  `Referrer-Policy`) trong `base.html` — GitHub Pages không custom HTTP headers;
+  Cloudflare trước Pages mới set HSTS / rate-limit / WAF thật (xem
+  `SECURITY-GUIDE.md` §Cloudflare).
+- **robots.txt:** Allow rõ `Googlebot`, `Bingbot`, `Mediapartners-Google`;
+  Disallow chỉ `/editor/`, `/admin-author/`, `/data/` — KHÔNG chặn ảnh bài viết.
 - `content/*.md` KHÔNG bị serve (Zola compile ra HTML). Chỉ file trong `static/`
   mới được copy nguyên trạng lên site → KHÔNG đặt file nhạy cảm trong `static/`.
-- File báo cáo `static/data/reports/*.md` là public theo thiết kế; chỉ ẩn khỏi
-  search qua `robots.txt`. Muốn chặn tải THẬT phải đưa qua backend có auth
-  (FastAPI/Cloudflare Worker) — đây là việc lớn, chỉ làm khi user yêu cầu rõ.
+- **Báo cáo (`??`) đã chuyển sang BACKEND-GATED (chặn THẬT, 16/06/2026):** file
+  `.md` KHÔNG còn nằm trong `static/` hay repo public nữa. Nội dung lưu trong
+  Redis của backend FastAPI (`services/visitor-counter/main.py`), chỉ tải được
+  qua endpoint `GET /reports/{file}` sau khi `require_session` pass (OAuth GitHub
+  + email whitelist `ADMIN_EMAILS`). Trang `/bao-cao-tong-ket/` + `bao-cao.js`
+  gọi backend (login → `/auth/me` → `/reports`), tải bằng fetch+Blob (Bearer sid).
+  - Đẩy báo cáo mới lên backend: `POST /reports` (auth). Phím tắt `??` sinh file
+    `.md` rồi dùng `python3 scripts/push_report.py <file> --sid <sid>` để đẩy
+    (KHÔNG commit .md report vào repo public nữa).
+  - Vẫn đúng nguyên tắc gốc: chỉ những gì NẰM TRONG repo/static mới public. Report
+    giờ nằm ngoài repo → khách không có URL trực tiếp để tải.
 - KHÔNG hardcode secret trong repo/workflow. Đưa input từ `github.event.*` vào
   env var hoặc dùng context tin cậy (`github.sha`...), KHÔNG nội suy thẳng vào
   `run:`/payload (chống script injection).
 
-### Dependabot (BẬT qua `.github/dependabot.yml`)
+### Dependabot — TẮT (không auto-dependency updates)
 
-- Dependabot CHỈ mở PR cập nhật dependency (GitHub Actions + Python deps), gom
-  nhóm, weekly. Nó **KHÔNG push thẳng vào `main`** → không tự làm đỏ production.
-- **KHÔNG gây xung đột build site**: Zola binary pin cứng version trong
-  `deploy.yml`, Dependabot không đụng tới. Nó chỉ bump action versions + deps
-  của script/service phụ.
-- **Quy tắc merge PR Dependabot** (gate bắt buộc, cùng chuẩn deploy):
-  1. PR phải PASS `qa-check` + build xanh → mới được merge. PR đỏ → KHÔNG merge.
-  2. Nếu một bump làm fail CI/build → chạy phím tắt **`ff`** (Full Fix & Deploy)
-     để auto-fix; fix xong + xanh → merge. Nếu không fix được → ĐÓNG PR đó, giữ
-     version cũ, KHÔNG ép merge.
-  3. Tuyệt đối KHÔNG auto-merge PR Dependabot khi đang đỏ chỉ để "cho xong".
+- **KHÔNG** dùng Dependabot / auto-bump dependency. Cập nhật action/deps thủ công
+  qua feature branch → PR → review → user merge thủ công (từng PR).
+
+## Autofixer Conflict Resolver (Python — `scripts/autofix_conflicts.py`)
+
+> Workflow: `.github/workflows/autofix-conflicts.yml` — cron mỗi 30 phút + `workflow_dispatch`.
+> State dedup: `data/autofix-conflicts-state.json`.
+
+### Mục tiêu
+
+Tự động quét PR open bị merge conflict với `main`, resolve an toàn, chạy QA/build,
+tạo PR fix riêng `autofix/conflict-pr-<N>` để user review thủ công.
+
+### Quy tắc BẮT BUỘC (autofix)
+
+- **KHÔNG** commit/push trực tiếp vào `main`.
+- **KHÔNG** force-push vào branch của người khác.
+- PR autofix auto-merge khi CI pass (giống policy chung); gắn `no-auto-merge` nếu cần review tay.
+- **KHÔNG** tự sửa file nhạy cảm (`.env`, secrets, tokens, keys).
+- Nếu không chắc chắn → đánh dấu `needs manual review`, comment trên PR gốc.
+
+### Chiến lược resolve (ưu tiên)
+
+| Loại file | Chiến lược |
+|-----------|------------|
+| `content/posting/*.md` (bài mới) | Giữ nội dung PR; merge frontmatter (title/date/slug/category/tags từ PR) |
+| `config.toml`, `.github/`, deploy/security | Giữ `main` |
+| sidebar/menu/nav/category/series JSON | Merge cả hai bên, dedupe, sort |
+| Template/HTML | Merge dòng nếu overlap cao; logic khác → manual |
+| SCSS/CSS | Merge rules không trùng; structural conflict → manual |
+| Không chắc | **Manual** — không đoán |
+
+### Validation sau resolve
+
+1. `python3 qa_check.py`
+2. `python3 scripts/build_references.py`
+3. `zola build` (cần `ZOLA_GH_TOKEN`)
+4. `python3 scripts/check_internal_links.py`
+
+Chỉ tạo autofix PR khi **tất cả** bước pass và **không còn** conflict markers.
+
+### Dedup / state
+
+- Key: `source_pr_head_sha` + `main_head_sha` trong `data/autofix-conflicts-state.json`.
+- Bỏ qua nếu đã có autofix PR open cho cùng head SHA.
+- Re-run khi PR gốc có commit mới (head SHA đổi).
+
+### Chạy thủ công
+
+```bash
+# Scan tất cả PR conflict
+GH_TOKEN=... python3 scripts/autofix_conflicts.py
+
+# Chỉ PR #280
+GH_TOKEN=... python3 scripts/autofix_conflicts.py --pr 280
+
+# Dry-run (chỉ scan)
+python3 scripts/autofix_conflicts.py --dry-run
+```
+
+Hoặc: GitHub Actions → **Autofix Merge Conflicts** → **Run workflow** (optional `pr_number`).
+
+### Khi AI agent gặp conflict thủ công
+
+1. Đọc log dưới đây (`## Autofixer Conflict Learning Log`) trước khi resolve tay.
+2. Sau khi resolve conflict (dù bằng autofix hay tay), **append** entry mới vào log.
+3. Ưu tiên pattern đã học — không lặp lại lỗi resolve sai sidebar/config.
+
+## Autofixer Conflict Learning Log
+
+_(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau mỗi lần xử lý.)_
+
+### PR #284 — `feat/autofix-conflicts` (2026-06-17)
+
+| Field | Detail |
+|-------|--------|
+| **Files conflict** | `CLAUDE.md` (duy nhất) |
+| **Nguyên nhân** | PR #284 thêm section Autofixer + Dependabot rule cũ (`batch merge 10 PR`); `main` đã cập nhật policy PR-only (#272) — `user merge thủ công (từng PR)` nhưng chưa có section Autofixer |
+| **Cách resolve** | Giữ wording Dependabot từ `main`; giữ nguyên toàn bộ section Autofixer Conflict Resolver + Learning Log từ PR #284; `README.md` auto-merge thành công |
+| **Rule mới cho Autofixer** | Khi conflict chỉ ở `CLAUDE.md` policy/docs: **không chọn một bên** — lấy policy mới nhất từ `main`, append feature docs từ PR; không ghi đè section kỹ thuật đã thêm bởi PR |
+| **Chú ý tương lai** | Sau PR #272, mọi chỗ ghi `batch merge` / auto-merge phải đồng bộ `user merge thủ công`; kiểm tra hot-search, deploy, workflow guards không bị rollback khi merge PR autofix |
+
+## Build Dashboard / GitHub Actions Learning
+
+### Build #388 and #387 — cancelled runs
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Dashboard hiển thị deploy run `conclusion: cancelled` (Build #388 `b38ba77` PR #287, Build #387 `f77c003` PR #285) như thẻ lỗi đỏ (`✗`, `--fail`) dù `stats.failure = 0` |
+| **Root cause** | **Dashboard logic bug**, không phải lỗi workflow: `status_vi()` gán `cancelled → success: false`; template `insights.html` dùng `build.success` cho CSS/icon → cancelled bị render như failed. Deploy thật sự bị huỷ do **3 merge liên tiếp lên main** (~16:23–16:26 UTC): run pending bị thay bởi run mới trong concurrency group `pages` (hành vi GitHub bình thường khi `cancel-in-progress: false` — chỉ huỷ run **đang chờ**, không huỷ run đang chạy). `deploy.yml` **đã đúng** (`cancel-in-progress: false`). Build #389+ thành công — site health OK |
+| **Resolution** | `scripts/fetch_build_dashboard.py`: thêm `status_normalized`, `gh_status`, `is_error`, `severity`, `cancel_reason`; phát hiện superseding run → message rõ; stats thêm `skipped`/`in_progress`. `templates/insights.html` + `sass/_insights.scss`: class `--cancelled`/`--skipped`/`--in_progress`, header hiện số đã huỷ. `scripts/test_build_dashboard.py` |
+| **Prevention rule** | Không classify GitHub Actions `cancelled` là `failed`. Concurrency cancellation = non-critical trừ khi **mọi** deploy run mới nhất đều fail. Dashboard phải hiển thị `conclusion` thô và `status_normalized` riêng. Xác nhận deploy run mới nhất `success` trước khi đánh site health degraded |
+| **Human review notes** | Build #387 (3s) bị thay bởi #388; #388 (110s) bị thay bởi #389 thành công. Không cần sửa `deploy.yml` concurrency |
+
+## Compliance Dashboard Learning
+
+### Internal links false “FAILED” (2026-06-17)
+
+| Field | Detail |
+|-------|--------|
+| **Triệu chứng** | Dashboard 97.8 A+ nhưng Auto-fix log hiện `FAILED — Links: Internal links — Không tìm thấy pattern link hỏng đã biết` |
+| **Root cause** | **Case 1 + Case 3**: Có 2 link hỏng thật; autofixer chỉ biết pattern cũ (prefix `/zola/`, changelog.json…). UI gắn nhãn `failed` của **autofix** khiến user tưởng compliance FAIL |
+| **Link hỏng** | (1) `uranium-la-gi…` → `/posting/uranium-lam-giau-la-gi/` (Bài 2 chưa publish, còn trong `references.json`); (2) `scoring/` → draft `bi-kip-xin-visa…` trong `scores.json` |
+| **Files** | `scripts/compliance_audit.py`, `scripts/compliance_fix.py`, `scripts/related_engine.py`, `templates/insights.html`, `content/posting/uranium-la-gi-tai-sao-quan-trong.md`, `data/scores.json`, `data/related.json` |
+| **Resolution** | Audit ghi `data/compliance-link-report.json` + `broken[]` chi tiết; purge draft khỏi `scores.json`/`related.json`; sửa link series; dashboard hiện broken link cụ thể; autofix badge đổi thành `autofix` |
+| **Prevention** | `related_engine.load_posts()` bỏ qua `draft=true`; chạy `build_references.py` **trước** `zola build`; kiểm tra `compliance-link-report.json` khi warn Links |
+
+## Merge Session
+
+**Date:** 2026-06-17T17:15:00Z
+
+**Merged (rebase):**
+- #313 — fix(dashboard): cancelled deploy runs Build #387/#388
+- #309 — fix: compliance internal links (rebased, conflict CLAUDE.md + compliance-score.json)
+- #311 — qa: compliance score refresh (regenerated 100/100, không rollback #309)
+- #312 — chore: build dashboard refresh (giữ status_normalized từ #313)
+- #310 — chore: changelog maintenance session entries
+
+**Validation:**
+- `zola build`: PASS
+- `compliance_audit.py`: PASS (100/100 A+)
+- `test_compliance_links.py`: PASS (3/3)
+- `test_build_dashboard.py`: PASS (7/7)
+- `check_internal_links.py`: PASS
+
+**Lessons:**
+- #309 conflict với #313 ở `CLAUDE.md` → giữ **cả hai** learning sections (Build Dashboard + Compliance)
+- #311/#312 PR bot cũ chứa data stale — **không merge as-is**; regenerate từ main sau #313/#309
+- Merge order: dashboard fix (#313) → compliance fix (#309) → data refresh (#311, #312) → changelog (#310)
+- #314 merge tay sau maintenance — rebase + sửa `pr-policy.yml` whitelist `auto-merge.yml`
+
+---
+
+## Hệ thống tham khảo — Playbook phiên 2026-06-17
+
+> **Mục đích:** Khi dashboard/CI báo lỗi hoặc cần merge khẩn nhiều PR, đọc section này **trước** khi sửa workflow hoặc merge. Chi tiết sâu: các section Build Dashboard, Compliance, Merge Session phía trên.
+
+### 1. Chẩn đoán nhanh — Dashboard báo lỗi nhưng site vẫn chạy
+
+| Triệu chứng | Đừng làm | Làm đúng |
+|-------------|----------|----------|
+| Build Dashboard thẻ đỏ `✗`, `conclusion: cancelled` | Sửa `deploy.yml` concurrency | Kiểm tra `stats.failure` — nếu `0` và deploy mới nhất `success` → **logic dashboard**, không phải site down |
+| Compliance 97–100 A+ nhưng log `FAILED — Links` | Coi compliance FAIL | Phân biệt **autofix outcome** vs **compliance stats.fail**; đọc `data/compliance-link-report.json` |
+| Nhiều deploy `cancelled` liên tiếp | Panic rollback | Bình thường khi **batch merge** — run pending bị thay trong group `pages`; xác nhận run **mới nhất** |
+
+**Rule vàng:** Luôn kiểm tra **run/commit deploy mới nhất** trước khi đánh site health degraded.
+
+### 2. Build Dashboard — cancelled ≠ failed
+
+**Dấu hiệu:** `build.success: false` + `conclusion: cancelled` + card `--fail` đỏ.
+
+**Root cause điển hình:** `fetch_build_dashboard.py` map `cancelled → success: false`; `insights.html` dùng `build.success` cho CSS.
+
+**Fix pattern:**
+- Field: `status_normalized` (`success` | `failed` | `cancelled` | `skipped` | `in_progress`)
+- `is_error: true` **chỉ** khi `failed`
+- UI: class `--cancelled` (vàng ⊘), không dùng `--fail`
+- Message: phát hiện superseding run → `Đã huỷ do concurrency — run mới hơn (Build #N)`
+
+**Workflow deploy:** `deploy.yml` giữ `concurrency.group: pages` + `cancel-in-progress: false` — **không đổi** trừ khi mọi deploy mới nhất đều fail thật.
+
+**Test:** `python3 scripts/test_build_dashboard.py`
+
+### 3. Compliance Dashboard — false “FAILED”
+
+**Dấu hiệu:** Score A+ nhưng Auto-fix log đỏ; `stats.fail = 0`.
+
+**Root cause điển hình:**
+1. Link hỏng **thật** (series planned chưa publish, draft trong `scores.json`)
+2. Autofixer không biết pattern mới → `outcome: failed` trên log, không phải compliance fail
+3. UI gắn badge `failed` cho autofix → user hiểu nhầm
+
+**Fix pattern:**
+- `compliance_audit.py` → `data/compliance-link-report.json` với `broken[]` (source, target, reason)
+- `related_engine.load_posts()` skip `draft=true`
+- Purge draft khỏi `scores.json` / `related.json`
+- Dashboard: hiện broken link cụ thể; badge autofix = `autofix` không phải `failed`
+- Chạy `build_references.py` **trước** `zola build`
+
+**Validation bundle:**
+```bash
+python3 scripts/build_references.py
+python3 scripts/compliance_audit.py
+python3 scripts/test_compliance_links.py
+python3 scripts/check_internal_links.py
+zola build
+```
+
+### 4. Maintenance merge — nhiều PR chồng chéo
+
+**Thứ tự ưu tiên (đã chứng minh 17/06/2026):**
+
+```
+1. Fix logic (dashboard #313, compliance #309)
+2. Rebase từng PR lên latest main
+3. Data refresh bot (#311 compliance, #312 build-dashboard) — REGENERATE, không merge stale
+4. Changelog/docs (#310)
+5. Policy/infra (#314 auto-merge)
+```
+
+**Merge method:** User yêu cầu debug history → **rebase merge**, không squash cả batch.
+
+**Conflict thường gặp:**
+
+| File | Chiến lược |
+|------|------------|
+| `CLAUDE.md` | **Append** learning sections — không chọn một bên |
+| `data/compliance-score.json` | Giữ bản **score cao hơn / fix mới hơn** (#309 → 100.0) |
+| `data/build-dashboard.json` | Giữ schema mới (`status_normalized`) từ fix #313, rồi refresh timestamp |
+| `templates/insights.html` | Merge cả build dashboard + compliance UI blocks |
+| `templates/base.html`, `series-nav.html`, `page.html` | Thêm `elif` cho **mỗi** series manifest — không thay thế series cũ |
+
+**PR bot data (`qa/compliance-auto`, `chore/build-dashboard-data`):**
+- Chỉ đổi timestamp trên data **cũ** → merge sẽ **rollback** fix logic
+- Cách đúng: `git checkout -B <branch> origin/main` → chạy `compliance_audit.py` hoặc migrate `build-dashboard.json` → push → merge
+
+### 5. Multi-series template pattern
+
+Khi thêm series mới (`adsense-foundation`, `science-uranium`, …):
+
+```
+base.html, macros/series-nav.html, page.html:
+  {% if page.extra.series == "seo-foundation" %} → seo-foundation-series.json
+  {% elif page.extra.series == "adsense-foundation" %} → adsense-foundation-series.json
+  {% elif page.extra.series == "science-uranium" %} → science-uranium-series.json
+```
+
+`page.html` hub: `page.extra.hub_series` cho cluster related posts (science-uranium).
+
+### 6. Auto-merge policy (#314) — bẫy PR Policy
+
+**Triệu chứng:** PR `auto-merge.yml` pass qa-check nhưng **policy FAIL**.
+
+**Root cause:** `pr-policy.yml` grep `auto-merge` chặn **cả** file `.github/workflows/auto-merge.yml`.
+
+**Fix:** Whitelist trong `pr-policy.yml`:
+- `.github/workflows/auto-merge.yml`
+- `.github/workflows/merge-report.yml`
+- `scripts/try_auto_merge.py`
+- `scripts/fetch_merge_report.py`
+
+Vẫn chặn: dependabot, renovate, workflow auto-merge **không** whitelist.
+
+**Sau merge #314:** Branch protection `main` → Required approvals = **0** (`.github/BRANCH-PROTECTION.md`).
+
+**Chặn auto-merge một PR:** label `no-auto-merge` hoặc `manual-review`.
+
+**Lệnh user:** `manual #N` = merge tay PR #N (rebase), thường sau khi auto-merge chưa bật hoặc PR policy/infra.
+
+### 7. Validation checklist — trước và sau merge
+
+| Bước | Lệnh | Pass khi |
+|------|------|----------|
+| Build site | `zola build` | exit 0 |
+| References | `python3 scripts/build_references.py` | Wrote data/references.json |
+| Internal links | `python3 scripts/check_internal_links.py` | OK |
+| Compliance | `python3 scripts/compliance_audit.py` | 100/100, 0 broken |
+| Compliance tests | `python3 scripts/test_compliance_links.py` | 3/3 |
+| Dashboard tests | `python3 scripts/test_build_dashboard.py` | 7/7 |
+| Merge report tests | `python3 scripts/test_merge_report.py` | 4/4 |
+
+**Lưu ý:** `qa_check.py` có thể báo false positive conflict marker trong `.venv-related/` — không phải lỗi repo; CI `qa.yml` là nguồn truth trên PR.
+
+### 8. Khi user báo "build failed" trên Grok Build Dashboard
+
+```
+1. Lấy run_id / build # từ data/build-dashboard.json
+2. GitHub API: conclusion = cancelled | failure | success ?
+3. cancelled + deploy mới hơn success → NON-CRITICAL (ghi dashboard)
+4. failure → đọc log job, tra Vaccine library (§4 CLAUDE.md)
+5. Không sửa deploy.yml concurrency chỉ vì cancelled history
+```
+
+### 9. File map — ai sở hữu gì
+
+| Vấn đề | Script / file chính | Data output |
+|--------|---------------------|-------------|
+| Build history UI | `fetch_build_dashboard.py`, `insights.html`, `_insights.scss` | `data/build-dashboard.json` |
+| Merge history UI | `fetch_merge_report.py`, `insights.html` | `data/merge-report.json` |
+| Compliance score | `compliance_audit.py`, `compliance_fix.py` | `data/compliance-score.json`, `compliance-link-report.json` |
+| Internal links | `check_internal_links.py`, `build_references.py` | `data/references.json` |
+| Auto-merge | `try_auto_merge.py`, `auto-merge.yml` | label `auto-merged` trên PR |
+| Bot data PR | `push_via_pr.sh` | branch `chore/*`, `qa/*` |
+
+### 10. Prevention rules (ghi nhớ lâu dài)
+
+1. **Không** classify GitHub `cancelled` là `failed` trên dashboard.
+2. **Không** merge PR bot data nếu chỉ refresh timestamp trên schema/score cũ.
+3. **Không** rollback fix logic mới hơn khi resolve conflict JSON data.
+4. **Luôn** rebase PR lên `origin/main` trước maintenance merge.
+5. **Luôn** append `CLAUDE.md` learning sau mỗi phiên điều tra — không ghi đè section cũ.
+6. **Phân biệt** 3 lớp: GitHub `conclusion` thô → `status_normalized` → UI severity (`is_error`).
+7. Confirm **latest deploy run success** trước khi báo production degraded.
+8. Series template: mỗi series = một `elif` + một `data/*-series.json` — không hardcode một manifest.
+
+### 11. PR đã xử lý trong phiên này (tham chiếu)
+
+| PR | Kết quả | Ghi chú |
+|----|---------|---------|
+| #313 | Merged | Dashboard cancelled status |
+| #309 | Merged | Compliance links + diagnostics |
+| #311 | Merged | Regenerated compliance 100/100 |
+| #312 | Merged | Dashboard refresh giữ status_normalized |
+| #310 | Merged | Changelog + Merge Session |
+| #314 | Merged (manual) | Auto-merge + Merge Report + pr-policy whitelist |
+| #325–#330, #332 | Merged (manual) | Bot maintenance — CI `action_required` → owner approve workflows |
+| #335–#338 | Merged (manual) | Cùng root cause: 0 check runs; data-only chore/qa refresh |
+| #280 | Fixed (session trước) | Series template conflict adsense + science-uranium |
+
+## F-Dashboard
+
+Trang công cụ tài chính cá nhân tại `/tools/f-dashboard/` — upload sao kê Excel VietinBank, phân tích thu/chi, sức khỏe tài chính, biểu đồ và AI insights.
+
+### Product spec (Frontend)
+
+| Pillar | Requirement |
+|--------|-------------|
+| **Auto-Download & Wipe** | Nút «Export JSON» và «Export PDF Infographic». Trigger download → **xóa ngay** toàn bộ IndexedDB. **Không** persistent online storage (không GitHub, không server, không `/static`). |
+| **Access Control** | Chỉ user **GitHub-authenticated** (reuse CMS OAuth: `cms_auth_url`, session `zola-cms-session-id`, `/auth/me`). Trang login trước dashboard. |
+| **UI/UX — Health tiers** | Hiển thị rõ 5 cấp Financial Health (Excellent → Danger) kèm score range + mô tả; highlight tier hiện tại. |
+| **PDF watermark** | Watermark trace (opacity ~0.08–0.16, lặp chéo + trung tâm): `{16hex_lowercase}_{blog_url_no_protocol}` trên mọi trang PDF. JSON export gồm `series_id` + `watermark`. |
+
+**Kiến trúc (static site):** Blog Zola trên GitHub Pages không có server upload. Luồng chạy **100% client-side**:
+
+```text
+GitHub OAuth gate (auth-gate.js)
+      ↓
+Excel VietinBank (browser)
+      ↓ SheetJS parser (parser.js)
+      ↓ SHA256 deduplicate
+      ↓ AES-GCM encrypted IndexedDB (storage.js) — ephemeral session only
+      ↓ Insights + Charts (insights.js, charts.js)
+      ↓ Export JSON/PDF (export.js) → auto-download → wipe storage
+```
+
+Python scripts (`scripts/f_dashboard_parse_excel.py`, `scripts/f_dashboard_insights.py`) mirror logic cho test/CI — **không** lưu dữ liệu người dùng.
+
+### VietinBank Parser Rules
+
+- Bỏ qua metadata đầu file (VietinBank, số TK, khoảng ngày, loại tiền).
+- Tìm dòng header bảng: `STT`, `Ngày`, `Nội dung`, `Số tiền GD`, `Số dư` (không phân biệt hoa/thường, có/không dấu).
+- Parse ngày: `DD/MM/YYYY HH:MM:SS` → ISO `YYYY-MM-DDTHH:MM:SS`.
+- Parse số tiền: bỏ dấu phẩy, ưu tiên dấu `+`/`-` trên chuỗi.
+
+### Thu / Chi (Income / Expense)
+
+Ưu tiên (không phụ thuộc màu Excel):
+
+1. `amount < 0` → `expense`
+2. `amount > 0` → `income`
+3. Màu font Excel (đỏ/xanh) chỉ là tín hiệu phụ khi `amount === 0`
+
+### Deduplicate Rules
+
+```text
+transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
+```
+
+- Đã tồn tại `transaction_id` → **SKIP**
+- Chưa có → **INSERT**
+- Upload cùng file N lần không nhân đôi dữ liệu.
+
+### Financial Health Rules
+
+- **Saving Rate:** `(Tổng thu - Tổng chi) / Tổng thu`
+- **Expense Ratio:** `Tổng chi / Tổng thu`
+- **Net Cash Flow:** `Thu - Chi`
+- **Financial Score:** 0–100 từ saving rate, expense ratio, net flow, độ dài dữ liệu
+- **Tiers (UI + PDF):**
+
+| Tier | Score | Ý nghĩa |
+|------|-------|---------|
+| Excellent | ≥ 85 | Tích lũy mạnh, chi tiêu kiểm soát |
+| Good | 70 – 84 | Cân bằng tốt, tiết kiệm đủ |
+| Average | 50 – 69 | Trung bình, cần theo dõi chi |
+| Risky | 30 – 49 | Chi gần/vượt thu |
+| Danger | &lt; 30 | Thâm hụt kéo dài |
+
+### Security Rules
+
+- **Không** public file Excel, JSON sao kê, database dump.
+- **Không** lưu trong `/static`, `/public`, hoặc commit git.
+- Dữ liệu chỉ trên **IndexedDB local**, mã hóa **AES-GCM** (key sinh per-browser).
+- Không gửi sao kê lên server — parse hoàn toàn trong trình duyệt.
+- **Auth:** `/tools/f-dashboard/` — GitHub OAuth only (CMS flow).
+
+### OAuth / Login (F-Dashboard + CMS)
+
+| Config | Vị trí | Ghi chú |
+|--------|--------|---------|
+| `cms_auth_url` | `config.toml` → **`[extra]`** (không nest trong `[extra.giscus]`) | Render meta `zola-cms-auth-api` |
+| Backend | `services/visitor-counter` (`blog-visitor-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/me` |
+| Session key | `sessionStorage` → `zola-cms-session-id` | Chung CMS + F-Dashboard |
+| `return_to` | Client gửi `location.pathname` (vd `/zola/tools/f-dashboard/`) | Backend strip `/zola` prefix → redirect `#sid=...` |
+| Whitelist | `ADMIN_EMAILS` + `ADMIN_USERNAMES` (Render env) | Email verified **hoặc** GitHub login `banhang-chogao` |
+| OAuth callback | GitHub App → `{BACKEND_URL}/auth/callback` | **Không** cần thêm callback riêng cho F-Dashboard (cùng app CMS) |
+| Lỗi auth | `?auth_error=...` trên **đúng** `return_to` | Không ép về `/editor/` |
+
+**F-Dashboard flow:** `auth-gate.js` → `GET {cms_auth_url}/auth/login?return_to=/zola/tools/f-dashboard/` → GitHub → callback → redirect `https://banhang-chogao.github.io/zola/tools/f-dashboard/#sid=...` → `fetchMe()` → hiện dashboard.
+- **Ephemeral:** `exportAndWipe()` — download → `clearAll()` ngay; no persistent online storage.
+- **PDF watermark (trace):** `SHA256-style 16 hex lowercase` + `_` + `banhang-chogao.github.io/zola` (no `https://`).
+
+## F-Dashboard PDF Export Rules
+
+- Always embed Unicode-capable Vietnamese fonts.
+- Prefer Nokia Pure/Nokia Headline for F-Dashboard reports.
+- Do not rely on browser fallback fonts for PDF.
+- Use landscape A4 for bank-style transaction reports.
+- Watermark must be visible enough for copyright tracing but not block content.
+- Authenticated F-Dashboard users must never see the login CTA again after successful login.
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Trang | `content/tools/f-dashboard.md`, `templates/f-dashboard.html` |
+| Styles | `sass/_f-dashboard.scss` |
+| Client JS | `static/js/f-dashboard/*.js` (`auth-gate.js`, `export.js`, …) |
+| PDF fonts | `static/fonts/nokia-pure/*.ttf` (Nokia Pure/Headline, embedded via jsPDF) |
+| Python parser | `scripts/f_dashboard_parse_excel.py` |
+| Python insights | `scripts/f_dashboard_insights.py` |
+| Tests | `scripts/test_f_dashboard.py` |
+| Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
+
+## QA Auto Rule Checker
+
+Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **8 giờ** (`qa-rule-checker.yml`).
+
+| Thành phần | Path |
+|------------|------|
+| Agent | `scripts/qa-auto-rule-checker.py` |
+| Tests | `scripts/test_qa_auto_rule_checker.py` |
+| Workflow | `.github/workflows/qa-rule-checker.yml` |
+| Reports | `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md` |
+| State / anti-loop | `data/qa-rule-checker-state.json` |
+
+**Quét:** CLAUDE.md · `.github/workflows/*` · `scripts/` · dashboards · content/SEO rules.
+
+**Severity:** LOW · MEDIUM · HIGH · CRITICAL.
+
+**Auto-fix:** chỉ khi `confidence >= 90%` → branch `qa/rule-checker-auto-*` → PR **auto-merge** khi CI pass (trừ protected domain).
+
+**Anti-loop:** dừng khi cùng conflict auto-fix ≥3 lần hoặc >2 PR rule-checker mở.
+
+**Manual:** `python3 scripts/qa-auto-rule-checker.py --dry-run`
+
+## QA Rule Checker Learning
+
+**Date:** 2026-06-18T00:00:00Z
+
+**Conflict:** False positives — `seo_robots_disallow_root`, `claude_auto_vs_manual_merge`, `claude_cancelled_classification`.
+
+**Root Cause:** (1) Substring `disallow: /` khớp `/editor/`. (2) `Required approvals = 0` bị coi là mâu thuẫn auto-merge. (3) Prevention rule «Không classify cancelled là failed» bị đọc thành conflict với chính nó. (4) `fix_attempts` tăng khi không sửa file → anti-loop STOP giả.
+
+**Resolution:** `_robots_disallows_root()` EOL-only; skip `.venv*`; `required approvals = 0` = aligned với auto-merge; bỏ qua `classify cancelled` khi có «không» trước đó; `fix_attempts` chỉ khi file đổi; reset `loop_detected` khi scan sạch.
+
+**Prevention:** `python3 scripts/qa-auto-rule-checker.py --dry-run` → 0 conflicts trước khi merge; reset state khi loop do FP.
+
+## Premium Paywall Rules
+
+- Never publish full premium content in static HTML.
+- Premium posts render teaser only (`paywall_prepare_build.py --strip` trước `zola build`).
+- Frontmatter: `premium = true`, `price`, `premium_post_id` (vd `premium-fintech-001`).
+- Full premium body: `private_content/{premium_post_id}.md` — backend only, không commit vào `public/`.
+- Unlock requires email + approve code + post_id validation.
+- Approve code must be hashed in database (SHA256), không lưu plaintext.
+- Admin confirmation is manual after Momo payment.
+- Docs: `docs/paywall.md` · Admin: `/admin/paywall/` · API: `backend/paywall_app.py`
+- Deploy: `services/paywall/` + `render.yaml` → `blog-paywall-api` · set `paywall_api_url` in `config.toml`.
+
+## Momo Payment Rules
+
+- Payment link mặc định: `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr`
+- Override qua env `MOMO_PAYMENT_LINK` trên backend.
+- Flow: đọc teaser → thanh toán Momo → gửi yêu cầu (email) → admin xác nhận → generate approve code → gửi email.
+- Không có webhook Momo — xác nhận thanh toán thủ công qua admin panel.
+
+## Watermark Rules
+
+- Dynamic watermark overlay khi đọc online: `blogName • emailHash • postId • traceCode`.
+- Print/PDF: `@media print` chèn watermark `{traceCode16}_{blogDomain}` + bản quyền.
+- Ví dụ in: `A9F328BC71D06E2A_banhang-chogao.github.io` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
+- `POST /api/paywall/log-print` ghi log khi user in.
+
+## Security Rules (Paywall + F-Dashboard)
+
+- **F-Dashboard:** không public Excel/JSON/dump; dữ liệu chỉ IndexedDB mã hóa AES-GCM trên browser; không upload server.
+- **Paywall:** không hardcode SMTP secrets — `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
+- **Paywall:** admin token qua `PAYWALL_ADMIN_TOKEN`; `/admin/paywall/` disallow trong `robots.txt`.
+- Read-only protection (disable copy/right-click) là deterrent, không phải DRM tuyệt đối.
+

@@ -6,6 +6,30 @@ dài.
 
 ---
 
+## 0. Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
+
+**Khi Claude kết nối / làm việc với repo GitHub `Banhang-Chogao/zola` lần
+đầu tiên trong một session** (lần đầu dùng GitHub MCP, `gh`, hoặc `git` trỏ
+repo này), Claude PHẢI:
+
+1. **Đọc file này** (`shortcuts.md`) — source of truth duy nhất cho phím tắt.
+2. **Liệt kê ngay** bảng tóm tắt tất cả phím tắt active (format giống `help` /
+   `phimtat`): cột `Phím tắt` · `Mô tả ngắn`, kèm tổng số.
+3. **Ghi nhớ** nội dung từng shortcut trong session — khi user gọi tên phím
+   tắt (đứng đầu message, single line) → **THỰC THI NGAY** theo mô tả section
+   tương ứng trong file này, không hỏi lại, không giải thích dài.
+
+**Nhận diện "lần đầu connect"**: chưa đọc `shortcuts.md` trong session hiện tại,
+hoặc user vừa mở task mới liên quan repo zola mà chưa thấy bảng phím tắt.
+
+**Ngoại lệ**: user gõ thẳng một phím tắt ngay message đầu → đọc `shortcuts.md`
++ thực thi shortcut đó (có thể bỏ bước list đầy đủ nếu user chỉ muốn tốc độ).
+
+Chi tiết từng phím tắt: §2 bên dưới. Canonical copy rule: `CLAUDE.md` §
+"Bootstrap session GitHub".
+
+---
+
 ## 1. Cơ chế chọn phiên bản Node.js (Thông minh & Linh hoạt)
 
 KHÔNG force phiên bản Node mặc định cho mọi workflow. Khi sửa lỗi hoặc
@@ -486,7 +510,7 @@ Hành động full security audit cho leak:
      - Body: mô tả + warning user phải rotate credential
 4. **Nếu KHÔNG phát hiện** → output: `BM scan clean. No leak detected.`
 5. **Email notification**: thông qua GitHub Issue mention
-   `@Banhang-Chogao` → GitHub tự gửi email đến tamsudev.com@gmail.com.
+   `@Banhang-Chogao` → GitHub tự gửi email đến 292648126+Banhang-Chogao@users.noreply.github.com.
 
 CONSERVATIVE: chỉ flag pattern 95%+ confident (avoid false positive
 như `secret=` trong tutorial code). Test mode trước khi flag prod.
@@ -608,7 +632,7 @@ Central guidelines (https://developers.google.com/search/docs).
    - `<img>` thiếu alt → liệt kê file cần manual add (KHÔNG đoán nội dung alt)
 3. **Pages-specific**:
    - Trigger PageSpeed Insights (`fetch_pagespeed.py`) cho 5 URL chính
-     (homepage, /posting/, 1 bài random, /branding/, /scoring/)
+     (homepage, /posting/, 1 bài random, /branding-guideline/, /scoring/)
    - Verify Mobile + Desktop scores SEO ≥ 95/100
 4. **Trigger sitemap ping Google**: GET
    `https://www.google.com/ping?sitemap=<url>` sau khi deploy
@@ -1262,9 +1286,11 @@ buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể
 Mọi action/workflow failed PHẢI đi qua pipeline 3 bước:
 
 ```
-[FAILED] ─→ QA check (qa_check.py + log analysis)
-         ─→ Tự fix (qa-failed.py pattern matching)
-         ─→ Re-deploy (commit + push → trigger deploy.yml)
+[FAILED] ─→ Thu log (gh run view --log-failed)
+         ─→ Đối chiếu vaccine (vaccine_rules.py ↔ CLAUDE.md)
+         ─→ Safe fix (qa-failed.py)
+         ─→ Branch fix/ci-auto-<run_id> → PR → QA.yml validate
+         ─→ Chờ review thủ công (KHÔNG push main, KHÔNG auto-merge)
 ```
 
 **Claude tự quyết định** (không hỏi user):
@@ -1272,9 +1298,13 @@ Mọi action/workflow failed PHẢI đi qua pipeline 3 bước:
 - Hướng xử lý lỗi tối ưu (conservative khi unknown, aggressive khi pattern rõ)
 - Khi nào escalate qua issue thay vì cố fix mù
 
-Workflow handler `.github/workflows/qa-failed-handler.yml` ĐÃ BỊ GỠ
-(user request 11:37). `qa-failed.py` giữ lại — chạy manual qua các
-shortcut `ff` / `healing`.
+Workflow handler cũ `qa-failed-handler.yml` đã gỡ (15/06/2026 11:37, PR #89).
+Thay bằng `.github/workflows/build-failure-handler.yml` (16/06/2026):
+trigger khi `deploy.yml` / `qa.yml` fail → `qa-failed.py` → branch
+`fix/ci-auto-<run_id>` → PR (KHÔNG push main, KHÔNG auto-merge).
+Vaccine rules: `scripts/vaccine_rules.py` ↔ CLAUDE.md V1–V4.
+
+`qa-failed.py` vẫn chạy manual qua shortcut `ff` / `healing` khi cần.
 
 Nguyên tắc khi chạy `qa-failed.py`:
 - **Buffer + retry**: sleep 30s trước khi poll, max 5 lần × 30s
@@ -1325,52 +1355,49 @@ Claude PHẢI:
 Mỗi lần tạo PR mới, Claude PHẢI nhắc user link manage:
 "PR #X created. Total open: N. Manage at: https://github.com/Banhang-Chogao/zola/pulls"
 
-## 4.5. Quy trình Deploy (MỚI NHẤT — cập nhật 16/06/2026)
+## 4.5. Quy trình Deploy (MỚI NHẤT — PR-only, 17/06/2026)
 
-**🚨 RULE MỚI (ghi đè TẤT CẢ rule deploy trước đó, kể cả "FINAL FINAL 16:00")**:
+**🚨 RULE MỚI (ghi đè rule auto-merge 16/06/2026 và mọi rule deploy trước đó)**:
 
-**BẬT AUTO-MERGE + AUTO-DEPLOY HOÀN TOÀN.** Để tiết kiệm thời gian, Claude
-TỰ ĐỘNG commit → merge → deploy, user KHÔNG phải làm tay. Rule "TẠM NGƯNG
-QUYỀN AUTO-MERGE" / "rule 16:00" trước đây **ĐÃ BỊ HỦY**.
-
-> Mọi tham chiếu "(rule 16:00)" và "KHÔNG auto-merge" rải rác trong file này
-> (các shortcut `morning`, `seo10`, `gg`, `prm`, `ff`, `pp`...) đều **VÔ HIỆU**,
-> thay bằng quy trình auto-deploy ở mục này. Rule gốc (canonical) nằm ở `CLAUDE.md`.
+**PR-ONLY — KHÔNG push/merge trực tiếp `main`.** Mọi thay đổi qua Pull Request,
+user merge thủ công. Rule canonical: `CLAUDE.md`, `docs/OPERATIONS.md`.
 
 ### Quy trình bắt buộc
 
-1. **Auto commit + auto merge**:
-   - Sau mỗi thay đổi, Claude tự commit (message rõ ràng) và tự merge vào `main`.
-   - KHÔNG đợi `manual #X`, KHÔNG gom batch ≥10, KHÔNG chờ 16:00.
+1. **Một yêu cầu = một branch + một PR**:
+   - `feature/`, `fix/`, `qa/`, `content/`, `chore/`, `policy/` + mô tả ngắn
+   - Claude commit lên branch, push, tạo PR — **KHÔNG tự merge**
 
-2. **Điều kiện lên production (cả 3 PHẢI đạt)**:
-   - Commit/push thành công (không lỗi git).
-   - QA checker approve — `qa_check.py` / `qa.yml` pass (chỉ error/exit≠0 mới chặn, warning KHÔNG chặn).
-   - Build KHÔNG failed — `deploy.yml` xanh.
-   - Đủ 3 → auto merge + auto deploy lên production (GitHub Pages), KHÔNG hỏi lại.
+2. **Điều kiện trước khi user merge** (CI hỗ trợ):
+   - `qa_check.py` / `qa.yml` pass
+   - `zola build` pass
+   - PR Policy pass (title/body đủ mô tả)
 
-3. **Khi build failed → fix rồi deploy**:
-   - Chạy `ff` (Full Fix & Deploy, Python lib picker) HOẶC `ff9` (Smart
-     Conflict Resolver, Python-powered) để fix.
-   - Build xanh trở lại → auto deploy, KHÔNG cần `manual #X`.
+3. **Deploy production**:
+   - Chỉ sau khi user merge PR vào `main` → `deploy.yml` tự chạy
 
-4. **Hành vi shortcut sau khi bật auto-merge**:
-   - `gg`, `pp`, `ff`, `prm`...: ĐƯỢC auto-merge khi đủ điều kiện mục 2.
-   - `manual #X`: vẫn dùng được để merge thủ công 1 PR cụ thể khi cần.
+4. **Build failed trên PR**:
+   - `ff` / `ff9` fix trên **cùng branch/PR** — KHÔNG push `main`
 
-### Output sau mỗi deploy
+5. **`manual #X` / `prm`**:
+   - `manual #X`: user merge PR #X thủ công trên GitHub
+   - `prm`: báo cáo PR sẵn sàng merge — **KHÔNG auto-merge** (`batch-merge.yml` chỉ report)
+
+### Output sau khi tạo PR
 
 ```
-Commit #X → merged vào main → deploy.yml building.
-QA: pass | Build: xanh → production updating.
+PR #X created on branch <name>. Awaiting manual review/merge.
+Manage: https://github.com/Banhang-Chogao/zola/pulls
 ```
 
 ## 4.6. Hard rules (KHÔNG được vi phạm)
 
-- **ĐƯỢC auto-merge + auto-deploy** khi đủ 3 điều kiện ở §4.5 (commit OK + QA pass + build xanh)
-- **Build failed** → BẮT BUỘC chạy `ff` / `ff9` fix trước, KHÔNG bỏ mặc deploy đỏ
-- **KHÔNG tạo branch mới** cho mỗi content (commit vào branch dev chính / merge `main`)
-- Sau mỗi lần merge/deploy PHẢI output bảng báo cáo (xem §5)
+- **KHÔNG** commit/push/merge trực tiếp `main` (human + bot)
+- **KHÔNG** auto-merge PR — kể cả CI xanh
+- **Một PR = một tính năng/fix** — không gom việc không liên quan
+- **Build failed** → fix trên branch PR, chờ user merge lại
+- Automation dùng `push_via_pr.sh` — không `git push origin HEAD:main`
+- Sau mỗi lần user merge PR PHẢI output bảng báo cáo (xem §5)
 
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
 

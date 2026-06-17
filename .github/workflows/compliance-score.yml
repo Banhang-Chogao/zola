@@ -1,0 +1,79 @@
+name: Compliance Score Audit
+
+# Deterministic SEO + site-quality audit → data/compliance-score.json
+# for /insights/ (public label: "Compliance Score" only).
+# Auto-fix warn/fail items (low priority) → rebuild → re-score.
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'   # every 12 hours (UTC)
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build and deploy Zola site to GitHub Pages"
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: compliance-score
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Zola
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Build site
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: zola build
+
+      - name: Run compliance audit
+        run: python3 scripts/compliance_audit.py
+
+      - name: Auto-fix warn/fail items (low priority)
+        id: fix
+        run: |
+          python3 scripts/compliance_fix.py
+          if [ -f data/.compliance-rebuild ]; then
+            echo "rebuild=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rebuild after fixes
+        if: steps.fix.outputs.rebuild == 'true'
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          zola build
+          python3 scripts/compliance_audit.py
+          python3 scripts/compliance_fix.py
+
+      - name: Open PR if changed (never push main)
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: "qa: Compliance Score audit + auto-fix"
+        run: |
+          chmod +x .github/scripts/push_via_pr.sh
+          .github/scripts/push_via_pr.sh qa/compliance-auto \
+            "Cập nhật: Compliance Score + auto-fix ($(date -u +%FT%TZ))" \
+            data/compliance-score.json data/compliance-link-report.json \
+            data/seo-qa-scores.json data/scores.json data/related.json \
+            content/ templates/ static/ sass/ scripts/

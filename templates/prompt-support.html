@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Prompt Support | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <section class="psupport" data-prompt-support>
+        <header class="psupport__head">
+            <h1 class="psupport__title">Prompt Support</h1>
+            <p class="psupport__desc">
+                Biến yêu cầu thô thành prompt ngắn, chuyên nghiệp, tiết kiệm token —
+                tối ưu cho Grok/Claude coding agent. Tự nhận loại task, chấm điểm chất lượng,
+                và copy nhanh.
+            </p>
+        </header>
+
+        <div class="psupport__grid">
+            <div class="psupport__panel">
+                <label class="psupport__label" for="psupport-input">Yêu cầu thô</label>
+                <textarea
+                    id="psupport-input"
+                    class="psupport__input"
+                    data-psupport-input
+                    rows="12"
+                    spellcheck="false"
+                    placeholder="Dán yêu cầu coding (tiếng Việt hoặc English).&#10;&#10;Ví dụ:&#10;Kêu Grok fix gấp lỗi workflow, tôi thấy hình như bị lỗi do manual approval gì đó, kiểm tra giúp coi có đúng không, nếu đúng thì bỏ nó ra khỏi workflow nha nhưng đừng auto merge vào main"
+                ></textarea>
+
+                <div class="psupport__controls">
+                    <div class="psupport__control-row">
+                        <label class="psupport__select-label">
+                            <span>Mode</span>
+                            <select class="psupport__select" data-psupport-mode>
+                                <option value="compact">Compact</option>
+                                <option value="standard" selected>Standard</option>
+                                <option value="full">Full Spec</option>
+                            </select>
+                        </label>
+                        <label class="psupport__select-label">
+                            <span>Target AI</span>
+                            <select class="psupport__select" data-psupport-target>
+                                <option value="grok" selected>Grok</option>
+                                <option value="claude">Claude</option>
+                                <option value="generic">Generic Coding Agent</option>
+                            </select>
+                        </label>
+                        <span class="psupport__task-badge" data-psupport-task-type hidden></span>
+                    </div>
+
+                    <div class="psupport__checkboxes" role="group" aria-label="Tùy chọn generate">
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-token-saver checked>
+                            Token Saver Mode
+                        </label>
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-repo-rules checked>
+                            Include Repo Rules
+                        </label>
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-claude-md>
+                            Include CLAUDE.md learning
+                        </label>
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-acceptance checked>
+                            Include Acceptance Criteria
+                        </label>
+                    </div>
+                </div>
+
+                <div class="psupport__actions">
+                    <button type="button" class="psupport__btn psupport__btn--primary" data-psupport-generate>
+                        Generate Prompt
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-copy disabled>
+                        Copy Prompt
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-compare aria-pressed="false">
+                        Compare Before/After
+                    </button>
+                    <span class="psupport__status" data-psupport-status role="status" aria-live="polite"></span>
+                </div>
+            </div>
+
+            <div class="psupport__panel psupport__panel--output">
+                <div class="psupport__output-head">
+                    <span class="psupport__label">Prompt tối ưu</span>
+                    <span class="psupport__meta" data-psupport-meta hidden></span>
+                </div>
+
+                <div class="psupport__scores" data-psupport-scores hidden aria-label="Prompt quality scores"></div>
+
+                <pre class="psupport__output" data-psupport-output aria-label="Optimized prompt output"><code data-psupport-code>Generate Prompt để xem kết quả.</code></pre>
+
+                <div class="psupport__tips" data-psupport-tips hidden></div>
+            </div>
+        </div>
+
+        <div class="psupport__compare-panel" data-psupport-compare-panel hidden>
+            <h2 class="psupport__compare-title">Before / After</h2>
+            <div class="psupport__compare-grid">
+                <div class="psupport__compare-col">
+                    <span class="psupport__label">Input (thô)</span>
+                    <pre class="psupport__compare-pre"><code data-psupport-before></code></pre>
+                </div>
+                <div class="psupport__compare-col">
+                    <span class="psupport__label">Output (tối ưu)</span>
+                    <pre class="psupport__compare-pre psupport__compare-pre--after"><code data-psupport-after></code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ get_url(path='js/prompt-support.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

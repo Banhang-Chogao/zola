@@ -44,7 +44,9 @@ services:
       - key: BLOG_URL
         value: https://banhang-chogao.github.io/zola
       - key: ADMIN_EMAILS
-        value: tamsudev.com@gmail.com
+        value: 292648126+Banhang-Chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
       - key: SESSION_TTL
         value: "7200"
       - key: COUNTER_KEY
@@ -67,3 +69,41 @@ services:
       # dựa vào hostname.
       - key: IMDB_API_URL
         value: https://www.imdb.com/calendar/?ref_=tt_nv_menu
+
+  # ============= Paywall API (FastAPI + SQLite) =============
+  - type: web
+    name: blog-paywall-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/paywall
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: paywall-data
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: PAYWALL_CORS_ORIGIN
+        value: https://banhang-chogao.github.io
+      - key: PAYWALL_BLOG_DOMAIN
+        value: banhang-chogao.github.io
+      - key: PAYWALL_BLOG_NAME
+        value: Duy Nguyen Blog
+      - key: PAYWALL_DB_PATH
+        value: /var/data/paywall.db
+      - key: MOMO_PAYMENT_LINK
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr
+      - key: PAYWALL_ADMIN_TOKEN
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false

@@ -1,0 +1,64 @@
+{# Auto-generated references block (scripts/build_references.py → data/references.json).
+   Usage: {{ references::section(page=page) }}
+   Frontmatter overrides: extra.references_skip, references_copyright,
+   references_skip_copyright, references_external[], references_internal[] #}
+
+{% macro section(page) %}
+{% if page and not page.extra.references_skip %}
+    {% set ref_data = load_data(path="data/references.json", required=false) %}
+    {% set_global refs = false %}
+    {% if ref_data %}
+        {% for candidate in [
+            "content/posting/" ~ page.slug ~ ".md",
+            "content/baochi/" ~ page.slug ~ ".md",
+            "content/pages/" ~ page.slug ~ ".md"
+        ] %}
+            {% if not refs and ref_data[candidate] %}
+                {% set_global refs = ref_data[candidate] %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if refs and (refs.external or refs.internal or refs.copyright) %}
+    <section class="post-references" aria-labelledby="post-references-heading">
+        <h2 class="post-references__title" id="post-references-heading">Tham khảo &amp; Nguồn dữ liệu</h2>
+
+        {% if refs.external and refs.external | length > 0 %}
+        <div class="post-references__block">
+            <h3 class="post-references__subtitle">1. Liên kết bên ngoài được sử dụng trong bài viết</h3>
+            <ul class="post-references__list post-references__list--external">
+                {% for item in refs.external %}
+                <li>
+                    <a href="{{ item.url | safe }}" target="_blank" rel="noopener noreferrer" class="external">
+                        {{ item.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if refs.internal and refs.internal | length > 0 %}
+        <div class="post-references__block">
+            <h3 class="post-references__subtitle">2. Liên kết nội bộ liên quan</h3>
+            <ul class="post-references__list post-references__list--internal">
+                {% for item in refs.internal %}
+                <li>
+                    <a href="{{ item.url | safe }}">{{ item.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if refs.copyright %}
+        <div class="post-references__block post-references__block--copyright">
+            <h3 class="post-references__subtitle">3. Bản quyền &amp; Ghi nguồn</h3>
+            <blockquote class="post-references__copyright">
+                <p>{{ refs.copyright }}</p>
+            </blockquote>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+{% endif %}
+{% endmacro %}

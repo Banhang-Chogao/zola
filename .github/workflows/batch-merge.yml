@@ -1,0 +1,61 @@
+name: Batch Merge Readiness Report
+
+# DEPRECATED: auto-merge chuyển sang auto-merge.yml.
+# Workflow này chỉ báo cáo PR sẵn sàng merge (tham khảo).
+# Rule: docs/OPERATIONS.md — Auto-Merge Policy
+
+on:
+  workflow_dispatch:
+
+env:
+  TARGET_BRANCH: main
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: batch-merge-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: List PRs ready for manual merge
+        run: |
+          set -euo pipefail
+          gh pr list --base "${TARGET_BRANCH}" --state open --limit 100 \
+            --json number,title,reviewDecision,mergeable,statusCheckRollup > /tmp/prs.json
+
+          echo "## PRs ready for manual merge"
+          echo ""
+          jq -r '
+            [.[]
+              | select(.reviewDecision == "APPROVED")
+              | select(.mergeable == "MERGEABLE")
+              | select(
+                  (.statusCheckRollup | length) == 0
+                  or (.statusCheckRollup | all(
+                    .conclusion == "SUCCESS"
+                    or .conclusion == "SKIPPED"
+                    or .conclusion == "NEUTRAL"
+                    or .conclusion == null
+                  ))
+                )
+            ]
+            | if length == 0 then
+                "*(Không có PR approved + CI xanh)*"
+              else
+                .[] | "- #\(.number): \(.title)"
+              end
+          ' /tmp/prs.json
+
+          ready=$(jq '[.[] | select(.reviewDecision == "APPROVED") | select(.mergeable == "MERGEABLE")] | length' /tmp/prs.json)
+          echo ""
+          echo "Total ready: ${ready}"
+          echo ""
+          echo "ℹ Auto-merge: xem workflow auto-merge.yml — https://github.com/${GITHUB_REPOSITORY}/actions/workflows/auto-merge.yml"

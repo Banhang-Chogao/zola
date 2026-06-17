@@ -2,6 +2,9 @@
 description: Hiển thị bảng tất cả phím tắt (shortcuts) đã cài cho Claude trong blog này
 ---
 
+**Bootstrap (§0 `shortcuts.md`):** Lần đầu connect GitHub repo zola trong session
+→ đọc `shortcuts.md` + list bảng phím tắt. User gọi tên shortcut → thực thi ngay.
+
 Đọc file `shortcuts.md` ở thư mục gốc repo (dùng tool Read trên đường dẫn
 tuyệt đối `/home/user/zola/shortcuts.md` hoặc tương đối `shortcuts.md`),
 sau đó trích xuất TẤT CẢ section có header dạng `### \`<tên-phím-tắt>\``.

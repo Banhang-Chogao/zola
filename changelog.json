@@ -1,6 +1,516 @@
 {
   "items": [
     {
+      "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 351,
+      "lines_added": 325,
+      "lines_removed": 325,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "Gắn label no-auto-merge nếu cần giữ PR chờ review tay"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(prompt-support): v2 token-efficient prompt optimizer for AI agents",
+      "tag": "chore",
+      "pr": 346,
+      "lines_added": 862,
+      "lines_removed": 120,
+      "highlights": [
+        "static/js/prompt-support.js — engine v2",
+        "templates/prompt-support.html — UI controls",
+        "sass/_prompt-support.scss — scores, compare, mobile"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(ci): FULLY AUTOMATED OPERATIONS merge policy",
+      "tag": "chore",
+      "pr": 349,
+      "lines_added": 640,
+      "lines_removed": 113,
+      "highlights": [
+        "data/auto-merge-policy.json — config machine-readable",
+        "scripts/auto_merge_policy.py — classify PR: auto-eligible vs manual-required",
+        "scripts/test_auto_merge_policy.py — 11 unit tests",
+        "Anti-loop protection (data/auto-merge-loop-state.json)",
+        "Delete branch sau merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(f-dashboard): GitHub auth, JSON/PDF export, health legend",
+      "tag": "chore",
+      "pr": 334,
+      "lines_added": 3578,
+      "lines_removed": 132,
+      "highlights": [
+        "🔐 GitHub OAuth gate — cùng flow CMS /editor/ (cms_auth_url, session zola-cms-session-id)",
+        "📥 Xuất JSON — tải auto + xóa IndexedDB ngay sau download",
+        "📄 Xuất PDF infographic — báo cáo tổng hợp + watermark chìm {16hex}_{blog_domain}",
+        "📊 Health legend — định nghĩa Excellent/Good/Average/Risky/Danger + highlight cấp hiện tại",
+        "⚡ Phiên tạm — không lưu tích lũy online; chỉ IndexedDB browser đến khi export"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "refresh Google Trends VN hot search",
+      "tag": "chore",
+      "pr": 332,
+      "lines_added": 106,
+      "lines_removed": 106,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-17",
+      "title": "fix(qa): rule-checker scanner 0 false positives",
+      "tag": "fix",
+      "pr": 327,
+      "lines_added": 32,
+      "lines_removed": 23,
+      "highlights": [
+        "Skip required approvals = 0 vs auto-merge (aligned)",
+        "Skip classify cancelled khi có «không» trước",
+        "Reset loop_detected state",
+        "CLAUDE.md learning cập nhật"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "changelog after PR #314",
+      "tag": "chore",
+      "pr": 318,
+      "lines_added": 15,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "Gắn label no-auto-merge nếu cần giữ PR chờ review tay"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(qa): QA Auto Rule Checker — phát hiện rule xung đột mỗi 8h",
+      "tag": "chore",
+      "pr": 322,
+      "lines_added": 1217,
+      "lines_removed": 0,
+      "highlights": [
+        "reports/rule-conflict-report.json",
+        "reports/rule-conflict-report.md",
+        "data/qa-rule-checker-state.json (anti-loop)",
+        "Append ## QA Rule Checker Learning vào CLAUDE.md",
+        "confidence >= 90% → sửa + PR branch qa/rule-checker-auto-*"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "chore: maintenance merge session — dashboard + compliance + data refresh",
+      "tag": "chore",
+      "pr": 310,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "Merged #313 cancelled deploy dashboard fix",
+        "Merged #309 compliance internal links 100/100",
+        "Merged #311 compliance score refresh",
+        "Merged #312 build dashboard refresh (status_normalized)"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "chore: refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 312,
+      "lines_added": 5,
+      "lines_removed": 5,
+      "highlights": [
+        "data/build-dashboard.json — refresh sau #313, giữ status_normalized"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 311,
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [
+        "data/compliance-score.json — 100/100 A+ sau #309"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "fix: compliance internal links — root cause + diagnostics",
+      "tag": "fix",
+      "pr": 309,
+      "lines_added": 315,
+      "lines_removed": 96,
+      "highlights": [
+        "compliance-link-report.json, compliance_audit.py, insights broken-link UI"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "fix(dashboard): phân loại cancelled deploy runs — Build #387/#388",
+      "tag": "fix",
+      "pr": 313,
+      "lines_added": 517,
+      "lines_removed": 77,
+      "highlights": [
+        "fetch_build_dashboard.py status_normalized, cancelled UI styles"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 303,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "changelog after PR #300",
+      "tag": "chore",
+      "pr": 305,
+      "lines_added": 13,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 299,
+      "lines_added": 225,
+      "lines_removed": 259,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "🤖 Self-healing: 14 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 301,
+      "lines_added": 14,
+      "lines_removed": 16,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 294,
+      "lines_added": 224,
+      "lines_removed": 173,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 293,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "qa: Compliance Score audit + auto-fix",
+      "tag": "fix",
+      "pr": 289,
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [
+        "Workflow: Compliance Score Audit",
+        "Branch: qa/compliance-auto",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "changelog after PR #272",
+      "tag": "chore",
+      "pr": 287,
+      "lines_added": 9,
+      "lines_removed": 0,
+      "highlights": [
+        "Workflow: Auto-update changelog.json",
+        "Branch: chore/changelog-sync",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "Feat/devops no dependabot batch 10",
+      "tag": "chore",
+      "pr": 286,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(sidebar): Today hot search — Google Trends Vietnam (25 keywords)",
+      "tag": "chore",
+      "pr": 283,
+      "lines_added": 701,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/fetch_google_trends.py — batchexecute (primary), RSS fallback, cache fallback",
+        "data/google-trends-vn.json — build-time data",
+        "templates/macros/hot-search.html + SCSS Google Trends–style rank list",
+        "deploy.yml — fetch trước zola build",
+        "google-trends.yml — refresh hourly → PR chore/google-trends-data"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(science): uranium series infra + Bài 01 + hub Iran article",
+      "tag": "chore",
+      "pr": 281,
+      "lines_added": 396,
+      "lines_removed": 36,
+      "highlights": [
+        "science-uranium-series.json manifest (5 parts)",
+        "Category Khoa học: categories.json + menu",
+        "series-hub macro, multi-series nav/related/breadcrumb",
+        "Bài 01: Uranium là gì (posting/)",
+        "Iran article: hub_series, category Khoa học, đọc thêm"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(qa): Related Posts QA checker — topic cluster scoring",
+      "tag": "chore",
+      "pr": 278,
+      "lines_added": 721,
+      "lines_removed": 200,
+      "highlights": [
+        "Quét posting + baochi (39+ bài)",
+        "Phân tích category, tags, seo_keyword, title, description, body",
+        "Gom topic cluster: Du lịch, Ẩm thực, Công nghệ, Tài chính, Thế giới, Khuyến mãi",
+        "Related: ưu tiên cùng cluster, cross-topic chỉ khi thiếu neighbor + penalty 0.35x",
+        "--fix ghi data/related.json + data/scores.json"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "Feature/seo foundation series",
+      "tag": "chore",
+      "pr": 277,
+      "lines_added": 427,
+      "lines_removed": 1,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(cms): auto-refresh post list from GitHub on login",
+      "tag": "chore",
+      "pr": 275,
+      "lines_added": 61,
+      "lines_removed": 12,
+      "highlights": [
+        "Sau xác thực thành công (/auth/me), gọi enterDashboard(true) — fetch ngay từ GitHub API",
+        "Xóa localStorage cache slug list trước khi fetch",
+        "GitHub API dùng cache: no-store",
+        "Force refresh chỉ tin slug từ repo hiện tại (không merge slug đã xóa khỏi repo)",
+        "Hiển thị loading state trong lúc fetch; fallback về bake nếu API lỗi"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "hotfix: fix GitHub Pages 404s from missing /zola/ base path",
+      "tag": "fix",
+      "pr": 274,
+      "lines_added": 282,
+      "lines_removed": 85,
+      "highlights": [
+        "95 link thiếu /zola/ trong 33 file markdown",
+        "Trước fix: ~30 trang HTML có href=\"/baochi/...\" hoặc href=\"/posting/...\" (404 trên production)",
+        "Sau fix: 0 link thiếu prefix",
+        "Canonical: https://banhang-chogao.github.io/zola/baochi/uu-dai-hoan-tien-the-liobank/ ✓",
+        "Body links: href=\"/zola/baochi/...\" ✓"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feature: auto-generate references section at end of posts",
+      "tag": "chore",
+      "pr": 273,
+      "lines_added": 1770,
+      "lines_removed": 6,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-17",
+      "title": "QA: Daily performance checker (00:00 GMT+7) + Lighthouse audit automa…",
+      "tag": "chore",
+      "pr": 271,
+      "lines_added": 760,
+      "lines_removed": 105,
+      "highlights": [
+        "Extend perf-audit.yml: cron 0 17   * (00:00 Asia/Ho_Chi_Minh)",
+        "Add performance_qa_checker.py: PageSpeed audit, regression compare, SAFE fix PR",
+        "Extend fetch_pagespeed.py with CWV, resource weight, render-blocking metrics",
+        "Store audit snapshot baseline; upload reports as CI artifacts",
+        "NEVER push/merge main — branch qa/performance-auto-fix-YYYYMMDD only"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "Feat/devops no dependabot batch 10",
+      "tag": "chore",
+      "pr": 269,
+      "lines_added": 1909,
+      "lines_removed": 389,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-17",
+      "title": "ci: build-failure handler + SEO11 polish + prompt-support",
+      "tag": "chore",
+      "pr": 270,
+      "lines_added": 3452,
+      "lines_removed": 522,
+      "highlights": [
+        "CI auto-fix: build-failure-handler.yml, rewrite qa-failed.py, scripts/vaccine_rules.py — PR flow, không push main",
+        "SEO11: Lighthouse meta/title/OG fixes (10 iter) + nâng 4 bài lên A+",
+        "Compliance: cron 12h audit + auto-fix warn/fail",
+        "UI: trang /prompt-support/ (template + SCSS + JS)",
+        "Workflow: pr-approval.yml, cập nhật pr-policy / main-guard"
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "title": "ci: remove Dependabot; enforce feature branch PR batch-of-10 merge",
+      "tag": "remove",
+      "pr": 268,
+      "lines_added": 23,
+      "lines_removed": 61,
+      "highlights": []
+    },
+    {
+      "date": "2026-06-17",
+      "title": "🤖 Self-healing: 12 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 266,
+      "lines_added": 12,
+      "lines_removed": 10,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "🤖 Self-healing: 21 mechanical fix(es)",
+      "tag": "fix",
+      "pr": 265,
+      "lines_added": 23,
+      "lines_removed": 14,
+      "highlights": [
+        "Normalize tags: lowercase + dedupe + sort",
+        "Dedupe categories",
+        "Date format: YYYY/MM/DD → YYYY-MM-DD",
+        "Trim trailing whitespace trong frontmatter",
+        "Đảm bảo file kết thúc bằng 1 newline"
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "feat(navbar): nền teal #00a69d + gỡ hoàn toàn theme selector",
+      "tag": "chore",
+      "pr": 264,
+      "lines_added": 16,
+      "lines_removed": 23,
+      "highlights": [
+        "Nền navbar đổi từ gradient xanh dương → #00a69d (teal đặc), shadow + mask cuộn mobile cũng chuyển teal.",
+        "Gỡ hoàn toàn theme selector (nút 🎨 .theme-dropdown) khỏi navbar. Blog mặc định theme Hilda (đã set bởi inline script ở <head>); các script theme đều guard if(!btn) return nên no-op an toàn khi thiếu m",
+        "Giữ nguyên: bảng chữ cái trắng mờ trải đều (FreightSans Pro) + chữ menu trắng.",
+        "qa_check.py pass; zola build (qa-check) compile SASS."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "feat(report): chặn THẬT bằng backend FastAPI OAuth (gỡ report khỏi repo public)",
+      "tag": "chore",
+      "pr": 263,
+      "lines_added": 392,
+      "lines_removed": 139,
+      "highlights": [
+        "GET /reports — list metadata (auth).",
+        "GET /reports/{file} — nội dung .md (auth), 404 nếu thiếu.",
+        "POST /reports — tạo/ghi đè (auth).",
+        "POST /reports/delete — xoá (auth).",
+        "Lưu report:doc:* + report:meta trong Redis; validate filename chống path traversal; cap 500KB."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "feat(navbar): nền gradient xanh + bảng chữ cái trắng mờ (font FreightSans Pro)",
+      "tag": "chore",
+      "pr": 262,
+      "lines_added": 118,
+      "lines_removed": 0,
+      "highlights": [
+        "Nền: gradient xanh thương hiệu #38bdf8 → #2563eb → #1d4ed8 (đồng bộ placeholder).",
+        "Chữ cái trang trí: 30 chữ A–Z rải ngẫu nhiên vị trí + chiều xoay + cỡ, màu trắng opacity 0.05–0.13 (mờ, dịu mắt, không chói), font FreightSans Pro (self-host 2 weight 500/700).",
+        "An toàn: lớp chữ nằm trong <div class=\"navbar__letters\" aria-hidden pointer-events:none> absolute + overflow:hidden riêng → KHÔNG cắt dropdown menu, không chặn click. Menu nằm trên (z-index:1).",
+        "Chữ menu / dropdown / theme-toggle chuyển trắng cho hợp nền; mask cuộn phải mobile đổi sang xanh đậm. Tôn trọng prefers-reduced-motion.",
+        "qa_check.py pass (SCSS brace check); zola build (qa-check) sẽ compile SASS."
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "title": "Add MSB credit card article",
+      "tag": "feat",
+      "pr": 261,
+      "lines_added": 94,
+      "lines_removed": 0,
+      "highlights": [
+        "Slug: the-tin-dung-msb-huong-dan-chi-tiet",
+        "Từ khóa chính: \"thẻ tín dụng MSB\"",
+        "Danh mục: Tất cả, Ngân hàng, Báo chí",
+        "Độ dài: ~1,400 từ",
+        "Nội dung:"
+      ]
+    },
+    {
       "date": "2026-06-16",
       "title": "fix(report) + feat(cms): chặn guest tải report + mở rộng editor + brand button CMS",
       "tag": "fix",
@@ -137,7 +647,7 @@
       "lines_removed": 50,
       "highlights": [
         "content/pages/privacy.md — Chính sách bảo mật (cookies, Google AdSense, GA, opt-out)",
-        "content/pages/contact.md — Liên hệ (email tamsudev.com@gmail.com)",
+        "content/pages/contact.md — Liên hệ (email 292648126+Banhang-Chogao@users.noreply.github.com)",
         "content/pages/terms.md — Điều khoản & Miễn trừ (bản quyền, YMYL, affiliate)",
         "Mở rộng about.md thành tiểu sử tác giả thật + cam kết nội dung",
         "Sửa author.json bio (bỏ placeholder tiếng Anh)"
@@ -2547,7 +3057,7 @@
       "lines_removed": 262,
       "highlights": [
         "Backend services/visitor-counter/main.py: 4 endpoint mới GET /auth/login, GET /auth/callback, GET /auth/me, POST /auth/logout",
-        "Email white-list ADMIN_EMAILS=tamsudev.com@gmail.com (server-side, không bypass client)",
+        "Email white-list ADMIN_EMAILS=292648126+Banhang-Chogao@users.noreply.github.com (server-side, không bypass client)",
         "access_token GitHub giữ Redis-side, client chỉ có opaque sid 32-byte",
         "Session Redis TTL 2h idle timeout",
         "sessionStorage trên client (KHÔNG localStorage, KHÔNG cookie)"

@@ -3,6 +3,8 @@ public/
 *.swp
 __pycache__/
 *.pyc
+.venv*/
+scripts/.venv*/
 
 # Workflow log artifacts — không bao giờ commit
 perf-fix.txt
@@ -11,6 +13,8 @@ perf-summary.txt
 fix-log.txt
 fixed-summary.txt
 pr-body.md
+reports/performance/*.json
+!reports/performance/.gitkeep
 
 # Sensitive: never commit tokens/keys
 ghp_*
@@ -18,6 +22,10 @@ ghp_*
 *.key
 .env
 .env.*
+
+# Paywall runtime data — không commit DB local / backup strip tạm
+data/paywall.db
+data/.paywall-content-backup.json
 
 # ff.py AI-Agent — logs + teach feedback (local only)
 .ff/

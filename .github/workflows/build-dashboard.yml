@@ -1,0 +1,63 @@
+name: Fetch Build Dashboard
+
+# Thu thập lịch sử GitHub Actions (deploy + QA) → data/build-dashboard.json
+# để trang /insights/ render Build Dashboard.
+#
+# SECRETS (tùy chọn):
+#   BUILD_DASHBOARD_AI_API_KEY — OpenAI-compatible key để phân tích log lỗi
+#                                bằng AI (nếu không có → dùng rule-based).
+#   BUILD_DASHBOARD_AI_API_URL — endpoint chat completions (mặc định OpenAI).
+#   BUILD_DASHBOARD_AI_MODEL   — model slug (mặc định gpt-4o-mini).
+#
+# GITHUB_TOKEN: tự inject, cần quyền actions:read (permissions bên dưới).
+
+on:
+  workflow_run:
+    workflows:
+      - "Build and deploy Zola site to GitHub Pages"
+      - "QA Gatekeeper"
+    types: [completed]
+  schedule:
+    - cron: '45 * * * *'   # mỗi giờ phút 45 (lệch GA/PageSpeed)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: build-dashboard
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Fetch build history
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUILD_DASHBOARD_AI_API_KEY: ${{ secrets.BUILD_DASHBOARD_AI_API_KEY }}
+          BUILD_DASHBOARD_AI_API_URL: ${{ secrets.BUILD_DASHBOARD_AI_API_URL }}
+          BUILD_DASHBOARD_AI_MODEL: ${{ secrets.BUILD_DASHBOARD_AI_MODEL }}
+        run: python scripts/fetch_build_dashboard.py
+
+      - name: Open PR if changed (never push main)
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: "chore: refresh Build Dashboard data"
+        run: |
+          chmod +x .github/scripts/push_via_pr.sh
+          .github/scripts/push_via_pr.sh chore/build-dashboard-data \
+            "Cập nhật: refresh Build Dashboard ($(date -u +%FT%TZ))" \
+            data/build-dashboard.json

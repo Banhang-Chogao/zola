@@ -1,4 +1,5 @@
 {% import "macros/verified.html" as v_author %}
+{% import "macros/hot-search.html" as hot_search %}
 {% import "macros/img.html" as img %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
@@ -72,22 +73,32 @@
        frame-ancestors 'none': chống clickjacking, /editor/ không thể iframe. #}
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
-        script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app;
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app https://cse.google.com https://www.google.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google.com https://cse.google.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://*.onrender.com https://*.railway.app;
-        frame-src https://giscus.app;
+        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app;
+        frame-src https://giscus.app https://www.google.com;
         frame-ancestors 'none';
         base-uri 'self';
-        form-action 'self';
+        form-action 'self' https://www.google.com;
     ">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
 
-    {# CMS auth backend FastAPI — set qua config.extra.cms_auth_url. #}
+    {# CMS auth backend FastAPI — config.extra.cms_auth_url (không nest dưới giscus). #}
     {% set_global cms_auth = config.extra.cms_auth_url | default(value="") %}
+    {% if cms_auth == "" and config.extra.giscus is defined %}
+    {% set_global cms_auth = config.extra.giscus.cms_auth_url | default(value="") %}
+    {% endif %}
     {% if cms_auth %}
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
+    {% endif %}
+
+    {% set_global paywall_api = config.extra.paywall_api_url | default(value="") %}
+    {% if paywall_api %}
+    <meta name="zola-paywall-api" content="{{ paywall_api | safe }}">
     {% endif %}
 
     {# ============================================================
@@ -124,7 +135,8 @@
             {% set_global page_description = "Tổng hợp các bài viết thuộc chuyên mục " ~ section.title ~ " trên blog " ~ config.title ~ " — công nghệ, du lịch và những trải nghiệm cá nhân." %}
         {% endif %}
     {% elif term %}
-        {% set_global page_description = "Tất cả bài viết gắn với chủ đề " ~ term.name ~ " trên blog " ~ config.title ~ " — tuyển chọn nội dung công nghệ, du lịch và đời sống quanh chủ đề này." %}
+        {% set term_label = term.name | truncate(length=48, end="…") %}
+        {% set_global page_description = "Bài viết gắn thẻ " ~ term_label ~ " trên blog " ~ config.title ~ " — nội dung công nghệ, du lịch và đời sống." %}
     {% elif taxonomy %}
         {% if taxonomy.name == "tags" %}
             {% set_global page_description = "Mục lục toàn bộ thẻ (tags) phân loại bài viết trên blog " ~ config.title ~ " — duyệt nhanh nội dung theo đúng chủ đề bạn quan tâm." %}
@@ -132,6 +144,7 @@
             {% set_global page_description = "Danh sách các chuyên mục bài viết trên blog " ~ config.title ~ " — công nghệ, du lịch, ẩm thực và nhiều chủ đề thú vị khác." %}
         {% endif %}
     {% endif %}
+    {% set_global page_description = page_description | striptags | trim | truncate(length=159, end="…") %}
 
     {# Per-page title: dùng cùng logic block title nhưng cũng compute cho OG.
        Guard section.title null vì root _index.md không có title field. #}
@@ -146,17 +159,15 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {# OG image: social KHÔNG render được SVG → chỉ nhận ảnh raster (jpg/png/webp).
-       Ưu tiên page.extra.og_image (raster do user cấp); rồi thumbnail nếu KHÔNG
-       phải .svg; cuối cùng fallback ảnh mặc định raster (img/og-default.jpg).
-       Ảnh bìa SVG vẫn hiển thị trên trang (qua thumbnail), chỉ không dùng cho OG. #}
-    {% set og_image = config.base_url ~ "/img/og-default.jpg" %}
+    {# OG image: social KHÔNG render SVG → raster .webp. Ưu tiên og_image, thumbnail
+       (không .svg), fallback og-default.webp. Macro thumb_src chuẩn hoá .webp. #}
+    {% set og_image = config.base_url ~ "/img/og-default.webp" %}
     {% if page and page.extra.og_image %}
-        {% set_global og_image = page.extra.og_image %}
+        {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
     {% elif page and page.extra.thumbnail and not page.extra.thumbnail is ending_with(".svg") %}
-        {% set_global og_image = page.extra.thumbnail %}
+        {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
     {% elif section and section.extra.thumbnail and not section.extra.thumbnail is ending_with(".svg") %}
-        {% set_global og_image = section.extra.thumbnail %}
+        {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
     {% endif %}
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
@@ -228,7 +239,7 @@
             "url": "{{ config.base_url | safe }}",
             "logo": {
                 "@type": "ImageObject",
-                "url": "{{ config.base_url | safe }}/img/author-avatar.jpg"
+                "url": "{{ config.base_url | safe }}/img/author-avatar.webp"
             }
         },
         "mainEntityOfPage": {
@@ -256,6 +267,20 @@
     {% if sec_slug == "posting" %}{% set sec_name = "Bài viết" %}
     {% elif sec_slug == "baochi" %}{% set sec_name = "Báo chí" %}
     {% else %}{% set sec_name = sec_slug | capitalize %}{% endif %}
+    {% set series_manifest = false %}
+    {% if page.extra and page.extra.series is defined and page.extra.series == "seo-foundation" %}
+        {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+    {% elif page.extra and page.extra.series is defined and page.extra.series == "adsense-foundation" %}
+        {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
+    {% elif page.extra and page.extra.series is defined and page.extra.series == "science-uranium" %}
+        {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+    {% endif %}
+    {% set in_series = false %}
+    {% set series_pillar_url = "" %}
+    {% if series_manifest and page.extra and page.extra.series is defined and page.extra.series == series_manifest.id %}
+        {% set_global in_series = true %}
+        {% set_global series_pillar_url = config.base_url ~ "/" ~ series_manifest.section ~ "/" ~ series_manifest.pillar_slug ~ "/" %}
+    {% endif %}
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -272,13 +297,25 @@
                 "position": 2,
                 "name": {{ sec_name | json_encode | safe }},
                 "item": "{{ config.base_url | safe }}/{{ sec_slug }}/"
+            }{% if in_series %},
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": {{ series_manifest.title_vi | json_encode | safe }},
+                "item": "{{ series_pillar_url | safe }}"
             },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": {{ page.title | json_encode | safe }},
+                "item": "{{ page.permalink | safe }}"
+            }{% else %},
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": {{ page.title | json_encode | safe }},
                 "item": "{{ page.permalink | safe }}"
-            }
+            }{% endif %}
         ]
     }
     </script>
@@ -319,11 +356,12 @@
     <link rel="stylesheet" href="{{ google_fonts }}" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="{{ google_fonts }}"></noscript>
 
-    <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
+    {% set asset_version = now(timestamp=true) %}
+    <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
 
     {# Speed Insights tracking — đo Core Web Vitals mọi page #}
     <script src="https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js" defer></script>
-    <script src="{{ get_url(path='js/speed-vitals.js') }}" defer></script>
+    <script src="{{ get_url(path='js/speed-vitals.js') }}?v={{ asset_version }}" defer></script>
 
     {# Google Analytics 4 đã được dời xuống trước </body> để tối ưu page
        load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
@@ -331,6 +369,8 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+
+    <a href="#main-content" class="skip-link">Bỏ qua đến nội dung chính</a>
 
     {# Header: logo left + ad banner right #}
     <header class="site-header">
@@ -410,7 +450,7 @@
                 {# Slide A: Ad banner — slide đầu (is-active) khi load, rồi rotate sang GitHub #}
                 <a class="header-ad header-rotator__slide is-active" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
                     <div class="header-ad__icon">
-                        <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
+                        <img src="{{ get_url(path='img/header-banner.webp') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
                         <span class="header-ad__emoji" aria-hidden="true">🐻</span>
                     </div>
                     <div class="header-ad__text">
@@ -485,6 +525,41 @@
        Trên desktop hiển thị tất cả menu items inline. Trên mobile,
        collapse vào burger, JS toggles .is-open để slide-down panel. #}
     <nav class="navbar" id="navbar">
+        {# Trang trí: bảng chữ cái trắng mờ rải rác (font FreightSans Pro kiểu
+           Starbucks) trên nền gradient xanh. aria-hidden + pointer-events:none
+           → thuần trang trí, không ảnh hưởng menu/dropdown. #}
+        <div class="navbar__letters" aria-hidden="true">
+            <span style="left:0.2%;top:15.0px;transform:rotate(36.0deg);font-size:1.01rem;opacity:0.119;font-weight:700">J</span>
+            <span style="left:3.1%;top:26.0px;transform:rotate(5.0deg);font-size:1.71rem;opacity:0.105;font-weight:500">F</span>
+            <span style="left:6.9%;top:34.0px;transform:rotate(-10.0deg);font-size:1.69rem;opacity:0.055;font-weight:500">W</span>
+            <span style="left:10.3%;top:23.0px;transform:rotate(2.0deg);font-size:2.0rem;opacity:0.087;font-weight:700">I</span>
+            <span style="left:12.9%;top:2.0px;transform:rotate(-24.0deg);font-size:2.0rem;opacity:0.057;font-weight:700">H</span>
+            <span style="left:16.7%;top:54.0px;transform:rotate(17.0deg);font-size:1.34rem;opacity:0.128;font-weight:500">Y</span>
+            <span style="left:20.0%;top:-4.0px;transform:rotate(-12.0deg);font-size:2.21rem;opacity:0.084;font-weight:500">O</span>
+            <span style="left:24.1%;top:29.0px;transform:rotate(29.0deg);font-size:1.37rem;opacity:0.106;font-weight:700">T</span>
+            <span style="left:26.9%;top:19.0px;transform:rotate(26.0deg);font-size:2.23rem;opacity:0.088;font-weight:500">Z</span>
+            <span style="left:28.8%;top:40.0px;transform:rotate(11.0deg);font-size:2.29rem;opacity:0.116;font-weight:700">S</span>
+            <span style="left:33.9%;top:55.0px;transform:rotate(-12.0deg);font-size:2.22rem;opacity:0.078;font-weight:500">N</span>
+            <span style="left:36.6%;top:-0.0px;transform:rotate(-16.0deg);font-size:1.95rem;opacity:0.082;font-weight:700">X</span>
+            <span style="left:38.8%;top:19.0px;transform:rotate(4.0deg);font-size:2.14rem;opacity:0.116;font-weight:700">P</span>
+            <span style="left:43.9%;top:63.0px;transform:rotate(14.0deg);font-size:1.46rem;opacity:0.068;font-weight:500">Q</span>
+            <span style="left:45.8%;top:1.0px;transform:rotate(-20.0deg);font-size:1.6rem;opacity:0.097;font-weight:700">A</span>
+            <span style="left:49.4%;top:-6.0px;transform:rotate(3.0deg);font-size:1.77rem;opacity:0.075;font-weight:500">G</span>
+            <span style="left:53.9%;top:24.0px;transform:rotate(9.0deg);font-size:1.86rem;opacity:0.054;font-weight:700">V</span>
+            <span style="left:56.4%;top:14.0px;transform:rotate(-1.0deg);font-size:1.49rem;opacity:0.065;font-weight:500">L</span>
+            <span style="left:59.8%;top:-9.0px;transform:rotate(8.0deg);font-size:1.09rem;opacity:0.095;font-weight:500">D</span>
+            <span style="left:64.6%;top:32.0px;transform:rotate(-33.0deg);font-size:1.23rem;opacity:0.08;font-weight:700">R</span>
+            <span style="left:67.9%;top:31.0px;transform:rotate(-2.0deg);font-size:1.11rem;opacity:0.089;font-weight:700">C</span>
+            <span style="left:69.9%;top:8.0px;transform:rotate(-27.0deg);font-size:1.96rem;opacity:0.109;font-weight:700">B</span>
+            <span style="left:74.3%;top:-5.0px;transform:rotate(-36.0deg);font-size:2.23rem;opacity:0.092;font-weight:500">U</span>
+            <span style="left:77.2%;top:57.0px;transform:rotate(20.0deg);font-size:1.35rem;opacity:0.101;font-weight:500">M</span>
+            <span style="left:80.5%;top:3.0px;transform:rotate(-10.0deg);font-size:1.18rem;opacity:0.112;font-weight:700">E</span>
+            <span style="left:83.7%;top:32.0px;transform:rotate(22.0deg);font-size:1.97rem;opacity:0.066;font-weight:500">K</span>
+            <span style="left:87.6%;top:43.0px;transform:rotate(-21.0deg);font-size:1.65rem;opacity:0.078;font-weight:500">J</span>
+            <span style="left:91.4%;top:47.0px;transform:rotate(-2.0deg);font-size:1.21rem;opacity:0.098;font-weight:700">F</span>
+            <span style="left:93.2%;top:59.0px;transform:rotate(37.0deg);font-size:2.24rem;opacity:0.079;font-weight:500">W</span>
+            <span style="left:95.6%;top:21.0px;transform:rotate(-12.0deg);font-size:1.6rem;opacity:0.129;font-weight:500">I</span>
+        </div>
         <div class="navbar__inner">
             {# Burger button — chỉ visible trên mobile via CSS #}
             <button class="navbar__burger" aria-label="Mở menu" aria-expanded="false"
@@ -521,36 +596,82 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-            {# ===== THEME DROPDOWN — Z-X + Hilda =====
-               Dropdown menu with palette icon, smooth animations, keyboard nav. #}
-            <div class="theme-dropdown" data-theme-dropdown>
-                <button class="theme-dropdown__trigger" type="button"
-                        aria-haspopup="listbox" aria-expanded="false"
-                        aria-label="Chọn theme">
-                    <span class="theme-dropdown__icon">🎨</span>
+            {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
+               Hilda (set bởi inline script ở <head>). #}
+            <div class="navbar__actions">
+                <button class="navbar__cache" type="button" aria-label="Xoá cache blog" title="Xoá cache trình duyệt của blog trên thiết bị này" data-clear-cache>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                    <span data-clear-cache-label>Xoá cache</span>
                 </button>
-                <ul class="theme-dropdown__menu" role="listbox" hidden>
-                    <li role="option" aria-selected="true">
-                        <button class="theme-dropdown__item" data-theme-value="hilda" type="button">
-                            <span class="theme-dropdown__check">✓</span>
-                            <span class="theme-dropdown__name">Hilda</span>
-                            <span class="theme-dropdown__desc">Ericsson professional</span>
-                        </button>
-                    </li>
-                </ul>
+                <button class="navbar__search" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" data-search-open>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
             </div>
-            <button class="navbar__search" aria-label="Tìm kiếm" onclick="document.body.classList.toggle('search-open')">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="7"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-            </button>
         </div>
         {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
         <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
     </nav>
 
-    <main class="container">
+    <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
+        <div class="site-search__backdrop" data-search-close></div>
+        <section class="site-search__panel">
+            <div class="site-search__head">
+                <div>
+                    <p class="site-search__eyebrow">Search nội bộ</p>
+                    <h2 class="site-search__title" id="site-search-title">Tìm trong blog</h2>
+                </div>
+                <button class="site-search__close" type="button" aria-label="Đóng tìm kiếm" data-search-close>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <form class="site-search__fallback" role="search" data-local-search-form>
+                <label class="site-search__field">
+                    <span class="site-search__field-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="search" name="q" placeholder="Nhập từ khóa..." autocomplete="off" data-search-input>
+                </label>
+                <button class="site-search__submit" type="submit">Tìm</button>
+            </form>
+            <div class="site-search__local" data-local-search-results aria-live="polite">
+                <p class="site-search__note">Nhập từ khóa để tìm trực tiếp trong bài viết của blog.</p>
+            </div>
+        </section>
+    </div>
+    {% set search_posting = get_section(path="posting/_index.md") %}
+    {% set search_baochi = get_section(path="baochi/_index.md") %}
+    {% set search_pages = search_posting.pages | concat(with=search_baochi.pages) | sort(attribute="date") | reverse %}
+    <script type="application/json" id="site-search-data">
+    [
+    {%- for page in search_pages -%}
+        {
+            "title": {{ page.title | json_encode | safe }},
+            "url": {{ page.permalink | json_encode | safe }},
+            "date": {{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") | json_encode | safe }},
+            "description": {{ page.description | default(value="") | json_encode | safe }},
+            "summary": {{ page.summary | default(value="") | striptags | json_encode | safe }},
+            "body": {{ page.content | striptags | json_encode | safe }},
+            "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
+            "tags": {% if page.taxonomies.tags %}{{ page.taxonomies.tags | join(sep=" ") | json_encode | safe }}{% else %}""{% endif %},
+            "keyword": {{ page.extra.seo_keyword | default(value="") | json_encode | safe }}
+        }{%- if not loop.last -%},{%- endif -%}
+    {%- endfor -%}
+    ]
+    </script>
+
+    <main id="main-content" class="container">
         <div class="layout-grid">
             <div class="main-column">
                 {% block main %}{% endblock %}
@@ -577,19 +698,25 @@
                         "date": {{ page.date | json_encode | safe }},
                         "thumbnail": {{ img::thumb_src(thumb=page.extra.thumbnail | default(value="")) | json_encode | safe }},
                         "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
-                        "featured": {% if page.extra.featured %}true{% else %}false{% endif %}
+                        "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
+                        "featured_at": {{ page.extra.featured_at | default(value="") | json_encode | safe }}
                     }{%- if not loop.last -%},{%- endif -%}
                 {%- endfor -%}
                 ]
                 </script>
 
                 <aside class="sidebar">
-                    {# FEATURED = bài mới nhất (auto) → đồng bộ hero trang chủ; tự
-                       nhường chỗ khi có bài mới hơn. Gỡ thủ công: extra.unfeatured=true. #}
+                    {# FEATURED: manual extra.featured=true thắng auto-pick. CMS publish
+                       sẽ demote các bài featured cũ để chỉ còn đúng một override thủ công. #}
                     {% set_global featured = false %}
                     {% for page in root_pages %}
-                        {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
+                        {% if not featured and page.extra.featured %}{% set_global featured = page %}{% endif %}
                     {% endfor %}
+                    {% if not featured %}
+                        {% for page in root_pages %}
+                            {% if not featured and not page.extra.unfeatured %}{% set_global featured = page %}{% endif %}
+                        {% endfor %}
+                    {% endif %}
                     {% if not featured %}{% set_global featured = root_pages | first %}{% endif %}
 
                     <section class="sidebar-block" data-widget="featured">
@@ -613,6 +740,8 @@
                             </div>
                         </article>
                     </section>
+
+                    {{ hot_search::widget() }}
 
                     {# RANDOM POSTS — placeholder, JS sẽ reshuffle theo weighted random #}
                     <section class="sidebar-block" data-widget="random">
@@ -638,13 +767,13 @@
                     </section>
 
                     {# CATEGORIES #}
-                    <section class="sidebar-block">
+                    <section class="sidebar-block sidebar-block--categories">
                         <h3 class="sidebar-label">DANH MỤC</h3>
                         <ul class="cat-list">
                             {% set cats = get_taxonomy(kind="categories") %}
                             {% for c in cats.items %}
-                                <li>
-                                    <a href="{{ c.permalink }}">{{ c.name }}</a>
+                                <li class="cat-list__item">
+                                    <a class="cat-list__link" href="{{ c.permalink }}">{{ c.name }}</a>
                                     <span class="cat-list__count">{{ c.pages | length }}</span>
                                 </li>
                             {% endfor %}
@@ -724,7 +853,7 @@
                         <h4 class="qa-card__title">Performance Audit</h4>
                         <p class="qa-card__desc">Điểm Lighthouse Performance đo trực tiếp từ PageSpeed Insights.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">{% if qa_pagespeed %}{{ qa_ps_perf }}/100 điểm{% else %}Cron CN 02:00 UTC{% endif %}</span>
+                            <span class="qa-card__count">{% if qa_pagespeed %}{{ qa_ps_perf }}/100 điểm{% else %}Cron 00:00 GMT+7{% endif %}</span>
                             <span class="qa-card__date">{% if qa_pagespeed and qa_pagespeed.updated_at %}{{ qa_pagespeed.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}</span>
                         </div>
                     </div>
@@ -968,15 +1097,18 @@
         </div>
     </footer>
 
-    <script src="{{ get_url(path='js/header-rotator.js') }}" defer></script>
-    <script src="{{ get_url(path='js/sidebar.js') }}" defer></script>
-    <script src="{{ get_url(path='js/auth.js') }}" defer></script>
-    <script src="{{ get_url(path='js/deploy-status.js') }}" defer></script>
-    <script src="{{ get_url(path='js/staging-queue.js') }}" defer></script>
-    <script src="{{ get_url(path='js/navbar-mobile.js') }}" defer></script>
-    <script src="{{ get_url(path='js/navbar-dropdown.js') }}" defer></script>
-    <script src="{{ get_url(path='js/theme-switcher.js') }}" defer></script>
-    <script src="{{ get_url(path='js/theme-dropdown.js') }}" defer></script>
+    <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/cache-clear.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/theme-switcher.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>
     (function() {

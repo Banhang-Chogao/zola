@@ -90,20 +90,22 @@ Custom Domain (tương lai)      → Cloudflare DDoS + WAF ✅
 
 ## 5. Quy Trình An Toàn Khi Publish 🚀
 
-**Trước khi push lên main:**
+**Trước khi merge PR vào main** (xem `docs/OPERATIONS.md` — không push trực tiếp `main`):
 
 ```bash
 # 1. Kiểm tra dependencies
 npm audit  # hoặc tương đương
 
-# 2. Review code tương tự production
+# 2. Review diff trên feature branch
 git diff origin/main
 
-# 3. Commit với message chi tiết
+# 3. Commit trên branch riêng
+git checkout -b feature/my-change origin/main
 git commit -m "Thêm bài blog: Tiêu đề — nội dung an toàn"
 
-# 4. Push
-git push origin main  # CI/CD tự trigger, build & deploy
+# 4. Push branch + tạo PR → review → merge thủ công
+git push -u origin feature/my-change
+# Sau merge PR → deploy.yml tự build & deploy
 ```
 
 **GitHub Actions Workflows (Đã Có):**
@@ -131,7 +133,7 @@ git push origin main  # CI/CD tự trigger, build & deploy
 ```bash
 # 1. Revert tất cả changes
 git revert --no-edit <bad-commit>
-git push origin main
+git push -u origin feature/my-fix  # → PR → manual merge
 
 # 2. Force rebuild
 # GitHub Pages tự detect push → rebuild + redeploy (2 phút)
@@ -274,6 +276,26 @@ git push origin <branch>
 
 # 6. GitHub Actions tự chạy security-audit.yml
 ```
+
+---
+
+## Cloudflare (tùy chọn — trước GitHub Pages)
+
+GitHub Pages **không** cho custom HTTP headers, rate-limit, hay hotlink block.
+Khi bật Cloudflare proxy cho domain custom:
+
+| Rule | Mục đích |
+|------|----------|
+| **Hotlink Protection** (Scrape Shield) | Giảm site khác nhúng trực tiếp `/img/*` |
+| **WAF Managed Rules** | Chặn scan/brute path (`/wp-admin`, mass 404) |
+| **Rate Limiting** | Giới hạn IP > N req/phút vào `/` (tránh scrape ồ ạt) |
+| **Cache Rules** | `Cache Everything` cho `/img/*`, `/fonts/*` — TTL 7d+ |
+| **Security Headers** (Transform Rules) | `Strict-Transport-Security`, `X-Content-Type-Options: nosniff` |
+
+**Bypass (luôn Allow):** `Googlebot`, `Bingbot`, `Mediapartners-Google`, `AdsBot-Google`
+(WAF → Skip rule hoặc Verified Bot).
+
+**Không làm:** chặn toàn bộ `User-agent: *` trên `/img/` — phá Google Images + AdSense.
 
 ---
 

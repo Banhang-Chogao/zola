@@ -1,8 +1,8 @@
 {
-  "scored_at": "2026-06-16T19:14:51.272449+07:00",
-  "site_score": 100.0,
+  "scored_at": "2026-06-17T21:11:25.604347+07:00",
+  "site_score": 99.8,
   "grade": "A+",
-  "pages_scanned": 146,
+  "pages_scanned": 223,
   "infra": {
     "robots.txt": true,
     "sitemap.xml": true,
@@ -10,6 +10,29 @@
     "rss.xml": true
   },
   "pages": [
+    {
+      "path": "/fonts/",
+      "score": 80.0,
+      "issues": [
+        "thiếu JSON-LD structured data",
+        "không có <h1>"
+      ]
+    },
+    {
+      "path": "/img/",
+      "score": 80.0,
+      "issues": [
+        "thiếu JSON-LD structured data",
+        "không có <h1>"
+      ]
+    },
+    {
+      "path": "/timer/",
+      "score": 90.0,
+      "issues": [
+        "thiếu JSON-LD structured data"
+      ]
+    },
     {
       "path": "/404.html",
       "score": 100.0,
@@ -46,12 +69,37 @@
       "issues": []
     },
     {
+      "path": "/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/baochi/",
       "score": 100.0,
       "issues": []
     },
     {
       "path": "/baochi/iran-uranium-destruction-what-it-means/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/baochi/liobank-bao-mat-an-toan-the-nao/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/baochi/liobank-gioi-thieu-ban-be-nhan-thuong/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/baochi/liobank-la-gi-ngan-hang-so-noi-bat/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/baochi/mo-the-tin-dung-liobank-online-nhanh/",
       "score": 100.0,
       "issues": []
     },
@@ -81,12 +129,22 @@
       "issues": []
     },
     {
-      "path": "/branding/hilda-guideline/",
+      "path": "/baochi/quan-ly-chi-tieu-voi-app-liobank/",
       "score": 100.0,
       "issues": []
     },
     {
-      "path": "/branding/",
+      "path": "/baochi/the-tin-dung-msb-huong-dan-chi-tiet/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/baochi/uu-dai-hoan-tien-the-liobank/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/branding-guideline/",
       "score": 100.0,
       "issues": []
     },
@@ -97,6 +155,11 @@
     },
     {
       "path": "/categories/bao-chi/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/categories/bao-chi/page/2/",
       "score": 100.0,
       "issues": []
     },
@@ -126,12 +189,42 @@
       "issues": []
     },
     {
+      "path": "/categories/ngan-hang/page/2/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/categories/tat-ca/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/categories/tat-ca/page/2/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/categories/tat-ca/page/3/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/categories/tat-ca/page/4/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/categories/the-gioi/",
       "score": 100.0,
       "issues": []
     },
     {
       "path": "/changelog/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/contact/",
       "score": 100.0,
       "issues": []
     },
@@ -171,7 +264,32 @@
       "issues": []
     },
     {
+      "path": "/posting/an-khuya-sai-gon/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/posting/cong-nghe-blog-duy-nguyen/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/posting/di-han-het-bao-nhieu-tien/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/posting/di-han-mua-nao-re-nhat/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/posting/facebook-shopee-affiliate-la-gi/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/",
       "score": 100.0,
       "issues": []
     },
@@ -181,12 +299,27 @@
       "issues": []
     },
     {
+      "path": "/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/posting/lich-trinh-busan-tu-tuc-3-ngay-2-dem/",
       "score": 100.0,
       "issues": []
     },
     {
+      "path": "/posting/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/posting/mua-nao-di-han-la-dep-nhat/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/posting/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat/",
       "score": 100.0,
       "issues": []
     },
@@ -226,12 +359,47 @@
       "issues": []
     },
     {
+      "path": "/posting/troi-mua-sai-gon-an-gi/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/posting/tu-dong-deploy-zola-github-actions/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/posting/zola-vs-hugo/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/privacy/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/prompt-support/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/scoring/",
       "score": 100.0,
       "issues": []
     },
     {
+      "path": "/seo-bang-vang/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/stats/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/affiliate-marketing/",
       "score": 100.0,
       "issues": []
     },
@@ -246,7 +414,27 @@
       "issues": []
     },
     {
+      "path": "/tags/an-dem/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/an-gi/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/an-khuya/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/an-ninh/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/an-toan-giao-dich/",
       "score": 100.0,
       "issues": []
     },
@@ -262,6 +450,16 @@
     },
     {
       "path": "/tags/anh-dao/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/app-ngan-hang/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/argentina/",
       "score": 100.0,
       "issues": []
     },
@@ -301,7 +499,7 @@
       "issues": []
     },
     {
-      "path": "/tags/branding/",
+      "path": "/tags/bong-da/",
       "score": 100.0,
       "issues": []
     },
@@ -316,12 +514,27 @@
       "issues": []
     },
     {
+      "path": "/tags/cashback/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/chi-phi/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/chinh-sach/",
       "score": 100.0,
       "issues": []
     },
     {
       "path": "/tags/ci-cd/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/claude/",
       "score": 100.0,
       "issues": []
     },
@@ -361,7 +574,7 @@
       "issues": []
     },
     {
-      "path": "/tags/design-system/",
+      "path": "/tags/deploy/",
       "score": 100.0,
       "issues": []
     },
@@ -381,6 +594,11 @@
       "issues": []
     },
     {
+      "path": "/tags/digital-banking/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/doan-ngo/",
       "score": 100.0,
       "issues": []
@@ -396,6 +614,11 @@
       "issues": []
     },
     {
+      "path": "/tags/ekyc/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/embeddings/",
       "score": 100.0,
       "issues": []
@@ -406,7 +629,22 @@
       "issues": []
     },
     {
+      "path": "/tags/facebook-shopee-affiliate/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/festival/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/gioi-han-su-dung/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/gioi-thieu-nhan-thuong/",
       "score": 100.0,
       "issues": []
     },
@@ -436,12 +674,22 @@
       "issues": []
     },
     {
-      "path": "/tags/hilda/",
+      "path": "/tags/ho-gia-dinh/",
       "score": 100.0,
       "issues": []
     },
     {
-      "path": "/tags/ho-gia-dinh/",
+      "path": "/tags/hoan-tien/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/hugo/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/huong-dan/",
       "score": 100.0,
       "issues": []
     },
@@ -457,6 +705,16 @@
     },
     {
       "path": "/tags/jeju/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/kiem-tien-online/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/kiem-tien-tu-facebook-reels/",
       "score": 100.0,
       "issues": []
     },
@@ -481,12 +739,32 @@
       "issues": []
     },
     {
+      "path": "/tags/lam-affiliate/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/le-hoi/",
       "score": 100.0,
       "issues": []
     },
     {
+      "path": "/tags/lich-thi-dau-world-cup-2026/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/lich-trinh/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/liobank/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/lpbank-plus/",
       "score": 100.0,
       "issues": []
     },
@@ -506,7 +784,22 @@
       "issues": []
     },
     {
+      "path": "/tags/messi/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/mo-the-tin-dung/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/mobile-ux/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/mon-ngon/",
       "score": 100.0,
       "issues": []
     },
@@ -522,6 +815,11 @@
     },
     {
       "path": "/tags/mua/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/mua-du-lich/",
       "score": 100.0,
       "issues": []
     },
@@ -556,7 +854,17 @@
       "issues": []
     },
     {
+      "path": "/tags/ngan-hang-loc-phat/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/ngan-hang-so/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/ngan-sach/",
       "score": 100.0,
       "issues": []
     },
@@ -591,7 +899,22 @@
       "issues": []
     },
     {
+      "path": "/tags/quan-ly-chi-tieu/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/quoc-te/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/quy-dinh-cam-tu/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/referral/",
       "score": 100.0,
       "issues": []
     },
@@ -641,6 +964,26 @@
       "issues": []
     },
     {
+      "path": "/tags/series-liobank/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/shopee-affiliate/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/so-sanh/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/ssg/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/static-site-generator/",
       "score": 100.0,
       "issues": []
@@ -681,6 +1024,11 @@
       "issues": []
     },
     {
+      "path": "/tags/the-tin-dung/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/thi-truong-tai-chinh/",
       "score": 100.0,
       "issues": []
@@ -691,7 +1039,22 @@
       "issues": []
     },
     {
+      "path": "/tags/tiet-kiem/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/tp-hcm/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/tphcm/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/troi-mua/",
       "score": 100.0,
       "issues": []
     },
@@ -702,6 +1065,11 @@
     },
     {
       "path": "/tags/trung-quoc/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/tu-dong-hoa/",
       "score": 100.0,
       "issues": []
     },
@@ -721,6 +1089,16 @@
       "issues": []
     },
     {
+      "path": "/tags/using-limit/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/uu-dai-ngan-hang/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/van-hoa/",
       "score": 100.0,
       "issues": []
@@ -736,7 +1114,22 @@
       "issues": []
     },
     {
+      "path": "/tags/world-cup-2026/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/tags/xac-thuc-cccd/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
       "path": "/tags/zola/",
+      "score": 100.0,
+      "issues": []
+    },
+    {
+      "path": "/terms/",
       "score": 100.0,
       "issues": []
     }

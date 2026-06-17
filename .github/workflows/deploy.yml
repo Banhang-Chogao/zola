@@ -14,9 +14,6 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-# Native Node.js 24 opt-in (best practice thay vì FORCE env): mỗi job
-# setup-node@v4 explicit + ACTIONS_RUNNER_HOOK_NODE_PATH ép runner ưu
-# tiên Node 24 path cho mọi JS action sau đó.
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -24,7 +21,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v6
 
       - name: Setup Node.js 24
@@ -38,24 +35,32 @@ jobs:
           tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Build reference index
+        run: python3 scripts/build_references.py
+
+      - name: Fetch Google Trends VN (hot search sidebar)
+        run: python3 scripts/fetch_google_trends.py --limit 25
+
+      - name: Strip premium content before build
+        run: python3 scripts/paywall_prepare_build.py --strip
+
       - name: Build site
         env:
-          # GITHUB_TOKEN tự inject sẵn trong workflow — không cần setup secret thủ công.
-          # Quota: 1000 req/h cho GITHUB_TOKEN. Build chỉ gọi 1 req nên dư xa.
-          # Template (base.html) đọc env này để fetch commit qua load_data ở build-time,
-          # bake thẳng vào HTML → user visit = 0 API call, không bao giờ dính quota 60/h.
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Lấy đúng phiên bản Zola đang build → template (base.html) đọc qua
-          # get_env(ZOLA_VERSION) để ghép thành số phiên bản blog: 'vX.Y.Z · <sha>'.
           export ZOLA_VERSION="$(zola --version | awk '{print $2}')"
           echo "Building with Zola $ZOLA_VERSION"
           zola build
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
 
-      - name: Upload artifact
+      - name: Upload build artifact
         uses: actions/upload-pages-artifact@v5
         with:
           path: ./public

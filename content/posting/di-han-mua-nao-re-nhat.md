@@ -1,11 +1,12 @@
 +++
-title = "Đi Hàn mùa nào rẻ nhất? Xếp hạng 12 tháng theo giá & thời tiết"
+title = "Đi Hàn mùa nào rẻ nhất? 12 tháng theo giá"
 description = "Đi Hàn mùa nào rẻ? So sánh chi phí du lịch Hàn Quốc 12 tháng: tháng nào vé máy bay rẻ, ít đông, thời tiết ổn — bảng xếp hạng chọn thời điểm tiết kiệm nhất."
 date = 2026-06-16
+aliases = ["/di-han-mua-nao-re-nhat/"]
 
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
-tags = ["du lịch hàn quốc", "hàn quốc", "ngân sách", "chi phí", "mùa du lịch", "tiết kiệm"]
+tags = ["chi phí", "du lịch hàn quốc", "hàn quốc", "mùa du lịch", "ngân sách", "tiết kiệm"]
 [extra]
 seo_keyword = "đi Hàn mùa nào rẻ"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/di-han-mua-nao-re-nhat.svg"

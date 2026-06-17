@@ -230,6 +230,104 @@ main.container:has(.editor-app) {
   }
 }
 
+.editor-header-widget {
+  position: sticky;
+  top: 0.75rem;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.36fr) minmax(260px, 1fr);
+  gap: 0.75rem;
+  align-items: stretch;
+  margin: 0 0 1rem;
+  padding: 0.65rem;
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  &[hidden] { display: none; }
+
+  &__stat,
+  &__latest {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 32px auto minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: center;
+    padding: 0.55rem 0.7rem;
+    border-radius: 6px;
+    background: #f8fafc;
+  }
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: #d63d3d;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &__label {
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  strong {
+    color: #0f172a;
+    font-size: 1.05rem;
+    line-height: 1.1;
+  }
+
+  a {
+    min-width: 0;
+    color: #0f172a;
+    font-size: 0.9rem;
+    font-weight: 800;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      color: #b91c1c;
+      border-bottom-color: rgba(185, 28, 28, 0.35);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .editor-header-widget {
+    grid-template-columns: 1fr;
+    top: 0.5rem;
+
+    &__stat,
+    &__latest {
+      grid-template-columns: 32px minmax(92px, auto) minmax(0, 1fr);
+    }
+  }
+}
+
 .editor-view {
   &[hidden] { display: none; }
 }
@@ -398,12 +496,29 @@ main.container:has(.editor-app) {
     font-size: 0.76rem;
   }
 
+  &.is-loading {
+    cursor: wait;
+  }
+
+  &__spinner {
+    width: 0.95em;
+    height: 0.95em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: editor-spin .65s linear infinite;
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none !important;
     box-shadow: none !important;
   }
+}
+
+@keyframes editor-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ============= TOOLBAR ============= */
@@ -1393,5 +1508,14 @@ body.editor-modal-open {
     flex-direction: column;
     align-items: stretch;
     &__info { margin-right: 0; text-align: center; }
+  }
+}
+
+/* ============= DRAFT MANAGER MOBILE (hoàn thiện phần cuối) ============= */
+@media (max-width: 720px) {
+  .draft-manager__head,
+  .draft-card {
+    align-items: stretch;
+    flex-direction: column;
   }
 }

@@ -1,0 +1,77 @@
+name: Auto Merge PRs
+
+# FULLY AUTOMATED OPERATIONS — CI pass → merge main (không chờ human approval).
+# Policy: data/auto-merge-policy.json + scripts/auto_merge_policy.py
+# Branch protection: required approvals = 0 (xem .github/BRANCH-PROTECTION.md).
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_run:
+    workflows:
+      - "QA Gatekeeper"
+      - "PR Policy"
+    types: [completed]
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+  checks: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: auto-merge-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  auto-merge:
+    if: >-
+      github.event_name != 'workflow_run'
+      || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Resolve PR number
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "number=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            sha="${{ github.event.workflow_run.head_sha }}"
+            num=$(gh pr list --repo "${GITHUB_REPOSITORY}" --state open --json number,headRefOid \
+              --jq ".[] | select(.headRefOid == \"${sha}\") | .number" | head -1)
+            if [ -n "$num" ]; then
+              echo "number=$num" >> "$GITHUB_OUTPUT"
+            fi
+            exit 0
+          fi
+          echo "scan=1" >> "$GITHUB_OUTPUT"
+
+      - name: Auto-merge single PR
+        if: steps.pr.outputs.number != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/try_auto_merge.py --pr "${{ steps.pr.outputs.number }}"
+
+      - name: Scan all open PRs
+        if: steps.pr.outputs.scan == '1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/try_auto_merge.py --scan-open

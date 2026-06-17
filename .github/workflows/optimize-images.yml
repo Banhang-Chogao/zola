@@ -1,11 +1,7 @@
 name: Optimize images (WebP)
 
-# Tự sinh bản .webp SONG SONG cho mọi ảnh raster (.jpg/.jpeg/.png) khi push
-# lên main. Giữ nguyên file gốc (theo quyết định user 16/06/2026) → template
-# dùng <picture> ưu tiên webp + fallback. Commit .webp ngược lại repo.
-#
-# KHÔNG vòng lặp vô tận: paths filter chỉ match ảnh raster; commit chỉ thêm
-# file .webp (không khớp filter) nên không tự kích hoạt lại. Kèm [skip ci] cho chắc.
+# Convert mọi ảnh raster (.jpg/.jpeg/.png) → .webp duy nhất, xoá raster gốc.
+# SVG/GIF giữ nguyên. Commit .webp + xoá raster; [skip ci] tránh vòng lặp.
 
 on:
   push:
@@ -17,14 +13,13 @@ on:
       - 'content/**/*.jpg'
       - 'content/**/*.jpeg'
       - 'content/**/*.png'
-  # Quét định kỳ: bắt mọi ảnh raster còn sót chưa có .webp (kể cả ảnh cũ
-  # không bị đụng trong push) → đảm bảo "luôn tự động cố gắng chuyển webp".
   schedule:
     - cron: '0 4 * * *'    # Hằng ngày 11:00 GMT+7 = 04:00 UTC
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: optimize-images
@@ -48,18 +43,16 @@ jobs:
       - name: Install Pillow
         run: pip install --quiet Pillow
 
-      - name: Generate .webp alongside rasters
+      - name: Convert rasters to WebP (replace originals)
         run: |
-          python3 scripts/to_webp.py static/img content || true
+          python3 scripts/to_webp.py --replace static/img content || true
 
-      - name: Commit generated webp (nếu có)
+      - name: Open PR for WebP changes (never push main)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: "chore(img): convert raster assets to WebP"
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain '*.webp')" ]; then
-            git add '*.webp'
-            git commit -m "chore(img): auto-generate WebP alongside rasters [skip ci]"
-            for i in 1 2 4 8; do git push && break || sleep $i; done
-          else
-            echo "Không có .webp mới — bỏ qua commit."
-          fi
+          chmod +x .github/scripts/push_via_pr.sh
+          .github/scripts/push_via_pr.sh chore/webp-convert \
+            "chore(img): convert raster assets to WebP only" \
+            static/ content/

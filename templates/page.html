@@ -2,6 +2,10 @@
 {% import "macros/verified.html" as v %}
 {% import "macros/giscus.html" as giscus %}
 {% import "macros/img.html" as img %}
+{% import "macros/references.html" as references %}
+{% import "macros/series-nav.html" as series %}
+{% import "macros/series-hub.html" as series_hub %}
+{% import "macros/paywall.html" as paywall %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
@@ -33,8 +37,26 @@
                 </span>
             </div>
 
-            {# Stats badge — populated by post-stats.js từ localStorage #}
-            <div class="post-stats" data-post-stats></div>
+            {# Stats badge — SEO score render từ DB build-time, reading stats do JS bổ sung. #}
+            {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
+            {% set page_parts = page.path | trim_start_matches(pat="/") | trim_end_matches(pat="/") | split(pat="/") %}
+            {% set content_path = "content/" ~ page_parts.0 ~ "/" ~ page.slug ~ ".md" %}
+            {% set_global seo_post = false %}
+            {% if seo_data and seo_data.posts and seo_data.posts[content_path] %}
+                {% set_global seo_post = seo_data.posts[content_path] %}
+            {% endif %}
+            <div class="post-stats" data-post-stats>
+                {% if seo_post %}
+                    <span class="post-stat post-stat--seo" title="Điểm SEO on-page của bài này từ Bảng Vàng SEO">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 14l3-3"></path>
+                            <path d="M3.34 19a10 10 0 1 1 17.32 0"></path>
+                        </svg>
+                        SEO <strong>{{ seo_post.score | round(precision=0) }}</strong><span class="post-stat__suffix">/100</span>
+                        <span class="post-stat__grade">{{ seo_post.grade }}</span>
+                    </span>
+                {% endif %}
+            </div>
 
             {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
             <div class="post-actions" data-post-actions hidden>
@@ -56,7 +78,7 @@
         {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
         <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
             <div class="ad-banner__image">
-                <img src="{{ get_url(path='img/banner.jpg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
+                <img src="{{ get_url(path='img/banner.webp') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
                 <span class="ad-banner__icon" aria-hidden="true">🐻</span>
             </div>
             <div class="ad-banner__text">
@@ -67,9 +89,22 @@
             <span class="ad-banner__arrow" aria-hidden="true">→</span>
         </a>
 
+        {% if page.extra.premium %}
+        <div class="post-single__content post-single__content--teaser">
+            {{ page.content | safe }}
+        </div>
+        {{ paywall::box(page=page, config=config) }}
+        {% else %}
         <div class="post-single__content">
             {{ page.content | safe }}
         </div>
+        {% endif %}
+
+        {{ series_hub::callout(page=page) }}
+
+        {{ series::nav(page=page) }}
+
+        {{ references::section(page=page) }}
 
         {# ===== FAQ (Câu hỏi thường gặp) → JSON-LD FAQPage sinh ở base.html ===== #}
         {% if page.extra.faq %}
@@ -138,13 +173,77 @@
            scripts/build_related.py qua sentence-transformers embedding +
            cosine similarity). Fallback: same category, rồi latest. #}
         {% set current_slug = page.slug %}
-        {% set current_cat = page.taxonomies.categories | default(value=[]) | first | default(value="") %}
+        {% set current_cat = "" %}
+        {% for cat in page.taxonomies.categories | default(value=[]) %}
+            {% if cat != "Tất cả" and cat != "Báo chí" and current_cat == "" %}
+                {% set_global current_cat = cat %}
+            {% endif %}
+        {% endfor %}
         {# HOTFIX: related lấy từ MỌI section (posting/, baochi/, …) để bài ở
            section nào cũng có thể xuất hiện như bài liên quan. #}
         {% set rp_posting = get_section(path="posting/_index.md") %}
         {% set rp_baochi = get_section(path="baochi/_index.md") %}
         {% set root_pages = rp_posting.pages | concat(with=rp_baochi.pages) | sort(attribute="date") | reverse %}
         {% set_global related = [] %}
+
+        {# Hub series (bài báo gốc): ưu tiên toàn bộ series khoa học. #}
+        {% if page.extra and page.extra.hub_series is defined and page.extra.hub_series == "science-uranium" %}
+            {% set hub_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% if hub_manifest %}
+                {% for item in hub_manifest.parts %}
+                    {% if item.status == "published" and item.slug != current_slug %}
+                        {% for p in root_pages %}
+                            {% if p.slug == item.slug and related | length < 5 %}
+                                {% set found = false %}
+                                {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                                {% if not found %}
+                                    {% set_global related = related | concat(with=[p]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        {# Series cluster: ưu tiên bài cùng series trước semantic/category. #}
+        {% if page.extra and page.extra.series is defined %}
+            {% set series_manifest = false %}
+            {% if page.extra.series == "seo-foundation" %}
+                {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "adsense-foundation" %}
+                {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "science-uranium" %}
+                {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% endif %}
+            {% if series_manifest and page.extra.series == series_manifest.id %}
+                {% for item in series_manifest.parts %}
+                    {% if item.status == "published" and item.slug != current_slug and related | length < 5 %}
+                        {% for p in root_pages %}
+                            {% if p.slug == item.slug %}
+                                {% set found = false %}
+                                {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                                {% if not found %}
+                                    {% set_global related = related | concat(with=[p]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {# Liên kết ngược về bài báo hub #}
+                {% if series_manifest.hub_slug is defined and series_manifest.hub_section is defined and related | length < 5 %}
+                    {% for p in root_pages %}
+                        {% if p.slug == series_manifest.hub_slug %}
+                            {% set found = false %}
+                            {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                            {% if not found %}
+                                {% set_global related = related | concat(with=[p]) %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
 
         {# Semantic: required=false → load_data trả false/empty nếu file
            không tồn tại. Tera KHÔNG support default(value={}) literal dict
@@ -223,6 +322,9 @@
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
+    {% if page.extra.premium %}
+    <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+    {% endif %}
     <script>
         // Show edit button nếu user có PAT (admin đã login CMS)
         if (localStorage.getItem("zola-cms-token")) {

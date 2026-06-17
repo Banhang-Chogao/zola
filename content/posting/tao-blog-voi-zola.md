@@ -2,15 +2,14 @@
 title = "Tạo blog với Zola từ A–Z: deploy GitHub Pages"
 description = "Hướng dẫn tạo blog cá nhân với Zola từ con số 0: cài đặt trên Windows/Mac/Linux, cấu trúc thư mục, viết bài Markdown, theme và deploy miễn phí lên GitHub Pages."
 date = 2026-06-16
+aliases = ["/tao-blog-voi-zola/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "static site generator", "github pages", "github actions", "blog", "rust", "markdown", "tutorial"]
+tags = ["blog", "github actions", "github pages", "markdown", "rust", "static site generator", "tutorial", "zola"]
 [extra]
 seo_keyword = "tạo blog với Zola"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
-featured = true
-
 [[extra.faq]]
 q = "Zola là gì?"
 a = "Zola là một static site generator (công cụ tạo trang tĩnh) viết bằng Rust, đóng gói thành một file thực thi duy nhất, không cần cài runtime. Nó biến file Markdown cùng template Tera thành các trang HTML tĩnh, build cực nhanh và host được miễn phí."
@@ -117,7 +116,7 @@ highlight_code = true
 
 [taxonomies]
 categories = [{ name = "categories", feed = true }]
-tags = [{ name = "tags", feed = true }]
+tags = ["feed = true }", "{ name = "tags"]
 ```
 
 > Lưu ý: nếu deploy lên GitHub Pages dạng *project page* (`username.github.io/my-blog`), `base_url` **phải** có đuôi `/my-blog`, nếu không link và CSS sẽ gãy.
@@ -170,7 +169,7 @@ date = 2026-06-16
 
 [taxonomies]
 categories = ["Linh tinh"]
-tags = ["zola", "blog"]
+tags = ["blog", "zola"]
 +++
 
 Xin chào! Đây là bài viết **đầu tiên** viết bằng Markdown.

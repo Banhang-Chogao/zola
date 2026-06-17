@@ -1,31 +1,21 @@
 +++
 title = "Tối nay Sài Gòn ăn gì? 12 quán ăn tối & khuya"
-description = "Gợi ý 12 quán ăn tối ở Sài Gòn từ street food đến quán ngồi: hủ tiếu Nam Vang, ốc Vĩnh Khánh, cơm tấm, bún mắm, phá lấu, chè... kèm địa chỉ và giá."
+description = "Tối nay Sài Gòn ăn gì? Gợi ý 12 quán ăn tối và khuya từ bình dân đến sang — lẩu, nướng, hải sản, món Việt và quốc tế."
 date = 2026-06-15
 aliases = ["/toi-nay-sai-gon-an-gi/"]
 
 [taxonomies]
-categories = ["Tất cả", "Ẩm thực"]
+categories = ["Tất cả"]
 tags = ["du lịch", "review", "street food", "sài gòn", "tp hcm", "ăn tối", "ẩm thực"]
+
 [extra]
-seo_keyword = "Sài Gòn ăn gì"
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg"
-featured = false
-[[extra.faq]]
-q = "Tối nay ở Sài Gòn nên ăn gì?"
-a = "Tuỳ khẩu vị: muốn nhanh gọn có cơm tấm, hủ tiếu; muốn lai rai có ốc Vĩnh Khánh, phá lấu; muốn no ấm có bún mắm, súp cua. Bài viết gợi ý 12 món kèm khu vực để bạn chọn nhanh."
-
-[[extra.faq]]
-q = "Ăn khuya ở Sài Gòn khu nào ngon?"
-a = "Quận 4 nổi tiếng ốc Vĩnh Khánh, Quận 5 Chợ Lớn nhiều hủ tiếu và món Hoa, Quận 1 và Quận 3 có nhiều quán mở khuya. Đây là các khu dân địa phương hay tụ tập ăn đêm."
-
-[[extra.faq]]
-q = "Ăn gì ở Sài Gòn ngon mà rẻ?"
-a = "Các món đường phố như bánh tráng trộn, phá lấu, ốc, cơm tấm, bột chiên thường dưới 50 nghìn mà ngon. Ăn ở quán bình dân khu địa phương vừa rẻ vừa đúng vị hơn khu trung tâm du lịch."
-
+seo_keyword = "tối nay Sài Gòn ăn gì"
 +++
 
-![Sài Gòn ăn tối]
+![Tối nay Sài Gòn ăn gì — gợi ý quán ăn tối và khuya](https://banhang-chogao.github.io/zola/img/covers/toi-nay-sai-gon-an-gi.svg)
+
+## Tối nay Sài Gòn ăn gì? Gợi ý nhanh
 
 7 giờ tối, vừa tan ca, kẹt xe Cộng Hòa rồi vào trung tâm — câu hỏi
 muôn thuở của dân Sài Gòn: **tối nay ăn gì?** Bài này là danh sách
@@ -200,9 +190,9 @@ Nếu bạn cũng đang phân vân tối nay đi đâu, hy vọng list này giú
 quyết định nhanh hơn. Còn nếu bạn có quán ruột nào chưa thấy trong
 đây — comment cho mình biết.
 
-Đọc thêm: [Mùa nào đi Hàn đẹp nhất?](/posting/mua-nao-di-han-la-dep-nhat/)
-nếu bạn đang lên kế hoạch chuyến đi xa, hay [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/posting/tet-doan-ngo-han-viet-trung/)
-để hiểu văn hóa ẩm thực lễ tiết, hoặc [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/)
+Đọc thêm: [Mùa nào đi Hàn đẹp nhất?](/zola/posting/mua-nao-di-han-la-dep-nhat/)
+nếu bạn đang lên kế hoạch chuyến đi xa, hay [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/zola/posting/tet-doan-ngo-han-viet-trung/)
+để hiểu văn hóa ẩm thực lễ tiết, hoặc [hành trình công nghệ blog cá nhân](/zola/posting/cong-nghe-blog-duy-nguyen/)
 nếu bạn quan tâm phía sau hậu trường blog này.
 
 📚 Muốn tìm quán được giới phê bình ẩm thực đánh giá cao? Tham khảo [Michelin Guide TP.HCM](https://guide.michelin.com/en/vn/ho-chi-minh-city/restaurants).
