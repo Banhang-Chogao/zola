@@ -57,8 +57,8 @@ jobs:
           fi
 
           if [ "$MODE" = "pr" ]; then
-            MERGED=$(gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" --json merged --jq '.merged')
-            if [ "$MERGED" != "true" ]; then
+            STATE=$(gh pr view "$NUM" --repo "${GITHUB_REPOSITORY}" --json state --jq -r '.state')
+            if [ "$STATE" != "MERGED" ]; then
               echo "skip=true" >> "$GITHUB_OUTPUT"
               echo "PR #${NUM} not merged — skip"
               exit 0
@@ -124,6 +124,7 @@ jobs:
         env:
           CHANGELOG_MODE: ${{ steps.meta.outputs.mode }}
           PR_NUMBER: ${{ steps.meta.outputs.number }}
+          PR_TITLE: ${{ steps.meta.outputs.title }}
           COMMIT_SHA: ${{ steps.meta.outputs.sha }}
           PR_BODY: ${{ steps.meta.outputs.body }}
           PR_ADDITIONS: ${{ steps.meta.outputs.additions }}
