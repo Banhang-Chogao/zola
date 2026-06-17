@@ -145,52 +145,38 @@
     var left = Math.max(0, end - Date.now());
     if (end <= Date.now()) {
       el.innerHTML =
-        '<span class="footer-countdown__past">Sự kiện đã diễn ra: ' +
+        '<span class="footer-countdown__past">SỰ KIỆN ĐÃ DIỄN RA: ' +
         '<strong class="footer-countdown__title">' + cfg.title + "</strong></span>";
       return;
     }
     var sec = Math.floor(left / 1000);
     var days = Math.floor(sec / 86400);
-    var hours = Math.floor((sec % 86400) / 3600);
+    var totalHours = Math.floor(sec / 3600);
     var minutes = Math.floor((sec % 3600) / 60);
-    var seconds = sec % 60;
-    var pad = function (n) { return String(n).padStart(2, "0"); };
-    function digitSpan(value, unit) {
-      return (
-        '<span class="footer-countdown__unit" aria-hidden="true">' +
-        '<span class="footer-countdown__digit">' + value + "</span> " +
-        unit +
-        "</span>"
-      );
-    }
-    var body = "";
-    if (cfg.displayMode === "full") {
-      body =
-        digitSpan(days, "ngày") + " " +
-        digitSpan(pad(hours), "giờ") + " " +
-        digitSpan(pad(minutes), "phút") + " " +
-        digitSpan(pad(seconds), "giây");
-    } else if (cfg.displayMode === "days_hours_minutes") {
-      body =
-        digitSpan(days, "ngày") + " " +
-        digitSpan(pad(hours), "giờ") + " " +
-        digitSpan(pad(minutes), "phút");
-    } else {
-      body = digitSpan(days, "ngày");
+    function digit(value) {
+      return '<span class="footer-countdown__digit">' + value + "</span>";
     }
     el.innerHTML =
-      '<span class="footer-countdown__prefix">' + cfg.footerTextPrefix + "</span> " +
-      body + " " +
-      '<span class="footer-countdown__suffix">' + cfg.footerTextSuffix + ":</span> " +
-      '<strong class="footer-countdown__title">' + cfg.title + "</strong>";
+      '<span class="footer-countdown__dual">' +
+        '<span class="footer-countdown__segment footer-countdown__segment--days">' +
+          '<span class="footer-countdown__word">CÒN</span> ' +
+          digit(days) + ' <span class="footer-countdown__word">NGÀY</span>' +
+        "</span>" +
+        '<span class="footer-countdown__sep" aria-hidden="true">|</span>' +
+        '<span class="footer-countdown__segment footer-countdown__segment--rest">' +
+          '<span class="footer-countdown__word">CÒN</span> ' +
+          digit(totalHours) + ' <span class="footer-countdown__word">GIỜ</span> ' +
+          digit(minutes) + ' <span class="footer-countdown__word">PHÚT NỮA LÀ TỚI:</span> ' +
+          '<strong class="footer-countdown__title">' + cfg.title + "</strong>" +
+        "</span>" +
+      "</span>";
   }
 
   var previewTimer = null;
   function schedulePreview() {
     updatePreview();
     if (previewTimer) clearInterval(previewTimer);
-    var mode = $('[data-field="displayMode"]').value;
-    previewTimer = setInterval(updatePreview, mode === "full" ? 1000 : 60000);
+    previewTimer = setInterval(updatePreview, 60000);
   }
 
   var form = $("[data-form='countdown']");

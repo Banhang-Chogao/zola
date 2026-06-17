@@ -1,6 +1,7 @@
 /**
- * Footer countdown — lightweight client update from data/footer-countdown.json
- * baked into data-* attributes at build time. No external APIs.
+ * Footer countdown — dual format:
+ * CÒN X NGÀY | CÒN Y GIỜ Z PHÚT NỮA LÀ TỚI: EVENT_NAME
+ * Updates every minute. No external APIs.
  */
 (function () {
   "use strict";
@@ -25,16 +26,10 @@
     targetDate: parsed.targetDate || "",
     targetTime: parsed.targetTime || "00:00",
     timezone: parsed.timezone || "Asia/Ho_Chi_Minh",
-    displayMode: parsed.displayMode || "days",
-    prefix: parsed.footerTextPrefix || "Còn",
-    suffix: parsed.footerTextSuffix || "nữa là tới",
   };
 
   var timerId = null;
-
-  function pad2(n) {
-    return String(n).padStart(2, "0");
-  }
+  var TICK_MS = 60000;
 
   /** Parse local date+time in IANA timezone → UTC ms (no external libs). */
   function targetMs(dateStr, timeStr, timeZone) {
@@ -76,59 +71,19 @@
     return utc;
   }
 
-  function diffParts(nowMs, endMs) {
+  function remainingParts(nowMs, endMs) {
     var left = Math.max(0, endMs - nowMs);
     var sec = Math.floor(left / 1000);
     return {
       days: Math.floor(sec / 86400),
-      hours: Math.floor((sec % 86400) / 3600),
+      totalHours: Math.floor(sec / 3600),
       minutes: Math.floor((sec % 3600) / 60),
-      seconds: sec % 60,
       past: endMs <= nowMs,
     };
   }
 
-  function digitSpan(value, unit) {
-    return (
-      '<span class="footer-countdown__unit" aria-hidden="true">' +
-      '<span class="footer-countdown__digit">' + value + "</span> " +
-      unit +
-      "</span>"
-    );
-  }
-
-  function buildMessage(parts) {
-    if (parts.past) {
-      return (
-        '<span class="footer-countdown__past">Sự kiện đã diễn ra: ' +
-        '<strong class="footer-countdown__title">' + escapeHtml(cfg.title) + "</strong></span>"
-      );
-    }
-
-    var mode = cfg.displayMode;
-    var body = "";
-
-    if (mode === "full") {
-      body =
-        digitSpan(parts.days, "ngày") + " " +
-        digitSpan(pad2(parts.hours), "giờ") + " " +
-        digitSpan(pad2(parts.minutes), "phút") + " " +
-        digitSpan(pad2(parts.seconds), "giây");
-    } else if (mode === "days_hours_minutes") {
-      body =
-        digitSpan(parts.days, "ngày") + " " +
-        digitSpan(pad2(parts.hours), "giờ") + " " +
-        digitSpan(pad2(parts.minutes), "phút");
-    } else {
-      body = digitSpan(parts.days, "ngày");
-    }
-
-    return (
-      '<span class="footer-countdown__prefix">' + escapeHtml(cfg.prefix) + "</span> " +
-      body + " " +
-      '<span class="footer-countdown__suffix">' + escapeHtml(cfg.suffix) + ":</span> " +
-      '<strong class="footer-countdown__title">' + escapeHtml(cfg.title) + "</strong>"
-    );
+  function digit(value) {
+    return '<span class="footer-countdown__digit">' + value + "</span>";
   }
 
   function escapeHtml(s) {
@@ -139,31 +94,58 @@
       .replace(/"/g, "&quot;");
   }
 
+  function buildMessage(parts) {
+    if (parts.past) {
+      return (
+        '<span class="footer-countdown__past">SỰ KIỆN ĐÃ DIỄN RA: ' +
+        '<strong class="footer-countdown__title">' + escapeHtml(cfg.title) + "</strong></span>"
+      );
+    }
+
+    return (
+      '<span class="footer-countdown__dual">' +
+        '<span class="footer-countdown__segment footer-countdown__segment--days">' +
+          '<span class="footer-countdown__word">CÒN</span> ' +
+          digit(parts.days) + ' ' +
+          '<span class="footer-countdown__word">NGÀY</span>' +
+        "</span>" +
+        '<span class="footer-countdown__sep" aria-hidden="true">|</span>' +
+        '<span class="footer-countdown__segment footer-countdown__segment--rest">' +
+          '<span class="footer-countdown__word">CÒN</span> ' +
+          digit(parts.totalHours) + ' ' +
+          '<span class="footer-countdown__word">GIỜ</span> ' +
+          digit(parts.minutes) + ' ' +
+          '<span class="footer-countdown__word">PHÚT NỮA LÀ TỚI:</span> ' +
+          '<strong class="footer-countdown__title">' + escapeHtml(cfg.title) + "</strong>" +
+        "</span>" +
+      "</span>"
+    );
+  }
+
+  function ariaLabel(parts) {
+    if (parts.past) return "Sự kiện đã diễn ra: " + cfg.title;
+    return (
+      "Còn " + parts.days + " ngày, còn " + parts.totalHours +
+      " giờ " + parts.minutes + " phút nữa là tới: " + cfg.title
+    );
+  }
+
   function tick() {
     if (!cfg.targetDate || !cfg.title) {
       root.hidden = true;
       return;
     }
     var end = targetMs(cfg.targetDate, cfg.targetTime, cfg.timezone);
-    var parts = diffParts(Date.now(), end);
+    var parts = remainingParts(Date.now(), end);
     if (loadingEl) loadingEl.remove();
     textEl.innerHTML = buildMessage(parts);
-    root.setAttribute(
-      "aria-label",
-      parts.past
-        ? "Sự kiện đã diễn ra: " + cfg.title
-        : cfg.prefix + " " + parts.days + " ngày " + cfg.suffix + ": " + cfg.title
-    );
-  }
-
-  function intervalMs() {
-    return cfg.displayMode === "full" ? 1000 : 60000;
+    root.setAttribute("aria-label", ariaLabel(parts));
   }
 
   function start() {
     tick();
     if (timerId) clearInterval(timerId);
-    timerId = setInterval(tick, intervalMs());
+    timerId = setInterval(tick, TICK_MS);
   }
 
   if (document.readyState === "loading") {

@@ -43,5 +43,25 @@ class FooterCountdownConfigTest(unittest.TestCase):
             self.assertTrue(data["title"].strip())
 
 
+class FooterCountdownDualFormatTest(unittest.TestCase):
+    """Regression: dual-counter uses total hours + minute remainder."""
+
+    def test_remaining_parts_math(self):
+        sec = 128 * 86400 + 42 * 60 + 18 * 3600  # 128d + 18h + 42m
+        days = sec // 86400
+        total_hours = sec // 3600
+        minutes = (sec % 3600) // 60
+        self.assertEqual(days, 128)
+        self.assertEqual(total_hours, 128 * 24 + 18)
+        self.assertEqual(minutes, 42)
+
+    def test_footer_js_uses_dual_markup(self):
+        js = (ROOT / "static/js/footer-countdown.js").read_text(encoding="utf-8")
+        self.assertIn("footer-countdown__dual", js)
+        self.assertIn("totalHours", js)
+        self.assertIn("TICK_MS = 60000", js)
+        self.assertNotIn("displayMode", js)
+
+
 if __name__ == "__main__":
     unittest.main()
