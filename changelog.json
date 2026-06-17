@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "LPBank L-Dashboard statement analyzer",
+      "tag": "feat",
+      "lines_added": 3744,
+      "lines_removed": 4,
+      "highlights": [
+        "New /tools/l-dashboard/ page (clone F-Dashboard UX for LPBank PDF)",
+        "lpbank-parser.js + scripts/lpbank_parser.py for multi-page PDF statements",
+        "Metadata: account, CIF, opening/ending balance, total debit/credit",
+        "Transaction table: txn date, value date, description, txn.no, debit, credit, balance",
+        "Filters, reconciliation warning, export JSON/CSV/PDF"
+      ],
+      "pr": 374
+    },
+    {
+      "date": "2026-06-17",
       "title": "fix(ci): correct gh pr view --jq syntax in changelog workflow",
       "tag": "fix",
       "lines_added": 1,
