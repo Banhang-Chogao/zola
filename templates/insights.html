@@ -12,12 +12,18 @@
         {% set build_items = builds_data.builds | default(value=[]) %}
         {% set build_success = builds_data.stats.success | default(value=0) %}
         {% set build_failure = builds_data.stats.failure | default(value=0) %}
+        {% set build_cancelled = builds_data.stats.cancelled | default(value=0) %}
+        {% set build_skipped = builds_data.stats.skipped | default(value=0) %}
+        {% set build_in_progress = builds_data.stats.in_progress | default(value=0) %}
         {% set build_source = builds_data.source_repo | default(value="https://github.com/Banhang-Chogao/zola") %}
         {% set build_updated = builds_data.updated_at | default(value="") %}
     {% else %}
         {% set build_items = [] %}
         {% set build_success = 0 %}
         {% set build_failure = 0 %}
+        {% set build_cancelled = 0 %}
+        {% set build_skipped = 0 %}
+        {% set build_in_progress = 0 %}
         {% set build_source = "https://github.com/Banhang-Chogao/zola" %}
         {% set build_updated = "" %}
     {% endif %}
@@ -332,15 +338,24 @@
                         <h3 class="insights__build-title">Build Dashboard</h3>
                         <span class="insights__build-meta">
                             {{ build_success }} thành công · {{ build_failure }} thất bại
+                            {%- if build_cancelled > 0 %} · {{ build_cancelled }} đã huỷ{% endif -%}
+                            {%- if build_in_progress > 0 %} · {{ build_in_progress }} đang chạy{% endif -%}
                         </span>
                     </header>
 
                     {% if build_items | length > 0 %}
                     <ol class="insights__build-list" aria-label="Lịch sử build GitHub Actions">
                         {% for build in build_items %}
-                        <li class="insights__build-item{% if build.success %} insights__build-item--ok{% else %} insights__build-item--fail{% endif %}">
+                        {% set build_norm = build.status_normalized | default(value=build.conclusion) %}
+                        {% if build_norm == "failure" %}{% set build_norm = "failed" %}{% endif %}
+                        <li class="insights__build-item insights__build-item--{{ build_norm }}">
                             <div class="insights__build-status" aria-hidden="true">
-                                {% if build.success %}✓{% else %}✗{% endif %}
+                                {% if build_norm == "success" %}✓
+                                {% elif build_norm == "failed" %}✗
+                                {% elif build_norm == "cancelled" %}⊘
+                                {% elif build_norm == "skipped" %}–
+                                {% elif build_norm == "in_progress" %}…
+                                {% else %}?{% endif %}
                             </div>
                             <div class="insights__build-body">
                                 <p class="insights__build-summary">{{ build.summary_vi }}</p>
@@ -354,9 +369,15 @@
                                     </a>
                                     {% endif %}
                                     <span class="insights__build-num">#{{ build.run_number }}</span>
-                                    <span class="insights__build-badge{% if build.success %} insights__build-badge--ok{% else %} insights__build-badge--fail{% endif %}">
+                                    <span class="insights__build-badge insights__build-badge--{{ build_norm }}">
                                         {{ build.status_vi }}
                                     </span>
+                                    {% if build.conclusion %}
+                                    <span class="insights__build-raw"
+                                          title="GitHub conclusion thô">
+                                        {{ build.conclusion }}
+                                    </span>
+                                    {% endif %}
                                 </p>
                                 {% if build.cause_vi %}
                                 <p class="insights__build-cause">{{ build.cause_vi }}</p>
