@@ -212,7 +212,7 @@ tế). Cao điểm 8 tháng dễ vượt 20 triệu — đặt sớm trước 2 
 ## Tài liệu chính thức
 
 - [Visit Korea — Official Tourism Site](https://english.visitkorea.or.kr/)
-- [Korea National Park Service — Seoraksan](https://english.knps.or.kr/Knp/Seoraksan/Intro/Introduction.aspx)
+- [Seoraksan National Park (Wikipedia)](https://en.wikipedia.org/wiki/Seoraksan_National_Park)
 - [Jeju Tourism Organization](https://www.visitjeju.net/en)
 - [K-ETA Application](https://www.k-eta.go.kr/portal/apply/index.do)
 
