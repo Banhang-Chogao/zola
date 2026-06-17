@@ -816,7 +816,7 @@
                         <h4 class="qa-card__title">Performance Audit</h4>
                         <p class="qa-card__desc">Điểm Lighthouse Performance đo trực tiếp từ PageSpeed Insights.</p>
                         <div class="qa-card__foot">
-                            <span class="qa-card__count">{% if qa_pagespeed %}{{ qa_ps_perf }}/100 điểm{% else %}Cron CN 02:00 UTC{% endif %}</span>
+                            <span class="qa-card__count">{% if qa_pagespeed %}{{ qa_ps_perf }}/100 điểm{% else %}Cron 00:00 GMT+7{% endif %}</span>
                             <span class="qa-card__date">{% if qa_pagespeed and qa_pagespeed.updated_at %}{{ qa_pagespeed.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}</span>
                         </div>
                     </div>

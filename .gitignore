@@ -11,6 +11,8 @@ perf-summary.txt
 fix-log.txt
 fixed-summary.txt
 pr-body.md
+reports/performance/*.json
+!reports/performance/.gitkeep
 
 # Sensitive: never commit tokens/keys
 ghp_*
