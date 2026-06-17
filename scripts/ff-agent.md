@@ -14,7 +14,9 @@ pip install -r scripts/requirements-ff.txt
 pre-commit install
 
 # Export API key (chọn 1)
-export ANTHROPIC_API_KEY="sk-ant-..."     # mặc định
+# Claude chỉ khi heuristics confidence < 70%:
+export AI_DIAGNOSE_USE_CLAUDE=1
+export ANTHROPIC_API_KEY="sk-ant-..."
 # hoặc:
 export FF_AI_PROVIDER=openai
 export OPENAI_API_KEY="sk-..."

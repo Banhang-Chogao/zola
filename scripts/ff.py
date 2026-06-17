@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
-"""ff.py — Full-Fix AI-Agent cho Zola blog build pipeline.
+"""ff.py — Full-Fix agent cho Zola blog build pipeline.
 
 Workflow:
   1. Chạy `zola build`.
   2. Nếu fail: capture stderr + return code.
-  3. Pattern-classify lỗi (Tera/SCSS/TOML/path/taxonomy/unknown).
-  4. Gửi error excerpt + nội dung file nghi vấn lên AI (Anthropic mặc định,
-     có thể switch sang OpenAI qua env).
+  3. Chạy ai_diagnose.py Tier 1 (free heuristics) trên stderr.
+  4. Nếu confidence < 70% VÀ AI_DIAGNOSE_USE_CLAUDE=1 → gọi Claude (paid).
   5. In gợi ý fix ra terminal — READ-ONLY, KHÔNG tự ghi đè file.
 
 Usage:
-  python3 scripts/ff.py                 # Build + tự chẩn đoán nếu fail
+  python3 scripts/ff.py                 # Build + free diagnose; Claude opt-in
   python3 scripts/ff.py --file F        # Ép inspect file F bất kể classify
-  python3 scripts/ff.py --dry-run       # Chỉ classify, không gọi AI
+  python3 scripts/ff.py --dry-run       # Chỉ heuristics, không gọi AI
   python3 scripts/ff.py --teach "..."   # Ghi feedback khi AI đoán sai
+  AI_DIAGNOSE_USE_CLAUDE=1 python3 scripts/ff.py  # Bật Claude fallback
 
 Env vars:
-  ANTHROPIC_API_KEY     Bắt buộc (Anthropic mode)
-  OPENAI_API_KEY        Bắt buộc nếu FF_AI_PROVIDER=openai
-  FF_AI_PROVIDER        "anthropic" (mặc định) | "openai"
-  FF_AI_MODEL           Override tên model
-  FF_LOG_FILE           Đường dẫn loguru log (mặc định .ff/ff.log)
+  AI_DIAGNOSE_USE_CLAUDE  "1" để cho phép Claude khi confidence < 70% (mặc định: off)
+  ANTHROPIC_API_KEY       Bắt buộc nếu bật Claude
+  OPENAI_API_KEY          Bắt buộc nếu FF_AI_PROVIDER=openai
+  FF_AI_PROVIDER          "anthropic" (mặc định) | "openai"
+  FF_AI_MODEL             Override tên model
+  FF_LOG_FILE             Đường dẫn loguru log (mặc định .ff/ff.log)
 
 Safety: tuyệt đối KHÔNG ghi đè source. Mọi suggestion chỉ in stdout + log.
 """
@@ -47,6 +48,14 @@ except ImportError:
     sys.exit(2)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+SCRIPTS = REPO_ROOT / "scripts"
+sys.path.insert(0, str(SCRIPTS))
+from ai_diagnose import (  # noqa: E402
+    LOW_CONFIDENCE_THRESHOLD,
+    diagnose_hybrid,
+    diagnose_tier1,
+    format_text,
+)
 LOG_DIR = REPO_ROOT / ".ff"
 LOG_DIR.mkdir(exist_ok=True)
 LOG_FILE = Path(os.getenv("FF_LOG_FILE", LOG_DIR / "ff.log"))
@@ -267,11 +276,34 @@ def main() -> int:
     print("\n=== STDERR EXCERPT ===")
     print(cls.excerpt)
 
+    log_blob = result.stderr + "\n" + result.stdout
+    diagnosis = diagnose_tier1(log_blob) if args.dry_run else diagnose_hybrid(log_blob)
+
+    print("\n=== FREE DIAGNOSIS (ai_diagnose.py) ===")
+    print(format_text(diagnosis))
+
+    use_claude = os.environ.get("AI_DIAGNOSE_USE_CLAUDE", "").strip() in ("1", "true", "yes")
     if args.dry_run:
-        logger.info("--dry-run: bỏ qua AI")
+        logger.info("--dry-run: bỏ qua paid AI")
         return result.returncode
 
-    suspect = args.file or cls.suspect_file
+    if diagnosis.confidence >= LOW_CONFIDENCE_THRESHOLD:
+        logger.success(
+            f"Confidence {diagnosis.confidence}% ≥ {LOW_CONFIDENCE_THRESHOLD}% — "
+            "không cần Claude credits"
+        )
+        print(f"\n(Log đầy đủ: {LOG_FILE})")
+        return 1
+
+    if not use_claude:
+        logger.warning(
+            f"Confidence {diagnosis.confidence}% < {LOW_CONFIDENCE_THRESHOLD}% — "
+            "bật Claude: export AI_DIAGNOSE_USE_CLAUDE=1"
+        )
+        print(f"\n(Log đầy đủ: {LOG_FILE})")
+        return 1
+
+    suspect = args.file or cls.suspect_file or (diagnosis.affected_files[0] if diagnosis.affected_files else None)
     file_content = read_suspect(suspect)
 
     fb = recent_feedback()
@@ -287,8 +319,9 @@ def main() -> int:
         suspect=suspect or "(không rõ)",
         excerpt=cls.excerpt,
         file_content=file_content,
-    ) + fb_hint
+    ) + fb_hint + f"\n=== Heuristic guess ({diagnosis.confidence}%): {diagnosis.root_cause}\n"
     logger.debug(f"Prompt length: {len(prompt)} chars")
+    logger.warning("Gọi paid AI (Claude) — AI_DIAGNOSE_USE_CLAUDE=1")
 
     try:
         answer = ask_ai(prompt)
@@ -296,7 +329,7 @@ def main() -> int:
         logger.error(f"AI call thất bại: {e}")
         return 5
 
-    print("\n=== AI FIX SUGGESTION ===")
+    print("\n=== CLAUDE FIX SUGGESTION (paid) ===")
     print(answer)
     print("\n=== END ===")
     print(f"(Log đầy đủ: {LOG_FILE})")
