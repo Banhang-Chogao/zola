@@ -1,0 +1,64 @@
+{# Series navigation — đọc manifest data/seo-foundation-series.json.
+   Hiển thị khi page.extra.series khớp manifest.id.
+   Mỗi bài mới trong series: cập nhật manifest (status + slug) + extra.series_part. #}
+{% macro nav(page) %}
+{% set manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+{% if manifest and page.extra.series and page.extra.series == manifest.id %}
+    {% set current_part = page.extra.series_part | default(value=0) %}
+    {% set prev_part = false %}
+    {% set next_part = false %}
+    {% for item in manifest.parts %}
+        {% if item.part == current_part - 1 and item.status == "published" %}
+            {% set_global prev_part = item %}
+        {% endif %}
+        {% if item.part == current_part + 1 and item.status == "published" %}
+            {% set_global next_part = item %}
+        {% endif %}
+    {% endfor %}
+    {% set pillar = false %}
+    {% for item in manifest.parts %}
+        {% if item.slug == manifest.pillar_slug %}
+            {% set_global pillar = item %}
+        {% endif %}
+    {% endfor %}
+    <nav class="series-nav" aria-label="{{ manifest.title_vi }}">
+        <div class="series-nav__head">
+            <span class="series-nav__kicker">📚 {{ manifest.title_vi }}</span>
+            <span class="series-nav__progress">Bài {{ current_part }}/{{ manifest.total_parts }}</span>
+        </div>
+        <p class="series-nav__desc">
+            Cụm nội dung bám <a href="{{ manifest.source_url }}" target="_blank" rel="noopener noreferrer">{{ manifest.source_label }}</a>.
+            {% if pillar and pillar.slug != page.slug %}
+            Bắt đầu từ <a href="{{ get_url(path='@/' ~ manifest.section ~ '/' ~ pillar.slug ~ '.md') }}">{{ pillar.title }}</a>.
+            {% endif %}
+        </p>
+        <ol class="series-nav__list">
+            {% for item in manifest.parts %}
+                {% if item.status == "published" %}
+                <li class="series-nav__item{% if item.part == current_part %} is-current{% endif %}">
+                    {% if item.part == current_part %}
+                        <span aria-current="page"><strong>Bài {{ item.part }}:</strong> {{ item.title }}</span>
+                    {% else %}
+                        <a href="{{ get_url(path='@/' ~ manifest.section ~ '/' ~ item.slug ~ '.md') }}">
+                            <strong>Bài {{ item.part }}:</strong> {{ item.title }}
+                        </a>
+                    {% endif %}
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+        <div class="series-nav__pager">
+            {% if prev_part %}
+                <a class="series-nav__prev" href="{{ get_url(path='@/' ~ manifest.section ~ '/' ~ prev_part.slug ~ '.md') }}">← Bài {{ prev_part.part }}: {{ prev_part.title }}</a>
+            {% else %}
+                <span class="series-nav__prev series-nav__prev--disabled" aria-hidden="true"></span>
+            {% endif %}
+            {% if next_part %}
+                <a class="series-nav__next" href="{{ get_url(path='@/' ~ manifest.section ~ '/' ~ next_part.slug ~ '.md') }}">Bài {{ next_part.part }}: {{ next_part.title }} →</a>
+            {% else %}
+                <span class="series-nav__next series-nav__next--disabled">Tiếp theo: đang soạn…</span>
+            {% endif %}
+        </div>
+    </nav>
+{% endif %}
+{% endmacro %}
