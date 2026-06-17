@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "refresh Build Dashboard data",
+      "tag": "chore",
+      "pr": 299,
+      "lines_added": 225,
+      "lines_removed": 259,
+      "highlights": [
+        "Workflow: Fetch Build Dashboard",
+        "Branch: chore/build-dashboard-data",
+        "KHÔNG auto-merge"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "🤖 Self-healing: 14 mechanical fix(es)",
       "tag": "fix",
       "pr": 301,
