@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T13:48:48Z",
+  "updated_at": "2026-06-17T13:49:42Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 30,
-    "success": 28,
+    "total": 29,
+    "success": 27,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27693794853,
+      "run_number": 596,
+      "commit_id": "c34bd9a93b0f268b3301d640330ddeb7c3890bca",
+      "commit_short": "c34bd9a",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/c34bd9a93b0f268b3301d640330ddeb7c3890bca",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27693794853",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #596 — Kiểm tra QA Gatekeeper: Merge pull request #268 from Banhang-Chogao/feat/devops-no-dependabot-batch-10",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T13:49:02Z",
+      "duration_sec": 21
+    },
     {
       "id": 27693409806,
       "run_number": 374,
@@ -483,40 +500,6 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T12:31:30Z",
-      "duration_sec": 26
-    },
-    {
-      "id": 27689073028,
-      "run_number": 360,
-      "commit_id": "e2a4a54fb1cc75a3e1508909273526e471fef448",
-      "commit_short": "e2a4a54",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/e2a4a54fb1cc75a3e1508909273526e471fef448",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27689073028",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #360 — Deploy blog lên GitHub Pages: ci: Optimize deploy.yml - add caching + better reliability (Option 1)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:30:57Z",
-      "duration_sec": 94
-    },
-    {
-      "id": 27689073091,
-      "run_number": 578,
-      "commit_id": "e2a4a54fb1cc75a3e1508909273526e471fef448",
-      "commit_short": "e2a4a54",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/e2a4a54fb1cc75a3e1508909273526e471fef448",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27689073091",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #578 — Kiểm tra QA Gatekeeper: ci: Optimize deploy.yml - add caching + better reliability (Option 1)",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:30:57Z",
       "duration_sec": 26
     }
   ]
