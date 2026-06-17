@@ -790,17 +790,36 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 **Prevention:** `python3 scripts/qa-auto-rule-checker.py --dry-run` → 0 conflicts trước khi merge; reset state khi loop do FP.
 
-## Paywall System Rules
+## Premium Paywall Rules
 
 - Never publish full premium content in static HTML.
 - Premium posts render teaser only (`paywall_prepare_build.py --strip` trước `zola build`).
+- Frontmatter: `premium = true`, `price`, `premium_post_id` (vd `premium-fintech-001`).
+- Full premium body: `private_content/{premium_post_id}.md` — backend only, không commit vào `public/`.
 - Unlock requires email + approve code + post_id validation.
 - Approve code must be hashed in database (SHA256), không lưu plaintext.
 - Admin confirmation is manual after Momo payment.
-- Momo payment link: `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr`
-- Do not hardcode SMTP secrets — dùng `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
-- Print output must include watermark (`trace_code_16` + blog domain).
-- Read-only protection is deterrent, not absolute DRM.
-- Full premium body: `private_content/{premium_post_id}.md` — backend only.
 - Docs: `docs/paywall.md` · Admin: `/admin/paywall/` · API: `backend/paywall_app.py`
+- Deploy: `services/paywall/` + `render.yaml` → `blog-paywall-api` · set `paywall_api_url` in `config.toml`.
+
+## Momo Payment Rules
+
+- Payment link mặc định: `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr`
+- Override qua env `MOMO_PAYMENT_LINK` trên backend.
+- Flow: đọc teaser → thanh toán Momo → gửi yêu cầu (email) → admin xác nhận → generate approve code → gửi email.
+- Không có webhook Momo — xác nhận thanh toán thủ công qua admin panel.
+
+## Watermark Rules
+
+- Dynamic watermark overlay khi đọc online: `blogName • emailHash • postId • traceCode`.
+- Print/PDF: `@media print` chèn watermark `{traceCode16}_{blogDomain}` + bản quyền.
+- Ví dụ in: `A9F328BC71D06E2A_banhang-chogao.github.io` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
+- `POST /api/paywall/log-print` ghi log khi user in.
+
+## Security Rules (Paywall + F-Dashboard)
+
+- **F-Dashboard:** không public Excel/JSON/dump; dữ liệu chỉ IndexedDB mã hóa AES-GCM trên browser; không upload server.
+- **Paywall:** không hardcode SMTP secrets — `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`.
+- **Paywall:** admin token qua `PAYWALL_ADMIN_TOKEN`; `/admin/paywall/` disallow trong `robots.txt`.
+- Read-only protection (disable copy/right-click) là deterrent, không phải DRM tuyệt đối.
 

@@ -59,6 +59,16 @@ uvicorn backend.paywall_app:app --host 0.0.0.0 --port 8787
 
 Deploy backend cùng thư mục `private_content/` (sync sau mỗi lần thêm/sửa bài premium).
 
+### Render (khuyến nghị)
+
+Blueprint `render.yaml` khai báo service `blog-paywall-api` (`services/paywall/`).
+
+1. Apply Blueprint trên Render Dashboard.
+2. Điền `PAYWALL_ADMIN_TOKEN`, `SMTP_*` (sync: false trong blueprint).
+3. Disk `/var/data` lưu SQLite (`PAYWALL_DB_PATH=/var/data/paywall.db`).
+4. Copy URL API → `config.toml`: `paywall_api_url = "https://blog-paywall-api.onrender.com"`.
+5. Redeploy static site.
+
 ## Frontend config
 
 Trong `config.toml`:

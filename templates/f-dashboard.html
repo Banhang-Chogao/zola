@@ -25,7 +25,7 @@
         <div class="fd-upload" id="fd-upload-zone" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn file Excel VietinBank">
             <input type="file" id="fd-upload" class="fd-upload__input" accept=".xlsx,.xls" hidden>
             <div class="fd-upload__icon" aria-hidden="true">📊</div>
-            <p class="fd-upload__text">Kéo thả file <code>SaoKe_VietinBank_*.xlsx</code> hoặc bấm để chọn</p>
+            <p class="fd-upload__text">Kéo thả file <code>SaoKe_VietinBank_*.xlsx</code> / <code>.xls</code> hoặc bấm để chọn</p>
             <p class="fd-upload__hint">Hỗ trợ cột STT · Ngày · Nội dung · Số tiền GD · Số dư</p>
         </div>
         <p class="fd-upload__status" id="fd-upload-status" data-type="info">Chưa có file nào được upload.</p>
@@ -84,6 +84,14 @@
             <label class="fd-filter">
                 <span>Ngày</span>
                 <input type="date" id="fd-filter-date" class="fd-filter__input">
+            </label>
+            <label class="fd-filter">
+                <span>Từ ngày</span>
+                <input type="date" id="fd-filter-date-from" class="fd-filter__input">
+            </label>
+            <label class="fd-filter">
+                <span>Đến ngày</span>
+                <input type="date" id="fd-filter-date-to" class="fd-filter__input">
             </label>
             <label class="fd-filter">
                 <span>Tháng</span>

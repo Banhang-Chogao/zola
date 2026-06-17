@@ -25,6 +25,8 @@
     els.tbody = $("#fd-table-body");
     els.pagination = $("#fd-pagination");
     els.filterDate = $("#fd-filter-date");
+    els.filterDateFrom = $("#fd-filter-date-from");
+    els.filterDateTo = $("#fd-filter-date-to");
     els.filterMonth = $("#fd-filter-month");
     els.filterType = $("#fd-filter-type");
     els.filterKeyword = $("#fd-filter-keyword");
@@ -39,12 +41,17 @@
 
   function applyFilters() {
     const dateVal = els.filterDate?.value || "";
+    const dateFrom = els.filterDateFrom?.value || "";
+    const dateTo = els.filterDateTo?.value || "";
     const monthVal = els.filterMonth?.value || "";
     const typeVal = els.filterType?.value || "all";
     const keyword = (els.filterKeyword?.value || "").toLowerCase().trim();
 
     filteredTransactions = allTransactions.filter((t) => {
-      if (dateVal && t.date.slice(0, 10) !== dateVal) return false;
+      const day = t.date.slice(0, 10);
+      if (dateVal && day !== dateVal) return false;
+      if (dateFrom && day < dateFrom) return false;
+      if (dateTo && day > dateTo) return false;
       if (monthVal && t.date.slice(0, 7) !== monthVal) return false;
       if (typeVal === "income" && t.amount <= 0) return false;
       if (typeVal === "expense" && t.amount >= 0) return false;
@@ -177,7 +184,7 @@
   async function handleFile(file) {
     if (!file) return;
     if (!/\.xlsx?$/i.test(file.name)) {
-      setStatus("Chỉ hỗ trợ file Excel (.xlsx).", "error");
+      setStatus("Chỉ hỗ trợ file Excel VietinBank (.xlsx, .xls).", "error");
       return;
     }
 
@@ -236,7 +243,7 @@
       els.uploadZone.addEventListener("click", () => els.upload?.click());
     }
 
-    [els.filterDate, els.filterMonth, els.filterType, els.filterKeyword].forEach((el) => {
+    [els.filterDate, els.filterDateFrom, els.filterDateTo, els.filterMonth, els.filterType, els.filterKeyword].forEach((el) => {
       if (!el) return;
       const ev = el.tagName === "INPUT" ? "input" : "change";
       el.addEventListener(ev, applyFilters);
