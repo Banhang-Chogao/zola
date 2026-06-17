@@ -3,6 +3,8 @@ public/
 *.swp
 __pycache__/
 *.pyc
+.venv*/
+scripts/.venv*/
 
 # Workflow log artifacts — không bao giờ commit
 perf-fix.txt
