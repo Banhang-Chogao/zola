@@ -29,29 +29,18 @@ jobs:
         with:
           node-version: '24'
 
-      # Cache Zola binary
-      - name: Cache Zola
-        uses: actions/cache@v4
-        with:
-          path: /usr/local/bin/zola
-          key: zola-${{ runner.os }}-${{ hashFiles('**/zola-version.txt') }}
-          restore-keys: |
-            zola-${{ runner.os }}-
-
       - name: Install Zola
-        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/
-          zola --version > zola-version.txt
 
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export ZOLA_VERSION="$(zola --version | awk '{print $2}')"
-          echo "🚀 Building with Zola $ZOLA_VERSION"
+          echo "Building with Zola $ZOLA_VERSION"
           zola build
 
       - name: Setup GitHub Pages
@@ -72,53 +61,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
-
-      # Slack notification on successful deploy
-      - name: Notify Slack on success
-        if: success()
-        uses: slackapi/slack-github-action@v3.0.3
-        with:
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "text": "✅ Deploy thành công - ${{ github.repository }}",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "✅ Deploy thành công"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Repository:*\n${{ github.repository }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n`${{ github.ref_name }}`"
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "<${{ steps.deployment.outputs.page_url }}|Xem website đã deploy>"
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "Deploy bởi ${{ github.actor }} • ${{ github.event.head_commit.message }}"
-                    }
-                  ]
-                }
-              ]
-            }
