@@ -1,87 +1,95 @@
 name: PR Policy
 
+# pull_request: human + PAT-created PRs.
+# workflow_run: relay CI cho PR do GITHUB_TOKEN tạo (github-actions[bot]) — không cần approve thủ công.
+
 on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review, edited]
+  workflow_run:
+    workflows:
+      - "Fetch Build Dashboard"
+      - "Compliance Score Audit"
+      - "Fetch Merge Report"
+      - "Build Semantic Related Posts"
+      - "Fetch Google Trends VN"
+      - "Fetch GA Stats"
+      - "Fetch PageSpeed Insights"
+      - "Optimize images (WebP)"
+      - "Security Audit"
+      - "Auto-update changelog.json"
+      - "Scheduled publish (đăng bài hẹn giờ)"
+      - "Build Failure Auto-Remediation"
+      - "Self-Healing QA"
+      - "Autofix Merge Conflicts"
+      - "Performance QA Checker"
+    types: [completed]
+
+permissions:
+  contents: read
+  pull-requests: read
 
 env:
   TARGET_BRANCH: main
   MIN_TITLE_LEN: "12"
   MIN_BODY_LEN: "30"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   policy:
+    if: >-
+      github.event_name != 'workflow_run'
+      || (github.event.workflow_run.conclusion == 'success'
+          && github.event.workflow_run.head_branch != 'main'
+          && github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     steps:
-      - name: Block PR from main
-        if: github.head_ref == 'main'
-        run: |
-          echo "::error::PR must originate from a feature branch, not main."
-          exit 1
-
-      - name: Block bot and auto-update PRs
+      - name: Resolve PR metadata (bot relay)
+        if: github.event_name == 'workflow_run'
+        id: relay
         env:
-          ACTOR: ${{ github.event.pull_request.user.login }}
-        run: |
-          case "$ACTOR" in
-            dependabot[bot]|renovate[bot]|github-advanced-security[bot])
-              echo "::error::Bot PRs are forbidden: $ACTOR"
-              exit 1
-              ;;
-          esac
-          case "$ACTOR" in
-            snyk-*|*-bot)
-              echo "::error::Security/auto-update bot PRs are forbidden: $ACTOR"
-              exit 1
-              ;;
-          esac
-
-      - name: Require functional PR description
-        env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_BODY: ${{ github.event.pull_request.body }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          if [ ${#PR_TITLE} -lt "${MIN_TITLE_LEN}" ]; then
-            echo "::error::PR title must describe the functional change."
-            exit 1
+          sha="${{ github.event.workflow_run.head_sha }}"
+          pr=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${sha}/pulls" --jq '.[0]')
+          if [ -z "$pr" ] || [ "$pr" = "null" ]; then
+            echo "No PR for commit ${sha:0:7} — skip relay"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
-          body_compact=$(printf '%s' "$PR_BODY" | tr -d '[:space:]')
-          if [ ${#body_compact} -lt "${MIN_BODY_LEN}" ]; then
-            echo "::error::PR body must include a clear functional description."
-            exit 1
-          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "actor=$(echo "$pr" | jq -r '.user.login')" >> "$GITHUB_OUTPUT"
+          echo "title<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$pr" | jq -r '.title' >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "body<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$pr" | jq -r '.body // ""' >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "base_sha=$(echo "$pr" | jq -r '.base.sha')" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$(echo "$pr" | jq -r '.head.sha')" >> "$GITHUB_OUTPUT"
+          echo "head_ref=$(echo "$pr" | jq -r '.head.ref')" >> "$GITHUB_OUTPUT"
+
+      - name: Skip — no PR for relay
+        if: github.event_name == 'workflow_run' && steps.relay.outputs.skip == 'true'
+        run: echo "Relay skipped (no open PR)."
 
       - uses: actions/checkout@v6
+        if: github.event_name == 'pull_request' || steps.relay.outputs.skip != 'true'
         with:
           fetch-depth: 0
+          ref: ${{ github.event.workflow_run.head_sha || github.event.pull_request.head.sha }}
 
-      - name: Reject forbidden auto-update configs
+      - name: Run PR policy checks
+        if: github.event_name == 'pull_request' || steps.relay.outputs.skip != 'true'
+        env:
+          ACTOR: ${{ github.event.pull_request.user.login || steps.relay.outputs.actor }}
+          PR_TITLE: ${{ github.event.pull_request.title || steps.relay.outputs.title }}
+          PR_BODY: ${{ github.event.pull_request.body || steps.relay.outputs.body }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || steps.relay.outputs.base_sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || steps.relay.outputs.head_sha }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref || steps.relay.outputs.head_ref }}
         run: |
-          set -euo pipefail
-          base="${{ github.event.pull_request.base.sha }}"
-          head="${{ github.event.pull_request.head.sha }}"
-          forbidden='.github/dependabot.yml .github/dependabot.yaml renovate.json renovate.json5 .renovaterc .renovaterc.json'
-          changed=$(git diff --name-only "$base" "$head")
-          for path in $forbidden; do
-            if echo "$changed" | grep -qx "$path"; then
-              echo "::error::Forbidden auto-update config: $path"
-              exit 1
-            fi
-          done
-          if echo "$changed" | grep -Eqi 'dependabot|renovate'; then
-            echo "::error::Forbidden dependabot/renovate auto-update config."
-            exit 1
-          fi
-          for path in $changed; do
-            case "$path" in
-              .github/workflows/auto-merge.yml|.github/workflows/merge-report.yml|scripts/try_auto_merge.py|scripts/fetch_merge_report.py)
-                continue
-                ;;
-            esac
-            if echo "$path" | grep -Eqi 'auto-merge'; then
-              echo "::error::Forbidden auto-merge workflow (not whitelisted): $path"
-              exit 1
-            fi
-          done
+          chmod +x .github/scripts/pr_policy_checks.sh
+          .github/scripts/pr_policy_checks.sh

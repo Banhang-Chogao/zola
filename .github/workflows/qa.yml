@@ -13,6 +13,30 @@ on:
     # Daily 11:00 GMT+7 = 04:00 UTC — baseline QA snapshot
     - cron: '0 4 * * *'
   workflow_dispatch:
+  # Relay: PR do GITHUB_TOKEN tạo không kích hoạt pull_request — chạy QA trên head_sha sau bot workflow.
+  workflow_run:
+    workflows:
+      - "Fetch Build Dashboard"
+      - "Compliance Score Audit"
+      - "Fetch Merge Report"
+      - "Build Semantic Related Posts"
+      - "Fetch Google Trends VN"
+      - "Fetch GA Stats"
+      - "Fetch PageSpeed Insights"
+      - "Optimize images (WebP)"
+      - "Security Audit"
+      - "Auto-update changelog.json"
+      - "Scheduled publish (đăng bài hẹn giờ)"
+      - "Build Failure Auto-Remediation"
+      - "Self-Healing QA"
+      - "Autofix Merge Conflicts"
+      - "Performance QA Checker"
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
 
 # Native Node.js 24 opt-in (best practice, không dùng FORCE env)
 env:
@@ -20,10 +44,17 @@ env:
 
 jobs:
   qa-check:
+    if: >-
+      github.event_name != 'workflow_run'
+      || (github.event.workflow_run.conclusion == 'success'
+          && github.event.workflow_run.head_branch != 'main'
+          && github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup Node.js 24
         uses: actions/setup-node@v6

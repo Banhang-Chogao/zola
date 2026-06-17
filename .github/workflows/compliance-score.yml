@@ -67,6 +67,7 @@ jobs:
 
       - name: Open PR if changed (never push main)
         env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_TITLE: "qa: Compliance Score audit + auto-fix"
         run: |

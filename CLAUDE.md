@@ -36,6 +36,18 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 - Data refresh: `push_via_pr.sh` → PR → auto-merge khi CI pass
 - `main-guard.yml`: cho phép bot merge qua PR (auto-merge commit)
 
+### 5a. Workflow permissions (2026-06-18)
+
+| Loại workflow | Chạy tự động? | Ghi chú |
+|---------------|---------------|---------|
+| QA / PR Policy / chore bot PR | ✅ | `workflow_run` relay hoặc `WORKFLOW_BOT_PAT` |
+| Human PR (same repo) | ✅ | `pull_request` bình thường |
+| Fork PR | ⏳ approval | GitHub Settings — giữ bảo vệ |
+| Deploy production (`github-pages` env) | ✅ push `main` only | Không gate QA PR |
+| `manual-approval` / `pr-approval.yml` | ❌ removed | Không thêm lại |
+
+**Settings:** `.github/ACTIONS-PERMISSIONS.md` — Workflow permissions = Read and write; fork approval chỉ cho outside collaborators.
+
 ### 5b. Auto-merge Bot-created Maintenance PRs
 
 - Bot-created PRs dạng chore/report refresh/dashboard data có thể auto-merge nếu:
@@ -44,7 +56,8 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
   - không đụng workflow/security/payment/admin/paywall,
   - không có label `no-auto-merge`.
 - Nếu không merge được, bot phải **comment lý do cụ thể** thay vì im lặng (`try_auto_merge.py` → `post_skip_comment`).
-- **Action required:** PR do `github-actions[bot]` tạo có thể bị GitHub chặn CI (`QA Gatekeeper` / `PR Policy` = `action_required`) — repo owner cần **Approve workflows** trên PR; sau đó auto-merge chạy lại hoặc `manual #N`.
+- **GITHUB_TOKEN PR gate:** PR do workflow tạo bằng `GITHUB_TOKEN` không kích hoạt `pull_request` events. **Fix:** `qa.yml` + `pr-policy.yml` relay qua `workflow_run`; tùy chọn secret `WORKFLOW_BOT_PAT`. Chi tiết: `.github/ACTIONS-PERMISSIONS.md`.
+- **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
