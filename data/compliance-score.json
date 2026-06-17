@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17T16:08:02Z",
+  "updated_at": "2026-06-17T16:15:58Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "228/228 in range"
+          "detail": "234/234 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "228/228 complete"
+          "detail": "234/234 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "228/228 set"
+          "detail": "234/234 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "226/228 single H1"
+          "detail": "232/234 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "228/228 with lang"
+          "detail": "234/234 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "228/228 ready"
+          "detail": "234/234 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "225/228 pages"
+          "detail": "231/234 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "228/228 pages covered"
+          "detail": "234/234 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "40/40 articles"
+          "detail": "41/41 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "40/40 tagged"
+          "detail": "41/41 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "40/40 substantive"
+          "detail": "41/41 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 220 unique"
+          "detail": "2 broken / 227 unique"
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "224/228 pages"
+          "detail": "230/234 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,8 +222,8 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 228,
-  "articles_scanned": 44,
+  "pages_scanned": 234,
+  "articles_scanned": 45,
   "fix_log": [
     {
       "category": "Links",
@@ -231,7 +231,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Không tìm thấy pattern link hỏng đã biết — cần sửa thủ công",
-      "at": "2026-06-17T16:08:02Z"
+      "at": "2026-06-17T16:15:58Z"
     }
   ],
   "fix_summary": {
