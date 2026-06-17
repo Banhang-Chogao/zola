@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T15:41:18Z",
+  "updated_at": "2026-06-17T15:42:40Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 30,
-    "success": 28,
+    "total": 29,
+    "success": 27,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27701167644,
+      "run_number": 608,
+      "commit_id": "89d14939be36e33970f2fa42278944cc848c0d33",
+      "commit_short": "89d1493",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/89d14939be36e33970f2fa42278944cc848c0d33",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27701167644",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #608 — Kiểm tra QA Gatekeeper: Merge pull request #275 from Banhang-Chogao/feat/cms-refresh-on-login",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:41:42Z",
+      "duration_sec": 34
+    },
     {
       "id": 27700644189,
       "run_number": 379,
@@ -484,40 +501,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T13:17:39Z",
       "duration_sec": 20
-    },
-    {
-      "id": 27691704295,
-      "run_number": 365,
-      "commit_id": "1e6d4358f113b874b73cae1d1e00b1e04a4a9520",
-      "commit_short": "1e6d435",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/1e6d4358f113b874b73cae1d1e00b1e04a4a9520",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27691704295",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #365 — Deploy blog lên GitHub Pages: refactor(seo): đổi Branding → Branding Guideline tại /branding-guideline/",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T13:15:48Z",
-      "duration_sec": 97
-    },
-    {
-      "id": 27691703367,
-      "run_number": 584,
-      "commit_id": "1e6d4358f113b874b73cae1d1e00b1e04a4a9520",
-      "commit_short": "1e6d435",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/1e6d4358f113b874b73cae1d1e00b1e04a4a9520",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27691703367",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #584 — Kiểm tra QA Gatekeeper: refactor(seo): đổi Branding → Branding Guideline tại /branding-guideline/",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T13:15:47Z",
-      "duration_sec": 30
     }
   ]
 }
