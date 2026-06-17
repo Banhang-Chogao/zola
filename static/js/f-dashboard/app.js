@@ -9,6 +9,7 @@
   let filteredTransactions = [];
   let currentPage = 1;
   let dashboardReady = false;
+  let selectedPdfFiles = [];
 
   const els = {};
 
@@ -33,6 +34,10 @@
     els.filterKeyword = $("#fd-filter-keyword");
     els.exportJson = $("#fd-export-json");
     els.exportPdf = $("#fd-export-pdf");
+    els.mergePdfInput = $("#fd-merge-pdf-input");
+    els.mergePdfBtn = $("#fd-merge-pdf-btn");
+    els.mergePdfFiles = $("#fd-merge-pdf-files");
+    els.mergePdfStatus = $("#fd-merge-pdf-status");
   }
 
   function setStatus(msg, type) {
@@ -45,6 +50,53 @@
     const hasData = allTransactions.length > 0;
     if (els.exportJson) els.exportJson.disabled = !hasData;
     if (els.exportPdf) els.exportPdf.disabled = !hasData;
+  }
+
+  function setMergeStatus(msg, type) {
+    if (!els.mergePdfStatus) return;
+    els.mergePdfStatus.textContent = msg;
+    els.mergePdfStatus.dataset.type = type || "info";
+  }
+
+  function updateMergePdfUi() {
+    const count = selectedPdfFiles.length;
+    if (els.mergePdfBtn) els.mergePdfBtn.disabled = count === 0;
+    if (els.mergePdfFiles) {
+      if (count) {
+        els.mergePdfFiles.hidden = false;
+        els.mergePdfFiles.textContent =
+          count + " file: " + selectedPdfFiles.map((f) => f.name).join(" · ");
+      } else {
+        els.mergePdfFiles.hidden = true;
+        els.mergePdfFiles.textContent = "";
+      }
+    }
+  }
+
+  async function runMergePdf() {
+    if (!selectedPdfFiles.length) return;
+
+    if (els.mergePdfBtn) els.mergePdfBtn.disabled = true;
+    setMergeStatus("Đang gộp " + selectedPdfFiles.length + " file PDF…", "info");
+
+    try {
+      const result = await FDashboardExport.mergePdfReports(selectedPdfFiles);
+      setMergeStatus(
+        "Đã gộp " +
+          result.fileCount +
+          " báo cáo · " +
+          result.pageCount +
+          " trang → f-dashboard-merged-*.pdf",
+        "success"
+      );
+      selectedPdfFiles = [];
+      if (els.mergePdfInput) els.mergePdfInput.value = "";
+      updateMergePdfUi();
+    } catch (err) {
+      console.error(err);
+      setMergeStatus(err.message || "Gộp PDF thất bại.", "error");
+      updateMergePdfUi();
+    }
   }
 
   function applyFilters() {
@@ -317,6 +369,22 @@
 
     if (els.exportJson) els.exportJson.addEventListener("click", () => runExport("json"));
     if (els.exportPdf) els.exportPdf.addEventListener("click", () => runExport("pdf"));
+
+    if (els.mergePdfInput) {
+      els.mergePdfInput.addEventListener("change", (e) => {
+        selectedPdfFiles = Array.from(e.target.files || []);
+        updateMergePdfUi();
+        if (selectedPdfFiles.length) {
+          setMergeStatus(
+            "Đã chọn " + selectedPdfFiles.length + " file — bấm Gộp để tải PDF tích lũy.",
+            "info"
+          );
+        } else {
+          setMergeStatus("Chọn các file PDF đã export trước đó — không cần phiên sao kê đang mở.", "info");
+        }
+      });
+    }
+    if (els.mergePdfBtn) els.mergePdfBtn.addEventListener("click", runMergePdf);
   }
 
   async function startDashboard() {

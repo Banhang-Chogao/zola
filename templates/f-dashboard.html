@@ -73,11 +73,27 @@
                     <button type="button" class="fd-btn fd-btn--export" id="fd-export-json" disabled title="Tải JSON rồi wipe phiên">
                         <span aria-hidden="true">📥</span> Export to JSON
                     </button>
-                    <button type="button" class="fd-btn fd-btn--export fd-btn--pdf" id="fd-export-pdf" disabled title="PDF landscape A4 + Nokia font + watermark trace, rồi xóa phiên">
+                    <button type="button" class="fd-btn fd-btn--export fd-btn--pdf" id="fd-export-pdf" disabled title="PDF landscape A4 + Nokia font + watermark đỏ + chữ ký số, rồi xóa phiên">
                         <span aria-hidden="true">📄</span> Export PDF Report
                     </button>
                 </div>
-                <p class="fd-export-bar__note">Auto-download → wipe ngay. PDF landscape A4, font Nokia Pure, watermark trace: <code>16hex_blog-url</code>. Không lưu persistent online.</p>
+                <p class="fd-export-bar__note">Auto-download → wipe ngay. PDF landscape A4, font Nokia Pure, watermark đỏ <code>16hex_blog-url</code>, đánh số <code>Trang n/tổng</code>, chữ ký số Mysign (góc trên phải). Không lưu persistent online.</p>
+            </div>
+
+            <div class="fd-merge-pdf" id="fd-merge-pdf">
+                <p class="fd-merge-pdf__label">Gộp báo cáo PDF tích lũy</p>
+                <div class="fd-merge-pdf__actions">
+                    <label class="fd-btn fd-btn--export fd-merge-pdf__pick">
+                        <span aria-hidden="true">📎</span> Chọn file PDF
+                        <input type="file" id="fd-merge-pdf-input" class="fd-merge-pdf__input" accept=".pdf,application/pdf" multiple hidden>
+                    </label>
+                    <button type="button" class="fd-btn fd-btn--export fd-btn--pdf" id="fd-merge-pdf-btn" disabled title="Gộp nhiều báo cáo F-Dashboard đã export thành một PDF">
+                        <span aria-hidden="true">📑</span> Gộp PDF tích lũy
+                    </button>
+                </div>
+                <p class="fd-merge-pdf__files" id="fd-merge-pdf-files" hidden></p>
+                <p class="fd-merge-pdf__status" id="fd-merge-pdf-status" data-type="info">Chọn các file PDF đã export trước đó — không cần phiên sao kê đang mở.</p>
+                <p class="fd-merge-pdf__note">Thứ tự chọn file = thứ tự trang trong báo cáo tích lũy. Giữ nguyên watermark, chữ ký số và số trang từng báo cáo gốc.</p>
             </div>
         </section>
 
@@ -220,6 +236,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/auth-gate.js') }}" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/parser.js') }}" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/storage.js') }}" defer></script>

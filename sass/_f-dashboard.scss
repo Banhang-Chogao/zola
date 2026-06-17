@@ -328,6 +328,53 @@
   }
 }
 
+.fd-merge-pdf {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px dashed $brand-edge;
+
+  &__label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $brand-ink-700;
+    margin: 0 0 0.65rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  &__pick {
+    cursor: pointer;
+    margin: 0;
+  }
+
+  &__files {
+    font-size: 0.78rem;
+    color: $brand-ink-700;
+    margin: 0.55rem 0 0;
+    word-break: break-word;
+  }
+
+  &__status {
+    font-size: 0.78rem;
+    color: $brand-ink-500;
+    margin: 0.55rem 0 0;
+
+    &[data-type="success"] { color: $brand-success; }
+    &[data-type="error"] { color: $brand-signal-red; }
+  }
+
+  &__note {
+    font-size: 0.78rem;
+    color: $brand-ink-500;
+    margin: 0.45rem 0 0;
+  }
+}
+
 .fd-summary {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
