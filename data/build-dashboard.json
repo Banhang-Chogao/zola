@@ -6,7 +6,9 @@
     "total": 27,
     "success": 19,
     "failure": 0,
-    "cancelled": 8
+    "cancelled": 8,
+    "skipped": 0,
+    "in_progress": 0
   },
   "builds": [
     {
@@ -24,7 +26,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:54:04Z",
-      "duration_sec": 29
+      "duration_sec": 29,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705497301,
@@ -39,9 +46,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Deploy bị huỷ — thường do nhiều merge liên tiếp; kiểm tra run deploy mới nhất.",
       "started_at": "2026-06-17T16:53:46Z",
-      "duration_sec": 20
+      "duration_sec": 20,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "superseded"
     },
     {
       "id": 27705497380,
@@ -58,7 +70,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:53:46Z",
-      "duration_sec": 33
+      "duration_sec": 33,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705475096,
@@ -73,9 +90,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #404).",
       "started_at": "2026-06-17T16:53:25Z",
-      "duration_sec": 23
+      "duration_sec": 23,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "concurrency"
     },
     {
       "id": 27705472911,
@@ -92,7 +114,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:53:22Z",
-      "duration_sec": 29
+      "duration_sec": 29,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705454834,
@@ -109,7 +136,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:53:04Z",
-      "duration_sec": 73
+      "duration_sec": 73,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705455110,
@@ -126,7 +158,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:53:04Z",
-      "duration_sec": 29
+      "duration_sec": 29,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705171679,
@@ -141,9 +178,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #402).",
       "started_at": "2026-06-17T16:48:07Z",
-      "duration_sec": 298
+      "duration_sec": 298,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "concurrency"
     },
     {
       "id": 27705172055,
@@ -160,7 +202,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:48:07Z",
-      "duration_sec": 24
+      "duration_sec": 24,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705156753,
@@ -177,7 +224,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:47:51Z",
-      "duration_sec": 318
+      "duration_sec": 318,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705156856,
@@ -194,7 +246,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:47:51Z",
-      "duration_sec": 27
+      "duration_sec": 27,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705086101,
@@ -209,9 +266,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #400).",
       "started_at": "2026-06-17T16:46:37Z",
-      "duration_sec": 75
+      "duration_sec": 75,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "concurrency"
     },
     {
       "id": 27705085248,
@@ -228,7 +290,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:46:36Z",
-      "duration_sec": 23
+      "duration_sec": 23,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705074548,
@@ -243,9 +310,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #399).",
       "started_at": "2026-06-17T16:46:25Z",
-      "duration_sec": 14
+      "duration_sec": 14,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "concurrency"
     },
     {
       "id": 27705073522,
@@ -262,7 +334,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:46:24Z",
-      "duration_sec": 31
+      "duration_sec": 31,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705052478,
@@ -277,9 +354,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #398).",
       "started_at": "2026-06-17T16:46:04Z",
-      "duration_sec": 24
+      "duration_sec": 24,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "concurrency"
     },
     {
       "id": 27705052764,
@@ -296,7 +378,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:46:04Z",
-      "duration_sec": 23
+      "duration_sec": 23,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705034118,
@@ -311,9 +398,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #397).",
       "started_at": "2026-06-17T16:45:45Z",
-      "duration_sec": 21
+      "duration_sec": 21,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "concurrency"
     },
     {
       "id": 27705034107,
@@ -330,7 +422,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:45:45Z",
-      "duration_sec": 22
+      "duration_sec": 22,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27705028647,
@@ -347,7 +444,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:45:40Z",
-      "duration_sec": 25
+      "duration_sec": 25,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27704917892,
@@ -364,7 +466,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:43:48Z",
-      "duration_sec": 245
+      "duration_sec": 245,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27704918284,
@@ -381,7 +488,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:43:48Z",
-      "duration_sec": 24
+      "duration_sec": 24,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27703997199,
@@ -398,7 +510,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:28:03Z",
-      "duration_sec": 33
+      "duration_sec": 33,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27703996576,
@@ -415,7 +532,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:28:02Z",
-      "duration_sec": 314
+      "duration_sec": 314,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27703972797,
@@ -430,9 +552,14 @@
       "status_vi": "Đã huỷ",
       "success": false,
       "conclusion": "cancelled",
-      "cause_vi": "Build bị huỷ thủ công hoặc do concurrency.",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #394).",
       "started_at": "2026-06-17T16:27:38Z",
-      "duration_sec": 27
+      "duration_sec": 27,
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": "concurrency"
     },
     {
       "id": 27703972728,
@@ -449,7 +576,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:27:38Z",
-      "duration_sec": 32
+      "duration_sec": 32,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     },
     {
       "id": 27703916157,
@@ -466,7 +598,12 @@
       "conclusion": "success",
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T16:26:41Z",
-      "duration_sec": 336
+      "duration_sec": 336,
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "is_error": false,
+      "severity": "info",
+      "cancel_reason": ""
     }
   ]
 }
