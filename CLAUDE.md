@@ -487,6 +487,17 @@ Hoặc: GitHub Actions → **Autofix Merge Conflicts** → **Run workflow** (opt
 
 _(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau mỗi lần xử lý.)_
 
+### PR #353 — `feature/prompt-support-token-engine` (2026-06-18)
+
+| Field | Detail |
+|-------|--------|
+| **Files conflict** | `static/js/prompt-support.js`, `sass/_prompt-support.scss`, `templates/prompt-support.html` |
+| **Nguyên nhân** | `main` đã merge Prompt Support **v2** (PR #346: Compact/Standard/Full, scores, compare cơ bản) trong khi PR #353 xây **v3 Token Engine** từ base cũ hơn — cùng 3 file được sửa song song → conflict toàn file |
+| **Cách resolve** | Giữ **v3** từ PR #353 (superset của v2): Token Optimization Engine, Auto/Ultra/Compact/Standard/Full, Lint, Compare+diff, token budget, copy variants. Không lấy v2 từ `main` vì thiếu Ultra Compact, Auto Token Saver, compression ratio, Risk Coverage. Restore sạch từ commit `2eae856` (không dùng conflict markers) |
+| **Validation** | `node --check static/js/prompt-support.js` PASS; `zola build` PASS; built `/prompt-support/` có `data-psupport-budget`, `data-psupport-copy-ultra`, mode Auto |
+| **Rule mới** | Khi 2 PR cùng feature area (prompt-support v2 rồi v3): merge `main` vào branch mới **trước** review; ưu tiên phiên bản feature cao hơn nếu superset rõ ràng; luôn restore từ commit PR sạch thay vì `checkout --ours` khi markers còn trong working tree |
+| **Rủi ro còn lại** | Không — v3 giữ SCSS variables blog (`$brand-*`), không đổi theme global |
+
 ### PR #284 — `feat/autofix-conflicts` (2026-06-17)
 
 | Field | Detail |

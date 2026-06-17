@@ -1,4 +1,4 @@
-/* ===== PROMPT SUPPORT — tool page v2 ===== */
+/* ===== PROMPT SUPPORT — Token Optimization Engine ===== */
 
 .psupport {
   max-width: 1180px;
@@ -129,18 +129,28 @@
     }
   }
 
-  &__task-badge {
+  &__task-badge,
+  &__mode-badge {
     align-self: center;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    border-radius: 999px;
+    padding: 0.3rem 0.65rem;
+  }
+
+  &__task-badge {
     color: $brand-trust-cyan;
     background: rgba(0, 55, 132, 0.08);
     border: 1px solid rgba(0, 55, 132, 0.15);
-    border-radius: 999px;
-    padding: 0.3rem 0.65rem;
     margin-left: auto;
+  }
+
+  &__mode-badge {
+    color: #92400e;
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(180, 83, 9, 0.2);
   }
 
   &__checkboxes {
@@ -184,6 +194,11 @@
     &:disabled {
       opacity: 0.45;
       cursor: not-allowed;
+    }
+
+    &--sm {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.78rem;
     }
 
     &--primary {
@@ -234,11 +249,25 @@
     margin-bottom: 0.55rem;
   }
 
-  &__meta {
-    font-family: $font-meta;
+  &__budget {
+    margin-bottom: 0.65rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 6px;
+    border: 1px solid $brand-edge;
+    background: rgba(0, 55, 132, 0.04);
     font-size: 0.78rem;
-    color: $brand-ink-500;
-    white-space: nowrap;
+    color: $brand-ink-700;
+  }
+
+  &__budget-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem 0.75rem;
+
+    strong {
+      color: $brand-ink-500;
+      font-weight: 600;
+    }
   }
 
   &__scores {
@@ -261,6 +290,12 @@
     border: 1px solid $brand-edge;
     background: $brand-mist;
     font-size: 0.75rem;
+
+    &--wide {
+      grid-column: 1 / -1;
+      background: rgba(0, 55, 132, 0.06);
+      border-color: rgba(0, 55, 132, 0.15);
+    }
   }
 
   &__score-label {
@@ -287,8 +322,8 @@
 
   &__output {
     margin: 0;
-    min-height: 280px;
-    max-height: 480px;
+    min-height: 240px;
+    max-height: 420px;
     overflow: auto;
     border: 1.5px solid $brand-edge;
     border-radius: 6px;
@@ -303,6 +338,53 @@
       color: #e2e8f0;
       white-space: pre-wrap;
       word-break: break-word;
+    }
+  }
+
+  &__copy-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.65rem;
+  }
+
+  &__lint-results {
+    margin-top: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid $brand-edge;
+    background: $brand-mist;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: $brand-ink-700;
+
+    strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: $brand-ink-800;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+  }
+
+  &__lint {
+    &--ok {
+      color: $brand-success;
+    }
+
+    &--warn {
+      color: #b45309;
+    }
+
+    &--err {
+      color: $brand-signal-red;
     }
   }
 
@@ -356,8 +438,8 @@
 
   &__compare-pre {
     margin: 0;
-    min-height: 160px;
-    max-height: 320px;
+    min-height: 140px;
+    max-height: 280px;
     overflow: auto;
     border: 1.5px solid $brand-edge;
     border-radius: 6px;
@@ -377,6 +459,49 @@
       color: $brand-trust-cyan;
     }
   }
+
+  &__diff-section {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid $brand-edge;
+  }
+
+  &__diff-empty {
+    margin: 0;
+    font-size: 0.82rem;
+    color: $brand-ink-500;
+  }
+
+  &__diff-list {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: $brand-ink-700;
+  }
+
+  &__diff-list li {
+    padding: 0.35rem 0;
+    border-bottom: 1px solid $brand-edge;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__diff-reason {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    background: $brand-ink-500;
+    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
+    margin-right: 0.4rem;
+  }
 }
 
 @media (max-width: 900px) {
@@ -395,7 +520,8 @@
       grid-template-columns: 1fr;
     }
 
-    &__score-grid {
+    &__score-grid,
+    &__budget-grid {
       grid-template-columns: 1fr;
     }
 
@@ -403,6 +529,19 @@
       margin-left: 0;
       width: 100%;
       text-align: center;
+    }
+
+    &__mode-badge {
+      width: 100%;
+      text-align: center;
+    }
+
+    &__copy-row {
+      flex-direction: column;
+
+      .psupport__btn {
+        width: 100%;
+      }
     }
   }
 }

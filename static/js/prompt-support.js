@@ -1,29 +1,56 @@
 /**
- * Prompt Support v2 — client-side prompt optimizer for AI coding agents.
- * Compact, professional, token-efficient prompts with task-type templates.
+ * Prompt Support v3 — Token Optimization Engine for coding agents.
+ * Pipeline: Raw → Detect task → Extract intent/constraints → Dedupe → Compress → Template → Generate → Score
  */
 (function () {
   "use strict";
 
   const REPO_SLUG = "Banhang-Chogao/zola";
-  const REPO_RULES_DEFAULT = [
-    "Create a separate branch.",
-    "Open a PR for review.",
-    "Do not commit directly to `main`.",
-    "Do not auto-merge unless explicitly allowed.",
-    "Run `zola build` before finalizing.",
-    "Update `CLAUDE.md` if a reusable lesson/rule is learned.",
+  const REPO_RULES_SHORT = [
+    "Branch + PR only.",
+    "No direct main commit.",
+    "Run `zola build`.",
+    "Update `CLAUDE.md` if reusable lesson.",
   ];
+
+  const MODES = {
+    auto: { id: "auto", label: "Auto Token Saver" },
+    ultra: { id: "ultra", label: "Ultra Compact", wordMin: 80, wordMax: 150 },
+    compact: { id: "compact", label: "Compact", wordMin: 150, wordMax: 300 },
+    standard: { id: "standard", label: "Standard", wordMin: 300, wordMax: 600 },
+    full: { id: "full", label: "Full Spec", wordMin: 600, wordMax: 1200 },
+  };
 
   const FILLER_PATTERNS = [
     /\b(xin hãy|giúp tôi|tôi muốn|bạn có thể|cho tôi|nhờ bạn|làm ơn|cảm ơn|thanks|thank you)\b/gi,
     /\b(please|could you|can you|i want|i need|help me|would you|kindly|just|maybe|perhaps)\b/gi,
-    /\b(được không|nhé|ạ|ơi|nha|gấp|giúp coi|kiểm tra giúp|thử xem|hình như|có vẻ)\b/gi,
+    /\b(được không|nhé|ạ|ơi|nha|giúp coi|kiểm tra giúp|thử xem|hình như|có vẻ)\b/gi,
     /\b(i think|i feel|it seems|looks like|probably)\b/gi,
   ];
 
   const VAGUE_PATTERNS = [
-    /\b(thử xem|có thể|maybe|perhaps|hình như|có vẻ|kiểm tra giúp)\b/gi,
+    /\b(thử xem|có thể|maybe|perhaps|hình như|có vẻ|kiểm tra giúp|nếu được thì)\b/gi,
+  ];
+
+  const SYNONYM_GROUPS = [
+    {
+      key: "Priority: urgent",
+      patterns: [/\b(fix gấp|sửa ngay|urgent|làm liền|asap|gấp lắm|ngay lập tức)\b/gi],
+    },
+    {
+      key: "No auto-merge",
+      patterns: [/\b(không auto[- ]?merge|don't auto[- ]?merge|do not auto[- ]?merge|no auto[- ]?merge)\b/gi],
+    },
+    {
+      key: "No direct main commit",
+      patterns: [
+        /\b(không commit main|don't commit.*main|no direct main|không push main|do not push.*main)\b/gi,
+      ],
+    },
+    {
+      key: "Separate PR required",
+      patterns: [/\b(tạo pr|open pr|separate pr|branch riêng|nhánh riêng|pull request)\b/gi],
+    },
   ];
 
   const TASK_TYPES = [
@@ -123,14 +150,16 @@
   const inputEl = root.querySelector("[data-psupport-input]");
   const outputCode = root.querySelector("[data-psupport-code]");
   const generateBtn = root.querySelector("[data-psupport-generate]");
-  const copyBtn = root.querySelector("[data-psupport-copy]");
+  const lintBtn = root.querySelector("[data-psupport-lint]");
   const compareBtn = root.querySelector("[data-psupport-compare]");
   const statusEl = root.querySelector("[data-psupport-status]");
-  const metaEl = root.querySelector("[data-psupport-meta]");
+  const budgetEl = root.querySelector("[data-psupport-budget]");
   const scoresEl = root.querySelector("[data-psupport-scores]");
+  const lintResultsEl = root.querySelector("[data-psupport-lint-results]");
   const compareEl = root.querySelector("[data-psupport-compare-panel]");
   const tipsEl = root.querySelector("[data-psupport-tips]");
   const taskBadge = root.querySelector("[data-psupport-task-type]");
+  const modeBadge = root.querySelector("[data-psupport-mode-badge]");
 
   const modeEl = root.querySelector("[data-psupport-mode]");
   const targetEl = root.querySelector("[data-psupport-target]");
@@ -139,8 +168,18 @@
   const claudeMdEl = root.querySelector("[data-psupport-claude-md]");
   const acceptanceEl = root.querySelector("[data-psupport-acceptance]");
 
-  let lastPrompt = "";
+  const copyBtns = {
+    ultra: root.querySelector("[data-psupport-copy-ultra]"),
+    compact: root.querySelector("[data-psupport-copy-compact]"),
+    standard: root.querySelector("[data-psupport-copy-standard]"),
+    full: root.querySelector("[data-psupport-copy-full]"),
+  };
+
   let lastRaw = "";
+  let lastActiveMode = "standard";
+  let modeOutputs = {};
+  let lastParsed = null;
+  let lastRemovals = [];
   let compareVisible = false;
 
   function normalize(text) {
@@ -149,6 +188,10 @@
 
   function estimateTokens(text) {
     return Math.max(0, Math.ceil((text || "").length / 4));
+  }
+
+  function countWords(text) {
+    return (text || "").split(/\s+/).filter(Boolean).length;
   }
 
   function cleanFiller(text, aggressive) {
@@ -240,6 +283,20 @@
     });
   }
 
+  function applySynonymDedup(text) {
+    let out = text;
+    const extracted = [];
+    SYNONYM_GROUPS.forEach(({ key, patterns }) => {
+      let hit = false;
+      patterns.forEach((re) => {
+        if (re.test(out)) hit = true;
+        out = out.replace(re, " ");
+      });
+      if (hit) extracted.push(key);
+    });
+    return { text: out.replace(/\s{2,}/g, " ").trim(), extracted: dedupe(extracted) };
+  }
+
   function detectTaskType(text) {
     const scores = {};
     TASK_TYPES.forEach(({ id, weight, patterns }) => {
@@ -264,32 +321,61 @@
     return /\bauto[- ]?merge\b/i.test(text) && !/\b(không|do not|don't|no)\s+auto[- ]?merge/i.test(text);
   }
 
-  function blocksDirectMain(text) {
-    return /\b(không|do not|don't|no)\s+(commit|push|merge).{0,20}main/i.test(text);
-  }
-
   function buildRepoRules(text, includeRepo, includeClaudeMd) {
-    if (!includeRepo) return [];
-    const rules = [...REPO_RULES_DEFAULT];
-    let out = rules;
+    if (!includeRepo || !repoRelated(text)) return [];
+    let rules = [...REPO_RULES_SHORT];
     if (wantsAutoMerge(text)) {
-      out = out.filter((r) => !/auto-merge unless/i.test(r));
+      rules = rules.filter((r) => !/No direct main/i.test(r));
     }
     if (!includeClaudeMd) {
-      out = out.filter((r) => !/CLAUDE\.md/i.test(r));
+      rules = rules.filter((r) => !/CLAUDE\.md/i.test(r));
     }
-    return out;
+    return rules;
+  }
+
+  function assessComplexity(raw, parsed, taskType) {
+    const wordCount = countWords(raw);
+    const itemCount =
+      parsed.requirements.length +
+      parsed.constraints.length +
+      parsed.acceptance.length +
+      parsed.files.length;
+    let score = 0;
+    score += Math.min(40, wordCount / 15);
+    score += itemCount * 8;
+    score += parsed.codeBlocks.length * 10;
+    if (taskType.id === "bug_fix" && wordCount < 180 && itemCount <= 4) score -= 25;
+    if (taskType.id === "workflow") score += 10;
+    if (taskType.id === "feature" && wordCount > 400) score += 20;
+    return { score, wordCount, itemCount };
+  }
+
+  function selectAutoMode(raw, parsed, taskType) {
+    const { score, wordCount } = assessComplexity(raw, parsed, taskType);
+    if (taskType.id === "bug_fix" && wordCount < 200 && parsed.requirements.length <= 2) return "ultra";
+    if (taskType.id === "workflow" || (score >= 25 && score < 45)) return "compact";
+    if (score >= 55 || wordCount > 500 || parsed.files.length > 4) return "full";
+    if (score >= 35) return "standard";
+    return "compact";
   }
 
   function parseInput(raw, opts) {
     const { prose, blocks } = extractCodeBlocks(raw);
-    const lines = splitLines(prose);
+    const deduped = applySynonymDedup(prose);
+    const lines = splitLines(deduped.text);
     const requirements = [];
     const constraints = [];
     const acceptance = [];
     const context = [];
     const symptoms = [];
     let taskLead = [];
+
+    if (deduped.extracted.length) {
+      deduped.extracted.forEach((e) => {
+        if (/Priority|urgent/i.test(e)) constraints.push(e);
+        else constraints.push(e);
+      });
+    }
 
     lines.forEach((line) => {
       const c = compressBullet(line, opts.tokenSaver);
@@ -309,21 +395,21 @@
     });
 
     const urls = extractUrls(raw);
-    if (urls.length && opts.tokenSaver) {
-      context.push("URL: " + urls[0] + (urls.length > 1 ? " (+" + (urls.length - 1) + " more)" : ""));
-    } else if (urls.length) {
-      urls.forEach((u) => context.push(u));
+    if (urls.length) {
+      context.push("URL: " + urls[0] + (urls.length > 1 ? " (+" + (urls.length - 1) + ")" : ""));
     }
 
     const files = extractFilePaths(raw);
-    if (blocks.length && !opts.tokenSaver) {
+    if (files.length) context.push("Files: " + files.slice(0, 4).join(", "));
+
+    if (blocks.length === 1 && blocks[0].length < 200 && opts.tokenSaver) {
+      context.push("Snippet: " + blocks[0].split("\n")[0].slice(0, 80));
+    } else if (blocks.length && !opts.tokenSaver) {
       context.push("```\n" + blocks.join("\n\n") + "\n```");
-    } else if (blocks.length === 1 && blocks[0].length < 200) {
-      context.push("Snippet: " + blocks[0].split("\n")[0]);
     }
 
     return {
-      task: dedupe(taskLead).join(" ").slice(0, 280),
+      task: dedupe(taskLead).join(" ").slice(0, 320),
       context: dedupe(context),
       requirements: dedupe(requirements),
       constraints: dedupe(constraints),
@@ -331,41 +417,35 @@
       symptoms: dedupe(symptoms),
       files: dedupe(files),
       codeBlocks: blocks,
+      intent: dedupe(taskLead).join(" ").slice(0, 120) || "Implement requested change",
     };
   }
 
-  function templateExtras(taskType, parsed) {
-    const extras = { requirements: [], constraints: [], acceptance: [] };
+  function templateExtras(taskType, parsed, mode) {
+    const extras = { requirements: [], constraints: [], acceptance: [], context: [] };
 
     switch (taskType.id) {
       case "bug_fix":
-        if (parsed.symptoms.length && !parsed.context.length) {
-          extras.context = parsed.symptoms;
-        }
-        if (!parsed.acceptance.length) {
-          extras.acceptance.push("Bug resolved; regression check passes");
-        }
+        if (!parsed.acceptance.length) extras.acceptance.push("Bug resolved; regression check passes");
         break;
       case "workflow":
         if (!parsed.files.some((f) => f.includes("workflows"))) {
           extras.requirements.push("Inspect `.github/workflows/*`");
         }
-        if (!parsed.constraints.some((c) => /auto-merge|main/i.test(c))) {
-          extras.constraints.push("Do not auto-merge unless explicitly allowed");
-        }
         break;
       case "security":
-        extras.requirements.push("No secrets in client/static output");
-        extras.constraints.push("Access control enforced server-side where applicable");
+        if (mode !== "ultra") {
+          extras.constraints.push("No secrets in client/static output");
+        }
         break;
       case "parser":
-        extras.requirements.push("Define input format, parsing rules, output schema");
-        extras.acceptance.push("Edge cases handled; validation included");
+        if (mode === "full" || mode === "standard") {
+          extras.requirements.push("Define input format, parsing rules, output schema");
+          extras.acceptance.push("Edge cases handled; validation included");
+        }
         break;
       case "feature":
-        if (!parsed.acceptance.length) {
-          extras.acceptance.push("Feature works end-to-end per requirements");
-        }
+        if (!parsed.acceptance.length) extras.acceptance.push("Feature works end-to-end per requirements");
         break;
       default:
         break;
@@ -374,155 +454,98 @@
   }
 
   function mergeLists(base, extra) {
-    return dedupe([...base, ...extra]);
+    return dedupe([...base, ...(extra || [])]);
   }
 
-  function isSimpleTask(parsed, raw) {
+  function isTinyTask(parsed, raw) {
     return (
-      raw.length < 220 &&
-      parsed.requirements.length <= 2 &&
-      parsed.constraints.length <= 2 &&
-      parsed.files.length <= 2
+      raw.length < 180 &&
+      parsed.requirements.length <= 1 &&
+      parsed.constraints.length <= 1 &&
+      parsed.context.length <= 1
     );
   }
 
-  function section(title, items, bullet) {
-    if (!items.length) return [];
-    const out = [title];
-    items.forEach((item) => out.push((bullet ? "- " : "") + item));
-    return out;
+  function trimToWordBudget(text, maxWords) {
+    const words = text.split(/\s+/);
+    if (words.length <= maxWords) return text;
+    return words.slice(0, maxWords).join(" ") + "…";
   }
 
-  function formatCompact(parsed, taskType, opts, repoRules) {
-    const lines = ["Task:", parsed.task || "Implement requested change."];
-    const reqs = mergeLists(parsed.requirements, templateExtras(taskType, parsed).requirements);
-    const acc = opts.includeAcceptance
-      ? mergeLists(parsed.acceptance, templateExtras(taskType, parsed).acceptance)
-      : parsed.acceptance;
-
-    if (reqs.length) {
-      lines.push("", "Requirements:");
-      reqs.forEach((r) => lines.push("- " + r));
-    }
-    if (parsed.constraints.length) {
-      lines.push("", "Constraints:");
-      parsed.constraints.forEach((c) => lines.push("- " + c));
-    }
-    if (acc.length) {
-      lines.push("", "Acceptance:");
-      acc.forEach((a) => lines.push("- " + a));
-    }
-    if (repoRules.length) {
-      lines.push("", "Repo:");
-      repoRules.slice(0, 4).forEach((r) => lines.push("- " + r));
-    }
-    return lines.join("\n");
-  }
-
-  function formatStructured(parsed, taskType, opts, repoRules, mode) {
-    const extras = templateExtras(taskType, parsed);
-    const task = parsed.task || "Implement requested change.";
-    const ctx = mergeLists(parsed.context, extras.context || []);
+  function formatPrompt(parsed, taskType, opts, repoRules, mode) {
+    const extras = templateExtras(taskType, parsed, mode);
+    const task = parsed.task || parsed.intent || "Implement requested change.";
+    const ctx = mergeLists(parsed.context, extras.context);
     const reqs = mergeLists(parsed.requirements, extras.requirements);
     const cons = mergeLists(parsed.constraints, extras.constraints);
-    const files = parsed.files;
     const acc = opts.includeAcceptance
       ? mergeLists(parsed.acceptance, extras.acceptance)
       : parsed.acceptance;
+    const files = parsed.files;
+    const tiny = isTinyTask(parsed, opts._raw || "") && (mode === "ultra" || mode === "compact");
 
     const parts = [];
+
     if (opts.target !== "generic" && mode === "full") {
-      parts.push(TARGET_HINTS[opts.target] || "", "");
+      parts.push(TARGET_HINTS[opts.target], "");
     }
 
-    parts.push("# Task", task, "");
+    parts.push("Task:", task);
 
-    if (ctx.length) {
-      parts.push("# Context");
-      ctx.forEach((c) => parts.push("- " + c));
-      parts.push("");
+    if (!tiny && ctx.length && mode !== "ultra") {
+      parts.push("", "Context:");
+      ctx.slice(0, mode === "compact" ? 3 : 6).forEach((c) => parts.push("- " + c));
+    } else if (ctx.length && mode === "ultra" && ctx.length === 1) {
+      parts.push("", "Context:", "- " + ctx[0]);
     }
 
-    if (taskType.id === "bug_fix" && parsed.symptoms.length) {
-      parts.push("# Symptom");
-      parsed.symptoms.forEach((s) => parts.push("- " + s));
-      parts.push("");
-    }
-
-    if (reqs.length) {
-      parts.push("# Requirements");
-      reqs.forEach((r) => parts.push("- " + r));
-      parts.push("");
+    if (reqs.length && mode !== "ultra") {
+      parts.push("", "Requirements:");
+      const limit = mode === "compact" ? 4 : mode === "standard" ? 8 : 12;
+      reqs.slice(0, limit).forEach((r) => parts.push("- " + r));
+    } else if (reqs.length && mode === "ultra") {
+      parts.push("", "Requirements:", "- " + reqs.slice(0, 2).join("; "));
     }
 
     if (cons.length) {
-      parts.push("# Constraints");
-      cons.forEach((c) => parts.push("- " + c));
-      parts.push("");
+      parts.push("", "Constraints:");
+      const limit = mode === "ultra" ? 3 : mode === "compact" ? 5 : 8;
+      cons.slice(0, limit).forEach((c) => parts.push("- " + c));
     }
 
-    if (files.length) {
-      parts.push("# Files/Areas");
+    if (files.length && (mode === "standard" || mode === "full")) {
+      parts.push("", "Files/Areas:");
       files.forEach((f) => parts.push("- " + f));
-      parts.push("");
     }
 
     if (mode === "full") {
       if (taskType.id === "workflow") {
-        parts.push("# Workflow Notes");
-        parts.push("- Identify failing job/check name");
-        parts.push("- Preserve intended merge/review policy");
-        parts.push("");
+        parts.push("", "Workflow Notes:", "- Identify failing job/check name", "- Preserve merge/review policy");
       }
       if (taskType.id === "security") {
-        parts.push("# Threat Model");
-        parts.push("- Unauthorized access to protected resources");
-        parts.push("- Secret leakage via static/client bundle");
-        parts.push("");
+        parts.push("", "Threat Model:", "- Unauthorized access", "- Secret leakage via static bundle");
       }
       if (taskType.id === "parser") {
-        parts.push("# Parsing");
-        parts.push("- Input format + field mapping");
-        parts.push("- Output schema + validation rules");
-        parts.push("");
+        parts.push("", "Parsing:", "- Input format + field mapping", "- Output schema + validation");
       }
     }
 
     if (acc.length) {
-      parts.push("# Acceptance Criteria");
-      acc.forEach((a) => parts.push("- " + a));
-      parts.push("");
+      parts.push("", "Acceptance:");
+      const limit = mode === "ultra" ? 2 : mode === "compact" ? 4 : 8;
+      acc.slice(0, limit).forEach((a) => parts.push("- " + a));
     }
 
-    if (repoRules.length) {
-      parts.push("# Repo Rules");
+    if (repoRules.length && mode !== "ultra") {
+      parts.push("", "Repo:");
       repoRules.forEach((r) => parts.push("- " + r));
-      parts.push("");
+    } else if (repoRules.length && mode === "ultra") {
+      parts.push("", "Repo:", "- " + repoRules.slice(0, 2).join("; "));
     }
 
-    if (opts.includeClaudeMd && !repoRules.some((r) => /CLAUDE\.md/i.test(r))) {
-      parts.push("# Learning");
-      parts.push("- Append reusable rule to `CLAUDE.md` if applicable");
-      parts.push("");
-    }
+    let output = parts.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 
-    return parts.join("\n").replace(/\n{3,}/g, "\n\n").trim();
-  }
-
-  function buildPrompt(raw, options) {
-    const parsed = parseInput(raw, options);
-    const taskType = detectTaskType(raw);
-    const repoRules = buildRepoRules(raw, options.includeRepoRules, options.includeClaudeMd);
-    const simple = isSimpleTask(parsed, raw) && options.mode !== "full";
-
-    let output;
-    if (options.mode === "compact" || simple) {
-      output = formatCompact(parsed, taskType, options, repoRules);
-    } else {
-      output = formatStructured(parsed, taskType, options, repoRules, options.mode);
-    }
-
-    if (options.tokenSaver) {
+    if (opts.tokenSaver) {
       output = output
         .split("\n")
         .map((l) => cleanFiller(l, true))
@@ -530,15 +553,67 @@
         .join("\n");
     }
 
-    return { output, parsed, taskType };
+    const budget = MODES[mode];
+    if (budget && budget.wordMax) {
+      output = trimToWordBudget(output, budget.wordMax);
+    }
+
+    return output;
+  }
+
+  function runEngine(raw, opts) {
+    const taskType = detectTaskType(raw);
+    const parsed = parseInput(raw, opts);
+    const activeMode = opts.mode === "auto" ? selectAutoMode(raw, parsed, taskType) : opts.mode;
+    const repoRules = buildRepoRules(raw, opts.includeRepoRules, opts.includeClaudeMd);
+
+    const outputs = {};
+    ["ultra", "compact", "standard", "full"].forEach((m) => {
+      const o = { ...opts, _raw: raw };
+      outputs[m] = formatPrompt(parsed, taskType, o, repoRules, m);
+    });
+
+    const output = outputs[activeMode];
+    const removals = analyzeRemovals(raw, output, parsed);
+
+    return { output, outputs, parsed, taskType, activeMode, repoRules, removals };
+  }
+
+  function analyzeRemovals(raw, output, parsed) {
+    const removals = [];
+    const rawLines = splitLines(raw);
+    const outLower = output.toLowerCase();
+
+    rawLines.forEach((line) => {
+      const cleaned = cleanFiller(line, true);
+      if (!cleaned || cleaned.length < 8) return;
+      const key = cleaned.toLowerCase().slice(0, 40);
+      if (outLower.includes(key.slice(0, 20))) return;
+
+      let reason = "irrelevant";
+      if (FILLER_PATTERNS.some((re) => re.test(line)) || VAGUE_PATTERNS.some((re) => re.test(line))) {
+        reason = "verbose";
+      } else if (
+        SYNONYM_GROUPS.some((g) => g.patterns.some((re) => re.test(line))) ||
+        parsed.constraints.some((c) => c.toLowerCase().includes(key.slice(0, 15)))
+      ) {
+        reason = "duplicate";
+      } else if (/https?:\/\//.test(line) && parsed.context.some((c) => c.includes("URL:"))) {
+        reason = "duplicate";
+      }
+
+      removals.push({ text: line.trim(), reason });
+    });
+
+    return removals.slice(0, 12);
   }
 
   function scoreClarity(text) {
     let s = 40;
-    if (/^#\s/m.test(text) || /^Task:/m.test(text)) s += 15;
+    if (/^Task:/m.test(text)) s += 20;
     if (/^-\s/m.test(text)) s += Math.min(25, (text.match(/^-\s/gm) || []).length * 4);
-    if (!FILLER_PATTERNS.some((re) => re.test(text))) s += 10;
-    if (!VAGUE_PATTERNS.some((re) => re.test(text))) s += 10;
+    if (!FILLER_PATTERNS.some((re) => re.test(text))) s += 8;
+    if (!VAGUE_PATTERNS.some((re) => re.test(text))) s += 12;
     return Math.min(100, s);
   }
 
@@ -547,39 +622,103 @@
     if (parsed.task) s += 15;
     if (parsed.files.length) s += 15;
     if (parsed.constraints.length) s += 15;
-    if (parsed.requirements.length) s += 15;
-    if ((opts.includeAcceptance && /acceptance/i.test(text)) || parsed.acceptance.length) s += 20;
+    if (parsed.requirements.length) s += 10;
+    if (/Acceptance:/i.test(text) || parsed.acceptance.length) s += 25;
+    return Math.min(100, s);
+  }
+
+  function scoreRiskCoverage(text, taskType, parsed) {
+    let s = 30;
+    if (parsed.constraints.length) s += 20;
+    if (/Acceptance:/i.test(text)) s += 20;
+    if (taskType.id === "security" && /secret|auth|access/i.test(text)) s += 15;
+    if (taskType.id === "workflow" && /workflow|main|merge/i.test(text)) s += 15;
+    if (parsed.files.length) s += 10;
     return Math.min(100, s);
   }
 
   function scoreTokenEfficiency(inTok, outTok) {
     if (!inTok) return 0;
     const ratio = outTok / inTok;
-    if (ratio <= 0.45) return 95;
-    if (ratio <= 0.7) return Math.round(90 - (ratio - 0.45) * 40);
-    if (ratio <= 1) return Math.round(75 - (ratio - 0.7) * 80);
-    return Math.max(20, 50 - Math.round((ratio - 1) * 30));
+    if (ratio <= 0.38) return 98;
+    if (ratio <= 0.5) return 92;
+    if (ratio <= 0.7) return Math.round(88 - (ratio - 0.5) * 60);
+    if (ratio <= 1) return Math.round(72 - (ratio - 0.7) * 80);
+    return Math.max(15, 45 - Math.round((ratio - 1) * 25));
   }
 
-  function computeScores(raw, output, parsed, opts) {
+  function computeScores(raw, output, parsed, taskType, opts) {
     const inTok = estimateTokens(raw);
     const outTok = estimateTokens(output);
+    const saved = Math.max(0, inTok - outTok);
+    const savedPct = inTok ? Math.round((saved / inTok) * 100) : 0;
+    const compressionRatio = inTok ? (outTok / inTok).toFixed(2) : "1.00";
+
     const tokenEfficiency = scoreTokenEfficiency(inTok, outTok);
     const clarity = scoreClarity(output);
     const readiness = scoreReadiness(output, parsed, opts);
-    const quality = Math.round((tokenEfficiency + clarity + readiness) / 3);
-    return { quality, tokenEfficiency, clarity, readiness, inTok, outTok };
+    const riskCoverage = scoreRiskCoverage(output, taskType, parsed);
+    const overall = Math.round((clarity + tokenEfficiency + readiness + riskCoverage) / 4);
+
+    return {
+      clarity,
+      tokenEfficiency,
+      readiness,
+      riskCoverage,
+      overall,
+      inTok,
+      outTok,
+      saved,
+      savedPct,
+      compressionRatio,
+    };
+  }
+
+  function lintPrompt(output, parsed, raw) {
+    const issues = [];
+    const wordCount = countWords(output);
+
+    if (wordCount > 650) issues.push({ level: "warn", msg: "Prompt quá dài (" + wordCount + " từ) — cân nhắc Compact/Ultra." });
+    if (!/Acceptance:/i.test(output)) issues.push({ level: "err", msg: "Thiếu Acceptance criteria." });
+    if (!parsed.constraints.length && !/Constraints:/i.test(output)) {
+      issues.push({ level: "warn", msg: "Thiếu Constraints — thêm ràng buộc nếu có." });
+    }
+    if (!parsed.files.length && raw.length > 250) {
+      issues.push({ level: "warn", msg: "Thiếu file/area cần sửa — agent khó định vị." });
+    }
+    if (VAGUE_PATTERNS.some((re) => re.test(output))) {
+      issues.push({ level: "err", msg: "Còn từ mơ hồ (thử xem, nếu được…) — thay bằng mệnh lệnh rõ." });
+    }
+
+    const bullets = (output.match(/^-\s+(.+)$/gm) || []).map((b) => b.replace(/^-\s+/, "").toLowerCase());
+    const dupes = bullets.filter((b, i) => bullets.indexOf(b) !== i);
+    if (dupes.length) issues.push({ level: "warn", msg: "Lặp ý: " + dupes[0].slice(0, 50) });
+
+    const hasNoMerge = /no auto[- ]?merge|không auto/i.test(raw);
+    const hasAutoMerge = /\bauto[- ]?merge\b/i.test(output) && !/no auto|không auto/i.test(output);
+    if (hasNoMerge && hasAutoMerge) {
+      issues.push({ level: "err", msg: "Mâu thuẫn: input cấm auto-merge nhưng output gợi ý auto-merge." });
+    }
+
+    const inTok = estimateTokens(raw);
+    const outTok = estimateTokens(output);
+    if (outTok >= inTok) {
+      issues.push({ level: "warn", msg: "Token waste: output ≥ input — chưa nén hiệu quả." });
+    }
+
+    if (!issues.length) issues.push({ level: "ok", msg: "Prompt lint pass — sẵn sàng cho coding agent." });
+    return issues;
   }
 
   function improvementTips(scores, parsed) {
     const tips = [];
-    if (scores.clarity < 70) tips.push("Thêm section rõ (# Task, # Requirements) hoặc bullet thay câu dài.");
+    if (scores.clarity < 70) tips.push("Dùng Task:/Requirements:/Acceptance: thay câu dài.");
     if (scores.readiness < 70) {
-      if (!parsed.files.length) tips.push("Ghi file/path khu vực cần sửa (vd `.github/workflows/qa.yml`).");
-      if (!parsed.acceptance.length) tips.push("Bổ sung acceptance criteria — pass khi nào.");
+      if (!parsed.files.length) tips.push("Ghi file/path (vd `.github/workflows/qa.yml`).");
+      if (!parsed.acceptance.length) tips.push("Bổ sung acceptance — pass khi nào.");
     }
-    if (scores.tokenEfficiency < 70) tips.push("Bật Token Saver hoặc rút gọn mô tả; bỏ câu xã giao.");
-    if (!parsed.constraints.length) tips.push("Nêu rõ constraint (không auto-merge, không push main, …).");
+    if (scores.tokenEfficiency < 70) tips.push("Bật Token Saver hoặc chọn Ultra/Compact.");
+    if (!parsed.constraints.length) tips.push("Nêu constraint (no main commit, no auto-merge…).");
     return dedupe(tips).slice(0, 4);
   }
 
@@ -588,22 +727,50 @@
     statusEl.className = "psupport__status" + (type ? " psupport__status--" + type : "");
   }
 
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function renderBudget(scores) {
+    budgetEl.hidden = false;
+    budgetEl.innerHTML =
+      '<div class="psupport__budget-grid">' +
+      '<span><strong>Input tokens:</strong> ~' +
+      scores.inTok +
+      "</span>" +
+      '<span><strong>Output tokens:</strong> ~' +
+      scores.outTok +
+      "</span>" +
+      '<span><strong>Saved:</strong> ' +
+      scores.savedPct +
+      "%</span>" +
+      '<span><strong>Compression ratio:</strong> ' +
+      scores.compressionRatio +
+      "x</span>" +
+      "</div>";
+  }
+
   function renderScores(scores) {
     scoresEl.hidden = false;
     scoresEl.innerHTML =
       '<div class="psupport__score-grid">' +
-      scoreItem("Prompt Quality", scores.quality) +
-      scoreItem("Token Efficiency", scores.tokenEfficiency) +
       scoreItem("Clarity", scores.clarity) +
+      scoreItem("Token Efficiency", scores.tokenEfficiency) +
       scoreItem("Implementation Readiness", scores.readiness) +
+      scoreItem("Risk Coverage", scores.riskCoverage) +
+      scoreItem("Overall", scores.overall, true) +
       "</div>";
   }
 
-  function scoreItem(label, value) {
+  function scoreItem(label, value, wide) {
     const cls = value >= 75 ? "good" : value >= 55 ? "mid" : "low";
     return (
       '<div class="psupport__score psupport__score--' +
       cls +
+      (wide ? " psupport__score--wide" : "") +
       '">' +
       '<span class="psupport__score-label">' +
       label +
@@ -626,16 +793,49 @@
       "</ul>";
   }
 
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+  function renderLint(issues) {
+    lintResultsEl.hidden = false;
+    lintResultsEl.innerHTML =
+      "<strong>Prompt Lint</strong><ul>" +
+      issues
+        .map(
+          (i) =>
+            '<li class="psupport__lint psupport__lint--' +
+            i.level +
+            '">' +
+            escapeHtml(i.msg) +
+            "</li>"
+        )
+        .join("") +
+      "</ul>";
+  }
+
+  function renderCompareDiff(removals) {
+    const diffEl = compareEl.querySelector("[data-psupport-diff]");
+    if (!diffEl) return;
+    if (!removals.length) {
+      diffEl.innerHTML = "<p class='psupport__diff-empty'>Không có phần bị loại đáng kể.</p>";
+      return;
+    }
+    diffEl.innerHTML =
+      "<ul class='psupport__diff-list'>" +
+      removals
+        .map(
+          (r) =>
+            "<li><span class='psupport__diff-reason'>" +
+            r.reason +
+            "</span> " +
+            escapeHtml(r.text.slice(0, 120)) +
+            (r.text.length > 120 ? "…" : "") +
+            "</li>"
+        )
+        .join("") +
+      "</ul>";
   }
 
   function getOptions() {
     return {
-      mode: modeEl ? modeEl.value : "standard",
+      mode: modeEl ? modeEl.value : "auto",
       target: targetEl ? targetEl.value : "grok",
       tokenSaver: tokenSaverEl ? tokenSaverEl.checked : true,
       includeRepoRules: repoRulesEl ? repoRulesEl.checked : true,
@@ -644,58 +844,81 @@
     };
   }
 
+  function setCopyButtonsEnabled(enabled) {
+    Object.values(copyBtns).forEach((btn) => {
+      if (btn) btn.disabled = !enabled;
+    });
+  }
+
   function generate() {
     const raw = normalize(inputEl.value);
     if (!raw) {
       setStatus("Nhập yêu cầu trước.", "err");
-      copyBtn.disabled = true;
+      setCopyButtonsEnabled(false);
       return;
     }
 
     const opts = getOptions();
-    const { output, parsed, taskType } = buildPrompt(raw, opts);
-    const scores = computeScores(raw, output, parsed, opts);
-    const tips = improvementTips(scores, parsed);
+    const result = runEngine(raw, opts);
+    const { output, outputs, parsed, taskType, activeMode, removals } = result;
 
-    lastPrompt = output;
     lastRaw = raw;
+    lastParsed = parsed;
+    lastActiveMode = activeMode;
+    modeOutputs = outputs;
+    lastRemovals = removals;
+
+    const scores = computeScores(raw, output, parsed, taskType, opts);
+    const tips = improvementTips(scores, parsed);
+    const lintIssues = lintPrompt(output, parsed, raw);
+
     outputCode.textContent = output;
-    copyBtn.disabled = false;
+    setCopyButtonsEnabled(true);
 
     if (taskBadge) {
       taskBadge.textContent = taskType.label;
       taskBadge.hidden = false;
     }
+    if (modeBadge) {
+      const modeLabel = opts.mode === "auto" ? "Auto → " + MODES[activeMode].label : MODES[activeMode].label;
+      modeBadge.textContent = modeLabel;
+      modeBadge.hidden = false;
+    }
 
-    metaEl.hidden = false;
-    metaEl.textContent =
-      "in ~" +
-      scores.inTok +
-      " → out ~" +
-      scores.outTok +
-      " tok (−" +
-      Math.max(0, scores.inTok - scores.outTok) +
-      ")";
-
+    renderBudget(scores);
     renderScores(scores);
-    renderTips(scores.quality < 75 || scores.readiness < 65 ? tips : []);
+    renderLint(lintIssues);
+    renderTips(scores.overall < 75 || scores.readiness < 65 ? tips : []);
 
     if (compareVisible && compareEl) {
       compareEl.querySelector("[data-psupport-before]").textContent = raw;
       compareEl.querySelector("[data-psupport-after]").textContent = output;
+      renderCompareDiff(removals);
     }
 
-    setStatus("Đã tạo prompt.", "ok");
+    setStatus("Đã tạo prompt (" + MODES[activeMode].label + ").", "ok");
   }
 
-  async function copyPrompt() {
-    if (!lastPrompt) return;
+  function runLintOnly() {
+    const raw = normalize(inputEl.value);
+    if (!raw) {
+      setStatus("Nhập yêu cầu trước.", "err");
+      return;
+    }
+    const opts = getOptions();
+    const result = runEngine(raw, opts);
+    const issues = lintPrompt(result.output, result.parsed, raw);
+    renderLint(issues);
+    setStatus("Lint xong.", "ok");
+  }
+
+  async function copyText(text) {
     try {
-      await navigator.clipboard.writeText(lastPrompt);
+      await navigator.clipboard.writeText(text);
       setStatus("Đã copy.", "ok");
     } catch {
       const ta = document.createElement("textarea");
-      ta.value = lastPrompt;
+      ta.value = text;
       ta.setAttribute("readonly", "");
       ta.style.position = "fixed";
       ta.style.left = "-9999px";
@@ -713,13 +936,23 @@
     compareBtn.setAttribute("aria-pressed", compareVisible ? "true" : "false");
     if (compareVisible && lastRaw) {
       compareEl.querySelector("[data-psupport-before]").textContent = lastRaw;
-      compareEl.querySelector("[data-psupport-after]").textContent = lastPrompt || "";
+      compareEl.querySelector("[data-psupport-after]").textContent = modeOutputs[lastActiveMode] || "";
+      renderCompareDiff(lastRemovals);
     }
   }
 
   generateBtn.addEventListener("click", generate);
-  copyBtn.addEventListener("click", copyPrompt);
+  lintBtn.addEventListener("click", runLintOnly);
   compareBtn.addEventListener("click", toggleCompare);
+
+  Object.entries(copyBtns).forEach(([mode, btn]) => {
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const text = modeOutputs[mode];
+      if (text) copyText(text);
+      else setStatus("Generate trước.", "err");
+    });
+  });
 
   inputEl.addEventListener("keydown", (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {

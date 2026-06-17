@@ -7,9 +7,8 @@
         <header class="psupport__head">
             <h1 class="psupport__title">Prompt Support</h1>
             <p class="psupport__desc">
-                Biến yêu cầu thô thành prompt ngắn, chuyên nghiệp, tiết kiệm token —
-                tối ưu cho Grok/Claude coding agent. Tự nhận loại task, chấm điểm chất lượng,
-                và copy nhanh.
+                Token Optimization Engine — nén yêu cầu thô thành coding-agent prompt ngắn, rõ, tiết kiệm token.
+                Tự chọn độ dài (Auto), chấm điểm, lint, và so sánh before/after.
             </p>
         </header>
 
@@ -22,7 +21,7 @@
                     data-psupport-input
                     rows="12"
                     spellcheck="false"
-                    placeholder="Dán yêu cầu coding (tiếng Việt hoặc English).&#10;&#10;Ví dụ:&#10;Kêu Grok fix gấp lỗi workflow, tôi thấy hình như bị lỗi do manual approval gì đó, kiểm tra giúp coi có đúng không, nếu đúng thì bỏ nó ra khỏi workflow nha nhưng đừng auto merge vào main"
+                    placeholder="Dán yêu cầu coding (tiếng Việt hoặc English).&#10;&#10;Ví dụ:&#10;fix gấp lỗi workflow, sửa ngay check run fail do manual approval, bỏ nó ra khỏi workflow nhưng đừng auto merge vào main, tạo PR riêng"
                 ></textarea>
 
                 <div class="psupport__controls">
@@ -30,9 +29,11 @@
                         <label class="psupport__select-label">
                             <span>Mode</span>
                             <select class="psupport__select" data-psupport-mode>
-                                <option value="compact">Compact</option>
-                                <option value="standard" selected>Standard</option>
-                                <option value="full">Full Spec</option>
+                                <option value="auto" selected>Auto Token Saver</option>
+                                <option value="ultra">Ultra Compact (80–150 từ)</option>
+                                <option value="compact">Compact (150–300 từ)</option>
+                                <option value="standard">Standard (300–600 từ)</option>
+                                <option value="full">Full Spec (feature lớn)</option>
                             </select>
                         </label>
                         <label class="psupport__select-label">
@@ -44,24 +45,25 @@
                             </select>
                         </label>
                         <span class="psupport__task-badge" data-psupport-task-type hidden></span>
+                        <span class="psupport__mode-badge" data-psupport-mode-badge hidden></span>
                     </div>
 
                     <div class="psupport__checkboxes" role="group" aria-label="Tùy chọn generate">
                         <label class="psupport__check">
                             <input type="checkbox" data-psupport-token-saver checked>
-                            Token Saver Mode
+                            Token Saver
                         </label>
                         <label class="psupport__check">
                             <input type="checkbox" data-psupport-repo-rules checked>
-                            Include Repo Rules
+                            Repo Rules (zola)
                         </label>
                         <label class="psupport__check">
                             <input type="checkbox" data-psupport-claude-md>
-                            Include CLAUDE.md learning
+                            CLAUDE.md learning
                         </label>
                         <label class="psupport__check">
                             <input type="checkbox" data-psupport-acceptance checked>
-                            Include Acceptance Criteria
+                            Acceptance Criteria
                         </label>
                     </div>
                 </div>
@@ -70,8 +72,8 @@
                     <button type="button" class="psupport__btn psupport__btn--primary" data-psupport-generate>
                         Generate Prompt
                     </button>
-                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-copy disabled>
-                        Copy Prompt
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-lint>
+                        Lint Prompt
                     </button>
                     <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-compare aria-pressed="false">
                         Compare Before/After
@@ -83,13 +85,29 @@
             <div class="psupport__panel psupport__panel--output">
                 <div class="psupport__output-head">
                     <span class="psupport__label">Prompt tối ưu</span>
-                    <span class="psupport__meta" data-psupport-meta hidden></span>
                 </div>
 
-                <div class="psupport__scores" data-psupport-scores hidden aria-label="Prompt quality scores"></div>
+                <div class="psupport__budget" data-psupport-budget hidden aria-label="Token budget"></div>
+                <div class="psupport__scores" data-psupport-scores hidden aria-label="Quality scores"></div>
 
                 <pre class="psupport__output" data-psupport-output aria-label="Optimized prompt output"><code data-psupport-code>Generate Prompt để xem kết quả.</code></pre>
 
+                <div class="psupport__copy-row" aria-label="Copy prompt variants">
+                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-ultra disabled>
+                        Copy Ultra Compact
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-compact disabled>
+                        Copy Compact
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-standard disabled>
+                        Copy Standard
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-full disabled>
+                        Copy Full Spec
+                    </button>
+                </div>
+
+                <div class="psupport__lint-results" data-psupport-lint-results hidden></div>
                 <div class="psupport__tips" data-psupport-tips hidden></div>
             </div>
         </div>
@@ -105,6 +123,10 @@
                     <span class="psupport__label">Output (tối ưu)</span>
                     <pre class="psupport__compare-pre psupport__compare-pre--after"><code data-psupport-after></code></pre>
                 </div>
+            </div>
+            <div class="psupport__diff-section">
+                <span class="psupport__label">Removed (diff)</span>
+                <div class="psupport__diff" data-psupport-diff></div>
             </div>
         </div>
     </section>
