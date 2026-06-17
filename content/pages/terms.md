@@ -56,5 +56,5 @@ website đồng nghĩa với việc chấp nhận phiên bản mới nhất.
 
 ## 8. Liên hệ
 
-Thắc mắc về điều khoản, vui lòng gửi về **tamsudev.com@gmail.com** hoặc trang
+Thắc mắc về điều khoản, vui lòng gửi về **292648126+Banhang-Chogao@users.noreply.github.com** hoặc trang
 [Liên hệ](/contact/).

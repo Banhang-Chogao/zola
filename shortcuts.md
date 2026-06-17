@@ -486,7 +486,7 @@ Hành động full security audit cho leak:
      - Body: mô tả + warning user phải rotate credential
 4. **Nếu KHÔNG phát hiện** → output: `BM scan clean. No leak detected.`
 5. **Email notification**: thông qua GitHub Issue mention
-   `@Banhang-Chogao` → GitHub tự gửi email đến tamsudev.com@gmail.com.
+   `@Banhang-Chogao` → GitHub tự gửi email đến 292648126+Banhang-Chogao@users.noreply.github.com.
 
 CONSERVATIVE: chỉ flag pattern 95%+ confident (avoid false positive
 như `secret=` trong tutorial code). Test mode trước khi flag prod.

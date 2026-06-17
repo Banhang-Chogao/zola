@@ -11,7 +11,7 @@ lắng nghe.
 
 ## Email
 
-📧 **tamsudev.com@gmail.com**
+📧 **292648126+Banhang-Chogao@users.noreply.github.com**
 
 Đây là kênh liên hệ chính thức và nhanh nhất. Mình cố gắng phản hồi trong vòng
 **1–2 ngày làm việc**.

@@ -211,7 +211,7 @@
       "lines_removed": 50,
       "highlights": [
         "content/pages/privacy.md — Chính sách bảo mật (cookies, Google AdSense, GA, opt-out)",
-        "content/pages/contact.md — Liên hệ (email tamsudev.com@gmail.com)",
+        "content/pages/contact.md — Liên hệ (email 292648126+Banhang-Chogao@users.noreply.github.com)",
         "content/pages/terms.md — Điều khoản & Miễn trừ (bản quyền, YMYL, affiliate)",
         "Mở rộng about.md thành tiểu sử tác giả thật + cam kết nội dung",
         "Sửa author.json bio (bỏ placeholder tiếng Anh)"
@@ -2621,7 +2621,7 @@
       "lines_removed": 262,
       "highlights": [
         "Backend services/visitor-counter/main.py: 4 endpoint mới GET /auth/login, GET /auth/callback, GET /auth/me, POST /auth/logout",
-        "Email white-list ADMIN_EMAILS=tamsudev.com@gmail.com (server-side, không bypass client)",
+        "Email white-list ADMIN_EMAILS=292648126+Banhang-Chogao@users.noreply.github.com (server-side, không bypass client)",
         "access_token GitHub giữ Redis-side, client chỉ có opaque sid 32-byte",
         "Session Redis TTL 2h idle timeout",
         "sessionStorage trên client (KHÔNG localStorage, KHÔNG cookie)"

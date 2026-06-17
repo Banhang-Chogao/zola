@@ -184,7 +184,7 @@ Trong **Environment Variables** của Web Service:
 | `GH_CLIENT_SECRET` | Client Secret vừa lấy ở Bước 1 |
 | `BACKEND_URL` | `https://blog-visitor-api.onrender.com` |
 | `BLOG_URL` | `https://banhang-chogao.github.io/zola` |
-| `ADMIN_EMAILS` | `tamsudev.com@gmail.com` (comma-separated cho nhiều) |
+| `ADMIN_EMAILS` | `292648126+Banhang-Chogao@users.noreply.github.com` (comma-separated cho nhiều) |
 | `SESSION_TTL` | `7200` (2 giờ idle, optional) |
 
 Click **Save Changes** → Render auto-restart service.
@@ -203,7 +203,7 @@ Click **Save Changes** → Render auto-restart service.
 
 Append email vào `ADMIN_EMAILS`:
 ```
-ADMIN_EMAILS=tamsudev.com@gmail.com,other.contributor@example.com
+ADMIN_EMAILS=292648126+Banhang-Chogao@users.noreply.github.com,other.contributor@example.com
 ```
 
 Hoặc thay logic email white-list bằng GitHub Collaborator API check —

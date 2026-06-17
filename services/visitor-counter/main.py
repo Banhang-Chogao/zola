@@ -26,7 +26,7 @@ Env vars (set Render/Railway dashboard):
   BACKEND_URL        — URL public của service này (cho redirect_uri OAuth)
   BLOG_URL           — URL blog (để redirect về sau auth)
   ADMIN_EMAILS       — danh sách email được phép vào CMS, ngăn cách ',' (default
-                       'tamsudev.com@gmail.com'). Thêm contributor: append email.
+                       '292648126+Banhang-Chogao@users.noreply.github.com'). Thêm contributor: append email.
   SESSION_TTL        — session sống bao lâu giây (default 7200 = 2h). Redis
                        auto-expire session khi hết → admin idle 2h phải login lại.
 
@@ -75,7 +75,7 @@ _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 # robust với GitHub email (vốn được trả về lowercase nhưng phòng config typo).
 ADMIN_EMAILS = {
     e.strip().lower()
-    for e in os.getenv("ADMIN_EMAILS", "tamsudev.com@gmail.com").split(",")
+    for e in os.getenv("ADMIN_EMAILS", "292648126+Banhang-Chogao@users.noreply.github.com").split(",")
     if e.strip()
 }
 
