@@ -1,0 +1,59 @@
+{# Google Rank — sidebar SEO authority widget (data/google-rank.json) #}
+{% macro widget() %}
+{% set gr = load_data(path="data/google-rank.json", required=false) %}
+{% if gr and gr.score is defined %}
+<section class="sidebar-block sidebar-block--google-rank" data-widget="google-rank" data-google-rank-root
+         data-score-tier="{% if gr.score >= 81 %}elite{% elif gr.score >= 61 %}high{% elif gr.score >= 41 %}mid-high{% elif gr.score >= 31 %}mid{% elif gr.score >= 11 %}mid-low{% else %}low{% endif %}">
+    <h3 class="sidebar-label">GOOGLE RANK</h3>
+    <script type="application/json" id="google-rank-data">{{ gr | json_encode | safe }}</script>
+    <div class="google-rank__card">
+        <div class="google-rank__score-row">
+            <p class="google-rank__score" aria-live="polite">
+                <span class="google-rank__score-num" data-gr-score>{{ gr.score }}</span>
+                <span class="google-rank__score-max">/ {{ gr.max_score | default(value=100) }}</span>
+            </p>
+            <p class="google-rank__badge google-rank__badge--{{ gr.level_slug | default(value='new-site') }}"
+               data-gr-badge
+               title="{{ gr.tooltip | default(value='') }}">
+                <span class="google-rank__badge-emoji" data-gr-emoji aria-hidden="true">{{ gr.level_emoji }}</span>
+                <span class="google-rank__badge-text" data-gr-level>{{ gr.level | upper }}</span>
+            </p>
+        </div>
+
+        <div class="google-rank__bar" role="progressbar"
+             aria-valuenow="{{ gr.score }}"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-label="SEO Authority Score"
+             data-gr-bar
+             data-score="{{ gr.score }}">
+            <span class="google-rank__bar-fill" data-gr-bar-fill style="width: {{ gr.score }}%"></span>
+        </div>
+
+        <p class="google-rank__caption">
+            SEO Authority Score
+            <button type="button" class="google-rank__info" data-gr-info
+                    aria-label="Giải thích điểm SEO"
+                    title="{{ gr.tooltip | default(value='') }}">ⓘ</button>
+        </p>
+
+        <details class="google-rank__details">
+            <summary class="google-rank__details-toggle">Chi tiết chỉ số</summary>
+            <dl class="google-rank__metrics" data-gr-metrics>
+                <div><dt>Pages indexed</dt><dd data-gr-pages>{{ gr.details.pages_indexed }}</dd></div>
+                <div><dt>Articles</dt><dd data-gr-articles>{{ gr.details.articles }}</dd></div>
+                <div><dt>Categories</dt><dd data-gr-categories>{{ gr.details.categories }}</dd></div>
+                <div><dt>Internal links</dt><dd data-gr-links>{{ gr.details.internal_links }}</dd></div>
+                <div><dt>Schema coverage</dt><dd data-gr-schema>{{ gr.details.schema_coverage_pct }}%</dd></div>
+                <div><dt>SEO audit</dt><dd data-gr-audit>{{ gr.details.seo_audit }}/100</dd></div>
+            </dl>
+            {% if gr.updated_at %}
+            <p class="google-rank__updated">
+                <time datetime="{{ gr.updated_at }}">Cập nhật {{ gr.updated_at | truncate(length=10, end="") }}</time>
+            </p>
+            {% endif %}
+        </details>
+    </div>
+</section>
+{% endif %}
+{% endmacro %}

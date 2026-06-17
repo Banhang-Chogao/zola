@@ -44,7 +44,7 @@ jobs:
 
       - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose -v
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank -v
 
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
         run: python3 qa_check.py
@@ -57,6 +57,9 @@ jobs:
 
       - name: Build reference index
         run: python3 scripts/build_references.py
+
+      - name: Build Google Rank sidebar data
+        run: python3 scripts/build_google_rank.py
 
       - name: Strip premium content before build
         run: python3 scripts/paywall_prepare_build.py --strip
