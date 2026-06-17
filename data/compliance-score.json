@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-17T13:24:24Z",
-  "score": 90.9,
-  "grade": "A",
+  "updated_at": "2026-06-17T13:26:10Z",
+  "score": 95.5,
+  "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 18,
-    "warn": 4,
+    "pass": 20,
+    "warn": 2,
     "fail": 0,
     "total": 22
   },
@@ -68,9 +68,9 @@
     {
       "id": "media",
       "label": "Media",
-      "score": 66.7,
-      "pass": 1,
-      "warn": 2,
+      "score": 100.0,
+      "pass": 3,
+      "warn": 0,
       "fail": 0,
       "items": [
         {
@@ -80,13 +80,13 @@
         },
         {
           "label": "Image weight",
-          "status": "warn",
-          "detail": "1 large file(s)"
+          "status": "pass",
+          "detail": "within budget"
         },
         {
           "label": "Image formats",
-          "status": "warn",
-          "detail": "1 heavy PNG/GIF"
+          "status": "pass",
+          "detail": "formats OK"
         }
       ]
     },
@@ -194,14 +194,6 @@
   "highlights": [
     {
       "type": "warn",
-      "text": "Media: Image weight"
-    },
-    {
-      "type": "warn",
-      "text": "Media: Image formats"
-    },
-    {
-      "type": "warn",
       "text": "Links: Internal links"
     },
     {
@@ -215,6 +207,14 @@
     {
       "type": "pass",
       "text": "Metadata: Descriptions"
+    },
+    {
+      "type": "pass",
+      "text": "Metadata: Canonical URLs"
+    },
+    {
+      "type": "pass",
+      "text": "Structure: Heading focus"
     }
   ],
   "pages_scanned": 215,
