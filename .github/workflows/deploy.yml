@@ -35,6 +35,14 @@ jobs:
           tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Build reference index
+        run: python3 scripts/build_references.py
+
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

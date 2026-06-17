@@ -2,6 +2,7 @@
 {% import "macros/verified.html" as v %}
 {% import "macros/giscus.html" as giscus %}
 {% import "macros/img.html" as img %}
+{% import "macros/references.html" as references %}
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
@@ -88,6 +89,8 @@
         <div class="post-single__content">
             {{ page.content | safe }}
         </div>
+
+        {{ references::section(page=page) }}
 
         {# ===== FAQ (Câu hỏi thường gặp) → JSON-LD FAQPage sinh ở base.html ===== #}
         {% if page.extra.faq %}
