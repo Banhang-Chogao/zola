@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "hotfix(l-dashboard): fix GitHub OAuth login blank page",
+      "tag": "fix",
+      "lines_added": 29,
+      "lines_removed": 4,
+      "highlights": [
+        "dataset.fdView → dataset.ldView in showView()",
+        "Regression tests in scripts/test_l_dashboard.py",
+        "python3 -m unittest scripts.test_l_dashboard -v — 5/5 pass",
+        "zola build — OK",
+        "F-Dashboard auth-gate untouched"
+      ],
+      "pr": 384
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(footer): dual countdown format — days | hours + minutes",
       "tag": "chore",
       "lines_added": 172,
