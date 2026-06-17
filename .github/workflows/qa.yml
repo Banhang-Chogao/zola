@@ -53,6 +53,9 @@ jobs:
       - name: Build reference index
         run: python3 scripts/build_references.py
 
+      - name: Strip premium content before build
+        run: python3 scripts/paywall_prepare_build.py --strip
+
       - name: Zola build smoke test
         # ZOLA_GH_TOKEN cho load_data fetch commits (template base.html).
         # Token QA workflow read-only — chỉ build, không deploy.

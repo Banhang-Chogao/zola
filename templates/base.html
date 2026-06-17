@@ -93,6 +93,11 @@
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
 
+    {% set_global paywall_api = config.extra.paywall_api_url | default(value="") %}
+    {% if paywall_api %}
+    <meta name="zola-paywall-api" content="{{ paywall_api | safe }}">
+    {% endif %}
+
     {# ============================================================
        ===== SEO META BLOCK (Lighthouse 100/100 target) =====
        ============================================================

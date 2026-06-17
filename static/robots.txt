@@ -25,6 +25,7 @@ Allow: /
 # Utility / admin — không cần index
 Disallow: /editor/
 Disallow: /admin-author/
+Disallow: /admin/paywall/
 
 # Báo cáo nội bộ (đã backend-gated; robots bổ sung tín hiệu)
 Disallow: /data/reports/
