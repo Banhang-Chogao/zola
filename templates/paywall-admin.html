@@ -4,8 +4,8 @@
 
 {% block main %}
     <div class="paywall-admin" id="paywall-admin-app">
+        <header class="section-header"><h1 class="section-header__title">PAYWALL ADMIN</h1></header>
         <section class="paywall-admin__view" data-view="login">
-            <header class="section-header"><h1 class="section-header__title">PAYWALL ADMIN</h1></header>
             <p class="section-subtitle">Đăng nhập bằng admin token để quản lý yêu cầu đọc bài trả phí.</p>
             <form class="paywall-admin__token-form" data-form="login">
                 <label class="paywall-field">
@@ -18,7 +18,6 @@
         </section>
 
         <section class="paywall-admin__view" data-view="main" hidden>
-            <header class="section-header"><h1 class="section-header__title">PAYWALL ADMIN</h1></header>
             <p class="section-subtitle">Xác nhận thanh toán Momo, tạo approve code và gửi email cho người đọc.</p>
 
             <div class="paywall-admin__actions" style="margin-bottom:1rem">

@@ -1,5 +1,5 @@
 +++
-title = "Fintech 2026: Mô hình thu phí nội dung premium trên blog cá nhân"
+title = "Fintech 2026: Paywall premium trên blog cá nhân"
 description = "Bài demo paywall — teaser miễn phí, phần phân tích chiến lược monetization và checklist triển khai chỉ mở sau khi thanh toán Momo."
 date = 2026-06-18
 aliases = ["/premium-fintech-paywall-demo/"]

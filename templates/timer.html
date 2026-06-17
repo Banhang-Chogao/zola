@@ -12,6 +12,18 @@
     <meta property="og:image" content="{{ config.base_url }}/img/og-default.webp">
     <meta name="twitter:card" content="summary_large_image">
     <title>{{ page.title | default(value='Đồng hồ đếm ngược') }} | {{ config.title }}</title>
+    {% set timer_title = page.title | default(value="Đồng hồ đếm ngược") %}
+    {% set timer_desc = page.description | default(value="Đồng hồ đếm ngược trực tuyến.") %}
+    {% set timer_url = current_url | default(value=config.base_url ~ "/timer/") %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": {{ timer_title | json_encode | safe }},
+        "description": {{ timer_desc | json_encode | safe }},
+        "url": "{{ timer_url | safe }}"
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>

@@ -1,5 +1,5 @@
 +++
-title = "Google AdSense là gì? Khung chính sách Program policies"
+title = "Google AdSense là gì? Chính sách Program policies"
 description = "Google AdSense là gì và publisher phải tuân thủ những chính sách nào? Series Nền tảng AdSense — Bài 1/15 bám AdSense Program policies chính thức."
 date = 2026-06-17
 [taxonomies]
