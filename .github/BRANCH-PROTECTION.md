@@ -11,7 +11,7 @@
 | Required approvals | **0** |
 | Dismiss stale pull request approvals when new commits are pushed | (tùy chọn) |
 | Require status checks to pass before merging | ✅ |
-| Status checks | `qa-check`, `policy` (hoặc tên workflow `QA Gatekeeper`, `PR Policy`) |
+| Status checks | `qa-check` (workflow `QA Gatekeeper`) |
 | Allow auto-merge | ✅ (Settings → General → Allow auto-merge) |
 | Require conversation resolution before merging | (tùy chọn) |
 | Include administrators | ✅ |

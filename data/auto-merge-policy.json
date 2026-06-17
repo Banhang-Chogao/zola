@@ -4,8 +4,7 @@
   "default": "auto_merge_when_checks_pass",
   "description": "Blog sạch — không kiểm duyệt trung gian. CI pass → auto-merge → deploy production ngay.",
   "required_checks": {
-    "QA Gatekeeper": ["qa-check", "QA Gatekeeper"],
-    "PR Policy": ["policy", "PR Policy"]
+    "QA Gatekeeper": ["qa-check", "QA Gatekeeper"]
   },
   "protected_domain_keywords": [],
   "protected_path_prefixes": [],

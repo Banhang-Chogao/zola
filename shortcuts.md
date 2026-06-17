@@ -1360,7 +1360,7 @@ Canonical: `CLAUDE.md`, `docs/OPERATIONS.md`, `data/auto-merge-policy.json`.
    - Commit → push → tạo PR
 
 2. **Auto-merge khi CI xanh**:
-   - `qa-check` (QA Gatekeeper) + `policy` (PR Policy) pass
+   - `qa-check` (QA Gatekeeper) pass
    - `auto-merge.yml` squash-merge vào `main`
 
 3. **Deploy production**:

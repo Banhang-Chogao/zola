@@ -8,7 +8,7 @@ Mọi thay đổi **phải đi qua Pull Request**. **Không** push/commit trực
 
 **Auto-merge:** `auto-merge.yml` + `scripts/try_auto_merge.py` — policy `data/auto-merge-policy.json`.
 
-**Required checks (job names):** `qa-check` (QA Gatekeeper), `policy` (PR Policy). Build + link checker nằm trong `qa-check`.
+**Required checks (job names):** `qa-check` (QA Gatekeeper). Build + link checker nằm trong `qa-check`. Không có PR Policy gate.
 
 **Manual review:** ❌ Không — blog sạch, không protected domain, không label chặn.
 
@@ -59,7 +59,7 @@ Cấu hình khuyến nghị (Settings → Branches → Add rule):
 - Require pull request before merging
 - Required approvals: **0** (auto-merge — xem `.github/BRANCH-PROTECTION.md`)
 - Dismiss stale approvals when new commits are pushed
-- Require status checks: `QA Gatekeeper`, `PR Policy` (và các check bắt buộc khác)
+- Require status checks: `QA Gatekeeper` / `qa-check`
 - Require conversation resolution
 - **Do not allow bypassing** (kể cả admin, kể cả bot)
 - Restrict who can push: **nobody** (chỉ merge qua PR)

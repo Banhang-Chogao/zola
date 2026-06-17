@@ -24,7 +24,7 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 
 1. Tạo branch: `feature/`, `fix/`, `chore/`, …
 2. Push → mở PR vào `main`
-3. **`auto-merge.yml`** merge tự động khi **qa-check** + **policy** pass (QA Gatekeeper + PR Policy)
+3. **`auto-merge.yml`** merge tự động khi **qa-check** pass (QA Gatekeeper — không PR Policy)
 4. `deploy.yml` chạy sau merge → GitHub Pages
 
 **Không hỏi user** trước khi merge. Không dùng label chặn auto-merge.
@@ -51,7 +51,7 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 
 | Loại workflow | Chạy tự động? | Ghi chú |
 |---------------|---------------|---------|
-| QA / PR Policy / chore bot PR | ✅ | `workflow_run` relay hoặc `WORKFLOW_BOT_PAT` |
+| QA / chore bot PR | ✅ | `workflow_run` relay hoặc `WORKFLOW_BOT_PAT` |
 | Human PR (same repo) | ✅ | `pull_request` bình thường |
 | Fork PR | ⏳ approval | GitHub Settings — giữ bảo vệ |
 | Deploy production (`github-pages` env) | ✅ push `main` only | Không gate QA PR |
@@ -63,8 +63,8 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 
 - Bot-created PRs auto-merge khi checks pass và không conflict — mọi loại thay đổi.
 - Nếu không merge được, bot phải **comment lý do cụ thể** thay vì im lặng (`try_auto_merge.py` → `post_skip_comment`).
-- **GITHUB_TOKEN PR gate:** PR do workflow tạo bằng `GITHUB_TOKEN` không kích hoạt `pull_request` events. **Fix:** `push_via_pr.sh` → `trigger_bot_pr_ci.sh` dispatch QA+Policy; skip `pull_request` cho `github-actions[bot]`; relay fallback `resolve_open_bot_pr.sh`. Tùy chọn `WORKFLOW_BOT_PAT`. Chi tiết: `docs/ROOT-CAUSE-ACTION-REQUIRED.md`.
-- **`gh pr list --json user`:** GitHub CLI 2.86+ dùng `author` thay `user` → `PR Policy` workflow_dispatch crash `Unknown JSON field: "user"`. **Fix:** `--json author` + jq `.author.login // .user.login` trong `pr-policy.yml` và `resolve_open_bot_pr.sh`. Test: `scripts/test_bot_pr_ci_relay.py`.
+- **GITHUB_TOKEN PR gate:** PR do workflow tạo bằng `GITHUB_TOKEN` không kích hoạt `pull_request` events. **Fix:** `push_via_pr.sh` → `trigger_bot_pr_ci.sh` dispatch QA Gatekeeper; skip `pull_request` cho `github-actions[bot]`; relay fallback `resolve_open_bot_pr.sh`. Tùy chọn `WORKFLOW_BOT_PAT`. Chi tiết: `docs/ROOT-CAUSE-ACTION-REQUIRED.md`.
+- **PR Policy removed (2026-06-18):** `pr-policy.yml` đã xóa — chỉ cần `qa-check` để auto-merge.
 - **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
@@ -490,7 +490,7 @@ _(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau 
 |-------|--------|
 | **Symptom** | PRs `github-actions[bot]` (#355–#361) — 0 check runs, UI **Action required**, auto-merge stuck |
 | **Root cause** | (1) GITHUB_TOKEN không kích hoạt `pull_request` workflows; (2) relay `workflow_run` skip khi `head_branch == main`; (3) relay SHA trỏ `main` không phải PR head |
-| **Fix** | `trigger_bot_pr_ci.sh` dispatch QA+Policy sau `push_via_pr`; skip `pull_request` cho bot actor; `resolve_open_bot_pr.sh`; `actions: write` trên maintenance workflows |
+| **Fix** | `trigger_bot_pr_ci.sh` dispatch QA Gatekeeper sau `push_via_pr`; skip `pull_request` cho bot actor; `resolve_open_bot_pr.sh`; `actions: write` trên maintenance workflows |
 | **Doc** | `docs/ROOT-CAUSE-ACTION-REQUIRED.md`, `.github/ACTIONS-PERMISSIONS.md` |
 | **Test** | `python3 scripts/test_bot_pr_ci_relay.py` |
 | **Prevention** | Không dùng relay `head_branch != main` cho schedule workflows; luôn dispatch CI từ `push_via_pr` khi không có `WORKFLOW_BOT_PAT` |

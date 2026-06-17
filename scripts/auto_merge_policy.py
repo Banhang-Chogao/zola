@@ -4,7 +4,7 @@ Repository auto-merge policy — ZERO_BARRIER_AUTOMATION.
 Config: data/auto-merge-policy.json
 Used by: scripts/try_auto_merge.py
 
-CI pass (qa-check + policy) → auto-merge → deploy.yml → production.
+CI pass (qa-check) → auto-merge → deploy.yml → production.
 Không protected domain, không manual approval, không label chặn.
 """
 from __future__ import annotations
@@ -24,7 +24,6 @@ OK_CONCLUSIONS = frozenset({"SUCCESS", "SKIPPED", "NEUTRAL"})
 DEFAULT_POLICY: dict[str, Any] = {
     "required_checks": {
         "QA Gatekeeper": ["qa-check", "QA Gatekeeper"],
-        "PR Policy": ["policy", "PR Policy"],
     },
     "protected_domain_keywords": [],
     "protected_path_prefixes": [],

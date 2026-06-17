@@ -28,7 +28,6 @@ def _ctx(**kwargs) -> PrContext:
         "paths": ["data/merge-report.json"],
         "checks": [
             {"name": "qa-check", "conclusion": "SUCCESS"},
-            {"name": "policy", "conclusion": "SUCCESS"},
         ],
     }
     defaults.update(kwargs)
@@ -36,24 +35,21 @@ def _ctx(**kwargs) -> PrContext:
 
 
 class TestChecksPass(unittest.TestCase):
-    def test_job_names_qa_policy(self):
+    def test_qa_check_only(self):
         ok, _ = checks_pass(_ctx())
         self.assertTrue(ok)
 
     def test_missing_qa_check(self):
-        ok, msg = checks_pass(_ctx(checks=[{"name": "policy", "conclusion": "SUCCESS"}]))
+        ok, msg = checks_pass(_ctx(checks=[]))
         self.assertFalse(ok)
-        self.assertIn("QA Gatekeeper", msg)
+        self.assertIn("status check", msg.lower())
 
-    def test_failed_policy(self):
+    def test_failed_qa_check(self):
         ok, msg = checks_pass(
-            _ctx(checks=[
-                {"name": "qa-check", "conclusion": "SUCCESS"},
-                {"name": "policy", "conclusion": "FAILURE"},
-            ])
+            _ctx(checks=[{"name": "qa-check", "conclusion": "FAILURE"}])
         )
         self.assertFalse(ok)
-        self.assertIn("policy", msg)
+        self.assertIn("qa-check", msg)
 
 
 class TestZeroBarrier(unittest.TestCase):

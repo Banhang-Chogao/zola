@@ -836,8 +836,8 @@ def open_pr(changed_files: list[str], summary: str) -> bool:
     msg = f"qa: rule conflict auto-fix — {summary[:72]}"
     body = (
         "**QA Rule Checker** — auto-fix (confidence ≥ 90%).\n\n"
-        "**Auto-merge eligible** khi QA Gatekeeper + PR Policy pass "
-        "(policy: `FULLY AUTOMATED OPERATIONS`).\n\n"
+        "**Auto-merge eligible** khi QA Gatekeeper pass "
+        "(policy: `ZERO_BARRIER_AUTOMATION`).\n\n"
         f"- Conflicts addressed: {summary}\n"
         f"- Reports: `reports/rule-conflict-report.json`\n"
         f"- confidence: 90%\n"
