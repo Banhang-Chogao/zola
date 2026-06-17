@@ -38,6 +38,7 @@ CLUSTER_BY_CATEGORY = {
     "ngân hàng": "tai-chinh",
     "bảo hiểm": "tai-chinh",
     "thế giới": "the-gioi",
+    "khoa học": "khoa-hoc",
 }
 
 CLUSTER_LABELS = {
@@ -46,6 +47,7 @@ CLUSTER_LABELS = {
     "cong-nghe": "Công nghệ",
     "tai-chinh": "Tài chính & Ngân hàng",
     "the-gioi": "Thế giới",
+    "khoa-hoc": "Khoa học",
     "khuyen-mai": "Khuyến mãi & Affiliate",
     "misc": "Khác",
 }
