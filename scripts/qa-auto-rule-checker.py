@@ -86,6 +86,38 @@ def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
 
 
+def _skip_scan_path(path: Path) -> bool:
+    parts = path.parts
+    return any(
+        p in parts
+        for p in (".venv", ".venv-fd", "site-packages", "__pycache__", "node_modules")
+    )
+
+
+def _robots_disallows_root(text: str) -> bool:
+    """True only when robots.txt blocks site root (/), not subpaths like /editor/."""
+    for line in text.splitlines():
+        s = line.strip()
+        if not s or s.startswith("#"):
+            continue
+        if re.match(r"(?i)disallow:\s*/\s*(?:#.*)?$", s):
+            return True
+    return False
+
+
+def _is_deploy_workflow(text: str) -> bool:
+    """Push-main workflows that actually deploy Pages — not QA smoke builds."""
+    if not re.search(r"branches:\s*\[main\]", text):
+        return False
+    return bool(
+        re.search(
+            r"pages:\s*write|upload-pages-artifact|actions/deploy-pages|deploy-pages|github-pages",
+            text,
+            re.I,
+        )
+    )
+
+
 def _load_yaml_blocks(text: str) -> list[dict[str, Any]]:
     """Lightweight workflow parse — extract name, on, concurrency, jobs keys."""
     blocks: list[dict[str, Any]] = []
@@ -141,7 +173,7 @@ def scan_claude_md(conflicts: list[Conflict]) -> None:
         ),
         (
             "claude_cancelled_classification",
-            r"(?:coi|classify|đánh).{0,40}cancelled.{0,40}(?:là|as).{0,20}fail",
+            r"(?<!không )(?:coi|classify|đánh).{0,40}cancelled.{0,40}(?:là|as).{0,20}fail",
             r"không classify.*cancelled.*(?:là|as).{0,10}fail",
             "HIGH",
             "GitHub conclusion cancelled ≠ failure; dashboard dùng status_normalized.",
@@ -201,9 +233,7 @@ def scan_workflows(conflicts: list[Conflict]) -> None:
         meta = _load_yaml_blocks(text)
         label = meta[0].get("name", name) if meta else name
 
-        if re.search(r"branches:\s*\[main\]", text) and re.search(
-            r"(deploy|pages:|github-pages|zola build)", text, re.I
-        ):
+        if _is_deploy_workflow(text):
             deploy_on_main.append(f"{wf.name} ({label})")
 
         for m in meta:
@@ -270,12 +300,12 @@ def scan_agents(conflicts: list[Conflict]) -> None:
     agent_actions: list[tuple[str, str, str]] = []
 
     patterns = [
-        (r"fix.*link|internal link", "fix_links"),
-        (r"restore.*link|revert.*link", "restore_links"),
-        (r"auto.?merge|try_auto_merge", "auto_merge"),
-        (r"no-auto-merge|manual.?review|block.*merge", "block_merge"),
-        (r"compliance.*fix|auto.?fix", "compliance_fix"),
-        (r"conflict.*resolve|autofix", "autofix_conflict"),
+        (r"fix\s+links|internal\s+link", "fix_links"),
+        (r"restore\s+links|revert\s+links", "restore_links"),
+        (r"try_auto_merge|auto-merge\.yml", "auto_merge"),
+        (r"no-auto-merge|manual-review", "block_merge"),
+        (r"compliance_fix\.py", "compliance_fix"),
+        (r"autofix_conflicts", "autofix_conflict"),
     ]
 
     search_dirs = [SCRIPTS_DIR, REPO_ROOT / ".github" / "scripts"]
@@ -283,12 +313,19 @@ def scan_agents(conflicts: list[Conflict]) -> None:
         if not d.exists():
             continue
         for path in sorted(d.rglob("*")):
+            if _skip_scan_path(path):
+                continue
             if path.suffix not in (".py", ".sh", ".yml") or path.name.startswith("test_"):
+                continue
+            if path.name == "qa-auto-rule-checker.py":
+                continue
+            rel = path.relative_to(REPO_ROOT).as_posix()
+            if rel.startswith("scripts/") and rel.count("/") > 1:
                 continue
             text = _read_text(path).lower()
             for regex, action in patterns:
                 if re.search(regex, text):
-                    agent_actions.append((path.relative_to(REPO_ROOT).as_posix(), action, regex))
+                    agent_actions.append((rel, action, regex))
 
     actions_by_type: dict[str, list[str]] = {}
     for fp, action, _ in agent_actions:
@@ -299,18 +336,23 @@ def scan_agents(conflicts: list[Conflict]) -> None:
         ("auto_merge", "block_merge", "Auto-merge vs chặn merge thủ công"),
     ]
     for a, b, title in opposing:
-        if actions_by_type.get(a) and actions_by_type.get(b):
-            conflicts.append(
+        set_a = set(actions_by_type.get(a, []))
+        set_b = set(actions_by_type.get(b, []))
+        if not set_a or not set_b:
+            continue
+        if set_a & set_b:
+            continue
+        conflicts.append(
                 Conflict(
                     id=f"agent_opposing_{a}_{b}",
                     category="AI Agents",
                     severity="HIGH",
                     title=title,
-                    rule_a=f"{a}: {', '.join(actions_by_type[a][:4])}",
-                    rule_b=f"{b}: {', '.join(actions_by_type[b][:4])}",
+                    rule_a=f"{a}: {', '.join(sorted(set_a)[:4])}",
+                    rule_b=f"{b}: {', '.join(sorted(set_b)[:4])}",
                     resolution="Làm rõ precedence trong CLAUDE.md; gắn no-auto-merge cho bot report-only.",
                     confidence=0.72,
-                    files=(actions_by_type[a] + actions_by_type[b])[:6],
+                    files=sorted(set_a | set_b)[:6],
                 )
             )
 
@@ -448,7 +490,7 @@ def scan_seo_rules(conflicts: list[Conflict]) -> None:
         )
 
     robots = _read_text(REPO_ROOT / "static" / "robots.txt")
-    if robots and "disallow: /" in robots.lower() and "index, follow" in base:
+    if robots and _robots_disallows_root(robots) and "index, follow" in base:
         conflicts.append(
             Conflict(
                 id="seo_robots_disallow_root",
@@ -601,17 +643,21 @@ def collect_fixes(conflicts: list[Conflict]) -> list[FixAction]:
     return fixes
 
 
-def apply_fixes(fixes: list[FixAction], min_confidence: float = 0.9) -> list[str]:
+def apply_fixes(
+    fixes: list[FixAction], min_confidence: float = 0.9
+) -> tuple[list[str], list[str]]:
     changed: list[str] = []
+    fixed_conflict_ids: list[str] = []
     for fix in fixes:
         if fix.confidence < min_confidence:
             continue
         try:
             if fix.apply_fn():
                 changed.extend(fix.files)
+                fixed_conflict_ids.append(fix.conflict_id)
         except OSError as e:
             print(f"Fix failed {fix.conflict_id}: {e}", file=sys.stderr)
-    return list(dict.fromkeys(changed))
+    return list(dict.fromkeys(changed)), fixed_conflict_ids
 
 
 # ---------------------------------------------------------------------------
@@ -844,8 +890,11 @@ def main() -> int:
     fixes = collect_fixes(conflicts)
     fixes_applied: list[str] = []
 
+    fixed_conflict_ids: list[str] = []
     if not args.dry_run and not loop_detected:
-        fixes_applied = apply_fixes(fixes, min_confidence=args.min_confidence)
+        fixes_applied, fixed_conflict_ids = apply_fixes(
+            fixes, min_confidence=args.min_confidence
+        )
 
     payload = build_report_payload(
         conflicts,
@@ -875,13 +924,19 @@ def main() -> int:
     }
     state.setdefault("runs", []).append(run_entry)
     state["runs"] = state["runs"][-50:]
-    fixed_ids = {f for f in fixes_applied}
-    for c in conflicts:
-        if c.auto_fixable or c.id in fixed_ids:
-            fp = c.fingerprint()
-            state.setdefault("fix_attempts", {})[fp] = state.get("fix_attempts", {}).get(fp, 0) + 1
+    for cid in fixed_conflict_ids:
+        fp = f"{cid}"
+        for c in conflicts:
+            if c.id == cid:
+                fp = c.fingerprint()
+                break
+        state.setdefault("fix_attempts", {})[fp] = state.get("fix_attempts", {}).get(fp, 0) + 1
+
     if loop_detected:
         state["loop_detected"] = True
+    elif not conflicts:
+        state["loop_detected"] = False
+        state["fix_attempts"] = {}
     _save_state(state)
 
     print(

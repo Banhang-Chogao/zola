@@ -91,9 +91,18 @@ class RuleCheckerTest(unittest.TestCase):
         ]
         with tempfile.TemporaryDirectory() as tmp:
             with mock.patch.object(mod, "REPORTS_DIR", Path(tmp) / "reports"):
-                changed = mod.apply_fixes(fixes, min_confidence=0.9)
+                changed, fixed_ids = mod.apply_fixes(fixes, min_confidence=0.9)
         self.assertEqual(changed, ["b"])
+        self.assertEqual(fixed_ids, ["y"])
         self.assertEqual(len(called), 1)
+
+    def test_robots_subpath_not_root_disallow(self):
+        robots = "User-agent: *\nAllow: /\nDisallow: /editor/\nDisallow: /data/\n"
+        self.assertFalse(mod._robots_disallows_root(robots))
+
+    def test_robots_root_disallow_detected(self):
+        robots = "User-agent: *\nDisallow: /\n"
+        self.assertTrue(mod._robots_disallows_root(robots))
 
     def test_write_reports(self):
         with tempfile.TemporaryDirectory() as tmp:
