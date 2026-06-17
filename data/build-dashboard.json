@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T15:33:35Z",
+  "updated_at": "2026-06-17T15:34:12Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 27,
-    "success": 25,
+    "total": 28,
+    "success": 26,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27700644344,
+      "run_number": 606,
+      "commit_id": "cfd6d8d5f5934aca8ab058e906c3b5cb23ab5ba9",
+      "commit_short": "cfd6d8d",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/cfd6d8d5f5934aca8ab058e906c3b5cb23ab5ba9",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27700644344",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #606 — Kiểm tra QA Gatekeeper: Merge pull request #274 from Banhang-Chogao/hotfix/fix-github-pages-base-path-zola",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:33:26Z",
+      "duration_sec": 30
+    },
     {
       "id": 27700605364,
       "run_number": 605,
