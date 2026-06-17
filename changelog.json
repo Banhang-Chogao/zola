@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(sidebar): Today hot search — Google Trends Vietnam (25 keywords)",
+      "tag": "chore",
+      "pr": 283,
+      "lines_added": 701,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/fetch_google_trends.py — batchexecute (primary), RSS fallback, cache fallback",
+        "data/google-trends-vn.json — build-time data",
+        "templates/macros/hot-search.html + SCSS Google Trends–style rank list",
+        "deploy.yml — fetch trước zola build",
+        "google-trends.yml — refresh hourly → PR chore/google-trends-data"
+      ]
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(science): uranium series infra + Bài 01 + hub Iran article",
       "tag": "chore",
       "pr": 281,
