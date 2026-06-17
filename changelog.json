@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(ci): free-first AI Diagnose — replace Claude workflow dependency",
+      "tag": "chore",
+      "lines_added": 873,
+      "lines_removed": 23,
+      "highlights": [
+        "scripts/ai_diagnose.py — Tier 1 heuristics, optional Ollama/Claude opt-in",
+        "Integrated into qa-failed.py, scripts/ff.py, build-failure-handler.yml (AI_DIAGNOSE_USE_CLAUDE=0)",
+        "scripts/test_ai_diagnose.py, docs/AI-DIAGNOSE-MIGRATION.md",
+        "Unit tests for tier-1 heuristics and opt-in paths"
+      ],
+      "pr": 380
+    },
+    {
+      "date": "2026-06-17",
       "title": "fix(links): repair 11 broken external URLs flagged by zola check",
       "tag": "fix",
       "lines_added": 11,
