@@ -236,7 +236,7 @@ Trước apply và **mỗi quý** sau khi monetize, tôi chạy checklist bám [
 
 ## Bạn nên làm gì sau bài 4? {#sau-bai-4}
 
-Sau khi audit **nội dung bị cấm**, bước tiếp theo trong series là **Google Publisher Restrictions** — chủ đề *được phép* nhưng quảng cáo bị giới hạn (fill rate thấp hơn, không phải disable). Trước mắt:
+Sau khi audit **nội dung bị cấm**, bước tiếp theo trong series là [**Bài 5: Google Publisher Restrictions**](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) — chủ đề *được phép* nhưng quảng cáo bị giới hạn (fill rate thấp hơn, không phải disable). Trước mắt:
 
 1. **Quét toàn site** — đặc biệt bài cũ, trang tag, archive trước khi gắn ad code.
 2. **Đọc** [Policy center](https://support.google.com/adsense/answer/7003627?hl=en) sau apply — mọi cảnh báo cần xử lý trong deadline Google ghi.
@@ -250,4 +250,4 @@ Nếu chưa đủ tư cách, quay [Bài 2](/zola/posting/dieu-kien-du-tu-cach-ad
 
 Publisher blog Zola an toàn khi viết **gốc, giáo dục**, moderate UGC, và audit định kỳ. [Bài 3](/zola/posting/website-san-sang-cho-adsense/) giúp site pass review; **Bài 4** giúp **giữ** tài khoản sau duyệt.
 
-Series: Bài 1 (khung policies) → Bài 2 (eligibility) → Bài 3 (site readiness) → **Bài 4** (nội dung bị cấm). Tiếp theo: **Google Publisher Restrictions** — phân biệt "cấm" vs "giới hạn quảng cáo".
+Series: Bài 1 (khung policies) → Bài 2 (eligibility) → Bài 3 (site readiness) → **Bài 4** (nội dung bị cấm). Tiếp theo: [**Bài 5: Google Publisher Restrictions**](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) — phân biệt "cấm" vs "giới hạn quảng cáo".

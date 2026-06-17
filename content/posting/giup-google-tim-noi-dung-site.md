@@ -282,7 +282,7 @@ Sau deploy bài mới trên Zola:
 
 ## Bạn nên làm gì sau bài 4? {#sau-bai-4}
 
-Khi Google **đã tìm được** URL, bước tiếp trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là đảm bảo Google **nhìn thấy trang giống người dùng** — render, JavaScript, nội dung ẩn. Series sẽ cover ở bài sau; trước mắt:
+Khi Google **đã tìm được** URL, bước tiếp trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) là đảm bảo Google **nhìn thấy trang giống người dùng** — render, JavaScript, nội dung ẩn. Đọc [**Bài 5: Google có nhìn thấy trang giống người dùng?**](/zola/posting/google-nhin-trang-giong-nguoi-dung/); trước mắt:
 
 1. **Audit index** — site: + Search Console cho toàn `posting/`.
 2. **Củng cố cluster** — mỗi bài series link lẫn nhau; Bài 4 là mắt xích discoverability.
@@ -296,4 +296,4 @@ Nếu chưa hiểu crawl vs index, đọc lại [Bài 2](/zola/posting/google-se
 
 Blog Zola: `base_url` đúng, sitemap tự sinh, series link Bài 1 → 2 → 3 → **4** — pipeline discovery rõ ràng. Sau đó chờ crawl/index theo timeline [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/), đo bằng Search Console không phải gõ Google tay mỗi ngày.
 
-Series: Bài 1 (Essentials) → Bài 2 (crawl/index/rank) → Bài 3 (thời gian) → **Bài 4** (giúp Google tìm nội dung). Tiếp theo: Google có **nhìn thấy trang giống người dùng** không?
+Series: Bài 1 (Essentials) → Bài 2 (crawl/index/rank) → Bài 3 (thời gian) → **Bài 4** (giúp Google tìm nội dung). Tiếp theo: [**Bài 5: Google có nhìn thấy trang giống người dùng?**](/zola/posting/google-nhin-trang-giong-nguoi-dung/)

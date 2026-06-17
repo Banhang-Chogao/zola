@@ -167,7 +167,7 @@ Khi đọc báo kèm kiến thức series:
 |---|---|
 | "Làm giàu 60%" | HEU — **không** phải nhiên liệu điện 3–5% ([Bài 2](/zola/posting/uranium-lam-giau-la-gi/)) |
 | "400 kg" | Product tại [cascade](/zola/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/) — material accountancy |
-| "Tiêu hủy uranium" | Disposition vật liệu — Bài 5 sẽ nói thêm |
+| "Tiêu hủy uranium" | Disposition vật liệu — [Bài 5](/zola/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/) |
 | "Nhà máy điện Bushehr" vs "Natanz" | Bushehr: điện; Natanz: làm giàu — **khác cơ sở, khác mục đích** |
 
 Series **không** kết luận ý đồ chính trị. Cung cấp **từ vựng khoa học** để không gộp "uranium", "làm giàu", "điện hạt nhân", "vũ khí" thành một cụm mơ hồ.
@@ -192,7 +192,7 @@ Series **không** kết luận ý đồ chính trị. Cung cấp **từ vựng k
 2. [Làm giàu là gì? Các mức %](/zola/posting/uranium-lam-giau-la-gi/)
 3. [Nhà máy làm giàu hoạt động thế nào?](/zola/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/)
 4. **Bài 4** (bài này): Điện hạt nhân khác vũ khí hạt nhân
-5. **Bài 5**: Phá hủy cơ sở / tiêu hủy vật liệu *(sắp ra mắt)*
+5. [Phá hủy cơ sở / tiêu hủy vật liệu](/zola/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/)
 
 ## Tóm lại {#tom-lai}
 
@@ -200,4 +200,4 @@ Series **không** kết luận ý đồ chính trị. Cung cấp **từ vựng k
 
 Hiểu phân biệt này giúp đọc [tin uranium Iran](/zola/baochi/iran-uranium-destruction-what-it-means/) và mọi tin hạt nhân với **từ đúng nghĩa** — uranium, %, cascade, điện, safeguards — thay vì sợ mọi từ "hạt nhân" như nhau.
 
-Tiếp theo: **Bài 5 — Điều gì xảy ra khi cơ sở hạt nhân bị phá hủy hoặc tiêu hủy vật liệu?** — disposition, môi trường, và sổ sách IAEA sau headline tiêu hủy.
+Tiếp theo: [**Bài 5 — Điều gì xảy ra khi cơ sở hạt nhân bị phá hủy hoặc tiêu hủy vật liệu?**](/zola/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/) — disposition, môi trường, và sổ sách IAEA sau headline tiêu hủy. *(Series Uranium hoàn tất 5/5.)*
