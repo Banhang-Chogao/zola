@@ -1,45 +1,34 @@
 {# ============================================================================
-   Macro ảnh WebP — phục vụ bản .webp (nhẹ hơn) kèm fallback file gốc.
+   Macro ảnh WebP — ảnh raster nội bộ chỉ phát hành .webp.
 
-   Dùng kèm pipeline scripts/to_webp.py + workflow optimize-images.yml: với mỗi
-   ảnh nội bộ .jpg/.png đã có sẵn bản .webp cùng tên cạnh bên. Macro này render
-   <picture> để browser hỗ trợ webp lấy bản nhẹ, browser cũ fallback file gốc.
-
-   CHỈ dùng cho ảnh NỘI BỘ (static/...). Ảnh ngoài (picsum, CDN) không có .webp
-   nên cứ dùng <img> thường.
-
-   Tham số:
-     - src:     đường dẫn ảnh gốc (vd "/img/covers/abc.jpg")
-     - alt:     alt text
-     - cls:     class (optional)
-     - loading: "lazy" (mặc định) | "eager"
-     - sizes/width/height: optional, tốt cho CLS
+   Pipeline: scripts/to_webp.py + workflow optimize-images.yml.
+   SVG placeholder / cover vector giữ nguyên .svg.
    ============================================================================ #}
 {% macro picture_webp(src, alt="", cls="", loading="lazy", width="", height="") %}
-{%- set ext = src | split(pat=".") | last -%}
-{%- set webp = src | replace(from="." ~ ext, to=".webp") -%}
-<picture>
-  <source srcset="{{ webp }}" type="image/webp">
-  <img src="{{ src }}" alt="{{ alt }}"
-       {% if cls %}class="{{ cls }}"{% endif %}
-       loading="{{ loading }}" decoding="async"
-       {% if width %}width="{{ width }}"{% endif %}
-       {% if height %}height="{{ height }}"{% endif %}>
-</picture>
+{%- if src is ending_with(".jpg") or src is ending_with(".jpeg") -%}
+{%- set webp_src = src | replace(from=".jpg", to=".webp") | replace(from=".jpeg", to=".webp") -%}
+{%- elif src is ending_with(".png") -%}
+{%- set webp_src = src | replace(from=".png", to=".webp") -%}
+{%- else -%}
+{%- set webp_src = src -%}
+{%- endif -%}
+<img src="{{ webp_src }}" alt="{{ alt }}"
+     {% if cls %}class="{{ cls }}"{% endif %}
+     loading="{{ loading }}" decoding="async"
+     {% if width %}width="{{ width }}"{% endif %}
+     {% if height %}height="{{ height }}"{% endif %}>
 {%- endmacro picture_webp %}
 
-{# ============================================================================
-   Macro thumb_src — trả về URL ảnh thumbnail, FALLBACK placeholder thương hiệu.
-
-   Bài/section nào KHÔNG khai báo `[extra] thumbnail` (hoặc để rỗng) sẽ tự dùng
-   ảnh placeholder cố định (/img/placeholder/placeholder.svg) — gradient xanh
-   thương hiệu, KHÔNG chữ. Tránh thẻ <img> vỡ và tránh ảnh random không liên
-   quan. Alt text do template gọi tự truyền (lấy từ tiêu đề/nội dung bài).
-
-   Dùng:
-     <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}"
-          alt="{{ page.title }}">
-   ============================================================================ #}
 {% macro thumb_src(thumb="") -%}
-{%- if thumb -%}{{ thumb }}{%- else -%}{{ get_url(path="img/placeholder/placeholder.svg") }}{%- endif -%}
+{%- if thumb -%}
+{%- if thumb is ending_with(".jpg") or thumb is ending_with(".jpeg") -%}
+{{ thumb | replace(from=".jpg", to=".webp") | replace(from=".jpeg", to=".webp") }}
+{%- elif thumb is ending_with(".png") -%}
+{{ thumb | replace(from=".png", to=".webp") }}
+{%- else -%}
+{{ thumb }}
+{%- endif -%}
+{%- else -%}
+{{ get_url(path="img/placeholder/placeholder.svg") }}
+{%- endif -%}
 {%- endmacro thumb_src %}

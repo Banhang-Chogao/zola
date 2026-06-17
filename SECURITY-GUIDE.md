@@ -277,6 +277,26 @@ git push origin <branch>
 
 ---
 
+## Cloudflare (tùy chọn — trước GitHub Pages)
+
+GitHub Pages **không** cho custom HTTP headers, rate-limit, hay hotlink block.
+Khi bật Cloudflare proxy cho domain custom:
+
+| Rule | Mục đích |
+|------|----------|
+| **Hotlink Protection** (Scrape Shield) | Giảm site khác nhúng trực tiếp `/img/*` |
+| **WAF Managed Rules** | Chặn scan/brute path (`/wp-admin`, mass 404) |
+| **Rate Limiting** | Giới hạn IP > N req/phút vào `/` (tránh scrape ồ ạt) |
+| **Cache Rules** | `Cache Everything` cho `/img/*`, `/fonts/*` — TTL 7d+ |
+| **Security Headers** (Transform Rules) | `Strict-Transport-Security`, `X-Content-Type-Options: nosniff` |
+
+**Bypass (luôn Allow):** `Googlebot`, `Bingbot`, `Mediapartners-Google`, `AdsBot-Google`
+(WAF → Skip rule hoặc Verified Bot).
+
+**Không làm:** chặn toàn bộ `User-agent: *` trên `/img/` — phá Google Images + AdSense.
+
+---
+
 ## Tóm Tắt Bảo Mật Hiện Tại
 
 | Tính Năng | Status | Ghi Chú |

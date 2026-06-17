@@ -1,8 +1,8 @@
 /**
  * media-guard — casual download/copy friction for images & attachments.
- * Deterrent only (not absolute). Skips CMS/editor/admin tools.
- * Text, forms, and normal navigation stay usable; page right-click preserved
- * outside protected media.
+ * Deterrent only (not absolute; static URLs remain fetchable). Skips CMS/editor.
+ * Hotlink blocking cần CDN (Cloudflare Hotlink Protection) — xem SECURITY-GUIDE.md.
+ * Page text keeps right-click; protected media blocks drag/select/context menu.
  */
 (function () {
   'use strict';

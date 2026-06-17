@@ -34,9 +34,9 @@ tagline = "Duy Nguyen"
 
 # Author box hiển thị cuối mỗi bài viết.
 # Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
-# Avatar: upload file ảnh vào static/img/author-avatar.jpg trong repo,
+# Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
 # Zola sẽ serve tại path dưới sau khi build.
-author_avatar = "https://banhang-chogao.github.io/zola/img/author-avatar.jpg"
+author_avatar = "https://banhang-chogao.github.io/zola/img/author-avatar.webp"
 author_url    = "https://banhang-chogao.github.io/zola"
 author_bio    = """\
 Mình là Duy Nguyen — một developer Việt Nam mê khám phá điểm chung giữa \

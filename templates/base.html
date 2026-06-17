@@ -83,6 +83,8 @@
         form-action 'self' https://www.google.com;
     ">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
 
     {# CMS auth backend FastAPI — set qua config.extra.cms_auth_url. #}
     {% set_global cms_auth = config.extra.cms_auth_url | default(value="") %}
@@ -146,17 +148,15 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {# OG image: social KHÔNG render được SVG → chỉ nhận ảnh raster (jpg/png/webp).
-       Ưu tiên page.extra.og_image (raster do user cấp); rồi thumbnail nếu KHÔNG
-       phải .svg; cuối cùng fallback ảnh mặc định raster (img/og-default.jpg).
-       Ảnh bìa SVG vẫn hiển thị trên trang (qua thumbnail), chỉ không dùng cho OG. #}
-    {% set og_image = config.base_url ~ "/img/og-default.jpg" %}
+    {# OG image: social KHÔNG render SVG → raster .webp. Ưu tiên og_image, thumbnail
+       (không .svg), fallback og-default.webp. Macro thumb_src chuẩn hoá .webp. #}
+    {% set og_image = config.base_url ~ "/img/og-default.webp" %}
     {% if page and page.extra.og_image %}
-        {% set_global og_image = page.extra.og_image %}
+        {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
     {% elif page and page.extra.thumbnail and not page.extra.thumbnail is ending_with(".svg") %}
-        {% set_global og_image = page.extra.thumbnail %}
+        {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
     {% elif section and section.extra.thumbnail and not section.extra.thumbnail is ending_with(".svg") %}
-        {% set_global og_image = section.extra.thumbnail %}
+        {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
     {% endif %}
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
@@ -228,7 +228,7 @@
             "url": "{{ config.base_url | safe }}",
             "logo": {
                 "@type": "ImageObject",
-                "url": "{{ config.base_url | safe }}/img/author-avatar.jpg"
+                "url": "{{ config.base_url | safe }}/img/author-avatar.webp"
             }
         },
         "mainEntityOfPage": {
@@ -411,7 +411,7 @@
                 {# Slide A: Ad banner — slide đầu (is-active) khi load, rồi rotate sang GitHub #}
                 <a class="header-ad header-rotator__slide is-active" href="{{ config.base_url }}" title="Khu vực quảng cáo — Trang chủ">
                     <div class="header-ad__icon">
-                        <img src="{{ get_url(path='img/header-banner.jpg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
+                        <img src="{{ get_url(path='img/header-banner.webp') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('header-ad__icon--placeholder')" loading="lazy" decoding="async">
                         <span class="header-ad__emoji" aria-hidden="true">🐻</span>
                     </div>
                     <div class="header-ad__text">

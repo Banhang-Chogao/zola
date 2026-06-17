@@ -290,22 +290,21 @@ vào **buổi tối 20:00 GMT+7**), chỉ lên production khi vượt qua QA.
 - `bb9 <topic>` = biến thể "hẹn giờ" của `bb`, tự viết bài từ topic (vẫn tuân
   thủ rule Category + Ảnh WebP).
 
-## Quy tắc Ảnh (WebP — BẮT BUỘC)
+## Quy tắc Ảnh (WebP — BẮT BUỘC, phát hành duy nhất)
 
 Áp dụng cho MỌI ảnh raster NỘI BỘ (lưu trong `static/...` hoặc `content/...`),
 không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soát được).
 
-- Sau khi upload/thêm ảnh `.jpg/.jpeg/.png` trong lúc viết bài → PHẢI sinh bản
-  `.webp` **song song** cùng tên cạnh bên (giữ nguyên file gốc, KHÔNG xoá/đổi).
-  - Tự động (LUÔN BẬT): workflow `optimize-images.yml` chạy (a) khi push ảnh
-    raster lên `main`, và (b) quét định kỳ hằng ngày 11:00 GMT+7 → bắt cả ảnh
-    cũ còn sót chưa có `.webp`. Mục tiêu: mọi ảnh raster nội bộ đều có `.webp`.
-  - Thủ công / trong shortcut `bb`: chạy `python3 scripts/to_webp.py <path>`.
-- Hiển thị ảnh nội bộ qua macro `picture_webp` (`templates/macros/img.html`):
-  render `<picture>` ưu tiên `.webp` + fallback file gốc cho browser cũ.
+- Upload tạm `.jpg/.jpeg/.png` → workflow `optimize-images.yml` convert sang
+  `.webp` và **xoá raster gốc** (`scripts/to_webp.py --replace`). Thủ công:
+  `python3 scripts/to_webp.py --replace static/img`.
+- **Phát hành / tham chiếu chỉ `.webp`** cho raster (templates, config, content
+  URL, OG/Twitter/schema). Macro `thumb_src` / `picture_webp` chuẩn hoá legacy
+  `.jpg/.png` → `.webp` khi render.
 - KHÔNG convert `.svg` (vector) và `.gif` (giữ animation).
-- `og:image` / ảnh social meta giữ định dạng gốc (`.jpg/.png`) cho tương thích;
-  KHÔNG thay bằng webp ở thẻ meta OG/Twitter.
+- **Tradeoff (chấp nhận):** browser cực cũ không hỗ trợ WebP hiếm gặp; OG/social
+  dùng `.webp` (Facebook/X/Google đều hỗ trợ). Không giữ song song jpg/png trên
+  site — giảm bandwith + thống nhất pipeline.
 
 ### Ảnh Placeholder mặc định (bài KHÔNG có ảnh)
 
@@ -318,7 +317,7 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   `python3 scripts/make_placeholder.py`): `placeholder.svg` (3:2, thumbnail),
   `placeholder-wide.svg` (16:9, ảnh trong bài), `placeholder-square.svg` (1:1).
 - SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước. OG/social
-  vẫn fallback `img/og-default.jpg` (raster) vì mạng xã hội không render SVG.
+  fallback `img/og-default.webp` khi thumbnail là `.svg` (mạng xã hội không render SVG).
 - **Fallback runtime (ảnh CÓ src nhưng load lỗi/404):** `base.html` có 1 listener
   `error` (capture phase) đổi mọi `<img>` load fail sang placeholder → KHÔNG bao
   giờ hiện icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ lo bài THIẾU
@@ -329,8 +328,14 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 
 - Blog là **Zola static site deploy GitHub Pages, repo public** → KHÔNG có
   server-side, KHÔNG thể chặn tải file hay "ẩn URL thật". Mọi file đã publish
-  là URL công khai. Đừng hứa/giả lập "chặn download" bằng JS client-side (vô
-  tác dụng — ai biết URL vẫn tải được).
+  là URL công khai. **Friction client-side** (`media-guard.js`, CSS) chỉ giảm
+  tải/sao casual — KHÔNG hứa chặn tuyệt đối; ai biết URL vẫn tải được.
+- **Meta security** (CSP, `X-Content-Type-Options`, `X-Frame-Options`,
+  `Referrer-Policy`) trong `base.html` — GitHub Pages không custom HTTP headers;
+  Cloudflare trước Pages mới set HSTS / rate-limit / WAF thật (xem
+  `SECURITY-GUIDE.md` §Cloudflare).
+- **robots.txt:** Allow rõ `Googlebot`, `Bingbot`, `Mediapartners-Google`;
+  Disallow chỉ `/editor/`, `/admin-author/`, `/data/` — KHÔNG chặn ảnh bài viết.
 - `content/*.md` KHÔNG bị serve (Zola compile ra HTML). Chỉ file trong `static/`
   mới được copy nguyên trạng lên site → KHÔNG đặt file nhạy cảm trong `static/`.
 - **Báo cáo (`??`) đã chuyển sang BACKEND-GATED (chặn THẬT, 16/06/2026):** file

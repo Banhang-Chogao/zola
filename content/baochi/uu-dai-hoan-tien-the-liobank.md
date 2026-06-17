@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Báo chí", "Ngân hàng"]
 tags = ["ngân hàng", "liobank", "hoàn tiền", "cashback", "series liobank"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.jpg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.webp"
 seo_keyword = "ưu đãi hoàn tiền Liobank"
 featured = false
 
@@ -35,7 +35,7 @@ Với tôi, một chiếc thẻ tín dụng chỉ thật sự "đáng" khi nó t
 
 > 💡 **Minh bạch:** Bài này có chứa liên kết giới thiệu Liobank. Nếu bạn đăng ký qua liên kết, tác giả có thể nhận thưởng — bạn **không** mất thêm chi phí. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
 
-![App Liobank - tab Tiền Cashback và danh sách giao dịch hoàn tiền](https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.jpg)
+![App Liobank - tab Tiền Cashback và danh sách giao dịch hoàn tiền](https://banhang-chogao.github.io/zola/img/covers/liobank-app-quan-ly-chi-tieu.webp)
 
 ## Ưu đãi hoàn tiền Liobank hoạt động thế nào?
 

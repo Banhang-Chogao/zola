@@ -1220,7 +1220,7 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
 
 # ============= CMS — Author Management =============
 CMS_AUTHOR_JSON_PATH  = "author.json"
-CMS_AVATAR_PATH       = "static/img/author-avatar.jpg"
+CMS_AVATAR_PATH       = "static/img/author-avatar.webp"
 _MAX_AVATAR_BYTES     = 5 * 1024 * 1024
 _ALLOWED_AVATAR_MIMES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
 
@@ -1235,7 +1235,7 @@ async def cms_author_get(authorization: str = Header(default="")):
     async with httpx.AsyncClient(timeout=15.0) as client:
         sha, text = await _gh_get_file(client, CMS_AUTHOR_JSON_PATH, token)
     if not text:
-        return {"data": {"name": "", "url": "", "bio": "", "avatar_path": "/img/author-avatar.jpg"}}
+        return {"data": {"name": "", "url": "", "bio": "", "avatar_path": "/img/author-avatar.webp"}}
     try:
         return {"data": json.loads(text)}
     except json.JSONDecodeError:
@@ -1252,7 +1252,7 @@ async def cms_author_update(
 ):
     """
     Multipart: avatar file (optional, max 5MB) + name/url/bio text.
-    Avatar → upload static/img/author-avatar.jpg.
+    Avatar → upload static/img/author-avatar.webp.
     Metadata → merge vào author.json.
     """
     session = await require_session(authorization)
@@ -1300,7 +1300,7 @@ async def cms_author_update(
             if name: current["name"] = name
             if url:  current["url"]  = url
             if bio:  current["bio"]  = bio
-            current["avatar_path"] = "/img/author-avatar.jpg"
+            current["avatar_path"] = "/img/author-avatar.webp"
             new_text = json.dumps(current, ensure_ascii=False, indent=2) + "\n"
             data = await _gh_put_file(
                 client, CMS_AUTHOR_JSON_PATH, new_text, sha_j,
