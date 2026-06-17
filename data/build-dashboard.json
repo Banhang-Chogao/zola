@@ -1,14 +1,31 @@
 {
-  "updated_at": "2026-06-17T15:13:49Z",
+  "updated_at": "2026-06-17T15:15:30Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
-    "total": 30,
-    "success": 28,
+    "total": 29,
+    "success": 27,
     "failure": 0,
     "cancelled": 2
   },
   "builds": [
+    {
+      "id": 27699454227,
+      "run_number": 598,
+      "commit_id": "94e65ee6ffa05873c56cb378ae75cd3ce8d48f54",
+      "commit_short": "94e65ee",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/94e65ee6ffa05873c56cb378ae75cd3ce8d48f54",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27699454227",
+      "workflow": "QA Gatekeeper",
+      "workflow_file": "qa.yml",
+      "summary_vi": "Build #598 — Kiểm tra QA Gatekeeper: Merge pull request #270 from Banhang-Chogao/claude/seo-1j0frj",
+      "status_vi": "Thành công",
+      "success": true,
+      "conclusion": "success",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
+      "started_at": "2026-06-17T15:14:52Z",
+      "duration_sec": 20
+    },
     {
       "id": 27693797202,
       "run_number": 375,
@@ -484,40 +501,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-17T12:51:27Z",
       "duration_sec": 22
-    },
-    {
-      "id": 27689103861,
-      "run_number": 361,
-      "commit_id": "7acb2d9d2fa446ee4d6de3a7106c4025cce852b9",
-      "commit_short": "7acb2d9",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/7acb2d9d2fa446ee4d6de3a7106c4025cce852b9",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27689103861",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #361 — Deploy blog lên GitHub Pages: ci: Integrate Slack notification on successful deploy",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:31:30Z",
-      "duration_sec": 123
-    },
-    {
-      "id": 27689103776,
-      "run_number": 579,
-      "commit_id": "7acb2d9d2fa446ee4d6de3a7106c4025cce852b9",
-      "commit_short": "7acb2d9",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/7acb2d9d2fa446ee4d6de3a7106c4025cce852b9",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27689103776",
-      "workflow": "QA Gatekeeper",
-      "workflow_file": "qa.yml",
-      "summary_vi": "Build #579 — Kiểm tra QA Gatekeeper: ci: Integrate Slack notification on successful deploy",
-      "status_vi": "Thành công",
-      "success": true,
-      "conclusion": "success",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T12:31:30Z",
-      "duration_sec": 26
     }
   ]
 }
