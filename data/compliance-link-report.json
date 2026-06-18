@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-18T13:23:51Z",
+  "updated_at": "2026-06-18T13:52:52Z",
   "summary": {
     "broken_count": 1,
-    "checked_unique": 397,
+    "checked_unique": 436,
     "status": "warn"
   },
   "links": [
@@ -403,6 +403,15 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/categories/cong-nghe/page/4/",
+      "source_file": "public/categories/cong-nghe/page/4/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/categories/du-lich/",
       "source_file": "public/categories/du-lich/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
@@ -468,6 +477,15 @@
     {
       "source_page": "/categories/tat-ca/",
       "source_file": "public/categories/tat-ca/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/categories/tat-ca/page/10/",
+      "source_file": "public/categories/tat-ca/page/10/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -664,8 +682,26 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/posting/bao-mat-best-practices-git-github/",
+      "source_file": "public/posting/bao-mat-best-practices-git-github/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/posting/cach-mo-tai-khoan-ngan-hang-so-online/",
       "source_file": "public/posting/cach-mo-tai-khoan-ngan-hang-so-online/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/cai-dat-git-cau-hinh-lan-dau/",
+      "source_file": "public/posting/cai-dat-git-cau-hinh-lan-dau/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -745,6 +781,96 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/posting/git-branch-lam-viec-voi-nhanh/",
+      "source_file": "public/posting/git-branch-lam-viec-voi-nhanh/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/git-la-gi-version-control-cho-nguoi-moi/",
+      "source_file": "public/posting/git-la-gi-version-control-cho-nguoi-moi/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/git-merge-va-xu-ly-conflict/",
+      "source_file": "public/posting/git-merge-va-xu-ly-conflict/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/git-rebase-lam-sach-lich-su-commit/",
+      "source_file": "public/posting/git-rebase-lam-sach-lich-su-commit/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/git-remote-lam-viec-voi-repository-tu-xa/",
+      "source_file": "public/posting/git-remote-lam-viec-voi-repository-tu-xa/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/git-reset-revert-khoi-phuc-su-co/",
+      "source_file": "public/posting/git-reset-revert-khoi-phuc-su-co/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/git-stash-cherry-pick-reflog-nang-cao/",
+      "source_file": "public/posting/git-stash-cherry-pick-reflog-nang-cao/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/",
+      "source_file": "public/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/github-actions-ci-cd-cho-nguoi-moi/",
+      "source_file": "public/posting/github-actions-ci-cd-cho-nguoi-moi/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/github-la-gi-tao-repository-dau-tien/",
+      "source_file": "public/posting/github-la-gi-tao-repository-dau-tien/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/posting/giup-google-tim-noi-dung-site/",
       "source_file": "public/posting/giup-google-tim-noi-dung-site/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
@@ -810,6 +936,15 @@
     {
       "source_page": "/posting/",
       "source_file": "public/posting/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/lenh-git-co-ban-init-add-commit-status/",
+      "source_file": "public/posting/lenh-git-co-ban-init-add-commit-status/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -927,6 +1062,24 @@
     {
       "source_page": "/posting/phan-biet-policies-va-restrictions-adsense/",
       "source_file": "public/posting/phan-biet-policies-va-restrictions-adsense/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/pull-request-quy-trinh-cong-tac-github/",
+      "source_file": "public/posting/pull-request-quy-trinh-cong-tac-github/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/push-pull-fetch-dong-bo-voi-github/",
+      "source_file": "public/posting/push-pull-fetch-dong-bo-voi-github/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -1402,6 +1555,15 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/tags/bao-mat-git/",
+      "source_file": "public/tags/bao-mat-git/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/tags/bao-mat-ngan-hang-so/",
       "source_file": "public/tags/bao-mat-ngan-hang-so/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
@@ -1485,6 +1647,15 @@
     {
       "source_page": "/tags/ca-phe/",
       "source_file": "public/tags/ca-phe/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/cai-dat-git/",
+      "source_file": "public/tags/cai-dat-git/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -1924,8 +2095,143 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/tags/git/",
+      "source_file": "public/tags/git/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git/page/2/",
+      "source_file": "public/tags/git/page/2/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-branch/",
+      "source_file": "public/tags/git-branch/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-github-series/",
+      "source_file": "public/tags/git-github-series/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-github-series/page/2/",
+      "source_file": "public/tags/git-github-series/page/2/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-merge/",
+      "source_file": "public/tags/git-merge/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-push/",
+      "source_file": "public/tags/git-push/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-rebase/",
+      "source_file": "public/tags/git-rebase/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-remote/",
+      "source_file": "public/tags/git-remote/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-reset/",
+      "source_file": "public/tags/git-reset/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-stash/",
+      "source_file": "public/tags/git-stash/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/git-workflow/",
+      "source_file": "public/tags/git-workflow/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/github/",
+      "source_file": "public/tags/github/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/github/page/2/",
+      "source_file": "public/tags/github/page/2/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/tags/github-actions/",
       "source_file": "public/tags/github-actions/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/github-la-gi/",
+      "source_file": "public/tags/github-la-gi/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -2221,8 +2527,35 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/tags/lap-trinh/",
+      "source_file": "public/tags/lap-trinh/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/lap-trinh/page/2/",
+      "source_file": "public/tags/lap-trinh/page/2/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/tags/le-hoi/",
       "source_file": "public/tags/le-hoi/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/lenh-git/",
+      "source_file": "public/tags/lenh-git/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -2718,6 +3051,15 @@
     {
       "source_page": "/tags/publisher-restrictions/",
       "source_file": "public/tags/publisher-restrictions/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/pull-request/",
+      "source_file": "public/tags/pull-request/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -3465,6 +3807,15 @@
     {
       "source_page": "/tags/vanilla-js/",
       "source_file": "public/tags/vanilla-js/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/version-control/",
+      "source_file": "public/tags/version-control/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T13:23:51Z",
+  "updated_at": "2026-06-18T13:52:52Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "391/405 in range"
+          "detail": "429/444 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "405/405 complete"
+          "detail": "444/444 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "405/405 set"
+          "detail": "444/444 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "404/405 single H1"
+          "detail": "443/444 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "405/405 with lang"
+          "detail": "444/444 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "405/405 ready"
+          "detail": "444/444 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "405/405 pages"
+          "detail": "444/444 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "405/405 pages covered"
+          "detail": "444/444 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "86/86 articles"
+          "detail": "101/101 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "86/86 tagged"
+          "detail": "101/101 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "86/86 substantive"
+          "detail": "101/101 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 397 unique",
+          "detail": "1 broken / 436 unique",
           "broken": [
             {
               "source_page": "/404.html",
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "401/405 pages"
+          "detail": "440/444 pages"
         },
         {
           "label": "Skip navigation",
@@ -404,16 +404,16 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 405,
-  "articles_scanned": 91,
+  "pages_scanned": 444,
+  "articles_scanned": 106,
   "fix_log": [
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 401 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /categories/premium/ (Target not found in public/ after zola build); public/about/index.html → /categories/premium/ (Target not found in public/ after zola build); public/admin/paywall/index.html → /categories/premium/ (Target not found in public/ after zola build)",
-      "at": "2026-06-18T13:23:51Z"
+      "message": "Còn 440 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /categories/premium/ (Target not found in public/ after zola build); public/about/index.html → /categories/premium/ (Target not found in public/ after zola build); public/admin/paywall/index.html → /categories/premium/ (Target not found in public/ after zola build)",
+      "at": "2026-06-18T13:52:52Z"
     }
   ],
   "fix_summary": {
