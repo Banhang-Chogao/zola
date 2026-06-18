@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/review-cake-by-vpbank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["cake by vpbank", "review cake", "ngân hàng số", "vpbank", "ngân hàng số series"]
+tags = ["cake by vpbank", "ngân hàng số", "ngân hàng số series", "review cake", "vpbank"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "review cake by vpbank"

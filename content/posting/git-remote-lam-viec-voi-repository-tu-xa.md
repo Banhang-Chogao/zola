@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/git-remote-lam-viec-voi-repository-tu-xa/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "git remote", "git github series", "lập trình"]
+tags = ["git", "git github series", "git remote", "github", "lập trình"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "git remote"

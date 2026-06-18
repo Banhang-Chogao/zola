@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/so-sanh-cake-vs-liobank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["cake vs liobank", "so sánh ngân hàng số", "liobank", "cake by vpbank", "ngân hàng số series"]
+tags = ["cake by vpbank", "cake vs liobank", "liobank", "ngân hàng số series", "so sánh ngân hàng số"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "cake vs liobank"

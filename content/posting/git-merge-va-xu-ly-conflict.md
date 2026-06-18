@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/git-merge-va-xu-ly-conflict/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "git merge", "git github series", "lập trình"]
+tags = ["git", "git github series", "git merge", "github", "lập trình"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "git merge"

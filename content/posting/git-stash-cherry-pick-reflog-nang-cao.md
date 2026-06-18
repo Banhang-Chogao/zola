@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/git-stash-cherry-pick-reflog-nang-cao/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "git stash", "git github series", "lập trình"]
+tags = ["git", "git github series", "git stash", "github", "lập trình"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "git stash"

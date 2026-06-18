@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["miễn phí chuyển khoản", "ngân hàng số", "phí chuyển khoản", "tnex", "ngân hàng số series"]
+tags = ["miễn phí chuyển khoản", "ngân hàng số", "ngân hàng số series", "phí chuyển khoản", "tnex"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số miễn phí chuyển khoản"

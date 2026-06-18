@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/lenh-git-co-ban-init-add-commit-status/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "lệnh git", "git github series", "lập trình"]
+tags = ["git", "git github series", "github", "lập trình", "lệnh git"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "lệnh git cơ bản"

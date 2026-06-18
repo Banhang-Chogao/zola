@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/faq-toan-tap-ngan-hang-so/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["faq ngân hàng số", "ngân hàng số", "hỏi đáp ngân hàng số", "liobank", "ngân hàng số series"]
+tags = ["faq ngân hàng số", "hỏi đáp ngân hàng số", "liobank", "ngân hàng số", "ngân hàng số series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "faq ngân hàng số"

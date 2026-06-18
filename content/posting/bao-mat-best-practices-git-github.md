@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/bao-mat-best-practices-git-github/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "bảo mật git", "git github series", "lập trình"]
+tags = ["bảo mật git", "git", "git github series", "github", "lập trình"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "bảo mật git"

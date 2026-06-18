@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/review-liobank-by-ocb/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["liobank", "review liobank", "ngân hàng số", "ocb", "ngân hàng số series"]
+tags = ["liobank", "ngân hàng số", "ngân hàng số series", "ocb", "review liobank"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "review liobank"

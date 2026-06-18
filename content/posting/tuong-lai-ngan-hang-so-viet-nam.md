@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/tuong-lai-ngan-hang-so-viet-nam/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["tương lai ngân hàng số", "xu hướng fintech", "open banking", "ngân hàng số", "ngân hàng số series"]
+tags = ["ngân hàng số", "ngân hàng số series", "open banking", "tương lai ngân hàng số", "xu hướng fintech"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "tương lai ngân hàng số"

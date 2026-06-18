@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/rui-ro-khi-su-dung-ngan-hang-so/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["rủi ro ngân hàng số", "bảo mật ngân hàng số", "lừa đảo otp", "ngân hàng số", "ngân hàng số series"]
+tags = ["bảo mật ngân hàng số", "lừa đảo otp", "ngân hàng số", "ngân hàng số series", "rủi ro ngân hàng số"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "rủi ro ngân hàng số"

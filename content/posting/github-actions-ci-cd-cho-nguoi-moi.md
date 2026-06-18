@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/github-actions-ci-cd-cho-nguoi-moi/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "github actions", "git github series", "ci cd"]
+tags = ["ci cd", "git", "git github series", "github", "github actions"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "github actions"
