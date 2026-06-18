@@ -1,501 +1,525 @@
 #!/usr/bin/env python3
-"""
-Vaccine Autofixer — Tự động chẩn đoán + fix issue dựa trên Vaccine rules.
+"""Daily Vaccine Autofixer engine (Vaccine V11).
 
-Chạy daily 06:00 GMT+7, quét repo để phát hiện pattern đã biết,
-apply safe fix, tạo PR cho risky fix, lưu log lịch sử.
+Same engine for the scheduled run (06:00 Asia/Ho_Chi_Minh) and the manual
+`vacxin11` trigger. It:
 
-Flow:
-  1. Đọc CLAUDE.md để extract vaccine definitions
-  2. Scan repo/CI logs để phát hiện matching issues
-  3. Diagnose bằng vaccine (không re-diagnose)
-  4. Auto-fix safe issues
-  5. Create PR cho risky fixes
-  6. Run QA/build validation
-  7. Save fix log → data/vaccine-autofixer-report.json
+  1. Reads the vaccine library from CLAUDE.md (the "THƯ VIỆN VACCINE" V1..Vn).
+  2. Scans the repo/system for known vaccine-class issues.
+  3. Auto-fixes the SAFE, deterministic ones (reusing existing fixers).
+  4. Runs QA verification.
+  5. Saves logs.
+  6. Updates the report consumed by the Insights UI
+     (data/vaccine-autofixer-report.json — "Autofixer report by Vacxin").
+
+A lock (data/vaccine-autofixer-state.json) prevents concurrent / duplicate
+runs. Code changes go through the PR flow in the workflow, never a direct
+push to main.
+
+CLI:
+    python3 scripts/vaccine_autofixer.py                 # manual run
+    python3 scripts/vaccine_autofixer.py --trigger schedule
+    python3 scripts/vaccine_autofixer.py --dry-run       # scan only, no fixes
+    python3 scripts/vaccine_autofixer.py --no-build      # skip zola build step
+    python3 scripts/vaccine_autofixer.py --release-lock  # force-clear stale lock
 """
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import re
 import subprocess
-from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any
+import sys
+from datetime import datetime, timedelta, timezone
 
-REPO = Path(__file__).resolve().parent.parent
-DATA_DIR = REPO / "data"
-REPORT_FILE = DATA_DIR / "vaccine-autofixer-report.json"
+try:
+    from zoneinfo import ZoneInfo
+    TZ = ZoneInfo("Asia/Ho_Chi_Minh")
+except Exception:  # pragma: no cover - zoneinfo always present on 3.9+
+    TZ = timezone(timedelta(hours=7))
 
-# Timezone Asia/Ho_Chi_Minh
-TZ = timezone.utc
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CLAUDE_MD = os.path.join(REPO, "CLAUDE.md")
+DATA_DIR = os.path.join(REPO, "data")
+REPORT_PATH = os.path.join(DATA_DIR, "vaccine-autofixer-report.json")
+STATE_PATH = os.path.join(DATA_DIR, "vaccine-autofixer-state.json")
+LOG_PATH = os.path.join(DATA_DIR, "vaccine-autofixer.log")
 
-
-@dataclass
-class VaccineDefinition:
-    """Vaccine rule từ CLAUDE.md."""
-    vaccine_id: str
-    name: str
-    signal_description: str  # regex hoặc text description
-    auto_fixable: bool  # true = an toàn fix tự động, false = cần PR review
-    fixer_command: str | None = None  # command để fix, hoặc script path
-    doc_section: str = ""  # section reference trong CLAUDE.md
+# A run is considered stale (lock ignorable) after this many minutes.
+LOCK_STALE_MINUTES = 30
+SCHEDULE_HOUR_ICT = 6  # 06:00 Asia/Ho_Chi_Minh
 
 
-@dataclass
-class DetectedIssue:
-    """Issue detected bằng vaccine."""
-    vaccine_id: str
-    vaccine_name: str
-    detected_at: str  # ISO 8601 GMT+7
-    description: str
-    files_affected: list[str] = field(default_factory=list)
-    confidence: float = 1.0  # 0.0–1.0
+def now_ict() -> datetime:
+    return datetime.now(TZ)
 
 
-@dataclass
-class FixAttempt:
-    """Kết quả fix attempt."""
-    issue: DetectedIssue
-    fix_status: str  # "success" | "partial" | "failed" | "needs_pr"
-    files_changed: list[str] = field(default_factory=list)
-    error_message: str = ""
-    pr_number: int | None = None
-    qa_passed: bool = False
-    timestamp: str = ""
+def iso(dt: datetime) -> str:
+    return dt.isoformat()
 
 
-@dataclass
-class AutofixerReport:
-    """Report lịch sử fix."""
-    generated_at: str  # ISO 8601 GMT+7
-    run_id: str  # github run ID
-    period_start: str  # ngày hôm trước
-    period_end: str  # ngày hôm nay
-    vaccine_scanned: int = 0
-    issues_detected: int = 0
-    issues_fixed: int = 0
-    issues_prs_created: int = 0
-    fix_attempts: list[FixAttempt] = field(default_factory=list)
-    errors: list[str] = field(default_factory=list)
-    notes: str = ""
-    stats: dict[str, int] = field(default_factory=dict)
+def next_scheduled_run(after: datetime | None = None) -> datetime:
+    """Next 06:00 Asia/Ho_Chi_Minh strictly after `after` (default: now)."""
+    after = after or now_ict()
+    candidate = after.replace(hour=SCHEDULE_HOUR_ICT, minute=0, second=0, microsecond=0)
+    if candidate <= after:
+        candidate += timedelta(days=1)
+    return candidate
 
 
-class VaccineAutofixer:
-    """Main autofixer engine."""
+# --------------------------------------------------------------------------
+# Vaccine registry — parse the library out of CLAUDE.md
+# --------------------------------------------------------------------------
+_VACCINE_HEADER = re.compile(r"^####\s+(V\d+)\s+—\s+(.+?)\s*$", re.MULTILINE)
 
-    def __init__(self):
-        self.repo = REPO
-        self.data_dir = DATA_DIR
-        self.claude_md = self.repo / "CLAUDE.md"
-        self.vaccines: dict[str, VaccineDefinition] = {}
-        self.report = AutofixerReport(
-            generated_at=datetime.now(tz=TZ).isoformat(),
-            run_id=os.environ.get("GITHUB_RUN_ID", "manual"),
-            period_start=(
-                datetime.now(tz=TZ).replace(hour=0, minute=0, second=0, microsecond=0).isoformat()
-            ),
-            period_end=(
-                datetime.now(tz=TZ).replace(hour=23, minute=59, second=59, microsecond=0).isoformat()
-            ),
-        )
 
-    def extract_vaccines_from_claude(self) -> None:
-        """Đọc CLAUDE.md, extract vaccine definitions."""
-        if not self.claude_md.exists():
-            self.report.errors.append(f"CLAUDE.md not found: {self.claude_md}")
-            return
+def load_vaccines(path: str = CLAUDE_MD) -> list[dict]:
+    """Parse `#### V<N> — <title>` blocks from CLAUDE.md into a registry.
 
-        text = self.claude_md.read_text(encoding="utf-8")
+    Each entry: {code, title, signature, fixer}. `signature`/`fixer` are short
+    excerpts pulled from the "Dấu hiệu" / "FIXER" bullets when present.
+    """
+    try:
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError:
+        return []
 
-        # Pattern: ## V1 — `build-related.yml` ... (extract V1–V7)
-        # Looking for sections like:
-        # #### V1 — `build-related.yml` (Build Semantic Related Posts): HuggingFace 401
-        vaccine_pattern = re.compile(
-            r"^####?\s+(?P<vid>V\d+|P\d+)\s+—\s+`?(?P<name>[^`\n]+)`?\s*(?::?\s*)?(?P<desc>[^\n]*)",
-            re.MULTILINE,
-        )
+    matches = list(_VACCINE_HEADER.finditer(text))
+    vaccines: list[dict] = []
+    for idx, m in enumerate(matches):
+        code, title = m.group(1), m.group(2).strip()
+        body_start = m.end()
+        body_end = matches[idx + 1].start() if idx + 1 < len(matches) else len(text)
+        body = text[body_start:body_end]
+        signature = _extract_field(body, "Dấu hiệu")
+        fixer = _extract_field(body, "FIXER")
+        vaccines.append({
+            "code": code,
+            "title": title,
+            "signature": signature,
+            "fixer": fixer,
+        })
+    return vaccines
 
-        for match in vaccine_pattern.finditer(text):
-            vid = match.group("vid")
-            name = match.group("name").strip()
-            desc = match.group("desc").strip()
 
-            # Determine if fixable (V1-V4 are build-related, some auto-fixable)
-            auto_fixable = vid in ["V1"]  # Only V1 is truly auto-fixable
+def _extract_field(body: str, label: str) -> str:
+    """Grab a short excerpt that follows `**<label>...`** in a vaccine body."""
+    m = re.search(r"\*\*" + re.escape(label) + r"[^*]*\*\*[:：]?\s*(.+)", body)
+    if not m:
+        return ""
+    excerpt = re.sub(r"\s+", " ", m.group(1)).strip()
+    return excerpt[:240]
 
-            self.vaccines[vid] = VaccineDefinition(
-                vaccine_id=vid,
-                name=name,
-                signal_description=desc,
-                auto_fixable=auto_fixable,
-                doc_section=f"CLAUDE.md §4 {vid}",
-            )
 
-        self.report.vaccine_scanned = len(self.vaccines)
+# --------------------------------------------------------------------------
+# Lock — prevent concurrent / duplicate runs
+# --------------------------------------------------------------------------
+def read_state() -> dict:
+    try:
+        with open(STATE_PATH, encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return {}
 
-    def scan_build_logs(self) -> list[DetectedIssue]:
-        """Scan CI build logs để detect issues."""
-        issues = []
 
-        # Try to fetch latest CI run logs
+def write_state(state: dict) -> None:
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(STATE_PATH, "w", encoding="utf-8") as fh:
+        json.dump(state, fh, ensure_ascii=False, indent=2)
+
+
+def lock_is_active(state: dict, now: datetime) -> bool:
+    """True when another run holds a non-stale lock."""
+    if not state.get("running"):
+        return False
+    started = state.get("started_at")
+    if not started:
+        return True
+    try:
+        started_dt = datetime.fromisoformat(started)
+    except ValueError:
+        return False
+    return (now - started_dt) < timedelta(minutes=LOCK_STALE_MINUTES)
+
+
+def acquire_lock(trigger: str, now: datetime) -> bool:
+    state = read_state()
+    if lock_is_active(state, now):
+        return False
+    write_state({
+        "running": True,
+        "trigger": trigger,
+        "started_at": iso(now),
+        "pid": os.getpid(),
+    })
+    return True
+
+
+def release_lock(now: datetime, last_status: str) -> None:
+    write_state({
+        "running": False,
+        "last_finished_at": iso(now),
+        "last_status": last_status,
+    })
+
+
+# --------------------------------------------------------------------------
+# Safe fixer steps. Each returns a dict describing the outcome.
+# --------------------------------------------------------------------------
+def _run(cmd: list[str]) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        cmd, cwd=REPO, capture_output=True, text=True, timeout=900
+    )
+
+
+def _script(name: str) -> str:
+    return os.path.join(REPO, name)
+
+
+def step_build_related_model_id(dry_run: bool) -> dict:
+    """V1 — HuggingFace model id must be org-qualified in build_related.py."""
+    path = _script("scripts/build_related.py")
+    out = {"vaccine": "V1", "name": "HF model id org-qualified", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    if not os.path.isfile(path):
+        out["detail"] = "build_related.py absent"
+        return out
+    with open(path, encoding="utf-8") as fh:
+        src = fh.read()
+    m = re.search(r'MODEL_NAME\s*=\s*["\']([^"\']+)["\']', src)
+    if not m:
+        out["detail"] = "MODEL_NAME not found"
+        return out
+    model = m.group(1)
+    if "/" in model:
+        out["detail"] = f"ok ({model})"
+        return out
+    out["matched"] = True
+    fixed = f"sentence-transformers/{model}"
+    out["detail"] = f"bare id '{model}' → '{fixed}'"
+    if not dry_run:
+        src2 = src.replace(m.group(0), m.group(0).replace(model, fixed), 1)
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(src2)
+        out["fixed"] = out["changed"] = True
+    return out
+
+
+def step_internal_links(dry_run: bool) -> dict:
+    """Broken internal links — detect (and --fix when not dry-run)."""
+    out = {"vaccine": "V-links", "name": "Internal link 404", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    checker = _script("qa-404-checker.py")
+    if not os.path.isfile(checker):
+        out["detail"] = "qa-404-checker.py absent"
+        return out
+    cmd = [sys.executable, checker] + ([] if dry_run else ["--fix"])
+    try:
+        res = _run(cmd)
+    except subprocess.TimeoutExpired:
+        out["detail"] = "timeout"
+        return out
+    # exit 2 => broken internal links found
+    out["matched"] = res.returncode == 2
+    summary = ""
+    for line in (res.stdout or "").splitlines():
+        if "broken" in line.lower():
+            summary = line.strip()
+            break
+    out["detail"] = summary or f"exit {res.returncode}"
+    if out["matched"] and not dry_run:
+        out["fixed"] = True
+    return out
+
+
+def step_build_references(dry_run: bool) -> dict:
+    out = {"vaccine": "V-refs", "name": "Reference index", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    script = _script("scripts/build_references.py")
+    if not os.path.isfile(script) or dry_run:
+        out["detail"] = "skipped" if dry_run else "absent"
+        return out
+    try:
+        res = _run([sys.executable, script])
+    except subprocess.TimeoutExpired:
+        out["detail"] = "timeout"
+        return out
+    out["detail"] = (res.stdout or "").strip().splitlines()[-1:] and \
+        (res.stdout.strip().splitlines()[-1]) or f"exit {res.returncode}"
+    out["changed"] = res.returncode == 0
+    return out
+
+
+def step_rule_checker(dry_run: bool) -> dict:
+    """Report-only: surface rule/policy conflicts (never auto-pushes here)."""
+    out = {"vaccine": "V-rules", "name": "Rule conflict scan", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    script = _script("scripts/qa-auto-rule-checker.py")
+    if not os.path.isfile(script):
+        out["detail"] = "absent"
+        return out
+    try:
+        res = _run([sys.executable, script, "--dry-run"])
+    except subprocess.TimeoutExpired:
+        out["detail"] = "timeout"
+        return out
+    out["detail"] = f"exit {res.returncode}"
+    return out
+
+
+def step_slack_v2(dry_run: bool) -> dict:
+    """V2 — slack-notify.yml must use the v3 `webhook-type` input, not the v1
+    `SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK` env. Report-only (needs manual review).
+    Migrated from the main-branch engine's scan_repo_files()."""
+    out = {"vaccine": "V2", "name": "Slack action v3 syntax", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    path = _script(".github/workflows/slack-notify.yml")
+    if not os.path.isfile(path):
+        out["detail"] = "slack-notify.yml absent"
+        return out
+    with open(path, encoding="utf-8") as fh:
+        src = fh.read()
+    if "SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK" in src and "webhook-type:" not in src:
+        out["matched"] = True
+        out["detail"] = "v1 syntax detected → needs v3 webhook-type (manual review)"
+    else:
+        out["detail"] = "ok (v3 / not applicable)"
+    return out
+
+
+def step_scan_build_logs(dry_run: bool) -> dict:
+    """Diagnosis engine — scan the latest CI logs (via `gh`) for known vaccine
+    signatures. Report-only: it never auto-fixes from logs (CLAUDE.md V7 — an
+    observer must not self-fix blindly). Best-effort: no `gh`/token → skipped,
+    never crashes the run. Migrated from the main-branch engine's
+    scan_build_logs() + _match_vaccine_patterns()."""
+    out = {"vaccine": "V-logs", "name": "CI log diagnosis", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    from shutil import which
+    if which("gh") is None:
+        out["detail"] = "gh not available — skipped"
+        return out
+    try:
+        res = subprocess.run(
+            ["gh", "run", "list", "--limit", "3", "--workflow", "deploy.yml",
+             "--repo", "Banhang-Chogao/zola", "--json", "databaseId,conclusion,status"],
+            cwd=REPO, capture_output=True, text=True, timeout=15)
+        if res.returncode != 0:
+            out["detail"] = "gh run list failed (auth/offline)"
+            return out
+        runs = json.loads(res.stdout or "[]")
+        signatures: list[str] = []
+        for run in runs[:1]:
+            rid = run.get("databaseId")
+            lg = subprocess.run(
+                ["gh", "run", "view", str(rid), "--log", "--repo", "Banhang-Chogao/zola"],
+                cwd=REPO, capture_output=True, text=True, timeout=30)
+            logs = (lg.stdout or "").lower()
+            for keyword, vac in (("401", "V1"), ("not permitted to create", "V3"),
+                                 ("rate limit exceeded", "V5"), ("missing input", "V2"),
+                                 ("merge conflict", "V6")):
+                if keyword in logs:
+                    signatures.append(vac)
+        if signatures:
+            out["matched"] = True
+            out["detail"] = "log signatures: " + ", ".join(sorted(set(signatures)))
+        else:
+            out["detail"] = "no known signature in latest CI logs"
+    except Exception as exc:  # network/gh/parse errors are non-fatal
+        out["detail"] = f"skipped ({exc})"
+    return out
+
+
+SAFE_STEPS = [
+    step_scan_build_logs,      # diagnosis engine (gh CI logs) — report-only
+    step_build_related_model_id,
+    step_slack_v2,             # V2 detection — report-only
+    step_internal_links,
+    step_build_references,
+    step_rule_checker,
+]
+
+
+# --------------------------------------------------------------------------
+# QA / build verification
+# --------------------------------------------------------------------------
+def run_qa() -> dict:
+    script = _script("qa_check.py")
+    if not os.path.isfile(script):
+        return {"name": "qa_check.py", "passed": True, "detail": "absent"}
+    try:
+        res = _run([sys.executable, script])
+    except subprocess.TimeoutExpired:
+        return {"name": "qa_check.py", "passed": False, "detail": "timeout"}
+    return {"name": "qa_check.py", "passed": res.returncode == 0,
+            "detail": (res.stdout or res.stderr or "").strip().splitlines()[-1:] and
+            (res.stdout or res.stderr).strip().splitlines()[-1] or f"exit {res.returncode}"}
+
+
+def run_build(skip: bool) -> dict:
+    if skip:
+        return {"name": "zola build", "passed": True, "detail": "skipped"}
+    from shutil import which
+    if which("zola") is None:
+        return {"name": "zola build", "passed": True, "detail": "zola not installed (CI builds)"}
+    env = dict(os.environ)
+    env.setdefault("ZOLA_GH_TOKEN", "dummy")
+    try:
+        res = subprocess.run(["zola", "build"], cwd=REPO, capture_output=True,
+                             text=True, timeout=600, env=env)
+    except subprocess.TimeoutExpired:
+        return {"name": "zola build", "passed": False, "detail": "timeout"}
+    return {"name": "zola build", "passed": res.returncode == 0,
+            "detail": (res.stdout or "").strip().splitlines()[-1:] and
+            res.stdout.strip().splitlines()[-1] or f"exit {res.returncode}"}
+
+
+# --------------------------------------------------------------------------
+# Orchestration
+# --------------------------------------------------------------------------
+def log_line(msg: str, keep: int = 500) -> None:
+    os.makedirs(DATA_DIR, exist_ok=True)
+    lines = []
+    if os.path.isfile(LOG_PATH):
+        with open(LOG_PATH, encoding="utf-8") as fh:
+            lines = fh.read().splitlines()
+    lines.append(f"{iso(now_ict())}  {msg}")
+    with open(LOG_PATH, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(lines[-keep:]) + "\n")
+
+
+def run(trigger: str = "manual", dry_run: bool = False, skip_build: bool = False) -> dict:
+    now = now_ict()
+    vaccines = load_vaccines()
+    steps_out = []
+    for step in SAFE_STEPS:
         try:
-            # Use GitHub API to get latest workflow run
-            result = subprocess.run(
-                [
-                    "gh",
-                    "run",
-                    "list",
-                    "--limit",
-                    "3",
-                    "--workflow",
-                    "deploy.yml",
-                    "--repo",
-                    "Banhang-Chogao/zola",
-                    "--json",
-                    "databaseId,conclusion,status,createdAt",
-                ],
-                capture_output=True,
-                text=True,
-                timeout=10,
-            )
+            steps_out.append(step(dry_run))
+        except Exception as exc:  # never let one fixer crash the run
+            steps_out.append({"vaccine": "?", "name": step.__name__,
+                              "matched": False, "fixed": False, "changed": False,
+                              "detail": f"error: {exc}"})
 
-            if result.returncode == 0:
-                runs = json.loads(result.stdout)
-                for run in runs[:1]:  # Only check most recent
-                    run_id = run.get("databaseId")
-                    # Fetch job logs
-                    log_result = subprocess.run(
-                        ["gh", "run", "view", str(run_id), "--log", "--repo", "Banhang-Chogao/zola"],
-                        capture_output=True,
-                        text=True,
-                        timeout=30,
-                    )
-                    if log_result.returncode == 0:
-                        issues.extend(self._match_vaccine_patterns(log_result.stdout))
-        except Exception as e:
-            self.report.errors.append(f"Failed to fetch CI logs: {e}")
+    matched = [s for s in steps_out if s.get("matched")]
+    fixed_count = sum(1 for s in steps_out if s.get("fixed"))
+    # Only an actual fix counts as a code change needing a production deploy;
+    # idempotent maintenance regen (e.g. references) does not flip prod status.
+    changed = fixed_count > 0
 
-        return issues
+    qa = run_qa()
+    build = run_build(skip_build)
 
-    def scan_repo_files(self) -> list[DetectedIssue]:
-        """Scan repo files để detect configuration issues."""
-        issues = []
+    ok = qa["passed"] and build["passed"]
+    status = "ok" if ok else "qa-failed"
+    if dry_run:
+        status = "dry-run"
 
-        # V1: Check build-related.py for correct HF model ID format
-        if "V1" in self.vaccines:
-            try:
-                build_related = self.repo / "scripts" / "build_related.py"
-                if build_related.exists():
-                    content = build_related.read_text(encoding="utf-8")
-                    # Check if MODEL_NAME has correct org prefix
-                    if (
-                        re.search(r'MODEL_NAME\s*=\s*["\'](?!sentence-transformers/)', content)
-                        and "snapshot_download" in content
-                    ):
-                        issues.append(
-                            DetectedIssue(
-                                vaccine_id="V1",
-                                vaccine_name=self.vaccines["V1"].name,
-                                detected_at=datetime.now(tz=TZ).isoformat(),
-                                description="build_related.py: HuggingFace model ID missing org prefix",
-                                files_affected=["scripts/build_related.py"],
-                                confidence=0.8,
-                            )
-                        )
-            except Exception as e:
-                self.report.errors.append(f"Error scanning build_related.py: {e}")
+    finished = now_ict()
+    production_status = "up-to-date"
+    if changed and not dry_run:
+        production_status = "pending-pr"  # workflow opens a PR → deploy on merge
 
-        # V2: Check slack-notify.yml for v3 API compliance
-        if "V2" in self.vaccines:
-            try:
-                slack_yml = self.repo / ".github" / "workflows" / "slack-notify.yml"
-                if slack_yml.exists():
-                    content = slack_yml.read_text(encoding="utf-8")
-                    # Check for old v1 style: SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-                    if "SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK" in content and (
-                        "webhook-type:" not in content
-                    ):
-                        issues.append(
-                            DetectedIssue(
-                                vaccine_id="V2",
-                                vaccine_name=self.vaccines["V2"].name,
-                                detected_at=datetime.now(tz=TZ).isoformat(),
-                                description="slack-notify.yml: Using v1 API instead of v3",
-                                files_affected=[".github/workflows/slack-notify.yml"],
-                                confidence=0.9,
-                            )
-                        )
-            except Exception as e:
-                self.report.errors.append(f"Error scanning slack-notify.yml: {e}")
+    errors = [f"{s.get('name')}: {s.get('detail')}" for s in steps_out
+              if "error" in (s.get("detail") or "").lower()]
 
-        return issues
+    report = {
+        "trigger": trigger,
+        "run_id": os.environ.get("GITHUB_RUN_ID", "manual"),
+        "started_at": iso(now),
+        "finished_at": iso(finished),
+        "last_run": iso(finished),
+        "next_scheduled_run": iso(next_scheduled_run(finished)),
+        "vaccine_library_count": len(vaccines),
+        "steps": steps_out,
+        "matched_vaccines": [
+            {"code": s.get("vaccine"), "name": s.get("name"),
+             "fixed": s.get("fixed", False), "detail": s.get("detail", "")}
+            for s in matched
+        ],
+        "fixed_count": fixed_count,
+        "changed": changed,
+        "qa_result": qa,
+        "build_result": build,
+        "production_status": production_status,
+        "status": status,
+        # Fields mirrored for the workflow step-summary (main-branch schema):
+        "vaccine_scanned": len(vaccines),
+        "issues_detected": len(matched),
+        "issues_fixed": fixed_count,
+        "issues_prs_created": 0,  # PRs are opened by the workflow, not the engine
+        "errors": errors,
+    }
+    return report
 
-    def _match_vaccine_patterns(self, logs: str) -> list[DetectedIssue]:
-        """Match log text against vaccine patterns."""
-        issues = []
-        for vid, vaccine in self.vaccines.items():
-            # Simple pattern matching
-            if any(
-                keyword in logs
-                for keyword in [
-                    "HuggingFace",
-                    "401",
-                    "not permitted to create",
-                    "rate limit",
-                    "merge conflict",
-                ]
-            ):
-                if vid == "V1" and "401" in logs and "huggingface" in logs.lower():
-                    issues.append(
-                        DetectedIssue(
-                            vaccine_id="V1",
-                            vaccine_name=vaccine.name,
-                            detected_at=datetime.now(tz=TZ).isoformat(),
-                            description="HuggingFace API 401 error detected in logs",
-                            confidence=0.85,
-                        )
-                    )
-        return issues
 
-    def apply_fixes(self, issues: list[DetectedIssue]) -> list[FixAttempt]:
-        """Apply safe fixes untuk issues."""
-        attempts = []
+# History entry fields surfaced in the workflow step-summary + 30-run history.
+_HISTORY_KEYS = (
+    "run_id", "trigger", "last_run", "status", "vaccine_scanned",
+    "issues_detected", "issues_fixed", "issues_prs_created", "errors",
+)
 
-        for issue in issues:
-            fix = FixAttempt(
-                issue=issue,
-                fix_status="needs_pr",  # default: create PR
-                timestamp=datetime.now(tz=TZ).isoformat(),
-            )
 
-            if issue.vaccine_id == "V1":
-                # V1: Fix HuggingFace model ID
-                if "build_related.py" in issue.files_affected:
-                    try:
-                        fix_status, changed_files = self._fix_hf_model_id()
-                        fix.fix_status = fix_status
-                        fix.files_changed = changed_files
-                        if fix_status == "success":
-                            fix.qa_passed = self._run_qa_check()
-                    except Exception as e:
-                        fix.fix_status = "failed"
-                        fix.error_message = str(e)
-            elif issue.vaccine_id == "V2":
-                # V2: Manual review needed (not auto-fixable)
-                fix.fix_status = "needs_pr"
-            else:
-                # Other vaccines: flag for manual review
-                fix.fix_status = "needs_pr"
+def save_report(report: dict) -> None:
+    """Write the flat report (consumed by the Insights panel) PLUS a rolling
+    `history[]` + `latest` pointer (consumed by the workflow step-summary)."""
+    os.makedirs(DATA_DIR, exist_ok=True)
+    existing = {}
+    if os.path.isfile(REPORT_PATH):
+        try:
+            with open(REPORT_PATH, encoding="utf-8") as fh:
+                existing = json.load(fh)
+        except (OSError, ValueError):
+            existing = {}
+    snapshot = {k: report.get(k) for k in _HISTORY_KEYS}
+    history = existing.get("history", []) if isinstance(existing, dict) else []
+    history.append(snapshot)
+    history = history[-30:]   # keep last 30 runs
+    out = dict(report)
+    out["history"] = history
+    out["latest"] = snapshot
+    with open(REPORT_PATH, "w", encoding="utf-8") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=2)
 
-            attempts.append(fix)
 
-        return attempts
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description="Daily Vaccine Autofixer engine")
+    ap.add_argument("--trigger", default="manual", choices=["manual", "schedule"])
+    ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--no-build", action="store_true")
+    ap.add_argument("--release-lock", action="store_true",
+                    help="force-clear a stale lock and exit")
+    args = ap.parse_args(argv)
 
-    def _fix_hf_model_id(self) -> tuple[str, list[str]]:
-        """Fix V1: HuggingFace model ID org prefix."""
-        build_related = self.repo / "scripts" / "build_related.py"
-        if not build_related.exists():
-            return "failed", []
+    now = now_ict()
+    if args.release_lock:
+        release_lock(now, "force-released")
+        print("🔓 lock released")
+        return 0
 
-        content = build_related.read_text(encoding="utf-8")
-        # Replace MODEL_NAME to include org prefix
-        fixed = re.sub(
-            r'(MODEL_NAME\s*=\s*["\'])(?!sentence-transformers/)([^"\']+)',
-            r'\1sentence-transformers/\2',
-            content,
+    if not args.dry_run and not acquire_lock(args.trigger, now):
+        print("⏳ Another Vaccine Autofixer run is active — skipping (no concurrent runs).")
+        return 3
+
+    try:
+        log_line(f"START trigger={args.trigger} dry_run={args.dry_run}")
+        report = run(args.trigger, args.dry_run, args.no_build)
+        save_report(report)
+        log_line(
+            f"DONE status={report['status']} matched={len(report['matched_vaccines'])} "
+            f"fixed={report['fixed_count']} qa={report['qa_result']['passed']} "
+            f"build={report['build_result']['passed']}"
         )
-
-        if fixed != content:
-            build_related.write_text(fixed, encoding="utf-8")
-            return "success", ["scripts/build_related.py"]
-        return "failed", []
-
-    def _run_qa_check(self) -> bool:
-        """Run QA checks after fix."""
-        try:
-            result = subprocess.run(
-                ["python3", "scripts/qa_check.py"],
-                cwd=self.repo,
-                capture_output=True,
-                text=True,
-                timeout=60,
-            )
-            return result.returncode == 0
-        except Exception:
-            return False
-
-    def create_pr_for_fixes(self, attempts: list[FixAttempt]) -> None:
-        """Create PR untuk fixes yang need review."""
-        risky_fixes = [a for a in attempts if a.fix_status == "needs_pr"]
-        if not risky_fixes:
-            return
-
-        # Collect changed files
-        all_changed = []
-        for attempt in risky_fixes:
-            all_changed.extend(attempt.files_changed)
-
-        if not all_changed:
-            return
-
-        try:
-            # Commit changes
-            branch_name = f"vaccine/autofixer-{datetime.now(tz=TZ).strftime('%Y%m%d-%H%M%S')}"
-            subprocess.run(
-                ["git", "checkout", "-b", branch_name],
-                cwd=self.repo,
-                check=True,
-                capture_output=True,
-            )
-
-            subprocess.run(
-                ["git", "add"] + all_changed,
-                cwd=self.repo,
-                check=True,
-                capture_output=True,
-            )
-
-            # Create PR description
-            pr_body = self._generate_pr_body(risky_fixes)
-
-            # Use gh to create PR
-            result = subprocess.run(
-                [
-                    "gh",
-                    "pr",
-                    "create",
-                    "--title",
-                    f"🔬 Vaccine Autofixer — {len(risky_fixes)} issue(s) detected",
-                    "--body",
-                    pr_body,
-                    "--repo",
-                    "Banhang-Chogao/zola",
-                ],
-                cwd=self.repo,
-                capture_output=True,
-                text=True,
-                timeout=30,
-            )
-
-            if result.returncode == 0:
-                # Extract PR number from output
-                pr_url = result.stdout.strip()
-                self.report.issues_prs_created = len(risky_fixes)
-        except Exception as e:
-            self.report.errors.append(f"Failed to create PR: {e}")
-
-    def _generate_pr_body(self, attempts: list[FixAttempt]) -> str:
-        """Generate PR body describing fixes."""
-        body = "## 🔬 Vaccine Autofixer Report\n\n"
-        body += "Automatic detection and fix attempt using Vaccine rules from CLAUDE.md.\n\n"
-        body += "### Issues Detected\n"
-
-        for attempt in attempts:
-            issue = attempt.issue
-            body += f"\n- **{issue.vaccine_id}: {issue.vaccine_name}**\n"
-            body += f"  - Description: {issue.description}\n"
-            body += f"  - Confidence: {issue.confidence:.0%}\n"
-            if issue.files_affected:
-                body += f"  - Files: {', '.join(issue.files_affected)}\n"
-
-        body += "\n### Fix Attempts\n"
-        for attempt in attempts:
-            status_emoji = (
-                "✅" if attempt.fix_status == "success" else "⚠️" if attempt.fix_status == "partial" else "❌"
-            )
-            body += f"\n{status_emoji} {attempt.issue.vaccine_id}: {attempt.fix_status}\n"
-            if attempt.files_changed:
-                body += f"  - Changed: {', '.join(attempt.files_changed)}\n"
-            if attempt.error_message:
-                body += f"  - Error: {attempt.error_message}\n"
-
-        body += "\n---\n"
-        body += "*Generated by Vaccine Autofixer daily runner*"
-
-        return body
-
-    def save_report(self, attempts: list[FixAttempt]) -> None:
-        """Save report để view trên insights."""
-        # Load existing report để append history
-        existing = {}
-        if REPORT_FILE.exists():
-            existing = json.loads(REPORT_FILE.read_text(encoding="utf-8"))
-
-        # Update current report
-        self.report.issues_detected = len([a for a in attempts])
-        self.report.issues_fixed = len([a for a in attempts if a.fix_status == "success"])
-        self.report.fix_attempts = attempts
-        self.report.stats = {
-            "total_scanned": self.report.vaccine_scanned,
-            "issues_detected": self.report.issues_detected,
-            "issues_fixed": self.report.issues_fixed,
-            "prs_created": self.report.issues_prs_created,
-        }
-
-        # Ensure history list
-        if "history" not in existing:
-            existing["history"] = []
-
-        # Append current run
-        report_dict = asdict(self.report)
-        existing["history"].append(report_dict)
-
-        # Update latest pointer
-        existing["latest"] = report_dict
-
-        # Keep only last 30 runs in history
-        if len(existing["history"]) > 30:
-            existing["history"] = existing["history"][-30:]
-
-        # Write report
-        REPORT_FILE.write_text(json.dumps(existing, indent=2, ensure_ascii=False), encoding="utf-8")
-
-    def run(self) -> int:
-        """Main run loop."""
-        print("🔬 Starting Vaccine Autofixer...")
-
-        # 1. Extract vaccines from CLAUDE.md
-        self.extract_vaccines_from_claude()
-        print(f"📋 Extracted {self.report.vaccine_scanned} vaccines")
-
-        # 2. Scan for issues
-        issues_from_logs = self.scan_build_logs()
-        issues_from_files = self.scan_repo_files()
-        all_issues = issues_from_logs + issues_from_files
-
-        self.report.issues_detected = len(all_issues)
-        print(f"🔍 Detected {len(all_issues)} issue(s)")
-
-        for issue in all_issues:
-            print(f"  - {issue.vaccine_id}: {issue.description}")
-
-        # 3. Apply fixes
-        attempts = self.apply_fixes(all_issues)
-        print(f"🛠️  Attempted {len(attempts)} fix(es)")
-
-        # 4. Create PRs for risky fixes
-        self.create_pr_for_fixes(attempts)
-
-        # 5. Save report
-        self.save_report(attempts)
-        print(f"💾 Report saved to {REPORT_FILE}")
-
-        # 6. Print summary
-        if self.report.errors:
-            print(f"\n⚠️  Errors encountered:")
-            for error in self.report.errors:
-                print(f"  - {error}")
-
-        print(f"\n✅ Done! Issues: {self.report.issues_detected}, Fixed: {self.report.issues_fixed}")
-        return 0 if not self.report.errors else 1
+        print(f"✅ Vaccine Autofixer: status={report['status']} · "
+              f"matched={len(report['matched_vaccines'])} · fixed={report['fixed_count']}")
+        print(f"   report → {os.path.relpath(REPORT_PATH, REPO)}")
+        # Non-zero only on real QA/build failure so CI can surface it.
+        return 0 if report["status"] in ("ok", "dry-run") else 1
+    finally:
+        if not args.dry_run:
+            release_lock(now_ict(), "finished")
 
 
 if __name__ == "__main__":
-    import sys
-
-    autofixer = VaccineAutofixer()
-    sys.exit(autofixer.run())
+    raise SystemExit(main())

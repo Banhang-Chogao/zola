@@ -286,6 +286,34 @@ qa_check.py trước fix, output detail per step.
 5. **Verify**: poll deploy run mới đến success (max 5 phút).
 6. Nếu run mới vẫn fail sau heal → tạo issue label `healing-failed`.
 
+### `vacxin11` — Daily Vaccine Autofixer (chạy ngay, không đợi 06:00)
+
+Trigger thủ công **Daily Vaccine Autofixer** (Vaccine V11) ngay lập tức thay vì
+chờ lịch cron 06:00 (Asia/Ho_Chi_Minh). Cùng engine với lần chạy theo lịch.
+
+Hành động:
+1. **Đọc thư viện vaccine** trong `CLAUDE.md` (`scripts/vaccine_autofixer.py` → `load_vaccines`).
+2. **Quét** repo/hệ thống tìm vaccine-class issue đã biết.
+3. **Auto-fix** các lỗi AN TOÀN (reuse fixer sẵn có: model id HF, internal link
+   404 `--fix`, references…).
+4. **Chạy QA/build** (`qa_check.py` + `zola build`).
+5. **Lưu log** (`data/vaccine-autofixer.log`).
+6. **Cập nhật report** `data/vaccine-autofixer-report.json` (Autofixer report by
+   Vacxin) → hiển thị ở trang Insights.
+
+Cách chạy:
+- CI (khuyến nghị): GitHub Actions → **Daily Vaccine Autofixer** → *Run workflow*
+  (nút "Run Daily Vaccine Autofixer" trên trang Insights mở đúng tới đây).
+- Local: `python3 scripts/vaccine_autofixer.py --trigger manual`
+  (thêm `--dry-run` để chỉ quét, không sửa).
+
+Quy tắc:
+- **Không chạy đồng thời** — lock `data/vaccine-autofixer-state.json` (run đang
+  chạy → run mới skip với exit 3). Workflow dùng `concurrency` để queue.
+- **Code change đi qua PR flow** — workflow mở PR `chore/vaccine-autofixer-*`,
+  auto-merge khi QA xanh → deploy production. KHÔNG push thẳng `main`.
+- Theo dõi PR tới khi **MERGED + deploy xong** (như mọi feature).
+
 ### `sec` — Chạy Security Audit toàn bộ blog
 
 Hành động:

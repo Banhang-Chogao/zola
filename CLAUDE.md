@@ -336,74 +336,103 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   (references → 156 posts), QA PASS, push → auto-merge landed #451 with no further
   conflicts.
 
+#### V11 — Daily Vaccine Autofixer (manual shortcut `vacxin11` + cron 06:00 ICT)
+
+> Process/tooling vaccine — KHÔNG phải lỗi build. Đây là engine tự chạy CHÍNH bộ
+> vaccine này hằng ngày, và shortcut chạy ngay theo yêu cầu.
+
+- **Mục đích:** chạy ngay bộ "Daily Vaccine Autofixer" mà không chờ lịch 06:00
+  (Asia/Ho_Chi_Minh). Đọc thư viện vaccine trong `CLAUDE.md` → quét repo → auto-fix
+  các issue AN TOÀN → chạy QA/build → lưu log → cập nhật report cho trang Insights.
+- **Trigger:** lệnh `vacxin11` (xem `shortcuts.md`) **hoặc** nút *Run Daily Vaccine
+  Autofixer* trên trang Insights → GitHub Actions `workflow_dispatch`. Cùng engine
+  với run theo lịch.
+- **Engine:** `scripts/vaccine_autofixer.py` (`load_vaccines` parse các block
+  `#### V<N> — …`; các step fixer AN TOÀN reuse tool sẵn có: V1 HF model id,
+  internal-link 404 `--fix`, references; rule-checker report-only). Report:
+  `data/vaccine-autofixer-report.json` (trigger → matched vaccines → fixes → QA →
+  production status). Lock `data/vaccine-autofixer-state.json` (stale sau 30').
+- **Rules (BẮT BUỘC):** (1) **Không chạy đồng thời** — lock + `concurrency` group
+  trong workflow; run mới khi đang chạy → skip (exit 3). (2) **Code change đi qua
+  PR flow** — workflow `vaccine-autofixer.yml` mở PR `chore/vaccine-autofixer-*`,
+  KHÔNG push thẳng `main`; auto-merge khi QA xanh → deploy. (3) **Theo dõi PR tới
+  khi MERGED + deploy production xong.**
+- **File map:** `scripts/vaccine_autofixer.py` · `scripts/test_vaccine_autofixer.py`
+  · `.github/workflows/vaccine-autofixer.yml` · UI `templates/insights.html`
+  (`.vaccine-panel`) + `sass/_vaccine-autofixer.scss` · data
+  `data/vaccine-autofixer-report.json` / `-state.json` / `.log`.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
-> (V1–V7), apply safe fix, create PR cho risky fix, lưu log. UI insights hiển thị timeline.
+> (V1–V11), apply safe fix, create PR cho risky fix, lưu log. UI insights hiển thị timeline.
 
 ### Hoạt động (Flow)
 
 1. **Khi chạy** (daily 06:00 GMT+7): workflow `.github/workflows/vaccine-autofixer.yml`
 2. **Script** `scripts/vaccine_autofixer.py` thực thi:
-   - Đọc CLAUDE.md §4 extract vaccine definitions (V1–V7)
+   - Đọc CLAUDE.md §4 extract vaccine definitions (V1–V11)
    - Scan CI logs lần gần nhất để phát hiện matching pattern
    - Scan repo files (`build_related.py`, `slack-notify.yml`, …) để detect issues
    - Match pattern với vaccine rules (KHÔNG re-diagnose)
-   - **Auto-fix safe issues** (V1: HF model ID) — commit + push
-   - **Create PR** cho risky fixes (V2–V7: manual_only=True)
+   - **Auto-fix safe issues** (vd V1 HF model ID, internal-link 404 `--fix`,
+     references) — deterministic, idempotent
+   - **Mọi thay đổi đi qua PR flow** (workflow mở PR `chore/vaccine-autofixer-*`) —
+     KHÔNG push thẳng `main`; risky/ambiguous → để review trên PR
    - Run QA/build validation
-   - Lưu report → `data/vaccine-autofixer-report.json`
+   - Lưu report → `data/vaccine-autofixer-report.json` (flat summary + `history[]`)
 3. **Report được published** qua `deploy.yml` → site `/zola/insights/` hiển thị
 
 ### Config
 
 | Thành phần | Path | Ghi chú |
 |-----------|------|--------|
-| Workflow | `.github/workflows/vaccine-autofixer.yml` | Cron `0 23 * * *` (UTC) = 06:00 GMT+7 |
-| Script | `scripts/vaccine_autofixer.py` | 400 dòng, định nghĩa VaccineDefinition + flow |
-| Report | `data/vaccine-autofixer-report.json` | History (30 mốc gần nhất), stats, fix_attempts |
-| Insights UI | `templates/insights.html` + `sass/_insights.scss` | Timeline vaccine fix, stats grid, error log |
+| Workflow | `.github/workflows/vaccine-autofixer.yml` | Cron `0 23 * * *` (UTC) = 06:00 GMT+7 + `workflow_dispatch`; `concurrency` chống chạy đồng thời; artifact upload + step summary + PR flow |
+| Script | `scripts/vaccine_autofixer.py` | Engine: parse vaccine library (`load_vaccines`) + safe fixer steps + CI-log diagnosis (`gh`, report-only) + lock chống chạy trùng + QA/build + report. Tests: `scripts/test_vaccine_autofixer.py` |
+| Report | `data/vaccine-autofixer-report.json` | Flat summary (cho Insights panel) + `history[]` 30 mốc + `latest` (cho workflow summary). Lock: `-state.json`; log: `.log` |
+| Insights UI | `templates/insights.html` (`.vaccine-panel`) + `sass/_vaccine-autofixer.scss` | Last run · Next scheduled · chip vaccine khớp · fixed count · chip QA/Build/Prod · nút Run |
 
 ### Quy tắc (BẮT BUỘC)
 
 1. **Không** duplicate scan — tắt mấy vaccine nếu có bot khác đang fix cùng issue.
 2. **Không** break CI/deploy — auto-fix chỉ **safe issues** (confidence ≥90%, không sửa content).
-3. **Luôn** chạy QA sau fix — `qa_check.py`, `zola build`, `check_internal_links.py` trước commit.
-4. **Dùng PR flow** cho risky fixes — `git checkout -b vaccine/autofixer-<date>` → `gh pr create`.
-5. **Log lịch sử** — append report history, giữ 30 mốc gần nhất.
-6. **Error handling** — bọc mọi đọc file/network trong try/except, exit 0 nếu non-critical (không sập CI).
+3. **Luôn** chạy QA sau fix — `qa_check.py`, `zola build` trước khi mở PR.
+4. **PR flow cho MỌI thay đổi** — workflow mở PR `chore/vaccine-autofixer-*` → auto-merge khi QA xanh. **KHÔNG** push thẳng `main`.
+5. **Không chạy đồng thời** — lock `data/vaccine-autofixer-state.json` (stale 30') + `concurrency` group; run trùng → skip (exit 3).
+6. **Log lịch sử** — append `history[]`, giữ 30 mốc gần nhất.
+7. **Error handling** — bọc mọi đọc file/network trong try/except, exit 0 nếu non-critical (không sập CI); CI-log diagnosis (`gh`) best-effort, thiếu `gh`/token → skip.
 
 ### Insights UI
 
 Trang `/zola/insights/` có block mới **🔬 Vaccine Autofixer**:
 
-- **Stats grid** (4 card):
-  - Vaccines Scanned (tổng số rule)
-  - Issues Detected (⚠️ alert color)
-  - Fixed (✅ green)
-  - PRs Created (blue)
-- **Recent Fixes timeline** (top 5, sắp xếp mới nhất trước):
-  - Badge vaccine ID + name
-  - Status chip (✅ Fixed | ⚠️ Partial | 📋 PR Needed | ❌ Failed)
-  - Description + files changed + error (nếu có)
-- **Errors section** (if any): scan lỗi như "gh not found"
-- **Footer**: nguồn `vaccine-autofixer.yml` · cron 06:00 GMT+7 · last update timestamp
+- **Header**: tiêu đề + nút **Run Daily Vaccine Autofixer** (mở GitHub Actions →
+  Run workflow) + chip "Đang chạy…" khi lock active.
+- **Meta**: Last run · Next scheduled run (06:00 GMT+7 kế tiếp) · Trigger ·
+  Vaccine library count · Fixed count.
+- **Status chips**: status tổng (ok/dry-run/fail) · QA pass/fail · Build pass/fail ·
+  Prod (up-to-date/pending-pr).
+- **Matched vaccines**: mỗi vaccine khớp lần chạy = 1 chip (✓ nếu đã fix; tooltip = detail).
+- Khi chưa có report → hướng dẫn chạy `vacxin11` / đợi lịch 06:00.
 
 ### Chạy thủ công (local/dev)
 
 ```bash
-python3 scripts/vaccine_autofixer.py
+# Shortcut: vacxin11 (CI: GitHub Actions → Daily Vaccine Autofixer → Run workflow)
+python3 scripts/vaccine_autofixer.py --trigger manual     # quét + auto-fix an toàn
+python3 scripts/vaccine_autofixer.py --dry-run --no-build  # chỉ quét, không sửa
 # Kết quả: data/vaccine-autofixer-report.json được sinh/update
 ```
 
-**Mở Insights** → scroll xuống → thấy vaccine autofixer block với data mới nhất.
+**Mở Insights** → scroll xuống → thấy block **🧪 Daily Vaccine Autofixer** với data mới nhất.
 
 ### Mở rộng (future)
 
-- Thêm vaccine mới → update `scripts/vaccine_autofixer.py` + VaccineDefinition list
-- Custom threshold confidence — hiện hardcoded 0.9 (V1 HF model)
-- Webhook notification khi detect risky issue (Slack)
-- Auto-rerun nếu first attempt fail
+- Thêm vaccine mới → chỉ cần thêm block `#### V<N> — …` vào CLAUDE.md (engine tự
+  parse qua `load_vaccines`); thêm safe fixer step nếu auto-fix được.
+- Nối `DOMAIN_CHECK_API`/provider thật cho các bước cần network.
+- Webhook notification khi detect risky issue (Slack).
+- Auto-rerun nếu first attempt fail.
 
 #### V10 — Compliance Heading Focus: pages with 0 `<h1>` (feed-anchor + homepage pagination)
 
