@@ -1,5 +1,5 @@
 {
-  "audited_at": "2026-06-17T22:55:02+00:00",
+  "audited_at": "2026-06-18T00:04:14+00:00",
   "url": "https://banhang-chogao.github.io/zola/",
   "audit_type": "lighthouse_pagespeed_v5",
   "source": "cached_pagespeed_json",
@@ -177,13 +177,8 @@
   "primary_score": 99,
   "regression": {
     "has_previous": true,
-    "score_delta": 1,
-    "regression": true,
-    "details": [
-      "mobile/fcp: 3159.6930698012047 → 3189.1953815003426 (xấu hơn)",
-      "desktop/fcp: 809.6953805124404 → 810.1938422975127 (xấu hơn)",
-      "desktop/tbt: 37.999999999999886 → 43 (xấu hơn)",
-      "desktop/si: 853.7683801047131 → 856.4714900528902 (xấu hơn)"
-    ]
+    "score_delta": 15,
+    "regression": false,
+    "details": []
   }
 }
