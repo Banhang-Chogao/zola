@@ -34,21 +34,6 @@ Headline viết *"Iran có hơn 400 kg uranium làm giàu 60%"* — nhưng **60%
 
 <!-- more -->
 
-## Mục lục
-
-1. [Làm giàu uranium là gì?](#lam-giau-uranium-la-gi)
-2. [Tại sao cần làm giàu?](#tai-sao-can-lam-giau)
-3. [Các mức độ làm giàu: bảng tổng quan](#cac-muc-do-lam-giau-bang-tong-quan)
-4. [0,7% — uranium tự nhiên](#07-uranium-tu-nhien)
-5. [3–5% — nhiên liệu điện hạt nhân](#35-nhien-lieu-dien-hat-nhan)
-6. [20% — ranh giới HEU và ứng dụng đặc biệt](#20-ranh-gioi-heu-va-ung-dung-dac-biet)
-7. [60% — mức trong tin tức Iran](#60-muc-trong-tin-tuc-iran)
-8. [90% — uranium làm giàu cao (khái niệm)](#90-uranium-lam-giau-cao-khai-niem)
-9. [Ứng dụng hòa bình và bối cảnh giám sát](#ung-dung-hoa-binh-va-boi-canh-giam-sat)
-10. [IAEA theo dõi chuỗi nhiên liệu thế nào?](#iaea-theo-doi-chuoi-nhien-lieu-the-nao)
-11. [Lộ trình 5 bài](#lo-trinh-5-bai)
-12. [Tóm lại](#tom-lai)
-
 ## Làm giàu uranium là gì? {#lam-giau-uranium-la-gi}
 
 **Làm giàu uranium** (tiếng Anh: *uranium enrichment*) là quá trình **tăng tỷ lệ phần trăm đồng vị U-235** trong một mẫu uranium, so với thành phần tự nhiên. Theo [Wikipedia về làm giàu uranium](https://en.wikipedia.org/wiki/Enriched_uranium), đây không phải "tạo ra" U-235 từ không khí — mà là **tách bớt U-238** (và các đồng vị khác) để phần còn lại giàu U-235 hơn.

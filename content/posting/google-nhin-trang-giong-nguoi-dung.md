@@ -33,20 +33,6 @@ a = "Indexed nghĩa là URL trong kho index — không đảm bảo mọi block 
 
 <!-- more -->
 
-## Mục lục
-
-1. [Vì sao cần hỏi "Google thấy gì"?](#vi-sao-can-hoi)
-2. [Googlebot crawl vs render — tóm tắt pipeline](#crawl-vs-render)
-3. [URL Inspection — công cụ chính thức](#url-inspection)
-4. [So sánh HTML: crawled page vs trình duyệt](#so-sanh-html)
-5. [JavaScript và nội dung phụ thuộc JS](#javascript)
-6. [Nội dung ẩn, lazy-load và cloaking](#noi-dung-an)
-7. [Blog Zola tĩnh — thực tế kiểm tra](#zola-thuc-te)
-8. [Sai lầm thường gặp](#sai-lam)
-9. [Checklist "Google thấy giống user"](#checklist)
-10. [Bạn nên làm gì sau bài 5?](#sau-bai-5)
-11. [Tóm lại](#tom-lai)
-
 ## Google nhìn thấy trang giống người dùng — vì sao cần hỏi? {#vi-sao-can-hoi}
 
 Theo [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide), sau khi giúp Google **tìm** URL ([Bài 4](/zola/posting/giup-google-tim-noi-dung-site/)), bạn cần đảm bảo Google **đọc được** nội dung quan trọng — text trong `<h1>`, đoạn intro sau `<!-- more -->`, FAQ, internal link.

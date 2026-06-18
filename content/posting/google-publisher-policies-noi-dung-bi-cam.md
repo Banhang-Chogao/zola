@@ -33,22 +33,6 @@ a = "Không. Sexually explicit content, shocking content (bạo lực graphic, g
 
 <!-- more -->
 
-## Mục lục
-
-1. [Publisher Policies vs Program policies — khác gì?](#policies-vs-program)
-2. [Hậu quả vi phạm Publisher Policies](#hau-qua-vi-pham)
-3. [Nội dung bất hợp pháp và lạm dụng sở hữu trí tuệ](#illegal-va-ip)
-4. [Nội dung nguy hiểm, kỳ thị và hate speech](#nguy-hiem-va-hate)
-5. [Nội dung gây sốc, sự kiện nhạy cảm, quấy rối](#soc-va-quay-roi)
-6. [Nội dung tình dục và bảo vệ trẻ em](#adult-va-csam)
-7. [Scraped content và nội dung không gốc](#scraped-content)
-8. [Phần mềm độc hại và nội dung lừa đảo](#malware-va-lua-dao)
-9. [Audit site blog Zola theo Policies](#audit-zola)
-10. [Sai lầm publisher thường gặp](#sai-lam)
-11. [Checklist đối chiếu Publisher Policies](#checklist)
-12. [Bạn nên làm gì sau bài 4?](#sau-bai-4)
-13. [Tóm lại](#tom-lai)
-
 ## Google Publisher Policies — nội dung bị cấm vs Program policies {#policies-vs-program}
 
 Trong [AdSense Program policies](https://support.google.com/adsense/answer/48182?hl=en), Google tách hai lớp:

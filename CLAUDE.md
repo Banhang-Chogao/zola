@@ -932,3 +932,17 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 - **Paywall:** admin token qua `PAYWALL_ADMIN_TOKEN`; `/admin/paywall/` disallow trong `robots.txt`.
 - Read-only protection (disable copy/right-click) là deterrent, không phải DRM tuyệt đối.
 
+## Quy chuẩn Mục lục (TOC) — global tự động, BẮT BUỘC
+
+TOC render **tự động ở template** (`templates/page.html`) từ **native `page.toc`** của Zola. KHÔNG viết tay `## Mục lục` trong markdown nữa (sẽ tạo TOC trùng + lọt RSS).
+
+- **Khi nào hiện:** bài có **≥ 3 heading** (H2/H3 — đếm cả con). Bài ngắn/ít heading → không hiện.
+- **Tắt cho 1 bài:** frontmatter `[extra] toc = false`.
+- **Vị trí:** đầu `.post-single__content`, trước nội dung (native render 1 block; không tách giữa intro/H2 để khỏi cần JS).
+- **Anchor:** dùng `id` heading thật — custom (`## Tiêu đề {#id}`) hoặc auto của Zola → luôn khớp, KHÔNG tạo heading trùng.
+- **Scroll:** smooth + offset sticky navbar đã set global ở `sass/_reset.scss` (`html { scroll-behavior: smooth; scroll-padding-top: calc(60px + env(safe-area-inset-top)) }`). KHÔNG thêm JS, KHÔNG sửa lại scroll global.
+- **RSS/summary:** TOC ở template (ngoài `page.content`) → feed KHÔNG bị chèn TOC. (TOC viết tay trong `.md` lọt RSS — đã gỡ khỏi 14 bài series AdSense/uranium.)
+- **Style:** `sass/_toc.scss`, scope `.post-single__content .toc`, dùng semantic token (`var(--c-*)`) → đúng cả light/dark; responsive ≤720px. Import sau `@import "post"` trong `site.scss`.
+- **Lợi ích SEO:** jump links tăng UX + dwell time; Google có thể hiện anchor/sitelinks trong SERP; cấu trúc heading rõ.
+- **Mở rộng sau:** muốn sticky/scroll-spy → thêm JS riêng (chưa cần); đổi ngưỡng → sửa `toc_total >= 3` trong `page.html`.
+

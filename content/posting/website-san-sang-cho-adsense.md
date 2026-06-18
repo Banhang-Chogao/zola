@@ -33,21 +33,6 @@ a = "Có. Google hỏi rõ: menu có dễ đọc, căn chỉnh đúng, dropdown 
 
 <!-- more -->
 
-## Mục lục
-
-1. [Site readiness AdSense là gì — theo Google](#site-readiness-theo-google)
-2. [Ba câu hỏi Google đặt ra trước khi Sign up](#ba-cau-hoi-google)
-3. [Nội dung gốc và interesting — chi tiết hơn Bài 2](#noi-dung-goc-chi-tiet)
-4. [Navigation rõ ràng: alignment, readability, functionality](#navigation-ro-rang)
-5. [Layout, UX và điểm đặc biệt của trang bạn](#layout-ux)
-6. [Trang About, Privacy, Contact — reviewer tìm gì?](#trang-about-privacy-contact)
-7. [Nội dung nhúng, UGC và comment section](#noi-dung-nhung-ugc)
-8. [Site readiness trên blog Zola thực tế](#zola-thuc-te)
-9. [Sai lầm thường gặp khi chuẩn bị site](#sai-lam)
-10. [Checklist site readiness trước AdSense](#checklist)
-11. [Bạn nên làm gì sau bài 3?](#sau-bai-3)
-12. [Tóm lại](#tom-lai)
-
 ## Website sẵn sàng cho AdSense — site readiness theo Google {#site-readiness-theo-google}
 
 Google mở đầu [Make sure your site's pages are ready for AdSense](https://support.google.com/adsense/answer/7299563?hl=en) bằng một câu then chốt:

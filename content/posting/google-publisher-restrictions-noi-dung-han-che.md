@@ -33,20 +33,6 @@ a = "Không theo nghĩa eligibility fail như Policies (illegal, scraped, CSAM).
 
 <!-- more -->
 
-## Mục lục
-
-1. [Restrictions là gì — và khác Policies thế nào?](#restrictions-la-gi)
-2. [Hậu quả thực tế: fill rate, RPM, Google Ads](#hau-qua-thuc-te)
-3. [Content restrictions — danh mục chính](#content-restrictions)
-4. [Behavioral restrictions — ad và nội dung che nhau](#behavioral-restrictions)
-5. [Video inventory restrictions (tóm tắt)](#video-restrictions)
-6. [So sánh Policies vs Restrictions — bảng nhanh](#so-sanh-policies-restrictions)
-7. [Audit blog Zola theo Restrictions](#audit-zola)
-8. [Sai lầm publisher thường gặp](#sai-lam)
-9. [Checklist đối chiếu Restrictions](#checklist)
-10. [Bạn nên làm gì sau bài 5?](#sau-bai-5)
-11. [Tóm lại](#tom-lai)
-
 ## Google Publisher Restrictions là gì — khác Policies thế nào? {#restrictions-la-gi}
 
 Theo [Google Publisher Restrictions](https://support.google.com/adsense/answer/10437795?hl=en), **publisher restrictions** xác định nội dung **bị hạn chế nhận quảng cáo từ một số nguồn** — không phải nội dung bị cấm publish.

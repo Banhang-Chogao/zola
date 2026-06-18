@@ -33,19 +33,6 @@ Headline *"IAEA giúp tiêu hủy kho uranium 60%"* dễ tưởng tượng một
 
 <!-- more -->
 
-## Mục lục
-
-1. [Hai chuyện khác nhau: cơ sở vs vật liệu](#co-so-vs-vat-lieu)
-2. [Phá hủy hoặc tấn công cơ sở hạt nhân — điều gì xảy ra?](#pha-huy-co-so)
-3. [Tiêu hủy uranium làm giàu — disposition là gì?](#tieu-huy-uranium)
-4. [Downblending và các đường disposition phổ biến](#downblending)
-5. [Sổ sách IAEA sau sự cố hoặc thỏa thuận](#sach-so-iaea)
-6. [Rủi ro môi trường và phóng xạ — khái niệm](#moi-truong)
-7. [Đọc tin Iran với khung đủ 5 bài](#doc-tin-iran)
-8. [Giới hạn giáo dục của bài cuối](#gioi-han-giao-duc)
-9. [Lộ trình 5 bài — series hoàn tất](#lo-trinh-5-bai)
-10. [Tóm lại](#tom-lai)
-
 ## Hai chuyện khác nhau: cơ sở vs vật liệu {#co-so-vs-vat-lieu}
 
 Từ [Bài 1](/zola/posting/uranium-la-gi-tai-sao-quan-trong/) đến [Bài 4](/zola/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/), series xây từ vựng: uranium, % U-235, cascade, LEU vs HEU, điện vs vũ khí. Bài 5 thêm hai từ hay bị gộp:

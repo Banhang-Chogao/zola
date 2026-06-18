@@ -33,18 +33,6 @@ Khi mới [tạo blog với Zola](/zola/posting/tao-blog-voi-zola/) và bấm pu
 
 <!-- more -->
 
-## Mục lục
-
-1. [Tổng quan: Google Search hoạt động thế nào](#tong-quan)
-2. [Crawl — Googlebot tìm và tải trang](#crawl)
-3. [Rendering — Google "nhìn" trang như trình duyệt](#rendering)
-4. [Index — lưu trữ và hiểu nội dung](#index)
-5. [Xếp hạng và serve — chọn kết quả khi có truy vấn](#ranking)
-6. [Ba giai đoạn trên blog Zola thực tế](#zola-thuc-te)
-7. [Nhầm lẫn thường gặp](#nham-lan)
-8. [Bạn nên làm gì sau bài 2?](#sau-bai-2)
-9. [Tóm lại](#tom-lai)
-
 ## Tổng quan: Google Search hoạt động thế nào {#tong-quan}
 
 Google mô tả Search như một thư viện khổng lồ. Trước khi gợi ý cuốn sách phù hợp, thư viện phải **biết sách nào tồn tại**, **đọc và phân loại nội dung**, rồi **khi bạn hỏi**, mới **chọn cuốn phù hợp nhất** trong hàng triệu đầu sách. Ba việc đó tương ứng với:
