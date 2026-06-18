@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-18T03:01:37Z",
+  "updated_at": "2026-06-18T03:19:14Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 115,
-    "today": 7,
-    "this_week": 115,
-    "this_month": 115,
+    "total": 117,
+    "today": 9,
+    "this_week": 117,
+    "this_month": 117,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 38,
       "feature": 30,
-      "fix": 36,
       "unknown": 4,
       "content": 3,
       "chore": 39,
@@ -20,6 +20,44 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 396,
+      "pr_title": "fix(seo-badge): score all posts so SEO badge renders on every post",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/396",
+      "merged_at": "2026-06-18T03:16:17Z",
+      "merge_commit_sha": "3856aef4615a80e5fee2478065a4767d1da4c28f",
+      "merge_commit_short": "3856aef",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "**Bug:** Post SEO-score badge (`.post-stat--seo`) missing on many posts (reported as \"desktop doesn't show it\").",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 615,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734341660",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 395,
+      "pr_title": "fix(references): /zola/zola/ double-prefix 404 in post References blocks",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/395",
+      "merged_at": "2026-06-18T03:08:56Z",
+      "merge_commit_sha": "e31381aa3f614581500616fbe42b20314bc00fb1",
+      "merge_commit_short": "e31381a",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "**Bug:** Every post's \"Tham khảo & Nguồn dữ liệu\" block linked internal references to `…/zola/zola/posting/…` → 404 (e.g. `tu-dong-deploy-zola-github-actions`).",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 614,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734091151",
+      "build_conclusion": "failure"
+    },
     {
       "pr_number": 394,
       "pr_title": "feat(dashboards): Sembcorp UI for F+L dashboards + countdown title brand color",
@@ -37,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 612,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27733784275",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 393,
@@ -111,8 +149,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 586,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27728082686",
+      "build_run_number": 587,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27728088713",
       "build_conclusion": "failure"
     },
     {
@@ -187,9 +225,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 585,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727807895",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 376,
@@ -206,9 +244,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 583,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727710438",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 385,
