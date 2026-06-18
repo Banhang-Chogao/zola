@@ -98,7 +98,7 @@
     if (parts.past) {
       return (
         '<span class="footer-countdown__past">SỰ KIỆN ĐÃ DIỄN RA: ' +
-        '<strong class="footer-countdown__title">' + escapeHtml(cfg.title) + "</strong></span>"
+        '<span class="footer-countdown__title">' + escapeHtml(cfg.title) + "</span></span>"
       );
     }
 
@@ -116,7 +116,7 @@
           '<span class="footer-countdown__word">GIỜ</span> ' +
           digit(parts.minutes) + ' ' +
           '<span class="footer-countdown__word">PHÚT NỮA LÀ TỚI:</span> ' +
-          '<strong class="footer-countdown__title">' + escapeHtml(cfg.title) + "</strong>" +
+          '<span class="footer-countdown__title">' + escapeHtml(cfg.title) + "</span>" +
         "</span>" +
       "</span>"
     );

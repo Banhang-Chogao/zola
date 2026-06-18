@@ -9,7 +9,7 @@
      high contrast (WCAG AA+) in both light and dark schemes. */
   --cd-accent: #003784;                 /* Ericsson Blue — hero digits (~12:1) */
   --cd-label:  #1f2937;                 /* Near-black slate — labels (~15:1) */
-  --cd-title:  #003784;                 /* Event title — Ericsson Blue (brand, nổi bật) */
+  --cd-title:  #111111;                 /* Event title — near-black on forced-white card */
   --cd-muted:  #4b5563;                 /* Low-emphasis loading text (~7:1) */
   --cd-sep:    rgba(0, 55, 132, 0.6);   /* Branded divider, subtle but visible */
   --cd-divider: #d6deea;                /* Brand-tinted hairline / card border */
@@ -49,6 +49,12 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     opacity: 1;
+
+    .footer-countdown__title {
+      color: #111111;
+      -webkit-text-fill-color: #111111;
+      font-weight: 800;
+    }
   }
 
   &__dual {
@@ -109,9 +115,10 @@
     font-family: $font-heading;
     font-size: clamp(0.85rem, 2.5vw, 1.05rem);
     font-weight: 800;
-    /* Fallback cứng #003784: nếu biến --cd-title không resolve vì lý do gì,
-       title KHÔNG rơi về màu kế thừa (trắng) — luôn xanh đậm, đọc được. */
-    color: var(--cd-title, #003784);
+    /* Hardcoded near-black: must not inherit `.site-footer strong { color: #fff }`
+       (0,2,1) which used to beat this selector (0,1,0) before the :not() guard. */
+    color: #111111;
+    -webkit-text-fill-color: #111111;
     letter-spacing: 0.04em;
     white-space: nowrap;
   }
@@ -124,7 +131,30 @@
     text-transform: uppercase;
 
     .footer-countdown__title {
-      color: var(--cd-accent, #003784);
+      color: #111111;
+      -webkit-text-fill-color: #111111;
+    }
+  }
+
+  /* Isolate countdown band from dark footer context — `.site-footer` sets
+     color:#9aa4b2 and strong:#fff for children; this block is always #fff. */
+  .site-footer & {
+    color: var(--cd-label);
+
+    .footer-countdown__title,
+    strong.footer-countdown__title {
+      color: #111111 !important;
+      -webkit-text-fill-color: #111111 !important;
+    }
+
+    .footer-countdown__title:hover,
+    .footer-countdown__title:active,
+    strong.footer-countdown__title:hover,
+    strong.footer-countdown__title:active,
+    .footer-countdown__text:hover .footer-countdown__title,
+    .footer-countdown__text:active .footer-countdown__title {
+      color: #111111 !important;
+      -webkit-text-fill-color: #111111 !important;
     }
   }
 
