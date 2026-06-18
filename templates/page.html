@@ -7,9 +7,20 @@
 {% import "macros/series-hub.html" as series_hub %}
 {% import "macros/paywall.html" as paywall %}
 {% import "macros/premium.html" as premium %}
+{% import "macros/locked.html" as locked %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
+{# Bài premium đang ẩn → locked overlay + noindex (SEO-safe). Phát hiện qua
+   extra.premium hoặc category "premium". (Tính trong block vì set top-level của
+   child template extends không được Tera thực thi.) #}
+{% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% if is_premium and config.extra.premium_hidden | default(value=false) %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+
 {% block main %}
+    {% set cats = page.taxonomies.categories | default(value=[]) %}
+    {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
+    {% if is_premium and config.extra.premium_hidden | default(value=false) %}
+    {{ locked::overlay(base_url=config.base_url) }}
+    {% else %}
     <article class="post-single">
             <div class="post-single__hero">
                 {% if page.extra.premium %}
@@ -354,6 +365,7 @@
         {# ===== GISCUS COMMENTS ===== #}
         {{ giscus::comments() }}
     </article>
+    {% endif %}
 {% endblock main %}
 
 {% block extra_scripts %}

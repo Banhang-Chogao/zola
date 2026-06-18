@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "macros/locked.html" as locked %}
+
+{% block title %}Premium | {{ config.title }}{% endblock %}
+
+{# SEO-safe: chuyên mục đang ẩn → không cho index. #}
+{% block robots %}noindex, follow{% endblock %}
+{% block description %}Chuyên mục Premium đang tạm ẩn. Vui lòng quay lại sau.{% endblock %}
+
+{% block main %}
+    {{ locked::overlay(base_url=config.base_url) }}
+{% endblock main %}
+
+{# Không sidebar cho trang khoá — tập trung vào panel khoá. #}
+{% block sidebar %}{% endblock %}
