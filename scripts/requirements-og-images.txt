@@ -1,0 +1,4 @@
+# Deps cho scripts/build_og_images.py — rasterize cover SVG -> og:image .webp.
+# Social (FB/Threads/X/Zalo) không render SVG nên cần bản raster 1200×630.
+cairosvg>=2.7
+pillow>=10.0
