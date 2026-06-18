@@ -490,6 +490,22 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   dùng `.webp` (Facebook/X/Google đều hỗ trợ). Không giữ song song jpg/png trên
   site — giảm bandwith + thống nhất pipeline.
 
+### Nguồn ảnh & Alt text (BẮT BUỘC — mọi bài/ảnh)
+
+> Quy tắc nguồn ảnh thống nhất cho MỌI nơi chèn ảnh (bài viết, thumbnail, ảnh thân
+> bài, OG). Mục tiêu: ảnh luôn liên quan nội dung + accessible + SEO.
+
+- **CHỈ dùng ảnh do user cung cấp** — file đính kèm (attachment) hoặc URL user
+  đưa trực tiếp. **KHÔNG tự fetch/tải ảnh ngoài** (picsum, Unsplash, CDN bên thứ
+  ba, kết quả search ảnh…) để chèn vào bài. Ảnh ngoài = không kiểm soát nội dung +
+  bản quyền + có thể chết link.
+- **Không có ảnh user → dùng placeholder hệ thống** (`img/placeholder/*.svg` — xem
+  mục dưới). KHÔNG bịa ảnh, KHÔNG random ảnh ngoài thay thế.
+- **Alt text bắt buộc cho MỌI ảnh**, sinh theo NGỮ CẢNH, thân thiện SEO: mô tả
+  đúng nội dung ảnh + chứa từ khoá bài khi tự nhiên (KHÔNG nhồi keyword). Thumbnail
+  mặc định lấy alt từ tiêu đề bài; ảnh thân bài tự viết alt mô tả riêng. Tránh alt
+  rỗng / chung chung ("image", "ảnh").
+
 ### Ảnh Placeholder mặc định (bài KHÔNG có ảnh)
 
 - KHÔNG dùng ảnh random ngoài (vd `picsum.photos`) làm thumbnail — nội dung
