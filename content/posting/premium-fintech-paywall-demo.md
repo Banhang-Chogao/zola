@@ -14,7 +14,7 @@ premium_post_id = "premium-fintech-001"
 premium_title = "Fintech 2026: Mô hình thu phí nội dung premium trên blog cá nhân"
 premium_teaser_words = 180
 seo_keyword = "paywall blog premium"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/premium-fintech-paywall-demo.svg"
+thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = false
 +++
 
