@@ -254,73 +254,195 @@ def _keyword_trend(
     return {"keyword": keyword, "recent": recent, "prior": prior, "delta": recent - prior}
 
 
+def _format_vnd(n: Any) -> str:
+    """Display guard mirroring formatVnd in insights.js."""
+    try:
+        v = float(n)
+    except (TypeError, ValueError):
+        return "—"
+    if v != v or v in (float("inf"), float("-inf")):
+        return "—"
+    return f"{int(round(v)):,}".replace(",", ".") + " ₫"
+
+
+def _safe_num(n: Any) -> float:
+    try:
+        v = float(n)
+    except (TypeError, ValueError):
+        return 0.0
+    return v if v == v and v not in (float("inf"), float("-inf")) else 0.0
+
+
 def generate_insights(
     transactions: list[dict[str, Any]],
     summary: dict[str, Any],
     health: dict[str, Any],
+    charts: dict[str, Any] | None = None,
 ) -> list[str]:
+    """Deterministic, network-free insights engine.
+
+    Mirrors generateInsights() in static/js/{f,l}-dashboard/insights.js: each rule
+    is a guarded push (only fires when data supports it), every divisor is checked,
+    no NaN/empty leaks (money via _format_vnd, percents via round), priority order,
+    then capped to the top 7. Reuses the already-computed `charts` payload.
+    """
     insights: list[str] = []
-    expense = summary["total_expense"]
+    txns = transactions or []
+    s = summary or {}
+    h = health or {}
+    c = charts or {}
 
-    if expense > 0:
-        category_totals: dict[str, int] = defaultdict(int)
-        for tx in transactions:
-            if tx["amount"] < 0:
-                category_totals[categorize_expense(tx["description"])] += abs(tx["amount"])
-        if category_totals:
-            top_cat, top_val = max(category_totals.items(), key=lambda x: x[1])
-            pct = round(top_val / expense * 100)
-            insights.append(f"Chi tiêu {top_cat.lower()} chiếm {pct}% tổng chi.")
+    income = _safe_num(s.get("total_income"))
+    expense = _safe_num(s.get("total_expense"))
+    count = _safe_num(s.get("transaction_count"))
 
-    if summary["total_income"] > 0:
-        sr_pct = round(health["saving_rate"] * 100)
-        insights.append(f"Tỷ lệ tiết kiệm hiện đạt {sr_pct}%.")
+    balance_timeline = c.get("balanceTimeline") or {}
+    bal_labels = balance_timeline.get("labels") or []
+    bal_series = balance_timeline.get("balance") or []
+    last_balance = (
+        _safe_num(bal_series[-1]) if bal_series else _safe_num(h.get("last_balance"))
+    )
+    daily_net = c.get("dailyNet") or {}
+    dn_labels = daily_net.get("labels") or []
+    dn_net = daily_net.get("net") or []
+    top_txns = c.get("topTxns") or {}
+    top_items = top_txns.get("items") or []
 
-    if transactions:
-        now = max(_parse_iso(t["date"]) for t in transactions)
-        mk = now.strftime("%m/%Y")
-        month_net = sum(
-            t["amount"]
-            for t in transactions
-            if _month_key(t["date"]) == now.strftime("%Y-%m")
+    # 1. Net cash flow for the period.
+    if count > 0:
+        net = income - expense
+        verb = "dư" if net >= 0 else "thâm hụt"
+        insights.append(
+            f"Kỳ này bạn {verb} {_format_vnd(abs(net))} (thu {_format_vnd(income)}, chi {_format_vnd(expense)})."
         )
-        tone = "tích cực" if month_net >= 0 else "âm"
-        insights.append(f"Dòng tiền tháng {mk} đang {tone}.")
 
-    for kw in ("starbucks", "grab", "shopee"):
-        trend = _keyword_trend(transactions, kw)
-        if trend and trend["delta"] > 0 and trend["recent"] > 0:
+    # 2. Saving rate + 20% benchmark.
+    if income > 0:
+        sr = round(_safe_num(h.get("saving_rate")) * 100)
+        if sr > 20:
+            verdict = "vượt mức khuyến nghị 20% 👍"
+        elif sr >= 18:
+            verdict = "đạt mức khuyến nghị ~20%"
+        else:
+            verdict = "dưới mức khuyến nghị 20%, nên tiết kiệm thêm"
+        insights.append(f"Tỷ lệ tiết kiệm {sr}% — {verdict}.")
+
+    # 3. Opening → closing balance + lowest point.
+    if bal_labels and bal_series:
+        first = _safe_num(bal_series[0])
+        last = _safe_num(bal_series[-1])
+        low = _safe_num(balance_timeline.get("min"))
+        insights.append(
+            f"Số dư: {_format_vnd(first)} đầu kỳ → {_format_vnd(last)} cuối kỳ (thấp nhất {_format_vnd(low)})."
+        )
+
+    # 4. Largest single expense (most-negative txn).
+    if expense > 0:
+        worst = None
+        for it in top_items:
+            v = _safe_num(it.get("value"))
+            if v < 0 and (worst is None or v < _safe_num(worst.get("value"))):
+                worst = it
+        if worst is None:
+            for t in txns:
+                v = _safe_num(t.get("amount"))
+                if v < 0 and (worst is None or v < _safe_num(worst.get("value"))):
+                    worst = {
+                        "value": v,
+                        "label": _short_label(t.get("description", "")),
+                        "date": _day_month(t.get("date", "")),
+                    }
+        if worst:
+            label = _short_label(worst.get("label", "")) or "—"
+            when = f" ngày {worst.get('date')}" if worst.get("date") else ""
             insights.append(
-                f"Có dấu hiệu tăng chi tiêu {kw.title()} trong 30 ngày gần nhất."
+                f"Khoản chi lớn nhất: {_format_vnd(abs(_safe_num(worst.get('value'))))} — “{label}”{when}."
             )
-            break
 
-    if health["expense_ratio"] > 0.9 and summary["total_income"] > 0:
-        insights.append("Tỷ lệ chi/thu trên 90% — cần theo dõi chi tiêu chặt hơn.")
+    # 5. Largest single income (most-positive txn).
+    if income > 0:
+        best = None
+        for it in top_items:
+            v = _safe_num(it.get("value"))
+            if v > 0 and (best is None or v > _safe_num(best.get("value"))):
+                best = it
+        if best is None:
+            for t in txns:
+                v = _safe_num(t.get("amount"))
+                if v > 0 and (best is None or v > _safe_num(best.get("value"))):
+                    best = {"value": v, "label": _short_label(t.get("description", ""))}
+        if best:
+            label = _short_label(best.get("label", "")) or "—"
+            insights.append(f"Nguồn thu lớn nhất: {_format_vnd(_safe_num(best.get('value')))} — “{label}”.")
 
-    recurring_groups: dict[str, int] = defaultdict(int)
-    for tx in transactions:
-        amt = tx["amount"]
-        if amt == 0:
-            continue
-        bucket = round(abs(amt) / 1000) * 1000
-        prefix = _norm_desc(tx["description"])[:12]
-        recurring_groups[f"{bucket}|{prefix}"] += 1
-    recurring_count = sum(1 for c in recurring_groups.values() if c >= 2)
-    if recurring_count > 0:
-        insights.append(f"Phát hiện {recurring_count} khoản chi/thu lặp lại (có thể là định kỳ).")
+    # 6. Expense concentration — top 5 expenses as a share of total spend.
+    if expense > 0:
+        exp_mags = sorted(
+            (abs(_safe_num(t.get("amount"))) for t in txns if _safe_num(t.get("amount")) < 0),
+            reverse=True,
+        )
+        if len(exp_mags) >= 5:
+            top5 = sum(exp_mags[:5])
+            pct = round(top5 / expense * 100)
+            line = f"Top 5 khoản chi chiếm {pct}% tổng chi"
+            if pct >= 60:
+                line += " — khá tập trung"
+            insights.append(line + ".")
 
+    # 7. Burn rate & runway.
+    if expense > 0 and last_balance > 0:
+        days = 0
+        if s.get("date_from") and s.get("date_to"):
+            try:
+                frm = _parse_iso(str(s["date_from"])[:10] + "T00:00:00")
+                to = _parse_iso(str(s["date_to"])[:10] + "T00:00:00")
+                if to >= frm:
+                    days = (to - frm).days + 1
+            except ValueError:
+                days = 0
+        days = max(1, days)
+        burn = expense / days
+        if burn > 0:
+            runway = int(last_balance // burn)
+            runway_label = "999+" if runway > 999 else str(runway)
+            insights.append(
+                f"Mức chi TB {_format_vnd(round(burn))}/ngày; với số dư hiện tại đủ dùng ~{runway_label} ngày."
+            )
+
+    # 8. Heaviest spending day (most-negative daily net).
+    if dn_labels and dn_net:
+        worst_idx = -1
+        worst_val = 0.0
+        for i, raw in enumerate(dn_net):
+            v = _safe_num(raw)
+            if v < worst_val:
+                worst_val = v
+                worst_idx = i
+        if worst_idx >= 0:
+            label = dn_labels[worst_idx] or "—"
+            insights.append(f"Chi mạnh nhất ngày {label}: {_format_vnd(abs(worst_val))}.")
+
+    # 9. Recurring / periodic transactions.
+    recurring = _safe_num(top_txns.get("recurring"))
+    if recurring > 0:
+        insights.append(f"Phát hiện {int(recurring)} khoản lặp lại — có thể là chi/thu định kỳ.")
+
+    # 10. Expense-to-income warning.
+    if income > 0 and _safe_num(h.get("expense_ratio")) > 0.9:
+        insights.append("Tỷ lệ chi/thu trên 90% — cần kiểm soát chi tiêu chặt hơn.")
+
+    # 11. Fallback when nothing above fired.
     if not insights:
         insights.append("Chưa đủ dữ liệu để phân tích sâu — hãy upload thêm sao kê.")
 
-    return insights
+    return insights[:7]
 
 
 def build_insights_payload(transactions: list[dict[str, Any]]) -> dict[str, Any]:
     summary = compute_summary(transactions)
     health = financial_health(summary)
     charts = chart_datasets(transactions, health)
-    insights = generate_insights(transactions, summary, health)
+    insights = generate_insights(transactions, summary, health, charts)
     return {
         "summary": summary,
         "health": health,

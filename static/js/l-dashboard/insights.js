@@ -244,86 +244,196 @@
     return { keyword, recent, prior, delta: recent - prior };
   }
 
-  function generateInsights(transactions, summary, health) {
+  // ---------------------------------------------------------------------------
+  // generateInsights — deterministic, 100% client-side analytics engine.
+  //
+  // Each rule is a GUARDED push: it only fires when the underlying data exists,
+  // every divisor is checked, and no NaN/undefined/empty string can leak (money
+  // routed through formatVnd, percentages through Math.round, labels default to
+  // "—"). Rules are appended in priority order, then the list is capped to the
+  // top 7. `charts` is the SAME payload computed by buildInsightsPayload (keys
+  // balanceTimeline / dailyNet / topTxns / donut) — reused, never recomputed.
+  // ---------------------------------------------------------------------------
+  function generateInsights(transactions, summary, health, charts) {
     const insights = [];
-    const expense = summary.total_expense;
+    const txns = Array.isArray(transactions) ? transactions : [];
+    const s = summary || {};
+    const h = health || {};
+    const c = charts || {};
 
-    if (expense > 0) {
-      const categoryTotals = {};
-      transactions.forEach((t) => {
-        if (t.amount < 0) {
-          const cat = categorizeExpense(t.description);
-          categoryTotals[cat] = (categoryTotals[cat] || 0) + Math.abs(t.amount);
-        }
-      });
-      const entries = Object.entries(categoryTotals);
-      if (entries.length) {
-        const [topCat, topVal] = entries.sort((a, b) => b[1] - a[1])[0];
-        const pct = Math.round((topVal / expense) * 100);
-        insights.push(`Chi tiêu ${topCat.toLowerCase()} chiếm ${pct}% tổng chi.`);
-      }
-    }
+    const income = safeNum(s.total_income);
+    const expense = safeNum(s.total_expense);
+    const count = safeNum(s.transaction_count);
 
-    if (summary.total_income > 0) {
-      const srPct = Math.round(health.saving_rate * 100);
-      insights.push(`Tỷ lệ tiết kiệm hiện đạt ${srPct}%.`);
-    }
+    const balanceTimeline = c.balanceTimeline || {};
+    const balLabels = Array.isArray(balanceTimeline.labels) ? balanceTimeline.labels : [];
+    const balSeries = Array.isArray(balanceTimeline.balance) ? balanceTimeline.balance : [];
+    // Closing balance: prefer an explicit health field, else the last point of
+    // the running balance timeline (the actual end-of-period balance).
+    const lastBalance = balSeries.length
+      ? safeNum(balSeries[balSeries.length - 1])
+      : safeNum(h.last_balance);
+    const dailyNet = c.dailyNet || {};
+    const dnLabels = Array.isArray(dailyNet.labels) ? dailyNet.labels : [];
+    const dnNet = Array.isArray(dailyNet.net) ? dailyNet.net : [];
+    const topTxns = c.topTxns || {};
+    const topItems = Array.isArray(topTxns.items) ? topTxns.items : [];
 
-    if (transactions.length) {
-      const latest = new Date(
-        Math.max(...transactions.map((t) => new Date(t.date).getTime()))
+    // 1. Net cash flow for the period.
+    if (count > 0) {
+      const net = income - expense;
+      const verb = net >= 0 ? "dư" : "thâm hụt";
+      insights.push(
+        `Kỳ này bạn ${verb} ${formatVnd(Math.abs(net))} (thu ${formatVnd(income)}, chi ${formatVnd(expense)}).`
       );
-      const mk = `${String(latest.getMonth() + 1).padStart(2, "0")}/${latest.getFullYear()}`;
-      const monthKeyStr = `${latest.getFullYear()}-${String(latest.getMonth() + 1).padStart(2, "0")}`;
-      const monthNet = transactions
-        .filter((t) => monthKey(t.date) === monthKeyStr)
-        .reduce((s, t) => s + t.amount, 0);
-      const tone = monthNet >= 0 ? "tích cực" : "âm";
-      insights.push(`Dòng tiền tháng ${mk} đang ${tone}.`);
     }
 
-    for (const kw of ["starbucks", "grab", "shopee"]) {
-      const trend = keywordTrend(transactions, kw);
-      if (trend && trend.delta > 0 && trend.recent > 0) {
-        insights.push(`Có dấu hiệu tăng chi tiêu ${kw.charAt(0).toUpperCase() + kw.slice(1)} trong 30 ngày gần nhất.`);
-        break;
+    // 2. Saving rate + 20% benchmark.
+    if (income > 0) {
+      const sr = Math.round(safeNum(h.saving_rate) * 100);
+      let verdict;
+      if (sr > 20) verdict = "vượt mức khuyến nghị 20% 👍";
+      else if (sr >= 18) verdict = "đạt mức khuyến nghị ~20%";
+      else verdict = "dưới mức khuyến nghị 20%, nên tiết kiệm thêm";
+      insights.push(`Tỷ lệ tiết kiệm ${sr}% — ${verdict}.`);
+    }
+
+    // 3. Opening → closing balance + lowest point.
+    if (balLabels.length > 0 && balSeries.length > 0) {
+      const first = safeNum(balSeries[0]);
+      const last = safeNum(balSeries[balSeries.length - 1]);
+      const min = safeNum(balanceTimeline.min);
+      insights.push(
+        `Số dư: ${formatVnd(first)} đầu kỳ → ${formatVnd(last)} cuối kỳ (thấp nhất ${formatVnd(min)}).`
+      );
+    }
+
+    // 4. Largest single expense (most-negative txn).
+    if (expense > 0) {
+      let worst = null;
+      topItems.forEach((it) => {
+        const v = safeNum(it.value);
+        if (v < 0 && (worst === null || v < safeNum(worst.value))) worst = it;
+      });
+      if (worst === null) {
+        txns.forEach((t) => {
+          const v = safeNum(t.amount);
+          if (v < 0 && (worst === null || v < safeNum(worst.value))) {
+            worst = { value: v, label: shortLabel(t.description), date: dayMonth(t.date) };
+          }
+        });
+      }
+      if (worst) {
+        const label = shortLabel(worst.label) || "—";
+        const when = worst.date ? ` ngày ${worst.date}` : "";
+        insights.push(`Khoản chi lớn nhất: ${formatVnd(Math.abs(safeNum(worst.value)))} — “${label}”${when}.`);
       }
     }
 
-    if (health.expense_ratio > 0.9 && summary.total_income > 0) {
-      insights.push("Tỷ lệ chi/thu trên 90% — cần theo dõi chi tiêu chặt hơn.");
+    // 5. Largest single income (most-positive txn).
+    if (income > 0) {
+      let best = null;
+      topItems.forEach((it) => {
+        const v = safeNum(it.value);
+        if (v > 0 && (best === null || v > safeNum(best.value))) best = it;
+      });
+      if (best === null) {
+        txns.forEach((t) => {
+          const v = safeNum(t.amount);
+          if (v > 0 && (best === null || v > safeNum(best.value))) {
+            best = { value: v, label: shortLabel(t.description) };
+          }
+        });
+      }
+      if (best) {
+        const label = shortLabel(best.label) || "—";
+        insights.push(`Nguồn thu lớn nhất: ${formatVnd(safeNum(best.value))} — “${label}”.`);
+      }
     }
 
-    const recurringGroups = {};
-    transactions.forEach((t) => {
-      const amt = Number(t.amount);
-      if (!Number.isFinite(amt) || amt === 0) return;
-      const bucket = Math.round(Math.abs(amt) / 1000) * 1000;
-      const prefix = normDesc(t.description).slice(0, 12);
-      const key = `${bucket}|${prefix}`;
-      recurringGroups[key] = (recurringGroups[key] || 0) + 1;
-    });
-    const recurringCount = Object.values(recurringGroups).filter((c) => c >= 2).length;
-    if (recurringCount > 0) {
-      insights.push(`Phát hiện ${recurringCount} khoản chi/thu lặp lại (có thể là định kỳ).`);
+    // 6. Expense concentration — top 5 expenses as a share of total spend.
+    if (expense > 0) {
+      const expMags = txns
+        .map((t) => safeNum(t.amount))
+        .filter((v) => v < 0)
+        .map((v) => Math.abs(v));
+      if (expMags.length >= 5) {
+        expMags.sort((a, b) => b - a);
+        const top5 = expMags.slice(0, 5).reduce((acc, v) => acc + v, 0);
+        const pct = Math.round((top5 / expense) * 100);
+        let line = `Top 5 khoản chi chiếm ${pct}% tổng chi`;
+        if (pct >= 60) line += " — khá tập trung";
+        insights.push(line + ".");
+      }
     }
 
+    // 7. Burn rate & runway.
+    if (expense > 0 && lastBalance > 0) {
+      let days = 0;
+      if (s.date_from && s.date_to) {
+        const from = Date.parse(`${String(s.date_from).slice(0, 10)}T00:00:00`);
+        const to = Date.parse(`${String(s.date_to).slice(0, 10)}T00:00:00`);
+        if (Number.isFinite(from) && Number.isFinite(to) && to >= from) {
+          days = Math.round((to - from) / 86400000) + 1;
+        }
+      }
+      days = Math.max(1, days);
+      const burn = expense / days;
+      if (burn > 0) {
+        const runway = Math.floor(lastBalance / burn);
+        const runwayLabel = runway > 999 ? "999+" : String(runway);
+        insights.push(
+          `Mức chi TB ${formatVnd(Math.round(burn))}/ngày; với số dư hiện tại đủ dùng ~${runwayLabel} ngày.`
+        );
+      }
+    }
+
+    // 8. Heaviest spending day (most-negative daily net).
+    if (dnLabels.length > 0 && dnNet.length > 0) {
+      let worstIdx = -1;
+      let worstVal = 0;
+      for (let i = 0; i < dnNet.length; i += 1) {
+        const v = safeNum(dnNet[i]);
+        if (v < worstVal) {
+          worstVal = v;
+          worstIdx = i;
+        }
+      }
+      if (worstIdx >= 0) {
+        const label = dnLabels[worstIdx] || "—";
+        insights.push(`Chi mạnh nhất ngày ${label}: ${formatVnd(Math.abs(worstVal))}.`);
+      }
+    }
+
+    // 9. Recurring / periodic transactions.
+    const recurring = safeNum(topTxns.recurring);
+    if (recurring > 0) {
+      insights.push(`Phát hiện ${recurring} khoản lặp lại — có thể là chi/thu định kỳ.`);
+    }
+
+    // 10. Expense-to-income warning.
+    if (income > 0 && safeNum(h.expense_ratio) > 0.9) {
+      insights.push("Tỷ lệ chi/thu trên 90% — cần kiểm soát chi tiêu chặt hơn.");
+    }
+
+    // 11. Fallback when nothing above fired.
     if (!insights.length) {
       insights.push("Chưa đủ dữ liệu để phân tích sâu — hãy upload thêm sao kê.");
     }
 
-    return insights;
+    return insights.slice(0, 7);
   }
 
   function buildInsightsPayload(transactions) {
     const summary = computeSummary(transactions);
     const health = financialHealth(summary);
     const charts = chartDatasets(transactions, health);
-    const insights = generateInsights(transactions, summary, health);
+    const insights = generateInsights(transactions, summary, health, charts);
     return { summary, health, charts, insights };
   }
 
   function formatVnd(n) {
+    // Display guard: never surface NaN/undefined/null — fall back to em dash.
     const v = Number(n);
     if (!Number.isFinite(v)) return "—";
     return new Intl.NumberFormat("vi-VN").format(v) + " ₫";
