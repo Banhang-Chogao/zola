@@ -1,13 +1,15 @@
 +++
 title = "Fintech 2026: Paywall premium trên blog cá nhân"
+description = "Cách xây dựng paywall premium cho blog cá nhân: khi nào dùng, cách thiết lập Momo payment, chiến lược pricing để giữ trust độc giả."
 date = 2026-06-18
 
 [taxonomies]
-categories = ["premium"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "fintech", "monetization", "paywall", "premium"]
 
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+seo_keyword = "paywall premium blog"
 featured = true
 featured_at = "2026-06-18T20:54:57.799Z"
 +++

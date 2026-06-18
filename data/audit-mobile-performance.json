@@ -1,0 +1,137 @@
+{
+  "audit_at": "2026-06-18T23:14:58.104479+00:00",
+  "analysis": {
+    "mobile": {
+      "performance": 58,
+      "target": 90,
+      "lcp_ms": 6901,
+      "lcp_target_ms": 2500,
+      "cls_value": 0,
+      "fcp_ms": 3939.1960167994375,
+      "tbt_ms": 174,
+      "si_ms": 8837.388006185633
+    },
+    "desktop": {
+      "performance": 95,
+      "lcp_ms": 1246.0012364307368
+    },
+    "desktop_mobile_gap": {
+      "performance": 37,
+      "message": "Desktop 95/100 vs Mobile 58/100 (Δ37)"
+    },
+    "issues": [
+      {
+        "category": "performance",
+        "severity": "critical",
+        "current": 58,
+        "target": 90,
+        "delta": 32,
+        "message": "Mobile performance 58/100 below target"
+      },
+      {
+        "category": "lcp",
+        "severity": "critical",
+        "current_ms": 6901,
+        "target_ms": 2500,
+        "delta_ms": 4401,
+        "message": "LCP 6901ms exceeds target 2500ms"
+      }
+    ],
+    "opportunities": [
+      {
+        "type": "unused_css",
+        "savings_bytes": 43921,
+        "savings_kb": 42.9,
+        "message": "Remove unused CSS (43921 bytes)"
+      },
+      {
+        "type": "unused_js",
+        "savings_bytes": 66298,
+        "savings_kb": 64.7,
+        "message": "Defer/lazy-load unused JS (66298 bytes)"
+      },
+      {
+        "id": "unused-css-rules",
+        "title": "Reduce unused CSS",
+        "display": "Est savings of 43 KiB",
+        "score": 0,
+        "message": "Reduce unused CSS"
+      },
+      {
+        "id": "largest-contentful-paint",
+        "title": "Largest Contentful Paint",
+        "display": "6.9 s",
+        "score": 6,
+        "message": "Largest Contentful Paint"
+      },
+      {
+        "id": "speed-index",
+        "title": "Speed Index",
+        "display": "8.8 s",
+        "score": 15,
+        "message": "Speed Index"
+      },
+      {
+        "id": "first-contentful-paint",
+        "title": "First Contentful Paint",
+        "display": "3.9 s",
+        "score": 24,
+        "message": "First Contentful Paint"
+      }
+    ],
+    "resource_breakdown": {
+      "js": {
+        "bytes": 201504,
+        "percent": 7.3
+      },
+      "css": {
+        "bytes": 56514,
+        "percent": 2.1
+      },
+      "image": {
+        "bytes": 98651,
+        "percent": 3.6
+      },
+      "font": {
+        "bytes": 282728,
+        "percent": 10.3
+      },
+      "document": {
+        "bytes": 266738,
+        "percent": 9.7
+      },
+      "other": {
+        "bytes": 1846728,
+        "percent": 67.1
+      }
+    },
+    "total_page_bytes": 917621,
+    "total_page_size": "Total size was 896 KiB"
+  },
+  "recommendations": {
+    "critical": [
+      "Reduce unused CSS (43 KiB) via template-specific CSS loading",
+      "Defer non-critical JavaScript (GA, charts, dashboards)",
+      "Preload hero image for faster LCP",
+      "Inline critical CSS for above-the-fold content",
+      "Optimize font loading: add font-display: swap, preload main font",
+      "Enable image lazy loading with loading=\"lazy\" and decoding=\"async\"",
+      "Reduce main-thread blocking (170ms TBT)"
+    ],
+    "improvements": [
+      "CSS splitting by template (reduce unused by 40%+)",
+      "JS code splitting (defer pdf.js, tesseract.js, chart.js)",
+      "Image optimization: srcset, sizes, webp, lazy-load",
+      "Font subsetting for Vietnamese diacritics",
+      "Reduce DOM size via accordion/virtualization",
+      "Cache API responses for dashboards"
+    ]
+  },
+  "targets": {
+    "mobile_performance": 90,
+    "desktop_performance": 95,
+    "lcp_ms": 2500,
+    "cls": 0.1,
+    "inp_ms": 200
+  }
+}
