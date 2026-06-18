@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-06-18T06:00:00+07:00",
+  "info": "Vaccine Autofixer Report — Daily automatic issue detection and fix attempts",
+  "history": [
+    {
+      "generated_at": "2026-06-18T06:00:00+07:00",
+      "run_id": "0",
+      "period_start": "2026-06-17T00:00:00+07:00",
+      "period_end": "2026-06-17T23:59:59+07:00",
+      "vaccine_scanned": 7,
+      "issues_detected": 0,
+      "issues_fixed": 0,
+      "issues_prs_created": 0,
+      "fix_attempts": [],
+      "errors": [],
+      "notes": "Initial report — no issues detected",
+      "stats": {
+        "total_scanned": 7,
+        "issues_detected": 0,
+        "issues_fixed": 0,
+        "prs_created": 0
+      }
+    },
+    {
+      "generated_at": "2026-06-18T22:43:16.814275+00:00",
+      "run_id": "manual",
+      "period_start": "2026-06-18T00:00:00+00:00",
+      "period_end": "2026-06-18T23:59:59+00:00",
+      "vaccine_scanned": 7,
+      "issues_detected": 0,
+      "issues_fixed": 0,
+      "issues_prs_created": 0,
+      "fix_attempts": [],
+      "errors": [
+        "Failed to fetch CI logs: [Errno 2] No such file or directory: 'gh'"
+      ],
+      "notes": "",
+      "stats": {
+        "total_scanned": 7,
+        "issues_detected": 0,
+        "issues_fixed": 0,
+        "prs_created": 0
+      }
+    }
+  ]
+}

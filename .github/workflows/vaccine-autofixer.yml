@@ -1,0 +1,126 @@
+name: 🔬 Vaccine Autofixer
+
+on:
+  schedule:
+    # Run daily at 06:00 Asia/Ho_Chi_Minh (23:00 UTC previous day)
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+concurrency:
+  group: vaccine-autofixer
+  cancel-in-progress: false
+
+jobs:
+  vaccine-autofixer:
+    name: Scan & Fix via Vaccines
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: Run Vaccine Autofixer
+        id: autofixer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 scripts/vaccine_autofixer.py
+
+      - name: Commit report & push
+        if: always()
+        continue-on-error: true
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          if [[ -f data/vaccine-autofixer-report.json ]]; then
+            git add data/vaccine-autofixer-report.json
+
+            if ! git diff --cached --quiet; then
+              git commit -m "chore: vaccine autofixer report — $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)"
+
+              # Push with retry
+              for i in {1..3}; do
+                if git push -u origin main; then
+                  echo "✅ Report pushed successfully"
+                  break
+                else
+                  if [ $i -lt 3 ]; then
+                    sleep $((2 ** i))
+                  fi
+                fi
+              done
+            fi
+          fi
+
+      - name: Create summary
+        if: always()
+        run: |
+          if [[ -f data/vaccine-autofixer-report.json ]]; then
+            echo "## 🔬 Vaccine Autofixer Report" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            python3 << 'EOF'
+          import json
+          try:
+              with open('data/vaccine-autofixer-report.json') as f:
+                  data = json.load(f)
+              if 'history' in data and data['history']:
+                  latest = data['history'][-1]
+                  print(f"- **Run ID**: {latest.get('run_id', 'N/A')}")
+                  print(f"- **Vaccines Scanned**: {latest.get('vaccine_scanned', 0)}")
+                  print(f"- **Issues Detected**: {latest.get('issues_detected', 0)}")
+                  print(f"- **Issues Fixed**: {latest.get('issues_fixed', 0)}")
+                  print(f"- **PRs Created**: {latest.get('issues_prs_created', 0)}")
+                  if latest.get('errors'):
+                      print(f"\n**Errors**:")
+                      for err in latest['errors']:
+                          print(f"- {err}")
+          except Exception as e:
+              print(f"Error reading report: {e}")
+            EOF
+          else
+            echo "No autofixer report generated"
+          fi >> $GITHUB_STEP_SUMMARY
+
+  publish-report:
+    name: Deploy Report to Pages
+    needs: vaccine-autofixer
+    runs-on: ubuntu-latest
+    if: always()
+    continue-on-error: true
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Verify report exists
+        run: |
+          if [[ -f data/vaccine-autofixer-report.json ]]; then
+            echo "✅ Report exists"
+            jq '.' data/vaccine-autofixer-report.json | head -20
+          else
+            echo "⚠️ No report file"
+          fi
