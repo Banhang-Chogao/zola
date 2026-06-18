@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "🔬 Daily Vaccine Autofixer — automatic issue detection & repair",
+      "tag": "chore",
+      "lines_added": 1079,
+      "lines_removed": 0,
+      "highlights": [
+        "⏰ Daily Schedule: Runs automatically at 06:00 Asia/Ho_Chi_Minh (23:00 UTC)",
+        "🔍 Pattern Matching: Scans CI logs & repo files against 7 vaccine patterns (V1–V7)",
+        "🛠️ Auto-fix Safe Issues: V1 (HuggingFace model ID prefix) auto-fixes with validation",
+        "📋 PR for Risky Fixes: Creates review PRs for manual_only vaccines (V2–V7)",
+        "✅ QA Validation: Runs qa_check.py + zola build + internal links check"
+      ],
+      "pr": 455
+    },
+    {
+      "date": "2026-06-18",
       "title": "CMS: cập nhật author info",
       "tag": "chore",
       "lines_added": 1,
