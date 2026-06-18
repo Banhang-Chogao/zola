@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "docs(rules): nguồn ảnh + alt text bắt buộc (chỉ ảnh user, không fetch ngoài)",
+      "tag": "chore",
+      "lines_added": 16,
+      "lines_removed": 0,
+      "highlights": [
+        "CHỈ dùng ảnh user cung cấp (attachment / URL user đưa). KHÔNG tự fetch ảnh ngoài (picsum/Unsplash/CDN/search).",
+        "Không có ảnh user → placeholder hệ thống (img/placeholder/*.svg).",
+        "Alt text bắt buộc cho MỌI ảnh, contextual + SEO-friendly (không nhồi keyword, không alt rỗng/chung chung)."
+      ],
+      "pr": 436
+    },
+    {
+      "date": "2026-06-18",
       "title": "fix(ci): vaccine V6/V7 — bot data stash conflict + remediation tự đỏ",
       "tag": "fix",
       "lines_added": 59,
