@@ -129,6 +129,24 @@
     return FDashboardInsights.buildInsightsPayload(txs);
   }
 
+  // Display guards (display-only — never alter parsing/export math).
+  function pct(value) {
+    if (value === null || value === undefined || typeof value !== "number" || !Number.isFinite(value)) {
+      return "—";
+    }
+    return Math.round(value * 100) + "%";
+  }
+
+  function safeLabel(value) {
+    const s = (value === null || value === undefined) ? "" : String(value).trim();
+    return s || "—";
+  }
+
+  function safeText(value, fallback) {
+    const s = (value === null || value === undefined) ? "" : String(value).trim();
+    return s || (fallback === undefined ? "—" : fallback);
+  }
+
   function renderFilteredSummary() {
     const payload = getInsightsPayload();
     renderSummary(payload.summary);
@@ -154,25 +172,31 @@
       summary.date_from && summary.date_to
         ? `${summary.date_from} → ${summary.date_to}`
         : "—";
+    const count = Number.isFinite(summary.transaction_count) ? summary.transaction_count : 0;
 
     els.summary.innerHTML = `
       <div class="fd-summary__item"><span class="fd-summary__label">Tổng thu</span><span class="fd-summary__value fd-summary__value--income">${fmt(summary.total_income)}</span></div>
       <div class="fd-summary__item"><span class="fd-summary__label">Tổng chi</span><span class="fd-summary__value fd-summary__value--expense">${fmt(summary.total_expense)}</span></div>
       <div class="fd-summary__item"><span class="fd-summary__label">Chênh lệch</span><span class="fd-summary__value">${fmt(summary.net_cash_flow)}</span></div>
-      <div class="fd-summary__item"><span class="fd-summary__label">Số giao dịch</span><span class="fd-summary__value">${summary.transaction_count}</span></div>
-      <div class="fd-summary__item fd-summary__item--wide"><span class="fd-summary__label">Khoảng thời gian</span><span class="fd-summary__value">${range}</span></div>
+      <div class="fd-summary__item"><span class="fd-summary__label">Số giao dịch</span><span class="fd-summary__value">${count}</span></div>
+      <div class="fd-summary__item fd-summary__item--wide"><span class="fd-summary__label">Khoảng thời gian</span><span class="fd-summary__value">${safeText(range)}</span></div>
     `;
   }
 
   function renderHealth(health) {
     if (!els.health) return;
-    const sr = Math.round(health.saving_rate * 100);
-    const er = Math.round(health.expense_ratio * 100);
+    const sr = pct(health.saving_rate);
+    const er = pct(health.expense_ratio);
+    const label = safeLabel(health.health_label);
+    const scoreCls = label === "—" ? "" : label.toLowerCase();
+    const score = (typeof health.financial_score === "number" && Number.isFinite(health.financial_score))
+      ? health.financial_score
+      : "—";
     els.health.innerHTML = `
-      <div class="fd-health__metric"><span>Saving Rate</span><strong>${sr}%</strong></div>
-      <div class="fd-health__metric"><span>Expense Ratio</span><strong>${er}%</strong></div>
+      <div class="fd-health__metric"><span>Saving Rate</span><strong>${sr}</strong></div>
+      <div class="fd-health__metric"><span>Expense Ratio</span><strong>${er}</strong></div>
       <div class="fd-health__metric"><span>Net Cash Flow</span><strong>${FDashboardInsights.formatVnd(health.net_cash_flow)}</strong></div>
-      <div class="fd-health__metric fd-health__metric--score"><span>Financial Score</span><strong class="fd-health__score fd-health__score--${health.health_label.toLowerCase()}">${health.financial_score}</strong><em>${health.health_label}</em></div>
+      <div class="fd-health__metric fd-health__metric--score"><span>Financial Score</span><strong class="fd-health__score fd-health__score--${scoreCls}">${score}</strong><em>${escapeHtml(label)}</em></div>
     `;
   }
 
@@ -206,11 +230,14 @@
       .map((t, i) => {
         const cls = t.amount > 0 ? "fd-amount--income" : "fd-amount--expense";
         const sign = t.amount > 0 ? "+" : "";
+        const dateText = safeText(t.date ? String(t.date).replace("T", " ") : "");
+        const descText = safeText(escapeHtml(t.description), "—");
+        const amountText = fmt(Math.abs(t.amount)).replace(" ₫", "") || "—";
         return `<tr>
           <td>${start + i + 1}</td>
-          <td>${t.date.replace("T", " ")}</td>
-          <td class="fd-table__desc">${escapeHtml(t.description)}</td>
-          <td class="fd-amount ${cls}">${sign}${fmt(Math.abs(t.amount)).replace(" ₫", "")}</td>
+          <td>${dateText}</td>
+          <td class="fd-table__desc">${descText}</td>
+          <td class="fd-amount ${cls}">${amountText === "—" ? "—" : sign + amountText}</td>
           <td>${fmt(t.balance)}</td>
         </tr>`;
       })
