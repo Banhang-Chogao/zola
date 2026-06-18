@@ -277,6 +277,8 @@
   }
 
   function drawHealthTiers(doc, x, colW, y) {
+    const pageH = doc.internal.pageSize.getHeight();
+    y = ensureSpace(doc, y, 30, pageH);
     setFont(doc, "bold", 10);
     setRgb(doc, INK);
     doc.text("Cấp độ sức khỏe tài chính", x, y);
@@ -296,19 +298,30 @@
     return y + 3;
   }
 
-  function drawInsights(doc, insights, x, colW, y, maxY) {
-    setFont(doc, "bold", 10);
-    setRgb(doc, INK);
-    doc.text("Nhận xét tự động", x, y);
-    y += 5;
+  function drawInsights(doc, insights, margin, contentW, y, pageH) {
+    const list = (insights || []).filter(Boolean);
 
-    setFont(doc, "normal", 8);
-    setRgb(doc, [51, 65, 85]);
-    (insights || []).slice(0, 6).forEach((line) => {
-      if (y > maxY) return;
-      const wrapped = doc.splitTextToSize("• " + line, colW);
-      doc.text(wrapped, x, y);
-      y += wrapped.length * 3.8;
+    y = ensureSpace(doc, y, 14, pageH);
+    setFont(doc, "bold", 12);
+    setRgb(doc, INK);
+    doc.text("AI Insights — Nhận xét tự động", margin, y);
+    y += 6;
+
+    if (!list.length) {
+      return drawEmptyCard(doc, margin, y, contentW, 16);
+    }
+
+    setFont(doc, "normal", 9);
+    list.forEach((line) => {
+      const wrapped = doc.splitTextToSize(String(line), contentW - 8);
+      const blockH = wrapped.length * 4.4 + 3;
+      y = ensureSpace(doc, y, blockH, pageH);
+      // Teal accent bar before each insight bullet — matches the on-screen panel.
+      doc.setFillColor(INCOME[0], INCOME[1], INCOME[2]);
+      doc.rect(margin, y - 3.2, 1.5, blockH - 2.4, "F");
+      setRgb(doc, [51, 65, 85]);
+      doc.text(wrapped, margin + 5, y);
+      y += blockH;
     });
     return y + 4;
   }
@@ -386,11 +399,14 @@
   const CHART_BOTTOM_SAFE = 14;
 
   /**
-   * Capture a live Chart.js canvas as an opaque (white-background) image.
-   * Prefers the chart instance's toBase64Image('image/jpeg') — JPEG has no
-   * alpha, so transparent chart areas render white instead of black. Falls
-   * back to canvas.toDataURL('image/png') + a flag so the caller paints a
-   * white rect behind it. Returns null when the canvas/chart is unavailable.
+   * Capture a live Chart.js canvas as an opaque, WHITE-background image.
+   * On screen the charts sit on a white card (--dash-card-bg) over a transparent
+   * canvas. Flattening that transparent canvas straight to JPEG composites the
+   * empty pixels onto BLACK (the canvas→JPEG default), which is why exported
+   * charts used to come out on an ugly black background. We instead paint the
+   * chart onto an opaque white canvas first, so the PDF matches the clean
+   * on-screen look. Falls back to a transparent PNG (caller paints white behind)
+   * and finally null when the canvas is unavailable.
    */
   function captureChartImage(canvasId) {
     const canvas = document.getElementById(canvasId);
@@ -399,25 +415,22 @@
     const h = canvas.height || canvas.clientHeight || 0;
     if (!w || !h) return null;
 
-    const ChartLib = global.Chart;
-    let inst = null;
-    if (ChartLib && typeof ChartLib.getChart === "function") {
-      try {
-        inst = ChartLib.getChart(canvas);
-      } catch (e) {
-        inst = null;
-      }
-    }
-
-    if (inst && typeof inst.toBase64Image === "function") {
-      try {
-        const url = inst.toBase64Image("image/jpeg", 1.0);
+    try {
+      const off = document.createElement("canvas");
+      off.width = w;
+      off.height = h;
+      const octx = off.getContext("2d");
+      if (octx) {
+        octx.fillStyle = "#ffffff";
+        octx.fillRect(0, 0, w, h);
+        octx.drawImage(canvas, 0, 0, w, h);
+        const url = off.toDataURL("image/png");
         if (url && url.indexOf("data:image") === 0) {
-          return { dataUrl: url, format: "JPEG", w, h, needsWhiteBg: false };
+          return { dataUrl: url, format: "PNG", w, h, needsWhiteBg: false };
         }
-      } catch (e) {
-        /* fall through to PNG */
       }
+    } catch (e) {
+      /* fall through to direct capture */
     }
 
     try {
@@ -582,12 +595,12 @@
     y = drawKpiCards(doc, summary, fmt, margin, pageW, y);
     y = drawHealthBlock(doc, health, margin, pageW, y);
 
-    const splitY = y;
-    const colW = (pageW - margin * 2 - 8) / 2;
-    const tiersEnd = drawHealthTiers(doc, margin, colW, y);
-    const insightsEnd = drawInsights(doc, insights, margin + colW + 8, colW, splitY, pageH - 20);
-
-    y = Math.max(tiersEnd, insightsEnd);
+    const contentW = pageW - margin * 2;
+    // AI Insights — promoted to a full-width, prominent section so the printed
+    // report always surfaces it (previously a small half-column, easy to miss).
+    y = drawInsights(doc, insights, margin, contentW, y, pageH);
+    // Financial-health tiers reference, full width below the insights.
+    y = drawHealthTiers(doc, margin, contentW, y);
 
     y = drawChartsBlock(doc, charts, summary, margin, pageW, pageH, y);
 
