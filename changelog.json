@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(dashboards): bản đồ \"Giao dịch theo vùng địa lý\" + bài V-Family",
+      "tag": "chore",
+      "lines_added": 1387,
+      "lines_removed": 1,
+      "highlights": [
+        "geo.js (mới) đọc nội dung giao dịch → tách địa điểm (63 tỉnh/thành + địa điểm cụ thể: Bàu Bàng, Phú Quốc, Sa Pa…). Không có địa điểm → mặc định TP. Hồ Chí Minh.",
+        "Khớp whole-word đã bỏ dấu (chống \"TIEN THUE NHA\" dính \"Huế\"); địa điểm cụ thể thắng tỉnh cha.",
+        "Bản đồ SVG: silhouette VN teal trên nền sáng + chấm theo giá trị + nhãn + legend + chip vùng. Style chung .dash-geo__*.",
+        "content/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh.md — SEO QA 94/100 (A), 1336 từ, FAQ, disclaimer YMYL.",
+        "node --check geo + app ×3: OK · detectPlace 6/6 · render smoke test OK"
+      ],
+      "pr": 406
+    },
+    {
+      "date": "2026-06-18",
       "title": "bài báo tên miền .ai — hòn đảo Anguilla hốt bạc nhờ AI",
       "tag": "feat",
       "lines_added": 255,
