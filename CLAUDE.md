@@ -1008,3 +1008,18 @@ python3 qa-domain-selector.py --limit 8  # giới hạn số domain check availa
 | Script | `qa-404-checker.py` (REPO ROOT) |
 | Report | `data/qa-404-report.json` |
 | Workflow (cron 2h) | `.github/workflows/qa-404-checker.yml` |
+
+## O-Dashboard (Liobank by OCB — sao kê PDF)
+
+Trang `/tools/o-dashboard/` — phân tích sao kê **Liobank by OCB** dạng **PDF**. Clone kiến trúc **L-Dashboard** (LPBank PDF), chỉ khác parser + branding. UI/UX + flow export PDF + OAuth gate giống F/L-Dashboard; theme Sembcorp.
+
+- **Parser:** `static/js/o-dashboard/liobank-parser.js`. Bảng chính 6 cột: `Ngày GD · Nội dung · Số tiền ghi có · Số tiền ghi nợ · Phí · Số dư`. Date `DD-MM-YYYY HH:MM:SS` → ISO. Số tiền VN (`1.296.314`), `-` = 0. **`amount = credit − debit − fee`** (+ thu, − chi). Bỏ qua header metadata + bảng phụ "Tiết kiệm tự động (TKTG)".
+- **Schema giao dịch** (khớp L-Dashboard): `{transaction_id, date, description, credit, debit, fee, balance, amount, type}` + `statement` + `reconciliation`.
+- **Tách biệt F/L:** namespace `ODashboard*`, id `od-`, IndexedDB riêng `o-dashboard-db` — KHÔNG trộn dữ liệu với F/L. Dữ liệu chỉ local (AES-GCM), không upload server (như F-Dashboard security rules).
+- **Insights/Charts:** dùng đúng engine nâng cấp của L (balance timeline · daily net · top txns · gauge · donut · AI insights rule-based). Export PDF: full 5 chart + fallback "Chưa đủ dữ liệu", header "Liobank by OCB".
+
+| Thành phần | Path |
+|------------|------|
+| Trang | `content/tools/o-dashboard.md`, `templates/o-dashboard.html` |
+| Styles | `sass/_o-dashboard.scss` (import sau `l-dashboard` trong `site.scss`) |
+| JS | `static/js/o-dashboard/*.js` (`liobank-parser.js`, `app.js`, `export.js`…) |
