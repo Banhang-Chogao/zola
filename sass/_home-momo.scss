@@ -206,7 +206,12 @@
   }
 }
 
-/* Mobile: 1 cột + tabs nhỏ + spacing thu gọn */
+/* ============================================================
+   Mobile (≤720px): momo.vn/blog-style polished cards.
+   CHỈ override trong media query — không đụng selector global/desktop.
+   Hero + card biến thành "surface card": bo góc, đổ bóng nhẹ, ảnh tràn
+   mép trên (overflow:hidden clip), body có padding → cảm giác app-like.
+   ============================================================ */
 @media (max-width: 720px) {
   .home-tabs {
     padding: 0.4rem 0.25rem 0.75rem;
@@ -218,25 +223,98 @@
     }
   }
 
+  /* HERO = card nổi bật, ảnh full-bleed phía trên + nội dung padded */
   .home-hero {
-    margin-bottom: 2rem;
-    gap: 1.1rem;
+    margin-bottom: 1.75rem;
+    gap: 0;
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--c-shadow-md);
 
-    &__title { font-size: 1.4rem; }
-    &__desc  { font-size: 0.92rem; }
-    &__meta  { font-size: 0.78rem; gap: 0.85rem; }
+    &__image {
+      border-radius: 0;
+      aspect-ratio: 16 / 10;
+    }
+
+    &__body { padding: 1.05rem 1.15rem 1.25rem; gap: 0.55rem; }
+
+    &__cat {
+      align-self: flex-start;
+      background: var(--c-accent-soft);
+      color: var(--c-accent);
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+    }
+
+    &__title { font-size: 1.4rem; line-height: 1.22; }
+    &__desc  {
+      font-size: 0.92rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    &__meta  { font-size: 0.78rem; gap: 0.85rem; flex-wrap: wrap; }
   }
 
   .home-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.1rem;
     margin-bottom: 1.5rem;
   }
 
+  /* Card thường = surface card bo góc, ảnh tràn mép, body padded */
   .home-card {
-    gap: 0.75rem;
+    gap: 0;
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--c-shadow-md);
+    transition: box-shadow .2s ease, transform .2s ease;
 
-    &__title { font-size: 1.05rem; }
-    &__desc  { font-size: 0.85rem; -webkit-line-clamp: 2; }
+    &:active { transform: scale(0.99); }
+
+    &__image {
+      border-radius: 0;
+      aspect-ratio: 16 / 9;
+    }
+
+    &__body { padding: 0.85rem 1rem 1.05rem; gap: 0.45rem; }
+
+    &__cat {
+      align-self: flex-start;
+      background: var(--c-accent-soft);
+      color: var(--c-accent);
+      padding: 0.24rem 0.62rem;
+      border-radius: 999px;
+      font-size: 0.66rem;
+    }
+
+    /* "Insights khán giả" hơi thừa trên mobile hẹp → ẩn cho gọn */
+    &__insight { display: none; }
+
+    &__title { font-size: 1.08rem; line-height: 1.32; }
+    &__desc  { font-size: 0.86rem; -webkit-line-clamp: 2; }
+
+    /* touch target: cả tiêu đề dễ chạm */
+    &__title a { display: inline-block; min-height: 24px; }
+  }
+}
+
+/* Điện thoại nhỏ (≤380px): siết padding + cỡ chữ cho vừa màn hình */
+@media (max-width: 380px) {
+  .home-hero {
+    border-radius: 14px;
+    &__body { padding: 0.9rem 1rem 1.1rem; }
+    &__title { font-size: 1.24rem; }
+  }
+  .home-card {
+    border-radius: 14px;
+    &__body { padding: 0.75rem 0.85rem 0.95rem; }
+    &__title { font-size: 1.02rem; }
   }
 }
