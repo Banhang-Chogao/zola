@@ -93,8 +93,74 @@
   }
 
   function setStatus(el, msg, kind) {
+    if (!el) return;
     el.textContent = msg;
     el.className = "cc-status" + (kind ? " cc-status--" + kind : "");
+  }
+
+  /** Clipboard with execCommand fallback (mobile / denied permission). */
+  function copyToClipboard(text) {
+    if (!text) return Promise.reject(new Error("empty"));
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return fallbackCopy(text);
+      });
+    }
+    return fallbackCopy(text);
+  }
+
+  function fallbackCopy(text) {
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      ta.style.top = "0";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        if (ta.setSelectionRange) ta.setSelectionRange(0, text.length);
+      } catch (e) { /* iOS */ }
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+      document.body.removeChild(ta);
+      if (ok) resolve();
+      else reject(new Error("execCommand_failed"));
+    });
+  }
+
+  var copyFeedbackTimer = null;
+
+  function setCopyFeedback(feedbackEl, copyBtn, msg, kind) {
+    if (feedbackEl) {
+      feedbackEl.textContent = msg;
+      feedbackEl.className = "cc-copy-feedback" + (kind ? " cc-copy-feedback--" + kind : "");
+    }
+    if (copyBtn) {
+      if (kind === "success") {
+        var copied = copyBtn.getAttribute("data-label-copied") || "✓ Copied!";
+        copyBtn.textContent = copied;
+        copyBtn.classList.add("cc-btn--copied");
+        if (copyFeedbackTimer) clearTimeout(copyFeedbackTimer);
+        copyFeedbackTimer = setTimeout(function () {
+          copyBtn.textContent = copyBtn.getAttribute("data-label-default") || "📋 Copy prompt";
+          copyBtn.classList.remove("cc-btn--copied");
+          if (feedbackEl) {
+            feedbackEl.textContent = "";
+            feedbackEl.className = "cc-copy-feedback";
+          }
+        }, 2200);
+      } else if (kind === "error") {
+        copyBtn.classList.remove("cc-btn--copied");
+      }
+    }
+    if (window.getSelection && window.getSelection().removeAllRanges) {
+      window.getSelection().removeAllRanges();
+    }
+    if (copyBtn && typeof copyBtn.blur === "function") copyBtn.blur();
   }
 
   function download(filename, text) {
@@ -133,6 +199,7 @@
     var statusEl = document.getElementById("cc-status");
     var promptEl = document.getElementById("cc-prompt");
     var copyBtn = document.getElementById("cc-copy");
+    var copyFeedbackEl = document.getElementById("cc-copy-feedback");
     var dlBtn = document.getElementById("cc-download");
     var openBtn = document.getElementById("cc-open-actions");
     var lastJob = null;
@@ -175,12 +242,27 @@
       }
     });
 
-    copyBtn.addEventListener("click", function () {
-      if (!promptEl.value) return;
-      navigator.clipboard.writeText(promptEl.value).then(function () {
-        setStatus(statusEl, "✓ Đã copy prompt.", "success");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", function () {
+        var text = promptEl && promptEl.value ? promptEl.value.trim() : "";
+        if (!text) {
+          setCopyFeedback(copyFeedbackEl, copyBtn, "Chưa có prompt — bấm Lưu trước.", "error");
+          setStatus(statusEl, "Chưa có prompt để copy.", "error");
+          return;
+        }
+        copyToClipboard(text).then(function () {
+          setCopyFeedback(copyFeedbackEl, copyBtn, "Copied!", "success");
+          setStatus(statusEl, "✓ Đã copy prompt.", "success");
+        }).catch(function () {
+          setCopyFeedback(copyFeedbackEl, copyBtn, "Không copy được — chọn thủ công trong ô prompt.", "error");
+          setStatus(statusEl, "✗ Không copy được. Thử chọn toàn bộ ô prompt và copy thủ công.", "error");
+          if (promptEl) {
+            promptEl.focus();
+            promptEl.select();
+          }
+        });
       });
-    });
+    }
 
     dlBtn.addEventListener("click", function () {
       if (!lastJob) return;
@@ -190,10 +272,15 @@
     document.getElementById("cc-reset").addEventListener("click", function () {
       form.reset();
       promptEl.value = "";
-      copyBtn.disabled = true;
-      dlBtn.disabled = true;
+      if (copyBtn) copyBtn.disabled = true;
+      if (dlBtn) dlBtn.disabled = true;
       if (openBtn) openBtn.hidden = true;
       setStatus(statusEl, "", "");
+      setCopyFeedback(copyFeedbackEl, copyBtn, "", "");
+      if (copyBtn) {
+        copyBtn.textContent = copyBtn.getAttribute("data-label-default") || "📋 Copy prompt";
+        copyBtn.classList.remove("cc-btn--copied");
+      }
       lastJob = null;
     });
   }

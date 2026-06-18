@@ -144,6 +144,23 @@
     opacity: .5;
     cursor: not-allowed;
   }
+
+  &--copied {
+    border-color: #059669;
+    color: #047857;
+    background: #ecfdf5;
+  }
+}
+
+.cc-copy-feedback {
+  align-self: center;
+  font-size: .88rem;
+  font-weight: 600;
+  min-height: 1.2em;
+  padding: 0 .15rem;
+
+  &--success { color: #059669; }
+  &--error { color: #dc2626; }
 }
 
 .cc-status {
