@@ -59,12 +59,16 @@
        Hilda là theme DUY NHẤT → set data-theme="hilda" NGAY trước khi CSS
        render để các rule [data-theme="hilda"] (font vars, smoothing, UX polish)
        áp dụng ngay lần paint đầu, không flash.
-       Inject <link rel="preload"> font Ericsson Hilda (Medium = body,
-       Bold + ExtraBold = heading/title weight 700-800) → chữ chuẩn hiện
-       ngay lần paint đầu, không flash Manrope fallback.
+       Inject <link rel="preload"> font Ericsson Hilda WOFF2 (Medium = body,
+       Bold = heading/title 600-700) → chữ chuẩn hiện ngay lần paint đầu.
+       CHỈ preload 2 weight chủ đạo dạng .woff2 (~35KB/file) thay vì 3 file
+       .ttf (~95KB/file): cắt ~286KB → ~70KB font front-loaded → nhường băng
+       thông cho LCP trên mobile. ExtraBold (decorative) tải on-demand qua
+       @font-face (font-display:swap). PHẢI khớp .woff2 với @font-face để
+       browser không tải trùng .ttf.
        CSP-safe: as="font" + nguồn 'self' (khớp font-src). crossorigin để
        match CORS-fetch của @font-face, tránh tải 2 lần. #}
-    <script>(function(){try{document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.ttf') }}','{{ get_url(path='fonts/EricssonHilda-Bold.ttf') }}','{{ get_url(path='fonts/EricssonHilda-ExtraBold.ttf') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/ttf';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
+    <script>(function(){try{document.documentElement.setAttribute('data-theme','hilda');var f=['{{ get_url(path='fonts/EricssonHilda-Medium.woff2') }}','{{ get_url(path='fonts/EricssonHilda-Bold.woff2') }}'];for(var i=0;i<f.length;i++){var l=document.createElement('link');l.rel='preload';l.as='font';l.type='font/woff2';l.crossOrigin='anonymous';l.href=f[i];document.head.appendChild(l);}}catch(e){}})();</script>
     {# Ảnh thumbnail lỗi/404 (cover hỏng, link chết…) → tự thay bằng placeholder
        thương hiệu, tránh icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ bắt
        bài THIẾU thumbnail): listener này bắt cả ảnh CÓ src nhưng load fail. Dùng
