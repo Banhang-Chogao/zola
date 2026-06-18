@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-18T20:14:01Z",
+  "updated_at": "2026-06-18T20:36:19Z",
   "summary": {
     "broken_count": 1,
-    "checked_unique": 437,
+    "checked_unique": 442,
     "status": "warn"
   },
   "links": [
@@ -1069,6 +1069,15 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/posting/premium-fintech-paywall-demo/",
+      "source_file": "public/posting/premium-fintech-paywall-demo/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/posting/pull-request-quy-trinh-cong-tac-github/",
       "source_file": "public/posting/pull-request-quy-trinh-cong-tac-github/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
@@ -1609,6 +1618,15 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/tags/blog/page/2/",
+      "source_file": "public/tags/blog/page/2/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/tags/bo-dao-nha/",
       "source_file": "public/tags/bo-dao-nha/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
@@ -2034,6 +2052,15 @@
     {
       "source_page": "/tags/festival/",
       "source_file": "public/tags/festival/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/fintech/",
+      "source_file": "public/tags/fintech/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
@@ -2977,6 +3004,15 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/tags/paywall/",
+      "source_file": "public/tags/paywall/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/tags/phi-chuyen-khoan/",
       "source_file": "public/tags/phi-chuyen-khoan/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
@@ -3006,6 +3042,15 @@
     {
       "source_page": "/tags/policy-center/",
       "source_file": "public/tags/policy-center/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/premium/",
+      "source_file": "public/tags/premium/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",
