@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-18T04:35:45Z",
+  "updated_at": "2026-06-18T06:08:28Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 121,
-    "today": 13,
-    "this_week": 121,
-    "this_month": 121,
+    "total": 124,
+    "today": 16,
+    "this_week": 124,
+    "this_month": 124,
     "auto_merged": 1,
     "by_change_type": {
-      "fix": 39,
-      "feature": 32,
+      "feature": 34,
+      "fix": 40,
       "unknown": 5,
       "content": 3,
       "chore": 39,
@@ -20,6 +20,63 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 403,
+      "pr_title": "feat: O-Dashboard — Liobank by OCB PDF statement dashboard",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/403",
+      "merged_at": "2026-06-18T06:05:15Z",
+      "merge_commit_sha": "06d039db1a19765a99fa65bd0e667bc954612cd8",
+      "merge_commit_short": "06d039d",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "New **O-Dashboard** — phân tích sao kê **Liobank by OCB (PDF)** tại `/tools/o-dashboard/`.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 656,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740213422",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 402,
+      "pr_title": "content+feat: bb tax article + richer rule-based insights engine",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/402",
+      "merged_at": "2026-06-18T05:03:28Z",
+      "merge_commit_sha": "75016231fc82dcc3f0583273d9d7a562198567d8",
+      "merge_commit_short": "7501623",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "Two ready items (single dev branch).",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 651,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27737927518",
+      "build_conclusion": "failure"
+    },
+    {
+      "pr_number": 401,
+      "pr_title": "fix(dashboards): PDF export includes full dashboard (5 charts + empty fallbacks)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/401",
+      "merged_at": "2026-06-18T04:38:37Z",
+      "merge_commit_sha": "9317acd47f7451ffe0e07bd6b588f1c7cd8dcf30",
+      "merge_commit_short": "9317acd",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "HOTFIX: PDF export now renders the **full dashboard**, not just the text/cards.",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 647,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27737080965",
+      "build_conclusion": "cancelled"
+    },
     {
       "pr_number": 400,
       "pr_title": "fix(img): resolve 3 missing-image 404s (header/banner/premium thumbnail)",
@@ -37,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 639,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736855516",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 399,
@@ -92,9 +149,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 621,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734687623",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 396,
@@ -111,9 +168,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 615,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734341660",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 395,
@@ -130,9 +187,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 614,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734091151",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 394,
@@ -149,9 +206,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 612,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27733784275",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 393,
@@ -168,9 +225,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 616,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734347192",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 392,
@@ -187,9 +244,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 611,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27733473160",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 391,
