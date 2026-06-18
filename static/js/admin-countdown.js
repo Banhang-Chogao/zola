@@ -146,7 +146,7 @@
     if (end <= Date.now()) {
       el.innerHTML =
         '<span class="footer-countdown__past">SỰ KIỆN ĐÃ DIỄN RA: ' +
-        '<strong class="footer-countdown__title">' + cfg.title + "</strong></span>";
+        '<span class="footer-countdown__title">' + cfg.title + "</span></span>";
       return;
     }
     var sec = Math.floor(left / 1000);
@@ -167,7 +167,7 @@
           '<span class="footer-countdown__word">CÒN</span> ' +
           digit(totalHours) + ' <span class="footer-countdown__word">GIỜ</span> ' +
           digit(minutes) + ' <span class="footer-countdown__word">PHÚT NỮA LÀ TỚI:</span> ' +
-          '<strong class="footer-countdown__title">' + cfg.title + "</strong>" +
+          '<span class="footer-countdown__title">' + cfg.title + "</span>" +
         "</span>" +
       "</span>";
   }
