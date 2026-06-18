@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(pages): thêm trang Tuyên bố bản quyền (chuẩn AdSense + SEO)",
+      "tag": "chore",
+      "lines_added": 182,
+      "lines_removed": 3,
+      "highlights": [
+        "content/pages/copyright.md (mới): quyền sở hữu (© 2026, Luật SHTT VN + Công ước Berne), phạm vi bảo hộ, phân biệt mã nguồn mở vs nội dung, điều kiện trích dẫn/ghi nguồn (gồm cấm scraping & huấn luyện ",
+        "config.toml: thêm vào menu con nhóm \"Giới thiệu\".",
+        "templates/base.html: thêm link \"Bản quyền\" ở footer.",
+        "content/pages/about.md: liên kết tới trang bản quyền.",
+        "python3 scripts/build_references.py → OK"
+      ],
+      "pr": 420
+    },
+    {
+      "date": "2026-06-18",
       "title": "CMS: cập nhật footer countdown",
       "tag": "chore",
       "lines_added": 6,
