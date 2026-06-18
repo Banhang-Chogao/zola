@@ -1,27 +1,27 @@
 {
-  "updated_at": "2026-06-18T08:03:15Z",
+  "updated_at": "2026-06-18T08:03:28Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
     "total": 30,
-    "success": 23,
+    "success": 22,
     "failure": 0,
-    "cancelled": 5,
+    "cancelled": 6,
     "skipped": 0,
     "in_progress": 2
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27745419307,
-      "run_number": 666,
+      "id": 27745532782,
+      "run_number": 667,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T08:01:09Z",
-      "summary_vi": "Build #666 — Deploy blog lên GitHub Pages: Sửa lỗi: fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745419307"
+      "started_at": "2026-06-18T08:03:18Z",
+      "summary_vi": "Build #667 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:03:15Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745532782"
     },
     "qa.yml": {
       "id": 27745407106,
@@ -38,15 +38,15 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27745419307,
-      "run_number": 666,
+      "id": 27745532782,
+      "run_number": 667,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T08:01:09Z",
-      "summary_vi": "Build #666 — Deploy blog lên GitHub Pages: Sửa lỗi: fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745419307"
+      "started_at": "2026-06-18T08:03:18Z",
+      "summary_vi": "Build #667 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:03:15Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745532782"
     },
     {
       "workflow_file": "qa.yml",
@@ -2581,9 +2581,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T08:03:28Z",
+      "stats": {
+        "total": 30,
+        "success": 22,
+        "failure": 0,
+        "cancelled": 6,
+        "skipped": 0,
+        "in_progress": 2
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27745532782,
+          "run_number": 667,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "pending",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T08:03:18Z",
+          "summary_vi": "Build #667 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:03:15Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745532782"
+        },
+        "qa.yml": {
+          "id": 27745407106,
+          "run_number": 1540,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-18T08:00:56Z",
+          "summary_vi": "Build #1540 — Kiểm tra QA Gatekeeper: fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O (#404)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745407106"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27745532782,
+      "run_number": 667,
+      "commit_id": "3991cee86eb4194c94901e19156674fe812e81f4",
+      "commit_short": "3991cee",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/3991cee86eb4194c94901e19156674fe812e81f4",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745532782",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #667 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:03:15Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "pending",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T08:03:18Z",
+      "duration_sec": 3
+    },
     {
       "id": 27745419307,
       "run_number": 666,
@@ -2594,17 +2652,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #666 — Deploy blog lên GitHub Pages: Sửa lỗi: fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #667).",
       "started_at": "2026-06-18T08:01:09Z",
-      "duration_sec": 3
+      "duration_sec": 132
     },
     {
       "id": 27745407138,
@@ -2935,28 +2993,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-18T05:49:59Z",
       "duration_sec": 128
-    },
-    {
-      "id": 27739507799,
-      "run_number": 652,
-      "commit_id": "85a68a90563b35b66161fb9f25d2ad491111cbd6",
-      "commit_short": "85a68a9",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/85a68a90563b35b66161fb9f25d2ad491111cbd6",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27739507799",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #652 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-18) [skip changelog]",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-18T05:47:20Z",
-      "duration_sec": 138
     },
     {
       "id": 27737927548,
