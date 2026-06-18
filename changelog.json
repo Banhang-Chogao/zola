@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "Add báo chí article — macOS 27 Golden Gate có gì mới",
+      "tag": "feat",
+      "lines_added": 237,
+      "lines_removed": 1,
+      "highlights": [
+        "File: content/baochi/macos-27-golden-gate-co-gi-moi.md",
+        "Category: [\"Tất cả\", \"Báo chí\", \"Công nghệ\"]",
+        "Độ dài: 1534 từ · SEO QA 100/100 (A+)",
+        "Có block FAQ + FAQPage schema (4 câu), thumbnail og:image, internal + external links uy tín.",
+        "python3 scripts/seo_qa_checker.py content/baochi/macos-27-golden-gate-co-gi-moi.md → 100/100 A+"
+      ],
+      "pr": 414
+    },
+    {
+      "date": "2026-06-18",
       "title": "thêm workflow auto-merge thật (ZERO_BARRIER) — hết kẹt merge tay",
       "tag": "feat",
       "lines_added": 251,

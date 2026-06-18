@@ -77,16 +77,18 @@ git push "$REMOTE_URL" HEAD:main
 
 echo "✓ Pushed directly to main"
 
-# Pushes via GITHUB_TOKEN (github-actions[bot]) do not trigger downstream workflows.
-# WORKFLOW_BOT_PAT pushes behave like a normal user and fire push triggers.
-if [ -z "${WORKFLOW_BOT_PAT:-}" ]; then
-  if command -v gh >/dev/null 2>&1; then
-    if gh workflow run deploy.yml --ref main; then
-      echo "✓ Triggered deploy.yml (bot-push workaround)"
-    else
-      echo "::warning::push_to_main: failed to trigger deploy.yml — run workflow_dispatch manually"
-    fi
+# KHÔNG còn tự dispatch deploy sau MỌI bot push — đây là nguồn chính của "cơn bão"
+# deploy làm cạn GitHub API rate limit của installation (configure-pages đỏ).
+#   - Data bot refresh (dashboard/trends/activity…): publish theo cron 6h trong
+#     deploy.yml (không cần deploy tức thì).
+#   - Nội dung (PR merge vào main): tự deploy qua push trigger của deploy.yml.
+# Caller nào THỰC SỰ cần deploy ngay sau push → gọi với DISPATCH_DEPLOY=true.
+if [ "${DISPATCH_DEPLOY:-false}" = "true" ] && [ -z "${WORKFLOW_BOT_PAT:-}" ]; then
+  if command -v gh >/dev/null 2>&1 && gh workflow run deploy.yml --ref main; then
+    echo "✓ Triggered deploy.yml (DISPATCH_DEPLOY=true)"
   else
-    echo "::warning::push_to_main: gh not found — deploy not auto-triggered after bot push"
+    echo "::warning::push_to_main: không dispatch được deploy (kiểm tra gh / DISPATCH_DEPLOY)"
   fi
+else
+  echo "ℹ️ push_to_main: bỏ qua dispatch deploy — publish qua cron 6h hoặc content merge"
 fi

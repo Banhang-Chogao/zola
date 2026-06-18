@@ -1,10 +1,18 @@
 name: Auto-merge
 
 # ZERO_BARRIER: QA Gatekeeper xanh → tự squash-merge PR mở vào main → deploy.
-# Dùng workflow_run để có quyền ghi an toàn (khác pull_request từ fork).
 # Engine: scripts/try_auto_merge.py · Policy: data/auto-merge-policy.json
+#
+# Trigger:
+#   - schedule (5'): NGUỒN TIN CẬY CHÍNH — quét mọi PR mở, merge cái nào qa-check
+#     xanh + mergeable. workflow_run KHÔNG fire ổn định cho run trên branch feature
+#     (head_branch hay về main) nên không thể dựa vào nó cho PR thật.
+#   - workflow_run: fast-path khi nó có fire (đỡ phải chờ tới nhịp cron).
+#   - workflow_dispatch: chạy tay (tuỳ chọn input pr_number).
 
 on:
+  schedule:
+    - cron: '*/5 * * * *'
   workflow_run:
     workflows: ["QA Gatekeeper"]
     types: [completed]
@@ -26,8 +34,9 @@ concurrency:
 
 jobs:
   auto-merge:
-    # Chỉ chạy khi QA xanh (workflow_run) hoặc khi dispatch tay
+    # Chạy khi: cron schedule, dispatch tay, hoặc QA Gatekeeper xanh (workflow_run)
     if: >-
+      github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
