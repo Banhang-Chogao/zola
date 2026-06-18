@@ -301,11 +301,35 @@
   }
 
   async function extractPdfText(arrayBuffer) {
+    if (global.LDashboardPdf && typeof global.LDashboardPdf.ensureReady === "function") {
+      await global.LDashboardPdf.ensureReady();
+    }
     const pdfjs = global.pdfjsLib;
-    if (!pdfjs) throw new Error("pdf.js chưa tải — không thể đọc PDF LPBank");
+    if (!pdfjs) {
+      const hint =
+        global.LDashboardPdf && global.LDashboardPdf.getLastError
+          ? global.LDashboardPdf.getLastError()
+          : null;
+      throw new Error(
+        hint && hint.message
+          ? hint.message
+          : "pdf.js chưa tải — không thể đọc PDF LPBank"
+      );
+    }
 
-    const loadingTask = pdfjs.getDocument({ data: arrayBuffer });
-    const pdf = await loadingTask.promise;
+    let pdf;
+    try {
+      const loadingTask = pdfjs.getDocument({ data: arrayBuffer });
+      pdf = await loadingTask.promise;
+    } catch (firstErr) {
+      if (global.LDashboardPdf && typeof global.LDashboardPdf.retryWithCdnWorker === "function") {
+        await global.LDashboardPdf.retryWithCdnWorker();
+        const retryTask = pdfjs.getDocument({ data: arrayBuffer });
+        pdf = await retryTask.promise;
+      } else {
+        throw firstErr;
+      }
+    }
     const chunks = [];
 
     for (let i = 1; i <= pdf.numPages; i++) {
