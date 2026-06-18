@@ -114,9 +114,9 @@
                     <h3 class="insights__details-title">{{ total_prs }} pull requests merged by 1 person</h3>
                 </header>
 
-                <ol class="insights__timeline" aria-label="Pull requests timeline">
+                <ol class="insights__timeline" data-insights-timeline aria-label="Pull requests timeline">
                     {% for item in pr_items %}
-                    <li class="insights__pr">
+                    <li class="insights__pr" data-timeline-row>
                         <span class="insights__pr-dot" aria-hidden="true"></span>
                         <div class="insights__pr-body">
                             <h4 class="insights__pr-title">
@@ -136,6 +136,18 @@
                     </li>
                     {% endfor %}
                 </ol>
+
+                <nav class="insights__timeline-pager" data-timeline-pager hidden aria-label="Timeline pagination">
+                    <button type="button" class="insights__timeline-pager-btn" data-timeline-prev disabled>
+                        ← Prev
+                    </button>
+                    <span class="insights__timeline-pager-info" data-timeline-page-info aria-live="polite">
+                        Trang 1 / 1
+                    </span>
+                    <button type="button" class="insights__timeline-pager-btn" data-timeline-next>
+                        Next →
+                    </button>
+                </nav>
             </div>
 
             {# ===== RIGHT: OVERVIEW STATS ===== #}
@@ -671,6 +683,7 @@
 
 {% block extra_scripts %}
 <script src="{{ get_url(path='js/github-activity.js') }}" defer></script>
+<script src="{{ get_url(path='js/insights-timeline.js') }}" defer></script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
