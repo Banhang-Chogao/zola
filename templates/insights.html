@@ -677,6 +677,68 @@
             </div>
         </div>
 
+        {# ===== Daily Vaccine Autofixer (Vaccine V11) ===== #}
+        {% set vaccine = load_data(path="data/vaccine-autofixer-report.json", required=false) %}
+        {% set vaccine_state = load_data(path="data/vaccine-autofixer-state.json", required=false) %}
+        <section class="vaccine-panel" aria-labelledby="vaccine-panel-title">
+            <div class="vaccine-panel__head">
+                <h2 class="vaccine-panel__title" id="vaccine-panel-title">🧪 Daily Vaccine Autofixer</h2>
+                {% if vaccine_state and vaccine_state.running %}
+                    <span class="vaccine-chip vaccine-chip--warn">Đang chạy…</span>
+                {% endif %}
+                <a class="vaccine-panel__run-btn"
+                   href="https://github.com/Banhang-Chogao/zola/actions/workflows/vaccine-autofixer.yml"
+                   target="_blank" rel="noopener"
+                   title="Mở GitHub Actions → Run workflow (vacxin11)">▶ Run Daily Vaccine Autofixer</a>
+            </div>
+
+            {% if vaccine %}
+            <div class="vaccine-panel__meta">
+                <span>Last run: <strong>
+                    {% if vaccine.last_run %}{{ vaccine.last_run | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}—{% endif %}
+                </strong></span>
+                <span>Next scheduled: <strong>
+                    {% if vaccine.next_scheduled_run %}{{ vaccine.next_scheduled_run | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}06:00 hằng ngày{% endif %}
+                </strong></span>
+                <span>Trigger: <strong>{{ vaccine.trigger | default(value="—") }}</strong></span>
+                <span>Vaccine library: <strong>{{ vaccine.vaccine_library_count | default(value=0) }}</strong></span>
+                <span>Đã fix: <strong>{{ vaccine.fixed_count | default(value=0) }}</strong></span>
+            </div>
+
+            <div class="vaccine-panel__chips">
+                {% if vaccine.status == "ok" %}
+                    <span class="vaccine-chip vaccine-chip--ok">✓ {{ vaccine.status }}</span>
+                {% elif vaccine.status == "dry-run" %}
+                    <span class="vaccine-chip vaccine-chip--idle">{{ vaccine.status }}</span>
+                {% else %}
+                    <span class="vaccine-chip vaccine-chip--fail">✗ {{ vaccine.status }}</span>
+                {% endif %}
+                {% if vaccine.qa_result %}
+                    <span class="vaccine-chip vaccine-chip--{% if vaccine.qa_result.passed %}ok{% else %}fail{% endif %}">QA: {% if vaccine.qa_result.passed %}pass{% else %}fail{% endif %}</span>
+                {% endif %}
+                {% if vaccine.build_result %}
+                    <span class="vaccine-chip vaccine-chip--{% if vaccine.build_result.passed %}ok{% else %}fail{% endif %}">Build: {% if vaccine.build_result.passed %}pass{% else %}fail{% endif %}</span>
+                {% endif %}
+                <span class="vaccine-chip vaccine-chip--{% if vaccine.production_status == 'up-to-date' %}ok{% else %}warn{% endif %}">Prod: {{ vaccine.production_status | default(value="—") }}</span>
+            </div>
+
+            {% if vaccine.matched_vaccines and vaccine.matched_vaccines | length > 0 %}
+            <p class="vaccine-panel__meta" style="margin-top:.9rem;margin-bottom:.4rem;">Vaccine khớp lần chạy này:</p>
+            <div class="vaccine-panel__chips">
+                {% for mv in vaccine.matched_vaccines %}
+                    <span class="vaccine-chip vaccine-chip--{% if mv.fixed %}fixed{% else %}warn{% endif %}" title="{{ mv.detail }}">
+                        {{ mv.code }} · {{ mv.name }}{% if mv.fixed %} ✓{% endif %}
+                    </span>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="vaccine-panel__empty" style="margin-top:.6rem;">Lần chạy gần nhất: không phát hiện vaccine-class issue nào cần fix. 🟢</p>
+            {% endif %}
+            {% else %}
+            <p class="vaccine-panel__empty">Chưa có báo cáo. Chạy <code>vacxin11</code> hoặc đợi lịch 06:00 (GMT+7) để sinh báo cáo đầu tiên.</p>
+            {% endif %}
+        </section>
+
         {{ github_activity::widget() }}
     </section>
 {% endblock main %}

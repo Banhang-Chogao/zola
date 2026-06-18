@@ -1,0 +1,74 @@
+name: Daily Vaccine Autofixer
+
+# Vaccine V11 — Daily Vaccine Autofixer.
+# Reads the vaccine library from CLAUDE.md, scans the repo, auto-fixes the SAFE
+# vaccine-class issues, runs QA, writes data/vaccine-autofixer-report.json, and
+# (if anything changed) opens a PR — never a direct push to main.
+#
+# Schedule: 06:00 Asia/Ho_Chi_Minh (= 23:00 UTC the previous day).
+# Manual:   workflow_dispatch (the `vacxin11` shortcut) — runs immediately.
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # 23:00 UTC == 06:00 Asia/Ho_Chi_Minh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# No concurrent runs: a second trigger queues behind the active one.
+concurrency:
+  group: vaccine-autofixer
+  cancel-in-progress: false
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Zola for build verification
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Run engine tests
+        run: python3 -m unittest scripts.test_vaccine_autofixer -v
+
+      - name: Run Daily Vaccine Autofixer
+        id: autofix
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/vaccine_autofixer.py --trigger schedule
+
+      - name: Open PR if anything changed (PR flow — never push to main)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes — nothing to PR."
+            exit 0
+          fi
+          BRANCH="chore/vaccine-autofixer-$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore(vaccine): daily autofixer report + safe fixes"
+          git push -u origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "chore(vaccine): Daily Vaccine Autofixer run" \
+            --body "Automated run of the Daily Vaccine Autofixer (Vaccine V11). Auto-merges when QA passes." \
+            || echo "::warning::could not open PR automatically"

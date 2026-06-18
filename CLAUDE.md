@@ -336,6 +336,32 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   (references → 156 posts), QA PASS, push → auto-merge landed #451 with no further
   conflicts.
 
+#### V11 — Daily Vaccine Autofixer (manual shortcut `vacxin11` + cron 06:00 ICT)
+
+> Process/tooling vaccine — KHÔNG phải lỗi build. Đây là engine tự chạy CHÍNH bộ
+> vaccine này hằng ngày, và shortcut chạy ngay theo yêu cầu.
+
+- **Mục đích:** chạy ngay bộ "Daily Vaccine Autofixer" mà không chờ lịch 06:00
+  (Asia/Ho_Chi_Minh). Đọc thư viện vaccine trong `CLAUDE.md` → quét repo → auto-fix
+  các issue AN TOÀN → chạy QA/build → lưu log → cập nhật report cho trang Insights.
+- **Trigger:** lệnh `vacxin11` (xem `shortcuts.md`) **hoặc** nút *Run Daily Vaccine
+  Autofixer* trên trang Insights → GitHub Actions `workflow_dispatch`. Cùng engine
+  với run theo lịch.
+- **Engine:** `scripts/vaccine_autofixer.py` (`load_vaccines` parse các block
+  `#### V<N> — …`; các step fixer AN TOÀN reuse tool sẵn có: V1 HF model id,
+  internal-link 404 `--fix`, references; rule-checker report-only). Report:
+  `data/vaccine-autofixer-report.json` (trigger → matched vaccines → fixes → QA →
+  production status). Lock `data/vaccine-autofixer-state.json` (stale sau 30').
+- **Rules (BẮT BUỘC):** (1) **Không chạy đồng thời** — lock + `concurrency` group
+  trong workflow; run mới khi đang chạy → skip (exit 3). (2) **Code change đi qua
+  PR flow** — workflow `vaccine-autofixer.yml` mở PR `chore/vaccine-autofixer-*`,
+  KHÔNG push thẳng `main`; auto-merge khi QA xanh → deploy. (3) **Theo dõi PR tới
+  khi MERGED + deploy production xong.**
+- **File map:** `scripts/vaccine_autofixer.py` · `scripts/test_vaccine_autofixer.py`
+  · `.github/workflows/vaccine-autofixer.yml` · UI `templates/insights.html`
+  (`.vaccine-panel`) + `sass/_vaccine-autofixer.scss` · data
+  `data/vaccine-autofixer-report.json` / `-state.json` / `.log`.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
