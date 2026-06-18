@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "fix(dashboards): PDF export includes full dashboard (5 charts + empty fallbacks)",
+      "tag": "fix",
+      "lines_added": 376,
+      "lines_removed": 4,
+      "highlights": [
+        "Capture: live Chart.js via toBase64Image('image/jpeg') → white bg (no black/transparent), aspect-ratio preserved, fits content width.",
+        "Empty-data fallback (per section, from charts payload): clean card \"Chưa đủ dữ liệu để phân tích\" — never blank/black chart, never NaN/undefined (values via formatVnd).",
+        "Page-break aware; watermark / Mysign signature / page-numbers auto-applied to new pages via existing finalizePdfPages. KPI/health/tiers/insights/table/Nokia fonts intact.",
+        "Untouched: parser, upload, JSON/CSV export, storage, auth. Each bank keeps its own schema (F: amount/balance · L: debit/credit/balance) + its own canvas ids."
+      ],
+      "pr": 401
+    },
+    {
+      "date": "2026-06-18",
       "title": "fix(img): resolve 3 missing-image 404s (header/banner/premium thumbnail)",
       "tag": "fix",
       "lines_added": 12,
