@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-18T01:15:22Z",
+  "updated_at": "2026-06-18T02:23:28Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 112,
-    "today": 4,
-    "this_week": 112,
-    "this_month": 112,
+    "total": 113,
+    "today": 5,
+    "this_week": 113,
+    "this_month": 113,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 36,
       "unknown": 4,
-      "fix": 35,
       "content": 3,
       "feature": 28,
       "chore": 39,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 392,
+      "pr_title": "fix: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/392",
+      "merged_at": "2026-06-18T02:21:06Z",
+      "merge_commit_sha": "90070c8143007c96e537e2d97bb54c81c42fe972",
+      "merge_commit_short": "90070c8",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "Four verified fixes from this session (all on the session dev branch).",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 597,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732492554",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 391,
       "pr_title": "hotfix(l-dashboard): LPBank PDF.js CSP + local vendor assets",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 588,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730190137",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 390,
@@ -111,9 +130,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 568,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727510584",
-      "build_conclusion": "success"
+      "build_run_number": 587,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27728088713",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 387,
@@ -130,8 +149,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 561,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726789044",
+      "build_run_number": 585,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727807895",
       "build_conclusion": "success"
     },
     {
@@ -225,9 +244,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 567,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727289351",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 380,
@@ -244,9 +263,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 565,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726917760",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 382,
@@ -263,9 +282,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 565,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726917760",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 379,
@@ -282,9 +301,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 560,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726613188",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 374,
