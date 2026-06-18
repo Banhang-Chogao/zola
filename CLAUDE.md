@@ -272,6 +272,25 @@ Trước khi tạo PR cho thay đổi CSS:
 - Mental check: thay đổi này có ảnh hưởng desktop scroll không?
 - Mental check: thay đổi này có ảnh hưởng mobile menu open/close không?
 - Nếu sửa `overflow`, `height`, `position` → ghi rõ trong PR description vì sao thay đổi an toàn.
+- Responsive matrix: kiểm tra **360, 390, 768, 1024, desktop** trước merge.
+
+### 6. Responsive UX Standards — Momo-inspired (18/06/2026)
+
+> Chuẩn tái sử dụng học từ [momo.vn/blog](https://www.momo.vn/blog). Bổ sung §1–§5,
+> KHÔNG thay thế. Áp dụng khi tối ưu feed/card/article mobile.
+
+| ID | Pattern | Symptom nếu thiếu | Fix / Prevention |
+|----|---------|-------------------|------------------|
+| **R1** | **Surface card feed** | Card list ngang chật trên tablet; ảnh bé | ≤768px: stack 1 cột; ảnh top `aspect-ratio: 16/9–16/10`; body `padding: 1–1.25rem`; `border-radius: 14–18px` + shadow nhẹ. Ref: `_post.scss`, `_home-momo.scss`. |
+| **R2** | **Readable prose scale** | Tường chữ / chữ quá nhỏ mobile | Body mobile `15–16px`, `line-height: 1.65–1.75`; H1 bài `1.35–1.75rem`; tablet 769–1024 có thể `1.02rem` body. Ref: `_reset.scss`, `_single.scss`. |
+| **R3** | **Summary line-clamp** | Excerpt dài đẩy fold | Card summary `-webkit-line-clamp: 2` (mobile), `3` (desktop). Class đúng: `post-card__summary` (KHÔNG `__excerpt`). |
+| **R4** | **Category nav scroll** | Menu kẹt / wrap xấu mobile | Navbar ≤720px: horizontal scroll tabs, `scroll-snap`, ẩn scrollbar; active = underline accent. Ref: `_navbar.scss`. |
+| **R5** | **Pill category chip** | Tag category khó quét | Mobile: pill `border-radius: 999px`, nền `var(--c-accent-soft)`. Ref: `_home-momo.scss`. |
+| **R6** | **Touch target scope** | Link trong đoạn văn bị padding → gãy dòng | `min-height: 44px` CHỈ chrome (nav, CTA, card image, pagination) — **KHÔNG** `a[href]` global. Prose links `padding: 0`. Ref: `_reset.scss`. |
+| **R7** | **Safe horizontal inset** | Nội dung sát mép notch | `.container` dùng `max(12–16px, env(safe-area-inset-*))`. Không `overflow-x: hidden` trên `html`. |
+| **R8** | **Scrollable embeds** | Code/table kéo ngang cả page | `pre`, `table` trong `.post-single__content`: `overflow-x: auto; -webkit-overflow-scrolling: touch` — scope mobile only. |
+
+**Selector hygiene (R3):** trước khi thêm mobile override, grep class trong `templates/` — selector CSS phải khớp HTML thật.
 
 ## Quy tắc hiển thị thời gian (Timezone & Date format)
 
