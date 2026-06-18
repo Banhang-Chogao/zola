@@ -157,6 +157,14 @@
             </div>
         </section>
 
+        <section class="fd-panel fd-geo-panel">
+            <h2 class="fd-panel__title">Giao dịch theo vùng địa lý</h2>
+            <p class="dash-geo__note">Địa điểm được suy ra từ nội dung giao dịch. Giao dịch không ghi địa điểm sẽ mặc định tính cho TP. Hồ Chí Minh.</p>
+            <div id="fd-geo">
+                <p class="dash-geo__empty">Upload sao kê để xem phân bố giao dịch theo địa điểm.</p>
+            </div>
+        </section>
+
         <section class="fd-panel fd-insights-panel">
             <h2 class="fd-panel__title">AI Insights</h2>
             <ul class="fd-insights" id="fd-insights-list">
@@ -243,5 +251,6 @@
     <script src="{{ get_url(path='js/f-dashboard/insights.js') }}" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/charts.js') }}" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/export.js') }}" defer></script>
+    <script src="{{ get_url(path='js/f-dashboard/geo.js') }}" defer></script>
     <script src="{{ get_url(path='js/f-dashboard/app.js') }}" defer></script>
 {% endblock %}

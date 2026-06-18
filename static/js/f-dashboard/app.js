@@ -24,6 +24,7 @@
     els.summary = $("#fd-summary");
     els.health = $("#fd-health");
     els.insights = $("#fd-insights-list");
+    els.geo = $("#fd-geo");
     els.tbody = $("#fd-table-body");
     els.pagination = $("#fd-pagination");
     els.filterDate = $("#fd-filter-date");
@@ -154,6 +155,9 @@
     FDashboardCharts.renderAll(payload.charts);
     renderInsights(payload.insights);
     highlightHealthLegend(payload.health.health_label);
+
+    const geoTxs = filteredTransactions.length ? filteredTransactions : allTransactions;
+    if (window.FDashboardGeo && els.geo) window.FDashboardGeo.render(geoTxs, els.geo);
   }
 
   function highlightHealthLegend(label) {
