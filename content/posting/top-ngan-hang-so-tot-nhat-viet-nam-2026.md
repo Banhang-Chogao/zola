@@ -93,7 +93,7 @@ Mở ngân hàng số chỉ là bước đầu — quản lý dòng tiền mới
 
 ## Bảo mật: ngân hàng số có an toàn không?
 
-Hệ thống ngân hàng số an toàn về mặt kỹ thuật, nhưng rủi ro lớn nhất là **người dùng**: lộ OTP, bấm link lừa đảo, cài app giả. Xem chi tiết ở bài [các rủi ro khi dùng ngân hàng số](/zola/posting/rui-ro-khi-su-dung-ngan-hang-so/) (đang cập nhật). Nguyên tắc vàng: không bao giờ chia sẻ OTP, chỉ tải app từ store chính thức.
+Hệ thống ngân hàng số an toàn về mặt kỹ thuật, nhưng rủi ro lớn nhất là **người dùng**: lộ OTP, bấm link lừa đảo, cài app giả. Bài riêng về *các rủi ro khi dùng ngân hàng số* sẽ được bổ sung trong cụm bài này. Nguyên tắc vàng: không bao giờ chia sẻ OTP, chỉ tải app từ store chính thức, và tham khảo cảnh báo từ [Ngân hàng Nhà nước](https://www.sbv.gov.vn).
 
 ## Gợi ý dành cho bạn
 
