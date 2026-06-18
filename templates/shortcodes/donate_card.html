@@ -13,8 +13,10 @@
    Tham số — đều TÙY CHỌN (có default), truyền biến linh hoạt:
      title        — tiêu đề khối            (mặc định "Ủng Hộ Dự Án")
      description  — mô tả lời kêu gọi
-     momo_url     — link MoMo               (mặc định page.extra.donate_momo_url
-                                             → config.extra.momo_payment_link)
+     momo_url     — link MoMo donate        (mặc định page.extra.donate_momo_url
+                                             → config.extra.donate_momo_link;
+                                             KHÔNG dùng momo_payment_link của
+                                             paywall; rỗng = ẩn nút)
      qr_image     — đường dẫn ảnh QR MoMo   (rỗng = ẩn QR; lazy-load)
      button_text  — nhãn nút                (mặc định "Ủng Hộ Qua MoMo")
 
@@ -25,7 +27,7 @@
 
 {%- set d_title = title | default(value="Ủng Hộ Dự Án") -%}
 {%- set d_desc = description | default(value="Nếu bài viết hoặc công cụ trên website đã giúp ích cho bạn, bạn có thể đóng góp tự nguyện để hỗ trợ chi phí vận hành và mục tiêu mua tên miền .AI cho dự án.") -%}
-{%- set cfg_momo = config.extra.momo_payment_link | default(value="https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr") -%}
+{%- set cfg_momo = config.extra.donate_momo_link | default(value="") -%}
 {%- set fm_momo = page.extra.donate_momo_url | default(value=cfg_momo) -%}
 {%- set d_momo = momo_url | default(value=fm_momo) -%}
 {%- set d_qr = qr_image | default(value=page.extra.donate_qr | default(value="")) -%}
@@ -46,6 +48,7 @@
     </figure>
     {% endif %}
 
+    {% if d_momo %}
     <a class="donate-card__btn" href="{{ d_momo }}" target="_blank"
        rel="noopener noreferrer nofollow"
        aria-label="{{ d_btn }} — mở ứng dụng MoMo trong tab mới">
@@ -55,6 +58,7 @@
       </svg>
       <span>{{ d_btn }}</span>
     </a>
+    {% endif %}
 
     <p class="donate-card__uses-label">Mọi khoản đóng góp đều được sử dụng cho:</p>
     <ul class="donate-card__uses">

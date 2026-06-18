@@ -913,7 +913,9 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 ## Momo Payment Rules
 
-- Payment link mặc định: `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr`
+- Payment link mặc định (premium paywall **và** donate): `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG`
+  - Cấu hình: `config.toml` → `momo_payment_link` (paywall) + `donate_momo_link` (donate, key riêng để đổi độc lập). Hiện cùng tài khoản nhận tiền.
+  - Đồng bộ ở: `config.toml`, `templates/macros/paywall.html` (fallback), `backend/paywall_app.py` (`MOMO_LINK` default), `render.yaml` (`MOMO_PAYMENT_LINK`), `docs/paywall.md`. Khi đổi link → cập nhật TẤT CẢ chỗ này.
 - Override qua env `MOMO_PAYMENT_LINK` trên backend.
 - Flow: đọc teaser → thanh toán Momo → gửi yêu cầu (email) → admin xác nhận → generate approve code → gửi email.
 - Không có webhook Momo — xác nhận thanh toán thủ công qua admin panel.

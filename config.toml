@@ -128,7 +128,11 @@ cms_auth_url = "https://blog-visitor-api.onrender.com"
 paywall_api_url = "https://blog-paywall-api.onrender.com"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
-momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr"
+momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
+# Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
+# lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link
+# ở trên. DonatePremiumCard (shortcode donate_card) chỉ đọc key này. Trống = ẩn nút.
+donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:

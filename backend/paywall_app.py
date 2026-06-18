@@ -48,7 +48,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PRIVATE_CONTENT = ROOT / "private_content"
 MOMO_LINK = os.getenv(
     "MOMO_PAYMENT_LINK",
-    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr",
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
 )
 BLOG_DOMAIN = os.getenv("PAYWALL_BLOG_DOMAIN", "banhang-chogao.github.io")
 BLOG_NAME = os.getenv("PAYWALL_BLOG_NAME", "Duy Nguyen Blog")

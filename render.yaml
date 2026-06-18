@@ -94,7 +94,7 @@ services:
       - key: PAYWALL_DB_PATH
         value: /var/data/paywall.db
       - key: MOMO_PAYMENT_LINK
-        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG
       - key: PAYWALL_ADMIN_TOKEN
         sync: false
       - key: SMTP_HOST
