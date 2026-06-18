@@ -136,6 +136,25 @@ workflow nào đang đỏ.
   rộng `_COMMENT_SPAN_RE` / bỏ qua context tương ứng. KHÔNG merge PR perf-audit
   chứa edit rác trong comment; đóng PR + để run sau regenerate sạch.
 
+#### V5 — `deploy.yml` (Build & Deploy): `configure-pages` "API rate limit exceeded for installation"
+
+- **Dấu hiệu:** bước `actions/configure-pages` đỏ với `Get Pages site failed ... API
+  rate limit exceeded for installation`; **`zola build` vẫn PASS** (lỗi ở khâu Pages,
+  KHÔNG phải build/Tera); nhiều deploy run liên tiếp đỏ/huỷ trong thời gian ngắn.
+- **Nguyên nhân:** "bão deploy" làm cạn quota API **theo giờ** của GitHub App
+  installation — mỗi bot refresh (~10 workflow) gọi `push_to_main.sh` → dispatch
+  `deploy.yml`; cộng burst nhiều PR merge cùng giờ; mỗi deploy còn chạy
+  `build_github_activity.py` (gọi GitHub API nặng). KHÔNG phải lỗi code. Ngày thường
+  (ít merge) không chạm ngưỡng nên "trước không bị, nay mới bị".
+- **FIXER (đã áp 18/06):** `deploy.yml` → `concurrency.cancel-in-progress: true`
+  (gộp bão, chỉ run mới nhất chạy tới cùng) + `configure-pages` `enablement: true`
+  (đúng khuyến nghị action cho lỗi này) + `schedule: cron '0 */6 * * *'` (publish data
+  bot định kỳ thay vì mỗi refresh tự dispatch). `push_to_main.sh` → **BỎ tự dispatch
+  deploy** sau mỗi bot push (chỉ dispatch khi `DISPATCH_DEPLOY=true`). Đang đỏ tạm
+  thời → đợi quota hồi (theo giờ); deploy push/cron kế tiếp sẽ xanh. Content (PR
+  merge) vẫn deploy ngay; data bot trễ ≤6h (chấp nhận được). `cancelled` do
+  concurrency = bình thường, KHÔNG phải fail.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
