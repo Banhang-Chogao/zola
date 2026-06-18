@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "fix(img): resolve 3 missing-image 404s (header/banner/premium thumbnail)",
+      "tag": "fix",
+      "lines_added": 12,
+      "lines_removed": 6113,
+      "highlights": [],
+      "pr": 400
+    },
+    {
+      "date": "2026-06-18",
       "title": "content-based domain selector + offline-safe qa-404-checker",
       "tag": "feat",
       "lines_added": 28658,
