@@ -337,10 +337,14 @@ def score_post(path):
         k: {"got": round(WEIGHTS[k] * got[k], 1), "max": WEIGHTS[k]}
         for k in WEIGHTS
     }
+    # `published` lets consumers (e.g. SEO board) skip drafts so they never
+    # render a live link to a page Zola won't build (draft = true) → avoids
+    # broken internal links surfaced by qa-404-checker.
+    published = not bool(fm.get("draft", False))
     return {
         "title": title, "slug": slug, "keyword": keyword,
         "score": score, "grade": grade(score),
-        "word_count": word_count,
+        "word_count": word_count, "published": published,
         "breakdown": breakdown, "issues": issues,
     }
 
@@ -368,6 +372,7 @@ def save_to_db(db, rel, res, now):
         "score": res["score"],
         "grade": res["grade"],
         "word_count": res.get("word_count", 0),
+        "published": res.get("published", True),
         "scored_at": now.isoformat(),
         "breakdown": res["breakdown"],
         "issues": res["issues"],

@@ -162,6 +162,36 @@
         </section>
         {% endif %}
 
+        {# ===== PREV / NEXT POST NAVIGATION ("Đọc tiếp") =====
+           SEO crawl-depth + anti-orphan: link every post to its chronological
+           siblings so no published page is left without inbound/outbound links.
+           Zola exposes page.lower / page.higher for the page's section (sorted
+           by date here): lower = older post (lower date), higher = newer post.
+           The guard renders nothing when a section has no neighbours.
+           Complements series-nav above, which only links within a curated
+           series — this works for every standalone post too. ===== #}
+        {% if page.lower or page.higher %}
+        <nav class="post-nav" aria-label="Đọc tiếp">
+            <p class="post-nav__title">Đọc tiếp</p>
+            <div class="post-nav__grid">
+                {% if page.lower %}
+                <a class="post-nav__link post-nav__link--prev" href="{{ page.lower.permalink }}" rel="prev">
+                    <span class="post-nav__dir">← Bài trước</span>
+                    <span class="post-nav__label">{{ page.lower.title }}</span>
+                </a>
+                {% else %}
+                <span class="post-nav__link post-nav__link--empty" aria-hidden="true"></span>
+                {% endif %}
+                {% if page.higher %}
+                <a class="post-nav__link post-nav__link--next" href="{{ page.higher.permalink }}" rel="next">
+                    <span class="post-nav__dir">Bài kế tiếp →</span>
+                    <span class="post-nav__label">{{ page.higher.title }}</span>
+                </a>
+                {% endif %}
+            </div>
+        </nav>
+        {% endif %}
+
         {% if page.taxonomies.tags %}
             <footer class="post-single__footer">
                 <div class="tag-list">
