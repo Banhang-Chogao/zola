@@ -954,8 +954,8 @@ Bot gợi ý **tên miền** cho blog "Chợ Gạo" (banhang-chogao) — chạy 
 ### Cách hoạt động
 
 1. **Quét niche:** đọc title/description + `[taxonomies]` categories/tags trên `content/posting` + `content/baochi` + `content/pages` + `content/tools` → phân tích tần suất (stdlib, không lib ngoài) ra top keywords, chủ đề chính (công nghệ · báo chí · ngân hàng · du lịch…), tông thương hiệu.
-2. **Sinh ứng viên:** brand token `chogao` × niche token (bank/finance/travel/tech/seo…) × TLD `.com .vn .com.vn .net`. Blocklist nhãn hiệu (google, vietinbank, momo, liobank…) → KHÔNG đề xuất tên dính trademark.
-3. **Chấm điểm 0–100** từ sub-scores có trọng số: `brand_fit 0.25` · `seo_fit 0.22` · `memorability 0.15` · `shortness 0.13` · `availability 0.15` · `trademark_risk 0.10` (nghịch đảo rủi ro). Sort desc.
+2. **Sinh ứng viên (V2 — bám CONTENT, KHÔNG khóa brand cũ):** base sinh từ **niche tokens** quét được × pool brandable `{blog, seo, tech, congnghe, kiemtien, hoc, tuhoc, viet, money, fintech, saoke, web, so}` + modifier `{viet, hoc, tao, tu, online, lab, hub, blog}` (combo ≤14 ký tự, VN-readable) + seed tên tác giả (`config.author`). **KHÔNG** dùng `chogao`/repo slug nữa. TLD `.com .vn .com.vn .net .blog`. Blocklist nhãn hiệu mở rộng (google, adsense, blogger, wordpress, vietinbank, momo, liobank, msb, bidv…) → loại base dính trademark.
+3. **Chấm điểm 0–100 (rubric V2)** từ sub-scores có trọng số: `content_relevance 0.25` · `keyword_value 0.20` · `brandability 0.20` · `memorability 0.15` · `expansion_potential 0.12` · `trademark_safety 0.08`. (`brand_fit` cũ đã BỎ — domain phải phản ánh content thật.) `availability` là badge riêng, không vào 100 điểm. Sort desc. top5 = 5 base khác nhau (TLD tốt nhất mỗi base).
 4. **Availability (adapter):** nếu env `DOMAIN_CHECK_API_KEY` set → hook `check_via_api()` (hiện STUB trả `None` → cần nối provider thật); else **fallback DNS** `socket.getaddrinfo`, **timeout cứng 3s/domain**, chỉ kiểm tra **shortlist ≤15** domain điểm cao nhất. DNS độ chính xác THẤP (resolve→taken, NXDOMAIN→available; domain đã đăng ký nhưng chưa trỏ DNS vẫn báo available). Lỗi/timeout → `unknown`.
 
 > ⚠️ ANTI-HANG: timeout 3s/domain + cap 15 domain + mọi check bọc try/except. Script **không bao giờ crash build**: lỗi network/parse → giữ report cũ (cache) + exit 0.
@@ -984,3 +984,27 @@ python3 qa-domain-selector.py --limit 8  # giới hạn số domain check availa
 | Report | `data/qa-domain-selector-report.json` |
 | Workflow (cron 2h) | `.github/workflows/qa-domain-selector.yml` |
 | Insights UI | `templates/insights.html` (block `.insights__domains`), `sass/_insights.scss` |
+
+## QA 404 / Broken-Link Checker
+
+`qa-404-checker.py` (REPO ROOT, stdlib) — crawl `public/` sau `zola build`, soi link hỏng theo chuẩn SEO. Chạy mỗi **2 giờ** (`qa-404-checker.yml`) + `workflow_dispatch`.
+
+- **OFFLINE-SAFE (mặc định KHÔNG network → không bao giờ treo):** chỉ check link **nội bộ** bằng resolve vào file trong `public/` (xử lý prefix `/zola` theo `base_url`). Skip alias/redirect stub (`http-equiv=refresh`).
+- **Link ngoài chỉ khi `--external`:** HEAD→GET urllib, timeout 8s/URL, ≤5 redirect, dedupe, cap ≤200, mọi request try/except → lỗi/timeout ghi `error_type` rồi tiếp. External fail = warn, KHÔNG fail build.
+- **`--fix`:** tự sửa link **nội bộ** 404 khi suy được URL đúng gần nhất (theo `compliance_fix.py`), sửa **source `content/*.md`**, KHÔNG đụng `public/`, KHÔNG sửa link ngoài.
+- **Report `data/qa-404-report.json`:** `summary{broken_count, checked, status}` + `links[]{source_page, source_file, href, target, status, error_type, suggestion, kind}`.
+- **Exit code:** `2` nếu còn link **nội bộ** hỏng (CI gate); `0` nếu sạch. Thiếu `public/` / lỗi bất ngờ → giữ cache + exit 0 (không crash CI).
+
+### Cách phát hiện & fix (kinh nghiệm)
+
+- **Nguyên nhân hay gặp:** ref tới asset không tồn tại (vd `/img/header-banner.webp`, `/img/banner.webp` trong `base.html`/`page.html` — ảnh thiếu trong `static/`), hoặc link nội bộ sai prefix (`/zola/pages/privacy/` thay vì `/zola/privacy/`).
+- **Cách fix:** link bài sai → `--fix` tự nắn về URL đúng gần nhất; ảnh/asset thiếu → tạo file `webp/svg` trong `static/` hoặc gỡ ref (checker KHÔNG tự bịa ảnh).
+- **Chạy lại:** `python3 qa-404-checker.py` (nội bộ, nhanh) · `--external` (thêm link ngoài) · `--fix` (tự sửa nội bộ).
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Script | `qa-404-checker.py` (REPO ROOT) |
+| Report | `data/qa-404-report.json` |
+| Workflow (cron 2h) | `.github/workflows/qa-404-checker.yml` |
