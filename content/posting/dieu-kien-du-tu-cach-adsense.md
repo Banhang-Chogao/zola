@@ -1,6 +1,6 @@
 +++
 title = "Điều kiện đủ tư cách tham gia AdSense"
-description = "Điều kiện AdSense gồm tuổi 18+, nội dung gốc, quyền sở hữu site và tuân thủ Program policies. Series Nền tảng AdSense — Bài 2/15 bám Eligibility requirements chính thức."
+description = "Điều kiện đủ tư cách AdSense: tuổi, nội dung gốc, site sẵn sàng. Series AdSense Bài 2/15 — bám Google AdSense Help chính thức."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]

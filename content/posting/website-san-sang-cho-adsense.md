@@ -1,6 +1,6 @@
 +++
 title = "Website sẵn sàng cho AdSense: nội dung, navigation, UX"
-description = "Website sẵn sàng cho AdSense cần nội dung gốc, navigation rõ, UX tốt và trang About/Privacy. Series Nền tảng AdSense — Bài 3/15 bám Make sure your site's pages are ready for AdSense."
+description = "Website sẵn sàng cho AdSense: nội dung, navigation, policy pages. Series AdSense Bài 3/15 — checklist trước khi đăng ký."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
@@ -48,7 +48,7 @@ a = "Có. Google hỏi rõ: menu có dễ đọc, căn chỉnh đúng, dropdown 
 11. [Bạn nên làm gì sau bài 3?](#sau-bai-3)
 12. [Tóm lại](#tom-lai)
 
-## Site readiness AdSense là gì — theo Google {#site-readiness-theo-google}
+## Website sẵn sàng cho AdSense — site readiness theo Google {#site-readiness-theo-google}
 
 Google mở đầu [Make sure your site's pages are ready for AdSense](https://support.google.com/adsense/answer/7299563?hl=en) bằng một câu then chốt:
 

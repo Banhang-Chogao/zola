@@ -1,6 +1,6 @@
 +++
 title = "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?"
-description = "Bao lâu để thấy kết quả SEO sau khi sửa title, nội dung hay deploy bài mới? Series Nền tảng SEO — Bài 3/15 bám How long until I see impact từ Google SEO Starter Guide."
+description = "Bao lâu để thấy kết quả SEO sau khi sửa title hay deploy bài mới? Series Nền tảng SEO Bài 3/15 — bám Google SEO Starter Guide."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
@@ -46,7 +46,7 @@ Bạn sửa title, thêm 500 từ, bấm merge GitHub Actions, rồi mở Google
 10. [Bạn nên làm gì sau bài 3?](#sau-bai-3)
 11. [Tóm lại](#tom-lai)
 
-## Google nói gì về thời gian thấy kết quả SEO? {#google-noi-gi}
+## Bao lâu để thấy kết quả SEO theo Google? {#google-noi-gi}
 
 Google viết thẳng trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide):
 

@@ -1,5 +1,5 @@
 +++
-title = "Điều gì xảy ra khi cơ sở hạt nhân bị phá hủy hoặc tiêu hủy vật liệu?"
+title = "Phá hủy cơ sở hạt nhân và tiêu hủy uranium: điều gì xảy ra?"
 description = "Phá hủy cơ sở hạt nhân và tiêu hủy uranium làm giàu: disposition vật liệu, IAEA safeguards, rủi ro môi trường. Series Khoa học 5/5 — hoàn tất series Uranium."
 date = 2026-06-18
 [taxonomies]
@@ -7,7 +7,7 @@ categories = ["Tất cả", "Khoa học"]
 tags = ["hạt nhân", "khoa học", "năng lượng", "science uranium series", "uranium", "IAEA", "tiêu hủy"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
-seo_keyword = "phá hủy cơ sở hạt nhân tiêu hủy uranium"
+seo_keyword = "phá hủy cơ sở hạt nhân"
 featured = false
 series = "science-uranium"
 series_part = 5
@@ -59,7 +59,7 @@ Phá hủy **cơ sở** không tự động tiêu hủy **toàn bộ kho** đã 
 
 [Bài 3](/zola/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/) đã nói cascade và tails — sau phá hủy, **mất dấu vật liệu** trong accountancy là vấn đề IAEA nghiêm trọng hơn vỡ máy.
 
-## Phá hủy hoặc tấn công cơ sở hạt nhân — điều gì xảy ra? {#pha-huy-co-so}
+## Phá hủy cơ sở hạt nhân — điều gì xảy ra khi bị tấn công? {#pha-huy-co-so}
 
 Khi cơ sở hạt nhân (nhà máy làm giàu, kho lưu UF₆, hoặc lò điện) **bị tấn công quân sự hoặc phá hoại**:
 

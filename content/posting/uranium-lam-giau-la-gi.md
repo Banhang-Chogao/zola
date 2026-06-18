@@ -1,6 +1,6 @@
 +++
 title = "Uranium làm giàu là gì? Các mức độ 0,7% đến 90%"
-description = "Làm giàu uranium (enrichment) là gì, các mốc 0,7%–3–5%–20%–60%–90% nghĩa là gì, và vì sao cùng một quy trình khoa học lại được giám sát khác nhau? Series Khoa học 2/5 — giáo dục, trung lập."
+description = "Uranium làm giàu là gì: LEU, HEU, % U-235 và ứng dụng. Series Khoa học Bài 2/5 — bám IAEA và World Nuclear Association."
 date = 2026-06-18
 aliases = ["/uranium-lam-giau-la-gi/"]
 [taxonomies]
