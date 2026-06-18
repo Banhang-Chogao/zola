@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "style(mobile): polish homepage feed thành card momo-style (mobile-only)",
+      "tag": "chore",
+      "lines_added": 88,
+      "lines_removed": 10,
+      "highlights": [
+        "Hero card: surface bo góc 18px, đổ bóng nhẹ (--c-shadow-md), ảnh full-bleed phía trên, body có padding, category là pill (--c-accent-soft).",
+        ".home-card: surface bo góc 16px, shadow, ảnh tràn mép, body padded, category pill, :active scale nhẹ (phản hồi chạm), ẩn nhãn \"Insights khán giả\" thừa, siết line-clamp.",
+        "≤380px: giảm padding + cỡ chữ cho máy nhỏ.",
+        "✅ Chỉ sửa trong @media (max-width: 720px) / ≤380px — không sửa selector global, .container, html/body.",
+        "✅ Không đụng desktop (grid 3 cột, hero 2 cột giữ nguyên)."
+      ],
+      "pr": 429
+    },
+    {
+      "date": "2026-06-18",
       "title": "feat(tools): H-Dashboard — invoice (hóa đơn) spending analyzer with OCR",
       "tag": "chore",
       "lines_added": 4744,
