@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-18T04:04:31Z",
+  "updated_at": "2026-06-18T04:26:56Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 119,
-    "today": 11,
-    "this_week": 119,
-    "this_month": 119,
+    "total": 120,
+    "today": 12,
+    "this_week": 120,
+    "this_month": 120,
     "auto_merged": 1,
     "by_change_type": {
+      "feature": 32,
       "unknown": 5,
-      "feature": 31,
       "fix": 38,
       "content": 3,
       "chore": 39,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 399,
+      "pr_title": "feat: content-based domain selector + offline-safe qa-404-checker",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/399",
+      "merged_at": "2026-06-18T04:23:42Z",
+      "merge_commit_sha": "d0f2cd643a19db026c60527967ec5fc789286e90",
+      "merge_commit_short": "d0f2cd6",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "Two approved utility tasks.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 632,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736582414",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 398,
       "pr_title": "PREVIEW: Phase-4 dashboard analytics + Insights pagination refactor",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 628,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27735890937",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 397,
