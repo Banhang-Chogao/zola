@@ -27,6 +27,7 @@
     els.summary = $("#od-summary");
     els.health = $("#od-health");
     els.insights = $("#od-insights-list");
+    els.geo = $("#od-geo");
     els.tbody = $("#od-table-body");
     els.pagination = $("#od-pagination");
     els.filterDate = $("#od-filter-date");
@@ -139,6 +140,9 @@
     ODashboardCharts.renderAll(payload.charts);
     renderInsights(payload.insights);
     highlightHealthLegend(payload.health.health_label);
+
+    const geoTxs = filteredTransactions.length ? filteredTransactions : allTransactions;
+    if (window.ODashboardGeo && els.geo) window.ODashboardGeo.render(geoTxs, els.geo);
   }
 
   function highlightHealthLegend(label) {

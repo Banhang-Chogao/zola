@@ -156,6 +156,14 @@
             </div>
         </section>
 
+        <section class="od-panel od-geo-panel">
+            <h2 class="od-panel__title">Giao dịch theo vùng địa lý</h2>
+            <p class="dash-geo__note">Địa điểm được suy ra từ nội dung giao dịch. Giao dịch không ghi địa điểm sẽ mặc định tính cho TP. Hồ Chí Minh.</p>
+            <div id="od-geo">
+                <p class="dash-geo__empty">Upload sao kê để xem phân bố giao dịch theo địa điểm.</p>
+            </div>
+        </section>
+
         <section class="od-panel od-insights-panel">
             <h2 class="od-panel__title">AI Insights</h2>
             <ul class="od-insights" id="od-insights-list">
@@ -243,5 +251,6 @@
     <script src="{{ get_url(path='js/o-dashboard/insights.js') }}" defer></script>
     <script src="{{ get_url(path='js/o-dashboard/charts.js') }}" defer></script>
     <script src="{{ get_url(path='js/o-dashboard/export.js') }}" defer></script>
+    <script src="{{ get_url(path='js/o-dashboard/geo.js') }}" defer></script>
     <script src="{{ get_url(path='js/o-dashboard/app.js') }}" defer></script>
 {% endblock %}
