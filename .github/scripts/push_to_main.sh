@@ -45,7 +45,19 @@ fi
 git pull --rebase origin main
 
 if [ "$STASHED" = "true" ]; then
-  git stash pop
+  # 💉 VACCINE: stash pop có thể CONFLICT khi cùng data/*.json bị main regenerate
+  # (vd data/merge-report.json) — trước đây `set -e` → exit 1 → bot đỏ giả.
+  # Bot vừa regenerate data ở local = bản MỚI muốn publish → giữ bản stash (bot)
+  # cho file conflict, drop stash, tiếp tục. Không để conflict kéo sập workflow.
+  if ! git stash pop; then
+    CONFLICTS="$(git diff --name-only --diff-filter=U || true)"
+    echo "::warning::push_to_main: stash pop conflict — giữ bản bot vừa regenerate cho: ${CONFLICTS}"
+    for cf in $CONFLICTS; do
+      git checkout --theirs -- "$cf" 2>/dev/null || git checkout stash@{0} -- "$cf" 2>/dev/null || true
+      git add -- "$cf"
+    done
+    git stash drop 2>/dev/null || true
+  fi
 fi
 
 HAS_CHANGE=false

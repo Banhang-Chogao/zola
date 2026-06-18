@@ -155,6 +155,43 @@ workflow nào đang đỏ.
   merge) vẫn deploy ngay; data bot trễ ≤6h (chấp nhận được). `cancelled` do
   concurrency = bình thường, KHÔNG phải fail.
 
+#### V6 — bot data refresh (`push_to_main.sh`): `git stash pop` CONFLICT trên `data/*.json` regenerate
+
+- **Dấu hiệu:** workflow refresh data (vd **Fetch Merge Report**, build-dashboard,
+  trends…) đỏ với log: `Saved working directory ... push_to_main: pre-pull` →
+  `git pull --rebase` cập nhật `data/*.json` → `CONFLICT (content): Merge conflict
+  in data/<file>.json` (vd `data/merge-report.json`) → `The stash entry is kept` →
+  `##[error]Process completed with exit code 1`. **KHÔNG phải lỗi build/Tera.**
+- **Nguyên nhân:** bot regenerate `data/*.json` ở local → `stash` → `pull --rebase`
+  (main đã regenerate cùng file ấy) → `stash pop` đụng nhau. `set -euo pipefail` →
+  `git stash pop` exit≠0 làm chết script → workflow đỏ giả. Cùng họ với 💉 VACCINE
+  "Conflict ở DATA FILE CI/HOOK TỰ SINH" (Learning Log) nhưng ở **luồng push của bot**.
+- **FIXER (đã áp):** `.github/scripts/push_to_main.sh` bọc `git stash pop` trong
+  `if ! git stash pop; then` → với mỗi file unmerged (`--diff-filter=U`) lấy bản
+  **bot vừa regenerate** (`git checkout --theirs` / fallback `git checkout stash@{0}`),
+  `git add`, rồi `git stash drop`. Bot data mới nhất = bản publish → conflict KHÔNG
+  còn kéo sập workflow. (Bản chất: data CI tự sinh → không bao giờ để conflict làm đỏ.)
+
+#### V7 — `build-failure-handler.yml` / `qa-failed.py`: bot remediation TỰ ĐỎ khi không chẩn được
+
+- **Dấu hiệu:** workflow **Build Failure Auto-Remediation** đỏ; log `qa-failed.py`:
+  `get_run_status error: Expecting value: line 1 column 3 (char 2)` (gh trả non-JSON)
+  → `poll #1/5 ... status=unknown` → `gh issue create ... timeout` →
+  `##[error]Process completed with exit code 1`. Bot đi sửa lỗi run khác lại **tự
+  fail**.
+- **Nguyên nhân:** (1) `get_run_status` parse `gh run view --json` không bền (gh in
+  non-JSON khi rate-limit/output bẩn) → `unknown`; (2) `wait_for_completion` **bail
+  ngay** khi `unknown` → tạo issue "timeout" giả; (3) `qa-failed.py` exit≠0 ở mọi
+  nhánh escalate + step workflow **không** `continue-on-error` → chính workflow
+  remediation đỏ (noise, có thể tự trigger lại). Trái triết lý V3/V5 (observer/
+  remediation KHÔNG được tự đỏ).
+- **FIXER (đã áp):** (a) `qa-failed.py wait_for_completion` **retry** khi `unknown`
+  (gh tạm lỗi) thay vì bail — chỉ bỏ cuộc sau hết attempts; (b) step "Analyze
+  failure" trong `build-failure-handler.yml` thêm `continue-on-error: true` (nuốt
+  exit code như V3; step sau vẫn gate `steps.fix.outputs.pushed`). Quy tắc chung:
+  **mọi workflow observer/remediation/QA report-only → `continue-on-error` hoặc nuốt
+  exit**, chỉ để CI gate thật (qa-check, zola build) mới được đỏ.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
