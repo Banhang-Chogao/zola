@@ -11,6 +11,8 @@
     {% set manifest = load_data(path="data/science-uranium-series.json", required=false) %}
 {% elif page.extra and page.extra.series is defined and page.extra.series == "ngan-hang-so" %}
     {% set manifest = load_data(path="data/ngan-hang-so-series.json", required=false) %}
+{% elif page.extra and page.extra.series is defined and page.extra.series == "git-github" %}
+    {% set manifest = load_data(path="data/git-github-series.json", required=false) %}
 {% endif %}
 {% if manifest and page.extra and page.extra.series is defined and page.extra.series == manifest.id %}
     {% set current_part = page.extra.series_part | default(value=0) %}
