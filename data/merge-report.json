@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-18T10:50:21Z",
+  "updated_at": "2026-06-18T11:55:56Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 137,
-    "today": 29,
-    "this_week": 137,
-    "this_month": 137,
+    "total": 140,
+    "today": 32,
+    "this_week": 140,
+    "this_month": 140,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 41,
+      "feature": 43,
+      "unknown": 8,
       "fix": 43,
-      "unknown": 7,
       "ci": 3,
       "content": 3,
       "chore": 39,
@@ -20,6 +20,63 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 419,
+      "pr_title": "feat: phím tắt pp — liệt kê rule + vaccine trong CLAUDE.md",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/419",
+      "merged_at": "2026-06-18T11:02:37Z",
+      "merge_commit_sha": "9b981b221195a7cbfc2c7952de5a5bfe3d286211",
+      "merge_commit_short": "9b981b2",
+      "head_branch": "claude/awesome-brown-u90pas",
+      "summary_vi": "Thêm phím tắt **`pp`** vào `shortcuts.md` (theo yêu cầu user).",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 418,
+      "pr_title": "docs: rule mỗi thay đổi = 1 PR riêng (không gộp)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/418",
+      "merged_at": "2026-06-18T10:57:49Z",
+      "merge_commit_sha": "de14e3ddc45a75bee83c9aa87be3d5f454a22c44",
+      "merge_commit_short": "de14e3d",
+      "head_branch": "claude/awesome-brown-u90pas",
+      "summary_vi": "Thêm rule vào `CLAUDE.md` § Quy tắc Git / Pull Request (theo yêu cầu user):",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 415,
+      "pr_title": "feat: Bài kêu gọi ủng hộ dự án AI + component DonatePremiumCard",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/415",
+      "merged_at": "2026-06-18T10:53:41Z",
+      "merge_commit_sha": "3892154d4f6ea3f0e4caa333b202ae0b100a3d0e",
+      "merge_commit_short": "3892154",
+      "head_branch": "claude/zen-ride-cj2edi",
+      "summary_vi": "Thêm một **bài blog chuẩn SEO kêu gọi ủng hộ tự nguyện** (gây quỹ mua tên miền `.AI`) và một **component `DonatePremiumCard`** tái sử dụng, hiển thị khối \"Ủng Hộ Dự Án\" cuối bài — **KHÔNG khoá nội dung**, không yêu cầu t",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 414,
       "pr_title": "feat: Add báo chí article — macOS 27 Golden Gate có gì mới",
@@ -37,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 716,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27754203388",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 417,
@@ -56,7 +113,7 @@
       "auto_merged": false,
       "build_run_number": 716,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27754203388",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 416,
@@ -75,7 +132,7 @@
       "auto_merged": false,
       "build_run_number": 716,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27754203388",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 413,
