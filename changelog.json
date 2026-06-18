@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "chore(content): tạm ẩn bài có category \"premium\"",
+      "tag": "chore",
+      "lines_added": 1,
+      "lines_removed": 0,
+      "highlights": [
+        "Thêm draft = true vào front matter → Zola bỏ qua khi build, bài không còn xuất hiện trên site (listing, taxonomy, sitemap). Đây là cách ẩn tạm thời, có thể đảo ngược (chỉ cần xoá draft = true để hiện ",
+        "Chạy build_references.py để bài bị ẩn rời khỏi data/references.json.",
+        "Đây là ẩn tạm; nội dung và file vẫn còn trong repo.",
+        "Các data file khác (related.json, scores.json) được CI tự refresh và đã bỏ qua draft.",
+        "Nếu sau này muốn ẩn theo cơ chế khác (vẫn build nhưng loại khỏi listing), có thể chuyển sang lọc theo category trong template — báo mình nếu cần."
+      ],
+      "pr": 428
+    },
+    {
+      "date": "2026-06-18",
       "title": "feat(seo): cover SVG → twin .og.webp cho og:image (social hiện đúng ảnh bài)",
       "tag": "chore",
       "lines_added": 172,
