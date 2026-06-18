@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(toc): global auto Table of Contents (native page.toc)",
+      "tag": "chore",
+      "lines_added": 102,
+      "lines_removed": 203,
+      "highlights": [
+        "templates/page.html — render <nav class=\"toc\"> từ page.toc, gate toc_total >= 3 and page.extra.toc|default(true).",
+        "sass/_toc.scss (mới) + sass/site.scss — style scoped .post-single__content .toc, semantic tokens (dark-mode), responsive ≤720px.",
+        "14 content/posting/*.md — gỡ block ## Mục lục thủ công.",
+        "CLAUDE.md — quy chuẩn TOC.",
+        "Hiện khi ≥ 3 heading (H2/H3). Bài ngắn → ẩn."
+      ],
+      "pr": 393
+    },
+    {
+      "date": "2026-06-18",
       "title": "footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash",
       "tag": "fix",
       "lines_added": 138,
