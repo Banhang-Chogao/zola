@@ -1,37 +1,14 @@
 +++
 title = "Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn"
-description = "Học câu điều kiện tiếng Hàn ngày 27: -(으)면 (nếu), -아/어야 하다 (phải), -(으)면 되다 (là được), -(으)면 안 되다 (không được). Series Premium 30 ngày → TOPIK."
 date = 2026-06-18
-aliases = ["/cau-dieu-kien-gia-dinh-tieng-han/"]
 
 [taxonomies]
-categories = ["Tất cả", "premium", "Học tiếng Hàn"]
+categories = ["premium"]
 tags = ["học tiếng hàn", "câu điều kiện tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
 
 [extra]
-premium = true
-price = 49000
-premium_post_id = "premium-han30-27"
-premium_title = "Ngày 27 — Điều kiện & nghĩa vụ: -(으)면, -아야 하다, -(으)면 되다"
-premium_teaser_words = 210
-seo_keyword = "câu điều kiện tiếng hàn"
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
-featured = false
-series = "korean-30day"
-series_part = 27
-series_total = 30
-
-[[extra.faq]]
-q = "Câu điều kiện tiếng Hàn -(으)면 dùng thế nào?"
-a = "-(으)면 nghĩa là 'nếu… thì…', gắn vào gốc động/tính từ: gốc có nguyên âm dùng -면, gốc có phụ âm dùng -으면. Ví dụ: 시간이 있으면 만나요 = nếu có thời gian thì gặp nhau. Đây là cấu trúc điều kiện cơ bản nhất trong tiếng Hàn."
-
-[[extra.faq]]
-q = "Cách nói 'phải làm gì đó' trong tiếng Hàn?"
-a = "Dùng -아/어야 하다 hoặc -아/어야 되다 để diễn tả nghĩa vụ. Ví dụ 가야 해요 = phải đi, 공부해야 돼요 = phải học. 하다 thiên về văn viết/trang trọng, 되다 thiên về văn nói tự nhiên."
-
-[[extra.faq]]
-q = "Phân biệt -(으)면 되다 và -(으)면 안 되다 trong tiếng Hàn?"
-a = "-(으)면 되다 nghĩa là 'làm… là được/đủ rồi' (điều kiện đủ): 이렇게 하면 돼요 = làm thế này là được. -(으)면 안 되다 nghĩa là 'không được làm…' (cấm): 들어가면 안 돼요 = không được vào. Cùng gốc -(으)면 nhưng nghĩa trái ngược nhờ 되다 và 안 되다."
+premium = true
 +++
 
 > 🇰🇷 **Series Premium · Ngày 27/30** — *30 ngày tự học tiếng Hàn từ vỡ lòng → sơ cấp 2, tiệm cận cấp 3.* Bám giáo trình **Seoul · Yonsei** và đề **[TOPIK](https://www.topik.go.kr/)** công khai.
