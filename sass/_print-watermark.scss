@@ -1,0 +1,47 @@
+/* ============================================================
+   Print watermark — chỉ hiện khi in / xuất PDF từ trình duyệt.
+   Nội dung & vị trí do print-watermark.js dựng: {16hex}_{domain}.
+   Ẩn hoàn toàn trên màn hình (không ảnh hưởng layout/scroll desktop & mobile).
+   ============================================================ */
+#print-watermark {
+  display: none;
+}
+
+@media print {
+  #print-watermark {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    overflow: hidden;
+
+    /* lưới chéo lặp lại */
+    .print-watermark__tile {
+      position: absolute;
+      font-size: 11px;
+      color: rgba(220, 38, 38, .14);
+      transform: rotate(-32deg);
+      white-space: nowrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    @for $i from 0 through 11 {
+      .print-watermark__tile:nth-child(#{$i + 1}) {
+        top: #{($i % 4) * 26 + 8}#{"%"};
+        left: #{(($i % 3) * 34) + 4}#{"%"};
+      }
+    }
+
+    .print-watermark__center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-32deg);
+      font-size: 22px;
+      color: rgba(220, 38, 38, .18);
+      white-space: nowrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+  }
+}
