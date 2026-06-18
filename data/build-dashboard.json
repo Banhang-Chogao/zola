@@ -1,35 +1,35 @@
 {
-  "updated_at": "2026-06-18T04:25:28Z",
+  "updated_at": "2026-06-18T04:25:54Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
     "total": 30,
-    "success": 16,
+    "success": 17,
     "failure": 2,
     "cancelled": 9,
     "skipped": 0,
-    "in_progress": 3
+    "in_progress": 2
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27736588347,
-      "run_number": 633,
+      "id": 27736640440,
+      "run_number": 634,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T04:23:57Z",
-      "summary_vi": "Build #633 — Deploy blog lên GitHub Pages: Thêm tính năng: content-based domain selector + offline-safe qa-404-checker",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736588347"
+      "started_at": "2026-06-18T04:25:30Z",
+      "summary_vi": "Build #634 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T04:25:28Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736640440"
     },
     "qa.yml": {
       "id": 27736582431,
       "run_number": 1528,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T04:23:45Z",
       "summary_vi": "Build #1528 — Kiểm tra QA Gatekeeper: feat: content-based domain selector + offline-safe qa-404-checker (#399)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736582431"
@@ -38,24 +38,24 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27736588347,
-      "run_number": 633,
+      "id": 27736640440,
+      "run_number": 634,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T04:23:57Z",
-      "summary_vi": "Build #633 — Deploy blog lên GitHub Pages: Thêm tính năng: content-based domain selector + offline-safe qa-404-checker",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736588347"
+      "started_at": "2026-06-18T04:25:30Z",
+      "summary_vi": "Build #634 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T04:25:28Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736640440"
     },
     {
       "workflow_file": "qa.yml",
       "id": 27736582431,
       "run_number": 1528,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T04:23:45Z",
       "summary_vi": "Build #1528 — Kiểm tra QA Gatekeeper: feat: content-based domain selector + offline-safe qa-404-checker (#399)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736582431"
@@ -2077,9 +2077,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T04:25:54Z",
+      "stats": {
+        "total": 30,
+        "success": 17,
+        "failure": 2,
+        "cancelled": 9,
+        "skipped": 0,
+        "in_progress": 2
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27736640440,
+          "run_number": 634,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "pending",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T04:25:30Z",
+          "summary_vi": "Build #634 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T04:25:28Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736640440"
+        },
+        "qa.yml": {
+          "id": 27736582431,
+          "run_number": 1528,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-18T04:23:45Z",
+          "summary_vi": "Build #1528 — Kiểm tra QA Gatekeeper: feat: content-based domain selector + offline-safe qa-404-checker (#399)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736582431"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27736640440,
+      "run_number": 634,
+      "commit_id": "71a98a974fd8d21f839927f4ea6a9b74ca962915",
+      "commit_short": "71a98a9",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/71a98a974fd8d21f839927f4ea6a9b74ca962915",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736640440",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #634 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T04:25:28Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "pending",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T04:25:30Z",
+      "duration_sec": 2
+    },
     {
       "id": 27736588347,
       "run_number": 633,
@@ -2090,17 +2148,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #633 — Deploy blog lên GitHub Pages: Thêm tính năng: content-based domain selector + offline-safe qa-404-checker",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #634).",
       "started_at": "2026-06-18T04:23:57Z",
-      "duration_sec": 2
+      "duration_sec": 95
     },
     {
       "id": 27736582414,
@@ -2122,7 +2180,7 @@
       "cancel_reason": "",
       "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
       "started_at": "2026-06-18T04:23:45Z",
-      "duration_sec": 4
+      "duration_sec": 116
     },
     {
       "id": 27736582431,
@@ -2134,17 +2192,17 @@
       "workflow": "QA Gatekeeper",
       "workflow_file": "qa.yml",
       "summary_vi": "Build #1528 — Kiểm tra QA Gatekeeper: feat: content-based domain selector + offline-safe qa-404-checker (#399)",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-18T04:23:45Z",
-      "duration_sec": 10
+      "duration_sec": 114
     },
     {
       "id": 27735923045,
@@ -2455,28 +2513,6 @@
       "duration_sec": 172
     },
     {
-      "id": 27734437291,
-      "run_number": 619,
-      "commit_id": "12f92ad33495b0154e79a4e9af5f3adcb05f730e",
-      "commit_short": "12f92ad",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/12f92ad33495b0154e79a4e9af5f3adcb05f730e",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734437291",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #619 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-18T03:19:14Z) [skip changelog]",
-      "status_vi": "Đã huỷ",
-      "status_normalized": "cancelled",
-      "gh_status": "completed",
-      "success": false,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "cancelled",
-      "cancel_reason": "concurrency",
-      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #620).",
-      "started_at": "2026-06-18T03:19:17Z",
-      "duration_sec": 31
-    },
-    {
       "id": 27734341674,
       "run_number": 1521,
       "commit_id": "3856aef4615a80e5fee2478065a4767d1da4c28f",
@@ -2740,7 +2776,5 @@
       "started_at": "2026-06-17T23:34:15Z",
       "duration_sec": 42
     }
-  ],
-  "last_fetch_error": "GitHub API 403: {\n\t\"message\": \"API rate limit exceeded for installation. If you reach out to GitHub Support for help, please include the request ID 57C0:A4BAC:1FE0A98:74E8B42:6A336F01 and timestamp 2026-06-18 04:07:29 UTC. For more on scraping GitHub and how it may affect your rights, please review ",
-  "last_fetch_error_at": "2026-06-18T04:07:29Z"
+  ]
 }
