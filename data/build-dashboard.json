@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T02:22:33Z",
+  "updated_at": "2026-06-18T02:23:20Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
@@ -7,29 +7,29 @@
     "total": 30,
     "success": 18,
     "failure": 2,
-    "cancelled": 7,
+    "cancelled": 8,
     "skipped": 0,
-    "in_progress": 3
+    "in_progress": 2
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27732499651,
-      "run_number": 598,
+      "id": 27732541181,
+      "run_number": 599,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T02:21:22Z",
-      "summary_vi": "Build #598 — Deploy blog lên GitHub Pages: Sửa lỗi: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732499651"
+      "started_at": "2026-06-18T02:22:35Z",
+      "summary_vi": "Build #599 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:22:33Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732541181"
     },
     "qa.yml": {
       "id": 27732492539,
       "run_number": 1513,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T02:21:09Z",
       "summary_vi": "Build #1513 — Kiểm tra QA Gatekeeper: fix: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash (#392)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732492539"
@@ -38,24 +38,24 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27732499651,
-      "run_number": 598,
+      "id": 27732541181,
+      "run_number": 599,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T02:21:22Z",
-      "summary_vi": "Build #598 — Deploy blog lên GitHub Pages: Sửa lỗi: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732499651"
+      "started_at": "2026-06-18T02:22:35Z",
+      "summary_vi": "Build #599 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:22:33Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732541181"
     },
     {
       "workflow_file": "qa.yml",
       "id": 27732492539,
       "run_number": 1513,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T02:21:09Z",
       "summary_vi": "Build #1513 — Kiểm tra QA Gatekeeper: fix: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash (#392)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732492539"
@@ -1645,9 +1645,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T02:23:20Z",
+      "stats": {
+        "total": 30,
+        "success": 18,
+        "failure": 2,
+        "cancelled": 8,
+        "skipped": 0,
+        "in_progress": 2
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27732541181,
+          "run_number": 599,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "pending",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T02:22:35Z",
+          "summary_vi": "Build #599 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:22:33Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732541181"
+        },
+        "qa.yml": {
+          "id": 27732492539,
+          "run_number": 1513,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-18T02:21:09Z",
+          "summary_vi": "Build #1513 — Kiểm tra QA Gatekeeper: fix: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash (#392)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732492539"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27732541181,
+      "run_number": 599,
+      "commit_id": "347a1cf7c87b6b1d8a2d05d8afd1e49e22794aa8",
+      "commit_short": "347a1cf",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/347a1cf7c87b6b1d8a2d05d8afd1e49e22794aa8",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732541181",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #599 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:22:33Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "pending",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T02:22:35Z",
+      "duration_sec": 2
+    },
     {
       "id": 27732499651,
       "run_number": 598,
@@ -1658,17 +1716,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #598 — Deploy blog lên GitHub Pages: Sửa lỗi: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #599).",
       "started_at": "2026-06-18T02:21:22Z",
-      "duration_sec": 2
+      "duration_sec": 75
     },
     {
       "id": 27732492554,
@@ -1702,17 +1760,17 @@
       "workflow": "QA Gatekeeper",
       "workflow_file": "qa.yml",
       "summary_vi": "Build #1513 — Kiểm tra QA Gatekeeper: fix: footer contrast, AdSense privacy link, version badge SHA, L-Dashboard upload crash (#392)",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-18T02:21:09Z",
-      "duration_sec": 4
+      "duration_sec": 116
     },
     {
       "id": 27732137087,
@@ -2021,28 +2079,6 @@
       "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-18T00:06:31Z",
       "duration_sec": 212
-    },
-    {
-      "id": 27727716845,
-      "run_number": 584,
-      "commit_id": "466f520e4702c48f3224e9d0070513deba68aaca",
-      "commit_short": "466f520",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/466f520e4702c48f3224e9d0070513deba68aaca",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727716845",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #584 — Deploy blog lên GitHub Pages: QA: Performance optimization (2026-06-18T00:04:16Z) [skip changelog]",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-18T00:04:20Z",
-      "duration_sec": 209
     },
     {
       "id": 27727598695,
