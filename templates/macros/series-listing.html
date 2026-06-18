@@ -5,7 +5,10 @@
     load_data(path="data/adsense-foundation-series.json", required=false),
     load_data(path="data/science-uranium-series.json", required=false),
     load_data(path="data/ngan-hang-so-series.json", required=false),
-    load_data(path="data/git-github-series.json", required=false)
+    load_data(path="data/git-github-series.json", required=false),
+    load_data(path="data/korean-30day-series.json", required=false),
+    load_data(path="data/google-analytics-series.json", required=false),
+    load_data(path="data/vietinbank-series.json", required=false)
 ] %}
 {% set_global seen_ids = [] %}
 {% set_global has_series = false %}
@@ -85,7 +88,7 @@
         {% endfor %}
         {% if group_pages | length > 0 %}
         {% set first = group_pages | first %}
-        {% set title = first.extra.series_title | default(value=sid | replace(old="-", new=" ")) %}
+        {% set title = first.extra.series_title | default(value=sid | replace(from="-", to=" ")) %}
         {% set sorted_pages = group_pages | sort(attribute="extra.series_part") %}
         <div class="series-listing__group" id="series-{{ sid }}">
             <h3 class="series-listing__group-title">{{ title }}</h3>
