@@ -266,6 +266,32 @@ V1–V7. **Không thêm vaccine mới.**
   `python3 scripts/check_internal_links.py`; confirm the SERIES block and `/posting/`
   pagination render correctly. (Applied 18/06/2026 in PR #451 merge.)
 
+#### V9 — Docs-only PR Can Fail Due to Stale Base
+
+- **Symptom:** A PR changes **only docs** (`CLAUDE.md`, `README`, etc.) but `qa-check`
+  or `zola build` **fails**. The failure looks unrelated to the modified files.
+- **Root cause:** The branch was created from an **outdated `main`**. CI validates the
+  **entire repository**, not only the changed files — so an old base **resurrects
+  already-fixed site bugs** that no longer exist on current `main`.
+- **Example:** PR #452 modified only `CLAUDE.md`, but its base `653e4f3` still
+  contained the pre-#451 `series-listing.html` bug (see V8). qa-check's `zola build`
+  step failed. **Rebasing onto `9221a39` (post-#451) fixed the build immediately** —
+  no content change needed.
+- **FIXER / Procedure:**
+  1. `git fetch origin main`.
+  2. Rebase (or merge) the branch onto the latest `main`.
+  3. Regenerate generated files if needed (`build_references.py`, etc.).
+  4. Validate: `python3 qa_check.py` → `python3 scripts/paywall_prepare_build.py
+     --strip` → `zola build` → `python3 scripts/paywall_prepare_build.py --restore` →
+     `python3 scripts/check_internal_links.py`.
+  5. Push only when the working tree is clean and the build is green.
+- **Prevention / Rules:**
+  - **Even docs-only PRs must be rebased** onto current `main` before relying on CI.
+  - CI tests the **whole repo, not the diff** — a green local doc edit is not enough.
+  - A build failure right after an **unrelated** edit usually means a **stale branch**,
+    not bad content — rebase first, debug second.
+- **Validation:** working tree clean · QA green · no resurrected bugs · PR mergeable.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
