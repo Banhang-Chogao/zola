@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "ci: dừng vòng lặp deploy của bot dashboard (giãn cron + bỏ workflow_run)",
+      "tag": "chore",
+      "lines_added": 12,
+      "lines_removed": 12,
+      "highlights": [
+        "deploy.yml chạy trên mọi push main (không paths-ignore).",
+        "build-dashboard.yml + github-activity.yml chạy lại trên workflow_run sau mỗi deploy, ghi JSON có timestamp mới → push main → trigger deploy → re-run → lặp vô hạn. build-dashboard còn cron */5 (288 lần",
+        "Burst nhiều deploy/phút → cạn API rate limit → bước Setup Pages fail.",
+        "build-dashboard.yml: bỏ workflow_run; cron /5 → 0 /6 (mỗi 6h).",
+        "github-activity.yml: bỏ workflow_run; giữ cron daily."
+      ],
+      "pr": 409
+    },
+    {
+      "date": "2026-06-18",
       "title": "content(baochi): Starbucks Fansipan — cửa hàng cà phê cao nhất châu Á",
       "tag": "chore",
       "lines_added": 163,
