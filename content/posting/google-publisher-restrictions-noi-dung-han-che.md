@@ -2,9 +2,10 @@
 title = "Google Publisher Restrictions — nội dung có giới hạn quảng cáo"
 description = "Google Publisher Restrictions: nội dung hạn chế quảng cáo, fill rate thấp hơn Policies. Series AdSense Bài 5/15 — bám Google Help."
 date = 2026-06-18
+aliases = ["/google-publisher-restrictions-noi-dung-han-che/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google adsense", "adsense", "adsense foundation series", "publisher restrictions", "monetization", "nội dung hạn chế"]
+tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "nội dung hạn chế", "publisher restrictions"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google publisher restrictions"

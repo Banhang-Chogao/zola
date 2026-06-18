@@ -2,9 +2,10 @@
 title = "Website sẵn sàng cho AdSense: nội dung, navigation, UX"
 description = "Website sẵn sàng cho AdSense: nội dung, navigation, policy pages. Series AdSense Bài 3/15 — checklist trước khi đăng ký."
 date = 2026-06-18
+aliases = ["/website-san-sang-cho-adsense/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google adsense", "adsense", "adsense foundation series", "publisher", "monetization", "site readiness"]
+tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "publisher", "site readiness"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "website sẵn sàng cho adsense"

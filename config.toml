@@ -81,6 +81,7 @@ menu = [
         { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
         { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
         { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
+        { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
         { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
         { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
         { url = "$BASE_URL/font",      name = "Font Guideline" },
@@ -90,6 +91,7 @@ menu = [
         { url = "$BASE_URL/contact",          name = "Liên hệ" },
         { url = "$BASE_URL/privacy",          name = "Chính sách bảo mật" },
         { url = "$BASE_URL/terms",            name = "Điều khoản & Miễn trừ" },
+        { url = "$BASE_URL/copyright",        name = "Tuyên bố bản quyền" },
         { url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết" },
     ] },
 ]

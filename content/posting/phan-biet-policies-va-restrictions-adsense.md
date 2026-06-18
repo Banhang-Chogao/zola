@@ -2,9 +2,10 @@
 title = "Phân biệt Policies và Restrictions trong AdSense"
 description = "Phân biệt Google Publisher Policies và Restrictions trên AdSense. Series AdSense Bài 6/15 — bảng so sánh và checklist audit blog."
 date = 2026-06-18
+aliases = ["/phan-biet-policies-va-restrictions-adsense/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google adsense", "adsense", "adsense foundation series", "publisher policies", "publisher restrictions", "policy center", "monetization"]
+tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "policy center", "publisher policies", "publisher restrictions"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "phân biệt policies restrictions adsense"

@@ -86,7 +86,8 @@
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google.com https://cse.google.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app;
+        connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com;
+        worker-src 'self' blob: https://cdn.jsdelivr.net;
         frame-src https://giscus.app https://www.google.com;
         frame-ancestors 'none';
         base-uri 'self';
@@ -169,15 +170,25 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {# OG image: social KHÔNG render SVG → raster .webp. Ưu tiên og_image, thumbnail
-       (không .svg), fallback og-default.webp. Macro thumb_src chuẩn hoá .webp. #}
+    {# OG image: social KHÔNG render SVG → raster .webp. Cover SVG có twin
+       `.og.webp` (1200×630) sinh bởi scripts/build_og_images.py → dùng twin để
+       social hiện đúng ảnh BÀI thay vì banner chung. Ưu tiên: og_image →
+       thumbnail (svg→twin, hoặc raster sẵn) → fallback og-default.webp. #}
     {% set og_image = config.base_url ~ "/img/og-default.webp" %}
     {% if page and page.extra.og_image %}
         {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
-    {% elif page and page.extra.thumbnail and not page.extra.thumbnail is ending_with(".svg") %}
-        {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
-    {% elif section and section.extra.thumbnail and not section.extra.thumbnail is ending_with(".svg") %}
-        {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
+    {% elif page and page.extra.thumbnail %}
+        {% if page.extra.thumbnail is ending_with(".svg") %}
+            {% set_global og_image = page.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
+        {% endif %}
+    {% elif section and section.extra.thumbnail %}
+        {% if section.extra.thumbnail is ending_with(".svg") %}
+            {% set_global og_image = section.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=section.extra.thumbnail) %}
+        {% endif %}
     {% endif %}
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
@@ -284,6 +295,8 @@
         {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
     {% elif page.extra and page.extra.series is defined and page.extra.series == "science-uranium" %}
         {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+    {% elif page.extra and page.extra.series is defined and page.extra.series == "ngan-hang-so" %}
+        {% set series_manifest = load_data(path="data/ngan-hang-so-series.json", required=false) %}
     {% elif page.extra and page.extra.series is defined and page.extra.series == "git-github" %}
         {% set series_manifest = load_data(path="data/git-github-series.json", required=false) %}
     {% endif %}
@@ -1091,7 +1104,8 @@
                     <a href="{{ config.base_url | safe }}/about/">Giới thiệu</a> ·
                     <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
                     <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
-                    <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a>
+                    <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a> ·
+                    <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
                 </p>
                 {# GA status pill → click mở GA dashboard intelligenthome.
                    Property ID 541698865 hardcode trong URL — match config. #}

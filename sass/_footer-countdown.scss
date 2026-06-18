@@ -109,7 +109,9 @@
     font-family: $font-heading;
     font-size: clamp(0.85rem, 2.5vw, 1.05rem);
     font-weight: 800;
-    color: var(--cd-title);
+    /* Fallback cứng #003784: nếu biến --cd-title không resolve vì lý do gì,
+       title KHÔNG rơi về màu kế thừa (trắng) — luôn xanh đậm, đọc được. */
+    color: var(--cd-title, #003784);
     letter-spacing: 0.04em;
     white-space: nowrap;
   }
@@ -122,7 +124,7 @@
     text-transform: uppercase;
 
     .footer-countdown__title {
-      color: var(--cd-accent);
+      color: var(--cd-accent, #003784);
     }
   }
 

@@ -392,7 +392,7 @@
       if (inBake) {
         return Object.assign({}, bakeBySlug.get(slug), { isNew: false });
       }
-      return { slug, title: slug, date: "", category: "", featured: false, isNew: true };
+      return { slug, title: slug, date: "", category: "", featured: false, sticky: false, isNew: true };
     });
     renderPostList();
     return true;
@@ -443,7 +443,7 @@
     const fmText = m[1];
     const body = m[2] || "";
 
-    const fm = { title: "", date: "", category: "Posting", tags: [], thumbnail: "", featured: false, featured_at: "" };
+    const fm = { title: "", date: "", category: "Posting", tags: [], thumbnail: "", featured: false, featured_at: "", sticky: false };
 
     const lines = fmText.split("\n");
     let section = "root";
@@ -474,6 +474,7 @@
         if (key === "thumbnail") fm.thumbnail = val;
         else if (key === "featured") fm.featured = val === true;
         else if (key === "featured_at") fm.featured_at = val;
+        else if (key === "sticky") fm.sticky = val === true;
       }
     }
 
@@ -499,8 +500,35 @@ tags = ${tagsStr}
       // template sort desc → bài đó lên đầu Featured.
       if (fm.featured_at) fmText += `featured_at = "${fm.featured_at}"\n`;
     }
+    // sticky = bài ghim (chỉ 1 bài tại 1 thời điểm — đã validate trước khi save).
+    if (fm.sticky) fmText += `sticky = true\n`;
     fmText += "+++\n\n";
     return fmText + body;
+  }
+
+  // ============= STICKY VALIDATION — chỉ 1 bài ghim tại 1 thời điểm =============
+  // Trả về slug của bài KHÁC đang sticky (nếu có), hoặc null. Dùng state.posts
+  // (đã gộp bake + local). Bỏ qua chính bài đang sửa (currentSlug).
+  function findOtherSticky(currentSlug) {
+    for (const p of state.posts) {
+      if (p.sticky && p.slug !== currentSlug) return p;
+    }
+    return null;
+  }
+
+  // Nếu user tick Sticky nhưng đã có bài khác sticky → báo lỗi ra màn hình +
+  // trả về false (chặn save). title/slug bài đang xung đột hiển thị rõ.
+  function ensureStickyAllowed(isSticky, currentSlug) {
+    if (!isSticky) return true;
+    const other = findOtherSticky(currentSlug);
+    if (!other) return true;
+    const name = other.title || other.slug;
+    const msg = "⚠️ Chỉ được ghim (Sticky) 1 bài tại một thời điểm. " +
+      'Bài "' + name + '" đang được ghim. ' +
+      "Hãy bỏ ghim bài đó trước, rồi ghim bài này.";
+    setStatus("save-status", msg, "error");
+    alert(msg);
+    return false;
   }
 
   // ============= LOGIN BUTTON → REDIRECT GITHUB OAUTH =============
@@ -621,6 +649,7 @@ tags = ${tagsStr}
 
     tbody.innerHTML = displayPosts.map((p) => {
       const badges = [];
+      if (p.sticky) badges.push('<span class="editor-badge editor-badge--sticky" title="Bài ghim (Sticky)">📌</span>');
       if (p.featured) badges.push('<span class="editor-badge editor-badge--featured" title="Bài nổi bật">⭐</span>');
       if (p.isNew) badges.push('<span class="editor-badge editor-badge--new" title="Vừa publish, đang build (~1 phút)">🆕</span>');
       const path = CONTENT_DIR + "/" + p.slug + ".md";
@@ -1040,7 +1069,7 @@ tags = ${tagsStr}
 
     getPost(path).then((data) => {
       const { fm, body } = parseFrontmatter(data.content);
-      state.editing = { path: data.path, sha: data.sha, wasFeatured: fm.featured, featuredAt: fm.featured_at };
+      state.editing = { path: data.path, sha: data.sha, wasFeatured: fm.featured, featuredAt: fm.featured_at, wasSticky: fm.sticky };
       // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
       slugLocked = true;
       form.title.value = fm.title;
@@ -1053,6 +1082,7 @@ tags = ${tagsStr}
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
       form.featured.checked = fm.featured;
+      if (form.sticky) form.sticky.checked = fm.sticky;
       form.body.value = body.trim();
       updateCounter();
       lastRenderedBody = null;
@@ -1070,6 +1100,7 @@ tags = ${tagsStr}
     const form = e.target;
 
     const isFeatured = form.featured.checked;
+    const isSticky = form.sticky ? form.sticky.checked : false;
     // Featured-at logic: mỗi lần save/publish với checkbox bật đều STAMP lại
     // để lựa chọn thủ công mới nhất luôn là override thắng mọi auto-pick.
     let featuredAt = "";
@@ -1085,12 +1116,14 @@ tags = ${tagsStr}
       thumbnail: form.thumbnail.value.trim(),
       featured: isFeatured,
       featured_at: featuredAt,
+      sticky: isSticky,
     };
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title));
 
     if (!slug) { alert("Cần tiêu đề hoặc slug"); return; }
     if (!fm.title || !fm.date) { alert("Thiếu tiêu đề hoặc ngày"); return; }
+    if (!ensureStickyAllowed(isSticky, slug)) return;
 
     // Validate body có nội dung text thực sự — tránh case Zola không trích được
     // summary → page.summary = null → templates crash với `striptags` filter →
@@ -1126,6 +1159,11 @@ tags = ${tagsStr}
         "success");
       // Update state.posts in-place — preserve UI position khi user "Quay lại" list.
       // Bake metadata stale ~1 phút cho đến rebuild, nhưng UI hiển thị metadata mới gõ.
+      // Nếu bài này được ghim → bỏ sticky mọi bài khác trong state (đồng bộ UI
+      // với rule "chỉ 1 sticky"; file .md các bài cũ sẽ được sửa khi user mở/lưu).
+      if (fm.sticky) {
+        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
+      }
       const savedPost = {
         slug: slug,
         title: fm.title,
@@ -1133,6 +1171,7 @@ tags = ${tagsStr}
         date: fm.date,
         category: fm.category,
         featured: fm.featured,
+        sticky: fm.sticky,
         isNew: !state.editing,
       };
       const idx = state.posts.findIndex((p) => p.slug === slug);
@@ -1169,6 +1208,7 @@ tags = ${tagsStr}
 
     // Collect form data (giống logic submit Tải .md)
     const isFeatured = form.featured.checked;
+    const isSticky = form.sticky ? form.sticky.checked : false;
     let featuredAt = "";
     if (isFeatured) {
       featuredAt = new Date().toISOString();
@@ -1181,6 +1221,7 @@ tags = ${tagsStr}
       thumbnail: form.thumbnail.value.trim(),
       featured: isFeatured,
       featured_at: featuredAt,
+      sticky: isSticky,
     };
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
@@ -1188,6 +1229,7 @@ tags = ${tagsStr}
       alert("Thiếu tiêu đề, slug hoặc ngày.");
       return;
     }
+    if (!ensureStickyAllowed(isSticky, slug)) return;
 
     // Same body length validate as Tải .md submit
     const plainText = body
@@ -1255,6 +1297,9 @@ tags = ${tagsStr}
         "Deploy ETA: " + escapeHtml(data.deploy_eta) + commitLink;
 
       // Update state.posts in-place — preserve UI position
+      if (fm.sticky) {
+        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
+      }
       const savedPost = {
         slug: slug,
         title: fm.title,
@@ -1262,6 +1307,7 @@ tags = ${tagsStr}
         date: fm.date,
         category: fm.category,
         featured: fm.featured,
+        sticky: fm.sticky,
         isNew: !state.editing,
       };
       const idx = state.posts.findIndex((p) => p.slug === slug);
@@ -1570,6 +1616,7 @@ tags = ${tagsStr}
       tags: form.tags.value,
       thumbnail: form.thumbnail.value,
       featured: form.featured.checked,
+      sticky: form.sticky ? form.sticky.checked : false,
       body: form.body.value,
     };
     try {
@@ -1625,6 +1672,7 @@ tags = ${tagsStr}
     form.tags.value = draft.tags || "";
     form.thumbnail.value = draft.thumbnail || "";
     form.featured.checked = !!draft.featured;
+    if (form.sticky) form.sticky.checked = !!draft.sticky;
     form.body.value = draft.body || "";
     rebuildCategoryOptions(draft.category || "Posting");
     slugLocked = true; // draft đã có slug → khoá auto-fill từ title

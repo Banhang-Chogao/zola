@@ -2,9 +2,10 @@
 title = "Google có nhìn thấy trang giống người dùng không?"
 description = "Google có nhìn thấy trang giống người dùng? Render, JS, Search Console. Series SEO Bài 5/15 — bám Google SEO Starter Guide."
 date = 2026-06-18
+aliases = ["/google-nhin-trang-giong-nguoi-dung/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["blog", "google search", "seo", "seo foundation series", "search console", "rendering", "zola"]
+tags = ["blog", "google search", "rendering", "search console", "seo", "seo foundation series", "zola"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google nhìn thấy trang giống người dùng"

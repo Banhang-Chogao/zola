@@ -2,9 +2,10 @@
 title = "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?"
 description = "Bao lâu để thấy kết quả SEO sau khi sửa title hay deploy bài mới? Series Nền tảng SEO Bài 3/15 — bám Google SEO Starter Guide."
 date = 2026-06-18
+aliases = ["/bao-lau-de-thay-ket-qua-seo/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["blog", "google search", "seo", "seo foundation series", "search console", "zola"]
+tags = ["blog", "google search", "search console", "seo", "seo foundation series", "zola"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "bao lâu để thấy kết quả seo"
