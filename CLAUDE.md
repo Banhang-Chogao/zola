@@ -946,3 +946,41 @@ TOC render **tự động ở template** (`templates/page.html`) từ **native `
 - **Lợi ích SEO:** jump links tăng UX + dwell time; Google có thể hiện anchor/sitelinks trong SERP; cấu trúc heading rõ.
 - **Mở rộng sau:** muốn sticky/scroll-spy → thêm JS riêng (chưa cần); đổi ngưỡng → sửa `toc_total >= 3` trong `page.html`.
 
+
+## QA Domain Selector
+
+Bot gợi ý **tên miền** cho blog "Chợ Gạo" (banhang-chogao) — chạy mỗi **2 giờ** (`qa-domain-selector.yml`) + `workflow_dispatch`.
+
+### Cách hoạt động
+
+1. **Quét niche:** đọc title/description + `[taxonomies]` categories/tags trên `content/posting` + `content/baochi` + `content/pages` + `content/tools` → phân tích tần suất (stdlib, không lib ngoài) ra top keywords, chủ đề chính (công nghệ · báo chí · ngân hàng · du lịch…), tông thương hiệu.
+2. **Sinh ứng viên:** brand token `chogao` × niche token (bank/finance/travel/tech/seo…) × TLD `.com .vn .com.vn .net`. Blocklist nhãn hiệu (google, vietinbank, momo, liobank…) → KHÔNG đề xuất tên dính trademark.
+3. **Chấm điểm 0–100** từ sub-scores có trọng số: `brand_fit 0.25` · `seo_fit 0.22` · `memorability 0.15` · `shortness 0.13` · `availability 0.15` · `trademark_risk 0.10` (nghịch đảo rủi ro). Sort desc.
+4. **Availability (adapter):** nếu env `DOMAIN_CHECK_API_KEY` set → hook `check_via_api()` (hiện STUB trả `None` → cần nối provider thật); else **fallback DNS** `socket.getaddrinfo`, **timeout cứng 3s/domain**, chỉ kiểm tra **shortlist ≤15** domain điểm cao nhất. DNS độ chính xác THẤP (resolve→taken, NXDOMAIN→available; domain đã đăng ký nhưng chưa trỏ DNS vẫn báo available). Lỗi/timeout → `unknown`.
+
+> ⚠️ ANTI-HANG: timeout 3s/domain + cap 15 domain + mọi check bọc try/except. Script **không bao giờ crash build**: lỗi network/parse → giữ report cũ (cache) + exit 0.
+
+### Chạy thủ công
+
+```bash
+python3 qa-domain-selector.py            # DNS fallback (3s/domain, ≤15 domain)
+python3 qa-domain-selector.py --offline  # KHÔNG network → availability=unknown (nhanh)
+python3 qa-domain-selector.py --limit 8  # giới hạn số domain check availability
+```
+
+### API config
+
+- Env `DOMAIN_CHECK_API_KEY` (secret) → bật nhánh `check_via_api(domain)` trong `qa-domain-selector.py`. Hook hiện trả `None` (stub) → tự fallback DNS cho tới khi nối API thật (domainr / whoisxml / namecheap…). Workflow truyền `DOMAIN_CHECK_API_KEY: ${{ secrets.DOMAIN_CHECK_API_KEY }}`.
+
+### Đọc report `data/qa-domain-selector-report.json`
+
+`{ generated_at (ISO GMT+7), method (api|dns-fallback|offline), note, niche_summary, keywords[], topics[], tags[], weights{}, candidate_count, checked_count, domains:[{domain, tld, total_score, subscores{...}, availability, reason}], top5:[...] }` — sort theo `total_score` desc. Insights hiển thị `top5` (domain · score · badge availability · reason · last-scan `%H:%M %d/%m/%Y` GMT+7).
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Script | `qa-domain-selector.py` (REPO ROOT) |
+| Report | `data/qa-domain-selector-report.json` |
+| Workflow (cron 2h) | `.github/workflows/qa-domain-selector.yml` |
+| Insights UI | `templates/insights.html` (block `.insights__domains`), `sass/_insights.scss` |
