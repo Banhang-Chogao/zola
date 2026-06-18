@@ -220,7 +220,7 @@ Khi deploy qua GitHub Actions, Google vẫn cần **crawl lại** để thấy b
 
 ## Bạn nên làm gì sau bài 2? {#sau-bai-2}
 
-Trước khi sang Bài 3, tôi đề xuất checklist kỹ thuật gắn với ba giai đoạn:
+Trước khi sang [Bài 3](/zola/posting/bao-lau-de-thay-ket-qua-seo/), tôi đề xuất checklist kỹ thuật gắn với ba giai đoạn:
 
 1. **Crawl**: Mở `robots.txt` production, confirm không `Disallow: /` nhầm. Kiểm tra sitemap có URL bài mới.
 2. **Index**: Search Console → URL Inspection → "Request indexing" cho bài quan trọng (không lạm dụng). Gõ `site:banhang-chogao.github.io/zola/posting/google-search-hoat-dong-the-nao` sau vài ngày.
@@ -232,4 +232,4 @@ Nếu chưa có Search Console, quay lại phần cuối [Bài 1](/zola/posting/
 
 **Google Search hoạt động thế nào?** — Tóm lại trong một câu: **crawl** để tìm và tải trang, **render** để hiểu nội dung như người dùng thấy, **index** để lưu vào kho dữ liệu tìm kiếm, rồi **ranking/serve** để chọn và sắp xếp kết quả khi có truy vấn. Bốn bước đó giải thích vì sao blog Zola vừa publish có thể chưa thấy trên Google — và vì sao sửa title liên tục không giúp nếu URL chưa được crawl hoặc index.
 
-Series đã có nền: Bài 1 (SEO & Essentials) → **Bài 2** (pipeline Search). Hẹn **Bài 3**: **Bao lâu để thấy kết quả SEO?** — timeline thực tế từ lần deploy đầu đến impression đầu tiên trên Search Console, và vì sao so sánh với ads là sai bài toán.
+Series đã có nền: Bài 1 (SEO & Essentials) → **Bài 2** (pipeline Search). Tiếp theo: [**Bài 3: Bao lâu để thấy kết quả SEO?**](/zola/posting/bao-lau-de-thay-ket-qua-seo/) — timeline thực tế từ lần deploy đầu đến impression đầu tiên trên Search Console, và vì sao so sánh với ads là sai bài toán.

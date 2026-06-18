@@ -54,7 +54,7 @@ Google gom yêu cầu tham gia chương trình vào trang [Eligibility requireme
 
 > *If you have your own content that meets our policies and you're 18 or over, you can sign up for AdSense.*
 
-Dịch ra tiếng Việt dễ hiểu: bạn cần **nội dung của riêng mình**, **tuân thủ policies**, và **đủ 18 tuổi** — khi đó mới có thể đăng ký. Đây là khung tối thiểu; thực tế Google còn kiểm tra thêm **quyền sở hữu site**, **khả năng đặt mã quảng cáo**, và **mức độ sẵn sàng của website** (chi tiết hơn ở **Bài 3** — Website sẵn sàng cho AdSense, sắp ra trong series).
+Dịch ra tiếng Việt dễ hiểu: bạn cần **nội dung của riêng mình**, **tuân thủ policies**, và **đủ 18 tuổi** — khi đó mới có thể đăng ký. Đây là khung tối thiểu; thực tế Google còn kiểm tra thêm **quyền sở hữu site**, **khả năng đặt mã quảng cáo**, và **mức độ sẵn sàng của website** (chi tiết hơn ở [**Bài 3: Website sẵn sàng cho AdSense**](/zola/posting/website-san-sang-cho-adsense/)).
 
 Điều quan trọng tôi muốn nhấn mạnh: **đủ tư cách AdSense** (eligible) khác với **được duyệt** (approved). Đủ tư cách nghĩa là bạn đáp ứng các yêu cầu đầu vào để *nộp đơn*; duyệt hay không còn phụ thuộc review thực tế — nội dung, UX, traffic, lịch sử domain… Bài 10 trong series sẽ đi sâu nguyên nhân từ chối; bài này giúp bạn không bỏ sót điều kiện *trước* khi gửi.
 
@@ -246,7 +246,7 @@ Trước khi bấm [Sign up for AdSense](https://adsense.google.com/adsense/sign
 - [ ] **Nội dung gốc**: Không copy/scrape; có đủ bài chất lượng, không placeholder.
 - [ ] **Policies**: Đã đối chiếu [Publisher Policies](https://support.google.com/adsense/answer/9335564?hl=en) — không có chủ đề cấm.
 - [ ] **Program policies**: Đã đọc [khung Bài 1](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/) — traffic sources, ad placement chưa vi phạm (kể cả khi chưa có mã ads).
-- [ ] **Site readiness**: Navigation, About, Privacy, Contact — xem Bài 3 sắp tới trong series.
+- [ ] **Site readiness**: Navigation, About, Privacy, Contact — xem [Bài 3](/zola/posting/website-san-sang-cho-adsense/).
 - [ ] **Blogger/YouTube?**: Nếu có, đăng ký đúng luồng host/Studio — không mix với form website.
 
 Google còn có [AdSense site approvals video series](https://www.youtube.com/playlist?list=PLbAFD4oU9Ycr4j1pViNjkS82rhbF293H8) — tôi khuyên xem ít nhất vài video trước lần apply đầu.
@@ -267,4 +267,4 @@ Nếu một mục checklist trên chưa tick, sửa trước — apply sớm khi
 
 Blogger dùng **hosted AdSense** qua tài khoản host; YouTube dùng **AdSense for YouTube** qua Studio — mỗi kênh có eligibility riêng nhưng đều bám policies. Website riêng (như blog Zola) cần chủ động đặt mã và chứng minh ownership.
 
-Hẹn **Bài 3**: Website sẵn sàng cho AdSense — nội dung gốc chi tiết, navigation, UX và những gì Google reviewer thực sự nhìn khi duyệt site.
+Tiếp theo: [**Bài 3: Website sẵn sàng cho AdSense**](/zola/posting/website-san-sang-cho-adsense/) — nội dung gốc chi tiết, navigation, UX và những gì Google reviewer thực sự nhìn khi duyệt site.
