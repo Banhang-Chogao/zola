@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T00:03:27Z",
+  "updated_at": "2026-06-18T00:04:05Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
@@ -7,29 +7,29 @@
     "total": 30,
     "success": 13,
     "failure": 0,
-    "cancelled": 14,
+    "cancelled": 15,
     "skipped": 0,
-    "in_progress": 3
+    "in_progress": 2
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27727678170,
-      "run_number": 581,
+      "id": 27727684675,
+      "run_number": 582,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T00:03:21Z",
-      "summary_vi": "Build #581 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-18) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727678170"
+      "started_at": "2026-06-18T00:03:31Z",
+      "summary_vi": "Build #582 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T00:03:27Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727684675"
     },
     "qa.yml": {
       "id": 27727598695,
       "run_number": 1504,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T00:01:19Z",
       "summary_vi": "Build #1504 — Kiểm tra QA Gatekeeper: content(series): Bài 4–6 — Uranium 5/5 + AdSense/SEO 6/15 (#378)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727598695"
@@ -38,24 +38,24 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27727678170,
-      "run_number": 581,
+      "id": 27727684675,
+      "run_number": 582,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T00:03:21Z",
-      "summary_vi": "Build #581 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-18) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727678170"
+      "started_at": "2026-06-18T00:03:31Z",
+      "summary_vi": "Build #582 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T00:03:27Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727684675"
     },
     {
       "workflow_file": "qa.yml",
       "id": 27727598695,
       "run_number": 1504,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T00:01:19Z",
       "summary_vi": "Build #1504 — Kiểm tra QA Gatekeeper: content(series): Bài 4–6 — Uranium 5/5 + AdSense/SEO 6/15 (#378)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727598695"
@@ -1393,9 +1393,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T00:04:05Z",
+      "stats": {
+        "total": 30,
+        "success": 13,
+        "failure": 0,
+        "cancelled": 15,
+        "skipped": 0,
+        "in_progress": 2
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27727684675,
+          "run_number": 582,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "pending",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T00:03:31Z",
+          "summary_vi": "Build #582 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T00:03:27Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727684675"
+        },
+        "qa.yml": {
+          "id": 27727598695,
+          "run_number": 1504,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-18T00:01:19Z",
+          "summary_vi": "Build #1504 — Kiểm tra QA Gatekeeper: content(series): Bài 4–6 — Uranium 5/5 + AdSense/SEO 6/15 (#378)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727598695"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27727684675,
+      "run_number": 582,
+      "commit_id": "194775ce9ee09b0946a8f268910ca15ed73bded1",
+      "commit_short": "194775c",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/194775ce9ee09b0946a8f268910ca15ed73bded1",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727684675",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #582 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T00:03:27Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "pending",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T00:03:31Z",
+      "duration_sec": 2
+    },
     {
       "id": 27727678170,
       "run_number": 581,
@@ -1406,17 +1464,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #581 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-18) [skip changelog]",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #582).",
       "started_at": "2026-06-18T00:03:21Z",
-      "duration_sec": 2
+      "duration_sec": 13
     },
     {
       "id": 27727663001,
@@ -1604,17 +1662,17 @@
       "workflow": "QA Gatekeeper",
       "workflow_file": "qa.yml",
       "summary_vi": "Build #1504 — Kiểm tra QA Gatekeeper: content(series): Bài 4–6 — Uranium 5/5 + AdSense/SEO 6/15 (#378)",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-18T00:01:19Z",
-      "duration_sec": 19
+      "duration_sec": 152
     },
     {
       "id": 27727587589,
@@ -1769,28 +1827,6 @@
       "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #1502).",
       "started_at": "2026-06-17T23:59:10Z",
       "duration_sec": 97
-    },
-    {
-      "id": 27727289351,
-      "run_number": 567,
-      "commit_id": "29d2bad9afb89a8f5ee0d10b76242cb5b64f2f64",
-      "commit_short": "29d2bad",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/29d2bad9afb89a8f5ee0d10b76242cb5b64f2f64",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727289351",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #567 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-17T23:53:15Z) [skip changelog]",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-17T23:53:18Z",
-      "duration_sec": 46
     },
     {
       "id": 27726789059,
