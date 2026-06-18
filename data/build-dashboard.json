@@ -1,27 +1,27 @@
 {
-  "updated_at": "2026-06-18T02:07:54Z",
+  "updated_at": "2026-06-18T02:10:12Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
     "total": 30,
-    "success": 18,
+    "success": 17,
     "failure": 2,
     "cancelled": 10,
     "skipped": 0,
-    "in_progress": 0
+    "in_progress": 1
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27731890615,
-      "run_number": 594,
-      "status_normalized": "success",
-      "status_vi": "Thành công",
-      "gh_status": "completed",
-      "conclusion": "success",
-      "started_at": "2026-06-18T02:03:03Z",
-      "summary_vi": "Build #594 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:03:00Z) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27731890615"
+      "id": 27732062822,
+      "run_number": 595,
+      "status_normalized": "in_progress",
+      "status_vi": "Đang chạy",
+      "gh_status": "in_progress",
+      "conclusion": "in_progress",
+      "started_at": "2026-06-18T02:07:57Z",
+      "summary_vi": "Build #595 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:07:54Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732062822"
     },
     "qa.yml": {
       "id": 27730190135,
@@ -38,15 +38,15 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27731890615,
-      "run_number": 594,
-      "status_normalized": "success",
-      "status_vi": "Thành công",
-      "gh_status": "completed",
-      "conclusion": "success",
-      "started_at": "2026-06-18T02:03:03Z",
-      "summary_vi": "Build #594 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:03:00Z) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27731890615"
+      "id": 27732062822,
+      "run_number": 595,
+      "status_normalized": "in_progress",
+      "status_vi": "Đang chạy",
+      "gh_status": "in_progress",
+      "conclusion": "in_progress",
+      "started_at": "2026-06-18T02:07:57Z",
+      "summary_vi": "Build #595 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:07:54Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732062822"
     },
     {
       "workflow_file": "qa.yml",
@@ -1573,9 +1573,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T02:10:12Z",
+      "stats": {
+        "total": 30,
+        "success": 17,
+        "failure": 2,
+        "cancelled": 10,
+        "skipped": 0,
+        "in_progress": 1
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27732062822,
+          "run_number": 595,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "in_progress",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T02:07:57Z",
+          "summary_vi": "Build #595 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:07:54Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732062822"
+        },
+        "qa.yml": {
+          "id": 27730190135,
+          "run_number": 1508,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-18T01:13:06Z",
+          "summary_vi": "Build #1508 — Kiểm tra QA Gatekeeper: hotfix(l-dashboard): LPBank PDF.js CSP + local vendor assets (#391)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730190135"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27732062822,
+      "run_number": 595,
+      "commit_id": "a61607e864b5a7822b4eeadf674d6d644343ca6a",
+      "commit_short": "a61607e",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/a61607e864b5a7822b4eeadf674d6d644343ca6a",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27732062822",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #595 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T02:07:54Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "in_progress",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T02:07:57Z",
+      "duration_sec": 6
+    },
     {
       "id": 27731890615,
       "run_number": 594,
@@ -1927,28 +1985,6 @@
       "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #582).",
       "started_at": "2026-06-18T00:03:21Z",
       "duration_sec": 13
-    },
-    {
-      "id": 27727663001,
-      "run_number": 580,
-      "commit_id": "e74c83d41667fe9bfe35a97ecb9c8f0f0c5bf3f1",
-      "commit_short": "e74c83d",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/e74c83d41667fe9bfe35a97ecb9c8f0f0c5bf3f1",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727663001",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #580 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T00:02:55Z) [skip changelog]",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-18T00:02:58Z",
-      "duration_sec": 158
     },
     {
       "id": 27727598695,
