@@ -1,7 +1,6 @@
 /* ===== H-DASHBOARD — Personal spending from purchase invoices (hóa đơn) =====
-   Visual-only brand-styled financial report. On-brand: Ericsson Blue +
-   Teal, blog "Chợ Gạo". Cards stay WHITE with fixed dark ink so they read
-   correctly in OS light AND dark mode. Clone of L/O-Dashboard, invoice source. */
+   Sembcorp investor-slide visual: white cards, teal palette, waterfall charts,
+   presentation-grade geo map. Cards stay WHITE with fixed dark ink in OS dark mode. */
 
 .h-dashboard-app {
   /* ---- Design system tokens (shared values with F/L-Dashboard refactor) ---- */
@@ -760,23 +759,34 @@
   &__item--danger .hd-health-legend__badge { color: var(--dash-red); }
 }
 
-/* ----- Charts grid: each chart its own card ----- */
+/* ----- Charts — Sembcorp investor-slide deck ----- */
 .hd-charts {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--dash-gap);
+
+  &--slide {
+    gap: 1.5rem;
+  }
 }
 
 .hd-chart {
   background: var(--dash-card-bg);
-  border: 1px solid var(--dash-border);
-  border-radius: var(--dash-radius);
+  border: 1px solid rgba(0, 166, 157, 0.22);
+  border-radius: var(--dash-radius-sm);
   padding: 1.1rem 1.15rem;
-  box-shadow: var(--dash-shadow);
-  transition: box-shadow 0.2s ease;
+  box-shadow: none;
+  transition: border-color 0.2s ease;
 
   &:hover {
-    box-shadow: var(--dash-shadow-hover);
+    border-color: rgba(0, 166, 157, 0.42);
+  }
+
+  &--slide {
+    padding: 1.35rem 1.5rem 1.2rem;
+    background: #ffffff;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
 
   &--area,
@@ -784,40 +794,174 @@
     grid-column: 1 / -1;
   }
 
+  &__head {
+    margin-bottom: 0.85rem;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--dash-ink);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  &__subtitle {
+    margin: 0.3rem 0 0;
+    font-size: 0.82rem;
+    color: var(--dash-muted);
+    line-height: 1.45;
+  }
+
+  /* Legacy label — kept for export/PDF references */
   &__label {
-    position: relative;
     font-family: $font-heading;
     font-size: 0.85rem;
     font-weight: 800;
     color: var(--dash-ink);
     margin: 0 0 0.7rem;
-    padding-left: 0.7rem;
-
-    /* Small teal eyebrow bar on each chart heading. */
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.05em;
-      bottom: 0.05em;
-      width: 3px;
-      border-radius: 999px;
-      background: var(--dash-teal);
-    }
   }
 
   &__canvas-wrap {
     position: relative;
     height: 220px;
+    background: #ffffff;
+    border-radius: 8px;
+
+    &--slide {
+      padding: 0.35rem 0.15rem 0;
+    }
 
     &--wide {
-      height: 260px;
+      height: 280px;
+    }
+
+    &--tall {
+      height: 320px;
     }
   }
 
-  /* Top transactions = up to 10 diverging horizontal bars — needs more room. */
-  &--treemap &__canvas-wrap {
-    height: 300px;
+  &--treemap &__canvas-wrap--slide {
+    height: 320px;
+  }
+}
+
+/* ----- Geo panel — presentation map (Sembcorp Batam-inspired) ----- */
+.hd-geo-panel--slide {
+  .hd-geo-panel__head {
+    margin-bottom: 0.5rem;
+  }
+
+  .hd-geo-panel__subtitle {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: var(--dash-muted);
+  }
+}
+
+.h-dashboard-app {
+  .dash-geo__grid--present {
+    grid-template-columns: 1fr minmax(240px, 320px);
+    gap: 1.75rem;
+  }
+
+  .dash-geo__map--present {
+    background: #ffffff;
+    border: 1px solid rgba(0, 166, 157, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: none;
+  }
+
+  .dash-geo__svg--present {
+    max-height: 520px;
+  }
+
+  .dash-geo__land {
+    fill: #b8e8e4;
+    stroke: #00a69d;
+    stroke-width: 1.2;
+  }
+
+  .dash-geo__arrow {
+    fill: none;
+    stroke: #5b6573;
+    stroke-width: 1.2;
+    stroke-dasharray: 5 4;
+    opacity: 0.75;
+  }
+
+  .dash-geo__arrowhead {
+    fill: #5b6573;
+  }
+
+  .dash-geo__dot {
+    fill: #00a69d;
+    fill-opacity: 0.9;
+    stroke: #ffffff;
+    stroke-width: 2;
+  }
+
+  .dash-geo__mk--top .dash-geo__dot {
+    fill: #003784;
+    fill-opacity: 0.92;
+  }
+
+  .dash-geo__lbl {
+    font-size: 10px;
+    font-weight: 700;
+    fill: #0f1b2d;
+  }
+
+  .dash-geo__callout-line {
+    stroke: #00a69d;
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    opacity: 0.65;
+  }
+
+  .dash-geo__callout-box {
+    fill: #ffffff;
+    stroke: rgba(0, 166, 157, 0.45);
+    stroke-width: 1;
+  }
+
+  .dash-geo__callout-name {
+    font: 700 10px/1 "Ericsson Hilda", Manrope, system-ui, sans-serif;
+    fill: #0f1b2d;
+  }
+
+  .dash-geo__callout-val {
+    font: 600 9px/1 "Ericsson Hilda", Manrope, system-ui, sans-serif;
+    fill: #5b6573;
+  }
+
+  .dash-geo__rank-ring {
+    fill: #ffffff;
+    stroke: #00a69d;
+    stroke-width: 1.5;
+  }
+
+  .dash-geo__rank-num {
+    font: 800 9px/1 "Ericsson Hilda", Manrope, system-ui, sans-serif;
+    fill: #007d76;
+    text-anchor: middle;
+  }
+
+  .dash-geo__legend--present {
+    .dash-geo__lgtitle {
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+    }
+
+    .dash-geo__lgsub {
+      margin: 0 0 0.75rem;
+      font-size: 0.78rem;
+      color: var(--dash-muted);
+    }
   }
 }
 
@@ -871,13 +1015,30 @@
     gap: 0.2rem;
   }
 
-  .hd-charts {
+  .hd-charts,
+  .hd-charts--slide {
     grid-template-columns: 1fr;
   }
 
   .hd-chart--area,
   .hd-chart--waterfall {
     grid-column: auto;
+  }
+
+  .h-dashboard-app .dash-geo__grid--present {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .h-dashboard-app .hd-chart--slide {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border-color: #ccc;
+  }
+
+  .h-dashboard-app .hd-chart__canvas-wrap--wide {
+    height: 240px;
   }
 }
 

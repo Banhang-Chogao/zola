@@ -52,6 +52,9 @@ jobs:
           pip install -r scripts/requirements-og-images.txt
           python3 scripts/build_og_images.py
 
+      - name: Build feed pagination anchors
+        run: python3 scripts/build_feed_pagination.py
+
       - name: Build reference index
         run: python3 scripts/build_references.py
 
@@ -62,6 +65,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build_github_activity.py
+
+      - name: Build GitHub Profile Badges data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_github_profile_badges.py
 
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only

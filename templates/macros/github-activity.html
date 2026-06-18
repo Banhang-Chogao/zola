@@ -1,9 +1,17 @@
-{# GitHub Activity — contribution heatmap for /insights/ (data/github-activity.json) #}
+{# GitHub Activity + Profile Badges — /insights/ (data/github-activity.json, data/github-profile-badges.json) #}
 {% import "macros/datetime.html" as dt %}
 {% macro widget() %}
 {% set gh = load_data(path="data/github-activity.json", required=false) %}
-{% if gh and gh.total_contributions is defined %}
+{% set badge_data = load_data(path="data/github-profile-badges.json", required=false) %}
+{% set has_activity = gh and gh.total_contributions is defined %}
+{% if badge_data %}
+{% set badge_list = badge_data.badges | default(value=[]) %}
+{% else %}
+{% set badge_list = [] %}
+{% endif %}
+{% if has_activity or badge_data %}
 <section class="insights__build gh-activity" data-widget="github-activity" aria-labelledby="gh-activity-title">
+    {% if has_activity %}
     <header class="insights__build-head gh-activity__head">
         <div>
             <h3 class="insights__build-title" id="gh-activity-title">GitHub Activity</h3>
@@ -106,7 +114,56 @@
             </li>
         </ul>
     </div>
+    {% else %}
+    <header class="insights__build-head gh-activity__head">
+        <div>
+            <h3 class="insights__build-title" id="gh-activity-title">GitHub Profile Badges</h3>
+            {% if badge_data and badge_data.profile %}
+            <p class="gh-activity__subtitle">Archived badges for <strong>@{{ badge_data.profile }}</strong></p>
+            {% endif %}
+        </div>
+    </header>
+    {% endif %}
 
+    <div class="gh-badges" data-widget="github-profile-badges" aria-labelledby="gh-badges-title">
+        {% if has_activity %}
+        <h4 class="gh-badges__title" id="gh-badges-title">GitHub Profile Badges</h4>
+        {% else %}
+        <h4 class="gh-badges__title visually-hidden" id="gh-badges-title">GitHub Profile Badges</h4>
+        {% endif %}
+        {% if badge_list | length > 0 %}
+        <ul class="gh-badges__grid">
+            {% for badge in badge_list %}
+            <li class="gh-badges__card gh-badges__card--{{ badge.tier | default(value='default') }}">
+                <span class="gh-badges__icon" aria-hidden="true">{{ badge.icon | default(value="🏅") }}</span>
+                <div class="gh-badges__body">
+                    <span class="gh-badges__name">{{ badge.title }}</span>
+                    {% if badge.description %}
+                    <p class="gh-badges__desc">{{ badge.description }}</p>
+                    {% endif %}
+                    {% if badge.earned_at %}
+                    <time class="gh-badges__earned" datetime="{{ badge.earned_at }}">
+                        Earned {{ dt::display_datetime(value=badge.earned_at) }}
+                    </time>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="gh-badges__empty" role="status">Chưa có huy hiệu GitHub nào được lưu trữ.</p>
+        {% endif %}
+        {% if badge_data and badge_data.fetch_error %}
+        <p class="insights__build-warn gh-badges__warn" role="status">
+            Badge data may be outdated
+            {% if badge_data.updated_at %}
+            <time datetime="{{ badge_data.updated_at }}">({{ dt::display_datetime(value=badge_data.updated_at) }})</time>
+            {% endif %}
+        </p>
+        {% endif %}
+    </div>
+
+    {% if has_activity %}
     <footer class="insights__build-foot gh-activity__foot">
         <a class="insights__source"
            href="{{ gh.repository_url | default(value='https://github.com/Banhang-Chogao/zola') }}"
@@ -124,6 +181,21 @@
         </time>
         {% endif %}
     </footer>
+    {% elif badge_data and badge_data.profile_url %}
+    <footer class="insights__build-foot gh-activity__foot">
+        <a class="insights__source"
+           href="{{ badge_data.profile_url }}"
+           target="_blank" rel="noopener">
+            @{{ badge_data.profile | default(value="Banhang-Chogao") }} on GitHub
+            <span aria-hidden="true">↗</span>
+        </a>
+        {% if badge_data.updated_at %}
+        <time class="insights__build-updated" datetime="{{ badge_data.updated_at }}">
+            Cập nhật {{ dt::display_datetime(value=badge_data.updated_at) }}
+        </time>
+        {% endif %}
+    </footer>
+    {% endif %}
 </section>
 {% endif %}
 {% endmacro %}

@@ -409,6 +409,14 @@
 .home-latest {
   margin-bottom: 2.5rem;
 
+  &__page {
+    font-family: $font-meta;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--c-text-muted);
+    margin-left: 0.65rem;
+  }
+
   &__heading {
     font-family: $font-heading;
     font-size: 1.35rem;

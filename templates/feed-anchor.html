@@ -1,0 +1,8 @@
+{# Invisible pagination anchor — enables /page/N/ routes for homepage feed.
+   Not linked in nav; noindex. Real listing uses index.html + paginator.current_index. #}
+{% extends "base.html" %}
+{% block title %}Feed pagination anchor | {{ config.title }}{% endblock %}
+{% block extra_head %}
+<meta name="robots" content="noindex, nofollow">
+{% endblock %}
+{% block main %}{% endblock main %}

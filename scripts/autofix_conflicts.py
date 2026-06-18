@@ -67,6 +67,7 @@ _REGEN_DATA_EXACT = {
     "data/google-rank.json",
     "data/google-trends-vn.json",
     "data/github-activity.json",
+    "data/github-profile-badges.json",
     "data/ga-stats.json",
     "data/pagespeed.json",
     "data/performance-audit-snapshot.json",

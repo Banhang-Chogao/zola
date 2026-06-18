@@ -39,6 +39,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build_github_activity.py
 
+      - name: Build GitHub Profile Badges JSON
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_github_profile_badges.py
+
       - name: Push to main if changed
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
@@ -46,4 +51,4 @@ jobs:
         run: |
           chmod +x .github/scripts/push_to_main.sh
           .github/scripts/push_to_main.sh "Cập nhật: refresh GitHub Activity ($(date -u +%FT%TZ))" \
-            data/github-activity.json
+            data/github-activity.json data/github-profile-badges.json
