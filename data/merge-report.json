@@ -1,34 +1,110 @@
 {
-  "updated_at": "2026-06-18T08:05:40Z",
+  "updated_at": "2026-06-18T08:37:52Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 125,
-    "today": 17,
-    "this_week": 125,
-    "this_month": 125,
+    "total": 129,
+    "today": 21,
+    "this_week": 129,
+    "this_month": 129,
     "auto_merged": 1,
     "by_change_type": {
+      "ci": 3,
+      "unknown": 6,
+      "feature": 36,
       "fix": 41,
-      "feature": 34,
-      "unknown": 5,
       "content": 3,
       "chore": 39,
-      "ci": 2,
       "qa": 1
     }
   },
   "merges": [
     {
+      "pr_number": 409,
+      "pr_title": "ci: dừng vòng lặp deploy của bot dashboard (giãn cron + bỏ workflow_run)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/409",
+      "merged_at": "2026-06-18T08:33:21Z",
+      "merge_commit_sha": "7d9068e0201836a2f005d0e3dfcc41f04c2e5cac",
+      "merge_commit_short": "7d9068e",
+      "head_branch": "claude/amazing-bardeen-kipad2",
+      "summary_vi": "Deploy đỏ `Get Pages site failed … API rate limit exceeded` là do **vòng lặp deploy**:",
+      "change_type": "ci",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 688,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27747119385",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 408,
+      "pr_title": "content(baochi): Starbucks Fansipan — cửa hàng cà phê cao nhất châu Á",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/408",
+      "merged_at": "2026-06-18T08:28:20Z",
+      "merge_commit_sha": "a27b3e353c9ea94f38117c095d81153e10189d01",
+      "merge_commit_short": "a27b3e3",
+      "head_branch": "claude/amazing-bardeen-kipad2",
+      "summary_vi": "Bài báo chí (shortcut `bb`) viết lại từ Tri Thức - Znews: Starbucks khai trương cửa hàng **cao nhất châu Á** tại Sân Mây Fansipan (Sa Pa, Lào Cai), kèm phân tích chiến lược *experiential branding*.",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 681,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746851864",
+      "build_conclusion": "success"
+    },
+    {
+      "pr_number": 406,
+      "pr_title": "feat(dashboards): bản đồ \"Giao dịch theo vùng địa lý\" + bài V-Family",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/406",
+      "merged_at": "2026-06-18T08:16:01Z",
+      "merge_commit_sha": "d9d3d11cc899a27db101fbf71612803a1b559d57",
+      "merge_commit_short": "d9d3d11",
+      "head_branch": "claude/amazing-bardeen-kipad2",
+      "summary_vi": "Phần còn lại của nhánh sau khi PR #404 auto-merge sớm (chỉ kịp lấy 2 commit đầu: engine AI Insights + PDF fixes). PR này đưa nốt 2 phần còn lại vào `main`:",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 679,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746212198",
+      "build_conclusion": "failure"
+    },
+    {
+      "pr_number": 405,
+      "pr_title": "feat: 2 bài báo mới — tên miền .ai & VietinBank V-Family",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/405",
+      "merged_at": "2026-06-18T08:05:39Z",
+      "merge_commit_sha": "28be4208872e854c8ed72ffa8c4f18dab1088efd",
+      "merge_commit_short": "28be420",
+      "head_branch": "claude/awesome-brown-u90pas",
+      "summary_vi": "Hai bài `baochi` mới viết lại theo giọng cá nhân từ nội dung báo (shortcut `bb`).",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 672,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745659557",
+      "build_conclusion": "cancelled"
+    },
+    {
       "pr_number": 404,
-      "pr_title": "fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O",
+      "pr_title": "feat+fix(dashboards): bản đồ vùng địa lý + AI Insights (Starbucks) + PDF nền trắng (F/L/O)",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/404",
       "merged_at": "2026-06-18T08:00:52Z",
       "merge_commit_sha": "c6bac90589e84c4ff7547fcb83507ac0e5f6ac17",
       "merge_commit_short": "c6bac90",
       "head_branch": "claude/amazing-bardeen-kipad2",
-      "summary_vi": "Sửa 3 vấn đề trên cả **3 dashboard** F-Dashboard / L-Dashboard / O-Dashboard (engine dùng chung).",
+      "summary_vi": "Nâng cấp cả **3 dashboard** F-Dashboard / L-Dashboard / O-Dashboard (engine dùng chung).",
       "change_type": "fix",
       "files_changed": null,
       "additions": null,
@@ -37,7 +113,7 @@
       "auto_merged": false,
       "build_run_number": 665,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745407138",
-      "build_conclusion": "queued"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 403,
@@ -54,9 +130,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 656,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740213422",
-      "build_conclusion": "cancelled"
+      "build_run_number": 662,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740339818",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 402,
@@ -73,9 +149,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 651,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27737927518",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 401,
@@ -92,9 +168,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 647,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27737080965",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 400,
@@ -111,9 +187,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 639,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736855516",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 399,
@@ -130,9 +206,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 650,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27737110457",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 398,
@@ -149,9 +225,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 640,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736860847",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 397,
