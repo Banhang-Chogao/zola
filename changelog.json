@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "fix(footer): tên sự kiện countdown bị trắng tiệp nền trắng",
+      "tag": "fix",
+      "lines_added": 5,
+      "lines_removed": 1,
+      "highlights": [
+        ".site-footer strong:not([class*=footer-countdown]){color:#fff}",
+        ".footer-countdown__title{color:var(--cd-title,#003784)} (không còn bị đè)"
+      ],
+      "pr": 434
+    },
+    {
+      "date": "2026-06-18",
       "title": "chore(content): tạm ẩn bài có category \"premium\"",
       "tag": "chore",
       "lines_added": 1,
