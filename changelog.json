@@ -2,6 +2,45 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(seo): cover SVG → twin .og.webp cho og:image (social hiện đúng ảnh bài)",
+      "tag": "chore",
+      "lines_added": 172,
+      "lines_removed": 8,
+      "highlights": [],
+      "pr": 432
+    },
+    {
+      "date": "2026-06-18",
+      "title": "style(mobile): polish homepage feed thành card momo-style (mobile-only)",
+      "tag": "chore",
+      "lines_added": 88,
+      "lines_removed": 10,
+      "highlights": [
+        "Hero card: surface bo góc 18px, đổ bóng nhẹ (--c-shadow-md), ảnh full-bleed phía trên, body có padding, category là pill (--c-accent-soft).",
+        ".home-card: surface bo góc 16px, shadow, ảnh tràn mép, body padded, category pill, :active scale nhẹ (phản hồi chạm), ẩn nhãn \"Insights khán giả\" thừa, siết line-clamp.",
+        "≤380px: giảm padding + cỡ chữ cho máy nhỏ.",
+        "✅ Chỉ sửa trong @media (max-width: 720px) / ≤380px — không sửa selector global, .container, html/body.",
+        "✅ Không đụng desktop (grid 3 cột, hero 2 cột giữ nguyên)."
+      ],
+      "pr": 429
+    },
+    {
+      "date": "2026-06-18",
+      "title": "feat(tools): H-Dashboard — invoice (hóa đơn) spending analyzer with OCR",
+      "tag": "chore",
+      "lines_added": 4744,
+      "lines_removed": 1,
+      "highlights": [
+        "invoice-parser.js — mỗi mặt hàng = 1 giao dịch chi tiêu (expense). Đọc: cửa hàng, mã HĐ (Check#/Số HĐ), ngày/giờ, thu ngân, POS, hình thức TT, items (SL/đơn giá/thành tiền), tổng tiền. Số tiền kiểu VN",
+        "ocr-loader.js — thử pdf.js text layer trước; nếu PDF là ảnh scan (CamScanner/biên lai chụp) → fallback Tesseract.js (vie+eng) OCR, 100% client-side. looksLikeText() quyết định có cần OCR.",
+        "CSP (base.html) — thêm tối thiểu (additive): worker-src 'self' blob: https://cdn.jsdelivr.net + connect-src thêm https://cdn.jsdelivr.net https://tessdata.projectnaptha.com để worker/wasm/traineddata ",
+        "Parser unit-test trên đúng hóa đơn Highlands mẫu → item Nước Tinh Khiết Dasani 510ml · 15.000, tổng 15.000, reconcile khớp ✓; + test hóa đơn nhiều mặt hàng (qty × đơn giá) ✓",
+        "node --check toàn bộ JS ✓ · zola build ✓ · qa_check.py ✓"
+      ],
+      "pr": 424
+    },
+    {
+      "date": "2026-06-18",
       "title": "Thêm SEO CONTENT SYSTEM RULE (GLOBAL) vào CLAUDE.md",
       "tag": "chore",
       "lines_added": 84,

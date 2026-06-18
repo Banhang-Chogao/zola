@@ -2,13 +2,15 @@
 title = "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?"
 description = "Website đang vận hành phi lợi nhuận. Cùng ủng hộ dự án AI, đóng góp duy trì website để gây quỹ mua tên miền .AI — mọi khoản đóng góp đều hoàn toàn tự nguyện."
 date = 2026-06-18
+aliases = ["/ung-ho-du-an-ai-ten-mien-ai/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["ủng hộ dự án ai", "đóng góp duy trì website", "hỗ trợ mua tên miền ai", "donate website", "gây quỹ cộng đồng", "phi lợi nhuận"]
+tags = ["donate website", "gây quỹ cộng đồng", "hỗ trợ mua tên miền ai", "phi lợi nhuận", "đóng góp duy trì website", "ủng hộ dự án ai"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/ung-ho-du-an-ai.svg"
 seo_keyword = "ủng hộ dự án AI"
 featured = false
+sticky = true
 
 [[extra.faq]]
 q = "Tôi có bắt buộc phải đóng góp không?"

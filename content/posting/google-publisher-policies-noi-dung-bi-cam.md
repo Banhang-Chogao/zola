@@ -2,9 +2,10 @@
 title = "Google Publisher Policies — nội dung bị cấm hiển thị quảng cáo"
 description = "Google Publisher Policies: nội dung bị cấm đặt quảng cáo AdSense. Series AdSense Bài 4/15 — bám tài liệu Google chính thức."
 date = 2026-06-18
+aliases = ["/google-publisher-policies-noi-dung-bi-cam/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google adsense", "adsense", "adsense foundation series", "publisher policies", "monetization", "nội dung bị cấm"]
+tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "nội dung bị cấm", "publisher policies"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google publisher policies nội dung bị cấm"

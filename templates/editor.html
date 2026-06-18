@@ -217,7 +217,11 @@
                     </label>
 
                     <label class="editor-field editor-field--check">
-                        <input type="checkbox" name="featured"> <span>Bài nổi bật (lên Featured Post)</span>
+                        <input type="checkbox" name="featured"> <span>Bài nổi bật (lên Featured Post — sidebar phải)</span>
+                    </label>
+
+                    <label class="editor-field editor-field--check">
+                        <input type="checkbox" name="sticky"> <span>📌 Ghim bài (Sticky — section giữa trang chủ; chỉ 1 bài tại 1 thời điểm)</span>
                     </label>
                 </div>
 
@@ -329,7 +333,8 @@
                 "permalink": {{ page.permalink | json_encode | safe }},
                 "date": {{ page.date | json_encode | safe }},
                 "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
-                "featured": {% if page.extra.featured %}true{% else %}false{% endif %}
+                "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
+                "sticky": {% if page.extra.sticky %}true{% else %}false{% endif %}
             }{% if not loop.last %},{% endif %}
         {%- endfor %}]
     </script>

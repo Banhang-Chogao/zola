@@ -288,8 +288,18 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 - Làm xong BẤT KỲ việc gì → **LUÔN mở Pull Request** về `main`. Không để thay đổi
   nằm im trên feature branch mà thiếu PR.
 - Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
+- Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
+  cần tạo PR trùng.
 - Chỉ push thêm commit vào PR đang mở khi đó là **sửa/hoàn thiện CHÍNH thay đổi của
   PR đó** (vd fix CI đỏ) — KHÔNG nhét thay đổi MỚI không liên quan vào PR đang có.
+- **Theo dõi tới khi xong (BẮT BUỘC):** MỌI tính năng sau khi commit + mở PR →
+  **PHẢI subscribe theo dõi trạng thái PR** (`subscribe_pr_activity`) cho tới khi
+  PR **MERGED hoặc CLOSED**. Lắng nghe CI + review comment; build đỏ → chẩn đoán
+  (Vaccine §4 / `ff`) + fix trên cùng branch + push lại; CI xanh → xác nhận
+  auto-merge. KHÔNG kết thúc turn khi PR còn open mà chưa theo dõi. Webhook không
+  báo mọi thứ (CI success / merge-conflict) → nếu có `send_later` thì hẹn tự
+  check-in ~1h tái kiểm tra state/CI/mergeability rồi re-arm cho tới khi merge.
+  Dừng theo dõi khi user yêu cầu (`unsubscribe_pr_activity`).
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
@@ -490,8 +500,15 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 - Bộ placeholder cố định ở `static/img/placeholder/` (sinh bằng
   `python3 scripts/make_placeholder.py`): `placeholder.svg` (3:2, thumbnail),
   `placeholder-wide.svg` (16:9, ảnh trong bài), `placeholder-square.svg` (1:1).
-- SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước. OG/social
-  fallback `img/og-default.webp` khi thumbnail là `.svg` (mạng xã hội không render SVG).
+- SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước.
+- **OG/social cho cover SVG (twin `.og.webp`):** mạng xã hội (FB/Threads/X/Zalo)
+  KHÔNG render SVG. `scripts/build_og_images.py` rasterize mỗi `static/img/**/*.svg`
+  → twin `*.og.webp` (1200×630, cairosvg+Pillow). `base.html` khi `thumbnail` là
+  `.svg` thì og:image dùng twin (`.svg` → `.og.webp`) → social hiện đúng ảnh COVER
+  của bài thay vì banner chung. `img/og-default.webp` giờ CHỈ là fallback cho bài
+  **không khai báo thumbnail**. Script idempotent, không vỡ build khi thiếu dep
+  (dùng `.og.webp` đã commit); chạy trong `deploy.yml` trước `zola build`; thêm cover
+  SVG mới → chạy `python3 scripts/build_og_images.py` (hoặc CI tự sinh) + commit twin.
 - **Fallback runtime (ảnh CÓ src nhưng load lỗi/404):** `base.html` có 1 listener
   `error` (capture phase) đổi mọi `<img>` load fail sang placeholder → KHÔNG bao
   giờ hiện icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ lo bài THIẾU
@@ -1142,3 +1159,21 @@ Trang `/tools/o-dashboard/` — phân tích sao kê **Liobank by OCB** dạng **
 | Trang | `content/tools/o-dashboard.md`, `templates/o-dashboard.html` |
 | Styles | `sass/_o-dashboard.scss` (import sau `l-dashboard` trong `site.scss`) |
 | JS | `static/js/o-dashboard/*.js` (`liobank-parser.js`, `app.js`, `export.js`…) |
+
+## H-Dashboard (Hóa đơn mua hàng — invoice PDF + OCR)
+
+Trang `/tools/h-dashboard/` — thống kê chi tiêu từ **hóa đơn mua hàng / biên lai** (vd Highlands Coffee, siêu thị) dạng **PDF**. Clone kiến trúc **O/L-Dashboard**, chỉ khác **source dữ liệu (invoice, không phải sao kê) + parser + OCR**. UI/UX, charts, health, export PDF/CSV/JSON, OAuth gate **y chang** L/O-Dashboard.
+
+- **Đọc PDF (2 tầng):** `static/js/h-dashboard/invoice-parser.js` thử pdf.js text layer trước (hóa đơn điện tử có text); nếu text quá ít → **OCR fallback** `ocr-loader.js` (Tesseract.js `vie+eng`, render page→canvas, 100% client-side). Hàm `looksLikeText()` quyết định có cần OCR.
+- **Parser invoice:** mỗi **mặt hàng = 1 transaction expense**. Số tiền VN (`15.000`=15000), loại token leading-zero (id hóa đơn `0099`). Bắt metadata: merchant (dòng đầu), `Check#`/`Số HĐ`, ShopID, POS, Pager, Thu ngân, ngày `DD-MM-YYYY HH:MM` / `DD/MM/YYYY`, hình thức TT. Items nằm giữa header và dòng tổng (`Tổng tiền`/`Tổng cộng`/`Thành tiền`/`Total`); **"thanh toan" KHÔNG là total marker** (trùng tiêu đề "Hóa Đơn Thanh Toán"). Dòng nối tiếp (vd `510ml`) gộp vào tên mặt hàng.
+- **Schema giao dịch** (khớp L/O): `{transaction_id, date, value_date, merchant, description, txn_no, qty, unit_price, debit, credit:0, fee:0, balance, amount:-debit, type:"expense"}`. `balance` = lũy kế chi trong hóa đơn. `transaction_id = SHA256(merchant|date|invoice_no|idx|name|amount)` → re-upload cùng hóa đơn dedupe.
+- **Tách biệt F/L/O:** namespace `HDashboard*`, id `hd-`, IndexedDB riêng `h-dashboard-db`. Dữ liệu chỉ local (AES-GCM), không upload server.
+- **CSP (base.html):** OCR cần `worker-src 'self' blob: https://cdn.jsdelivr.net` + `connect-src` thêm `https://cdn.jsdelivr.net https://tessdata.projectnaptha.com` (tesseract core/wasm + traineddata). Đây là thay đổi global tối thiểu, additive.
+- **Bảng 7 cột:** STT · Ngày · Mặt hàng · SL · Đơn giá · Thành tiền · Lũy kế. Meta panel: Cửa hàng · Mã HĐ · Ngày xuất · Thu ngân · Tổng HĐ · Hình thức TT.
+
+| Thành phần | Path |
+|------------|------|
+| Trang | `content/tools/h-dashboard.md`, `templates/h-dashboard.html` |
+| Styles | `sass/_h-dashboard.scss` (import sau `o-dashboard` trong `site.scss`) |
+| JS | `static/js/h-dashboard/*.js` (`invoice-parser.js`, `ocr-loader.js`, `app.js`, `export.js`…) |
+| Menu | `config.toml` `[[extra.main_menu]]` sau O-Dashboard |

@@ -247,6 +247,8 @@
                 {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
             {% elif page.extra.series == "science-uranium" %}
                 {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% elif page.extra.series == "ngan-hang-so" %}
+                {% set series_manifest = load_data(path="data/ngan-hang-so-series.json", required=false) %}
             {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}

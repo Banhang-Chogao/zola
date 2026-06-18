@@ -47,6 +47,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Build social OG cover images (SVG → .og.webp)
+        run: |
+          pip install -r scripts/requirements-og-images.txt
+          python3 scripts/build_og_images.py
+
       - name: Build reference index
         run: python3 scripts/build_references.py
 
