@@ -1,56 +1,137 @@
 # Related Posts QA Report
 
-Generated: `2026-06-17T17:50:36.497054+00:00`
+Generated: `2026-06-18T22:32:46.636362+00:00`
 
 ## Summary
 
-- Total posts: **41**
-- Green (≥70): **10**
-- Orange (40–69): **22**
-- Red (<40): **9**
-- Fixed this run: **5**
+- Total posts: **149**
+- Green (≥70): **96**
+- Orange (40–69): **38**
+- Red (<40): **15**
+- Fixed this run: **64**
 
-- Before: green 10, orange 22, red 8
-- After: green 10, orange 22, red 9
+- Before: green 50, orange 34, red 15
+- After: green 96, orange 38, red 15
 
 ## Fixed posts
 
-- `facebook-shopee-affiliate-la-gi`: 0.36 → **0.39** (low → low)
-- `google-adsense-la-gi-chinh-sach-chuong-trinh`: 0.00 → **0.39** (low → low)
-- `hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude`: 0.27 → **0.27** (low → low)
-- `nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat`: 0.34 → **0.37** (low → low)
-- `seo-la-gi-huong-dan-co-ban-google-search`: 0.45 → **0.49** (mid → mid)
+- `an-khuya-sai-gon`: 0.45 → **0.64** (mid → mid)
+- `bao-mat-ngan-hang-so-vietinbank`: 0.00 → **0.78** (low → high)
+- `cau-dieu-kien-gia-dinh-tieng-han`: 0.00 → **1.02** (low → high)
+- `cau-menh-lenh-ru-re-tieng-han`: 0.00 → **1.03** (low → high)
+- `cau-truc-ipnida-gioi-thieu-ban-than-tieng-han`: 0.00 → **0.99** (low → high)
+- `chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua`: 0.00 → **0.86** (low → high)
+- `cot-moc-lich-su-phat-trien-vietinbank`: 0.00 → **0.84** (low → high)
+- `dai-tu-chi-dinh-tieng-han`: 0.00 → **1.00** (low → high)
+- `dinh-ngu-quan-hinh-tu-tieng-han`: 0.00 → **0.99** (low → high)
+- `doc-bao-cao-google-analytics-15-phut-moi-ngay`: 0.00 → **0.69** (low → mid)
+- `dong-tu-bat-quy-tac-tieng-han`: 0.00 → **0.93** (low → high)
+- `dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han`: 0.00 → **1.03** (low → high)
+- `engagement-rate-bounce-rate-google-analytics`: 0.00 → **0.62** (low → mid)
+- `google-analytics-la-gi-lo-trinh-10-ngay`: 0.00 → **0.77** (low → high)
+- `he-sinh-thai-san-pham-vietinbank`: 0.00 → **0.79** (low → high)
+- `hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude`: 0.33 → **0.33** (low → low)
+- `hoc-tieng-han-bang-chu-hangul-nguyen-am`: 0.00 → **1.01** (low → high)
+- `itda-eopda-vi-tri-tieng-han`: 0.00 → **1.01** (low → high)
+- `kha-nang-kinh-nghiem-tieng-han`: 0.00 → **0.60** (low → mid)
+- `kinh-ngu-nopimmal-tieng-han`: 0.00 → **1.02** (low → high)
+- `lien-tu-cau-tieng-han`: 0.00 → **0.96** (low → high)
+- `mong-muon-y-dinh-tieng-han`: 0.00 → **1.00** (low → high)
+- `ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat`: 0.69 → **0.71** (mid → high)
+- `ngu-phap-nang-cao-topik-tieng-han`: 0.00 → **0.99** (low → high)
+- `nguon-traffic-organic-direct-referral-social-paid`: 0.00 → **0.70** (low → high)
+- `nguyen-am-doi-tieng-han`: 0.00 → **0.99** (low → high)
+- `on-tap-tuan-1-chao-hoi-tieng-han`: 0.00 → **0.94** (low → high)
+- `on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han`: 0.00 → **1.00** (low → high)
+- `on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han`: 0.00 → **1.00** (low → high)
+- `patchim-phu-am-cuoi-tieng-han`: 0.00 → **0.91** (low → high)
+- `phu-am-cang-bat-hoi-tieng-han`: 0.00 → **0.69** (low → mid)
+- `phu-am-co-ban-hangul-ghep-am-tiet`: 0.00 → **0.99** (low → high)
+- `phu-dinh-an-mot-tieng-han`: 0.00 → **1.03** (low → high)
+- `quy-tac-phat-am-tieng-han`: 0.00 → **0.73** (low → high)
+- `rui-ro-khi-su-dung-ngan-hang-so`: 0.69 → **0.69** (mid → mid)
+- `so-dem-tieng-han-han-han-thuan-han`: 0.00 → **0.99** (low → high)
+- `the-vietinbank-lich-su-va-cac-dong-the`: 0.00 → **0.76** (low → high)
+- `thi-qua-khu-asseoyo-tieng-han`: 0.00 → **1.03** (low → high)
+- `thi-tuong-lai-y-dinh-tieng-han`: 0.00 → **0.99** (low → high)
+- `tien-ich-so-vietinbank-chua-tan-dung-het`: 0.00 → **0.78** (low → high)
+- `toan-canh-chuyen-doi-so-vietinbank`: 0.00 → **0.88** (low → high)
+- `tong-on-chien-luoc-thi-topik-tieng-han`: 0.00 → **1.00** (low → high)
+- `top-ngan-hang-so-tot-nhat-viet-nam-2026`: 0.71 → **0.73** (high → high)
+- `trich-dan-gian-tiep-tieng-han`: 0.00 → **1.01** (low → high)
+- `tro-tu-eul-reul-e-eseo-tieng-han`: 0.00 → **0.99** (low → high)
+- `tro-tu-eun-neun-i-ga-tieng-han`: 0.00 → **1.02** (low → high)
+- `troi-mua-sai-gon-an-gi`: 0.44 → **0.56** (mid → mid)
+- `tuong-lai-ngan-hang-so-va-vi-the-vietinbank`: 0.00 → **0.82** (low → high)
+- `tuong-lai-ngan-hang-so-viet-nam`: 0.72 → **0.75** (high → high)
+- `users-new-users-sessions-google-analytics`: 0.00 → **0.69** (low → mid)
+- `vai-tro-vietinbank-he-thong-ngan-hang-viet-nam`: 0.00 → **0.84** (low → high)
+- `vietinbank-cong-nghe-trai-nghiem-khach-hang`: 0.00 → **0.81** (low → high)
+- `vietinbank-cuoc-dua-ngan-hang-so-big4`: 0.00 → **0.83** (low → high)
+- `vietinbank-hien-dai-hoa-core-banking`: 0.00 → **0.78** (low → high)
+- `vietinbank-ipay-internet-banking-qua-cac-thoi-ky`: 0.00 → **0.85** (low → high)
+- `vietinbank-la-ai-hanh-trinh-hinh-thanh`: 0.00 → **0.83** (low → high)
+- `vietinbank-tu-giao-dich-quay-den-ngan-hang-so`: 0.00 → **0.86** (low → high)
+- `bidv-flagship-private-banking-tphcm`: 0.56 → **0.62** (mid → mid)
+- `chon-ngach-noi-dung-giu-chan-nguoi-doc`: 0.55 → **0.55** (mid → mid)
+- `huong-dan-xac-thuc-cccd-msb-digital-bank`: 0.64 → **0.64** (mid → mid)
+- `msb-digital-bank-cong-nghe-bao-mat`: 0.61 → **0.61** (mid → mid)
+- `ten-mien-ai-hon-dao-anguilla-hot-bac`: 0.30 → **0.32** (low → low)
+- `vietinbank-v-family-nhom-gia-dinh`: 0.53 → **0.63** (mid → mid)
+- `vneid-2-2-8-phan-anh-lua-dao-quet-qr`: 0.29 → **0.30** (low → low)
 
 ## Still orange/red
 
-- `liobank-bao-mat-an-toan-the-nao` [mid] score=0.70 — Trung bình top-5 = 0.70 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `cong-nghe-blog-duy-nguyen` [mid] score=0.69 — Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `doc-bao-cao-google-analytics-15-phut-moi-ngay` [mid] score=0.69 — Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `tu-dong-deploy-zola-github-actions` [mid] score=0.69 — Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `cong-nghe-blog-duy-nguyen` [mid] score=0.69 — Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `users-new-users-sessions-google-analytics` [mid] score=0.69 — Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `phu-am-cang-bat-hoi-tieng-han` [mid] score=0.69 — Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `rui-ro-khi-su-dung-ngan-hang-so` [mid] score=0.69 — Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `lich-trinh-busan-tu-tuc-3-ngay-2-dem` [mid] score=0.68 — Trung bình top-5 = 0.68 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `msb-digital-bank-ra-mat-thay-mbank` [mid] score=0.64 — Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `huong-dan-xac-thuc-cccd-msb-digital-bank` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `cach-mo-tai-khoan-ngan-hang-so-online` [mid] score=0.67 — Trung bình top-5 = 0.67 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `msb-digital-bank-ra-mat-thay-mbank` [mid] score=0.65 — Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `huong-dan-xac-thuc-cccd-msb-digital-bank` [mid] score=0.64 — Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `an-khuya-sai-gon` [mid] score=0.64 — Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `so-sanh-cake-vs-liobank` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `vietinbank-v-family-nhom-gia-dinh` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `liobank-gioi-thieu-ban-be-nhan-thuong` [mid] score=0.63 — Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `msb-digital-bank-cong-nghe-bao-mat` [mid] score=0.60 — Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `the-tin-dung-msb-huong-dan-chi-tiet` [mid] score=0.57 — Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `qa-gatekeeper-tu-fix-loi-blog` [mid] score=0.55 — Trung bình top-5 = 0.55 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `bidv-flagship-private-banking-tphcm` [mid] score=0.62 — Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `engagement-rate-bounce-rate-google-analytics` [mid] score=0.62 — Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `msb-digital-bank-cong-nghe-bao-mat` [mid] score=0.61 — Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `timo-la-gi-co-nen-dung` [mid] score=0.61 — Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `so-sanh-timo-vs-tnex` [mid] score=0.60 — Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `kha-nang-kinh-nghiem-tieng-han` [mid] score=0.60 — Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `review-tnex-chi-tiet` [mid] score=0.60 — Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `ngan-hang-so-cho-freelancer` [mid] score=0.59 — Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `the-tin-dung-msb-huong-dan-chi-tiet` [mid] score=0.58 — Trung bình top-5 = 0.58 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `qa-gatekeeper-tu-fix-loi-blog` [mid] score=0.57 — Trung bình top-5 = 0.57 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `mo-the-techcombank-eco-digital-mien-phi` [mid] score=0.56 — Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `troi-mua-sai-gon-an-gi` [mid] score=0.56 — Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `chon-ngach-noi-dung-giu-chan-nguoi-doc` [mid] score=0.55 — Trung bình top-5 = 0.55 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `zola-vs-hugo` [mid] score=0.55 — Trung bình top-5 = 0.55 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `my-iran-hoa-binh-trung-dong` [mid] score=0.51 — Trung bình top-4 = 0.51 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `tet-doan-ngo-han-viet-trung` [mid] score=0.50 — Trung bình top-5 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `seo-la-gi-huong-dan-co-ban-google-search` [mid] score=0.49 — Trung bình top-5 = 0.49 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `chon-ngach-noi-dung-giu-chan-nguoi-doc` [mid] score=0.49 — Top semantic score thấp (0.54) — nội dung quá khác biệt trong cluster.
-- `bidv-flagship-private-banking-tphcm` [mid] score=0.48 — Top semantic score thấp (0.54) — nội dung quá khác biệt trong cluster.
-- `my-iran-peace-deal-global-energy` [mid] score=0.47 — Trung bình top-4 = 0.47 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `review-cake-by-vpbank` [mid] score=0.54 — Trung bình top-5 = 0.54 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `vpbank-circle-sieu-the-free-tron-doi-gen-z` [mid] score=0.52 — Trung bình top-5 = 0.52 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `tet-doan-ngo-han-viet-trung` [mid] score=0.51 — Trung bình top-5 = 0.51 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam` [mid] score=0.49 — Top semantic score thấp (0.53) — nội dung quá khác biệt trong cluster.
+- `premium-fintech-paywall-demo` [mid] score=0.47 — Trung bình top-5 = 0.47 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `toi-nay-sai-gon-an-gi` [mid] score=0.45 — Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `an-khuya-sai-gon` [mid] score=0.45 — Trung bình top-3 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `troi-mua-sai-gon-an-gi` [mid] score=0.44 — Trung bình top-3 = 0.44 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam` [mid] score=0.44 — Top semantic score thấp (0.50) — nội dung quá khác biệt trong cluster.
+- `my-iran-hoa-binh-trung-dong` [mid] score=0.45 — Trung bình top-5 = 0.45 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `cac-truong-hop-khong-duoc-hoan-thue-gtgt` [mid] score=0.43 — Top semantic score thấp (0.49) — nội dung quá khác biệt trong cluster.
+- `my-iran-peace-deal-global-energy` [mid] score=0.41 — Trung bình top-5 = 0.41 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
 - `iran-uranium-destruction-what-it-means` [mid] score=0.41 — Trung bình top-5 = 0.41 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `facebook-shopee-affiliate-la-gi` [low] score=0.39 — Trung bình top-5 = 0.39 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `google-adsense-la-gi-chinh-sach-chuong-trinh` [low] score=0.39 — Trung bình top-5 = 0.39 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat` [low] score=0.37 — Trung bình top-5 = 0.37 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
-- `f18-crash-when-technology-fails` [low] score=0.30 — Top semantic score thấp (0.37) — nội dung quá khác biệt trong cluster.
-- `sentence-transformers-sbert-deep-dive` [low] score=0.30 — Top semantic score thấp (0.34) — nội dung quá khác biệt trong cluster.
-- `hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude` [low] score=0.27 — Top semantic score thấp (0.34) — nội dung quá khác biệt trong cluster.
-- `uranium-la-gi-tai-sao-quan-trong` [low] score=0.25 — Chỉ có 1 bài trong cluster 'Khoa học' — không đủ neighbor cùng chủ đề.
-- `muc-dong-bhyt-ho-gia-dinh-2026` [low] score=0.21 — Top semantic score thấp (0.25) — nội dung quá khác biệt trong cluster.
-- `lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick` [low] score=0.18 — Top semantic score thấp (0.26) — nội dung quá khác biệt trong cluster.
+- `gia-vang-hom-nay-18-6-giam-manh` [low] score=0.39 — Top semantic score thấp (0.50) — nội dung quá khác biệt trong cluster.
+- `facebook-shopee-affiliate-la-gi` [low] score=0.37 — Top semantic score thấp (0.40) — nội dung quá khác biệt trong cluster.
+- `ung-ho-du-an-ai-ten-mien-ai` [low] score=0.37 — Top semantic score thấp (0.46) — nội dung quá khác biệt trong cluster.
+- `mua-qua-chin-xu-dong-hai-phong` [low] score=0.35 — Top semantic score thấp (0.45) — nội dung quá khác biệt trong cluster.
+- `muc-dong-bhyt-ho-gia-dinh-2026` [low] score=0.34 — Top semantic score thấp (0.41) — nội dung quá khác biệt trong cluster.
+- `sentence-transformers-sbert-deep-dive` [low] score=0.34 — Top semantic score thấp (0.34) — nội dung quá khác biệt trong cluster.
+- `hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude` [low] score=0.33 — Top semantic score thấp (0.39) — nội dung quá khác biệt trong cluster.
+- `ten-mien-ai-hon-dao-anguilla-hot-bac` [low] score=0.32 — Top semantic score thấp (0.46) — nội dung quá khác biệt trong cluster.
+- `vneid-2-2-8-phan-anh-lua-dao-quet-qr` [low] score=0.30 — Top semantic score thấp (0.31) — nội dung quá khác biệt trong cluster.
+- `bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi` [low] score=0.28 — Trung bình top-4 = 0.28 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `f18-crash-when-technology-fails` [low] score=0.28 — Top semantic score thấp (0.37) — nội dung quá khác biệt trong cluster.
+- `macos-27-golden-gate-co-gi-moi` [low] score=0.27 — Top semantic score thấp (0.32) — nội dung quá khác biệt trong cluster.
+- `lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick` [low] score=0.26 — Trung bình top-5 = 0.26 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster.
+- `starbucks-cua-hang-cao-nhat-chau-a-fansipan` [low] score=0.25 — Top semantic score thấp (0.27) — nội dung quá khác biệt trong cluster.
+- `nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat` [low] score=0.20 — Chỉ có 1 bài trong cluster 'Khuyến mãi & Affiliate' — không đủ neighbor cùng chủ đề.
