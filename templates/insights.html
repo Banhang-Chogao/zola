@@ -674,6 +674,46 @@
                 </div>
                 {% endif %}
 
+                {# ===== VACCINE AUTOFIXER (Daily repairs) ===== #}
+                {% set vaccine_data = load_data(path="data/vaccine-autofixer-report.json", required=false) %}
+                {% if vaccine_data %}
+                {% set latest = vaccine_data.latest | default(value=false) %}
+                {% if latest %}
+                <div class="insights__vaccines">
+                    <header class="insights__vaccines-head">
+                        <h3 class="insights__vaccines-title">🔬 Vaccine Autofixer</h3>
+                        <span class="insights__vaccines-meta">Daily automatic issue detection &amp; repairs</span>
+                    </header>
+
+                    <div class="insights__vaccines-stats">
+                        <div class="insights__vaccine-stat">
+                            <span class="insights__vaccine-stat-label">Vaccines Scanned</span>
+                            <span class="insights__vaccine-stat-value">{{ latest.vaccine_scanned }}</span>
+                        </div>
+                        <div class="insights__vaccine-stat">
+                            <span class="insights__vaccine-stat-label">Issues Detected</span>
+                            <span class="insights__vaccine-stat-value insights__vaccine-stat-value--alert">{{ latest.issues_detected }}</span>
+                        </div>
+                        <div class="insights__vaccine-stat">
+                            <span class="insights__vaccine-stat-label">Fixed</span>
+                            <span class="insights__vaccine-stat-value insights__vaccine-stat-value--success">{{ latest.issues_fixed }}</span>
+                        </div>
+                        <div class="insights__vaccine-stat">
+                            <span class="insights__vaccine-stat-label">PRs Created</span>
+                            <span class="insights__vaccine-stat-value">{{ latest.issues_prs_created }}</span>
+                        </div>
+                    </div>
+
+                    <footer class="insights__vaccines-foot">
+                        <span class="insights__vaccines-src">Nguồn: <code>vaccine-autofixer.yml</code> · daily 06:00 GMT+7</span>
+                        <time class="insights__vaccines-updated" datetime="{{ latest.generated_at }}">
+                            Cập nhật {{ latest.generated_at | date(format="%H:%M %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                        </time>
+                    </footer>
+                </div>
+                {% endif %}
+                {% endif %}
+
             </div>
         </div>
 
