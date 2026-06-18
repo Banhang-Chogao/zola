@@ -98,6 +98,36 @@
         {{ paywall::box(page=page, config=config) }}
         {% else %}
         <div class="post-single__content">
+            {# ===== Mục lục (TOC) — tự động từ native page.toc cho MỌI bài có
+               >= 3 heading (H2/H3). Anchor dùng id heading thật (custom {#id}
+               hoặc auto) nên luôn khớp; smooth scroll + offset navbar đã set
+               global ở _reset.scss (html scroll-behavior + scroll-padding-top).
+               KHÔNG dùng JS; KHÔNG nằm trong page.content → RSS/summary không bị
+               ảnh hưởng. Tắt thủ công 1 bài: [extra] toc = false. ===== #}
+            {% set_global toc_total = 0 %}
+            {% for h in page.toc %}
+                {% set_global toc_total = toc_total + 1 %}
+                {% for c in h.children %}{% set_global toc_total = toc_total + 1 %}{% endfor %}
+            {% endfor %}
+            {% if toc_total >= 3 and page.extra.toc | default(value=true) %}
+            <nav class="toc" aria-label="Mục lục">
+                <p class="toc__title">Mục lục</p>
+                <ol class="toc__list">
+                    {% for h in page.toc %}
+                    <li>
+                        <a href="#{{ h.id }}">{{ h.title | safe }}</a>
+                        {% if h.children %}
+                        <ol>
+                            {% for c in h.children %}
+                            <li><a href="#{{ c.id }}">{{ c.title | safe }}</a></li>
+                            {% endfor %}
+                        </ol>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </nav>
+            {% endif %}
             {{ page.content | safe }}
         </div>
         {% endif %}

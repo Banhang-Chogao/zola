@@ -32,20 +32,6 @@ Bạn sửa title, thêm 500 từ, bấm merge GitHub Actions, rồi mở Google
 
 <!-- more -->
 
-## Mục lục
-
-1. [Google nói gì về thời gian thấy kết quả SEO?](#google-noi-gi)
-2. [Vì sao có thay đổi mất giờ, có thay đổi mất tháng?](#gio-vs-thang)
-3. [Timeline thực tế: từ deploy Zola đến impression đầu tiên](#timeline-zola)
-4. [Loại thay đổi nào thường chậm, loại nào nhanh hơn?](#loai-thay-doi)
-5. [Đo kết quả SEO đúng cách — Search Console](#do-bang-search-console)
-6. [Khi nào nên chờ, khi nào nên iterate?](#cho-hay-iterate)
-7. [SEO organic vs quảng cáo — sai bài toán thời gian](#seo-vs-ads)
-8. [Nhầm lẫn thường gặp về "thời gian SEO"](#nham-lan)
-9. [Checklist sau mỗi lần chỉnh sửa SEO](#checklist)
-10. [Bạn nên làm gì sau bài 3?](#sau-bai-3)
-11. [Tóm lại](#tom-lai)
-
 ## Bao lâu để thấy kết quả SEO theo Google? {#google-noi-gi}
 
 Google viết thẳng trong [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide):

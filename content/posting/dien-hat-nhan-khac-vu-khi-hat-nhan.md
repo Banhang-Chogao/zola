@@ -33,20 +33,6 @@ Ba bài trước cho bạn **uranium**, **% U-235**, và **nhà máy làm giàu*
 
 <!-- more -->
 
-## Mục lục
-
-1. [Cùng vật lý hạt nhân, khác mục đích](#cung-vat-ly-khac-muc-dich)
-2. [Điện hạt nhân hoạt động thế nào — phản ứng có kiểm soát](#dien-hat-nhan)
-3. [Vũ khí hạt nhân — phản ứng không kiểm soát (khái niệm)](#vu-khi-hat-nhan)
-4. [So sánh nhiên liệu: LEU điện vs HEU](#leu-vs-heu)
-5. [Plutonium và chu trình nhiên liệu](#plutonium)
-6. [Dual-use: cùng làm giàu, khác đích](#dual-use)
-7. [Nhà máy điện trong thực tế và giám sát](#nha-may-dien)
-8. [Đọc tin Iran với khung Bài 1–4](#doc-tin-iran)
-9. [Giới hạn giáo dục của bài này](#gioi-han-giao-duc)
-10. [Lộ trình 5 bài](#lo-trinh-5-bai)
-11. [Tóm lại](#tom-lai)
-
 ## Cùng vật lý hạt nhân, khác mục đích {#cung-vat-ly-khac-muc-dich}
 
 Cả điện hạt nhân lẫn vũ khí hạt nhân đều dựa trên **phân hạch hạt nhân** (nuclear fission): hạt nhân nặng (thường U-235 hoặc Pu-239) hấp thụ neutron, vỡ ra, giải phóng năng lượng và **thêm neutron** — có thể kích hoạt phản ứng dây chuyền.

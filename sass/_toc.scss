@@ -1,0 +1,57 @@
+/* ===== Mục lục (Table of Contents) =====
+   Auto-render từ native page.toc (templates/page.html) cho bài >= 3 heading.
+   Scope dưới .post-single__content để thắng typography của content (ol/li/a).
+   Màu dùng semantic token (var(--c-*)) → tự đúng ở light + dark. Smooth scroll
+   + offset sticky navbar đã set global ở _reset.scss → KHÔNG cần thêm gì ở đây.
+   Chỉ style, không đụng layout/scroll global (tuân thủ CLAUDE.md CSS rules). */
+.post-single__content .toc {
+  margin: 1.5rem 0 2rem;
+  padding: 1rem 1.25rem 1.1rem;
+  background: var(--c-bg-soft);
+  border: 1px solid var(--c-border);
+  border-left: 3px solid var(--c-accent);
+  border-radius: 8px;
+  font-family: $font-ui;
+
+  .toc__title {
+    margin: 0 0 0.55rem;
+    font-family: $font-heading;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--c-text-heading);
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  > ol > li { margin: 0.32rem 0; }
+
+  ol ol {
+    margin: 0.28rem 0 0.1rem;
+    padding-left: 1.15rem;
+    list-style: disc;
+  }
+
+  li { line-height: 1.5; }
+
+  a {
+    color: var(--c-text-body);
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--c-accent);
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 720px) {
+    margin: 1.1rem 0 1.5rem;
+    padding: 0.85rem 1rem 0.95rem;
+  }
+}

@@ -33,21 +33,6 @@ a = "Có. Blogger và các host partner dùng hosted AdSense account — đăng 
 
 <!-- more -->
 
-## Mục lục
-
-1. [Điều kiện AdSense là gì — theo Google](#dieu-kien-theo-google)
-2. [Ba trụ cột đủ tư cách tham gia AdSense](#ba-tru-cot)
-3. [Tuổi 18+ — yêu cầu pháp lý khi đăng ký](#tuoi-18)
-4. [Nội dung gốc, chất lượng và thu hút độc giả](#noi-dung-goc)
-5. [Quyền sở hữu site và truy cập mã HTML](#quyen-so-huu)
-6. [Tuân thủ Program policies trước khi đăng ký](#tuan-thu-policies)
-7. [Blogger và host partner — hosted AdSense](#blogger-hosted)
-8. [YouTube — AdSense for YouTube](#youtube-adsense)
-9. [Sai lầm thường gặp khi đánh giá đủ tư cách](#sai-lam)
-10. [Checklist nhanh trước khi Sign up](#checklist)
-11. [Bạn nên làm gì sau bài 2?](#sau-bai-2)
-12. [Tóm lại](#tom-lai)
-
 ## Điều kiện AdSense là gì — theo Google {#dieu-kien-theo-google}
 
 Google gom yêu cầu tham gia chương trình vào trang [Eligibility requirements for AdSense](https://support.google.com/adsense/answer/9724?hl=en). Câu mở đầu của họ khá gọn:

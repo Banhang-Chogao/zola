@@ -33,21 +33,6 @@ a = "Không bắt buộc — Google vẫn crawl qua link. Nhưng sitemap giúp G
 
 <!-- more -->
 
-## Mục lục
-
-1. [Google tìm URL bằng cách nào?](#google-tim-url)
-2. [Toán tử site: — kiểm tra index nhanh](#site-operator)
-3. [Internal link — đường đi cho Googlebot](#internal-link)
-4. [Sitemap — báo danh URL có cấu trúc](#sitemap)
-5. [Search Console — submit và theo dõi](#search-console)
-6. [Liên kết từ site khác — bạn không kiểm soát hết](#backlink)
-7. [robots.txt và chặn nhầm crawler](#robots-txt)
-8. [Giúp Google tìm nội dung trên blog Zola](#zola-thuc-te)
-9. [Sai lầm thường gặp](#sai-lam)
-10. [Checklist sau mỗi lần publish](#checklist)
-11. [Bạn nên làm gì sau bài 4?](#sau-bai-4)
-12. [Tóm lại](#tom-lai)
-
 ## Google tìm URL bằng cách nào? {#google-tim-url}
 
 Theo [How Google Search works](https://developers.google.com/search/docs/fundamentals/how-search-works), Google **không** biết mọi URL trên internet ngay lập tức. Googlebot phát hiện trang qua:

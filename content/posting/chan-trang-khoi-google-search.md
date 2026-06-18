@@ -33,21 +33,6 @@ a = "Có — staging/production mirror nên noindex toàn site hoặc password-p
 
 <!-- more -->
 
-## Mục lục
-
-1. [Vì sao cần chặn index — không phải "SEO ngược"](#vi-sao-can-chan)
-2. [Ba cơ chế: robots.txt, noindex, X-Robots-Tag](#ba-co-che)
-3. [noindex — cách Google khuyến nghị](#noindex)
-4. [robots.txt Disallow — giới hạn và use case](#robots-txt)
-5. [X-Robots-Tag và header HTTP](#x-robots-tag)
-6. [Khi nào chặn trang nào — ma trận quyết định](#ma-tran-quyet-dinh)
-7. [Remove URL vs chặn lâu dài](#remove-vs-chan)
-8. [Blog Zola — robots.txt và template thực tế](#zola-thuc-te)
-9. [Sai lầm thường gặp](#sai-lam)
-10. [Checklist chặn index đúng cách](#checklist)
-11. [Bạn nên làm gì sau bài 6?](#sau-bai-6)
-12. [Tóm lại](#tom-lai)
-
 ## Vì sao cần chặn index — không phải "SEO ngược" {#vi-sao-can-chan}
 
 SEO không phải "index mọi thứ". Google [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) khuyên **chủ động** loại URL không mang giá trị search hoặc **không nên public**:
