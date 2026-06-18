@@ -2,6 +2,7 @@
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/series-listing.html" as series_listing %}
+{% import "macros/pagination.html" as pager %}
 
 {% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
 
@@ -79,17 +80,13 @@
     {% if is_blog_listing and list_pages > 1 %}
         <nav class="pagination" aria-label="Phân trang danh sách bài viết">
             {% if page_num > 1 %}
-                {% if page_num == 2 %}
-                    <a class="pagination__btn pagination__btn--prev" href="{{ section.permalink }}">« Trang trước</a>
-                {% else %}
-                    <a class="pagination__btn pagination__btn--prev" href="{{ section.permalink }}page/{{ page_num - 1 }}/">« Trang trước</a>
-                {% endif %}
+                <a class="pagination__btn pagination__btn--prev" href="{{ pager::page_href(base=section.permalink, page_num=page_num - 1) }}">« Trang trước</a>
             {% else %}
                 <span class="pagination__btn pagination__btn--prev" aria-hidden="true"></span>
             {% endif %}
             <span class="pagination__info">Trang {{ page_num }} / {{ list_pages }} · {{ list_total }} bài</span>
             {% if page_num < list_pages %}
-                <a class="pagination__btn pagination__btn--next" href="{{ section.permalink }}page/{{ page_num + 1 }}/">Trang sau »</a>
+                <a class="pagination__btn pagination__btn--next" href="{{ pager::page_href(base=section.permalink, page_num=page_num + 1) }}">Trang sau »</a>
             {% else %}
                 <span class="pagination__btn pagination__btn--next" aria-hidden="true"></span>
             {% endif %}

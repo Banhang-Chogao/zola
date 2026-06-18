@@ -78,7 +78,11 @@
             <textarea id="cc-prompt" class="cc-input cc-prompt" rows="18" readonly
                       placeholder="Điền form rồi bấm “Lưu” để sinh prompt + kích hoạt workflow."></textarea>
             <div class="cc-actions cc-actions--result">
-                <button type="button" class="cc-btn cc-btn--ghost" id="cc-copy" disabled>📋 Copy prompt</button>
+                <button type="button" class="cc-btn cc-btn--ghost" id="cc-copy" disabled
+                        data-label-default="📋 Copy prompt" data-label-copied="✓ Copied!" aria-describedby="cc-copy-feedback">
+                    📋 Copy prompt
+                </button>
+                <span class="cc-copy-feedback" id="cc-copy-feedback" role="status" aria-live="polite"></span>
                 <button type="button" class="cc-btn cc-btn--ghost" id="cc-download" disabled>⬇ Tải brief (JSON)</button>
                 <a class="cc-btn cc-btn--ghost" id="cc-open-actions" target="_blank" rel="noopener" hidden>
                     ⚙ Mở workflow thủ công

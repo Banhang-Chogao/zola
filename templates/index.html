@@ -2,11 +2,13 @@
 {% import "macros/verified.html" as v %}
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
+{% import "macros/pagination.html" as pager %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
 {% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
 
 {% block main %}
+    <h1 class="visually-hidden">{{ config.title }} — Blog công nghệ, du lịch &amp; ẩm thực</h1>
     {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
        Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI
        bài, không phân biệt section/category; bài mới nhất luôn tự lên đầu. #}
@@ -149,17 +151,13 @@
     {% if feed_pages > 1 %}
         <nav class="pagination" aria-label="Phân trang trang chủ">
             {% if page_num > 1 %}
-                {% if page_num == 2 %}
-                    <a class="pagination__btn pagination__btn--prev" href="{{ config.base_url }}">« Trang trước</a>
-                {% else %}
-                    <a class="pagination__btn pagination__btn--prev" href="{{ config.base_url }}page/{{ page_num - 1 }}/">« Trang trước</a>
-                {% endif %}
+                <a class="pagination__btn pagination__btn--prev" href="{{ pager::page_href(base=config.base_url, page_num=page_num - 1) }}">« Trang trước</a>
             {% else %}
                 <span class="pagination__btn pagination__btn--prev" aria-hidden="true"></span>
             {% endif %}
             <span class="pagination__info">Trang {{ page_num }} / {{ feed_pages }} · {{ feed_total }} bài</span>
             {% if page_num < feed_pages %}
-                <a class="pagination__btn pagination__btn--next" href="{{ config.base_url }}page/{{ page_num + 1 }}/">Trang sau »</a>
+                <a class="pagination__btn pagination__btn--next" href="{{ pager::page_href(base=config.base_url, page_num=page_num + 1) }}">Trang sau »</a>
             {% else %}
                 <span class="pagination__btn pagination__btn--next" aria-hidden="true"></span>
             {% endif %}

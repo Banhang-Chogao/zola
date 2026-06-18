@@ -30,9 +30,28 @@ title = "Feed pagination anchor {n}"
 template = "feed-anchor.html"
 date = 2000-01-01
 weight = 9000
+[taxonomies]
+categories = ["Tất cả", "Công nghệ"]
+tags = ["feed-pagination", "site-infrastructure", "zola"]
 [extra]
 feed_anchor = true
 +++
+
+## Mục đích trang anchor phân trang
+
+Trang kỹ thuật này cho phép Zola tạo route phân trang (`/page/N/`) cho feed blog. Không liên kết từ menu, đánh dấu `noindex`, và **không** thay thế bài viết thật.
+
+Độc giả nên đọc nội dung trên [trang chủ](/zola/) hoặc qua danh mục và thẻ tag.
+
+### Ghi chú triển khai
+
+| Mục | Giá trị |
+| --- | --- |
+| Loại trang | Pagination anchor |
+| Hiển thị trong feed | Không (`feed_anchor`) |
+| SEO | `noindex`, `nofollow` |
+
+Anchor #{n} — sinh tự động bởi `scripts/build_feed_pagination.py`. Nội dung tối thiểu đảm bảo compliance Article depth mà không ảnh hưởng SERP bài viết thật.
 
 """
 
