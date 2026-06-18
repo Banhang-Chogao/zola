@@ -65,7 +65,8 @@ jobs:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export ZOLA_VERSION="$(zola --version | awk '{print $2}')"
-          echo "Building with Zola $ZOLA_VERSION"
+          export ZOLA_BUILD_SHA="$(git rev-parse --short=7 HEAD)"
+          echo "Building with Zola $ZOLA_VERSION @ commit $ZOLA_BUILD_SHA"
           zola build
 
       - name: Setup GitHub Pages

@@ -23,7 +23,14 @@
 {% set latest_commit = false %}
 {% set today_count = 0 %}
 {% set week_count = 0 %}
+{# Commit hash trên badge = SHA của ĐÚNG bản build: deploy.yml export
+   ZOLA_BUILD_SHA="$(git rev-parse --short=7 HEAD)". Ưu tiên giá trị này để
+   badge LUÔN đổi mỗi deploy, không phụ thuộc GitHub API (tránh kẹt "-------"
+   khi API rate-limit). `commits` (API) chỉ bổ sung message + counts cho
+   tooltip/slide GitHub, và làm fallback khi build local không set env. #}
+{% set build_sha = get_env(name="ZOLA_BUILD_SHA", default="") %}
 {% set numeric_id = "-------" %}
+{% if build_sha %}{% set_global numeric_id = build_sha %}{% endif %}
 
 {% if commits and commits.0 and commits.0.sha %}
     {% set_global latest_commit = commits.0 %}
@@ -40,7 +47,7 @@
         {% if ts >= today_start %}{% set_global today_count = today_count + 1 %}{% endif %}
         {% if ts >= week_ago %}{% set_global week_count = week_count + 1 %}{% endif %}
     {% endfor %}
-    {% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}
+    {% if not build_sha %}{% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}{% endif %}
 {% endif %}
 
 <!DOCTYPE html>
