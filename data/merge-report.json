@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-18T08:37:52Z",
+  "updated_at": "2026-06-18T09:24:57Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 129,
-    "today": 21,
-    "this_week": 129,
-    "this_month": 129,
+    "total": 130,
+    "today": 22,
+    "this_week": 130,
+    "this_month": 130,
     "auto_merged": 1,
     "by_change_type": {
+      "feature": 37,
       "ci": 3,
       "unknown": 6,
-      "feature": 36,
       "fix": 41,
       "content": 3,
       "chore": 39,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 407,
+      "pr_title": "feat: 2 bài baochi — VietinBank V-Family & Mùa quả chín xứ Đông",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/407",
+      "merged_at": "2026-06-18T09:21:43Z",
+      "merge_commit_sha": "d62a87fa2a9fe6fa03ff201d42d12d0a572c0938",
+      "merge_commit_short": "d62a87f",
+      "head_branch": "claude/awesome-brown-u90pas",
+      "summary_vi": "Hai bài `baochi` mới (shortcut `bb`) — rebuild sạch trên `main` mới nhất để tránh conflict `data/*.json` (bot refresh compliance/dashboard liên tục).",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 694,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27749696458",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 409,
       "pr_title": "ci: dừng vòng lặp deploy của bot dashboard (giãn cron + bỏ workflow_run)",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 688,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27747119385",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 408,
@@ -130,9 +149,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 662,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740339818",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 402,
