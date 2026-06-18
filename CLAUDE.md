@@ -67,6 +67,47 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 - **PR Policy removed:** `pr-policy.yml` đã xóa — chỉ `qa-check` để auto-merge.
 - **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
 
+## Task Priority Policy (effective 2026-06-18)
+
+> Bổ sung `docs/OPERATIONS.md` — **không** thay auto-merge / deploy rules. Áp dụng khi
+> agent hoặc automation chạy **đồng thời** tác vụ user và tác vụ nền.
+
+### Priority tiers
+
+| Tier | Class | Examples |
+|------|-------|----------|
+| **P0 — Foreground** | User-triggered tasks/features | Bài viết, fix bug user báo, publish, editor save, PR user yêu cầu, hotfix urgent |
+| **P1 — Background** | Scheduled / bot / audit jobs | `perf-audit`, `seo11`, QA checker, compliance crawl, `build-dashboard`, `merge-report`, `pagespeed`, `security-audit`, `build-related`, image optimize, data refresh bots |
+
+### Rules (mandatory)
+
+1. **Never block P0 for P1** — background job đang chạy KHÔNG được giữ user chờ (no
+   `input()`, no “đợi audit xong”, no serial gate trước user action).
+2. **P0 may preempt P1** — user task đến giữa chừng → pause/yield background ngay,
+   xử lý P0 trước.
+3. **P1 continues asynchronously** — background resume sau khi P0 xong; không drop
+   schedule cron (`workflow` `schedule:` giữ nguyên).
+4. **Auto-resume paused P1** — job pause phải có checkpoint; khi P0 drain → tiếp tục
+   từ checkpoint (không restart từ đầu trừ khi idempotent).
+5. **Resource budget** — P1 giới hạn song song (vd 1 heavy script local); không spawn
+   nhiều crawl/audit cùng lúc khi P0 active. CI: `concurrency.cancel-in-progress` ưu
+   tiên deploy/content PR (đã có V5) — bot burst không cướp quota P0.
+6. **Preserve schedules** — không đổi cron/interval của P1 để “nhường” P0; chỉ defer
+   *instance đang chạy*, không hủy lịch.
+
+### Agent protocol
+
+- Message/ticket từ user = **P0 ngay** — interrupt P1 đang làm trong session.
+- Phím tắt / explicit user command > bot maintenance trong cùng turn.
+- P1 chỉ chạy khi: (a) user không có P0 pending, hoặc (b) chạy nền không chặn P0
+  (parallel CI OK).
+- Kết thúc P0 → log ngắn P1 resumed; không hỏi user trước khi resume.
+
+### Validation
+
+- Simulation: `python3 -m unittest scripts.test_task_priority -v`
+- Pass criteria: P0 hoàn thành trước P1 bị preempt; P1 resume sau P0 drain.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
