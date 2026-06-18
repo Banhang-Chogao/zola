@@ -47,20 +47,31 @@ class FooterCountdownDualFormatTest(unittest.TestCase):
     """Regression: dual-counter uses total hours + minute remainder."""
 
     def test_remaining_parts_math(self):
-        sec = 128 * 86400 + 42 * 60 + 18 * 3600  # 128d + 18h + 42m
+        sec = 128 * 86400 + 42 * 60 + 18 * 3600 + 7  # 128d + 18h + 42m + 7s
         days = sec // 86400
         total_hours = sec // 3600
         minutes = (sec % 3600) // 60
+        seconds = sec % 60
         self.assertEqual(days, 128)
         self.assertEqual(total_hours, 128 * 24 + 18)
         self.assertEqual(minutes, 42)
+        self.assertEqual(seconds, 7)
 
-    def test_footer_js_uses_dual_markup(self):
+    def test_footer_js_uses_dual_markup_and_seconds(self):
         js = (ROOT / "static/js/footer-countdown.js").read_text(encoding="utf-8")
         self.assertIn("footer-countdown__dual", js)
         self.assertIn("totalHours", js)
-        self.assertIn("TICK_MS = 60000", js)
-        self.assertNotIn("displayMode", js)
+        self.assertIn("seconds", js)
+        self.assertIn("GIÂY", js)
+        self.assertIn("displayMode", js)
+        self.assertIn("tickMs()", js)
+        self.assertIn("1000", js)
+
+    def test_admin_preview_respects_display_mode(self):
+        js = (ROOT / "static/js/admin-countdown.js").read_text(encoding="utf-8")
+        self.assertIn("showsSeconds", js)
+        self.assertIn("GIÂY", js)
+        self.assertIn("previewTickMs", js)
 
 
 if __name__ == "__main__":
