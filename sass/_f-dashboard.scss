@@ -856,6 +856,11 @@
       height: 260px;
     }
   }
+
+  /* Top transactions = up to 10 diverging horizontal bars — needs more room. */
+  &--treemap &__canvas-wrap {
+    height: 300px;
+  }
 }
 
 /* ----- AI Insights — clean list with teal bullet ----- */

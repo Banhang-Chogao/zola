@@ -8,6 +8,7 @@
     income: "#00a69d",
     expense: "#e30613",
     net: "#003784",
+    amber: "#ff9500",
     muted: "#d0d0d0",
     palette: ["#003784", "#00a69d", "#e30613", "#ff9500", "#666666", "#333333"],
   };
@@ -57,36 +58,58 @@
     });
   }
 
-  function renderArea(canvas, data) {
+  function tickMK(v) {
+    const n = Math.abs(v);
+    if (n >= 1e6) return (v / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
+    if (n >= 1e3) return Math.round(v / 1e3) + "K";
+    return v;
+  }
+
+  function renderBalanceTimeline(canvas, data) {
     const ctx = canvas.getContext("2d");
-    instances.area = new Chart(ctx, {
+    const labels = data.labels || [];
+    const n = labels.length;
+    const avgLine = new Array(n).fill(data.avg);
+    const minLine = new Array(n).fill(data.min);
+
+    instances.balanceTimeline = new Chart(ctx, {
       type: "line",
       data: {
-        labels: data.labels,
+        labels,
         datasets: [
           {
-            label: "Thu",
-            data: data.income,
-            borderColor: COLORS.income,
-            backgroundColor: "rgba(0,166,157,0.15)",
-            fill: true,
-            tension: 0.35,
-          },
-          {
-            label: "Chi",
-            data: data.expense,
-            borderColor: COLORS.expense,
-            backgroundColor: "rgba(227,6,19,0.1)",
-            fill: true,
-            tension: 0.35,
-          },
-          {
-            label: "Ròng",
-            data: data.net,
+            label: "Số dư",
+            data: data.balance || [],
             borderColor: COLORS.net,
-            backgroundColor: "rgba(0,55,132,0.08)",
+            backgroundColor: "rgba(0,55,132,0.10)",
             fill: true,
-            tension: 0.35,
+            tension: 0.3,
+            pointRadius: n > 40 ? 0 : 2,
+            pointHoverRadius: 4,
+            borderWidth: 2,
+            order: 1,
+          },
+          {
+            label: "Trung bình",
+            data: avgLine,
+            borderColor: COLORS.income,
+            borderDash: [6, 4],
+            borderWidth: 1.5,
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+            order: 0,
+          },
+          {
+            label: "Thấp nhất",
+            data: minLine,
+            borderColor: COLORS.amber,
+            borderDash: [3, 4],
+            borderWidth: 1.5,
+            pointRadius: 0,
+            fill: false,
+            tension: 0,
+            order: 0,
           },
         ],
       },
@@ -95,102 +118,112 @@
         maintainAspectRatio: false,
         interaction: { mode: "index", intersect: false },
         scales: {
-          y: {
-            ticks: {
-              font: baseFont(),
-              callback: (v) => (v >= 1e6 ? v / 1e6 + "M" : v >= 1e3 ? v / 1e3 + "K" : v),
+          y: { ticks: { font: baseFont(), callback: tickMK } },
+          x: { ticks: { font: baseFont(), maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
+        },
+        plugins: {
+          legend: { labels: { font: baseFont(), boxWidth: 12 } },
+          tooltip: {
+            callbacks: {
+              label(c) {
+                return ` ${c.dataset.label}: ${LDashboardInsights.formatVnd(c.parsed.y)}`;
+              },
             },
           },
-          x: { ticks: { font: baseFont() } },
         },
-        plugins: { legend: { labels: { font: baseFont() } } },
       },
     });
   }
 
-  function renderTreemap(canvas, data) {
+  function renderDailyNet(canvas, data) {
     const ctx = canvas.getContext("2d");
-    const labels = data.map((d) => d.label);
-    const values = data.map((d) => d.value);
+    const net = data.net || [];
 
-    instances.treemap = new Chart(ctx, {
-      type: "treemap",
+    instances.dailyNet = new Chart(ctx, {
+      type: "bar",
       data: {
+        labels: data.labels || [],
         datasets: [
           {
-            tree: data,
-            key: "value",
-            groups: ["label"],
-            spacing: 1,
-            borderWidth: 1,
-            borderColor: "#fff",
-            backgroundColor(ctx) {
-              const i = ctx.dataIndex % COLORS.palette.length;
-              return COLORS.palette[i];
-            },
-            labels: {
-              display: true,
-              formatter(ctx) {
-                if (ctx.type !== "data") return "";
-                return [ctx.raw.label, LDashboardInsights.formatVnd(ctx.raw.value)];
-              },
-              color: "#fff",
-              font: { size: 10, weight: "bold" },
-            },
+            type: "bar",
+            label: "Ròng/ngày",
+            data: net,
+            backgroundColor: net.map((v) => (v >= 0 ? COLORS.income : COLORS.expense)),
+            borderRadius: 3,
+            order: 1,
+          },
+          {
+            type: "line",
+            label: "Trung bình 7 ngày",
+            data: data.rolling || [],
+            borderColor: COLORS.net,
+            backgroundColor: "rgba(0,55,132,0.05)",
+            borderWidth: 2,
+            pointRadius: 0,
+            tension: 0.3,
+            fill: false,
+            order: 0,
           },
         ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        interaction: { mode: "index", intersect: false },
+        scales: {
+          y: { ticks: { font: baseFont(), callback: tickMK } },
+          x: { ticks: { font: baseFont(), maxRotation: 0, autoSkip: true, maxTicksLimit: 12 } },
+        },
+        plugins: {
+          legend: { labels: { font: baseFont(), boxWidth: 12 } },
+          tooltip: {
+            callbacks: {
+              label(c) {
+                return ` ${c.dataset.label}: ${LDashboardInsights.formatVnd(c.parsed.y)}`;
+              },
+            },
+          },
+        },
       },
     });
   }
 
-  function renderWaterfall(canvas, data) {
+  function renderTopTxns(canvas, data) {
     const ctx = canvas.getContext("2d");
-    const labels = data.labels;
-    const values = data.values;
+    const items = (data && data.items) || [];
 
-    const floating = values.map((v, i) => {
-      if (i === 0) return [0, v];
-      if (i === values.length - 1) return [0, v];
-      const prev = values.slice(0, i).reduce((s, x, idx) => (idx === 0 ? x : s + x), 0);
-      if (v >= 0) return [prev, prev + v];
-      return [prev + v, prev];
-    });
-
-    instances.waterfall = new Chart(ctx, {
+    instances.topTxns = new Chart(ctx, {
       type: "bar",
       data: {
-        labels,
+        labels: items.map((it) => it.label),
         datasets: [
           {
-            label: "Luồng tiền",
-            data: floating,
-            backgroundColor: values.map((v, i) => {
-              if (i === 0) return COLORS.income;
-              if (i === values.length - 1) return v >= 0 ? COLORS.income : COLORS.expense;
-              return v >= 0 ? COLORS.income : COLORS.expense;
-            }),
-            borderRadius: 4,
+            label: "Giao dịch",
+            data: items.map((it) => it.value),
+            backgroundColor: items.map((it) => (it.value >= 0 ? COLORS.income : COLORS.expense)),
+            borderRadius: 3,
           },
         ],
       },
       options: {
+        indexAxis: "y",
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          y: {
-            ticks: {
-              font: baseFont(),
-              callback: (v) => (Math.abs(v) >= 1e6 ? v / 1e6 + "M" : v),
+          x: { ticks: { font: baseFont(), callback: tickMK } },
+          y: { ticks: { font: baseFont(), autoSkip: false } },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label(c) {
+                const it = items[c.dataIndex] || {};
+                return ` ${it.date || ""} · ${LDashboardInsights.formatVnd(c.parsed.x)}`;
+              },
             },
           },
-          x: { ticks: { font: baseFont(), maxRotation: 45 } },
         },
-        plugins: { legend: { display: false } },
       },
     });
   }
@@ -248,16 +281,20 @@
 
   function renderAll(charts) {
     destroyAll();
+    // Canvas ids reused as-is: area→balanceTimeline, waterfall→dailyNet,
+    // treemap→topTxns. Donut + gauge unchanged.
     const donutEl = document.getElementById("ld-chart-donut");
-    const areaEl = document.getElementById("ld-chart-area");
-    const treemapEl = document.getElementById("ld-chart-treemap");
-    const waterfallEl = document.getElementById("ld-chart-waterfall");
+    const balanceEl = document.getElementById("ld-chart-area");
+    const topTxnsEl = document.getElementById("ld-chart-treemap");
+    const dailyNetEl = document.getElementById("ld-chart-waterfall");
     const gaugeEl = document.getElementById("ld-chart-gauge");
 
     if (donutEl && charts.donut) renderDonut(donutEl, charts.donut);
-    if (areaEl && charts.area) renderArea(areaEl, charts.area);
-    if (treemapEl && charts.treemap && charts.treemap.length) renderTreemap(treemapEl, charts.treemap);
-    if (waterfallEl && charts.waterfall) renderWaterfall(waterfallEl, charts.waterfall);
+    if (balanceEl && charts.balanceTimeline) renderBalanceTimeline(balanceEl, charts.balanceTimeline);
+    if (topTxnsEl && charts.topTxns && charts.topTxns.items && charts.topTxns.items.length) {
+      renderTopTxns(topTxnsEl, charts.topTxns);
+    }
+    if (dailyNetEl && charts.dailyNet) renderDailyNet(dailyNetEl, charts.dailyNet);
     if (gaugeEl && charts.gauge) renderGauge(gaugeEl, charts.gauge);
   }
 
