@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-18T04:26:56Z",
+  "updated_at": "2026-06-18T04:35:45Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 120,
-    "today": 12,
-    "this_week": 120,
-    "this_month": 120,
+    "total": 121,
+    "today": 13,
+    "this_week": 121,
+    "this_month": 121,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 39,
       "feature": 32,
       "unknown": 5,
-      "fix": 38,
       "content": 3,
       "chore": 39,
       "ci": 2,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 400,
+      "pr_title": "fix(img): resolve 3 missing-image 404s (header/banner/premium thumbnail)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/400",
+      "merged_at": "2026-06-18T04:31:54Z",
+      "merge_commit_sha": "1217ea868f3b16e7680fcedcbc69116e6a3bd5a1",
+      "merge_commit_short": "1217ea8",
+      "head_branch": "claude/gallant-euler-5cfcwb",
+      "summary_vi": "Resolves the 3 missing-image 404s flagged by `qa-404-checker` (610 occurrences sitewide).",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 639,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736855516",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 399,
       "pr_title": "feat: content-based domain selector + offline-safe qa-404-checker",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 632,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736582414",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 398,
@@ -149,8 +168,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 605,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27733375774",
+      "build_run_number": 616,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27734347192",
       "build_conclusion": "success"
     },
     {
