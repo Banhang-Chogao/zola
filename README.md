@@ -1,416 +1,225 @@
 <div align="center">
 
-```
-███████╗ ██████╗ ██╗      █████╗     ██████╗ ██╗      ██████╗  ██████╗
-╚══███╔╝██╔═══██╗██║     ██╔══██╗    ██╔══██╗██║     ██╔═══██╗██╔════╝
-  ███╔╝ ██║   ██║██║     ███████║    ██████╔╝██║     ██║   ██║██║  ███╗
- ███╔╝  ██║   ██║██║     ██╔══██║    ██╔══██╗██║     ██║   ██║██║   ██║
-███████╗╚██████╔╝███████╗██║  ██║    ██████╔╝███████╗╚██████╔╝╚██████╔╝
-╚══════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝    ╚═════╝╚══════╝ ╚═════╝  ╚═════╝
-```
+# Duy Nguyen — Blog cá nhân
 
-### `> blog cá nhân của duynguyenlog _`
+### `> chuyện viết code, xây sản phẩm phần mềm và những chuyến đi _`
 
-**Static · Blazing Fast · Zero-Backend · Vanilla JS · Hosted on GitHub Pages**
+Blog tiếng Việt về **công nghệ, tài chính số, du lịch và ẩm thực** — viết từ trải nghiệm thật.
+Static site dựng bằng **Zola (Rust)**, vanilla JS không framework, deploy tự động lên **GitHub Pages**.
 
-[![Built with Zola](https://img.shields.io/badge/Built%20with-Zola%200.22-FF4900?style=for-the-badge&logo=rust&logoColor=white)](https://www.getzola.org/)
-[![Deployed on GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-181717?style=for-the-badge&logo=github&logoColor=white)](https://banhang-chogao.github.io/zola/)
-[![CI](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/deploy.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=Deploy)](https://github.com/Banhang-Chogao/zola/actions)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](#)
+[![Built with Zola](https://img.shields.io/badge/Built%20with-Zola%200.22-FF4900?style=flat-square&logo=rust&logoColor=white)](https://www.getzola.org/)
+[![Deploy](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/deploy.yml?branch=main&style=flat-square&logo=githubactions&logoColor=white&label=deploy)](https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml)
+[![GitHub Pages](https://img.shields.io/badge/hosting-GitHub%20Pages-181717?style=flat-square&logo=github&logoColor=white)](https://banhang-chogao.github.io/zola/)
+[![Language](https://img.shields.io/badge/lang-Ti%E1%BA%BFng%20Vi%E1%BB%87t-da291c?style=flat-square)](#)
+[![Backend](https://img.shields.io/badge/backend-FastAPI%20%2B%20Redis-009688?style=flat-square&logo=fastapi&logoColor=white)](services/)
 
-[**🌐 Xem live**](https://banhang-chogao.github.io/zola/) · [**📝 Viết bài (CMS)**](https://banhang-chogao.github.io/zola/editor) · [**한 Korean Converter**](https://banhang-chogao.github.io/zola/converter/) · [**📊 Speed Insights**](https://banhang-chogao.github.io/zola/stats)
+[**🌐 Xem live**](https://banhang-chogao.github.io/zola/) ·
+[**📝 Viết bài (CMS)**](https://banhang-chogao.github.io/zola/editor) ·
+[**📊 Insights**](https://banhang-chogao.github.io/zola/insights) ·
+[**💰 F-Dashboard**](https://banhang-chogao.github.io/zola/tools/f-dashboard) ·
+[**한 Korean Converter**](https://banhang-chogao.github.io/zola/converter/)
 
 </div>
 
 ---
 
-## 🔥 Tại sao blog này không tầm thường?
+## 📖 Tổng quan
 
-Đây không phải là một blog Zola "fork-and-deploy". Mỗi tính năng đều được build từ đầu, **không dùng framework JS**, và toàn bộ tương tác đều chạy **client-side thuần** trên trình duyệt visitor — không cần server, không cần database.
+Đây không phải một blog Zola "fork-and-deploy". Phần lõi vẫn là static site siêu nhẹ, nhưng xung quanh nó là cả một hệ thống tự vận hành: **mini CMS viết bài trên trình duyệt**, **bộ công cụ tài chính cá nhân chạy 100% client-side**, **paywall premium**, **engine SEO ngữ nghĩa**, và một dàn **GitHub Actions tự build — tự kiểm thử — tự merge — tự deploy**.
 
-> **5,500+ dòng code · 50+ commits · 0 dependency runtime · 100% static**
+Triết lý xuyên suốt:
 
-### Contributing / vận hành
-
-Mọi thay đổi **phải qua Pull Request** — không commit/push trực tiếp `main`. Xem [docs/OPERATIONS.md](docs/OPERATIONS.md) và [.github/BRANCH-PROTECTION.md](.github/BRANCH-PROTECTION.md).
-
----
-
-## 🛠️ Tech Stack
-
-<table>
-  <tr>
-    <td align="center" width="120">
-      <a href="https://www.getzola.org/"><img src="https://img.shields.io/badge/-Zola-FF4900?style=for-the-badge&logo=rust&logoColor=white" alt="Zola"/></a>
-      <br><sub>SSG · Rust</sub>
-    </td>
-    <td align="center" width="120">
-      <img src="https://img.shields.io/badge/-Tera-1F2D3D?style=for-the-badge&logo=jinja&logoColor=white" alt="Tera"/>
-      <br><sub>Templates</sub>
-    </td>
-    <td align="center" width="120">
-      <img src="https://img.shields.io/badge/-SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white" alt="SCSS"/>
-      <br><sub>13 modules</sub>
-    </td>
-    <td align="center" width="120">
-      <img src="https://img.shields.io/badge/-Vanilla%20JS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="Vanilla JS"/>
-      <br><sub>9 modules · 0 framework</sub>
-    </td>
-    <td align="center" width="120">
-      <img src="https://img.shields.io/badge/-HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5"/>
-      <br><sub>Semantic</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-GitHub%20Pages-222?style=for-the-badge&logo=github&logoColor=white" alt="GH Pages"/>
-      <br><sub>Hosting</sub>
-    </td>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-GH%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="Actions"/>
-      <br><sub>CI/CD</sub>
-    </td>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-GitHub%20REST-181717?style=for-the-badge&logo=github&logoColor=white" alt="REST API"/>
-      <br><sub>Mini CMS</sub>
-    </td>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-Giscus-2C2D2D?style=for-the-badge&logo=github&logoColor=white" alt="Giscus"/>
-      <br><sub>Comments</sub>
-    </td>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-GA4-E37400?style=for-the-badge&logo=googleanalytics&logoColor=white" alt="GA4"/>
-      <br><sub>Analytics</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-Web%20Vitals-34A853?style=for-the-badge&logo=google&logoColor=white" alt="Web Vitals"/>
-      <br><sub>LCP · INP · CLS</sub>
-    </td>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-marked.js-000?style=for-the-badge&logo=markdown&logoColor=white" alt="Marked"/>
-      <br><sub>MD render</sub>
-    </td>
-    <td align="center">
-      <img src="https://img.shields.io/badge/-Catppuccin-F5C2E7?style=for-the-badge&logo=catppuccin&logoColor=black" alt="Catppuccin"/>
-      <br><sub>Syntax theme</sub>
-    </td>
-  </tr>
-</table>
+- **Static-first** — toàn bộ HTML pre-render tại build time. JS chỉ *enhance*, không gate nội dung.
+- **Zero runtime dependency phía blog** — không bundler, không `npm install`, không `node_modules/`. Mỗi file JS là IIFE chạy thẳng trên trình duyệt.
+- **Client-side everything** — phân tích sao kê, dashboard tài chính, analytics… đều xử lý ngay trong trình duyệt visitor. Backend chỉ phục vụ những thứ *bắt buộc* phải có server (OAuth, paywall, đếm view).
+- **Vietnamese-first** — UI, nội dung, ngày giờ (GMT+7, `dd/mm/yyyy`) đều theo chuẩn Việt Nam.
 
 ---
 
-## ✨ Tính năng — không phải chỉ là một blog
+## ✨ Tính năng
 
-### 📝 Mini CMS viết bài trực tiếp trên trình duyệt
-Trang `/editor/` cho phép **đăng nhập bằng GitHub PAT**, viết bài bằng Markdown live-preview (powered by `marked.js`), rồi **PUT thẳng vào `content/*.md`** qua GitHub REST API. GitHub Actions tự build & deploy sau ~1 phút. Không cần Netlify CMS, không cần backend.
+### 📝 Nội dung & xuất bản
+- Blog đa chuyên mục (công nghệ, ngân hàng, du lịch, khoa học, báo chí…) với taxonomy `categories` + `tags`, phân trang và **feed RSS/Atom** riêng cho từng taxonomy.
+- **Mini CMS** tại `/editor/` — đăng nhập **GitHub OAuth**, soạn Markdown, ghi thẳng vào `content/*.md` qua GitHub API; Actions tự build & deploy.
+- **Content Creator** — công cụ hỗ trợ soạn bài chuẩn SEO ngay trên web.
+- **Đăng bài hẹn giờ** — lưu draft kèm `publish_at`, workflow cron tự phát hành khi tới hạn (chỉ khi qua QA).
 
-### ⚡ Speed Insights (Core Web Vitals)
-Tự đo **LCP / FCP / INP / CLS / TTFB** trên mọi page load qua thư viện [`web-vitals`](https://github.com/GoogleChrome/web-vitals) của Google. Lưu 500 sample gần nhất vào `localStorage`, hiển thị dashboard tại `/stats/`.
+### 💰 Bộ công cụ tài chính (100% client-side, mã hoá AES-GCM)
+| Tool | Nguồn dữ liệu | Ghi chú |
+|------|---------------|---------|
+| **F-Dashboard** | Sao kê VietinBank (Excel) | SheetJS parser, health score, export JSON/PDF rồi *wipe* dữ liệu |
+| **L-Dashboard** | Sao kê LPBank (PDF) | pdf.js text layer |
+| **O-Dashboard** | Sao kê Liobank by OCB (PDF) | clone kiến trúc L |
+| **H-Dashboard** | Hoá đơn mua hàng (PDF + OCR) | Tesseract.js `vie+eng` fallback |
 
-### 🎯 Featured & Random Posts cá nhân hoá
-Sidebar JS đọc `posts-data` JSON inline, **weighted random** dựa trên view / click count lưu `localStorage` — mỗi visitor thấy một danh sách khác nhau.
+Dữ liệu **chỉ nằm trong IndexedDB local của trình duyệt**, mã hoá AES-GCM, **không bao giờ upload server**. Truy cập qua GitHub OAuth.
 
-### 🚦 GitHub Live Status Banner
-Header rotator fetch GitHub API real-time để hiển thị:
-- Commit message + hash + timestamp mới nhất
-- Pending workflow queue (GitHub Actions đang chạy)
-- Version blog tự động sinh từ commit count
+### 🔒 Premium Paywall
+Bài premium chỉ render *teaser* trong HTML tĩnh; nội dung đầy đủ nằm ở backend, mở khoá qua email + approve code (thanh toán MoMo, admin xác nhận thủ công).
 
-### 💬 Giscus Comments
-Comment system dùng **GitHub Discussions** làm backend — không spam, không cần auth riêng, mọi comment đều là issue/discussion thật trên repo.
+### 🚀 SEO & Performance (tự động ở template)
+- **TOC tự động** (bài ≥ 3 heading), **Related Articles ngữ nghĩa** (sentence-transformers / SBERT đa ngôn ngữ).
+- Schema **Article / FAQPage / BreadcrumbList**, block **References** cuối bài, validate internal link (gate CI).
+- **Speed Insights** (`/stats/`) đo Core Web Vitals (LCP · INP · CLS · FCP · TTFB) bằng thư viện `web-vitals` của Google.
+- Pipeline ảnh **WebP** + sinh ảnh **OG** từ SVG cover; **IndexNow** ping cho Bing.
 
-### 🎨 Custom Design System
-- **Font chính**: Ericsson Hilda (5 weight) — bộ font tự host
-- **Webfont phụ**: Manrope + Poppins từ Google Fonts (preconnect optimized)
-- **Syntax highlight**: Catppuccin Mocha theme
-- **13 SCSS modules** organized BEM-style, build qua Zola native (`compile_sass = true`)
+### 📊 Insights & tự vận hành
+Trang `/insights/` tổng hợp dữ liệu do bot sinh ra: build dashboard, merge report, compliance score, SEO scoring, gợi ý tên miền, Google Trends VN. Toàn bộ chạy bằng GitHub Actions theo lịch.
 
----
-
-## 🏗️ Architecture
-
-```
-                       ┌────────────────────────────────┐
-                       │   ✍  Author viết Markdown     │
-                       │   (local OR /editor/ trên web) │
-                       └──────────────┬─────────────────┘
-                                      │
-                                      │  git push / GitHub API PUT
-                                      ▼
-                       ┌────────────────────────────────┐
-                       │      📦  GitHub Repo (main)    │
-                       └──────────────┬─────────────────┘
-                                      │
-                       triggers .github/workflows/deploy.yml
-                                      │
-                                      ▼
-            ┌──────────────────────────────────────────────────┐
-            │  🦀  Zola build (Rust)                           │
-            │  └─ Tera render → SCSS compile → static HTML     │
-            └──────────────────────────┬───────────────────────┘
-                                       │
-                                       ▼
-                       ┌────────────────────────────────┐
-                       │   🌐  GitHub Pages CDN         │
-                       └──────────────┬─────────────────┘
-                                      │
-                                      ▼
-            ┌──────────────────────────────────────────────────┐
-            │              👤  Visitor's Browser               │
-            │  ┌────────────────────────────────────────────┐  │
-            │  │  Vanilla JS modules — chạy hoàn toàn       │  │
-            │  │  client-side, fetch các API:               │  │
-            │  │    · GitHub API   (commit status, queue)   │  │
-            │  │    · web-vitals   (Core Web Vitals)        │  │
-            │  │    · GA4 gtag     (analytics)              │  │
-            │  │    · Giscus       (comments)               │  │
-            │  └────────────────────────────────────────────┘  │
-            └──────────────────────────────────────────────────┘
-```
+### 🧩 Khác
+Giscus comments (GitHub Discussions) · GA4 + Google Search Console · Korean number converter · Prompt Support tool · multi-theme switcher (localStorage) · header live-status banner fetch GitHub API.
 
 ---
 
-## 📂 Cấu trúc project
+## 🛠️ Tech stack
 
-```
+| Lớp | Công nghệ |
+|-----|-----------|
+| **Static Site Generator** | [Zola](https://www.getzola.org/) `0.22.1` (Rust) — `compile_sass`, native feeds, taxonomies |
+| **Templating** | [Tera](https://keats.github.io/tera/) (Jinja-like) — `templates/` + macros + shortcodes |
+| **Styles** | SCSS (44 module, BEM-ish), build native qua Zola |
+| **Client JS** | Vanilla JS (40+ module, IIFE, **0 framework, 0 build step**) |
+| **Thư viện browser** | `web-vitals`, SheetJS, pdf.js, Tesseract.js, marked.js |
+| **Tooling / automation** | Python 3.11 (55+ script): SEO QA, related engine, compliance, dashboards, autofixer |
+| **Backend** | [FastAPI](https://fastapi.tiangolo.com/) + Redis trên [Render](https://render.com/) — `services/visitor-counter` (OAuth/CMS, view counter, reports), `services/paywall` |
+| **CI/CD** | GitHub Actions (28 workflow) → GitHub Pages |
+| **Chất lượng code** | pre-commit · Ruff · Mypy · test suite Python |
+| **Tích hợp** | Giscus · Google Analytics 4 · Google Search Console · IndexNow |
+| **Theme cú pháp** | Catppuccin Mocha · Font: Ericsson Hilda (self-hosted) |
+
+---
+
+## 📂 Cấu trúc thư mục
+
+```text
 zola/
-├── 📄 config.toml                  # Zola config + GA4 measurement id
-├── 🚀 push.sh                       # Shortcut commit & push
-├── 📁 content/                      # Markdown bài viết
-│   ├── _index.md
-│   ├── pages/                       # About + static pages
-│   ├── editor/                      # CMS landing
-│   └── stats/                       # Speed Insights landing
-├── 📁 templates/                    # Tera templates
-│   ├── base.html                    # Shell layout (header + nav + sidebar)
-│   ├── index.html / section.html / page.html
-│   ├── editor.html                  # 📝 Mini CMS UI
-│   └── stats.html                   # ⚡ Web Vitals dashboard
-├── 📁 sass/                         # SCSS modules
-│   ├── site.scss                    # Entry point
-│   ├── _reset.scss / _layout.scss / _navbar.scss / _sidebar.scss
-│   ├── _banner.scss / _post.scss / _single.scss
-│   ├── _editor.scss / _stats.scss
-│   ├── _footer.scss / _fonts.scss
-├── 📁 static/
-│   ├── 🔤 fonts/                    # Ericsson Hilda (5 weights)
-│   ├── 🧮 converter/                # Korean number-to-words tool
-│   └── 📜 js/                       # Vanilla JS modules
-│       ├── header-rotator.js        # GitHub live status banner
-│       ├── sidebar.js               # Featured / random posts
-│       ├── editor.js                # Mini CMS logic (PAT auth + PUT)
-│       ├── auth.js                  # OTP gate cho /editor/
-│       ├── speed-vitals.js          # Core Web Vitals tracker
-│       ├── stats-page.js            # Vitals dashboard renderer
-│       └── post-stats.js            # Per-post analytics badge
-├── 🎨 highlight_themes/             # Catppuccin Mocha .tmTheme
-├── 📁 scripts/
-│   └── autofix_conflicts.py         # Python Autofixer (ff9 backend)
-└── ⚙  .github/workflows/
-    ├── deploy.yml                   # CI/CD pipeline
-    └── autofix-conflicts.yml        # Auto-resolve PR merge conflicts → fix PR
+├── config.toml                 # Cấu hình Zola + menu + GA4 + giscus + paywall/CMS API
+├── content/                    # Nội dung Markdown
+│   ├── posting/  baochi/        # Bài viết (blog · báo chí)
+│   ├── du-lich/  dien-anh/      # Chuyên mục
+│   ├── tools/                   # Trang công cụ (F/L/O/H-dashboard, content-creator)
+│   ├── editor/  insights/  stats/  scoring/ …
+│   └── pages/                   # Trang tĩnh (about, privacy, terms, copyright…)
+├── templates/                  # Tera templates
+│   ├── base.html  index.html  page.html  section.html  taxonomy_*.html
+│   ├── editor.html  insights.html  *-dashboard.html  paywall-admin.html
+│   ├── macros/                  # references, series-nav, paywall, giscus, github-activity…
+│   └── shortcodes/
+├── sass/                        # 44 SCSS module — site.scss là entry point
+├── static/
+│   ├── js/                      # Vanilla JS (root + f/l/o/h-dashboard/, content-creator/)
+│   ├── fonts/                   # Ericsson Hilda
+│   └── img/                     # Ảnh WebP + placeholder SVG
+├── scripts/                     # Python tooling (build_references, build_related, seo_qa_checker,
+│   │                            #   compliance_audit, autofix_conflicts, paywall_*, *dashboard*…)
+│   └── requirements*.txt        # Deps theo nhóm (related/SBERT, f-dashboard, og-images…)
+├── services/                    # Backend FastAPI + Redis (deploy Render)
+│   ├── visitor-counter/          #   OAuth CMS auth · view counter · gated reports
+│   └── paywall/                  #   Premium unlock API
+├── data/                        # JSON do bot/CI sinh (related, scores, dashboards, reports)
+├── docs/                        # OPERATIONS, paywall, seo-strategy…
+├── highlight_themes/            # Catppuccin Mocha .tmTheme
+├── render.yaml                  # Render Blueprint cho backend
+└── .github/workflows/           # 28 workflow CI/CD + automation
 ```
-
-### Autofixer (merge conflict PR)
-
-Workflow `autofix-conflicts.yml` chạy mỗi 30 phút (và `workflow_dispatch`):
-
-1. Quét PR open bị conflict với `main`
-2. Tạo nhánh `autofix/conflict-pr-<N>`, merge `main`, resolve markers an toàn
-3. Chạy `qa_check.py` → `build_references.py` → `zola build` → `check_internal_links.py`
-4. Mở PR fix riêng — **không** push `main`, **không** auto-merge
-
-State dedup: `data/autofix-conflicts-state.json`. Learning log: `CLAUDE.md` § Autofixer.
 
 ---
 
-## 🚀 Quickstart
+## 🚀 Phát triển local
 
 ### Yêu cầu
-- [**Zola**](https://www.getzola.org/documentation/getting-started/installation/) ≥ 0.22 (Rust binary, ~5MB)
+- [**Zola**](https://www.getzola.org/documentation/getting-started/installation/) ≥ `0.22` (binary Rust ~5 MB)
+- **Python 3.11** (cho các script SEO/build data — tùy chọn khi chỉ sửa nội dung/giao diện)
 - Git
 
-### Chạy local
+### Chạy blog
 
 ```bash
 git clone https://github.com/Banhang-Chogao/zola.git
 cd zola
-zola serve
-# → http://127.0.0.1:1111
+zola serve            # → http://127.0.0.1:1111  (live-reload .md / .html / .scss)
 ```
 
-Mỗi khi sửa `.md` / `.html` / `.scss` → Zola live-reload tức thì.
-
-### Deploy
+### Build production (giống CI)
 
 ```bash
-# Feature branch → PR → manual merge (bắt buộc — xem docs/OPERATIONS.md)
-git checkout -b feature/my-change origin/main
-git add . && git commit -m "..."
-git push -u origin feature/my-change
-# Tạo PR trên GitHub → review → merge
+# (tùy chọn) sinh dữ liệu phụ trợ trước khi build
+pip install -r scripts/requirements.txt
+python3 scripts/build_references.py     # block "Tham khảo" cuối bài
+python3 scripts/build_related.py        # related posts ngữ nghĩa (SBERT)
+python3 scripts/paywall_prepare_build.py --strip   # giữ teaser cho bài premium
+
+zola build           # xuất ra ./public
 ```
 
-Sau khi PR merge vào `main`, GitHub Actions tự build & deploy lên Pages trong ~1 phút.
+### Chạy backend (tùy chọn)
+
+```bash
+cd services/visitor-counter
+pip install -r requirements.txt
+uvicorn main:app --reload      # FastAPI + Redis (OAuth CMS, view counter, reports)
+```
+
+### Chất lượng code
+
+```bash
+pip install pre-commit && pre-commit install   # ruff + mypy + checks trước mỗi commit
+python3 scripts/seo_qa_checker.py --all         # chấm SEO toàn bộ bài
+python3 scripts/check_internal_links.py         # validate internal link (gate CI)
+```
+
+---
+
+## 🔄 Quy trình nội dung & deploy
+
+```text
+✍  Viết Markdown (local hoặc /editor/ trên web)
+        │  git push  /  GitHub API PUT
+        ▼
+📦 Branch → Pull Request → main
+        │  push main triggers deploy.yml
+        ▼
+🦀 Zola build (Rust): OG images → references → related → strip premium → render
+        ▼
+🌐 GitHub Pages CDN
+        ▼
+👤 Trình duyệt visitor: vanilla JS fetch GitHub API · web-vitals · GA4 · Giscus
+                         + FastAPI backend (OAuth / paywall / view counter)
+```
+
+**Quy ước Git:** mọi thay đổi đi qua **Pull Request** (không push thẳng `main`). PR pass QA → auto-merge → deploy. Chi tiết: [`docs/OPERATIONS.md`](docs/OPERATIONS.md) và [`.github/BRANCH-PROTECTION.md`](.github/BRANCH-PROTECTION.md).
 
 ### Viết bài qua trình duyệt (không cần clone)
-
-1. Tạo [GitHub PAT](https://github.com/settings/tokens) với scope `repo`
-2. Mở https://banhang-chogao.github.io/zola/editor
-3. Paste PAT → viết bài → publish
-4. Đợi ~1 phút, bài lên blog 🎉
+1. Mở https://banhang-chogao.github.io/zola/editor
+2. Đăng nhập GitHub OAuth → soạn Markdown live-preview → publish
+3. Đợi ~1 phút, bài tự lên blog 🎉
 
 ---
 
-## ⚙️ Configuration cheatsheet
+## 📈 SEO & Performance
 
-Tất cả config nằm trong `config.toml`:
-
-```toml
-[extra]
-# Google Analytics 4 — để trống = tắt tracking
-ga_measurement_id = "G-XXXXXXXXXX"
-
-# Menu navigation
-menu = [
-    {url = "$BASE_URL", name = "TRANG CHÍNH"},
-    # ...
-]
-```
+- **On-page tự động:** TOC, breadcrumb, FAQ schema, Article schema, related posts, references — sinh ở template/CI, không cần làm tay từng bài.
+- **Related posts ngữ nghĩa:** embeddings SBERT đa ngôn ngữ + cosine similarity (fallback theo tag/category khi thiếu embedding).
+- **Core Web Vitals:** đo real-user (LCP · INP · CLS · FCP · TTFB), dashboard tại `/stats/`.
+- **Quality gate:** `seo_qa_checker.py` chấm điểm mỗi bài; `check_internal_links.py` + `qa-404-checker.py` chặn build khi còn link nội bộ hỏng.
+- **Ảnh:** pipeline WebP (`to_webp.py`), placeholder SVG có thương hiệu, sinh ảnh OG 1200×630 từ cover SVG.
+- **Index nhanh:** sitemap + feed + ping IndexNow (Bing) + Google Search Console verification.
 
 ---
 
-## 📊 Project stats
+## 👤 Tác giả & bản quyền
 
-| Metric                  | Value          |
-| ----------------------- | -------------- |
-| Tổng lines of code      | **5,500+**     |
-| Commits                 | **50+**        |
-| Templates Tera          | 9              |
-| SCSS modules            | 13             |
-| JavaScript modules      | 9              |
-| Runtime dependencies    | **0**          |
-| Build time              | < 1s           |
-| Lighthouse Performance  | 99 / 100       |
-| Cost / month            | **$0**         |
+Xây dựng bởi **Duy Nguyen** ([@Banhang-Chogao](https://github.com/Banhang-Chogao)) — developer người Việt, viết về công nghệ, tài chính số, du lịch và ẩm thực từ trải nghiệm thật.
 
----
-
-## 🎯 Design principles
-
-1. **Zero runtime dependencies** — không bundler, không `npm install`, không `node_modules/`. Mỗi JS file là IIFE chạy thẳng.
-2. **Static-first** — toàn bộ HTML pre-render tại build time. JS chỉ enhance, không gate content.
-3. **Progressive enhancement** — tắt JS vẫn đọc được bài, vẫn navigate được. JS chỉ thêm bell & whistle.
-4. **Client-side everything** — analytics, CMS… đều fetch từ trình duyệt visitor → server cost = $0.
-5. **Vietnamese-first** — UI, content, copy đều bằng tiếng Việt.
-
----
-
-## 🤝 Credits
-
-Built with ❤️ by [**@duynguyenlog**](https://github.com/Banhang-Chogao) · Static engine: [**Zola**](https://www.getzola.org/) by [@Keats](https://github.com/Keats) · Inspired by **Catppuccin** color palette · Comments powered by [**Giscus**](https://giscus.app)
+- **Mã nguồn:** dự án cá nhân, dùng làm tham khảo học tập.
+- **Nội dung bài viết & hình ảnh:** © Duy Nguyen — vui lòng không sao chép/đăng lại khi chưa được phép (xem trang [Tuyên bố bản quyền](https://banhang-chogao.github.io/zola/copyright)).
 
 <div align="center">
 
----
+Static engine: [**Zola**](https://www.getzola.org/) by [@Keats](https://github.com/Keats) · Comments: [**Giscus**](https://giscus.app) · Syntax: [**Catppuccin**](https://github.com/catppuccin)
 
----
-
-## 🎨 Theme System (Multi-theme Architecture)
-
-Blog hiện hỗ trợ **multi-theme switching** với persistent localStorage:
-
-### Theme
-
-| Theme | Color Palette | Style | Font |
-|---|---|---|---|
-| **Hilda** (Default) | Ericsson Blue (#003784) | Professional, clean | Ericsson Hilda OTF |
-
-### Adding a New Theme (Guide for Developers)
-
-#### Step 1: Create Token Files
-
-```bash
-# Create color & typography tokens
-touch sass/_mytheme-tokens.scss
-touch sass/_mytheme-fonts.scss
-```
-
-**Example: `_mytheme-tokens.scss`**
-```scss
-$mytheme-primary:      #COLOR;
-$mytheme-accent:       #COLOR;
-$mytheme-border:       #COLOR;
-$mytheme-radius-sm:    4px;
-$mytheme-shadow-sm:    0 2px 4px rgba(0,0,0,0.08);
-```
-
-#### Step 2: Define Theme Variables in `_themes.scss`
-
-```scss
-:root[data-theme="mytheme"] {
-  --c-bg-page:        #fff;
-  --c-text-heading:   #000;
-  --c-accent:         #COLOR;
-  --c-border:         #COLOR;
-  --c-shadow-md:      /* shadow value */;
-  /* ...add all 15+ CSS variables... */
-  font-family: 'Your Font', fallback, sans-serif;
-}
-```
-
-#### Step 3: Add Component Overrides in `_theme-overrides.scss`
-
-```scss
-:root[data-theme="mytheme"] {
-  @include theme-overrides(
-    $radius-card:        4px,
-    $radius-tag:         4px,
-    $shadow-card:        $mytheme-shadow-sm,
-    $shadow-card-hover:  $mytheme-shadow-lg,
-    $kicker-spacing:     0.05em,
-    $heading-ls:         -0.02em
-  );
-}
-```
-
-#### Step 4: Register in JavaScript
-
-**`static/js/theme-switcher.js`**
-```javascript
-var VALID_THEMES = ["hilda"];  // Single theme: Hilda (Ericsson Blue)
-```
-
-#### Step 5: Update Imports
-
-**`sass/site.scss`**
-```scss
-@import "mytheme-tokens";
-@import "mytheme-fonts";  // if custom font
-```
-
-#### Step 6: Update Toggle Button
-
-**`templates/base.html`** (optional, if supporting 3+ themes)
-```html
-<!-- Dropdown or multi-choice instead of binary toggle -->
-```
-
-### Verification Checklist
-
-- [ ] All 15+ CSS variables defined (check against mixin params)
-- [ ] Color contrast ≥ 4.5:1 for normal text (WCAG AA)
-- [ ] Font loads correctly (use `font-display: swap` for OTF)
-- [ ] All component classes styled (post-card, buttons, sidebar, etc.)
-- [ ] Mobile responsive rules scoped to `@media (max-width: 720px)`
-- [ ] localStorage persists theme choice
-- [ ] Fade transition smooth (0.3s)
-- [ ] SCSS compiles without errors
-
----
-
-`< made with rust, sass, and a lot of vanilla js />`
+`< made with rust, sass & a lot of vanilla js />`
 
 </div>
+</content>
+</invoke>
