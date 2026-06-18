@@ -226,7 +226,7 @@
 
     els.tbody.innerHTML = slice
       .map((t, i) => {
-        const txnDate = t.date ? String(t.date).slice(0, 10) : "—";
+        const txnDate = (window.ZolaDateTime && window.ZolaDateTime.formatTxnDate(t.date)) || "—";
         const desc = t.description ? escapeHtml(t.description) : "—";
         return `<tr>
           <td>${start + i + 1}</td>

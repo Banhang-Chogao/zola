@@ -234,7 +234,9 @@
       .map((t, i) => {
         const cls = t.amount > 0 ? "fd-amount--income" : "fd-amount--expense";
         const sign = t.amount > 0 ? "+" : "";
-        const dateText = safeText(t.date ? String(t.date).replace("T", " ") : "");
+        const dateText = safeText(
+          (window.ZolaDateTime && window.ZolaDateTime.formatTxnDate(t.date)) || ""
+        );
         const descText = safeText(escapeHtml(t.description), "—");
         const amountText = fmt(Math.abs(t.amount)).replace(" ₫", "") || "—";
         return `<tr>

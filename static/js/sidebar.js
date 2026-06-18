@@ -141,12 +141,7 @@
 
   // ---------- Rendering ----------
   function fmtDate(iso) {
-    const d = new Date(iso);
-    if (isNaN(d.getTime())) return "";
-    return d.toLocaleDateString("vi-VN", {
-      day: "2-digit", month: "2-digit", year: "numeric",
-      timeZone: "Asia/Ho_Chi_Minh",
-    });
+    return (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDate(iso)) || "";
   }
 
   function escapeHtml(s) {

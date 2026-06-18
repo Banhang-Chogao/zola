@@ -128,7 +128,7 @@
 
             {% if data.updated_at %}
                 <p class="seo-board__updated">
-                    Cập nhật lần cuối: {{ data.updated_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
+                    Cập nhật lần cuối: {{ data.updated_at | date(format="%H:%M:%S %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
                 </p>
             {% endif %}
         {% endif %}

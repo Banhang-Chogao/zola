@@ -82,9 +82,7 @@
 
   function fmtDate(iso) {
     if (!iso) return "—";
-    try {
-      return new Date(iso).toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
-    } catch (e) { return iso; }
+    return (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDateTime(iso)) || String(iso);
   }
 
   function renderRequests(rows) {

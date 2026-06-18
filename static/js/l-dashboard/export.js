@@ -152,7 +152,8 @@
     setFont(doc, "normal", 5.5);
     setRgb(doc, INK);
     const certId = "FD-" + String(payload.series_id || "").slice(0, 8).toUpperCase();
-    const signedAt = String(payload.exported_at || "").replace("T", " ").slice(0, 16);
+    const signedAt = (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDateTime(payload.exported_at))
+      || String(payload.exported_at || "").replace("T", " ").slice(0, 16);
     doc.text("Chứng thư: " + certId, x + 2.5, y + 10);
     doc.text("Thời gian: " + signedAt, x + 2.5, y + 14);
     doc.text("Trạng thái: Hợp lệ", x + 2.5, y + 18);
@@ -193,7 +194,8 @@
 
     setFont(doc, "normal", 8.5);
     doc.setTextColor(210, 225, 245);
-    const exported = payload.exported_at.replace("T", " ").slice(0, 19);
+    const exported = (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDateTime(payload.exported_at))
+      || payload.exported_at.replace("T", " ").slice(0, 19);
     doc.text("LPBank · " + BLOG_URL_SLUG, margin, 17);
     doc.text("Xuất lúc: " + exported, margin, 22);
 

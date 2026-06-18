@@ -3,6 +3,7 @@
 {% import "macros/google-rank.html" as google_rank %}
 {% import "macros/img.html" as img %}
 {% import "macros/footer-countdown.html" as footer_countdown %}
+{% import "macros/datetime.html" as dt %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
    - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
@@ -521,7 +522,7 @@
                             <span class="header-github__brand">⌘ GitHub</span>
                             <span class="header-github__clock" title="Thời điểm commit lên main (giờ Việt Nam UTC+7)">
                                 {%- if latest_commit -%}
-                                    {{ latest_commit.commit.committer.date | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
+                                    {{ dt::display_datetime(value=latest_commit.commit.committer.date) }}
                                 {%- else -%}
                                     --:-- --/--/----
                                 {%- endif -%}
@@ -684,7 +685,7 @@
         {
             "title": {{ page.title | json_encode | safe }},
             "url": {{ page.permalink | json_encode | safe }},
-            "date": {{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") | json_encode | safe }},
+            "date": {{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") | json_encode | safe }},
             "description": {{ page.description | default(value="") | json_encode | safe }},
             "summary": {{ page.summary | default(value="") | striptags | json_encode | safe }},
             "body": {{ page.content | striptags | json_encode | safe }},
@@ -761,7 +762,7 @@
                             </h4>
                             <div class="post-meta">
                                 <span class="post-meta__author">{{ config.extra.author }}{{ v_author::badge() }}</span>
-                                <span class="post-meta__date">{{ featured.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                                <span class="post-meta__date">{{ featured.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
                             </div>
                         </article>
                     </section>
@@ -784,7 +785,7 @@
                                         <h5 class="random-item__title">
                                             <a href="{{ page.permalink }}">{{ page.title }}</a>
                                         </h5>
-                                        <time class="random-item__date">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                                        <time class="random-item__date">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
                                     </div>
                                 </li>
                             {% endfor %}
@@ -841,7 +842,7 @@
         {% set qa_posts_total = qa_n_posting + qa_n_baochi %}
         {% set qa_cats = get_taxonomy(kind="categories") %}
         {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
-        {% set qa_now = now() | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") %}
+        {% set qa_now = now() | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") %}
         {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
         {# Performance: điểm Lighthouse lấy trực tiếp từ data/pagespeed.json
            (workflow pagespeed.yml fetch PageSpeed Insights API mỗi giờ). Ưu tiên
@@ -881,7 +882,7 @@
                         <p class="qa-card__desc">Điểm Lighthouse Performance đo trực tiếp từ PageSpeed Insights.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{% if qa_pagespeed %}{{ qa_ps_perf }}/100 điểm{% else %}Cron 00:00 GMT+7{% endif %}</span>
-                            <span class="qa-card__date">{% if qa_pagespeed and qa_pagespeed.updated_at %}{{ qa_pagespeed.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}</span>
+                            <span class="qa-card__date">{% if qa_pagespeed and qa_pagespeed.updated_at %}{{ qa_pagespeed.updated_at | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}</span>
                         </div>
                     </div>
 
@@ -899,7 +900,7 @@
                         <p class="qa-card__desc">Số lỗ hổng thư viện &amp; rò rỉ secret từ lần quét gần nhất.</p>
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{% if qa_security %}{{ qa_security.py_vulns | default(value=0) }} CVE · {{ qa_security.secret_leaks | default(value=0) }} leak{% else %}pip-audit + gitleaks{% endif %}</span>
-                            <span class="qa-card__date">{% if qa_security and qa_security.updated_at %}{{ qa_security.updated_at | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}T7 03:00 UTC{% endif %}</span>
+                            <span class="qa-card__date">{% if qa_security and qa_security.updated_at %}{{ qa_security.updated_at | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}T7 03:00 UTC{% endif %}</span>
                         </div>
                     </div>
 
@@ -936,7 +937,7 @@
                         <div class="qa-card__foot">
                             <span class="qa-card__count">{{ qa_changelog_items | length }} PRs</span>
                             <span class="qa-card__date">
-                                {% if qa_latest_pr and qa_latest_pr.date %}{{ qa_latest_pr.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}
+                                {% if qa_latest_pr and qa_latest_pr.date %}{{ qa_latest_pr.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}{{ qa_now }}{% endif %}
                             </span>
                         </div>
                     </div>
@@ -1074,7 +1075,7 @@
                         {% if is_demo %}
                         ⚠ Chờ workflow lần đầu — cần thêm GitHub Secret <code>GA_SERVICE_ACCOUNT_KEY</code> + grant Service Account quyền Viewer trên GA Property.
                         {% else %}
-                        Cập nhật: <code>{{ ga_stats.updated_at | truncate(length=16, end="") | replace(from="T", to=" ") }} UTC</code>
+                        Cập nhật: <time datetime="{{ ga_stats.updated_at }}">{{ dt::display_datetime(value=ga_stats.updated_at) }}</time>
                         — fetch hourly từ GA4 Data API
                         {% endif %}
                     </p>
@@ -1131,6 +1132,7 @@
         </div>
     </footer>
 
+    <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
