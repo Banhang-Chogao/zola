@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T08:30:35Z",
+  "updated_at": "2026-06-18T08:30:55Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
@@ -7,29 +7,29 @@
     "total": 30,
     "success": 16,
     "failure": 3,
-    "cancelled": 8,
+    "cancelled": 9,
     "skipped": 0,
-    "in_progress": 3
+    "in_progress": 2
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27746945322,
-      "run_number": 682,
+      "id": 27746971214,
+      "run_number": 683,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T08:30:11Z",
-      "summary_vi": "Build #682 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-18) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746945322"
+      "started_at": "2026-06-18T08:30:38Z",
+      "summary_vi": "Build #683 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:30:35Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746971214"
     },
     "qa.yml": {
       "id": 27746852181,
       "run_number": 1551,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T08:28:24Z",
       "summary_vi": "Build #1551 — Kiểm tra QA Gatekeeper: content(baochi): Starbucks Fansipan — cửa hàng cà phê cao nhất châu Á (#408)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746852181"
@@ -38,24 +38,24 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27746945322,
-      "run_number": 682,
+      "id": 27746971214,
+      "run_number": 683,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T08:30:11Z",
-      "summary_vi": "Build #682 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-18) [skip changelog]",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746945322"
+      "started_at": "2026-06-18T08:30:38Z",
+      "summary_vi": "Build #683 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:30:35Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746971214"
     },
     {
       "workflow_file": "qa.yml",
       "id": 27746852181,
       "run_number": 1551,
-      "status_normalized": "in_progress",
-      "status_vi": "Đang chạy",
-      "gh_status": "in_progress",
-      "conclusion": "in_progress",
+      "status_normalized": "success",
+      "status_vi": "Thành công",
+      "gh_status": "completed",
+      "conclusion": "success",
       "started_at": "2026-06-18T08:28:24Z",
       "summary_vi": "Build #1551 — Kiểm tra QA Gatekeeper: content(baochi): Starbucks Fansipan — cửa hàng cà phê cao nhất châu Á (#408)",
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746852181"
@@ -2797,9 +2797,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T08:30:55Z",
+      "stats": {
+        "total": 30,
+        "success": 16,
+        "failure": 3,
+        "cancelled": 9,
+        "skipped": 0,
+        "in_progress": 2
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27746971214,
+          "run_number": 683,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "pending",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T08:30:38Z",
+          "summary_vi": "Build #683 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:30:35Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746971214"
+        },
+        "qa.yml": {
+          "id": 27746852181,
+          "run_number": 1551,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-18T08:28:24Z",
+          "summary_vi": "Build #1551 — Kiểm tra QA Gatekeeper: content(baochi): Starbucks Fansipan — cửa hàng cà phê cao nhất châu Á (#408)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746852181"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27746971214,
+      "run_number": 683,
+      "commit_id": "4c8e3dd43e28361cf3ce74001d16a5e05f8ccb87",
+      "commit_short": "4c8e3dd",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/4c8e3dd43e28361cf3ce74001d16a5e05f8ccb87",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746971214",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #683 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:30:35Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "pending",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T08:30:38Z",
+      "duration_sec": 2
+    },
     {
       "id": 27746945322,
       "run_number": 682,
@@ -2810,17 +2868,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #682 — Deploy blog lên GitHub Pages: Cập nhật: rebuild related posts + references (2026-06-18) [skip changelog]",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #683).",
       "started_at": "2026-06-18T08:30:11Z",
-      "duration_sec": 3
+      "duration_sec": 30
     },
     {
       "id": 27746852181,
@@ -2832,17 +2890,17 @@
       "workflow": "QA Gatekeeper",
       "workflow_file": "qa.yml",
       "summary_vi": "Build #1551 — Kiểm tra QA Gatekeeper: content(baochi): Starbucks Fansipan — cửa hàng cà phê cao nhất châu Á (#408)",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-18T08:28:24Z",
-      "duration_sec": 5
+      "duration_sec": 134
     },
     {
       "id": 27746851864,
@@ -2856,7 +2914,7 @@
       "summary_vi": "Build #681 — Deploy blog lên GitHub Pages: content(baochi): Starbucks Fansipan — cửa hàng cà phê cao nhất châu Á (#408)",
       "status_vi": "Đang chạy",
       "status_normalized": "in_progress",
-      "gh_status": "queued",
+      "gh_status": "in_progress",
       "success": false,
       "is_error": false,
       "severity": "info",
@@ -2864,7 +2922,7 @@
       "cancel_reason": "",
       "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
       "started_at": "2026-06-18T08:28:23Z",
-      "duration_sec": 124
+      "duration_sec": 133
     },
     {
       "id": 27746406401,
@@ -3175,28 +3233,6 @@
       "duration_sec": 26
     },
     {
-      "id": 27745544788,
-      "run_number": 668,
-      "commit_id": "3725e40a43a81584d73d3493b4e1d6bae43a444c",
-      "commit_short": "3725e40",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/3725e40a43a81584d73d3493b4e1d6bae43a444c",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745544788",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #668 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T08:03:28Z) [skip changelog]",
-      "status_vi": "Thành công",
-      "status_normalized": "success",
-      "gh_status": "completed",
-      "success": true,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "success",
-      "cancel_reason": "",
-      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
-      "started_at": "2026-06-18T08:03:31Z",
-      "duration_sec": 202
-    },
-    {
       "id": 27745407106,
       "run_number": 1540,
       "commit_id": "c6bac90589e84c4ff7547fcb83507ac0e5f6ac17",
@@ -3460,7 +3496,5 @@
       "started_at": "2026-06-18T02:47:38Z",
       "duration_sec": 166
     }
-  ],
-  "last_fetch_error": "GitHub API 403: {\n\t\"message\": \"API rate limit exceeded for installation. If you reach out to GitHub Support for help, please include the request ID 0410:2D361C:2307A5A:81F0ACC:6A33AC06 and timestamp 2026-06-18 08:27:50 UTC. For more on scraping GitHub and how it may affect your rights, please review",
-  "last_fetch_error_at": "2026-06-18T08:27:50Z"
+  ]
 }
