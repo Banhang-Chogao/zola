@@ -2,6 +2,35 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "bài báo tên miền .ai — hòn đảo Anguilla hốt bạc nhờ AI",
+      "tag": "feat",
+      "lines_added": 255,
+      "lines_removed": 2,
+      "highlights": [
+        "content/baochi/ten-mien-ai-hon-dao-anguilla-hot-bac.md — bài viết mới, giọng cá nhân (1st person), góc nhìn + phân tích riêng (không paraphrase máy móc).",
+        "static/img/covers/ten-mien-ai-hon-dao-anguilla-hot-bac.svg — cover brand gradient (#38bdf8 → #1d4ed8).",
+        "data/references.json, data/seo-qa-scores.json — auto-refresh.",
+        "SEO QA: 100/100 (A+), 1674 từ, từ khoá chính tên miền .ai.",
+        "Category: [\"Tất cả\", \"Báo chí\", \"Công nghệ\"] (đúng rule bb)."
+      ],
+      "pr": 405
+    },
+    {
+      "date": "2026-06-18",
+      "title": "fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O",
+      "tag": "fix",
+      "lines_added": 422,
+      "lines_removed": 114,
+      "highlights": [
+        "node --check 6 file JS (insights + export ×3): OK",
+        "python3 scripts/test_f_dashboard.py: 7/7 PASS",
+        "Repro JS ↔ Python ra output giống hệt (giữ contract mirror)",
+        "Templates nạp JS trực tiếp qua get_url (không bundle) → deploy là có hiệu lực"
+      ],
+      "pr": 404
+    },
+    {
+      "date": "2026-06-18",
       "title": "O-Dashboard — Liobank by OCB PDF statement dashboard",
       "tag": "feat",
       "lines_added": 4173,
