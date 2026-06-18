@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T21:43:38Z",
+  "updated_at": "2026-06-18T23:06:07Z",
   "score": 100.0,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "443/458 in range"
+          "detail": "608/634 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "458/458 complete"
+          "detail": "634/634 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "458/458 set"
+          "detail": "634/634 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "457/458 single H1"
+          "detail": "633/634 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "458/458 with lang"
+          "detail": "634/634 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "458/458 ready"
+          "detail": "634/634 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "458/458 pages"
+          "detail": "634/634 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "458/458 pages covered"
+          "detail": "634/634 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "101/101 articles"
+          "detail": "156/156 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "101/101 tagged"
+          "detail": "156/156 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "101/101 substantive"
+          "detail": "156/156 substantive"
         },
         {
           "label": "Unique titles",
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "454/458 pages"
+          "detail": "630/634 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,8 +222,8 @@
       "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 458,
-  "articles_scanned": 106,
+  "pages_scanned": 634,
+  "articles_scanned": 161,
   "fix_log": [
     {
       "category": "—",
@@ -231,7 +231,7 @@
       "check_status": "pass",
       "outcome": "skipped",
       "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-18T21:43:38Z"
+      "at": "2026-06-18T23:06:07Z"
     }
   ],
   "fix_summary": {
