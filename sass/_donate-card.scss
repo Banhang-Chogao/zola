@@ -1,0 +1,193 @@
+/* ============================================================
+   ===== DONATE CARD — khối "Ủng Hộ Dự Án" (DonatePremiumCard) =====
+   ============================================================
+   Component MỚI, độc lập — KHÔNG khoá nội dung, chỉ hiển thị lời kêu gọi
+   ủng hộ TỰ NGUYỆN + nút MoMo + QR. Render cuối bài qua shortcode
+   {{ donate_card(...) }}. Tách biệt hẳn với .paywall-* (khoá bài premium).
+
+   - Chỉ dùng semantic token var(--c-*) → tự thích nghi light/dark
+     (prefers-color-scheme) mà KHÔNG cần block dark riêng.
+   - KHÔNG đụng selector global (html/body/.container/overflow/height) →
+     an toàn desktop scroll + mobile menu.
+   - Core Web Vitals: QR đặt width/height + aspect-ratio cố định → 0 CLS;
+     lazy-load ảnh; chỉ transition transform/box-shadow (compositor-friendly).
+   Import sau "paywall" trong site.scss. */
+
+/* ===== DESKTOP (global) ===== */
+.donate-card {
+  margin: 2.75rem 0 0.5rem;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  background:
+    radial-gradient(125% 120% at 100% 0%, var(--c-accent-soft) 0%, transparent 55%),
+    var(--c-bg-surface);
+  box-shadow: var(--c-shadow-md);
+  overflow: hidden;
+}
+
+.donate-card__inner {
+  padding: 1.85rem 1.6rem 1.65rem;
+  text-align: center;
+}
+
+.donate-card__eyebrow {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+}
+
+.donate-card__title {
+  margin: 0 0 0.65rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--c-text-heading);
+}
+
+.donate-card__desc {
+  max-width: 46ch;
+  margin: 0 auto 1.3rem;
+  color: var(--c-text-body);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* QR — nền trắng cố định để luôn quét được kể cả dark mode */
+.donate-card__qr {
+  width: max-content;
+  margin: 0 auto 1.3rem;
+
+  img {
+    display: block;
+    width: 180px;
+    height: 180px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    padding: 8px;
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--c-text-muted);
+  }
+}
+
+/* Nút MoMo — brand magenta/pink (đồng bộ .paywall-btn--momo) */
+.donate-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;            /* WCAG 2.5.5 target size ≥ 44px */
+  padding: 0.8rem 1.7rem;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 800;
+  text-decoration: none;
+  background: linear-gradient(135deg, #d82d8b 0%, #a50064 100%);
+  box-shadow: 0 6px 18px rgba(165, 0, 100, 0.30);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(165, 0, 100, 0.38);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--c-focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+.donate-card__btn-icon {
+  flex-shrink: 0;
+}
+
+.donate-card__uses-label {
+  margin: 1.45rem 0 0.7rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--c-text-heading);
+}
+
+.donate-card__uses {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.1rem;
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: 0.9rem;
+    color: var(--c-text-body);
+    text-align: left;
+
+    &::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 800;
+      color: var(--c-success);
+    }
+  }
+}
+
+.donate-card__thanks {
+  margin: 1.35rem 0 0;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--c-text-muted);
+}
+
+/* ===== MOBILE (≤ 540px) ===== */
+@media (max-width: 540px) {
+  .donate-card__inner {
+    padding: 1.4rem 1.1rem 1.3rem;
+  }
+
+  .donate-card__title {
+    font-size: 1.3rem;
+  }
+
+  .donate-card__desc {
+    font-size: 0.95rem;
+  }
+
+  .donate-card__btn {
+    width: 100%;
+  }
+
+  .donate-card__uses {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+    width: max-content;
+    margin-inline: auto;
+  }
+}
+
+/* ===== Reduced motion — tôn trọng prefers-reduced-motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .donate-card__btn {
+    transition: none;
+  }
+  .donate-card__btn:hover {
+    transform: none;
+  }
+}

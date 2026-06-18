@@ -83,10 +83,38 @@ Format bắt buộc:
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
+| `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
 `/shortcuts.md`"). KHÔNG diễn giải dài, chỉ liệt kê.
+
+### `pp` — Liệt kê toàn bộ rule/quy tắc + thư viện vaccine trong CLAUDE.md
+
+Khi user gõ `pp`, Claude **đọc `CLAUDE.md`** rồi **in ra màn hình tác vụ** một bản
+tóm tắt đầy đủ MỌI rule/quy tắc + thư viện vaccine hotfix hiện có, để user ghi nhớ
+nhanh mà không phải mở file. Mục đích: tra cứu tại chỗ.
+
+**Hành động**:
+
+1. Đọc `CLAUDE.md` (toàn bộ).
+2. Output **theo nhóm**, mỗi rule 1 dòng ngắn gọn (tên rule · ý chính ≤1 dòng):
+   - **Policy & Auto-merge** (ZERO_BARRIER, mỗi thay đổi = 1 PR riêng tự merge…)
+   - **Git / Pull Request** (không gộp PR, branch dev…)
+   - **CSS / Responsive** (Mobile ≠ Desktop, cấm anti-pattern scroll…)
+   - **Timezone & Date** (GMT+7, dd/mm/yyyy…)
+   - **SEO QA bài viết** (≥600 từ, seo_keyword, ≥2 H2…)
+   - **Category** ("Tất cả" đầu mảng, "Báo chí" cho `bb`…)
+   - **References / TOC / Ảnh WebP / Placeholder**
+   - **Bảo mật** (static host, không hardcode secret…)
+   - **Paywall / Momo / Watermark / F-L-O-Dashboard**
+   - **🧪 Thư viện Vaccine** (V1…Vn): mỗi vaccine = `mã · dấu hiệu ngắn → fixer ngắn`.
+3. Cuối cùng in **tổng số rule nhóm + tổng số vaccine**.
+4. KHÔNG sửa file, KHÔNG chạy gì khác — chỉ ĐỌC + IN. Trình bày bảng/bullet gọn,
+   ưu tiên dễ quét mắt (giống `help` nhưng cho RULE thay vì shortcut).
+
+**Lưu ý**: `pp` giờ = "in rule + vaccine" (KHÔNG còn là HOTFIX deploy như nhắc cũ
+trong macro `morning` Phase E — tham chiếu đó đã lỗi thời, sẽ dọn sau).
 
 ### `cautruc9` — Show folder structure của blog
 

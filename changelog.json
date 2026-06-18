@@ -2,6 +2,61 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "Thêm SEO CONTENT SYSTEM RULE (GLOBAL) vào CLAUDE.md",
+      "tag": "chore",
+      "lines_added": 84,
+      "lines_removed": 3,
+      "highlights": [
+        "15 rule nội dung bắt buộc: search intent (thoả trong 150 từ đầu) · cấu trúc H1→Intro→TOC→H2/H3→FAQ→Related→CTA · ≥5 internal link (tin ≥3, gồm link hub chuyên mục) · content depth tiers (tin 800+, chu",
+        "Bảng trạng thái hạ tầng Zola — đánh dấu cái đã auto vs cần làm:",
+        "✅ Auto: TOC, Related Articles, Article + BreadcrumbList + FAQPage schema, References, internal-link validation.",
+        "❌ TODO: prev/next nav + block \"Đọc tiếp\", pagination category/tag, fail-build on broken link.",
+        "Checklist nhanh khi viết bài + cập nhật dòng internal-link trong \"Quy tắc SEO QA\" (≥1 → ≥5)."
+      ],
+      "pr": 425
+    },
+    {
+      "date": "2026-06-18",
+      "title": "Bài báo chí — VPBank bắt tay Circle ra mắt siêu thẻ Free trọn đời cho Gen Z",
+      "tag": "feat",
+      "lines_added": 256,
+      "lines_removed": 1,
+      "highlights": [
+        "File: content/baochi/vpbank-circle-sieu-the-free-tron-doi-gen-z.md",
+        "Cover: static/img/covers/vpbank-circle-sieu-the-free-tron-doi-gen-z.svg (gradient thương hiệu, không picsum)",
+        "Category: [\"Tất cả\", \"Báo chí\", \"Ngân hàng\"]",
+        "SEO QA: 100/100 · Hạng A+ · 1584 từ · từ khoá thẻ VPBank Circle",
+        "✅ AdSense-friendly: >1000 từ, 6 H2, FAQ 5 câu (FAQPage schema), ảnh có alt"
+      ],
+      "pr": 421
+    },
+    {
+      "date": "2026-06-18",
+      "title": "feat(pages): thêm trang Tuyên bố bản quyền (chuẩn AdSense + SEO)",
+      "tag": "chore",
+      "lines_added": 182,
+      "lines_removed": 3,
+      "highlights": [
+        "content/pages/copyright.md (mới): quyền sở hữu (© 2026, Luật SHTT VN + Công ước Berne), phạm vi bảo hộ, phân biệt mã nguồn mở vs nội dung, điều kiện trích dẫn/ghi nguồn (gồm cấm scraping & huấn luyện ",
+        "config.toml: thêm vào menu con nhóm \"Giới thiệu\".",
+        "templates/base.html: thêm link \"Bản quyền\" ở footer.",
+        "content/pages/about.md: liên kết tới trang bản quyền.",
+        "python3 scripts/build_references.py → OK"
+      ],
+      "pr": 420
+    },
+    {
+      "date": "2026-06-18",
+      "title": "CMS: cập nhật footer countdown",
+      "tag": "chore",
+      "lines_added": 6,
+      "lines_removed": 6,
+      "highlights": [],
+      "commit": "6148300ceefa",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
       "title": "Add báo chí article — macOS 27 Golden Gate có gì mới",
       "tag": "feat",
       "lines_added": 237,

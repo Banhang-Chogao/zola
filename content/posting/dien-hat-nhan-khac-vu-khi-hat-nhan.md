@@ -2,9 +2,10 @@
 title = "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?"
 description = "Điện hạt nhân khác vũ khí hạt nhân: mục đích, uranium, IAEA. Series Khoa học Bài 4/5 — bám tài liệu công khai, không hướng dẫn vũ khí."
 date = 2026-06-18
+aliases = ["/dien-hat-nhan-khac-vu-khi-hat-nhan/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["điện hạt nhân", "hạt nhân", "khoa học", "năng lượng", "science uranium series", "uranium"]
+tags = ["hạt nhân", "khoa học", "năng lượng", "science uranium series", "uranium", "điện hạt nhân"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
 seo_keyword = "điện hạt nhân khác vũ khí hạt nhân"

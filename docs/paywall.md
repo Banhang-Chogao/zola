@@ -28,7 +28,7 @@ premium_teaser_words = 180
 ## Momo payment link
 
 ```text
-https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr
+https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG
 ```
 
 Override qua env `MOMO_PAYMENT_LINK` trên backend.

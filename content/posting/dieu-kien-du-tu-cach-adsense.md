@@ -2,9 +2,10 @@
 title = "Điều kiện đủ tư cách tham gia AdSense"
 description = "Điều kiện đủ tư cách AdSense: tuổi, nội dung gốc, site sẵn sàng. Series AdSense Bài 2/15 — bám Google AdSense Help chính thức."
 date = 2026-06-18
+aliases = ["/dieu-kien-du-tu-cach-adsense/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google adsense", "adsense", "adsense foundation series", "publisher", "monetization", "điều kiện adsense"]
+tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "publisher", "điều kiện adsense"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "điều kiện adsense"

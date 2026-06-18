@@ -2,9 +2,10 @@
 title = "Chặn trang khỏi Google Search khi cần (noindex, robots)"
 description = "Chặn trang khỏi Google Search: noindex, robots.txt, X-Robots-Tag và khi nào nên dùng. Series SEO Bài 6/15 — bám Google SEO Starter Guide."
 date = 2026-06-18
+aliases = ["/chan-trang-khoi-google-search/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["blog", "google search", "seo", "seo foundation series", "noindex", "robots.txt", "search console", "zola"]
+tags = ["blog", "google search", "noindex", "robots.txt", "search console", "seo", "seo foundation series", "zola"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "chặn trang khỏi google search"
