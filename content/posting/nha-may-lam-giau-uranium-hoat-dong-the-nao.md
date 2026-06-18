@@ -2,6 +2,7 @@
 title = "Nhà máy làm giàu uranium hoạt động như thế nào?"
 description = "Nhà máy làm giàu uranium hoạt động thế nào: centrifuge, cascade, tails. Series Khoa học Bài 3/5 — giáo dục, không hướng dẫn nhạy cảm."
 date = 2026-06-18
+aliases = ["/nha-may-lam-giau-uranium-hoat-dong-the-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
 tags = ["hạt nhân", "khoa học", "làm giàu", "năng lượng", "science uranium series", "uranium"]

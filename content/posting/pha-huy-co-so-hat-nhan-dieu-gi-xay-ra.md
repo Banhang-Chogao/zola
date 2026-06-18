@@ -2,9 +2,10 @@
 title = "Phá hủy cơ sở hạt nhân và tiêu hủy uranium: điều gì xảy ra?"
 description = "Phá hủy cơ sở hạt nhân và tiêu hủy uranium làm giàu: disposition vật liệu, IAEA safeguards, rủi ro môi trường. Series Khoa học 5/5 — hoàn tất series Uranium."
 date = 2026-06-18
+aliases = ["/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["hạt nhân", "khoa học", "năng lượng", "science uranium series", "uranium", "IAEA", "tiêu hủy"]
+tags = ["hạt nhân", "iaea", "khoa học", "năng lượng", "science uranium series", "tiêu hủy", "uranium"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/iran-uranium-destruction-what-it-means.svg"
 seo_keyword = "phá hủy cơ sở hạt nhân"
