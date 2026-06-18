@@ -44,7 +44,7 @@ jobs:
 
       - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_seo_rank_autofix -v
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix -v
 
       - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
         run: python3 qa_check.py
@@ -60,6 +60,11 @@ jobs:
 
       - name: Build Google Rank sidebar data
         run: python3 scripts/build_google_rank.py
+
+      - name: Build GitHub Activity data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_github_activity.py
 
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only

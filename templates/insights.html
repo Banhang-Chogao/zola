@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/github-activity.html" as github_activity %}
 
 {% block title %}GitHub Insights | {{ config.title }}{% endblock %}
 
@@ -100,6 +101,8 @@
             </h2>
             <span class="insights__period-badge">Period: 1 week ▾</span>
         </header>
+
+        {{ github_activity::widget() }}
 
         <div class="insights__grid">
 
@@ -608,5 +611,9 @@
         </div>
     </section>
 {% endblock main %}
+
+{% block extra_scripts %}
+<script src="{{ get_url(path='js/github-activity.js') }}" defer></script>
+{% endblock %}
 
 {% block sidebar %}{% endblock %}

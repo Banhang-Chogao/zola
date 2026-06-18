@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(insights): add GitHub Activity heatmap widget",
+      "tag": "chore",
+      "lines_added": 6090,
+      "lines_removed": 1,
+      "highlights": [
+        "Build script (scripts/build_github_activity.py): aggregates 365-day activity from git log + GitHub REST API (PRs, issues, reviews) into data/github-activity.json",
+        "Heatmap UI: week columns, month/weekday labels, green intensity levels, Less→More legend",
+        "Activity overview: Commits / Pull requests / Issues / Code review breakdown (%)",
+        "Fallback: keeps cached JSON + shows \"GitHub activity data may be outdated\" when API fails",
+        "CI: runs on deploy + QA; daily refresh workflow (github-activity.yml)"
+      ],
+      "pr": 388
+    },
+    {
+      "date": "2026-06-17",
       "title": "feat(sidebar): add Google Rank SEO authority widget",
       "tag": "chore",
       "lines_added": 767,

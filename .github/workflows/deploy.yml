@@ -46,6 +46,11 @@ jobs:
       - name: Build Google Rank sidebar data
         run: python3 scripts/build_google_rank.py
 
+      - name: Build GitHub Activity data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_github_activity.py
+
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only
 
