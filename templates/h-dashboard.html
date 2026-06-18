@@ -8,6 +8,10 @@
     {# PDF.js local (CSP 'self') — get_url() respects base /zola/ on GitHub Pages #}
     <meta name="hd-pdfjs-src" content="{{ get_url(path='vendor/pdfjs/pdf.min.js') }}">
     <meta name="hd-pdfjs-worker" content="{{ get_url(path='vendor/pdfjs/pdf.worker.min.js') }}">
+    {# Tesseract OCR — local-first (CSP 'self'), core WASM via jsDelivr #}
+    <meta name="hd-tesseract-src" content="{{ get_url(path='vendor/tesseract/tesseract.min.js') }}">
+    <meta name="hd-tesseract-worker" content="{{ get_url(path='vendor/tesseract/worker.min.js') }}">
+    <meta name="hd-tesseract-core" content="https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1">
 {% endblock %}
 
 {% block main %}
