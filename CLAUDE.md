@@ -500,8 +500,15 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
 - Bộ placeholder cố định ở `static/img/placeholder/` (sinh bằng
   `python3 scripts/make_placeholder.py`): `placeholder.svg` (3:2, thumbnail),
   `placeholder-wide.svg` (16:9, ảnh trong bài), `placeholder-square.svg` (1:1).
-- SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước. OG/social
-  fallback `img/og-default.webp` khi thumbnail là `.svg` (mạng xã hội không render SVG).
+- SVG là vector → ảnh dùng `object-fit: cover` tự crop mọi kích thước.
+- **OG/social cho cover SVG (twin `.og.webp`):** mạng xã hội (FB/Threads/X/Zalo)
+  KHÔNG render SVG. `scripts/build_og_images.py` rasterize mỗi `static/img/**/*.svg`
+  → twin `*.og.webp` (1200×630, cairosvg+Pillow). `base.html` khi `thumbnail` là
+  `.svg` thì og:image dùng twin (`.svg` → `.og.webp`) → social hiện đúng ảnh COVER
+  của bài thay vì banner chung. `img/og-default.webp` giờ CHỈ là fallback cho bài
+  **không khai báo thumbnail**. Script idempotent, không vỡ build khi thiếu dep
+  (dùng `.og.webp` đã commit); chạy trong `deploy.yml` trước `zola build`; thêm cover
+  SVG mới → chạy `python3 scripts/build_og_images.py` (hoặc CI tự sinh) + commit twin.
 - **Fallback runtime (ảnh CÓ src nhưng load lỗi/404):** `base.html` có 1 listener
   `error` (capture phase) đổi mọi `<img>` load fail sang placeholder → KHÔNG bao
   giờ hiện icon "ảnh vỡ". Bổ trợ cho fallback server-side (chỉ lo bài THIẾU
