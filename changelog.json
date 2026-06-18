@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "thêm workflow auto-merge thật (ZERO_BARRIER) — hết kẹt merge tay",
+      "tag": "feat",
+      "lines_added": 251,
+      "lines_removed": 1,
+      "highlights": [
+        "Chỉ merge khi qa-check (job của QA Gatekeeper) success cho đúng head sha.",
+        "Bỏ qua: draft, base≠main, có blocked_labels, conflict (dirty).",
+        "Poll mergeable (GitHub tính async) trước khi merge; conflict → comment, không merge bừa.",
+        "workflow_run → token có quyền ghi nhưng chạy từ workflow trên main (an toàn với fork).",
+        "python3 -m py_compile scripts/try_auto_merge.py → OK"
+      ],
+      "pr": 413
+    },
+    {
+      "date": "2026-06-18",
       "title": "Bài báo — Giá vàng hôm nay 18/6 giảm mạnh",
       "tag": "feat",
       "lines_added": 154,
