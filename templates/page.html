@@ -266,6 +266,8 @@
                 {% set series_manifest = load_data(path="data/korean-30day-series.json", required=false) %}
             {% elif page.extra.series == "google-analytics" %}
                 {% set series_manifest = load_data(path="data/google-analytics-series.json", required=false) %}
+            {% elif page.extra.series == "vietinbank" %}
+                {% set series_manifest = load_data(path="data/vietinbank-series.json", required=false) %}
             {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}

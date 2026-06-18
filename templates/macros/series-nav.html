@@ -17,6 +17,8 @@
     {% set manifest = load_data(path="data/korean-30day-series.json", required=false) %}
 {% elif page.extra and page.extra.series is defined and page.extra.series == "google-analytics" %}
     {% set manifest = load_data(path="data/google-analytics-series.json", required=false) %}
+{% elif page.extra and page.extra.series is defined and page.extra.series == "vietinbank" %}
+    {% set manifest = load_data(path="data/vietinbank-series.json", required=false) %}
 {% endif %}
 {% if manifest and page.extra and page.extra.series is defined and page.extra.series == manifest.id %}
     {% set current_part = page.extra.series_part | default(value=0) %}
