@@ -38,6 +38,30 @@
             </div>
 
         <header class="post-single__header">
+            {# ===== Breadcrumb hiển thị (Trang chủ › Chuyên mục › Bài) =====
+               Cho người đọc biết bài đang ở chuyên mục nào. BreadcrumbList JSON-LD
+               (cho Google) đã có sẵn ở base.html — đây là phiên bản nhìn thấy được.
+               Chuyên mục = category chuyên biệt đầu tiên (bỏ qua "Tất cả"); nếu bài
+               chỉ có "Tất cả" thì dùng chính nó. ===== #}
+            {% set bc_cats = page.taxonomies.categories | default(value=[]) %}
+            {% set_global bc_cat = "" %}
+            {% for c in bc_cats %}
+                {% if bc_cat == "" and c != "Tất cả" %}{% set_global bc_cat = c %}{% endif %}
+            {% endfor %}
+            {% if bc_cat == "" and bc_cats | length > 0 %}{% set_global bc_cat = bc_cats | first %}{% endif %}
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb__list">
+                    <li class="breadcrumb__item">
+                        <a class="breadcrumb__link" href="{{ config.base_url | safe }}/">Trang chủ</a>
+                    </li>
+                    {% if bc_cat != "" %}
+                    <li class="breadcrumb__item">
+                        <a class="breadcrumb__link" href="{{ get_taxonomy_url(kind='categories', name=bc_cat) }}">{{ bc_cat }}</a>
+                    </li>
+                    {% endif %}
+                    <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">{{ page.title }}</li>
+                </ol>
+            </nav>
             <h1 class="post-single__title">{{ page.title }}</h1>
             <div class="post-meta">
                 <span class="post-meta__author">
@@ -298,6 +322,8 @@
                 {% set series_manifest = load_data(path="data/google-analytics-series.json", required=false) %}
             {% elif page.extra.series == "vietinbank" %}
                 {% set series_manifest = load_data(path="data/vietinbank-series.json", required=false) %}
+            {% elif page.extra.series == "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb" %}
+                {% set series_manifest = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
             {% endif %}
             {% if series_manifest and page.extra.series == series_manifest.id %}
                 {% for item in series_manifest.parts %}

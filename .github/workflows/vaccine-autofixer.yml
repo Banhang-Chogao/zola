@@ -1,9 +1,10 @@
 name: Daily Vaccine Autofixer
 
 # Vaccine V11 — Daily Vaccine Autofixer.
-# Reads the vaccine library from CLAUDE.md, scans the repo, auto-fixes the SAFE
-# vaccine-class issues, runs QA, writes data/vaccine-autofixer-report.json, and
-# (if anything changed) opens a PR — never a direct push to main.
+# Reads the vaccine library from CLAUDE.md, scans the repo + latest CI logs,
+# auto-fixes the SAFE vaccine-class issues, runs QA/build, uploads the report as
+# an artifact, writes a run summary, and (if anything changed) opens a PR —
+# never a direct push to main.
 #
 # Schedule: 06:00 Asia/Ho_Chi_Minh (= 23:00 UTC the previous day).
 # Manual:   workflow_dispatch (the `vacxin11` shortcut) — runs immediately.
@@ -14,8 +15,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: write          # push the fix branch for the PR
+  actions: read            # gh CI-log diagnosis
+  pull-requests: write     # open the autofix PR
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -27,10 +29,14 @@ concurrency:
 
 jobs:
   autofix:
+    name: Scan & Fix via Vaccines
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -49,8 +55,44 @@ jobs:
       - name: Run Daily Vaccine Autofixer
         id: autofix
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/vaccine_autofixer.py --trigger schedule
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vaccine-autofixer-report
+          path: data/vaccine-autofixer-report.json
+          if-no-files-found: warn
+
+      - name: Write run summary
+        if: always()
+        run: |
+          if [[ -f data/vaccine-autofixer-report.json ]]; then
+            echo "## 🔬 Vaccine Autofixer Report" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          try:
+              d = json.load(open("data/vaccine-autofixer-report.json"))
+              latest = (d.get("history") or [{}])[-1]
+              print(f"- **Run ID**: {latest.get('run_id', 'N/A')}")
+              print(f"- **Vaccines scanned**: {latest.get('vaccine_scanned', 0)}")
+              print(f"- **Issues detected**: {latest.get('issues_detected', 0)}")
+              print(f"- **Issues fixed**: {latest.get('issues_fixed', 0)}")
+              print(f"- **PRs created**: {latest.get('issues_prs_created', 0)}")
+              print(f"- **Status**: {d.get('status', 'N/A')} · QA {d.get('qa_result', {}).get('passed')}")
+              for err in latest.get("errors") or []:
+                  print(f"  - ⚠️ {err}")
+          except Exception as exc:
+              print(f"Error reading report: {exc}")
+          PY
+          else
+            echo "No autofixer report generated" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Open PR if anything changed (PR flow — never push to main)
         env:

@@ -2,6 +2,50 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(ui): add visible breadcrumb on posts (Trang chủ › Chuyên mục › Bài)",
+      "tag": "chore",
+      "lines_added": 93,
+      "lines_removed": 0,
+      "highlights": [
+        "templates/page.html: thêm <nav class=\"breadcrumb\"> trong post header, trên tiêu đề: Trang chủ › Chuyên mục › Bài hiện tại. Chuyên mục = category chuyên biệt đầu tiên (bỏ qua \"Tất cả\"), link qua get_ta",
+        "sass/_breadcrumb.scss (mới) + import vào site.scss: component dùng semantic token var(--c-*) (đúng light/dark), tách block mobile @media (max-width: 540px) rút gọn tiêu đề dài — không sửa selector glo",
+        "zola build PASS (172 pages, exit 0) trên nhánh đã rebase lên main mới nhất.",
+        "Output bài Git: Trang chủ › Công nghệ › Git branch… với link /categories/cong-nghe/ đúng.",
+        "qa_check.py PASS."
+      ],
+      "pr": 457
+    },
+    {
+      "date": "2026-06-18",
+      "title": "content: Series V-Plus & V-Advance VietinBank (5 bài)",
+      "tag": "chore",
+      "lines_added": 1409,
+      "lines_removed": 1,
+      "highlights": [
+        "Manifest: data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json",
+        "Series nav + related posts wiring",
+        "Fix series-listing replace filter syntax",
+        "zola build PASS (225 pages)"
+      ],
+      "pr": 454
+    },
+    {
+      "date": "2026-06-18",
+      "title": "🔬 Daily Vaccine Autofixer — automatic issue detection & repair",
+      "tag": "chore",
+      "lines_added": 1079,
+      "lines_removed": 0,
+      "highlights": [
+        "⏰ Daily Schedule: Runs automatically at 06:00 Asia/Ho_Chi_Minh (23:00 UTC)",
+        "🔍 Pattern Matching: Scans CI logs & repo files against 7 vaccine patterns (V1–V7)",
+        "🛠️ Auto-fix Safe Issues: V1 (HuggingFace model ID prefix) auto-fixes with validation",
+        "📋 PR for Risky Fixes: Creates review PRs for manual_only vaccines (V2–V7)",
+        "✅ QA Validation: Runs qa_check.py + zola build + internal links check"
+      ],
+      "pr": 455
+    },
+    {
+      "date": "2026-06-18",
       "title": "CMS: cập nhật author info",
       "tag": "chore",
       "lines_added": 1,

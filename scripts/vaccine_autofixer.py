@@ -269,8 +269,73 @@ def step_rule_checker(dry_run: bool) -> dict:
     return out
 
 
+def step_slack_v2(dry_run: bool) -> dict:
+    """V2 — slack-notify.yml must use the v3 `webhook-type` input, not the v1
+    `SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK` env. Report-only (needs manual review).
+    Migrated from the main-branch engine's scan_repo_files()."""
+    out = {"vaccine": "V2", "name": "Slack action v3 syntax", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    path = _script(".github/workflows/slack-notify.yml")
+    if not os.path.isfile(path):
+        out["detail"] = "slack-notify.yml absent"
+        return out
+    with open(path, encoding="utf-8") as fh:
+        src = fh.read()
+    if "SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK" in src and "webhook-type:" not in src:
+        out["matched"] = True
+        out["detail"] = "v1 syntax detected → needs v3 webhook-type (manual review)"
+    else:
+        out["detail"] = "ok (v3 / not applicable)"
+    return out
+
+
+def step_scan_build_logs(dry_run: bool) -> dict:
+    """Diagnosis engine — scan the latest CI logs (via `gh`) for known vaccine
+    signatures. Report-only: it never auto-fixes from logs (CLAUDE.md V7 — an
+    observer must not self-fix blindly). Best-effort: no `gh`/token → skipped,
+    never crashes the run. Migrated from the main-branch engine's
+    scan_build_logs() + _match_vaccine_patterns()."""
+    out = {"vaccine": "V-logs", "name": "CI log diagnosis", "matched": False,
+           "fixed": False, "changed": False, "detail": ""}
+    from shutil import which
+    if which("gh") is None:
+        out["detail"] = "gh not available — skipped"
+        return out
+    try:
+        res = subprocess.run(
+            ["gh", "run", "list", "--limit", "3", "--workflow", "deploy.yml",
+             "--repo", "Banhang-Chogao/zola", "--json", "databaseId,conclusion,status"],
+            cwd=REPO, capture_output=True, text=True, timeout=15)
+        if res.returncode != 0:
+            out["detail"] = "gh run list failed (auth/offline)"
+            return out
+        runs = json.loads(res.stdout or "[]")
+        signatures: list[str] = []
+        for run in runs[:1]:
+            rid = run.get("databaseId")
+            lg = subprocess.run(
+                ["gh", "run", "view", str(rid), "--log", "--repo", "Banhang-Chogao/zola"],
+                cwd=REPO, capture_output=True, text=True, timeout=30)
+            logs = (lg.stdout or "").lower()
+            for keyword, vac in (("401", "V1"), ("not permitted to create", "V3"),
+                                 ("rate limit exceeded", "V5"), ("missing input", "V2"),
+                                 ("merge conflict", "V6")):
+                if keyword in logs:
+                    signatures.append(vac)
+        if signatures:
+            out["matched"] = True
+            out["detail"] = "log signatures: " + ", ".join(sorted(set(signatures)))
+        else:
+            out["detail"] = "no known signature in latest CI logs"
+    except Exception as exc:  # network/gh/parse errors are non-fatal
+        out["detail"] = f"skipped ({exc})"
+    return out
+
+
 SAFE_STEPS = [
+    step_scan_build_logs,      # diagnosis engine (gh CI logs) — report-only
     step_build_related_model_id,
+    step_slack_v2,             # V2 detection — report-only
     step_internal_links,
     step_build_references,
     step_rule_checker,
@@ -356,8 +421,12 @@ def run(trigger: str = "manual", dry_run: bool = False, skip_build: bool = False
     if changed and not dry_run:
         production_status = "pending-pr"  # workflow opens a PR → deploy on merge
 
+    errors = [f"{s.get('name')}: {s.get('detail')}" for s in steps_out
+              if "error" in (s.get("detail") or "").lower()]
+
     report = {
         "trigger": trigger,
+        "run_id": os.environ.get("GITHUB_RUN_ID", "manual"),
         "started_at": iso(now),
         "finished_at": iso(finished),
         "last_run": iso(finished),
@@ -375,14 +444,43 @@ def run(trigger: str = "manual", dry_run: bool = False, skip_build: bool = False
         "build_result": build,
         "production_status": production_status,
         "status": status,
+        # Fields mirrored for the workflow step-summary (main-branch schema):
+        "vaccine_scanned": len(vaccines),
+        "issues_detected": len(matched),
+        "issues_fixed": fixed_count,
+        "issues_prs_created": 0,  # PRs are opened by the workflow, not the engine
+        "errors": errors,
     }
     return report
 
 
+# History entry fields surfaced in the workflow step-summary + 30-run history.
+_HISTORY_KEYS = (
+    "run_id", "trigger", "last_run", "status", "vaccine_scanned",
+    "issues_detected", "issues_fixed", "issues_prs_created", "errors",
+)
+
+
 def save_report(report: dict) -> None:
+    """Write the flat report (consumed by the Insights panel) PLUS a rolling
+    `history[]` + `latest` pointer (consumed by the workflow step-summary)."""
     os.makedirs(DATA_DIR, exist_ok=True)
+    existing = {}
+    if os.path.isfile(REPORT_PATH):
+        try:
+            with open(REPORT_PATH, encoding="utf-8") as fh:
+                existing = json.load(fh)
+        except (OSError, ValueError):
+            existing = {}
+    snapshot = {k: report.get(k) for k in _HISTORY_KEYS}
+    history = existing.get("history", []) if isinstance(existing, dict) else []
+    history.append(snapshot)
+    history = history[-30:]   # keep last 30 runs
+    out = dict(report)
+    out["history"] = history
+    out["latest"] = snapshot
     with open(REPORT_PATH, "w", encoding="utf-8") as fh:
-        json.dump(report, fh, ensure_ascii=False, indent=2)
+        json.dump(out, fh, ensure_ascii=False, indent=2)
 
 
 def main(argv: list[str] | None = None) -> int:

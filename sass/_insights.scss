@@ -1130,6 +1130,257 @@ main.container:has(.insights) {
   }
 }
 
+/* ============= VACCINE AUTOFIXER ============= */
+.insights__vaccines {
+  margin-top: 1.5rem;
+  background: $brand-snow;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.insights__vaccines-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.insights__vaccines-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2328;
+}
+
+.insights__vaccines-meta {
+  font-size: 0.78rem;
+  color: #57606a;
+}
+
+.insights__vaccines-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.insights__vaccine-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+}
+
+.insights__vaccine-stat-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #57606a;
+}
+
+.insights__vaccine-stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2328;
+
+  &--alert { color: #d1410c; }
+  &--success { color: #1a7f16; }
+}
+
+.insights__vaccines-timeline {
+  margin-top: 1rem;
+}
+
+.insights__vaccines-timeline-title {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.insights__vaccines-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.insights__vaccine-item {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 0.85rem;
+
+  &--success { border-left: 3px solid #1a7f16; }
+  &--partial { border-left: 3px solid #d97706; }
+  &--needs_pr { border-left: 3px solid #2563eb; }
+  &--failed { border-left: 3px solid #d1410c; }
+}
+
+.insights__vaccine-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.insights__vaccine-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+
+  &--v1 { background: #fce7f3; color: #9f1239; }
+  &--v2 { background: #d1fae5; color: #065f46; }
+  &--v3 { background: #fed7aa; color: #7c2d12; }
+  &--p1 { background: #dbeafe; color: #0c2d6b; }
+  &--p2 { background: #e0e7ff; color: #312e81; }
+  &--p3 { background: #fef3c7; color: #78350f; }
+  &--p4 { background: #fecaca; color: #7f1d1d; }
+  &--p5 { background: #d1d5db; color: #374151; }
+  &--p6 { background: #cbd5e1; color: #334155; }
+}
+
+.insights__vaccine-name {
+  flex: 1;
+  min-width: 150px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.insights__vaccine-status {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+
+  &--success { background: #dcfce7; color: #166534; }
+  &--partial { background: #fef3c7; color: #92400e; }
+  &--needs_pr { background: #dbeafe; color: #0c4a6e; }
+  &--failed { background: #fee2e2; color: #991b1b; }
+}
+
+.insights__vaccine-desc {
+  margin: 0 0 0.5rem;
+  font-size: 0.82rem;
+  color: #57606a;
+  line-height: 1.4;
+}
+
+.insights__vaccine-files {
+  margin: 0.5rem 0;
+  font-size: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.insights__vaccine-files-label {
+  font-weight: 600;
+  color: #1f2328;
+  flex-shrink: 0;
+}
+
+.insights__vaccine-files-list {
+  font-family: 'Courier New', monospace;
+  background: #f6f8fa;
+  padding: 0.25rem 0.4rem;
+  border-radius: 3px;
+  color: #0c2d6b;
+  word-break: break-all;
+}
+
+.insights__vaccine-error {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem;
+  background: #fee2e2;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #7f1d1d;
+  font-family: 'Courier New', monospace;
+}
+
+.insights__vaccine-error-label {
+  font-weight: 600;
+}
+
+.insights__vaccines-empty {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  color: #57606a;
+  font-size: 0.85rem;
+}
+
+.insights__vaccines-errors {
+  margin-top: 1rem;
+  padding: 0.85rem;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+}
+
+.insights__vaccines-errors-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #7f1d1d;
+}
+
+.insights__vaccines-errors-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.8rem;
+  color: #7f1d1d;
+
+  li { margin: 0.25rem 0; }
+}
+
+.insights__vaccines-foot {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #d0d7de;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  color: #57606a;
+}
+
+.insights__vaccines-src {
+  display: flex;
+  gap: 0.25rem;
+
+  code {
+    background: #f6f8fa;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    color: #0c2d6b;
+    font-size: 0.7rem;
+  }
+}
+
+.insights__vaccines-updated {
+  white-space: nowrap;
+}
+
 /* ============= QA DOMAIN SELECTOR ============= */
 .insights__domains {
   margin-top: 1.5rem;
@@ -1365,6 +1616,33 @@ main.container:has(.insights) {
 
   .insights__summary-text code { background: $brand-ink-900; color: $brand-ink-300; }
   .insights__committer-bar { background: $brand-ink-900; }
+
+  .insights__vaccines {
+    background: $brand-ink-800;
+    border-color: #334155;
+  }
+  .insights__vaccines-head,
+  .insights__vaccines-timeline-title { color: $brand-fog; }
+  .insights__vaccine-item {
+    background: $brand-ink-900;
+    border-color: #334155;
+  }
+  .insights__vaccine-header { color: $brand-fog; }
+  .insights__vaccine-name { color: #60a5fa; }
+  .insights__vaccine-desc,
+  .insights__vaccine-files,
+  .insights__vaccine-status,
+  .insights__vaccines-meta,
+  .insights__vaccines-empty,
+  .insights__vaccines-foot { color: $brand-ink-400; }
+  .insights__vaccine-error { color: #fca5a5; }
+  .insights__vaccines-foot {
+    border-top-color: #334155;
+    code { background: $brand-ink-900; color: $brand-ink-300; }
+  }
+  .insights__vaccine-badge--v1 { background: #ddd6fe; color: #4f46e5; }
+  .insights__vaccine-badge--v2 { background: #dcfce7; color: #16a34a; }
+  .insights__vaccine-badge--v3 { background: #fed7aa; color: #b45309; }
 
   .insights__domains {
     background: $brand-ink-800;

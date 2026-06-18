@@ -1,11 +1,20 @@
 {
   "trigger": "manual",
-  "started_at": "2026-06-19T06:03:30.831735+07:00",
-  "finished_at": "2026-06-19T06:03:48.577204+07:00",
-  "last_run": "2026-06-19T06:03:48.577204+07:00",
+  "run_id": "manual",
+  "started_at": "2026-06-19T06:31:05.248731+07:00",
+  "finished_at": "2026-06-19T06:31:24.065888+07:00",
+  "last_run": "2026-06-19T06:31:24.065888+07:00",
   "next_scheduled_run": "2026-06-20T06:00:00+07:00",
-  "vaccine_library_count": 10,
+  "vaccine_library_count": 11,
   "steps": [
+    {
+      "vaccine": "V-logs",
+      "name": "CI log diagnosis",
+      "matched": false,
+      "fixed": false,
+      "changed": false,
+      "detail": "gh not available — skipped"
+    },
     {
       "vaccine": "V1",
       "name": "HF model id org-qualified",
@@ -15,12 +24,20 @@
       "detail": "MODEL_NAME not found"
     },
     {
+      "vaccine": "V2",
+      "name": "Slack action v3 syntax",
+      "matched": false,
+      "fixed": false,
+      "changed": false,
+      "detail": "ok (v3 / not applicable)"
+    },
+    {
       "vaccine": "V-links",
       "name": "Internal link 404",
       "matched": false,
       "fixed": false,
       "changed": false,
-      "detail": "QA 404: scanned 617 page(s) · 713 unique internal link(s) checked · 0 internal broken"
+      "detail": "QA 404: scanned 634 page(s) · 731 unique internal link(s) checked · 0 internal broken"
     },
     {
       "vaccine": "V-refs",
@@ -28,7 +45,7 @@
       "matched": false,
       "fixed": false,
       "changed": true,
-      "detail": "Wrote data/references.json: 156 posts with references"
+      "detail": "Wrote data/references.json: 161 posts with references"
     },
     {
       "vaccine": "V-rules",
@@ -53,5 +70,34 @@
     "detail": "skipped"
   },
   "production_status": "up-to-date",
-  "status": "ok"
+  "status": "ok",
+  "vaccine_scanned": 11,
+  "issues_detected": 0,
+  "issues_fixed": 0,
+  "issues_prs_created": 0,
+  "errors": [],
+  "history": [
+    {
+      "run_id": "manual",
+      "trigger": "manual",
+      "last_run": "2026-06-19T06:31:24.065888+07:00",
+      "status": "ok",
+      "vaccine_scanned": 11,
+      "issues_detected": 0,
+      "issues_fixed": 0,
+      "issues_prs_created": 0,
+      "errors": []
+    }
+  ],
+  "latest": {
+    "run_id": "manual",
+    "trigger": "manual",
+    "last_run": "2026-06-19T06:31:24.065888+07:00",
+    "status": "ok",
+    "vaccine_scanned": 11,
+    "issues_detected": 0,
+    "issues_fixed": 0,
+    "issues_prs_created": 0,
+    "errors": []
+  }
 }

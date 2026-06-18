@@ -362,6 +362,78 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   (`.vaccine-panel`) + `sass/_vaccine-autofixer.scss` · data
   `data/vaccine-autofixer-report.json` / `-state.json` / `.log`.
 
+## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
+
+> **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
+> (V1–V11), apply safe fix, create PR cho risky fix, lưu log. UI insights hiển thị timeline.
+
+### Hoạt động (Flow)
+
+1. **Khi chạy** (daily 06:00 GMT+7): workflow `.github/workflows/vaccine-autofixer.yml`
+2. **Script** `scripts/vaccine_autofixer.py` thực thi:
+   - Đọc CLAUDE.md §4 extract vaccine definitions (V1–V11)
+   - Scan CI logs lần gần nhất để phát hiện matching pattern
+   - Scan repo files (`build_related.py`, `slack-notify.yml`, …) để detect issues
+   - Match pattern với vaccine rules (KHÔNG re-diagnose)
+   - **Auto-fix safe issues** (vd V1 HF model ID, internal-link 404 `--fix`,
+     references) — deterministic, idempotent
+   - **Mọi thay đổi đi qua PR flow** (workflow mở PR `chore/vaccine-autofixer-*`) —
+     KHÔNG push thẳng `main`; risky/ambiguous → để review trên PR
+   - Run QA/build validation
+   - Lưu report → `data/vaccine-autofixer-report.json` (flat summary + `history[]`)
+3. **Report được published** qua `deploy.yml` → site `/zola/insights/` hiển thị
+
+### Config
+
+| Thành phần | Path | Ghi chú |
+|-----------|------|--------|
+| Workflow | `.github/workflows/vaccine-autofixer.yml` | Cron `0 23 * * *` (UTC) = 06:00 GMT+7 + `workflow_dispatch`; `concurrency` chống chạy đồng thời; artifact upload + step summary + PR flow |
+| Script | `scripts/vaccine_autofixer.py` | Engine: parse vaccine library (`load_vaccines`) + safe fixer steps + CI-log diagnosis (`gh`, report-only) + lock chống chạy trùng + QA/build + report. Tests: `scripts/test_vaccine_autofixer.py` |
+| Report | `data/vaccine-autofixer-report.json` | Flat summary (cho Insights panel) + `history[]` 30 mốc + `latest` (cho workflow summary). Lock: `-state.json`; log: `.log` |
+| Insights UI | `templates/insights.html` (`.vaccine-panel`) + `sass/_vaccine-autofixer.scss` | Last run · Next scheduled · chip vaccine khớp · fixed count · chip QA/Build/Prod · nút Run |
+
+### Quy tắc (BẮT BUỘC)
+
+1. **Không** duplicate scan — tắt mấy vaccine nếu có bot khác đang fix cùng issue.
+2. **Không** break CI/deploy — auto-fix chỉ **safe issues** (confidence ≥90%, không sửa content).
+3. **Luôn** chạy QA sau fix — `qa_check.py`, `zola build` trước khi mở PR.
+4. **PR flow cho MỌI thay đổi** — workflow mở PR `chore/vaccine-autofixer-*` → auto-merge khi QA xanh. **KHÔNG** push thẳng `main`.
+5. **Không chạy đồng thời** — lock `data/vaccine-autofixer-state.json` (stale 30') + `concurrency` group; run trùng → skip (exit 3).
+6. **Log lịch sử** — append `history[]`, giữ 30 mốc gần nhất.
+7. **Error handling** — bọc mọi đọc file/network trong try/except, exit 0 nếu non-critical (không sập CI); CI-log diagnosis (`gh`) best-effort, thiếu `gh`/token → skip.
+
+### Insights UI
+
+Trang `/zola/insights/` có block mới **🔬 Vaccine Autofixer**:
+
+- **Header**: tiêu đề + nút **Run Daily Vaccine Autofixer** (mở GitHub Actions →
+  Run workflow) + chip "Đang chạy…" khi lock active.
+- **Meta**: Last run · Next scheduled run (06:00 GMT+7 kế tiếp) · Trigger ·
+  Vaccine library count · Fixed count.
+- **Status chips**: status tổng (ok/dry-run/fail) · QA pass/fail · Build pass/fail ·
+  Prod (up-to-date/pending-pr).
+- **Matched vaccines**: mỗi vaccine khớp lần chạy = 1 chip (✓ nếu đã fix; tooltip = detail).
+- Khi chưa có report → hướng dẫn chạy `vacxin11` / đợi lịch 06:00.
+
+### Chạy thủ công (local/dev)
+
+```bash
+# Shortcut: vacxin11 (CI: GitHub Actions → Daily Vaccine Autofixer → Run workflow)
+python3 scripts/vaccine_autofixer.py --trigger manual     # quét + auto-fix an toàn
+python3 scripts/vaccine_autofixer.py --dry-run --no-build  # chỉ quét, không sửa
+# Kết quả: data/vaccine-autofixer-report.json được sinh/update
+```
+
+**Mở Insights** → scroll xuống → thấy block **🧪 Daily Vaccine Autofixer** với data mới nhất.
+
+### Mở rộng (future)
+
+- Thêm vaccine mới → chỉ cần thêm block `#### V<N> — …` vào CLAUDE.md (engine tự
+  parse qua `load_vaccines`); thêm safe fixer step nếu auto-fix được.
+- Nối `DOMAIN_CHECK_API`/provider thật cho các bước cần network.
+- Webhook notification khi detect risky issue (Slack).
+- Auto-rerun nếu first attempt fail.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
