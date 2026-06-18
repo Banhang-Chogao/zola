@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-18T06:08:28Z",
+  "updated_at": "2026-06-18T08:05:40Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 124,
-    "today": 16,
-    "this_week": 124,
-    "this_month": 124,
+    "total": 125,
+    "today": 17,
+    "this_week": 125,
+    "this_month": 125,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 41,
       "feature": 34,
-      "fix": 40,
       "unknown": 5,
       "content": 3,
       "chore": 39,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 404,
+      "pr_title": "fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/404",
+      "merged_at": "2026-06-18T08:00:52Z",
+      "merge_commit_sha": "c6bac90589e84c4ff7547fcb83507ac0e5f6ac17",
+      "merge_commit_short": "c6bac90",
+      "head_branch": "claude/amazing-bardeen-kipad2",
+      "summary_vi": "Sửa 3 vấn đề trên cả **3 dashboard** F-Dashboard / L-Dashboard / O-Dashboard (engine dùng chung).",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 665,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745407138",
+      "build_conclusion": "queued"
+    },
     {
       "pr_number": 403,
       "pr_title": "feat: O-Dashboard — Liobank by OCB PDF statement dashboard",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 656,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740213422",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 402,
@@ -111,9 +130,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 632,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736582414",
-      "build_conclusion": "success"
+      "build_run_number": 650,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27737110457",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 398,
@@ -130,8 +149,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 628,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27735890937",
+      "build_run_number": 640,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736860847",
       "build_conclusion": "cancelled"
     },
     {
