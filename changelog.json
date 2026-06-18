@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "fix(dashboards): khôi phục AI Insights (Starbucks) + PDF nền trắng cho F/L/O",
+      "tag": "fix",
+      "lines_added": 422,
+      "lines_removed": 114,
+      "highlights": [
+        "node --check 6 file JS (insights + export ×3): OK",
+        "python3 scripts/test_f_dashboard.py: 7/7 PASS",
+        "Repro JS ↔ Python ra output giống hệt (giữ contract mirror)",
+        "Templates nạp JS trực tiếp qua get_url (không bundle) → deploy là có hiệu lực"
+      ],
+      "pr": 404
+    },
+    {
+      "date": "2026-06-18",
       "title": "O-Dashboard — Liobank by OCB PDF statement dashboard",
       "tag": "feat",
       "lines_added": 4173,
