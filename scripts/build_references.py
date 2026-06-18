@@ -150,8 +150,10 @@ def internal_lookup_key(url: str) -> str | None:
     if url.startswith("@/"):
         return "content/" + url[2:].lstrip("/")
     if url.startswith("/"):
-        # /posting/slug/ or /baochi/slug/
-        parts = [p for p in url.strip("/").split("/") if p]
+        # /zola/posting/slug/ or /posting/slug/ — strip base-url path prefix
+        # (links across the blog are written with the /zola prefix).
+        path = url.removeprefix("/zola")
+        parts = [p for p in path.strip("/").split("/") if p]
         if len(parts) >= 2:
             section, slug = parts[0], parts[1]
             return f"content/{section}/{slug}.md"
@@ -175,7 +177,8 @@ def resolve_internal_url(url: str, slug_index: dict) -> str:
         rel = url[2:].replace(".md", "/").replace("content/", "")
         return f"{BASE_URL}/{rel}"
     if url.startswith("/"):
-        return BASE_URL + url if not url.startswith(BASE_URL) else url
+        # Strip the /zola base-url path before re-prefixing → avoid /zola/zola/.
+        return BASE_URL + url.removeprefix("/zola")
     return url
 
 
