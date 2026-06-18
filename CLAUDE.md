@@ -590,6 +590,151 @@ Trước khi tạo PR cho thay đổi CSS:
 
 **Selector hygiene (R3):** trước khi thêm mobile override, grep class trong `templates/` — selector CSS phải khớp HTML thật.
 
+## Design Language (Branding — BẮT BUỘC cho mọi UI mới)
+
+> Ngôn ngữ thiết kế chuẩn của blog: **calm enterprise**, lấy cảm hứng từ *premium
+> annual report*. Áp dụng khi tạo MỚI bất kỳ page, dashboard, tool, widget, report,
+> article block. **Không clone pixel-by-pixel** UI tham chiếu — học design language rồi
+> tái sử dụng. Mọi giá trị màu dùng **semantic token** `var(--c-*)` (xem
+> `_themes.scss`/`_brand-vars.scss`) để tự đúng light/dark; mọi component mới = **scoped
+> SCSS partial** (như `_post-nav.scss`, `_vaccine-autofixer.scss`).
+
+### Design Style Anchor (hỏi TRƯỚC khi thiết kế)
+
+Trước khi thiết kế bất kỳ page / dashboard / tool / widget / article layout / component, **căn theo anchor**:
+
+> **Think Apple Annual Report × Bloomberg × Stripe Docs × Notion.**
+
+**KHÔNG** theo: AdminLTE · Crypto Dashboard · Bootstrap Admin Template · Material Design overload ·
+Gaming UI · Neon UI · thiết kế nặng glassmorphism.
+
+**Cảm giác mong muốn:** như một *premium annual report* / ấn phẩm tài chính chất lượng cao / nền tảng
+tri thức thanh lịch — calm, professional, dễ đọc, **information-dense nhưng không chật chội**.
+
+**🔑 Design Consistency Rule (BẮT BUỘC):** mỗi khi sinh UI, hỏi:
+*"Cái này có trông tự nhiên bên trong một Apple annual report, Bloomberg dashboard, Stripe Docs page,
+hay Notion workspace không?"* — **Nếu KHÔNG → thiết kế lại.**
+
+### Calm > flashy
+Sang trọng hơn hiệu ứng. **Tránh:** shadow nặng, gradient mạnh, lạm dụng glassmorphism, màu neon,
+animation thừa, hiệu ứng "đòi chú ý". **Ưu tiên:** whitespace · typography · hierarchy · màu dịu.
+
+### Cards First (cards before tables)
+**Card là primitive UI mặc định.** Trước khi nghĩ tới bảng/đống div, gói nội dung vào card. Tránh bảng to khi có thể.
+- `border-radius`: **14–20px** (component nhỏ ~12–14px, panel lớn ~16–20px).
+- Border mảnh (`1px solid var(--c-border)`), nền mềm (`var(--c-bg-surface)` / `var(--c-bg-soft)`), KHÔNG viền đậm.
+- `padding`: **18–28px**. Đủ khoảng thở, tránh layout chật.
+
+### Typography Hierarchy
+- **Level 1 — section title:** lớn, đậm. **Level 2 — content title:** vừa. **Level 3 — secondary label:** nhỏ, màu nhạt (`var(--c-text-muted)`).
+- **Số liệu quan trọng (KPI):** *lớn hơn + weight nặng hơn*. Nội dung chính phải nổi bật tự nhiên **mà không cần màu chói**.
+- **Metadata** (ngày, nguồn, ghi chú): nhỏ + màu nhạt.
+
+### White Space Is A Feature
+Khoảng trắng là tính năng, không phải chỗ trống cần lấp. **Không nén thông tin.**
+Khi phân vân → **thêm spacing, đừng thêm element.**
+
+### Dashboard Style
+Dashboard phải trông như **Bloomberg terminal × premium annual report**: calm · structured · informative · low-noise.
+**Ưu tiên:** cards + sections + timelines + metrics + progress indicators. **Tránh:** bảng "developer-style" xấu
+khắp nơi, hay "20 widget tranh nhau sự chú ý". (Khớp pattern Insights hiện có: `.vaccine-panel`, build/merge cards.)
+
+### Article Style (magazine-style)
+Bài viết gần với **Apple Newsroom / Financial Times / Stripe Docs / Notion** hơn là blog truyền thống — **không** tường chữ.
+Cấu trúc: Hero → Content → Related articles → External references → Copyright/nguồn → Insights box → Series box →
+Reading progress → soft cards. (Hạ tầng template đã lo phần lớn — xem rule TOC, References, Series, Related.)
+
+### Color System
+Dịu, chuyên nghiệp — **tránh màu bão hoà**, **tránh đen tuyền (`#000`)**, **tránh tương phản gắt**.
+Palette ưu tiên: slate · blue-gray · light teal · muted purple · nền pale.
+
+| Vai trò | Màu | Token gợi ý |
+|---------|-----|-------------|
+| Primary | slate blue | `--c-accent` (+ `--c-accent-soft`) |
+| Secondary | teal | teal token (thêm mới nếu cần) |
+| Highlight | amber | highlight/warning token |
+| Success | green | success token |
+| Warning | orange | warning token |
+| Danger | red | danger token |
+| Background | very light gray (KHÔNG `#000`/`#fff` tuyệt đối) | `--c-bg-page` / `--c-bg-surface` / `--c-bg-soft` |
+
+> Token thật trong `_themes.scss`: `--c-bg-page` · `--c-bg-surface` · `--c-bg-soft` ·
+> `--c-text-heading` · `--c-text-body` · `--c-text-muted` · `--c-accent` ·
+> `--c-accent-hover` · `--c-accent-soft` · `--c-border` · `--c-border-strong`. Dùng đúng
+> tên này (KHÔNG bịa token). Nguồn ưu tiên cao nhất: trang **`/branding-guideline/`**.
+
+### Animation / Motion Philosophy
+Animation hỗ trợ đọc, không cướp chú ý. **Duration 150–250ms**, transition tinh tế.
+**Tránh** bounce, scale transform lớn, motion gây xao nhãng.
+
+### Information Density
+**Mật độ trung bình.** Chuẩn: *premium annual report · Bloomberg terminal × Apple*.
+**KHÔNG:** crypto dashboard · gaming UI · Material Design overload.
+
+### Component Library (reuse trước khi tạo mới)
+Trang/feature mới ưu tiên tái dùng: **KPI card · timeline card · metric card · section card · expandable card ·
+comparison card · progress card · insight card.** Trước khi phát minh component mới → tìm component sẵn có
+(Insights, dashboards, `.vaccine-panel`, `.post-nav`…) và mở rộng nó.
+
+### Supplemental Card Theme — Annual-report KPI cards (OPTIONAL, áp dụng CÓ CHỌN LỌC)
+
+> Một **card skin / visual flavor** bổ sung (cảm hứng annual report: card pastel mềm, icon viền tròn,
+> KPI số lớn). Đây **KHÔNG phải** hướng thiết kế mới hay redesign — chỉ là "một kiểu card nữa **trong
+> cùng** design system". **Tuyệt đối không** redesign cả site theo screenshot này.
+
+**Thứ tự ưu tiên (cao → thấp):** 1) Global Branding Guideline (`/branding-guideline/`) → 2) Existing Design
+DNA (mục này) → 3) Existing component library → 4) **Card theme này (tuỳ chọn)**.
+
+**Phạm vi áp dụng (chỉ những chỗ hợp):** KPI card · stats card · metric card · fact box · highlight box ·
+comparison card · insights block · dashboard summary. Ví dụ: company profile, bài tài chính/ngành,
+trang kiểu annual report, section thống kê. **KHÔNG** ép đổi: layout tổng thể · navigation · hệ typography ·
+cấu trúc bài · color system · spacing rules · component hierarchy · design language hiện có.
+
+**Chỉ mượn 4 thứ:**
+1. **Soft background cards** — nền pastel rất nhạt: pale blue / pale teal / pale purple / light gray.
+2. **Circular outline icons** — icon viền mảnh (thin outline) đặt trong vòng tròn, bên trái.
+3. **Spacious KPI cards** — padding thoải mái; **số quan trọng lớn + đậm**, label trên nhỏ, đơn vị/hỗ trợ nhỏ.
+4. **Calm annual-report feeling** — low visual noise, không hiệu ứng loè loẹt.
+
+**KHÔNG copy:** thay toàn bộ card site-wide · đổi layout sẵn có · thêm nhiều màu · biến mọi trang thành
+infographic doanh nghiệp · bỏ article style hiện tại · redesign trang đã theo branding guideline.
+
+**🔑 Compatibility Rule:** trước khi dùng theme, hỏi *"Cái này có như một mở rộng TỰ NHIÊN của branding
+guideline hiện tại không?"* — **CÓ →** áp dụng có chọn lọc; **KHÔNG →** giữ thiết kế hiện tại. Theme phải
+**bổ trợ**, không cạnh tranh. *Preserve consistency above novelty.*
+
+**Triển khai:** *guidelines first, components later* — **CHƯA** tạo component nào cho theme này.
+Đây chỉ là **hướng thị giác tái sử dụng** để mượn SAU, khi có **trang thật** cần section KPI-heavy
+(vd company profile, bài tài chính/ngành, trang annual-report). Khi đó mới dựng component (scoped SCSS +
+shortcode, opt-in, additive), tái dùng component sẵn có trước khi tạo mới. **Evolution, not proliferation.**
+
+## Global UI/UX Design DNA
+
+> Repo này theo một **calm enterprise design language** lấy cảm hứng từ *premium annual report*
+> (Apple Annual Report × Bloomberg × Stripe Docs × Notion). Đây là **kiến thức thiết kế vĩnh viễn** —
+> coi như **cộng dồn**, KHÔNG ghi đè; chỉ **mở rộng / tinh chỉnh** theo thời gian.
+
+Core principles:
+
+1. **Calm > flashy.**
+2. **Cards before tables.**
+3. **Whitespace is a feature.**
+4. **Typography creates hierarchy.**
+5. **Large numbers deserve emphasis.**
+6. **Soft colors over saturated colors.**
+7. **Premium annual report aesthetic.**
+8. **Magazine-style articles.**
+9. **Dashboard sections over giant tables.**
+10. **Reuse components before creating new ones.**
+
+Áp dụng cho: blog pages · dashboards · tools · widgets · reports · insights pages · category pages ·
+series pages · mọi feature tương lai.
+
+**Khi sinh UI bất kỳ, Claude PHẢI tham chiếu các nguyên tắc này TRƯỚC khi tự bịa layout** (đọc cả
+"Design Language" + "Design Style Anchor" + "Quy tắc tối ưu hoá giao diện (CSS / Responsive)"). Token màu →
+`var(--c-*)`; component mới → scoped SCSS partial; tuân thủ scope mobile/desktop (R1–R8). Tự hỏi Design
+Consistency Rule trước khi commit UI mới.
+
 ## Quy tắc hiển thị thời gian (Timezone & Date format)
 
 Áp dụng cho MỌI nơi hiển thị ngày/giờ trên blog (templates Tera, static JS,
