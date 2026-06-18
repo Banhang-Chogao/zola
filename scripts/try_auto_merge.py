@@ -109,6 +109,23 @@ def post_skip_comment(num: int, reason: str) -> None:
     _req("POST", f"/repos/{REPO}/issues/{num}/comments", {"body": body})
 
 
+def is_blocked_bot(pr: dict, policy: dict) -> tuple[bool, str]:
+    """Reject Dependabot/Renovate PRs — deps updated manually via feature branches."""
+    blocked = policy.get("blocked_bot_actors") or [
+        "dependabot[bot]",
+        "dependabot-preview[bot]",
+        "renovate[bot]",
+        "renovate-bot[bot]",
+    ]
+    actor = (pr.get("user") or {}).get("login") or ""
+    if actor in blocked:
+        return True, f"bot bị chặn: {actor}"
+    head = ((pr.get("head") or {}).get("ref") or "").lower()
+    if head.startswith("dependabot/") or head.startswith("renovate/"):
+        return True, f"branch bot: {pr.get('head', {}).get('ref')}"
+    return False, ""
+
+
 def is_eligible(pr: dict, policy: dict) -> tuple[bool, str]:
     if pr.get("draft"):
         return False, "PR là draft"
@@ -116,6 +133,9 @@ def is_eligible(pr: dict, policy: dict) -> tuple[bool, str]:
         return False, "PR không mở"
     if pr.get("base", {}).get("ref") != "main":
         return False, "base không phải main"
+    blocked_bot, bot_reason = is_blocked_bot(pr, policy)
+    if blocked_bot:
+        return False, bot_reason
     labels = {l.get("name") for l in pr.get("labels", []) if isinstance(l, dict)}
     blocked = set(policy.get("blocked_labels", []))
     hit = labels & blocked

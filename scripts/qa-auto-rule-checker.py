@@ -784,7 +784,7 @@ def append_claude_learning(
                 "",
                 f"**Resolution:** {top.resolution}",
                 "",
-                "**Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 8h; đồng bộ CLAUDE.md khi đổi policy.",
+                "**Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 48h (schedule); đồng bộ CLAUDE.md khi đổi policy.",
                 "",
             ]
         )

@@ -2,10 +2,17 @@
 {% import "macros/verified.html" as v %}
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
+{% import "macros/locked.html" as locked %}
 
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
+{# Chuyên mục premium đang ẩn → SEO-safe noindex. #}
+{% block robots %}{% if term.slug == "premium" and config.extra.premium_hidden | default(value=false) %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+
 {% block main %}
+    {% if term.slug == "premium" and config.extra.premium_hidden | default(value=false) %}
+    {{ locked::overlay(base_url=config.base_url) }}
+    {% else %}
     <header class="section-header">
         <h1 class="section-header__title">{{ taxonomy.name | upper }}: {{ term.name | upper }}</h1>
     </header>
@@ -36,7 +43,7 @@
                     </h3>
                     <div class="post-meta">
                         <span class="post-meta__author">{{ config.extra.author }}{{ v::badge() }}</span>
-                        <span class="post-meta__date">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                        <span class="post-meta__date">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
                     </div>
                     <p class="post-card__summary">{{ page.summary | default(value="") | safe | striptags | truncate(length=200) }}</p>
                     <a class="read-more" href="{{ page.permalink }}">READ MORE <span class="read-more__arrow">»</span></a>
@@ -50,4 +57,5 @@
         <span class="pagination__info">Trang {{ paginator.current_index }} / {{ paginator.number_pagers }}</span>
         {% if paginator.next %}<a class="pagination__btn pagination__btn--next" href="{{ paginator.next }}">Trang sau »</a>{% endif %}
     </nav>
+    {% endif %}
 {% endblock main %}

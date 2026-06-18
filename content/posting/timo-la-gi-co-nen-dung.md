@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/timo-la-gi-co-nen-dung/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["timo", "timo là gì", "ngân hàng số", "review timo", "ngân hàng số series"]
+tags = ["ngân hàng số", "ngân hàng số series", "review timo", "timo", "timo là gì"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "timo là gì"

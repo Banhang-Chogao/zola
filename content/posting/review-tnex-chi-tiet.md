@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/review-tnex-chi-tiet/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["tnex", "review tnex", "ngân hàng số", "msb", "ngân hàng số series"]
+tags = ["msb", "ngân hàng số", "ngân hàng số series", "review tnex", "tnex"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "review tnex"

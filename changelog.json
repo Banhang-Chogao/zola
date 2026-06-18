@@ -2,6 +2,134 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "CMS: cập nhật author info",
+      "tag": "chore",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "3ba84f7cc054",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
+      "title": "CMS: cập nhật bài 'Fintech 2026: Paywall premium trên blog cá nhân'",
+      "tag": "chore",
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "6b01cad3f1d7",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
+      "title": "CMS: thêm category 'premium'",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "f72143933ae5",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
+      "title": "CMS: bỏ Featured cũ khi chọn 'premium-fintech-paywall-demo'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "a9ad4d8415d0",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
+      "title": "CMS: cập nhật bài 'Fintech 2026: Paywall premium trên blog cá nhân'",
+      "tag": "chore",
+      "lines_added": 5,
+      "lines_removed": 13,
+      "highlights": [],
+      "commit": "c6d5a481c57e",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
+      "title": "hotfix(h-dashboard): fix OCR stuck on worker/WASM init",
+      "tag": "fix",
+      "lines_added": 228,
+      "lines_removed": 33,
+      "highlights": [
+        "Align core version to 5.1.1; vendor local tesseract.min.js + worker.min.js (local-first, CDN fallback).",
+        "Add wasm-unsafe-eval to CSP.",
+        "workerBlobURL: false, 120s timeout, progress logger, eng language fallback.",
+        "Surface OCR errors via getLastError() in invoice-parser.",
+        "Regression tests in scripts/test_ocr_loader.py."
+      ],
+      "pr": 446
+    },
+    {
+      "date": "2026-06-18",
+      "title": "CMS: cập nhật footer countdown",
+      "tag": "chore",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "bac8b79fc98c",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
+      "title": "feat(insights): paginate timeline PR list (10 rows per page)",
+      "tag": "chore",
+      "lines_added": 168,
+      "lines_removed": 3,
+      "highlights": [],
+      "commit": "72d231931cee",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
+      "title": "docs(rules): thêm GLOBAL WRITING RULES (human-first, anti-AI, E-E-A-T)",
+      "tag": "chore",
+      "lines_added": 43,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 437
+    },
+    {
+      "date": "2026-06-18",
+      "title": "docs(rules): nguồn ảnh + alt text bắt buộc (chỉ ảnh user, không fetch ngoài)",
+      "tag": "chore",
+      "lines_added": 16,
+      "lines_removed": 0,
+      "highlights": [
+        "CHỈ dùng ảnh user cung cấp (attachment / URL user đưa). KHÔNG tự fetch ảnh ngoài (picsum/Unsplash/CDN/search).",
+        "Không có ảnh user → placeholder hệ thống (img/placeholder/*.svg).",
+        "Alt text bắt buộc cho MỌI ảnh, contextual + SEO-friendly (không nhồi keyword, không alt rỗng/chung chung)."
+      ],
+      "pr": 436
+    },
+    {
+      "date": "2026-06-18",
+      "title": "fix(ci): vaccine V6/V7 — bot data stash conflict + remediation tự đỏ",
+      "tag": "fix",
+      "lines_added": 59,
+      "lines_removed": 3,
+      "highlights": [],
+      "pr": 435
+    },
+    {
+      "date": "2026-06-18",
+      "title": "fix(footer): tên sự kiện countdown bị trắng tiệp nền trắng",
+      "tag": "fix",
+      "lines_added": 5,
+      "lines_removed": 1,
+      "highlights": [
+        ".site-footer strong:not([class*=footer-countdown]){color:#fff}",
+        ".footer-countdown__title{color:var(--cd-title,#003784)} (không còn bị đè)"
+      ],
+      "pr": 434
+    },
+    {
+      "date": "2026-06-18",
       "title": "chore(content): tạm ẩn bài có category \"premium\"",
       "tag": "chore",
       "lines_added": 1,

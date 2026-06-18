@@ -8,6 +8,10 @@
     {# PDF.js local (CSP 'self') — get_url() respects base /zola/ on GitHub Pages #}
     <meta name="hd-pdfjs-src" content="{{ get_url(path='vendor/pdfjs/pdf.min.js') }}">
     <meta name="hd-pdfjs-worker" content="{{ get_url(path='vendor/pdfjs/pdf.worker.min.js') }}">
+    {# Tesseract OCR — local-first (CSP 'self'), core WASM via jsDelivr #}
+    <meta name="hd-tesseract-src" content="{{ get_url(path='vendor/tesseract/tesseract.min.js') }}">
+    <meta name="hd-tesseract-worker" content="{{ get_url(path='vendor/tesseract/worker.min.js') }}">
+    <meta name="hd-tesseract-core" content="https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1">
 {% endblock %}
 
 {% block main %}
@@ -132,32 +136,50 @@
                 </ul>
             </div>
 
-            <div class="hd-charts">
-                <div class="hd-chart hd-chart--gauge">
-                    <h3 class="hd-chart__label">Financial Health Gauge</h3>
-                    <div class="hd-chart__canvas-wrap"><canvas id="hd-chart-gauge" aria-label="Điểm sức khỏe tài chính"></canvas></div>
+            <div class="hd-charts hd-charts--slide">
+                <div class="hd-chart hd-chart--slide hd-chart--gauge">
+                    <header class="hd-chart__head">
+                        <h3 class="hd-chart__title">Financial Health Score</h3>
+                        <p class="hd-chart__subtitle">Điểm sức khỏe tài chính tổng hợp (0–100)</p>
+                    </header>
+                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide"><canvas id="hd-chart-gauge" aria-label="Điểm sức khỏe tài chính"></canvas></div>
                 </div>
-                <div class="hd-chart hd-chart--donut">
-                    <h3 class="hd-chart__label">Thu vs Chi</h3>
-                    <div class="hd-chart__canvas-wrap"><canvas id="hd-chart-donut" aria-label="Biểu đồ donut thu chi"></canvas></div>
+                <div class="hd-chart hd-chart--slide hd-chart--donut">
+                    <header class="hd-chart__head">
+                        <h3 class="hd-chart__title">Thu vs Chi</h3>
+                        <p class="hd-chart__subtitle">Cơ cấu dòng tiền — tỷ trọng thu trên tổng luân chuyển</p>
+                    </header>
+                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide"><canvas id="hd-chart-donut" aria-label="Biểu đồ donut thu chi"></canvas></div>
                 </div>
-                <div class="hd-chart hd-chart--area">
-                    <h3 class="hd-chart__label">Lũy kế chi theo thời gian</h3>
-                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--wide"><canvas id="hd-chart-area" aria-label="Biểu đồ area dòng tiền"></canvas></div>
+                <div class="hd-chart hd-chart--slide hd-chart--area">
+                    <header class="hd-chart__head">
+                        <h3 class="hd-chart__title">Biến động số dư</h3>
+                        <p class="hd-chart__subtitle">Waterfall từng bước — thay đổi lũy kế theo thời gian</p>
+                    </header>
+                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide hd-chart__canvas-wrap--wide"><canvas id="hd-chart-area" aria-label="Biểu đồ waterfall số dư"></canvas></div>
                 </div>
-                <div class="hd-chart hd-chart--treemap">
-                    <h3 class="hd-chart__label">Mặt hàng chi nhiều nhất</h3>
-                    <div class="hd-chart__canvas-wrap"><canvas id="hd-chart-treemap" aria-label="Biểu đồ treemap chi tiêu"></canvas></div>
+                <div class="hd-chart hd-chart--slide hd-chart--treemap">
+                    <header class="hd-chart__head">
+                        <h3 class="hd-chart__title">Giao dịch lớn nhất</h3>
+                        <p class="hd-chart__subtitle">Bridge thu/chi — các khoản ảnh hưởng mạnh nhất</p>
+                    </header>
+                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide hd-chart__canvas-wrap--tall"><canvas id="hd-chart-treemap" aria-label="Biểu đồ waterfall giao dịch"></canvas></div>
                 </div>
-                <div class="hd-chart hd-chart--waterfall">
-                    <h3 class="hd-chart__label">Chi tiêu ròng theo ngày</h3>
-                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--wide"><canvas id="hd-chart-waterfall" aria-label="Biểu đồ waterfall luồng tiền"></canvas></div>
+                <div class="hd-chart hd-chart--slide hd-chart--waterfall">
+                    <header class="hd-chart__head">
+                        <h3 class="hd-chart__title">Dòng tiền ròng theo ngày</h3>
+                        <p class="hd-chart__subtitle">Waterfall hằng ngày — cột nổi từ mức trước, màu teal/đỏ</p>
+                    </header>
+                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide hd-chart__canvas-wrap--wide"><canvas id="hd-chart-waterfall" aria-label="Biểu đồ waterfall luồng tiền"></canvas></div>
                 </div>
             </div>
         </section>
 
-        <section class="hd-panel hd-geo-panel">
-            <h2 class="hd-panel__title">Chi tiêu theo vùng địa lý</h2>
+        <section class="hd-panel hd-geo-panel hd-geo-panel--slide">
+            <header class="hd-geo-panel__head">
+                <h2 class="hd-panel__title">Chi tiêu theo vùng địa lý</h2>
+                <p class="hd-geo-panel__subtitle">Bản đồ phân bố giao dịch — phong cách slide địa lý Sembcorp</p>
+            </header>
             <p class="dash-geo__note">Địa điểm được suy ra từ nội dung hóa đơn. Hóa đơn không ghi địa điểm sẽ mặc định tính cho TP. Hồ Chí Minh.</p>
             <div id="hd-geo">
                 <p class="dash-geo__empty">Upload hóa đơn để xem phân bố chi tiêu theo địa điểm.</p>
@@ -240,6 +262,7 @@
 {% endblock %}
 
 {% block extra_scripts %}
+    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
     <script src="{{ get_url(path='js/h-dashboard/pdf-loader.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js" defer></script>

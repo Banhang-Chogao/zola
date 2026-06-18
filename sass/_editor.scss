@@ -407,8 +407,8 @@ main.container:has(.editor-app) {
 }
 
 .editor-textarea {
-  resize: vertical;
-  min-height: 320px;
+  resize: none;
+  min-height: 280px;
   font-family: $font-mono;
   font-size: 0.92rem;
   line-height: 1.6;
@@ -769,6 +769,28 @@ main.container:has(.editor-app) {
     input { width: auto; }
     span { font-size: 0.9rem; color: #7c2d12; font-weight: 600; }
   }
+
+  &--premium {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-left: 3px solid #f59e0b;
+    padding: 0.85rem 1rem;
+    border-radius: 4px;
+
+    &[hidden] { display: none; }
+
+    > span:first-child {
+      color: #92400e;
+    }
+  }
+}
+
+.editor-field-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: #64748b;
+  line-height: 1.45;
 }
 
 /* ============= MARKDOWN TABS ============= */
@@ -777,8 +799,23 @@ main.container:has(.editor-app) {
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  // Fixed viewport for long posts — write/preview panes scroll inside.
+  max-height: min(72vh, 760px);
+  min-height: 360px;
 
   &:focus-within { border-color: #1572bd; }
+}
+
+// Sticky tabs + markdown toolbar while scrolling long content.
+.editor-write-chrome {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  flex-shrink: 0;
+  background: #f8f8f8;
+  box-shadow: 0 1px 0 #e5e7eb;
 }
 
 .editor-content-tabs {
@@ -930,11 +967,12 @@ main.container:has(.editor-app) {
 
 .editor-preview {
   padding: 1.25rem 1.5rem;
-  min-height: 320px;
+  min-height: 280px;
   font-size: 0.95rem;
   line-height: 1.7;
   color: #333;
   background: #fafafa;
+  overflow-y: auto;
 
   h1, h2, h3 { color: #111; margin: 1rem 0 0.5rem; line-height: 1.3; }
   h1 { font-size: 1.4rem; }
@@ -979,18 +1017,41 @@ main.container:has(.editor-app) {
 
 /* ============= EDITOR CONTENT BODY (split mode container) ============= */
 .editor-content-body {
-  display: block; // default: panes stack (mode write/preview chỉ show 1 pane)
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.editor-counter {
+  flex-shrink: 0;
 }
 
 /* Mode classes — CSS điều khiển pane visibility, không cần hidden attr */
 .editor-content-wrap--mode-write {
   [data-tab-pane="preview"] { display: none; }
+
+  .editor-content-body > [data-tab-pane="write"] {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .editor-content-wrap--mode-preview {
   [data-tab-pane="write"] { display: none; }
   .editor-md-toolbar { display: none; }
   .editor-counter { display: none; }
+
+  .editor-content-body > [data-tab-pane="preview"] {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .editor-content-wrap--mode-split {
@@ -998,22 +1059,33 @@ main.container:has(.editor-app) {
     .editor-content-body {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      min-height: 400px;
+      min-height: 0;
 
       > [data-tab-pane] {
-        min-height: 400px;
-        max-height: 70vh;
+        min-height: 0;
+        height: 100%;
+        max-height: none;
       }
-      > [data-tab-pane="write"]   { overflow: hidden; } // textarea tự scroll
+      > [data-tab-pane="write"] {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
       > [data-tab-pane="preview"] {
         border-left: 1px solid #e5e7eb;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
     }
   }
   @media (max-width: 899px) {
     // Mobile fallback: ẩn preview, hiện như write mode
     [data-tab-pane="preview"] { display: none; }
+
+    .editor-content-body > [data-tab-pane="write"] {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+    }
   }
 }
 

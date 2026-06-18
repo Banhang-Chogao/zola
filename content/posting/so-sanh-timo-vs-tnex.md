@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/so-sanh-timo-vs-tnex/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["timo vs tnex", "so sánh ngân hàng số", "timo", "tnex", "ngân hàng số series"]
+tags = ["ngân hàng số series", "so sánh ngân hàng số", "timo", "timo vs tnex", "tnex"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "timo vs tnex"

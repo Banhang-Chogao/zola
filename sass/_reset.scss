@@ -168,8 +168,7 @@ body {
   }
 }
 
-/* Touch target tối thiểu 44x44px (Apple/Google guideline) cho mọi
-   button + link clickable. Đảm bảo dễ tap trên mobile bằng ngón cái. */
+/* Touch target ≥44px for chrome controls only — NOT inline prose links. */
 @media (max-width: 720px) {
   button,
   a.editor-btn,
@@ -181,19 +180,30 @@ body {
   .site-footer__author-mgmt,
   .site-footer__stats-link,
   .theme-toggle__btn,
-  .theme-toggle__opt {
+  .theme-toggle__opt,
+  .read-more,
+  .pagination__btn,
+  .post-card__image,
+  .home-card__image,
+  .home-hero__image,
+  [role="button"] {
     min-height: 44px;
     min-width: 44px;
-  }
-
-  /* Improve touch target padding for interactive elements */
-  button,
-  a[href],
-  [role="button"] {
     padding: max(0.5em, 8px) max(0.75em, 12px);
   }
 
-  /* Ensure clickable elements have proper spacing */
+  /* Prose + card title links: keep natural inline flow (Momo readability) */
+  .post-single__content a,
+  .post-single__content p a,
+  .post-card__title a,
+  .home-card__title a,
+  .home-hero__title a,
+  .related-card__title a {
+    padding: 0;
+    min-height: unset;
+    min-width: unset;
+  }
+
   a, button, [role="button"] {
     touch-action: manipulation;
   }

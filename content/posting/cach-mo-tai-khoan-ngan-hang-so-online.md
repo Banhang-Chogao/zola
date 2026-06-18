@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/cach-mo-tai-khoan-ngan-hang-so-online/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["mở tài khoản online", "ekyc", "ngân hàng số", "liobank", "ngân hàng số series"]
+tags = ["ekyc", "liobank", "mở tài khoản online", "ngân hàng số", "ngân hàng số series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "mở tài khoản ngân hàng số online"

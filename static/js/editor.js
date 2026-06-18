@@ -436,6 +436,17 @@
   }
 
   // ============= FRONTMATTER PARSE/BUILD =============
+  const PREMIUM_CATEGORY = "premium";
+
+  function isPremiumCategory(cat) {
+    return String(cat || "").trim().toLowerCase() === PREMIUM_CATEGORY;
+  }
+
+  function categoryLabel(cat) {
+    if (isPremiumCategory(cat)) return "Premium (thu phí)";
+    return cat;
+  }
+
   function parseFrontmatter(md) {
     // TOML frontmatter giữa +++ ... +++
     const m = md.match(/^\+\+\+\n([\s\S]*?)\n\+\+\+\n?([\s\S]*)$/);
@@ -443,7 +454,11 @@
     const fmText = m[1];
     const body = m[2] || "";
 
-    const fm = { title: "", date: "", category: "Posting", tags: [], thumbnail: "", featured: false, featured_at: "", sticky: false };
+    const fm = {
+      title: "", date: "", category: "Posting", tags: [], thumbnail: "",
+      featured: false, featured_at: "", sticky: false,
+      premium: false, momo_payment_link: "",
+    };
 
     const lines = fmText.split("\n");
     let section = "root";
@@ -475,6 +490,8 @@
         else if (key === "featured") fm.featured = val === true;
         else if (key === "featured_at") fm.featured_at = val;
         else if (key === "sticky") fm.sticky = val === true;
+        else if (key === "premium") fm.premium = val === true;
+        else if (key === "momo_payment_link" || key === "momo_link") fm.momo_payment_link = val;
       }
     }
 
@@ -502,8 +519,54 @@ tags = ${tagsStr}
     }
     // sticky = bài ghim (chỉ 1 bài tại 1 thời điểm — đã validate trước khi save).
     if (fm.sticky) fmText += `sticky = true\n`;
+    // Premium category: enable paywall flag + optional per-post MoMo link.
+    // Non-premium saves omit both fields (backward compatible cleanup).
+    if (isPremiumCategory(fm.category)) {
+      fmText += `premium = true\n`;
+      if (fm.momo_payment_link) {
+        fmText += `momo_payment_link = "${String(fm.momo_payment_link).replace(/"/g, '\\"')}"\n`;
+      }
+    }
     fmText += "+++\n\n";
     return fmText + body;
+  }
+
+  function collectFormFrontmatter(form) {
+    const category = getSelectedCategory();
+    const isFeatured = form.featured.checked;
+    const isSticky = form.sticky ? form.sticky.checked : false;
+    let featuredAt = "";
+    if (isFeatured) featuredAt = new Date().toISOString();
+
+    const fm = {
+      title: form.title.value.trim(),
+      date: form.date.value,
+      category: category,
+      tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
+      thumbnail: form.thumbnail.value.trim(),
+      featured: isFeatured,
+      featured_at: featuredAt,
+      sticky: isSticky,
+      premium: false,
+      momo_payment_link: "",
+    };
+
+    if (isPremiumCategory(category)) {
+      fm.premium = true;
+      const momoInput = form.querySelector("[name='momo_link']");
+      const momoLink = momoInput ? momoInput.value.trim() : "";
+      if (momoLink) fm.momo_payment_link = momoLink;
+    }
+    return fm;
+  }
+
+  function toggleMomoField(category) {
+    const wrap = $("[data-momo-wrap]");
+    const input = $("[name='momo_link']");
+    if (!wrap) return;
+    const show = isPremiumCategory(category);
+    wrap.hidden = !show;
+    if (!show && input) input.value = "";
   }
 
   // ============= STICKY VALIDATION — chỉ 1 bài ghim tại 1 thời điểm =============
@@ -948,13 +1011,14 @@ tags = ${tagsStr}
 
   function rebuildCategoryOptions(selected) {
     catSelect.innerHTML = knownCategories.map((c) =>
-      `<option value="${escapeHtml(c)}"${c === selected ? " selected" : ""}>${escapeHtml(c)}</option>`
+      `<option value="${escapeHtml(c)}"${c === selected ? " selected" : ""}>${escapeHtml(categoryLabel(c))}</option>`
     ).join("");
     // Nếu category đã chọn không nằm trong list (đã bị xoá khỏi taxonomy) → thêm vào
     if (selected && !knownCategories.includes(selected)) {
       catSelect.insertAdjacentHTML("afterbegin",
-        `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)} (cũ)</option>`);
+        `<option value="${escapeHtml(selected)}" selected>${escapeHtml(categoryLabel(selected))} (cũ)</option>`);
     }
+    toggleMomoField(selected || catSelect.value || "Posting");
     exitNewMode();
   }
 
@@ -1037,6 +1101,17 @@ tags = ${tagsStr}
     return catSelect.value || "Posting";
   }
 
+  if (catSelect) {
+    catSelect.addEventListener("change", function () {
+      toggleMomoField(catSelect.value);
+    });
+  }
+  if (catNewInput) {
+    catNewInput.addEventListener("input", function () {
+      if (inNewMode) toggleMomoField(catNewInput.value.trim() || "Posting");
+    });
+  }
+
   // ============= EDITOR VIEW =============
   function openEditor(path) {
     const form = $("[data-form='post']");
@@ -1054,6 +1129,9 @@ tags = ${tagsStr}
       state.editing = null;
       lastDraftSlug = null; // bài mới chưa có slug
       rebuildCategoryOptions("Posting");
+      const momoInputNew = form.querySelector("[name='momo_link']");
+      if (momoInputNew) momoInputNew.value = "";
+      toggleMomoField("Posting");
       updateCounter();
       lastRenderedBody = null;
       renderPreview();
@@ -1083,6 +1161,11 @@ tags = ${tagsStr}
       form.thumbnail.value = fm.thumbnail;
       form.featured.checked = fm.featured;
       if (form.sticky) form.sticky.checked = fm.sticky;
+      const momoInput = form.querySelector("[name='momo_link']");
+      if (momoInput) {
+        momoInput.value = isPremiumCategory(fm.category) ? (fm.momo_payment_link || "") : "";
+      }
+      toggleMomoField(fm.category);
       form.body.value = body.trim();
       updateCounter();
       lastRenderedBody = null;
@@ -1099,25 +1182,8 @@ tags = ${tagsStr}
     e.preventDefault();
     const form = e.target;
 
-    const isFeatured = form.featured.checked;
-    const isSticky = form.sticky ? form.sticky.checked : false;
-    // Featured-at logic: mỗi lần save/publish với checkbox bật đều STAMP lại
-    // để lựa chọn thủ công mới nhất luôn là override thắng mọi auto-pick.
-    let featuredAt = "";
-    if (isFeatured) {
-      featuredAt = new Date().toISOString();
-    }
-
-    const fm = {
-      title: form.title.value.trim(),
-      date: form.date.value,
-      category: getSelectedCategory(),
-      tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
-      thumbnail: form.thumbnail.value.trim(),
-      featured: isFeatured,
-      featured_at: featuredAt,
-      sticky: isSticky,
-    };
+    const fm = collectFormFrontmatter(form);
+    const isSticky = fm.sticky;
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title));
 
@@ -1206,23 +1272,8 @@ tags = ${tagsStr}
       return;
     }
 
-    // Collect form data (giống logic submit Tải .md)
-    const isFeatured = form.featured.checked;
-    const isSticky = form.sticky ? form.sticky.checked : false;
-    let featuredAt = "";
-    if (isFeatured) {
-      featuredAt = new Date().toISOString();
-    }
-    const fm = {
-      title: form.title.value.trim(),
-      date: form.date.value,
-      category: getSelectedCategory(),
-      tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
-      thumbnail: form.thumbnail.value.trim(),
-      featured: isFeatured,
-      featured_at: featuredAt,
-      sticky: isSticky,
-    };
+    const fm = collectFormFrontmatter(form);
+    const isSticky = fm.sticky;
     const body = form.body.value;
     const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
     if (!slug || !fm.title || !fm.date) {
@@ -1607,16 +1658,18 @@ tags = ${tagsStr}
     }
     lastDraftSlug = slug;
     const form = editForm;
+    const fmDraft = collectFormFrontmatter(form);
     const payload = {
       timestamp: Date.now(),
       title: form.title.value,
       slug: slug,
       date: form.date.value,
-      category: getSelectedCategory(),
+      category: fmDraft.category,
       tags: form.tags.value,
       thumbnail: form.thumbnail.value,
       featured: form.featured.checked,
       sticky: form.sticky ? form.sticky.checked : false,
+      momo_link: fmDraft.momo_payment_link || "",
       body: form.body.value,
     };
     try {
@@ -1651,10 +1704,8 @@ tags = ${tagsStr}
     if (!draftBanner || !draftBannerMsg) return;
     pendingDraft = draft;
     const ts = new Date(draft.timestamp);
-    const timeStr = ts.toLocaleString("vi-VN", {
-      hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit",
-      timeZone: "Asia/Ho_Chi_Minh",
-    });
+    const timeStr = (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDateTime(draft.timestamp))
+      || draft.timestamp;
     draftBannerMsg.textContent = "Có bản nháp chưa lưu (lúc " + timeStr + ", " + formatAgo(draft.timestamp) + ")";
     draftBanner.hidden = false;
   }
@@ -1675,6 +1726,11 @@ tags = ${tagsStr}
     if (form.sticky) form.sticky.checked = !!draft.sticky;
     form.body.value = draft.body || "";
     rebuildCategoryOptions(draft.category || "Posting");
+    const momoInput = form.querySelector("[name='momo_link']");
+    if (momoInput) {
+      momoInput.value = isPremiumCategory(draft.category) ? (draft.momo_link || "") : "";
+    }
+    toggleMomoField(draft.category || "Posting");
     slugLocked = true; // draft đã có slug → khoá auto-fill từ title
     updateCounter();
     lastRenderedBody = null;

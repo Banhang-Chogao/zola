@@ -112,7 +112,56 @@ main.container:has(.insights) {
   border-bottom: 1px solid #eaeef2;
   position: relative;
 
-  &:last-child { border-bottom: 0; margin-bottom: 0; }
+  &:last-child,
+  &--last-visible { border-bottom: 0; margin-bottom: 0; }
+
+  &[hidden] { display: none !important; }
+}
+
+/* Timeline pagination — 10 PR rows per page */
+.insights__timeline-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d0d7de;
+  flex-wrap: wrap;
+}
+
+.insights__timeline-pager-btn {
+  appearance: none;
+  border: 1px solid #d0d7de;
+  background: $brand-fog;
+  color: #1f2328;
+  border-radius: 6px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: #fff;
+    border-color: #0969da;
+    color: #0969da;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.insights__timeline-pager-info {
+  flex: 1;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #57606a;
+  font-variant-numeric: tabular-nums;
+  min-width: 8rem;
 }
 
 .insights__pr-dot {
@@ -1278,6 +1327,18 @@ main.container:has(.insights) {
   .insights__build-link { color: #60a5fa; }
 
   .insights__details-head { border-bottom-color: #334155; }
+  .insights__timeline-pager { border-top-color: #334155; }
+  .insights__timeline-pager-info { color: $brand-ink-400; }
+  .insights__timeline-pager-btn {
+    background: $brand-ink-900;
+    border-color: #334155;
+    color: $brand-fog;
+    &:hover:not(:disabled) {
+      background: $brand-ink-800;
+      border-color: #60a5fa;
+      color: #60a5fa;
+    }
+  }
   .insights__details-title,
   .insights__overview-title,
   .insights__stat-num,

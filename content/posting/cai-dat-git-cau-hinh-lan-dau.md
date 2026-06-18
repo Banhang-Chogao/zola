@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/cai-dat-git-cau-hinh-lan-dau/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "cài đặt git", "git github series", "lập trình"]
+tags = ["cài đặt git", "git", "git github series", "github", "lập trình"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "cài đặt git"

@@ -1,0 +1,39 @@
+{# ============================================================
+   Locked-state overlay — dùng cho chuyên mục/bài premium tạm ẩn.
+   Nền trang bị làm mờ/đục (skeleton trang trí), panel khoá ở giữa với
+   icon ổ khoá lớn + thông điệp. Tái sử dụng semantic token var(--c-*)
+   nên hợp cả light/dark theme. Responsive mobile/desktop.
+   ============================================================ #}
+{% macro overlay(base_url="", title="Chuyên mục này đã bị ẩn tạm thời.", subtitle="Vui lòng quay lại sau.") %}
+<section class="locked-state" aria-label="Nội dung tạm ẩn">
+    {# Nền mờ/đục — chỉ trang trí, KHÔNG lộ nội dung thật (SEO/bảo mật). #}
+    <div class="locked-state__backdrop" aria-hidden="true">
+        <div class="locked-skeleton">
+            {% for _i in range(end=6) %}
+            <div class="locked-skeleton__card">
+                <div class="locked-skeleton__thumb"></div>
+                <div class="locked-skeleton__line"></div>
+                <div class="locked-skeleton__line locked-skeleton__line--short"></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="locked-state__panel" role="status" aria-live="polite">
+        <span class="locked-state__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor"
+                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10.5" width="16" height="10" rx="2.2"></rect>
+                <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"></path>
+                <circle cx="12" cy="15" r="1.4"></circle>
+                <path d="M12 16.4v2"></path>
+            </svg>
+        </span>
+        <h1 class="locked-state__title">{{ title }}</h1>
+        <p class="locked-state__subtitle">{{ subtitle }}</p>
+        {% if base_url %}
+        <a class="locked-state__home" href="{{ base_url }}">« Về trang chủ</a>
+        {% endif %}
+    </div>
+</section>
+{% endmacro %}

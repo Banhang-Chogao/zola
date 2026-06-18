@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/git-la-gi-version-control-cho-nguoi-moi/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "version control", "git github series", "lập trình"]
+tags = ["git", "git github series", "github", "lập trình", "version control"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "git là gì"

@@ -5,11 +5,10 @@ date = 2026-06-18
 aliases = ["/top-ngan-hang-so-tot-nhat-viet-nam-2026/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["ngân hàng số", "ngân hàng số tốt nhất", "liobank", "cake by vpbank", "ngân hàng số series"]
+tags = ["cake by vpbank", "liobank", "ngân hàng số", "ngân hàng số series", "ngân hàng số tốt nhất"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số tốt nhất"
-featured = true
 series = "ngan-hang-so"
 series_part = 0
 series_total = 15

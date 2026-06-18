@@ -73,6 +73,7 @@ menu = [
     ] },
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
         { url = "$BASE_URL/editor",    name = "Viết bài" },
+        { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
         { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
         { url = "$BASE_URL/converter", name = "Korean Converter" },
         { url = "$BASE_URL/changelog", name = "Changelog" },
@@ -130,6 +131,10 @@ cms_auth_url = "https://blog-visitor-api.onrender.com"
 paywall_api_url = "https://blog-paywall-api.onrender.com"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
+# Ẩn tạm chuyên mục Premium: /categories/premium/ và mọi bài premium hiển thị
+# locked-state overlay ("Chuyên mục này đã bị ẩn tạm thời.") thay vì nội dung/404.
+# Đặt false để khôi phục hiển thị bình thường.
+premium_hidden = true
 momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
 # lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link

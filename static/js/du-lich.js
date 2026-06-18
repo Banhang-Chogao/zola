@@ -39,13 +39,10 @@
 
   function formatDate(s) {
     if (!s) return "";
-    // Try parse Znews format hoặc ISO 8601, fallback raw string
-    const d = new Date(s);
-    if (isNaN(d.getTime())) return s;
-    return d.toLocaleString("vi-VN", {
-      hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric",
-      timeZone: "Asia/Ho_Chi_Minh",
-    });
+    if (window.ZolaDateTime) {
+      return window.ZolaDateTime.formatDisplayDateTime(s);
+    }
+    return String(s);
   }
 
   function showCards(data) {

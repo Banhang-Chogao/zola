@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/ngan-hang-so-hoan-tien-nhieu-nhat/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["hoàn tiền", "ngân hàng số hoàn tiền", "cashback", "liobank", "ngân hàng số series"]
+tags = ["cashback", "hoàn tiền", "liobank", "ngân hàng số hoàn tiền", "ngân hàng số series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số hoàn tiền"

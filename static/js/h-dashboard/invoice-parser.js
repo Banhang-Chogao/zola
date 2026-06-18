@@ -433,7 +433,13 @@
       if (!global.HDashboardOcr || !global.HDashboardOcr.isAvailable()) {
         throw new Error("PDF là ảnh scan và OCR không khả dụng trên trình duyệt này.");
       }
-      text = await global.HDashboardOcr.ocrPdf(arrayBuffer.slice(0), onStatus);
+      try {
+        text = await global.HDashboardOcr.ocrPdf(arrayBuffer.slice(0), onStatus);
+      } catch (ocrErr) {
+        const prev = global.HDashboardOcr.getLastError && global.HDashboardOcr.getLastError();
+        const detail = (ocrErr && ocrErr.message) || (prev && prev.message) || "OCR thất bại";
+        throw new Error(detail);
+      }
       usedOcr = true;
     }
 

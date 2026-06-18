@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/git-reset-revert-khoi-phuc-su-co/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "git reset", "git github series", "lập trình"]
+tags = ["git", "git github series", "git reset", "github", "lập trình"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "git reset"

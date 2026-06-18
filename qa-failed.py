@@ -89,8 +89,10 @@ def wait_for_completion(run_id: str) -> bool:
         log(f"poll #{attempt}/{MAX_WAIT_ATTEMPTS} run {run_id}: status={status}")
         if status == "completed":
             return True
-        if status == "unknown":
-            return False
+        # 💉 status == "unknown" thường là gh trả non-JSON tạm thời
+        # (rate-limit / output bẩn) → RETRY thay vì bail ngay (trước đây bail
+        # làm tạo issue "timeout" giả + remediation tự đỏ). Chỉ bỏ cuộc sau
+        # khi hết attempts.
         if attempt < MAX_WAIT_ATTEMPTS:
             time.sleep(WAIT_BACKOFF_SECONDS)
     return False

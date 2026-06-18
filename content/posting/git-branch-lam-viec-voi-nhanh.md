@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/git-branch-lam-viec-voi-nhanh/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "git branch", "git github series", "lập trình"]
+tags = ["git", "git branch", "git github series", "github", "lập trình"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "git branch"

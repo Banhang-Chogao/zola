@@ -1,4 +1,5 @@
 {# Today hot search — sidebar widget from data/google-trends-vn.json #}
+{% import "macros/datetime.html" as dt %}
 {% macro widget() %}
 {% set trends_data = load_data(path="data/google-trends-vn.json", required=false) %}
 {% if trends_data and trends_data.items and trends_data.items | length > 0 %}
@@ -8,7 +9,7 @@
         <span class="hot-search__geo">🇻🇳 Vietnam</span>
         {% if trends_data.fetched_at %}
         <time class="hot-search__updated" datetime="{{ trends_data.fetched_at }}">
-            {{ trends_data.fetched_at | truncate(length=10, end="") }}
+            {{ dt::display_date(value=trends_data.fetched_at) }}
         </time>
         {% endif %}
     </p>

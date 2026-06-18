@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/pull-request-quy-trinh-cong-tac-github/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "pull request", "git github series", "lập trình"]
+tags = ["git", "git github series", "github", "lập trình", "pull request"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "pull request"

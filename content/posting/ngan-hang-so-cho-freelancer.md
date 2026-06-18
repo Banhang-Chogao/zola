@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/ngan-hang-so-cho-freelancer/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["ngân hàng số cho freelancer", "freelancer", "ngân hàng số", "liobank", "ngân hàng số series"]
+tags = ["freelancer", "liobank", "ngân hàng số", "ngân hàng số cho freelancer", "ngân hàng số series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số cho freelancer"

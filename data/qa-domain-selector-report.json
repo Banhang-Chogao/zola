@@ -1,51 +1,51 @@
 {
-  "generated_at": "2026-06-18T11:20:17+07:00",
-  "method": "offline",
-  "note": "Tiêu chí mới: tên miền chấm theo NỘI DUNG/NICHE thật của blog (content_relevance + keyword_value), KHÔNG dùng brand cũ. Chế độ --offline: không kiểm tra mạng, availability='unknown'.",
-  "niche_summary": "Tên miền gợi ý theo NỘI DUNG thật của blog (không dùng brand cũ). Niche chính: cong-nghe, bao-chi, ngan-hang, du-lich. Nội dung tiếng Việt, SEO-friendly. Suy ra từ 65 bài/landing đã quét.",
+  "generated_at": "2026-06-18T21:36:03+07:00",
+  "method": "dns-fallback",
+  "note": "Tiêu chí mới: tên miền chấm theo NỘI DUNG/NICHE thật của blog (content_relevance + keyword_value), KHÔNG dùng brand cũ. DNS fallback có ĐỘ CHÍNH XÁC THẤP: 'available' chỉ nghĩa là tên miền không phân giải DNS — domain có thể đã đăng ký nhưng chưa trỏ DNS. Chỉ shortlist (≤15) được kiểm tra; còn lại 'unknown'.",
+  "niche_summary": "Tên miền gợi ý theo NỘI DUNG thật của blog (không dùng brand cũ). Niche chính: cong-nghe, ngan-hang, bao-chi, du-lich. Nội dung tiếng Việt, SEO-friendly. Suy ra từ 111 bài/landing đã quét.",
   "keywords": [
+    "git",
+    "hang",
     "dung",
-    "google",
     "series",
-    "han",
-    "dong",
-    "nhan",
-    "cach",
-    "phan",
-    "adsense",
-    "noi",
-    "liobank",
-    "bao",
-    "seo",
-    "mua",
-    "mat",
-    "chinh",
-    "gioi",
-    "bam",
     "github",
-    "lich"
+    "cach",
+    "dong",
+    "ngan",
+    "phi",
+    "google",
+    "mat",
+    "tien",
+    "bao",
+    "phan",
+    "liobank",
+    "nhan",
+    "han",
+    "mua",
+    "hoan",
+    "adsense"
   ],
   "topics": [
     "cong-nghe",
-    "bao-chi",
     "ngan-hang",
+    "bao-chi",
     "du-lich",
     "khoa-hoc",
     "the-gioi"
   ],
   "tags": [
+    "ngan-hang-so",
+    "ngan-hang-so-series",
+    "git",
+    "github",
+    "git-github-series",
+    "liobank",
+    "lap-trinh",
     "blog",
     "zola",
-    "ngan-hang",
-    "seo",
-    "monetization",
-    "google-search",
-    "seo-foundation-series",
-    "han-quoc",
-    "nang-luong",
-    "science-uranium-series"
+    "ngan-hang"
   ],
-  "docs_scanned": 65,
+  "docs_scanned": 111,
   "weights": {
     "content_relevance": 0.25,
     "keyword_value": 0.2,
@@ -69,8 +69,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "seoblog.vn",
@@ -84,8 +84,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "seoblog.com.vn",
@@ -99,8 +99,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "seoblog.net",
@@ -114,8 +114,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "seoblog.blog",
@@ -129,8 +129,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "blogseo.com",
@@ -144,8 +144,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "blogseo.vn",
@@ -159,8 +159,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "blogseo.com.vn",
@@ -174,8 +174,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "blogseo.net",
@@ -189,8 +189,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "blogseo.blog",
@@ -204,8 +204,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "seotech.com",
@@ -219,8 +219,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "seotech.vn",
@@ -234,8 +234,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "seotech.com.vn",
@@ -249,8 +249,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "seotech.net",
@@ -264,8 +264,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "seotech.blog",
@@ -279,83 +279,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "seotuhoc.com",
-      "tld": ".com",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "seotuhoc.vn",
-      "tld": ".vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "seotuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "seotuhoc.net",
-      "tld": ".net",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "seotuhoc.blog",
-      "tld": ".blog",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "available",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể còn trống"
     },
     {
       "domain": "seomoney.com",
@@ -569,156 +494,6 @@
     },
     {
       "domain": "techseo.blog",
-      "tld": ".blog",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocseo.com",
-      "tld": ".com",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocseo.vn",
-      "tld": ".vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocseo.com.vn",
-      "tld": ".com.vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocseo.net",
-      "tld": ".net",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocseo.blog",
-      "tld": ".blog",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocweb.com",
-      "tld": ".com",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocweb.vn",
-      "tld": ".vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocweb.com.vn",
-      "tld": ".com.vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocweb.net",
-      "tld": ".net",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocweb.blog",
       "tld": ".blog",
       "total_score": 99.4,
       "subscores": {
@@ -958,81 +733,6 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
-      "domain": "webtuhoc.com",
-      "tld": ".com",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "webtuhoc.vn",
-      "tld": ".vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "webtuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "webtuhoc.net",
-      "tld": ".net",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "webtuhoc.blog",
-      "tld": ".blog",
-      "total_score": 99.4,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
       "domain": "webmoney.com",
       "tld": ".com",
       "total_score": 99.4,
@@ -1244,156 +944,6 @@
     },
     {
       "domain": "blogkiemtien.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocblog.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocblog.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocblog.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocblog.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocblog.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "blogtuhoc.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "blogtuhoc.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "blogtuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "blogtuhoc.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "blogtuhoc.blog",
       "tld": ".blog",
       "total_score": 97.6,
       "subscores": {
@@ -1783,81 +1333,6 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
-      "domain": "techtuhoc.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "techtuhoc.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "techtuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "techtuhoc.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "techtuhoc.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
       "domain": "techmoney.com",
       "tld": ".com",
       "total_score": 97.6,
@@ -2158,231 +1633,6 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
-      "domain": "tuhoctech.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctech.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctech.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctech.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctech.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocmoney.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocmoney.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocmoney.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocmoney.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocmoney.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocfintech.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocfintech.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocfintech.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocfintech.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocfintech.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
       "domain": "moneytech.com",
       "tld": ".com",
       "total_score": 97.6,
@@ -2444,81 +1694,6 @@
     },
     {
       "domain": "moneytech.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "moneytuhoc.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "moneytuhoc.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "moneytuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "moneytuhoc.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "moneytuhoc.blog",
       "tld": ".blog",
       "total_score": 97.6,
       "subscores": {
@@ -2669,81 +1844,6 @@
     },
     {
       "domain": "fintechseo.blog",
-      "tld": ".blog",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "fintechtuhoc.com",
-      "tld": ".com",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "fintechtuhoc.vn",
-      "tld": ".vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "fintechtuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "fintechtuhoc.net",
-      "tld": ".net",
-      "total_score": 97.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "fintechtuhoc.blog",
       "tld": ".blog",
       "total_score": 97.6,
       "subscores": {
@@ -5458,81 +4558,6 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
     },
     {
-      "domain": "kiemtientuhoc.com",
-      "tld": ".com",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "kiemtientuhoc.vn",
-      "tld": ".vn",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "kiemtientuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "kiemtientuhoc.net",
-      "tld": ".net",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "kiemtientuhoc.blog",
-      "tld": ".blog",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
       "domain": "kiemtienmoney.com",
       "tld": ".com",
       "total_score": 94.1,
@@ -5594,81 +4619,6 @@
     },
     {
       "domain": "kiemtienmoney.blog",
-      "tld": ".blog",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhockiemtien.com",
-      "tld": ".com",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhockiemtien.vn",
-      "tld": ".vn",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhockiemtien.com.vn",
-      "tld": ".com.vn",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhockiemtien.net",
-      "tld": ".net",
-      "total_score": 94.1,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 92.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhockiemtien.blog",
       "tld": ".blog",
       "total_score": 94.1,
       "subscores": {
@@ -6508,6 +5458,306 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
+      "domain": "seotuhoc.com",
+      "tld": ".com",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "seotuhoc.vn",
+      "tld": ".vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "seotuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "seotuhoc.net",
+      "tld": ".net",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "seotuhoc.blog",
+      "tld": ".blog",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "webtuhoc.com",
+      "tld": ".com",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "webtuhoc.vn",
+      "tld": ".vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "webtuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "webtuhoc.net",
+      "tld": ".net",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "webtuhoc.blog",
+      "tld": ".blog",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocseo.com",
+      "tld": ".com",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocseo.vn",
+      "tld": ".vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocseo.com.vn",
+      "tld": ".com.vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocseo.net",
+      "tld": ".net",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocseo.blog",
+      "tld": ".blog",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocweb.com",
+      "tld": ".com",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocweb.vn",
+      "tld": ".vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocweb.com.vn",
+      "tld": ".com.vn",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocweb.net",
+      "tld": ".net",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocweb.blog",
+      "tld": ".blog",
+      "total_score": 93.9,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
       "domain": "techblog.com",
       "tld": ".com",
       "total_score": 93.4,
@@ -6581,156 +5831,6 @@
       },
       "availability": "unknown",
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocso.com",
-      "tld": ".com",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocso.vn",
-      "tld": ".vn",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocso.com.vn",
-      "tld": ".com.vn",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocso.net",
-      "tld": ".net",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocso.blog",
-      "tld": ".blog",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "sotuhoc.com",
-      "tld": ".com",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "sotuhoc.vn",
-      "tld": ".vn",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "sotuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "sotuhoc.net",
-      "tld": ".net",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "sotuhoc.blog",
-      "tld": ".blog",
-      "total_score": 92.2,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
     },
     {
       "domain": "blogonline.com",
@@ -7319,156 +6419,6 @@
     },
     {
       "domain": "hockiemtien.blog",
-      "tld": ".blog",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoconline.com",
-      "tld": ".com",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoconline.vn",
-      "tld": ".vn",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoconline.com.vn",
-      "tld": ".com.vn",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoconline.net",
-      "tld": ".net",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoconline.blog",
-      "tld": ".blog",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "onlinetuhoc.com",
-      "tld": ".com",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "onlinetuhoc.vn",
-      "tld": ".vn",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "onlinetuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "onlinetuhoc.net",
-      "tld": ".net",
-      "total_score": 92.1,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "onlinetuhoc.blog",
       "tld": ".blog",
       "total_score": 92.1,
       "subscores": {
@@ -8683,6 +7633,606 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
+      "domain": "tuhocblog.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocblog.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocblog.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocblog.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocblog.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "blogtuhoc.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "blogtuhoc.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "blogtuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "blogtuhoc.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "blogtuhoc.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "techtuhoc.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "techtuhoc.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "techtuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "techtuhoc.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "techtuhoc.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "moneytuhoc.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "moneytuhoc.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "moneytuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "moneytuhoc.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "moneytuhoc.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "fintechtuhoc.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "fintechtuhoc.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "fintechtuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "fintechtuhoc.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "fintechtuhoc.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctech.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctech.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctech.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctech.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctech.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocmoney.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocmoney.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocmoney.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocmoney.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocmoney.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocfintech.com",
+      "tld": ".com",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocfintech.vn",
+      "tld": ".vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocfintech.com.vn",
+      "tld": ".com.vn",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocfintech.net",
+      "tld": ".net",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocfintech.blog",
+      "tld": ".blog",
+      "total_score": 92.1,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
       "domain": "congngheblog.com",
       "tld": ".com",
       "total_score": 91.6,
@@ -9131,156 +8681,6 @@
       },
       "availability": "unknown",
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocsaoke.com",
-      "tld": ".com",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocsaoke.vn",
-      "tld": ".vn",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocsaoke.com.vn",
-      "tld": ".com.vn",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocsaoke.net",
-      "tld": ".net",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocsaoke.blog",
-      "tld": ".blog",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "saoketuhoc.com",
-      "tld": ".com",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "saoketuhoc.vn",
-      "tld": ".vn",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "saoketuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "saoketuhoc.net",
-      "tld": ".net",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "saoketuhoc.blog",
-      "tld": ".blog",
-      "total_score": 91.6,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 45.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
     },
     {
       "domain": "webcongnghe.com",
@@ -10033,81 +9433,6 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
     },
     {
-      "domain": "congnghetuhoc.com",
-      "tld": ".com",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "congnghetuhoc.vn",
-      "tld": ".vn",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "congnghetuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "congnghetuhoc.net",
-      "tld": ".net",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "congnghetuhoc.blog",
-      "tld": ".blog",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
       "domain": "congnghemoney.com",
       "tld": ".com",
       "total_score": 90.5,
@@ -10169,81 +9494,6 @@
     },
     {
       "domain": "congnghemoney.blog",
-      "tld": ".blog",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoccongnghe.com",
-      "tld": ".com",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoccongnghe.vn",
-      "tld": ".vn",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoccongnghe.com.vn",
-      "tld": ".com.vn",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoccongnghe.net",
-      "tld": ".net",
-      "total_score": 90.5,
-      "subscores": {
-        "content_relevance": 100.0,
-        "keyword_value": 100.0,
-        "brandability": 74.0,
-        "memorability": 75.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoccongnghe.blog",
       "tld": ".blog",
       "total_score": 90.5,
       "subscores": {
@@ -12283,156 +11533,6 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
-      "domain": "tuhochoc.com",
-      "tld": ".com",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochoc.vn",
-      "tld": ".vn",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochoc.net",
-      "tld": ".net",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochoc.blog",
-      "tld": ".blog",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hoctuhoc.com",
-      "tld": ".com",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hoctuhoc.vn",
-      "tld": ".vn",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hoctuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hoctuhoc.net",
-      "tld": ".net",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hoctuhoc.blog",
-      "tld": ".blog",
-      "total_score": 90.3,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 95.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
       "domain": "moneytao.com",
       "tld": ".com",
       "total_score": 90.3,
@@ -14083,6 +13183,156 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
+      "domain": "sotuhoc.com",
+      "tld": ".com",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "sotuhoc.vn",
+      "tld": ".vn",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "sotuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "sotuhoc.net",
+      "tld": ".net",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "sotuhoc.blog",
+      "tld": ".blog",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocso.com",
+      "tld": ".com",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocso.vn",
+      "tld": ".vn",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocso.com.vn",
+      "tld": ".com.vn",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocso.net",
+      "tld": ".net",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocso.blog",
+      "tld": ".blog",
+      "total_score": 90.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
       "domain": "saokeso.com",
       "tld": ".com",
       "total_score": 89.8,
@@ -14383,6 +13633,156 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
     },
     {
+      "domain": "saoketuhoc.com",
+      "tld": ".com",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "saoketuhoc.vn",
+      "tld": ".vn",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "saoketuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "saoketuhoc.net",
+      "tld": ".net",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "saoketuhoc.blog",
+      "tld": ".blog",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocsaoke.com",
+      "tld": ".com",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocsaoke.vn",
+      "tld": ".vn",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocsaoke.com.vn",
+      "tld": ".com.vn",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocsaoke.net",
+      "tld": ".net",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocsaoke.blog",
+      "tld": ".blog",
+      "total_score": 89.3,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 72.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
       "domain": "fintechonline.com",
       "tld": ".com",
       "total_score": 88.6,
@@ -14519,6 +13919,156 @@
     },
     {
       "domain": "onlinefintech.blog",
+      "tld": ".blog",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "kiemtientuhoc.com",
+      "tld": ".com",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "kiemtientuhoc.vn",
+      "tld": ".vn",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "kiemtientuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "kiemtientuhoc.net",
+      "tld": ".net",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "kiemtientuhoc.blog",
+      "tld": ".blog",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhockiemtien.com",
+      "tld": ".com",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhockiemtien.vn",
+      "tld": ".vn",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhockiemtien.com.vn",
+      "tld": ".com.vn",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhockiemtien.net",
+      "tld": ".net",
+      "total_score": 88.6,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 92.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhockiemtien.blog",
       "tld": ".blog",
       "total_score": 88.6,
       "subscores": {
@@ -16558,681 +16108,6 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
-      "domain": "tuhoc.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoc.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoc.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoc.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctao.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctao.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctao.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctao.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctao.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "taotuhoc.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "taotuhoc.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "taotuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "taotuhoc.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "taotuhoc.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctu.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctu.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctu.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctu.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoctu.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tutuhoc.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tutuhoc.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tutuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tutuhoc.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tutuhoc.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoclab.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoclab.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoclab.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoclab.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhoclab.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "labtuhoc.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "labtuhoc.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "labtuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "labtuhoc.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "labtuhoc.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochub.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochub.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochub.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochub.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhochub.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hubtuhoc.com",
-      "tld": ".com",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hubtuhoc.vn",
-      "tld": ".vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hubtuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hubtuhoc.net",
-      "tld": ".net",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "hubtuhoc.blog",
-      "tld": ".blog",
-      "total_score": 86.7,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 100.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
       "domain": "congnghehoc.com",
       "tld": ".com",
       "total_score": 86.1,
@@ -17526,6 +16401,156 @@
         "keyword_value": 82.0,
         "brandability": 76.0,
         "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "congnghetuhoc.com",
+      "tld": ".com",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "congnghetuhoc.vn",
+      "tld": ".vn",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "congnghetuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "congnghetuhoc.net",
+      "tld": ".net",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "congnghetuhoc.blog",
+      "tld": ".blog",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoccongnghe.com",
+      "tld": ".com",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoccongnghe.vn",
+      "tld": ".vn",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoccongnghe.com.vn",
+      "tld": ".com.vn",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoccongnghe.net",
+      "tld": ".net",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoccongnghe.blog",
+      "tld": ".blog",
+      "total_score": 85.0,
+      "subscores": {
+        "content_relevance": 78.0,
+        "keyword_value": 100.0,
+        "brandability": 74.0,
+        "memorability": 75.0,
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
@@ -17981,156 +17006,6 @@
       },
       "availability": "unknown",
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocviet.com",
-      "tld": ".com",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocviet.vn",
-      "tld": ".vn",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocviet.com.vn",
-      "tld": ".com.vn",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocviet.net",
-      "tld": ".net",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "tuhocviet.blog",
-      "tld": ".blog",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "viettuhoc.com",
-      "tld": ".com",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "viettuhoc.vn",
-      "tld": ".vn",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "viettuhoc.com.vn",
-      "tld": ".com.vn",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "viettuhoc.net",
-      "tld": ".net",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
-    },
-    {
-      "domain": "viettuhoc.blog",
-      "tld": ".blog",
-      "total_score": 84.9,
-      "subscores": {
-        "content_relevance": 78.0,
-        "keyword_value": 82.0,
-        "brandability": 100.0,
-        "memorability": 88.0,
-        "expansion_potential": 65.0,
-        "trademark_safety": 100.0
-      },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; chưa rõ tình trạng"
     },
     {
       "domain": "congnghe.com",
@@ -19633,6 +18508,156 @@
       "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
+      "domain": "tuhoconline.com",
+      "tld": ".com",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoconline.vn",
+      "tld": ".vn",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoconline.com.vn",
+      "tld": ".com.vn",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoconline.net",
+      "tld": ".net",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoconline.blog",
+      "tld": ".blog",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "onlinetuhoc.com",
+      "tld": ".com",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "onlinetuhoc.vn",
+      "tld": ".vn",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "onlinetuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "onlinetuhoc.net",
+      "tld": ".net",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "onlinetuhoc.blog",
+      "tld": ".blog",
+      "total_score": 78.9,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 100.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
       "domain": "soviet.com",
       "tld": ".com",
       "total_score": 78.3,
@@ -20231,6 +19256,81 @@
       },
       "availability": "unknown",
       "reason": "bám sát niche nội dung; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoc.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoc.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoc.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoc.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
       "domain": "hocviet.com",
@@ -20908,6 +20008,756 @@
       "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
+      "domain": "tuhochoc.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochoc.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochoc.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochoc.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hoctuhoc.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hoctuhoc.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hoctuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hoctuhoc.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hoctuhoc.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctao.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctao.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctao.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctao.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctao.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "taotuhoc.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "taotuhoc.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "taotuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "taotuhoc.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "taotuhoc.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctu.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctu.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctu.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctu.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoctu.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tutuhoc.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tutuhoc.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tutuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tutuhoc.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tutuhoc.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoclab.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoclab.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoclab.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoclab.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhoclab.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "labtuhoc.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "labtuhoc.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "labtuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "labtuhoc.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "labtuhoc.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochub.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochub.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochub.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochub.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhochub.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hubtuhoc.com",
+      "tld": ".com",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hubtuhoc.vn",
+      "tld": ".vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hubtuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hubtuhoc.net",
+      "tld": ".net",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "hubtuhoc.blog",
+      "tld": ".blog",
+      "total_score": 77.1,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 100.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
       "domain": "sotu.com",
       "tld": ".com",
       "total_score": 75.9,
@@ -21056,6 +20906,156 @@
       },
       "availability": "unknown",
       "reason": "bám sát niche nội dung; ngắn gọn dễ nhớ; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocviet.com",
+      "tld": ".com",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocviet.vn",
+      "tld": ".vn",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocviet.com.vn",
+      "tld": ".com.vn",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocviet.net",
+      "tld": ".net",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "tuhocviet.blog",
+      "tld": ".blog",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "viettuhoc.com",
+      "tld": ".com",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "viettuhoc.vn",
+      "tld": ".vn",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "viettuhoc.com.vn",
+      "tld": ".com.vn",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "viettuhoc.net",
+      "tld": ".net",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+    },
+    {
+      "domain": "viettuhoc.blog",
+      "tld": ".blog",
+      "total_score": 75.3,
+      "subscores": {
+        "content_relevance": 25.0,
+        "keyword_value": 82.0,
+        "brandability": 100.0,
+        "memorability": 88.0,
+        "expansion_potential": 95.0,
+        "trademark_safety": 100.0
+      },
+      "availability": "unknown",
+      "reason": "chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
       "domain": "vietonline.com",
@@ -22271,8 +22271,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "blogseo.com",
@@ -22286,8 +22286,8 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
       "domain": "seotech.com",
@@ -22301,11 +22301,11 @@
         "expansion_potential": 95.0,
         "trademark_safety": 100.0
       },
-      "availability": "unknown",
-      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
+      "availability": "taken",
+      "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; có thể đã đăng ký"
     },
     {
-      "domain": "seotuhoc.com",
+      "domain": "seomoney.com",
       "tld": ".com",
       "total_score": 99.4,
       "subscores": {
@@ -22320,7 +22320,7 @@
       "reason": "bám sát niche nội dung; chứa từ khoá giá trị cao; ngắn gọn dễ nhớ; dễ mở rộng chủ đề; chưa rõ tình trạng"
     },
     {
-      "domain": "seomoney.com",
+      "domain": "seoweb.com",
       "tld": ".com",
       "total_score": 99.4,
       "subscores": {

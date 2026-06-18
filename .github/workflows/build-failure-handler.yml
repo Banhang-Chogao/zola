@@ -57,6 +57,11 @@ jobs:
 
       - name: Analyze failure and push fix to main
         id: fix
+        # 💉 Remediation/observer workflow KHÔNG được tự đỏ: khi qa-failed.py
+        # escalate (tạo issue) hoặc không chẩn được, nó exit≠0 → trước đây làm
+        # chính workflow này đỏ (noise + có thể tự trigger lại). Nuốt exit code
+        # (như V3); step sau vẫn gate bằng steps.fix.outputs.pushed.
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FAILED_RUN_ID: ${{ github.event.workflow_run.id }}

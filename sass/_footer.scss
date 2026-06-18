@@ -12,7 +12,15 @@
   margin-top: auto;
   font-size: 0.85rem;
 
-  strong { color: #fff; }
+  /* Footer body emphasis = trắng trên nền tối. Exclude countdown band (white card):
+     `.site-footer strong` (0,1,1) beat `.footer-countdown__title` (0,1,0) → event
+     title invisible on white. Scoped :not + hard override in _footer-countdown.scss. */
+  strong:not([class*="footer-countdown"]) { color: #fff; }
+
+  .footer-countdown strong.footer-countdown__title {
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+  }
 
   a:hover { color: #5b9bff; }
 
@@ -606,6 +614,207 @@
     text-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
     opacity: 0.85;
   }
+}
+
+/* ===== GA IMPROVEMENT PROGRESS — checklist under GA stats ===== */
+.ga-improve {
+  margin-top: 0.85rem;
+  padding: 0.85rem 1rem 0.75rem;
+  background: linear-gradient(135deg, #141414 0%, #080808 100%);
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  color: #d1d5db;
+
+  &[open] .ga-improve__toggle::after { transform: rotate(180deg); }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+
+    &::-webkit-details-marker { display: none; }
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__counts {
+    font-family: $font-meta;
+    font-size: 0.68rem;
+    color: #888;
+    margin-left: auto;
+  }
+
+  &__toggle {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    &::after {
+      content: "▾";
+      display: block;
+      color: #60a5fa;
+      font-size: 0.85rem;
+      line-height: 1.1rem;
+      text-align: center;
+      transition: transform .15s ease;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    max-height: 280px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 0.65rem;
+    padding-bottom: 0.65rem;
+
+    &:last-child { padding-bottom: 0; }
+  }
+
+  &__track {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.35rem;
+    background: #4b5563;
+    box-shadow: 0 0 0 3px rgba(75, 85, 99, 0.25);
+  }
+
+  &__line {
+    flex: 1;
+    width: 2px;
+    margin-top: 4px;
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.35), rgba(75, 85, 99, 0.2));
+    min-height: 12px;
+  }
+
+  &__item--running .ga-improve__dot {
+    background: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+    animation: ga-improve-pulse 1.6s ease-in-out infinite;
+  }
+
+  &__item--done .ga-improve__dot {
+    background: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.22);
+  }
+
+  &__item--pending .ga-improve__dot {
+    background: #6b7280;
+  }
+
+  &__body { min-width: 0; }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  &__icon { font-size: 0.9rem; line-height: 1; }
+
+  &__label {
+    font-family: $font-ui;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #f3f4f6;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__badge {
+    font-family: $font-ui;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+
+    &--done {
+      color: #86efac;
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.28);
+    }
+    &--running {
+      color: #fcd34d;
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+    &--pending {
+      color: #9ca3af;
+      background: rgba(107, 114, 128, 0.15);
+      border-color: rgba(107, 114, 128, 0.3);
+    }
+  }
+
+  &__detail {
+    margin: 0.25rem 0 0;
+    font-family: $font-meta;
+    font-size: 0.68rem;
+    color: #9ca3af;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+
+  &__updated {
+    font-family: $font-meta;
+    font-size: 0.68rem;
+    color: #6b7280;
+    margin: 0.65rem 0 0;
+    text-align: center;
+  }
+}
+
+@keyframes ga-improve-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@media (max-width: 720px) {
+  .ga-improve {
+    margin-top: 0.65rem;
+    padding: 0.7rem 0.8rem 0.6rem;
+
+    &__counts {
+      flex: 1 1 100%;
+      margin-left: 0;
+      order: 3;
+    }
+    &__list { max-height: 220px; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ga-improve__item--running .ga-improve__dot { animation: none; }
 }
 
 .ga-stats__demo-badge {

@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/ngan-hang-so-cho-kinh-doanh-online/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["ngân hàng số cho kinh doanh online", "bán hàng online", "ngân hàng số", "liobank", "ngân hàng số series"]
+tags = ["bán hàng online", "liobank", "ngân hàng số", "ngân hàng số cho kinh doanh online", "ngân hàng số series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số cho người kinh doanh online"
