@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Deploy định kỳ mỗi 6h để publish data bot refresh (dashboard/trends/…) mà
+    # KHÔNG cần mỗi lần bot refresh tự dispatch deploy → giảm mạnh số deploy run.
+    - cron: '0 */6 * * *'
 
 permissions:
   contents: read
@@ -12,7 +16,10 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  # true: gộp "cơn bão" deploy (PR merge dồn dập / bot dispatch) → chỉ run mới
+  # nhất chạy tới cùng, các run cũ bị huỷ sớm → giảm mạnh số lần gọi Pages API,
+  # tránh "API rate limit exceeded for installation" ở bước configure-pages.
+  cancel-in-progress: true
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -71,6 +78,10 @@ jobs:
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
+        with:
+          # Tự bật Pages nếu "Get Pages site failed" — đúng khuyến nghị của action
+          # cho lỗi rate limit/Pages chưa cấu hình (xem log configure-pages).
+          enablement: true
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v5
