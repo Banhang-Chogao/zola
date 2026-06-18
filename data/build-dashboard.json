@@ -1,27 +1,27 @@
 {
-  "updated_at": "2026-06-18T01:15:20Z",
+  "updated_at": "2026-06-18T01:16:05Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
   "stats": {
     "total": 30,
-    "success": 14,
+    "success": 15,
     "failure": 2,
     "cancelled": 12,
     "skipped": 0,
-    "in_progress": 2
+    "in_progress": 1
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27730199707,
-      "run_number": 589,
+      "id": 27730269974,
+      "run_number": 591,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
-      "gh_status": "pending",
+      "gh_status": "in_progress",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T01:13:23Z",
-      "summary_vi": "Build #589 — Deploy blog lên GitHub Pages: Bảo mật: hotfix(l-dashboard): LPBank PDF.js CSP + local vendor assets",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730199707"
+      "started_at": "2026-06-18T01:15:24Z",
+      "summary_vi": "Build #591 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-18T01:15:22Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730269974"
     },
     "qa.yml": {
       "id": 27730190135,
@@ -38,15 +38,15 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27730199707,
-      "run_number": 589,
+      "id": 27730269974,
+      "run_number": 591,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
-      "gh_status": "pending",
+      "gh_status": "in_progress",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T01:13:23Z",
-      "summary_vi": "Build #589 — Deploy blog lên GitHub Pages: Bảo mật: hotfix(l-dashboard): LPBank PDF.js CSP + local vendor assets",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730199707"
+      "started_at": "2026-06-18T01:15:24Z",
+      "summary_vi": "Build #591 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-18T01:15:22Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730269974"
     },
     {
       "workflow_file": "qa.yml",
@@ -1465,9 +1465,89 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T01:16:05Z",
+      "stats": {
+        "total": 30,
+        "success": 15,
+        "failure": 2,
+        "cancelled": 12,
+        "skipped": 0,
+        "in_progress": 1
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27730269974,
+          "run_number": 591,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "in_progress",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T01:15:24Z",
+          "summary_vi": "Build #591 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-18T01:15:22Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730269974"
+        },
+        "qa.yml": {
+          "id": 27730190135,
+          "run_number": 1508,
+          "status_normalized": "success",
+          "status_vi": "Thành công",
+          "gh_status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-06-18T01:13:06Z",
+          "summary_vi": "Build #1508 — Kiểm tra QA Gatekeeper: hotfix(l-dashboard): LPBank PDF.js CSP + local vendor assets (#391)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730190135"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27730269974,
+      "run_number": 591,
+      "commit_id": "c081a002f3f4291831f8d226049783287321510a",
+      "commit_short": "c081a00",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/c081a002f3f4291831f8d226049783287321510a",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730269974",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #591 — Deploy blog lên GitHub Pages: Cập nhật: refresh Merge Report (2026-06-18T01:15:22Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "in_progress",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T01:15:24Z",
+      "duration_sec": 30
+    },
+    {
+      "id": 27730268579,
+      "run_number": 590,
+      "commit_id": "96f0811c90e68d9586a5892548010f1f3bf77792",
+      "commit_short": "96f0811",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/96f0811c90e68d9586a5892548010f1f3bf77792",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27730268579",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #590 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T01:15:20Z) [skip changelog]",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #591).",
+      "started_at": "2026-06-18T01:15:22Z",
+      "duration_sec": 5
+    },
     {
       "id": 27730199707,
       "run_number": 589,
@@ -1478,17 +1558,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #589 — Deploy blog lên GitHub Pages: Bảo mật: hotfix(l-dashboard): LPBank PDF.js CSP + local vendor assets",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #590).",
       "started_at": "2026-06-18T01:13:23Z",
-      "duration_sec": 1
+      "duration_sec": 121
     },
     {
       "id": 27730190137,
@@ -1500,17 +1580,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #588 — Deploy blog lên GitHub Pages: hotfix(l-dashboard): LPBank PDF.js CSP + local vendor assets (#391)",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "in_progress",
-      "success": false,
+      "status_vi": "Thành công",
+      "status_normalized": "success",
+      "gh_status": "completed",
+      "success": true,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
+      "conclusion": "success",
       "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "cause_vi": "Không có lỗi — build hoàn tất bình thường.",
       "started_at": "2026-06-18T01:13:06Z",
-      "duration_sec": 4
+      "duration_sec": 164
     },
     {
       "id": 27730190135,
@@ -1574,7 +1654,7 @@
       "severity": "critical",
       "conclusion": "failure",
       "cancel_reason": "",
-      "cause_vi": "Giới hạn GitHub API hoặc token build không đủ quyền.",
+      "cause_vi": "Lỗi workflow — xem log GitHub Actions để chẩn đoán thêm.",
       "started_at": "2026-06-18T00:13:53Z",
       "duration_sec": 99
     },
@@ -1797,50 +1877,6 @@
       "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #578).",
       "started_at": "2026-06-18T00:01:51Z",
       "duration_sec": 16
-    },
-    {
-      "id": 27727609830,
-      "run_number": 576,
-      "commit_id": "9bbb511c01f6d98da9a042c66bbe1d2b32606676",
-      "commit_short": "9bbb511",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/9bbb511c01f6d98da9a042c66bbe1d2b32606676",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727609830",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #576 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T00:01:33Z) [skip changelog]",
-      "status_vi": "Đã huỷ",
-      "status_normalized": "cancelled",
-      "gh_status": "completed",
-      "success": false,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "cancelled",
-      "cancel_reason": "concurrency",
-      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #577).",
-      "started_at": "2026-06-18T00:01:36Z",
-      "duration_sec": 17
-    },
-    {
-      "id": 27727604341,
-      "run_number": 575,
-      "commit_id": "bb4a630876ab0def1d0d2fe0c8e076598ebb2f6d",
-      "commit_short": "bb4a630",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/bb4a630876ab0def1d0d2fe0c8e076598ebb2f6d",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727604341",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #575 — Deploy blog lên GitHub Pages: Cập nhật: content(series): Bài 4–6 — Uranium 5/5 + AdSense/SEO 6/15",
-      "status_vi": "Đã huỷ",
-      "status_normalized": "cancelled",
-      "gh_status": "completed",
-      "success": false,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "cancelled",
-      "cancel_reason": "concurrency",
-      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #576).",
-      "started_at": "2026-06-18T00:01:28Z",
-      "duration_sec": 10
     },
     {
       "id": 27727598695,
@@ -2128,7 +2164,5 @@
       "started_at": "2026-06-17T20:59:57Z",
       "duration_sec": 37
     }
-  ],
-  "last_fetch_error": "GitHub API 403: {\n\t\"message\": \"API rate limit exceeded for installation. If you reach out to GitHub Support for help, please include the request ID 6008:286875:78908F:1BD31C3:6A333926 and timestamp 2026-06-18 00:17:42 UTC. For more on scraping GitHub and how it may affect your rights, please review ",
-  "last_fetch_error_at": "2026-06-18T00:17:42Z"
+  ]
 }
