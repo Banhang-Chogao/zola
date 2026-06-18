@@ -10,6 +10,7 @@ tags = ["donate website", "gây quỹ cộng đồng", "hỗ trợ mua tên mi�
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/ung-ho-du-an-ai.svg"
 seo_keyword = "ủng hộ dự án AI"
 featured = false
+sticky = true
 
 [[extra.faq]]
 q = "Tôi có bắt buộc phải đóng góp không?"
