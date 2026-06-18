@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "Thêm SEO CONTENT SYSTEM RULE (GLOBAL) vào CLAUDE.md",
+      "tag": "chore",
+      "lines_added": 84,
+      "lines_removed": 3,
+      "highlights": [
+        "15 rule nội dung bắt buộc: search intent (thoả trong 150 từ đầu) · cấu trúc H1→Intro→TOC→H2/H3→FAQ→Related→CTA · ≥5 internal link (tin ≥3, gồm link hub chuyên mục) · content depth tiers (tin 800+, chu",
+        "Bảng trạng thái hạ tầng Zola — đánh dấu cái đã auto vs cần làm:",
+        "✅ Auto: TOC, Related Articles, Article + BreadcrumbList + FAQPage schema, References, internal-link validation.",
+        "❌ TODO: prev/next nav + block \"Đọc tiếp\", pagination category/tag, fail-build on broken link.",
+        "Checklist nhanh khi viết bài + cập nhật dòng internal-link trong \"Quy tắc SEO QA\" (≥1 → ≥5)."
+      ],
+      "pr": 425
+    },
+    {
+      "date": "2026-06-18",
       "title": "Bài báo chí — VPBank bắt tay Circle ra mắt siêu thẻ Free trọn đời cho Gen Z",
       "tag": "feat",
       "lines_added": 256,
