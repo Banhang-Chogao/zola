@@ -241,6 +241,7 @@
 {% endblock %}
 
 {% block extra_scripts %}
+    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
     <script src="{{ get_url(path='js/l-dashboard/pdf-loader.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js" defer></script>

@@ -1,4 +1,5 @@
 {# GitHub Activity — contribution heatmap for /insights/ (data/github-activity.json) #}
+{% import "macros/datetime.html" as dt %}
 {% macro widget() %}
 {% set gh = load_data(path="data/github-activity.json", required=false) %}
 {% if gh and gh.total_contributions is defined %}
@@ -19,7 +20,7 @@
     <p class="insights__build-warn gh-activity__warn" role="status">
         GitHub activity data may be outdated
         {% if gh.updated_at %}
-        <time datetime="{{ gh.updated_at }}">({{ gh.updated_at }})</time>
+        <time datetime="{{ gh.updated_at }}">({{ dt::display_datetime(value=gh.updated_at) }})</time>
         {% endif %}
     </p>
     {% endif %}
@@ -115,11 +116,11 @@
         </a>
         {% if gh.latest_activity_at %}
         <time class="insights__build-updated" datetime="{{ gh.latest_activity_at }}">
-            Latest {{ gh.latest_activity_at }}
+            Latest {{ dt::display_datetime(value=gh.latest_activity_at) }}
         </time>
         {% elif gh.updated_at %}
         <time class="insights__build-updated" datetime="{{ gh.updated_at }}">
-            Cập nhật {{ gh.updated_at }}
+            Cập nhật {{ dt::display_datetime(value=gh.updated_at) }}
         </time>
         {% endif %}
     </footer>

@@ -1,0 +1,10 @@
+{# Shared blog display datetime helpers — Asia/Ho_Chi_Minh (GMT+7).
+   Date: DD-MM-YYYY · Time+date: HH:mm:ss DD-MM-YYYY
+   Machine-readable attrs (datetime=, JSON-LD, feeds) stay ISO — only visible text uses these macros. #}
+{% macro display_date(value) %}
+{{- value | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") -}}
+{% endmacro %}
+
+{% macro display_datetime(value) %}
+{{- value | date(format="%H:%M:%S %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") -}}
+{% endmacro %}

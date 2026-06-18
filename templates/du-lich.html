@@ -56,5 +56,6 @@
 {% block sidebar %}{% endblock %}
 
 {% block extra_scripts %}
+    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
     <script src="{{ get_url(path='js/du-lich.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
 {% endblock %}

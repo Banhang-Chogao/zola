@@ -41,7 +41,7 @@
                         <a href="{{ page.permalink }}">{{ page.title }}</a>
                     </h3>
                     <div class="post-meta">
-                        <span class="post-meta__date">{{ page.date | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                        <span class="post-meta__date">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
                     </div>
                     <p class="post-card__summary">{{ page.summary | default(value="") | safe | striptags | truncate(length=200) }}</p>
                     <a class="read-more" href="{{ page.permalink }}">READ MORE <span class="read-more__arrow">»</span></a>

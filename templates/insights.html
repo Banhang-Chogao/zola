@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "macros/github-activity.html" as github_activity %}
+{% import "macros/datetime.html" as dt %}
 
 {% block title %}GitHub Insights | {{ config.title }}{% endblock %}
 
@@ -96,8 +97,8 @@
 
         <header class="insights__period">
             <h2 class="insights__period-range">
-                {{ week_ago_ts | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
-                – {{ now_ts | date(format="%d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
+                {{ week_ago_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                – {{ now_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
             </h2>
             <span class="insights__period-badge">Period: 1 week ▾</span>
         </header>
@@ -129,7 +130,7 @@
                             <p class="insights__pr-meta">
                                 {% if item.pr %}<span class="insights__pr-num">#{{ item.pr }}</span>{% endif %}
                                 merged
-                                <time datetime="{{ item.date }}">{{ item.date }}</time>
+                                <time datetime="{{ item.date }}">{{ dt::display_datetime(value=item.date) }}</time>
                             </p>
                         </div>
                     </li>
@@ -331,7 +332,7 @@
                     {% if compliance_updated %}
                     <footer class="insights__compliance-foot">
                         <time datetime="{{ compliance_updated }}">
-                            Cập nhật {{ compliance_updated }}
+                            Cập nhật {{ dt::display_datetime(value=compliance_updated) }}
                         </time>
                     </footer>
                     {% endif %}
@@ -404,7 +405,7 @@
                     <p class="insights__build-warn" role="status">
                         ⚠ Không quét được GitHub Actions lúc này — hiển thị dữ liệu cache gần nhất.
                         {% if build_fetch_error_at %}
-                        <time datetime="{{ build_fetch_error_at }}">({{ build_fetch_error_at }})</time>
+                        <time datetime="{{ build_fetch_error_at }}">({{ dt::display_datetime(value=build_fetch_error_at) }})</time>
                         {% endif %}
                     </p>
                     {% endif %}
@@ -458,7 +459,7 @@
                         {% if loop.index > hist_count - 8 %}
                         <li class="insights__build-history-item insights__build-history-item--{{ point.type | default(value='change') }}">
                             <time class="insights__build-history-time" datetime="{{ point.recorded_at }}">
-                                {{ point.recorded_at }}
+                                {{ dt::display_datetime(value=point.recorded_at) }}
                             </time>
                             <span class="insights__build-history-type">{{ point.type | default(value="change") }}</span>
                             <span class="insights__build-history-stats">
@@ -539,7 +540,7 @@
                         </a>
                         {% if build_updated %}
                         <time class="insights__build-updated" datetime="{{ build_updated }}">
-                            Cập nhật {{ build_updated }}
+                            Cập nhật {{ dt::display_datetime(value=build_updated) }}
                         </time>
                         {% endif %}
                     </footer>
@@ -578,7 +579,7 @@
                                 <p class="insights__build-cause">{{ m.summary_vi }}</p>
                                 {% endif %}
                                 {% if m.merged_at %}
-                                <time class="insights__build-updated" datetime="{{ m.merged_at }}">{{ m.merged_at }}</time>
+                                <time class="insights__build-updated" datetime="{{ m.merged_at }}">{{ dt::display_datetime(value=m.merged_at) }}</time>
                                 {% endif %}
                             </div>
                         </li>
@@ -601,7 +602,7 @@
                         </a>
                         {% if merge_updated %}
                         <time class="insights__build-updated" datetime="{{ merge_updated }}">
-                            Cập nhật {{ merge_updated }}
+                            Cập nhật {{ dt::display_datetime(value=merge_updated) }}
                         </time>
                         {% endif %}
                     </footer>
@@ -656,7 +657,7 @@
                             Nguồn : <code>qa-domain-selector.py</code> · cron 2h
                         </span>
                         <time class="insights__domains-updated" datetime="{{ domain_data.generated_at }}">
-                            Cập nhật {{ domain_data.generated_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
+                            Cập nhật {{ domain_data.generated_at | date(format="%H:%M:%S %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
                         </time>
                     </footer>
                     {% endif %}

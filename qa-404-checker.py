@@ -426,7 +426,7 @@ def scan(check_external: bool, ext_cap: int) -> dict:
     now = datetime.now(timezone.utc)
     return {
         "updated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "generated_at_vn": datetime.now(VN_TZ).strftime("%H:%M %d/%m/%Y"),
+        "generated_at_vn": datetime.now(VN_TZ).strftime("%H:%M:%S %d-%m-%Y"),
         "summary": {
             "broken_count": broken_count,
             "checked": len(checked_internal) + external_checked,

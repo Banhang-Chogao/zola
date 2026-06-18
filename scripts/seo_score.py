@@ -26,14 +26,15 @@ import sys
 import json
 from pathlib import Path
 from html.parser import HTMLParser
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 
 REPO = Path(__file__).resolve().parent.parent
+SCRIPTS = REPO / "scripts"
 PUBLIC = REPO / "public"
 DATA = REPO / "data"
 
-# Giờ Việt Nam (GMT+7) — hiển thị theo chuẩn blog (HH:MM dd/mm/yyyy).
-VN_TZ = timezone(timedelta(hours=7))
+sys.path.insert(0, str(SCRIPTS))
+from datetime_display import format_display_datetime, VN_TZ  # noqa: E402
 
 # ----- Trọng số từng tiêu chí (tổng = 100) -----
 WEIGHTS = {
@@ -280,7 +281,7 @@ def main():
 
     print(bar)
     print("  📊 BÁO CÁO SEO TOÀN SITE  ·  diemtoiuu")
-    print(f"  Thời điểm chấm: {now:%H:%M %d/%m/%Y} (GMT+7)")
+    print(f"  Thời điểm chấm: {format_display_datetime(now)} (GMT+7)")
     print(f"  Số trang chấm : {len(results)} trang index thật"
           f"  (bỏ qua {skipped_redirects} trang alias/redirect)")
     print(bar)

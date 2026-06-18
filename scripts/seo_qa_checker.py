@@ -41,7 +41,7 @@ CONTENT = REPO / "content"
 DATA = REPO / "data"
 DB_PATH = DATA / "seo-qa-scores.json"
 
-# Giờ Việt Nam (GMT+7) — hiển thị theo chuẩn blog (HH:MM dd/mm/yyyy).
+# Giờ Việt Nam (GMT+7) — hiển thị theo chuẩn blog (HH:mm:ss DD-MM-YYYY).
 VN_TZ = timezone(timedelta(hours=7))
 
 FM = re.compile(r"^\+\+\+\s*\n(.*?)\n\+\+\+\s*\n?(.*)$", re.DOTALL)

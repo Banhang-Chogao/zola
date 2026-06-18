@@ -1651,10 +1651,8 @@ tags = ${tagsStr}
     if (!draftBanner || !draftBannerMsg) return;
     pendingDraft = draft;
     const ts = new Date(draft.timestamp);
-    const timeStr = ts.toLocaleString("vi-VN", {
-      hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit",
-      timeZone: "Asia/Ho_Chi_Minh",
-    });
+    const timeStr = (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDateTime(draft.timestamp))
+      || draft.timestamp;
     draftBannerMsg.textContent = "Có bản nháp chưa lưu (lúc " + timeStr + ", " + formatAgo(draft.timestamp) + ")";
     draftBanner.hidden = false;
   }

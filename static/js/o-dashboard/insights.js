@@ -128,12 +128,8 @@
   }
 
   function dayMonth(dateStr) {
-    // ISO 'YYYY-MM-DDTHH:MM:SS' -> 'DD/MM' (display, never machine readable).
-    const s = String(dateStr || "");
-    const d = s.slice(8, 10);
-    const m = s.slice(5, 7);
-    if (d && m) return `${d}/${m}`;
-    return s.slice(0, 10);
+    return (window.ZolaDateTime && window.ZolaDateTime.formatChartDayMonth(dateStr))
+      || String(dateStr || "").slice(0, 10);
   }
 
   function shortLabel(text, max = 28) {
