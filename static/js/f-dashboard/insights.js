@@ -13,6 +13,23 @@
     ["Hóa đơn", ["dien ", "nuoc ", "internet", "fpt", "viettel", "mobifone"]],
   ];
 
+  // Recognizable brands spotlighted individually in insights (keyword → display
+  // name). Matched against normalized descriptions via keywordTrend().
+  const MERCHANT_WATCH = [
+    ["starbucks", "Starbucks"],
+    ["highlands", "Highlands Coffee"],
+    ["the coffee", "The Coffee House"],
+    ["phuc long", "Phúc Long"],
+    ["grab", "Grab"],
+    ["gojek", "Gojek"],
+    ["be group", "Be"],
+    ["shopee", "Shopee"],
+    ["lazada", "Lazada"],
+    ["tiki", "Tiki"],
+    ["netflix", "Netflix"],
+    ["spotify", "Spotify"],
+  ];
+
   const HEALTH_LABELS = [
     [85, "Excellent"],
     [70, "Good"],
@@ -306,6 +323,55 @@
       insights.push(
         `Số dư: ${formatVnd(first)} đầu kỳ → ${formatVnd(last)} cuối kỳ (thấp nhất ${formatVnd(min)}).`
       );
+    }
+
+    // 3a. Top recognized spending category (behavioral signal).
+    if (expense > 0) {
+      const categoryTotals = {};
+      txns.forEach((t) => {
+        const amt = safeNum(t.amount);
+        if (amt < 0) {
+          const cat = categorizeExpense(t.description);
+          categoryTotals[cat] = (categoryTotals[cat] || 0) + Math.abs(amt);
+        }
+      });
+      // Prefer the largest *recognized* group; skip the catch-all "Khác".
+      let topCat = null;
+      let topVal = 0;
+      Object.keys(categoryTotals).forEach((cat) => {
+        if (cat === "Khác") return;
+        if (categoryTotals[cat] > topVal) {
+          topVal = categoryTotals[cat];
+          topCat = cat;
+        }
+      });
+      if (topCat && topVal > 0) {
+        const pct = Math.round((topVal / expense) * 100);
+        insights.push(`Nhóm chi nhiều nhất: ${topCat} — ${formatVnd(topVal)} (${pct}% tổng chi).`);
+      }
+    }
+
+    // 3b. Merchant spotlight — a recognizable brand you spend heavily on / trending.
+    if (expense > 0) {
+      let pick = null;
+      for (const [kw, name] of MERCHANT_WATCH) {
+        const trend = keywordTrend(txns, kw);
+        if (!trend || trend.recent <= 0) continue;
+        if (pick === null || trend.recent > pick.recent) {
+          pick = { name, recent: trend.recent, prior: trend.prior, delta: trend.delta };
+        }
+      }
+      if (pick) {
+        let line;
+        if (pick.prior > 0 && pick.delta > 0) {
+          line = `Chi tiêu ${pick.name} đang tăng: ${formatVnd(pick.recent)} trong 30 ngày gần nhất (kỳ trước ${formatVnd(pick.prior)}).`;
+        } else if (pick.prior > 0 && pick.delta < 0) {
+          line = `Chi tiêu ${pick.name} đang giảm: ${formatVnd(pick.recent)} trong 30 ngày gần nhất (kỳ trước ${formatVnd(pick.prior)}).`;
+        } else {
+          line = `Bạn đã chi ${formatVnd(pick.recent)} cho ${pick.name} trong 30 ngày gần nhất.`;
+        }
+        insights.push(line);
+      }
     }
 
     // 4. Largest single expense (most-negative txn).

@@ -19,6 +19,23 @@ EXPENSE_CATEGORIES: list[tuple[str, tuple[str, ...]]] = [
     ("Hóa đơn", ("dien ", "nuoc ", "internet", "fpt", "viettel", "mobifone")),
 ]
 
+# Recognizable brands spotlighted individually in insights (keyword -> display
+# name). Matched against normalized descriptions via _keyword_trend().
+MERCHANT_WATCH: list[tuple[str, str]] = [
+    ("starbucks", "Starbucks"),
+    ("highlands", "Highlands Coffee"),
+    ("the coffee", "The Coffee House"),
+    ("phuc long", "Phúc Long"),
+    ("grab", "Grab"),
+    ("gojek", "Gojek"),
+    ("be group", "Be"),
+    ("shopee", "Shopee"),
+    ("lazada", "Lazada"),
+    ("tiki", "Tiki"),
+    ("netflix", "Netflix"),
+    ("spotify", "Spotify"),
+]
+
 HEALTH_LABELS = (
     (85, "Excellent"),
     (70, "Good"),
@@ -335,6 +352,60 @@ def generate_insights(
         insights.append(
             f"Số dư: {_format_vnd(first)} đầu kỳ → {_format_vnd(last)} cuối kỳ (thấp nhất {_format_vnd(low)})."
         )
+
+    # 3a. Top recognized spending category (behavioral signal).
+    if expense > 0:
+        category_totals: dict[str, float] = defaultdict(float)
+        for t in txns:
+            amt = _safe_num(t.get("amount"))
+            if amt < 0:
+                category_totals[categorize_expense(t.get("description", ""))] += abs(amt)
+        # Prefer the largest *recognized* group; skip the catch-all "Khác".
+        top_cat = None
+        top_val = 0.0
+        for cat, val in category_totals.items():
+            if cat == "Khác":
+                continue
+            if val > top_val:
+                top_val = val
+                top_cat = cat
+        if top_cat and top_val > 0:
+            pct = round(top_val / expense * 100)
+            insights.append(
+                f"Nhóm chi nhiều nhất: {top_cat} — {_format_vnd(top_val)} ({pct}% tổng chi)."
+            )
+
+    # 3b. Merchant spotlight — a recognizable brand the user spends heavily on / trending.
+    if expense > 0:
+        pick = None
+        for kw, name in MERCHANT_WATCH:
+            try:
+                trend = _keyword_trend(txns, kw)
+            except (ValueError, TypeError):
+                trend = None
+            if not trend or trend["recent"] <= 0:
+                continue
+            if pick is None or trend["recent"] > pick["recent"]:
+                pick = {
+                    "name": name,
+                    "recent": trend["recent"],
+                    "prior": trend["prior"],
+                    "delta": trend["delta"],
+                }
+        if pick:
+            if pick["prior"] > 0 and pick["delta"] > 0:
+                line = (
+                    f"Chi tiêu {pick['name']} đang tăng: {_format_vnd(pick['recent'])} "
+                    f"trong 30 ngày gần nhất (kỳ trước {_format_vnd(pick['prior'])})."
+                )
+            elif pick["prior"] > 0 and pick["delta"] < 0:
+                line = (
+                    f"Chi tiêu {pick['name']} đang giảm: {_format_vnd(pick['recent'])} "
+                    f"trong 30 ngày gần nhất (kỳ trước {_format_vnd(pick['prior'])})."
+                )
+            else:
+                line = f"Bạn đã chi {_format_vnd(pick['recent'])} cho {pick['name']} trong 30 ngày gần nhất."
+            insights.append(line)
 
     # 4. Largest single expense (most-negative txn).
     if expense > 0:
