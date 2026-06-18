@@ -103,8 +103,6 @@
             <span class="insights__period-badge">Period: 1 week ▾</span>
         </header>
 
-        {{ github_activity::widget() }}
-
         <div class="insights__grid">
 
             {# ===== LEFT: TIMELINE OF PRs ===== #}
@@ -678,6 +676,8 @@
 
             </div>
         </div>
+
+        {{ github_activity::widget() }}
     </section>
 {% endblock main %}
 

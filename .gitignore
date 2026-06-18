@@ -29,3 +29,7 @@ data/.paywall-content-backup.json
 
 # ff.py AI-Agent — logs + teach feedback (local only)
 .ff/
+
+# Generated pagination anchors (scripts/build_feed_pagination.py)
+content/feed-anchor-*.md
+content/posting/feed-anchor-*.md

@@ -21,6 +21,12 @@
   ],
   "auto_eligible_title_patterns": [],
   "bot_actors": ["github-actions[bot]"],
+  "blocked_bot_actors": [
+    "dependabot[bot]",
+    "dependabot-preview[bot]",
+    "renovate[bot]",
+    "renovate-bot[bot]"
+  ],
   "blocked_labels": [],
   "compliance_auto_merge_min_score": 0,
   "bot_confidence_min": 0,

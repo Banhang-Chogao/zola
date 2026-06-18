@@ -246,44 +246,113 @@
     return String(name).replace(/^TP\.?\s*/, "");
   }
 
+  function curvedArrowPath(from, to) {
+    const mx = (from.x + to.x) / 2;
+    const lift = Math.max(18, Math.abs(to.x - from.x) * 0.12 + Math.abs(to.y - from.y) * 0.08);
+    const my = Math.min(from.y, to.y) - lift;
+    return (
+      "M " + from.x.toFixed(1) + " " + from.y.toFixed(1) +
+      " Q " + mx.toFixed(1) + " " + my.toFixed(1) +
+      " " + to.x.toFixed(1) + " " + to.y.toFixed(1)
+    );
+  }
+
+  function calloutOffset(p, idx) {
+    const dirs = [
+      { dx: 0, dy: -34, anchor: "middle" },
+      { dx: 42, dy: -18, anchor: "start" },
+      { dx: -42, dy: -18, anchor: "end" },
+      { dx: 36, dy: 22, anchor: "start" },
+      { dx: -36, dy: 22, anchor: "end" },
+    ];
+    const d = dirs[idx % dirs.length];
+    return { x: p.x + d.dx, y: p.y + d.dy, anchor: d.anchor };
+  }
+
+  function buildFlowArrows(locations, hubPt) {
+    const spokes = locations.slice(1, Math.min(6, locations.length));
+    return spokes
+      .map((l, i) => {
+        const dest = project(l.lon, l.lat);
+        const path = curvedArrowPath(hubPt, dest);
+        return (
+          '<path class="dash-geo__arrow" d="' + path + '" marker-end="url(#hd-geo-arrowhead)" ' +
+          'data-geo-flow="' + i + '"/>'
+        );
+      })
+      .join("");
+  }
+
   function buildSvg(locations) {
-    const PADX = 80;
-    const PADY = 18;
+    const PADX = 96;
+    const PADY = 42;
     const vb =
       (-PADX).toFixed(1) + " " + (-PADY).toFixed(1) + " " +
       (MAP_W + 2 * PADX).toFixed(1) + " " + (MAP_H + 2 * PADY).toFixed(1);
     const maxVal = locations.reduce((m, l) => Math.max(m, l.total), 0) || 1;
-    const minR = 4;
-    const maxR = 17;
+    const minR = 5;
+    const maxR = 18;
+    const hub = locations[0] || null;
+    const hubPt = hub ? project(hub.lon, hub.lat) : { x: MAP_W * 0.5, y: MAP_H * 0.5 };
+
+    const defs =
+      '<defs>' +
+      '<marker id="hd-geo-arrowhead" viewBox="0 0 10 10" refX="9" refY="5" ' +
+      'markerWidth="7" markerHeight="7" orient="auto-start-reverse">' +
+      '<path d="M 0 0 L 10 5 L 0 10 z" class="dash-geo__arrowhead"/>' +
+      "</marker></defs>";
+
+    const arrows = hub && locations.length > 1 ? buildFlowArrows(locations, hubPt) : "";
 
     const markers = locations
       .map((l, idx) => {
         const p = project(l.lon, l.lat);
         const r = minR + (maxR - minR) * Math.sqrt(Math.max(0, l.total) / maxVal);
-        const rightSide = p.x > MAP_W * 0.62;
-        const lx = rightSide ? p.x - r - 4 : p.x + r + 4;
-        const anchor = rightSide ? "end" : "start";
         const title =
           l.name + " · " + l.count + " GD · chi " + compactVnd(l.spend) +
           (l.income ? " · thu " + compactVnd(l.income) : "");
-        const label =
-          idx < 8
-            ? '<text class="dash-geo__lbl" x="' + lx.toFixed(1) + '" y="' + (p.y + 3).toFixed(1) +
-              '" text-anchor="' + anchor + '">' + esc(shortName(l.name)) + " · " + esc(compactVnd(l.total)) + "</text>"
-            : "";
+        const isTop = idx < 3;
+        const badge = isTop
+          ? '<g class="dash-geo__rank">' +
+            '<circle class="dash-geo__rank-ring" cx="' + p.x.toFixed(1) + '" cy="' + (p.y - r - 10).toFixed(1) + '" r="9"/>' +
+            '<text class="dash-geo__rank-num" x="' + p.x.toFixed(1) + '" y="' + (p.y - r - 6).toFixed(1) + '">' + (idx + 1) + "</text></g>"
+          : "";
+
+        let callout = "";
+        if (idx < 8) {
+          const c = calloutOffset(p, idx);
+          const w = 108;
+          const h = 34;
+          const rx = c.anchor === "end" ? c.x - w : c.anchor === "middle" ? c.x - w / 2 : c.x;
+          callout =
+            '<line class="dash-geo__callout-line" x1="' + p.x.toFixed(1) + '" y1="' + p.y.toFixed(1) + '" ' +
+            'x2="' + c.x.toFixed(1) + '" y2="' + (c.y + h / 2).toFixed(1) + '"/>' +
+            '<rect class="dash-geo__callout-box" x="' + rx.toFixed(1) + '" y="' + c.y.toFixed(1) + '" ' +
+            'width="' + w + '" height="' + h + '" rx="6"/>' +
+            '<text class="dash-geo__callout-name" x="' + (rx + 8).toFixed(1) + '" y="' + (c.y + 13).toFixed(1) + '">' +
+            esc(shortName(l.name)) + "</text>" +
+            '<text class="dash-geo__callout-val" x="' + (rx + 8).toFixed(1) + '" y="' + (c.y + 26).toFixed(1) + '">' +
+            esc(compactVnd(l.total)) + " · " + l.count + " GD</text>";
+        }
+
         return (
-          '<g class="dash-geo__mk"><title>' + esc(title) + "</title>" +
+          '<g class="dash-geo__mk' + (isTop ? " dash-geo__mk--top" : "") + '"><title>' + esc(title) + "</title>" +
+          callout +
           '<circle class="dash-geo__dot" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + r.toFixed(1) + '"/>' +
-          '<circle class="dash-geo__dotc" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="1.6"/>' +
-          label + "</g>"
+          '<circle class="dash-geo__dotc" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="2"/>' +
+          '<text class="dash-geo__lbl" x="' + p.x.toFixed(1) + '" y="' + (p.y + r + 12).toFixed(1) + '" text-anchor="middle">' +
+          esc(shortName(l.name)) + "</text>" +
+          badge + "</g>"
         );
       })
       .join("");
 
     return (
-      '<svg class="dash-geo__svg" viewBox="' + vb + '" preserveAspectRatio="xMidYMid meet" role="img" ' +
-      'aria-label="Bản đồ giao dịch theo địa điểm tại Việt Nam">' +
+      '<svg class="dash-geo__svg dash-geo__svg--present" viewBox="' + vb + '" preserveAspectRatio="xMidYMid meet" role="img" ' +
+      'aria-label="Bản đồ chi tiêu theo địa điểm — phong cách báo cáo nhà đầu tư">' +
+      defs +
       '<path class="dash-geo__land" d="' + outlinePath() + '"/>' +
+      arrows +
       markers +
       "</svg>"
     );
@@ -314,7 +383,9 @@
       .join("");
 
     return (
-      '<div class="dash-geo__legend"><h3 class="dash-geo__lgtitle">Top địa điểm</h3>' +
+      '<div class="dash-geo__legend dash-geo__legend--present">' +
+      '<h3 class="dash-geo__lgtitle">Top địa điểm</h3>' +
+      '<p class="dash-geo__lgsub">Phân bố chi tiêu theo vùng — kiểu slide địa lý</p>' +
       '<ul class="dash-geo__list">' + rows + "</ul>" +
       '<div class="dash-geo__regions">' + chips + "</div></div>"
     );
@@ -333,7 +404,8 @@
         " giao dịch không ghi địa điểm → mặc định tính cho TP. Hồ Chí Minh.</p>"
       : "";
     container.innerHTML =
-      '<div class="dash-geo__grid"><div class="dash-geo__map">' + buildSvg(res.locations) + "</div>" +
+      '<div class="dash-geo__grid dash-geo__grid--present">' +
+      '<div class="dash-geo__map dash-geo__map--present">' + buildSvg(res.locations) + "</div>" +
       buildLegend(res) + "</div>" + hint;
   }
 
