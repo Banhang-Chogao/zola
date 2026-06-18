@@ -676,8 +676,8 @@
 
                 {# ===== VACCINE AUTOFIXER (Daily repairs) ===== #}
                 {% set vaccine_data = load_data(path="data/vaccine-autofixer-report.json", required=false) %}
-                {% if vaccine_data and vaccine_data.history and vaccine_data.history | length > 0 %}
-                {% set latest_vaccine = vaccine_data.history | last %}
+                {% if vaccine_data and vaccine_data.latest %}
+                {% set latest_vaccine = vaccine_data.latest %}
                 <div class="insights__vaccines">
                     <header class="insights__vaccines-head">
                         <h3 class="insights__vaccines-title">🔬 Vaccine Autofixer</h3>

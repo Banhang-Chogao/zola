@@ -441,9 +441,13 @@ class VaccineAutofixer:
             existing["history"] = []
 
         # Append current run
-        existing["history"].append(asdict(self.report))
+        report_dict = asdict(self.report)
+        existing["history"].append(report_dict)
 
-        # Keep only last 30 runs
+        # Update latest pointer
+        existing["latest"] = report_dict
+
+        # Keep only last 30 runs in history
         if len(existing["history"]) > 30:
             existing["history"] = existing["history"][-30:]
 
