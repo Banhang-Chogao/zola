@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "hotfix(h-dashboard): fix OCR stuck on worker/WASM init",
+      "tag": "fix",
+      "lines_added": 228,
+      "lines_removed": 33,
+      "highlights": [
+        "Align core version to 5.1.1; vendor local tesseract.min.js + worker.min.js (local-first, CDN fallback).",
+        "Add wasm-unsafe-eval to CSP.",
+        "workerBlobURL: false, 120s timeout, progress logger, eng language fallback.",
+        "Surface OCR errors via getLastError() in invoice-parser.",
+        "Regression tests in scripts/test_ocr_loader.py."
+      ],
+      "pr": 446
+    },
+    {
+      "date": "2026-06-18",
       "title": "CMS: cập nhật footer countdown",
       "tag": "chore",
       "lines_added": 1,
