@@ -235,6 +235,63 @@ V1–V7. **Không thêm vaccine mới.**
   **mọi workflow observer/remediation/QA report-only → `continue-on-error` hoặc nuốt
   exit**, chỉ để CI gate thật (qa-check, zola build) mới được đỏ.
 
+#### V8 — Series Registration + Tera Syntax: conflict-free PR vẫn vỡ `zola build`
+
+- **Symptom:** PR shows **no merge conflicts** (mergeable) but `zola build` fails
+  unexpectedly. Error originates in the `/posting/` pager or the SERIES block, e.g.
+  `Failed to render 'section.html'` → `Filter call 'replace' failed` →
+  ``Filter `replace` expected an arg called `from` ``. Builds fine on `main` until a
+  new series' content lands.
+- **Root causes:** (1) A new series manifest (`data/<id>-series.json`) was added in
+  content but **not registered** in the `manifests` array of
+  `templates/macros/series-listing.html` → the series falls into the **orphan
+  fallback** branch. (2) That orphan branch used **Python-style filter kwargs** in
+  Tera. Tera's `replace` filter uses `from=`/`to=`, NOT Python's `old=`/`new=`:
+  - Wrong: `replace(old="-", new=" ")`
+  - Correct: `replace(from="-", to=" ")`
+  The orphan branch was dormant while every series was registered, so the bad syntax
+  only triggered once an unregistered series existed.
+- **FIXER:** (a) Register every new series manifest in **both** `series-listing.html`
+  (`manifests` array) and the `elif` chains in `page.html` + `macros/series-nav.html`
+  (one `elif` per series — multi-series pattern). (b) Use `replace(from=…, to=…)`;
+  never use Python keyword names (`old`/`new`) in Tera filters.
+- **Prevention:**
+  - After adding any series, verify it is registered in `series-listing.html`.
+  - Audit orphan-series fallback paths for valid Tera syntax.
+  - Never use Python keyword names in Tera filters; prefer explicit `from=`/`to=`.
+  - **Conflict-free PR ≠ build-safe PR** — always inspect templates after a merge
+    (auto-resolved series `elif` unions can still leave an unregistered manifest).
+- **Validation:** `python3 qa_check.py` → `python3 scripts/paywall_prepare_build.py
+  --strip` → `zola build` → `python3 scripts/paywall_prepare_build.py --restore` →
+  `python3 scripts/check_internal_links.py`; confirm the SERIES block and `/posting/`
+  pagination render correctly. (Applied 18/06/2026 in PR #451 merge.)
+
+#### V9 — Docs-only PR Can Fail Due to Stale Base
+
+- **Symptom:** A PR changes **only docs** (`CLAUDE.md`, `README`, etc.) but `qa-check`
+  or `zola build` **fails**. The failure looks unrelated to the modified files.
+- **Root cause:** The branch was created from an **outdated `main`**. CI validates the
+  **entire repository**, not only the changed files — so an old base **resurrects
+  already-fixed site bugs** that no longer exist on current `main`.
+- **Example:** PR #452 modified only `CLAUDE.md`, but its base `653e4f3` still
+  contained the pre-#451 `series-listing.html` bug (see V8). qa-check's `zola build`
+  step failed. **Rebasing onto `9221a39` (post-#451) fixed the build immediately** —
+  no content change needed.
+- **FIXER / Procedure:**
+  1. `git fetch origin main`.
+  2. Rebase (or merge) the branch onto the latest `main`.
+  3. Regenerate generated files if needed (`build_references.py`, etc.).
+  4. Validate: `python3 qa_check.py` → `python3 scripts/paywall_prepare_build.py
+     --strip` → `zola build` → `python3 scripts/paywall_prepare_build.py --restore` →
+     `python3 scripts/check_internal_links.py`.
+  5. Push only when the working tree is clean and the build is green.
+- **Prevention / Rules:**
+  - **Even docs-only PRs must be rebased** onto current `main` before relying on CI.
+  - CI tests the **whole repo, not the diff** — a green local doc edit is not enough.
+  - A build failure right after an **unrelated** edit usually means a **stale branch**,
+    not bad content — rebase first, debug second.
+- **Validation:** working tree clean · QA green · no resurrected bugs · PR mergeable.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
