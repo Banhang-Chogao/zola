@@ -1,6 +1,6 @@
 +++
 title = "Google có nhìn thấy trang giống người dùng không?"
-description = "Google có nhìn thấy trang giống người dùng không? URL Inspection, rendered HTML, JavaScript và nội dung ẩn. Series Nền tảng SEO — Bài 5/15 bám SEO Starter Guide."
+description = "Google có nhìn thấy trang giống người dùng? Render, JS, Search Console. Series SEO Bài 5/15 — bám Google SEO Starter Guide."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
@@ -47,7 +47,7 @@ a = "Indexed nghĩa là URL trong kho index — không đảm bảo mọi block 
 10. [Bạn nên làm gì sau bài 5?](#sau-bai-5)
 11. [Tóm lại](#tom-lai)
 
-## Vì sao cần hỏi "Google thấy gì"? {#vi-sao-can-hoi}
+## Google nhìn thấy trang giống người dùng — vì sao cần hỏi? {#vi-sao-can-hoi}
 
 Theo [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide), sau khi giúp Google **tìm** URL ([Bài 4](/zola/posting/giup-google-tim-noi-dung-site/)), bạn cần đảm bảo Google **đọc được** nội dung quan trọng — text trong `<h1>`, đoạn intro sau `<!-- more -->`, FAQ, internal link.
 

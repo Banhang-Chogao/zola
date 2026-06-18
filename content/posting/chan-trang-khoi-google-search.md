@@ -1,13 +1,13 @@
 +++
 title = "Chặn trang khỏi Google Search khi cần (noindex, robots)"
-description = "Chặn trang khỏi Google Search: noindex, robots.txt, X-Robots-Tag và khi nào nên dùng. Series Nền tảng SEO — Bài 6/15 bám SEO Starter Guide — Don't want a page in search results?"
+description = "Chặn trang khỏi Google Search: noindex, robots.txt, X-Robots-Tag và khi nào nên dùng. Series SEO Bài 6/15 — bám Google SEO Starter Guide."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "google search", "seo", "seo foundation series", "noindex", "robots.txt", "search console", "zola"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
-seo_keyword = "chặn trang khỏi google search noindex robots"
+seo_keyword = "chặn trang khỏi google search"
 featured = false
 series = "seo-foundation"
 series_part = 6
@@ -74,7 +74,7 @@ Google [documentation](https://developers.google.com/search/docs/crawling-indexi
 
 **Quy tắc vàng:** Muốn **không trên SERP** → **noindex** (hoặc password + không link). Disallow là **bổ sung**, không thay thế.
 
-## noindex — cách Google khuyến nghị {#noindex}
+## Chặn trang khỏi Google Search bằng noindex {#noindex}
 
 ### Meta robots trong HTML
 
@@ -103,8 +103,8 @@ Theo [robots meta tag](https://developers.google.com/search/docs/crawling-indexi
 Thêm vào frontmatter hoặc template:
 
 ```toml
-# Ví dụ trang utility — không dùng trên bài posting series
-[extra]
+[extra]  # trang utility — không dùng trên bài posting series
+
 seo_noindex = true
 ```
 

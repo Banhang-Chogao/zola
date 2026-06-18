@@ -1,6 +1,6 @@
 +++
 title = "Google Publisher Policies — nội dung bị cấm hiển thị quảng cáo"
-description = "Google Publisher Policies liệt kê nội dung bị cấm hiển thị quảng cáo AdSense — illegal, scraped, adult, dangerous content. Series Nền tảng AdSense — Bài 4/15 bám content policies chính thức."
+description = "Google Publisher Policies: nội dung bị cấm đặt quảng cáo AdSense. Series AdSense Bài 4/15 — bám tài liệu Google chính thức."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
@@ -49,7 +49,7 @@ a = "Không. Sexually explicit content, shocking content (bạo lực graphic, g
 12. [Bạn nên làm gì sau bài 4?](#sau-bai-4)
 13. [Tóm lại](#tom-lai)
 
-## Publisher Policies vs Program policies — khác gì? {#policies-vs-program}
+## Google Publisher Policies — nội dung bị cấm vs Program policies {#policies-vs-program}
 
 Trong [AdSense Program policies](https://support.google.com/adsense/answer/48182?hl=en), Google tách hai lớp:
 

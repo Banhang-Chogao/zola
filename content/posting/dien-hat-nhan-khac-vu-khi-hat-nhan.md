@@ -1,6 +1,6 @@
 +++
 title = "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?"
-description = "Điện hạt nhân khác vũ khí hạt nhân ở mức làm giàu, phản ứng dây chuyền có kiểm soát và mục đích sử dụng. Series Khoa học 4/5 — giáo dục trung lập, không hướng dẫn vũ khí."
+description = "Điện hạt nhân khác vũ khí hạt nhân: mục đích, uranium, IAEA. Series Khoa học Bài 4/5 — bám tài liệu công khai, không hướng dẫn vũ khí."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
@@ -65,7 +65,7 @@ Cả điện hạt nhân lẫn vũ khí hạt nhân đều dựa trên **phân h
 
 [Bài 2](/zola/posting/uranium-lam-giau-la-gi/) đã cho bảng %: 0,7% tự nhiên, 3–5% điện, 20%+ HEU. Bài 4 giải thích **vì sao** các con số đó gắn với hai mục đích khác nhau.
 
-## Điện hạt nhân hoạt động thế nào — phản ứng có kiểm soát {#dien-hat-nhan}
+## Điện hạt nhân khác vũ khí hạt nhân: phản ứng có kiểm soát {#dien-hat-nhan}
 
 **Nhà máy điện hạt nhân** dùng **lò phản ứng** (reactor) để duy trì phản ứng dây chuyền **ở trạng thái critical có kiểm soát** — mỗi fission trung bình gây đúng một fission tiếp theo (khôngi tăng vọt, không tắt đột ngột nếu vận hành đúng).
 

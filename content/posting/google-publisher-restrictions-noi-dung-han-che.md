@@ -1,13 +1,13 @@
 +++
 title = "Google Publisher Restrictions — nội dung có giới hạn quảng cáo"
-description = "Google Publisher Restrictions quy định nội dung được phép nhưng quảng cáo bị giới hạn — fill rate thấp hơn, không phải disable. Series Nền tảng AdSense — Bài 5/15 bám Restrictions chính thức."
+description = "Google Publisher Restrictions: nội dung hạn chế quảng cáo, fill rate thấp hơn Policies. Series AdSense Bài 5/15 — bám Google Help."
 date = 2026-06-18
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["google adsense", "adsense", "adsense foundation series", "publisher restrictions", "monetization", "nội dung hạn chế"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
-seo_keyword = "google publisher restrictions nội dung hạn chế"
+seo_keyword = "google publisher restrictions"
 featured = false
 series = "adsense-foundation"
 series_part = 5
@@ -27,7 +27,7 @@ q = "Restrictions có làm AdSense từ chối duyệt không?"
 a = "Không theo nghĩa eligibility fail như Policies (illegal, scraped, CSAM). Site chủ yếu nội dung restricted vẫn có thể được duyệt — nhưng doanh thu kém vì Google Ads và nhiều advertiser không bid. Một số chủ đề borderline (tin nhạy cảm, sức khỏe) nên tách section hoặc không gắn ad code trang đó."
 +++
 
-> 📚 **Google AdSense Foundation Series (Bài 5/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), [Bài 2: Điều kiện đủ tư cách AdSense](/zola/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3: Website sẵn sàng cho AdSense](/zola/posting/website-san-sang-cho-adsense/) và [Bài 4: Google Publisher Policies — nội dung bị cấm](/zola/posting/google-publisher-policies-noi-dung-bi-cam/), bài này đi vào lớp chính sách thứ hai: **Google Publisher Restrictions — nội dung có giới hạn quảng cáo**. Tôi bám [Google Publisher Restrictions](https://support.google.com/adsense/answer/10437795?hl=en) — không phải diễn giải forum "AdSense không chạy chủ đề X".
+> 📚 **Google AdSense Foundation Series (Bài 5/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), [Bài 2: Điều kiện đủ tư cách AdSense](/zola/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3: Website sẵn sàng cho AdSense](/zola/posting/website-san-sang-cho-adsense/) và [Bài 4: Google Publisher Policies — nội dung bị cấm](/zola/posting/google-publisher-policies-noi-dung-bi-cam/), bài này đi vào **google publisher restrictions** — lớp chính sách thứ hai: **Google Publisher Restrictions — nội dung có giới hạn quảng cáo**. Tôi bám [Google Publisher Restrictions](https://support.google.com/adsense/answer/10437795?hl=en) — không phải diễn giải forum "AdSense không chạy chủ đề X".
 
 [Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) đã phân tích nội dung **bị cấm tuyệt đối** — illegal, scraped, CSAM, malware. Bài 5 trả lời câu hỏi publisher hay gặp sau khi pass review: **"Site hợp pháp, không vi phạm Policies — sao RPM thấp hoặc một số trang không có ad?"** — có thể do **inventory restriction**, không phải account disabled.
 
@@ -47,7 +47,7 @@ a = "Không theo nghĩa eligibility fail như Policies (illegal, scraped, CSAM).
 10. [Bạn nên làm gì sau bài 5?](#sau-bai-5)
 11. [Tóm lại](#tom-lai)
 
-## Restrictions là gì — và khác Policies thế nào? {#restrictions-la-gi}
+## Google Publisher Restrictions là gì — khác Policies thế nào? {#restrictions-la-gi}
 
 Theo [Google Publisher Restrictions](https://support.google.com/adsense/answer/10437795?hl=en), **publisher restrictions** xác định nội dung **bị hạn chế nhận quảng cáo từ một số nguồn** — không phải nội dung bị cấm publish.
 
