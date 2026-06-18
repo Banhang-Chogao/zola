@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-06-18T04:39:50Z",
-  "source": "git+api",
-  "stale": false,
-  "fetch_error": "",
+  "updated_at": "2026-06-18T05:04:41Z",
+  "source": "git+changelog",
+  "stale": true,
+  "fetch_error": "GitHub API 403: {\n\t\"message\": \"API rate limit exceeded for installation. If you reach out to GitHub Support for help, please include the request ID 7000:12F4FC:B8966:29FF3D:6A337C69 and timestamp 2026-06-18 05:04:41 UTC. For more on scraping GitHub and how it may affect your rights, please review our Terms of Service (https:\\/\\/docs.github.com\\/en\\/site-policy\\/github-terms\\/github-terms-of-service)\",\n\t\"documenta",
   "repository": "Banhang-Chogao/zola",
   "repository_url": "https://github.com/Banhang-Chogao/zola",
   "contributor": "Duy Nguyen",
   "period_days": 365,
   "period_start": "2025-06-19",
   "period_end": "2026-06-18",
-  "total_contributions": 1504,
-  "latest_activity_at": "2026-06-18T11:38:37+07:00",
+  "total_contributions": 1475,
+  "latest_activity_at": "2026-06-18T12:03:28+07:00",
   "days": [
     {
       "date": "2025-06-19",
@@ -2894,53 +2894,53 @@
     },
     {
       "date": "2026-06-14",
-      "count": 17,
+      "count": 19,
       "commits": 17,
-      "pull_requests": 0,
+      "pull_requests": 2,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-15",
-      "count": 319,
+      "count": 382,
       "commits": 255,
-      "pull_requests": 63,
-      "issues": 1,
+      "pull_requests": 127,
+      "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-16",
-      "count": 441,
+      "count": 417,
       "commits": 324,
-      "pull_requests": 101,
-      "issues": 16,
+      "pull_requests": 93,
+      "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-17",
-      "count": 462,
+      "count": 382,
       "commits": 338,
-      "pull_requests": 124,
+      "pull_requests": 44,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-18",
-      "count": 221,
-      "commits": 209,
-      "pull_requests": 12,
+      "count": 231,
+      "commits": 216,
+      "pull_requests": 15,
       "issues": 0,
       "reviews": 0
     }
   ],
   "breakdown": {
-    "commits": 1187,
-    "pull_requests": 300,
-    "issues": 17,
+    "commits": 1194,
+    "pull_requests": 281,
+    "issues": 0,
     "reviews": 0,
-    "commits_pct": 79,
-    "pull_requests_pct": 20,
-    "issues_pct": 1,
+    "commits_pct": 81,
+    "pull_requests_pct": 19,
+    "issues_pct": 0,
     "reviews_pct": 0
   },
   "heatmap": {
@@ -5019,34 +5019,34 @@
         "days": [
           {
             "date": "2026-06-14",
-            "count": 17,
+            "count": 19,
             "level": 1
           },
           {
             "date": "2026-06-15",
-            "count": 319,
-            "level": 3
+            "count": 382,
+            "level": 4
           },
           {
             "date": "2026-06-16",
-            "count": 441,
+            "count": 417,
             "level": 4
           },
           {
             "date": "2026-06-17",
-            "count": 462,
+            "count": 382,
             "level": 4
           },
           {
             "date": "2026-06-18",
-            "count": 221,
-            "level": 2
+            "count": 231,
+            "level": 3
           },
           null,
           null
         ]
       }
     ],
-    "max_count": 462
+    "max_count": 417
   }
 }
