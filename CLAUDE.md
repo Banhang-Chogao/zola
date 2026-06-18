@@ -121,7 +121,9 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 (#728, #720, #715, #714, #712, #710, #708, #706…); tất cả failure thật = V5
 (`configure-pages` API rate limit); `cancelled` = superseded/bão rate-limit;
 run #729 success xác nhận fix V5. Quét 50 run repo-wide: không pattern mới ngoài
-V1–V7. **Không thêm vaccine mới.**
+V1–V7 (lỗi CI run). Bổ sung thêm **V8** (series registration + Tera `replace`
+syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10**
+(dirty PR / merge race) — đều thuộc quy trình build/PR, không phải lỗi workflow run mới.
 
 #### V1 — `build-related.yml` (Build Semantic Related Posts): HuggingFace 401
 
@@ -291,6 +293,48 @@ V1–V7. **Không thêm vaccine mới.**
   - A build failure right after an **unrelated** edit usually means a **stale branch**,
     not bad content — rebase first, debug second.
 - **Validation:** working tree clean · QA green · no resurrected bugs · PR mergeable.
+#### V10 — Dirty PR / merge race: PR turns `dirty` after QA already passed (stale branch base)
+
+> Process vaccine (not a workflow-run failure). Match the signature → run the
+> FIXER, do not re-diagnose.
+
+- **Symptom:** PR reports `mergeable_state: dirty` (or fresh conflicts) AFTER
+  `qa-check` already passed; another PR merged into `main` first and left this
+  PR's base stale. Conflicts cluster in auto-generated files
+  (`data/references.json`, `data/seo-qa-scores.json`) and in shared registries
+  that multiple PRs append to (series `elif` blocks in
+  `templates/macros/series-nav.html`, `templates/page.html`, `templates/base.html`;
+  `categories.json`). The real content (`content/**/*.md`) does NOT conflict.
+- **Root cause:** the branch was cut from an older `main`, and generated data
+  drifted while the PR waited for auto-merge. `dirty` here is a **merge race, not
+  a code bug**. QA-green only proves the branch is internally consistent — never
+  that it is merge-safe against the current `main`.
+- **FIXER (mandatory before opening AND on every PR update):**
+  1. `git fetch origin main`.
+  2. Merge/rebase the branch onto the latest `main`.
+  3. Resolve conflicts locally — for shared registries keep **BOTH** sides
+     (append every series `elif` / category entry; never pick one side). For
+     generated data, take `main` then **regenerate**: `python3 scripts/build_references.py`,
+     `python3 scripts/seo_qa_checker.py --all`, plus any category/tag/series
+     manifest generators.
+  4. Run the local gate: `python3 qa_check.py` + `python3 scripts/check_internal_links.py`.
+  5. Push ONLY when the tree is clean and free of conflict markers.
+- **After the PR is open — watch until merged:** poll BOTH the PR and `main`.
+  If another PR lands first (`main` advances without your content), immediately
+  re-sync: merge latest `main`, re-resolve, regenerate, re-run QA, push the new
+  head. Repeat until YOUR commit is the one on `main`. Never assume the first
+  green is the final state.
+- **Rules:** never trust an old branch base; never treat QA-green as merge-safe;
+  a `dirty` PR is a merge race, not a code bug; auto-merge must always operate on
+  the latest `main`.
+- **Validation:** no conflict markers; QA passes; working tree clean; PR
+  mergeable; keep watching until the production deploy completes.
+- **Evidence (PR #451, 18/06/2026):** PR #451 went `dirty` twice because the
+  VietinBank series PRs (#449/#450) merged first. Each time the FIXER applied
+  cleanly: merge `main`, keep all three series `elif`s (korean-30day +
+  google-analytics + vietinbank), take `main` for `data/*.json` then regenerate
+  (references → 156 posts), QA PASS, push → auto-merge landed #451 with no further
+  conflicts.
 
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
