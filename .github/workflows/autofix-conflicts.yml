@@ -1,0 +1,103 @@
+name: Autofix Merge Conflicts
+
+# Tự quét PR open bị conflict với main → resolve an toàn theo bảng chiến lược
+# (scripts/autofix_conflicts.py) → push lên CHÍNH branch PR (re-trigger CI →
+# auto-merge). File "manual" → comment trên PR, KHÔNG đoán. Xem CLAUDE.md
+# "Autofixer Conflict Resolver".
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # mỗi 30 phút
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Chỉ xử lý 1 PR (số). Để trống = quét tất cả.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: autofix-conflicts
+  cancel-in-progress: false
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Resolve conflicting PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_INPUT: ${{ github.event.inputs.pr_number }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Danh sách PR cần xét: same-repo (không fork), state open.
+          if [ -n "${PR_INPUT}" ]; then
+            PRS="${PR_INPUT}"
+          else
+            PRS=$(gh pr list --state open --limit 50 \
+                    --json number,isCrossRepository,mergeable,headRefName \
+                  | python3 -c "import json,sys; d=json.load(sys.stdin); print('\n'.join(str(p['number']) for p in d if not p['isCrossRepository'] and p['mergeable']=='CONFLICTING'))")
+          fi
+
+          if [ -z "${PRS}" ]; then
+            echo "Không có PR same-repo nào đang CONFLICTING — xong."
+            exit 0
+          fi
+
+          for PR in ${PRS}; do
+            echo "::group::PR #${PR}"
+            BRANCH=$(gh pr view "${PR}" --json headRefName -q .headRefName)
+            echo "branch=${BRANCH}"
+
+            # Reset working tree sạch trước mỗi PR.
+            git merge --abort 2>/dev/null || true
+            git checkout -f main
+            git reset --hard origin/main
+
+            set +e
+            python3 scripts/autofix_conflicts.py --branch "${BRANCH}"
+            RC=$?
+            set -e
+
+            if [ "${RC}" = "0" ]; then
+              echo "Resolved sạch → validate + push."
+              python3 scripts/build_references.py || true
+              if [ -f scripts/build_og_images.py ]; then
+                pip install -q -r scripts/requirements-og-images.txt 2>/dev/null || true
+                python3 scripts/build_og_images.py || true
+              fi
+              python3 qa_check.py || true
+              git add -A
+              git commit -m "autofix: regenerate data sau resolve [skip changelog]" 2>/dev/null || true
+              if git push origin "HEAD:${BRANCH}"; then
+                echo "✓ Đã push resolve lên ${BRANCH}."
+                gh pr comment "${PR}" --body "🤖 **Autofix conflict**: đã tự resolve conflict với \`main\` (data CI tự sinh → lấy bản main; nội dung bài → giữ PR) và push lên branch. CI sẽ chạy lại → auto-merge khi xanh." || true
+              else
+                echo "✗ push thất bại (có thể protected) — bỏ qua."
+              fi
+            elif [ "${RC}" = "2" ]; then
+              echo "Có file cần resolve TAY → comment, không đụng branch."
+              gh pr comment "${PR}" --body "⚠️ **Autofix conflict**: PR này conflict với \`main\` ở file **không tự resolve an toàn được** (template/SCSS/code/series/CLAUDE.md…). Cần resolve thủ công. Chạy local: \`python3 scripts/autofix_conflicts.py --branch ${BRANCH} --dry-run\` để xem phân loại." || true
+            else
+              echo "Resolver trả mã ${RC} (không conflict hoặc lỗi) — bỏ qua."
+            fi
+            git merge --abort 2>/dev/null || true
+            echo "::endgroup::"
+          done

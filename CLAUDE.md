@@ -618,6 +618,19 @@ Hoặc: GitHub Actions → **Autofix Merge Conflicts** → **Run workflow** (opt
 
 _(Entries được append tự động bởi `scripts/autofix_conflicts.py` sau mỗi lần xử lý.)_
 
+### 💉 VACCINE — Conflict ở DATA FILE CI/HOOK TỰ SINH (PR #428, 2026-06-18)
+
+> **Đây là loại conflict PHỔ BIẾN NHẤT. Khớp dấu hiệu → resolve NGAY theo FIXER, không chẩn lại.**
+
+| Field | Detail |
+|-------|--------|
+| **Dấu hiệu** | PR conflict CHỈ ở file `data/*.json` do script/hook/cron sinh — điển hình `data/seo-qa-scores.json` (PostToolUse hook chấm SEO), `data/references.json`, `data/related.json`, `data/compliance-score.json`, dashboards, `*-report.json`, `*-state.json`, `*-scores.json`, `*-dashboard.json`. Diff chỉ đổi `updated_at`/`scored_at`/timestamp + vài entry. Thay đổi NỘI DUNG thật của PR (`.md`) KHÔNG conflict. |
+| **Nguyên nhân** | Base PR cũ → `main` đã chạy lại hook/cron sinh data mới (timestamp khác) → cùng dòng đầu file đụng nhau. KHÔNG phải xung đột logic. |
+| **FIXER** | **Lấy bản `main`** cho mọi data CI tự sinh (KHÔNG giữ data stale của PR): merge `origin/main` vào branch → `git checkout --theirs data/<file>.json` → `git add`. Giữ nguyên thay đổi `.md` của PR. Sau đó (tùy chọn) chạy lại script sinh data để khớp state mới (vd `build_references.py`). Commit merge → push → CI auto-merge. **TỰ ĐỘNG:** `python3 scripts/autofix_conflicts.py --branch <branch>` làm đúng việc này (classify `data/*.json` regen → strategy `main`). |
+| **KHÔNG áp dụng cho** | `data/*-series.json` (curate tay), `data/categories.json`, `data/auto-merge-policy.json` → strategy `manual`. Template/SCSS/code/`CLAUDE.md` → `manual` (append cả hai bên, đừng đoán). |
+| **Tool** | `scripts/autofix_conflicts.py` (resolver + bảng classify), `scripts/test_autofix_conflicts.py` (26 case), workflow `.github/workflows/autofix-conflicts.yml` (cron 30' + dispatch). |
+| **Verify (#428)** | Conflict chỉ ở `data/seo-qa-scores.json`; lấy main → `zola build` PASS, bài premium `draft=true` ẩn đúng, PR `unstable`→mergeable. |
+
 ### Action required on bot maintenance PRs (2026-06-18)
 
 | Field | Detail |
