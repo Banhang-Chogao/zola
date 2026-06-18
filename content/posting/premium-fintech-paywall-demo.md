@@ -2,6 +2,7 @@
 title = "Fintech 2026: Paywall premium trên blog cá nhân"
 description = "Bài demo paywall — teaser miễn phí, phần phân tích chiến lược monetization và checklist triển khai chỉ mở sau khi thanh toán Momo."
 date = 2026-06-18
+draft = true
 aliases = ["/premium-fintech-paywall-demo/"]
 
 [taxonomies]
