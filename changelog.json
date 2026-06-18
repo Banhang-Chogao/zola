@@ -1,6 +1,21 @@
 {
   "items": [
     {
+      "date": "2026-06-18",
+      "title": "feat(seo): SEO Rank auto-fix system and sidebar progress",
+      "tag": "fix",
+      "lines_added": 2262,
+      "lines_removed": 9,
+      "highlights": [
+        "deploy/QA: --scan-only",
+        "seo-rank-autofix.yml: weekly run opens PR with content fixes (never main)",
+        "6/6 unit tests pass",
+        "zola build OK",
+        "No paid APIs"
+      ],
+      "pr": 389
+    },
+    {
       "date": "2026-06-17",
       "title": "feat(insights): add GitHub Activity heatmap widget",
       "tag": "chore",
