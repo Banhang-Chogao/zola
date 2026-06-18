@@ -76,9 +76,11 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 > `ff`/`ff9`, và sau khi tìm ra fix bền vững thì **APPEND thêm 1 vaccine mới** vào
 > danh sách này (đánh số tiếp). Đây là bộ nhớ tự fix — càng dùng càng đầy.
 
-**Tình trạng audit gần nhất (16/06/2026):** quét 17 workflow từ ngày lập repo →
-chỉ 3 workflow từng fail (V1–V3 dưới đây), TẤT CẢ đã resolved + xanh. Không
-workflow nào đang đỏ.
+**Tình trạng audit gần nhất (18/06/2026):** đọc log ~30 run Deploy gần nhất
+(#728, #720, #715, #714, #712, #710, #708, #706…); tất cả failure thật = V5
+(`configure-pages` API rate limit); `cancelled` = superseded/bão rate-limit;
+run #729 success xác nhận fix V5. Quét 50 run repo-wide: không pattern mới ngoài
+V1–V7. **Không thêm vaccine mới.**
 
 #### V1 — `build-related.yml` (Build Semantic Related Posts): HuggingFace 401
 
