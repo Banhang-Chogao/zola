@@ -12,7 +12,11 @@
   margin-top: auto;
   font-size: 0.85rem;
 
-  strong { color: #fff; }
+  /* Footer body emphasis = trắng trên nền tối. NHƯNG loại trừ countdown band con
+     (nền trắng #fff): `.site-footer strong` (0,1,1) từng đè
+     `.footer-countdown__title` (0,1,0) → tên sự kiện trắng tiệp nền trắng.
+     `:not()` để countdown tự giữ màu xanh thương hiệu (#003784). */
+  strong:not([class*="footer-countdown"]) { color: #fff; }
 
   a:hover { color: #5b9bff; }
 
