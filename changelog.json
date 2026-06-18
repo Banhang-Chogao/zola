@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(dashboards): Sembcorp UI for F+L dashboards + countdown title brand color",
+      "tag": "chore",
+      "lines_added": 913,
+      "lines_removed": 429,
+      "highlights": [
+        "White cards · thin teal border #00a69d · large asymmetric radius (18px/6px) · airy spacing · soft brand shadow + hover lift",
+        "Headings with teal accent bar; each chart/section in its own bordered card; compact legends with dots matching the brand chart palette (#003784/#00a69d/#e30613/#38bdf8/#ff9500)",
+        "Prominent numbers (≈1.6rem, weight 800, tabular-nums; income teal / expense red)",
+        "Header no longer covered by sticky navbar (scroll-margin-top); responsive desktop 2-col → mobile 1-col; tables scroll",
+        "White cards keep fixed dark ink → readable in OS light & dark"
+      ],
+      "pr": 394
+    },
+    {
+      "date": "2026-06-18",
       "title": "feat(toc): global auto Table of Contents (native page.toc)",
       "tag": "chore",
       "lines_added": 102,
