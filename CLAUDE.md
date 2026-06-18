@@ -1023,3 +1023,21 @@ Trang `/tools/o-dashboard/` — phân tích sao kê **Liobank by OCB** dạng **
 | Trang | `content/tools/o-dashboard.md`, `templates/o-dashboard.html` |
 | Styles | `sass/_o-dashboard.scss` (import sau `l-dashboard` trong `site.scss`) |
 | JS | `static/js/o-dashboard/*.js` (`liobank-parser.js`, `app.js`, `export.js`…) |
+
+## H-Dashboard (Hóa đơn mua hàng — invoice PDF + OCR)
+
+Trang `/tools/h-dashboard/` — thống kê chi tiêu từ **hóa đơn mua hàng / biên lai** (vd Highlands Coffee, siêu thị) dạng **PDF**. Clone kiến trúc **O/L-Dashboard**, chỉ khác **source dữ liệu (invoice, không phải sao kê) + parser + OCR**. UI/UX, charts, health, export PDF/CSV/JSON, OAuth gate **y chang** L/O-Dashboard.
+
+- **Đọc PDF (2 tầng):** `static/js/h-dashboard/invoice-parser.js` thử pdf.js text layer trước (hóa đơn điện tử có text); nếu text quá ít → **OCR fallback** `ocr-loader.js` (Tesseract.js `vie+eng`, render page→canvas, 100% client-side). Hàm `looksLikeText()` quyết định có cần OCR.
+- **Parser invoice:** mỗi **mặt hàng = 1 transaction expense**. Số tiền VN (`15.000`=15000), loại token leading-zero (id hóa đơn `0099`). Bắt metadata: merchant (dòng đầu), `Check#`/`Số HĐ`, ShopID, POS, Pager, Thu ngân, ngày `DD-MM-YYYY HH:MM` / `DD/MM/YYYY`, hình thức TT. Items nằm giữa header và dòng tổng (`Tổng tiền`/`Tổng cộng`/`Thành tiền`/`Total`); **"thanh toan" KHÔNG là total marker** (trùng tiêu đề "Hóa Đơn Thanh Toán"). Dòng nối tiếp (vd `510ml`) gộp vào tên mặt hàng.
+- **Schema giao dịch** (khớp L/O): `{transaction_id, date, value_date, merchant, description, txn_no, qty, unit_price, debit, credit:0, fee:0, balance, amount:-debit, type:"expense"}`. `balance` = lũy kế chi trong hóa đơn. `transaction_id = SHA256(merchant|date|invoice_no|idx|name|amount)` → re-upload cùng hóa đơn dedupe.
+- **Tách biệt F/L/O:** namespace `HDashboard*`, id `hd-`, IndexedDB riêng `h-dashboard-db`. Dữ liệu chỉ local (AES-GCM), không upload server.
+- **CSP (base.html):** OCR cần `worker-src 'self' blob: https://cdn.jsdelivr.net` + `connect-src` thêm `https://cdn.jsdelivr.net https://tessdata.projectnaptha.com` (tesseract core/wasm + traineddata). Đây là thay đổi global tối thiểu, additive.
+- **Bảng 7 cột:** STT · Ngày · Mặt hàng · SL · Đơn giá · Thành tiền · Lũy kế. Meta panel: Cửa hàng · Mã HĐ · Ngày xuất · Thu ngân · Tổng HĐ · Hình thức TT.
+
+| Thành phần | Path |
+|------------|------|
+| Trang | `content/tools/h-dashboard.md`, `templates/h-dashboard.html` |
+| Styles | `sass/_h-dashboard.scss` (import sau `o-dashboard` trong `site.scss`) |
+| JS | `static/js/h-dashboard/*.js` (`invoice-parser.js`, `ocr-loader.js`, `app.js`, `export.js`…) |
+| Menu | `config.toml` `[[extra.main_menu]]` sau O-Dashboard |
