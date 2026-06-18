@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T06:05:47Z",
+  "updated_at": "2026-06-18T06:06:05Z",
   "history_cadence_min": 5,
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Actions",
@@ -13,15 +13,15 @@
   },
   "latest_by_workflow": {
     "deploy.yml": {
-      "id": 27740220999,
-      "run_number": 657,
+      "id": 27740236092,
+      "run_number": 658,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T06:05:28Z",
-      "summary_vi": "Build #657 — Deploy blog lên GitHub Pages: Thêm tính năng: O-Dashboard — Liobank by OCB PDF statement dashboard",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740220999"
+      "started_at": "2026-06-18T06:05:50Z",
+      "summary_vi": "Build #658 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T06:05:47Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740236092"
     },
     "qa.yml": {
       "id": 27740213376,
@@ -38,15 +38,15 @@
   "latest_workflows": [
     {
       "workflow_file": "deploy.yml",
-      "id": 27740220999,
-      "run_number": 657,
+      "id": 27740236092,
+      "run_number": 658,
       "status_normalized": "in_progress",
       "status_vi": "Đang chạy",
       "gh_status": "pending",
       "conclusion": "in_progress",
-      "started_at": "2026-06-18T06:05:28Z",
-      "summary_vi": "Build #657 — Deploy blog lên GitHub Pages: Thêm tính năng: O-Dashboard — Liobank by OCB PDF statement dashboard",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740220999"
+      "started_at": "2026-06-18T06:05:50Z",
+      "summary_vi": "Build #658 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T06:05:47Z) [skip changelog]",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740236092"
     },
     {
       "workflow_file": "qa.yml",
@@ -2401,9 +2401,67 @@
         }
       },
       "type": "change"
+    },
+    {
+      "recorded_at": "2026-06-18T06:06:05Z",
+      "stats": {
+        "total": 30,
+        "success": 18,
+        "failure": 3,
+        "cancelled": 6,
+        "skipped": 0,
+        "in_progress": 3
+      },
+      "workflows": {
+        "deploy.yml": {
+          "id": 27740236092,
+          "run_number": 658,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "pending",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T06:05:50Z",
+          "summary_vi": "Build #658 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T06:05:47Z) [skip changelog]",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740236092"
+        },
+        "qa.yml": {
+          "id": 27740213376,
+          "run_number": 1537,
+          "status_normalized": "in_progress",
+          "status_vi": "Đang chạy",
+          "gh_status": "in_progress",
+          "conclusion": "in_progress",
+          "started_at": "2026-06-18T06:05:18Z",
+          "summary_vi": "Build #1537 — Kiểm tra QA Gatekeeper: feat(o-dashboard): Liobank by OCB PDF statement dashboard (#403)",
+          "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740213376"
+        }
+      },
+      "type": "change"
     }
   ],
   "builds": [
+    {
+      "id": 27740236092,
+      "run_number": 658,
+      "commit_id": "c68809ebfb51e043e29a5c315df6522d0793cd20",
+      "commit_short": "c68809e",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/c68809ebfb51e043e29a5c315df6522d0793cd20",
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27740236092",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "workflow_file": "deploy.yml",
+      "summary_vi": "Build #658 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T06:05:47Z) [skip changelog]",
+      "status_vi": "Đang chạy",
+      "status_normalized": "in_progress",
+      "gh_status": "pending",
+      "success": false,
+      "is_error": false,
+      "severity": "info",
+      "conclusion": "in_progress",
+      "cancel_reason": "",
+      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "started_at": "2026-06-18T06:05:50Z",
+      "duration_sec": 3
+    },
     {
       "id": 27740220999,
       "run_number": 657,
@@ -2414,17 +2472,17 @@
       "workflow": "Build and deploy Zola site to GitHub Pages",
       "workflow_file": "deploy.yml",
       "summary_vi": "Build #657 — Deploy blog lên GitHub Pages: Thêm tính năng: O-Dashboard — Liobank by OCB PDF statement dashboard",
-      "status_vi": "Đang chạy",
-      "status_normalized": "in_progress",
-      "gh_status": "pending",
+      "status_vi": "Đã huỷ",
+      "status_normalized": "cancelled",
+      "gh_status": "completed",
       "success": false,
       "is_error": false,
       "severity": "info",
-      "conclusion": "in_progress",
-      "cancel_reason": "",
-      "cause_vi": "Build đang chạy — chờ kết quả trên GitHub Actions.",
+      "conclusion": "cancelled",
+      "cancel_reason": "concurrency",
+      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #658).",
       "started_at": "2026-06-18T06:05:28Z",
-      "duration_sec": 3
+      "duration_sec": 25
     },
     {
       "id": 27740213422,
@@ -2777,28 +2835,6 @@
       "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #645).",
       "started_at": "2026-06-18T04:34:25Z",
       "duration_sec": 22
-    },
-    {
-      "id": 27736928358,
-      "run_number": 643,
-      "commit_id": "9c3a2da4b771bcf340b7a9b08835b38dba63498b",
-      "commit_short": "9c3a2da",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/9c3a2da4b771bcf340b7a9b08835b38dba63498b",
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27736928358",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "workflow_file": "deploy.yml",
-      "summary_vi": "Build #643 — Deploy blog lên GitHub Pages: Cập nhật: refresh Build Dashboard (2026-06-18T04:34:01Z) [skip changelog]",
-      "status_vi": "Đã huỷ",
-      "status_normalized": "cancelled",
-      "gh_status": "completed",
-      "success": false,
-      "is_error": false,
-      "severity": "info",
-      "conclusion": "cancelled",
-      "cancel_reason": "concurrency",
-      "cause_vi": "Đã huỷ do concurrency — run mới hơn đã được kích hoạt (Build #644).",
-      "started_at": "2026-06-18T04:34:03Z",
-      "duration_sec": 25
     },
     {
       "id": 27736855513,
