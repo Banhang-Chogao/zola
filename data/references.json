@@ -2594,11 +2594,16 @@
         "title": "Chính sách bảo mật",
         "url": "https://banhang-chogao.github.io/zola/privacy/",
         "kind": "internal"
+      },
+      {
+        "title": "Tuyên bố bản quyền",
+        "url": "https://banhang-chogao.github.io/zola/copyright/",
+        "kind": "internal"
       }
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ github.com/Banhang-Chogao/zola và Zola. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
-    "internal_count": 3
+    "internal_count": 4
   },
   "content/pages/contact.md": {
     "external": [
@@ -2618,6 +2623,50 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ github.com/Banhang-Chogao/zola. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 1
+  },
+  "content/pages/copyright.md": {
+    "external": [
+      {
+        "title": "github.com/Banhang-Chogao/zola",
+        "url": "https://github.com/Banhang-Chogao/zola",
+        "kind": "external"
+      },
+      {
+        "title": "Công ước Berne",
+        "url": "https://vi.wikipedia.org/wiki/C%C3%B4ng_%C6%B0%E1%BB%9Bc_Berne",
+        "kind": "external"
+      },
+      {
+        "title": "Đạo luật DMCA",
+        "url": "https://www.copyright.gov/dmca",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Giới thiệu",
+        "url": "https://banhang-chogao.github.io/zola/about/",
+        "kind": "internal"
+      },
+      {
+        "title": "Điều khoản & Miễn trừ",
+        "url": "https://banhang-chogao.github.io/zola/terms/",
+        "kind": "internal"
+      },
+      {
+        "title": "Chính sách bảo mật",
+        "url": "https://banhang-chogao.github.io/zola/privacy/",
+        "kind": "internal"
+      },
+      {
+        "title": "Liên hệ",
+        "url": "https://banhang-chogao.github.io/zola/contact/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 3,
+    "internal_count": 4
   },
   "content/pages/privacy.md": {
     "external": [
