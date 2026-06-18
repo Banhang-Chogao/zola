@@ -380,7 +380,190 @@
     return doc.lastAutoTable ? doc.lastAutoTable.finalY + 6 : startY + 8;
   }
 
-  function drawPdfReport(doc, payload, transactions) {
+  // ---- Charts → PDF -------------------------------------------------------
+  // Bottom safe-zone kept clear so page numbers / watermark never overlap
+  // chart content. Charts are live Chart.js canvases captured at export time.
+  const CHART_BOTTOM_SAFE = 14;
+
+  /**
+   * Capture a live Chart.js canvas as an opaque (white-background) image.
+   * Prefers the chart instance's toBase64Image('image/jpeg') — JPEG has no
+   * alpha, so transparent chart areas render white instead of black. Falls
+   * back to canvas.toDataURL('image/png') + a flag so the caller paints a
+   * white rect behind it. Returns null when the canvas/chart is unavailable.
+   */
+  function captureChartImage(canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || !canvas.getContext) return null;
+    const w = canvas.width || canvas.clientWidth || 0;
+    const h = canvas.height || canvas.clientHeight || 0;
+    if (!w || !h) return null;
+
+    const ChartLib = global.Chart;
+    let inst = null;
+    if (ChartLib && typeof ChartLib.getChart === "function") {
+      try {
+        inst = ChartLib.getChart(canvas);
+      } catch (e) {
+        inst = null;
+      }
+    }
+
+    if (inst && typeof inst.toBase64Image === "function") {
+      try {
+        const url = inst.toBase64Image("image/jpeg", 1.0);
+        if (url && url.indexOf("data:image") === 0) {
+          return { dataUrl: url, format: "JPEG", w, h, needsWhiteBg: false };
+        }
+      } catch (e) {
+        /* fall through to PNG */
+      }
+    }
+
+    try {
+      const url = canvas.toDataURL("image/png");
+      if (url && url.indexOf("data:image") === 0) {
+        return { dataUrl: url, format: "PNG", w, h, needsWhiteBg: true };
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
+  function ensureSpace(doc, y, needed, pageH) {
+    if (y + needed > pageH - CHART_BOTTOM_SAFE) {
+      doc.addPage();
+      return 16;
+    }
+    return y;
+  }
+
+  function drawSectionTitle(doc, title, x, y) {
+    setFont(doc, "bold", 11);
+    setRgb(doc, INK);
+    doc.text(String(title || "—"), x, y);
+    return y + 5;
+  }
+
+  function drawEmptyCard(doc, x, y, w, h) {
+    doc.setDrawColor(226, 232, 240);
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(x, y, w, h, 2.5, 2.5, "FD");
+    setFont(doc, "normal", 9);
+    setRgb(doc, MUTED);
+    doc.text("Chưa đủ dữ liệu để phân tích", x + w / 2, y + h / 2 + 1.5, { align: "center" });
+    setRgb(doc, INK);
+    return y + h + 6;
+  }
+
+  /** Draw one chart section: title + captured image, or a fallback card. */
+  function drawChartSection(doc, section, margin, pageW, pageH, y) {
+    const contentW = pageW - margin * 2;
+    const fullW = section.wide ? contentW : Math.min(contentW, 150);
+    const titleH = 7;
+
+    if (!section.hasData) {
+      const cardH = 26;
+      y = ensureSpace(doc, y, titleH + cardH + 6, pageH);
+      y = drawSectionTitle(doc, section.title, margin, y);
+      return drawEmptyCard(doc, margin, y, fullW, cardH);
+    }
+
+    const img = captureChartImage(section.canvasId);
+    if (!img) {
+      // Canvas not present/renderable (e.g. headless) → fallback card.
+      const cardH = 26;
+      y = ensureSpace(doc, y, titleH + cardH + 6, pageH);
+      y = drawSectionTitle(doc, section.title, margin, y);
+      return drawEmptyCard(doc, margin, y, fullW, cardH);
+    }
+
+    const aspect = img.h / img.w || 0.5;
+    let drawW = fullW;
+    let drawH = drawW * aspect;
+    const maxH = section.wide ? 78 : 70;
+    if (drawH > maxH) {
+      drawH = maxH;
+      drawW = drawH / aspect;
+    }
+
+    y = ensureSpace(doc, y, titleH + drawH + 6, pageH);
+    y = drawSectionTitle(doc, section.title, margin, y);
+
+    if (img.needsWhiteBg) {
+      doc.setFillColor(255, 255, 255);
+      doc.rect(margin, y, drawW, drawH, "F");
+    }
+    try {
+      doc.addImage(img.dataUrl, img.format, margin, y, drawW, drawH, undefined, "FAST");
+    } catch (e) {
+      return drawEmptyCard(doc, margin, y, fullW, 26);
+    }
+    return y + drawH + 6;
+  }
+
+  /**
+   * Render the 5 dashboard charts as titled PDF sections, mirroring the UI.
+   * Empty-data decisions come from the already-built insights `charts` payload
+   * (NOT recomputed) so PDF and on-screen logic stay in lockstep.
+   */
+  function drawChartsBlock(doc, charts, summary, margin, pageW, pageH, y) {
+    const c = charts || {};
+    const donut = c.donut || {};
+    const donutVals = Array.isArray(donut.values) ? donut.values : [];
+    const balance = c.balanceTimeline || {};
+    const dailyNet = c.dailyNet || {};
+    const topTxns = c.topTxns || {};
+    const hasTxns = (summary && summary.transaction_count > 0) || false;
+
+    const sections = [
+      {
+        title: "Financial Health Gauge",
+        canvasId: "ld-chart-gauge",
+        hasData: hasTxns,
+        wide: false,
+      },
+      {
+        title: "Thu vs Chi",
+        canvasId: "ld-chart-donut",
+        hasData: donutVals.some((v) => Number(v) > 0),
+        wide: false,
+      },
+      {
+        title: "Số dư theo thời gian",
+        canvasId: "ld-chart-area",
+        hasData: Array.isArray(balance.labels) && balance.labels.length > 0,
+        wide: true,
+      },
+      {
+        title: "Giao dịch lớn nhất (thu/chi)",
+        canvasId: "ld-chart-treemap",
+        hasData: Array.isArray(topTxns.items) && topTxns.items.length > 0,
+        wide: false,
+      },
+      {
+        title: "Dòng tiền ròng theo ngày",
+        canvasId: "ld-chart-waterfall",
+        hasData: Array.isArray(dailyNet.labels) && dailyNet.labels.length > 0,
+        wide: true,
+      },
+    ];
+
+    setFont(doc, "bold", 12);
+    setRgb(doc, INK);
+    y = ensureSpace(doc, y, 16, pageH);
+    doc.text("Biểu đồ phân tích", margin, y);
+    y += 6;
+
+    sections.forEach((section) => {
+      y = drawChartSection(doc, section, margin, pageW, pageH, y);
+    });
+
+    return y;
+  }
+
+  function drawPdfReport(doc, payload, transactions, charts) {
     const { summary, health, insights, series_id: series } = payload;
     const fmt = global.LDashboardInsights.formatVnd;
     const pageW = doc.internal.pageSize.getWidth();
@@ -406,6 +589,9 @@
 
     y = Math.max(tiersEnd, insightsEnd);
 
+    y = drawChartsBlock(doc, charts, summary, margin, pageW, pageH, y);
+
+    y = ensureSpace(doc, y, 16, pageH);
     setFont(doc, "bold", 11);
     setRgb(doc, INK);
     doc.text("Bảng giao dịch", margin, y);
@@ -506,7 +692,7 @@
     const payload = buildPayload(transactions, insightsPayload);
     const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
     await ensurePdfFonts(doc);
-    drawPdfReport(doc, payload, transactions);
+    drawPdfReport(doc, payload, transactions, insightsPayload && insightsPayload.charts);
     finalizePdfPages(doc, payload.series_id, payload);
 
     const stamp = payload.exported_at.slice(0, 10);
