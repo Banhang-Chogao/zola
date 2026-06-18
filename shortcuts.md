@@ -81,6 +81,7 @@ Format bắt buộc:
 | `content9` | Auto chạy check_content_seo.py — soi front matter + ảnh thiếu alt trong content/ |
 | `nangcap` | Quét + nâng cấp mọi bài cũ điểm SEO QA < 90 lên đạt chuẩn (≥90/A) |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
+| `runner` | Retry / tiếp tục lệnh, workflow, macro đang dở hoặc bị gián đoạn |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
@@ -1040,6 +1041,60 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 - Sort theo: Status (❌ trước, ⚠ giữa, ✅ sau) → recency desc
 
 **Scope mặc định**: 20 run gần nhất trên `main`. Kèm context (e.g., `run list deploy.yml`) → filter theo workflow đó.
+
+### `runner` — Retry / tiếp tục lệnh đang dở
+
+**Mục đích**: Khi có tác vụ đang chạy dở, bị gián đoạn, timeout, hoặc fail tạm
+thời — user gõ `runner` để Claude **tiếp tục** hoặc **thử lại** thay vì bắt đầu
+lại từ đầu.
+
+**Hành động**:
+
+1. **Quét trạng thái đang dở** (theo thứ tự):
+   - Background shell tasks (terminals) — `in_progress`, `failed`, exit code ≠ 0
+   - GitHub Actions runs `in_progress` / `queued` / `waiting` trên repo zola
+   - Workflow runs `failure` gần nhất (≤1h) có khả năng retry (network, rate
+     limit, race, runner timeout)
+   - Chuỗi shortcut macro bị ngắt giữa chừng (vd `morning` dừng ở phase D)
+   - Pipeline Claude đang thực thi bị interrupt hoặc context limit giữa chừng
+
+2. **Output bảng snapshot** trước khi hành động:
+
+| Task | Loại | Trạng thái | Hành động |
+|---|---|---|---|
+| deploy #123 | GH Actions | in_progress | Poll tiếp |
+| zola build | Shell | failed (exit 1) | Retry |
+| morning phase D | Macro | paused | Resume từ phase D |
+
+3. **Retry / continue** (ưu tiên cao → thấp):
+   - **GH Actions `in_progress`/`queued`**: poll `actions_get` đến `completed`
+     (max 5 phút) — KHÔNG re-trigger
+   - **GH Actions `failure` retryable**: `gh run rerun <id>` hoặc
+     `actions_run_trigger` (workflow_dispatch) nếu run không rerun được
+   - **Shell failed**: chạy lại lệnh cuối (cùng cwd + env), tối đa 3 lần,
+     backoff 10s giữa các lần
+   - **Macro shortcut dở**: resume từ phase/step cuối đã log — KHÔNG chạy lại
+     phase đã ✅
+   - **Không có gì dở**: báo `Không có task pending.` + gợi ý `run list` audit
+
+4. **Hard rules**:
+   - KHÔNG restart macro từ đầu nếu đã có progress log
+   - KHÔNG `git push --force` hoặc merge để "unstick" — chỉ retry safe ops
+   - KHÔNG retry lệnh destructive (`rm -rf`, force push) — escalate user
+   - Mỗi retry ghi 1 dòng log: `task · attempt N/3 · result`
+
+5. **Output cuối** ≤150 từ:
+
+```
+runner: retried N · continued M · still pending K · escalated E
+```
+
+Nếu vẫn stuck sau 3 lần → gợi ý `ff` (fix workflow) hoặc `??` (deploy status).
+
+**Phạm vi mở rộng** (user kèm context):
+- `runner deploy` — chỉ poll/retry workflow deploy
+- `runner shell` — chỉ retry lệnh terminal gần nhất
+- `runner morning` — resume macro `morning` từ phase dở
 
 ### `manu9` — Auto-approve tất cả PRs do Claude tạo
 
