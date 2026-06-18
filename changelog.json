@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(vaccine): Daily Vaccine Autofixer + shortcut vacxin11 (V11)",
+      "tag": "chore",
+      "lines_added": 1028,
+      "lines_removed": 695,
+      "highlights": [
+        "Engine scripts/vaccine_autofixer.py: parse registry từ CLAUDE.md (#### V<N> —), các step fixer AN TOÀN (V1 HF model id · internal-link 404 --fix · references · rule-checker report-only), QA + build ve",
+        "Tests scripts/test_vaccine_autofixer.py: 8 test (parse registry · next-run · lock · report shape) — pass hết.",
+        "Workflow .github/workflows/vaccine-autofixer.yml: cron 0 23   * (= 06:00 Asia/Ho_Chi_Minh) + workflow_dispatch; concurrency (không chạy đồng thời); mở PR cho mọi thay đổi (PR flow — không push thẳng m",
+        "UI templates/insights.html + sass/_vaccine-autofixer.scss: panel \"Daily Vaccine Autofixer\" — Last run · Next scheduled · chip vaccine khớp · số đã fix · chip QA/Build/Prod · nút Run Daily Vaccine Auto",
+        "Docs: shortcuts.md (vacxin11), CLAUDE.md (vaccine V11 + file map)."
+      ],
+      "pr": 458
+    },
+    {
+      "date": "2026-06-18",
       "title": "CMS: cập nhật bài 'Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn'",
       "tag": "chore",
       "lines_added": 3,
