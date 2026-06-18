@@ -2,6 +2,44 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "content(baochi): xoá bài V-Family trùng, giữ bản điểm cao (#407)",
+      "tag": "remove",
+      "lines_added": 8,
+      "lines_removed": 100,
+      "highlights": [
+        "🗑️ Xoá content/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh.md",
+        "🔗 Sửa internal link trong bài Starbucks–Fansipan → trỏ sang bản giữ lại (vietinbank-v-family-nhom-gia-dinh) để không gãy link.",
+        "✅ grep xác nhận không còn tham chiếu nào tới slug đã xoá."
+      ],
+      "pr": 410
+    },
+    {
+      "date": "2026-06-18",
+      "title": "bài báo VNeID 2.2.8 — phản ánh lừa đảo, quét QR căn cước",
+      "tag": "feat",
+      "lines_added": 113,
+      "lines_removed": 0,
+      "highlights": [
+        "content/baochi/vneid-2-2-8-phan-anh-lua-dao-quet-qr.md",
+        "static/img/covers/vneid-2-2-8-phan-anh-lua-dao-quet-qr.svg (cover brand gradient + motif QR)",
+        "SEO QA 100/100 (A+), 1124 từ, kw VNeID 2.2.8, category [\"Tất cả\",\"Báo chí\",\"Công nghệ\"]",
+        "6 H2, FAQ FAQPage schema 5 câu",
+        "2 internal link (/zola/baochi/liobank-bao-mat-an-toan-the-nao/, /zola/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/) + external chính thống (vneid.gov.vn, dichvucong.gov.vn)"
+      ],
+      "pr": 411
+    },
+    {
+      "date": "2026-06-18",
+      "title": "CMS: cập nhật bài 'Những Quy Định Cấm Từ Shopee Affiliate 2026 Mới Nhất'",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 7,
+      "highlights": [],
+      "commit": "f01930c49219",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-18",
       "title": "2 bài baochi — VietinBank V-Family & Mùa quả chín xứ Đông",
       "tag": "feat",
       "lines_added": 252,

@@ -1,17 +1,13 @@
 +++
 title = "Những Quy Định Cấm Từ Shopee Affiliate 2026 Mới Nhất"
-description = "Quy định cấm từ Shopee Affiliate 2026 mới nhất: từ khóa không được dùng, vi phạm thường gặp và cách tránh bị khóa tài khoản."
 date = 2026-06-17
-aliases = ["/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat/"]
 
 [taxonomies]
-categories = ["Tất cả", "Công nghệ"]
+categories = ["Tất cả"]
 tags = ["affiliate marketing", "kiếm tiền từ facebook reels", "làm affiliate", "quy định cấm từ", "shopee affiliate"]
+
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
-seo_keyword = "quy định cấm từ Shopee Affiliate"
-featured = true
-featured_at = "2026-06-17T08:18:16.919Z"
 +++
 
 ![Quy định cấm từ Shopee Affiliate 2026 — hành vi bị cấm và mức xử phạt](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
