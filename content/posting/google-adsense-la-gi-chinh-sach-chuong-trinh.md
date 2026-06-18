@@ -119,7 +119,7 @@ Series hướng tới:
 - **Chủ site tin tức / blogger / content creator** — cần hiểu chính sách nội dung dài hạn.
 - **Publisher đã có AdSense** — muốn giảm rủi ro vi phạm và biết cách xử lý Policy center.
 
-Nếu bạn đã có trang pháp lý trên blog, đối chiếu thêm [Chính sách bảo mật](/zola/pages/privacy/) — Google yêu cầu privacy policy disclosure khi dùng sản phẩm Google (chi tiết ở Bài 4, mục privacy-related policies).
+Nếu bạn đã có trang pháp lý trên blog, đối chiếu thêm [Chính sách bảo mật](/zola/privacy/) — Google yêu cầu privacy policy disclosure khi dùng sản phẩm Google (chi tiết ở Bài 4, mục privacy-related policies).
 
 ## Lộ trình 15 bài (preview)
 
