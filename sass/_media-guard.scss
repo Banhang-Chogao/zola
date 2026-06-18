@@ -29,3 +29,26 @@ a.media-guard--attach {
 }
 
 /* Visible media stays renderable — no pointer-events:none on images. */
+
+/* ===== TEXT PROTECTION — thân bài (free + premium) =====
+   Chặn bôi đen/copy text cơ bản trong nội dung bài viết. Deterrent only:
+   trang static GitHub Pages không thể chặn tuyệt đối (HTML/devtools vẫn đọc được).
+   Cho phép chọn trong field nhập liệu để không vỡ UX. JS (media-guard.js) chặn
+   copy/cut/contextmenu/selectstart tương ứng. */
+.post-single__content {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+
+  input,
+  textarea,
+  select,
+  [contenteditable="true"] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+}

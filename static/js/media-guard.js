@@ -108,6 +108,40 @@
     }
   }, true);
 
+  /* -----------------------------------------------------------------
+   * TEXT PROTECTION (bài viết — free + premium)
+   * Chặn copy / chuột phải / bôi đen text trong thân bài. CHỈ là rào cản
+   * sao chép cơ bản (deterrent), KHÔNG phải bảo mật tuyệt đối: trang static
+   * GitHub Pages → ai xem HTML/devtools vẫn lấy được nội dung.
+   * Scope vào .post-single__content nên không ảnh hưởng tool/form/navigation.
+   * ----------------------------------------------------------------- */
+  var TEXT_GUARD_ROOT = '.post-single__content';
+
+  function inTextGuard(el) {
+    return !!(el && el.closest && el.closest(TEXT_GUARD_ROOT) && !inSkipZone(el));
+  }
+
+  /* Cho phép thao tác bình thường trong field nhập liệu (nếu có trong bài). */
+  function isEditable(el) {
+    return !!(el && el.closest && el.closest('input, textarea, select, [contenteditable="true"]'));
+  }
+
+  document.addEventListener('copy', function (e) {
+    if (inTextGuard(e.target) && !isEditable(e.target)) e.preventDefault();
+  }, true);
+
+  document.addEventListener('cut', function (e) {
+    if (inTextGuard(e.target) && !isEditable(e.target)) e.preventDefault();
+  }, true);
+
+  document.addEventListener('contextmenu', function (e) {
+    if (inTextGuard(e.target) && !isEditable(e.target)) e.preventDefault();
+  }, true);
+
+  document.addEventListener('selectstart', function (e) {
+    if (inTextGuard(e.target) && !isEditable(e.target)) e.preventDefault();
+  }, true);
+
   function init() {
     markAll(document);
   }
