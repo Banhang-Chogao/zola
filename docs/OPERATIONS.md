@@ -50,7 +50,7 @@ Workflow automation **không được** `git push origin HEAD:main`.
 
 Pattern: `.github/scripts/push_via_pr.sh` → branch riêng → PR → **auto-merge** khi CI pass.
 
-Workflow tuân thủ: `auto-merge`, `merge-report`, `perf-audit`, `self-healing`, `pagespeed`, `build-dashboard`, `ga-stats`, `changelog-update`, `scheduled-publish`, `optimize-images`, `compliance-score`, `build-related`, `security-audit`.
+Workflow tuân thủ: `auto-merge`, `merge-report`, `perf-audit`, `self-healing`, `pagespeed`, `build-dashboard`, `ga-stats`, `changelog-update`, `scheduled-publish`, `optimize-images`, `compliance-score`, `build-related`, `security-audit`, `qa-rule-checker` (schedule 48h + `workflow_dispatch` + fail-trigger).
 
 ## Branch protection (`main`)
 

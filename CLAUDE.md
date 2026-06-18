@@ -1172,7 +1172,7 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 
 ## QA Auto Rule Checker
 
-Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **8 giờ** (`qa-rule-checker.yml`).
+Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi **48 giờ** (`qa-rule-checker.yml`, cron `0 3 */2 * *` UTC).
 
 | Thành phần | Path |
 |------------|------|
@@ -1202,7 +1202,7 @@ Bot phát hiện rule/policy/workflow/automation xung đột — chạy mỗi **
 
 **Resolution:** Làm rõ precedence trong CLAUDE.md; gắn no-auto-merge cho bot report-only.
 
-**Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 8h; đồng bộ CLAUDE.md khi đổi policy.
+**Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 48h (schedule); đồng bộ CLAUDE.md khi đổi policy.
 
 ## Premium Paywall Rules
 

@@ -1,11 +1,13 @@
 name: QA Rule Checker
 
 # Quét rule xung đột + auto-fix → push thẳng main.
-# Auto-trigger: schedule 8h + mọi workflow fail trên main.
+# Auto-trigger: schedule every 48h + workflow fail trên main.
+# Manual: workflow_dispatch (always allowed; may queue if another run is active).
 
 on:
   schedule:
-    - cron: '0 */8 * * *'
+    # Every 2 days at 03:00 UTC (10:00 ICT) — 48h cadence
+    - cron: '0 3 */2 * *'
   workflow_dispatch:
   workflow_run:
     workflows:
@@ -28,6 +30,7 @@ permissions:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+# No overlapping runs: queue later triggers; scheduled runs skip if one is active.
 concurrency:
   group: qa-rule-checker
   cancel-in-progress: false
@@ -45,15 +48,36 @@ jobs:
       )
     runs-on: ubuntu-latest
     steps:
+      - name: Skip scheduled run when another instance is in progress
+        id: active_gate
+        if: github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          WF_ID=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/qa-rule-checker.yml" --jq '.id')
+          ACTIVE=$(gh api \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/${WF_ID}/runs?status=in_progress&per_page=20" \
+            --jq '[.workflow_runs[] | select(.id != '"${{ github.run_id }}"')] | length')
+          if [ "$ACTIVE" -gt 0 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Skipping scheduled run: ${ACTIVE} other QA Rule Checker run(s) still active."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout
+        if: github.event_name != 'schedule' || steps.active_gate.outputs.skip != 'true'
         uses: actions/checkout@v6
 
       - name: Set up Python
+        if: github.event_name != 'schedule' || steps.active_gate.outputs.skip != 'true'
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Run QA Rule Checker (scan, report, push fixes to main)
+        if: github.event_name != 'schedule' || steps.active_gate.outputs.skip != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

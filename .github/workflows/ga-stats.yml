@@ -40,6 +40,9 @@ jobs:
           GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
         run: python scripts/fetch_ga_stats.py
 
+      - name: Refresh improvement progress snapshot
+        run: python scripts/fetch_ga_improvement_progress.py
+
       - name: Push to main if changed
         env:
           WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
@@ -47,4 +50,6 @@ jobs:
         run: |
           chmod +x .github/scripts/push_to_main.sh
           .github/scripts/push_to_main.sh "Cập nhật: refresh GA stats ($(date -u +%FT%TZ))" \
-            data/ga-stats.json
+            data/ga-stats.json \
+            data/ga-improvement-progress.json \
+            static/data/ga-improvement-progress.json

@@ -1,0 +1,83 @@
+{
+  "updated_at": "2026-06-18T21:21:31Z",
+  "tasks": [
+    {
+      "id": "seo",
+      "label": "SEO optimization",
+      "icon": "🔍",
+      "status": "running",
+      "detail": "Adding copyright sections",
+      "source": "seo-rank-autofix-report.json",
+      "updated_at": "2026-06-18T06:52:03+0700"
+    },
+    {
+      "id": "internal_links",
+      "label": "Internal links improvement",
+      "icon": "🔗",
+      "status": "running",
+      "detail": "0 broken links · 9 weak related pairs",
+      "source": "compliance-link-report.json",
+      "updated_at": "2026-06-18T21:11:46Z"
+    },
+    {
+      "id": "page_speed",
+      "label": "Page speed fixes",
+      "icon": "⚡",
+      "status": "running",
+      "detail": "Mobile 65/100 · LCP 7.0 s · needs work",
+      "source": "pagespeed.json",
+      "updated_at": "2026-06-18T12:02:29+00:00"
+    },
+    {
+      "id": "schema",
+      "label": "Schema enhancement",
+      "icon": "📋",
+      "status": "running",
+      "detail": "15 pages missing FAQ/schema · 458/458 pages",
+      "source": "seo-rank-autofix-report.json",
+      "updated_at": "2026-06-18T21:11:46Z"
+    },
+    {
+      "id": "content_refresh",
+      "label": "Content refresh",
+      "icon": "📝",
+      "status": "done",
+      "detail": "Latest: CMS: cập nhật bài 'Fintech 2026: Paywall premium trên blog c",
+      "source": "changelog.json",
+      "updated_at": "2026-06-18"
+    },
+    {
+      "id": "indexing",
+      "label": "Indexing checks",
+      "icon": "🗂️",
+      "status": "done",
+      "detail": "356 links OK · IndexNow on publish",
+      "source": "qa-404-report.json",
+      "updated_at": "2026-06-18T04:30:00Z"
+    },
+    {
+      "id": "image_opt",
+      "label": "Image optimization",
+      "icon": "🖼️",
+      "status": "done",
+      "detail": "formats OK · WebP workflow",
+      "source": "compliance-score.json",
+      "updated_at": "2026-06-18T21:11:46Z"
+    },
+    {
+      "id": "mobile_ux",
+      "label": "Mobile UX improvements",
+      "icon": "📱",
+      "status": "running",
+      "detail": "Mobile 65/100 vs desktop 98/100 (Δ33) · 458/458 ready",
+      "source": "pagespeed.json",
+      "updated_at": "2026-06-18T12:02:29+00:00"
+    }
+  ],
+  "summary": {
+    "pending": 0,
+    "running": 5,
+    "done": 3
+  },
+  "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
+}
