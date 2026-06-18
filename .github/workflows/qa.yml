@@ -87,3 +87,10 @@ jobs:
 
       - name: Check GitHub Pages base path in internal links
         run: python3 scripts/check_internal_links.py
+
+      # Hard gate: crawl built public/ for broken INTERNAL links. The checker
+      # exits 2 when any internal link 404s, which fails this step (and the job),
+      # blocking auto-merge. Runs offline by default (no external requests) so it
+      # never hangs CI. External links are intentionally not gated here.
+      - name: Gate on broken internal links (404 checker — exit 2 fails build)
+        run: python3 qa-404-checker.py
