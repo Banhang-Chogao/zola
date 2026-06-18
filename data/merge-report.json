@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-17T23:43:44Z",
+  "updated_at": "2026-06-18T00:02:00Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 107,
-    "today": 107,
-    "this_week": 107,
-    "this_month": 107,
+    "total": 110,
+    "today": 0,
+    "this_week": 110,
+    "this_month": 110,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 27,
+      "feature": 28,
       "content": 2,
-      "fix": 33,
+      "fix": 34,
       "unknown": 3,
-      "chore": 39,
+      "chore": 40,
       "ci": 2,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 388,
+      "pr_title": "feat(insights): add GitHub Activity heatmap widget",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/388",
+      "merged_at": "2026-06-17T23:59:07Z",
+      "merge_commit_sha": "8b3b9b4bdd10cbd8cd248e09b98efc92ffea9ad0",
+      "merge_commit_short": "8b3b9b4",
+      "head_branch": "feat/insights-github-activity",
+      "summary_vi": "Adds a **GitHub Activity** card to `/insights/` showing repository contribution activity for `Banhang-Chogao/zola`, styled like GitHub's profile contribution panel.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 568,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27727510584",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 387,
       "pr_title": "feat(sidebar): add Google Rank SEO authority widget",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 561,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726789044",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 376,
@@ -149,8 +168,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 533,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726025714",
+      "build_run_number": 565,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726917760",
       "build_conclusion": "success"
     },
     {
@@ -168,9 +187,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 562,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726795747",
-      "build_conclusion": "pending"
+      "build_run_number": 565,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27726917760",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 379,
@@ -990,6 +1009,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 332,
+      "pr_title": "chore: refresh Google Trends VN hot search",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/332",
+      "merged_at": "2026-06-17T17:54:33Z",
+      "merge_commit_sha": "e9b8d8262149b233eacb076dd66ff16f213bd57d",
+      "merge_commit_short": "e9b8d82",
+      "head_branch": "chore/google-trends-data",
+      "summary_vi": "Automated refresh of `data/google-trends-vn.json` for sidebar widget.",
+      "change_type": "chore",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 324,
       "pr_title": "chore: changelog after PR #315",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/324",
@@ -1512,6 +1550,25 @@
       "head_branch": "chore/security-data",
       "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
       "change_type": "chore",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 296,
+      "pr_title": "qa: Compliance Score audit + auto-fix",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/296",
+      "merged_at": "2026-06-17T16:46:33Z",
+      "merge_commit_sha": "d6654e38115ef34d780a42a4db8119abc69d029c",
+      "merge_commit_short": "d6654e3",
+      "head_branch": "qa/compliance-auto",
+      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
+      "change_type": "fix",
       "files_changed": null,
       "additions": null,
       "deletions": null,
