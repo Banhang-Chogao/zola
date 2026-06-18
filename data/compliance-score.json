@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-18T09:43:00Z",
-  "score": 100.0,
+  "updated_at": "2026-06-18T09:43:50Z",
+  "score": 97.8,
   "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 23,
-    "warn": 0,
+    "pass": 22,
+    "warn": 1,
     "fail": 0,
     "total": 23
   },
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "312/322 in range"
+          "detail": "317/326 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "322/322 complete"
+          "detail": "326/326 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "322/322 set"
+          "detail": "326/326 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "322/322 single H1"
+          "detail": "326/326 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "322/322 with lang"
+          "detail": "326/326 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "322/322 ready"
+          "detail": "326/326 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "322/322 pages"
+          "detail": "326/326 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "322/322 pages covered"
+          "detail": "326/326 pages covered"
         },
         {
           "label": "Image weight",
@@ -158,15 +158,44 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
-      "pass": 2,
-      "warn": 0,
+      "score": 75.0,
+      "pass": 1,
+      "warn": 1,
       "fail": 0,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "warn",
+          "detail": "1 broken / 318 unique",
+          "broken": [
+            {
+              "source_page": "/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan/",
+              "source_file": "public/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan/index.html",
+              "href": "https://banhang-chogao.github.io/zola/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/",
+              "target": "/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/scoring/",
+              "source_file": "public/scoring/index.html",
+              "href": "https://banhang-chogao.github.io/zola/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/",
+              "target": "/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/seo-bang-vang/",
+              "source_file": "public/seo-bang-vang/index.html",
+              "href": "https://banhang-chogao.github.io/zola/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/",
+              "target": "/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +215,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "318/322 pages"
+          "detail": "322/326 pages"
         },
         {
           "label": "Skip navigation",
@@ -197,6 +226,10 @@
     }
   ],
   "highlights": [
+    {
+      "type": "warn",
+      "text": "Links: Internal links"
+    },
     {
       "type": "pass",
       "text": "Metadata: Page titles"
@@ -216,28 +249,24 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 322,
+  "pages_scanned": 326,
   "articles_scanned": 69,
   "fix_log": [
     {
-      "category": "—",
-      "label": "Tất cả mục",
-      "check_status": "pass",
-      "outcome": "skipped",
-      "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-18T09:43:00Z"
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Còn 3 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan/index.html → /baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/ (Target not found in public/ after zola build); public/scoring/index.html → /baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/ (Target not found in public/ after zola build); public/seo-bang-vang/index.html → /baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh/ (Target not found in public/ after zola build)",
+      "at": "2026-06-18T09:43:50Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 0,
-    "skipped": 1
+    "failed": 1,
+    "skipped": 0
   }
 }
