@@ -254,6 +254,14 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 - Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
 - Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
   cần tạo PR trùng.
+- **Theo dõi tới khi xong (BẮT BUỘC):** MỌI tính năng sau khi commit + mở PR →
+  **PHẢI subscribe theo dõi trạng thái PR** (`subscribe_pr_activity`) cho tới khi
+  PR **MERGED hoặc CLOSED**. Lắng nghe CI + review comment; build đỏ → chẩn đoán
+  (Vaccine §4 / `ff`) + fix trên cùng branch + push lại; CI xanh → xác nhận
+  auto-merge. KHÔNG kết thúc turn khi PR còn open mà chưa theo dõi. Webhook không
+  báo mọi thứ (CI success / merge-conflict) → nếu có `send_later` thì hẹn tự
+  check-in ~1h tái kiểm tra state/CI/mergeability rồi re-arm cho tới khi merge.
+  Dừng theo dõi khi user yêu cầu (`unsubscribe_pr_activity`).
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
