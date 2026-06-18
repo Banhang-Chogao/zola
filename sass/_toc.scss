@@ -53,5 +53,13 @@
   @media (max-width: 720px) {
     margin: 1.1rem 0 1.5rem;
     padding: 0.85rem 1rem 0.95rem;
+
+    a {
+      display: inline-block;
+      padding: 0.2rem 0;
+      line-height: 1.55;
+    }
+
+    li { margin: 0.42rem 0; }
   }
 }

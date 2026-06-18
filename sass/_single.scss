@@ -138,10 +138,27 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .post-single {
     &__header, &__content, &__footer { padding-left: 1.25rem; padding-right: 1.25rem; }
     &__title { font-size: 1.5rem; }
+  }
+}
+
+/* Tablet reading comfort (768–1024): roomier body without touching desktop */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .post-single {
+    &__header,
+    &__content,
+    &__footer {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    &__content {
+      font-size: 1.02rem;
+      line-height: 1.72;
+    }
   }
 }
 
