@@ -304,9 +304,14 @@ Mỗi bài mới PHẢI có đủ tín hiệu SEO on-page trong front matter + n
 - `description` (50–160 ký tự) — KHÔNG để Zola tự cắt summary.
 - `[extra] seo_keyword = "..."` — khai báo từ khoá chính để chấm điểm chính xác.
 - `[extra] thumbnail` (og:image), slug chữ-thường-nối-gạch-ngang không dấu.
-- Từ khoá chính xuất hiện ở: title, đoạn mở đầu, ít nhất 1 heading H2.
-- ≥ 2 heading H2, ≥ 3 tag, ≥ 1 internal link + ≥ 1 external link uy tín.
-- Độ dài ≥ 600 từ, đoạn văn không quá dài (readability).
+- Từ khoá chính xuất hiện ở: title, đoạn mở đầu (≤150 từ đầu), ít nhất 1 heading H2 **và** đoạn kết.
+- ≥ 2 heading H2, ≥ 3 tag, **≥ 5 internal link** + ≥ 1 external link uy tín
+  (xem chuẩn mới "SEO CONTENT SYSTEM RULE" bên dưới; tin ngắn được hạ xuống ≥ 3
+  nhưng phải gồm link tới **hub chuyên mục** + bài cùng cluster).
+- Độ dài: tin ngắn ≥ 800 từ · bài chuẩn ≥ 1500 từ · bài pillar 2500–5000 từ.
+  Đoạn văn ngắn, không tường chữ (readability, mobile-first).
+- Mỗi bài PHẢI có block FAQ (`[[extra.faq]]`, 3–8 câu) + CTA/next-step cuối bài,
+  KHÔNG để trang cụt (dead-end).
 
 ### 2. Hệ thống tự chấm điểm + lưu DB
 
@@ -324,6 +329,82 @@ Mỗi lần viết/sửa bài, hệ thống TỰ chấm SEO qua `scripts/seo_qa_
 DB `data/seo-qa-scores.json` là nguồn dữ liệu để dựng trang Insights "điểm SEO
 của blog" sau này. KHÔNG xoá file này; mỗi lần chấm chỉ append thêm mốc lịch sử
 (`history`, giữ tối đa 20 mốc/bài).
+
+## SEO CONTENT SYSTEM RULE (GLOBAL — BẮT BUỘC, có hiệu lực 18/06/2026)
+
+> Áp dụng cho **MỌI** bài viết, trang chuyên mục (category), landing page và nội
+> dung auto-generate. Mục tiêu: tối đa **organic search**, giảm **bounce rate**,
+> tăng **engagement time**, internal linking chặt, Lighthouse SEO ~100.
+> Đây là chuẩn nâng cấp của "Quy tắc SEO QA" ở trên — khi xung đột, **lấy mục này**.
+
+### Trạng thái hạ tầng repo (đừng làm lại thủ công cái đã auto)
+
+| Yêu cầu | Trạng thái Zola | Ghi chú |
+|---------|-----------------|---------|
+| TOC tự động | ✅ auto `page.html` (≥ 3 heading) | KHÔNG viết `## Mục lục` tay |
+| Related Articles block | ✅ auto `page.html` (semantic `data/related.json` + fallback tag/category) | Hiện 3–5 bài; KHÔNG tự thêm "## Bài viết liên quan" tay |
+| FAQPage schema | ✅ auto `base.html` từ `[[extra.faq]]` | Chỉ cần khai báo FAQ ở frontmatter |
+| Article schema | ✅ auto `base.html` | — |
+| BreadcrumbList schema | ✅ auto `base.html` (Trang chủ → Section → Bài) | — |
+| References cuối bài | ✅ auto macro `references::section` | Chạy `build_references.py` trước build |
+| Internal link validation | ✅ `check_internal_links.py` + `qa-404-checker.py` | Còn link nội bộ hỏng → exit 2 (CI gate) |
+| **Prev/Next + "Đọc tiếp"** | ❌ CHƯA có | TODO — khi làm: thêm vào `page.html`, KHÔNG để trang cụt |
+
+### 15 rule nội dung BẮT BUỘC
+
+1. **Search intent** — xác định trước khi viết: *Informational · Commercial ·
+   Navigational · Transactional*. Nội dung phải **thoả intent trong 150 từ đầu**.
+2. **Cấu trúc bài** theo thứ tự: H1 → Intro (50–150 từ) → TOC → các H2/H3 → FAQ →
+   Related Articles → CTA. (TOC + Related auto ở template.)
+3. **Internal linking** — **≥ 5 internal link/bài** (tin ngắn ≥ 3). Ưu tiên: cùng
+   topic cluster · **trang hub chuyên mục** · tool liên quan · evergreen content.
+4. **Related content** — block "Bài viết liên quan" hiện 3–8 bài (template lo). Bài
+   viết tự link chéo thêm trong thân bài, không ỷ lại block auto.
+5. **Content depth** — tin ≥ 800 từ · bài chuẩn ≥ 1500 từ · pillar 2500–5000 từ.
+   **Cấm thin content.** (`bb`/`bb9` tối thiểu ~1000 từ vẫn áp dụng, ưu tiên 1500+.)
+6. **SEO on-page** — title < 60 ký tự · meta description < 155 ký tự · slug ·
+   `seo_keyword` (focus) · keyword variations. Đặt focus keyword ở: **title · đoạn
+   đầu · 1 H2 · kết bài**.
+7. **FAQ schema** — mọi bài có 3–8 FAQ + JSON-LD `FAQPage` (qua `[[extra.faq]]`).
+   Tin ngắn/quan điểm thuần thì miễn (theo rule `bb`).
+8. **E-E-A-T** — nguồn dẫn thật, ví dụ thực tế, hướng dẫn từng bước, ngữ cảnh đời
+   thực. **Cấm AI fluff** chung chung.
+9. **Engagement** — dùng bullet list · bảng khi hữu ích · mục so sánh · checklist
+   hành động. Tránh tường chữ lớn.
+10. **Giảm bounce** — mỗi bài có TOC + Related + internal link + **next-step gợi ý**.
+    **KHÔNG bao giờ để trang cụt.**
+11. **Category hub** — mọi bài PHẢI link về trang chuyên mục cha (vd `/categories/ngan-hang/`,
+    `/categories/du-lich/`…). Map theo `categories.json`.
+12. **Mobile-first** — đoạn ngắn, section nhỏ, dễ scan.
+13. **Featured snippet** — trả lời câu hỏi chính ngay lập tức, định nghĩa súc tích,
+    dùng bước đánh số khi hợp.
+14. **Content clustering** — liên kết Article ↔ Hub ↔ supporting articles (hub-spoke,
+    cross-link 2 chiều). Khớp pattern series `data/*-series.json` đã có.
+15. **Quality gate trước khi lưu** — REJECT nếu: < 5 internal link (tin < 3) · thiếu
+    TOC · thiếu FAQ (bài cần) · thiếu CTA/next-step · thiếu Related · thiếu focus
+    keyword · thin content. **AUTO-FIX**: thiếu gì thì sinh + chèn trước khi build.
+
+### Checklist nhanh khi viết bài mới (dán vào đầu việc)
+
+- [ ] Xác định search intent → thoả trong 150 từ đầu
+- [ ] `title` < 60 ký tự chứa focus keyword (nửa đầu)
+- [ ] `description` < 155 ký tự chứa keyword
+- [ ] `seo_keyword` + keyword ở title/đoạn đầu/1 H2/kết bài
+- [ ] ≥ 1500 từ (bài chuẩn) / ≥ 800 (tin) — không thin
+- [ ] ≥ 5 internal link gồm **1 link hub chuyên mục** + bài cùng cluster
+- [ ] ≥ 1 external link uy tín, có thật
+- [ ] 3–8 FAQ (`[[extra.faq]]`) cho bài cần snippet
+- [ ] CTA / next-step cuối bài (không dead-end)
+- [ ] `categories` đúng rule ("Tất cả" đầu mảng) → hub tồn tại
+- [ ] Chạy `build_references.py` → `seo_qa_checker.py` ≥ 90 (A) → `check_internal_links.py` PASS
+
+### Việc cần làm dần (hạ tầng còn thiếu)
+
+- Thêm **prev/next navigation** + block **"Đọc tiếp"** trước footer trong `page.html`
+  (chống orphan, tăng crawl depth tốt). Khi làm: scope template, không đụng content.
+- Đảm bảo **category + tag page phân trang** (pagination) — kiểm tra `section`/taxonomy template.
+- **Fail build khi có internal link hỏng** — đã có `qa-404-checker.py` exit 2; nối vào
+  CI gate `qa.yml` nếu chưa chặn cứng.
 
 ## Quy tắc Tham chiếu cuối bài (References — BẮT BUỘC)
 
