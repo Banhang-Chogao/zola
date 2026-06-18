@@ -104,56 +104,121 @@
     return dateStr.slice(0, 7);
   }
 
+  // --- helpers shared by the new analytics layer ---------------------------
+  function safeNum(n) {
+    const v = Number(n);
+    return Number.isFinite(v) ? v : 0;
+  }
+
+  function dayMonth(dateStr) {
+    // ISO 'YYYY-MM-DDTHH:MM:SS' -> 'DD/MM' (display, never machine readable).
+    const s = String(dateStr || "");
+    const d = s.slice(8, 10);
+    const m = s.slice(5, 7);
+    if (d && m) return `${d}/${m}`;
+    return s.slice(0, 10);
+  }
+
+  function shortLabel(text, max = 28) {
+    const s = String(text == null ? "" : text).replace(/\s+/g, " ").trim();
+    if (s.length <= max) return s;
+    return s.slice(0, max - 1).trimEnd() + "…";
+  }
+
+  function rollingAverage(values, window) {
+    // Aligned trailing rolling mean: out[i] = mean(values[max(0,i-w+1)..i]).
+    const out = [];
+    let sum = 0;
+    for (let i = 0; i < values.length; i += 1) {
+      sum += values[i];
+      if (i >= window) sum -= values[i - window];
+      const span = Math.min(i + 1, window);
+      out.push(span > 0 ? Math.round(sum / span) : 0);
+    }
+    return out;
+  }
+
   function chartDatasets(transactions, health) {
+    const txns = Array.isArray(transactions) ? transactions : [];
     let income = 0;
     let expense = 0;
-    const monthly = {};
-
-    transactions.forEach((t) => {
-      const mk = monthKey(t.date);
-      if (!monthly[mk]) monthly[mk] = { income: 0, expense: 0, net: 0 };
-      if (t.amount > 0) {
-        income += t.amount;
-        monthly[mk].income += t.amount;
-      } else {
-        expense += Math.abs(t.amount);
-        monthly[mk].expense += Math.abs(t.amount);
-      }
-      monthly[mk].net += t.amount;
+    txns.forEach((t) => {
+      const amt = safeNum(t.amount);
+      if (amt > 0) income += amt;
+      else expense += Math.abs(amt);
     });
 
-    const months = Object.keys(monthly).sort();
-    const categoryTotals = {};
+    // --- balanceTimeline: running balance per txn, sorted by date asc ------
+    const byDate = txns
+      .slice()
+      .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    const balanceLabels = byDate.map((t) => dayMonth(t.date));
+    const balanceSeries = byDate.map((t) => safeNum(t.balance));
+    const balAvg = balanceSeries.length
+      ? Math.round(balanceSeries.reduce((s, v) => s + v, 0) / balanceSeries.length)
+      : 0;
+    const balMin = balanceSeries.length ? Math.min(...balanceSeries) : 0;
+    const balanceTimeline = {
+      labels: balanceLabels,
+      balance: balanceSeries,
+      avg: balAvg,
+      min: balMin,
+    };
 
-    transactions.forEach((t) => {
-      if (t.amount < 0) {
-        const cat = categorizeExpense(t.description);
-        categoryTotals[cat] = (categoryTotals[cat] || 0) + Math.abs(t.amount);
-      }
+    // --- dailyNet: Σ amount per calendar day + 7-day rolling average -------
+    const dayTotals = {};
+    txns.forEach((t) => {
+      const day = String(t.date || "").slice(0, 10);
+      if (!day) return;
+      dayTotals[day] = (dayTotals[day] || 0) + safeNum(t.amount);
     });
+    const days = Object.keys(dayTotals).sort();
+    const netSeries = days.map((d) => Math.round(dayTotals[d]));
+    const dailyNet = {
+      labels: days.map((d) => dayMonth(d)),
+      net: netSeries,
+      rolling: rollingAverage(netSeries, 7),
+    };
 
-    const treemap = Object.entries(categoryTotals)
-      .sort((a, b) => b[1] - a[1])
-      .map(([label, value]) => ({ label, value }));
+    // --- topTxns: diverging top-5 incomes + top-5 expenses ----------------
+    const expenses = txns
+      .filter((t) => safeNum(t.amount) < 0)
+      .sort((a, b) => Math.abs(safeNum(b.amount)) - Math.abs(safeNum(a.amount)))
+      .slice(0, 5);
+    const incomes = txns
+      .filter((t) => safeNum(t.amount) > 0)
+      .sort((a, b) => safeNum(b.amount) - safeNum(a.amount))
+      .slice(0, 5);
+    const toItem = (t) => ({
+      label: shortLabel(t.description),
+      date: dayMonth(t.date),
+      value: safeNum(t.amount),
+    });
+    // Incomes (positive/teal) on top, expenses (negative/red) below — sorted
+    // so the diverging horizontal bar reads high→low across the zero axis.
+    const items = [
+      ...incomes.map(toItem).sort((a, b) => b.value - a.value),
+      ...expenses.map(toItem).sort((a, b) => b.value - a.value),
+    ];
 
-    const waterfallLabels = ["Tổng thu", ...months, "Ròng"];
-    const waterfallValues = [income, ...months.map((m) => monthly[m].net), income - expense];
+    // recurring: same rounded magnitude + desc prefix appearing >= 2 times.
+    const recurringGroups = {};
+    txns.forEach((t) => {
+      const amt = safeNum(t.amount);
+      if (amt === 0) return;
+      const bucket = Math.round(Math.abs(amt) / 1000) * 1000;
+      const prefix = normDesc(t.description).slice(0, 12);
+      const key = `${bucket}|${prefix}`;
+      recurringGroups[key] = (recurringGroups[key] || 0) + 1;
+    });
+    const recurring = Object.values(recurringGroups).filter((c) => c >= 2).length;
 
     return {
       donut: { labels: ["Thu", "Chi"], values: [income, expense] },
-      area: {
-        labels: months,
-        income: months.map((m) => monthly[m].income),
-        expense: months.map((m) => monthly[m].expense),
-        net: months.map((m) => monthly[m].net),
-      },
-      treemap,
-      waterfall: {
-        labels: waterfallLabels,
-        values: waterfallValues,
-        summary_net: income - expense,
-      },
       gauge: { score: health.financial_score, label: health.health_label },
+      balanceTimeline,
+      dailyNet,
+      topTxns: { items, recurring },
     };
   }
 
@@ -227,6 +292,20 @@
 
     if (health.expense_ratio > 0.9 && summary.total_income > 0) {
       insights.push("Tỷ lệ chi/thu trên 90% — cần theo dõi chi tiêu chặt hơn.");
+    }
+
+    const recurringGroups = {};
+    transactions.forEach((t) => {
+      const amt = Number(t.amount);
+      if (!Number.isFinite(amt) || amt === 0) return;
+      const bucket = Math.round(Math.abs(amt) / 1000) * 1000;
+      const prefix = normDesc(t.description).slice(0, 12);
+      const key = `${bucket}|${prefix}`;
+      recurringGroups[key] = (recurringGroups[key] || 0) + 1;
+    });
+    const recurringCount = Object.values(recurringGroups).filter((c) => c >= 2).length;
+    if (recurringCount > 0) {
+      insights.push(`Phát hiện ${recurringCount} khoản chi/thu lặp lại (có thể là định kỳ).`);
     }
 
     if (!insights.length) {

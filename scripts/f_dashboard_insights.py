@@ -113,6 +113,34 @@ def _month_key(date_str: str) -> str:
     return date_str[:7]
 
 
+def _day_month(date_str: str) -> str:
+    s = str(date_str or "")
+    day = s[8:10]
+    month = s[5:7]
+    if day and month:
+        return f"{day}/{month}"
+    return s[:10]
+
+
+def _short_label(text: Any, max_len: int = 28) -> str:
+    s = re.sub(r"\s+", " ", str("" if text is None else text)).strip()
+    if len(s) <= max_len:
+        return s
+    return s[: max_len - 1].rstrip() + "…"
+
+
+def _rolling_average(values: list[int], window: int) -> list[int]:
+    out: list[int] = []
+    running = 0
+    for i, v in enumerate(values):
+        running += v
+        if i >= window:
+            running -= values[i - window]
+        span = min(i + 1, window)
+        out.append(round(running / span) if span > 0 else 0)
+    return out
+
+
 def chart_datasets(transactions: list[dict[str, Any]], health: dict[str, Any]) -> dict[str, Any]:
     income = sum(t["amount"] for t in transactions if t["amount"] > 0)
     expense = abs(sum(t["amount"] for t in transactions if t["amount"] < 0))
@@ -122,60 +150,76 @@ def chart_datasets(transactions: list[dict[str, Any]], health: dict[str, Any]) -
         "values": [income, expense],
     }
 
-    monthly: dict[str, dict[str, int]] = defaultdict(lambda: {"income": 0, "expense": 0, "net": 0})
-    for tx in transactions:
-        mk = _month_key(tx["date"])
-        if tx["amount"] > 0:
-            monthly[mk]["income"] += tx["amount"]
-        else:
-            monthly[mk]["expense"] += abs(tx["amount"])
-        monthly[mk]["net"] += tx["amount"]
-
-    months = sorted(monthly.keys())
-    area = {
-        "labels": months,
-        "income": [monthly[m]["income"] for m in months],
-        "expense": [monthly[m]["expense"] for m in months],
-        "net": [monthly[m]["net"] for m in months],
-    }
-
-    category_totals: dict[str, int] = defaultdict(int)
-    for tx in transactions:
-        if tx["amount"] < 0:
-            cat = categorize_expense(tx["description"])
-            category_totals[cat] += abs(tx["amount"])
-
-    treemap = [
-        {"label": k, "value": v}
-        for k, v in sorted(category_totals.items(), key=lambda x: -x[1])
-    ]
-
-    waterfall_labels = ["Tổng thu"] + months + ["Ròng"]
-    waterfall_values: list[int] = [income]
-    running = income
-    for m in months:
-        delta = monthly[m]["net"]
-        waterfall_values.append(delta)
-        running += 0
-    waterfall_values.append(summary_net := income - expense)
-
-    waterfall = {
-        "labels": waterfall_labels,
-        "values": waterfall_values,
-        "summary_net": summary_net,
-    }
-
     gauge = {
         "score": health["financial_score"],
         "label": health["health_label"],
     }
 
+    # balanceTimeline: running balance per txn, sorted by date asc.
+    by_date = sorted(transactions, key=lambda t: str(t.get("date", "")))
+    balance_series = [t.get("balance", 0) or 0 for t in by_date]
+    bal_avg = round(sum(balance_series) / len(balance_series)) if balance_series else 0
+    bal_min = min(balance_series) if balance_series else 0
+    balance_timeline = {
+        "labels": [_day_month(t.get("date", "")) for t in by_date],
+        "balance": balance_series,
+        "avg": bal_avg,
+        "min": bal_min,
+    }
+
+    # dailyNet: Σ amount per calendar day + 7-day rolling average.
+    day_totals: dict[str, int] = defaultdict(int)
+    for tx in transactions:
+        day = str(tx.get("date", ""))[:10]
+        if day:
+            day_totals[day] += tx["amount"]
+    days = sorted(day_totals.keys())
+    net_series = [round(day_totals[d]) for d in days]
+    daily_net = {
+        "labels": [_day_month(d) for d in days],
+        "net": net_series,
+        "rolling": _rolling_average(net_series, 7),
+    }
+
+    # topTxns: diverging top-5 incomes + top-5 expenses.
+    expenses = sorted(
+        (t for t in transactions if t["amount"] < 0),
+        key=lambda t: abs(t["amount"]),
+        reverse=True,
+    )[:5]
+    incomes = sorted(
+        (t for t in transactions if t["amount"] > 0),
+        key=lambda t: t["amount"],
+        reverse=True,
+    )[:5]
+
+    def _to_item(t: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "label": _short_label(t.get("description", "")),
+            "date": _day_month(t.get("date", "")),
+            "value": t["amount"],
+        }
+
+    items = sorted((_to_item(t) for t in incomes), key=lambda x: -x["value"]) + sorted(
+        (_to_item(t) for t in expenses), key=lambda x: -x["value"]
+    )
+
+    recurring_groups: dict[str, int] = defaultdict(int)
+    for tx in transactions:
+        amt = tx["amount"]
+        if amt == 0:
+            continue
+        bucket = round(abs(amt) / 1000) * 1000
+        prefix = _norm_desc(tx["description"])[:12]
+        recurring_groups[f"{bucket}|{prefix}"] += 1
+    recurring = sum(1 for c in recurring_groups.values() if c >= 2)
+
     return {
         "donut": donut,
-        "area": area,
-        "treemap": treemap,
-        "waterfall": waterfall,
         "gauge": gauge,
+        "balanceTimeline": balance_timeline,
+        "dailyNet": daily_net,
+        "topTxns": {"items": items, "recurring": recurring},
     }
 
 
@@ -253,6 +297,18 @@ def generate_insights(
 
     if health["expense_ratio"] > 0.9 and summary["total_income"] > 0:
         insights.append("Tỷ lệ chi/thu trên 90% — cần theo dõi chi tiêu chặt hơn.")
+
+    recurring_groups: dict[str, int] = defaultdict(int)
+    for tx in transactions:
+        amt = tx["amount"]
+        if amt == 0:
+            continue
+        bucket = round(abs(amt) / 1000) * 1000
+        prefix = _norm_desc(tx["description"])[:12]
+        recurring_groups[f"{bucket}|{prefix}"] += 1
+    recurring_count = sum(1 for c in recurring_groups.values() if c >= 2)
+    if recurring_count > 0:
+        insights.append(f"Phát hiện {recurring_count} khoản chi/thu lặp lại (có thể là định kỳ).")
 
     if not insights:
         insights.append("Chưa đủ dữ liệu để phân tích sâu — hãy upload thêm sao kê.")
