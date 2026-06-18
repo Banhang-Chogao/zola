@@ -24,7 +24,7 @@ Giới hạn sử dụng có thể hiểu đơn giản là "ngân sách" tương
 
 **Phạm vi áp dụng:** Giới hạn này áp dụng chung trên tất cả các nền tảng bao gồm: claude.ai, Claude Code và Claude Desktop.
 
-**Cách xử lý khi hết giới hạn:** Nếu bạn đạt đến hạn mức, hệ thống sẽ yêu cầu bạn chờ đến thời điểm reset, nâng cấp lên gói dịch vụ cao hơn hoặc mua thêm credit để tiếp tục sử dụng. Chi tiết chính sách được Anthropic công bố tại [trang hỗ trợ Usage Limits](https://support.anthropic.com/en/articles/8324991-about-claude-s-usage-limits).
+**Cách xử lý khi hết giới hạn:** Nếu bạn đạt đến hạn mức, hệ thống sẽ yêu cầu bạn chờ đến thời điểm reset, nâng cấp lên gói dịch vụ cao hơn hoặc mua thêm credit để tiếp tục sử dụng. Chi tiết chính sách được Anthropic công bố tại [trang hỗ trợ Usage Limits](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work).
 
 ## Giới hạn độ dài (Length Limits) trên Claude
 

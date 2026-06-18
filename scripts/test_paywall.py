@@ -124,6 +124,31 @@ class PaywallStripTest(unittest.TestCase):
         self.assertLess(len(teaser), len(body))
         self.assertIn("…", teaser)
 
+    def test_is_premium_by_category(self) -> None:
+        from scripts.paywall_prepare_build import (  # noqa: PLC0415
+            DEFAULT_PREMIUM_PRICE,
+            PREMIUM_CATEGORY,
+            _inject_premium_flags,
+            _is_premium,
+        )
+
+        self.assertEqual(PREMIUM_CATEGORY, "premium")
+        self.assertEqual(DEFAULT_PREMIUM_PRICE, 100_000)
+        self.assertTrue(
+            _is_premium({"taxonomies": {"categories": ["Tất cả", "premium"]}})
+        )
+        self.assertFalse(_is_premium({"taxonomies": {"categories": ["Công nghệ"]}}))
+        self.assertTrue(_is_premium({"extra": {"premium": True}}))
+
+    def test_inject_premium_flags(self) -> None:
+        from scripts.paywall_prepare_build import _inject_premium_flags  # noqa: PLC0415
+
+        fm = '+++\n[taxonomies]\ncategories = ["premium"]\n\n[extra]\npremium_post_id = "x"\n+++'
+        meta = {"taxonomies": {"categories": ["premium"]}, "extra": {}}
+        out = _inject_premium_flags(fm, meta)
+        self.assertIn("premium = true", out)
+        self.assertIn("price = 100000", out)
+
 
 if __name__ == "__main__":
     unittest.main()

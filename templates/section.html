@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "macros/img.html" as img %}
+{% import "macros/premium.html" as premium %}
 
 {% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
 
@@ -20,7 +21,7 @@
 
     <div class="post-list">
         {% for page in pages %}
-            <article class="post-card">
+            <article class="post-card{% if page.extra.premium %} post-card--premium{% endif %}">
                 <a class="post-card__image" href="{{ page.permalink }}">
                     {# LCP optimization: bài đầu tiên = above-the-fold,
                        load eager + fetchpriority high. Còn lại lazy. #}
@@ -35,6 +36,7 @@
                     {% endif %}
                 </a>
                 <div class="post-card__body">
+                    {% if page.extra.premium %}{{ premium::badge() }}{% endif %}
                     <h3 class="post-card__title">
                         <a href="{{ page.permalink }}">{{ page.title }}</a>
                     </h3>

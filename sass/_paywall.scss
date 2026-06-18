@@ -1,3 +1,57 @@
+/* ============= PREMIUM BADGE + LOCKED TEASER ============= */
+
+.premium-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.22rem 0.62rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #92400e;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.18);
+  line-height: 1.2;
+}
+
+.post-single__content--premium-locked {
+  position: relative;
+  max-height: 28rem;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5rem;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      var(--surface, #fff) 75%
+    );
+    pointer-events: none;
+  }
+}
+
+[data-theme="zx"] .post-single__content--premium-locked::after,
+.theme-zx .post-single__content--premium-locked::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0),
+    var(--surface, #0a0a0a) 75%
+  );
+}
+
+.post-card--premium .post-card__title a,
+.home-card--premium .home-card__title a {
+  color: inherit;
+}
+
 /* ============= PAYWALL — premium post teaser + unlock ============= */
 
 .paywall-box {
@@ -34,13 +88,18 @@
 }
 
 .paywall-box__price {
-  margin: 0;
-  font-size: 1.05rem;
+  margin: 0.35rem 0 0;
+  font-size: 1.15rem;
 
   strong {
-    color: var(--accent, #6366f1);
+    color: #b45309;
     font-weight: 800;
+    font-size: 1.25rem;
   }
+}
+
+.paywall-box__header .premium-badge {
+  margin: 0.35rem 0 0.65rem;
 }
 
 .paywall-box__steps {

@@ -1,6 +1,6 @@
 /**
- * F-Dashboard — GitHub OAuth gate (cùng flow CMS /editor/).
- * Dùng chung session `zola-cms-session-id` → đăng nhập CMS = vào được F-Dashboard.
+ * L-Dashboard — GitHub OAuth gate (cùng flow CMS /editor/).
+ * Dùng chung session `zola-cms-session-id` → đăng nhập CMS = vào được L-Dashboard.
  */
 (function (global) {
   "use strict";
@@ -118,7 +118,7 @@
 
   function showView(name) {
     document.querySelectorAll("[data-ld-view]").forEach((el) => {
-      el.hidden = el.dataset.fdView !== name;
+      el.hidden = el.dataset.ldView !== name;
     });
   }
 

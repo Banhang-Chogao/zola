@@ -1,6 +1,8 @@
 {% import "macros/verified.html" as v_author %}
 {% import "macros/hot-search.html" as hot_search %}
+{% import "macros/google-rank.html" as google_rank %}
 {% import "macros/img.html" as img %}
+{% import "macros/footer-countdown.html" as footer_countdown %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
    - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
@@ -95,6 +97,7 @@
     {% if cms_auth %}
     <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
 
     {% set_global paywall_api = config.extra.paywall_api_url | default(value="") %}
     {% if paywall_api %}
@@ -790,6 +793,8 @@
                             {% endfor %}
                         </div>
                     </section>
+
+                    {{ google_rank::widget() }}
                 </aside>
             {% endblock sidebar %}
         </div>
@@ -1058,11 +1063,17 @@
             </div>
         </div>
 
+        {{ footer_countdown::render() }}
+
         <div class="container site-footer__main">
             <div class="site-footer__left">
                 <a href="{{ config.base_url | safe }}/admin-author/" class="site-footer__author-mgmt"
                    title="Cập nhật ảnh đại diện + bio cá nhân">
                     👤 Author Management
+                </a>
+                <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
+                   title="Cấu hình đếm ngược footer">
+                    ⏱ Countdown
                 </a>
             </div>
             <div class="site-footer__center">
@@ -1099,8 +1110,10 @@
 
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>

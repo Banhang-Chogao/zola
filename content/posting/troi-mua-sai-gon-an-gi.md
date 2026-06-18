@@ -76,4 +76,4 @@ Trời mưa Sài Gòn không phải để ngại ra đường — mà là cái c
 
 Đói nữa thì lướt tiếp [12 quán ăn tối & ăn khuya ở Sài Gòn](/zola/posting/toi-nay-sai-gon-an-gi/) nhé.
 
-📚 Tò mò mùa mưa Sài Gòn kéo dài ra sao? Xem [khí hậu Thành phố Hồ Chí Minh trên Wikipedia](https://vi.wikipedia.org/wiki/Th%C3%A0nh_ph%E1%BB%91_H%E1%BB%93_Ch%C3%AD_Minh#Kh%C3%AD_h%E1%BA%ADu).
+📚 Tò mò mùa mưa Sài Gòn kéo dài ra sao? Xem [khí hậu Thành phố Hồ Chí Minh trên Wikipedia](https://vi.wikipedia.org/wiki/Th%C3%A0nh_ph%E1%BB%91_H%E1%BB%93_Ch%C3%AD_Minh).

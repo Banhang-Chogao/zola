@@ -2,6 +2,150 @@
   "items": [
     {
       "date": "2026-06-17",
+      "title": "feat(insights): add GitHub Activity heatmap widget",
+      "tag": "chore",
+      "lines_added": 6090,
+      "lines_removed": 1,
+      "highlights": [
+        "Build script (scripts/build_github_activity.py): aggregates 365-day activity from git log + GitHub REST API (PRs, issues, reviews) into data/github-activity.json",
+        "Heatmap UI: week columns, month/weekday labels, green intensity levels, Less→More legend",
+        "Activity overview: Commits / Pull requests / Issues / Code review breakdown (%)",
+        "Fallback: keeps cached JSON + shows \"GitHub activity data may be outdated\" when API fails",
+        "CI: runs on deploy + QA; daily refresh workflow (github-activity.yml)"
+      ],
+      "pr": 388
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(sidebar): add Google Rank SEO authority widget",
+      "tag": "chore",
+      "lines_added": 767,
+      "lines_removed": 1,
+      "highlights": [],
+      "pr": 387
+    },
+    {
+      "date": "2026-06-17",
+      "title": "content(series): Bài 2 — AdSense, SEO, Uranium foundation",
+      "tag": "chore",
+      "lines_added": 915,
+      "lines_removed": 9,
+      "highlights": [
+        "Title, meta description, slug",
+        "Mục lục + H2/H3",
+        "FAQ Schema (3 câu)",
+        "Internal links (series + pillar)",
+        "External links (Google / Wikipedia / IAEA)"
+      ],
+      "pr": 376
+    },
+    {
+      "date": "2026-06-17",
+      "title": "hotfix(l-dashboard): fix GitHub OAuth login blank page",
+      "tag": "fix",
+      "lines_added": 29,
+      "lines_removed": 4,
+      "highlights": [
+        "dataset.fdView → dataset.ldView in showView()",
+        "Regression tests in scripts/test_l_dashboard.py",
+        "python3 -m unittest scripts.test_l_dashboard -v — 5/5 pass",
+        "zola build — OK",
+        "F-Dashboard auth-gate untouched"
+      ],
+      "pr": 384
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(footer): dual countdown format — days | hours + minutes",
+      "tag": "chore",
+      "lines_added": 172,
+      "lines_removed": 134,
+      "highlights": [
+        "X = total remaining days",
+        "Y = total remaining hours",
+        "Z = minute remainder within current hour",
+        "Updates every 60 seconds",
+        "test_footer_countdown — 6/6 pass"
+      ],
+      "pr": 386
+    },
+    {
+      "date": "2026-06-17",
+      "title": "style(footer): align countdown band with Hilda theme + QA footer",
+      "tag": "chore",
+      "lines_added": 95,
+      "lines_removed": 47,
+      "highlights": [
+        "Số đếm: chip nền #eef3fb, chữ Ericsson Blue #003784, font Hilda 700",
+        "Prefix/suffix/unit: Be Vietnam Pro meta, màu muted #666",
+        "Tiêu đề sự kiện: Hilda 800, #000",
+        "Card: border/shadow giống .qa-card",
+        "Admin preview: HTML markup đồng bộ với footer live"
+      ],
+      "pr": 383
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(ci): free-first AI Diagnose — replace Claude workflow dependency",
+      "tag": "chore",
+      "lines_added": 873,
+      "lines_removed": 23,
+      "highlights": [
+        "scripts/ai_diagnose.py — Tier 1 heuristics, optional Ollama/Claude opt-in",
+        "Integrated into qa-failed.py, scripts/ff.py, build-failure-handler.yml (AI_DIAGNOSE_USE_CLAUDE=0)",
+        "scripts/test_ai_diagnose.py, docs/AI-DIAGNOSE-MIGRATION.md",
+        "Unit tests for tier-1 heuristics and opt-in paths"
+      ],
+      "pr": 380
+    },
+    {
+      "date": "2026-06-17",
+      "title": "fix(links): repair 11 broken external URLs flagged by zola check",
+      "tag": "fix",
+      "lines_added": 11,
+      "lines_removed": 11,
+      "highlights": [
+        "zola check — 0 broken links"
+      ],
+      "pr": 382
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(paywall): reactivate premium via category + 100k VND pricing",
+      "tag": "chore",
+      "lines_added": 182,
+      "lines_removed": 178,
+      "highlights": [
+        "categories = [\"premium\"] triggers premium paywall via paywall_prepare_build.py",
+        "Injects extra.premium = true + price = 100000 into frontmatter at strip time (Tera in operator unreliable for arrays)",
+        "Enables paywall API: paywall_api_url = \"https://blog-paywall-api.onrender.com\", paywall_default_price = 100000",
+        "UI: gold ⭐ Premium badge, updated CTA, teaser fade, localStorage unlock tokens",
+        "Demo: premium-fintech-paywall-demo.md uses categories = [\"premium\"]"
+      ],
+      "pr": 379
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(footer): countdown box + admin config page",
+      "tag": "chore",
+      "lines_added": 915,
+      "lines_removed": 3,
+      "highlights": [],
+      "commit": "aebcfb5f1036",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-17",
+      "title": "feat(insights): build history snapshots every 5 minutes",
+      "tag": "chore",
+      "lines_added": 424,
+      "lines_removed": 19,
+      "highlights": [],
+      "commit": "27415aaa3a49",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-17",
       "title": "SEO11 phase 2 iter 1: h1 on static asset indexes",
       "tag": "chore",
       "lines_added": 2,

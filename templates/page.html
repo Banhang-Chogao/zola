@@ -6,13 +6,15 @@
 {% import "macros/series-nav.html" as series %}
 {% import "macros/series-hub.html" as series_hub %}
 {% import "macros/paywall.html" as paywall %}
-
+{% import "macros/premium.html" as premium %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
 {% block main %}
     <article class="post-single">
             <div class="post-single__hero">
-                {% if page.taxonomies.categories %}
+                {% if page.extra.premium %}
+                    {{ premium::badge() }}
+                {% elif page.taxonomies.categories %}
                     <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
                 {% endif %}
                 {# Hero image = LCP candidate. eager + fetchpriority high
@@ -90,7 +92,7 @@
         </a>
 
         {% if page.extra.premium %}
-        <div class="post-single__content post-single__content--teaser">
+        <div class="post-single__content post-single__content--teaser post-single__content--premium-locked">
             {{ page.content | safe }}
         </div>
         {{ paywall::box(page=page, config=config) }}

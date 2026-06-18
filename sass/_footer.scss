@@ -47,7 +47,13 @@
     align-items: center;
     gap: 1.5rem;
   }
-  &__left { justify-self: start; }
+  &__left {
+    justify-self: start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
   &__center { text-align: center; }
 
   /* Legal links (Giới thiệu · Liên hệ · Privacy · Terms) — trust signal

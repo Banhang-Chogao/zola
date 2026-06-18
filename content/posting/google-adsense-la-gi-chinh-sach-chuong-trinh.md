@@ -2,9 +2,10 @@
 title = "Google AdSense là gì? Chính sách Program policies"
 description = "Google AdSense là gì và publisher phải tuân thủ những chính sách nào? Series Nền tảng AdSense — Bài 1/15 bám AdSense Program policies chính thức."
 date = 2026-06-17
+aliases = ["/google-adsense-la-gi-chinh-sach-chuong-trinh/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google adsense", "adsense", "adsense foundation series", "publisher", "monetization"]
+tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "publisher"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "google adsense là gì"

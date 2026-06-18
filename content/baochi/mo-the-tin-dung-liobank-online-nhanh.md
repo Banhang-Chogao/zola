@@ -74,7 +74,7 @@ Vài lưu ý nhỏ từ kinh nghiệm của tôi:
 
 Một điểm đáng lưu ý nếu bạn đăng ký qua link giới thiệu: phần thưởng cho người giới thiệu chỉ được tính khi bạn **kích hoạt thẻ vật lý Liobank thành công** và được duyệt hạn mức. Nên sau khi thẻ nhựa về tới nhà, đừng để quên — kích hoạt luôn trong app để vừa dùng được thẻ, vừa giúp người giới thiệu bạn nhận thưởng.
 
-Nếu bạn chưa có người giới thiệu, có thể dùng **link của tôi**: [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) — nhớ sao chép và mở bằng trình duyệt thay vì bấm trực tiếp trong app chat. Chi tiết điều khoản luôn nên đối chiếu tại [website chính thức Liobank](https://www.liobank.com.vn/).
+Nếu bạn chưa có người giới thiệu, có thể dùng **link của tôi**: [https://liobank.vn/rr/qyAJ](https://liobank.vn/rr/qyAJ) — nhớ sao chép và mở bằng trình duyệt thay vì bấm trực tiếp trong app chat. Chi tiết điều khoản luôn nên đối chiếu tại [website chính thức Liobank](https://liobank.vn/).
 
 ## Tóm lại
 

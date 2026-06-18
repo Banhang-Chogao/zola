@@ -31,6 +31,7 @@ LOG_FILE = ROOT / "qa-failed.log"
 CLAUDE_MD = ROOT / "CLAUDE.md"
 
 sys.path.insert(0, str(ROOT / "scripts"))
+from ai_diagnose import diagnose_tier1, format_markdown  # noqa: E402
 from vaccine_rules import VACCINE_RULES, match_vaccine, vaccine_summary  # noqa: E402
 
 MAX_WAIT_ATTEMPTS = 5
@@ -249,6 +250,12 @@ def push_fix_to_main(
     return True
 
 
+def diagnosis_section(logs: str, run_url: str = "") -> str:
+    """Free Tier-1 diagnosis block for issue bodies (no Claude credits)."""
+    d = diagnose_tier1(logs)
+    return format_markdown(d, run_url=run_url)
+
+
 def create_issue(title: str, body: str) -> None:
     try:
         sh(
@@ -298,13 +305,17 @@ def main() -> int:
         )
         return 1
 
+    diag_block = diagnosis_section(logs, workflow_url)
+
     pattern = detect_pattern(logs)
     if not pattern:
         log("unknown error pattern → escalate")
         create_issue(
             f"Build-failure: unknown error {workflow_name} (run {run_id})",
-            "## Không khớp vaccine nào\n\n"
-            f"Cần chạy `ff` / `ff9` thủ công hoặc append vaccine mới vào CLAUDE.md.\n\n"
+            diag_block
+            + "\n## Vaccine\n\nKhông khớp vaccine auto-fix nào.\n\n"
+            "Cần chạy `python3 scripts/ff.py` thủ công (Claude chỉ khi "
+            "`AI_DIAGNOSE_USE_CLAUDE=1`) hoặc append vaccine mới.\n\n"
             f"### Log tail\n```\n{logs[-3000:]}\n```",
         )
         return 1
@@ -314,7 +325,7 @@ def main() -> int:
     if pattern.get("manual_only"):
         create_issue(
             f"Build-failure: {pattern['vaccine_id']} manual fix ({workflow_name})",
-            vaccine_summary(pattern["rule"], logs)
+            diag_block + "\n" + vaccine_summary(pattern["rule"], logs)
             + f"\nRun: {workflow_url or run_id}\n\n"
             "Pattern chỉ có hướng dẫn thủ công trong CLAUDE.md — không auto-apply.",
         )
@@ -324,7 +335,7 @@ def main() -> int:
         log("no automatic fix applied")
         create_issue(
             f"Build-failure: {pattern['kind']} chưa fix được (run {run_id})",
-            vaccine_summary(pattern["rule"], logs)
+            diag_block + "\n" + vaccine_summary(pattern["rule"], logs)
             + "\nDetector khớp nhưng fixer không tạo thay đổi.",
         )
         return 1
@@ -333,7 +344,7 @@ def main() -> int:
         log("fixer ran but no git diff")
         create_issue(
             f"Build-failure: {pattern['kind']} no diff (run {run_id})",
-            "Pattern khớp, fixer chạy nhưng không có thay đổi file.",
+            diag_block + "\nPattern khớp, fixer chạy nhưng không có thay đổi file.",
         )
         return 1
 

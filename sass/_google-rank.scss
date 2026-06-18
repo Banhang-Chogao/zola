@@ -1,0 +1,304 @@
+/* ===== GOOGLE RANK — sidebar SEO authority widget ===== */
+.sidebar-block--google-rank {
+  --gr-accent: var(--c-accent);
+
+  .google-rank__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .google-rank__score-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .google-rank__score {
+    margin: 0;
+    line-height: 1;
+    font-family: $font-heading;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .google-rank__score-num {
+    font-size: clamp(2.2rem, 8vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--gr-accent);
+    transition: color 0.35s ease;
+  }
+
+  .google-rank__score-max {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--c-text-muted);
+    margin-left: 0.15rem;
+  }
+
+  .google-rank__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.35rem 0.65rem;
+    font-family: $font-meta;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--gr-accent) 35%, var(--c-border));
+    background: color-mix(in srgb, var(--gr-accent) 10%, var(--c-bg-surface));
+    color: var(--gr-accent);
+    cursor: help;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .google-rank__badge-emoji {
+    font-size: 0.95em;
+    line-height: 1;
+  }
+
+  .google-rank__bar {
+    position: relative;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c-border) 65%, transparent);
+    overflow: hidden;
+  }
+
+  .google-rank__bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      #e30613 0%,
+      #ff9500 22%,
+      #f5c518 45%,
+      #7cb342 68%,
+      #00a69d 100%
+    );
+    transition: width 0.45s ease;
+    min-width: 0;
+  }
+
+  .google-rank__caption {
+    margin: 0;
+    font-family: $font-meta;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .google-rank__info {
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: 0.85rem;
+    line-height: 1;
+    color: var(--c-text-muted);
+    cursor: help;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--c-accent);
+      outline: none;
+    }
+  }
+
+  .google-rank__details {
+    margin-top: 0.15rem;
+    border-top: 1px dashed var(--c-border);
+    padding-top: 0.55rem;
+  }
+
+  .google-rank__details-toggle {
+    font-family: $font-ui;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--c-accent);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+
+    &::-webkit-details-marker { display: none; }
+
+    &::before {
+      content: "▸ ";
+      display: inline-block;
+      transition: transform 0.15s ease;
+    }
+  }
+
+  .google-rank__details[open] .google-rank__details-toggle::before {
+    transform: rotate(90deg);
+  }
+
+  .google-rank__metrics {
+    margin: 0.55rem 0 0;
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.76rem;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.2rem 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--c-border) 55%, transparent);
+
+      &:last-child { border-bottom: none; }
+    }
+
+    dt {
+      margin: 0;
+      font-family: $font-meta;
+      color: var(--c-text-muted);
+      font-weight: 600;
+    }
+
+    dd {
+      margin: 0;
+      font-family: $font-heading;
+      font-weight: 700;
+      color: var(--c-text-heading);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .google-rank__updated {
+    margin: 0.5rem 0 0;
+    font-size: 0.65rem;
+    color: var(--c-text-muted);
+    font-family: $font-meta;
+  }
+
+  .google-rank__autofix {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--c-border);
+  }
+
+  .google-rank__autofix-title {
+    margin: 0 0 0.45rem;
+    font-family: $font-meta;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+
+  .google-rank__autofix-progress-label {
+    margin: 0 0 0.4rem;
+    font-size: 0.76rem;
+    color: var(--c-text-muted);
+
+    strong {
+      color: var(--c-text-heading);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .google-rank__autofix-bar {
+    height: 0.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c-border) 65%, transparent);
+    overflow: hidden;
+    margin-bottom: 0.55rem;
+  }
+
+  .google-rank__autofix-fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #7cb342, #00a69d);
+    transition: width 0.4s ease;
+    min-width: 0;
+  }
+
+  .google-rank__autofix-stats {
+    margin: 0;
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    dt {
+      margin: 0;
+      color: var(--c-text-muted);
+      font-weight: 600;
+    }
+
+    dd {
+      margin: 0;
+      font-weight: 700;
+      color: var(--c-text-heading);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .google-rank__autofix-task,
+  .google-rank__autofix-reason {
+    margin: 0.45rem 0 0;
+    font-size: 0.68rem;
+    line-height: 1.45;
+    color: var(--c-text-muted);
+  }
+
+  .google-rank__autofix-updated {
+    margin: 0.35rem 0 0;
+    font-size: 0.62rem;
+    color: var(--c-text-muted);
+    font-family: $font-meta;
+  }
+
+  /* Score-tier accent tint on badge + number */
+  &[data-score-tier="low"] {
+    --gr-accent: #e30613;
+  }
+  &[data-score-tier="mid-low"] {
+    --gr-accent: #ff9500;
+  }
+  &[data-score-tier="mid"] {
+    --gr-accent: #c9a000;
+  }
+  &[data-score-tier="mid-high"] {
+    --gr-accent: #5a9e3a;
+  }
+  &[data-score-tier="high"] {
+    --gr-accent: #00a69d;
+  }
+  &[data-score-tier="elite"] {
+    --gr-accent: #003784;
+  }
+}
+
+@media (max-width: 720px) {
+  .sidebar-block--google-rank {
+    .google-rank__score-num {
+      font-size: 2.35rem;
+    }
+
+    .google-rank__badge {
+      font-size: 0.72rem;
+      padding: 0.4rem 0.7rem;
+    }
+  }
+}

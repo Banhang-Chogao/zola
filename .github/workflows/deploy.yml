@@ -43,6 +43,17 @@ jobs:
       - name: Build reference index
         run: python3 scripts/build_references.py
 
+      - name: Build Google Rank sidebar data
+        run: python3 scripts/build_google_rank.py
+
+      - name: Build GitHub Activity data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_github_activity.py
+
+      - name: SEO Rank auto-fix report (scan only)
+        run: python3 scripts/seo-rank-autofix.py --scan-only
+
       - name: Fetch Google Trends VN (hot search sidebar)
         run: python3 scripts/fetch_google_trends.py --limit 25
 

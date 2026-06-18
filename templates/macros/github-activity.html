@@ -1,0 +1,128 @@
+{# GitHub Activity — contribution heatmap for /insights/ (data/github-activity.json) #}
+{% macro widget() %}
+{% set gh = load_data(path="data/github-activity.json", required=false) %}
+{% if gh and gh.total_contributions is defined %}
+<section class="insights__build gh-activity" data-widget="github-activity" aria-labelledby="gh-activity-title">
+    <header class="insights__build-head gh-activity__head">
+        <div>
+            <h3 class="insights__build-title" id="gh-activity-title">GitHub Activity</h3>
+            <p class="gh-activity__subtitle">
+                <strong>{{ gh.total_contributions }}</strong> contributions in the last year
+            </p>
+        </div>
+        {% if gh.contributor %}
+        <span class="insights__build-meta">@{{ gh.contributor }}</span>
+        {% endif %}
+    </header>
+
+    {% if gh.stale or gh.fetch_error %}
+    <p class="insights__build-warn gh-activity__warn" role="status">
+        GitHub activity data may be outdated
+        {% if gh.updated_at %}
+        <time datetime="{{ gh.updated_at }}">({{ gh.updated_at }})</time>
+        {% endif %}
+    </p>
+    {% endif %}
+
+    <div class="gh-activity__heatmap-wrap">
+        <div class="gh-activity__heatmap" role="img"
+             aria-label="Contribution heatmap for the last {{ gh.period_days | default(value=365) }} days">
+            <div class="gh-activity__months" aria-hidden="true">
+                {% for week in gh.heatmap.weeks %}
+                <span class="gh-activity__month">{{ week.month_label | default(value="") }}</span>
+                {% endfor %}
+            </div>
+            <div class="gh-activity__grid-row">
+                <div class="gh-activity__weekdays" aria-hidden="true">
+                    {% for label in gh.heatmap.weekday_labels %}
+                    <span class="gh-activity__weekday">{{ label }}</span>
+                    {% endfor %}
+                </div>
+                <div class="gh-activity__weeks">
+                    {% for week in gh.heatmap.weeks %}
+                    <div class="gh-activity__week-col">
+                        {% for cell in week.days %}
+                        {% if cell %}
+                        <span class="gh-activity__cell gh-activity__cell--{{ cell.level }}"
+                              data-date="{{ cell.date }}"
+                              data-count="{{ cell.count }}"
+                              title="{{ cell.count }} contributions on {{ cell.date }}"></span>
+                        {% else %}
+                        <span class="gh-activity__cell gh-activity__cell--empty" aria-hidden="true"></span>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="gh-activity__legend" aria-hidden="true">
+            <span class="gh-activity__legend-label">Less</span>
+            <span class="gh-activity__cell gh-activity__cell--0"></span>
+            <span class="gh-activity__cell gh-activity__cell--1"></span>
+            <span class="gh-activity__cell gh-activity__cell--2"></span>
+            <span class="gh-activity__cell gh-activity__cell--3"></span>
+            <span class="gh-activity__cell gh-activity__cell--4"></span>
+            <span class="gh-activity__legend-label">More</span>
+        </div>
+    </div>
+
+    <div class="gh-activity__overview">
+        <h4 class="gh-activity__overview-title">Activity overview</h4>
+        <ul class="gh-activity__breakdown">
+            <li>
+                <span class="gh-activity__breakdown-label">Commits</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--commits"
+                          style="width: {{ gh.breakdown.commits_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.commits_pct }}%</span>
+            </li>
+            <li>
+                <span class="gh-activity__breakdown-label">Pull requests</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--prs"
+                          style="width: {{ gh.breakdown.pull_requests_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.pull_requests_pct }}%</span>
+            </li>
+            <li>
+                <span class="gh-activity__breakdown-label">Issues</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--issues"
+                          style="width: {{ gh.breakdown.issues_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.issues_pct }}%</span>
+            </li>
+            <li>
+                <span class="gh-activity__breakdown-label">Code review</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--reviews"
+                          style="width: {{ gh.breakdown.reviews_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.reviews_pct }}%</span>
+            </li>
+        </ul>
+    </div>
+
+    <footer class="insights__build-foot gh-activity__foot">
+        <a class="insights__source"
+           href="{{ gh.repository_url | default(value='https://github.com/Banhang-Chogao/zola') }}"
+           target="_blank" rel="noopener">
+            Contributed to {{ gh.repository | default(value="Banhang-Chogao/zola") }}
+            <span aria-hidden="true">↗</span>
+        </a>
+        {% if gh.latest_activity_at %}
+        <time class="insights__build-updated" datetime="{{ gh.latest_activity_at }}">
+            Latest {{ gh.latest_activity_at }}
+        </time>
+        {% elif gh.updated_at %}
+        <time class="insights__build-updated" datetime="{{ gh.updated_at }}">
+            Cập nhật {{ gh.updated_at }}
+        </time>
+        {% endif %}
+    </footer>
+</section>
+{% endif %}
+{% endmacro %}
