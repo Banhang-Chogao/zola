@@ -1,25 +1,101 @@
 {
-  "updated_at": "2026-06-18T09:43:17Z",
+  "updated_at": "2026-06-18T10:04:35Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 131,
-    "today": 22,
-    "this_week": 131,
-    "this_month": 131,
+    "total": 134,
+    "today": 26,
+    "this_week": 134,
+    "this_month": 134,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 37,
+      "feature": 40,
+      "unknown": 7,
       "ci": 3,
-      "unknown": 6,
       "fix": 41,
       "content": 3,
-      "chore": 40,
+      "chore": 39,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 413,
+      "pr_title": "feat: thêm workflow auto-merge thật (ZERO_BARRIER) — hết kẹt merge tay",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/413",
+      "merged_at": "2026-06-18T10:03:57Z",
+      "merge_commit_sha": "8f09ab06bf9d51a670358146ae0fd1d92d8fa7b8",
+      "merge_commit_short": "8f09ab0",
+      "head_branch": "claude/awesome-brown-u90pas",
+      "summary_vi": "Suốt session, **mọi PR đều phải merge tay** vì auto-merge không bao giờ chạy. Điều tra ra: `auto-merge.yml` và `scripts/try_auto_merge.py` được **CLAUDE.md mô tả chi tiết nhưng CHƯA BAO GIỜ tồn tại** trong repo (`git log",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 412,
+      "pr_title": "feat: Bài báo — Giá vàng hôm nay 18/6 giảm mạnh",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/412",
+      "merged_at": "2026-06-18T09:52:00Z",
+      "merge_commit_sha": "119f454291cfab21a3a0d25432483e6e3bf587cd",
+      "merge_commit_short": "119f454",
+      "head_branch": "claude/epic-rubin-lvadk0",
+      "summary_vi": "Viết lại bản tin **giá vàng hôm nay 18/6/2026 giảm mạnh** (nguồn báo trong nước) theo phong cách blog cá nhân, qua phím tắt `bb` → nhánh `baochi`.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 410,
+      "pr_title": "content(baochi): xoá bài V-Family trùng, giữ bản điểm cao (#407)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/410",
+      "merged_at": "2026-06-18T09:43:00Z",
+      "merge_commit_sha": "a7df80f810383249a86702461793808a3c4d2223",
+      "merge_commit_short": "a7df80f",
+      "head_branch": "claude/amazing-bardeen-kipad2",
+      "summary_vi": "Theo quyết định: **giữ bản V-Family điểm cao** từ PR #407 (`vietinbank-v-family-nhom-gia-dinh`, SEO 100/100), xoá bản trùng 94 điểm của session này.",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 411,
+      "pr_title": "feat: bài báo VNeID 2.2.8 — phản ánh lừa đảo, quét QR căn cước",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/411",
+      "merged_at": "2026-06-18T09:42:43Z",
+      "merge_commit_sha": "30905e75c79c8d83ae58187c712caf100a9c576f",
+      "merge_commit_short": "30905e7",
+      "head_branch": "claude/awesome-brown-u90pas",
+      "summary_vi": "Bài `baochi` mới (shortcut `bb`) — viết lại theo giọng cá nhân: **VNeID 2.2.8** vừa phát hành với loạt tính năng mới (phản ánh lừa đảo trực tuyến, quét QR thẻ căn cước, thêm thông tin tạm trú, theo dõi giao thẻ căn cước)",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 407,
       "pr_title": "feat: 2 bài baochi — VietinBank V-Family & Mùa quả chín xứ Đông",
@@ -35,9 +111,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 694,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27749696458",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 409,
@@ -54,9 +130,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 688,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27747119385",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 408,
@@ -73,9 +149,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 681,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746851864",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 406,
@@ -92,9 +168,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 679,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746212198",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 405,
@@ -111,9 +187,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 672,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27745659557",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 404,
@@ -130,9 +206,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 683,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27746971214",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 403,
@@ -2118,25 +2194,6 @@
       "merge_commit_sha": "cdaf6e2ddcede23648157e4ed431c46a050c23af",
       "merge_commit_short": "cdaf6e2",
       "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 288,
-      "pr_title": "chore: refresh Build Dashboard data",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/288",
-      "merged_at": "2026-06-17T16:26:16Z",
-      "merge_commit_sha": "9455526d031b18e7c0569795ba421c1b60ded63d",
-      "merge_commit_short": "9455526",
-      "head_branch": "chore/build-dashboard-data",
       "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
       "change_type": "chore",
       "files_changed": null,
