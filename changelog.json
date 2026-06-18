@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "content(baochi): xoá bài V-Family trùng, giữ bản điểm cao (#407)",
+      "tag": "remove",
+      "lines_added": 8,
+      "lines_removed": 100,
+      "highlights": [
+        "🗑️ Xoá content/baochi/vietinbank-v-family-giai-phap-tai-chinh-gia-dinh.md",
+        "🔗 Sửa internal link trong bài Starbucks–Fansipan → trỏ sang bản giữ lại (vietinbank-v-family-nhom-gia-dinh) để không gãy link.",
+        "✅ grep xác nhận không còn tham chiếu nào tới slug đã xoá."
+      ],
+      "pr": 410
+    },
+    {
+      "date": "2026-06-18",
       "title": "bài báo VNeID 2.2.8 — phản ánh lừa đảo, quét QR căn cước",
       "tag": "feat",
       "lines_added": 113,
