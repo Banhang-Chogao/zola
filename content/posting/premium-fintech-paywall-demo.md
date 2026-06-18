@@ -3,13 +3,13 @@ title = "Fintech 2026: Paywall premium trên blog cá nhân"
 date = 2026-06-18
 
 [taxonomies]
-categories = ["Tất cả"]
+categories = ["premium"]
 tags = ["blog", "fintech", "monetization", "paywall", "premium"]
 
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 featured = true
-featured_at = "2026-06-18T20:34:11.592Z"
+featured_at = "2026-06-18T20:54:57.799Z"
 +++
 
 Khi một blog cá nhân đã có lượng đọc ổn định, câu hỏi tiếp theo
