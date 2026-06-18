@@ -1081,6 +1081,46 @@
                     </p>
                 </div>
                 {% endif %}
+
+                {# ===== IMPROVEMENT PROGRESS — informational checklist from QA/SEO/PERF jobs ===== #}
+                {% set ga_improve = load_data(path="data/ga-improvement-progress.json", required=false) %}
+                {% if ga_improve and ga_improve.tasks %}
+                <details class="ga-improve" data-ga-improve data-baked-updated="{{ ga_improve.updated_at }}">
+                    <summary class="ga-improve__head">
+                        <span class="ga-improve__title">🛠 Improvement Progress</span>
+                        <span class="ga-improve__counts" data-ga-improve-counts>
+                            {{ ga_improve.summary.done | default(value=0) }} done ·
+                            {{ ga_improve.summary.running | default(value=0) }} running ·
+                            {{ ga_improve.summary.pending | default(value=0) }} pending
+                        </span>
+                        <span class="ga-improve__toggle" aria-hidden="true"></span>
+                    </summary>
+                    <ol class="ga-improve__list" data-ga-improve-list>
+                        {% for t in ga_improve.tasks %}
+                        <li class="ga-improve__item ga-improve__item--{{ t.status }}">
+                            <span class="ga-improve__track" aria-hidden="true">
+                                <span class="ga-improve__dot"></span>
+                                {% if not loop.last %}<span class="ga-improve__line"></span>{% endif %}
+                            </span>
+                            <div class="ga-improve__body">
+                                <div class="ga-improve__row">
+                                    <span class="ga-improve__icon" aria-hidden="true">{{ t.icon }}</span>
+                                    <span class="ga-improve__label">{{ t.label }}</span>
+                                    <span class="ga-improve__badge ga-improve__badge--{{ t.status }}">
+                                        {% if t.status == "done" %}Done{% elif t.status == "running" %}Running{% else %}Pending{% endif %}
+                                    </span>
+                                </div>
+                                <p class="ga-improve__detail">{{ t.detail }}</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    <p class="ga-improve__updated" data-ga-improve-updated>
+                        Cập nhật: <time datetime="{{ ga_improve.updated_at }}">{{ dt::display_datetime(value=ga_improve.updated_at) }}</time>
+                        — từ QA/SEO/PERF jobs
+                    </p>
+                </details>
+                {% endif %}
                 </div>{# /.footer-qa__right #}
                 </div>{# /.footer-qa__split #}
             </div>
@@ -1139,6 +1179,7 @@
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>

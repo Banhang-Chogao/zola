@@ -223,18 +223,28 @@
                     <label class="editor-field editor-field--check">
                         <input type="checkbox" name="sticky"> <span>📌 Ghim bài (Sticky — section giữa trang chủ; chỉ 1 bài tại 1 thời điểm)</span>
                     </label>
+
+                    {# MoMo link — chỉ hiện khi category = Premium. Lưu vào [extra].momo_payment_link #}
+                    <label class="editor-field editor-field--full editor-field--premium" data-momo-wrap hidden>
+                        <span>Link thanh toán MoMo (Premium)</span>
+                        <input type="url" name="momo_link" class="editor-input"
+                               placeholder="https://me.momo.vn/..."
+                               inputmode="url" autocomplete="off">
+                        <span class="editor-field-hint">Để trống → dùng link MoMo mặc định từ config blog. Đổi category khỏi Premium → link tự xóa khi lưu.</span>
+                    </label>
                 </div>
 
                 <div class="editor-content-wrap" data-content-wrap>
-                    <div class="editor-content-tabs">
-                        <button type="button" class="editor-tab" data-tab="write">✎ Viết</button>
-                        <button type="button" class="editor-tab editor-tab--split" data-tab="split">⇄ Split</button>
-                        <button type="button" class="editor-tab" data-tab="preview">👁 Preview</button>
-                    </div>
+                    <div class="editor-write-chrome">
+                        <div class="editor-content-tabs">
+                            <button type="button" class="editor-tab" data-tab="write">✎ Viết</button>
+                            <button type="button" class="editor-tab editor-tab--split" data-tab="split">⇄ Split</button>
+                            <button type="button" class="editor-tab" data-tab="preview">👁 Preview</button>
+                        </div>
 
-                    {# Toolbar markdown — 10 nút + 2 separator, inline SVG (Lucide style).
-                       Ẩn khi tab Preview active (toggle qua data-toolbar attr trong JS). #}
-                    <div class="editor-md-toolbar" data-toolbar role="toolbar" aria-label="Định dạng markdown">
+                        {# Toolbar markdown — 10 nút + 2 separator, inline SVG (Lucide style).
+                           Ẩn khi tab Preview active (toggle qua data-toolbar attr trong JS). #}
+                        <div class="editor-md-toolbar" data-toolbar role="toolbar" aria-label="Định dạng markdown">
                         <button type="button" class="editor-md-btn" data-md="bold" title="Đậm (Ctrl+B)" aria-label="Đậm">
                             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
                         </button>
@@ -267,6 +277,7 @@
                         <button type="button" class="editor-md-btn" data-md="ol" title="Numbered list" aria-label="Numbered list">
                             <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="10" x2="21" y1="6" y2="6"/><line x1="10" x2="21" y1="12" y2="12"/><line x1="10" x2="21" y1="18" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
                         </button>
+                        </div>
                     </div>
 
                     {# Wrap 2 pane vào content-body để CSS grid thành 2 cột ở split mode #}
