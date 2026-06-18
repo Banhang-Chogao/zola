@@ -249,11 +249,28 @@ script Python sinh nội dung public).
 
 Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 
-- Làm xong BẤT KỲ việc gì → **LUÔN mở Pull Request** về `main` cho branch
-  vừa làm. Không để thay đổi nằm im trên feature branch mà thiếu PR.
+### Mỗi thay đổi = 1 PR riêng, tự auto-merge (2026-06-18 — user request)
+
+> ⛔ **KHÔNG GỘP** nhiều thay đổi độc lập vào cùng 1 PR — user phải chờ lâu nếu gộp.
+
+- Mỗi thay đổi logic riêng (1 bài viết · 1 fix workflow · 1 sửa CSS · 1 update rule)
+  = **1 PR riêng**, để mỗi thứ **tự merge lên `main` ngay khi QA xanh**, không bắt
+  user chờ cả lô.
+  - ✅ Đúng: bài A → PR A; fix deploy → PR B (2 PR song song, auto-merge độc lập).
+  - ❌ Sai: gộp bài A + fix deploy + update rule vào 1 PR.
+- Mỗi thay đổi **tự merge** qua `auto-merge.yml` (QA xanh → squash-merge). **KHÔNG
+  merge tay** trừ khi auto-merge thật sự hỏng.
+- Session bị giới hạn 1 branch dev → làm xong 1 thay đổi: mở PR → reset branch về
+  `origin/main` → làm thay đổi kế tiếp (PR mới). KHÔNG tích nhiều thay đổi trên cùng
+  branch/PR.
+
+### Quy tắc chung
+
+- Làm xong BẤT KỲ việc gì → **LUÔN mở Pull Request** về `main`. Không để thay đổi
+  nằm im trên feature branch mà thiếu PR.
 - Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
-- Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
-  cần tạo PR trùng.
+- Chỉ push thêm commit vào PR đang mở khi đó là **sửa/hoàn thiện CHÍNH thay đổi của
+  PR đó** (vd fix CI đỏ) — KHÔNG nhét thay đổi MỚI không liên quan vào PR đang có.
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
