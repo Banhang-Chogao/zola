@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-18T13:55:31Z",
+  "updated_at": "2026-06-18T15:42:54Z",
   "summary": {
     "broken_count": 1,
-    "checked_unique": 436,
+    "checked_unique": 437,
     "status": "warn"
   },
   "links": [
@@ -3924,6 +3924,15 @@
     {
       "source_page": "/terms/",
       "source_file": "public/terms/index.html",
+      "href": "https://banhang-chogao.github.io/zola/categories/premium",
+      "target": "/categories/premium/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tools/content-creator/",
+      "source_file": "public/tools/content-creator/index.html",
       "href": "https://banhang-chogao.github.io/zola/categories/premium",
       "target": "/categories/premium/",
       "status": "404",

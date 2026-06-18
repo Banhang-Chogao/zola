@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T13:55:31Z",
+  "updated_at": "2026-06-18T15:42:54Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "429/444 in range"
+          "detail": "430/445 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "444/444 complete"
+          "detail": "445/445 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "444/444 set"
+          "detail": "445/445 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "443/444 single H1"
+          "detail": "444/445 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "444/444 with lang"
+          "detail": "445/445 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "444/444 ready"
+          "detail": "445/445 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "444/444 pages"
+          "detail": "445/445 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "444/444 pages covered"
+          "detail": "445/445 pages covered"
         },
         {
           "label": "Image weight",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 436 unique",
+          "detail": "1 broken / 437 unique",
           "broken": [
             {
               "source_page": "/404.html",
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "440/444 pages"
+          "detail": "441/445 pages"
         },
         {
           "label": "Skip navigation",
@@ -404,7 +404,7 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 444,
+  "pages_scanned": 445,
   "articles_scanned": 106,
   "fix_log": [
     {
@@ -412,8 +412,8 @@
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 440 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /categories/premium/ (Target not found in public/ after zola build); public/about/index.html → /categories/premium/ (Target not found in public/ after zola build); public/admin/paywall/index.html → /categories/premium/ (Target not found in public/ after zola build)",
-      "at": "2026-06-18T13:55:31Z"
+      "message": "Còn 441 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /categories/premium/ (Target not found in public/ after zola build); public/about/index.html → /categories/premium/ (Target not found in public/ after zola build); public/admin/paywall/index.html → /categories/premium/ (Target not found in public/ after zola build)",
+      "at": "2026-06-18T15:42:54Z"
     }
   ],
   "fix_summary": {
