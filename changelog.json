@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-18",
+      "title": "feat(ui): add visible breadcrumb on posts (Trang chủ › Chuyên mục › Bài)",
+      "tag": "chore",
+      "lines_added": 93,
+      "lines_removed": 0,
+      "highlights": [
+        "templates/page.html: thêm <nav class=\"breadcrumb\"> trong post header, trên tiêu đề: Trang chủ › Chuyên mục › Bài hiện tại. Chuyên mục = category chuyên biệt đầu tiên (bỏ qua \"Tất cả\"), link qua get_ta",
+        "sass/_breadcrumb.scss (mới) + import vào site.scss: component dùng semantic token var(--c-*) (đúng light/dark), tách block mobile @media (max-width: 540px) rút gọn tiêu đề dài — không sửa selector glo",
+        "zola build PASS (172 pages, exit 0) trên nhánh đã rebase lên main mới nhất.",
+        "Output bài Git: Trang chủ › Công nghệ › Git branch… với link /categories/cong-nghe/ đúng.",
+        "qa_check.py PASS."
+      ],
+      "pr": 457
+    },
+    {
+      "date": "2026-06-18",
       "title": "content: Series V-Plus & V-Advance VietinBank (5 bài)",
       "tag": "chore",
       "lines_added": 1409,
