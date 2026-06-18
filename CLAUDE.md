@@ -235,6 +235,37 @@ V1–V7. **Không thêm vaccine mới.**
   **mọi workflow observer/remediation/QA report-only → `continue-on-error` hoặc nuốt
   exit**, chỉ để CI gate thật (qa-check, zola build) mới được đỏ.
 
+#### V8 — Series Registration + Tera Syntax: conflict-free PR vẫn vỡ `zola build`
+
+- **Symptom:** PR shows **no merge conflicts** (mergeable) but `zola build` fails
+  unexpectedly. Error originates in the `/posting/` pager or the SERIES block, e.g.
+  `Failed to render 'section.html'` → `Filter call 'replace' failed` →
+  ``Filter `replace` expected an arg called `from` ``. Builds fine on `main` until a
+  new series' content lands.
+- **Root causes:** (1) A new series manifest (`data/<id>-series.json`) was added in
+  content but **not registered** in the `manifests` array of
+  `templates/macros/series-listing.html` → the series falls into the **orphan
+  fallback** branch. (2) That orphan branch used **Python-style filter kwargs** in
+  Tera. Tera's `replace` filter uses `from=`/`to=`, NOT Python's `old=`/`new=`:
+  - Wrong: `replace(old="-", new=" ")`
+  - Correct: `replace(from="-", to=" ")`
+  The orphan branch was dormant while every series was registered, so the bad syntax
+  only triggered once an unregistered series existed.
+- **FIXER:** (a) Register every new series manifest in **both** `series-listing.html`
+  (`manifests` array) and the `elif` chains in `page.html` + `macros/series-nav.html`
+  (one `elif` per series — multi-series pattern). (b) Use `replace(from=…, to=…)`;
+  never use Python keyword names (`old`/`new`) in Tera filters.
+- **Prevention:**
+  - After adding any series, verify it is registered in `series-listing.html`.
+  - Audit orphan-series fallback paths for valid Tera syntax.
+  - Never use Python keyword names in Tera filters; prefer explicit `from=`/`to=`.
+  - **Conflict-free PR ≠ build-safe PR** — always inspect templates after a merge
+    (auto-resolved series `elif` unions can still leave an unregistered manifest).
+- **Validation:** `python3 qa_check.py` → `python3 scripts/paywall_prepare_build.py
+  --strip` → `zola build` → `python3 scripts/paywall_prepare_build.py --restore` →
+  `python3 scripts/check_internal_links.py`; confirm the SERIES block and `/posting/`
+  pagination render correctly. (Applied 18/06/2026 in PR #451 merge.)
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
