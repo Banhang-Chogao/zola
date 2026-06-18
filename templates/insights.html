@@ -607,6 +607,62 @@
                     </footer>
                 </div>
 
+                {# ===== QA DOMAIN SELECTOR (gợi ý tên miền) ===== #}
+                {% set domain_data = load_data(path="data/qa-domain-selector-report.json", required=false) %}
+                {% if domain_data %}
+                {% set domain_items = domain_data.top5 | default(value=[]) %}
+                <div class="insights__domains">
+                    <header class="insights__domains-head">
+                        <h3 class="insights__domains-title">Domain Selector</h3>
+                        <span class="insights__domains-meta">
+                            {{ domain_data.candidate_count | default(value=0) }} ứng viên ·
+                            {{ domain_data.checked_count | default(value=0) }} đã kiểm tra ·
+                            {% if domain_data.method == "api" %}API{% elif domain_data.method == "offline" %}offline{% else %}DNS fallback{% endif %}
+                        </span>
+                    </header>
+
+                    {% if domain_data.niche_summary %}
+                    <p class="insights__domains-niche">{{ domain_data.niche_summary }}</p>
+                    {% endif %}
+
+                    {% if domain_items | length > 0 %}
+                    <ol class="insights__domains-list" aria-label="Top tên miền gợi ý">
+                        {% for d in domain_items %}
+                        <li class="insights__domains-item">
+                            <div class="insights__domains-row">
+                                <span class="insights__domains-name">{{ d.domain }}</span>
+                                <span class="insights__domains-score">{{ d.total_score }}<small>/100</small></span>
+                                <span class="insights__domains-badge insights__domains-badge--{{ d.availability }}">
+                                    {% if d.availability == "available" %}có thể trống
+                                    {%- elif d.availability == "taken" %}đã đăng ký
+                                    {%- else %}chưa rõ{% endif %}
+                                </span>
+                            </div>
+                            <p class="insights__domains-reason">{{ d.reason }}</p>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p class="insights__domains-empty">Chưa có gợi ý tên miền.</p>
+                    {% endif %}
+
+                    {% if domain_data.note %}
+                    <p class="insights__domains-note">{{ domain_data.note }}</p>
+                    {% endif %}
+
+                    {% if domain_data.generated_at %}
+                    <footer class="insights__domains-foot">
+                        <span class="insights__domains-src">
+                            Nguồn : <code>qa-domain-selector.py</code> · cron 2h
+                        </span>
+                        <time class="insights__domains-updated" datetime="{{ domain_data.generated_at }}">
+                            Cập nhật {{ domain_data.generated_at | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}
+                        </time>
+                    </footer>
+                    {% endif %}
+                </div>
+                {% endif %}
+
             </div>
         </div>
     </section>
