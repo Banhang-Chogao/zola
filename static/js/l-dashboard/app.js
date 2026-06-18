@@ -176,15 +176,21 @@
     `;
   }
 
+  function pct(n) {
+    const v = Math.round(Number(n) * 100);
+    return Number.isFinite(v) ? `${v}%` : "—";
+  }
+
   function renderHealth(health) {
     if (!els.health) return;
-    const sr = Math.round(health.saving_rate * 100);
-    const er = Math.round(health.expense_ratio * 100);
+    const label = health.health_label || "—";
+    const labelKey = (health.health_label || "").toLowerCase();
+    const score = Number.isFinite(Number(health.financial_score)) ? health.financial_score : "—";
     els.health.innerHTML = `
-      <div class="ld-health__metric"><span>Saving Rate</span><strong>${sr}%</strong></div>
-      <div class="ld-health__metric"><span>Expense Ratio</span><strong>${er}%</strong></div>
+      <div class="ld-health__metric"><span>Saving Rate</span><strong>${pct(health.saving_rate)}</strong></div>
+      <div class="ld-health__metric"><span>Expense Ratio</span><strong>${pct(health.expense_ratio)}</strong></div>
       <div class="ld-health__metric"><span>Net Cash Flow</span><strong>${LDashboardInsights.formatVnd(health.net_cash_flow)}</strong></div>
-      <div class="ld-health__metric ld-health__metric--score"><span>Financial Score</span><strong class="ld-health__score ld-health__score--${health.health_label.toLowerCase()}">${health.financial_score}</strong><em>${health.health_label}</em></div>
+      <div class="ld-health__metric ld-health__metric--score"><span>Financial Score</span><strong class="ld-health__score ld-health__score--${labelKey}">${score}</strong><em>${escapeHtml(label)}</em></div>
     `;
   }
 
@@ -216,12 +222,14 @@
 
     els.tbody.innerHTML = slice
       .map((t, i) => {
+        const txnDate = t.date ? String(t.date).slice(0, 10) : "—";
+        const desc = t.description ? escapeHtml(t.description) : "—";
         return `<tr>
           <td>${start + i + 1}</td>
-          <td>${t.date.slice(0, 10)}</td>
-          <td>${escapeHtml(t.value_date || "")}</td>
-          <td class="ld-table__desc">${escapeHtml(t.description)}</td>
-          <td><code>${escapeHtml(t.txn_no || "")}</code></td>
+          <td>${txnDate}</td>
+          <td>${escapeHtml(t.value_date || "—")}</td>
+          <td class="ld-table__desc">${desc}</td>
+          <td><code>${escapeHtml(t.txn_no || "—")}</code></td>
           <td class="ld-amount ld-amount--expense">${t.debit ? fmt(t.debit).replace(" ₫", "") : "—"}</td>
           <td class="ld-amount ld-amount--income">${t.credit ? fmt(t.credit).replace(" ₫", "") : "—"}</td>
           <td>${fmt(t.balance)}</td>

@@ -245,7 +245,9 @@
   }
 
   function formatVnd(n) {
-    return new Intl.NumberFormat("vi-VN").format(n) + " ₫";
+    const v = Number(n);
+    if (!Number.isFinite(v)) return "—";
+    return new Intl.NumberFormat("vi-VN").format(v) + " ₫";
   }
 
   global.LDashboardInsights = {

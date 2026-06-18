@@ -245,6 +245,10 @@
   }
 
   function formatVnd(n) {
+    // Display guard: never surface NaN/undefined/null — fall back to em dash.
+    if (n === null || n === undefined || typeof n !== "number" || !Number.isFinite(n)) {
+      return "—";
+    }
     return new Intl.NumberFormat("vi-VN").format(n) + " ₫";
   }
 

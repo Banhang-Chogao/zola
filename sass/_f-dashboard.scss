@@ -1,7 +1,32 @@
-/* ===== F-DASHBOARD — Personal finance from VietinBank statements ===== */
+/* ===== F-DASHBOARD — Personal finance from VietinBank statements =====
+   Visual refactor: professional Sembcorp-style financial report dashboard.
+   On-brand (Ericsson Blue + Hilda Teal, blog "Chợ Gạo").
+   White cards + thin teal border + asymmetric corners + teal accents.
+   Cards stay WHITE with fixed dark ink so they read in OS light AND dark mode. */
 
 .f-dashboard-app {
   min-height: 50vh;
+
+  /* ===== DESIGN SYSTEM TOKENS (shared with L-Dashboard refactor) ===== */
+  --dash-card-bg: #ffffff;
+  --dash-border: rgba(0, 166, 157, 0.30);
+  --dash-border-strong: #00a69d;
+  --dash-radius: 18px;
+  --dash-radius-sm: 12px;
+  --dash-radius-asym: 18px 18px 18px 6px;
+  --dash-pad: 1.5rem;
+  --dash-gap: 1.25rem;
+  --dash-shadow: 0 4px 18px rgba(0, 55, 132, 0.07);
+  --dash-shadow-hover: 0 8px 28px rgba(0, 55, 132, 0.12);
+  --dash-ink: #0f1b2d;
+  --dash-muted: #5b6573;
+  --dash-blue: #003784;
+  --dash-teal: #00a69d;
+  --dash-red: #e30613;
+  --dash-sky: #38bdf8;
+  --dash-amber: #ff9500;
+  --dash-income: #00a69d;
+  --dash-expense: #e30613;
 }
 
 /* ----- Login gate (GitHub OAuth) ----- */
@@ -24,45 +49,62 @@
 }
 
 .fd-login__card {
-  max-width: 420px;
+  position: relative;
+  max-width: 440px;
   width: 100%;
   text-align: center;
-  padding: 2rem 1.75rem;
-  background: $brand-snow;
-  border: 1px solid $brand-edge;
-  border-radius: 14px;
-  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+  padding: 2.25rem 1.85rem;
+  background: var(--dash-card-bg);
+  color: var(--dash-ink);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-asym);
+  box-shadow: var(--dash-shadow);
+  overflow: hidden;
+
+  /* teal top accent bar */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--dash-teal), var(--dash-blue));
+  }
 }
 
 .fd-login__icon {
-  font-size: 2.25rem;
+  font-size: 2.4rem;
   margin-bottom: 0.75rem;
 }
 
 .fd-login__title {
   font-family: $font-heading;
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 800;
+  letter-spacing: -0.01em;
   margin: 0 0 0.5rem;
-  color: $brand-ink-900;
+  color: var(--dash-ink);
 }
 
 .fd-login__sub {
   font-size: 0.9rem;
-  color: $brand-ink-500;
+  color: var(--dash-muted);
   line-height: 1.65;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.35rem;
+
+  strong {
+    color: var(--dash-teal);
+  }
 }
 
 .fd-login__error {
   font-size: 0.88rem;
-  color: $brand-signal-red;
+  color: var(--dash-red);
   margin: 0 0 1rem;
 }
 
 .fd-login__hint {
   font-size: 0.82rem;
-  color: $brand-warning;
+  color: var(--dash-amber);
   margin: 1rem 0 0;
 }
 
@@ -80,19 +122,20 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 1rem;
-  margin-bottom: 1rem;
-  background: $brand-mist;
-  border: 1px solid $brand-edge;
-  border-radius: 10px;
+  margin: 0 auto 1.1rem;
+  background: var(--dash-card-bg);
+  color: var(--dash-ink);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-sm);
+  box-shadow: var(--dash-shadow);
   max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
 
   &__avatar {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 999px;
     object-fit: cover;
+    border: 2px solid var(--dash-border);
   }
 
   &__info {
@@ -104,13 +147,13 @@
     min-width: 0;
 
     strong {
-      color: $brand-ink-900;
+      color: var(--dash-ink);
     }
   }
 
   &__email {
     font-size: 0.78rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -126,135 +169,181 @@
   margin: 1.5rem auto 3rem;
   padding: 0 1.5rem;
   font-family: $font-body;
+  color: var(--dash-ink);
 }
 
+/* ----- Header — keep clear of the sticky site navbar ----- */
 .fd-head {
   margin-bottom: 1.75rem;
+  padding: 1.4rem 1.5rem;
+  background: var(--dash-card-bg);
+  color: var(--dash-ink);
+  border: 1px solid var(--dash-border);
+  border-left: 4px solid var(--dash-teal);
+  border-radius: var(--dash-radius-asym);
+  box-shadow: var(--dash-shadow);
+  scroll-margin-top: 96px;
 
   &__row {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
   }
 
   &__title {
     font-family: $font-heading;
-    font-size: 1.85rem;
+    font-size: 1.9rem;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: $brand-ink-900;
+    color: var(--dash-ink);
     margin: 0;
   }
 
   &__badge {
     font-family: $font-meta;
-    font-size: 0.8rem;
-    color: $brand-trust-cyan;
-    background: rgba(0, 55, 132, 0.08);
-    padding: 0.2rem 0.65rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--dash-blue);
+    padding: 0.22rem 0.7rem;
     border-radius: 999px;
   }
 
   &__ephemeral {
     font-family: $font-meta;
     font-size: 0.72rem;
-    color: $brand-warning;
-    background: rgba(245, 158, 11, 0.1);
-    padding: 0.15rem 0.55rem;
+    color: var(--dash-amber);
+    background: rgba(255, 149, 0, 0.12);
+    border: 1px solid rgba(255, 149, 0, 0.3);
+    padding: 0.18rem 0.6rem;
     border-radius: 999px;
     margin-left: auto;
   }
 
   &__desc {
     font-size: 0.95rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
     line-height: 1.65;
     margin: 0;
-    max-width: 760px;
+    max-width: 820px;
+
+    strong {
+      color: var(--dash-teal);
+    }
 
     code {
-      background: $brand-mist;
+      background: rgba(0, 166, 157, 0.1);
+      color: var(--dash-blue);
       padding: 0.1rem 0.35rem;
-      border-radius: 3px;
+      border-radius: 4px;
       font-size: 0.88em;
       font-family: $font-mono;
     }
   }
 }
 
+/* ----- Panels — white card, thin teal border, soft shadow, airy padding ----- */
 .fd-panel {
-  background: $brand-snow;
-  border: 1px solid $brand-edge;
-  border-radius: 10px;
-  padding: 1.25rem 1.35rem;
-  margin-bottom: 1.25rem;
+  background: var(--dash-card-bg);
+  color: var(--dash-ink);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-asym);
+  padding: var(--dash-pad);
+  margin-bottom: var(--dash-gap);
+  box-shadow: var(--dash-shadow);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--dash-shadow-hover);
+  }
 
   &__title {
+    position: relative;
     font-family: $font-heading;
-    font-size: 1.1rem;
+    font-size: 1.12rem;
     font-weight: 700;
-    color: $brand-ink-900;
-    margin: 0 0 1rem;
+    color: var(--dash-ink);
+    margin: 0 0 1.15rem;
+    padding-left: 0.85rem;
+
+    /* teal accent bar on every panel title */
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.1em;
+      bottom: 0.1em;
+      width: 4px;
+      border-radius: 999px;
+      background: var(--dash-teal);
+    }
   }
 }
 
 .fd-upload {
-  border: 2px dashed $brand-edge-strong;
-  border-radius: 10px;
-  padding: 2rem 1.5rem;
+  border: 2px dashed var(--dash-border-strong);
+  border-radius: var(--dash-radius-sm);
+  padding: 2.25rem 1.5rem;
   text-align: center;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  background: $brand-mist;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  background: rgba(0, 166, 157, 0.04);
 
   &:hover,
   &--active {
-    border-color: $brand-trust-cyan;
-    background: rgba(0, 55, 132, 0.04);
+    border-color: var(--dash-teal);
+    background: rgba(0, 166, 157, 0.09);
+    transform: translateY(-1px);
   }
 
   &__icon {
-    font-size: 2rem;
+    font-size: 2.1rem;
     margin-bottom: 0.5rem;
   }
 
   &__text {
     margin: 0 0 0.35rem;
     font-size: 0.95rem;
-    color: $brand-ink-800;
+    color: var(--dash-ink);
 
     code {
       font-family: $font-mono;
       font-size: 0.9em;
+      background: rgba(0, 55, 132, 0.07);
+      color: var(--dash-blue);
+      padding: 0.08rem 0.32rem;
+      border-radius: 4px;
     }
   }
 
   &__hint {
     margin: 0;
     font-size: 0.82rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
   }
 
   &__status {
-    margin: 0.85rem 0 0.5rem;
+    margin: 0.95rem 0 0.5rem;
     font-size: 0.88rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
 
-    &[data-type="success"] { color: $brand-success; }
-    &[data-type="error"] { color: $brand-signal-red; }
+    &[data-type="success"] { color: var(--dash-teal); }
+    &[data-type="error"] { color: var(--dash-red); }
   }
 }
 
 .fd-btn {
   font-family: $font-body;
   font-size: 0.85rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: 6px;
-  border: 1px solid $brand-edge;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--dash-radius-sm);
+  border: 1px solid var(--dash-border);
   cursor: pointer;
-  background: $brand-snow;
-  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  background: var(--dash-card-bg);
+  color: var(--dash-ink);
+  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
 
   &:disabled {
     opacity: 0.45;
@@ -262,22 +351,24 @@
   }
 
   &--primary {
-    background: $brand-trust-cyan;
-    border-color: $brand-trust-cyan;
+    background: var(--dash-teal);
+    border-color: var(--dash-teal);
     color: #fff;
     font-weight: 600;
 
     &:hover:not(:disabled) {
-      filter: brightness(1.08);
+      filter: brightness(1.06);
+      box-shadow: var(--dash-shadow);
     }
   }
 
   &--ghost {
-    color: $brand-ink-500;
+    color: var(--dash-muted);
+    background: transparent;
 
     &:hover:not(:disabled) {
-      border-color: $brand-signal-red;
-      color: $brand-signal-red;
+      border-color: var(--dash-red);
+      color: var(--dash-red);
     }
   }
 
@@ -286,32 +377,37 @@
     align-items: center;
     gap: 0.35rem;
     font-weight: 600;
-    color: $brand-trust-cyan;
-    border-color: rgba(0, 55, 132, 0.25);
-    background: rgba(0, 55, 132, 0.04);
+    color: var(--dash-blue);
+    border-color: var(--dash-border);
+    background: rgba(0, 166, 157, 0.06);
 
     &:hover:not(:disabled) {
-      background: rgba(0, 55, 132, 0.1);
-      border-color: $brand-trust-cyan;
+      background: rgba(0, 166, 157, 0.13);
+      border-color: var(--dash-teal);
     }
   }
 
   &--pdf {
-    color: $brand-ink-800;
-    border-color: $brand-edge-strong;
-    background: $brand-snow;
+    color: var(--dash-ink);
+    border-color: var(--dash-border-strong);
+    background: var(--dash-card-bg);
+
+    &:hover:not(:disabled) {
+      border-color: var(--dash-blue);
+      color: var(--dash-blue);
+    }
   }
 }
 
 .fd-export-bar {
-  margin-top: 1.25rem;
-  padding-top: 1.1rem;
-  border-top: 1px dashed $brand-edge;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed var(--dash-border);
 
   &__label {
     font-size: 0.82rem;
-    font-weight: 600;
-    color: $brand-ink-700;
+    font-weight: 700;
+    color: var(--dash-ink);
     margin: 0 0 0.65rem;
   }
 
@@ -323,20 +419,29 @@
 
   &__note {
     font-size: 0.78rem;
-    color: $brand-ink-500;
-    margin: 0.65rem 0 0;
+    color: var(--dash-muted);
+    margin: 0.7rem 0 0;
+    line-height: 1.55;
+
+    code {
+      font-family: $font-mono;
+      background: rgba(0, 55, 132, 0.06);
+      color: var(--dash-blue);
+      padding: 0.05rem 0.3rem;
+      border-radius: 4px;
+    }
   }
 }
 
 .fd-merge-pdf {
-  margin-top: 1.1rem;
-  padding-top: 1.1rem;
-  border-top: 1px dashed $brand-edge;
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed var(--dash-border);
 
   &__label {
     font-size: 0.82rem;
-    font-weight: 600;
-    color: $brand-ink-700;
+    font-weight: 700;
+    color: var(--dash-ink);
     margin: 0 0 0.65rem;
   }
 
@@ -354,40 +459,43 @@
 
   &__files {
     font-size: 0.78rem;
-    color: $brand-ink-700;
+    color: var(--dash-ink);
     margin: 0.55rem 0 0;
     word-break: break-word;
   }
 
   &__status {
     font-size: 0.78rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
     margin: 0.55rem 0 0;
 
-    &[data-type="success"] { color: $brand-success; }
-    &[data-type="error"] { color: $brand-signal-red; }
+    &[data-type="success"] { color: var(--dash-teal); }
+    &[data-type="error"] { color: var(--dash-red); }
   }
 
   &__note {
     font-size: 0.78rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
     margin: 0.45rem 0 0;
+    line-height: 1.55;
   }
 }
 
+/* ----- Summary KPI strip — prominent tabular numbers ----- */
 .fd-summary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  padding: 0.85rem;
-  background: $brand-mist;
-  border-radius: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--dash-gap);
+  margin-bottom: 1.25rem;
 
   &__item {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem;
+    background: rgba(0, 166, 157, 0.04);
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius-sm);
 
     &--wide {
       grid-column: 1 / -1;
@@ -395,20 +503,24 @@
   }
 
   &__label {
-    font-size: 0.78rem;
-    color: $brand-ink-500;
+    font-size: 0.72rem;
+    color: var(--dash-muted);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    font-weight: 600;
   }
 
   &__value {
     font-family: $font-heading;
-    font-size: 1rem;
-    font-weight: 700;
-    color: $brand-ink-900;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--dash-ink);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
 
-    &--income { color: $brand-success; }
-    &--expense { color: $brand-signal-red; }
+    &--income { color: var(--dash-income); }
+    &--expense { color: var(--dash-expense); }
   }
 }
 
@@ -416,15 +528,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 
 .fd-filter {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.78rem;
-  color: $brand-ink-500;
+  gap: 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dash-muted);
 
   &--grow {
     flex: 1;
@@ -434,38 +549,61 @@
   &__input {
     font-family: $font-body;
     font-size: 0.88rem;
-    padding: 0.4rem 0.55rem;
-    border: 1px solid $brand-edge;
-    border-radius: 6px;
-    background: $brand-snow;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius-sm);
+    background: var(--dash-card-bg);
+    color: var(--dash-ink);
+    transition: border-color 0.15s, box-shadow 0.15s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--dash-teal);
+      box-shadow: 0 0 0 3px rgba(0, 166, 157, 0.15);
+    }
   }
 }
 
 .fd-table-wrap {
   overflow-x: auto;
-  border: 1px solid $brand-edge;
-  border-radius: 8px;
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-sm);
 }
 
 .fd-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.88rem;
+  color: var(--dash-ink);
 
   th {
     text-align: left;
-    padding: 0.65rem 0.75rem;
-    background: $brand-mist;
-    font-weight: 600;
-    color: $brand-ink-800;
-    border-bottom: 1px solid $brand-edge;
+    padding: 0.7rem 0.8rem;
+    background: rgba(0, 166, 157, 0.08);
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--dash-blue);
+    border-bottom: 2px solid var(--dash-border);
     white-space: nowrap;
   }
 
   td {
-    padding: 0.55rem 0.75rem;
-    border-bottom: 1px solid $brand-fog;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid rgba(0, 166, 157, 0.12);
     vertical-align: top;
+  }
+
+  tbody tr {
+    transition: background 0.12s;
+
+    &:hover {
+      background: rgba(0, 166, 157, 0.05);
+    }
   }
 
   tr:last-child td {
@@ -475,12 +613,13 @@
   &__desc {
     max-width: 360px;
     word-break: break-word;
+    color: var(--dash-muted);
   }
 
   &__empty {
     text-align: center;
-    color: $brand-ink-500;
-    padding: 2rem !important;
+    color: var(--dash-muted);
+    padding: 2.25rem !important;
   }
 }
 
@@ -488,9 +627,10 @@
   font-family: $font-mono;
   font-weight: 600;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 
-  &--income { color: $brand-success; }
-  &--expense { color: $brand-signal-red; }
+  &--income { color: var(--dash-income); }
+  &--expense { color: var(--dash-expense); }
 }
 
 .fd-pagination {
@@ -498,21 +638,28 @@
   align-items: center;
   justify-content: flex-end;
   gap: 0.5rem;
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
 
   &__info {
     font-size: 0.82rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
     margin-right: auto;
   }
 
   &__btn {
     font-size: 0.82rem;
-    padding: 0.35rem 0.7rem;
-    border: 1px solid $brand-edge;
-    border-radius: 6px;
-    background: $brand-snow;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius-sm);
+    background: var(--dash-card-bg);
+    color: var(--dash-ink);
     cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+
+    &:hover:not(:disabled) {
+      border-color: var(--dash-teal);
+      color: var(--dash-teal);
+    }
 
     &:disabled {
       opacity: 0.45;
@@ -521,57 +668,72 @@
   }
 }
 
+/* ----- Health metric cards ----- */
 .fd-health {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--dash-gap);
+  margin-bottom: 1.4rem;
 
   &__metric {
-    background: $brand-mist;
-    border-radius: 8px;
-    padding: 0.75rem;
+    background: rgba(0, 166, 157, 0.04);
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius-sm);
+    padding: 1rem 1.1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    font-size: 0.82rem;
-    color: $brand-ink-500;
+    gap: 0.3rem;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    color: var(--dash-muted);
 
     strong {
-      font-size: 1.15rem;
-      color: $brand-ink-900;
+      font-family: $font-heading;
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: none;
+      letter-spacing: normal;
+      color: var(--dash-ink);
+      font-variant-numeric: tabular-nums;
     }
 
     &--score {
       em {
         font-style: normal;
-        font-size: 0.78rem;
-        color: $brand-trust-cyan;
+        font-size: 0.74rem;
+        font-weight: 700;
+        color: var(--dash-teal);
       }
     }
   }
 
   &__score {
     &--excellent,
-    &--good { color: $brand-success !important; }
-    &--average { color: $brand-warning !important; }
+    &--good { color: var(--dash-teal) !important; }
+    &--average { color: var(--dash-amber) !important; }
     &--risky,
-    &--danger { color: $brand-signal-red !important; }
+    &--danger { color: var(--dash-red) !important; }
   }
 }
 
+/* ----- Health tier legend — compact, colored dots ----- */
 .fd-health-legend {
-  margin-bottom: 1.25rem;
-  padding: 1rem 1.1rem;
-  background: $brand-mist;
-  border-radius: 10px;
-  border: 1px solid $brand-edge;
+  margin-bottom: 1.4rem;
+  padding: 1.1rem 1.2rem;
+  background: rgba(0, 55, 132, 0.03);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-sm);
 
   &__title {
-    font-size: 0.88rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    color: $brand-ink-800;
-    margin: 0 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--dash-blue);
+    margin: 0 0 0.85rem;
   }
 
   &__list {
@@ -580,70 +742,110 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
+    gap: 0.4rem;
   }
 
   &__item {
     display: grid;
-    grid-template-columns: 88px 56px 1fr;
+    grid-template-columns: 16px 96px 60px 1fr;
     gap: 0.5rem 0.75rem;
     align-items: baseline;
     font-size: 0.82rem;
-    padding: 0.4rem 0.5rem;
-    border-radius: 6px;
-    transition: background 0.15s;
+    padding: 0.45rem 0.55rem;
+    border-radius: var(--dash-radius-sm);
+    transition: background 0.15s, outline-color 0.15s;
+    outline: 1px solid transparent;
+
+    /* colored dot in first column */
+    &::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      align-self: center;
+      background: var(--dash-muted);
+    }
 
     &--active {
-      background: rgba(0, 55, 132, 0.08);
-      outline: 1px solid rgba(0, 55, 132, 0.15);
+      background: rgba(0, 166, 157, 0.1);
+      outline-color: rgba(0, 166, 157, 0.35);
     }
   }
 
   &__badge {
     font-weight: 700;
     font-family: $font-meta;
-    font-size: 0.78rem;
+    font-size: 0.8rem;
   }
 
   &__range {
     font-family: $font-mono;
     font-size: 0.75rem;
-    color: $brand-ink-500;
+    color: var(--dash-muted);
+    font-variant-numeric: tabular-nums;
   }
 
   &__desc {
-    color: $brand-ink-700;
+    color: var(--dash-ink);
     line-height: 1.45;
   }
 
-  &__item--excellent .fd-health-legend__badge { color: $brand-success; }
-  &__item--good .fd-health-legend__badge { color: darken($brand-success, 8%); }
-  &__item--average .fd-health-legend__badge { color: $brand-warning; }
-  &__item--risky .fd-health-legend__badge { color: darken($brand-signal-red, 10%); }
-  &__item--danger .fd-health-legend__badge { color: $brand-signal-red; }
+  /* dot + badge color per tier (matches chart palette) */
+  &__item--excellent {
+    &::before { background: var(--dash-teal); }
+    .fd-health-legend__badge { color: var(--dash-teal); }
+  }
+  &__item--good {
+    &::before { background: #0a8f87; }
+    .fd-health-legend__badge { color: #0a8f87; }
+  }
+  &__item--average {
+    &::before { background: var(--dash-amber); }
+    .fd-health-legend__badge { color: var(--dash-amber); }
+  }
+  &__item--risky {
+    &::before { background: #d65f00; }
+    .fd-health-legend__badge { color: #d65f00; }
+  }
+  &__item--danger {
+    &::before { background: var(--dash-red); }
+    .fd-health-legend__badge { color: var(--dash-red); }
+  }
 }
 
+/* ----- Charts — each in its own bordered card; responsive grid ----- */
 .fd-charts {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: var(--dash-gap);
 }
 
 .fd-chart {
-  border: 1px solid $brand-edge;
-  border-radius: 8px;
-  padding: 0.85rem;
+  background: var(--dash-card-bg);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-sm);
+  padding: 1rem 1.1rem;
+  transition: box-shadow 0.2s ease;
 
+  &:hover {
+    box-shadow: var(--dash-shadow);
+  }
+
+  /* wide charts span both columns */
   &--area,
   &--waterfall {
     grid-column: 1 / -1;
   }
 
   &__label {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: $brand-ink-700;
-    margin: 0 0 0.5rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--dash-blue);
+    margin: 0 0 0.65rem;
+    padding-left: 0.6rem;
+    border-left: 3px solid var(--dash-teal);
   }
 
   &__canvas-wrap {
@@ -656,35 +858,82 @@
   }
 }
 
+/* ----- AI Insights — clean list with teal bullet ----- */
 .fd-insights {
   margin: 0;
-  padding-left: 1.25rem;
-  color: $brand-ink-800;
-  line-height: 1.7;
+  padding: 0;
+  list-style: none;
+  color: var(--dash-ink);
+  line-height: 1.6;
   font-size: 0.92rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
 
-  li + li {
-    margin-top: 0.35rem;
+  li {
+    position: relative;
+    padding: 0.55rem 0.8rem 0.55rem 2.1rem;
+    background: rgba(0, 166, 157, 0.04);
+    border: 1px solid var(--dash-border);
+    border-radius: var(--dash-radius-sm);
+
+    /* teal bullet/icon */
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0.85rem;
+      top: 0.95rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--dash-teal);
+      box-shadow: 0 0 0 3px rgba(0, 166, 157, 0.18);
+    }
   }
 }
 
-@media (max-width: 768px) {
+/* ===== RESPONSIVE (≤ 720px stacks; table scrolls horizontally) ===== */
+@media (max-width: 720px) {
   .f-dashboard {
     padding: 0 1rem;
   }
 
-  .fd-head__row {
-    flex-wrap: wrap;
+  .fd-head {
+    padding: 1.15rem 1.15rem;
+
+    &__row {
+      flex-wrap: wrap;
+    }
+
+    &__title {
+      font-size: 1.55rem;
+    }
+
+    &__ephemeral {
+      margin-left: 0;
+      width: 100%;
+    }
   }
 
-  .fd-head__ephemeral {
-    margin-left: 0;
-    width: 100%;
+  .fd-panel {
+    padding: 1.15rem;
+  }
+
+  .fd-summary__value {
+    font-size: 1.4rem;
   }
 
   .fd-health-legend__item {
-    grid-template-columns: 1fr;
-    gap: 0.2rem;
+    grid-template-columns: 16px 1fr;
+    gap: 0.2rem 0.6rem;
+
+    .fd-health-legend__range {
+      grid-column: 2;
+    }
+
+    .fd-health-legend__desc {
+      grid-column: 2;
+    }
   }
 
   .fd-charts {
