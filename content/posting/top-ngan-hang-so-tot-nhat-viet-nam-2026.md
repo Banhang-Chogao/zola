@@ -9,7 +9,6 @@ tags = ["cake by vpbank", "liobank", "ngân hàng số", "ngân hàng số serie
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số tốt nhất"
-featured = true
 series = "ngan-hang-so"
 series_part = 0
 series_total = 15
