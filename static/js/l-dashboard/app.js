@@ -326,8 +326,11 @@
     try {
       const buffer = await file.arrayBuffer();
       const parsed = await LDashboardLpbankParser.parseLpbankPdfArrayBuffer(buffer);
-      statementMeta = parsed.statement;
-      reconciliation = parsed.reconciliation;
+      if (!parsed || !Array.isArray(parsed.transactions)) {
+        throw new Error("Không đọc được giao dịch từ PDF — kiểm tra đúng định dạng sao kê LPBank.");
+      }
+      statementMeta = parsed.statement || null;
+      reconciliation = parsed.reconciliation || { ok: true, message: "" };
 
       const existingIds = await LDashboardStorage.getAllTransactionIds();
       const toInsert = [];

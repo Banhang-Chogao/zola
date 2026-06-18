@@ -86,12 +86,13 @@
     const db = await openDb();
     return new Promise((resolve, reject) => {
       const tx = db.transaction(STORE_TX, "readonly");
-      const ids = [];
+      // Return a Set: callers dedupe via existingIds.has(id) (O(1) lookup).
+      const ids = new Set();
       const req = tx.objectStore(STORE_TX).openKeyCursor();
       req.onsuccess = () => {
         const cursor = req.result;
         if (cursor) {
-          ids.push(cursor.key);
+          ids.add(cursor.key);
           cursor.continue();
         } else {
           db.close();
