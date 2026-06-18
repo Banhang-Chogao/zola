@@ -676,95 +676,42 @@
 
                 {# ===== VACCINE AUTOFIXER (Daily repairs) ===== #}
                 {% set vaccine_data = load_data(path="data/vaccine-autofixer-report.json", required=false) %}
-                {% if vaccine_data and vaccine_data.latest %}
-                {% set latest_vaccine = vaccine_data.latest %}
+                {% if vaccine_data %}
+                {% set latest = vaccine_data.latest | default(value=false) %}
+                {% if latest %}
                 <div class="insights__vaccines">
                     <header class="insights__vaccines-head">
                         <h3 class="insights__vaccines-title">🔬 Vaccine Autofixer</h3>
-                        <span class="insights__vaccines-meta">
-                            Daily automatic issue detection & repairs
-                        </span>
+                        <span class="insights__vaccines-meta">Daily automatic issue detection &amp; repairs</span>
                     </header>
 
-                    {% if latest_vaccine %}
                     <div class="insights__vaccines-stats">
                         <div class="insights__vaccine-stat">
                             <span class="insights__vaccine-stat-label">Vaccines Scanned</span>
-                            <span class="insights__vaccine-stat-value">{{ latest_vaccine.vaccine_scanned | default(value=0) }}</span>
+                            <span class="insights__vaccine-stat-value">{{ latest.vaccine_scanned }}</span>
                         </div>
                         <div class="insights__vaccine-stat">
                             <span class="insights__vaccine-stat-label">Issues Detected</span>
-                            <span class="insights__vaccine-stat-value insights__vaccine-stat-value--alert">{{ latest_vaccine.issues_detected | default(value=0) }}</span>
+                            <span class="insights__vaccine-stat-value insights__vaccine-stat-value--alert">{{ latest.issues_detected }}</span>
                         </div>
                         <div class="insights__vaccine-stat">
                             <span class="insights__vaccine-stat-label">Fixed</span>
-                            <span class="insights__vaccine-stat-value insights__vaccine-stat-value--success">{{ latest_vaccine.issues_fixed | default(value=0) }}</span>
+                            <span class="insights__vaccine-stat-value insights__vaccine-stat-value--success">{{ latest.issues_fixed }}</span>
                         </div>
                         <div class="insights__vaccine-stat">
                             <span class="insights__vaccine-stat-label">PRs Created</span>
-                            <span class="insights__vaccine-stat-value">{{ latest_vaccine.issues_prs_created | default(value=0) }}</span>
+                            <span class="insights__vaccine-stat-value">{{ latest.issues_prs_created }}</span>
                         </div>
                     </div>
 
-                    {% if latest_vaccine.fix_attempts | length > 0 %}
-                    <div class="insights__vaccines-timeline">
-                        <h4 class="insights__vaccines-timeline-title">Recent Fixes</h4>
-                        <ol class="insights__vaccines-list" aria-label="Vaccine fix attempts">
-                            {% for attempt in latest_vaccine.fix_attempts | slice(end=5) %}
-                            <li class="insights__vaccine-item insights__vaccine-item--{{ attempt.fix_status }}">
-                                <div class="insights__vaccine-header">
-                                    <span class="insights__vaccine-badge insights__vaccine-badge--{{ attempt.issue.vaccine_id | lower }}">
-                                        {{ attempt.issue.vaccine_id }}
-                                    </span>
-                                    <span class="insights__vaccine-name">{{ attempt.issue.vaccine_name }}</span>
-                                    <span class="insights__vaccine-status insights__vaccine-status--{{ attempt.fix_status }}">
-                                        {% if attempt.fix_status == "success" %}✅ Fixed
-                                        {%- elif attempt.fix_status == "partial" %}⚠️ Partial
-                                        {%- elif attempt.fix_status == "needs_pr" %}📋 PR Needed
-                                        {%- else %}❌ Failed{% endif %}
-                                    </span>
-                                </div>
-                                <p class="insights__vaccine-desc">{{ attempt.issue.description }}</p>
-                                {% if attempt.files_changed | length > 0 %}
-                                <div class="insights__vaccine-files">
-                                    <span class="insights__vaccine-files-label">Changed:</span>
-                                    <code class="insights__vaccine-files-list">{{ attempt.files_changed | join(", ") }}</code>
-                                </div>
-                                {% endif %}
-                                {% if attempt.error_message %}
-                                <div class="insights__vaccine-error">
-                                    <span class="insights__vaccine-error-label">Error:</span>
-                                    {{ attempt.error_message }}
-                                </div>
-                                {% endif %}
-                            </li>
-                            {% endfor %}
-                        </ol>
-                    </div>
-                    {% else %}
-                    <p class="insights__vaccines-empty">✅ All clear! No issues detected in the latest scan.</p>
-                    {% endif %}
-
-                    {% if latest_vaccine.errors | length > 0 %}
-                    <div class="insights__vaccines-errors" role="alert">
-                        <h4 class="insights__vaccines-errors-title">Scan Errors</h4>
-                        <ul class="insights__vaccines-errors-list">
-                            {% for err in latest_vaccine.errors | slice(end=3) %}
-                            <li>{{ err }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-
                     <footer class="insights__vaccines-foot">
-                        <span class="insights__vaccines-src">
-                            Nguồn : <code>vaccine-autofixer.yml</code> · daily 06:00 GMT+7
-                        </span>
-                        <time class="insights__vaccines-updated" datetime="{{ latest_vaccine.generated_at }}">
-                            Cập nhật {{ latest_vaccine.generated_at | date(format="%H:%M %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                        <span class="insights__vaccines-src">Nguồn: <code>vaccine-autofixer.yml</code> · daily 06:00 GMT+7</span>
+                        <time class="insights__vaccines-updated" datetime="{{ latest.generated_at }}">
+                            Cập nhật {{ latest.generated_at | date(format="%H:%M %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
                         </time>
                     </footer>
                 </div>
+                {% endif %}
                 {% endif %}
 
             </div>
