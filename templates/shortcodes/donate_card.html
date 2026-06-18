@@ -1,0 +1,69 @@
+{# ============================================================
+   DonatePremiumCard — khối "Ủng Hộ Dự Án" hiển thị CUỐI BÀI.
+   ============================================================
+   KHÔNG khoá nội dung, KHÔNG yêu cầu thanh toán để đọc — chỉ là lời kêu
+   gọi ủng hộ TỰ NGUYỆN + nút MoMo + QR (nếu có). Tách biệt hoàn toàn với
+   hệ thống paywall (macros/paywall.html) vốn dùng để khoá bài premium.
+
+   Cách dùng trong markdown (đặt ngay dưới phần kết luận):
+     {{ donate_card() }}
+     {{ donate_card(title="...", description="...", momo_url="...",
+                    qr_image="/img/momo-qr.webp", button_text="...") }}
+
+   Tham số — đều TÙY CHỌN (có default), truyền biến linh hoạt:
+     title        — tiêu đề khối            (mặc định "Ủng Hộ Dự Án")
+     description  — mô tả lời kêu gọi
+     momo_url     — link MoMo               (mặc định page.extra.donate_momo_url
+                                             → config.extra.momo_payment_link)
+     qr_image     — đường dẫn ảnh QR MoMo   (rỗng = ẩn QR; lazy-load)
+     button_text  — nhãn nút                (mặc định "Ủng Hộ Qua MoMo")
+
+   Accessibility (WCAG AA): <aside> landmark + aria-labelledby; nút là <a>
+   thật, target size ≥ 48px, focus-visible ring; QR có alt + figcaption.
+   Dark mode: chỉ dùng token var(--c-*) → tự đảo theo prefers-color-scheme,
+   không cần block override riêng. QR giữ nền trắng để luôn quét được. #}
+
+{%- set d_title = title | default(value="Ủng Hộ Dự Án") -%}
+{%- set d_desc = description | default(value="Nếu bài viết hoặc công cụ trên website đã giúp ích cho bạn, bạn có thể đóng góp tự nguyện để hỗ trợ chi phí vận hành và mục tiêu mua tên miền .AI cho dự án.") -%}
+{%- set cfg_momo = config.extra.momo_payment_link | default(value="https://me.momo.vn/G5T1CDFRuJFWfBCDiK/zPdywWy346xVaQr") -%}
+{%- set fm_momo = page.extra.donate_momo_url | default(value=cfg_momo) -%}
+{%- set d_momo = momo_url | default(value=fm_momo) -%}
+{%- set d_qr = qr_image | default(value=page.extra.donate_qr | default(value="")) -%}
+{%- set d_btn = button_text | default(value="Ủng Hộ Qua MoMo") -%}
+<aside class="donate-card" aria-labelledby="donate-card-title">
+  <div class="donate-card__inner">
+    <p class="donate-card__eyebrow">❤️ Tự nguyện · Minh bạch</p>
+    <h2 class="donate-card__title" id="donate-card-title">{{ d_title }}</h2>
+    <p class="donate-card__desc">{{ d_desc }}</p>
+
+    {% if d_qr %}
+    <figure class="donate-card__qr">
+      <img src="{% if d_qr is starting_with('http') %}{{ d_qr }}{% else %}{{ get_url(path=d_qr) }}{% endif %}"
+           alt="Mã QR MoMo để ủng hộ dự án {{ config.title }}"
+           width="180" height="180" loading="lazy" decoding="async" data-ph="1"
+           onerror="var f=this.closest('.donate-card__qr'); if(f){f.style.display='none';}">
+      <figcaption>Quét mã trong ứng dụng MoMo để ủng hộ nhanh</figcaption>
+    </figure>
+    {% endif %}
+
+    <a class="donate-card__btn" href="{{ d_momo }}" target="_blank"
+       rel="noopener noreferrer nofollow"
+       aria-label="{{ d_btn }} — mở ứng dụng MoMo trong tab mới">
+      <svg class="donate-card__btn-icon" viewBox="0 0 24 24" width="20" height="20"
+           fill="currentColor" aria-hidden="true" focusable="false">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <span>{{ d_btn }}</span>
+    </a>
+
+    <p class="donate-card__uses-label">Mọi khoản đóng góp đều được sử dụng cho:</p>
+    <ul class="donate-card__uses">
+      <li>Gia hạn hosting</li>
+      <li>Gia hạn tên miền</li>
+      <li>Mua tên miền .AI</li>
+      <li>Phát triển công cụ miễn phí</li>
+    </ul>
+
+    <p class="donate-card__thanks">Xin chân thành cảm ơn! Mọi đóng góp đều hoàn toàn tự nguyện.</p>
+  </div>
+</aside>
