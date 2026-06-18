@@ -57,6 +57,94 @@
     "external_count": 2,
     "internal_count": 3
   },
+  "content/posting/bao-mat-best-practices-git-github.md": {
+    "external": [
+      {
+        "title": "hướng dẫn bảo mật của GitHub",
+        "url": "https://docs.github.com/en/code-security",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "GitHub Actions ở Bài 14",
+        "url": "https://banhang-chogao.github.io/zola/posting/github-actions-ci-cd-cho-nguoi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 3",
+        "url": "https://banhang-chogao.github.io/zola/posting/lenh-git-co-ban-init-add-commit-status/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 9",
+        "url": "https://banhang-chogao.github.io/zola/posting/pull-request-quy-trinh-cong-tac-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "Git là gì",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-la-gi-version-control-cho-nguoi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "branch",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-branch-lam-viec-voi-nhanh/",
+        "kind": "internal"
+      },
+      {
+        "title": "merge",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-merge-va-xu-ly-conflict/",
+        "kind": "internal"
+      },
+      {
+        "title": "rebase",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-rebase-lam-sach-lich-su-commit/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ hướng dẫn bảo mật của GitHub. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 7
+  },
+  "content/posting/cai-dat-git-cau-hinh-lan-dau.md": {
+    "external": [
+      {
+        "title": "git-scm.com",
+        "url": "https://git-scm.com/download/win",
+        "kind": "external"
+      },
+      {
+        "title": "Homebrew",
+        "url": "https://brew.sh/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Git là gì ở Bài 1",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-la-gi-version-control-cho-nguoi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 7",
+        "url": "https://banhang-chogao.github.io/zola/posting/github-la-gi-tao-repository-dau-tien/",
+        "kind": "internal"
+      },
+      {
+        "title": "làm việc với remote ở Bài 6",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/",
+        "kind": "internal"
+      },
+      {
+        "title": "các lệnh Git cơ bản: init, add, commit, status, log",
+        "url": "https://banhang-chogao.github.io/zola/posting/lenh-git-co-ban-init-add-commit-status/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ git-scm.com và Homebrew. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 4
+  },
   "content/posting/chan-trang-khoi-google-search.md": {
     "external": [
       {
@@ -414,6 +502,326 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Shopee Affiliate Program. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 2
+  },
+  "content/posting/git-branch-lam-viec-voi-nhanh.md": {
+    "external": [
+      {
+        "title": "tài liệu chính thức của Git",
+        "url": "https://git-scm.com/docs/git-branch",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "lệnh Git cơ bản ở Bài 3",
+        "url": "https://banhang-chogao.github.io/zola/posting/lenh-git-co-ban-init-add-commit-status/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 13 về workflow",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 5",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-merge-va-xu-ly-conflict/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 11",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-stash-cherry-pick-reflog-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 1: Git là gì",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-la-gi-version-control-cho-nguoi-moi/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu chính thức của Git. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
+  },
+  "content/posting/git-la-gi-version-control-cho-nguoi-moi.md": {
+    "external": [
+      {
+        "title": "GitHub",
+        "url": "https://github.com/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "tạo bằng Zola",
+        "url": "https://banhang-chogao.github.io/zola/posting/tao-blog-voi-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "tự động deploy bằng GitHub Actions",
+        "url": "https://banhang-chogao.github.io/zola/posting/tu-dong-deploy-zola-github-actions/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 3 về các lệnh Git cơ bản",
+        "url": "https://banhang-chogao.github.io/zola/posting/lenh-git-co-ban-init-add-commit-status/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 7",
+        "url": "https://banhang-chogao.github.io/zola/posting/github-la-gi-tao-repository-dau-tien/",
+        "kind": "internal"
+      },
+      {
+        "title": "Cài đặt Git và cấu hình lần đầu",
+        "url": "https://banhang-chogao.github.io/zola/posting/cai-dat-git-cau-hinh-lan-dau/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
+  },
+  "content/posting/git-merge-va-xu-ly-conflict.md": {
+    "external": [
+      {
+        "title": "tài liệu Git chính thức",
+        "url": "https://git-scm.com/docs/git-merge",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 4 về git branch",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-branch-lam-viec-voi-nhanh/",
+        "kind": "internal"
+      },
+      {
+        "title": "bot tự sửa conflict",
+        "url": "https://banhang-chogao.github.io/zola/posting/qa-gatekeeper-tu-fix-loi-blog/",
+        "kind": "internal"
+      },
+      {
+        "title": "làm việc với repository từ xa qua git remote",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu Git chính thức. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 3
+  },
+  "content/posting/git-rebase-lam-sach-lich-su-commit.md": {
+    "external": [
+      {
+        "title": "tài liệu Git về rebase",
+        "url": "https://git-scm.com/book/en/v2/Git-Branching-Rebasing",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Pull Request ở Bài 9",
+        "url": "https://banhang-chogao.github.io/zola/posting/pull-request-quy-trinh-cong-tac-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 8",
+        "url": "https://banhang-chogao.github.io/zola/posting/push-pull-fetch-dong-bo-voi-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "git stash, cherry-pick và reflog",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-stash-cherry-pick-reflog-nang-cao/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu Git về rebase. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 3
+  },
+  "content/posting/git-remote-lam-viec-voi-repository-tu-xa.md": {
+    "external": [
+      {
+        "title": "tài liệu Git về remote",
+        "url": "https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 5",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-merge-va-xu-ly-conflict/",
+        "kind": "internal"
+      },
+      {
+        "title": "GitHub Actions deploy Zola",
+        "url": "https://banhang-chogao.github.io/zola/posting/tu-dong-deploy-zola-github-actions/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 9 về Pull Request",
+        "url": "https://banhang-chogao.github.io/zola/posting/pull-request-quy-trinh-cong-tac-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 2",
+        "url": "https://banhang-chogao.github.io/zola/posting/cai-dat-git-cau-hinh-lan-dau/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 8: push, pull, fetch",
+        "url": "https://banhang-chogao.github.io/zola/posting/push-pull-fetch-dong-bo-voi-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "GitHub: tạo tài khoản và repository đầu tiên",
+        "url": "https://banhang-chogao.github.io/zola/posting/github-la-gi-tao-repository-dau-tien/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu Git về remote. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 6
+  },
+  "content/posting/git-reset-revert-khoi-phuc-su-co.md": {
+    "external": [
+      {
+        "title": "tài liệu git reset",
+        "url": "https://git-scm.com/docs/git-reset",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "stash, cherry-pick, reflog ở Bài 11",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-stash-cherry-pick-reflog-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Git workflow chuyên nghiệp với Git Flow và GitHub Flow",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu git reset. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 2
+  },
+  "content/posting/git-stash-cherry-pick-reflog-nang-cao.md": {
+    "external": [
+      {
+        "title": "tài liệu git stash",
+        "url": "https://git-scm.com/docs/git-stash",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "git rebase ở Bài 10",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-rebase-lam-sach-lich-su-commit/",
+        "kind": "internal"
+      },
+      {
+        "title": "reset và revert ở Bài 12",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-reset-revert-khoi-phuc-su-co/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu git stash. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 2
+  },
+  "content/posting/git-workflow-chuyen-nghiep-gitflow-github-flow.md": {
+    "external": [
+      {
+        "title": "GitHub Flow",
+        "url": "https://docs.github.com/en/get-started/using-github/github-flow",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "tự động deploy",
+        "url": "https://banhang-chogao.github.io/zola/posting/tu-dong-deploy-zola-github-actions/",
+        "kind": "internal"
+      },
+      {
+        "title": "GitHub Actions — CI/CD cho người mới",
+        "url": "https://banhang-chogao.github.io/zola/posting/github-actions-ci-cd-cho-nguoi-moi/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Flow. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 2
+  },
+  "content/posting/github-actions-ci-cd-cho-nguoi-moi.md": {
+    "external": [
+      {
+        "title": "GitHub Actions",
+        "url": "https://docs.github.com/en/actions",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "git workflow ở Bài 13",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/",
+        "kind": "internal"
+      },
+      {
+        "title": "tự động deploy Zola bằng GitHub Actions",
+        "url": "https://banhang-chogao.github.io/zola/posting/tu-dong-deploy-zola-github-actions/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 15",
+        "url": "https://banhang-chogao.github.io/zola/posting/bao-mat-best-practices-git-github/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 3
+  },
+  "content/posting/github-la-gi-tao-repository-dau-tien.md": {
+    "external": [
+      {
+        "title": "GitHub",
+        "url": "https://github.com/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "git remote ở Bài 6",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 1",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-la-gi-version-control-cho-nguoi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 15",
+        "url": "https://banhang-chogao.github.io/zola/posting/bao-mat-best-practices-git-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 3",
+        "url": "https://banhang-chogao.github.io/zola/posting/lenh-git-co-ban-init-add-commit-status/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 8",
+        "url": "https://banhang-chogao.github.io/zola/posting/push-pull-fetch-dong-bo-voi-github/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
   },
   "content/posting/giup-google-tim-noi-dung-site.md": {
     "external": [
@@ -808,6 +1216,45 @@
     "external_count": 1,
     "internal_count": 2
   },
+  "content/posting/lenh-git-co-ban-init-add-commit-status.md": {
+    "external": [
+      {
+        "title": "`git init`",
+        "url": "https://git-scm.com/docs/git-init",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "cài đặt Git ở Bài 2",
+        "url": "https://banhang-chogao.github.io/zola/posting/cai-dat-git-cau-hinh-lan-dau/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 1 về version control",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-la-gi-version-control-cho-nguoi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "blog tạo bằng Zola",
+        "url": "https://banhang-chogao.github.io/zola/posting/tao-blog-voi-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 15 về bảo mật",
+        "url": "https://banhang-chogao.github.io/zola/posting/bao-mat-best-practices-git-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "làm việc với branch (nhánh)",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-branch-lam-viec-voi-nhanh/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ `git init`. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
+  },
   "content/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick.md": {
     "external": [],
     "internal": [
@@ -1131,6 +1578,84 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ chính sách nội dung AdSense. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 2
+  },
+  "content/posting/pull-request-quy-trinh-cong-tac-github.md": {
+    "external": [
+      {
+        "title": "tài liệu GitHub về Pull Request",
+        "url": "https://docs.github.com/en/pull-requests",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 8",
+        "url": "https://banhang-chogao.github.io/zola/posting/push-pull-fetch-dong-bo-voi-github/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 14",
+        "url": "https://banhang-chogao.github.io/zola/posting/github-actions-ci-cd-cho-nguoi-moi/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 4",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-branch-lam-viec-voi-nhanh/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 10",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-rebase-lam-sach-lich-su-commit/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 6",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu GitHub về Pull Request. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
+  },
+  "content/posting/push-pull-fetch-dong-bo-voi-github.md": {
+    "external": [
+      {
+        "title": "tài liệu git push",
+        "url": "https://git-scm.com/docs/git-push",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Bài 7",
+        "url": "https://banhang-chogao.github.io/zola/posting/github-la-gi-tao-repository-dau-tien/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 6",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 5",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-merge-va-xu-ly-conflict/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 10 về rebase",
+        "url": "https://banhang-chogao.github.io/zola/posting/git-rebase-lam-sach-lich-su-commit/",
+        "kind": "internal"
+      },
+      {
+        "title": "Pull Request và cách review code",
+        "url": "https://banhang-chogao.github.io/zola/posting/pull-request-quy-trinh-cong-tac-github/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ tài liệu git push. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
   },
   "content/posting/qa-gatekeeper-tu-fix-loi-blog.md": {
     "external": [
