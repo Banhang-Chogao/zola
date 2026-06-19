@@ -82,6 +82,7 @@ Format bắt buộc:
 | `nangcap` | Quét + nâng cấp mọi bài cũ điểm SEO QA < 90 lên đạt chuẩn (≥90/A) |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `runner` | Retry / tiếp tục lệnh, workflow, macro đang dở hoặc bị gián đoạn |
+| `tieptuc8` | Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở (todo, push, PR, CI, macro) |
 | `theodoi8` | Theo dõi LIÊN TỤC (auto-refresh) trạng thái các commit đang chạy trên GitHub Actions |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
@@ -1270,6 +1271,79 @@ Nếu vẫn stuck sau 3 lần → gợi ý `ff` (fix workflow) hoặc `??` (depl
 - `runner deploy` — chỉ poll/retry workflow deploy
 - `runner shell` — chỉ retry lệnh terminal gần nhất
 - `runner morning` — resume macro `morning` từ phase dở
+
+### `tieptuc8` — Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở
+
+**Mục đích**: Một lệnh "dọn sạch việc dở" — khi có **nhiều** tác vụ còn dang dở
+(chưa xong) tích lại trong session/repo, user gõ `tieptuc8` để Claude **tự rà soát
+TOÀN BỘ** rồi **tiếp tục/hoàn tất từng cái cho tới khi xong hết**, không bỏ sót,
+không hỏi lại từng bước.
+
+**Khác `runner`**: `runner` retry **một** lệnh/workflow/macro vừa bị gián đoạn gần
+nhất; `tieptuc8` **quét sạch backlog** — mọi việc còn ở trạng thái chưa-terminal
+(todo còn mở, thay đổi chưa commit/push, commit chưa lên `main`, PR chưa merge, CI
+đỏ, macro dở, background task đang chạy) — và **đẩy từng cái về trạng thái hoàn tất**.
+
+**Hành động**:
+
+1. **Rà soát toàn bộ tác vụ chưa xong** (theo thứ tự ưu tiên P0 → P1 — xem CLAUDE.md
+   "Task Priority Policy"):
+   - **Todo / checklist** của session hiện tại còn item `in_progress` / `pending`.
+   - **Working tree**: thay đổi chưa commit; commit chưa push
+     (`git status`, `git log origin/<branch>..HEAD`).
+   - **Branch dev** có commit chưa lên `main` (chưa qua auto-merge).
+   - **Open PRs** chưa merge (CI đang chạy / chờ auto-merge / conflict).
+   - **GitHub Actions** `in_progress` / `queued` cần đợi; `failure` gần nhất (≤1h)
+     cần fix.
+   - **Macro shortcut** bị ngắt giữa chừng (vd `morning` dừng ở phase D).
+   - **Background shell tasks** chưa kết thúc.
+
+2. **Output bảng backlog** trước khi hành động:
+
+   | # | Tác vụ | Loại | Trạng thái | Hành động tiếp |
+   |---|---|---|---|---|
+   | 1 | Bài "xyz" đang viết dở | Content | pending | Viết nốt + push |
+   | 2 | fix CSS navbar | Working tree | chưa commit | Commit + push |
+   | 3 | PR #501 | GitHub | CI chạy | Để auto-merge |
+   | 4 | deploy #770 | GH Actions | in_progress | Poll tới xong |
+
+3. **Tiếp tục / hoàn tất từng tác vụ** (P0 trước, P1 sau):
+   - **Việc Claude làm dở** (viết bài, sửa code, fix) → **làm nốt cho xong** rồi
+     push (automation tự đưa lên `main` theo ZERO_BARRIER).
+   - **Thay đổi chưa push** → commit message rõ ràng + push.
+   - **Macro dở** → resume từ phase/step cuối đã log (KHÔNG chạy lại phase ✅).
+   - **GH Actions `in_progress` / `queued`** → poll tới `completed` (READ-ONLY,
+     KHÔNG re-trigger).
+   - **CI `failure`** trên `deploy.yml` / `qa` → tự chẩn + fix theo Vaccine §4 /
+     `ff` / `ff9` trên **cùng branch** tới khi xanh.
+   - **PR chờ auto-merge** → để pipeline lo (KHÔNG babysit, trừ khi user yêu cầu).
+
+4. **Hard rules**:
+   - **Hoàn tất, không bỏ dở**: mỗi tác vụ phải về terminal (done / merged / pushed /
+     escalated) — KHÔNG để lửng lơ.
+   - **P0 trước P1**: việc user yêu cầu xong trước, job nền (audit/bot) tiếp sau.
+   - **KHÔNG restart từ đầu** nếu đã có progress — resume từ checkpoint.
+   - **KHÔNG** thao tác destructive (`rm -rf`, force push, merge bừa khi CI đỏ) để
+     "unstick" — escalate user.
+   - Đẩy thay đổi xong = giao cho pipeline auto-merge (CLAUDE.md §Git) — KHÔNG canh
+     PR trừ khi user chủ động yêu cầu.
+
+5. **Output cuối** (checklist trạng thái, ≤150 từ):
+
+   ```
+   tieptuc8: hoàn tất A · tiếp tục B · đang đợi C · escalate D
+   ```
+
+   Liệt kê rõ cái nào ✅ xong, cái nào 🔄 còn chạy (CI/deploy), cái nào ⚠ cần user.
+   Việc ngoài tầm safe-fix → nêu punch list 1 dòng/việc.
+
+**Phạm vi mở rộng** (user kèm context):
+- `tieptuc8 content` — chỉ hoàn tất các bài viết đang dở.
+- `tieptuc8 ci` — chỉ poll/fix workflow + PR đang chạy.
+- `tieptuc8 push` — chỉ commit + push các thay đổi chưa lên branch.
+
+Nếu **không có tác vụ nào dở** → báo `tieptuc8: không có tác vụ pending.` + gợi ý
+`run list` (audit workflow) hoặc `??` (deploy status).
 
 ### `manu9` — Auto-approve tất cả PRs do Claude tạo
 
