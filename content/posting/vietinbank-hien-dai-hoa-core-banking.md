@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/vietinbank-hien-dai-hoa-core-banking/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "core banking", "ngân hàng lõi", "vietinbank series"]
+tags = ["core banking", "ngân hàng lõi", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "core banking VietinBank"

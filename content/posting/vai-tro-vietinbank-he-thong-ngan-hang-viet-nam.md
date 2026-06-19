@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "vai trò vietinbank", "big 4 ngân hàng", "vietinbank series"]
+tags = ["big 4 ngân hàng", "vai trò vietinbank", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "vai trò VietinBank"

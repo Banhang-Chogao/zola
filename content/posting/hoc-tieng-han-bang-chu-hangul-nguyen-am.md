@@ -6,8 +6,7 @@ aliases = ["/hoc-tieng-han-bang-chu-hangul-nguyen-am/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "hangul", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["hangul", "hoc tieng han series", "học tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
 premium = true
 price = 49000

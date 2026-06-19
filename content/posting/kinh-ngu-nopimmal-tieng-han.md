@@ -6,8 +6,7 @@ aliases = ["/kinh-ngu-nopimmal-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "kính ngữ tiếng hàn", "높임말", "ngữ pháp tiếng hàn", "topik", "hoc tieng han series"]
-
+tags = ["hoc tieng han series", "học tiếng hàn", "kính ngữ tiếng hàn", "ngữ pháp tiếng hàn", "topik", "높임말"]
 [extra]
 premium = true
 price = 49000

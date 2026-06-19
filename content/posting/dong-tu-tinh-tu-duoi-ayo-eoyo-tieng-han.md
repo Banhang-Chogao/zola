@@ -6,8 +6,7 @@ aliases = ["/dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "chia động từ tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["chia động từ tiếng hàn", "hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
 premium = true
 price = 49000

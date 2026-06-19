@@ -6,8 +6,7 @@ aliases = ["/trich-dan-gian-tiep-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "trích dẫn gián tiếp tiếng hàn", "간접화법", "ngữ pháp tiếng hàn", "topik", "hoc tieng han series"]
-
+tags = ["hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "topik", "trích dẫn gián tiếp tiếng hàn", "간접화법"]
 [extra]
 premium = true
 price = 49000

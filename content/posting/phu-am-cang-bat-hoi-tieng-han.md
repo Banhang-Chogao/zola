@@ -6,8 +6,7 @@ aliases = ["/phu-am-cang-bat-hoi-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "phụ âm bật hơi", "phụ âm căng", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["hoc tieng han series", "học tiếng hàn", "phụ âm bật hơi", "phụ âm căng", "tiếng hàn sơ cấp", "topik"]
 [extra]
 premium = true
 price = 49000

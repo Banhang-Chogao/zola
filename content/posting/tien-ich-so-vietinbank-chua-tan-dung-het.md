@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/tien-ich-so-vietinbank-chua-tan-dung-het/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "tiện ích số", "vietinbank ipay", "vietinbank series"]
+tags = ["tiện ích số", "vietinbank", "vietinbank ipay", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "tiện ích số VietinBank"

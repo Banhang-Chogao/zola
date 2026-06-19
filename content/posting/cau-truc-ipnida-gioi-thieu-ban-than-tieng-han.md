@@ -6,8 +6,7 @@ aliases = ["/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "ngữ pháp tiếng hàn", "giới thiệu bản thân", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["giới thiệu bản thân", "hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
 premium = true
 price = 49000

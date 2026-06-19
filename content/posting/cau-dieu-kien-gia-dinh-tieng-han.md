@@ -1,11 +1,11 @@
 +++
 title = "Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn"
 date = 2026-06-18
+aliases = ["/cau-dieu-kien-gia-dinh-tieng-han/"]
 
 [taxonomies]
 categories = ["premium"]
-tags = ["học tiếng hàn", "câu điều kiện tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["câu điều kiện tiếng hàn", "hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 premium = true

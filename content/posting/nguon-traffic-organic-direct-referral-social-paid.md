@@ -6,8 +6,7 @@ aliases = ["/nguon-traffic-organic-direct-referral-social-paid/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google analytics", "ga4", "nguồn traffic", "seo", "google analytics series"]
-
+tags = ["ga4", "google analytics", "google analytics series", "nguồn traffic", "seo"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "nguồn traffic"

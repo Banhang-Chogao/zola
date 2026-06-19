@@ -6,8 +6,7 @@ aliases = ["/dong-tu-bat-quy-tac-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "động từ bất quy tắc tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "động từ bất quy tắc tiếng hàn"]
 [extra]
 premium = true
 price = 49000

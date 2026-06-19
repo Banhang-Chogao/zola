@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/vietinbank-la-ai-hanh-trinh-hinh-thanh/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "lịch sử ngân hàng", "ngân hàng việt nam", "vietinbank series"]
+tags = ["lịch sử ngân hàng", "ngân hàng việt nam", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "VietinBank"

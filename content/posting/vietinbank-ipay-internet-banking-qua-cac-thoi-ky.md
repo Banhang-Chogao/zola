@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "vietinbank ipay", "internet banking", "vietinbank series"]
+tags = ["internet banking", "vietinbank", "vietinbank ipay", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "VietinBank iPay"

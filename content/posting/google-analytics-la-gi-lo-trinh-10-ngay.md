@@ -6,8 +6,7 @@ aliases = ["/google-analytics-la-gi-lo-trinh-10-ngay/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google analytics", "ga4", "seo", "phân tích dữ liệu", "google analytics series"]
-
+tags = ["ga4", "google analytics", "google analytics series", "phân tích dữ liệu", "seo"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "google analytics là gì"

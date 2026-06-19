@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/bao-mat-ngan-hang-so-vietinbank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "bảo mật ngân hàng", "an toàn giao dịch", "vietinbank series"]
+tags = ["an toàn giao dịch", "bảo mật ngân hàng", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "bảo mật VietinBank"

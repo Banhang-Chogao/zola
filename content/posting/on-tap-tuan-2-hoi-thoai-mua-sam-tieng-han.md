@@ -6,8 +6,7 @@ aliases = ["/on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "hội thoại tiếng hàn", "mua sắm tiếng hàn", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["hoc tieng han series", "học tiếng hàn", "hội thoại tiếng hàn", "mua sắm tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
 premium = true
 price = 49000

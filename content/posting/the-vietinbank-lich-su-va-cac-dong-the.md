@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/the-vietinbank-lich-su-va-cac-dong-the/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "thẻ ngân hàng", "thẻ tín dụng", "vietinbank series"]
+tags = ["thẻ ngân hàng", "thẻ tín dụng", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "thẻ VietinBank"

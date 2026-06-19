@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/vietinbank-v-advance-nang-tam-trai-nghiem/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "v-advance", "v-plus v-advance series", "ngân hàng", "ipay mobile"]
+tags = ["ipay mobile", "ngân hàng", "v-advance", "v-plus v-advance series", "vietinbank"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "V-Advance VietinBank"
