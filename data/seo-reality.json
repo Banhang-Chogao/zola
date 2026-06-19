@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T03:02:49Z",
+  "updated_at": "2026-06-19T03:16:48Z",
   "site_age_days": 9666,
   "site_age_label": "26 năm 5 tháng",
   "site_launch_date": "2000-01-01",
@@ -50,18 +50,22 @@
     "site_age_label": "26 năm 5 tháng",
     "referring_domains": null,
     "backlinks": null,
-    "authority_level": "Strong Authority",
-    "authority_level_slug": "strong-authority",
-    "authority_source": "estimated",
-    "backlinks_source": "not_measured"
+    "authority_level": "Growth Phase",
+    "authority_level_slug": "growth",
+    "authority_source": "authority_booster",
+    "backlinks_source": "not_measured",
+    "trust_score": 59,
+    "trust_label": "Growth Phase"
   },
   "growth": {
-    "stage": "Authority Phase",
-    "stage_slug": "authority",
-    "stage_vi": "Giai đoạn xây thẩm quyền",
-    "confidence": "low",
-    "source": "estimated",
-    "note": "Điểm kỹ thuật có thể cao trong khi traffic còn thấp — điều này hoàn toàn bình thường với một blog mới đang được Google lập chỉ mục."
+    "stage": "Growth Phase",
+    "stage_slug": "growth",
+    "stage_vi": "Giai đoạn tăng trưởng",
+    "confidence": "medium",
+    "source": "authority_booster",
+    "trust_score": 59,
+    "trust_label": "Growth Phase",
+    "note": "Trust Score 59/100 (Growth Phase) từ Authority Booster — ưu tiên cluster nội dung, internal links và nguồn chính thống."
   },
   "tooltip": "Technical SEO Score phản ánh mức độ sẵn sàng kỹ thuật của site, KHÔNG phải thứ hạng Google. Hiệu quả tìm kiếm thực tế phụ thuộc vào chất lượng nội dung, backlink, thẩm quyền tên miền, độ cạnh tranh từ khoá, search intent, trạng thái lập chỉ mục và thời gian."
 }

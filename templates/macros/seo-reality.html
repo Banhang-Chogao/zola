@@ -234,9 +234,21 @@
             <div>
                 <dt>Authority level</dt>
                 <dd><strong>{{ auth.authority_level | default(value="New Site") }}</strong>
+                    {% if auth.trust_score %}
+                    <span class="seo-reality__src seo-reality__src--gsc">TRUST {{ auth.trust_score }}</span>
+                    {% else %}
                     <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+                    {% endif %}
                 </dd>
             </div>
+            {% if auth.trust_score %}
+            <div>
+                <dt>Trust label</dt>
+                <dd>{{ auth.trust_label | default(value="—") }}
+                    <span class="seo-reality__src seo-reality__src--gsc">BOOSTER</span>
+                </dd>
+            </div>
+            {% endif %}
         </dl>
         <p class="seo-reality__hint">Backlink / referring-domain cần API ngoài (chưa kết nối). Authority level ước tính theo tuổi site.</p>
     </article>
@@ -245,7 +257,9 @@
     <article class="seo-reality__card seo-reality__card--growth">
         <header class="seo-reality__card-head">
             <h4 class="seo-reality__card-title">Organic growth stage</h4>
-            <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+            <span class="seo-reality__src seo-reality__src--{% if growth.source == 'authority_booster' %}gsc{% else %}estimated{% endif %}">
+                {% if growth.source == 'authority_booster' %}BOOSTER{% else %}ESTIMATED{% endif %}
+            </span>
         </header>
         <p class="seo-reality__stage">
             <span class="seo-reality__stage-name">{{ growth.stage | default(value="Indexing Phase") }}</span>

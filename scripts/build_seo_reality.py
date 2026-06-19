@@ -215,9 +215,71 @@ def _gsc_extras(gsc: dict | None) -> dict:
     }
 
 
+def _trust_from_authority_report() -> dict | None:
+    ar = _load_json(DATA / "authority-report.json")
+    if not isinstance(ar, dict):
+        return None
+    trust = ar.get("trust_score")
+    return trust if isinstance(trust, dict) else None
+
+
+def _growth_from_trust(trust: dict | None, age_days: int, gsc_connected: bool) -> dict:
+    """Blend Authority Booster trust score with site-age heuristic."""
+    growth = _growth_stage(age_days)
+    if not trust:
+        return {
+            **growth,
+            "confidence": "high" if gsc_connected else "low",
+            "source": "estimated",
+            "trust_score": None,
+            "trust_label": None,
+            "note": (
+                "Điểm kỹ thuật có thể cao trong khi traffic còn thấp — điều này "
+                "hoàn toàn bình thường với một blog mới đang được Google lập chỉ mục."
+            ),
+        }
+
+    score = int(trust.get("score") or 0)
+    label = trust.get("label") or growth["stage"]
+    if score >= 75:
+        stage, slug, vi = "Established Authority", "established-authority", "Thẩm quyền vững"
+    elif score >= 58:
+        stage, slug, vi = "Growth Phase", "growth", "Giai đoạn tăng trưởng"
+    elif score >= 40:
+        stage, slug, vi = "Authority Phase", "authority", "Giai đoạn xây thẩm quyền"
+    elif score >= 25:
+        stage, slug, vi = "Discovery Phase", "discovery", "Giai đoạn khám phá"
+    else:
+        stage, slug, vi = growth["stage"], growth["slug"], growth["stage_vi"]
+
+    if score >= 70:
+        confidence = "high"
+    elif score >= 50:
+        confidence = "medium"
+    else:
+        confidence = "low"
+
+    rec = (trust.get("label") or "")
+    note = (
+        f"Trust Score {score}/100 ({rec}) từ Authority Booster — "
+        "ưu tiên cluster nội dung, internal links và nguồn chính thống."
+    )
+    return {
+        "stage": stage,
+        "stage_slug": slug,
+        "stage_vi": vi,
+        "confidence": confidence,
+        "source": "authority_booster",
+        "trust_score": score,
+        "trust_label": label,
+        "note": note,
+    }
+
+
 def compute_reality() -> dict:
     seo = _load_json(DATA / "seo-scores.json") or {}
     gsc = _load_json(DATA / "gsc-metrics.json")  # future: real GSC API output
+    trust = _trust_from_authority_report()
 
     earliest = _earliest_post_date()
     now = datetime.now(timezone.utc)
@@ -226,7 +288,12 @@ def compute_reality() -> dict:
 
     sitemap_pages = int(seo.get("pages_scanned") or 0)
     authority = _authority_level(age_days)
-    growth = _growth_stage(age_days)
+    if trust and int(trust.get("score") or 0) >= 58:
+        authority = {
+            "level": trust.get("label") or authority["level"],
+            "slug": "growth" if int(trust.get("score") or 0) < 75 else "established",
+        }
+    growth = _growth_from_trust(trust, age_days, _gsc_connected(gsc))
     gsc_connected = _gsc_connected(gsc)
     extras = _gsc_extras(gsc)
 
@@ -249,21 +316,12 @@ def compute_reality() -> dict:
             "backlinks": None,
             "authority_level": authority["level"],
             "authority_level_slug": authority["slug"],
-            "authority_source": "estimated",
+            "authority_source": "authority_booster" if trust else "estimated",
             "backlinks_source": "not_measured",
+            "trust_score": int(trust.get("score") or 0) if trust else None,
+            "trust_label": trust.get("label") if trust else None,
         },
-        "growth": {
-            "stage": growth["stage"],
-            "stage_slug": growth["slug"],
-            "stage_vi": growth["stage_vi"],
-            # No real traffic/GSC data → growth is time-based only → low confidence.
-            "confidence": "high" if gsc_connected else "low",
-            "source": "estimated",
-            "note": (
-                "Điểm kỹ thuật có thể cao trong khi traffic còn thấp — điều này "
-                "hoàn toàn bình thường với một blog mới đang được Google lập chỉ mục."
-            ),
-        },
+        "growth": growth,
         "tooltip": (
             "Technical SEO Score phản ánh mức độ sẵn sàng kỹ thuật của site, "
             "KHÔNG phải thứ hạng Google. Hiệu quả tìm kiếm thực tế phụ thuộc vào "

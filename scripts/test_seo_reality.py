@@ -135,11 +135,11 @@ class ComputeRealityTest(unittest.TestCase):
         self.assertIsNone(auth["backlinks"])
         self.assertIsNone(auth["referring_domains"])
         self.assertEqual(auth["backlinks_source"], "not_measured")
-        self.assertEqual(auth["authority_source"], "estimated")
+        self.assertIn(auth["authority_source"], ("estimated", "authority_booster"))
 
-    def test_growth_is_estimated(self):
+    def test_growth_has_confidence(self):
         payload = mod.compute_reality()
-        self.assertEqual(payload["growth"]["source"], "estimated")
+        self.assertIn(payload["growth"]["source"], ("estimated", "authority_booster"))
         self.assertIn(payload["growth"]["confidence"], ("low", "medium", "high"))
 
     def test_write_outputs_creates_both_files(self):

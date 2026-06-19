@@ -55,6 +55,18 @@
         {% set merge_source = "https://github.com/Banhang-Chogao/zola" %}
     {% endif %}
 
+    {% set auth_report = load_data(path="data/authority-report.json", required=false) %}
+    {% if auth_report %}
+        {% set auth_trust = auth_report.trust_score.score | default(value=0) %}
+        {% set auth_label = auth_report.trust_score.label | default(value="—") %}
+        {% set auth_num = auth_report.report_number | default(value=0) %}
+        {% set auth_updated = auth_report.generated_at | default(value="") %}
+        {% set auth_orphans = auth_report.orphan_pages | length | default(value=0) %}
+    {% else %}
+        {% set auth_trust = 0 %}{% set auth_label = "—" %}{% set auth_num = 0 %}
+        {% set auth_updated = "" %}{% set auth_orphans = 0 %}
+    {% endif %}
+
     {% set ad_v2 = load_data(path="data/ad-report-v2.json", required=false) %}
     {% if ad_v2 %}
         {% set ad_v2_score = ad_v2.monetization_score | default(value=0) %}
@@ -572,6 +584,33 @@
                         {% endif %}
                     </footer>
                 </div>
+
+                {# ===== AUTHORITY REPORT ===== #}
+                <article class="insights__report-card insights__report-card--v2">
+                    <div class="insights__report-head">
+                        <span class="insights__report-icon" aria-hidden="true">🛡️</span>
+                        <div class="insights__report-titles">
+                            <h3 class="insights__report-title">Authority Report</h3>
+                            <p class="insights__report-desc">Trust Score, topical authority, gaps, forecast — Authority Booster daily 06:00.</p>
+                        </div>
+                    </div>
+                    <div class="insights__report-badges">
+                        <span class="insights__report-badge insights__report-badge--score">Trust {{ auth_trust }}</span>
+                        <span class="insights__report-badge">#{{ auth_num }}</span>
+                        <span class="insights__report-badge">{{ auth_label }}</span>
+                        {% if auth_orphans > 0 %}
+                        <span class="insights__report-badge insights__report-badge--warn">{{ auth_orphans }} orphans</span>
+                        {% endif %}
+                    </div>
+                    <a class="insights__report-link" href="{{ config.base_url }}/authority-report/">
+                        Xem Authority Report <span aria-hidden="true">→</span>
+                    </a>
+                    <footer class="insights__report-foot">
+                        {% if auth_updated %}
+                        <time datetime="{{ auth_updated }}">Cập nhật {{ dt::display_datetime(value=auth_updated) }}</time>
+                        {% endif %}
+                    </footer>
+                </article>
 
                 {# ===== AD-REPORT (V1) ===== #}
                 <article class="insights__report-card insights__report-card--v1">
