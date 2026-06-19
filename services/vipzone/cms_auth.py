@@ -64,7 +64,10 @@ def is_admin(email: str | None, username: str | None) -> bool:
 
 
 def can_oauth_login(email: str | None, username: str | None) -> bool:
-    return is_admin(email, username) or is_supervip(email, username)
+    # CMS write auth (reset 2026-06-19): SUPERUSER ONLY. Quyền viết/sửa/xoá bài
+    # chỉ dành cho superuser (SUPERVIP whitelist). VIP/admin thường KHÔNG được
+    # cấp CMS session → không thấy & không dùng được action ghi. Reuse is_supervip.
+    return is_supervip(email, username)
 
 
 def normalize_return_to(return_to: str) -> str:
@@ -123,7 +126,7 @@ async def cms_profile_from_session(db: VipzoneDB, authorization: str) -> dict[st
         "username": username,
         "name": session.get("name") or username,
         "avatar": session.get("avatar") or "",
-        "is_super": is_admin(email, username) or is_supervip(email, username),
+        "is_super": is_supervip(email, username),
     }
 
 
@@ -138,7 +141,7 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
         "name": profile.get("name") or username,
         "avatar": profile.get("avatar") or "",
         "role": role,
-        "is_super": is_admin(email, username) or is_supervip(email, username),
+        "is_super": is_supervip(email, username),
     }
     if vip_row:
         out["vip_plan"] = vip_row.get("plan")
@@ -229,12 +232,11 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
             if e.get("verified") and e.get("email")
         }
         username = user.get("login", "")
-        matched_email = next(iter(verified_emails & ADMIN_EMAILS), None)
-        if not matched_email:
-            for e in verified_emails:
-                if is_supervip(e, username):
-                    matched_email = e
-                    break
+        # SUPERUSER ONLY: nếu username là superuser → mọi email verified hợp lệ;
+        # nếu không, chỉ chấp nhận email nằm trong SUPERVIP whitelist.
+        matched_email = next((e for e in verified_emails if is_supervip(e, username)), None)
+        if matched_email is None and is_supervip(None, username):
+            matched_email = next(iter(verified_emails), None)
 
         if not can_oauth_login(matched_email, username):
             return redirect_with_error("access_denied", return_to)

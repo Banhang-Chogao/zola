@@ -311,6 +311,13 @@
     }
     const user = await fetchMe();
     if (user) {
+      // CMS write auth = SUPERUSER ONLY (kể cả VIP cũng không ghi được).
+      if (!user.is_super) {
+        clearSid();
+        showLoginError("access_denied");
+        showView("login");
+        return;
+      }
       populateUserBar(user);
       showView("main");
       await loadAuthorData();

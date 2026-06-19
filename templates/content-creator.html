@@ -2,102 +2,12 @@
 
 {% block title %}Content Creator | {{ config.title }}{% endblock %}
 
-{% block extra_head %}
-    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
-    {# Repo Actions page for manual workflow_dispatch fallback (giống pattern editor → auto-draft) #}
-    <meta name="cc-actions-url" content="https://github.com/Banhang-Chogao/zola/actions/workflows/content-creator.yml">
-{% endblock %}
-
 {% block main %}
-<div id="cc-app" class="content-creator-app">
-
-    <header class="cc-head">
-        <h1 class="cc-head__title">Content Creator</h1>
-        <p class="cc-head__sub">
-            Khai báo chủ đề &amp; yêu cầu → hệ thống sinh <strong>prompt thủ công</strong> từ toàn bộ input,
-            kích hoạt <strong>workflow viết bài liên tục</strong> theo số lượng, rồi tự
-            <strong>build &amp; deploy production</strong>. Không có bước phê duyệt.
-        </p>
+{# MS — placeholder đơn giản. Tool Content Creator đang được xây dựng lại. #}
+<div class="content-hub content-hub--placeholder">
+    <header class="content-hub__head">
+        <h1 class="content-hub__h1">Content Creator</h1>
+        <p class="content-hub__subtitle">Under construction</p>
     </header>
-
-    <div class="cc-grid">
-        {# ===== FORM ===== #}
-        <section class="cc-panel cc-form-panel">
-            <h2 class="cc-panel__title">Thông tin series</h2>
-            <form class="cc-form" id="cc-form" novalidate>
-                <label class="cc-field">
-                    <span class="cc-field__label">Chủ đề muốn tạo <em>*</em></span>
-                    <input type="text" name="topic" id="cc-topic" class="cc-input" required
-                           placeholder="VD: Hướng dẫn tiết kiệm chi tiêu cho người mới đi làm">
-                </label>
-
-                <div class="cc-row">
-                    <label class="cc-field">
-                        <span class="cc-field__label">Số lượng bài trong series <em>*</em></span>
-                        <input type="number" name="count" id="cc-count" class="cc-input"
-                               min="1" max="30" step="1" value="5" required>
-                    </label>
-
-                    <label class="cc-field">
-                        <span class="cc-field__label">Hình thức thu phí <em>*</em></span>
-                        <select name="pricing" id="cc-pricing" class="cc-input" required>
-                            <option value="free">Miễn phí — category mặc định</option>
-                            <option value="paid">Thu phí — category premium</option>
-                        </select>
-                    </label>
-                </div>
-
-                <label class="cc-field">
-                    <span class="cc-field__label">Diễn giải chi tiết</span>
-                    <textarea name="brief" id="cc-brief" class="cc-input cc-textarea" rows="6"
-                              placeholder="Mô tả càng chi tiết càng tốt"></textarea>
-                </label>
-
-                <label class="cc-field">
-                    <span class="cc-field__label">UI/UX mong muốn</span>
-                    <textarea name="ux" id="cc-ux" class="cc-input cc-textarea" rows="4"
-                              placeholder="VD: màu sắc trẻ trung, infographic, card layout..."></textarea>
-                </label>
-
-                <div class="cc-actions">
-                    <button type="submit" class="cc-btn cc-btn--primary" id="cc-save">💾 Lưu</button>
-                    <button type="button" class="cc-btn cc-btn--ghost" id="cc-reset">Xóa form</button>
-                </div>
-
-                <p class="cc-status" id="cc-status" role="status" aria-live="polite"></p>
-            </form>
-        </section>
-
-        {# ===== KẾT QUẢ: PROMPT THỦ CÔNG ===== #}
-        <section class="cc-panel cc-result-panel">
-            <h2 class="cc-panel__title">Prompt thủ công</h2>
-            <p class="cc-result-panel__hint">
-                Prompt được sinh tự động từ toàn bộ input. Workflow sẽ dùng prompt này để viết
-                lần lượt từng bài trong series.
-            </p>
-            <textarea id="cc-prompt" class="cc-input cc-prompt" rows="18" readonly
-                      placeholder="Điền form rồi bấm “Lưu” để sinh prompt + kích hoạt workflow."></textarea>
-            <div class="cc-actions cc-actions--result">
-                <button type="button" class="cc-btn cc-btn--ghost" id="cc-copy" disabled
-                        data-label-default="📋 Copy prompt" data-label-copied="✓ Copied!" aria-describedby="cc-copy-feedback">
-                    📋 Copy prompt
-                </button>
-                <span class="cc-copy-feedback" id="cc-copy-feedback" role="status" aria-live="polite"></span>
-                <button type="button" class="cc-btn cc-btn--ghost" id="cc-download" disabled>⬇ Tải brief (JSON)</button>
-                <a class="cc-btn cc-btn--ghost" id="cc-open-actions" target="_blank" rel="noopener" hidden>
-                    ⚙ Mở workflow thủ công
-                </a>
-            </div>
-            <p class="cc-note">
-                Lưu ý: việc kích hoạt workflow cần đăng nhập GitHub (cùng tài khoản CMS).
-                Nếu backend dispatch không khả dụng, bạn vẫn có thể tải brief và chạy workflow
-                <code>Content Creator</code> thủ công trên GitHub Actions.
-            </p>
-        </section>
-    </div>
 </div>
-{% endblock %}
-
-{% block extra_scripts %}
-    <script src="{{ get_url(path='js/content-creator/app.js') }}?v={{ asset_version }}" defer></script>
-{% endblock %}
+{% endblock main %}
