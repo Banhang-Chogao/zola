@@ -812,41 +812,44 @@
         {# Tag cloud nằm Ở FOOTER (metadata phụ trợ) — xem block ".footer-tags"
            ngay trước .site-footer__main, sau countdown. #}
 
-        {# ===== QA DASHBOARD =====
-           6 card metrics QA real-time (build-time snapshot). Tự gia giảm
-           theo viewport: 3 cột desktop, 2 cột tablet, 1 cột mobile. #}
-        {% set qa_scores = load_data(path="data/scores.json", required=false) %}
-        {% if not qa_scores %}{% set qa_scores = [] %}{% endif %}
-        {% set qa_changelog = load_data(path="changelog.json", required=false) %}
-        {% set qa_changelog_items = [] %}
-        {% if qa_changelog and qa_changelog.items %}{% set_global qa_changelog_items = qa_changelog.items %}{% endif %}
-        {% set qa_posts = get_section(path="posting/_index.md") %}
-        {% set qa_baochi = get_section(path="baochi/_index.md") %}
-        {% set qa_n_posting = qa_posts.pages | length %}
-        {% set qa_n_baochi = qa_baochi.pages | length %}
-        {% set qa_posts_total = qa_n_posting + qa_n_baochi %}
+        {# ===== QA DASHBOARD (feature flag: extra.enable_qa_dashboard) =====
+           6 card metrics QA real-time (build-time snapshot). Tắt UI public:
+           enable_qa_dashboard = false trong config.toml — scripts/data/jobs giữ nguyên. #}
+        {% set show_qa_dashboard = config.extra.enable_qa_dashboard | default(value=false) %}
         {% set qa_cats = get_taxonomy(kind="categories") %}
-        {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
-        {% set qa_now = now() | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") %}
-        {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
-        {# Performance: điểm Lighthouse lấy trực tiếp từ data/pagespeed.json
-           (workflow pagespeed.yml fetch PageSpeed Insights API mỗi giờ). Ưu tiên
-           desktop (ổn định); mobile free-API hay bị throttle về 0 → fallback. #}
-        {% set qa_pagespeed = load_data(path="data/pagespeed.json", required=false) %}
-        {% set qa_ps_perf = 0 %}
-        {% if qa_pagespeed %}
-            {% set ps_d = qa_pagespeed.desktop.performance | default(value=0) %}
-            {% set ps_m = qa_pagespeed.mobile.performance | default(value=0) %}
-            {% if ps_d > 0 %}{% set_global qa_ps_perf = ps_d %}{% else %}{% set_global qa_ps_perf = ps_m %}{% endif %}
-        {% endif %}
-        {# Security: số liệu lần quét gần nhất từ data/security.json
-           (workflow security-audit.yml commit pip-audit + gitleaks + misconfig). #}
-        {% set qa_security = load_data(path="data/security.json", required=false) %}
 
         <div class="footer-qa">
             <div class="container">
-                {# Bố cục 2 cột: QA Dashboard (trái) · Google Analytics (phải) #}
-                <div class="footer-qa__split">
+                {# Bố cục 2 cột: QA Dashboard (trái) · Google Analytics (phải).
+                   QA trái bọc feature flag; GA phải luôn hiển thị. #}
+                <div class="footer-qa__split{% if not show_qa_dashboard %} footer-qa__split--ga-only{% endif %}">
+                {% if show_qa_dashboard %}
+                {% set qa_scores = load_data(path="data/scores.json", required=false) %}
+                {% if not qa_scores %}{% set qa_scores = [] %}{% endif %}
+                {% set qa_changelog = load_data(path="changelog.json", required=false) %}
+                {% set qa_changelog_items = [] %}
+                {% if qa_changelog and qa_changelog.items %}{% set_global qa_changelog_items = qa_changelog.items %}{% endif %}
+                {% set qa_posts = get_section(path="posting/_index.md") %}
+                {% set qa_baochi = get_section(path="baochi/_index.md") %}
+                {% set qa_n_posting = qa_posts.pages | length %}
+                {% set qa_n_baochi = qa_baochi.pages | length %}
+                {% set qa_posts_total = qa_n_posting + qa_n_baochi %}
+                {% set qa_tag_taxo = tag_taxo | default(value=get_taxonomy(kind="tags")) %}
+                {% set qa_now = now() | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") %}
+                {% set qa_latest_pr = qa_changelog_items | first | default(value=false) %}
+                {# Performance: điểm Lighthouse lấy trực tiếp từ data/pagespeed.json
+                   (workflow pagespeed.yml fetch PageSpeed Insights API mỗi giờ). Ưu tiên
+                   desktop (ổn định); mobile free-API hay bị throttle về 0 → fallback. #}
+                {% set qa_pagespeed = load_data(path="data/pagespeed.json", required=false) %}
+                {% set qa_ps_perf = 0 %}
+                {% if qa_pagespeed %}
+                    {% set ps_d = qa_pagespeed.desktop.performance | default(value=0) %}
+                    {% set ps_m = qa_pagespeed.mobile.performance | default(value=0) %}
+                    {% if ps_d > 0 %}{% set_global qa_ps_perf = ps_d %}{% else %}{% set_global qa_ps_perf = ps_m %}{% endif %}
+                {% endif %}
+                {# Security: số liệu lần quét gần nhất từ data/security.json
+                   (workflow security-audit.yml commit pip-audit + gitleaks + misconfig). #}
+                {% set qa_security = load_data(path="data/security.json", required=false) %}
                 <div class="footer-qa__left">
                 <header class="footer-qa__head">
                     <h3 class="footer-qa__title">⚡ QA DASHBOARD</h3>
@@ -964,6 +967,7 @@
                     </div>
                 </div>
                 </div>{# /.footer-qa__left #}
+                {% endif %}
                 <div class="footer-qa__right">
 
                 {# ===== GA STATS LIVE TABLE =====
