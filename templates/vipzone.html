@@ -9,6 +9,8 @@
     {% if vz_api %}<meta name="zola-vipzone-api" content="{{ vz_api | safe }}">{% endif %}
     <meta name="vipzone-momo-monthly" content="{{ config.extra.vipzone_momo_monthly | default(value='https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA') | safe }}">
     <meta name="vipzone-momo-semiannual" content="{{ config.extra.vipzone_momo_semiannual | default(value='https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg') | safe }}">
+    {% set vz_admin = config.extra.vipzone_admin_url | default(value="") %}
+    <meta name="vipzone-admin-url" content="{% if vz_admin %}{{ vz_admin | safe }}{% else %}{{ config.base_url }}/tools/vipzone-admin/{% endif %}">
 {% endblock %}
 
 {% block main %}
@@ -27,6 +29,10 @@
             <div class="vipzone__kpi"><span class="vipzone__kpi-label">Premium</span><span class="vipzone__kpi-value">Gộp gói</span></div>
             <div class="vipzone__kpi"><span class="vipzone__kpi-label">Mã kích hoạt</span><span class="vipzone__kpi-value">16 số · 1 lần</span></div>
         </div>
+        {% set vz_admin = config.extra.vipzone_admin_url | default(value="") %}
+        <a class="vipzone__btn vipzone__btn--super-admin" data-vz-super-admin
+           href="{% if vz_admin %}{{ vz_admin | safe }}{% else %}{{ config.base_url }}/tools/vipzone-admin/{% endif %}"
+           hidden>SUPER_ADMIN</a>
     </header>
 
     <div class="vipzone__status-card" data-vz-vip-status hidden>

@@ -313,6 +313,14 @@
       });
     });
 
+    // SUPER_ADMIN shortcut — reveal only for superuser/admin when auth role is available.
+    var adminBtn = document.querySelector("[data-vz-super-admin]");
+    if (adminBtn) {
+      isSuperuser().then(function (ok) {
+        if (ok) adminBtn.hidden = false;
+      }).catch(function () { /* role detection unavailable → keep hidden, never block users */ });
+    }
+
     var payForm = document.getElementById("vz-payment-form");
     if (payForm) {
       payForm.addEventListener("submit", async function (e) {
