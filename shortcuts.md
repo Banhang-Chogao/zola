@@ -85,6 +85,7 @@ Format bắt buộc:
 | `tieptuc8` | Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở (todo, push, PR, CI, macro) |
 | `theodoi8` | Theo dõi LIÊN TỤC (auto-refresh) trạng thái các commit đang chạy trên GitHub Actions |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
+| `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
 | `fixrule8` | Soi conflict giữa rule + vaccine trong CLAUDE.md → sinh PROMPT fix cho Claude/Grok (read-only) |
@@ -1030,11 +1031,13 @@ bức tranh trạng thái + tự apply audit/fix/SEO/security trong 1 lần.
 - Bỏ chính `morning` (tránh infinite loop).
 - Bỏ shortcut cần **argument** mà không có default:
   - `topic:` (cần đề tài)
+  - `baomoi` (cần topic)
   - `manual #X` (cần PR number cụ thể)
   - `help` (chỉ render bảng — không có hành động)
 - Bỏ shortcut **sinh nội dung mới** (không thuộc cycle audit/deploy):
   - `topic10` (10 bài Du lịch — user chủ động gọi khi muốn test
     topical authority, không nên auto trong morning)
+  - `baomoi` (bài/series từ topic — chỉ khi user chủ động gọi)
 - Bỏ shortcut **overlap chức năng** (tránh chạy 2 lần work giống):
   - Giữ `SEO11` (hybrid), bỏ `SEO9` + `SEO10`
   - Giữ `ff`, bỏ `healing` (overlap pattern fix)
@@ -1610,6 +1613,89 @@ buổi tối**, với điều kiện vượt qua QA gate. Đây là biến thể
 
 **Đăng sớm thủ công**: chạy `python3 scripts/scheduled_publish.py` (sau khi sửa
 `publish_at` về quá khứ) hoặc trigger workflow `scheduled-publish` (workflow_dispatch).
+
+---
+
+### `baomoi <topic>` — Bài/series từ chủ đề, category AI-driven, SEO Google
+
+**Cú pháp (BẮT BUỘC)**: `baomoi <chủ đề>` — luôn kèm topic sau phím tắt.
+Gõ `baomoi` trống → hỏi lại topic, KHÔNG tự bịa.
+
+Ví dụ:
+- `baomoi ChatGPT Agent mới của OpenAI`
+- `baomoi Hàn Quốc tăng lương tối thiểu`
+- `baomoi BHXH 1 lần 2026`
+
+**Mục đích**: Từ một chủ đề user nhập, tự sinh **một bài hoàn chỉnh** hoặc
+**chuỗi bài (series)** nếu chủ đề cần độ sâu/cluster — Markdown production-ready,
+tuân Google SEO + E-E-A-T + Helpful Content, **không hardcode category**.
+
+**Khác `bb` / `bb9` / `topic:`**:
+- `bb` = dán sẵn nội dung báo; `bb9` = hẹn giờ draft; `topic:` = 1 bài posting đơn.
+- `baomoi` = **topic-driven**, AI quyết định **đơn vs series**, **section** (`baochi` /
+  `posting`), **category theo nghĩa nội dung** (không ép `"Báo chí"` nếu không phải tin).
+
+#### Category policy (BẮT BUỘC)
+
+1. Đọc `categories.json` → chọn category **khớp search intent & nghĩa chủ đề**.
+2. **KHÔNG hardcode** category cố định (vd luôn Ngân hàng, luôn Báo chí).
+3. Mảng frontmatter: `categories = ["Tất cả", "<category AI chọn>", …]` — `"Tất cả"`
+   luôn đứng đầu (rule Category CLAUDE.md).
+4. Thêm `"Báo chí"` **chỉ khi** bài là tin/thời sự đăng `content/baochi/`.
+5. Category mới chưa có trong `categories.json` → **chỉ tạo khi thật sự cần**,
+   append vào `categories.json`, dedupe sort.
+
+#### Hành động Claude
+
+1. **Parse topic** từ `baomoi <topic>`.
+2. **Research** (WebSearch khi cần số liệu/thời sự 2026); E-E-A-T — nguồn chính
+   thức, không bịa policy/số liệu.
+3. **Quyết định scope**:
+   - **Single** (~1500–2500 từ): chủ đề hẹp, FAQ/how-to, tin đơn.
+   - **Series** (2–5 bài): chủ đề rộng/policy nhiều mảng — mỗi bài đủ depth,
+     cross-link trong cluster, slug riêng; gắn `[extra].series` nếu khớp series
+     manifest có sẵn.
+4. **Chọn section**: tin nhanh/thời sự → `content/baochi/`; evergreen/guide/tool
+   → `content/posting/`. AI quyết định theo intent, không mặc định một section.
+5. **Viết nội dung** (GLOBAL WRITING RULES + SEO CONTENT SYSTEM RULE):
+   - Tiếng Việt tự nhiên, giọng blogger (`mình`/`tôi`), không AI fluff.
+   - Title ≤60 ký tự · description ≤155 · `seo_keyword` focus.
+   - ≥2 H2 · ≥3 tag · **≥5 internal link** (gồm 1 hub chuyên mục
+     `/categories/<slug>/`) · ≥1 external uy tín nếu có trích dẫn.
+   - `[[extra.faq]]` 3–8 câu khi phù hợp snippet; CTA/next-step cuối bài.
+   - YMYL (tài chính/BHXH/ngân hàng): disclaimer tham khảo + link `/terms/` khi cần.
+   - **Ảnh**: KHÔNG picsum/CDN ngoài — bỏ `[extra] thumbnail` để placeholder hệ
+     thống, hoặc ảnh user cung cấp.
+   - **Copyright**: có nguồn ngoài → `[[extra.references_external]]` hoặc để macro
+     `references::section` tự sinh sau `build_references.py`.
+6. **Tránh duplicate**: grep slug/title tương tự trong `content/` — update bài cũ
+   thay vì tạo trùng; series không lặp ý giữa các part.
+7. **UI/UX**: không thêm CSS/JS — template `page.html` lo TOC/Related/FAQ schema.
+   Tham chiếu S-DNA calm enterprise (`/tools/s-dna/`), Branding + Font Guideline.
+8. **Quality gate** (trước commit):
+   ```bash
+   python3 scripts/build_references.py
+   python3 scripts/seo_qa_checker.py content/<path>.md   # mỗi bài; ≥90 khuyến nghị
+   python3 qa_check.py
+   python3 scripts/check_internal_links.py
+   ```
+9. **Ship**: commit **chỉ file liên quan** (content, `categories.json` nếu đổi,
+   `data/references.json` / `data/seo-qa-scores.json` nếu hook sinh) → push branch
+   hiện tại → pipeline auto-merge/deploy (ZERO_BARRIER). **KHÔNG** mở PR thủ công.
+
+**Output (summary only, ≤150 từ)**:
+```
+baomoi ✅
+Topic: <topic>
+Loại: single | series (N bài)
+Files: <slug1.md>[, …]
+Category: Tất cả · <AI category>[ · Báo chí]
+SEO QA: <score>/100
+QA: pass|fail
+Push: <branch> → auto-merge
+```
+
+**Morning / runner**: `baomoi` cần argument → **loại** khỏi `morning` (giống `topic:`).
 
 ---
 
