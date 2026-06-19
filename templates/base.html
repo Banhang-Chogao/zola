@@ -598,6 +598,7 @@
 
             <ul class="navbar__menu" id="navbar-menu">
                 {% for item in config.extra.menu %}
+                    {% set parent_index = loop.index %}
                     {% if item.children %}
                         {# Category có sub-category → dropdown xổ xuống. Trigger là
                            <button> (toggle), trang đại diện nằm ở child đầu tiên. #}
@@ -613,7 +614,32 @@
                             </button>
                             <ul class="navbar__submenu" role="menu">
                                 {% for child in item.children %}
-                                    <li role="none"><a role="menuitem" href="{{ child.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ child.name }}</a></li>
+                                    {% if child.children %}
+                                        {# Nhóm con (accordion): Content / Dashboard / Khác.
+                                           <button> trigger xổ/đóng panel chứa link tool con →
+                                           tầng 1 chỉ hiện tên nhóm, không tràn màn hình. #}
+                                        {% set group_id = "nav-acc-" ~ parent_index ~ "-" ~ loop.index %}
+                                        <li class="navbar__group" role="none" data-nav-accordion>
+                                            <button type="button" class="navbar__group-trigger" role="menuitem"
+                                                    aria-haspopup="true" aria-expanded="false" aria-controls="{{ group_id }}">
+                                                <span class="navbar__group-label">{{ child.name }}</span>
+                                                <svg class="navbar__group-chevron" width="12" height="12" viewBox="0 0 24 24"
+                                                     fill="none" stroke="currentColor" stroke-width="2.5"
+                                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            </button>
+                                            <div class="navbar__group-panel">
+                                                <ul class="navbar__group-items" id="{{ group_id }}" role="menu">
+                                                    {% for leaf in child.children %}
+                                                        <li role="none"><a role="menuitem" href="{{ leaf.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ leaf.name }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    {% else %}
+                                        <li role="none"><a role="menuitem" href="{{ child.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ child.name }}</a></li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </li>
