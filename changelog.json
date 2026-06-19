@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(baochi): bài phân quyền role một nguồn sự thật",
+      "tag": "chore",
+      "lines_added": 226,
+      "lines_removed": 1,
+      "highlights": [
+        "content/baochi/thiet-ke-phan-quyen-role-single-source-of-truth.md",
+        "SEO QA 100/100 A+ · 1609 từ · 5+ internal link + 1 external (OWASP)",
+        "Generalize, không lộ secret/email/biến môi trường nhạy cảm"
+      ],
+      "pr": 519
+    },
+    {
+      "date": "2026-06-19",
       "title": "Feat/super admin session clean",
       "tag": "cleanup",
       "lines_added": 0,
