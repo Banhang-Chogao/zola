@@ -414,6 +414,13 @@
   }
 }
 
+.hd-upload__batch {
+  font-size: 0.78rem;
+  color: var(--dash-ink);
+  margin: 0.45rem 0 0;
+  word-break: break-word;
+}
+
 .hd-merge-pdf {
   margin-top: 1.15rem;
   padding-top: 1.15rem;
@@ -1073,6 +1080,24 @@
 .hd-meta__empty {
   color: var(--dash-muted);
   margin: 0;
+}
+
+.hd-meta__aggregate {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--dash-teal);
+  margin: 0 0 0.65rem;
+}
+
+.hd-meta__mini {
+  font-size: 0.82rem;
+  color: var(--dash-ink);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--dash-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .hd-meta__grid {
