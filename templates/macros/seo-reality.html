@@ -42,13 +42,38 @@
         </p>
     </article>
 
-    {# 2 — GOOGLE SEARCH CONSOLE #}
+    {# 2 — GOOGLE SEARCH CONSOLE — S-DNA connect flow #}
     <article class="seo-reality__card seo-reality__card--gsc" data-gsc-card>
         <header class="seo-reality__card-head">
             <h4 class="seo-reality__card-title">Google Search Console</h4>
             <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
         </header>
+
+        {# SUCCESS — celebratory state shown right after a real OAuth callback #}
+        <div class="seo-reality__gsc-success" data-gsc-success hidden>
+            <span class="seo-reality__gsc-check" aria-hidden="true">
+                <svg viewBox="0 0 52 52" focusable="false">
+                    <circle class="seo-reality__gsc-check-ring" cx="26" cy="26" r="24"/>
+                    <path class="seo-reality__gsc-check-mark" d="M15 27l7.5 7.5L37.5 19"/>
+                </svg>
+            </span>
+            <p class="seo-reality__gsc-success-msg">Đã kết nối Google Search Console thành công. Chúc mừng!</p>
+        </div>
+
+        {# CONNECTED — live KPIs + status row #}
         <div data-gsc-connected style="{% if not gsc.connected %}display:none{% endif %}">
+            <div class="seo-reality__gsc-statusbar">
+                <span class="seo-reality__gsc-badge" data-gsc-status-badge>
+                    <span class="seo-reality__gsc-badge-check" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false"><path d="M5 13l4 4L19 7"/></svg>
+                    </span>
+                    Đã kết nối
+                </span>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-disconnect hidden>Gỡ kết nối GSC</button>
+            </div>
+            <dl class="seo-reality__gsc-conn-meta">
+                <div><dt>Property</dt><dd data-gsc-prop>{{ gsc.property | default(value="—") }}</dd></div>
+            </dl>
             <div class="seo-reality__kpi-row">
                 <div class="seo-reality__kpi">
                     <span class="seo-reality__kpi-val" data-gsc-impressions>{{ gsc.impressions | default(value="—") }}</span>
@@ -67,17 +92,39 @@
                 {% if gsc.updated_at %}Updated {{ dt::display_datetime(value=gsc.updated_at) }}{% else %}—{% endif %}
             </p>
         </div>
-        <p class="seo-reality__empty" data-gsc-disconnected style="{% if gsc.connected %}display:none{% endif %}">
-            <strong>Chưa kết nối Google Search Console.</strong>
-            Dữ liệu lập chỉ mục & thứ hạng thực tế sẽ hiển thị ở đây sau khi kết nối.
-        </p>
-        <div class="seo-reality__gsc-admin" data-gsc-admin hidden>
-            <select class="seo-reality__gsc-select" data-gsc-property aria-label="Chọn property GSC"></select>
-            <div class="seo-reality__gsc-actions">
-                <button type="button" class="seo-reality__gsc-btn" data-gsc-connect>Kết nối GSC</button>
-                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-disconnect hidden>Ngắt kết nối</button>
-            </div>
+
+        {# DISCONNECTED — friendly empty state + admin connect form #}
+        <div data-gsc-disconnected style="{% if gsc.connected %}display:none{% endif %}">
+            <p class="seo-reality__empty">
+                <strong>Chưa kết nối Google Search Console.</strong>
+                Dữ liệu lập chỉ mục & thứ hạng thực tế sẽ hiển thị ở đây sau khi kết nối.
+            </p>
+
+            {# Admin-only — revealed by JS when a CMS session exists #}
+            <form class="seo-reality__gsc-connect" data-gsc-admin hidden novalidate>
+                <label class="visually-hidden" for="seo-reality-gsc-input">GSC Property ID hoặc Resource ID</label>
+                <input id="seo-reality-gsc-input" type="text" class="seo-reality__gsc-input" data-gsc-property
+                       placeholder="Nhập GSC Property ID hoặc Resource ID..."
+                       autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="url" />
+                <p class="seo-reality__gsc-examples">
+                    Ví dụ: <code>https://banhang-chogao.github.io/zola/</code> · <code>sc-domain:example.com</code>
+                </p>
+                <p class="seo-reality__gsc-validation" data-gsc-validation hidden role="alert"></p>
+                <div class="seo-reality__gsc-actions">
+                    <button type="submit" class="seo-reality__gsc-btn seo-reality__gsc-btn--primary" data-gsc-connect>
+                        <span class="seo-reality__gsc-btn-label">Kết nối GSC</span>
+                    </button>
+                </div>
+            </form>
         </div>
+
+        {# Quick reconnect — appears after a disconnect #}
+        <div class="seo-reality__gsc-reconnect" data-gsc-reconnect hidden>
+            <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--primary" data-gsc-reconnect-btn>
+                Đăng nhập lại Google Search Console
+            </button>
+        </div>
+
         <p class="seo-reality__hint" data-gsc-error hidden role="alert"></p>
     </article>
 
