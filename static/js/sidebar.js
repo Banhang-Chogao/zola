@@ -29,6 +29,7 @@
   const STORAGE_KEY = "zola-events";
   const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
   const RANDOM_COUNT = 5;
+  const PREMIUM_COUNT = 10;
   const HALF_LIFE_DAYS = 30;
   const NO_TRACK = sessionStorage.getItem("zola-no-track") === "1";
 
@@ -139,6 +140,19 @@
     return picked;
   }
 
+  // PREMIUM = pick tối đa n bài premium NGẪU NHIÊN mỗi lần load, KHÔNG trùng lặp.
+  // Fisher-Yates shuffle trên pool premium rồi cắt n đầu → uniform random, no-dup.
+  function pickPremium(n) {
+    const pool = posts.filter((p) => p.premium);
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = pool[i];
+      pool[i] = pool[j];
+      pool[j] = tmp;
+    }
+    return pool.slice(0, n);
+  }
+
   // ---------- Rendering ----------
   function fmtDate(iso) {
     return (window.ZolaDateTime && window.ZolaDateTime.formatDisplayDate(iso)) || "";
@@ -193,6 +207,37 @@
     `).join("");
   }
 
+  // Giá VND kiểu Việt Nam: 49000 → "49.000đ"; 0/thiếu → "" (ẩn badge giá).
+  function fmtPrice(v) {
+    const n = Number(v) || 0;
+    if (n <= 0) return "";
+    return n.toLocaleString("vi-VN") + "đ";
+  }
+
+  function renderPremium(list) {
+    const target = document.querySelector('[data-target="premium"]');
+    if (!target) return; // section chỉ render khi CÓ bài premium → guard an toàn
+    target.innerHTML = list.map((p) => {
+      const price = fmtPrice(p.price);
+      const priceBadge = price
+        ? `<span class="premium-item__badge premium-item__badge--price">${escapeHtml(price)}</span>`
+        : "";
+      return `
+      <li class="premium-item">
+        <a class="premium-item__link" href="${escapeHtml(p.permalink)}">
+          <span class="premium-item__icon" aria-hidden="true">💎</span>
+          <span class="premium-item__main">
+            <span class="premium-item__title">${escapeHtml(p.title)}</span>
+            <span class="premium-item__badges">
+              <span class="premium-item__badge premium-item__badge--premium">💎 Premium</span>
+              ${priceBadge}
+            </span>
+          </span>
+        </a>
+      </li>`;
+    }).join("");
+  }
+
   // ---------- Event tracking ----------
 
   // Click on any link to a post → "click" event
@@ -235,4 +280,5 @@
   const events = loadEvents();
   renderFeatured(pickFeatured(events));
   renderRandom(pickRandom(RANDOM_COUNT));
+  renderPremium(pickPremium(PREMIUM_COUNT));
 })();
