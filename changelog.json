@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(vipzone): SUPER_ADMIN shortcut button on landing",
+      "tag": "chore",
+      "lines_added": 108,
+      "lines_removed": 0,
+      "highlights": [
+        "templates/vipzone.html — new .vipzone__admin-shortcut block inside the hero (after KPIs, before pricing). Renders hidden; JS reveals based on auth state.",
+        "sass/_vipzone.scss — new &__btn--admin variant (red #dc2626 background, white text, hover/focus/active states) + &__admin-shortcut wrapper with mobile (≤540px) full-width fallback. Reuses the existing",
+        "static/js/vipzone.js — new initAdminShortcut() runs from initLanding():",
+        "No CMS session → shortcut visible, marked data-vz-admin-state=\"shortcut\" (role detection unreliable, normal users not blocked since the admin page itself has GitHub OAuth gate).",
+        "Authenticated + super → visible, marked verified, note becomes ✓ Bạn đã đăng nhập super admin — vào dashboard."
+      ],
+      "pr": 510
+    },
+    {
+      "date": "2026-06-19",
       "title": "fix(vipzone): stop overlay-gating premium articles (deployed paywall owns them)",
       "tag": "fix",
       "lines_added": 6,
