@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "resolve PR #469 footer conflicts (Tags → footer) + Vaccine V12 semantic merge",
+      "tag": "fix",
+      "lines_added": 282,
+      "lines_removed": 37,
+      "highlights": [
+        "main side còn block TAGS trong sidebar; #469 side còn block CATEGORIES (DANH MỤC) trong sidebar.",
+        "Truth: cả categories (#468) lẫn tags (#469) giờ đều nằm ở footer → sidebar phải không còn cả hai. Giữ một bên nguyên = nhân đôi 1 module.",
+        "Resolve: gỡ cả 2 block stale khỏi sidebar, chỉ để comment \"đã chuyển xuống footer\". google_rank + seo_reality (#467) giữ nguyên ngay dưới.",
+        "Giữ trọn component .footer-categories (#468) + dùng comment header tag-cloud của #469. Mỗi selector định nghĩa đúng 1 lần.",
+        "zola build ✅ — 173 pages, exit 0, 0 template error"
+      ],
+      "pr": 471
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(tools): add S-DNA documentation page under /tools/s-dna/",
       "tag": "chore",
       "lines_added": 558,
