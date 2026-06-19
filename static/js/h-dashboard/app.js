@@ -2,8 +2,11 @@
  * H-Dashboard V2 — Highlands Coffee Life Analytics.
  * Receipt OCR → Coffee DNA, timeline, seasonality, personality.
  */
-(function () {
+(function (global) {
   "use strict";
+
+  const COFFEE_MODULE_MSG =
+    "Coffee Analytics V2 chưa tải xong. Hãy tải lại trang (Ctrl+Shift+R). Upload vẫn hoạt động.";
 
   const PAGE_SIZE = 20;
   let allTransactions = [];
@@ -39,6 +42,36 @@
     els.exportJson = $("#hd-export-json");
     els.exportCsv = $("#hd-export-csv");
     els.exportPdf = $("#hd-export-pdf");
+    els.coffeeModuleError = $("#hd-coffee-module-error");
+  }
+
+  function coffeeEngine() {
+    return global.HDashboardCoffee || null;
+  }
+
+  function coffeeUi() {
+    return global.HDashboardCoffeeUI || null;
+  }
+
+  function coffeeCharts() {
+    return global.HDashboardCharts || null;
+  }
+
+  function coffeeModulesReady() {
+    return !!(coffeeEngine() && coffeeUi() && coffeeCharts());
+  }
+
+  function showCoffeeModuleError(msg) {
+    const text = msg || COFFEE_MODULE_MSG;
+    if (els.coffeeModuleError) {
+      els.coffeeModuleError.hidden = false;
+      els.coffeeModuleError.textContent = text;
+    }
+    console.error("[H-Dashboard]", text);
+  }
+
+  function clearCoffeeModuleError() {
+    if (els.coffeeModuleError) els.coffeeModuleError.hidden = true;
   }
 
   function setStatus(msg, type) {
@@ -55,7 +88,10 @@
   }
 
   function fmt(n) {
-    return HDashboardCoffee.formatVnd(n);
+    const coffee = coffeeEngine();
+    if (coffee && coffee.formatVnd) return coffee.formatVnd(n);
+    const v = Number(n);
+    return Number.isFinite(v) ? new Intl.NumberFormat("vi-VN").format(v) + " ₫" : "—";
   }
 
   function applyFilters() {
@@ -84,11 +120,15 @@
   }
 
   function getCoffeePayload() {
+    const coffee = coffeeEngine();
+    if (!coffee || !coffee.buildCoffeePayload) {
+      throw new ReferenceError("HDashboardCoffee is not defined");
+    }
     const txs = filteredTransactions.length ? filteredTransactions : allTransactions;
-    const payload = HDashboardCoffee.buildCoffeePayload(txs);
+    const payload = coffee.buildCoffeePayload(txs);
 
-    if (window.HDashboardGeo && txs.length) {
-      const geo = HDashboardGeo.analyze(txs);
+    if (global.HDashboardGeo && txs.length) {
+      const geo = global.HDashboardGeo.analyze(txs);
       const top = geo.locations.slice(0, 2).map((l) => l.name);
       if (top.length) {
         const hint = `Bạn thường uống cà phê quanh ${top.join(" và ")}.`;
@@ -152,17 +192,31 @@
   }
 
   function renderFilteredSummary() {
-    const payload = getCoffeePayload();
-    renderSummary(payload);
-    HDashboardCoffeeUI.renderAll(payload);
-    HDashboardCharts.renderAll(payload);
+    if (!allTransactions.length) {
+      clearCoffeeModuleError();
+      return;
+    }
+    if (!coffeeModulesReady()) {
+      showCoffeeModuleError();
+      return;
+    }
+    try {
+      const payload = getCoffeePayload();
+      clearCoffeeModuleError();
+      renderSummary(payload);
+      coffeeUi().renderAll(payload);
+      coffeeCharts().renderAll(payload);
 
-    const geoTxs = filteredTransactions.length ? filteredTransactions : allTransactions;
-    if (window.HDashboardGeo && els.geo) {
-      window.HDashboardGeo.render(geoTxs, els.geo);
-      if (els.geoSummary && payload.geoHint) {
-        els.geoSummary.textContent = payload.geoHint;
+      const geoTxs = filteredTransactions.length ? filteredTransactions : allTransactions;
+      if (global.HDashboardGeo && els.geo) {
+        global.HDashboardGeo.render(geoTxs, els.geo);
+        if (els.geoSummary && payload.geoHint) {
+          els.geoSummary.textContent = payload.geoHint;
+        }
       }
+    } catch (err) {
+      console.error(err);
+      showCoffeeModuleError(err.message || COFFEE_MODULE_MSG);
     }
   }
 
@@ -257,7 +311,7 @@
   }
 
   async function wipeSessionData() {
-    await HDashboardStorage.clearAll();
+    await global.HDashboardStorage.clearAll();
     allTransactions = [];
     filteredTransactions = [];
     statementMeta = null;
@@ -286,7 +340,10 @@
     if (btn) btn.disabled = true;
 
     try {
-      const { watermark } = await HDashboardExport.exportAndWipe(
+      if (!coffeeModulesReady()) {
+        throw new Error(COFFEE_MODULE_MSG);
+      }
+      const { watermark } = await global.HDashboardExport.exportAndWipe(
         format,
         allTransactions,
         getInsightsPayload(),
@@ -311,7 +368,7 @@
 
     try {
       const buffer = await file.arrayBuffer();
-      const parsed = await HDashboardInvoiceParser.parseInvoicePdfArrayBuffer(buffer, {
+      const parsed = await global.HDashboardInvoiceParser.parseInvoicePdfArrayBuffer(buffer, {
         onStatus: (msg) => setStatus(msg, "info"),
       });
       if (!parsed || !Array.isArray(parsed.transactions)) {
@@ -327,7 +384,7 @@
       statementMeta = parsed.statement || null;
       reconciliation = parsed.reconciliation || { ok: true, message: "" };
 
-      const existingIds = await HDashboardStorage.getAllTransactionIds();
+      const existingIds = await global.HDashboardStorage.getAllTransactionIds();
       const toInsert = [];
       let skipped = 0;
       for (const tx of parsed.transactions) {
@@ -339,7 +396,7 @@
       }
 
       if (toInsert.length) {
-        await HDashboardStorage.insertTransactions(toInsert);
+        await global.HDashboardStorage.insertTransactions(toInsert);
       }
 
       await refresh();
@@ -359,7 +416,7 @@
   }
 
   async function refresh() {
-    allTransactions = await HDashboardStorage.getAllTransactions();
+    allTransactions = await global.HDashboardStorage.getAllTransactions();
     filteredTransactions = [...allTransactions];
     populateMonthFilter();
     applyFilters();
@@ -406,20 +463,30 @@
     dashboardReady = true;
     cacheElements();
     bindEvents();
+    if (!coffeeModulesReady()) {
+      showCoffeeModuleError();
+    }
     await refresh();
   }
 
   async function init() {
     if (!document.getElementById("hd-app")) return;
-    const user = await HDashboardAuth.init();
+    const user = await global.HDashboardAuth.init();
     if (user) {
       await startDashboard();
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
+  function boot() {
+    if (!coffeeEngine()) {
+      console.warn("[H-Dashboard] HDashboardCoffee not yet defined — waiting for scripts");
+    }
     init();
   }
-})();
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})(typeof window !== "undefined" ? window : globalThis);

@@ -264,5 +264,7 @@
     renderInsightsList(p.narrativeInsights, document.getElementById("hd-insights-list"));
   }
 
-  global.HDashboardCoffeeUI = { renderAll, renderDna, renderExecutiveSummary };
+  const api = { renderAll, renderDna, renderExecutiveSummary };
+  global.HDashboardCoffeeUI = api;
+  if (typeof window !== "undefined") window.HDashboardCoffeeUI = api;
 })(typeof window !== "undefined" ? window : globalThis);

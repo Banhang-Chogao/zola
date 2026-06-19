@@ -250,5 +250,7 @@
     bindTimelineTabs(coffeePayload);
   }
 
-  global.HDashboardCharts = { renderAll, destroyAll, THEME };
+  const api = { renderAll, destroyAll, THEME };
+  global.HDashboardCharts = api;
+  if (typeof window !== "undefined") window.HDashboardCharts = api;
 })(typeof window !== "undefined" ? window : globalThis);

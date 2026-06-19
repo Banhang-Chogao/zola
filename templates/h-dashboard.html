@@ -69,6 +69,7 @@
                 <p class="hd-upload__hint">Đọc: Cửa hàng · Địa chỉ · Ngày giờ · Mặt hàng · SL · Giá · Thanh toán. Hóa đơn scan sẽ tự OCR.</p>
             </div>
             <p class="hd-upload__status" id="hd-upload-status" data-type="info">Chưa có file nào được upload.</p>
+            <p class="hd-module-error" id="hd-coffee-module-error" role="alert" hidden></p>
 
             <div class="hd-export-bar" id="hd-export-bar">
                 <p class="hd-export-bar__label">Xuất &amp; xóa phiên (không lưu trên server)</p>
@@ -292,19 +293,21 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
-    <script src="{{ get_url(path='js/h-dashboard/pdf-loader.js') }}"></script>
+    {% if latest_commit %}{% set hd_v = latest_commit.sha | truncate(length=7, end='') %}{% else %}{% set hd_v = now(timestamp=true) %}{% endif %}
+    <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ hd_v }}"></script>
+    <script src="{{ get_url(path='js/h-dashboard/pdf-loader.js') }}?v={{ hd_v }}"></script>
+    {# Coffee Analytics V2 — sync load trước defer chain; HDashboardCoffee phải sẵn sàng trước app.js #}
+    <script src="{{ get_url(path='js/h-dashboard/coffee-analytics.js') }}?v={{ hd_v }}"></script>
+    <script src="{{ get_url(path='js/h-dashboard/coffee-ui.js') }}?v={{ hd_v }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/auth-gate.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/ocr-loader.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/invoice-parser.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/storage.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/coffee-analytics.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/coffee-ui.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/charts.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/export.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/geo.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/app.js') }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/auth-gate.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/ocr-loader.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/invoice-parser.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/storage.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/charts.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/export.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/geo.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/app.js') }}?v={{ hd_v }}" defer></script>
 {% endblock %}

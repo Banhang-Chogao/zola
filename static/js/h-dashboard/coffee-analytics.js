@@ -588,7 +588,7 @@
     };
   }
 
-  global.HDashboardCoffee = {
+  const api = {
     buildCoffeePayload,
     groupVisits,
     categorizeDrink,
@@ -597,4 +597,6 @@
     DRINK_CATEGORIES,
     SEASONS,
   };
+  global.HDashboardCoffee = api;
+  if (typeof window !== "undefined") window.HDashboardCoffee = api;
 })(typeof window !== "undefined" ? window : globalThis);
