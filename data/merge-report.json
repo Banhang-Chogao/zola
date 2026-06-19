@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-19T11:41:30Z",
+  "updated_at": "2026-06-19T11:51:26Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 36,
+    "today": 37,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "unknown": 24,
+      "unknown": 25,
       "feature": 71,
       "ci": 3,
       "fix": 50,
       "qa": 1,
-      "chore": 43,
+      "chore": 42,
       "content": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 500,
+      "pr_title": "chore(seo): add GSC HTML-file verification google359ea2ec9d73ed9c",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/500",
+      "merged_at": "2026-06-19T11:46:05Z",
+      "merge_commit_sha": "e6ab97ff151c9760786bf407b395a3916af577c8",
+      "merge_commit_short": "e6ab97f",
+      "head_branch": "claude/intelligent-turing-ibwmzv",
+      "summary_vi": "Add Google Search Console ownership verification file to static/ so Zola serves it at https://banhang-chogao.github.io/zola/google359ea2ec9d73ed9c.html (URL-prefix property). This is the HTML-file method matching the fil",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 1,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 798,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27823798003",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 499,
       "pr_title": "docs(shortcuts): thêm phím tắt tieptuc8 — tiếp tục & hoàn tất tất cả …",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 797,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27823155052",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 498,
@@ -94,7 +113,7 @@
       "auto_merged": false,
       "build_run_number": 794,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27822885864",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 495,
@@ -113,7 +132,7 @@
       "auto_merged": false,
       "build_run_number": 794,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27822885864",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 494,
@@ -453,9 +472,9 @@
       "deletions": 71,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 768,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806349723",
-      "build_conclusion": "cancelled"
+      "build_run_number": 774,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807302117",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 475,
@@ -3795,25 +3814,6 @@
       "files_changed": 1,
       "additions": 13,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 288,
-      "pr_title": "chore: refresh Build Dashboard data",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/288",
-      "merged_at": "2026-06-17T16:26:16Z",
-      "merge_commit_sha": "9455526d031b18e7c0569795ba421c1b60ded63d",
-      "merge_commit_short": "9455526",
-      "head_branch": "chore/build-dashboard-data",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 140,
-      "deletions": 174,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
