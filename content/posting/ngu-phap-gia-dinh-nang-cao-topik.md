@@ -18,7 +18,7 @@ featured = false
 
 Phần **đọc hiểu TOPIK II** (câu 27–41) chứa nhiều cấu trúc **giả định, suy đoán, phỏng đoán**. Tôi gom 6 cấu trúc gặp nhiều nhất sau khi làm 30+ đề thi.
 
-**Cluster:** [-더라도 / -는다 해도](/zola/bai-2-derado-va-neunda-haedo/) · [Pillar](/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/)
+**Cluster:** [-더라도 / -는다 해도](/zola/derado-va-neunda-haedo-tieng-han/) · [Pillar](/zola/ngu-phap-nang-cao-sau-topik-4/)
 
 ---
 
@@ -80,12 +80,12 @@ Phần **đọc hiểu TOPIK II** (câu 27–41) chứa nhiều cấu trúc **gi
 
 1. Mỗi cấu trúc → **3 câu ví dụ** + 1 câu tự viết
 2. Làm đề đọc hiểu → gạch chân cấu trúc giả định
-3. So sánh với [-더라도](/zola/bai-2-derado-va-neunda-haedo/) — đừng nhầm nhượng bộ vs giả định
+3. So sánh với [-더라도](/zola/derado-va-neunda-haedo-tieng-han/) — đừng nhầm nhượng bộ vs giả định
 
 ---
 
 ## Liên kết
 
-- [50 mẫu câu TOPIK](/zola/bai-5-50-mau-cau-topik/)
-- [-곤 하다, -기 마련이다](/zola/bai-3-gon-hada-ki-mareonida/)
+- [50 mẫu câu TOPIK](/zola/50-mau-cau-topik-nang-cao/)
+- [-곤 하다, -기 마련이다](/zola/gon-hada-ki-mareonida-tieng-han/)
 - [Orphan pages tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/)

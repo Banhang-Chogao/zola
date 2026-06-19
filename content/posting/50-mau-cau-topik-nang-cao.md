@@ -18,7 +18,7 @@ featured = false
 
 Đây là bộ **50 mẫu câu** tôi trích từ đề TOPIK II và sách 서울대 5B–6B, nhóm theo cấu trúc. Tôi ôn 5 câu/ngày — sau 10 ngày quay lại từ đầu.
 
-**Cluster:** [Pillar ngữ pháp](/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/) · [-더라도](/zola/bai-2-derado-va-neunda-haedo/) · [-곤 하다](/zola/bai-3-gon-hada-ki-mareonida/)
+**Cluster:** [Pillar ngữ pháp](/zola/ngu-phap-nang-cao-sau-topik-4/) · [-더라도](/zola/derado-va-neunda-haedo-tieng-han/) · [-곤 하다](/zola/gon-hada-ki-mareonida-tieng-han/)
 
 ---
 
@@ -116,5 +116,5 @@ Dùng **Korean Converter** kiểm tra câu tự viết.
 
 ## Liên kết
 
-- [Giả định nâng cao](/zola/bai-4-ngu-phap-gia-dinh-nang-cao/)
+- [Giả định nâng cao](/zola/ngu-phap-gia-dinh-nang-cao-topik/)
 - [Internal linking orphan](/zola/sua-orphan-bai-tieng-han-seo/)

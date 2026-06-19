@@ -18,7 +18,7 @@ featured = false
 
 **Vaccine** là quy tắc cố định trong `CLAUDE.md` — AI đọc trước mỗi session, giảm lỗi lặp lại. Tôi ghi **10 vaccine** đã giảm lỗi production từ ~40% xuống <5%.
 
-**Cluster:** [Hệ thống prompt Zola](/zola/bai-1-he-thong-prompt-zola-pillar/) · [QA Gatekeeper](/zola/bai-3-qa-gatekeeper-vaccine-autofixer/)
+**Cluster:** [Hệ thống prompt Zola](/zola/he-thong-prompt-zola-blog/) · [QA Gatekeeper](/zola/qa-gatekeeper-vaccine-autofixer/)
 
 ---
 
@@ -117,6 +117,6 @@ Nếu fail → không merge.
 
 ## Liên kết
 
-- [Prompt system Zola](/zola/bai-1-he-thong-prompt-zola-pillar/)
-- [QA Gatekeeper](/zola/bai-3-qa-gatekeeper-vaccine-autofixer/)
+- [Prompt system Zola](/zola/he-thong-prompt-zola-blog/)
+- [QA Gatekeeper](/zola/qa-gatekeeper-vaccine-autofixer/)
 - [FAQ Schema](/zola/faq-schema-cluster-ngan-hang-ctr/)

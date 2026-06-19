@@ -16,7 +16,7 @@ featured = false
 
 ---
 
-Sau khi dùng [10 mẹo iPay hằng ngày](/zola/bai-1-10-meo-ipay-nang-cao/), bước tiếp theo tôi làm là **khóa chặt bảo mật** và **set hạn mức hợp lý** — vừa an toàn vừa đủ cho nhu cầu thực tế.
+Sau khi dùng [10 mẹo iPay hằng ngày](/zola/10-meo-vietinbank-ipay-nang-cao/), bước tiếp theo tôi làm là **khóa chặt bảo mật** và **set hạn mức hợp lý** — vừa an toàn vừa đủ cho nhu cầu thực tế.
 
 ---
 
@@ -84,7 +84,7 @@ Khi nhận [trợ cấp thất nghiệp](/zola/tro-cap-that-nghiep-thoi-gian-bht
 
 ## Liên kết cluster
 
-- [10 mẹo iPay](/zola/bai-1-10-meo-ipay-nang-cao/)
+- [10 mẹo iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
 - [Review LPBank số](/zola/review-lpbank-so-2026/)
 - [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/)
 
