@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "style(home): Ericsson Blue POSTINGS banner with scattered Hangul",
+      "tag": "chore",
+      "lines_added": 74,
+      "lines_removed": 8,
+      "highlights": [
+        "Lớp .hangeul-pattern là aria-hidden, pointer-events: none, overflow: hidden (clip vào banner) → chỉ trang trí, không cản đọc/bấm.",
+        "Nền #003784 hardcode (không dùng token) để giữ nguyên ở cả light/dark — chữ Hangul trắng cần nền tối.",
+        "Mobile (≤720px): padding gọn lại + Hangul thu nhỏ 1.1rem, layout không vỡ.",
+        "Chỉ sửa 2 file: templates/index.html + sass/_home-momo.scss. Không đụng selector global/desktop ngoài phạm vi banner.",
+        "zola build → PASS (182 trang, 0 lỗi)"
+      ],
+      "pr": 474
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(insights): add Ad-Report V2 daily monetization + UI analysis",
       "tag": "chore",
       "lines_added": 3139,
