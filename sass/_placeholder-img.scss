@@ -1,0 +1,36 @@
+/* ============================================================================
+   Placeholder image — chuẩn hoá co giãn trên MOBILE (BẮT BUỘC mobile-only)
+
+   Ảnh placeholder thương hiệu (gradient xanh, icon núi) xuất hiện ở mọi surface:
+   card feed, hero bài viết, bài liên quan, sidebar, ảnh thân bài, và ảnh fallback
+   runtime (`data-ph="1"` khi ảnh thật 404 — xem base.html).
+
+   Vấn đề: một số surface KHÔNG set object-fit → SVG 3:2 (1200×800) bị méo/lệch
+   khi khung khác tỉ lệ, hoặc render full intrinsic size khi parent không khoá
+   chiều cao → nhìn lệch, không đẹp trên điện thoại.
+
+   Fix (mobile-only, additive): mọi ảnh placeholder → cover + canh giữa; nếu parent
+   chưa khoá chiều cao thì dùng aspect-ratio mặc định để ảnh không phình to.
+   KHÔNG đụng selector global / desktop (tuân thủ §1–§3 CLAUDE.md responsive rules).
+   ============================================================================ */
+
+@media (max-width: 720px) {
+  img[src*="img/placeholder/"],
+  img[data-ph="1"] {
+    width: 100%;
+    aspect-ratio: 16 / 10;          /* khung mặc định khi parent không khoá height */
+    object-fit: cover;              /* lấp đầy khung, không méo icon */
+    object-position: center;        /* canh giữa → không lệch */
+    background: var(--c-bg-soft);
+  }
+
+  /* Khi đã nằm trong khung tỉ lệ cố định (card/hero), parent quyết định kích thước:
+     để height:100% thắng aspect-ratio của ảnh, tránh xung đột với crop sẵn có. */
+  .post-card__image img[src*="img/placeholder/"],
+  .post-single__hero img[src*="img/placeholder/"],
+  .post-card__image img[data-ph="1"],
+  .post-single__hero img[data-ph="1"] {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
