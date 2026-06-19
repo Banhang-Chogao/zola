@@ -29,6 +29,8 @@ theme = "catppuccin-mocha"
 extra_syntaxes_and_themes = ["highlight_themes"]
 
 [extra]
+# Optional AviationStack free-tier key for Flight DB API enrich (Search only)
+aviationstack_api_key = ""
 author = "duynguyenlog"
 tagline = "Duy Nguyen"
 
@@ -74,8 +76,8 @@ menu = [
         { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
         { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
     ] },
-    # Công cụ — 3 NHÓM con (accordion): Content · Dashboard · Khác.
-    # Mỗi nhóm có 'children' riêng → submenu chỉ hiện 3 nhóm ở tầng 1, mỗi
+    # Công cụ — 4 NHÓM con (accordion): Content · Dashboard · DB2 · Khác.
+    # Mỗi nhóm có 'children' riêng → submenu chỉ hiện tên nhóm ở tầng 1, mỗi
     # nhóm xổ/đóng để lộ tool con (không tràn màn hình, nhất là mobile).
     # Thêm tool mới = thêm 1 dòng vào 'children' của nhóm phù hợp (giữ pattern).
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
@@ -91,6 +93,8 @@ menu = [
             { url = "$BASE_URL/ad-report-v2", name = "🔥 Ad-Report V2" },
             { url = "$BASE_URL/authority-report", name = "Authority Report" },
             { url = "$BASE_URL/scoring",   name = "Scoring" },
+        ] },
+        { name = "DB2", children = [
             { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
             { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
             { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
