@@ -18,7 +18,7 @@ featured = false
 
 Tôi dùng **VietinBank iPay** (bản nâng cao) hơn 3 năm — không chỉ chuyển tiền, mà còn quản lý toàn bộ tài chính cá nhân. Dưới đây là 10 mẹo tôi thực sự dùng, không phải tính năng "cho có".
 
-**Cluster:** [Tối ưu bảo mật iPay](/bai-2-toi-uu-bao-mat-han-muc-ipay/) · [LPBank số](/review-lpbank-so-2026/) · [BHXH VssID](/vssid-khong-hien-qua-trinh-dong-bhtn/)
+**Cluster:** [Tối ưu bảo mật iPay](/zola/bai-2-toi-uu-bao-mat-han-muc-ipay/) · [LPBank số](/zola/review-lpbank-so-2026/) · [BHXH VssID](/zola/vssid-khong-hien-qua-trinh-dong-bhtn/)
 
 ---
 
@@ -44,7 +44,7 @@ Bật **Soft OTP** trong Cài đặt bảo mật. Tôi không còn phụ thuộc
 
 ## 6. Mở tiết kiệm tích lũy online
 
-**Tiết kiệm** → **Tích lũy** — gửi từng phần nhỏ, lãi compound. Tôi so với [LPBank số](/review-lpbank-so-2026/) mỗi quý.
+**Tiết kiệm** → **Tích lũy** — gửi từng phần nhỏ, lãi compound. Tôi so với [LPBank số](/zola/review-lpbank-so-2026/) mỗi quý.
 
 ## 7. Thẻ ảo cho mua online
 
@@ -77,10 +77,10 @@ Sau giao dịch → **Chia sẻ** → Gửi ảnh biên lai qua Zalo. Tiện khi
 
 ## Liên kết Finance Cluster
 
-- [Bảo mật và hạn mức iPay](/bai-2-toi-uu-bao-mat-han-muc-ipay/)
-- [Lỗi LPBank số](/loi-thuong-gap-lpbank-so/)
-- [Lương hưu 2026](/tinh-luong-huu-2026-huong-dan/)
-- [FAQ Schema ngân hàng](/faq-schema-cluster-ngan-hang-ctr/)
+- [Bảo mật và hạn mức iPay](/zola/bai-2-toi-uu-bao-mat-han-muc-ipay/)
+- [Lỗi LPBank số](/zola/loi-thuong-gap-lpbank-so/)
+- [Lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/)
+- [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/)
 
 ---
 
@@ -96,4 +96,4 @@ Tại quầy VietinBank hoặc trong app → **Nâng cấp tài khoản** → eK
 
 ### Chuyển tiền iPay giới hạn bao nhiêu?
 
-Phụ thuộc hạng tài khoản — tôi set chi tiết ở [bài bảo mật](/bai-2-toi-uu-bao-mat-han-muc-ipay/).
+Phụ thuộc hạng tài khoản — tôi set chi tiết ở [bài bảo mật](/zola/bai-2-toi-uu-bao-mat-han-muc-ipay/).

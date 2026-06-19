@@ -18,7 +18,7 @@ featured = false
 
 Ba cấu trúc này xuất hiện **dày đặc** trong đề TOPIK II đọc hiểu. Tôi từng nhầm -기 마련이다 với -기 십상이다 — bài này ghi lại cách tôi phân biệt.
 
-**Cluster:** [Pillar](/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/) · [-더라도 / -는다 해도](/bai-2-derado-va-neunda-haedo/)
+**Cluster:** [Pillar](/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/) · [-더라도 / -는다 해도](/zola/bai-2-derado-va-neunda-haedo/)
 
 ---
 
@@ -83,11 +83,11 @@ Ba cấu trúc này xuất hiện **dày đặc** trong đề TOPIK II đọc hi
 2. 확인하지 않으면 잘못 **되기 십상**이다. *(rủi ro)*
 3. 어렸을 때 할머니 댁에 **가곤 했다**. *(thói quen)*
 
-Thêm mẫu: [50 câu TOPIK](/bai-5-50-mau-cau-topik/)
+Thêm mẫu: [50 câu TOPIK](/zola/bai-5-50-mau-cau-topik/)
 
 ---
 
 ## Liên kết
 
-- [Ngữ pháp giả định](/bai-4-ngu-phap-gia-dinh-nang-cao/)
-- [Sửa orphan cluster Hàn](/sua-orphan-bai-tieng-han-seo/)
+- [Ngữ pháp giả định](/zola/bai-4-ngu-phap-gia-dinh-nang-cao/)
+- [Sửa orphan cluster Hàn](/zola/sua-orphan-bai-tieng-han-seo/)

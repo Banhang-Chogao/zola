@@ -18,7 +18,7 @@ featured = false
 
 Sau 8 tháng dùng LPBank số, tôi gặp đủ loại lỗi — từ nhỏ (timeout) đến đáng lo (trừ tiền nhưng người nhận chưa có). Bài này tổng hợp **7 lỗi phổ biến** và cách tôi xử lý.
 
-**Xem thêm:** [Review LPBank số 2026](/bai-1-review-lpbank-so-2026/) · [VietinBank iPay bảo mật](/toi-uu-bao-mat-han-muc-vietinbank-ipay/)
+**Xem thêm:** [Review LPBank số 2026](/zola/bai-1-review-lpbank-so-2026/) · [VietinBank iPay bảo mật](/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/)
 
 ---
 
@@ -79,7 +79,7 @@ LPBank số có hạn mức mặc định. Tôi tăng bằng:
 2. Chọn mức cao hơn (cần OTP)
 3. Hạn mức rất cao → eKYC nâng cao tại quầy
 
-So sánh cách tôi set hạn mức trên [VietinBank iPay](/toi-uu-bao-mat-han-muc-vietinbank-ipay/).
+So sánh cách tôi set hạn mức trên [VietinBank iPay](/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/).
 
 ---
 
@@ -104,6 +104,6 @@ So sánh cách tôi set hạn mức trên [VietinBank iPay](/toi-uu-bao-mat-han-
 
 ## Liên kết Finance Cluster
 
-- [Review LPBank số](/bai-1-review-lpbank-so-2026/)
-- [10 mẹo VietinBank iPay](/10-meo-vietinbank-ipay-nang-cao/)
-- [FAQ Schema ngân hàng](/faq-schema-cluster-ngan-hang-ctr/) — LPBank, VietinBank, TNEX
+- [Review LPBank số](/zola/bai-1-review-lpbank-so-2026/)
+- [10 mẹo VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
+- [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/) — LPBank, VietinBank, TNEX

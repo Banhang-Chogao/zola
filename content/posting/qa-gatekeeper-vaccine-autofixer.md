@@ -16,9 +16,9 @@ featured = false
 
 ---
 
-Sau [10 vaccine CLAUDE.md](/bai-2-10-vaccine-claude-md/), tôi cần **lớp kiểm tra tự động** — vì AI vẫn thỉnh thoảng bỏ qua vaccine khi context dài. **QA Gatekeeper** chạy post-generation; **Daily Vaccine Autofixer** quét repo mỗi ngày.
+Sau [10 vaccine CLAUDE.md](/zola/bai-2-10-vaccine-claude-md/), tôi cần **lớp kiểm tra tự động** — vì AI vẫn thỉnh thoảng bỏ qua vaccine khi context dài. **QA Gatekeeper** chạy post-generation; **Daily Vaccine Autofixer** quét repo mỗi ngày.
 
-**Cluster:** [Hệ thống prompt](/bai-1-he-thong-prompt-zola-pillar/) · [Internal link orphan](/sua-orphan-bai-tieng-han-seo/)
+**Cluster:** [Hệ thống prompt](/zola/bai-1-he-thong-prompt-zola-pillar/) · [Internal link orphan](/zola/sua-orphan-bai-tieng-han-seo/)
 
 ---
 
@@ -97,7 +97,7 @@ Link bắt buộc thêm: /tieng-han/ngu-phap-nang-cao-sau-topik-4, /seo/sua-orph
 
 ## Kết hợp với SEO cluster
 
-Gatekeeper tích hợp logic từ [Sửa orphan tiếng Hàn](/sua-orphan-bai-tieng-han-seo/):
+Gatekeeper tích hợp logic từ [Sửa orphan tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/):
 
 1. Build **link graph** từ tất cả `.md`
 2. Node **in-degree = 0** → orphan
@@ -117,7 +117,7 @@ Gatekeeper tích hợp logic từ [Sửa orphan tiếng Hàn](/sua-orphan-bai-ti
 
 ## Liên kết
 
-- [10 vaccine](/bai-2-10-vaccine-claude-md/)
-- [Prompt Zola](/bai-1-he-thong-prompt-zola-pillar/)
-- [FAQ Schema ngân hàng](/faq-schema-cluster-ngan-hang-ctr/)
-- [Orphan strategy](/sua-orphan-bai-tieng-han-seo/)
+- [10 vaccine](/zola/bai-2-10-vaccine-claude-md/)
+- [Prompt Zola](/zola/bai-1-he-thong-prompt-zola-pillar/)
+- [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/)
+- [Orphan strategy](/zola/sua-orphan-bai-tieng-han-seo/)

@@ -16,7 +16,7 @@ featured = false
 
 ---
 
-Sau khi xử lý xong lỗi VssID không hiện BHTN ở [bài pillar](/bai-1-vssid-khong-hien-bhtn-pillar/), bước tiếp theo tôi làm là **đếm chính xác số tháng đóng BHTN** — vì đây là điều kiện bắt buộc để hưởng trợ cấp thất nghiệp.
+Sau khi xử lý xong lỗi VssID không hiện BHTN ở [bài pillar](/zola/bai-1-vssid-khong-hien-bhtn-pillar/), bước tiếp theo tôi làm là **đếm chính xác số tháng đóng BHTN** — vì đây là điều kiện bắt buộc để hưởng trợ cấp thất nghiệp.
 
 ---
 
@@ -95,24 +95,24 @@ Tôi cộng **cột số tháng** của tất cả kỳ trong 24 tháng gần nh
 
 **Xử lý:** Đăng nhập lại; nếu lặp lại, dùng website thay app.
 
-Chi tiết xử lý VssID trống: [Bài 1 — Pillar BHTN](/bai-1-vssid-khong-hien-bhtn-pillar/)
+Chi tiết xử lý VssID trống: [Bài 1 — Pillar BHTN](/zola/bai-1-vssid-khong-hien-bhtn-pillar/)
 
 ---
 
 ## Sau khi tra cứu xong — bước tiếp theo
 
-1. **Đủ 12 tháng?** → Xem [mốc thời gian hưởng trợ cấp](/bai-3-tro-cap-that-nghiep-thoi-gian/)
+1. **Đủ 12 tháng?** → Xem [mốc thời gian hưởng trợ cấp](/zola/bai-3-tro-cap-that-nghiep-thoi-gian/)
 2. **Chưa đủ?** → Tính thêm cần bao nhiêu tháng; cân nhắc làm HĐLĐ mới để bù
-3. **Sắp nghỉ hưu?** → Đối chiếu với [tính lương hưu 2026](/tinh-luong-huu-2026-huong-dan/)
+3. **Sắp nghỉ hưu?** → Đối chiếu với [tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/)
 
 ---
 
 ## Liên kết Finance Cluster
 
-- [VssID không hiện BHTN](/bai-1-vssid-khong-hien-bhtn-pillar/)
-- [Trợ cấp thất nghiệp — mốc thời gian](/bai-3-tro-cap-that-nghiep-thoi-gian/)
-- [Review LPBank số 2026](/review-lpbank-so-2026/) — quản lý tài chính khi chờ trợ cấp
-- [VietinBank iPay nâng cao](/10-meo-vietinbank-ipay-nang-cao/)
+- [VssID không hiện BHTN](/zola/bai-1-vssid-khong-hien-bhtn-pillar/)
+- [Trợ cấp thất nghiệp — mốc thời gian](/zola/bai-3-tro-cap-that-nghiep-thoi-gian/)
+- [Review LPBank số 2026](/zola/review-lpbank-so-2026/) — quản lý tài chính khi chờ trợ cấp
+- [VietinBank iPay nâng cao](/zola/10-meo-vietinbank-ipay-nang-cao/)
 
 ---
 

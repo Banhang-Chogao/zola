@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-19T07:29:44Z",
-  "score": 100.0,
+  "updated_at": "2026-06-19T07:38:43Z",
+  "score": 95.7,
   "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 23,
+    "pass": 22,
     "warn": 0,
-    "fail": 0,
+    "fail": 1,
     "total": 23
   },
   "categories": [
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "630/657 in range"
+          "detail": "694/727 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "656/657 complete"
+          "detail": "709/727 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "657/657 set"
+          "detail": "727/727 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "657/657 single H1"
+          "detail": "727/727 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "657/657 with lang"
+          "detail": "727/727 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "657/657 ready"
+          "detail": "727/727 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "657/657 pages"
+          "detail": "727/727 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "655/657 pages covered"
+          "detail": "725/727 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "163/163 articles"
+          "detail": "182/182 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "157/163 tagged"
+          "detail": "176/182 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "162/163 substantive"
+          "detail": "181/182 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,15 +158,197 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
-      "pass": 2,
+      "score": 50.0,
+      "pass": 1,
       "warn": 0,
-      "fail": 0,
+      "fail": 1,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "fail",
+          "detail": "20 broken / 754 unique",
+          "broken": [
+            {
+              "source_page": "/posting/10-meo-vietinbank-ipay-nang-cao/",
+              "source_file": "public/posting/10-meo-vietinbank-ipay-nang-cao/index.html",
+              "href": "/zola/bai-2-toi-uu-bao-mat-han-muc-ipay/",
+              "target": "/bai-2-toi-uu-bao-mat-han-muc-ipay/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/10-vaccine-claude-md-giam-loi-production/",
+              "source_file": "public/posting/10-vaccine-claude-md-giam-loi-production/index.html",
+              "href": "/zola/bai-1-he-thong-prompt-zola-pillar/",
+              "target": "/bai-1-he-thong-prompt-zola-pillar/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/10-vaccine-claude-md-giam-loi-production/",
+              "source_file": "public/posting/10-vaccine-claude-md-giam-loi-production/index.html",
+              "href": "/zola/bai-3-qa-gatekeeper-vaccine-autofixer/",
+              "target": "/bai-3-qa-gatekeeper-vaccine-autofixer/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/50-mau-cau-topik-nang-cao/",
+              "source_file": "public/posting/50-mau-cau-topik-nang-cao/index.html",
+              "href": "/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+              "target": "/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/50-mau-cau-topik-nang-cao/",
+              "source_file": "public/posting/50-mau-cau-topik-nang-cao/index.html",
+              "href": "/zola/bai-2-derado-va-neunda-haedo/",
+              "target": "/bai-2-derado-va-neunda-haedo/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/50-mau-cau-topik-nang-cao/",
+              "source_file": "public/posting/50-mau-cau-topik-nang-cao/index.html",
+              "href": "/zola/bai-3-gon-hada-ki-mareonida/",
+              "target": "/bai-3-gon-hada-ki-mareonida/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/50-mau-cau-topik-nang-cao/",
+              "source_file": "public/posting/50-mau-cau-topik-nang-cao/index.html",
+              "href": "/zola/bai-4-ngu-phap-gia-dinh-nang-cao/",
+              "target": "/bai-4-ngu-phap-gia-dinh-nang-cao/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/bhxh-mot-lan-hay-luong-huu/",
+              "source_file": "public/posting/bhxh-mot-lan-hay-luong-huu/index.html",
+              "href": "/zola/bai-1-tinh-luong-huu-2026-pillar/",
+              "target": "/bai-1-tinh-luong-huu-2026-pillar/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/derado-va-neunda-haedo-tieng-han/",
+              "source_file": "public/posting/derado-va-neunda-haedo-tieng-han/index.html",
+              "href": "/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+              "target": "/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/derado-va-neunda-haedo-tieng-han/",
+              "source_file": "public/posting/derado-va-neunda-haedo-tieng-han/index.html",
+              "href": "/zola/bai-4-ngu-phap-gia-dinh-nang-cao/",
+              "target": "/bai-4-ngu-phap-gia-dinh-nang-cao/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/derado-va-neunda-haedo-tieng-han/",
+              "source_file": "public/posting/derado-va-neunda-haedo-tieng-han/index.html",
+              "href": "/zola/bai-5-50-mau-cau-topik/",
+              "target": "/bai-5-50-mau-cau-topik/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/faq-schema-cluster-ngan-hang-ctr/",
+              "source_file": "public/posting/faq-schema-cluster-ngan-hang-ctr/index.html",
+              "href": "/zola/bai-2-sua-orphan-tieng-han/",
+              "target": "/bai-2-sua-orphan-tieng-han/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/faq-schema-cluster-ngan-hang-ctr/",
+              "source_file": "public/posting/faq-schema-cluster-ngan-hang-ctr/index.html",
+              "href": "/zola/bai-5-faq",
+              "target": "/bai-5-faq/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/gon-hada-ki-mareonida-tieng-han/",
+              "source_file": "public/posting/gon-hada-ki-mareonida-tieng-han/index.html",
+              "href": "/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+              "target": "/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/gon-hada-ki-mareonida-tieng-han/",
+              "source_file": "public/posting/gon-hada-ki-mareonida-tieng-han/index.html",
+              "href": "/zola/bai-2-derado-va-neunda-haedo/",
+              "target": "/bai-2-derado-va-neunda-haedo/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/gon-hada-ki-mareonida-tieng-han/",
+              "source_file": "public/posting/gon-hada-ki-mareonida-tieng-han/index.html",
+              "href": "/zola/bai-5-50-mau-cau-topik/",
+              "target": "/bai-5-50-mau-cau-topik/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/gon-hada-ki-mareonida-tieng-han/",
+              "source_file": "public/posting/gon-hada-ki-mareonida-tieng-han/index.html",
+              "href": "/zola/bai-4-ngu-phap-gia-dinh-nang-cao/",
+              "target": "/bai-4-ngu-phap-gia-dinh-nang-cao/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/he-thong-prompt-zola-blog/",
+              "source_file": "public/posting/he-thong-prompt-zola-blog/index.html",
+              "href": "/zola/bai-2-10-vaccine-claude-md/",
+              "target": "/bai-2-10-vaccine-claude-md/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/he-thong-prompt-zola-blog/",
+              "source_file": "public/posting/he-thong-prompt-zola-blog/index.html",
+              "href": "/zola/bai-3-qa-gatekeeper-vaccine-autofixer/",
+              "target": "/bai-3-qa-gatekeeper-vaccine-autofixer/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/loi-thuong-gap-lpbank-so/",
+              "source_file": "public/posting/loi-thuong-gap-lpbank-so/index.html",
+              "href": "/zola/bai-1-review-lpbank-so-2026/",
+              "target": "/bai-1-review-lpbank-so-2026/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "653/657 pages"
+          "detail": "723/727 pages"
         },
         {
           "label": "Skip navigation",
@@ -197,6 +379,10 @@
     }
   ],
   "highlights": [
+    {
+      "type": "fail",
+      "text": "Links: Internal links"
+    },
     {
       "type": "pass",
       "text": "Metadata: Page titles"
@@ -216,28 +402,24 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 657,
-  "articles_scanned": 168,
+  "pages_scanned": 727,
+  "articles_scanned": 187,
   "fix_log": [
     {
-      "category": "—",
-      "label": "Tất cả mục",
-      "check_status": "pass",
-      "outcome": "skipped",
-      "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-19T07:29:44Z"
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Còn 40 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/10-meo-vietinbank-ipay-nang-cao/index.html → /bai-2-toi-uu-bao-mat-han-muc-ipay/ (Target not found in public/ after zola build); public/posting/10-vaccine-claude-md-giam-loi-production/index.html → /bai-1-he-thong-prompt-zola-pillar/ (Target not found in public/ after zola build); public/posting/10-vaccine-claude-md-giam-loi-production/index.html → /bai-3-qa-gatekeeper-vaccine-autofixer/ (Target not found in public/ after zola build)",
+      "at": "2026-06-19T07:38:43Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 0,
-    "skipped": 1
+    "failed": 1,
+    "skipped": 0
   }
 }
