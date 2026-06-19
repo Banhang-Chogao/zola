@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-19T05:01:00Z",
+  "updated_at": "2026-06-19T05:03:26Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 197,
-    "today": 15,
-    "this_week": 197,
-    "this_month": 197,
+    "total": 198,
+    "today": 16,
+    "this_week": 198,
+    "this_month": 198,
     "auto_merged": 1,
     "by_change_type": {
+      "unknown": 20,
       "chore": 45,
       "feature": 68,
       "content": 9,
-      "unknown": 19,
       "fix": 51,
       "ci": 4,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 479,
+      "pr_title": "Xoá trang Thống kê (Web Vitals) /stats/ và link footer",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/479",
+      "merged_at": "2026-06-19T05:02:37Z",
+      "merge_commit_sha": "1f930fce9f4803598a9e5adf77f98bbb273995b7",
+      "merge_commit_short": "1f930fc",
+      "head_branch": "claude/admiring-goodall-g2rcv0",
+      "summary_vi": "Trang /stats/ chỉ đo Core Web Vitals client-side, lưu localStorage theo từng trình duyệt nên với người dùng luôn trống — không có số liệu. Gỡ bỏ toàn bộ tính năng theo yêu cầu.",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 477,
       "pr_title": "docs(claude): luật mới — code xong + mở PR là hết nhiệm vụ, không canh PR",
