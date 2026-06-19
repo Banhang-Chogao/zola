@@ -8,13 +8,15 @@ from typing import Any, Literal
 from urllib.parse import urlencode, urlparse
 
 import httpx
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Cookie, Depends, Header, HTTPException, Response
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
 from db import VipzoneDB
 from github_repo import check_repo_superadmin
 from roles import resolve_role, username_is_superadmin
+
+SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
 
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
 BACKEND_URL = os.getenv(
@@ -48,6 +50,7 @@ class AuthMeResponse(BaseModel):
     avatar: str = ""
     role: Literal["user", "vip", "superadmin"] = "user"
     is_super: bool = False
+    is_admin: bool = False
     vip_plan: str | None = None
     vip_expires_at: str | None = None
 
@@ -82,7 +85,12 @@ def normalize_return_to(return_to: str) -> str:
     return "/tools/vipzone-admin/"
 
 
-def build_blog_url(return_to: str, fragment: str = "") -> str:
+def build_blog_url(
+    return_to: str,
+    fragment: str = "",
+    *,
+    extra_query: dict[str, str] | None = None,
+) -> str:
     rt = normalize_return_to(return_to)
     if _BLOG_BASE_PATH and rt.startswith(_BLOG_BASE_PATH + "/"):
         rt = rt[len(_BLOG_BASE_PATH) :]
@@ -90,7 +98,34 @@ def build_blog_url(return_to: str, fragment: str = "") -> str:
         rt = "/"
     if not rt.startswith("/"):
         rt = "/" + rt
-    return f"{BLOG_URL}{rt}" + (f"#{fragment}" if fragment else "")
+    url = f"{BLOG_URL}{rt}"
+    if extra_query:
+        for key, val in extra_query.items():
+            sep = "&" if "?" in url else "?"
+            url = f"{url}{sep}{key}={val}"
+    return url + (f"#{fragment}" if fragment else "")
+
+
+def attach_session_cookie(response: Response, sid: str) -> None:
+    """Edge/Safari cross-site session — SameSite=None requires Secure + HttpOnly."""
+    response.set_cookie(
+        key=SESSION_COOKIE_NAME,
+        value=sid,
+        max_age=SESSION_TTL,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        path="/",
+    )
+
+
+def clear_session_cookie(response: Response) -> None:
+    response.delete_cookie(
+        key=SESSION_COOKIE_NAME,
+        path="/",
+        secure=True,
+        samesite="none",
+    )
 
 
 def redirect_with_error(error: str, return_to: str = "/tools/vipzone-admin/") -> RedirectResponse:
@@ -99,17 +134,21 @@ def redirect_with_error(error: str, return_to: str = "/tools/vipzone-admin/") ->
     return RedirectResponse(f"{base}{sep}auth_error={error}")
 
 
-def extract_sid(authorization: str) -> str:
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(401, "missing_token")
-    sid = authorization[7:].strip()
-    if not sid:
-        raise HTTPException(401, "missing_token")
-    return sid
+def resolve_sid(authorization: str = "", cookie_sid: str | None = None) -> str:
+    if authorization and authorization.startswith("Bearer "):
+        sid = authorization[7:].strip()
+        if sid:
+            return sid
+    if cookie_sid and cookie_sid.strip():
+        return cookie_sid.strip()
+    raise HTTPException(401, "missing_token")
 
 
-async def cms_profile_from_session(db: VipzoneDB, authorization: str) -> dict[str, Any]:
-    sid = extract_sid(authorization)
+def extract_sid(authorization: str, cookie_sid: str | None = None) -> str:
+    return resolve_sid(authorization, cookie_sid)
+
+
+async def cms_profile_from_sid(db: VipzoneDB, sid: str) -> dict[str, Any]:
     session = db.get_cms_session(sid)
     if not session:
         raise HTTPException(401, "invalid_cms_session")
@@ -127,6 +166,25 @@ async def cms_profile_from_session(db: VipzoneDB, authorization: str) -> dict[st
     }
 
 
+async def cms_profile_from_session(
+    db: VipzoneDB,
+    authorization: str = "",
+    *,
+    cookie_sid: str | None = None,
+) -> dict[str, Any]:
+    sid = resolve_sid(authorization, cookie_sid)
+    return await cms_profile_from_sid(db, sid)
+
+
+async def session_dep(
+    authorization: str = Header(default=""),
+    zola_cms_sid: str | None = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+) -> dict[str, Any]:
+    from main import get_db
+
+    return await cms_profile_from_session(get_db(), authorization, cookie_sid=zola_cms_sid)
+
+
 def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, Any]:
     email = profile.get("email") or ""
     username = profile.get("username") or ""
@@ -140,6 +198,7 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
         "avatar": profile.get("avatar") or "",
         "role": role,
         "is_super": is_super,
+        "is_admin": is_admin(email, username),
     }
     if vip_row:
         out["vip_plan"] = vip_row.get("plan")
@@ -230,12 +289,8 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
             if e.get("verified") and e.get("email")
         }
         username = user.get("login", "")
-        # SUPERUSER ONLY: CMS write = superadmin, defined by GitHub repo permission
-        # (admin/owner on SUPERADMIN_REPO) — env username list is fallback only.
-        is_super = await check_repo_superadmin(client, access_token, username)
-        if not is_super:
-            return redirect_with_error("access_denied", return_to)
         matched_email = next(iter(verified_emails), None)
+        is_super = await check_repo_superadmin(client, access_token, username)
 
     sid = db.create_cms_session(
         {
@@ -248,25 +303,32 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
         },
         SESSION_TTL,
     )
-    return RedirectResponse(build_blog_url(return_to, fragment=f"sid={sid}"))
+    response = RedirectResponse(
+        build_blog_url(return_to, fragment=f"sid={sid}", extra_query={"auth": "success"}),
+    )
+    attach_session_cookie(response, sid)
+    return response
 
 
 @router.get("/auth/me", summary="Current OAuth session", response_model=AuthMeResponse)
-async def auth_me(authorization: str = Header(default="")) -> dict[str, Any]:
+async def auth_me(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
     from main import get_db
 
-    db = get_db()
-    profile = await cms_profile_from_session(db, authorization)
-    return session_role_payload(db, profile)
+    return session_role_payload(get_db(), profile)
 
 
 @router.post("/auth/logout", summary="Invalidate OAuth session", response_model=LogoutResponse)
-async def auth_logout(authorization: str = Header(default="")) -> dict[str, bool]:
+async def auth_logout(
+    response: Response,
+    authorization: str = Header(default=""),
+    zola_cms_sid: str | None = Cookie(default=None, alias=SESSION_COOKIE_NAME),
+) -> dict[str, bool]:
     from main import get_db
 
     try:
-        sid = extract_sid(authorization)
+        sid = resolve_sid(authorization, zola_cms_sid)
+        get_db().delete_cms_session(sid)
     except HTTPException:
-        return {"ok": True}
-    get_db().delete_cms_session(sid)
+        pass
+    clear_session_cookie(response)
     return {"ok": True}

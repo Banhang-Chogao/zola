@@ -5,7 +5,9 @@
 {% block extra_head %}
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
     {% set vz_api = config.extra.vipzone_api_url | default(value="") %}
+    {% set cms_auth = config.extra.cms_auth_url | default(value="") %}
     {% if vz_api %}<meta name="zola-vipzone-api" content="{{ vz_api | safe }}">{% endif %}
+    {% if cms_auth %}<meta name="vipzone-auth-api" content="{{ cms_auth | safe }}">{% endif %}
 {% endblock %}
 
 {% block main %}
@@ -95,7 +97,7 @@
 
         <section class="vipzone__panel" data-vz-panel="picker" hidden>
             <h2 class="vipzone__panel-title">Content Picker</h2>
-            <p class="vipzone__panel-desc">Tự động từ menu Công cụ + bài category Premium. Lọc nhanh bằng ô tìm kiếm.</p>
+            <p class="vipzone__panel-desc">Gán mức truy cập cho từng công cụ / bài premium: Public · Premium · Admin only.</p>
             <label class="vipzone__picker-search-wrap">
                 <span class="visually-hidden">Tìm trong picker</span>
                 <input type="search" class="vipzone__picker-search" data-vz-picker-search placeholder="Tìm công cụ hoặc bài premium…" autocomplete="off">

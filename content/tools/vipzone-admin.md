@@ -1,6 +1,6 @@
 +++
 title = "VIPZone Admin"
-description = "Quản trị VIPZone — yêu cầu thanh toán, mã kích hoạt, người dùng VIP và Content Picker."
+description = "Quản trị VIPZone — thanh toán, mã kích hoạt, VIP users và Content Picker (Public / Premium / Admin only)."
 template = "vipzone-admin.html"
 aliases = ["/vipzone/admin/", "/tools/vipzone-admin/"]
 

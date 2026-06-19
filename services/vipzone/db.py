@@ -270,7 +270,7 @@ class VipzoneDB:
                 revenue += PLAN_PRICE[v["plan"]]
         return {"pending": pending, "active_vips": active, "revenue_estimate": revenue}
 
-    def get_picker(self) -> list[str]:
+    def get_picker(self) -> list[Any]:
         with self._conn() as conn:
             row = conn.execute(
                 "SELECT value FROM settings WHERE key = 'content_picker'"
@@ -280,14 +280,15 @@ class VipzoneDB:
         import json
 
         try:
-            return json.loads(row["value"])
+            data = json.loads(row["value"])
+            return data if isinstance(data, list) else []
         except json.JSONDecodeError:
             return []
 
-    def set_picker(self, urls: list[str]) -> list[str]:
+    def set_picker(self, items: list[Any]) -> list[Any]:
         import json
 
-        payload = json.dumps(urls)
+        payload = json.dumps(items)
         with self._conn() as conn:
             conn.execute(
                 """
@@ -296,7 +297,7 @@ class VipzoneDB:
                 """,
                 (payload, _now()),
             )
-        return urls
+        return items
 
     @staticmethod
     def gen_code16() -> str:

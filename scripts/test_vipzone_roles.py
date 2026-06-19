@@ -45,6 +45,7 @@ class RoleResolutionTests(unittest.TestCase):
 
     def test_no_email_superadmin(self) -> None:
         self.assertFalse(roles.is_supervip("tamsudev.com@gmail.com", None))
+        self.assertFalse(roles.is_superadmin({"email": "tamsudev.com@gmail.com", "username": "other"}))
 
     def test_active_vip_db(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

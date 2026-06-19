@@ -132,6 +132,29 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertTrue(body["is_super"])
         self.assertEqual(body["username"], "banhang-chogao")
 
+    def test_auth_me_email_alone_not_superadmin_cookie(self) -> None:
+        import cms_auth as auth_mod
+
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "tamsudev.com@gmail.com",
+                "username": "other-user",
+                "name": "Owner",
+                "avatar": "",
+                "is_super": False,
+            },
+            3600,
+        )
+        res = self.client.get(
+            "/auth/me",
+            cookies={auth_mod.SESSION_COOKIE_NAME: sid},
+        )
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertEqual(body["role"], "user")
+        self.assertFalse(body["is_super"])
+
     def test_auth_me_vip_role(self) -> None:
         db = get_db()
         db.upsert_vip("vip@example.com", "monthly", "2099-01-01T00:00:00Z")
@@ -162,6 +185,71 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertTrue(res.json()["ok"])
         self.assertIsNone(db.get_cms_session(sid))
 
+    def test_public_picker_endpoint(self) -> None:
+        db = get_db()
+        db.set_picker(["/tools/f-dashboard/"])
+        res = self.client.get("/api/vipzone/picker")
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertIn("items", body)
+        self.assertIn("access", body)
+        if body["items"]:
+            self.assertIn("access", body["items"][0])
+
+    def test_admin_picker_items_put(self) -> None:
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+                "is_super": True,
+            },
+            3600,
+        )
+        headers = {"Authorization": f"Bearer {sid}"}
+        put = self.client.put(
+            "/api/vipzone/admin/picker",
+            headers=headers,
+            json={
+                "items": [
+                    {"url": "/tools/f-dashboard/", "access": "premium"},
+                    {"url": "/tools/l-dashboard/", "access": "admin_only"},
+                ]
+            },
+        )
+        self.assertEqual(put.status_code, 200)
+        self.assertTrue(put.json()["ok"])
+        get = self.client.get("/api/vipzone/admin/picker", headers=headers)
+        self.assertEqual(get.status_code, 200)
+        by_url = {i["url"]: i["access"] for i in get.json()["items"]}
+        self.assertEqual(by_url.get("/tools/f-dashboard/"), "premium")
+        self.assertEqual(by_url.get("/tools/l-dashboard/"), "admin_only")
+
+    def test_vipzone_me_email_alone_not_superadmin_cookie(self) -> None:
+        import cms_auth as auth_mod
+
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "tamsudev.com@gmail.com",
+                "username": "other-user",
+                "name": "Owner",
+                "avatar": "",
+                "is_super": False,
+            },
+            3600,
+        )
+        res = self.client.get(
+            "/api/vipzone/me",
+            cookies={auth_mod.SESSION_COOKIE_NAME: sid},
+        )
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertEqual(body["role"], "user")
+        self.assertFalse(body["is_super"])
+        self.assertFalse(body["is_admin"])
+
     def test_vipzone_me_shares_auth_session(self) -> None:
         db = get_db()
         sid = db.create_cms_session(
@@ -186,9 +274,12 @@ class VipzoneDbTests(unittest.TestCase):
     def test_picker_roundtrip(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             db = VipzoneDB(Path(tmp) / "picker.db")
-            picks = ["/tools/f-dashboard/", "/tools/l-dashboard/"]
-            db.set_picker(picks)
-            self.assertEqual(db.get_picker(), picks)
+            items = [
+                {"url": "/tools/f-dashboard/", "access": "premium"},
+                {"url": "/tools/l-dashboard/", "access": "admin_only"},
+            ]
+            db.set_picker(items)
+            self.assertEqual(db.get_picker(), items)
 
     def test_stats_empty(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

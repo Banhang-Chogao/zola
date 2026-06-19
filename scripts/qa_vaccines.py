@@ -614,6 +614,33 @@ def check_compliance_h1(ctx: Ctx) -> CheckResult:
     return CheckResult("V10", title, PASS)
 
 
+def check_v17_vipzone_edge_safari_auth(ctx: Ctx) -> CheckResult:
+    """V17 — VIPZone admin OAuth loop on Edge/Safari (missing_token / picker hidden)."""
+    title = "VIPZone Edge/Safari auth session + picker UI"
+    admin_js = ctx.read("static/js/vip-admin.js") or ""
+    cms_auth = ctx.read("services/vipzone/cms_auth.py") or ""
+    roles_py = ctx.read("services/vipzone/roles.py") or ""
+    issues = []
+    if admin_js and "localStorage.getItem(CMS_KEY)" not in admin_js:
+        issues.append("vip-admin.js: getSid thiếu localStorage fallback")
+    if admin_js and 'credentials: "include"' not in admin_js:
+        issues.append("vip-admin.js: fetch thiếu credentials:include (cookie session)")
+    if admin_js and 'showView("denied")' in admin_js:
+        issues.append("vip-admin.js: vẫn ẩn UI theo role (denied view)")
+    if cms_auth and 'samesite="none"' not in cms_auth:
+        issues.append("cms_auth.py: thiếu Set-Cookie SameSite=None")
+    if roles_py and "email_is_superadmin" in roles_py:
+        issues.append("roles.py: vẫn có email-based superadmin override")
+    if issues:
+        return CheckResult(
+            "V17", title, FAIL,
+            diagnosis="VIPZone admin login loop / picker ẩn trên Edge-Safari",
+            fix="V17 FIXER: cookie SameSite=None+localStorage sid mirror+credentials:include+always render picker",
+            details=issues,
+        )
+    return CheckResult("V17", title, PASS)
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -624,6 +651,7 @@ DETECTORS = [
     check_v8c_series_registration,
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
+    check_v17_vipzone_edge_safari_auth,
     check_config_toml,
     check_workflow_yaml,
     check_dashboard_json,

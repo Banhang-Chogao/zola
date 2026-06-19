@@ -110,17 +110,27 @@
     } catch (e) { return ""; }
   }
 
+  function authMeHeaders() {
+    var h = {};
+    var sid = getCmsSid();
+    if (sid) h.Authorization = "Bearer " + sid;
+    return h;
+  }
+
+  function isSuperRole(p) {
+    return !!(p && (p.role === "superadmin" || p.role === "supervip" || p.is_super || p.is_superadmin));
+  }
+
   async function fetchSuperuser() {
-    if (!AUTH_API || !getCmsSid()) return false;
+    if (!AUTH_API) return false;
     try {
       var res = await fetch(AUTH_API + "/auth/me", {
-        headers: { Authorization: "Bearer " + getCmsSid() },
-        credentials: "omit",
+        headers: authMeHeaders(),
+        credentials: "include",
         cache: "no-store",
       });
       if (!res.ok) return false;
-      var p = await res.json();
-      return p.role === "superadmin" || !!p.is_super;
+      return isSuperRole(await res.json());
     } catch (e) { return false; }
   }
 
@@ -129,6 +139,69 @@
     if (superCache !== null) return superCache;
     superCache = await fetchSuperuser();
     return superCache;
+  }
+
+  var staffCache = null;
+  async function isStaffUser() {
+    if (staffCache !== null) return staffCache;
+    if (await isSuperuser()) { staffCache = true; return true; }
+    if (!AUTH_API) { staffCache = false; return false; }
+    try {
+      var res = await fetch(AUTH_API + "/auth/me", {
+        headers: authMeHeaders(),
+        credentials: "include",
+        cache: "no-store",
+      });
+      if (!res.ok) { staffCache = false; return false; }
+      var p = await res.json();
+      staffCache = !!(p.is_admin || isSuperRole(p));
+      return staffCache;
+    } catch (e) { staffCache = false; return false; }
+  }
+
+  var pickerAccessCache = null;
+  async function loadPickerAccessMap() {
+    if (pickerAccessCache) return pickerAccessCache;
+    if (API) {
+      try {
+        var data = await fetch(API + "/api/vipzone/picker", { cache: "no-store" }).then(function (r) {
+          return r.ok ? r.json() : null;
+        });
+        if (data && data.access) {
+          pickerAccessCache = data.access;
+          return pickerAccessCache;
+        }
+      } catch (e) {}
+    }
+    try {
+      var store = readStore();
+      var items = store.pickerItems || store.picks || [];
+      var map = {};
+      items.forEach(function (row) {
+        if (typeof row === "string") {
+          map[normPath(row)] = "premium";
+        } else if (row && row.url && row.access && row.access !== "public") {
+          map[normPath(row.url)] = row.access;
+        }
+      });
+      pickerAccessCache = map;
+      return map;
+    } catch (e) {
+      pickerAccessCache = {};
+      return pickerAccessCache;
+    }
+  }
+
+  function legacyPathAccess(p) {
+    if (isUploadTool(p)) return "admin_only";
+    if (pathNeedsGate(p)) return "premium";
+    return "public";
+  }
+
+  async function pathAccessLevel(p) {
+    var map = await loadPickerAccessMap();
+    if (map[p]) return map[p];
+    return legacyPathAccess(p);
   }
 
   function normPath(path) {
@@ -201,10 +274,11 @@
 
   async function initGate() {
     var p = normPath();
-    if (!pathNeedsGate(p)) return;
-    if (await isSuperuser()) return;
-    if (isUploadTool(p)) { showGateOverlay("super"); return; }
-    if (!isVipActive()) showGateOverlay("vip");
+    var access = await pathAccessLevel(p);
+    if (access === "public") return;
+    if (await isStaffUser()) return;
+    if (access === "admin_only") { showGateOverlay("super"); return; }
+    if (access === "premium" && !isVipActive()) showGateOverlay("vip");
   }
 
   async function apiFetch(path, opts) {
@@ -217,7 +291,7 @@
       method: opts.method || "GET",
       headers: headers,
       body: opts.body ? JSON.stringify(opts.body) : undefined,
-      credentials: "omit",
+      credentials: "include",
       cache: "no-store",
     });
     var data = null;
@@ -271,22 +345,15 @@
     var shortcut = document.querySelector("[data-vz-admin-shortcut]");
     if (!shortcut) return;
     var note = shortcut.querySelector("[data-vz-admin-shortcut-note]");
-    if (!getCmsSid()) {
-      // No CMS session → role detection unreliable → keep visible as shortcut.
-      shortcut.hidden = false;
-      shortcut.setAttribute("data-vz-admin-state", "shortcut");
-      return;
-    }
     try {
       var ok = await isSuperuser();
+      shortcut.hidden = false;
       if (ok) {
-        shortcut.hidden = false;
         shortcut.setAttribute("data-vz-admin-state", "verified");
         if (note) note.textContent = "✓ Bạn đã đăng nhập super admin — vào dashboard";
       } else {
-        // Authenticated but not super → hide the button.
-        shortcut.hidden = true;
-        shortcut.setAttribute("data-vz-admin-state", "hidden");
+        shortcut.setAttribute("data-vz-admin-state", "shortcut");
+        if (note) note.textContent = "Admin shortcut · chỉ dành cho superuser";
       }
     } catch (e) {
       // Detection failed → fall back to shortcut visibility.
