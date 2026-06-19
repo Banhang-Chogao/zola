@@ -9,12 +9,6 @@
   var STORE_KEY = "zola-vipzone-store";
   var CMS_KEY = "zola-cms-session-id";
 
-  var SUPER_USERNAMES = ["banhang-chogao"];
-  var SUPER_EMAILS = [
-    "292648126+banhang-chogao@users.noreply.github.com",
-    "tamsudev.com@gmail.com",
-  ];
-
   var PLANS = {
     monthly: { label: "Gói Tháng — 250.000 VND", days: 30, price: 250000 },
     semiannual: { label: "Gói 6 Tháng — 500.000 VND", days: 180, price: 500000 },
@@ -126,9 +120,7 @@
       });
       if (!res.ok) return false;
       var p = await res.json();
-      var u = (p.username || "").toLowerCase();
-      var e = (p.email || "").toLowerCase();
-      return p.is_super || SUPER_USERNAMES.indexOf(u) >= 0 || SUPER_EMAILS.indexOf(e) >= 0;
+      return p.role === "superadmin" || !!p.is_super;
     } catch (e) { return false; }
   }
 

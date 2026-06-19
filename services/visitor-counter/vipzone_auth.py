@@ -33,6 +33,6 @@ async def require_supervip(authorization: str, require_session) -> dict:
     """Validate CMS session and enforce role === supervip."""
     session = await require_session(authorization)
     profile = await fetch_vipzone_me(authorization)
-    if profile.get("role") != "supervip":
-        raise HTTPException(403, "supervip_required")
+    if profile.get("role") not in ("superadmin", "supervip"):
+        raise HTTPException(403, "superadmin_required")
     return session

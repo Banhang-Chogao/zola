@@ -124,6 +124,8 @@ paywall_api_url = "https://blog-paywall-api.onrender.com"
 shortensea_api_url = "https://blog-shortensea-api.onrender.com"
 # VIPZone API — Render FastAPI (blog-vipzone-api)
 vipzone_api_url = "https://blog-vipzone-api.onrender.com"
+# VIPZone Admin (SUPER_ADMIN) trang quản trị. Để trống → fallback {base_url}/tools/vipzone-admin/.
+vipzone_admin_url = ""
 vipzone_momo_monthly = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA"
 vipzone_momo_semiannual = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.

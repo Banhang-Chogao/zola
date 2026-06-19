@@ -41,10 +41,12 @@ services:
         value: 292648126+banhang-chogao@users.noreply.github.com
       - key: ADMIN_USERNAMES
         value: banhang-chogao
-      - key: SUPERVIP_EMAILS
-        value: tamsudev.com@gmail.com
-      - key: SUPERVIP_USERNAMES
+      - key: SUPERADMIN_GITHUB_USERNAMES
         value: banhang-chogao
+      - key: SUPERADMIN_REPO_OWNER
+        value: Banhang-Chogao
+      - key: SUPERADMIN_REPO_NAME
+        value: zola
       - key: VIPZONE_MOMO_MONTHLY
         value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA
       - key: VIPZONE_MOMO_SEMIANNUAL

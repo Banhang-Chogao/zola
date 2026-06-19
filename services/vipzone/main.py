@@ -45,7 +45,7 @@ from pydantic import BaseModel, EmailStr, Field
 from catalog_loader import load_catalog, migrate_picks_sync
 from cms_auth import BACKEND_URL, cms_profile_from_session, is_admin, router as auth_router
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
-from roles import ROLE_SUPERVIP, ROLE_VIP, is_supervip, resolve_role
+from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://banhang-chogao.github.io")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
@@ -111,8 +111,8 @@ async def require_admin(authorization: str = Header(default="")) -> dict[str, An
 
 async def require_supervip(authorization: str = Header(default="")) -> dict[str, Any]:
     profile = await cms_profile_from_session(get_db(), authorization)
-    if not is_supervip(profile.get("email"), profile.get("username")):
-        raise HTTPException(403, "supervip_required")
+    if not is_superadmin(profile):
+        raise HTTPException(403, "superadmin_required")
     return profile
 
 
@@ -120,7 +120,7 @@ def _role_payload(profile: dict[str, Any]) -> dict[str, Any]:
     email = profile.get("email") or ""
     username = profile.get("username") or ""
     vip_row = get_db().get_active_vip(email)
-    role = resolve_role(email, username, is_vip=vip_row is not None)
+    role = resolve_role(bool(profile.get("is_super")), is_vip=vip_row is not None)
     out: dict[str, Any] = {
         "email": profile.get("email"),
         "username": username,
@@ -142,8 +142,8 @@ async def require_vip(authorization: str = Header(default="")) -> dict[str, Any]
     """
     profile = await cms_profile_from_session(get_db(), authorization)
     email = (profile.get("email") or "").lower().strip()
-    if is_supervip(profile.get("email"), profile.get("username")):
-        return {"email": email, "plan": "supervip", "expires_at": "", "role": ROLE_SUPERVIP}
+    if is_superadmin(profile):
+        return {"email": email, "plan": "superadmin", "expires_at": "", "role": ROLE_SUPERADMIN}
     vip_row = get_db().get_active_vip(email)
     if not vip_row:
         raise HTTPException(403, "vip_required")
