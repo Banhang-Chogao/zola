@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T05:02:04Z",
+  "updated_at": "2026-06-19T05:06:23Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "625/652 in range"
+          "detail": "624/651 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "652/652 complete"
+          "detail": "651/651 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "652/652 set"
+          "detail": "651/651 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "652/652 single H1"
+          "detail": "651/651 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "652/652 with lang"
+          "detail": "651/651 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "652/652 ready"
+          "detail": "651/651 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "652/652 pages"
+          "detail": "651/651 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "652/652 pages covered"
+          "detail": "651/651 pages covered"
         },
         {
           "label": "Image weight",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "2 broken / 644 unique",
+          "detail": "2 broken / 643 unique",
           "broken": [
             {
               "source_page": "/baochi/bidv-flagship-private-banking-tphcm/",
@@ -242,7 +242,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "648/652 pages"
+          "detail": "647/651 pages"
         },
         {
           "label": "Skip navigation",
@@ -278,7 +278,7 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 652,
+  "pages_scanned": 651,
   "articles_scanned": 168,
   "fix_log": [
     {
@@ -287,7 +287,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 6 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html → /baochi/bi-kip-xin-visa-han-quoc-5-nam-de/ (Target not found in public/ after zola build)",
-      "at": "2026-06-19T05:02:05Z"
+      "at": "2026-06-19T05:06:23Z"
     }
   ],
   "fix_summary": {
