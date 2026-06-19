@@ -55,6 +55,23 @@
         {% set merge_source = "https://github.com/Banhang-Chogao/zola" %}
     {% endif %}
 
+    {% set ad_v2 = load_data(path="data/ad-report-v2.json", required=false) %}
+    {% if ad_v2 %}
+        {% set ad_v2_score = ad_v2.monetization_score | default(value=0) %}
+        {% set ad_v2_num = ad_v2.report_number | default(value=0) %}
+        {% set ad_v2_density = ad_v2.ad_density.verdict | default(value="unknown") %}
+        {% set ad_v2_grade = ad_v2.ui_review.overall_grade | default(value="—") %}
+        {% set ad_v2_updated = ad_v2.generated_at | default(value="") %}
+        {% set ad_v2_candidates = ad_v2.top_adsense_candidates | length | default(value=0) %}
+    {% else %}
+        {% set ad_v2_score = 0 %}
+        {% set ad_v2_num = 0 %}
+        {% set ad_v2_density = "unknown" %}
+        {% set ad_v2_grade = "—" %}
+        {% set ad_v2_updated = "" %}
+        {% set ad_v2_candidates = 0 %}
+    {% endif %}
+
     {% set compliance_data = load_data(path="data/compliance-score.json", required=false) %}
     {% if compliance_data %}
         {% set compliance_score = compliance_data.score | default(value=0) %}
@@ -555,6 +572,57 @@
                         {% endif %}
                     </footer>
                 </div>
+
+                {# ===== AD-REPORT (V1) ===== #}
+                <article class="insights__report-card insights__report-card--v1">
+                    <div class="insights__report-head">
+                        <span class="insights__report-icon" aria-hidden="true">📊</span>
+                        <div class="insights__report-titles">
+                            <h3 class="insights__report-title">Ad-Report</h3>
+                            <p class="insights__report-desc">Báo cáo vị trí AdSense + tổng hợp tính năng phiên 18–19/06.</p>
+                        </div>
+                    </div>
+                    <div class="insights__report-badges">
+                        <span class="insights__report-badge insights__report-badge--live">LIVE</span>
+                        <span class="insights__report-badge">2 slots</span>
+                        <span class="insights__report-badge insights__report-badge--warn">placeholder</span>
+                    </div>
+                    <a class="insights__report-link" href="{{ config.base_url }}/ad-report/">
+                        Xem Ad-Report <span aria-hidden="true">→</span>
+                    </a>
+                    <footer class="insights__report-foot">
+                        <span>Archive: <code>reports/adsense-ad-placement-report.md</code></span>
+                    </footer>
+                </article>
+
+                {# ===== AD-REPORT V2 ===== #}
+                <article class="insights__report-card insights__report-card--v2">
+                    <div class="insights__report-head">
+                        <span class="insights__report-icon" aria-hidden="true">🔥</span>
+                        <div class="insights__report-titles">
+                            <h3 class="insights__report-title">Ad-Report V2</h3>
+                            <p class="insights__report-desc">Deep UI/UX + phân tích RPM, ad density, top 50 candidates — auto daily 06:00.</p>
+                        </div>
+                    </div>
+                    <div class="insights__report-badges">
+                        <span class="insights__report-badge insights__report-badge--score">Score {{ ad_v2_score }}</span>
+                        <span class="insights__report-badge">#{{ ad_v2_num }}</span>
+                        <span class="insights__report-badge">{{ ad_v2_grade }} UX</span>
+                        <span class="insights__report-badge">{{ ad_v2_candidates }} candidates</span>
+                        {% if ad_v2_density == "too_sparse" %}
+                        <span class="insights__report-badge insights__report-badge--warn">sparse ads</span>
+                        {% endif %}
+                    </div>
+                    <a class="insights__report-link" href="{{ config.base_url }}/ad-report-v2/">
+                        Xem Ad-Report V2 <span aria-hidden="true">→</span>
+                    </a>
+                    <footer class="insights__report-foot">
+                        <span>Density: <strong>{{ ad_v2_density }}</strong></span>
+                        {% if ad_v2_updated %}
+                        <time datetime="{{ ad_v2_updated }}">Cập nhật {{ dt::display_datetime(value=ad_v2_updated) }}</time>
+                        {% endif %}
+                    </footer>
+                </article>
 
                 {# ===== AUTO-MERGE REPORT ===== #}
                 <div class="insights__build insights__merge">
