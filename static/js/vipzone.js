@@ -115,7 +115,7 @@
     try {
       var res = await fetch(AUTH_API + "/auth/me", {
         headers: { Authorization: "Bearer " + getCmsSid() },
-        credentials: "omit",
+        credentials: "include",
         cache: "no-store",
       });
       if (!res.ok) return false;
@@ -139,7 +139,7 @@
     try {
       var res = await fetch(AUTH_API + "/auth/me", {
         headers: { Authorization: "Bearer " + getCmsSid() },
-        credentials: "omit",
+        credentials: "include",
         cache: "no-store",
       });
       if (!res.ok) { staffCache = false; return false; }
@@ -281,7 +281,7 @@
       method: opts.method || "GET",
       headers: headers,
       body: opts.body ? JSON.stringify(opts.body) : undefined,
-      credentials: "omit",
+      credentials: "include",
       cache: "no-store",
     });
     var data = null;
@@ -343,14 +343,13 @@
     }
     try {
       var ok = await isSuperuser();
+      shortcut.hidden = false;
       if (ok) {
-        shortcut.hidden = false;
         shortcut.setAttribute("data-vz-admin-state", "verified");
         if (note) note.textContent = "✓ Bạn đã đăng nhập super admin — vào dashboard";
       } else {
-        // Authenticated but not super → hide the button.
-        shortcut.hidden = true;
-        shortcut.setAttribute("data-vz-admin-state", "hidden");
+        shortcut.setAttribute("data-vz-admin-state", "shortcut");
+        if (note) note.textContent = "Admin shortcut · chỉ dành cho superuser";
       }
     } catch (e) {
       // Detection failed → fall back to shortcut visibility.

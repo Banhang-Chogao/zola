@@ -619,6 +619,16 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 - **Tests:** `python3 -m unittest scripts.test_backend_sha_check -v` (in_sync · outdated ·
   unreachable=unknown · no-backend-sha=unknown · no-main=unknown · prefix-match).
 
+#### V17 — VIPZone admin OAuth loop + Content Picker hidden on Edge/Safari
+
+> Auth/UI vaccine. Match signature → apply FIXER; details: `docs/memory/vaccine-v17-vipzone-edge-safari-auth.md`.
+
+- **Symptom:** `/tools/vipzone-admin/` login loop (`/auth/login` → `missing_token` → retry); Content Picker blank/hidden; superadmin button missing after OAuth on Edge/Safari.
+- **Root cause:** Session only in `sessionStorage` + Bearer header (`credentials:omit`); callback blocked non-super users; no `SameSite=None` HttpOnly cookie for cross-site static↔Render API.
+- **FIXER:** `cms_auth.py` Set-Cookie `zola_cms_sid` (Secure+HttpOnly+SameSite=None) + allow all OAuth users; `roles.py` `tamsudev.com@gmail.com` → superadmin; `vip-admin.js` localStorage sid mirror + `credentials:include` + always render picker (disable actions by role); `vipzone.js` admin button stays visible for superadmin.
+- **Detector:** `scripts/qa_vaccines.py` → `check_v17_vipzone_edge_safari_auth`.
+- **Tests:** `python3 -m unittest services.vipzone.test_main scripts.test_vipzone_roles -v`.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library

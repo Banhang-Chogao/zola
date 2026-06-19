@@ -5,7 +5,9 @@
 {% block extra_head %}
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
     {% set vz_api = config.extra.vipzone_api_url | default(value="") %}
+    {% set cms_auth = config.extra.cms_auth_url | default(value="") %}
     {% if vz_api %}<meta name="zola-vipzone-api" content="{{ vz_api | safe }}">{% endif %}
+    {% if cms_auth %}<meta name="vipzone-auth-api" content="{{ cms_auth | safe }}">{% endif %}
 {% endblock %}
 
 {% block main %}

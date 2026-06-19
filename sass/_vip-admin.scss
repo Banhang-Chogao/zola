@@ -207,6 +207,14 @@
     gap: 0.35rem;
   }
 
+  &.vipzone--readonly {
+    .vipzone__picker-access:disabled,
+    [data-vz-action="save-picker"]:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
+
   .vipzone__picker-access {
     padding: 0.28rem 0.65rem;
     border: 1px solid var(--vz-border, #e6e6e6);
