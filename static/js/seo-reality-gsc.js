@@ -13,9 +13,15 @@
   var SUCCESS_HOLD_MS = 2800;
   var PENDING_MSG = "⏳ Đang chờ dữ liệu GSC";
   var trendMode = "daily";
+  var gscRole = "user";
 
   var root = document.querySelector('[data-widget="seo-reality"]');
   if (!root) return;
+
+  function vipzoneApi() {
+    var m = document.querySelector('meta[name="zola-vipzone-api"]');
+    return m && m.content ? m.content.replace(/\/$/, "") : "";
+  }
 
   function authApi() {
     var m = document.querySelector('meta[name="zola-cms-auth-api"]');
@@ -104,6 +110,51 @@
     el.style.display = on ? "" : "none";
   }
 
+  function isSupervip() {
+    return gscRole === "supervip";
+  }
+
+  function applySupervipUi() {
+    var on = isSupervip();
+    if (!on) {
+      root.querySelectorAll("[data-gsc-supervip]").forEach(function (el) {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      });
+      var disc = root.querySelector("[data-gsc-property-disconnected]");
+      if (disc) disc.remove();
+      return;
+    }
+    root.querySelectorAll("[data-gsc-supervip]").forEach(function (el) {
+      el.hidden = false;
+    });
+    var tools = root.querySelector("[data-gsc-admin-tools]");
+    if (tools) tools.hidden = false;
+    ["[data-gsc-refresh]", "[data-gsc-clear-cache]", "[data-gsc-debug]"].forEach(function (sel) {
+      var btn = root.querySelector(sel);
+      if (btn) btn.hidden = false;
+    });
+  }
+
+  function fetchRole() {
+    var vz = vipzoneApi();
+    var s = sid();
+    if (!vz || !s) return Promise.resolve("user");
+    return fetch(vz + "/api/vipzone/me", {
+      headers: { Authorization: "Bearer " + s },
+      credentials: "omit",
+      cache: "no-store",
+    })
+      .then(function (res) {
+        return res.ok ? res.json() : null;
+      })
+      .then(function (body) {
+        return body && body.role ? body.role : "user";
+      })
+      .catch(function () {
+        return "user";
+      });
+  }
+
   function getSavedProperty() {
     try {
       var raw = localStorage.getItem(PROPERTY_KEY) || "";
@@ -151,7 +202,7 @@
     if (form && hasProperty) form.hidden = true;
 
     var discBtn = root.querySelector("[data-gsc-disconnect]");
-    if (discBtn) discBtn.hidden = !hasProperty;
+    if (discBtn && isSupervip()) discBtn.hidden = !hasProperty;
   }
 
   function applyDataPendingState(propertyId, apiReady) {
@@ -489,6 +540,7 @@
   }
 
   function setupAdmin() {
+    if (!isSupervip()) return;
     var session = sid();
     var api = authApi();
     var form = root.querySelector("[data-gsc-admin]");
@@ -498,6 +550,10 @@
     var discBtn = root.querySelector("[data-gsc-disconnect]");
     var reconnectWrap = root.querySelector("[data-gsc-reconnect]");
     var reconnectBtn = root.querySelector("[data-gsc-reconnect-btn]");
+    var refreshBtn = root.querySelector("[data-gsc-refresh]");
+    var clearBtn = root.querySelector("[data-gsc-clear-cache]");
+    var debugBtn = root.querySelector("[data-gsc-debug]");
+    var debugOut = root.querySelector("[data-gsc-debug-out]");
 
     function showValidation(msg) {
       if (!validation) return;
@@ -596,6 +652,72 @@
       });
     }
 
+    if (refreshBtn && api && session) {
+      refreshBtn.addEventListener("click", function () {
+        refreshBtn.classList.add("is-loading");
+        fetch(api + "/gsc/refresh", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + session },
+        })
+          .then(function (res) {
+            return res.ok ? res.json() : null;
+          })
+          .then(function (body) {
+            refreshBtn.classList.remove("is-loading");
+            if (body) {
+              applyGscBundle(body);
+              cacheSet(body);
+            } else {
+              refreshApiData();
+            }
+          })
+          .catch(function () {
+            refreshBtn.classList.remove("is-loading");
+          });
+      });
+    }
+
+    if (clearBtn && api && session) {
+      clearBtn.addEventListener("click", function () {
+        clearBtn.classList.add("is-loading");
+        fetch(api + "/gsc/cache/clear", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + session },
+        })
+          .catch(function () {})
+          .then(function () {
+            clearBtn.classList.remove("is-loading");
+            try {
+              localStorage.removeItem(CACHE_KEY);
+            } catch (e) {}
+            refreshApiData();
+          });
+      });
+    }
+
+    if (debugBtn && api && session) {
+      debugBtn.addEventListener("click", function () {
+        debugBtn.classList.add("is-loading");
+        fetch(api + "/gsc/debug", {
+          headers: { Authorization: "Bearer " + session },
+          cache: "no-store",
+        })
+          .then(function (res) {
+            return res.ok ? res.json() : null;
+          })
+          .then(function (body) {
+            debugBtn.classList.remove("is-loading");
+            if (debugOut && body) {
+              debugOut.hidden = false;
+              debugOut.textContent = JSON.stringify(body, null, 2);
+            }
+          })
+          .catch(function () {
+            debugBtn.classList.remove("is-loading");
+          });
+      });
+    }
+
     function handleDisconnected() {
       try {
         sessionStorage.removeItem(PENDING_KEY);
@@ -651,7 +773,7 @@
           if (fb && hasApiData(fb)) {
             applyGscBundle(fb);
             cacheSet(fb);
-          } else {
+          } else if (isSupervip()) {
             var prop = getSavedProperty();
             applyPropertyState(prop);
             applyDataPendingState(prop, false);
@@ -659,6 +781,7 @@
         });
       })
       .catch(function () {
+        if (!isSupervip()) return;
         var prop = getSavedProperty();
         applyPropertyState(prop);
         applyDataPendingState(prop, false);
@@ -681,48 +804,53 @@
   }
 
   function init() {
-    var saved = getSavedProperty();
-    if (saved) {
-      applyPropertyState(saved);
-      applyDataPendingState(saved, false);
-    }
+    fetchRole().then(function (role) {
+      gscRole = role || "user";
+      applySupervipUi();
+      setupAdmin();
 
-    var embedded = readEmbedded();
-    var embeddedBundle = bundleFromEmbedded(embedded);
-    if (embeddedBundle && hasApiData(embeddedBundle)) applyGscBundle(embeddedBundle);
-
-    var c = cacheGet();
-    var stale = !c || Date.now() - c.at >= TTL_MS;
-    if (!stale && c.payload && hasApiData(c.payload)) applyGscBundle(c.payload);
-
-    if (stale || !c || !hasApiData(c && c.payload)) refreshApiData();
-
-    bindTrendTabs();
-    setupAdmin();
-
-    var connectedSignal =
-      location.hash.indexOf("gsc_connected=1") >= 0 ||
-      location.search.indexOf("gsc_connected=1") >= 0;
-    if (connectedSignal) {
-      history.replaceState(null, "", location.pathname);
-      try {
-        sessionStorage.removeItem(PENDING_KEY);
-      } catch (e) {}
-      refreshApiData();
-    }
-
-    var errMatch = (location.hash + " " + location.search).match(/gsc_error=([a-z_]+)/i);
-    if (errMatch) {
-      history.replaceState(null, "", location.pathname);
-      var errEl = root.querySelector("[data-gsc-error]");
-      if (errEl) {
-        errEl.hidden = false;
-        errEl.textContent =
-          "Đồng bộ GSC API chưa hoàn tất (" +
-          errMatch[1] +
-          "). Property ID vẫn được lưu cục bộ.";
+      var saved = isSupervip() ? getSavedProperty() : "";
+      if (saved) {
+        applyPropertyState(saved);
+        applyDataPendingState(saved, false);
       }
-    }
+
+      var embedded = readEmbedded();
+      var embeddedBundle = bundleFromEmbedded(embedded);
+      if (embeddedBundle && hasApiData(embeddedBundle)) applyGscBundle(embeddedBundle);
+
+      var c = cacheGet();
+      var stale = !c || Date.now() - c.at >= TTL_MS;
+      if (!stale && c.payload && hasApiData(c.payload)) applyGscBundle(c.payload);
+
+      if (stale || !c || !hasApiData(c && c.payload)) refreshApiData();
+
+      bindTrendTabs();
+
+      var connectedSignal =
+        location.hash.indexOf("gsc_connected=1") >= 0 ||
+        location.search.indexOf("gsc_connected=1") >= 0;
+      if (connectedSignal) {
+        history.replaceState(null, "", location.pathname);
+        try {
+          sessionStorage.removeItem(PENDING_KEY);
+        } catch (e) {}
+        refreshApiData();
+      }
+
+      var errMatch = (location.hash + " " + location.search).match(/gsc_error=([a-z_]+)/i);
+      if (errMatch) {
+        history.replaceState(null, "", location.pathname);
+        var errEl = root.querySelector("[data-gsc-error]");
+        if (errEl) {
+          errEl.hidden = false;
+          errEl.textContent =
+            "Đồng bộ GSC API chưa hoàn tất (" +
+            errMatch[1] +
+            ").";
+        }
+      }
+    });
   }
 
   if (document.readyState === "loading") {

@@ -126,10 +126,13 @@ def build_report() -> dict:
         top = crs[0]
         _, tdisp = _fmt_dt(top.get("updated_at"))
         msg = (c.get("commit", {}).get("message", "") or "").split("\n")[0][:80]
+        raw_run_status = top.get("status", "")
         rows.append({
             "sha": sha[:7],
             "message": msg,
             "status": st,
+            "run_status": raw_run_status,
+            "conclusion": top.get("conclusion"),
             "icon": STATUS_ICON.get(st, "📡"),
             "run_name": top.get("name", ""),
             "run_number": top.get("run_number"),

@@ -6,26 +6,16 @@
  * đang hiển thị. Mọi lỗi network → bỏ qua im lặng (không vỡ UI).
  */
 (function () {
+  var P = window.Theodoi8Parser;
+  if (!P) return;
+
   var el = document.querySelector("[data-theodoi8]");
   if (!el) return;
 
-  var url = el.getAttribute("data-theodoi8-url");
-  if (!url) {
-    var m = document.querySelector('meta[name="zola-base-url"]');
-    url = (m ? m.content.replace(/\/$/, "") : "") + "/data/theodoi8-report.json";
-  }
-
+  var url = el.getAttribute("data-theodoi8-url") || P.reportUrl();
   var TTL = 60000;
   var lastStamp = el.getAttribute("data-theodoi8-stamp") || null;
-
-  // status → class màu + icon fallback (đồng bộ _banner.scss .is-*)
-  var STATUS = {
-    running: { cls: "is-running", icon: "🔄" },
-    success: { cls: "is-success", icon: "✅" },
-    failure: { cls: "is-failure", icon: "❌" },
-    cancelled: { cls: "is-cancelled", icon: "⊘" },
-    idle: { cls: "is-idle", icon: "📡" }
-  };
+  var STATUS = P.STATUS;
 
   function set(sel, text) {
     var n = el.querySelector(sel);

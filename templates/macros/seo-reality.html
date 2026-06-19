@@ -69,7 +69,7 @@
                     </span>
                     Property đã kết nối
                 </span>
-                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-disconnect hidden>Xóa Property ID</button>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-supervip data-gsc-disconnect hidden>Xóa Property ID</button>
             </div>
             <dl class="seo-reality__gsc-conn-meta">
                 <div><dt>Property</dt><dd data-gsc-prop>{{ gsc.property | default(value="—") }}</dd></div>
@@ -103,7 +103,7 @@
             <p class="seo-reality__empty">
                 Nhập <strong>GSC Property ID</strong> (URL prefix đã xác minh) để theo dõi dữ liệu thực.
             </p>
-            <form class="seo-reality__gsc-connect" data-gsc-admin novalidate>
+            <form class="seo-reality__gsc-connect" data-gsc-supervip data-gsc-admin hidden novalidate>
                 <label class="visually-hidden" for="seo-reality-gsc-input">GSC Property ID</label>
                 <input id="seo-reality-gsc-input" type="text" class="seo-reality__gsc-input" data-gsc-property
                        value="https://banhang-chogao.github.io/zola/"
@@ -121,11 +121,25 @@
             </form>
         </div>
 
-        {# Optional OAuth resync for live API (admin) #}
-        <div class="seo-reality__gsc-reconnect" data-gsc-reconnect hidden>
-            <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-reconnect-btn>
-                Đồng bộ GSC API
-            </button>
+        {# SuperVIP — OAuth resync, cache, debug (hidden until role === supervip) #}
+        <div class="seo-reality__gsc-admin-tools" data-gsc-supervip hidden>
+            <div class="seo-reality__gsc-reconnect" data-gsc-reconnect hidden>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-reconnect-btn>
+                    Đồng bộ GSC API
+                </button>
+            </div>
+            <div class="seo-reality__gsc-actions">
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-refresh hidden>
+                    Làm mới dữ liệu
+                </button>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-clear-cache hidden>
+                    Xóa cache GSC
+                </button>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-debug hidden>
+                    GSC Debug
+                </button>
+            </div>
+            <pre class="seo-reality__gsc-debug-out" data-gsc-debug-out hidden></pre>
         </div>
 
         <p class="seo-reality__hint" data-gsc-error hidden role="alert"></p>

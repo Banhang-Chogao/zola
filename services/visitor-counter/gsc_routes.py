@@ -40,13 +40,15 @@ GSC_OAUTH_STATE_PREFIX = "gsc:oauth_state:"
 # Injected from main.py
 _get_redis = None
 _require_session = None
+_require_supervip = None
 _build_blog_url = None
 
 
-def configure(*, get_redis, require_session, build_blog_url):
-    global _get_redis, _require_session, _build_blog_url
+def configure(*, get_redis, require_session, require_supervip, build_blog_url):
+    global _get_redis, _require_session, _require_supervip, _build_blog_url
     _get_redis = get_redis
     _require_session = require_session
+    _require_supervip = require_supervip
     _build_blog_url = build_blog_url
 
 
@@ -199,7 +201,7 @@ async def gsc_oauth_start(
     # here and is never forwarded to Google in the redirect below.
     if not authorization and sid:
         authorization = "Bearer " + sid
-    await _require_session(authorization)
+    await _require_supervip(authorization)
     if not return_to.startswith("/"):
         return_to = "/"
     state = secrets.token_urlsafe(24)
@@ -267,7 +269,7 @@ async def gsc_oauth_callback(code: str = "", state: str = ""):
 
 @router.get("/properties")
 async def gsc_properties(authorization: str = Header(default="")):
-    await _require_session(authorization)
+    await _require_supervip(authorization)
     r = await _get_redis()
     refresh = await _load_refresh_token(r)
     if not refresh:
@@ -282,7 +284,7 @@ async def gsc_properties(authorization: str = Header(default="")):
 
 @router.post("/property")
 async def gsc_set_property(request: Request, authorization: str = Header(default="")):
-    await _require_session(authorization)
+    await _require_supervip(authorization)
     try:
         request_body = await request.json()
     except json.JSONDecodeError:
@@ -305,7 +307,7 @@ async def gsc_set_property(request: Request, authorization: str = Header(default
 
 @router.post("/disconnect")
 async def gsc_disconnect(authorization: str = Header(default="")):
-    await _require_session(authorization)
+    await _require_supervip(authorization)
     r = await _get_redis()
     refresh = await _load_refresh_token(r)
     if refresh and _gsc_configured():
@@ -327,6 +329,36 @@ async def gsc_disconnect(authorization: str = Header(default="")):
 
 @router.post("/refresh")
 async def gsc_force_refresh(authorization: str = Header(default="")):
-    await _require_session(authorization)
+    await _require_supervip(authorization)
     r = await _get_redis()
     return await _refresh_metrics(r, force=True)
+
+
+@router.post("/cache/clear")
+async def gsc_clear_cache(authorization: str = Header(default="")):
+    await _require_supervip(authorization)
+    r = await _get_redis()
+    await r.delete(GSC_CACHE_KEY)
+    await r.delete(GSC_CACHE_AT_KEY)
+    return {"ok": True, "cleared": True}
+
+
+@router.get("/debug")
+async def gsc_debug(authorization: str = Header(default="")):
+    """SuperVIP diagnostics — connection, cache, credentials (no secrets)."""
+    await _require_supervip(authorization)
+    r = await _get_redis()
+    connected = bool(await _load_refresh_token(r))
+    prop = await _load_property(r)
+    cache_at = await r.get(GSC_CACHE_AT_KEY)
+    stale = await _cache_stale(r)
+    cached = await _cache_get(r)
+    return {
+        "configured": _gsc_configured(),
+        "connected": connected,
+        "property": prop or DEFAULT_GSC_PROPERTY_URL,
+        "cache_updated_at": cache_at,
+        "cache_stale": stale,
+        "cache_has_data": cached is not None,
+        "cache_status": (cached or {}).get("status"),
+    }

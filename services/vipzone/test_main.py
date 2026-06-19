@@ -56,6 +56,10 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertEqual(redeem.status_code, 200)
         self.assertEqual(redeem.json()["email"], "vip@example.com")
 
+    def test_vipzone_me_requires_auth(self) -> None:
+        res = self.client.get("/api/vipzone/me")
+        self.assertEqual(res.status_code, 401)
+
     def test_admin_endpoints_require_auth(self) -> None:
         for path, method in (
             ("/api/vipzone/admin/stats", "get"),
