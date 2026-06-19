@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-19T20:36:56Z",
+  "updated_at": "2026-06-19T20:46:50Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 56,
+    "today": 57,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "chore": 33,
       "fix": 49,
       "feature": 80,
-      "chore": 33,
       "unknown": 26,
       "ci": 3,
       "qa": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 518,
+      "pr_title": "chore(vaccine): Daily Vaccine Autofixer run",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/518",
+      "merged_at": "2026-06-19T20:40:22Z",
+      "merge_commit_sha": "1019856d0cc4249e4911987307f14f5237cf18b7",
+      "merge_commit_short": "1019856",
+      "head_branch": "chore/vaccine-autofixer-20260619-202134",
+      "summary_vi": "Automated run of the Daily Vaccine Autofixer (Vaccine V11). Auto-merges when QA passes.",
+      "change_type": "chore",
+      "files_changed": 0,
+      "additions": 0,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 816,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27847474922",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 520,
       "pr_title": "fix(vipzone): load picker catalog from admin API instead of unpublish…",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 815,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27846867512",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 519,
@@ -56,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 814,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27846840095",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 517,
@@ -73,8 +92,8 @@
       "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 815,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27846867512",
+      "build_run_number": 816,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27847474922",
       "build_conclusion": "pending"
     },
     {
@@ -3225,25 +3244,6 @@
       "files_changed": 2,
       "additions": 98,
       "deletions": 3,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 338,
-      "pr_title": "chore: refresh Merge Report data",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/338",
-      "merged_at": "2026-06-17T18:05:33Z",
-      "merge_commit_sha": "60fc0837241358ca163e5bc8bc05d93612f51dc7",
-      "merge_commit_short": "60fc083",
-      "head_branch": "chore/merge-report-data",
-      "summary_vi": "**Automated Merge Report** — cập nhật `data/merge-report.json`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 194,
-      "deletions": 42,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
