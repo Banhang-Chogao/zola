@@ -36,6 +36,8 @@ class VipzoneApiTests(unittest.TestCase):
                 body = res.json()
                 self.assertEqual(body["service"], "vipzone")
                 self.assertEqual(body["status"], "ok")
+                self.assertIn("deployed_sha", body)  # V16 split-brain marker
+                self.assertIn("premium_content", body)
 
     def test_payment_request_and_redeem(self) -> None:
         pay = self.client.post(
@@ -58,6 +60,11 @@ class VipzoneApiTests(unittest.TestCase):
 
     def test_vipzone_me_requires_auth(self) -> None:
         res = self.client.get("/api/vipzone/me")
+        self.assertEqual(res.status_code, 401)
+
+    def test_vipzone_content_requires_auth(self) -> None:
+        # V16 — premium content endpoint must reject unauthenticated callers.
+        res = self.client.get("/api/vipzone/content/premium-han30-01")
         self.assertEqual(res.status_code, 401)
 
     def test_admin_endpoints_require_auth(self) -> None:
@@ -90,6 +97,20 @@ class VipzoneDbTests(unittest.TestCase):
             stats = db.get_stats()
             self.assertEqual(stats["pending"], 0)
             self.assertEqual(stats["active_vips"], 0)
+
+    def test_get_active_vip(self) -> None:
+        # V16 — require_vip relies on this: active+unexpired → row; expired/missing → None.
+        from datetime import datetime, timedelta, timezone
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db = VipzoneDB(Path(tmp) / "vip.db")
+            self.assertIsNone(db.get_active_vip("none@example.com"))
+            future = (datetime.now(timezone.utc) + timedelta(days=10)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            db.upsert_vip("vip@example.com", "monthly", future)
+            self.assertIsNotNone(db.get_active_vip("vip@example.com"))
+            past = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            db.upsert_vip("old@example.com", "monthly", past)
+            self.assertIsNone(db.get_active_vip("old@example.com"))
 
 
 if __name__ == "__main__":
