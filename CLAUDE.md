@@ -923,10 +923,10 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 
 ### Báo cáo PR sau merge (BẮT BUỘC — 2026-06-19)
 
-> Ghi đè format báo cáo cũ (markdown table đơn giản). **KHÔNG** poll/canhc PR liên tục
-> (`subscribe_pr_activity`, `theodoi8`, sleep-loop) trừ khi user chủ động yêu cầu.
-> Khi user gọi merge (`merge`, `gg`, `prm`) hoặc merge xong trong cùng turn → output
-> **một lần** summary cuối, rồi dừng.
+> Ghi đè format báo cáo cũ (markdown table đơn giản). 3 quy tắc BẮT BUỘC:
+> 1. **KHÔNG canh PR liên tục** (`subscribe_pr_activity`, `theodoi8`, sleep-loop) — trừ khi user chủ động yêu cầu.
+> 2. **Luôn output summary cuối sau merge** (khi gọi `merge`/`gg`/`prm` hoặc merge xong cùng turn) — một lần, rồi dừng.
+> 3. **Status = fail/error → đọc §4 Vaccine library** trong `CLAUDE.md` → đề xuất đúng `Vaccine match` + `Suggested fix tool`.
 
 **Thành công** — copy đúng khung (box-drawing table, GMT+7 `HH:mm dd/mm/yyyy`):
 
