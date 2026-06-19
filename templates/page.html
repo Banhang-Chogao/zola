@@ -112,20 +112,6 @@
             </div>
         </header>
 
-        {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
-        <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
-            <div class="ad-banner__image">
-                <img src="{{ get_url(path='img/placeholder/placeholder-wide.svg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
-                <span class="ad-banner__icon" aria-hidden="true">🐻</span>
-            </div>
-            <div class="ad-banner__text">
-                <span class="ad-banner__label">QUẢNG CÁO</span>
-                <h3 class="ad-banner__title">Đặt banner quảng cáo của bạn tại đây</h3>
-                <p class="ad-banner__desc">Nhấp để về trang chủ — Khu vực này sẽ hiển thị quảng cáo khi có hợp đồng.</p>
-            </div>
-            <span class="ad-banner__arrow" aria-hidden="true">→</span>
-        </a>
-
         {% if page.extra.premium %}
         <div class="post-single__content post-single__content--teaser post-single__content--premium-locked">
             {{ page.content | safe }}
@@ -184,6 +170,13 @@
             </details>
             {% endfor %}
         </section>
+        {% endif %}
+
+        {# ===== Cuối bài — lời cảm ơn (thay ad slot) ===== #}
+        {% if not page.extra.premium %}
+        <aside class="post-thanks" aria-label="Lời cảm ơn">
+            <p class="post-thanks__text">Cám ơn bạn đã đọc blog tới cuối bài. Hãy tham khảo thêm nhiều bài viết hay khác trên blog nhé.</p>
+        </aside>
         {% endif %}
 
         {# ===== PREV / NEXT POST NAVIGATION ("Đọc tiếp") =====
