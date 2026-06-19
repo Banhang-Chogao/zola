@@ -100,6 +100,7 @@ menu = [
             { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
             { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
             { url = "$BASE_URL/tools/flight-db", name = "✈️ Flight DB" },
+            { url = "$BASE_URL/tools/bhxh-1-lan", name = "🧮 BHXH 1 lần" },
         ] },
         { name = "Khác", children = [
             { url = "$BASE_URL/tools/bhtn", name = "🛡️ BHTN" },
