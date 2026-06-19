@@ -877,10 +877,17 @@
                     {# TAGS đã chuyển XUỐNG FOOTER (metadata phụ trợ, không phải
                        nội dung chính) — xem block ".footer-tags" trong <footer>. #}
 
+                    {# Google Rank + SEO Reality — wrapped in an overridable block.
+                       Default (article/section pages): render in the sidebar as before.
+                       Homepage (index.html) EMPTIES this block and re-renders both
+                       widgets in a "📊 Khám phá thêm" band below the post list (above
+                       pagination) instead — no duplication, same components moved. #}
+                    {% block sidebar_seo_widgets %}
                     {{ google_rank::widget() }}
 
                     {# SEO Reality Check — honest companion directly below Google Rank #}
                     {{ seo_reality::widget() }}
+                    {% endblock sidebar_seo_widgets %}
                 </aside>
             {% endblock sidebar %}
         </div>
