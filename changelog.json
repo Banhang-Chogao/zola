@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(navbar): gom dropdown \"Công cụ\" thành 3 nhóm accordion (Content/Dashboard/Khác)",
+      "tag": "chore",
+      "lines_added": 303,
+      "lines_removed": 32,
+      "highlights": [
+        "config.toml — children của \"Công cụ\" lồng thêm 1 cấp (mỗi nhóm có children riêng). Các dropdown khác (Bài viết, Giới thiệu) không đổi.",
+        "templates/base.html — submenu render đệ quy: child có children → <button> accordion (aria-haspopup / aria-expanded / aria-controls) + panel; child thường → link như cũ (tương thích ngược).",
+        "sass/_navbar.scss — style nhóm theo S-DNA (bo góc, nền mềm, spacing, hover/focus rõ), xổ/đóng mượt bằng grid 0fr↔1fr, chevron xoay 180°. Mobile: max-height + cuộn nội bộ → không bao giờ chiếm trọn màn",
+        "static/js/navbar-dropdown.js — toggle accordion (click/tap), điều hướng bàn phím (Arrow/Escape), auto-mở + highlight nhóm chứa trang hiện tại (active item).",
+        "zola build PASS (182 pages)"
+      ],
+      "pr": 481
+    },
+    {
+      "date": "2026-06-19",
       "title": "Xoá trang Thống kê (Web Vitals) /stats/ và link footer",
       "tag": "remove",
       "lines_added": 12,
