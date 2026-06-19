@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(sidebar): add Premium Posts S-DNA widget above Featured",
+      "tag": "chore",
+      "lines_added": 255,
+      "lines_removed": 1,
+      "highlights": [
+        "base.html: thêm field premium/price vào posts-data JSON + render section (server render sẵn 10 bài → no-JS fallback + chống CLS); ẨN hẳn section nếu không có bài premium nào.",
+        "sidebar.js: pickPremium() Fisher-Yates shuffle (random mỗi lần load, không trùng lặp) + renderPremium() + format giá kiểu VN (49.000đ).",
+        "_premium-posts.scss: card bo tròn, shadow mềm, hover nhấc nhẹ, icon ring 💎, badge gold — S-DNA flavor; token var(--c-*) đúng light/dark; responsive ≤720px; tôn trọng prefers-reduced-motion."
+      ],
+      "pr": 482
+    },
+    {
+      "date": "2026-06-19",
       "title": "Thêm phím tắt theodoi8 + cập nhật policy: bỏ rào PR thủ công",
       "tag": "chore",
       "lines_added": 113,
