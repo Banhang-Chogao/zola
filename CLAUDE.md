@@ -476,6 +476,74 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   3 scheduled forward-refs · status warn · exit 0`; genuine broken links elsewhere
   still exit 2.
 
+#### V14 — Fabricated topic-cluster cross-links: `/zola/bai-N-<title-slug>/` 404s block the QA gate
+
+> Content vaccine (not a workflow-run bug — the gate is RIGHT, the content is wrong).
+> Match the signature → run the FIXER **by intent**; do NOT re-diagnose, do NOT blanket
+> slug-remap, do NOT rely on `--fix` alone.
+
+- **Symptom:** `QA Gatekeeper` (`qa.yml`) red at the last step — `qa-404-checker.py`
+  prints `… N internal broken … status: fail` and **exit 2** → auto-merge + deploy
+  blocked. `zola build` itself **PASSES** (Zola ignores dangling internal markdown
+  links). The broken hrefs are **root-level** `/zola/bai-<part>-<slugified-title>/`
+  (hub gets a `-pillar` suffix), **NOT** under `/posting/`. The same broken target is
+  referenced from several sibling articles, so the count multiplies (e.g. **40 broken =
+  20 distinct targets × 2–4 refs**). The failure looks **unrelated** to the PR under
+  review and reproduces on **every** branch cut from the same `main` (identical count
+  on independent branches = systemic, from `main` content).
+- **Why the scheduled checker can show 0/pass (false calm):** the scheduled
+  `qa-404-checker.yml` runs with `--fix` and **without** `build_feed_pagination.py`; if
+  it last ran on an **older base** (before the offending articles landed) its committed
+  `data/qa-404-report.json` reads `pass`. The breakage surfaces only in the QA
+  Gatekeeper build. (Same "stale base" family as V9 — confirm the report's `updated_at`
+  vs the offending commit.)
+- **Root cause:** a batch of auto/agent-generated **"topic authority cluster"** articles
+  (e.g. commit *"add 19 topic authority cluster articles"*) embed cross-cluster nav
+  lines — `**Cluster:**`, `**SEO Cluster:**`, `## Liên kết … Cluster` bullet lists —
+  whose URLs were **fabricated** from the series part number + a slugified title:
+  `/{base}/bai-{part}-{slugify(title)}/` instead of the post's **real built URL**
+  `/{base}/posting/{real-slug}/`. The fabricated stub is also **mangled** (truncated,
+  language/section suffix dropped) — real `derado-va-neunda-haedo-tieng-han` → link
+  `bai-2-derado-va-neunda-haedo`. No page **nor `aliases`** builds at `/bai-N-…/` → hard
+  404. (Root-level links that *happen* to match a declared alias — e.g.
+  `/zola/review-lpbank-so-2026/` — resolve; only the `bai-N-` fabrications 404.)
+- **Why `--fix` is INSUFFICIENT:** `qa-404-checker.py --fix` only repoints a 404 when its
+  nearest candidate scores **≥ 0.6** similarity. The mangled `bai-N` stubs fall below
+  that for ~half (Korean/abbreviated slugs → `suggestion: None`), so `--fix` repairs only
+  ~**20 of 40** and resolves to root-alias URLs, not canonical `/posting/`. **Running
+  `--fix` alone does NOT clear the gate.**
+- **FIXER (by intent — never blanket slug-remap):**
+  1. List offenders: `grep -rlE "\(/(zola/)?bai-[a-z0-9-]+/?\)" content/`.
+  2. For **each** link, read its **anchor text + host article** to find the **intended**
+     sibling, then repoint to that post's **real** URL `/zola/posting/<real-slug>/`
+     (verify `content/posting/<real-slug>.md` exists and is **not** `draft = true`).
+  3. If the intended target is a **planned/unwritten** post (e.g. link text *"FAQ điểm
+     thi lớp 10"* with no such article) → **REMOVE** the link; never invent a target.
+  4. **Intent > slug:** do NOT trust stub auto-mapping — `bai-5-faq` *looked* like the
+     banking FAQ post but its text meant a different (grade-10 exam) post.
+  5. Gate locally: `python3 scripts/build_feed_pagination.py` → `build_references.py` →
+     `python3 scripts/paywall_prepare_build.py --strip` → `zola build` → `--restore` →
+     `python3 qa-404-checker.py` must print `0 internal broken … exit 0` (zero
+     `/bai-` links left).
+- **Prevention / Rules:**
+  - Cross-cluster / series / pillar nav links MUST use the target post's **real built
+    URL** (`/zola/posting/<slug>/`) or a **real declared `aliases`** entry — **NEVER** a
+    fabricated `/bai-N-<title>/` scheme. The `/posting/` section prefix is required;
+    root-level only works if the post declares that exact alias.
+  - Any generator emitting cluster/pillar cross-links must derive the URL from the target
+    post's **actual slug/section/aliases**, not from `bai-{part}-{slugify(title)}`.
+  - A clean `zola build` does **not** prove links resolve — only `qa-404-checker.py` (the
+    `qa.yml` gate) catches dangling internal links. Run it locally before trusting CI.
+  - QA-green / conflict-free ≠ **link-safe**: a fresh batch of generated articles can
+    pass build yet inject dozens of 404s. The scheduled `--fix` is a *partial* net only.
+- **Validation / Evidence (19/06/2026):** QA Gatekeeper runs **#1760**
+  (`claude/awesome-gauss-edm7ve`) & **#1761** (`claude/sleepy-carson-13c9yp`) both red —
+  `qa-404-checker.py: 40 internal broken · status fail · exit 2`, while `zola build`
+  passed (396 pages). 19 articles from *"add 19 topic authority cluster articles"*; 40
+  broken = 20 distinct fabricated `/bai-N-…/` targets, each referenced 1–4×. The 07:15
+  scheduled report read `0/pass` because it ran on the pre-batch base. `--fix` dry-run:
+  only **20/40** reached a ≥0.6 suggestion → manual intent-based repoint/removal required.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
