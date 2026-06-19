@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(gsc): S-DNA connect UI cho Google Search Console sidebar",
+      "tag": "chore",
+      "lines_added": 560,
+      "lines_removed": 71,
+      "highlights": [
+        "Input nhập GSC Property ID / Resource ID, validate URL prefix + sc-domain: (báo \"Vui lòng nhập GSC Property ID hợp lệ.\" khi sai). Enter và nút \"Kết nối GSC\" cùng kích hoạt một flow OAuth.",
+        "Success state: check xanh animate (scale-in + draw + glow) + \"Đã kết nối Google Search Console thành công. Chúc mừng!\" — chỉ hiện sau callback OAuth thật (gsc_connected=1) và xác nhận /gsc/metrics, kh",
+        "Connected state: badge \"Đã kết nối\" + checkmark, property ID, last sync, nút \"Gỡ kết nối GSC\".",
+        "Disconnect khôi phục input + hiện \"Đăng nhập lại Google Search Console\" (quick reconnect). OAuth error hiển thị trung thực thay vì giả thành công.",
+        "Styling: card hover-lift, input bo tròn + focus ring, nút pill primary/ ghost, shimmer loading; tôn trọng prefers-reduced-motion. Giữ badge \"GSC API\". Dùng token var(--c-*) (sáng/tối). Keyframes ở roo"
+      ],
+      "pr": 478
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(content): bài \"Lịch sử đóng BHXH bị mất trên VssID\" (SEO A+)",
       "tag": "chore",
       "lines_added": 368,
