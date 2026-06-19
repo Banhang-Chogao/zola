@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "Xoá trang Thống kê (Web Vitals) /stats/ và link footer",
+      "tag": "remove",
+      "lines_added": 12,
+      "lines_removed": 1060,
+      "highlights": [
+        "base.html: gỡ link \"⚡ Web Vitals\" ở footer + script speed-vitals.js + CDN unpkg web-vitals (bỏ luôn 1 external request mỗi page)",
+        "Xoá content/stats/_index.md, templates/stats.html, static/js/stats-page.js, static/js/speed-vitals.js",
+        "Xoá sass/_stats.scss + _stats-sembcorp.scss và 2 @import trong site.scss",
+        "Gỡ .site-footer__stats-link khỏi _reset.scss (class không còn)",
+        "Gỡ tham chiếu /stats/ trong README.md và bài cong-nghe-blog-duy-nguyen.md"
+      ],
+      "pr": 479
+    },
+    {
+      "date": "2026-06-19",
       "title": "docs(claude): luật mới — code xong + mở PR là hết nhiệm vụ, không canh PR",
       "tag": "chore",
       "lines_added": 12,
