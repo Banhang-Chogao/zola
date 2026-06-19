@@ -620,16 +620,56 @@ def apply_fixes(all_fixes):
     return touched
 
 
+def run_vaccine_gate(args):
+    """Run the QA Vaccine Gate (scripts/qa_vaccines.py) and print its summary.
+
+    This is the reinforcement layer: it turns the CLAUDE.md vaccine library
+    (V1..V12 + compliance set) into static detectors that block known recurring
+    bugs before production (Tera kwargs, unbalanced template blocks, broken
+    workflow YAML / config TOML, corrupt dashboard JSON, JS syntax errors,
+    premium posts with no backing private content, …).
+
+    Returns True if the gate FAILED (≥1 vaccine FAIL, or any WARN under
+    --strict-vaccines). Only runs on a full-repo scan (no explicit targets) and
+    never raises — a gate that crashes must not block the pipeline.
+    """
+    if args.no_vaccines or args.targets:
+        return False
+    try:
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import qa_vaccines as qv
+    except Exception as e:  # module missing / import error → don't block
+        print(YELLOW(f"⚠ QA Vaccine Gate bỏ qua (không nạp được module): {e}"))
+        return False
+    try:
+        print()
+        results, summary = qv.run_all(REPO_ROOT)
+        qv.print_report(results)
+        qv.print_summary(summary, strict_warn=args.strict_vaccines)
+        failed = qv.gate_failed(summary, strict_warn=args.strict_vaccines)
+        if failed:
+            print(RED(BOLD(
+                "\n✗ QA Vaccine Gate FAILED — chặn deploy. Sửa các FAIL ở trên trước khi merge.")))
+        return failed
+    except Exception as e:  # detector bug must never crash the gatekeeper
+        print(YELLOW(f"⚠ QA Vaccine Gate bỏ qua (lỗi nội bộ, không chặn): {e}"))
+        return False
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(
-        description="QA Gatekeeper — scan conflict markers, secrets, SEO basic.",
-        epilog="Exit 0 = pass (có thể có warning), 1 = ≥1 error.",
+        description="QA Gatekeeper — scan conflict markers, secrets, SEO basic + QA Vaccine Gate.",
+        epilog="Exit 0 = pass (có thể có warning), 1 = ≥1 error hoặc vaccine FAIL.",
     )
     parser.add_argument("--fix", nargs="?", const="safe", choices=["safe", "perf"],
                         help="Auto-fix mode: 'safe' (frontmatter mechanical) hoặc 'perf' (HTML/template img lazy)")
     parser.add_argument("--perf", action="store_true",
                         help="Chạy thêm performance check (file size, lazy load, CDN count)")
+    parser.add_argument("--no-vaccines", action="store_true",
+                        help="Bỏ qua QA Vaccine Gate (mặc định BẬT khi scan toàn repo)")
+    parser.add_argument("--strict-vaccines", action="store_true",
+                        help="Coi vaccine WARNING như lỗi → chặn deploy ngay cả khi chỉ có warning")
     parser.add_argument("targets", nargs="*",
                         help="Files cụ thể để scan (default: toàn repo)")
     args = parser.parse_args()
@@ -720,19 +760,26 @@ def main():
     else:
         summary = f"Summary: {len(errors)} error(s), {len(warnings)} warning(s)"
 
-    if errors and not fix_mode:
-        print(RED(BOLD(summary)))
-        return 1
     if fix_mode:
         # --fix mode: luôn exit 0 nếu không có internal error → workflow tiếp tục
         # commit + PR. Errors còn lại sẽ được flag bởi non-fix CI run trên PR.
+        # Vaccine Gate KHÔNG chạy ở fix mode (nó chỉ gate full-repo scan non-fix).
         print(GREEN(summary) if fixed_count else YELLOW(summary) if warnings else GREEN(BOLD("✓ Không có gì cần auto-fix")))
         return 0
-    if warnings:
+
+    # ----- Non-fix mode: print the existing QA summary first… -----
+    if errors:
+        print(RED(BOLD(summary)))
+    elif warnings:
         print(YELLOW(summary))
     else:
         print(GREEN(BOLD("✓ All QA checks passed")))
-    return 0
+
+    # …then run the QA Vaccine Gate (full-repo scan only) so its summary prints
+    # LAST — the mandatory production-safety barrier from the CLAUDE.md vaccines.
+    vaccine_failed = run_vaccine_gate(args)
+
+    return 1 if (errors or vaccine_failed) else 0
 
 
 if __name__ == "__main__":

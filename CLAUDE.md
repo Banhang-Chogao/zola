@@ -1705,6 +1705,62 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Tests | `scripts/test_f_dashboard.py` |
 | Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
 
+## QA Vaccine Gate (rào chắn production từ thư viện Vaccine — BẮT BUỘC)
+
+> Lớp **gia cố** của QA Gatekeeper: biến toàn bộ **THƯ VIỆN VACCINE** (§4, V1–V12 +
+> bộ compliance) thành **static detector** chạy TRƯỚC khi lên production. Mục tiêu:
+> chặn các **bug tái phát đã biết** sớm hơn (trước cả `zola build`), với chẩn đoán rõ,
+> cách sửa chính xác và tham chiếu đúng vaccine. **Không** thay/bỏ check QA cũ — chỉ cộng thêm.
+
+### Cách hoạt động
+
+- `python3 qa_check.py` (full-repo scan, non-fix) chạy các check cũ (conflict/secret/SEO/SCSS)
+  **rồi** gọi QA Vaccine Gate và in **「QA Vaccine Summary」** ở CUỐI. Vaccine FAIL → exit 1 →
+  job `qa.yml` đỏ → chặn auto-merge/deploy. Đây là **gate bắt buộc** trước production.
+- Engine: `scripts/qa_vaccines.py` — `load_vaccines()` đếm mọi block `#### V<N> — …` trong
+  CLAUDE.md; `DETECTORS[]` chạy detector tĩnh cho từng vaccine statically-checkable.
+- Phân mức (calibrate để `main` hiện tại = 0 FAIL): **FAIL** = vỡ build/production thật
+  (Tera `replace(old=/new=)` thay vì `from=/to=`, lệch block `{% if/for/block/macro %}`,
+  workflow YAML / `config.toml` hỏng, `data/*.json` dashboard hỏng, JS SyntaxError, bài
+  `premium=true` thiếu `private_content/<id>.md`); **WARN** = consistency/resilience
+  (V5 deploy, đăng ký series, category "Tất cả" đầu mảng, asset thiếu, schema/OG, paywall id);
+  **SKIP** = không áp dụng (node/yaml vắng) hoặc vaccine *process* (V9/V10 PR-time).
+
+### Output (bắt buộc in ở cuối qa-check)
+
+```text
+QA Vaccine Summary
+- Total vaccines loaded:        # số block #### V<N> trong CLAUDE.md
+- Passed:                       # detector PASS
+- Failed:                       # detector FAIL → chặn deploy
+- Warnings:                     # detector WARN
+- Production readiness score:   # 0–100; FAIL → ≤60 = NOT production-safe
+```
+
+### Lệnh
+
+```bash
+python3 qa_check.py                      # QA cũ + Vaccine Gate (in summary cuối) — gate chính
+python3 scripts/qa_vaccines.py           # chỉ Vaccine Gate (report + summary), exit 1 nếu FAIL
+python3 scripts/qa_vaccines.py --json     # JSON cho dashboard/automation
+python3 scripts/qa_vaccines.py --strict-warn   # coi WARN như FAIL
+python3 qa_check.py --no-vaccines         # tắt gate (debug); --strict-vaccines = chặn cả WARN
+python3 -m unittest scripts.test_qa_vaccines -v
+```
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Engine + detectors | `scripts/qa_vaccines.py` |
+| Tích hợp gate | `qa_check.py` (`run_vaccine_gate()` → in summary cuối, fold vào exit code) |
+| Tests | `scripts/test_qa_vaccines.py` (negative: bắt bug synthetic; calibration: `main` = 0 FAIL) |
+| CI | `.github/workflows/qa.yml` (step "Run QA Gatekeeper + Vaccine Gate" + unittest) |
+
+> **Thêm vaccine mới có thể auto-check:** thêm block `#### V<N> — …` vào §4 (engine tự đếm),
+> rồi viết 1 detector trong `DETECTORS[]` (FAIL nếu vỡ build/prod, WARN nếu chỉ consistency) +
+> 1 negative test. Giữ nguyên tắc: detector lỗi nội bộ KHÔNG bao giờ crash gate (bọc try/except).
+
 ## QA Auto Rule Checker
 
 Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi **48 giờ** (`qa-rule-checker.yml`, cron `0 3 */2 * *` UTC).
