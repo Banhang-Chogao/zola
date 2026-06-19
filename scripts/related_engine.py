@@ -13,8 +13,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import numpy as np
-
+# numpy is only needed by build_indexes/pick_related (the embedding pass). Import
+# it lazily so the lightweight parsing helpers (load_posts, parse_post,
+# strip_markdown, cluster maps) can be reused without numpy installed — e.g. by
+# scripts/content_direction.py running in a minimal/offline env.
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_SECTIONS = ("posting", "baochi")
 RELATED_FILE = ROOT / "data" / "related.json"
@@ -291,6 +293,8 @@ def build_indexes(
 ) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
     if len(posts) < 2:
         return {}, []
+
+    import numpy as np
 
     if use_embeddings:
         model = load_model(MODEL_NAME)
