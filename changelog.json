@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "Cập nhật rule báo cáo PR sau merge: 3 quy tắc enforceable (no watch l…",
+      "tag": "chore",
+      "lines_added": 7,
+      "lines_removed": 6,
+      "highlights": [
+        "CLAUDE.md §\"Báo cáo PR sau merge\": chuyển prose → 3 bullet BẮT BUỘC (1) KHÔNG canh PR liên tục; (2) luôn output summary cuối sau merge; (3) fail → đọc §4 Vaccine library → đề xuất Vaccine match + fix ",
+        "shortcuts.md §5: đồng bộ 3 quy tắc trong intro.",
+        "Format success/fail (box-drawing, SHA, GMT+7, deploy note) giữ nguyên — đã khớp spec.",
+        "Build/deploy rules KHÔNG đổi."
+      ],
+      "pr": 490
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(bhtn): trang tính trợ cấp thất nghiệp 2026 (/tools/bhtn/)",
       "tag": "chore",
       "lines_added": 699,
