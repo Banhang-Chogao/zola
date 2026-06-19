@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "docs(shortcuts): thêm phím tắt tieptuc8 — tiếp tục & hoàn tất tất cả …",
+      "tag": "chore",
+      "lines_added": 74,
+      "lines_removed": 0,
+      "highlights": [
+        "Thêm tieptuc8 vào bảng help (§2) + section đầy đủ ngay sau runner.",
+        "Mục đích: 1 lệnh quét sạch backlog việc dở (todo, thay đổi chưa push, commit chưa lên main, PR chưa merge, CI đỏ, macro dở, background task) rồi tiếp tục/hoàn tất từng cái tới khi xong hết.",
+        "Phân biệt rõ với runner (retry 1 việc gần nhất) và theodoi8 (chỉ theo dõi).",
+        "Có bảng backlog, hard rules (P0>P1, không restart, không destructive), scope mở rộng (tieptuc8 content|ci|push)."
+      ],
+      "pr": 499
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(home): move Google Rank + SEO Reality to \"📊 Khám phá thêm\" band …",
       "tag": "refactor",
       "lines_added": 119,
