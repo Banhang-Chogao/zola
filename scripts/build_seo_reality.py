@@ -127,11 +127,18 @@ def _technical_seo() -> dict:
     }
 
 
+def _gsc_connected(gsc: dict | None) -> bool:
+    return isinstance(gsc, dict) and bool(gsc.get("connected"))
+
+
 def _gsc_section(gsc: dict | None) -> dict:
     """Real Google Search Console data if present, else honest 'not connected'."""
-    if not isinstance(gsc, dict) or not gsc:
+    if not _gsc_connected(gsc):
         return {
             "connected": False,
+            "property": None,
+            "updated_at": None,
+            "status": "not_connected",
             "indexed_pages": None,
             "impressions": None,
             "clicks": None,
@@ -140,9 +147,13 @@ def _gsc_section(gsc: dict | None) -> dict:
             "coverage_issues": None,
             "sitemap_status": None,
             "last_crawl": None,
+            "period_days": 28,
         }
     return {
         "connected": True,
+        "property": gsc.get("property"),
+        "updated_at": gsc.get("updated_at"),
+        "status": gsc.get("status", "ok"),
         "indexed_pages": gsc.get("indexed_pages"),
         "impressions": gsc.get("impressions"),
         "clicks": gsc.get("clicks"),
@@ -151,26 +162,56 @@ def _gsc_section(gsc: dict | None) -> dict:
         "coverage_issues": gsc.get("coverage_issues"),
         "sitemap_status": gsc.get("sitemap_status"),
         "last_crawl": gsc.get("last_crawl"),
+        "period_days": gsc.get("period_days", 28),
     }
 
 
 def _indexing_section(gsc: dict | None, sitemap_pages: int) -> dict:
-    if isinstance(gsc, dict) and gsc:
+    if _gsc_connected(gsc):
+        submitted = gsc.get("submitted_pages")
+        indexed = gsc.get("indexed_pages")
+        non_indexed = gsc.get("non_indexed_pages")
+        if non_indexed is None and submitted and indexed is not None:
+            non_indexed = max(0, int(submitted) - int(indexed))
         return {
             "connected": True,
-            "pages_indexed": gsc.get("indexed_pages"),
-            "pages_waiting": gsc.get("pages_waiting"),
+            "pages_indexed": indexed,
+            "pages_non_indexed": non_indexed,
+            "pages_waiting": gsc.get("pages_waiting", non_indexed),
+            "submitted_pages": submitted,
             "avg_delay_days": gsc.get("avg_index_delay_days"),
             "last_crawl": gsc.get("last_crawl"),
+            "sitemap_status": gsc.get("sitemap_status"),
+            "index_health": gsc.get("index_health"),
             "sitemap_pages": sitemap_pages,
         }
     return {
         "connected": False,
         "pages_indexed": None,
+        "pages_non_indexed": None,
         "pages_waiting": None,
+        "submitted_pages": None,
         "avg_delay_days": None,
         "last_crawl": None,
+        "sitemap_status": None,
+        "index_health": None,
         "sitemap_pages": sitemap_pages,
+    }
+
+
+def _gsc_extras(gsc: dict | None) -> dict:
+    if not _gsc_connected(gsc):
+        return {
+            "top_pages": [],
+            "top_queries": [],
+            "trend": {"daily": [], "weekly": [], "monthly": []},
+            "executive_summary": [],
+        }
+    return {
+        "top_pages": gsc.get("top_pages") or [],
+        "top_queries": gsc.get("top_queries") or [],
+        "trend": gsc.get("trend") or {"daily": [], "weekly": [], "monthly": []},
+        "executive_summary": gsc.get("executive_summary") or [],
     }
 
 
@@ -186,7 +227,8 @@ def compute_reality() -> dict:
     sitemap_pages = int(seo.get("pages_scanned") or 0)
     authority = _authority_level(age_days)
     growth = _growth_stage(age_days)
-    gsc_connected = bool(isinstance(gsc, dict) and gsc)
+    gsc_connected = _gsc_connected(gsc)
+    extras = _gsc_extras(gsc)
 
     return {
         "updated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -196,6 +238,10 @@ def compute_reality() -> dict:
         "technical_seo": _technical_seo(),
         "gsc": _gsc_section(gsc),
         "indexing": _indexing_section(gsc, sitemap_pages),
+        "top_pages": extras["top_pages"],
+        "top_queries": extras["top_queries"],
+        "trend": extras["trend"],
+        "executive_summary": extras["executive_summary"],
         "authority": {
             "site_age_days": age_days,
             "site_age_label": _age_label(age_days),
@@ -211,7 +257,7 @@ def compute_reality() -> dict:
             "stage_slug": growth["slug"],
             "stage_vi": growth["stage_vi"],
             # No real traffic/GSC data → growth is time-based only → low confidence.
-            "confidence": "low" if not gsc_connected else "medium",
+            "confidence": "high" if gsc_connected else "low",
             "source": "estimated",
             "note": (
                 "Điểm kỹ thuật có thể cao trong khi traffic còn thấp — điều này "

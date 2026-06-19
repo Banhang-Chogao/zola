@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-19T00:48:07Z",
-  "site_age_days": 4,
-  "site_age_label": "4 ngày",
-  "site_launch_date": "2026-06-15",
+  "updated_at": "2026-06-19T03:02:49Z",
+  "site_age_days": 9666,
+  "site_age_label": "26 năm 5 tháng",
+  "site_launch_date": "2000-01-01",
   "technical_seo": {
     "score": 91,
     "max_score": 100,
@@ -12,6 +12,9 @@
   },
   "gsc": {
     "connected": false,
+    "property": null,
+    "updated_at": null,
+    "status": "not_connected",
     "indexed_pages": null,
     "impressions": null,
     "clicks": null,
@@ -19,30 +22,43 @@
     "avg_position": null,
     "coverage_issues": null,
     "sitemap_status": null,
-    "last_crawl": null
+    "last_crawl": null,
+    "period_days": 28
   },
   "indexing": {
     "connected": false,
     "pages_indexed": null,
+    "pages_non_indexed": null,
     "pages_waiting": null,
+    "submitted_pages": null,
     "avg_delay_days": null,
     "last_crawl": null,
+    "sitemap_status": null,
+    "index_health": null,
     "sitemap_pages": 223
   },
+  "top_pages": [],
+  "top_queries": [],
+  "trend": {
+    "daily": [],
+    "weekly": [],
+    "monthly": []
+  },
+  "executive_summary": [],
   "authority": {
-    "site_age_days": 4,
-    "site_age_label": "4 ngày",
+    "site_age_days": 9666,
+    "site_age_label": "26 năm 5 tháng",
     "referring_domains": null,
     "backlinks": null,
-    "authority_level": "New Site",
-    "authority_level_slug": "new-site",
+    "authority_level": "Strong Authority",
+    "authority_level_slug": "strong-authority",
     "authority_source": "estimated",
     "backlinks_source": "not_measured"
   },
   "growth": {
-    "stage": "Indexing Phase",
-    "stage_slug": "indexing",
-    "stage_vi": "Giai đoạn lập chỉ mục",
+    "stage": "Authority Phase",
+    "stage_slug": "authority",
+    "stage_vi": "Giai đoạn xây thẩm quyền",
     "confidence": "low",
     "source": "estimated",
     "note": "Điểm kỹ thuật có thể cao trong khi traffic còn thấp — điều này hoàn toàn bình thường với một blog mới đang được Google lập chỉ mục."

@@ -11,3 +11,6 @@ python-multipart==0.0.32
 # curl_cffi giả lập TLS fingerprint của Chrome → bypass Cloudflare /
 # Akamai detection. Manylinux wheel có sẵn cho Render Python 3.11.
 curl-cffi==0.15.0
+google-api-python-client==2.169.0
+google-auth==2.40.2
+google-auth-httplib2==0.2.0
