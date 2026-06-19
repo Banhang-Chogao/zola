@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-19T00:58:58Z",
+  "updated_at": "2026-06-19T01:01:32Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 188,
-    "today": 5,
+    "today": 6,
     "this_week": 188,
     "this_month": 188,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 62,
-      "fix": 51,
+      "feature": 63,
+      "fix": 50,
       "content": 8,
       "chore": 44,
       "unknown": 18,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 468,
+      "pr_title": "feat(footer): move categories to compact footer navigation grid",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/468",
+      "merged_at": "2026-06-19T00:56:49Z",
+      "merge_commit_sha": "bdd47e485748f6f75423ca5861c9f1b0edbe306a",
+      "merge_commit_short": "bdd47e4",
+      "head_branch": "feature/footer-categories-redesign",
+      "summary_vi": "Relocate the categories module from the sidebar to the footer and redesign it as a wide, low-profile multi-column link grid. Category names are primary; post counts are secondary inline values in parentheses. Removes gla",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 751,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798755872",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 467,
       "pr_title": "feat: add SEO reality check module below google rank",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 750,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798707910",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 465,
@@ -54,8 +73,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 750,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798707910",
+      "build_run_number": 751,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798755872",
       "build_conclusion": "in_progress"
     },
     {
@@ -73,8 +92,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 750,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798707910",
+      "build_run_number": 751,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798755872",
       "build_conclusion": "in_progress"
     },
     {
@@ -795,8 +814,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 721,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27761180338",
+      "build_run_number": 724,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27762247528",
       "build_conclusion": "success"
     },
     {
@@ -1664,25 +1683,6 @@
       "head_branch": "feat/ai-diagnose-free",
       "summary_vi": "Adds a free-first `ai_diagnose.py` hybrid tier system and integrates it into CI failure handling — no Claude credits consumed by default.",
       "change_type": "feature",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 382,
-      "pr_title": "fix(links): repair 11 broken external URLs flagged by zola check",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/382",
-      "merged_at": "2026-06-17T23:18:08Z",
-      "merge_commit_sha": "80f2c97421e2e9ee302ed78cf540ee1f83dc340f",
-      "merge_commit_short": "80f2c97",
-      "head_branch": "fix/external-broken-links",
-      "summary_vi": "Fixes all 11 broken external links reported by `zola check`.",
-      "change_type": "fix",
       "files_changed": null,
       "additions": null,
       "deletions": null,
