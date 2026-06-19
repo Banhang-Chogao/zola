@@ -2,7 +2,6 @@
 {% import "macros/verified.html" as v %}
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
-{% import "macros/locked.html" as locked %}
 
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
@@ -10,19 +9,19 @@
 {% block robots %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% if term.slug == "premium" and premium_lock %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block main %}
-    {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
-    {% if term.slug == "premium" and premium_lock %}
-    {{ locked::overlay(base_url=config.base_url) }}
-    {% else %}
+    {# Chuyên mục premium: LUÔN hiển thị listing (teaser card) để người đọc duyệt &
+       click vào bài → gặp paywall. KHÔNG ẩn cả chuyên mục. #}
     <header class="section-header">
         <h1 class="section-header__title">{{ taxonomy.name | upper }}: {{ term.name | upper }}</h1>
     </header>
 
     <div class="post-list">
         {% for page in paginator.pages %}
-            <article class="post-card{% if page.extra.premium %} post-card--premium{% endif %}">
+            {% set page_cats = page.taxonomies.categories | default(value=[]) %}
+            {% set is_premium = page.extra.premium | default(value=false) or "premium" in page_cats %}
+            <article class="post-card{% if is_premium %} post-card--premium{% endif %}">
                 <a class="post-card__image" href="{{ page.permalink }}">
-                    {% if page.extra.premium %}
+                    {% if is_premium %}
                         {{ premium::badge() }}
                     {% elif page.taxonomies.categories %}
                         <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
@@ -58,5 +57,4 @@
         <span class="pagination__info">Trang {{ paginator.current_index }} / {{ paginator.number_pagers }}</span>
         {% if paginator.next %}<a class="pagination__btn pagination__btn--next" href="{{ paginator.next }}">Trang sau »</a>{% endif %}
     </nav>
-    {% endif %}
 {% endblock main %}

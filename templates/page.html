@@ -11,21 +11,20 @@
 {% import "macros/momo_support.html" as momo_support %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{# Bài premium đang khóa → locked overlay + noindex. enable_premium_lock ưu tiên
-   hơn premium_hidden (deprecated). #}
+{# Bài premium đang khóa paywall → noindex (chỉ teaser công khai, full content nằm
+   sau thanh toán). enable_premium_lock ưu tiên hơn premium_hidden (deprecated). #}
 {% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% if is_premium and premium_lock %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block main %}
     {% set cats = page.taxonomies.categories | default(value=[]) %}
     {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
-    {% set paywall_active = page.extra.premium | default(value=false) and premium_lock %}
-    {% if is_premium and premium_lock %}
-    {{ locked::overlay(base_url=config.base_url) }}
-    {% else %}
+    {# Paywall hoạt động cho MỌI bài premium (extra.premium HOẶC category "premium")
+       khi lock bật → render teaser + paywall box, KHÔNG render full content. #}
+    {% set paywall_active = is_premium and premium_lock %}
     <article class="post-single">
             <div class="post-single__hero">
-                {% if page.extra.premium %}
+                {% if is_premium %}
                     {{ premium::badge() }}
                 {% elif page.taxonomies.categories %}
                     <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
@@ -174,10 +173,15 @@
         </section>
         {% endif %}
 
-        {# ===== Cuối bài — MoMo tự nguyện (premium mở) hoặc lời cảm ơn (bài thường) ===== #}
-        {% if is_premium and not premium_lock %}
+        {# ===== Cuối bài =====
+           - paywall_active (premium + lock): KHÔNG thêm CTA — paywall box ở trên
+             đã có nút "Thanh toán qua MoMo để đọc tiếp".
+           - premium nhưng lock TẮT: MoMo tự nguyện (donate).
+           - bài thường: lời cảm ơn. #}
+        {% if paywall_active %}
+        {% elif is_premium and not premium_lock %}
         {{ momo_support::card(config=config) }}
-        {% elif not page.extra.premium %}
+        {% elif not is_premium %}
         <aside class="post-thanks" aria-label="Lời cảm ơn">
             <p class="post-thanks__text">Cám ơn bạn đã đọc blog tới cuối bài. Hãy tham khảo thêm nhiều bài viết hay khác trên blog nhé.</p>
         </aside>
@@ -424,13 +428,14 @@
         {# ===== GISCUS COMMENTS ===== #}
         {{ giscus::comments() }}
     </article>
-    {% endif %}
 {% endblock main %}
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
+    {% set cats = page.taxonomies.categories | default(value=[]) %}
+    {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
-    {% if page.extra.premium and premium_lock %}
+    {% if is_premium and premium_lock %}
     <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
     {% endif %}
     <script>

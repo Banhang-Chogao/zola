@@ -143,9 +143,12 @@ cms_auth_url = "https://blog-visitor-api.onrender.com"
 paywall_api_url = "https://blog-paywall-api.onrender.com"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
-# Premium lock overlay + paywall strip. false = bài premium hiển thị đầy đủ + CTA MoMo tự nguyện.
+# Premium paywall STRICT: true = bài premium chỉ hiển thị teaser + paywall box,
+# bắt buộc thanh toán MoMo qua backend để mở khóa nội dung (KHÔNG phải donate tự nguyện).
+# Build chạy paywall_prepare_build.py --strip → full content giữ ở private_content/,
+# static HTML chỉ chứa teaser (no-bypass khi mở URL trực tiếp).
 # Ưu tiên enable_premium_lock; premium_hidden giữ làm fallback (deprecated).
-enable_premium_lock = false
+enable_premium_lock = true
 premium_hidden = false
 momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
