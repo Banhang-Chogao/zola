@@ -7,8 +7,8 @@
  *   unauthenticated chỉ cho 60 req/h/IP → user refresh vài chục lần là hết quota.
  *   Build-time fetch (có token) có 5000 req/h → đủ vô tận, user visit = 0 API call.
  *
- *   File này giờ chỉ còn logic rotation thuần tuý (chuyển slide tự động).
- *   Để bật rotation: đổi data-rotate="true" trên .header-rotator trong base.html.
+ *   File này giờ chỉ còn logic rotation thuần tuý (Welcome ⇄ GitHub status).
+ *   Mặc định 3 phút (180000ms) — cấu hình qua data-interval trên .header-rotator.
  */
 (function () {
   const rotator = document.querySelector(".header-rotator");
@@ -18,7 +18,7 @@
   const slides = rotator.querySelectorAll(".header-rotator__slide");
   if (slides.length < 2) return;
 
-  const interval = parseInt(rotator.dataset.interval, 10) || 3000;
+  const interval = parseInt(rotator.dataset.interval, 10) || 180000;
   let current = 0;
   let paused = false;
 
