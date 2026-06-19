@@ -178,6 +178,58 @@
         font-weight: 700;
         letter-spacing: 0.05em;
       }
+
+      &[type="time"] {
+        cursor: pointer;
+        min-height: 44px;
+      }
+    }
+  }
+
+  &__typeahead {
+    position: relative;
+    width: 100%;
+  }
+
+  &__suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.35rem 0;
+    list-style: none;
+    background: var(--fdb-surface);
+    border: 1px solid var(--fdb-border);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 167, 160, 0.12);
+    z-index: 20;
+    max-height: 200px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &--open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    li {
+      padding: 0.55rem 0.85rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--fdb-ink);
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+
+      &:hover,
+      &.is-active {
+        background: var(--fdb-teal-soft);
+        color: var(--fdb-teal);
+      }
     }
   }
 

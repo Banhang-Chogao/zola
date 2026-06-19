@@ -57,7 +57,7 @@
         </div>
         <div class="flight-db__field">
           <label for="fdb-dep-time">Departure Time</label>
-          <input id="fdb-dep-time" type="text" placeholder="09:30" required autocomplete="off">
+          <input id="fdb-dep-time" type="time" step="60" required autocomplete="off" inputmode="none">
         </div>
         <div class="flight-db__field">
           <label for="fdb-arr-airport">Arrival Airport</label>
@@ -65,7 +65,7 @@
         </div>
         <div class="flight-db__field">
           <label for="fdb-arr-time">Arrival Time</label>
-          <input id="fdb-arr-time" type="text" placeholder="12:45" required autocomplete="off">
+          <input id="fdb-arr-time" type="time" step="60" required autocomplete="off" inputmode="none">
         </div>
         <div class="flight-db__field">
           <label for="fdb-duration">Duration</label>
@@ -83,21 +83,33 @@
       <h2 class="flight-db__card-title">Search Flight</h2>
       <p class="flight-db__card-sub">Tìm theo airport, airline, flight number hoặc combinator.</p>
       <form id="fdb-search-form" class="flight-db__form" novalidate>
-        <div class="flight-db__field">
+        <div class="flight-db__field flight-db__field--typeahead">
           <label for="fdb-s-airport">Airport Code</label>
-          <input id="fdb-s-airport" type="text" maxlength="3" placeholder="ICN" autocomplete="off">
+          <div class="flight-db__typeahead">
+            <input id="fdb-s-airport" type="text" maxlength="3" placeholder="ICN" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fdb-s-airport-list">
+            <ul id="fdb-s-airport-list" class="flight-db__suggestions" role="listbox" hidden></ul>
+          </div>
         </div>
-        <div class="flight-db__field">
+        <div class="flight-db__field flight-db__field--typeahead">
           <label for="fdb-s-airline">Airline Code</label>
-          <input id="fdb-s-airline" type="text" maxlength="2" placeholder="PR" autocomplete="off">
+          <div class="flight-db__typeahead">
+            <input id="fdb-s-airline" type="text" maxlength="2" placeholder="PR" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fdb-s-airline-list">
+            <ul id="fdb-s-airline-list" class="flight-db__suggestions" role="listbox" hidden></ul>
+          </div>
         </div>
-        <div class="flight-db__field">
+        <div class="flight-db__field flight-db__field--typeahead">
           <label for="fdb-s-flight-num">Flight Number</label>
-          <input id="fdb-s-flight-num" type="text" maxlength="6" placeholder="467" autocomplete="off">
+          <div class="flight-db__typeahead">
+            <input id="fdb-s-flight-num" type="text" maxlength="6" placeholder="467" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fdb-s-flight-num-list">
+            <ul id="fdb-s-flight-num-list" class="flight-db__suggestions" role="listbox" hidden></ul>
+          </div>
         </div>
-        <div class="flight-db__field">
+        <div class="flight-db__field flight-db__field--typeahead">
           <label for="fdb-s-combinator">Combinator</label>
-          <input id="fdb-s-combinator" type="text" placeholder="ICNPR467" autocomplete="off">
+          <div class="flight-db__typeahead">
+            <input id="fdb-s-combinator" type="text" placeholder="ICNPR467" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fdb-s-combinator-list">
+            <ul id="fdb-s-combinator-list" class="flight-db__suggestions" role="listbox" hidden></ul>
+          </div>
         </div>
         <div class="flight-db__field flight-db__field--full flight-db__actions">
           <button type="submit" class="flight-db__btn flight-db__btn--primary">Search</button>

@@ -67,6 +67,106 @@
     return Math.floor(diff / 60) + "h " + (diff % 60) + "m";
   }
 
+  function initTimePicker(input) {
+    if (!input) return;
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Tab" || e.key === "Escape") return;
+      e.preventDefault();
+    });
+    input.addEventListener("paste", function (e) { e.preventDefault(); });
+    input.addEventListener("click", function () {
+      if (typeof input.showPicker === "function") {
+        try { input.showPicker(); } catch (_) { /* unsupported */ }
+      }
+    });
+  }
+
+  function buildSuggestionLists() {
+    var flights = getAllFlights().slice().sort(function (a, b) {
+      return (b.addedAt || "").localeCompare(a.addedAt || "");
+    });
+    var lists = { airport: [], airline: [], flightNum: [], combinator: [] };
+    var seen = { airport: {}, airline: {}, flightNum: {}, combinator: {} };
+    flights.forEach(function (f) {
+      [
+        ["airport", f.airportCode],
+        ["airline", f.airlineCode],
+        ["flightNum", f.flightNumber],
+        ["combinator", f.combinator],
+      ].forEach(function (pair) {
+        var key = pair[0];
+        var val = (pair[1] || "").trim();
+        if (!val || seen[key][val]) return;
+        seen[key][val] = true;
+        lists[key].push(val);
+      });
+    });
+    return lists;
+  }
+
+  function initTypeahead(input, listEl, key) {
+    if (!input || !listEl) return;
+    var active = -1;
+
+    function close() {
+      listEl.hidden = true;
+      listEl.classList.remove("flight-db__suggestions--open");
+      input.setAttribute("aria-expanded", "false");
+      active = -1;
+    }
+
+    function render() {
+      var q = (input.value || "").trim();
+      var all = buildSuggestionLists()[key] || [];
+      var matches = q
+        ? all.filter(function (v) { return v.toUpperCase().indexOf(q.toUpperCase()) === 0; })
+        : all.slice(0, 8);
+      matches = matches.slice(0, 8);
+      if (!matches.length) { close(); return; }
+      listEl.innerHTML = matches.map(function (v, i) {
+        return '<li role="option" data-idx="' + i + '" data-val="' + v + '">' + v + "</li>";
+      }).join("");
+      listEl.hidden = false;
+      listEl.classList.add("flight-db__suggestions--open");
+      input.setAttribute("aria-expanded", "true");
+      active = -1;
+    }
+
+    function pick(val) {
+      input.value = val;
+      close();
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    input.addEventListener("input", render);
+    input.addEventListener("focus", render);
+    input.addEventListener("keydown", function (e) {
+      var items = $$("li", listEl);
+      if (!items.length || listEl.hidden) return;
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        active = Math.min(active + 1, items.length - 1);
+        items.forEach(function (el, i) { el.classList.toggle("is-active", i === active); });
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        active = Math.max(active - 1, 0);
+        items.forEach(function (el, i) { el.classList.toggle("is-active", i === active); });
+      } else if (e.key === "Enter" && active >= 0) {
+        e.preventDefault();
+        pick(items[active].dataset.val);
+      } else if (e.key === "Escape") {
+        close();
+      }
+    });
+    listEl.addEventListener("mousedown", function (e) {
+      var li = e.target.closest("li[data-val]");
+      if (li) { e.preventDefault(); pick(li.dataset.val); }
+    });
+    document.addEventListener("click", function (e) {
+      if (!input.contains(e.target) && !listEl.contains(e.target)) close();
+    });
+  }
+
   function loadLS(key) {
     try {
       var raw = localStorage.getItem(key);
@@ -157,8 +257,11 @@
     ["airport", "airline", "flightNum"].forEach(function (k) {
       fields[k].addEventListener("input", syncCombinator);
     });
+    initTimePicker(fields.depTime);
+    initTimePicker(fields.arrTime);
     ["depTime", "arrTime"].forEach(function (k) {
       fields[k].addEventListener("input", syncDuration);
+      fields[k].addEventListener("change", syncDuration);
     });
 
     form.addEventListener("submit", function (e) {
@@ -239,6 +342,11 @@
   function initSearchFlight() {
     var form = $("#fdb-search-form");
     if (!form) return;
+
+    initTypeahead($("#fdb-s-airport"), $("#fdb-s-airport-list"), "airport");
+    initTypeahead($("#fdb-s-airline"), $("#fdb-s-airline-list"), "airline");
+    initTypeahead($("#fdb-s-flight-num"), $("#fdb-s-flight-num-list"), "flightNum");
+    initTypeahead($("#fdb-s-combinator"), $("#fdb-s-combinator-list"), "combinator");
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
