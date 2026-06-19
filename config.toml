@@ -163,8 +163,8 @@ paywall_api_url = "https://blog-paywall-api.onrender.com"
 # ShortenSEA API — short link CRUD, click tracking, approve codes.
 # Để trống = frontend dùng localStorage prototype (dev). Sau deploy Render, dán URL service.
 shortensea_api_url = "https://blog-shortensea-api.onrender.com"
-# VIPZone API — để trống = localStorage prototype (TODO: deploy Render service).
-vipzone_api_url = ""
+# VIPZone API — Render FastAPI (blog-vipzone-api)
+vipzone_api_url = "https://blog-vipzone-api.onrender.com"
 vipzone_momo_monthly = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA"
 vipzone_momo_semiannual = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
