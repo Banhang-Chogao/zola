@@ -40,9 +40,10 @@ Push → auto-merge → GitHub Pages nhận meta `zola-vipzone-api`.
 | POST | `/auth/logout` | Bearer session |
 | POST | `/api/vipzone/payment-request` | Public |
 | POST | `/api/vipzone/redeem` | Public |
+| GET | `/api/vipzone/picker` | Public — sparse access map (`public` / `premium` / `admin_only`) |
 | GET | `/api/vipzone/admin/stats` | CMS admin Bearer |
 | GET | `/api/vipzone/admin/picker` | CMS admin Bearer |
-| PUT | `/api/vipzone/admin/picker` | CMS admin Bearer |
+| PUT | `/api/vipzone/admin/picker` | CMS admin Bearer — body `{ items: [{ url, access }] }` |
 | POST | `/api/vipzone/admin/users/{email}/activate` | CMS admin Bearer |
 
 ## Local dev

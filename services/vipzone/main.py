@@ -22,6 +22,7 @@ Admin (CMS GitHub session — Authorization: Bearer <cms_sid>):
   POST /api/vipzone/admin/users/{email}/deactivate
   POST /api/vipzone/admin/users/{email}/activate
   GET  /api/vipzone/admin/stats
+  GET  /api/vipzone/picker              (public access map)
   GET  /api/vipzone/admin/picker
   PUT  /api/vipzone/admin/picker
 
@@ -43,6 +44,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
 
 from catalog_loader import load_catalog, migrate_picks_sync
+from picker_access import expand_items, items_to_map, migrate_picker_items, sparse_items
 from cms_auth import BACKEND_URL, cms_profile_from_session, is_admin, router as auth_router
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
 from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
@@ -191,8 +193,14 @@ class ActivateIn(BaseModel):
     plan: str = Field(default="monthly", pattern=r"^(monthly|semiannual)$")
 
 
+class PickerItemIn(BaseModel):
+    url: str
+    access: str = Field(default="premium", pattern=r"^(public|premium|admin_only)$")
+
+
 class PickerIn(BaseModel):
-    picks: list[str] = Field(default_factory=list)
+    items: list[PickerItemIn] = Field(default_factory=list)
+    picks: list[str] | None = None  # legacy: URL list → premium
 
 
 class VipContentOut(BaseModel):
@@ -388,22 +396,41 @@ async def admin_picker_catalog(authorization: str = Header(default="")) -> dict[
     return await load_catalog()
 
 
+def _picker_body_to_raw(body: PickerIn) -> list[Any]:
+    if body.items:
+        return [{"url": i.url, "access": i.access} for i in body.items]
+    if body.picks is not None:
+        return list(body.picks)
+    return []
+
+
+@app.get("/api/vipzone/picker")
+async def public_picker_config() -> dict[str, Any]:
+    """Public access map for frontend gating (sparse — non-public only)."""
+    catalog = await load_catalog()
+    raw = get_db().get_picker()
+    gated = sparse_items(migrate_picker_items(raw, catalog))
+    if raw != gated:
+        get_db().set_picker(gated)
+    return {"items": gated, "access": items_to_map(gated)}
+
+
 @app.get("/api/vipzone/admin/picker")
 async def admin_get_picker(authorization: str = Header(default="")) -> dict[str, Any]:
     await require_admin(authorization)
     db = get_db()
     catalog = await load_catalog()
     raw = db.get_picker()
-    picks = migrate_picks_sync(raw, catalog)
-    if picks != raw:
-        db.set_picker(picks)
-    return {"picks": picks}
+    sparse = sparse_items(migrate_picker_items(raw, catalog))
+    if sparse != raw:
+        db.set_picker(sparse)
+    return {"items": expand_items(sparse, catalog)}
 
 
 @app.put("/api/vipzone/admin/picker")
 async def admin_set_picker(body: PickerIn, authorization: str = Header(default="")):
     await require_admin(authorization)
     catalog = await load_catalog()
-    picks = migrate_picks_sync(body.picks, catalog)
-    picks = get_db().set_picker(picks)
-    return {"ok": True, "picks": picks}
+    migrated = migrate_picker_items(_picker_body_to_raw(body), catalog)
+    stored = get_db().set_picker(sparse_items(migrated))
+    return {"ok": True, "items": expand_items(stored, catalog)}

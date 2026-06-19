@@ -272,34 +272,61 @@
     return x.endsWith("/") ? x : x + "/";
   }
 
-  function migrateLocalPicks(picks, catalog) {
-    var valid = {};
-    var slugMap = {};
+  var ACCESS_LEVELS = ["public", "premium", "admin_only"];
+  var ACCESS_LABELS = { public: "Public", premium: "Premium", admin_only: "Admin only" };
+
+  function accessForUrl(items, url) {
+    var u = normPickUrl(url);
+    for (var i = 0; i < (items || []).length; i++) {
+      if (normPickUrl(items[i].url) === u) return items[i].access || "public";
+    }
+    return "public";
+  }
+
+  function mergeCatalogItems(catalog, saved) {
+    var map = {};
+    (saved || []).forEach(function (row) {
+      map[normPickUrl(row.url)] = row.access || "public";
+    });
+    var out = [];
     ["tools", "premium"].forEach(function (g) {
       (catalog[g] || []).forEach(function (item) {
         var url = normPickUrl(item.url);
-        valid[url] = true;
-        if (item.slug) slugMap[item.slug] = url;
+        out.push({ url: url, title: item.title, access: map[url] || "public" });
       });
-    });
-    var drop = { "/categories/premium/": 1, "/insights/": 1 };
-    var out = [];
-    var seen = {};
-    (picks || []).forEach(function (raw) {
-      var p = normPickUrl(raw);
-      if (drop[p]) return;
-      if (valid[p] && !seen[p]) { seen[p] = true; out.push(p); return; }
-      var parts = p.replace(/\/$/, "").split("/");
-      var slug = parts[parts.length - 1] || "";
-      if (slugMap[slug] && !seen[slugMap[slug]]) {
-        seen[slugMap[slug]] = true;
-        out.push(slugMap[slug]);
-      }
     });
     return out;
   }
 
-  function renderPickerGroups(picks) {
+  function migrateLocalItems(raw, catalog) {
+    if (!raw || !raw.length) return mergeCatalogItems(catalog, []);
+    if (typeof raw[0] === "string") {
+      var legacy = raw.map(function (u) { return { url: normPickUrl(u), access: "premium" }; });
+      return mergeCatalogItems(catalog, legacy);
+    }
+    return mergeCatalogItems(catalog, raw);
+  }
+
+  function readPickerItemsFromDom() {
+    var out = [];
+    document.querySelectorAll("[data-vz-picker-row]").forEach(function (row) {
+      var url = row.getAttribute("data-vz-picker-url");
+      var active = row.querySelector(".vipzone__picker-access--active");
+      var access = active ? active.getAttribute("data-vz-access") : "public";
+      if (url) out.push({ url: normPickUrl(url), access: access || "public" });
+    });
+    return out;
+  }
+
+  function accessPills(url, access) {
+    return ACCESS_LEVELS.map(function (level) {
+      var cls = "vipzone__picker-access" + (level === access ? " vipzone__picker-access--active" : "");
+      return '<button type="button" class="' + cls + '" data-vz-access="' + level + '">' +
+        ACCESS_LABELS[level] + "</button>";
+    }).join("");
+  }
+
+  function renderPickerGroups(items) {
     var host = $("[data-vz-picker-catalog]");
     var loading = $("[data-vz-picker-loading]");
     if (!host || !pickerCatalog) return;
@@ -310,24 +337,34 @@
       return (item.title || "").toLowerCase().indexOf(q) >= 0 ||
         (item.url || "").toLowerCase().indexOf(q) >= 0;
     }
-    function groupHtml(title, items) {
-      var filtered = (items || []).filter(match);
+    function groupHtml(title, groupItems) {
+      var filtered = (groupItems || []).filter(match);
       if (!filtered.length) return "";
       var rows = filtered.map(function (item) {
         var url = normPickUrl(item.url);
-        var checked = picks.indexOf(url) >= 0 ? " checked" : "";
-        return '<label class="vipzone__picker-item" data-vz-picker-row><input type="checkbox" value="' +
-          url + '"' + checked + '> <span class="vipzone__picker-item-title">' + item.title + "</span></label>";
+        var level = item.access || "public";
+        return '<div class="vipzone__picker-item" data-vz-picker-row data-vz-picker-url="' + url + '">' +
+          '<span class="vipzone__picker-item-title">' + (item.title || url) + "</span>" +
+          '<div class="vipzone__picker-access-group" role="group" aria-label="Access level">' +
+          accessPills(url, level) + "</div></div>";
       }).join("");
       return '<section class="vipzone__picker-group"><h3 class="vipzone__picker-group-title">' + title +
         '</h3><div class="vipzone__picker-group-list">' + rows + "</div></section>";
     }
-    var html = groupHtml("Công cụ", pickerCatalog.tools) +
-      groupHtml("Premium articles", pickerCatalog.premium);
-    if (!html) {
-      html = '<p class="vipzone__empty">Không có mục khớp tìm kiếm.</p>';
-    }
+    var tools = items.filter(function (i) { return i.url.indexOf("/tools/") === 0; });
+    var premium = items.filter(function (i) { return i.url.indexOf("/tools/") !== 0; });
+    var html = groupHtml("Công cụ", tools) + groupHtml("Premium articles", premium);
+    if (!html) html = '<p class="vipzone__empty">Không có mục khớp tìm kiếm.</p>';
     host.innerHTML = html;
+    host.querySelectorAll(".vipzone__picker-access-group").forEach(function (group) {
+      group.querySelectorAll("[data-vz-access]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          group.querySelectorAll("[data-vz-access]").forEach(function (b) {
+            b.classList.toggle("vipzone__picker-access--active", b === btn);
+          });
+        });
+      });
+    });
   }
 
   async function fetchPickerCatalog() {
@@ -346,19 +383,17 @@
     if (!host) return;
     try {
       pickerCatalog = await fetchPickerCatalog();
-      var picks;
+      var items;
       if (useApi()) {
         var data = await VZ.apiFetch("/api/vipzone/admin/picker");
-        picks = (data.picks || []).map(normPickUrl);
+        items = mergeCatalogItems(pickerCatalog, data.items || []);
       } else {
         var store = VZ.readStore();
-        picks = migrateLocalPicks(store.picks || [], pickerCatalog);
-        if (JSON.stringify(picks) !== JSON.stringify(store.picks || [])) {
-          store.picks = picks;
-          VZ.writeStore(store);
-        }
+        items = migrateLocalItems(store.pickerItems || store.picks || [], pickerCatalog);
+        store.pickerItems = items;
+        VZ.writeStore(store);
       }
-      renderPickerGroups(picks);
+      renderPickerGroups(items);
     } catch (e) {
       if (loading) {
         loading.textContent = "Không tải danh mục picker.";
@@ -448,31 +483,25 @@
       searchInput.addEventListener("input", function () {
         pickerFilter = searchInput.value;
         if (!pickerCatalog) return;
-        var picks = [];
-        document.querySelectorAll(".vipzone__picker-item input:checked").forEach(function (cb) {
-          picks.push(normPickUrl(cb.value));
-        });
-        renderPickerGroups(picks);
+        renderPickerGroups(readPickerItemsFromDom());
       });
     }
 
     var savePicker = $('[data-vz-action="save-picker"]');
     if (savePicker) {
       savePicker.addEventListener("click", async function () {
-        var urls = [];
-        document.querySelectorAll(".vipzone__picker-item input:checked").forEach(function (cb) {
-          urls.push(normPickUrl(cb.value));
+        var items = readPickerItemsFromDom().map(function (i) {
+          return { url: i.url, access: i.access || "public" };
         });
-        if (pickerCatalog) urls = migrateLocalPicks(urls, pickerCatalog);
         if (useApi()) {
           try {
-            await VZ.apiFetch("/api/vipzone/admin/picker", { method: "PUT", body: { picks: urls } });
+            await VZ.apiFetch("/api/vipzone/admin/picker", { method: "PUT", body: { items: items } });
             VZ.toast("Đã lưu Content Picker.", "success");
           } catch (e) { VZ.toast(e.message || "Lỗi.", "error"); }
           return;
         }
         var s = VZ.readStore();
-        s.picks = urls;
+        s.pickerItems = items;
         VZ.writeStore(s);
         VZ.toast("Đã lưu Content Picker.", "success");
       });

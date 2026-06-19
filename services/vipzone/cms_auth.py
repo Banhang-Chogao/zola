@@ -48,6 +48,7 @@ class AuthMeResponse(BaseModel):
     avatar: str = ""
     role: Literal["user", "vip", "superadmin"] = "user"
     is_super: bool = False
+    is_admin: bool = False
     vip_plan: str | None = None
     vip_expires_at: str | None = None
 
@@ -140,6 +141,7 @@ def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, An
         "avatar": profile.get("avatar") or "",
         "role": role,
         "is_super": is_super,
+        "is_admin": is_admin(email, username),
     }
     if vip_row:
         out["vip_plan"] = vip_row.get("plan")

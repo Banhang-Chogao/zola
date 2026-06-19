@@ -66,46 +66,8 @@ async def load_catalog() -> dict[str, Any]:
     return data
 
 
-def migrate_picks_sync(picks: list[str], catalog: dict[str, Any]) -> list[str]:
-    """Inline migration (mirrors scripts/vipzone_picker_catalog.migrate_picks)."""
+def migrate_picks_sync(picks: list[Any], catalog: dict[str, Any]) -> list[dict[str, str]]:
+    """Inline migration (mirrors services/vipzone/picker_access.migrate_picker_items)."""
+    from picker_access import migrate_picker_items
 
-    def norm(u: str) -> str:
-        x = (u or "").strip().replace("https://banhang-chogao.github.io/zola", "")
-        if not x.startswith("/"):
-            x = "/" + x
-        return x if x.endswith("/") else x + "/"
-
-    def slug(p: str) -> str:
-        s = p.strip("/")
-        return s.split("/")[-1] if s else ""
-
-    legacy_drop = {
-        "/categories/premium/",
-        "/categories/premium",
-        "/insights/",
-        "/insights",
-    }
-    valid = {norm(i["url"]) for key in ("tools", "premium") for i in catalog.get(key) or []}
-    slug_map = {
-        (i.get("slug") or slug(i.get("url", ""))): norm(i["url"])
-        for key in ("tools", "premium")
-        for i in catalog.get(key) or []
-        if i.get("url")
-    }
-
-    out: list[str] = []
-    seen: set[str] = set()
-    for raw in picks or []:
-        p = norm(raw)
-        if p in legacy_drop:
-            continue
-        if p in valid:
-            if p not in seen:
-                seen.add(p)
-                out.append(p)
-            continue
-        mapped = slug_map.get(slug(p))
-        if mapped and mapped not in seen:
-            seen.add(mapped)
-            out.append(mapped)
-    return out
+    return migrate_picker_items(picks, catalog)

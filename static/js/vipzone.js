@@ -131,6 +131,69 @@
     return superCache;
   }
 
+  var staffCache = null;
+  async function isStaffUser() {
+    if (staffCache !== null) return staffCache;
+    if (await isSuperuser()) { staffCache = true; return true; }
+    if (!AUTH_API || !getCmsSid()) { staffCache = false; return false; }
+    try {
+      var res = await fetch(AUTH_API + "/auth/me", {
+        headers: { Authorization: "Bearer " + getCmsSid() },
+        credentials: "omit",
+        cache: "no-store",
+      });
+      if (!res.ok) { staffCache = false; return false; }
+      var p = await res.json();
+      staffCache = !!(p.is_admin || p.is_super || p.role === "superadmin");
+      return staffCache;
+    } catch (e) { staffCache = false; return false; }
+  }
+
+  var pickerAccessCache = null;
+  async function loadPickerAccessMap() {
+    if (pickerAccessCache) return pickerAccessCache;
+    if (API) {
+      try {
+        var data = await fetch(API + "/api/vipzone/picker", { cache: "no-store" }).then(function (r) {
+          return r.ok ? r.json() : null;
+        });
+        if (data && data.access) {
+          pickerAccessCache = data.access;
+          return pickerAccessCache;
+        }
+      } catch (e) {}
+    }
+    try {
+      var store = readStore();
+      var items = store.pickerItems || store.picks || [];
+      var map = {};
+      items.forEach(function (row) {
+        if (typeof row === "string") {
+          map[normPath(row)] = "premium";
+        } else if (row && row.url && row.access && row.access !== "public") {
+          map[normPath(row.url)] = row.access;
+        }
+      });
+      pickerAccessCache = map;
+      return map;
+    } catch (e) {
+      pickerAccessCache = {};
+      return pickerAccessCache;
+    }
+  }
+
+  function legacyPathAccess(p) {
+    if (isUploadTool(p)) return "admin_only";
+    if (pathNeedsGate(p)) return "premium";
+    return "public";
+  }
+
+  async function pathAccessLevel(p) {
+    var map = await loadPickerAccessMap();
+    if (map[p]) return map[p];
+    return legacyPathAccess(p);
+  }
+
   function normPath(path) {
     var p = path || location.pathname;
     if (BASE && p.indexOf(BASE) === 0) p = p.slice(BASE.length) || "/";
@@ -201,10 +264,11 @@
 
   async function initGate() {
     var p = normPath();
-    if (!pathNeedsGate(p)) return;
-    if (await isSuperuser()) return;
-    if (isUploadTool(p)) { showGateOverlay("super"); return; }
-    if (!isVipActive()) showGateOverlay("vip");
+    var access = await pathAccessLevel(p);
+    if (access === "public") return;
+    if (await isStaffUser()) return;
+    if (access === "admin_only") { showGateOverlay("super"); return; }
+    if (access === "premium" && !isVipActive()) showGateOverlay("vip");
   }
 
   async function apiFetch(path, opts) {
