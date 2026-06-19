@@ -1,6 +1,7 @@
 {% import "macros/verified.html" as v_author %}
 {% import "macros/hot-search.html" as hot_search %}
 {% import "macros/google-rank.html" as google_rank %}
+{% import "macros/seo-reality.html" as seo_reality %}
 {% import "macros/img.html" as img %}
 {% import "macros/footer-countdown.html" as footer_countdown %}
 {% import "macros/datetime.html" as dt %}
@@ -828,6 +829,9 @@
                     </section>
 
                     {{ google_rank::widget() }}
+
+                    {# SEO Reality Check — honest companion directly below Google Rank #}
+                    {{ seo_reality::widget() }}
                 </aside>
             {% endblock sidebar %}
         </div>

@@ -1,0 +1,157 @@
+{# SEO Reality Check — honest companion below the Google Rank widget.
+   Separates internal technical SEO readiness from real Google search data.
+   Source of truth: data/seo-reality.json (scripts/build_seo_reality.py). #}
+{% import "macros/datetime.html" as dt %}
+{% macro widget() %}
+{% set sr = load_data(path="data/seo-reality.json", required=false) %}
+{% if sr and sr.technical_seo %}
+{% set tech = sr.technical_seo %}
+{% set gsc = sr.gsc %}
+{% set idx = sr.indexing %}
+{% set auth = sr.authority %}
+{% set growth = sr.growth %}
+<section class="sidebar-block sidebar-block--seo-reality" data-widget="seo-reality"
+         data-growth-stage="{{ growth.stage_slug | default(value='indexing') }}">
+    <h3 class="sidebar-label">SEO REALITY CHECK</h3>
+
+    <p class="seo-reality__intro">
+        Phân biệt <strong>mức độ sẵn sàng kỹ thuật</strong> với <strong>hiệu quả tìm kiếm thực tế</strong>
+        trên Google. Điểm kỹ thuật cao <em>không</em> đồng nghĩa Top 1, đã được lập chỉ mục
+        hay có nhiều traffic.
+    </p>
+
+    {# 1 — TECHNICAL SEO READINESS (real internal score) #}
+    <article class="seo-reality__card">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Technical SEO Score</h4>
+            <span class="seo-reality__src seo-reality__src--internal">INTERNAL</span>
+        </header>
+        <p class="seo-reality__metric">
+            <span class="seo-reality__metric-num">{{ tech.score }}</span>
+            <span class="seo-reality__metric-max">/ {{ tech.max_score | default(value=100) }}</span>
+            {% if tech.grade %}<span class="seo-reality__metric-tag">{{ tech.grade }}</span>{% endif %}
+        </p>
+        <p class="seo-reality__card-note">
+            Đo metadata, schema, internal linking & chất lượng kỹ thuật SEO.
+            <strong>Không</strong> đo thứ hạng Google, traffic, thẩm quyền hay tốc độ lập chỉ mục.
+        </p>
+    </article>
+
+    {# 2 — GOOGLE SEARCH CONSOLE (real data only, never faked) #}
+    <article class="seo-reality__card">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Google Search Console</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+        {% if gsc.connected %}
+        <dl class="seo-reality__grid">
+            <div><dt>Indexed pages</dt><dd>{{ gsc.indexed_pages | default(value="—") }}</dd></div>
+            <div><dt>Impressions</dt><dd>{{ gsc.impressions | default(value="—") }}</dd></div>
+            <div><dt>Clicks</dt><dd>{{ gsc.clicks | default(value="—") }}</dd></div>
+            <div><dt>CTR</dt><dd>{{ gsc.ctr | default(value="—") }}</dd></div>
+            <div><dt>Avg. position</dt><dd>{{ gsc.avg_position | default(value="—") }}</dd></div>
+            <div><dt>Coverage issues</dt><dd>{{ gsc.coverage_issues | default(value="—") }}</dd></div>
+            <div><dt>Sitemap</dt><dd>{{ gsc.sitemap_status | default(value="—") }}</dd></div>
+            <div><dt>Last crawl</dt><dd>{% if gsc.last_crawl %}{{ dt::display_date(value=gsc.last_crawl) }}{% else %}—{% endif %}</dd></div>
+        </dl>
+        {% else %}
+        <p class="seo-reality__empty">
+            <strong>Chưa kết nối Google Search Console.</strong>
+            Dữ liệu lập chỉ mục & thứ hạng thực tế sẽ hiển thị ở đây sau khi kết nối.
+        </p>
+        {% endif %}
+    </article>
+
+    {# 3 — INDEXING STATUS #}
+    <article class="seo-reality__card">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Indexing status</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+        {% if idx.connected %}
+        <dl class="seo-reality__grid">
+            <div><dt>Pages indexed</dt><dd>{{ idx.pages_indexed | default(value="—") }}</dd></div>
+            <div><dt>Waiting</dt><dd>{{ idx.pages_waiting | default(value="—") }}</dd></div>
+            <div><dt>Avg. delay</dt><dd>{% if idx.avg_delay_days %}{{ idx.avg_delay_days }} ngày{% else %}—{% endif %}</dd></div>
+            <div><dt>Last crawl</dt><dd>{% if idx.last_crawl %}{{ dt::display_date(value=idx.last_crawl) }}{% else %}—{% endif %}</dd></div>
+        </dl>
+        {% else %}
+        <p class="seo-reality__empty">
+            <strong>Unknown</strong> — kết nối Google Search Console để xem dữ liệu lập chỉ mục thực.
+        </p>
+        {% endif %}
+        {% if idx.sitemap_pages %}
+        <p class="seo-reality__footrow">
+            <span class="seo-reality__footrow-label">Trong sitemap</span>
+            <span class="seo-reality__footrow-val">{{ idx.sitemap_pages }} trang
+                <span class="seo-reality__src seo-reality__src--internal">INTERNAL</span>
+            </span>
+        </p>
+        <p class="seo-reality__hint">Số trang khai báo trong sitemap — <em>chưa</em> phải số Google đã lập chỉ mục.</p>
+        {% endif %}
+    </article>
+
+    {# 4 — AUTHORITY METRICS (estimated age; backlinks not measured) #}
+    <article class="seo-reality__card">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Authority</h4>
+            <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+        </header>
+        <dl class="seo-reality__rows">
+            <div>
+                <dt>Tuổi site</dt>
+                <dd>{{ auth.site_age_label | default(value="—") }}
+                    <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+                </dd>
+            </div>
+            <div>
+                <dt>Referring domains</dt>
+                <dd>{% if auth.referring_domains %}{{ auth.referring_domains }}{% else %}<span class="seo-reality__na">Chưa đo</span>{% endif %}
+                    <span class="seo-reality__src seo-reality__src--none">NOT MEASURED</span>
+                </dd>
+            </div>
+            <div>
+                <dt>Backlinks</dt>
+                <dd>{% if auth.backlinks %}{{ auth.backlinks }}{% else %}<span class="seo-reality__na">Chưa đo</span>{% endif %}
+                    <span class="seo-reality__src seo-reality__src--none">NOT MEASURED</span>
+                </dd>
+            </div>
+            <div>
+                <dt>Authority level</dt>
+                <dd><strong>{{ auth.authority_level | default(value="New Site") }}</strong>
+                    <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+                </dd>
+            </div>
+        </dl>
+        <p class="seo-reality__hint">Backlink / referring-domain cần API ngoài (chưa kết nối). Authority level ước tính theo tuổi site.</p>
+    </article>
+
+    {# 5 — ORGANIC GROWTH STAGE (estimated from site age) #}
+    <article class="seo-reality__card seo-reality__card--growth">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Organic growth stage</h4>
+            <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+        </header>
+        <p class="seo-reality__stage">
+            <span class="seo-reality__stage-name">{{ growth.stage | default(value="Indexing Phase") }}</span>
+            {% if growth.stage_vi %}<span class="seo-reality__stage-vi">{{ growth.stage_vi }}</span>{% endif %}
+        </p>
+        <p class="seo-reality__confidence">
+            Độ tin cậy:
+            <span class="seo-reality__confidence-val seo-reality__confidence-val--{{ growth.confidence | default(value='low') }}">
+                {% if growth.confidence == "high" %}Cao{% elif growth.confidence == "medium" %}Trung bình{% else %}Thấp{% endif %}
+            </span>
+        </p>
+        {% if growth.note %}<p class="seo-reality__card-note">{{ growth.note }}</p>{% endif %}
+    </article>
+
+    <p class="seo-reality__tooltip">{{ sr.tooltip }}</p>
+
+    {% if sr.updated_at %}
+    <p class="seo-reality__updated">
+        <time datetime="{{ sr.updated_at }}">Cập nhật {{ dt::display_date(value=sr.updated_at) }}</time>
+    </p>
+    {% endif %}
+</section>
+{% endif %}
+{% endmacro %}

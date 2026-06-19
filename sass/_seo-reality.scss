@@ -1,0 +1,304 @@
+/* ===== SEO REALITY CHECK — honest companion below Google Rank =====
+   Calm enterprise cards. Separates INTERNAL technical readiness from real
+   Google (GSC) data and ESTIMATED authority/growth. Truth > vanity metrics. */
+.sidebar-block--seo-reality {
+  .seo-reality__intro {
+    margin: 0 0 1rem;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--c-text-muted);
+
+    strong { color: var(--c-text-heading); font-weight: 700; }
+    em { font-style: italic; }
+  }
+
+  .seo-reality__card {
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    padding: 0.85rem 0.9rem;
+    margin-bottom: 0.7rem;
+
+    &:last-of-type { margin-bottom: 0.4rem; }
+  }
+
+  .seo-reality__card--growth {
+    background: color-mix(in srgb, var(--c-accent) 6%, var(--c-bg-soft));
+    border-color: color-mix(in srgb, var(--c-accent) 22%, var(--c-border));
+  }
+
+  .seo-reality__card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .seo-reality__card-title {
+    margin: 0;
+    font-family: $font-heading;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--c-text-heading);
+  }
+
+  /* ---- source / confidence chips ---- */
+  .seo-reality__src {
+    flex: none;
+    display: inline-block;
+    padding: 0.12rem 0.4rem;
+    font-family: $font-meta;
+    font-size: 0.56rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    border-radius: 5px;
+    border: 1px solid var(--c-border-strong);
+    background: var(--c-bg-surface);
+    color: var(--c-text-muted);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .seo-reality__src--internal {
+    color: var(--c-accent);
+    border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
+    background: color-mix(in srgb, var(--c-accent) 10%, var(--c-bg-surface));
+  }
+
+  .seo-reality__src--gsc {
+    color: color-mix(in srgb, var(--c-accent) 70%, var(--c-text-muted));
+    border-color: color-mix(in srgb, var(--c-accent) 30%, var(--c-border));
+    background: color-mix(in srgb, var(--c-accent) 6%, var(--c-bg-surface));
+  }
+
+  .seo-reality__src--estimated {
+    color: color-mix(in srgb, var(--c-warning) 78%, #6b4a00);
+    border-color: color-mix(in srgb, var(--c-warning) 45%, var(--c-border));
+    background: color-mix(in srgb, var(--c-warning) 14%, var(--c-bg-surface));
+  }
+
+  .seo-reality__src--none {
+    color: var(--c-text-muted);
+    border-color: var(--c-border);
+    background: var(--c-bg-surface);
+    opacity: 0.85;
+  }
+
+  /* ---- 1. technical score ---- */
+  .seo-reality__metric {
+    margin: 0 0 0.4rem;
+    line-height: 1;
+    font-family: $font-heading;
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .seo-reality__metric-num {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--c-accent);
+  }
+
+  .seo-reality__metric-max {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--c-text-muted);
+  }
+
+  .seo-reality__metric-tag {
+    margin-left: auto;
+    font-family: $font-meta;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--c-success);
+  }
+
+  .seo-reality__card-note {
+    margin: 0;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--c-text-muted);
+
+    strong { color: var(--c-text-body); font-weight: 700; }
+  }
+
+  /* ---- 2/3. metric grids ---- */
+  .seo-reality__grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 0.75rem;
+
+    div { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+
+    dt {
+      margin: 0;
+      font-family: $font-meta;
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: var(--c-text-muted);
+    }
+
+    dd {
+      margin: 0;
+      font-family: $font-heading;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--c-text-heading);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  /* ---- 4. authority rows ---- */
+  .seo-reality__rows {
+    margin: 0 0 0.5rem;
+    display: grid;
+    gap: 0.3rem;
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--c-border) 55%, transparent);
+    }
+
+    div:last-child { border-bottom: none; }
+
+    dt {
+      margin: 0;
+      font-family: $font-meta;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--c-text-muted);
+    }
+
+    dd {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--c-text-heading);
+      text-align: right;
+    }
+  }
+
+  .seo-reality__na {
+    font-weight: 600;
+    color: var(--c-text-muted);
+  }
+
+  /* ---- 5. growth stage ---- */
+  .seo-reality__stage {
+    margin: 0 0 0.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .seo-reality__stage-name {
+    font-family: $font-heading;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--c-text-heading);
+  }
+
+  .seo-reality__stage-vi {
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+  }
+
+  .seo-reality__confidence {
+    margin: 0 0 0.45rem;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+  }
+
+  .seo-reality__confidence-val {
+    font-weight: 700;
+    &--low { color: var(--c-warning); }
+    &--medium { color: var(--c-accent); }
+    &--high { color: var(--c-success); }
+  }
+
+  /* ---- empty / honest states ---- */
+  .seo-reality__empty {
+    margin: 0;
+    font-size: 0.74rem;
+    line-height: 1.5;
+    color: var(--c-text-muted);
+
+    strong { color: var(--c-text-heading); font-weight: 700; }
+  }
+
+  .seo-reality__footrow {
+    margin: 0.55rem 0 0;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--c-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.74rem;
+  }
+
+  .seo-reality__footrow-label {
+    font-family: $font-meta;
+    font-weight: 600;
+    color: var(--c-text-muted);
+  }
+
+  .seo-reality__footrow-val {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 700;
+    color: var(--c-text-heading);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .seo-reality__hint {
+    margin: 0.4rem 0 0;
+    font-size: 0.66rem;
+    line-height: 1.45;
+    color: var(--c-text-muted);
+
+    em { font-style: italic; }
+  }
+
+  .seo-reality__tooltip {
+    margin: 0.5rem 0 0;
+    padding: 0.6rem 0.7rem;
+    border-radius: 10px;
+    background: var(--c-bg-soft);
+    border: 1px solid var(--c-border);
+    font-size: 0.68rem;
+    line-height: 1.5;
+    color: var(--c-text-muted);
+  }
+
+  .seo-reality__updated {
+    margin: 0.5rem 0 0;
+    font-size: 0.62rem;
+    color: var(--c-text-muted);
+    font-family: $font-meta;
+  }
+}
+
+@media (max-width: 720px) {
+  .sidebar-block--seo-reality {
+    .seo-reality__metric-num { font-size: 1.8rem; }
+    .seo-reality__grid { grid-template-columns: 1fr 1fr; }
+  }
+}
