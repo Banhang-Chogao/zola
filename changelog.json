@@ -2,6 +2,49 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(baochi): bài \"Điểm thi tuyển sinh lớp 10 TP.HCM 2026\" (SEO A+)",
+      "tag": "chore",
+      "lines_added": 248,
+      "lines_removed": 2,
+      "highlights": [
+        "Nội dung: hơn 151.000 thí sinh; cách tra cứu điểm; điểm chuẩn chuyên/tích hợp vừa công bố (chuyên Sinh Lê Hồng Phong 39,25, Trần Đại Nghĩa 37,75, tích hợp Nguyễn Thị Minh Khai 34,25); cách tính điểm x",
+        "Nguồn thật, có dẫn: Tuổi Trẻ, VietnamNet, Dân Trí, chinhphu.vn — không bịa số liệu (hard rule E-E-A-T).",
+        "SEO QA: 100/100 (A+) · 1339 từ · 5 FAQ ([[extra.faq]]) · ≥5 internal link + external nguồn · disclosure/miễn trừ.",
+        "categories = [\"Tất cả\", \"Giáo dục\", \"Báo chí\"] (đúng rule bb/baochi); thêm category \"Giáo dục\" vào categories.json.",
+        "Regenerate data/references.json (182 posts)."
+      ],
+      "pr": 489
+    },
+    {
+      "date": "2026-06-19",
+      "title": "Cập nhật rule báo cáo PR sau merge: 3 quy tắc enforceable (no watch l…",
+      "tag": "chore",
+      "lines_added": 7,
+      "lines_removed": 6,
+      "highlights": [
+        "CLAUDE.md §\"Báo cáo PR sau merge\": chuyển prose → 3 bullet BẮT BUỘC (1) KHÔNG canh PR liên tục; (2) luôn output summary cuối sau merge; (3) fail → đọc §4 Vaccine library → đề xuất Vaccine match + fix ",
+        "shortcuts.md §5: đồng bộ 3 quy tắc trong intro.",
+        "Format success/fail (box-drawing, SHA, GMT+7, deploy note) giữ nguyên — đã khớp spec.",
+        "Build/deploy rules KHÔNG đổi."
+      ],
+      "pr": 490
+    },
+    {
+      "date": "2026-06-19",
+      "title": "feat(bhtn): trang tính trợ cấp thất nghiệp 2026 (/tools/bhtn/)",
+      "tag": "chore",
+      "lines_added": 699,
+      "lines_removed": 0,
+      "highlights": [
+        "Mức hưởng/tháng = bình quân lương BHTN 6 tháng cuối × 60%",
+        "Trần = 5 × lương tối thiểu vùng 2026 (I 5.31tr·II 4.73tr·III 4.14tr·IV 3.7tr)",
+        "Số tháng hưởng: 12–36 tháng → 3 tháng; sau 36 mỗi 12 tháng đủ +1; tối đa 12; dư bảo lưu",
+        "Điều kiện: HĐLĐ hợp pháp, không hưởng hưu/mất sức, đủ 12 tháng, nộp trong 3 tháng, chưa có việc làm"
+      ],
+      "pr": 491
+    },
+    {
+      "date": "2026-06-19",
       "title": "merged PR summary rule — no watch loop, vaccine on fail",
       "tag": "chore",
       "lines_added": 95,

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}BHTN — Tính trợ cấp thất nghiệp 2026 | {{ config.title }}{% endblock %}
+
+{% block main %}
+<div id="bhtn-app" class="bhtn">
+  <header class="bhtn__hero">
+    <p class="bhtn__hero-eyebrow">Bảo hiểm thất nghiệp · 2026</p>
+    <span class="bhtn__hero-icon" aria-hidden="true">🛡️</span>
+    <h1 class="bhtn__hero-title">Tính trợ cấp thất nghiệp (BHTN)</h1>
+    <p class="bhtn__hero-desc">Ước tính mức hưởng hằng tháng, số tháng hưởng và kiểm tra điều kiện hưởng theo Luật Việc làm 2025 &amp; Nghị định 293/2025/NĐ-CP. Tính 100% trên trình duyệt — không gửi dữ liệu lên server.</p>
+  </header>
+
+  <form id="bhtn-form" class="bhtn__form" novalidate>
+    <fieldset class="bhtn__card">
+      <legend class="bhtn__card-title">1 · Lương &amp; thời gian đóng BHTN</legend>
+      <p class="bhtn__card-sub">Mức hưởng = bình quân tiền lương đóng BHTN 6 tháng cuối × 60%, tối đa 5 lần lương tối thiểu vùng.</p>
+
+      <div class="bhtn__seg" role="radiogroup" aria-label="Cách nhập lương">
+        <label class="bhtn__seg-opt">
+          <input type="radio" name="bhtn-salary-mode" value="months" checked>
+          <span>Nhập 6 tháng gần nhất</span>
+        </label>
+        <label class="bhtn__seg-opt">
+          <input type="radio" name="bhtn-salary-mode" value="avg">
+          <span>Nhập lương bình quân</span>
+        </label>
+      </div>
+
+      <div id="bhtn-salary-months" class="bhtn__grid bhtn__grid--3">
+        <div class="bhtn__field"><label for="bhtn-m1">Lương tháng 1</label><input id="bhtn-m1" class="bhtn__money" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+        <div class="bhtn__field"><label for="bhtn-m2">Lương tháng 2</label><input id="bhtn-m2" class="bhtn__money" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+        <div class="bhtn__field"><label for="bhtn-m3">Lương tháng 3</label><input id="bhtn-m3" class="bhtn__money" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+        <div class="bhtn__field"><label for="bhtn-m4">Lương tháng 4</label><input id="bhtn-m4" class="bhtn__money" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+        <div class="bhtn__field"><label for="bhtn-m5">Lương tháng 5</label><input id="bhtn-m5" class="bhtn__money" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+        <div class="bhtn__field"><label for="bhtn-m6">Lương tháng 6</label><input id="bhtn-m6" class="bhtn__money" type="text" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+      </div>
+
+      <div id="bhtn-salary-avg" class="bhtn__grid" hidden>
+        <div class="bhtn__field bhtn__field--full">
+          <label for="bhtn-avg">Lương bình quân 6 tháng cuối (đồng)</label>
+          <input id="bhtn-avg" class="bhtn__money" type="text" inputmode="numeric" placeholder="vd: 10.000.000" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="bhtn__grid bhtn__grid--3 bhtn__grid--gap">
+        <div class="bhtn__field">
+          <label for="bhtn-total-months">Số tháng đã đóng BHTN chưa hưởng</label>
+          <input id="bhtn-total-months" type="number" min="0" step="1" placeholder="vd: 36" autocomplete="off">
+        </div>
+        <div class="bhtn__field">
+          <label for="bhtn-region">Vùng lương tối thiểu</label>
+          <select id="bhtn-region">
+            <option value="I">Vùng I — 5.310.000 đ</option>
+            <option value="II">Vùng II — 4.730.000 đ</option>
+            <option value="III">Vùng III — 4.140.000 đ</option>
+            <option value="IV">Vùng IV — 3.700.000 đ</option>
+          </select>
+        </div>
+        <div class="bhtn__field">
+          <label for="bhtn-used-months">Số tháng BHTN đã hưởng <span class="bhtn__opt">(tùy chọn)</span></label>
+          <input id="bhtn-used-months" type="number" min="0" step="1" placeholder="0" autocomplete="off">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="bhtn__card">
+      <legend class="bhtn__card-title">2 · Điều kiện hưởng</legend>
+      <p class="bhtn__card-sub">Khai báo tình trạng để hệ thống kiểm tra điều kiện hưởng trợ cấp.</p>
+
+      <div class="bhtn__grid bhtn__grid--2">
+        <div class="bhtn__field">
+          <label for="bhtn-end-date">Ngày chấm dứt HĐLĐ</label>
+          <input id="bhtn-end-date" type="date" autocomplete="off">
+        </div>
+        <div class="bhtn__field">
+          <label for="bhtn-submit-date">Ngày nộp hồ sơ <span class="bhtn__opt">(dự kiến)</span></label>
+          <input id="bhtn-submit-date" type="date" autocomplete="off">
+        </div>
+        <div class="bhtn__field">
+          <label for="bhtn-legal">Hợp đồng chấm dứt hợp pháp?</label>
+          <select id="bhtn-legal">
+            <option value="yes">Có — đúng quy định</option>
+            <option value="no">Không — đơn phương trái luật / bị sa thải</option>
+          </select>
+        </div>
+        <div class="bhtn__field">
+          <label for="bhtn-employed">Hiện đang có việc làm?</label>
+          <select id="bhtn-employed">
+            <option value="no">Chưa có việc làm</option>
+            <option value="yes">Đã có việc làm / ký HĐLĐ mới</option>
+          </select>
+        </div>
+        <div class="bhtn__field">
+          <label for="bhtn-pension">Đang hưởng lương hưu / trợ cấp mất sức?</label>
+          <select id="bhtn-pension">
+            <option value="no">Không</option>
+            <option value="yes">Có</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="bhtn__actions">
+      <button type="submit" class="bhtn__btn bhtn__btn--primary">Tính trợ cấp</button>
+      <button type="reset" class="bhtn__btn bhtn__btn--ghost">Làm lại</button>
+    </div>
+  </form>
+
+  <section id="bhtn-result" class="bhtn__result" aria-live="polite" hidden></section>
+
+  <aside class="bhtn__sources">
+    <h2 class="bhtn__sources-title">Căn cứ pháp lý &amp; nguồn tham khảo</h2>
+    <ul class="bhtn__sources-list">
+      <li><strong>Luật Việc làm 2025</strong> — quy định điều kiện, mức và thời gian hưởng trợ cấp thất nghiệp.</li>
+      <li><strong>Nghị định 293/2025/NĐ-CP</strong> — hướng dẫn chi tiết về bảo hiểm thất nghiệp.</li>
+      <li><a href="https://baohiemxahoi.gov.vn" target="_blank" rel="noopener nofollow">BHXH Việt Nam</a> — cơ quan thực hiện chính sách BHXH, BHTN.</li>
+      <li><a href="https://chinhphu.vn" target="_blank" rel="noopener nofollow">Cổng Thông tin điện tử Chính phủ</a> — tra cứu văn bản pháp luật.</li>
+    </ul>
+    <p class="bhtn__disclaimer">Kết quả chỉ mang tính tham khảo, cần đối chiếu cơ quan BHXH/Trung tâm dịch vụ việc làm.</p>
+  </aside>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/bhtn/app.js') }}" defer></script>
+{% endblock %}

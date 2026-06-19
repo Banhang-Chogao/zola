@@ -18,7 +18,7 @@ featured = false
 
 Đây là cặp cấu trúc tôi **nhầm nhiều nhất** khi luyện TOPIK II. Cả hai đều có nghĩa "dù… vẫn…" nhưng **ngữ cảnh và sắc thái** khác nhau.
 
-**Cluster:** [Pillar ngữ pháp nâng cao](/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/) · [Giả định nâng cao](/zola/bai-4-ngu-phap-gia-dinh-nang-cao/)
+**Cluster:** [Pillar ngữ pháp nâng cao](/zola/ngu-phap-nang-cao-sau-topik-4/) · [Giả định nâng cao](/zola/ngu-phap-gia-dinh-nang-cao-topik/)
 
 ---
 
@@ -88,6 +88,6 @@ Chọn -더라도 hay -는다 해도:
 
 ## Liên kết cluster
 
-- [Pillar TOPIK 4+](/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/)
-- [50 mẫu câu TOPIK](/zola/bai-5-50-mau-cau-topik/)
+- [Pillar TOPIK 4+](/zola/ngu-phap-nang-cao-sau-topik-4/)
+- [50 mẫu câu TOPIK](/zola/50-mau-cau-topik-nang-cao/)
 - [Internal linking tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/)

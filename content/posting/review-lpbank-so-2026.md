@@ -18,7 +18,7 @@ featured = false
 
 Tôi dùng **LPBank số** (app ngân hàng số của LPBank) khoảng 8 tháng — chủ yếu để nhận lương, chuyển khoản và tiết kiệm online. Bài này là review thực tế, không quảng cáo.
 
-**Finance Cluster:** [VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/) · [Lỗi LPBank số](/zola/bai-2-loi-thuong-gap-lpbank-so/) · [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/)
+**Finance Cluster:** [VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/) · [Lỗi LPBank số](/zola/loi-thuong-gap-lpbank-so/) · [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/)
 
 ---
 
@@ -75,7 +75,7 @@ Xuất PDF sao kê 3–6 tháng — hữu ích khi nộp hồ sơ [trợ cấp t
 2. **Thông báo push chậm** — biết giao dịch thành công sau 1–2 phút
 3. **Tìm kiếm giao dịch cũ** — filter theo khoảng ngày chưa mượt
 
-Chi tiết xử lý lỗi: [Lỗi thường gặp LPBank số](/zola/bai-2-loi-thuong-gap-lpbank-so/)
+Chi tiết xử lý lỗi: [Lỗi thường gặp LPBank số](/zola/loi-thuong-gap-lpbank-so/)
 
 ---
 

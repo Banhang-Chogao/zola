@@ -19,10 +19,10 @@ featured = true
 Sau khi đạt **TOPIK 4**, tôi nhận ra ngữ pháp sơ-cấp không đủ để đọc báo Hàn hay làm bài **TOPIK II** (cấp 5–6). Bài pillar này ghi lại lộ trình **ngữ pháp tiếng Hàn nâng cao** tôi dùng — từ sách, đề thi đến cách ôn cấu trúc hay nhầm.
 
 **Korean Cluster:**
-- [-더라도 và -는다 해도](/zola/bai-2-derado-va-neunda-haedo/)
-- [-곤 하다, -기 마련이다, -기 십상이다](/zola/bai-3-gon-hada-ki-mareonida/)
-- [Ngữ pháp giả định nâng cao](/zola/bai-4-ngu-phap-gia-dinh-nang-cao/)
-- [50 mẫu câu TOPIK](/zola/bai-5-50-mau-cau-topik/)
+- [-더라도 và -는다 해도](/zola/derado-va-neunda-haedo-tieng-han/)
+- [-곤 하다, -기 마련이다, -기 십상이다](/zola/gon-hada-ki-mareonida-tieng-han/)
+- [Ngữ pháp giả định nâng cao](/zola/ngu-phap-gia-dinh-nang-cao-topik/)
+- [50 mẫu câu TOPIK](/zola/50-mau-cau-topik-nang-cao/)
 - [Sửa orphan tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/) — internal linking cho cluster
 
 ---
@@ -49,20 +49,20 @@ Sau khi đạt **TOPIK 4**, tôi nhận ra ngữ pháp sơ-cấp không đủ đ
 ## 5 nhóm ngữ pháp nâng cao tôi ưu tiên
 
 ### Nhóm 1: Nhượng bộ / giả định
-- -더라도, -는다 해도 → [Bài 2](/zola/bai-2-derado-va-neunda-haedo/)
-- -았/었더라면, -(으)ㄹ 것 같다 → [Bài 4](/zola/bai-4-ngu-phap-gia-dinh-nang-cao/)
+- -더라도, -는다 해도 → [Bài 2](/zola/derado-va-neunda-haedo-tieng-han/)
+- -았/었더라면, -(으)ㄹ 것 같다 → [Bài 4](/zola/ngu-phap-gia-dinh-nang-cao-topik/)
 
 ### Nhóm 2: Kinh nghiệm / thói quen
-- -곤 하다, -곤 했다 → [Bài 3](/zola/bai-3-gon-hada-ki-mareonida/)
+- -곤 하다, -곤 했다 → [Bài 3](/zola/gon-hada-ki-mareonida-tieng-han/)
 
 ### Nhóm 3: Sắp xếp / tất yếu
-- -기 마련이다, -기 십상이다 → [Bài 3](/zola/bai-3-gon-hada-ki-mareonida/)
+- -기 마련이다, -기 십상이다 → [Bài 3](/zola/gon-hada-ki-mareonida-tieng-han/)
 
 ### Nhóm 4: Trang trọng / văn viết
 - -음/기에, -노라, -(으)ㅁ으로써
 
 ### Nhóm 5: Câu mẫu TOPIK
-- [50 mẫu câu](/zola/bai-5-50-mau-cau-topik/)
+- [50 mẫu câu](/zola/50-mau-cau-topik-nang-cao/)
 
 ---
 

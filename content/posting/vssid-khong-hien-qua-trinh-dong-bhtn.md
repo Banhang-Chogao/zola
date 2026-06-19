@@ -20,8 +20,8 @@ featured = true
 Khi mở VssID mà không thấy **quá trình đóng bảo hiểm thất nghiệp (BHTN)**, tôi không hoảng ngay — vì đây là lỗi tôi gặp khá thường xuyên khi hỗ trợ người lao động chuẩn bị hồ sơ hưởng trợ cấp. Bài này là **pillar** của cluster BHXH thất nghiệp: tôi ghi lại toàn bộ quy trình kiểm tra, phân loại nguyên nhân và cách xử lý từng trường hợp.
 
 **Bộ bài liên quan:**
-- [Tra cứu thời gian đóng BHTN trên VssID](/zola/bai-2-tra-cuu-thoi-gian-dong-bhtn/)
-- [Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?](/zola/bai-3-tro-cap-that-nghiep-thoi-gian/)
+- [Tra cứu thời gian đóng BHTN trên VssID](/zola/tra-cuu-thoi-gian-dong-bhtn-vssid/)
+- [Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/)
 - [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/) — liên quan khi bạn cân nhắc BHXH một lần vs lương hưu
 
 ---
@@ -57,7 +57,7 @@ Tôi luôn khuyên: **tra cứu bảo hiểm thất nghiệp trước khi nộp 
 
 Trong quá trình tham gia, tôi tìm cột **BHTN** hoặc dòng **Bảo hiểm thất nghiệp**. Nếu chỉ thấy BHXH và BHYT mà không có BHTN → đây chính là vấn đề tôi cần xử lý.
 
-Chi tiết từng bước: [Bài 2 — Tra cứu thời gian đóng BHTN](/zola/bai-2-tra-cuu-thoi-gian-dong-bhtn/)
+Chi tiết từng bước: [Bài 2 — Tra cứu thời gian đóng BHTN](/zola/tra-cuu-thoi-gian-dong-bhtn-vssid/)
 
 ---
 
@@ -127,7 +127,7 @@ Nếu bạn vừa nghỉ việc và cần quản lý tài chính cá nhân trong
 
 ### Cần đóng BHTN bao nhiêu tháng mới hưởng trợ cấp?
 
-**Tối thiểu 12 tháng** trong vòng **24 tháng** trước khi thất nghiệp. Chi tiết mốc thời gian: [Bài 3](/zola/bai-3-tro-cap-that-nghiep-thoi-gian/).
+**Tối thiểu 12 tháng** trong vòng **24 tháng** trước khi thất nghiệp. Chi tiết mốc thời gian: [Bài 3](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/).
 
 ### VssID không hiện BHTN thì nộp hồ sơ ở đâu?
 

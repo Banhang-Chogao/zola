@@ -18,7 +18,7 @@ featured = true
 
 FAQ rich results trên Google có thể tăng **CTR 15–30%** cho bài ngân hàng — tôi đo trên cluster VietinBank + LPBank + TNEX. Bài pillar này ghi cách tôi triển khai **FAQ Schema (JSON-LD)** cho từng ngân hàng.
 
-**SEO Cluster:** [Sửa orphan tiếng Hàn](/zola/bai-2-sua-orphan-tieng-han/) · [LPBank review](/zola/review-lpbank-so-2026/) · [VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
+**SEO Cluster:** [Sửa orphan tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/) · [LPBank review](/zola/review-lpbank-so-2026/) · [VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
 
 ---
 
@@ -173,7 +173,7 @@ Chi tiết: [/lpbank/loi-thuong-gap-lpbank-so](/zola/loi-thuong-gap-lpbank-so/)
 
 ## Quy trình triển khai tôi dùng
 
-1. **Viết FAQ trong markdown** — H3 câu hỏi + câu trả lời ngắn (giống [bài FAQ điểm thi lớp 10](/zola/bai-5-faq))
+1. **Viết FAQ trong markdown** — H3 câu hỏi + câu trả lời ngắn
 2. **Convert sang JSON-LD** — script hoặc thủ công
 3. **Validate** — [Google Rich Results Test](https://search.google.com/test/rich-results)
 4. **Internal link** — mỗi answer link về bài chi tiết
@@ -194,5 +194,5 @@ Chi tiết: [/lpbank/loi-thuong-gap-lpbank-so](/zola/loi-thuong-gap-lpbank-so/)
 
 - [Review LPBank](/zola/review-lpbank-so-2026/)
 - [10 mẹo VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
-- [Sửa orphan tiếng Hàn](/zola/bai-2-sua-orphan-tieng-han/)
+- [Sửa orphan tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/)
 - [Prompt system Zola](/zola/he-thong-prompt-zola-blog/)

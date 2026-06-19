@@ -16,9 +16,9 @@ featured = false
 
 ---
 
-Sau [10 vaccine CLAUDE.md](/zola/bai-2-10-vaccine-claude-md/), tôi cần **lớp kiểm tra tự động** — vì AI vẫn thỉnh thoảng bỏ qua vaccine khi context dài. **QA Gatekeeper** chạy post-generation; **Daily Vaccine Autofixer** quét repo mỗi ngày.
+Sau [10 vaccine CLAUDE.md](/zola/10-vaccine-claude-md-giam-loi-production/), tôi cần **lớp kiểm tra tự động** — vì AI vẫn thỉnh thoảng bỏ qua vaccine khi context dài. **QA Gatekeeper** chạy post-generation; **Daily Vaccine Autofixer** quét repo mỗi ngày.
 
-**Cluster:** [Hệ thống prompt](/zola/bai-1-he-thong-prompt-zola-pillar/) · [Internal link orphan](/zola/sua-orphan-bai-tieng-han-seo/)
+**Cluster:** [Hệ thống prompt](/zola/he-thong-prompt-zola-blog/) · [Internal link orphan](/zola/sua-orphan-bai-tieng-han-seo/)
 
 ---
 
@@ -117,7 +117,7 @@ Gatekeeper tích hợp logic từ [Sửa orphan tiếng Hàn](/zola/sua-orphan-b
 
 ## Liên kết
 
-- [10 vaccine](/zola/bai-2-10-vaccine-claude-md/)
-- [Prompt Zola](/zola/bai-1-he-thong-prompt-zola-pillar/)
+- [10 vaccine](/zola/10-vaccine-claude-md-giam-loi-production/)
+- [Prompt Zola](/zola/he-thong-prompt-zola-blog/)
 - [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/)
 - [Orphan strategy](/zola/sua-orphan-bai-tieng-han-seo/)

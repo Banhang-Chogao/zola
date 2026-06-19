@@ -18,7 +18,7 @@ featured = false
 
 Đây là quyết định tài chính lớn nhất tôi thấy người lao động phải đối mặt khi **chưa đủ tuổi hưu** hoặc **muốn định cư nước ngoài**. Tôi đã từng tính toán cho chính mình và cho anh trai — hai trường hợp, hai lựa chọn khác nhau.
 
-**Tham khảo:** [Tính lương hưu 2026](/zola/bai-1-tinh-luong-huu-2026-pillar/) · [BHTN khi nghỉ việc](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/)
+**Tham khảo:** [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/) · [BHTN khi nghỉ việc](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/)
 
 ---
 
@@ -59,7 +59,7 @@ featured = false
 3. **Muốn BHYT khi về hưu** — người hưởng lương hưu được cấp thẻ BHYT
 4. **Có người phụ thuộc** — lương hưu ổn định cho gia đình
 
-Chi tiết tính toán: [Tính lương hưu 2026](/zola/bai-1-tinh-luong-huu-2026-pillar/)
+Chi tiết tính toán: [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/)
 
 ---
 

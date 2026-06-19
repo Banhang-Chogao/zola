@@ -103,6 +103,7 @@ menu = [
             { url = "$BASE_URL/tools/bhxh-1-lan", name = "🧮 BHXH 1 lần" },
         ] },
         { name = "Khác", children = [
+            { url = "$BASE_URL/tools/bhtn", name = "🛡️ BHTN" },
             { url = "$BASE_URL/changelog", name = "Changelog" },
             { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
             { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
