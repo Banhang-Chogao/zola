@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(vipzone): SUPER_ADMIN shortcut button on VIPZone landing",
+      "tag": "chore",
+      "lines_added": 273,
+      "lines_removed": 114,
+      "highlights": [
+        "config.toml — add vipzone_admin_url (empty → fallback {base_url}/tools/vipzone-admin/)",
+        "templates/vipzone.html — meta[name=vipzone-admin-url] + hero button [data-vz-super-admin]",
+        "sass/_vipzone.scss — .vipzone__btn--super-admin (red bg #dc2626, white text, hover/focus/active states; responsive via existing __btn rules)",
+        "static/js/vipzone.js — reveal button only when VIPZone.isSuperuser() (/auth/me) resolves true; hidden otherwise, never blocks normal users",
+        "node --check static/js/vipzone.js ✓"
+      ],
+      "pr": 511
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(content): Content hub navbar + S-DNA category/tool blocks; CMS write = superuser only",
       "tag": "chore",
       "lines_added": 359,
