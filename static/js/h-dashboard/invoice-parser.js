@@ -317,6 +317,22 @@
       .join("");
   }
 
+  async function buildReceiptFingerprint(stmt) {
+    const items = (stmt.items || [])
+      .map((i) => `${i.name}|${i.qty}|${i.amount}`)
+      .sort()
+      .join(";");
+    const dt = stmt.date_iso || stmt.invoice_date || "";
+    const key = [
+      stmt.invoice_no || "",
+      dt,
+      stmt.merchant || "",
+      String(stmt.total || 0),
+      items,
+    ].join("|");
+    return sha256Hex(key);
+  }
+
   async function transactionsForDashboard(stmt) {
     const rows = [];
     const dateIso = stmt.date_iso || (stmt.invoice_date ? stmt.invoice_date + "T00:00:00" : "");
@@ -466,7 +482,15 @@
     stmt.via_ocr = usedOcr;
     const transactions = await transactionsForDashboard(stmt);
     const reconciliation = reconcile(stmt, transactions);
-    return { statement: stmt, transactions, reconciliation, via_ocr: usedOcr, raw_text: text };
+    const receipt_fingerprint = await buildReceiptFingerprint(stmt);
+    return {
+      statement: stmt,
+      transactions,
+      reconciliation,
+      via_ocr: usedOcr,
+      raw_text: text,
+      receipt_fingerprint,
+    };
   }
 
   global.HDashboardInvoiceParser = {
@@ -475,5 +499,6 @@
     parseInvoicePdfArrayBuffer,
     transactionsForDashboard,
     reconcile,
+    buildReceiptFingerprint,
   };
 })(typeof window !== "undefined" ? window : globalThis);

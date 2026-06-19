@@ -9,8 +9,10 @@
     "Coffee Analytics V2 chưa tải xong. Hãy tải lại trang (Ctrl+Shift+R). Upload vẫn hoạt động.";
 
   const PAGE_SIZE = 20;
+  const MAX_BATCH_FILES = 10;
   let allTransactions = [];
   let filteredTransactions = [];
+  let receiptsCatalog = { fingerprints: [], statements: [] };
   let statementMeta = null;
   let reconciliation = null;
   let currentPage = 1;
@@ -26,6 +28,7 @@
     els.upload = $("#hd-upload");
     els.uploadZone = $("#hd-upload-zone");
     els.uploadStatus = $("#hd-upload-status");
+    els.uploadBatch = $("#hd-upload-batch");
     els.meta = $("#hd-meta");
     els.reconcile = $("#hd-reconcile");
     els.summary = $("#hd-summary");
@@ -161,8 +164,27 @@
   }
 
   function renderMeta() {
-    if (!els.meta || !statementMeta) return;
-    const s = statementMeta;
+    if (!els.meta) return;
+    const statements = (receiptsCatalog.statements || []).length
+      ? receiptsCatalog.statements
+      : statementMeta
+        ? [statementMeta]
+        : [];
+    if (!statements.length) return;
+    if (statements.length > 1) {
+      els.meta.innerHTML =
+        `<p class="hd-meta__aggregate">${statements.length} hóa đơn trong phiên</p>` +
+        statements
+          .map((s) => {
+            const dateLine = s.invoice_time
+              ? `${s.invoice_date || "—"} ${s.invoice_time}`
+              : s.invoice_date || "—";
+            return `<div class="hd-meta__mini"><strong>#${escapeHtml(s.invoice_no || "—")}</strong> · ${escapeHtml(s.merchant || "—")} · ${escapeHtml(dateLine)} · ${fmt(s.total || 0)}</div>`;
+          })
+          .join("");
+      return;
+    }
+    const s = statements[0];
     const dateLine = s.invoice_time ? `${s.invoice_date || "—"} ${s.invoice_time}` : (s.invoice_date || "—");
     els.meta.innerHTML = `
       <div class="hd-meta__grid">
@@ -357,66 +379,135 @@
     }
   }
 
-  async function handleFile(file) {
-    if (!file) return;
+  function statementSnapshot(stmt) {
+    return {
+      merchant: stmt.merchant,
+      address: stmt.address,
+      invoice_no: stmt.invoice_no,
+      invoice_date: stmt.invoice_date,
+      invoice_time: stmt.invoice_time,
+      total: stmt.total,
+      item_count: stmt.item_count,
+      via_ocr: stmt.via_ocr,
+    };
+  }
+
+  async function processOneFile(file, fpSet) {
     if (!/\.pdf$/i.test(file.name)) {
-      setStatus("Chỉ hỗ trợ hóa đơn dạng PDF (.pdf).", "error");
+      throw new Error("Chỉ hỗ trợ PDF: " + file.name);
+    }
+
+    const buffer = await file.arrayBuffer();
+    const parsed = await global.HDashboardInvoiceParser.parseInvoicePdfArrayBuffer(buffer, {
+      onStatus: (msg) => setStatus(`[${file.name}] ${msg}`, "info"),
+    });
+
+    if (!parsed || !Array.isArray(parsed.transactions) || !parsed.transactions.length) {
+      throw new Error("Không tìm thấy mặt hàng trong " + file.name);
+    }
+
+    const fp =
+      parsed.receipt_fingerprint ||
+      (await global.HDashboardInvoiceParser.buildReceiptFingerprint(parsed.statement));
+
+    if (fpSet.has(fp)) {
+      const inv = parsed.statement.invoice_no || "?";
+      return { status: "duplicate", invoice_no: inv };
+    }
+
+    const existingIds = await global.HDashboardStorage.getAllTransactionIds();
+    const toInsert = [];
+    for (const tx of parsed.transactions) {
+      if (!existingIds.has(tx.transaction_id)) {
+        toInsert.push(tx);
+        existingIds.add(tx.transaction_id);
+      }
+    }
+
+    if (toInsert.length) {
+      await global.HDashboardStorage.insertTransactions(toInsert);
+    }
+
+    fpSet.add(fp);
+    receiptsCatalog.fingerprints = Array.from(fpSet);
+    receiptsCatalog.statements.push(statementSnapshot(parsed.statement));
+    await global.HDashboardStorage.setReceiptsCatalog(receiptsCatalog);
+
+    statementMeta = parsed.statement;
+    reconciliation = parsed.reconciliation || { ok: true, message: "" };
+
+    return {
+      status: "ok",
+      inserted: toInsert.length,
+      item_count: parsed.transactions.length,
+      via_ocr: parsed.via_ocr,
+      reconciliation: parsed.reconciliation,
+    };
+  }
+
+  async function handleFiles(fileList) {
+    const files = Array.from(fileList || [])
+      .filter((f) => /\.pdf$/i.test(f.name))
+      .slice(0, MAX_BATCH_FILES);
+
+    if (!files.length) {
+      setStatus("Chọn ít nhất 1 file PDF hóa đơn Highlands.", "error");
       return;
     }
 
-    setStatus(`Đang đọc ${file.name}…`, "info");
+    if (fileList && fileList.length > MAX_BATCH_FILES) {
+      setStatus(`Chỉ xử lý tối đa ${MAX_BATCH_FILES} file — đã lấy ${MAX_BATCH_FILES} file đầu.`, "info");
+    }
 
-    try {
-      const buffer = await file.arrayBuffer();
-      const parsed = await global.HDashboardInvoiceParser.parseInvoicePdfArrayBuffer(buffer, {
-        onStatus: (msg) => setStatus(msg, "info"),
-      });
-      if (!parsed || !Array.isArray(parsed.transactions)) {
-        throw new Error("Không đọc được mặt hàng từ PDF — kiểm tra đúng định dạng hóa đơn.");
-      }
-      if (!parsed.transactions.length) {
-        setStatus(
-          "Không tìm thấy mặt hàng nào trong hóa đơn. Nếu là ảnh scan mờ, hãy thử ảnh rõ hơn.",
-          "error"
-        );
-        return;
-      }
-      statementMeta = parsed.statement || null;
-      reconciliation = parsed.reconciliation || { ok: true, message: "" };
+    receiptsCatalog = await global.HDashboardStorage.getReceiptsCatalog();
+    const fpSet = new Set(receiptsCatalog.fingerprints || []);
+    const stats = { selected: files.length, processed: 0, duplicate: 0, failed: 0 };
+    const dupNotes = [];
 
-      const existingIds = await global.HDashboardStorage.getAllTransactionIds();
-      const toInsert = [];
-      let skipped = 0;
-      for (const tx of parsed.transactions) {
-        if (existingIds.has(tx.transaction_id)) {
-          skipped++;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      setStatus(`Đang xử lý ${i + 1}/${files.length}: ${file.name}…`, "info");
+      try {
+        const result = await processOneFile(file, fpSet);
+        if (result.status === "duplicate") {
+          stats.duplicate++;
+          dupNotes.push("Skipped duplicate receipt #" + result.invoice_no);
         } else {
-          toInsert.push(tx);
+          stats.processed++;
         }
+      } catch (err) {
+        console.error(err);
+        stats.failed++;
       }
+    }
 
-      if (toInsert.length) {
-        await global.HDashboardStorage.insertTransactions(toInsert);
-      }
+    await refresh();
+    renderMeta();
+    renderReconcile();
 
-      await refresh();
-      renderMeta();
-      renderReconcile();
+    let msg =
+      "Selected: " +
+      stats.selected +
+      " · Processed: " +
+      stats.processed +
+      " · Duplicate: " +
+      stats.duplicate +
+      " · Failed OCR: " +
+      stats.failed;
+    if (dupNotes.length) msg += " · " + dupNotes.join(" · ");
 
-      const ocrNote = parsed.via_ocr ? " · OCR ảnh scan" : "";
-      const warn = reconciliation.ok ? "" : ` · ${reconciliation.message}`;
-      setStatus(
-        `Đã đọc ${parsed.transactions.length} mặt hàng · thêm mới ${toInsert.length} · bỏ qua trùng ${skipped}${ocrNote}${warn}`,
-        reconciliation.ok ? "success" : "error"
-      );
-    } catch (err) {
-      console.error(err);
-      setStatus(err.message || "Lỗi khi đọc PDF hóa đơn.", "error");
+    setStatus(msg, stats.failed > 0 ? "error" : "success");
+
+    if (els.upload) els.upload.value = "";
+    if (els.uploadBatch) {
+      els.uploadBatch.textContent = files.map((f) => f.name).join(" · ");
+      els.uploadBatch.hidden = false;
     }
   }
 
   async function refresh() {
     allTransactions = await global.HDashboardStorage.getAllTransactions();
+    receiptsCatalog = await global.HDashboardStorage.getReceiptsCatalog();
     filteredTransactions = [...allTransactions];
     populateMonthFilter();
     applyFilters();
@@ -425,7 +516,7 @@
 
   function bindEvents() {
     if (els.upload) {
-      els.upload.addEventListener("change", (e) => handleFile(e.target.files[0]));
+      els.upload.addEventListener("change", (e) => handleFiles(e.target.files));
     }
 
     if (els.uploadZone) {
@@ -441,7 +532,7 @@
           els.uploadZone.classList.remove("hd-upload--active");
         });
       });
-      els.uploadZone.addEventListener("drop", (e) => handleFile(e.dataTransfer?.files?.[0]));
+      els.uploadZone.addEventListener("drop", (e) => handleFiles(e.dataTransfer?.files));
       els.uploadZone.addEventListener("click", () => els.upload?.click());
     }
 

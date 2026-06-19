@@ -61,13 +61,14 @@
         </header>
 
         <section class="hd-panel hd-upload-panel">
-            <h2 class="hd-panel__title">Upload hóa đơn PDF</h2>
-            <div class="hd-upload" id="hd-upload-zone" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn file PDF hóa đơn Highlands">
-                <input type="file" id="hd-upload" class="hd-upload__input" accept=".pdf,application/pdf" hidden>
+            <h2 class="hd-panel__title">Upload hóa đơn (tối đa 10 file)</h2>
+            <div class="hd-upload" id="hd-upload-zone" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn tối đa 10 file PDF hóa đơn Highlands">
+                <input type="file" id="hd-upload" class="hd-upload__input" accept=".pdf,application/pdf" multiple hidden>
                 <div class="hd-upload__icon" aria-hidden="true">☕</div>
-                <p class="hd-upload__text">Kéo thả hóa đơn Highlands <code>.pdf</code> hoặc bấm để chọn</p>
-                <p class="hd-upload__hint">Đọc: Cửa hàng · Địa chỉ · Ngày giờ · Mặt hàng · SL · Giá · Thanh toán. Hóa đơn scan sẽ tự OCR.</p>
+                <p class="hd-upload__text">Kéo thả hoặc chọn tối đa <strong>10</strong> hóa đơn Highlands <code>.pdf</code></p>
+                <p class="hd-upload__hint">OCR tự động cho scan. Trùng hóa đơn (mã · ngày · cửa hàng · tổng tiền) sẽ bỏ qua.</p>
             </div>
+            <p class="hd-upload__batch" id="hd-upload-batch" hidden></p>
             <p class="hd-upload__status" id="hd-upload-status" data-type="info">Chưa có file nào được upload.</p>
             <p class="hd-module-error" id="hd-coffee-module-error" role="alert" hidden></p>
 
