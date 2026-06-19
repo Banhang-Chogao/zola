@@ -85,6 +85,7 @@ Format bắt buộc:
 | `tieptuc8` | Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở (todo, push, PR, CI, macro) |
 | `wip8` | Read-only workspace tracker — tái dựng task đang dở từ git status + file changes |
 | `theodoi8` | Theo dõi LIÊN TỤC (auto-refresh) trạng thái các commit đang chạy trên GitHub Actions |
+| `backend8` | So main SHA vs Render backend SHA — phát hiện split-brain static↔backend (V16) |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
@@ -1275,6 +1276,39 @@ Nếu vẫn stuck sau 3 lần → gợi ý `ff` (fix workflow) hoặc `??` (depl
 - `runner deploy` — chỉ poll/retry workflow deploy
 - `runner shell` — chỉ retry lệnh terminal gần nhất
 - `runner morning` — resume macro `morning` từ phase dở
+
+### `backend8` — So main SHA vs Render backend SHA (split-brain check, V16)
+
+**Mục đích**: Phát hiện **split-brain static ↔ backend** — GitHub Pages luôn ship `main`
+mới nhất, nhưng backend FastAPI trên Render (`blog-vipzone-api`) chỉ redeploy khi **Manual
+Sync** thủ công. Khi backend tụt sau `main`, endpoint VIP premium tồn tại trong repo nhưng
+**404 ở production** → "Premium gộp gói" hỏng âm thầm dù CI xanh.
+
+**Lệnh**:
+
+```bash
+python3 scripts/backend_sha_check.py            # human summary + data/backend-status.json
+python3 scripts/backend_sha_check.py --json      # machine JSON (cho theodoi8 / Insights)
+python3 scripts/backend_sha_check.py --offline    # bỏ network → status unknown (nhanh)
+python3 scripts/backend_sha_check.py --strict      # exit 2 nếu BACKEND_OUTDATED (gate tùy chọn)
+```
+
+**Cách hoạt động**:
+
+- So `git rev-parse origin/main` với `/health.deployed_sha` của backend (Render inject
+  `RENDER_GIT_COMMIT`, expose qua `services/vipzone/main.py`).
+- Trạng thái: `in_sync` (không cần làm gì) · `outdated` → **BACKEND_OUTDATED** (Render →
+  Blueprints → **Manual Sync `blog-vipzone-api`**) · `unknown` (dyno ngủ / chưa set
+  `RENDER_GIT_COMMIT` → retry, **KHÔNG** báo success giả).
+- **Report-only** (exit 0) — offline-safe, 1 GET `/health` + exponential backoff, cache
+  `data/backend-status.json`. KHÔNG gate CI trừ khi `--strict`.
+
+**Companion `deploysafe8`**: sau khi merge thay đổi backend (`services/**`) + deploy Pages
+xanh → chạy `backend8` **TRƯỚC** khi coi là "done". Pages xanh + backend SHA cũ = **CHƯA
+xong** (split-brain). Human action duy nhất: Render Manual Sync (Claude không deploy Render
+được).
+
+**Liên quan**: Vaccine **V16** (CLAUDE.md §4) · `theodoi8` surface `BACKEND_OUTDATED` sau deploy.
 
 ### `tieptuc8` — Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở
 

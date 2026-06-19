@@ -371,8 +371,65 @@
     tick();
   }
 
+  // ---- V16: VIP premium-article auto-unlock + backend split-brain auto-heal ----
+  // Additive enhancement for VIP/supervip on a locked premium article. It NEVER
+  // overlays or blurs (that was the #507 regression) — it reuses the per-post
+  // paywall DOM: success → reveal content; backend lag/unavailable → an inline
+  // "backend pending" notice prepended to the paywall box (per-post unlock stays
+  // usable). Non-VIP visitors are untouched; paywall.js handles them.
+  function isPremiumArticle() {
+    return document.documentElement.getAttribute("data-vipzone-premium") === "true" ||
+      (document.body && document.body.getAttribute("data-vipzone-premium") === "true");
+  }
+
+  function premiumPostId() {
+    var el = document.getElementById("paywall-box") || document.querySelector("[data-post-id]");
+    if (!el) return "";
+    return el.getAttribute("data-post-id") || (el.dataset && el.dataset.postId) || "";
+  }
+
+  function showBackendPending(box, err) {
+    if (!box || document.querySelector(".vipzone__backend-pending")) return;
+    var detail = (err && err.message) ? String(err.message) : "";
+    var unavailable = /unavailable|404|not.?found|fetch|networkerror|failed|unreachable|503/i.test(detail);
+    var note = document.createElement("div");
+    note.className = "vipzone__backend-pending";
+    note.setAttribute("role", "status");
+    note.innerHTML =
+      "<strong>⏳ VIPZone backend đang chờ deploy.</strong> " +
+      (unavailable
+        ? "Bạn là VIP nhưng nội dung premium chưa đồng bộ từ <code>blog-vipzone-api</code> (split-brain static ↔ backend). Thử lại sau, hoặc mở khóa bài này bằng mã bên dưới."
+        : "Chưa xác thực được phiên VIP. Đăng nhập GitHub bằng đúng email VIP, hoặc mở khóa bài này bằng mã bên dưới.");
+    box.insertBefore(note, box.firstChild);
+  }
+
+  async function initPremiumUnlock() {
+    if (!isPremiumArticle()) return;
+    var premium = document.getElementById("paywall-premium");
+    if (!premium || !premium.hidden) return;          // not a paywall page, or already unlocked
+    if (!isVipActive() && !(await isSuperuser())) return;  // VIP/supervip only
+    var box = document.getElementById("paywall-box");
+    var postId = premiumPostId();
+    if (!postId || !API) return;                      // no backend → leave paywall untouched
+    try {
+      var data = await apiFetch("/api/vipzone/content/" + encodeURIComponent(postId));
+      var body = premium.querySelector("[data-paywall-body]");
+      if (body && data && data.html) {
+        body.innerHTML = data.html;
+        premium.hidden = false;
+        if (box) box.hidden = true;
+        toast("VIPZone đã mở khóa bài premium.", "success");
+        return;
+      }
+      showBackendPending(box, new Error("premium_content_unavailable"));
+    } catch (err) {
+      showBackendPending(box, err);
+    }
+  }
+
   global.VIPZone = {
     isVipActive: isVipActive,
+    initPremiumUnlock: initPremiumUnlock,
     isSuperuser: isSuperuser,
     getVipSession: getVipSession,
     readStore: readStore,
@@ -393,5 +450,6 @@
     updateSidebarCount();
     initLanding();
     initGate();
+    initPremiumUnlock();
   });
 })(window);
