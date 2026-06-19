@@ -1,25 +1,63 @@
 {
-  "updated_at": "2026-06-19T00:37:40Z",
+  "updated_at": "2026-06-19T00:58:58Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 186,
-    "today": 3,
-    "this_week": 186,
-    "this_month": 186,
+    "total": 188,
+    "today": 5,
+    "this_week": 188,
+    "this_month": 188,
     "auto_merged": 1,
     "by_change_type": {
+      "feature": 62,
+      "fix": 51,
       "content": 8,
       "chore": 44,
-      "feature": 61,
       "unknown": 18,
-      "fix": 50,
       "ci": 4,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 467,
+      "pr_title": "feat: add SEO reality check module below google rank",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/467",
+      "merged_at": "2026-06-19T00:55:19Z",
+      "merge_commit_sha": "d061e1e5d5ce35819861c279024807a935fdb297",
+      "merge_commit_short": "d061e1e",
+      "head_branch": "claude/eloquent-knuth-pjwc70",
+      "summary_vi": "Thêm module **SEO Reality Check** ngay **bên dưới** widget Google Rank trong sidebar, để người dùng phân biệt rõ **mức độ sẵn sàng kỹ thuật (internal)** với **hiệu quả tìm kiếm thực tế trên Google**. Điểm kỹ thuật cao ≠ ",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 750,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798707910",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 465,
+      "pr_title": "hotfix(pagination): fix dark-on-dark button contrast & discoverability",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/465",
+      "merged_at": "2026-06-19T00:34:28Z",
+      "merge_commit_sha": "f3b464f3377dcc3084d3811f6c2ce500c900947e",
+      "merge_commit_short": "f3b464f",
+      "head_branch": "hotfix/pagination-button-contrast",
+      "summary_vi": "The pagination buttons rendered as **#333 charcoal text on a #000 black surface** — unreadable, low affordance, and off-brand for the calm premium design language.",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 750,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798707910",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 464,
       "pr_title": "docs: add supplemental UI inspiration to branding guideline",
@@ -35,8 +73,8 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 749,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27797999576",
+      "build_run_number": 750,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27798707910",
       "build_conclusion": "in_progress"
     },
     {
@@ -56,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 749,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27797999576",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 463,
@@ -591,25 +629,6 @@
       "build_conclusion": "cancelled"
     },
     {
-      "pr_number": 435,
-      "pr_title": "fix(ci): vaccine V6/V7 — bot data stash conflict + remediation tự đỏ",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/435",
-      "merged_at": "2026-06-18T13:51:16Z",
-      "merge_commit_sha": "426ca7e855fe846b76c31ddd8994fc0e945e3d10",
-      "merge_commit_short": "426ca7e",
-      "head_branch": "chore/ci-self-healing-vaccines",
-      "summary_vi": "Quét các workflow run đỏ gần nhất → **2 failure**, cả hai **chưa có** prevention rule trong CLAUDE.md → tạo Fixer/Vaccine mới.",
-      "change_type": "fix",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 726,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27764266874",
-      "build_conclusion": "cancelled"
-    },
-    {
       "pr_number": 434,
       "pr_title": "fix(footer): tên sự kiện countdown bị trắng tiệp nền trắng",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/434",
@@ -814,9 +833,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 720,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27759360067",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 422,
@@ -833,9 +852,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 720,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27759360067",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 423,
@@ -852,9 +871,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 720,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27759360067",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 421,
@@ -871,9 +890,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 720,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27759360067",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 420,
@@ -890,9 +909,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 720,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27759360067",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 419,
@@ -1645,6 +1664,25 @@
       "head_branch": "feat/ai-diagnose-free",
       "summary_vi": "Adds a free-first `ai_diagnose.py` hybrid tier system and integrates it into CI failure handling — no Claude credits consumed by default.",
       "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 382,
+      "pr_title": "fix(links): repair 11 broken external URLs flagged by zola check",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/382",
+      "merged_at": "2026-06-17T23:18:08Z",
+      "merge_commit_sha": "80f2c97421e2e9ee302ed78cf540ee1f83dc340f",
+      "merge_commit_short": "80f2c97",
+      "head_branch": "fix/external-broken-links",
+      "summary_vi": "Fixes all 11 broken external links reported by `zola check`.",
+      "change_type": "fix",
       "files_changed": null,
       "additions": null,
       "deletions": null,
