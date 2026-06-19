@@ -16,18 +16,27 @@ Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIO
 
 > CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
 
-### 1. Vẫn qua PR — không push thẳng `main`
+### 1. Không cần qua PR thủ công — code xong → tự lên `main` → prod
 
-Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit/push trực tiếp `main`.
+> **Cập nhật (2026-06-19 — user request):** Bỏ rào PR thủ công. Code xong là **tự động**
+> lên `main` → deploy production. KHÔNG mở/duyệt/babysit PR bằng tay, KHÔNG hỏi user.
 
-### 2. Auto-merge khi CI xanh
+- Agent làm xong thay đổi → để automation đưa lên `main` → `deploy.yml` → prod. Không
+  tự tay quản lý PR, không chờ human review.
+- **Lỗi để máy bắt & sửa, không phải human gate:** `qa-check` (QA Gatekeeper) chặn build
+  hỏng trước khi lên `main`; có lỗi thì **vaccine autofixer** (§4 V1–V12) + `ff`/`ff9` +
+  autofix-conflicts tự chẩn & sửa. KHÔNG chờ người review.
+- **Hạ tầng (agent không cần bận tâm):** bước "đưa lên `main`" do `auto-merge.yml` tự thực
+  hiện (squash khi `qa-check` xanh) — GITHUB_TOKEN/branch protection KHÔNG cho push thẳng
+  `main` (§5/§5a/§5b), nên auto-merge là **bước máy tự làm**, không phải rào thủ công.
 
-1. Tạo branch: `feature/`, `fix/`, `chore/`, …
-2. Push → mở PR vào `main`
-3. **`auto-merge.yml`** merge tự động khi **qa-check** pass (QA Gatekeeper — không PR Policy)
-4. `deploy.yml` chạy sau merge → GitHub Pages
+### 2. Auto-merge khi CI xanh (máy tự làm hết)
 
-**Không hỏi user** trước khi merge. Không dùng label chặn auto-merge.
+1. Code xong → push lên branch (`feature/`, `fix/`, `chore/`, …)
+2. **`auto-merge.yml`** tự đưa lên `main` khi **qa-check** pass (QA Gatekeeper — không PR Policy)
+3. `deploy.yml` chạy sau merge → GitHub Pages → prod
+
+**Không hỏi user** trước khi merge, **không** cần agent mở/duyệt PR thủ công, không dùng label chặn auto-merge.
 
 ### 3. Merge Report (thay review thủ công)
 
@@ -830,38 +839,33 @@ script Python sinh nội dung public).
 
 Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 
-### Mỗi thay đổi = 1 PR riêng, tự auto-merge (2026-06-18 — user request)
+### Mỗi thay đổi = 1 đơn vị ship riêng, tự lên `main` (2026-06-19 — user request)
 
-> ⛔ **KHÔNG GỘP** nhiều thay đổi độc lập vào cùng 1 PR — user phải chờ lâu nếu gộp.
+> ⛔ **KHÔNG GỘP** nhiều thay đổi độc lập vào cùng 1 lần ship — mỗi thứ tự lên `main`
+> độc lập, không bắt user chờ cả lô.
 
 - Mỗi thay đổi logic riêng (1 bài viết · 1 fix workflow · 1 sửa CSS · 1 update rule)
-  = **1 PR riêng**, để mỗi thứ **tự merge lên `main` ngay khi QA xanh**, không bắt
-  user chờ cả lô.
-  - ✅ Đúng: bài A → PR A; fix deploy → PR B (2 PR song song, auto-merge độc lập).
-  - ❌ Sai: gộp bài A + fix deploy + update rule vào 1 PR.
-- Mỗi thay đổi **tự merge** qua `auto-merge.yml` (QA xanh → squash-merge). **KHÔNG
-  merge tay** trừ khi auto-merge thật sự hỏng.
-- Session bị giới hạn 1 branch dev → làm xong 1 thay đổi: mở PR → reset branch về
-  `origin/main` → làm thay đổi kế tiếp (PR mới). KHÔNG tích nhiều thay đổi trên cùng
-  branch/PR.
+  = **1 đơn vị ship riêng**, **tự lên `main` ngay khi QA xanh**.
+  - ✅ Đúng: bài A và fix deploy lên `main` độc lập, auto-merge riêng.
+  - ❌ Sai: gộp bài A + fix deploy + update rule vào 1 lần.
+- Mỗi thay đổi **tự lên `main`** qua `auto-merge.yml` (QA xanh → squash). **KHÔNG cần
+  agent mở/merge PR thủ công**; KHÔNG hỏi user.
+- Session giới hạn 1 branch dev → làm xong 1 thay đổi: push (automation tự đưa lên
+  `main`) → reset branch về `origin/main` → làm thay đổi kế tiếp. KHÔNG tích nhiều
+  thay đổi không liên quan trên cùng branch.
 
 ### Quy tắc chung
 
-- Làm xong BẤT KỲ việc gì → **LUÔN mở Pull Request** về `main`. Không để thay đổi
-  nằm im trên feature branch mà thiếu PR.
-- Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
-- Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
-  cần tạo PR trùng.
-- Chỉ push thêm commit vào PR đang mở khi đó là **sửa/hoàn thiện CHÍNH thay đổi của
-  PR đó** (vd fix CI đỏ) — KHÔNG nhét thay đổi MỚI không liên quan vào PR đang có.
-- **Theo dõi tới khi xong (BẮT BUỘC):** MỌI tính năng sau khi commit + mở PR →
-  **PHẢI subscribe theo dõi trạng thái PR** (`subscribe_pr_activity`) cho tới khi
-  PR **MERGED hoặc CLOSED**. Lắng nghe CI + review comment; build đỏ → chẩn đoán
-  (Vaccine §4 / `ff`) + fix trên cùng branch + push lại; CI xanh → xác nhận
-  auto-merge. KHÔNG kết thúc turn khi PR còn open mà chưa theo dõi. Webhook không
-  báo mọi thứ (CI success / merge-conflict) → nếu có `send_later` thì hẹn tự
-  check-in ~1h tái kiểm tra state/CI/mergeability rồi re-arm cho tới khi merge.
-  Dừng theo dõi khi user yêu cầu (`unsubscribe_pr_activity`).
+- Làm xong BẤT KỲ việc gì → **push để automation tự đưa lên `main`** → prod. KHÔNG cần
+  agent mở PR thủ công, KHÔNG hỏi user "có mở PR không". Không để thay đổi nằm im trên
+  feature branch.
+- Commit phải có tiêu đề rõ ràng + tóm tắt thay đổi (để Merge Report đọc được).
+- Đang dở 1 thay đổi trên branch → push thêm commit vào cùng branch; KHÔNG nhét thay
+  đổi MỚI không liên quan vào.
+- **Lỗi để máy lo (không cần babysit PR):** `qa-check` đỏ → vaccine autofixer (§4) +
+  `ff`/`ff9` tự chẩn & sửa, push lại cùng branch tới khi xanh → auto-merge → prod.
+  Mặc định KHÔNG cần ngồi canh PR. Chỉ khi user **chủ động** nhờ theo dõi 1 PR cụ thể
+  → mới dùng `subscribe_pr_activity` (dừng khi user yêu cầu `unsubscribe_pr_activity`).
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
