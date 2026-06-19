@@ -266,6 +266,34 @@
     return { message: "Đã gửi yêu cầu (local prototype)." };
   }
 
+  async function initAdminShortcut() {
+    var shortcut = document.querySelector("[data-vz-admin-shortcut]");
+    if (!shortcut) return;
+    var note = shortcut.querySelector("[data-vz-admin-shortcut-note]");
+    if (!getCmsSid()) {
+      // No CMS session → role detection unreliable → keep visible as shortcut.
+      shortcut.hidden = false;
+      shortcut.setAttribute("data-vz-admin-state", "shortcut");
+      return;
+    }
+    try {
+      var ok = await isSuperuser();
+      if (ok) {
+        shortcut.hidden = false;
+        shortcut.setAttribute("data-vz-admin-state", "verified");
+        if (note) note.textContent = "✓ Bạn đã đăng nhập super admin — vào dashboard";
+      } else {
+        // Authenticated but not super → hide the button.
+        shortcut.hidden = true;
+        shortcut.setAttribute("data-vz-admin-state", "hidden");
+      }
+    } catch (e) {
+      // Detection failed → fall back to shortcut visibility.
+      shortcut.hidden = false;
+      shortcut.setAttribute("data-vz-admin-state", "shortcut");
+    }
+  }
+
   function initLanding() {
     var root = document.querySelector('[data-vz-page="landing"]');
     if (!root) return;
@@ -274,6 +302,8 @@
       var note = document.querySelector("[data-vz-proto-note]");
       if (note) note.hidden = false;
     }
+
+    initAdminShortcut();
 
     var planInput = document.getElementById("vz-selected-plan");
     var planLabel = document.querySelector("[data-vz-plan-label]");

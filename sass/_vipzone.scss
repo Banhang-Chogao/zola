@@ -239,6 +239,76 @@
       border-color: #a50064;
       color: #fff;
     }
+
+    &--admin {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.22);
+      gap: 0.45rem;
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        background: #b91c1c;
+        border-color: #b91c1c;
+        color: #fff;
+        box-shadow: 0 6px 18px rgba(220, 38, 38, 0.32);
+        transform: translateY(-1px);
+      }
+
+      &:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.45);
+      }
+
+      &:active {
+        transform: translateY(0);
+        background: #991b1b;
+        border-color: #991b1b;
+      }
+    }
+  }
+
+  &__btn-mark { font-size: 1rem; line-height: 1; }
+  &__btn-text { letter-spacing: inherit; }
+
+  &__admin-shortcut {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px dashed var(--vz-border);
+  }
+
+  &__admin-shortcut-note {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--vz-body);
+    line-height: 1.4;
+  }
+
+  &__admin-shortcut[data-vz-admin-state="verified"] &__admin-shortcut-note {
+    color: #15803d;
+    font-weight: 700;
+  }
+
+  @media (max-width: 540px) {
+    &__admin-shortcut {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+
+    &__admin-shortcut &__btn--admin {
+      width: 100%;
+      justify-content: center;
+    }
   }
 
   &__success {
