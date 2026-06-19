@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}VIPZone — Kích hoạt VIP | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+    {% set vz_api = config.extra.vipzone_api_url | default(value="") %}
+    {% if vz_api %}<meta name="zola-vipzone-api" content="{{ vz_api | safe }}">{% endif %}
+    <meta name="vipzone-momo-monthly" content="{{ config.extra.vipzone_momo_monthly | default(value='https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA') | safe }}">
+    <meta name="vipzone-momo-semiannual" content="{{ config.extra.vipzone_momo_semiannual | default(value='https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg') | safe }}">
+{% endblock %}
+
+{% block main %}
+<div id="vipzone-app" class="vipzone" data-vz-page="landing">
+
+    <header class="vipzone__hero">
+        <div class="vipzone__brand">
+            <span class="vipzone__logo-mark" aria-hidden="true">V</span>
+            <span class="vipzone__logo-text">VIPZone</span>
+        </div>
+        <p class="vipzone__hero-eyebrow">S-DNA · MoMo · Một gói — mở toàn bộ công cụ &amp; premium</p>
+        <h1 class="vipzone__hero-title">Kích hoạt VIP để ủng hộ nội dung giá trị</h1>
+        <p class="vipzone__hero-desc">Thanh toán qua MoMo, nhận mã 16 số qua email, nhập mã để mở khóa mọi công cụ trong menu <strong>Công cụ</strong> và bài <strong>Premium</strong>. Phiên VIP được lưu trên thiết bị này.</p>
+        <div class="vipzone__hero-kpis" aria-label="Lợi ích VIP">
+            <div class="vipzone__kpi"><span class="vipzone__kpi-label">Công cụ</span><span class="vipzone__kpi-value">Full access</span></div>
+            <div class="vipzone__kpi"><span class="vipzone__kpi-label">Premium</span><span class="vipzone__kpi-value">Gộp gói</span></div>
+            <div class="vipzone__kpi"><span class="vipzone__kpi-label">Mã kích hoạt</span><span class="vipzone__kpi-value">16 số · 1 lần</span></div>
+        </div>
+    </header>
+
+    <div class="vipzone__status-card" data-vz-vip-status hidden>
+        <p class="vipzone__status-label">VIP đang hoạt động</p>
+        <p class="vipzone__status-email" data-vz-status-email></p>
+        <p class="vipzone__status-expiry" data-vz-status-expiry></p>
+        <p class="vipzone__countdown" data-vz-countdown aria-live="polite"></p>
+    </div>
+
+    <div class="vipzone__pricing-grid" data-vz-pricing>
+        <div class="vipzone__price-card" data-vz-plan-card="monthly">
+            <p class="vipzone__price-name">Gói Tháng</p>
+            <p class="vipzone__price-amount">250.000 <span>VND / tháng</span></p>
+            <ul class="vipzone__price-features">
+                <li>Mở toàn bộ Công cụ</li>
+                <li>Bài Premium gộp gói</li>
+                <li>Hỗ trợ qua email</li>
+            </ul>
+            <button type="button" class="vipzone__btn vipzone__btn--ghost" data-vz-select-plan="monthly">Chọn gói tháng</button>
+        </div>
+        <div class="vipzone__price-card vipzone__price-card--featured" data-vz-plan-card="semiannual">
+            <p class="vipzone__price-badge">Tiết kiệm</p>
+            <p class="vipzone__price-name">Gói 6 Tháng</p>
+            <p class="vipzone__price-amount">500.000 <span>VND / 6 tháng</span></p>
+            <ul class="vipzone__price-features">
+                <li>Mọi quyền lợi gói tháng</li>
+                <li>Ưu tiên Content Picker</li>
+                <li>Insights VIPZone</li>
+            </ul>
+            <button type="button" class="vipzone__btn vipzone__btn--primary" data-vz-select-plan="semiannual">Chọn gói 6 tháng</button>
+        </div>
+    </div>
+
+    <section class="vipzone__flow" id="vz-paywall-flow" data-vz-flow>
+        <input type="hidden" id="vz-selected-plan" value="semiannual">
+
+        <div class="vipzone__step">
+            <h2 class="vipzone__step-title"><span class="vipzone__step-num">1</span> Thanh toán MoMo</h2>
+            <p class="vipzone__step-desc">Gói: <strong data-vz-plan-label>Gói 6 Tháng — 500.000 VND</strong></p>
+            <a class="vipzone__btn vipzone__btn--momo" data-vz-momo-link href="#" target="_blank" rel="noopener noreferrer">Thanh toán MoMo</a>
+        </div>
+
+        <div class="vipzone__step">
+            <h2 class="vipzone__step-title"><span class="vipzone__step-num">2</span> Gửi yêu cầu kích hoạt</h2>
+            <form class="vipzone__form" id="vz-payment-form" novalidate>
+                <label class="vipzone__field">
+                    <span>Email</span>
+                    <input class="vipzone__input" id="vz-pay-email" type="email" required autocomplete="email" placeholder="email@example.com">
+                </label>
+                <label class="vipzone__field">
+                    <span>Ghi chú giao dịch MoMo</span>
+                    <input class="vipzone__input" id="vz-pay-note" type="text" maxlength="500" placeholder="VD: CK lúc 20:30, nội dung VIPZone...">
+                </label>
+                <button type="submit" class="vipzone__btn vipzone__btn--primary">Đã thanh toán — gửi yêu cầu</button>
+            </form>
+        </div>
+
+        <div class="vipzone__step">
+            <h2 class="vipzone__step-title"><span class="vipzone__step-num">3</span> Nhập mã kích hoạt (16 số)</h2>
+            <p class="vipzone__step-desc">Admin xác minh thủ công và gửi mã một lần qua email.</p>
+            <div class="vipzone__row">
+                <input class="vipzone__input" id="vz-approve-code" type="text" inputmode="numeric" pattern="[0-9]{16}" maxlength="16" placeholder="1234567890123456" autocomplete="one-time-code">
+                <button type="button" class="vipzone__btn vipzone__btn--primary" data-vz-action="redeem">Kích hoạt VIP</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="vipzone__success" id="vz-success" hidden>
+        <h2 class="vipzone__success-title">Kích hoạt VIP thành công!</h2>
+        <p class="vipzone__success-desc" data-vz-success-msg></p>
+        <a class="vipzone__btn vipzone__btn--primary" href="{{ config.base_url }}/">Về trang chủ</a>
+    </section>
+
+    <p class="vipzone__proto-note" data-vz-proto-note hidden>TODO: Kết nối Render API <code>vipzone_api_url</code> — hiện dùng local prototype an toàn.</p>
+    <div class="vipzone__toast-host" data-vz-toast-host aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/vipzone.js') }}?v={{ asset_version }}" defer></script>
+{% endblock %}

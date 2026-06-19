@@ -5,19 +5,16 @@
 {% block extra_head %}
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
-    {# PDF.js local (CSP 'self') — get_url() respects base /zola/ on GitHub Pages #}
     <meta name="hd-pdfjs-src" content="{{ get_url(path='vendor/pdfjs/pdf.min.js') }}">
     <meta name="hd-pdfjs-worker" content="{{ get_url(path='vendor/pdfjs/pdf.worker.min.js') }}">
-    {# Tesseract OCR — local-first (CSP 'self'), core WASM via jsDelivr #}
     <meta name="hd-tesseract-src" content="{{ get_url(path='vendor/tesseract/tesseract.min.js') }}">
     <meta name="hd-tesseract-worker" content="{{ get_url(path='vendor/tesseract/worker.min.js') }}">
     <meta name="hd-tesseract-core" content="https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1">
 {% endblock %}
 
 {% block main %}
-<div id="hd-app" class="h-dashboard-app">
+<div id="hd-app" class="h-dashboard-app h-dashboard-app--coffee">
 
-    {# ===== LOGIN GATE (GitHub OAuth — giống CMS) ===== #}
     <section class="hd-login-view" data-hd-view="login">
         <div class="hd-login" role="dialog" aria-labelledby="hd-login-title">
             <div class="hd-login__card">
@@ -39,7 +36,6 @@
         </div>
     </section>
 
-    {# ===== DASHBOARD (sau khi đăng nhập) ===== #}
     <section class="h-dashboard" data-hd-view="dashboard" hidden>
 
         <div class="hd-user-bar" data-hd-user-bar hidden data-media-guard-skip>
@@ -54,15 +50,38 @@
         <header class="hd-head">
             <div class="hd-head__row">
                 <h1 class="hd-head__title">H-Dashboard</h1>
-                <span class="hd-head__badge">Hóa đơn mua hàng</span>
+                <span class="hd-head__badge">Coffee Life Analytics</span>
                 <span class="hd-head__ephemeral">Phiên tạm · không lưu online</span>
             </div>
             <p class="hd-head__desc">
-                Dashboard thống kê chi tiêu từ <strong>hóa đơn mua hàng</strong> (hóa đơn bán lẻ, biên lai).
-                Upload PDF → đọc mặt hàng trên trình duyệt (có <strong>OCR</strong> cho hóa đơn ảnh scan), lưu IndexedDB mã hóa.
+                Phân tích thói quen cà phê từ <strong>hóa đơn Highlands Coffee</strong>.
+                Upload PDF → OCR trên trình duyệt → Coffee DNA, timeline, seasonality, personality.
                 Khi <strong>xuất JSON/CSV/PDF</strong>, dữ liệu phiên sẽ bị <strong>xóa ngay</strong>.
             </p>
         </header>
+
+        <section class="hd-panel hd-upload-panel">
+            <h2 class="hd-panel__title">Upload hóa đơn (tối đa 10 file)</h2>
+            <div class="hd-upload" id="hd-upload-zone" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn tối đa 10 file PDF hóa đơn Highlands">
+                <input type="file" id="hd-upload" class="hd-upload__input" accept=".pdf,application/pdf" multiple hidden>
+                <div class="hd-upload__icon" aria-hidden="true">☕</div>
+                <p class="hd-upload__text">Kéo thả hoặc chọn tối đa <strong>10</strong> hóa đơn Highlands <code>.pdf</code></p>
+                <p class="hd-upload__hint">OCR tự động cho scan. Trùng hóa đơn (mã · ngày · cửa hàng · tổng tiền) sẽ bỏ qua.</p>
+            </div>
+            <p class="hd-upload__batch" id="hd-upload-batch" hidden></p>
+            <p class="hd-upload__status" id="hd-upload-status" data-type="info">Chưa có file nào được upload.</p>
+            <p class="hd-module-error" id="hd-coffee-module-error" role="alert" hidden></p>
+
+            <div class="hd-export-bar" id="hd-export-bar">
+                <p class="hd-export-bar__label">Xuất &amp; xóa phiên (không lưu trên server)</p>
+                <div class="hd-export-bar__actions">
+                    <button type="button" class="hd-btn hd-btn--export" id="hd-export-json" disabled>Export JSON</button>
+                    <button type="button" class="hd-btn hd-btn--export" id="hd-export-csv" disabled>Export CSV</button>
+                    <button type="button" class="hd-btn hd-btn--export hd-btn--pdf" id="hd-export-pdf" disabled>Export PDF</button>
+                </div>
+                <p class="hd-export-bar__note">Auto-download → wipe ngay. Không lưu persistent online.</p>
+            </div>
+        </section>
 
         <section class="hd-panel hd-meta-panel">
             <h2 class="hd-panel__title">Thông tin hóa đơn</h2>
@@ -72,135 +91,156 @@
             <p class="hd-reconcile" id="hd-reconcile" hidden></p>
         </section>
 
-        {# ===== Upload + Export ===== #}
-        <section class="hd-panel hd-upload-panel">
-            <h2 class="hd-panel__title">Upload hóa đơn PDF</h2>
-            <div class="hd-upload" id="hd-upload-zone" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn file PDF hóa đơn mua hàng">
-                <input type="file" id="hd-upload" class="hd-upload__input" accept=".pdf,application/pdf" hidden>
-                <div class="hd-upload__icon" aria-hidden="true">🧾</div>
-                <p class="hd-upload__text">Kéo thả file hóa đơn <code>.pdf</code> hoặc bấm để chọn</p>
-                <p class="hd-upload__hint">Đọc: Cửa hàng · Ngày · Mặt hàng · SL · Đơn giá · Thành tiền · Tổng tiền. Hóa đơn ảnh scan sẽ tự OCR.</p>
-            </div>
-            <p class="hd-upload__status" id="hd-upload-status" data-type="info">Chưa có file nào được upload.</p>
-
-            <div class="hd-export-bar" id="hd-export-bar">
-                <p class="hd-export-bar__label">Xuất &amp; xóa phiên (không lưu trên server)</p>
-                <div class="hd-export-bar__actions">
-                    <button type="button" class="hd-btn hd-btn--export" id="hd-export-json" disabled title="Tải JSON rồi wipe phiên">
-                        <span aria-hidden="true">📥</span> Export JSON
-                    </button>
-                    <button type="button" class="hd-btn hd-btn--export" id="hd-export-csv" disabled title="Tải CSV rồi wipe phiên">
-                        <span aria-hidden="true">📊</span> Export CSV
-                    </button>
-                    <button type="button" class="hd-btn hd-btn--export hd-btn--pdf" id="hd-export-pdf" disabled title="PDF landscape A4, rồi xóa phiên">
-                        <span aria-hidden="true">📄</span> Export PDF
-                    </button>
-                </div>
-                <p class="hd-export-bar__note">Auto-download → wipe ngay. Không lưu persistent online.</p>
+        {# Coffee Executive Summary #}
+        <section class="hd-panel hd-exec-panel">
+            <h2 class="hd-panel__title">Coffee Executive Summary</h2>
+            <div id="hd-exec-summary">
+                <p class="hd-empty">Upload hóa đơn để nhận tóm tắt kiểu annual report.</p>
             </div>
         </section>
 
-        {# ===== KHU VỰC 4: Financial Health + Charts ===== #}
-        <section class="hd-panel hd-health-panel">
-            <h2 class="hd-panel__title">Sức khỏe tài chính</h2>
-            <div class="hd-health" id="hd-health"></div>
-
-            <div class="hd-health-legend" id="hd-health-legend" aria-label="Định nghĩa cấp độ sức khỏe tài chính">
-                <h3 class="hd-health-legend__title">Định nghĩa cấp độ (Financial Score 0–100)</h3>
-                <ul class="hd-health-legend__list">
-                    <li class="hd-health-legend__item hd-health-legend__item--excellent">
-                        <span class="hd-health-legend__badge">Excellent</span>
-                        <span class="hd-health-legend__range">≥ 85</span>
-                        <span class="hd-health-legend__desc">Tích lũy mạnh, chi tiêu kiểm soát, dòng tiền dương ổn định.</span>
-                    </li>
-                    <li class="hd-health-legend__item hd-health-legend__item--good">
-                        <span class="hd-health-legend__badge">Good</span>
-                        <span class="hd-health-legend__range">70 – 84</span>
-                        <span class="hd-health-legend__desc">Cân bằng tốt — tiết kiệm đủ, chi hợp lý so với thu.</span>
-                    </li>
-                    <li class="hd-health-legend__item hd-health-legend__item--average">
-                        <span class="hd-health-legend__badge">Average</span>
-                        <span class="hd-health-legend__range">50 – 69</span>
-                        <span class="hd-health-legend__desc">Trung bình — cần theo dõi chi tiêu, tỷ lệ chi/thu còn cao.</span>
-                    </li>
-                    <li class="hd-health-legend__item hd-health-legend__item--risky">
-                        <span class="hd-health-legend__badge">Risky</span>
-                        <span class="hd-health-legend__range">30 – 49</span>
-                        <span class="hd-health-legend__desc">Rủi ro — chi gần hoặc vượt thu, ít dư tiền mặt.</span>
-                    </li>
-                    <li class="hd-health-legend__item hd-health-legend__item--danger">
-                        <span class="hd-health-legend__badge">Danger</span>
-                        <span class="hd-health-legend__range">&lt; 30</span>
-                        <span class="hd-health-legend__desc">Nguy hiểm — thâm hụt kéo dài, cần cắt giảm chi ngay.</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="hd-charts hd-charts--slide">
-                <div class="hd-chart hd-chart--slide hd-chart--gauge">
-                    <header class="hd-chart__head">
-                        <h3 class="hd-chart__title">Financial Health Score</h3>
-                        <p class="hd-chart__subtitle">Điểm sức khỏe tài chính tổng hợp (0–100)</p>
-                    </header>
-                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide"><canvas id="hd-chart-gauge" aria-label="Điểm sức khỏe tài chính"></canvas></div>
-                </div>
-                <div class="hd-chart hd-chart--slide hd-chart--donut">
-                    <header class="hd-chart__head">
-                        <h3 class="hd-chart__title">Thu vs Chi</h3>
-                        <p class="hd-chart__subtitle">Cơ cấu dòng tiền — tỷ trọng thu trên tổng luân chuyển</p>
-                    </header>
-                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide"><canvas id="hd-chart-donut" aria-label="Biểu đồ donut thu chi"></canvas></div>
-                </div>
-                <div class="hd-chart hd-chart--slide hd-chart--area">
-                    <header class="hd-chart__head">
-                        <h3 class="hd-chart__title">Biến động số dư</h3>
-                        <p class="hd-chart__subtitle">Waterfall từng bước — thay đổi lũy kế theo thời gian</p>
-                    </header>
-                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide hd-chart__canvas-wrap--wide"><canvas id="hd-chart-area" aria-label="Biểu đồ waterfall số dư"></canvas></div>
-                </div>
-                <div class="hd-chart hd-chart--slide hd-chart--treemap">
-                    <header class="hd-chart__head">
-                        <h3 class="hd-chart__title">Giao dịch lớn nhất</h3>
-                        <p class="hd-chart__subtitle">Bridge thu/chi — các khoản ảnh hưởng mạnh nhất</p>
-                    </header>
-                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide hd-chart__canvas-wrap--tall"><canvas id="hd-chart-treemap" aria-label="Biểu đồ waterfall giao dịch"></canvas></div>
-                </div>
-                <div class="hd-chart hd-chart--slide hd-chart--waterfall">
-                    <header class="hd-chart__head">
-                        <h3 class="hd-chart__title">Dòng tiền ròng theo ngày</h3>
-                        <p class="hd-chart__subtitle">Waterfall hằng ngày — cột nổi từ mức trước, màu teal/đỏ</p>
-                    </header>
-                    <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--slide hd-chart__canvas-wrap--wide"><canvas id="hd-chart-waterfall" aria-label="Biểu đồ waterfall luồng tiền"></canvas></div>
-                </div>
+        {# Section 1: Coffee DNA #}
+        <section class="hd-panel hd-dna-panel">
+            <h2 class="hd-panel__title">Coffee DNA</h2>
+            <p class="hd-panel__subtitle">KPI cards — lần ghé, thói quen, signature drink</p>
+            <div id="hd-coffee-dna">
+                <p class="hd-empty">Upload hóa đơn Highlands để xem Coffee DNA.</p>
             </div>
         </section>
 
+        {# Section 2: Visit Timeline #}
+        <section class="hd-panel hd-timeline-panel">
+            <h2 class="hd-panel__title">Visit Timeline</h2>
+            <p class="hd-panel__subtitle">Bạn có đang uống nhiều cà phê hơn theo thời gian?</p>
+            <div class="hd-tabs" role="tablist">
+                <button type="button" class="hd-tab hd-tab--active" data-hd-timeline="daily">Daily</button>
+                <button type="button" class="hd-tab" data-hd-timeline="weekly">Weekly</button>
+                <button type="button" class="hd-tab" data-hd-timeline="monthly">Monthly</button>
+                <button type="button" class="hd-tab" data-hd-timeline="yearly">Yearly</button>
+            </div>
+            <div class="hd-chart hd-chart--wide">
+                <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--wide"><canvas id="hd-chart-timeline" aria-label="Biểu đồ timeline lần ghé"></canvas></div>
+            </div>
+        </section>
+
+        {# Section 3: Favorite Drinks #}
+        <section class="hd-panel hd-drinks-panel">
+            <h2 class="hd-panel__title">Favorite Drinks</h2>
+            <p class="hd-panel__subtitle">Top đồ uống · categories · horizontal bars</p>
+            <div id="hd-favorite-drinks">
+                <p class="hd-empty">Chưa có dữ liệu đồ uống.</p>
+            </div>
+            <div class="hd-chart">
+                <div class="hd-chart__canvas-wrap"><canvas id="hd-chart-categories" aria-label="Biểu đồ categories"></canvas></div>
+            </div>
+        </section>
+
+        {# Section 4: Coffee Clock #}
+        <section class="hd-panel hd-clock-panel">
+            <h2 class="hd-panel__title">Coffee Clock</h2>
+            <p class="hd-panel__subtitle">Heatmap giờ × ngày — morning drinker? after-work?</p>
+            <div id="hd-coffee-clock">
+                <p class="hd-empty">Chưa có dữ liệu Coffee Clock.</p>
+            </div>
+        </section>
+
+        {# Section 5: Seasonality #}
+        <section class="hd-panel hd-season-panel">
+            <h2 class="hd-panel__title">Seasonality</h2>
+            <p class="hd-panel__subtitle">Mùa khô · mùa nóng · mùa mưa (Nam Bộ)</p>
+            <div id="hd-seasonality">
+                <p class="hd-empty">Chưa có dữ liệu mùa.</p>
+            </div>
+            <div class="hd-chart">
+                <div class="hd-chart__canvas-wrap"><canvas id="hd-chart-season" aria-label="Biểu đồ seasonality"></canvas></div>
+            </div>
+        </section>
+
+        {# Section 6: Store Geography #}
         <section class="hd-panel hd-geo-panel hd-geo-panel--slide">
             <header class="hd-geo-panel__head">
-                <h2 class="hd-panel__title">Chi tiêu theo vùng địa lý</h2>
-                <p class="hd-geo-panel__subtitle">Bản đồ phân bố giao dịch — phong cách slide địa lý Sembcorp</p>
+                <h2 class="hd-panel__title">Store Geography</h2>
+                <p class="hd-geo-panel__subtitle">Suy ra từ tên cửa hàng &amp; địa chỉ — map + insight cards</p>
             </header>
-            <p class="dash-geo__note">Địa điểm được suy ra từ nội dung hóa đơn. Hóa đơn không ghi địa điểm sẽ mặc định tính cho TP. Hồ Chí Minh.</p>
+            <p class="dash-geo__note" id="hd-geo-summary">Địa điểm được suy ra từ địa chỉ hóa đơn.</p>
             <div id="hd-geo">
-                <p class="dash-geo__empty">Upload hóa đơn để xem phân bố chi tiêu theo địa điểm.</p>
+                <p class="dash-geo__empty">Upload hóa đơn để xem Store Geography.</p>
             </div>
         </section>
 
-        <section class="hd-panel hd-insights-panel">
-            <h2 class="hd-panel__title">AI Insights</h2>
-            <ul class="hd-insights" id="hd-insights-list">
-                <li>Upload hóa đơn để nhận nhận xét tự động từ dữ liệu chi tiêu.</li>
+        {# Section 7: Coffee Personality #}
+        <section class="hd-panel hd-personality-panel">
+            <h2 class="hd-panel__title">Coffee Personality</h2>
+            <p class="hd-panel__subtitle">Magazine cards — không score, không phần trăm</p>
+            <div class="hd-personality-grid" id="hd-personality">
+                <p class="hd-empty">Chưa đủ dữ liệu để tạo Coffee Personality.</p>
+            </div>
+        </section>
+
+        {# Section 8: Monthly Report #}
+        <section class="hd-panel hd-monthly-panel">
+            <h2 class="hd-panel__title">Monthly Report</h2>
+            <p class="hd-panel__subtitle">Báo cáo từng tháng — kiểu annual report pages</p>
+            <div class="hd-monthly-grid" id="hd-monthly-reports">
+                <p class="hd-empty">Chưa có báo cáo tháng.</p>
+            </div>
+            <div class="hd-chart hd-chart--wide">
+                <div class="hd-chart__canvas-wrap hd-chart__canvas-wrap--wide"><canvas id="hd-chart-monthly" aria-label="Biểu đồ monthly trend"></canvas></div>
+            </div>
+        </section>
+
+        {# Section 9: Annual Report #}
+        <section class="hd-panel hd-annual-panel">
+            <h2 class="hd-panel__title">Annual Report</h2>
+            <p class="hd-panel__subtitle">Executive summary · highlights · favorite drinks &amp; stores</p>
+            <div id="hd-annual-report">
+                <p class="hd-empty">Chưa có Annual Report.</p>
+            </div>
+        </section>
+
+        {# Section 10: Fun Insights #}
+        <section class="hd-panel hd-fun-panel">
+            <h2 class="hd-panel__title">Fun Insights</h2>
+            <ul class="hd-insights" id="hd-fun-insights">
+                <li>Upload hóa đơn để nhận fun insights.</li>
             </ul>
         </section>
 
+        {# Section 11: Discovery Engine #}
+        <section class="hd-panel hd-discovery-panel">
+            <h2 class="hd-panel__title">Discovery Engine</h2>
+            <p class="hd-panel__subtitle">Đồ uống mới · thói quen thay đổi · gợi ý</p>
+            <div class="hd-discovery-grid" id="hd-discoveries">
+                <p class="hd-empty">Chưa phát hiện thay đổi thói quen.</p>
+            </div>
+        </section>
+
+        {# Section 12: Coffee Journey #}
+        <section class="hd-panel hd-journey-panel">
+            <h2 class="hd-panel__title">Coffee Journey</h2>
+            <p class="hd-panel__subtitle">Milestones — lần đầu, 50th, 100th, 1000th</p>
+            <div id="hd-journey">
+                <p class="hd-empty">Coffee Journey sẽ hiện sau khi có dữ liệu.</p>
+            </div>
+        </section>
+
+        {# AI Narrative #}
+        <section class="hd-panel hd-insights-panel">
+            <h2 class="hd-panel__title">AI Insights</h2>
+            <ul class="hd-insights" id="hd-insights-list">
+                <li>Upload hóa đơn Highlands để nhận AI insights.</li>
+            </ul>
+        </section>
+
+        {# Receipt table #}
         <section class="hd-panel hd-table-panel">
-            <h2 class="hd-panel__title">Bảng thống kê</h2>
+            <h2 class="hd-panel__title">Chi tiết hóa đơn</h2>
 
             <div class="hd-summary" id="hd-summary">
                 <div class="hd-summary__item"><span class="hd-summary__label">Tổng chi tiêu</span><span class="hd-summary__value">—</span></div>
-                <div class="hd-summary__item"><span class="hd-summary__label">Hoàn / thu lại</span><span class="hd-summary__value">—</span></div>
-                <div class="hd-summary__item"><span class="hd-summary__label">Chi ròng</span><span class="hd-summary__value">—</span></div>
-                <div class="hd-summary__item"><span class="hd-summary__label">Số mặt hàng</span><span class="hd-summary__value">0</span></div>
+                <div class="hd-summary__item"><span class="hd-summary__label">Lần ghé</span><span class="hd-summary__value">—</span></div>
+                <div class="hd-summary__item"><span class="hd-summary__label">Hóa đơn TB</span><span class="hd-summary__value">—</span></div>
+                <div class="hd-summary__item"><span class="hd-summary__label">Đồ uống</span><span class="hd-summary__value">0</span></div>
                 <div class="hd-summary__item hd-summary__item--wide"><span class="hd-summary__label">Khoảng thời gian</span><span class="hd-summary__value">—</span></div>
             </div>
 
@@ -223,17 +263,9 @@
                         <option value="">Tất cả tháng</option>
                     </select>
                 </label>
-                <label class="hd-filter">
-                    <span>Loại</span>
-                    <select id="hd-filter-type" class="hd-filter__input">
-                        <option value="all">Tất cả</option>
-                        <option value="income">Hoàn/thu</option>
-                        <option value="expense">Chi</option>
-                    </select>
-                </label>
                 <label class="hd-filter hd-filter--grow">
                     <span>Từ khóa</span>
-                    <input type="search" id="hd-filter-keyword" class="hd-filter__input" placeholder="Tên mặt hàng hoặc cửa hàng…">
+                    <input type="search" id="hd-filter-keyword" class="hd-filter__input" placeholder="Tên đồ uống hoặc cửa hàng…">
                 </label>
             </div>
 
@@ -243,11 +275,11 @@
                         <tr>
                             <th>STT</th>
                             <th>Ngày</th>
-                            <th>Mặt hàng</th>
+                            <th>Đồ uống</th>
                             <th>SL</th>
                             <th>Đơn giá</th>
                             <th>Thành tiền</th>
-                            <th>Lũy kế</th>
+                            <th>Cửa hàng</th>
                         </tr>
                     </thead>
                     <tbody id="hd-table-body">
@@ -262,19 +294,21 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
-    <script src="{{ get_url(path='js/h-dashboard/pdf-loader.js') }}"></script>
+    {% if latest_commit %}{% set hd_v = latest_commit.sha | truncate(length=7, end='') %}{% else %}{% set hd_v = now(timestamp=true) %}{% endif %}
+    <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ hd_v }}"></script>
+    <script src="{{ get_url(path='js/h-dashboard/pdf-loader.js') }}?v={{ hd_v }}"></script>
+    {# Coffee Analytics V2 — sync load trước defer chain; HDashboardCoffee phải sẵn sàng trước app.js #}
+    <script src="{{ get_url(path='js/h-dashboard/coffee-analytics.js') }}?v={{ hd_v }}"></script>
+    <script src="{{ get_url(path='js/h-dashboard/coffee-ui.js') }}?v={{ hd_v }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap@2.3.0/dist/chartjs-chart-treemap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/auth-gate.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/ocr-loader.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/invoice-parser.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/storage.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/insights.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/charts.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/export.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/geo.js') }}" defer></script>
-    <script src="{{ get_url(path='js/h-dashboard/app.js') }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/auth-gate.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/ocr-loader.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/invoice-parser.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/storage.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/charts.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/export.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/geo.js') }}?v={{ hd_v }}" defer></script>
+    <script src="{{ get_url(path='js/h-dashboard/app.js') }}?v={{ hd_v }}" defer></script>
 {% endblock %}

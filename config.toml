@@ -29,8 +29,13 @@ theme = "catppuccin-mocha"
 extra_syntaxes_and_themes = ["highlight_themes"]
 
 [extra]
+# Optional AviationStack free-tier key for Flight DB API enrich (Search only)
+aviationstack_api_key = ""
 author = "duynguyenlog"
 tagline = "Duy Nguyen"
+
+# QA Dashboard footer (6 metric cards). false = ẩn UI public, giữ scripts/data/jobs.
+enable_qa_dashboard = false
 
 # Author box hiển thị cuối mỗi bài viết.
 # Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
@@ -71,24 +76,43 @@ menu = [
         { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
         { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
     ] },
+    # Công cụ — 4 NHÓM con (accordion): Content · Dashboard · DB2 · Khác.
+    # Mỗi nhóm có 'children' riêng → submenu chỉ hiện tên nhóm ở tầng 1, mỗi
+    # nhóm xổ/đóng để lộ tool con (không tràn màn hình, nhất là mobile).
+    # Thêm tool mới = thêm 1 dòng vào 'children' của nhóm phù hợp (giữ pattern).
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
-        { url = "$BASE_URL/editor",    name = "Viết bài" },
-        { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
-        { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
-        { url = "$BASE_URL/converter", name = "Korean Converter" },
-        { url = "$BASE_URL/changelog", name = "Changelog" },
-        { url = "$BASE_URL/insights",  name = "Insights" },
-        { url = "$BASE_URL/ad-report", name = "AD-Report" },
-        { url = "$BASE_URL/scoring",   name = "Scoring" },
-        { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
-        { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
-        { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
-        { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
-        { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
-        { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
-        { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
-        { url = "$BASE_URL/font",      name = "Font Guideline" },
+        { name = "Content", children = [
+            { url = "$BASE_URL/editor",    name = "Viết bài" },
+            { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
+            { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
+            { url = "$BASE_URL/converter", name = "Korean Converter" },
+        ] },
+        { name = "Dashboard", children = [
+            { url = "$BASE_URL/insights",  name = "Insights" },
+            { url = "$BASE_URL/ad-report", name = "AD-Report" },
+            { url = "$BASE_URL/ad-report-v2", name = "🔥 Ad-Report V2" },
+            { url = "$BASE_URL/authority-report", name = "Authority Report" },
+            { url = "$BASE_URL/scoring",   name = "Scoring" },
+        ] },
+        { name = "DB2", children = [
+            { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
+            { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
+            { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
+            { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+            { url = "$BASE_URL/tools/flight-db", name = "✈️ Flight DB" },
+            { url = "$BASE_URL/tools/bhxh-1-lan", name = "🧮 BHXH 1 lần" },
+        ] },
+        { name = "Khác", children = [
+            { url = "$BASE_URL/tools/bhtn", name = "🛡️ BHTN" },
+            { url = "$BASE_URL/changelog", name = "Changelog" },
+            { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
+            { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
+            { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
+            { url = "$BASE_URL/shortensea/", name = "ShortenSEA" },
+            { url = "$BASE_URL/font",      name = "Font Guideline" },
+        ] },
     ] },
+    { name = "VIPZone", url = "$BASE_URL/tools/vipzone" },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
         { url = "$BASE_URL/about",            name = "Giới thiệu" },
         { url = "$BASE_URL/contact",          name = "Liên hệ" },
@@ -125,18 +149,33 @@ google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
 # truy vấn site:banhang-chogao.github.io/zola nên nút tìm kiếm vẫn hoạt động.
 google_cse_cx = "533c848cb0eb14de2"
 
-# CMS auth backend — FastAPI OAuth (cùng service visitor-counter trên Render).
+# VIPZone auth backend — FastAPI OAuth on Render.
 # PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta vipzone-auth-api sẽ không render).
 cms_auth_url = "https://blog-vipzone-api.onrender.com"
+# Google Search Console (SEO Reality Check): OAuth + live metrics qua VIPZone auth /gsc/*.
+# Property cố định: https://banhang-chogao.github.io/zola/ (URL prefix trong GSC).
+# Setup: Google Cloud OAuth → redirect https://blog-vipzone-api.onrender.com/gsc/oauth/callback
+# → Render env GSC_CLIENT_ID + GSC_CLIENT_SECRET → đăng nhập CMS → Kết nối GSC.
+# CI snapshot: GitHub secrets GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET.
 
 # Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
 paywall_api_url = "https://blog-paywall-api.onrender.com"
+# ShortenSEA API — short link CRUD, click tracking, approve codes.
+# Để trống = frontend dùng localStorage prototype (dev). Sau deploy Render, dán URL service.
+shortensea_api_url = "https://blog-shortensea-api.onrender.com"
+# VIPZone API — Render FastAPI (blog-vipzone-api)
+vipzone_api_url = "https://blog-vipzone-api.onrender.com"
+vipzone_momo_monthly = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA"
+vipzone_momo_semiannual = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
-# Ẩn tạm chuyên mục Premium: /categories/premium/ và mọi bài premium hiển thị
-# locked-state overlay ("Chuyên mục này đã bị ẩn tạm thời.") thay vì nội dung/404.
-# Đặt false để khôi phục hiển thị bình thường.
-premium_hidden = true
+# Premium paywall STRICT: true = bài premium chỉ hiển thị teaser + paywall box,
+# bắt buộc thanh toán MoMo qua backend để mở khóa nội dung (KHÔNG phải donate tự nguyện).
+# Build chạy paywall_prepare_build.py --strip → full content giữ ở private_content/,
+# static HTML chỉ chứa teaser (no-bypass khi mở URL trực tiếp).
+# Ưu tiên enable_premium_lock; premium_hidden giữ làm fallback (deprecated).
+enable_premium_lock = true
+premium_hidden = false
 momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
 # lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link

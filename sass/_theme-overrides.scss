@@ -667,10 +667,18 @@
   .fontguide__usage-col,
   .fontguide__award,
   .ad-banner,
-  .header-ad {
+  .header-ad,
+  .header-welcome,
+  .post-thanks {
     border-radius: 4px;
     border-color: #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+  }
+
+  .header-welcome,
+  .post-thanks {
+    background: #ddf4f2;
+    border-left-color: #00a69d;
   }
 
   .ad-banner,

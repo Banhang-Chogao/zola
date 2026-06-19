@@ -1,0 +1,96 @@
+name: Authority Booster Daily
+
+# Trust score, topical authority, safe internal-link/ref/pillar PRs — 06:00 GMT+7.
+
+on:
+  schedule:
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: authority-booster
+  cancel-in-progress: false
+
+jobs:
+  boost:
+    name: Authority Booster
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Unit tests
+        run: python3 -m unittest scripts.test_authority_booster -v
+
+      - name: Run Authority Booster (apply safe fixes)
+        run: python3 authority-booster.py --apply
+
+      - name: Rebuild references + SEO reality
+        run: |
+          python3 scripts/build_references.py
+          python3 scripts/build_seo_reality.py
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: authority-report
+          path: |
+            data/authority-report.json
+            data/authority-booster-manifest.json
+            reports/authority-booster/
+          if-no-files-found: warn
+
+      - name: Run summary
+        if: always()
+        run: |
+          if [[ -f data/authority-report.json ]]; then
+            python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d = json.load(open("data/authority-report.json"))
+          t = d.get("trust_score") or {}
+          print(f"## 🛡️ Authority Report #{d.get('report_number')}")
+          print(f"- **Trust:** {t.get('score')}/100 — {t.get('label')}")
+          print(f"- **Posts:** {d.get('scan_stats', {}).get('total_posts')}")
+          if d.get("last_apply_stats"):
+              print(f"- **Applied:** {d['last_apply_stats']}")
+          PY
+          fi
+
+      - name: Open PR if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git add data/authority-report.json data/authority-booster-manifest.json \
+            reports/authority-booster/ content/topic/ data/seo-reality.json static/data/seo-reality.json \
+            data/references.json static/data/references.json content/posting/ content/baochi/ 2>/dev/null || true
+          git add -A content/topic/ content/posting/_authority-draft-*.md 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes — skip PR."
+            exit 0
+          fi
+          BRANCH="chore/authority-booster-$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git commit -m "chore(authority): daily booster trust + safe SEO patches [skip changelog]"
+          git push -u origin "$BRANCH"
+          TRUST=$(python3 -c 'import json;print(json.load(open("data/authority-report.json"))["trust_score"]["score"])')
+          gh pr create --base main --head "$BRANCH" \
+            --title "chore(authority): Authority Booster — trust ${TRUST}/100" \
+            --body "Automated Authority Booster: trust score, internal links, refs, pillar pages. Review draft posts (_authority-draft-*)." \
+            || echo "::warning::could not open PR"

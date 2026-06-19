@@ -60,16 +60,67 @@ class GscSectionTest(unittest.TestCase):
         self.assertFalse(mod._gsc_section({})["connected"])
 
     def test_connected_passes_real_values(self):
-        sec = mod._gsc_section({"impressions": 1234, "clicks": 56})
+        sec = mod._gsc_section({"connected": True, "impressions": 1234, "clicks": 56})
         self.assertTrue(sec["connected"])
         self.assertEqual(sec["impressions"], 1234)
         self.assertEqual(sec["clicks"], 56)
 
 
+class IndexingSectionTest(unittest.TestCase):
+    def test_disconnected_unknown(self):
+        sec = mod._indexing_section(None, 42)
+        self.assertFalse(sec["connected"])
+        self.assertIsNone(sec["pages_indexed"])
+        self.assertEqual(sec["sitemap_pages"], 42)
+
+    def test_connected_with_health(self):
+        gsc = {
+            "connected": True,
+            "indexed_pages": 80,
+            "submitted_pages": 100,
+            "non_indexed_pages": 20,
+            "index_health": "Good",
+            "sitemap_status": "ok",
+        }
+        sec = mod._indexing_section(gsc, 100)
+        self.assertTrue(sec["connected"])
+        self.assertEqual(sec["pages_indexed"], 80)
+        self.assertEqual(sec["index_health"], "Good")
+
+
+class GscExtrasTest(unittest.TestCase):
+    def test_empty_when_disconnected(self):
+        extras = mod._gsc_extras(None)
+        self.assertEqual(extras["top_pages"], [])
+        self.assertEqual(extras["executive_summary"], [])
+
+    def test_passes_through_when_connected(self):
+        gsc = {
+            "connected": True,
+            "top_pages": [{"page": "/a", "clicks": 1}],
+            "top_queries": [{"query": "test", "clicks": 2}],
+            "executive_summary": ["Traffic up."],
+        }
+        extras = mod._gsc_extras(gsc)
+        self.assertEqual(len(extras["top_pages"]), 1)
+        self.assertEqual(extras["executive_summary"][0], "Traffic up.")
+
+
 class ComputeRealityTest(unittest.TestCase):
     def test_required_fields(self):
         payload = mod.compute_reality()
-        for key in ("technical_seo", "gsc", "indexing", "authority", "growth", "tooltip"):
+        for key in (
+            "technical_seo",
+            "gsc",
+            "indexing",
+            "authority",
+            "growth",
+            "tooltip",
+            "top_pages",
+            "top_queries",
+            "trend",
+            "executive_summary",
+        ):
             self.assertIn(key, payload)
 
     def test_technical_seo_is_internal(self):
@@ -84,11 +135,11 @@ class ComputeRealityTest(unittest.TestCase):
         self.assertIsNone(auth["backlinks"])
         self.assertIsNone(auth["referring_domains"])
         self.assertEqual(auth["backlinks_source"], "not_measured")
-        self.assertEqual(auth["authority_source"], "estimated")
+        self.assertIn(auth["authority_source"], ("estimated", "authority_booster"))
 
-    def test_growth_is_estimated(self):
+    def test_growth_has_confidence(self):
         payload = mod.compute_reality()
-        self.assertEqual(payload["growth"]["source"], "estimated")
+        self.assertIn(payload["growth"]["source"], ("estimated", "authority_booster"))
         self.assertIn(payload["growth"]["confidence"], ("low", "medium", "high"))
 
     def test_write_outputs_creates_both_files(self):

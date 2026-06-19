@@ -42,11 +42,18 @@ jobs:
           pip install -r scripts/requirements-f-dashboard.txt
           pip install -r scripts/requirements-l-dashboard.txt
 
-      - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose
+      - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose + QA vaccines
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix -v
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines -v
 
-      - name: Run QA checks (conflicts/secrets/SEO/SCSS syntax)
+      # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
+      # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library
+      # (V1..V12 + compliance set). Runs BEFORE the expensive Zola build so known
+      # recurring build-breakers (Tera kwargs, unbalanced blocks, broken
+      # workflow YAML / config TOML, corrupt dashboard JSON, JS syntax errors,
+      # premium posts with no backing private file) are blocked early. The step
+      # exits 1 on any vaccine FAIL → fails the job → blocks auto-merge/deploy.
+      - name: Run QA Gatekeeper + Vaccine Gate (conflicts/secrets/SEO/SCSS + CLAUDE.md vaccines)
         run: python3 qa_check.py
 
       - name: Install Zola for build check
@@ -60,6 +67,9 @@ jobs:
 
       - name: Build reference index
         run: python3 scripts/build_references.py
+
+      - name: Build VIPZone picker catalog
+        run: python3 scripts/build_vipzone_picker_catalog.py
 
       - name: Build Google Rank sidebar data
         run: python3 scripts/build_google_rank.py

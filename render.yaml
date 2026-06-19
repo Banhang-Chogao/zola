@@ -1,109 +1,45 @@
-# Render Blueprint — 1-click deploy cho blog backend.
+# Render Blueprint — VIPZone API (Render Free tier, no persistent disk).
 #
-# Cách dùng:
-#   1. Vào https://dashboard.render.com/blueprints
-#   2. Click "New Blueprint Instance"
-#   3. Connect repo Banhang-Chogao/zola
-#   4. Render đọc file này → tự tạo Redis + Web Service
-#   5. Bạn điền 3 env vars sync:false bên dưới → click Apply
-#   6. Sau khi Web Service running, copy URL, dán vào config.toml
-#      `visitor_api_url = "https://blog-vipzone-api.onrender.com"`
+# Deploy:
+#   1. https://dashboard.render.com/blueprints → New Blueprint Instance
+#   2. Connect repo Banhang-Chogao/zola
+#   3. Branch: feat/vipzone (or main after merge)
+#   4. Blueprint path: render.yaml
+#   5. Apply → fill sync:false env vars in dashboard
+#   6. Copy service URL → config.toml `vipzone_api_url`
+#
+# Persistence: SQLite at /tmp (ephemeral — survives restarts, lost on redeploy).
+# For durable storage later, point VIPZONE_DB_PATH at an external DB via env.
 #
 # Docs: https://render.com/docs/blueprint-spec
 
 services:
-  # ============= Redis (free 25MB) =============
-  - type: redis
-    name: blog-redis
-    plan: free
-    region: singapore       # gần Việt Nam cho latency thấp
-    maxmemoryPolicy: allkeys-lru
-    ipAllowList: []         # chỉ internal services trong Render kết nối được
-
-  # ============= FastAPI Web Service =============
   - type: web
     name: blog-vipzone-api
     runtime: python
     region: singapore
     plan: free
-    rootDir: services/visitor-counter
+    rootDir: services/vipzone
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
 
     envVars:
-      # Redis — Render auto-inject internal connection URL
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: blog-redis
-          property: connectionString
-
-      # Public config — bake luôn vào blueprint
-      - key: CORS_ORIGIN
+      - key: VIPZONE_CORS_ORIGIN
         value: https://banhang-chogao.github.io
-      - key: BLOG_URL
+      - key: VIPZONE_BLOG_URL
         value: https://banhang-chogao.github.io/zola
+      # Ephemeral SQLite — no Render disk on free tier
+      - key: VIPZONE_DB_PATH
+        value: /tmp/vipzone.db
+      - key: VIPZONE_AUTH_URL
+        value: https://blog-vipzone-api.onrender.com
       - key: ADMIN_EMAILS
-        value: 292648126+Banhang-Chogao@users.noreply.github.com
+        value: 292648126+banhang-chogao@users.noreply.github.com
       - key: ADMIN_USERNAMES
         value: banhang-chogao
-      - key: SESSION_TTL
-        value: "7200"
-      - key: COUNTER_KEY
-        value: blog:visitors
-      - key: NEWS_CACHE_TTL
-        value: "1800"
-
-      # Sync=false → user phải điền sau khi Render assign URL + tạo OAuth App
-      # KHÔNG bake secret vào blueprint vì file này commit public repo.
-      - key: BACKEND_URL
-        sync: false
-      - key: GH_CLIENT_ID
-        sync: false
-      - key: GH_CLIENT_SECRET
-        sync: false
-      # IMDB source URL cho /api/movies.
-      # Default = IMDB Calendar (upcoming releases) — scrape qua curl_cffi
-      # + parse __NEXT_DATA__. Có thể đổi sang proxy JSON
-      # (vd imdb.iamidiotareyoutoo.com/search?q=...) — backend tự dispatch
-      # dựa vào hostname.
-      - key: IMDB_API_URL
-        value: https://www.imdb.com/calendar/?ref_=tt_nv_menu
-
-  # ============= Paywall API (FastAPI + SQLite) =============
-  - type: web
-    name: blog-paywall-api
-    runtime: python
-    region: singapore
-    plan: free
-    rootDir: services/paywall
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    disk:
-      name: paywall-data
-      mountPath: /var/data
-      sizeGB: 1
-
-    envVars:
-      - key: PAYWALL_CORS_ORIGIN
-        value: https://banhang-chogao.github.io
-      - key: PAYWALL_BLOG_DOMAIN
-        value: banhang-chogao.github.io
-      - key: PAYWALL_BLOG_NAME
-        value: Duy Nguyen Blog
-      - key: PAYWALL_DB_PATH
-        value: /var/data/paywall.db
-      - key: MOMO_PAYMENT_LINK
-        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG
-      - key: PAYWALL_ADMIN_TOKEN
-        sync: false
-      - key: SMTP_HOST
-        sync: false
-      - key: SMTP_PORT
-        value: "587"
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASSWORD
-        sync: false
-      - key: SMTP_FROM
-        sync: false
+      - key: VIPZONE_MOMO_MONTHLY
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA
+      - key: VIPZONE_MOMO_SEMIANNUAL
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg
+      - key: VIPZONE_CATALOG_URL
+        value: https://banhang-chogao.github.io/zola/data/vipzone-picker-catalog.json

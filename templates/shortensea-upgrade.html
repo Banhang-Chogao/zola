@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Nâng cấp ShortenSEA VIP | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
+{% block main %}
+<div id="sse-upgrade" class="shortensea" data-sse-page="upgrade">
+
+    <header class="shortensea__hero shortensea__hero--vip">
+        <p class="shortensea__hero-eyebrow">ShortenSEA VIP</p>
+        <h1 class="shortensea__hero-title">Kích hoạt ShortenSEA VIP</h1>
+        <p class="shortensea__hero-desc">Bạn cần thanh toán qua MoMo để kích hoạt quyền VIP cho tài khoản ShortenSEA. Sau khi thanh toán, nhập approve code được gửi qua email để mở khóa gói VIP.</p>
+        <span class="shortensea__badge-vip" aria-hidden="true">⭐ VIP</span>
+    </header>
+
+    <nav class="shortensea__nav-tabs" aria-label="ShortenSEA navigation">
+        <a class="shortensea__nav-tab" href="{{ config.base_url }}/shortensea/">Tạo link</a>
+        <a class="shortensea__nav-tab" href="{{ config.base_url }}/shortensea/links/">Danh sách</a>
+        <a class="shortensea__nav-tab" href="{{ config.base_url }}/shortensea/insights/">Insights</a>
+        <a class="shortensea__nav-tab shortensea__nav-tab--active shortensea__nav-tab--vip" href="{{ config.base_url }}/shortensea/upgrade/">Nâng cấp VIP</a>
+    </nav>
+
+    <div class="shortensea__pricing-grid shortensea__pricing-grid--upgrade">
+        <div class="shortensea__price-card" data-sse-plan-card="monthly">
+            <p class="shortensea__price-name">Gói Tháng</p>
+            <p class="shortensea__price-amount">50.000 VND / tháng</p>
+            <ul class="shortensea__price-features">
+                <li>100 link/tháng</li>
+                <li>10 custom back-half</li>
+                <li>QR code &amp; tags</li>
+                <li>Analytics cơ bản</li>
+            </ul>
+            <button type="button" class="shortensea__btn shortensea__btn--ghost" data-sse-select-plan="monthly">Chọn gói tháng</button>
+        </div>
+        <div class="shortensea__price-card shortensea__price-card--featured" data-sse-plan-card="yearly">
+            <p class="shortensea__price-name">Gói Năm</p>
+            <p class="shortensea__price-amount">500.000 VND / năm</p>
+            <ul class="shortensea__price-features">
+                <li>1.000 link/tháng</li>
+                <li>50 custom back-half</li>
+                <li>UTM &amp; hết hạn link</li>
+                <li>Advanced insights</li>
+            </ul>
+            <button type="button" class="shortensea__btn shortensea__btn--primary" data-sse-select-plan="yearly">Chọn gói năm</button>
+        </div>
+    </div>
+
+    <section class="shortensea__paywall-card" id="sse-paywall-flow">
+        <input type="hidden" id="sse-selected-plan" value="yearly">
+
+        <div class="shortensea__paywall-step">
+            <h3 class="shortensea__paywall-step-title"><span class="shortensea__step-num">1</span> Thanh toán qua MoMo</h3>
+            <p class="shortensea__hero-desc">Gói đã chọn: <strong data-sse-selected-plan-label>Gói Năm — 500.000 VND / năm</strong></p>
+            <a class="shortensea__btn shortensea__btn--momo" data-sse-momo-link href="{{ config.extra.momo_payment_link | default(value='https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG') }}" target="_blank" rel="noopener noreferrer">
+                Thanh toán MoMo
+            </a>
+        </div>
+
+        <div class="shortensea__paywall-step">
+            <h3 class="shortensea__paywall-step-title"><span class="shortensea__step-num">2</span> Gửi yêu cầu kích hoạt</h3>
+            <form class="shortensea__form" id="sse-payment-form" novalidate>
+                <div class="shortensea__field">
+                    <label class="shortensea__label" for="sse-pay-email">Email của bạn</label>
+                    <input class="shortensea__input" id="sse-pay-email" type="email" placeholder="email@example.com" required autocomplete="email">
+                </div>
+                <div class="shortensea__field">
+                    <label class="shortensea__label" for="sse-pay-note">Ghi chú giao dịch MoMo</label>
+                    <input class="shortensea__input" id="sse-pay-note" type="text" placeholder="VD: Chuyển lúc 20:30, nội dung CK ShortenSEA..." maxlength="500">
+                </div>
+                <button type="submit" class="shortensea__btn shortensea__btn--primary">Tôi đã thanh toán, gửi yêu cầu kích hoạt</button>
+            </form>
+        </div>
+
+        <div class="shortensea__paywall-step">
+            <h3 class="shortensea__paywall-step-title"><span class="shortensea__step-num">3</span> Nhập approve code</h3>
+            <p class="shortensea__hero-desc">Admin xác minh thủ công và gửi mã qua email. Không tự động xác nhận thanh toán MoMo.</p>
+            <div class="shortensea__row">
+                <input class="shortensea__input" id="sse-approve-code" type="text" placeholder="Nhập approve code" autocomplete="one-time-code" spellcheck="false">
+                <button type="button" class="shortensea__btn shortensea__btn--primary" data-sse-action="redeem">Kích hoạt VIP</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="shortensea__success-card" id="sse-success" hidden>
+        <div class="shortensea__success-icon" aria-hidden="true">
+            <svg viewBox="0 0 52 52" width="64" height="64"><circle cx="26" cy="26" r="25" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="3" d="M14 27l8 8 16-16"/></svg>
+        </div>
+        <h2 class="shortensea__card-title">Kích hoạt VIP thành công!</h2>
+        <p class="shortensea__hero-desc" data-sse-success-msg>Gói VIP đã được kích hoạt. Bạn có thể dùng đầy đủ tính năng premium.</p>
+        <a class="shortensea__btn shortensea__btn--primary" href="{{ config.base_url }}/shortensea/">Về trang tạo link</a>
+    </section>
+
+    <div class="shortensea__toast-host" data-sse-toast-host aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/shortensea/toast.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/api.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/auth.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/upgrade.js') }}" defer></script>
+{% endblock %}

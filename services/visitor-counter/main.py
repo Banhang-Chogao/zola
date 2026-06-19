@@ -56,6 +56,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 import redis.asyncio as redis
 
+from gsc_routes import configure as configure_gsc, router as gsc_router
+
 
 # ============= Configuration =============
 REDIS_URL   = os.getenv("REDIS_URL", "redis://localhost:6379")
@@ -365,6 +367,14 @@ async def require_session(authorization: str) -> dict:
     if not raw:
         raise HTTPException(401, "invalid_session")
     return json.loads(raw)
+
+
+configure_gsc(
+    get_redis=get_redis,
+    require_session=require_session,
+    build_blog_url=_build_blog_url,
+)
+app.include_router(gsc_router)
 
 
 # ============= DEBUG — Trip.com scrape diagnostic =============
@@ -2357,6 +2367,7 @@ async def root():
         "features": {
             "visitor_counter": True,
             "github_oauth":    bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
+            "gsc_oauth":       bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
             "rss_checker":     True,
         },
         "endpoints": {
@@ -2376,5 +2387,11 @@ async def root():
             "GET  /reports/{file}":"Download report .md content (auth required)",
             "POST /reports":      "Create/overwrite a report (auth required)",
             "POST /reports/delete":"Delete a report (auth required)",
+            "GET  /gsc/metrics":  "Cached GSC metrics bundle (public, 20m cache)",
+            "GET  /gsc/status":   "GSC connection status",
+            "GET  /gsc/oauth/start":"Start Google GSC OAuth (auth required)",
+            "GET  /gsc/properties":"List GSC site properties (auth required)",
+            "POST /gsc/property": "Set active GSC property (auth required)",
+            "POST /gsc/disconnect":"Revoke GSC connection (auth required)",
         },
     }

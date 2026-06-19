@@ -8,22 +8,33 @@
 {% import "macros/paywall.html" as paywall %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/locked.html" as locked %}
+{% import "macros/momo_support.html" as momo_support %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-{# Bài premium đang ẩn → locked overlay + noindex (SEO-safe). Phát hiện qua
-   extra.premium hoặc category "premium". (Tính trong block vì set top-level của
-   child template extends không được Tera thực thi.) #}
-{% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% if is_premium and config.extra.premium_hidden | default(value=false) %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+{% block extra_head %}
+{{ super() }}
+{% set cats_vz = page.taxonomies.categories | default(value=[]) %}
+{% set is_premium_vz = page.extra.premium | default(value=false) or "premium" in cats_vz %}
+{% set premium_lock_vz = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
+{% if is_premium_vz and premium_lock_vz %}
+<script>document.documentElement.setAttribute("data-vipzone-premium","true");</script>
+{% endif %}
+{% endblock %}
+
+{# Bài premium đang khóa paywall → noindex (chỉ teaser công khai, full content nằm
+   sau thanh toán). enable_premium_lock ưu tiên hơn premium_hidden (deprecated). #}
+{% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% if is_premium and premium_lock %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block main %}
     {% set cats = page.taxonomies.categories | default(value=[]) %}
     {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
-    {% if is_premium and config.extra.premium_hidden | default(value=false) %}
-    {{ locked::overlay(base_url=config.base_url) }}
-    {% else %}
+    {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
+    {# Paywall hoạt động cho MỌI bài premium (extra.premium HOẶC category "premium")
+       khi lock bật → render teaser + paywall box, KHÔNG render full content. #}
+    {% set paywall_active = is_premium and premium_lock %}
     <article class="post-single">
             <div class="post-single__hero">
-                {% if page.extra.premium %}
+                {% if is_premium %}
                     {{ premium::badge() }}
                 {% elif page.taxonomies.categories %}
                     <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
@@ -112,21 +123,7 @@
             </div>
         </header>
 
-        {# Ad banner — sau này thay link/ảnh khi có quảng cáo #}
-        <a class="ad-banner" href="{{ config.base_url }}" title="Về trang chủ">
-            <div class="ad-banner__image">
-                <img src="{{ get_url(path='img/placeholder/placeholder-wide.svg') }}" alt="Banner quảng cáo — về trang chủ" onerror="this.style.display='none'; this.parentNode.classList.add('ad-banner__image--placeholder')" loading="lazy" decoding="async">
-                <span class="ad-banner__icon" aria-hidden="true">🐻</span>
-            </div>
-            <div class="ad-banner__text">
-                <span class="ad-banner__label">QUẢNG CÁO</span>
-                <h3 class="ad-banner__title">Đặt banner quảng cáo của bạn tại đây</h3>
-                <p class="ad-banner__desc">Nhấp để về trang chủ — Khu vực này sẽ hiển thị quảng cáo khi có hợp đồng.</p>
-            </div>
-            <span class="ad-banner__arrow" aria-hidden="true">→</span>
-        </a>
-
-        {% if page.extra.premium %}
+        {% if paywall_active %}
         <div class="post-single__content post-single__content--teaser post-single__content--premium-locked">
             {{ page.content | safe }}
         </div>
@@ -184,6 +181,20 @@
             </details>
             {% endfor %}
         </section>
+        {% endif %}
+
+        {# ===== Cuối bài =====
+           - paywall_active (premium + lock): KHÔNG thêm CTA — paywall box ở trên
+             đã có nút "Thanh toán qua MoMo để đọc tiếp".
+           - premium nhưng lock TẮT: MoMo tự nguyện (donate).
+           - bài thường: lời cảm ơn. #}
+        {% if paywall_active %}
+        {% elif is_premium and not premium_lock %}
+        {{ momo_support::card(config=config) }}
+        {% elif not is_premium %}
+        <aside class="post-thanks" aria-label="Lời cảm ơn">
+            <p class="post-thanks__text">Cám ơn bạn đã đọc blog tới cuối bài. Hãy tham khảo thêm nhiều bài viết hay khác trên blog nhé.</p>
+        </aside>
         {% endif %}
 
         {# ===== PREV / NEXT POST NAVIGATION ("Đọc tiếp") =====
@@ -427,12 +438,14 @@
         {# ===== GISCUS COMMENTS ===== #}
         {{ giscus::comments() }}
     </article>
-    {% endif %}
 {% endblock main %}
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
-    {% if page.extra.premium %}
+    {% set cats = page.taxonomies.categories | default(value=[]) %}
+    {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
+    {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
+    {% if is_premium and premium_lock %}
     <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
     {% endif %}
     <script>

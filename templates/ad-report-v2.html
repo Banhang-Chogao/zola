@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% import "macros/datetime.html" as dt %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+{% set ar = load_data(path="data/ad-report-v2.json", required=false) %}
+{% if ar %}
+{% set ar_num = ar.report_number | default(value=0) %}
+{% set ar_score = ar.monetization_score | default(value=0) %}
+{% set density_verdict = ar.ad_density.verdict | default(value="unknown") %}
+{% set density_slots = ar.ad_density.slots | default(value=0) %}
+{% set density_units = ar.ad_density.live_units | default(value=0) %}
+{% set density_rec = ar.ad_density.recommendation | default(value="") %}
+{% set ui_grade = ar.ui_review.overall_grade | default(value="—") %}
+{% set ui_findings = ar.ui_review.findings | default(value=[]) %}
+{% set ar_candidates = ar.top_adsense_candidates | default(value=[]) %}
+{% set ar_top20 = ar.priority_posts_top20 | default(value=[]) %}
+{% set ar_keywords = ar.high_value_keywords | default(value=[]) %}
+{% set ar_suggestions = ar.rpm_booster_suggestions | default(value=[]) %}
+{% set ar_cats = ar.revenue_opportunities.top_categories | default(value=[]) %}
+{% set ar_history = ar.history | default(value=[]) %}
+{% set ar_generated = ar.generated_at | default(value="") %}
+{% set ar_incremental = ar.scan_stats.incremental | default(value=false) %}
+{% set ar_pagespeed = ar.pagespeed_snapshot | default(value=false) %}
+{% set ar_report_path = ar.latest_report_path | default(value="reports/ad-report-v2/") %}
+{% else %}
+{% set ar_num = 0 %}
+{% set ar_score = 0 %}
+{% set density_verdict = "unknown" %}
+{% set density_slots = 0 %}
+{% set density_units = 0 %}
+{% set density_rec = "" %}
+{% set ui_grade = "—" %}
+{% set ui_findings = [] %}
+{% set ar_candidates = [] %}
+{% set ar_top20 = [] %}
+{% set ar_keywords = [] %}
+{% set ar_suggestions = [] %}
+{% set ar_cats = [] %}
+{% set ar_history = [] %}
+{% set ar_generated = "" %}
+{% set ar_incremental = false %}
+{% set ar_pagespeed = false %}
+{% set ar_report_path = "reports/ad-report-v2/" %}
+{% endif %}
+
+<section class="ad-report ad-report-v2">
+    <header class="ad-report__head">
+        <p class="ad-report__eyebrow">Insights · AdSense · Monetization</p>
+        <h1 class="ad-report__title">{{ page.title }}</h1>
+        <p class="ad-report__desc">{{ page.description }}</p>
+        <p class="ad-report__meta">
+            {% if ar_generated %}
+            <time datetime="{{ ar_generated }}">Report #{{ ar_num }} · {{ dt::display_datetime(value=ar_generated) }}</time>
+            {% endif %}
+            {% if ar_incremental %} · <span class="ad-report-v2__incr">incremental scan</span>{% endif %}
+        </p>
+    </header>
+
+    <div class="ad-report__summary" aria-label="KPI Ad-Report V2">
+        <article class="ad-report__card ad-report__card--teal">
+            <span class="ad-report__card-label">Monetization score</span>
+            <strong class="ad-report__card-value">{{ ar_score }}</strong>
+            <span class="ad-report__card-sub">/ 100 · E-E-A-T + depth + RPM fit</span>
+        </article>
+        <article class="ad-report__card ad-report__card--blue">
+            <span class="ad-report__card-label">Ad density</span>
+            <strong class="ad-report__card-value ad-report-v2__density ad-report-v2__density--{{ density_verdict }}">
+                {% if density_verdict == "too_sparse" %}Sparse{% elif density_verdict == "optimal" %}Optimal{% elif density_verdict == "too_dense" %}Dense{% else %}—{% endif %}
+            </strong>
+            <span class="ad-report__card-sub">{{ density_slots }} slots · {{ density_units }} live units</span>
+        </article>
+        <article class="ad-report__card ad-report__card--purple">
+            <span class="ad-report__card-label">UI review</span>
+            <strong class="ad-report__card-value">{{ ui_grade }}</strong>
+            <span class="ad-report__card-sub">Deep UX · CWV · AdSense-ready</span>
+        </article>
+        <article class="ad-report__card ad-report__card--neutral">
+            <span class="ad-report__card-label">Candidates</span>
+            <strong class="ad-report__card-value">{{ ar_candidates | length }}</strong>
+            <span class="ad-report__card-sub">top RPM posts tracked</span>
+        </article>
+    </div>
+
+    {% if density_rec %}
+    <aside class="ad-report-v2__callout ad-report-v2__callout--{{ density_verdict }}">
+        <strong>Ad Density Analyzer:</strong> {{ density_rec }}
+    </aside>
+    {% endif %}
+
+    <nav class="ad-report__toc ad-report-v2__toc" aria-label="Mục lục">
+        <a href="#ui-review">UI Review</a>
+        <a href="#revenue">Revenue Opportunities</a>
+        <a href="#keywords">High Value Keywords</a>
+        <a href="#rpm-boost">RPM Booster</a>
+        <a href="#candidates">Top Candidates</a>
+        <a href="#history">Historical Reports</a>
+    </nav>
+
+    <section id="ui-review" class="ad-report-v2__section">
+        <h2>Deep UI Review</h2>
+        <p class="ad-report-v2__lede">Đánh giá từ góc nhìn người đọc, SEO, AdSense, Core Web Vitals và mobile-first — dựa trên PageSpeed, compliance và cấu trúc template.</p>
+        <ul class="ad-report-v2__findings">
+            {% for f in ui_findings %}
+            <li class="ad-report-v2__finding ad-report-v2__finding--{{ f.level | default(value='ok') }}">
+                <span class="ad-report-v2__finding-area">{{ f.area }}</span>
+                <span class="ad-report-v2__finding-text">{{ f.text }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% if ar_pagespeed %}
+        <dl class="ad-report-v2__metrics">
+            <div><dt>Mobile perf</dt><dd>{{ ar_pagespeed.mobile_performance | default(value="—") }}</dd></div>
+            <div><dt>LCP</dt><dd>{{ ar_pagespeed.lcp | default(value="—") }}</dd></div>
+            <div><dt>CLS</dt><dd>{{ ar_pagespeed.cls | default(value="—") }}</dd></div>
+        </dl>
+        {% endif %}
+    </section>
+
+    <section id="revenue" class="ad-report-v2__section">
+        <h2>Revenue Opportunities</h2>
+        {% if ar_cats | length > 0 %}
+        <h3>Category RPM potential</h3>
+        <table class="ad-report-v2__table">
+            <thead><tr><th>Category</th><th>Posts</th><th>Avg RPM</th><th>Max</th></tr></thead>
+            <tbody>
+            {% for c in ar_cats %}
+            <tr>
+                <td>{{ c.category }}</td>
+                <td>{{ c.post_count }}</td>
+                <td>{{ c.avg_rpm_potential }}</td>
+                <td>{{ c.max_rpm_potential }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        <h3>Top 20 bài ưu tiên</h3>
+        <ol class="ad-report-v2__ranked">
+            {% for p in ar_top20 %}
+            <li>
+                <a href="{{ p.url }}">{{ p.title }}</a>
+                <span class="ad-report-v2__score">{{ p.monetization_score }}</span>
+                {% if p.rpm_topics %}<span class="ad-report-v2__tag">{{ p.rpm_topics | join(sep=", ") }}</span>{% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section id="keywords" class="ad-report-v2__section">
+        <h2>High Value Keywords</h2>
+        <ul class="ad-report-v2__kw-list">
+            {% for k in ar_keywords %}
+            <li>
+                <strong>{{ k.topic }}</strong>
+                <span>{{ k.mentions }} mentions</span>
+                <span class="ad-report-v2__kw-samples">{{ k.sample_keywords | join(sep=" · ") }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="rpm-boost" class="ad-report-v2__section">
+        <h2>RPM Booster Suggestions</h2>
+        <ul class="ad-report-v2__suggestions">
+            {% for s in ar_suggestions %}
+            <li>{{ s }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="candidates" class="ad-report-v2__section">
+        <h2>Top AdSense Candidates (50)</h2>
+        <table class="ad-report-v2__table ad-report-v2__table--candidates">
+            <thead><tr><th>#</th><th>Title</th><th>Category</th><th>Score</th><th>Link</th></tr></thead>
+            <tbody>
+            {% for p in ar_candidates %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ p.title }}</td>
+                <td>{{ p.category }}</td>
+                <td><span class="ad-report-v2__score">{{ p.score }}</span></td>
+                <td><a href="{{ p.url }}">Open</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section id="history" class="ad-report-v2__section">
+        <h2>Historical Reports</h2>
+        <ol class="ad-report-v2__history">
+            {% for h in ar_history | reverse %}
+            <li>
+                <span class="ad-report-v2__hist-num">Ad-Report V2 #{{ h.report_number }}</span>
+                <time datetime="{{ h.generated_at }}">{{ dt::display_datetime(value=h.generated_at) }}</time>
+                <span class="ad-report-v2__score">{{ h.monetization_score }}/100</span>
+                <span class="ad-report-v2__hist-meta">{{ h.ui_grade }} · {{ h.ad_density_verdict }}</span>
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <footer class="ad-report__foot">
+        <p>
+            Archive: <code>{{ ar_report_path }}</code>
+            · Generator: <code>scripts/build_ad_report_v2.py</code>
+        </p>
+        <p>
+            <a href="{{ config.base_url }}/ad-report/">Ad-Report V1</a> ·
+            <a href="{{ config.base_url }}/insights/">Insights</a> ·
+            <a href="{{ config.base_url }}/branding-guideline/">Branding</a>
+        </p>
+    </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

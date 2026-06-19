@@ -355,11 +355,22 @@
 .footer-qa__left,
 .footer-qa__right { min-width: 0; }
 
+/* QA tắt: chỉ GA — 1 cột, không khoảng trống cột trái */
+.footer-qa__split--ga-only {
+  gap: 0;
+  .footer-qa__right { width: 100%; }
+  .ga-stats { max-width: none; margin: 0 auto; }
+}
+
 @media (min-width: 981px) {
   .footer-qa__split {
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: 1.75rem;
     align-items: start;
+  }
+  .footer-qa__split--ga-only {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
   /* Header căn trái + QA grid 2 cột gọn trong nửa trái */
   .footer-qa__split .footer-qa__head { justify-content: flex-start; }

@@ -1,0 +1,57 @@
+name: Fetch GSC Stats
+
+# Every 20 minutes: pull Search Console metrics → commit data/gsc-metrics.json.
+# REQUIRED SECRETS: GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET
+# Obtain refresh token via /gsc/oauth/start on blog backend (admin session).
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: gsc-stats
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Google API client
+        run: pip install --quiet google-api-python-client==2.169.0 google-auth==2.40.2
+
+      - name: Fetch GSC metrics
+        env:
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+        run: python scripts/fetch_gsc_metrics.py
+
+      - name: Rebuild SEO reality snapshot
+        run: python3 scripts/build_seo_reality.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh GSC metrics ($(date -u +%FT%TZ))" \
+            data/gsc-metrics.json \
+            static/data/gsc-metrics.json \
+            data/seo-reality.json \
+            static/data/seo-reality.json
