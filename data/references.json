@@ -1,4 +1,98 @@
 {
+  "content/posting/10-meo-vietinbank-ipay-nang-cao.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Tối ưu bảo mật iPay",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-toi-uu-bao-mat-han-muc-ipay/",
+        "kind": "internal"
+      },
+      {
+        "title": "LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      },
+      {
+        "title": "BHXH VssID",
+        "url": "https://banhang-chogao.github.io/zola/vssid-khong-hien-qua-trinh-dong-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "Lỗi LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/loi-thuong-gap-lpbank-so/",
+        "kind": "internal"
+      },
+      {
+        "title": "Lương hưu 2026",
+        "url": "https://banhang-chogao.github.io/zola/tinh-luong-huu-2026-huong-dan/",
+        "kind": "internal"
+      },
+      {
+        "title": "FAQ Schema ngân hàng",
+        "url": "https://banhang-chogao.github.io/zola/faq-schema-cluster-ngan-hang-ctr/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 6
+  },
+  "content/posting/10-vaccine-claude-md-giam-loi-production.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Hệ thống prompt Zola",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-he-thong-prompt-zola-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "QA Gatekeeper",
+        "url": "https://banhang-chogao.github.io/zola/bai-3-qa-gatekeeper-vaccine-autofixer/",
+        "kind": "internal"
+      },
+      {
+        "title": "FAQ Schema",
+        "url": "https://banhang-chogao.github.io/zola/faq-schema-cluster-ngan-hang-ctr/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 3
+  },
+  "content/posting/50-mau-cau-topik-nang-cao.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Pillar ngữ pháp",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "-더라도",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-derado-va-neunda-haedo/",
+        "kind": "internal"
+      },
+      {
+        "title": "-곤 하다",
+        "url": "https://banhang-chogao.github.io/zola/bai-3-gon-hada-ki-mareonida/",
+        "kind": "internal"
+      },
+      {
+        "title": "Giả định nâng cao",
+        "url": "https://banhang-chogao.github.io/zola/bai-4-ngu-phap-gia-dinh-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Internal linking orphan",
+        "url": "https://banhang-chogao.github.io/zola/sua-orphan-bai-tieng-han-seo/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 5
+  },
   "content/posting/an-khuya-sai-gon.md": {
     "external": [
       {
@@ -154,6 +248,34 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Ngân hàng Nhà nước và trang chủ VietinBank. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
     "internal_count": 6
+  },
+  "content/posting/bhxh-mot-lan-hay-luong-huu.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Tính lương hưu 2026",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-tinh-luong-huu-2026-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "BHTN khi nghỉ việc",
+        "url": "https://banhang-chogao.github.io/zola/tro-cap-that-nghiep-thoi-gian-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "VietinBank iPay",
+        "url": "https://banhang-chogao.github.io/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/",
+        "kind": "internal"
+      },
+      {
+        "title": "LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 4
   },
   "content/posting/cach-mo-tai-khoan-ngan-hang-so-online.md": {
     "external": [
@@ -618,6 +740,34 @@
     "copyright": "Nội dung tổng hợp từ thông cáo chính thức VietinBank về V-Plus & V-Advance, Điều khoản & Điều kiện gói tiện ích tài chính và hướng dẫn sử dụng VietinBank iPay. Quyền lợi, phí và điều kiện có thể thay đổi theo từng thời kỳ — đối chiếu bản mới nhất trên vietinbank.vn trước khi đăng ký.",
     "external_count": 4,
     "internal_count": 7
+  },
+  "content/posting/derado-va-neunda-haedo-tieng-han.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Pillar ngữ pháp nâng cao",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "Giả định nâng cao",
+        "url": "https://banhang-chogao.github.io/zola/bai-4-ngu-phap-gia-dinh-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "50 mẫu câu TOPIK",
+        "url": "https://banhang-chogao.github.io/zola/bai-5-50-mau-cau-topik/",
+        "kind": "internal"
+      },
+      {
+        "title": "Internal linking tiếng Hàn",
+        "url": "https://banhang-chogao.github.io/zola/sua-orphan-bai-tieng-han-seo/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 4
   },
   "content/posting/di-han-het-bao-nhieu-tien.md": {
     "external": [
@@ -1094,6 +1244,60 @@
     "external_count": 1,
     "internal_count": 2
   },
+  "content/posting/faq-schema-cluster-ngan-hang-ctr.md": {
+    "external": [
+      {
+        "title": "Google Rich Results Test",
+        "url": "https://search.google.com/test/rich-results",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Sửa orphan tiếng Hàn",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-sua-orphan-tieng-han/",
+        "kind": "internal"
+      },
+      {
+        "title": "LPBank review",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      },
+      {
+        "title": "VietinBank iPay",
+        "url": "https://banhang-chogao.github.io/zola/10-meo-vietinbank-ipay-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "/vietinbank/toi-uu-bao-mat-han-muc-ipay",
+        "url": "https://banhang-chogao.github.io/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/",
+        "kind": "internal"
+      },
+      {
+        "title": "/lpbank/loi-thuong-gap-lpbank-so",
+        "url": "https://banhang-chogao.github.io/zola/loi-thuong-gap-lpbank-so/",
+        "kind": "internal"
+      },
+      {
+        "title": "bài FAQ điểm thi lớp 10",
+        "url": "https://banhang-chogao.github.io/zola/bai-5-faq",
+        "kind": "internal"
+      },
+      {
+        "title": "QA Gatekeeper",
+        "url": "https://banhang-chogao.github.io/zola/qa-gatekeeper-vaccine-autofixer/",
+        "kind": "internal"
+      },
+      {
+        "title": "Prompt system Zola",
+        "url": "https://banhang-chogao.github.io/zola/he-thong-prompt-zola-blog/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google Rich Results Test. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 8
+  },
   "content/posting/faq-toan-tap-ngan-hang-so.md": {
     "external": [
       {
@@ -1537,6 +1741,39 @@
     "external_count": 5,
     "internal_count": 5
   },
+  "content/posting/gon-hada-ki-mareonida-tieng-han.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Pillar",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "-더라도 / -는다 해도",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-derado-va-neunda-haedo/",
+        "kind": "internal"
+      },
+      {
+        "title": "50 câu TOPIK",
+        "url": "https://banhang-chogao.github.io/zola/bai-5-50-mau-cau-topik/",
+        "kind": "internal"
+      },
+      {
+        "title": "Ngữ pháp giả định",
+        "url": "https://banhang-chogao.github.io/zola/bai-4-ngu-phap-gia-dinh-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Sửa orphan cluster Hàn",
+        "url": "https://banhang-chogao.github.io/zola/sua-orphan-bai-tieng-han-seo/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 5
+  },
   "content/posting/google-adsense-la-gi-chinh-sach-chuong-trinh.md": {
     "external": [
       {
@@ -1930,6 +2167,39 @@
     "external_count": 1,
     "internal_count": 5
   },
+  "content/posting/he-thong-prompt-zola-blog.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "10 vaccine CLAUDE.md",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-10-vaccine-claude-md/",
+        "kind": "internal"
+      },
+      {
+        "title": "QA Gatekeeper & Vaccine Autofixer",
+        "url": "https://banhang-chogao.github.io/zola/bai-3-qa-gatekeeper-vaccine-autofixer/",
+        "kind": "internal"
+      },
+      {
+        "title": "FAQ Schema ngân hàng",
+        "url": "https://banhang-chogao.github.io/zola/faq-schema-cluster-ngan-hang-ctr/",
+        "kind": "internal"
+      },
+      {
+        "title": "Sửa orphan tiếng Hàn",
+        "url": "https://banhang-chogao.github.io/zola/sua-orphan-bai-tieng-han-seo/",
+        "kind": "internal"
+      },
+      {
+        "title": "Finance cluster",
+        "url": "https://banhang-chogao.github.io/zola/vssid-khong-hien-qua-trinh-dong-bhtn/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 5
+  },
   "content/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude.md": {
     "external": [
       {
@@ -2269,6 +2539,34 @@
     "external_count": 1,
     "internal_count": 4
   },
+  "content/posting/loi-thuong-gap-lpbank-so.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Review LPBank số 2026",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-review-lpbank-so-2026/",
+        "kind": "internal"
+      },
+      {
+        "title": "VietinBank iPay bảo mật",
+        "url": "https://banhang-chogao.github.io/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/",
+        "kind": "internal"
+      },
+      {
+        "title": "10 mẹo VietinBank iPay",
+        "url": "https://banhang-chogao.github.io/zola/10-meo-vietinbank-ipay-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "FAQ Schema ngân hàng",
+        "url": "https://banhang-chogao.github.io/zola/faq-schema-cluster-ngan-hang-ctr/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 4
+  },
   "content/posting/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam.md": {
     "external": [
       {
@@ -2580,6 +2878,72 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Ngân hàng Nhà nước. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 6
+  },
+  "content/posting/ngu-phap-gia-dinh-nang-cao-topik.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "-더라도 / -는다 해도",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-derado-va-neunda-haedo/",
+        "kind": "internal"
+      },
+      {
+        "title": "Pillar",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-hoc-ngu-phap-nang-cao-sau-topik-4-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "50 mẫu câu TOPIK",
+        "url": "https://banhang-chogao.github.io/zola/bai-5-50-mau-cau-topik/",
+        "kind": "internal"
+      },
+      {
+        "title": "-곤 하다, -기 마련이다",
+        "url": "https://banhang-chogao.github.io/zola/bai-3-gon-hada-ki-mareonida/",
+        "kind": "internal"
+      },
+      {
+        "title": "Orphan pages tiếng Hàn",
+        "url": "https://banhang-chogao.github.io/zola/sua-orphan-bai-tieng-han-seo/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 5
+  },
+  "content/posting/ngu-phap-nang-cao-sau-topik-4.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "-더라도 và -는다 해도",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-derado-va-neunda-haedo/",
+        "kind": "internal"
+      },
+      {
+        "title": "-곤 하다, -기 마련이다, -기 십상이다",
+        "url": "https://banhang-chogao.github.io/zola/bai-3-gon-hada-ki-mareonida/",
+        "kind": "internal"
+      },
+      {
+        "title": "Ngữ pháp giả định nâng cao",
+        "url": "https://banhang-chogao.github.io/zola/bai-4-ngu-phap-gia-dinh-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "50 mẫu câu TOPIK",
+        "url": "https://banhang-chogao.github.io/zola/bai-5-50-mau-cau-topik/",
+        "kind": "internal"
+      },
+      {
+        "title": "Sửa orphan tiếng Hàn",
+        "url": "https://banhang-chogao.github.io/zola/sua-orphan-bai-tieng-han-seo/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 5
   },
   "content/posting/ngu-phap-nang-cao-topik-tieng-han.md": {
     "external": [
@@ -3307,6 +3671,34 @@
     "external_count": 4,
     "internal_count": 2
   },
+  "content/posting/qa-gatekeeper-vaccine-autofixer.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "10 vaccine CLAUDE.md",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-10-vaccine-claude-md/",
+        "kind": "internal"
+      },
+      {
+        "title": "Hệ thống prompt",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-he-thong-prompt-zola-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "Internal link orphan",
+        "url": "https://banhang-chogao.github.io/zola/sua-orphan-bai-tieng-han-seo/",
+        "kind": "internal"
+      },
+      {
+        "title": "FAQ Schema ngân hàng",
+        "url": "https://banhang-chogao.github.io/zola/faq-schema-cluster-ngan-hang-ctr/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 4
+  },
   "content/posting/quy-tac-phat-am-tieng-han.md": {
     "external": [
       {
@@ -3433,6 +3825,44 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ link giới thiệu này. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 7
+  },
+  "content/posting/review-lpbank-so-2026.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "VietinBank iPay",
+        "url": "https://banhang-chogao.github.io/zola/10-meo-vietinbank-ipay-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "Lỗi LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-loi-thuong-gap-lpbank-so/",
+        "kind": "internal"
+      },
+      {
+        "title": "FAQ Schema ngân hàng",
+        "url": "https://banhang-chogao.github.io/zola/faq-schema-cluster-ngan-hang-ctr/",
+        "kind": "internal"
+      },
+      {
+        "title": "trợ cấp thất nghiệp",
+        "url": "https://banhang-chogao.github.io/zola/tro-cap-that-nghiep-thoi-gian-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "BHXH / VssID",
+        "url": "https://banhang-chogao.github.io/zola/vssid-khong-hien-qua-trinh-dong-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "Lương hưu 2026",
+        "url": "https://banhang-chogao.github.io/zola/tinh-luong-huu-2026-huong-dan/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 6
   },
   "content/posting/review-tnex-chi-tiet.md": {
     "external": [
@@ -3761,6 +4191,59 @@
     "external_count": 4,
     "internal_count": 9
   },
+  "content/posting/sua-orphan-bai-tieng-han-seo.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "FAQ Schema ngân hàng",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-faq-schema-cluster-ngan-hang-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "Korean pillar",
+        "url": "https://banhang-chogao.github.io/zola/ngu-phap-nang-cao-sau-topik-4/",
+        "kind": "internal"
+      },
+      {
+        "title": "QA Gatekeeper",
+        "url": "https://banhang-chogao.github.io/zola/qa-gatekeeper-vaccine-autofixer/",
+        "kind": "internal"
+      },
+      {
+        "title": "-더라도 / -는다 해도",
+        "url": "https://banhang-chogao.github.io/zola/derado-va-neunda-haedo-tieng-han/",
+        "kind": "internal"
+      },
+      {
+        "title": "-곤 하다, -기 마련이다",
+        "url": "https://banhang-chogao.github.io/zola/gon-hada-ki-mareonida-tieng-han/",
+        "kind": "internal"
+      },
+      {
+        "title": "Giả định nâng cao",
+        "url": "https://banhang-chogao.github.io/zola/ngu-phap-gia-dinh-nang-cao-topik/",
+        "kind": "internal"
+      },
+      {
+        "title": "50 mẫu câu",
+        "url": "https://banhang-chogao.github.io/zola/50-mau-cau-topik-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "/bhxh/vssid-khong-hien-bhtn",
+        "url": "https://banhang-chogao.github.io/zola/vssid-khong-hien-qua-trinh-dong-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "/ai/he-thong-prompt-zola",
+        "url": "https://banhang-chogao.github.io/zola/he-thong-prompt-zola-blog/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 9
+  },
   "content/posting/summer-korea-4-diem-dung-mua-he.md": {
     "external": [
       {
@@ -4077,6 +4560,50 @@
     "external_count": 1,
     "internal_count": 5
   },
+  "content/posting/tinh-luong-huu-2026-huong-dan.md": {
+    "external": [
+      {
+        "title": "baohiemxahoi.gov.vn",
+        "url": "https://baohiemxahoi.gov.vn/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "VssID không hiện BHTN",
+        "url": "https://banhang-chogao.github.io/zola/vssid-khong-hien-qua-trinh-dong-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "Trợ cấp thất nghiệp — mốc thời gian",
+        "url": "https://banhang-chogao.github.io/zola/tro-cap-that-nghiep-thoi-gian-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "BHXH một lần hay chờ lương hưu?",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-bhxh-mot-lan-hay-luong-huu/",
+        "kind": "internal"
+      },
+      {
+        "title": "bảo hiểm thất nghiệp trên VssID",
+        "url": "https://banhang-chogao.github.io/zola/tra-cuu-thoi-gian-dong-bhtn-vssid/",
+        "kind": "internal"
+      },
+      {
+        "title": "VietinBank iPay",
+        "url": "https://banhang-chogao.github.io/zola/10-meo-vietinbank-ipay-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ baohiemxahoi.gov.vn. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 6
+  },
   "content/posting/toan-canh-chuyen-doi-so-vietinbank.md": {
     "external": [
       {
@@ -4200,6 +4727,44 @@
     "external_count": 1,
     "internal_count": 3
   },
+  "content/posting/toi-uu-bao-mat-han-muc-vietinbank-ipay.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "10 mẹo iPay hằng ngày",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-10-meo-ipay-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "LPBank số hạn mức",
+        "url": "https://banhang-chogao.github.io/zola/loi-thuong-gap-lpbank-so/",
+        "kind": "internal"
+      },
+      {
+        "title": "trợ cấp thất nghiệp",
+        "url": "https://banhang-chogao.github.io/zola/tro-cap-that-nghiep-thoi-gian-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "lương hưu",
+        "url": "https://banhang-chogao.github.io/zola/tinh-luong-huu-2026-huong-dan/",
+        "kind": "internal"
+      },
+      {
+        "title": "Review LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      },
+      {
+        "title": "FAQ Schema ngân hàng",
+        "url": "https://banhang-chogao.github.io/zola/faq-schema-cluster-ngan-hang-ctr/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 6
+  },
   "content/posting/tong-on-chien-luoc-thi-topik-tieng-han.md": {
     "external": [
       {
@@ -4288,6 +4853,45 @@
     "external_count": 2,
     "internal_count": 7
   },
+  "content/posting/tra-cuu-thoi-gian-dong-bhtn-vssid.md": {
+    "external": [
+      {
+        "title": "https://baohiemxahoi.gov.vn",
+        "url": "https://baohiemxahoi.gov.vn/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "bài pillar",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-vssid-khong-hien-bhtn-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "mốc thời gian hưởng trợ cấp",
+        "url": "https://banhang-chogao.github.io/zola/bai-3-tro-cap-that-nghiep-thoi-gian/",
+        "kind": "internal"
+      },
+      {
+        "title": "tính lương hưu 2026",
+        "url": "https://banhang-chogao.github.io/zola/tinh-luong-huu-2026-huong-dan/",
+        "kind": "internal"
+      },
+      {
+        "title": "Review LPBank số 2026",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      },
+      {
+        "title": "VietinBank iPay nâng cao",
+        "url": "https://banhang-chogao.github.io/zola/10-meo-vietinbank-ipay-nang-cao/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ https://baohiemxahoi.gov.vn. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 5
+  },
   "content/posting/trich-dan-gian-tiep-tieng-han.md": {
     "external": [
       {
@@ -4326,6 +4930,44 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ TOPIK và Viện Quốc ngữ Quốc gia Hàn Quốc. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
     "internal_count": 4
+  },
+  "content/posting/tro-cap-that-nghiep-thoi-gian-bhtn.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Bài 2",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-tra-cuu-thoi-gian-dong-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "Bài 1",
+        "url": "https://banhang-chogao.github.io/zola/bai-1-vssid-khong-hien-bhtn-pillar/",
+        "kind": "internal"
+      },
+      {
+        "title": "VietinBank iPay",
+        "url": "https://banhang-chogao.github.io/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/",
+        "kind": "internal"
+      },
+      {
+        "title": "Tính lương hưu 2026",
+        "url": "https://banhang-chogao.github.io/zola/tinh-luong-huu-2026-huong-dan/",
+        "kind": "internal"
+      },
+      {
+        "title": "BHXH một lần hay lương hưu?",
+        "url": "https://banhang-chogao.github.io/zola/bhxh-mot-lan-hay-luong-huu/",
+        "kind": "internal"
+      },
+      {
+        "title": "LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 6
   },
   "content/posting/tro-tu-eul-reul-e-eseo-tieng-han.md": {
     "external": [
@@ -5186,6 +5828,50 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ thông cáo chính thức của VietinBank, Thể lệ đặc quyền Thẻ và điều khoản chính thức. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 3,
     "internal_count": 7
+  },
+  "content/posting/vssid-khong-hien-qua-trinh-dong-bhtn.md": {
+    "external": [
+      {
+        "title": "baohiemxahoi.gov.vn",
+        "url": "https://baohiemxahoi.gov.vn/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Tra cứu thời gian đóng BHTN trên VssID",
+        "url": "https://banhang-chogao.github.io/zola/bai-2-tra-cuu-thoi-gian-dong-bhtn/",
+        "kind": "internal"
+      },
+      {
+        "title": "Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?",
+        "url": "https://banhang-chogao.github.io/zola/bai-3-tro-cap-that-nghiep-thoi-gian/",
+        "kind": "internal"
+      },
+      {
+        "title": "Tính lương hưu 2026",
+        "url": "https://banhang-chogao.github.io/zola/tinh-luong-huu-2026-huong-dan/",
+        "kind": "internal"
+      },
+      {
+        "title": "BHXH một lần hay chờ lương hưu?",
+        "url": "https://banhang-chogao.github.io/zola/bhxh-mot-lan-hay-luong-huu/",
+        "kind": "internal"
+      },
+      {
+        "title": "VietinBank iPay",
+        "url": "https://banhang-chogao.github.io/zola/10-meo-vietinbank-ipay-nang-cao/",
+        "kind": "internal"
+      },
+      {
+        "title": "LPBank số",
+        "url": "https://banhang-chogao.github.io/zola/review-lpbank-so-2026/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ baohiemxahoi.gov.vn. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 6
   },
   "content/posting/website-san-sang-cho-adsense.md": {
     "external": [
