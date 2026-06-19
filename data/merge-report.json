@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-06-19T04:52:22Z",
+  "updated_at": "2026-06-19T05:00:33Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 195,
-    "today": 13,
-    "this_week": 195,
-    "this_month": 195,
+    "total": 197,
+    "today": 14,
+    "this_week": 197,
+    "this_month": 197,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 67,
+      "feature": 69,
       "content": 9,
       "unknown": 19,
       "fix": 51,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 478,
+      "pr_title": "feat(gsc): S-DNA connect UI cho Google Search Console sidebar",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/478",
+      "merged_at": "2026-06-19T04:57:32Z",
+      "merge_commit_sha": "2fb23bd7d2081fee7ce63af766d04abd1af9ad90",
+      "merge_commit_short": "2fb23bd",
+      "head_branch": "claude/keen-allen-gb0sjz",
+      "summary_vi": "Thay dropdown chọn property bằng flow kết nối thông minh trong widget SEO Reality Check, theo design language S-DNA (bo tròn, soft shadow, micro-interaction, calm/premium):",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 768,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806349723",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 475,
       "pr_title": "feat(content): bài \"Lịch sử đóng BHXH bị mất trên VssID\" (SEO A+)",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 767,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27805958608",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 474,
@@ -529,9 +548,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 739,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27790905782",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 447,
@@ -548,9 +567,28 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 738,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27790158068",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 447,
+      "pr_title": "feat: insights badges, feed pagination, H-Dashboard, block Dependabot",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/447",
+      "merged_at": "2026-06-18T21:03:12Z",
+      "merge_commit_sha": "27680da70d8fb1a289eca0c15f3de80d79b15d0b",
+      "merge_commit_short": "27680da",
+      "head_branch": "claude/seo-1j0frj",
+      "summary_vi": "Gom batch thay đổi từ phiên làm việc hiện tại vào nhánh chung `claude/seo-1j0frj`.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 446,
