@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "qa: reinforce QA Gatekeeper with QA Vaccine Gate from CLAUDE.md",
+      "tag": "chore",
+      "lines_added": 1085,
+      "lines_removed": 11,
+      "highlights": [
+        "load_vaccines() đếm mọi block #### V<N> — … trong CLAUDE.md → 15 vaccine loaded.",
+        "18 detector tĩnh ánh xạ vaccine + các nhóm check task yêu cầu:",
+        "Zola build / template hỏng: Tera replace(old=/new=) thay vì from=/to= (V8), lệch block {% if/for/block/macro %}.",
+        "Series chưa đăng ký (V8), shared-infra footer trùng (V12).",
+        "Internal asset thiếu, dashboard data/*.json hỏng, premium/paywall thiếu private_content/<id>.md."
+      ],
+      "pr": 483
+    },
+    {
+      "date": "2026-06-19",
       "title": "fix(paywall): restore strict premium paywall (MoMo payment gate) + qa-404 scheduled forward-ref vaccine (V13)",
       "tag": "fix",
       "lines_added": 404,
