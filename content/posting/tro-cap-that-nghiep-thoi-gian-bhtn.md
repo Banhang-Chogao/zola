@@ -18,7 +18,7 @@ featured = false
 
 Câu hỏi **"Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?"** tôi nhận nhiều nhất — và câu trả lời không chỉ là "12 tháng đóng BHTN". Có **4 mốc thời gian** khác nhau mà tôi thấy nhiều người nhầm lẫn.
 
-**Điều kiện tiên quyết:** Tra cứu đủ tháng đóng tại [Bài 2](/zola/bai-2-tra-cuu-thoi-gian-dong-bhtn/) và xử lý lỗi VssID tại [Bài 1](/zola/bai-1-vssid-khong-hien-bhtn-pillar/).
+**Điều kiện tiên quyết:** Tra cứu đủ tháng đóng tại [Bài 2](/zola/tra-cuu-thoi-gian-dong-bhtn-vssid/) và xử lý lỗi VssID tại [Bài 1](/zola/vssid-khong-hien-qua-trinh-dong-bhtn/).
 
 ---
 
