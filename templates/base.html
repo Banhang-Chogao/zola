@@ -127,6 +127,11 @@
     <meta name="zola-shortensea-api" content="{{ shortensea_api | safe }}">
     {% endif %}
 
+    {% set_global vipzone_api = config.extra.vipzone_api_url | default(value="") %}
+    {% if vipzone_api %}
+    <meta name="zola-vipzone-api" content="{{ vipzone_api | safe }}">
+    {% endif %}
+
     {# ============================================================
        ===== SEO META BLOCK (Lighthouse 100/100 target) =====
        ============================================================
@@ -838,6 +843,10 @@
                     </section>
                     {% endif %}
 
+                    <section class="sidebar-block vipzone-stat" data-widget="vipzone-stat">
+                        <p class="vipzone-stat__text">Đã có <strong data-vipzone-count>0</strong> người kích hoạt VIP để ủng hộ những nội dung giá trị!</p>
+                    </section>
+
                     {# FEATURED: manual extra.featured=true thắng auto-pick. CMS publish
                        sẽ demote các bài featured cũ để chỉ còn đúng một override thủ công. #}
                     {% set_global featured = false %}
@@ -1364,6 +1373,7 @@
     <script src="{{ get_url(path='js/theme-switcher.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/vipzone.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/print-watermark.js') }}?v={{ asset_version }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>
