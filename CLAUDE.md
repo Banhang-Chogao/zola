@@ -921,6 +921,60 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
   - Nếu CI đỏ mà user KHÔNG yêu cầu canh: pipeline tự xử theo cấu hình repo; không tự
     spawn monitor/subscribe trừ khi được yêu cầu.
 
+### Báo cáo PR sau merge (BẮT BUỘC — 2026-06-19)
+
+> Ghi đè format báo cáo cũ (markdown table đơn giản). **KHÔNG** poll/canhc PR liên tục
+> (`subscribe_pr_activity`, `theodoi8`, sleep-loop) trừ khi user chủ động yêu cầu.
+> Khi user gọi merge (`merge`, `gg`, `prm`) hoặc merge xong trong cùng turn → output
+> **một lần** summary cuối, rồi dừng.
+
+**Thành công** — copy đúng khung (box-drawing table, GMT+7 `HH:mm dd/mm/yyyy`):
+
+```text
+Tổng kết 1 PR vừa merged
+
+┌──────┬────────────────────────────────────────────────────────────┬────────┐
+│ PR   │ Title                                                      │ Status │
+├──────┼────────────────────────────────────────────────────────────┼────────┤
+│ #487 │ feat(flight-db): time pickers, combinator sync, API enrich │ ✅     │
+└──────┴────────────────────────────────────────────────────────────┴────────┘
+
+• Merged: <commit_sha> lúc <HH:mm dd/mm/yyyy> (GMT+7)
+• Deploy: deploy.yml tự chạy trên main → production
+
+Track: https://github.com/Banhang-Chogao/zola/pulls
+```
+
+Nhiều PR merged cùng turn → thêm dòng trong bảng; header `Tổng kết N PR vừa merged`.
+
+**Thất bại** (merge fail / CI error / PR không merge được) — đọc log ngắn, đối chiếu
+§4 Vaccine library trong `CLAUDE.md`, output:
+
+```text
+Tổng kết PR lỗi
+
+┌──────┬────────────────────────────────────────────────────────────┬────────┐
+│ PR   │ Title                                                      │ Status │
+├──────┼────────────────────────────────────────────────────────────┼────────┤
+│ #487 │ <title>                                                    │ ❌     │
+└──────┴────────────────────────────────────────────────────────────┴────────┘
+
+• Error: <short error>
+• Vaccine match: <V1–V13 tên vaccine khớp dấu hiệu>
+• Suggested fix tool: <ff | ff9 | vacxin11 | fix_site_prefix_links.py | …>
+• Next action: <một dòng kế hoạch fix>
+
+Track: https://github.com/Banhang-Chogao/zola/pulls
+```
+
+Quy tắc vaccine mapping (không chẩn đoán lại từ đầu nếu đã khớp):
+- Internal link thiếu `/zola/` → `fix_site_prefix_links.py` hoặc `check_internal_links.py --fix`
+- `configure-pages` rate limit / deploy cancelled → V5 (đợi, không panic)
+- `mergeable_state: dirty` / data `*.json` conflict → V10 + `ff9`
+- Tera `replace(old=` → V8 · HF 401 → V1 · qa-failed unknown → V7
+
+Canonical copy: `shortcuts.md` §5.
+
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
 Áp dụng cho MỌI lần viết hoặc sửa bài viết trong `content/` (đuôi `.md`,

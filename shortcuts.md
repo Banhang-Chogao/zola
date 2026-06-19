@@ -192,7 +192,7 @@ Hành động:
    - Verify CI status (nếu CI failing → không merge bừa, escalate)
    - Squash merge vào `main` (trigger deploy.yml tự động)
 3. Verify deploy mới nhất (`actions_list` deploy.yml) đang chạy
-4. Báo cáo ngắn: `Merged PR #X, #Y. Production deploy đang chạy.`
+4. Output **một lần** báo cáo theo §5 (KHÔNG poll/canhc PR sau đó).
 
 KHÔNG hỏi lại. KHÔNG giải thích flow.
 
@@ -1572,23 +1572,50 @@ Track: https://github.com/Banhang-Chogao/zola/pulls
 - Automation dùng `push_via_pr.sh` — không `git push origin HEAD:main`
 - Sau mỗi lần merge PR PHẢI output bảng báo cáo (xem §5)
 
-## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC)
+## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC — 2026-06-19)
 
-Sau MỌI lần merge PR thành công, Claude PHẢI output bảng 3 cột:
+**KHÔNG** poll/canhc PR liên tục sau merge. Output **một lần** summary cuối (success
+hoặc fail). Chi tiết vaccine: `CLAUDE.md` §4 + §"Báo cáo PR sau merge".
 
-| PR | Title | Status |
-|---|---|---|
-| #X | <PR title ngắn gọn> | ✅ |
-| #Y | <PR title ngắn gọn> | ✅ |
+### Thành công
 
-Quy tắc:
-- Format MARKDOWN TABLE 3 cột chuẩn, KHÔNG dùng bullet list
-- Cột Status: ✅ (merged) / ❌ (failed) / ⏳ (in progress)
-- Nếu 1 turn merge nhiều PR → liệt kê HẾT trong cùng bảng
-- Header "Tổng kết N PR vừa merged" trước bảng (N = số PR)
-- Sau bảng có thể kèm 1-2 dòng note ngắn nếu cần (e.g., production deploy status)
+```text
+Tổng kết 1 PR vừa merged
 
-KHÔNG dài dòng, KHÔNG diễn giải nội dung PR (đã có trong PR body).
+┌──────┬────────────────────────────────────────────────────────────┬────────┐
+│ PR   │ Title                                                      │ Status │
+├──────┼────────────────────────────────────────────────────────────┼────────┤
+│ #487 │ feat(flight-db): time pickers, combinator sync, API enrich │ ✅     │
+└──────┴────────────────────────────────────────────────────────────┴────────┘
+
+• Merged: <commit_sha> lúc <HH:mm dd/mm/yyyy> (GMT+7)
+• Deploy: deploy.yml tự chạy trên main → production
+
+Track: https://github.com/Banhang-Chogao/zola/pulls
+```
+
+Nhiều PR → thêm dòng bảng; header `Tổng kết N PR vừa merged`.
+
+### Thất bại
+
+```text
+Tổng kết PR lỗi
+
+┌──────┬────────────────────────────────────────────────────────────┬────────┐
+│ PR   │ Title                                                      │ Status │
+├──────┼────────────────────────────────────────────────────────────┼────────┤
+│ #487 │ <title>                                                    │ ❌     │
+└──────┴────────────────────────────────────────────────────────────┴────────┘
+
+• Error: <short error>
+• Vaccine match: <V# từ CLAUDE.md §4>
+• Suggested fix tool: <ff | ff9 | vacxin11 | script cụ thể>
+• Next action: <một dòng>
+
+Track: https://github.com/Banhang-Chogao/zola/pulls
+```
+
+KHÔNG dài dòng. KHÔNG ⏳ in-progress — chỉ ✅ merged hoặc ❌ fail.
 
 ## 6. Quy tắc thực thi shortcut
 
