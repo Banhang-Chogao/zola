@@ -322,6 +322,29 @@ html.vz-gated .main-content { filter: blur(2px); pointer-events: none; user-sele
   }
 }
 
+/* V16 — VIP auto-unlock auto-heal notice (backend split-brain pending).
+   Calm informational card; prepended INTO the paywall box, never an overlay. */
+.vipzone__backend-pending {
+  margin: 0 0 1.1rem;
+  padding: 0.85rem 1.05rem;
+  border: 1px solid var(--c-border);
+  border-left: 3px solid var(--c-accent);
+  border-radius: 12px;
+  background: var(--c-bg-soft);
+  color: var(--c-text-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+
+  strong { color: var(--c-text-heading); font-weight: 700; }
+
+  code {
+    padding: 0.05em 0.4em;
+    border-radius: 6px;
+    background: var(--c-accent-soft);
+    font-size: 0.85em;
+  }
+}
+
 @media (max-width: 720px) {
   .vipzone {
     padding: 0 1rem 1.5rem;

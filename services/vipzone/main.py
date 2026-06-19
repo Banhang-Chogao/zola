@@ -21,6 +21,7 @@ Admin (CMS GitHub session — Authorization: Bearer <cms_sid>):
 
 Session (CMS GitHub session — Authorization: Bearer <cms_sid>):
   GET  /api/vipzone/me
+  GET  /api/vipzone/content/{post_id}   (VIP/supervip — premium full content)
 """
 
 from __future__ import annotations
@@ -31,13 +32,14 @@ from pathlib import Path
 from typing import Any
 
 import httpx
+import markdown
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
 
 from catalog_loader import load_catalog, migrate_picks_sync
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
-from roles import is_supervip, resolve_role
+from roles import ROLE_SUPERVIP, ROLE_VIP, is_supervip, resolve_role
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://banhang-chogao.github.io")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
@@ -63,6 +65,15 @@ MOMO_SEMIANNUAL = os.getenv(
     "VIPZONE_MOMO_SEMIANNUAL",
     "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg",
 )
+
+# Premium full-content bodies (git-tracked at repo root) — the SAME store the
+# per-post paywall serves. The Render service checks out the whole repo, so the
+# directory is two levels up from services/vipzone/.
+PRIVATE_CONTENT = Path(__file__).resolve().parents[2] / "private_content"
+# Commit SHA of the running backend. Render injects RENDER_GIT_COMMIT on the dyno;
+# exposing it on /health lets `backend8` / `theodoi8` detect a static-site ↔ backend
+# split-brain (V16) — never silently succeed when the backend lags `main`.
+DEPLOYED_SHA = (os.getenv("RENDER_GIT_COMMIT") or os.getenv("VIPZONE_GIT_SHA") or "").strip()
 
 _db: VipzoneDB | None = None
 _pending_codes: dict[str, str] = {}
@@ -141,6 +152,42 @@ def _role_payload(profile: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
+async def require_vip(authorization: str = Header(default="")) -> dict[str, Any]:
+    """Authenticate the CMS session then require an active VIP (supervip bypasses).
+
+    Reuses _cms_profile (no duplicated auth) + db.get_active_vip (role check).
+    """
+    profile = await _cms_profile(authorization)
+    email = (profile.get("email") or "").lower().strip()
+    if is_supervip(profile.get("email"), profile.get("username")):
+        return {"email": email, "plan": "supervip", "expires_at": "", "role": ROLE_SUPERVIP}
+    vip_row = get_db().get_active_vip(email)
+    if not vip_row:
+        raise HTTPException(403, "vip_required")
+    return {
+        "email": vip_row["email"],
+        "plan": vip_row.get("plan"),
+        "expires_at": vip_row.get("expires_at") or "",
+        "role": ROLE_VIP,
+    }
+
+
+def _load_premium_html(post_id: str) -> str:
+    """Map a premium_post_id to private_content/<id>.md and render markdown→HTML.
+
+    Same convention + extensions the per-post paywall uses. The sanitiser blocks
+    path traversal so only flat ids under private_content/ are reachable.
+    """
+    safe = re.sub(r"[^a-zA-Z0-9_-]", "", post_id or "")
+    if not safe:
+        raise HTTPException(400, "invalid_post_id")
+    path = PRIVATE_CONTENT / f"{safe}.md"
+    if not path.exists():
+        raise HTTPException(404, "premium_content_unavailable")
+    text = path.read_text(encoding="utf-8")
+    return markdown.markdown(text, extensions=["extra", "nl2br", "sane_lists"])
+
+
 class PaymentRequestIn(BaseModel):
     email: EmailStr
     plan: str = Field(pattern=r"^(monthly|semiannual)$")
@@ -165,6 +212,14 @@ class PickerIn(BaseModel):
     picks: list[str] = Field(default_factory=list)
 
 
+class VipContentOut(BaseModel):
+    post_id: str
+    html: str
+    plan: str | None = None
+    expires_at: str = ""
+    deployed_sha: str = ""
+
+
 def _health_payload() -> dict[str, Any]:
     return {
         "service": "vipzone",
@@ -172,6 +227,8 @@ def _health_payload() -> dict[str, Any]:
         "blog_url": BLOG_URL,
         "vipzone_auth": VIPZONE_AUTH_URL,
         "momo_configured": bool(MOMO_MONTHLY and MOMO_SEMIANNUAL),
+        "deployed_sha": DEPLOYED_SHA,
+        "premium_content": PRIVATE_CONTENT.is_dir(),
     }
 
 
@@ -208,6 +265,25 @@ def payment_request(body: PaymentRequestIn) -> dict[str, Any]:
 async def vipzone_me(authorization: str = Header(default="")) -> dict[str, Any]:
     profile = await _cms_profile(authorization)
     return _role_payload(profile)
+
+
+@app.get("/api/vipzone/content/{post_id}", response_model=VipContentOut)
+async def vipzone_content(post_id: str, authorization: str = Header(default="")) -> VipContentOut:
+    """Serve premium full content to an active VIP (or supervip) — "Premium gộp gói".
+
+    session (CMS) → VIP role check → private_content lookup → rendered HTML.
+    404 premium_content_unavailable means the backend lags `main` (split-brain,
+    V16) — the frontend surfaces a "backend pending" notice instead of locking.
+    """
+    vip = await require_vip(authorization)
+    html = _load_premium_html(post_id)
+    return VipContentOut(
+        post_id=post_id,
+        html=html,
+        plan=vip.get("plan"),
+        expires_at=vip.get("expires_at") or "",
+        deployed_sha=DEPLOYED_SHA,
+    )
 
 
 @app.post("/api/vipzone/redeem")
