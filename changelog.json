@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "Thêm phím tắt theodoi8 + cập nhật policy: bỏ rào PR thủ công",
+      "tag": "chore",
+      "lines_added": 113,
+      "lines_removed": 31,
+      "highlights": [
+        "Map commit → workflow run (list_commits + actions_list/actions_get), output bảng + icon trạng thái + tóm tắt.",
+        "Mở rộng: theodoi8 deploy / theodoi8 <sha> / theodoi8 watch.",
+        "Tôn trọng rule cancelled ≠ failed (Build Dashboard / Vaccine V5); gợi ý ff khi failure thật trên deploy.yml.",
+        "Thêm row vào bảng help; slash command /phimtat tự auto-discover từ header.",
+        "§1 \"Vẫn qua PR\" → \"Không cần qua PR thủ công\"; ghi rõ branch protection chặn push thẳng main nên auto-merge là bước máy tự làm."
+      ],
+      "pr": 476
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(navbar): gom dropdown \"Công cụ\" thành 3 nhóm accordion (Content/Dashboard/Khác)",
       "tag": "chore",
       "lines_added": 303,
