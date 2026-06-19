@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-19T06:49:55Z",
+  "updated_at": "2026-06-19T07:00:01Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 22,
+    "today": 23,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "qa": 2,
-      "feature": 69,
+      "feature": 70,
+      "qa": 1,
       "fix": 51,
       "unknown": 21,
       "chore": 45,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 486,
+      "pr_title": "feat(h-dashboard): upload tối đa 10 hóa đơn PDF một lần",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/486",
+      "merged_at": "2026-06-19T06:54:55Z",
+      "merge_commit_sha": "14a0291a69b7a96c5b6ad39863c2791cddf67698",
+      "merge_commit_short": "14a0291",
+      "head_branch": "feat/h-dashboard-multi-upload-10",
+      "summary_vi": "- Input multiple + drag-drop batch (max 10)",
+      "change_type": "feature",
+      "files_changed": 5,
+      "additions": 222,
+      "deletions": 55,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 777,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27810545089",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 483,
       "pr_title": "qa: reinforce QA Gatekeeper with QA Vaccine Gate from CLAUDE.md",
@@ -434,9 +453,9 @@
       "deletions": 58,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 747,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27796906441",
-      "build_conclusion": "failure"
+      "build_run_number": 748,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27797251449",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 458,
@@ -3795,25 +3814,6 @@
       "files_changed": 11,
       "additions": 1770,
       "deletions": 6,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 271,
-      "pr_title": "QA: Daily performance checker (00:00 GMT+7) + Lighthouse audit automa…",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/271",
-      "merged_at": "2026-06-17T15:23:33Z",
-      "merge_commit_sha": "fc49297fb1d43e767ebca4cf782a97691b7cc9ff",
-      "merge_commit_short": "fc49297",
-      "head_branch": "qa/performance-auto-fix-20260617",
-      "summary_vi": "- Extend perf-audit.yml: cron 0 17 * * * (00:00 Asia/Ho_Chi_Minh)",
-      "change_type": "qa",
-      "files_changed": 7,
-      "additions": 760,
-      "deletions": 105,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
