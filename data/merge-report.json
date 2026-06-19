@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T12:59:22Z",
+  "updated_at": "2026-06-19T13:08:55Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 502,
+      "pr_title": "feat(vipzone): Render backend API + picker catalog",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/502",
+      "merged_at": "2026-06-19T12:54:15Z",
+      "merge_commit_sha": "3cb641ce8706830a57a57ccb1a1c270bfd411bd7",
+      "merge_commit_short": "3cb641c",
+      "head_branch": "feat/vipzone",
+      "summary_vi": "- FastAPI VIPZone backend (`services/vipzone`) — payment requests, redeem codes, admin stats/picker/users",
+      "change_type": "feature",
+      "files_changed": 23,
+      "additions": 2299,
+      "deletions": 323,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 800,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27826919600",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 501,
       "pr_title": "feat(vipzone): landing + admin panel",
@@ -453,9 +472,9 @@
       "deletions": 1060,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 770,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806519657",
-      "build_conclusion": "cancelled"
+      "build_run_number": 774,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807302117",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 477,
@@ -546,25 +565,6 @@
       "files_changed": 3,
       "additions": 1178,
       "deletions": 457,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 472,
-      "pr_title": "feat: publish adsense report as ad-report page",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/472",
-      "merged_at": "2026-06-19T01:22:14Z",
-      "merge_commit_sha": "465bab1c624ddb073f29ea05a38f733895643b43",
-      "merge_commit_short": "465bab1",
-      "head_branch": "feature/ad-report-page",
-      "summary_vi": "Locate reports from commit 784f5d7 (adsense-ad-placement-report.md + features-delivered-2026-06-19.md) and publish as public /ad-report/ page with summary KPI cards and styled markdown body. Original reports preserved in",
-      "change_type": "feature",
-      "files_changed": 6,
-      "additions": 704,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
