@@ -6,8 +6,7 @@ aliases = ["/dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc/"]
 
 [taxonomies]
 categories = ["Tất cả", "Giáo dục"]
-tags = ["đáp án thpt 2026", "thpt 2026 môn hóa học", "thi tốt nghiệp thpt 2026", "giáo dục", "dap an thpt 2026"]
-
+tags = ["dap an thpt 2026", "giáo dục", "thi tốt nghiệp thpt 2026", "thpt 2026 môn hóa học", "đáp án thpt 2026"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "đáp án thpt 2026 môn hóa học"
