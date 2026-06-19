@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(content): series \"Đáp án chính thức THPT Quốc gia 2026\" (Giáo dục)",
+      "tag": "chore",
+      "lines_added": 949,
+      "lines_removed": 1,
+      "highlights": [
+        "1 trang index series + 11 bài môn (content/posting/dap-an-chinh-thuc-thpt-*)",
+        "Manifest data/thpt-2026-dap-an-series.json (12 parts, category \"Giáo dục\")",
+        "Đăng ký series ở series-listing.html, page.html, series-nav.html",
+        "SEO-safe: không đáp án giả, không lời giải, không nguồn ngoài; nội link giữa các môn + hub chuyên mục Giáo dục; FAQ + CTA mỗi bài"
+      ],
+      "pr": 522
+    },
+    {
+      "date": "2026-06-19",
       "title": "chore(vaccine): Daily Vaccine Autofixer run",
       "tag": "chore",
       "lines_added": 0,
