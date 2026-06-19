@@ -14,9 +14,9 @@ curl https://blog-vipzone-api.onrender.com/
 # → {"service":"vipzone","status":"ok",...}
 ```
 
-Không cần env vars thêm — blueprint đã bake CORS, MoMo links, CMS auth URL.
+Không cần env vars thêm — blueprint đã bake CORS, MoMo links, VIPZone auth URL.
 
-Admin endpoints dùng **CMS session** (`blog-visitor-api` OAuth) — không cần OAuth riêng cho VIPZone.
+Admin endpoints dùng **VIPZone auth session** (`blog-vipzone-api` OAuth) — không cần OAuth riêng cho VIPZone.
 
 ## Sau deploy
 

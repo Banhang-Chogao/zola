@@ -24,10 +24,8 @@
   }
 
   function authApi() {
-    var m = document.querySelector('meta[name="zola-cms-auth-api"]');
-    if (m && m.content) return m.content.replace(/\/$/, "");
-    m = document.querySelector('meta[name="zola-visitor-api"]');
-    return m && m.content ? m.content.replace(/\/$/, "") : "";
+    var m = document.querySelector('meta[name="vipzone-auth-api"]');
+    return m && m.content ? m.content.replace(/\/$/, "") : "https://blog-vipzone-api.onrender.com";
   }
 
   function sid() {

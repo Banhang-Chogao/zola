@@ -41,7 +41,7 @@ from roles import is_supervip, resolve_role
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://banhang-chogao.github.io")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
-CMS_AUTH_URL = os.getenv("CMS_AUTH_URL", "https://blog-visitor-api.onrender.com").rstrip("/")
+VIPZONE_AUTH_URL = os.getenv("VIPZONE_AUTH_URL", "https://blog-vipzone-api.onrender.com").rstrip("/")
 DB_PATH = os.getenv("VIPZONE_DB_PATH", "")
 
 ADMIN_EMAILS = {
@@ -99,7 +99,7 @@ async def _cms_profile(authorization: str) -> dict[str, Any]:
     try:
         async with httpx.AsyncClient(timeout=8.0) as client:
             res = await client.get(
-                f"{CMS_AUTH_URL}/auth/me",
+                f"{VIPZONE_AUTH_URL}/auth/me",
                 headers={"Authorization": authorization},
             )
     except httpx.HTTPError:
@@ -170,7 +170,7 @@ def _health_payload() -> dict[str, Any]:
         "service": "vipzone",
         "status": "ok",
         "blog_url": BLOG_URL,
-        "cms_auth": CMS_AUTH_URL,
+        "vipzone_auth": VIPZONE_AUTH_URL,
         "momo_configured": bool(MOMO_MONTHLY and MOMO_SEMIANNUAL),
     }
 

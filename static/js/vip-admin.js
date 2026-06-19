@@ -5,8 +5,8 @@
   if (!VZ) return;
 
   var AUTH_API = (function () {
-    var m = document.querySelector('meta[name="zola-cms-auth-api"]');
-    return m && m.getAttribute("content") ? m.getAttribute("content").replace(/\/$/, "") : "";
+    var m = document.querySelector('meta[name="vipzone-auth-api"]');
+    return m && m.getAttribute("content") ? m.getAttribute("content").replace(/\/$/, "") : "https://blog-vipzone-api.onrender.com";
   })();
 
   var CMS_KEY = "zola-cms-session-id";

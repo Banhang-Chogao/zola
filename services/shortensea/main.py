@@ -46,7 +46,7 @@ from db import ShortenDB
 CORS_ORIGIN = os.getenv("SHORTENSEA_CORS_ORIGIN", "https://banhang-chogao.github.io")
 BLOG_URL = os.getenv("SHORTENSEA_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
 BACKEND_URL = os.getenv("SHORTENSEA_BACKEND_URL", "http://localhost:8790").rstrip("/")
-CMS_AUTH_URL = os.getenv("CMS_AUTH_URL", "https://blog-visitor-api.onrender.com").rstrip("/")
+SHORTENSEA_AUTH_URL = os.getenv("SHORTENSEA_AUTH_URL", "https://blog-vipzone-api.onrender.com").rstrip("/")
 GH_CLIENT_ID = os.getenv("GH_CLIENT_ID", "")
 GH_CLIENT_SECRET = os.getenv("GH_CLIENT_SECRET", "")
 SESSION_TTL = int(os.getenv("SHORTENSEA_SESSION_TTL", "86400"))
@@ -473,7 +473,7 @@ async def cms_bridge(authorization: str = Header(default="")):
     async with httpx.AsyncClient(timeout=12.0) as client:
         try:
             res = await client.get(
-                f"{CMS_AUTH_URL}/auth/me",
+                f"{SHORTENSEA_AUTH_URL}/auth/me",
                 headers={"Authorization": authorization},
             )
         except httpx.HTTPError:

@@ -12,7 +12,7 @@
   var SESSION_KEY = "zola-cms-session-id";
 
   function authApi() {
-    var m = document.querySelector('meta[name="zola-cms-auth-api"]');
+    var m = document.querySelector('meta[name="vipzone-auth-api"]');
     return m && m.getAttribute("content") ? m.getAttribute("content").trim().replace(/\/$/, "") : "";
   }
   function actionsUrl() {
