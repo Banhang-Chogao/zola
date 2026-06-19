@@ -26,8 +26,8 @@
     try { return sessionStorage.getItem(SESSION_KEY) || ""; }
     catch (e) { return ""; }
   }
-  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); } catch (e) {} }
-  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
+  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); localStorage.setItem(SESSION_KEY, s); } catch (e) {} }
+  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {} }
 
   function showView(name) {
     $$("[data-view]").forEach(function (v) { v.hidden = v.dataset.view !== name; });

@@ -104,7 +104,16 @@
   function isVipActive() { return !!getVipSession(); }
 
   function getCmsSid() {
-    try { return sessionStorage.getItem(CMS_KEY) || ""; } catch (e) { return ""; }
+    // Persistent super-admin: ưu tiên sessionStorage, fallback localStorage (sống
+    // qua đóng tab / xoá cache). base.html bootstrap đã mirror 2 chiều; đây là lớp
+    // phòng vệ để super-admin được nhận diện kể cả khi sessionStorage trống.
+    try {
+      var sid = sessionStorage.getItem(CMS_KEY) || localStorage.getItem(CMS_KEY) || "";
+      if (sid && !sessionStorage.getItem(CMS_KEY)) {
+        try { sessionStorage.setItem(CMS_KEY, sid); } catch (e) {}
+      }
+      return sid;
+    } catch (e) { return ""; }
   }
 
   async function fetchSuperuser() {

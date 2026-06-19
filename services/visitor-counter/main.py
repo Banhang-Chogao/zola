@@ -78,7 +78,10 @@ _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 # robust với GitHub email (vốn được trả về lowercase nhưng phòng config typo).
 ADMIN_EMAILS = {
     e.strip().lower()
-    for e in os.getenv("ADMIN_EMAILS", "292648126+Banhang-Chogao@users.noreply.github.com").split(",")
+    for e in os.getenv(
+        "ADMIN_EMAILS",
+        "292648126+Banhang-Chogao@users.noreply.github.com,tamsudev.com@gmail.com",
+    ).split(",")
     if e.strip()
 }
 ADMIN_USERNAMES = {
@@ -87,7 +90,10 @@ ADMIN_USERNAMES = {
     if u.strip()
 }
 
-SESSION_TTL = int(os.getenv("SESSION_TTL", "7200"))  # 2h default (idle timeout)
+# Session TTL: 30 ngày mặc định + sliding (refresh mỗi request) → super admin đã
+# đăng nhập GitHub một lần thì không phải login lại dù đóng trình duyệt / xoá cache
+# (sid được lưu localStorage client-side, server gia hạn TTL khi còn dùng).
+SESSION_TTL = int(os.getenv("SESSION_TTL", str(30 * 24 * 3600)))  # 30d sliding
 
 
 # ============= Bot Detection =============
@@ -193,6 +199,25 @@ def _is_allowed_email(verified_emails: set) -> bool:
 def _is_allowed_user(username: str) -> bool:
     """Fallback whitelist theo GitHub login (vd banhang-chogao)."""
     return (username or "").strip().lower() in ADMIN_USERNAMES
+
+
+def is_super_session(session: dict) -> bool:
+    """
+    Super admin = chủ blog (GitHub login hoặc email nằm trong whitelist admin).
+    Đăng nhập GitHub thành công với tài khoản whitelisted (vd banhang-chogao /
+    tamsudev.com@gmail.com) → quyền cao nhất. Dùng cho field is_super ở /auth/me.
+    """
+    email = (session.get("email") or "").strip().lower()
+    username = (session.get("username") or "").strip().lower()
+    return (email in ADMIN_EMAILS) or (username in ADMIN_USERNAMES)
+
+
+async def _touch_session(r, sid: str) -> None:
+    """Sliding session — gia hạn TTL mỗi lần dùng để admin không bị logout giữa chừng."""
+    try:
+        await r.expire(f"session:{sid}", SESSION_TTL)
+    except Exception:
+        pass
 
 
 @app.get("/auth/login")
@@ -335,6 +360,7 @@ async def auth_me(authorization: str = Header(default="")):
     raw = await r.get(f"session:{sid}")
     if not raw:
         raise HTTPException(401, "invalid_session")
+    await _touch_session(r, sid)  # sliding: mỗi lần check session → gia hạn TTL
     s = json.loads(raw)
     out = {
         "email":    s.get("email"),
@@ -342,6 +368,8 @@ async def auth_me(authorization: str = Header(default="")):
         "name":     s.get("name"),
         "avatar":   s.get("avatar"),
         "role":     "user",
+        # Quyền cao nhất: GitHub login whitelisted (chủ blog) → super admin.
+        "is_super": is_super_session(s),
     }
     try:
         vz = await fetch_vipzone_me(authorization)
@@ -350,6 +378,9 @@ async def auth_me(authorization: str = Header(default="")):
             out["vip_expires_at"] = vz["vip_expires_at"]
     except HTTPException:
         pass
+    # Super admin luôn có quyền cao nhất kể cả khi VIPZone API không phản hồi.
+    if out["is_super"] and out["role"] != "supervip":
+        out["role"] = "supervip"
     return out
 
 
@@ -377,6 +408,7 @@ async def require_session(authorization: str) -> dict:
     raw = await r.get(f"session:{sid}")
     if not raw:
         raise HTTPException(401, "invalid_session")
+    await _touch_session(r, sid)  # sliding: gia hạn TTL khi session còn được dùng
     return json.loads(raw)
 
 

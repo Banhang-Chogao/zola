@@ -25,10 +25,12 @@
 
   function setSid(sid) {
     try { sessionStorage.setItem(CMS_KEY, sid); } catch (e) {}
+    try { localStorage.setItem(CMS_KEY, sid); } catch (e) {}
   }
 
   function clearSid() {
     try { sessionStorage.removeItem(CMS_KEY); } catch (e) {}
+    try { localStorage.removeItem(CMS_KEY); } catch (e) {}
   }
 
   function consumeHashSid() {

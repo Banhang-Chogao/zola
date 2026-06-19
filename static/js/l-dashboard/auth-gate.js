@@ -35,12 +35,14 @@
   function setSid(sid) {
     try {
       sessionStorage.setItem(SESSION_KEY, sid);
+      localStorage.setItem(SESSION_KEY, sid);
     } catch (e) {}
   }
 
   function clearSid() {
     try {
       sessionStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(SESSION_KEY);
     } catch (e) {}
   }
 

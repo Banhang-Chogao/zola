@@ -80,6 +80,13 @@
        capture phase vì sự kiện 'error' của <img> không bubble; bắt được cả ảnh
        do JS dựng sau (sidebar random/featured). Guard chống lặp vô hạn. #}
     <script>(function(){var PH='{{ get_url(path='img/placeholder/placeholder.svg') }}';document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.getAttribute('data-ph')!=='1'&&t.src!==PH){t.setAttribute('data-ph','1');t.src=PH;}},true);})();</script>
+    {# Persistent CMS/super-admin session — chạy SỚM (trước mọi script defer auth).
+       sid (zola-cms-session-id) trước đây chỉ ở sessionStorage → mất khi đóng tab /
+       xoá cache → phải đăng nhập GitHub lại. Bootstrap này mirror sid sang
+       localStorage (sống qua restart + xoá cache, chỉ mất khi xoá hẳn site data) rồi
+       khôi phục sessionStorage để mọi consumer cũ (editor, vipzone, dashboards) chạy
+       y nguyên. Đăng nhập GitHub 1 lần (whitelist admin) → nhớ mãi. #}
+    <script>(function(){var K='zola-cms-session-id';try{var m=location.hash.match(/(?:^|[#&])sid=([A-Za-z0-9_-]+)/);if(m&&m[1]){localStorage.setItem(K,m[1]);sessionStorage.setItem(K,m[1]);}var ss=sessionStorage.getItem(K),ls=localStorage.getItem(K);if(!ss&&ls){sessionStorage.setItem(K,ls);}else if(ss&&!ls){localStorage.setItem(K,ss);}}catch(e){}})();</script>
     {# viewport-fit=cover bật env(safe-area-inset-*) trên iPhone notch /
        Dynamic Island. Nội dung tự dịch khỏi vùng bị Dynamic Island /
        Home Indicator che. Áp dụng CSS qua env() vars trong _reset.scss. #}
