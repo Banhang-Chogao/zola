@@ -2,6 +2,7 @@
 title = "Fintech 2026: Paywall premium trên blog cá nhân"
 description = "Cách xây dựng paywall premium cho blog cá nhân: khi nào dùng, cách thiết lập Momo payment, chiến lược pricing để giữ trust độc giả."
 date = 2026-06-18
+aliases = ["/premium-fintech-paywall-demo/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]

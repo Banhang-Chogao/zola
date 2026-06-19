@@ -1,13 +1,18 @@
 /**
- * H-Dashboard — purchase invoice / receipt analyzer (PDF, OCR fallback).
- * Clone of L/O-Dashboard logic & UI; data source = retail invoices (hóa đơn).
+ * H-Dashboard V2 — Highlands Coffee Life Analytics.
+ * Receipt OCR → Coffee DNA, timeline, seasonality, personality.
  */
-(function () {
+(function (global) {
   "use strict";
 
+  const COFFEE_MODULE_MSG =
+    "Coffee Analytics V2 chưa tải xong. Hãy tải lại trang (Ctrl+Shift+R). Upload vẫn hoạt động.";
+
   const PAGE_SIZE = 20;
+  const MAX_BATCH_FILES = 10;
   let allTransactions = [];
   let filteredTransactions = [];
+  let receiptsCatalog = { fingerprints: [], statements: [] };
   let statementMeta = null;
   let reconciliation = null;
   let currentPage = 1;
@@ -23,23 +28,53 @@
     els.upload = $("#hd-upload");
     els.uploadZone = $("#hd-upload-zone");
     els.uploadStatus = $("#hd-upload-status");
+    els.uploadBatch = $("#hd-upload-batch");
     els.meta = $("#hd-meta");
     els.reconcile = $("#hd-reconcile");
     els.summary = $("#hd-summary");
-    els.health = $("#hd-health");
     els.insights = $("#hd-insights-list");
     els.geo = $("#hd-geo");
+    els.geoSummary = $("#hd-geo-summary");
     els.tbody = $("#hd-table-body");
     els.pagination = $("#hd-pagination");
     els.filterDate = $("#hd-filter-date");
     els.filterDateFrom = $("#hd-filter-date-from");
     els.filterDateTo = $("#hd-filter-date-to");
     els.filterMonth = $("#hd-filter-month");
-    els.filterType = $("#hd-filter-type");
     els.filterKeyword = $("#hd-filter-keyword");
     els.exportJson = $("#hd-export-json");
     els.exportCsv = $("#hd-export-csv");
     els.exportPdf = $("#hd-export-pdf");
+    els.coffeeModuleError = $("#hd-coffee-module-error");
+  }
+
+  function coffeeEngine() {
+    return global.HDashboardCoffee || null;
+  }
+
+  function coffeeUi() {
+    return global.HDashboardCoffeeUI || null;
+  }
+
+  function coffeeCharts() {
+    return global.HDashboardCharts || null;
+  }
+
+  function coffeeModulesReady() {
+    return !!(coffeeEngine() && coffeeUi() && coffeeCharts());
+  }
+
+  function showCoffeeModuleError(msg) {
+    const text = msg || COFFEE_MODULE_MSG;
+    if (els.coffeeModuleError) {
+      els.coffeeModuleError.hidden = false;
+      els.coffeeModuleError.textContent = text;
+    }
+    console.error("[H-Dashboard]", text);
+  }
+
+  function clearCoffeeModuleError() {
+    if (els.coffeeModuleError) els.coffeeModuleError.hidden = true;
   }
 
   function setStatus(msg, type) {
@@ -55,12 +90,18 @@
     if (els.exportPdf) els.exportPdf.disabled = !hasData;
   }
 
+  function fmt(n) {
+    const coffee = coffeeEngine();
+    if (coffee && coffee.formatVnd) return coffee.formatVnd(n);
+    const v = Number(n);
+    return Number.isFinite(v) ? new Intl.NumberFormat("vi-VN").format(v) + " ₫" : "—";
+  }
+
   function applyFilters() {
     const dateVal = els.filterDate?.value || "";
     const dateFrom = els.filterDateFrom?.value || "";
     const dateTo = els.filterDateTo?.value || "";
     const monthVal = els.filterMonth?.value || "";
-    const typeVal = els.filterType?.value || "all";
     const keyword = (els.filterKeyword?.value || "").toLowerCase().trim();
 
     filteredTransactions = allTransactions.filter((t) => {
@@ -69,10 +110,8 @@
       if (dateFrom && day < dateFrom) return false;
       if (dateTo && day > dateTo) return false;
       if (monthVal && t.date.slice(0, 7) !== monthVal) return false;
-      if (typeVal === "income" && t.amount <= 0) return false;
-      if (typeVal === "expense" && t.amount >= 0) return false;
       if (keyword) {
-        const hay = `${t.description} ${t.merchant || ""}`.toLowerCase();
+        const hay = `${t.description} ${t.merchant || ""} ${t.address || ""}`.toLowerCase();
         if (!hay.includes(keyword)) return false;
       }
       return true;
@@ -83,36 +122,78 @@
     renderFilteredSummary();
   }
 
-  function getInsightsPayload() {
-    const txs = filteredTransactions.length ? filteredTransactions : allTransactions;
-    const base = HDashboardInsights.buildInsightsPayload(txs);
-    if (statementMeta) {
-      base.summary.opening_balance = statementMeta.opening_balance;
-      base.summary.ending_balance = statementMeta.ending_balance;
-      base.summary.total_debit = statementMeta.total_debit;
-      base.summary.total_credit = statementMeta.total_credit;
+  function getCoffeePayload() {
+    const coffee = coffeeEngine();
+    if (!coffee || !coffee.buildCoffeePayload) {
+      throw new ReferenceError("HDashboardCoffee is not defined");
     }
-    const debits = txs.filter((t) => t.debit > 0);
-    base.summary.max_debit = debits.length
-      ? debits.reduce((a, b) => (a.debit >= b.debit ? a : b))
-      : null;
-    base.summary.max_credit = null;
-    return base;
+    const txs = filteredTransactions.length ? filteredTransactions : allTransactions;
+    const payload = coffee.buildCoffeePayload(txs);
+
+    if (global.HDashboardGeo && txs.length) {
+      const geo = global.HDashboardGeo.analyze(txs);
+      const top = geo.locations.slice(0, 2).map((l) => l.name);
+      if (top.length) {
+        const hint = `Bạn thường uống cà phê quanh ${top.join(" và ")}.`;
+        payload.executiveSummary = payload.executiveSummary
+          ? payload.executiveSummary + " " + hint
+          : hint;
+        payload.geoHint = hint;
+      }
+    }
+    return payload;
+  }
+
+  function getInsightsPayload() {
+    const coffee = getCoffeePayload();
+    return {
+      coffee,
+      summary: {
+        total_expense: coffee.dna.totalSpend,
+        transaction_count: allTransactions.length,
+        visit_count: coffee.dna.totalVisits,
+        date_from: allTransactions.length
+          ? allTransactions.map((t) => t.date).sort()[0].slice(0, 10)
+          : "",
+        date_to: allTransactions.length
+          ? allTransactions.map((t) => t.date).sort().slice(-1)[0].slice(0, 10)
+          : "",
+      },
+      insights: coffee.narrativeInsights,
+    };
   }
 
   function renderMeta() {
-    if (!els.meta || !statementMeta) return;
-    const s = statementMeta;
-    const fmt = HDashboardInsights.formatVnd;
+    if (!els.meta) return;
+    const statements = (receiptsCatalog.statements || []).length
+      ? receiptsCatalog.statements
+      : statementMeta
+        ? [statementMeta]
+        : [];
+    if (!statements.length) return;
+    if (statements.length > 1) {
+      els.meta.innerHTML =
+        `<p class="hd-meta__aggregate">${statements.length} hóa đơn trong phiên</p>` +
+        statements
+          .map((s) => {
+            const dateLine = s.invoice_time
+              ? `${s.invoice_date || "—"} ${s.invoice_time}`
+              : s.invoice_date || "—";
+            return `<div class="hd-meta__mini"><strong>#${escapeHtml(s.invoice_no || "—")}</strong> · ${escapeHtml(s.merchant || "—")} · ${escapeHtml(dateLine)} · ${fmt(s.total || 0)}</div>`;
+          })
+          .join("");
+      return;
+    }
+    const s = statements[0];
     const dateLine = s.invoice_time ? `${s.invoice_date || "—"} ${s.invoice_time}` : (s.invoice_date || "—");
     els.meta.innerHTML = `
       <div class="hd-meta__grid">
-        <div><span>Cửa hàng</span><strong>${escapeHtml(s.merchant || "—")}</strong><em>${escapeHtml(s.service_type || s.address || "")}</em></div>
+        <div><span>Cửa hàng</span><strong>${escapeHtml(s.merchant || "—")}</strong><em>${escapeHtml(s.address || s.service_type || "")}</em></div>
         <div><span>Mã hóa đơn</span><strong>${escapeHtml(s.invoice_no || "—")}</strong><em>${escapeHtml(s.pos || "")}</em></div>
         <div><span>Ngày xuất</span><strong>${escapeHtml(dateLine)}</strong><em>${escapeHtml(s.currency || "VND")}</em></div>
         <div><span>Thu ngân</span><strong>${escapeHtml(s.cashier || "—")}</strong><em>${s.pager ? "Pager " + escapeHtml(s.pager) : ""}</em></div>
         <div><span>Tổng hóa đơn</span><strong>${fmt(s.total || 0)}</strong><em>${s.item_count || 0} mặt hàng</em></div>
-        <div><span>Hình thức TT</span><strong>${escapeHtml(s.payment_method || "—")}</strong><em>${s.shop_id ? "Shop " + escapeHtml(s.shop_id) : ""}</em></div>
+        <div><span>Thanh toán</span><strong>${escapeHtml(s.payment_method || "—")}</strong><em>${s.shop_id ? "Shop " + escapeHtml(s.shop_id) : ""}</em></div>
       </div>
     `;
   }
@@ -124,7 +205,6 @@
       return;
     }
     els.reconcile.hidden = false;
-    const fmt = HDashboardInsights.formatVnd;
     const ok = reconciliation.ok;
     const ocrNote = statementMeta && statementMeta.via_ocr ? " · đọc bằng OCR (ảnh scan)" : "";
     els.reconcile.dataset.type = ok ? "success" : "error";
@@ -134,73 +214,49 @@
   }
 
   function renderFilteredSummary() {
-    const payload = getInsightsPayload();
-    renderSummary(payload.summary);
-    renderHealth(payload.health);
-    HDashboardCharts.renderAll(payload.charts);
-    renderInsights(payload.insights);
-    highlightHealthLegend(payload.health.health_label);
-
-    const geoTxs = filteredTransactions.length ? filteredTransactions : allTransactions;
-    if (window.HDashboardGeo && els.geo) window.HDashboardGeo.render(geoTxs, els.geo);
-  }
-
-  function highlightHealthLegend(label) {
-    const legend = $("#hd-health-legend");
-    if (!legend) return;
-    const key = (label || "").toLowerCase();
-    legend.querySelectorAll(".hd-health-legend__item").forEach((el) => {
-      el.classList.toggle("hd-health-legend__item--active", el.classList.contains("hd-health-legend__item--" + key));
-    });
-  }
-
-  function renderSummary(summary) {
-    if (!els.summary) return;
-    const fmt = HDashboardInsights.formatVnd;
-    const range =
-      summary.date_from && summary.date_to
-        ? `${summary.date_from} → ${summary.date_to}`
-        : "—";
-
-    const maxDb = summary.max_debit
-      ? `${fmt(summary.max_debit.debit).replace(" ₫", "")} · ${escapeHtml(summary.max_debit.description || "")}`
-      : "—";
-
-    els.summary.innerHTML = `
-      <div class="hd-summary__item"><span class="hd-summary__label">Tổng chi tiêu</span><span class="hd-summary__value hd-summary__value--expense">${fmt(summary.total_expense)}</span></div>
-      <div class="hd-summary__item"><span class="hd-summary__label">Hoàn / thu lại</span><span class="hd-summary__value hd-summary__value--income">${fmt(summary.total_income)}</span></div>
-      <div class="hd-summary__item"><span class="hd-summary__label">Chi ròng</span><span class="hd-summary__value">${fmt(Math.abs(summary.net_cash_flow))}</span></div>
-      <div class="hd-summary__item"><span class="hd-summary__label">Số mặt hàng</span><span class="hd-summary__value">${summary.transaction_count}</span></div>
-      <div class="hd-summary__item hd-summary__item--wide"><span class="hd-summary__label">Mặt hàng đắt nhất</span><span class="hd-summary__value">${maxDb}</span></div>
-      <div class="hd-summary__item hd-summary__item--wide"><span class="hd-summary__label">Khoảng thời gian</span><span class="hd-summary__value">${range}</span></div>
-    `;
-  }
-
-  function pct(n) {
-    const v = Math.round(Number(n) * 100);
-    return Number.isFinite(v) ? `${v}%` : "—";
-  }
-
-  function renderHealth(health) {
-    if (!els.health) return;
-    const label = health.health_label || "—";
-    const labelKey = (health.health_label || "").toLowerCase();
-    const score = Number.isFinite(Number(health.financial_score)) ? health.financial_score : "—";
-    els.health.innerHTML = `
-      <div class="hd-health__metric"><span>Saving Rate</span><strong>${pct(health.saving_rate)}</strong></div>
-      <div class="hd-health__metric"><span>Expense Ratio</span><strong>${pct(health.expense_ratio)}</strong></div>
-      <div class="hd-health__metric"><span>Net Cash Flow</span><strong>${HDashboardInsights.formatVnd(health.net_cash_flow)}</strong></div>
-      <div class="hd-health__metric hd-health__metric--score"><span>Financial Score</span><strong class="hd-health__score hd-health__score--${labelKey}">${score}</strong><em>${escapeHtml(label)}</em></div>
-    `;
-  }
-
-  function renderInsights(insights) {
-    if (!els.insights) return;
-    if (!insights.length) {
-      els.insights.innerHTML = "<li>Upload hóa đơn PDF để nhận nhận xét tự động.</li>";
+    if (!allTransactions.length) {
+      clearCoffeeModuleError();
       return;
     }
-    els.insights.innerHTML = insights.map((t) => `<li>${escapeHtml(t)}</li>`).join("");
+    if (!coffeeModulesReady()) {
+      showCoffeeModuleError();
+      return;
+    }
+    try {
+      const payload = getCoffeePayload();
+      clearCoffeeModuleError();
+      renderSummary(payload);
+      coffeeUi().renderAll(payload);
+      coffeeCharts().renderAll(payload);
+
+      const geoTxs = filteredTransactions.length ? filteredTransactions : allTransactions;
+      if (global.HDashboardGeo && els.geo) {
+        global.HDashboardGeo.render(geoTxs, els.geo);
+        if (els.geoSummary && payload.geoHint) {
+          els.geoSummary.textContent = payload.geoHint;
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      showCoffeeModuleError(err.message || COFFEE_MODULE_MSG);
+    }
+  }
+
+  function renderSummary(payload) {
+    if (!els.summary) return;
+    const dna = payload.dna || {};
+    const dates = allTransactions.map((t) => t.date).sort();
+    const range =
+      dates.length ? `${dates[0].slice(0, 10)} → ${dates[dates.length - 1].slice(0, 10)}` : "—";
+
+    els.summary.innerHTML = `
+      <div class="hd-summary__item"><span class="hd-summary__label">Tổng chi tiêu</span><span class="hd-summary__value">${fmt(dna.totalSpend || 0)}</span></div>
+      <div class="hd-summary__item"><span class="hd-summary__label">Lần ghé</span><span class="hd-summary__value">${dna.totalVisits || 0}</span></div>
+      <div class="hd-summary__item"><span class="hd-summary__label">Hóa đơn TB</span><span class="hd-summary__value">${fmt(dna.avgBill || 0)}</span></div>
+      <div class="hd-summary__item"><span class="hd-summary__label">Đồ uống</span><span class="hd-summary__value">${dna.totalDrinks || 0}</span></div>
+      <div class="hd-summary__item hd-summary__item--wide"><span class="hd-summary__label">Signature drink</span><span class="hd-summary__value">${escapeHtml(payload.drinks?.signature || "—")}</span></div>
+      <div class="hd-summary__item hd-summary__item--wide"><span class="hd-summary__label">Khoảng thời gian</span><span class="hd-summary__value">${range}</span></div>
+    `;
   }
 
   function renderTable() {
@@ -211,7 +267,6 @@
 
     const start = (currentPage - 1) * PAGE_SIZE;
     const slice = filteredTransactions.slice(start, start + PAGE_SIZE);
-    const fmt = HDashboardInsights.formatVnd;
 
     if (!total) {
       els.tbody.innerHTML =
@@ -224,6 +279,7 @@
       .map((t, i) => {
         const txnDate = (window.ZolaDateTime && window.ZolaDateTime.formatTxnDate(t.date)) || "—";
         const desc = t.description ? escapeHtml(t.description) : "—";
+        const store = t.merchant ? escapeHtml(t.merchant) : "—";
         return `<tr>
           <td>${start + i + 1}</td>
           <td>${txnDate}</td>
@@ -231,7 +287,7 @@
           <td>${t.qty || 1}</td>
           <td class="hd-amount">${t.unit_price ? fmt(t.unit_price).replace(" ₫", "") : "—"}</td>
           <td class="hd-amount hd-amount--expense">${t.debit ? fmt(t.debit).replace(" ₫", "") : "—"}</td>
-          <td>${fmt(t.balance)}</td>
+          <td>${store}</td>
         </tr>`;
       })
       .join("");
@@ -277,7 +333,7 @@
   }
 
   async function wipeSessionData() {
-    await HDashboardStorage.clearAll();
+    await global.HDashboardStorage.clearAll();
     allTransactions = [];
     filteredTransactions = [];
     statementMeta = null;
@@ -287,7 +343,6 @@
     if (els.filterDateFrom) els.filterDateFrom.value = "";
     if (els.filterDateTo) els.filterDateTo.value = "";
     if (els.filterKeyword) els.filterKeyword.value = "";
-    if (els.filterType) els.filterType.value = "all";
     if (els.meta) els.meta.innerHTML = "";
     renderReconcile();
     populateMonthFilter();
@@ -307,7 +362,10 @@
     if (btn) btn.disabled = true;
 
     try {
-      const { watermark } = await HDashboardExport.exportAndWipe(
+      if (!coffeeModulesReady()) {
+        throw new Error(COFFEE_MODULE_MSG);
+      }
+      const { watermark } = await global.HDashboardExport.exportAndWipe(
         format,
         allTransactions,
         getInsightsPayload(),
@@ -321,66 +379,135 @@
     }
   }
 
-  async function handleFile(file) {
-    if (!file) return;
+  function statementSnapshot(stmt) {
+    return {
+      merchant: stmt.merchant,
+      address: stmt.address,
+      invoice_no: stmt.invoice_no,
+      invoice_date: stmt.invoice_date,
+      invoice_time: stmt.invoice_time,
+      total: stmt.total,
+      item_count: stmt.item_count,
+      via_ocr: stmt.via_ocr,
+    };
+  }
+
+  async function processOneFile(file, fpSet) {
     if (!/\.pdf$/i.test(file.name)) {
-      setStatus("Chỉ hỗ trợ hóa đơn dạng PDF (.pdf).", "error");
+      throw new Error("Chỉ hỗ trợ PDF: " + file.name);
+    }
+
+    const buffer = await file.arrayBuffer();
+    const parsed = await global.HDashboardInvoiceParser.parseInvoicePdfArrayBuffer(buffer, {
+      onStatus: (msg) => setStatus(`[${file.name}] ${msg}`, "info"),
+    });
+
+    if (!parsed || !Array.isArray(parsed.transactions) || !parsed.transactions.length) {
+      throw new Error("Không tìm thấy mặt hàng trong " + file.name);
+    }
+
+    const fp =
+      parsed.receipt_fingerprint ||
+      (await global.HDashboardInvoiceParser.buildReceiptFingerprint(parsed.statement));
+
+    if (fpSet.has(fp)) {
+      const inv = parsed.statement.invoice_no || "?";
+      return { status: "duplicate", invoice_no: inv };
+    }
+
+    const existingIds = await global.HDashboardStorage.getAllTransactionIds();
+    const toInsert = [];
+    for (const tx of parsed.transactions) {
+      if (!existingIds.has(tx.transaction_id)) {
+        toInsert.push(tx);
+        existingIds.add(tx.transaction_id);
+      }
+    }
+
+    if (toInsert.length) {
+      await global.HDashboardStorage.insertTransactions(toInsert);
+    }
+
+    fpSet.add(fp);
+    receiptsCatalog.fingerprints = Array.from(fpSet);
+    receiptsCatalog.statements.push(statementSnapshot(parsed.statement));
+    await global.HDashboardStorage.setReceiptsCatalog(receiptsCatalog);
+
+    statementMeta = parsed.statement;
+    reconciliation = parsed.reconciliation || { ok: true, message: "" };
+
+    return {
+      status: "ok",
+      inserted: toInsert.length,
+      item_count: parsed.transactions.length,
+      via_ocr: parsed.via_ocr,
+      reconciliation: parsed.reconciliation,
+    };
+  }
+
+  async function handleFiles(fileList) {
+    const files = Array.from(fileList || [])
+      .filter((f) => /\.pdf$/i.test(f.name))
+      .slice(0, MAX_BATCH_FILES);
+
+    if (!files.length) {
+      setStatus("Chọn ít nhất 1 file PDF hóa đơn Highlands.", "error");
       return;
     }
 
-    setStatus(`Đang đọc ${file.name}…`, "info");
+    if (fileList && fileList.length > MAX_BATCH_FILES) {
+      setStatus(`Chỉ xử lý tối đa ${MAX_BATCH_FILES} file — đã lấy ${MAX_BATCH_FILES} file đầu.`, "info");
+    }
 
-    try {
-      const buffer = await file.arrayBuffer();
-      const parsed = await HDashboardInvoiceParser.parseInvoicePdfArrayBuffer(buffer, {
-        onStatus: (msg) => setStatus(msg, "info"),
-      });
-      if (!parsed || !Array.isArray(parsed.transactions)) {
-        throw new Error("Không đọc được mặt hàng từ PDF — kiểm tra đúng định dạng hóa đơn.");
-      }
-      if (!parsed.transactions.length) {
-        setStatus(
-          "Không tìm thấy mặt hàng nào trong hóa đơn. Nếu là ảnh scan mờ, hãy thử ảnh rõ hơn.",
-          "error"
-        );
-        return;
-      }
-      statementMeta = parsed.statement || null;
-      reconciliation = parsed.reconciliation || { ok: true, message: "" };
+    receiptsCatalog = await global.HDashboardStorage.getReceiptsCatalog();
+    const fpSet = new Set(receiptsCatalog.fingerprints || []);
+    const stats = { selected: files.length, processed: 0, duplicate: 0, failed: 0 };
+    const dupNotes = [];
 
-      const existingIds = await HDashboardStorage.getAllTransactionIds();
-      const toInsert = [];
-      let skipped = 0;
-      for (const tx of parsed.transactions) {
-        if (existingIds.has(tx.transaction_id)) {
-          skipped++;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      setStatus(`Đang xử lý ${i + 1}/${files.length}: ${file.name}…`, "info");
+      try {
+        const result = await processOneFile(file, fpSet);
+        if (result.status === "duplicate") {
+          stats.duplicate++;
+          dupNotes.push("Skipped duplicate receipt #" + result.invoice_no);
         } else {
-          toInsert.push(tx);
+          stats.processed++;
         }
+      } catch (err) {
+        console.error(err);
+        stats.failed++;
       }
+    }
 
-      if (toInsert.length) {
-        await HDashboardStorage.insertTransactions(toInsert);
-      }
+    await refresh();
+    renderMeta();
+    renderReconcile();
 
-      await refresh();
-      renderMeta();
-      renderReconcile();
+    let msg =
+      "Selected: " +
+      stats.selected +
+      " · Processed: " +
+      stats.processed +
+      " · Duplicate: " +
+      stats.duplicate +
+      " · Failed OCR: " +
+      stats.failed;
+    if (dupNotes.length) msg += " · " + dupNotes.join(" · ");
 
-      const ocrNote = parsed.via_ocr ? " · OCR ảnh scan" : "";
-      const warn = reconciliation.ok ? "" : ` · ${reconciliation.message}`;
-      setStatus(
-        `Đã đọc ${parsed.transactions.length} mặt hàng · thêm mới ${toInsert.length} · bỏ qua trùng ${skipped}${ocrNote}${warn}`,
-        reconciliation.ok ? "success" : "error"
-      );
-    } catch (err) {
-      console.error(err);
-      setStatus(err.message || "Lỗi khi đọc PDF hóa đơn.", "error");
+    setStatus(msg, stats.failed > 0 ? "error" : "success");
+
+    if (els.upload) els.upload.value = "";
+    if (els.uploadBatch) {
+      els.uploadBatch.textContent = files.map((f) => f.name).join(" · ");
+      els.uploadBatch.hidden = false;
     }
   }
 
   async function refresh() {
-    allTransactions = await HDashboardStorage.getAllTransactions();
+    allTransactions = await global.HDashboardStorage.getAllTransactions();
+    receiptsCatalog = await global.HDashboardStorage.getReceiptsCatalog();
     filteredTransactions = [...allTransactions];
     populateMonthFilter();
     applyFilters();
@@ -389,7 +516,7 @@
 
   function bindEvents() {
     if (els.upload) {
-      els.upload.addEventListener("change", (e) => handleFile(e.target.files[0]));
+      els.upload.addEventListener("change", (e) => handleFiles(e.target.files));
     }
 
     if (els.uploadZone) {
@@ -405,11 +532,11 @@
           els.uploadZone.classList.remove("hd-upload--active");
         });
       });
-      els.uploadZone.addEventListener("drop", (e) => handleFile(e.dataTransfer?.files?.[0]));
+      els.uploadZone.addEventListener("drop", (e) => handleFiles(e.dataTransfer?.files));
       els.uploadZone.addEventListener("click", () => els.upload?.click());
     }
 
-    [els.filterDate, els.filterDateFrom, els.filterDateTo, els.filterMonth, els.filterType, els.filterKeyword].forEach(
+    [els.filterDate, els.filterDateFrom, els.filterDateTo, els.filterMonth, els.filterKeyword].forEach(
       (el) => {
         if (!el) return;
         const ev = el.tagName === "INPUT" ? "input" : "change";
@@ -427,20 +554,30 @@
     dashboardReady = true;
     cacheElements();
     bindEvents();
+    if (!coffeeModulesReady()) {
+      showCoffeeModuleError();
+    }
     await refresh();
   }
 
   async function init() {
     if (!document.getElementById("hd-app")) return;
-    const user = await HDashboardAuth.init();
+    const user = await global.HDashboardAuth.init();
     if (user) {
       await startDashboard();
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
+  function boot() {
+    if (!coffeeEngine()) {
+      console.warn("[H-Dashboard] HDashboardCoffee not yet defined — waiting for scripts");
+    }
     init();
   }
-})();
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})(typeof window !== "undefined" ? window : globalThis);

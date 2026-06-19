@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/vietinbank-cuoc-dua-ngan-hang-so-big4/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "ngân hàng số", "big 4", "vietinbank series"]
+tags = ["big 4", "ngân hàng số", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số VietinBank"

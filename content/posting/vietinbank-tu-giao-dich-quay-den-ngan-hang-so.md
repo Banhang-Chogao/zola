@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/vietinbank-tu-giao-dich-quay-den-ngan-hang-so/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "ngân hàng số", "chuyển đổi số", "vietinbank series"]
+tags = ["chuyển đổi số", "ngân hàng số", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số VietinBank"

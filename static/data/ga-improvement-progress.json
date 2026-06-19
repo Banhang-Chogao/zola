@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-18T21:21:31Z",
+  "updated_at": "2026-06-19T19:16:40Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,45 +15,45 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 9 weak related pairs",
+      "detail": "0 broken links · 15 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-18T21:11:46Z"
+      "updated_at": "2026-06-19T18:42:45Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 65/100 · LCP 7.0 s · needs work",
+      "detail": "Mobile 49/100 · LCP 6.9 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-18T12:02:29+00:00"
+      "updated_at": "2026-06-19T00:37:12+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 458/458 pages",
+      "detail": "15 pages missing FAQ/schema · 739/740 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-18T21:11:46Z"
+      "updated_at": "2026-06-19T18:42:45Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: CMS: cập nhật bài 'Fintech 2026: Paywall premium trên blog c",
+      "detail": "Latest: Feat/super admin session clean",
       "source": "changelog.json",
-      "updated_at": "2026-06-18"
+      "updated_at": "2026-06-19"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "356 links OK · IndexNow on publish",
+      "detail": "868 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-18T04:30:00Z"
+      "updated_at": "2026-06-19T14:02:56Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-18T21:11:46Z"
+      "updated_at": "2026-06-19T18:42:45Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 65/100 vs desktop 98/100 (Δ33) · 458/458 ready",
+      "detail": "Mobile 49/100 vs desktop 96/100 (Δ47) · 739/740 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-18T12:02:29+00:00"
+      "updated_at": "2026-06-19T00:37:12+00:00"
     }
   ],
   "summary": {

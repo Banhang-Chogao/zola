@@ -12,8 +12,8 @@
 (function () {
   "use strict";
 
-  const meta = document.querySelector('meta[name="zola-visitor-api"]');
-  const API = (meta && meta.getAttribute("content")) || "";
+  const meta = document.querySelector('meta[name="vipzone-auth-api"]');
+  const API = (meta && meta.getAttribute("content")) || "https://blog-vipzone-api.onrender.com";
 
   const root = document.querySelector(".du-lich");
   if (!root) return;

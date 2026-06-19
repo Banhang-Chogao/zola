@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/toan-canh-chuyen-doi-so-vietinbank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "chuyển đổi số", "ngân hàng số", "vietinbank series"]
+tags = ["chuyển đổi số", "ngân hàng số", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "chuyển đổi số VietinBank"

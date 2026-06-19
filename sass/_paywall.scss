@@ -385,7 +385,7 @@ main.container:has(.paywall-admin) {
   .paywall-box,
   .paywall-premium__notice,
   nav, footer, .sidebar, .giscus, .post-actions,
-  .ad-banner, .related-articles, .author-box, .faq {
+  .post-thanks, .related-articles, .author-box, .faq {
     display: none !important;
   }
 

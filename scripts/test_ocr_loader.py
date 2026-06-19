@@ -35,6 +35,17 @@ class OcrLoaderRegressionTest(unittest.TestCase):
         self.assertIn("vendor/tesseract/tesseract.min.js", html)
         self.assertIn('name="hd-tesseract-core"', html)
 
+    def test_h_dashboard_coffee_scripts_load_before_app(self):
+        html = HD_HTML.read_text(encoding="utf-8")
+        self.assertIn("js/h-dashboard/coffee-analytics.js", html)
+        self.assertIn("js/h-dashboard/coffee-ui.js", html)
+        ca = html.index("coffee-analytics.js")
+        ui = html.index("coffee-ui.js")
+        app = html.index("h-dashboard/app.js")
+        self.assertLess(ca, app)
+        self.assertLess(ui, app)
+        self.assertNotIn('coffee-analytics.js" defer', html)
+
     def test_csp_allows_wasm(self):
         csp = BASE_HTML.read_text(encoding="utf-8")
         self.assertIn("wasm-unsafe-eval", csp)

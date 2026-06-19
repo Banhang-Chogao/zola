@@ -1,0 +1,250 @@
+/* ===== Live TheoDoi8 — S-DNA dark terminal above footer ===== */
+
+.live-t8 {
+  --lt8-teal: #00a7a0;
+  --lt8-teal-soft: rgba(0, 167, 160, 0.18);
+  --lt8-ink: #e8edf2;
+  --lt8-muted: #8b9aab;
+  --lt8-bg: #0f1419;
+  --lt8-surface: #151b22;
+  --lt8-border: rgba(0, 167, 160, 0.22);
+  --lt8-mono: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+
+  padding: 2.5rem 0 2rem;
+  background: linear-gradient(180deg, var(--c-bg-page) 0%, rgba(0, 167, 160, 0.04) 100%);
+  border-top: 1px solid var(--c-border);
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+    flex-wrap: wrap;
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__logo-mark {
+    display: inline-flex;
+    width: 2.1rem;
+    height: 2.1rem;
+    border: 2px solid var(--lt8-teal);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: var(--lt8-teal);
+    font-family: $font-heading;
+    font-size: 0.8rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  &__eyebrow {
+    margin: 0 0 0.2rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lt8-teal);
+  }
+
+  &__title {
+    margin: 0;
+    font-family: $font-heading;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--c-text-heading);
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-family: var(--lt8-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--lt8-border);
+    background: var(--lt8-surface);
+    color: var(--lt8-ink);
+    white-space: nowrap;
+
+    &--in-progress,
+    &--running {
+      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.12);
+      color: #fcd34d;
+    }
+
+    &--queued {
+      border-color: rgba(148, 163, 184, 0.45);
+      background: rgba(148, 163, 184, 0.12);
+      color: #cbd5e1;
+    }
+
+    &--success {
+      border-color: rgba(34, 197, 94, 0.45);
+      background: rgba(34, 197, 94, 0.12);
+      color: #86efac;
+    }
+
+    &--failure {
+      border-color: rgba(239, 68, 68, 0.45);
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5;
+    }
+
+    &--frozen::after {
+      content: " · frozen";
+      opacity: 0.75;
+      font-weight: 600;
+    }
+  }
+
+  &__card {
+    border: 1px solid var(--lt8-border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--lt8-bg);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  }
+
+  &__chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &--red { background: #e07a7a; }
+    &--amber { background: #e8a838; }
+    &--teal { background: var(--lt8-teal); }
+  }
+
+  &__chrome-label {
+    margin-left: 0.35rem;
+    font-family: var(--lt8-mono);
+    font-size: 0.68rem;
+    color: var(--lt8-muted);
+  }
+
+  &__viewport {
+    position: relative;
+    min-height: 11rem;
+    max-height: 22rem;
+    overflow: hidden;
+    padding: 0.85rem 1rem 1rem;
+  }
+
+  &__loading {
+    margin: 0;
+    font-family: var(--lt8-mono);
+    font-size: 0.78rem;
+    color: var(--lt8-muted);
+  }
+
+  &__round {
+    transition: transform 0.38s ease, opacity 0.38s ease;
+    transform: translateY(0);
+    opacity: 1;
+
+    &.is-entering {
+      transform: translateY(12px);
+      opacity: 0;
+    }
+
+    &.is-exiting {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      top: 0.85rem;
+      transform: translateY(-14px);
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  &__terminal {
+    margin: 0;
+    font-family: var(--lt8-mono);
+    font-size: 0.72rem;
+    line-height: 1.55;
+    color: var(--lt8-ink);
+    white-space: pre;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    tab-size: 2;
+  }
+
+  &__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding: 0.7rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(0, 167, 160, 0.06);
+  }
+
+  &__link {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--lt8-teal);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+
+    &:hover { opacity: 0.85; }
+  }
+
+  &__hint {
+    font-size: 0.68rem;
+    color: var(--lt8-muted);
+    font-family: var(--lt8-mono);
+  }
+}
+
+@media (max-width: 720px) {
+  .live-t8 {
+    padding: 1.75rem 0 1.25rem;
+
+    &__title { font-size: 1.15rem; }
+    &__viewport {
+      min-height: 9.5rem;
+      max-height: 18rem;
+      padding: 0.7rem 0.75rem 0.85rem;
+    }
+
+    &__terminal {
+      font-size: 0.64rem;
+      line-height: 1.5;
+    }
+
+    &__foot {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-t8__round {
+    transition: none;
+  }
+}

@@ -15,11 +15,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  # true: gộp "cơn bão" deploy (PR merge dồn dập / bot dispatch) → chỉ run mới
-  # nhất chạy tới cùng, các run cũ bị huỷ sớm → giảm mạnh số lần gọi Pages API,
-  # tránh "API rate limit exceeded for installation" ở bước configure-pages.
-  cancel-in-progress: true
+  # ZERO_BARRIER_DEPLOY_QUEUE: serialize production deploys FIFO — 1 pipeline at a
+  # time. cancel-in-progress:false → queue, never cancel → no parallel deploy spam,
+  # no Pages-API rate-limit burst (configure-pages). Next deploy starts after the
+  # previous reaches a terminal state. (Supersedes V5 cancel-on-storm.)
+  group: production-deploy
+  cancel-in-progress: false
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -58,8 +59,14 @@ jobs:
       - name: Build reference index
         run: python3 scripts/build_references.py
 
+      - name: Build VIPZone picker catalog
+        run: python3 scripts/build_vipzone_picker_catalog.py
+
       - name: Build Google Rank sidebar data
         run: python3 scripts/build_google_rank.py
+
+      - name: Build SEO Reality Check sidebar data
+        run: python3 scripts/build_seo_reality.py
 
       - name: Build GitHub Activity data
         env:
@@ -70,6 +77,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build_github_profile_badges.py
+
+      - name: Build THEODOI8 LIVE banner report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_theodoi8_report.py
 
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only

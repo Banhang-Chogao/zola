@@ -7,7 +7,7 @@
 [![Deploy](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/deploy.yml?branch=main&style=flat-square&label=deploy)](https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml)
 [![QA](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/qa.yml?branch=main&style=flat-square&label=qa)](https://github.com/Banhang-Chogao/zola/actions/workflows/qa.yml)
 
-[Trang chủ](https://banhang-chogao.github.io/zola/) · [Viết bài (CMS)](https://banhang-chogao.github.io/zola/editor/) · [Web Vitals](https://banhang-chogao.github.io/zola/stats/) · [Insights](https://banhang-chogao.github.io/zola/insights/) · [Bảng Vàng SEO](https://banhang-chogao.github.io/zola/seo-bang-vang/)
+[Trang chủ](https://banhang-chogao.github.io/zola/) · [Viết bài (CMS)](https://banhang-chogao.github.io/zola/editor/) · [Insights](https://banhang-chogao.github.io/zola/insights/) · [Bảng Vàng SEO](https://banhang-chogao.github.io/zola/seo-bang-vang/)
 
 ---
 
@@ -30,7 +30,7 @@ Mọi thay đổi vào production đi qua **Pull Request** → CI xanh → auto-
 | **SEO & QA** | Canonical, Open Graph, Twitter Card, JSON-LD Article/FAQ/Breadcrumb, sitemap, Atom/RSS, compliance audit |
 | **Related posts** | Embedding `sentence-transformers` (build-time) → `data/related.json` |
 | **Bình luận** | [Giscus](https://giscus.app) (GitHub Discussions) |
-| **Analytics** | Google Analytics 4, Search Console verification, Web Vitals client-side (`/stats/`) |
+| **Analytics** | Google Analytics 4, Search Console verification |
 | **Premium / Paywall** | Teaser + thanh toán MoMo; nội dung premium strip trước `zola build` |
 | **Công cụ nội bộ** | Content Creator, SEO board, dashboards (F/L/O/H), Korean converter, Insights GitHub |
 | **CI tự phục hồi** | QA gatekeeper, compliance score, autofix conflicts, build-failure handler, 28 workflows |

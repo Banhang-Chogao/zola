@@ -137,3 +137,7 @@ Khi hết hạn hoặc muốn nâng cấp, bạn nộp lại với lịch sử c
 Trước khi nộp, dành một buổi đọc lại checklist trên trang [Bộ Ngoại giao Hàn Quốc (tiếng Việt)](https://overseas.mofa.go.kr/vn-vi/index.do) và cập nhật biểu phí, thời gian xử lý. Chúc bạn sớm có tem visa dài hạn và một chuyến Hàn đáng nhớ.
 
 📚 Tham khảo thêm hướng dẫn du lịch chính thức: [Visit Korea](https://english.visitkorea.or.kr/).
+
+> **Xem thêm trong cụm:** [Mùa quả chín xứ Đông: du lịch nông nghiệp Hải Phòng](/zola/baochi/mua-qua-chin-xu-dong-hai-phong/)
+
+> **Xem thêm trong cụm:** [Starbucks Fansipan: cửa hàng cà phê cao nhất châu Á](/zola/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan/)

@@ -17,19 +17,17 @@
   const SESSION_KEY = "zola-cms-session-id"; // giống editor.js
 
   const AUTH_API = (function () {
-    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
+    const m1 = document.querySelector('meta[name="vipzone-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
-    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
-    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-visitor-api.onrender.com";
+    return "https://blog-vipzone-api.onrender.com";
   })().replace(/\/$/, "");
 
   // ---------- session id helpers ----------
   function getSid() {
     try { return sessionStorage.getItem(SESSION_KEY) || ""; } catch (e) { return ""; }
   }
-  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); } catch (e) {} }
-  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
+  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); localStorage.setItem(SESSION_KEY, s); } catch (e) {} }
+  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {} }
 
   function consumeUrlHashSid() {
     if (!location.hash) return;

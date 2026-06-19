@@ -103,126 +103,121 @@
   }
 }
 
-.sidebar-block.sidebar-block--categories {
-  --glass-bg: rgba(255, 255, 255, 0.14);
-  --glass-bg-hover: rgba(255, 255, 255, 0.24);
-  --glass-border: rgba(255, 255, 255, 0.38);
-  --glass-shadow: 0 18px 44px rgba(0, 55, 132, 0.12);
-  --glass-blur: 10px;
-  --cat-accent-default: #8bb8ff;
-
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.08)),
-    rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(139, 184, 255, 0.28), transparent 38%),
-      radial-gradient(circle at 88% 8%, rgba(0, 166, 157, 0.18), transparent 34%);
-  }
+/* ===== RANDOM POSTS header + randomization quality score =====
+   Header xếp ngang: nhãn "RANDOM POSTS" trái, badge điểm phải. Nhãn bỏ margin
+   dưới (chuyển lên .random-head) → CHIỀU CAO section KHÔNG đổi so với trước.
+   Badge theo S-DNA: pill gọn, số lớn tabular, màu dịu theo bậc điểm. */
+.random-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
 
   .sidebar-label {
-    position: relative;
-    z-index: 1;
-    background: rgba(0, 55, 132, 0.84);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 10px 24px rgba(0, 55, 132, 0.16);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
+    margin: 0; /* giữ chiều cao hàng = chiều cao nhãn, không cộng dồn */
   }
 }
 
-.cat-list {
-  position: relative;
-  z-index: 1;
+.random-score {
+  --rps-color: var(--c-success);
 
-  .cat-list__item {
-    --cat-accent: var(--cat-accent-default);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.9rem;
-    margin: 0 0 0.65rem;
-    padding: 0.72rem 0.75rem 0.72rem 0.9rem;
-    border: 1px solid rgba(255, 255, 255, 0.34);
-    border-left: 4px solid var(--cat-accent);
-    border-radius: 14px;
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.12)),
-      rgba(255, 255, 255, 0.1);
-    color: var(--c-text-body);
-    font-size: 0.9rem;
-    box-shadow: 0 8px 22px rgba(0, 55, 132, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition:
-      transform 0.3s cubic-bezier(0.2, 0.9, 0.2, 1.2),
-      box-shadow 0.3s ease,
-      background 0.3s ease,
-      border-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.22rem 0.55rem;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid color-mix(in srgb, var(--rps-color) 38%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--rps-color) 12%, var(--c-bg-surface));
+  color: var(--rps-color);
+  font-family: $font-heading;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 
-    &:nth-child(1) { --cat-accent: #8bb8ff; }
-    &:nth-child(2) { --cat-accent: #8fe3d8; }
-    &:nth-child(3) { --cat-accent: #f5b5bc; }
-    &:nth-child(4) { --cat-accent: #bda7ff; }
-    &:nth-child(5) { --cat-accent: #ffd38a; }
-    &:nth-child(6) { --cat-accent: #9ed7ff; }
-    &:nth-child(7) { --cat-accent: #b7e6a5; }
-    &:nth-child(8) { --cat-accent: #f3c1ef; }
-
-    &:last-child { margin-bottom: 0; }
-
-    &:hover {
-      transform: translateY(-2px) scale(1.015);
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.18)),
-        var(--glass-bg-hover);
-      border-color: color-mix(in srgb, var(--cat-accent) 54%, rgba(255, 255, 255, 0.4));
-      box-shadow: 0 14px 30px rgba(0, 55, 132, 0.14);
-    }
+  /* Bậc màu: <5 đỏ · 5–7 hổ phách · ≥8 xanh (dịu, không bão hoà) */
+  &.is-low { --rps-color: #dc2626; }
+  &.is-mid { --rps-color: #d97706; }
+  &.is-high { --rps-color: #15803d; }
+  &.is-loading {
+    --rps-color: var(--c-text-muted);
+    opacity: 0.65;
+    cursor: default;
   }
 
-  .cat-list__link {
-    min-width: 0;
-    color: var(--c-text-heading);
-    font-weight: 700;
-    text-decoration: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    &:hover { color: var(--c-accent); }
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--rps-color) 28%, transparent);
   }
 
-  .cat-list__count {
-    min-width: 2.25rem;
-    min-height: 2.25rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    color: #003784;
-    font-size: 0.8rem;
-    font-weight: 900;
+  &:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &__dice {
+    font-size: 0.82rem;
     line-height: 1;
-    background:
-      linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.28)),
-      color-mix(in srgb, var(--cat-accent) 28%, transparent);
-    border: 1px solid color-mix(in srgb, var(--cat-accent) 48%, rgba(255, 255, 255, 0.55));
-    border-radius: 999px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 8px 18px rgba(0, 55, 132, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.2s ease;
+  }
+
+  &:hover &__dice {
+    transform: rotate(-12deg);
+  }
+
+  &__value {
+    letter-spacing: 0.01em;
+  }
+
+  &__max {
+    font-size: 0.62rem;
+    font-weight: 700;
+    opacity: 0.72;
+  }
+
+  /* Animation tinh tế: "pop" khi điểm đổi, xúc xắc xoay khi reshuffle */
+  &.is-pop {
+    animation: rps-pop 0.24s ease;
+  }
+
+  &.is-rolling .random-score__dice {
+    animation: rps-roll 0.45s ease;
+  }
+}
+
+@keyframes rps-pop {
+  0% { transform: scale(0.86); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rps-roll {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .random-score,
+  .random-score__dice {
+    transition: none;
+  }
+
+  .random-score.is-pop,
+  .random-score.is-rolling .random-score__dice {
+    animation: none;
   }
 }
 
@@ -368,26 +363,8 @@
   }
 }
 
-/* ===== TAG CLOUD (sidebar) — text-only, gọn hết mức, theme-aware =====
-   Danh sách thẻ dạng chữ thuần (không badge/khung màu), wrap nhiều dòng,
-   font nhỏ hài hoà với sidebar. Hover đổi sang màu accent. Số bài đặt ở
-   thuộc tính title (hiện khi rê chuột) để giữ giao diện tối giản. */
-.tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem 0.55rem;
-  line-height: 1.45;
-
-  &__item {
-    font-size: 0.78rem;
-    color: var(--c-text-muted);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color .15s ease;
-
-    &:hover { color: var(--c-accent); }
-  }
-}
+/* TAG CLOUD đã chuyển XUỐNG FOOTER (.footer-tags trong _footer-tags.scss) —
+   thẻ là điều hướng phụ trợ, không còn ở sidebar. */
 
 /* ----- Rank overlay (số xếp hạng mờ trên thumbnail) ----- */
 
@@ -455,6 +432,20 @@
     margin-bottom: 1rem;
   }
 
+  /* Khớp khoảng cách dưới với các block khác (nhãn trong .random-head có margin 0) */
+  .random-head {
+    margin-bottom: 1rem;
+  }
+
+  .random-score {
+    font-size: 0.74rem;
+    padding: 0.24rem 0.6rem;
+
+    &__dice {
+      font-size: 0.86rem;
+    }
+  }
+
   .featured-card {
     &__title {
       font-size: 1.1rem;
@@ -488,21 +479,6 @@
     }
   }
 
-  .cat-list {
-    li {
-      padding: 0.75rem 0;
-      font-size: 0.95rem;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-
-    &__count {
-      padding: 0.25rem 0.7rem;
-      font-size: 0.8rem;
-      border-radius: 6px;
-    }
-  }
 }
 
 @media (max-width: 380px) {

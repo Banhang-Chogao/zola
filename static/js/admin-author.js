@@ -9,16 +9,11 @@
   "use strict";
 
   const SESSION_KEY = "zola-cms-session-id";
-  // Đọc URL backend qua nhiều fallback theo thứ tự:
-  //   1. <meta name="zola-cms-auth-api"> (chuẩn từ base.html)
-  //   2. <meta name="zola-visitor-api"> (reuse cùng service)
-  //   3. Hardcode URL production để FE work kể cả khi Tera build issue
+  // Đọc URL backend qua VIPZone meta, fallback production để FE work kể cả khi Tera build issue.
   const AUTH_API = (function () {
-    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
+    const m1 = document.querySelector('meta[name="vipzone-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
-    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
-    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-visitor-api.onrender.com";
+    return "https://blog-vipzone-api.onrender.com";
   })();
 
   const root = document.getElementById("admin-author-app");
@@ -31,8 +26,8 @@
     try { return sessionStorage.getItem(SESSION_KEY) || ""; }
     catch (e) { return ""; }
   }
-  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); } catch (e) {} }
-  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
+  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); localStorage.setItem(SESSION_KEY, s); } catch (e) {} }
+  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {} }
 
   function showView(name) {
     $$("[data-view]").forEach(function (v) { v.hidden = v.dataset.view !== name; });
@@ -316,6 +311,13 @@
     }
     const user = await fetchMe();
     if (user) {
+      // CMS write auth = SUPERUSER ONLY (kể cả VIP cũng không ghi được).
+      if (!user.is_super) {
+        clearSid();
+        showLoginError("access_denied");
+        showView("login");
+        return;
+      }
       populateUserBar(user);
       showView("main");
       await loadAuthorData();

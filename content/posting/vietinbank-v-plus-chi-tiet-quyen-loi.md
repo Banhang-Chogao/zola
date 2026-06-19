@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/vietinbank-v-plus-chi-tiet-quyen-loi/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "v-plus", "v-advance", "ipay mobile", "hoàn tiền", "vietinbank v-plus v-advance series"]
+tags = ["hoàn tiền", "ipay mobile", "v-advance", "v-plus", "vietinbank", "vietinbank v-plus v-advance series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "V-Plus VietinBank quyền lợi"

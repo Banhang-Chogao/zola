@@ -16,18 +16,27 @@ Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIO
 
 > CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
 
-### 1. Vẫn qua PR — không push thẳng `main`
+### 1. Không cần qua PR thủ công — code xong → tự lên `main` → prod
 
-Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit/push trực tiếp `main`.
+> **Cập nhật (2026-06-19 — user request):** Bỏ rào PR thủ công. Code xong là **tự động**
+> lên `main` → deploy production. KHÔNG mở/duyệt/babysit PR bằng tay, KHÔNG hỏi user.
 
-### 2. Auto-merge khi CI xanh
+- Agent làm xong thay đổi → để automation đưa lên `main` → `deploy.yml` → prod. Không
+  tự tay quản lý PR, không chờ human review.
+- **Lỗi để máy bắt & sửa, không phải human gate:** `qa-check` (QA Gatekeeper) chặn build
+  hỏng trước khi lên `main`; có lỗi thì **vaccine autofixer** (§4 V1–V12) + `ff`/`ff9` +
+  autofix-conflicts tự chẩn & sửa. KHÔNG chờ người review.
+- **Hạ tầng (agent không cần bận tâm):** bước "đưa lên `main`" do `auto-merge.yml` tự thực
+  hiện (squash khi `qa-check` xanh) — GITHUB_TOKEN/branch protection KHÔNG cho push thẳng
+  `main` (§5/§5a/§5b), nên auto-merge là **bước máy tự làm**, không phải rào thủ công.
 
-1. Tạo branch: `feature/`, `fix/`, `chore/`, …
-2. Push → mở PR vào `main`
-3. **`auto-merge.yml`** merge tự động khi **qa-check** pass (QA Gatekeeper — không PR Policy)
-4. `deploy.yml` chạy sau merge → GitHub Pages
+### 2. Auto-merge khi CI xanh (máy tự làm hết)
 
-**Không hỏi user** trước khi merge. Không dùng label chặn auto-merge.
+1. Code xong → push lên branch (`feature/`, `fix/`, `chore/`, …)
+2. **`auto-merge.yml`** tự đưa lên `main` khi **qa-check** pass (QA Gatekeeper — không PR Policy)
+3. `deploy.yml` chạy sau merge → GitHub Pages → prod
+
+**Không hỏi user** trước khi merge, **không** cần agent mở/duyệt PR thủ công, không dùng label chặn auto-merge.
 
 ### 3. Merge Report (thay review thủ công)
 
@@ -66,6 +75,40 @@ Mọi thay đổi **phải qua Pull Request** (branch → PR). **Không** commit
 - **GITHUB_TOKEN PR gate / "workflows awaiting approval":** Không dùng `pull_request` trigger — CI qua `push` branch + `workflow_dispatch` + `workflow_run`. `push_via_pr.sh` → push → QA tự chạy. Chi tiết: `.github/ACTIONS-PERMISSIONS.md`, `docs/ROOT-CAUSE-ACTION-REQUIRED.md`.
 - **PR Policy removed:** `pr-policy.yml` đã xóa — chỉ `qa-check` để auto-merge.
 - **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
+
+## Deploy Queue Policy (ZERO_BARRIER_DEPLOY_QUEUE — effective 2026-06-19)
+
+> Bổ sung ZERO_BARRIER auto-merge/deploy. Nhiều PR/commit xanh cùng lúc → **KHÔNG**
+> dispatch nhiều deploy song song (tránh GitHub/Pages API rate-limit burst). Merge
+> nhanh nhưng **tuần tự**.
+
+- **Enqueue, đừng burst:** CI/QA xanh → xếp hàng theo thời điểm push/PR ready; xử lý
+  **FIFO** (item xanh cũ nhất trước).
+- **1 pipeline tại 1 thời điểm:** chỉ một merge/deploy chạy; item kế tiếp bắt đầu **sau**
+  khi `deploy.yml` của item trước đạt trạng thái **terminal** (success/failure).
+- **Concurrency lock (đã patch):**
+  - `deploy.yml` → `concurrency: { group: production-deploy, cancel-in-progress: false }`
+    (queue, không cancel → không spam deploy, không burst Pages API; thay V5 cancel-on-storm).
+  - `auto-merge.yml` → `concurrency: { group: auto-merge-main, cancel-in-progress: false }`
+    (khóa merge toàn cục → merge tuần tự → main nhận 1 push/lần → 1 deploy/lần).
+- **Retry, đừng restart:** deploy fail / rate-limited → retry **exponential backoff**;
+  KHÔNG chạy lại job đã success, KHÔNG restart queue từ đầu.
+- **1 change = 1 PR** (giữ PR sạch).
+- **Behavior:** QA green → queued → tới lượt → merge main → deploy → chờ terminal → PR kế tiếp.
+- **Summary sau mỗi merge/deploy trong queue:**
+
+  ```text
+  Deploy Queue Summary
+  PR: #<id>
+  Status: ✅/❌
+  Queue position: <n>
+  Merged: <sha>
+  Deploy: <status>
+  Next: <next PR or none>
+  ```
+
+- **Acceptance:** không deploy song song; không rate-limit burst; PR xanh merge/deploy
+  đúng thứ tự; nhanh nhưng tuần tự; build pass.
 
 ## Task Priority Policy (effective 2026-06-18)
 
@@ -362,6 +405,230 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   (`.vaccine-panel`) + `sass/_vaccine-autofixer.scss` · data
   `data/vaccine-autofixer-report.json` / `-state.json` / `.log`.
 
+#### V12 — Semantic Conflict Auto-Fix: shared infra files (`templates/base.html` + `sass/_footer.scss`)
+
+> Process vaccine (not a workflow-run failure). These two files are the repo's
+> highest-conflict zone. Match the signature → run the FIXER **by intent**, NEVER
+> blind `ours`/`theirs`.
+
+- **Symptom:** A PR touching the global layout turns `mergeable_state: dirty` with
+  conflicts clustered in **`templates/base.html`** and/or **`sass/_footer.scss`**
+  (siblings `sass/_footer-tags.scss`, `_sidebar.scss`, `_theme-overrides.scss`,
+  `site.scss` usually auto-merge). Multiple parallel PRs each relocate a sidebar/
+  footer module (categories → footer, tags → footer, add a sidebar widget) so they
+  edit the SAME footer/sidebar regions. The PR's real feature is fine; only the
+  shared scaffolding collides.
+- **Root cause:** `base.html` + `_footer.scss` are **shared infrastructure / high-
+  conflict zones**. Parallel PRs branched from different bases each move a block into
+  the footer or add a widget. A blind `--ours` re-introduces the module the other PR
+  already moved (→ duplicate render); a blind `--theirs` deletes a feature that
+  already landed on `main`. It is a **merge race over shared layout**, not a logic
+  bug — QA-green on a branch never proves it is merge-safe against latest `main`.
+- **FIXER (semantic, by intent — never blind ours/theirs):**
+  1. `git fetch origin main` → merge latest `main` into the branch.
+  2. **Classify each conflict hunk** as `additive` · `overlapping` · `replacement`.
+  3. **Additive (the common case):** preserve BOTH sides. A module moved to the
+     footer must exist in the footer **exactly once** and be **absent** from the
+     sidebar — so drop the stale sidebar copy on *both* sides and keep every footer
+     block (`.footer-categories` from one PR + `.footer-tags` from another both live).
+  4. **`templates/base.html` — merge by BLOCK.** Protect & dedupe: SEO `<meta>`/
+     schema metadata, analytics, `<script>`/asset-version includes, macro imports,
+     `{% block %}` partials, nav + `[[extra.main_menu]]`-driven links (e.g. S-DNA),
+     the `<footer>` blocks, sidebar widgets (`google_rank`, `seo_reality`). **No
+     duplicate JS/CSS imports, no duplicate footer/sidebar blocks, no broken Tera tags.**
+  5. **`sass/_footer.scss` — merge by COMPONENT.** Protect: `.footer-categories`,
+     `.footer-tags`, footer cards, spacing, theme tokens, typography hierarchy, every
+     `@media` breakpoint. **Each selector defined exactly once** (grep the opener
+     count to confirm); never delete an unrelated footer module; keep responsive
+     behavior intact (desktop / tablet / mobile).
+  6. **Validate before commit:** `python3 scripts/build_references.py` →
+     `python3 scripts/paywall_prepare_build.py --strip` → `zola build` → `--restore`
+     → `python3 qa_check.py` → `python3 scripts/check_internal_links.py` →
+     `python3 qa-404-checker.py`. Confirm in built HTML: footer categories render,
+     footer tags render, SEO Reality Check renders, S-DNA route/menu works, **no
+     duplicate footer/sidebar blocks**.
+  7. **If build + QA pass → commit immediately** (zero conflict markers left).
+- **Prevention / Rules:** never `--ours`/`--theirs` blindly on these files; classify
+  every hunk (additive / overlapping / replacement); for additive keep both; for a
+  moved module keep it in the footer once + remove it from the sidebar; rebase onto
+  latest `main` before trusting CI; a `dirty` PR after QA-green = merge race, not a
+  code bug.
+- **Lesson (root cause, permanent):** parallel PRs modified shared infrastructure
+  files (`templates/base.html`, `sass/_footer.scss`). **Infrastructure files are
+  high-conflict zones — always perform a SEMANTIC merge, not a text merge. Truth >
+  speed. Structure > line numbers. Intent > ours/theirs.**
+- **Evidence (PR #469, 19/06/2026):** #469 (Tags → footer) went `dirty` after #467
+  (SEO Reality Check sidebar), #468 (Categories → footer) and #470 (S-DNA tools menu)
+  landed on `main` first. Conflicts only in `templates/base.html` + `sass/_footer.scss`.
+  Semantic FIXER kept `.footer-categories` (#468) **and** `.footer-tags` (#469) both
+  in the footer; removed both stale sidebar blocks; preserved `seo_reality` (#467) +
+  S-DNA menu (#470). `zola build` PASS (173 pages) · `qa_check.py` PASS (558 files) ·
+  `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken. All four
+  features survived.
+
+#### V13 — Scheduled Forward-Reference: future-dated drafts wrongly flagged as broken links
+
+> Process + tooling vaccine (not a workflow-run failure). Match the signature →
+> trust the FIXER below; the checker already handles it automatically.
+
+- **Symptom:** `qa-404-checker.py` reports `N internal broken` and **exit 2** (→
+  `qa-check` red → auto-merge blocked → deploy blocked) for links that point to a
+  post which **does not yet exist in `public/`**. The target turns out to be a post
+  that is `draft = true` with `[extra] publish_at = "<future ISO>"` (scheduled via
+  `scheduled-publish.yml`). The failure is **unrelated** to the PR under review —
+  often a content/news post links *forward* to a sibling that publishes in a day or
+  two. Example (19/06/2026): 3 `content/baochi/*` posts linked to
+  `bidv-smartbanking-khong-vao-duoc` (publish 21/06) and `bi-kip-xin-visa-han-quoc-5-nam-de`
+  (publish 20/06) → 3 false "broken" links blocking an unrelated paywall PR.
+- **Root cause:** Zola does not build drafts (`build_drafts` off), so a link to a
+  scheduled-but-unpublished post 404s in `public/`. These are **scheduled
+  forward-references**, NOT broken links — they resolve automatically the moment
+  `scheduled-publish.yml` flips `draft=false` on the publish date. The checker
+  previously had no draft/`publish_at` awareness, so it treated them as hard 404s.
+- **FIXER (already implemented in `qa-404-checker.py`):** before flagging an
+  internal 404, the checker builds a map of **scheduled forward-targets** —
+  `_scheduled_forward_targets(now)` scans `content/**/*.md`, and for any post with
+  `draft = true` **and** `[extra].publish_at` (top-level accepted too) parsing to a
+  datetime **in the future**, records its canonical URL + aliases. A 404 whose
+  target is in that map is reclassified `status: "scheduled-forward-ref"`
+  (`error_type: scheduled_forward_ref`, with `publish_at`) → counted as a
+  **warning**, NOT in `internal_broken`, so **exit stays 0**. Summary gains
+  `scheduled_forward_refs`. Once `publish_at` has **passed** (or there is no
+  `publish_at`, or the post is not a draft) the link is checked with **strict 404**
+  again — no permanent allow-list. Parsing is crash-proof (any error → treated as a
+  normal/strict link, so a genuine broken link is never silenced).
+- **Rules:** (1) Keep genuine 404 detection STRICT for everything else — only
+  `draft=true` + FUTURE `publish_at` is exempt. (2) Never hard-code slugs into an
+  allow-list; the exemption is computed from frontmatter and self-expires. (3) A
+  scheduled forward-ref is a warning to surface, not a failure to gate on. (4) Do
+  NOT "fix" such links by repointing/removing them — they are intentional; let them
+  resolve on publish.
+- **Tests:** `python3 -m unittest scripts.test_qa_404_scheduled -v` (future=skip ·
+  past=strict · no-publish_at=strict · published=n/a · aliases included · bad
+  frontmatter degrades to strict).
+- **Validation (19/06/2026):** with V13, `qa-404-checker.py` → `0 internal broken ·
+  3 scheduled forward-refs · status warn · exit 0`; genuine broken links elsewhere
+  still exit 2.
+
+#### V14 — Fabricated topic-cluster cross-links: `/zola/bai-N-<title-slug>/` 404s block the QA gate
+
+> Content vaccine (not a workflow-run bug — the gate is RIGHT, the content is wrong).
+> Match the signature → run the FIXER **by intent**; do NOT re-diagnose, do NOT blanket
+> slug-remap, do NOT rely on `--fix` alone.
+
+- **Symptom:** `QA Gatekeeper` (`qa.yml`) red at the last step — `qa-404-checker.py`
+  prints `… N internal broken … status: fail` and **exit 2** → auto-merge + deploy
+  blocked. `zola build` itself **PASSES** (Zola ignores dangling internal markdown
+  links). The broken hrefs are **root-level** `/zola/bai-<part>-<slugified-title>/`
+  (hub gets a `-pillar` suffix), **NOT** under `/posting/`. The same broken target is
+  referenced from several sibling articles, so the count multiplies (e.g. **40 broken =
+  20 distinct targets × 2–4 refs**). The failure looks **unrelated** to the PR under
+  review and reproduces on **every** branch cut from the same `main` (identical count
+  on independent branches = systemic, from `main` content).
+- **Why the scheduled checker can show 0/pass (false calm):** the scheduled
+  `qa-404-checker.yml` runs with `--fix` and **without** `build_feed_pagination.py`; if
+  it last ran on an **older base** (before the offending articles landed) its committed
+  `data/qa-404-report.json` reads `pass`. The breakage surfaces only in the QA
+  Gatekeeper build. (Same "stale base" family as V9 — confirm the report's `updated_at`
+  vs the offending commit.)
+- **Root cause:** a batch of auto/agent-generated **"topic authority cluster"** articles
+  (e.g. commit *"add 19 topic authority cluster articles"*) embed cross-cluster nav
+  lines — `**Cluster:**`, `**SEO Cluster:**`, `## Liên kết … Cluster` bullet lists —
+  whose URLs were **fabricated** from the series part number + a slugified title:
+  `/{base}/bai-{part}-{slugify(title)}/` instead of the post's **real built URL**
+  `/{base}/posting/{real-slug}/`. The fabricated stub is also **mangled** (truncated,
+  language/section suffix dropped) — real `derado-va-neunda-haedo-tieng-han` → link
+  `bai-2-derado-va-neunda-haedo`. No page **nor `aliases`** builds at `/bai-N-…/` → hard
+  404. (Root-level links that *happen* to match a declared alias — e.g.
+  `/zola/review-lpbank-so-2026/` — resolve; only the `bai-N-` fabrications 404.)
+- **Why `--fix` is INSUFFICIENT:** `qa-404-checker.py --fix` only repoints a 404 when its
+  nearest candidate scores **≥ 0.6** similarity. The mangled `bai-N` stubs fall below
+  that for ~half (Korean/abbreviated slugs → `suggestion: None`), so `--fix` repairs only
+  ~**20 of 40** and resolves to root-alias URLs, not canonical `/posting/`. **Running
+  `--fix` alone does NOT clear the gate.**
+- **FIXER (by intent — never blanket slug-remap):**
+  1. List offenders: `grep -rlE "\(/(zola/)?bai-[a-z0-9-]+/?\)" content/`.
+  2. For **each** link, read its **anchor text + host article** to find the **intended**
+     sibling, then repoint to that post's **real** URL `/zola/posting/<real-slug>/`
+     (verify `content/posting/<real-slug>.md` exists and is **not** `draft = true`).
+  3. If the intended target is a **planned/unwritten** post (e.g. link text *"FAQ điểm
+     thi lớp 10"* with no such article) → **REMOVE** the link; never invent a target.
+  4. **Intent > slug:** do NOT trust stub auto-mapping — `bai-5-faq` *looked* like the
+     banking FAQ post but its text meant a different (grade-10 exam) post.
+  5. Gate locally: `python3 scripts/build_feed_pagination.py` → `build_references.py` →
+     `python3 scripts/paywall_prepare_build.py --strip` → `zola build` → `--restore` →
+     `python3 qa-404-checker.py` must print `0 internal broken … exit 0` (zero
+     `/bai-` links left).
+- **Prevention / Rules:**
+  - Cross-cluster / series / pillar nav links MUST use the target post's **real built
+    URL** (`/zola/posting/<slug>/`) or a **real declared `aliases`** entry — **NEVER** a
+    fabricated `/bai-N-<title>/` scheme. The `/posting/` section prefix is required;
+    root-level only works if the post declares that exact alias.
+  - Any generator emitting cluster/pillar cross-links must derive the URL from the target
+    post's **actual slug/section/aliases**, not from `bai-{part}-{slugify(title)}`.
+  - A clean `zola build` does **not** prove links resolve — only `qa-404-checker.py` (the
+    `qa.yml` gate) catches dangling internal links. Run it locally before trusting CI.
+  - QA-green / conflict-free ≠ **link-safe**: a fresh batch of generated articles can
+    pass build yet inject dozens of 404s. The scheduled `--fix` is a *partial* net only.
+- **Validation / Evidence (19/06/2026):** QA Gatekeeper runs **#1760**
+  (`claude/awesome-gauss-edm7ve`) & **#1761** (`claude/sleepy-carson-13c9yp`) both red —
+  `qa-404-checker.py: 40 internal broken · status fail · exit 2`, while `zola build`
+  passed (396 pages). 19 articles from *"add 19 topic authority cluster articles"*; 40
+  broken = 20 distinct fabricated `/bai-N-…/` targets, each referenced 1–4×. The 07:15
+  scheduled report read `0/pass` because it ran on the pre-batch base. `--fix` dry-run:
+  only **20/40** reached a ≥0.6 suggestion → manual intent-based repoint/removal required.
+
+#### V16 — Static-site ↔ backend split-brain: CI green but VIP premium still locked (Render not redeployed)
+
+> Deploy/infra vaccine. Match the signature → run `backend8` (do NOT re-diagnose),
+> then suggest a Render Manual Sync. **Never report success while the backend lags `main`.**
+
+- **Symptom:** QA Gatekeeper green, `auto-merge.yml` merged, **`deploy.yml` (GitHub Pages)
+  succeeds**, yet a VIP/supervip on a premium article (`data-vipzone-premium="true"`) still
+  cannot read the body — `GET {vipzone_api}/api/vipzone/content/{post_id}` returns
+  **404 `premium_content_unavailable`** (or 503). The "Premium gộp gói" promise looks broken
+  even though the code is on `main`. Often co-occurs with GitHub API **rate-limit** noise
+  during `theodoi8` polling, masking the real cause.
+- **Root cause:** GitHub Pages always ships the latest `main`, but the FastAPI backends on
+  Render (`blog-vipzone-api`) only redeploy on a **manual** Blueprint sync. So the **static
+  site is ahead of the backend** — endpoints/content that exist in the repo 404 in
+  production. This is a **split-brain**, NOT a code bug and NOT a `zola build` failure. A
+  green static deploy is **not** proof the backend serves the new code.
+- **Detector / FIXER (`backend8`):** `python3 scripts/backend_sha_check.py` compares
+  **`git rev-parse origin/main`** against the backend's **`/health.deployed_sha`** (Render
+  injects `RENDER_GIT_COMMIT`; exposed by `services/vipzone/main.py`). Outcomes:
+  `in_sync` (no action) · `outdated` → **BACKEND_OUTDATED** (Render → Blueprints → **Manual
+  Sync `blog-vipzone-api`**) · `unknown` (dyno asleep / `RENDER_GIT_COMMIT` unset → retry,
+  never a false success). Report cached to `data/backend-status.json`. **Report-only** (exit 0)
+  unless `--strict` (exit 2 on outdated) — it must never gate CI offline.
+- **Auto-heal (frontend, already wired):** `static/js/vipzone.js` `initPremiumUnlock()` — for a
+  VIP/supervip on a premium article it fetches the content endpoint and **reveals it inside the
+  per-post paywall DOM** (`#paywall-premium [data-paywall-body]`); on 404/503/auth-fail it
+  prepends a calm **"backend pending"** notice (`.vipzone__backend-pending`) to `#paywall-box`
+  **without** overlaying/blurring (that was the #507 regression) so the per-post unlock stays
+  usable. Diagnoses the mismatch instead of showing a dead lock.
+- **Rate-limit-safe monitoring (reuse, no new daemon):** prefer authenticated MCP/`gh` +
+  `try_auto_merge.py` (`auto-merge.yml` `concurrency` queues merges FIFO → no API storm);
+  `backend8` uses **one** `/health` GET with **exponential backoff** + cached
+  `data/backend-status.json`; dispatch workflows **one-shot** only. `theodoi8` surfaces
+  `BACKEND_OUTDATED` after a green deploy — **never silently succeed**.
+- **Prevention:** after any backend change merges (`services/**`), run `backend8`
+  (`deploysafe8`) before calling a deploy "done"; treat a green Pages deploy + outdated
+  backend SHA as **incomplete**; the only human action is a Render Manual Sync (Claude cannot
+  deploy Render).
+- **Tests:** `python3 -m unittest scripts.test_backend_sha_check -v` (in_sync · outdated ·
+  unreachable=unknown · no-backend-sha=unknown · no-main=unknown · prefix-match).
+
+#### V17 — VIPZone admin OAuth loop + Content Picker hidden on Edge/Safari
+
+> Auth/UI vaccine. Match signature → apply FIXER; details: `docs/memory/vaccine-v17-vipzone-edge-safari-auth.md`.
+
+- **Symptom:** `/tools/vipzone-admin/` login loop (`/auth/login` → `missing_token` → retry); Content Picker blank/hidden; superadmin button missing after OAuth on Edge/Safari.
+- **Root cause:** Session only in `sessionStorage` + Bearer header (`credentials:omit`); callback blocked non-super users; no `SameSite=None` HttpOnly cookie for cross-site static↔Render API.
+- **FIXER:** `cms_auth.py` Set-Cookie `zola_cms_sid` (Secure+HttpOnly+SameSite=None) + allow all OAuth users; `roles.py` `tamsudev.com@gmail.com` → superadmin; `vip-admin.js` localStorage sid mirror + `credentials:include` + always render picker (disable actions by role); `vipzone.js` admin button stays visible for superadmin.
+- **Detector:** `scripts/qa_vaccines.py` → `check_v17_vipzone_edge_safari_auth`.
+- **Tests:** `python3 -m unittest services.vipzone.test_main scripts.test_vipzone_roles -v`.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
@@ -590,6 +857,151 @@ Trước khi tạo PR cho thay đổi CSS:
 
 **Selector hygiene (R3):** trước khi thêm mobile override, grep class trong `templates/` — selector CSS phải khớp HTML thật.
 
+## Design Language (Branding — BẮT BUỘC cho mọi UI mới)
+
+> Ngôn ngữ thiết kế chuẩn của blog: **calm enterprise**, lấy cảm hứng từ *premium
+> annual report*. Áp dụng khi tạo MỚI bất kỳ page, dashboard, tool, widget, report,
+> article block. **Không clone pixel-by-pixel** UI tham chiếu — học design language rồi
+> tái sử dụng. Mọi giá trị màu dùng **semantic token** `var(--c-*)` (xem
+> `_themes.scss`/`_brand-vars.scss`) để tự đúng light/dark; mọi component mới = **scoped
+> SCSS partial** (như `_post-nav.scss`, `_vaccine-autofixer.scss`).
+
+### Design Style Anchor (hỏi TRƯỚC khi thiết kế)
+
+Trước khi thiết kế bất kỳ page / dashboard / tool / widget / article layout / component, **căn theo anchor**:
+
+> **Think Apple Annual Report × Bloomberg × Stripe Docs × Notion.**
+
+**KHÔNG** theo: AdminLTE · Crypto Dashboard · Bootstrap Admin Template · Material Design overload ·
+Gaming UI · Neon UI · thiết kế nặng glassmorphism.
+
+**Cảm giác mong muốn:** như một *premium annual report* / ấn phẩm tài chính chất lượng cao / nền tảng
+tri thức thanh lịch — calm, professional, dễ đọc, **information-dense nhưng không chật chội**.
+
+**🔑 Design Consistency Rule (BẮT BUỘC):** mỗi khi sinh UI, hỏi:
+*"Cái này có trông tự nhiên bên trong một Apple annual report, Bloomberg dashboard, Stripe Docs page,
+hay Notion workspace không?"* — **Nếu KHÔNG → thiết kế lại.**
+
+### Calm > flashy
+Sang trọng hơn hiệu ứng. **Tránh:** shadow nặng, gradient mạnh, lạm dụng glassmorphism, màu neon,
+animation thừa, hiệu ứng "đòi chú ý". **Ưu tiên:** whitespace · typography · hierarchy · màu dịu.
+
+### Cards First (cards before tables)
+**Card là primitive UI mặc định.** Trước khi nghĩ tới bảng/đống div, gói nội dung vào card. Tránh bảng to khi có thể.
+- `border-radius`: **14–20px** (component nhỏ ~12–14px, panel lớn ~16–20px).
+- Border mảnh (`1px solid var(--c-border)`), nền mềm (`var(--c-bg-surface)` / `var(--c-bg-soft)`), KHÔNG viền đậm.
+- `padding`: **18–28px**. Đủ khoảng thở, tránh layout chật.
+
+### Typography Hierarchy
+- **Level 1 — section title:** lớn, đậm. **Level 2 — content title:** vừa. **Level 3 — secondary label:** nhỏ, màu nhạt (`var(--c-text-muted)`).
+- **Số liệu quan trọng (KPI):** *lớn hơn + weight nặng hơn*. Nội dung chính phải nổi bật tự nhiên **mà không cần màu chói**.
+- **Metadata** (ngày, nguồn, ghi chú): nhỏ + màu nhạt.
+
+### White Space Is A Feature
+Khoảng trắng là tính năng, không phải chỗ trống cần lấp. **Không nén thông tin.**
+Khi phân vân → **thêm spacing, đừng thêm element.**
+
+### Dashboard Style
+Dashboard phải trông như **Bloomberg terminal × premium annual report**: calm · structured · informative · low-noise.
+**Ưu tiên:** cards + sections + timelines + metrics + progress indicators. **Tránh:** bảng "developer-style" xấu
+khắp nơi, hay "20 widget tranh nhau sự chú ý". (Khớp pattern Insights hiện có: `.vaccine-panel`, build/merge cards.)
+
+### Article Style (magazine-style)
+Bài viết gần với **Apple Newsroom / Financial Times / Stripe Docs / Notion** hơn là blog truyền thống — **không** tường chữ.
+Cấu trúc: Hero → Content → Related articles → External references → Copyright/nguồn → Insights box → Series box →
+Reading progress → soft cards. (Hạ tầng template đã lo phần lớn — xem rule TOC, References, Series, Related.)
+
+### Color System
+Dịu, chuyên nghiệp — **tránh màu bão hoà**, **tránh đen tuyền (`#000`)**, **tránh tương phản gắt**.
+Palette ưu tiên: slate · blue-gray · light teal · muted purple · nền pale.
+
+| Vai trò | Màu | Token gợi ý |
+|---------|-----|-------------|
+| Primary | slate blue | `--c-accent` (+ `--c-accent-soft`) |
+| Secondary | teal | teal token (thêm mới nếu cần) |
+| Highlight | amber | highlight/warning token |
+| Success | green | success token |
+| Warning | orange | warning token |
+| Danger | red | danger token |
+| Background | very light gray (KHÔNG `#000`/`#fff` tuyệt đối) | `--c-bg-page` / `--c-bg-surface` / `--c-bg-soft` |
+
+> Token thật trong `_themes.scss`: `--c-bg-page` · `--c-bg-surface` · `--c-bg-soft` ·
+> `--c-text-heading` · `--c-text-body` · `--c-text-muted` · `--c-accent` ·
+> `--c-accent-hover` · `--c-accent-soft` · `--c-border` · `--c-border-strong`. Dùng đúng
+> tên này (KHÔNG bịa token). Nguồn ưu tiên cao nhất: trang **`/branding-guideline/`**.
+
+### Animation / Motion Philosophy
+Animation hỗ trợ đọc, không cướp chú ý. **Duration 150–250ms**, transition tinh tế.
+**Tránh** bounce, scale transform lớn, motion gây xao nhãng.
+
+### Information Density
+**Mật độ trung bình.** Chuẩn: *premium annual report · Bloomberg terminal × Apple*.
+**KHÔNG:** crypto dashboard · gaming UI · Material Design overload.
+
+### Component Library (reuse trước khi tạo mới)
+Trang/feature mới ưu tiên tái dùng: **KPI card · timeline card · metric card · section card · expandable card ·
+comparison card · progress card · insight card.** Trước khi phát minh component mới → tìm component sẵn có
+(Insights, dashboards, `.vaccine-panel`, `.post-nav`…) và mở rộng nó.
+
+### Supplemental Card Theme — Annual-report KPI cards (OPTIONAL, áp dụng CÓ CHỌN LỌC)
+
+> Một **card skin / visual flavor** bổ sung (cảm hứng annual report: card pastel mềm, icon viền tròn,
+> KPI số lớn). Đây **KHÔNG phải** hướng thiết kế mới hay redesign — chỉ là "một kiểu card nữa **trong
+> cùng** design system". **Tuyệt đối không** redesign cả site theo screenshot này.
+
+**Thứ tự ưu tiên (cao → thấp):** 1) Global Branding Guideline (`/branding-guideline/`) → 2) Existing Design
+DNA (mục này) → 3) Existing component library → 4) **Card theme này (tuỳ chọn)**.
+
+**Phạm vi áp dụng (chỉ những chỗ hợp):** KPI card · stats card · metric card · fact box · highlight box ·
+comparison card · insights block · dashboard summary. Ví dụ: company profile, bài tài chính/ngành,
+trang kiểu annual report, section thống kê. **KHÔNG** ép đổi: layout tổng thể · navigation · hệ typography ·
+cấu trúc bài · color system · spacing rules · component hierarchy · design language hiện có.
+
+**Chỉ mượn 4 thứ:**
+1. **Soft background cards** — nền pastel rất nhạt: pale blue / pale teal / pale purple / light gray.
+2. **Circular outline icons** — icon viền mảnh (thin outline) đặt trong vòng tròn, bên trái.
+3. **Spacious KPI cards** — padding thoải mái; **số quan trọng lớn + đậm**, label trên nhỏ, đơn vị/hỗ trợ nhỏ.
+4. **Calm annual-report feeling** — low visual noise, không hiệu ứng loè loẹt.
+
+**KHÔNG copy:** thay toàn bộ card site-wide · đổi layout sẵn có · thêm nhiều màu · biến mọi trang thành
+infographic doanh nghiệp · bỏ article style hiện tại · redesign trang đã theo branding guideline.
+
+**🔑 Compatibility Rule:** trước khi dùng theme, hỏi *"Cái này có như một mở rộng TỰ NHIÊN của branding
+guideline hiện tại không?"* — **CÓ →** áp dụng có chọn lọc; **KHÔNG →** giữ thiết kế hiện tại. Theme phải
+**bổ trợ**, không cạnh tranh. *Preserve consistency above novelty.*
+
+**Triển khai:** *guidelines first, components later* — **CHƯA** tạo component nào cho theme này.
+Đây chỉ là **hướng thị giác tái sử dụng** để mượn SAU, khi có **trang thật** cần section KPI-heavy
+(vd company profile, bài tài chính/ngành, trang annual-report). Khi đó mới dựng component (scoped SCSS +
+shortcode, opt-in, additive), tái dùng component sẵn có trước khi tạo mới. **Evolution, not proliferation.**
+
+## Global UI/UX Design DNA
+
+> Repo này theo một **calm enterprise design language** lấy cảm hứng từ *premium annual report*
+> (Apple Annual Report × Bloomberg × Stripe Docs × Notion). Đây là **kiến thức thiết kế vĩnh viễn** —
+> coi như **cộng dồn**, KHÔNG ghi đè; chỉ **mở rộng / tinh chỉnh** theo thời gian.
+
+Core principles:
+
+1. **Calm > flashy.**
+2. **Cards before tables.**
+3. **Whitespace is a feature.**
+4. **Typography creates hierarchy.**
+5. **Large numbers deserve emphasis.**
+6. **Soft colors over saturated colors.**
+7. **Premium annual report aesthetic.**
+8. **Magazine-style articles.**
+9. **Dashboard sections over giant tables.**
+10. **Reuse components before creating new ones.**
+
+Áp dụng cho: blog pages · dashboards · tools · widgets · reports · insights pages · category pages ·
+series pages · mọi feature tương lai.
+
+**Khi sinh UI bất kỳ, Claude PHẢI tham chiếu các nguyên tắc này TRƯỚC khi tự bịa layout** (đọc cả
+"Design Language" + "Design Style Anchor" + "Quy tắc tối ưu hoá giao diện (CSS / Responsive)"). Token màu →
+`var(--c-*)`; component mới → scoped SCSS partial; tuân thủ scope mobile/desktop (R1–R8). Tự hỏi Design
+Consistency Rule trước khi commit UI mới.
+
 ## Quy tắc hiển thị thời gian (Timezone & Date format)
 
 Áp dụng cho MỌI nơi hiển thị ngày/giờ trên blog (templates Tera, static JS,
@@ -624,38 +1036,97 @@ script Python sinh nội dung public).
 
 Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 
-### Mỗi thay đổi = 1 PR riêng, tự auto-merge (2026-06-18 — user request)
+### Mỗi thay đổi = 1 đơn vị ship riêng, tự lên `main` (2026-06-19 — user request)
 
-> ⛔ **KHÔNG GỘP** nhiều thay đổi độc lập vào cùng 1 PR — user phải chờ lâu nếu gộp.
+> ⛔ **KHÔNG GỘP** nhiều thay đổi độc lập vào cùng 1 lần ship — mỗi thứ tự lên `main`
+> độc lập, không bắt user chờ cả lô.
 
 - Mỗi thay đổi logic riêng (1 bài viết · 1 fix workflow · 1 sửa CSS · 1 update rule)
-  = **1 PR riêng**, để mỗi thứ **tự merge lên `main` ngay khi QA xanh**, không bắt
-  user chờ cả lô.
-  - ✅ Đúng: bài A → PR A; fix deploy → PR B (2 PR song song, auto-merge độc lập).
-  - ❌ Sai: gộp bài A + fix deploy + update rule vào 1 PR.
-- Mỗi thay đổi **tự merge** qua `auto-merge.yml` (QA xanh → squash-merge). **KHÔNG
-  merge tay** trừ khi auto-merge thật sự hỏng.
-- Session bị giới hạn 1 branch dev → làm xong 1 thay đổi: mở PR → reset branch về
-  `origin/main` → làm thay đổi kế tiếp (PR mới). KHÔNG tích nhiều thay đổi trên cùng
-  branch/PR.
+  = **1 đơn vị ship riêng**, **tự lên `main` ngay khi QA xanh**.
+  - ✅ Đúng: bài A và fix deploy lên `main` độc lập, auto-merge riêng.
+  - ❌ Sai: gộp bài A + fix deploy + update rule vào 1 lần.
+- Mỗi thay đổi **tự lên `main`** qua `auto-merge.yml` (QA xanh → squash). **KHÔNG cần
+  agent mở/merge PR thủ công**; KHÔNG hỏi user.
+- Session giới hạn 1 branch dev → làm xong 1 thay đổi: push (automation tự đưa lên
+  `main`) → reset branch về `origin/main` → làm thay đổi kế tiếp. KHÔNG tích nhiều
+  thay đổi không liên quan trên cùng branch.
 
 ### Quy tắc chung
 
-- Làm xong BẤT KỲ việc gì → **LUÔN mở Pull Request** về `main`. Không để thay đổi
-  nằm im trên feature branch mà thiếu PR.
-- Mỗi PR phải có tiêu đề rõ ràng + mô tả tóm tắt thay đổi và cách verify.
-- Nếu task đã có PR mở sẵn cho branch đó → push thêm commit vào branch, không
-  cần tạo PR trùng.
-- Chỉ push thêm commit vào PR đang mở khi đó là **sửa/hoàn thiện CHÍNH thay đổi của
-  PR đó** (vd fix CI đỏ) — KHÔNG nhét thay đổi MỚI không liên quan vào PR đang có.
-- **Theo dõi tới khi xong (BẮT BUỘC):** MỌI tính năng sau khi commit + mở PR →
-  **PHẢI subscribe theo dõi trạng thái PR** (`subscribe_pr_activity`) cho tới khi
-  PR **MERGED hoặc CLOSED**. Lắng nghe CI + review comment; build đỏ → chẩn đoán
-  (Vaccine §4 / `ff`) + fix trên cùng branch + push lại; CI xanh → xác nhận
-  auto-merge. KHÔNG kết thúc turn khi PR còn open mà chưa theo dõi. Webhook không
-  báo mọi thứ (CI success / merge-conflict) → nếu có `send_later` thì hẹn tự
-  check-in ~1h tái kiểm tra state/CI/mergeability rồi re-arm cho tới khi merge.
-  Dừng theo dõi khi user yêu cầu (`unsubscribe_pr_activity`).
+- Làm xong BẤT KỲ việc gì → **push để automation tự đưa lên `main`** → prod. KHÔNG cần
+  agent mở PR thủ công, KHÔNG hỏi user "có mở PR không". Không để thay đổi nằm im trên
+  feature branch. (Branch protection chặn push thẳng `main` — xem §5/§5a/§5b — nên bước
+  đưa lên main do **máy tự làm** qua PR + `auto-merge.yml`, không phải việc agent ngồi canh.)
+- Commit phải có tiêu đề rõ ràng + tóm tắt thay đổi và cách verify (để Merge Report đọc được).
+- Đang dở 1 thay đổi trên branch → push thêm commit vào cùng branch; KHÔNG nhét thay
+  đổi MỚI không liên quan vào.
+- **Đẩy thay đổi xong = HẾT NHIỆM VỤ — KHÔNG canh PR (2026-06-19 — user request, GHI ĐÈ
+  luật cũ "Theo dõi tới khi xong (BẮT BUỘC)"):** push để kích hoạt pipeline auto-merge là
+  **kết thúc nhiệm vụ**. Pipeline ZERO_BARRIER tự lo phần còn lại: `qa-check` xanh →
+  `auto-merge.yml` (squash) → `deploy.yml` production. **Lỗi để máy lo:** `qa-check` đỏ →
+  vaccine autofixer (§4) + `ff`/`ff9` tự chẩn & sửa, push lại cùng branch tới khi xanh.
+  - **KHÔNG** `subscribe_pr_activity`, **KHÔNG** canh CI tới khi merge, **KHÔNG** hẹn
+    `send_later` self check-in, **KHÔNG** babysit/poll PR. Push xong là kết thúc turn.
+  - **Ngoại lệ — chỉ khi user CHỦ ĐỘNG yêu cầu** ("canh PR", "babysit", "autofix CI",
+    "theo dõi tới khi merge"): lúc đó mới `subscribe_pr_activity`, fix CI đỏ trên cùng
+    branch (Vaccine §4 / `ff`), và dừng (`unsubscribe_pr_activity`) khi user bảo dừng
+    hoặc PR đã MERGED/CLOSED.
+  - Nếu CI đỏ mà user KHÔNG yêu cầu canh: pipeline tự xử theo cấu hình repo; không tự
+    spawn monitor/subscribe trừ khi được yêu cầu.
+
+### Báo cáo PR sau merge (BẮT BUỘC — 2026-06-19)
+
+> Ghi đè format báo cáo cũ (markdown table đơn giản). 3 quy tắc BẮT BUỘC:
+> 1. **KHÔNG canh PR liên tục** (`subscribe_pr_activity`, `theodoi8`, sleep-loop) — trừ khi user chủ động yêu cầu.
+> 2. **Luôn output summary cuối sau merge** (khi gọi `merge`/`gg`/`prm` hoặc merge xong cùng turn) — một lần, rồi dừng.
+> 3. **Status = fail/error → đọc §4 Vaccine library** trong `CLAUDE.md` → đề xuất đúng `Vaccine match` + `Suggested fix tool`.
+
+**Thành công** — copy đúng khung (box-drawing table, GMT+7 `HH:mm dd/mm/yyyy`):
+
+```text
+Tổng kết 1 PR vừa merged
+
+┌──────┬────────────────────────────────────────────────────────────┬────────┐
+│ PR   │ Title                                                      │ Status │
+├──────┼────────────────────────────────────────────────────────────┼────────┤
+│ #487 │ feat(flight-db): time pickers, combinator sync, API enrich │ ✅     │
+└──────┴────────────────────────────────────────────────────────────┴────────┘
+
+• Merged: <commit_sha> lúc <HH:mm dd/mm/yyyy> (GMT+7)
+• Deploy: deploy.yml tự chạy trên main → production
+
+Track: https://github.com/Banhang-Chogao/zola/pulls
+```
+
+Nhiều PR merged cùng turn → thêm dòng trong bảng; header `Tổng kết N PR vừa merged`.
+
+**Thất bại** (merge fail / CI error / PR không merge được) — đọc log ngắn, đối chiếu
+§4 Vaccine library trong `CLAUDE.md`, output:
+
+```text
+Tổng kết PR lỗi
+
+┌──────┬────────────────────────────────────────────────────────────┬────────┐
+│ PR   │ Title                                                      │ Status │
+├──────┼────────────────────────────────────────────────────────────┼────────┤
+│ #487 │ <title>                                                    │ ❌     │
+└──────┴────────────────────────────────────────────────────────────┴────────┘
+
+• Error: <short error>
+• Vaccine match: <V1–V13 tên vaccine khớp dấu hiệu>
+• Suggested fix tool: <ff | ff9 | vacxin11 | fix_site_prefix_links.py | …>
+• Next action: <một dòng kế hoạch fix>
+
+Track: https://github.com/Banhang-Chogao/zola/pulls
+```
+
+Quy tắc vaccine mapping (không chẩn đoán lại từ đầu nếu đã khớp):
+- Internal link thiếu `/zola/` → `fix_site_prefix_links.py` hoặc `check_internal_links.py --fix`
+- `configure-pages` rate limit / deploy cancelled → V5 (đợi, không panic)
+- `mergeable_state: dirty` / data `*.json` conflict → V10 + `ff9`
+- Tera `replace(old=` → V8 · HF 401 → V1 · qa-failed unknown → V7
+
+Canonical copy: `shortcuts.md` §5.
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
@@ -1407,8 +1878,8 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 
 | Config | Vị trí | Ghi chú |
 |--------|--------|---------|
-| `cms_auth_url` | `config.toml` → **`[extra]`** (không nest trong `[extra.giscus]`) | Render meta `zola-cms-auth-api` |
-| Backend | `services/visitor-counter` (`blog-visitor-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/me` |
+| `cms_auth_url` | `config.toml` → **`[extra]`** (không nest trong `[extra.giscus]`) | Render meta `vipzone-auth-api` |
+| Backend | `services/visitor-counter` (`blog-vipzone-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/me` |
 | Session key | `sessionStorage` → `zola-cms-session-id` | Chung CMS + F-Dashboard |
 | `return_to` | Client gửi `location.pathname` (vd `/zola/tools/f-dashboard/`) | Backend strip `/zola` prefix → redirect `#sid=...` |
 | Whitelist | `ADMIN_EMAILS` + `ADMIN_USERNAMES` (Render env) | Email verified **hoặc** GitHub login `banhang-chogao` |
@@ -1440,6 +1911,62 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | Python insights | `scripts/f_dashboard_insights.py` |
 | Tests | `scripts/test_f_dashboard.py` |
 | Deps | `scripts/requirements-f-dashboard.txt` (`openpyxl`) |
+
+## QA Vaccine Gate (rào chắn production từ thư viện Vaccine — BẮT BUỘC)
+
+> Lớp **gia cố** của QA Gatekeeper: biến toàn bộ **THƯ VIỆN VACCINE** (§4, V1–V12 +
+> bộ compliance) thành **static detector** chạy TRƯỚC khi lên production. Mục tiêu:
+> chặn các **bug tái phát đã biết** sớm hơn (trước cả `zola build`), với chẩn đoán rõ,
+> cách sửa chính xác và tham chiếu đúng vaccine. **Không** thay/bỏ check QA cũ — chỉ cộng thêm.
+
+### Cách hoạt động
+
+- `python3 qa_check.py` (full-repo scan, non-fix) chạy các check cũ (conflict/secret/SEO/SCSS)
+  **rồi** gọi QA Vaccine Gate và in **「QA Vaccine Summary」** ở CUỐI. Vaccine FAIL → exit 1 →
+  job `qa.yml` đỏ → chặn auto-merge/deploy. Đây là **gate bắt buộc** trước production.
+- Engine: `scripts/qa_vaccines.py` — `load_vaccines()` đếm mọi block `#### V<N> — …` trong
+  CLAUDE.md; `DETECTORS[]` chạy detector tĩnh cho từng vaccine statically-checkable.
+- Phân mức (calibrate để `main` hiện tại = 0 FAIL): **FAIL** = vỡ build/production thật
+  (Tera `replace(old=/new=)` thay vì `from=/to=`, lệch block `{% if/for/block/macro %}`,
+  workflow YAML / `config.toml` hỏng, `data/*.json` dashboard hỏng, JS SyntaxError, bài
+  `premium=true` thiếu `private_content/<id>.md`); **WARN** = consistency/resilience
+  (V5 deploy, đăng ký series, category "Tất cả" đầu mảng, asset thiếu, schema/OG, paywall id);
+  **SKIP** = không áp dụng (node/yaml vắng) hoặc vaccine *process* (V9/V10 PR-time).
+
+### Output (bắt buộc in ở cuối qa-check)
+
+```text
+QA Vaccine Summary
+- Total vaccines loaded:        # số block #### V<N> trong CLAUDE.md
+- Passed:                       # detector PASS
+- Failed:                       # detector FAIL → chặn deploy
+- Warnings:                     # detector WARN
+- Production readiness score:   # 0–100; FAIL → ≤60 = NOT production-safe
+```
+
+### Lệnh
+
+```bash
+python3 qa_check.py                      # QA cũ + Vaccine Gate (in summary cuối) — gate chính
+python3 scripts/qa_vaccines.py           # chỉ Vaccine Gate (report + summary), exit 1 nếu FAIL
+python3 scripts/qa_vaccines.py --json     # JSON cho dashboard/automation
+python3 scripts/qa_vaccines.py --strict-warn   # coi WARN như FAIL
+python3 qa_check.py --no-vaccines         # tắt gate (debug); --strict-vaccines = chặn cả WARN
+python3 -m unittest scripts.test_qa_vaccines -v
+```
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Engine + detectors | `scripts/qa_vaccines.py` |
+| Tích hợp gate | `qa_check.py` (`run_vaccine_gate()` → in summary cuối, fold vào exit code) |
+| Tests | `scripts/test_qa_vaccines.py` (negative: bắt bug synthetic; calibration: `main` = 0 FAIL) |
+| CI | `.github/workflows/qa.yml` (step "Run QA Gatekeeper + Vaccine Gate" + unittest) |
+
+> **Thêm vaccine mới có thể auto-check:** thêm block `#### V<N> — …` vào §4 (engine tự đếm),
+> rồi viết 1 detector trong `DETECTORS[]` (FAIL nếu vỡ build/prod, WARN nếu chỉ consistency) +
+> 1 negative test. Giữ nguyên tắc: detector lỗi nội bộ KHÔNG bao giờ crash gate (bọc try/except).
 
 ## QA Auto Rule Checker
 

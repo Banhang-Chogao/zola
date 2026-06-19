@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/he-sinh-thai-san-pham-vietinbank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "sản phẩm ngân hàng", "dịch vụ ngân hàng", "vietinbank series"]
+tags = ["dịch vụ ngân hàng", "sản phẩm ngân hàng", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "sản phẩm VietinBank"

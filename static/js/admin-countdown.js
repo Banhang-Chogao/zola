@@ -6,11 +6,9 @@
 
   var SESSION_KEY = "zola-cms-session-id";
   var AUTH_API = (function () {
-    var m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
+    var m1 = document.querySelector('meta[name="vipzone-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
-    var m2 = document.querySelector('meta[name="zola-visitor-api"]');
-    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-visitor-api.onrender.com";
+    return "https://blog-vipzone-api.onrender.com";
   })();
 
   var root = document.getElementById("admin-countdown-app");
@@ -23,8 +21,8 @@
     try { return sessionStorage.getItem(SESSION_KEY) || ""; }
     catch (e) { return ""; }
   }
-  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); } catch (e) {} }
-  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
+  function setSid(s) { try { sessionStorage.setItem(SESSION_KEY, s); localStorage.setItem(SESSION_KEY, s); } catch (e) {} }
+  function clearSid() { try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {} }
 
   function showView(name) {
     $$("[data-view]").forEach(function (v) { v.hidden = v.dataset.view !== name; });

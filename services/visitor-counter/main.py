@@ -56,6 +56,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 import redis.asyncio as redis
 
+from gsc_routes import configure as configure_gsc, router as gsc_router
+from vipzone_auth import fetch_vipzone_me, require_supervip as _require_supervip_impl
+
 
 # ============= Configuration =============
 REDIS_URL   = os.getenv("REDIS_URL", "redis://localhost:6379")
@@ -75,7 +78,10 @@ _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 # robust với GitHub email (vốn được trả về lowercase nhưng phòng config typo).
 ADMIN_EMAILS = {
     e.strip().lower()
-    for e in os.getenv("ADMIN_EMAILS", "292648126+Banhang-Chogao@users.noreply.github.com").split(",")
+    for e in os.getenv(
+        "ADMIN_EMAILS",
+        "292648126+Banhang-Chogao@users.noreply.github.com",
+    ).split(",")
     if e.strip()
 }
 ADMIN_USERNAMES = {
@@ -84,7 +90,10 @@ ADMIN_USERNAMES = {
     if u.strip()
 }
 
-SESSION_TTL = int(os.getenv("SESSION_TTL", "7200"))  # 2h default (idle timeout)
+# Session TTL: 30 ngày mặc định + sliding (refresh mỗi request) → super admin đã
+# đăng nhập GitHub một lần thì không phải login lại dù đóng trình duyệt / xoá cache
+# (sid được lưu localStorage client-side, server gia hạn TTL khi còn dùng).
+SESSION_TTL = int(os.getenv("SESSION_TTL", str(30 * 24 * 3600)))  # 30d sliding
 
 
 # ============= Bot Detection =============
@@ -192,6 +201,23 @@ def _is_allowed_user(username: str) -> bool:
     return (username or "").strip().lower() in ADMIN_USERNAMES
 
 
+def is_super_session(session: dict) -> bool:
+    """Superadmin from OAuth-time GitHub repo permission (stored in session) or username env fallback."""
+    if session.get("is_superadmin") or session.get("is_super"):
+        return True
+    from github_repo import username_env_fallback
+
+    return username_env_fallback(session.get("username"))
+
+
+async def _touch_session(r, sid: str) -> None:
+    """Sliding session — gia hạn TTL mỗi lần dùng để admin không bị logout giữa chừng."""
+    try:
+        await r.expire(f"session:{sid}", SESSION_TTL)
+    except Exception:
+        pass
+
+
 @app.get("/auth/login")
 async def auth_login(return_to: str = "/editor/"):
     """
@@ -287,8 +313,13 @@ async def auth_callback(code: str = "", state: str = ""):
             if e.get("verified") and e.get("email")
         }
 
-        if not _is_allowed_email(verified_emails) and not _is_allowed_user(user.get("login", "")):
+        username = user.get("login", "")
+        if not _is_allowed_email(verified_emails) and not _is_allowed_user(username):
             return _redirect_with_error("access_denied", return_to)
+
+        from github_repo import check_repo_superadmin
+
+        is_super = await check_repo_superadmin(client, access_token, username)
 
     # Tạo session opaque — sid là 43 ký tự URL-safe, không carry info,
     # không thể brute force trong thời gian session sống.
@@ -299,6 +330,8 @@ async def auth_callback(code: str = "", state: str = ""):
         "username":     user.get("login", ""),
         "name":         user.get("name") or user.get("login", ""),
         "avatar":       user.get("avatar_url", ""),
+        "is_super":     is_super,
+        "is_superadmin": is_super,
         # access_token được lưu server-side cho tương lai (vd commit qua API).
         # KHÔNG bao giờ trả về client qua endpoint /auth/me.
         "access_token": access_token,
@@ -325,19 +358,34 @@ async def auth_me(authorization: str = Header(default="")):
     """
     Validate session, trả profile public (KHÔNG bao gồm access_token).
     Client gọi mỗi lần load /editor/ để check session còn valid.
+    Role (user · vip · supervip) resolved via VIPZone API when available.
     """
     sid = _extract_sid(authorization)
     r = await get_redis()
     raw = await r.get(f"session:{sid}")
     if not raw:
         raise HTTPException(401, "invalid_session")
+    await _touch_session(r, sid)  # sliding: mỗi lần check session → gia hạn TTL
     s = json.loads(raw)
-    return {
+    out = {
         "email":    s.get("email"),
         "username": s.get("username"),
         "name":     s.get("name"),
         "avatar":   s.get("avatar"),
+        "role":     "user",
+        # Quyền cao nhất: GitHub login whitelisted (chủ blog) → super admin.
+        "is_super": is_super_session(s),
     }
+    try:
+        vz = await fetch_vipzone_me(authorization)
+        out["role"] = vz.get("role") or "user"
+        if vz.get("vip_expires_at"):
+            out["vip_expires_at"] = vz["vip_expires_at"]
+    except HTTPException:
+        pass
+    if out["is_super"] and out["role"] not in ("superadmin", "supervip"):
+        out["role"] = "superadmin"
+    return out
 
 
 @app.post("/auth/logout")
@@ -364,7 +412,22 @@ async def require_session(authorization: str) -> dict:
     raw = await r.get(f"session:{sid}")
     if not raw:
         raise HTTPException(401, "invalid_session")
+    await _touch_session(r, sid)  # sliding: gia hạn TTL khi session còn được dùng
     return json.loads(raw)
+
+
+async def require_supervip(authorization: str) -> dict:
+    """GSC destructive actions — VIPZone role must be supervip."""
+    return await _require_supervip_impl(authorization, require_session)
+
+
+configure_gsc(
+    get_redis=get_redis,
+    require_session=require_session,
+    require_supervip=require_supervip,
+    build_blog_url=_build_blog_url,
+)
+app.include_router(gsc_router)
 
 
 # ============= DEBUG — Trip.com scrape diagnostic =============
@@ -2357,6 +2420,7 @@ async def root():
         "features": {
             "visitor_counter": True,
             "github_oauth":    bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
+            "gsc_oauth":       bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
             "rss_checker":     True,
         },
         "endpoints": {
@@ -2376,5 +2440,11 @@ async def root():
             "GET  /reports/{file}":"Download report .md content (auth required)",
             "POST /reports":      "Create/overwrite a report (auth required)",
             "POST /reports/delete":"Delete a report (auth required)",
+            "GET  /gsc/metrics":  "Cached GSC metrics bundle (public, 20m cache)",
+            "GET  /gsc/status":   "GSC connection status",
+            "GET  /gsc/oauth/start":"Start Google GSC OAuth (auth required)",
+            "GET  /gsc/properties":"List GSC site properties (auth required)",
+            "POST /gsc/property": "Set active GSC property (auth required)",
+            "POST /gsc/disconnect":"Revoke GSC connection (auth required)",
         },
     }

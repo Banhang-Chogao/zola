@@ -783,12 +783,17 @@
     font-size: 0.9rem;
   }
 
-  /* Submenu = panel xổ xuống dưới trigger, không tràn viewport. */
+  /* Submenu = panel xổ xuống dưới trigger, không tràn viewport. Giới hạn
+     chiều cao + cuộn nội bộ → dù nhóm Dashboard (9 mục) xổ ra cũng KHÔNG
+     chiếm trọn màn hình. */
   .navbar__submenu {
     top: calc(100% + 2px);
     left: 6px;
     min-width: 200px;
     max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* Link trong submenu — touch target ≥ 44px. */
@@ -798,6 +803,135 @@
     display: flex;
     align-items: center;
     white-space: normal;
+  }
+}
+
+/* ============================================================================
+   ===== NAVBAR NESTED GROUP (accordion) — Công cụ → Content/Dashboard/Khác =====
+   ============================================================================
+   Tầng 3: trong .navbar__submenu, mỗi nhóm = <button.navbar__group-trigger>
+   (tên nhóm + chevron) + .navbar__group-panel chứa link tool con. Mặc định
+   panel đóng (grid-template-rows: 0fr) → submenu chỉ hiện 3 tên nhóm, gọn gàng,
+   KHÔNG tràn màn hình. Bấm/tap để xổ/đóng mượt (grid 0fr↔1fr). Màu semantic
+   token var(--c-*) → đúng cả light/dark; trigger là <button> nên KHÔNG dính rule
+   chữ trắng/teal của .navbar__submenu a. */
+.navbar__submenu .navbar__group {
+  display: block;
+
+  & + .navbar__group {
+    margin-top: 2px;
+    padding-top: 2px;
+    border-top: 1px solid var(--c-border);
+  }
+}
+
+.navbar__group-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--c-text-heading);
+  font-family: $font-ui;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--c-bg-soft);
+    color: var(--c-accent);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--c-focus-ring);
+  }
+
+  /* Khi đang ở 1 trang con của nhóm (navbar-dropdown.js thêm .is-active). */
+  &.is-active {
+    color: var(--c-accent);
+  }
+}
+
+.navbar__group-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.navbar__group-chevron {
+  flex-shrink: 0;
+  opacity: 0.65;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar__group.is-expanded .navbar__group-chevron {
+  transform: rotate(180deg);
+}
+
+/* Panel xổ/đóng mượt bằng CSS grid (0fr↔1fr) — không cần max-height ma thuật. */
+.navbar__group-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar__group.is-expanded .navbar__group-panel {
+  grid-template-rows: 1fr;
+}
+
+.navbar__group-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-height: 0;          /* cho grid item co về 0 khi đóng */
+  overflow: hidden;       /* clip nội dung khi đang animate đóng */
+  /* Mặc định không focusable / ngoài AX-tree; chỉ lộ khi nhóm mở. Delay ẩn
+     0.25s để nội dung không biến mất giữa lúc animate đóng. */
+  visibility: hidden;
+  transition: visibility 0s linear 0.25s;
+
+  li { display: block; }
+
+  a {
+    /* Thụt vào để thể hiện cấp con; màu/hover dùng lại rule .navbar__submenu a. */
+    padding: 0.5rem 0.8rem 0.5rem 1.5rem;
+    font-size: 0.88rem;
+    min-height: 0;
+  }
+}
+
+/* Chỉ cho link trong nhóm focusable khi dropdown cha ĐANG mở + nhóm ĐANG xổ. */
+.navbar__item--has-children.is-open .navbar__group.is-expanded .navbar__group-items {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navbar__item--has-children:hover .navbar__group.is-expanded .navbar__group-items {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+}
+
+/* ----- Nhóm accordion trên MOBILE (≤ 720px) ----- */
+@media (max-width: 720px) {
+  .navbar__group-trigger {
+    min-height: 48px;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.92rem;
+  }
+
+  /* Giữ thụt lề cho link con (đè padding mobile của .navbar__submenu a). */
+  .navbar__group-items a {
+    padding: 0.7rem 0.85rem 0.7rem 1.6rem;
+    min-height: 44px;
   }
 }
 

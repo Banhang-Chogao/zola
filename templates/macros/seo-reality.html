@@ -1,0 +1,351 @@
+{# SEO Reality Check — honest companion below the Google Rank widget.
+   GSC cards hydrate from build-time JSON + live /gsc/metrics API (seo-reality-gsc.js). #}
+{% import "macros/datetime.html" as dt %}
+{% macro widget() %}
+{% set sr = load_data(path="data/seo-reality.json", required=false) %}
+{% if sr and sr.technical_seo %}
+{% set tech = sr.technical_seo %}
+{% set gsc = sr.gsc %}
+{% set idx = sr.indexing %}
+{% set auth = sr.authority %}
+{% set growth = sr.growth %}
+{% set top_pages = sr.top_pages | default(value=[]) %}
+{% set top_queries = sr.top_queries | default(value=[]) %}
+{% set exec_sum = sr.executive_summary | default(value=[]) %}
+{% set trend = sr.trend | default(value=false) %}
+<section class="sidebar-block sidebar-block--seo-reality" data-widget="seo-reality"
+         data-growth-stage="{{ growth.stage_slug | default(value='indexing') }}">
+    <script type="application/json" id="seo-reality-gsc-data">{{ sr | json_encode | safe }}</script>
+
+    <h3 class="sidebar-label">SEO REALITY CHECK</h3>
+
+    <p class="seo-reality__intro">
+        Phân biệt <strong>mức độ sẵn sàng kỹ thuật</strong> với <strong>hiệu quả tìm kiếm thực tế</strong>
+        trên Google. Điểm kỹ thuật cao <em>không</em> đồng nghĩa Top 1, đã được lập chỉ mục
+        hay có nhiều traffic.
+    </p>
+
+    {# 1 — TECHNICAL SEO READINESS (unchanged) #}
+    <article class="seo-reality__card">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Technical SEO Score</h4>
+            <span class="seo-reality__src seo-reality__src--internal">INTERNAL</span>
+        </header>
+        <p class="seo-reality__metric">
+            <span class="seo-reality__metric-num">{{ tech.score }}</span>
+            <span class="seo-reality__metric-max">/ {{ tech.max_score | default(value=100) }}</span>
+            {% if tech.grade %}<span class="seo-reality__metric-tag">{{ tech.grade }}</span>{% endif %}
+        </p>
+        <p class="seo-reality__card-note">
+            Đo metadata, schema, internal linking & chất lượng kỹ thuật SEO.
+            <strong>Không</strong> đo thứ hạng Google, traffic, thẩm quyền hay tốc độ lập chỉ mục.
+        </p>
+    </article>
+
+    {# 2 — GOOGLE SEARCH CONSOLE — S-DNA connect flow #}
+    <article class="seo-reality__card seo-reality__card--gsc" data-gsc-card>
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Google Search Console</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+
+        {# SUCCESS — brief confirmation after Property ID is saved #}
+        <div class="seo-reality__gsc-success" data-gsc-success hidden>
+            <span class="seo-reality__gsc-check" aria-hidden="true">
+                <svg viewBox="0 0 52 52" focusable="false">
+                    <circle class="seo-reality__gsc-check-ring" cx="26" cy="26" r="24"/>
+                    <path class="seo-reality__gsc-check-mark" d="M15 27l7.5 7.5L37.5 19"/>
+                </svg>
+            </span>
+            <p class="seo-reality__gsc-success-msg">✅ Property đã kết nối Google Search Console.</p>
+        </div>
+
+        {# STATE A — Property ID saved (independent of API credentials) #}
+        <div data-gsc-property-connected style="display:none">
+            <div class="seo-reality__gsc-statusbar">
+                <span class="seo-reality__gsc-badge" data-gsc-status-badge>
+                    <span class="seo-reality__gsc-badge-check" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" focusable="false"><path d="M5 13l4 4L19 7"/></svg>
+                    </span>
+                    Property đã kết nối
+                </span>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-supervip data-gsc-disconnect hidden>Xóa Property ID</button>
+            </div>
+            <dl class="seo-reality__gsc-conn-meta">
+                <div><dt>Property</dt><dd data-gsc-prop>{{ gsc.property | default(value="—") }}</dd></div>
+            </dl>
+
+            {# STATE B — live GSC API metrics #}
+            <div data-gsc-api-data style="{% if not gsc.connected %}display:none{% endif %}">
+                <div class="seo-reality__kpi-row">
+                    <div class="seo-reality__kpi">
+                        <span class="seo-reality__kpi-val" data-gsc-impressions>{{ gsc.impressions | default(value="—") }}</span>
+                        <span class="seo-reality__kpi-label">Impressions ({{ gsc.period_days | default(value=28) }}d)</span>
+                    </div>
+                    <div class="seo-reality__kpi">
+                        <span class="seo-reality__kpi-val" data-gsc-clicks>{{ gsc.clicks | default(value="—") }}</span>
+                        <span class="seo-reality__kpi-label">Clicks</span>
+                    </div>
+                </div>
+                <dl class="seo-reality__grid">
+                    <div><dt>CTR</dt><dd data-gsc-ctr>{% if gsc.ctr %}{{ gsc.ctr }}%{% else %}—{% endif %}</dd></div>
+                    <div><dt>Avg. position</dt><dd data-gsc-position>{{ gsc.avg_position | default(value="—") }}</dd></div>
+                </dl>
+                <p class="seo-reality__gsc-updated" data-gsc-updated>
+                    {% if gsc.updated_at %}Updated {{ dt::display_datetime(value=gsc.updated_at) }}{% else %}—{% endif %}
+                </p>
+            </div>
+            <p class="seo-reality__pending" data-gsc-api-pending hidden>⏳ Đang chờ dữ liệu GSC</p>
+        </div>
+
+        {# No Property ID yet — save form only (no verification token) #}
+        <div data-gsc-property-disconnected>
+            <p class="seo-reality__empty">
+                Nhập <strong>GSC Property ID</strong> (URL prefix đã xác minh) để theo dõi dữ liệu thực.
+            </p>
+            <form class="seo-reality__gsc-connect" data-gsc-supervip data-gsc-admin hidden novalidate>
+                <label class="visually-hidden" for="seo-reality-gsc-input">GSC Property ID</label>
+                <input id="seo-reality-gsc-input" type="text" class="seo-reality__gsc-input" data-gsc-property
+                       value="https://banhang-chogao.github.io/zola/"
+                       placeholder="https://banhang-chogao.github.io/zola/"
+                       autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="url" />
+                <p class="seo-reality__gsc-examples">
+                    Ví dụ: <code>https://banhang-chogao.github.io/zola/</code> · <code>sc-domain:example.com</code>
+                </p>
+                <p class="seo-reality__gsc-validation" data-gsc-validation hidden role="alert"></p>
+                <div class="seo-reality__gsc-actions">
+                    <button type="submit" class="seo-reality__gsc-btn seo-reality__gsc-btn--primary" data-gsc-connect>
+                        <span class="seo-reality__gsc-btn-label">Lưu Property ID</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {# SuperVIP — OAuth resync, cache, debug (hidden until role === supervip) #}
+        <div class="seo-reality__gsc-admin-tools" data-gsc-supervip hidden>
+            <div class="seo-reality__gsc-reconnect" data-gsc-reconnect hidden>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-reconnect-btn>
+                    Đồng bộ GSC API
+                </button>
+            </div>
+            <div class="seo-reality__gsc-actions">
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-refresh hidden>
+                    Làm mới dữ liệu
+                </button>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-clear-cache hidden>
+                    Xóa cache GSC
+                </button>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-debug hidden>
+                    GSC Debug
+                </button>
+            </div>
+            <pre class="seo-reality__gsc-debug-out" data-gsc-debug-out hidden></pre>
+        </div>
+
+        <p class="seo-reality__hint" data-gsc-error hidden role="alert"></p>
+    </article>
+
+    {# 3 — INDEXING STATUS #}
+    <article class="seo-reality__card" data-indexing-card>
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Indexing status</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+        <div data-idx-api-data style="{% if not idx.connected %}display:none{% endif %}">
+            <p class="seo-reality__health">
+                Health:
+                <span class="seo-reality__health-badge seo-reality__health-badge--{{ idx.index_health | default(value='warning') | lower }}"
+                      data-idx-health>{{ idx.index_health | default(value="—") }}</span>
+            </p>
+            <div class="seo-reality__bar-row">
+                <span class="seo-reality__bar-label">Indexed</span>
+                <div class="seo-reality__bar"><span class="seo-reality__bar-fill" data-idx-bar-indexed style="width:0%"></span></div>
+                <span class="seo-reality__bar-val" data-idx-indexed>{{ idx.pages_indexed | default(value="—") }}</span>
+            </div>
+            <div class="seo-reality__bar-row">
+                <span class="seo-reality__bar-label">Non-indexed</span>
+                <div class="seo-reality__bar"><span class="seo-reality__bar-fill seo-reality__bar-fill--muted" data-idx-bar-non style="width:0%"></span></div>
+                <span class="seo-reality__bar-val" data-idx-non>{{ idx.pages_non_indexed | default(value="—") }}</span>
+            </div>
+            <div class="seo-reality__bar-row">
+                <span class="seo-reality__bar-label">Submitted</span>
+                <div class="seo-reality__bar"><span class="seo-reality__bar-fill seo-reality__bar-fill--soft" data-idx-bar-sub style="width:0%"></span></div>
+                <span class="seo-reality__bar-val" data-idx-submitted>{{ idx.submitted_pages | default(value="—") }}</span>
+            </div>
+            <dl class="seo-reality__grid">
+                <div><dt>Sitemap</dt><dd data-idx-sitemap>{{ idx.sitemap_status | default(value="—") }}</dd></div>
+                <div><dt>Last crawl</dt><dd data-idx-crawl>{% if idx.last_crawl %}{{ dt::display_date(value=idx.last_crawl) }}{% else %}—{% endif %}</dd></div>
+            </dl>
+        </div>
+        <p class="seo-reality__pending" data-idx-api-pending hidden>⏳ Đang chờ dữ liệu GSC</p>
+        <p class="seo-reality__empty" data-idx-disconnected>
+            Lưu Property ID để xem trạng thái lập chỉ mục.
+        </p>
+        {% if idx.sitemap_pages %}
+        <p class="seo-reality__footrow">
+            <span class="seo-reality__footrow-label">Trong sitemap (internal)</span>
+            <span class="seo-reality__footrow-val">{{ idx.sitemap_pages }} trang
+                <span class="seo-reality__src seo-reality__src--internal">INTERNAL</span>
+            </span>
+        </p>
+        {% endif %}
+    </article>
+
+    {# NEW — Top pages #}
+    <article class="seo-reality__card" data-top-pages-card>
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Top pages</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+        <div class="seo-reality__table-wrap" data-top-pages-wrap>
+            {% if top_pages | length > 0 %}
+            <table class="seo-reality__table">
+                <thead><tr><th>Page</th><th>Clk</th><th>Imp</th><th>CTR</th><th>Pos</th></tr></thead>
+                <tbody data-top-pages-body>
+                {% for row in top_pages %}
+                <tr>
+                    <td class="seo-reality__cell-page">{{ row.page | default(value="—") }}</td>
+                    <td>{{ row.clicks | default(value=0) }}</td>
+                    <td>{{ row.impressions | default(value=0) }}</td>
+                    <td>{{ row.ctr | default(value=0) }}%</td>
+                    <td>{{ row.position | default(value="—") }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="seo-reality__empty" data-top-pages-empty>Lưu Property ID để theo dõi top pages.</p>
+            {% endif %}
+        </div>
+    </article>
+
+    {# NEW — Query insights #}
+    <article class="seo-reality__card" data-queries-card>
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Query insights</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+        <ul class="seo-reality__query-list" data-queries-list>
+            {% if top_queries | length > 0 %}
+            {% for row in top_queries %}
+            <li>
+                <span class="seo-reality__query-text">{{ row.query }}</span>
+                <span class="seo-reality__query-meta">{{ row.clicks }} clk · pos {{ row.position }} · CTR {{ row.ctr }}%</span>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li class="seo-reality__empty" data-queries-empty>Lưu Property ID để theo dõi query insights.</li>
+            {% endif %}
+        </ul>
+    </article>
+
+    {# NEW — Growth trend #}
+    <article class="seo-reality__card" data-trend-card>
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Growth trend</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+        <div class="seo-reality__trend-tabs" role="tablist">
+            <button type="button" class="seo-reality__trend-tab is-active" data-trend-tab="daily">Daily</button>
+            <button type="button" class="seo-reality__trend-tab" data-trend-tab="weekly">Weekly</button>
+            <button type="button" class="seo-reality__trend-tab" data-trend-tab="monthly">Monthly</button>
+        </div>
+        <canvas class="seo-reality__trend-chart" data-trend-canvas height="120" aria-label="GSC clicks trend"></canvas>
+        <p class="seo-reality__empty" data-trend-empty{% if trend and trend.daily and trend.daily | length > 0 %} hidden{% endif %}>Lưu Property ID để xem growth trend.</p>
+    </article>
+
+    {# NEW — SEO Executive Summary #}
+    <article class="seo-reality__card seo-reality__card--exec" data-exec-card>
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">SEO Executive Summary</h4>
+            <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
+        </header>
+        <ul class="seo-reality__exec-list" data-exec-list>
+            {% if exec_sum | length > 0 %}
+            {% for line in exec_sum %}
+            <li>{{ line }}</li>
+            {% endfor %}
+            {% else %}
+            <li class="seo-reality__empty" data-exec-empty>⏳ Đang chờ dữ liệu GSC</li>
+            {% endif %}
+        </ul>
+    </article>
+
+    {# 4 — AUTHORITY (unchanged) #}
+    <article class="seo-reality__card">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Authority</h4>
+            <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+        </header>
+        <dl class="seo-reality__rows">
+            <div>
+                <dt>Tuổi site</dt>
+                <dd>{{ auth.site_age_label | default(value="—") }}
+                    <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+                </dd>
+            </div>
+            <div>
+                <dt>Referring domains</dt>
+                <dd>{% if auth.referring_domains %}{{ auth.referring_domains }}{% else %}<span class="seo-reality__na">Chưa đo</span>{% endif %}
+                    <span class="seo-reality__src seo-reality__src--none">NOT MEASURED</span>
+                </dd>
+            </div>
+            <div>
+                <dt>Backlinks</dt>
+                <dd>{% if auth.backlinks %}{{ auth.backlinks }}{% else %}<span class="seo-reality__na">Chưa đo</span>{% endif %}
+                    <span class="seo-reality__src seo-reality__src--none">NOT MEASURED</span>
+                </dd>
+            </div>
+            <div>
+                <dt>Authority level</dt>
+                <dd><strong>{{ auth.authority_level | default(value="New Site") }}</strong>
+                    {% if auth.trust_score %}
+                    <span class="seo-reality__src seo-reality__src--gsc">TRUST {{ auth.trust_score }}</span>
+                    {% else %}
+                    <span class="seo-reality__src seo-reality__src--estimated">ESTIMATED</span>
+                    {% endif %}
+                </dd>
+            </div>
+            {% if auth.trust_score %}
+            <div>
+                <dt>Trust label</dt>
+                <dd>{{ auth.trust_label | default(value="—") }}
+                    <span class="seo-reality__src seo-reality__src--gsc">BOOSTER</span>
+                </dd>
+            </div>
+            {% endif %}
+        </dl>
+        <p class="seo-reality__hint">Backlink / referring-domain cần API ngoài (chưa kết nối). Authority level ước tính theo tuổi site.</p>
+    </article>
+
+    {# 5 — ORGANIC GROWTH STAGE (unchanged) #}
+    <article class="seo-reality__card seo-reality__card--growth">
+        <header class="seo-reality__card-head">
+            <h4 class="seo-reality__card-title">Organic growth stage</h4>
+            <span class="seo-reality__src seo-reality__src--{% if growth.source == 'authority_booster' %}gsc{% else %}estimated{% endif %}">
+                {% if growth.source == 'authority_booster' %}BOOSTER{% else %}ESTIMATED{% endif %}
+            </span>
+        </header>
+        <p class="seo-reality__stage">
+            <span class="seo-reality__stage-name">{{ growth.stage | default(value="Indexing Phase") }}</span>
+            {% if growth.stage_vi %}<span class="seo-reality__stage-vi">{{ growth.stage_vi }}</span>{% endif %}
+        </p>
+        <p class="seo-reality__confidence">
+            Độ tin cậy:
+            <span class="seo-reality__confidence-val seo-reality__confidence-val--{{ growth.confidence | default(value='low') }}">
+                {% if growth.confidence == "high" %}Cao{% elif growth.confidence == "medium" %}Trung bình{% else %}Thấp{% endif %}
+            </span>
+        </p>
+        {% if growth.note %}<p class="seo-reality__card-note">{{ growth.note }}</p>{% endif %}
+    </article>
+
+    <p class="seo-reality__tooltip">{{ sr.tooltip }}</p>
+
+    {% if sr.updated_at %}
+    <p class="seo-reality__updated">
+        <time datetime="{{ sr.updated_at }}">Cập nhật {{ dt::display_date(value=sr.updated_at) }}</time>
+    </p>
+    {% endif %}
+</section>
+{% endif %}
+{% endmacro %}

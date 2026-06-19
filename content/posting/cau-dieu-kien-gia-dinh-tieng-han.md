@@ -1,14 +1,24 @@
 +++
 title = "Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn"
+description = "Ngày 27 học tiếng Hàn: làm chủ câu điều kiện -(으)면 và nghĩa vụ -아/어야 하다, -(으)면 되다, -(으)면 안 되다, kèm bảng so sánh và 15 câu bài tập có đáp án."
 date = 2026-06-18
+aliases = ["/cau-dieu-kien-gia-dinh-tieng-han/"]
 
 [taxonomies]
-categories = ["premium"]
-tags = ["học tiếng hàn", "câu điều kiện tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+categories = ["Tất cả", "premium", "Học tiếng Hàn"]
+tags = ["câu điều kiện tiếng hàn", "hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 premium = true
+price = 49000
+premium_post_id = "premium-han30-27"
+premium_title = "Ngày 27 — Câu điều kiện & nghĩa vụ"
+premium_teaser_words = 210
+seo_keyword = "câu điều kiện tiếng hàn"
+featured = false
+series = "korean-30day"
+series_part = 27
+series_total = 30
 +++
 
 > 🇰🇷 **Series Premium · Ngày 27/30** — *30 ngày tự học tiếng Hàn từ vỡ lòng → sơ cấp 2, tiệm cận cấp 3.* Bám giáo trình **Seoul · Yonsei** và đề **[TOPIK](https://www.topik.go.kr/)** công khai.

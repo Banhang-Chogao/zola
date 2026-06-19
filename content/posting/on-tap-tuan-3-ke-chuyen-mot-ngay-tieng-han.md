@@ -6,8 +6,7 @@ aliases = ["/on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han/"]
 
 [taxonomies]
 categories = ["Tất cả", "premium", "Học tiếng Hàn"]
-tags = ["học tiếng hàn", "ôn tập tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "hoc tieng han series"]
-
+tags = ["hoc tieng han series", "học tiếng hàn", "ngữ pháp tiếng hàn", "tiếng hàn sơ cấp", "topik", "ôn tập tiếng hàn"]
 [extra]
 premium = true
 price = 49000

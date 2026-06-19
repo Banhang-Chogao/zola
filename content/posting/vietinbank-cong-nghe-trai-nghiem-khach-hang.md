@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/vietinbank-cong-nghe-trai-nghiem-khach-hang/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "công nghệ ngân hàng", "trải nghiệm khách hàng", "vietinbank series"]
+tags = ["công nghệ ngân hàng", "trải nghiệm khách hàng", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "công nghệ VietinBank"

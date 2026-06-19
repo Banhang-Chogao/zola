@@ -10,8 +10,16 @@
   }
 
   function clearStorage() {
+    // Giữ lại phiên đăng nhập super-admin/CMS để xoá cache KHÔNG bắt login GitHub lại.
+    var CMS_KEY = "zola-cms-session-id";
+    var sid = "";
+    try { sid = localStorage.getItem(CMS_KEY) || sessionStorage.getItem(CMS_KEY) || ""; } catch (e) {}
     try { localStorage.clear(); } catch (e) {}
     try { sessionStorage.clear(); } catch (e) {}
+    if (sid) {
+      try { localStorage.setItem(CMS_KEY, sid); } catch (e) {}
+      try { sessionStorage.setItem(CMS_KEY, sid); } catch (e) {}
+    }
   }
 
   async function clearCacheStorage() {

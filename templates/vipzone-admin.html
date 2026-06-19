@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}VIPZone Admin | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+    {% set vz_api = config.extra.vipzone_api_url | default(value="") %}
+    {% set cms_auth = config.extra.cms_auth_url | default(value="") %}
+    {% if vz_api %}<meta name="zola-vipzone-api" content="{{ vz_api | safe }}">{% endif %}
+    {% if cms_auth %}<meta name="vipzone-auth-api" content="{{ cms_auth | safe }}">{% endif %}
+{% endblock %}
+
+{% block main %}
+<div id="vipzone-admin" class="vipzone vipzone--admin" data-vz-page="admin">
+
+    <section data-vz-view="login">
+        <div class="vipzone__login">
+            <div class="vipzone__login-icon" aria-hidden="true">🛡</div>
+            <h1 class="vipzone__login-title">VIPZone Admin</h1>
+            <p class="vipzone__login-sub">Đăng nhập GitHub (superuser) để quản lý VIP, mã kích hoạt và doanh thu.</p>
+            <p class="vipzone__alert" data-vz-login-error hidden role="alert"></p>
+            <button type="button" class="vipzone__btn vipzone__btn--primary" data-vz-action="login">Đăng nhập GitHub</button>
+        </div>
+    </section>
+
+    <section data-vz-view="denied" hidden>
+        <div class="vipzone__login">
+            <h1 class="vipzone__login-title">Không có quyền</h1>
+            <p class="vipzone__login-sub">Tài khoản không nằm trong whitelist superuser.</p>
+            <a class="vipzone__btn vipzone__btn--ghost" href="{{ config.base_url }}/tools/vipzone/">Về VIPZone</a>
+        </div>
+    </section>
+
+    <div data-vz-view="app" hidden>
+        <header class="vipzone__hero vipzone__hero--compact">
+            <p class="vipzone__hero-eyebrow">Admin · Superuser</p>
+            <h1 class="vipzone__hero-title">VIPZone Dashboard</h1>
+            <p class="vipzone__hero-desc">Thanh toán · mã 16 số · VIP · insights · Content Picker</p>
+        </header>
+
+        <div class="vipzone__user-bar" data-vz-user-bar hidden>
+            <span class="vipzone__user-name" data-vz-admin-name></span>
+            <button type="button" class="vipzone__btn vipzone__btn--ghost vipzone__btn--sm" data-vz-action="logout">Đăng xuất</button>
+        </div>
+
+        <div class="vipzone__insights-row" data-vz-insights>
+            <div class="vipzone__insight-card"><span class="vipzone__insight-label">VIP active</span><span class="vipzone__insight-value" data-vz-stat-active>0</span></div>
+            <div class="vipzone__insight-card"><span class="vipzone__insight-label">Doanh thu (ước)</span><span class="vipzone__insight-value" data-vz-stat-revenue>0đ</span></div>
+            <div class="vipzone__insight-card"><span class="vipzone__insight-label">Chờ xử lý</span><span class="vipzone__insight-value" data-vz-stat-pending>0</span></div>
+        </div>
+
+        <nav class="vipzone__tabs" aria-label="Admin tabs">
+            <button type="button" class="vipzone__tab vipzone__tab--active" data-vz-tab="payments">Yêu cầu TT</button>
+            <button type="button" class="vipzone__tab" data-vz-tab="codes">Mã kích hoạt</button>
+            <button type="button" class="vipzone__tab" data-vz-tab="users">VIP users</button>
+            <button type="button" class="vipzone__tab" data-vz-tab="picker">Content Picker</button>
+        </nav>
+
+        <section class="vipzone__panel" data-vz-panel="payments">
+            <h2 class="vipzone__panel-title">Yêu cầu thanh toán MoMo</h2>
+            <div class="vipzone__table-wrap">
+                <table class="vipzone__table">
+                    <thead><tr><th>Email</th><th>Gói</th><th>Ghi chú</th><th>Trạng thái</th><th></th></tr></thead>
+                    <tbody data-vz-payments-body></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="vipzone__panel" data-vz-panel="codes" hidden>
+            <h2 class="vipzone__panel-title">Tạo mã 16 số (một lần)</h2>
+            <div class="vipzone__row">
+                <select class="vipzone__select" id="vz-admin-plan">
+                    <option value="monthly">Gói Tháng (30 ngày)</option>
+                    <option value="semiannual">Gói 6 Tháng (180 ngày)</option>
+                </select>
+                <input class="vipzone__input" id="vz-admin-email" type="email" placeholder="Email người dùng">
+                <button type="button" class="vipzone__btn vipzone__btn--primary" data-vz-action="create-code">Tạo mã</button>
+            </div>
+            <pre class="vipzone__code-out" data-vz-code-output hidden></pre>
+            <div class="vipzone__table-wrap">
+                <table class="vipzone__table">
+                    <thead><tr><th>Mã</th><th>Gói</th><th>Email</th><th>Đã dùng</th><th>Ngày tạo</th></tr></thead>
+                    <tbody data-vz-codes-body></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="vipzone__panel" data-vz-panel="users" hidden>
+            <h2 class="vipzone__panel-title">Người dùng VIP</h2>
+            <div class="vipzone__table-wrap">
+                <table class="vipzone__table">
+                    <thead><tr><th>Email</th><th>Gói</th><th>Hết hạn</th><th>Countdown</th><th></th></tr></thead>
+                    <tbody data-vz-users-body></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="vipzone__panel" data-vz-panel="picker" hidden>
+            <h2 class="vipzone__panel-title">Content Picker</h2>
+            <p class="vipzone__panel-desc">Gán mức truy cập cho từng công cụ / bài premium: Public · Premium · Admin only.</p>
+            <label class="vipzone__picker-search-wrap">
+                <span class="visually-hidden">Tìm trong picker</span>
+                <input type="search" class="vipzone__picker-search" data-vz-picker-search placeholder="Tìm công cụ hoặc bài premium…" autocomplete="off">
+            </label>
+            <div class="vipzone__picker-catalog" data-vz-picker-catalog>
+                <p class="vipzone__picker-loading" data-vz-picker-loading>Đang tải danh mục…</p>
+            </div>
+            <button type="button" class="vipzone__btn vipzone__btn--ghost" data-vz-action="save-picker">Lưu lựa chọn</button>
+        </section>
+    </div>
+
+    <div class="vipzone__toast-host" data-vz-toast-host aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/vipzone.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/vip-admin.js') }}?v={{ asset_version }}" defer></script>
+{% endblock %}

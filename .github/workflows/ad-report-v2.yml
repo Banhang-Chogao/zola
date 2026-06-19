@@ -1,0 +1,89 @@
+name: Ad-Report V2 Daily
+
+# Deep UI/UX + AdSense monetization analysis — 06:00 Asia/Ho_Chi_Minh.
+# Incremental scan → data/ad-report-v2.json + reports/ad-report-v2/report-NNN.md
+# Opens PR (never direct push to main).
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # 23:00 UTC == 06:00 Asia/Ho_Chi_Minh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: ad-report-v2
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    name: Build Ad-Report V2
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Run unit tests
+        run: python3 -m unittest scripts.test_ad_report_v2 -v
+
+      - name: Build Ad-Report V2
+        run: python3 scripts/build_ad_report_v2.py
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ad-report-v2
+          path: |
+            data/ad-report-v2.json
+            data/ad-report-v2-manifest.json
+            reports/ad-report-v2/
+          if-no-files-found: warn
+
+      - name: Write run summary
+        if: always()
+        run: |
+          if [[ -f data/ad-report-v2.json ]]; then
+            python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          d = json.load(open("data/ad-report-v2.json"))
+          print(f"## 🔥 Ad-Report V2 #{d.get('report_number')}")
+          print(f"- **Monetization score:** {d.get('monetization_score')}/100")
+          print(f"- **Ad density:** {d.get('ad_density', {}).get('verdict')}")
+          print(f"- **UI grade:** {d.get('ui_review', {}).get('overall_grade')}")
+          print(f"- **Posts scanned:** {d.get('scan_stats', {}).get('total_posts')}")
+          print(f"- **Incremental:** {d.get('scan_stats', {}).get('incremental')}")
+          PY
+          fi
+
+      - name: Open PR if report changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git add data/ad-report-v2.json data/ad-report-v2-manifest.json reports/ad-report-v2/
+          if git diff --cached --quiet; then
+            echo "No report changes — skip PR."
+            exit 0
+          fi
+          BRANCH="chore/ad-report-v2-$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git commit -m "chore(ad-report-v2): daily monetization + UI analysis [skip changelog]"
+          git push -u origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "chore(ad-report-v2): Daily Ad-Report V2 #$(python3 -c 'import json;print(json.load(open("data/ad-report-v2.json"))["report_number"])')" \
+            --body "Automated Ad-Report V2 — deep UI/UX review + AdSense monetization analysis. Auto-merges when CI passes." \
+            || echo "::warning::could not open PR automatically"

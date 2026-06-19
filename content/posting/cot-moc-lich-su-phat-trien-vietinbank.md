@@ -5,7 +5,7 @@ date = 2026-06-18
 aliases = ["/cot-moc-lich-su-phat-trien-vietinbank/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "lịch sử vietinbank", "ngân hàng việt nam", "vietinbank series"]
+tags = ["lịch sử vietinbank", "ngân hàng việt nam", "vietinbank", "vietinbank series"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "lịch sử VietinBank"

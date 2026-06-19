@@ -149,6 +149,80 @@ class PaywallStripTest(unittest.TestCase):
         self.assertIn("premium = true", out)
         self.assertIn("price = 100000", out)
 
+    def test_strip_preserves_existing_full_private(self) -> None:
+        """Regression: strip must NOT clobber an existing full private_content
+        body with the teaser when content/ has no <!-- more --> marker."""
+        import scripts.paywall_prepare_build as pb  # noqa: PLC0415
+
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        content = root / "content"
+        private = root / "private_content"
+        (content / "posting").mkdir(parents=True)
+        private.mkdir(parents=True)
+
+        # content/ holds ONLY a teaser (no <!-- more --> marker).
+        teaser = "Teaser mở đầu cho bài premium, chỉ là phần xem trước ngắn."
+        post = content / "posting" / "lesson.md"
+        post.write_text(
+            '+++\ntitle = "L"\n[taxonomies]\ncategories = ["premium"]\n'
+            '[extra]\npremium = true\npremium_post_id = "premium-x"\n+++\n\n'
+            + teaser,
+            encoding="utf-8",
+        )
+        # private_content/ already holds the FULL body (source of truth).
+        full = "# Bài đầy đủ\n\n" + " ".join(["nội"] * 500)
+        priv = private / "premium-x.md"
+        priv.write_text(full, encoding="utf-8")
+
+        saved = (pb.ROOT, pb.CONTENT, pb.PRIVATE, pb.BACKUP)
+        pb.ROOT, pb.CONTENT, pb.PRIVATE, pb.BACKUP = (
+            root, content, private, root / "backup.json")
+        try:
+            pb.strip_premium()
+        finally:
+            pb.ROOT, pb.CONTENT, pb.PRIVATE, pb.BACKUP = saved
+
+        # Full private body must be untouched; teaser must NOT have overwritten it.
+        self.assertEqual(priv.read_text(encoding="utf-8"), full)
+        self.assertNotIn("xem trước", priv.read_text(encoding="utf-8"))
+        # content/ now serves only the teaser (no leaked full body).
+        self.assertNotIn("Bài đầy đủ", post.read_text(encoding="utf-8"))
+
+    def test_strip_splits_on_more_marker(self) -> None:
+        """When content/ has a <!-- more --> marker, the part after it becomes
+        the private full body."""
+        import scripts.paywall_prepare_build as pb  # noqa: PLC0415
+
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        content = root / "content"
+        private = root / "private_content"
+        (content / "posting").mkdir(parents=True)
+        private.mkdir(parents=True)
+
+        post = content / "posting" / "lesson.md"
+        post.write_text(
+            '+++\ntitle = "L"\n[taxonomies]\ncategories = ["premium"]\n'
+            '[extra]\npremium = true\npremium_post_id = "premium-y"\n+++\n\n'
+            "Teaser công khai.\n\n<!-- more -->\n\nPHẦN TRẢ PHÍ bí mật.",
+            encoding="utf-8",
+        )
+
+        saved = (pb.ROOT, pb.CONTENT, pb.PRIVATE, pb.BACKUP)
+        pb.ROOT, pb.CONTENT, pb.PRIVATE, pb.BACKUP = (
+            root, content, private, root / "backup.json")
+        try:
+            pb.strip_premium()
+        finally:
+            pb.ROOT, pb.CONTENT, pb.PRIVATE, pb.BACKUP = saved
+
+        priv = (private / "premium-y.md").read_text(encoding="utf-8")
+        self.assertIn("PHẦN TRẢ PHÍ", priv)
+        self.assertNotIn("PHẦN TRẢ PHÍ", post.read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()

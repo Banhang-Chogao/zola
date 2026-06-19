@@ -18,13 +18,11 @@
   "use strict";
 
   const SESSION_KEY = "zola-cms-session-id";
-  // Fallback chain: meta cms-auth → meta visitor-api → hardcode prod URL
+  // Fallback chain: VIPZone auth meta → hardcode prod URL
   const AUTH_API = (function () {
-    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
+    const m1 = document.querySelector('meta[name="vipzone-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
-    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
-    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-visitor-api.onrender.com";
+    return "https://blog-vipzone-api.onrender.com";
   })();
 
   const root = document.getElementById("baochi-app");
@@ -38,10 +36,10 @@
     catch (e) { return ""; }
   }
   function setSid(sid) {
-    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+    try { sessionStorage.setItem(SESSION_KEY, sid); localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
   }
   function clearSid() {
-    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
   function showView(name) {

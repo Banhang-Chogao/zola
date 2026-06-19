@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/dang-ky-v-plus-v-advance-tren-ipay/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["đăng ký v-plus", "đăng ký v-advance", "ipay", "ngân hàng", "vietinbank", "vietinbank v-plus v-advance series", "v-advance", "v-plus"]
+tags = ["ipay", "ngân hàng", "v-advance", "v-plus", "vietinbank", "vietinbank v-plus v-advance series", "đăng ký v-advance", "đăng ký v-plus"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
 seo_keyword = "đăng ký v-plus v-advance ipay"

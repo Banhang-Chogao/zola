@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/so-sanh-v-plus-va-v-advance-chon-goi-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank", "v-plus", "v-advance", "v-plus v-advance series", "so sánh ngân hàng"]
+tags = ["so sánh ngân hàng", "v-advance", "v-plus", "v-plus v-advance series", "vietinbank"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "so sánh V-Plus V-Advance"

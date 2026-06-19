@@ -6,8 +6,7 @@ aliases = ["/users-new-users-sessions-google-analytics/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["google analytics", "ga4", "users", "sessions", "google analytics series"]
-
+tags = ["ga4", "google analytics", "google analytics series", "sessions", "users"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "users new users và sessions"

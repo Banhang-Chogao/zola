@@ -1,47 +1,83 @@
 {
-  "updated_at": "2026-06-18T23:13:20.065578+00:00",
+  "updated_at": "2026-06-19T19:16:40Z",
   "tasks": [
     {
       "id": "seo",
       "label": "SEO optimization",
       "icon": "🔍",
       "status": "running",
-      "detail": "Metadata complete: 123/127 files",
-      "source": "audit-metadata.json",
-      "updated_at": "2026-06-18T23:11:38.526628+00:00"
+      "detail": "Adding copyright sections",
+      "source": "seo-rank-autofix-report.json",
+      "updated_at": "2026-06-18T06:52:03+0700"
     },
     {
       "id": "internal_links",
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "Weak posts (0-2 links): 53/126 · Weak pairs: 1678",
-      "source": "audit-internal-links.json",
-      "updated_at": "2026-06-18T23:12:32.629504+00:00"
+      "detail": "0 broken links · 15 weak related pairs",
+      "source": "compliance-link-report.json",
+      "updated_at": "2026-06-19T18:42:45Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 58/100 · LCP 6.9 s ← target 90",
+      "detail": "Mobile 49/100 · LCP 6.9 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-18T21:15:33+00:00"
+      "updated_at": "2026-06-19T00:37:12+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "Pages missing FAQ schema: 8/126",
-      "source": "audit-faq.json",
-      "updated_at": "2026-06-18T23:12:47.006570+00:00"
+      "detail": "15 pages missing FAQ/schema · 739/740 pages",
+      "source": "seo-rank-autofix-report.json",
+      "updated_at": "2026-06-19T18:42:45Z"
+    },
+    {
+      "id": "content_refresh",
+      "label": "Content refresh",
+      "icon": "📝",
+      "status": "done",
+      "detail": "Latest: Feat/super admin session clean",
+      "source": "changelog.json",
+      "updated_at": "2026-06-19"
+    },
+    {
+      "id": "indexing",
+      "label": "Indexing checks",
+      "icon": "🗂️",
+      "status": "done",
+      "detail": "868 links OK · IndexNow on publish",
+      "source": "qa-404-report.json",
+      "updated_at": "2026-06-19T14:02:56Z"
+    },
+    {
+      "id": "image_opt",
+      "label": "Image optimization",
+      "icon": "🖼️",
+      "status": "done",
+      "detail": "formats OK · WebP workflow",
+      "source": "compliance-score.json",
+      "updated_at": "2026-06-19T18:42:45Z"
+    },
+    {
+      "id": "mobile_ux",
+      "label": "Mobile UX improvements",
+      "icon": "📱",
+      "status": "running",
+      "detail": "Mobile 49/100 vs desktop 96/100 (Δ47) · 739/740 ready",
+      "source": "pagespeed.json",
+      "updated_at": "2026-06-19T00:37:12+00:00"
     }
   ],
   "summary": {
     "pending": 0,
-    "running": 4,
-    "done": 0
+    "running": 5,
+    "done": 3
   },
-  "note": "Statuses from comprehensive QA audits — live data, not fabricated."
+  "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }

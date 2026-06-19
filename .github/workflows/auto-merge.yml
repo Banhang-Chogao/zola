@@ -29,7 +29,9 @@ permissions:
   actions: read
 
 concurrency:
-  group: auto-merge-${{ github.event.workflow_run.head_branch || github.event.inputs.pr_number || 'all' }}
+  # ZERO_BARRIER_DEPLOY_QUEUE: single global auto-merge lock → merges run one at a
+  # time (FIFO) → main receives one push at a time → one deploy at a time.
+  group: auto-merge-main
   cancel-in-progress: false
 
 jobs:
