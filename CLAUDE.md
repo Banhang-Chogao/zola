@@ -362,6 +362,67 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   (`.vaccine-panel`) + `sass/_vaccine-autofixer.scss` · data
   `data/vaccine-autofixer-report.json` / `-state.json` / `.log`.
 
+#### V12 — Semantic Conflict Auto-Fix: shared infra files (`templates/base.html` + `sass/_footer.scss`)
+
+> Process vaccine (not a workflow-run failure). These two files are the repo's
+> highest-conflict zone. Match the signature → run the FIXER **by intent**, NEVER
+> blind `ours`/`theirs`.
+
+- **Symptom:** A PR touching the global layout turns `mergeable_state: dirty` with
+  conflicts clustered in **`templates/base.html`** and/or **`sass/_footer.scss`**
+  (siblings `sass/_footer-tags.scss`, `_sidebar.scss`, `_theme-overrides.scss`,
+  `site.scss` usually auto-merge). Multiple parallel PRs each relocate a sidebar/
+  footer module (categories → footer, tags → footer, add a sidebar widget) so they
+  edit the SAME footer/sidebar regions. The PR's real feature is fine; only the
+  shared scaffolding collides.
+- **Root cause:** `base.html` + `_footer.scss` are **shared infrastructure / high-
+  conflict zones**. Parallel PRs branched from different bases each move a block into
+  the footer or add a widget. A blind `--ours` re-introduces the module the other PR
+  already moved (→ duplicate render); a blind `--theirs` deletes a feature that
+  already landed on `main`. It is a **merge race over shared layout**, not a logic
+  bug — QA-green on a branch never proves it is merge-safe against latest `main`.
+- **FIXER (semantic, by intent — never blind ours/theirs):**
+  1. `git fetch origin main` → merge latest `main` into the branch.
+  2. **Classify each conflict hunk** as `additive` · `overlapping` · `replacement`.
+  3. **Additive (the common case):** preserve BOTH sides. A module moved to the
+     footer must exist in the footer **exactly once** and be **absent** from the
+     sidebar — so drop the stale sidebar copy on *both* sides and keep every footer
+     block (`.footer-categories` from one PR + `.footer-tags` from another both live).
+  4. **`templates/base.html` — merge by BLOCK.** Protect & dedupe: SEO `<meta>`/
+     schema metadata, analytics, `<script>`/asset-version includes, macro imports,
+     `{% block %}` partials, nav + `[[extra.main_menu]]`-driven links (e.g. S-DNA),
+     the `<footer>` blocks, sidebar widgets (`google_rank`, `seo_reality`). **No
+     duplicate JS/CSS imports, no duplicate footer/sidebar blocks, no broken Tera tags.**
+  5. **`sass/_footer.scss` — merge by COMPONENT.** Protect: `.footer-categories`,
+     `.footer-tags`, footer cards, spacing, theme tokens, typography hierarchy, every
+     `@media` breakpoint. **Each selector defined exactly once** (grep the opener
+     count to confirm); never delete an unrelated footer module; keep responsive
+     behavior intact (desktop / tablet / mobile).
+  6. **Validate before commit:** `python3 scripts/build_references.py` →
+     `python3 scripts/paywall_prepare_build.py --strip` → `zola build` → `--restore`
+     → `python3 qa_check.py` → `python3 scripts/check_internal_links.py` →
+     `python3 qa-404-checker.py`. Confirm in built HTML: footer categories render,
+     footer tags render, SEO Reality Check renders, S-DNA route/menu works, **no
+     duplicate footer/sidebar blocks**.
+  7. **If build + QA pass → commit immediately** (zero conflict markers left).
+- **Prevention / Rules:** never `--ours`/`--theirs` blindly on these files; classify
+  every hunk (additive / overlapping / replacement); for additive keep both; for a
+  moved module keep it in the footer once + remove it from the sidebar; rebase onto
+  latest `main` before trusting CI; a `dirty` PR after QA-green = merge race, not a
+  code bug.
+- **Lesson (root cause, permanent):** parallel PRs modified shared infrastructure
+  files (`templates/base.html`, `sass/_footer.scss`). **Infrastructure files are
+  high-conflict zones — always perform a SEMANTIC merge, not a text merge. Truth >
+  speed. Structure > line numbers. Intent > ours/theirs.**
+- **Evidence (PR #469, 19/06/2026):** #469 (Tags → footer) went `dirty` after #467
+  (SEO Reality Check sidebar), #468 (Categories → footer) and #470 (S-DNA tools menu)
+  landed on `main` first. Conflicts only in `templates/base.html` + `sass/_footer.scss`.
+  Semantic FIXER kept `.footer-categories` (#468) **and** `.footer-tags` (#469) both
+  in the footer; removed both stale sidebar blocks; preserved `seo_reality` (#467) +
+  S-DNA menu (#470). `zola build` PASS (173 pages) · `qa_check.py` PASS (558 files) ·
+  `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken. All four
+  features survived.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
