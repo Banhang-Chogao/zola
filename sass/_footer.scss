@@ -188,6 +188,118 @@
 }
 
 /* ============================================================
+   ===== FOOTER CATEGORIES — compact multi-column nav =====
+   ============================================================
+   Moved from sidebar. Wide/short layout: category name dominant,
+   count secondary in parentheses. No cards, no oversized circles. */
+.footer-categories {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 1rem 0 0;
+  margin-top: 0.25rem;
+  text-align: left;
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin: 0 0 0.55rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.28rem 1.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    min-width: 0;
+    --cat-accent: #8bb8ff;
+
+    &:nth-child(6n + 1) { --cat-accent: #8bb8ff; }
+    &:nth-child(6n + 2) { --cat-accent: #8fe3d8; }
+    &:nth-child(6n + 3) { --cat-accent: #f5b5bc; }
+    &:nth-child(6n + 4) { --cat-accent: #bda7ff; }
+    &:nth-child(6n + 5) { --cat-accent: #ffd38a; }
+    &:nth-child(6n + 6) { --cat-accent: #9ed7ff; }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    max-width: 100%;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #d1d5db;
+    text-decoration: none;
+    line-height: 1.35;
+    padding: 0.12rem 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      color: #fff;
+      border-bottom-color: color-mix(in srgb, var(--cat-accent) 55%, transparent);
+
+      .footer-categories__count { color: #9aa4b2; }
+    }
+  }
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  &__count {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #555;
+    font-variant-numeric: tabular-nums;
+
+    &::before { content: "("; }
+    &::after  { content: ")"; }
+  }
+
+  @media (max-width: 1200px) {
+    &__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 1024px) {
+    &__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 820px) {
+    &__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 600px) {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.25rem 0.75rem;
+    }
+
+    &__link {
+      font-size: 0.8rem;
+      min-height: 36px;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 380px) {
+    &__grid { grid-template-columns: 1fr; }
+  }
+}
+
+/* ============================================================
    ===== TAG CLOUD đã chuyển sang RIGHT SIDEBAR (text-only) =====
    ============================================================
    Style cũ (.tag-grid / .tag-card / .footer-tags-section) đã gỡ vì
