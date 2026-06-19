@@ -21,6 +21,8 @@
     {% set manifest = load_data(path="data/vietinbank-series.json", required=false) %}
 {% elif page.extra and page.extra.series is defined and page.extra.series == "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb" %}
     {% set manifest = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
+{% elif page.extra and page.extra.series is defined and page.extra.series == "thpt-2026-dap-an" %}
+    {% set manifest = load_data(path="data/thpt-2026-dap-an-series.json", required=false) %}
 {% endif %}
 {% if manifest and page.extra and page.extra.series is defined and page.extra.series == manifest.id %}
     {% set current_part = page.extra.series_part | default(value=0) %}
