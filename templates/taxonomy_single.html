@@ -6,11 +6,12 @@
 
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
-{# Chuyên mục premium đang ẩn → SEO-safe noindex. #}
-{% block robots %}{% if term.slug == "premium" and config.extra.premium_hidden | default(value=false) %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+{# Chuyên mục premium đang khóa → SEO-safe noindex. #}
+{% block robots %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% if term.slug == "premium" and premium_lock %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block main %}
-    {% if term.slug == "premium" and config.extra.premium_hidden | default(value=false) %}
+    {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
+    {% if term.slug == "premium" and premium_lock %}
     {{ locked::overlay(base_url=config.base_url) }}
     {% else %}
     <header class="section-header">
