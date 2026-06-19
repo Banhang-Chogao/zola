@@ -1574,8 +1574,9 @@ Track: https://github.com/Banhang-Chogao/zola/pulls
 
 ## 5. Format BÁO CÁO sau khi merge PR (BẮT BUỘC — 2026-06-19)
 
-**KHÔNG** poll/canhc PR liên tục sau merge. Output **một lần** summary cuối (success
-hoặc fail). Chi tiết vaccine: `CLAUDE.md` §4 + §"Báo cáo PR sau merge".
+3 quy tắc: (1) **KHÔNG** canh PR liên tục sau merge; (2) **luôn** output **một lần**
+summary cuối (success hoặc fail); (3) fail → tra §4 Vaccine library, đề xuất đúng fix
+tool. Chi tiết vaccine: `CLAUDE.md` §4 + §"Báo cáo PR sau merge".
 
 ### Thành công
 
