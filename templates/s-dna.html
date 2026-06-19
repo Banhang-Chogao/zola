@@ -1,0 +1,551 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — Sembcorp Design DNA | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+<section class="brandx">
+    <header class="brandx__header">
+        <div class="brandx__brand">
+            <span class="brandx__logo-mark" aria-hidden="true" style="color: #00A7A0;">◈</span>
+            <span class="brandx__logo-text">S-DNA</span>
+        </div>
+        <nav class="brandx__nav">
+            <a href="#philosophy">Philosophy</a>
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+            <a href="#kpi-cards">KPI Cards</a>
+            <a href="#icons">Icons</a>
+            <a href="#charts">Charts</a>
+            <a href="#slides">Slides</a>
+            <a href="#examples">Examples</a>
+            <a href="#anti-patterns">Anti-patterns</a>
+            <a href="#compatibility">Compatibility</a>
+        </nav>
+    </header>
+
+    <section class="brandx__manifesto">
+        <p class="brandx__manifesto-eyebrow" style="color: #00A7A0;">Sembcorp Design DNA</p>
+        <h1 class="brandx__manifesto-title">
+            Data-first. Decoration-last. Beauty from hierarchy.
+        </h1>
+        <p class="brandx__manifesto-sub">
+            S-DNA là tài liệu tham khảo thiết kế lấy cảm hứng từ hệ sinh thái Annual Report
+            và Investor Relations của Sembcorp. Đây là <strong>documentation only</strong> —
+            lựa chọn thiết kế thứ hai bên cạnh <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a>.
+            Không phải redesign, không phải component library, không áp dụng toàn cục.
+        </p>
+        <p class="brandx__manifesto-sub" style="margin-top: 0.85rem; font-size: 0.92rem; color: #888888;">
+            Nguồn: <a href="https://media.sembcorp.com/data/cms/ar/ar2025/index.html" target="_blank" rel="noopener">Interactive Annual Report 2025</a> ·
+            <a href="https://www.sembcorp.com/media/atiizbzs/sci_1h2025_results-slides.pdf" target="_blank" rel="noopener">1H2025 Result Slides</a>
+        </p>
+    </section>
+
+    <aside class="brandx__rationale" style="margin-bottom: 3rem;">
+        <strong>Core anchor:</strong> Think <strong>Sembcorp Annual Report × Apple Annual Report × Bloomberg × Stripe Docs × McKinsey</strong>,
+        not AdminLTE, Crypto Dashboard, glassmorphism, or neon UI.<br>
+        <strong>One sentence:</strong> Beauty comes from hierarchy and whitespace, not colors and effects.
+    </aside>
+
+    {# ===== 01. DESIGN PHILOSOPHY ===== #}
+    <section id="philosophy" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">01</span>
+            <h2 class="brandx__section-title">Design Philosophy</h2>
+            <p class="brandx__section-desc">
+                Enterprise calm. Data-first. Minimal decoration. High information density với whitespace
+                rộng. Slides cảm giác như investor relations, board meeting, annual report — không phải
+                startup pitch deck hay marketing brochure.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>Enterprise calm</h4>
+                <p>Trung tính, có cấu trúc, ít nhiễu. Truth &gt; vanity metrics. Decoration stays quiet.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Data-first</h4>
+                <p>Số liệu và insight dẫn dắt layout. Charts second. Animation last.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Cards first</h4>
+                <p>KPI cards là primitive mặc định cho dashboard, stats, investor pages. Tables hỗ trợ, không thay thế.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Strong hierarchy</h4>
+                <p>Large numbers dominate. Labels support. Units whisper. Typography tạo thứ bậc — không phải màu sắc hay hiệu ứng.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Whitespace breathes</h4>
+                <p>Phân vân thì thêm spacing. White space &gt; shadows. Borders &gt; gradients.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Consistency &gt; novelty</h4>
+                <p>Guidelines first. Components later. Evolution, not proliferation. Preserve consistency above novelty.</p>
+            </article>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>General blog UI:</strong> Apple Annual Report × Bloomberg × Stripe Docs × Notion.<br>
+            <strong>Data-heavy UI (dashboards, KPI, annual reports, investor slides):</strong>
+            Sembcorp Annual Report × Apple Annual Report × Bloomberg Terminal × McKinsey Deck.
+        </aside>
+    </section>
+
+    {# ===== 02. COLOR SYSTEM ===== #}
+    <section id="colors" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">02</span>
+            <h2 class="brandx__section-title">Color System</h2>
+            <p class="brandx__section-desc">
+                Màu trích xuất từ Annual Report và investor slides Sembcorp.
+                <strong>Documentation / inspiration only</strong> — không thay thế token <code>--c-*</code> của Branding Guideline.
+            </p>
+        </header>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Primary — Teal</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #00A7A0">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Primary Teal</strong>
+                        <code>#00A7A0</code>
+                        <span>Hero cards, charts, progress, major highlights</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #DDF4F2">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Light Teal</strong>
+                        <code>#DDF4F2</code>
+                        <span>Background blocks, KPI card fills</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Secondary — Soft Pastels</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #DCEAF8">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Soft Blue</strong>
+                        <code>#DCEAF8</code>
+                        <span>Secondary cards, segment blocks</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #ECE7FA">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Soft Purple</strong>
+                        <code>#ECE7FA</code>
+                        <span>Alternate KPI cards, distribution charts</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #FFFFFF">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Neutral White</strong>
+                        <code>#FFFFFF</code>
+                        <span>Default surface, slide canvas</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div class="brandx__color-group">
+            <h3 class="brandx__group-label">Text &amp; Border</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #111111">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Heading</strong>
+                        <code>#111111</code>
+                        <span>Titles, KPI values</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #555555">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Body</strong>
+                        <code>#555555</code>
+                        <span>Paragraph, insights</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #888888">
+                    <div class="brandx__swatch-chip"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Muted</strong>
+                        <code>#888888</code>
+                        <span>Labels, units, captions</span>
+                    </div>
+                </article>
+                <article class="brandx__swatch" style="--color: #E6E6E6">
+                    <div class="brandx__swatch-chip brandx__swatch-chip--border"></div>
+                    <div class="brandx__swatch-info">
+                        <strong>Border</strong>
+                        <code>#E6E6E6</code>
+                        <span>Card outlines, dividers</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Color philosophy:</strong> Teal &gt; rainbow. Soft blue &gt; saturated blue. Pastel &gt; neon.
+            White space &gt; shadows. Borders &gt; gradients.
+        </aside>
+    </section>
+
+    {# ===== 03. ANNUAL REPORT TYPOGRAPHY ===== #}
+    <section id="typography" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">03</span>
+            <h2 class="brandx__section-title">Annual Report Typography</h2>
+            <p class="brandx__section-desc">
+                Large numbers dominate. Labels nhỏ. Units nhỏ nhất. Weight 700–800 cho số liệu.
+                Units không bao giờ lấn át giá trị chính.
+            </p>
+        </header>
+
+        <div class="brandx__type-scale">
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 2.75rem; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em;">
+                    8,082 <span style="font-size: 1rem; font-weight: 600; color: #888888;">MW</span>
+                </div>
+                <div class="brandx__type-meta">
+                    <code>2.75rem / 800 / value dominant</code>
+                    <span>Energy capacity — unit whisper</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 2.75rem; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em;">
+                    16,223 <span style="font-size: 1rem; font-weight: 600; color: #888888;">ha</span>
+                </div>
+                <div class="brandx__type-meta">
+                    <code>2.75rem / 800 / tabular nums</code>
+                    <span>Urban solutions land bank</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 2.75rem; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em;">
+                    1.1 <span style="font-size: 1rem; font-weight: 600; color: #888888;">million sqm</span>
+                </div>
+                <div class="brandx__type-meta">
+                    <code>2.75rem / 800 / compound unit</code>
+                    <span>Built-up area — unit stays secondary</span>
+                </div>
+            </article>
+            <article class="brandx__type-row">
+                <div class="brandx__type-sample" style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #888888;">
+                    Gross profit · Segment revenue · EBITDA margin
+                </div>
+                <div class="brandx__type-meta">
+                    <code>0.72rem / 700 / uppercase / muted</code>
+                    <span>Labels support — never compete with numbers</span>
+                </div>
+            </article>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Rule:</strong> Numbers &gt; labels &gt; units. Hierarchy first. Data speaks. Decoration stays quiet.
+        </aside>
+    </section>
+
+    {# ===== 04. KPI CARDS ===== #}
+    <section id="kpi-cards" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">04</span>
+            <h2 class="brandx__section-title">KPI Cards</h2>
+            <p class="brandx__section-desc">
+                Soft pastel cards · colored left accent · large value · small unit · subtle outline icons ·
+                wide cards · comfortable spacing. Pattern lặp lại xuyên suốt annual report.
+            </p>
+        </header>
+
+        <div class="brandx__comp-demo" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div style="background: #DDF4F2; border: 1px solid #E6E6E6; border-left: 4px solid #00A7A0; border-radius: 4px; padding: 1.25rem 1.35rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="display: inline-flex; width: 32px; height: 32px; border: 1.5px solid #00A7A0; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.85rem; color: #00A7A0;" aria-hidden="true">⚡</span>
+                    <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #888888;">Energy</span>
+                </div>
+                <div style="font-size: 2rem; font-weight: 800; color: #111111; line-height: 1.1;">8,082 <span style="font-size: 0.85rem; font-weight: 600; color: #888888;">MW</span></div>
+            </div>
+            <div style="background: #DCEAF8; border: 1px solid #E6E6E6; border-left: 4px solid #5B9BD5; border-radius: 4px; padding: 1.25rem 1.35rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="display: inline-flex; width: 32px; height: 32px; border: 1.5px solid #5B9BD5; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.85rem; color: #5B9BD5;" aria-hidden="true">◇</span>
+                    <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #888888;">Urban Solutions</span>
+                </div>
+                <div style="font-size: 2rem; font-weight: 800; color: #111111; line-height: 1.1;">16,223 <span style="font-size: 0.85rem; font-weight: 600; color: #888888;">ha</span></div>
+            </div>
+            <div style="background: #ECE7FA; border: 1px solid #E6E6E6; border-left: 4px solid #9B8FD4; border-radius: 4px; padding: 1.25rem 1.35rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="display: inline-flex; width: 32px; height: 32px; border: 1.5px solid #9B8FD4; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.85rem; color: #9B8FD4;" aria-hidden="true">○</span>
+                    <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #888888;">Water</span>
+                </div>
+                <div style="font-size: 2rem; font-weight: 800; color: #111111; line-height: 1.1;">12.4 <span style="font-size: 0.85rem; font-weight: 600; color: #888888;">M m³/d</span></div>
+            </div>
+            <div style="background: #FFFFFF; border: 1px solid #E6E6E6; border-left: 4px solid #00A7A0; border-radius: 4px; padding: 1.25rem 1.35rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="display: inline-flex; width: 32px; height: 32px; border: 1.5px solid #00A7A0; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.85rem; color: #00A7A0;" aria-hidden="true">□</span>
+                    <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #888888;">Storage</span>
+                </div>
+                <div style="font-size: 2rem; font-weight: 800; color: #111111; line-height: 1.1;">676 <span style="font-size: 0.85rem; font-weight: 600; color: #888888;">MWh</span></div>
+            </div>
+            <div style="background: #DDF4F2; border: 1px solid #E6E6E6; border-left: 4px solid #00A7A0; border-radius: 4px; padding: 1.25rem 1.35rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <span style="display: inline-flex; width: 32px; height: 32px; border: 1.5px solid #00A7A0; border-radius: 50%; align-items: center; justify-content: center; font-size: 0.85rem; color: #00A7A0;" aria-hidden="true">△</span>
+                    <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #888888;">Renewables</span>
+                </div>
+                <div style="font-size: 2rem; font-weight: 800; color: #111111; line-height: 1.1;">3.2 <span style="font-size: 0.85rem; font-weight: 600; color: #888888;">GW</span></div>
+            </div>
+        </div>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp"><h4>Soft pastel backgrounds</h4><p>Light teal, soft blue, soft purple — không saturated, không gradient.</p></article>
+            <article class="brandx__comp"><h4>Colored left accent</h4><p>4px border-left theo segment. Nhận diện nhanh mà không cần icon lớn.</p></article>
+            <article class="brandx__comp"><h4>Wide cards</h4><p>Padding 18–22px. Spacing thoáng. Card rộng hơn cao — tỷ lệ landscape.</p></article>
+            <article class="brandx__comp"><h4>Subtle outline icons</h4><p>Icon trong circle container, stroke mảnh. Engineering · institutional feeling.</p></article>
+        </div>
+    </section>
+
+    {# ===== 05. ICONS ===== #}
+    <section id="icons" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">05</span>
+            <h2 class="brandx__section-title">Icons</h2>
+            <p class="brandx__section-desc">
+                Outline icons · thin strokes · circle containers. Energy, water, city, wind, solar, battery.
+                Institutional feeling — không emoji, không filled, không cartoon, không 3D.
+            </p>
+        </header>
+
+        <div class="brandx__comp-demo brandx__comp-demo--icons" style="gap: 1.25rem; flex-wrap: wrap;">
+            <span style="display: inline-flex; width: 40px; height: 40px; border: 1.5px solid #00A7A0; border-radius: 50%; align-items: center; justify-content: center; color: #00A7A0;" title="Energy" aria-hidden="true">⚡</span>
+            <span style="display: inline-flex; width: 40px; height: 40px; border: 1.5px solid #00A7A0; border-radius: 50%; align-items: center; justify-content: center; color: #00A7A0;" title="Water" aria-hidden="true">○</span>
+            <span style="display: inline-flex; width: 40px; height: 40px; border: 1.5px solid #5B9BD5; border-radius: 50%; align-items: center; justify-content: center; color: #5B9BD5;" title="City" aria-hidden="true">▣</span>
+            <span style="display: inline-flex; width: 40px; height: 40px; border: 1.5px solid #00A7A0; border-radius: 50%; align-items: center; justify-content: center; color: #00A7A0;" title="Wind" aria-hidden="true">◇</span>
+            <span style="display: inline-flex; width: 40px; height: 40px; border: 1.5px solid #E8A838; border-radius: 50%; align-items: center; justify-content: center; color: #E8A838;" title="Solar" aria-hidden="true">☀</span>
+            <span style="display: inline-flex; width: 40px; height: 40px; border: 1.5px solid #9B8FD4; border-radius: 50%; align-items: center; justify-content: center; color: #9B8FD4;" title="Battery" aria-hidden="true">□</span>
+        </div>
+
+        <div class="brandx__comp-grid" style="margin-top: 1.5rem;">
+            <article class="brandx__comp"><h4>Use</h4><p>Outline · thin stroke · circle container · monochrome hoặc accent teal.</p></article>
+            <article class="brandx__comp"><h4>Avoid</h4><p>Filled icons · emoji · cartoon · 3D · gradient-filled glyphs.</p></article>
+            <article class="brandx__comp"><h4>Recommended libraries</h4><p><strong>Lucide</strong> · <strong>Tabler</strong> · <strong>Phosphor</strong> — outline style only.</p></article>
+        </div>
+    </section>
+
+    {# ===== 06. CHARTS DNA ===== #}
+    <section id="charts" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">06</span>
+            <h2 class="brandx__section-title">Charts DNA</h2>
+            <p class="brandx__section-desc">
+                Waterfall charts ưu tiên. Stacked bars, horizontal bars, trend lines, donut, map overlays,
+                distribution charts. Minimal legends. No 3D. No rainbow. No decorative charts.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp"><h4>Preferred</h4><p>Waterfall · stacked bar · horizontal bar · trend line · donut · map overlay · distribution.</p></article>
+            <article class="brandx__comp"><h4>Avoid</h4><p>Pie chart overload · 3D charts · heavy gradients · rainbow palettes · decorative charts.</p></article>
+            <article class="brandx__comp"><h4>Chart colors</h4><p>Positive: teal · Neutral: gray · Secondary: soft blue · Warning: orange · Negative: soft red. Avoid excessive saturation.</p></article>
+            <article class="brandx__comp"><h4>Library recommendation</h4><p><strong>ECharts</strong> (waterfall native) · <strong>Chart.js</strong> · <strong>Highcharts</strong>. Waterfall charts preferred.</p></article>
+        </div>
+
+        <table class="brandx__spacing-table" style="margin-top: 1.5rem;">
+            <thead>
+                <tr><th>Semantic</th><th>Color</th><th>Use</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Positive / growth</td><td><code>#00A7A0</code> teal</td><td>Revenue up, capacity added</td></tr>
+                <tr><td>Neutral</td><td><code>#AAAAAA</code> gray</td><td>Baseline, prior period</td></tr>
+                <tr><td>Secondary</td><td><code>#DCEAF8</code> soft blue</td><td>Segment B, supporting series</td></tr>
+                <tr><td>Warning</td><td><code>#E8A838</code> orange</td><td>Caution, pending items</td></tr>
+                <tr><td>Negative</td><td><code>#E07A7A</code> soft red</td><td>Decline, cost increase</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    {# ===== 07. SLIDE DNA ===== #}
+    <section id="slides" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">07</span>
+            <h2 class="brandx__section-title">Slide DNA</h2>
+            <p class="brandx__section-desc">
+                How to build annual report slides. Investor relations · board meeting · institutional presentation.
+                Not startup pitch · not YouTube thumbnail · not marketing brochure.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>Cover</h4>
+                <p>Large title. Minimal text. Strong whitespace. Teal accent line hoặc hero metric nhỏ.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Agenda</h4>
+                <p>2-column layout. Simple numbering (01, 02…). No bullet overload.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>KPI page</h4>
+                <p>Hero metrics row. Large values. Tiny units. Pastel card backgrounds.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Segment page</h4>
+                <p>Waterfall chart + 3–4 bullet insights. Chart chiếm 60%, text 40%.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Financial page</h4>
+                <p>Tables + horizontal bars. No decoration. Numbers aligned right. Tabular nums.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Summary page</h4>
+                <p>Three key takeaways. One outlook. One callout box (teal left accent).</p>
+            </article>
+        </div>
+
+        <div class="brandx__color-group" style="margin-top: 2rem;">
+            <h3 class="brandx__group-label">Slide Color Palette</h3>
+            <div class="brandx__swatches">
+                <article class="brandx__swatch" style="--color: #00A7A0"><div class="brandx__swatch-chip"></div><div class="brandx__swatch-info"><strong>Primary teal</strong><code>#00A7A0</code><span>Headers, highlights, positive bars</span></div></article>
+                <article class="brandx__swatch" style="--color: #DDF4F2"><div class="brandx__swatch-chip brandx__swatch-chip--border"></div><div class="brandx__swatch-info"><strong>Soft teal</strong><code>#DDF4F2</code><span>KPI card backgrounds</span></div></article>
+                <article class="brandx__swatch" style="--color: #DCEAF8"><div class="brandx__swatch-chip brandx__swatch-chip--border"></div><div class="brandx__swatch-info"><strong>Soft blue</strong><code>#DCEAF8</code><span>Secondary segments</span></div></article>
+                <article class="brandx__swatch" style="--color: #ECE7FA"><div class="brandx__swatch-chip brandx__swatch-chip--border"></div><div class="brandx__swatch-info"><strong>Soft purple</strong><code>#ECE7FA</code><span>Alternate KPI / distribution</span></div></article>
+            </div>
+        </div>
+
+        <aside class="brandx__rationale" style="margin-top: 1.5rem;">
+            <strong>White space ratio:</strong> 40–50% canvas trống trên mỗi slide. Không fill hết viewport.
+            <strong>Combinations:</strong> White canvas + teal accent + 1 pastel block + 1 chart. Tối đa 3 màu functional per slide.
+        </aside>
+    </section>
+
+    {# ===== 08. UI EXAMPLES ===== #}
+    <section id="examples" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">08</span>
+            <h2 class="brandx__section-title">UI Examples</h2>
+            <p class="brandx__section-desc">
+                Pattern reference — giải thích tại sao mỗi layout hoạt động trong ngữ cảnh investor / annual report.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>KPI cards</h4>
+                <p>Pastel fill + left accent cho phép quét nhanh 5–6 metrics trên 1 row. Số lớn = instant comprehension. Dùng cho stats pages, dashboard hero.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Waterfall charts</h4>
+                <p>Cho thấy contribution từng segment đến tổng. Phù hợp revenue bridge, EBITDA walk. Institutional standard — không cần giải thích legend phức tạp.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Hero blocks</h4>
+                <p>1 headline + 1 hero number + 2 supporting KPIs. Whitespace rộng. Cover slide và landing section cho annual report pages.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Investor slides</h4>
+                <p>Agenda → KPI → Segment waterfall → Financial table → Summary. Nhịp điệu cố định, predictable. Board-ready.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Annual report layouts</h4>
+                <p>Scroll chapter với anchor nav. Mỗi chapter = 1 segment. Interactive AR 2025 là reference implementation.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Distribution charts</h4>
+                <p>Donut hoặc horizontal bar cho portfolio mix (energy / water / urban). Muted palette, teal highlight cho largest segment.</p>
+            </article>
+        </div>
+    </section>
+
+    {# ===== 09. ANTI-PATTERNS ===== #}
+    <section id="anti-patterns" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">09</span>
+            <h2 class="brandx__section-title">Anti-patterns</h2>
+            <p class="brandx__section-desc">
+                Những gì S-DNA <strong>không</strong> là. Tránh khi borrow selectively cho future pages.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp"><h4>Crypto dashboard</h4><p>Neon greens, pulsing numbers, dark bg overload.</p></article>
+            <article class="brandx__comp"><h4>AdminLTE</h4><p>Sidebar + boxed widgets + saturated Bootstrap palette.</p></article>
+            <article class="brandx__comp"><h4>Dark neon</h4><p>Glow effects, cyber aesthetic, low readability.</p></article>
+            <article class="brandx__comp"><h4>Glassmorphism</h4><p>Blur layers, frosted cards — conflicts with data clarity.</p></article>
+            <article class="brandx__comp"><h4>Too many colors</h4><p>Rainbow charts, 8+ accent hues per view.</p></article>
+            <article class="brandx__comp"><h4>Huge shadows</h4><p>Drop shadow 20px+ — visual noise, not depth.</p></article>
+            <article class="brandx__comp"><h4>Rounded 30px pills</h4><p>Startup aesthetic — không institutional.</p></article>
+            <article class="brandx__comp"><h4>3D charts</h4><p>Perspective distortion, unreadable values.</p></article>
+            <article class="brandx__comp"><h4>Gradient overload</h4><p>Multi-stop gradients on cards, headers, charts.</p></article>
+            <article class="brandx__comp"><h4>Dribbble effects</h4><p>Fancy micro-interactions, decorative motion.</p></article>
+            <article class="brandx__comp"><h4>PowerPoint templates</h4><p>Stock gradients everywhere, clip-art icons.</p></article>
+            <article class="brandx__comp"><h4>Bootstrap admin</h4><p>Generic dashboard shells, dense tables without hierarchy.</p></article>
+        </div>
+    </section>
+
+    {# ===== 10. COMPATIBILITY ===== #}
+    <section id="compatibility" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">10</span>
+            <h2 class="brandx__section-title">Compatibility Rule</h2>
+            <p class="brandx__section-desc">
+                S-DNA là optional theme — documentation and inspiration. Không redesign existing pages.
+                Không SCSS migration. Không automatic application.
+            </p>
+        </header>
+
+        <table class="brandx__spacing-table">
+            <thead>
+                <tr><th>Priority</th><th>Source</th><th>Role</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Branding Guideline</td><td>Default design DNA — luôn ưu tiên cao nhất</td></tr>
+                <tr><td>2</td><td>Existing Design DNA</td><td>Pattern đã triển khai trên blog</td></tr>
+                <tr><td>3</td><td>Existing component library</td><td>Reuse trước khi tạo mới</td></tr>
+                <tr><td>4</td><td>S-DNA (this page)</td><td>Optional — borrow selectively</td></tr>
+            </tbody>
+        </table>
+
+        <div class="brandx__comp-grid" style="margin-top: 1.5rem;">
+            <article class="brandx__comp">
+                <h4>Use S-DNA when</h4>
+                <p>Stats pages · dashboards · KPI-heavy sections · annual reports · investor slides · company profile pages.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Do NOT use S-DNA for</h4>
+                <p>General blog articles · navbar · footer · sidebar · existing pages redesign · global theme swap.</p>
+            </article>
+        </div>
+
+        <aside class="brandx__rationale">
+            📌 <strong>This page is documentation only.</strong><br>
+            • Do not apply S-DNA globally.<br>
+            • Do not redesign existing pages merely because Sembcorp looks beautiful.<br>
+            • Borrow selectively when future KPI-heavy pages actually need it.<br>
+            • Preserve consistency above novelty.<br>
+            <strong>No new components · No SCSS · No shortcode · No dashboard changes · No layout changes.</strong>
+        </aside>
+
+        <aside class="brandx__rationale" style="margin-top: 1rem;">
+            <strong>“Guidelines first. Components later.”</strong><br>
+            <strong>“Evolution, not proliferation.”</strong><br>
+            <strong>“Beauty comes from hierarchy and whitespace, not colors and effects.”</strong><br>
+            <strong>“Think Sembcorp Annual Report × Apple Annual Report × Bloomberg × Stripe Docs × McKinsey, not AdminLTE or Crypto Dashboard.”</strong>
+        </aside>
+    </section>
+
+    <footer class="brandx__foot">
+        <p>S-DNA — Sembcorp Design DNA v1.0 · Documentation only</p>
+        <p>Companion to <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a> ·
+           Maintained by <a href="{{ config.base_url }}/about/">Duy Nguyen</a></p>
+    </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
