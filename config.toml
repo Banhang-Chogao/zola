@@ -74,25 +74,35 @@ menu = [
         { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
         { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
     ] },
+    # Công cụ — 3 NHÓM con (accordion): Content · Dashboard · Khác.
+    # Mỗi nhóm có 'children' riêng → submenu chỉ hiện 3 nhóm ở tầng 1, mỗi
+    # nhóm xổ/đóng để lộ tool con (không tràn màn hình, nhất là mobile).
+    # Thêm tool mới = thêm 1 dòng vào 'children' của nhóm phù hợp (giữ pattern).
     { name = "Công cụ", url = "$BASE_URL/editor", children = [
-        { url = "$BASE_URL/editor",    name = "Viết bài" },
-        { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
-        { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
-        { url = "$BASE_URL/converter", name = "Korean Converter" },
-        { url = "$BASE_URL/changelog", name = "Changelog" },
-        { url = "$BASE_URL/insights",  name = "Insights" },
-        { url = "$BASE_URL/ad-report", name = "AD-Report" },
-        { url = "$BASE_URL/ad-report-v2", name = "🔥 Ad-Report V2" },
-        { url = "$BASE_URL/authority-report", name = "Authority Report" },
-        { url = "$BASE_URL/scoring",   name = "Scoring" },
-        { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
-        { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
-        { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
-        { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
-        { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
-        { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
-        { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
-        { url = "$BASE_URL/font",      name = "Font Guideline" },
+        { name = "Content", children = [
+            { url = "$BASE_URL/editor",    name = "Viết bài" },
+            { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
+            { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
+            { url = "$BASE_URL/converter", name = "Korean Converter" },
+        ] },
+        { name = "Dashboard", children = [
+            { url = "$BASE_URL/insights",  name = "Insights" },
+            { url = "$BASE_URL/ad-report", name = "AD-Report" },
+            { url = "$BASE_URL/ad-report-v2", name = "🔥 Ad-Report V2" },
+            { url = "$BASE_URL/authority-report", name = "Authority Report" },
+            { url = "$BASE_URL/scoring",   name = "Scoring" },
+            { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
+            { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
+            { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
+            { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+        ] },
+        { name = "Khác", children = [
+            { url = "$BASE_URL/changelog", name = "Changelog" },
+            { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
+            { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
+            { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
+            { url = "$BASE_URL/font",      name = "Font Guideline" },
+        ] },
     ] },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
         { url = "$BASE_URL/about",            name = "Giới thiệu" },
