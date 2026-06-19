@@ -112,21 +112,23 @@ class VipzoneApiTests(unittest.TestCase):
         res = self.client.get("/auth/me")
         self.assertEqual(res.status_code, 401)
 
-    def test_auth_me_supervip_role(self) -> None:
+    def test_auth_me_superadmin_role(self) -> None:
         db = get_db()
         sid = db.create_cms_session(
             {
-                "email": "tamsudev.com@gmail.com",
+                "email": "admin@example.com",
                 "username": "banhang-chogao",
                 "name": "Admin",
                 "avatar": "",
+                "is_super": True,
+                "is_superadmin": True,
             },
             3600,
         )
         res = self.client.get("/auth/me", headers={"Authorization": f"Bearer {sid}"})
         self.assertEqual(res.status_code, 200)
         body = res.json()
-        self.assertEqual(body["role"], "supervip")
+        self.assertEqual(body["role"], "superadmin")
         self.assertTrue(body["is_super"])
         self.assertEqual(body["username"], "banhang-chogao")
 
@@ -147,7 +149,12 @@ class VipzoneApiTests(unittest.TestCase):
     def test_auth_logout_clears_session(self) -> None:
         db = get_db()
         sid = db.create_cms_session(
-            {"email": "tamsudev.com@gmail.com", "username": "banhang-chogao", "name": "Admin"},
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+                "is_super": True,
+            },
             3600,
         )
         res = self.client.post("/auth/logout", headers={"Authorization": f"Bearer {sid}"})
@@ -158,7 +165,12 @@ class VipzoneApiTests(unittest.TestCase):
     def test_vipzone_me_shares_auth_session(self) -> None:
         db = get_db()
         sid = db.create_cms_session(
-            {"email": "tamsudev.com@gmail.com", "username": "banhang-chogao", "name": "Admin"},
+            {
+                "email": "admin@example.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+                "is_super": True,
+            },
             3600,
         )
         headers = {"Authorization": f"Bearer {sid}"}
@@ -167,7 +179,7 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertEqual(auth_res.status_code, 200)
         self.assertEqual(me_res.status_code, 200)
         self.assertEqual(auth_res.json()["role"], me_res.json()["role"])
-        self.assertEqual(me_res.json()["role"], "supervip")
+        self.assertEqual(me_res.json()["role"], "superadmin")
 
 
 class VipzoneDbTests(unittest.TestCase):
@@ -189,11 +201,11 @@ class VipzoneDbTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             db = VipzoneDB(Path(tmp) / "sess.db")
             sid = db.create_cms_session(
-                {"email": "tamsudev.com@gmail.com", "username": "banhang-chogao", "name": "Admin"},
+                {"email": "admin@example.com", "username": "banhang-chogao", "name": "Admin"},
                 3600,
             )
             got = db.get_cms_session(sid)
-            self.assertEqual(got["email"], "tamsudev.com@gmail.com")
+            self.assertEqual(got["email"], "admin@example.com")
             db.delete_cms_session(sid)
             self.assertIsNone(db.get_cms_session(sid))
 

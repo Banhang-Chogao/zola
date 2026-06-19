@@ -80,7 +80,7 @@ ADMIN_EMAILS = {
     e.strip().lower()
     for e in os.getenv(
         "ADMIN_EMAILS",
-        "292648126+Banhang-Chogao@users.noreply.github.com,tamsudev.com@gmail.com",
+        "292648126+Banhang-Chogao@users.noreply.github.com",
     ).split(",")
     if e.strip()
 }
@@ -202,14 +202,12 @@ def _is_allowed_user(username: str) -> bool:
 
 
 def is_super_session(session: dict) -> bool:
-    """
-    Super admin = chủ blog (GitHub login hoặc email nằm trong whitelist admin).
-    Đăng nhập GitHub thành công với tài khoản whitelisted (vd banhang-chogao /
-    tamsudev.com@gmail.com) → quyền cao nhất. Dùng cho field is_super ở /auth/me.
-    """
-    email = (session.get("email") or "").strip().lower()
-    username = (session.get("username") or "").strip().lower()
-    return (email in ADMIN_EMAILS) or (username in ADMIN_USERNAMES)
+    """Superadmin from OAuth-time GitHub repo permission (stored in session) or username env fallback."""
+    if session.get("is_superadmin") or session.get("is_super"):
+        return True
+    from github_repo import username_env_fallback
+
+    return username_env_fallback(session.get("username"))
 
 
 async def _touch_session(r, sid: str) -> None:
@@ -315,8 +313,13 @@ async def auth_callback(code: str = "", state: str = ""):
             if e.get("verified") and e.get("email")
         }
 
-        if not _is_allowed_email(verified_emails) and not _is_allowed_user(user.get("login", "")):
+        username = user.get("login", "")
+        if not _is_allowed_email(verified_emails) and not _is_allowed_user(username):
             return _redirect_with_error("access_denied", return_to)
+
+        from github_repo import check_repo_superadmin
+
+        is_super = await check_repo_superadmin(client, access_token, username)
 
     # Tạo session opaque — sid là 43 ký tự URL-safe, không carry info,
     # không thể brute force trong thời gian session sống.
@@ -327,6 +330,8 @@ async def auth_callback(code: str = "", state: str = ""):
         "username":     user.get("login", ""),
         "name":         user.get("name") or user.get("login", ""),
         "avatar":       user.get("avatar_url", ""),
+        "is_super":     is_super,
+        "is_superadmin": is_super,
         # access_token được lưu server-side cho tương lai (vd commit qua API).
         # KHÔNG bao giờ trả về client qua endpoint /auth/me.
         "access_token": access_token,
@@ -378,9 +383,8 @@ async def auth_me(authorization: str = Header(default="")):
             out["vip_expires_at"] = vz["vip_expires_at"]
     except HTTPException:
         pass
-    # Super admin luôn có quyền cao nhất kể cả khi VIPZone API không phản hồi.
-    if out["is_super"] and out["role"] != "supervip":
-        out["role"] = "supervip"
+    if out["is_super"] and out["role"] not in ("superadmin", "supervip"):
+        out["role"] = "superadmin"
     return out
 
 

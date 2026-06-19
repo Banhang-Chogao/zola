@@ -109,7 +109,7 @@
   }
 
   function isSupervip() {
-    return gscRole === "supervip";
+    return gscRole === "superadmin" || gscRole === "supervip";
   }
 
   function applySupervipUi() {

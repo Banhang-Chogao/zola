@@ -13,7 +13,8 @@ from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
 from db import VipzoneDB
-from roles import is_supervip, resolve_role
+from github_repo import check_repo_superadmin
+from roles import resolve_role, username_is_superadmin
 
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
 BACKEND_URL = os.getenv(
@@ -45,7 +46,7 @@ class AuthMeResponse(BaseModel):
     username: str = ""
     name: str = ""
     avatar: str = ""
-    role: Literal["user", "vip", "supervip"] = "user"
+    role: Literal["user", "vip", "superadmin"] = "user"
     is_super: bool = False
     vip_plan: str | None = None
     vip_expires_at: str | None = None
@@ -61,13 +62,6 @@ def is_admin(email: str | None, username: str | None) -> bool:
     if email and email.lower() in ADMIN_EMAILS:
         return True
     return False
-
-
-def can_oauth_login(email: str | None, username: str | None) -> bool:
-    # CMS write auth (reset 2026-06-19): SUPERUSER ONLY. Quyền viết/sửa/xoá bài
-    # chỉ dành cho superuser (SUPERVIP whitelist). VIP/admin thường KHÔNG được
-    # cấp CMS session → không thấy & không dùng được action ghi. Reuse is_supervip.
-    return is_supervip(email, username)
 
 
 def normalize_return_to(return_to: str) -> str:
@@ -121,27 +115,31 @@ async def cms_profile_from_session(db: VipzoneDB, authorization: str) -> dict[st
         raise HTTPException(401, "invalid_cms_session")
     email = session.get("email")
     username = session.get("username") or ""
+    # is_super resolved at OAuth time via GitHub repo permission; fall back to the
+    # env username whitelist for legacy sessions issued before this field existed.
+    is_super = bool(session.get("is_super")) or username_is_superadmin(username)
     return {
         "email": email,
         "username": username,
         "name": session.get("name") or username,
         "avatar": session.get("avatar") or "",
-        "is_super": is_supervip(email, username),
+        "is_super": is_super,
     }
 
 
 def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, Any]:
     email = profile.get("email") or ""
     username = profile.get("username") or ""
+    is_super = bool(profile.get("is_super"))
     vip_row = db.get_active_vip(email)
-    role = resolve_role(email, username, is_vip=vip_row is not None)
+    role = resolve_role(is_super, is_vip=vip_row is not None)
     out: dict[str, Any] = {
         "email": profile.get("email"),
         "username": username,
         "name": profile.get("name") or username,
         "avatar": profile.get("avatar") or "",
         "role": role,
-        "is_super": is_supervip(email, username),
+        "is_super": is_super,
     }
     if vip_row:
         out["vip_plan"] = vip_row.get("plan")
@@ -166,7 +164,7 @@ async def auth_login(return_to: str = "/tools/vipzone-admin/") -> RedirectRespon
     db.save_oauth_state(state, rt)
     params = urlencode({
         "client_id": GH_CLIENT_ID,
-        "scope": "read:user user:email",
+        "scope": "read:user user:email public_repo",
         "state": state,
         "redirect_uri": f"{BACKEND_URL}/auth/callback",
         "allow_signup": "false",
@@ -232,14 +230,12 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
             if e.get("verified") and e.get("email")
         }
         username = user.get("login", "")
-        # SUPERUSER ONLY: nếu username là superuser → mọi email verified hợp lệ;
-        # nếu không, chỉ chấp nhận email nằm trong SUPERVIP whitelist.
-        matched_email = next((e for e in verified_emails if is_supervip(e, username)), None)
-        if matched_email is None and is_supervip(None, username):
-            matched_email = next(iter(verified_emails), None)
-
-        if not can_oauth_login(matched_email, username):
+        # SUPERUSER ONLY: CMS write = superadmin, defined by GitHub repo permission
+        # (admin/owner on SUPERADMIN_REPO) — env username list is fallback only.
+        is_super = await check_repo_superadmin(client, access_token, username)
+        if not is_super:
             return redirect_with_error("access_denied", return_to)
+        matched_email = next(iter(verified_emails), None)
 
     sid = db.create_cms_session(
         {
@@ -247,6 +243,8 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
             "username": username,
             "name": user.get("name") or username,
             "avatar": user.get("avatar_url", ""),
+            "is_super": is_super,
+            "is_superadmin": is_super,
         },
         SESSION_TTL,
     )
