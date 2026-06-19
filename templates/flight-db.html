@@ -4,6 +4,7 @@
 
 {% block extra_head %}
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+    <meta name="zola-aviationstack-key" content="{% if config.extra.aviationstack_api_key %}{{ config.extra.aviationstack_api_key | safe }}{% endif %}">
 {% endblock %}
 
 {% block main %}
@@ -107,7 +108,7 @@
         <div class="flight-db__field flight-db__field--typeahead">
           <label for="fdb-s-combinator">Combinator</label>
           <div class="flight-db__typeahead">
-            <input id="fdb-s-combinator" type="text" placeholder="ICNPR467" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fdb-s-combinator-list">
+            <input id="fdb-s-combinator" type="text" readonly placeholder="Auto-generated" aria-live="polite" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="fdb-s-combinator-list">
             <ul id="fdb-s-combinator-list" class="flight-db__suggestions" role="listbox" hidden></ul>
           </div>
         </div>

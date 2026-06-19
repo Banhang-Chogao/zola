@@ -224,6 +224,9 @@
       color: var(--fdb-ink);
       cursor: pointer;
       transition: background 0.15s ease, color 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
 
       &:hover,
       &.is-active {
@@ -231,6 +234,31 @@
         color: var(--fdb-teal);
       }
     }
+  }
+
+  &__suggest-main {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  &__suggest-sub {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--fdb-muted);
+  }
+
+  &__result-note {
+    font-size: 0.82rem;
+    color: var(--fdb-muted);
+    margin: 0 0 0.75rem;
+    text-align: center;
+  }
+
+  &__badge--api {
+    font-size: 0.68rem;
+    margin-left: 0.35rem;
+    background: rgba(0, 167, 160, 0.18);
+    vertical-align: middle;
   }
 
   &__actions {
