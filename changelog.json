@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(flight-db): time pickers, combinator sync, API enrich",
+      "tag": "chore",
+      "lines_added": 447,
+      "lines_removed": 24,
+      "highlights": [
+        "Native time pickers (Add Flight)",
+        "Search autocomplete + combinator auto-sync (buildCombinator)",
+        "AviationStack/OpenSky API enrich with 30m cache",
+        "Local DB remains source of truth"
+      ],
+      "pr": 487
+    },
+    {
+      "date": "2026-06-19",
       "title": "content: add 19 topic authority cluster articles",
       "tag": "chore",
       "lines_added": 2244,
