@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(vipzone): Render backend API + picker catalog",
+      "tag": "chore",
+      "lines_added": 2299,
+      "lines_removed": 323,
+      "highlights": [
+        "FastAPI VIPZone backend (services/vipzone) — payment requests, redeem codes, admin stats/picker/users",
+        "render.yaml blueprint entry blog-vipzone-api (SQLite disk, CMS auth bridge)",
+        "Picker catalog build step in QA + deploy pipelines",
+        "Admin JS wired to live API when vipzone_api_url is set",
+        "python3 -m unittest services/vipzone/test_main.py -v"
+      ],
+      "pr": 502
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(vipzone): landing + admin panel",
       "tag": "chore",
       "lines_added": 1453,
