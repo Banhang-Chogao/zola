@@ -18,6 +18,9 @@ Admin (CMS GitHub session — Authorization: Bearer <cms_sid>):
   GET  /api/vipzone/admin/stats
   GET  /api/vipzone/admin/picker
   PUT  /api/vipzone/admin/picker
+
+Session (CMS GitHub session — Authorization: Bearer <cms_sid>):
+  GET  /api/vipzone/me
 """
 
 from __future__ import annotations
@@ -34,6 +37,7 @@ from pydantic import BaseModel, EmailStr, Field
 
 from catalog_loader import load_catalog, migrate_picks_sync
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
+from roles import is_supervip, resolve_role
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://banhang-chogao.github.io")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
@@ -112,6 +116,31 @@ async def require_admin(authorization: str = Header(default="")) -> dict[str, An
     return profile
 
 
+async def require_supervip(authorization: str = Header(default="")) -> dict[str, Any]:
+    profile = await _cms_profile(authorization)
+    if not is_supervip(profile.get("email"), profile.get("username")):
+        raise HTTPException(403, "supervip_required")
+    return profile
+
+
+def _role_payload(profile: dict[str, Any]) -> dict[str, Any]:
+    email = profile.get("email") or ""
+    username = profile.get("username") or ""
+    vip_row = get_db().get_active_vip(email)
+    role = resolve_role(email, username, is_vip=vip_row is not None)
+    out: dict[str, Any] = {
+        "email": profile.get("email"),
+        "username": username,
+        "name": profile.get("name"),
+        "avatar": profile.get("avatar"),
+        "role": role,
+    }
+    if vip_row:
+        out["vip_plan"] = vip_row.get("plan")
+        out["vip_expires_at"] = vip_row.get("expires_at")
+    return out
+
+
 class PaymentRequestIn(BaseModel):
     email: EmailStr
     plan: str = Field(pattern=r"^(monthly|semiannual)$")
@@ -173,6 +202,12 @@ def payment_request(body: PaymentRequestIn) -> dict[str, Any]:
         "message": "Đã gửi yêu cầu kích hoạt.",
         "momo_link": momo,
     }
+
+
+@app.get("/api/vipzone/me")
+async def vipzone_me(authorization: str = Header(default="")) -> dict[str, Any]:
+    profile = await _cms_profile(authorization)
+    return _role_payload(profile)
 
 
 @app.post("/api/vipzone/redeem")

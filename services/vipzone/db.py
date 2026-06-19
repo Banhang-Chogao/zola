@@ -197,6 +197,30 @@ class VipzoneDB:
             ).fetchall()
         return [dict(r) for r in rows]
 
+    def get_active_vip(self, email: str) -> dict[str, Any] | None:
+        email = email.lower().strip()
+        if not email:
+            return None
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT email, plan, expires_at, active, activated_at FROM vip_users WHERE email = ?",
+                (email,),
+            ).fetchone()
+        if not row or not row["active"]:
+            return None
+        try:
+            exp = datetime.strptime(row["expires_at"], "%Y-%m-%dT%H:%M:%SZ").replace(
+                tzinfo=timezone.utc
+            )
+            if exp <= datetime.now(timezone.utc):
+                return None
+        except ValueError:
+            pass
+        return dict(row)
+
+    def is_active_vip(self, email: str) -> bool:
+        return self.get_active_vip(email) is not None
+
     def deactivate_vip(self, email: str) -> bool:
         email = email.lower().strip()
         with self._conn() as conn:

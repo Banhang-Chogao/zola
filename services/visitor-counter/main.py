@@ -57,6 +57,7 @@ from fastapi.responses import RedirectResponse
 import redis.asyncio as redis
 
 from gsc_routes import configure as configure_gsc, router as gsc_router
+from vipzone_auth import fetch_vipzone_me, require_supervip as _require_supervip_impl
 
 
 # ============= Configuration =============
@@ -327,6 +328,7 @@ async def auth_me(authorization: str = Header(default="")):
     """
     Validate session, trả profile public (KHÔNG bao gồm access_token).
     Client gọi mỗi lần load /editor/ để check session còn valid.
+    Role (user · vip · supervip) resolved via VIPZone API when available.
     """
     sid = _extract_sid(authorization)
     r = await get_redis()
@@ -334,12 +336,21 @@ async def auth_me(authorization: str = Header(default="")):
     if not raw:
         raise HTTPException(401, "invalid_session")
     s = json.loads(raw)
-    return {
+    out = {
         "email":    s.get("email"),
         "username": s.get("username"),
         "name":     s.get("name"),
         "avatar":   s.get("avatar"),
+        "role":     "user",
     }
+    try:
+        vz = await fetch_vipzone_me(authorization)
+        out["role"] = vz.get("role") or "user"
+        if vz.get("vip_expires_at"):
+            out["vip_expires_at"] = vz["vip_expires_at"]
+    except HTTPException:
+        pass
+    return out
 
 
 @app.post("/auth/logout")
@@ -369,9 +380,15 @@ async def require_session(authorization: str) -> dict:
     return json.loads(raw)
 
 
+async def require_supervip(authorization: str) -> dict:
+    """GSC destructive actions — VIPZone role must be supervip."""
+    return await _require_supervip_impl(authorization, require_session)
+
+
 configure_gsc(
     get_redis=get_redis,
     require_session=require_session,
+    require_supervip=require_supervip,
     build_blog_url=_build_blog_url,
 )
 app.include_router(gsc_router)

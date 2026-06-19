@@ -662,6 +662,26 @@
     border-top: 1px dashed var(--c-border);
   }
 
+  .seo-reality__gsc-admin-tools {
+    margin-top: 0.65rem;
+    padding-top: 0.55rem;
+    border-top: 1px dashed var(--c-border);
+  }
+
+  .seo-reality__gsc-debug-out {
+    margin: 0.5rem 0 0;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.68rem;
+    line-height: 1.45;
+    border-radius: 10px;
+    border: 1px solid var(--c-border);
+    background: var(--c-bg-soft);
+    color: var(--c-text-body);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
   /* ---- Buttons — S-DNA pill system ---- */
   .seo-reality__gsc-btn {
     position: relative;
