@@ -1,25 +1,63 @@
 {
-  "updated_at": "2026-06-19T09:28:21Z",
+  "updated_at": "2026-06-19T09:29:54Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 26,
+    "today": 28,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
       "feature": 71,
+      "unknown": 21,
       "qa": 1,
       "fix": 50,
-      "unknown": 21,
       "chore": 45,
       "content": 9,
       "ci": 3
     }
   },
   "merges": [
+    {
+      "pr_number": 489,
+      "pr_title": "feat(baochi): bài \"Điểm thi tuyển sinh lớp 10 TP.HCM 2026\" (SEO A+)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/489",
+      "merged_at": "2026-06-19T09:26:17Z",
+      "merge_commit_sha": "66d6eaeccc0ac54a729ab53f938895d19f6a059b",
+      "merge_commit_short": "66d6eae",
+      "head_branch": "claude/sleepy-carson-13c9yp",
+      "summary_vi": "Tin thời sự **19/6/2026**: điểm thi tuyển sinh lớp 10 TP.HCM 2026.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 490,
+      "pr_title": "Cập nhật rule báo cáo PR sau merge: 3 quy tắc enforceable (no watch l…",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/490",
+      "merged_at": "2026-06-19T09:26:02Z",
+      "merge_commit_sha": "df88a060fbc1caf2dc540a526588d0c2696248fe",
+      "merge_commit_short": "df88a06",
+      "head_branch": "claude/awesome-gauss-edm7ve",
+      "summary_vi": "…oop, luôn summary, vaccine on fail)",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 491,
       "pr_title": "feat(bhtn): trang tính trợ cấp thất nghiệp 2026 (/tools/bhtn/)",
@@ -35,9 +73,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 790,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817354903",
-      "build_conclusion": "in_progress"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 488,
@@ -54,9 +92,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 789,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27815705934",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 487,
@@ -73,9 +111,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 788,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27815070857",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 486,
@@ -92,9 +130,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 777,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27810545089",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 483,
@@ -111,9 +149,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 775,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27809509975",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 485,
@@ -149,9 +187,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 774,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807302117",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 482,
@@ -168,9 +206,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 773,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807032336",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 476,
@@ -187,9 +225,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 772,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806783908",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 481,
@@ -206,9 +244,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 771,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806745083",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 479,
@@ -225,9 +263,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 770,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806519657",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 477,
@@ -244,9 +282,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 769,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806360057",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 478,
@@ -263,9 +301,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 768,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806349723",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 475,
@@ -282,9 +320,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 767,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27805958608",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 474,
@@ -301,9 +339,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 766,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27805877571",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 473,
@@ -524,44 +562,6 @@
       "head_branch": "claude/vietinbank-seo-series-l87jtv",
       "summary_vi": "Thêm **Daily Vaccine Autofixer** + shortcut chạy ngay `vacxin11` — chạy bộ vaccine trong `CLAUDE.md`, quét repo, auto-fix lỗi an toàn, QA/build, lưu log, cập nhật report.",
       "change_type": "feature",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 458,
-      "pr_title": "feat(vaccine): Daily Vaccine Autofixer + shortcut vacxin11 (V11)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/458",
-      "merged_at": "2026-06-18T23:33:01Z",
-      "merge_commit_sha": "66a5a067387d1c0de7ba15e47b3e018213375c46",
-      "merge_commit_short": "66a5a06",
-      "head_branch": "claude/vietinbank-seo-series-l87jtv",
-      "summary_vi": "Thêm **Daily Vaccine Autofixer** + shortcut chạy ngay `vacxin11` — chạy bộ vaccine trong `CLAUDE.md`, quét repo, auto-fix lỗi an toàn, QA/build, lưu log, cập nhật report.",
-      "change_type": "feature",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 461,
-      "pr_title": "perf(fonts): WOFF2 + trim preload — cut mobile font payload 286KB→72KB (Mobile UX Phase 1)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/461",
-      "merged_at": "2026-06-18T23:30:55Z",
-      "merge_commit_sha": "1cdb846431c5ea108f962991b913f6788a996aa3",
-      "merge_commit_short": "1cdb846",
-      "head_branch": "hotfix/mobile-fonts-woff2",
-      "summary_vi": "Fonts were the **single largest resource on mobile (~282 KiB)** and the chief **LCP bottleneck**. `base.html` preloaded **3 raw Ericsson Hilda TTFs** (Medium + Bold + ExtraBold ≈ 286 KB) into the `<head>`, starving the L",
-      "change_type": "unknown",
       "files_changed": null,
       "additions": null,
       "deletions": null,
