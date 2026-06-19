@@ -741,6 +741,7 @@
                 <script type="application/json" id="posts-data">
                 [
                 {%- for page in root_pages -%}
+                    {%- set jp_cats = page.taxonomies.categories | default(value=[]) -%}
                     {
                         "title": {{ page.title | json_encode | safe }},
                         "permalink": {{ page.permalink | json_encode | safe }},
@@ -748,13 +749,51 @@
                         "thumbnail": {{ img::thumb_src(thumb=page.extra.thumbnail | default(value="")) | json_encode | safe }},
                         "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
                         "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
-                        "featured_at": {{ page.extra.featured_at | default(value="") | json_encode | safe }}
+                        "featured_at": {{ page.extra.featured_at | default(value="") | json_encode | safe }},
+                        "premium": {% if page.extra.premium or "premium" in jp_cats %}true{% else %}false{% endif %},
+                        "price": {{ page.extra.price | default(value=0) | int }}
                     }{%- if not loop.last -%},{%- endif -%}
                 {%- endfor -%}
                 ]
                 </script>
 
                 <aside class="sidebar">
+                    {# ===== PREMIUM POSTS — S-DNA CTA widget (ngay TRÊN Featured) =====
+                       Liệt kê tối đa 10 bài premium (category "premium" HOẶC extra.premium),
+                       random reshuffle mỗi lần load qua sidebar.js (no-duplicate). Server render
+                       sẵn 10 bài (no-JS fallback + chống CLS). ẨN hẳn section nếu KHÔNG có bài
+                       premium nào. Click bài → trang bài → paywall flow hiện có (Momo unlock). #}
+                    {% set_global premium_posts = [] %}
+                    {% for page in root_pages %}
+                        {% set p_cats = page.taxonomies.categories | default(value=[]) %}
+                        {% if page.extra.premium or "premium" in p_cats %}
+                            {% set_global premium_posts = premium_posts | concat(with=[page]) %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if premium_posts | length > 0 %}
+                    <section class="sidebar-block premium-posts" data-widget="premium">
+                        <h3 class="sidebar-label sidebar-label--premium">💎 Premium Posts</h3>
+                        <p class="premium-posts__intro">Nội dung chuyên sâu — mở khóa nhanh qua Momo.</p>
+                        <ul class="premium-list" data-target="premium">
+                            {% for page in premium_posts | slice(end=10) %}
+                            {% set p_price = page.extra.price | default(value=0) | int %}
+                            <li class="premium-item">
+                                <a class="premium-item__link" href="{{ page.permalink }}">
+                                    <span class="premium-item__icon" aria-hidden="true">💎</span>
+                                    <span class="premium-item__main">
+                                        <span class="premium-item__title">{{ page.title }}</span>
+                                        <span class="premium-item__badges">
+                                            <span class="premium-item__badge premium-item__badge--premium">💎 Premium</span>
+                                            {% if p_price > 0 %}<span class="premium-item__badge premium-item__badge--price">{{ p_price }}đ</span>{% endif %}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                    {% endif %}
+
                     {# FEATURED: manual extra.featured=true thắng auto-pick. CMS publish
                        sẽ demote các bài featured cũ để chỉ còn đúng một override thủ công. #}
                     {% set_global featured = false %}
