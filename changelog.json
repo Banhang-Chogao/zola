@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(home): move Google Rank + SEO Reality to \"📊 Khám phá thêm\" band …",
+      "tag": "refactor",
+      "lines_added": 119,
+      "lines_removed": 0,
+      "highlights": [
+        "base.html: wrap the two widget calls in an overridable nested block {% block sidebar_seo_widgets %}. Default (article/section pages) keeps them in the sidebar exactly as before.",
+        "index.html: empty-override that block (so the homepage sidebar drops them — no duplication) and re-call the same macros inside a \"📊 Khám phá thêm\" band. Guarded by load_data so the titled band never r",
+        "sass/_discover-more.scss (new): scoped container only — widgets keep their own .sidebar-block / google-rank / seo-reality skins (component reuse). Desktop = responsive auto-fit grid/cards; mobile (≤72"
+      ],
+      "pr": 498
+    },
+    {
+      "date": "2026-06-19",
       "title": "docs(shortcuts): add fixrule8 conflict scanner shortcut",
       "tag": "chore",
       "lines_added": 75,
