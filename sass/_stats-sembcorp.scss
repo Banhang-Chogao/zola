@@ -1,0 +1,208 @@
+/* ===== STATS — SEMBCORP investor-slide skin ==============================
+   Premium annual-report visual for the Web Vitals + analytics stats page,
+   matching the H-Dashboard "Sembcorp investor-slide" language: white cards,
+   teal palette, large calm KPI numbers, soft borders, low visual noise.
+
+   This is an ADDITIVE skin layered over _stats.scss — every rule is scoped
+   under `.stats--sembcorp` (the wrapper on templates/stats.html), so it never
+   touches global selectors or any other page. Cards stay WHITE with fixed dark
+   ink even in OS dark mode (same intentional choice as _h-dashboard.scss). */
+
+.stats--sembcorp {
+  /* ---- Fixed Sembcorp palette tokens (investor-slide stays light) ---- */
+  --st-teal: #00a69d;
+  --st-teal-dark: #007d76;
+  --st-teal-deep: #006b65;
+  --st-teal-pale: #b8e8e4;
+  --st-teal-fill: rgba(0, 166, 157, 0.10);
+  --st-ink: #0f1b2d;
+  --st-muted: #5b6573;
+  --st-card: #ffffff;
+  --st-soft: #f4f8f8;
+  --st-border: rgba(0, 166, 157, 0.22);
+  --st-border-soft: #e8ecef;
+  --st-radius: 16px;
+  --st-radius-sm: 12px;
+  --st-shadow: 0 4px 18px rgba(0, 55, 132, 0.06);
+  --st-shadow-hover: 0 8px 26px rgba(0, 55, 132, 0.11);
+  --st-green: #0a7d4f;
+  --st-amber: #c87d00;
+  --st-red: #e30613;
+
+  /* ---- Page header — teal accent, calm typography ---- */
+  .section-header__title {
+    color: var(--st-ink);
+    letter-spacing: -0.01em;
+  }
+
+  .section-subtitle {
+    color: var(--st-muted);
+    max-width: 60ch;
+  }
+
+  /* ---- Section headings — thin teal underline (not heavy black) ---- */
+  .stats-heading {
+    color: var(--st-ink);
+    border-bottom: 2px solid var(--st-teal);
+  }
+
+  .stats-help {
+    color: var(--st-muted);
+
+    a {
+      color: var(--st-teal-dark);
+      border-bottom-color: var(--st-border);
+    }
+
+    a:hover {
+      color: var(--st-teal);
+      border-bottom-color: var(--st-teal);
+    }
+  }
+
+  .stats-loading,
+  .stats-empty {
+    color: var(--st-muted);
+    background: var(--st-soft);
+    border-radius: var(--st-radius-sm);
+  }
+
+  /* ---- KPI summary cards — annual-report flavour ---- */
+  .summary-card {
+    background: var(--st-card);
+    border: 1px solid var(--st-border-soft);
+    border-radius: var(--st-radius);
+    padding: 1.5rem 1.25rem;
+    box-shadow: var(--st-shadow);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    /* teal top hairline — quiet brand signal */
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--st-teal), var(--st-teal-pale));
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--st-shadow-hover);
+    }
+
+    &__value {
+      color: var(--st-ink);
+      font-size: 2.2rem;
+    }
+
+    &__label {
+      color: var(--st-muted);
+    }
+  }
+
+  /* ---- Web Vitals cards — white card, rating accent kept ---- */
+  .vital-card {
+    background: var(--st-card);
+    border: 1px solid var(--st-border-soft);
+    border-left: 4px solid var(--st-border);
+    border-radius: var(--st-radius-sm);
+    box-shadow: var(--st-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--st-shadow-hover);
+    }
+
+    &--good { border-left-color: var(--st-teal); }
+    &--needs-improvement { border-left-color: var(--st-amber); }
+    &--poor { border-left-color: var(--st-red); }
+    &--unknown { border-left-color: var(--st-border); }
+
+    &__name { color: var(--st-teal-dark); }
+    &__value { color: var(--st-ink); }
+
+    &--good &__label { color: var(--st-teal-dark); }
+    &--needs-improvement &__label { color: var(--st-amber); }
+    &--poor &__label { color: var(--st-red); }
+  }
+
+  .vital-bar {
+    background: var(--st-soft);
+  }
+
+  .vital-bar__seg--good { background: var(--st-teal); }
+  .vital-bar__seg--ni { background: var(--st-amber); }
+  .vital-bar__seg--poor { background: var(--st-red); }
+
+  .vital-th--good { background: var(--st-teal-fill); color: var(--st-teal-dark); }
+
+  /* ---- 24h activity chart — teal gradient bars on a white card ---- */
+  .activity-chart {
+    background: var(--st-card);
+    border: 1px solid var(--st-border-soft);
+    border-radius: var(--st-radius-sm);
+    box-shadow: var(--st-shadow);
+  }
+
+  .activity-bar__fill {
+    background: linear-gradient(to top, var(--st-teal-dark), var(--st-teal));
+  }
+
+  /* override base red hover (higher specificity than .activity-bar:hover .fill) */
+  .activity-bar:hover .activity-bar__fill {
+    background: linear-gradient(to top, var(--st-teal-deep), var(--st-teal-dark));
+  }
+
+  /* ---- Event-type cards — teal-led accents ---- */
+  .event-type {
+    background: var(--st-card);
+    border: 1px solid var(--st-border-soft);
+    border-top: 3px solid var(--st-teal);
+    border-radius: var(--st-radius-sm);
+    box-shadow: var(--st-shadow);
+
+    &--click { border-top-color: var(--st-amber); }
+    &--view { border-top-color: var(--st-teal); }
+    &--full { border-top-color: var(--st-green); }
+
+    &__count { color: var(--st-ink); }
+    &__label { color: var(--st-muted); }
+  }
+
+  /* ---- Top-pages table — teal header + soft hover ---- */
+  .stats-table {
+    border: 1px solid var(--st-border-soft);
+    border-radius: var(--st-radius-sm);
+
+    th {
+      background: var(--st-soft);
+      color: var(--st-teal-dark);
+      border-bottom: 2px solid var(--st-border);
+    }
+
+    tbody tr:hover { background: var(--st-teal-fill); }
+
+    td a { color: var(--st-teal-dark); }
+    td a:hover code { color: var(--st-teal); }
+  }
+}
+
+/* ===== MOBILE (≤ 720px) — denser padding, smaller KPI numbers ===== */
+@media (max-width: 720px) {
+  .stats--sembcorp {
+    .summary-card {
+      padding: 1.15rem 1rem;
+    }
+
+    .summary-card__value {
+      font-size: 1.9rem;
+    }
+
+    .vital-card {
+      padding: 1.1rem;
+    }
+  }
+}
