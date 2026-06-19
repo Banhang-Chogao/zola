@@ -14,9 +14,10 @@ curl https://blog-vipzone-api.onrender.com/
 # → {"service":"vipzone","status":"ok",...}
 ```
 
-Không cần env vars thêm — blueprint đã bake CORS, MoMo links, VIPZone auth URL.
+Blueprint bake CORS, MoMo links, `VIPZONE_BACKEND_URL`. Cần set **`GITHUB_CLIENT_ID`** + **`GITHUB_CLIENT_SECRET`**
+(sync: false) — copy từ OAuth App GitHub (callback `https://blog-vipzone-api.onrender.com/auth/callback`).
 
-Admin endpoints dùng **VIPZone auth session** (`blog-vipzone-api` OAuth) — không cần OAuth riêng cho VIPZone.
+Admin OAuth chạy **trên chính `blog-vipzone-api`** (`/auth/login`, `/auth/callback`, `/auth/me`) — không dùng `blog-visitor-api`.
 
 ## Sau deploy
 
@@ -33,6 +34,10 @@ Push → auto-merge → GitHub Pages nhận meta `zola-vipzone-api`.
 | Method | Path | Auth |
 |--------|------|------|
 | GET | `/` | Public health |
+| GET | `/auth/login` | Public → GitHub OAuth |
+| GET | `/auth/callback` | GitHub redirect |
+| GET | `/auth/me` | Bearer session (`role`: user/vip/supervip) |
+| POST | `/auth/logout` | Bearer session |
 | POST | `/api/vipzone/payment-request` | Public |
 | POST | `/api/vipzone/redeem` | Public |
 | GET | `/api/vipzone/admin/stats` | CMS admin Bearer |

@@ -10,7 +10,10 @@
   var CMS_KEY = "zola-cms-session-id";
 
   var SUPER_USERNAMES = ["banhang-chogao"];
-  var SUPER_EMAILS = ["292648126+banhang-chogao@users.noreply.github.com"];
+  var SUPER_EMAILS = [
+    "292648126+banhang-chogao@users.noreply.github.com",
+    "tamsudev.com@gmail.com",
+  ];
 
   var PLANS = {
     monthly: { label: "Gói Tháng — 250.000 VND", days: 30, price: 250000 },
@@ -32,7 +35,7 @@
     return m && m.getAttribute("content") ? m.getAttribute("content").replace(/\/$/, "") : "";
   })();
 
-  var AUTH_API = (function () {
+  var AUTH_API = API || (function () {
     var m = document.querySelector('meta[name="vipzone-auth-api"]');
     return m && m.getAttribute("content") ? m.getAttribute("content").replace(/\/$/, "") : "https://blog-vipzone-api.onrender.com";
   })();
