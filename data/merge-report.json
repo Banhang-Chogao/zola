@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-19T22:43:27Z",
+  "updated_at": "2026-06-19T22:51:22Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 59,
+    "today": 60,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "feature": 82,
       "fix": 48,
-      "feature": 81,
-      "chore": 33,
+      "chore": 32,
       "unknown": 26,
       "ci": 3,
       "qa": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 525,
+      "pr_title": "feat(vu-mua): trang ứng dụng theo dõi bán nông sản + insights tại /vu…",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/525",
+      "merged_at": "2026-06-19T22:45:51Z",
+      "merge_commit_sha": "735c856cdc13c4db38cb11bd3ba9941899b13851",
+      "merge_commit_short": "735c856",
+      "head_branch": "claude/peaceful-knuth-afss0z",
+      "summary_vi": "Tạo trang dashboard độc lập /vu-mua/ (standalone tool, KHÔNG phải blog feed, không map vào /posting/ hay /categories/).",
+      "change_type": "feature",
+      "files_changed": 10,
+      "additions": 2273,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 820,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27851794720",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 523,
       "pr_title": "fix(ui): canh giãn ảnh placeholder đồng đều trên mobile",
@@ -662,9 +681,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 790,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817354903",
-      "build_conclusion": "cancelled"
+      "build_run_number": 792,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817383160",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 488,
@@ -3795,25 +3814,6 @@
       "files_changed": 2,
       "additions": 81,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 312,
-      "pr_title": "chore: refresh Build Dashboard data",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/312",
-      "merged_at": "2026-06-17T17:14:00Z",
-      "merge_commit_sha": "3bbff0df99c70329bde94e9225ccd0453d5c7abd",
-      "merge_commit_short": "3bbff0d",
-      "head_branch": "chore/build-dashboard-data",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 420,
-      "deletions": 354,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
