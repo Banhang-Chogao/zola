@@ -43,11 +43,9 @@ class RoleResolutionTests(unittest.TestCase):
     def test_user_role(self) -> None:
         self.assertEqual(roles.resolve_role(False, is_vip=False), "user")
 
-    def test_email_superadmin_hard_guarantee(self) -> None:
-        self.assertTrue(roles.email_is_superadmin("tamsudev.com@gmail.com"))
-        self.assertTrue(roles.is_superadmin({"email": "tamsudev.com@gmail.com", "username": "other"}))
-        self.assertTrue(roles.is_supervip("tamsudev.com@gmail.com", "other"))
-        self.assertEqual(roles.resolve_role(True, is_vip=False), "superadmin")
+    def test_no_email_superadmin(self) -> None:
+        self.assertFalse(roles.is_supervip("tamsudev.com@gmail.com", None))
+        self.assertFalse(roles.is_superadmin({"email": "tamsudev.com@gmail.com", "username": "other"}))
 
     def test_active_vip_db(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

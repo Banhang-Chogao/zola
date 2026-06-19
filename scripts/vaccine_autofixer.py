@@ -354,8 +354,8 @@ def step_v17_vipzone_auth(dry_run: bool) -> dict:
             issues.append("cms_auth.py: missing SameSite=None cookie")
     if os.path.isfile(roles_py):
         src = open(roles_py, encoding="utf-8").read()
-        if "tamsudev.com@gmail.com" not in src:
-            issues.append("roles.py: missing SUPERADMIN_EMAIL")
+        if "email_is_superadmin" in src:
+            issues.append("roles.py: email-based superadmin override present")
     if issues:
         out["matched"] = True
         out["detail"] = "; ".join(issues)

@@ -132,14 +132,14 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertTrue(body["is_super"])
         self.assertEqual(body["username"], "banhang-chogao")
 
-    def test_auth_me_superadmin_email_cookie(self) -> None:
+    def test_auth_me_email_alone_not_superadmin_cookie(self) -> None:
         import cms_auth as auth_mod
 
         db = get_db()
         sid = db.create_cms_session(
             {
                 "email": "tamsudev.com@gmail.com",
-                "username": "owner",
+                "username": "other-user",
                 "name": "Owner",
                 "avatar": "",
                 "is_super": False,
@@ -152,8 +152,8 @@ class VipzoneApiTests(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 200)
         body = res.json()
-        self.assertEqual(body["role"], "superadmin")
-        self.assertTrue(body["is_super"])
+        self.assertEqual(body["role"], "user")
+        self.assertFalse(body["is_super"])
 
     def test_auth_me_vip_role(self) -> None:
         db = get_db()
@@ -226,14 +226,14 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertEqual(by_url.get("/tools/f-dashboard/"), "premium")
         self.assertEqual(by_url.get("/tools/l-dashboard/"), "admin_only")
 
-    def test_vipzone_me_superadmin_email_cookie(self) -> None:
+    def test_vipzone_me_email_alone_not_superadmin_cookie(self) -> None:
         import cms_auth as auth_mod
 
         db = get_db()
         sid = db.create_cms_session(
             {
                 "email": "tamsudev.com@gmail.com",
-                "username": "owner",
+                "username": "other-user",
                 "name": "Owner",
                 "avatar": "",
                 "is_super": False,
@@ -246,9 +246,9 @@ class VipzoneApiTests(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 200)
         body = res.json()
-        self.assertEqual(body["role"], "superadmin")
-        self.assertTrue(body["is_super"])
-        self.assertTrue(body["is_admin"])
+        self.assertEqual(body["role"], "user")
+        self.assertFalse(body["is_super"])
+        self.assertFalse(body["is_admin"])
 
     def test_vipzone_me_shares_auth_session(self) -> None:
         db = get_db()

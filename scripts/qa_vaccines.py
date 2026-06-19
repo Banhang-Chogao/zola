@@ -629,8 +629,8 @@ def check_v17_vipzone_edge_safari_auth(ctx: Ctx) -> CheckResult:
         issues.append("vip-admin.js: vẫn ẩn UI theo role (denied view)")
     if cms_auth and 'samesite="none"' not in cms_auth:
         issues.append("cms_auth.py: thiếu Set-Cookie SameSite=None")
-    if roles_py and "tamsudev.com@gmail.com" not in roles_py:
-        issues.append("roles.py: thiếu SUPERADMIN_EMAIL hard guarantee")
+    if roles_py and "email_is_superadmin" in roles_py:
+        issues.append("roles.py: vẫn có email-based superadmin override")
     if issues:
         return CheckResult(
             "V17", title, FAIL,

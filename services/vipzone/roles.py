@@ -2,21 +2,12 @@
 
 from __future__ import annotations
 
-import os
-
 from github_repo import username_env_fallback
 
 ROLE_USER = "user"
 ROLE_VIP = "vip"
 ROLE_SUPERADMIN = "superadmin"
 ROLE_SUPERVIP = ROLE_SUPERADMIN
-
-SUPERADMIN_EMAIL = os.getenv("SUPERADMIN_EMAIL", "tamsudev.com@gmail.com").strip().lower()
-
-
-def email_is_superadmin(email: str | None) -> bool:
-    """Hard guarantee: blog owner email → superadmin."""
-    return (email or "").strip().lower() == SUPERADMIN_EMAIL
 
 
 def username_is_superadmin(username: str | None) -> bool:
@@ -29,13 +20,11 @@ def is_superadmin(session: dict | None) -> bool:
         return False
     if session.get("is_superadmin") or session.get("is_super"):
         return True
-    if email_is_superadmin(session.get("email")):
-        return True
     return username_env_fallback(session.get("username"))
 
 
 def is_supervip(email: str | None, username: str | None) -> bool:
-    return email_is_superadmin(email) or username_env_fallback(username)
+    return username_env_fallback(username)
 
 
 def resolve_role(is_super: bool, *, is_vip: bool) -> str:

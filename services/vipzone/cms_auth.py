@@ -14,7 +14,7 @@ from pydantic import BaseModel
 
 from db import VipzoneDB
 from github_repo import check_repo_superadmin
-from roles import SUPERADMIN_EMAIL, email_is_superadmin, resolve_role, username_is_superadmin
+from roles import resolve_role, username_is_superadmin
 
 SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
 
@@ -60,8 +60,6 @@ class LogoutResponse(BaseModel):
 
 
 def is_admin(email: str | None, username: str | None) -> bool:
-    if email_is_superadmin(email):
-        return True
     if username and username.lower() in ADMIN_USERNAMES:
         return True
     if email and email.lower() in ADMIN_EMAILS:
@@ -156,11 +154,7 @@ async def cms_profile_from_sid(db: VipzoneDB, sid: str) -> dict[str, Any]:
         raise HTTPException(401, "invalid_cms_session")
     email = session.get("email")
     username = session.get("username") or ""
-    is_super = (
-        bool(session.get("is_super"))
-        or email_is_superadmin(email)
-        or username_is_superadmin(username)
-    )
+    is_super = bool(session.get("is_super")) or username_is_superadmin(username)
     return {
         "email": email,
         "username": username,
@@ -293,15 +287,8 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
             if e.get("verified") and e.get("email")
         }
         username = user.get("login", "")
-        if SUPERADMIN_EMAIL in verified_emails:
-            matched_email = SUPERADMIN_EMAIL
-        else:
-            matched_email = next(iter(verified_emails), None)
-
-        is_super = (
-            email_is_superadmin(matched_email)
-            or await check_repo_superadmin(client, access_token, username)
-        )
+        matched_email = next(iter(verified_emails), None)
+        is_super = await check_repo_superadmin(client, access_token, username)
 
     sid = db.create_cms_session(
         {
