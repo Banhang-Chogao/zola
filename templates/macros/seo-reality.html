@@ -49,7 +49,7 @@
             <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
         </header>
 
-        {# SUCCESS — celebratory state shown right after a real OAuth callback #}
+        {# SUCCESS — brief confirmation after Property ID is saved #}
         <div class="seo-reality__gsc-success" data-gsc-success hidden>
             <span class="seo-reality__gsc-check" aria-hidden="true">
                 <svg viewBox="0 0 52 52" focusable="false">
@@ -57,54 +57,57 @@
                     <path class="seo-reality__gsc-check-mark" d="M15 27l7.5 7.5L37.5 19"/>
                 </svg>
             </span>
-            <p class="seo-reality__gsc-success-msg">Đã kết nối Google Search Console thành công. Chúc mừng!</p>
+            <p class="seo-reality__gsc-success-msg">✅ Property đã kết nối Google Search Console.</p>
         </div>
 
-        {# CONNECTED — live KPIs + status row #}
-        <div data-gsc-connected style="{% if not gsc.connected %}display:none{% endif %}">
+        {# STATE A — Property ID saved (independent of API credentials) #}
+        <div data-gsc-property-connected style="display:none">
             <div class="seo-reality__gsc-statusbar">
                 <span class="seo-reality__gsc-badge" data-gsc-status-badge>
                     <span class="seo-reality__gsc-badge-check" aria-hidden="true">
                         <svg viewBox="0 0 24 24" focusable="false"><path d="M5 13l4 4L19 7"/></svg>
                     </span>
-                    Đã kết nối
+                    Property đã kết nối
                 </span>
-                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-disconnect hidden>Gỡ kết nối GSC</button>
+                <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-disconnect hidden>Xóa Property ID</button>
             </div>
             <dl class="seo-reality__gsc-conn-meta">
                 <div><dt>Property</dt><dd data-gsc-prop>{{ gsc.property | default(value="—") }}</dd></div>
             </dl>
-            <div class="seo-reality__kpi-row">
-                <div class="seo-reality__kpi">
-                    <span class="seo-reality__kpi-val" data-gsc-impressions>{{ gsc.impressions | default(value="—") }}</span>
-                    <span class="seo-reality__kpi-label">Impressions ({{ gsc.period_days | default(value=28) }}d)</span>
+
+            {# STATE B — live GSC API metrics #}
+            <div data-gsc-api-data style="{% if not gsc.connected %}display:none{% endif %}">
+                <div class="seo-reality__kpi-row">
+                    <div class="seo-reality__kpi">
+                        <span class="seo-reality__kpi-val" data-gsc-impressions>{{ gsc.impressions | default(value="—") }}</span>
+                        <span class="seo-reality__kpi-label">Impressions ({{ gsc.period_days | default(value=28) }}d)</span>
+                    </div>
+                    <div class="seo-reality__kpi">
+                        <span class="seo-reality__kpi-val" data-gsc-clicks>{{ gsc.clicks | default(value="—") }}</span>
+                        <span class="seo-reality__kpi-label">Clicks</span>
+                    </div>
                 </div>
-                <div class="seo-reality__kpi">
-                    <span class="seo-reality__kpi-val" data-gsc-clicks>{{ gsc.clicks | default(value="—") }}</span>
-                    <span class="seo-reality__kpi-label">Clicks</span>
-                </div>
+                <dl class="seo-reality__grid">
+                    <div><dt>CTR</dt><dd data-gsc-ctr>{% if gsc.ctr %}{{ gsc.ctr }}%{% else %}—{% endif %}</dd></div>
+                    <div><dt>Avg. position</dt><dd data-gsc-position>{{ gsc.avg_position | default(value="—") }}</dd></div>
+                </dl>
+                <p class="seo-reality__gsc-updated" data-gsc-updated>
+                    {% if gsc.updated_at %}Updated {{ dt::display_datetime(value=gsc.updated_at) }}{% else %}—{% endif %}
+                </p>
             </div>
-            <dl class="seo-reality__grid">
-                <div><dt>CTR</dt><dd data-gsc-ctr>{% if gsc.ctr %}{{ gsc.ctr }}%{% else %}—{% endif %}</dd></div>
-                <div><dt>Avg. position</dt><dd data-gsc-position>{{ gsc.avg_position | default(value="—") }}</dd></div>
-            </dl>
-            <p class="seo-reality__gsc-updated" data-gsc-updated>
-                {% if gsc.updated_at %}Updated {{ dt::display_datetime(value=gsc.updated_at) }}{% else %}—{% endif %}
-            </p>
+            <p class="seo-reality__pending" data-gsc-api-pending hidden>⏳ Đang chờ dữ liệu GSC</p>
         </div>
 
-        {# DISCONNECTED — friendly empty state + admin connect form #}
-        <div data-gsc-disconnected style="{% if gsc.connected %}display:none{% endif %}">
+        {# No Property ID yet — save form only (no verification token) #}
+        <div data-gsc-property-disconnected>
             <p class="seo-reality__empty">
-                <strong>Chưa kết nối Google Search Console.</strong>
-                Dữ liệu lập chỉ mục & thứ hạng thực tế sẽ hiển thị ở đây sau khi kết nối.
+                Nhập <strong>GSC Property ID</strong> (URL prefix đã xác minh) để theo dõi dữ liệu thực.
             </p>
-
-            {# Admin-only — revealed by JS when a CMS session exists #}
-            <form class="seo-reality__gsc-connect" data-gsc-admin hidden novalidate>
-                <label class="visually-hidden" for="seo-reality-gsc-input">GSC Property ID hoặc Resource ID</label>
+            <form class="seo-reality__gsc-connect" data-gsc-admin novalidate>
+                <label class="visually-hidden" for="seo-reality-gsc-input">GSC Property ID</label>
                 <input id="seo-reality-gsc-input" type="text" class="seo-reality__gsc-input" data-gsc-property
-                       placeholder="Nhập GSC Property ID hoặc Resource ID..."
+                       value="https://banhang-chogao.github.io/zola/"
+                       placeholder="https://banhang-chogao.github.io/zola/"
                        autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="url" />
                 <p class="seo-reality__gsc-examples">
                     Ví dụ: <code>https://banhang-chogao.github.io/zola/</code> · <code>sc-domain:example.com</code>
@@ -112,16 +115,16 @@
                 <p class="seo-reality__gsc-validation" data-gsc-validation hidden role="alert"></p>
                 <div class="seo-reality__gsc-actions">
                     <button type="submit" class="seo-reality__gsc-btn seo-reality__gsc-btn--primary" data-gsc-connect>
-                        <span class="seo-reality__gsc-btn-label">Kết nối GSC</span>
+                        <span class="seo-reality__gsc-btn-label">Lưu Property ID</span>
                     </button>
                 </div>
             </form>
         </div>
 
-        {# Quick reconnect — appears after a disconnect #}
+        {# Optional OAuth resync for live API (admin) #}
         <div class="seo-reality__gsc-reconnect" data-gsc-reconnect hidden>
-            <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--primary" data-gsc-reconnect-btn>
-                Đăng nhập lại Google Search Console
+            <button type="button" class="seo-reality__gsc-btn seo-reality__gsc-btn--ghost" data-gsc-reconnect-btn>
+                Đồng bộ GSC API
             </button>
         </div>
 
@@ -134,7 +137,7 @@
             <h4 class="seo-reality__card-title">Indexing status</h4>
             <span class="seo-reality__src seo-reality__src--gsc">GSC API</span>
         </header>
-        <div data-idx-connected style="{% if not idx.connected %}display:none{% endif %}">
+        <div data-idx-api-data style="{% if not idx.connected %}display:none{% endif %}">
             <p class="seo-reality__health">
                 Health:
                 <span class="seo-reality__health-badge seo-reality__health-badge--{{ idx.index_health | default(value='warning') | lower }}"
@@ -160,8 +163,9 @@
                 <div><dt>Last crawl</dt><dd data-idx-crawl>{% if idx.last_crawl %}{{ dt::display_date(value=idx.last_crawl) }}{% else %}—{% endif %}</dd></div>
             </dl>
         </div>
-        <p class="seo-reality__empty" data-idx-disconnected style="{% if idx.connected %}display:none{% endif %}">
-            <strong>Unknown</strong> — kết nối Google Search Console để xem dữ liệu lập chỉ mục thực.
+        <p class="seo-reality__pending" data-idx-api-pending hidden>⏳ Đang chờ dữ liệu GSC</p>
+        <p class="seo-reality__empty" data-idx-disconnected>
+            Lưu Property ID để xem trạng thái lập chỉ mục.
         </p>
         {% if idx.sitemap_pages %}
         <p class="seo-reality__footrow">
@@ -196,7 +200,7 @@
                 </tbody>
             </table>
             {% else %}
-            <p class="seo-reality__empty" data-top-pages-empty>Chưa có dữ liệu — kết nối GSC.</p>
+            <p class="seo-reality__empty" data-top-pages-empty>Lưu Property ID để theo dõi top pages.</p>
             {% endif %}
         </div>
     </article>
@@ -216,7 +220,7 @@
             </li>
             {% endfor %}
             {% else %}
-            <li class="seo-reality__empty" data-queries-empty>Chưa có truy vấn — kết nối GSC.</li>
+            <li class="seo-reality__empty" data-queries-empty>Lưu Property ID để theo dõi query insights.</li>
             {% endif %}
         </ul>
     </article>
@@ -233,7 +237,7 @@
             <button type="button" class="seo-reality__trend-tab" data-trend-tab="monthly">Monthly</button>
         </div>
         <canvas class="seo-reality__trend-chart" data-trend-canvas height="120" aria-label="GSC clicks trend"></canvas>
-        <p class="seo-reality__empty" data-trend-empty{% if trend and trend.daily and trend.daily | length > 0 %} hidden{% endif %}>Chưa có trend — kết nối GSC.</p>
+        <p class="seo-reality__empty" data-trend-empty{% if trend and trend.daily and trend.daily | length > 0 %} hidden{% endif %}>Lưu Property ID để xem growth trend.</p>
     </article>
 
     {# NEW — SEO Executive Summary #}
@@ -248,7 +252,7 @@
             <li>{{ line }}</li>
             {% endfor %}
             {% else %}
-            <li class="seo-reality__empty" data-exec-empty>Narrative sẽ hiện sau khi có dữ liệu GSC thật.</li>
+            <li class="seo-reality__empty" data-exec-empty>⏳ Đang chờ dữ liệu GSC</li>
             {% endif %}
         </ul>
     </article>
