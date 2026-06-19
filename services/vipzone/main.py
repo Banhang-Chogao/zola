@@ -424,3 +424,21 @@ async def admin_set_picker(body: PickerIn, _admin: dict[str, Any] = Depends(requ
     migrated = migrate_picker_items(_picker_body_to_raw(body), catalog)
     stored = get_db().set_picker(sparse_items(migrated))
     return {"ok": True, "items": expand_items(stored, catalog)}
+
+
+# ---------------------------------------------------------------------------
+# Optional self-hosted TLS entry point.
+#
+# Production (Render/PaaS) runs `uvicorn main:app` and terminates TLS at the
+# platform edge, so this block never executes there — routing/architecture are
+# unchanged. When a host runs `python main.py` directly, TLS is enabled only in
+# production *and* only when cert files exist. See services/ssl_support.py.
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # services/
+    from ssl_support import run
+
+    run("main:app")

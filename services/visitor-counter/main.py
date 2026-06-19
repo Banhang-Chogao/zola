@@ -2448,3 +2448,21 @@ async def root():
             "POST /gsc/disconnect":"Revoke GSC connection (auth required)",
         },
     }
+
+
+# ---------------------------------------------------------------------------
+# Optional self-hosted TLS entry point.
+#
+# Production (Render/PaaS) runs `uvicorn main:app` and terminates TLS at the
+# platform edge, so this block never executes there — routing/architecture are
+# unchanged. When a host runs `python main.py` directly, TLS is enabled only in
+# production *and* only when cert files exist. See services/ssl_support.py.
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # services/
+    from ssl_support import run
+
+    run("main:app")
