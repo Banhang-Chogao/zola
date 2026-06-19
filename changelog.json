@@ -2,6 +2,36 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(content): bài \"Lịch sử đóng BHXH bị mất trên VssID\" (SEO A+)",
+      "tag": "chore",
+      "lines_added": 368,
+      "lines_removed": 2,
+      "highlights": [
+        "Intro + answer box featured-snippet (50–70 từ)",
+        "Vì sao bị mất (5 nguyên nhân H3 + bảng) → Có mất quyền lợi không (Không) → 5 cách xử lý step-by-step → Bao lâu cập nhật (bảng) → Hồ sơ cần chuẩn bị → Lưu ý quan trọng",
+        "6 FAQ ([[extra.faq]] → hiển thị + JSON-LD FAQPage)",
+        "SEO QA 97/100 — hạng A+ · 3.243 từ",
+        "qa_check.py: 0 error (1 warning title 73 ký tự — giữ theo tiêu đề yêu cầu, từ khoá đặt đầu)"
+      ],
+      "pr": 475
+    },
+    {
+      "date": "2026-06-19",
+      "title": "style(home): Ericsson Blue POSTINGS banner with scattered Hangul",
+      "tag": "chore",
+      "lines_added": 74,
+      "lines_removed": 8,
+      "highlights": [
+        "Lớp .hangeul-pattern là aria-hidden, pointer-events: none, overflow: hidden (clip vào banner) → chỉ trang trí, không cản đọc/bấm.",
+        "Nền #003784 hardcode (không dùng token) để giữ nguyên ở cả light/dark — chữ Hangul trắng cần nền tối.",
+        "Mobile (≤720px): padding gọn lại + Hangul thu nhỏ 1.1rem, layout không vỡ.",
+        "Chỉ sửa 2 file: templates/index.html + sass/_home-momo.scss. Không đụng selector global/desktop ngoài phạm vi banner.",
+        "zola build → PASS (182 trang, 0 lỗi)"
+      ],
+      "pr": 474
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(insights): add Ad-Report V2 daily monetization + UI analysis",
       "tag": "chore",
       "lines_added": 3139,

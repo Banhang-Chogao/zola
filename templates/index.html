@@ -44,8 +44,17 @@
     {% set feed_pages = paginator.number_pagers | default(value=1) %}
     {% set page_feed = feed | slice(start=offset, end=offset + per_page) %}
 
-    {# Decorative wordmark banner — letters POSTINGS spread evenly #}
+    {# Decorative wordmark banner — "POSTINGS" (dark gray) trên nền Ericsson Blue
+       (#003784), phủ lớp chữ Hangul tiếng Hàn rải ngẫu nhiên (trắng 50%). Toàn
+       bộ chỉ để trang trí → aria-hidden, không cản đọc nội dung. #}
     <div class="home-tabs" aria-hidden="true">
+        <div class="hangeul-pattern">
+            <span>가</span><span>나</span><span>다</span><span>라</span><span>마</span>
+            <span>바</span><span>사</span><span>아</span><span>자</span><span>차</span>
+            <span>카</span><span>타</span><span>파</span><span>하</span><span>한</span>
+            <span>글</span><span>배</span><span>움</span><span>문</span><span>법</span>
+            <span>읽</span><span>기</span><span>쓰</span><span>말</span>
+        </div>
         <span class="home-tabs__letter">P</span>
         <span class="home-tabs__letter">O</span>
         <span class="home-tabs__letter">S</span>
