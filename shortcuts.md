@@ -82,6 +82,7 @@ Format bắt buộc:
 | `nangcap` | Quét + nâng cấp mọi bài cũ điểm SEO QA < 90 lên đạt chuẩn (≥90/A) |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `runner` | Retry / tiếp tục lệnh, workflow, macro đang dở hoặc bị gián đoạn |
+| `theodoi8` | Theo dõi LIÊN TỤC (auto-refresh) trạng thái các commit đang chạy trên GitHub Actions |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
@@ -1069,6 +1070,77 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 - Sort theo: Status (❌ trước, ⚠ giữa, ✅ sau) → recency desc
 
 **Scope mặc định**: 20 run gần nhất trên `main`. Kèm context (e.g., `run list deploy.yml`) → filter theo workflow đó.
+
+### `theodoi8` — Theo dõi LIÊN TỤC trạng thái commit đang chạy trên GitHub (auto-refresh)
+
+**Mục đích**: Màn hình **theo dõi live tự cập nhật** trạng thái CI/CD của các commit
+gần nhất trên GitHub Actions — commit nào đang `queued`/`in_progress`, commit nào đã
+`success`/`failure`/`cancelled`. **KHÔNG phải snapshot 1 lần**: theodoi8 **tự động poll
+GitHub liên tục** và in lại bảng mỗi vòng cho tới khi mọi commit về terminal (hoặc user
+dừng). READ-ONLY, KHÔNG trigger lại, KHÔNG merge/push.
+
+**Khác các shortcut gần giống**:
+- `run list` — audit workflow runs theo cause + resolution (1 lần).
+- `??` — vì sao feature chưa lên production (bảng commit A/B/C/D).
+- `runner` — retry/tiếp tục task đang dở.
+- `theodoi8` — **vòng lặp live, auto-refresh**, theo dõi TỪNG commit (queued/running/done)
+  tới khi chạy xong; không phán xét cause, không sửa gì.
+
+**Chế độ chạy** (mặc định = LIÊN TỤC — luật 2026-06-19 user request):
+- `theodoi8` — **auto-refresh liên tục**: poll GitHub mỗi **~30–45s**, in lại bảng mỗi
+  vòng, **tự dừng** khi không còn run `in_progress`/`queued` (mọi commit terminal) hoặc
+  khi user gõ dừng/`unwatch`. **KHÔNG bắt user gõ lại** mỗi lần.
+- `theodoi8 once` — chỉ **1 snapshot** rồi dừng (hành vi 1 lần).
+- `theodoi8 deploy` — lọc chỉ commit chạy trên `deploy.yml` (vẫn auto-refresh).
+- `theodoi8 <sha>` — soi đúng 1 commit + mọi run của nó (vẫn auto-refresh tới khi xong).
+
+**Vòng lặp auto-refresh (mỗi ~30–45s)**:
+
+1. **Lấy commit gần nhất** (mặc định 10): `mcp__github__list_commits` (per_page=10)
+   trên `main` + commit `origin/main..HEAD` của branch dev (chưa merge) nếu có.
+2. **Map commit → workflow run**: `mcp__github__actions_list`
+   (`method=list_workflow_runs`, per_page≈30, mới nhất trước) → match theo `head_sha`.
+   1 commit nhiều run (deploy/qa/…) → gộp theo commit. Kết quả thường > token cap →
+   lưu file rồi parse bằng Python (slice theo ký tự).
+3. **Đọc trạng thái live**: `status` (`queued`/`in_progress`/`completed`) +
+   `conclusion` (`success`/`failure`/`cancelled`/`skipped`).
+4. **In lại bảng** (snapshot mới đè nội dung cũ), sort: đang chạy trước (🔄/⏳) → mới
+   nhất. **Đánh dấu commit vừa ĐỔI trạng thái** so với vòng trước (vd `🔄→✅`, `🔄→❌`).
+5. **Tự dừng** khi mọi run terminal → in bảng cuối + tóm tắt. Còn run đang chạy → đợi
+   interval rồi lặp lại bước 1.
+
+| Commit | Message | Workflow (run #) | Trạng thái | Đổi? |
+|---|---|---|---|---|
+| `a1b2c3d` | feat: authority booster | Build & Deploy #767 | 🔄 in_progress | — |
+| `e4f5g6h` | refresh merge report | QA Gatekeeper #1718 | ✅ success | 🔄→✅ |
+| `i7j8k9l` | compliance auto-fix | Build & Deploy #766 | ⊘ cancelled | — |
+
+   **Icon trạng thái**:
+   - 🔄 `in_progress` · ⏳ `queued`/`waiting` — đang chạy
+   - ✅ `success` — xong, pass
+   - ❌ `failure` — xong, fail (gợi ý `ff` nếu trên `deploy.yml`/`qa`)
+   - ⊘ `cancelled` (vàng) — bị huỷ; **KHÔNG phải lỗi thật** nếu có run mới hơn `success`
+     (concurrency — xem Vaccine V5 / Build Dashboard rule)
+   - ⏭ `skipped`
+
+**Tóm tắt mỗi vòng** ≤1 dòng:
+`theodoi8 [vòng N]: 🔄 A đang chạy · ✅ X pass · ❌ Y fail · ⊘ Z huỷ (HH:MM:SS dd/mm/yyyy GMT+7)`
+
+**Hard rules**:
+- **READ-ONLY** — chỉ đọc status, KHÔNG re-trigger / rerun / merge / push.
+- **Auto-refresh, KHÔNG bắt user gõ lại**: tự lặp poll tới khi xong. Interval ~30–45s,
+  **KHÔNG** < 20s/vòng (tránh GitHub API rate-limit — Vaccine V5).
+- **Điều kiện dừng** (chống chạy vô hạn): dừng khi (a) mọi run terminal, hoặc (b) chạm
+  cap an toàn **~30 vòng / ~20 phút** → hỏi user có tiếp tục không, hoặc (c) user gõ
+  dừng/`unwatch`.
+- `cancelled` ≠ `failed`: deploy run mới nhất `success` → site OK, đừng báo degraded.
+- `failure` thật trên `deploy.yml`/`qa` → báo + gợi ý `ff`, KHÔNG tự sửa trong `theodoi8`.
+
+**Ghi chú triển khai auto-refresh (Claude Code)**:
+- Vòng lặp = agent poll lặp lại MCP (`actions_list`/`list_commits`) mỗi interval rồi in
+  lại bảng — mỗi vòng là 1 lần cập nhật trên màn hình kết quả này.
+- Rảnh tay/định kỳ nền: có thể dùng skill `/loop` (vd `/loop 1m theodoi8 once`) để chạy
+  lại theo lịch mà không cần gõ tay.
 
 ### `runner` — Retry / tiếp tục lệnh đang dở
 
