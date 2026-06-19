@@ -317,6 +317,23 @@
       .join("");
   }
 
+  /** Receipt fingerprint — invoice no · datetime · store · amount · items */
+  async function buildReceiptFingerprint(stmt) {
+    const items = (stmt.items || [])
+      .map((i) => `${i.name}|${i.qty}|${i.amount}`)
+      .sort()
+      .join(";");
+    const dt = stmt.date_iso || stmt.invoice_date || "";
+    const key = [
+      stmt.invoice_no || "",
+      dt,
+      stmt.merchant || "",
+      String(stmt.total || 0),
+      items,
+    ].join("|");
+    return sha256Hex(key);
+  }
+
   async function transactionsForDashboard(stmt) {
     const rows = [];
     const dateIso = stmt.date_iso || (stmt.invoice_date ? stmt.invoice_date + "T00:00:00" : "");
@@ -466,14 +483,49 @@
     stmt.via_ocr = usedOcr;
     const transactions = await transactionsForDashboard(stmt);
     const reconciliation = reconcile(stmt, transactions);
-    return { statement: stmt, transactions, reconciliation, via_ocr: usedOcr, raw_text: text };
+    const receipt_fingerprint = await buildReceiptFingerprint(stmt);
+    return {
+      statement: stmt,
+      transactions,
+      reconciliation,
+      via_ocr: usedOcr,
+      raw_text: text,
+      receipt_fingerprint,
+    };
+  }
+
+  /**
+   * OCR a receipt image (.png / .jpg) and parse like a PDF invoice.
+   */
+  async function parseInvoiceImageArrayBuffer(arrayBuffer, opts) {
+    const onStatus = opts && typeof opts.onStatus === "function" ? opts.onStatus : function () {};
+    if (!global.HDashboardOcr || !global.HDashboardOcr.ocrImage) {
+      throw new Error("OCR ảnh không khả dụng trên trình duyệt này.");
+    }
+    onStatus("Đang OCR ảnh hóa đơn…");
+    const text = await global.HDashboardOcr.ocrImage(arrayBuffer, onStatus);
+    const stmt = parseInvoiceText(text);
+    stmt.via_ocr = true;
+    const transactions = await transactionsForDashboard(stmt);
+    const reconciliation = reconcile(stmt, transactions);
+    const receipt_fingerprint = await buildReceiptFingerprint(stmt);
+    return {
+      statement: stmt,
+      transactions,
+      reconciliation,
+      via_ocr: true,
+      raw_text: text,
+      receipt_fingerprint,
+    };
   }
 
   global.HDashboardInvoiceParser = {
     SOURCE,
     parseInvoiceText,
     parseInvoicePdfArrayBuffer,
+    parseInvoiceImageArrayBuffer,
     transactionsForDashboard,
     reconcile,
+    buildReceiptFingerprint,
   };
 })(typeof window !== "undefined" ? window : globalThis);

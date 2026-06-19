@@ -733,10 +733,37 @@
     return { pageCount, fileCount: sourceNames.length, sources: sourceNames };
   }
 
-  async function exportAndWipe(format, transactions, insightsPayload, wipeFn) {
+  async function exportOnly(format, transactions, insightsPayload) {
     const exporter =
       format === "pdf" ? exportPdf : format === "csv" ? exportCsv : exportJson;
-    const payload = await exporter(transactions, insightsPayload);
+    return exporter(transactions, insightsPayload);
+  }
+
+  /**
+   * Print-to-PDF (browser layout) + companion JSON download.
+   */
+  async function exportPdfWithJson(transactions, insightsPayload, printOpts) {
+    const payload = buildPayload(transactions, insightsPayload);
+    const stamp = payload.exported_at.slice(0, 10);
+    const baseName = "coffee-report-" + stamp + "-" + payload.series_id.slice(0, 8);
+
+    const jsonBlob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json;charset=utf-8",
+    });
+    await downloadBlob(jsonBlob, baseName + ".json");
+
+    if (!global.HDashboardPrint || !global.HDashboardPrint.exportViaPrint) {
+      throw new Error("Print export chưa tải — thử lại sau vài giây.");
+    }
+    await global.HDashboardPrint.exportViaPrint(
+      Object.assign({ payload: payload }, printOpts || {})
+    );
+    return payload;
+  }
+
+  /** @deprecated Use exportOnly — wipe is opt-in via separate Clear Session. */
+  async function exportAndWipe(format, transactions, insightsPayload, wipeFn) {
+    const payload = await exportOnly(format, transactions, insightsPayload);
     if (typeof wipeFn === "function") await wipeFn();
     return { series_id: payload.series_id, watermark: payload.watermark };
   }
@@ -745,8 +772,12 @@
     exportJson,
     exportCsv,
     exportPdf,
+    exportOnly,
+    exportPdfWithJson,
     mergePdfReports,
     exportAndWipe,
+    buildPayload,
+    downloadBlob,
     seriesId16,
     watermarkText,
     BLOG_URL,

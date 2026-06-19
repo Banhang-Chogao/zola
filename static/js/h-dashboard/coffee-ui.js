@@ -100,6 +100,14 @@
       <ul class="hd-drink-list">${rows}</ul>`;
   }
 
+  const HEAT_BG = [
+    "#f0f0f0",
+    "rgba(0, 167, 160, 0.25)",
+    "rgba(0, 167, 160, 0.45)",
+    "rgba(0, 167, 160, 0.65)",
+    "#00a7a0",
+  ];
+
   function renderHeatmap(clock, el) {
     if (!el || !clock?.grid) {
       if (el) el.innerHTML = '<p class="hd-empty">Chưa có dữ liệu Coffee Clock.</p>';
@@ -113,7 +121,8 @@
     const rows = clock.grid.map((row, dow) => {
       const cells = row.map((val, h) => {
         const level = val === 0 ? 0 : Math.min(4, Math.ceil((val / clock.max) * 4));
-        return `<div class="hd-heat__cell hd-heat__cell--${level}" title="${clock.dayNames[dow]} ${h}:00 — ${val} lần"></div>`;
+        const bg = HEAT_BG[level] || HEAT_BG[0];
+        return `<div class="hd-heat__cell hd-heat__cell--${level}" style="background-color:${bg}" title="${clock.dayNames[dow]} ${h}:00 — ${val} lần"></div>`;
       }).join("");
       return `<div class="hd-heat__row"><span class="hd-heat__dow">${clock.dayNames[dow]}</span>${cells}</div>`;
     }).join("");

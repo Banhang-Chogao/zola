@@ -260,10 +260,58 @@
     }
   }
 
+  async function ocrImage(arrayBuffer, onStatus) {
+    const notify = typeof onStatus === "function" ? onStatus : function () {};
+    const Tesseract = await ensureReady();
+    const blob = new Blob([arrayBuffer]);
+    const url = URL.createObjectURL(blob);
+
+    let worker;
+    let usedLangs = OCR_LANGS_PRIMARY;
+    try {
+      const img = await new Promise((resolve, reject) => {
+        const el = new Image();
+        el.onload = () => resolve(el);
+        el.onerror = () => reject(new Error("Không đọc được ảnh hóa đơn."));
+        el.src = url;
+      });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+
+      try {
+        worker = await createOcrWorker(Tesseract, OCR_LANGS_PRIMARY, notify);
+      } catch (primaryErr) {
+        notify("OCR vie+eng thất bại — thử eng…");
+        usedLangs = OCR_LANGS_FALLBACK;
+        worker = await createOcrWorker(Tesseract, OCR_LANGS_FALLBACK, notify);
+      }
+
+      notify("Đang OCR ảnh (" + usedLangs + ")…");
+      const { data } = await worker.recognize(canvas);
+      return data && data.text ? data.text : "";
+    } finally {
+      URL.revokeObjectURL(url);
+      if (worker) {
+        try {
+          await worker.terminate();
+        } catch (e) {
+          /* ignore */
+        }
+      }
+    }
+  }
+
   global.HDashboardOcr = {
     ensureReady: ensureReady,
     isAvailable: isAvailable,
     getLastError: getLastError,
     ocrPdf: ocrPdf,
+    ocrImage: ocrImage,
   };
 })(typeof window !== "undefined" ? window : globalThis);

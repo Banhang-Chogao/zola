@@ -1,6 +1,7 @@
 /**
  * H-Dashboard V2 — Highlands Coffee Life Analytics.
  * Receipt OCR → Coffee DNA, timeline, seasonality, personality.
+ * Multi-upload · merge reports · print-to-PDF export.
  */
 (function (global) {
   "use strict";
@@ -9,12 +10,16 @@
     "Coffee Analytics V2 chưa tải xong. Hãy tải lại trang (Ctrl+Shift+R). Upload vẫn hoạt động.";
 
   const PAGE_SIZE = 20;
+  const MAX_BATCH_FILES = 10;
+
   let allTransactions = [];
   let filteredTransactions = [];
+  let receiptsCatalog = { fingerprints: [], statements: [] };
   let statementMeta = null;
   let reconciliation = null;
   let currentPage = 1;
   let dashboardReady = false;
+  let selectedImportFiles = [];
 
   const els = {};
 
@@ -26,6 +31,7 @@
     els.upload = $("#hd-upload");
     els.uploadZone = $("#hd-upload-zone");
     els.uploadStatus = $("#hd-upload-status");
+    els.uploadBatch = $("#hd-upload-batch");
     els.meta = $("#hd-meta");
     els.reconcile = $("#hd-reconcile");
     els.summary = $("#hd-summary");
@@ -42,6 +48,12 @@
     els.exportJson = $("#hd-export-json");
     els.exportCsv = $("#hd-export-csv");
     els.exportPdf = $("#hd-export-pdf");
+    els.exportMonthlyPdf = $("#hd-export-monthly-pdf");
+    els.clearSession = $("#hd-clear-session");
+    els.importInput = $("#hd-import-reports");
+    els.importBtn = $("#hd-import-reports-btn");
+    els.importFiles = $("#hd-import-reports-files");
+    els.importStatus = $("#hd-import-reports-status");
     els.coffeeModuleError = $("#hd-coffee-module-error");
   }
 
@@ -80,11 +92,17 @@
     els.uploadStatus.dataset.type = type || "info";
   }
 
+  function setImportStatus(msg, type) {
+    if (!els.importStatus) return;
+    els.importStatus.textContent = msg;
+    els.importStatus.dataset.type = type || "info";
+  }
+
   function updateExportButtons() {
     const hasData = allTransactions.length > 0;
-    if (els.exportJson) els.exportJson.disabled = !hasData;
-    if (els.exportCsv) els.exportCsv.disabled = !hasData;
-    if (els.exportPdf) els.exportPdf.disabled = !hasData;
+    [els.exportJson, els.exportCsv, els.exportPdf, els.exportMonthlyPdf].forEach((btn) => {
+      if (btn) btn.disabled = !hasData;
+    });
   }
 
   function fmt(n) {
@@ -157,23 +175,50 @@
           : "",
       },
       insights: coffee.narrativeInsights,
+      receipts_catalog: receiptsCatalog,
     };
   }
 
   function renderMeta() {
-    if (!els.meta || !statementMeta) return;
-    const s = statementMeta;
-    const dateLine = s.invoice_time ? `${s.invoice_date || "—"} ${s.invoice_time}` : (s.invoice_date || "—");
+    if (!els.meta) return;
+    const statements = receiptsCatalog.statements || [];
+    if (!statements.length && statementMeta) {
+      statements.push(statementMeta);
+    }
+    if (!statements.length) {
+      els.meta.innerHTML =
+        '<p class="hd-meta__empty">Upload PDF hóa đơn để hiển thị cửa hàng, ngày xuất và tổng tiền.</p>';
+      return;
+    }
+
+    if (statements.length === 1) {
+      els.meta.innerHTML = `<div class="hd-meta__grid">${renderMetaCells(statements[0])}</div>`;
+      return;
+    }
+
+    const cards = statements
+      .map((s) => renderMetaCard(s))
+      .join("");
     els.meta.innerHTML = `
-      <div class="hd-meta__grid">
+      <p class="hd-meta__aggregate">${statements.length} hóa đơn trong phiên</p>
+      <div class="hd-meta__grid hd-meta__grid--multi">${cards}</div>`;
+  }
+
+  function renderMetaCells(s) {
+    const dateLine = s.invoice_time
+      ? `${s.invoice_date || "—"} ${s.invoice_time}`
+      : s.invoice_date || "—";
+    return `
         <div><span>Cửa hàng</span><strong>${escapeHtml(s.merchant || "—")}</strong><em>${escapeHtml(s.address || s.service_type || "")}</em></div>
         <div><span>Mã hóa đơn</span><strong>${escapeHtml(s.invoice_no || "—")}</strong><em>${escapeHtml(s.pos || "")}</em></div>
         <div><span>Ngày xuất</span><strong>${escapeHtml(dateLine)}</strong><em>${escapeHtml(s.currency || "VND")}</em></div>
         <div><span>Thu ngân</span><strong>${escapeHtml(s.cashier || "—")}</strong><em>${s.pager ? "Pager " + escapeHtml(s.pager) : ""}</em></div>
         <div><span>Tổng hóa đơn</span><strong>${fmt(s.total || 0)}</strong><em>${s.item_count || 0} mặt hàng</em></div>
-        <div><span>Thanh toán</span><strong>${escapeHtml(s.payment_method || "—")}</strong><em>${s.shop_id ? "Shop " + escapeHtml(s.shop_id) : ""}</em></div>
-      </div>
-    `;
+        <div><span>Thanh toán</span><strong>${escapeHtml(s.payment_method || "—")}</strong><em>${s.shop_id ? "Shop " + escapeHtml(s.shop_id) : ""}</em></div>`;
+  }
+
+  function renderMetaCard(s) {
+    return `<div class="hd-meta__card">${renderMetaCells(s)}</div>`;
   }
 
   function renderReconcile() {
@@ -310,10 +355,26 @@
     if (current) els.filterMonth.value = current;
   }
 
+  function statementSnapshot(stmt) {
+    return {
+      merchant: stmt.merchant,
+      address: stmt.address,
+      invoice_no: stmt.invoice_no,
+      invoice_date: stmt.invoice_date,
+      invoice_time: stmt.invoice_time,
+      pos: stmt.pos,
+      currency: stmt.currency,
+      total: stmt.total,
+      item_count: stmt.item_count,
+      via_ocr: stmt.via_ocr,
+    };
+  }
+
   async function wipeSessionData() {
     await global.HDashboardStorage.clearAll();
     allTransactions = [];
     filteredTransactions = [];
+    receiptsCatalog = { fingerprints: [], statements: [] };
     statementMeta = null;
     reconciliation = null;
     currentPage = 1;
@@ -329,103 +390,287 @@
     updateExportButtons();
   }
 
-  async function runExport(format) {
+  async function runClearSession() {
     if (!allTransactions.length) return;
-    const labels = { pdf: "PDF báo cáo", csv: "CSV", json: "JSON" };
-    const label = labels[format] || "file";
-    if (!confirm(`Tải ${label} về máy và xóa ngay toàn bộ dữ liệu phiên? (Không lưu online)`)) return;
+    if (
+      !confirm(
+        "Xóa toàn bộ dữ liệu phiên trên trình duyệt này? Hành động không thể hoàn tác."
+      )
+    ) {
+      return;
+    }
+    await wipeSessionData();
+    setStatus("Đã xóa phiên — dữ liệu chỉ tồn tại local, không lưu server.", "success");
+  }
 
-    const btn =
-      format === "pdf" ? els.exportPdf : format === "csv" ? els.exportCsv : els.exportJson;
+  async function runExport(format, printOpts) {
+    if (!allTransactions.length) return;
+    const labels = {
+      pdf: "PDF báo cáo",
+      csv: "CSV",
+      json: "JSON",
+      monthly: "Monthly Combined PDF",
+    };
+    const label = labels[format] || "file";
+
+    const btnMap = {
+      pdf: els.exportPdf,
+      csv: els.exportCsv,
+      json: els.exportJson,
+      monthly: els.exportMonthlyPdf,
+    };
+    const btn = btnMap[format];
     if (btn) btn.disabled = true;
 
     try {
       if (!coffeeModulesReady()) {
         throw new Error(COFFEE_MODULE_MSG);
       }
-      const { watermark } = await global.HDashboardExport.exportAndWipe(
-        format,
-        allTransactions,
-        getInsightsPayload(),
-        wipeSessionData
-      );
-      setStatus(`Đã tải ${label} · phiên đã xóa · trace: ${watermark}`, "success");
+      const insights = getInsightsPayload();
+      let payload;
+
+      if (format === "pdf" || format === "monthly") {
+        payload = await global.HDashboardExport.exportPdfWithJson(
+          allTransactions,
+          insights,
+          format === "monthly" ? { mode: "monthly" } : { mode: "full" }
+        );
+        setStatus(
+          `Đã tải ${label} + JSON · phiên giữ nguyên · trace: ${payload.watermark}`,
+          "success"
+        );
+      } else {
+        payload = await global.HDashboardExport.exportOnly(format, allTransactions, insights);
+        setStatus(`Đã tải ${label} · phiên giữ nguyên · trace: ${payload.watermark}`, "success");
+      }
     } catch (err) {
       console.error(err);
       setStatus(err.message || `Xuất ${label} thất bại.`, "error");
+    } finally {
       updateExportButtons();
     }
   }
 
-  async function handleFile(file) {
-    if (!file) return;
-    if (!/\.pdf$/i.test(file.name)) {
-      setStatus("Chỉ hỗ trợ hóa đơn dạng PDF (.pdf).", "error");
+  function isSupportedUpload(file) {
+    return /\.(pdf|png|jpe?g)$/i.test(file.name);
+  }
+
+  async function parseUploadFile(file, onStatus) {
+    const buffer = await file.arrayBuffer();
+    const parser = global.HDashboardInvoiceParser;
+    if (/\.(png|jpe?g)$/i.test(file.name)) {
+      return parser.parseInvoiceImageArrayBuffer(buffer, { onStatus });
+    }
+    return parser.parseInvoicePdfArrayBuffer(buffer, { onStatus });
+  }
+
+  async function processOneFile(file, fpSet) {
+    const parsed = await parseUploadFile(file, (msg) =>
+      setStatus(`[${file.name}] ${msg}`, "info")
+    );
+
+    if (!parsed || !Array.isArray(parsed.transactions) || !parsed.transactions.length) {
+      throw new Error("Không tìm thấy mặt hàng trong " + file.name);
+    }
+
+    const fp =
+      parsed.receipt_fingerprint ||
+      (await global.HDashboardInvoiceParser.buildReceiptFingerprint(parsed.statement));
+
+    if (fpSet.has(fp)) {
+      const inv = parsed.statement.invoice_no || "?";
+      return { status: "duplicate", invoice_no: inv, parsed };
+    }
+
+    const existingIds = await global.HDashboardStorage.getAllTransactionIds();
+    const toInsert = [];
+    let skippedTx = 0;
+    for (const tx of parsed.transactions) {
+      if (existingIds.has(tx.transaction_id)) {
+        skippedTx++;
+      } else {
+        toInsert.push(tx);
+        existingIds.add(tx.transaction_id);
+      }
+    }
+
+    if (toInsert.length) {
+      await global.HDashboardStorage.insertTransactions(toInsert);
+    }
+
+    fpSet.add(fp);
+    receiptsCatalog.fingerprints = Array.from(fpSet);
+    receiptsCatalog.statements.push(statementSnapshot(parsed.statement));
+    await global.HDashboardStorage.setReceiptsCatalog(receiptsCatalog);
+
+    statementMeta = parsed.statement;
+    reconciliation = parsed.reconciliation || { ok: true, message: "" };
+
+    return {
+      status: "ok",
+      inserted: toInsert.length,
+      skippedTx,
+      via_ocr: parsed.via_ocr,
+      reconciliation: parsed.reconciliation,
+      parsed,
+    };
+  }
+
+  async function handleFiles(fileList) {
+    const files = Array.from(fileList || []).filter(isSupportedUpload).slice(0, MAX_BATCH_FILES);
+    if (!files.length) {
+      setStatus("Chọn file PDF hoặc ảnh (.png/.jpg) hóa đơn Highlands.", "error");
       return;
     }
 
-    setStatus(`Đang đọc ${file.name}…`, "info");
+    if (fileList && fileList.length > MAX_BATCH_FILES) {
+      setStatus(`Chỉ xử lý tối đa ${MAX_BATCH_FILES} file mỗi lần.`, "info");
+    }
+
+    const stats = { selected: files.length, processed: 0, duplicate: 0, failed: 0 };
+    const fpSet = new Set(receiptsCatalog.fingerprints || []);
+    const dupMessages = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      setStatus(
+        `Đang xử lý ${i + 1}/${files.length}: ${file.name}…`,
+        "info"
+      );
+      try {
+        const result = await processOneFile(file, fpSet);
+        if (result.status === "duplicate") {
+          stats.duplicate++;
+          dupMessages.push("Skipped duplicate receipt #" + result.invoice_no);
+        } else {
+          stats.processed++;
+        }
+      } catch (err) {
+        console.error(err);
+        stats.failed++;
+      }
+    }
+
+    await refresh();
+    renderMeta();
+    renderReconcile();
+
+    let msg = `Selected: ${stats.selected} · Processed: ${stats.processed} · Duplicate: ${stats.duplicate} · Failed OCR: ${stats.failed}`;
+    if (dupMessages.length) msg += " · " + dupMessages.join(" · ");
+    setStatus(msg, stats.failed ? "error" : "success");
+
+    if (els.upload) els.upload.value = "";
+    if (els.uploadBatch) {
+      els.uploadBatch.textContent = files.map((f) => f.name).join(" · ");
+      els.uploadBatch.hidden = false;
+    }
+  }
+
+  function updateImportUi() {
+    const count = selectedImportFiles.length;
+    if (els.importBtn) els.importBtn.disabled = count === 0;
+    if (els.importFiles) {
+      if (count) {
+        els.importFiles.hidden = false;
+        els.importFiles.textContent =
+          count + " file: " + selectedImportFiles.map((f) => f.name).join(" · ");
+      } else {
+        els.importFiles.hidden = true;
+        els.importFiles.textContent = "";
+      }
+    }
+  }
+
+  async function runImportReports() {
+    if (!selectedImportFiles.length || !global.HDashboardImport) return;
+    if (els.importBtn) els.importBtn.disabled = true;
+    setImportStatus("Đang merge " + selectedImportFiles.length + " báo cáo…", "info");
 
     try {
-      const buffer = await file.arrayBuffer();
-      const parsed = await global.HDashboardInvoiceParser.parseInvoicePdfArrayBuffer(buffer, {
-        onStatus: (msg) => setStatus(msg, "info"),
+      const result = await global.HDashboardImport.mergeImportedFiles(selectedImportFiles, {
+        onStatus: setImportStatus,
+        getCatalog: () => global.HDashboardStorage.getReceiptsCatalog(),
+        saveCatalog: (c) => global.HDashboardStorage.setReceiptsCatalog(c),
+        getExistingIds: () => global.HDashboardStorage.getAllTransactionIds(),
+        insertTx: (txs) => global.HDashboardStorage.insertTransactions(txs),
+        buildFingerprint: (stmt) =>
+          global.HDashboardInvoiceParser.buildReceiptFingerprint(stmt),
       });
-      if (!parsed || !Array.isArray(parsed.transactions)) {
-        throw new Error("Không đọc được mặt hàng từ PDF — kiểm tra đúng định dạng hóa đơn.");
-      }
-      if (!parsed.transactions.length) {
-        setStatus(
-          "Không tìm thấy mặt hàng nào trong hóa đơn. Nếu là ảnh scan mờ, hãy thử ảnh rõ hơn.",
-          "error"
-        );
-        return;
-      }
-      statementMeta = parsed.statement || null;
-      reconciliation = parsed.reconciliation || { ok: true, message: "" };
 
-      const existingIds = await global.HDashboardStorage.getAllTransactionIds();
-      const toInsert = [];
-      let skipped = 0;
-      for (const tx of parsed.transactions) {
-        if (existingIds.has(tx.transaction_id)) {
-          skipped++;
-        } else {
-          toInsert.push(tx);
-        }
-      }
-
-      if (toInsert.length) {
-        await global.HDashboardStorage.insertTransactions(toInsert);
-      }
-
+      receiptsCatalog = await global.HDashboardStorage.getReceiptsCatalog();
       await refresh();
       renderMeta();
       renderReconcile();
 
-      const ocrNote = parsed.via_ocr ? " · OCR ảnh scan" : "";
-      const warn = reconciliation.ok ? "" : ` · ${reconciliation.message}`;
-      setStatus(
-        `Đã đọc ${parsed.transactions.length} mặt hàng · thêm mới ${toInsert.length} · bỏ qua trùng ${skipped}${ocrNote}${warn}`,
-        reconciliation.ok ? "success" : "error"
-      );
+      let msg =
+        "Đã merge " +
+        result.merged +
+        " mặt hàng · bỏ qua trùng " +
+        result.duplicates +
+        " · skipped tx " +
+        result.skipped;
+      if (result.warnings.length) msg += " · " + result.warnings.join(" · ");
+      setImportStatus(msg, result.warnings.length ? "error" : "success");
+      setStatus("Merge báo cáo xong — analytics đã cập nhật.", "success");
+
+      selectedImportFiles = [];
+      if (els.importInput) els.importInput.value = "";
+      updateImportUi();
     } catch (err) {
       console.error(err);
-      setStatus(err.message || "Lỗi khi đọc PDF hóa đơn.", "error");
+      setImportStatus(err.message || "Import thất bại.", "error");
+    } finally {
+      updateImportUi();
     }
   }
 
   async function refresh() {
     allTransactions = await global.HDashboardStorage.getAllTransactions();
+    receiptsCatalog = await global.HDashboardStorage.getReceiptsCatalog();
     filteredTransactions = [...allTransactions];
     populateMonthFilter();
     applyFilters();
     updateExportButtons();
   }
 
+  let printTableBackup = null;
+
+  function renderAllRowsForPrint() {
+    if (!els.tbody) return;
+    printTableBackup = els.tbody.innerHTML;
+    const txs = filteredTransactions.length ? filteredTransactions : allTransactions;
+    if (!txs.length) return;
+    els.tbody.innerHTML = txs
+      .map((t, i) => {
+        const txnDate = (window.ZolaDateTime && window.ZolaDateTime.formatTxnDate(t.date)) || "—";
+        const desc = t.description ? escapeHtml(t.description) : "—";
+        const store = t.merchant ? escapeHtml(t.merchant) : "—";
+        return `<tr>
+          <td>${i + 1}</td>
+          <td>${txnDate}</td>
+          <td class="hd-table__desc">${desc}</td>
+          <td>${t.qty || 1}</td>
+          <td class="hd-amount">${t.unit_price ? fmt(t.unit_price).replace(" ₫", "") : "—"}</td>
+          <td class="hd-amount hd-amount--expense">${t.debit ? fmt(t.debit).replace(" ₫", "") : "—"}</td>
+          <td>${store}</td>
+        </tr>`;
+      })
+      .join("");
+    if (els.pagination) els.pagination.style.display = "none";
+  }
+
+  function restoreTableAfterPrint() {
+    if (printTableBackup && els.tbody) {
+      els.tbody.innerHTML = printTableBackup;
+      printTableBackup = null;
+    }
+    if (els.pagination) els.pagination.style.display = "";
+    renderTable();
+  }
+
   function bindEvents() {
     if (els.upload) {
-      els.upload.addEventListener("change", (e) => handleFile(e.target.files[0]));
+      els.upload.addEventListener("change", (e) => handleFiles(e.target.files));
     }
 
     if (els.uploadZone) {
@@ -441,7 +686,7 @@
           els.uploadZone.classList.remove("hd-upload--active");
         });
       });
-      els.uploadZone.addEventListener("drop", (e) => handleFile(e.dataTransfer?.files?.[0]));
+      els.uploadZone.addEventListener("drop", (e) => handleFiles(e.dataTransfer?.files));
       els.uploadZone.addEventListener("click", () => els.upload?.click());
     }
 
@@ -456,6 +701,20 @@
     if (els.exportJson) els.exportJson.addEventListener("click", () => runExport("json"));
     if (els.exportCsv) els.exportCsv.addEventListener("click", () => runExport("csv"));
     if (els.exportPdf) els.exportPdf.addEventListener("click", () => runExport("pdf"));
+    if (els.exportMonthlyPdf)
+      els.exportMonthlyPdf.addEventListener("click", () => runExport("monthly"));
+    if (els.clearSession) els.clearSession.addEventListener("click", runClearSession);
+
+    if (els.importInput) {
+      els.importInput.addEventListener("change", (e) => {
+        selectedImportFiles = Array.from(e.target.files || []);
+        updateImportUi();
+      });
+    }
+    if (els.importBtn) els.importBtn.addEventListener("click", runImportReports);
+
+    document.addEventListener("hd-before-print", renderAllRowsForPrint);
+    document.addEventListener("hd-after-print", restoreTableAfterPrint);
   }
 
   async function startDashboard() {
@@ -467,6 +726,7 @@
       showCoffeeModuleError();
     }
     await refresh();
+    renderMeta();
   }
 
   async function init() {
