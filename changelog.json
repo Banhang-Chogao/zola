@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "gỡ VIPZone/subscription · công cụ miễn phí · nav sidebar ph…",
+      "tag": "refactor",
+      "lines_added": 1335,
+      "lines_removed": 6229,
+      "highlights": [
+        "Xoá templates vipzone.html, vipzone-admin.html; JS vipzone.js, vip-admin.js, content-blocks.js; SCSS _vipzone.scss, _vip-admin.scss; content tools/vipzone*.md.",
+        "Bỏ menu VIPZone, sidebar widget \"kích hoạt VIP\", config momo subscription (vipzone_admin_url, vipzone_momo_*). page.html bỏ data-vipzone-premium.",
+        "GIỮ NGUYÊN backend Render + plumbing dùng chung: cms_auth (vipzone-auth-api, editor + OAuth dashboards) và zola-vipzone-api (GSC/SEO Reality).",
+        "Gate VIP nằm trong vipzone.js (TOOL_PREFIXES) → gỡ file là tool tự mở.",
+        "content.html bỏ badge khoá 🔒 (data-gate vip/premium); content.md bỏ tool VIPZone."
+      ],
+      "pr": 526
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(vu-mua): trang ứng dụng theo dõi bán nông sản + insights tại /vu…",
       "tag": "chore",
       "lines_added": 2273,
