@@ -250,6 +250,54 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertFalse(body["is_super"])
         self.assertFalse(body["is_admin"])
 
+    def test_me_includes_permissions(self) -> None:
+        db = get_db()
+        sid = db.create_cms_session(
+            {"email": "admin@example.com", "username": "banhang-chogao", "name": "Admin", "is_super": True},
+            3600,
+        )
+        body = self.client.get("/api/vipzone/me", headers={"Authorization": f"Bearer {sid}"}).json()
+        perms = body["permissions"]
+        self.assertTrue(perms["can_superadmin"])
+        self.assertTrue(perms["can_admin"])
+        self.assertTrue(perms["can_write"])
+        self.assertTrue(perms["can_read_premium"])
+        # /auth/me mirrors the exact same identity (single source of truth).
+        auth_body = self.client.get("/auth/me", headers={"Authorization": f"Bearer {sid}"}).json()
+        self.assertEqual(auth_body["permissions"], perms)
+
+    def test_admin_tier_role(self) -> None:
+        # A username in ADMIN_USERNAMES but NOT superadmin → role "admin".
+        import roles
+
+        old = roles.ADMIN_USERNAMES
+        roles.ADMIN_USERNAMES = {"adminonly"}
+        try:
+            db = get_db()
+            sid = db.create_cms_session(
+                {"email": "a@example.com", "username": "adminonly", "name": "A", "is_super": False},
+                3600,
+            )
+            body = self.client.get("/api/vipzone/me", headers={"Authorization": f"Bearer {sid}"}).json()
+            self.assertEqual(body["role"], "admin")
+            self.assertFalse(body["is_super"])
+            self.assertTrue(body["is_admin"])
+            self.assertTrue(body["permissions"]["can_write"])
+            self.assertFalse(body["permissions"]["can_superadmin"])
+        finally:
+            roles.ADMIN_USERNAMES = old
+
+    def test_user_with_premium_perm_false(self) -> None:
+        db = get_db()
+        sid = db.create_cms_session(
+            {"email": "plain@example.com", "username": "plain", "is_super": False},
+            3600,
+        )
+        body = self.client.get("/api/vipzone/me", headers={"Authorization": f"Bearer {sid}"}).json()
+        self.assertEqual(body["role"], "user")
+        self.assertFalse(body["permissions"]["can_read_premium"])
+        self.assertFalse(body["permissions"]["can_admin"])
+
     def test_vipzone_me_shares_auth_session(self) -> None:
         db = get_db()
         sid = db.create_cms_session(

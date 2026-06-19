@@ -94,8 +94,11 @@
     });
   }
 
+  // Render from the API's permission object — single source of truth (roles.py).
+  // Legacy role/flag fallback kept ONLY for a backend lagging behind `main` (V16).
   function roleIsAdmin(user) {
     if (!user || user.role === "guest") return false;
+    if (user.permissions) return !!user.permissions.can_admin;
     return user.role === "superadmin" || user.role === "supervip" ||
       !!user.is_super || !!user.is_superadmin || !!user.is_admin;
   }

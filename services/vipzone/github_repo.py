@@ -19,18 +19,17 @@ for _u in os.getenv("SUPERVIP_USERNAMES", "").split(","):
     if _u.strip():
         SUPERADMIN_GITHUB_USERNAMES.add(_u.strip().lower())
 
-ADMIN_USERNAMES = {
-    u.strip().lower()
-    for u in os.getenv("ADMIN_USERNAMES", "banhang-chogao").split(",")
-    if u.strip()
-}
-
 
 def username_env_fallback(username: str | None) -> bool:
+    """Superadmin env fallback ONLY (SUPERADMIN_GITHUB_USERNAMES).
+
+    Admin-tier usernames (roles.ADMIN_USERNAMES) intentionally do NOT grant
+    superadmin — the two tiers are distinct in the SSoT (roles.py).
+    """
     uname = (username or "").strip().lower()
     if not uname:
         return False
-    return uname in SUPERADMIN_GITHUB_USERNAMES or uname in ADMIN_USERNAMES
+    return uname in SUPERADMIN_GITHUB_USERNAMES
 
 
 async def check_repo_superadmin(

@@ -45,24 +45,13 @@ from pydantic import BaseModel, EmailStr, Field
 
 from catalog_loader import load_catalog, migrate_picks_sync
 from picker_access import expand_items, items_to_map, migrate_picker_items, sparse_items
-from cms_auth import BACKEND_URL, is_admin, router as auth_router, session_dep
+from cms_auth import BACKEND_URL, router as auth_router, session_dep
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
-from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
+from roles import build_identity
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://banhang-chogao.github.io")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
 DB_PATH = os.getenv("VIPZONE_DB_PATH", "")
-
-ADMIN_EMAILS = {
-    e.strip().lower()
-    for e in os.getenv("ADMIN_EMAILS", "292648126+banhang-chogao@users.noreply.github.com").split(",")
-    if e.strip()
-}
-ADMIN_USERNAMES = {
-    u.strip().lower()
-    for u in os.getenv("ADMIN_USERNAMES", "banhang-chogao").split(",")
-    if u.strip()
-}
 
 MOMO_MONTHLY = os.getenv(
     "VIPZONE_MOMO_MONTHLY",
@@ -104,56 +93,46 @@ app.add_middleware(
 app.include_router(auth_router)
 
 
+def _identity(profile: dict[str, Any], *, with_vip: bool = True) -> dict[str, Any]:
+    """Build the SSoT identity for a session. `with_vip=False` skips the DB VIP
+    lookup for gates that don't depend on VIP status (admin/superadmin)."""
+    email = profile.get("email") or ""
+    vip_row = get_db().get_active_vip(email) if with_vip else None
+    return build_identity(profile, vip_row=vip_row)
+
+
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
-    if not is_admin(profile.get("email"), profile.get("username")) and not is_superadmin(profile):
+    if not _identity(profile, with_vip=False)["permissions"]["can_admin"]:
         raise HTTPException(403, "admin_only")
     return profile
 
 
 async def require_supervip(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
-    if not is_superadmin(profile):
+    if not _identity(profile, with_vip=False)["permissions"]["can_superadmin"]:
         raise HTTPException(403, "superadmin_required")
     return profile
 
 
 def _role_payload(profile: dict[str, Any]) -> dict[str, Any]:
-    email = profile.get("email") or ""
-    username = profile.get("username") or ""
-    is_super = is_superadmin(profile)
-    vip_row = get_db().get_active_vip(email)
-    role = resolve_role(is_super, is_vip=vip_row is not None)
-    out: dict[str, Any] = {
-        "email": profile.get("email"),
-        "username": username,
-        "name": profile.get("name"),
-        "avatar": profile.get("avatar"),
-        "role": role,
-        "is_super": is_super,
-        "is_admin": is_admin(email, username),
-    }
-    if vip_row:
-        out["vip_plan"] = vip_row.get("plan")
-        out["vip_expires_at"] = vip_row.get("expires_at")
-    return out
+    return _identity(profile)
 
 
 async def require_vip(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
-    """Authenticate the CMS session then require an active VIP (supervip bypasses).
+    """Premium-content gate — enforced from the SSoT permission matrix.
 
-    Reuses cms_profile_from_session (no duplicated auth) + db.get_active_vip
-    (role check).
+    `can_read_premium` is granted to vip · admin · superadmin (the public /
+    premium / admin_only matrix). No duplicated auth: reuses session_dep +
+    db.get_active_vip via build_identity.
     """
-    email = (profile.get("email") or "").lower().strip()
-    if is_superadmin(profile):
-        return {"email": email, "plan": "superadmin", "expires_at": "", "role": ROLE_SUPERADMIN}
-    vip_row = get_db().get_active_vip(email)
-    if not vip_row:
+    identity = _identity(profile)
+    if not identity["permissions"]["can_read_premium"]:
         raise HTTPException(403, "vip_required")
+    email = (profile.get("email") or "").lower().strip()
     return {
-        "email": vip_row["email"],
-        "plan": vip_row.get("plan"),
-        "expires_at": vip_row.get("expires_at") or "",
-        "role": ROLE_VIP,
+        "email": email,
+        "plan": identity.get("vip_plan") or identity["role"],
+        "expires_at": identity.get("vip_expires_at") or "",
+        "role": identity["role"],
     }
 
 

@@ -40,12 +40,51 @@ class RoleResolutionTests(unittest.TestCase):
     def test_vip_role(self) -> None:
         self.assertEqual(roles.resolve_role(False, is_vip=True), "vip")
 
+    def test_admin_role(self) -> None:
+        # admin tier (env username/email) ranks below superadmin, above vip.
+        self.assertEqual(roles.resolve_role(False, is_vip=False, is_admin=True), "admin")
+        self.assertEqual(roles.resolve_role(False, is_vip=True, is_admin=True), "admin")
+        self.assertEqual(roles.resolve_role(True, is_vip=False, is_admin=True), "superadmin")
+
     def test_user_role(self) -> None:
         self.assertEqual(roles.resolve_role(False, is_vip=False), "user")
 
     def test_no_email_superadmin(self) -> None:
-        self.assertFalse(roles.is_supervip("tamsudev.com@gmail.com", None))
+        # Email alone never grants superadmin (the reverted hardcoded-email override).
         self.assertFalse(roles.is_superadmin({"email": "tamsudev.com@gmail.com", "username": "other"}))
+
+    def test_permission_matrix(self) -> None:
+        user = roles.build_permissions("user")
+        vip = roles.build_permissions("vip")
+        admin = roles.build_permissions("admin")
+        sup = roles.build_permissions("superadmin")
+        # can_read_premium: vip+ ; can_write/can_admin: admin+ ; can_superadmin: super only
+        self.assertEqual(
+            [p["can_read_premium"] for p in (user, vip, admin, sup)],
+            [False, True, True, True],
+        )
+        self.assertEqual(
+            [p["can_write"] for p in (user, vip, admin, sup)],
+            [False, False, True, True],
+        )
+        self.assertEqual(
+            [p["can_admin"] for p in (user, vip, admin, sup)],
+            [False, False, True, True],
+        )
+        self.assertEqual(
+            [p["can_superadmin"] for p in (user, vip, admin, sup)],
+            [False, False, False, True],
+        )
+
+    def test_build_identity_includes_role_and_permissions(self) -> None:
+        ident = roles.build_identity(
+            {"email": "vip@example.com", "username": "viponly", "is_super": False},
+            vip_row={"plan": "monthly", "expires_at": "2099-01-01T00:00:00Z"},
+        )
+        self.assertEqual(ident["role"], "vip")
+        self.assertTrue(ident["permissions"]["can_read_premium"])
+        self.assertFalse(ident["permissions"]["can_write"])
+        self.assertEqual(ident["vip_plan"], "monthly")
 
     def test_active_vip_db(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

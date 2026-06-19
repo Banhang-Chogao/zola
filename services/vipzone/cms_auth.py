@@ -14,7 +14,7 @@ from pydantic import BaseModel
 
 from db import VipzoneDB
 from github_repo import check_repo_superadmin
-from roles import resolve_role, username_is_superadmin
+from roles import build_identity, username_is_superadmin
 
 SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
 
@@ -27,17 +27,6 @@ GH_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID") or os.getenv("GH_CLIENT_ID", "")
 GH_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET") or os.getenv("GH_CLIENT_SECRET", "")
 SESSION_TTL = int(os.getenv("VIPZONE_SESSION_TTL", str(8 * 3600)))
 
-ADMIN_EMAILS = {
-    e.strip().lower()
-    for e in os.getenv("ADMIN_EMAILS", "292648126+banhang-chogao@users.noreply.github.com").split(",")
-    if e.strip()
-}
-ADMIN_USERNAMES = {
-    u.strip().lower()
-    for u in os.getenv("ADMIN_USERNAMES", "banhang-chogao").split(",")
-    if u.strip()
-}
-
 _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 
 router = APIRouter(tags=["auth"])
@@ -48,23 +37,16 @@ class AuthMeResponse(BaseModel):
     username: str = ""
     name: str = ""
     avatar: str = ""
-    role: Literal["user", "vip", "superadmin"] = "user"
+    role: Literal["user", "vip", "admin", "superadmin"] = "user"
     is_super: bool = False
     is_admin: bool = False
+    permissions: dict[str, bool] = {}
     vip_plan: str | None = None
     vip_expires_at: str | None = None
 
 
 class LogoutResponse(BaseModel):
     ok: bool = True
-
-
-def is_admin(email: str | None, username: str | None) -> bool:
-    if username and username.lower() in ADMIN_USERNAMES:
-        return True
-    if email and email.lower() in ADMIN_EMAILS:
-        return True
-    return False
 
 
 def normalize_return_to(return_to: str) -> str:
@@ -186,24 +168,9 @@ async def session_dep(
 
 
 def session_role_payload(db: VipzoneDB, profile: dict[str, Any]) -> dict[str, Any]:
+    """Thin delegate to the SSoT — /auth/me returns the SAME identity as /api/vipzone/me."""
     email = profile.get("email") or ""
-    username = profile.get("username") or ""
-    is_super = bool(profile.get("is_super"))
-    vip_row = db.get_active_vip(email)
-    role = resolve_role(is_super, is_vip=vip_row is not None)
-    out: dict[str, Any] = {
-        "email": profile.get("email"),
-        "username": username,
-        "name": profile.get("name") or username,
-        "avatar": profile.get("avatar") or "",
-        "role": role,
-        "is_super": is_super,
-        "is_admin": is_admin(email, username),
-    }
-    if vip_row:
-        out["vip_plan"] = vip_row.get("plan")
-        out["vip_expires_at"] = vip_row.get("expires_at")
-    return out
+    return build_identity(profile, vip_row=db.get_active_vip(email))
 
 
 @router.get(

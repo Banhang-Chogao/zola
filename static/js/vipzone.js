@@ -117,46 +117,40 @@
     return h;
   }
 
-  function isSuperRole(p) {
-    return !!(p && (p.role === "superadmin" || p.role === "supervip" || p.is_super || p.is_superadmin));
+  // Render from the API's permission object — the single source of truth (roles.py).
+  // Legacy role/flag fallback kept ONLY for a backend lagging behind `main` (V16).
+  function canSuper(p) {
+    if (!p) return false;
+    if (p.permissions) return !!p.permissions.can_superadmin;
+    return p.role === "superadmin" || p.role === "supervip" || !!p.is_super || !!p.is_superadmin;
+  }
+  function canAdmin(p) {
+    if (!p) return false;
+    if (p.permissions) return !!p.permissions.can_admin;
+    return canSuper(p) || !!p.is_admin;
   }
 
-  async function fetchSuperuser() {
-    if (!AUTH_API) return false;
-    try {
-      var res = await fetch(AUTH_API + "/auth/me", {
-        headers: authMeHeaders(),
-        credentials: "include",
-        cache: "no-store",
-      });
-      if (!res.ok) return false;
-      return isSuperRole(await res.json());
-    } catch (e) { return false; }
+  // One cached /me fetch shared by every role check (no duplicated requests/logic).
+  var mePromise = null;
+  function fetchMe() {
+    if (mePromise) return mePromise;
+    if (!AUTH_API) { mePromise = Promise.resolve(null); return mePromise; }
+    mePromise = fetch(AUTH_API + "/api/vipzone/me", {
+      headers: authMeHeaders(),
+      credentials: "include",
+      cache: "no-store",
+    }).then(function (res) {
+      return res.ok ? res.json() : null;
+    }).catch(function () { return null; });
+    return mePromise;
   }
 
-  var superCache = null;
   async function isSuperuser() {
-    if (superCache !== null) return superCache;
-    superCache = await fetchSuperuser();
-    return superCache;
+    return canSuper(await fetchMe());
   }
 
-  var staffCache = null;
   async function isStaffUser() {
-    if (staffCache !== null) return staffCache;
-    if (await isSuperuser()) { staffCache = true; return true; }
-    if (!AUTH_API) { staffCache = false; return false; }
-    try {
-      var res = await fetch(AUTH_API + "/auth/me", {
-        headers: authMeHeaders(),
-        credentials: "include",
-        cache: "no-store",
-      });
-      if (!res.ok) { staffCache = false; return false; }
-      var p = await res.json();
-      staffCache = !!(p.is_admin || isSuperRole(p));
-      return staffCache;
-    } catch (e) { staffCache = false; return false; }
+    return canAdmin(await fetchMe());
   }
 
   var pickerAccessCache = null;

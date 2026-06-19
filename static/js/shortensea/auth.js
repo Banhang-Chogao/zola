@@ -13,9 +13,6 @@
     return "";
   })();
 
-  var SUPER_USERNAMES = ["banhang-chogao"];
-  var SUPER_EMAILS = ["292648126+banhang-chogao@users.noreply.github.com"];
-
   var AUTH_ERRORS = {
     access_denied: "Truy cập bị từ chối.",
     invalid_state: "Phiên đăng nhập hết hạn. Vui lòng thử lại.",
@@ -70,11 +67,12 @@
     return location.pathname + (qs ? "?" + qs : "");
   }
 
+  // Render from the backend-resolved identity only — no hardcoded email/username
+  // whitelist on the client (the backend's _is_super is the source of truth).
   function isSuper(profile) {
     if (!profile) return false;
-    var u = (profile.username || "").toLowerCase();
-    var e = (profile.email || "").toLowerCase();
-    return profile.is_super || SUPER_USERNAMES.indexOf(u) >= 0 || SUPER_EMAILS.indexOf(e) >= 0;
+    if (profile.permissions) return !!profile.permissions.can_superadmin;
+    return !!profile.is_super || profile.role === "superadmin" || profile.role === "supervip";
   }
 
   function login(returnPath) {
