@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(vipzone): landing + admin panel",
+      "tag": "chore",
+      "lines_added": 1453,
+      "lines_removed": 51,
+      "highlights": [
+        "VIPZone landing (/tools/vipzone/) — MoMo gói tháng 250k / 6 tháng 500k, mã 16 số, session restore",
+        "Admin (/tools/vipzone-admin/) — payments, codes, VIP users, insights, Content Picker",
+        "VIP gate cho Công cụ + premium posts; upload dashboards superuser-only",
+        "Sidebar stat: số người kích hoạt VIP",
+        "localStorage prototype khi vipzone_api_url trống (TODO Render backend)"
+      ],
+      "pr": 501
+    },
+    {
+      "date": "2026-06-19",
       "title": "chore(seo): add GSC HTML-file verification google359ea2ec9d73ed9c",
       "tag": "chore",
       "lines_added": 1,
