@@ -146,9 +146,6 @@ Ngoài CMS và changelog, blog có vài tool đứng riêng:
   trợ tới 16 chữ số (hàng `경`, 10¹⁶) qua BigInt. Hai style song
   song: Formal `정식` và Natural `자연`. Mobile responsive, dark mode
   auto.
-- **`/stats/`** — Speed Insights dashboard, đo Core Web Vitals (LCP /
-  FCP / INP / CLS / TTFB) qua thư viện `web-vitals` của Google, lưu
-  500 sample gần nhất vào `localStorage`.
 
 ## Triết lý cuối: tại sao không Next.js?
 
