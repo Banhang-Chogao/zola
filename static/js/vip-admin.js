@@ -4,8 +4,8 @@
   var VZ = window.VIPZone;
   if (!VZ) return;
 
-  var AUTH_API = (function () {
-    var m = document.querySelector('meta[name="zola-cms-auth-api"]');
+  var AUTH_API = VZ.API || (function () {
+    var m = document.querySelector('meta[name="zola-vipzone-api"]');
     return m && m.getAttribute("content") ? m.getAttribute("content").replace(/\/$/, "") : "";
   })();
 
@@ -384,8 +384,8 @@
     var loginBtn = $('[data-vz-action="login"]');
     if (loginBtn) {
       loginBtn.addEventListener("click", function () {
-        if (!AUTH_API) { VZ.toast("CMS auth chưa cấu hình.", "error"); return; }
-        var ret = location.pathname + location.search;
+        if (!AUTH_API) { VZ.toast("VIPZone API chưa cấu hình.", "error"); return; }
+        var ret = location.origin + location.pathname + location.search;
         location.href = AUTH_API + "/auth/login?return_to=" + encodeURIComponent(ret);
       });
     }

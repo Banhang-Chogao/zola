@@ -31,8 +31,12 @@ services:
       # Ephemeral SQLite — no Render disk on free tier
       - key: VIPZONE_DB_PATH
         value: /tmp/vipzone.db
-      - key: CMS_AUTH_URL
-        value: https://blog-visitor-api.onrender.com
+      - key: VIPZONE_BACKEND_URL
+        value: https://blog-vipzone-api.onrender.com
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
       - key: ADMIN_EMAILS
         value: 292648126+banhang-chogao@users.noreply.github.com
       - key: ADMIN_USERNAMES

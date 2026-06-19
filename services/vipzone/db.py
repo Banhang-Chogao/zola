@@ -79,6 +79,16 @@ class VipzoneDB:
                     value TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS oauth_states (
+                    state TEXT PRIMARY KEY,
+                    return_to TEXT NOT NULL,
+                    expires_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS cms_sessions (
+                    sid TEXT PRIMARY KEY,
+                    payload TEXT NOT NULL,
+                    expires_at TEXT NOT NULL
+                );
                 """
             )
 
@@ -291,3 +301,55 @@ class VipzoneDB:
     @staticmethod
     def gen_code16() -> str:
         return "".join(str(secrets.randbelow(10)) for _ in range(16))
+
+    def save_oauth_state(self, state: str, return_to: str, ttl_seconds: int = 600) -> None:
+        exp = datetime.now(timezone.utc) + timedelta(seconds=ttl_seconds)
+        expires_at = exp.strftime("%Y-%m-%dT%H:%M:%SZ")
+        with self._conn() as conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO oauth_states (state, return_to, expires_at) VALUES (?, ?, ?)",
+                (state, return_to, expires_at),
+            )
+
+    def pop_oauth_state(self, state: str) -> str | None:
+        now = _now()
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT return_to FROM oauth_states WHERE state = ? AND expires_at > ?",
+                (state, now),
+            ).fetchone()
+            conn.execute("DELETE FROM oauth_states WHERE state = ?", (state,))
+        return row["return_to"] if row else None
+
+    def create_cms_session(self, profile: dict[str, Any], ttl_seconds: int) -> str:
+        import json
+
+        sid = secrets.token_urlsafe(32)
+        exp = datetime.now(timezone.utc) + timedelta(seconds=ttl_seconds)
+        expires_at = exp.strftime("%Y-%m-%dT%H:%M:%SZ")
+        with self._conn() as conn:
+            conn.execute(
+                "INSERT INTO cms_sessions (sid, payload, expires_at) VALUES (?, ?, ?)",
+                (sid, json.dumps(profile), expires_at),
+            )
+        return sid
+
+    def get_cms_session(self, sid: str) -> dict[str, Any] | None:
+        import json
+
+        now = _now()
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT payload FROM cms_sessions WHERE sid = ? AND expires_at > ?",
+                (sid, now),
+            ).fetchone()
+        if not row:
+            return None
+        try:
+            return json.loads(row["payload"])
+        except json.JSONDecodeError:
+            return None
+
+    def delete_cms_session(self, sid: str) -> None:
+        with self._conn() as conn:
+            conn.execute("DELETE FROM cms_sessions WHERE sid = ?", (sid,))

@@ -7,6 +7,12 @@ Public:
   POST /api/vipzone/payment-request
   POST /api/vipzone/redeem
 
+Auth (GitHub OAuth on this service — Authorization: Bearer <cms_sid>):
+  GET  /auth/login?return_to=...
+  GET  /auth/callback
+  GET  /auth/me
+  POST /auth/logout
+
 Admin (CMS GitHub session — Authorization: Bearer <cms_sid>):
   GET  /api/vipzone/admin/requests
   POST /api/vipzone/admin/requests/{id}/resolve
@@ -30,18 +36,17 @@ import re
 from pathlib import Path
 from typing import Any
 
-import httpx
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
 
 from catalog_loader import load_catalog, migrate_picks_sync
+from cms_auth import BACKEND_URL, cms_profile_from_session, is_admin, router as auth_router
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
 from roles import is_supervip, resolve_role
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://banhang-chogao.github.io")
 BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
-CMS_AUTH_URL = os.getenv("CMS_AUTH_URL", "https://blog-visitor-api.onrender.com").rstrip("/")
 DB_PATH = os.getenv("VIPZONE_DB_PATH", "")
 
 ADMIN_EMAILS = {
@@ -83,41 +88,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-def _is_super(email: str | None, username: str | None) -> bool:
-    if username and username.lower() in ADMIN_USERNAMES:
-        return True
-    if email and email.lower() in ADMIN_EMAILS:
-        return True
-    return False
-
-
-async def _cms_profile(authorization: str) -> dict[str, Any]:
-    if not authorization.startswith("Bearer "):
-        raise HTTPException(401, "missing_token")
-    try:
-        async with httpx.AsyncClient(timeout=8.0) as client:
-            res = await client.get(
-                f"{CMS_AUTH_URL}/auth/me",
-                headers={"Authorization": authorization},
-            )
-    except httpx.HTTPError:
-        raise HTTPException(503, "cms_unreachable") from None
-    if res.status_code != 200:
-        raise HTTPException(401, "invalid_cms_session")
-    return res.json()
+app.include_router(auth_router)
 
 
 async def require_admin(authorization: str = Header(default="")) -> dict[str, Any]:
-    profile = await _cms_profile(authorization)
-    if not _is_super(profile.get("email"), profile.get("username")):
+    profile = await cms_profile_from_session(get_db(), authorization)
+    if not is_admin(profile.get("email"), profile.get("username")):
         raise HTTPException(403, "admin_only")
     return profile
 
 
 async def require_supervip(authorization: str = Header(default="")) -> dict[str, Any]:
-    profile = await _cms_profile(authorization)
+    profile = await cms_profile_from_session(get_db(), authorization)
     if not is_supervip(profile.get("email"), profile.get("username")):
         raise HTTPException(403, "supervip_required")
     return profile
@@ -166,11 +148,14 @@ class PickerIn(BaseModel):
 
 
 def _health_payload() -> dict[str, Any]:
+    from cms_auth import GH_CLIENT_ID, GH_CLIENT_SECRET
+
     return {
         "service": "vipzone",
         "status": "ok",
         "blog_url": BLOG_URL,
-        "cms_auth": CMS_AUTH_URL,
+        "cms_auth": BACKEND_URL,
+        "oauth_configured": bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
         "momo_configured": bool(MOMO_MONTHLY and MOMO_SEMIANNUAL),
     }
 
@@ -206,7 +191,7 @@ def payment_request(body: PaymentRequestIn) -> dict[str, Any]:
 
 @app.get("/api/vipzone/me")
 async def vipzone_me(authorization: str = Header(default="")) -> dict[str, Any]:
-    profile = await _cms_profile(authorization)
+    profile = await cms_profile_from_session(get_db(), authorization)
     return _role_payload(profile)
 
 
