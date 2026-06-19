@@ -64,53 +64,12 @@ chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 # Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },
-    { name = "Bài viết", url = "$BASE_URL/categories/tat-ca", children = [
-        { url = "$BASE_URL/categories/tat-ca",  name = "Tất cả bài viết" },
-        { url = "$BASE_URL/categories/bao-chi",  name = "Báo chí" },
-        { url = "$BASE_URL/categories/khoa-hoc", name = "Khoa học" },
-        { url = "$BASE_URL/categories/the-gioi", name = "Thế giới" },
-        { url = "$BASE_URL/categories/du-lich",  name = "Du lịch" },
-        { url = "$BASE_URL/categories/cong-nghe", name = "Công nghệ" },
-        { url = "$BASE_URL/categories/am-thuc",  name = "Ẩm thực" },
-        { url = "$BASE_URL/categories/ngan-hang",  name = "Ngân hàng" },
-        { url = "$BASE_URL/categories/bao-hiem",  name = "Bảo hiểm" },
-        { url = "$BASE_URL/categories/premium",   name = "⭐ Premium" },
-    ] },
-    # Công cụ — 4 NHÓM con (accordion): Content · Dashboard · DB2 · Khác.
-    # Mỗi nhóm có 'children' riêng → submenu chỉ hiện tên nhóm ở tầng 1, mỗi
-    # nhóm xổ/đóng để lộ tool con (không tràn màn hình, nhất là mobile).
-    # Thêm tool mới = thêm 1 dòng vào 'children' của nhóm phù hợp (giữ pattern).
-    { name = "Công cụ", url = "$BASE_URL/editor", children = [
-        { name = "Content", children = [
-            { url = "$BASE_URL/editor",    name = "Viết bài" },
-            { url = "$BASE_URL/tools/content-creator", name = "Content Creator" },
-            { url = "$BASE_URL/seo-bang-vang", name = "Bảng Vàng SEO" },
-            { url = "$BASE_URL/converter", name = "Korean Converter" },
-        ] },
-        { name = "Dashboard", children = [
-            { url = "$BASE_URL/insights",  name = "Insights" },
-            { url = "$BASE_URL/ad-report", name = "AD-Report" },
-            { url = "$BASE_URL/ad-report-v2", name = "🔥 Ad-Report V2" },
-            { url = "$BASE_URL/authority-report", name = "Authority Report" },
-            { url = "$BASE_URL/scoring",   name = "Scoring" },
-        ] },
-        { name = "DB2", children = [
-            { url = "$BASE_URL/tools/f-dashboard", name = "F-Dashboard" },
-            { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
-            { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
-            { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
-            { url = "$BASE_URL/tools/flight-db", name = "✈️ Flight DB" },
-            { url = "$BASE_URL/tools/bhxh-1-lan", name = "🧮 BHXH 1 lần" },
-        ] },
-        { name = "Khác", children = [
-            { url = "$BASE_URL/tools/bhtn", name = "🛡️ BHTN" },
-            { url = "$BASE_URL/changelog", name = "Changelog" },
-            { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
-            { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
-            { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
-            { url = "$BASE_URL/shortensea/", name = "ShortenSEA" },
-            { url = "$BASE_URL/font",      name = "Font Guideline" },
-        ] },
+    # Content — gộp "Bài viết" + "Công cụ" cũ vào 1 mục. Trang chính (/content)
+    # render mọi chuyên mục bài viết + công cụ thành khối màu S-DNA; "MS" =
+    # Content Creator (đang xây dựng). Toàn bộ category/tool nay sống ở /content.
+    { name = "Content", url = "$BASE_URL/content", children = [
+        { url = "$BASE_URL/content", name = "Main content" },
+        { url = "$BASE_URL/tools/content-creator", name = "MS" },
     ] },
     { name = "VIPZone", url = "$BASE_URL/tools/vipzone" },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
