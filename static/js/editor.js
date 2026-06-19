@@ -50,9 +50,11 @@
   }
   function setSid(sid) {
     try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+    try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
   }
   function clearSid() {
     try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
   // Đọc #sid=... từ URL fragment sau OAuth callback redirect.
@@ -2032,6 +2034,14 @@ tags = ${tagsStr}
     if (sid) {
       const user = await fetchMe();
       if (user) {
+        // CMS write auth = SUPERUSER ONLY. Non-super (kể cả VIP) không được vào
+        // trình soạn thảo → clear session, hiện lỗi access_denied.
+        if (!user.is_super) {
+          clearSid();
+          showLoginError("access_denied");
+          showView("login");
+          return;
+        }
         currentUser = user;
         populateUserBar(user);
         if (!checkUrlParam()) await enterDashboard(true);

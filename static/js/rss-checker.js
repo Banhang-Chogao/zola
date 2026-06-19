@@ -36,10 +36,10 @@
     catch (e) { return ""; }
   }
   function setSid(sid) {
-    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+    try { sessionStorage.setItem(SESSION_KEY, sid); localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
   }
   function clearSid() {
-    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    try { sessionStorage.removeItem(SESSION_KEY); localStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
   function showView(name) {

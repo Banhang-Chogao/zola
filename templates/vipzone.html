@@ -29,10 +29,13 @@
             <div class="vipzone__kpi"><span class="vipzone__kpi-label">Premium</span><span class="vipzone__kpi-value">Gộp gói</span></div>
             <div class="vipzone__kpi"><span class="vipzone__kpi-label">Mã kích hoạt</span><span class="vipzone__kpi-value">16 số · 1 lần</span></div>
         </div>
-        {% set vz_admin = config.extra.vipzone_admin_url | default(value="") %}
-        <a class="vipzone__btn vipzone__btn--super-admin" data-vz-super-admin
-           href="{% if vz_admin %}{{ vz_admin | safe }}{% else %}{{ config.base_url }}/tools/vipzone-admin/{% endif %}"
-           hidden>SUPER_ADMIN</a>
+        <div class="vipzone__admin-shortcut" data-vz-admin-shortcut data-vz-admin-state="shortcut" hidden>
+            <a class="vipzone__btn vipzone__btn--admin" href="{{ config.base_url }}/tools/vipzone-admin/" aria-label="Mở VIPZone Admin (super admin)">
+                <span class="vipzone__btn-mark" aria-hidden="true">🛡</span>
+                <span class="vipzone__btn-text">SUPER_ADMIN</span>
+            </a>
+            <p class="vipzone__admin-shortcut-note" data-vz-admin-shortcut-note>Admin shortcut · chỉ dành cho superuser</p>
+        </div>
     </header>
 
     <div class="vipzone__status-card" data-vz-vip-status hidden>

@@ -578,6 +578,47 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   scheduled report read `0/pass` because it ran on the pre-batch base. `--fix` dry-run:
   only **20/40** reached a ≥0.6 suggestion → manual intent-based repoint/removal required.
 
+#### V16 — Static-site ↔ backend split-brain: CI green but VIP premium still locked (Render not redeployed)
+
+> Deploy/infra vaccine. Match the signature → run `backend8` (do NOT re-diagnose),
+> then suggest a Render Manual Sync. **Never report success while the backend lags `main`.**
+
+- **Symptom:** QA Gatekeeper green, `auto-merge.yml` merged, **`deploy.yml` (GitHub Pages)
+  succeeds**, yet a VIP/supervip on a premium article (`data-vipzone-premium="true"`) still
+  cannot read the body — `GET {vipzone_api}/api/vipzone/content/{post_id}` returns
+  **404 `premium_content_unavailable`** (or 503). The "Premium gộp gói" promise looks broken
+  even though the code is on `main`. Often co-occurs with GitHub API **rate-limit** noise
+  during `theodoi8` polling, masking the real cause.
+- **Root cause:** GitHub Pages always ships the latest `main`, but the FastAPI backends on
+  Render (`blog-vipzone-api`) only redeploy on a **manual** Blueprint sync. So the **static
+  site is ahead of the backend** — endpoints/content that exist in the repo 404 in
+  production. This is a **split-brain**, NOT a code bug and NOT a `zola build` failure. A
+  green static deploy is **not** proof the backend serves the new code.
+- **Detector / FIXER (`backend8`):** `python3 scripts/backend_sha_check.py` compares
+  **`git rev-parse origin/main`** against the backend's **`/health.deployed_sha`** (Render
+  injects `RENDER_GIT_COMMIT`; exposed by `services/vipzone/main.py`). Outcomes:
+  `in_sync` (no action) · `outdated` → **BACKEND_OUTDATED** (Render → Blueprints → **Manual
+  Sync `blog-vipzone-api`**) · `unknown` (dyno asleep / `RENDER_GIT_COMMIT` unset → retry,
+  never a false success). Report cached to `data/backend-status.json`. **Report-only** (exit 0)
+  unless `--strict` (exit 2 on outdated) — it must never gate CI offline.
+- **Auto-heal (frontend, already wired):** `static/js/vipzone.js` `initPremiumUnlock()` — for a
+  VIP/supervip on a premium article it fetches the content endpoint and **reveals it inside the
+  per-post paywall DOM** (`#paywall-premium [data-paywall-body]`); on 404/503/auth-fail it
+  prepends a calm **"backend pending"** notice (`.vipzone__backend-pending`) to `#paywall-box`
+  **without** overlaying/blurring (that was the #507 regression) so the per-post unlock stays
+  usable. Diagnoses the mismatch instead of showing a dead lock.
+- **Rate-limit-safe monitoring (reuse, no new daemon):** prefer authenticated MCP/`gh` +
+  `try_auto_merge.py` (`auto-merge.yml` `concurrency` queues merges FIFO → no API storm);
+  `backend8` uses **one** `/health` GET with **exponential backoff** + cached
+  `data/backend-status.json`; dispatch workflows **one-shot** only. `theodoi8` surfaces
+  `BACKEND_OUTDATED` after a green deploy — **never silently succeed**.
+- **Prevention:** after any backend change merges (`services/**`), run `backend8`
+  (`deploysafe8`) before calling a deploy "done"; treat a green Pages deploy + outdated
+  backend SHA as **incomplete**; the only human action is a Render Manual Sync (Claude cannot
+  deploy Render).
+- **Tests:** `python3 -m unittest scripts.test_backend_sha_check -v` (in_sync · outdated ·
+  unreachable=unknown · no-backend-sha=unknown · no-main=unknown · prefix-match).
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library

@@ -104,7 +104,16 @@
   function isVipActive() { return !!getVipSession(); }
 
   function getCmsSid() {
-    try { return sessionStorage.getItem(CMS_KEY) || ""; } catch (e) { return ""; }
+    // Persistent super-admin: ưu tiên sessionStorage, fallback localStorage (sống
+    // qua đóng tab / xoá cache). base.html bootstrap đã mirror 2 chiều; đây là lớp
+    // phòng vệ để super-admin được nhận diện kể cả khi sessionStorage trống.
+    try {
+      var sid = sessionStorage.getItem(CMS_KEY) || localStorage.getItem(CMS_KEY) || "";
+      if (sid && !sessionStorage.getItem(CMS_KEY)) {
+        try { sessionStorage.setItem(CMS_KEY, sid); } catch (e) {}
+      }
+      return sid;
+    } catch (e) { return ""; }
   }
 
   async function fetchSuperuser() {
@@ -266,6 +275,34 @@
     return { message: "Đã gửi yêu cầu (local prototype)." };
   }
 
+  async function initAdminShortcut() {
+    var shortcut = document.querySelector("[data-vz-admin-shortcut]");
+    if (!shortcut) return;
+    var note = shortcut.querySelector("[data-vz-admin-shortcut-note]");
+    if (!getCmsSid()) {
+      // No CMS session → role detection unreliable → keep visible as shortcut.
+      shortcut.hidden = false;
+      shortcut.setAttribute("data-vz-admin-state", "shortcut");
+      return;
+    }
+    try {
+      var ok = await isSuperuser();
+      if (ok) {
+        shortcut.hidden = false;
+        shortcut.setAttribute("data-vz-admin-state", "verified");
+        if (note) note.textContent = "✓ Bạn đã đăng nhập super admin — vào dashboard";
+      } else {
+        // Authenticated but not super → hide the button.
+        shortcut.hidden = true;
+        shortcut.setAttribute("data-vz-admin-state", "hidden");
+      }
+    } catch (e) {
+      // Detection failed → fall back to shortcut visibility.
+      shortcut.hidden = false;
+      shortcut.setAttribute("data-vz-admin-state", "shortcut");
+    }
+  }
+
   function initLanding() {
     var root = document.querySelector('[data-vz-page="landing"]');
     if (!root) return;
@@ -274,6 +311,8 @@
       var note = document.querySelector("[data-vz-proto-note]");
       if (note) note.hidden = false;
     }
+
+    initAdminShortcut();
 
     var planInput = document.getElementById("vz-selected-plan");
     var planLabel = document.querySelector("[data-vz-plan-label]");
@@ -312,14 +351,6 @@
         setPlan(btn.getAttribute("data-vz-select-plan"));
       });
     });
-
-    // SUPER_ADMIN shortcut — reveal only for superuser/admin when auth role is available.
-    var adminBtn = document.querySelector("[data-vz-super-admin]");
-    if (adminBtn) {
-      isSuperuser().then(function (ok) {
-        if (ok) adminBtn.hidden = false;
-      }).catch(function () { /* role detection unavailable → keep hidden, never block users */ });
-    }
 
     var payForm = document.getElementById("vz-payment-form");
     if (payForm) {
@@ -379,8 +410,65 @@
     tick();
   }
 
+  // ---- V16: VIP premium-article auto-unlock + backend split-brain auto-heal ----
+  // Additive enhancement for VIP/supervip on a locked premium article. It NEVER
+  // overlays or blurs (that was the #507 regression) — it reuses the per-post
+  // paywall DOM: success → reveal content; backend lag/unavailable → an inline
+  // "backend pending" notice prepended to the paywall box (per-post unlock stays
+  // usable). Non-VIP visitors are untouched; paywall.js handles them.
+  function isPremiumArticle() {
+    return document.documentElement.getAttribute("data-vipzone-premium") === "true" ||
+      (document.body && document.body.getAttribute("data-vipzone-premium") === "true");
+  }
+
+  function premiumPostId() {
+    var el = document.getElementById("paywall-box") || document.querySelector("[data-post-id]");
+    if (!el) return "";
+    return el.getAttribute("data-post-id") || (el.dataset && el.dataset.postId) || "";
+  }
+
+  function showBackendPending(box, err) {
+    if (!box || document.querySelector(".vipzone__backend-pending")) return;
+    var detail = (err && err.message) ? String(err.message) : "";
+    var unavailable = /unavailable|404|not.?found|fetch|networkerror|failed|unreachable|503/i.test(detail);
+    var note = document.createElement("div");
+    note.className = "vipzone__backend-pending";
+    note.setAttribute("role", "status");
+    note.innerHTML =
+      "<strong>⏳ VIPZone backend đang chờ deploy.</strong> " +
+      (unavailable
+        ? "Bạn là VIP nhưng nội dung premium chưa đồng bộ từ <code>blog-vipzone-api</code> (split-brain static ↔ backend). Thử lại sau, hoặc mở khóa bài này bằng mã bên dưới."
+        : "Chưa xác thực được phiên VIP. Đăng nhập GitHub bằng đúng email VIP, hoặc mở khóa bài này bằng mã bên dưới.");
+    box.insertBefore(note, box.firstChild);
+  }
+
+  async function initPremiumUnlock() {
+    if (!isPremiumArticle()) return;
+    var premium = document.getElementById("paywall-premium");
+    if (!premium || !premium.hidden) return;          // not a paywall page, or already unlocked
+    if (!isVipActive() && !(await isSuperuser())) return;  // VIP/supervip only
+    var box = document.getElementById("paywall-box");
+    var postId = premiumPostId();
+    if (!postId || !API) return;                      // no backend → leave paywall untouched
+    try {
+      var data = await apiFetch("/api/vipzone/content/" + encodeURIComponent(postId));
+      var body = premium.querySelector("[data-paywall-body]");
+      if (body && data && data.html) {
+        body.innerHTML = data.html;
+        premium.hidden = false;
+        if (box) box.hidden = true;
+        toast("VIPZone đã mở khóa bài premium.", "success");
+        return;
+      }
+      showBackendPending(box, new Error("premium_content_unavailable"));
+    } catch (err) {
+      showBackendPending(box, err);
+    }
+  }
+
   global.VIPZone = {
     isVipActive: isVipActive,
+    initPremiumUnlock: initPremiumUnlock,
     isSuperuser: isSuperuser,
     getVipSession: getVipSession,
     readStore: readStore,
@@ -401,5 +489,6 @@
     updateSidebarCount();
     initLanding();
     initGate();
+    initPremiumUnlock();
   });
 })(window);
