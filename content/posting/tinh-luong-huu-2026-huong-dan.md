@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/tinh-luong-huu-2026-huong-dan/"]
 [taxonomies]
 categories = ["Tất cả", "Bảo hiểm"]
-tags = ["lương hưu", "tính lương hưu 2026", "bhxh hưu trí"]
+tags = ["bhxh hưu trí", "lương hưu", "tính lương hưu 2026"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "tính lương hưu 2026"

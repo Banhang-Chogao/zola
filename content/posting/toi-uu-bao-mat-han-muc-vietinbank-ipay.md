@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/toi-uu-bao-mat-han-muc-vietinbank-ipay/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank ipay", "bảo mật ipay", "hạn mức ipay"]
+tags = ["bảo mật ipay", "hạn mức ipay", "vietinbank ipay"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "bảo mật VietinBank iPay"

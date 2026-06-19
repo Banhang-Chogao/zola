@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/sua-orphan-bai-tieng-han-seo/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["orphan pages", "internal linking", "topic cluster", "seo"]
+tags = ["internal linking", "orphan pages", "seo", "topic cluster"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "sửa orphan tiếng hàn"

@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/tra-cuu-thoi-gian-dong-bhtn-vssid/"]
 [taxonomies]
 categories = ["Tất cả", "Bảo hiểm"]
-tags = ["tra cứu bảo hiểm thất nghiệp", "quá trình đóng BHTN", "vssid bhtn"]
+tags = ["quá trình đóng bhtn", "tra cứu bảo hiểm thất nghiệp", "vssid bhtn"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "tra cứu bảo hiểm thất nghiệp"

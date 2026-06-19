@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/10-meo-vietinbank-ipay-nang-cao/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["vietinbank ipay", "ipay nâng cao", "ngân hàng số"]
+tags = ["ipay nâng cao", "ngân hàng số", "vietinbank ipay"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "vietinbank ipay nâng cao"

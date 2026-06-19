@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/ngu-phap-gia-dinh-nang-cao-topik/"]
 [taxonomies]
 categories = ["Tất cả", "Học tiếng Hàn"]
-tags = ["ngữ pháp giả định", "topik ii", "tiếng hàn nâng cao"]
+tags = ["ngữ pháp giả định", "tiếng hàn nâng cao", "topik ii"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "ngữ pháp giả định tiếng hàn"

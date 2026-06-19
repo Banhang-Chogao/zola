@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/derado-va-neunda-haedo-tieng-han/"]
 [taxonomies]
 categories = ["Tất cả", "Học tiếng Hàn"]
-tags = ["더라도", "는다 해도", "ngữ pháp tiếng hàn", "topik"]
+tags = ["ngữ pháp tiếng hàn", "topik", "는다 해도", "더라도"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "더라도 và 는다 해도"

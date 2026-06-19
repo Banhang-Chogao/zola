@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/tro-cap-that-nghiep-thoi-gian-bhtn/"]
 [taxonomies]
 categories = ["Tất cả", "Bảo hiểm"]
-tags = ["trợ cấp thất nghiệp", "hồ sơ hưởng BHTN", "thời gian nhận BHTN"]
+tags = ["hồ sơ hưởng bhtn", "thời gian nhận bhtn", "trợ cấp thất nghiệp"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "trợ cấp thất nghiệp"

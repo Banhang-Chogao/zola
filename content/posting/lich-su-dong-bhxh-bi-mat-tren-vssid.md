@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/lich-su-dong-bhxh-bi-mat-tren-vssid/"]
 [taxonomies]
 categories = ["Tất cả", "Bảo hiểm"]
-tags = ["vssid", "bảo hiểm xã hội", "bhxh", "tra cứu bhxh", "chốt sổ bhxh", "an sinh xã hội"]
+tags = ["an sinh xã hội", "bhxh", "bảo hiểm xã hội", "chốt sổ bhxh", "tra cứu bhxh", "vssid"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "lịch sử đóng BHXH bị mất trên VssID"
