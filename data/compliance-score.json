@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T03:29:36Z",
+  "updated_at": "2026-06-19T04:49:02Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "619/645 in range"
+          "detail": "625/652 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "645/645 complete"
+          "detail": "652/652 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "645/645 set"
+          "detail": "652/652 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "645/645 single H1"
+          "detail": "652/652 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "645/645 with lang"
+          "detail": "652/652 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "645/645 ready"
+          "detail": "652/652 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "645/645 pages"
+          "detail": "652/652 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "645/645 pages covered"
+          "detail": "652/652 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "162/162 articles"
+          "detail": "163/163 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "156/162 tagged"
+          "detail": "157/163 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "161/162 substantive"
+          "detail": "162/163 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "2 broken / 637 unique",
+          "detail": "2 broken / 644 unique",
           "broken": [
             {
               "source_page": "/baochi/bidv-flagship-private-banking-tphcm/",
@@ -242,7 +242,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "641/645 pages"
+          "detail": "648/652 pages"
         },
         {
           "label": "Skip navigation",
@@ -278,8 +278,8 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 645,
-  "articles_scanned": 167,
+  "pages_scanned": 652,
+  "articles_scanned": 168,
   "fix_log": [
     {
       "category": "Links",
@@ -287,7 +287,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 6 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html → /baochi/bi-kip-xin-visa-han-quoc-5-nam-de/ (Target not found in public/ after zola build)",
-      "at": "2026-06-19T03:29:36Z"
+      "at": "2026-06-19T04:49:03Z"
     }
   ],
   "fix_summary": {
