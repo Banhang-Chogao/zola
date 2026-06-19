@@ -423,6 +423,50 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken. All four
   features survived.
 
+#### V13 — Scheduled Forward-Reference: future-dated drafts wrongly flagged as broken links
+
+> Process + tooling vaccine (not a workflow-run failure). Match the signature →
+> trust the FIXER below; the checker already handles it automatically.
+
+- **Symptom:** `qa-404-checker.py` reports `N internal broken` and **exit 2** (→
+  `qa-check` red → auto-merge blocked → deploy blocked) for links that point to a
+  post which **does not yet exist in `public/`**. The target turns out to be a post
+  that is `draft = true` with `[extra] publish_at = "<future ISO>"` (scheduled via
+  `scheduled-publish.yml`). The failure is **unrelated** to the PR under review —
+  often a content/news post links *forward* to a sibling that publishes in a day or
+  two. Example (19/06/2026): 3 `content/baochi/*` posts linked to
+  `bidv-smartbanking-khong-vao-duoc` (publish 21/06) and `bi-kip-xin-visa-han-quoc-5-nam-de`
+  (publish 20/06) → 3 false "broken" links blocking an unrelated paywall PR.
+- **Root cause:** Zola does not build drafts (`build_drafts` off), so a link to a
+  scheduled-but-unpublished post 404s in `public/`. These are **scheduled
+  forward-references**, NOT broken links — they resolve automatically the moment
+  `scheduled-publish.yml` flips `draft=false` on the publish date. The checker
+  previously had no draft/`publish_at` awareness, so it treated them as hard 404s.
+- **FIXER (already implemented in `qa-404-checker.py`):** before flagging an
+  internal 404, the checker builds a map of **scheduled forward-targets** —
+  `_scheduled_forward_targets(now)` scans `content/**/*.md`, and for any post with
+  `draft = true` **and** `[extra].publish_at` (top-level accepted too) parsing to a
+  datetime **in the future**, records its canonical URL + aliases. A 404 whose
+  target is in that map is reclassified `status: "scheduled-forward-ref"`
+  (`error_type: scheduled_forward_ref`, with `publish_at`) → counted as a
+  **warning**, NOT in `internal_broken`, so **exit stays 0**. Summary gains
+  `scheduled_forward_refs`. Once `publish_at` has **passed** (or there is no
+  `publish_at`, or the post is not a draft) the link is checked with **strict 404**
+  again — no permanent allow-list. Parsing is crash-proof (any error → treated as a
+  normal/strict link, so a genuine broken link is never silenced).
+- **Rules:** (1) Keep genuine 404 detection STRICT for everything else — only
+  `draft=true` + FUTURE `publish_at` is exempt. (2) Never hard-code slugs into an
+  allow-list; the exemption is computed from frontmatter and self-expires. (3) A
+  scheduled forward-ref is a warning to surface, not a failure to gate on. (4) Do
+  NOT "fix" such links by repointing/removing them — they are intentional; let them
+  resolve on publish.
+- **Tests:** `python3 -m unittest scripts.test_qa_404_scheduled -v` (future=skip ·
+  past=strict · no-publish_at=strict · published=n/a · aliases included · bad
+  frontmatter degrades to strict).
+- **Validation (19/06/2026):** with V13, `qa-404-checker.py` → `0 internal broken ·
+  3 scheduled forward-refs · status warn · exit 0`; genuine broken links elsewhere
+  still exit 2.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
