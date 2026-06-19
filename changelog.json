@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(auth): persistent super-admin session (GitHub login = highest privilege)",
+      "tag": "chore",
+      "lines_added": 77,
+      "lines_removed": 11,
+      "highlights": [
+        "ADMIN_EMAILS mặc định thêm tamsudev.com@gmail.com (login banhang-chogao vốn đã được ADMIN_USERNAMES phủ).",
+        "/auth/me trả is_super (tính từ username/email so với whitelist admin) + ép role=supervip cho chủ blog kể cả khi VIPZone API lỗi.",
+        "Sliding session: TTL gia hạn mỗi require_session + /auth/me, mặc định 30 ngày (env SESSION_TTL) → admin đang dùng gần như không bao giờ phải login lại.",
+        "templates/base.html: bootstrap chạy sớm trong <head> (trước mọi script defer) — mirror zola-cms-session-id sang localStorage và khôi phục sessionStorage mỗi lần load (sống qua đóng tab + xoá cache; ch",
+        "static/js/vipzone.js: getCmsSid() fallback localStorage."
+      ],
+      "pr": 512
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(vipzone): SUPER_ADMIN shortcut button on landing",
       "tag": "chore",
       "lines_added": 108,

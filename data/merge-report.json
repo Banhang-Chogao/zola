@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-19T16:42:52Z",
+  "updated_at": "2026-06-19T17:23:55Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 47,
+    "today": 48,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 74,
-      "fix": 49,
+      "feature": 75,
+      "fix": 48,
       "chore": 39,
       "unknown": 26,
       "ci": 3,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 512,
+      "pr_title": "feat(auth): persistent super-admin session (GitHub login = highest privilege)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/512",
+      "merged_at": "2026-06-19T17:18:02Z",
+      "merge_commit_sha": "06eb02f0dc4d7d28f3d27678b2f495489e15e767",
+      "merge_commit_short": "06eb02f",
+      "head_branch": "feat/super-admin-session-clean",
+      "summary_vi": "Nhận diện **super admin quyền cao nhất** = chủ blog đăng nhập GitHub (`tamsudev.com@gmail.com` / login `banhang-chogao`), và **không phải đăng nhập lại** dù đóng tab / xoá cache trình duyệt.",
+      "change_type": "feature",
+      "files_changed": 13,
+      "additions": 77,
+      "deletions": 11,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 808,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27839441329",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 510,
       "pr_title": "feat(vipzone): SUPER_ADMIN shortcut button on landing",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 807,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27837639767",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 509,
@@ -3795,25 +3814,6 @@
       "files_changed": 1,
       "additions": 15,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 301,
-      "pr_title": "🤖 Self-healing: 14 mechanical fix(es)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/301",
-      "merged_at": "2026-06-17T16:48:03Z",
-      "merge_commit_sha": "6ba76fef11af7b2fb02d318dcf230e48f0087972",
-      "merge_commit_short": "6ba76fe",
-      "head_branch": "fix/auto-qa",
-      "summary_vi": "**Quét lúc**: `2026-06-17T16:46:18Z`",
-      "change_type": "fix",
-      "files_changed": 7,
-      "additions": 14,
-      "deletions": 16,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
