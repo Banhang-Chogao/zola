@@ -939,6 +939,8 @@
         </div>
     </main>
 
+    {% include "partials/live-theodoi8.html" %}
+
     <footer class="site-footer">
         {# Tag cloud nằm Ở FOOTER (metadata phụ trợ) — xem block ".footer-tags"
            ngay trước .site-footer__main, sau countdown. #}
@@ -1357,7 +1359,9 @@
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/theodoi8-parser.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theodoi8-banner.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/live-theodoi8.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/seo-reality-gsc.js') }}?v={{ asset_version }}" defer></script>

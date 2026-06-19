@@ -1,0 +1,35 @@
+{# Live TheoDoi8 — terminal CI/CD ngay trên footer. JSON: build_theodoi8_report.py #}
+<section class="live-t8" data-live-theodoi8
+         data-live-t8-url="{{ config.base_url | safe }}/data/theodoi8-report.json"
+         aria-label="Live TheoDoi8 — theo dõi GitHub Actions">
+    <div class="container">
+        <header class="live-t8__head">
+            <div class="live-t8__brand">
+                <span class="live-t8__logo-mark" aria-hidden="true">S</span>
+                <div class="live-t8__titles">
+                    <p class="live-t8__eyebrow">S-DNA · CI/CD Monitor</p>
+                    <h2 class="live-t8__title">Live TheoDoi8</h2>
+                </div>
+            </div>
+            <span class="live-t8__badge live-t8__badge--{{ theodoi8.status | default(value='idle') }}"
+                  data-live-t8-badge>{{ theodoi8.status_icon | default(value="📡") }} {{ theodoi8.status | default(value="idle") }}</span>
+        </header>
+
+        <div class="live-t8__card">
+            <div class="live-t8__chrome">
+                <span class="live-t8__dot live-t8__dot--red" aria-hidden="true"></span>
+                <span class="live-t8__dot live-t8__dot--amber" aria-hidden="true"></span>
+                <span class="live-t8__dot live-t8__dot--teal" aria-hidden="true"></span>
+                <span class="live-t8__chrome-label">theodoi8@github-actions</span>
+            </div>
+            <div class="live-t8__viewport" data-live-t8-viewport aria-busy="true">
+                <p class="live-t8__loading">Đang tải terminal theodoi8…</p>
+            </div>
+            <footer class="live-t8__foot">
+                <a class="live-t8__link" href="{{ theodoi8.url | default(value='https://github.com/Banhang-Chogao/zola/actions') }}" target="_blank" rel="noopener noreferrer">{{ theodoi8.cta | default(value="Mở GitHub Actions") }} →</a>
+                <span class="live-t8__hint">Auto-refresh 30–35s · 1 vòng visible</span>
+            </footer>
+        </div>
+    </div>
+    <script type="application/json" id="live-t8-seed">{{ theodoi8 | json_encode() | safe }}</script>
+</section>
