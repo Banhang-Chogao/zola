@@ -69,4 +69,4 @@ Tôi sẽ theo dõi xem Ronaldo có phá vỡ "lời nguyền" knock-out World C
 
 > **Xem thêm trong cụm:** [Lịch thi đấu World Cup 2026 giờ VN: Messi hat-trick](/zola/posting/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick/)
 
-> **Xem thêm trong cụm:** [Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ](/zola/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/)
+> **Xem thêm trong chuyên mục:** [Du lịch — kinh nghiệm xin visa và hành trình](/zola/categories/du-lich/)
