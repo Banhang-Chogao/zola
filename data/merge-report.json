@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-06-19T02:18:14Z",
+  "updated_at": "2026-06-19T02:32:41Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 192,
-    "today": 10,
-    "this_week": 192,
-    "this_month": 192,
+    "total": 193,
+    "today": 11,
+    "this_week": 193,
+    "this_month": 193,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 65,
+      "feature": 66,
       "unknown": 19,
       "fix": 51,
       "content": 8,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 473,
+      "pr_title": "feat(s-dna): make page visually demonstrate Sembcorp design DNA",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/473",
+      "merged_at": "2026-06-19T02:26:54Z",
+      "merge_commit_sha": "7eb9008d5b831259ef685495ec2b7ee4b27cc89d",
+      "merge_commit_short": "7eb9008",
+      "head_branch": "feature/s-dna-tools",
+      "summary_vi": "Replace generic brandx reuse with dedicated sdna page styles and layout. The documentation page now embodies S-DNA: teal accents, annual-report hero, KPI cards, outline SVG icons, waterfall/bar chart mocks, and five inve",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 757,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27801625830",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 472,
       "pr_title": "feat: publish adsense report as ad-report page",
@@ -700,9 +719,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 727,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27764283108",
-      "build_conclusion": "cancelled"
+      "build_run_number": 728,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27764296329",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 435,
