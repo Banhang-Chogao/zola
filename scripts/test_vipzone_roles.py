@@ -46,6 +46,7 @@ class RoleResolutionTests(unittest.TestCase):
     def test_email_superadmin_hard_guarantee(self) -> None:
         self.assertTrue(roles.email_is_superadmin("tamsudev.com@gmail.com"))
         self.assertTrue(roles.is_superadmin({"email": "tamsudev.com@gmail.com", "username": "other"}))
+        self.assertTrue(roles.is_supervip("tamsudev.com@gmail.com", "other"))
         self.assertEqual(roles.resolve_role(True, is_vip=False), "superadmin")
 
     def test_active_vip_db(self) -> None:

@@ -226,6 +226,30 @@ class VipzoneApiTests(unittest.TestCase):
         self.assertEqual(by_url.get("/tools/f-dashboard/"), "premium")
         self.assertEqual(by_url.get("/tools/l-dashboard/"), "admin_only")
 
+    def test_vipzone_me_superadmin_email_cookie(self) -> None:
+        import cms_auth as auth_mod
+
+        db = get_db()
+        sid = db.create_cms_session(
+            {
+                "email": "tamsudev.com@gmail.com",
+                "username": "owner",
+                "name": "Owner",
+                "avatar": "",
+                "is_super": False,
+            },
+            3600,
+        )
+        res = self.client.get(
+            "/api/vipzone/me",
+            cookies={auth_mod.SESSION_COOKIE_NAME: sid},
+        )
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertEqual(body["role"], "superadmin")
+        self.assertTrue(body["is_super"])
+        self.assertTrue(body["is_admin"])
+
     def test_vipzone_me_shares_auth_session(self) -> None:
         db = get_db()
         sid = db.create_cms_session(

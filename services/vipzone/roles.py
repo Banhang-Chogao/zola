@@ -35,7 +35,7 @@ def is_superadmin(session: dict | None) -> bool:
 
 
 def is_supervip(email: str | None, username: str | None) -> bool:
-    return username_env_fallback(username)
+    return email_is_superadmin(email) or username_env_fallback(username)
 
 
 def resolve_role(is_super: bool, *, is_vip: bool) -> str:

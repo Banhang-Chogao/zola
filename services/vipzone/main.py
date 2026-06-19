@@ -119,14 +119,17 @@ async def require_supervip(profile: dict[str, Any] = Depends(session_dep)) -> di
 def _role_payload(profile: dict[str, Any]) -> dict[str, Any]:
     email = profile.get("email") or ""
     username = profile.get("username") or ""
+    is_super = is_superadmin(profile)
     vip_row = get_db().get_active_vip(email)
-    role = resolve_role(bool(profile.get("is_super")), is_vip=vip_row is not None)
+    role = resolve_role(is_super, is_vip=vip_row is not None)
     out: dict[str, Any] = {
         "email": profile.get("email"),
         "username": username,
         "name": profile.get("name"),
         "avatar": profile.get("avatar"),
         "role": role,
+        "is_super": is_super,
+        "is_admin": is_admin(email, username),
     }
     if vip_row:
         out["vip_plan"] = vip_row.get("plan")

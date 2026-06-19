@@ -110,17 +110,27 @@
     } catch (e) { return ""; }
   }
 
+  function authMeHeaders() {
+    var h = {};
+    var sid = getCmsSid();
+    if (sid) h.Authorization = "Bearer " + sid;
+    return h;
+  }
+
+  function isSuperRole(p) {
+    return !!(p && (p.role === "superadmin" || p.role === "supervip" || p.is_super || p.is_superadmin));
+  }
+
   async function fetchSuperuser() {
-    if (!AUTH_API || !getCmsSid()) return false;
+    if (!AUTH_API) return false;
     try {
       var res = await fetch(AUTH_API + "/auth/me", {
-        headers: { Authorization: "Bearer " + getCmsSid() },
+        headers: authMeHeaders(),
         credentials: "include",
         cache: "no-store",
       });
       if (!res.ok) return false;
-      var p = await res.json();
-      return p.role === "superadmin" || !!p.is_super;
+      return isSuperRole(await res.json());
     } catch (e) { return false; }
   }
 
@@ -135,16 +145,16 @@
   async function isStaffUser() {
     if (staffCache !== null) return staffCache;
     if (await isSuperuser()) { staffCache = true; return true; }
-    if (!AUTH_API || !getCmsSid()) { staffCache = false; return false; }
+    if (!AUTH_API) { staffCache = false; return false; }
     try {
       var res = await fetch(AUTH_API + "/auth/me", {
-        headers: { Authorization: "Bearer " + getCmsSid() },
+        headers: authMeHeaders(),
         credentials: "include",
         cache: "no-store",
       });
       if (!res.ok) { staffCache = false; return false; }
       var p = await res.json();
-      staffCache = !!(p.is_admin || p.is_super || p.role === "superadmin");
+      staffCache = !!(p.is_admin || isSuperRole(p));
       return staffCache;
     } catch (e) { staffCache = false; return false; }
   }
@@ -335,12 +345,6 @@
     var shortcut = document.querySelector("[data-vz-admin-shortcut]");
     if (!shortcut) return;
     var note = shortcut.querySelector("[data-vz-admin-shortcut-note]");
-    if (!getCmsSid()) {
-      // No CMS session → role detection unreliable → keep visible as shortcut.
-      shortcut.hidden = false;
-      shortcut.setAttribute("data-vz-admin-state", "shortcut");
-      return;
-    }
     try {
       var ok = await isSuperuser();
       shortcut.hidden = false;

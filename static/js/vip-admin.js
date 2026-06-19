@@ -95,8 +95,13 @@
   }
 
   function roleIsAdmin(user) {
-    if (!user) return false;
-    return user.role === "superadmin" || !!user.is_super || !!user.is_admin;
+    if (!user || user.role === "guest") return false;
+    return user.role === "superadmin" || user.role === "supervip" ||
+      !!user.is_super || !!user.is_superadmin || !!user.is_admin;
+  }
+
+  function isAuthenticated(user) {
+    return !!(user && user.role && user.role !== "guest");
   }
 
   function applyRoleUI(user, canAdmin) {
@@ -104,11 +109,11 @@
     if (root) root.classList.toggle("vipzone--readonly", !canAdmin);
 
     var loginSection = $('[data-vz-view="login"]');
-    if (loginSection) loginSection.hidden = !!getSid() || canAdmin;
+    if (loginSection) loginSection.hidden = isAuthenticated(user) || canAdmin;
 
     var bar = $("[data-vz-user-bar]");
     if (bar) {
-      bar.hidden = !getSid();
+      bar.hidden = !isAuthenticated(user);
       var nm = $("[data-vz-admin-name]");
       if (nm) {
         nm.textContent = (user && (user.username || user.email || user.name)) || "Khách";
