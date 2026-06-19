@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-19T05:09:43Z",
+  "updated_at": "2026-06-19T05:11:06Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 199,
-    "today": 17,
-    "this_week": 199,
-    "this_month": 199,
+    "total": 200,
+    "today": 18,
+    "this_week": 200,
+    "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "unknown": 21,
       "feature": 69,
-      "unknown": 20,
       "chore": 45,
       "content": 9,
       "fix": 51,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 476,
+      "pr_title": "Thêm phím tắt theodoi8 + cập nhật policy: bỏ rào PR thủ công",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/476",
+      "merged_at": "2026-06-19T05:10:29Z",
+      "merge_commit_sha": "25ceb6cdc1af8a71c57694bea7234b962ff22ecf",
+      "merge_commit_short": "25ceb6c",
+      "head_branch": "claude/sleepy-carson-13c9yp",
+      "summary_vi": "Branch dev gồm 2 thay đổi (user chọn ship gộp lên prod):",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 481,
       "pr_title": "feat(navbar): gom dropdown \"Công cụ\" thành 3 nhóm accordion (Content/Dashboard/Khác)",
