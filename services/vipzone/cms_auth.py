@@ -154,6 +154,8 @@ async def cms_profile_from_sid(db: VipzoneDB, sid: str) -> dict[str, Any]:
         raise HTTPException(401, "invalid_cms_session")
     email = session.get("email")
     username = session.get("username") or ""
+    # is_super resolved at OAuth time via GitHub repo permission; fall back to the
+    # env username whitelist for legacy sessions issued before this field existed.
     is_super = bool(session.get("is_super")) or username_is_superadmin(username)
     return {
         "email": email,
