@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Flight DB | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
+{% block main %}
+<div id="fdb-app" class="flight-db">
+  <header class="flight-db__hero">
+    <p class="flight-db__hero-eyebrow">S-DNA · Travel Intelligence</p>
+    <span class="flight-db__hero-icon" aria-hidden="true">✈️</span>
+    <h1 class="flight-db__hero-title">Flight DB</h1>
+    <p class="flight-db__hero-desc">Theo dõi chuyến bay, tra cứu database và khám phá liên minh hàng không. Dữ liệu thêm mới lưu local — không gửi lên server.</p>
+  </header>
+
+  <nav class="flight-db__tabs" role="tablist" aria-label="Flight DB panels">
+    <button class="flight-db__tab flight-db__tab--active" data-tab="add" role="tab" aria-selected="true">
+      <span class="flight-db__tab-icon" aria-hidden="true">➕</span>
+      Add Flight
+    </button>
+    <button class="flight-db__tab" data-tab="search" role="tab" aria-selected="false">
+      <span class="flight-db__tab-icon" aria-hidden="true">🔍</span>
+      Search Flight
+    </button>
+    <button class="flight-db__tab" data-tab="alliance" role="tab" aria-selected="false">
+      <span class="flight-db__tab-icon" aria-hidden="true">🌐</span>
+      Airline Alliance
+    </button>
+  </nav>
+
+  <section class="flight-db__panel flight-db__panel--active" data-panel="add" role="tabpanel">
+    <div class="flight-db__card">
+      <h2 class="flight-db__card-title">Add Flight</h2>
+      <p class="flight-db__card-sub">Combinator tự sinh từ airport + airline + flight number. Duration tính từ giờ bay.</p>
+      <form id="fdb-add-form" class="flight-db__form" novalidate>
+        <div class="flight-db__field">
+          <label for="fdb-airport">Airport Code</label>
+          <input id="fdb-airport" type="text" maxlength="3" placeholder="ICN" required autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-airline">Airline Code</label>
+          <input id="fdb-airline" type="text" maxlength="2" placeholder="PR" required autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-flight-num">Flight Number</label>
+          <input id="fdb-flight-num" type="text" maxlength="6" placeholder="467" required autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-combinator">Combinator</label>
+          <input id="fdb-combinator" type="text" readonly placeholder="ICNPR467" aria-live="polite">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-terminal">Terminal</label>
+          <input id="fdb-terminal" type="text" maxlength="4" placeholder="1" autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-dep-time">Departure Time</label>
+          <input id="fdb-dep-time" type="text" placeholder="09:30" required autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-arr-airport">Arrival Airport</label>
+          <input id="fdb-arr-airport" type="text" maxlength="3" placeholder="MNL" required autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-arr-time">Arrival Time</label>
+          <input id="fdb-arr-time" type="text" placeholder="12:45" required autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-duration">Duration</label>
+          <input id="fdb-duration" type="text" readonly placeholder="Auto-calculated" aria-live="polite">
+        </div>
+        <div class="flight-db__field flight-db__field--full flight-db__actions">
+          <button type="submit" class="flight-db__btn flight-db__btn--primary">Save Flight</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="flight-db__panel" data-panel="search" role="tabpanel" hidden>
+    <div class="flight-db__card">
+      <h2 class="flight-db__card-title">Search Flight</h2>
+      <p class="flight-db__card-sub">Tìm theo airport, airline, flight number hoặc combinator.</p>
+      <form id="fdb-search-form" class="flight-db__form" novalidate>
+        <div class="flight-db__field">
+          <label for="fdb-s-airport">Airport Code</label>
+          <input id="fdb-s-airport" type="text" maxlength="3" placeholder="ICN" autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-s-airline">Airline Code</label>
+          <input id="fdb-s-airline" type="text" maxlength="2" placeholder="PR" autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-s-flight-num">Flight Number</label>
+          <input id="fdb-s-flight-num" type="text" maxlength="6" placeholder="467" autocomplete="off">
+        </div>
+        <div class="flight-db__field">
+          <label for="fdb-s-combinator">Combinator</label>
+          <input id="fdb-s-combinator" type="text" placeholder="ICNPR467" autocomplete="off">
+        </div>
+        <div class="flight-db__field flight-db__field--full flight-db__actions">
+          <button type="submit" class="flight-db__btn flight-db__btn--primary">Search</button>
+          <button type="button" id="fdb-search-clear" class="flight-db__btn flight-db__btn--ghost">Clear</button>
+        </div>
+      </form>
+      <hr class="flight-db__divider">
+      <div id="fdb-search-results">
+        <div class="flight-db__empty">
+          <span class="flight-db__empty-icon" aria-hidden="true">🔍</span>
+          <p>Search your flight database</p>
+          <p class="flight-db__empty-hint">Filter by airport, airline, flight number, or combinator.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="flight-db__panel" data-panel="alliance" role="tabpanel" hidden>
+    <div class="flight-db__card">
+      <h2 class="flight-db__card-title">Airline Alliance</h2>
+      <p class="flight-db__card-sub">Tra cứu liên minh theo mã hãng. Thêm hãng mới vào local database nếu chưa có.</p>
+      <form id="fdb-alliance-search-form" class="flight-db__form" novalidate>
+        <div class="flight-db__field">
+          <label for="fdb-a-code">Airline Code</label>
+          <input id="fdb-a-code" type="text" maxlength="2" placeholder="PR" required autocomplete="off">
+        </div>
+        <div class="flight-db__field flight-db__actions flight-db__actions--inline">
+          <button type="submit" class="flight-db__btn flight-db__btn--primary">Look Up</button>
+        </div>
+      </form>
+      <hr class="flight-db__divider">
+      <div id="fdb-alliance-result">
+        <div class="flight-db__empty">
+          <span class="flight-db__empty-icon" aria-hidden="true">🌐</span>
+          <p>Enter an airline code to look up alliance info</p>
+          <p class="flight-db__empty-hint">42 airlines pre-loaded from seed data.</p>
+        </div>
+      </div>
+      <div id="fdb-alliance-add" hidden>
+        <hr class="flight-db__divider">
+        <h2 class="flight-db__card-title">Add Airline</h2>
+        <p class="flight-db__card-sub">Hãng chưa có trong database — thêm vào local storage.</p>
+        <form id="fdb-alliance-add-form" class="flight-db__form" novalidate>
+          <div class="flight-db__field">
+            <label for="fdb-add-code">Airline Code</label>
+            <input id="fdb-add-code" type="text" maxlength="2" required autocomplete="off">
+          </div>
+          <div class="flight-db__field">
+            <label for="fdb-add-name">Airline Name</label>
+            <input id="fdb-add-name" type="text" placeholder="Philippine Airlines" required autocomplete="off">
+          </div>
+          <div class="flight-db__field">
+            <label for="fdb-add-alliance">Alliance</label>
+            <select id="fdb-add-alliance" required>
+              <option value="">Select alliance…</option>
+              <option value="Star Alliance">Star Alliance</option>
+              <option value="SkyTeam">SkyTeam</option>
+              <option value="Oneworld">Oneworld</option>
+              <option value="Independent">Independent</option>
+            </select>
+          </div>
+          <div class="flight-db__field">
+            <label for="fdb-add-hub">Hub Airport</label>
+            <input id="fdb-add-hub" type="text" maxlength="3" placeholder="MNL" required autocomplete="off">
+          </div>
+          <div class="flight-db__field">
+            <label for="fdb-add-hub-city">Hub City</label>
+            <input id="fdb-add-hub-city" type="text" placeholder="Manila" required autocomplete="off">
+          </div>
+          <div class="flight-db__field">
+            <label for="fdb-add-country">Country</label>
+            <input id="fdb-add-country" type="text" placeholder="Philippines" required autocomplete="off">
+          </div>
+          <div class="flight-db__field flight-db__field--full flight-db__actions">
+            <button type="submit" class="flight-db__btn flight-db__btn--primary">Add Airline</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div id="fdb-toast" class="flight-db__toast" role="status" aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/flight-db/app.js') }}" defer></script>
+{% endblock %}
