@@ -2,6 +2,50 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "Xoá trang Thống kê (Web Vitals) /stats/ và link footer",
+      "tag": "remove",
+      "lines_added": 12,
+      "lines_removed": 1060,
+      "highlights": [
+        "base.html: gỡ link \"⚡ Web Vitals\" ở footer + script speed-vitals.js + CDN unpkg web-vitals (bỏ luôn 1 external request mỗi page)",
+        "Xoá content/stats/_index.md, templates/stats.html, static/js/stats-page.js, static/js/speed-vitals.js",
+        "Xoá sass/_stats.scss + _stats-sembcorp.scss và 2 @import trong site.scss",
+        "Gỡ .site-footer__stats-link khỏi _reset.scss (class không còn)",
+        "Gỡ tham chiếu /stats/ trong README.md và bài cong-nghe-blog-duy-nguyen.md"
+      ],
+      "pr": 479
+    },
+    {
+      "date": "2026-06-19",
+      "title": "docs(claude): luật mới — code xong + mở PR là hết nhiệm vụ, không canh PR",
+      "tag": "chore",
+      "lines_added": 12,
+      "lines_removed": 8,
+      "highlights": [
+        "Code xong → commit → mở PR (kích hoạt auto-merge) = HẾT NHIỆM VỤ.",
+        "Pipeline ZERO_BARRIER tự lo: qa-check xanh → auto-merge.yml → deploy.yml production.",
+        "KHÔNG subscribe_pr_activity, KHÔNG canh CI tới merge, KHÔNG send_later self check-in, KHÔNG babysit/poll PR.",
+        "Ngoại lệ: chỉ subscribe/autofix khi user chủ động yêu cầu (\"canh PR\", \"babysit\", \"autofix CI\"); dừng khi user bảo dừng hoặc PR đã MERGED/CLOSED."
+      ],
+      "pr": 477
+    },
+    {
+      "date": "2026-06-19",
+      "title": "feat(gsc): S-DNA connect UI cho Google Search Console sidebar",
+      "tag": "chore",
+      "lines_added": 560,
+      "lines_removed": 71,
+      "highlights": [
+        "Input nhập GSC Property ID / Resource ID, validate URL prefix + sc-domain: (báo \"Vui lòng nhập GSC Property ID hợp lệ.\" khi sai). Enter và nút \"Kết nối GSC\" cùng kích hoạt một flow OAuth.",
+        "Success state: check xanh animate (scale-in + draw + glow) + \"Đã kết nối Google Search Console thành công. Chúc mừng!\" — chỉ hiện sau callback OAuth thật (gsc_connected=1) và xác nhận /gsc/metrics, kh",
+        "Connected state: badge \"Đã kết nối\" + checkmark, property ID, last sync, nút \"Gỡ kết nối GSC\".",
+        "Disconnect khôi phục input + hiện \"Đăng nhập lại Google Search Console\" (quick reconnect). OAuth error hiển thị trung thực thay vì giả thành công.",
+        "Styling: card hover-lift, input bo tròn + focus ring, nút pill primary/ ghost, shimmer loading; tôn trọng prefers-reduced-motion. Giữ badge \"GSC API\". Dùng token var(--c-*) (sáng/tối). Keyframes ở roo"
+      ],
+      "pr": 478
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(content): bài \"Lịch sử đóng BHXH bị mất trên VssID\" (SEO A+)",
       "tag": "chore",
       "lines_added": 368,

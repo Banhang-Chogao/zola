@@ -396,10 +396,6 @@
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
 
-    {# Speed Insights tracking — đo Core Web Vitals mọi page #}
-    <script src="https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js" defer></script>
-    <script src="{{ get_url(path='js/speed-vitals.js') }}?v={{ asset_version }}" defer></script>
-
     {# Google Analytics 4 đã được dời xuống trước </body> để tối ưu page
        load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
 
@@ -1201,12 +1197,6 @@
                     ⏳ ĐANG CHỜ MEASUREMENT ID
                 </span>
                 {% endif %}
-            </div>
-            <div class="site-footer__right">
-                <a href="{{ config.base_url | safe }}/stats/" class="site-footer__stats-link"
-                   title="Web Vitals: LCP / INP / CLS / FCP / TTFB real-time">
-                    ⚡ Web Vitals
-                </a>
             </div>
         </div>
 

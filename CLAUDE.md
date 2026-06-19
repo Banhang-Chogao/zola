@@ -858,14 +858,24 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 
 - Làm xong BẤT KỲ việc gì → **push để automation tự đưa lên `main`** → prod. KHÔNG cần
   agent mở PR thủ công, KHÔNG hỏi user "có mở PR không". Không để thay đổi nằm im trên
-  feature branch.
-- Commit phải có tiêu đề rõ ràng + tóm tắt thay đổi (để Merge Report đọc được).
+  feature branch. (Branch protection chặn push thẳng `main` — xem §5/§5a/§5b — nên bước
+  đưa lên main do **máy tự làm** qua PR + `auto-merge.yml`, không phải việc agent ngồi canh.)
+- Commit phải có tiêu đề rõ ràng + tóm tắt thay đổi và cách verify (để Merge Report đọc được).
 - Đang dở 1 thay đổi trên branch → push thêm commit vào cùng branch; KHÔNG nhét thay
   đổi MỚI không liên quan vào.
-- **Lỗi để máy lo (không cần babysit PR):** `qa-check` đỏ → vaccine autofixer (§4) +
-  `ff`/`ff9` tự chẩn & sửa, push lại cùng branch tới khi xanh → auto-merge → prod.
-  Mặc định KHÔNG cần ngồi canh PR. Chỉ khi user **chủ động** nhờ theo dõi 1 PR cụ thể
-  → mới dùng `subscribe_pr_activity` (dừng khi user yêu cầu `unsubscribe_pr_activity`).
+- **Đẩy thay đổi xong = HẾT NHIỆM VỤ — KHÔNG canh PR (2026-06-19 — user request, GHI ĐÈ
+  luật cũ "Theo dõi tới khi xong (BẮT BUỘC)"):** push để kích hoạt pipeline auto-merge là
+  **kết thúc nhiệm vụ**. Pipeline ZERO_BARRIER tự lo phần còn lại: `qa-check` xanh →
+  `auto-merge.yml` (squash) → `deploy.yml` production. **Lỗi để máy lo:** `qa-check` đỏ →
+  vaccine autofixer (§4) + `ff`/`ff9` tự chẩn & sửa, push lại cùng branch tới khi xanh.
+  - **KHÔNG** `subscribe_pr_activity`, **KHÔNG** canh CI tới khi merge, **KHÔNG** hẹn
+    `send_later` self check-in, **KHÔNG** babysit/poll PR. Push xong là kết thúc turn.
+  - **Ngoại lệ — chỉ khi user CHỦ ĐỘNG yêu cầu** ("canh PR", "babysit", "autofix CI",
+    "theo dõi tới khi merge"): lúc đó mới `subscribe_pr_activity`, fix CI đỏ trên cùng
+    branch (Vaccine §4 / `ff`), và dừng (`unsubscribe_pr_activity`) khi user bảo dừng
+    hoặc PR đã MERGED/CLOSED.
+  - Nếu CI đỏ mà user KHÔNG yêu cầu canh: pipeline tự xử theo cấu hình repo; không tự
+    spawn monitor/subscribe trừ khi được yêu cầu.
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 

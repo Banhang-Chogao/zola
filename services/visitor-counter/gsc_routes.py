@@ -188,10 +188,17 @@ async def gsc_metrics_public(background_tasks: BackgroundTasks):
 @router.get("/oauth/start")
 async def gsc_oauth_start(
     return_to: str = "/",
+    sid: str = "",
     authorization: str = Header(default=""),
 ):
     if not _gsc_configured():
         raise HTTPException(503, "GSC OAuth chưa cấu hình trên server")
+    # A top-level browser navigation (the "Kết nối GSC" button / Enter key) cannot
+    # set the Authorization header, so the admin session id may ride as a `sid`
+    # query param. The header still wins when both are present. The sid is consumed
+    # here and is never forwarded to Google in the redirect below.
+    if not authorization and sid:
+        authorization = "Bearer " + sid
     await _require_session(authorization)
     if not return_to.startswith("/"):
         return_to = "/"
