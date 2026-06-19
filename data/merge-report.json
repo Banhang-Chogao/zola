@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-19T22:51:22Z",
+  "updated_at": "2026-06-19T23:17:39Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 60,
+    "today": 61,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "unknown": 27,
       "feature": 82,
       "fix": 48,
-      "chore": 32,
-      "unknown": 26,
+      "chore": 31,
       "ci": 3,
       "qa": 1,
       "content": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 526,
+      "pr_title": "refactor: gỡ VIPZone/subscription · công cụ miễn phí · nav sidebar ph…",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/526",
+      "merged_at": "2026-06-19T23:08:37Z",
+      "merge_commit_sha": "ff23f6fbc0358ebcddad96043821f2099176f572",
+      "merge_commit_short": "ff23f6f",
+      "head_branch": "claude/zealous-mayer-rdnnwe",
+      "summary_vi": "Đơn giản hoá monetization + đổi điều hướng theo yêu cầu hệ thống.",
+      "change_type": "unknown",
+      "files_changed": 34,
+      "additions": 1335,
+      "deletions": 6229,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 821,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27852463108",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 525,
       "pr_title": "feat(vu-mua): trang ứng dụng theo dõi bán nông sản + insights tại /vu…",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 820,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27851794720",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 523,
@@ -662,9 +681,9 @@
       "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 791,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817371351",
-      "build_conclusion": "cancelled"
+      "build_run_number": 792,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817383160",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 491,
@@ -3795,25 +3814,6 @@
       "files_changed": 14,
       "additions": 864,
       "deletions": 91,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 310,
-      "pr_title": "chore: changelog after PR #306",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/310",
-      "merged_at": "2026-06-17T17:15:19Z",
-      "merge_commit_sha": "cb9c421d3cab2f0d6c61c5391406f5633d2b67a6",
-      "merge_commit_short": "cb9c421",
-      "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 2,
-      "additions": 81,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
