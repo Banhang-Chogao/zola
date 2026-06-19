@@ -112,6 +112,7 @@ menu = [
             { url = "$BASE_URL/font",      name = "Font Guideline" },
         ] },
     ] },
+    { name = "VIPZone", url = "$BASE_URL/tools/vipzone" },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
         { url = "$BASE_URL/about",            name = "Giới thiệu" },
         { url = "$BASE_URL/contact",          name = "Liên hệ" },
@@ -162,6 +163,10 @@ paywall_api_url = "https://blog-paywall-api.onrender.com"
 # ShortenSEA API — short link CRUD, click tracking, approve codes.
 # Để trống = frontend dùng localStorage prototype (dev). Sau deploy Render, dán URL service.
 shortensea_api_url = "https://blog-shortensea-api.onrender.com"
+# VIPZone API — để trống = localStorage prototype (TODO: deploy Render service).
+vipzone_api_url = ""
+vipzone_momo_monthly = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA"
+vipzone_momo_semiannual = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
 # Premium paywall STRICT: true = bài premium chỉ hiển thị teaser + paywall box,

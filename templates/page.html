@@ -11,6 +11,16 @@
 {% import "macros/momo_support.html" as momo_support %}
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
+{% block extra_head %}
+{{ super() }}
+{% set cats_vz = page.taxonomies.categories | default(value=[]) %}
+{% set is_premium_vz = page.extra.premium | default(value=false) or "premium" in cats_vz %}
+{% set premium_lock_vz = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
+{% if is_premium_vz and premium_lock_vz %}
+<script>document.documentElement.setAttribute("data-vipzone-premium","true");</script>
+{% endif %}
+{% endblock %}
+
 {# Bài premium đang khóa paywall → noindex (chỉ teaser công khai, full content nằm
    sau thanh toán). enable_premium_lock ưu tiên hơn premium_hidden (deprecated). #}
 {% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% if is_premium and premium_lock %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
