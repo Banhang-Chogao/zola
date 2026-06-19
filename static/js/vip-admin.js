@@ -10,15 +10,12 @@
   })();
 
   var CMS_KEY = "zola-cms-session-id";
-  var PICKER_ITEMS = [
-    { title: "F-Dashboard", url: "/tools/f-dashboard/" },
-    { title: "Content Creator", url: "/tools/content-creator/" },
-    { title: "Flight DB", url: "/tools/flight-db/" },
-    { title: "Insights", url: "/insights/" },
-    { title: "Premium hub", url: "/categories/premium/" },
-  ];
+  var pickerCatalog = null;
+  var pickerFilter = "";
 
   function $(s) { return document.querySelector(s); }
+
+  function useApi() { return !!VZ.API; }
 
   function getSid() {
     try { return sessionStorage.getItem(CMS_KEY) || ""; } catch (e) { return ""; }
@@ -62,19 +59,32 @@
     });
   }
 
-  function updateStats(store) {
-    var pending = (store.payments || []).filter(function (p) { return p.status === "pending"; }).length;
-    var active = VZ.activeVipCount();
-    var rev = store.revenue || 0;
+  function updateStatsFromData(stats) {
     var elP = $("[data-vz-stat-pending]");
     var elA = $("[data-vz-stat-active]");
     var elR = $("[data-vz-stat-revenue]");
-    if (elP) elP.textContent = String(pending);
-    if (elA) elA.textContent = String(active);
-    if (elR) elR.textContent = rev.toLocaleString("vi-VN") + "đ";
+    if (elP) elP.textContent = String(stats.pending || 0);
+    if (elA) elA.textContent = String(stats.active_vips != null ? stats.active_vips : stats.active || 0);
+    if (elR) {
+      var rev = stats.revenue_estimate != null ? stats.revenue_estimate : stats.revenue || 0;
+      elR.textContent = rev.toLocaleString("vi-VN") + "đ";
+    }
   }
 
-  function loadPayments(store) {
+  async function refreshStats() {
+    if (useApi()) {
+      try {
+        var stats = await VZ.apiFetch("/api/vipzone/admin/stats");
+        updateStatsFromData(stats);
+        return;
+      } catch (e) { VZ.toast(e.message || "Không tải stats.", "error"); }
+    }
+    var store = VZ.readStore();
+    var pending = (store.payments || []).filter(function (p) { return p.status === "pending"; }).length;
+    updateStatsFromData({ pending: pending, active: VZ.activeVipCount(), revenue: store.revenue || 0 });
+  }
+
+  function loadPaymentsLocal(store) {
     var tbody = $("[data-vz-payments-body]");
     if (!tbody) return;
     var rows = (store.payments || []).slice().reverse();
@@ -84,25 +94,64 @@
     }
     tbody.innerHTML = rows.map(function (r) {
       return '<tr data-pay-id="' + r.id + '"><td>' + r.email + '</td><td>' + r.plan +
-        '</td><td>' + (r.note || "—") + '</td><td>' + r.status +
+        '</td><td>' + (r.note || r.payment_note || "—") + '</td><td>' + r.status +
         '</td><td><button type="button" class="vipzone__btn vipzone__btn--sm vipzone__btn--ghost" data-vz-resolve>Đã xử lý</button></td></tr>';
     }).join("");
+    bindResolveButtons();
+  }
+
+  async function loadPayments() {
+    if (useApi()) {
+      try {
+        var rows = await VZ.apiFetch("/api/vipzone/admin/requests");
+        var tbody = $("[data-vz-payments-body]");
+        if (!tbody) return;
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="vipzone__empty">Không có yêu cầu.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows.map(function (r) {
+          var btn = r.status === "pending"
+            ? '<button type="button" class="vipzone__btn vipzone__btn--sm vipzone__btn--ghost" data-vz-resolve>Đã xử lý</button>'
+            : "";
+          return '<tr data-pay-id="' + r.id + '"><td>' + r.email + '</td><td>' + r.plan +
+            '</td><td>' + (r.payment_note || "—") + '</td><td>' + r.status + '</td><td>' + btn + '</td></tr>';
+        }).join("");
+        bindResolveButtons();
+        return;
+      } catch (e) { VZ.toast(e.message || "Không tải yêu cầu.", "error"); }
+    }
+    loadPaymentsLocal(VZ.readStore());
+  }
+
+  function bindResolveButtons() {
+    var tbody = $("[data-vz-payments-body]");
+    if (!tbody) return;
     tbody.querySelectorAll("[data-vz-resolve]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
+      btn.addEventListener("click", async function () {
         var id = btn.closest("tr").getAttribute("data-pay-id");
+        if (useApi()) {
+          try {
+            await VZ.apiFetch("/api/vipzone/admin/requests/" + encodeURIComponent(id) + "/resolve", { method: "POST" });
+            await loadPayments();
+            await refreshStats();
+            VZ.toast("Đã đánh dấu xử lý.", "success");
+          } catch (e) { VZ.toast(e.message || "Lỗi.", "error"); }
+          return;
+        }
         var s = VZ.readStore();
         (s.payments || []).forEach(function (p) {
           if (p.id === id) p.status = "resolved";
         });
         VZ.writeStore(s);
-        loadPayments(s);
-        updateStats(s);
+        loadPaymentsLocal(s);
+        refreshStats();
         VZ.toast("Đã đánh dấu xử lý.", "success");
       });
     });
   }
 
-  function loadCodes(store) {
+  function loadCodesLocal(store) {
     var tbody = $("[data-vz-codes-body]");
     if (!tbody) return;
     var rows = (store.codes || []).slice().reverse();
@@ -116,7 +165,27 @@
     }).join("");
   }
 
-  function loadUsers(store) {
+  async function loadCodes() {
+    if (useApi()) {
+      try {
+        var rows = await VZ.apiFetch("/api/vipzone/admin/codes");
+        var tbody = $("[data-vz-codes-body]");
+        if (!tbody) return;
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="vipzone__empty">Chưa có mã.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows.map(function (c) {
+          return "<tr><td><code>" + (c.code || "••••") + "</code></td><td>" + c.plan + "</td><td>" +
+            (c.email || "—") + "</td><td>" + (c.used ? "✓" : "—") + "</td><td>" + formatDt(c.created_at) + "</td></tr>";
+        }).join("");
+        return;
+      } catch (e) { VZ.toast(e.message || "Không tải mã.", "error"); }
+    }
+    loadCodesLocal(VZ.readStore());
+  }
+
+  function loadUsersLocal(store) {
     var tbody = $("[data-vz-users-body]");
     if (!tbody) return;
     var rows = (store.vips || []).slice().reverse();
@@ -125,7 +194,7 @@
       return;
     }
     tbody.innerHTML = rows.map(function (u, idx) {
-      return '<tr data-vip-idx="' + idx + '"><td>' + u.email + '</td><td>' + u.plan +
+      return '<tr data-vip-email="' + encodeURIComponent(u.email) + '"><td>' + u.email + '</td><td>' + u.plan +
         '</td><td>' + formatDt(u.expires_at) + '</td><td data-vz-user-cd="' + idx + '">—</td>' +
         '<td><button type="button" class="vipzone__btn vipzone__btn--sm vipzone__btn--ghost" data-vz-deactivate>Vô hiệu</button></td></tr>';
     }).join("");
@@ -133,27 +202,166 @@
       var cd = document.querySelector('[data-vz-user-cd="' + idx + '"]');
       if (cd && u.expires_at) VZ.startCountdown(u.expires_at, cd);
     });
+    bindDeactivateButtons();
+  }
+
+  async function loadUsers() {
+    if (useApi()) {
+      try {
+        var rows = await VZ.apiFetch("/api/vipzone/admin/users");
+        var tbody = $("[data-vz-users-body]");
+        if (!tbody) return;
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="5" class="vipzone__empty">Chưa có VIP.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows.map(function (u, idx) {
+          var inactive = !u.active;
+          return '<tr data-vip-email="' + encodeURIComponent(u.email) + '"><td>' + u.email + '</td><td>' + u.plan +
+            '</td><td>' + formatDt(u.expires_at) + '</td><td data-vz-user-cd="' + idx + '">—</td>' +
+            '<td>' + (inactive ? "—" : '<button type="button" class="vipzone__btn vipzone__btn--sm vipzone__btn--ghost" data-vz-deactivate>Vô hiệu</button>') + '</td></tr>';
+        }).join("");
+        rows.forEach(function (u, idx) {
+          if (u.active) {
+            var cd = document.querySelector('[data-vz-user-cd="' + idx + '"]');
+            if (cd && u.expires_at) VZ.startCountdown(u.expires_at, cd);
+          }
+        });
+        bindDeactivateButtons();
+        return;
+      } catch (e) { VZ.toast(e.message || "Không tải users.", "error"); }
+    }
+    loadUsersLocal(VZ.readStore());
+  }
+
+  function bindDeactivateButtons() {
+    var tbody = $("[data-vz-users-body]");
+    if (!tbody) return;
     tbody.querySelectorAll("[data-vz-deactivate]").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var idx = parseInt(btn.closest("tr").getAttribute("data-vip-idx"), 10);
+      btn.addEventListener("click", async function () {
+        var email = decodeURIComponent(btn.closest("tr").getAttribute("data-vip-email"));
+        if (useApi()) {
+          try {
+            await VZ.apiFetch("/api/vipzone/admin/users/" + encodeURIComponent(email) + "/deactivate", { method: "POST" });
+            await loadUsers();
+            await refreshStats();
+            VZ.toast("Đã vô hiệu VIP.", "success");
+          } catch (e) { VZ.toast(e.message || "Lỗi.", "error"); }
+          return;
+        }
         var s = VZ.readStore();
-        if (s.vips[idx]) s.vips[idx].active = false;
+        (s.vips || []).forEach(function (v) {
+          if (v.email === email) v.active = false;
+        });
         VZ.writeStore(s);
-        loadUsers(s);
-        updateStats(s);
+        loadUsersLocal(s);
+        refreshStats();
         VZ.toast("Đã vô hiệu VIP.", "success");
       });
     });
   }
 
-  function loadPicker(store) {
-    var list = $("[data-vz-picker-list]");
-    if (!list) return;
-    var picks = store.picks || [];
-    list.innerHTML = PICKER_ITEMS.map(function (item) {
-      var checked = picks.indexOf(item.url) >= 0 ? " checked" : "";
-      return '<label class="vipzone__picker-item"><input type="checkbox" value="' + item.url + '"' + checked + '> ' + item.title + '</label>';
-    }).join("");
+  function normPickUrl(u) {
+    var x = (u || "").trim();
+    if (VZ.BASE && x.indexOf(VZ.BASE) === 0) x = x.slice(VZ.BASE.length) || "/";
+    if (!x.startsWith("/")) x = "/" + x;
+    return x.endsWith("/") ? x : x + "/";
+  }
+
+  function migrateLocalPicks(picks, catalog) {
+    var valid = {};
+    var slugMap = {};
+    ["tools", "premium"].forEach(function (g) {
+      (catalog[g] || []).forEach(function (item) {
+        var url = normPickUrl(item.url);
+        valid[url] = true;
+        if (item.slug) slugMap[item.slug] = url;
+      });
+    });
+    var drop = { "/categories/premium/": 1, "/insights/": 1 };
+    var out = [];
+    var seen = {};
+    (picks || []).forEach(function (raw) {
+      var p = normPickUrl(raw);
+      if (drop[p]) return;
+      if (valid[p] && !seen[p]) { seen[p] = true; out.push(p); return; }
+      var parts = p.replace(/\/$/, "").split("/");
+      var slug = parts[parts.length - 1] || "";
+      if (slugMap[slug] && !seen[slugMap[slug]]) {
+        seen[slugMap[slug]] = true;
+        out.push(slugMap[slug]);
+      }
+    });
+    return out;
+  }
+
+  function renderPickerGroups(picks) {
+    var host = $("[data-vz-picker-catalog]");
+    var loading = $("[data-vz-picker-loading]");
+    if (!host || !pickerCatalog) return;
+    if (loading) loading.hidden = true;
+    var q = (pickerFilter || "").toLowerCase().trim();
+    function match(item) {
+      if (!q) return true;
+      return (item.title || "").toLowerCase().indexOf(q) >= 0 ||
+        (item.url || "").toLowerCase().indexOf(q) >= 0;
+    }
+    function groupHtml(title, items) {
+      var filtered = (items || []).filter(match);
+      if (!filtered.length) return "";
+      var rows = filtered.map(function (item) {
+        var url = normPickUrl(item.url);
+        var checked = picks.indexOf(url) >= 0 ? " checked" : "";
+        return '<label class="vipzone__picker-item" data-vz-picker-row><input type="checkbox" value="' +
+          url + '"' + checked + '> <span class="vipzone__picker-item-title">' + item.title + "</span></label>";
+      }).join("");
+      return '<section class="vipzone__picker-group"><h3 class="vipzone__picker-group-title">' + title +
+        '</h3><div class="vipzone__picker-group-list">' + rows + "</div></section>";
+    }
+    var html = groupHtml("Công cụ", pickerCatalog.tools) +
+      groupHtml("Premium articles", pickerCatalog.premium);
+    if (!html) {
+      html = '<p class="vipzone__empty">Không có mục khớp tìm kiếm.</p>';
+    }
+    host.innerHTML = html;
+  }
+
+  async function fetchPickerCatalog() {
+    if (useApi()) {
+      return VZ.apiFetch("/api/vipzone/admin/picker/catalog");
+    }
+    var base = VZ.BASE || "/zola";
+    var res = await fetch(base + "/data/vipzone-picker-catalog.json", { cache: "no-store" });
+    if (!res.ok) throw new Error("Không tải catalog JSON.");
+    return res.json();
+  }
+
+  async function loadPicker() {
+    var host = $("[data-vz-picker-catalog]");
+    var loading = $("[data-vz-picker-loading]");
+    if (!host) return;
+    try {
+      pickerCatalog = await fetchPickerCatalog();
+      var picks;
+      if (useApi()) {
+        var data = await VZ.apiFetch("/api/vipzone/admin/picker");
+        picks = (data.picks || []).map(normPickUrl);
+      } else {
+        var store = VZ.readStore();
+        picks = migrateLocalPicks(store.picks || [], pickerCatalog);
+        if (JSON.stringify(picks) !== JSON.stringify(store.picks || [])) {
+          store.picks = picks;
+          VZ.writeStore(store);
+        }
+      }
+      renderPickerGroups(picks);
+    } catch (e) {
+      if (loading) {
+        loading.textContent = "Không tải danh mục picker.";
+        loading.hidden = false;
+      }
+      VZ.toast(e.message || "Không tải picker.", "error");
+    }
   }
 
   async function fetchMe() {
@@ -203,28 +411,62 @@
 
     var createBtn = $('[data-vz-action="create-code"]');
     if (createBtn) {
-      createBtn.addEventListener("click", function () {
+      createBtn.addEventListener("click", async function () {
         var plan = $("#vz-admin-plan").value;
         var email = $("#vz-admin-email").value.trim();
+        if (useApi()) {
+          try {
+            var out = await VZ.apiFetch("/api/vipzone/admin/codes", {
+              method: "POST",
+              body: { plan: plan, email: email || null },
+            });
+            var box = $("[data-vz-code-output]");
+            if (box) { box.hidden = false; box.textContent = "Mã: " + out.code + " (gửi email " + (email || "—") + ")"; }
+            await loadCodes();
+            VZ.toast("Đã tạo mã 16 số.", "success");
+          } catch (e) { VZ.toast(e.message || "Lỗi.", "error"); }
+          return;
+        }
         var code = VZ.genCode16();
         var s = VZ.readStore();
         s.codes = s.codes || [];
         s.codes.push({ code: code, plan: plan, email: email, used: false, created_at: new Date().toISOString() });
         VZ.writeStore(s);
-        var out = $("[data-vz-code-output]");
-        if (out) { out.hidden = false; out.textContent = "Mã: " + code + " (gửi email " + (email || "—") + ")"; }
-        loadCodes(s);
+        var outLocal = $("[data-vz-code-output]");
+        if (outLocal) { outLocal.hidden = false; outLocal.textContent = "Mã: " + code + " (gửi email " + (email || "—") + ")"; }
+        loadCodesLocal(s);
         VZ.toast("Đã tạo mã 16 số.", "success");
+      });
+    }
+
+    var searchInput = $("[data-vz-picker-search]");
+    if (searchInput) {
+      searchInput.addEventListener("input", function () {
+        pickerFilter = searchInput.value;
+        if (!pickerCatalog) return;
+        var picks = [];
+        document.querySelectorAll(".vipzone__picker-item input:checked").forEach(function (cb) {
+          picks.push(normPickUrl(cb.value));
+        });
+        renderPickerGroups(picks);
       });
     }
 
     var savePicker = $('[data-vz-action="save-picker"]');
     if (savePicker) {
-      savePicker.addEventListener("click", function () {
+      savePicker.addEventListener("click", async function () {
         var urls = [];
         document.querySelectorAll(".vipzone__picker-item input:checked").forEach(function (cb) {
-          urls.push(cb.value);
+          urls.push(normPickUrl(cb.value));
         });
+        if (pickerCatalog) urls = migrateLocalPicks(urls, pickerCatalog);
+        if (useApi()) {
+          try {
+            await VZ.apiFetch("/api/vipzone/admin/picker", { method: "PUT", body: { picks: urls } });
+            VZ.toast("Đã lưu Content Picker.", "success");
+          } catch (e) { VZ.toast(e.message || "Lỗi.", "error"); }
+          return;
+        }
         var s = VZ.readStore();
         s.picks = urls;
         VZ.writeStore(s);
@@ -247,12 +489,11 @@
       if (nm) nm.textContent = me.username || me.email || "Admin";
     }
 
-    var store = VZ.readStore();
-    updateStats(store);
-    loadPayments(store);
-    loadCodes(store);
-    loadUsers(store);
-    loadPicker(store);
+    await refreshStats();
+    await loadPayments();
+    await loadCodes();
+    await loadUsers();
+    await loadPicker();
   }
 
   document.addEventListener("DOMContentLoaded", initAdmin);

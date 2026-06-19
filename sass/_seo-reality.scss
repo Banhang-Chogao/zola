@@ -233,6 +233,13 @@
   }
 
   /* ---- empty / honest states ---- */
+  .seo-reality__pending {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--c-text-muted);
+  }
+
   .seo-reality__empty {
     margin: 0;
     font-size: 0.74rem;
