@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T03:24:22Z",
+  "updated_at": "2026-06-19T03:29:36Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -196,9 +196,27 @@
               "auto_fix_status": "pending"
             },
             {
+              "source_page": "/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/",
+              "source_file": "public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html",
+              "href": "https://banhang-chogao.github.io/zola/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/",
+              "target": "/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
               "source_page": "/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/",
               "source_file": "public/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/index.html",
               "href": "/zola/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "target": "/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/",
+              "source_file": "public/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/index.html",
+              "href": "https://banhang-chogao.github.io/zola/baochi/bidv-smartbanking-khong-vao-duoc/",
               "target": "/baochi/bidv-smartbanking-khong-vao-duoc/",
               "status": "404",
               "reason": "Target not found in public/ after zola build",
@@ -268,8 +286,8 @@
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 4 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html → /baochi/bi-kip-xin-visa-han-quoc-5-nam-de/ (Target not found in public/ after zola build)",
-      "at": "2026-06-19T03:24:22Z"
+      "message": "Còn 6 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html → /baochi/bi-kip-xin-visa-han-quoc-5-nam-de/ (Target not found in public/ after zola build)",
+      "at": "2026-06-19T03:29:36Z"
     }
   ],
   "fix_summary": {
