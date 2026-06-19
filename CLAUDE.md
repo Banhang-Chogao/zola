@@ -76,6 +76,40 @@ Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIO
 - **PR Policy removed:** `pr-policy.yml` đã xóa — chỉ `qa-check` để auto-merge.
 - **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
 
+## Deploy Queue Policy (ZERO_BARRIER_DEPLOY_QUEUE — effective 2026-06-19)
+
+> Bổ sung ZERO_BARRIER auto-merge/deploy. Nhiều PR/commit xanh cùng lúc → **KHÔNG**
+> dispatch nhiều deploy song song (tránh GitHub/Pages API rate-limit burst). Merge
+> nhanh nhưng **tuần tự**.
+
+- **Enqueue, đừng burst:** CI/QA xanh → xếp hàng theo thời điểm push/PR ready; xử lý
+  **FIFO** (item xanh cũ nhất trước).
+- **1 pipeline tại 1 thời điểm:** chỉ một merge/deploy chạy; item kế tiếp bắt đầu **sau**
+  khi `deploy.yml` của item trước đạt trạng thái **terminal** (success/failure).
+- **Concurrency lock (đã patch):**
+  - `deploy.yml` → `concurrency: { group: production-deploy, cancel-in-progress: false }`
+    (queue, không cancel → không spam deploy, không burst Pages API; thay V5 cancel-on-storm).
+  - `auto-merge.yml` → `concurrency: { group: auto-merge-main, cancel-in-progress: false }`
+    (khóa merge toàn cục → merge tuần tự → main nhận 1 push/lần → 1 deploy/lần).
+- **Retry, đừng restart:** deploy fail / rate-limited → retry **exponential backoff**;
+  KHÔNG chạy lại job đã success, KHÔNG restart queue từ đầu.
+- **1 change = 1 PR** (giữ PR sạch).
+- **Behavior:** QA green → queued → tới lượt → merge main → deploy → chờ terminal → PR kế tiếp.
+- **Summary sau mỗi merge/deploy trong queue:**
+
+  ```text
+  Deploy Queue Summary
+  PR: #<id>
+  Status: ✅/❌
+  Queue position: <n>
+  Merged: <sha>
+  Deploy: <status>
+  Next: <next PR or none>
+  ```
+
+- **Acceptance:** không deploy song song; không rate-limit burst; PR xanh merge/deploy
+  đúng thứ tự; nhanh nhưng tuần tự; build pass.
+
 ## Task Priority Policy (effective 2026-06-18)
 
 > Bổ sung `docs/OPERATIONS.md` — **không** thay auto-merge / deploy rules. Áp dụng khi
