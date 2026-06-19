@@ -1,25 +1,63 @@
 {
-  "updated_at": "2026-06-19T13:08:55Z",
+  "updated_at": "2026-06-19T14:46:26Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 39,
+    "today": 41,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "unknown": 27,
+      "chore": 39,
       "feature": 73,
-      "unknown": 25,
       "ci": 3,
       "fix": 49,
       "qa": 1,
-      "chore": 41,
       "content": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 505,
+      "pr_title": "docs(shortcuts): add wip8 — read-only workspace tracker",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/505",
+      "merged_at": "2026-06-19T14:38:32Z",
+      "merge_commit_sha": "804dd099bed6dcdfd7aeea6789aef90ab9615cc6",
+      "merge_commit_short": "804dd09",
+      "head_branch": "claude/optimistic-brahmagupta-vryp76",
+      "summary_vi": "Thêm phím tắt `wip8`: inspect git status, log, stash, branch context, open PRs và CI jobs để tái dựng task đang dở. Output chuẩn 6 section (Current task / Files changed / Progress / Running jobs / Blockers / Next step). ",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 59,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 803,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27832090574",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 503,
+      "pr_title": "chore(config): wire vipzone_api_url to Render backend",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/503",
+      "merged_at": "2026-06-19T13:06:20Z",
+      "merge_commit_sha": "75415817afe04c2673eeec97de37fe2fba025ca5",
+      "merge_commit_short": "7541581",
+      "head_branch": "chore/vipzone-api-url",
+      "summary_vi": "Set vipzone_api_url to https://blog-vipzone-api.onrender.com after VIPZone backend blueprint merge (#502).",
+      "change_type": "chore",
+      "files_changed": 1,
+      "additions": 2,
+      "deletions": 2,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 802,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27828501425",
+      "build_conclusion": "success"
+    },
     {
       "pr_number": 502,
       "pr_title": "feat(vipzone): Render backend API + picker catalog",
@@ -37,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 800,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27826919600",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 501,
@@ -415,9 +453,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 773,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807032336",
-      "build_conclusion": "failure"
+      "build_run_number": 774,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807302117",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 476,
@@ -434,9 +472,9 @@
       "deletions": 31,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 772,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806783908",
-      "build_conclusion": "failure"
+      "build_run_number": 774,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807302117",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 481,
@@ -453,9 +491,9 @@
       "deletions": 32,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 771,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806745083",
-      "build_conclusion": "cancelled"
+      "build_run_number": 774,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27807302117",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 479,
@@ -529,9 +567,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 772,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806783908",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 474,
@@ -548,9 +586,9 @@
       "deletions": 8,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 772,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27806783908",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 473,
@@ -1059,6 +1097,25 @@
       "files_changed": 7,
       "additions": 228,
       "deletions": 33,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 445,
+      "pr_title": "policy: task priority (P0 user > P1 background)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/445",
+      "merged_at": "2026-06-18T16:07:14Z",
+      "merge_commit_sha": "8d33d95f076a96c35fd1cf329de63117c7ea2a95",
+      "merge_commit_short": "8d33d95",
+      "head_branch": "policy/task-priority",
+      "summary_vi": "Task Priority Policy in CLAUDE.md + simulation tests (3/3 pass).",
+      "change_type": "unknown",
+      "files_changed": 2,
+      "additions": 157,
+      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3757,63 +3814,6 @@
       "files_changed": 5,
       "additions": 1046,
       "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 295,
-      "pr_title": "chore: changelog after PR #292",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/295",
-      "merged_at": "2026-06-17T16:45:40Z",
-      "merge_commit_sha": "8dac358b3af0d592207d6de0393d34d2036e6aef",
-      "merge_commit_short": "8dac358",
-      "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 13,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 294,
-      "pr_title": "chore: refresh Build Dashboard data",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/294",
-      "merged_at": "2026-06-17T16:43:40Z",
-      "merge_commit_sha": "49c37f695eb1ef3a5e515b30a8eb93242d33f0c4",
-      "merge_commit_short": "49c37f6",
-      "head_branch": "chore/build-dashboard-data",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 224,
-      "deletions": 173,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 292,
-      "pr_title": "chore: changelog after PR #288",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/292",
-      "merged_at": "2026-06-17T16:27:55Z",
-      "merge_commit_sha": "3ed6c43484058b3983f30a3e0f01820f915a974b",
-      "merge_commit_short": "3ed6c43",
-      "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 13,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
