@@ -1,19 +1,19 @@
 {
-  "trigger": "manual",
-  "run_id": "manual",
-  "started_at": "2026-06-19T06:31:05.248731+07:00",
-  "finished_at": "2026-06-19T06:31:24.065888+07:00",
-  "last_run": "2026-06-19T06:31:24.065888+07:00",
+  "trigger": "schedule",
+  "run_id": "27796665574",
+  "started_at": "2026-06-20T03:19:22.674062+07:00",
+  "finished_at": "2026-06-20T03:21:33.999943+07:00",
+  "last_run": "2026-06-20T03:21:33.999943+07:00",
   "next_scheduled_run": "2026-06-20T06:00:00+07:00",
-  "vaccine_library_count": 11,
+  "vaccine_library_count": 14,
   "steps": [
     {
       "vaccine": "V-logs",
       "name": "CI log diagnosis",
-      "matched": false,
+      "matched": true,
       "fixed": false,
       "changed": false,
-      "detail": "gh not available — skipped"
+      "detail": "log signatures: V1"
     },
     {
       "vaccine": "V1",
@@ -37,7 +37,7 @@
       "matched": false,
       "fixed": false,
       "changed": false,
-      "detail": "QA 404: scanned 634 page(s) · 731 unique internal link(s) checked · 0 internal broken"
+      "detail": "exit 0"
     },
     {
       "vaccine": "V-refs",
@@ -56,7 +56,14 @@
       "detail": "exit 0"
     }
   ],
-  "matched_vaccines": [],
+  "matched_vaccines": [
+    {
+      "code": "V-logs",
+      "name": "CI log diagnosis",
+      "fixed": false,
+      "detail": "log signatures: V1"
+    }
+  ],
   "fixed_count": 0,
   "changed": false,
   "qa_result": {
@@ -67,12 +74,12 @@
   "build_result": {
     "name": "zola build",
     "passed": true,
-    "detail": "skipped"
+    "detail": "exit 0"
   },
   "production_status": "up-to-date",
   "status": "ok",
-  "vaccine_scanned": 11,
-  "issues_detected": 0,
+  "vaccine_scanned": 14,
+  "issues_detected": 1,
   "issues_fixed": 0,
   "issues_prs_created": 0,
   "errors": [],
@@ -87,15 +94,26 @@
       "issues_fixed": 0,
       "issues_prs_created": 0,
       "errors": []
+    },
+    {
+      "run_id": "27796665574",
+      "trigger": "schedule",
+      "last_run": "2026-06-20T03:21:33.999943+07:00",
+      "status": "ok",
+      "vaccine_scanned": 14,
+      "issues_detected": 1,
+      "issues_fixed": 0,
+      "issues_prs_created": 0,
+      "errors": []
     }
   ],
   "latest": {
-    "run_id": "manual",
-    "trigger": "manual",
-    "last_run": "2026-06-19T06:31:24.065888+07:00",
+    "run_id": "27796665574",
+    "trigger": "schedule",
+    "last_run": "2026-06-20T03:21:33.999943+07:00",
     "status": "ok",
-    "vaccine_scanned": 11,
-    "issues_detected": 0,
+    "vaccine_scanned": 14,
+    "issues_detected": 1,
     "issues_fixed": 0,
     "issues_prs_created": 0,
     "errors": []

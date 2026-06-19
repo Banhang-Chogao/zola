@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-17T19:34:37Z",
+  "updated_at": "2026-06-19T20:19:24Z",
   "repo": "Banhang-Chogao/zola",
   "summary": {
-    "total_conflicts": 1,
+    "total_conflicts": 0,
     "by_severity": {
       "LOW": 0,
       "MEDIUM": 0,
-      "HIGH": 1,
+      "HIGH": 0,
       "CRITICAL": 0
     },
     "loop_detected": false,
@@ -14,22 +14,5 @@
     "fixes_applied": [],
     "auto_fix_threshold": 0.9
   },
-  "conflicts": [
-    {
-      "id": "agent_opposing_auto_merge_block_merge",
-      "category": "AI Agents",
-      "severity": "HIGH",
-      "title": "Auto-merge vs chặn merge thủ công",
-      "rule_a": "auto_merge: scripts/auto_merge_policy.py, scripts/try_auto_merge.py",
-      "rule_b": "block_merge: .github/scripts/push_via_pr.sh",
-      "resolution": "Làm rõ precedence trong CLAUDE.md; gắn no-auto-merge cho bot report-only.",
-      "confidence": 0.72,
-      "files": [
-        ".github/scripts/push_via_pr.sh",
-        "scripts/auto_merge_policy.py",
-        "scripts/try_auto_merge.py"
-      ],
-      "auto_fixable": false
-    }
-  ]
+  "conflicts": []
 }
