@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-19T17:23:55Z",
+  "updated_at": "2026-06-19T17:39:59Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 48,
+    "today": 49,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 75,
+      "feature": 76,
       "fix": 48,
-      "chore": 39,
+      "chore": 38,
       "unknown": 26,
       "ci": 3,
       "qa": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 513,
+      "pr_title": "feat(content): Content hub navbar + S-DNA category/tool blocks; CMS write = superuser only",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/513",
+      "merged_at": "2026-06-19T17:32:38Z",
+      "merge_commit_sha": "3221ae9e7fac7594a8b3772dafddb1b925da808a",
+      "merge_commit_short": "3221ae9",
+      "head_branch": "content-hub-superuser",
+      "summary_vi": "- Navbar: gộp \"Bài viết\" + \"Công cụ\" → 1 mục **Content** (Main content + MS).",
+      "change_type": "feature",
+      "files_changed": 10,
+      "additions": 359,
+      "deletions": 152,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 809,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27840034147",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 512,
       "pr_title": "feat(auth): persistent super-admin session (GitHub login = highest privilege)",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 808,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27839441329",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 510,
@@ -3795,25 +3814,6 @@
       "files_changed": 1,
       "additions": 225,
       "deletions": 259,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 300,
-      "pr_title": "chore: changelog after PR #295",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/300",
-      "merged_at": "2026-06-17T16:52:57Z",
-      "merge_commit_sha": "1df239c0cd41843bf38d5099393df80cc3a40556",
-      "merge_commit_short": "1df239c",
-      "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 15,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
