@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(vu-mua): trang ứng dụng theo dõi bán nông sản + insights tại /vu…",
+      "tag": "chore",
+      "lines_added": 2273,
+      "lines_removed": 0,
+      "highlights": [
+        "Form nhập tay đúng 7 cột: Tên hàng hoá | Số lượng | Loại | Đơn giá | Thành tiền | Người mua | Ngày mua. Thành tiền tự tính (SL × đơn giá), cho phép chỉnh tay.",
+        "Bảng giao dịch + lọc (tìm/loại/khoảng ngày) + phân trang + xoá từng dòng.",
+        "Export JSON/CSV, Import JSON; dữ liệu lưu localStorage (client-side, không gửi server). Placeholder upload PDF (OCR — sắp ra mắt).",
+        "KPI cards: doanh thu, sản lượng, số đơn, sản phẩm, người mua, giá TB.",
+        "Phân tích mùa vụ (Đông Xuân/Hè Thu/Vụ Mùa) + xu hướng doanh thu theo tháng (Chart.js), nhu cầu sản phẩm, hành vi người mua, hiệu suất giá."
+      ],
+      "pr": 525
+    },
+    {
+      "date": "2026-06-19",
       "title": "fix(ui): canh giãn ảnh placeholder đồng đều trên mobile",
       "tag": "fix",
       "lines_added": 37,
