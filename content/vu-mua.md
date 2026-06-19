@@ -1,8 +1,10 @@
 +++
 title = "Vụ Mùa"
-description = "Ứng dụng theo dõi bán nông sản theo mùa vụ và phân tích thông minh: nhập giao dịch, phân tích mùa vụ, xu hướng doanh thu, nhu cầu sản phẩm, hành vi người mua và hiệu suất giá. Dữ liệu lưu cục bộ trên trình duyệt."
+description = "Vụ Mùa — công cụ nhập liệu và phân tích bán hàng nông sản theo mùa vụ: doanh thu, nhu cầu mặt hàng, hành vi người mua, hiệu suất giá. Dữ liệu lưu cục bộ trên trình duyệt, hoàn toàn miễn phí."
 template = "vu-mua.html"
+path = "vu-mua"
 
 [extra]
-seo_keyword = "vụ mùa theo dõi bán nông sản"
+seo_keyword = "vụ mùa phân tích bán hàng nông sản"
+toc = false
 +++

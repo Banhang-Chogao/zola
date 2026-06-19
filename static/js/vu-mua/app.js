@@ -1,528 +1,404 @@
-/**
- * Vụ Mùa — agricultural sales tracking + insights dashboard.
+/* vu-mua/app.js — Vụ Mùa: nhập liệu + phân tích bán hàng nông sản theo mùa vụ.
  *
- * Orchestrates the Data Entry Module (manual form + table) and the Insights
- * Module (KPIs, charts, narrative). 100% client-side; records live in
- * localStorage via VuMuaStorage. Designed to be extensible for an AI insights
- * engine (see VuMuaInsights.buildNarrative) and a future PDF import.
+ * 100% client-side: dữ liệu chỉ lưu trong localStorage của trình duyệt, KHÔNG
+ * upload server (đồng bộ mô hình static-site + H/L/O-Dashboard). Không phụ thuộc
+ * thư viện ngoài — biểu đồ vẽ bằng SVG nội bộ → CSP-safe, nhẹ.
+ *
+ * Schema giao dịch: { id, name, qty, type, unitPrice, amount, buyer, date }
+ *   date = "YYYY-MM-DD". amount tự tính qty*unitPrice nếu bỏ trống.
+ *
+ * Mở rộng: window.VuMua expose API (getEntries/addEntry/computeInsights…) +
+ * hook AI insights (renderAI) cho tương lai.
  */
 (function () {
   "use strict";
 
-  const $ = (sel, root) => (root || document).querySelector(sel);
-  const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+  var STORAGE_KEY = "vu-mua-entries-v1";
+  var root = document.getElementById("vm-app");
+  if (!root) return;
 
-  const Storage = window.VuMuaStorage;
-  const Insights = window.VuMuaInsights;
-  const Charts = window.VuMuaCharts;
-  const ExportMod = window.VuMuaExport;
-
-  const PAGE_SIZE = 12;
-  let page = 1;
-  let totalDirty = false; // user manually overrode THÀNH TIỀN
-
-  /* ---------------------------------------------------------------- helpers */
-
-  function num(v) {
-    const n = Number(v);
-    return isFinite(n) ? n : 0;
+  // ---- Format helpers ------------------------------------------------------
+  var vnd = new Intl.NumberFormat("vi-VN");
+  function fMoney(n) { return vnd.format(Math.round(n || 0)) + " đ"; }
+  function fNum(n) {
+    n = +n || 0;
+    return Number.isInteger(n) ? vnd.format(n) : vnd.format(Math.round(n * 100) / 100);
+  }
+  function fDate(iso) {
+    if (!iso) return "";
+    var p = String(iso).slice(0, 10).split("-");
+    return p.length === 3 ? p[2] + "/" + p[1] + "/" + p[0] : iso;
+  }
+  function monthKey(iso) { return String(iso || "").slice(0, 7); } // YYYY-MM
+  function monthLabel(key) { var p = key.split("-"); return p.length === 2 ? p[1] + "/" + p[0] : key; }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
   }
 
-  function formatVnd(n) {
-    return num(n).toLocaleString("vi-VN") + " ₫";
+  // ---- Storage -------------------------------------------------------------
+  var entries = [];
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      entries = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(entries)) entries = [];
+    } catch (e) { entries = []; }
+  }
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); } catch (e) {}
   }
 
-  function formatNum(n) {
-    return num(n).toLocaleString("vi-VN");
-  }
-
-  function formatDate(iso) {
-    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
-    return m ? m[3] + "/" + m[2] + "/" + m[1] : iso || "—";
-  }
-
-  function todayIso() {
-    const d = new Date();
-    const p = (n) => String(n).padStart(2, "0");
-    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
-  }
-
-  function escapeHtml(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
-
-  let toastTimer = null;
-  function toast(msg, type) {
-    const el = $("#vm-toast");
-    if (!el) return;
-    el.textContent = msg;
-    el.dataset.type = type || "info";
-    el.classList.add("is-visible");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove("is-visible"), 2600);
-  }
-
-  /* ------------------------------------------------------------- data entry */
-
-  function recalcTotal() {
-    if (totalDirty) return;
-    const q = num($("#vm-quantity").value);
-    const p = num($("#vm-unit-price").value);
-    if (q > 0 && p > 0) $("#vm-total").value = Math.round(q * p);
-  }
-
-  function readForm() {
+  // ---- CRUD ----------------------------------------------------------------
+  function normalize(e) {
+    var qty = +e.qty || 0;
+    var unitPrice = +e.unitPrice || 0;
+    var amount = (e.amount === "" || e.amount == null) ? qty * unitPrice : (+e.amount || 0);
     return {
-      product: $("#vm-product").value.trim(),
-      quantity: num($("#vm-quantity").value),
-      type: $("#vm-type").value.trim(),
-      unitPrice: num($("#vm-unit-price").value),
-      total: num($("#vm-total").value),
-      buyer: $("#vm-buyer").value.trim(),
-      date: $("#vm-date").value || todayIso(),
+      id: e.id || ("vm-" + Date.now() + "-" + Math.random().toString(36).slice(2, 7)),
+      name: (e.name || "").trim() || "(không tên)",
+      qty: qty,
+      type: (e.type || "").trim() || "Khác",
+      unitPrice: unitPrice,
+      amount: amount,
+      buyer: (e.buyer || "").trim() || "(ẩn danh)",
+      date: (e.date || "").slice(0, 10)
+    };
+  }
+  function addEntry(e) {
+    entries.push(normalize(e));
+    entries.sort(function (a, b) { return (a.date < b.date ? -1 : a.date > b.date ? 1 : 0); });
+    save(); render();
+  }
+  function deleteEntry(id) {
+    entries = entries.filter(function (e) { return e.id !== id; });
+    save(); render();
+  }
+  function clearAll() {
+    if (entries.length && !window.confirm("Xoá toàn bộ giao dịch Vụ Mùa?")) return;
+    entries = []; save(); render();
+  }
+
+  // ---- Insights (aggregation) ---------------------------------------------
+  function computeInsights() {
+    var totalRevenue = 0, totalQty = 0;
+    var byMonth = {}, byDate = {}, byProduct = {}, byBuyer = {};
+    var priceSum = {}, priceCnt = {}; // theo loại
+    var buyers = {}, products = {};
+
+    entries.forEach(function (e) {
+      totalRevenue += e.amount;
+      totalQty += e.qty;
+      byMonth[monthKey(e.date)] = (byMonth[monthKey(e.date)] || 0) + e.amount;
+      byDate[e.date] = (byDate[e.date] || 0) + e.amount;
+      byProduct[e.name] = (byProduct[e.name] || 0) + e.amount;
+      byBuyer[e.buyer] = (byBuyer[e.buyer] || 0) + e.amount;
+      priceSum[e.type] = (priceSum[e.type] || 0) + e.unitPrice;
+      priceCnt[e.type] = (priceCnt[e.type] || 0) + 1;
+      buyers[e.buyer] = 1; products[e.name] = 1;
+    });
+
+    function pairsSortedByKey(obj) {
+      return Object.keys(obj).sort().map(function (k) { return { label: k, value: obj[k] }; });
+    }
+    function pairsTop(obj, n, labelFn) {
+      return Object.keys(obj)
+        .map(function (k) { return { label: labelFn ? labelFn(k) : k, value: obj[k] }; })
+        .sort(function (a, b) { return b.value - a.value; })
+        .slice(0, n || 6);
+    }
+    var avgPrice = {};
+    Object.keys(priceSum).forEach(function (t) { avgPrice[t] = priceSum[t] / priceCnt[t]; });
+
+    return {
+      count: entries.length,
+      totalRevenue: totalRevenue,
+      totalQty: totalQty,
+      avgUnit: totalQty ? totalRevenue / totalQty : 0,
+      buyerCount: Object.keys(buyers).length,
+      productCount: Object.keys(products).length,
+      seasonal: pairsSortedByKey(byMonth).map(function (p) { return { label: monthLabel(p.label), value: p.value, raw: p.label }; }),
+      trend: Object.keys(byDate).sort().map(function (d) { return { label: fDate(d), value: byDate[d] }; }),
+      demand: pairsTop(byProduct, 6),
+      buyers: pairsTop(byBuyer, 6),
+      price: pairsTop(avgPrice, 8)
     };
   }
 
-  function showFormError(msg) {
-    const el = $("#vm-form-error");
-    if (!el) return;
-    if (msg) {
-      el.textContent = msg;
-      el.hidden = false;
-    } else {
-      el.hidden = true;
-    }
+  // ---- SVG charts ----------------------------------------------------------
+  function emptyChart(msg) {
+    return '<p class="vm-chart__empty">' + esc(msg || "Chưa đủ dữ liệu.") + "</p>";
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const rec = readForm();
-
-    if (!rec.product) {
-      showFormError("Vui lòng nhập tên hàng hoá.");
-      $("#vm-product").focus();
-      return;
-    }
-    if (!(rec.quantity > 0)) {
-      showFormError("Số lượng phải lớn hơn 0.");
-      $("#vm-quantity").focus();
-      return;
-    }
-    if (!(rec.total > 0)) {
-      if (rec.unitPrice > 0 && rec.quantity > 0) {
-        rec.total = Math.round(rec.quantity * rec.unitPrice);
-      } else {
-        showFormError("Nhập đơn giá hoặc thành tiền (> 0).");
-        $("#vm-unit-price").focus();
-        return;
-      }
-    }
-    if (!rec.unitPrice && rec.quantity > 0) {
-      rec.unitPrice = Math.round(rec.total / rec.quantity);
-    }
-
-    showFormError("");
-    Storage.insert(rec);
-    toast("Đã lưu giao dịch", "success");
-    page = 1;
-    resetForm(true);
-    renderAll();
+  function vBars(data, fmt) {
+    if (!data || !data.length) return emptyChart();
+    var H = 190, padB = 46, padT = 22, slot = 54;
+    var W = Math.max(data.length * slot, 240);
+    var max = Math.max.apply(null, data.map(function (d) { return d.value; })) || 1;
+    var bw = slot * 0.6;
+    var bars = data.map(function (d, i) {
+      var bh = Math.max((d.value / max) * (H - padB - padT), d.value > 0 ? 2 : 0);
+      var x = i * slot + (slot - bw) / 2;
+      var y = H - padB - bh;
+      return (
+        '<rect class="vm-bar" x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw.toFixed(1) +
+        '" height="' + bh.toFixed(1) + '" rx="4"></rect>' +
+        '<text class="vm-bar-val" x="' + (x + bw / 2).toFixed(1) + '" y="' + (y - 6).toFixed(1) + '">' + esc(fmt(d.value)) + "</text>" +
+        '<text class="vm-bar-lbl" x="' + (x + bw / 2).toFixed(1) + '" y="' + (H - padB + 16) + '">' + esc(d.label) + "</text>"
+      );
+    }).join("");
+    return '<svg class="vm-svg" viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="xMinYMid meet" role="img">' + bars + "</svg>";
   }
 
-  function resetForm(keepContext) {
-    totalDirty = false;
-    // Keep buyer/type/date when adding several items in a batch (keepContext).
-    const keepBuyer = keepContext ? $("#vm-buyer").value : "";
-    const keepType = keepContext ? $("#vm-type").value : "";
-    const keepDate = keepContext ? $("#vm-date").value : todayIso();
-    $("#vm-form").reset();
-    $("#vm-buyer").value = keepBuyer;
-    $("#vm-type").value = keepType;
-    $("#vm-date").value = keepDate || todayIso();
-    $("#vm-total").value = "";
-    showFormError("");
-    $("#vm-product").focus();
+  function hBars(data, fmt) {
+    if (!data || !data.length) return emptyChart();
+    var max = Math.max.apply(null, data.map(function (d) { return d.value; })) || 1;
+    var rowH = 34, W = 300, labelW = 110, valW = 8, barMax = W - labelW - 4;
+    var H = data.length * rowH + 6;
+    var rows = data.map(function (d, i) {
+      var bw = Math.max((d.value / max) * barMax, d.value > 0 ? 3 : 0);
+      var y = i * rowH + 6;
+      return (
+        '<text class="vm-hbar-lbl" x="0" y="' + (y + rowH / 2) + '">' + esc(d.label.length > 16 ? d.label.slice(0, 15) + "…" : d.label) + "</text>" +
+        '<rect class="vm-bar" x="' + labelW + '" y="' + (y + 5) + '" width="' + bw.toFixed(1) + '" height="' + (rowH - 14) + '" rx="4"></rect>' +
+        '<text class="vm-hbar-val" x="' + (labelW + bw + valW).toFixed(1) + '" y="' + (y + rowH / 2) + '">' + esc(fmt(d.value)) + "</text>"
+      );
+    }).join("");
+    return '<svg class="vm-svg vm-svg--h" viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="xMinYMin meet" role="img">' + rows + "</svg>";
   }
 
-  /* ------------------------------------------------------------------ table */
-
-  function distinctTypes(records) {
-    const seen = new Map();
-    records.forEach((r) => {
-      const k = (r.type || "").trim().toLowerCase();
-      if (k && !seen.has(k)) seen.set(k, r.type.trim());
+  function lineChart(data, fmt) {
+    if (!data || data.length < 2) return data && data.length === 1 ? vBars(data, fmt) : emptyChart();
+    var H = 190, padB = 46, padT = 22, padL = 6, W = Math.max(data.length * 56, 260);
+    var max = Math.max.apply(null, data.map(function (d) { return d.value; })) || 1;
+    var n = data.length, span = (W - padL * 2) / (n - 1);
+    var pts = data.map(function (d, i) {
+      var x = padL + i * span;
+      var y = (H - padB) - (d.value / max) * (H - padB - padT);
+      return { x: x, y: y, d: d };
     });
-    return Array.from(seen.values()).sort((a, b) => a.localeCompare(b, "vi"));
+    var line = pts.map(function (p, i) { return (i ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1); }).join(" ");
+    var area = "M" + pts[0].x.toFixed(1) + " " + (H - padB) + " " + line.slice(1) + " L" + pts[n - 1].x.toFixed(1) + " " + (H - padB) + " Z";
+    var dots = pts.map(function (p) {
+      return (
+        '<circle class="vm-dot" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="3"></circle>' +
+        '<text class="vm-bar-lbl" x="' + p.x.toFixed(1) + '" y="' + (H - padB + 16) + '">' + esc(p.d.label) + "</text>"
+      );
+    }).join("");
+    return (
+      '<svg class="vm-svg" viewBox="0 0 ' + W + " " + H + '" preserveAspectRatio="xMinYMid meet" role="img">' +
+      '<path class="vm-area" d="' + area + '"></path>' +
+      '<path class="vm-line" d="' + line + '" fill="none"></path>' + dots + "</svg>"
+    );
   }
 
-  function getSorted() {
-    return Storage.getAll().slice().sort((a, b) => {
-      const da = (a.date || "") + (a.createdAt || "");
-      const db = (b.date || "") + (b.createdAt || "");
-      return db < da ? -1 : db > da ? 1 : 0;
-    });
-  }
-
-  function getFiltered() {
-    const kw = $("#vm-search").value.trim().toLowerCase();
-    const type = $("#vm-filter-type").value;
-    const from = $("#vm-filter-from").value;
-    const to = $("#vm-filter-to").value;
-    return getSorted().filter((r) => {
-      if (type && (r.type || "").trim().toLowerCase() !== type.toLowerCase()) return false;
-      const d = (r.date || "").slice(0, 10);
-      if (from && d < from) return false;
-      if (to && d > to) return false;
-      if (kw) {
-        const hay = (r.product + " " + r.buyer + " " + r.type).toLowerCase();
-        if (hay.indexOf(kw) === -1) return false;
-      }
-      return true;
-    });
-  }
+  // ---- Render --------------------------------------------------------------
+  var tbody = root.querySelector("[data-vm-tbody]");
+  var countEl = root.querySelector("[data-vm-count]");
+  var insightsEl = root.querySelector("[data-vm-insights]");
+  var kpisEl = root.querySelector("[data-vm-kpis]");
 
   function renderTable() {
-    const tbody = $("#vm-table-body");
-    const rows = getFiltered();
-    const total = rows.length;
-    const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-    if (page > pages) page = pages;
-    const start = (page - 1) * PAGE_SIZE;
-    const slice = rows.slice(start, start + PAGE_SIZE);
-
-    $("#vm-table-count").textContent =
-      total + " giao dịch" + (total !== Storage.getAll().length ? " (đã lọc)" : "");
-
-    if (!slice.length) {
-      tbody.innerHTML =
-        '<tr><td colspan="8" class="vm-table__empty">' +
-        (Storage.getAll().length ? "Không có giao dịch khớp bộ lọc." : "Chưa có giao dịch — hãy nhập ở mục phía trên.") +
-        "</td></tr>";
-    } else {
-      tbody.innerHTML = slice
-        .map((r, i) => {
-          return (
-            "<tr>" +
-            "<td>" + (start + i + 1) + "</td>" +
-            '<td class="vm-table__name">' + escapeHtml(r.product) + "</td>" +
-            '<td class="vm-table__num">' + formatNum(r.quantity) + "</td>" +
-            "<td>" + (r.type ? '<span class="vm-chip">' + escapeHtml(r.type) + "</span>" : "—") + "</td>" +
-            '<td class="vm-table__num">' + formatVnd(r.unitPrice) + "</td>" +
-            '<td class="vm-table__num vm-table__total">' + formatVnd(r.total) + "</td>" +
-            "<td>" + (escapeHtml(r.buyer) || "—") + "</td>" +
-            "<td>" + formatDate(r.date) + "</td>" +
-            '<td><button type="button" class="vm-row-del" data-del="' + escapeHtml(r.id) + '" aria-label="Xoá giao dịch">✕</button></td>' +
-            "</tr>"
-          );
-        })
-        .join("");
-    }
-    renderPagination(pages);
-  }
-
-  function renderPagination(pages) {
-    const wrap = $("#vm-pagination");
-    if (pages <= 1) {
-      wrap.innerHTML = "";
+    if (!entries.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="vm-table__empty">Chưa có giao dịch — nhập ở trên hoặc nạp dữ liệu mẫu.</td></tr>';
       return;
     }
-    let html = "";
-    html += '<button type="button" class="vm-page-btn" data-page="prev"' + (page === 1 ? " disabled" : "") + ">‹</button>";
-    html += '<span class="vm-page-info">Trang ' + page + " / " + pages + "</span>";
-    html += '<button type="button" class="vm-page-btn" data-page="next"' + (page === pages ? " disabled" : "") + ">›</button>";
-    wrap.innerHTML = html;
+    tbody.innerHTML = entries.map(function (e) {
+      return (
+        "<tr>" +
+        "<td>" + esc(e.name) + "</td>" +
+        '<td class="vm-num">' + fNum(e.qty) + "</td>" +
+        "<td>" + esc(e.type) + "</td>" +
+        '<td class="vm-num">' + fMoney(e.unitPrice) + "</td>" +
+        '<td class="vm-num vm-strong">' + fMoney(e.amount) + "</td>" +
+        "<td>" + esc(e.buyer) + "</td>" +
+        "<td>" + fDate(e.date) + "</td>" +
+        '<td class="vm-num"><button class="vm-del" type="button" data-vm-del="' + e.id + '" aria-label="Xoá giao dịch">✕</button></td>' +
+        "</tr>"
+      );
+    }).join("");
   }
-
-  function populateTypeFilter() {
-    const sel = $("#vm-filter-type");
-    const current = sel.value;
-    const types = distinctTypes(Storage.getAll());
-    sel.innerHTML =
-      '<option value="">Tất cả loại</option>' +
-      types.map((t) => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + "</option>").join("");
-    if (types.some((t) => t === current)) sel.value = current;
-  }
-
-  function refreshDatalists() {
-    const records = Storage.getAll();
-    const fill = (id, values) => {
-      const dl = $(id);
-      if (!dl) return;
-      dl.innerHTML = values.map((v) => '<option value="' + escapeHtml(v) + '"></option>').join("");
-    };
-    const distinct = (field) => {
-      const seen = new Map();
-      records.forEach((r) => {
-        const k = (r[field] || "").trim().toLowerCase();
-        if (k && !seen.has(k)) seen.set(k, r[field].trim());
-      });
-      return Array.from(seen.values());
-    };
-    fill("#vm-product-list", distinct("product"));
-    fill("#vm-type-list", distinct("type"));
-    fill("#vm-buyer-list", distinct("buyer"));
-  }
-
-  /* --------------------------------------------------------------- insights */
 
   function kpiCard(label, value, sub) {
     return (
       '<div class="vm-kpi">' +
-      '<span class="vm-kpi__label">' + label + "</span>" +
-      '<span class="vm-kpi__value">' + value + "</span>" +
-      (sub ? '<span class="vm-kpi__sub">' + sub + "</span>" : "") +
+      '<span class="vm-kpi__label">' + esc(label) + "</span>" +
+      '<span class="vm-kpi__value">' + esc(value) + "</span>" +
+      (sub ? '<span class="vm-kpi__sub">' + esc(sub) + "</span>" : "") +
       "</div>"
     );
   }
 
-  function renderKpis(s) {
-    const range =
-      s.dateFrom && s.dateTo
-        ? formatDate(s.dateFrom) + " → " + formatDate(s.dateTo)
-        : "Chưa có dữ liệu";
-    $("#vm-kpis").innerHTML =
-      kpiCard("Tổng doanh thu", formatVnd(s.revenue), range) +
-      kpiCard("Tổng sản lượng", formatNum(s.quantity), s.types + " loại hàng") +
-      kpiCard("Số giao dịch", formatNum(s.orders), "TB " + formatVnd(s.avgOrder) + "/đơn") +
-      kpiCard("Sản phẩm", formatNum(s.products), "mặt hàng khác nhau") +
-      kpiCard("Người mua", formatNum(s.buyers), "khách hàng") +
-      kpiCard("Giá TB / đơn vị", formatVnd(s.avgUnitPrice), "bình quân gia quyền");
-  }
-
-  function barRow(label, value, max, valueText, accent) {
-    const pct = max > 0 ? Math.max(2, Math.round((value / max) * 100)) : 0;
-    return (
-      '<div class="vm-bar">' +
-      '<div class="vm-bar__head"><span class="vm-bar__label">' + escapeHtml(label) + "</span>" +
-      '<span class="vm-bar__value">' + valueText + "</span></div>" +
-      '<div class="vm-bar__track"><span class="vm-bar__fill' + (accent ? " vm-bar__fill--" + accent : "") + '" style="width:' + pct + '%"></span></div>' +
-      "</div>"
-    );
-  }
-
-  function renderSeasonCards(seasonal) {
-    const el = $("#vm-season-cards");
-    const totalRev = seasonal.reduce((a, s) => a + s.revenue, 0);
-    if (!totalRev) {
-      el.innerHTML = '<p class="vm-empty">Chưa đủ dữ liệu cho phân tích mùa vụ.</p>';
-      return;
-    }
-    el.innerHTML = seasonal
-      .map((s) => {
-        const pct = totalRev ? Math.round((s.revenue / totalRev) * 100) : 0;
-        return (
-          '<div class="vm-season-card">' +
-          '<span class="vm-season-card__name">' + s.label + "</span>" +
-          '<span class="vm-season-card__rev">' + formatVnd(s.revenue) + "</span>" +
-          '<span class="vm-season-card__meta">' + formatNum(s.quantity) + " sản lượng · " + s.orders + " đơn · " + pct + "%</span>" +
-          "</div>"
-        );
-      })
-      .join("");
-  }
-
-  function renderProductList(products) {
-    const el = $("#vm-product-table");
-    if (!products.length) {
-      el.innerHTML = '<p class="vm-empty">Chưa có dữ liệu sản phẩm.</p>';
-      return;
-    }
-    const max = products[0].revenue || 1;
-    el.innerHTML = products
-      .slice(0, 8)
-      .map((p) =>
-        barRow(p.label, p.revenue, max, formatVnd(p.revenue) + " · " + formatNum(p.quantity) + " SL", "green")
-      )
-      .join("");
-  }
-
-  function renderBuyerList(buyers) {
-    const el = $("#vm-buyer-list-out");
-    if (!buyers.length) {
-      el.innerHTML = '<p class="vm-empty">Chưa có dữ liệu người mua.</p>';
-      return;
-    }
-    const max = buyers[0].revenue || 1;
-    el.innerHTML = buyers
-      .slice(0, 8)
-      .map((b) =>
-        barRow(b.label, b.revenue, max, formatVnd(b.revenue) + " · " + b.orders + " đơn", "amber")
-      )
-      .join("");
-  }
-
-  function renderPriceList(price) {
-    const el = $("#vm-price-list");
-    if (!price.length) {
-      el.innerHTML = '<p class="vm-empty">Chưa có dữ liệu giá.</p>';
-      return;
-    }
-    el.innerHTML =
-      '<table class="vm-price-table"><thead><tr><th>Sản phẩm</th><th>Giá TB</th><th>Thấp nhất</th><th>Cao nhất</th></tr></thead><tbody>' +
-      price
-        .slice(0, 10)
-        .map(
-          (p) =>
-            "<tr><td>" + escapeHtml(p.label) + "</td>" +
-            '<td class="vm-table__num">' + formatVnd(p.avg) + "</td>" +
-            '<td class="vm-table__num">' + formatVnd(p.min) + "</td>" +
-            '<td class="vm-table__num">' + formatVnd(p.max) + "</td></tr>"
-        )
-        .join("") +
-      "</tbody></table>";
-  }
-
-  function renderNarrative(narrative) {
-    const el = $("#vm-narrative");
-    if (!narrative.length) {
-      el.innerHTML = "<li>Nhập giao dịch để nhận phân tích tự động.</li>";
-      return;
-    }
-    el.innerHTML = narrative.map((n) => "<li>" + n + "</li>").join("");
-  }
-
-  function toggleChart(canvasId, hasData) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
-    const section = canvas.closest("[data-vm-chart]");
-    if (!section) return;
-    section.classList.toggle("vm-panel--empty", !hasData);
+  function setChart(name, html, caption) {
+    var box = root.querySelector('[data-vm-chart="' + name + '"]');
+    var cap = root.querySelector('[data-vm-cap="' + name + '"]');
+    if (box) box.innerHTML = html;
+    if (cap) cap.textContent = caption || "";
   }
 
   function renderInsights() {
-    const records = Storage.getAll();
-    const payload = Insights.compute(records);
+    if (!entries.length) { insightsEl.hidden = true; return; }
+    insightsEl.hidden = false;
+    var s = computeInsights();
 
-    renderKpis(payload.summary);
-    renderSeasonCards(payload.seasonal);
-    renderProductList(payload.productDemand);
-    renderBuyerList(payload.buyerPatterns);
-    renderPriceList(payload.pricePerformance);
-    renderNarrative(payload.narrative);
+    kpisEl.innerHTML =
+      kpiCard("Tổng doanh thu", fMoney(s.totalRevenue)) +
+      kpiCard("Số giao dịch", fNum(s.count)) +
+      kpiCard("Tổng số lượng", fNum(s.totalQty)) +
+      kpiCard("Đơn giá TB / đơn vị", fMoney(s.avgUnit)) +
+      kpiCard("Người mua", fNum(s.buyerCount)) +
+      kpiCard("Mặt hàng", fNum(s.productCount));
 
-    toggleChart("vm-chart-revenue", payload.revenueTrend.labels.length > 0);
-    toggleChart("vm-chart-season", payload.seasonal.some((s) => s.revenue > 0));
-    toggleChart("vm-chart-product", payload.productDemand.length > 0);
-    toggleChart("vm-chart-buyer", payload.buyerPatterns.length > 0);
+    // Seasonal
+    var bestMonth = s.seasonal.slice().sort(function (a, b) { return b.value - a.value; })[0];
+    setChart("seasonal", vBars(s.seasonal, fMoney),
+      bestMonth ? "Mùa vụ cao điểm: " + bestMonth.label + " (" + fMoney(bestMonth.value) + ")." : "");
 
-    if (Charts) Charts.renderAll(payload);
+    // Trend
+    setChart("trend", lineChart(s.trend, fMoney),
+      s.trend.length ? "Theo dõi doanh thu qua " + s.trend.length + " ngày có giao dịch." : "");
 
-    $("#vm-app").classList.toggle("vu-mua--empty", records.length === 0);
+    // Product demand
+    var topProd = s.demand[0];
+    setChart("demand", hBars(s.demand, fMoney),
+      topProd ? "Mặt hàng bán chạy nhất: " + topProd.label + "." : "");
+
+    // Buyers
+    var topBuyer = s.buyers[0];
+    setChart("buyers", hBars(s.buyers, fMoney),
+      topBuyer ? "Khách mua nhiều nhất: " + topBuyer.label + "." : "");
+
+    // Price performance
+    var hi = s.price.slice().sort(function (a, b) { return b.value - a.value; })[0];
+    setChart("price", vBars(s.price, fMoney),
+      hi ? "Loại có đơn giá TB cao nhất: " + hi.label + " (" + fMoney(hi.value) + ")." : "");
+
+    renderAI(s); // hook mở rộng
   }
 
-  /* ----------------------------------------------------------------- export */
-
-  function wireExport() {
-    $("#vm-export-json").addEventListener("click", () => {
-      const records = Storage.getAll();
-      if (!records.length) return toast("Chưa có dữ liệu để xuất.", "warn");
-      ExportMod.exportJson(records);
-      toast("Đã xuất JSON", "success");
-    });
-    $("#vm-export-csv").addEventListener("click", () => {
-      const records = Storage.getAll();
-      if (!records.length) return toast("Chưa có dữ liệu để xuất.", "warn");
-      ExportMod.exportCsv(records);
-      toast("Đã xuất CSV", "success");
-    });
-    $("#vm-import-btn").addEventListener("click", () => $("#vm-import").click());
-    $("#vm-import").addEventListener("change", (e) => {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      ExportMod.importJson(file)
-        .then((records) => {
-          const added = Storage.merge(records);
-          toast("Đã nhập " + added + " giao dịch", "success");
-          page = 1;
-          renderAll();
-        })
-        .catch((err) => toast(err.message || "Nhập thất bại", "warn"))
-        .finally(() => {
-          e.target.value = "";
-        });
-    });
-    $("#vm-clear").addEventListener("click", () => {
-      if (!Storage.getAll().length) return;
-      if (!window.confirm("Xoá toàn bộ giao dịch Vụ Mùa trên trình duyệt này? Hãy export trước nếu cần.")) return;
-      Storage.clearAll();
-      page = 1;
-      renderAll();
-      toast("Đã xoá toàn bộ dữ liệu", "info");
-    });
-  }
-
-  /* ------------------------------------------------------------------- init */
-
-  function renderAll() {
-    populateTypeFilter();
-    refreshDatalists();
+  function render() {
     renderTable();
+    if (countEl) countEl.textContent = entries.length + " giao dịch";
     renderInsights();
   }
 
-  function init() {
-    if (!$("#vm-app") || !Storage) return;
+  // ---- AI insights hook (placeholder, extensible) --------------------------
+  function renderAI(/* stats */) {
+    var box = root.querySelector("[data-vm-ai]");
+    if (!box) return;
+    box.hidden = true; box.innerHTML = "";
+    // Tương lai: bơm nhận định AI (gọi backend/LLM) vào đây, set box.hidden=false.
+  }
 
-    $("#vm-date").value = todayIso();
-
-    $("#vm-form").addEventListener("submit", handleSubmit);
-    $("#vm-form-reset").addEventListener("click", () => resetForm(false));
-    $("#vm-quantity").addEventListener("input", recalcTotal);
-    $("#vm-unit-price").addEventListener("input", recalcTotal);
-    $("#vm-total").addEventListener("input", () => {
-      totalDirty = true;
+  // ---- Export --------------------------------------------------------------
+  function download(filename, text, type) {
+    var blob = new Blob([text], { type: type || "text/plain;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  function exportJSON() {
+    download("vu-mua-" + Date.now() + ".json", JSON.stringify(entries, null, 2), "application/json");
+  }
+  function exportCSV() {
+    var head = ["Tên hàng hoá", "Số lượng", "Loại", "Đơn giá", "Thành tiền", "Người mua", "Ngày mua"];
+    var rows = entries.map(function (e) {
+      return [e.name, e.qty, e.type, e.unitPrice, e.amount, e.buyer, e.date].map(function (v) {
+        v = String(v == null ? "" : v);
+        return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+      }).join(",");
     });
+    download("vu-mua-" + Date.now() + ".csv", "﻿" + head.join(",") + "\n" + rows.join("\n"), "text/csv;charset=utf-8");
+  }
 
-    ["#vm-search", "#vm-filter-type", "#vm-filter-from", "#vm-filter-to"].forEach((sel) => {
-      const el = $(sel);
-      const ev = el.tagName === "SELECT" || el.type === "date" ? "change" : "input";
-      el.addEventListener(ev, () => {
-        page = 1;
-        renderTable();
-      });
-    });
+  // ---- Sample data ---------------------------------------------------------
+  function loadSample() {
+    if (entries.length && !window.confirm("Thêm dữ liệu mẫu vào danh sách hiện tại?")) return;
+    [
+      { name: "Gạo ST25", qty: 50, type: "Gạo", unitPrice: 32000, buyer: "Cô Lan", date: "2026-01-12" },
+      { name: "Gạo ST25", qty: 80, type: "Gạo", unitPrice: 32000, buyer: "Anh Hùng", date: "2026-02-03" },
+      { name: "Xoài cát", qty: 120, type: "Trái cây", unitPrice: 28000, buyer: "Chị Mai", date: "2026-03-18" },
+      { name: "Sầu riêng", qty: 60, type: "Trái cây", unitPrice: 85000, buyer: "Anh Hùng", date: "2026-05-09" },
+      { name: "Cà phê nhân", qty: 200, type: "Cà phê", unitPrice: 95000, buyer: "Vựa Tâm", date: "2026-05-22" },
+      { name: "Gạo ST25", qty: 100, type: "Gạo", unitPrice: 33000, buyer: "Vựa Tâm", date: "2026-06-02" },
+      { name: "Xoài cát", qty: 90, type: "Trái cây", unitPrice: 30000, buyer: "Cô Lan", date: "2026-06-15" }
+    ].forEach(function (e) { entries.push(normalize(e)); });
+    entries.sort(function (a, b) { return (a.date < b.date ? -1 : a.date > b.date ? 1 : 0); });
+    save(); render();
+  }
 
-    $("#vm-table-body").addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-del]");
-      if (!btn) return;
-      Storage.remove(btn.dataset.del);
-      renderAll();
-      toast("Đã xoá giao dịch", "info");
-    });
-
-    $("#vm-pagination").addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-page]");
-      if (!btn || btn.disabled) return;
-      page += btn.dataset.page === "next" ? 1 : -1;
-      if (page < 1) page = 1;
-      renderTable();
-    });
-
-    wireExport();
-    renderAll();
-
-    // Charts.js loads with `defer`; re-render once it (and Chart.js CDN) is ready.
-    if (Charts && !Charts.hasChart()) {
-      let tries = 0;
-      const poll = setInterval(() => {
-        tries += 1;
-        if (Charts.hasChart()) {
-          clearInterval(poll);
-          renderInsights();
-        } else if (tries > 40) {
-          clearInterval(poll);
-        }
-      }, 150);
+  // ---- Wiring --------------------------------------------------------------
+  var form = root.querySelector("[data-vm-form]");
+  if (form) {
+    var qtyI = form.elements.qty, priceI = form.elements.unitPrice, amountI = form.querySelector("[data-vm-amount]");
+    function autoAmount() {
+      if (!amountI || amountI.dataset.touched === "1") return;
+      var q = +qtyI.value || 0, p = +priceI.value || 0;
+      if (q && p) amountI.value = q * p;
     }
+    if (qtyI) qtyI.addEventListener("input", autoAmount);
+    if (priceI) priceI.addEventListener("input", autoAmount);
+    if (amountI) amountI.addEventListener("input", function () { amountI.dataset.touched = "1"; });
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var f = form.elements;
+      if (!f.name.value.trim() || !(+f.qty.value > 0) || !(+f.unitPrice.value >= 0) || !f.date.value) {
+        window.alert("Vui lòng nhập đủ: Tên hàng hoá, Số lượng, Đơn giá, Ngày mua.");
+        return;
+      }
+      addEntry({
+        name: f.name.value, qty: f.qty.value, type: f.type.value,
+        unitPrice: f.unitPrice.value, amount: f.amount.value,
+        buyer: f.buyer.value, date: f.date.value
+      });
+      form.reset();
+      if (amountI) amountI.dataset.touched = "";
+      f.name.focus();
+    });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
+  // Table delete (event delegation)
+  if (tbody) {
+    tbody.addEventListener("click", function (ev) {
+      var btn = ev.target.closest("[data-vm-del]");
+      if (btn) deleteEntry(btn.getAttribute("data-vm-del"));
+    });
   }
+
+  // Toolbar
+  root.querySelectorAll("[data-vm-action]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var a = btn.getAttribute("data-vm-action");
+      if (a === "sample") loadSample();
+      else if (a === "export-json") exportJSON();
+      else if (a === "export-csv") exportCSV();
+      else if (a === "clear") clearAll();
+    });
+  });
+
+  // PDF placeholder (chưa hoạt động)
+  var pdf = root.querySelector("[data-vm-pdf]");
+  if (pdf) pdf.addEventListener("click", function () {
+    window.alert("Tính năng đọc PDF đang được phát triển. Hiện tại vui lòng nhập tay.");
+  });
+
+  // ---- Public API ----------------------------------------------------------
+  window.VuMua = {
+    getEntries: function () { return entries.slice(); },
+    addEntry: addEntry,
+    deleteEntry: deleteEntry,
+    clearAll: clearAll,
+    computeInsights: computeInsights,
+    exportJSON: exportJSON,
+    exportCSV: exportCSV,
+    render: render
+  };
+
+  load();
+  render();
 })();

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Công cụ | {{ config.title }}{% endblock %}
+
+{% block main %}
+{% set palette = ["teal", "blue", "purple", "amber", "green", "slate"] %}
+<div class="content-hub">
+    <header class="content-hub__head">
+        <h1 class="content-hub__h1">{{ section.title }}</h1>
+        <p class="content-hub__lead">{{ section.description }}</p>
+    </header>
+
+    {{ section.content | safe }}
+
+    {% for grp in section.extra.tool_groups %}
+    <section class="content-hub__section">
+        <h2 class="content-hub__title">{{ grp.name }}</h2>
+        <div class="content-grid">
+            {% for t in grp.items %}
+                {% set ci = loop.index0 % 6 %}
+                <a class="content-block content-block--{{ palette[ci] }}"
+                   href="{{ t.url | replace(from='$BASE_URL', to=config.base_url) }}">
+                    <span class="content-block__name">{{ t.name }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

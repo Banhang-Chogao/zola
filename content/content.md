@@ -8,8 +8,8 @@ path = "content"
 seo_keyword = "content blog chuyên mục công cụ"
 toc = false
 
-# Khối công cụ (S-DNA blocks). vip=true → khối khoá (badge 🔒); VIPZone gate
-# thật fire khi điều hướng tới trang tool (không nhân bản logic gate ở đây).
+# Khối công cụ (S-DNA blocks). Tất cả công cụ đều MIỄN PHÍ — không còn gate
+# VIPZone/membership. Cờ `vip` giữ lại để tương thích nhưng không còn hiệu lực.
 [[extra.tools]]
 name = "Viết bài"
 path = "editor"
@@ -93,9 +93,5 @@ vip = true
 [[extra.tools]]
 name = "Font Guideline"
 path = "font"
-vip = false
-[[extra.tools]]
-name = "VIPZone"
-path = "tools/vipzone"
 vip = false
 +++
