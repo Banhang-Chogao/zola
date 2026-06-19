@@ -6,7 +6,9 @@
   "use strict";
 
   var CACHE_KEY = "zola-gsc-metrics-cache";
+  var PENDING_KEY = "zola-gsc-pending-property";
   var TTL_MS = 20 * 60 * 1000;
+  var SUCCESS_HOLD_MS = 2800;
   var trendMode = "daily";
 
   var root = document.querySelector('[data-widget="seo-reality"]');
@@ -151,6 +153,9 @@
     if (ctr) ctr.textContent = gsc.ctr != null ? gsc.ctr + "%" : "—";
     if (pos) pos.textContent = gsc.avg_position != null ? gsc.avg_position : "—";
     if (upd && gsc.updated_at) upd.textContent = fmtRelative(gsc.updated_at);
+
+    var propEl = root.querySelector("[data-gsc-prop]");
+    if (propEl && bundle.property) propEl.textContent = bundle.property;
 
     var health = root.querySelector("[data-idx-health]");
     if (health && gsc.index_health) {
@@ -310,68 +315,163 @@
       });
   }
 
-  function setupAdmin() {
-    var panel = root.querySelector("[data-gsc-admin]");
-    if (!panel || !sid()) return;
-    panel.hidden = false;
-    var api = authApi();
-    var connectBtn = root.querySelector("[data-gsc-connect]");
-    var discBtn = root.querySelector("[data-gsc-disconnect]");
-    var sel = root.querySelector("[data-gsc-property]");
+  // Accept URL-prefix properties (https://…/) and Domain properties (sc-domain:…).
+  function isValidProperty(v) {
+    v = String(v || "").trim();
+    if (!v) return false;
+    if (/^sc-domain:[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(v)) return true;
+    if (/^https?:\/\//i.test(v)) {
+      try {
+        var u = new URL(v);
+        return !!u.hostname && u.hostname.indexOf(".") > 0;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
 
-    if (connectBtn && api) {
-      connectBtn.addEventListener("click", function () {
-        var rt = encodeURIComponent(location.pathname + location.search);
-        location.href = api + "/gsc/oauth/start?return_to=" + rt;
+  // Redirect (with the entered property + CMS session) into Google OAuth.
+  // The session id rides as a query param because a top-level navigation
+  // cannot set the Authorization header the backend expects.
+  function startOAuth(property) {
+    var api = authApi();
+    if (!api) return false;
+    try {
+      if (property) sessionStorage.setItem(PENDING_KEY, property);
+    } catch (e) {}
+    var url = api + "/gsc/oauth/start?return_to=" + encodeURIComponent("/");
+    var s = sid();
+    if (s) url += "&sid=" + encodeURIComponent(s);
+    if (property) url += "&property=" + encodeURIComponent(property);
+    location.href = url;
+    return true;
+  }
+
+  function showSuccess() {
+    var success = root.querySelector("[data-gsc-success]");
+    if (!success) return;
+    success.hidden = false;
+    // Re-trigger the entrance animation if it was already shown.
+    success.classList.remove("is-active");
+    void success.offsetWidth;
+    success.classList.add("is-active");
+  }
+
+  function hideSuccess() {
+    var success = root.querySelector("[data-gsc-success]");
+    if (success) success.hidden = true;
+  }
+
+  function setupAdmin() {
+    var session = sid();
+    var api = authApi();
+    var form = root.querySelector("[data-gsc-admin]");
+    var connectBtn = root.querySelector("[data-gsc-connect]");
+    var input = root.querySelector("[data-gsc-property]");
+    var validation = root.querySelector("[data-gsc-validation]");
+    var discBtn = root.querySelector("[data-gsc-disconnect]");
+    var reconnectWrap = root.querySelector("[data-gsc-reconnect]");
+    var reconnectBtn = root.querySelector("[data-gsc-reconnect-btn]");
+
+    // Admin-only controls require an authenticated CMS session.
+    if (form && session) form.hidden = false;
+
+    function showValidation(msg) {
+      if (!validation) return;
+      if (msg) {
+        validation.hidden = false;
+        validation.textContent = msg;
+      } else {
+        validation.hidden = true;
+        validation.textContent = "";
+      }
+      if (input) input.classList.toggle("is-invalid", !!msg);
+    }
+
+    if (input) {
+      input.addEventListener("input", function () {
+        showValidation("");
       });
     }
-    if (discBtn && api) {
+
+    function submitConnect() {
+      if (!api || !sid()) return;
+      var val = input ? input.value.trim() : "";
+      if (!isValidProperty(val)) {
+        showValidation("Vui lòng nhập GSC Property ID hợp lệ.");
+        if (input) input.focus();
+        return;
+      }
+      showValidation("");
+      if (connectBtn) connectBtn.classList.add("is-loading");
+      // Enter key and the "Kết nối GSC" button share this single flow.
+      startOAuth(val);
+    }
+
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        submitConnect();
+      });
+    }
+
+    if (discBtn) {
       discBtn.addEventListener("click", function () {
+        if (!api || !sid()) return;
+        discBtn.classList.add("is-loading");
         fetch(api + "/gsc/disconnect", {
           method: "POST",
           headers: { Authorization: "Bearer " + sid() },
-        }).then(function () {
-          location.reload();
-        });
+        })
+          .catch(function () {})
+          .then(function () {
+            discBtn.classList.remove("is-loading");
+            handleDisconnected();
+          });
       });
     }
-    if (sel && api && sid()) {
-      fetch(api + "/gsc/properties", { headers: { Authorization: "Bearer " + sid() } })
+
+    if (reconnectBtn) {
+      reconnectBtn.addEventListener("click", function () {
+        var prev = "";
+        try {
+          prev = sessionStorage.getItem(PENDING_KEY) || "";
+        } catch (e) {}
+        reconnectBtn.classList.add("is-loading");
+        startOAuth(prev);
+      });
+    }
+
+    // Restore the empty/input state locally after a disconnect (no reload).
+    function handleDisconnected() {
+      try {
+        sessionStorage.removeItem(PENDING_KEY);
+      } catch (e) {}
+      try {
+        localStorage.removeItem(CACHE_KEY);
+      } catch (e) {}
+      hideSuccess();
+      applyGscBundle({ connected: false });
+      if (input) input.value = "";
+      if (discBtn) discBtn.hidden = true;
+      if (form && sid()) form.hidden = false;
+      if (reconnectWrap) reconnectWrap.hidden = false;
+    }
+
+    // Reveal admin-only disconnect + fill the connected property label.
+    if (api) {
+      fetch(api + "/gsc/status", { cache: "no-store" })
         .then(function (r) {
           return r.ok ? r.json() : null;
         })
-        .then(function (data) {
-          if (!data || !data.properties) return;
-          sel.innerHTML = data.properties
-            .map(function (p) {
-              return '<option value="' + p + '">' + p + "</option>";
-            })
-            .join("");
-          return fetch(api + "/gsc/status").then(function (r) {
-            return r.json();
-          });
-        })
         .then(function (st) {
-          if (st && st.property) sel.value = st.property;
-          if (discBtn) discBtn.hidden = !(st && st.connected);
-        });
-      sel.addEventListener("change", function () {
-        fetch(api + "/gsc/property", {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + sid(),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ siteUrl: sel.value }),
-        }).then(function (r) {
-          return r.json();
-        }).then(function (data) {
-          if (data && data.metrics) {
-            applyGscBundle(data.metrics);
-            cacheSet(data.metrics);
-          }
-        });
-      });
+          if (!st) return;
+          var propEl = root.querySelector("[data-gsc-prop]");
+          if (propEl && st.property) propEl.textContent = st.property;
+          if (discBtn && session) discBtn.hidden = !st.connected;
+        })
+        .catch(function () {});
     }
   }
 
@@ -418,14 +518,49 @@
     bindTrendTabs();
     setupAdmin();
 
-    if (location.hash.indexOf("gsc_connected=1") >= 0) {
-      history.replaceState(null, "", location.pathname + location.search);
+    var connectedSignal =
+      location.hash.indexOf("gsc_connected=1") >= 0 ||
+      location.search.indexOf("gsc_connected=1") >= 0;
+    if (connectedSignal) {
+      history.replaceState(null, "", location.pathname);
+      // Celebrate immediately, then confirm against the backend so we never
+      // fake a success: KPIs only reveal once the API reports connected.
+      showSuccess();
+      setVisible(root.querySelector("[data-gsc-connected]"), false);
+      setVisible(root.querySelector("[data-gsc-disconnected]"), false);
       fetchLive().then(function (live) {
-        if (live) {
+        if (live && live.connected) {
           applyGscBundle(live);
           cacheSet(live);
+          try {
+            sessionStorage.removeItem(PENDING_KEY);
+          } catch (e) {}
+          setVisible(root.querySelector("[data-gsc-connected]"), false);
+          setVisible(root.querySelector("[data-gsc-disconnected]"), false);
+          showSuccess();
+          setTimeout(function () {
+            hideSuccess();
+            setVisible(root.querySelector("[data-gsc-connected]"), true);
+          }, SUCCESS_HOLD_MS);
+        } else {
+          // OAuth did not actually connect — stay honest, restore empty state.
+          hideSuccess();
+          applyGscBundle({ connected: false });
         }
       });
+    }
+
+    // Surface a real OAuth failure instead of silently faking success.
+    var errMatch = (location.hash + " " + location.search).match(/gsc_error=([a-z_]+)/i);
+    if (errMatch) {
+      history.replaceState(null, "", location.pathname);
+      hideSuccess();
+      var errEl = root.querySelector("[data-gsc-error]");
+      if (errEl) {
+        errEl.hidden = false;
+        errEl.textContent = "Kết nối GSC chưa hoàn tất (" + errMatch[1] + "). Vui lòng thử lại.";
+      }
+      applyGscBundle({ connected: false });
     }
   }
 
