@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(content): Content hub navbar + S-DNA category/tool blocks; CMS write = superuser only",
+      "tag": "chore",
+      "lines_added": 359,
+      "lines_removed": 152,
+      "highlights": [
+        "Navbar: gộp \"Bài viết\" + \"Công cụ\" → 1 mục Content (Main content + MS).",
+        "/content: mọi category bài viết + công cụ → khối màu S-DNA, compact responsive. Khối là link thường — gate VIP (vipzone.js) + paywall (premium) fire khi điều hướng (không nhân bản gate). content-block",
+        "MS = /tools/content-creator → placeholder \"Content Creator · Under construction\".",
+        "CMS write auth → superuser only (reuse is_supervip): can_oauth_login + is_super + OAuth callback; editor.js/admin-author.js ẩn write UI cho non-super (VIP cũng không ghi).",
+        "zola build EXIT=0 (full site) · qa-404-checker.py 0 internal broken — pass · qa_check.py EXIT=0 · QA Vaccine Gate 100/100 PRODUCTION-SAFE · node --check + py_compile OK."
+      ],
+      "pr": 513
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(auth): persistent super-admin session (GitHub login = highest privilege)",
       "tag": "chore",
       "lines_added": 77,
