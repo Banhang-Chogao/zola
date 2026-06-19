@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-19T03:14:24Z",
-  "score": 100.0,
+  "updated_at": "2026-06-19T03:24:22Z",
+  "score": 97.8,
   "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 23,
-    "warn": 0,
+    "pass": 22,
+    "warn": 1,
     "fail": 0,
     "total": 23
   },
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "609/635 in range"
+          "detail": "619/645 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "635/635 complete"
+          "detail": "645/645 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "635/635 set"
+          "detail": "645/645 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "635/635 single H1"
+          "detail": "645/645 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "635/635 with lang"
+          "detail": "645/645 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "635/635 ready"
+          "detail": "645/645 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "635/635 pages"
+          "detail": "645/645 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "635/635 pages covered"
+          "detail": "645/645 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "156/156 articles"
+          "detail": "162/162 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "156/156 tagged"
+          "detail": "156/162 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "156/156 substantive"
+          "detail": "161/162 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,15 +158,53 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
-      "pass": 2,
-      "warn": 0,
+      "score": 75.0,
+      "pass": 1,
+      "warn": 1,
       "fail": 0,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "warn",
+          "detail": "2 broken / 637 unique",
+          "broken": [
+            {
+              "source_page": "/baochi/bidv-flagship-private-banking-tphcm/",
+              "source_file": "public/baochi/bidv-flagship-private-banking-tphcm/index.html",
+              "href": "/zola/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "target": "/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bidv-flagship-private-banking-tphcm/",
+              "source_file": "public/baochi/bidv-flagship-private-banking-tphcm/index.html",
+              "href": "https://banhang-chogao.github.io/zola/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "target": "/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/",
+              "source_file": "public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html",
+              "href": "/zola/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/",
+              "target": "/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/",
+              "source_file": "public/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/index.html",
+              "href": "/zola/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "target": "/baochi/bidv-smartbanking-khong-vao-duoc/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +224,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "631/635 pages"
+          "detail": "641/645 pages"
         },
         {
           "label": "Skip navigation",
@@ -197,6 +235,10 @@
     }
   ],
   "highlights": [
+    {
+      "type": "warn",
+      "text": "Links: Internal links"
+    },
     {
       "type": "pass",
       "text": "Metadata: Page titles"
@@ -216,28 +258,24 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 635,
-  "articles_scanned": 161,
+  "pages_scanned": 645,
+  "articles_scanned": 167,
   "fix_log": [
     {
-      "category": "—",
-      "label": "Tất cả mục",
-      "check_status": "pass",
-      "outcome": "skipped",
-      "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-19T03:14:24Z"
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Còn 4 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /baochi/bidv-smartbanking-khong-vao-duoc/ (Target not found in public/ after zola build); public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html → /baochi/bi-kip-xin-visa-han-quoc-5-nam-de/ (Target not found in public/ after zola build)",
+      "at": "2026-06-19T03:24:22Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 0,
-    "skipped": 1
+    "failed": 1,
+    "skipped": 0
   }
 }

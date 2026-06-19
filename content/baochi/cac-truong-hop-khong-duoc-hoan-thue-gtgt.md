@@ -84,6 +84,6 @@ Kinh nghiệm của mình gói gọn trong mấy việc: rà soát sổ sách, h
 
 Hoàn thuế GTGT là quyền lợi chính đáng, nhưng là một quy trình đòi hỏi sự chính xác gần như tuyệt đối. Biết trước **các trường hợp không được hoàn thuế GTGT** và các lỗi khiến hồ sơ bị từ chối giúp bạn chủ động phòng tránh, thay vì mất thời gian khắc phục về sau. Khi hồ sơ phức tạp hoặc số tiền lớn, đừng ngại nhờ đơn vị tư vấn thuế uy tín — chi phí tư vấn thường rẻ hơn nhiều so với rủi ro bị truy thu và xử phạt. Thông tin cập nhật và chính thức luôn nên được tra cứu tại [Tổng cục Thuế](https://www.gdt.gov.vn).
 
-> **Xem thêm trong cụm:** [Private Banking là gì? Nhìn từ BIDV Sài Gòn](/baochi/bidv-flagship-private-banking-tphcm/)
+> **Xem thêm trong cụm:** [Private Banking là gì? Nhìn từ BIDV Sài Gòn](/zola/baochi/bidv-flagship-private-banking-tphcm/)
 
-> **Xem thêm trong cụm:** [BIDV SmartBanking không vào được? Cách xử lý nhanh](/baochi/bidv-smartbanking-khong-vao-duoc/)
+> **Xem thêm trong cụm:** [BIDV SmartBanking không vào được? Cách xử lý nhanh](/zola/baochi/bidv-smartbanking-khong-vao-duoc/)
