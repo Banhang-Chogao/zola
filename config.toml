@@ -126,8 +126,8 @@ google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
 google_cse_cx = "533c848cb0eb14de2"
 
 # CMS auth backend — FastAPI OAuth (cùng service visitor-counter trên Render).
-# PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta zola-cms-auth-api sẽ không render).
-cms_auth_url = "https://blog-visitor-api.onrender.com"
+# PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta vipzone-auth-api sẽ không render).
+cms_auth_url = "https://blog-vipzone-api.onrender.com"
 
 # Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
 paywall_api_url = "https://blog-paywall-api.onrender.com"

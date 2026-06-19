@@ -17,7 +17,7 @@ inject `REDIS_URL`. Bạn chỉ cần điền 3 env vars là chạy.
    - Application name: `Blog CMS Auth`
    - Homepage URL: `https://banhang-chogao.github.io/zola`
    - Authorization callback URL:
-     `https://blog-visitor-api.onrender.com/auth/callback`
+     `https://blog-vipzone-api.onrender.com/auth/callback`
 3. Register → màn hình hiển thị **Client ID** (copy)
 4. Generate a new client secret → copy ngay (chỉ hiện 1 lần)
 
@@ -26,9 +26,9 @@ inject `REDIS_URL`. Bạn chỉ cần điền 3 env vars là chạy.
 1. Vào https://dashboard.render.com/blueprints
 2. **New Blueprint Instance** → connect repo `Banhang-Chogao/zola`
 3. Render đọc `render.yaml` ở repo root → preview 2 service sẽ tạo:
-   `blog-redis` (Redis) + `blog-visitor-api` (Web)
+   `blog-redis` (Redis) + `blog-vipzone-api` (Web)
 4. **Điền 3 env vars sync:false**:
-   - `BACKEND_URL`: `https://blog-visitor-api.onrender.com`
+   - `BACKEND_URL`: `https://blog-vipzone-api.onrender.com`
      (Render assign URL theo tên service)
    - `GH_CLIENT_ID`: dán từ Bước 1
    - `GH_CLIENT_SECRET`: dán từ Bước 1
@@ -39,7 +39,7 @@ inject `REDIS_URL`. Bạn chỉ cần điền 3 env vars là chạy.
 Sửa `config.toml` ở repo root:
 ```toml
 [extra]
-visitor_api_url = "https://blog-visitor-api.onrender.com"
+visitor_api_url = "https://blog-vipzone-api.onrender.com"
 ```
 
 Commit + push → CI auto-build → tất cả tính năng tự bật:
@@ -101,7 +101,7 @@ services/visitor-counter/
 2. Chọn **Build and deploy from a Git repository**
 3. Connect repo `Banhang-Chogao/zola` (cần authorize GitHub một lần)
 4. Điền:
-   - **Name**: `blog-visitor-api`
+   - **Name**: `blog-vipzone-api`
    - **Region**: cùng region với Redis ở bước 1
    - **Branch**: `main`
    - **Root Directory**: `services/visitor-counter`
@@ -121,23 +121,23 @@ Trong section **Environment Variables** của Web Service:
 | `COUNTER_KEY` | `blog:visitors` (optional) |
 
 Click **Create Web Service**. Render build + deploy ~2-3 phút. Sau đó được
-URL kiểu `https://blog-visitor-api.onrender.com`.
+URL kiểu `https://blog-vipzone-api.onrender.com`.
 
 ### Bước 4: Test endpoints
 
 ```bash
 # Test track
-curl -X POST https://blog-visitor-api.onrender.com/track \
+curl -X POST https://blog-vipzone-api.onrender.com/track \
   -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
 # → {"ok":true,"counted":true,"count":1}
 
 # Test bot filter
-curl -X POST https://blog-visitor-api.onrender.com/track \
+curl -X POST https://blog-vipzone-api.onrender.com/track \
   -H "User-Agent: googlebot"
 # → {"ok":true,"counted":false}
 
 # Test stats
-curl https://blog-visitor-api.onrender.com/stats
+curl https://blog-vipzone-api.onrender.com/stats
 # → {"count":1}
 ```
 
@@ -147,9 +147,9 @@ Sửa `config.toml` ở repo zola (root):
 
 ```toml
 [extra]
-visitor_api_url = "https://blog-visitor-api.onrender.com"
+visitor_api_url = "https://blog-vipzone-api.onrender.com"
 # cms_auth_url để trống = reuse visitor_api_url (cùng service FastAPI)
-cms_auth_url = ""
+cms_auth_url = "https://blog-vipzone-api.onrender.com"
 ```
 
 Commit + push → CI auto-deploy → footer blog hiển thị visitor count.
@@ -170,7 +170,7 @@ bypass client được).
    - **Application name**: `Blog CMS Auth` (hoặc tên gì cũng được)
    - **Homepage URL**: `https://banhang-chogao.github.io/zola`
    - **Authorization callback URL**:
-     `https://blog-visitor-api.onrender.com/auth/callback`
+     `https://blog-vipzone-api.onrender.com/auth/callback`
      (= `${BACKEND_URL}/auth/callback`, PHẢI MATCH EXACT)
 3. **Register application** → màn hình hiển thị **Client ID**
 4. Click **Generate a new client secret** → copy ngay (chỉ hiện 1 lần)
@@ -183,7 +183,7 @@ Trong **Environment Variables** của Web Service:
 |---|---|
 | `GH_CLIENT_ID` | Client ID vừa lấy ở Bước 1 |
 | `GH_CLIENT_SECRET` | Client Secret vừa lấy ở Bước 1 |
-| `BACKEND_URL` | `https://blog-visitor-api.onrender.com` |
+| `BACKEND_URL` | `https://blog-vipzone-api.onrender.com` |
 | `BLOG_URL` | `https://banhang-chogao.github.io/zola` |
 | `ADMIN_EMAILS` | `292648126+Banhang-Chogao@users.noreply.github.com` (comma-separated cho nhiều) |
 | `ADMIN_USERNAMES` | `banhang-chogao` (fallback nếu email noreply chưa verify) |
@@ -202,7 +202,7 @@ Click **Save Changes** → Render auto-restart service.
 4. Nếu denied → `?auth_error=access_denied` trên trang gốc (không ép về `/editor/`)
 
 `config.toml` — `cms_auth_url` phải nằm dưới `[extra]` (không trong `[extra.giscus]`)
-để meta `zola-cms-auth-api` render trên mọi trang.
+để meta `vipzone-auth-api` render trên mọi trang.
 
 ### Mở rộng: thêm Contributor
 

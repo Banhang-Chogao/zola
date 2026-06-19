@@ -7,7 +7,7 @@
 #   4. Render đọc file này → tự tạo Redis + Web Service
 #   5. Bạn điền 3 env vars sync:false bên dưới → click Apply
 #   6. Sau khi Web Service running, copy URL, dán vào config.toml
-#      `visitor_api_url = "https://blog-visitor-api.onrender.com"`
+#      `visitor_api_url = "https://blog-vipzone-api.onrender.com"`
 #
 # Docs: https://render.com/docs/blueprint-spec
 
@@ -22,7 +22,7 @@ services:
 
   # ============= FastAPI Web Service =============
   - type: web
-    name: blog-visitor-api
+    name: blog-vipzone-api
     runtime: python
     region: singapore
     plan: free

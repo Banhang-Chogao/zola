@@ -2289,7 +2289,7 @@
       "merge_commit_sha": "5259dcae3ad01a978a86f57effe78fa41fac15b6",
       "merge_commit_short": "5259dca",
       "head_branch": "fix/f-dashboard-oauth-login",
-      "summary_vi": "`cms_auth_url` was accidentally placed under `[extra.giscus]` in `config.toml`, so `config.extra.cms_auth_url` was empty → **meta `zola-cms-auth-api` never rendered** on F-Dashboard (and CMS). F-Dashboard showed \"Backend",
+      "summary_vi": "`cms_auth_url` was accidentally placed under `[extra.giscus]` in `config.toml`, so `config.extra.cms_auth_url` was empty → **meta `vipzone-auth-api` never rendered** on F-Dashboard (and CMS). F-Dashboard showed \"Backend",
       "change_type": "fix",
       "files_changed": null,
       "additions": null,

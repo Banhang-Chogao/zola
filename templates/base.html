@@ -109,7 +109,7 @@
     {% set_global cms_auth = config.extra.giscus.cms_auth_url | default(value="") %}
     {% endif %}
     {% if cms_auth %}
-    <meta name="zola-cms-auth-api" content="{{ cms_auth | safe }}">
+    <meta name="vipzone-auth-api" content="{{ cms_auth | safe }}">
     {% endif %}
     <meta name="zola-base-url" content="{{ config.base_url | safe }}">
 

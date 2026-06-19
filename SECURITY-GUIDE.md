@@ -16,7 +16,7 @@
 ### **Status Hiện Tại: An Toàn** 🟢 **STATIC (NO LOGIN)**
 
 ```toml
-cms_auth_url = ""  # Backend KHÔNG kết nối (cố ý)
+cms_auth_url = "https://blog-vipzone-api.onrender.com"  # Backend KHÔNG kết nối (cố ý)
 ```
 
 **Quyết định:** `/editor` sẽ giữ **tĩnh (static), không có login**.

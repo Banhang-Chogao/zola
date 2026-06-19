@@ -1613,8 +1613,8 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 
 | Config | Vị trí | Ghi chú |
 |--------|--------|---------|
-| `cms_auth_url` | `config.toml` → **`[extra]`** (không nest trong `[extra.giscus]`) | Render meta `zola-cms-auth-api` |
-| Backend | `services/visitor-counter` (`blog-visitor-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/me` |
+| `cms_auth_url` | `config.toml` → **`[extra]`** (không nest trong `[extra.giscus]`) | Render meta `vipzone-auth-api` |
+| Backend | `services/visitor-counter` (`blog-vipzone-api.onrender.com`) | `/auth/login`, `/auth/callback`, `/auth/me` |
 | Session key | `sessionStorage` → `zola-cms-session-id` | Chung CMS + F-Dashboard |
 | `return_to` | Client gửi `location.pathname` (vd `/zola/tools/f-dashboard/`) | Backend strip `/zola` prefix → redirect `#sid=...` |
 | Whitelist | `ADMIN_EMAILS` + `ADMIN_USERNAMES` (Render env) | Email verified **hoặc** GitHub login `banhang-chogao` |
