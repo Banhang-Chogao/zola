@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-19T14:51:59Z",
+  "updated_at": "2026-06-19T15:08:09Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 43,
+    "today": 44,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "fix": 49,
+      "fix": 50,
       "chore": 40,
       "unknown": 26,
-      "feature": 73,
+      "feature": 72,
       "ci": 3,
       "qa": 1,
       "content": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 507,
+      "pr_title": "fix(vipzone): stop overlay-gating premium articles (deployed paywall owns them)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/507",
+      "merged_at": "2026-06-19T15:01:12Z",
+      "merge_commit_sha": "fed81b0ce12e94efa8c25214e9aad4bba6dac67c",
+      "merge_commit_short": "fed81b0",
+      "head_branch": "claude/dazzling-tesla-6d26pi",
+      "summary_vi": "VIPZone gate phủ lên **mọi bài Premium**, xung đột với paywall per-post (đã deploy, đang chạy `blog-paywall-api`):",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 6,
+      "deletions": 10,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 806,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27833223283",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 504,
       "pr_title": "Fix VIPZone GitHub auth routing",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 805,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27832412234",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 506,
@@ -75,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 803,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27832090574",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 503,
@@ -3795,25 +3814,6 @@
       "files_changed": 2,
       "additions": 1,
       "deletions": 18,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 284,
-      "pr_title": "feat: add Python Autofixer for PR merge conflicts",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/284",
-      "merged_at": "2026-06-17T16:45:59Z",
-      "merge_commit_sha": "7222c187c9762106cfcdf9e3c5ab051729d9c181",
-      "merge_commit_short": "7222c18",
-      "head_branch": "feat/autofix-conflicts",
-      "summary_vi": "- scripts/autofix_conflicts.py scans open PRs, resolves conflicts safely, runs QA/zola build, and opens autofix/conflict-pr-<N> PRs for review",
-      "change_type": "feature",
-      "files_changed": 5,
-      "additions": 1036,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
