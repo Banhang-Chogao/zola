@@ -103,6 +103,124 @@
   }
 }
 
+/* ===== RANDOM POSTS header + randomization quality score =====
+   Header xếp ngang: nhãn "RANDOM POSTS" trái, badge điểm phải. Nhãn bỏ margin
+   dưới (chuyển lên .random-head) → CHIỀU CAO section KHÔNG đổi so với trước.
+   Badge theo S-DNA: pill gọn, số lớn tabular, màu dịu theo bậc điểm. */
+.random-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+
+  .sidebar-label {
+    margin: 0; /* giữ chiều cao hàng = chiều cao nhãn, không cộng dồn */
+  }
+}
+
+.random-score {
+  --rps-color: var(--c-success);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.22rem 0.55rem;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid color-mix(in srgb, var(--rps-color) 38%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--rps-color) 12%, var(--c-bg-surface));
+  color: var(--rps-color);
+  font-family: $font-heading;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+  /* Bậc màu: <5 đỏ · 5–7 hổ phách · ≥8 xanh (dịu, không bão hoà) */
+  &.is-low { --rps-color: #dc2626; }
+  &.is-mid { --rps-color: #d97706; }
+  &.is-high { --rps-color: #15803d; }
+  &.is-loading {
+    --rps-color: var(--c-text-muted);
+    opacity: 0.65;
+    cursor: default;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--rps-color) 28%, transparent);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &__dice {
+    font-size: 0.82rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover &__dice {
+    transform: rotate(-12deg);
+  }
+
+  &__value {
+    letter-spacing: 0.01em;
+  }
+
+  &__max {
+    font-size: 0.62rem;
+    font-weight: 700;
+    opacity: 0.72;
+  }
+
+  /* Animation tinh tế: "pop" khi điểm đổi, xúc xắc xoay khi reshuffle */
+  &.is-pop {
+    animation: rps-pop 0.24s ease;
+  }
+
+  &.is-rolling .random-score__dice {
+    animation: rps-roll 0.45s ease;
+  }
+}
+
+@keyframes rps-pop {
+  0% { transform: scale(0.86); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rps-roll {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .random-score,
+  .random-score__dice {
+    transition: none;
+  }
+
+  .random-score.is-pop,
+  .random-score.is-rolling .random-score__dice {
+    animation: none;
+  }
+}
+
 /* ===== TODAY HOT SEARCH (Google Trends VN) ===== */
 .sidebar-block--hot-search {
   --hot-rank-size: 1.65rem;
@@ -312,6 +430,20 @@
     font-size: 0.72rem;
     padding: 0.6rem 0.75rem;
     margin-bottom: 1rem;
+  }
+
+  /* Khớp khoảng cách dưới với các block khác (nhãn trong .random-head có margin 0) */
+  .random-head {
+    margin-bottom: 1rem;
+  }
+
+  .random-score {
+    font-size: 0.74rem;
+    padding: 0.24rem 0.6rem;
+
+    &__dice {
+      font-size: 0.86rem;
+    }
   }
 
   .featured-card {

@@ -748,6 +748,8 @@
                         "date": {{ page.date | json_encode | safe }},
                         "thumbnail": {{ img::thumb_src(thumb=page.extra.thumbnail | default(value="")) | json_encode | safe }},
                         "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
+                        "topic": {% if page.taxonomies.categories %}{{ page.taxonomies.categories | last | json_encode | safe }}{% else %}""{% endif %},
+                        "tags": {% if page.taxonomies.tags %}{{ page.taxonomies.tags | slice(end=5) | json_encode | safe }}{% else %}[]{% endif %},
                         "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
                         "featured_at": {{ page.extra.featured_at | default(value="") | json_encode | safe }},
                         "premium": {% if page.extra.premium or "premium" in jp_cats %}true{% else %}false{% endif %},
@@ -831,9 +833,19 @@
 
                     {{ hot_search::widget() }}
 
-                    {# RANDOM POSTS — placeholder, JS sẽ reshuffle theo weighted random #}
+                    {# RANDOM POSTS — placeholder, JS sẽ reshuffle theo weighted random.
+                       Score badge bên phải = điểm chất lượng ngẫu nhiên (0–10), JS tính
+                       lại mỗi lần reshuffle (sidebar.js → computeRandomScore). #}
                     <section class="sidebar-block" data-widget="random">
-                        <h3 class="sidebar-label">RANDOM POSTS</h3>
+                        <div class="random-head">
+                            <h3 class="sidebar-label">RANDOM POSTS</h3>
+                            <button type="button" class="random-score is-loading" data-target="random-score"
+                                    title="Randomization quality score"
+                                    aria-label="Randomization quality score — bấm để xáo lại bài ngẫu nhiên">
+                                <span class="random-score__dice" aria-hidden="true">🎲</span>
+                                <span class="random-score__value" data-target="random-score-value">–</span><span class="random-score__max">/10</span>
+                            </button>
+                        </div>
                         <ul class="random-list" data-target="random">
                             {% for page in root_pages | slice(end=5) %}
                                 <li class="random-item">
