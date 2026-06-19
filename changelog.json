@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(header): THEODOI8 LIVE banner + carousel 3 slide (slider thủ công)",
+      "tag": "chore",
+      "lines_added": 787,
+      "lines_removed": 25,
+      "highlights": [
+        "Báo cáo theodoi8 → JSON: scripts/build_theodoi8_report.py fetch commit × workflow run (GitHub REST API + GITHUB_TOKEN), dual-write data/ (build-time load_data) + static/data/ (runtime fetch). Graceful",
+        "Header: thêm banner thứ 3 (👀 THEODOI8 LIVE) vào .header-rotator, GIỮ NGUYÊN 2 banner cũ (Welcome + GitHub). Thay static rotation bằng slider/carousel điều khiển tay: mũi tên ‹ ›, dots, vuốt mobile, ph",
+        "Banner mới: status/summary/timestamp/CTA từ JSON, click mở GitHub Actions, auto-refresh khi JSON đổi (theodoi8-banner.js poll 60s, chỉ khi tab hiện).",
+        "UI: S-DNA teal primary, playful/colorful, card bo tròn + soft shadow + micro animation (pulse/bounce), màu viền/dot theo trạng thái CI, responsive ≤720px, prefers-reduced-motion."
+      ],
+      "pr": 496
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(baochi): bài \"Điểm thi tuyển sinh lớp 10 TP.HCM 2026\" (SEO A+)",
       "tag": "chore",
       "lines_added": 248,
