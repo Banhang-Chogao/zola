@@ -854,14 +854,18 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
   cần tạo PR trùng.
 - Chỉ push thêm commit vào PR đang mở khi đó là **sửa/hoàn thiện CHÍNH thay đổi của
   PR đó** (vd fix CI đỏ) — KHÔNG nhét thay đổi MỚI không liên quan vào PR đang có.
-- **Theo dõi tới khi xong (BẮT BUỘC):** MỌI tính năng sau khi commit + mở PR →
-  **PHẢI subscribe theo dõi trạng thái PR** (`subscribe_pr_activity`) cho tới khi
-  PR **MERGED hoặc CLOSED**. Lắng nghe CI + review comment; build đỏ → chẩn đoán
-  (Vaccine §4 / `ff`) + fix trên cùng branch + push lại; CI xanh → xác nhận
-  auto-merge. KHÔNG kết thúc turn khi PR còn open mà chưa theo dõi. Webhook không
-  báo mọi thứ (CI success / merge-conflict) → nếu có `send_later` thì hẹn tự
-  check-in ~1h tái kiểm tra state/CI/mergeability rồi re-arm cho tới khi merge.
-  Dừng theo dõi khi user yêu cầu (`unsubscribe_pr_activity`).
+- **Code xong + mở PR = HẾT NHIỆM VỤ — KHÔNG canh PR (2026-06-19 — user request, GHI ĐÈ
+  luật cũ "Theo dõi tới khi xong (BẮT BUỘC)"):** Làm xong thay đổi → commit → mở PR (kích
+  hoạt pipeline auto-merge) là **kết thúc nhiệm vụ**. Pipeline ZERO_BARRIER tự lo phần còn
+  lại: `qa-check` xanh → `auto-merge.yml` (squash) → `deploy.yml` production.
+  - **KHÔNG** `subscribe_pr_activity`, **KHÔNG** canh CI tới khi merge, **KHÔNG** hẹn
+    `send_later` self check-in, **KHÔNG** babysit/poll PR. Mở PR xong là kết thúc turn.
+  - **Ngoại lệ — chỉ khi user CHỦ ĐỘNG yêu cầu** ("canh PR", "babysit", "autofix CI",
+    "theo dõi tới khi merge"): lúc đó mới `subscribe_pr_activity`, fix CI đỏ trên cùng
+    branch (Vaccine §4 / `ff`), và dừng (`unsubscribe_pr_activity`) khi user bảo dừng
+    hoặc PR đã MERGED/CLOSED.
+  - Nếu CI đỏ mà user KHÔNG yêu cầu canh: pipeline tự xử theo cấu hình repo; không tự
+    spawn monitor/subscribe trừ khi được yêu cầu.
 
 ## Quy tắc SEO QA cho mỗi bài blog (BẮT BUỘC)
 
