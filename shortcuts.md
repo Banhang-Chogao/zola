@@ -82,6 +82,7 @@ Format bắt buộc:
 | `nangcap` | Quét + nâng cấp mọi bài cũ điểm SEO QA < 90 lên đạt chuẩn (≥90/A) |
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `runner` | Retry / tiếp tục lệnh, workflow, macro đang dở hoặc bị gián đoạn |
+| `theodoi8` | Theo dõi trạng thái live của các commit đang chạy trên GitHub Actions |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
@@ -1069,6 +1070,65 @@ Hành động: Output Markdown table 4 cột, format chuẩn để user audit wo
 - Sort theo: Status (❌ trước, ⚠ giữa, ✅ sau) → recency desc
 
 **Scope mặc định**: 20 run gần nhất trên `main`. Kèm context (e.g., `run list deploy.yml`) → filter theo workflow đó.
+
+### `theodoi8` — Theo dõi trạng thái commit đang chạy trên GitHub
+
+**Mục đích**: Snapshot nhanh trạng thái CI/CD **hiện tại** của các commit gần
+nhất trên GitHub Actions — commit nào đang `queued`/`in_progress`, commit nào đã
+`success`/`failure`/`cancelled`. READ-ONLY, KHÔNG trigger lại, KHÔNG merge/push.
+
+**Khác các shortcut gần giống**:
+- `run list` — audit workflow runs theo cause + resolution (PR fix).
+- `??` — vì sao feature chưa lên production (bảng commit A/B/C/D).
+- `runner` — retry/tiếp tục task đang dở.
+- `theodoi8` — **live status của TỪNG commit** đang chạy (queued/running/done),
+  không phán xét cause, không sửa gì.
+
+**Hành động**:
+
+1. **Lấy commit gần nhất** (mặc định 10) để soi:
+   - `mcp__github__list_commits` (per_page=10) trên `main`.
+   - Kèm commit `origin/main..HEAD` của branch dev hiện tại (chưa merge) nếu có
+     (`git log origin/main..HEAD --oneline`).
+2. **Map commit → workflow run**: `mcp__github__actions_list` (per_page=30, mới
+   nhất trước) → match theo `head_sha`. 1 commit có thể có nhiều run (deploy, qa,
+   …) → gộp theo commit.
+3. **Đọc trạng thái live** mỗi run: `status` (`queued`/`in_progress`/`completed`)
+   + `conclusion` (`success`/`failure`/`cancelled`/`skipped`); dùng
+   `mcp__github__actions_get` khi cần chi tiết/thời lượng.
+4. **Output bảng**, sort: đang chạy trước (🔄/⏳) → rồi mới nhất:
+
+| Commit | Message | Workflow | Trạng thái | Thời lượng |
+|---|---|---|---|---|
+| `a1b2c3d` | feat: authority booster | Build & Deploy | 🔄 in_progress | 1m20s |
+| `e4f5g6h` | refresh merge report | QA Gatekeeper | ✅ success | 48s |
+| `i7j8k9l` | compliance auto-fix | Build & Deploy | ❌ failure | 2m10s |
+
+   **Icon trạng thái**:
+   - 🔄 `in_progress` · ⏳ `queued`/`waiting` — đang chạy
+   - ✅ `success` — xong, pass
+   - ❌ `failure` — xong, fail (gợi ý `ff` nếu trên `deploy.yml`)
+   - ⊘ `cancelled` (vàng) — bị huỷ; **KHÔNG phải lỗi thật** nếu có deploy run mới
+     hơn `success` (concurrency — xem Vaccine V5 / Build Dashboard rule)
+   - ⏭ `skipped`
+
+5. **Tóm tắt cuối** ≤1 dòng:
+   `theodoi8: 🔄 N đang chạy · ✅ X pass · ❌ Y fail · ⊘ Z huỷ (cập nhật HH:MM dd/mm/yyyy GMT+7)`
+
+**Hard rules**:
+- **READ-ONLY** — chỉ đọc status, KHÔNG re-trigger / rerun / merge / push.
+- KHÔNG poll vô hạn — chụp **1 snapshot**. Còn run `in_progress` → gợi ý gõ lại
+  `theodoi8` sau ~1–2 phút, hoặc `theodoi8 watch` / `runner` để poll tới xong.
+- `cancelled` ≠ `failed`: nếu deploy run mới nhất `success` → site OK, đừng báo
+  degraded (Build Dashboard rule).
+- `failure` thật trên `deploy.yml` → gợi ý `ff` (fix) ngay, KHÔNG tự sửa trong
+  `theodoi8`.
+
+**Phạm vi mở rộng** (user kèm context):
+- `theodoi8 deploy` — chỉ commit chạy trên `deploy.yml`.
+- `theodoi8 <sha>` — soi đúng 1 commit + mọi run của nó.
+- `theodoi8 watch` — poll `actions_get` tới khi mọi run `in_progress`/`queued` →
+  `completed` (max 5 phút như `runner`), rồi in bảng cuối.
 
 ### `runner` — Retry / tiếp tục lệnh đang dở
 
