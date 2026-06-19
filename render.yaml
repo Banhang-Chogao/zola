@@ -158,3 +158,37 @@ services:
         sync: false
       - key: GH_CLIENT_SECRET
         sync: false
+
+  # ============= VIPZone API (FastAPI + SQLite) =============
+  - type: web
+    name: blog-vipzone-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/vipzone
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: vipzone-data
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: VIPZONE_CORS_ORIGIN
+        value: https://banhang-chogao.github.io
+      - key: VIPZONE_BLOG_URL
+        value: https://banhang-chogao.github.io/zola
+      - key: VIPZONE_DB_PATH
+        value: /var/data/vipzone.db
+      - key: CMS_AUTH_URL
+        value: https://blog-visitor-api.onrender.com
+      - key: ADMIN_EMAILS
+        value: 292648126+banhang-chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
+      - key: VIPZONE_MOMO_MONTHLY
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA
+      - key: VIPZONE_MOMO_SEMIANNUAL
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg
+      - key: VIPZONE_CATALOG_URL
+        value: https://banhang-chogao.github.io/zola/data/vipzone-picker-catalog.json
