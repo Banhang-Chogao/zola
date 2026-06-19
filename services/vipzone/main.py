@@ -3,6 +3,7 @@ VIPZone API — MoMo payment requests, 16-digit approve codes, VIP admin.
 
 Public:
   GET  /
+  GET  /health
   POST /api/vipzone/payment-request
   POST /api/vipzone/redeem
 
@@ -135,8 +136,7 @@ class PickerIn(BaseModel):
     picks: list[str] = Field(default_factory=list)
 
 
-@app.get("/")
-def health() -> dict[str, Any]:
+def _health_payload() -> dict[str, Any]:
     return {
         "service": "vipzone",
         "status": "ok",
@@ -144,6 +144,16 @@ def health() -> dict[str, Any]:
         "cms_auth": CMS_AUTH_URL,
         "momo_configured": bool(MOMO_MONTHLY and MOMO_SEMIANNUAL),
     }
+
+
+@app.get("/")
+def root() -> dict[str, Any]:
+    return _health_payload()
+
+
+@app.get("/health")
+def health() -> dict[str, Any]:
+    return _health_payload()
 
 
 @app.post("/api/vipzone/payment-request")

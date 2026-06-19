@@ -29,11 +29,13 @@ class VipzoneApiTests(unittest.TestCase):
         self._tmp.cleanup()
 
     def test_health(self) -> None:
-        res = self.client.get("/")
-        self.assertEqual(res.status_code, 200)
-        body = res.json()
-        self.assertEqual(body["service"], "vipzone")
-        self.assertEqual(body["status"], "ok")
+        for path in ("/", "/health"):
+            with self.subTest(path=path):
+                res = self.client.get(path)
+                self.assertEqual(res.status_code, 200)
+                body = res.json()
+                self.assertEqual(body["service"], "vipzone")
+                self.assertEqual(body["status"], "ok")
 
     def test_payment_request_and_redeem(self) -> None:
         pay = self.client.post(
