@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-19T08:45:52Z",
+  "updated_at": "2026-06-19T08:59:55Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 24,
+    "today": 25,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 71,
+      "feature": 72,
       "qa": 1,
-      "fix": 51,
+      "fix": 50,
       "unknown": 20,
       "chore": 45,
       "content": 9,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 488,
+      "pr_title": "docs: merged PR summary rule — no watch loop, vaccine on fail",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/488",
+      "merged_at": "2026-06-19T08:51:04Z",
+      "merge_commit_sha": "4cb8a8a5e502fd74b98db56d84390867828ed5a9",
+      "merge_commit_short": "4cb8a8a",
+      "head_branch": "feat/nav-db2-submenu",
+      "summary_vi": "Update CLAUDE.md + shortcuts.md §5: box-drawing merge summary, vaccine mapping on fail, no PR poll loop.",
+      "change_type": "feature",
+      "files_changed": 2,
+      "additions": 95,
+      "deletions": 14,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 789,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27815705934",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 487,
       "pr_title": "feat(flight-db): time pickers, combinator sync, API enrich",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 788,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27815070857",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 486,
@@ -3795,25 +3814,6 @@
       "files_changed": 1,
       "additions": 61,
       "deletions": 12,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 274,
-      "pr_title": "hotfix: fix GitHub Pages 404s from missing /zola/ base path",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/274",
-      "merged_at": "2026-06-17T15:33:20Z",
-      "merge_commit_sha": "cfd6d8d5f5934aca8ab058e906c3b5cb23ab5ba9",
-      "merge_commit_short": "cfd6d8d",
-      "head_branch": "hotfix/fix-github-pages-base-path-zola",
-      "summary_vi": "`config.toml` đã cấu hình đúng `base_url = \"https://banhang-chogao.github.io/zola\"` — sitemap, canonical, menu (`$BASE_URL`), RSS/Atom, breadcrumb, related posts, pagination đều generate URL đúng.",
-      "change_type": "fix",
-      "files_changed": 38,
-      "additions": 282,
-      "deletions": 85,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
