@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-19T18:21:27Z",
+  "updated_at": "2026-06-19T18:26:46Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 51,
+    "today": 52,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 78,
+      "feature": 79,
       "fix": 48,
-      "chore": 36,
+      "chore": 35,
       "unknown": 26,
       "ci": 3,
       "qa": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 515,
+      "pr_title": "Feat/super admin session clean",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/515",
+      "merged_at": "2026-06-19T18:20:21Z",
+      "merge_commit_sha": "bcb502b59c4402829126abbb7b34f20286141a6c",
+      "merge_commit_short": "bcb502b",
+      "head_branch": "feat/super-admin-session-clean",
+      "summary_vi": "Feat/super admin session clean",
+      "change_type": "feature",
+      "files_changed": 0,
+      "additions": 0,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 812,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27841976821",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 514,
       "pr_title": "feat(ai): AI Learning Engine for Vaccine AutoFixer + Content Direction",
@@ -567,9 +586,9 @@
       "deletions": 55,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 782,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27811774353",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 483,
@@ -3789,25 +3808,6 @@
       "merged_at": "2026-06-17T16:54:46Z",
       "merge_commit_sha": "08fab329e8e8c8615f4aba23792561aee089e1f6",
       "merge_commit_short": "08fab32",
-      "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 13,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 305,
-      "pr_title": "chore: changelog after PR #300",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/305",
-      "merged_at": "2026-06-17T16:53:55Z",
-      "merge_commit_sha": "ccd24ba75491991e54c6a6e8d2fba0092903fb37",
-      "merge_commit_short": "ccd24ba",
       "head_branch": "chore/changelog-sync",
       "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
       "change_type": "chore",
