@@ -86,6 +86,7 @@ Format bắt buộc:
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
+| `fixrule8` | Soi conflict giữa rule + vaccine trong CLAUDE.md → sinh PROMPT fix cho Claude/Grok (read-only) |
 | ... | ... |
 
 Sau bảng có thể kèm 1-2 dòng note (vd: "Đầy đủ chi tiết tại
@@ -117,6 +118,80 @@ nhanh mà không phải mở file. Mục đích: tra cứu tại chỗ.
 
 **Lưu ý**: `pp` giờ = "in rule + vaccine" (KHÔNG còn là HOTFIX deploy như nhắc cũ
 trong macro `morning` Phase E — tham chiếu đó đã lỗi thời, sẽ dọn sau).
+
+### `fixrule8` — Soi conflict rule + vaccine trong CLAUDE.md → sinh PROMPT fix cho Claude/Grok
+
+**Mục đích**: Đọc TOÀN BỘ rule/quy tắc + thư viện vaccine (§4, V1–Vn) trong `CLAUDE.md`,
+phát hiện **mâu thuẫn / chồng chéo / trùng lặp / lỗi thời** giữa các rule. Nếu CÓ conflict
+→ **KHÔNG tự sửa**, mà xuất ra **1 PROMPT hoàn chỉnh, copy-paste được** để giao cho Claude
+hoặc Grok thực thi việc fix. READ-ONLY: `fixrule8` chỉ phát hiện + sinh prompt, KHÔNG chỉnh
+`CLAUDE.md`, KHÔNG commit, KHÔNG mở PR.
+
+**Khác các shortcut gần giống**:
+- `pp` — chỉ **liệt kê** rule + vaccine để ghi nhớ, KHÔNG soi conflict.
+- `qa-auto-rule-checker.py` (workflow nền, cron 48h) — auto-detect + **auto-fix** conflict
+  qua PR khi confidence ≥ 90%.
+- `fixrule8` — phát hiện conflict **thủ công, on-demand** + **bàn giao bằng prompt** (để
+  Claude/Grok quyết cách sửa). KHÔNG đụng tay vào file.
+
+**Cú pháp**:
+- `fixrule8` — quét toàn bộ rule + vaccine.
+- `fixrule8 vaccine` — chỉ soi §4 Vaccine library (V1–Vn): trùng số hiệu, trùng dấu hiệu
+  khác fixer, vaccine lỗi thời.
+- `fixrule8 <từ khoá/section>` — chỉ soi 1 nhóm rule (vd `fixrule8 auto-merge`).
+
+**Hành động**:
+
+1. **Đọc** `CLAUDE.md` toàn bộ → tách thành "đơn vị rule" (mỗi heading/policy/vaccine = 1
+   đơn vị, ghi lại **số dòng + tên section** để trích dẫn chính xác).
+2. **Soi conflict** theo 5 loại:
+   - **Contradiction** — 2 rule yêu cầu ngược nhau (vd "auto-merge ngay khi CI xanh" ↔
+     "PR pending, chờ duyệt tay"; "KHÔNG canh PR" ↔ "theo dõi tới khi merge").
+   - **Overlap / duplicate** — 2 section mô tả cùng việc bằng wording khác (vd 2 bản
+     format "Báo cáo PR sau merge").
+   - **Stale / superseded** — rule cũ đã bị rule mới ghi "ghi đè / override / ngày mới hơn"
+     thay nhưng CHƯA gỡ → còn gây nhầm.
+   - **Vaccine clash** — 2 vaccine trùng số hiệu (vd 2 khối `#### V10`), hoặc cùng dấu
+     hiệu nhưng fixer khác nhau.
+   - **Cross-file drift** — rule trong `CLAUDE.md` lệch với `shortcuts.md` / workflow / script.
+3. **Phân loại severity**: CRITICAL (mâu thuẫn chặn pipeline/build) · HIGH (contradiction
+   rõ) · MEDIUM (overlap/stale) · LOW (trùng wording nhẹ).
+4. **Output**:
+   - **0 conflict** → in `fixrule8: CLAUDE.md sạch — không phát hiện conflict.` + bảng số
+     đã quét (rule N · vaccine M).
+   - **Có conflict** → in (a) **bảng tóm tắt conflict**, rồi (b) **1 PROMPT hoàn chỉnh**
+     trong code block ` ```text ` để user copy đưa cho Claude/Grok.
+
+**Bảng conflict**:
+
+| # | Loại | Rule/Vaccine (dòng) | Mô tả ngắn | Severity |
+|---|---|---|---|---|
+| 1 | Contradiction | Auto-merge (L40) ↔ `prn` pending (L1241) | ... | HIGH |
+
+**Format PROMPT sinh ra** (luôn trong 1 code block, self-contained — người nhận không cần
+mở repo vẫn hiểu phải làm gì):
+
+```text
+Bối cảnh: File CLAUDE.md của repo Banhang-Chogao/zola có các rule/vaccine bị conflict.
+Nhiệm vụ: Sửa các conflict dưới đây, GIỮ rule mới nhất / đúng policy ZERO_BARRIER hiện
+hành, hợp nhất hoặc gỡ rule cũ đã bị override, KHÔNG xoá nhầm vaccine còn dùng.
+
+Conflict cần xử lý:
+1. [HIGH] Contradiction — <Rule A (section, dòng)> ↔ <Rule B (section, dòng)>
+   - Hiện trạng: "<trích dẫn ngắn A>" vs "<trích dẫn ngắn B>"
+   - Hướng fix đề xuất: <giữ bên nào / hợp nhất ra sao + lý do>
+2. ...
+
+Đầu ra mong muốn: nội dung mục CLAUDE.md đã sửa (hoặc diff) + 1 dòng giải thích mỗi fix.
+Ràng buộc: không đổi nghĩa policy đang hiệu lực; chỉ loại mâu thuẫn / trùng lặp / lỗi thời.
+```
+
+**Hard rules**:
+- **READ-ONLY** — KHÔNG sửa `CLAUDE.md`, KHÔNG commit, KHÔNG mở PR. Chỉ đọc + in báo cáo + prompt.
+- Mọi conflict báo ra PHẢI kèm **số dòng / tên section** để prompt actionable.
+- **KHÔNG bịa conflict** — chỉ báo khi có bằng chứng 2 chỗ thật mâu thuẫn/trùng/lỗi thời.
+- Prompt sinh ra phải **self-contained** + nêu rõ ràng buộc "giữ policy hiện hành".
+- Conflict CRITICAL (chặn pipeline) → đưa lên ĐẦU bảng + đánh dấu rõ.
 
 ### `cautruc9` — Show folder structure của blog
 
