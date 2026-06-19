@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T11:46:40Z",
+  "updated_at": "2026-06-19T11:54:53Z",
   "score": 95.7,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "701/735 in range"
+          "detail": "701/736 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "716/735 complete"
+          "detail": "716/736 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "735/735 set"
+          "detail": "735/736 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "735/735 single H1"
+          "detail": "735/736 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "735/735 with lang"
+          "detail": "735/736 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "735/735 ready"
+          "detail": "735/736 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "735/735 pages"
+          "detail": "735/736 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "733/735 pages covered"
+          "detail": "734/736 pages covered"
         },
         {
           "label": "Image weight",
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "731/735 pages"
+          "detail": "731/736 pages"
         },
         {
           "label": "Skip navigation",
@@ -404,7 +404,7 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 735,
+  "pages_scanned": 736,
   "articles_scanned": 188,
   "fix_log": [
     {
@@ -413,7 +413,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 40 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/10-meo-vietinbank-ipay-nang-cao/index.html → /bai-2-toi-uu-bao-mat-han-muc-ipay/ (Target not found in public/ after zola build); public/posting/10-vaccine-claude-md-giam-loi-production/index.html → /bai-1-he-thong-prompt-zola-pillar/ (Target not found in public/ after zola build); public/posting/10-vaccine-claude-md-giam-loi-production/index.html → /bai-3-qa-gatekeeper-vaccine-autofixer/ (Target not found in public/ after zola build)",
-      "at": "2026-06-19T11:46:40Z"
+      "at": "2026-06-19T11:54:53Z"
     }
   ],
   "fix_summary": {
