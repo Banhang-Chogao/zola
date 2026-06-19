@@ -307,6 +307,117 @@
         </aside>
     </section>
 
+    {# ===== 5. DESIGN LANGUAGE ===== #}
+    <section id="design-language" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">05</span>
+            <h2 class="brandx__section-title">Design Language</h2>
+            <p class="brandx__section-desc">
+                Calm enterprise design language lấy cảm hứng từ <em>premium annual report</em>.
+                Áp dụng cho mọi page, dashboard, tool, widget, report, article. Không clone
+                pixel-by-pixel — học design language rồi tái sử dụng.
+            </p>
+        </header>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>Calm &gt; flashy</h4>
+                <p>Sang trọng hơn hiệu ứng. Tránh shadow nặng, gradient mạnh, glassmorphism, neon, animation thừa. Ưu tiên whitespace · typography · hierarchy · màu dịu.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Cards before tables</h4>
+                <p>Card là primitive mặc định. Radius 14–20px, border mảnh, nền mềm, padding 18–28px. Tránh bảng "developer-style".</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Typography creates hierarchy</h4>
+                <p>Section title lớn → content title vừa → secondary label nhỏ/nhạt. Số liệu KPI quan trọng: lớn hơn + đậm hơn.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Whitespace is a feature</h4>
+                <p>Không nén thông tin. Phân vân thì thêm spacing, đừng thêm element.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Dashboard style</h4>
+                <p>Như Bloomberg terminal × premium annual report: calm · structured · informative · low-noise. Cards + sections + timelines + metrics, không "20 widget tranh chú ý".</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Magazine-style articles</h4>
+                <p>Gần Apple Newsroom / Financial Times / Stripe Docs / Notion hơn blog truyền thống. Hero → content → related → references → series → summary. Tránh tường chữ.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Motion</h4>
+                <p>Tinh tế: duration 150–250ms. Tránh bounce, scale transform lớn, motion gây xao nhãng. Animation hỗ trợ đọc.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Information density</h4>
+                <p>Trung bình — premium annual report · Bloomberg × Apple. KHÔNG crypto dashboard · gaming UI · Material overload.</p>
+            </article>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Global UI/UX Design DNA (10 nguyên tắc lõi):</strong>
+            1) Calm &gt; flashy · 2) Cards before tables · 3) Whitespace is a feature ·
+            4) Typography creates hierarchy · 5) Large numbers deserve emphasis ·
+            6) Soft colors over saturated · 7) Premium annual report aesthetic ·
+            8) Magazine-style articles · 9) Dashboard sections over giant tables ·
+            10) Reuse components before creating new ones. <br>
+            Màu dùng đúng token <code>--c-*</code> (xem Color Palette ở trên); tránh đen tuyền, tránh tương phản gắt.
+        </aside>
+    </section>
+
+    {# ===== 6. DESIGN STYLE ANCHOR & SUPPLEMENTAL CARD THEME ===== #}
+    <section id="design-anchor" class="brandx__section">
+        <header class="brandx__section-head">
+            <span class="brandx__section-num">06</span>
+            <h2 class="brandx__section-title">Style Anchor &amp; Supplemental Theme</h2>
+            <p class="brandx__section-desc">
+                Trước khi thiết kế bất kỳ UI nào, căn theo anchor — và xử lý card theme
+                annual-report như một <em>visual flavor</em> tùy chọn, không phải redesign.
+            </p>
+        </header>
+
+        <aside class="brandx__rationale">
+            <strong>Design Style Anchor:</strong> Think
+            <strong>Apple Annual Report × Bloomberg × Stripe Docs × Notion</strong>.
+            KHÔNG: AdminLTE · Crypto Dashboard · Bootstrap Admin · Material overload · Gaming UI · Neon · glassmorphism-heavy.<br>
+            <strong>🔑 Design Consistency Rule:</strong> mỗi khi sinh UI, hỏi <em>"Cái này có trông tự nhiên
+            bên trong một Apple annual report, Bloomberg dashboard, Stripe Docs page, hay Notion workspace không?"</em>
+            — Nếu KHÔNG → thiết kế lại.
+        </aside>
+
+        <div class="brandx__comp-grid">
+            <article class="brandx__comp">
+                <h4>Priority order</h4>
+                <p>1) Branding Guideline → 2) Existing Design DNA → 3) Existing component library →
+                4) Supplemental card theme (optional). Không bao giờ redesign cả site theo screenshot.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Scope (chỉ chỗ hợp)</h4>
+                <p>KPI / stats / metric / fact / highlight / comparison cards · insights blocks · dashboard summaries.
+                Vd company profile, bài tài chính/ngành, trang annual-report.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Borrow</h4>
+                <p>Soft pastel cards (pale blue/teal/purple/gray) · circular thin-outline icons · spacious KPI cards
+                (số lớn + đậm, label/đơn vị nhỏ) · calm annual-report feeling.</p>
+            </article>
+            <article class="brandx__comp">
+                <h4>Do NOT copy</h4>
+                <p>Thay toàn bộ card site-wide · đổi layout sẵn có · thêm nhiều màu · biến mọi trang thành
+                infographic · bỏ article style hiện tại · redesign trang đã theo branding guideline.</p>
+            </article>
+        </div>
+
+        <aside class="brandx__rationale">
+            <strong>Compatibility Rule:</strong> hỏi <em>"Cái này có như một mở rộng TỰ NHIÊN của branding
+            guideline hiện tại không?"</em> — CÓ → áp dụng có chọn lọc; KHÔNG → giữ thiết kế hiện tại.
+            Theme phải bổ trợ, không cạnh tranh.<br>
+            <strong>Guidelines first, components later.</strong> Chưa dựng component nào cho theme này — chỉ dựng
+            khi có trang KPI-heavy thật cần (opt-in, additive, reuse trước khi tạo mới).
+            <strong>Evolution, not proliferation.</strong> Preserve consistency above novelty.
+        </aside>
+    </section>
+
     {# ===== FOOTER ===== #}
     <footer class="brandx__foot">
         <p>Branding Guideline — Hilda Design System v1.0</p>
