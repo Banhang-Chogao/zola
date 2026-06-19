@@ -95,6 +95,7 @@ menu = [
             { url = "$BASE_URL/tools/l-dashboard", name = "L-Dashboard" },
             { url = "$BASE_URL/tools/o-dashboard", name = "O-Dashboard" },
             { url = "$BASE_URL/tools/h-dashboard", name = "H-Dashboard" },
+            { url = "$BASE_URL/tools/flight-db", name = "✈️ Flight DB" },
         ] },
         { name = "Khác", children = [
             { url = "$BASE_URL/changelog", name = "Changelog" },
