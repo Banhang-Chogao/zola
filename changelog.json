@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "fix(vipzone): load picker catalog from admin API instead of unpublish…",
+      "tag": "fix",
+      "lines_added": 22,
+      "lines_removed": 7,
+      "highlights": [
+        "fetchPickerCatalog(): query the authenticated admin API first via apiFetch (credentials: include); static JSON is now only a fallback; on total failure return an empty catalog instead of throwing → no",
+        "renderPickerGroups(): distinct fallback message when the catalog failed to load vs an empty search filter."
+      ],
+      "pr": 520
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(baochi): bài phân quyền role một nguồn sự thật",
       "tag": "chore",
       "lines_added": 226,
