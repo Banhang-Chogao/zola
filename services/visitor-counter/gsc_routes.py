@@ -14,7 +14,15 @@ import httpx
 from fastapi import APIRouter, BackgroundTasks, Header, HTTPException, Request
 from fastapi.responses import RedirectResponse
 
-from gsc_client import CACHE_TTL_SECONDS, disconnected_payload, fetch_metrics_bundle, list_site_properties
+from gsc_client import (
+    CACHE_TTL_SECONDS,
+    DEFAULT_GSC_PROPERTY_URL,
+    disconnected_payload,
+    fetch_metrics_bundle,
+    list_site_properties,
+    normalize_gsc_property_url,
+    pick_preferred_property,
+)
 
 router = APIRouter(prefix="/gsc", tags=["gsc"])
 
@@ -56,8 +64,9 @@ async def _load_refresh_token(r) -> str:
 async def _load_property(r) -> str:
     prop = await r.get(GSC_PROPERTY_KEY)
     if prop:
-        return prop
-    return os.getenv("GSC_PROPERTY_URL", "").strip()
+        return normalize_gsc_property_url(prop)
+    env_prop = os.getenv("GSC_PROPERTY_URL", DEFAULT_GSC_PROPERTY_URL).strip()
+    return normalize_gsc_property_url(env_prop) if env_prop else ""
 
 
 async def _cache_get(r) -> dict | None:
@@ -131,10 +140,21 @@ async def gsc_status():
     connected = bool(await _load_refresh_token(r))
     prop = await _load_property(r)
     cache_at = await r.get(GSC_CACHE_AT_KEY)
+    missing: list[str] = []
+    if not GSC_CLIENT_ID:
+        missing.append("GSC_CLIENT_ID")
+    if not GSC_CLIENT_SECRET:
+        missing.append("GSC_CLIENT_SECRET")
+    if not connected:
+        missing.append("GSC_REFRESH_TOKEN")
     return {
         "configured": _gsc_configured(),
         "connected": connected,
-        "property": prop or None,
+        "property": prop or DEFAULT_GSC_PROPERTY_URL,
+        "default_property": DEFAULT_GSC_PROPERTY_URL,
+        "redirect_uri": f"{BACKEND_URL}/gsc/oauth/callback",
+        "oauth_scope": "https://www.googleapis.com/auth/webmasters.readonly",
+        "missing_credentials": missing,
         "cache_updated_at": cache_at,
         "cache_ttl_seconds": CACHE_TTL_SECONDS,
     }
@@ -228,8 +248,11 @@ async def gsc_oauth_callback(code: str = "", state: str = ""):
         )
     except Exception:
         pass
-    if len(props) == 1:
-        await r.set(GSC_PROPERTY_KEY, props[0])
+    preferred = pick_preferred_property(props)
+    if preferred:
+        await r.set(GSC_PROPERTY_KEY, normalize_gsc_property_url(preferred))
+    elif len(props) == 1:
+        await r.set(GSC_PROPERTY_KEY, normalize_gsc_property_url(props[0]))
     await r.delete(GSC_CACHE_KEY)
     await r.delete(GSC_CACHE_AT_KEY)
     return RedirectResponse(_build_blog_url(return_to, fragment="gsc_connected=1"))
@@ -257,9 +280,14 @@ async def gsc_set_property(request: Request, authorization: str = Header(default
         request_body = await request.json()
     except json.JSONDecodeError:
         raise HTTPException(400, "invalid_json")
-    site = str(request_body.get("siteUrl") or request_body.get("property") or "").strip()
+    site = normalize_gsc_property_url(
+        str(request_body.get("siteUrl") or request_body.get("property") or "").strip()
+    )
     if not site:
         raise HTTPException(400, "siteUrl required")
+    expected = normalize_gsc_property_url(DEFAULT_GSC_PROPERTY_URL)
+    if site.rstrip("/") != expected.rstrip("/"):
+        raise HTTPException(400, f"Only property {DEFAULT_GSC_PROPERTY_URL} is allowed")
     r = await _get_redis()
     await r.set(GSC_PROPERTY_KEY, site)
     await r.delete(GSC_CACHE_KEY)

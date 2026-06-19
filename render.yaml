@@ -71,6 +71,8 @@ services:
         sync: false
       - key: GSC_CLIENT_SECRET
         sync: false
+      - key: GSC_PROPERTY_URL
+        value: https://banhang-chogao.github.io/zola/
       # IMDB source URL cho /api/movies.
       # Default = IMDB Calendar (upcoming releases) — scrape qua curl_cffi
       # + parse __NEXT_DATA__. Có thể đổi sang proxy JSON

@@ -22,7 +22,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "services" / "visitor-counter"))
 
-from gsc_client import disconnected_payload, fetch_metrics_bundle  # noqa: E402
+from gsc_client import (  # noqa: E402
+    DEFAULT_GSC_PROPERTY_URL,
+    disconnected_payload,
+    fetch_metrics_bundle,
+    normalize_gsc_property_url,
+)
 
 DATA_OUT = ROOT / "data" / "gsc-metrics.json"
 STATIC_OUT = ROOT / "static" / "data" / "gsc-metrics.json"
@@ -30,7 +35,9 @@ STATIC_OUT = ROOT / "static" / "data" / "gsc-metrics.json"
 
 def main() -> int:
     refresh = os.environ.get("GSC_REFRESH_TOKEN", "").strip()
-    prop = os.environ.get("GSC_PROPERTY_URL", "").strip()
+    prop = normalize_gsc_property_url(
+        os.environ.get("GSC_PROPERTY_URL", DEFAULT_GSC_PROPERTY_URL).strip()
+    )
     client_id = os.environ.get("GSC_CLIENT_ID", "").strip()
     client_secret = os.environ.get("GSC_CLIENT_SECRET", "").strip()
 

@@ -19,6 +19,35 @@ from googleapiclient.errors import HttpError
 SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 CACHE_TTL_SECONDS = 20 * 60  # 20 minutes
 
+# URL-prefix property in Search Console — must match siteUrl exactly in API calls.
+DEFAULT_GSC_PROPERTY_URL = "https://banhang-chogao.github.io/zola/"
+
+
+def normalize_gsc_property_url(site_url: str) -> str:
+    """Normalize URL-prefix GSC properties; keep sc-domain: entries unchanged."""
+    url = (site_url or "").strip()
+    if not url or url.startswith("sc-domain:"):
+        return url
+    if not url.endswith("/"):
+        url += "/"
+    return url
+
+
+def pick_preferred_property(properties: list[str]) -> str | None:
+    """Select the blog property only — never fall back to another domain."""
+    if not properties:
+        return None
+    target = normalize_gsc_property_url(DEFAULT_GSC_PROPERTY_URL)
+    normalized = {normalize_gsc_property_url(p): p for p in properties}
+    if target in normalized:
+        return normalized[target]
+    # Accept API variant without trailing slash, but only for this exact host/path.
+    bare = target.rstrip("/")
+    for prop in properties:
+        if prop.rstrip("/") == bare:
+            return prop
+    return None
+
 
 def _utc_today() -> date:
     return datetime.now(timezone.utc).date()
