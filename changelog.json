@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "fix(paywall): restore strict premium paywall (MoMo payment gate) + qa-404 scheduled forward-ref vaccine (V13)",
+      "tag": "fix",
+      "lines_added": 404,
+      "lines_removed": 37,
+      "highlights": [
+        "config.toml: enable_premium_lock = true → build runs paywall_prepare_build.py --strip; static HTML ships the teaser only, full content stays in private_content/ (served by the backend after payment). ",
+        "templates/page.html / taxonomy_single.html: render the teaser + paywall box for every premium post (extra.premium or category premium); removed the \"category hidden\" overlay that was shadowing the pay",
+        "templates/macros/paywall.html: payment-focused wording — \"Thanh toán qua MoMo để đọc tiếp\", \"Bài viết premium — cần thanh toán để mở khóa nội dung\" (not donation). The voluntary MoMo card only renders",
+        "scripts/paywall_prepare_build.py: strip is now non-destructive — it never overwrites an existing full private_content/ body with the teaser when there is no <!-- more --> marker (the current repo stat",
+        "content/posting/cau-dieu-kien-gia-dinh-tieng-han.md: added the missing premium_post_id = \"premium-han30-27\", price, and \"Tất cả\"/\"Học tiếng Hàn\" categories so the backend can serve its full content an"
+      ],
+      "pr": 484
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(sidebar): add Premium Posts S-DNA widget above Featured",
       "tag": "chore",
       "lines_added": 255,
