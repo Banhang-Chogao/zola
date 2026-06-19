@@ -445,7 +445,11 @@
     var tools = items.filter(function (i) { return i.url.indexOf("/tools/") === 0; });
     var premium = items.filter(function (i) { return i.url.indexOf("/tools/") !== 0; });
     var html = groupHtml("Công cụ", tools) + groupHtml("Premium articles", premium);
-    if (!html) html = '<p class="vipzone__empty">Không có mục khớp tìm kiếm.</p>';
+    if (!html) {
+      html = q
+        ? '<p class="vipzone__empty">Không có mục khớp tìm kiếm.</p>'
+        : '<p class="vipzone__empty">Danh mục picker chưa tải được. Hãy đăng nhập lại hoặc tải lại trang.</p>';
+    }
     host.innerHTML = html;
     host.querySelectorAll(".vipzone__picker-access-group").forEach(function (group) {
       group.querySelectorAll("[data-vz-access]").forEach(function (btn) {
@@ -461,15 +465,26 @@
   }
 
   async function fetchPickerCatalog() {
-    var base = VZ.BASE || "/zola";
+    // Primary: authenticated admin API (sends cookie + Bearer via credentials:include).
+    // The static /data/*.json is not published to the site (robots Disallow /data/),
+    // so the API endpoint is the source of truth for the catalog.
+    if (useApi() && roleIsAdmin(currentUser)) {
+      try {
+        var data = await apiFetch("/api/vipzone/admin/picker/catalog");
+        if (data && (data.tools || data.premium)) return data;
+      } catch (e) {}
+    }
+    // Fallback: published static catalog JSON (non-admin viewers / API offline).
     try {
-      var res = await fetch(base + "/data/vipzone-picker-catalog.json", { cache: "no-store" });
+      var base = VZ.BASE || "/zola";
+      var res = await fetch(base + "/data/vipzone-picker-catalog.json", {
+        credentials: "include",
+        cache: "no-store",
+      });
       if (res.ok) return res.json();
     } catch (e) {}
-    if (useApi() && roleIsAdmin(currentUser)) {
-      return apiFetch("/api/vipzone/admin/picker/catalog");
-    }
-    throw new Error("Không tải catalog JSON.");
+    // Last resort: empty catalog so the picker degrades gracefully instead of crashing.
+    return { updated_at: null, tools: [], premium: [] };
   }
 
   async function loadPicker() {

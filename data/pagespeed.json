@@ -1,134 +1,43 @@
 {
-  "updated_at": "2026-06-19T00:37:12+00:00",
+  "updated_at": "2026-06-19T19:17:49+00:00",
   "url": "https://banhang-chogao.github.io/zola/",
   "mobile": {
-    "performance": 49,
+    "performance": 55,
     "accessibility": 84,
     "best_practices": 96,
     "seo": 100,
-    "lcp": "6.9 s",
-    "lcp_ms": 6910.220497481251,
-    "cls": "0.025",
-    "cls_value": 0.025303,
+    "lcp": "7.4 s",
+    "lcp_ms": 7358.033083200893,
+    "cls": "0.024",
+    "cls_value": 0.023623,
     "inp": "—",
     "inp_ms": null,
-    "fcp": "4.5 s",
-    "fcp_ms": 4512.094189332817,
-    "tbt": "530 ms",
-    "tbt_ms": 526,
-    "si": "6.1 s",
-    "si_ms": 6130.102223608159,
-    "total_page_size": "Total size was 856 KiB",
-    "total_page_bytes": 876812,
+    "fcp": "4.8 s",
+    "fcp_ms": 4811.995652336305,
+    "tbt": "240 ms",
+    "tbt_ms": 238,
+    "si": "7.4 s",
+    "si_ms": 7426.412494375784,
+    "total_page_size": "Total size was 946 KiB",
+    "total_page_bytes": 968564,
     "resource_weight": {
-      "js": 203824,
-      "css": 59291,
-      "image": 12134,
-      "font": 230446,
-      "document": 359086,
-      "other": 1765655,
-      "total": 2630436
+      "js": 224216,
+      "css": 80856,
+      "image": 10913,
+      "font": 230470,
+      "document": 407822,
+      "other": 1951415,
+      "total": 2905692
     },
     "render_blocking": [],
     "unused_assets": {
       "css": {
-        "wasted_bytes": 46470,
-        "display": "Est savings of 45 KiB",
+        "wasted_bytes": 65384,
+        "display": "Est savings of 64 KiB",
         "items": [
           {
-            "url": "https://banhang-chogao.github.io/zola/site.css?v=1781828050",
-            "wasted_bytes": 46470
-          }
-        ]
-      },
-      "js": {
-        "wasted_bytes": 66322,
-        "display": "Est savings of 65 KiB",
-        "items": [
-          {
-            "url": "https://www.googletagmanager.com/gtag/js?id=G-REFBXH86Z5",
-            "wasted_bytes": 66322
-          }
-        ]
-      }
-    },
-    "image_issues": [],
-    "opportunities": [
-      {
-        "id": "unused-css-rules",
-        "title": "Reduce unused CSS",
-        "display": "Est savings of 45 KiB",
-        "score": 0
-      },
-      {
-        "id": "largest-contentful-paint",
-        "title": "Largest Contentful Paint",
-        "display": "6.9 s",
-        "score": 6
-      },
-      {
-        "id": "first-contentful-paint",
-        "title": "First Contentful Paint",
-        "display": "4.5 s",
-        "score": 15
-      },
-      {
-        "id": "speed-index",
-        "title": "Speed Index",
-        "display": "6.1 s",
-        "score": 44
-      },
-      {
-        "id": "unused-javascript",
-        "title": "Reduce unused JavaScript",
-        "display": "Est savings of 65 KiB",
-        "score": 50
-      },
-      {
-        "id": "total-blocking-time",
-        "title": "Total Blocking Time",
-        "display": "530 ms",
-        "score": 56
-      }
-    ]
-  },
-  "desktop": {
-    "performance": 96,
-    "accessibility": 84,
-    "best_practices": 96,
-    "seo": 100,
-    "lcp": "1.2 s",
-    "lcp_ms": 1175,
-    "cls": "0.006",
-    "cls_value": 0.006468,
-    "inp": "—",
-    "inp_ms": null,
-    "fcp": "1.0 s",
-    "fcp_ms": 1039.1927687969032,
-    "tbt": "40 ms",
-    "tbt_ms": 41.5,
-    "si": "1.0 s",
-    "si_ms": 1039.1927687969032,
-    "total_page_size": "Total size was 1,224 KiB",
-    "total_page_bytes": 1253743,
-    "resource_weight": {
-      "js": 203702,
-      "css": 59314,
-      "image": 392936,
-      "font": 230479,
-      "document": 359061,
-      "other": 2515737,
-      "total": 3761229
-    },
-    "render_blocking": [],
-    "unused_assets": {
-      "css": {
-        "wasted_bytes": 48403,
-        "display": "Est savings of 47 KiB",
-        "items": [
-          {
-            "url": "https://banhang-chogao.github.io/zola/site.css?v=1781828050",
-            "wasted_bytes": 48403
+            "url": "https://banhang-chogao.github.io/zola/site.css?v=1781893678",
+            "wasted_bytes": 65384
           }
         ]
       },
@@ -148,31 +57,122 @@
       {
         "id": "unused-css-rules",
         "title": "Reduce unused CSS",
-        "display": "Est savings of 47 KiB",
+        "display": "Est savings of 64 KiB",
         "score": 0
       },
       {
         "id": "unused-javascript",
         "title": "Reduce unused JavaScript",
         "display": "Est savings of 65 KiB",
+        "score": 0
+      },
+      {
+        "id": "largest-contentful-paint",
+        "title": "Largest Contentful Paint",
+        "display": "7.4 s",
+        "score": 4
+      },
+      {
+        "id": "first-contentful-paint",
+        "title": "First Contentful Paint",
+        "display": "4.8 s",
+        "score": 11
+      },
+      {
+        "id": "speed-index",
+        "title": "Speed Index",
+        "display": "7.4 s",
+        "score": 27
+      },
+      {
+        "id": "total-blocking-time",
+        "title": "Total Blocking Time",
+        "display": "240 ms",
+        "score": 85
+      }
+    ]
+  },
+  "desktop": {
+    "performance": 96,
+    "accessibility": 81,
+    "best_practices": 96,
+    "seo": 100,
+    "lcp": "1.1 s",
+    "lcp_ms": 1091.0955282382256,
+    "cls": "0.006",
+    "cls_value": 0.005608,
+    "inp": "—",
+    "inp_ms": null,
+    "fcp": "1.1 s",
+    "fcp_ms": 1050.196025100645,
+    "tbt": "20 ms",
+    "tbt_ms": 17,
+    "si": "1.1 s",
+    "si_ms": 1069.840185215495,
+    "total_page_size": "Total size was 1,326 KiB",
+    "total_page_bytes": 1357624,
+    "resource_weight": {
+      "js": 224124,
+      "css": 80875,
+      "image": 392021,
+      "font": 238459,
+      "document": 407845,
+      "other": 2729548,
+      "total": 4072872
+    },
+    "render_blocking": [],
+    "unused_assets": {
+      "css": {
+        "wasted_bytes": 67481,
+        "display": "Est savings of 66 KiB",
+        "items": [
+          {
+            "url": "https://banhang-chogao.github.io/zola/site.css?v=1781893678",
+            "wasted_bytes": 67481
+          }
+        ]
+      },
+      "js": {
+        "wasted_bytes": 65631,
+        "display": "Est savings of 64 KiB",
+        "items": [
+          {
+            "url": "https://www.googletagmanager.com/gtag/js?id=G-REFBXH86Z5",
+            "wasted_bytes": 65631
+          }
+        ]
+      }
+    },
+    "image_issues": [],
+    "opportunities": [
+      {
+        "id": "unused-css-rules",
+        "title": "Reduce unused CSS",
+        "display": "Est savings of 66 KiB",
+        "score": 0
+      },
+      {
+        "id": "unused-javascript",
+        "title": "Reduce unused JavaScript",
+        "display": "Est savings of 64 KiB",
         "score": 50
       },
       {
         "id": "first-contentful-paint",
         "title": "First Contentful Paint",
-        "display": "1.0 s",
+        "display": "1.1 s",
         "score": 84
       },
       {
         "id": "largest-contentful-paint",
         "title": "Largest Contentful Paint",
-        "display": "1.2 s",
-        "score": 90
+        "display": "1.1 s",
+        "score": 92
       },
       {
         "id": "speed-index",
         "title": "Speed Index",
-        "display": "1.0 s",
+        "display": "1.1 s",
         "score": 96
       }
     ]
