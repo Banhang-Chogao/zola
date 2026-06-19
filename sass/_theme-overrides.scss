@@ -258,15 +258,34 @@
 
   .footer-qa__sub { color: #888; }
 
-  /* ===== 11. PAGINATION ===== */
+  /* ===== 11. PAGINATION =====
+     Winning layer (under :root[data-theme="hilda"]). MUST set background or
+     the base black surface leaks → dark-on-dark. Calm light button: surface
+     bg + heading text + clear border. Radius stays fixed 4px ($radius-tag)
+     per branding guideline — contrast/readability is the fix, not corners. */
   .pagination__btn {
-    color: var(--c-text-body);
+    background: var(--c-bg-surface);
+    color: var(--c-text-heading);
     border: 1px solid var(--c-border);
     border-radius: $radius-tag;
 
     &:hover {
+      background: var(--c-bg-soft);
       color: var(--c-accent);
+      border-color: var(--c-border-strong);
+    }
+  }
+
+  /* Forward action = primary CTA: soft accent fill for clear hierarchy. */
+  .pagination__btn--next {
+    background: var(--c-accent-soft);
+    border-color: transparent;
+    color: var(--c-accent);
+
+    &:hover {
+      background: var(--c-accent);
       border-color: var(--c-accent);
+      color: #fff;
     }
   }
 
@@ -437,11 +456,12 @@
     font-weight: 600;
   }
 
-  /* Pagination — nút vuông 4px, chữ 14px */
+  /* Pagination — nút vuông 4px, chữ 14px. Comfortable padding + bold label
+     cho discoverability (contrast fix ở block PAGINATION phía trên). */
   .pagination__btn {
-    padding: 8px 16px;
+    padding: 10px 20px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   /* Navbar — nền trắng + link hover #003784 đã có sẵn qua var(--c-*).
