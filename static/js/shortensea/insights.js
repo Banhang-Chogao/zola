@@ -97,10 +97,11 @@
 
   document.addEventListener("DOMContentLoaded", async function () {
     if (!document.querySelector('[data-sse-page="insights"]')) return;
-    document.querySelectorAll('[data-sse-action="login"]').forEach(function (btn) {
-      btn.addEventListener("click", function () { auth.login(); });
-    });
-    var user = await auth.init();
+    if (!api.isConfigured()) {
+      toast.show("ShortenSEA API chưa sẵn sàng.", "error");
+      return;
+    }
+    var user = await auth.initProtected();
     if (!user) return;
 
     function waitChart() {

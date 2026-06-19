@@ -130,6 +130,7 @@ SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{2,48}$", re.IGNORECASE)
 URL_RE = re.compile(r"^https?://", re.IGNORECASE)
 
 _pending_codes: dict[str, str] = {}
+_BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 
 app = FastAPI(title="ShortenSEA API", version="1.0.0", docs_url=None, redoc_url=None)
 app.add_middleware(
@@ -290,18 +291,25 @@ def _link_payload(link: dict[str, Any], base_url: str = BLOG_URL) -> dict[str, A
     }
 
 
-def _build_blog_url(path: str = "/", fragment: str = "") -> str:
-    if not path.startswith("/"):
-        path = "/" + path
-    url = f"{BLOG_URL}{path}"
+def _build_blog_url(return_to: str = "/", fragment: str = "") -> str:
+    """Compose blog URL, strip duplicate base path (e.g. /zola/zola/...)."""
+    rt = return_to or "/"
+    if _BLOG_BASE_PATH and rt.startswith(_BLOG_BASE_PATH + "/"):
+        rt = rt[len(_BLOG_BASE_PATH):]
+    if _BLOG_BASE_PATH and rt == _BLOG_BASE_PATH:
+        rt = "/"
+    if not rt.startswith("/"):
+        rt = "/" + rt
+    url = f"{BLOG_URL}{rt}"
     if fragment:
         url += f"#{fragment}"
     return url
 
 
 def _redirect_with_error(err: str, return_to: str = "/shortensea/") -> RedirectResponse:
-    sep = "&" if "?" in return_to else "?"
-    return RedirectResponse(_build_blog_url(f"{return_to}{sep}auth_error={err}"))
+    base = _build_blog_url(return_to)
+    sep = "&" if "?" in base else "?"
+    return RedirectResponse(f"{base}{sep}auth_error={err}")
 
 
 # ============= Models =============
@@ -345,6 +353,18 @@ class CodeIn(BaseModel):
     code: str = ""
 
 
+class PaymentRequestIn(BaseModel):
+    email: str
+    plan_type: str
+    payment_note: str = ""
+
+
+class AdminOverrideIn(BaseModel):
+    plan: str
+    days: int | None = None
+    is_super: bool | None = None
+
+
 # ============= Health =============
 @app.get("/")
 def health() -> dict[str, Any]:
@@ -361,10 +381,10 @@ def health() -> dict[str, Any]:
 async def auth_login(return_to: str = "/shortensea/"):
     if not GH_CLIENT_ID or not GH_CLIENT_SECRET:
         raise HTTPException(503, "oauth_not_configured")
+    if not return_to.startswith("/"):
+        return_to = "/shortensea/"
     state = secrets.token_urlsafe(24)
-    db = get_db()
-    # Store state in approve_codes table repurposed — use simple file-free: in-memory
-    _oauth_states[state] = return_to
+    get_db().save_oauth_state(state, return_to)
     params = urlencode({
         "client_id": GH_CLIENT_ID,
         "scope": "read:user user:email",
@@ -374,16 +394,13 @@ async def auth_login(return_to: str = "/shortensea/"):
     return RedirectResponse(f"https://github.com/login/oauth/authorize?{params}")
 
 
-_oauth_states: dict[str, str] = {}
-
-
 @app.get("/auth/callback")
 async def auth_callback(code: str = "", state: str = ""):
     if not code or not state:
         return _redirect_with_error("missing_params")
-    return_to = _oauth_states.pop(state, "/shortensea/")
+    return_to = get_db().pop_oauth_state(state) or ""
     if not return_to:
-        return _redirect_with_error("invalid_state")
+        return _redirect_with_error("invalid_state", "/shortensea/")
 
     async with httpx.AsyncClient(timeout=15.0) as client:
         try:
@@ -488,6 +505,15 @@ def auth_logout(authorization: str = Header(default="")):
     return {"ok": True}
 
 
+@app.post("/api/shortensea/guest/session")
+def guest_session():
+    """Create anonymous guest session for public free-tier link creation."""
+    db = get_db()
+    guest = db.create_guest_user()
+    sid = db.create_session(guest["user_id"], SESSION_TTL)
+    return {"session_id": sid, "account": _user_payload(guest)}
+
+
 # ============= Account =============
 @app.get("/api/shortensea/account")
 def get_account(authorization: str = Header(default="")):
@@ -509,8 +535,39 @@ def redeem_code(body: RedeemIn, authorization: str = Header(default="")):
 
     plan = row["plan_type"]
     days = 30 if plan == "monthly" else 365 if plan == "yearly" else 30
+    if row.get("email") and not user.get("email"):
+        db.set_user_email(user["user_id"], row["email"])
     updated = db.upgrade_user(user["user_id"], plan, days)
     return {"ok": True, "account": _user_payload(updated)}
+
+
+@app.post("/api/shortensea/payment-request")
+def payment_request(body: PaymentRequestIn, authorization: str = Header(default="")):
+    """Submit MoMo payment note — admin verifies manually (no auto-confirm)."""
+    if body.plan_type not in ("monthly", "yearly"):
+        raise HTTPException(400, "invalid_plan_type")
+    email = body.email.strip().lower()
+    if not email or "@" not in email:
+        raise HTTPException(400, "invalid_email")
+
+    user_id = None
+    if authorization.startswith("Bearer "):
+        try:
+            sid = _extract_sid(authorization)
+            session = get_db().get_session(sid)
+            if session:
+                user_id = session["user_id"]
+                get_db().set_user_email(user_id, email)
+        except HTTPException:
+            pass
+
+    rid = get_db().insert_payment_request({
+        "user_id": user_id,
+        "email": email,
+        "plan_type": body.plan_type,
+        "payment_note": body.payment_note,
+    })
+    return {"ok": True, "request_id": rid, "message": "Đã gửi yêu cầu. Admin sẽ xác minh và gửi approve code qua email."}
 
 
 # ============= Links =============
@@ -733,3 +790,58 @@ def admin_create_code(body: CodeIn, authorization: str = Header(default="")):
     })
     _pending_codes[cid] = code
     return {"code_id": cid, "approve_code": code, "plan_type": body.plan_type, "expiry_days": days}
+
+
+@app.get("/api/shortensea/admin/users")
+def admin_list_users(authorization: str = Header(default="")):
+    user = _require_user(authorization)
+    _require_admin(user)
+    users = get_db().list_users()
+    return [
+        {
+            "user_id": u["user_id"],
+            "email": u.get("email"),
+            "username": u.get("username"),
+            "name": u.get("name"),
+            "plan": u.get("plan"),
+            "plan_expires_at": u.get("plan_expires_at"),
+            "is_super": bool(u.get("is_super")),
+            "is_guest": bool(u.get("is_guest")),
+            "links_month_count": u.get("links_month_count"),
+            "created_at": u.get("created_at"),
+        }
+        for u in users
+    ]
+
+
+@app.put("/api/shortensea/admin/users/{user_id}")
+def admin_override_user(user_id: str, body: AdminOverrideIn, authorization: str = Header(default="")):
+    admin = _require_user(authorization)
+    _require_admin(admin)
+    if body.plan not in ("free", "monthly", "yearly", "super", "locked_premium"):
+        raise HTTPException(400, "invalid_plan")
+    updated = get_db().admin_override_plan(
+        user_id, body.plan, body.days, body.is_super
+    )
+    if not updated:
+        raise HTTPException(404, "user_not_found")
+    return {"ok": True, "account": _user_payload(updated)}
+
+
+@app.get("/api/shortensea/admin/payment-requests")
+def admin_list_payment_requests(
+    authorization: str = Header(default=""),
+    status: str | None = Query(default=None),
+):
+    user = _require_user(authorization)
+    _require_admin(user)
+    return get_db().list_payment_requests(status)
+
+
+@app.post("/api/shortensea/admin/payment-requests/{request_id}/resolve")
+def admin_resolve_payment_request(request_id: str, authorization: str = Header(default="")):
+    user = _require_user(authorization)
+    _require_admin(user)
+    if not get_db().resolve_payment_request(request_id):
+        raise HTTPException(404, "request_not_found")
+    return {"ok": True}

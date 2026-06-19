@@ -1,11 +1,11 @@
 /**
- * ShortenSEA auth — GitHub OAuth via ShortenSEA API or CMS session fallback.
+ * ShortenSEA auth — guest sessions (public) + GitHub OAuth (admin / VIP).
  */
 (function (global) {
   "use strict";
 
   var SESSION_KEY = "zola-shortensea-session-id";
-  var CMS_SESSION_KEY = "zola-cms-session-id";
+  var GUEST_KEY = "zola-shortensea-guest-sid";
 
   var SSE_API = (function () {
     var m = document.querySelector('meta[name="zola-shortensea-api"]');
@@ -13,18 +13,21 @@
     return "";
   })();
 
-  var CMS_API = (function () {
-    var m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
-    if (m1 && m1.getAttribute("content")) return m1.getAttribute("content").replace(/\/$/, "");
-    var m2 = document.querySelector('meta[name="zola-visitor-api"]');
-    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content").replace(/\/$/, "");
-    return "https://blog-visitor-api.onrender.com";
-  })();
-
   var SUPER_USERNAMES = ["banhang-chogao"];
   var SUPER_EMAILS = ["292648126+banhang-chogao@users.noreply.github.com"];
 
+  var AUTH_ERRORS = {
+    access_denied: "Truy cập bị từ chối.",
+    invalid_state: "Phiên đăng nhập hết hạn. Vui lòng thử lại.",
+    missing_params: "GitHub callback thiếu tham số.",
+    token_exchange_failed: "Lỗi xác thực GitHub.",
+    github_unreachable: "Không kết nối được GitHub.",
+    github_profile_fetch_failed: "Không đọc được profile GitHub.",
+    oauth_not_configured: "OAuth chưa cấu hình trên backend Render.",
+  };
+
   var currentUser = null;
+  var sessionKind = null; // "github" | "guest"
 
   function getSid() {
     try { return sessionStorage.getItem(SESSION_KEY) || ""; } catch (e) { return ""; }
@@ -38,11 +41,25 @@
     try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
+  function getGuestSid() {
+    try { return localStorage.getItem(GUEST_KEY) || ""; } catch (e) { return ""; }
+  }
+
+  function setGuestSid(sid) {
+    try { localStorage.setItem(GUEST_KEY, sid); } catch (e) {}
+  }
+
+  function getActiveSid() {
+    return getSid() || getGuestSid();
+  }
+
   function consumeHashSid() {
     if (!location.hash) return;
     var m = location.hash.match(/(?:^|[#&])ssid=([A-Za-z0-9_-]+)/);
     if (!m) return;
     setSid(m[1]);
+    sessionKind = "github";
+    try { localStorage.removeItem(GUEST_KEY); } catch (e) {}
     history.replaceState(null, "", location.pathname + location.search);
   }
 
@@ -60,41 +77,47 @@
     return profile.is_super || SUPER_USERNAMES.indexOf(u) >= 0 || SUPER_EMAILS.indexOf(e) >= 0;
   }
 
-  function login() {
-    if (SSE_API) {
-      window.location.href = SSE_API + "/auth/login?return_to=" + encodeURIComponent(buildReturnPath());
+  function login(returnPath) {
+    if (!SSE_API) {
+      showLoginError("oauth_not_configured");
       return;
     }
-    if (CMS_API) {
-      window.location.href = CMS_API + "/auth/login?return_to=" + encodeURIComponent(buildReturnPath());
-      return;
-    }
-    initPrototypeUser();
+    var rt = returnPath || buildReturnPath();
+    window.location.href = SSE_API + "/auth/login?return_to=" + encodeURIComponent(rt);
   }
 
-  function initPrototypeUser() {
-    // TODO(production): Remove prototype login when ShortenSEA API OAuth is live.
+  async function ensureGuestSession() {
+    if (!SSE_API) return null;
+    var existing = getGuestSid();
+    if (existing) {
+      try {
+        var res = await fetch(SSE_API + "/auth/me", {
+          headers: { Authorization: "Bearer " + existing },
+          credentials: "omit",
+          cache: "no-store",
+        });
+        if (res.ok) {
+          currentUser = await res.json();
+          sessionKind = "guest";
+          return currentUser;
+        }
+      } catch (e) {}
+    }
     try {
-      var stored = localStorage.getItem("zola-shortensea-user");
-      if (stored) {
-        currentUser = JSON.parse(stored);
-        return;
-      }
-    } catch (e) {}
-    currentUser = {
-      user_id: "proto-admin",
-      username: "banhang-chogao",
-      email: "292648126+banhang-chogao@users.noreply.github.com",
-      name: "Duy Nguyen",
-      avatar: "https://github.com/banhang-chogao.png",
-      plan: "super",
-      is_super: true,
-      links_month_count: 0,
-      custom_halves_used: 0,
-      links_month_key: new Date().toISOString().slice(0, 7)
-    };
-    try { localStorage.setItem("zola-shortensea-user", JSON.stringify(currentUser)); } catch (e) {}
-    localStorage.setItem("zola-shortensea-prototype", "1");
+      var createRes = await fetch(SSE_API + "/api/shortensea/guest/session", {
+        method: "POST",
+        credentials: "omit",
+        cache: "no-store",
+      });
+      if (!createRes.ok) return null;
+      var data = await createRes.json();
+      if (data.session_id) setGuestSid(data.session_id);
+      currentUser = data.account || data;
+      sessionKind = "guest";
+      return currentUser;
+    } catch (e) {
+      return null;
+    }
   }
 
   async function fetchMe() {
@@ -104,59 +127,14 @@
         var res = await fetch(SSE_API + "/auth/me", {
           headers: { Authorization: "Bearer " + sid },
           credentials: "omit",
-          cache: "no-store"
+          cache: "no-store",
         });
         if (res.status === 401) { clearSid(); return null; }
         if (!res.ok) return null;
         currentUser = await res.json();
+        sessionKind = "github";
         return currentUser;
       } catch (e) { return null; }
-    }
-
-    var cmsSid = "";
-    try { cmsSid = sessionStorage.getItem(CMS_SESSION_KEY) || ""; } catch (e) {}
-    if (cmsSid && CMS_API) {
-      try {
-        if (SSE_API) {
-          var bridgeRes = await fetch(SSE_API + "/auth/cms-bridge", {
-            method: "POST",
-            headers: { Authorization: "Bearer " + cmsSid },
-            credentials: "omit",
-            cache: "no-store"
-          });
-          if (bridgeRes.ok) {
-            var bridge = await bridgeRes.json();
-            if (bridge.session_id) setSid(bridge.session_id);
-            currentUser = bridge.account || bridge;
-            return currentUser;
-          }
-        }
-        var res2 = await fetch(CMS_API + "/auth/me", {
-          headers: { Authorization: "Bearer " + cmsSid },
-          credentials: "omit",
-          cache: "no-store"
-        });
-        if (!res2.ok) return null;
-        var cms = await res2.json();
-        currentUser = {
-          user_id: "cms-" + (cms.username || "user"),
-          email: cms.email,
-          username: cms.username,
-          name: cms.name,
-          avatar: cms.avatar,
-          plan: isSuper(cms) ? "super" : "free",
-          is_super: isSuper(cms),
-          links_month_count: 0,
-          custom_halves_used: 0,
-          links_month_key: new Date().toISOString().slice(0, 7)
-        };
-        return currentUser;
-      } catch (e) { return null; }
-    }
-
-    if (!SSE_API) {
-      initPrototypeUser();
-      return currentUser;
     }
     return null;
   }
@@ -169,13 +147,13 @@
           method: "POST",
           headers: { Authorization: "Bearer " + sid },
           credentials: "omit",
-          keepalive: true
+          keepalive: true,
         });
       } catch (e) {}
     }
     clearSid();
     currentUser = null;
-    try { localStorage.removeItem("zola-shortensea-user"); } catch (e) {}
+    sessionKind = null;
   }
 
   function showView(name) {
@@ -185,28 +163,143 @@
     });
   }
 
+  function showLoginError(code) {
+    var el = document.querySelector("[data-sse-login-error]");
+    if (!el) return;
+    el.textContent = AUTH_ERRORS[code] || "Lỗi đăng nhập: " + code;
+    el.hidden = false;
+  }
+
+  function consumeAuthError() {
+    var params = new URLSearchParams(location.search);
+    var err = params.get("auth_error");
+    if (!err) return;
+    params.delete("auth_error");
+    var qs = params.toString();
+    history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+    showLoginError(err);
+  }
+
+  function populateUserBar(user) {
+    var bar = document.querySelector("[data-sse-user-bar]");
+    if (!bar) return;
+    var avatar = bar.querySelector("[data-sse-avatar]");
+    var name = bar.querySelector("[data-sse-name]");
+    var email = bar.querySelector("[data-sse-email]");
+    var badge = bar.querySelector("[data-sse-super-badge]");
+    if (avatar) {
+      if (user.avatar) { avatar.src = user.avatar; avatar.alt = user.name || ""; }
+      else { avatar.hidden = true; }
+    }
+    if (name) name.textContent = user.name || user.username || "Khách";
+    if (email) email.textContent = user.email || (user.is_guest ? "Tài khoản khách" : user.username || "");
+    if (badge) badge.hidden = !user.is_super;
+    bar.hidden = false;
+  }
+
   function getUser() { return currentUser; }
+  function getSessionKind() { return sessionKind; }
+  function isGitHubSession() { return sessionKind === "github"; }
+  function isAdminUser() { return currentUser && isSuper(currentUser); }
+
+  /** Public page — guest session, no login wall. */
+  async function initPublic() {
+    consumeHashSid();
+    consumeAuthError();
+    var ghUser = await fetchMe();
+    if (ghUser) {
+      populateUserBar(ghUser);
+      return ghUser;
+    }
+    var guest = await ensureGuestSession();
+    if (guest) return guest;
+    showLoginError("oauth_not_configured");
+    return null;
+  }
+
+  /** Admin page — GitHub OAuth required, super user only. */
+  async function initAdmin() {
+    consumeHashSid();
+    consumeAuthError();
+    bindLoginButtons();
+
+    if (!SSE_API) {
+      showView("login");
+      showLoginError("oauth_not_configured");
+      return null;
+    }
+
+    var user = await fetchMe();
+    if (user && isSuper(user)) {
+      populateUserBar(user);
+      showView("app");
+      return user;
+    }
+    if (user && !isSuper(user)) {
+      showView("denied");
+      return null;
+    }
+    showView("login");
+    return null;
+  }
+
+  /** Links / insights — guest or GitHub session. */
+  async function initProtected() {
+    consumeHashSid();
+    consumeAuthError();
+    bindLoginButtons();
+
+    var user = await fetchMe();
+    if (user) {
+      populateUserBar(user);
+      showView("app");
+      return user;
+    }
+    user = await ensureGuestSession();
+    if (user) {
+      showView("app");
+      return user;
+    }
+    showView("login");
+    return null;
+  }
+
+  /** Upgrade page — guest or GitHub, no login wall. */
+  async function initUpgrade() {
+    return initPublic();
+  }
+
+  function bindLoginButtons() {
+    document.querySelectorAll('[data-sse-action="login"]').forEach(function (btn) {
+      if (btn._sseBound) return;
+      btn._sseBound = true;
+      btn.addEventListener("click", function () { login(); });
+    });
+    document.querySelectorAll('[data-sse-action="logout"]').forEach(function (btn) {
+      if (btn._sseBound) return;
+      btn._sseBound = true;
+      btn.addEventListener("click", async function () {
+        await logout();
+        window.location.reload();
+      });
+    });
+  }
 
   global.ShortenSEAAuth = {
-    init: async function () {
-      consumeHashSid();
-      var err = new URLSearchParams(location.search).get("auth_error");
-      if (err) {
-        var el = document.querySelector("[data-sse-login-error]");
-        if (el) { el.textContent = "Lỗi đăng nhập: " + err; el.hidden = false; }
-      }
-      var user = await fetchMe();
-      if (user) {
-        showView("app");
-        return user;
-      }
-      showView("login");
-      return null;
-    },
+    initPublic: initPublic,
+    initAdmin: initAdmin,
+    initProtected: initProtected,
+    initUpgrade: initUpgrade,
     login: login,
     logout: logout,
-    getSid: getSid,
+    getSid: getActiveSid,
+    getGitHubSid: getSid,
     getUser: getUser,
-    showView: showView
+    getSessionKind: getSessionKind,
+    isGitHubSession: isGitHubSession,
+    isAdminUser: isAdminUser,
+    showView: showView,
+    populateUserBar: populateUserBar,
+    getApiUrl: function () { return SSE_API; },
   };
 })(window);

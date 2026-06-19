@@ -151,7 +151,7 @@ services:
       - key: MOMO_PAYMENT_LINK
         value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG
       - key: SHORTENSEA_BACKEND_URL
-        sync: false
+        value: https://blog-shortensea-api.onrender.com
       - key: CMS_AUTH_URL
         value: https://blog-visitor-api.onrender.com
       - key: GH_CLIENT_ID

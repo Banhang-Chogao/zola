@@ -112,12 +112,33 @@ class ShortenDB:
                     created_at TEXT NOT NULL,
                     redeemed_at TEXT
                 );
+                CREATE TABLE IF NOT EXISTS oauth_states (
+                    state TEXT PRIMARY KEY,
+                    return_to TEXT NOT NULL,
+                    expires_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS payment_requests (
+                    request_id TEXT PRIMARY KEY,
+                    user_id TEXT,
+                    email TEXT NOT NULL,
+                    plan_type TEXT NOT NULL,
+                    payment_note TEXT,
+                    status TEXT NOT NULL DEFAULT 'pending',
+                    created_at TEXT NOT NULL,
+                    resolved_at TEXT
+                );
                 CREATE INDEX IF NOT EXISTS idx_links_user ON links(user_id);
                 CREATE INDEX IF NOT EXISTS idx_links_slug ON links(slug);
                 CREATE INDEX IF NOT EXISTS idx_clicks_link ON clicks(link_id);
                 CREATE INDEX IF NOT EXISTS idx_codes_hash ON approve_codes(code_hash);
                 """
             )
+            self._migrate_schema(conn)
+
+    def _migrate_schema(self, conn: sqlite3.Connection) -> None:
+        cols = {row[1] for row in conn.execute("PRAGMA table_info(users)").fetchall()}
+        if "is_guest" not in cols:
+            conn.execute("ALTER TABLE users ADD COLUMN is_guest INTEGER NOT NULL DEFAULT 0")
 
     def get_or_create_user(
         self,
@@ -526,3 +547,138 @@ class ShortenDB:
                 "SELECT code_id, plan_type, email, user_id, expiry_days, used, created_at, redeemed_at FROM approve_codes ORDER BY created_at DESC"
             ).fetchall()
             return [dict(r) for r in rows]
+
+    def save_oauth_state(self, state: str, return_to: str, ttl_seconds: int = 600) -> None:
+        exp = (datetime.now(timezone.utc) + timedelta(seconds=ttl_seconds)).strftime(
+            "%Y-%m-%dT%H:%M:%SZ"
+        )
+        with self._conn() as conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO oauth_states (state, return_to, expires_at) VALUES (?, ?, ?)",
+                (state, return_to, exp),
+            )
+
+    def pop_oauth_state(self, state: str) -> str | None:
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT return_to, expires_at FROM oauth_states WHERE state = ?", (state,)
+            ).fetchone()
+            conn.execute("DELETE FROM oauth_states WHERE state = ?", (state,))
+            if not row:
+                return None
+            exp = _parse_dt(row["expires_at"])
+            if exp and datetime.now(timezone.utc) > exp:
+                return None
+            return row["return_to"]
+
+    def create_guest_user(self) -> dict[str, Any]:
+        uid = str(uuid.uuid4())
+        username = f"guest-{uid[:12]}"
+        now = _now()
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT INTO users
+                (user_id, email, username, name, avatar, plan, links_month_key,
+                 created_at, updated_at, is_super, is_guest)
+                VALUES (?, NULL, ?, 'Khách', NULL, 'free', ?, ?, ?, 0, 1)
+                """,
+                (uid, username, datetime.now(timezone.utc).strftime("%Y-%m"), now, now),
+            )
+            return dict(conn.execute("SELECT * FROM users WHERE user_id = ?", (uid,)).fetchone())
+
+    def insert_payment_request(self, data: dict[str, Any]) -> str:
+        rid = str(uuid.uuid4())
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT INTO payment_requests
+                (request_id, user_id, email, plan_type, payment_note, status, created_at)
+                VALUES (?, ?, ?, ?, ?, 'pending', ?)
+                """,
+                (
+                    rid,
+                    data.get("user_id"),
+                    data["email"].lower().strip(),
+                    data["plan_type"],
+                    (data.get("payment_note") or "").strip() or None,
+                    _now(),
+                ),
+            )
+        return rid
+
+    def list_payment_requests(self, status: str | None = None) -> list[dict[str, Any]]:
+        with self._conn() as conn:
+            if status:
+                rows = conn.execute(
+                    "SELECT * FROM payment_requests WHERE status = ? ORDER BY created_at DESC",
+                    (status,),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    "SELECT * FROM payment_requests ORDER BY created_at DESC"
+                ).fetchall()
+            return [dict(r) for r in rows]
+
+    def resolve_payment_request(self, request_id: str, status: str = "resolved") -> bool:
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT request_id FROM payment_requests WHERE request_id = ?", (request_id,)
+            ).fetchone()
+            if not row:
+                return False
+            conn.execute(
+                "UPDATE payment_requests SET status = ?, resolved_at = ? WHERE request_id = ?",
+                (status, _now(), request_id),
+            )
+            return True
+
+    def list_users(self, limit: int = 100) -> list[dict[str, Any]]:
+        with self._conn() as conn:
+            rows = conn.execute(
+                """
+                SELECT user_id, email, username, name, plan, plan_expires_at, locked_until,
+                       links_month_count, custom_halves_used, is_super, is_guest, created_at
+                FROM users ORDER BY created_at DESC LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+            return [dict(r) for r in rows]
+
+    def admin_override_plan(
+        self, user_id: str, plan: str, days: int | None = None, is_super: bool | None = None
+    ) -> dict[str, Any] | None:
+        now = _now()
+        with self._conn() as conn:
+            row = conn.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,)).fetchone()
+            if not row:
+                return None
+            if is_super is not None:
+                conn.execute(
+                    "UPDATE users SET is_super = ?, plan = ?, plan_expires_at = NULL, locked_until = NULL, updated_at = ? WHERE user_id = ?",
+                    (1 if is_super else 0, "super" if is_super else plan, now, user_id),
+                )
+            elif plan == "free":
+                conn.execute(
+                    "UPDATE users SET plan = 'free', plan_expires_at = NULL, locked_until = NULL, updated_at = ? WHERE user_id = ?",
+                    (now, user_id),
+                )
+            else:
+                exp = None
+                if days:
+                    exp = (datetime.now(timezone.utc) + timedelta(days=days)).strftime(
+                        "%Y-%m-%dT%H:%M:%SZ"
+                    )
+                conn.execute(
+                    "UPDATE users SET plan = ?, plan_expires_at = ?, locked_until = NULL, updated_at = ? WHERE user_id = ?",
+                    (plan, exp, now, user_id),
+                )
+            updated = conn.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()
+            return dict(updated) if updated else None
+
+    def set_user_email(self, user_id: str, email: str) -> None:
+        with self._conn() as conn:
+            conn.execute(
+                "UPDATE users SET email = ?, updated_at = ? WHERE user_id = ?",
+                (email.lower().strip(), _now(), user_id),
+            )
