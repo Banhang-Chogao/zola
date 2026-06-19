@@ -803,20 +803,6 @@
                         </ul>
                     </section>
 
-                    {# CATEGORIES #}
-                    <section class="sidebar-block sidebar-block--categories">
-                        <h3 class="sidebar-label">DANH MỤC</h3>
-                        <ul class="cat-list">
-                            {% set cats = get_taxonomy(kind="categories") %}
-                            {% for c in cats.items %}
-                                <li class="cat-list__item">
-                                    <a class="cat-list__link" href="{{ c.permalink }}">{{ c.name }}</a>
-                                    <span class="cat-list__count">{{ c.pages | length }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </section>
-
                     {# TAGS — text-only, gọn nhẹ; hover xem số bài (title) #}
                     <section class="sidebar-block">
                         <h3 class="sidebar-label">TAGS</h3>
@@ -1184,6 +1170,25 @@
                 </a>
             </div>
         </div>
+
+        {# CATEGORIES — compact footer navigation (moved from sidebar) #}
+        <nav class="footer-categories" aria-label="Danh mục bài viết">
+            <div class="container">
+                <h3 class="footer-categories__title">Danh mục</h3>
+                <ul class="footer-categories__grid">
+                    {% for c in qa_cats.items %}
+                        {% if c.name != "Tất cả" %}
+                        <li class="footer-categories__item">
+                            <a class="footer-categories__link" href="{{ c.permalink }}">
+                                <span class="footer-categories__name">{{ c.name }}</span>
+                                <span class="footer-categories__count" aria-label="{{ c.pages | length }} bài viết">{{ c.pages | length }}</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
     </footer>
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>

@@ -119,20 +119,6 @@
     &__date { color: var(--c-text-muted); }
   }
 
-  .cat-list {
-    li {
-      color: var(--c-text-body);
-      border-bottom-color: var(--c-border);
-
-      a:hover { color: var(--c-accent); }
-    }
-
-    &__count {
-      color: var(--c-text-muted);
-      background: var(--c-bg-soft);
-    }
-  }
-
   /* ===== 5. RELATED ARTICLES (cuối mỗi post) ===== */
   .related-articles__title {
     color: var(--c-text-heading);
