@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T19:16:40Z",
+  "updated_at": "2026-06-19T23:53:36Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,34 +15,34 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 15 weak related pairs",
+      "detail": "0 broken links · 14 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-19T18:42:45Z"
+      "updated_at": "2026-06-19T23:28:08Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 49/100 · LCP 6.9 s · needs work",
+      "detail": "Mobile 55/100 · LCP 7.4 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-19T00:37:12+00:00"
+      "updated_at": "2026-06-19T19:17:49+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 739/740 pages",
+      "detail": "15 pages missing FAQ/schema · 779/780 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-19T18:42:45Z"
+      "updated_at": "2026-06-19T23:28:08Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: Feat/super admin session clean",
+      "detail": "Latest: gỡ VIPZone/subscription · công cụ miễn phí · nav sidebar ph…",
       "source": "changelog.json",
       "updated_at": "2026-06-19"
     },
@@ -51,9 +51,9 @@
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "868 links OK · IndexNow on publish",
+      "detail": "909 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-19T14:02:56Z"
+      "updated_at": "2026-06-19T22:58:09Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-19T18:42:45Z"
+      "updated_at": "2026-06-19T23:28:08Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 49/100 vs desktop 96/100 (Δ47) · 739/740 ready",
+      "detail": "Mobile 55/100 vs desktop 96/100 (Δ41) · 779/780 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-19T00:37:12+00:00"
+      "updated_at": "2026-06-19T19:17:49+00:00"
     }
   ],
   "summary": {
