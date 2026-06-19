@@ -23,6 +23,7 @@
   &__menu {
     display: flex;
     gap: 0.25rem;
+    flex-shrink: 0;
 
     li { display: flex; }
 

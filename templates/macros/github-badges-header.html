@@ -1,0 +1,66 @@
+{# GitHub Profile Badges — navbar Badge Zone (same source as /insights/) #}
+{% macro zone() %}
+{% set badge_data = load_data(path="data/github-profile-badges.json", required=false) %}
+{% if badge_data %}
+{% set badge_list = badge_data.badges | default(value=[]) %}
+{% else %}
+{% set badge_list = [] %}
+{% endif %}
+{% if badge_list | length > 0 %}
+{% set insights_badges_url = config.base_url ~ "/insights/#github-profile-badges" %}
+<aside class="navbar__badges-zone" data-navbar-badges aria-label="GitHub Profile Badges">
+    <div class="navbar__badges-inline" role="list" aria-label="GitHub badges">
+        {% for badge in badge_list %}
+        <span class="navbar__badge-pill" role="listitem"
+              data-badge-id="{{ badge.id }}"
+              data-badge-title="{{ badge.title }}"
+              data-badge-desc="{{ badge.description | default(value='') }}">
+            <span class="navbar__badge-icon" aria-hidden="true">{{ badge.icon | default(value="🏅") }}</span>
+            <span class="navbar__badge-name">{{ badge.title }}</span>
+            <span class="navbar__badge-tip" role="tooltip">
+                <span class="navbar__badge-tip-title">{{ badge.title }}</span>
+                {% if badge.description %}
+                <span class="navbar__badge-tip-desc">"{{ badge.description }}"</span>
+                {% endif %}
+            </span>
+        </span>
+        {% endfor %}
+        <span class="navbar__badge-pill navbar__badge-pill--more" role="listitem" data-badge-more hidden>
+            <span class="navbar__badge-more-text"></span>
+        </span>
+        <span class="navbar__badge-pill navbar__badge-pill--compact" role="listitem" data-badge-compact hidden>
+            <span class="navbar__badge-icon" aria-hidden="true">🏅</span>
+            <span class="navbar__badge-name">GitHub Badges</span>
+            <span class="navbar__badge-more-text" data-badge-compact-count></span>
+        </span>
+    </div>
+
+    <button class="navbar__badges-mobile" type="button"
+            aria-label="GitHub Profile Badges" aria-expanded="false"
+            aria-haspopup="true" data-badges-trigger hidden>
+        <span class="navbar__badges-mobile-label" data-badges-mobile-label>🏅 Badges</span>
+        <span class="navbar__badges-mobile-count" data-badges-mobile-count hidden></span>
+        <svg class="navbar__badges-chevron" width="10" height="10" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </button>
+
+    <div class="navbar__badges-dropdown" data-badges-dropdown hidden>
+        <ul class="navbar__badges-dropdown-list" role="menu">
+            {% for badge in badge_list %}
+            <li role="none">
+                <span class="navbar__badges-dropdown-item" role="menuitem"
+                      title="{{ badge.description | default(value='') }}">
+                    <span class="navbar__badge-icon" aria-hidden="true">{{ badge.icon | default(value="🏅") }}</span>
+                    <span class="navbar__badge-name">{{ badge.title }}</span>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+        <a class="navbar__badges-view-all" href="{{ insights_badges_url }}">Xem tất cả →</a>
+    </div>
+</aside>
+{% endif %}
+{% endmacro %}

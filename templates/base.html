@@ -5,6 +5,7 @@
 {% import "macros/img.html" as img %}
 {% import "macros/footer-countdown.html" as footer_countdown %}
 {% import "macros/datetime.html" as dt %}
+{% import "macros/github-badges-header.html" as gh_badges_header %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
    - CI build: có ZOLA_GH_TOKEN → 5000 req/h, đủ vô tận.
@@ -623,6 +624,7 @@
                     {% endif %}
                 {% endfor %}
             </ul>
+            {{ gh_badges_header::zone() }}
             {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
                Hilda (set bởi inline script ở <head>). #}
             <div class="navbar__actions">
@@ -1242,6 +1244,7 @@
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/navbar-badges.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/cache-clear.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-switcher.js') }}?v={{ asset_version }}" defer></script>
