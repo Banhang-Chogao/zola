@@ -368,26 +368,8 @@
   }
 }
 
-/* ===== TAG CLOUD (sidebar) — text-only, gọn hết mức, theme-aware =====
-   Danh sách thẻ dạng chữ thuần (không badge/khung màu), wrap nhiều dòng,
-   font nhỏ hài hoà với sidebar. Hover đổi sang màu accent. Số bài đặt ở
-   thuộc tính title (hiện khi rê chuột) để giữ giao diện tối giản. */
-.tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem 0.55rem;
-  line-height: 1.45;
-
-  &__item {
-    font-size: 0.78rem;
-    color: var(--c-text-muted);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color .15s ease;
-
-    &:hover { color: var(--c-accent); }
-  }
-}
+/* TAG CLOUD đã chuyển XUỐNG FOOTER (.footer-tags trong _footer-tags.scss) —
+   thẻ là điều hướng phụ trợ, không còn ở sidebar. */
 
 /* ----- Rank overlay (số xếp hạng mờ trên thumbnail) ----- */
 

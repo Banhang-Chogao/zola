@@ -816,16 +816,8 @@
                         </ul>
                     </section>
 
-                    {# TAGS — text-only, gọn nhẹ; hover xem số bài (title) #}
-                    <section class="sidebar-block">
-                        <h3 class="sidebar-label">TAGS</h3>
-                        {% set sb_tags = get_taxonomy(kind="tags") %}
-                        <div class="tag-cloud">
-                            {% for t in sb_tags.items %}
-                                <a class="tag-cloud__item" href="{{ t.permalink }}" title="{{ t.pages | length }} bài viết">#{{ t.name }}</a>
-                            {% endfor %}
-                        </div>
-                    </section>
+                    {# TAGS đã chuyển XUỐNG FOOTER (metadata phụ trợ, không phải
+                       nội dung chính) — xem block ".footer-tags" trong <footer>. #}
 
                     {{ google_rank::widget() }}
                 </aside>
@@ -834,8 +826,8 @@
     </main>
 
     <footer class="site-footer">
-        {# Tag cloud đã chuyển sang RIGHT SIDEBAR (text-only) — xem block
-           "TAGS" trong {% block sidebar %} phía trên. #}
+        {# Tag cloud nằm Ở FOOTER (metadata phụ trợ) — xem block ".footer-tags"
+           ngay trước .site-footer__main, sau countdown. #}
 
         {# ===== QA DASHBOARD =====
            6 card metrics QA real-time (build-time snapshot). Tự gia giảm
@@ -1137,6 +1129,56 @@
         </div>
 
         {{ footer_countdown::render() }}
+
+        {# ===== FOOTER TAGS =====
+           Tag cloud chuyển từ sidebar xuống footer: thẻ là điều hướng phụ trợ,
+           KHÔNG phải nội dung chính. Sắp theo số bài giảm dần (page_count) →
+           hiện top N (server-rendered, không CLS); phần còn lại trong <details>
+           "Xem thêm". Footer rộng-ngang nên tag cloud dày NGANG + thấp, calm
+           enterprise (pills nhỏ, viền mềm, nền dịu, đếm số phụ). #}
+        {% set footer_tags_taxo = get_taxonomy(kind="tags") %}
+        {% set footer_tags_total = footer_tags_taxo.items | length %}
+        {% if footer_tags_total > 0 %}
+        {% set footer_tags_sorted = footer_tags_taxo.items | sort(attribute="page_count") | reverse %}
+        {% set footer_tags_initial = 60 %}
+        <section class="footer-tags" aria-labelledby="footer-tags-title">
+            <div class="container">
+                <div class="footer-tags__head">
+                    <h3 class="footer-tags__title" id="footer-tags-title">Thẻ phổ biến</h3>
+                    <span class="footer-tags__meta">{{ footer_tags_total }} thẻ phân loại bài viết</span>
+                </div>
+                <div class="footer-tags__cloud">
+                    {% for t in footer_tags_sorted | slice(end=footer_tags_initial) %}
+                    <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
+                        <span class="footer-tags__name">#{{ t.name }}</span>
+                        <span class="footer-tags__count">{{ t.page_count }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% if footer_tags_total > footer_tags_initial %}
+                <details class="footer-tags__more">
+                    <summary class="footer-tags__toggle">
+                        <span class="footer-tags__toggle-more">Xem thêm {{ footer_tags_total - footer_tags_initial }} thẻ</span>
+                        <span class="footer-tags__toggle-less">Thu gọn</span>
+                        <svg class="footer-tags__toggle-chevron" viewBox="0 0 24 24" width="14" height="14"
+                             fill="none" stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </summary>
+                    <div class="footer-tags__cloud footer-tags__cloud--extra">
+                        {% for t in footer_tags_sorted | slice(start=footer_tags_initial) %}
+                        <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
+                            <span class="footer-tags__name">#{{ t.name }}</span>
+                            <span class="footer-tags__count">{{ t.page_count }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </details>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
 
         <div class="container site-footer__main">
             <div class="site-footer__left">

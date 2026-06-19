@@ -249,8 +249,8 @@
 
   /* ===== 10. FOOTER QA DASHBOARD =====
      QA band nền trắng #fff cố định (không đảo theo dark-mode) → chữ tối
-     để luôn đọc rõ ở cả light & dark. (Tag cloud cũ đã chuyển sang
-     sidebar text-only — xem .tag-cloud trong _sidebar.scss.) */
+     để luôn đọc rõ ở cả light & dark. (Tag cloud nằm ở footer —
+     xem .footer-tags trong _footer-tags.scss.) */
   .footer-qa__title {
     color: #111;                   /* tối trên QA band trắng */
     letter-spacing: $heading-ls;

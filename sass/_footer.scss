@@ -188,10 +188,11 @@
 }
 
 /* ============================================================
-   ===== TAG CLOUD đã chuyển sang RIGHT SIDEBAR (text-only) =====
+   ===== TAG CLOUD nằm Ở FOOTER (.footer-tags) =====
    ============================================================
-   Style cũ (.tag-grid / .tag-card / .footer-tags-section) đã gỡ vì
-   không còn dùng. Tag cloud mới = .tag-cloud trong _sidebar.scss. */
+   Style cũ (.tag-grid / .tag-card / .footer-tags-section) đã gỡ. Tag cloud
+   hiện tại = .footer-tags trong _footer-tags.scss (pills nhỏ, sắp theo số bài,
+   top N + <details> mở rộng) — nằm ngay trước .site-footer__main. */
 
 /* ============================================================
    ===== QA DASHBOARD — DESKTOP (global) =====
