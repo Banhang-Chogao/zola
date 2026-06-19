@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "docs(claude): luật mới — code xong + mở PR là hết nhiệm vụ, không canh PR",
+      "tag": "chore",
+      "lines_added": 12,
+      "lines_removed": 8,
+      "highlights": [
+        "Code xong → commit → mở PR (kích hoạt auto-merge) = HẾT NHIỆM VỤ.",
+        "Pipeline ZERO_BARRIER tự lo: qa-check xanh → auto-merge.yml → deploy.yml production.",
+        "KHÔNG subscribe_pr_activity, KHÔNG canh CI tới merge, KHÔNG send_later self check-in, KHÔNG babysit/poll PR.",
+        "Ngoại lệ: chỉ subscribe/autofix khi user chủ động yêu cầu (\"canh PR\", \"babysit\", \"autofix CI\"); dừng khi user bảo dừng hoặc PR đã MERGED/CLOSED."
+      ],
+      "pr": 477
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(gsc): S-DNA connect UI cho Google Search Console sidebar",
       "tag": "chore",
       "lines_added": 560,
