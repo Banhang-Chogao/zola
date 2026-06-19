@@ -598,128 +598,52 @@
         </div>
     </header>
 
-    {# Sticky navbar — mobile burger menu pattern (Momo-style).
-       Trên desktop hiển thị tất cả menu items inline. Trên mobile,
-       collapse vào burger, JS toggles .is-open để slide-down panel. #}
-    <nav class="navbar" id="navbar">
-        {# Trang trí: bảng chữ cái trắng mờ rải rác (font FreightSans Pro kiểu
-           Starbucks) trên nền gradient xanh. aria-hidden + pointer-events:none
-           → thuần trang trí, không ảnh hưởng menu/dropdown. #}
-        <div class="navbar__letters" aria-hidden="true">
-            <span style="left:0.2%;top:15.0px;transform:rotate(36.0deg);font-size:1.01rem;opacity:0.119;font-weight:700">J</span>
-            <span style="left:3.1%;top:26.0px;transform:rotate(5.0deg);font-size:1.71rem;opacity:0.105;font-weight:500">F</span>
-            <span style="left:6.9%;top:34.0px;transform:rotate(-10.0deg);font-size:1.69rem;opacity:0.055;font-weight:500">W</span>
-            <span style="left:10.3%;top:23.0px;transform:rotate(2.0deg);font-size:2.0rem;opacity:0.087;font-weight:700">I</span>
-            <span style="left:12.9%;top:2.0px;transform:rotate(-24.0deg);font-size:2.0rem;opacity:0.057;font-weight:700">H</span>
-            <span style="left:16.7%;top:54.0px;transform:rotate(17.0deg);font-size:1.34rem;opacity:0.128;font-weight:500">Y</span>
-            <span style="left:20.0%;top:-4.0px;transform:rotate(-12.0deg);font-size:2.21rem;opacity:0.084;font-weight:500">O</span>
-            <span style="left:24.1%;top:29.0px;transform:rotate(29.0deg);font-size:1.37rem;opacity:0.106;font-weight:700">T</span>
-            <span style="left:26.9%;top:19.0px;transform:rotate(26.0deg);font-size:2.23rem;opacity:0.088;font-weight:500">Z</span>
-            <span style="left:28.8%;top:40.0px;transform:rotate(11.0deg);font-size:2.29rem;opacity:0.116;font-weight:700">S</span>
-            <span style="left:33.9%;top:55.0px;transform:rotate(-12.0deg);font-size:2.22rem;opacity:0.078;font-weight:500">N</span>
-            <span style="left:36.6%;top:-0.0px;transform:rotate(-16.0deg);font-size:1.95rem;opacity:0.082;font-weight:700">X</span>
-            <span style="left:38.8%;top:19.0px;transform:rotate(4.0deg);font-size:2.14rem;opacity:0.116;font-weight:700">P</span>
-            <span style="left:43.9%;top:63.0px;transform:rotate(14.0deg);font-size:1.46rem;opacity:0.068;font-weight:500">Q</span>
-            <span style="left:45.8%;top:1.0px;transform:rotate(-20.0deg);font-size:1.6rem;opacity:0.097;font-weight:700">A</span>
-            <span style="left:49.4%;top:-6.0px;transform:rotate(3.0deg);font-size:1.77rem;opacity:0.075;font-weight:500">G</span>
-            <span style="left:53.9%;top:24.0px;transform:rotate(9.0deg);font-size:1.86rem;opacity:0.054;font-weight:700">V</span>
-            <span style="left:56.4%;top:14.0px;transform:rotate(-1.0deg);font-size:1.49rem;opacity:0.065;font-weight:500">L</span>
-            <span style="left:59.8%;top:-9.0px;transform:rotate(8.0deg);font-size:1.09rem;opacity:0.095;font-weight:500">D</span>
-            <span style="left:64.6%;top:32.0px;transform:rotate(-33.0deg);font-size:1.23rem;opacity:0.08;font-weight:700">R</span>
-            <span style="left:67.9%;top:31.0px;transform:rotate(-2.0deg);font-size:1.11rem;opacity:0.089;font-weight:700">C</span>
-            <span style="left:69.9%;top:8.0px;transform:rotate(-27.0deg);font-size:1.96rem;opacity:0.109;font-weight:700">B</span>
-            <span style="left:74.3%;top:-5.0px;transform:rotate(-36.0deg);font-size:2.23rem;opacity:0.092;font-weight:500">U</span>
-            <span style="left:77.2%;top:57.0px;transform:rotate(20.0deg);font-size:1.35rem;opacity:0.101;font-weight:500">M</span>
-            <span style="left:80.5%;top:3.0px;transform:rotate(-10.0deg);font-size:1.18rem;opacity:0.112;font-weight:700">E</span>
-            <span style="left:83.7%;top:32.0px;transform:rotate(22.0deg);font-size:1.97rem;opacity:0.066;font-weight:500">K</span>
-            <span style="left:87.6%;top:43.0px;transform:rotate(-21.0deg);font-size:1.65rem;opacity:0.078;font-weight:500">J</span>
-            <span style="left:91.4%;top:47.0px;transform:rotate(-2.0deg);font-size:1.21rem;opacity:0.098;font-weight:700">F</span>
-            <span style="left:93.2%;top:59.0px;transform:rotate(37.0deg);font-size:2.24rem;opacity:0.079;font-weight:500">W</span>
-            <span style="left:95.6%;top:21.0px;transform:rotate(-12.0deg);font-size:1.6rem;opacity:0.129;font-weight:500">I</span>
-        </div>
-        <div class="navbar__inner">
-            {# Burger button — chỉ visible trên mobile via CSS #}
-            <button class="navbar__burger" aria-label="Mở menu" aria-expanded="false"
-                    aria-controls="navbar-menu" data-burger>
-                <span class="navbar__burger-line"></span>
-                <span class="navbar__burger-line"></span>
-                <span class="navbar__burger-line"></span>
-            </button>
+    {# ===== Primary navigation =====
+       Top navbar đã GỠ. Điều hướng chính sống ở .side-nav (đầu cột phải, desktop —
+       trên các widget) và .nav-drawer (mobile/tablet ≤960px, và desktop full-width
+       pages không có sidebar). Nút hamburger fixed top-right; CSS quyết định khi hiện. #}
+    <button class="nav-toggle" type="button" aria-label="Mở điều hướng"
+            aria-expanded="false" aria-controls="nav-drawer" data-nav-toggle>
+        <span class="nav-toggle__box" aria-hidden="true">
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+        </span>
+    </button>
 
-            <ul class="navbar__menu" id="navbar-menu">
-                {% for item in config.extra.menu %}
-                    {% set parent_index = loop.index %}
-                    {% if item.children %}
-                        {# Category có sub-category → dropdown xổ xuống. Trigger là
-                           <button> (toggle), trang đại diện nằm ở child đầu tiên. #}
-                        <li class="navbar__item navbar__item--has-children" data-nav-dropdown>
-                            <button type="button" class="navbar__dropdown-trigger"
-                                    aria-haspopup="true" aria-expanded="false">
-                                <span class="navbar__dropdown-label">{{ item.name }}</span>
-                                <svg class="navbar__chevron" width="12" height="12" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2.5"
-                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </button>
-                            <ul class="navbar__submenu" role="menu">
-                                {% for child in item.children %}
-                                    {% if child.children %}
-                                        {# Nhóm con (accordion): Content / Dashboard / Khác.
-                                           <button> trigger xổ/đóng panel chứa link tool con →
-                                           tầng 1 chỉ hiện tên nhóm, không tràn màn hình. #}
-                                        {% set group_id = "nav-acc-" ~ parent_index ~ "-" ~ loop.index %}
-                                        <li class="navbar__group" role="none" data-nav-accordion>
-                                            <button type="button" class="navbar__group-trigger" role="menuitem"
-                                                    aria-haspopup="true" aria-expanded="false" aria-controls="{{ group_id }}">
-                                                <span class="navbar__group-label">{{ child.name }}</span>
-                                                <svg class="navbar__group-chevron" width="12" height="12" viewBox="0 0 24 24"
-                                                     fill="none" stroke="currentColor" stroke-width="2.5"
-                                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                                </svg>
-                                            </button>
-                                            <div class="navbar__group-panel">
-                                                <ul class="navbar__group-items" id="{{ group_id }}" role="menu">
-                                                    {% for leaf in child.children %}
-                                                        <li role="none"><a role="menuitem" href="{{ leaf.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ leaf.name }}</a></li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    {% else %}
-                                        <li role="none"><a role="menuitem" href="{{ child.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ child.name }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    {% else %}
-                        {# Link đơn (không có children) — giữ nguyên hành vi cũ. #}
-                        <li class="navbar__item"><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-            {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
-               Hilda (set bởi inline script ở <head>). #}
-            <div class="navbar__actions">
-                <button class="navbar__cache" type="button" aria-label="Xoá cache blog" title="Xoá cache trình duyệt của blog trên thiết bị này" data-clear-cache>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <polyline points="1 4 1 10 7 10"></polyline>
-                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                    </svg>
-                    <span data-clear-cache-label>Xoá cache</span>
-                </button>
-                <button class="navbar__search" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" data-search-open>
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="7"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    <div class="nav-drawer" id="nav-drawer" data-nav-drawer hidden>
+        <div class="nav-drawer__backdrop" data-nav-close></div>
+        <nav class="nav-drawer__panel" aria-label="Điều hướng chính">
+            <div class="nav-drawer__head">
+                <span class="nav-drawer__brand">{{ config.title }}</span>
+                <button class="nav-drawer__close" type="button" aria-label="Đóng điều hướng" data-nav-close>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 </button>
             </div>
-        </div>
-        {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
-        <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
-    </nav>
+            <ul class="nav-drawer__list">
+                {% for item in config.extra.menu %}
+                <li><a class="nav-drawer__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <div class="nav-drawer__actions">
+                <button class="nav-action" type="button" data-search-open>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    Tìm kiếm
+                </button>
+                <button class="nav-action" type="button" data-clear-cache>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                    <span data-clear-cache-label>Xoá cache</span>
+                </button>
+            </div>
+        </nav>
+    </div>
 
     <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
         <div class="site-search__backdrop" data-search-close></div>
@@ -814,6 +738,31 @@
                 </script>
 
                 <aside class="sidebar">
+                    {# ===== PRIMARY NAV (desktop) — khối sticky đầu cột phải, TRÊN
+                       các widget (lựa chọn "nav on top of widgets"). Mobile ≤960px
+                       ẩn → dùng .nav-drawer (hamburger). Active state set bởi side-nav.js. #}
+                    <nav class="side-nav" aria-label="Điều hướng chính">
+                        <ul class="side-nav__list">
+                            {% for item in config.extra.menu %}
+                            <li><a class="side-nav__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <div class="side-nav__actions">
+                            <button class="nav-action" type="button" data-search-open>
+                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                Tìm kiếm
+                            </button>
+                            <button class="nav-action" type="button" data-clear-cache>
+                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                                </svg>
+                                <span data-clear-cache-label>Xoá cache</span>
+                            </button>
+                        </div>
+                    </nav>
+
                     {# ===== PREMIUM POSTS — S-DNA CTA widget (ngay TRÊN Featured) =====
                        Liệt kê tối đa 10 bài premium (category "premium" HOẶC extra.premium),
                        random reshuffle mỗi lần load qua sidebar.js (no-duplicate). Server render
@@ -849,10 +798,6 @@
                         </ul>
                     </section>
                     {% endif %}
-
-                    <section class="sidebar-block vipzone-stat" data-widget="vipzone-stat">
-                        <p class="vipzone-stat__text">Đã có <strong data-vipzone-count>0</strong> người kích hoạt VIP để ủng hộ những nội dung giá trị!</p>
-                    </section>
 
                     {# FEATURED: manual extra.featured=true thắng auto-pick. CMS publish
                        sẽ demote các bài featured cũ để chỉ còn đúng một override thủ công. #}
@@ -1377,14 +1322,12 @@
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/side-nav.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/cache-clear.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-switcher.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/vipzone.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/print-watermark.js') }}?v={{ asset_version }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>

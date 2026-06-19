@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Vụ Mùa | {{ config.title }}{% endblock %}
+
+{% block main %}
+<div id="vm-app" class="vu-mua">
+
+    <header class="vm-head">
+        <div class="vm-head__row">
+            <h1 class="vm-head__title">🌾 Vụ Mùa</h1>
+            <span class="vm-head__badge">Phân tích bán hàng mùa vụ</span>
+            <span class="vm-head__ephemeral">Dữ liệu lưu cục bộ trên trình duyệt</span>
+        </div>
+        <p class="vm-head__desc">
+            Nhập từng giao dịch bán nông sản → xem ngay <strong>doanh thu</strong>,
+            <strong>mùa vụ</strong>, <strong>nhu cầu mặt hàng</strong>,
+            <strong>hành vi người mua</strong> và <strong>hiệu suất giá</strong>.
+            Không upload lên server, hoàn toàn miễn phí.
+        </p>
+    </header>
+
+    <div class="vm-toolbar">
+        <button class="vm-btn vm-btn--ghost" type="button" data-vm-action="sample">Nạp dữ liệu mẫu</button>
+        <span class="vm-toolbar__spacer"></span>
+        <button class="vm-btn vm-btn--ghost" type="button" data-vm-action="export-json">Xuất JSON</button>
+        <button class="vm-btn vm-btn--ghost" type="button" data-vm-action="export-csv">Xuất CSV</button>
+        <button class="vm-btn vm-btn--danger" type="button" data-vm-action="clear">Xoá tất cả</button>
+    </div>
+
+    <section class="vm-card vm-entry">
+        <h2 class="vm-card__title">Nhập giao dịch</h2>
+        <form class="vm-form" data-vm-form novalidate>
+            <label class="vm-field vm-field--wide">
+                <span>Tên hàng hoá</span>
+                <input type="text" name="name" required placeholder="Vd: Gạo ST25" autocomplete="off">
+            </label>
+            <label class="vm-field">
+                <span>Số lượng</span>
+                <input type="number" name="qty" min="0" step="any" required placeholder="0" inputmode="decimal">
+            </label>
+            <label class="vm-field">
+                <span>Loại</span>
+                <input type="text" name="type" placeholder="Vd: Gạo" autocomplete="off">
+            </label>
+            <label class="vm-field">
+                <span>Đơn giá (đ)</span>
+                <input type="number" name="unitPrice" min="0" step="any" required placeholder="0" inputmode="decimal">
+            </label>
+            <label class="vm-field">
+                <span>Thành tiền (đ)</span>
+                <input type="number" name="amount" min="0" step="any" placeholder="tự tính" inputmode="decimal" data-vm-amount>
+            </label>
+            <label class="vm-field">
+                <span>Người mua</span>
+                <input type="text" name="buyer" placeholder="Vd: Cô Lan" autocomplete="off">
+            </label>
+            <label class="vm-field">
+                <span>Ngày mua</span>
+                <input type="date" name="date" required>
+            </label>
+            <div class="vm-form__actions">
+                <button type="submit" class="vm-btn vm-btn--primary">Thêm giao dịch</button>
+            </div>
+        </form>
+
+        {# PDF upload placeholder — chưa hoạt động (sắp có OCR trên trình duyệt) #}
+        <div class="vm-pdf" data-vm-pdf aria-disabled="true">
+            <span class="vm-pdf__icon" aria-hidden="true">📄</span>
+            <div class="vm-pdf__text">
+                <strong>Tải hoá đơn PDF</strong>
+                <span class="vm-pdf__hint">Sắp có — tự động đọc giao dịch từ file PDF (OCR ngay trên trình duyệt).</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="vm-card">
+        <div class="vm-card__head">
+            <h2 class="vm-card__title">Danh sách giao dịch</h2>
+            <span class="vm-count" data-vm-count>0 giao dịch</span>
+        </div>
+        <div class="vm-table-wrap">
+            <table class="vm-table">
+                <thead>
+                    <tr>
+                        <th>Tên hàng hoá</th>
+                        <th class="vm-num">SL</th>
+                        <th>Loại</th>
+                        <th class="vm-num">Đơn giá</th>
+                        <th class="vm-num">Thành tiền</th>
+                        <th>Người mua</th>
+                        <th>Ngày mua</th>
+                        <th aria-label="Thao tác"></th>
+                    </tr>
+                </thead>
+                <tbody data-vm-tbody>
+                    <tr><td colspan="8" class="vm-table__empty">Chưa có giao dịch — nhập ở trên hoặc nạp dữ liệu mẫu.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="vm-insights" data-vm-insights hidden>
+        <h2 class="vm-section-title">Phân tích vụ mùa</h2>
+
+        <div class="vm-kpi-grid" data-vm-kpis></div>
+
+        <div class="vm-chart-grid">
+            <article class="vm-card vm-chart">
+                <h3 class="vm-chart__title">Doanh thu theo mùa vụ (tháng)</h3>
+                <div class="vm-chart__body" data-vm-chart="seasonal"></div>
+                <p class="vm-chart__cap" data-vm-cap="seasonal"></p>
+            </article>
+            <article class="vm-card vm-chart">
+                <h3 class="vm-chart__title">Xu hướng doanh thu</h3>
+                <div class="vm-chart__body" data-vm-chart="trend"></div>
+                <p class="vm-chart__cap" data-vm-cap="trend"></p>
+            </article>
+            <article class="vm-card vm-chart">
+                <h3 class="vm-chart__title">Nhu cầu mặt hàng (top)</h3>
+                <div class="vm-chart__body" data-vm-chart="demand"></div>
+                <p class="vm-chart__cap" data-vm-cap="demand"></p>
+            </article>
+            <article class="vm-card vm-chart">
+                <h3 class="vm-chart__title">Hành vi người mua (top)</h3>
+                <div class="vm-chart__body" data-vm-chart="buyers"></div>
+                <p class="vm-chart__cap" data-vm-cap="buyers"></p>
+            </article>
+            <article class="vm-card vm-chart vm-chart--wide">
+                <h3 class="vm-chart__title">Hiệu suất giá — đơn giá trung bình theo loại</h3>
+                <div class="vm-chart__body" data-vm-chart="price"></div>
+                <p class="vm-chart__cap" data-vm-cap="price"></p>
+            </article>
+        </div>
+
+        {# Hook mở rộng AI insights tương lai — data-vm-ai rỗng, app.js có thể bơm vào #}
+        <div class="vm-ai" data-vm-ai hidden></div>
+    </section>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ get_url(path='js/vu-mua/app.js') }}?v={{ asset_version }}" defer></script>
+{% endblock %}

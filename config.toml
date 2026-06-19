@@ -57,29 +57,16 @@ phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã g
 chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 """
 
-# Menu navigation — CẤU TRÚC 2 TẦNG: Category → Sub-category (dropdown).
-# 3 nhóm chính (Bài viết · Công cụ · Giới thiệu); mỗi nhóm có 'children'
-# xổ xuống chứa các mục con → KHÔNG mục nào bị ẩn, tất cả truy cập được.
-# Item KHÔNG có 'children' = link đơn bình thường (tương thích ngược).
-# Thêm/bớt mục = sửa mảng 'children' tương ứng (giữ pattern url + name).
+# Menu navigation — điều hướng chính. Top navbar ĐÃ GỠ → menu render ở
+# .side-nav (desktop: khối sticky ĐẦU cột phải, trên các widget) và .nav-drawer
+# (mobile/tablet ≤960px: hamburger → drawer trượt từ phải). Danh sách PHẲNG,
+# không dropdown. Liên kết About/legal nằm ở footer. Thêm/bớt = sửa mảng này.
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },
-    # Content — gộp "Bài viết" + "Công cụ" cũ vào 1 mục. Trang chính (/content)
-    # render mọi chuyên mục bài viết + công cụ thành khối màu S-DNA; "MS" =
-    # Content Creator (đang xây dựng). Toàn bộ category/tool nay sống ở /content.
-    { name = "Content", url = "$BASE_URL/content", children = [
-        { url = "$BASE_URL/content", name = "Main content" },
-        { url = "$BASE_URL/tools/content-creator", name = "MS" },
-    ] },
-    { name = "VIPZone", url = "$BASE_URL/tools/vipzone" },
-    { name = "Giới thiệu", url = "$BASE_URL/about", children = [
-        { url = "$BASE_URL/about",            name = "Giới thiệu" },
-        { url = "$BASE_URL/contact",          name = "Liên hệ" },
-        { url = "$BASE_URL/privacy",          name = "Chính sách bảo mật" },
-        { url = "$BASE_URL/terms",            name = "Điều khoản & Miễn trừ" },
-        { url = "$BASE_URL/copyright",        name = "Tuyên bố bản quyền" },
-        { url = "$BASE_URL/bao-cao-tong-ket", name = "Báo cáo tổng kết" },
-    ] },
+    { name = "Insights", url = "$BASE_URL/insights" },
+    { name = "Công cụ", url = "$BASE_URL/tools" },
+    { name = "Bài viết", url = "$BASE_URL/posting" },
+    { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
 ]
 
 # ============= GOOGLE ANALYTICS 4 =============
@@ -122,12 +109,10 @@ paywall_api_url = "https://blog-paywall-api.onrender.com"
 # ShortenSEA API — short link CRUD, click tracking, approve codes.
 # Để trống = frontend dùng localStorage prototype (dev). Sau deploy Render, dán URL service.
 shortensea_api_url = "https://blog-shortensea-api.onrender.com"
-# VIPZone API — Render FastAPI (blog-vipzone-api)
+# Backend API trên Render (blog-vipzone-api) — DÙNG CHUNG cho OAuth/CMS auth +
+# Google Search Console live metrics (/gsc/*). KHÔNG còn membership/VIPZone/subscription.
+# seo-reality-gsc.js đọc meta zola-vipzone-api để lấy số liệu GSC; backend giữ nguyên.
 vipzone_api_url = "https://blog-vipzone-api.onrender.com"
-# VIPZone Admin (SUPER_ADMIN) trang quản trị. Để trống → fallback {base_url}/tools/vipzone-admin/.
-vipzone_admin_url = ""
-vipzone_momo_monthly = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA"
-vipzone_momo_semiannual = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
 # Premium paywall STRICT: true = bài premium chỉ hiển thị teaser + paywall box,

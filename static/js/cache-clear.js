@@ -1,13 +1,8 @@
 (function () {
-  var button = document.querySelector("[data-clear-cache]");
-  if (!button) return;
-
-  var label = button.querySelector("[data-clear-cache-label]");
-  var defaultLabel = label ? label.textContent : "Xoá cache";
-
-  function setLabel(text) {
-    if (label) label.textContent = text;
-  }
+  // Có thể có nhiều nút Xoá cache (side-nav desktop + nav-drawer mobile) →
+  // bind TẤT CẢ, không chỉ nút đầu tiên.
+  var buttons = document.querySelectorAll("[data-clear-cache]");
+  if (!buttons.length) return;
 
   function clearStorage() {
     // Giữ lại phiên đăng nhập super-admin/CMS để xoá cache KHÔNG bắt login GitHub lại.
@@ -58,20 +53,28 @@
     window.location.replace(url.toString());
   }
 
-  button.addEventListener("click", async function () {
-    button.disabled = true;
-    setLabel("Đang xoá...");
-    clearStorage();
-    await Promise.all([
-      clearCacheStorage(),
-      unregisterWorkers(),
-      clearIndexedDb()
-    ]);
-    setLabel("Đã xoá");
-    window.setTimeout(reloadFresh, 250);
-    window.setTimeout(function () {
-      button.disabled = false;
-      setLabel(defaultLabel);
-    }, 3000);
-  });
+  function setupButton(button) {
+    var label = button.querySelector("[data-clear-cache-label]");
+    var defaultLabel = label ? label.textContent : "Xoá cache";
+    function setLabel(text) { if (label) label.textContent = text; }
+
+    button.addEventListener("click", async function () {
+      button.disabled = true;
+      setLabel("Đang xoá...");
+      clearStorage();
+      await Promise.all([
+        clearCacheStorage(),
+        unregisterWorkers(),
+        clearIndexedDb()
+      ]);
+      setLabel("Đã xoá");
+      window.setTimeout(reloadFresh, 250);
+      window.setTimeout(function () {
+        button.disabled = false;
+        setLabel(defaultLabel);
+      }, 3000);
+    });
+  }
+
+  Array.prototype.forEach.call(buttons, setupButton);
 })();

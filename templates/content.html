@@ -17,31 +17,27 @@
             {% set cats = get_taxonomy(kind="categories") %}
             {% for term in cats.items %}
                 {% set ci = loop.index0 % 6 %}
-                {% set is_premium = term.name == "premium" %}
-                <a class="content-block content-block--{{ palette[ci] }}{% if is_premium %} content-block--locked{% endif %}"
-                   href="{{ term.permalink | safe }}"{% if is_premium %} data-gate="premium"{% endif %}>
+                <a class="content-block content-block--{{ palette[ci] }}"
+                   href="{{ term.permalink | safe }}">
                     <span class="content-block__count">{{ term.pages | length }}</span>
                     <span class="content-block__name">{{ term.name }}</span>
-                    {% if is_premium %}<span class="content-block__lock" aria-hidden="true">🔒</span>{% endif %}
                 </a>
             {% endfor %}
         </div>
     </section>
 
-    {# ===== Công cụ — mỗi tool = 1 khối; gate VIPZone fire khi điều hướng ===== #}
+    {# ===== Công cụ — mỗi tool = 1 khối; tất cả công cụ đều miễn phí ===== #}
     <section class="content-hub__section">
         <h2 class="content-hub__title">Công cụ</h2>
         <div class="content-grid">
             {% for t in page.extra.tools %}
                 {% set ci = loop.index0 % 6 %}
-                <a class="content-block content-block--{{ palette[ci] }}{% if t.vip %} content-block--locked{% endif %}"
-                   href="{{ get_url(path=t.path) | safe }}"{% if t.vip %} data-gate="vip"{% endif %}>
+                <a class="content-block content-block--{{ palette[ci] }}"
+                   href="{{ get_url(path=t.path) | safe }}">
                     <span class="content-block__name">{{ t.name }}</span>
-                    {% if t.vip %}<span class="content-block__lock" aria-hidden="true" data-vip-lock>🔒</span>{% endif %}
                 </a>
             {% endfor %}
         </div>
     </section>
 </div>
-<script src="{{ get_url(path='js/content-blocks.js') }}?v={{ asset_version }}" defer></script>
 {% endblock main %}

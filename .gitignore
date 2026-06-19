@@ -34,3 +34,6 @@ data/.paywall-content-backup.json
 # Generated pagination anchors (scripts/build_feed_pagination.py)
 content/feed-anchor-*.md
 content/posting/feed-anchor-*.md
+
+# Extracted Zola binary (CI/local build only — source is the .tar.gz)
+/zola
