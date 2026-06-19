@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/review-lpbank-so-2026/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-tags = ["lpbank số", "review lpbank", "ngân hàng số"]
+tags = ["lpbank số", "ngân hàng số", "review lpbank"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "review LPBank số 2026"

@@ -2,6 +2,54 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "fix(vipzone): stop overlay-gating premium articles (deployed paywall owns them)",
+      "tag": "fix",
+      "lines_added": 6,
+      "lines_removed": 10,
+      "highlights": [
+        "Khách non-VIP vào bài premium → overlay toàn màn hình \"Cần VIP\" + html.vz-gated .main-content { filter: blur(2px); pointer-events: none } → che mất paywall MoMo đang hoạt động (mất kênh kiếm tiền chín",
+        "Khách VIP vào bài premium → paywall-box bị ghi đè bằng placeholder TODO backend (\"nội dung premium đang đồng bộ\") → không đọc được, mà cũng mất luôn form unlock per-post.",
+        "static/js/vipzone.js",
+        "pathNeedsGate: bỏ nhánh data-vipzone-premium → VIPZone chỉ gate Công cụ, không phủ bài premium.",
+        "initGate: gỡ nhánh placeholder VIP-premium (dead TODO backend)."
+      ],
+      "pr": 507
+    },
+    {
+      "date": "2026-06-19",
+      "title": "VIPZone GitHub auth routing",
+      "tag": "fix",
+      "lines_added": 85,
+      "lines_removed": 108,
+      "highlights": [
+        "Route VIPZone/CMS GitHub auth through meta[name=\"vipzone-auth-api\"] only.",
+        "Point all login/auth fallbacks and docs/config references at https://blog-vipzone-api.onrender.com.",
+        "Remove old zola-visitor-api, blog-visitor-api, and zola-cms-auth references from runtime/auth paths.",
+        "rg -n \"zola-visitor-api|blog-visitor-api|zola-cms-auth|CMS_AUTH_URL|AUTH_API_URL\" -S . -> no matches.",
+        "Generated output in /tmp/zola-vipzone-build contains meta name=\"vipzone-auth-api\" content=\"https://blog-vipzone-api.onrender.com\" on sampled pages."
+      ],
+      "pr": 504
+    },
+    {
+      "date": "2026-06-19",
+      "title": "Chore/vipzone api url",
+      "tag": "chore",
+      "lines_added": 1157,
+      "lines_removed": 71,
+      "highlights": [],
+      "pr": 506
+    },
+    {
+      "date": "2026-06-19",
+      "title": "docs(shortcuts): add wip8 — read-only workspace tracker",
+      "tag": "chore",
+      "lines_added": 59,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 505
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(vipzone): Render backend API + picker catalog",
       "tag": "chore",
       "lines_added": 2299,
@@ -4415,7 +4463,7 @@
     },
     {
       "date": "2026-06-15",
-      "title": "meta zola-cms-auth-api không render khi cms_auth_url = \"\"",
+      "title": "meta vipzone-auth-api không render khi cms_auth_url = \"\"",
       "tag": "fix",
       "pr": 45,
       "lines_added": 83,

@@ -1,6 +1,6 @@
 /**
  * VIPZone — VIP gate, MoMo activation, session restore.
- * API: meta zola-vipzone-api. Fallback: localStorage prototype (TODO backend).
+ * API: meta zola-vipzone-api. Fallback: localStorage prototype when API unset (dev).
  */
 (function (global) {
   "use strict";
@@ -35,7 +35,10 @@
     return m && m.getAttribute("content") ? m.getAttribute("content").replace(/\/$/, "") : "";
   })();
 
-  var AUTH_API = API;
+  var AUTH_API = API || (function () {
+    var m = document.querySelector('meta[name="vipzone-auth-api"]');
+    return m && m.getAttribute("content") ? m.getAttribute("content").replace(/\/$/, "") : "https://blog-vipzone-api.onrender.com";
+  })();
 
   var BASE = (function () {
     var m = document.querySelector('meta[name="zola-base-url"]');
@@ -140,8 +143,10 @@
     for (var j = 0; j < TOOL_PREFIXES.length; j++) {
       if (p === TOOL_PREFIXES[j] || p.indexOf(TOOL_PREFIXES[j]) === 0) return true;
     }
-    return document.documentElement.getAttribute("data-vipzone-premium") === "true" ||
-      (document.body && document.body.getAttribute("data-vipzone-premium") === "true");
+    // Premium ARTICLES are served by the deployed per-post paywall (paywall.js).
+    // VIPZone gates TOOLS only — do not overlay premium articles or it would blur
+    // and hide the working paywall box.
+    return false;
   }
 
   function isUploadTool(p) {
@@ -199,12 +204,6 @@
     if (await isSuperuser()) return;
     if (isUploadTool(p)) { showGateOverlay("super"); return; }
     if (!isVipActive()) showGateOverlay("vip");
-    else if (document.documentElement.getAttribute("data-vipzone-premium") === "true") {
-      var box = document.getElementById("paywall-box");
-      if (box) {
-        box.innerHTML = '<p class="vipzone__gate-desc">VIPZone đã kích hoạt — nội dung premium đang đồng bộ (TODO backend).</p>';
-      }
-    }
   }
 
   async function apiFetch(path, opts) {

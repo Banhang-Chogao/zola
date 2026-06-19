@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/faq-schema-cluster-ngan-hang-ctr/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["faq schema", "seo", "ngân hàng", "json-ld"]
+tags = ["faq schema", "json-ld", "ngân hàng", "seo"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "FAQ Schema cluster ngân hàng"

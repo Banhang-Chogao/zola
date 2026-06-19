@@ -9,16 +9,11 @@
   "use strict";
 
   const SESSION_KEY = "zola-cms-session-id";
-  // Đọc URL backend qua nhiều fallback theo thứ tự:
-  //   1. <meta name="zola-cms-auth-api"> (chuẩn từ base.html)
-  //   2. <meta name="zola-visitor-api"> (reuse cùng service)
-  //   3. Hardcode URL production để FE work kể cả khi Tera build issue
+  // Đọc URL backend qua VIPZone meta, fallback production để FE work kể cả khi Tera build issue.
   const AUTH_API = (function () {
-    const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
+    const m1 = document.querySelector('meta[name="vipzone-auth-api"]');
     if (m1 && m1.getAttribute("content")) return m1.getAttribute("content");
-    const m2 = document.querySelector('meta[name="zola-visitor-api"]');
-    if (m2 && m2.getAttribute("content")) return m2.getAttribute("content");
-    return "https://blog-visitor-api.onrender.com";
+    return "https://blog-vipzone-api.onrender.com";
   })();
 
   const root = document.getElementById("admin-author-app");

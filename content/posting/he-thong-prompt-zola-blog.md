@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/he-thong-prompt-zola-blog/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["prompt engineering", "zola", "blog automation"]
+tags = ["blog automation", "prompt engineering", "zola"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "hệ thống prompt Zola"

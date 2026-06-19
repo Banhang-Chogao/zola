@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/gon-hada-ki-mareonida-tieng-han/"]
 [taxonomies]
 categories = ["Tất cả", "Học tiếng Hàn"]
-tags = ["곤 하다", "기 마련이다", "ngữ pháp tiếng hàn", "topik"]
+tags = ["ngữ pháp tiếng hàn", "topik", "곤 하다", "기 마련이다"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "곤 하다 기 마련이다"

@@ -155,6 +155,7 @@ def _health_payload() -> dict[str, Any]:
         "status": "ok",
         "blog_url": BLOG_URL,
         "cms_auth": BACKEND_URL,
+        "vipzone_auth": BACKEND_URL,
         "oauth_configured": bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
         "momo_configured": bool(MOMO_MONTHLY and MOMO_SEMIANNUAL),
     }

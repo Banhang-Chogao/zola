@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/10-vaccine-claude-md-giam-loi-production/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["claude.md", "vaccine", "ai coding"]
+tags = ["ai coding", "claude.md", "vaccine"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "10 vaccine CLAUDE.md"

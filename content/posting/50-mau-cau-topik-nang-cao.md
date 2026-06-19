@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/50-mau-cau-topik-nang-cao/"]
 [taxonomies]
 categories = ["Tất cả", "Học tiếng Hàn"]
-tags = ["mẫu câu tiếng hàn", "ôn thi topik", "topik ii"]
+tags = ["mẫu câu tiếng hàn", "topik ii", "ôn thi topik"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "50 mẫu câu tiếng hàn TOPIK"

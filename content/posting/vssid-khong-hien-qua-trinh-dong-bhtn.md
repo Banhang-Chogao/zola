@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/vssid-khong-hien-qua-trinh-dong-bhtn/"]
 [taxonomies]
 categories = ["Tất cả", "Bảo hiểm"]
-tags = ["bảo hiểm thất nghiệp", "tra cứu bảo hiểm thất nghiệp", "vssid", "bhtn"]
+tags = ["bhtn", "bảo hiểm thất nghiệp", "tra cứu bảo hiểm thất nghiệp", "vssid"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "bảo hiểm thất nghiệp VssID"

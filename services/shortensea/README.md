@@ -5,7 +5,7 @@ Backend lưu short link, tracking click, approve code. Frontend đã live tại
 
 ## ⚡ Nhanh nhất (~5 phút)
 
-Bạn **đã có** `blog-visitor-api` trên Render → chỉ cần thêm service mới từ blueprint.
+Bạn **đã có** `blog-vipzone-api` trên Render → chỉ cần thêm service mới từ blueprint.
 
 ### Bước 1: Sync Blueprint trên Render
 
@@ -35,8 +35,8 @@ Vào Render → **blog-shortensea-api** → **Environment**:
 | Key | Value |
 |-----|-------|
 | `SHORTENSEA_BACKEND_URL` | `https://blog-shortensea-api.onrender.com` |
-| `GH_CLIENT_ID` | Copy từ service `blog-visitor-api` (cùng giá trị) |
-| `GH_CLIENT_SECRET` | Copy từ service `blog-visitor-api` (cùng giá trị) |
+| `GH_CLIENT_ID` | Copy từ service `blog-vipzone-api` (cùng giá trị) |
+| `GH_CLIENT_SECRET` | Copy từ service `blog-vipzone-api` (cùng giá trị) |
 
 Save → Render tự redeploy.
 

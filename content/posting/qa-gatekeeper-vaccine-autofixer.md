@@ -5,7 +5,7 @@ date = 2026-06-19
 aliases = ["/qa-gatekeeper-vaccine-autofixer/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["qa gatekeeper", "vaccine autofixer", "ai workflow"]
+tags = ["ai workflow", "qa gatekeeper", "vaccine autofixer"]
 [extra]
 thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
 seo_keyword = "QA Gatekeeper Vaccine Autofixer"
