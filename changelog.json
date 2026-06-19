@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "VIPZone GitHub auth routing",
+      "tag": "fix",
+      "lines_added": 85,
+      "lines_removed": 108,
+      "highlights": [
+        "Route VIPZone/CMS GitHub auth through meta[name=\"vipzone-auth-api\"] only.",
+        "Point all login/auth fallbacks and docs/config references at https://blog-vipzone-api.onrender.com.",
+        "Remove old zola-visitor-api, blog-visitor-api, and zola-cms-auth references from runtime/auth paths.",
+        "rg -n \"zola-visitor-api|blog-visitor-api|zola-cms-auth|CMS_AUTH_URL|AUTH_API_URL\" -S . -> no matches.",
+        "Generated output in /tmp/zola-vipzone-build contains meta name=\"vipzone-auth-api\" content=\"https://blog-vipzone-api.onrender.com\" on sampled pages."
+      ],
+      "pr": 504
+    },
+    {
+      "date": "2026-06-19",
       "title": "Chore/vipzone api url",
       "tag": "chore",
       "lines_added": 1157,
