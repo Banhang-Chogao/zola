@@ -83,6 +83,7 @@ Format bắt buộc:
 | `morning` | Chạy chuỗi tất cả shortcut (trừ chính nó) theo thứ tự non-conflict |
 | `runner` | Retry / tiếp tục lệnh, workflow, macro đang dở hoặc bị gián đoạn |
 | `tieptuc8` | Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở (todo, push, PR, CI, macro) |
+| `wip8` | Read-only workspace tracker — tái dựng task đang dở từ git status + file changes |
 | `theodoi8` | Theo dõi LIÊN TỤC (auto-refresh) trạng thái các commit đang chạy trên GitHub Actions |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
@@ -1347,6 +1348,64 @@ nhất; `tieptuc8` **quét sạch backlog** — mọi việc còn ở trạng th
 
 Nếu **không có tác vụ nào dở** → báo `tieptuc8: không có tác vụ pending.` + gợi ý
 `run list` (audit workflow) hoặc `??` (deploy status).
+
+### `wip8` — Read-only workspace tracker (tái dựng task đang dở)
+
+**Mục đích**: Nhìn vào trạng thái workspace hiện tại (git status, file thay đổi,
+commits gần nhất, open PRs, CI jobs) để **tái dựng task đang dở** mà không cần user
+nhớ lại hay giải thích. **READ-ONLY hoàn toàn**: không sửa file, không commit, không
+push, không mở PR, không deploy.
+
+**Khác các shortcut gần giống**:
+- `tieptuc8` — quét backlog rồi **tiếp tục/hoàn tất** task dở (có write operations).
+- `runner` — retry lệnh/workflow đang fail.
+- `theodoi8` — theo dõi live CI/CD trên GitHub Actions (auto-refresh).
+- `wip8` — **read-only snapshot**: reconstruct "mình đang làm gì?" rồi dừng lại, không can thiệp.
+
+**Hành động** (thứ tự):
+
+1. `git status --short` — file staged / modified / untracked.
+2. `git diff --stat HEAD` — xem quy mô thay đổi từng file.
+3. `git log --oneline -10` — 10 commits gần nhất để suy feature đang làm.
+4. `git stash list` — có stash đang giữ lại không.
+5. **Branch context** — branch hiện tại, commit ahead/behind `origin/main`.
+6. **Open PRs** trên GitHub cho branch hiện tại (nếu có).
+7. **Running jobs** — GitHub Actions đang `in_progress` / `queued` liên quan branch.
+8. **Suy luận task** — từ diff, commit messages, tên file thay đổi, TODO markers trong code.
+9. **Nhóm files** — gom file thay đổi theo feature/tính năng (không liệt kê flat).
+
+**Output format bắt buộc**:
+
+```
+# Current task
+<1–2 câu: task đang làm là gì, suy từ diffs + commit messages>
+
+# Files changed
+<nhóm file theo feature; kèm loại thay đổi (new/modified/deleted)>
+
+# Progress
+<ước tính % hoàn thành + commit nào vừa xong + còn lại gì>
+
+# Running jobs
+<CI/CD đang chạy nếu có; "Không có" nếu working tree sạch và không có PR mở>
+
+# Blockers
+<điều gì đang chặn progress; "Không có" nếu sạch>
+
+# Next step
+<1 hành động rõ ràng tiếp theo user hoặc Claude nên làm>
+```
+
+**Cú pháp mở rộng**:
+- `wip8` — full workspace scan (mặc định).
+- `wip8 quick` — chỉ `git status` + branch info, không gọi GitHub.
+- `wip8 <path>` — chỉ inspect file/folder cụ thể.
+
+**Hard rules**:
+- **READ-ONLY** — KHÔNG sửa, commit, push, deploy, mở PR. Chỉ đọc + in.
+- **Không đoán mò**: nếu không đủ tín hiệu → báo `Không đủ context để suy task` thay vì bịa.
+- **Chỉ chạy 1 lần** rồi dừng (dùng `theodoi8` nếu cần live feed CI).
+- Kết quả là **snapshot tại thời điểm gọi** — gọi lại `wip8` để refresh.
 
 ### `manu9` — Auto-approve tất cả PRs do Claude tạo
 
