@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(ai): AI Learning Engine for Vaccine AutoFixer + Content Direction",
+      "tag": "chore",
+      "lines_added": 3884,
+      "lines_removed": 2,
+      "highlights": [
+        "Learn fixed CI/build/deploy failures into reusable vaccine candidates (signature, root cause, files changed, fix summary, proof, risk) in memory/vaccines/learned_failures.jsonl; dedup near-duplicates.",
+        "Match new failures: stdlib TF-IDF cosine by default; opt-in embedding + FAISS inner-product search (VACCINE_LEARNER_EMBED=1) over case vectors, falling back to numpy then TF-IDF. Auto-apply only low-r",
+        "Analyzes corpus (reuses related_engine + data/related.json/scores.json + seo-qa-scores.json): topics, clusters, internal-link gaps, orphans, SEO weakness, AdSense-safe + helpful-content direction, key",
+        "Emits static/data/content-direction/report.json; S-DNA dashboard at /tools/content-direction/ (template + scoped SCSS). CI-safe (exit 0)."
+      ],
+      "pr": 514
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(vipzone): SUPER_ADMIN shortcut button on VIPZone landing",
       "tag": "chore",
       "lines_added": 273,
