@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "feat(bhtn): trang tính trợ cấp thất nghiệp 2026 (/tools/bhtn/)",
+      "tag": "chore",
+      "lines_added": 699,
+      "lines_removed": 0,
+      "highlights": [
+        "Mức hưởng/tháng = bình quân lương BHTN 6 tháng cuối × 60%",
+        "Trần = 5 × lương tối thiểu vùng 2026 (I 5.31tr·II 4.73tr·III 4.14tr·IV 3.7tr)",
+        "Số tháng hưởng: 12–36 tháng → 3 tháng; sau 36 mỗi 12 tháng đủ +1; tối đa 12; dư bảo lưu",
+        "Điều kiện: HĐLĐ hợp pháp, không hưởng hưu/mất sức, đủ 12 tháng, nộp trong 3 tháng, chưa có việc làm"
+      ],
+      "pr": 491
+    },
+    {
+      "date": "2026-06-19",
       "title": "merged PR summary rule — no watch loop, vaccine on fail",
       "tag": "chore",
       "lines_added": 95,
