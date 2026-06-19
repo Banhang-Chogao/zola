@@ -326,23 +326,53 @@
   padding: 1.5rem 0;
 
   &__btn {
-    background: var(--c-text-heading);
-    color: var(--c-bg-surface);
-    padding: 0.7rem 1.2rem;
-    font-size: 0.75rem;
+    /* Calm, readable surface button (was dark-on-dark). Light surface +
+       heading text + clear border → high contrast, obvious affordance.
+       Radius 4px kept via _theme-overrides (branding guideline: fixed 4px). */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    background: var(--c-bg-surface);
+    color: var(--c-text-heading);
+    border: 1px solid var(--c-border);
+    padding: 0.7rem 1.4rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: var(--c-bg-soft);
+      border-color: var(--c-border-strong);
+      color: var(--c-accent);
+    }
+
+    /* Disabled placeholder (page 1 prev / last page next) renders as an empty
+       span — keep its flex slot so info stays centered, but hide the box. */
+    &:empty {
+      visibility: hidden;
+    }
+  }
+
+  /* Forward action = primary CTA → soft accent fill for clear hierarchy. */
+  &__btn--next {
+    background: var(--c-accent-soft);
+    border-color: transparent;
+    color: var(--c-accent);
 
     &:hover {
       background: var(--c-accent);
-      color: var(--c-bg-surface);
+      border-color: var(--c-accent);
+      color: #fff;
     }
   }
 
   &__info {
     color: var(--c-text-muted);
     font-size: 0.85rem;
+    font-weight: 600;
     flex: 1;
     text-align: center;
   }
