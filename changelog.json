@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "add SEO reality check module below google rank",
+      "tag": "feat",
+      "lines_added": 941,
+      "lines_removed": 0,
+      "highlights": [
+        "Không giả lập dữ liệu Google. API chưa kết nối → ghi rõ, không bịa.",
+        "Mọi số liệu đều có nhãn nguồn: INTERNAL / GSC API / ESTIMATED / NOT MEASURED.",
+        "Trạng thái blog mới được xử lý trung thực (Indexing Phase, confidence thấp).",
+        "Wiring tương lai: chỉ cần đổ data/gsc-metrics.json (output GSC API) → các thẻ tự chuyển sang \"connected\" và hiện số thật, không cần sửa template.",
+        "python3 -m unittest scripts.test_seo_reality → 16/16 PASS"
+      ],
+      "pr": 467
+    },
+    {
+      "date": "2026-06-19",
       "title": "feat(stats): Sembcorp investor-slide UI + bugfixes for /stats/",
       "tag": "chore",
       "lines_added": 606,
