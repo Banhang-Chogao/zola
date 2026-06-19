@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T20:32:02Z",
+  "updated_at": "2026-06-19T20:36:56Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -10,9 +10,9 @@
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 81,
       "fix": 49,
-      "chore": 32,
+      "feature": 80,
+      "chore": 33,
       "unknown": 26,
       "ci": 3,
       "qa": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 520,
+      "pr_title": "fix(vipzone): load picker catalog from admin API instead of unpublish…",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/520",
+      "merged_at": "2026-06-19T20:24:46Z",
+      "merge_commit_sha": "e10f044fcccd43aedaadd3ee02ff0818f93a0bb1",
+      "merge_commit_short": "e10f044",
+      "head_branch": "fix/vipzone-picker-catalog-api",
+      "summary_vi": "Root cause: vip-admin.js fetched /zola/data/vipzone-picker-catalog.json first, but that file lives in repo data/ (not static/) so it is never published to the site (and robots.txt Disallows /data/) → 404. The API fallbac",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 22,
+      "deletions": 7,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 815,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27846867512",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 519,
       "pr_title": "feat(baochi): bài phân quyền role một nguồn sự thật",
@@ -54,9 +73,9 @@
       "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 814,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27846840095",
-      "build_conclusion": "in_progress"
+      "build_run_number": 815,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27846867512",
+      "build_conclusion": "pending"
     },
     {
       "pr_number": 516,
@@ -569,25 +588,6 @@
       "auto_merged": false,
       "build_run_number": 791,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817371351",
-      "build_conclusion": "cancelled"
-    },
-    {
-      "pr_number": 491,
-      "pr_title": "feat(bhtn): trang tính trợ cấp thất nghiệp 2026 (/tools/bhtn/)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/491",
-      "merged_at": "2026-06-19T09:25:40Z",
-      "merge_commit_sha": "b4045153761b875341056712ab5cc1f24d718466",
-      "merge_commit_short": "b404515",
-      "head_branch": "claude/serene-goodall-2id2kc",
-      "summary_vi": "Công cụ tính bảo hiểm thất nghiệp + kiểm tra điều kiện hưởng theo Luật Việc làm 2025 & Nghị định 293/2025/NĐ-CP. Tính 100% client-side, không gửi dữ liệu lên server.",
-      "change_type": "feature",
-      "files_changed": 6,
-      "additions": 699,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 790,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817354903",
       "build_conclusion": "cancelled"
     },
     {
@@ -3251,6 +3251,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 338,
+      "pr_title": "chore: refresh Merge Report data",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/338",
+      "merged_at": "2026-06-17T18:05:33Z",
+      "merge_commit_sha": "60fc0837241358ca163e5bc8bc05d93612f51dc7",
+      "merge_commit_short": "60fc083",
+      "head_branch": "chore/merge-report-data",
+      "summary_vi": "**Automated Merge Report** — cập nhật `data/merge-report.json`.",
+      "change_type": "chore",
+      "files_changed": 1,
+      "additions": 194,
+      "deletions": 42,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 337,
       "pr_title": "qa: Compliance Score audit + auto-fix",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/337",
@@ -3795,25 +3814,6 @@
       "files_changed": 13,
       "additions": 315,
       "deletions": 96,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 313,
-      "pr_title": "fix(dashboard): phân loại cancelled deploy runs — Build #387/#388",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/313",
-      "merged_at": "2026-06-17T17:07:50Z",
-      "merge_commit_sha": "f793b73267e561543e1708bb702a1dd9e4589015",
-      "merge_commit_short": "f793b73",
-      "head_branch": "fix/build-dashboard-cancelled-status",
-      "summary_vi": "Build Dashboard hiển thị Build **#388** (`b38ba77`, PR #287) và **#387** (`f77c003`, PR #285) như thẻ lỗi đỏ (`✗`, `--fail`) dù GitHub Actions `conclusion: cancelled` và `stats.failure = 0`.",
-      "change_type": "fix",
-      "files_changed": 6,
-      "additions": 517,
-      "deletions": 77,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
