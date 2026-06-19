@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-19T05:03:26Z",
+  "updated_at": "2026-06-19T05:09:43Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
-    "total": 198,
-    "today": 16,
-    "this_week": 198,
-    "this_month": 198,
+    "total": 199,
+    "today": 17,
+    "this_week": 199,
+    "this_month": 199,
     "auto_merged": 1,
     "by_change_type": {
+      "feature": 69,
       "unknown": 20,
       "chore": 45,
-      "feature": 68,
       "content": 9,
       "fix": 51,
       "ci": 4,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 481,
+      "pr_title": "feat(navbar): gom dropdown \"Công cụ\" thành 3 nhóm accordion (Content/Dashboard/Khác)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/481",
+      "merged_at": "2026-06-19T05:09:20Z",
+      "merge_commit_sha": "1f944b5aa4bef7633ebff6f70e75160cb5bde2d3",
+      "merge_commit_short": "1f944b5",
+      "head_branch": "claude/optimistic-planck-9yg25y",
+      "summary_vi": "Dropdown **「Công cụ」** trước đây xổ thẳng **18 mục** → danh sách quá dài, tràn màn hình (đặc biệt mobile), khó quét. Gom lại thành **3 nhóm accordion** ở tầng 1, mỗi nhóm xổ/đóng để lộ tool con.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 479,
       "pr_title": "Xoá trang Thống kê (Web Vitals) /stats/ và link footer",
