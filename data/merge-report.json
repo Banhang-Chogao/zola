@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-19T18:26:46Z",
+  "updated_at": "2026-06-19T19:17:43Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 52,
+    "today": 53,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 49,
       "feature": 79,
-      "fix": 48,
-      "chore": 35,
+      "chore": 34,
       "unknown": 26,
       "ci": 3,
       "qa": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 516,
+      "pr_title": "fix(vipzone): Edge/Safari auth + SUPER_ADMIN button + Content Picker",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/516",
+      "merged_at": "2026-06-19T19:11:13Z",
+      "merge_commit_sha": "2a99d890d6a4f169776c214b5e3cf828a408833a",
+      "merge_commit_short": "2a99d89",
+      "head_branch": "feat/vipzone-super-admin-button",
+      "summary_vi": "- Fix VIPZone admin OAuth loop on Edge/Safari (HttpOnly SameSite=None cookie + Bearer/cookie session)",
+      "change_type": "fix",
+      "files_changed": 18,
+      "additions": 988,
+      "deletions": 249,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 813,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27844014633",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 515,
       "pr_title": "Feat/super admin session clean",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 812,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27841976821",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 514,
@@ -56,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 811,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27841763285",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 511,
@@ -3795,25 +3814,6 @@
       "files_changed": 1,
       "additions": 2,
       "deletions": 2,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 307,
-      "pr_title": "chore: changelog after PR #304",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/307",
-      "merged_at": "2026-06-17T16:54:46Z",
-      "merge_commit_sha": "08fab329e8e8c8615f4aba23792561aee089e1f6",
-      "merge_commit_short": "08fab32",
-      "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — requires manual review and merge into `main`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 13,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
