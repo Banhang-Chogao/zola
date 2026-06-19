@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Vụ Mùa | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
+{% block main %}
+<div id="vm-app" class="vu-mua vu-mua--empty">
+
+    {# ===== Hero ===== #}
+    <header class="vm-hero">
+        <p class="vm-hero__eyebrow">Nông sản · Sales &amp; Insights</p>
+        <span class="vm-hero__icon" aria-hidden="true">🌾</span>
+        <h1 class="vm-hero__title">Vụ Mùa</h1>
+        <p class="vm-hero__desc">
+            Ứng dụng theo dõi bán nông sản theo mùa vụ và phân tích thông minh. Nhập tay từng
+            giao dịch, hệ thống tự tổng hợp doanh thu, nhu cầu sản phẩm, hành vi người mua và
+            hiệu suất giá. <strong>Dữ liệu lưu cục bộ trên trình duyệt</strong> — không gửi lên server.
+        </p>
+    </header>
+
+    {# ============================================================== MODULE 1: DATA ENTRY #}
+    <section class="vm-panel vm-entry-panel">
+        <h2 class="vm-panel__title">Nhập liệu giao dịch</h2>
+        <p class="vm-panel__sub">Thành tiền tự tính từ số lượng × đơn giá (có thể chỉnh tay).</p>
+
+        <form id="vm-form" class="vm-form" novalidate autocomplete="off">
+            <div class="vm-field vm-field--wide">
+                <label for="vm-product">Tên hàng hoá</label>
+                <input id="vm-product" type="text" list="vm-product-list" placeholder="VD: Lúa ST25" required>
+                <datalist id="vm-product-list"></datalist>
+            </div>
+            <div class="vm-field">
+                <label for="vm-quantity">Số lượng</label>
+                <input id="vm-quantity" type="number" min="0" step="any" inputmode="decimal" placeholder="0" required>
+            </div>
+            <div class="vm-field">
+                <label for="vm-type">Loại</label>
+                <input id="vm-type" type="text" list="vm-type-list" placeholder="VD: Gạo, Trái cây">
+                <datalist id="vm-type-list"></datalist>
+            </div>
+            <div class="vm-field">
+                <label for="vm-unit-price">Đơn giá (₫)</label>
+                <input id="vm-unit-price" type="number" min="0" step="any" inputmode="decimal" placeholder="0">
+            </div>
+            <div class="vm-field">
+                <label for="vm-total">Thành tiền (₫)</label>
+                <input id="vm-total" type="number" min="0" step="any" inputmode="decimal" placeholder="Tự tính">
+            </div>
+            <div class="vm-field">
+                <label for="vm-buyer">Người mua</label>
+                <input id="vm-buyer" type="text" list="vm-buyer-list" placeholder="VD: Vựa Bà Tư">
+                <datalist id="vm-buyer-list"></datalist>
+            </div>
+            <div class="vm-field">
+                <label for="vm-date">Ngày mua</label>
+                <input id="vm-date" type="date">
+            </div>
+            <div class="vm-field vm-field--actions">
+                <button type="submit" class="vm-btn vm-btn--primary">Lưu giao dịch</button>
+                <button type="button" id="vm-form-reset" class="vm-btn vm-btn--ghost">Xoá form</button>
+            </div>
+        </form>
+        <p class="vm-form-error" id="vm-form-error" role="alert" hidden></p>
+    </section>
+
+    {# PDF upload placeholder — extensible hook (OCR like H-Dashboard, sắp ra mắt) #}
+    <section class="vm-panel vm-pdf-panel">
+        <h2 class="vm-panel__title">Nhập từ PDF</h2>
+        <div class="vm-pdf" aria-disabled="true">
+            <span class="vm-pdf__icon" aria-hidden="true">📄</span>
+            <p class="vm-pdf__text">Tải hoá đơn / phiếu bán hàng dạng <code>.pdf</code></p>
+            <span class="vm-pdf__badge">Sắp ra mắt</span>
+            <p class="vm-pdf__hint">Sẽ tự bóc tách dòng hàng bằng OCR (như H-Dashboard). Hiện tại hãy nhập tay ở trên.</p>
+        </div>
+    </section>
+
+    {# ===== Data table + export/import ===== #}
+    <section class="vm-panel vm-data-panel">
+        <div class="vm-data-panel__head">
+            <h2 class="vm-panel__title">Dữ liệu giao dịch</h2>
+            <span class="vm-data-panel__count" id="vm-table-count">0 giao dịch</span>
+        </div>
+
+        <div class="vm-toolbar">
+            <label class="vm-filter vm-filter--grow">
+                <span>Tìm</span>
+                <input type="search" id="vm-search" placeholder="Hàng hoá, người mua, loại…">
+            </label>
+            <label class="vm-filter">
+                <span>Loại</span>
+                <select id="vm-filter-type"><option value="">Tất cả loại</option></select>
+            </label>
+            <label class="vm-filter">
+                <span>Từ ngày</span>
+                <input type="date" id="vm-filter-from">
+            </label>
+            <label class="vm-filter">
+                <span>Đến ngày</span>
+                <input type="date" id="vm-filter-to">
+            </label>
+        </div>
+
+        <div class="vm-export-bar">
+            <div class="vm-export-bar__actions">
+                <button type="button" class="vm-btn vm-btn--export" id="vm-export-json">Export JSON</button>
+                <button type="button" class="vm-btn vm-btn--export" id="vm-export-csv">Export CSV</button>
+                <button type="button" class="vm-btn vm-btn--ghost" id="vm-import-btn">Import JSON</button>
+                <input type="file" id="vm-import" accept=".json,application/json" hidden>
+                <button type="button" class="vm-btn vm-btn--danger" id="vm-clear">Xoá tất cả</button>
+            </div>
+            <p class="vm-export-bar__note">Dữ liệu chỉ ở trình duyệt này — export để sao lưu / chuyển máy.</p>
+        </div>
+
+        <div class="vm-table-wrap">
+            <table class="vm-table">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên hàng hoá</th>
+                        <th>Số lượng</th>
+                        <th>Loại</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Người mua</th>
+                        <th>Ngày mua</th>
+                        <th><span class="vm-visually-hidden">Xoá</span></th>
+                    </tr>
+                </thead>
+                <tbody id="vm-table-body">
+                    <tr><td colspan="9" class="vm-table__empty">Chưa có giao dịch — hãy nhập ở mục phía trên.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="vm-pagination" id="vm-pagination"></div>
+    </section>
+
+    {# ============================================================== MODULE 2: INSIGHTS #}
+    <section class="vm-insights-head">
+        <h2 class="vm-insights-head__title">Phân tích thông minh</h2>
+        <p class="vm-insights-head__sub">Tổng hợp tự động theo phong cách H-Dashboard — mở rộng cho AI insights về sau.</p>
+    </section>
+
+    {# KPIs #}
+    <section class="vm-kpis" id="vm-kpis"></section>
+
+    {# Revenue trends #}
+    <section class="vm-panel" data-vm-chart>
+        <h2 class="vm-panel__title">Xu hướng doanh thu</h2>
+        <p class="vm-panel__sub">Doanh thu theo từng tháng.</p>
+        <div class="vm-chart vm-chart--wide">
+            <div class="vm-chart__wrap"><canvas id="vm-chart-revenue" aria-label="Biểu đồ xu hướng doanh thu"></canvas></div>
+        </div>
+        <p class="vm-empty vm-empty--chart">Chưa có dữ liệu — nhập giao dịch để xem biểu đồ.</p>
+    </section>
+
+    {# Seasonal analysis #}
+    <section class="vm-panel" data-vm-chart>
+        <h2 class="vm-panel__title">Phân tích mùa vụ</h2>
+        <p class="vm-panel__sub">Gom theo mùa vụ Việt Nam: Đông Xuân (T12–4) · Hè Thu (T5–8) · Vụ Mùa (T9–11).</p>
+        <div class="vm-season-grid" id="vm-season-cards">
+            <p class="vm-empty">Chưa đủ dữ liệu cho phân tích mùa vụ.</p>
+        </div>
+        <div class="vm-chart">
+            <div class="vm-chart__wrap"><canvas id="vm-chart-season" aria-label="Biểu đồ doanh thu theo mùa vụ"></canvas></div>
+        </div>
+    </section>
+
+    {# Product demand #}
+    <section class="vm-panel" data-vm-chart>
+        <h2 class="vm-panel__title">Nhu cầu sản phẩm</h2>
+        <p class="vm-panel__sub">Doanh thu &amp; sản lượng theo từng mặt hàng (top 8).</p>
+        <div class="vm-chart">
+            <div class="vm-chart__wrap"><canvas id="vm-chart-product" aria-label="Biểu đồ nhu cầu sản phẩm"></canvas></div>
+        </div>
+        <div class="vm-bars" id="vm-product-table">
+            <p class="vm-empty">Chưa có dữ liệu sản phẩm.</p>
+        </div>
+    </section>
+
+    {# Buyer patterns #}
+    <section class="vm-panel" data-vm-chart>
+        <h2 class="vm-panel__title">Hành vi người mua</h2>
+        <p class="vm-panel__sub">Khách hàng theo doanh thu &amp; số đơn (top 8).</p>
+        <div class="vm-chart">
+            <div class="vm-chart__wrap"><canvas id="vm-chart-buyer" aria-label="Biểu đồ hành vi người mua"></canvas></div>
+        </div>
+        <div class="vm-bars" id="vm-buyer-list-out">
+            <p class="vm-empty">Chưa có dữ liệu người mua.</p>
+        </div>
+    </section>
+
+    {# Price performance #}
+    <section class="vm-panel">
+        <h2 class="vm-panel__title">Hiệu suất giá</h2>
+        <p class="vm-panel__sub">Giá bình quân, thấp nhất và cao nhất theo từng sản phẩm.</p>
+        <div class="vm-price" id="vm-price-list">
+            <p class="vm-empty">Chưa có dữ liệu giá.</p>
+        </div>
+    </section>
+
+    {# AI / rule-based narrative #}
+    <section class="vm-panel vm-narrative-panel">
+        <h2 class="vm-panel__title">Nhận định tự động</h2>
+        <ul class="vm-narrative" id="vm-narrative">
+            <li>Nhập giao dịch để nhận phân tích tự động.</li>
+        </ul>
+    </section>
+
+    <div id="vm-toast" class="vm-toast" role="status" aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    {% if latest_commit %}{% set vm_v = latest_commit.sha | truncate(length=7, end='') %}{% else %}{% set vm_v = now(timestamp=true) %}{% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+    <script src="{{ get_url(path='js/vu-mua/storage.js') }}?v={{ vm_v }}" defer></script>
+    <script src="{{ get_url(path='js/vu-mua/insights.js') }}?v={{ vm_v }}" defer></script>
+    <script src="{{ get_url(path='js/vu-mua/charts.js') }}?v={{ vm_v }}" defer></script>
+    <script src="{{ get_url(path='js/vu-mua/export.js') }}?v={{ vm_v }}" defer></script>
+    <script src="{{ get_url(path='js/vu-mua/app.js') }}?v={{ vm_v }}" defer></script>
+{% endblock %}

@@ -72,6 +72,9 @@ menu = [
         { url = "$BASE_URL/tools/content-creator", name = "MS" },
     ] },
     { name = "VIPZone", url = "$BASE_URL/tools/vipzone" },
+    # Vụ Mùa — ứng dụng theo dõi bán nông sản + insights (standalone tool,
+    # KHÔNG phải blog feed). Route gốc /vu-mua/ (không nằm dưới /tools/).
+    { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
     { name = "Giới thiệu", url = "$BASE_URL/about", children = [
         { url = "$BASE_URL/about",            name = "Giới thiệu" },
         { url = "$BASE_URL/contact",          name = "Liên hệ" },

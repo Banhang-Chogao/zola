@@ -1,0 +1,806 @@
+/* ==========================================================================
+   Vụ Mùa — agricultural sales tracking + insights dashboard.
+   Calm-enterprise design language: cards, soft colors, semantic tokens.
+   Scoped to .vu-mua; harvest-green accent. Theme-aware via var(--c-*) fallbacks.
+   ========================================================================== */
+
+.vu-mua {
+  --vm-accent: #2f9e44;
+  --vm-accent-hover: #268038;
+  --vm-accent-soft: rgba(47, 158, 68, 0.12);
+  --vm-amber: #e8a33d;
+  --vm-danger: #d6453d;
+  --vm-radius: 16px;
+  --vm-radius-sm: 12px;
+  --vm-surface: var(--c-bg-surface, #ffffff);
+  --vm-soft: var(--c-bg-soft, #f5f8f6);
+  --vm-page: var(--c-bg-page, #fafcfb);
+  --vm-border: var(--c-border, #e4e7eb);
+  --vm-heading: var(--c-text-heading, #1f2933);
+  --vm-body: var(--c-text-body, #3e4c59);
+  --vm-muted: var(--c-text-muted, #7b8794);
+  --vm-shadow: 0 4px 24px rgba(31, 41, 51, 0.06);
+
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem 2rem;
+  font-family: $font-body;
+  color: var(--vm-body);
+
+  /* ---------------------------------------------------------------- hero */
+  .vm-hero {
+    text-align: center;
+    background: var(--vm-surface);
+    border: 1px solid var(--vm-border);
+    border-left: 5px solid var(--vm-accent);
+    border-radius: var(--vm-radius);
+    padding: 2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--vm-shadow);
+
+    &__eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--vm-accent);
+      margin: 0 0 0.5rem;
+    }
+
+    &__icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    &__title {
+      font-family: $font-heading;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--vm-heading);
+      margin: 0 0 0.6rem;
+    }
+
+    &__desc {
+      color: var(--vm-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin: 0 auto;
+      max-width: 640px;
+    }
+  }
+
+  /* --------------------------------------------------------------- panels */
+  .vm-panel {
+    background: var(--vm-surface);
+    border: 1px solid var(--vm-border);
+    border-radius: var(--vm-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--vm-shadow);
+
+    &__title {
+      font-family: $font-heading;
+      font-size: 1.15rem;
+      color: var(--vm-heading);
+      margin: 0 0 0.25rem;
+    }
+
+    &__sub {
+      font-size: 0.85rem;
+      color: var(--vm-muted);
+      margin: 0 0 1.1rem;
+    }
+  }
+
+  /* ----------------------------------------------------------- data entry */
+  .vm-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.9rem;
+  }
+
+  .vm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--vm-muted);
+      font-family: $font-ui;
+    }
+
+    input,
+    select {
+      font-family: $font-body;
+      font-size: 0.92rem;
+      color: var(--vm-heading);
+      background: var(--vm-soft);
+      border: 1px solid var(--vm-border);
+      border-radius: 10px;
+      padding: 0.6rem 0.7rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: var(--vm-accent);
+        box-shadow: 0 0 0 3px var(--vm-accent-soft);
+      }
+    }
+
+    &--wide {
+      grid-column: span 2;
+    }
+
+    &--actions {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      gap: 0.6rem;
+      align-items: center;
+    }
+  }
+
+  .vm-form-error {
+    margin: 0.9rem 0 0;
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    background: rgba(214, 69, 61, 0.1);
+    color: var(--vm-danger);
+    font-size: 0.85rem;
+  }
+
+  /* -------------------------------------------------------------- buttons */
+  .vm-btn {
+    font-family: $font-ui;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.1s;
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &--primary {
+      background: var(--vm-accent);
+      color: #fff;
+
+      &:hover {
+        background: var(--vm-accent-hover);
+      }
+    }
+
+    &--ghost {
+      background: transparent;
+      color: var(--vm-body);
+      border-color: var(--vm-border);
+
+      &:hover {
+        border-color: var(--vm-accent);
+        color: var(--vm-accent);
+      }
+    }
+
+    &--export {
+      background: var(--vm-soft);
+      color: var(--vm-heading);
+      border-color: var(--vm-border);
+
+      &:hover {
+        border-color: var(--vm-accent);
+        color: var(--vm-accent);
+      }
+    }
+
+    &--danger {
+      background: transparent;
+      color: var(--vm-danger);
+      border-color: rgba(214, 69, 61, 0.4);
+
+      &:hover {
+        background: rgba(214, 69, 61, 0.08);
+      }
+    }
+  }
+
+  /* ---------------------------------------------------------- pdf placeholder */
+  .vm-pdf {
+    border: 2px dashed var(--vm-border);
+    border-radius: var(--vm-radius-sm);
+    background: var(--vm-soft);
+    text-align: center;
+    padding: 1.6rem 1rem;
+    opacity: 0.85;
+
+    &__icon {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    &__text {
+      margin: 0 0 0.5rem;
+      color: var(--vm-body);
+      font-size: 0.9rem;
+
+      code {
+        background: var(--vm-surface);
+        border: 1px solid var(--vm-border);
+        border-radius: 5px;
+        padding: 0.05rem 0.35rem;
+        font-size: 0.82rem;
+      }
+    }
+
+    &__badge {
+      display: inline-block;
+      font-family: $font-ui;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--vm-amber);
+      background: rgba(232, 163, 61, 0.14);
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+    }
+
+    &__hint {
+      margin: 0.6rem 0 0;
+      font-size: 0.8rem;
+      color: var(--vm-muted);
+    }
+  }
+
+  /* ------------------------------------------------------- data table panel */
+  .vm-data-panel__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .vm-data-panel__count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--vm-muted);
+    font-family: $font-ui;
+  }
+
+  .vm-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .vm-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--vm-muted);
+    font-family: $font-ui;
+
+    input,
+    select {
+      font-family: $font-body;
+      font-size: 0.88rem;
+      color: var(--vm-heading);
+      background: var(--vm-soft);
+      border: 1px solid var(--vm-border);
+      border-radius: 9px;
+      padding: 0.5rem 0.65rem;
+
+      &:focus {
+        outline: none;
+        border-color: var(--vm-accent);
+      }
+    }
+
+    &--grow {
+      flex: 1;
+      min-width: 180px;
+    }
+  }
+
+  .vm-export-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+    background: var(--vm-soft);
+    border: 1px solid var(--vm-border);
+    border-radius: var(--vm-radius-sm);
+    margin-bottom: 1.1rem;
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    &__note {
+      margin: 0;
+      font-size: 0.76rem;
+      color: var(--vm-muted);
+    }
+  }
+
+  .vm-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--vm-border);
+    border-radius: var(--vm-radius-sm);
+  }
+
+  .vm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+
+    th,
+    td {
+      padding: 0.65rem 0.8rem;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--vm-border);
+    }
+
+    thead th {
+      background: var(--vm-soft);
+      color: var(--vm-muted);
+      font-family: $font-ui;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+    }
+
+    tbody tr:hover {
+      background: var(--vm-accent-soft);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    &__name {
+      font-weight: 600;
+      color: var(--vm-heading);
+    }
+
+    &__num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    &__total {
+      font-weight: 700;
+      color: var(--vm-accent);
+    }
+
+    &__empty {
+      text-align: center !important;
+      color: var(--vm-muted);
+      padding: 1.6rem !important;
+      white-space: normal !important;
+    }
+  }
+
+  .vm-chip {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--vm-body);
+    background: var(--vm-soft);
+    border: 1px solid var(--vm-border);
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+  }
+
+  .vm-row-del {
+    border: none;
+    background: transparent;
+    color: var(--vm-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 0.15rem 0.4rem;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: rgba(214, 69, 61, 0.12);
+      color: var(--vm-danger);
+    }
+  }
+
+  .vm-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .vm-page-btn {
+    border: 1px solid var(--vm-border);
+    background: var(--vm-surface);
+    color: var(--vm-body);
+    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    &:not(:disabled):hover {
+      border-color: var(--vm-accent);
+      color: var(--vm-accent);
+    }
+  }
+
+  .vm-page-info {
+    font-size: 0.82rem;
+    color: var(--vm-muted);
+    font-family: $font-ui;
+  }
+
+  /* ----------------------------------------------------------- insights head */
+  .vm-insights-head {
+    margin: 2.2rem 0 1.1rem;
+
+    &__title {
+      font-family: $font-heading;
+      font-size: 1.4rem;
+      color: var(--vm-heading);
+      margin: 0 0 0.25rem;
+    }
+
+    &__sub {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--vm-muted);
+    }
+  }
+
+  /* ------------------------------------------------------------------ KPIs */
+  .vm-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .vm-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    background: var(--vm-surface);
+    border: 1px solid var(--vm-border);
+    border-radius: var(--vm-radius-sm);
+    padding: 1.1rem 1.2rem;
+    box-shadow: var(--vm-shadow);
+
+    &__label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--vm-muted);
+      font-family: $font-ui;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    &__value {
+      font-family: $font-heading;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--vm-heading);
+      line-height: 1.2;
+    }
+
+    &__sub {
+      font-size: 0.78rem;
+      color: var(--vm-muted);
+    }
+  }
+
+  /* ----------------------------------------------------------- season cards */
+  .vm-season-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .vm-season-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: var(--vm-soft);
+    border: 1px solid var(--vm-border);
+    border-radius: var(--vm-radius-sm);
+    padding: 1rem 1.1rem;
+
+    &__name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--vm-accent);
+      font-family: $font-ui;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    &__rev {
+      font-family: $font-heading;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--vm-heading);
+    }
+
+    &__meta {
+      font-size: 0.76rem;
+      color: var(--vm-muted);
+    }
+  }
+
+  /* ------------------------------------------------------------- bar lists */
+  .vm-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 1.1rem;
+  }
+
+  .vm-bar {
+    &__head {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    &__label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--vm-heading);
+    }
+
+    &__value {
+      font-size: 0.8rem;
+      color: var(--vm-muted);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    &__track {
+      height: 8px;
+      background: var(--vm-soft);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    &__fill {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: var(--vm-accent);
+
+      &--green {
+        background: var(--vm-accent);
+      }
+
+      &--amber {
+        background: var(--vm-amber);
+      }
+    }
+  }
+
+  /* ----------------------------------------------------------- price table */
+  .vm-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+
+    th,
+    td {
+      padding: 0.55rem 0.7rem;
+      border-bottom: 1px solid var(--vm-border);
+      text-align: left;
+    }
+
+    th {
+      font-family: $font-ui;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--vm-muted);
+    }
+
+    .vm-table__num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  /* ------------------------------------------------------------- narrative */
+  .vm-narrative-panel {
+    border-left: 4px solid var(--vm-accent);
+  }
+
+  .vm-narrative {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    li {
+      position: relative;
+      padding-left: 1.4rem;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: var(--vm-body);
+
+      &::before {
+        content: "🌱";
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  /* ----------------------------------------------------------------- charts */
+  .vm-chart {
+    position: relative;
+    margin-top: 0.4rem;
+
+    &__wrap {
+      position: relative;
+      height: 280px;
+    }
+
+    &--wide .vm-chart__wrap {
+      height: 320px;
+    }
+  }
+
+  .vm-empty {
+    color: var(--vm-muted);
+    font-size: 0.88rem;
+    text-align: center;
+    padding: 1.2rem;
+    margin: 0;
+  }
+
+  .vm-empty--chart {
+    display: none;
+  }
+
+  /* When a chart section has no data, hide the canvas and show the note. */
+  .vm-panel--empty {
+    .vm-chart {
+      display: none;
+    }
+
+    .vm-empty--chart {
+      display: block;
+    }
+  }
+
+  /* ------------------------------------------------------------------ toast */
+  .vm-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translate(-50%, 16px);
+    background: var(--vm-heading);
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 1200;
+
+    &.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    &[data-type="success"] {
+      background: var(--vm-accent);
+    }
+
+    &[data-type="warn"] {
+      background: var(--vm-danger);
+    }
+  }
+
+  .vm-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ============================== MOBILE (≤ 720px) ============================== */
+  @media (max-width: 720px) {
+    padding: 0 0.75rem 1.5rem;
+
+    .vm-form {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .vm-field--wide {
+      grid-column: 1 / -1;
+    }
+
+    .vm-field--actions {
+      flex-direction: column;
+      align-items: stretch;
+
+      .vm-btn {
+        width: 100%;
+      }
+    }
+
+    .vm-kpis {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.7rem;
+    }
+
+    .vm-season-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .vm-export-bar {
+      flex-direction: column;
+      align-items: stretch;
+
+      &__actions .vm-btn {
+        flex: 1;
+      }
+    }
+
+    .vm-chart__wrap,
+    .vm-chart--wide .vm-chart__wrap {
+      height: 240px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .vm-kpis {
+      grid-template-columns: 1fr;
+    }
+  }
+}
