@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T21:41:42Z",
+  "updated_at": "2026-06-19T21:50:45Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -10,9 +10,9 @@
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 82,
+      "fix": 48,
+      "feature": 81,
       "chore": 33,
-      "fix": 47,
       "unknown": 26,
       "ci": 3,
       "qa": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 523,
+      "pr_title": "fix(ui): canh giãn ảnh placeholder đồng đều trên mobile",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/523",
+      "merged_at": "2026-06-19T21:34:41Z",
+      "merge_commit_sha": "0bf6a92f94857b1e4945652f917cb12eab819458",
+      "merge_commit_short": "0bf6a92",
+      "head_branch": "fix/placeholder-img-mobile-scale",
+      "summary_vi": "Ảnh placeholder thương hiệu (gradient + icon núi) bị lệch/méo trên mobile ở các surface không set object-fit (ảnh thân bài, sidebar/bài liên quan, ảnh fallback runtime data-ph khi ảnh thật 404). Card/hero vốn đã cover đú",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 37,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 818,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27849470732",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 522,
       "pr_title": "feat(content): series \"Đáp án chính thức THPT Quốc gia 2026\" (Giáo dục)",
@@ -551,25 +570,6 @@
       "build_run_number": null,
       "build_url": "",
       "build_conclusion": ""
-    },
-    {
-      "pr_number": 492,
-      "pr_title": "feat(bhxh): add BHXH 1 lần calculator tool page (2026)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/492",
-      "merged_at": "2026-06-19T10:07:58Z",
-      "merge_commit_sha": "83e5b3e7010f504ed11d9998945c033a43b86758",
-      "merge_commit_short": "83e5b3e",
-      "head_branch": "claude/busy-maxwell-bzcshf",
-      "summary_vi": "Standalone navbar tool at /tools/bhxh-1-lan/ — online calculator for Bảo hiểm xã hội một lần theo Luật BHXH 2024 (hiệu lực 01/07/2025) + hệ số trượt giá 2026.",
-      "change_type": "feature",
-      "files_changed": 6,
-      "additions": 1162,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 793,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27819673022",
-      "build_conclusion": "success"
     },
     {
       "pr_number": 492,
