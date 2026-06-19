@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-19",
+      "title": "fix(vipzone): stop overlay-gating premium articles (deployed paywall owns them)",
+      "tag": "fix",
+      "lines_added": 6,
+      "lines_removed": 10,
+      "highlights": [
+        "Khách non-VIP vào bài premium → overlay toàn màn hình \"Cần VIP\" + html.vz-gated .main-content { filter: blur(2px); pointer-events: none } → che mất paywall MoMo đang hoạt động (mất kênh kiếm tiền chín",
+        "Khách VIP vào bài premium → paywall-box bị ghi đè bằng placeholder TODO backend (\"nội dung premium đang đồng bộ\") → không đọc được, mà cũng mất luôn form unlock per-post.",
+        "static/js/vipzone.js",
+        "pathNeedsGate: bỏ nhánh data-vipzone-premium → VIPZone chỉ gate Công cụ, không phủ bài premium.",
+        "initGate: gỡ nhánh placeholder VIP-premium (dead TODO backend)."
+      ],
+      "pr": 507
+    },
+    {
+      "date": "2026-06-19",
       "title": "VIPZone GitHub auth routing",
       "tag": "fix",
       "lines_added": 85,
