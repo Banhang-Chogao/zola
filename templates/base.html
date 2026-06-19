@@ -118,6 +118,11 @@
     <meta name="zola-paywall-api" content="{{ paywall_api | safe }}">
     {% endif %}
 
+    {% set_global shortensea_api = config.extra.shortensea_api_url | default(value="") %}
+    {% if shortensea_api %}
+    <meta name="zola-shortensea-api" content="{{ shortensea_api | safe }}">
+    {% endif %}
+
     {# ============================================================
        ===== SEO META BLOCK (Lighthouse 100/100 target) =====
        ============================================================

@@ -101,6 +101,7 @@ menu = [
             { url = "$BASE_URL/prompt-support", name = "Prompt Support" },
             { url = "$BASE_URL/branding-guideline", name = "Branding Guideline" },
             { url = "$BASE_URL/tools/s-dna", name = "S-DNA" },
+            { url = "$BASE_URL/shortensea/", name = "ShortenSEA" },
             { url = "$BASE_URL/font",      name = "Font Guideline" },
         ] },
     ] },
@@ -151,6 +152,9 @@ cms_auth_url = "https://blog-visitor-api.onrender.com"
 
 # Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
 paywall_api_url = "https://blog-paywall-api.onrender.com"
+# ShortenSEA API — short link CRUD, click tracking, approve codes.
+# Để trống = frontend dùng localStorage prototype (dev). Sau deploy Render, dán URL service.
+shortensea_api_url = "https://blog-shortensea-api.onrender.com"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
 # Premium paywall STRICT: true = bài premium chỉ hiển thị teaser + paywall box,

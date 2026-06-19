@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}ShortenSEA | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
+{% block main %}
+<div id="sse-app" class="shortensea" data-sse-page="home">
+
+    <section data-sse-view="login">
+        <div class="shortensea__login" role="dialog" aria-labelledby="sse-login-title">
+            <div class="shortensea__login-icon" aria-hidden="true">🔗</div>
+            <h2 class="shortensea__login-title" id="sse-login-title">ShortenSEA</h2>
+            <p class="shortensea__login-sub">
+                Đăng nhập GitHub để tạo và quản lý short link S-DNA.
+                Dữ liệu lưu an toàn trên backend ShortenSEA.
+            </p>
+            <p class="shortensea__warning" data-sse-login-error hidden role="alert"></p>
+            <button type="button" class="shortensea__btn shortensea__btn--primary" data-sse-action="login">
+                Đăng nhập với GitHub
+            </button>
+        </div>
+    </section>
+
+    <div data-sse-view="app" hidden>
+        <header class="shortensea__hero">
+            <p class="shortensea__hero-eyebrow">S-DNA · Link Intelligence</p>
+            <h1 class="shortensea__hero-title">ShortenSEA</h1>
+            <p class="shortensea__hero-desc">Rút gọn URL, theo dõi click, QR code — giao diện premium S-DNA.</p>
+        </header>
+
+        <nav class="shortensea__nav-tabs" aria-label="ShortenSEA navigation">
+            <a class="shortensea__nav-tab shortensea__nav-tab--active" href="{{ config.base_url }}/shortensea/">Tạo link</a>
+            <a class="shortensea__nav-tab" href="{{ config.base_url }}/shortensea/links/">Danh sách</a>
+            <a class="shortensea__nav-tab" href="{{ config.base_url }}/shortensea/insights/">Insights</a>
+        </nav>
+
+        {# Section A — Account / Plan #}
+        <section class="shortensea__card" id="sse-account-card">
+            <h2 class="shortensea__card-title">👤 Tài khoản &amp; Gói</h2>
+            <div class="shortensea__account" data-sse-account>
+                <div class="shortensea__profile">
+                    <img class="shortensea__avatar" data-sse-avatar src="" alt="" width="52" height="52" loading="lazy">
+                    <div class="shortensea__profile-info">
+                        <div class="shortensea__profile-name">
+                            <span data-sse-name></span>
+                            <span class="shortensea__badge-super" data-sse-super-badge hidden>✦ Super VIP</span>
+                        </div>
+                        <div class="shortensea__profile-email" data-sse-email></div>
+                    </div>
+                    <button type="button" class="shortensea__btn shortensea__btn--ghost shortensea__btn--sm" data-sse-action="logout">Đăng xuất</button>
+                </div>
+
+                <div class="shortensea__kpi-grid">
+                    <div class="shortensea__kpi">
+                        <p class="shortensea__kpi-label">Gói hiện tại</p>
+                        <p class="shortensea__kpi-value" data-sse-plan>—</p>
+                    </div>
+                    <div class="shortensea__kpi shortensea__kpi--blue">
+                        <p class="shortensea__kpi-label">Link còn lại</p>
+                        <p class="shortensea__kpi-value" data-sse-remaining-links>—</p>
+                    </div>
+                    <div class="shortensea__kpi shortensea__kpi--purple">
+                        <p class="shortensea__kpi-label">Custom back-half</p>
+                        <p class="shortensea__kpi-value" data-sse-remaining-halves>—</p>
+                    </div>
+                    <div class="shortensea__kpi">
+                        <p class="shortensea__kpi-label">Hết hạn</p>
+                        <p class="shortensea__kpi-value" data-sse-expiry>—</p>
+                    </div>
+                </div>
+
+                <p class="shortensea__warning" data-sse-expiry-warning hidden></p>
+
+                <div class="shortensea__field">
+                    <label class="shortensea__label" for="sse-approve-code">Mã kích hoạt (approve code)</label>
+                    <div class="shortensea__row">
+                        <input class="shortensea__input" id="sse-approve-code" type="text" placeholder="Nhập mã admin gửi qua email" autocomplete="off">
+                        <button type="button" class="shortensea__btn shortensea__btn--primary" data-sse-action="redeem">Kích hoạt gói</button>
+                    </div>
+                </div>
+
+                <div class="shortensea__pricing-grid">
+                    <div class="shortensea__price-card">
+                        <p class="shortensea__price-name">Gói Tháng</p>
+                        <p class="shortensea__price-amount">50.000 VND / tháng</p>
+                        <ul class="shortensea__price-features">
+                            <li>100 link/tháng</li>
+                            <li>Custom back-half</li>
+                            <li>QR code &amp; tags</li>
+                            <li>Analytics cơ bản</li>
+                        </ul>
+                        <a class="shortensea__btn shortensea__btn--momo" data-sse-momo-link href="#" target="_blank" rel="noopener noreferrer">Thanh toán MoMo</a>
+                    </div>
+                    <div class="shortensea__price-card shortensea__price-card--featured">
+                        <p class="shortensea__price-name">Gói Năm</p>
+                        <p class="shortensea__price-amount">500.000 VND / năm</p>
+                        <ul class="shortensea__price-features">
+                            <li>1.000 link/tháng</li>
+                            <li>UTM &amp; hết hạn link</li>
+                            <li>Advanced insights</li>
+                            <li>50 custom back-halves</li>
+                        </ul>
+                        <a class="shortensea__btn shortensea__btn--momo" data-sse-momo-link href="#" target="_blank" rel="noopener noreferrer">Thanh toán MoMo</a>
+                    </div>
+                </div>
+                <p class="shortensea__hero-desc" style="margin-top:0.75rem;font-size:0.82rem;">
+                    Sau khi thanh toán MoMo, admin gửi approve code qua email. Nhập mã ở trên để nâng cấp — không tự động xác nhận thanh toán.
+                </p>
+
+                <div class="shortensea__admin-panel" data-sse-admin-panel hidden>
+                    <h3 class="shortensea__card-title">🛠 Admin — Tạo approve code</h3>
+                    <div class="shortensea__row">
+                        <select class="shortensea__select" id="sse-admin-plan">
+                            <option value="monthly">Gói Tháng (30 ngày)</option>
+                            <option value="yearly">Gói Năm (365 ngày)</option>
+                        </select>
+                        <input class="shortensea__input" id="sse-admin-email" type="email" placeholder="Email người dùng (tuỳ chọn)">
+                    </div>
+                    <button type="button" class="shortensea__btn shortensea__btn--primary" data-sse-action="admin-create-code" style="margin-top:0.75rem;">Tạo mã kích hoạt</button>
+                    <pre class="shortensea__input" data-sse-admin-code-output style="margin-top:0.75rem;white-space:pre-wrap;" hidden></pre>
+                </div>
+            </div>
+        </section>
+
+        {# Section B — Create Link #}
+        <section class="shortensea__card">
+            <h2 class="shortensea__card-title">✨ Tạo short link</h2>
+            <form class="shortensea__form" id="sse-create-form" novalidate>
+                <div class="shortensea__field">
+                    <label class="shortensea__label" for="sse-dest">Destination URL <span aria-hidden="true">*</span></label>
+                    <input class="shortensea__input" id="sse-dest" type="url" placeholder="https://example.com/page" required>
+                </div>
+                <div class="shortensea__row">
+                    <div class="shortensea__field">
+                        <label class="shortensea__label" for="sse-domain">Short domain</label>
+                        <input class="shortensea__input" id="sse-domain" type="text" readonly data-sse-domain-input>
+                    </div>
+                    <div class="shortensea__field">
+                        <label class="shortensea__label" for="sse-slug">Custom back-half (tuỳ chọn)</label>
+                        <input class="shortensea__input" id="sse-slug" type="text" placeholder="my-link" pattern="[a-zA-Z0-9][a-zA-Z0-9_-]{2,48}" data-sse-slug-input>
+                    </div>
+                </div>
+                <div class="shortensea__field">
+                    <label class="shortensea__label" for="sse-title">Title (tuỳ chọn)</label>
+                    <input class="shortensea__input" id="sse-title" type="text" placeholder="Mô tả ngắn">
+                </div>
+                <div class="shortensea__field">
+                    <label class="shortensea__label" for="sse-tags">Tags (tuỳ chọn, phân cách dấu phẩy)</label>
+                    <input class="shortensea__input" id="sse-tags" type="text" placeholder="blog, promo" data-sse-tags-input>
+                </div>
+                <div class="shortensea__options">
+                    <label class="shortensea__checkbox">
+                        <input type="checkbox" id="sse-qr" data-sse-qr-input> Tạo QR code
+                    </label>
+                    <label class="shortensea__checkbox">
+                        <input type="checkbox" id="sse-utm-toggle"> UTM parameters
+                    </label>
+                    <label class="shortensea__checkbox">
+                        <input type="checkbox" id="sse-exp-toggle" data-sse-exp-toggle> Đặt hết hạn link
+                    </label>
+                </div>
+                <div class="shortensea__utm-panel" id="sse-utm-panel" hidden>
+                    <div class="shortensea__row">
+                        <div class="shortensea__field">
+                            <label class="shortensea__label" for="sse-utm-source">utm_source</label>
+                            <input class="shortensea__input" id="sse-utm-source" type="text">
+                        </div>
+                        <div class="shortensea__field">
+                            <label class="shortensea__label" for="sse-utm-medium">utm_medium</label>
+                            <input class="shortensea__input" id="sse-utm-medium" type="text">
+                        </div>
+                    </div>
+                    <div class="shortensea__row">
+                        <div class="shortensea__field">
+                            <label class="shortensea__label" for="sse-utm-campaign">utm_campaign</label>
+                            <input class="shortensea__input" id="sse-utm-campaign" type="text">
+                        </div>
+                        <div class="shortensea__field">
+                            <label class="shortensea__label" for="sse-utm-term">utm_term</label>
+                            <input class="shortensea__input" id="sse-utm-term" type="text">
+                        </div>
+                    </div>
+                    <div class="shortensea__field">
+                        <label class="shortensea__label" for="sse-utm-content">utm_content</label>
+                        <input class="shortensea__input" id="sse-utm-content" type="text">
+                    </div>
+                </div>
+                <div class="shortensea__field" id="sse-exp-field" hidden>
+                    <label class="shortensea__label" for="sse-exp-date">Ngày hết hạn link</label>
+                    <input class="shortensea__input" id="sse-exp-date" type="datetime-local" data-sse-exp-input>
+                </div>
+                <button type="submit" class="shortensea__btn shortensea__btn--primary" data-sse-action="create">Tạo link</button>
+            </form>
+            <div id="sse-qr-preview" hidden style="margin-top:1rem;text-align:center;"></div>
+        </section>
+    </div>
+
+    <div class="shortensea__toast-host" data-sse-toast-host aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/shortensea/toast.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/api.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/auth.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/app.js') }}" defer></script>
+{% endblock %}

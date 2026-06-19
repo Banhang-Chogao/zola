@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}ShortenSEA — Insights | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
+{% block main %}
+<div id="sse-app" class="shortensea" data-sse-page="insights">
+
+    <section data-sse-view="login">
+        <div class="shortensea__login">
+            <div class="shortensea__login-icon" aria-hidden="true">📊</div>
+            <h2 class="shortensea__login-title">ShortenSEA — Insights</h2>
+            <p class="shortensea__login-sub">Đăng nhập để xem phân tích click.</p>
+            <button type="button" class="shortensea__btn shortensea__btn--primary" data-sse-action="login">Đăng nhập với GitHub</button>
+        </div>
+    </section>
+
+    <div data-sse-view="app" hidden>
+        <header class="shortensea__hero">
+            <p class="shortensea__hero-eyebrow">ShortenSEA Analytics</p>
+            <h1 class="shortensea__hero-title">Insights</h1>
+        </header>
+
+        <nav class="shortensea__nav-tabs" aria-label="ShortenSEA navigation">
+            <a class="shortensea__nav-tab" href="{{ config.base_url }}/shortensea/">Tạo link</a>
+            <a class="shortensea__nav-tab" href="{{ config.base_url }}/shortensea/links/">Danh sách</a>
+            <a class="shortensea__nav-tab shortensea__nav-tab--active" href="{{ config.base_url }}/shortensea/insights/">Insights</a>
+        </nav>
+
+        <section class="shortensea__card" id="sse-insights-root">
+            <div class="shortensea__kpi-grid" data-sse-insights-kpis>
+                <div class="shortensea__kpi">
+                    <p class="shortensea__kpi-label">Tổng clicks</p>
+                    <p class="shortensea__kpi-value" data-sse-total-clicks>0</p>
+                </div>
+                <div class="shortensea__kpi shortensea__kpi--blue">
+                    <p class="shortensea__kpi-label">QR scans</p>
+                    <p class="shortensea__kpi-value" data-sse-qr-scans>0</p>
+                </div>
+                <div class="shortensea__kpi shortensea__kpi--purple">
+                    <p class="shortensea__kpi-label">Top link clicks</p>
+                    <p class="shortensea__kpi-value" data-sse-top-clicks>0</p>
+                </div>
+            </div>
+
+            <p class="shortensea__locked" data-sse-insights-locked hidden>
+                Nâng cấp gói để xem insights chi tiết.
+            </p>
+
+            <div class="shortensea__chart-grid" data-sse-charts>
+                <div class="shortensea__chart-card">
+                    <p class="shortensea__chart-title">Clicks theo ngày</p>
+                    <canvas id="sse-chart-day" height="180"></canvas>
+                </div>
+                <div class="shortensea__chart-card">
+                    <p class="shortensea__chart-title">Clicks theo link</p>
+                    <canvas id="sse-chart-links" height="180"></canvas>
+                </div>
+                <div class="shortensea__chart-card" data-sse-advanced-chart>
+                    <p class="shortensea__chart-title">Referrer</p>
+                    <canvas id="sse-chart-referrer" height="180"></canvas>
+                </div>
+                <div class="shortensea__chart-card" data-sse-advanced-chart>
+                    <p class="shortensea__chart-title">Thiết bị</p>
+                    <canvas id="sse-chart-device" height="180"></canvas>
+                </div>
+                <div class="shortensea__chart-card" data-sse-advanced-chart>
+                    <p class="shortensea__chart-title">Trình duyệt</p>
+                    <canvas id="sse-chart-browser" height="180"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="shortensea__toast-host" data-sse-toast-host aria-live="polite"></div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+    <script src="{{ get_url(path='js/shortensea/toast.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/api.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/auth.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/insights.js') }}" defer></script>
+{% endblock %}

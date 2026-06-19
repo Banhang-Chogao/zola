@@ -4,8 +4,16 @@
 
 {% block description %}Trang bạn tìm không tồn tại hoặc đã được di chuyển. Quay lại trang chủ blog {{ config.title }} để tiếp tục khám phá nội dung công nghệ và du lịch.{% endblock %}
 
+{% block extra_head %}
+    {% set_global shortensea_api = config.extra.shortensea_api_url | default(value="") %}
+    {% if shortensea_api %}
+    <meta name="zola-shortensea-api" content="{{ shortensea_api | safe }}">
+    {% endif %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
 {% block main %}
-    <section class="error-404">
+    <section class="error-404" id="sse-404-fallback">
         <header class="section-header">
             <h1 class="section-header__title">404 — KHÔNG TÌM THẤY TRANG</h1>
         </header>
@@ -18,3 +26,8 @@
 {% endblock main %}
 
 {% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/shortensea/api.js') }}" defer></script>
+    <script src="{{ get_url(path='js/shortensea/redirect.js') }}" defer></script>
+{% endblock %}

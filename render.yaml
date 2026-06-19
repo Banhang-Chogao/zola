@@ -118,3 +118,43 @@ services:
         sync: false
       - key: SMTP_FROM
         sync: false
+
+  # ============= ShortenSEA API (FastAPI + SQLite) =============
+  - type: web
+    name: blog-shortensea-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/shortensea
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: shortensea-data
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: SHORTENSEA_CORS_ORIGIN
+        value: https://banhang-chogao.github.io
+      - key: SHORTENSEA_BLOG_URL
+        value: https://banhang-chogao.github.io/zola
+      - key: SHORTENSEA_DOMAIN
+        value: banhang-chogao.github.io/zola
+      - key: SHORTENSEA_DB_PATH
+        value: /var/data/shortensea.db
+      - key: SHORTENSEA_SESSION_TTL
+        value: "86400"
+      - key: ADMIN_EMAILS
+        value: 292648126+Banhang-Chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
+      - key: MOMO_PAYMENT_LINK
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG
+      - key: SHORTENSEA_BACKEND_URL
+        sync: false
+      - key: CMS_AUTH_URL
+        value: https://blog-visitor-api.onrender.com
+      - key: GH_CLIENT_ID
+        sync: false
+      - key: GH_CLIENT_SECRET
+        sync: false
