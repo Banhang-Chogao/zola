@@ -31,17 +31,26 @@ FLAGS:
     --stdout     Print summary only (still writes the report).
     --help       Show this help.
 
+SCHEDULED FORWARD-REFS (VACCINE V13):
+    A link to a post that is `draft = true` AND has a `publish_at` in the FUTURE is
+    a scheduled forward-reference, NOT a broken link. Such links are reported with
+    status "scheduled-forward-ref" (warning only) and do NOT fail the build — the
+    target publishes automatically on its date, after which the link is checked
+    strictly again. Genuine 404s (no publish_at, or a past publish_at) stay strict.
+
 EXIT CODES:
     2  At least one INTERNAL broken link remains after the run.
-    0  No internal broken links (external failures are warnings only and never
-       fail the build). Also 0 on any unexpected error (cached report kept).
+    0  No internal broken links (external failures and scheduled forward-refs are
+       warnings only and never fail the build). Also 0 on any unexpected error
+       (cached report kept).
 
 OUTPUT:
     data/qa-404-report.json
-      summary { broken_count, checked, status, internal_broken, external_broken,
-                external_checked, scanned_pages, external_enabled }
+      summary { broken_count, checked, status, internal_broken,
+                scheduled_forward_refs, external_broken, external_checked,
+                scanned_pages, external_enabled }
       links[] { source_page, source_file, href, target, status, error_type,
-                suggestion, kind }
+                suggestion, kind, publish_at? }
 
 Stdlib only. Designed to never crash CI: on any unexpected error it loads the
 previous cached report (if any) and exits 0.
@@ -226,6 +235,104 @@ def _page_source(rel: str) -> str:
 
 
 # --------------------------------------------------------------------------- #
+# Scheduled forward-references (VACCINE V13)
+#
+# A link to a post that is `draft = true` AND has a `publish_at` timestamp in the
+# FUTURE is NOT a broken link — it is a *scheduled forward-reference*. The post is
+# intentionally unbuilt today and will be published automatically by
+# scheduled-publish.yml on its date, at which point the link resolves normally.
+# We must NOT fail CI / block auto-merge for these, but we DO surface them as a
+# warning. Once `publish_at` has passed, the post drops out of this map and the
+# link is evaluated with strict 404 detection again. Everything else stays strict.
+# --------------------------------------------------------------------------- #
+def _parse_frontmatter(md_text: str) -> dict | None:
+    """Parse a Zola TOML (+++) frontmatter block. Returns dict or None.
+
+    Never raises — any error degrades to None (caller treats as 'not scheduled',
+    i.e. strict 404), so a parse failure can never make a real broken link pass.
+    """
+    if not md_text.startswith("+++"):
+        return None
+    end = md_text.find("+++", 3)
+    if end == -1:
+        return None
+    block = md_text[3:end].strip()
+    try:
+        import tomllib  # py3.11+ stdlib (same runtime the build/CI already use)
+
+        return tomllib.loads(block)
+    except Exception:
+        return None
+
+
+def _content_urls_for(md: Path, meta: dict) -> list[str]:
+    """Site-relative URL path(s) a content post would build to (canonical + aliases).
+
+    Matches the normalized form produced by _classify (no /zola prefix, trailing
+    slash on directory pages) so it can be compared against link targets directly.
+    """
+    urls: list[str] = []
+    try:
+        rel = md.relative_to(CONTENT)
+    except ValueError:
+        return urls
+    section = "/".join(rel.parts[:-1])
+    slug = str(meta.get("slug") or md.stem)
+    urls.append(f"/{section}/{slug}/" if section else f"/{slug}/")
+    for alias in meta.get("aliases") or []:
+        a = str(alias)
+        if not a.startswith("/"):
+            a = "/" + a
+        if not a.endswith("/") and "." not in Path(a).name:
+            a += "/"
+        urls.append(a)
+    return urls
+
+
+def _scheduled_forward_targets(now: datetime) -> dict[str, str]:
+    """Map { site-relative URL -> publish_at ISO } for posts that are draft=true
+    AND scheduled to publish in the FUTURE (publish_at > now).
+
+    Best-effort and crash-proof: any failure yields {} so behaviour falls back to
+    strict 404 detection (we never silence a genuinely broken link by accident).
+    """
+    out: dict[str, str] = {}
+    if not CONTENT.is_dir():
+        return out
+    try:
+        md_files = list(CONTENT.rglob("*.md"))
+    except OSError:
+        return out
+    for md in md_files:
+        if md.name == "_index.md":
+            continue
+        try:
+            meta = _parse_frontmatter(md.read_text(encoding="utf-8", errors="ignore"))
+        except OSError:
+            continue
+        if not meta or not meta.get("draft"):
+            continue
+        # publish_at lives under [extra] (scheduled-publish convention); accept a
+        # top-level value too for robustness.
+        extra = meta.get("extra") or {}
+        pub = extra.get("publish_at") or meta.get("publish_at")
+        if not pub:
+            continue
+        try:
+            dt = datetime.fromisoformat(str(pub))
+        except (ValueError, TypeError):
+            continue
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=VN_TZ)
+        if dt <= now:
+            continue  # publish date already passed → strict 404 from here on
+        iso = dt.strftime("%Y-%m-%dT%H:%M:%S%z")
+        for url in _content_urls_for(md, meta):
+            out[url] = iso
+    return out
+
+
+# --------------------------------------------------------------------------- #
 # Nearest-match suggestion (for internal 404s)
 # --------------------------------------------------------------------------- #
 def _candidate_internal_pages(pub_paths: set[str]) -> list[str]:
@@ -333,6 +440,16 @@ def scan(check_external: bool, ext_cap: int) -> dict:
     pub_paths = _public_paths()
     candidates = _candidate_internal_pages(pub_paths)
 
+    # Scheduled forward-references (VACCINE V13): links to future-dated drafts are
+    # not broken. Computed once up front; crash-proof (falls back to {} = strict).
+    scan_now = datetime.now(timezone.utc)
+    try:
+        scheduled_targets = _scheduled_forward_targets(scan_now)
+    except Exception:
+        scheduled_targets = {}
+    scheduled_refs: list[dict] = []
+    seen_scheduled: set[tuple[str, str]] = set()
+
     internal_broken: list[dict] = []
     seen_internal: set[tuple[str, str]] = set()  # (source_file, target)
     checked_internal: set[str] = set()
@@ -369,6 +486,23 @@ def scan(check_external: bool, ext_cap: int) -> dict:
             if kind == "internal":
                 checked_internal.add(norm)
                 if _internal_ok(norm, pub_paths):
+                    continue
+                # Scheduled forward-ref → warning, NOT a broken link (VACCINE V13).
+                if norm in scheduled_targets:
+                    skey = (source_file, norm)
+                    if skey not in seen_scheduled:
+                        seen_scheduled.add(skey)
+                        scheduled_refs.append({
+                            "source_page": rel,
+                            "source_file": source_file,
+                            "href": href.strip(),
+                            "target": norm,
+                            "status": "scheduled-forward-ref",
+                            "error_type": "scheduled_forward_ref",
+                            "publish_at": scheduled_targets[norm],
+                            "suggestion": None,
+                            "kind": "internal",
+                        })
                     continue
                 key = (source_file, norm)
                 if key in seen_internal:
@@ -414,11 +548,12 @@ def scan(check_external: bool, ext_cap: int) -> dict:
                 "kind": "external",
             })
 
-    links = internal_broken + external_broken
+    # Scheduled forward-refs are warnings, never failures (VACCINE V13).
+    links = internal_broken + scheduled_refs + external_broken
     broken_count = len(internal_broken) + len(external_broken)
     if len(internal_broken) > 0:
         overall = "fail"
-    elif external_broken:
+    elif external_broken or scheduled_refs:
         overall = "warn"
     else:
         overall = "pass"
@@ -433,6 +568,7 @@ def scan(check_external: bool, ext_cap: int) -> dict:
             "status": overall,
             "internal_broken": len(internal_broken),
             "internal_checked": len(checked_internal),
+            "scheduled_forward_refs": len(scheduled_refs),
             "external_broken": len(external_broken),
             "external_checked": external_checked,
             "external_total_unique": len(external_urls),
@@ -587,7 +723,7 @@ def main(argv: list[str]) -> int:
             still_broken = [
                 l for l in report["links"]
                 if l.get("kind") == "internal"
-                and l["status"] not in ("fixed-pending-rebuild",)
+                and l["status"] not in ("fixed-pending-rebuild", "scheduled-forward-ref")
             ]
             report["summary"]["internal_broken"] = len(still_broken)
             report["fixes"] = fixes
@@ -600,6 +736,10 @@ def main(argv: list[str]) -> int:
     print(f"QA 404: scanned {s['scanned_pages']} page(s) · "
           f"{s['internal_checked']} unique internal link(s) checked · "
           f"{s['internal_broken']} internal broken")
+    sched = s.get("scheduled_forward_refs", 0)
+    if sched:
+        print(f"        scheduled forward-refs: {sched} (draft posts with a future "
+              f"publish_at — warning only, not broken)")
     if check_external:
         print(f"        external: {s['external_checked']}/{s['external_total_unique']} "
               f"probed · {s['external_broken']} broken (warn only)")

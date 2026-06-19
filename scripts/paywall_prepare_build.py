@@ -173,12 +173,25 @@ def strip_premium() -> int:
         meta, body, fm_block = parsed
         pm = _premium_meta(meta)
         _public, premium_body = _split_more(body)
-        stored_premium = premium_body if premium_body else body
         post_id = pm.get("premium_post_id") or pm.get("slug") or md.stem
         teaser_words = int(pm.get("premium_teaser_words", 180))
 
+        # Persist the FULL premium body to private_content/ for the backend — but
+        # NEVER clobber existing full content with a teaser. Source of truth for a
+        # post can be either:
+        #   (a) content/ holds teaser + "<!-- more -->" + full body → store the
+        #       part after the marker, or
+        #   (b) content/ holds only the teaser and private_content/ already has
+        #       the full body → keep private_content/ as-is (do not overwrite).
         private_path = PRIVATE / f"{post_id}.md"
-        private_path.write_text(stored_premium, encoding="utf-8")
+        if premium_body:
+            private_path.write_text(premium_body, encoding="utf-8")
+        elif not private_path.exists():
+            # No marker and no stored full body yet → fall back to whole body so
+            # the backend has something to serve.
+            private_path.write_text(body, encoding="utf-8")
+        # else: content/ is teaser-only and private_content/ already holds the
+        # full body → preserve it untouched.
 
         backup[str(md.relative_to(ROOT))] = body
         fm_out = _inject_premium_flags(fm_block, meta)
