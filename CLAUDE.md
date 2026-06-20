@@ -759,6 +759,78 @@ score **97.8/100 (A+)**. Root cause: 104 `feed-anchor` + 10 homepage `/page/N/` 
 code-fence demotion in `sentence-transformers-sbert-deep-dive.md` — demoter skips
 fenced blocks.
 
+## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
+
+> Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
+> · Report: `data/vaccine-hotfix-report.json` (**"Autofixer_report_by Vacxin"**) ·
+> State/lock + anti-loop: `data/vaccine-hotfix-state.json` · Log: `data/vaccine-hotfix.log`.
+>
+> Khi pipeline **đỏ thật** (build/deploy/auto-merge/conflict/required-check) → tự kích
+> hoạt: chẩn lỗi → mở/cập nhật branch `vaccine-hotfix/<issue-id>` → sửa **delta tối thiểu**
+> → re-run QA/build/test → lặp tới khi xanh → cập nhật PR → **auto-merge CHỈ khi mọi
+> required check xanh**. Đây là lớp self-heal **bổ sung** ZERO_BARRIER, **không** thay
+> auto-merge / QA / deploy / Daily Vaccine Autofixer (V11).
+
+### Conflict-safe precheck (chạy TRƯỚC mỗi lần kích hoạt)
+
+`audit_rules()` quét rule CI/PR/merge/deploy hiện có và phát hiện xung đột với
+manual-approval · branch-protection · auto-merge · QA · deploy. **Giữ nguyên safety
+gate cho `main`**, chỉ cho `vaccine-hotfix/*` auto-fix + auto-update PR:
+
+- **KHÔNG** bypass required checks — re-chạy `qa_check.py`; merge giao cho
+  `try_auto_merge.py` (auto-merge.yml) → chỉ merge khi `qa-check` xanh.
+- **KHÔNG** force-push / push thẳng `main` — engine chỉ ghi branch `vaccine-hotfix/*`.
+- **KHÔNG** xoá content/data người dùng — `content/**`, `private_content/**`,
+  `*-series.json`, `categories.json` được bảo vệ (conflict giữ phía PR/content; data
+  CI tự sinh mới lấy `main`).
+- Conflict (vd manual-approval) **không** chặn việc *sửa* — chỉ giới hạn *merge* về đúng
+  cổng đã gate. `vaccine-hotfix/` đã nằm trong `auto_eligible_branch_prefixes`
+  (`data/auto-merge-policy.json`) → PR auto-merge qua **cùng** cổng `qa-check`, không phải bypass.
+
+### Triggers (5)
+
+`build_fail` · `deploy_fail` · `auto_merge_blocked` · `merge_conflict` ·
+`required_checks_fail`. Workflow nhận qua `workflow_run` (QA Gatekeeper / deploy /
+Auto-merge **completed=failure**) + `workflow_dispatch`.
+
+### Behavior
+
+1. Activate + **conflict-safe precheck** (`--precheck`).
+2. Diagnose root cause — reuse `scripts/ai_diagnose.py` (heuristic miễn phí).
+3. Create/update branch `vaccine-hotfix/<issue-id>` (issue-id bám branch lỗi → retry
+   tăng cùng counter anti-loop; lỗi sẵn trên hotfix branch thì tái dùng, không lồng).
+4. Fix **delta tối thiểu** — `merge_conflict` → `scripts/autofix_conflicts.py`; build
+   breaker đã biết → SAFE fixer của `vaccine_autofixer.py` (V1 model id, internal-link
+   `--fix`, references…). KHÔNG refactor lớn.
+5. Re-run QA/build/test, **lặp tới khi xanh** (bounded `MAX_FIX_ATTEMPTS`; anti-loop
+   `LOOP_THRESHOLD` → escalate, dừng).
+6. Update PR; **auto-merge chỉ khi mọi required check xanh** (giao `try_auto_merge.py`).
+7. Log → `data/vaccine-hotfix-report.json` ("Autofixer_report_by Vacxin") + `history[]`.
+
+### Output (mỗi lần chạy)
+
+PR link · Root cause · Files changed · Checks result (qa/build/tests) · Deploy status.
+
+### Lệnh
+
+```bash
+python3 scripts/vaccine_hotfix.py --precheck                       # audit rule, không sửa
+python3 scripts/vaccine_hotfix.py --trigger required_checks_fail --issue-id qa-123
+python3 scripts/vaccine_hotfix.py --trigger merge_conflict --issue-id pr-87 --branch feature/x
+python3 scripts/vaccine_hotfix.py --trigger build_fail --issue-id qa-9 --dry-run --no-build
+python3 -m unittest scripts.test_vaccine_hotfix -v
+```
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Engine | `scripts/vaccine_hotfix.py` |
+| Tests | `scripts/test_vaccine_hotfix.py` |
+| Workflow | `.github/workflows/vaccine-hotfix.yml` (`workflow_run` + dispatch; concurrency `vaccine-hotfix-<branch>`, KHÔNG dùng chung lock `auto-merge-main`/`production-deploy`) |
+| Report | `data/vaccine-hotfix-report.json` ("Autofixer_report_by Vacxin") |
+| Reuse | `ai_diagnose.py` (root cause) · `autofix_conflicts.py` (conflict) · `vaccine_autofixer.py` (safe fixers) · `try_auto_merge.py` (gated merge) |
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
