@@ -1,25 +1,63 @@
 {
-  "updated_at": "2026-06-20T07:15:09Z",
+  "updated_at": "2026-06-20T07:59:32Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 13,
+    "today": 15,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 49,
+      "content": 9,
       "unknown": 30,
       "feature": 86,
-      "fix": 48,
-      "chore": 24,
+      "chore": 22,
       "ci": 3,
-      "qa": 1,
-      "content": 8
+      "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 540,
+      "pr_title": "dns-vaccine: apex NS gate + empty-apex-A Cloudflare fix steps (seomoney.org)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/540",
+      "merged_at": "2026-06-20T07:54:31Z",
+      "merge_commit_sha": "92987b801cc9a1b3877884a673f6604b2e517cdb",
+      "merge_commit_short": "92987b8",
+      "head_branch": "claude/dns-apex-vaccine",
+      "summary_vi": "`www.seomoney.org` resolves correctly (CNAME → `banhang-chogao.github.io` + GitHub Pages IPs), but **apex `seomoney.org` A is empty** — Cloudflare DNS is missing the apex `@` A records (NOT NS / R2 / email-routing). Repo",
+      "change_type": "fix",
+      "files_changed": 4,
+      "additions": 252,
+      "deletions": 9,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 832,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27864864314",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 527,
+      "pr_title": "Add SEO launch blog series",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/527",
+      "merged_at": "2026-06-20T07:26:52Z",
+      "merge_commit_sha": "88de324774426b7cf42519360b8aebf05572e0d2",
+      "merge_commit_short": "88de324",
+      "head_branch": "codex/seo-launch-series",
+      "summary_vi": "- Add five SEO-optimized launch articles for the AI, travel, and life systems platform positioning",
+      "change_type": "content",
+      "files_changed": 9,
+      "additions": 7583,
+      "deletions": 502,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 832,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27864864314",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 539,
       "pr_title": "docs(shortcuts): wip8 output dạng bảng markdown trực quan",
@@ -37,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 831,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27863833907",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 529,
@@ -56,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 831,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27863833907",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 538,
@@ -681,9 +719,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 802,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27828501425",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 502,
@@ -3776,44 +3814,6 @@
       "files_changed": 2,
       "additions": 79,
       "deletions": 40,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 325,
-      "pr_title": "chore: refresh Build Dashboard data",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/325",
-      "merged_at": "2026-06-17T17:58:22Z",
-      "merge_commit_sha": "07ea6d2cf972d4e8128b4fb865176d5a79a7b8c9",
-      "merge_commit_short": "07ea6d2",
-      "head_branch": "chore/build-dashboard-data",
-      "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 350,
-      "deletions": 350,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 332,
-      "pr_title": "chore: refresh Google Trends VN hot search",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/332",
-      "merged_at": "2026-06-17T17:54:33Z",
-      "merge_commit_sha": "e9b8d8262149b233eacb076dd66ff16f213bd57d",
-      "merge_commit_short": "e9b8d82",
-      "head_branch": "chore/google-trends-data",
-      "summary_vi": "Automated refresh of `data/google-trends-vn.json` for sidebar widget.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 106,
-      "deletions": 106,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
