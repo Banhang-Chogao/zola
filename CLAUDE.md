@@ -1968,6 +1968,50 @@ python3 -m unittest scripts.test_qa_vaccines -v
 > rồi viết 1 detector trong `DETECTORS[]` (FAIL nếu vỡ build/prod, WARN nếu chỉ consistency) +
 > 1 negative test. Giữ nguyên tắc: detector lỗi nội bộ KHÔNG bao giờ crash gate (bọc try/except).
 
+## V10 — Shared Link-Utils + Test Layer (link-safety; NOT a §4 vaccine number)
+
+> ⚠️ **Đây KHÔNG phải vaccine số trong §4.** "V10" ở đây là nhãn cho **lớp hạ tầng
+> link-safety dùng chung** (shared link-utils + test + detector), **không** đụng/đổi
+> tên `#### V9` (Docs-only stale base) hay các `#### V10` đã có trong §4. Header dùng
+> `##`/`###` (không phải `#### V<N> —`) nên `load_vaccines()` KHÔNG đếm nó là vaccine.
+
+**Bug nó chặn (migration + regex 404):** code xử lý link tái phát 2 lỗi —
+(1) **HOST guard** (`if HOST not in url` / `SITE_HOST in url`) để phân loại internal
+vs external → **drop link `/zola/*`** (không mang host) → 404 sau migration;
+(2) chạy regex link trên **raw markdown** → parse/rewrite link nằm **trong code span**
+(```` ``` ```` block + inline `` `code` ``).
+
+### Invariant (BẮT BUỘC — giữ vĩnh viễn)
+
+- **`/zola/*` (và mọi `/…`, `@/…`, `./…`) LUÔN là internal — KHÔNG bao giờ cần host.**
+  External chỉ là `http(s)://` / `//`. `#`, `mailto:`, `tel:`, `javascript:`, `data:` → skip.
+- **KHÔNG parse/rewrite link trong code span.** Mask code span (fenced + inline) TRƯỚC
+  khi extract/replace. Migration tool (`fix_site_prefix_links.py`) phải dùng
+  `code_span_ranges()` để chừa code.
+- Regex chịu được markdown wrapper (`<url>`, `"title"`) + trailing punctuation (`clean_url`).
+
+### Reuse (đừng tự viết lại regex link)
+
+Mọi script cần phân loại/đếm/extract link PHẢI dùng `scripts/link_utils.py` thay vì tự
+viết regex riêng: `classify`/`is_internal`/`is_external`/`validate`/`clean_url`/
+`code_span_ranges`/`mask_code_spans`/`extract_urls`/`extract_link_pairs`/`extract_bare_urls`/
+`process`. Stdlib-only, crash-safe (input lỗi → trả rỗng, không raise).
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Lib dùng chung | `scripts/link_utils.py` |
+| Test lib | `scripts/test_link_utils.py` (`python3 -m unittest scripts.test_link_utils -v`) |
+| Consumer (migration) | `scripts/fix_site_prefix_links.py` (code-span-safe `/zola/` prefixer) |
+| Consumer (báo cáo) | `scripts/content_direction.py` (`count_links` dùng pipeline an toàn) |
+| Detector gate | `scripts/qa_vaccines.py` → `check_v10_link_utils_layer` (code `V10-LINKS`) |
+| Test detector | `scripts/test_qa_vaccines.py` → `LinkUtilsLayerTest` |
+
+Detector `V10-LINKS` **FAIL** nếu `link_utils.py` vắng hoặc bất biến bị phá (live-check:
+`classify("/zola/x")=="internal"`, code-span không leak); **WARN** nếu thiếu test file /
+migration tool không dùng `code_span_ranges`. Calibrate: `main` hiện tại = PASS (0 FAIL).
+
 ## QA Auto Rule Checker
 
 Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi **48 giờ** (`qa-rule-checker.yml`, cron `0 3 */2 * *` UTC).
