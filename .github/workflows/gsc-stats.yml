@@ -5,7 +5,12 @@ name: Fetch GSC Stats
 # GSC_PROPERTY_URL MUST be the domain property "sc-domain:seomoney.org"
 # (deploy.yml runs scripts/gsc_preflight.py as a hard gate on this value).
 # Sitemap: https://seomoney.org/sitemap.xml
-# Obtain refresh token via /gsc/oauth/start on blog backend (admin session).
+# Obtain refresh token (one-time, superadmin session):
+#   1. Open https://blog-vipzone-api.onrender.com/gsc/oauth/start?sid=<cms_sid>
+#      (or use the "Kết nối GSC" button in the SEO Reality Check widget).
+#   2. Google callback → https://blog-vipzone-api.onrender.com/gsc/oauth/callback
+#   3. Copy the token from /gsc/oauth/token?sid=<cms_sid> into GSC_REFRESH_TOKEN.
+#   Check wiring (no secrets): https://blog-vipzone-api.onrender.com/gsc/status
 
 on:
   schedule:

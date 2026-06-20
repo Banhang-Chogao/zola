@@ -53,3 +53,15 @@ services:
         value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg
       - key: VIPZONE_CATALOG_URL
         value: https://seomoney.org/data/vipzone-picker-catalog.json
+      # Google Search Console OAuth (refresh-token bootstrap via /gsc/oauth/start).
+      # Callback registered in the Google OAuth client:
+      #   https://blog-vipzone-api.onrender.com/gsc/oauth/callback
+      - key: GSC_CLIENT_ID
+        sync: false
+      - key: GSC_CLIENT_SECRET
+        sync: false
+      - key: GSC_PROPERTY_URL
+        value: sc-domain:seomoney.org
+      # Set after completing /gsc/oauth/start (copy from /gsc/oauth/token).
+      - key: GSC_REFRESH_TOKEN
+        sync: false

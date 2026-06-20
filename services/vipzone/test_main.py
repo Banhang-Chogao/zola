@@ -315,5 +315,103 @@ class VipzoneDbTests(unittest.TestCase):
             self.assertIsNone(db.get_active_vip("old@example.com"))
 
 
+class GscOAuthRouteTests(unittest.TestCase):
+    """GSC OAuth bootstrap routes are mounted on the DEPLOYED vipzone app.
+
+    Regression: the routes used to live only in services/visitor-counter (not the
+    Render service), so /gsc/oauth/start 404'd on blog-vipzone-api.
+    """
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.db_path = Path(self._tmp.name) / "gsc-test.db"
+        os.environ["VIPZONE_DB_PATH"] = str(self.db_path)
+        import main as main_mod
+
+        main_mod._db = None
+        self.client = TestClient(app)
+
+        import gsc_oauth
+
+        self.gsc = gsc_oauth
+        self._saved = (gsc_oauth.GSC_CLIENT_ID, gsc_oauth.GSC_CLIENT_SECRET)
+        gsc_oauth.GSC_CLIENT_ID = "client-id.apps.googleusercontent.com"
+        gsc_oauth.GSC_CLIENT_SECRET = "client-secret"
+
+    def tearDown(self) -> None:
+        self.gsc.GSC_CLIENT_ID, self.gsc.GSC_CLIENT_SECRET = self._saved
+        self._tmp.cleanup()
+
+    def _superadmin_sid(self) -> str:
+        return get_db().create_cms_session(
+            {
+                "email": "tamsudev.com@gmail.com",
+                "username": "banhang-chogao",
+                "name": "Admin",
+                "is_super": True,
+                "is_superadmin": True,
+            },
+            3600,
+        )
+
+    def test_status_no_secrets(self) -> None:
+        res = self.client.get("/gsc/status")
+        self.assertEqual(res.status_code, 200)
+        body = res.json()
+        self.assertTrue(body["configured"])
+        self.assertEqual(body["property"], "sc-domain:seomoney.org")
+        self.assertEqual(
+            body["redirect_uri"], "https://blog-vipzone-api.onrender.com/gsc/oauth/callback"
+        )
+        self.assertEqual(body["oauth_scope"], "https://www.googleapis.com/auth/webmasters.readonly")
+        # Secrets must never appear in status.
+        self.assertNotIn("client-secret", res.text)
+
+    def test_oauth_start_requires_superadmin(self) -> None:
+        # No session → 401.
+        res = self.client.get("/gsc/oauth/start", follow_redirects=False)
+        self.assertEqual(res.status_code, 401)
+
+    def test_oauth_start_redirects_to_google(self) -> None:
+        sid = self._superadmin_sid()
+        res = self.client.get(f"/gsc/oauth/start?sid={sid}", follow_redirects=False)
+        self.assertEqual(res.status_code, 307)
+        loc = res.headers["location"]
+        self.assertTrue(loc.startswith("https://accounts.google.com/o/oauth2/v2/auth"))
+        self.assertIn("access_type=offline", loc)
+        self.assertIn("prompt=consent", loc)
+        self.assertIn("webmasters.readonly", loc)
+        self.assertIn(
+            "redirect_uri=https%3A%2F%2Fblog-vipzone-api.onrender.com%2Fgsc%2Foauth%2Fcallback", loc
+        )
+
+    def test_oauth_start_not_configured(self) -> None:
+        self.gsc.GSC_CLIENT_ID = ""
+        sid = self._superadmin_sid()
+        res = self.client.get(f"/gsc/oauth/start?sid={sid}", follow_redirects=False)
+        self.assertEqual(res.status_code, 503)
+
+    def test_callback_invalid_state(self) -> None:
+        res = self.client.get(
+            "/gsc/oauth/callback?code=abc&state=bogus", follow_redirects=False
+        )
+        self.assertEqual(res.status_code, 307)
+        self.assertIn("gsc_error=invalid_state", res.headers["location"])
+
+    def test_callback_missing_params(self) -> None:
+        res = self.client.get("/gsc/oauth/callback", follow_redirects=False)
+        self.assertEqual(res.status_code, 307)
+        self.assertIn("gsc_error=missing_params", res.headers["location"])
+
+    def test_token_endpoint_requires_superadmin_and_returns_stored(self) -> None:
+        res = self.client.get("/gsc/oauth/token")
+        self.assertEqual(res.status_code, 401)
+        get_db().set_setting("gsc:refresh_token", "1//stored-refresh-token")
+        sid = self._superadmin_sid()
+        ok = self.client.get(f"/gsc/oauth/token?sid={sid}")
+        self.assertEqual(ok.status_code, 200)
+        self.assertEqual(ok.json()["refresh_token"], "1//stored-refresh-token")
+
+
 if __name__ == "__main__":
     unittest.main()

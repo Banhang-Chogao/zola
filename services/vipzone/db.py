@@ -303,6 +303,26 @@ class VipzoneDB:
     def gen_code16() -> str:
         return "".join(str(secrets.randbelow(10)) for _ in range(16))
 
+    def set_setting(self, key: str, value: str) -> None:
+        """Generic key→value store (settings table). Used for GSC refresh token."""
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT INTO settings (key, value, updated_at) VALUES (?, ?, ?)
+                ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at
+                """,
+                (key, value, _now()),
+            )
+
+    def get_setting(self, key: str) -> str | None:
+        with self._conn() as conn:
+            row = conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
+        return row["value"] if row else None
+
+    def delete_setting(self, key: str) -> None:
+        with self._conn() as conn:
+            conn.execute("DELETE FROM settings WHERE key = ?", (key,))
+
     def save_oauth_state(self, state: str, return_to: str, ttl_seconds: int = 600) -> None:
         exp = datetime.now(timezone.utc) + timedelta(seconds=ttl_seconds)
         expires_at = exp.strftime("%Y-%m-%dT%H:%M:%SZ")

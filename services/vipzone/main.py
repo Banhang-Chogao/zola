@@ -29,6 +29,13 @@ Admin (CMS GitHub session — Authorization: Bearer <cms_sid>):
 Session (CMS GitHub session — Authorization: Bearer <cms_sid>):
   GET  /api/vipzone/me
   GET  /api/vipzone/content/{post_id}   (VIP/supervip — premium full content)
+
+GSC OAuth setup (Google Search Console refresh-token bootstrap):
+  GET  /gsc/status                      (no secrets — configured/connected/property)
+  GET  /gsc/oauth/start?sid=<cms_sid>   (superadmin → Google consent)
+  GET  /gsc/oauth/callback              (Google redirect → store refresh token)
+  GET  /gsc/oauth/token?sid=<cms_sid>   (superadmin → copy refresh token to env)
+  Callback URL (register in Google client): {BACKEND_URL}/gsc/oauth/callback
 """
 
 from __future__ import annotations
@@ -47,6 +54,7 @@ from catalog_loader import load_catalog, migrate_picks_sync
 from picker_access import expand_items, items_to_map, migrate_picker_items, sparse_items
 from cms_auth import BACKEND_URL, is_admin, router as auth_router, session_dep
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
+from gsc_oauth import router as gsc_router
 from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://seomoney.org")
@@ -102,6 +110,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(auth_router)
+app.include_router(gsc_router)
 
 
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
