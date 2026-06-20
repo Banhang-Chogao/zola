@@ -36,7 +36,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from collections import Counter, defaultdict
 from datetime import date, datetime, timedelta, timezone
@@ -44,6 +43,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import related_engine as RE  # reuse: load_posts, clusters, strip_markdown, parse_post
+from link_utils import classify, extract_urls, is_external, is_internal  # safe links
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = REPO_ROOT / "static" / "data" / "content-direction" / "report.json"
@@ -70,10 +70,6 @@ ADSENSE_RISK_TERMS = (
     "vay nóng", "tín dụng đen", "hack", "crack", "lậu", "18+", "nổ hũ",
 )
 
-_MD_LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)")
-_HTML_HREF = re.compile(r'href=["\']([^"\']+)["\']')
-
-
 def now_ict() -> datetime:
     return datetime.now(TZ)
 
@@ -86,29 +82,31 @@ def _load_json(path: Path, default):
 
 
 def _is_internal(href: str) -> bool:
-    h = href.strip()
-    if not h or h.startswith(("mailto:", "tel:", "javascript:")):
-        return False
-    if h.startswith(("#",)):
-        return False
-    if h.startswith(("/", "./", "../")):
+    # /zola/* and any root-absolute/relative path is internal (no host needed);
+    # a full self-host absolute URL also counts as internal.
+    if is_internal(href):
         return True
-    if h.startswith(("http://", "https://")):
-        return SITE_HOST in h
-    return False  # bare relative file refs are rare; treat as non-link
+    return is_external(href) and SITE_HOST in href
 
 
 def count_links(body: str) -> tuple[int, int]:
-    """Return (internal, external) link counts from a markdown/HTML body."""
+    """Return (internal, external) link counts from a markdown/HTML body.
+
+    Uses the shared, code-span-aware extractor so links inside fenced/inline
+    code examples are not miscounted, and ``/zola/*`` internal links are never
+    dropped by a host check.
+    """
     internal = external = 0
-    for href in _MD_LINK.findall(body) + _HTML_HREF.findall(body):
-        if href.startswith(("http://", "https://")):
-            if SITE_HOST in href:
+    for url in extract_urls(body):
+        kind = classify(url)
+        if kind == "internal":
+            internal += 1
+        elif kind == "external":
+            # A full self-host absolute URL is really an internal link.
+            if SITE_HOST in url:
                 internal += 1
             else:
                 external += 1
-        elif _is_internal(href):
-            internal += 1
     return internal, external
 
 
