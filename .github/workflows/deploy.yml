@@ -48,6 +48,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      # DNS Vaccine gate — blocks the deploy only on deterministic repo drift
+      # (base_url host ≠ static/CNAME). Live DNS is monitored separately by
+      # dns-vaccine.yml; this gate never touches the network, so it cannot flake.
+      - name: DNS Vaccine gate (repo drift only)
+        run: python3 scripts/dns_vaccine.py --offline --gate
+
       - name: Build social OG cover images (SVG → .og.webp)
         run: |
           pip install -r scripts/requirements-og-images.txt
