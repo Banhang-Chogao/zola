@@ -62,6 +62,14 @@
   <p class="deploy-mon__none">🎉 Không có commit nào đang chờ — production đã bắt kịp.</p>
   {% endif %}
 
+  {% if dm.expired and s.expired_count and s.expired_count > 0 %}
+  <p class="deploy-mon__updated">
+    <span class="deploy-mon__stale">⚠ {{ s.expired_count }} bản ghi in_progress đã hết hạn</span>
+    (deploy treo/đã xong hoặc commit đã có bản deploy thành công) — tự loại khỏi hàng chờ
+    để không hiển thị “deploying” mãi.
+  </p>
+  {% endif %}
+
   {# ===== Recent timeline ===== #}
   <h2 class="deploy-mon__h2">Timeline deploy gần đây</h2>
   {% if dm.recent %}

@@ -27,6 +27,13 @@
   const CACHE_KEY = "zola-deploy-status-cache";
   const CACHE_TTL = 60 * 1000;
 
+  // Stale-deploy guard: a non-terminal deployment ("in_progress"/"queued"/…)
+  // older than this is stuck or superseded — GitHub never confirmed it terminal.
+  // The page you're reading is already served, so it IS effectively deployed.
+  // Never render an eternal "deploying"; fall back to the deployed state.
+  const STALE_NONTERMINAL_MS = 30 * 60 * 1000;   // 30 min
+  const NONTERMINAL = ["in_progress", "queued", "pending", "waiting"];
+
   const containers = document.querySelectorAll("[data-deploy-status]");
   if (!containers.length) return;
 
@@ -140,8 +147,18 @@
       if (!statuses.length) return;
 
       const latest = statuses[0];
-      render(latest.state, latest.updated_at);
-      writeCache(latest.state, latest.updated_at);
+      let state = latest.state;
+      const updatedAt = latest.updated_at;
+
+      // Expire a stuck/superseded non-terminal deploy → don't say "deploying"
+      // forever on an already-served page.
+      if (NONTERMINAL.indexOf(state) !== -1 && updatedAt) {
+        const age = Date.now() - new Date(updatedAt).getTime();
+        if (isFinite(age) && age > STALE_NONTERMINAL_MS) state = "success";
+      }
+
+      render(state, updatedAt);
+      writeCache(state, updatedAt);
     } catch (e) {
       console.warn("[Deploy] Status fetch failed:", e.message);
     }
