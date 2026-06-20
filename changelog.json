@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(og): OG smoke verified + deterministic stale-twin FAIL (content-hash manifest)",
+      "tag": "chore",
+      "lines_added": 150,
+      "lines_removed": 19,
+      "highlights": [
+        "Homepage → og:image + twitter:image = https://seomoney.org/img/og/seomoney-og.og.webp ✅ absolute, with og:image:width=1200 / og:image:height=630.",
+        "Section / taxonomy pages (no thumbnail) → same absolute seomoney-og.og.webp default — 639 pages.",
+        "Per-post override works: a real cover post → …/img/covers/<slug>.og.webp (twin exists); posts whose frontmatter sets thumbnail = …placeholder.svg → …/placeholder.og.webp. Per-post thumbnails correctly",
+        "0 relative og:image / twitter:image across the whole site — all absolute https://seomoney.org/….",
+        "templates/base.html OG wiring unchanged."
+      ],
+      "pr": 586
+    },
+    {
+      "date": "2026-06-20",
       "title": "fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter",
       "tag": "fix",
       "lines_added": 7,
