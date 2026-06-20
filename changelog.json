@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "redesign(editor): S-DNA visual language for /editor/ CMS (scoped, emoji-free)",
+      "tag": "chore",
+      "lines_added": 998,
+      "lines_removed": 38,
+      "highlights": [
+        "templates/editor.html — every emoji action icon (🔐🔍🗑📝💾📌✎⇄👁📥🚀🧠⚠↻⏻✦＋) replaced with inline Lucide-style outline SVGs (new / edit / save / publish / delete / back / search / refresh / logout / check / li",
+        "templates/partials/editor-seo-rail.html — SEO assistant rendered as S-DNA KPI cards (pastel fill · left accent · circle ring · small label · big value) for words / H2 / internal-links + circle-icon se",
+        "sass/_editor-sdna.scss (new) — scoped under .editor-app; local --ed- tokens derived from semantic var(--c-) (light/dark safe) + color-mix() pastels. Restyles brand bar, login card, KPI header widgets,",
+        "sass/site.scss — @import \"editor-sdna\" LAST (after editor + cms) so it overrides.",
+        "scripts/qa_vaccines.py → new check_editor_sdna_vaccine (EDITOR-SDNA): FAIL if _editor-sdna.scss missing/unimported, if editor templates carry emoji icons in visible UI (Tera/HTML comments stripped; <k"
+      ],
+      "pr": 590
+    },
+    {
+      "date": "2026-06-20",
       "title": "docs(claude): add V22 vaccine — editor save→GitHub, edit SHA, SEO hydrate, single sticky [claude/elegant-noether-mzlmrn]",
       "tag": "chore",
       "lines_added": 60,
