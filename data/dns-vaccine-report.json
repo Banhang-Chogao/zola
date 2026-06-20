@@ -1,28 +1,28 @@
 {
-  "generated_at": "2026-06-20T06:36:38.030564+00:00",
-  "domain": "banhang-chogao.github.io",
+  "generated_at": "2026-06-20T11:54:54.212915+00:00",
+  "domain": "seomoney.org",
   "summary": {
-    "status": "warn",
+    "status": "ok",
     "fail": 0,
-    "warn": 2,
+    "warn": 0,
     "unknown": 0,
-    "pass": 1
+    "pass": 3
   },
   "checks": [
     {
       "check": "R1-cname-file",
-      "status": "warn",
-      "detail": "static/CNAME missing — GitHub Pages may drop the custom domain on deploy. Add a CNAME file holding the apex domain."
+      "status": "pass",
+      "detail": "static/CNAME = seomoney.org"
     },
     {
       "check": "R3-base-https",
       "status": "pass",
-      "detail": "base_url = https://banhang-chogao.github.io/zola"
+      "detail": "base_url = https://seomoney.org"
     },
     {
-      "check": "R3-base-path",
-      "status": "warn",
-      "detail": "base_url still contains the /zola GitHub Pages subpath; an apex-domain deploy expects no path."
+      "check": "R2-host-match",
+      "status": "pass",
+      "detail": "base_url host == CNAME (seomoney.org)"
     },
     {
       "check": "live",
@@ -41,6 +41,20 @@
     "ssl_mode": "Full (Strict)"
   },
   "history": [
+    {
+      "at": "2026-06-20T11:54:54.212915+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-20T11:47:31.230292+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
     {
       "at": "2026-06-20T06:36:38.030564+00:00",
       "domain": "banhang-chogao.github.io",
