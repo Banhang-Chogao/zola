@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(b-dna): Brand Design DNA branding guideline system page",
+      "tag": "chore",
+      "lines_added": 737,
+      "lines_removed": 0,
+      "highlights": [
+        "templates/b-dna.html: the single self-contained page (HTML+CSS+JS)",
+        "content/tools/b-dna.md: Zola routing stub (aliases /b-dna/)",
+        "content/tools/_index.md: register B-DNA in the tools menu",
+        "zola build: PASS (227 pages, 0 orphan, exit 0)",
+        "qa-404-checker.py: PASS (0 internal broken, exit 0)"
+      ],
+      "pr": 534
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(calendar): add Microsoft 365-style calendar tool in S-DNA visual",
       "tag": "chore",
       "lines_added": 1505,
