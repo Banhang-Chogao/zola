@@ -30,6 +30,9 @@ url = "$BASE_URL/vu-mua"
 [[extra.tool_groups.items]]
 name = "✈️ Flight DB"
 url = "$BASE_URL/tools/flight-db"
+[[extra.tool_groups.items]]
+name = "📅 Lịch"
+url = "$BASE_URL/tools/calendar"
 
 [[extra.tool_groups]]
 name = "Nội dung & SEO"
