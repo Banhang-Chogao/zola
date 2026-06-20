@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(b-dna): Brand Design DNA branding guideline system at /tools/b-dna/",
+      "tag": "chore",
+      "lines_added": 737,
+      "lines_removed": 0,
+      "highlights": [
+        "templates/b-dna.html — the page (HTML + scoped CSS + vanilla JS)",
+        "content/tools/b-dna.md — Zola routing stub (aliases /b-dna/)",
+        "content/tools/_index.md — register B-DNA in the tools menu",
+        "zola build: PASS (227 pages, 0 orphan, exit 0)",
+        "qa-404-checker.py (hardened): PASS (0 internal broken, exit 0)"
+      ],
+      "pr": 535
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(b-dna): Brand Design DNA branding guideline system page",
       "tag": "chore",
       "lines_added": 737,
