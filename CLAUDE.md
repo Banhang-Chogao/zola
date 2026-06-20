@@ -1270,6 +1270,40 @@ content đã merge → branch là redundant; đóng/xóa thay vì tạo PR thừ
 - Tạo PR + enable auto-merge = **bắt buộc khi hoàn thành task** (mục này).
 - Babysit CI sau push = **cấm** (quy tắc tiếp theo).
 
+### Definition of Done — "branch pushed + PR opened + QA green + auto-merge attempted"
+
+> **Done KHÔNG bao giờ chỉ là "đã push branch".** Push branch mà KHÔNG có PR =
+> **incomplete work** — QA → auto-merge → deploy không thể tiếp tục. Bot tuyệt đối
+> không được dừng ở "I pushed the branch" trừ khi bị chặn quyền (permissions).
+
+**Done = đủ 4 điều kiện:**
+1. **Branch pushed** — code đã lên feature branch (`claude/**`, `codex/**`,
+   `vaccine-hotfix/**`, `fix/**`, `feature/**`, …).
+2. **PR opened/updated** — branch có đúng **1** PR mở vào `main` (reuse nếu đã có,
+   KHÔNG tạo trùng). Title rõ ràng kèm branch/task name; body gồm **summary ·
+   changed files · QA/build status · rollback note**.
+3. **QA green** — chỉ merge khi `qa-check` (QA Gatekeeper) **xanh**. QA đỏ → KHÔNG
+   merge; để lại comment failed checks + next fix action. QA đang chạy → chờ.
+4. **Auto-merge attempted** — đã delegate cho pipeline gated (`try_auto_merge.py` /
+   `auto-merge.yml`), KHÔNG bypass QA.
+
+**Tự động hoá (không cần agent thao tác tay):**
+
+| Thành phần | Path | Vai trò |
+|------------|------|---------|
+| Engine | `scripts/ensure_pr_after_push.py` | Sau push → ensure PR (create/reuse) + body chuẩn + preflight conflict + delegate gated auto-merge |
+| Workflow | `.github/workflows/ensure-pr-after-push.yml` | Trigger `push` tới `claude/**` · `codex/**` · `vaccine-hotfix/**` + `workflow_dispatch` |
+| Tests | `scripts/test_ensure_pr_after_push.py` | Pure-helper tests (eligibility, title/body, summary) |
+| Merge | `scripts/try_auto_merge.py` (reuse) | Gated squash-merge khi `qa-check` xanh — KHÔNG bypass |
+
+- **Preflight conflict:** branch `mergeable_state=dirty` → comment cảnh báo (V10/V12 +
+  `autofix_conflicts.py`/`ff9`), KHÔNG merge cho tới khi resolve.
+- **Không tạo PR trùng:** đã có PR mở cho branch → reuse + cập nhật title/body.
+- **Không force-push, không merge PR đỏ.** Nếu bị chặn quyền (`pull-requests:write`
+  thiếu) → output đúng lý do + lệnh tay: `gh pr create --base main --head <branch>`.
+- Chạy tay: `GITHUB_TOKEN=… GH_REPO=Banhang-Chogao/zola BRANCH=<branch>
+  python3 scripts/ensure_pr_after_push.py --enable-auto-merge`.
+
 ### Quy tắc chung
 
 - Làm xong BẤT KỲ việc gì → **push để automation tự đưa lên `main`** → prod. KHÔNG cần
