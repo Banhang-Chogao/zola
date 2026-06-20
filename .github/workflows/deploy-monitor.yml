@@ -1,0 +1,45 @@
+name: Deploy Monitor
+
+# Fetch recent "Build and deploy" (deploy.yml) workflow runs and publish a
+# sanitized report to data/deploy-monitor.json (footer Deploy Watch +
+# /tools/deploy-monitor/). Token comes ONLY from the Actions GITHUB_TOKEN; it is
+# never printed or committed. Stdlib-only fetch; meaningful-change-only commit.
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'   # every 20 minutes (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: deploy-monitor
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Fetch deploy monitor report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 scripts/fetch_deploy_monitor.py
+
+      - name: Publish report (only if meaningfully changed)
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh || true
+          .github/scripts/push_to_main.sh \
+            "Cập nhật: Deploy Monitor report ($(date -u +%FT%TZ)) [skip changelog]" \
+            data/deploy-monitor.json || echo "report unchanged / push skipped"
