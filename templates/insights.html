@@ -2,6 +2,9 @@
 {% import "macros/github-activity.html" as github_activity %}
 {% import "macros/datetime.html" as dt %}
 
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
 {% block title %}GitHub Insights | {{ config.title }}{% endblock %}
 
 {% block main %}

@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
 {% block title %}Bảng Vàng SEO | {{ config.title }}{% endblock %}
 {% block description %}Bảng điểm SEO của tất cả bài viết trên blog — chấm theo thang on-page chuẩn Google, cập nhật tự động mỗi khi đăng/sửa bài.{% endblock %}
 
