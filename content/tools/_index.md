@@ -61,6 +61,9 @@ url = "$BASE_URL/authority-report"
 name = "S-DNA"
 url = "$BASE_URL/tools/s-dna"
 [[extra.tool_groups.items]]
+name = "B-DNA"
+url = "$BASE_URL/tools/b-dna"
+[[extra.tool_groups.items]]
 name = "ShortenSEA"
 url = "$BASE_URL/shortensea"
 
