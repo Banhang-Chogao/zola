@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-20T08:50:04Z",
+  "updated_at": "2026-06-20T08:55:09Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 16,
+    "today": 17,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 49,
       "unknown": 31,
-      "fix": 48,
       "content": 9,
       "feature": 86,
-      "chore": 22,
+      "chore": 21,
       "ci": 3,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 543,
+      "pr_title": "fix(vaccine-hotfix): claude/friendly-dijkstra-oo6gwy",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/543",
+      "merged_at": "2026-06-20T08:47:25Z",
+      "merge_commit_sha": "e40603272d37df96bbe5d06d0fa78807b15537e4",
+      "merge_commit_short": "e406032",
+      "head_branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 15,
+      "additions": 1586,
+      "deletions": 11,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 834,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27866069932",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 541,
       "pr_title": "vaccine(ui): sidebar_layout_vaccine — lock right-column menu in-grid …",
@@ -700,9 +719,9 @@
       "deletions": 71,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 804,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27832151216",
-      "build_conclusion": "cancelled"
+      "build_run_number": 806,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27833223283",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 505,
@@ -3776,25 +3795,6 @@
       "files_changed": 1,
       "additions": 9,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 329,
-      "pr_title": "chore: rebuild semantic related posts + references",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/329",
-      "merged_at": "2026-06-17T17:58:30Z",
-      "merge_commit_sha": "ca2d2f1f2395a22f88a74043bc3c315bf2d7918d",
-      "merge_commit_short": "ca2d2f1",
-      "head_branch": "chore/related-posts-data",
-      "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
-      "change_type": "chore",
-      "files_changed": 2,
-      "additions": 62,
-      "deletions": 28,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
