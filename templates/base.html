@@ -79,7 +79,7 @@
        bài THIẾU thumbnail): listener này bắt cả ảnh CÓ src nhưng load fail. Dùng
        capture phase vì sự kiện 'error' của <img> không bubble; bắt được cả ảnh
        do JS dựng sau (sidebar random/featured). Guard chống lặp vô hạn. #}
-    <script>(function(){var PH='{{ get_url(path='img/placeholder/placeholder.svg') }}';document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.getAttribute('data-ph')!=='1'&&t.src!==PH){t.setAttribute('data-ph','1');t.src=PH;}},true);})();</script>
+    <script>(function(){var V=['{{ get_url(path='img/placeholder/placeholder.svg') }}','{{ get_url(path='img/placeholder/placeholder-2.svg') }}','{{ get_url(path='img/placeholder/placeholder-3.svg') }}'];function pick(){return V[Math.floor(Math.random()*V.length)];}document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.getAttribute('data-ph')!=='1'&&V.indexOf(t.src)===-1){t.setAttribute('data-ph','1');t.src=pick();}},true);})();</script>
     {# Persistent CMS/super-admin session — chạy SỚM (trước mọi script defer auth).
        sid (zola-cms-session-id) trước đây chỉ ở sessionStorage → mất khi đóng tab /
        xoá cache → phải đăng nhập GitHub lại. Bootstrap này mirror sid sang
@@ -201,7 +201,7 @@
        `.og.webp` (1200×630) sinh bởi scripts/build_og_images.py → dùng twin để
        social hiện đúng ảnh BÀI thay vì banner chung. Ưu tiên: og_image →
        thumbnail (svg→twin, hoặc raster sẵn) → fallback og-default.webp. #}
-    {% set og_image = config.base_url ~ "/img/og-default.webp" %}
+    {% set og_image = config.base_url ~ "/img/og/seomoney-og.og.webp" %}
     {% if page and page.extra.og_image %}
         {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
     {% elif page and page.extra.thumbnail %}

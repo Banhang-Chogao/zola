@@ -53,7 +53,7 @@ Kết quả: CI fail → handler chạy → handler cũng fail → hai đỏ tha
 
 V14 là bài học đắt nhất. Batch 19 bài được tạo tự động, `zola build` pass hoàn toàn. Deploy lên production. Sau đó `qa-404-checker.py` chạy scheduled báo **40 internal broken links**.
 
-Zola không validate dangling markdown links tại build time — nó chỉ check Zola's own `@/` refs. Link kiểu `[text](/posting/slug/)` trong markdown hoàn toàn bypass build check.
+Zola không validate dangling markdown links tại build time — nó chỉ check Zola's own `@/` refs. Link dạng markdown thông thường — ví dụ `[tên bài](đường-dẫn)` — hoàn toàn bypass build check.
 
 **Gate cứng của tôi hiện tại:**
 1. `qa_check.py` — conflict markers, secret leak, SCSS, SEO cơ bản
