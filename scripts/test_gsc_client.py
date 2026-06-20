@@ -98,20 +98,38 @@ class ExecutiveSummaryTest(unittest.TestCase):
 
 class PropertyUrlTest(unittest.TestCase):
     def test_default_property(self):
-        self.assertEqual(mod.DEFAULT_GSC_PROPERTY_URL, "https://seomoney.org/")
+        # Post-Cloudflare migration: must be sc-domain: (domain property), not URL-prefix.
+        self.assertEqual(mod.DEFAULT_GSC_PROPERTY_URL, "sc-domain:seomoney.org")
 
     def test_normalize_trailing_slash(self):
+        # URL-prefix properties still normalized (backwards compat for env var override).
         self.assertEqual(
             mod.normalize_gsc_property_url("https://seomoney.org"),
             "https://seomoney.org/",
         )
 
-    def test_pick_preferred_only_blog_property(self):
+    def test_normalize_sc_domain_passthrough(self):
+        # sc-domain: entries are passed through unchanged (no trailing slash added).
+        self.assertEqual(
+            mod.normalize_gsc_property_url("sc-domain:seomoney.org"),
+            "sc-domain:seomoney.org",
+        )
+
+    def test_pick_preferred_sc_domain(self):
+        # pick_preferred_property must select the sc-domain: entry.
         props = [
             "https://example.com/",
-            "https://seomoney.org/",
+            "sc-domain:seomoney.org",
         ]
-        self.assertEqual(mod.pick_preferred_property(props), "https://seomoney.org/")
+        self.assertEqual(mod.pick_preferred_property(props), "sc-domain:seomoney.org")
+
+    def test_pick_preferred_only_blog_property(self):
+        # Still rejects unrelated domains.
+        props = [
+            "https://example.com/",
+            "sc-domain:other.com",
+        ]
+        self.assertIsNone(mod.pick_preferred_property(props))
 
     def test_pick_preferred_rejects_other_domains(self):
         self.assertIsNone(mod.pick_preferred_property(["https://example.com/"]))

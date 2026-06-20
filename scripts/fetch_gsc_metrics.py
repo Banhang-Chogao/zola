@@ -4,12 +4,13 @@ Fetch Google Search Console metrics → data/gsc-metrics.json + static mirror.
 
 Env (GitHub Actions secrets):
   GSC_REFRESH_TOKEN
-  GSC_PROPERTY_URL      — e.g. https://seomoney.org/
+  GSC_PROPERTY_URL      — e.g. sc-domain:seomoney.org  (domain property, post-Cloudflare migration)
   GSC_CLIENT_ID
   GSC_CLIENT_SECRET
 
 After OAuth connect on blog backend, copy refresh token + property to secrets
 for CI snapshot (build-time seo-reality fallback).
+GSC_PROPERTY_URL secret must be updated to sc-domain:seomoney.org (not the old URL-prefix).
 """
 
 from __future__ import annotations

@@ -669,6 +669,47 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   `main` ran `qa-rule-checker` at `10:22:42Z` while the PR had entries at `10:15:47Z`/`10:15:53Z`.
   Zero real code in conflict. Resolved by taking main's versions; permanent fix applied here.
 
+#### V19 — GSC Domain Property: must use sc-domain:seomoney.org (not URL-prefix)
+
+> Migration + config vaccine. Domain `seomoney.org` verified via Cloudflare DNS TXT (2026-06-20).
+> Match the signature → run the FIXER immediately; do NOT re-diagnose.
+
+- **Symptom:** GSC data shows low coverage or property mismatch; `fetch_gsc_metrics.py` connects
+  but returns 0 indexed pages / wrong sitemap; dashboard shows old `https://seomoney.org/` property
+  instead of `sc-domain:seomoney.org`; CI workflow `gsc-stats.yml` secret `GSC_PROPERTY_URL` still
+  set to the URL-prefix form; or QA Vaccine Gate reports **V19 FAIL**.
+- **Root cause:** Google Search Console has two property types: (a) **URL-prefix** (`https://seomoney.org/`
+  — verifies only that exact URL protocol+path) and (b) **Domain property** (`sc-domain:seomoney.org`
+  — covers `http://`, `https://`, all subdomains, after DNS TXT verification). After Cloudflare setup
+  the domain property was verified and the sitemap submitted → 1,634 discovered pages. The old
+  URL-prefix property misses `http://` and subdomains; the domain property is the authoritative one.
+  Code/config left pointing at `https://seomoney.org/` fetches from the WRONG property.
+- **Signature (match all):**
+  - `services/visitor-counter/gsc_client.py`: `DEFAULT_GSC_PROPERTY_URL = "https://seomoney.org/"` (old)
+  - `scripts/fetch_gsc_metrics.py` docstring: example still shows URL-prefix
+  - `config.toml` comment: "URL prefix trong GSC"
+  - `data/gsc-metrics.json`: property field is null or `https://seomoney.org/`
+  - QA V19 FAIL reported by `scripts/qa_vaccines.py`
+- **FIXER:**
+  1. `services/visitor-counter/gsc_client.py` → `DEFAULT_GSC_PROPERTY_URL = "sc-domain:seomoney.org"`
+  2. Update GitHub secret `GSC_PROPERTY_URL` → `sc-domain:seomoney.org` (Settings → Secrets).
+  3. Update Render env var `GSC_PROPERTY_URL` → `sc-domain:seomoney.org` on blog-vipzone-api.
+  4. After OAuth reconnect, verify backend's `GET /gsc/status` returns `property: sc-domain:seomoney.org`.
+  5. Run `python3 scripts/fetch_gsc_metrics.py` locally (with secrets) to confirm data flows.
+  6. Check `static/robots.txt` has `Sitemap: https://seomoney.org/sitemap.xml`.
+  7. Run `python3 scripts/qa_vaccines.py` → V19 must PASS.
+- **Public JSON safety rules (BẮT BUỘC):**
+  - `data/gsc-metrics.json` MUST NOT contain: `refresh_token`, `access_token`, `client_secret`, `client_id`.
+  - Only aggregate metrics (clicks, impressions, top pages, etc.) allowed in the public file.
+  - Credentials stay in GitHub secrets + Render env vars only — NEVER in repo or `data/*.json`.
+- **Sitemap canonical:** `https://seomoney.org/sitemap.xml` (submit in GSC → Sitemaps → Add).
+  Zola generates `sitemap.xml` automatically; `static/robots.txt` must declare it.
+- **Validation:** `python3 scripts/qa_vaccines.py` → V19 PASS · `python3 scripts/test_gsc_client.py` →
+  `test_default_property` + `test_normalize_sc_domain_passthrough` + `test_pick_preferred_sc_domain` PASS.
+- **Evidence (2026-06-20):** domain property `sc-domain:seomoney.org` verified via Cloudflare;
+  sitemap `https://seomoney.org/sitemap.xml` submitted; 1,634 discovered pages confirmed. Code
+  migrated from `DEFAULT_GSC_PROPERTY_URL = "https://seomoney.org/"` to `"sc-domain:seomoney.org"`.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library

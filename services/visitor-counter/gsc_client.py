@@ -19,8 +19,9 @@ from googleapiclient.errors import HttpError
 SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 CACHE_TTL_SECONDS = 20 * 60  # 20 minutes
 
-# URL-prefix property in Search Console — must match siteUrl exactly in API calls.
-DEFAULT_GSC_PROPERTY_URL = "https://seomoney.org/"
+# Domain property in Search Console (sc-domain:) — covers all subdomains + protocols.
+# Migrated from URL-prefix https://seomoney.org/ after Cloudflare verification (2026-06-20).
+DEFAULT_GSC_PROPERTY_URL = "sc-domain:seomoney.org"
 
 
 def normalize_gsc_property_url(site_url: str) -> str:
