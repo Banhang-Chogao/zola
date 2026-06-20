@@ -1,6 +1,6 @@
 base_url = "https://seomoney.org"
-title = "Duy Nguyen"
-description = "Blog cá nhân của Duy Nguyen về công nghệ, du lịch và ẩm thực — chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ."
+title = "SEOMONEY"
+description = "SEOMONEY — blog về SEO, công nghệ, du lịch và tài chính cá nhân: chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ. Tác giả: Duy Nguyen."
 # Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
 # xml:lang="vi" thay vì mặc định "en", khớp <html lang="vi">.
 default_language = "vi"
@@ -32,7 +32,7 @@ extra_syntaxes_and_themes = ["highlight_themes"]
 # Optional AviationStack free-tier key for Flight DB API enrich (Search only)
 aviationstack_api_key = ""
 author = "duynguyenlog"
-tagline = "Duy Nguyen"
+tagline = "SEO · Công nghệ · Tài chính cá nhân"
 
 # QA Dashboard footer (6 metric cards). false = ẩn UI public, giữ scripts/data/jobs.
 enable_qa_dashboard = false

@@ -1,6 +1,6 @@
 +++
 title = "Liên hệ"
-description = "Liên hệ với blog Duy Nguyen — góp ý, hợp tác nội dung, báo lỗi hoặc thắc mắc về quyền riêng tư. Phản hồi qua email trong vòng 1–2 ngày làm việc."
+description = "Liên hệ với blog SEOMONEY — góp ý, hợp tác nội dung, báo lỗi hoặc thắc mắc về quyền riêng tư. Phản hồi qua email trong vòng 1–2 ngày làm việc."
 path = "contact"
 template = "about.html"
 +++

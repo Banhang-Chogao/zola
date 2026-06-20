@@ -1057,6 +1057,73 @@ def check_deploy_monitor(ctx: Ctx) -> CheckResult:
                        diagnosis="no token leak · schema OK · footer wired · route + card OK")
 
 
+def check_seomoney_brand(ctx: Ctx) -> CheckResult:
+    """seomoney_brand_vaccine — site brand must be SEOMONEY (author stays Duy Nguyen),
+    + the SEOMONEY OG default + placeholder fallback set must exist.
+
+    FAIL: config.title is not "SEOMONEY" (site-brand regression); author identity
+          lost (config.extra.author / author.json no longer "Duy Nguyen"); the
+          SEOMONEY default OG image is missing; or the placeholder fallback set
+          (incl. random variants) is missing.
+    WARN: residual "blog Duy Nguyen" site-brand phrase in section/page descriptions.
+    """
+    title = "SEOMONEY brand + OG default + placeholder set"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    cfg = ctx.read("config.toml") or ""
+    mt = re.search(r'^title\s*=\s*"([^"]*)"', cfg, re.MULTILINE)
+    if not mt or mt.group(1).strip().upper() != "SEOMONEY":
+        fails.append(f'config.toml title phải = "SEOMONEY" (đang: {mt.group(1) if mt else "?"})')
+    # author identity preserved.
+    if not re.search(r'^author\s*=\s*"duynguyenlog"', cfg, re.MULTILINE):
+        warns.append("config.extra.author không còn 'duynguyenlog' (author identity)")
+    aj = ctx.read("author.json") or ""
+    if '"Duy Nguyen"' not in aj:
+        fails.append("author.json: tên tác giả 'Duy Nguyen' bị mất (phải giữ author identity)")
+
+    # OG default (SEOMONEY) — svg + committed twin.
+    if not ctx.exists("static/img/og/seomoney-og.svg"):
+        fails.append("thiếu static/img/og/seomoney-og.svg (OG default SEOMONEY)")
+    if not ctx.exists("static/img/og/seomoney-og.og.webp"):
+        fails.append("thiếu static/img/og/seomoney-og.og.webp (twin OG — seed để không 404)")
+    base = ctx.read("templates/base.html") or ""
+    if "seomoney-og.og.webp" not in base:
+        fails.append("templates/base.html: og:image default không trỏ SEOMONEY OG twin")
+
+    # Placeholder fallback set incl. random variants.
+    for ph in ("placeholder.svg", "placeholder-2.svg", "placeholder-3.svg"):
+        if not ctx.exists(f"static/img/placeholder/{ph}"):
+            fails.append(f"thiếu static/img/placeholder/{ph} (random fallback)")
+    if "placeholder-2.svg" not in base or "placeholder-3.svg" not in base:
+        warns.append("templates/base.html: runtime fallback chưa random hoá placeholder variants")
+
+    # Residual site-brand phrase (author bylines are fine).
+    residual = []
+    for p in ctx.glob("content/**/_index.md"):
+        try:
+            if "blog Duy Nguyen" in p.read_text(encoding="utf-8"):
+                residual.append(str(p.relative_to(ctx.root)))
+        except OSError:
+            pass
+    if residual:
+        warns.append(f"còn 'blog Duy Nguyen' (site-brand) ở: {residual[:5]}")
+
+    if fails:
+        return CheckResult("BRAND", title, FAIL,
+                           diagnosis="brand SEOMONEY / OG / placeholder chưa hoàn chỉnh",
+                           fix='config.title="SEOMONEY"; giữ author Duy Nguyen; thêm OG '
+                               'seomoney-og(.svg/.og.webp); placeholder + variants 2/3',
+                           details=fails + warns)
+    if warns:
+        return CheckResult("BRAND", title, WARN,
+                           diagnosis="brand OK nhưng còn residual/consistency",
+                           fix="rebrand 'blog Duy Nguyen' → 'blog SEOMONEY'; random hoá placeholder",
+                           details=warns)
+    return CheckResult("BRAND", title, PASS,
+                       diagnosis="site brand SEOMONEY · author Duy Nguyen giữ · OG + placeholder set OK")
+
+
 def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
     """V18 — Runtime artifact conflict: volatile state/log/report files must not be tracked.
 
@@ -1258,6 +1325,7 @@ DETECTORS = [
     check_sidebar_layout,
     check_uptime_me,
     check_deploy_monitor,
+    check_seomoney_brand,
 ]
 
 

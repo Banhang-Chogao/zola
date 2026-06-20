@@ -439,6 +439,44 @@ class DeployMonitorTest(unittest.TestCase):
         self.assertEqual(qv.check_deploy_monitor(self._wire(json=old)).status, qv.WARN)
 
 
+class SeomoneyBrandTest(unittest.TestCase):
+    """seomoney_brand_vaccine — site brand SEOMONEY, author Duy Nguyen, OG + placeholders."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _wire(self, title="SEOMONEY", **over):
+        self.repo.write("config.toml",
+                        over.get("cfg", f'base_url = "https://seomoney.org"\ntitle = "{title}"\n'
+                                        '[extra]\nauthor = "duynguyenlog"\n'))
+        self.repo.write("author.json", over.get("aj", '{"name": "Duy Nguyen"}'))
+        self.repo.write("static/img/og/seomoney-og.svg", "<svg/>")
+        self.repo.write("static/img/og/seomoney-og.og.webp", "RIFFwebp")
+        self.repo.write("static/img/placeholder/placeholder.svg", "<svg/>")
+        self.repo.write("static/img/placeholder/placeholder-2.svg", "<svg/>")
+        self.repo.write("static/img/placeholder/placeholder-3.svg", "<svg/>")
+        self.repo.write("templates/base.html", over.get("base",
+                        'og:image "/img/og/seomoney-og.og.webp" placeholder-2.svg placeholder-3.svg'))
+        return self.repo.ctx()
+
+    def test_real_repo_passes(self):
+        self.assertNotEqual(qv.check_seomoney_brand(qv.Ctx(REPO_ROOT)).status, qv.FAIL)
+
+    def test_seomoney_baseline_passes(self):
+        self.assertEqual(qv.check_seomoney_brand(self._wire()).status, qv.PASS)
+
+    def test_brand_regression_fails(self):
+        self.assertEqual(qv.check_seomoney_brand(self._wire(title="Duy Nguyen")).status, qv.FAIL)
+
+    def test_author_identity_lost_fails(self):
+        r = qv.check_seomoney_brand(self._wire(aj='{"name": "SEOMONEY"}'))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_og_default_fails(self):
+        ctx = self._wire(base='no og here, placeholder-2.svg placeholder-3.svg')
+        self.assertEqual(qv.check_seomoney_brand(ctx).status, qv.FAIL)
+
+
 class RuntimeArtifactV18Test(unittest.TestCase):
     """V18 — Runtime artifact conflict regression: exact #551 conflict file set.
 
