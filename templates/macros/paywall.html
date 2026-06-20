@@ -5,7 +5,7 @@
 {% set post_title = page.extra.premium_title | default(value=page.title) %}
 {% set price = page.extra.price | default(value=config.extra.paywall_default_price | default(value=100000)) %}
 {% set price_fmt = price | int %}
-{% set momo_link = page.extra.momo_payment_link | default(value=config.extra.momo_payment_link) | default(value="https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG") %}
+{% set momo_link = page.extra.momo_payment_link | default(value=config.extra.momo_payment_link) | default(value="https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP") %}
 
 <section class="paywall-box" id="paywall-box"
          data-post-id="{{ post_id }}"
