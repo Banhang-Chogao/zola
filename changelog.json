@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfix PRs",
+      "tag": "fix",
+      "lines_added": 365,
+      "lines_removed": 647,
+      "highlights": [],
+      "pr": 551
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(tools): UPTIME_ME — uptime dashboard from 3 UptimeRobot keys + v…",
       "tag": "chore",
       "lines_added": 965,
