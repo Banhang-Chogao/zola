@@ -99,13 +99,13 @@
        frame-ancestors 'none': chống clickjacking, /editor/ không thể iframe. #}
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
-        script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app https://cse.google.com https://www.google.com;
+        script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app https://cse.google.com https://www.google.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://adservice.google.com https://www.googletagservices.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google.com https://cse.google.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.aviationstack.com https://opensky-network.org https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com;
+        connect-src 'self' https://api.aviationstack.com https://opensky-network.org https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://adservice.google.com;
         worker-src 'self' blob: https://cdn.jsdelivr.net;
-        frame-src https://giscus.app https://www.google.com;
+        frame-src https://giscus.app https://www.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com;
         frame-ancestors 'none';
         base-uri 'self';
         form-action 'self' https://www.google.com;
@@ -221,10 +221,22 @@
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
 
-    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
-    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
+    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR).
+       Trang nội bộ/QA/dashboard/thin đặt [extra] noindex = true trong frontmatter →
+       phát noindex + bị loại khỏi sitemap.xml (xem templates/sitemap.xml). ===== #}
+    <meta name="robots" content="{% block robots %}{% if page and page.extra.noindex %}noindex, follow{% elif section and section.extra.noindex %}noindex, follow{% else %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endif %}{% endblock %}">
     {# ===== Google Search Console verification — điền mã ở config.extra.google_site_verification ===== #}
     {% if config.extra.google_site_verification %}<meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">{% endif %}
+
+    {# ===== Google AdSense — chỉ phát khi có publisher id (ca-pub-…).
+       Nguồn: env ADSENSE_CLIENT (ưu tiên, set ở deploy) → fallback
+       config.extra.adsense_client. Rỗng = không phát script → site sạch
+       cho tới khi được duyệt AdSense. ===== #}
+    {% set adsense_client = get_env(name="ADSENSE_CLIENT", default=config.extra.adsense_client | default(value="")) %}
+    {% if adsense_client %}
+    <meta name="google-adsense-account" content="{{ adsense_client }}">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client }}" crossorigin="anonymous"></script>
+    {% endif %}
 
     <title>{% block title %}{{ config.title }}{% endblock %}</title>
 
@@ -1270,6 +1282,8 @@
                     <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
                     <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
                     <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a> ·
+                    <a href="{{ config.base_url | safe }}/advertising/">Chính sách quảng cáo</a> ·
+                    <a href="{{ config.base_url | safe }}/editorial/">Chính sách biên tập</a> ·
                     <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
                 </p>
                 {# GA status pill → click mở GA dashboard intelligenthome.

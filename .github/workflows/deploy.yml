@@ -118,6 +118,9 @@ jobs:
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Google AdSense publisher id (ca-pub-…). Để trống nếu chưa duyệt →
+          # base.html bỏ qua loader. Đặt secret ADSENSE_CLIENT để bật quảng cáo.
+          ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
         run: |
           export ZOLA_VERSION="$(zola --version | awk '{print $2}')"
           export ZOLA_BUILD_SHA="$(git rev-parse --short=7 HEAD)"

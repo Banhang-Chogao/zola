@@ -13,10 +13,43 @@
 {% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
-{% block title %}{{ config.title }} — Blog công nghệ, du lịch & ẩm thực{% endblock %}
+{% block title %}SEOMONEY — SEO, AI WebOps & Tài chính cá nhân{% endblock %}
 
 {% block main %}
-    <h1 class="visually-hidden">{{ config.title }} — Blog công nghệ, du lịch &amp; ẩm thực</h1>
+    <header class="home-hero">
+        <h1 class="home-hero__title">SEOMONEY – SEO, AI WebOps &amp; Tài chính cá nhân</h1>
+        <p class="home-hero__sub">
+            Chia sẻ kinh nghiệm thực tế về SEO &amp; công nghệ web, vận hành tự động (WebOps),
+            tài chính cá nhân và các công cụ miễn phí. Nội dung viết bằng trải nghiệm,
+            kiểm chứng nguồn và cập nhật thường xuyên.
+        </p>
+    </header>
+
+    <nav class="home-clusters" aria-label="Chủ đề chính">
+        <h2 class="home-clusters__heading">Khám phá theo chủ đề</h2>
+        <div class="home-clusters__grid">
+            <a class="home-cluster" href="{{ config.base_url }}/categories/cong-nghe/">
+                <span class="home-cluster__icon" aria-hidden="true">🔎</span>
+                <span class="home-cluster__title">SEO &amp; Công nghệ</span>
+                <span class="home-cluster__desc">AdSense, SEO on-page, web &amp; tự động hoá.</span>
+            </a>
+            <a class="home-cluster" href="{{ config.base_url }}/categories/ngan-hang/">
+                <span class="home-cluster__icon" aria-hidden="true">💳</span>
+                <span class="home-cluster__title">Tài chính &amp; Ngân hàng</span>
+                <span class="home-cluster__desc">Ngân hàng số, tiết kiệm, quản lý chi tiêu.</span>
+            </a>
+            <a class="home-cluster" href="{{ config.base_url }}/categories/hoc-tieng-han/">
+                <span class="home-cluster__icon" aria-hidden="true">📚</span>
+                <span class="home-cluster__title">Học tiếng Hàn</span>
+                <span class="home-cluster__desc">Lộ trình tự học Hangul, ngữ pháp, từ vựng.</span>
+            </a>
+            <a class="home-cluster" href="{{ config.base_url }}/tools/">
+                <span class="home-cluster__icon" aria-hidden="true">🧰</span>
+                <span class="home-cluster__title">Công cụ miễn phí</span>
+                <span class="home-cluster__desc">Tiện ích chạy ngay trên trình duyệt, không cài đặt.</span>
+            </a>
+        </div>
+    </nav>
     {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
        Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI
        bài, không phân biệt section/category; bài mới nhất luôn tự lên đầu. #}
@@ -160,41 +193,6 @@
             {{ seo_reality::widget() }}
         </div>
     </section>
-    {% endif %}
-
-    {% if page_num == 1 %}
-        {# ===== FONT GUIDELINE BAND — chỉ trang chủ 1 ===== #}
-        <section class="home-font">
-            <span class="home-font__bg" aria-hidden="true">Aa</span>
-            <div class="home-font__inner">
-                <p class="home-font__eyebrow">Font Guideline · Letters from Sweden</p>
-                <h2 class="home-font__title">Ericsson Hilda</h2>
-                <p class="home-font__desc">
-                    Typeface độc quyền của Ericsson — humanist sans-serif, digital-first.
-                    Khám phá lịch sử, các độ đậm, type scale và quy tắc sử dụng.
-                </p>
-                <a class="home-font__cta" href="{{ config.base_url }}/font/">Xem Font Guideline →</a>
-            </div>
-        </section>
-
-        <section class="home-report-cta" style="margin: 32px 0 24px; padding: 24px 28px; background: #DDF4F2; border: 1px solid #E6E6E6; border-left: 4px solid #00A7A0; border-radius: 4px;">
-            <p style="margin: 0 0 6px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #00A7A0;">Reports</p>
-            <h2 style="color: var(--c-text-heading); font-size: 1.25rem; margin: 0 0 8px; font-weight: 800;">AD-Report</h2>
-            <p style="color: var(--c-text-muted); margin: 0 0 14px; font-size: 0.92rem; line-height: 1.55; max-width: 52ch;">
-                Báo cáo vị trí AdSense và tổng hợp tính năng phiên 18–19/06
-            </p>
-            <a href="{{ config.base_url }}/ad-report/" style="display: inline-block; background: #00A7A0; color: #fff; padding: 10px 20px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.88rem;">
-                Xem AD-Report →
-            </a>
-        </section>
-
-        <section class="home-branding-cta" style="margin: 40px 0; padding: 30px; background: var(--c-bg-soft); border-radius: 4px; text-align: center;">
-            <h2 style="color: var(--c-text-heading); font-size: 20px; margin-bottom: 12px;">🎨 Design System</h2>
-            <p style="color: var(--c-text-muted); margin-bottom: 16px;">Khám phá hướng dẫn thiết kế Hilda theme — palette màu, typography, và UI rules</p>
-            <a href="{{ config.base_url }}/branding-guideline/" style="display: inline-block; background: var(--c-accent); color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='var(--c-accent-hover)'" onmouseout="this.style.background='var(--c-accent)'">
-                Xem Branding Guideline →
-            </a>
-        </section>
     {% endif %}
 
     {% if feed_pages > 1 %}

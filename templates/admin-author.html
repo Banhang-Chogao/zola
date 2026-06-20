@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% import "macros/verified.html" as v %}
 
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
 {% block title %}Author Management | {{ config.title }}{% endblock %}
 
 {% block main %}

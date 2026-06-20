@@ -76,6 +76,14 @@ menu = [
 # Property ID: 541698865 (tham chiếu Admin → Property Settings)
 ga_measurement_id = "G-REFBXH86Z5"
 
+# ============= GOOGLE ADSENSE =============
+# Publisher id dạng "ca-pub-XXXXXXXXXXXXXXXX". Để TRỐNG cho tới khi được
+# AdSense duyệt — khi rỗng, KHÔNG phát script quảng cáo (site sạch).
+# Ưu tiên env ADSENSE_CLIENT lúc deploy (deploy.yml) > giá trị dưới đây.
+# Khi điền: base.html tự thêm <meta google-adsense-account> + loader script
+# adsbygoogle.js (CSP đã whitelist domain AdSense). ads.txt: static/ads.txt.
+adsense_client = ""
+
 # ============= GOOGLE SEARCH CONSOLE =============
 # Xác minh sở hữu site → mở khoá submit sitemap + "Request Indexing"
 # (cách NHANH NHẤT để bài mới lên Google thay vì chờ crawl tự nhiên).

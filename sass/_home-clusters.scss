@@ -1,0 +1,100 @@
+/* ============================================================
+   Home hero + topic clusters — calm enterprise (Hilda DNA).
+   Scoped to the homepage. Tokens only → light/dark auto.
+   Desktop = global; mobile tweaks in @media (max-width: 720px).
+   ============================================================ */
+
+.home-hero {
+  margin: 8px 0 28px;
+  padding: 0;
+}
+
+.home-hero__title {
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--c-text-heading);
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.home-hero__sub {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--c-text-muted);
+  margin: 0;
+  max-width: 64ch;
+}
+
+.home-clusters {
+  margin: 0 0 36px;
+}
+
+.home-clusters__heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin: 0 0 14px;
+}
+
+.home-clusters__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.home-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  background: var(--c-bg-surface);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.home-cluster:hover {
+  border-color: var(--c-border-strong);
+  transform: translateY(-2px);
+}
+
+.home-cluster__icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.home-cluster__title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--c-text-heading);
+  margin: 0;
+}
+
+.home-cluster__desc {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--c-text-muted);
+  margin: 0;
+}
+
+/* ===== MOBILE (≤ 720px) ===== */
+@media (max-width: 720px) {
+  .home-clusters__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .home-cluster {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .home-clusters__grid {
+    grid-template-columns: 1fr;
+  }
+}
