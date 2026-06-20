@@ -844,6 +844,49 @@ fenced blocks.
   PASS; `zola build` PASS; `qa_check.py` PASS.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.DomainMigrationDriftTest -v`
 
+#### V20 — Search UI raw/unstyled: BEM markup with no structural CSS (only colour tints)
+
+> UI vaccine (not a workflow-run bug — the page builds, it just looks broken).
+> Match the signature → ship the scoped partial; do NOT rewrite the search engine.
+
+- **Symptom:** the internal search dialog ("Tìm trong blog", opened from the navbar
+  search button) renders **raw/default**: plain browser form, bad spacing, ugly close
+  button, input + button not aligned, panel floating with no card. **Search logic works
+  fine** — only the UI is broken. `zola build` PASSES (it is purely missing CSS).
+- **Root cause:** the markup in `templates/base.html` uses BEM `.site-search__*` classes
+  and the engine `static/js/site-search.js` injects `.site-search__summary` /
+  `__results` / `__result*` nodes, but the **structural/layout CSS was never written**.
+  Only **colour-tint** overrides existed in `sass/_theme-overrides.scss`
+  (`:root[data-theme="hilda"] .site-search__*` — background/border/colour). Tints alone
+  cannot lay out a modal: with no `position`, `max-width`, flex, padding or radius the
+  panel collapses into document flow → looks unstyled. A colour override is **not** a
+  component.
+- **FIXER (already applied):** scoped partial **`sass/_site-search.scss`** supplies ALL
+  structure — fixed overlay above the navbar (`z-index: 10050`) with a calm backdrop,
+  a centred command-palette **panel card** (`max-width: 640px`, rounded, soft shadow),
+  kicker + `Tìm trong blog` title, circular **close** button, search **field with icon**
+  + focus ring, **primary submit**, summary chips, and a **result list styled like blog
+  cards**. Imported in `site.scss` **before** `theme-overrides` so the Ericsson/Hilda
+  tints still refine it. All colours use semantic `--c-*` tokens (B-DNA: tokens are the
+  source of truth) → adapts to light/dark. Mobile (`≤720px`) stacks the input/button
+  full-width; `.site-search[hidden]` keeps the overlay off until opened. **Search engine
+  + markup unchanged** (minimal delta, no logic rewrite).
+- **Prevention / Rules:** never ship BEM markup whose only CSS is a theme tint — a
+  component needs its own scoped structural partial; reference the design system first
+  (see the **UI/UX Reference Rule** below: `/branding-guideline/`, `/tools/s-dna/`,
+  `/tools/b-dna/`, `/font/`); dialogs MAY float above content (B-DNA), but a clean,
+  not raw, surface. **A green `zola build` does NOT prove the UI is styled** — only a
+  render/visual check (or this detector) catches a raw component.
+- **Detector:** `scripts/qa_vaccines.py` → `check_search_ui_vaccine` (code `SEARCH-UI`):
+  FAIL if `_site-search.scss` is missing / unimported / lacks the overlay+panel+field+
+  submit+result structure, or if base.html lost the dialog/input/submit/close/search-data
+  markup, or `site-search.js` is gone; WARN if the mobile media query or
+  `.site-search[hidden]` guard is absent.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SearchUiVaccineTest -v`
+- **Validation:** `zola build` PASS · `qa_check.py` PASS (search_ui_vaccine PASS) ·
+  `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken · search dialog
+  renders a styled panel on desktop + mobile with the input/button aligned and visible.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
@@ -1131,6 +1174,33 @@ guideline hiện tại không?"* — **CÓ →** áp dụng có chọn lọc; **
 Đây chỉ là **hướng thị giác tái sử dụng** để mượn SAU, khi có **trang thật** cần section KPI-heavy
 (vd company profile, bài tài chính/ngành, trang annual-report). Khi đó mới dựng component (scoped SCSS +
 shortcode, opt-in, additive), tái dùng component sẵn có trước khi tạo mới. **Evolution, not proliferation.**
+
+## UI/UX Reference Rule (BẮT BUỘC — mọi lần làm/sửa UI/UX)
+
+> Quy tắc vĩnh viễn. Áp dụng cho **MỌI** lần implement hoặc fix UI/UX (page, component,
+> dashboard, widget, tool, modal, article block, dialog…). Bổ sung "Design Language" +
+> "Design Style Anchor" + "Global UI/UX Design DNA" — KHÔNG thay thế.
+
+**Rule:** When implementing or fixing UI/UX, Claude must **always reference** the existing
+design system **before** writing any markup or CSS:
+
+- **Branding guideline** → `/branding-guideline/` — source of truth (`--c-*` tokens, palette, spacing).
+- **S-DNA** → `/tools/s-dna/` — Sembcorp design DNA (soft surfaces, whitespace, calm hierarchy).
+- **B-DNA** → `/tools/b-dna/` — Brand design DNA (cards-first, kicker+title+purpose, tokens are truth, dialogs may float above content).
+- **Font guideline** → `/font/` — typography (`$font-heading` / `$font-body`, hierarchy).
+
+**Goal:** user-first usability, visual harmony, and consistency with the existing blog UI.
+
+- **Never ship raw/default-looking UI** when the blog already has a polished design system —
+  no default browser form controls/buttons, no unstyled panels, no misaligned inputs.
+- Every new visual component = **scoped SCSS partial** using semantic `var(--c-*)` tokens
+  (auto light/dark), imported in `site.scss`; **reuse** an existing component before inventing one.
+- Respect the responsive scope rules (mobile ≤720px vs desktop — see "Quy tắc tối ưu hoá giao diện").
+- **A green `zola build` does NOT prove the UI is styled** — always do a render/visual check
+  (desktop + mobile) before calling a UI task done. BEM markup whose only CSS is a theme tint
+  is **not** a finished component (see vaccine **V20 — Search UI**).
+- Ask the Design Consistency question first: *"Does this look natural inside an Apple annual
+  report × Bloomberg × Stripe Docs × Notion?"* — if **no → redesign** before shipping.
 
 ## Global UI/UX Design DNA
 

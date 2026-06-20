@@ -613,10 +613,10 @@
   }
 
   .site-search__panel {
-    border-radius: 4px;
+    border-radius: 16px;
     border-color: #e0e0e0;
-    border-top-color: #003784;
-    box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+    border-top: 3px solid #003784;
+    box-shadow: 0 24px 48px rgba(0, 55, 132, 0.18);
   }
 
   .site-search__eyebrow,

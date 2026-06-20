@@ -1230,6 +1230,96 @@ def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
                        diagnosis="no stale github.io/zola refs in operational files; config + CNAME clean")
 
 
+def check_search_ui_vaccine(ctx: Ctx) -> CheckResult:
+    """search_ui_vaccine — the internal search dialog ("Tìm trong blog") must
+    render as a STYLED, native SEOMONEY surface, never raw/default browser chrome.
+
+    Root cause it guards (the bug this task fixed): the search markup in
+    templates/base.html uses BEM `.site-search__*` classes, but only colour
+    *tint* overrides existed (_theme-overrides.scss) — the structural/layout
+    CSS was never written, so the panel rendered as an unstyled form. The fix
+    is the scoped partial sass/_site-search.scss, imported in site.scss.
+
+    Static signals (no browser needed):
+      FAIL — search would render raw OR the search logic/markup is gone:
+        * sass/_site-search.scss missing, or not imported in site.scss;
+        * the partial lacks the structural rules (overlay positioning, panel
+          card, field, primary submit, result card);
+        * base.html lost the dialog / input / submit / search-data markup;
+        * static/js/site-search.js (the search engine) is missing.
+      WARN — styled & working but a resilience gap:
+        * no mobile media query (mobile width could overflow);
+        * `.site-search[hidden]` not handled (overlay could show always).
+    """
+    title = "Search UI styled + native (Tìm trong blog)"
+    scss = ctx.read("sass/_site-search.scss")
+    site_scss = ctx.read("sass/site.scss") or ""
+    base = ctx.read("templates/base.html") or ""
+    js = ctx.read("static/js/site-search.js")
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Styled UI exists and is wired into the bundle.
+    if not scss:
+        fails.append("sass/_site-search.scss vắng → search render raw (no structural CSS)")
+    elif not re.search(r'@import\s+["\']site-search["\']', site_scss):
+        fails.append("sass/site.scss thiếu @import \"site-search\" → partial không vào bundle")
+
+    # 2) The partial supplies real STRUCTURE, not just a colour tint — these are
+    #    the selectors whose absence would leave a raw/default layout.
+    if scss:
+        # overlay must be a controlled, positioned surface (not document flow)
+        if not re.search(r'\.site-search\s*\{[^}]*position\s*:\s*fixed', scss, re.S):
+            fails.append(".site-search thiếu position:fixed → overlay không định vị (raw)")
+        for sel, why in (
+            (r'\.site-search__panel\s*\{[^}]*(max-width|border-radius)', "panel card (max-width/radius)"),
+            (r'\.site-search__field\s*\{[^}]*(display|border)', "search field (input wrapper)"),
+            (r'\.site-search__submit\s*\{[^}]*(background|padding)', "primary submit button"),
+            (r'\.site-search__result\s*\{[^}]*(border|padding)', "result card"),
+        ):
+            if not re.search(sel, scss, re.S):
+                fails.append(f"_site-search.scss thiếu style cho {why}")
+        # responsive + hidden-state hygiene (R1–R8 mobile rules / overlay toggle)
+        if "max-width: 720px" not in scss and "max-width:720px" not in scss:
+            warns.append("_site-search.scss thiếu @media (max-width: 720px) → mobile có thể overflow")
+        if not re.search(r'\.site-search\[hidden\]', scss):
+            warns.append(".site-search[hidden] chưa override display → overlay có thể luôn hiện")
+
+    # 3) Markup contract — input + submit + close + the data the JS reads.
+    for needle, why in (
+        ("data-site-search", "search dialog container"),
+        ("data-search-input", "search input"),
+        ("site-search__submit", "submit button"),
+        ("data-search-close", "close/back action"),
+        ("site-search-data", "search index data the engine reads"),
+    ):
+        if needle not in base:
+            fails.append(f"templates/base.html mất `{why}` ({needle}) → search UI/logic vỡ")
+
+    # 4) The search engine itself must still be present (logic unchanged).
+    if not js:
+        fails.append("static/js/site-search.js vắng → search ngừng hoạt động")
+    elif "renderResults" not in js:
+        warns.append("site-search.js có nhưng thiếu renderResults() — kiểm tra logic search")
+
+    if fails:
+        return CheckResult("SEARCH-UI", title, FAIL,
+                           diagnosis="search dialog không có UI styled hoặc mất markup/logic",
+                           fix=("thêm/giữ sass/_site-search.scss (overlay+panel+field+submit+result) + "
+                                "@import \"site-search\" trong site.scss; giữ markup .site-search__* + "
+                                "data-search-* trong base.html và static/js/site-search.js"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("SEARCH-UI", title, WARN,
+                           diagnosis="search UI styled & hoạt động nhưng còn khe hở resilience",
+                           fix="bổ sung @media mobile + .site-search[hidden] trong _site-search.scss",
+                           details=warns)
+    return CheckResult("SEARCH-UI", title, PASS,
+                       diagnosis="search dialog có UI styled native (overlay/panel/field/submit/result), "
+                                 "responsive, markup + engine còn nguyên")
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -1258,6 +1348,7 @@ DETECTORS = [
     check_sidebar_layout,
     check_uptime_me,
     check_deploy_monitor,
+    check_search_ui_vaccine,
 ]
 
 

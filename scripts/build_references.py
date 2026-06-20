@@ -15,6 +15,9 @@ import tomllib
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from link_utils import mask_code_spans  # V10: skip links inside code spans (fenced + inline)
+
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "references.json"
 BASE_URL = "https://seomoney.org"
@@ -184,6 +187,11 @@ def resolve_internal_url(url: str, slug_index: dict) -> str:
 
 def extract_links(body: str) -> list[tuple[str, str]]:
     found: list[tuple[str, str]] = []
+    # V10: blank out code spans (fenced + inline) first so EXAMPLE links written
+    # inside `code` — e.g. `[text](/posting/slug/)` in a tutorial — are not
+    # harvested as real references (which would create a dangling internal link
+    # that fails qa-404-checker). mask_code_spans is length-preserving.
+    body = mask_code_spans(body)
     for m in LINK_MD_RE.finditer(body):
         found.append((m.group(1), m.group(2).strip()))
     for m in LINK_HTML_RE.finditer(body):

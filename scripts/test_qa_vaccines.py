@@ -595,6 +595,102 @@ class DomainMigrationDriftTest(unittest.TestCase):
                             f"V19 FAIL on main — {r.diagnosis}")
 
 
+class SearchUiVaccineTest(unittest.TestCase):
+    """search_ui_vaccine — the search dialog must render a styled, native,
+    responsive surface with its markup + engine intact (no raw/default UI)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    # A minimal, well-formed search component the detector should PASS on.
+    _GOOD_SCSS = (
+        ".site-search { position: fixed; inset: 0; z-index: 10050; display: flex; }\n"
+        ".site-search[hidden] { display: none; }\n"
+        ".site-search__panel { max-width: 640px; border-radius: 16px; }\n"
+        ".site-search__field { display: flex; border: 1px solid; }\n"
+        ".site-search__submit { background: var(--c-accent); padding: 0 1.4rem; }\n"
+        ".site-search__result { border: 1px solid; padding: 0.9rem; }\n"
+        "@media (max-width: 720px) { .site-search__panel { max-width: 100%; } }\n"
+    )
+    _GOOD_BASE = (
+        '<div class="site-search" data-site-search hidden>'
+        '<button data-search-close></button>'
+        '<input data-search-input>'
+        '<button class="site-search__submit">Tìm</button></div>'
+        '<script id="site-search-data">[]</script>'
+    )
+    _GOOD_JS = "function renderResults(q){ return q; }\n"
+
+    def _wire_good(self):
+        self.repo.write("sass/_site-search.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+
+    def test_missing_partial_fails(self):
+        # Markup + engine present, but no structural SCSS → raw render → FAIL.
+        self.repo.write("sass/site.scss", "@import \"post\";\n")
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("_site-search.scss" in d for d in r.details))
+
+    def test_not_imported_fails(self):
+        self._wire_good()
+        self.repo.write("sass/site.scss", '@import "post";\n')  # partial not imported
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("@import" in d or "site.scss" in d for d in r.details))
+
+    def test_raw_layout_fails(self):
+        # Partial exists & imported but has no positioning / panel / submit → raw.
+        self.repo.write("sass/_site-search.scss", ".site-search__title { color: blue; }\n")
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_input_markup_fails(self):
+        self._wire_good()
+        # Strip the input hook the engine needs → search logic broken.
+        self.repo.write("templates/base.html",
+                        self._GOOD_BASE.replace("data-search-input", "data-x-input"))
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_engine_fails(self):
+        self.repo.write("sass/_site-search.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        # No static/js/site-search.js at all.
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_no_mobile_query_warns(self):
+        good = dict(scss=self._GOOD_SCSS.replace(
+            "@media (max-width: 720px) { .site-search__panel { max-width: 100%; } }\n", ""))
+        self.repo.write("sass/_site-search.scss", good["scss"])
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("mobile" in d.lower() or "720px" in d for d in r.details))
+
+    def test_good_component_passes(self):
+        self._wire_good()
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_real_repo_passes(self):
+        """The shipped search UI must PASS on the real repo (calibration)."""
+        r = qv.check_search_ui_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"search_ui_vaccine not PASS: {r.diagnosis} {r.details}")
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
