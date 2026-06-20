@@ -1,0 +1,43 @@
+name: Preflight Conflict Check
+
+# Chặn PR "dirty" / merge conflict với main SỚM — trước khi tốn CI build/QA.
+# Read-only: chỉ dry-run merge (git merge-tree), KHÔNG đụng repo/main.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preflight-conflict-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history để merge-base chính xác)
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Fetch base branch
+        run: git fetch origin "${{ github.event.pull_request.base.ref || 'main' }}" --quiet
+
+      - name: Unit tests — preflight checker
+        run: python3 -m unittest scripts.test_preflight_conflict_check -v
+
+      # Gate: exit 1 (risk HIGH = conflict thật / file dùng chung sẽ đụng main) → fail PR.
+      # --no-fetch vì step trên đã fetch; dùng base ref thật của PR.
+      - name: Run preflight conflict checker (fail PR on HIGH risk)
+        run: |
+          python3 scripts/preflight_conflict_check.py \
+            --no-fetch \
+            --base "origin/${{ github.event.pull_request.base.ref || 'main' }}"
