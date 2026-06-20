@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(series): add 5-part Vaccine Số series — digital immune system for blog CI/CD",
+      "tag": "chore",
+      "lines_added": 1578,
+      "lines_removed": 2,
+      "highlights": [
+        "Adds 5 full articles (Vaccine Số series: vaccine-so) covering the blog's CI/CD self-healing immune system",
+        "Registers vaccine-so series in templates/macros/series-nav.html + templates/page.html elif chain (V8 prevention)",
+        "Adds data/vaccine-so-series.json manifest + rebuilt data/references.json + data/seo-qa-scores.json"
+      ],
+      "pr": 544
+    },
+    {
+      "date": "2026-06-20",
       "title": "docs(policy): mandatory PR flow — no loose finished branches (2026-06-20)",
       "tag": "chore",
       "lines_added": 34,
