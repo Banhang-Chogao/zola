@@ -1398,12 +1398,18 @@ push, không mở PR, không deploy.
 
 **Hành động** (thứ tự):
 
+> **Engine trực quan (mặc định):** chạy `python3 scripts/wip8.py` — render bằng
+> `rich` + `pyfiglet`: banner ASCII "wip8", panel bo góc, bảng có màu + emoji
+> trạng thái. Thiếu lib → tự fallback plain text (script không bao giờ crash).
+> Cài lib một lần: `python3 -m pip install -r scripts/requirements-wip8.txt`.
+> Script chỉ gọi lệnh git READ-ONLY (status/diff/log/stash/rev-list).
+
 1. `git status --short` — file staged / modified / untracked.
 2. `git diff --stat HEAD` — xem quy mô thay đổi từng file.
-3. `git log --oneline -10` — 10 commits gần nhất để suy feature đang làm.
+3. `git log --oneline -8` — commits gần nhất để suy feature đang làm.
 4. `git stash list` — có stash đang giữ lại không.
-5. **Branch context** — branch hiện tại, commit ahead/behind `origin/main`.
-6. **Open PRs** trên GitHub cho branch hiện tại (nếu có).
+5. **Branch context** — branch hiện tại, ahead/behind so với upstream.
+6. **Open PRs** trên GitHub cho branch hiện tại (qua MCP, ngoài script `rich`).
 7. **Running jobs** — GitHub Actions đang `in_progress` / `queued` liên quan branch.
 8. **Suy luận task** — từ diff, commit messages, tên file thay đổi, TODO markers trong code.
 9. **Nhóm files** — gom file thay đổi theo feature/tính năng (không liệt kê flat).
@@ -1441,13 +1447,15 @@ code-block kiểu `# Header` nữa — khó đọc). Mỗi mục là một bản
 quét mắt nhanh; KHÔNG xuống dòng dài dạng văn xuôi cho các trường có thể bảng hoá;
 mọi thời điểm hiển thị GMT+7 `HH:MM dd/mm/yyyy` nếu có.
 
-**Cú pháp mở rộng**:
-- `wip8` — full workspace scan (mặc định).
-- `wip8 quick` — chỉ `git status` + branch info, không gọi GitHub.
-- `wip8 <path>` — chỉ inspect file/folder cụ thể.
+**Cú pháp mở rộng** (map thẳng vào `scripts/wip8.py`):
+- `wip8` → `python3 scripts/wip8.py` — full workspace scan (mặc định, render rich).
+- `wip8 quick` → `python3 scripts/wip8.py --quick` — chỉ status + branch (bỏ log).
+- `wip8 <path>` → `python3 scripts/wip8.py <path>` — chỉ inspect file/folder cụ thể.
 
 **Hard rules**:
 - **READ-ONLY** — KHÔNG sửa, commit, push, deploy, mở PR. Chỉ đọc + in.
+- **Visual-first**: ưu tiên render `scripts/wip8.py` (rich/pyfiglet). Phần PR/CI
+  (GitHub MCP) bổ sung dưới bảng của script. Thiếu lib → fallback plain, vẫn chạy.
 - **Không đoán mò**: nếu không đủ tín hiệu → báo `Không đủ context để suy task` thay vì bịa.
 - **Chỉ chạy 1 lần** rồi dừng (dùng `theodoi8` nếu cần live feed CI).
 - Kết quả là **snapshot tại thời điểm gọi** — gọi lại `wip8` để refresh.
