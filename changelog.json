@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/eloquent-dirac-1nb2xp [claude/eloquent-dirac-1nb2xp]",
+      "tag": "chore",
+      "lines_added": 645,
+      "lines_removed": 3,
+      "highlights": [
+        "fix(search): style internal search dialog to match SEOMONEY UI",
+        "Merge remote-tracking branch 'origin/main' into claude/eloquent-dirac-1nb2xp",
+        "CLAUDE.md (modified, +70/-0)",
+        "sass/_site-search.scss (added, +384/-0)",
+        "sass/_theme-overrides.scss (modified, +3/-3)"
+      ],
+      "pr": 577
+    },
+    {
+      "date": "2026-06-20",
       "title": "fix(deploy-monitor): expire stale in_progress so Deploy Watch can't show \"deploying forever\"",
       "tag": "fix",
       "lines_added": 311,
