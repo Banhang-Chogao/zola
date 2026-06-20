@@ -1289,6 +1289,56 @@
             </div>
         </div>
 
+        {# ===== DEPLOY WATCH — compact, non-intrusive footer widget. Fed by CI
+           (data/deploy-monitor.json); browser never calls GitHub. Collapsed
+           <details> = no layout shift. Full timeline at /tools/deploy-monitor/. #}
+        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+        {% if dm and dm.summary %}
+        {% set d = dm.summary %}
+        <div class="container">
+          <details class="deploy-watch deploy-watch--{{ d.prod_status | default(value='unknown') }}">
+            <summary class="deploy-watch__summary">
+              <span class="deploy-watch__dot" aria-hidden="true"></span>
+              <span class="deploy-watch__label">Deploy Watch</span>
+              <span class="deploy-watch__sha">{{ d.prod_commit_short | default(value='—') }}</span>
+              {% if d.pending_count and d.pending_count > 0 %}
+              <span class="deploy-watch__pending">{{ d.pending_count }} chờ deploy</span>
+              {% endif %}
+              {% if d.avg_deploy_s %}<span class="deploy-watch__avg">~{{ d.avg_deploy_s }}s</span>{% endif %}
+              {% if dm.stale %}<span class="deploy-watch__stale" title="dữ liệu có thể đã cũ">⚠</span>{% endif %}
+              <span class="deploy-watch__chev" aria-hidden="true">▾</span>
+            </summary>
+            <div class="deploy-watch__panel">
+              <div class="deploy-watch__metrics">
+                <span>Prod: <strong>{{ d.prod_status | default(value='?') }}</strong></span>
+                <span>TB: <strong>{% if d.avg_deploy_s %}{{ d.avg_deploy_s }}s{% else %}—{% endif %}</strong></span>
+                <span>Lâu nhất: <strong>{% if d.longest_deploy_s %}{{ d.longest_deploy_s }}s{% else %}—{% endif %}</strong></span>
+                <span>Lỗi/huỷ: <strong>{{ d.failed_recent | default(value=0) }}/{{ d.cancelled_recent | default(value=0) }}</strong></span>
+                {% if d.storm %}<span class="deploy-watch__warn">⚡ storm rate-limit (V5)</span>{% endif %}
+              </div>
+              {% if dm.pending %}
+              <ul class="deploy-watch__list">
+                {% for p in dm.pending %}
+                <li class="deploy-watch__item deploy-watch__item--{{ p.status }}">
+                  <code>{{ p.sha_short }}</code>
+                  <span class="deploy-watch__item-status">{{ p.status }}</span>
+                  {% if p.waiting_s %}<span class="deploy-watch__item-wait">{{ p.waiting_s }}s</span>{% endif %}
+                  <span class="deploy-watch__item-title">{{ p.title | default(value="") | truncate(length=48) }}</span>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <p class="deploy-watch__none">Không có commit nào đang chờ deploy 🎉</p>
+              {% endif %}
+              <p class="deploy-watch__foot">
+                {% if dm.checked_at %}Cập nhật: <time datetime="{{ dm.checked_at }}" data-datetime>{{ dm.checked_at }}</time> · {% endif %}
+                <a href="{{ config.base_url | safe }}/tools/deploy-monitor/">Xem timeline đầy đủ →</a>
+              </p>
+            </div>
+          </details>
+        </div>
+        {% endif %}
+
         {# CATEGORIES — compact footer navigation (moved from sidebar) #}
         <nav class="footer-categories" aria-label="Danh mục bài viết">
             <div class="container">
