@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-19T23:17:39Z",
+  "updated_at": "2026-06-20T01:31:36Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 61,
+    "today": 1,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "fix": 50,
       "unknown": 27,
-      "feature": 82,
-      "fix": 48,
-      "chore": 31,
+      "feature": 81,
+      "chore": 30,
       "ci": 3,
       "qa": 1,
       "content": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 528,
+      "pr_title": "fix(links): harden link parsing/normalization — fix false skips & false 404s (giữ /zola canonical)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/528",
+      "merged_at": "2026-06-20T01:23:07Z",
+      "merge_commit_sha": "844de7c107d25148a82929252053d22e869a4745",
+      "merge_commit_short": "844de7c",
+      "head_branch": "claude/great-wozniak-pwn0ha",
+      "summary_vi": "Giữ **`/zola/` là canonical base path** (GitHub Pages subpath runtime) — KHÔNG strip, KHÔNG giả định root-domain. Chỉ sửa **link parsing + regex + normalization** để chống **false skip** (link on-site lọt qua không kiểm)",
+      "change_type": "fix",
+      "files_changed": 3,
+      "additions": 285,
+      "deletions": 64,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 822,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27855966744",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 526,
       "pr_title": "refactor: gỡ VIPZone/subscription · công cụ miễn phí · nav sidebar ph…",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 821,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27852463108",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 525,
@@ -662,9 +681,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 792,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817383160",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 490,
@@ -681,9 +700,9 @@
       "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 792,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817383160",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 491,
@@ -700,9 +719,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 792,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27817383160",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 488,
@@ -3213,6 +3232,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 348,
+      "pr_title": "fix(f-dashboard): PDF export Nokia font + landscape + login state",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/348",
+      "merged_at": "2026-06-17T18:32:46Z",
+      "merge_commit_sha": "b1219b7e3ce22575615340cccc7b0a4a532a7605",
+      "merge_commit_short": "b1219b7",
+      "head_branch": "fix/f-dashboard-pdf-export",
+      "summary_vi": "Cải thiện F-Dashboard export PDF và login UX tại `/tools/f-dashboard/`.",
+      "change_type": "fix",
+      "files_changed": 10,
+      "additions": 399,
+      "deletions": 155,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 340,
       "pr_title": "chore: changelog after PR #335",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/340",
@@ -3776,44 +3814,6 @@
       "files_changed": 16,
       "additions": 2451,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 319,
-      "pr_title": "docs(CLAUDE): playbook kinh nghiệm phiên vận hành 2026-06-17",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/319",
-      "merged_at": "2026-06-17T17:31:31Z",
-      "merge_commit_sha": "fe96f3911e487b89b1b75d7f62c69bb29cde541f",
-      "merge_commit_short": "fe96f39",
-      "head_branch": "chore/claude-playbook-2026-06-17",
-      "summary_vi": "Tổng kết kinh nghiệm từ phiên Grok Build (dashboard cancelled, compliance links, maintenance merge #313–#310, auto-merge #314) vào `CLAUDE.md` để hệ thống tham khảo sau này.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 177,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 314,
-      "pr_title": "feat(ci): auto-merge PRs khi CI pass + Merge Report Python",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/314",
-      "merged_at": "2026-06-17T17:17:40Z",
-      "merge_commit_sha": "d8ed131a51c381fd61d9c65b638a26586432d945",
-      "merge_commit_short": "d8ed131",
-      "head_branch": "feat/auto-merge-policy",
-      "summary_vi": "Bật **auto-merge toàn bộ PR** vào `main` khi CI pass — không chờ duyệt tay. Bù lại có **Merge Report** ghi lịch sử merge từ 2026-06-17.",
-      "change_type": "feature",
-      "files_changed": 14,
-      "additions": 864,
-      "deletions": 91,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
