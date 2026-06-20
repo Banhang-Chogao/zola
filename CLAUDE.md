@@ -629,45 +629,73 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 - **Detector:** `scripts/qa_vaccines.py` → `check_v17_vipzone_edge_safari_auth`.
 - **Tests:** `python3 -m unittest services.vipzone.test_main scripts.test_vipzone_roles -v`.
 
-#### V18 — Runtime Artifact Conflict: volatile state/log/report files block concurrent vaccine PRs
+#### V18 — Runtime Artifact Conflict: volatile state/log/report files committed to hotfix PRs
 
-> Process + tooling vaccine. Match the signature → run the FIXER; do NOT hand-merge these files.
+> Process + tooling vaccine (not a workflow-run failure). Match signature → apply FIXER.
+> Root class: same as V6 (bot data refresh conflict) but specific to **vaccine/QA engine runtime files**.
+> Evidence: PR #548 (`vaccine-hotfix/deploy_fail-27866069932`) and #547/#549 — all blocked
+> `dirty` because concurrent hotfix runs each committed volatile state/log/report artifacts
+> to the same paths (timestamps, PIDs, run IDs) with no real code change.
 
-- **Symptom:** A `vaccine-autofixer` or `vaccine-hotfix` PR turns `mergeable_state: dirty` with
-  conflicts ONLY in volatile runtime files. The **exact PR #555 conflict file set**:
-  `data/qa-rule-checker-state.json` · `reports/rule-conflict-report.json` ·
-  `reports/rule-conflict-report.md`. Related siblings: `data/vaccine-autofixer-state.json` ·
-  `data/vaccine-autofixer.log` · `data/autofix-conflicts-state.json`. These files contain
-  **timestamp churn only** — each QA/vaccine run writes a new `updated_at`/`at` field.
-  The PR's real fix (if any) does NOT conflict; only the state/report files do.
-- **Root cause:** `vaccine-autofixer.yml` (and formerly `vaccine-hotfix.yml`) used `git add -A`
-  without filtering → every concurrent vaccine run committed the same timestamp-volatile paths
-  with different values → spurious merge conflict on every concurrent PR. These files are
-  **pure runtime artifacts**: they carry zero real information between runs. Committing them
-  is both unnecessary and harmful.
-- **FIXER (mandatory before creating or re-opening a vaccine PR):**
-  1. **Never hand-merge** these files — always resolve by taking `main`'s version (authoritative)
-     or regenerating from current repo state. `git checkout --theirs <file>` for each conflict.
-  2. **Permanent prevention (already applied):**
-     - `.gitignore`: all 6 volatile file paths added → git stops tracking them.
-     - `vaccine-autofixer.yml` step "Open PR": after `git add -A` → `git restore --staged`
-       unstages all 6 paths → they are NEVER committed in vaccine PRs.
-     - `scripts/qa-auto-rule-checker.py` `write_reports()`: idempotent — skips write when
-       conflict count + list unchanged → no dirty state on no-op runs.
-  3. **If the conflict recurs** after this vaccine is applied → check that `.gitignore` patterns
-     are present AND `vaccine-autofixer.yml` has the `git restore --staged` block. Run
-     `python3 scripts/qa_vaccines.py` → V18 FAIL diagnoses which guard is missing.
-- **Regression files (exact PR #555 set — ALL must be in .gitignore):**
-  `data/qa-rule-checker-state.json` · `reports/rule-conflict-report.json` ·
-  `reports/rule-conflict-report.md` · `data/vaccine-autofixer-state.json` ·
-  `data/vaccine-autofixer.log` · `data/autofix-conflicts-state.json`
-- **Detector:** `scripts/qa_vaccines.py` → `check_v18_runtime_artifact_conflict` (FAIL if
-  patterns missing from `.gitignore` or workflow filter absent; WARN if idempotent writer missing).
-- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.RuntimeArtifactVaccineTest -v`
-  (5 cases: pass · real-repo · missing-gitignore · missing-workflow-filter · pr555-exact-set).
+- **Symptom:** `vaccine-hotfix/*` or `qa/*` PR shows `mergeable_state: dirty` with conflicts
+  **only** in these files:
+  - `data/vaccine-hotfix-state.json` (lock — PID + timestamps)
+  - `data/vaccine-hotfix.log` (append-only log)
+  - `data/vaccine-hotfix-report.json` (run metadata — trigger, run_id, branch, timestamps)
+  - `data/vaccine-autofixer-state.json` (lock — same pattern)
+  - `data/vaccine-autofixer.log` (append-only log)
+  - `data/qa-rule-checker-state.json` (state append entries with timestamps)
+  - `data/autofix-conflicts-state.json` (state file)
+  - `reports/rule-conflict-report.json` (only `updated_at` changed)
+  - `reports/rule-conflict-report.md` (only `Updated:` line changed)
+  The PR's actual code fix (templates, scripts, content) does **NOT** conflict.
+- **Root cause:** `vaccine-hotfix.yml` used `git add -A` which staged volatile runtime
+  artifacts alongside the real fix. Every concurrent hotfix run writes the same state/log/report
+  paths with different timestamps/PIDs/run_ids → merge conflict. The conflict is NOT a logic
+  bug and carries zero fixable code. `qa-auto-rule-checker.py` unconditionally updated
+  `updated_at` in `reports/rule-conflict-report.*` on every run even when conflict count was
+  unchanged → timestamp-only conflict.
+- **FIXER (applied 20/06/2026):**
+  1. `.gitignore` — added pure lock/log/state files (they are never needed on the deployed site):
+     `data/vaccine-hotfix-state.json`, `data/vaccine-hotfix.log`,
+     `data/vaccine-autofixer-state.json`, `data/vaccine-autofixer.log`,
+     `data/qa-rule-checker-state.json`, `data/autofix-conflicts-state.json`.
+  2. `git rm --cached` those 6 files to untrack them from the index.
+  3. `.github/workflows/vaccine-hotfix.yml` — after `git add -A`, explicitly unstage all
+     volatile runtime artifacts (including `data/vaccine-hotfix-report.json` and
+     `reports/rule-conflict-report.*`) via `git restore --staged`. Hotfix PRs now commit
+     ONLY the actual code delta; run metadata is committed by scheduled workflows.
+  4. `scripts/qa-auto-rule-checker.py` `write_reports()` — idempotent: only write
+     `reports/rule-conflict-report.*` when conflict count or conflict list actually changes;
+     a timestamp-only run leaves the files unmodified → no git dirty state → no conflict.
+- **Rules (permanent):**
+  - **Never `git add -A` in a multi-PR automation** without explicitly unstaging runtime artifacts.
+  - **State/lock/PID files → gitignore** — they change on every run and never contribute code.
+  - **Report files → idempotent writes** — only update when the semantic content changes.
+  - **Hotfix PRs → minimal delta only**: commit the fix files, not run bookkeeping.
+  - `dirty` PR with conflicts ONLY in `data/*state*.json`, `data/*.log`, or `reports/*report.*`
+    = V18 signature → apply FIXER (below), never hand-merge these files.
+  - **V18 self-conflict (PR #551, 2026-06-20):** the V18 fix PR itself was blocked by the
+    same 3 files it was gitignoring (`data/qa-rule-checker-state.json`,
+    `data/vaccine-hotfix-state.json`, `data/vaccine-hotfix.log`). Resolution: `git merge
+    origin/main` → for each `DU` (deleted-by-us, modified-by-them) conflict file → `git rm
+    --cached <file>` (keep untracked). Never commit stale runtime state/log. Never hand-merge.
+    This is always safe because these files carry zero fixable code.
+- **Detector:** `scripts/qa_vaccines.py` → `check_v18_runtime_artifact_conflict` (code `V18-RUNTIME`).
+  FAIL if any of the 6 state/log files are still tracked (`git ls-files`).
+  WARN if `vaccine-hotfix.yml` lacks the `git restore --staged` filter.
+  WARN if `write_reports` in `qa-auto-rule-checker.py` is not idempotent.
+- **Regression test list (exact #548 files):** `data/qa-rule-checker-state.json`,
+  `data/vaccine-hotfix-report.json`, `data/vaccine-hotfix-state.json`,
+  `data/vaccine-hotfix.log`, `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md`.
+- **Regression test list (exact #551 self-conflict files):** `data/qa-rule-checker-state.json`,
+  `data/vaccine-hotfix-state.json`, `data/vaccine-hotfix.log`.
+- **Regression test list (exact #555 files — vaccine-autofixer):** `data/qa-rule-checker-state.json`,
+  `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md`.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v -k V18` (includes `RuntimeArtifactV18Test` and `RuntimeArtifactVaccineTest`).
 - **Evidence (PR #555, 2026-06-20):** `chore/vaccine-autofixer-20260620-102216` went dirty because
-  `main` ran `qa-rule-checker` at `10:22:42Z` while the PR had entries at `10:15:47Z`/`10:15:53Z`.
-  Zero real code in conflict. Resolved by taking main's versions; permanent fix applied here.
+  `main` ran `qa-rule-checker` at `10:22:42Z` while the PR had entries at `10:15:47Z`. Zero real
+  code in conflict. Resolved by taking main's versions + applying FIXER above.
 
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
@@ -798,6 +826,51 @@ score **97.8/100 (A+)**. Root cause: 104 `feed-anchor` + 10 homepage `/page/N/` 
 0 `<h1>`; 20 `posting/feed-anchor-*.md` lacked taxonomy/body. Reverted mistaken
 code-fence demotion in `sentence-transformers-sbert-deep-dive.md` — demoter skips
 fenced blocks.
+
+#### V19 — Domain Migration Drift: stale `github.io/zola` refs in operational files after apex-domain migration
+
+> Process + tooling vaccine. Match the signature → run `scripts/domain_migration_audit.py`; fix per FIXER below.
+
+- **Symptom:** After migrating `banhang-chogao.github.io/zola` → `https://seomoney.org`, stale
+  `github.io/zola` references survive in operational code (NOT test fixtures or migration-tool
+  docstrings). Typical locations: (a) script variable comments (`# banhang-chogao.github.io` in
+  qa-404-checker.py), (b) `data/performance-audit-snapshot.json` `url` field holding the old
+  origin, (c) docs TODO items still open (`- [ ] custom domain`), (d) CLAUDE.md rule examples
+  using the old domain in watermark/branding strings. Detector: `check_v19_domain_migration_drift`
+  in `scripts/qa_vaccines.py`.
+- **Root cause:** Migration tools (`scripts/rewrite_cdn_urls.py`, `scripts/fix_site_prefix_links.py`)
+  correctly rewrote content/templates, but human-authored comments, cached data snapshots, and
+  documentation examples were not in scope. These drift silently until audited.
+- **Detector (WARN — does not break build):** `check_v19_domain_migration_drift`:
+  1. Reads `config.toml` `base_url`; extract expected apex host (`seomoney.org`).
+  2. Reads `data/performance-audit-snapshot.json`; WARN if `.url` ≠ base_url (stale snapshot).
+  3. Scans operational files (`.py`, `.yml`, `.html`, `.js`, `.scss`, `.toml`, `.md` outside
+     `scripts/test_*`, `data/`, `scripts/rewrite_cdn_urls.py`, `scripts/fix_site_prefix_links.py`,
+     `scripts/dns_vaccine.py`, `CLAUDE.md`) for pattern `banhang-chogao\.github\.io/zola` →
+     WARN per file found.
+  4. Severity: WARN (drift, not build-breaking); escalate to FAIL only if `config.toml`
+     `base_url` or `static/CNAME` still holds `github.io` (already gated by V15/dns_vaccine,
+     but V19 re-checks for defence-in-depth).
+- **FIXER (minimal delta — run after any domain rename):**
+  1. `python3 scripts/domain_migration_audit.py` — full scan + table report.
+  2. Fix stale comments: update `# github.io` / `# /zola` variable comments to reflect new host.
+  3. Regenerate `data/performance-audit-snapshot.json`: trigger `perf-audit.yml` workflow or
+     run `python3 scripts/fetch_pagespeed.py` locally (TARGET_URL already = seomoney.org).
+  4. Mark done any open `- [ ]` doc TODOs about custom domain.
+  5. Update CLAUDE.md examples that use old domain strings (watermark, branding examples).
+  6. Content tutorial articles (`content/posting/*.md`) that *explain* GitHub Pages using
+     `github.io` example URLs are **legitimate content** — do NOT rewrite them.
+- **Exclusion list (never flag as V19 issues):**
+  - `scripts/dns_vaccine.py` (PAGES_ORIGIN_HOST = `banhang-chogao.github.io` is correct DNS www-CNAME target)
+  - `scripts/rewrite_cdn_urls.py`, `scripts/fix_site_prefix_links.py` (migration-tool docstrings)
+  - `scripts/test_*.py`, `data/merge-report.json`, `data/dns-vaccine-report.json` (test fixtures / history)
+  - `content/posting/tao-blog-voi-zola.md`, `content/posting/tu-dong-deploy-zola-github-actions.md`,
+    `content/posting/ung-ho-du-an-ai-ten-mien-ai.md` (tutorial content explaining GitHub Pages)
+- **Validation (20/06/2026):** Applied: stale comment in `qa-404-checker.py` (lines 79–82); done
+  marker on `docs/seo-strategy.md` custom-domain TODO; watermark example in `CLAUDE.md` updated
+  to `seomoney.org`. `scripts/domain_migration_audit.py` created. `dns_vaccine --offline --gate`
+  PASS; `zola build` PASS; `qa_check.py` PASS.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.DomainMigrationDriftTest -v`
 
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
@@ -2217,7 +2290,7 @@ Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi 
 
 - Dynamic watermark overlay khi đọc online: `blogName • emailHash • postId • traceCode`.
 - Print/PDF: `@media print` chèn watermark `{traceCode16}_{blogDomain}` + bản quyền.
-- Ví dụ in: `A9F328BC71D06E2A_banhang-chogao.github.io` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
+- Ví dụ in: `A9F328BC71D06E2A_seomoney.org` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
 - `POST /api/paywall/log-print` ghi log khi user in.
 
 ## Security Rules (Paywall + F-Dashboard)

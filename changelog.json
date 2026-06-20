@@ -2,16 +2,27 @@
   "items": [
     {
       "date": "2026-06-20",
-      "title": "fix(v18): prevent runtime artifact conflicts in Daily Vaccine Autofixer PRs",
-      "tag": "fix",
-      "lines_added": 242,
-      "lines_removed": 0,
+      "title": "SEOMONEY rebrand + OG image + placeholder system + Deploy Monitor footer",
+      "tag": "feat",
+      "lines_added": 813,
+      "lines_removed": 951,
       "highlights": [
-        "data/qa-rule-checker-state.json (timestamp/run-history churn)",
-        "reports/rule-conflict-report.json (timestamp-only change)",
-        "reports/rule-conflict-report.md (timestamp-only change)"
+        "config.toml title \"Duy Nguyen\" → \"SEOMONEY\" — cascades to <title>, og:site_name`, RSS/Atom titles, JSON-LD publisher/WebSite/Breadcrumb, header wordmark, nav drawer, footer ©. Description + tagline re",
+        "Duy Nguyen preserved as AUTHOR only: author=\"duynguyenlog\", author_bio, author.json name, about.md byline, S-DNA \"Maintained by Duy Nguyen\" all untouched.",
+        "Rebranded user-facing site-brand strings blog Duy Nguyen → blog SEOMONEY across section/page _index descriptions, robots.txt, and static dir-listing HTML (converter/fonts/img og:site_name + descriptio",
+        "New static/img/og/seomoney-og.svg (1200×630, crop-safe): top bar SEOMONEY logo + name | tagline, article preview card with thumbnail slot, layered SEOMONEY motif, \"Tác giả: Duy Nguyen\".",
+        "base.html default og:image → SEOMONEY twin seomoney-og.og.webp (committed seed so it never 404s; build_og_images.py re-renders it in CI). Per-post og:image still uses the post's first/thumbnail image,"
       ],
-      "pr": 558
+      "pr": 557
+    },
+    {
+      "date": "2026-06-20",
+      "title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfix PRs",
+      "tag": "fix",
+      "lines_added": 365,
+      "lines_removed": 647,
+      "highlights": [],
+      "pr": 551
     },
     {
       "date": "2026-06-20",

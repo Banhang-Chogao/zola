@@ -223,6 +223,21 @@ jobs:
             exit 0
           fi
           git add -A
+          # Unstage volatile runtime artifacts — they conflict across concurrent hotfix PRs
+          # and carry no fixable code. State/logs are now gitignored; report files are
+          # committed only by scheduled workflows, not hotfix PRs (CLAUDE.md §4 V18).
+          for _vf in \
+            data/vaccine-hotfix-state.json \
+            data/vaccine-hotfix.log \
+            data/vaccine-hotfix-report.json \
+            data/vaccine-autofixer-state.json \
+            data/vaccine-autofixer.log \
+            data/qa-rule-checker-state.json \
+            data/autofix-conflicts-state.json \
+            reports/rule-conflict-report.json \
+            reports/rule-conflict-report.md; do
+            git restore --staged "$_vf" 2>/dev/null || true
+          done
           git commit -m "fix(vaccine-hotfix): minimal delta for ${{ steps.ctx.outputs.issue_id }} [skip changelog]"
           # Plain push (fast-forward only) to the dedicated branch — NEVER force, NEVER main.
           git push origin "HEAD:$BRANCH"
