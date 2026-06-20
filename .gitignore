@@ -6,6 +6,15 @@ __pycache__/
 .venv*/
 scripts/.venv*/
 
+# Vaccine/QA runtime state — pure lock/log/pid artifacts, never commit (V18)
+# These conflict across concurrent hotfix/QA PRs and carry zero fixable code.
+data/vaccine-hotfix-state.json
+data/vaccine-hotfix.log
+data/vaccine-autofixer-state.json
+data/vaccine-autofixer.log
+data/qa-rule-checker-state.json
+data/autofix-conflicts-state.json
+
 # Workflow log artifacts — không bao giờ commit
 perf-fix.txt
 perf-scan.txt

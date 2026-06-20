@@ -680,6 +680,62 @@ def check_v17_vipzone_edge_safari_auth(ctx: Ctx) -> CheckResult:
     return CheckResult("V17", title, PASS)
 
 
+def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
+    """V18 — Runtime artifact conflict: volatile state/log/report files in hotfix PRs."""
+    title = "Runtime artifacts gitignored + hotfix PR commit filter"
+    issues: list[str] = []
+
+    # 1. State/lock/log files must NOT be tracked by git (they should be gitignored)
+    volatile_files = [
+        "data/vaccine-hotfix-state.json",
+        "data/vaccine-hotfix.log",
+        "data/vaccine-autofixer-state.json",
+        "data/vaccine-autofixer.log",
+        "data/qa-rule-checker-state.json",
+        "data/autofix-conflicts-state.json",
+    ]
+    try:
+        import subprocess as _sp
+        tracked = _sp.run(
+            ["git", "ls-files"] + volatile_files,
+            cwd=str(ctx.root), capture_output=True, text=True, timeout=10,
+        ).stdout.strip()
+        if tracked:
+            for f in tracked.splitlines():
+                issues.append(f"FAIL: {f} vẫn được git track — phải gitignore (V18)")
+    except Exception as exc:
+        issues.append(f"WARN: không kiểm tra git ls-files được: {exc}")
+
+    # 2. vaccine-hotfix.yml must have git restore --staged filter after git add -A
+    hotfix_yml = ctx.read(".github/workflows/vaccine-hotfix.yml") or ""
+    if hotfix_yml and "git restore --staged" not in hotfix_yml:
+        issues.append("WARN: vaccine-hotfix.yml thiếu 'git restore --staged' filter cho volatile files (V18)")
+
+    # 3. qa-auto-rule-checker.py write_reports must be idempotent (skip timestamp-only write)
+    rule_checker = ctx.read("scripts/qa-auto-rule-checker.py") or ""
+    if rule_checker and "no meaningful change" not in rule_checker and "Idempotent" not in rule_checker:
+        issues.append("WARN: qa-auto-rule-checker.py write_reports() không idempotent — ghi updated_at mỗi run → conflict (V18)")
+
+    fail_issues = [i for i in issues if i.startswith("FAIL")]
+    warn_issues = [i for i in issues if i.startswith("WARN")]
+
+    if fail_issues:
+        return CheckResult(
+            "V18", title, FAIL,
+            diagnosis="Volatile runtime artifacts còn được git track → sẽ conflict ở concurrent hotfix PRs",
+            fix="V18 FIXER: git rm --cached + thêm vào .gitignore; cập nhật vaccine-hotfix.yml",
+            details=issues,
+        )
+    if warn_issues:
+        return CheckResult(
+            "V18", title, WARN,
+            diagnosis="Runtime artifact workflow filter hoặc idempotent write chưa đầy đủ",
+            fix="V18 FIXER: thêm git restore --staged filter; làm write_reports() idempotent",
+            details=warn_issues,
+        )
+    return CheckResult("V18", title, PASS)
+
+
 def check_v10_link_utils_layer(ctx: Ctx) -> CheckResult:
     """V10 (shared link-utils + test layer — link-safety, NOT a §4 vaccine number).
 
@@ -972,6 +1028,7 @@ DETECTORS = [
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
     check_v17_vipzone_edge_safari_auth,
+    check_v18_runtime_artifact_conflict,
     check_config_toml,
     check_workflow_yaml,
     check_dashboard_json,

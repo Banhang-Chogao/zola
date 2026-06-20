@@ -809,6 +809,16 @@ def append_claude_learning(
 
 def write_reports(payload: dict[str, Any], md: str) -> None:
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    # Idempotent: only write when conflict count or list actually changed.
+    # A timestamp-only diff would create merge conflicts across concurrent QA PRs (V18).
+    if REPORT_JSON.exists():
+        try:
+            prev = json.loads(REPORT_JSON.read_text(encoding="utf-8"))
+            if (prev.get("summary", {}).get("total_conflicts") == payload.get("summary", {}).get("total_conflicts")
+                    and prev.get("conflicts") == payload.get("conflicts")):
+                return  # no meaningful change — skip to avoid timestamp-only git conflicts
+        except (OSError, ValueError):
+            pass
     REPORT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     REPORT_MD.write_text(md, encoding="utf-8")
 

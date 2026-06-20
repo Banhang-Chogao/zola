@@ -629,6 +629,61 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 - **Detector:** `scripts/qa_vaccines.py` → `check_v17_vipzone_edge_safari_auth`.
 - **Tests:** `python3 -m unittest services.vipzone.test_main scripts.test_vipzone_roles -v`.
 
+#### V18 — Runtime Artifact Conflict: volatile state/log/report files committed to hotfix PRs
+
+> Process + tooling vaccine (not a workflow-run failure). Match signature → apply FIXER.
+> Root class: same as V6 (bot data refresh conflict) but specific to **vaccine/QA engine runtime files**.
+> Evidence: PR #548 (`vaccine-hotfix/deploy_fail-27866069932`) and #547/#549 — all blocked
+> `dirty` because concurrent hotfix runs each committed volatile state/log/report artifacts
+> to the same paths (timestamps, PIDs, run IDs) with no real code change.
+
+- **Symptom:** `vaccine-hotfix/*` or `qa/*` PR shows `mergeable_state: dirty` with conflicts
+  **only** in these files:
+  - `data/vaccine-hotfix-state.json` (lock — PID + timestamps)
+  - `data/vaccine-hotfix.log` (append-only log)
+  - `data/vaccine-hotfix-report.json` (run metadata — trigger, run_id, branch, timestamps)
+  - `data/vaccine-autofixer-state.json` (lock — same pattern)
+  - `data/vaccine-autofixer.log` (append-only log)
+  - `data/qa-rule-checker-state.json` (state append entries with timestamps)
+  - `data/autofix-conflicts-state.json` (state file)
+  - `reports/rule-conflict-report.json` (only `updated_at` changed)
+  - `reports/rule-conflict-report.md` (only `Updated:` line changed)
+  The PR's actual code fix (templates, scripts, content) does **NOT** conflict.
+- **Root cause:** `vaccine-hotfix.yml` used `git add -A` which staged volatile runtime
+  artifacts alongside the real fix. Every concurrent hotfix run writes the same state/log/report
+  paths with different timestamps/PIDs/run_ids → merge conflict. The conflict is NOT a logic
+  bug and carries zero fixable code. `qa-auto-rule-checker.py` unconditionally updated
+  `updated_at` in `reports/rule-conflict-report.*` on every run even when conflict count was
+  unchanged → timestamp-only conflict.
+- **FIXER (applied 20/06/2026):**
+  1. `.gitignore` — added pure lock/log/state files (they are never needed on the deployed site):
+     `data/vaccine-hotfix-state.json`, `data/vaccine-hotfix.log`,
+     `data/vaccine-autofixer-state.json`, `data/vaccine-autofixer.log`,
+     `data/qa-rule-checker-state.json`, `data/autofix-conflicts-state.json`.
+  2. `git rm --cached` those 6 files to untrack them from the index.
+  3. `.github/workflows/vaccine-hotfix.yml` — after `git add -A`, explicitly unstage all
+     volatile runtime artifacts (including `data/vaccine-hotfix-report.json` and
+     `reports/rule-conflict-report.*`) via `git restore --staged`. Hotfix PRs now commit
+     ONLY the actual code delta; run metadata is committed by scheduled workflows.
+  4. `scripts/qa-auto-rule-checker.py` `write_reports()` — idempotent: only write
+     `reports/rule-conflict-report.*` when conflict count or conflict list actually changes;
+     a timestamp-only run leaves the files unmodified → no git dirty state → no conflict.
+- **Rules (permanent):**
+  - **Never `git add -A` in a multi-PR automation** without explicitly unstaging runtime artifacts.
+  - **State/lock/PID files → gitignore** — they change on every run and never contribute code.
+  - **Report files → idempotent writes** — only update when the semantic content changes.
+  - **Hotfix PRs → minimal delta only**: commit the fix files, not run bookkeeping.
+  - `dirty` PR with conflicts ONLY in `data/*state*.json`, `data/*.log`, or `reports/*report.*`
+    = V18 signature → close PR, fix the gitignore/workflow on the feature branch, reopen.
+- **Detector:** `scripts/qa_vaccines.py` → `check_v18_runtime_artifact_conflict` (code `V18-RUNTIME`).
+  FAIL if any of the 6 state/log files are still tracked (`git ls-files`).
+  WARN if `vaccine-hotfix.yml` lacks the `git restore --staged` filter.
+  WARN if `write_reports` in `qa-auto-rule-checker.py` is not idempotent.
+- **Regression test list (exact #548 files):** `data/qa-rule-checker-state.json`,
+  `data/vaccine-hotfix-report.json`, `data/vaccine-hotfix-state.json`,
+  `data/vaccine-hotfix.log`, `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md`.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v -k V18`.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
