@@ -2,13 +2,13 @@
   "report_name": "Autofixer_report_by Vacxin",
   "rule": "Vaccine Hotfix",
   "trigger": "required_checks_fail",
-  "issue_id": "claude/deploy-monitor",
-  "branch": "vaccine-hotfix/claude-deploy-monitor",
-  "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/claude-deploy-monitor",
-  "run_id": "27868263286",
-  "started_at": "2026-06-20T17:22:39.257729+07:00",
-  "finished_at": "2026-06-20T17:28:52.260924+07:00",
-  "last_run": "2026-06-20T17:28:52.260924+07:00",
+  "issue_id": "claude/elegant-curie-04kx27",
+  "branch": "vaccine-hotfix/claude-elegant-curie-04kx27",
+  "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/claude-elegant-curie-04kx27",
+  "run_id": "27870671791",
+  "started_at": "2026-06-20T19:06:25.494165+07:00",
+  "finished_at": "2026-06-20T19:12:19.805953+07:00",
+  "last_run": "2026-06-20T19:12:19.805953+07:00",
   "precheck": {
     "safe_to_run": true,
     "guarantees": [
@@ -37,13 +37,11 @@
     ]
   },
   "root_cause": {
-    "root_cause": "JavaScript / Node test failure: JS test hoặc script runtime lỗi.",
-    "confidence": 77,
-    "suggested_fix": "Chạy test local (npm test / node script); sửa theo stack trace.",
-    "affected_files": [
-      "data/qa-404-report.json"
-    ],
-    "pattern_id": "JS_ERROR",
+    "root_cause": "Unclassified build failure — no known pattern matched",
+    "confidence": 35,
+    "suggested_fix": "Inspect log tail; append new rule to scripts/ai_diagnose.py or vaccine_rules.py.",
+    "affected_files": [],
+    "pattern_id": "UNKNOWN",
     "tier": "heuristic"
   },
   "fix_actions": [
@@ -57,10 +55,9 @@
   ],
   "files_changed": [
     "ata/qa-rule-checker-state.json",
+    "data/references.json",
     "data/vaccine-hotfix-state.json",
-    "data/vaccine-hotfix.log",
-    "reports/rule-conflict-report.json",
-    "reports/rule-conflict-report.md"
+    "data/vaccine-hotfix.log"
   ],
   "manual_review": false,
   "attempts": 1,
@@ -68,7 +65,7 @@
     "qa": {
       "name": "qa_check.py",
       "passed": true,
-      "detail": "  (checks run: 24, skipped: 3)"
+      "detail": "  (checks run: 26, skipped: 3)"
     },
     "build": {
       "name": "zola build",
@@ -123,16 +120,26 @@
       "attempts": 1,
       "files_changed": 5,
       "last_run": "2026-06-20T17:28:52.260924+07:00"
+    },
+    {
+      "run_id": "27870671791",
+      "trigger": "required_checks_fail",
+      "issue_id": "claude/elegant-curie-04kx27",
+      "branch": "vaccine-hotfix/claude-elegant-curie-04kx27",
+      "status": "ok",
+      "attempts": 1,
+      "files_changed": 4,
+      "last_run": "2026-06-20T19:12:19.805953+07:00"
     }
   ],
   "latest": {
-    "run_id": "27868263286",
+    "run_id": "27870671791",
     "trigger": "required_checks_fail",
-    "issue_id": "claude/deploy-monitor",
-    "branch": "vaccine-hotfix/claude-deploy-monitor",
+    "issue_id": "claude/elegant-curie-04kx27",
+    "branch": "vaccine-hotfix/claude-elegant-curie-04kx27",
     "status": "ok",
     "attempts": 1,
-    "files_changed": 5,
-    "last_run": "2026-06-20T17:28:52.260924+07:00"
+    "files_changed": 4,
+    "last_run": "2026-06-20T19:12:19.805953+07:00"
   }
 }
