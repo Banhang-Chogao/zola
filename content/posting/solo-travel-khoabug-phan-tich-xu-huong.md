@@ -9,9 +9,9 @@ tags = ["solo travel", "khoabug", "khoa pug", "du lịch", "creator economy", "v
 [extra]
 seo_keyword = "solo travel KhoaBug"
 seo_title = "Solo travel KhoaBug"
-canonical_url = "https://banhang-chogao.github.io/zola/posting/solo-travel-khoabug-phan-tich-xu-huong/"
+canonical_url = "https://seomoney.org/posting/solo-travel-khoabug-phan-tich-xu-huong/"
 keywords = ["solo travel", "KhoaBug", "Khoa Pug", "du lịch", "creator economy", "văn hóa số"]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 +++
 
 **Solo travel KhoaBug** nên được đọc như một tín hiệu văn hóa, không phải

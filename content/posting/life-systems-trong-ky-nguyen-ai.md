@@ -9,9 +9,9 @@ tags = ["life systems", "ai", "productivity", "money systems", "personal framewo
 [extra]
 seo_keyword = "life systems trong kỷ nguyên AI"
 seo_title = "Life systems trong kỷ nguyên AI"
-canonical_url = "https://banhang-chogao.github.io/zola/posting/life-systems-trong-ky-nguyen-ai/"
+canonical_url = "https://seomoney.org/posting/life-systems-trong-ky-nguyen-ai/"
 keywords = ["life systems", "AI", "productivity", "money systems", "personal framework", "self management"]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 +++
 
 **Life systems trong kỷ nguyên AI** không phải là biến cuộc đời thành phần

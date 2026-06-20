@@ -9,9 +9,9 @@ tags = ["ai travel", "du lịch", "travel planning", "solo travel", "digital nom
 [extra]
 seo_keyword = "AI lập kế hoạch du lịch"
 seo_title = "AI lập kế hoạch du lịch"
-canonical_url = "https://banhang-chogao.github.io/zola/posting/ai-thay-doi-lap-ke-hoach-du-lich/"
+canonical_url = "https://seomoney.org/posting/ai-thay-doi-lap-ke-hoach-du-lich/"
 keywords = ["AI travel", "du lịch", "travel planning", "solo travel", "digital nomad", "workflow"]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 +++
 
 **AI lập kế hoạch du lịch** đang thay đổi cách ta chuẩn bị một chuyến đi,

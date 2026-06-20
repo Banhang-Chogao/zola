@@ -9,9 +9,9 @@ tags = ["ai", "du lịch", "đời sống", "life systems", "insights", "digital
 [extra]
 seo_keyword = "nền tảng AI du lịch đời sống"
 seo_title = "Nền tảng AI du lịch đời sống"
-canonical_url = "https://banhang-chogao.github.io/zola/posting/nen-tang-ai-du-lich-doi-song/"
+canonical_url = "https://seomoney.org/posting/nen-tang-ai-du-lich-doi-song/"
 keywords = ["AI", "du lịch", "đời sống", "life systems", "insights", "digital nomad"]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 +++
 
 **Nền tảng AI du lịch đời sống** này bắt đầu từ một câu hỏi rất thực tế:

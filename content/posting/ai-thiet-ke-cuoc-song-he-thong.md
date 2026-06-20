@@ -9,9 +9,9 @@ tags = ["ai", "life design", "productivity", "workflow", "personal systems", "de
 [extra]
 seo_keyword = "AI thiết kế cuộc sống"
 seo_title = "AI thiết kế cuộc sống"
-canonical_url = "https://banhang-chogao.github.io/zola/posting/ai-thiet-ke-cuoc-song-he-thong/"
+canonical_url = "https://seomoney.org/posting/ai-thiet-ke-cuoc-song-he-thong/"
 keywords = ["AI", "life design", "productivity", "workflow", "personal systems", "decision making"]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 +++
 
 **AI thiết kế cuộc sống** nghe có vẻ lớn, nhưng thực chất bắt đầu từ
