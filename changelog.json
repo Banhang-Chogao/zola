@@ -2,6 +2,20 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(seo): auto-submit sitemap + expand IndexNow to all content",
+      "tag": "chore",
+      "lines_added": 273,
+      "lines_removed": 5,
+      "highlights": [
+        "New scripts/sitemap_ping.py: pings Bing sitemap endpoint after every deploy; also submits to Google Search Console via sitemaps().submit() when GSC_* secrets are configured. Always best-effort (exit 0",
+        "New .github/workflows/sitemap-submit.yml: triggers on workflow_run after the deploy workflow succeeds → runs sitemap_ping.py. Runs on every push to main.",
+        "indexnow.yml path expansion: changed trigger from content/posting/ + content/baochi/ to content/ + templates/ — so tools pages, static pages, and template changes now also fire the IndexNow ping.",
+        "indexnow.py URL collection: now collects URLs from tools/ section + pages/ section (reads path = frontmatter for custom URL overrides like /about/). Total: 222 URLs vs ~192 before."
+      ],
+      "pr": 561
+    },
+    {
+      "date": "2026-06-20",
       "title": "redesign: soften Korean Hangul banner to SEOMONEY editorial style",
       "tag": "chore",
       "lines_added": 98,
