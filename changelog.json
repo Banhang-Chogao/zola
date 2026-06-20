@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter",
+      "tag": "fix",
+      "lines_added": 7,
+      "lines_removed": 4,
+      "highlights": [
+        "sass/_side-nav.scss: .side-nav → position: static (removed sticky + top + z-index). CSS-only.",
+        "Desktop only. Mobile/tablet (≤960px) hides .side-nav and uses the hamburger .nav-drawer — untouched.",
+        "Markup/logic unchanged. Search / Clear-cache actions remain inside the panel (.side-nav__actions).",
+        "No scroll-linked transform/animation was present in JS; the drift was purely the sticky rule.",
+        "python3 qa_check.py → PASS (UI-SIDEBAR PASS, 0 vaccine failures; only pre-existing unrelated DEPLOY-MON freshness warn)."
+      ],
+      "pr": 585
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(og): polish SEOMONEY OG card + legal VN Google Sans-style font + OG vaccine",
       "tag": "chore",
       "lines_added": 287,
