@@ -1,6 +1,6 @@
 +++
 title = "Tuyên bố bản quyền"
-description = "Tuyên bố bản quyền của blog Duy Nguyen: quyền sở hữu nội dung, điều kiện trích dẫn và ghi nguồn, quy trình báo cáo vi phạm (DMCA) và liên hệ xin cấp phép sử dụng."
+description = "Tuyên bố bản quyền của blog SEOMONEY: quyền sở hữu nội dung, điều kiện trích dẫn và ghi nguồn, quy trình báo cáo vi phạm (DMCA) và liên hệ xin cấp phép sử dụng."
 path = "copyright"
 template = "about.html"
 

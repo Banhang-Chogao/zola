@@ -2,40 +2,27 @@
   "items": [
     {
       "date": "2026-06-20",
-      "title": "chore(vaccine): Daily Vaccine Autofixer run",
-      "tag": "chore",
-      "lines_added": 45,
-      "lines_removed": 17,
-      "highlights": [],
-      "pr": 555
-    },
-    {
-      "date": "2026-06-20",
-      "title": "chore(domain): post-migration cleanup + V19 vaccine (github.io → seomoney.org)",
-      "tag": "cleanup",
-      "lines_added": 598,
-      "lines_removed": 17,
+      "title": "SEOMONEY rebrand + OG image + placeholder system + Deploy Monitor footer",
+      "tag": "feat",
+      "lines_added": 813,
+      "lines_removed": 951,
       "highlights": [
-        "qa-404-checker.py lines 79–82: stale variable comments (# banhang-chogao.github.io / # /zola) updated to reflect apex-domain values",
-        "docs/seo-strategy.md line 255: custom-domain TODO - [ ] marked as done (- [x] seomoney.org ✅ live 06/2026)",
-        "CLAUDE.md §Watermark Rules: watermark example updated from _banhang-chogao.github.io → _seomoney.org",
-        "CLAUDE.md §4 #### V19: symptom / root-cause / detector / fixer / exclusion list",
-        "scripts/qa_vaccines.py: check_v19_domain_migration_drift — WARN on stale snapshot url or operational refs; FAIL if config.toml/CNAME still hold old domain"
+        "config.toml title \"Duy Nguyen\" → \"SEOMONEY\" — cascades to <title>, og:site_name`, RSS/Atom titles, JSON-LD publisher/WebSite/Breadcrumb, header wordmark, nav drawer, footer ©. Description + tagline re",
+        "Duy Nguyen preserved as AUTHOR only: author=\"duynguyenlog\", author_bio, author.json name, about.md byline, S-DNA \"Maintained by Duy Nguyen\" all untouched.",
+        "Rebranded user-facing site-brand strings blog Duy Nguyen → blog SEOMONEY across section/page _index descriptions, robots.txt, and static dir-listing HTML (converter/fonts/img og:site_name + descriptio",
+        "New static/img/og/seomoney-og.svg (1200×630, crop-safe): top bar SEOMONEY logo + name | tagline, article preview card with thumbnail slot, layered SEOMONEY motif, \"Tác giả: Duy Nguyen\".",
+        "base.html default og:image → SEOMONEY twin seomoney-og.og.webp (committed seed so it never 404s; build_og_images.py re-renders it in CI). Per-post og:image still uses the post's first/thumbnail image,"
       ],
-      "pr": 566
+      "pr": 557
     },
     {
       "date": "2026-06-20",
-      "title": "fix(v18): prevent runtime artifact conflicts in Daily Vaccine Autofixer PRs",
+      "title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfix PRs",
       "tag": "fix",
-      "lines_added": 242,
-      "lines_removed": 0,
-      "highlights": [
-        "data/qa-rule-checker-state.json (timestamp/run-history churn)",
-        "reports/rule-conflict-report.json (timestamp-only change)",
-        "reports/rule-conflict-report.md (timestamp-only change)"
-      ],
-      "pr": 558
+      "lines_added": 365,
+      "lines_removed": 647,
+      "highlights": [],
+      "pr": 551
     },
     {
       "date": "2026-06-20",

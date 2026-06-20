@@ -15,6 +15,18 @@ import tomllib
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse
 
+# Code-span-aware link masking (shared link-safety layer). Reusing this keeps the
+# references builder from harvesting EXAMPLE links written inside `code spans` /
+# ``` fenced blocks ``` — e.g. an article that documents `[text](/posting/slug/)`
+# must NOT produce a real reference link to /posting/slug/ (the V14 / V10-LINKS
+# class: never parse links inside code spans).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from link_utils import mask_code_spans
+except ImportError:  # pragma: no cover - degrade safely if the shared lib moves
+    def mask_code_spans(text: str, fill: str = " ") -> str:
+        return text
+
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "references.json"
 BASE_URL = "https://seomoney.org"
@@ -184,6 +196,9 @@ def resolve_internal_url(url: str, slug_index: dict) -> str:
 
 def extract_links(body: str) -> list[tuple[str, str]]:
     found: list[tuple[str, str]] = []
+    # Mask code spans/fenced blocks first → example links inside `code` are not
+    # harvested as real references (offset-preserving fill keeps regex spans valid).
+    body = mask_code_spans(body)
     for m in LINK_MD_RE.finditer(body):
         found.append((m.group(1), m.group(2).strip()))
     for m in LINK_HTML_RE.finditer(body):

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Ảnh minh hoạ mặc định của blog">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="SEOMONEY">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#38bdf8"/>
@@ -6,14 +6,13 @@
     </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#g)"/>
-  <circle cx="1328" cy="153" r="432" fill="#93c5fd" opacity="0.13"/>
-  <circle cx="1504" cy="774" r="279" fill="#ffffff" opacity="0.06"/>
-  <circle cx="160" cy="828" r="198" fill="#ffffff" opacity="0.05"/>
-  <g fill="none" stroke="#ffffff" stroke-width="9" opacity="0.28" stroke-linejoin="round">
-    <rect x="624" y="323" width="352" height="253" rx="18" ry="18"/>
-  </g>
-  <g opacity="0.28">
-    <circle cx="730" cy="404" r="28" fill="#ffffff"/>
-    <polyline points="666,546 782,429 870,546 828,462 934,546" fill="none" stroke="#ffffff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="1376" cy="162" r="288" fill="#93c5fd" opacity="0.10"/>
+  <circle cx="192" cy="774" r="224" fill="#93c5fd" opacity="0.08"/>
+  <text x="800.0" y="594" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+        font-weight="800" font-size="256" fill="#ffffff" opacity="0.06" letter-spacing="4">SEOMONEY</text>
+  <g opacity="0.92">
+    <rect x="560" y="392" width="480" height="117" rx="33" fill="#ffffff" opacity="0.14"/>
+    <text x="800.0" y="471" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+          font-weight="800" font-size="49" fill="#ffffff" letter-spacing="3">SEOMONEY</text>
   </g>
 </svg>

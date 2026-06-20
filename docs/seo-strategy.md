@@ -252,7 +252,7 @@ PILLAR: "Tự xây blog cá nhân $0 với Zola"
 - [ ] **`BreadcrumbList` schema** + breadcrumb hiển thị.
 - [ ] **Thay toàn bộ ảnh `picsum.photos`** bằng ảnh thật (15 bài) — ưu tiên cao (image pack + E-E-A-T).
 - [ ] **Pillar pages** cho 2 mảng top (Du lịch Hàn, Zola).
-- [x] **Custom domain `seomoney.org`** — ✅ đã live (06/2026), DNS Cloudflare → GitHub Pages apex A-record.
+- [ ] Cân nhắc **custom domain** (tăng uy tín hơn `github.io/zola` subpath) — dài hạn.
 - [ ] **`HowTo` schema** cho bài hướng dẫn (recipe, deploy.yml…).
 
 ---
