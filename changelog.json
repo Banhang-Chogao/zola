@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "dns-vaccine: apex NS gate + empty-apex-A Cloudflare fix steps (seomoney.org)",
+      "tag": "fix",
+      "lines_added": 252,
+      "lines_removed": 9,
+      "highlights": [
+        "static/CNAME = seomoney.org (13 bytes, exact bare apex) ✅",
+        "config.toml base_url = https://seomoney.org ✅",
+        "No seomomey.org typo anywhere ✅",
+        "Old github.io/zola content refs: only 2 stale doc lines in CLAUDE.md (fixed); remaining hits are legitimate test fixtures / rewrite-examples / historical reports",
+        "L0-ns (new): dig seomoney.org NS must be delegated to Cloudflare (*.ns.cloudflare.com)"
+      ],
+      "pr": 540
+    },
+    {
+      "date": "2026-06-20",
       "title": "docs(shortcuts): wip8 output dạng bảng markdown trực quan",
       "tag": "chore",
       "lines_added": 26,
