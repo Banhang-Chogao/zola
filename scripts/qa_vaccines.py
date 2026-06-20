@@ -2261,6 +2261,155 @@ def check_no_floating_nav_vaccine(ctx: Ctx) -> CheckResult:
     )
 
 
+# Canonical SEO identity (V20) — the brand string + canonical apex root.
+CANONICAL_HOST = "seomoney.org"
+BRAND_TOKEN = "SEOMONEY"
+
+
+def _config_base_url(ctx: Ctx) -> str:
+    """Extract config.toml base_url value (best-effort, stdlib only)."""
+    for line in (ctx.read("config.toml") or "").splitlines():
+        s = line.strip()
+        if s.startswith("base_url") and "=" in s:
+            return s.split("=", 1)[1].strip().strip('"').strip("'")
+    return ""
+
+
+def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
+    """V20 — SEO Identity / Homepage Migration: brand + canonical root must hold.
+
+    Guards the apex-domain migration (20/06/2026): canonical root stays
+    https://seomoney.org/ and the homepage keeps the SEOMONEY brand.
+
+    FAIL: base_url non-apex / github.io / /zola subpath / http://, OR homepage
+          title/H1 lost the SEOMONEY brand (canonical signal regression).
+    WARN: article JSON-LD @type is not BlogPosting (weaker rich-result signal).
+    """
+    title = "V20 SEO Identity / Homepage Migration (canonical seomoney.org + brand)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # Check 1: canonical base_url — apex, https, no /zola, no github.io (FAIL).
+    base = _config_base_url(ctx)
+    if not base:
+        warns.append("config.toml base_url not found")
+    else:
+        if base.startswith("http://"):
+            fails.append(f"base_url uses http:// (must be https://): {base!r}")
+        if "github.io" in base:
+            fails.append(f"base_url still on github.io: {base!r}")
+        if "/zola" in base:
+            fails.append(f"base_url still carries /zola subpath: {base!r}")
+        host = base.split("://", 1)[-1].split("/", 1)[0].lower()
+        if host and host not in (CANONICAL_HOST, "www." + CANONICAL_HOST):
+            fails.append(f"base_url host {host!r} is not the canonical apex {CANONICAL_HOST!r}")
+
+    # Check 2: homepage title + H1 keep the SEOMONEY brand (FAIL if lost).
+    idx = ctx.read("templates/index.html") or ""
+    block_title = ""
+    mt = re.search(r"\{%\s*block\s+title\s*%\}(.*?)\{%\s*endblock", idx, re.DOTALL)
+    if mt:
+        block_title = mt.group(1)
+    h1 = ""
+    mh = re.search(r"<h1[^>]*>(.*?)</h1>", idx, re.DOTALL)
+    if mh:
+        h1 = mh.group(1)
+    if idx:
+        if BRAND_TOKEN not in block_title:
+            fails.append("homepage <title> block lost the SEOMONEY brand")
+        if BRAND_TOKEN not in h1:
+            fails.append("homepage <h1> lost the SEOMONEY brand")
+
+    # Check 3: article JSON-LD should use BlogPosting (WARN only).
+    base_html = ctx.read("templates/base.html") or ""
+    if base_html and '"@type": "BlogPosting"' not in base_html:
+        if '"@type": "Article"' in base_html:
+            warns.append('article JSON-LD still uses "Article" — prefer "BlogPosting"')
+
+    if fails:
+        return CheckResult("V20", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix=("Restore base_url=https://seomoney.org (apex/https/no /zola), "
+                                "keep SEOMONEY brand in homepage title/H1, BlogPosting schema "
+                                "(see V20 CLAUDE.md)"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V20", title, WARN,
+                           diagnosis="; ".join(warns),
+                           fix="Apply V20 FIXER in CLAUDE.md",
+                           details=warns)
+    return CheckResult("V20", title, PASS,
+                       diagnosis=("canonical root https://seomoney.org/ intact; "
+                                  "homepage carries SEOMONEY brand; BlogPosting schema present"))
+
+
+# Vaccine numbers that are *intentionally* documented more than once in CLAUDE.md:
+#   V10/V11/V12 — legacy §4 main vs the compliance block;
+#   V19 — GSC Domain Property vs Domain Migration Drift;
+#   V22 — Editor S-DNA visual layer vs Editor save→GitHub.
+# Any duplicate beyond these is a bug (new vaccines must take the next free number).
+ALLOWED_DUPLICATE_VACCINES = {"V10", "V11", "V12", "V19", "V22"}
+
+
+def next_free_vaccine_number(ctx: Ctx | None = None) -> int:
+    """Return the next free `#### V<N>` number from the CLAUDE.md vaccine library."""
+    text = (ctx.read("CLAUDE.md") if ctx else None)
+    if text is None:
+        try:
+            text = CLAUDE_MD.read_text(encoding="utf-8")
+        except OSError:
+            text = ""
+    nums = [int(v["code"][1:]) for v in load_vaccines(text) if v["code"][1:].isdigit()]
+    return (max(nums) + 1) if nums else 1
+
+
+def check_vaccine_registry_integrity(ctx: Ctx) -> CheckResult:
+    """VACCINE-REGISTRY — fail duplicate V-number or duplicate detector registration.
+
+    Guards two registries against accidental collisions:
+      1. CLAUDE.md `#### V<N>` numbers — an unexpected duplicate (beyond the
+         documented legacy set {V10, V11, V12}) FAILs. New vaccines must take the
+         next free number, never a taken one.
+      2. The DETECTORS list — the same callable or the same detector name listed
+         twice (a duplicate registration) FAILs.
+    """
+    title = "Vaccine registry integrity (no duplicate V-number / detector)"
+    fails: list[str] = []
+
+    # 1) Duplicate vaccine numbers in CLAUDE.md beyond the allowed legacy set.
+    codes = [v["code"] for v in load_vaccines(ctx.read("CLAUDE.md"))]
+    seen: dict[str, int] = {}
+    for c in codes:
+        seen[c] = seen.get(c, 0) + 1
+    for code, n in sorted(seen.items()):
+        if n > 1 and code not in ALLOWED_DUPLICATE_VACCINES:
+            fails.append(f"vaccine {code} documented {n}× in CLAUDE.md (use next free number)")
+
+    # 2) Duplicate detector registration in DETECTORS (callable or name listed 2×).
+    by_id: dict[int, int] = {}
+    by_name: dict[str, int] = {}
+    for det in DETECTORS:
+        by_id[id(det)] = by_id.get(id(det), 0) + 1
+        name = getattr(det, "__name__", repr(det))
+        by_name[name] = by_name.get(name, 0) + 1
+    for name, n in sorted(by_name.items()):
+        if n > 1:
+            fails.append(f"detector {name!r} registered {n}× in DETECTORS")
+    dup_callables = sum(1 for n in by_id.values() if n > 1)
+    if dup_callables:
+        fails.append(f"{dup_callables} detector callable(s) registered more than once")
+
+    if fails:
+        return CheckResult("VACCINE-REGISTRY", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix=("Give each new vaccine the next free number "
+                                "(next_free_vaccine_number) and register each detector once"),
+                           details=fails)
+    return CheckResult("VACCINE-REGISTRY", title, PASS,
+                       diagnosis=(f"{len(codes)} vaccine block(s), no unexpected duplicate; "
+                                  f"{len(DETECTORS)} detectors each registered once"))
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -2298,7 +2447,34 @@ DETECTORS = [
     check_og_image_vaccine,
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
+    check_v20_seo_identity_homepage,
+    check_vaccine_registry_integrity,
 ]
+
+
+def _assert_no_duplicate_registration() -> None:
+    """Import-time guard: a detector must never be registered twice in DETECTORS.
+
+    Raises RuntimeError loudly so a duplicate registration is caught at import,
+    long before the gate runs. (Duplicate *vaccine numbers* in CLAUDE.md are
+    reported as a FAIL by check_vaccine_registry_integrity, not raised here, so
+    the gate can still produce a report.)
+    """
+    names: dict[str, int] = {}
+    ids: dict[int, int] = {}
+    for det in DETECTORS:
+        names[getattr(det, "__name__", repr(det))] = names.get(getattr(det, "__name__", repr(det)), 0) + 1
+        ids[id(det)] = ids.get(id(det), 0) + 1
+    dup_names = [n for n, c in names.items() if c > 1]
+    dup_ids = [i for i, c in ids.items() if c > 1]
+    if dup_names or dup_ids:
+        raise RuntimeError(
+            f"duplicate detector registration in DETECTORS: {sorted(dup_names)} "
+            f"({len(dup_ids)} duplicated callable(s))"
+        )
+
+
+_assert_no_duplicate_registration()
 
 
 def run_all(root: Path | None = None) -> tuple[list[CheckResult], dict]:

@@ -1465,5 +1465,87 @@ class EditorSdnaVaccineTest(unittest.TestCase):
                          f"editor S-DNA detector not green on repo: {r.details}")
 
 
+class SeoIdentityV20Test(unittest.TestCase):
+    """V20 — canonical apex root + SEOMONEY homepage brand + BlogPosting schema."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _wire(self, base_url='https://seomoney.org',
+              title='SEOMONEY – SEO, AI WebOps & Tài chính cá nhân',
+              h1='SEOMONEY – SEO, AI WebOps &amp; Tài chính cá nhân',
+              schema='"@type": "BlogPosting"'):
+        self.repo.write("config.toml", f'base_url = "{base_url}"\n')
+        self.repo.write("templates/index.html",
+                        f"{{% block title %}}{title}{{% endblock %}}\n<h1 class=\"x\">{h1}</h1>")
+        self.repo.write("templates/base.html", f'<script>{{ {schema} }}</script>')
+
+    def test_real_repo_passes(self):
+        r = qv.check_v20_seo_identity_homepage(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis)
+
+    def test_canonical_identity_passes(self):
+        self._wire()
+        self.assertEqual(qv.check_v20_seo_identity_homepage(self.repo.ctx()).status, qv.PASS)
+
+    def test_github_io_base_url_fails(self):
+        self._wire(base_url='https://banhang-chogao.github.io/zola')
+        self.assertEqual(qv.check_v20_seo_identity_homepage(self.repo.ctx()).status, qv.FAIL)
+
+    def test_http_scheme_fails(self):
+        self._wire(base_url='http://seomoney.org')
+        self.assertEqual(qv.check_v20_seo_identity_homepage(self.repo.ctx()).status, qv.FAIL)
+
+    def test_lost_brand_in_homepage_fails(self):
+        self._wire(title='Blog công nghệ, du lịch & ẩm thực',
+                   h1='Blog công nghệ, du lịch &amp; ẩm thực')
+        self.assertEqual(qv.check_v20_seo_identity_homepage(self.repo.ctx()).status, qv.FAIL)
+
+    def test_non_blogposting_schema_warns(self):
+        self._wire(schema='"@type": "Article"')
+        self.assertEqual(qv.check_v20_seo_identity_homepage(self.repo.ctx()).status, qv.WARN)
+
+
+class VaccineRegistryGuardTest(unittest.TestCase):
+    """VACCINE-REGISTRY — duplicate V-number or detector registration must FAIL."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def test_next_free_number(self):
+        text = "#### V1 — a\n#### V19 — b\n#### V10 — dupe legacy\n"
+        self.repo.write("CLAUDE.md", text)
+        self.assertEqual(qv.next_free_vaccine_number(self.repo.ctx()), 20)
+
+    def test_real_repo_registry_passes(self):
+        r = qv.check_vaccine_registry_integrity(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis)
+
+    def test_legacy_duplicates_allowed(self):
+        self.repo.write("CLAUDE.md",
+                        "#### V10 — main\n#### V10 — compliance\n#### V20 — new\n")
+        self.assertEqual(qv.check_vaccine_registry_integrity(self.repo.ctx()).status, qv.PASS)
+
+    def test_unexpected_duplicate_number_fails(self):
+        self.repo.write("CLAUDE.md", "#### V20 — first\n#### V20 — second copy\n")
+        r = qv.check_vaccine_registry_integrity(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("V20", r.diagnosis)
+
+    def test_no_duplicate_detector_registration(self):
+        names = [getattr(d, "__name__", repr(d)) for d in qv.DETECTORS]
+        self.assertEqual(len(names), len(set(names)),
+                         "a detector is registered more than once in DETECTORS")
+
+    def test_import_time_guard_raises_on_dupe(self):
+        original = list(qv.DETECTORS)
+        qv.DETECTORS.append(original[0])  # register the same callable twice
+        try:
+            with self.assertRaises(RuntimeError):
+                qv._assert_no_duplicate_registration()
+        finally:
+            qv.DETECTORS[:] = original
+
+
 if __name__ == "__main__":
     unittest.main()
