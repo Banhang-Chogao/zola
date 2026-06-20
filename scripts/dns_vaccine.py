@@ -19,11 +19,19 @@ REPO (offline, deterministic — safe to gate a deploy on):
   R3  base_url uses https and has no leftover "/zola" path segment.
 
 LIVE (network via DNS-over-HTTPS + HTTP probes — monitor/alert):
+  L0  apex NS are delegated to Cloudflare (*.ns.cloudflare.com).
   L1  apex A records ⊆ the 4 GitHub Pages anycast IPs; NO apex CNAME (1016 risk).
+      An EMPTY apex A (the 2026-06-20 root cause: www OK, apex @ A missing) fails
+      with explicit Cloudflare-dashboard fix steps.
   L2  www resolves to banhang-chogao.github.io (CNAME) or the GitHub Pages IPs.
-  L3  https://<domain>/ is reachable AND not a Cloudflare error page
+  L3  https://<domain>/ returns 200 (healthy) and is not a Cloudflare error page
       (explicit 1016 / "Origin DNS error" / 5xx cf-error detection).
   L4  the GitHub Pages origin (banhang-chogao.github.io) is itself reachable.
+  L5  https://www.<domain>/ HTTP-redirects (301/308) to the apex (or serves 200);
+      must NOT NXDOMAIN.
+
+Out of scope (NEVER flagged): Cloudflare R2 custom-domain CNAMEs (subdomains) and
+email-routing MX/TXT (SPF/DKIM/DMARC). Only apex A/CNAME/NS + www CNAME are checked.
 
 Correct GitHub Pages + Cloudflare DNS (the fix this vaccine enforces)
 --------------------------------------------------------------------
@@ -88,6 +96,28 @@ GITHUB_PAGES_IPV6 = {
 }
 # Org/user Pages host that a project-site custom domain ultimately serves from.
 PAGES_ORIGIN_HOST = "banhang-chogao.github.io"
+
+# Apex is delegated to Cloudflare; its authoritative NS must be Cloudflare's.
+# (Diagnosis 2026-06-20: NS/R2/email-routing are fine — only apex @ A is missing.)
+CLOUDFLARE_NS_SUFFIX = ".ns.cloudflare.com"
+
+# OUT OF SCOPE — never gated here (they coexist with the Pages apex setup and are
+# NOT the 1016 cause): Cloudflare R2 custom-domain CNAMEs on subdomains
+# (e.g. cdn.seomoney.org) and email-routing MX/TXT (SPF/DKIM/DMARC) on the apex.
+# This vaccine only inspects apex A/CNAME/NS + the www CNAME, so MX/TXT/R2 records
+# are structurally excluded — documented so a future edit doesn't start flagging them.
+EXCLUDED_RECORD_TYPES = ("MX", "TXT", "SRV", "CAA")
+
+# Cloudflare dashboard steps to add the missing apex A records (Error 1016 fix).
+CF_APEX_FIX_STEPS = (
+    "Cloudflare dashboard → seomoney.org → DNS → Records → Add record ×4:\n"
+    "       Type=A  Name=@  IPv4=185.199.108.153  Proxy=DNS only (grey cloud)  TTL=Auto\n"
+    "       Type=A  Name=@  IPv4=185.199.109.153  Proxy=DNS only  TTL=Auto\n"
+    "       Type=A  Name=@  IPv4=185.199.110.153  Proxy=DNS only  TTL=Auto\n"
+    "       Type=A  Name=@  IPv4=185.199.111.153  Proxy=DNS only  TTL=Auto\n"
+    "     Keep CNAME www → banhang-chogao.github.io. Do NOT add an apex CNAME. "
+    "SSL/TLS = Full (Strict). Do NOT touch R2 CNAMEs or email-routing MX/TXT."
+)
 
 DOH_ENDPOINTS = (
     "https://dns.google/resolve",
@@ -171,6 +201,27 @@ def http_probe(url: str) -> dict:
         return {"url": url, "ok": False, "code": None, "error": type(exc).__name__}
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Capture a redirect instead of following it (so we can assert www → apex)."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: D401
+        return None
+
+
+def http_redirect(url: str) -> dict:
+    """HEAD a URL WITHOUT following redirects → {code, location}. code None on failure."""
+    opener = urllib.request.build_opener(_NoRedirect, urllib.request.HTTPSHandler())
+    req = urllib.request.Request(url, method="HEAD", headers={"user-agent": UA})
+    try:
+        with opener.open(req, timeout=TIMEOUT) as resp:
+            return {"code": resp.status, "location": resp.headers.get("Location", "")}
+    except urllib.error.HTTPError as exc:
+        loc = exc.headers.get("Location", "") if exc.headers else ""
+        return {"code": exc.code, "location": loc}
+    except Exception as exc:  # noqa: BLE001
+        return {"code": None, "location": "", "error": type(exc).__name__}
+
+
 def read_base_url_host() -> tuple[str, str]:
     """Return (base_url, host) from config.toml."""
     try:
@@ -249,6 +300,28 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
     apex = domain
     www = f"www.{domain}"
 
+    # L0 — apex NS must be delegated to Cloudflare (requirement: dig NS).
+    ns = doh_query(apex, "NS")
+    if ns is None:
+        checks.append(_check("L0-ns", "unknown",
+                             "could not query NS (restricted runner?)"))
+    elif not ns:
+        checks.append(_check("L0-ns", "fail",
+                             f"{apex} has no NS records — domain not delegated. "
+                             f"Point the registrar's nameservers at Cloudflare."))
+    else:
+        cf = [n for n in ns if n.lower().endswith(CLOUDFLARE_NS_SUFFIX)]
+        if cf:
+            checks.append(_check("L0-ns", "pass",
+                                 f"{apex} NS → Cloudflare {sorted(cf)}", resolved=ns))
+        else:
+            checks.append(_check("L0-ns", "fail",
+                                 f"{apex} NS are not Cloudflare ({sorted(ns)}); apex "
+                                 f"DNS is managed elsewhere. Set registrar NS to the "
+                                 f"Cloudflare nameservers shown in the Cloudflare "
+                                 f"dashboard (Overview → API/Nameservers).",
+                                 resolved=ns))
+
     # L1 — apex A + apex CNAME conflict
     a = doh_query(apex, "A")
     cname_apex = doh_query(apex, "CNAME")
@@ -257,9 +330,10 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
                              "could not query DNS (restricted runner?)"))
     elif not a:
         checks.append(_check("L1-apex-a", "fail",
-                             f"NXDOMAIN / no A records for {apex} — Cloudflare "
-                             f"will 1016. Add the 4 GitHub Pages A records.",
-                             resolved=a))
+                             f"apex {apex} A is EMPTY (NXDOMAIN / no A records) — "
+                             f"www works but the apex won't resolve. FIX:\n"
+                             f"     {CF_APEX_FIX_STEPS}",
+                             resolved=a, fix=CF_APEX_FIX_STEPS))
     else:
         extra = set(a) - GITHUB_PAGES_IPV4
         if extra:
@@ -293,12 +367,16 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
         checks.append(_check("L2-www", "warn",
                              f"{www} resolves unexpectedly (CNAME={cn}, A={wa})"))
 
-    # L3 — HTTP probe of apex (the actual 1016 surface)
+    # L3 — HTTP probe of apex (the actual 1016 surface; healthy = 200)
     probe = http_probe(f"https://{apex}/")
     if probe.get("is_1016"):
         checks.append(_check("L3-http", "fail",
                              f"https://{apex}/ returns Cloudflare Error 1016 "
                              f"(Origin DNS error). Fix apex DNS records.",
+                             probe=probe))
+    elif probe.get("code") == 200:
+        checks.append(_check("L3-http", "pass",
+                             f"https://{apex}/ returns 200 (served by GitHub Pages)",
                              probe=probe))
     elif probe.get("ok") or (probe.get("code") in (301, 302, 304, 404)):
         checks.append(_check("L3-http", "pass",
@@ -321,6 +399,31 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
     else:
         checks.append(_check("L4-origin", "unknown",
                              f"origin {PAGES_ORIGIN_HOST} unreachable from runner"))
+
+    # L5 — www must HTTP-redirect to the apex (301/308 → https://apex/) or serve 200;
+    # must NOT NXDOMAIN. Confirms the user-facing www→apex canonicalisation.
+    r = http_redirect(f"https://{www}/")
+    rcode, loc = r.get("code"), (r.get("location") or "")
+    if rcode in (301, 302, 307, 308) and apex in loc:
+        checks.append(_check("L5-www-redirect", "pass",
+                             f"https://{www}/ → {rcode} {loc} (redirects to apex)",
+                             probe=r))
+    elif rcode == 200:
+        checks.append(_check("L5-www-redirect", "pass",
+                             f"https://{www}/ serves 200 (no redirect)", probe=r))
+    elif rcode in (301, 302, 307, 308):
+        checks.append(_check("L5-www-redirect", "warn",
+                             f"https://{www}/ redirects to '{loc}' (not the apex "
+                             f"{apex}) — set the redirect target to https://{apex}/.",
+                             probe=r))
+    elif rcode is None:
+        checks.append(_check("L5-www-redirect", "unknown",
+                             f"could not reach https://{www}/ "
+                             f"({r.get('error', 'network')})", probe=r))
+    else:
+        checks.append(_check("L5-www-redirect", "warn",
+                             f"https://{www}/ HTTP {rcode} (expected 301→apex or 200)",
+                             probe=r))
 
 
 # --------------------------------------------------------------------------- #

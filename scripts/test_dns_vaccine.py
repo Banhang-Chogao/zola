@@ -58,6 +58,118 @@ class RepoCheckTest(unittest.TestCase):
             dv.read_cname = orig_cname
 
 
+class LiveCheckTest(unittest.TestCase):
+    """L0 NS + L1 empty-apex-A with mocked resolvers (no real network)."""
+
+    def _run(self, ns, a, cname_apex, www_cname, www_a, probe=None, redirect=None):
+        responses = {
+            ("seomoney.org", "NS"): ns,
+            ("seomoney.org", "A"): a,
+            ("seomoney.org", "CNAME"): cname_apex,
+            ("www.seomoney.org", "CNAME"): www_cname,
+            ("www.seomoney.org", "A"): www_a,
+        }
+        # default: apex 200 healthy, www 301 → apex
+        probe = probe or (lambda url: {"url": url, "ok": True, "code": 200, "is_1016": False})
+        redirect = redirect or (lambda url: {"code": 301, "location": "https://seomoney.org/"})
+        orig_doh, orig_probe, orig_redir = dv.doh_query, dv.http_probe, dv.http_redirect
+        dv.doh_query = lambda name, rtype: responses.get((name, rtype))
+        dv.http_probe = probe
+        dv.http_redirect = redirect
+        try:
+            checks: list[dict] = []
+            dv.live_checks("seomoney.org", checks, offline=False)
+            return {c["check"]: c for c in checks}
+        finally:
+            dv.doh_query, dv.http_probe, dv.http_redirect = orig_doh, orig_probe, orig_redir
+
+    def test_cloudflare_ns_passes(self):
+        res = self._run(
+            ns=["kara.ns.cloudflare.com", "rob.ns.cloudflare.com"],
+            a=sorted(dv.GITHUB_PAGES_IPV4), cname_apex=[],
+            www_cname=["banhang-chogao.github.io"], www_a=[])
+        self.assertEqual(res["L0-ns"]["status"], "pass")
+        self.assertEqual(res["L1-apex-a"]["status"], "pass")
+        self.assertEqual(res["L2-www"]["status"], "pass")
+
+    def test_non_cloudflare_ns_fails(self):
+        res = self._run(
+            ns=["ns1.registrar.com", "ns2.registrar.com"],
+            a=sorted(dv.GITHUB_PAGES_IPV4), cname_apex=[],
+            www_cname=["banhang-chogao.github.io"], www_a=[])
+        self.assertEqual(res["L0-ns"]["status"], "fail")
+
+    def test_empty_apex_a_fails_with_fix_steps(self):
+        # The exact diagnosed root cause: www OK, apex @ A empty.
+        res = self._run(
+            ns=["kara.ns.cloudflare.com"], a=[], cname_apex=[],
+            www_cname=["banhang-chogao.github.io"], www_a=[])
+        l1 = res["L1-apex-a"]
+        self.assertEqual(l1["status"], "fail")
+        self.assertIn("185.199.108.153", l1.get("fix", ""))
+        self.assertIn("Add record", l1.get("fix", ""))
+        # www still healthy → only apex is the problem.
+        self.assertEqual(res["L2-www"]["status"], "pass")
+
+    def test_scope_excludes_mx_txt_r2(self):
+        # MX/TXT/R2 are never queried → no check references them.
+        self.assertIn("MX", dv.EXCLUDED_RECORD_TYPES)
+        self.assertIn("TXT", dv.EXCLUDED_RECORD_TYPES)
+        self.assertTrue(dv.CLOUDFLARE_NS_SUFFIX.endswith("ns.cloudflare.com"))
+
+    def test_healthy_apex_200_and_www_redirect(self):
+        # Live, fixed state: apex 200, www 301 → apex.
+        res = self._run(
+            ns=["kara.ns.cloudflare.com"], a=sorted(dv.GITHUB_PAGES_IPV4),
+            cname_apex=[], www_cname=["banhang-chogao.github.io"], www_a=[])
+        self.assertEqual(res["L3-http"]["status"], "pass")
+        self.assertIn("200", res["L3-http"]["detail"])
+        self.assertEqual(res["L5-www-redirect"]["status"], "pass")
+
+    # ----- Regression: the historical DNS failures -----
+    def test_regression_cloudflare_1016(self):
+        res = self._run(
+            ns=["kara.ns.cloudflare.com"], a=[], cname_apex=["something.example"],
+            www_cname=["banhang-chogao.github.io"], www_a=[],
+            probe=lambda url: {"url": url, "ok": False, "code": 530, "is_1016": True})
+        self.assertEqual(res["L3-http"]["status"], "fail")
+        self.assertIn("1016", res["L3-http"]["detail"])
+        # apex CNAME present → flagged as the classic 1016 cause
+        self.assertEqual(res["L1-apex-cname"]["status"], "fail")
+
+    def test_regression_nxdomain(self):
+        # Apex returns no records at all (NXDOMAIN) → L1 fail with fix steps.
+        res = self._run(
+            ns=["kara.ns.cloudflare.com"], a=[], cname_apex=[],
+            www_cname=["banhang-chogao.github.io"], www_a=[])
+        self.assertEqual(res["L1-apex-a"]["status"], "fail")
+        self.assertIn("NXDOMAIN", res["L1-apex-a"]["detail"])
+
+    def test_regression_missing_apex_a(self):
+        res = self._run(
+            ns=["kara.ns.cloudflare.com"], a=[], cname_apex=[],
+            www_cname=["banhang-chogao.github.io"], www_a=[])
+        self.assertEqual(res["L1-apex-a"]["status"], "fail")
+        self.assertIn("185.199.108.153", res["L1-apex-a"].get("fix", ""))
+
+    def test_regression_www_ok_but_apex_broken(self):
+        # The exact 2026-06-20 symptom: www healthy, apex A empty.
+        res = self._run(
+            ns=["kara.ns.cloudflare.com"], a=[], cname_apex=[],
+            www_cname=["banhang-chogao.github.io"], www_a=[],
+            redirect=lambda url: {"code": 301, "location": "https://seomoney.org/"})
+        self.assertEqual(res["L2-www"]["status"], "pass")          # www DNS ok
+        self.assertEqual(res["L5-www-redirect"]["status"], "pass")  # www redirect ok
+        self.assertEqual(res["L1-apex-a"]["status"], "fail")        # apex broken
+
+    def test_www_redirect_to_wrong_target_warns(self):
+        res = self._run(
+            ns=["kara.ns.cloudflare.com"], a=sorted(dv.GITHUB_PAGES_IPV4),
+            cname_apex=[], www_cname=["banhang-chogao.github.io"], www_a=[],
+            redirect=lambda url: {"code": 301, "location": "https://elsewhere.com/"})
+        self.assertEqual(res["L5-www-redirect"]["status"], "warn")
+
+
 class SummaryTest(unittest.TestCase):
     def test_status_precedence(self):
         self.assertEqual(dv.summarize([{"check": "x", "status": "fail"}])["status"], "fail")
