@@ -994,6 +994,66 @@ fenced blocks.
 - **Validation:** `python3 scripts/qa_vaccines.py` (V21 PASS) · `qa_check.py` PASS ·
   `zola build` PASS · desktop nav no longer floats/drifts on scroll.
 
+#### V22 — Editor save→GitHub: CMS save must commit (not draft-only download), edit needs SHA, SEO rail hydrates, sticky single-active
+
+> CMS/editor vaccine. Match the signature → run the FIXER **by intent**; the static
+> detector `check_editor_publish_vaccine` (code `EDITOR-PUBLISH`) already guards it.
+> Canonical fix: PR #588.
+
+- **Symptom:** in `/editor/` (the GitHub-OAuth CMS) clicking **Save** / **Publish**
+  never actually commits — the post silently goes nowhere or surfaces a vague
+  **"Not Found"** with no real status. Editing an existing post can overwrite/conflict.
+  Opening an old post shows an **all-zero SEO checklist** in the right rail. Pinning a
+  post leaves the **previous sticky still pinned** (multiple sticky posts), or the save
+  is **hard-blocked** with "unpin the other post first". `zola build` PASSES — the bug
+  is in the editor save flow, not the site build.
+- **Root cause:** `static/js/editor.js` shipped a **DRAFT-ONLY** `putPost` that merely
+  triggered a `.md` blob **download** (`URL.createObjectURL` / `a.download = filename`)
+  instead of **PUT-ing to GitHub** — so "saving" never committed. Edits sent **no SHA**,
+  so updating an existing file was overwrite-unsafe. The SEO rail
+  (`static/js/cms/editor-seo-rail.js`) only re-analyzed on the `input` event, but the
+  editor populates fields with `.value = …` (which does **not** fire `input`) → loaded
+  posts stayed on a zero checklist. Sticky was enforced by a client-side **hard block**
+  (`ensureStickyAllowed`) rather than the backend auto-unsticking the previous post.
+- **FIXER (canonical, PR #588):**
+  1. **Commit, never download.** `editor.js` saves via a single
+     `commitPostToGithub(payload)` → `POST {AUTH_API}/cms/save-post` (Bearer sid). Delete
+     the draft-only `putPost` / blob-download save path entirely. Surface backend error
+     `detail`/`status` clearly — **no silent "Not Found"**.
+  2. **Edit forwards a SHA.** Send `sha: payload.sha` from `state.editing.sha` when
+     updating an existing file (overwrite-safe). Backend re-reads the live sha
+     (authoritative) but accepts `client_sha` as fallback.
+  3. **SEO rail hydrates old posts.** After populating the form by `.value`, `editor.js`
+     fires `document.dispatchEvent(new CustomEvent('cms:hydrated'))` (on post-load AND
+     draft-recovery); `editor-seo-rail.js` listens for `cms:hydrated` → re-analyzes with
+     the loaded values.
+  4. **Sticky is single-active via auto-demote (no hard block).** Backend
+     `services/visitor-counter/main.py` route `@app.post("/cms/save-post")` calls
+     `_demote_other_sticky_posts(...)` in the SAME save op when the saved post is
+     `sticky=true` → clears `sticky = true` from every other CMS `.md` (mirrors the
+     `featured` auto-demote semantics). The client no longer hard-blocks save; UI mirrors
+     via `applySavedPostState`.
+- **Rules (permanent):** the CMS editor MUST commit to GitHub (never a draft-only file
+  download); edits MUST send a SHA; field population by `.value` MUST emit `cms:hydrated`
+  so the SEO rail re-scores loaded posts; sticky MUST be single-active by **auto-demoting**
+  the previous sticky, never by hard-blocking the save; backend errors MUST be surfaced
+  with `detail`/`status` (never a vague "Not Found"). A green `zola build` does NOT prove
+  the editor commits — only this detector / a real save check does.
+- **Detector:** `scripts/qa_vaccines.py` → `check_editor_publish_vaccine` (code
+  `EDITOR-PUBLISH`): FAIL if `editor.js` doesn't call `/cms/save-post`, still ships a
+  draft-only download (`putPost` / `a.download = filename`), sends no `sha` /
+  `state.editing.sha`, or never emits `cms:hydrated`; if the rail doesn't listen for
+  `cms:hydrated`; or if backend lacks the `/cms/save-post` route or
+  `_demote_other_sticky_posts` wired into the save route. WARN if `editor.js` still
+  hard-blocks save via `ensureStickyAllowed` (should auto-unstick) or backend is unreadable.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.EditorPublishVaccineTest -v`
+  (missing save endpoint · draft-only download · edit without SHA · rail no hydrate ·
+  backend no sticky-demote → FAIL; hard-block sticky → WARN; real repo → PASS) ·
+  `python3 -m unittest scripts.test_editor_frontmatter.StickySingleActiveTests -v`.
+- **Validation:** `python3 scripts/qa_vaccines.py` (EDITOR-PUBLISH PASS) · `qa_check.py`
+  PASS · `zola build` PASS · saving in `/editor/` commits to GitHub, edits carry a SHA,
+  old posts hydrate the SEO rail, sticky stays single-active.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
