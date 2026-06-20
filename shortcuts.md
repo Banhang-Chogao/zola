@@ -1408,27 +1408,38 @@ push, không mở PR, không deploy.
 8. **Suy luận task** — từ diff, commit messages, tên file thay đổi, TODO markers trong code.
 9. **Nhóm files** — gom file thay đổi theo feature/tính năng (không liệt kê flat).
 
-**Output format bắt buộc**:
+**Output format bắt buộc — TRỰC QUAN, dùng BẢNG MARKDOWN** (KHÔNG dùng plain
+code-block kiểu `# Header` nữa — khó đọc). Mỗi mục là một bảng kẻ rõ ràng:
 
-```
-# Current task
-<1–2 câu: task đang làm là gì, suy từ diffs + commit messages>
+**1. Tổng quan (bảng key–value)**
 
-# Files changed
-<nhóm file theo feature; kèm loại thay đổi (new/modified/deleted)>
+| Mục | Giá trị |
+|---|---|
+| 🌿 Branch | `<branch>` (ahead N / behind M so với `origin/main`) |
+| 📝 Task đang làm | <1–2 câu suy từ diff + commit messages> |
+| 📊 Tiến độ | <ước tính %> — <commit vừa xong / còn lại gì> |
+| 🚧 Blockers | <điều đang chặn; "Không có" nếu sạch> |
+| ➡️ Next step | <1 hành động rõ ràng tiếp theo> |
 
-# Progress
-<ước tính % hoàn thành + commit nào vừa xong + còn lại gì>
+**2. Files changed (bảng, nhóm theo feature)**
 
-# Running jobs
-<CI/CD đang chạy nếu có; "Không có" nếu working tree sạch và không có PR mở>
+| Nhóm / Feature | File | Loại |
+|---|---|---|
+| <tên feature> | `path/to/file` | 🆕 new / ✏️ modified / 🗑️ deleted |
 
-# Blockers
-<điều gì đang chặn progress; "Không có" nếu sạch>
+> Working tree sạch → in 1 dòng `✅ Working tree sạch — không có file thay đổi.` thay bảng.
 
-# Next step
-<1 hành động rõ ràng tiếp theo user hoặc Claude nên làm>
-```
+**3. PR & CI (bảng)**
+
+| PR | Title | Branch | CI / Status |
+|---|---|---|---|
+| #X | <title> | `<branch>` | 🟢 success / 🟡 in_progress / 🔴 failure / ⚪ none |
+
+> Không có PR/job liên quan → in 1 dòng `Không có PR mở hay job đang chạy cho branch này.`
+
+**Quy tắc trình bày**: luôn dùng bảng markdown có header + emoji trạng thái để
+quét mắt nhanh; KHÔNG xuống dòng dài dạng văn xuôi cho các trường có thể bảng hoá;
+mọi thời điểm hiển thị GMT+7 `HH:MM dd/mm/yyyy` nếu có.
 
 **Cú pháp mở rộng**:
 - `wip8` — full workspace scan (mặc định).
