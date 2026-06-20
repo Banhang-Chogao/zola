@@ -629,6 +629,46 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 - **Detector:** `scripts/qa_vaccines.py` → `check_v17_vipzone_edge_safari_auth`.
 - **Tests:** `python3 -m unittest services.vipzone.test_main scripts.test_vipzone_roles -v`.
 
+#### V18 — Runtime Artifact Conflict: volatile state/log/report files block concurrent vaccine PRs
+
+> Process + tooling vaccine. Match the signature → run the FIXER; do NOT hand-merge these files.
+
+- **Symptom:** A `vaccine-autofixer` or `vaccine-hotfix` PR turns `mergeable_state: dirty` with
+  conflicts ONLY in volatile runtime files. The **exact PR #555 conflict file set**:
+  `data/qa-rule-checker-state.json` · `reports/rule-conflict-report.json` ·
+  `reports/rule-conflict-report.md`. Related siblings: `data/vaccine-autofixer-state.json` ·
+  `data/vaccine-autofixer.log` · `data/autofix-conflicts-state.json`. These files contain
+  **timestamp churn only** — each QA/vaccine run writes a new `updated_at`/`at` field.
+  The PR's real fix (if any) does NOT conflict; only the state/report files do.
+- **Root cause:** `vaccine-autofixer.yml` (and formerly `vaccine-hotfix.yml`) used `git add -A`
+  without filtering → every concurrent vaccine run committed the same timestamp-volatile paths
+  with different values → spurious merge conflict on every concurrent PR. These files are
+  **pure runtime artifacts**: they carry zero real information between runs. Committing them
+  is both unnecessary and harmful.
+- **FIXER (mandatory before creating or re-opening a vaccine PR):**
+  1. **Never hand-merge** these files — always resolve by taking `main`'s version (authoritative)
+     or regenerating from current repo state. `git checkout --theirs <file>` for each conflict.
+  2. **Permanent prevention (already applied):**
+     - `.gitignore`: all 6 volatile file paths added → git stops tracking them.
+     - `vaccine-autofixer.yml` step "Open PR": after `git add -A` → `git restore --staged`
+       unstages all 6 paths → they are NEVER committed in vaccine PRs.
+     - `scripts/qa-auto-rule-checker.py` `write_reports()`: idempotent — skips write when
+       conflict count + list unchanged → no dirty state on no-op runs.
+  3. **If the conflict recurs** after this vaccine is applied → check that `.gitignore` patterns
+     are present AND `vaccine-autofixer.yml` has the `git restore --staged` block. Run
+     `python3 scripts/qa_vaccines.py` → V18 FAIL diagnoses which guard is missing.
+- **Regression files (exact PR #555 set — ALL must be in .gitignore):**
+  `data/qa-rule-checker-state.json` · `reports/rule-conflict-report.json` ·
+  `reports/rule-conflict-report.md` · `data/vaccine-autofixer-state.json` ·
+  `data/vaccine-autofixer.log` · `data/autofix-conflicts-state.json`
+- **Detector:** `scripts/qa_vaccines.py` → `check_v18_runtime_artifact_conflict` (FAIL if
+  patterns missing from `.gitignore` or workflow filter absent; WARN if idempotent writer missing).
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.RuntimeArtifactVaccineTest -v`
+  (5 cases: pass · real-repo · missing-gitignore · missing-workflow-filter · pr555-exact-set).
+- **Evidence (PR #555, 2026-06-20):** `chore/vaccine-autofixer-20260620-102216` went dirty because
+  `main` ran `qa-rule-checker` at `10:22:42Z` while the PR had entries at `10:15:47Z`/`10:15:53Z`.
+  Zero real code in conflict. Resolved by taking main's versions; permanent fix applied here.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library

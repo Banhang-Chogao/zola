@@ -1057,6 +1057,73 @@ def check_deploy_monitor(ctx: Ctx) -> CheckResult:
                        diagnosis="no token leak · schema OK · footer wired · route + card OK")
 
 
+def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
+    """V18 — Runtime artifact conflict: volatile state/log/report files must not be tracked.
+
+    Exact PR #555 conflict file set:
+      data/qa-rule-checker-state.json, reports/rule-conflict-report.json,
+      reports/rule-conflict-report.md
+    Plus related volatile siblings:
+      data/vaccine-autofixer-state.json, data/vaccine-autofixer.log,
+      data/autofix-conflicts-state.json
+
+    Root cause: vaccine-autofixer.yml used `git add -A` without filtering →
+    timestamp-only churn committed → spurious merge conflicts on every concurrent
+    vaccine PR. Fix: gitignore + `git restore --staged` + idempotent write_reports().
+    """
+    title = "V18 Runtime Artifact Conflict Prevention"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # Volatile runtime artifact files that MUST NOT be git-tracked.
+    volatile_files = [
+        "data/vaccine-autofixer-state.json",
+        "data/vaccine-autofixer.log",
+        "data/qa-rule-checker-state.json",
+        "data/autofix-conflicts-state.json",
+        "reports/rule-conflict-report.json",
+        "reports/rule-conflict-report.md",
+    ]
+
+    # Check 1: volatile files must be git-ignored (.gitignore patterns present).
+    gitignore = ctx.root / ".gitignore"
+    gi_text = gitignore.read_text(encoding="utf-8") if gitignore.exists() else ""
+    missing_patterns = [f for f in volatile_files if f not in gi_text]
+    if missing_patterns:
+        fails.append(f".gitignore missing volatile artifact patterns: {missing_patterns}")
+
+    # Check 2: vaccine-autofixer.yml must have `git restore --staged` guard.
+    wf_path = ctx.root / ".github" / "workflows" / "vaccine-autofixer.yml"
+    if wf_path.exists():
+        wf_text = wf_path.read_text(encoding="utf-8")
+        if "git restore --staged" not in wf_text or "qa-rule-checker-state.json" not in wf_text:
+            fails.append("vaccine-autofixer.yml missing `git restore --staged` volatile-file filter")
+    else:
+        warns.append("vaccine-autofixer.yml not found (skip workflow check)")
+
+    # Check 3: qa-auto-rule-checker.py write_reports() should be idempotent.
+    checker = ctx.root / "scripts" / "qa-auto-rule-checker.py"
+    if checker.exists():
+        checker_text = checker.read_text(encoding="utf-8")
+        if "total_conflicts" not in checker_text or "idempotent" not in checker_text:
+            warns.append("qa-auto-rule-checker.py write_reports() may not be idempotent (V18)")
+    else:
+        warns.append("scripts/qa-auto-rule-checker.py not found")
+
+    if fails:
+        return CheckResult("V18", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix="Add .gitignore patterns + git restore --staged in vaccine-autofixer.yml (see V18 CLAUDE.md)",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V18", title, WARN,
+                           diagnosis="volatile artifact filter incomplete",
+                           fix="Review warnings above (V18 CLAUDE.md)",
+                           details=warns)
+    return CheckResult("V18", title, PASS,
+                       diagnosis="volatile runtime artifacts gitignored + workflow filter present + idempotent writer")
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -1068,6 +1135,7 @@ DETECTORS = [
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
     check_v17_vipzone_edge_safari_auth,
+    check_v18_runtime_artifact_conflict,
     check_config_toml,
     check_workflow_yaml,
     check_dashboard_json,
