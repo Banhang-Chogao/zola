@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "redesign: soften Korean Hangul banner to SEOMONEY editorial style",
+      "tag": "chore",
+      "lines_added": 98,
+      "lines_removed": 42,
+      "highlights": [
+        "Validates overflow:hidden on .home-tabs (no bleed)",
+        "Validates pointer-events:none on .hangeul-pattern (no content block)",
+        "Validates aria-hidden=\"true\" on banner div (accessibility)",
+        "Validates mobile breakpoint coverage (responsive layout)",
+        "Warns if animation added without prefers-reduced-motion guard"
+      ],
+      "pr": 563
+    },
+    {
+      "date": "2026-06-20",
       "title": "SEOMONEY rebrand + OG image + placeholder system + Deploy Monitor footer",
       "tag": "feat",
       "lines_added": 813,
