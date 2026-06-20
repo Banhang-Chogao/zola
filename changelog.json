@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(cms): CMS V2 Control Center — unified shell, AI Writer, Link Graph, SEO Alerts",
+      "tag": "chore",
+      "lines_added": 1991,
+      "lines_removed": 5,
+      "highlights": [
+        "Insights — KPI cards (CTR, Impressions, Avg position, Content decay, Internal-link strength) from live static/data/*.json + baked data; SEO health bars; GSC status (degrades calmly when GSC offline).",
+        "Bài viết — 188 real posts with SEO score badges, search/sort → hands off to existing /editor/ (no duplicate editor).",
+        "AI Writer — human-controlled: Pillar → Mode → Prompt → Quality Gate → Approve/Reject. Mock generator, no auto-publish.",
+        "Link Graph — real internal-link graph from data/references.json (924 edges / 188 nodes): orphan detection, weak-authority, AI suggestions, node size ∝ authority.",
+        "SEO Alerts — actionable cards (orphans, weak authority, low score, broken links) with severity filter + sidebar count."
+      ],
+      "pr": 537
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(b-dna): Brand Design DNA branding guideline system at /tools/b-dna/",
       "tag": "chore",
       "lines_added": 737,
