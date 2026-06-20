@@ -2,13 +2,13 @@
   "report_name": "Autofixer_report_by Vacxin",
   "rule": "Vaccine Hotfix",
   "trigger": "required_checks_fail",
-  "issue_id": "required_checks_fail-27870031976",
-  "branch": "vaccine-hotfix/required_checks_fail-27870031976",
-  "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/required_checks_fail-27870031976",
-  "run_id": "27870326233",
-  "started_at": "2026-06-20T18:51:59.162257+07:00",
-  "finished_at": "2026-06-20T18:57:50.767081+07:00",
-  "last_run": "2026-06-20T18:57:50.767081+07:00",
+  "issue_id": "claude/deploy-monitor",
+  "branch": "vaccine-hotfix/claude-deploy-monitor",
+  "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/claude-deploy-monitor",
+  "run_id": "27868263286",
+  "started_at": "2026-06-20T17:22:39.257729+07:00",
+  "finished_at": "2026-06-20T17:28:52.260924+07:00",
+  "last_run": "2026-06-20T17:28:52.260924+07:00",
   "precheck": {
     "safe_to_run": true,
     "guarantees": [
@@ -37,11 +37,13 @@
     ]
   },
   "root_cause": {
-    "root_cause": "Unclassified build failure — no known pattern matched",
-    "confidence": 35,
-    "suggested_fix": "Inspect log tail; append new rule to scripts/ai_diagnose.py or vaccine_rules.py.",
-    "affected_files": [],
-    "pattern_id": "UNKNOWN",
+    "root_cause": "JavaScript / Node test failure: JS test hoặc script runtime lỗi.",
+    "confidence": 77,
+    "suggested_fix": "Chạy test local (npm test / node script); sửa theo stack trace.",
+    "affected_files": [
+      "data/qa-404-report.json"
+    ],
+    "pattern_id": "JS_ERROR",
     "tier": "heuristic"
   },
   "fix_actions": [
@@ -56,7 +58,9 @@
   "files_changed": [
     "ata/qa-rule-checker-state.json",
     "data/vaccine-hotfix-state.json",
-    "data/vaccine-hotfix.log"
+    "data/vaccine-hotfix.log",
+    "reports/rule-conflict-report.json",
+    "reports/rule-conflict-report.md"
   ],
   "manual_review": false,
   "attempts": 1,
@@ -64,7 +68,7 @@
     "qa": {
       "name": "qa_check.py",
       "passed": true,
-      "detail": "  (checks run: 25, skipped: 3)"
+      "detail": "  (checks run: 24, skipped: 3)"
     },
     "build": {
       "name": "zola build",
@@ -119,26 +123,16 @@
       "attempts": 1,
       "files_changed": 5,
       "last_run": "2026-06-20T17:28:52.260924+07:00"
-    },
-    {
-      "run_id": "27870326233",
-      "trigger": "required_checks_fail",
-      "issue_id": "required_checks_fail-27870031976",
-      "branch": "vaccine-hotfix/required_checks_fail-27870031976",
-      "status": "ok",
-      "attempts": 1,
-      "files_changed": 3,
-      "last_run": "2026-06-20T18:57:50.767081+07:00"
     }
   ],
   "latest": {
-    "run_id": "27870326233",
+    "run_id": "27868263286",
     "trigger": "required_checks_fail",
-    "issue_id": "required_checks_fail-27870031976",
-    "branch": "vaccine-hotfix/required_checks_fail-27870031976",
+    "issue_id": "claude/deploy-monitor",
+    "branch": "vaccine-hotfix/claude-deploy-monitor",
     "status": "ok",
     "attempts": 1,
-    "files_changed": 3,
-    "last_run": "2026-06-20T18:57:50.767081+07:00"
+    "files_changed": 5,
+    "last_run": "2026-06-20T17:28:52.260924+07:00"
   }
 }

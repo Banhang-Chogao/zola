@@ -76,9 +76,10 @@ VN_TZ = timezone(timedelta(hours=7))
 BASE_URL = "https://seomoney.org"
 SITE_PREFIX = ""  # GitHub Pages subpath — strip from internal hrefs
 
-# Derived once from BASE_URL — canonical host + path for classifying internal links.
-SITE_HOST = urlparse(BASE_URL).netloc           # seomoney.org
-SITE_BASE_PATH = urlparse(BASE_URL).path.rstrip("/")  # "" (apex domain, no subpath)
+# Derived once from BASE_URL so the canonical GitHub Pages subpath (/zola) is the
+# single source of truth for routing — no root-domain assumption anywhere.
+SITE_HOST = urlparse(BASE_URL).netloc           # banhang-chogao.github.io
+SITE_BASE_PATH = urlparse(BASE_URL).path.rstrip("/")  # /zola — canonical runtime prefix
 
 EXTERNAL_TIMEOUT = 8  # seconds, per URL
 EXTERNAL_MAX_REDIRECTS = 5
