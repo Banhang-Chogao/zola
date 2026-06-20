@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-21"
 premium_title = "Ngày 21 — Ôn tập tuần 3 & kể chuyện một ngày (하루 일과)"
 premium_teaser_words = 210
 seo_keyword = "ôn tập tiếng hàn"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 21
@@ -41,4 +41,4 @@ Nếm thử nhé: 저는 아침 7시에 일어나**고** 세수를 **해요** (*
 
 Trong bài đầy đủ hôm nay, bạn sẽ có: **bảng tổng ôn ba thì + phủ định + liên từ**; **từ vựng thời điểm trong ngày** (아침/점심/저녁/밤); một **bài mẫu 하루 일과 hoàn chỉnh** ở cả thì hiện tại (thói quen) lẫn quá khứ (kể về hôm qua) kèm dịch; và **bài tập viết có hướng dẫn + đáp án mẫu**. Mở khóa để kể câu chuyện tiếng Hàn đầu tiên của bạn nào — 화이팅! 💪
 
-👉 Quay lại [Ngày 20 — liên từ nối câu](/zola/posting/lien-tu-cau-tieng-han/) hoặc tiến tới [Ngày 22 — định ngữ (관형사형)](/zola/posting/dinh-ngu-quan-hinh-tu-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/).
+👉 Quay lại [Ngày 20 — liên từ nối câu](/posting/lien-tu-cau-tieng-han/) hoặc tiến tới [Ngày 22 — định ngữ (관형사형)](/posting/dinh-ngu-quan-hinh-tu-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/).

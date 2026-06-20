@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-08"
 premium_title = "Ngày 8 — 이다/입니다 & giới thiệu bản thân"
 premium_teaser_words = 210
 seo_keyword = "giới thiệu bản thân tiếng hàn"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 8
@@ -41,4 +41,4 @@ Nếm thử nhé: 저는 학생이에요 (jeo-neun hak-saeng-i-e-yo) = "**Tôi l
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng tra 입니다 vs 이에요/예요** (khi nào dùng cái nào), quy tắc phủ định **아니에요/아닙니다** ("không phải là"), mẫu câu **존댓말** trang trọng vs thân mật, một **kịch bản tự giới thiệu hoàn chỉnh** (tên · quốc tịch · nghề nghiệp) và **12 câu bài tập có đáp án**. Mở khóa để tự tin "chào sân" bằng tiếng Hàn nhé — 화이팅! 💪
 
-👉 Ôn lại [Ngày 7 — ôn tập tuần 1 & chào hỏi](/zola/posting/on-tap-tuan-1-chao-hoi-tieng-han/) trước, rồi sang [Ngày 9 — đại từ & chỉ định 이/그/저](/zola/posting/dai-tu-chi-dinh-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/). Tham khảo thêm cấu trúc câu ở [Wikipedia: Ngữ pháp tiếng Hàn](https://en.wikipedia.org/wiki/Korean_grammar).
+👉 Ôn lại [Ngày 7 — ôn tập tuần 1 & chào hỏi](/posting/on-tap-tuan-1-chao-hoi-tieng-han/) trước, rồi sang [Ngày 9 — đại từ & chỉ định 이/그/저](/posting/dai-tu-chi-dinh-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tham khảo thêm cấu trúc câu ở [Wikipedia: Ngữ pháp tiếng Hàn](https://en.wikipedia.org/wiki/Korean_grammar).

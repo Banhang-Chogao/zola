@@ -8,7 +8,7 @@
   var CACHE_KEY = "zola-gsc-metrics-cache";
   var PROPERTY_KEY = "zola-gsc-property-id";
   var PENDING_KEY = "zola-gsc-pending-property";
-  var DEFAULT_PROPERTY = "https://banhang-chogao.github.io/zola/";
+  var DEFAULT_PROPERTY = "https://seomoney.org/";
   var TTL_MS = 20 * 60 * 1000;
   var SUCCESS_HOLD_MS = 2800;
   var PENDING_MSG = "⏳ Đang chờ dữ liệu GSC";
@@ -100,7 +100,7 @@
 
   function shortPage(url) {
     if (!url) return "—";
-    return String(url).replace("https://banhang-chogao.github.io/zola", "") || url;
+    return String(url).replace("https://seomoney.org", "") || url;
   }
 
   function setVisible(el, on) {

@@ -7,7 +7,7 @@ aliases = ["/ngan-hang-so-cho-sinh-vien/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["liobank", "ngân hàng số", "ngân hàng số cho sinh viên", "ngân hàng số series", "sinh viên"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số cho sinh viên"
 featured = false
 series = "ngan-hang-so"
@@ -55,15 +55,15 @@ Sinh viên thường có ngân sách hạn chế và giao dịch nhỏ lẻ, nê
 
 ## Gợi ý app phù hợp
 
-- **[Liobank by OCB](/zola/posting/review-liobank-by-ocb/)**: mạnh hoàn tiền, app gọn — hợp sinh viên tiêu thẻ nhiều.
-- **[Cake by VPBank](/zola/posting/review-cake-by-vpbank/)**: nhiều tính năng, phổ biến trong giới trẻ.
-- Phân vân giữa hai? Đọc [so sánh Cake vs Liobank](/zola/posting/so-sanh-cake-vs-liobank/).
+- **[Liobank by OCB](/posting/review-liobank-by-ocb/)**: mạnh hoàn tiền, app gọn — hợp sinh viên tiêu thẻ nhiều.
+- **[Cake by VPBank](/posting/review-cake-by-vpbank/)**: nhiều tính năng, phổ biến trong giới trẻ.
+- Phân vân giữa hai? Đọc [so sánh Cake vs Liobank](/posting/so-sanh-cake-vs-liobank/).
 
-Muốn ưu tiên hoàn tiền tối đa, xem [ngân hàng số hoàn tiền nhiều nhất](/zola/posting/ngan-hang-so-hoan-tien-nhieu-nhat/). Toàn cảnh lựa chọn ở [top ngân hàng số tốt nhất 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+Muốn ưu tiên hoàn tiền tối đa, xem [ngân hàng số hoàn tiền nhiều nhất](/posting/ngan-hang-so-hoan-tien-nhieu-nhat/). Toàn cảnh lựa chọn ở [top ngân hàng số tốt nhất 2026](/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 ## Mở tài khoản chỉ trong vài phút
 
-Sinh viên đủ 18 tuổi và có CCCD gắn chip có thể mở tài khoản hoàn toàn online. Quy trình eKYC (chụp CCCD + nhận diện khuôn mặt) mất khoảng 5–10 phút — xem hướng dẫn từng bước ở [cách mở tài khoản ngân hàng số online](/zola/posting/cach-mo-tai-khoan-ngan-hang-so-online/).
+Sinh viên đủ 18 tuổi và có CCCD gắn chip có thể mở tài khoản hoàn toàn online. Quy trình eKYC (chụp CCCD + nhận diện khuôn mặt) mất khoảng 5–10 phút — xem hướng dẫn từng bước ở [cách mở tài khoản ngân hàng số online](/posting/cach-mo-tai-khoan-ngan-hang-so-online/).
 
 ## Mẹo quản lý tiền cho sinh viên dùng ngân hàng số
 

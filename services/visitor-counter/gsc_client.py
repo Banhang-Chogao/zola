@@ -20,7 +20,7 @@ SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 CACHE_TTL_SECONDS = 20 * 60  # 20 minutes
 
 # URL-prefix property in Search Console — must match siteUrl exactly in API calls.
-DEFAULT_GSC_PROPERTY_URL = "https://banhang-chogao.github.io/zola/"
+DEFAULT_GSC_PROPERTY_URL = "https://seomoney.org/"
 
 
 def normalize_gsc_property_url(site_url: str) -> str:
@@ -264,7 +264,7 @@ def _executive_summary(
     if top_pages:
         p0 = top_pages[0].get("page") or ""
         if p0:
-            short = p0.replace("https://banhang-chogao.github.io/zola", "") or p0
+            short = p0.replace("https://seomoney.org", "") or p0
             lines.append(f"Strongest page: {short} ({top_pages[0].get('clicks', 0)} clicks).")
     if not lines:
         lines.append("Connected to Google Search Console — collecting performance baseline.")

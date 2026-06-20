@@ -20,7 +20,7 @@
    nên family sẵn sàng cho mọi specimen.
 
    url() là RELATIVE so với site.css: cùng cấp root ({base_url}/site.css ↔
-   {base_url}/fonts/…) → resolve đúng kể cả khi chạy ở subpath /zola/. */
+   {base_url}/fonts/…) → resolve đúng kể cả khi chạy ở subpath /. */
 
 /* WOFF2 first (Brotli, ~64% nhỏ hơn TTF, mọi browser hiện đại hỗ trợ) →
    TTF fallback chỉ cho browser cực cũ. Browser hiện đại CHỈ tải .woff2 →

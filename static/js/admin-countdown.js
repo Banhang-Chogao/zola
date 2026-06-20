@@ -254,7 +254,7 @@
   }
 
   var backBtn = $("[data-action='back']");
-  if (backBtn) backBtn.addEventListener("click", function () { location.href = "/zola/"; });
+  if (backBtn) backBtn.addEventListener("click", function () { location.href = "/"; });
 
   async function loadConfig() {
     var sid = getSid();

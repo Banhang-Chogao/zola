@@ -98,20 +98,20 @@ class ExecutiveSummaryTest(unittest.TestCase):
 
 class PropertyUrlTest(unittest.TestCase):
     def test_default_property(self):
-        self.assertEqual(mod.DEFAULT_GSC_PROPERTY_URL, "https://banhang-chogao.github.io/zola/")
+        self.assertEqual(mod.DEFAULT_GSC_PROPERTY_URL, "https://seomoney.org/")
 
     def test_normalize_trailing_slash(self):
         self.assertEqual(
-            mod.normalize_gsc_property_url("https://banhang-chogao.github.io/zola"),
-            "https://banhang-chogao.github.io/zola/",
+            mod.normalize_gsc_property_url("https://seomoney.org"),
+            "https://seomoney.org/",
         )
 
     def test_pick_preferred_only_blog_property(self):
         props = [
             "https://example.com/",
-            "https://banhang-chogao.github.io/zola/",
+            "https://seomoney.org/",
         ]
-        self.assertEqual(mod.pick_preferred_property(props), "https://banhang-chogao.github.io/zola/")
+        self.assertEqual(mod.pick_preferred_property(props), "https://seomoney.org/")
 
     def test_pick_preferred_rejects_other_domains(self):
         self.assertIsNone(mod.pick_preferred_property(["https://example.com/"]))

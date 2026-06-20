@@ -2,7 +2,7 @@
 
 ## 📊 Status Hiện Tại
 
-- **Blog URL:** `https://banhang-chogao.github.io/zola` (GitHub Pages)
+- **Blog URL:** `https://seomoney.org` (GitHub Pages)
 - **DDoS Protection GitHub:** ✅ Đã có sẵn (miễn phí, bao gồm trong GitHub Pages)
 - **Cloudflare Setup:** ⏳ Optional (nếu dùng custom domain)
 
@@ -44,7 +44,7 @@
    ```
    Type: CNAME
    Name: blog (hoặc @)
-   Content: banhang-chogao.github.io
+   Content: seomoney.org
    TTL: Auto
    Proxy: Proxied (màu cam) ← IMPORTANT!
    ```
@@ -131,7 +131,7 @@
 
 ## 🟢 Nếu Dùng GitHub Pages URL (Hiện Tại)
 
-**Blog URL:** `https://banhang-chogao.github.io/zola`
+**Blog URL:** `https://seomoney.org`
 
 ### **DDoS Protection Sẵn Có:**
 - ✅ GitHub native DDoS protection (AWS Shield)
@@ -145,7 +145,7 @@ GitHub Pages tự động bảo vệ. **Không cần cấu hình thêm.**
 **Kiểm tra:**
 ```bash
 # Check HSTS header
-curl -I https://banhang-chogao.github.io/zola | grep Strict-Transport
+curl -I https://seomoney.org | grep Strict-Transport
 
 # Output: Strict-Transport-Security: max-age=31536000
 ```
@@ -182,7 +182,7 @@ curl -I https://banhang-chogao.github.io/zola | grep Strict-Transport
 
 ```bash
 # 1. Simulate DDoS attack (100 concurrent requests)
-ab -n 1000 -c 100 https://banhang-chogao.github.io/zola/
+ab -n 1000 -c 100 https://seomoney.org/
 
 # Expected: 
 # - GitHub Pages returns 429 Too Many Requests

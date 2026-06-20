@@ -8,11 +8,11 @@ aliases = ["/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-ha
 categories = ["Tất cả", "Báo chí"]
 tags = ["argentina", "bóng đá", "lịch thi đấu world cup 2026", "messi", "world cup 2026"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "lịch thi đấu World Cup 2026"
 +++
 
-![Messi lập hat-trick World Cup 2026 trong trận Argentina thắng Algeria](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
+![Messi lập hat-trick World Cup 2026 trong trận Argentina thắng Algeria](https://seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất
 
@@ -54,4 +54,4 @@ Trong bối cảnh lịch thi đấu World Cup 2026 theo giờ Việt Nam mới 
 
 Đừng quên theo dõi lịch thi đấu World Cup 2026 theo giờ Việt Nam mới nhất để không bỏ lỡ những màn so tài đỉnh cao tiếp theo của Messi, Argentina và các ông lớn bóng đá thế giới tại ngày hội bóng đá lớn nhất hành tinh.
 
-Đọc thêm: [Tháng 6 đi Hàn ăn gì, làm gì?](/zola/posting/thang-6-di-han-an-gi-lam-gi/) nếu bạn đang lên kế hoạch du lịch mùa hè, hoặc [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/zola/posting/tet-doan-ngo-han-viet-trung/) để khám phá văn hóa lễ tiết châu Á.
+Đọc thêm: [Tháng 6 đi Hàn ăn gì, làm gì?](/posting/thang-6-di-han-an-gi-lam-gi/) nếu bạn đang lên kế hoạch du lịch mùa hè, hoặc [Tết Đoan Ngọ ở Hàn, Việt, Trung khác nhau thế nào?](/posting/tet-doan-ngo-han-viet-trung/) để khám phá văn hóa lễ tiết châu Á.

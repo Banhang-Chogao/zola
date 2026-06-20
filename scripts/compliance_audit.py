@@ -32,8 +32,8 @@ OUT_FILE = DATA / "compliance-score.json"
 LINK_REPORT_FILE = DATA / "compliance-link-report.json"
 
 VN_TZ = timezone(timedelta(hours=7))
-BASE_URL = "https://banhang-chogao.github.io/zola"
-SITE_PREFIX = "/zola"  # GitHub Pages subpath — strip from internal hrefs
+BASE_URL = "https://seomoney.org"
+SITE_PREFIX = ""  # GitHub Pages subpath — strip from internal hrefs
 
 TITLE_MIN, TITLE_MAX = 10, 65
 DESC_MIN, DESC_MAX = 50, 160

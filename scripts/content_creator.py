@@ -85,18 +85,18 @@ def build_article(
     )
 
     # ---- internal links (>=5): hub + các part khác trong series ----
-    hub_url = "/zola/categories/premium/" if is_paid else "/zola/categories/tat-ca/"
+    hub_url = "/categories/premium/" if is_paid else "/categories/tat-ca/"
     related = [s for s in series_slugs if s != slug]
     # >=5 internal link, dedupe theo URL: hub chuyên mục + các part khác + evergreen.
     pairs = [("chuyên mục", hub_url)]
     for i, rs in enumerate(related, start=1):
-        pairs.append((f"Phần {i if i < part else i + 1}", f"/zola/posting/{rs}/"))
+        pairs.append((f"Phần {i if i < part else i + 1}", f"/posting/{rs}/"))
     for label, url in [
-        ("Tất cả bài viết", "/zola/categories/tat-ca/"),
-        ("Trang chủ", "/zola/"),
-        ("Công cụ", "/zola/tools/content-creator/"),
-        ("Giới thiệu", "/zola/about/"),
-        ("Liên hệ", "/zola/contact/"),
+        ("Tất cả bài viết", "/categories/tat-ca/"),
+        ("Trang chủ", "/"),
+        ("Công cụ", "/tools/content-creator/"),
+        ("Giới thiệu", "/about/"),
+        ("Liên hệ", "/contact/"),
     ]:
         pairs.append((label, url))
     seen: set[str] = set()
@@ -159,7 +159,7 @@ def build_article(
     # ---- body ----
     next_part = part + 1
     next_cta = (
-        f"Đọc tiếp [Phần {next_part}](/zola/posting/{series_slugs[next_part-1]}/) của series."
+        f"Đọc tiếp [Phần {next_part}](/posting/{series_slugs[next_part-1]}/) của series."
         if next_part <= total and next_part - 1 < len(series_slugs)
         else f"Khám phá thêm tại [trang chuyên mục]({hub_url})."
     )

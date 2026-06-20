@@ -40,9 +40,11 @@ Strategy → hành động:
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -159,6 +161,127 @@ def classify(path: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# 💉 Vaccine: GENERATED REPORT/SNAPSHOT artifacts → regenerate, KHÔNG hand-merge
+# ---------------------------------------------------------------------------
+# Conflict 'dirty' hay chặn auto-merge nhất = file báo cáo/snapshot CI tự sinh
+# (data/*report*.json, data/*snapshot*.json). Lấy main rồi MERGE JSON stale là vô
+# nghĩa: thứ đúng duy nhất là REGENERATE từ branch hiện tại bằng chính script QA đã
+# sinh ra nó. Registry dưới đây map path → lệnh regenerate (offline-safe, reuse script
+# sẵn có). File khớp pattern nhưng KHÔNG có generator an toàn → fallback giữ bản main
+# (đã `checkout --theirs`) — CI sẽ regenerate khi có public/ thật.
+REGEN_COMMANDS: dict[str, list[str]] = {
+    "data/references.json": [sys.executable, "scripts/build_references.py"],
+    "data/qa-404-report.json": [sys.executable, "qa-404-checker.py"],
+    "data/performance-audit-snapshot.json": [
+        sys.executable,
+        "scripts/performance_qa_checker.py",
+        "--report-only",
+    ],
+}
+
+# data/<anything>report<…>.json hoặc data/<…>snapshot<…>.json (không phải *-series.json).
+_GENERATED_REPORT_RE = re.compile(r"^data/[^/]*(report|snapshot)[^/]*\.json$", re.I)
+
+
+def is_generated_report(path: str) -> bool:
+    """True nếu path là artifact report/snapshot CI tự sinh (regenerate, đừng hand-merge).
+
+    Nhận diện class conflict 'dirty' user nêu: ``data/*report*.json`` +
+    ``data/*snapshot*.json``. Loại trừ ``*-series.json`` (curate tay).
+    """
+    p = path.replace("\\", "/")
+    if p.startswith("./"):
+        p = p[2:]
+    if p.endswith("-series.json"):
+        return False
+    return bool(_GENERATED_REPORT_RE.match(p))
+
+
+def regenerate_reports(resolved: list[str], dry_run: bool) -> dict[str, str]:
+    """Regenerate generated report/snapshot artifacts trong danh sách đã resolve.
+
+    Với mỗi file là generated report (hoặc references.json) có generator an toàn trong
+    ``REGEN_COMMANDS``: chạy generator (thay vì giữ JSON stale), rồi `git add`. File
+    report khớp pattern nhưng không có generator → giữ bản main (đã lấy ở bước resolve).
+    Trả về {path: status} với status ∈ {regenerated, kept-main, regen-failed}.
+    """
+    out: dict[str, str] = {}
+    for path in resolved:
+        if not (path in REGEN_COMMANDS or is_generated_report(path)):
+            continue
+        cmd = REGEN_COMMANDS.get(path)
+        if not cmd:
+            out[path] = "kept-main"
+            print(f"  [regen] {path} — giữ bản main (chưa có generator offline-safe)")
+            continue
+        if dry_run:
+            out[path] = "regenerated"
+            print(f"  [regen] {path} — sẽ chạy: {' '.join(cmd)} (dry-run)")
+            continue
+        res = subprocess.run(cmd, cwd=REPO, text=True, capture_output=True)
+        if res.returncode == 0:
+            git("add", "--", path)
+            out[path] = "regenerated"
+            print(f"  [regen] {path} — regenerated bằng {Path(cmd[-1]).name}")
+        else:
+            # Generator lỗi (vd thiếu public/) → giữ bản main đã lấy, không crash.
+            out[path] = "regen-failed"
+            print(f"  [regen] {path} — generator lỗi, giữ bản main (best-effort)")
+    return out
+
+
+def run_qa(dry_run: bool) -> tuple[bool, str]:
+    """Chạy QA Gatekeeper (qa_check.py) làm cổng trước khi commit. (ok, tail-log)."""
+    if dry_run:
+        return True, "(dry-run: bỏ qua QA)"
+    res = subprocess.run(
+        [sys.executable, str(REPO / "qa_check.py")],
+        cwd=REPO,
+        text=True,
+        capture_output=True,
+    )
+    tail = "\n".join((res.stdout or "").splitlines()[-8:])
+    return res.returncode == 0, tail
+
+
+_RESOLUTION_LOG = REPO / "data" / "autofix-conflicts-report.json"
+
+
+def log_resolution(
+    root_cause: str,
+    resolved: list[str],
+    regenerated: dict[str, str],
+    qa_ok: bool,
+    dry_run: bool,
+) -> None:
+    """Ghi root cause + file đã resolve/regenerate vào report JSON (giữ 30 mốc gần nhất)."""
+    if dry_run:
+        return
+    entry = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "root_cause": root_cause,
+        "resolved": resolved,
+        "regenerated": regenerated,
+        "qa_status": "pass" if qa_ok else "fail",
+    }
+    try:
+        prev = json.loads(_RESOLUTION_LOG.read_text(encoding="utf-8"))
+        history = prev.get("history", []) if isinstance(prev, dict) else []
+    except Exception:
+        history = []
+    history.append(entry)
+    payload = {"latest": entry, "history": history[-30:]}
+    try:
+        _RESOLUTION_LOG.parent.mkdir(parents=True, exist_ok=True)
+        _RESOLUTION_LOG.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        git("add", "--", "data/autofix-conflicts-report.json")
+    except Exception:
+        pass
+
+
+# ---------------------------------------------------------------------------
 # Git helpers
 # ---------------------------------------------------------------------------
 
@@ -220,7 +343,7 @@ def resolve_working_tree(dry_run: bool) -> tuple[list[str], list[str]]:
     return auto, manual
 
 
-def cmd_branch(branch: str, dry_run: bool) -> int:
+def cmd_branch(branch: str, dry_run: bool, do_regen: bool = True, do_qa: bool = True) -> int:
     print(f"== Fetch origin/main + {branch} ==")
     git("fetch", "origin", "main", branch, check=False)
     git("checkout", branch)
@@ -253,8 +376,14 @@ def cmd_branch(branch: str, dry_run: bool) -> int:
             git("merge", "--abort", check=False)
         return 2
 
+    # 💉 Regenerate generated report/snapshot artifacts (đừng commit JSON stale).
+    regen: dict[str, str] = {}
+    if do_regen:
+        print("\n== Regenerate generated report/snapshot artifacts ==")
+        regen = regenerate_reports(auto, dry_run)
+
     if dry_run:
-        print("\n[dry-run] sẽ commit merge sau khi resolve (không thực thi).")
+        print("\n[dry-run] sẽ regenerate + QA + commit merge sau khi resolve (không thực thi).")
         git("merge", "--abort", check=False)
         return 0
 
@@ -265,13 +394,30 @@ def cmd_branch(branch: str, dry_run: bool) -> int:
         git("merge", "--abort", check=False)
         return 2
 
+    # QA gate: CHỈ commit khi output (đã regenerate) pass QA — không bao giờ bypass.
+    qa_ok = True
+    if do_qa:
+        print("\n== QA gate (qa_check.py) ==")
+        qa_ok, tail = run_qa(dry_run)
+        print(tail)
+        if not qa_ok:
+            print("✗ QA FAIL sau resolve+regen → abort merge (không commit).")
+            log_resolution(
+                "dirty/generated-report conflict — QA fail sau regen", auto, regen, False, dry_run
+            )
+            git("merge", "--abort", check=False)
+            return 3
+
+    log_resolution(
+        "dirty/generated-report conflict — auto-resolve + regenerate", auto, regen, qa_ok, dry_run
+    )
     git("commit", "--no-edit")
-    print(f"\n✓ Đã auto-resolve {len(auto)} file + commit merge trên {branch}.")
-    print("  Nhớ: validate (qa_check/zola build) + push để CI auto-merge.")
+    print(f"\n✓ Auto-resolve {len(auto)} file + regenerate {sum(1 for v in regen.values() if v=='regenerated')} report + QA pass → commit merge trên {branch}.")
+    print("  Nhớ: push để CI auto-merge (zola build chạy ở CI).")
     return 0
 
 
-def cmd_current(dry_run: bool) -> int:
+def cmd_current(dry_run: bool, do_regen: bool = True) -> int:
     conflicts = conflicted_files()
     if not conflicts:
         print("Working tree không có file conflict (diff-filter=U trống).")
@@ -281,7 +427,10 @@ def cmd_current(dry_run: bool) -> int:
     if manual:
         print(f"\n⚠ {len(manual)} file cần resolve tay (giữ nguyên conflict).")
         return 2
-    print(f"\n✓ Đã stage {len(auto)} file resolved. Commit thủ công để hoàn tất.")
+    if do_regen:
+        print("\n== Regenerate generated report/snapshot artifacts ==")
+        regenerate_reports(auto, dry_run)
+    print(f"\n✓ Đã stage {len(auto)} file resolved. Chạy qa_check.py rồi commit để hoàn tất.")
     return 0
 
 
@@ -292,14 +441,18 @@ def main() -> int:
     g.add_argument("--current", action="store_true", help="resolve working tree đang dở merge")
     g.add_argument("--classify", metavar="PATH", help="in chiến lược của 1 path rồi thoát")
     ap.add_argument("--dry-run", action="store_true", help="chỉ in, không sửa/commit")
+    ap.add_argument("--no-regen", action="store_true", help="bỏ regenerate report/snapshot")
+    ap.add_argument("--no-qa", action="store_true", help="bỏ QA gate trước commit (debug)")
     args = ap.parse_args()
 
     if args.classify:
         print(classify(args.classify))
         return 0
     if args.current:
-        return cmd_current(args.dry_run)
-    return cmd_branch(args.branch, args.dry_run)
+        return cmd_current(args.dry_run, do_regen=not args.no_regen)
+    return cmd_branch(
+        args.branch, args.dry_run, do_regen=not args.no_regen, do_qa=not args.no_qa
+    )
 
 
 if __name__ == "__main__":

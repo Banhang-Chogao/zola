@@ -6,7 +6,7 @@ date = 2026-06-16
 categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["thẻ-tín-dụng", "msb", "ưu-đãi-ngân-hàng", "tài-chính-cá-nhân", "hướng-dẫn"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "thẻ tín dụng MSB"
 featured = false
 +++
@@ -91,4 +91,4 @@ Thẻ tín dụng MSB là một lựa chọn đáng cân nhắc nếu bạn đan
 
 Tuy nhiên, hãy nhớ rằng thẻ tín dụng là một công cụ tài chính – sử dụng nó một cách có trách nhiệm sẽ giúp bạn tận dụng tối đa những lợi ích mà nó mang lại.
 
-Đọc thêm: [MSB Digital Bank và công nghệ bảo mật](/zola/baochi/msb-digital-bank-cong-nghe-bao-mat/) và [MSB Digital Bank ra mắt thay mBank](/zola/baochi/msb-digital-bank-ra-mat-thay-mbank/) để nắm thêm hệ sinh thái ngân hàng số của MSB.
+Đọc thêm: [MSB Digital Bank và công nghệ bảo mật](/baochi/msb-digital-bank-cong-nghe-bao-mat/) và [MSB Digital Bank ra mắt thay mBank](/baochi/msb-digital-bank-ra-mat-thay-mbank/) để nắm thêm hệ sinh thái ngân hàng số của MSB.

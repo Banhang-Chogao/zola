@@ -4,7 +4,12 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from autofix_conflicts import classify  # noqa: E402
+from autofix_conflicts import (  # noqa: E402
+    REGEN_COMMANDS,
+    classify,
+    is_generated_report,
+    regenerate_reports,
+)
 
 CASES = [
     # (path, expected_strategy)
@@ -41,6 +46,32 @@ CASES = [
 ]
 
 
+# Regression: 💉 generated report/snapshot conflict class (PR #529 dirty/merge-race).
+# data/*report*.json + data/*snapshot*.json = regenerate, đừng hand-merge JSON stale.
+GEN_REPORT_CASES = [
+    # (path, is_generated_report)
+    ("data/performance-audit-snapshot.json", True),   # PR #529 conflict #1
+    ("data/qa-404-report.json", True),                # PR #529 conflict #2
+    ("data/merge-report.json", True),
+    ("data/seo-rank-autofix-report.json", True),
+    ("data/build-dashboard.json", False),             # dashboard, not report/snapshot name
+    ("data/seo-foundation-series.json", False),       # series curate tay
+    ("data/references.json", False),                  # generated nhưng tên không có report/snapshot
+    ("scripts/check_internal_links.py", False),       # PR #529 conflict #3 — code → semantic merge
+    ("content/posting/foo.md", False),
+]
+
+
+def _check(name, got, expected):
+    ok = got == expected
+    mark = "✓" if ok else "✗"
+    line = f"  {mark} {name} → {got}"
+    if not ok:
+        line += f"  (expected {expected})"
+    print(line)
+    return ok
+
+
 def main() -> int:
     passed = 0
     failed = 0
@@ -54,7 +85,38 @@ def main() -> int:
         if not ok:
             line += f"  (expected {expected})"
         print(line)
-    print(f"\n{passed}/{len(CASES)} passed" + (f", {failed} FAILED" if failed else ""))
+
+    print("\n-- generated report/snapshot detector (regression PR #529) --")
+    for path, expected in GEN_REPORT_CASES:
+        ok = _check(f"is_generated_report({path})", is_generated_report(path), expected)
+        passed += ok
+        failed += not ok
+
+    print("\n-- REGEN_COMMANDS registry has offline-safe regenerators --")
+    for path in ("data/references.json", "data/qa-404-report.json", "data/performance-audit-snapshot.json"):
+        ok = _check(f"REGEN_COMMANDS[{path}]", path in REGEN_COMMANDS, True)
+        passed += ok
+        failed += not ok
+
+    print("\n-- regenerate_reports(dry_run) on PR #529 conflict set --")
+    # check_internal_links.py is code (semantic merge), not a regen target → skipped.
+    statuses = regenerate_reports(
+        [
+            "data/performance-audit-snapshot.json",
+            "data/qa-404-report.json",
+            "scripts/check_internal_links.py",
+        ],
+        dry_run=True,
+    )
+    ok = _check("snapshot regenerated", statuses.get("data/performance-audit-snapshot.json"), "regenerated")
+    passed += ok; failed += not ok
+    ok = _check("404 report regenerated", statuses.get("data/qa-404-report.json"), "regenerated")
+    passed += ok; failed += not ok
+    ok = _check("code file NOT in regen set", "scripts/check_internal_links.py" not in statuses, True)
+    passed += ok; failed += not ok
+
+    total = len(CASES) + len(GEN_REPORT_CASES) + 3 + 3
+    print(f"\n{passed}/{total} passed" + (f", {failed} FAILED" if failed else ""))
     return 1 if failed else 0
 
 

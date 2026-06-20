@@ -7,7 +7,7 @@ categories = ["Tất cả", "Ngân hàng", "Báo chí"]
 tags = ["ngân hàng", "tài chính", "private-banking", "bidv", "đầu tư"]
 [extra]
 seo_keyword = "Private Banking"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/bidv-flagship-private-banking-tphcm.svg"
+thumbnail = "https://seomoney.org/img/covers/bidv-flagship-private-banking-tphcm.svg"
 featured = false
 [[extra.faq]]
 q = "Private Banking là gì?"
@@ -77,6 +77,6 @@ Còn cái chi nhánh hoa mai vàng ở 153 Hai Bà Trưng? Với tôi, nó vừa
 
 *Nguồn: Tổng hợp từ thông cáo của BIDV đăng trên báo chí trong nước.*
 
-> **Xem thêm trong chuyên mục:** [Ngân hàng — mẹo dùng app và xử lý sự cố](/zola/categories/ngan-hang/)
+> **Xem thêm trong chuyên mục:** [Ngân hàng — mẹo dùng app và xử lý sự cố](/categories/ngan-hang/)
 
-> **Xem thêm trong cụm:** [MSB Digital Bank thay mBank: cần làm gì?](/zola/baochi/msb-digital-bank-ra-mat-thay-mbank/)
+> **Xem thêm trong cụm:** [MSB Digital Bank thay mBank: cần làm gì?](/baochi/msb-digital-bank-ra-mat-thay-mbank/)
