@@ -73,6 +73,9 @@ url = "$BASE_URL/shortensea"
 [[extra.tool_groups]]
 name = "Tiện ích & tài liệu"
 [[extra.tool_groups.items]]
+name = "🧭 CMS Control Center"
+url = "$BASE_URL/cms"
+[[extra.tool_groups.items]]
 name = "🧮 BHXH 1 lần"
 url = "$BASE_URL/tools/bhxh-1-lan"
 [[extra.tool_groups.items]]

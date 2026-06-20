@@ -163,6 +163,7 @@
         <section class="editor-view" data-view="edit" hidden>
             <header class="section-header"><h2 class="section-header__title" data-target="edit-title">VIẾT BÀI MỚI</h2></header>
 
+          <div class="editor-edit-layout">
             <form data-form="post" class="editor-form">
                 {# Banner khôi phục draft — hiển thị khi mở bài có draft trong localStorage #}
                 <div class="editor-draft-banner" data-draft-banner hidden role="status">
@@ -308,6 +309,10 @@
 
                 <div class="editor-status" data-target="save-status"></div>
             </form>
+
+            {# CMS V2 — SEO companion rail (additive, reads form live) #}
+            {% include "partials/editor-seo-rail.html" %}
+          </div>
         </section>
 
         {# Slash command menu — floating, position:fixed, JS điều khiển hiển thị
@@ -353,4 +358,6 @@
     {# Cache-bust theo commit SHA → mỗi lần deploy mới, browser tự fetch JS mới #}
     <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
     <script src="{{ get_url(path='js/editor.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+    {# CMS V2 SEO companion rail — reads form live, never touches editor.js logic #}
+    <script src="{{ get_url(path='js/cms/editor-seo-rail.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
 {% endblock %}
