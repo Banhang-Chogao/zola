@@ -956,6 +956,44 @@ fenced blocks.
   `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken · search dialog
   renders a styled panel on desktop + mobile with the input/button aligned and visible.
 
+#### V21 — No Floating Bar / Stable Nav Vaccine: desktop nav must stay in normal flow
+
+> **No floating/sticky navigation on SEOMONEY desktop. Stable nav only.** The blog
+> owner dislikes floating bars; they are visually tiring (eye strain). Desktop nav
+> rails, sidebars and action bars MUST stay anchored in normal document flow and
+> scroll naturally with the page — they may never detach and drift on scroll.
+
+- **Symptom:** the desktop primary nav / sidebar nav card / action bar detaches from
+  the layout and floats/drifts/jitters while scrolling past it. Caused by
+  `position: sticky` / `position: fixed`, scroll-driven CSS animation/parallax
+  (`animation-timeline: scroll()/view()`), or a JS scroll listener that mutates the
+  nav's `transform`/`top`. `zola build` still PASSES — it is purely a UX regression.
+- **Root cause / canonical fix (PR #585):** the desktop primary nav `.side-nav` used
+  `position: sticky; top: 1rem`, which made it drift on scroll. The fix is
+  `.side-nav { position: static }` — anchored in the right column's normal flow, with
+  Search / Clear-cache actions kept inside the panel (`.side-nav__actions`). This
+  vaccine permanently protects that behavior.
+- **Rules (permanent):**
+  - Protected desktop selectors — `.side-nav`, `.side-nav__actions`, `.primary-nav`,
+    `.site-sidebar`, `.nav-rail`, `.desktop-nav` — must NOT use `position: sticky`/`fixed`,
+    scroll-driven animation/parallax, or scroll-linked JS transform mutation in desktop scope.
+  - **Exceptions (allowed):** true overlays / modals / search dialogs and the mobile
+    hamburger drawer — `.nav-drawer*`, `.nav-toggle`, `.site-search*`, `[role="dialog"]` —
+    and ANYTHING scoped under a mobile `@media (max-width: …)` breakpoint. Mobile is
+    handled separately; do **not** break mobile to satisfy this rule.
+- **Detector:** `scripts/qa_vaccines.py` → `check_no_floating_nav_vaccine` (code `V21`):
+  FAIL if a protected desktop nav/sidebar/action selector floats (sticky/fixed/
+  scroll-animation) outside a mobile media query, or a nav-referencing JS file wires a
+  scroll listener that mutates `transform`/`top`/`position`. Comment-stripped + mobile-
+  media-exempt so the mobile drawer and explanatory notes never false-trip.
+- **Source guard:** `sass/_side-nav.scss` carries an inline comment on
+  `.side-nav { position: static }` marking it intentional and protected by V21.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.NoFloatingNavVaccineTest -v`
+  (sticky/fixed side-nav, translate-on-scroll JS, floating bottom action bar → FAIL;
+  `position: static`, normal flow, mobile-drawer exception, search-modal exception → PASS).
+- **Validation:** `python3 scripts/qa_vaccines.py` (V21 PASS) · `qa_check.py` PASS ·
+  `zola build` PASS · desktop nav no longer floats/drifts on scroll.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

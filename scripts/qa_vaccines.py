@@ -155,6 +155,43 @@ class Ctx:
 
 
 # --------------------------------------------------------------------------
+# Small CSS helpers (shared by structural detectors)
+# --------------------------------------------------------------------------
+_CSS_COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
+
+
+def _strip_css_comments(text: str) -> str:
+    """Remove /* … */ comments so commented-out CSS (e.g. an explanatory
+    `position: sticky` note) never trips a block scan."""
+    return _CSS_COMMENT_RE.sub("", text or "")
+
+
+def _mobile_media_spans(text: str) -> list[tuple[int, int]]:
+    """Return (start, end) char spans of every `@media (… max-width …) { … }`
+    block, including nested content. Used to EXEMPT mobile-scoped rules from
+    desktop-only checks (mobile is handled separately — see V21)."""
+    spans: list[tuple[int, int]] = []
+    for m in re.finditer(r"@media[^{]*max-width[^{]*\{", text, re.I):
+        depth = 0
+        i = m.end() - 1  # position of the opening brace
+        while i < len(text):
+            c = text[i]
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    spans.append((m.start(), i))
+                    break
+            i += 1
+    return spans
+
+
+def _in_spans(pos: int, spans: list[tuple[int, int]]) -> bool:
+    return any(a <= pos <= b for a, b in spans)
+
+
+# --------------------------------------------------------------------------
 # Detectors — each returns a CheckResult
 # --------------------------------------------------------------------------
 def check_v1_hf_model_id(ctx: Ctx) -> CheckResult:
@@ -1929,6 +1966,101 @@ def check_domain_root_url_vaccine(ctx: Ctx) -> CheckResult:
     )
 
 
+def check_no_floating_nav_vaccine(ctx: Ctx) -> CheckResult:
+    """V21 — No Floating Bar / Stable Nav Vaccine.
+
+    SEOMONEY desktop navigation must stay ANCHORED in normal document flow.
+    The blog owner finds floating / sticky / drifting nav bars visually tiring
+    (eye strain), so desktop nav rails, sidebars and action bars must NOT detach
+    from the layout and drift on scroll. This permanently protects the PR #585
+    behavior where `.side-nav { position: static }`.
+
+    FAIL — a PROTECTED desktop nav/sidebar/action selector floats in DESKTOP
+           scope (global or min-width — i.e. NOT inside a mobile @media max-width):
+             * position: sticky / position: fixed;
+             * scroll-driven CSS animation / parallax
+               (animation-timeline: scroll(…) | view(…));
+           OR a JS file wires a scroll listener that mutates a nav element's
+           transform / top / position (scroll-linked drift).
+
+    EXEMPTIONS (never flagged): true overlays / modals / search dialogs and the
+    mobile hamburger drawer — `.nav-drawer*`, `.nav-toggle`, `.site-search*`,
+    `[role="dialog"]` — and ANY rule scoped under a mobile `@media (max-width)`
+    breakpoint. Mobile is handled separately; this detector must not break it.
+    """
+    title = "No floating/sticky nav on desktop (stable nav — V21)"
+
+    # Selectors that MUST stay in normal flow on desktop. Drawer/toggle/search
+    # are deliberately absent — those are the allowed overlay/mobile exceptions.
+    PROTECTED = (".side-nav", ".side-nav__actions", ".primary-nav",
+                 ".site-sidebar", ".nav-rail", ".desktop-nav")
+    FLOAT_POS = re.compile(r"position\s*:\s*(sticky|fixed)\b", re.I)
+    SCROLL_ANIM = re.compile(r"animation-timeline\s*:\s*(?:scroll|view)\s*\(", re.I)
+
+    fails: list[str] = []
+
+    # --- CSS: scan every SCSS partial for floating desktop nav selectors ---
+    for p in ctx.glob("sass/*.scss"):
+        rel = "sass/" + p.name
+        raw = ctx.read(rel)
+        if not raw:
+            continue
+        text = _strip_css_comments(raw)
+        mobile_spans = _mobile_media_spans(text)
+        for sel in PROTECTED:
+            # `[^{}]*` keeps the match inside this selector's own (flat) block,
+            # never crossing into a nested rule.
+            for m in re.finditer(re.escape(sel) + r"\s*\{([^{}]*)\}", text):
+                if _in_spans(m.start(), mobile_spans):
+                    continue  # mobile-scoped → exempt (handled separately)
+                block = m.group(1)
+                pm = FLOAT_POS.search(block)
+                if pm:
+                    fails.append(
+                        f"{rel}: `{sel}` dùng position:{pm.group(1).lower()} ở desktop scope "
+                        "— nav phải tĩnh (in-flow), không trôi theo scroll"
+                    )
+                if SCROLL_ANIM.search(block):
+                    fails.append(
+                        f"{rel}: `{sel}` dùng scroll-driven animation/parallax "
+                        "(animation-timeline) — nav trôi theo scroll"
+                    )
+
+    # --- JS: scroll listener that mutates a nav element's transform/top ---
+    NAV_TOKENS = ("side-nav", "primary-nav", "site-sidebar", "nav-rail", "desktop-nav")
+    _SCROLL_LISTENER = re.compile(r"addEventListener\s*\(\s*['\"]scroll['\"]")
+    _MUT_ASSIGN = re.compile(r"\.style\.(?:transform|top|position)\s*=")
+    _MUT_SETPROP = re.compile(r"\.style\.setProperty\s*\(\s*['\"](?:transform|top|position)")
+    for p in ctx.glob("static/js/*.js"):
+        rel = "static/js/" + p.name
+        js = ctx.read(rel)
+        if not js:
+            continue
+        if not any(tok in js for tok in NAV_TOKENS):
+            continue
+        has_scroll = bool(_SCROLL_LISTENER.search(js)) or "onscroll" in js
+        mutates = bool(_MUT_ASSIGN.search(js)) or bool(_MUT_SETPROP.search(js))
+        if has_scroll and mutates:
+            fails.append(
+                f"{rel}: scroll listener mutates nav transform/top/position "
+                "— scroll-linked drift (dùng layout tĩnh, bỏ scroll handler)"
+            )
+
+    if fails:
+        return CheckResult(
+            "V21", title, FAIL,
+            diagnosis="desktop nav/sidebar/action bar đang dùng floating/sticky/scroll-linked → trôi khi cuộn (gây mỏi mắt)",
+            fix=("đặt selector nav desktop về `position: static` (in-flow); bỏ position:sticky/fixed, "
+                 "scroll-driven animation, và scroll listener mutate transform/top. Overlay/modal/search/"
+                 "mobile drawer được miễn (giữ trong @media max-width hoặc dùng .nav-drawer/.site-search)."),
+            details=fails,
+        )
+    return CheckResult(
+        "V21", title, PASS,
+        diagnosis="desktop nav giữ in-flow (không sticky/fixed/scroll-linked); overlay/mobile drawer được miễn đúng cách",
+    )
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -1960,6 +2092,7 @@ DETECTORS = [
     check_deploy_monitor,
     check_gsc_domain_property,
     check_search_ui_vaccine,
+    check_no_floating_nav_vaccine,
     check_korean_banner_ui_vaccine,
     check_seomoney_brand,
     check_og_image_vaccine,
