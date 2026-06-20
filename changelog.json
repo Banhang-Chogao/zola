@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(premium): paywall visa Hàn 5 năm — Premium category, single sticky, MoMo link",
+      "tag": "chore",
+      "lines_added": 133,
+      "lines_removed": 150,
+      "highlights": [
+        "Category premium added while keeping existing categories → [\"Tất cả\", \"Du lịch\", \"Báo chí\", \"premium\"]. Uses the canonical lowercase premium term from categories.json (an uppercase Premium would slugi",
+        "Single active sticky via the existing schema extra.sticky = true (read by templates/index.html → .home-sticky). Unset sticky on the previous sticky post content/posting/ung-ho-du-an-ai-ten-mien-ai.md ",
+        "MoMo premium payment link https://me.momo.vn/G5T1CDFRuJFW added as per-post extra.momo_payment_link (consumed by templates/macros/paywall.html).",
+        "Premium mechanics: premium = true, price, premium_post_id = \"premium-visa-han-5nam\". Full body moved to private_content/premium-visa-han-5nam.md (backend-only); public body stripped to teaser via payw",
+        "Regenerated data/references.json."
+      ],
+      "pr": 595
+    },
+    {
+      "date": "2026-06-20",
       "title": "fix(gsc): serve /gsc/* on deployed vipzone backend (was 404 on Render)",
       "tag": "fix",
       "lines_added": 303,
