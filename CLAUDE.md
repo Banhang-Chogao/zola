@@ -1123,6 +1123,40 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
   `main`) → reset branch về `origin/main` → làm thay đổi kế tiếp. KHÔNG tích nhiều
   thay đổi không liên quan trên cùng branch.
 
+### Quy tắc hoàn thành task (MANDATORY — 2026-06-20)
+
+> **KHÔNG được dừng ở bước push branch.** Mỗi task hoàn chỉnh PHẢI đi qua đầy đủ
+> vòng PR → CI → auto-merge. Branch mà không có PR là **loose finished work** — vi phạm.
+
+**Checklist bắt buộc sau mỗi task:**
+
+1. **PR tồn tại** — `mcp__github__list_pull_requests` kiểm tra branch. Chưa có → tạo PR
+   với tiêu đề rõ ràng + body mô tả thay đổi + test plan. PR title cũ/tự động
+   (vd "Claude/branch-name") → cập nhật bằng `mcp__github__update_pull_request`.
+2. **Không có conflict markers** — `grep -r "<<<<<<\|=======\|>>>>>>" content/ templates/ scripts/`
+   → không được có kết quả (ngoài example text trong comment). Nếu có → giải quyết
+   semantically (V10/V12 CLAUDE.md) trước khi push.
+3. **Rebase lên latest `main`** — nếu branch stale (V9/V10 vaccine), merge `origin/main`
+   trước khi tạo PR; conflict ở data `*.json` → lấy `main` + regenerate (V10 FIXER).
+4. **Kích hoạt auto-merge** — `mcp__github__enable_pr_auto_merge mergeMethod=SQUASH`.
+   Nếu fail (CI in_progress) → ghi chú trạng thái; không retry loop.
+5. **Report trạng thái** — dù merge thành công hay blocked, output bảng tóm tắt:
+
+   ```
+   Branch audit: <branch-name>
+   PR: #<N> — <URL>
+   Conflicts: ✅ none | ❌ <file>
+   CI: ✅ green | 🟡 in_progress | ❌ <error>
+   Auto-merge: ✅ enabled | ⏳ CI running | ❌ blocked (<reason>)
+   ```
+
+**Branch stale (content đã trên main):** kiểm tra với `git show origin/main:<file>`. Nếu
+content đã merge → branch là redundant; đóng/xóa thay vì tạo PR thừa.
+
+**KHÔNG áp dụng "KHÔNG canh PR" để bỏ qua bước tạo PR** — hai quy tắc khác nhau:
+- Tạo PR + enable auto-merge = **bắt buộc khi hoàn thành task** (mục này).
+- Babysit CI sau push = **cấm** (quy tắc tiếp theo).
+
 ### Quy tắc chung
 
 - Làm xong BẤT KỲ việc gì → **push để automation tự đưa lên `main`** → prod. KHÔNG cần
