@@ -1,6 +1,21 @@
 {
   "items": [
     {
+      "date": "2026-06-20",
+      "title": "fix(links): harden link parsing/normalization — fix false skips & false 404s (giữ /zola canonical)",
+      "tag": "security",
+      "lines_added": 285,
+      "lines_removed": 64,
+      "highlights": [
+        "Boundary-aware strip: chỉ bỏ đúng segment /zola (hoặc /zola/…). Trước đây strip mọi prefix /zola… → /zola-tutorial/ bị mangle thành -tutorial/, /zolab/→b/ (false 404). Nay giữ target thật.",
+        "Host-aware: https://<host>/zola-blog/ (site khác chung ký tự zola) từng bị nhận nhầm internal /-blog/ → nay đúng là external.",
+        "Anti-false-skip: link http:// và protocol-relative //<host>/zola/… của chính site nay được phân loại internal và validate (trước bị bỏ qua như external).",
+        "SITE_HOST / SITE_BASE_PATH suy ra từ BASE_URL → /zola là single source of truth.",
+        "Parse HTML attribute thật thay vì regex trên raw text → data-href=\"/x\", xlink:href, JSON nội tuyến… không còn bị nhận nhầm là <a href> (false positive → false fail). HTMLParser vốn đã định nghĩa nhưng"
+      ],
+      "pr": 528
+    },
+    {
       "date": "2026-06-19",
       "title": "gỡ VIPZone/subscription · công cụ miễn phí · nav sidebar ph…",
       "tag": "refactor",

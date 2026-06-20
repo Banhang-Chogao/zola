@@ -76,6 +76,11 @@ VN_TZ = timezone(timedelta(hours=7))
 BASE_URL = "https://banhang-chogao.github.io/zola"
 SITE_PREFIX = "/zola"  # GitHub Pages subpath — strip from internal hrefs
 
+# Derived once from BASE_URL so the canonical GitHub Pages subpath (/zola) is the
+# single source of truth for routing — no root-domain assumption anywhere.
+SITE_HOST = urlparse(BASE_URL).netloc           # banhang-chogao.github.io
+SITE_BASE_PATH = urlparse(BASE_URL).path.rstrip("/")  # /zola — canonical runtime prefix
+
 EXTERNAL_TIMEOUT = 8  # seconds, per URL
 EXTERNAL_MAX_REDIRECTS = 5
 EXTERNAL_CAP_DEFAULT = 200
@@ -155,6 +160,36 @@ def _public_paths() -> set[str]:
     return paths
 
 
+def _strip_base_path(path: str) -> str:
+    """Drop the canonical GitHub Pages subpath (/zola) from an on-site path.
+
+    Boundary-aware: only the exact '/zola' segment is removed, never a path that
+    merely *starts with* the letters 'zola' (e.g. '/zola-blog/'). The old code
+    stripped any '/zola…' prefix, mangling '/zola-tutorial/' → '-tutorial/' and
+    '/zolab/' → 'b/' into phantom 404s. '/zola' stays the canonical runtime
+    prefix here — nothing assumes a root-domain deployment.
+    """
+    if not SITE_BASE_PATH:
+        return path
+    if path == SITE_BASE_PATH:
+        return "/"
+    if path.startswith(SITE_BASE_PATH + "/"):
+        return path[len(SITE_BASE_PATH):] or "/"
+    return path
+
+
+def _normalize_site_path(path: str) -> str:
+    """Canonical servable form of a site path: /zola stripped (boundary-aware),
+    query/fragment removed, trailing slash on extension-less directory pages."""
+    if not path.startswith("/"):
+        path = "/" + path
+    path = _strip_base_path(path)
+    path = path.split("#")[0].split("?")[0] or "/"
+    if path != "/" and not path.endswith("/") and "." not in Path(path).name:
+        path += "/"
+    return path
+
+
 def _classify(href: str) -> tuple[str, str | None]:
     """Return (kind, normalized).
 
@@ -162,40 +197,38 @@ def _classify(href: str) -> tuple[str, str | None]:
     For internal: normalized is the site-relative path (no /zola prefix).
     For external: normalized is the absolute http(s) URL.
     For skip: normalized is None.
+
+    Internal covers every spelling of an on-site link — scheme-less '/zola/…',
+    absolute 'https://<host>/zola/…', the http:// variant, and protocol-relative
+    '//<host>/zola/…' — so none of those slip past internal validation (no false
+    skips). Matching is host- and boundary-aware so unrelated URLs that merely
+    share the 'zola' characters are not mis-normalized into phantom 404s.
     """
     href = (href or "").strip()
     if not href or href.startswith(_SKIP_SCHEMES):
         return "skip", None
 
-    # Absolute URL pointing at our own site → treat as internal.
-    if href.startswith(BASE_URL):
-        href = href[len(BASE_URL):] or "/"
-    else:
-        parsed = urlparse(href)
-        if parsed.scheme in ("http", "https"):
-            # External absolute URL.
-            return "external", href
-        if parsed.scheme and parsed.scheme not in ("",):
-            # ftp:, ws:, etc. — not a broken-link candidate we resolve.
-            return "skip", None
-        # protocol-relative //host/...
-        if href.startswith("//"):
-            return "external", "https:" + href
+    # Protocol-relative //host/path → give it a scheme so netloc parses.
+    proto_rel = href.startswith("//")
+    probe = "https:" + href if proto_rel else href
+    parsed = urlparse(probe)
+    scheme = parsed.scheme.lower()
 
-    # Internal site path.
-    parsed = urlparse(href)
-    path = parsed.path or "/"
-    if not path.startswith("/"):
-        path = "/" + path
-    if path == SITE_PREFIX or path.startswith(SITE_PREFIX + "/"):
-        path = path[len(SITE_PREFIX):] or "/"
-    elif path.startswith(SITE_PREFIX):  # e.g. "/zola" with trailing chars
-        path = path[len(SITE_PREFIX):] or "/"
-    path = path.split("#")[0].split("?")[0] or "/"
-    # Append trailing slash for extension-less paths (directory pages).
-    if path != "/" and not path.endswith("/") and "." not in Path(path).name:
-        path += "/"
-    return "internal", path
+    if scheme in ("http", "https"):
+        # Same host AND under the canonical /zola base path → internal.
+        if parsed.netloc == SITE_HOST and (
+            parsed.path == SITE_BASE_PATH
+            or parsed.path.startswith(SITE_BASE_PATH + "/")
+        ):
+            return "internal", _normalize_site_path(parsed.path or "/")
+        # Anything else absolute (including our host *outside* /zola) → external.
+        return "external", probe if proto_rel else href
+    if scheme:
+        # ftp:, ws:, etc. — not a broken-link candidate we resolve.
+        return "skip", None
+
+    # Scheme-less, site-relative path — where most internal links live.
+    return "internal", _normalize_site_path(parsed.path or "/")
 
 
 def _internal_ok(path: str, pub_paths: set[str]) -> bool:
