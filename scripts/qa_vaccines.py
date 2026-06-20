@@ -708,6 +708,127 @@ def check_v10_link_utils_layer(ctx: Ctx) -> CheckResult:
     return CheckResult("V10-LINKS", title, PASS)
 
 
+def _css_blocks(src: str, selector: str) -> list[str]:
+    """Return the bodies of ALL `selector { … }` rules (brace-matched), in order.
+    Covers a rule plus its media-query copies so a detector can inspect each."""
+    out: list[str] = []
+    idx = src.find(selector)
+    while idx != -1:
+        brace = src.find("{", idx)
+        if brace == -1:
+            break
+        depth, i = 0, brace
+        while i < len(src):
+            c = src[i]
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    out.append(src[brace + 1:i])
+                    break
+            i += 1
+        idx = src.find(selector, (i if i > idx else idx) + 1)
+    return out
+
+
+def _css_block(src: str, selector: str) -> str | None:
+    """Body of the FIRST `selector { … }` rule, or None."""
+    blocks = _css_blocks(src, selector)
+    return blocks[0] if blocks else None
+
+
+def check_sidebar_layout(ctx: Ctx) -> CheckResult:
+    """sidebar_layout_vaccine — the right-column menu/sidebar must live INSIDE the
+    page grid on desktop, never as a fixed/absolute high-z overlay that covers
+    content (regression from the PR #526 right-column nav).
+
+    Invariants enforced statically:
+      1. `.side-nav` (desktop primary nav) is in-flow — position sticky/static,
+         NOT fixed/absolute.
+      2. `.sidebar` column is in-flow — not fixed/absolute.
+      3. `.layout-grid` desktop reserves a real second (right) column for the
+         sidebar (two-track grid-template-columns), so main shrinks beside it.
+      4. `.main-column { min-width: 0 }` so content can never blow the grid and
+         slide under the sidebar.
+      5. Mobile (≤960px) collapses to one column + the menu is a drawer that is
+         `hidden` by default (closed state must not cover content).
+    """
+    title = "Sidebar layout (in-grid, not fixed/absolute overlay)"
+    sidenav = ctx.read("sass/_side-nav.scss")
+    sidebar = ctx.read("sass/_sidebar.scss")
+    layout = ctx.read("sass/_layout.scss")
+    base = ctx.read("templates/base.html")
+    if sidenav is None or layout is None:
+        return CheckResult("UI-SIDEBAR", title, SKIP,
+                           diagnosis="thiếu sass/_side-nav.scss hoặc _layout.scss")
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1 — .side-nav must NOT be fixed/absolute in ANY of its blocks.
+    for sn in (_css_blocks(sidenav, ".side-nav ") + _css_blocks(sidenav, ".side-nav{")):
+        if re.search(r"position:\s*(fixed|absolute)", sn):
+            fails.append(".side-nav dùng position:fixed/absolute → nav nổi đè nội dung "
+                         "(phải position:sticky trong cột phải)")
+            break
+
+    # 2 — .sidebar column must be in-flow.
+    if sidebar is not None:
+        for sb in (_css_blocks(sidebar, ".sidebar ") + _css_blocks(sidebar, ".sidebar{")):
+            if re.search(r"position:\s*(fixed|absolute)", sb):
+                fails.append(".sidebar dùng position:fixed/absolute → cột sidebar overlay "
+                             "thay vì nằm trong grid")
+                break
+
+    # 3 — some .layout-grid block reserves a real right column (two tracks). The
+    #     mobile (≤960px) copy is single-track 1fr; the desktop base must be 2-track.
+    lg_blocks = _css_blocks(layout, ".layout-grid ") + _css_blocks(layout, ".layout-grid{")
+    two_track = False
+    for lg in lg_blocks:
+        gtc = re.search(r"grid-template-columns:\s*([^;]+);", lg)
+        if not gtc:
+            continue
+        # Count tracks at depth 0: blank out parenthesised groups (minmax(..),
+        # repeat(..)) so their inner spaces/commas don't inflate the count.
+        flat = re.sub(r"\([^()]*\)", "X", gtc.group(1).strip())
+        if len([t for t in flat.split() if t]) >= 2:
+            two_track = True
+            break
+    if not two_track:
+        fails.append(".layout-grid desktop không reserve cột thứ 2 (grid-template-columns "
+                     "1 track) → sidebar không có cột riêng, dễ chồng lên content")
+
+    # 4 — main-column min-width: 0 (prevents grid blow-out under the sidebar).
+    if not re.search(r"\.main-column\s*\{[^}]*min-width:\s*0", layout):
+        warns.append(".main-column thiếu min-width:0 → content dài có thể đẩy vỡ grid")
+
+    # 5 — mobile drawer hidden by default + side-nav hidden ≤960px.
+    if not re.search(r"@media[^{]*max-width:\s*960px[\s\S]*?\.side-nav\s*\{[^}]*display:\s*none",
+                     sidenav):
+        warns.append("≤960px không ẩn .side-nav (mobile nên dùng drawer, không hiện card)")
+    if base is not None and "nav-drawer" in base and not re.search(
+            r'class="nav-drawer"[^>]*\shidden', base):
+        warns.append("templates/base.html: .nav-drawer không có thuộc tính `hidden` "
+                     "→ drawer có thể che nội dung khi chưa mở")
+
+    if fails:
+        return CheckResult("UI-SIDEBAR", title, FAIL,
+                           diagnosis="menu/sidebar có thể overlay nội dung trên desktop",
+                           fix="giữ .side-nav sticky trong .sidebar; .layout-grid 2 cột "
+                               "(minmax(0,1fr) <sidebar>px); .main-column min-width:0; "
+                               "mobile dùng drawer hidden",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("UI-SIDEBAR", title, WARN,
+                           diagnosis="layout sidebar in-grid OK nhưng thiếu guard phụ",
+                           fix="bổ sung min-width:0 cho .main-column / ẩn .side-nav ≤960px / "
+                               "đặt hidden cho .nav-drawer",
+                           details=warns)
+    return CheckResult("UI-SIDEBAR", title, PASS,
+                       diagnosis=".side-nav sticky in-grid · .layout-grid 2 cột · drawer hidden")
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -730,6 +851,7 @@ DETECTORS = [
     check_v10_link_utils_layer,
     check_category_first,
     check_nav_menu_overflow,
+    check_sidebar_layout,
 ]
 
 
