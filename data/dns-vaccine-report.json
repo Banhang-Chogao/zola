@@ -1,33 +1,80 @@
 {
-  "generated_at": "2026-06-20T06:36:38.030564+00:00",
-  "domain": "banhang-chogao.github.io",
+  "generated_at": "2026-06-20T17:54:38.944665+00:00",
+  "domain": "seomoney.org",
   "summary": {
-    "status": "warn",
+    "status": "ok",
     "fail": 0,
-    "warn": 2,
+    "warn": 0,
     "unknown": 0,
-    "pass": 1
+    "pass": 9
   },
   "checks": [
     {
       "check": "R1-cname-file",
-      "status": "warn",
-      "detail": "static/CNAME missing — GitHub Pages may drop the custom domain on deploy. Add a CNAME file holding the apex domain."
+      "status": "pass",
+      "detail": "static/CNAME = seomoney.org"
     },
     {
       "check": "R3-base-https",
       "status": "pass",
-      "detail": "base_url = https://banhang-chogao.github.io/zola"
+      "detail": "base_url = https://seomoney.org"
     },
     {
-      "check": "R3-base-path",
-      "status": "warn",
-      "detail": "base_url still contains the /zola GitHub Pages subpath; an apex-domain deploy expects no path."
+      "check": "R2-host-match",
+      "status": "pass",
+      "detail": "base_url host == CNAME (seomoney.org)"
     },
     {
-      "check": "live",
-      "status": "skip",
-      "detail": "offline mode — live checks skipped"
+      "check": "L0-ns",
+      "status": "pass",
+      "detail": "seomoney.org NS → Cloudflare ['khalid.ns.cloudflare.com', 'ursula.ns.cloudflare.com']",
+      "resolved": [
+        "khalid.ns.cloudflare.com",
+        "ursula.ns.cloudflare.com"
+      ]
+    },
+    {
+      "check": "L1-apex-a",
+      "status": "pass",
+      "detail": "seomoney.org → GitHub Pages IPs ['185.199.108.153', '185.199.109.153', '185.199.110.153', '185.199.111.153']",
+      "resolved": [
+        "185.199.108.153",
+        "185.199.111.153",
+        "185.199.109.153",
+        "185.199.110.153"
+      ]
+    },
+    {
+      "check": "L2-www",
+      "status": "pass",
+      "detail": "www.seomoney.org CNAME → ['banhang-chogao.github.io']"
+    },
+    {
+      "check": "L3-http",
+      "status": "pass",
+      "detail": "https://seomoney.org/ returns 200 (served by GitHub Pages)",
+      "probe": {
+        "url": "https://seomoney.org/",
+        "ok": true,
+        "code": 200,
+        "server": "GitHub.com",
+        "cf_ray": "",
+        "is_1016": false
+      }
+    },
+    {
+      "check": "L4-origin",
+      "status": "pass",
+      "detail": "origin banhang-chogao.github.io reachable (HTTP 404)"
+    },
+    {
+      "check": "L5-www-redirect",
+      "status": "pass",
+      "detail": "https://www.seomoney.org/ → 301 https://seomoney.org/ (redirects to apex)",
+      "probe": {
+        "code": 301,
+        "location": "https://seomoney.org/"
+      }
     }
   ],
   "expected": {
@@ -41,6 +88,13 @@
     "ssl_mode": "Full (Strict)"
   },
   "history": [
+    {
+      "at": "2026-06-20T17:54:38.944665+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
     {
       "at": "2026-06-20T06:36:38.030564+00:00",
       "domain": "banhang-chogao.github.io",
