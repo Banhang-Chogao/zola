@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(og): polish SEOMONEY OG card + legal VN Google Sans-style font + OG vaccine",
+      "tag": "chore",
+      "lines_added": 287,
+      "lines_removed": 35,
+      "highlights": [
+        "Refined calm-enterprise visual: slate→blue gradient, soft sheen on the preview card + thumbnail, accent underline, seomoney.org footer credit. Same 1200×630 canvas + safe-zone layout.",
+        "Legal Vietnamese, Google Sans-style font fallback via a single <style> block:",
+        "Regenerated through the existing build_og_images.py pipeline (1200×630). Social networks can't render SVG, so the committed .og.webp twin is what they show.",
+        "FAIL — SVG missing / not well-formed XML; canvas ≠ 1200×630; .og.webp twin missing or not 1200×630.",
+        "WARN — twin stale (SVG newer than committed webp → re-render + commit); old-domain (github.io) branding in the SVG."
+      ],
+      "pr": 584
+    },
+    {
+      "date": "2026-06-20",
       "title": "chore(momo): update default paid-content link → y5eVvzz2nlXXeEP",
       "tag": "chore",
       "lines_added": 90,
