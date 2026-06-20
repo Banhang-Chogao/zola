@@ -30,6 +30,10 @@ url = "$BASE_URL/tools/uptime-me"
 subtitle = "Phân tích uptime từ 3 API UptimeRobot"
 locked = true
 [[extra.tool_groups.items]]
+name = "🚀 Deploy Monitor"
+url = "$BASE_URL/tools/deploy-monitor"
+subtitle = "Tốc độ deploy + commit đang chờ lên production"
+[[extra.tool_groups.items]]
 name = "🌾 Vụ Mùa"
 url = "$BASE_URL/vu-mua"
 [[extra.tool_groups.items]]

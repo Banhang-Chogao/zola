@@ -2,10 +2,11 @@
 title = "Life systems trong kỷ nguyên AI: sống rõ hơn"
 description = "Xây life systems trong kỷ nguyên AI để quản lý mục tiêu, tiền bạc, năng lượng, học tập và du lịch bằng nguyên tắc cá nhân."
 date = 2026-06-20
+aliases = ["/life-systems-trong-ky-nguyen-ai/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["life systems", "ai", "productivity", "money systems", "personal framework", "self management"]
+tags = ["ai", "life systems", "money systems", "personal framework", "productivity", "self management"]
 [extra]
 seo_keyword = "life systems trong kỷ nguyên AI"
 seo_title = "Life systems trong kỷ nguyên AI"

@@ -674,7 +674,13 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   - **Report files → idempotent writes** — only update when the semantic content changes.
   - **Hotfix PRs → minimal delta only**: commit the fix files, not run bookkeeping.
   - `dirty` PR with conflicts ONLY in `data/*state*.json`, `data/*.log`, or `reports/*report.*`
-    = V18 signature → close PR, fix the gitignore/workflow on the feature branch, reopen.
+    = V18 signature → apply FIXER (below), never hand-merge these files.
+  - **V18 self-conflict (PR #551, 2026-06-20):** the V18 fix PR itself was blocked by the
+    same 3 files it was gitignoring (`data/qa-rule-checker-state.json`,
+    `data/vaccine-hotfix-state.json`, `data/vaccine-hotfix.log`). Resolution: `git merge
+    origin/main` → for each `DU` (deleted-by-us, modified-by-them) conflict file → `git rm
+    --cached <file>` (keep untracked). Never commit stale runtime state/log. Never hand-merge.
+    This is always safe because these files carry zero fixable code.
 - **Detector:** `scripts/qa_vaccines.py` → `check_v18_runtime_artifact_conflict` (code `V18-RUNTIME`).
   FAIL if any of the 6 state/log files are still tracked (`git ls-files`).
   WARN if `vaccine-hotfix.yml` lacks the `git restore --staged` filter.
@@ -682,7 +688,9 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 - **Regression test list (exact #548 files):** `data/qa-rule-checker-state.json`,
   `data/vaccine-hotfix-report.json`, `data/vaccine-hotfix-state.json`,
   `data/vaccine-hotfix.log`, `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md`.
-- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v -k V18`.
+- **Regression test list (exact #551 self-conflict files):** `data/qa-rule-checker-state.json`,
+  `data/vaccine-hotfix-state.json`, `data/vaccine-hotfix.log`.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v -k V18` (includes `RuntimeArtifactV18Test`).
 
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 

@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/vaccine-bai-hoc/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["vaccine số", "ai system", "automation", "bài học", "zola blog"]
+tags = ["ai system", "automation", "bài học", "vaccine số", "zola blog"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "hệ thống tự chữa lỗi blog"

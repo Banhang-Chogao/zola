@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% import "macros/datetime.html" as dt %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+{% set has = dm and dm.summary %}
+
+<section class="deploy-mon">
+  <header class="deploy-mon__head">
+    <p class="deploy-mon__eyebrow">Tools · Dashboard &amp; phân tích · GitHub Pages deploy</p>
+    <h1 class="deploy-mon__title">🚀 Deploy Monitor</h1>
+    <p class="deploy-mon__desc">{{ page.description }}</p>
+  </header>
+
+  {% if has %}
+  {% set s = dm.summary %}
+  <div class="deploy-mon__kpis">
+    <div class="uptime-card uptime-card--score">
+      <span class="uptime-card__label">Production</span>
+      <span class="uptime-card__value deploy-mon__status deploy-mon__status--{{ s.prod_status | default(value='unknown') }}">
+        {{ s.prod_status | default(value='—') }}
+      </span>
+    </div>
+    <div class="uptime-card">
+      <span class="uptime-card__label">Commit prod</span>
+      <span class="uptime-card__value"><code>{{ s.prod_commit_short | default(value='—') }}</code></span>
+    </div>
+    <div class="uptime-card {% if s.pending_count and s.pending_count > 0 %}uptime-card--alert{% endif %}">
+      <span class="uptime-card__label">Chờ deploy</span>
+      <span class="uptime-card__value">{{ s.pending_count | default(value=0) }}</span>
+    </div>
+    <div class="uptime-card">
+      <span class="uptime-card__label">Deploy TB</span>
+      <span class="uptime-card__value">{% if s.avg_deploy_s %}{{ s.avg_deploy_s }}<span class="uptime-card__unit">s</span>{% else %}—{% endif %}</span>
+    </div>
+  </div>
+
+  <div class="deploy-mon__meta">
+    <span>Lâu nhất: <strong>{% if s.longest_deploy_s %}{{ s.longest_deploy_s }}s{% else %}—{% endif %}</strong></span>
+    <span>Lỗi gần đây: <strong>{{ s.failed_recent | default(value=0) }}</strong></span>
+    <span>Huỷ gần đây: <strong>{{ s.cancelled_recent | default(value=0) }}</strong></span>
+    {% if s.storm %}<span class="deploy-mon__warn">⚡ Phát hiện storm rate-limit / concurrency (V5)</span>{% endif %}
+  </div>
+
+  {# ===== Pending deploys ===== #}
+  <h2 class="deploy-mon__h2">Commit đang chờ deploy</h2>
+  {% if dm.pending %}
+  <ul class="deploy-mon__list">
+    {% for p in dm.pending %}
+    <li class="deploy-mon__row deploy-mon__row--{{ p.status }}">
+      <code class="deploy-mon__sha">{{ p.sha_short }}</code>
+      <span class="deploy-mon__badge">{{ p.status }}</span>
+      {% if p.waiting_s %}<span class="deploy-mon__wait">chờ {{ p.waiting_s }}s</span>{% endif %}
+      <span class="deploy-mon__rowtitle">{{ p.title | default(value="") }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="deploy-mon__none">🎉 Không có commit nào đang chờ — production đã bắt kịp.</p>
+  {% endif %}
+
+  {# ===== Recent timeline ===== #}
+  <h2 class="deploy-mon__h2">Timeline deploy gần đây</h2>
+  {% if dm.recent %}
+  <ol class="deploy-mon__timeline">
+    {% for r in dm.recent %}
+    <li class="deploy-mon__tl deploy-mon__tl--{{ r.conclusion | default(value='unknown') }}">
+      <code class="deploy-mon__sha">{{ r.sha_short }}</code>
+      <span class="deploy-mon__badge">{{ r.conclusion | default(value=r.status) }}</span>
+      <span class="deploy-mon__dur">{% if r.duration_s %}{{ r.duration_s }}s{% else %}—{% endif %}</span>
+      {% if r.created_at %}<time class="deploy-mon__time" datetime="{{ r.created_at }}">{{ dt::display_datetime(value=r.created_at) }}</time>{% endif %}
+      <span class="deploy-mon__rowtitle">{{ r.title | default(value="") }}</span>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p class="deploy-mon__none">Chưa có dữ liệu timeline.</p>
+  {% endif %}
+
+  <p class="deploy-mon__updated">
+    {% if dm.checked_at %}Cập nhật: <time datetime="{{ dm.checked_at }}">{{ dt::display_datetime(value=dm.checked_at) }}</time>{% endif %}
+    {% if dm.stale %} · <span class="deploy-mon__stale">⚠ dữ liệu có thể đã cũ</span>{% endif %}
+  </p>
+
+  {% else %}
+  <div class="uptime-me__empty">
+    <div class="uptime-me__empty-emoji">🚀</div>
+    <h2>Chưa có dữ liệu deploy</h2>
+    <p>Trang này được nuôi bằng CI cron (<code>deploy-monitor.yml</code>). Khi job chạy
+       lần đầu (secret <code>GITHUB_TOKEN</code> sẵn có trong Actions), trạng thái
+       production, hàng chờ deploy và timeline sẽ hiện ở đây.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

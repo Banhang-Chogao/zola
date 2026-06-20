@@ -2,10 +2,11 @@
 title = "Solo travel KhoaBug: phân tích xu hướng mới"
 description = "Phân tích solo travel qua hiện tượng KhoaBug như một case study văn hóa: tự do, truyền thông cá nhân và nhu cầu đi một mình."
 date = 2026-06-20
+aliases = ["/solo-travel-khoabug-phan-tich-xu-huong/"]
 
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
-tags = ["solo travel", "khoabug", "khoa pug", "du lịch", "creator economy", "văn hóa số"]
+tags = ["creator economy", "du lịch", "khoa pug", "khoabug", "solo travel", "văn hóa số"]
 [extra]
 seo_keyword = "solo travel KhoaBug"
 seo_title = "Solo travel KhoaBug"

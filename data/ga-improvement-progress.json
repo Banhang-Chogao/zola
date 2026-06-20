@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T23:53:36Z",
+  "updated_at": "2026-06-20T10:20:42Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,45 +15,45 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 14 weak related pairs",
+      "detail": "1 broken links · 14 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-19T23:28:08Z"
+      "updated_at": "2026-06-20T10:17:15Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 55/100 · LCP 7.4 s · needs work",
+      "detail": "Mobile 65/100 · LCP 6.4 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-19T19:17:49+00:00"
+      "updated_at": "2026-06-20T00:19:31+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 779/780 pages",
+      "detail": "15 pages missing FAQ/schema · 824/825 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-19T23:28:08Z"
+      "updated_at": "2026-06-20T10:17:15Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: gỡ VIPZone/subscription · công cụ miễn phí · nav sidebar ph…",
+      "detail": "Latest: feat(tools): UPTIME_ME — uptime dashboard from 3 UptimeRobot",
       "source": "changelog.json",
-      "updated_at": "2026-06-19"
+      "updated_at": "2026-06-20"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "909 links OK · IndexNow on publish",
+      "detail": "913 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-19T22:58:09Z"
+      "updated_at": "2026-06-20T01:51:36Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-19T23:28:08Z"
+      "updated_at": "2026-06-20T10:17:15Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 55/100 vs desktop 96/100 (Δ41) · 779/780 ready",
+      "detail": "Mobile 65/100 vs desktop 96/100 (Δ31) · 824/825 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-19T19:17:49+00:00"
+      "updated_at": "2026-06-20T00:19:31+00:00"
     }
   ],
   "summary": {

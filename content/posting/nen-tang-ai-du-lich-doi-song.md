@@ -2,10 +2,11 @@
 title = "Nền tảng AI du lịch đời sống: triết lý mới"
 description = "Giới thiệu triết lý nền tảng AI, du lịch và đời sống: biến tò mò thành hệ thống, trải nghiệm thành insight, công cụ thành lợi thế."
 date = 2026-06-20
+aliases = ["/nen-tang-ai-du-lich-doi-song/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["ai", "du lịch", "đời sống", "life systems", "insights", "digital nomad"]
+tags = ["ai", "digital nomad", "du lịch", "insights", "life systems", "đời sống"]
 [extra]
 seo_keyword = "nền tảng AI du lịch đời sống"
 seo_title = "Nền tảng AI du lịch đời sống"
