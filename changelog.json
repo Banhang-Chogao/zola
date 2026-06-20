@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(adsense): readiness hotfix — policy pages, noindex internal pages, env ad slot, clean homepage",
+      "tag": "cleanup",
+      "lines_added": 406,
+      "lines_removed": 42,
+      "highlights": [
+        "Mới: /advertising/ (Chính sách quảng cáo) + /editorial/ (Chính sách biên tập)",
+        "Footer thêm 2 link này cạnh About/Contact/Privacy/Terms/Copyright",
+        "Privacy đã có sẵn AdSense/Analytics/cookies/DART → thêm cross-link tới Advertising",
+        "static/ads.txt placeholder (mẫu có comment hướng dẫn)",
+        "base.html: loader theo env — get_env(ADSENSE_CLIENT) → fallback config.extra.adsense_client; rỗng = không phát script (site sạch). Khi có id: thêm <meta google-adsense-account> + adsbygoogle.js"
+      ],
+      "pr": 591
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(premium): paywall visa Hàn 5 năm — Premium category, single sticky, MoMo link",
       "tag": "chore",
       "lines_added": 133,
