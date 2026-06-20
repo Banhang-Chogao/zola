@@ -944,6 +944,221 @@ class SearchUiVaccineTest(unittest.TestCase):
         self.assertEqual(r.status, qv.PASS, f"search_ui_vaccine not PASS: {r.diagnosis} {r.details}")
 
 
+class EditorPublishVaccineTest(unittest.TestCase):
+    """EDITOR-PUBLISH — saving in /editor/ must commit to GitHub (not download),
+    edits must send SHA, the SEO rail must hydrate old posts, and sticky must be
+    single-active (backend auto-unstick)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    _GOOD_JS = (
+        "async function commitPostToGithub(payload){\n"
+        "  const res = await fetch(AUTH_API + '/cms/save-post', {\n"
+        "    method:'POST',\n"
+        "    body: JSON.stringify({ slug: payload.slug, content: payload.content,\n"
+        "      message: payload.message, sha: payload.sha || '' }) });\n"
+        "  return res.json();\n"
+        "}\n"
+        "function saveAndCommit(){ const sha = state.editing ? state.editing.sha : null;\n"
+        "  commitPostToGithub({ slug, content, message, sha }); }\n"
+        "function dispatchHydrated(){ document.dispatchEvent(new CustomEvent('cms:hydrated')); }\n"
+    )
+    _GOOD_RAIL = "document.addEventListener('cms:hydrated', function(){ analyze(); });\n"
+    _GOOD_BACKEND = (
+        '@app.post("/cms/save-post")\n'
+        "async def cms_save_post(): pass\n"
+        "async def _demote_other_sticky_posts(): pass\n"
+        "force_sticky and await _demote_other_sticky_posts(client, path, slug, token)\n"
+    )
+
+    def _wire_good(self):
+        self.repo.write("static/js/editor.js", self._GOOD_JS)
+        self.repo.write("static/js/cms/editor-seo-rail.js", self._GOOD_RAIL)
+        self.repo.write("services/visitor-counter/main.py", self._GOOD_BACKEND)
+
+    def test_good_passes(self):
+        self._wire_good()
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
+
+    def test_missing_save_endpoint_fails(self):
+        self._wire_good()
+        self.repo.write("static/js/editor.js",
+                        self._GOOD_JS.replace("/cms/save-post", "/cms/nope"))
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("save-post" in d for d in r.details))
+
+    def test_draft_only_download_fails(self):
+        self._wire_good()
+        bad = self._GOOD_JS + (
+            "function putPost(path, content){ const a=document.createElement('a');"
+            " a.download = filename; a.click(); }\n")
+        self.repo.write("static/js/editor.js", bad)
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("putPost" in d or "tải file" in d for d in r.details))
+
+    def test_edit_without_sha_fails(self):
+        self._wire_good()
+        # Strip every SHA signal from the commit path.
+        bad = (self._GOOD_JS
+               .replace("sha: payload.sha || ''", "")
+               .replace("const sha = state.editing ? state.editing.sha : null;", "")
+               .replace("commitPostToGithub({ slug, content, message, sha });",
+                        "commitPostToGithub({ slug, content, message });"))
+        self.repo.write("static/js/editor.js", bad)
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("SHA" in d or "sha" in d for d in r.details))
+
+    def test_seo_rail_no_hydrate_fails(self):
+        self._wire_good()
+        self.repo.write("static/js/cms/editor-seo-rail.js",
+                        "function analyze(){}\n")  # no cms:hydrated listener
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("hydrate" in d.lower() or "cms:hydrated" in d for d in r.details))
+
+    def test_backend_no_sticky_demote_fails(self):
+        self._wire_good()
+        self.repo.write("services/visitor-counter/main.py",
+                        '@app.post("/cms/save-post")\nasync def cms_save_post(): pass\n')
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("sticky" in d.lower() for d in r.details))
+
+    def test_sticky_hard_block_warns(self):
+        self._wire_good()
+        self.repo.write("static/js/editor.js",
+                        self._GOOD_JS + "function ensureStickyAllowed(){ return false; }\n")
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+
+    def test_real_repo_passes(self):
+        """The shipped editor must PASS on the real repo (calibration)."""
+        r = qv.check_editor_publish_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"editor_publish not PASS: {r.diagnosis} {r.details}")
+
+
+class NoFloatingNavVaccineTest(unittest.TestCase):
+    """V21 — No Floating Bar / Stable Nav. Desktop nav must stay in normal flow;
+    floating/sticky/scroll-linked desktop nav → FAIL. Overlays/modals/search and
+    the mobile drawer (or anything under a mobile @media) are exempt."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    # ---- PASS cases -------------------------------------------------------
+    def test_static_side_nav_passes(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; background: #fff; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_normal_flow_no_position_passes(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { background: #fff; padding: 1rem; }\n"
+                        ".side-nav__actions { display: flex; margin-top: 0.5rem; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_mobile_drawer_fixed_is_exempt(self):
+        # The hamburger drawer + toggle are overlays — fixed is allowed (not protected).
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; }\n"
+                        ".nav-toggle { position: fixed; top: 14px; right: 14px; }\n"
+                        ".nav-drawer { position: fixed; inset: 0; }\n"
+                        ".nav-drawer__panel { position: absolute; transform: translateX(100%); }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_search_modal_fixed_is_exempt(self):
+        self.repo.write("sass/_site-search.scss",
+                        ".site-search { position: fixed; inset: 0; z-index: 10050; }\n"
+                        ".site-search__panel { max-width: 640px; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_sticky_under_mobile_media_is_exempt(self):
+        # A protected selector going sticky ONLY inside a mobile breakpoint is not
+        # flagged — mobile is handled separately, do not break it here.
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; }\n"
+                        "@media (max-width: 720px) {\n"
+                        "  .side-nav { position: sticky; top: 0; }\n"
+                        "}\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_commented_sticky_does_not_trip(self):
+        self.repo.write("sass/_side-nav.scss",
+                        "/* trước đây position: sticky; top: 1rem; */\n"
+                        ".side-nav { position: static; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    # ---- FAIL cases -------------------------------------------------------
+    def test_sticky_side_nav_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: sticky; top: 1rem; z-index: 5; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertEqual(r.vaccine, "V21")
+        self.assertTrue(any("side-nav" in d for d in r.details))
+
+    def test_fixed_side_nav_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: fixed; top: 0; left: 0; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_floating_bottom_action_bar_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; }\n"
+                        ".side-nav__actions { position: fixed; bottom: 0; left: 0; right: 0; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("side-nav__actions" in d for d in r.details))
+
+    def test_scroll_driven_animation_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".primary-nav { animation-timeline: scroll(root block); "
+                        "animation-name: drift; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_js_translate_on_scroll_fails(self):
+        self.repo.write("sass/_side-nav.scss", ".side-nav { position: static; }\n")
+        self.repo.write("static/js/side-nav.js",
+                        "var el = document.querySelector('.side-nav');\n"
+                        "window.addEventListener('scroll', function () {\n"
+                        "  el.style.transform = 'translateY(' + window.scrollY + 'px)';\n"
+                        "});\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any(".js" in d for d in r.details))
+
+    def test_js_scroll_without_nav_token_passes(self):
+        # A scroll handler that mutates style but never touches a nav element is fine.
+        self.repo.write("sass/_x.scss", ".hero { color: red; }\n")
+        self.repo.write("static/js/reveal.js",
+                        "window.addEventListener('scroll', function () {\n"
+                        "  document.querySelector('.hero').style.top = '0';\n"
+                        "});\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    # ---- calibration ------------------------------------------------------
+    def test_real_repo_passes(self):
+        """Current main keeps desktop nav static → V21 PASS (calibration)."""
+        r = qv.check_no_floating_nav_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"V21 not PASS: {r.diagnosis} {r.details}")
+
+
 class DomainRootUrlVaccineTest(unittest.TestCase):
     """DOMAIN-ROOT — scanner base-path /zola assumption detector tests."""
 

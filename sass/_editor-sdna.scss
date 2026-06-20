@@ -423,15 +423,16 @@
 
   /* =========================================================================
      9) STICKY BOTTOM ACTION BAR — anchored inside the editor panel (no drift)
+     Desktop: anchored in normal flow (NO sticky/floating — honours V21
+     No-Floating-Nav, the owner dislikes drifting bars). Mobile: docks sticky
+     inside the panel (see the ≤720px block below). The action bar is NOT a
+     protected nav selector, but we keep it static on desktop on principle.
      ========================================================================= */
   .editor-toolbar--bottom {
-    position: sticky;
-    bottom: 0;
-    z-index: 5;
+    position: static;
     margin: 1.4rem -1.6rem -1.5rem;
     padding: 0.9rem 1.6rem;
-    background: #{"color-mix(in srgb, var(--c-bg-surface) 92%, transparent)"};
-    backdrop-filter: blur(8px);
+    background: var(--ed-page);
     border-top: 1px solid var(--ed-border);
     border-radius: 0 0 var(--ed-radius) var(--ed-radius);
     display: flex;
@@ -616,9 +617,16 @@
     .editor-toolbar .editor-btn { flex: 1 1 auto; justify-content: center; }
 
     .editor-form { padding: 1.1rem 1rem; }
+    /* Mobile only: dock the action bar sticky inside the panel (allowed under a
+       max-width breakpoint per V21 — desktop stays in-flow). */
     .editor-toolbar--bottom {
+      position: sticky;
+      bottom: 0;
+      z-index: 5;
       margin: 1.1rem -1rem -1.1rem;
       padding: 0.8rem 1rem;
+      background: #{"color-mix(in srgb, var(--c-bg-surface) 94%, transparent)"};
+      backdrop-filter: blur(8px);
       .editor-btn { flex: 1 1 auto; justify-content: center; }
       .editor-btn--publish { margin-left: 0; }
     }

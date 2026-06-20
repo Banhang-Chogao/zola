@@ -1,41 +1,51 @@
 {
-  "generated_at": "2026-06-19T20:26:53.461818+00:00",
+  "generated_at": "2026-06-20T20:08:39.080809+00:00",
   "timezone_note": "Scheduled 22:00 Asia/Ho_Chi_Minh (15:00 UTC)",
   "fixed_applied": true,
   "summary": {
-    "total_posts": 176,
+    "total_posts": 202,
     "before": {
-      "high": 111,
-      "mid": 51,
-      "low": 13
+      "high": 127,
+      "mid": 55,
+      "low": 16
     },
     "after": {
-      "high": 111,
-      "mid": 51,
-      "low": 14
+      "high": 127,
+      "mid": 59,
+      "low": 16
     },
-    "fixed_count": 2,
-    "still_orange": 51,
-    "still_red": 14,
-    "green_count": 111
+    "fixed_count": 6,
+    "still_orange": 59,
+    "still_red": 16,
+    "green_count": 127
   },
   "fixed_slugs": [
-    "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-    "thiet-ke-phan-quyen-role-single-source-of-truth"
+    "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+    "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
+    "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
+    "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+    "bi-kip-xin-visa-han-quoc-5-nam-de",
+    "macos-27-golden-gate-co-gi-moi"
   ],
   "still_orange_slugs": [
     "10-vaccine-claude-md-giam-loi-production",
+    "ai-thiet-ke-cuoc-song-he-thong",
     "an-khuya-sai-gon",
+    "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+    "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
+    "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
     "bhxh-mot-lan-hay-luong-huu",
     "cach-mo-tai-khoan-ngan-hang-so-online",
     "engagement-rate-bounce-rate-google-analytics",
     "faq-schema-cluster-ngan-hang-ctr",
-    "he-thong-prompt-zola-blog",
+    "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
     "kha-nang-kinh-nghiem-tieng-han",
     "lich-su-dong-bhxh-bi-mat-tren-vssid",
     "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+    "life-systems-trong-ky-nguyen-ai",
     "loi-thuong-gap-lpbank-so",
     "lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam",
+    "nen-tang-ai-du-lich-doi-song",
     "ngan-hang-so-cho-freelancer",
     "phu-am-cang-bat-hoi-tieng-han",
     "premium-fintech-paywall-demo",
@@ -55,10 +65,12 @@
     "tra-cuu-thoi-gian-dong-bhtn-vssid",
     "tro-cap-that-nghiep-thoi-gian-bhtn",
     "troi-mua-sai-gon-an-gi",
+    "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
     "ung-ho-du-an-ai-ten-mien-ai",
     "users-new-users-sessions-google-analytics",
     "vssid-khong-hien-qua-trinh-dong-bhtn",
     "zola-vs-hugo",
+    "bi-kip-xin-visa-han-quoc-5-nam-de",
     "bidv-flagship-private-banking-tphcm",
     "cac-truong-hop-khong-duoc-hoan-thue-gtgt",
     "chon-ngach-noi-dung-giu-chan-nguoi-doc",
@@ -77,11 +89,13 @@
     "vpbank-circle-sieu-the-free-tron-doi-gen-z"
   ],
   "still_red_slugs": [
+    "ai-thay-doi-lap-ke-hoach-du-lich",
+    "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
     "facebook-shopee-affiliate-la-gi",
-    "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
     "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick",
     "nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat",
     "sentence-transformers-sbert-deep-dive",
+    "solo-travel-khoabug-phan-tich-xu-huong",
     "bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi",
     "f18-crash-when-technology-fails",
     "gia-vang-hom-nay-18-6-giam-manh",
@@ -93,6 +107,354 @@
     "vneid-2-2-8-phan-anh-lua-dao-quet-qr"
   ],
   "posts": [
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Tin học",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 1.0605,
+      "score_after": 1.0605,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0694,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 1.0643,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 1.0642,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 1.0534,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        },
+        {
+          "score": 1.0512,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 1.0694
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 1.0643
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 1.0642
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 1.0534
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+          "score": 1.0512
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Lịch sử",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 1.0527,
+      "score_after": 1.0527,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0694,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 1.0533,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 1.0524,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 1.0474,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li"
+        },
+        {
+          "score": 1.0411,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0694
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 1.0533
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 1.0524
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+          "score": 1.0474
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 1.0411
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Công nghệ",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 1.0483,
+      "score_after": 1.0483,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0642,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 1.0533,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 1.0444,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 1.0406,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        },
+        {
+          "score": 1.0389,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-vat-li"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0642
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 1.0533
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 1.0444
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 1.0406
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-vat-li",
+          "score": 1.0389
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Toán",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 1.0466,
+      "score_after": 1.0466,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0643,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 1.0524,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 1.0444,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 1.042,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        },
+        {
+          "score": 1.0301,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0643
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 1.0524
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 1.0444
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 1.042
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+          "score": 1.0301
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Sinh học",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 1.0413,
+      "score_after": 1.0413,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0534,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 1.042,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 1.0411,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 1.0406,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 1.0296,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-vat-li"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0534
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 1.042
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 1.0411
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 1.0406
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-vat-li",
+          "score": 1.0296
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Địa lí",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 1.0365,
+      "score_after": 1.0365,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0512,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 1.0474,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 1.0331,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 1.0301,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 1.0206,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0512
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 1.0474
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 1.0331
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 1.0301
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 1.0206
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
     {
       "slug": "phu-dinh-an-mot-tieng-han",
       "section": "posting",
@@ -146,6 +508,64 @@
         {
           "slug": "kinh-ngu-nopimmal-tieng-han",
           "score": 1.0175
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-vat-li",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Vật lí",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 1.0315,
+      "score_after": 1.0315,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0389,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 1.0373,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 1.03,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 1.0296,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        },
+        {
+          "score": 1.0217,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 1.0389
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0373
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 1.03
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 1.0296
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 1.0217
         }
       ],
       "action": "unchanged",
@@ -1196,6 +1616,122 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngoai-ngu",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Ngoại ngữ",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.9989,
+      "score_after": 0.9989,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.017,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li"
+        },
+        {
+          "score": 1.0067,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 0.9945,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 0.9917,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 0.9847,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+          "score": 1.017
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0067
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 0.9945
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 0.9917
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 0.9847
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-quoc-gia-2026",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT Quốc gia 2026 — Tổng hợp tất cả các môn",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.9985,
+      "score_after": 0.9985,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0109,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 1.008,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 1.0035,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 0.987,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        },
+        {
+          "score": 0.9833,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 1.0109
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 1.008
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 1.0035
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 0.987
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+          "score": 0.9833
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "phu-am-co-ban-hangul-ghep-am-tiet",
       "section": "posting",
       "title": "Học tiếng Hàn ngày 2: Phụ âm cơ bản & ghép âm tiết",
@@ -1364,6 +1900,64 @@
         {
           "slug": "itda-eopda-vi-tri-tieng-han",
           "score": 0.9763
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Hóa học",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.9922,
+      "score_after": 0.9922,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 1.0065,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-vat-li"
+        },
+        {
+          "score": 0.9968,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        },
+        {
+          "score": 0.9961,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 0.9826,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 0.9789,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-vat-li",
+          "score": 1.0065
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 0.9968
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 0.9961
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 0.9826
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 0.9789
         }
       ],
       "action": "unchanged",
@@ -1596,6 +2190,64 @@
         {
           "slug": "on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han",
           "score": 0.9289
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-gdkt-pl",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Giáo dục kinh tế và pháp luật",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.9467,
+      "score_after": 0.9467,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9615,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 0.9553,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 0.9536,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 0.9396,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe"
+        },
+        {
+          "score": 0.9237,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 0.9615
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 0.9553
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 0.9536
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-cong-nghe",
+          "score": 0.9396
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+          "score": 0.9237
         }
       ],
       "action": "unchanged",
@@ -4734,6 +5386,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "tao-blog-voi-zola",
+      "section": "posting",
+      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7679,
+      "score_after": 0.7679,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9282,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.8646,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.7602,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.6681,
+          "slug": "zola-vs-hugo"
+        },
+        {
+          "score": 0.6182,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.9282
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.8646
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.7602
+        },
+        {
+          "slug": "zola-vs-hugo",
+          "score": 0.6681
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.6182
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "mo-the-tin-dung-liobank-online-nhanh",
       "section": "baochi",
       "title": "Mở thẻ tín dụng Liobank online: nhanh, khỏi ra quầy",
@@ -4960,64 +5670,6 @@
         {
           "slug": "vietinbank-cong-nghe-trai-nghiem-khach-hang",
           "score": 0.7519
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "tao-blog-voi-zola",
-      "section": "posting",
-      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.7618,
-      "score_after": 0.7618,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9282,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.8646,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.7602,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.6681,
-          "slug": "zola-vs-hugo"
-        },
-        {
-          "score": 0.5877,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.9282
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.8646
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.7602
-        },
-        {
-          "slug": "zola-vs-hugo",
-          "score": 0.6681
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.5877
         }
       ],
       "action": "unchanged",
@@ -5546,6 +6198,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "quy-tac-phat-am-tieng-han",
+      "section": "posting",
+      "title": "Học tiếng Hàn ngày 6: Quy tắc phát âm nối âm & đồng hóa",
+      "cluster": "am-thuc",
+      "cluster_label": "Ẩm thực",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7386,
+      "score_after": 0.7386,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9552,
+          "slug": "phu-am-cang-bat-hoi-tieng-han"
+        },
+        {
+          "score": 0.864,
+          "slug": "kha-nang-kinh-nghiem-tieng-han"
+        },
+        {
+          "score": 0.79,
+          "slug": "an-khuya-sai-gon"
+        },
+        {
+          "score": 0.6923,
+          "slug": "troi-mua-sai-gon-an-gi"
+        },
+        {
+          "score": 0.3915,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "phu-am-cang-bat-hoi-tieng-han",
+          "score": 0.9552
+        },
+        {
+          "slug": "kha-nang-kinh-nghiem-tieng-han",
+          "score": 0.864
+        },
+        {
+          "slug": "an-khuya-sai-gon",
+          "score": 0.79
+        },
+        {
+          "slug": "troi-mua-sai-gon-an-gi",
+          "score": 0.6923
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
+          "score": 0.3915
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "ngan-hang-so-cho-sinh-vien",
       "section": "posting",
       "title": "Ngân hàng số cho sinh viên: chọn app nào tốt nhất?",
@@ -5720,6 +6430,122 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+      "section": "posting",
+      "title": "Vaccine Tự Tiến Hoá Blog: CMS, SEO Engine Và Hướng Phát Triển",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7341,
+      "score_after": 0.7341,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8342,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.7652,
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent"
+        },
+        {
+          "score": 0.713,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.7046,
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine"
+        },
+        {
+          "score": 0.6536,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.8342
+        },
+        {
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+          "score": 0.7652
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.713
+        },
+        {
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
+          "score": 0.7046
+        },
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.6536
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "tu-dong-deploy-zola-github-actions",
+      "section": "posting",
+      "title": "Deploy blog Zola lên GitHub Pages tự động",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7339,
+      "score_after": 0.7339,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9282,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.8025,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.6871,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.6531,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        },
+        {
+          "score": 0.5986,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.9282
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.8025
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.6871
+        },
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.6531
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.5986
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "ngan-hang-so-cho-kinh-doanh-online",
       "section": "posting",
       "title": "Ngân hàng số cho người kinh doanh online tốt nhất",
@@ -5772,122 +6598,6 @@
         {
           "slug": "rui-ro-khi-su-dung-ngan-hang-so",
           "score": 0.6556
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "tu-dong-deploy-zola-github-actions",
-      "section": "posting",
-      "title": "Deploy blog Zola lên GitHub Pages tự động",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.729,
-      "score_after": 0.729,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9282,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.8025,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.6871,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.6531,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.5743,
-          "slug": "zola-vs-hugo"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.9282
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.8025
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.6871
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.6531
-        },
-        {
-          "slug": "zola-vs-hugo",
-          "score": 0.5743
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "quy-tac-phat-am-tieng-han",
-      "section": "posting",
-      "title": "Học tiếng Hàn ngày 6: Quy tắc phát âm nối âm & đồng hóa",
-      "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.7277,
-      "score_after": 0.7277,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9552,
-          "slug": "phu-am-cang-bat-hoi-tieng-han"
-        },
-        {
-          "score": 0.864,
-          "slug": "kha-nang-kinh-nghiem-tieng-han"
-        },
-        {
-          "score": 0.79,
-          "slug": "an-khuya-sai-gon"
-        },
-        {
-          "score": 0.6923,
-          "slug": "troi-mua-sai-gon-an-gi"
-        },
-        {
-          "score": 0.3369,
-          "slug": "nguyen-am-doi-tieng-han"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "phu-am-cang-bat-hoi-tieng-han",
-          "score": 0.9552
-        },
-        {
-          "slug": "kha-nang-kinh-nghiem-tieng-han",
-          "score": 0.864
-        },
-        {
-          "slug": "an-khuya-sai-gon",
-          "score": 0.79
-        },
-        {
-          "slug": "troi-mua-sai-gon-an-gi",
-          "score": 0.6923
-        },
-        {
-          "slug": "nguyen-am-doi-tieng-han",
-          "score": 0.3369
         }
       ],
       "action": "unchanged",
@@ -6010,6 +6720,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "cong-nghe-blog-duy-nguyen",
+      "section": "posting",
+      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.725,
+      "score_after": 0.725,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8646,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.8025,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.6899,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.6544,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        },
+        {
+          "score": 0.6134,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.8646
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.8025
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.6899
+        },
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.6544
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.6134
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat",
       "section": "posting",
       "title": "Ngân hàng số nào miễn phí chuyển khoản tốt nhất?",
@@ -6062,64 +6830,6 @@
         {
           "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank",
           "score": 0.7039
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "cong-nghe-blog-duy-nguyen",
-      "section": "posting",
-      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.723,
-      "score_after": 0.723,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.8646,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.8025,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.6899,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.6544,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.6038,
-          "slug": "zola-vs-hugo"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.8646
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.8025
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.6899
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.6544
-        },
-        {
-          "slug": "zola-vs-hugo",
-          "score": 0.6038
         }
       ],
       "action": "unchanged",
@@ -6300,6 +7010,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "he-thong-prompt-zola-blog",
+      "section": "posting",
+      "title": "Tôi xây dựng hệ thống prompt cho blog Zola như thế nào",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7141,
+      "score_after": 0.7141,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7602,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.7205,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.713,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        },
+        {
+          "score": 0.6899,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.6871,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.7602
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.7205
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.713
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.6899
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.6871
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "ngan-hang-so-hoan-tien-nhieu-nhat",
       "section": "posting",
       "title": "Ngân hàng số nào có nhiều ưu đãi hoàn tiền nhất?",
@@ -6358,6 +7126,122 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+      "section": "posting",
+      "title": "Bài Học Xây Hệ Thống Tự Chữa Lỗi Cho Blog",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7127,
+      "score_after": 0.7127,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8342,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        },
+        {
+          "score": 0.7205,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.681,
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent"
+        },
+        {
+          "score": 0.6761,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        },
+        {
+          "score": 0.6518,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.8342
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.7205
+        },
+        {
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+          "score": 0.681
+        },
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.6761
+        },
+        {
+          "slug": "10-vaccine-claude-md-giam-loi-production",
+          "score": 0.6518
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+      "section": "posting",
+      "title": "Vaccine Số Là Gì? Tôi Biến Bug Thành Hệ Miễn Dịch Website",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7104,
+      "score_after": 0.7104,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7977,
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent"
+        },
+        {
+          "score": 0.7437,
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine"
+        },
+        {
+          "score": 0.6808,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
+        },
+        {
+          "score": 0.6761,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.6536,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+          "score": 0.7977
+        },
+        {
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
+          "score": 0.7437
+        },
+        {
+          "slug": "10-vaccine-claude-md-giam-loi-production",
+          "score": 0.6808
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.6761
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.6536
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "nguon-traffic-organic-direct-referral-social-paid",
       "section": "posting",
       "title": "Nguồn traffic GA4: Organic, Direct, Referral, Social, Paid",
@@ -6410,6 +7294,64 @@
         {
           "slug": "google-nhin-trang-giong-nguoi-dung",
           "score": 0.6551
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+      "section": "posting",
+      "title": "Quy Trình Vaccine Website: 5 Bước Từ Bug Đến Prevention",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7059,
+      "score_after": 0.7059,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7977,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        },
+        {
+          "score": 0.7652,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        },
+        {
+          "score": 0.6968,
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine"
+        },
+        {
+          "score": 0.681,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.5888,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.7977
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.7652
+        },
+        {
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
+          "score": 0.6968
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.681
+        },
+        {
+          "slug": "10-vaccine-claude-md-giam-loi-production",
+          "score": 0.5888
         }
       ],
       "action": "unchanged",
@@ -6532,6 +7474,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "diem-thi-tuyen-sinh-lop-10-tphcm-2026",
+      "section": "baochi",
+      "title": "Điểm thi tuyển sinh lớp 10 TP.HCM 2026: tra cứu & điểm chuẩn",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6979,
+      "score_after": 0.6979,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7111,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc"
+        },
+        {
+          "score": 0.7062,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan"
+        },
+        {
+          "score": 0.6925,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc"
+        },
+        {
+          "score": 0.6906,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su"
+        },
+        {
+          "score": 0.689,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-tin-hoc",
+          "score": 0.7111
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-toan",
+          "score": 0.7062
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc",
+          "score": 0.6925
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 0.6906
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-dia-li",
+          "score": 0.689
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.70 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "phu-am-cang-bat-hoi-tieng-han",
       "section": "posting",
       "title": "Học tiếng Hàn ngày 3: Phụ âm căng & phụ âm bật hơi",
@@ -6539,8 +7539,8 @@
       "cluster_label": "Ẩm thực",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6949,
-      "score_after": 0.6949,
+      "score_before": 0.6959,
+      "score_after": 0.6959,
       "delta": 0.0,
       "related_before": [
         {
@@ -6560,8 +7560,8 @@
           "slug": "troi-mua-sai-gon-an-gi"
         },
         {
-          "score": 0.3437,
-          "slug": "hoc-tieng-han-bang-chu-hangul-nguyen-am"
+          "score": 0.3489,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van"
         }
       ],
       "related_after": [
@@ -6582,12 +7582,12 @@
           "score": 0.5748
         },
         {
-          "slug": "hoc-tieng-han-bang-chu-hangul-nguyen-am",
-          "score": 0.3437
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
+          "score": 0.3489
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung bình top-5 = 0.70 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "rui-ro-khi-su-dung-ngan-hang-so",
@@ -6645,6 +7645,64 @@
         }
       ],
       "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+      "section": "posting",
+      "title": "Busan tự túc 3 ngày 2 đêm: điểm đến & chi phí 2026",
+      "cluster": "du-lich",
+      "cluster_label": "Du lịch",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6814,
+      "score_after": 0.6907,
+      "delta": 0.0093,
+      "related_before": [
+        {
+          "score": 0.7864,
+          "slug": "summer-korea-4-diem-dung-mua-he"
+        },
+        {
+          "score": 0.7289,
+          "slug": "di-han-het-bao-nhieu-tien"
+        },
+        {
+          "score": 0.6924,
+          "slug": "thang-6-di-han-an-gi-lam-gi"
+        },
+        {
+          "score": 0.6296,
+          "slug": "di-han-mua-nao-re-nhat"
+        },
+        {
+          "score": 0.5696,
+          "slug": "tet-doan-ngo-han-viet-trung"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "summer-korea-4-diem-dung-mua-he",
+          "score": 0.7864
+        },
+        {
+          "slug": "di-han-het-bao-nhieu-tien",
+          "score": 0.7289
+        },
+        {
+          "slug": "thang-6-di-han-an-gi-lam-gi",
+          "score": 0.6924
+        },
+        {
+          "slug": "di-han-mua-nao-re-nhat",
+          "score": 0.6296
+        },
+        {
+          "slug": "bi-kip-xin-visa-han-quoc-5-nam-de",
+          "score": 0.6164
+        }
+      ],
+      "action": "fixed",
       "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -6706,58 +7764,58 @@
       "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+      "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
       "section": "posting",
-      "title": "Busan tự túc 3 ngày 2 đêm: điểm đến & chi phí 2026",
-      "cluster": "du-lich",
-      "cluster_label": "Du lịch",
+      "title": "Bug Website Và Vaccine Số: Từ DNS, 404 Đến Conflict PR",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6814,
-      "score_after": 0.6814,
+      "score_before": 0.6812,
+      "score_after": 0.6812,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.7864,
-          "slug": "summer-korea-4-diem-dung-mua-he"
+          "score": 0.7437,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
         },
         {
-          "score": 0.7289,
-          "slug": "di-han-het-bao-nhieu-tien"
+          "score": 0.7046,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
         },
         {
-          "score": 0.6924,
-          "slug": "thang-6-di-han-an-gi-lam-gi"
+          "score": 0.6968,
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent"
         },
         {
-          "score": 0.6296,
-          "slug": "di-han-mua-nao-re-nhat"
+          "score": 0.6498,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
         },
         {
-          "score": 0.5696,
-          "slug": "tet-doan-ngo-han-viet-trung"
+          "score": 0.6109,
+          "slug": "he-thong-prompt-zola-blog"
         }
       ],
       "related_after": [
         {
-          "slug": "summer-korea-4-diem-dung-mua-he",
-          "score": 0.7864
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.7437
         },
         {
-          "slug": "di-han-het-bao-nhieu-tien",
-          "score": 0.7289
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.7046
         },
         {
-          "slug": "thang-6-di-han-an-gi-lam-gi",
-          "score": 0.6924
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+          "score": 0.6968
         },
         {
-          "slug": "di-han-mua-nao-re-nhat",
-          "score": 0.6296
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.6498
         },
         {
-          "slug": "tet-doan-ngo-han-viet-trung",
-          "score": 0.5696
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.6109
         }
       ],
       "action": "unchanged",
@@ -6938,6 +7996,64 @@
       "cannot_green_reason": "Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "10-vaccine-claude-md-giam-loi-production",
+      "section": "posting",
+      "title": "10 vaccine trong CLAUDE.md đã giúp tôi giảm lỗi production",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6593,
+      "score_after": 0.6593,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7889,
+          "slug": "qa-gatekeeper-vaccine-autofixer"
+        },
+        {
+          "score": 0.6808,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        },
+        {
+          "score": 0.6518,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.5888,
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent"
+        },
+        {
+          "score": 0.5861,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "qa-gatekeeper-vaccine-autofixer",
+          "score": 0.7889
+        },
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.6808
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.6518
+        },
+        {
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+          "score": 0.5888
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.5861
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "msb-digital-bank-ra-mat-thay-mbank",
       "section": "baochi",
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -6996,64 +8112,6 @@
       "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "he-thong-prompt-zola-blog",
-      "section": "posting",
-      "title": "Tôi xây dựng hệ thống prompt cho blog Zola như thế nào",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.6472,
-      "score_after": 0.6472,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7602,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.6899,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.6871,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.5509,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.5478,
-          "slug": "qa-gatekeeper-vaccine-autofixer"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.7602
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.6899
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.6871
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.5509
-        },
-        {
-          "slug": "qa-gatekeeper-vaccine-autofixer",
-          "score": 0.5478
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
       "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid",
       "section": "posting",
       "title": "Tra cứu thời gian đóng bảo hiểm thất nghiệp trên VssID",
@@ -7106,6 +8164,64 @@
         {
           "slug": "tinh-luong-huu-2026-huong-dan",
           "score": 0.4702
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "kha-nang-kinh-nghiem-tieng-han",
+      "section": "posting",
+      "title": "Ngày 23 — Khả năng & kinh nghiệm tiếng Hàn: 수 있다, 적이 있다",
+      "cluster": "am-thuc",
+      "cluster_label": "Ẩm thực",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6434,
+      "score_after": 0.6434,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9365,
+          "slug": "phu-am-cang-bat-hoi-tieng-han"
+        },
+        {
+          "score": 0.864,
+          "slug": "quy-tac-phat-am-tieng-han"
+        },
+        {
+          "score": 0.5421,
+          "slug": "an-khuya-sai-gon"
+        },
+        {
+          "score": 0.4483,
+          "slug": "troi-mua-sai-gon-an-gi"
+        },
+        {
+          "score": 0.4262,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "phu-am-cang-bat-hoi-tieng-han",
+          "score": 0.9365
+        },
+        {
+          "slug": "quy-tac-phat-am-tieng-han",
+          "score": 0.864
+        },
+        {
+          "slug": "an-khuya-sai-gon",
+          "score": 0.5421
+        },
+        {
+          "slug": "troi-mua-sai-gon-an-gi",
+          "score": 0.4483
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
+          "score": 0.4262
         }
       ],
       "action": "unchanged",
@@ -7222,64 +8338,6 @@
         {
           "slug": "so-sanh-timo-vs-tnex",
           "score": 0.5361
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "kha-nang-kinh-nghiem-tieng-han",
-      "section": "posting",
-      "title": "Ngày 23 — Khả năng & kinh nghiệm tiếng Hàn: 수 있다, 적이 있다",
-      "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.629,
-      "score_after": 0.629,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9365,
-          "slug": "phu-am-cang-bat-hoi-tieng-han"
-        },
-        {
-          "score": 0.864,
-          "slug": "quy-tac-phat-am-tieng-han"
-        },
-        {
-          "score": 0.5421,
-          "slug": "an-khuya-sai-gon"
-        },
-        {
-          "score": 0.4483,
-          "slug": "troi-mua-sai-gon-an-gi"
-        },
-        {
-          "score": 0.354,
-          "slug": "mong-muon-y-dinh-tieng-han"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "phu-am-cang-bat-hoi-tieng-han",
-          "score": 0.9365
-        },
-        {
-          "slug": "quy-tac-phat-am-tieng-han",
-          "score": 0.864
-        },
-        {
-          "slug": "an-khuya-sai-gon",
-          "score": 0.5421
-        },
-        {
-          "slug": "troi-mua-sai-gon-an-gi",
-          "score": 0.4483
-        },
-        {
-          "slug": "mong-muon-y-dinh-tieng-han",
-          "score": 0.354
         }
       ],
       "action": "unchanged",
@@ -7460,58 +8518,95 @@
       "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "an-khuya-sai-gon",
+      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de",
+      "section": "baochi",
+      "title": "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ",
+      "cluster": "du-lich",
+      "cluster_label": "Du lịch",
+      "tier_before": "low",
+      "tier_after": "mid",
+      "score_before": 0.0,
+      "score_after": 0.6194,
+      "delta": 0.6194,
+      "related_before": [],
+      "related_after": [
+        {
+          "slug": "summer-korea-4-diem-dung-mua-he",
+          "score": 0.6518
+        },
+        {
+          "slug": "di-han-het-bao-nhieu-tien",
+          "score": 0.63
+        },
+        {
+          "slug": "di-han-mua-nao-re-nhat",
+          "score": 0.629
+        },
+        {
+          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+          "score": 0.6164
+        },
+        {
+          "slug": "thang-6-di-han-an-gi-lam-gi",
+          "score": 0.5698
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "ai-thiet-ke-cuoc-song-he-thong",
       "section": "posting",
-      "title": "Ăn khuya Sài Gòn: 10 món mở sau 11h",
-      "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
+      "title": "AI thiết kế cuộc sống: hệ thống thực dụng",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6215,
-      "score_after": 0.6215,
+      "score_before": 0.6174,
+      "score_after": 0.6174,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.792,
-          "slug": "troi-mua-sai-gon-an-gi"
+          "score": 0.885,
+          "slug": "life-systems-trong-ky-nguyen-ai"
         },
         {
-          "score": 0.79,
-          "slug": "quy-tac-phat-am-tieng-han"
+          "score": 0.7614,
+          "slug": "nen-tang-ai-du-lich-doi-song"
         },
         {
-          "score": 0.6643,
-          "slug": "phu-am-cang-bat-hoi-tieng-han"
+          "score": 0.504,
+          "slug": "ung-ho-du-an-ai-ten-mien-ai"
         },
         {
-          "score": 0.5421,
-          "slug": "kha-nang-kinh-nghiem-tieng-han"
+          "score": 0.4788,
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
         },
         {
-          "score": 0.319,
-          "slug": "toi-nay-sai-gon-an-gi"
+          "score": 0.4576,
+          "slug": "qa-gatekeeper-vaccine-autofixer"
         }
       ],
       "related_after": [
         {
-          "slug": "troi-mua-sai-gon-an-gi",
-          "score": 0.792
+          "slug": "life-systems-trong-ky-nguyen-ai",
+          "score": 0.885
         },
         {
-          "slug": "quy-tac-phat-am-tieng-han",
-          "score": 0.79
+          "slug": "nen-tang-ai-du-lich-doi-song",
+          "score": 0.7614
         },
         {
-          "slug": "phu-am-cang-bat-hoi-tieng-han",
-          "score": 0.6643
+          "slug": "ung-ho-du-an-ai-ten-mien-ai",
+          "score": 0.504
         },
         {
-          "slug": "kha-nang-kinh-nghiem-tieng-han",
-          "score": 0.5421
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
+          "score": 0.4788
         },
         {
-          "slug": "toi-nay-sai-gon-an-gi",
-          "score": 0.319
+          "slug": "qa-gatekeeper-vaccine-autofixer",
+          "score": 0.4576
         }
       ],
       "action": "unchanged",
@@ -7628,6 +8723,64 @@
         {
           "slug": "toi-uu-bao-mat-han-muc-vietinbank-ipay",
           "score": 0.4335
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "qa-gatekeeper-tu-fix-loi-blog",
+      "section": "posting",
+      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6111,
+      "score_after": 0.6111,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6544,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.6531,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.6094,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.5877,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.5509,
+          "slug": "he-thong-prompt-zola-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.6544
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.6531
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.6094
+        },
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.5877
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.5509
         }
       ],
       "action": "unchanged",
@@ -7808,6 +8961,64 @@
       "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "qa-gatekeeper-vaccine-autofixer",
+      "section": "posting",
+      "title": "Tôi thiết kế QA Gatekeeper và Daily Vaccine Autofixer",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6044,
+      "score_after": 0.6044,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7889,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
+        },
+        {
+          "score": 0.5895,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.573,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        },
+        {
+          "score": 0.5478,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.5226,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "10-vaccine-claude-md-giam-loi-production",
+          "score": 0.7889
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.5895
+        },
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.573
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.5478
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.5226
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "so-sanh-timo-vs-tnex",
       "section": "posting",
       "title": "So sánh Timo vs TNEX: chọn ngân hàng số nào?",
@@ -7982,58 +9193,116 @@
       "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "qa-gatekeeper-tu-fix-loi-blog",
+      "slug": "an-khuya-sai-gon",
       "section": "posting",
-      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "title": "Ăn khuya Sài Gòn: 10 món mở sau 11h",
+      "cluster": "am-thuc",
+      "cluster_label": "Ẩm thực",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.5911,
-      "score_after": 0.5911,
+      "score_before": 0.5938,
+      "score_after": 0.5938,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.6544,
-          "slug": "cong-nghe-blog-duy-nguyen"
+          "score": 0.792,
+          "slug": "troi-mua-sai-gon-an-gi"
         },
         {
-          "score": 0.6531,
-          "slug": "tu-dong-deploy-zola-github-actions"
+          "score": 0.79,
+          "slug": "quy-tac-phat-am-tieng-han"
         },
         {
-          "score": 0.5877,
-          "slug": "tao-blog-voi-zola"
+          "score": 0.6643,
+          "slug": "phu-am-cang-bat-hoi-tieng-han"
         },
         {
-          "score": 0.5509,
-          "slug": "he-thong-prompt-zola-blog"
+          "score": 0.5421,
+          "slug": "kha-nang-kinh-nghiem-tieng-han"
         },
         {
-          "score": 0.5094,
-          "slug": "bao-mat-best-practices-git-github"
+          "score": 0.1805,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van"
         }
       ],
       "related_after": [
         {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.6544
+          "slug": "troi-mua-sai-gon-an-gi",
+          "score": 0.792
         },
         {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.6531
+          "slug": "quy-tac-phat-am-tieng-han",
+          "score": 0.79
         },
         {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.5877
+          "slug": "phu-am-cang-bat-hoi-tieng-han",
+          "score": 0.6643
         },
         {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.5509
+          "slug": "kha-nang-kinh-nghiem-tieng-han",
+          "score": 0.5421
         },
         {
-          "slug": "bao-mat-best-practices-git-github",
-          "score": 0.5094
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
+          "score": 0.1805
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "life-systems-trong-ky-nguyen-ai",
+      "section": "posting",
+      "title": "Life systems trong kỷ nguyên AI: sống rõ hơn",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5914,
+      "score_after": 0.5914,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.885,
+          "slug": "ai-thiet-ke-cuoc-song-he-thong"
+        },
+        {
+          "score": 0.757,
+          "slug": "nen-tang-ai-du-lich-doi-song"
+        },
+        {
+          "score": 0.4742,
+          "slug": "ung-ho-du-an-ai-ten-mien-ai"
+        },
+        {
+          "score": 0.4234,
+          "slug": "qa-gatekeeper-vaccine-autofixer"
+        },
+        {
+          "score": 0.4174,
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "ai-thiet-ke-cuoc-song-he-thong",
+          "score": 0.885
+        },
+        {
+          "slug": "nen-tang-ai-du-lich-doi-song",
+          "score": 0.757
+        },
+        {
+          "slug": "ung-ho-du-an-ai-ten-mien-ai",
+          "score": 0.4742
+        },
+        {
+          "slug": "qa-gatekeeper-vaccine-autofixer",
+          "score": 0.4234
+        },
+        {
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
+          "score": 0.4174
         }
       ],
       "action": "unchanged",
@@ -8096,6 +9365,122 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.59 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "zola-vs-hugo",
+      "section": "posting",
+      "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5825,
+      "score_after": 0.5825,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6681,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.6038,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.5743,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.5386,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        },
+        {
+          "score": 0.5279,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.6681
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.6038
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.5743
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.5386
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.5279
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.58 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "nen-tang-ai-du-lich-doi-song",
+      "section": "posting",
+      "title": "Nền tảng AI du lịch đời sống: triết lý mới",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5787,
+      "score_after": 0.5787,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7614,
+          "slug": "ai-thiet-ke-cuoc-song-he-thong"
+        },
+        {
+          "score": 0.757,
+          "slug": "life-systems-trong-ky-nguyen-ai"
+        },
+        {
+          "score": 0.5254,
+          "slug": "ung-ho-du-an-ai-ten-mien-ai"
+        },
+        {
+          "score": 0.4288,
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
+        },
+        {
+          "score": 0.4209,
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "ai-thiet-ke-cuoc-song-he-thong",
+          "score": 0.7614
+        },
+        {
+          "slug": "life-systems-trong-ky-nguyen-ai",
+          "score": 0.757
+        },
+        {
+          "slug": "ung-ho-du-an-ai-ten-mien-ai",
+          "score": 0.5254
+        },
+        {
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
+          "score": 0.4288
+        },
+        {
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
+          "score": 0.4209
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.58 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "the-tin-dung-msb-huong-dan-chi-tiet",
@@ -8208,122 +9593,6 @@
         {
           "slug": "ngan-hang-so-cho-kinh-doanh-online",
           "score": 0.5412
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "troi-mua-sai-gon-an-gi",
-      "section": "posting",
-      "title": "Trời mưa Sài Gòn ăn gì? 8 món ấm bụng",
-      "cluster": "am-thuc",
-      "cluster_label": "Ẩm thực",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.5639,
-      "score_after": 0.5639,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.792,
-          "slug": "an-khuya-sai-gon"
-        },
-        {
-          "score": 0.6923,
-          "slug": "quy-tac-phat-am-tieng-han"
-        },
-        {
-          "score": 0.5748,
-          "slug": "phu-am-cang-bat-hoi-tieng-han"
-        },
-        {
-          "score": 0.4483,
-          "slug": "kha-nang-kinh-nghiem-tieng-han"
-        },
-        {
-          "score": 0.312,
-          "slug": "toi-nay-sai-gon-an-gi"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "an-khuya-sai-gon",
-          "score": 0.792
-        },
-        {
-          "slug": "quy-tac-phat-am-tieng-han",
-          "score": 0.6923
-        },
-        {
-          "slug": "phu-am-cang-bat-hoi-tieng-han",
-          "score": 0.5748
-        },
-        {
-          "slug": "kha-nang-kinh-nghiem-tieng-han",
-          "score": 0.4483
-        },
-        {
-          "slug": "toi-nay-sai-gon-an-gi",
-          "score": 0.312
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.56 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "zola-vs-hugo",
-      "section": "posting",
-      "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.5587,
-      "score_after": 0.5587,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.6681,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.6038,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.5743,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.5061,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.4411,
-          "slug": "seo-la-gi-huong-dan-co-ban-google-search"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.6681
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.6038
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.5743
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.5061
-        },
-        {
-          "slug": "seo-la-gi-huong-dan-co-ban-google-search",
-          "score": 0.4411
         }
       ],
       "action": "unchanged",
@@ -8504,6 +9773,64 @@
       "cannot_green_reason": "Trung bình top-5 = 0.54 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "troi-mua-sai-gon-an-gi",
+      "section": "posting",
+      "title": "Trời mưa Sài Gòn ăn gì? 8 món ấm bụng",
+      "cluster": "am-thuc",
+      "cluster_label": "Ẩm thực",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5326,
+      "score_after": 0.5326,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.792,
+          "slug": "an-khuya-sai-gon"
+        },
+        {
+          "score": 0.6923,
+          "slug": "quy-tac-phat-am-tieng-han"
+        },
+        {
+          "score": 0.5748,
+          "slug": "phu-am-cang-bat-hoi-tieng-han"
+        },
+        {
+          "score": 0.4483,
+          "slug": "kha-nang-kinh-nghiem-tieng-han"
+        },
+        {
+          "score": 0.1557,
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "an-khuya-sai-gon",
+          "score": 0.792
+        },
+        {
+          "slug": "quy-tac-phat-am-tieng-han",
+          "score": 0.6923
+        },
+        {
+          "slug": "phu-am-cang-bat-hoi-tieng-han",
+          "score": 0.5748
+        },
+        {
+          "slug": "kha-nang-kinh-nghiem-tieng-han",
+          "score": 0.4483
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
+          "score": 0.1557
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.53 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "sua-orphan-bai-tieng-han-seo",
       "section": "posting",
       "title": "Tôi tìm và sửa các bài tiếng Hàn bị orphan",
@@ -8614,64 +9941,6 @@
         {
           "slug": "ngan-hang-so-cho-kinh-doanh-online",
           "score": 0.484
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.53 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "qa-gatekeeper-vaccine-autofixer",
-      "section": "posting",
-      "title": "Tôi thiết kế QA Gatekeeper và Daily Vaccine Autofixer",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.5266,
-      "score_after": 0.5266,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7889,
-          "slug": "10-vaccine-claude-md-giam-loi-production"
-        },
-        {
-          "score": 0.5478,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.4468,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.4251,
-          "slug": "ung-ho-du-an-ai-ten-mien-ai"
-        },
-        {
-          "score": 0.4245,
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "10-vaccine-claude-md-giam-loi-production",
-          "score": 0.7889
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.5478
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.4468
-        },
-        {
-          "slug": "ung-ho-du-an-ai-ten-mien-ai",
-          "score": 0.4251
-        },
-        {
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-          "score": 0.4245
         }
       ],
       "action": "unchanged",
@@ -8792,6 +10061,43 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.52 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+      "section": "posting",
+      "title": "Lợi ích Apple Pay: Apple và ngân hàng được gì từ khách",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "mid",
+      "score_before": 0.0,
+      "score_after": 0.5119,
+      "delta": 0.5119,
+      "related_before": [],
+      "related_after": [
+        {
+          "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
+          "score": 0.8773
+        },
+        {
+          "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
+          "score": 0.733
+        },
+        {
+          "slug": "macos-27-golden-gate-co-gi-moi",
+          "score": 0.3499
+        },
+        {
+          "slug": "ung-ho-du-an-ai-ten-mien-ai",
+          "score": 0.3016
+        },
+        {
+          "slug": "dieu-kien-du-tu-cach-adsense",
+          "score": 0.2975
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.51 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "muc-dong-bhyt-ho-gia-dinh-2026",
@@ -8968,62 +10274,136 @@
       "cannot_green_reason": "Trung bình top-5 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "10-vaccine-claude-md-giam-loi-production",
+      "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
       "section": "posting",
-      "title": "10 vaccine trong CLAUDE.md đã giúp tôi giảm lỗi production",
+      "title": "Apple Pay kiếm tiền thế nào? Phí 0,15% từ ngân hàng",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "mid",
+      "score_before": 0.0,
+      "score_after": 0.5009,
+      "delta": 0.5009,
+      "related_before": [],
+      "related_after": [
+        {
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+          "score": 0.8773
+        },
+        {
+          "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
+          "score": 0.8218
+        },
+        {
+          "slug": "macos-27-golden-gate-co-gi-moi",
+          "score": 0.2858
+        },
+        {
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
+          "score": 0.2791
+        },
+        {
+          "slug": "life-systems-trong-ky-nguyen-ai",
+          "score": 0.2407
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
+      "section": "posting",
+      "title": "Apple Pay tại Việt Nam: 3 năm và ngân hàng hỗ trợ",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "mid",
+      "score_before": 0.0,
+      "score_after": 0.4932,
+      "delta": 0.4932,
+      "related_before": [],
+      "related_after": [
+        {
+          "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
+          "score": 0.8218
+        },
+        {
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+          "score": 0.733
+        },
+        {
+          "slug": "faq-schema-cluster-ngan-hang-ctr",
+          "score": 0.3114
+        },
+        {
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
+          "score": 0.3036
+        },
+        {
+          "slug": "doc-bao-cao-google-analytics-15-phut-moi-ngay",
+          "score": 0.2962
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.49 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "ung-ho-du-an-ai-ten-mien-ai",
+      "section": "posting",
+      "title": "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.4775,
-      "score_after": 0.4775,
+      "score_before": 0.4806,
+      "score_after": 0.4806,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.7889,
-          "slug": "qa-gatekeeper-vaccine-autofixer"
+          "score": 0.5254,
+          "slug": "nen-tang-ai-du-lich-doi-song"
         },
         {
-          "score": 0.5331,
+          "score": 0.504,
+          "slug": "ai-thiet-ke-cuoc-song-he-thong"
+        },
+        {
+          "score": 0.4742,
+          "slug": "life-systems-trong-ky-nguyen-ai"
+        },
+        {
+          "score": 0.4596,
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+        },
+        {
+          "score": 0.4398,
           "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.3779,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.3478,
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
-        },
-        {
-          "score": 0.3399,
-          "slug": "sentence-transformers-sbert-deep-dive"
         }
       ],
       "related_after": [
         {
-          "slug": "qa-gatekeeper-vaccine-autofixer",
-          "score": 0.7889
+          "slug": "nen-tang-ai-du-lich-doi-song",
+          "score": 0.5254
+        },
+        {
+          "slug": "ai-thiet-ke-cuoc-song-he-thong",
+          "score": 0.504
+        },
+        {
+          "slug": "life-systems-trong-ky-nguyen-ai",
+          "score": 0.4742
+        },
+        {
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
+          "score": 0.4596
         },
         {
           "slug": "he-thong-prompt-zola-blog",
-          "score": 0.5331
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.3779
-        },
-        {
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-          "score": 0.3478
-        },
-        {
-          "slug": "sentence-transformers-sbert-deep-dive",
-          "score": 0.3399
+          "score": 0.4398
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Top semantic score thấp (0.53) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "premium-fintech-paywall-demo",
@@ -9033,8 +10413,8 @@
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.4761,
-      "score_after": 0.4761,
+      "score_before": 0.4795,
+      "score_after": 0.4795,
       "delta": 0.0,
       "related_before": [
         {
@@ -9050,12 +10430,12 @@
           "slug": "qa-gatekeeper-tu-fix-loi-blog"
         },
         {
-          "score": 0.409,
-          "slug": "phan-biet-policies-va-restrictions-adsense"
+          "score": 0.4141,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
         },
         {
-          "score": 0.397,
-          "slug": "google-publisher-restrictions-noi-dung-han-che"
+          "score": 0.409,
+          "slug": "phan-biet-policies-va-restrictions-adsense"
         }
       ],
       "related_after": [
@@ -9072,74 +10452,16 @@
           "score": 0.4654
         },
         {
-          "slug": "phan-biet-policies-va-restrictions-adsense",
-          "score": 0.409
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.4141
         },
         {
-          "slug": "google-publisher-restrictions-noi-dung-han-che",
-          "score": 0.397
+          "slug": "phan-biet-policies-va-restrictions-adsense",
+          "score": 0.409
         }
       ],
       "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "diem-thi-tuyen-sinh-lop-10-tphcm-2026",
-      "section": "baochi",
-      "title": "Điểm thi tuyển sinh lớp 10 TP.HCM 2026: tra cứu & điểm chuẩn",
-      "cluster": "misc",
-      "cluster_label": "Khác",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4715,
-      "score_after": 0.4715,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.4868,
-          "slug": "lien-tu-cau-tieng-han"
-        },
-        {
-          "score": 0.4804,
-          "slug": "dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han"
-        },
-        {
-          "score": 0.4694,
-          "slug": "on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han"
-        },
-        {
-          "score": 0.4608,
-          "slug": "phu-dinh-an-mot-tieng-han"
-        },
-        {
-          "score": 0.4599,
-          "slug": "cau-dieu-kien-gia-dinh-tieng-han"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "lien-tu-cau-tieng-han",
-          "score": 0.4868
-        },
-        {
-          "slug": "dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han",
-          "score": 0.4804
-        },
-        {
-          "slug": "on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han",
-          "score": 0.4694
-        },
-        {
-          "slug": "phu-dinh-an-mot-tieng-han",
-          "score": 0.4608
-        },
-        {
-          "slug": "cau-dieu-kien-gia-dinh-tieng-han",
-          "score": 0.4599
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.49) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "toi-nay-sai-gon-an-gi",
@@ -9316,62 +10638,62 @@
       "cannot_green_reason": "Top semantic score thấp (0.49) — nội dung quá khác biệt trong cluster."
     },
     {
-      "slug": "ung-ho-du-an-ai-ten-mien-ai",
+      "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
       "section": "posting",
-      "title": "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?",
+      "title": "Giới hạn sử dụng và độ dài trên Claude AI",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.4149,
-      "score_after": 0.4149,
+      "score_before": 0.4279,
+      "score_after": 0.4279,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.4596,
-          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+          "score": 0.4788,
+          "slug": "ai-thiet-ke-cuoc-song-he-thong"
         },
         {
-          "score": 0.4398,
-          "slug": "he-thong-prompt-zola-blog"
+          "score": 0.4288,
+          "slug": "nen-tang-ai-du-lich-doi-song"
         },
         {
-          "score": 0.4251,
+          "score": 0.4245,
           "slug": "qa-gatekeeper-vaccine-autofixer"
         },
         {
-          "score": 0.3899,
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
+          "score": 0.4174,
+          "slug": "life-systems-trong-ky-nguyen-ai"
         },
         {
-          "score": 0.3603,
-          "slug": "chan-trang-khoi-google-search"
+          "score": 0.3899,
+          "slug": "ung-ho-du-an-ai-ten-mien-ai"
         }
       ],
       "related_after": [
         {
-          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
-          "score": 0.4596
+          "slug": "ai-thiet-ke-cuoc-song-he-thong",
+          "score": 0.4788
         },
         {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.4398
+          "slug": "nen-tang-ai-du-lich-doi-song",
+          "score": 0.4288
         },
         {
           "slug": "qa-gatekeeper-vaccine-autofixer",
-          "score": 0.4251
+          "score": 0.4245
         },
         {
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
+          "slug": "life-systems-trong-ky-nguyen-ai",
+          "score": 0.4174
+        },
+        {
+          "slug": "ung-ho-du-an-ai-ten-mien-ai",
           "score": 0.3899
-        },
-        {
-          "slug": "chan-trang-khoi-google-search",
-          "score": 0.3603
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.46) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score thấp (0.48) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "my-iran-peace-deal-global-energy",
@@ -9490,6 +10812,122 @@
       "cannot_green_reason": "Trung bình top-5 = 0.41 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
+      "section": "baochi",
+      "title": "Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.3928,
+      "score_after": 0.3928,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.4596,
+          "slug": "ung-ho-du-an-ai-ten-mien-ai"
+        },
+        {
+          "score": 0.4209,
+          "slug": "nen-tang-ai-du-lich-doi-song"
+        },
+        {
+          "score": 0.381,
+          "slug": "ai-thiet-ke-cuoc-song-he-thong"
+        },
+        {
+          "score": 0.38,
+          "slug": "life-systems-trong-ky-nguyen-ai"
+        },
+        {
+          "score": 0.3223,
+          "slug": "macos-27-golden-gate-co-gi-moi"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "ung-ho-du-an-ai-ten-mien-ai",
+          "score": 0.4596
+        },
+        {
+          "slug": "nen-tang-ai-du-lich-doi-song",
+          "score": 0.4209
+        },
+        {
+          "slug": "ai-thiet-ke-cuoc-song-he-thong",
+          "score": 0.381
+        },
+        {
+          "slug": "life-systems-trong-ky-nguyen-ai",
+          "score": 0.38
+        },
+        {
+          "slug": "macos-27-golden-gate-co-gi-moi",
+          "score": 0.3223
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Top semantic score thấp (0.46) — nội dung quá khác biệt trong cluster."
+    },
+    {
+      "slug": "thiet-ke-phan-quyen-role-single-source-of-truth",
+      "section": "baochi",
+      "title": "Phân quyền role: vì sao nên gom về một nguồn sự thật",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.3908,
+      "score_after": 0.3908,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.4331,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        },
+        {
+          "score": 0.4308,
+          "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc"
+        },
+        {
+          "score": 0.3831,
+          "slug": "bao-mat-best-practices-git-github"
+        },
+        {
+          "score": 0.3539,
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude"
+        },
+        {
+          "score": 0.3532,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.4331
+        },
+        {
+          "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc",
+          "score": 0.4308
+        },
+        {
+          "slug": "bao-mat-best-practices-git-github",
+          "score": 0.3831
+        },
+        {
+          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
+          "score": 0.3539
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.3532
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Top semantic score thấp (0.43) — nội dung quá khác biệt trong cluster."
+    },
+    {
       "slug": "gia-vang-hom-nay-18-6-giam-manh",
       "section": "baochi",
       "title": "Giá vàng hôm nay 18/6 giảm mạnh: vì sao, có nên mua?",
@@ -9546,43 +10984,6 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Top semantic score thấp (0.50) — nội dung quá khác biệt trong cluster."
-    },
-    {
-      "slug": "thiet-ke-phan-quyen-role-single-source-of-truth",
-      "section": "baochi",
-      "title": "Phân quyền role: vì sao nên gom về một nguồn sự thật",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "low",
-      "tier_after": "low",
-      "score_before": 0.0,
-      "score_after": 0.3873,
-      "delta": 0.3873,
-      "related_before": [],
-      "related_after": [
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.4331
-        },
-        {
-          "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc",
-          "score": 0.4308
-        },
-        {
-          "slug": "bao-mat-best-practices-git-github",
-          "score": 0.3831
-        },
-        {
-          "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-          "score": 0.3539
-        },
-        {
-          "slug": "google-publisher-restrictions-noi-dung-han-che",
-          "score": 0.3357
-        }
-      ],
-      "action": "fixed",
-      "cannot_green_reason": "Top semantic score thấp (0.43) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "facebook-shopee-affiliate-la-gi",
@@ -9643,64 +11044,6 @@
       "cannot_green_reason": "Top semantic score thấp (0.40) — nội dung quá khác biệt trong cluster."
     },
     {
-      "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
-      "section": "posting",
-      "title": "Giới hạn sử dụng và độ dài trên Claude AI",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "low",
-      "tier_after": "low",
-      "score_before": 0.3661,
-      "score_after": 0.3719,
-      "delta": 0.0058,
-      "related_before": [
-        {
-          "score": 0.4245,
-          "slug": "qa-gatekeeper-vaccine-autofixer"
-        },
-        {
-          "score": 0.3899,
-          "slug": "ung-ho-du-an-ai-ten-mien-ai"
-        },
-        {
-          "score": 0.3478,
-          "slug": "10-vaccine-claude-md-giam-loi-production"
-        },
-        {
-          "score": 0.3435,
-          "slug": "sentence-transformers-sbert-deep-dive"
-        },
-        {
-          "score": 0.325,
-          "slug": "google-publisher-restrictions-noi-dung-han-che"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "qa-gatekeeper-vaccine-autofixer",
-          "score": 0.4245
-        },
-        {
-          "slug": "ung-ho-du-an-ai-ten-mien-ai",
-          "score": 0.3899
-        },
-        {
-          "slug": "thiet-ke-phan-quyen-role-single-source-of-truth",
-          "score": 0.3539
-        },
-        {
-          "slug": "10-vaccine-claude-md-giam-loi-production",
-          "score": 0.3478
-        },
-        {
-          "slug": "sentence-transformers-sbert-deep-dive",
-          "score": 0.3435
-        }
-      ],
-      "action": "fixed",
-      "cannot_green_reason": "Top semantic score thấp (0.42) — nội dung quá khác biệt trong cluster."
-    },
-    {
       "slug": "sentence-transformers-sbert-deep-dive",
       "section": "posting",
       "title": "Sentence Transformers (SBERT) là gì? Kiến trúc",
@@ -9708,13 +11051,17 @@
       "cluster_label": "Công nghệ",
       "tier_before": "low",
       "tier_after": "low",
-      "score_before": 0.3513,
-      "score_after": 0.3513,
+      "score_before": 0.3615,
+      "score_after": 0.3615,
       "delta": 0.0,
       "related_before": [
         {
           "score": 0.3922,
           "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.3897,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
         },
         {
           "score": 0.3435,
@@ -9727,16 +11074,16 @@
         {
           "score": 0.3399,
           "slug": "10-vaccine-claude-md-giam-loi-production"
-        },
-        {
-          "score": 0.3388,
-          "slug": "google-nhin-trang-giong-nguoi-dung"
         }
       ],
       "related_after": [
         {
           "slug": "he-thong-prompt-zola-blog",
           "score": 0.3922
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.3897
         },
         {
           "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
@@ -9749,14 +11096,68 @@
         {
           "slug": "10-vaccine-claude-md-giam-loi-production",
           "score": 0.3399
-        },
-        {
-          "slug": "google-nhin-trang-giong-nguoi-dung",
-          "score": 0.3388
         }
       ],
       "action": "unchanged",
       "cannot_green_reason": "Top semantic score thấp (0.39) — nội dung quá khác biệt trong cluster."
+    },
+    {
+      "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr",
+      "section": "baochi",
+      "title": "VNeID 2.2.8: phản ánh lừa đảo, quét QR căn cước",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.3601,
+      "score_after": 0.3601,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.3987,
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine"
+        },
+        {
+          "score": 0.3587,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.3581,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        },
+        {
+          "score": 0.353,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.3322,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
+          "score": 0.3987
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.3587
+        },
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.3581
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.353
+        },
+        {
+          "slug": "10-vaccine-claude-md-giam-loi-production",
+          "score": 0.3322
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Top semantic score thấp (0.40) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "mua-qua-chin-xu-dong-hai-phong",
@@ -9766,8 +11167,8 @@
       "cluster_label": "Du lịch",
       "tier_before": "low",
       "tier_after": "low",
-      "score_before": 0.3486,
-      "score_after": 0.3486,
+      "score_before": 0.3496,
+      "score_after": 0.3496,
       "delta": 0.0,
       "related_before": [
         {
@@ -9787,8 +11188,8 @@
           "slug": "toi-nay-sai-gon-an-gi"
         },
         {
-          "score": 0.2825,
-          "slug": "mua-nao-di-han-la-dep-nhat"
+          "score": 0.2876,
+          "slug": "ai-thay-doi-lap-ke-hoach-du-lich"
         }
       ],
       "related_after": [
@@ -9809,128 +11210,70 @@
           "score": 0.2883
         },
         {
-          "slug": "mua-nao-di-han-la-dep-nhat",
-          "score": 0.2825
+          "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
+          "score": 0.2876
         }
       ],
       "action": "unchanged",
       "cannot_green_reason": "Top semantic score thấp (0.45) — nội dung quá khác biệt trong cluster."
     },
     {
-      "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
-      "section": "baochi",
-      "title": "Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
+      "slug": "solo-travel-khoabug-phan-tich-xu-huong",
+      "section": "posting",
+      "title": "Solo travel KhoaBug: phân tích xu hướng mới",
+      "cluster": "du-lich",
+      "cluster_label": "Du lịch",
       "tier_before": "low",
       "tier_after": "low",
-      "score_before": 0.3319,
-      "score_after": 0.3319,
+      "score_before": 0.3391,
+      "score_after": 0.3391,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.4596,
-          "slug": "ung-ho-du-an-ai-ten-mien-ai"
+          "score": 0.485,
+          "slug": "ai-thay-doi-lap-ke-hoach-du-lich"
         },
         {
-          "score": 0.3223,
-          "slug": "macos-27-golden-gate-co-gi-moi"
+          "score": 0.3938,
+          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
         },
         {
-          "score": 0.2948,
-          "slug": "faq-schema-cluster-ngan-hang-ctr"
+          "score": 0.2804,
+          "slug": "summer-korea-4-diem-dung-mua-he"
         },
         {
-          "score": 0.2936,
-          "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr"
+          "score": 0.2717,
+          "slug": "mua-qua-chin-xu-dong-hai-phong"
         },
         {
-          "score": 0.2893,
-          "slug": "users-new-users-sessions-google-analytics"
+          "score": 0.2645,
+          "slug": "thang-6-di-han-an-gi-lam-gi"
         }
       ],
       "related_after": [
         {
-          "slug": "ung-ho-du-an-ai-ten-mien-ai",
-          "score": 0.4596
+          "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
+          "score": 0.485
         },
         {
-          "slug": "macos-27-golden-gate-co-gi-moi",
-          "score": 0.3223
+          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+          "score": 0.3938
         },
         {
-          "slug": "faq-schema-cluster-ngan-hang-ctr",
-          "score": 0.2948
+          "slug": "summer-korea-4-diem-dung-mua-he",
+          "score": 0.2804
         },
         {
-          "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr",
-          "score": 0.2936
+          "slug": "mua-qua-chin-xu-dong-hai-phong",
+          "score": 0.2717
         },
         {
-          "slug": "users-new-users-sessions-google-analytics",
-          "score": 0.2893
+          "slug": "thang-6-di-han-an-gi-lam-gi",
+          "score": 0.2645
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.46) — nội dung quá khác biệt trong cluster."
-    },
-    {
-      "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr",
-      "section": "baochi",
-      "title": "VNeID 2.2.8: phản ánh lừa đảo, quét QR căn cước",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "low",
-      "tier_after": "low",
-      "score_before": 0.3264,
-      "score_after": 0.3264,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.3587,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.3322,
-          "slug": "10-vaccine-claude-md-giam-loi-production"
-        },
-        {
-          "score": 0.3201,
-          "slug": "qa-gatekeeper-vaccine-autofixer"
-        },
-        {
-          "score": 0.3116,
-          "slug": "users-new-users-sessions-google-analytics"
-        },
-        {
-          "score": 0.3096,
-          "slug": "macos-27-golden-gate-co-gi-moi"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.3587
-        },
-        {
-          "slug": "10-vaccine-claude-md-giam-loi-production",
-          "score": 0.3322
-        },
-        {
-          "slug": "qa-gatekeeper-vaccine-autofixer",
-          "score": 0.3201
-        },
-        {
-          "slug": "users-new-users-sessions-google-analytics",
-          "score": 0.3116
-        },
-        {
-          "slug": "macos-27-golden-gate-co-gi-moi",
-          "score": 0.3096
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.36) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score thấp (0.48) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "macos-27-golden-gate-co-gi-moi",
@@ -9941,8 +11284,8 @@
       "tier_before": "low",
       "tier_after": "low",
       "score_before": 0.3124,
-      "score_after": 0.3124,
-      "delta": 0.0,
+      "score_after": 0.3243,
+      "delta": 0.0119,
       "related_before": [
         {
           "score": 0.3369,
@@ -9967,6 +11310,10 @@
       ],
       "related_after": [
         {
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+          "score": 0.3499
+        },
+        {
           "slug": "qa-gatekeeper-vaccine-autofixer",
           "score": 0.3369
         },
@@ -9981,14 +11328,126 @@
         {
           "slug": "cai-dat-git-cau-hinh-lan-dau",
           "score": 0.3029
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Top semantic score thấp (0.35) — nội dung quá khác biệt trong cluster."
+    },
+    {
+      "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
+      "section": "posting",
+      "title": "Đáp án chính thức THPT 2026 môn Ngữ văn",
+      "cluster": "am-thuc",
+      "cluster_label": "Ẩm thực",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.3006,
+      "score_after": 0.3006,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.4262,
+          "slug": "kha-nang-kinh-nghiem-tieng-han"
         },
         {
-          "slug": "10-vaccine-claude-md-giam-loi-production",
-          "score": 0.2905
+          "score": 0.3915,
+          "slug": "quy-tac-phat-am-tieng-han"
+        },
+        {
+          "score": 0.3489,
+          "slug": "phu-am-cang-bat-hoi-tieng-han"
+        },
+        {
+          "score": 0.1805,
+          "slug": "an-khuya-sai-gon"
+        },
+        {
+          "score": 0.1557,
+          "slug": "troi-mua-sai-gon-an-gi"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "kha-nang-kinh-nghiem-tieng-han",
+          "score": 0.4262
+        },
+        {
+          "slug": "quy-tac-phat-am-tieng-han",
+          "score": 0.3915
+        },
+        {
+          "slug": "phu-am-cang-bat-hoi-tieng-han",
+          "score": 0.3489
+        },
+        {
+          "slug": "an-khuya-sai-gon",
+          "score": 0.1805
+        },
+        {
+          "slug": "troi-mua-sai-gon-an-gi",
+          "score": 0.1557
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.34) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score thấp (0.43) — nội dung quá khác biệt trong cluster."
+    },
+    {
+      "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
+      "section": "posting",
+      "title": "AI lập kế hoạch du lịch: thay đổi cách đi",
+      "cluster": "du-lich",
+      "cluster_label": "Du lịch",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.289,
+      "score_after": 0.289,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.485,
+          "slug": "solo-travel-khoabug-phan-tich-xu-huong"
+        },
+        {
+          "score": 0.2897,
+          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
+        },
+        {
+          "score": 0.2876,
+          "slug": "mua-qua-chin-xu-dong-hai-phong"
+        },
+        {
+          "score": 0.2109,
+          "slug": "di-han-mua-nao-re-nhat"
+        },
+        {
+          "score": 0.1719,
+          "slug": "di-han-het-bao-nhieu-tien"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "solo-travel-khoabug-phan-tich-xu-huong",
+          "score": 0.485
+        },
+        {
+          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+          "score": 0.2897
+        },
+        {
+          "slug": "mua-qua-chin-xu-dong-hai-phong",
+          "score": 0.2876
+        },
+        {
+          "slug": "di-han-mua-nao-re-nhat",
+          "score": 0.2109
+        },
+        {
+          "slug": "di-han-het-bao-nhieu-tien",
+          "score": 0.1719
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Top semantic score thấp (0.48) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi",

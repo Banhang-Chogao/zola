@@ -155,6 +155,43 @@ class Ctx:
 
 
 # --------------------------------------------------------------------------
+# Small CSS helpers (shared by structural detectors)
+# --------------------------------------------------------------------------
+_CSS_COMMENT_RE = re.compile(r"/\*.*?\*/", re.S)
+
+
+def _strip_css_comments(text: str) -> str:
+    """Remove /* … */ comments so commented-out CSS (e.g. an explanatory
+    `position: sticky` note) never trips a block scan."""
+    return _CSS_COMMENT_RE.sub("", text or "")
+
+
+def _mobile_media_spans(text: str) -> list[tuple[int, int]]:
+    """Return (start, end) char spans of every `@media (… max-width …) { … }`
+    block, including nested content. Used to EXEMPT mobile-scoped rules from
+    desktop-only checks (mobile is handled separately — see V21)."""
+    spans: list[tuple[int, int]] = []
+    for m in re.finditer(r"@media[^{]*max-width[^{]*\{", text, re.I):
+        depth = 0
+        i = m.end() - 1  # position of the opening brace
+        while i < len(text):
+            c = text[i]
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    spans.append((m.start(), i))
+                    break
+            i += 1
+    return spans
+
+
+def _in_spans(pos: int, spans: list[tuple[int, int]]) -> bool:
+    return any(a <= pos <= b for a, b in spans)
+
+
+# --------------------------------------------------------------------------
 # Detectors — each returns a CheckResult
 # --------------------------------------------------------------------------
 def check_v1_hf_model_id(ctx: Ctx) -> CheckResult:
@@ -1444,6 +1481,130 @@ def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
                        diagnosis="volatile runtime artifacts gitignored + workflow filter present + idempotent writer")
 
 
+_GSC_DOMAIN_PROPERTY = "sc-domain:seomoney.org"
+_GSC_CANONICAL_SITEMAP = "https://seomoney.org/sitemap.xml"
+_OLD_GITHUB_IO_RE = re.compile(r"banhang-chogao\.github\.io(/zola)?", re.IGNORECASE)
+_GSC_CREDENTIAL_FIELDS = ("refresh_token", "access_token", "client_secret", "client_id")
+
+
+def check_gsc_domain_property(ctx: Ctx) -> CheckResult:
+    """V19 — GSC Domain Property migration vaccine.
+
+    After Cloudflare verification (2026-06-20) the canonical GSC property changed
+    from the URL-prefix `https://seomoney.org/` to the Domain property
+    `sc-domain:seomoney.org`.  This detector enforces three invariants:
+
+    FAIL:
+      * gsc_client.py DEFAULT_GSC_PROPERTY_URL ≠ sc-domain:seomoney.org
+      * robots.txt Sitemap directive ≠ https://seomoney.org/sitemap.xml
+      * old banhang-chogao.github.io reference in any GSC/SEO tracking config
+      * data/gsc-metrics.json contains credential fields (secret leak)
+
+    WARN:
+      * data/gsc-metrics.json schema missing required keys (connected/status/updated_at)
+      * config.toml GSC comment still mentions old URL-prefix
+    """
+    title = "GSC Domain Property (sc-domain:seomoney.org)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1 — DEFAULT_GSC_PROPERTY_URL must be the domain property.
+    gsc_client = ctx.read("services/visitor-counter/gsc_client.py") or ""
+    m = re.search(r'DEFAULT_GSC_PROPERTY_URL\s*=\s*["\']([^"\']+)["\']', gsc_client)
+    if m:
+        prop_val = m.group(1)
+        if prop_val != _GSC_DOMAIN_PROPERTY:
+            fails.append(
+                f"gsc_client.py: DEFAULT_GSC_PROPERTY_URL = '{prop_val}' "
+                f"(phải là '{_GSC_DOMAIN_PROPERTY}')"
+            )
+    elif gsc_client:
+        warns.append("gsc_client.py: không tìm thấy DEFAULT_GSC_PROPERTY_URL")
+
+    # 2 — robots.txt sitemap URL must match canonical.
+    robots = ctx.read("static/robots.txt") or ""
+    if robots:
+        sitemap_m = re.search(r"(?i)^Sitemap:\s*(.+)$", robots, re.MULTILINE)
+        if sitemap_m:
+            sitemap_url = sitemap_m.group(1).strip()
+            if sitemap_url != _GSC_CANONICAL_SITEMAP:
+                fails.append(
+                    f"static/robots.txt: Sitemap = '{sitemap_url}' "
+                    f"(phải là '{_GSC_CANONICAL_SITEMAP}')"
+                )
+        else:
+            warns.append("static/robots.txt: không có khai báo Sitemap:")
+
+    # 3 — old github.io refs must NOT appear in GSC/SEO tracking config files.
+    gsc_tracking_files = [
+        "services/visitor-counter/gsc_client.py",
+        "services/visitor-counter/gsc_routes.py",
+        "scripts/fetch_gsc_metrics.py",
+        ".github/workflows/gsc-stats.yml",
+    ]
+    for rel in gsc_tracking_files:
+        src = ctx.read(rel) or ""
+        if _OLD_GITHUB_IO_RE.search(src):
+            # Allow in string literals inside comments (e.g. example watermark text)
+            # but flag if it appears as a property URL value or tracking config.
+            for line in src.splitlines():
+                stripped = line.strip()
+                # skip pure comment lines
+                if stripped.startswith("#") or stripped.startswith("{#") or stripped.startswith("//"):
+                    continue
+                if _OLD_GITHUB_IO_RE.search(line):
+                    fails.append(f"{rel}: old banhang-chogao.github.io ref trong config/code")
+                    break
+
+    # 4 — data/gsc-metrics.json: no credentials leaked + valid schema.
+    raw = ctx.read("data/gsc-metrics.json")
+    if raw is None:
+        warns.append("data/gsc-metrics.json absent (cần tồn tại dù GSC chưa connect)")
+    else:
+        try:
+            gsc_data = json.loads(raw)
+        except json.JSONDecodeError:
+            fails.append("data/gsc-metrics.json không phải JSON hợp lệ")
+            gsc_data = None
+        if isinstance(gsc_data, dict):
+            # No credential fields allowed in the public JSON.
+            leaked = [f for f in _GSC_CREDENTIAL_FIELDS if f in gsc_data]
+            if leaked:
+                fails.append(
+                    f"data/gsc-metrics.json: trường nhạy cảm bị lộ: {leaked} "
+                    "(chỉ dùng env/secrets, KHÔNG commit credentials)"
+                )
+            # Schema spot-check.
+            required_keys = ("connected", "status", "updated_at")
+            missing = [k for k in required_keys if k not in gsc_data]
+            if missing:
+                warns.append(f"data/gsc-metrics.json: thiếu schema keys: {missing}")
+
+    if fails:
+        return CheckResult(
+            "V19", title, FAIL,
+            diagnosis="GSC domain property hoặc sitemap chưa migrate đúng / credential leak",
+            fix=(
+                f"1. Set DEFAULT_GSC_PROPERTY_URL = '{_GSC_DOMAIN_PROPERTY}' trong gsc_client.py. "
+                f"2. Đảm bảo robots.txt Sitemap: = '{_GSC_CANONICAL_SITEMAP}'. "
+                "3. Gỡ bỏ old github.io ref trong GSC tracking files. "
+                "4. Không commit refresh_token/client_secret vào public JSON."
+            ),
+            details=fails + warns,
+        )
+    if warns:
+        return CheckResult(
+            "V19", title, WARN,
+            diagnosis="GSC domain property OK nhưng có cảnh báo bổ sung",
+            fix="Xem chi tiết warns ở trên",
+            details=warns,
+        )
+    return CheckResult(
+        "V19", title, PASS,
+        diagnosis=f"property={_GSC_DOMAIN_PROPERTY} · sitemap={_GSC_CANONICAL_SITEMAP} · no credential leak",
+    )
+
+
 def check_korean_banner_ui_vaccine(ctx: Ctx) -> CheckResult:
     """Korean banner UI — validates the homepage Hangul decorative banner meets
     the SEOMONEY design system: overflow clipped, responsive layout present,
@@ -1805,6 +1966,94 @@ def check_domain_root_url_vaccine(ctx: Ctx) -> CheckResult:
     )
 
 
+def check_editor_publish_vaccine(ctx: Ctx) -> CheckResult:
+    """EDITOR-PUBLISH — the /editor/ CMS must commit saves to GitHub, not fall back
+    to a draft-only download path; edits must send a SHA; the SEO rail must hydrate
+    for old posts; and sticky must be single-active (auto-unstick previous sticky).
+
+    Root cause it guards (the bug this task fixed): editor.js had a DRAFT-ONLY
+    `putPost` that merely downloaded the .md file instead of PUT-ing it to GitHub,
+    so "saving" never committed and edits silently went nowhere ("Not Found").
+
+    Static signals (no browser / network needed):
+      FAIL — saving would not commit, or a known regression returns:
+        * editor.js no longer calls the backend publish endpoint /cms/save-post;
+        * editor.js still ships a draft-only download save (URL.createObjectURL /
+          "draft-only") as the save path;
+        * the GitHub commit helper does not forward a `sha` (edit overwrite-safety);
+        * backend main.py is missing the @app.post("/cms/save-post") route;
+        * backend has no sticky auto-unstick (_demote_other_sticky_posts) wired into
+          the save route → multiple sticky posts could remain;
+        * the SEO rail never re-analyzes after an existing post loads (no
+          'cms:hydrated' bridge) → all-zero checklist for old posts.
+      WARN — committed-correctly but a resilience/UX gap:
+        * editor.js still hard-blocks save when another sticky exists (should
+          auto-unstick instead).
+    """
+    title = "Editor publish→GitHub, edit SHA, SEO hydrate, single sticky"
+    js = ctx.read("static/js/editor.js") or ""
+    rail = ctx.read("static/js/cms/editor-seo-rail.js") or ""
+    backend = ctx.read("services/visitor-counter/main.py") or ""
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Editor saves by committing to the backend publish endpoint.
+    if not js:
+        fails.append("static/js/editor.js vắng → không có flow lưu bài")
+    else:
+        if "/cms/save-post" not in js:
+            fails.append("editor.js không gọi POST /cms/save-post → save không commit GitHub")
+        # 2) The draft-only download save path must be gone (no stale putPost that
+        #    only triggers a blob download instead of committing).
+        if re.search(r"function\s+putPost\b", js) or re.search(r"a\.download\s*=\s*filename", js):
+            fails.append("editor.js vẫn còn save kiểu tải file .md (putPost/blob download) thay vì commit")
+        # 3) Edit save must forward a SHA (overwrite-safe update of existing file).
+        if not re.search(r"sha\s*:\s*payload\.sha", js) and not re.search(r"\bsha\s*:", js):
+            fails.append("editor.js không gửi `sha` khi lưu → update bài cũ thiếu SHA (ghi đè không an toàn)")
+        if "state.editing.sha" not in js:
+            fails.append("editor.js không dùng state.editing.sha → SHA bài đang sửa không được truyền")
+        # 4) Hydration bridge for the SEO rail.
+        if "cms:hydrated" not in js:
+            fails.append("editor.js không phát 'cms:hydrated' → SEO rail không hydrate bài cũ")
+        # WARN — sticky should auto-unstick, never hard-block the save.
+        if re.search(r"ensureStickyAllowed", js):
+            warns.append("editor.js còn chặn cứng save khi có sticky khác (nên auto-unstick)")
+
+    # 5) SEO rail listens for the hydration signal → re-analyzes loaded posts.
+    if not rail:
+        fails.append("static/js/cms/editor-seo-rail.js vắng → không có trợ lý SEO")
+    elif "cms:hydrated" not in rail:
+        fails.append("editor-seo-rail.js không lắng nghe 'cms:hydrated' → checklist 0 cho bài cũ")
+
+    # 6) Backend publish route + single-sticky enforcement.
+    if not backend:
+        warns.append("services/visitor-counter/main.py không đọc được → bỏ qua check backend")
+    else:
+        if '"/cms/save-post"' not in backend and "'/cms/save-post'" not in backend:
+            fails.append("backend main.py thiếu route POST /cms/save-post → publish 404")
+        if "_demote_other_sticky_posts" not in backend:
+            fails.append("backend thiếu _demote_other_sticky_posts → sticky không single-active")
+        elif backend.count("_demote_other_sticky_posts") < 2:
+            # defined but never called from the save route
+            fails.append("backend định nghĩa _demote_other_sticky_posts nhưng không gọi trong save-post")
+
+    if fails:
+        return CheckResult("EDITOR-PUBLISH", title, FAIL,
+                           diagnosis="editor save không commit GitHub / thiếu SHA / SEO rail không hydrate / sticky không single-active",
+                           fix=("editor.js: commit qua /cms/save-post kèm sha + phát 'cms:hydrated'; "
+                                "rail: nghe 'cms:hydrated'; backend: route /cms/save-post + "
+                                "_demote_other_sticky_posts gọi khi sticky=true"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("EDITOR-PUBLISH", title, WARN,
+                           diagnosis="editor commit đúng nhưng còn khe hở (sticky block / backend không đọc được)",
+                           fix="đổi sticky sang auto-unstick (bỏ block cứng)",
+                           details=warns)
+    return CheckResult("EDITOR-PUBLISH", title, PASS,
+                       diagnosis="editor commit lên GitHub qua /cms/save-post (kèm SHA), SEO rail hydrate bài cũ, "
+                                 "sticky single-active (backend auto-unstick)")
+
 # Glyphs that must NEVER appear as icons in the editor's visible UI (S-DNA
 # redesign — outline SVG only). Plain directional arrows ↑ ↓ ← → (U+2190..2193)
 # are allowed: they are keyboard hints inside <kbd>, not action icons.
@@ -1917,6 +2166,101 @@ def check_editor_sdna_vaccine(ctx: Ctx) -> CheckResult:
                                   "không còn emoji, publish/edit + SEO assistant còn nguyên"))
 
 
+def check_no_floating_nav_vaccine(ctx: Ctx) -> CheckResult:
+    """V21 — No Floating Bar / Stable Nav Vaccine.
+
+    SEOMONEY desktop navigation must stay ANCHORED in normal document flow.
+    The blog owner finds floating / sticky / drifting nav bars visually tiring
+    (eye strain), so desktop nav rails, sidebars and action bars must NOT detach
+    from the layout and drift on scroll. This permanently protects the PR #585
+    behavior where `.side-nav { position: static }`.
+
+    FAIL — a PROTECTED desktop nav/sidebar/action selector floats in DESKTOP
+           scope (global or min-width — i.e. NOT inside a mobile @media max-width):
+             * position: sticky / position: fixed;
+             * scroll-driven CSS animation / parallax
+               (animation-timeline: scroll(…) | view(…));
+           OR a JS file wires a scroll listener that mutates a nav element's
+           transform / top / position (scroll-linked drift).
+
+    EXEMPTIONS (never flagged): true overlays / modals / search dialogs and the
+    mobile hamburger drawer — `.nav-drawer*`, `.nav-toggle`, `.site-search*`,
+    `[role="dialog"]` — and ANY rule scoped under a mobile `@media (max-width)`
+    breakpoint. Mobile is handled separately; this detector must not break it.
+    """
+    title = "No floating/sticky nav on desktop (stable nav — V21)"
+
+    # Selectors that MUST stay in normal flow on desktop. Drawer/toggle/search
+    # are deliberately absent — those are the allowed overlay/mobile exceptions.
+    PROTECTED = (".side-nav", ".side-nav__actions", ".primary-nav",
+                 ".site-sidebar", ".nav-rail", ".desktop-nav")
+    FLOAT_POS = re.compile(r"position\s*:\s*(sticky|fixed)\b", re.I)
+    SCROLL_ANIM = re.compile(r"animation-timeline\s*:\s*(?:scroll|view)\s*\(", re.I)
+
+    fails: list[str] = []
+
+    # --- CSS: scan every SCSS partial for floating desktop nav selectors ---
+    for p in ctx.glob("sass/*.scss"):
+        rel = "sass/" + p.name
+        raw = ctx.read(rel)
+        if not raw:
+            continue
+        text = _strip_css_comments(raw)
+        mobile_spans = _mobile_media_spans(text)
+        for sel in PROTECTED:
+            # `[^{}]*` keeps the match inside this selector's own (flat) block,
+            # never crossing into a nested rule.
+            for m in re.finditer(re.escape(sel) + r"\s*\{([^{}]*)\}", text):
+                if _in_spans(m.start(), mobile_spans):
+                    continue  # mobile-scoped → exempt (handled separately)
+                block = m.group(1)
+                pm = FLOAT_POS.search(block)
+                if pm:
+                    fails.append(
+                        f"{rel}: `{sel}` dùng position:{pm.group(1).lower()} ở desktop scope "
+                        "— nav phải tĩnh (in-flow), không trôi theo scroll"
+                    )
+                if SCROLL_ANIM.search(block):
+                    fails.append(
+                        f"{rel}: `{sel}` dùng scroll-driven animation/parallax "
+                        "(animation-timeline) — nav trôi theo scroll"
+                    )
+
+    # --- JS: scroll listener that mutates a nav element's transform/top ---
+    NAV_TOKENS = ("side-nav", "primary-nav", "site-sidebar", "nav-rail", "desktop-nav")
+    _SCROLL_LISTENER = re.compile(r"addEventListener\s*\(\s*['\"]scroll['\"]")
+    _MUT_ASSIGN = re.compile(r"\.style\.(?:transform|top|position)\s*=")
+    _MUT_SETPROP = re.compile(r"\.style\.setProperty\s*\(\s*['\"](?:transform|top|position)")
+    for p in ctx.glob("static/js/*.js"):
+        rel = "static/js/" + p.name
+        js = ctx.read(rel)
+        if not js:
+            continue
+        if not any(tok in js for tok in NAV_TOKENS):
+            continue
+        has_scroll = bool(_SCROLL_LISTENER.search(js)) or "onscroll" in js
+        mutates = bool(_MUT_ASSIGN.search(js)) or bool(_MUT_SETPROP.search(js))
+        if has_scroll and mutates:
+            fails.append(
+                f"{rel}: scroll listener mutates nav transform/top/position "
+                "— scroll-linked drift (dùng layout tĩnh, bỏ scroll handler)"
+            )
+
+    if fails:
+        return CheckResult(
+            "V21", title, FAIL,
+            diagnosis="desktop nav/sidebar/action bar đang dùng floating/sticky/scroll-linked → trôi khi cuộn (gây mỏi mắt)",
+            fix=("đặt selector nav desktop về `position: static` (in-flow); bỏ position:sticky/fixed, "
+                 "scroll-driven animation, và scroll listener mutate transform/top. Overlay/modal/search/"
+                 "mobile drawer được miễn (giữ trong @media max-width hoặc dùng .nav-drawer/.site-search)."),
+            details=fails,
+        )
+    return CheckResult(
+        "V21", title, PASS,
+        diagnosis="desktop nav giữ in-flow (không sticky/fixed/scroll-linked); overlay/mobile drawer được miễn đúng cách",
+    )
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -1946,10 +2290,13 @@ DETECTORS = [
     check_sidebar_layout,
     check_uptime_me,
     check_deploy_monitor,
+    check_gsc_domain_property,
     check_search_ui_vaccine,
+    check_no_floating_nav_vaccine,
     check_korean_banner_ui_vaccine,
     check_seomoney_brand,
     check_og_image_vaccine,
+    check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
 ]
 

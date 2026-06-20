@@ -697,6 +697,47 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   `main` ran `qa-rule-checker` at `10:22:42Z` while the PR had entries at `10:15:47Z`. Zero real
   code in conflict. Resolved by taking main's versions + applying FIXER above.
 
+#### V19 — GSC Domain Property: must use sc-domain:seomoney.org (not URL-prefix)
+
+> Migration + config vaccine. Domain `seomoney.org` verified via Cloudflare DNS TXT (2026-06-20).
+> Match the signature → run the FIXER immediately; do NOT re-diagnose.
+
+- **Symptom:** GSC data shows low coverage or property mismatch; `fetch_gsc_metrics.py` connects
+  but returns 0 indexed pages / wrong sitemap; dashboard shows old `https://seomoney.org/` property
+  instead of `sc-domain:seomoney.org`; CI workflow `gsc-stats.yml` secret `GSC_PROPERTY_URL` still
+  set to the URL-prefix form; or QA Vaccine Gate reports **V19 FAIL**.
+- **Root cause:** Google Search Console has two property types: (a) **URL-prefix** (`https://seomoney.org/`
+  — verifies only that exact URL protocol+path) and (b) **Domain property** (`sc-domain:seomoney.org`
+  — covers `http://`, `https://`, all subdomains, after DNS TXT verification). After Cloudflare setup
+  the domain property was verified and the sitemap submitted → 1,634 discovered pages. The old
+  URL-prefix property misses `http://` and subdomains; the domain property is the authoritative one.
+  Code/config left pointing at `https://seomoney.org/` fetches from the WRONG property.
+- **Signature (match all):**
+  - `services/visitor-counter/gsc_client.py`: `DEFAULT_GSC_PROPERTY_URL = "https://seomoney.org/"` (old)
+  - `scripts/fetch_gsc_metrics.py` docstring: example still shows URL-prefix
+  - `config.toml` comment: "URL prefix trong GSC"
+  - `data/gsc-metrics.json`: property field is null or `https://seomoney.org/`
+  - QA V19 FAIL reported by `scripts/qa_vaccines.py`
+- **FIXER:**
+  1. `services/visitor-counter/gsc_client.py` → `DEFAULT_GSC_PROPERTY_URL = "sc-domain:seomoney.org"`
+  2. Update GitHub secret `GSC_PROPERTY_URL` → `sc-domain:seomoney.org` (Settings → Secrets).
+  3. Update Render env var `GSC_PROPERTY_URL` → `sc-domain:seomoney.org` on blog-vipzone-api.
+  4. After OAuth reconnect, verify backend's `GET /gsc/status` returns `property: sc-domain:seomoney.org`.
+  5. Run `python3 scripts/fetch_gsc_metrics.py` locally (with secrets) to confirm data flows.
+  6. Check `static/robots.txt` has `Sitemap: https://seomoney.org/sitemap.xml`.
+  7. Run `python3 scripts/qa_vaccines.py` → V19 must PASS.
+- **Public JSON safety rules (BẮT BUỘC):**
+  - `data/gsc-metrics.json` MUST NOT contain: `refresh_token`, `access_token`, `client_secret`, `client_id`.
+  - Only aggregate metrics (clicks, impressions, top pages, etc.) allowed in the public file.
+  - Credentials stay in GitHub secrets + Render env vars only — NEVER in repo or `data/*.json`.
+- **Sitemap canonical:** `https://seomoney.org/sitemap.xml` (submit in GSC → Sitemaps → Add).
+  Zola generates `sitemap.xml` automatically; `static/robots.txt` must declare it.
+- **Validation:** `python3 scripts/qa_vaccines.py` → V19 PASS · `python3 scripts/test_gsc_client.py` →
+  `test_default_property` + `test_normalize_sc_domain_passthrough` + `test_pick_preferred_sc_domain` PASS.
+- **Evidence (2026-06-20):** domain property `sc-domain:seomoney.org` verified via Cloudflare;
+  sitemap `https://seomoney.org/sitemap.xml` submitted; 1,634 discovered pages confirmed. Code
+  migrated from `DEFAULT_GSC_PROPERTY_URL = "https://seomoney.org/"` to `"sc-domain:seomoney.org"`.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library
@@ -915,7 +956,7 @@ fenced blocks.
   `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken · search dialog
   renders a styled panel on desktop + mobile with the input/button aligned and visible.
 
-#### V21 — Editor S-DNA visual layer: keep `/editor/` emoji-free + KPI cards, logic intact
+#### V22 — Editor S-DNA visual layer: keep `/editor/` emoji-free + KPI cards, logic intact
 
 > UI vaccine (not a workflow-run bug — the editor builds, the guard protects its look
 > and its handlers). Match the signature → keep the scoped partial + outline SVGs;
@@ -950,7 +991,47 @@ fenced blocks.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.EditorSdnaVaccineTest -v`
 - **Validation (2026-06-20):** `zola build` PASS (245 pages) · `qa_check.py` PASS (EDITOR-SDNA
   PASS, 0 FAIL) · editor templates emoji-free · publish/edit handlers + SEO rail intact ·
-  rail renders as KPI cards; redesign scoped to `.editor-app` only.
+  rail renders as KPI cards; redesign scoped to `.editor-app` only. The editor's
+  bottom action bar is **in-flow on desktop** (honours V21 No-Floating-Nav) and only
+  becomes sticky inside the panel under the mobile `≤720px` breakpoint.
+
+#### V21 — No Floating Bar / Stable Nav Vaccine: desktop nav must stay in normal flow
+
+> **No floating/sticky navigation on SEOMONEY desktop. Stable nav only.** The blog
+> owner dislikes floating bars; they are visually tiring (eye strain). Desktop nav
+> rails, sidebars and action bars MUST stay anchored in normal document flow and
+> scroll naturally with the page — they may never detach and drift on scroll.
+
+- **Symptom:** the desktop primary nav / sidebar nav card / action bar detaches from
+  the layout and floats/drifts/jitters while scrolling past it. Caused by
+  `position: sticky` / `position: fixed`, scroll-driven CSS animation/parallax
+  (`animation-timeline: scroll()/view()`), or a JS scroll listener that mutates the
+  nav's `transform`/`top`. `zola build` still PASSES — it is purely a UX regression.
+- **Root cause / canonical fix (PR #585):** the desktop primary nav `.side-nav` used
+  `position: sticky; top: 1rem`, which made it drift on scroll. The fix is
+  `.side-nav { position: static }` — anchored in the right column's normal flow, with
+  Search / Clear-cache actions kept inside the panel (`.side-nav__actions`). This
+  vaccine permanently protects that behavior.
+- **Rules (permanent):**
+  - Protected desktop selectors — `.side-nav`, `.side-nav__actions`, `.primary-nav`,
+    `.site-sidebar`, `.nav-rail`, `.desktop-nav` — must NOT use `position: sticky`/`fixed`,
+    scroll-driven animation/parallax, or scroll-linked JS transform mutation in desktop scope.
+  - **Exceptions (allowed):** true overlays / modals / search dialogs and the mobile
+    hamburger drawer — `.nav-drawer*`, `.nav-toggle`, `.site-search*`, `[role="dialog"]` —
+    and ANYTHING scoped under a mobile `@media (max-width: …)` breakpoint. Mobile is
+    handled separately; do **not** break mobile to satisfy this rule.
+- **Detector:** `scripts/qa_vaccines.py` → `check_no_floating_nav_vaccine` (code `V21`):
+  FAIL if a protected desktop nav/sidebar/action selector floats (sticky/fixed/
+  scroll-animation) outside a mobile media query, or a nav-referencing JS file wires a
+  scroll listener that mutates `transform`/`top`/`position`. Comment-stripped + mobile-
+  media-exempt so the mobile drawer and explanatory notes never false-trip.
+- **Source guard:** `sass/_side-nav.scss` carries an inline comment on
+  `.side-nav { position: static }` marking it intentional and protected by V21.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.NoFloatingNavVaccineTest -v`
+  (sticky/fixed side-nav, translate-on-scroll JS, floating bottom action bar → FAIL;
+  `position: static`, normal flow, mobile-drawer exception, search-modal exception → PASS).
+- **Validation:** `python3 scripts/qa_vaccines.py` (V21 PASS) · `qa_check.py` PASS ·
+  `zola build` PASS · desktop nav no longer floats/drifts on scroll.
 
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 

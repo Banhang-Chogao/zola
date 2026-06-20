@@ -25,7 +25,9 @@
        2. GitHub OAuth → BACKEND callback → check email white-list
        3. Backend redirect /editor/#sid=... → JS đọc hash → sessionStorage
        4. /auth/me validate session mỗi page load
-       5. Save bài = download .md (DRAFT-ONLY mode giữ nguyên từ PR #34)
+       5. Save/Publish bài = PUT content/posting/{slug}.md lên GitHub/main qua
+          backend /cms/save-post → GitHub Actions tự build + deploy (KHÔNG còn
+          chế độ draft-only/tải file .md về máy).
 
      Security:
        - sid là opaque random 32-byte, KHÔNG carry info
@@ -317,8 +319,8 @@
 
   /* Unauth GitHub API — public repo nên READ (list contents, get file) hoạt
      động không auth. Rate limit 60 req/h cho IP unauth — đủ cho 1 user cá
-     nhân chỉnh sửa bài thỉnh thoảng. WRITE (put/delete) đã chuyển sang
-     download file thay vì gọi API. */
+     nhân chỉnh sửa bài thỉnh thoảng. WRITE (create/update/delete) đi qua backend
+     /cms/save-post + /cms/posts/bulk-delete (commit thật lên GitHub/main). */
   async function api(path, opts) {
     opts = opts || {};
     const res = await fetch(API + path, {
@@ -404,35 +406,91 @@
     return { sha: file.sha, content, path: file.path };
   }
 
-  /* Draft-only putPost: tải file .md về máy thay vì PUT lên GitHub.
-     User chạy thủ công `git add content/posting/{slug}.md && git commit
-     && git push` để publish. */
-  function putPost(path, content, sha, message) {
-    const filename = path.split("/").pop();
-    const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-    return Promise.resolve({ downloaded: filename });
+  /* commitPostToGithub: PUT content/posting/{slug}.md lên GitHub/main qua backend
+     /cms/save-post (backend dùng access_token Redis-side). Bài mới → create;
+     bài cũ → update (gửi kèm sha để tránh ghi đè concurrent). Sau commit GitHub
+     Actions tự build + deploy. Lỗi → throw Error có .code/.status/.body để caller
+     hiển thị status rõ ràng (không còn chế độ draft-only/tải file). */
+  async function commitPostToGithub(payload) {
+    const sid = getSid();
+    if (!sid) {
+      const e = new Error("Phiên đăng nhập đã hết. Đăng nhập lại để lưu.");
+      e.code = "no_session"; throw e;
+    }
+    if (!AUTH_API) {
+      const e = new Error("Backend CMS chưa được cấu hình.");
+      e.code = "no_backend"; throw e;
+    }
+    let res;
+    try {
+      res = await fetch(AUTH_API + "/cms/save-post", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + sid,
+          "Content-Type": "application/json",
+        },
+        credentials: "omit",
+        body: JSON.stringify({
+          slug:    payload.slug,
+          content: payload.content,
+          message: payload.message,
+          sha:     payload.sha || "",   // include SHA when editing existing file
+        }),
+      });
+    } catch (netErr) {
+      const e = new Error("Lỗi mạng khi gọi backend: " + netErr.message);
+      e.code = "network"; throw e;
+    }
+    if (res.status === 401) {
+      clearSid();
+      const e = new Error("Phiên hết hạn. Đăng nhập lại.");
+      e.code = "expired"; throw e;
+    }
+    if (res.status === 403) {
+      const e = new Error("GitHub OAuth thiếu scope 'public_repo'. Đăng xuất rồi đăng nhập lại để cấp quyền ghi repo.");
+      e.code = "forbidden"; throw e;
+    }
+    let data = {};
+    try { data = await res.json(); } catch (e) { data = {}; }
+    if (!res.ok) {
+      // Surface the backend error body + status clearly (no silent "Not Found").
+      const detail = (data && (data.detail || data.message)) || ("HTTP " + res.status);
+      const e = new Error("Lưu lên GitHub thất bại: " + detail);
+      e.code = "api"; e.status = res.status; e.body = data; throw e;
+    }
+    return data; // { ok, action, path, commit_url, commit_sha, demoted_featured, demoted_sticky, deploy_eta }
   }
 
-  /* Draft-only deletePost: không thể xoá qua API (cần PAT). User phải
-     git rm thủ công. Alert hướng dẫn. */
-  function deletePost(path, sha, message) {
-    alert(
-      "Chế độ Draft-only: xoá bài phải làm thủ công.\n\n" +
-      "Chạy local trong repo:\n" +
-      "  git rm " + path + "\n" +
-      "  git commit -m \"" + (message || "Xoá bài") + "\"\n" +
-      "  git push"
-    );
-    return Promise.reject(new Error("delete unavailable in draft-only mode"));
+  /* deletePost: xoá bài thật trên GitHub qua backend bulk-delete (1 slug).
+     Thay cho chế độ draft-only cũ (git rm thủ công). */
+  async function deletePost(path, sha, message) {
+    const sid = getSid();
+    if (!sid) {
+      const e = new Error("Phiên đăng nhập đã hết. Đăng nhập lại để xoá.");
+      e.code = "no_session"; throw e;
+    }
+    if (!AUTH_API) throw new Error("Backend CMS chưa được cấu hình.");
+    const slug = path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
+    const res = await fetch(AUTH_API + "/cms/posts/bulk-delete", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + sid,
+        "Content-Type": "application/json",
+      },
+      credentials: "omit",
+      body: JSON.stringify({ slugs: [slug] }),
+    });
+    if (res.status === 401) {
+      clearSid();
+      const e = new Error("Phiên hết hạn. Đăng nhập lại.");
+      e.code = "expired"; throw e;
+    }
+    let data = {};
+    try { data = await res.json(); } catch (e) { data = {}; }
+    if (!res.ok) {
+      throw new Error("Xoá thất bại: " + ((data && data.detail) || ("HTTP " + res.status)));
+    }
+    return data;
   }
 
   // ============= FRONTMATTER PARSE/BUILD =============
@@ -569,9 +627,11 @@ tags = ${tagsStr}
     if (!show && input) input.value = "";
   }
 
-  // ============= STICKY VALIDATION — chỉ 1 bài ghim tại 1 thời điểm =============
-  // Trả về slug của bài KHÁC đang sticky (nếu có), hoặc null. Dùng state.posts
-  // (đã gộp bake + local). Bỏ qua chính bài đang sửa (currentSlug).
+  // ============= STICKY — chỉ 1 bài ghim tại 1 thời điểm (auto-unstick) =============
+  // Trả về bài KHÁC đang sticky (nếu có), hoặc null. Dùng state.posts (đã gộp
+  // bake + local). Bỏ qua chính bài đang sửa (currentSlug). KHÔNG chặn save:
+  // khi user ghim bài này, backend /cms/save-post tự gỡ sticky ở bài cũ trong
+  // cùng thao tác — user không phải bỏ ghim thủ công.
   function findOtherSticky(currentSlug) {
     for (const p of state.posts) {
       if (p.sticky && p.slug !== currentSlug) return p;
@@ -579,19 +639,29 @@ tags = ${tagsStr}
     return null;
   }
 
-  // Nếu user tick Sticky nhưng đã có bài khác sticky → báo lỗi ra màn hình +
-  // trả về false (chặn save). title/slug bài đang xung đột hiển thị rõ.
-  function ensureStickyAllowed(isSticky, currentSlug) {
-    if (!isSticky) return true;
-    const other = findOtherSticky(currentSlug);
-    if (!other) return true;
-    const name = other.title || other.slug;
-    const msg = "⚠️ Chỉ được ghim (Sticky) 1 bài tại một thời điểm. " +
-      'Bài "' + name + '" đang được ghim. ' +
-      "Hãy bỏ ghim bài đó trước, rồi ghim bài này.";
-    setStatus("save-status", msg, "error");
-    alert(msg);
-    return false;
+  // Đồng bộ state.posts sau khi commit thành công: nếu bài vừa lưu là sticky →
+  // gỡ sticky mọi bài khác trong state để UI khớp rule "chỉ 1 sticky" (file .md
+  // bài cũ đã được backend gỡ sticky song song). Upsert bài vừa lưu vào list.
+  function applySavedPostState(slug, fm) {
+    if (fm.sticky) {
+      state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
+    }
+    const savedPost = {
+      slug: slug,
+      title: fm.title,
+      permalink: postPermalink({ slug: slug }),
+      date: fm.date,
+      category: fm.category,
+      featured: fm.featured,
+      sticky: fm.sticky,
+      isNew: !state.editing,
+    };
+    const idx = state.posts.findIndex((p) => p.slug === slug);
+    if (idx >= 0) state.posts[idx] = savedPost;
+    else state.posts.unshift(savedPost);
+    invalidateListCache();   // ép background refresh tiếp theo fetch tươi
+    discardDraft(slug);      // bài đã commit lên repo → không cần giữ draft
+    lastDraftSlug = slug;
   }
 
   // ============= LOGIN BUTTON → REDIRECT GITHUB OAUTH =============
@@ -1113,6 +1183,14 @@ tags = ${tagsStr}
   }
 
   // ============= EDITOR VIEW =============
+  // Sau khi nạp field bằng .value (KHÔNG bắn 'input'), báo cho SEO rail biết để
+  // chấm điểm lại bài cũ ngay — tránh checklist toàn 0 khi mở bài đã có sẵn.
+  function dispatchHydrated() {
+    try {
+      document.dispatchEvent(new CustomEvent("cms:hydrated"));
+    } catch (e) { /* trình duyệt cũ thiếu CustomEvent ctor — non-critical */ }
+  }
+
   function openEditor(path) {
     const form = $("[data-form='post']");
     form.reset();
@@ -1171,6 +1249,8 @@ tags = ${tagsStr}
       lastRenderedBody = null;
       renderPreview();
       setStatus("save-status", "✓ Đã tải bài", "success");
+      // SEO rail hydrate: bài cũ vừa nạp xong → rail chấm điểm live ngay.
+      dispatchHydrated();
       // Check có draft chưa lưu cho slug này không — hiển thị banner khôi phục
       checkDraftFor(slug);
     }).catch((err) => {
@@ -1178,23 +1258,26 @@ tags = ${tagsStr}
     });
   }
 
-  $("[data-form='post']").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = e.target;
+  // ============= SAVE / PUBLISH → COMMIT GITHUB =============
+  // Một đường dẫn lưu duy nhất: validate → build frontmatter → PUT lên GitHub/main
+  // qua backend (commitPostToGithub). Bài cũ gửi kèm sha (state.editing.sha) →
+  // update đúng file; bài mới → create. Sticky tự auto-unstick bài cũ ở backend.
+  // KHÔNG còn chế độ draft-only/tải file .md.
+  async function saveAndCommit(opts) {
+    opts = opts || {};
+    const form = $("[data-form='post']");
+    if (opts.confirm && !form.reportValidity()) return;
 
     const fm = collectFormFrontmatter(form);
-    const isSticky = fm.sticky;
     const body = form.body.value;
-    const slug = (form.slug.value.trim() || slugify(fm.title));
+    const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
 
     if (!slug) { alert("Cần tiêu đề hoặc slug"); return; }
     if (!fm.title || !fm.date) { alert("Thiếu tiêu đề hoặc ngày"); return; }
-    if (!ensureStickyAllowed(isSticky, slug)) return;
 
     // Validate body có nội dung text thực sự — tránh case Zola không trích được
     // summary → page.summary = null → templates crash với `striptags` filter →
     // toàn bộ site không build → bài viết không lên web.
-    // Bỏ markdown markup (URL, ![]() image, #, *, -, [], code fence) trước khi đếm.
     const plainText = body
       .replace(/```[\s\S]*?```/g, "")           // code blocks
       .replace(/!\[[^\]]*\]\([^)]*\)/g, "")     // images
@@ -1214,162 +1297,55 @@ tags = ${tagsStr}
 
     const path = CONTENT_DIR + "/" + slug + ".md";
     const content = buildFrontmatter(fm, body);
-    const message = state.editing ? "Sửa bài: " + fm.title : "Bài mới: " + fm.title;
-
-    setStatus("save-status", "Đang tạo file .md…", "info");
-    try {
-      await putPost(path, content, state.editing ? state.editing.sha : null, message);
-      setStatus("save-status",
-        "✓ File '" + slug + ".md' đã tải về. Chạy local: " +
-        "git add " + path + " && git commit -m \"" + message + "\" && git push",
-        "success");
-      // Update state.posts in-place — preserve UI position khi user "Quay lại" list.
-      // Bake metadata stale ~1 phút cho đến rebuild, nhưng UI hiển thị metadata mới gõ.
-      // Nếu bài này được ghim → bỏ sticky mọi bài khác trong state (đồng bộ UI
-      // với rule "chỉ 1 sticky"; file .md các bài cũ sẽ được sửa khi user mở/lưu).
-      if (fm.sticky) {
-        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
-      }
-      const savedPost = {
-        slug: slug,
-        title: fm.title,
-        permalink: postPermalink({ slug: slug }),
-        date: fm.date,
-        category: fm.category,
-        featured: fm.featured,
-        sticky: fm.sticky,
-        isNew: !state.editing,
-      };
-      const idx = state.posts.findIndex((p) => p.slug === slug);
-      if (idx >= 0) state.posts[idx] = savedPost;
-      else state.posts.unshift(savedPost);
-      invalidateListCache(); // ép background refresh tiếp theo fetch tươi
-      // Cleanup draft localStorage — bài đã commit lên repo, không cần giữ draft
-      discardDraft(slug);
-      lastDraftSlug = slug;
-    } catch (err) {
-      setStatus("save-status", "✗ " + err.message, "error");
-    }
-  });
-
-  // ============= PUBLISH TO GITHUB =============
-  // Đẩy bài trực tiếp lên repo qua backend /cms/save-post. Backend dùng
-  // access_token GitHub (Redis-side) để PUT content/posting/{slug}.md.
-  // Sau push: GitHub Actions auto-build + deploy ~1-2 phút.
-  $("[data-action='publish']").addEventListener("click", async (e) => {
-    e.preventDefault();
-    const form = $("[data-form='post']");
-    if (!form.reportValidity()) return; // browser native validation
-
-    const sid = getSid();
-    if (!sid) {
-      alert("Phiên đăng nhập đã hết. Đăng nhập lại để publish.");
-      showView("login");
-      return;
-    }
-    if (!AUTH_API) {
-      alert("Backend chưa cấu hình.");
-      return;
-    }
-
-    const fm = collectFormFrontmatter(form);
-    const isSticky = fm.sticky;
-    const body = form.body.value;
-    const slug = (form.slug.value.trim() || slugify(fm.title)).toLowerCase();
-    if (!slug || !fm.title || !fm.date) {
-      alert("Thiếu tiêu đề, slug hoặc ngày.");
-      return;
-    }
-    if (!ensureStickyAllowed(isSticky, slug)) return;
-
-    // Same body length validate as Tải .md submit
-    const plainText = body
-      .replace(/```[\s\S]*?```/g, "")
-      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
-      .replace(/\[[^\]]*\]\([^)]*\)/g, "")
-      .replace(/https?:\/\/\S+/g, "")
-      .replace(/[#*_>`\-+|]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-    if (plainText.length < 50) {
-      alert("Nội dung quá ngắn (cần ≥ 50 ký tự).");
-      return;
-    }
-
-    const content = buildFrontmatter(fm, body);
     const message = state.editing
       ? "CMS: cập nhật bài '" + fm.title + "'"
       : "CMS: bài mới '" + fm.title + "'";
+    const sha = state.editing ? state.editing.sha : null;
 
-    if (!confirm("Đăng bài '" + fm.title + "' lên GitHub?\n\nFile: " +
-                 CONTENT_DIR + "/" + slug + ".md\n\nGitHub Actions sẽ tự build + deploy ~1-2 phút.")) {
-      return;
+    if (opts.confirm) {
+      if (!confirm("Đăng bài '" + fm.title + "' lên GitHub?\n\nFile: " + path +
+                   "\n\nGitHub Actions sẽ tự build + deploy ~1-2 phút.")) {
+        return;
+      }
     }
 
     setStatus("save-status", "Đang đẩy lên GitHub…", "info");
-
     try {
-      const res = await fetch(AUTH_API + "/cms/save-post", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + sid,
-          "Content-Type": "application/json",
-        },
-        credentials: "omit",
-        body: JSON.stringify({ slug, content, message }),
-      });
-
-      if (res.status === 401) {
-        clearSid();
-        alert("Phiên hết hạn. Đăng nhập lại.");
-        showView("login");
-        return;
-      }
-      if (res.status === 403) {
-        setStatus("save-status",
-          "✗ GitHub OAuth thiếu scope 'public_repo'. Đăng xuất và đăng nhập lại để cấp quyền.",
-          "error");
-        return;
-      }
-
-      const data = await res.json();
-      if (!res.ok) {
-        setStatus("save-status", "✗ " + (data.detail || "GitHub API lỗi"), "error");
-        return;
-      }
+      const data = await commitPostToGithub({ slug, content, message, sha });
 
       const commitLink = data.commit_url
         ? ' · <a href="' + data.commit_url + '" target="_blank" rel="noopener">Xem commit</a>'
         : "";
+      const stickyNote = data.demoted_sticky
+        ? " (đã tự bỏ ghim " + data.demoted_sticky + " bài cũ)"
+        : "";
       const statusEl = $("[data-target='save-status']");
       statusEl.className = "editor-status editor-status--success";
       statusEl.innerHTML = "✓ Đã " + (data.action === "updated" ? "cập nhật" : "đăng mới") +
-        " <strong>" + escapeHtml(data.path) + "</strong>. " +
-        "Deploy ETA: " + escapeHtml(data.deploy_eta) + commitLink;
+        " <strong>" + escapeHtml(data.path || path) + "</strong>" + stickyNote + ". " +
+        "Deploy ETA: " + escapeHtml(data.deploy_eta || "~1-2 phút") + commitLink;
 
-      // Update state.posts in-place — preserve UI position
-      if (fm.sticky) {
-        state.posts.forEach((p) => { if (p.slug !== slug) p.sticky = false; });
-      }
-      const savedPost = {
-        slug: slug,
-        title: fm.title,
-        permalink: postPermalink({ slug: slug }),
-        date: fm.date,
-        category: fm.category,
-        featured: fm.featured,
-        sticky: fm.sticky,
-        isNew: !state.editing,
-      };
-      const idx = state.posts.findIndex((p) => p.slug === slug);
-      if (idx >= 0) state.posts[idx] = savedPost;
-      else state.posts.unshift(savedPost);
-      invalidateListCache();
-      discardDraft(slug);
-      lastDraftSlug = slug;
+      applySavedPostState(slug, fm);
     } catch (err) {
-      setStatus("save-status", "✗ Lỗi mạng: " + err.message, "error");
+      if (err.code === "no_session" || err.code === "expired") {
+        alert(err.message);
+        showView("login");
+        return;
+      }
+      setStatus("save-status", "✗ " + err.message, "error");
     }
+  }
+
+  // Form submit (nút "Lưu lên GitHub" + Ctrl+S) → commit, không hỏi xác nhận.
+  $("[data-form='post']").addEventListener("submit", (e) => {
+    e.preventDefault();
+    saveAndCommit({ confirm: false });
+  });
+
+  // Nút "Đăng lên blog" → commit kèm xác nhận (browser validation + confirm).
+  $("[data-action='publish']").addEventListener("click", (e) => {
+    e.preventDefault();
+    saveAndCommit({ confirm: true });
   });
 
   $("[data-action='delete']").addEventListener("click", async () => {
@@ -1388,6 +1364,11 @@ tags = ${tagsStr}
       showView("list");
       renderPostList();
     } catch (err) {
+      if (err.code === "no_session" || err.code === "expired") {
+        alert(err.message);
+        showView("login");
+        return;
+      }
       setStatus("save-status", "✗ " + err.message, "error");
     }
   });
@@ -1735,6 +1716,7 @@ tags = ${tagsStr}
     updateCounter();
     lastRenderedBody = null;
     renderPreview();
+    dispatchHydrated(); // draft khôi phục cũng cần rail re-analyze
   }
 
   function checkDraftFor(slug) {

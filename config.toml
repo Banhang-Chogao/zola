@@ -79,12 +79,13 @@ ga_measurement_id = "G-REFBXH86Z5"
 # ============= GOOGLE SEARCH CONSOLE =============
 # Xác minh sở hữu site → mở khoá submit sitemap + "Request Indexing"
 # (cách NHANH NHẤT để bài mới lên Google thay vì chờ crawl tự nhiên).
-# Cách lấy mã:
+# Property đang dùng: sc-domain:seomoney.org (Domain property — sau khi verify Cloudflare 2026-06-20).
+# Sitemap canonical: https://seomoney.org/sitemap.xml (đã submit, discovered pages: 1634).
+# Cách lấy mã xác minh:
 #   1. Vào https://search.google.com/search-console → Add property
-#      → chọn "URL prefix" → nhập https://seomoney.org/
-#   2. Chọn phương thức xác minh "HTML tag"
-#   3. Copy phần content="..." trong thẻ <meta google-site-verification ...>
-#      rồi dán giá trị đó vào dưới (chỉ phần trong dấu nháy).
+#      → chọn "Domain" → nhập seomoney.org → verify qua DNS TXT Cloudflare
+#   2. Chọn phương thức "HTML tag" để lấy meta tag này cho blog.
+#   3. Copy phần content="..." rồi dán giá trị vào dưới.
 # Để trống = không render meta (silent skip).
 google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
 
@@ -102,9 +103,10 @@ cms_auth_url = "https://blog-vipzone-api.onrender.com"
 # Property cố định: sc-domain:seomoney.org (DOMAIN property — phủ http/https + mọi
 # subdomain/path). Deploy preflight (scripts/gsc_preflight.py, gate trong deploy.yml)
 # BẮT BUỘC secret GSC_PROPERTY_URL == "sc-domain:seomoney.org"; sai/thiếu → deploy FAIL.
+# Sitemap: https://seomoney.org/sitemap.xml
 # Setup: Google Cloud OAuth → redirect https://blog-vipzone-api.onrender.com/gsc/oauth/callback
 # → Render env GSC_CLIENT_ID + GSC_CLIENT_SECRET → đăng nhập CMS → Kết nối GSC.
-# CI snapshot: GitHub secrets GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET.
+# CI snapshot secrets: GSC_REFRESH_TOKEN, GSC_PROPERTY_URL=sc-domain:seomoney.org, GSC_CLIENT_ID, GSC_CLIENT_SECRET.
 
 # Paywall API — FastAPI backend (request/unlock/admin). Để trống = UI hiện nhưng fetch fail.
 paywall_api_url = "https://blog-paywall-api.onrender.com"
