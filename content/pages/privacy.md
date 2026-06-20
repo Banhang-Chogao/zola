@@ -1,6 +1,6 @@
 +++
 title = "Chính sách bảo mật"
-description = "Chính sách bảo mật của blog Duy Nguyen: cách chúng tôi thu thập, sử dụng dữ liệu, cookies, Google Analytics và quảng cáo Google AdSense, cùng quyền của bạn."
+description = "Chính sách bảo mật của blog SEOMONEY: cách chúng tôi thu thập, sử dụng dữ liệu, cookies, Google Analytics và quảng cáo Google AdSense, cùng quyền của bạn."
 path = "privacy"
 template = "about.html"
 +++

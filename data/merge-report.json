@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-20T12:27:20Z",
+  "updated_at": "2026-06-20T12:38:55Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 28,
+    "today": 29,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "chore": 18,
-      "fix": 50,
+      "fix": 51,
+      "chore": 17,
       "unknown": 33,
       "feature": 86,
       "content": 9,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 551,
+      "pr_title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfix PRs",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/551",
+      "merged_at": "2026-06-20T12:32:01Z",
+      "merge_commit_sha": "0b60f39ee662c72efb4b499913af02699ebe847d",
+      "merge_commit_short": "0b60f39",
+      "head_branch": "claude/zealous-tesla-9lu5hd",
+      "summary_vi": "Permanent fix for the class of conflicts that blocked PRs #547, #548, #549 — all `dirty` due to volatile runtime artifacts committed alongside real code fixes.",
+      "change_type": "fix",
+      "files_changed": 21,
+      "additions": 365,
+      "deletions": 647,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 847,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871273515",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 555,
       "pr_title": "chore(vaccine): Daily Vaccine Autofixer run",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 846,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27870982969",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 567,
@@ -56,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 845,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27870535975",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 566,
@@ -624,8 +643,8 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 817,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27849455304",
+      "build_run_number": 819,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27850149856",
       "build_conclusion": "success"
     },
     {
@@ -3795,25 +3814,6 @@
       "files_changed": 7,
       "additions": 75,
       "deletions": 29,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 339,
-      "pr_title": "chore: rebuild semantic related posts + references",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/339",
-      "merged_at": "2026-06-17T18:21:47Z",
-      "merge_commit_sha": "3b54b8c6f30ee234980d4b5a01c08894be7f5ea6",
-      "merge_commit_short": "3b54b8c",
-      "head_branch": "chore/related-posts-data",
-      "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
-      "change_type": "chore",
-      "files_changed": 2,
-      "additions": 77,
-      "deletions": 43,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,

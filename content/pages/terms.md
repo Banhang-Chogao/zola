@@ -1,6 +1,6 @@
 +++
 title = "Điều khoản & Miễn trừ trách nhiệm"
-description = "Điều khoản sử dụng và tuyên bố miễn trừ trách nhiệm của blog Duy Nguyen: bản quyền nội dung, tính chất tham khảo, liên kết giới thiệu và giới hạn trách nhiệm."
+description = "Điều khoản sử dụng và tuyên bố miễn trừ trách nhiệm của blog SEOMONEY: bản quyền nội dung, tính chất tham khảo, liên kết giới thiệu và giới hạn trách nhiệm."
 path = "terms"
 template = "about.html"
 +++
