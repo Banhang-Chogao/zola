@@ -1,7 +1,7 @@
 # ShortenSEA API — Deploy Render
 
 Backend lưu short link, tracking click, approve code. Frontend đã live tại
-`https://banhang-chogao.github.io/zola/shortensea/` — cần API này để chạy production.
+`https://seomoney.org/shortensea/` — cần API này để chạy production.
 
 ## ⚡ Nhanh nhất (~5 phút)
 
@@ -47,7 +47,7 @@ curl https://blog-shortensea-api.onrender.com/
 # → {"service":"shortensea","status":"ok",...}
 ```
 
-Mở blog: https://banhang-chogao.github.io/zola/shortensea/
+Mở blog: https://seomoney.org/shortensea/
 
 - Đăng nhập GitHub → tạo link → copy short URL dạng `.../zola/s/{slug}`
 - Truy cập short URL → redirect + log click
@@ -67,7 +67,7 @@ Không cần sửa thêm sau khi API chạy.
 
 ```
 GitHub Pages (/shortensea/*)  →  JS gọi API (CORS)
-GitHub Pages (/zola/s/{slug}) →  404.html → redirect.js → API /s/{slug} → 302 destination
+GitHub Pages (/s/{slug}) →  404.html → redirect.js → API /s/{slug} → 302 destination
 ```
 
 ## Endpoints chính

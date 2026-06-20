@@ -1,7 +1,7 @@
 # Tổng hợp tính năng đã triển khai — Phiên làm việc 18–19/06/2026
 
 - **Repo:** [Banhang-Chogao/zola](https://github.com/Banhang-Chogao/zola)
-- **Production:** https://banhang-chogao.github.io/zola/
+- **Production:** https://seomoney.org/
 - **Deploy cuối:** GitHub Actions **#745** — success — commit `c4bc703`
 - **Nhánh:** `main` (tất cả PR đã merge)
 
@@ -36,11 +36,11 @@
 
 5 bài series xuất bản và hiển thị đầu feed:
 
-1. [V-Plus & V-Advance là gì?](https://banhang-chogao.github.io/zola/posting/vietinbank-v-plus-v-advance-la-gi/)
-2. [V-Plus chi tiết quyền lợi](https://banhang-chogao.github.io/zola/posting/vietinbank-v-plus-chi-tiet-quyen-loi/)
-3. [V-Advance đặc quyền](https://banhang-chogao.github.io/zola/posting/vietinbank-v-advance-nang-tam-trai-nghiem/)
-4. [So sánh V-Plus vs V-Advance](https://banhang-chogao.github.io/zola/posting/so-sanh-v-plus-va-v-advance-chon-goi-nao/)
-5. [Đăng ký trên iPay](https://banhang-chogao.github.io/zola/posting/dang-ky-v-plus-v-advance-tren-ipay/)
+1. [V-Plus & V-Advance là gì?](https://seomoney.org/posting/vietinbank-v-plus-v-advance-la-gi/)
+2. [V-Plus chi tiết quyền lợi](https://seomoney.org/posting/vietinbank-v-plus-chi-tiet-quyen-loi/)
+3. [V-Advance đặc quyền](https://seomoney.org/posting/vietinbank-v-advance-nang-tam-trai-nghiem/)
+4. [So sánh V-Plus vs V-Advance](https://seomoney.org/posting/so-sanh-v-plus-va-v-advance-chon-goi-nao/)
+5. [Đăng ký trên iPay](https://seomoney.org/posting/dang-ky-v-plus-v-advance-tren-ipay/)
 
 **Verify production:** Homepage **Trang 1/16** — 5 bài VietinBank trên cùng.
 
@@ -111,9 +111,9 @@
 
 ## 6. Liên kết nhanh
 
-- **Site:** https://banhang-chogao.github.io/zola/
+- **Site:** https://seomoney.org/
 - **Deploy log:** https://github.com/Banhang-Chogao/zola/actions/runs/27796087713
-- **Series AdSense (đã publish 6/15):** https://banhang-chogao.github.io/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/
+- **Series AdSense (đã publish 6/15):** https://seomoney.org/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/
 
 ---
 

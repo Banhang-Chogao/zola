@@ -7,7 +7,7 @@ aliases = ["/bhxh-mot-lan-hay-luong-huu/"]
 categories = ["Tất cả", "Bảo hiểm"]
 tags = ["bhxh một lần", "lương hưu", "rút bhxh"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "bhxh một lần hay lương hưu"
 featured = false
 +++
@@ -18,7 +18,7 @@ featured = false
 
 Đây là quyết định tài chính lớn nhất tôi thấy người lao động phải đối mặt khi **chưa đủ tuổi hưu** hoặc **muốn định cư nước ngoài**. Tôi đã từng tính toán cho chính mình và cho anh trai — hai trường hợp, hai lựa chọn khác nhau.
 
-**Tham khảo:** [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/) · [BHTN khi nghỉ việc](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/)
+**Tham khảo:** [Tính lương hưu 2026](/tinh-luong-huu-2026-huong-dan/) · [BHTN khi nghỉ việc](/tro-cap-that-nghiep-thoi-gian-bhtn/)
 
 ---
 
@@ -59,13 +59,13 @@ featured = false
 3. **Muốn BHYT khi về hưu** — người hưởng lương hưu được cấp thẻ BHYT
 4. **Có người phụ thuộc** — lương hưu ổn định cho gia đình
 
-Chi tiết tính toán: [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/)
+Chi tiết tính toán: [Tính lương hưu 2026](/tinh-luong-huu-2026-huong-dan/)
 
 ---
 
 ## BHXH một lần có ảnh hưởng BHTN không?
 
-**Không liên quan trực tiếp.** BHTN dùng khi **thất nghiệp**, BHXH một lần dùng khi **chấm dứt tham gia BHXH**. Nếu bạn vừa nghỉ việc, ưu tiên [hưởng trợ cấp thất nghiệp](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/) trước khi quyết định rút BHXH.
+**Không liên quan trực tiếp.** BHTN dùng khi **thất nghiệp**, BHXH một lần dùng khi **chấm dứt tham gia BHXH**. Nếu bạn vừa nghỉ việc, ưu tiên [hưởng trợ cấp thất nghiệp](/tro-cap-that-nghiep-thoi-gian-bhtn/) trước khi quyết định rút BHXH.
 
 ---
 
@@ -73,8 +73,8 @@ Chi tiết tính toán: [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huon
 
 Dù chọn hướng nào, tôi dùng:
 
-- [VietinBank iPay](/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/) — chuyển khoản, tiết kiệm
-- [LPBank số](/zola/review-lpbank-so-2026/) — theo dõi chi tiêu
+- [VietinBank iPay](/toi-uu-bao-mat-han-muc-vietinbank-ipay/) — chuyển khoản, tiết kiệm
+- [LPBank số](/review-lpbank-so-2026/) — theo dõi chi tiêu
 
 ---
 

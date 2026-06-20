@@ -7,7 +7,7 @@ aliases = ["/toi-uu-bao-mat-han-muc-vietinbank-ipay/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["bảo mật ipay", "hạn mức ipay", "vietinbank ipay"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "bảo mật VietinBank iPay"
 featured = false
 +++
@@ -16,7 +16,7 @@ featured = false
 
 ---
 
-Sau khi dùng [10 mẹo iPay hằng ngày](/zola/10-meo-vietinbank-ipay-nang-cao/), bước tiếp theo tôi làm là **khóa chặt bảo mật** và **set hạn mức hợp lý** — vừa an toàn vừa đủ cho nhu cầu thực tế.
+Sau khi dùng [10 mẹo iPay hằng ngày](/10-meo-vietinbank-ipay-nang-cao/), bước tiếp theo tôi làm là **khóa chặt bảo mật** và **set hạn mức hợp lý** — vừa an toàn vừa đủ cho nhu cầu thực tế.
 
 ---
 
@@ -49,7 +49,7 @@ Sau khi dùng [10 mẹo iPay hằng ngày](/zola/10-meo-vietinbank-ipay-nang-cao
 3. Nhập mức mới → Xác thực Soft OTP
 4. Hạn mức rất cao → cần đến quầy
 
-So sánh: [LPBank số hạn mức](/zola/loi-thuong-gap-lpbank-so/)
+So sánh: [LPBank số hạn mức](/loi-thuong-gap-lpbank-so/)
 
 ---
 
@@ -74,7 +74,7 @@ So sánh: [LPBank số hạn mức](/zola/loi-thuong-gap-lpbank-so/)
 
 ## Hạn mức và BHXH / lương hưu
 
-Khi nhận [trợ cấp thất nghiệp](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/) hoặc [lương hưu](/zola/tinh-luong-huu-2026-huong-dan/), tiền chuyển vào TK liên kết. Tôi:
+Khi nhận [trợ cấp thất nghiệp](/tro-cap-that-nghiep-thoi-gian-bhtn/) hoặc [lương hưu](/tinh-luong-huu-2026-huong-dan/), tiền chuyển vào TK liên kết. Tôi:
 
 - Đăng ký TK VietinBank làm tài khoản nhận BHXH
 - Bật thông báo biến động để biết ngày nhận tiền
@@ -84,9 +84,9 @@ Khi nhận [trợ cấp thất nghiệp](/zola/tro-cap-that-nghiep-thoi-gian-bht
 
 ## Liên kết cluster
 
-- [10 mẹo iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
-- [Review LPBank số](/zola/review-lpbank-so-2026/)
-- [FAQ Schema ngân hàng](/zola/faq-schema-cluster-ngan-hang-ctr/)
+- [10 mẹo iPay](/10-meo-vietinbank-ipay-nang-cao/)
+- [Review LPBank số](/review-lpbank-so-2026/)
+- [FAQ Schema ngân hàng](/faq-schema-cluster-ngan-hang-ctr/)
 
 ---
 

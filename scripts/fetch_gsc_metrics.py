@@ -4,7 +4,7 @@ Fetch Google Search Console metrics → data/gsc-metrics.json + static mirror.
 
 Env (GitHub Actions secrets):
   GSC_REFRESH_TOKEN
-  GSC_PROPERTY_URL      — e.g. https://banhang-chogao.github.io/zola/
+  GSC_PROPERTY_URL      — e.g. https://seomoney.org/
   GSC_CLIENT_ID
   GSC_CLIENT_SECRET
 

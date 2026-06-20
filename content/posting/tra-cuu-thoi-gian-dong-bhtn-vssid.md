@@ -7,7 +7,7 @@ aliases = ["/tra-cuu-thoi-gian-dong-bhtn-vssid/"]
 categories = ["Tất cả", "Bảo hiểm"]
 tags = ["quá trình đóng bhtn", "tra cứu bảo hiểm thất nghiệp", "vssid bhtn"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tra cứu bảo hiểm thất nghiệp"
 featured = false
 +++
@@ -16,7 +16,7 @@ featured = false
 
 ---
 
-Sau khi xử lý xong lỗi VssID không hiện BHTN ở [bài pillar](/zola/vssid-khong-hien-qua-trinh-dong-bhtn/), bước tiếp theo tôi làm là **đếm chính xác số tháng đóng BHTN** — vì đây là điều kiện bắt buộc để hưởng trợ cấp thất nghiệp.
+Sau khi xử lý xong lỗi VssID không hiện BHTN ở [bài pillar](/vssid-khong-hien-qua-trinh-dong-bhtn/), bước tiếp theo tôi làm là **đếm chính xác số tháng đóng BHTN** — vì đây là điều kiện bắt buộc để hưởng trợ cấp thất nghiệp.
 
 ---
 
@@ -95,24 +95,24 @@ Tôi cộng **cột số tháng** của tất cả kỳ trong 24 tháng gần nh
 
 **Xử lý:** Đăng nhập lại; nếu lặp lại, dùng website thay app.
 
-Chi tiết xử lý VssID trống: [Bài 1 — Pillar BHTN](/zola/vssid-khong-hien-qua-trinh-dong-bhtn/)
+Chi tiết xử lý VssID trống: [Bài 1 — Pillar BHTN](/vssid-khong-hien-qua-trinh-dong-bhtn/)
 
 ---
 
 ## Sau khi tra cứu xong — bước tiếp theo
 
-1. **Đủ 12 tháng?** → Xem [mốc thời gian hưởng trợ cấp](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/)
+1. **Đủ 12 tháng?** → Xem [mốc thời gian hưởng trợ cấp](/tro-cap-that-nghiep-thoi-gian-bhtn/)
 2. **Chưa đủ?** → Tính thêm cần bao nhiêu tháng; cân nhắc làm HĐLĐ mới để bù
-3. **Sắp nghỉ hưu?** → Đối chiếu với [tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/)
+3. **Sắp nghỉ hưu?** → Đối chiếu với [tính lương hưu 2026](/tinh-luong-huu-2026-huong-dan/)
 
 ---
 
 ## Liên kết Finance Cluster
 
-- [VssID không hiện BHTN](/zola/vssid-khong-hien-qua-trinh-dong-bhtn/)
-- [Trợ cấp thất nghiệp — mốc thời gian](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/)
-- [Review LPBank số 2026](/zola/review-lpbank-so-2026/) — quản lý tài chính khi chờ trợ cấp
-- [VietinBank iPay nâng cao](/zola/10-meo-vietinbank-ipay-nang-cao/)
+- [VssID không hiện BHTN](/vssid-khong-hien-qua-trinh-dong-bhtn/)
+- [Trợ cấp thất nghiệp — mốc thời gian](/tro-cap-that-nghiep-thoi-gian-bhtn/)
+- [Review LPBank số 2026](/review-lpbank-so-2026/) — quản lý tài chính khi chờ trợ cấp
+- [VietinBank iPay nâng cao](/10-meo-vietinbank-ipay-nang-cao/)
 
 ---
 

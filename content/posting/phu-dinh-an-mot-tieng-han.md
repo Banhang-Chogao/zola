@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-18"
 premium_title = "Ngày 18 — Phủ định 안 / 못 & -지 않다"
 premium_teaser_words = 210
 seo_keyword = "phủ định tiếng hàn 안 못"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 18
@@ -41,4 +41,4 @@ Nếm thử: **안** + động từ = "không (làm)" do **không muốn/không 
 
 Trong bài đầy đủ hôm nay bạn sẽ có: cách dùng **안 / 못** đặt đúng chỗ, dạng dài **-지 않다 / -지 못하다**, ca đặc biệt động từ **하다** (공부 **안** 해요 / 공부 **못** 해요), **bảng so sánh 안 vs 못** trực quan, cặp phủ định bất quy tắc **있다→없다, 알다→모르다**, và **15 câu bài tập kèm đáp án**. Mở khóa để từ chối khéo léo bằng tiếng Hàn — 화이팅! 💪
 
-👉 Quay lại [Ngày 17 — thì tương lai & ý định](/zola/posting/thi-tuong-lai-y-dinh-tieng-han/), hoặc tiến tới [Ngày 19 — mệnh lệnh & rủ rê](/zola/posting/cau-menh-lenh-ru-re-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) và [kho bài Premium](/zola/categories/premium/).
+👉 Quay lại [Ngày 17 — thì tương lai & ý định](/posting/thi-tuong-lai-y-dinh-tieng-han/), hoặc tiến tới [Ngày 19 — mệnh lệnh & rủ rê](/posting/cau-menh-lenh-ru-re-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/).

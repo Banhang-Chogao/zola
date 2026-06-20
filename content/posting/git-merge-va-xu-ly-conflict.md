@@ -7,7 +7,7 @@ aliases = ["/git-merge-va-xu-ly-conflict/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "git merge", "github", "lập trình"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git merge"
 featured = false
 series = "git-github"
@@ -27,7 +27,7 @@ q = "Fast-forward merge khác merge commit thế nào?"
 a = "Fast-forward xảy ra khi nhánh đích không có commit mới nào — Git chỉ dời con trỏ tới trước, không tạo commit gộp. Merge commit được tạo khi cả hai nhánh đều có commit mới, ghi lại điểm hợp nhất."
 +++
 
-> 📚 **Git & GitHub Series (Bài 5/15)** — Đã biết tạo nhánh ở [Bài 4 về git branch](/zola/posting/git-branch-lam-viec-voi-nhanh/), giờ ta học cách gộp chúng lại bằng **git merge** và xử lý xung đột.
+> 📚 **Git & GitHub Series (Bài 5/15)** — Đã biết tạo nhánh ở [Bài 4 về git branch](/posting/git-branch-lam-viec-voi-nhanh/), giờ ta học cách gộp chúng lại bằng **git merge** và xử lý xung đột.
 
 **Git merge** là thao tác đưa công sức từ một nhánh trở lại nhánh chính. Phần lớn thời gian Git gộp tự động trơn tru, nhưng đôi khi bạn sẽ gặp **conflict** — và đây chính là lúc nhiều người mới hoảng sợ. Tin tốt: conflict hoàn toàn bình thường và có quy trình rõ ràng để giải quyết. Bài này hướng dẫn cả hai trường hợp, từng bước.
 
@@ -93,7 +93,7 @@ Mở file bị conflict, bạn sẽ thấy các "dấu phân cách" do Git chèn
 5. `git add <file>` để đánh dấu đã giải quyết.
 6. `git commit` để hoàn tất merge (Git tự soạn sẵn thông điệp).
 
-Trên blog này, hệ thống tự động còn có cả [bot tự sửa conflict](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/) cho các trường hợp đơn giản, nhưng hiểu quy trình thủ công vẫn là kỹ năng nền tảng.
+Trên blog này, hệ thống tự động còn có cả [bot tự sửa conflict](/posting/qa-gatekeeper-tu-fix-loi-blog/) cho các trường hợp đơn giản, nhưng hiểu quy trình thủ công vẫn là kỹ năng nền tảng.
 
 ## Công cụ hỗ trợ và hủy merge
 
@@ -114,4 +114,4 @@ Trên blog này, hệ thống tự động còn có cả [bot tự sửa conflic
 
 **Git merge** gộp công sức giữa các nhánh; phần lớn tự động, và khi gặp **conflict** bạn chỉ cần bình tĩnh: mở file, chọn nội dung đúng, xóa dấu phân cách, rồi `add` và `commit`. Conflict là phần bình thường của làm việc nhóm, không phải dấu hiệu bạn làm sai.
 
-Ở **Bài 6**, chúng ta đưa Git ra khỏi máy cá nhân: [làm việc với repository từ xa qua git remote](/zola/posting/git-remote-lam-viec-voi-repository-tu-xa/) — bước đệm trước khi lên GitHub ở Bài 7.
+Ở **Bài 6**, chúng ta đưa Git ra khỏi máy cá nhân: [làm việc với repository từ xa qua git remote](/posting/git-remote-lam-viec-voi-repository-tu-xa/) — bước đệm trước khi lên GitHub ở Bài 7.

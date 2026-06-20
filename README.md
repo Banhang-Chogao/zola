@@ -2,12 +2,12 @@
 
 **Blog cá nhân tĩnh về công nghệ, du lịch và ẩm thực — xây dựng trên Zola, deploy GitHub Pages, không backend runtime.**
 
-[![Live site](https://img.shields.io/badge/Live-banhang--chogao.github.io%2Fzola-003784?style=flat-square)](https://banhang-chogao.github.io/zola/)
+[![Live site](https://img.shields.io/badge/Live-banhang--chogao.github.io%2Fzola-003784?style=flat-square)](https://seomoney.org/)
 [![Zola](https://img.shields.io/badge/Zola-0.22.1-FF4900?style=flat-square&logo=rust&logoColor=white)](https://www.getzola.org/)
 [![Deploy](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/deploy.yml?branch=main&style=flat-square&label=deploy)](https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml)
 [![QA](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/qa.yml?branch=main&style=flat-square&label=qa)](https://github.com/Banhang-Chogao/zola/actions/workflows/qa.yml)
 
-[Trang chủ](https://banhang-chogao.github.io/zola/) · [Viết bài (CMS)](https://banhang-chogao.github.io/zola/editor/) · [Insights](https://banhang-chogao.github.io/zola/insights/) · [Bảng Vàng SEO](https://banhang-chogao.github.io/zola/seo-bang-vang/)
+[Trang chủ](https://seomoney.org/) · [Viết bài (CMS)](https://seomoney.org/editor/) · [Insights](https://seomoney.org/insights/) · [Bảng Vàng SEO](https://seomoney.org/seo-bang-vang/)
 
 ---
 
@@ -49,7 +49,7 @@ Mọi thay đổi vào production đi qua **Pull Request** → CI xanh → auto-
 | **Client JS** | Vanilla JS (35 module) | IIFE/defer, không framework UI |
 | **Build scripts** | Python 3.11 (70+ script) | Sinh OG image, references, related, trends, compliance… |
 | **CI** | GitHub Actions + Node 24 (actions only) | `deploy.yml`, `qa.yml`, … |
-| **Hosting** | GitHub Pages | `base_url = https://banhang-chogao.github.io/zola` |
+| **Hosting** | GitHub Pages | `base_url = https://seomoney.org` |
 | **Search** | Local JSON index + Google CSE (tuỳ cấu hình) | `site-search-data` inline trong `base.html` |
 | **Optional services** | FastAPI paywall (`backend/`, `services/`) | Không bắt buộc để đọc blog tĩnh |
 
@@ -131,7 +131,7 @@ python3 -m unittest discover -s scripts -p 'test_*.py' -v
 | **Deploy** | `deploy.yml` trên `main` — build artifact → GitHub Pages |
 | **Lịch** | Deploy định kỳ 6h/lần để publish data bot refresh |
 
-Production URL: **https://banhang-chogao.github.io/zola/**
+Production URL: **https://seomoney.org/**
 
 ---
 
@@ -171,7 +171,7 @@ Desktop đạt điểm cao; mobile LCP đang là hạng mục ưu tiên tối ư
 ## Tác giả & bản quyền
 
 - **Tác giả:** [duynguyenlog](https://github.com/Banhang-Chogao) — blog **Duy Nguyen**
-- **Bản quyền nội dung:** © 2026 Duy Nguyen — [Tuyên bố bản quyền](https://banhang-chogao.github.io/zola/copyright/)
-- **Chính sách:** [Privacy](https://banhang-chogao.github.io/zola/privacy/) · [Terms](https://banhang-chogao.github.io/zola/terms/) · [Contact](https://banhang-chogao.github.io/zola/contact/)
+- **Bản quyền nội dung:** © 2026 Duy Nguyen — [Tuyên bố bản quyền](https://seomoney.org/copyright/)
+- **Chính sách:** [Privacy](https://seomoney.org/privacy/) · [Terms](https://seomoney.org/terms/) · [Contact](https://seomoney.org/contact/)
 
 Engine: [Zola](https://www.getzola.org/) · Comments: [Giscus](https://giscus.app)

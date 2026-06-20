@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
 """
-Post-build checker: detect internal links missing the GitHub Pages /zola/ prefix.
+Post-build checker: detect on-site links that would 404 against the canonical base.
 
-The blog is served from https://banhang-chogao.github.io/zola/, so every on-site
-link in the built HTML must live under /zola/. A root-absolute link like
-href="/posting/foo/" resolves to github.io/posting/foo/ in the browser (404) even
-though the file exists on disk — which is exactly why qa-404-checker.py (it strips
-/zola before resolving against public/) cannot see this class of bug. This checker
-is that gate, and /zola is the canonical runtime prefix it enforces (no
-root-domain assumption anywhere).
-
-It parses real HTML *attributes* (not a raw-text regex), so substrings such as
-data-href="/x", xlink:href, or "href":"/x" inside inline JSON can never
+The blog is served from https://seomoney.org/ (root domain — no /zola subpath),
+so every on-site link in the built HTML must be a valid root-absolute path. This
+checker parses real HTML *attributes* (not a raw-text regex), so substrings such
+as data-href="/x", xlink:href, or "href":"/x" inside inline JSON can never
 masquerade as a link and trip a false positive. It inspects asset URLs
 (src / srcset / <link href>) as well, so a missing-prefix asset is not silently
 skipped either.
+
+SITE_PREFIX is derived from BASE_URL: at root it is "" (every root-absolute link
+is already canonical), and if the site ever moves back under a subpath the same
+logic enforces that prefix automatically — no root-domain assumption hardcoded.
 
 Exit 0 if clean, 1 if any bad links found.
 Stdlib only.
@@ -29,8 +27,8 @@ from urllib.parse import urlparse
 
 REPO = Path(__file__).resolve().parent.parent
 PUBLIC = REPO / "public"
-BASE_URL = "https://banhang-chogao.github.io/zola"
-SITE_PREFIX = urlparse(BASE_URL).path.rstrip("/")  # /zola — canonical subpath
+BASE_URL = "https://seomoney.org"
+SITE_PREFIX = urlparse(BASE_URL).path.rstrip("/")  # "" at root — canonical subpath
 
 SKIP_PREFIXES = ("#", "mailto:", "tel:", "javascript:", "data:")
 
@@ -72,19 +70,23 @@ class LinkParser(HTMLParser):
 
 
 def _is_bad_href(href: str) -> bool:
-    """True if href is an on-site root-absolute link missing the /zola/ prefix."""
+    """True if href is an on-site root-absolute link missing the canonical prefix.
+
+    At root (SITE_PREFIX == "") every root-absolute href is already canonical, so
+    nothing is flagged; under a subpath the missing-prefix links are caught.
+    """
     href = (href or "").strip()
     if not href or any(href.startswith(p) for p in SKIP_PREFIXES):
         return False
     # Absolute or protocol-relative URLs are not "missing-prefix" candidates: an
-    # absolute self-URL already carries /zola, and cross-origin is out of scope.
+    # absolute self-URL already carries the base, and cross-origin is out of scope.
     if href.startswith("//") or urlparse(href).scheme:
         return False
     # Only root-absolute paths can 404 from a missing base prefix (skip relative
     # links and the bare "/" home, which prior behaviour also left untouched).
     if not href.startswith("/") or href == "/":
         return False
-    # Already correctly under the canonical subpath.
+    # Already correctly under the canonical subpath (always true at root).
     if href == SITE_PREFIX or href.startswith(SITE_PREFIX + "/"):
         return False
     return True
@@ -126,7 +128,7 @@ def main() -> int:
     bad = scan()
     total = sum(len(v) for v in bad.values())
     if not bad:
-        print("OK: no internal links missing /zola/ prefix")
+        print("OK: no internal links missing canonical prefix")
         return 0
 
     print(f"FAIL: {total} bad href(s) in {len(bad)} file(s)\n")

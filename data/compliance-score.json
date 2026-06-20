@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T06:59:56Z",
+  "updated_at": "2026-06-20T08:15:12Z",
   "score": 100.0,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "746/783 in range"
+          "detail": "773/810 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "762/783 complete"
+          "detail": "789/810 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "782/783 set"
+          "detail": "809/810 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "782/783 single H1"
+          "detail": "809/810 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "782/783 with lang"
+          "detail": "809/810 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "782/783 ready"
+          "detail": "809/810 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "782/783 pages"
+          "detail": "809/810 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "781/783 pages covered"
+          "detail": "808/810 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "196/196 articles"
+          "detail": "201/201 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "190/196 tagged"
+          "detail": "195/201 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "195/196 substantive"
+          "detail": "200/201 substantive"
         },
         {
           "label": "Unique titles",
@@ -171,7 +171,7 @@
         {
           "label": "GitHub Pages base path",
           "status": "pass",
-          "detail": "all hrefs use /zola/"
+          "detail": "all hrefs use /"
         }
       ]
     },
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "778/783 pages"
+          "detail": "805/810 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,8 +222,8 @@
       "text": "Structure: Mobile viewport"
     }
   ],
-  "pages_scanned": 783,
-  "articles_scanned": 201,
+  "pages_scanned": 810,
+  "articles_scanned": 206,
   "fix_log": [
     {
       "category": "—",
@@ -231,7 +231,7 @@
       "check_status": "pass",
       "outcome": "skipped",
       "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-20T06:59:56Z"
+      "at": "2026-06-20T08:15:12Z"
     }
   ],
   "fix_summary": {

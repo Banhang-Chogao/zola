@@ -15,7 +15,7 @@ inject `REDIS_URL`. Bạn chỉ cần điền 3 env vars là chạy.
 1. Vào https://github.com/settings/developers → **New OAuth App**
 2. Điền:
    - Application name: `Blog CMS Auth`
-   - Homepage URL: `https://banhang-chogao.github.io/zola`
+   - Homepage URL: `https://seomoney.org`
    - Authorization callback URL:
      `https://blog-vipzone-api.onrender.com/auth/callback`
 3. Register → màn hình hiển thị **Client ID** (copy)
@@ -117,7 +117,7 @@ Trong section **Environment Variables** của Web Service:
 | Key | Value |
 |---|---|
 | `REDIS_URL` | Paste Internal Redis URL từ bước 1 |
-| `CORS_ORIGIN` | `https://banhang-chogao.github.io` |
+| `CORS_ORIGIN` | `https://seomoney.org` |
 | `COUNTER_KEY` | `blog:visitors` (optional) |
 
 Click **Create Web Service**. Render build + deploy ~2-3 phút. Sau đó được
@@ -168,7 +168,7 @@ bypass client được).
 1. Vào https://github.com/settings/developers → **New OAuth App**
 2. Điền:
    - **Application name**: `Blog CMS Auth` (hoặc tên gì cũng được)
-   - **Homepage URL**: `https://banhang-chogao.github.io/zola`
+   - **Homepage URL**: `https://seomoney.org`
    - **Authorization callback URL**:
      `https://blog-vipzone-api.onrender.com/auth/callback`
      (= `${BACKEND_URL}/auth/callback`, PHẢI MATCH EXACT)
@@ -184,7 +184,7 @@ Trong **Environment Variables** của Web Service:
 | `GH_CLIENT_ID` | Client ID vừa lấy ở Bước 1 |
 | `GH_CLIENT_SECRET` | Client Secret vừa lấy ở Bước 1 |
 | `BACKEND_URL` | `https://blog-vipzone-api.onrender.com` |
-| `BLOG_URL` | `https://banhang-chogao.github.io/zola` |
+| `BLOG_URL` | `https://seomoney.org` |
 | `ADMIN_EMAILS` | `292648126+Banhang-Chogao@users.noreply.github.com` (comma-separated cho nhiều) |
 | `ADMIN_USERNAMES` | `banhang-chogao` (fallback nếu email noreply chưa verify) |
 | `SESSION_TTL` | `7200` (2 giờ idle, optional) |
@@ -193,8 +193,8 @@ Click **Save Changes** → Render auto-restart service.
 
 ### Bước 3: Test flow
 
-**CMS:** `https://banhang-chogao.github.io/zola/editor/`  
-**F-Dashboard:** `https://banhang-chogao.github.io/zola/tools/f-dashboard/`
+**CMS:** `https://seomoney.org/editor/`  
+**F-Dashboard:** `https://seomoney.org/tools/f-dashboard/`
 
 1. Click "Đăng nhập với GitHub"
 2. Authorize trên GitHub (lần đầu)

@@ -26,7 +26,7 @@ TEMPLATE_DIRS = (ROOT / "templates", ROOT / "sass")
 DATA_OUT = ROOT / "data" / "ad-report-v2.json"
 MANIFEST_OUT = ROOT / "data" / "ad-report-v2-manifest.json"
 REPORTS_DIR = ROOT / "reports" / "ad-report-v2"
-BASE_URL = "https://banhang-chogao.github.io/zola"
+BASE_URL = "https://seomoney.org"
 
 # High-CPC topic signals (title/tags/category/body)
 RPM_TOPIC_RULES: list[tuple[str, int, str]] = [
@@ -53,7 +53,7 @@ _CATS_RE = re.compile(r'categories\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _TAGS_RE = re.compile(r'tags\s*=\s*\[([^\]]+)\]', re.MULTILINE)
 _SERIES_RE = re.compile(r'^\s*series\s*=\s*"([^"]+)"', re.MULTILINE)
 _SEO_KW_RE = re.compile(r'^\s*seo_keyword\s*=\s*"([^"]+)"', re.MULTILINE)
-_LINK_RE = re.compile(r'\]\((/[^)]+|https://banhang-chogao\.github\.io/zola[^)]*)\)')
+_LINK_RE = re.compile(r'\]\((/[^)]+|https://seomoney\.org[^)]*)\)')
 
 
 def _load_json(path: Path) -> dict | list | None:

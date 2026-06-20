@@ -2,6 +2,42 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "vaccine(ui): sidebar_layout_vaccine — lock right-column menu in-grid …",
+      "tag": "chore",
+      "lines_added": 267,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/qa_vaccines.py: check_sidebar_layout (code UI-SIDEBAR) + DETECTORS entry",
+        "scripts/test_qa_vaccines.py: SidebarLayoutTest (real-repo PASS, baseline PASS, side-nav fixed FAIL, sidebar absolute FAIL, single-track grid FAIL, missing min-width WARN)."
+      ],
+      "pr": 541
+    },
+    {
+      "date": "2026-06-20",
+      "title": "dns-vaccine: apex NS gate + empty-apex-A Cloudflare fix steps (seomoney.org)",
+      "tag": "fix",
+      "lines_added": 252,
+      "lines_removed": 9,
+      "highlights": [
+        "static/CNAME = seomoney.org (13 bytes, exact bare apex) ✅",
+        "config.toml base_url = https://seomoney.org ✅",
+        "No seomomey.org typo anywhere ✅",
+        "Old github.io/zola content refs: only 2 stale doc lines in CLAUDE.md (fixed); remaining hits are legitimate test fixtures / rewrite-examples / historical reports",
+        "L0-ns (new): dig seomoney.org NS must be delegated to Cloudflare (*.ns.cloudflare.com)"
+      ],
+      "pr": 540
+    },
+    {
+      "date": "2026-06-20",
+      "title": "docs(shortcuts): wip8 output dạng bảng markdown trực quan",
+      "tag": "chore",
+      "lines_added": 26,
+      "lines_removed": 15,
+      "highlights": [],
+      "pr": 539
+    },
+    {
+      "date": "2026-06-20",
       "title": "Claude/hello j5dp4s",
       "tag": "chore",
       "lines_added": 1221,
@@ -759,7 +795,7 @@
     },
     {
       "date": "2026-06-19",
-      "title": "fix(gsc): pin property to https://banhang-chogao.github.io/zola/",
+      "title": "fix(gsc): pin property to https://seomoney.org/",
       "tag": "fix",
       "lines_added": 99,
       "lines_removed": 11,
@@ -1307,7 +1343,7 @@
         "static/img/covers/vneid-2-2-8-phan-anh-lua-dao-quet-qr.svg (cover brand gradient + motif QR)",
         "SEO QA 100/100 (A+), 1124 từ, kw VNeID 2.2.8, category [\"Tất cả\",\"Báo chí\",\"Công nghệ\"]",
         "6 H2, FAQ FAQPage schema 5 câu",
-        "2 internal link (/zola/baochi/liobank-bao-mat-an-toan-the-nao/, /zola/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/) + external chính thống (vneid.gov.vn, dichvucong.gov.vn)"
+        "2 internal link (/baochi/liobank-bao-mat-an-toan-the-nao/, /baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/) + external chính thống (vneid.gov.vn, dichvucong.gov.vn)"
       ],
       "pr": 411
     },
@@ -1330,7 +1366,7 @@
       "highlights": [
         "SEO QA 100/100 (A+), 1444 từ, kw VietinBank V-Family",
         "6 H2, bảng hạng nhóm + ưu đãi + phòng chờ sân bay, FAQ schema 5 câu",
-        "Ghi chú YMYL + link /zola/terms/ (đã fix prefix), 3 internal link, nguồn chính thức VietinBank",
+        "Ghi chú YMYL + link /terms/ (đã fix prefix), 3 internal link, nguồn chính thức VietinBank",
         "SEO QA 100/100 (A+), 1428 từ, kw Mùa quả chín xứ Đông",
         "6 H2, hái vải thiều Thanh Hà + vườn nho VietGAP + di tích xứ Đông, FAQ schema 5 câu"
       ],
@@ -1488,7 +1524,7 @@
     },
     {
       "date": "2026-06-18",
-      "title": "fix(references): /zola/zola/ double-prefix 404 in post References blocks",
+      "title": "fix(references): / double-prefix 404 in post References blocks",
       "tag": "fix",
       "lines_added": 292,
       "lines_removed": 173,
@@ -2137,17 +2173,17 @@
     },
     {
       "date": "2026-06-17",
-      "title": "hotfix: fix GitHub Pages 404s from missing /zola/ base path",
+      "title": "hotfix: fix GitHub Pages 404s from missing / base path",
       "tag": "fix",
       "pr": 274,
       "lines_added": 282,
       "lines_removed": 85,
       "highlights": [
-        "95 link thiếu /zola/ trong 33 file markdown",
+        "95 link thiếu / trong 33 file markdown",
         "Trước fix: ~30 trang HTML có href=\"/baochi/...\" hoặc href=\"/posting/...\" (404 trên production)",
         "Sau fix: 0 link thiếu prefix",
-        "Canonical: https://banhang-chogao.github.io/zola/baochi/uu-dai-hoan-tien-the-liobank/ ✓",
-        "Body links: href=\"/zola/baochi/...\" ✓"
+        "Canonical: https://seomoney.org/baochi/uu-dai-hoan-tien-the-liobank/ ✓",
+        "Body links: href=\"/baochi/...\" ✓"
       ]
     },
     {
@@ -2790,9 +2826,9 @@
       "highlights": [
         "scripts/indexnow.py — gom URL (trang chủ + /posting/ + mọi bài posting/ & baochi/) → POST api.indexnow.org (1 endpoint fan-out mọi engine). Best-effort: lỗi mạng/HTTP không làm fail workflow. Có --dry",
         ".github/workflows/indexnow.yml — trigger khi push content/posting/ hoặc content/baochi/ vào main (đúng lúc \"viết bài xong\") + workflow_dispatch để chạy tay.",
-        "static/<key>.txt — file xác minh sở hữu host cho IndexNow (key đặt dưới /zola/ → keyLocation hợp lệ cho mọi URL submit).",
+        "static/<key>.txt — file xác minh sở hữu host cho IndexNow (key đặt dưới / → keyLocation hợp lệ cho mọi URL submit).",
         "✅ Dry-run gom đúng 16 URL; keyLocation = …/zola/<key>.txt",
-        "✅ Build serve key file tại /zola/<key>.txt (nội dung == key)"
+        "✅ Build serve key file tại /<key>.txt (nội dung == key)"
       ]
     },
     {
@@ -2832,7 +2868,7 @@
       "highlights": [
         "templates/section.html — khi render section \"posting\" → gộp bài từ MỌI section (posting/ + baochi/), sort ngày giảm dần.",
         "content/posting/_index.md — bỏ paginate_by (Zola không phân trang xuyên-section) → /posting/ render đủ toàn bộ bài, tránh trang /page/N/ trùng.",
-        "config.toml — thêm mục \"Trang chủ\" đầu navbar → https://banhang-chogao.github.io/zola/.",
+        "config.toml — thêm mục \"Trang chủ\" đầu navbar → https://seomoney.org/.",
         "config.toml — extra.google_site_verification + render <meta google-site-verification> khi có mã → mở khoá xác minh Google Search Console.",
         "templates/base.html — <meta name=\"robots\" content=\"index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1\"> + publisher.logo trong JSON-LD."
       ]
@@ -4639,7 +4675,7 @@
       "highlights": [
         "Social icons (FB/IG/YT/GitHub) nhìn rối → bỏ hoàn toàn",
         "author_avatar trỏ /img/author-avatar.jpg (user upload sau)",
-        "author_url → blog chính banhang-chogao.github.io/zola",
+        "author_url → blog chính seomoney.org",
         "author_bio Vietnamese ~150 từ chủ đề công nghệ + du lịch",
         "Developer VN khám phá điểm chung công nghệ + du lịch"
       ]
@@ -4733,15 +4769,15 @@
     },
     {
       "date": "2026-06-15",
-      "title": "OAuth callback double base path /zola/zola/ → 404",
+      "title": "OAuth callback double base path / → 404",
       "tag": "fix",
       "pr": 47,
       "lines_added": 703,
       "lines_removed": 164,
       "highlights": [
-        "BLOG_URL env var = https://banhang-chogao.github.io/zola (có sẵn base path /zola)",
-        "Client gửi return_to = location.pathname trên blog đã bao gồm /zola luôn (vd /zola/baochi/)",
-        "Backend cộng BLOG_URL + return_to → https://banhang-chogao.github.io/zola/zola/baochi/"
+        "BLOG_URL env var = https://seomoney.org (có sẵn base path /zola)",
+        "Client gửi return_to = location.pathname trên blog đã bao gồm /zola luôn (vd /baochi/)",
+        "Backend cộng BLOG_URL + return_to → https://seomoney.org/baochi/"
       ]
     },
     {

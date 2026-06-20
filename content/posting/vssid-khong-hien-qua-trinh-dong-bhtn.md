@@ -7,7 +7,7 @@ aliases = ["/vssid-khong-hien-qua-trinh-dong-bhtn/"]
 categories = ["Tất cả", "Bảo hiểm"]
 tags = ["bhtn", "bảo hiểm thất nghiệp", "tra cứu bảo hiểm thất nghiệp", "vssid"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "bảo hiểm thất nghiệp VssID"
 featured = true
 +++
@@ -20,9 +20,9 @@ featured = true
 Khi mở VssID mà không thấy **quá trình đóng bảo hiểm thất nghiệp (BHTN)**, tôi không hoảng ngay — vì đây là lỗi tôi gặp khá thường xuyên khi hỗ trợ người lao động chuẩn bị hồ sơ hưởng trợ cấp. Bài này là **pillar** của cluster BHXH thất nghiệp: tôi ghi lại toàn bộ quy trình kiểm tra, phân loại nguyên nhân và cách xử lý từng trường hợp.
 
 **Bộ bài liên quan:**
-- [Tra cứu thời gian đóng BHTN trên VssID](/zola/tra-cuu-thoi-gian-dong-bhtn-vssid/)
-- [Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/)
-- [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/) — liên quan khi bạn cân nhắc BHXH một lần vs lương hưu
+- [Tra cứu thời gian đóng BHTN trên VssID](/tra-cuu-thoi-gian-dong-bhtn-vssid/)
+- [Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?](/tro-cap-that-nghiep-thoi-gian-bhtn/)
+- [Tính lương hưu 2026](/tinh-luong-huu-2026-huong-dan/) — liên quan khi bạn cân nhắc BHXH một lần vs lương hưu
 
 ---
 
@@ -57,7 +57,7 @@ Tôi luôn khuyên: **tra cứu bảo hiểm thất nghiệp trước khi nộp 
 
 Trong quá trình tham gia, tôi tìm cột **BHTN** hoặc dòng **Bảo hiểm thất nghiệp**. Nếu chỉ thấy BHXH và BHYT mà không có BHTN → đây chính là vấn đề tôi cần xử lý.
 
-Chi tiết từng bước: [Bài 2 — Tra cứu thời gian đóng BHTN](/zola/tra-cuu-thoi-gian-dong-bhtn-vssid/)
+Chi tiết từng bước: [Bài 2 — Tra cứu thời gian đóng BHTN](/tra-cuu-thoi-gian-dong-bhtn-vssid/)
 
 ---
 
@@ -112,10 +112,10 @@ Thời gian xử lý tại BHXH địa phương: thường **15–30 ngày làm 
 
 BHTN và BHXH hưu trí dùng chung quá trình đóng. Khi bạn kiểm tra BHTN trên VssID, tôi khuyên **đồng thời xem tổng thời gian đóng BHXH** để cân nhắc:
 
-- [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/)
-- [BHXH một lần hay chờ lương hưu?](/zola/bhxh-mot-lan-hay-luong-huu/)
+- [Tính lương hưu 2026](/tinh-luong-huu-2026-huong-dan/)
+- [BHXH một lần hay chờ lương hưu?](/bhxh-mot-lan-hay-luong-huu/)
 
-Nếu bạn vừa nghỉ việc và cần quản lý tài chính cá nhân trong lúc chờ trợ cấp, tôi dùng [VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/) và [LPBank số](/zola/review-lpbank-so-2026/) để theo dõi chi tiêu.
+Nếu bạn vừa nghỉ việc và cần quản lý tài chính cá nhân trong lúc chờ trợ cấp, tôi dùng [VietinBank iPay](/10-meo-vietinbank-ipay-nang-cao/) và [LPBank số](/review-lpbank-so-2026/) để theo dõi chi tiêu.
 
 ---
 
@@ -127,7 +127,7 @@ Nếu bạn vừa nghỉ việc và cần quản lý tài chính cá nhân trong
 
 ### Cần đóng BHTN bao nhiêu tháng mới hưởng trợ cấp?
 
-**Tối thiểu 12 tháng** trong vòng **24 tháng** trước khi thất nghiệp. Chi tiết mốc thời gian: [Bài 3](/zola/tro-cap-that-nghiep-thoi-gian-bhtn/).
+**Tối thiểu 12 tháng** trong vòng **24 tháng** trước khi thất nghiệp. Chi tiết mốc thời gian: [Bài 3](/tro-cap-that-nghiep-thoi-gian-bhtn/).
 
 ### VssID không hiện BHTN thì nộp hồ sơ ở đâu?
 

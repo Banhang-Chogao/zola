@@ -6,7 +6,7 @@ date = 2026-06-19
 categories = ["Tất cả", "Giáo dục", "Báo chí"]
 tags = ["tuyển sinh lớp 10", "điểm chuẩn lớp 10", "TP.HCM", "điểm thi lớp 10 2026", "giáo dục"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "điểm thi tuyển sinh lớp 10 TP.HCM 2026"
 featured = false
 
@@ -31,7 +31,7 @@ Sáng nay ngồi lướt tin mà mình thấy không khí "ngóng điểm" của
 
 <!-- more -->
 
-> 💡 **Minh bạch & miễn trừ:** Bài viết tổng hợp theo cách hiểu của mình từ thông tin Sở GD-ĐT TP.HCM và các báo lớn (cập nhật tới chiều 19/6/2026) — **chỉ mang tính tham khảo, không thay thế thông báo chính thức**. Số liệu tuyển sinh thay đổi theo từng đợt công bố; trước khi quyết định nguyện vọng, hãy đối chiếu cổng thông tin của Sở và nhà trường. Chi tiết tại [Điều khoản & Miễn trừ](/zola/terms/).
+> 💡 **Minh bạch & miễn trừ:** Bài viết tổng hợp theo cách hiểu của mình từ thông tin Sở GD-ĐT TP.HCM và các báo lớn (cập nhật tới chiều 19/6/2026) — **chỉ mang tính tham khảo, không thay thế thông báo chính thức**. Số liệu tuyển sinh thay đổi theo từng đợt công bố; trước khi quyết định nguyện vọng, hãy đối chiếu cổng thông tin của Sở và nhà trường. Chi tiết tại [Điều khoản & Miễn trừ](/terms/).
 
 ## Điểm thi tuyển sinh lớp 10 TP.HCM 2026 đã công bố cho hơn 151.000 thí sinh
 
@@ -61,7 +61,7 @@ Trưa 19/6, Sở GD-ĐT TP.HCM đã công bố **điểm chuẩn lớp 10 chuyê
 
 Một thay đổi về bối cảnh mà phụ huynh cần nhớ: từ năm học 2025-2026, TP.HCM đã **dừng tuyển sinh các lớp chuyên** tại 4 trường THPT công lập từng có lớp chuyên là Nguyễn Thượng Hiền, Gia Định, Nguyễn Hữu Huân và Mạc Đĩnh Chi. Vì vậy "bản đồ" trường chuyên năm nay gọn lại, và việc so sánh điểm chuẩn chuyên với vài năm trước cần đặt trong bối cảnh này.
 
-Bạn có thể xem thêm các bài cùng chủ đề trong chuyên mục [Giáo dục](/zola/categories/giao-duc/) hoặc theo dõi các bản tin mới trong mục [Báo chí](/zola/categories/bao-chi/) của blog.
+Bạn có thể xem thêm các bài cùng chủ đề trong chuyên mục [Giáo dục](/categories/giao-duc/) hoặc theo dõi các bản tin mới trong mục [Báo chí](/categories/bao-chi/) của blog.
 
 ## Cách tính điểm xét tuyển lớp 10: thường và chuyên khác nhau ra sao?
 
@@ -97,6 +97,6 @@ Mình hiểu cảm giác mấy ngày này: một con số có thể làm cả nh
 
 Nếu con đạt kết quả tốt, chúc mừng bạn — nhưng cũng nhắc con rằng cấp 3 mới là chặng đường dài. Nếu kết quả chưa như mong đợi, hãy bình tĩnh rà lại các nguyện vọng còn lại và phương án dự phòng; rất nhiều bạn đi đường vòng vẫn về đích rất đẹp.
 
-Mình sẽ cập nhật tiếp khi có **điểm chuẩn lớp 10 công lập thường**. Trong lúc chờ, bạn có thể đọc thêm các bản tin khác ở trang chủ [blog](/zola/) hoặc xem toàn bộ bài viết trong mục [Tất cả bài viết](/zola/categories/tat-ca/). Nếu thấy hữu ích, hãy lưu lại và chia sẻ cho phụ huynh khác đang cùng "ngóng điểm" nhé.
+Mình sẽ cập nhật tiếp khi có **điểm chuẩn lớp 10 công lập thường**. Trong lúc chờ, bạn có thể đọc thêm các bản tin khác ở trang chủ [blog](/) hoặc xem toàn bộ bài viết trong mục [Tất cả bài viết](/categories/tat-ca/). Nếu thấy hữu ích, hãy lưu lại và chia sẻ cho phụ huynh khác đang cùng "ngóng điểm" nhé.
 
 *Nguồn tham khảo: Sở GD-ĐT TP.HCM, [Tuổi Trẻ](https://tuoitre.vn/sang-nay-cong-bo-diem-thi-lop-10-tphcm-100260618212137183.htm), [VietnamNet](https://vietnamnet.vn/chinh-thuc-cong-bo-diem-thi-lop-10-tphcm-nam-2026-cho-hon-151-000-thi-sinh-2527104.html), [Dân Trí](https://dantri.com.vn/giao-duc/diem-chuan-lop-10-chuyen-tphcm-nam-2026-20260618230917158.htm), [Cổng Xây dựng chính sách - Chính phủ](https://xaydungchinhsach.chinhphu.vn/tra-cuu-diem-thi-tuyen-sinh-lop-10-tphcm-nam-hoc-2026-2027-119260618113048085.htm).*

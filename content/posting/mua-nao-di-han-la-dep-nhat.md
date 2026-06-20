@@ -9,7 +9,7 @@ categories = ["Tất cả", "Du lịch"]
 tags = ["anh đào", "busan", "du lịch", "hàn quốc", "jeju", "korea", "lá vàng", "mùa", "seoul", "tuyết"]
 [extra]
 seo_keyword = "đi Hàn mùa nào đẹp"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/mua-nao-di-han-la-dep-nhat.svg"
+thumbnail = "https://seomoney.org/img/covers/mua-nao-di-han-la-dep-nhat.svg"
 featured = false
 [[extra.faq]]
 q = "Đi Hàn Quốc mùa nào đẹp nhất?"
@@ -221,7 +221,7 @@ mang một câu chuyện khác. Đi nhiều lần được, không cần ép 1 l
 
 📚 Xem thêm thông tin mùa & điểm đến trên trang du lịch chính thức [Visit Korea (Tổng cục Du lịch Hàn Quốc)](https://english.visitkorea.or.kr/).
 
-Đọc thêm các bài liên quan: [Tháng 6 đi Hàn ăn gì và làm gì?](/zola/posting/thang-6-di-han-an-gi-lam-gi/)
-nếu bạn dự định đi sớm, [Tết Đoan Ngọ 3 nước Đông Á khác nhau thế nào?](/zola/posting/tet-doan-ngo-han-viet-trung/)
-để hiểu văn hóa Hàn so với Việt-Trung, hoặc [hành trình công nghệ blog cá nhân](/zola/posting/cong-nghe-blog-duy-nguyen/)
+Đọc thêm các bài liên quan: [Tháng 6 đi Hàn ăn gì và làm gì?](/posting/thang-6-di-han-an-gi-lam-gi/)
+nếu bạn dự định đi sớm, [Tết Đoan Ngọ 3 nước Đông Á khác nhau thế nào?](/posting/tet-doan-ngo-han-viet-trung/)
+để hiểu văn hóa Hàn so với Việt-Trung, hoặc [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/)
 nếu bạn quan tâm cách mình ghi lại trải nghiệm du lịch qua web tĩnh.

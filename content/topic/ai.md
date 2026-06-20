@@ -13,11 +13,11 @@ Pillar page cho cụm **AI & Machine Learning** — hub nội bộ liên kết c
 
 ## Bài nổi bật
 
-- [Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI](https://banhang-chogao.github.io/zola/baochi/ten-mien-ai-hon-dao-anguilla-hot-bac/)
-- [VietinBank là ai? Hành trình hình thành từ ngày đầu](https://banhang-chogao.github.io/zola/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/)
-- [Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?](https://banhang-chogao.github.io/zola/posting/ung-ho-du-an-ai-ten-mien-ai/)
-- [Sentence Transformers (SBERT) là gì? Kiến trúc](https://banhang-chogao.github.io/zola/posting/sentence-transformers-sbert-deep-dive/)
-- [Giới hạn sử dụng và độ dài trên Claude AI](https://banhang-chogao.github.io/zola/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/)
+- [Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI](https://seomoney.org/baochi/ten-mien-ai-hon-dao-anguilla-hot-bac/)
+- [VietinBank là ai? Hành trình hình thành từ ngày đầu](https://seomoney.org/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/)
+- [Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?](https://seomoney.org/posting/ung-ho-du-an-ai-ten-mien-ai/)
+- [Sentence Transformers (SBERT) là gì? Kiến trúc](https://seomoney.org/posting/sentence-transformers-sbert-deep-dive/)
+- [Giới hạn sử dụng và độ dài trên Claude AI](https://seomoney.org/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/)
 
 ## Nguồn tham khảo
 

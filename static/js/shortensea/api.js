@@ -12,7 +12,7 @@
 
   var BASE = (function () {
     var m = document.querySelector('meta[name="zola-base-url"]');
-    return (m && m.getAttribute("content")) ? m.getAttribute("content").replace(/\/$/, "") : "/zola";
+    return (m && m.getAttribute("content")) ? m.getAttribute("content").replace(/\/$/, "") : "";
   })();
 
   async function apiFetch(path, opts) {

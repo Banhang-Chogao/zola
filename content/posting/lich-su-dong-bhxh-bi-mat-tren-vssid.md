@@ -7,7 +7,7 @@ aliases = ["/lich-su-dong-bhxh-bi-mat-tren-vssid/"]
 categories = ["Tất cả", "Bảo hiểm"]
 tags = ["an sinh xã hội", "bhxh", "bảo hiểm xã hội", "chốt sổ bhxh", "tra cứu bhxh", "vssid"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "lịch sử đóng BHXH bị mất trên VssID"
 featured = false
 
@@ -112,7 +112,7 @@ Mình nhấn mạnh lại vì đây là điều khiến nhiều người mất n
 
 Nói cách khác, quyền lợi của bạn — lương hưu sau này, chế độ ốm đau, thai sản, thất nghiệp, hay khoản BHXH một lần nếu bạn đủ điều kiện rút — được tính dựa trên **dữ liệu gốc trong hệ thống**, không phải dựa trên những gì màn hình điện thoại đang hiện. Khi cần giải quyết chế độ, cơ quan BHXH tra cứu trên hệ thống nghiệp vụ và đối chiếu hồ sơ giấy, chứ không nhìn vào ảnh chụp màn hình app của bạn.
 
-Vậy nên hiển thị thiếu là chuyện **cần sửa cho đúng**, không phải chuyện **mất quyền lợi**. Hai khái niệm này rất khác nhau. Việc bạn nên làm là đối chiếu và yêu cầu cập nhật để khi cần dùng tới, mọi thứ đã sạch sẽ — chứ không phải ngồi lo lắng. Tư duy này cũng giống cách phòng thủ tài chính nói chung: kiểm tra định kỳ, phát hiện sai sót sớm, sửa khi còn nhẹ. Nếu bạn thích góc nhìn quản lý tiền bài bản, mình có gom một số bài trong chuyên mục [tài chính và ngân hàng](/zola/topic/ngan-hang/) để tham khảo thêm.
+Vậy nên hiển thị thiếu là chuyện **cần sửa cho đúng**, không phải chuyện **mất quyền lợi**. Hai khái niệm này rất khác nhau. Việc bạn nên làm là đối chiếu và yêu cầu cập nhật để khi cần dùng tới, mọi thứ đã sạch sẽ — chứ không phải ngồi lo lắng. Tư duy này cũng giống cách phòng thủ tài chính nói chung: kiểm tra định kỳ, phát hiện sai sót sớm, sửa khi còn nhẹ. Nếu bạn thích góc nhìn quản lý tiền bài bản, mình có gom một số bài trong chuyên mục [tài chính và ngân hàng](/topic/ngan-hang/) để tham khảo thêm.
 
 ## 5 cách xử lý khi VssID không hiện quá trình đóng BHXH
 
@@ -127,7 +127,7 @@ Trước khi gọi cho ai, hãy loại trừ lỗi vặt:
 - Vào lại mục **Quản lý cá nhân → Quá trình tham gia**, kéo làm mới (pull to refresh).
 - **Đối chiếu chéo**: đăng nhập Cổng Dịch vụ công Quốc gia hoặc cổng tra cứu của BHXH Việt Nam bằng cùng thông tin. Nếu ở đó hiện đủ mà chỉ app thiếu thì bạn yên tâm, đó chỉ là lỗi hiển thị.
 
-Nếu muốn nắm chắc cách đọc và tra cứu từng mục trên ứng dụng, bạn có thể xem thêm cụm bài về [BHXH và an sinh xã hội](/zola/topic/bhxh/) của blog — mình tổng hợp các nội dung liên quan ở đó để khỏi phải tìm tản mát.
+Nếu muốn nắm chắc cách đọc và tra cứu từng mục trên ứng dụng, bạn có thể xem thêm cụm bài về [BHXH và an sinh xã hội](/topic/bhxh/) của blog — mình tổng hợp các nội dung liên quan ở đó để khỏi phải tìm tản mát.
 
 ### 2. Liên hệ bộ phận nhân sự (HR)
 
@@ -208,7 +208,7 @@ Một mẹo nhỏ: photo sẵn mỗi loại giấy tờ **2 bản**. Cơ quan gi
 - **Nhầm "chưa đồng bộ" với "mất dữ liệu".** Trước khi làm thủ tục rườm rà, hãy thử cài lại app và đối chiếu trên Cổng Dịch vụ công. Nhiều khi chờ thêm vài ngày là mọi thứ tự hiện lại.
 - **Tin vào "dịch vụ lấy lại BHXH" trên mạng.** Mọi thủ tục chính thức đều miễn phí hoặc theo quy định công khai, làm trực tiếp với cơ quan BHXH. Đừng đưa tiền cho trung gian lạ, cũng đừng cung cấp mã OTP, mật khẩu VssID cho bất kỳ ai.
 
-Nhân nói về an sinh, nếu bạn đang rà soát lại các khoản bảo hiểm của gia đình, có thể tham khảo thêm bài [mức đóng BHYT hộ gia đình 2026](/zola/baochi/muc-dong-bhyt-ho-gia-dinh-2026/) — thẻ BHYT và sổ BHXH là hai mảnh ghép an sinh cơ bản mà ai cũng nên nắm. Các nội dung cùng nhóm mình để trong chuyên mục [Bảo hiểm](/zola/categories/bao-hiem/).
+Nhân nói về an sinh, nếu bạn đang rà soát lại các khoản bảo hiểm của gia đình, có thể tham khảo thêm bài [mức đóng BHYT hộ gia đình 2026](/baochi/muc-dong-bhyt-ho-gia-dinh-2026/) — thẻ BHYT và sổ BHXH là hai mảnh ghép an sinh cơ bản mà ai cũng nên nắm. Các nội dung cùng nhóm mình để trong chuyên mục [Bảo hiểm](/categories/bao-hiem/).
 
 ## Kết lại: bình tĩnh, đối chiếu, rồi xử lý đúng cửa
 
@@ -216,6 +216,6 @@ Nếu phải tóm cả bài trong một câu, mình sẽ nói thế này: **lị
 
 Hành động cụ thể ngay hôm nay: cập nhật app và đăng nhập lại; đối chiếu trên Cổng Dịch vụ công; nếu thiếu giai đoạn của công ty cũ thì hối HR chốt sổ; cần nữa thì gọi **19009068** hoặc ra cơ quan BHXH với đủ giấy tờ. Làm tuần tự vậy, đa số trường hợp sẽ ổn mà không tốn đồng nào.
 
-Bạn muốn đọc thêm các bài cùng chủ đề an sinh và tài chính cá nhân? Ghé [trang tổng hợp tất cả bài viết](/zola/categories/tat-ca/) của blog nhé. Và nếu thấy bài hữu ích, gửi cho người thân vừa đổi việc — họ là nhóm gặp tình huống này nhiều nhất.
+Bạn muốn đọc thêm các bài cùng chủ đề an sinh và tài chính cá nhân? Ghé [trang tổng hợp tất cả bài viết](/categories/tat-ca/) của blog nhé. Và nếu thấy bài hữu ích, gửi cho người thân vừa đổi việc — họ là nhóm gặp tình huống này nhiều nhất.
 
 *Bài viết mang tính tham khảo, tổng hợp từ quy định và thông tin công khai của cơ quan chức năng, không thay thế tư vấn pháp lý hay hướng dẫn chính thức từ BHXH Việt Nam. Khi thực hiện thủ tục, vui lòng theo hướng dẫn cập nhật nhất tại cơ quan BHXH nơi bạn tham gia.*

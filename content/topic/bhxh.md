@@ -13,7 +13,7 @@ Pillar page cho cụm **BHXH & An sinh xã hội** — hub nội bộ liên kế
 
 ## Bài nổi bật
 
-- [BHYT hộ gia đình 2026: đóng bao nhiêu, giảm trừ?](https://banhang-chogao.github.io/zola/baochi/muc-dong-bhyt-ho-gia-dinh-2026/)
+- [BHYT hộ gia đình 2026: đóng bao nhiêu, giảm trừ?](https://seomoney.org/baochi/muc-dong-bhyt-ho-gia-dinh-2026/)
 
 ## Nguồn tham khảo
 

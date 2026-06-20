@@ -2,9 +2,37 @@
 
 ## 📊 Status Hiện Tại
 
-- **Blog URL:** `https://banhang-chogao.github.io/zola` (GitHub Pages)
+- **Blog URL:** `https://seomoney.org` (GitHub Pages, apex custom domain)
 - **DDoS Protection GitHub:** ✅ Đã có sẵn (miễn phí, bao gồm trong GitHub Pages)
-- **Cloudflare Setup:** ⏳ Optional (nếu dùng custom domain)
+- **Cloudflare Setup:** ✅ Active (NS delegated to Cloudflare)
+
+---
+
+## ✅ RUNBOOK — DNS thực tế của `seomoney.org` (apex GitHub Pages)
+
+> **Đây là cấu hình ĐÚNG, đã verify.** Gate tự động: `scripts/dns_vaccine.py`
+> (workflow `dns-vaccine.yml`, cron 30'). Phần "Nếu dùng custom domain" bên dưới
+> là hướng dẫn generic — với **apex** (`seomoney.org`, không subdomain) dùng **A
+> records**, KHÔNG dùng apex CNAME (apex CNAME proxied = nguyên nhân Error 1016).
+
+| Record | Name | Value | Proxy |
+|--------|------|-------|-------|
+| **A** | `@` | `185.199.108.153` | DNS only (grey) |
+| **A** | `@` | `185.199.109.153` | DNS only |
+| **A** | `@` | `185.199.110.153` | DNS only |
+| **A** | `@` | `185.199.111.153` | DNS only |
+| **CNAME** | `www` | `banhang-chogao.github.io` | DNS only |
+
+- **NS:** registrar trỏ về Cloudflare nameservers (`*.ns.cloudflare.com`).
+- **SSL/TLS:** Full (Strict) sau khi GitHub cấp cert. KHÔNG dùng Flexible.
+- `static/CNAME` = `seomoney.org` · `config.toml` `base_url = https://seomoney.org`.
+
+### 🔧 Triệu chứng đã gặp (2026-06-20): `www` OK nhưng apex A rỗng
+`www.seomoney.org` resolve đúng (CNAME → github.io) nhưng `seomoney.org` (apex) A
+trả rỗng → apex không vào được. **Fix:** Cloudflare dashboard → `seomoney.org` →
+DNS → Records → **Add record ×4** đúng 4 dòng A `@` ở bảng trên (Proxy = DNS only),
+giữ CNAME `www`, KHÔNG thêm apex CNAME. **KHÔNG** đụng R2 CNAME hay email-routing
+MX/TXT (SPF/DKIM/DMARC) — chúng độc lập, không phải nguyên nhân.
 
 ---
 
@@ -44,7 +72,7 @@
    ```
    Type: CNAME
    Name: blog (hoặc @)
-   Content: banhang-chogao.github.io
+   Content: seomoney.org
    TTL: Auto
    Proxy: Proxied (màu cam) ← IMPORTANT!
    ```
@@ -131,7 +159,7 @@
 
 ## 🟢 Nếu Dùng GitHub Pages URL (Hiện Tại)
 
-**Blog URL:** `https://banhang-chogao.github.io/zola`
+**Blog URL:** `https://seomoney.org`
 
 ### **DDoS Protection Sẵn Có:**
 - ✅ GitHub native DDoS protection (AWS Shield)
@@ -145,7 +173,7 @@ GitHub Pages tự động bảo vệ. **Không cần cấu hình thêm.**
 **Kiểm tra:**
 ```bash
 # Check HSTS header
-curl -I https://banhang-chogao.github.io/zola | grep Strict-Transport
+curl -I https://seomoney.org | grep Strict-Transport
 
 # Output: Strict-Transport-Security: max-age=31536000
 ```
@@ -182,7 +210,7 @@ curl -I https://banhang-chogao.github.io/zola | grep Strict-Transport
 
 ```bash
 # 1. Simulate DDoS attack (100 concurrent requests)
-ab -n 1000 -c 100 https://banhang-chogao.github.io/zola/
+ab -n 1000 -c 100 https://seomoney.org/
 
 # Expected: 
 # - GitHub Pages returns 429 Too Many Requests

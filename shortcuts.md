@@ -1428,7 +1428,6 @@ shade) + file path `link/inline-code`. KHÔNG plain code-block `# Header`, KHÔN
 
 **Workspace health** ▰▰▰▰▰▰▰▰▰▰ 100% · ✅ CLEAN — <reason 1 dòng>
 ```
-
 - Lấy từ `python3 scripts/wip8.py --data` → field `health` (`score/verdict/tone/
   meter/reason`). Verdict + màu: ✅ **CLEAN** (pass) · 🟡 **WIP/PENDING/BEHIND**
   (warn) · 🔴 **BLOCKED** (fail, có conflict). Meter dùng `▰`/`▱` (10 ô).

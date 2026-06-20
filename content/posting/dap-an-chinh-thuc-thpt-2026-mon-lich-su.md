@@ -8,7 +8,7 @@ aliases = ["/dap-an-chinh-thuc-thpt-2026-mon-lich-su/"]
 categories = ["Tất cả", "Giáo dục"]
 tags = ["dap an thpt 2026", "giáo dục", "thi tốt nghiệp thpt 2026", "thpt 2026 môn lịch sử", "đáp án thpt 2026"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "đáp án thpt 2026 môn lịch sử"
 featured = false
 series = "thpt-2026-dap-an"
@@ -55,16 +55,16 @@ Kỳ thi tốt nghiệp THPT 2026 được tổ chức theo Chương trình Giá
 
 Chọn nhanh môn bạn cần tra cứu đáp án:
 
-- [Đáp án môn Toán](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-toan/)
-- [Đáp án môn Ngữ văn](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-ngu-van/)
-- [Đáp án môn Ngoại ngữ](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-ngoai-ngu/)
-- [Đáp án môn Vật lí](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-vat-li/)
-- [Đáp án môn Hóa học](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc/)
-- [Đáp án môn Sinh học](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc/)
+- [Đáp án môn Toán](/posting/dap-an-chinh-thuc-thpt-2026-mon-toan/)
+- [Đáp án môn Ngữ văn](/posting/dap-an-chinh-thuc-thpt-2026-mon-ngu-van/)
+- [Đáp án môn Ngoại ngữ](/posting/dap-an-chinh-thuc-thpt-2026-mon-ngoai-ngu/)
+- [Đáp án môn Vật lí](/posting/dap-an-chinh-thuc-thpt-2026-mon-vat-li/)
+- [Đáp án môn Hóa học](/posting/dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc/)
+- [Đáp án môn Sinh học](/posting/dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc/)
 - **Lịch sử** — bạn đang ở trang này
-- [Đáp án môn Địa lí](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-dia-li/)
-- [Đáp án môn Giáo dục kinh tế và pháp luật](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-gdkt-pl/)
-- [Đáp án môn Tin học](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-tin-hoc/)
-- [Đáp án môn Công nghệ](/zola/posting/dap-an-chinh-thuc-thpt-2026-mon-cong-nghe/)
+- [Đáp án môn Địa lí](/posting/dap-an-chinh-thuc-thpt-2026-mon-dia-li/)
+- [Đáp án môn Giáo dục kinh tế và pháp luật](/posting/dap-an-chinh-thuc-thpt-2026-mon-gdkt-pl/)
+- [Đáp án môn Tin học](/posting/dap-an-chinh-thuc-thpt-2026-mon-tin-hoc/)
+- [Đáp án môn Công nghệ](/posting/dap-an-chinh-thuc-thpt-2026-mon-cong-nghe/)
 
-👉 Xem [trang tổng hợp đáp án tất cả các môn THPT 2026](/zola/posting/dap-an-chinh-thuc-thpt-quoc-gia-2026/) hoặc về [chuyên mục Giáo dục](/zola/categories/giao-duc/).
+👉 Xem [trang tổng hợp đáp án tất cả các môn THPT 2026](/posting/dap-an-chinh-thuc-thpt-quoc-gia-2026/) hoặc về [chuyên mục Giáo dục](/categories/giao-duc/).

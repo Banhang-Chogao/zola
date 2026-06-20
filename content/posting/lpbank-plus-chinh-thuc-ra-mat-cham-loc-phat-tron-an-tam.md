@@ -8,7 +8,7 @@ aliases = ["/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["app ngân hàng", "digital banking", "lpbank plus", "ngân hàng lộc phát", "ngân hàng số"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "LPBank Plus"
 +++
 
@@ -83,4 +83,4 @@ LPBank Plus là một trong những dấu mốc quan trọng trong hành trình 
 
 Tải LPBank Plus ngay hôm nay để trải nghiệm ngân hàng số thế hệ mới với AI đồng hành trong từng giao dịch và nhận cơ hội sở hữu những phần quà hấp dẫn trong mùa hè này.
 
-Đọc thêm: [Hiểu về giới hạn sử dụng và độ dài trên Claude](/zola/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/) về công nghệ AI, hoặc [hành trình công nghệ blog cá nhân](/zola/posting/cong-nghe-blog-duy-nguyen/) để khám phá xu hướng chuyển đổi số.
+Đọc thêm: [Hiểu về giới hạn sử dụng và độ dài trên Claude](/posting/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude/) về công nghệ AI, hoặc [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/) để khám phá xu hướng chuyển đổi số.
