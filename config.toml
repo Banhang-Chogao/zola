@@ -99,7 +99,9 @@ google_cse_cx = "533c848cb0eb14de2"
 # PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta vipzone-auth-api sẽ không render).
 cms_auth_url = "https://blog-vipzone-api.onrender.com"
 # Google Search Console (SEO Reality Check): OAuth + live metrics qua VIPZone auth /gsc/*.
-# Property cố định: https://seomoney.org/ (URL prefix trong GSC).
+# Property cố định: sc-domain:seomoney.org (DOMAIN property — phủ http/https + mọi
+# subdomain/path). Deploy preflight (scripts/gsc_preflight.py, gate trong deploy.yml)
+# BẮT BUỘC secret GSC_PROPERTY_URL == "sc-domain:seomoney.org"; sai/thiếu → deploy FAIL.
 # Setup: Google Cloud OAuth → redirect https://blog-vipzone-api.onrender.com/gsc/oauth/callback
 # → Render env GSC_CLIENT_ID + GSC_CLIENT_SECRET → đăng nhập CMS → Kết nối GSC.
 # CI snapshot: GitHub secrets GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET.
