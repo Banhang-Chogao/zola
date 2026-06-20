@@ -961,6 +961,169 @@ def check_sidebar_layout(ctx: Ctx) -> CheckResult:
                        diagnosis=".side-nav sticky in-grid · .layout-grid 2 cột · drawer hidden")
 
 
+# GitHub token shapes that must never be committed (PAT, fine-grained, OAuth, app).
+_GH_TOKEN_RE = re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{30,}\b|\bgithub_pat_[A-Za-z0-9_]{40,}\b")
+_DEPLOY_REQUIRED = ("checked_at", "ok", "stale", "summary", "pending", "recent")
+_DEPLOY_SUMMARY_KEYS = ("prod_status", "pending_count", "avg_deploy_s")
+_DEPLOY_STALE_HOURS = 3
+
+
+def check_deploy_monitor(ctx: Ctx) -> CheckResult:
+    """deploy_monitor_vaccine — Deploy Watch footer widget + /tools/deploy-monitor/.
+
+    FAIL: a GitHub token leaked into any tracked feature file; public JSON
+          missing/invalid/malformed schema; the detail route (content + template)
+          is absent; the footer widget is not wired to the data; the Tools card /
+          footer link does not point to the route; or pending count is not shown.
+    WARN: report stale (checked_at older than the cron cadence; empty = awaiting).
+    """
+    title = "Deploy Monitor (no token leak · schema · footer · route · pending)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1 — no token leaked in the feature surface.
+    for rel in ("data/deploy-monitor.json", "scripts/fetch_deploy_monitor.py",
+                ".github/workflows/deploy-monitor.yml", "templates/deploy-monitor.html"):
+        src = ctx.read(rel)
+        if src and _GH_TOKEN_RE.search(src):
+            fails.append(f"{rel}: lộ chuỗi giống GitHub token → chỉ dùng env/secrets")
+
+    # 2 — public JSON exists + valid schema + pending list present.
+    raw = ctx.read("data/deploy-monitor.json")
+    if raw is None:
+        fails.append("thiếu data/deploy-monitor.json (seed an toàn cần tồn tại để build)")
+    else:
+        try:
+            rep = json.loads(raw)
+        except json.JSONDecodeError:
+            rep = None
+            fails.append("data/deploy-monitor.json không phải JSON hợp lệ")
+        if isinstance(rep, dict):
+            missing = [k for k in _DEPLOY_REQUIRED if k not in rep]
+            if missing:
+                fails.append(f"data/deploy-monitor.json thiếu khóa schema: {missing}")
+            summ = rep.get("summary")
+            if not isinstance(summ, dict) or any(k not in summ for k in _DEPLOY_SUMMARY_KEYS):
+                fails.append("data/deploy-monitor.json: summary thiếu khóa (prod_status/pending_count/avg_deploy_s)")
+            for li in ("pending", "recent"):
+                if li in rep and not isinstance(rep[li], list):
+                    fails.append(f"data/deploy-monitor.json: '{li}' phải là mảng")
+            ts = (rep.get("checked_at") or "").strip()
+            if ts:
+                try:
+                    from datetime import datetime, timezone
+                    age_h = (datetime.now(timezone.utc)
+                             - datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                             ).total_seconds() / 3600
+                    if age_h > _DEPLOY_STALE_HOURS:
+                        warns.append(f"report cũ {age_h:.0f}h (> {_DEPLOY_STALE_HOURS}h) — kiểm tra cron deploy-monitor.yml")
+                except ValueError:
+                    warns.append("checked_at không parse được (ISO8601)")
+
+    # 3 — footer widget wired to the data + shows pending count.
+    base = ctx.read("templates/base.html") or ""
+    if 'load_data(path="data/deploy-monitor.json"' not in base:
+        fails.append("templates/base.html: footer không load data/deploy-monitor.json (widget không render)")
+    elif "deploy-watch" not in base:
+        fails.append("templates/base.html: thiếu widget .deploy-watch ở footer")
+    if "pending_count" not in base:
+        fails.append("templates/base.html: footer không hiển thị pending_count")
+
+    # 4 — detail route exists.
+    if not ctx.exists("content/tools/deploy-monitor.md"):
+        fails.append("thiếu content/tools/deploy-monitor.md (route /tools/deploy-monitor/)")
+    if ctx.read("templates/deploy-monitor.html") is None:
+        fails.append("thiếu templates/deploy-monitor.html")
+
+    # 5 — link not 404: footer link + Tools card point to the route.
+    if "/tools/deploy-monitor" not in base:
+        warns.append("templates/base.html: footer thiếu link tới /tools/deploy-monitor/")
+    if "/tools/deploy-monitor" not in (ctx.read("content/tools/_index.md") or ""):
+        fails.append("content/tools/_index.md: thẻ Deploy Monitor không trỏ /tools/deploy-monitor")
+
+    if fails:
+        return CheckResult("DEPLOY-MON", title, FAIL,
+                           diagnosis="Deploy Monitor thiếu an toàn/route/schema/footer",
+                           fix="env-only token; data/deploy-monitor.json đúng schema; footer "
+                               "load_data + .deploy-watch + pending_count; content+template route; "
+                               "thẻ Tools + footer link /tools/deploy-monitor",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("DEPLOY-MON", title, WARN,
+                           diagnosis="Deploy Monitor ổn nhưng có cảnh báo freshness/link",
+                           fix="kiểm tra cron deploy-monitor.yml / checked_at / footer link",
+                           details=warns)
+    return CheckResult("DEPLOY-MON", title, PASS,
+                       diagnosis="no token leak · schema OK · footer wired · route + card OK")
+
+
+def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
+    """V18 — Runtime artifact conflict: volatile state/log/report files must not be tracked.
+
+    Exact PR #555 conflict file set:
+      data/qa-rule-checker-state.json, reports/rule-conflict-report.json,
+      reports/rule-conflict-report.md
+    Plus related volatile siblings:
+      data/vaccine-autofixer-state.json, data/vaccine-autofixer.log,
+      data/autofix-conflicts-state.json
+
+    Root cause: vaccine-autofixer.yml used `git add -A` without filtering →
+    timestamp-only churn committed → spurious merge conflicts on every concurrent
+    vaccine PR. Fix: gitignore + `git restore --staged` + idempotent write_reports().
+    """
+    title = "V18 Runtime Artifact Conflict Prevention"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # Volatile runtime artifact files that MUST NOT be git-tracked.
+    volatile_files = [
+        "data/vaccine-autofixer-state.json",
+        "data/vaccine-autofixer.log",
+        "data/qa-rule-checker-state.json",
+        "data/autofix-conflicts-state.json",
+        "reports/rule-conflict-report.json",
+        "reports/rule-conflict-report.md",
+    ]
+
+    # Check 1: volatile files must be git-ignored (.gitignore patterns present).
+    gitignore = ctx.root / ".gitignore"
+    gi_text = gitignore.read_text(encoding="utf-8") if gitignore.exists() else ""
+    missing_patterns = [f for f in volatile_files if f not in gi_text]
+    if missing_patterns:
+        fails.append(f".gitignore missing volatile artifact patterns: {missing_patterns}")
+
+    # Check 2: vaccine-autofixer.yml must have `git restore --staged` guard.
+    wf_path = ctx.root / ".github" / "workflows" / "vaccine-autofixer.yml"
+    if wf_path.exists():
+        wf_text = wf_path.read_text(encoding="utf-8")
+        if "git restore --staged" not in wf_text or "qa-rule-checker-state.json" not in wf_text:
+            fails.append("vaccine-autofixer.yml missing `git restore --staged` volatile-file filter")
+    else:
+        warns.append("vaccine-autofixer.yml not found (skip workflow check)")
+
+    # Check 3: qa-auto-rule-checker.py write_reports() should be idempotent.
+    checker = ctx.root / "scripts" / "qa-auto-rule-checker.py"
+    if checker.exists():
+        checker_text = checker.read_text(encoding="utf-8")
+        if "total_conflicts" not in checker_text or "idempotent" not in checker_text:
+            warns.append("qa-auto-rule-checker.py write_reports() may not be idempotent (V18)")
+    else:
+        warns.append("scripts/qa-auto-rule-checker.py not found")
+
+    if fails:
+        return CheckResult("V18", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix="Add .gitignore patterns + git restore --staged in vaccine-autofixer.yml (see V18 CLAUDE.md)",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V18", title, WARN,
+                           diagnosis="volatile artifact filter incomplete",
+                           fix="Review warnings above (V18 CLAUDE.md)",
+                           details=warns)
+    return CheckResult("V18", title, PASS,
+                       diagnosis="volatile runtime artifacts gitignored + workflow filter present + idempotent writer")
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -972,6 +1135,7 @@ DETECTORS = [
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
     check_v17_vipzone_edge_safari_auth,
+    check_v18_runtime_artifact_conflict,
     check_config_toml,
     check_workflow_yaml,
     check_dashboard_json,
@@ -986,6 +1150,7 @@ DETECTORS = [
     check_nav_menu_overflow,
     check_sidebar_layout,
     check_uptime_me,
+    check_deploy_monitor,
 ]
 
 

@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "report_number": 3,
-  "generated_at": "2026-06-19T03:07:48Z",
-  "monetization_score": 84,
+  "report_number": 4,
+  "generated_at": "2026-06-20T10:16:00Z",
+  "monetization_score": 87,
   "ad_density": {
     "verdict": "optimal",
     "slots": 3,
     "live_units": 0,
     "files": [
-      "sass/_theme-overrides.scss",
+      "sass/_media-guard.scss",
       "sass/_banner.scss",
-      "sass/_media-guard.scss"
+      "sass/_theme-overrides.scss"
     ],
     "recommendation": "Mật độ hợp lý cho blog editorial — theo dõi viewability trước khi thêm."
   },
@@ -19,18 +19,18 @@
     "findings": [
       {
         "area": "Core Web Vitals",
-        "level": "warn",
-        "text": "Mobile performance 49/100 — LCP 6.9 s, CLS 0.025. Ưu tiên font/CSS trim trước khi bật ads."
+        "level": "ok",
+        "text": "Mobile performance 65/100 · SEO PSI 100."
       },
       {
         "area": "Compliance",
         "level": "ok",
-        "text": "Compliance score 100.0/100."
+        "text": "Compliance score 97.8/100."
       },
       {
         "area": "Content depth",
         "level": "ok",
-        "text": "Trung bình 1174 từ/bài — đủ depth cho RPM."
+        "text": "Trung bình 1206 từ/bài — đủ depth cho RPM."
       },
       {
         "area": "SEO UX",
@@ -58,33 +58,33 @@
     "top_categories": [
       {
         "category": "Ngân hàng",
-        "post_count": 54,
+        "post_count": 58,
         "avg_rpm_potential": 95.0,
         "max_rpm_potential": 95
       },
       {
-        "category": "Báo chí",
-        "post_count": 31,
-        "avg_rpm_potential": 88.0,
-        "max_rpm_potential": 95
-      },
-      {
         "category": "Bảo hiểm",
-        "post_count": 1,
+        "post_count": 7,
         "avg_rpm_potential": 88.0,
         "max_rpm_potential": 88
       },
       {
-        "category": "Du lịch",
-        "post_count": 10,
-        "avg_rpm_potential": 78.8,
-        "max_rpm_potential": 82
+        "category": "Báo chí",
+        "post_count": 33,
+        "avg_rpm_potential": 87.5,
+        "max_rpm_potential": 95
       },
       {
         "category": "Công nghệ",
-        "post_count": 66,
-        "avg_rpm_potential": 78.6,
+        "post_count": 60,
+        "avg_rpm_potential": 79.6,
         "max_rpm_potential": 95
+      },
+      {
+        "category": "Du lịch",
+        "post_count": 12,
+        "avg_rpm_potential": 79.0,
+        "max_rpm_potential": 82
       },
       {
         "category": "premium",
@@ -93,8 +93,8 @@
         "max_rpm_potential": 78
       },
       {
-        "category": "Học tiếng Hàn",
-        "post_count": 29,
+        "category": "Giáo dục",
+        "post_count": 13,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
       },
@@ -121,6 +121,12 @@
         "post_count": 1,
         "avg_rpm_potential": 78.0,
         "max_rpm_potential": 78
+      },
+      {
+        "category": "Học tiếng Hàn",
+        "post_count": 35,
+        "avg_rpm_potential": 77.1,
+        "max_rpm_potential": 78
       }
     ],
     "priority_posts": [
@@ -131,8 +137,7 @@
         "rpm_topics": [
           "Finance/Banking",
           "Insurance",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
@@ -141,8 +146,7 @@
         "score": 100,
         "rpm_topics": [
           "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
@@ -151,8 +155,7 @@
         "score": 100,
         "rpm_topics": [
           "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
@@ -161,29 +164,26 @@
         "score": 100,
         "rpm_topics": [
           "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
         "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
         "url": "https://seomoney.org/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
-        "score": 95,
+        "score": 94,
         "rpm_topics": [
           "Finance/Banking",
           "SEO/MarTech",
-          "Technology",
           "Education"
         ]
       },
       {
         "title": "Bảo mật VietinBank: ngân hàng số an toàn ra sao?",
         "url": "https://seomoney.org/posting/bao-mat-ngan-hang-so-vietinbank/",
-        "score": 95,
+        "score": 94,
         "rpm_topics": [
           "Finance/Banking",
           "SEO/MarTech",
-          "Technology",
           "Education"
         ]
       },
@@ -193,8 +193,7 @@
         "score": 94,
         "rpm_topics": [
           "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
@@ -203,8 +202,7 @@
         "score": 93,
         "rpm_topics": [
           "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
@@ -213,8 +211,7 @@
         "score": 93,
         "rpm_topics": [
           "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
@@ -223,18 +220,7 @@
         "score": 93,
         "rpm_topics": [
           "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
-        ]
-      },
-      {
-        "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
-        "url": "https://seomoney.org/posting/toan-canh-chuyen-doi-so-vietinbank/",
-        "score": 93,
-        "rpm_topics": [
-          "Finance/Banking",
-          "SEO/MarTech",
-          "Technology"
+          "SEO/MarTech"
         ]
       },
       {
@@ -261,7 +247,6 @@
         "score": 93,
         "rpm_topics": [
           "SEO/MarTech",
-          "Technology",
           "Education"
         ]
       },
@@ -289,7 +274,6 @@
         "score": 93,
         "rpm_topics": [
           "SEO/MarTech",
-          "Technology",
           "Education"
         ]
       },
@@ -299,7 +283,6 @@
         "score": 93,
         "rpm_topics": [
           "SEO/MarTech",
-          "Technology",
           "Education"
         ]
       },
@@ -313,12 +296,20 @@
         ]
       },
       {
+        "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+        "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
+        "score": 93,
+        "rpm_topics": [
+          "SEO/MarTech",
+          "Technology"
+        ]
+      },
+      {
         "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
         "url": "https://seomoney.org/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/",
         "score": 93,
         "rpm_topics": [
           "SEO/MarTech",
-          "Technology",
           "Education"
         ]
       }
@@ -326,8 +317,16 @@
   },
   "high_value_keywords": [
     {
+      "topic": "Korean language",
+      "mentions": 71,
+      "sample_keywords": [
+        "tiếng hàn",
+        "topik"
+      ]
+    },
+    {
       "topic": "Finance/Banking",
-      "mentions": 64,
+      "mentions": 69,
       "sample_keywords": [
         "ngân hàng số",
         "vietinbank",
@@ -336,16 +335,8 @@
       ]
     },
     {
-      "topic": "Korean language",
-      "mentions": 60,
-      "sample_keywords": [
-        "tiếng hàn",
-        "topik"
-      ]
-    },
-    {
       "topic": "SEO/MarTech",
-      "mentions": 20,
+      "mentions": 23,
       "sample_keywords": [
         "google adsense",
         "seo"
@@ -353,7 +344,7 @@
     },
     {
       "topic": "Insurance",
-      "mentions": 1,
+      "mentions": 4,
       "sample_keywords": [
         "bảo hiểm"
       ]
@@ -385,8 +376,7 @@
       "rpm_topics": [
         "Finance/Banking",
         "Insurance",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -400,8 +390,7 @@
       "score": 100,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -415,8 +404,7 @@
       "score": 100,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -430,8 +418,7 @@
       "score": 100,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -442,11 +429,10 @@
         "Tất cả",
         "Ngân hàng"
       ],
-      "score": 95,
+      "score": 94,
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -458,11 +444,10 @@
         "Tất cả",
         "Ngân hàng"
       ],
-      "score": 95,
+      "score": 94,
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -477,8 +462,7 @@
       "score": 94,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -492,8 +476,7 @@
       "score": 93,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -507,8 +490,7 @@
       "score": 93,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -522,23 +504,7 @@
       "score": 93,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
-      "url": "https://seomoney.org/posting/toan-canh-chuyen-doi-so-vietinbank/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 93,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -580,7 +546,6 @@
       "score": 93,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -623,7 +588,6 @@
       "score": 93,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -638,13 +602,26 @@
       "score": 93,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
     {
       "title": "Phân biệt Policies và Restrictions trong AdSense",
       "url": "https://seomoney.org/posting/phan-biet-policies-va-restrictions-adsense/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Công nghệ"
+      ],
+      "score": 93,
+      "rpm_topics": [
+        "SEO/MarTech",
+        "Technology"
+      ]
+    },
+    {
+      "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+      "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
       "category": "Tất cả",
       "categories": [
         "Tất cả",
@@ -667,22 +644,7 @@
       "score": 93,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
-      ]
-    },
-    {
-      "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
-      "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Công nghệ"
-      ],
-      "score": 93,
-      "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
       ]
     },
     {
@@ -695,8 +657,7 @@
       ],
       "score": 93,
       "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -709,13 +670,12 @@
       ],
       "score": 93,
       "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
-      "title": "Giúp Google tìm nội dung: site: operator, liên kết và sitemap",
-      "url": "https://seomoney.org/posting/giup-google-tim-noi-dung-site/",
+      "title": "Nguồn traffic GA4: Organic, Direct, Referral, Social, Paid",
+      "url": "https://seomoney.org/posting/nguon-traffic-organic-direct-referral-social-paid/",
       "category": "Tất cả",
       "categories": [
         "Tất cả",
@@ -723,13 +683,12 @@
       ],
       "score": 93,
       "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
-      "title": "Nguồn traffic GA4: Organic, Direct, Referral, Social, Paid",
-      "url": "https://seomoney.org/posting/nguon-traffic-organic-direct-referral-social-paid/",
+      "title": "Giúp Google tìm nội dung: site: operator, liên kết và sitemap",
+      "url": "https://seomoney.org/posting/giup-google-tim-noi-dung-site/",
       "category": "Tất cả",
       "categories": [
         "Tất cả",
@@ -795,8 +754,7 @@
       "score": 92,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -810,8 +768,21 @@
       "score": 92,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
+      "url": "https://seomoney.org/posting/toan-canh-chuyen-doi-so-vietinbank/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "score": 92,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
       ]
     },
     {
@@ -825,8 +796,7 @@
       "score": 92,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -841,24 +811,7 @@
       "rpm_topics": [
         "Finance/Banking",
         "AI",
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Tương lai VietinBank trong làn sóng ngân hàng số",
-      "url": "https://seomoney.org/posting/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 92,
-      "rpm_topics": [
-        "Finance/Banking",
-        "AI",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -871,8 +824,22 @@
       ],
       "score": 92,
       "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Tương lai VietinBank trong làn sóng ngân hàng số",
+      "url": "https://seomoney.org/posting/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng"
+      ],
+      "score": 91,
+      "rpm_topics": [
+        "Finance/Banking",
+        "AI",
+        "SEO/MarTech"
       ]
     },
     {
@@ -887,7 +854,6 @@
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -903,8 +869,7 @@
       "score": 90,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -918,8 +883,7 @@
       "score": 90,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -930,12 +894,11 @@
         "Tất cả",
         "Ngân hàng"
       ],
-      "score": 90,
+      "score": 89,
       "rpm_topics": [
         "Finance/Banking",
         "AI",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -951,7 +914,6 @@
         "Finance/Banking",
         "Insurance",
         "SEO/MarTech",
-        "Technology",
         "Lifestyle"
       ]
     },
@@ -967,8 +929,41 @@
       "rpm_topics": [
         "Finance/Banking",
         "Insurance",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Vaccine Tự Tiến Hoá Blog: CMS, SEO Engine Và Hướng Phát Triển",
+      "url": "https://seomoney.org/posting/direction-cms-seo-engine-he-vaccine-tu-tien-hoa/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Công nghệ"
+      ],
+      "score": 89,
+      "rpm_topics": [
+        "AI",
         "SEO/MarTech",
-        "Technology"
+        "Technology",
+        "Education",
+        "Lifestyle"
+      ]
+    },
+    {
+      "title": "Bài Học Xây Hệ Thống Tự Chữa Lỗi Cho Blog",
+      "url": "https://seomoney.org/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Công nghệ"
+      ],
+      "score": 89,
+      "rpm_topics": [
+        "AI",
+        "SEO/MarTech",
+        "Technology",
+        "Education",
+        "Lifestyle"
       ]
     },
     {
@@ -982,6 +977,20 @@
       "score": 88,
       "rpm_topics": [
         "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Vaccine Số Là Gì? Tôi Biến Bug Thành Hệ Miễn Dịch Website",
+      "url": "https://seomoney.org/posting/vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Công nghệ"
+      ],
+      "score": 87,
+      "rpm_topics": [
+        "AI",
         "SEO/MarTech",
         "Technology"
       ]
@@ -1010,8 +1019,7 @@
       ],
       "score": 86,
       "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1027,7 +1035,6 @@
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech",
-        "Technology",
         "Lifestyle"
       ]
     },
@@ -1042,8 +1049,7 @@
       "score": 85,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1057,8 +1063,7 @@
       "score": 85,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1072,55 +1077,7 @@
       "score": 85,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Ngân hàng số cho freelancer: quản lý thu nhập tự do",
-      "url": "https://seomoney.org/posting/ngan-hang-so-cho-freelancer/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "VietinBank V-Family: gói tài chính nhóm gia đình có gì?",
-      "url": "https://seomoney.org/baochi/vietinbank-v-family-nhom-gia-dinh/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Báo chí",
-        "Ngân hàng"
-      ],
-      "score": 84,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Review Cake by VPBank chi tiết: ưu nhược điểm, phí, tính năng",
-      "url": "https://seomoney.org/posting/review-cake-by-vpbank/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 84,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech",
-        "Technology",
-        "Lifestyle"
+        "SEO/MarTech"
       ]
     }
   ],
@@ -1137,8 +1094,7 @@
       "rpm_topics": [
         "Finance/Banking",
         "Insurance",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1152,8 +1108,7 @@
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1167,8 +1122,7 @@
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1182,8 +1136,7 @@
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1193,12 +1146,11 @@
         "Tất cả",
         "Ngân hàng"
       ],
-      "monetization_score": 95,
+      "monetization_score": 94,
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -1209,12 +1161,11 @@
         "Tất cả",
         "Ngân hàng"
       ],
-      "monetization_score": 95,
+      "monetization_score": 94,
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -1229,8 +1180,7 @@
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1244,8 +1194,7 @@
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1259,8 +1208,7 @@
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1274,23 +1222,7 @@
       "rpm_score": 95,
       "rpm_topics": [
         "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay",
-      "url": "https://seomoney.org/posting/toan-canh-chuyen-doi-so-vietinbank/",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "monetization_score": 93,
-      "rpm_score": 95,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech",
-        "Technology"
+        "SEO/MarTech"
       ]
     },
     {
@@ -1332,7 +1264,6 @@
       "rpm_score": 78,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -1375,7 +1306,6 @@
       "rpm_score": 78,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
@@ -1390,13 +1320,26 @@
       "rpm_score": 78,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     },
     {
       "title": "Phân biệt Policies và Restrictions trong AdSense",
       "url": "https://seomoney.org/posting/phan-biet-policies-va-restrictions-adsense/",
+      "categories": [
+        "Tất cả",
+        "Công nghệ"
+      ],
+      "monetization_score": 93,
+      "rpm_score": 78,
+      "rpm_topics": [
+        "SEO/MarTech",
+        "Technology"
+      ]
+    },
+    {
+      "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
+      "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
       "categories": [
         "Tất cả",
         "Công nghệ"
@@ -1419,7 +1362,6 @@
       "rpm_score": 78,
       "rpm_topics": [
         "SEO/MarTech",
-        "Technology",
         "Education"
       ]
     }
@@ -1445,18 +1387,25 @@
       "monetization_score": 84,
       "ad_density_verdict": "optimal",
       "ui_grade": "B+"
+    },
+    {
+      "report_number": 4,
+      "generated_at": "2026-06-20T10:16:00Z",
+      "monetization_score": 87,
+      "ad_density_verdict": "optimal",
+      "ui_grade": "B+"
     }
   ],
   "scan_stats": {
-    "total_posts": 176,
+    "total_posts": 200,
     "incremental": false,
     "pages_scanned": 223,
     "site_seo_score": 99.8
   },
   "pagespeed_snapshot": {
-    "mobile_performance": 49,
-    "lcp": "6.9 s",
-    "cls": "0.025"
+    "mobile_performance": 65,
+    "lcp": "6.4 s",
+    "cls": "0"
   },
-  "latest_report_path": "reports/ad-report-v2/report-003-20260619.md"
+  "latest_report_path": "reports/ad-report-v2/report-004-20260620.md"
 }

@@ -1,25 +1,63 @@
 {
-  "updated_at": "2026-06-20T09:57:28Z",
+  "updated_at": "2026-06-20T11:29:19Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 22,
+    "today": 24,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "feature": 88,
-      "fix": 49,
-      "unknown": 33,
+      "chore": 18,
+      "fix": 51,
+      "feature": 86,
+      "unknown": 32,
       "content": 9,
-      "chore": 17,
       "ci": 3,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 553,
+      "pr_title": "chore(ad-report-v2): Daily Ad-Report V2 #4",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/553",
+      "merged_at": "2026-06-20T11:21:10Z",
+      "merge_commit_sha": "8585b6daccff0b55220ef6a8dbfda7c0890bbf4d",
+      "merge_commit_short": "8585b6d",
+      "head_branch": "chore/ad-report-v2-20260620-101601",
+      "summary_vi": "Automated Ad-Report V2 — deep UI/UX review + AdSense monetization analysis. Auto-merges when CI passes.",
+      "change_type": "chore",
+      "files_changed": 3,
+      "additions": 502,
+      "deletions": 432,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 842,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27869619952",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 556,
+      "pr_title": "fix(vaccine-hotfix): claude/deploy-monitor",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/556",
+      "merged_at": "2026-06-20T11:18:01Z",
+      "merge_commit_sha": "d4baaa87b6e720cbd2c5899f210333837998c43e",
+      "merge_commit_short": "d4baaa8",
+      "head_branch": "vaccine-hotfix/claude-deploy-monitor",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 18,
+      "additions": 973,
+      "deletions": 23,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 841,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27869545859",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 546,
       "pr_title": "feat(tools): UPTIME_ME — uptime dashboard from 3 UptimeRobot keys + v…",
@@ -37,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 839,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27867381444",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 550,
@@ -56,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 838,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27867360262",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 542,
@@ -624,9 +662,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 812,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27841976821",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 514,
@@ -643,9 +681,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 811,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27841763285",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 511,
@@ -662,9 +700,9 @@
       "deletions": 114,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 810,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27841190982",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 513,
@@ -681,9 +719,9 @@
       "deletions": 152,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 810,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27841190982",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 512,
@@ -2206,25 +2244,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 432,
-      "pr_title": "feat(seo): cover SVG → twin .og.webp cho og:image (social hiện đúng ảnh bài)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/432",
-      "merged_at": "2026-06-18T13:14:53Z",
-      "merge_commit_sha": "5b1dc2bac08e0dee429980e7be96e91d18a809be",
-      "merge_commit_short": "5b1dc2b",
-      "head_branch": "claude/social-media-thumbnail-00evps",
-      "summary_vi": "Khi share link bài viết lên Threads/Facebook/X/Zalo, ảnh preview hiện **banner chung** `img/og-default.webp` (\"BLOG CÁ NHÂN — Duy Nguyen\") thay vì cover riêng của bài.",
-      "change_type": "feature",
-      "files_changed": 38,
-      "additions": 172,
-      "deletions": 8,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 429,
       "pr_title": "style(mobile): polish homepage feed thành card momo-style (mobile-only)",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/429",
@@ -2237,44 +2256,6 @@
       "files_changed": 1,
       "additions": 88,
       "deletions": 10,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 429,
-      "pr_title": "style(mobile): polish homepage feed thành card momo-style (mobile-only)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/429",
-      "merged_at": "2026-06-18T13:14:19Z",
-      "merge_commit_sha": "d872bf76e21a453b1ba444641babb15f94e8f289",
-      "merge_commit_short": "d872bf7",
-      "head_branch": "feature/mobile-responsive",
-      "summary_vi": "Tối ưu giao diện **mobile** trang chủ cho giống momo.vn/blog — biến feed phẳng thành **card app-style**. Toàn bộ thay đổi **chỉ trong media query mobile**, không đụng global/desktop.",
-      "change_type": "unknown",
-      "files_changed": 1,
-      "additions": 88,
-      "deletions": 10,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 430,
-      "pr_title": "feat(cluster): Ngân hàng số Việt Nam — pillar + 15 bài (hoàn chỉnh)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/430",
-      "merged_at": "2026-06-18T13:08:05Z",
-      "merge_commit_sha": "84e46e1795cc6982ea10b8cc580e506a96a43077",
-      "merge_commit_short": "84e46e1",
-      "head_branch": "feature/ngan-hang-so-cluster",
-      "summary_vi": "**Cụm nội dung (silo) Ngân hàng số Việt Nam HOÀN CHỈNH** — pillar + **15 bài**, mỗi bài 1 commit riêng, SEO **100/100 A+**, ảnh placeholder.",
-      "change_type": "feature",
-      "files_changed": 22,
-      "additions": 3621,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3814,6 +3795,25 @@
       "files_changed": 1,
       "additions": 194,
       "deletions": 42,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 337,
+      "pr_title": "qa: Compliance Score audit + auto-fix",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/337",
+      "merged_at": "2026-06-17T18:05:30Z",
+      "merge_commit_sha": "17a54b9addf0e9ab7a94fb412a69e449b628715e",
+      "merge_commit_short": "17a54b9",
+      "head_branch": "qa/compliance-auto",
+      "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 19,
+      "deletions": 19,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,

@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/vaccine-quy-trinh/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["vaccine số", "ci/cd", "bug fix", "qa check", "zola blog"]
+tags = ["bug fix", "ci/cd", "qa check", "vaccine số", "zola blog"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "quy trình vaccine website"

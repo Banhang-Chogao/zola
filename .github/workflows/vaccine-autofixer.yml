@@ -108,6 +108,23 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           git add -A
+          # V18: unstage volatile runtime artifacts — these are timestamp/run-history churn
+          # that causes spurious merge conflicts on every concurrent vaccine PR (root cause PR #555).
+          # The report JSON (vaccine-autofixer-report.json) is intentionally kept; only
+          # pure state/log/rule-checker output that carries zero real information is dropped.
+          git restore --staged \
+            data/vaccine-autofixer-state.json \
+            data/vaccine-autofixer.log \
+            data/qa-rule-checker-state.json \
+            data/autofix-conflicts-state.json \
+            reports/rule-conflict-report.json \
+            reports/rule-conflict-report.md \
+            2>/dev/null || true
+          # If only volatile files changed, nothing real to commit.
+          if [ -z "$(git diff --cached --name-only)" ]; then
+            echo "Only volatile runtime artifacts changed — skipping PR (no real delta)."
+            exit 0
+          fi
           git commit -m "chore(vaccine): daily autofixer report + safe fixes"
           git push -u origin "$BRANCH"
           gh pr create --base main --head "$BRANCH" \

@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/vaccine-direction/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["vaccine số", "cms", "seo engine", "direction", "ai system"]
+tags = ["ai system", "cms", "direction", "seo engine", "vaccine số"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "vaccine tự tiến hoá blog"

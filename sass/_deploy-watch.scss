@@ -1,0 +1,212 @@
+/* ============================================================================
+   _deploy-watch.scss — compact, non-intrusive Deploy Watch footer widget.
+   Collapsed <details> by default → no layout shift. Semantic tokens var(--c-*).
+   Mobile scope tách riêng ở @media (max-width: 720px). No footer overflow.
+   ============================================================================ */
+
+.deploy-watch {
+  margin: 0.75rem auto 0;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  background: var(--c-bg-surface);
+  font-family: $font-ui;
+  overflow: hidden;
+}
+
+.deploy-watch__summary {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--c-text-body);
+  flex-wrap: wrap;
+
+  &::-webkit-details-marker { display: none; }
+}
+
+.deploy-watch__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c-text-muted);
+  flex-shrink: 0;
+}
+.deploy-watch--green  .deploy-watch__dot { background: #2e9e5b; }
+.deploy-watch--yellow .deploy-watch__dot { background: #f0b429; }
+.deploy-watch--red    .deploy-watch__dot { background: #e5484d; }
+
+.deploy-watch__label {
+  font-weight: 700;
+  color: var(--c-text-heading);
+}
+
+.deploy-watch__sha {
+  font-family: $font-mono;
+  font-size: 0.74rem;
+  color: var(--c-text-muted);
+}
+
+.deploy-watch__pending {
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.deploy-watch__avg { color: var(--c-text-muted); font-size: 0.74rem; }
+.deploy-watch__stale { color: #f0b429; }
+
+.deploy-watch__chev {
+  margin-left: auto;
+  color: var(--c-text-muted);
+  transition: transform 0.18s ease;
+}
+.deploy-watch[open] .deploy-watch__chev { transform: rotate(180deg); }
+
+/* ===== Expanded panel ===== */
+.deploy-watch__panel {
+  padding: 0.25rem 0.85rem 0.85rem;
+  border-top: 1px solid var(--c-border);
+}
+
+.deploy-watch__metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  margin: 0.6rem 0;
+  font-size: 0.76rem;
+  color: var(--c-text-muted);
+
+  strong { color: var(--c-text-heading); }
+}
+.deploy-watch__warn { color: #e5484d; font-weight: 600; }
+
+.deploy-watch__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.deploy-watch__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.76rem;
+  color: var(--c-text-body);
+
+  code {
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+    flex-shrink: 0;
+  }
+  &-status {
+    padding: 0.02rem 0.4rem;
+    border-radius: 6px;
+    background: var(--c-bg-soft);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+  &--in_progress &-status { color: #f0b429; }
+  &--queued &-status { color: var(--c-text-muted); }
+  &-wait { color: var(--c-text-muted); flex-shrink: 0; }
+  &-title {
+    color: var(--c-text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+}
+
+.deploy-watch__none { font-size: 0.78rem; color: var(--c-text-muted); margin: 0.5rem 0; }
+
+.deploy-watch__foot {
+  margin: 0.7rem 0 0;
+  font-size: 0.74rem;
+  color: var(--c-text-muted);
+
+  a { color: var(--c-accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+}
+
+/* ===== MOBILE (≤ 720px) — keep it tight, no overflow ===== */
+@media (max-width: 720px) {
+  .deploy-watch__summary { font-size: 0.76rem; gap: 0.4rem; }
+  .deploy-watch__avg, .deploy-watch__sha { display: none; }
+  .deploy-watch__item-title { display: none; }
+}
+
+/* ============================================================================
+   Deploy Monitor detail page (/tools/deploy-monitor/) — reuses .uptime-card.
+   ============================================================================ */
+.deploy-mon { max-width: 1040px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+
+.deploy-mon__eyebrow {
+  font-family: $font-ui; font-size: 0.72rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--c-text-muted); margin: 0 0 0.35rem;
+}
+.deploy-mon__title {
+  font-family: $font-heading; font-size: 2rem; font-weight: 800;
+  color: var(--c-text-heading); margin: 0 0 0.4rem;
+}
+.deploy-mon__desc { color: var(--c-text-body); max-width: 62ch; margin: 0 0 1.5rem; }
+.deploy-mon__h2 {
+  font-family: $font-heading; font-size: 1.15rem; color: var(--c-text-heading);
+  margin: 2rem 0 0.85rem;
+}
+
+.deploy-mon__kpis {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+}
+
+.deploy-mon__status { text-transform: capitalize; }
+.deploy-mon__status--green  { color: #2e9e5b; }
+.deploy-mon__status--yellow { color: #c98a00; }
+.deploy-mon__status--red    { color: #e5484d; }
+
+.deploy-mon__meta {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem;
+  margin: 1rem 0; font-size: 0.85rem; color: var(--c-text-muted);
+  strong { color: var(--c-text-heading); }
+}
+.deploy-mon__warn { color: #e5484d; font-weight: 600; }
+
+.deploy-mon__list, .deploy-mon__timeline { list-style: none; margin: 0; padding: 0; }
+
+.deploy-mon__row, .deploy-mon__tl {
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  padding: 0.6rem 0; border-bottom: 1px solid var(--c-border); font-size: 0.85rem;
+}
+.deploy-mon__sha { font-family: $font-mono; font-size: 0.78rem; color: var(--c-text-muted); }
+.deploy-mon__badge {
+  padding: 0.05rem 0.5rem; border-radius: 7px; background: var(--c-bg-soft);
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.deploy-mon__tl--success .deploy-mon__badge { color: #2e9e5b; }
+.deploy-mon__tl--failure .deploy-mon__badge { color: #e5484d; }
+.deploy-mon__tl--cancelled .deploy-mon__badge { color: #c98a00; }
+.deploy-mon__row--in_progress .deploy-mon__badge { color: #c98a00; }
+.deploy-mon__wait, .deploy-mon__dur, .deploy-mon__time { color: var(--c-text-muted); font-size: 0.78rem; }
+.deploy-mon__rowtitle {
+  color: var(--c-text-body); min-width: 0; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; flex: 1;
+}
+.deploy-mon__none { padding: 0.85rem 1rem; border-radius: 12px; background: var(--c-bg-soft); color: var(--c-text-body); }
+.deploy-mon__updated { margin-top: 1.75rem; font-size: 0.8rem; color: var(--c-text-muted); }
+.deploy-mon__stale { color: #c98a00; font-weight: 600; }
+
+@media (max-width: 720px) {
+  .deploy-mon__kpis { grid-template-columns: repeat(2, 1fr); }
+  .deploy-mon__title { font-size: 1.6rem; }
+  .deploy-mon__rowtitle { flex-basis: 100%; }
+}

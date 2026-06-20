@@ -2,10 +2,11 @@
 title = "AI thiết kế cuộc sống: hệ thống thực dụng"
 description = "Cách dùng AI thiết kế cuộc sống qua vòng lặp mục tiêu, năng lượng, tiền bạc, học tập và phản tư mà không phụ thuộc mù quáng."
 date = 2026-06-20
+aliases = ["/ai-thiet-ke-cuoc-song-he-thong/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["ai", "life design", "productivity", "workflow", "personal systems", "decision making"]
+tags = ["ai", "decision making", "life design", "personal systems", "productivity", "workflow"]
 [extra]
 seo_keyword = "AI thiết kế cuộc sống"
 seo_title = "AI thiết kế cuộc sống"

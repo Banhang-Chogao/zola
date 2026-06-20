@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "fix(v18): prevent runtime artifact conflicts in Daily Vaccine Autofixer PRs",
+      "tag": "fix",
+      "lines_added": 242,
+      "lines_removed": 0,
+      "highlights": [
+        "data/qa-rule-checker-state.json (timestamp/run-history churn)",
+        "reports/rule-conflict-report.json (timestamp-only change)",
+        "reports/rule-conflict-report.md (timestamp-only change)"
+      ],
+      "pr": 558
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(tools): UPTIME_ME — uptime dashboard from 3 UptimeRobot keys + v…",
       "tag": "chore",
       "lines_added": 965,
