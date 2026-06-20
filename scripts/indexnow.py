@@ -29,9 +29,8 @@ from urllib.parse import urlparse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENDPOINT = "https://api.indexnow.org/indexnow"
 
-# Section chứa bài viết thật (URL = {base}/{section}/{slug}/). KHÔNG đưa các
-# section công cụ (editor, admin-author, stats…) hay pages/ (có path override).
-POST_SECTIONS = ("posting", "baochi")
+# Sections sinh URL dạng {base}/{section}/{slug}/.
+POST_SECTIONS = ("posting", "baochi", "tools")
 
 
 def read_base_url():
@@ -56,6 +55,12 @@ def find_key():
     return None
 
 
+def _read_toml_str(text, key):
+    """Extract a string value from TOML frontmatter (simple, no dep)."""
+    m = re.search(r'^\s*' + re.escape(key) + r'\s*=\s*"([^"]+)"', text, re.MULTILINE)
+    return m.group(1) if m else None
+
+
 def collect_urls(base):
     urls = [base + "/", base + "/posting/"]
     for section in POST_SECTIONS:
@@ -64,6 +69,20 @@ def collect_urls(base):
             if name == "_index.md":
                 continue
             urls.append(f"{base}/{section}/{name[:-3]}/")
+    # pages/ use custom `path =` frontmatter (e.g. path = "about" → /about/)
+    for p in sorted(glob.glob(os.path.join(ROOT, "content", "pages", "*.md"))):
+        name = os.path.basename(p)
+        if name == "_index.md":
+            continue
+        try:
+            text = open(p, encoding="utf-8").read()
+        except OSError:
+            continue
+        path = _read_toml_str(text, "path")
+        if path:
+            urls.append(f"{base}/{path.lstrip('/')}/")
+        else:
+            urls.append(f"{base}/{name[:-3]}/")
     seen, out = set(), []
     for u in urls:
         if u not in seen:
