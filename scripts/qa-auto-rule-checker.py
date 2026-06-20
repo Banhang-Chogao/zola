@@ -808,17 +808,26 @@ def append_claude_learning(
 
 
 def write_reports(payload: dict[str, Any], md: str) -> None:
+    """Write reports. V18 idempotent: skip write when only timestamp changed and
+    conflict count + list are identical to the existing file — avoids timestamp-only
+    dirty state that causes spurious merge conflicts on concurrent vaccine PRs (#555)."""
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    # Idempotent: only write when conflict count or list actually changed.
-    # A timestamp-only diff would create merge conflicts across concurrent QA PRs (V18).
+
+    # Idempotent check: compare everything except the volatile `updated_at` field.
     if REPORT_JSON.exists():
         try:
-            prev = json.loads(REPORT_JSON.read_text(encoding="utf-8"))
-            if (prev.get("summary", {}).get("total_conflicts") == payload.get("summary", {}).get("total_conflicts")
-                    and prev.get("conflicts") == payload.get("conflicts")):
-                return  # no meaningful change — skip to avoid timestamp-only git conflicts
-        except (OSError, ValueError):
-            pass
+            existing = json.loads(REPORT_JSON.read_text(encoding="utf-8"))
+            ex_summary = existing.get("summary", {})
+            new_summary = payload.get("summary", {})
+            if (ex_summary.get("total_conflicts") == new_summary.get("total_conflicts")
+                    and ex_summary.get("by_severity") == new_summary.get("by_severity")
+                    and [c.get("rule") for c in existing.get("conflicts", [])]
+                    == [c.get("rule") for c in payload.get("conflicts", [])]):
+                # Only timestamp differs — leave files unmodified (no dirty state).
+                return
+        except Exception:
+            pass  # corrupt / missing → overwrite normally
+
     REPORT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     REPORT_MD.write_text(md, encoding="utf-8")
 

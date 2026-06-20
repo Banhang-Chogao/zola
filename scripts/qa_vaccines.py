@@ -680,62 +680,6 @@ def check_v17_vipzone_edge_safari_auth(ctx: Ctx) -> CheckResult:
     return CheckResult("V17", title, PASS)
 
 
-def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
-    """V18 — Runtime artifact conflict: volatile state/log/report files in hotfix PRs."""
-    title = "Runtime artifacts gitignored + hotfix PR commit filter"
-    issues: list[str] = []
-
-    # 1. State/lock/log files must NOT be tracked by git (they should be gitignored)
-    volatile_files = [
-        "data/vaccine-hotfix-state.json",
-        "data/vaccine-hotfix.log",
-        "data/vaccine-autofixer-state.json",
-        "data/vaccine-autofixer.log",
-        "data/qa-rule-checker-state.json",
-        "data/autofix-conflicts-state.json",
-    ]
-    try:
-        import subprocess as _sp
-        tracked = _sp.run(
-            ["git", "ls-files"] + volatile_files,
-            cwd=str(ctx.root), capture_output=True, text=True, timeout=10,
-        ).stdout.strip()
-        if tracked:
-            for f in tracked.splitlines():
-                issues.append(f"FAIL: {f} vẫn được git track — phải gitignore (V18)")
-    except Exception as exc:
-        issues.append(f"WARN: không kiểm tra git ls-files được: {exc}")
-
-    # 2. vaccine-hotfix.yml must have git restore --staged filter after git add -A
-    hotfix_yml = ctx.read(".github/workflows/vaccine-hotfix.yml") or ""
-    if hotfix_yml and "git restore --staged" not in hotfix_yml:
-        issues.append("WARN: vaccine-hotfix.yml thiếu 'git restore --staged' filter cho volatile files (V18)")
-
-    # 3. qa-auto-rule-checker.py write_reports must be idempotent (skip timestamp-only write)
-    rule_checker = ctx.read("scripts/qa-auto-rule-checker.py") or ""
-    if rule_checker and "no meaningful change" not in rule_checker and "Idempotent" not in rule_checker:
-        issues.append("WARN: qa-auto-rule-checker.py write_reports() không idempotent — ghi updated_at mỗi run → conflict (V18)")
-
-    fail_issues = [i for i in issues if i.startswith("FAIL")]
-    warn_issues = [i for i in issues if i.startswith("WARN")]
-
-    if fail_issues:
-        return CheckResult(
-            "V18", title, FAIL,
-            diagnosis="Volatile runtime artifacts còn được git track → sẽ conflict ở concurrent hotfix PRs",
-            fix="V18 FIXER: git rm --cached + thêm vào .gitignore; cập nhật vaccine-hotfix.yml",
-            details=issues,
-        )
-    if warn_issues:
-        return CheckResult(
-            "V18", title, WARN,
-            diagnosis="Runtime artifact workflow filter hoặc idempotent write chưa đầy đủ",
-            fix="V18 FIXER: thêm git restore --staged filter; làm write_reports() idempotent",
-            details=warn_issues,
-        )
-    return CheckResult("V18", title, PASS)
-
-
 def check_v10_link_utils_layer(ctx: Ctx) -> CheckResult:
     """V10 (shared link-utils + test layer — link-safety, NOT a §4 vaccine number).
 
@@ -1113,6 +1057,179 @@ def check_deploy_monitor(ctx: Ctx) -> CheckResult:
                        diagnosis="no token leak · schema OK · footer wired · route + card OK")
 
 
+def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
+    """V18 — Runtime artifact conflict: volatile state/log/report files must not be tracked.
+
+    Exact PR #555 conflict file set:
+      data/qa-rule-checker-state.json, reports/rule-conflict-report.json,
+      reports/rule-conflict-report.md
+    Plus related volatile siblings:
+      data/vaccine-autofixer-state.json, data/vaccine-autofixer.log,
+      data/autofix-conflicts-state.json
+
+    Root cause: vaccine-autofixer.yml used `git add -A` without filtering →
+    timestamp-only churn committed → spurious merge conflicts on every concurrent
+    vaccine PR. Fix: gitignore + `git restore --staged` + idempotent write_reports().
+    """
+    title = "V18 Runtime Artifact Conflict Prevention"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # Volatile runtime artifact files that MUST NOT be git-tracked.
+    volatile_files = [
+        "data/vaccine-autofixer-state.json",
+        "data/vaccine-autofixer.log",
+        "data/qa-rule-checker-state.json",
+        "data/autofix-conflicts-state.json",
+        "reports/rule-conflict-report.json",
+        "reports/rule-conflict-report.md",
+    ]
+
+    # Check 1: volatile files must be git-ignored (.gitignore patterns present).
+    gitignore = ctx.root / ".gitignore"
+    gi_text = gitignore.read_text(encoding="utf-8") if gitignore.exists() else ""
+    missing_patterns = [f for f in volatile_files if f not in gi_text]
+    if missing_patterns:
+        fails.append(f".gitignore missing volatile artifact patterns: {missing_patterns}")
+
+    # Check 2: vaccine-autofixer.yml must have `git restore --staged` guard.
+    wf_path = ctx.root / ".github" / "workflows" / "vaccine-autofixer.yml"
+    if wf_path.exists():
+        wf_text = wf_path.read_text(encoding="utf-8")
+        if "git restore --staged" not in wf_text or "qa-rule-checker-state.json" not in wf_text:
+            fails.append("vaccine-autofixer.yml missing `git restore --staged` volatile-file filter")
+    else:
+        warns.append("vaccine-autofixer.yml not found (skip workflow check)")
+
+    # Check 3: qa-auto-rule-checker.py write_reports() should be idempotent.
+    checker = ctx.root / "scripts" / "qa-auto-rule-checker.py"
+    if checker.exists():
+        checker_text = checker.read_text(encoding="utf-8")
+        if "total_conflicts" not in checker_text or "idempotent" not in checker_text:
+            warns.append("qa-auto-rule-checker.py write_reports() may not be idempotent (V18)")
+    else:
+        warns.append("scripts/qa-auto-rule-checker.py not found")
+
+    if fails:
+        return CheckResult("V18", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix="Add .gitignore patterns + git restore --staged in vaccine-autofixer.yml (see V18 CLAUDE.md)",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V18", title, WARN,
+                           diagnosis="volatile artifact filter incomplete",
+                           fix="Review warnings above (V18 CLAUDE.md)",
+                           details=warns)
+    return CheckResult("V18", title, PASS,
+                       diagnosis="volatile runtime artifacts gitignored + workflow filter present + idempotent writer")
+
+
+def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
+    """V19 — Domain Migration Drift: stale github.io/zola refs after apex-domain migration.
+
+    After migrating banhang-chogao.github.io/zola → https://seomoney.org, stale
+    references may survive in operational files (comments, snapshot url fields,
+    doc TODOs). These do not break the build but cause drift and confusion.
+
+    WARN (not FAIL): drift in comments/snapshots is not build-breaking.
+    FAIL only if config.toml base_url or CNAME still hold the old domain.
+    """
+    title = "V19 Domain Migration Drift (github.io → seomoney.org)"
+    import re as _re
+    OLD_PAT = _re.compile(r"banhang-chogao\.github\.io/zola", _re.IGNORECASE)
+    EXCLUDED = {
+        "scripts/dns_vaccine.py",
+        "scripts/rewrite_cdn_urls.py",
+        "scripts/fix_site_prefix_links.py",
+        "scripts/domain_migration_audit.py",
+        "scripts/qa_vaccines.py",        # self + V19 docstring
+        "scripts/test_link_normalization.py",
+        "scripts/test_qa_vaccines.py",
+        "scripts/test_dns_vaccine.py",
+        "CLAUDE.md",                     # vaccine library legitimately documents old domain
+        "data/merge-report.json",
+        "data/dns-vaccine-report.json",
+        "data/performance-audit-snapshot.json",  # checked separately (snapshot check)
+        "changelog.json",
+        # Tutorial content explaining GitHub Pages:
+        "content/posting/tao-blog-voi-zola.md",
+        "content/posting/tu-dong-deploy-zola-github-actions.md",
+        "content/posting/ung-ho-du-an-ai-ten-mien-ai.md",
+    }
+    SCAN_SUFFIXES = {".py", ".yml", ".yaml", ".html", ".js", ".scss", ".toml", ".md"}
+
+    warns: list[str] = []
+    fails: list[str] = []
+
+    # Check 1: config.toml base_url must not hold old domain (FAIL)
+    cfg_text = ctx.read("config.toml") or ""
+    for line in cfg_text.splitlines():
+        s = line.strip()
+        if s.startswith("base_url") and "=" in s:
+            val = s.split("=", 1)[1].strip().strip('"').strip("'")
+            if "github.io" in val or ("/zola" in val and "seomoney" not in val):
+                fails.append(f"config.toml base_url still holds old value: {val!r}")
+            break
+
+    # Check 2: CNAME must not hold old domain (FAIL)
+    cname_text = ctx.read("static/CNAME") or ""
+    cname_val = cname_text.strip().splitlines()[0].strip() if cname_text.strip() else ""
+    if "github.io" in cname_val:
+        fails.append(f"static/CNAME still holds github.io value: {cname_val!r}")
+
+    # Check 3: performance-audit-snapshot.json url field (WARN if old domain)
+    snap_text = ctx.read("data/performance-audit-snapshot.json")
+    if snap_text:
+        try:
+            import json as _json
+            snap = _json.loads(snap_text)
+            snap_url = snap.get("url", "")
+            if "github.io" in snap_url or ("/zola" in snap_url and "seomoney" not in snap_url):
+                warns.append(
+                    f"data/performance-audit-snapshot.json url={snap_url!r} "
+                    "— trigger perf-audit.yml to regenerate (TARGET_URL already = seomoney.org)"
+                )
+        except Exception:
+            pass
+
+    # Check 4: scan operational files for stale github.io/zola refs (WARN)
+    for p in sorted(ctx.root.rglob("*")):
+        if not p.is_file():
+            continue
+        if p.suffix not in SCAN_SUFFIXES:
+            continue
+        try:
+            rel = str(p.relative_to(ctx.root))
+        except ValueError:
+            continue
+        if any(ex in rel for ex in EXCLUDED):
+            continue
+        if rel.startswith("scripts/test_"):
+            continue
+        if any(skip in rel for skip in (".git/", ".venv/", "node_modules/")):
+            continue
+        try:
+            text = p.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        hits = OLD_PAT.findall(text)
+        if hits:
+            warns.append(f"{rel}: {len(hits)} occurrence(s) of banhang-chogao.github.io/zola")
+
+    if fails:
+        return CheckResult("V19", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix="Update config.toml base_url + static/CNAME to seomoney.org (see V19 CLAUDE.md)",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V19", title, WARN,
+                           diagnosis=f"{len(warns)} stale reference(s) found (not build-breaking)",
+                           fix="Run scripts/domain_migration_audit.py → fix per FIXER in V19 CLAUDE.md",
+                           details=warns)
+    return CheckResult("V19", title, PASS,
+                       diagnosis="no stale github.io/zola refs in operational files; config + CNAME clean")
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -1121,6 +1238,7 @@ DETECTORS = [
     check_v8a_tera_filter_kwargs,
     check_v8b_template_block_balance,
     check_v8c_series_registration,
+    check_v19_domain_migration_drift,
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
     check_v17_vipzone_edge_safari_auth,
