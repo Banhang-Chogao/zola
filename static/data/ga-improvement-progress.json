@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T16:06:49Z",
+  "updated_at": "2026-06-20T20:59:24Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,34 +15,34 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 14 weak related pairs",
+      "detail": "0 broken links · 16 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-20T13:45:09Z"
+      "updated_at": "2026-06-20T20:57:57Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 61/100 · LCP 7.7 s · needs work",
+      "detail": "Mobile 57/100 · LCP 7.9 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-20T10:41:08+00:00"
+      "updated_at": "2026-06-20T20:52:38+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 825/826 pages",
+      "detail": "15 pages missing FAQ/schema · 846/847 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-20T13:45:09Z"
+      "updated_at": "2026-06-20T20:57:57Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: fix(deploy-monitor): expire stale in_progress so Deploy Watc",
+      "detail": "Latest: feat(premium): paywall visa Hàn 5 năm — Premium category, si",
       "source": "changelog.json",
       "updated_at": "2026-06-20"
     },
@@ -51,9 +51,9 @@
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "913 links OK · IndexNow on publish",
+      "detail": "960 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-20T01:51:36Z"
+      "updated_at": "2026-06-20T17:15:33Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-20T13:45:09Z"
+      "updated_at": "2026-06-20T20:57:57Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 61/100 vs desktop 96/100 (Δ35) · 825/826 ready",
+      "detail": "Mobile 57/100 vs desktop 83/100 (Δ26) · 846/847 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-20T10:41:08+00:00"
+      "updated_at": "2026-06-20T20:52:38+00:00"
     }
   ],
   "summary": {
