@@ -1113,6 +1113,73 @@ def check_deploy_monitor(ctx: Ctx) -> CheckResult:
                        diagnosis="no token leak · schema OK · footer wired · route + card OK")
 
 
+def check_seomoney_brand(ctx: Ctx) -> CheckResult:
+    """seomoney_brand_vaccine — site brand must be SEOMONEY (author stays Duy Nguyen),
+    + the SEOMONEY OG default + placeholder fallback set must exist.
+
+    FAIL: config.title is not "SEOMONEY" (site-brand regression); author identity
+          lost (config.extra.author / author.json no longer "Duy Nguyen"); the
+          SEOMONEY default OG image is missing; or the placeholder fallback set
+          (incl. random variants) is missing.
+    WARN: residual "blog Duy Nguyen" site-brand phrase in section/page descriptions.
+    """
+    title = "SEOMONEY brand + OG default + placeholder set"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    cfg = ctx.read("config.toml") or ""
+    mt = re.search(r'^title\s*=\s*"([^"]*)"', cfg, re.MULTILINE)
+    if not mt or mt.group(1).strip().upper() != "SEOMONEY":
+        fails.append(f'config.toml title phải = "SEOMONEY" (đang: {mt.group(1) if mt else "?"})')
+    # author identity preserved.
+    if not re.search(r'^author\s*=\s*"duynguyenlog"', cfg, re.MULTILINE):
+        warns.append("config.extra.author không còn 'duynguyenlog' (author identity)")
+    aj = ctx.read("author.json") or ""
+    if '"Duy Nguyen"' not in aj:
+        fails.append("author.json: tên tác giả 'Duy Nguyen' bị mất (phải giữ author identity)")
+
+    # OG default (SEOMONEY) — svg + committed twin.
+    if not ctx.exists("static/img/og/seomoney-og.svg"):
+        fails.append("thiếu static/img/og/seomoney-og.svg (OG default SEOMONEY)")
+    if not ctx.exists("static/img/og/seomoney-og.og.webp"):
+        fails.append("thiếu static/img/og/seomoney-og.og.webp (twin OG — seed để không 404)")
+    base = ctx.read("templates/base.html") or ""
+    if "seomoney-og.og.webp" not in base:
+        fails.append("templates/base.html: og:image default không trỏ SEOMONEY OG twin")
+
+    # Placeholder fallback set incl. random variants.
+    for ph in ("placeholder.svg", "placeholder-2.svg", "placeholder-3.svg"):
+        if not ctx.exists(f"static/img/placeholder/{ph}"):
+            fails.append(f"thiếu static/img/placeholder/{ph} (random fallback)")
+    if "placeholder-2.svg" not in base or "placeholder-3.svg" not in base:
+        warns.append("templates/base.html: runtime fallback chưa random hoá placeholder variants")
+
+    # Residual site-brand phrase (author bylines are fine).
+    residual = []
+    for p in ctx.glob("content/**/_index.md"):
+        try:
+            if "blog Duy Nguyen" in p.read_text(encoding="utf-8"):
+                residual.append(str(p.relative_to(ctx.root)))
+        except OSError:
+            pass
+    if residual:
+        warns.append(f"còn 'blog Duy Nguyen' (site-brand) ở: {residual[:5]}")
+
+    if fails:
+        return CheckResult("BRAND", title, FAIL,
+                           diagnosis="brand SEOMONEY / OG / placeholder chưa hoàn chỉnh",
+                           fix='config.title="SEOMONEY"; giữ author Duy Nguyen; thêm OG '
+                               'seomoney-og(.svg/.og.webp); placeholder + variants 2/3',
+                           details=fails + warns)
+    if warns:
+        return CheckResult("BRAND", title, WARN,
+                           diagnosis="brand OK nhưng còn residual/consistency",
+                           fix="rebrand 'blog Duy Nguyen' → 'blog SEOMONEY'; random hoá placeholder",
+                           details=warns)
+    return CheckResult("BRAND", title, PASS,
+                       diagnosis="site brand SEOMONEY · author Duy Nguyen giữ · OG + placeholder set OK")
+
+
 def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
     """V18 — Runtime artifact conflict: volatile state/log/report files must not be tracked.
 
@@ -1178,6 +1245,60 @@ def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
                            details=warns)
     return CheckResult("V18", title, PASS,
                        diagnosis="volatile runtime artifacts gitignored + workflow filter present + idempotent writer")
+
+
+def check_korean_banner_ui_vaccine(ctx: Ctx) -> CheckResult:
+    """Korean banner UI — validates the homepage Hangul decorative banner meets
+    the SEOMONEY design system: overflow clipped, responsive layout present,
+    no content overlay (pointer-events none + aria-hidden), reduced-motion safe
+    (no keyframe animation on the pattern), and banner uses semantic border-radius."""
+    title = "Korean banner UI (overflow · responsive · no overlay · a11y)"
+    scss = ctx.read("sass/_home-momo.scss") or ""
+    tpl = ctx.read("templates/index.html") or ""
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1. Banner must clip its contents (overflow: hidden prevents Hangul bleed)
+    if "overflow: hidden" not in scss or ".home-tabs" not in scss:
+        fails.append("sass/_home-momo.scss: .home-tabs missing overflow:hidden — Hangul chars may bleed outside banner")
+
+    # 2. Hangul layer must be pointer-events:none (never blocks card clicks)
+    if "pointer-events: none" not in scss:
+        fails.append("sass/_home-momo.scss: .hangeul-pattern missing pointer-events:none — may block content clicks")
+
+    # 3. aria-hidden on the decorative banner (screen-readers must skip it)
+    if 'aria-hidden="true"' not in tpl or "home-tabs" not in tpl:
+        warns.append("templates/index.html: .home-tabs should have aria-hidden=\"true\" (decorative element)")
+
+    # 4. Responsive mobile override must exist
+    mobile_re = re.compile(r'@media\s*\([^)]*max-width\s*:\s*7[012]\d', re.IGNORECASE)
+    if not mobile_re.search(scss) or ".home-tabs" not in scss:
+        fails.append("sass/_home-momo.scss: no mobile breakpoint for .home-tabs — responsive layout missing")
+
+    # 5. No keyframe animation on .hangeul-pattern (static-only is fine; animated would need reduced-motion guard)
+    hangeul_block_m = re.search(r'\.hangeul-pattern\s*\{(.+?)\n\}', scss, re.DOTALL)
+    if hangeul_block_m and re.search(r'animation\s*:', hangeul_block_m.group(1)):
+        # animation present but no prefers-reduced-motion guard → WARN
+        reduced_ok = "@media (prefers-reduced-motion" in scss
+        if not reduced_ok:
+            warns.append("sass/_home-momo.scss: .hangeul-pattern has animation but no @media(prefers-reduced-motion) guard")
+
+    # 6. Warn if the harsh hardcoded Ericsson Blue (#003784) is still used as sole bg
+    if re.search(r'background\s*:\s*#003784', scss) and "linear-gradient" not in scss:
+        warns.append("sass/_home-momo.scss: .home-tabs still uses flat #003784 bg — consider softer gradient per SEOMONEY design")
+
+    if fails:
+        return CheckResult("KOREAN-BANNER", title, FAIL,
+                           diagnosis="Korean banner violates layout/accessibility contract",
+                           fix="Ensure overflow:hidden on .home-tabs, pointer-events:none on .hangeul-pattern, aria-hidden on banner div, mobile breakpoint present",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("KOREAN-BANNER", title, WARN,
+                           diagnosis="Minor banner a11y/motion consistency issues",
+                           fix="See details above",
+                           details=warns)
+    return CheckResult("KOREAN-BANNER", title, PASS,
+                       diagnosis="overflow clipped · pointer-events:none · aria-hidden · responsive · animation-safe")
 
 
 def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
@@ -1314,6 +1435,8 @@ DETECTORS = [
     check_sidebar_layout,
     check_uptime_me,
     check_deploy_monitor,
+    check_korean_banner_ui_vaccine,
+    check_seomoney_brand,
 ]
 
 
