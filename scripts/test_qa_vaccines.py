@@ -526,6 +526,75 @@ class RuntimeArtifactVaccineTest(unittest.TestCase):
                              f"Expected FAIL when {f!r} missing from .gitignore")
 
 
+class DomainMigrationDriftTest(unittest.TestCase):
+    """V19 — Domain Migration Drift detector tests."""
+
+    def _ctx(self, base_url="https://seomoney.org", cname="seomoney.org",
+             snap_url=None, extra_files=None):
+        """Build a minimal Ctx with the given config values."""
+        import tempfile, os
+        td = Path(tempfile.mkdtemp())
+        # config.toml
+        (td / "config.toml").write_text(f'base_url = "{base_url}"\n', encoding="utf-8")
+        # CNAME
+        (td / "static").mkdir(parents=True, exist_ok=True)
+        (td / "static" / "CNAME").write_text(cname + "\n", encoding="utf-8")
+        # snapshot
+        if snap_url is not None:
+            (td / "data").mkdir(parents=True, exist_ok=True)
+            import json
+            (td / "data" / "performance-audit-snapshot.json").write_text(
+                json.dumps({"url": snap_url}), encoding="utf-8")
+        # extra files with stale refs
+        if extra_files:
+            for rel, content in extra_files.items():
+                p = td / rel
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(content, encoding="utf-8")
+        return qv.Ctx(td)
+
+    def test_clean_state_passes(self):
+        """No stale refs, correct config → PASS."""
+        ctx = self._ctx(snap_url="https://seomoney.org/")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_old_base_url_fails(self):
+        """base_url holding github.io → FAIL."""
+        ctx = self._ctx(base_url="https://banhang-chogao.github.io/zola",
+                        cname="seomoney.org")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("github.io", r.diagnosis)
+
+    def test_old_cname_fails(self):
+        """CNAME holding github.io → FAIL."""
+        ctx = self._ctx(cname="banhang-chogao.github.io")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_stale_snapshot_url_warns(self):
+        """performance-audit-snapshot.json with old url → WARN."""
+        ctx = self._ctx(snap_url="https://banhang-chogao.github.io/zola/")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("performance-audit-snapshot" in d for d in r.details))
+
+    def test_stale_comment_in_script_warns(self):
+        """Script file with github.io/zola comment → WARN."""
+        ctx = self._ctx(extra_files={
+            "scripts/some_tool.py": "# links to banhang-chogao.github.io/zola/posting/x/\n"
+        })
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.WARN)
+
+    def test_real_repo_passes_or_warns_not_fails(self):
+        """Real repo must not FAIL V19 after migration fixes applied."""
+        r = qv.check_v19_domain_migration_drift(qv.Ctx(REPO_ROOT))
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"V19 FAIL on main — {r.diagnosis}")
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
