@@ -87,6 +87,10 @@ name = "S-DNA"
 path = "tools/s-dna"
 vip = false
 [[extra.tools]]
+name = "B-DNA"
+path = "tools/b-dna"
+vip = false
+[[extra.tools]]
 name = "ShortenSEA"
 path = "shortensea"
 vip = true
