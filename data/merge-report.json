@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-20T07:59:32Z",
+  "updated_at": "2026-06-20T08:50:04Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 15,
+    "today": 16,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
-      "fix": 49,
+      "unknown": 31,
+      "fix": 48,
       "content": 9,
-      "unknown": 30,
       "feature": 86,
       "chore": 22,
       "ci": 3,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 541,
+      "pr_title": "vaccine(ui): sidebar_layout_vaccine — lock right-column menu in-grid …",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/541",
+      "merged_at": "2026-06-20T08:42:33Z",
+      "merge_commit_sha": "003639bffd83e78020c6d120fc7f9387645f5f70",
+      "merge_commit_short": "003639b",
+      "head_branch": "claude/sidebar-layout-fix",
+      "summary_vi": "Audit of the PR #526 right-column nav: the committed layout is already correct — .side-nav is position:sticky inside .sidebar, .layout-grid reserves a real 400px right column (minmax(0,1fr) 400px) with .main-column min-w",
+      "change_type": "unknown",
+      "files_changed": 3,
+      "additions": 267,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 833,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27865960288",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 540,
       "pr_title": "dns-vaccine: apex NS gate + empty-apex-A Cloudflare fix steps (seomoney.org)",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 832,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27864864314",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 527,
@@ -56,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 832,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27864864314",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 539,
@@ -700,8 +719,8 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 803,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27832090574",
+      "build_run_number": 806,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27833223283",
       "build_conclusion": "success"
     },
     {
@@ -3783,37 +3802,18 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 328,
-      "pr_title": "chore: refresh Merge Report data",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/328",
-      "merged_at": "2026-06-17T17:58:27Z",
-      "merge_commit_sha": "a76ddf3c4141befd93eef2f4cf30305dc3c85806",
-      "merge_commit_short": "a76ddf3",
-      "head_branch": "chore/merge-report-data",
-      "summary_vi": "**Automated Merge Report** — cập nhật `data/merge-report.json`.",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 275,
-      "deletions": 66,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 326,
-      "pr_title": "qa: Compliance Score audit + auto-fix",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/326",
-      "merged_at": "2026-06-17T17:58:25Z",
-      "merge_commit_sha": "0ca39928b1a2d92dd8d5ef1ee1d7a54285089396",
-      "merge_commit_short": "0ca3992",
-      "head_branch": "qa/compliance-auto",
+      "pr_number": 329,
+      "pr_title": "chore: rebuild semantic related posts + references",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/329",
+      "merged_at": "2026-06-17T17:58:30Z",
+      "merge_commit_sha": "ca2d2f1f2395a22f88a74043bc3c315bf2d7918d",
+      "merge_commit_short": "ca2d2f1",
+      "head_branch": "chore/related-posts-data",
       "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
-      "change_type": "fix",
+      "change_type": "chore",
       "files_changed": 2,
-      "additions": 79,
-      "deletions": 40,
+      "additions": 62,
+      "deletions": 28,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
