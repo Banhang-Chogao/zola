@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/vaccine-bug-lich-su/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["vaccine số", "bug fix", "github pages", "zola blog", "ci/cd"]
+tags = ["bug fix", "ci/cd", "github pages", "vaccine số", "zola blog"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "bug website vaccine số"

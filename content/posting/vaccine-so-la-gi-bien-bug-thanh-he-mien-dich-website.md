@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/vaccine-so-la-gi/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["vaccine số", "ai system", "bug fix", "zola blog", "ci/cd"]
+tags = ["ai system", "bug fix", "ci/cd", "vaccine số", "zola blog"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "vaccine số là gì"

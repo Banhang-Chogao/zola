@@ -2,10 +2,11 @@
 title = "AI lập kế hoạch du lịch: thay đổi cách đi"
 description = "AI lập kế hoạch du lịch giúp cá nhân hóa lịch trình, tối ưu chi phí, giảm rủi ro và biến chuyến đi thành hệ thống học tập."
 date = 2026-06-20
+aliases = ["/ai-thay-doi-lap-ke-hoach-du-lich/"]
 
 [taxonomies]
 categories = ["Tất cả", "Du lịch"]
-tags = ["ai travel", "du lịch", "travel planning", "solo travel", "digital nomad", "workflow"]
+tags = ["ai travel", "digital nomad", "du lịch", "solo travel", "travel planning", "workflow"]
 [extra]
 seo_keyword = "AI lập kế hoạch du lịch"
 seo_title = "AI lập kế hoạch du lịch"
