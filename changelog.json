@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "fix(gsc): serve /gsc/* on deployed vipzone backend (was 404 on Render)",
+      "tag": "fix",
+      "lines_added": 303,
+      "lines_removed": 3,
+      "highlights": [
+        "services/visitor-counter/gsc_routes.py: configure() gains optional backend_url/blog_url so each host sets its own OAuth redirect origin. Redirect URI becomes https://blog-vipzone-api.onrender.com/gsc/",
+        "services/vipzone/main.py: wires the router with a SQLite-backed async KV (gsc_kv.SqliteKV) since this service has no Redis; OAuth state uses single-use setex/getdel. Auth reuses the VIPZone CMS sessio",
+        "services/vipzone/gsc_kv.py: new minimal async KV (get/set/setex/getdel/delete, TTL-aware).",
+        "Search Console readonly scope (webmasters.readonly), access_type=offline.",
+        "Safe refresh-token handling: the token is only persisted when Google returns one; falls back to GSC_REFRESH_TOKEN env for redeploy durability (Render /tmp SQLite is wiped on redeploy)."
+      ],
+      "pr": 594
+    },
+    {
+      "date": "2026-06-20",
       "title": "redesign(editor): S-DNA visual language for /editor/ CMS (scoped, emoji-free)",
       "tag": "chore",
       "lines_added": 998,
