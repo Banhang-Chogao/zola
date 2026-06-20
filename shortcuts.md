@@ -1398,65 +1398,88 @@ push, không mở PR, không deploy.
 
 **Hành động** (thứ tự):
 
-> **Engine trực quan (mặc định):** chạy `python3 scripts/wip8.py` — render bằng
-> `rich` + `pyfiglet`: banner ASCII "wip8", panel bo góc, bảng có màu + emoji
-> trạng thái. Thiếu lib → tự fallback plain text (script không bao giờ crash).
-> Cài lib một lần: `python3 -m pip install -r scripts/requirements-wip8.txt`.
-> Script chỉ gọi lệnh git READ-ONLY (status/diff/log/stash/rev-list).
+> **Thu thập dữ liệu:** chạy `python3 scripts/wip8.py --data` (in JSON git status/
+> diff/log/stash/branch, READ-ONLY) HOẶC các lệnh git thô bên dưới. **Render ra
+> user = MARKDOWN GitHub-flavored** (harness tự vẽ bảng header xám + link xanh +
+> emoji) — KHÔNG dán ANSI box của `rich` (xấu trong UI chat). `rich`/`pyfiglet`
+> chỉ dùng khi chạy local terminal thật (`python3 scripts/wip8.py`).
 
 1. `git status --short` — file staged / modified / untracked.
 2. `git diff --stat HEAD` — xem quy mô thay đổi từng file.
 3. `git log --oneline -8` — commits gần nhất để suy feature đang làm.
 4. `git stash list` — có stash đang giữ lại không.
 5. **Branch context** — branch hiện tại, ahead/behind so với upstream.
-6. **Open PRs** trên GitHub cho branch hiện tại (qua MCP, ngoài script `rich`).
+6. **Open PRs** trên GitHub cho branch hiện tại (qua MCP).
 7. **Running jobs** — GitHub Actions đang `in_progress` / `queued` liên quan branch.
 8. **Suy luận task** — từ diff, commit messages, tên file thay đổi, TODO markers trong code.
 9. **Nhóm files** — gom file thay đổi theo feature/tính năng (không liệt kê flat).
 
-**Output format bắt buộc — TRỰC QUAN, dùng BẢNG MARKDOWN** (KHÔNG dùng plain
-code-block kiểu `# Header` nữa — khó đọc). Mỗi mục là một bảng kẻ rõ ràng:
+**Output format bắt buộc — MARKDOWN GitHub-flavored, ICON HỢP NGỮ CẢNH.**
+Mỗi section mở đầu bằng heading emoji đúng ngữ cảnh; dữ liệu dạng bảng markdown
+(header tự shade) + file path để dạng `link/inline-code`. KHÔNG dùng plain
+code-block `# Header`, KHÔNG dán ANSI escape.
 
-**1. Tổng quan (bảng key–value)**
+**Bộ ICON chuẩn (chọn đúng ngữ cảnh — KHÔNG xài 1 icon cho mọi mục):**
+
+| Ngữ cảnh | Icon | | Ngữ cảnh | Icon |
+|---|---|---|---|---|
+| Tổng quan / điều tra | 🔎 | | Branch | 🌿 |
+| Upstream / package | 📦 | | Trạng thái / tiến độ | 📊 |
+| Stash | 🗂️ | | Files changed | 📝 |
+| File mới | 🆕 | | File sửa | ✏️ |
+| File xoá | 🗑️ | | File rename | 🔀 |
+| Untracked | ❓ | | Validation / test | 🧪 |
+| Blockers | 🚧 | | Next step / việc tay | 🔧 |
+| PR / link | 🔗 | | Deploy | 🚀 |
+| Running jobs | 🛰️ | | **Vaccine (kim tiêm)** | 💉 |
+| CI ok/chạy/fail/none | 🟢 🟡 🔴 ⚪ | | Time (GMT+7) | 🕒 |
+
+**1. 🔎 Tổng quan**
 
 | Mục | Giá trị |
 |---|---|
-| 🌿 Branch | `<branch>` (ahead N / behind M so với `origin/main`) |
-| 📝 Task đang làm | <1–2 câu suy từ diff + commit messages> |
-| 📊 Tiến độ | <ước tính %> — <commit vừa xong / còn lại gì> |
-| 🚧 Blockers | <điều đang chặn; "Không có" nếu sạch> |
-| ➡️ Next step | <1 hành động rõ ràng tiếp theo> |
+| 🌿 Branch | `<branch>` (ahead N / behind M) |
+| 📦 Upstream | `<origin/...>` |
+| 📊 Trạng thái | ✅ sạch / ⚠ có thay đổi — <task suy từ diff + commit> |
+| 🗂️ Stash | <stash hoặc "không có"> |
+| 🚧 Blockers | <điều đang chặn; "Không có"> |
+| 🔧 Next step | <1 hành động rõ ràng tiếp theo> |
 
-**2. Files changed (bảng, nhóm theo feature)**
+**2. 📝 Files changed** (nhóm theo feature)
 
 | Nhóm / Feature | File | Loại |
 |---|---|---|
-| <tên feature> | `path/to/file` | 🆕 new / ✏️ modified / 🗑️ deleted |
+| <feature> | `path/to/file` | 🆕 new / ✏️ modified / 🗑️ deleted |
 
-> Working tree sạch → in 1 dòng `✅ Working tree sạch — không có file thay đổi.` thay bảng.
+> Sạch → in `✅ Working tree sạch — không có file thay đổi.` thay bảng.
 
-**3. PR & CI (bảng)**
+**3. 🔗 PR & CI**
 
-| PR | Title | Branch | CI / Status |
+| PR | Title | Branch | CI |
 |---|---|---|---|
-| #X | <title> | `<branch>` | 🟢 success / 🟡 in_progress / 🔴 failure / ⚪ none |
+| #X | <title> | `<branch>` | 🟢 / 🟡 / 🔴 / ⚪ |
 
-> Không có PR/job liên quan → in 1 dòng `Không có PR mở hay job đang chạy cho branch này.`
+> Vaccine/hotfix liên quan → đánh dấu 💉; deploy → 🚀; job đang chạy → 🛰️.
+> Không có PR/job → in `Không có PR mở hay job đang chạy cho branch này.`
 
-**Quy tắc trình bày**: luôn dùng bảng markdown có header + emoji trạng thái để
-quét mắt nhanh; KHÔNG xuống dòng dài dạng văn xuôi cho các trường có thể bảng hoá;
-mọi thời điểm hiển thị GMT+7 `HH:MM dd/mm/yyyy` nếu có.
+**Quy tắc trình bày**: heading emoji hợp ngữ cảnh từng section (🔎/📝/🔗/🧪/🔧);
+icon vaccine LUÔN là 💉 (kim tiêm); bảng markdown có header; file path inline-code
+hoặc link; thời gian GMT+7 `HH:MM dd/mm/yyyy` (prefix 🕒). KHÔNG văn xuôi dài cho
+trường bảng hoá được; KHÔNG dán ANSI.
 
-**Cú pháp mở rộng** (map thẳng vào `scripts/wip8.py`):
-- `wip8` → `python3 scripts/wip8.py` — full workspace scan (mặc định, render rich).
-- `wip8 quick` → `python3 scripts/wip8.py --quick` — chỉ status + branch (bỏ log).
-- `wip8 <path>` → `python3 scripts/wip8.py <path>` — chỉ inspect file/folder cụ thể.
+**Cú pháp mở rộng**:
+- `wip8` — full workspace scan (mặc định) → render markdown.
+- `wip8 quick` — chỉ status + branch (bỏ log).
+- `wip8 <path>` — chỉ inspect file/folder cụ thể.
+- Local terminal có màu: `python3 scripts/wip8.py [--quick] [<path>]` (rich/pyfiglet).
+- Lấy data JSON: `python3 scripts/wip8.py --data`.
 
 **Hard rules**:
 - **READ-ONLY** — KHÔNG sửa, commit, push, deploy, mở PR. Chỉ đọc + in.
-- **Visual-first**: ưu tiên render `scripts/wip8.py` (rich/pyfiglet). Phần PR/CI
-  (GitHub MCP) bổ sung dưới bảng của script. Thiếu lib → fallback plain, vẫn chạy.
-- **Không đoán mò**: nếu không đủ tín hiệu → báo `Không đủ context để suy task` thay vì bịa.
+- **Markdown-first**: output cho user là markdown GitHub-flavored (harness render
+  bảng/link/emoji đẹp). ANSI `rich` chỉ cho terminal local, KHÔNG dán vào chat.
+- **Icon đúng ngữ cảnh** — theo bảng trên; vaccine = 💉.
+- **Không đoán mò**: thiếu tín hiệu → báo `Không đủ context để suy task` thay vì bịa.
 - **Chỉ chạy 1 lần** rồi dừng (dùng `theodoi8` nếu cần live feed CI).
 - Kết quả là **snapshot tại thời điểm gọi** — gọi lại `wip8` để refresh.
 

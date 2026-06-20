@@ -167,7 +167,14 @@ def main(argv: list[str]) -> int:
     quick = "--quick" in argv
     paths = [a for a in argv[1:] if not a.startswith("-")]
     path = paths[0] if paths else None
-    render(gather(path=path, quick=quick))
+    data = gather(path=path, quick=quick)
+    if "--data" in argv:
+        # JSON cho Claude render markdown (giao diện chat). READ-ONLY.
+        import json
+        data["now_ict"] = datetime.now(ICT).strftime("%H:%M %d/%m/%Y")
+        print(json.dumps(data, ensure_ascii=False, indent=2))
+        return 0
+    render(data)  # ANSI rich — chỉ dùng cho terminal local
     return 0
 
 
