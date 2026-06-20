@@ -641,6 +641,73 @@ def check_v17_vipzone_edge_safari_auth(ctx: Ctx) -> CheckResult:
     return CheckResult("V17", title, PASS)
 
 
+def check_v10_link_utils_layer(ctx: Ctx) -> CheckResult:
+    """V10 (shared link-utils + test layer — link-safety, NOT a §4 vaccine number).
+
+    The migration/regex 404 regression came back whenever link code (a) used a
+    HOST guard to tell internal from external — dropping /zola/* links that carry
+    no host — or (b) ran a link regex over raw markdown, parsing/rewriting links
+    inside code spans. scripts/link_utils.py centralizes the safe behavior; this
+    detector enforces its invariants live so the regression cannot reopen:
+
+      * /zola/* (and any /…, @/…, ./…) is ALWAYS internal — host never required.
+      * links inside `code` / fenced ``` blocks are NOT extracted.
+
+    A missing or broken layer FAILS the gate. The test/wiring layer (test file +
+    code-span-aware migration tool) is a WARN if absent — the invariant itself is
+    already verified above.
+    """
+    title = "Shared link-utils safety (/zola/ invariant + code-span)"
+    path = ctx.root / "scripts" / "link_utils.py"
+    if not path.is_file():
+        return CheckResult("V10-LINKS", title, FAIL,
+                           diagnosis="scripts/link_utils.py vắng — lớp an toàn link không còn",
+                           fix="khôi phục scripts/link_utils.py (classify/extract_urls/code_span_ranges)")
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("_qa_link_utils_probe", path)
+        if spec is None or spec.loader is None:
+            raise ImportError("không tạo được spec cho link_utils")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    except Exception as exc:
+        return CheckResult("V10-LINKS", title, FAIL,
+                           diagnosis=f"không import được link_utils: {exc}",
+                           fix="sửa lỗi cú pháp/định nghĩa trong scripts/link_utils.py")
+    broken: list[str] = []
+    try:
+        for url in ("/zola/x/", "/foo/", "@/posting/x.md", "./sib/"):
+            if mod.classify(url) != "internal":
+                broken.append(f'classify({url!r}) != "internal" (mất /zola/ invariant)')
+        if mod.classify("https://example.com/a") != "external":
+            broken.append('classify(external URL) != "external"')
+        if mod.classify("#frag") != "skip":
+            broken.append('classify("#frag") != "skip"')
+        if "/zola/b" in mod.extract_urls("real [a](/zola/a) `[b](/zola/b)`"):
+            broken.append("extract_urls() vẫn lấy link trong code span")
+    except Exception as exc:
+        return CheckResult("V10-LINKS", title, FAIL,
+                           diagnosis=f"link_utils thiếu API mong đợi: {exc}",
+                           fix="giữ classify()/extract_urls()/code_span_ranges() trong link_utils")
+    if broken:
+        return CheckResult("V10-LINKS", title, FAIL,
+                           diagnosis="bất biến link-safety bị phá → /zola/ link bị drop hoặc code span bị parse → 404",
+                           fix="/zola/* và mọi path /…,@/… luôn internal; mask code span trước khi extract",
+                           details=broken)
+    warn: list[str] = []
+    if not (ctx.root / "scripts" / "test_link_utils.py").is_file():
+        warn.append("thiếu scripts/test_link_utils.py (test layer)")
+    fix_src = ctx.read("scripts/fix_site_prefix_links.py") or ""
+    if fix_src and "code_span_ranges" not in fix_src:
+        warn.append("fix_site_prefix_links.py không dùng code_span_ranges (migration có thể sửa code span)")
+    if warn:
+        return CheckResult("V10-LINKS", title, WARN,
+                           diagnosis="bất biến link-safety OK nhưng thiếu test/wiring phụ trợ",
+                           fix="thêm scripts/test_link_utils.py + để migration tool dùng code_span_ranges",
+                           details=warn)
+    return CheckResult("V10-LINKS", title, PASS)
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -660,6 +727,7 @@ DETECTORS = [
     check_seo_schema_scaffold,
     check_missing_assets,
     check_compliance_h1,
+    check_v10_link_utils_layer,
     check_category_first,
     check_nav_menu_overflow,
 ]

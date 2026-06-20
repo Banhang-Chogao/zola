@@ -1,0 +1,60 @@
+{# ============================================================================
+   editor-seo-rail.html — CMS V2 SEO companion rail for /editor/ (section 5).
+
+   Additive: lives inside the edit view next to the existing form. Reads the
+   live form fields (title / slug / body / tags / category) via editor-seo-rail.js
+   and surfaces an SEO panel, canonical preview, AI internal-link suggestions,
+   keyword clusters and a content-quality badge. Reuses the page's existing
+   #posts-metadata island for suggestions — no extra data baking.
+   Touches none of editor.js' logic; it only reads the DOM and appends links.
+   ============================================================================ #}
+<aside class="editor-seo-rail cms-shell" data-seo-rail aria-label="Trợ lý SEO">
+    <div class="esr-head">
+        <span class="esr-badge" data-esr-badge data-grade="—">—</span>
+        <div>
+            <p class="esr-head__title">Trợ lý SEO</p>
+            <p class="esr-head__sub">Cập nhật trực tiếp khi bạn viết</p>
+        </div>
+    </div>
+
+    {# SEO checklist #}
+    <section class="esr-card">
+        <h4 class="esr-card__title">Kiểm tra SEO</h4>
+        <ul class="esr-checks" data-esr-checks>
+            <li class="cms-muted">Bắt đầu gõ để chấm điểm…</li>
+        </ul>
+    </section>
+
+    {# Canonical preview #}
+    <section class="esr-card">
+        <h4 class="esr-card__title">Canonical / URL</h4>
+        <code class="esr-canonical" data-esr-canonical>—</code>
+    </section>
+
+    {# Quality badge meta #}
+    <section class="esr-card">
+        <h4 class="esr-card__title">Chất lượng nội dung</h4>
+        <div class="esr-quality" data-esr-quality>
+            <div class="esr-quality__cell"><span data-esr-words>0</span><small>từ</small></div>
+            <div class="esr-quality__cell"><span data-esr-h2>0</span><small>H2</small></div>
+            <div class="esr-quality__cell"><span data-esr-int>0</span><small>link nội bộ</small></div>
+        </div>
+    </section>
+
+    {# AI internal-link suggestions #}
+    <section class="esr-card">
+        <h4 class="esr-card__title">🧠 Gợi ý liên kết nội bộ</h4>
+        <p class="esr-card__hint">Click để chèn vào cuối bài.</p>
+        <div class="esr-suggest" data-esr-suggest>
+            <span class="cms-muted">Đang gợi ý…</span>
+        </div>
+    </section>
+
+    {# Keyword clusters #}
+    <section class="esr-card">
+        <h4 class="esr-card__title">Cụm từ khóa</h4>
+        <div class="esr-clusters" data-esr-clusters>
+            <span class="cms-muted">—</span>
+        </div>
+    </section>
+</aside>

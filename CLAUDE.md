@@ -759,6 +759,78 @@ score **97.8/100 (A+)**. Root cause: 104 `feed-anchor` + 10 homepage `/page/N/` 
 code-fence demotion in `sentence-transformers-sbert-deep-dive.md` — demoter skips
 fenced blocks.
 
+## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
+
+> Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
+> · Report: `data/vaccine-hotfix-report.json` (**"Autofixer_report_by Vacxin"**) ·
+> State/lock + anti-loop: `data/vaccine-hotfix-state.json` · Log: `data/vaccine-hotfix.log`.
+>
+> Khi pipeline **đỏ thật** (build/deploy/auto-merge/conflict/required-check) → tự kích
+> hoạt: chẩn lỗi → mở/cập nhật branch `vaccine-hotfix/<issue-id>` → sửa **delta tối thiểu**
+> → re-run QA/build/test → lặp tới khi xanh → cập nhật PR → **auto-merge CHỈ khi mọi
+> required check xanh**. Đây là lớp self-heal **bổ sung** ZERO_BARRIER, **không** thay
+> auto-merge / QA / deploy / Daily Vaccine Autofixer (V11).
+
+### Conflict-safe precheck (chạy TRƯỚC mỗi lần kích hoạt)
+
+`audit_rules()` quét rule CI/PR/merge/deploy hiện có và phát hiện xung đột với
+manual-approval · branch-protection · auto-merge · QA · deploy. **Giữ nguyên safety
+gate cho `main`**, chỉ cho `vaccine-hotfix/*` auto-fix + auto-update PR:
+
+- **KHÔNG** bypass required checks — re-chạy `qa_check.py`; merge giao cho
+  `try_auto_merge.py` (auto-merge.yml) → chỉ merge khi `qa-check` xanh.
+- **KHÔNG** force-push / push thẳng `main` — engine chỉ ghi branch `vaccine-hotfix/*`.
+- **KHÔNG** xoá content/data người dùng — `content/**`, `private_content/**`,
+  `*-series.json`, `categories.json` được bảo vệ (conflict giữ phía PR/content; data
+  CI tự sinh mới lấy `main`).
+- Conflict (vd manual-approval) **không** chặn việc *sửa* — chỉ giới hạn *merge* về đúng
+  cổng đã gate. `vaccine-hotfix/` đã nằm trong `auto_eligible_branch_prefixes`
+  (`data/auto-merge-policy.json`) → PR auto-merge qua **cùng** cổng `qa-check`, không phải bypass.
+
+### Triggers (5)
+
+`build_fail` · `deploy_fail` · `auto_merge_blocked` · `merge_conflict` ·
+`required_checks_fail`. Workflow nhận qua `workflow_run` (QA Gatekeeper / deploy /
+Auto-merge **completed=failure**) + `workflow_dispatch`.
+
+### Behavior
+
+1. Activate + **conflict-safe precheck** (`--precheck`).
+2. Diagnose root cause — reuse `scripts/ai_diagnose.py` (heuristic miễn phí).
+3. Create/update branch `vaccine-hotfix/<issue-id>` (issue-id bám branch lỗi → retry
+   tăng cùng counter anti-loop; lỗi sẵn trên hotfix branch thì tái dùng, không lồng).
+4. Fix **delta tối thiểu** — `merge_conflict` → `scripts/autofix_conflicts.py`; build
+   breaker đã biết → SAFE fixer của `vaccine_autofixer.py` (V1 model id, internal-link
+   `--fix`, references…). KHÔNG refactor lớn.
+5. Re-run QA/build/test, **lặp tới khi xanh** (bounded `MAX_FIX_ATTEMPTS`; anti-loop
+   `LOOP_THRESHOLD` → escalate, dừng).
+6. Update PR; **auto-merge chỉ khi mọi required check xanh** (giao `try_auto_merge.py`).
+7. Log → `data/vaccine-hotfix-report.json` ("Autofixer_report_by Vacxin") + `history[]`.
+
+### Output (mỗi lần chạy)
+
+PR link · Root cause · Files changed · Checks result (qa/build/tests) · Deploy status.
+
+### Lệnh
+
+```bash
+python3 scripts/vaccine_hotfix.py --precheck                       # audit rule, không sửa
+python3 scripts/vaccine_hotfix.py --trigger required_checks_fail --issue-id qa-123
+python3 scripts/vaccine_hotfix.py --trigger merge_conflict --issue-id pr-87 --branch feature/x
+python3 scripts/vaccine_hotfix.py --trigger build_fail --issue-id qa-9 --dry-run --no-build
+python3 -m unittest scripts.test_vaccine_hotfix -v
+```
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Engine | `scripts/vaccine_hotfix.py` |
+| Tests | `scripts/test_vaccine_hotfix.py` |
+| Workflow | `.github/workflows/vaccine-hotfix.yml` (`workflow_run` + dispatch; concurrency `vaccine-hotfix-<branch>`, KHÔNG dùng chung lock `auto-merge-main`/`production-deploy`) |
+| Report | `data/vaccine-hotfix-report.json` ("Autofixer_report_by Vacxin") |
+| Reuse | `ai_diagnose.py` (root cause) · `autofix_conflicts.py` (conflict) · `vaccine_autofixer.py` (safe fixers) · `try_auto_merge.py` (gated merge) |
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
@@ -1967,6 +2039,50 @@ python3 -m unittest scripts.test_qa_vaccines -v
 > **Thêm vaccine mới có thể auto-check:** thêm block `#### V<N> — …` vào §4 (engine tự đếm),
 > rồi viết 1 detector trong `DETECTORS[]` (FAIL nếu vỡ build/prod, WARN nếu chỉ consistency) +
 > 1 negative test. Giữ nguyên tắc: detector lỗi nội bộ KHÔNG bao giờ crash gate (bọc try/except).
+
+## V10 — Shared Link-Utils + Test Layer (link-safety; NOT a §4 vaccine number)
+
+> ⚠️ **Đây KHÔNG phải vaccine số trong §4.** "V10" ở đây là nhãn cho **lớp hạ tầng
+> link-safety dùng chung** (shared link-utils + test + detector), **không** đụng/đổi
+> tên `#### V9` (Docs-only stale base) hay các `#### V10` đã có trong §4. Header dùng
+> `##`/`###` (không phải `#### V<N> —`) nên `load_vaccines()` KHÔNG đếm nó là vaccine.
+
+**Bug nó chặn (migration + regex 404):** code xử lý link tái phát 2 lỗi —
+(1) **HOST guard** (`if HOST not in url` / `SITE_HOST in url`) để phân loại internal
+vs external → **drop link `/zola/*`** (không mang host) → 404 sau migration;
+(2) chạy regex link trên **raw markdown** → parse/rewrite link nằm **trong code span**
+(```` ``` ```` block + inline `` `code` ``).
+
+### Invariant (BẮT BUỘC — giữ vĩnh viễn)
+
+- **`/zola/*` (và mọi `/…`, `@/…`, `./…`) LUÔN là internal — KHÔNG bao giờ cần host.**
+  External chỉ là `http(s)://` / `//`. `#`, `mailto:`, `tel:`, `javascript:`, `data:` → skip.
+- **KHÔNG parse/rewrite link trong code span.** Mask code span (fenced + inline) TRƯỚC
+  khi extract/replace. Migration tool (`fix_site_prefix_links.py`) phải dùng
+  `code_span_ranges()` để chừa code.
+- Regex chịu được markdown wrapper (`<url>`, `"title"`) + trailing punctuation (`clean_url`).
+
+### Reuse (đừng tự viết lại regex link)
+
+Mọi script cần phân loại/đếm/extract link PHẢI dùng `scripts/link_utils.py` thay vì tự
+viết regex riêng: `classify`/`is_internal`/`is_external`/`validate`/`clean_url`/
+`code_span_ranges`/`mask_code_spans`/`extract_urls`/`extract_link_pairs`/`extract_bare_urls`/
+`process`. Stdlib-only, crash-safe (input lỗi → trả rỗng, không raise).
+
+### File map
+
+| Thành phần | Path |
+|------------|------|
+| Lib dùng chung | `scripts/link_utils.py` |
+| Test lib | `scripts/test_link_utils.py` (`python3 -m unittest scripts.test_link_utils -v`) |
+| Consumer (migration) | `scripts/fix_site_prefix_links.py` (code-span-safe `/zola/` prefixer) |
+| Consumer (báo cáo) | `scripts/content_direction.py` (`count_links` dùng pipeline an toàn) |
+| Detector gate | `scripts/qa_vaccines.py` → `check_v10_link_utils_layer` (code `V10-LINKS`) |
+| Test detector | `scripts/test_qa_vaccines.py` → `LinkUtilsLayerTest` |
+
+Detector `V10-LINKS` **FAIL** nếu `link_utils.py` vắng hoặc bất biến bị phá (live-check:
+`classify("/zola/x")=="internal"`, code-span không leak); **WARN** nếu thiếu test file /
+migration tool không dùng `code_span_ranges`. Calibrate: `main` hiện tại = PASS (0 FAIL).
 
 ## QA Auto Rule Checker
 

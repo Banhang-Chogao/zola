@@ -30,6 +30,9 @@ url = "$BASE_URL/vu-mua"
 [[extra.tool_groups.items]]
 name = "✈️ Flight DB"
 url = "$BASE_URL/tools/flight-db"
+[[extra.tool_groups.items]]
+name = "📅 Lịch"
+url = "$BASE_URL/tools/calendar"
 
 [[extra.tool_groups]]
 name = "Nội dung & SEO"
@@ -61,11 +64,17 @@ url = "$BASE_URL/authority-report"
 name = "S-DNA"
 url = "$BASE_URL/tools/s-dna"
 [[extra.tool_groups.items]]
+name = "B-DNA"
+url = "$BASE_URL/tools/b-dna"
+[[extra.tool_groups.items]]
 name = "ShortenSEA"
 url = "$BASE_URL/shortensea"
 
 [[extra.tool_groups]]
 name = "Tiện ích & tài liệu"
+[[extra.tool_groups.items]]
+name = "🧭 CMS Control Center"
+url = "$BASE_URL/cms"
 [[extra.tool_groups.items]]
 name = "🧮 BHXH 1 lần"
 url = "$BASE_URL/tools/bhxh-1-lan"

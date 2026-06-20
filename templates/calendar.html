@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Lịch | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="zola-base-url" content="{{ config.base_url | safe }}">
+{% endblock %}
+
+{% block main %}
+<div id="cal-app" class="cal" data-cal-root>
+  {# ===== Toolbar — Microsoft 365 command bar ===== #}
+  <header class="cal__toolbar">
+    <div class="cal__toolbar-group">
+      <button type="button" class="cal__btn cal__btn--primary" data-cal-new>
+        <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Sự kiện mới</span>
+      </button>
+      <button type="button" class="cal__btn cal__btn--ghost" data-cal-today>Hôm nay</button>
+      <div class="cal__nav" role="group" aria-label="Điều hướng thời gian">
+        <button type="button" class="cal__navbtn" data-cal-prev aria-label="Trước">
+          <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="cal__navbtn" data-cal-next aria-label="Sau">
+          <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+      <h1 class="cal__period" data-cal-period aria-live="polite">—</h1>
+    </div>
+
+    <div class="cal__toolbar-group cal__toolbar-group--end">
+      <div class="cal__viewswitch" role="tablist" aria-label="Chế độ xem">
+        <button type="button" class="cal__view-tab" role="tab" data-cal-view-btn="day" aria-selected="false">Ngày</button>
+        <button type="button" class="cal__view-tab" role="tab" data-cal-view-btn="week" aria-selected="false">Tuần</button>
+        <button type="button" class="cal__view-tab cal__view-tab--active" role="tab" data-cal-view-btn="month" aria-selected="true">Tháng</button>
+      </div>
+      <button type="button" class="cal__btn cal__btn--ghost cal__btn--icon" data-cal-side-toggle aria-label="Ẩn/hiện agenda" aria-pressed="true">
+        <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="cal__body" data-cal-body>
+    {# ===== Side agenda — mini month + day agenda ===== #}
+    <aside class="cal__side" data-cal-side aria-label="Bảng điều hướng">
+      <section class="cal__mini" data-cal-mini aria-label="Lịch thu nhỏ"></section>
+      <section class="cal__agenda" aria-label="Lịch trình">
+        <header class="cal__agenda-head">
+          <h2 class="cal__agenda-title" data-cal-agenda-title>Lịch trình</h2>
+          <span class="cal__agenda-count" data-cal-agenda-count></span>
+        </header>
+        <div class="cal__agenda-list" data-cal-agenda></div>
+      </section>
+    </aside>
+
+    {# ===== Main view surface — rendered by JS ===== #}
+    <main class="cal__main" data-cal-main>
+      <div class="cal__view" data-cal-view tabindex="0" aria-label="Lưới lịch"></div>
+    </main>
+  </div>
+
+  {# ===== Event editor dialog ===== #}
+  <div class="cal__modal" data-cal-modal hidden role="dialog" aria-modal="true" aria-labelledby="cal-modal-title">
+    <div class="cal__modal-backdrop" data-cal-modal-close></div>
+    <form class="cal__dialog" data-cal-form novalidate>
+      <header class="cal__dialog-head">
+        <h2 class="cal__dialog-title" id="cal-modal-title" data-cal-dialog-title>Sự kiện mới</h2>
+        <button type="button" class="cal__dialog-x" data-cal-modal-close aria-label="Đóng">
+          <svg class="cal__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </header>
+
+      <input type="hidden" data-cal-f-id>
+
+      <div class="cal__dialog-field">
+        <label for="cal-f-title">Tiêu đề</label>
+        <input id="cal-f-title" type="text" data-cal-f-title placeholder="Thêm tiêu đề" autocomplete="off" required>
+      </div>
+
+      <label class="cal__dialog-check">
+        <input type="checkbox" data-cal-f-allday>
+        <span>Cả ngày</span>
+      </label>
+
+      <div class="cal__dialog-row">
+        <div class="cal__dialog-field">
+          <label for="cal-f-sdate">Bắt đầu</label>
+          <input id="cal-f-sdate" type="date" data-cal-f-sdate required>
+        </div>
+        <div class="cal__dialog-field" data-cal-f-stime-wrap>
+          <label for="cal-f-stime">Giờ</label>
+          <input id="cal-f-stime" type="time" step="300" data-cal-f-stime>
+        </div>
+      </div>
+
+      <div class="cal__dialog-row">
+        <div class="cal__dialog-field">
+          <label for="cal-f-edate">Kết thúc</label>
+          <input id="cal-f-edate" type="date" data-cal-f-edate required>
+        </div>
+        <div class="cal__dialog-field" data-cal-f-etime-wrap>
+          <label for="cal-f-etime">Giờ</label>
+          <input id="cal-f-etime" type="time" step="300" data-cal-f-etime>
+        </div>
+      </div>
+
+      <div class="cal__dialog-field">
+        <span class="cal__dialog-label">Màu</span>
+        <div class="cal__swatches" data-cal-f-colors role="radiogroup" aria-label="Màu sự kiện"></div>
+      </div>
+
+      <div class="cal__dialog-field">
+        <label for="cal-f-loc">Địa điểm</label>
+        <input id="cal-f-loc" type="text" data-cal-f-loc placeholder="Thêm địa điểm" autocomplete="off">
+      </div>
+
+      <div class="cal__dialog-field">
+        <label for="cal-f-notes">Ghi chú</label>
+        <textarea id="cal-f-notes" rows="2" data-cal-f-notes placeholder="Thêm mô tả"></textarea>
+      </div>
+
+      <footer class="cal__dialog-foot">
+        <button type="button" class="cal__btn cal__btn--danger" data-cal-delete hidden>Xoá</button>
+        <span class="cal__dialog-spacer"></span>
+        <button type="button" class="cal__btn cal__btn--ghost" data-cal-modal-close>Huỷ</button>
+        <button type="submit" class="cal__btn cal__btn--primary">Lưu</button>
+      </footer>
+    </form>
+  </div>
+
+  <div class="cal__toast" data-cal-toast role="status" aria-live="polite"></div>
+
+  {# ===== Keyboard hint ===== #}
+  <p class="cal__kbd-hint">
+    Phím tắt: <kbd>N</kbd> sự kiện mới · <kbd>T</kbd> hôm nay · <kbd>D</kbd>/<kbd>W</kbd>/<kbd>M</kbd> đổi xem ·
+    <kbd>←</kbd>/<kbd>→</kbd> điều hướng · <kbd>Esc</kbd> đóng
+  </p>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/calendar/app.js') }}" defer></script>
+{% endblock %}
