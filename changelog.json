@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(wip8): B-DNA design discipline — health meter, icon table, section kickers for workspace tracker",
+      "tag": "chore",
+      "lines_added": 304,
+      "lines_removed": 24,
+      "highlights": [
+        "Adds scripts/wip8.py — read-only workspace DNA tracker (git status/diff/log/stash/branch/PR snapshot)",
+        "Upgrades shortcuts.md wip8 output format to B-DNA design discipline: brand bar + health meter + icon context table + section kickers (NN — emoji TITLE)",
+        "Conflict in shortcuts.md resolved: branch's B-DNA format kept (superset of main's simpler 3-table format — all 3 tables preserved in upgraded form under section kickers 01 — TỔNG QUAN, 02 — FILES CHAN",
+        "shortcuts.md conflicted between main's simpler format and branch's B-DNA upgrade",
+        "Semantic resolution: kept branch's B-DNA version (it already contains equivalent of all 3 main tables in upgraded section-kicker form)"
+      ],
+      "pr": 542
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(series): add 5-part Vaccine Số series — digital immune system for blog CI/CD",
       "tag": "chore",
       "lines_added": 1578,
