@@ -19,13 +19,17 @@ ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "references.json"
 BASE_URL = "https://seomoney.org"
 
+# Allow sibling `link_utils` import when run as `python3 scripts/build_references.py`
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from link_utils import extract_link_pairs as _lu_extract_link_pairs  # code-span-aware
+
 CONTENT_DIRS = (
     ROOT / "content" / "posting",
     ROOT / "content" / "baochi",
     ROOT / "content" / "pages",
 )
 
-# Markdown links — exclude image syntax leading !
+# Kept for reference; actual extraction uses link_utils (code-span-safe).
 LINK_MD_RE = re.compile(r"(?<!!)\[([^\]]*)\]\(([^)]+)\)")
 LINK_HTML_RE = re.compile(
     r'<a\s+[^>]*href=["\']([^"\']+)["\'][^>]*>([^<]*)</a>',
@@ -183,12 +187,8 @@ def resolve_internal_url(url: str, slug_index: dict) -> str:
 
 
 def extract_links(body: str) -> list[tuple[str, str]]:
-    found: list[tuple[str, str]] = []
-    for m in LINK_MD_RE.finditer(body):
-        found.append((m.group(1), m.group(2).strip()))
-    for m in LINK_HTML_RE.finditer(body):
-        found.append((m.group(2), m.group(1).strip()))
-    return found
+    """Extract (anchor_text, url) pairs; code-span-safe via link_utils."""
+    return _lu_extract_link_pairs(body)
 
 
 def build_slug_index() -> dict[str, dict]:
