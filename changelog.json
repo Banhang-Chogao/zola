@@ -13,6 +13,21 @@
         "sass/_calendar.scss — scoped S-DNA styles + responsive (import site.scss)",
         "content/tools/_index.md — thêm link \"📅 Lịch\""
       ],
+      "pr": 533
+    },
+    {
+      "date": "2026-06-20",
+      "title": "feat(calendar): add Microsoft 365-style calendar tool in S-DNA visual",
+      "tag": "chore",
+      "lines_added": 1505,
+      "lines_removed": 0,
+      "highlights": [
+        "content/tools/calendar.md — trang (template calendar.html)",
+        "templates/calendar.html — chrome MS365 (command bar, side agenda, modal)",
+        "static/js/calendar/app.js — engine: month/week/day, drag-drop, resize, overlap layout, keyboard, CRUD localStorage, current-time line",
+        "sass/_calendar.scss — scoped S-DNA styles + responsive (import site.scss)",
+        "content/tools/_index.md — thêm link \"📅 Lịch\""
+      ],
       "pr": 532
     },
     {
