@@ -11,11 +11,14 @@
    theo quy tắc CSS (≤960px = mobile, ≥961px = desktop).
    ============================================================================ */
 
-/* ===== DESKTOP side-nav (đầu cột phải, trên widget) ===== */
+/* ===== DESKTOP side-nav (đầu cột phải, trên widget) =====
+   Anchored in normal document flow — KHÔNG sticky. Trước đây `position: sticky;
+   top: 1rem` khiến khối nav tách khỏi cột phải và "trôi"/giật khi cuộn qua nó
+   (scroll-linked drift). Để static → nav nằm ổn định ở đầu cột phải, cuộn tự
+   nhiên theo trang cùng các widget, không jitter. (Desktop-only; mobile ≤960px
+   ẩn .side-nav, dùng .nav-drawer.) */
 .side-nav {
-  position: sticky;
-  top: 1rem;
-  z-index: 5;
+  position: static;
   background: var(--c-bg-surface);
   border: 1px solid var(--c-border);
   border-radius: 14px;
