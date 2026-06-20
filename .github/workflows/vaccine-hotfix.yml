@@ -1,0 +1,252 @@
+name: Vaccine Hotfix
+
+# Conflict-safe automated hotfix for pipeline failures. Activated when QA
+# Gatekeeper, the production deploy, or Auto-merge FINISHES IN FAILURE (or a merge
+# conflict / blocked auto-merge), plus manual workflow_dispatch.
+#
+# It diagnoses the root cause, creates/updates a `vaccine-hotfix/<issue-id>` branch,
+# applies the minimal safe delta (reusing autofix_conflicts + the vaccine fixers),
+# re-runs QA/build/tests, opens/updates a PR, and logs to
+# data/vaccine-hotfix-report.json ("Autofixer_report_by Vacxin").
+#
+# Merge is DELEGATED to the existing auto-merge engine (auto-merge.yml +
+# try_auto_merge.py): the hotfix PR merges ONLY when every required check is green.
+# The engine never pushes/force-pushes `main` and never deletes user content.
+# See CLAUDE.md → "Vaccine Hotfix".
+
+on:
+  workflow_run:
+    workflows:
+      - "QA Gatekeeper"
+      - "Build and deploy Zola site to GitHub Pages"
+      - "Auto-merge"
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      trigger:
+        description: "build_fail | deploy_fail | auto_merge_blocked | merge_conflict | required_checks_fail"
+        required: true
+        default: required_checks_fail
+      issue_id:
+        description: "Stable id for the failing run (→ vaccine-hotfix/<id>). Default: derived."
+        required: false
+      branch:
+        description: "Source branch (required only for merge_conflict)."
+        required: false
+
+permissions:
+  contents: write          # push the vaccine-hotfix/* branch (never main)
+  pull-requests: write     # open / update the hotfix PR
+  issues: write            # escalation comments
+  actions: read            # gh run logs for diagnosis
+
+# Serialize per failing branch; do NOT share auto-merge / deploy locks.
+concurrency:
+  group: vaccine-hotfix-${{ github.event.workflow_run.head_branch || github.event.inputs.issue_id || github.run_id }}
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  hotfix:
+    name: Conflict-safe hotfix
+    # Only act on real failures (workflow_run) or a manual dispatch. Successful
+    # runs are no-ops.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Zola for build verification
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Engine self-tests
+        run: python3 -m unittest scripts.test_vaccine_hotfix -v
+
+      - name: Conflict-safe precheck (audit CI/PR/merge/deploy rules)
+        run: python3 scripts/vaccine_hotfix.py --precheck
+
+      - name: Resolve trigger + issue id
+        id: ctx
+        env:
+          EVENT: ${{ github.event_name }}
+          WR_NAME: ${{ github.event.workflow_run.name }}
+          WR_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          WR_ID: ${{ github.event.workflow_run.id }}
+          IN_TRIGGER: ${{ github.event.inputs.trigger }}
+          IN_ISSUE: ${{ github.event.inputs.issue_id }}
+          IN_BRANCH: ${{ github.event.inputs.branch }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT" = "workflow_dispatch" ]; then
+            TRIGGER="$IN_TRIGGER"
+            ISSUE_ID="${IN_ISSUE:-${IN_TRIGGER}-${WR_ID:-$GITHUB_RUN_ID}}"
+            BASE="${IN_BRANCH:-main}"
+          else
+            case "$WR_NAME" in
+              "Build and deploy"*) TRIGGER="deploy_fail" ;;
+              "Auto-merge")        TRIGGER="auto_merge_blocked" ;;
+              *)                   TRIGGER="required_checks_fail" ;;
+            esac
+            # Stable id keyed on the failing branch so retries increment the SAME
+            # anti-loop counter. If the failure is already on a hotfix branch,
+            # reuse it (no nesting).
+            if [ "${WR_BRANCH:-}" = "main" ] || [ -z "${WR_BRANCH:-}" ]; then
+              ISSUE_ID="${TRIGGER}-${WR_ID}"
+              BASE="main"
+            elif [[ "$WR_BRANCH" == vaccine-hotfix/* ]]; then
+              ISSUE_ID="${WR_BRANCH#vaccine-hotfix/}"
+              BASE="$WR_BRANCH"
+            else
+              ISSUE_ID="$WR_BRANCH"
+              BASE="$WR_BRANCH"
+            fi
+          fi
+          BRANCH=$(python3 - "$ISSUE_ID" <<'PY'
+          import sys
+          sys.path.insert(0, "scripts")
+          import vaccine_hotfix as v
+          print(v.hotfix_branch(sys.argv[1]))
+          PY
+          )
+          echo "trigger=$TRIGGER"   >> "$GITHUB_OUTPUT"
+          echo "issue_id=$ISSUE_ID" >> "$GITHUB_OUTPUT"
+          echo "base=$BASE"         >> "$GITHUB_OUTPUT"
+          echo "branch=$BRANCH"     >> "$GITHUB_OUTPUT"
+          echo "run_id=${WR_ID:-}"  >> "$GITHUB_OUTPUT"
+          echo "Trigger=$TRIGGER · issue=$ISSUE_ID · base=$BASE · branch=$BRANCH"
+
+      - name: Create / update vaccine-hotfix branch
+        env:
+          BRANCH: ${{ steps.ctx.outputs.branch }}
+          BASE: ${{ steps.ctx.outputs.base }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin "$BASE" "$BRANCH" 2>/dev/null || true
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+            git merge --no-edit "origin/$BASE" 2>/dev/null || git merge --abort 2>/dev/null || true
+          elif git ls-remote --exit-code --heads origin "$BASE" >/dev/null 2>&1; then
+            git checkout -B "$BRANCH" "origin/$BASE"
+          else
+            git checkout -B "$BRANCH" "origin/main"
+          fi
+
+      - name: Run Vaccine Hotfix engine
+        id: engine
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          TRIGGER="${{ steps.ctx.outputs.trigger }}"
+          ISSUE_ID="${{ steps.ctx.outputs.issue_id }}"
+          RUN_ID="${{ steps.ctx.outputs.run_id }}"
+          EXTRA=""
+          if [ "$TRIGGER" = "merge_conflict" ]; then
+            EXTRA="--branch ${{ steps.ctx.outputs.base }}"
+          fi
+          RID_ARG=""
+          if [ -n "$RUN_ID" ]; then RID_ARG="--run-id $RUN_ID"; fi
+          python3 scripts/vaccine_hotfix.py --trigger "$TRIGGER" --issue-id "$ISSUE_ID" $EXTRA $RID_ARG || true
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vaccine-hotfix-report
+          path: data/vaccine-hotfix-report.json
+          if-no-files-found: warn
+
+      - name: Write run summary
+        if: always()
+        run: |
+          echo "## 🩹 Vaccine Hotfix — Autofixer_report_by Vacxin" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f data/vaccine-hotfix-report.json ]; then
+            python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          try:
+              d = json.load(open("data/vaccine-hotfix-report.json"))
+              rc = d.get("root_cause", {})
+              ch = d.get("checks_result", {})
+              def s(k):
+                  r = ch.get(k) or {}
+                  return "PASS" if r.get("passed") else ("FAIL" if r else "n/a")
+              print(f"- **Trigger**: `{d.get('trigger')}` · **Branch**: `{d.get('branch')}`")
+              print(f"- **Root cause**: {rc.get('root_cause')} ({rc.get('confidence')}% · {rc.get('pattern_id')})")
+              print(f"- **Files changed**: {len(d.get('files_changed', []))}")
+              print(f"- **Checks**: qa={s('qa')} · build={s('build')} · tests={s('tests')}")
+              print(f"- **Deploy**: {d.get('deploy_status')}")
+              print(f"- **Status**: `{d.get('status')}` (attempts {d.get('attempts')})")
+              print(f"- **PR**: {d.get('pr_url')}")
+          except Exception as exc:
+              print(f"Error reading report: {exc}")
+          PY
+          else
+            echo "No hotfix report generated" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Commit + push hotfix branch (never main)
+        id: push
+        env:
+          BRANCH: ${{ steps.ctx.outputs.branch }}
+        run: |
+          set -euo pipefail
+          # Never operate on main.
+          if [ "$BRANCH" = "main" ] || [[ "$BRANCH" != vaccine-hotfix/* ]]; then
+            echo "::error::refusing to push non-hotfix branch '$BRANCH'"
+            exit 1
+          fi
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes — nothing to push (engine may have only diagnosed)."
+            exit 0
+          fi
+          git add -A
+          git commit -m "fix(vaccine-hotfix): minimal delta for ${{ steps.ctx.outputs.issue_id }} [skip changelog]"
+          # Plain push (fast-forward only) to the dedicated branch — NEVER force, NEVER main.
+          git push origin "HEAD:$BRANCH"
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Open / update PR + delegate merge to the gated engine
+        if: steps.push.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          BRANCH: ${{ steps.ctx.outputs.branch }}
+        run: |
+          set -euo pipefail
+          NUM=$(gh pr list --head "$BRANCH" --state open --json number -q '.[0].number' || true)
+          if [ -z "$NUM" ]; then
+            gh pr create --base main --head "$BRANCH" \
+              --title "fix(vaccine-hotfix): ${{ steps.ctx.outputs.issue_id }}" \
+              --body "Automated **Vaccine Hotfix** (\`${{ steps.ctx.outputs.trigger }}\`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by Vacxin\")." \
+              || echo "::warning::could not open PR automatically"
+            NUM=$(gh pr list --head "$BRANCH" --state open --json number -q '.[0].number' || true)
+          fi
+          # Delegate to the SAME gated merge engine — merges only when qa-check is
+          # green (no bypass). Safe to call early: it skips until checks pass.
+          if [ -n "$NUM" ]; then
+            INPUT_PR="$NUM" EVENT_NAME=workflow_dispatch python3 scripts/try_auto_merge.py || true
+          fi
