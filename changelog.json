@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "fix(deploy-monitor): expire stale in_progress so Deploy Watch can't show \"deploying forever\"",
+      "tag": "fix",
+      "lines_added": 311,
+      "lines_removed": 36,
+      "highlights": [
+        "UPTIME_ME (506c595) = deploy.yml run #839 → success @ 10:10:55Z → LIVE ~2h ago",
+        "Only genuine in-flight deploy = #846 d8a44cc (Daily Vaccine Autofixer) — unrelated to UPTIME_ME",
+        "Fetch Merge Report = #229 success (the #222 \"in_progress\" the report saw had already finished)",
+        "Build Failure Auto-Remediator & QA Rule Checker = all skipped (healthy)",
+        "scripts/fetch_deploy_monitor.py — expire non-terminal runs past a 45-min TTL, and any commit already deployed by a success run. Ghosts move to expired[] (not pending), set stale=true, and never drive "
+      ],
+      "pr": 576
+    },
+    {
+      "date": "2026-06-20",
       "title": "fix(build_references): code-span-safe URL extraction (PR #551 follow-up vaccine)",
       "tag": "fix",
       "lines_added": 194,
