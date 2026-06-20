@@ -1043,6 +1043,122 @@ class EditorPublishVaccineTest(unittest.TestCase):
         self.assertEqual(r.status, qv.PASS, f"editor_publish not PASS: {r.diagnosis} {r.details}")
 
 
+class NoFloatingNavVaccineTest(unittest.TestCase):
+    """V21 — No Floating Bar / Stable Nav. Desktop nav must stay in normal flow;
+    floating/sticky/scroll-linked desktop nav → FAIL. Overlays/modals/search and
+    the mobile drawer (or anything under a mobile @media) are exempt."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    # ---- PASS cases -------------------------------------------------------
+    def test_static_side_nav_passes(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; background: #fff; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_normal_flow_no_position_passes(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { background: #fff; padding: 1rem; }\n"
+                        ".side-nav__actions { display: flex; margin-top: 0.5rem; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_mobile_drawer_fixed_is_exempt(self):
+        # The hamburger drawer + toggle are overlays — fixed is allowed (not protected).
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; }\n"
+                        ".nav-toggle { position: fixed; top: 14px; right: 14px; }\n"
+                        ".nav-drawer { position: fixed; inset: 0; }\n"
+                        ".nav-drawer__panel { position: absolute; transform: translateX(100%); }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_search_modal_fixed_is_exempt(self):
+        self.repo.write("sass/_site-search.scss",
+                        ".site-search { position: fixed; inset: 0; z-index: 10050; }\n"
+                        ".site-search__panel { max-width: 640px; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_sticky_under_mobile_media_is_exempt(self):
+        # A protected selector going sticky ONLY inside a mobile breakpoint is not
+        # flagged — mobile is handled separately, do not break it here.
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; }\n"
+                        "@media (max-width: 720px) {\n"
+                        "  .side-nav { position: sticky; top: 0; }\n"
+                        "}\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_commented_sticky_does_not_trip(self):
+        self.repo.write("sass/_side-nav.scss",
+                        "/* trước đây position: sticky; top: 1rem; */\n"
+                        ".side-nav { position: static; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    # ---- FAIL cases -------------------------------------------------------
+    def test_sticky_side_nav_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: sticky; top: 1rem; z-index: 5; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertEqual(r.vaccine, "V21")
+        self.assertTrue(any("side-nav" in d for d in r.details))
+
+    def test_fixed_side_nav_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: fixed; top: 0; left: 0; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_floating_bottom_action_bar_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".side-nav { position: static; }\n"
+                        ".side-nav__actions { position: fixed; bottom: 0; left: 0; right: 0; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("side-nav__actions" in d for d in r.details))
+
+    def test_scroll_driven_animation_fails(self):
+        self.repo.write("sass/_side-nav.scss",
+                        ".primary-nav { animation-timeline: scroll(root block); "
+                        "animation-name: drift; }\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_js_translate_on_scroll_fails(self):
+        self.repo.write("sass/_side-nav.scss", ".side-nav { position: static; }\n")
+        self.repo.write("static/js/side-nav.js",
+                        "var el = document.querySelector('.side-nav');\n"
+                        "window.addEventListener('scroll', function () {\n"
+                        "  el.style.transform = 'translateY(' + window.scrollY + 'px)';\n"
+                        "});\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any(".js" in d for d in r.details))
+
+    def test_js_scroll_without_nav_token_passes(self):
+        # A scroll handler that mutates style but never touches a nav element is fine.
+        self.repo.write("sass/_x.scss", ".hero { color: red; }\n")
+        self.repo.write("static/js/reveal.js",
+                        "window.addEventListener('scroll', function () {\n"
+                        "  document.querySelector('.hero').style.top = '0';\n"
+                        "});\n")
+        r = qv.check_no_floating_nav_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    # ---- calibration ------------------------------------------------------
+    def test_real_repo_passes(self):
+        """Current main keeps desktop nav static → V21 PASS (calibration)."""
+        r = qv.check_no_floating_nav_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"V21 not PASS: {r.diagnosis} {r.details}")
+
+
 class DomainRootUrlVaccineTest(unittest.TestCase):
     """DOMAIN-ROOT — scanner base-path /zola assumption detector tests."""
 
@@ -1165,9 +1281,16 @@ class OgImageVaccineTest(unittest.TestCase):
         p.write_bytes(data)
         return p
 
-    def _wire_good(self):
-        self.repo.write("static/img/og/seomoney-og.svg", self._GOOD_SVG)
+    def _wire_good(self, svg: str | None = None):
+        import hashlib
+        import json as _json
+        svg = svg if svg is not None else self._GOOD_SVG
+        self.repo.write("static/img/og/seomoney-og.svg", svg)
         self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        # fresh manifest: records the CURRENT svg sha → twin not stale.
+        sha = hashlib.sha256(svg.encode("utf-8")).hexdigest()
+        self.repo.write("static/img/og-manifest.json",
+                        _json.dumps({"static/img/og/seomoney-og.svg": sha}))
 
     def test_webp_dimensions_parser(self):
         self.assertEqual(qv._webp_dimensions(_make_webp(1200, 630)), (1200, 630))
@@ -1225,12 +1348,25 @@ class OgImageVaccineTest(unittest.TestCase):
         self.assertEqual(r.status, qv.WARN)
         self.assertTrue(any("old-domain" in d for d in r.details))
 
-    def test_stale_twin_warns(self):
+    def test_stale_twin_fails_via_manifest(self):
+        # manifest records a DIFFERENT sha than the current svg → twin is stale
+        # → deterministic FAIL (no mtime dependency).
+        import json as _json
+        self.repo.write("static/img/og/seomoney-og.svg", self._GOOD_SVG)
+        self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        self.repo.write("static/img/og-manifest.json",
+                        _json.dumps({"static/img/og/seomoney-og.svg": "deadbeef" * 8}))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("STALE" in d for d in r.details))
+
+    def test_stale_bootstrap_mtime_warns_only(self):
+        # No manifest entry → fall back to mtime heuristic as a soft WARN, never
+        # a FAIL (a fresh CI checkout must never falsely block the merge).
         svg = self.repo.root / "static/img/og/seomoney-og.svg"
         svg.parent.mkdir(parents=True, exist_ok=True)
         twin = self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
         svg.write_text(self._GOOD_SVG, encoding="utf-8")
-        # twin committed BEFORE the svg was re-edited → stale.
         os.utime(twin, (1000, 1000))
         os.utime(svg, (2000, 2000))
         r = qv.check_og_image_vaccine(self.repo.ctx())

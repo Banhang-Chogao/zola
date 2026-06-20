@@ -2,6 +2,66 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/zealous-ride-ky2br1 [claude/zealous-ride-ky2br1]",
+      "tag": "chore",
+      "lines_added": 293,
+      "lines_removed": 0,
+      "highlights": [
+        "fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter",
+        "feat(qa): add V21 No Floating Bar / Stable Nav vaccine",
+        "Merge remote-tracking branch 'origin/main' into claude/zealous-ride-ky2br1",
+        "CLAUDE.md (modified, +38/-0)",
+        "sass/_side-nav.scss (modified, +6/-0)"
+      ],
+      "pr": 587
+    },
+    {
+      "date": "2026-06-20",
+      "title": "Merge origin/main into pr562: resolve GSC V19 conflicts [claude/eager-gauss-o4yj2w]",
+      "tag": "chore",
+      "lines_added": 204,
+      "lines_removed": 15,
+      "highlights": [
+        "feat(gsc): migrate to sc-domain:seomoney.org domain property",
+        "fix(gsc): semantic merge qa_vaccines.py — preserve all detectors (V18+V19+BRAND+DEPLOY-MON+KOREAN-BANNER)",
+        "Merge remote-tracking branch 'origin/main' into pr562",
+        "Merge origin/main into pr562: resolve GSC V19 conflicts",
+        ".github/workflows/gsc-stats.yml (modified, +1/-0)"
+      ],
+      "pr": 562
+    },
+    {
+      "date": "2026-06-20",
+      "title": "feat(og): OG smoke verified + deterministic stale-twin FAIL (content-hash manifest)",
+      "tag": "chore",
+      "lines_added": 150,
+      "lines_removed": 19,
+      "highlights": [
+        "Homepage → og:image + twitter:image = https://seomoney.org/img/og/seomoney-og.og.webp ✅ absolute, with og:image:width=1200 / og:image:height=630.",
+        "Section / taxonomy pages (no thumbnail) → same absolute seomoney-og.og.webp default — 639 pages.",
+        "Per-post override works: a real cover post → …/img/covers/<slug>.og.webp (twin exists); posts whose frontmatter sets thumbnail = …placeholder.svg → …/placeholder.og.webp. Per-post thumbnails correctly",
+        "0 relative og:image / twitter:image across the whole site — all absolute https://seomoney.org/….",
+        "templates/base.html OG wiring unchanged."
+      ],
+      "pr": 586
+    },
+    {
+      "date": "2026-06-20",
+      "title": "fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter",
+      "tag": "fix",
+      "lines_added": 7,
+      "lines_removed": 4,
+      "highlights": [
+        "sass/_side-nav.scss: .side-nav → position: static (removed sticky + top + z-index). CSS-only.",
+        "Desktop only. Mobile/tablet (≤960px) hides .side-nav and uses the hamburger .nav-drawer — untouched.",
+        "Markup/logic unchanged. Search / Clear-cache actions remain inside the panel (.side-nav__actions).",
+        "No scroll-linked transform/animation was present in JS; the drift was purely the sticky rule.",
+        "python3 qa_check.py → PASS (UI-SIDEBAR PASS, 0 vaccine failures; only pre-existing unrelated DEPLOY-MON freshness warn)."
+      ],
+      "pr": 585
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(og): polish SEOMONEY OG card + legal VN Google Sans-style font + OG vaccine",
       "tag": "chore",
       "lines_added": 287,
