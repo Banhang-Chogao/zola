@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(qa-vaccine): DOMAIN-ROOT detector — block /zola scanner prefix regression",
+      "tag": "chore",
+      "lines_added": 206,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/qa_vaccines.py: new DOMAIN-ROOT detector in DETECTORS[]",
+        "FAIL if config.toml base_url contains a /zola path segment",
+        "FAIL if any of 5 key scanner scripts hardcodes SITE_PREFIX/SITE_BASE_PATH/BASE_PATH/SITE_BASE = \"/zola\" on a non-comment line",
+        "WARN if stale banhang-chogao.github.io/zola refs found in scanner bodies (comment-only excluded)",
+        "scripts/test_qa_vaccines.py: DomainRootUrlVaccineTest — 6 cases"
+      ],
+      "pr": 575
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(seo): auto-submit sitemap + expand IndexNow to all content",
       "tag": "chore",
       "lines_added": 273,
