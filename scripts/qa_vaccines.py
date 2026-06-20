@@ -1351,6 +1351,117 @@ def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
                        diagnosis="no stale github.io/zola refs in operational files; config + CNAME clean")
 
 
+def check_domain_root_url_vaccine(ctx: Ctx) -> CheckResult:
+    """DOMAIN-ROOT — scanner scripts must not hardcode /zola as URL-normalization base path.
+
+    After migrating to seomoney.org (apex domain, no subpath), link scanners must
+    derive their base-path from config.toml base_url, not from a hardcoded "/zola"
+    constant. This detector catches regressions where someone re-introduces the
+    old subpath assumption.
+
+    FAIL:
+      * config.toml base_url contains '/zola' (would make SITE_BASE_PATH = '/zola',
+        re-infecting all link normalization downstream).
+      * Any scanner script defines SITE_PREFIX, SITE_BASE_PATH, or BASE_PATH equal
+        to the literal string '/zola' in non-comment assignment code.
+    WARN:
+      * Stale 'github.io/zola' references found in operational scanner scripts
+        (not build-breaking but indicate drift — covered more broadly by V19;
+        here narrowed to the scanner scripts specifically).
+    """
+    title = "DOMAIN-ROOT Scanner Base-Path (/zola prefix assumption)"
+
+    # Scanner scripts to audit — the primary consumers of SITE_PREFIX / SITE_BASE_PATH.
+    SCANNER_SCRIPTS = [
+        "qa-404-checker.py",
+        "scripts/check_internal_links.py",
+        "scripts/build_references.py",
+        "scripts/audit_internal_links.py",
+        "scripts/hotfix_improvement_progress.py",
+    ]
+
+    # Regex: assignment of SITE_PREFIX, SITE_BASE_PATH, BASE_PATH, or SITE_BASE to "/zola".
+    # Matches patterns like:  SITE_PREFIX = "/zola"  or  SITE_BASE_PATH = "/zola"
+    # but NOT comment lines or derived expressions like urlparse(BASE_URL).path.rstrip("/").
+    # Strategy: match non-comment lines containing the assignment, then verify string value.
+    _HARDCODE_PAT = re.compile(
+        r"^[^#\n]*(?:SITE_PREFIX|SITE_BASE_PATH|BASE_PATH|SITE_BASE)\s*=\s*['\"](/zola)['\"]",
+        re.MULTILINE,
+    )
+
+    # Pattern for stale github.io/zola in scanner scripts (WARN)
+    _STALE_HOST_PAT = re.compile(r"banhang-chogao\.github\.io/zola", re.IGNORECASE)
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # --- Check 1: config.toml base_url must NOT include /zola path segment ---
+    cfg_text = ctx.read("config.toml") or ""
+    for line in cfg_text.splitlines():
+        s = line.strip()
+        if s.startswith("base_url") and "=" in s:
+            val = s.split("=", 1)[1].strip().strip('"').strip("'")
+            parsed_path = ""
+            try:
+                from urllib.parse import urlparse as _up
+                parsed_path = _up(val).path.rstrip("/")
+            except Exception:
+                pass
+            if parsed_path == "/zola" or parsed_path.startswith("/zola/"):
+                fails.append(
+                    f"config.toml base_url={val!r} contains /zola subpath — "
+                    "SITE_BASE_PATH will be '/zola', re-infecting link normalization. "
+                    "Fix: set base_url = \"https://seomoney.org\""
+                )
+            break
+
+    # --- Check 2: scanner scripts must not hardcode /zola as a base-path value ---
+    for rel in SCANNER_SCRIPTS:
+        text = ctx.read(rel)
+        if text is None:
+            continue  # script absent — skip (not a FAIL; may be future state)
+        matches = _HARDCODE_PAT.findall(text)
+        if matches:
+            fails.append(
+                f"{rel}: hardcoded SITE_PREFIX/SITE_BASE_PATH = '/zola' found "
+                f"({len(matches)} occurrence(s)) — derive from BASE_URL instead"
+            )
+        # Check for stale host refs (WARN, narrowed to scanner context)
+        host_hits = _STALE_HOST_PAT.findall(text)
+        if host_hits:
+            warns.append(
+                f"{rel}: {len(host_hits)} stale 'banhang-chogao.github.io/zola' "
+                "reference(s) in scanner script"
+            )
+
+    if fails:
+        return CheckResult(
+            "DOMAIN-ROOT", title, FAIL,
+            diagnosis="; ".join(fails),
+            fix=(
+                "Remove hardcoded '/zola' base-path from scanner scripts. "
+                "Derive SITE_BASE_PATH from BASE_URL: "
+                "urlparse(BASE_URL).path.rstrip('/') — returns '' at root domain. "
+                "Set config.toml base_url = \"https://seomoney.org\"."
+            ),
+            details=fails + warns,
+        )
+    if warns:
+        return CheckResult(
+            "DOMAIN-ROOT", title, WARN,
+            diagnosis=f"{len(warns)} stale github.io/zola ref(s) in scanner scripts",
+            fix="Update scanner script comments/strings to reference seomoney.org",
+            details=warns,
+        )
+    return CheckResult(
+        "DOMAIN-ROOT", title, PASS,
+        diagnosis=(
+            "config.toml base_url has no /zola subpath; "
+            "scanner scripts do not hardcode /zola as base-path value"
+        ),
+    )
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -1360,6 +1471,7 @@ DETECTORS = [
     check_v8b_template_block_balance,
     check_v8c_series_registration,
     check_v19_domain_migration_drift,
+    check_domain_root_url_vaccine,
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
     check_v17_vipzone_edge_safari_auth,
