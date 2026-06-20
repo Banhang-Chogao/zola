@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-20T20:58:09Z",
+  "updated_at": "2026-06-20T21:16:44Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 51,
+    "today": 52,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 90,
-      "fix": 46,
+      "feature": 91,
+      "fix": 45,
       "unknown": 40,
       "chore": 11,
       "content": 9,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 591,
+      "pr_title": "feat(adsense): readiness hotfix — policy pages, noindex internal pages, env ad slot, clean homepage",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/591",
+      "merged_at": "2026-06-20T21:09:33Z",
+      "merge_commit_sha": "dd1119b583027a000f051eaf8692bfb7756dec44",
+      "merge_commit_short": "dd1119b",
+      "head_branch": "claude/festive-fermi-ckm0ir",
+      "summary_vi": "Đưa `seomoney.org` về trạng thái **approval-safe cho Google AdSense** ngoài SEO: đủ trang chính sách (footer-linked), noindex/loại sitemap các trang nội bộ/QA/dashboard/thin/premium, slot ad-code qua env, và trang chủ sạ",
+      "change_type": "feature",
+      "files_changed": 38,
+      "additions": 406,
+      "deletions": 42,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 870,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27883959192",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 595,
       "pr_title": "feat(premium): paywall visa Hàn 5 năm — Premium category, single sticky, MoMo link",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 869,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27883408395",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 594,
@@ -3795,25 +3814,6 @@
       "files_changed": 10,
       "additions": 192,
       "deletions": 103,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 365,
-      "pr_title": "qa: Compliance Score audit + auto-fix",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/365",
-      "merged_at": "2026-06-17T19:33:23Z",
-      "merge_commit_sha": "deeacbb0cbf6d0b1c1af6d545fe8f83006358b2b",
-      "merge_commit_short": "deeacbb",
-      "head_branch": "qa/compliance-auto",
-      "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
-      "change_type": "fix",
-      "files_changed": 2,
-      "additions": 3,
-      "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
