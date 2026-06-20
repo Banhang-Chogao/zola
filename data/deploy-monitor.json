@@ -1,119 +1,130 @@
 {
-  "checked_at": "2026-06-20T16:09:13.965756+00:00",
+  "checked_at": "2026-06-20T20:52:50.702561+00:00",
   "ok": true,
   "stale": false,
   "summary": {
-    "prod_status": "green",
-    "deploying": false,
-    "prod_commit": "2676ae55b8312d8b502740865c5054a9977e69f2",
-    "prod_commit_short": "2676ae5",
-    "prod_deployed_at": "2026-06-20T13:38:29Z",
-    "pending_count": 0,
+    "prod_status": "yellow",
+    "deploying": true,
+    "prod_commit": "e308532b53930c8327d527ce105c22b97cb9c308",
+    "prod_commit_short": "e308532",
+    "prod_deployed_at": "2026-06-20T20:12:23Z",
+    "pending_count": 1,
     "expired_count": 0,
-    "avg_deploy_s": 925,
-    "longest_deploy_s": 1606,
-    "failed_recent": 7,
-    "cancelled_recent": 8,
+    "avg_deploy_s": 956,
+    "longest_deploy_s": 1349,
+    "failed_recent": 9,
+    "cancelled_recent": 11,
     "storm": true
   },
-  "pending": [],
+  "pending": [
+    {
+      "sha_short": "24b6780",
+      "title": "feat(premium): paywall visa Hàn 5 năm — Premium category, single stic…",
+      "status": "in_progress",
+      "conclusion": null,
+      "created_at": "2026-06-20T20:46:15Z",
+      "waiting_s": 395,
+      "started_at": "2026-06-20T20:46:15Z",
+      "eta_s": 561
+    }
+  ],
   "expired": [],
   "recent": [
     {
-      "sha_short": "2676ae5",
-      "title": "fix(deploy-monitor): expire stale in_progress so Deploy Watch can't s…",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-20T13:18:59Z",
-      "duration_s": 1170
-    },
-    {
-      "sha_short": "607a958",
-      "title": "fix(build_references): code-span-safe URL extraction (PR #551 follow-…",
+      "sha_short": "a00601c",
+      "title": "fix(gsc): serve /gsc/* on deployed vipzone backend (was 404 on Render…",
       "status": "completed",
       "conclusion": "cancelled",
-      "created_at": "2026-06-20T13:18:38Z",
-      "duration_s": 22
+      "created_at": "2026-06-20T20:44:20Z",
+      "duration_s": 116
     },
     {
-      "sha_short": "58ca88b",
-      "title": "feat(qa-vaccine): add DOMAIN-ROOT detector — scanner base-path /zola …",
+      "sha_short": "800f2e6",
+      "title": "redesign(editor): apply S-DNA visual language to /editor/ CMS (scoped…",
       "status": "completed",
       "conclusion": "cancelled",
-      "created_at": "2026-06-20T13:17:50Z",
-      "duration_s": 49
+      "created_at": "2026-06-20T20:41:03Z",
+      "duration_s": 198
     },
     {
-      "sha_short": "e7480ee",
-      "title": "feat(seo): auto-submit sitemap + expand IndexNow to all content (#561)",
+      "sha_short": "175c44b",
+      "title": "docs(claude): add V22 vaccine — editor save→GitHub, edit SHA, SEO hyd…",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-20T20:35:49Z",
+      "duration_s": 634
+    },
+    {
+      "sha_short": "f3ea06b",
+      "title": "fix(editor): commit saves to GitHub, SEO hydrate old posts, single-ac…",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-20T19:58:13Z",
+      "duration_s": 1604
+    },
+    {
+      "sha_short": "e308532",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/zealous-ride-k…",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-20T19:53:39Z",
+      "duration_s": 1124
+    },
+    {
+      "sha_short": "e2187fd",
+      "title": "feat(gsc): migrate to sc-domain:seomoney.org domain property (#562)",
       "status": "completed",
       "conclusion": "cancelled",
-      "created_at": "2026-06-20T13:13:25Z",
-      "duration_s": 266
+      "created_at": "2026-06-20T19:53:18Z",
+      "duration_s": 23
     },
     {
-      "sha_short": "8c91cd8",
-      "title": "redesign: soften Korean Hangul banner to SEOMONEY editorial style (#563)",
+      "sha_short": "41f39aa",
+      "title": "feat(og): make OG-IMAGE stale-twin a deterministic FAIL via content-h…",
       "status": "completed",
       "conclusion": "cancelled",
-      "created_at": "2026-06-20T13:11:55Z",
-      "duration_s": 91
+      "created_at": "2026-06-20T19:45:02Z",
+      "duration_s": 497
     },
     {
-      "sha_short": "e8942ab",
-      "title": "Build and deploy Zola site to GitHub Pages",
+      "sha_short": "663dd0f",
+      "title": "fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter (…",
       "status": "completed",
       "conclusion": "success",
-      "created_at": "2026-06-20T13:11:38Z",
-      "duration_s": 782
+      "created_at": "2026-06-20T19:44:39Z",
+      "duration_s": 804
     },
     {
-      "sha_short": "238120d",
-      "title": "feat: SEOMONEY rebrand + OG image + placeholder system + Deploy Monit…",
+      "sha_short": "12aeb3d",
+      "title": "feat(og): polish SEOMONEY OG card + legal VN Google Sans-style font +…",
       "status": "completed",
       "conclusion": "failure",
-      "created_at": "2026-06-20T12:56:12Z",
-      "duration_s": 675
+      "created_at": "2026-06-20T19:23:47Z",
+      "duration_s": 797
     },
     {
-      "sha_short": "0b60f39",
-      "title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfi…",
+      "sha_short": "358cf95",
+      "title": "chore(momo): update default paid-content link → y5eVvzz2nlXXeEP (#583)",
       "status": "completed",
-      "conclusion": "failure",
-      "created_at": "2026-06-20T12:32:03Z",
-      "duration_s": 957
+      "conclusion": "cancelled",
+      "created_at": "2026-06-20T19:14:55Z",
+      "duration_s": 533
     },
     {
-      "sha_short": "d8a44cc",
-      "title": "chore(vaccine): Daily Vaccine Autofixer run (#555)",
+      "sha_short": "1af8518",
+      "title": "fix(gsc): deploy preflight gate enforcing sc-domain:seomoney.org (#582)",
       "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-20T12:19:39Z",
-      "duration_s": 998
+      "conclusion": "cancelled",
+      "created_at": "2026-06-20T19:14:35Z",
+      "duration_s": 21
     },
     {
-      "sha_short": "13dcfd7",
-      "title": "fix(vaccine-hotfix): minimal delta for required_checks_fail-278700319…",
+      "sha_short": "59fb2b3",
+      "title": "feat(tooling): preflight conflict checker to prevent dirty branches/m…",
       "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-20T12:00:35Z",
-      "duration_s": 1349
-    },
-    {
-      "sha_short": "40bf016",
-      "title": "chore(domain): post-migration cleanup + V19 vaccine (github.io → seom…",
-      "status": "completed",
-      "conclusion": "failure",
-      "created_at": "2026-06-20T12:00:11Z",
-      "duration_s": 601
-    },
-    {
-      "sha_short": "a303b7f",
-      "title": "fix(v18): prevent runtime artifact conflicts in Daily Vaccine Autofix…",
-      "status": "completed",
-      "conclusion": "failure",
-      "created_at": "2026-06-20T11:39:06Z",
-      "duration_s": 836
+      "conclusion": "cancelled",
+      "created_at": "2026-06-20T19:14:11Z",
+      "duration_s": 25
     }
   ]
 }
