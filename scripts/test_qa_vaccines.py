@@ -389,7 +389,16 @@ class DeployMonitorTest(unittest.TestCase):
             '"pending":[],"recent":[]}')
     BASE = ('{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}'
             '<details class="deploy-watch"><span>{{ d.pending_count }}</span>'
+            '{% if dm.stale %}<span class="deploy-watch__stale">⚠</span>{% endif %}'
             '<a href="/tools/deploy-monitor/">x</a></details>')
+    # Fetcher stub carrying every invariant the vaccine now enforces: deploy.yml
+    # only, telemetry guard list, TTL/expiry, already-deployed guard.
+    SCRIPT = ('WORKFLOW_FILE = "deploy.yml"\n'
+              'TELEMETRY_WORKFLOWS = ("merge-report.yml",)\n'
+              '_PENDING_TTL_S = 2700\n'
+              'success_shas = set()  # already-deployed guard\n'
+              '# expired in_progress runs are dropped from pending\nexpired = []\n')
+    JS = 'const STALE_NONTERMINAL_MS = 1800000; // stale deploy guard\n'
 
     def _wire(self, **over):
         self.repo.write("data/deploy-monitor.json", over.get("json", self.SEED))
@@ -397,7 +406,8 @@ class DeployMonitorTest(unittest.TestCase):
         self.repo.write("content/tools/deploy-monitor.md", over.get("md", '+++\ntitle="x"\n+++'))
         self.repo.write("templates/deploy-monitor.html", over.get("tmpl", "detail"))
         self.repo.write("content/tools/_index.md", over.get("idx", 'url = "$BASE_URL/tools/deploy-monitor"'))
-        self.repo.write("scripts/fetch_deploy_monitor.py", over.get("script", "# env token only"))
+        self.repo.write("scripts/fetch_deploy_monitor.py", over.get("script", self.SCRIPT))
+        self.repo.write("static/js/deploy-status.js", over.get("js", self.JS))
         self.repo.write(".github/workflows/deploy-monitor.yml", over.get("wf", "secrets.GITHUB_TOKEN"))
         return self.repo.ctx()
 
@@ -437,6 +447,26 @@ class DeployMonitorTest(unittest.TestCase):
                '"summary":{"prod_status":"green","pending_count":0,"avg_deploy_s":42},'
                '"pending":[],"recent":[]}')
         self.assertEqual(qv.check_deploy_monitor(self._wire(json=old)).status, qv.WARN)
+
+    def test_telemetry_workflow_source_fails(self):
+        # A report workflow used as a deploy-state source (no TELEMETRY guard) FAILs.
+        bad = ('WORKFLOW_FILE = "deploy.yml"\n_PENDING_TTL_S = 1\nexpired = []\n'
+               'success_shas = set()\nruns = query("merge-report.yml")\n')
+        r = qv.check_deploy_monitor(self._wire(script=bad))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("merge-report" in d for d in r.details))
+
+    def test_missing_ttl_detection_fails(self):
+        # No TTL/expiry → a stuck deploy would show "deploying" forever.
+        bad = 'WORKFLOW_FILE = "deploy.yml"\nsuccess_shas = set()\n'
+        r = qv.check_deploy_monitor(self._wire(script=bad))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("TTL" in d or "expiry" in d for d in r.details))
+
+    def test_js_missing_stale_guard_fails(self):
+        r = qv.check_deploy_monitor(self._wire(js='function render(s){ /* no guard */ }'))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("stale guard" in d for d in r.details))
 
 
 class SeomoneyBrandTest(unittest.TestCase):

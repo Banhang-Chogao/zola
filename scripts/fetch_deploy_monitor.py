@@ -39,11 +39,25 @@ OUTPUT = ROOT / "data" / "deploy-monitor.json"
 REPO = os.environ.get("GITHUB_REPOSITORY", "Banhang-Chogao/zola")
 TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or ""
 API = "https://api.github.com"
+
+# Deploy STATE comes ONLY from the real Build & Deploy workflow (deploy.yml).
+# Telemetry / report workflows are BACKGROUND CHECKS — they must never be a source
+# of deploy state, or a still-running report (e.g. "Fetch Merge Report") would make
+# a feature deploy look pending forever. Listed here so the vaccine can assert it.
 WORKFLOW_FILE = "deploy.yml"
+TELEMETRY_WORKFLOWS = (
+    "merge-report.yml", "build-failure-handler.yml", "qa-rule-checker.yml",
+    "build-related.yml", "deploy-monitor.yml",
+)
 MAX_RUNS = 30
 TIMEOUT = 15
 
 _PENDING = {"queued", "in_progress", "waiting", "requested", "pending"}
+# A deploy.yml run still non-terminal past this is abandoned / superseded — GitHub
+# no longer confirms it as a live deploy. Treat it as an EXPIRED GHOST (not
+# "deploying"), so a stale snapshot can't freeze a finished commit as "deploying
+# forever". 45 min is well beyond the longest healthy deploy (~26 min observed).
+_PENDING_TTL_S = 2700       # 45 min
 _STORM_WINDOW_S = 1200      # 20 min
 _STORM_CANCELLED = 3        # ≥3 cancelled in the window → V5 storm signal
 
@@ -93,47 +107,64 @@ def fetch_runs() -> tuple[list[dict], str | None]:
     return (data.get("workflow_runs") or []), None
 
 
-def build_report() -> dict:
-    runs, err = fetch_runs()
-    if err or not runs:
-        # graceful fallback: keep prior data, just flag stale.
-        prev = {}
-        if OUTPUT.exists():
-            try:
-                prev = json.loads(OUTPUT.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError):
-                prev = {}
-        prev = prev if isinstance(prev, dict) else {}
-        prev["checked_at"] = _now()
-        prev["ok"] = False
-        prev["stale"] = True
-        prev.setdefault("summary", {}).setdefault("prod_status", "unknown")
-        prev.setdefault("error", err or "no_runs")
-        prev.setdefault("pending", [])
-        prev.setdefault("recent", [])
-        return prev
+def build_report_from_runs(runs: list[dict], now: datetime | None = None) -> dict:
+    """Pure, network-free report builder (unit-testable).
 
-    pending, recent, durations = [], [], []
+    Only `deploy.yml` runs are passed in (see WORKFLOW_FILE / fetch_runs); a
+    telemetry/report workflow is never a source of deploy state. A non-terminal
+    run is counted as "deploying" ONLY when it is genuinely in flight:
+
+      * Past `_PENDING_TTL_S` it is an EXPIRED GHOST (abandoned/superseded) — the
+        published snapshot must not freeze it as "deploying forever".
+      * If its commit already has a COMPLETED success run, it is ALREADY DEPLOYED
+        (the live route exists) — never list it as pending.
+
+    Expired ghosts move to `expired[]`, set `stale=true` (UI shows ⚠ "data cũ"
+    instead of "deploying"), and do NOT drive `prod_status=yellow`.
+    """
+    now = now or datetime.now(timezone.utc)
+
+    # Commits that already have a COMPLETED successful deploy → never "pending".
+    success_shas = {
+        r.get("head_sha")
+        for r in runs
+        if (r.get("status") or "").lower() == "completed"
+        and (r.get("conclusion") or "").lower() == "success"
+        and r.get("head_sha")
+    }
+
+    pending, expired, recent, durations = [], [], [], []
     cancelled_times, failed_recent, cancelled_recent = [], 0, 0
-    prod = None  # latest successful run
+    prod = None        # latest successful run
+    fresh_shas = set()  # commits genuinely in flight (within TTL, not yet deployed)
 
     for r in runs:
         status = (r.get("status") or "").lower()
         concl = (r.get("conclusion") or "").lower()
         started = _parse(r.get("run_started_at") or r.get("created_at"))
         updated = _parse(r.get("updated_at"))
+        sha = r.get("head_sha", "")
         entry = {
-            "sha_short": _short(r.get("head_sha", "")),
+            "sha_short": _short(sha),
             "title": _title(r),
             "status": status,
             "conclusion": concl or None,
             "created_at": r.get("created_at"),
         }
         if status != "completed":
-            wait = int((datetime.now(timezone.utc) - started).total_seconds()) if started else None
+            wait = int((now - started).total_seconds()) if started else None
             entry["waiting_s"] = wait
             entry["started_at"] = r.get("run_started_at") or r.get("created_at")
-            pending.append(entry)
+            stale_age = wait is not None and wait > _PENDING_TTL_S
+            already = bool(sha) and sha in success_shas
+            if stale_age or already:
+                entry["expired"] = True
+                entry["expired_reason"] = "already_deployed" if already else "ttl"
+                expired.append(entry)
+            else:
+                pending.append(entry)
+                if sha:
+                    fresh_shas.add(sha)
             continue
 
         dur = int((updated - started).total_seconds()) if (started and updated) else None
@@ -163,15 +194,23 @@ def build_report() -> dict:
     avg = round(sum(durations) / len(durations)) if durations else None
     longest = max(durations) if durations else None
 
-    # prod status verdict.
-    latest = runs[0]
+    # ETA for genuinely in-flight deploys (no extra API quota; derived from avg).
+    for p in pending:
+        w = p.get("waiting_s")
+        p["eta_s"] = max(0, avg - w) if (avg is not None and w is not None) else None
+
+    # prod status verdict — driven ONLY by a FRESH deploy, never an expired ghost.
+    latest = runs[0] if runs else {}
     latest_status = (latest.get("status") or "").lower()
     latest_concl = (latest.get("conclusion") or "").lower()
-    if latest_status != "completed" or pending:
+    latest_sha = latest.get("head_sha", "")
+    latest_fresh_pending = latest_status != "completed" and latest_sha in fresh_shas
+
+    if pending or latest_fresh_pending:
         prod_status = "yellow"
-    elif latest_concl == "failure":
+    elif latest_status == "completed" and latest_concl == "failure":
         prod_status = "red"
-    elif latest_concl == "success":
+    elif prod is not None:
         prod_status = "green"
     else:
         prod_status = "unknown"
@@ -180,13 +219,17 @@ def build_report() -> dict:
     return {
         "checked_at": _now(),
         "ok": True,
-        "stale": False,
+        # An expired ghost means the snapshot caught a now-finished/abandoned
+        # deploy → flag stale so the UI shows ⚠ "data cũ", not "deploying".
+        "stale": bool(expired),
         "summary": {
             "prod_status": prod_status,
+            "deploying": bool(pending),
             "prod_commit": (prod_run or {}).get("head_sha") if prod_run else None,
             "prod_commit_short": _short((prod_run or {}).get("head_sha", "")) if prod_run else None,
             "prod_deployed_at": (prod_run or {}).get("updated_at") if prod_run else None,
             "pending_count": len(pending),
+            "expired_count": len(expired),
             "avg_deploy_s": avg,
             "longest_deploy_s": longest,
             "failed_recent": failed_recent,
@@ -194,16 +237,44 @@ def build_report() -> dict:
             "storm": storm,
         },
         "pending": pending[:10],
+        "expired": expired[:10],
         "recent": recent[:12],
     }
+
+
+def build_report() -> dict:
+    runs, err = fetch_runs()
+    if err or not runs:
+        # graceful fallback: keep prior data, just flag stale.
+        prev = {}
+        if OUTPUT.exists():
+            try:
+                prev = json.loads(OUTPUT.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                prev = {}
+        prev = prev if isinstance(prev, dict) else {}
+        prev["checked_at"] = _now()
+        prev["ok"] = False
+        prev["stale"] = True
+        prev.setdefault("summary", {}).setdefault("prod_status", "unknown")
+        prev.setdefault("error", err or "no_runs")
+        prev.setdefault("pending", [])
+        prev.setdefault("expired", [])
+        prev.setdefault("recent", [])
+        return prev
+
+    return build_report_from_runs(runs)
 
 
 def _strip_volatile(rep: dict) -> str:
     clone = json.loads(json.dumps(rep))
     clone.pop("checked_at", None)
-    # waiting_s grows every run for pending items → ignore in change-detection.
-    for p in clone.get("pending", []):
-        p.pop("waiting_s", None)
+    # waiting_s / eta_s grow every run for in-flight items → ignore in
+    # change-detection (avoids a noisy commit on every cron tick).
+    for key in ("pending", "expired"):
+        for p in clone.get(key, []) or []:
+            p.pop("waiting_s", None)
+            p.pop("eta_s", None)
     return json.dumps(clone, sort_keys=True, ensure_ascii=False)
 
 

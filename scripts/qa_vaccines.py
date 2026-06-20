@@ -1097,6 +1097,38 @@ def check_deploy_monitor(ctx: Ctx) -> CheckResult:
     if "/tools/deploy-monitor" not in (ctx.read("content/tools/_index.md") or ""):
         fails.append("content/tools/_index.md: thẻ Deploy Monitor không trỏ /tools/deploy-monitor")
 
+    # 6 — deploy STATE must come ONLY from the real Build & Deploy workflow.
+    #     A telemetry/report workflow (merge-report, build-failure, qa-rule-checker)
+    #     as a source would make a feature deploy look "deploying" while a
+    #     background report is still running. Lock the invariant.
+    fetch_src = ctx.read("scripts/fetch_deploy_monitor.py") or ""
+    if fetch_src:
+        if 'WORKFLOW_FILE = "deploy.yml"' not in fetch_src and "deploy.yml" not in fetch_src:
+            fails.append("fetch_deploy_monitor.py: không target deploy.yml — deploy state phải từ workflow deploy thật")
+        # Telemetry workflow names may ONLY appear inside the documented
+        # TELEMETRY_WORKFLOWS guard list, never as a queried source.
+        if "TELEMETRY_WORKFLOWS" not in fetch_src:
+            stray = [w for w in ("merge-report.yml", "build-failure-handler.yml", "qa-rule-checker.yml")
+                     if w in fetch_src]
+            if stray:
+                fails.append(f"fetch_deploy_monitor.py: telemetry workflow {stray} bị dùng làm deploy state — chỉ deploy.yml")
+        # 7 — stale in_progress detection (TTL) → no "deploying forever".
+        if "_PENDING_TTL_S" not in fetch_src or "expired" not in fetch_src:
+            fails.append("fetch_deploy_monitor.py: thiếu TTL/expiry cho in_progress (deploy treo sẽ hiện 'deploying' vĩnh viễn)")
+        # 8 — a commit already deployed (success run) must never be listed pending.
+        if "success_shas" not in fetch_src:
+            warns.append("fetch_deploy_monitor.py: thiếu guard 'đã deploy' (commit live có thể vẫn hiện pending)")
+
+    # 9 — runtime deploy-status.js, if present, must guard stale non-terminal
+    #     states so a stuck deploy can't render "deploying" forever.
+    js = ctx.read("static/js/deploy-status.js")
+    if js is not None and "STALE_NONTERMINAL_MS" not in js:
+        fails.append("static/js/deploy-status.js: thiếu stale guard → trạng thái treo sẽ hiện 'deploying' vĩnh viễn")
+
+    # 10 — footer must surface a stale flag so old data isn't mistaken for a deploy.
+    if base and "dm.stale" not in base and "deploy-watch__stale" not in base:
+        warns.append("templates/base.html: footer thiếu cảnh báo stale (dm.stale) — data cũ trông như đang deploy")
+
     if fails:
         return CheckResult("DEPLOY-MON", title, FAIL,
                            diagnosis="Deploy Monitor thiếu an toàn/route/schema/footer",
