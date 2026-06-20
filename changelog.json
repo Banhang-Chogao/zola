@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "vaccine(ui): sidebar_layout_vaccine — lock right-column menu in-grid …",
+      "tag": "chore",
+      "lines_added": 267,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/qa_vaccines.py: check_sidebar_layout (code UI-SIDEBAR) + DETECTORS entry",
+        "scripts/test_qa_vaccines.py: SidebarLayoutTest (real-repo PASS, baseline PASS, side-nav fixed FAIL, sidebar absolute FAIL, single-track grid FAIL, missing min-width WARN)."
+      ],
+      "pr": 541
+    },
+    {
+      "date": "2026-06-20",
       "title": "dns-vaccine: apex NS gate + empty-apex-A Cloudflare fix steps (seomoney.org)",
       "tag": "fix",
       "lines_added": 252,
