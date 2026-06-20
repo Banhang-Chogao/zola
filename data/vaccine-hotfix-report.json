@@ -1,8 +1,125 @@
 {
   "report_name": "Autofixer_report_by Vacxin",
   "rule": "Vaccine Hotfix",
-  "status": "idle",
-  "note": "No hotfix run yet. Populated by scripts/vaccine_hotfix.py on the first activation (build_fail | deploy_fail | auto_merge_blocked | merge_conflict | required_checks_fail).",
-  "history": [],
-  "latest": null
+  "trigger": "required_checks_fail",
+  "issue_id": "claude/friendly-dijkstra-oo6gwy",
+  "branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
+  "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
+  "run_id": "27865840274",
+  "started_at": "2026-06-20T15:37:28.279418+07:00",
+  "finished_at": "2026-06-20T15:43:52.445882+07:00",
+  "last_run": "2026-06-20T15:43:52.445882+07:00",
+  "precheck": {
+    "safe_to_run": true,
+    "guarantees": [
+      "QA Gatekeeper intact — hotfix re-runs qa_check.py, never bypasses it",
+      "Merge delegated to try_auto_merge.py — a hotfix PR merges ONLY when required checks pass (qa-check, QA Gatekeeper)",
+      "Deploy unchanged (production-deploy queue) — hotfix never pushes/force-pushes main",
+      "Branch protection honored — engine only writes vaccine-hotfix/* branches",
+      "No manual-approval gate to bypass (pr-approval.yml removed per policy)",
+      "vaccine-hotfix/ is auto-merge eligible via the same required-check gate"
+    ],
+    "conflicts": [],
+    "required_checks": [
+      "qa-check",
+      "QA Gatekeeper"
+    ],
+    "branch_prefix_allowed": true,
+    "protected_paths": [
+      "content/",
+      "private_content/",
+      "static/img/",
+      "static/uploads/",
+      "-series.json",
+      "data/categories.json",
+      "categories.json",
+      "data/auto-merge-policy.json"
+    ]
+  },
+  "root_cause": {
+    "root_cause": "JavaScript / Node test failure: JS test hoặc script runtime lỗi.",
+    "confidence": 77,
+    "suggested_fix": "Chạy test local (npm test / node script); sửa theo stack trace.",
+    "affected_files": [
+      "data/qa-404-report.json"
+    ],
+    "pattern_id": "JS_ERROR",
+    "tier": "heuristic"
+  },
+  "fix_actions": [
+    {
+      "step": "V-logs",
+      "name": "CI log diagnosis",
+      "matched": true,
+      "fixed": false,
+      "detail": "log signatures: V1"
+    },
+    {
+      "step": "V-refs",
+      "name": "Reference index",
+      "matched": false,
+      "fixed": false,
+      "detail": "Wrote data/references.json: 205 posts with references"
+    }
+  ],
+  "files_changed": [
+    "ata/qa-rule-checker-state.json",
+    "data/vaccine-hotfix-state.json",
+    "data/vaccine-hotfix.log",
+    "reports/rule-conflict-report.json",
+    "reports/rule-conflict-report.md"
+  ],
+  "manual_review": false,
+  "attempts": 1,
+  "checks_result": {
+    "qa": {
+      "name": "qa_check.py",
+      "passed": true,
+      "detail": "  (checks run: 20, skipped: 3)"
+    },
+    "build": {
+      "name": "zola build",
+      "passed": true,
+      "detail": "exit 0"
+    },
+    "tests": {
+      "name": "unit tests",
+      "passed": true,
+      "detail": "OK"
+    },
+    "passed": true
+  },
+  "auto_merge": {
+    "delegated_to": "scripts/try_auto_merge.py (auto-merge.yml)",
+    "merges_only_when_required_checks_pass": true,
+    "required_checks": [
+      "qa-check",
+      "QA Gatekeeper"
+    ],
+    "force_push_main": false
+  },
+  "deploy_status": "deploy-on-merge (after auto-merge when required checks pass)",
+  "status": "ok",
+  "history": [
+    {
+      "run_id": "27865840274",
+      "trigger": "required_checks_fail",
+      "issue_id": "claude/friendly-dijkstra-oo6gwy",
+      "branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
+      "status": "ok",
+      "attempts": 1,
+      "files_changed": 5,
+      "last_run": "2026-06-20T15:43:52.445882+07:00"
+    }
+  ],
+  "latest": {
+    "run_id": "27865840274",
+    "trigger": "required_checks_fail",
+    "issue_id": "claude/friendly-dijkstra-oo6gwy",
+    "branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
+    "status": "ok",
+    "attempts": 1,
+    "files_changed": 5,
+    "last_run": "2026-06-20T15:43:52.445882+07:00"
+  }
 }

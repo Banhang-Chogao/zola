@@ -2,6 +2,61 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(wip8): B-DNA design discipline — health meter, icon table, section kickers for workspace tracker",
+      "tag": "chore",
+      "lines_added": 304,
+      "lines_removed": 24,
+      "highlights": [
+        "Adds scripts/wip8.py — read-only workspace DNA tracker (git status/diff/log/stash/branch/PR snapshot)",
+        "Upgrades shortcuts.md wip8 output format to B-DNA design discipline: brand bar + health meter + icon context table + section kickers (NN — emoji TITLE)",
+        "Conflict in shortcuts.md resolved: branch's B-DNA format kept (superset of main's simpler 3-table format — all 3 tables preserved in upgraded form under section kickers 01 — TỔNG QUAN, 02 — FILES CHAN",
+        "shortcuts.md conflicted between main's simpler format and branch's B-DNA upgrade",
+        "Semantic resolution: kept branch's B-DNA version (it already contains equivalent of all 3 main tables in upgraded section-kicker form)"
+      ],
+      "pr": 542
+    },
+    {
+      "date": "2026-06-20",
+      "title": "feat(series): add 5-part Vaccine Số series — digital immune system for blog CI/CD",
+      "tag": "chore",
+      "lines_added": 1578,
+      "lines_removed": 2,
+      "highlights": [
+        "Adds 5 full articles (Vaccine Số series: vaccine-so) covering the blog's CI/CD self-healing immune system",
+        "Registers vaccine-so series in templates/macros/series-nav.html + templates/page.html elif chain (V8 prevention)",
+        "Adds data/vaccine-so-series.json manifest + rebuilt data/references.json + data/seo-qa-scores.json"
+      ],
+      "pr": 544
+    },
+    {
+      "date": "2026-06-20",
+      "title": "docs(policy): mandatory PR flow — no loose finished branches (2026-06-20)",
+      "tag": "chore",
+      "lines_added": 34,
+      "lines_removed": 0,
+      "highlights": [
+        "Checklist (5 steps): verify PR exists → no conflict markers → rebase on latest main → enable auto-merge → report status table",
+        "Stale branch detection: check git show origin/main:<file> before creating a PR for redundant content",
+        "Clarification: distinguishes \"create PR + enable auto-merge\" (mandatory on task completion) from \"babysit CI\" (forbidden)",
+        "sidebar-layout-fix → stale (content already on main via #541)",
+        "friendly-dijkstra-oo6gwy → PR #544 created, vaccine-so series registration fixed in page.html"
+      ],
+      "pr": 545
+    },
+    {
+      "date": "2026-06-20",
+      "title": "vaccine(ui): sidebar_layout_vaccine — lock right-column menu in-grid …",
+      "tag": "chore",
+      "lines_added": 267,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/qa_vaccines.py: check_sidebar_layout (code UI-SIDEBAR) + DETECTORS entry",
+        "scripts/test_qa_vaccines.py: SidebarLayoutTest (real-repo PASS, baseline PASS, side-nav fixed FAIL, sidebar absolute FAIL, single-track grid FAIL, missing min-width WARN)."
+      ],
+      "pr": 541
+    },
+    {
+      "date": "2026-06-20",
       "title": "dns-vaccine: apex NS gate + empty-apex-A Cloudflare fix steps (seomoney.org)",
       "tag": "fix",
       "lines_added": 252,

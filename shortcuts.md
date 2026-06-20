@@ -1398,57 +1398,105 @@ push, không mở PR, không deploy.
 
 **Hành động** (thứ tự):
 
+> **Thu thập dữ liệu:** chạy `python3 scripts/wip8.py --data` (in JSON git status/
+> diff/log/stash/branch, READ-ONLY) HOẶC các lệnh git thô bên dưới. **Render ra
+> user = MARKDOWN GitHub-flavored** (harness tự vẽ bảng header xám + link xanh +
+> emoji) — KHÔNG dán ANSI box của `rich` (xấu trong UI chat). `rich`/`pyfiglet`
+> chỉ dùng khi chạy local terminal thật (`python3 scripts/wip8.py`).
+
 1. `git status --short` — file staged / modified / untracked.
 2. `git diff --stat HEAD` — xem quy mô thay đổi từng file.
-3. `git log --oneline -10` — 10 commits gần nhất để suy feature đang làm.
+3. `git log --oneline -8` — commits gần nhất để suy feature đang làm.
 4. `git stash list` — có stash đang giữ lại không.
-5. **Branch context** — branch hiện tại, commit ahead/behind `origin/main`.
-6. **Open PRs** trên GitHub cho branch hiện tại (nếu có).
+5. **Branch context** — branch hiện tại, ahead/behind so với upstream.
+6. **Open PRs** trên GitHub cho branch hiện tại (qua MCP).
 7. **Running jobs** — GitHub Actions đang `in_progress` / `queued` liên quan branch.
 8. **Suy luận task** — từ diff, commit messages, tên file thay đổi, TODO markers trong code.
 9. **Nhóm files** — gom file thay đổi theo feature/tính năng (không liệt kê flat).
 
-**Output format bắt buộc — TRỰC QUAN, dùng BẢNG MARKDOWN** (KHÔNG dùng plain
-code-block kiểu `# Header` nữa — khó đọc). Mỗi mục là một bảng kẻ rõ ràng:
+**Output format bắt buộc — MARKDOWN GitHub-flavored, theo design discipline của
+[B-DNA](/tools/b-dna/)** (calm enterprise: kicker đánh số · KPI nhấn số · health
+meter · section có 1-dòng purpose · neutral làm nền, accent điểm nhấn). Mỗi
+section mở đầu heading emoji + kicker `NN —`; dữ liệu bảng markdown (header tự
+shade) + file path `link/inline-code`. KHÔNG plain code-block `# Header`, KHÔNG ANSI.
 
-**1. Tổng quan (bảng key–value)**
+**Brand bar + Health meter (in TRƯỚC mọi section — bắt chước consistency-checker B-DNA):**
+
+```
+### wip8 · Workspace DNA tracker
+🕒 <HH:MM dd/mm/yyyy> (GMT+7) · read-only snapshot
+
+**Workspace health** ▰▰▰▰▰▰▰▰▰▰ 100% · ✅ CLEAN — <reason 1 dòng>
+```
+- Lấy từ `python3 scripts/wip8.py --data` → field `health` (`score/verdict/tone/
+  meter/reason`). Verdict + màu: ✅ **CLEAN** (pass) · 🟡 **WIP/PENDING/BEHIND**
+  (warn) · 🔴 **BLOCKED** (fail, có conflict). Meter dùng `▰`/`▱` (10 ô).
+- Workspace tracker coi `dirty` = đang làm (WIP, không phải lỗi); chỉ conflict = BLOCKED.
+
+**Bộ ICON chuẩn (chọn đúng ngữ cảnh — KHÔNG xài 1 icon cho mọi mục):**
+
+| Ngữ cảnh | Icon | | Ngữ cảnh | Icon |
+|---|---|---|---|---|
+| Tổng quan / điều tra | 🔎 | | Branch | 🌿 |
+| Upstream / package | 📦 | | Trạng thái / tiến độ | 📊 |
+| Stash | 🗂️ | | Files changed | 📝 |
+| File mới | 🆕 | | File sửa | ✏️ |
+| File xoá | 🗑️ | | File rename | 🔀 |
+| Untracked | ❓ | | Validation / test | 🧪 |
+| Blockers | 🚧 | | Next step / việc tay | 🔧 |
+| PR / link | 🔗 | | Deploy | 🚀 |
+| Running jobs | 🛰️ | | **Vaccine (kim tiêm)** | 💉 |
+| CI ok/chạy/fail/none | 🟢 🟡 🔴 ⚪ | | Time (GMT+7) | 🕒 |
+
+Mỗi section = `#### NN — <emoji> <TITLE>` + blockquote 1 dòng purpose (như
+`bdna__sec-desc`), rồi bảng/nội dung.
+
+**`01 — 🔎 TỔNG QUAN`** · _purpose: branch context + trạng thái làm việc._
 
 | Mục | Giá trị |
 |---|---|
-| 🌿 Branch | `<branch>` (ahead N / behind M so với `origin/main`) |
-| 📝 Task đang làm | <1–2 câu suy từ diff + commit messages> |
-| 📊 Tiến độ | <ước tính %> — <commit vừa xong / còn lại gì> |
-| 🚧 Blockers | <điều đang chặn; "Không có" nếu sạch> |
-| ➡️ Next step | <1 hành động rõ ràng tiếp theo> |
+| 🌿 Branch | `<branch>` · **ahead N / behind M** (KPI nhấn số) |
+| 📦 Upstream | `<origin/...>` |
+| 📝 Task | <1–2 câu suy từ diff + commit messages> |
+| 🗂️ Stash | <stash hoặc "không có"> |
+| 🚧 Blockers | <điều đang chặn; "Không có"> |
+| 🔧 Next step | <1 hành động rõ ràng tiếp theo> |
 
-**2. Files changed (bảng, nhóm theo feature)**
+**`02 — 📝 FILES CHANGED`** · _purpose: gom thay đổi theo feature, không liệt kê flat._
 
 | Nhóm / Feature | File | Loại |
 |---|---|---|
-| <tên feature> | `path/to/file` | 🆕 new / ✏️ modified / 🗑️ deleted |
+| <feature> | `path/to/file` | 🆕 new / ✏️ modified / 🗑️ deleted |
 
-> Working tree sạch → in 1 dòng `✅ Working tree sạch — không có file thay đổi.` thay bảng.
+> Sạch → in `✅ Working tree sạch — 0 file thay đổi.` thay bảng.
 
-**3. PR & CI (bảng)**
+**`03 — 🔗 PR & CI`** · _purpose: PR mở + trạng thái pipeline cho branch._
 
-| PR | Title | Branch | CI / Status |
+| PR | Title | Branch | CI |
 |---|---|---|---|
-| #X | <title> | `<branch>` | 🟢 success / 🟡 in_progress / 🔴 failure / ⚪ none |
+| #X | <title> | `<branch>` | 🟢 / 🟡 / 🔴 / ⚪ |
 
-> Không có PR/job liên quan → in 1 dòng `Không có PR mở hay job đang chạy cho branch này.`
+> Vaccine/hotfix → 💉; deploy → 🚀; job đang chạy → 🛰️.
+> Không có PR/job → `Không có PR mở hay job đang chạy cho branch này.`
 
-**Quy tắc trình bày**: luôn dùng bảng markdown có header + emoji trạng thái để
-quét mắt nhanh; KHÔNG xuống dòng dài dạng văn xuôi cho các trường có thể bảng hoá;
-mọi thời điểm hiển thị GMT+7 `HH:MM dd/mm/yyyy` nếu có.
+**Quy tắc trình bày**: heading emoji hợp ngữ cảnh từng section (🔎/📝/🔗/🧪/🔧);
+icon vaccine LUÔN là 💉 (kim tiêm); bảng markdown có header; file path inline-code
+hoặc link; thời gian GMT+7 `HH:MM dd/mm/yyyy` (prefix 🕒). KHÔNG văn xuôi dài cho
+trường bảng hoá được; KHÔNG dán ANSI.
 
 **Cú pháp mở rộng**:
-- `wip8` — full workspace scan (mặc định).
-- `wip8 quick` — chỉ `git status` + branch info, không gọi GitHub.
+- `wip8` — full workspace scan (mặc định) → render markdown.
+- `wip8 quick` — chỉ status + branch (bỏ log).
 - `wip8 <path>` — chỉ inspect file/folder cụ thể.
+- Local terminal có màu: `python3 scripts/wip8.py [--quick] [<path>]` (rich/pyfiglet).
+- Lấy data JSON: `python3 scripts/wip8.py --data`.
 
 **Hard rules**:
 - **READ-ONLY** — KHÔNG sửa, commit, push, deploy, mở PR. Chỉ đọc + in.
-- **Không đoán mò**: nếu không đủ tín hiệu → báo `Không đủ context để suy task` thay vì bịa.
+- **Markdown-first**: output cho user là markdown GitHub-flavored (harness render
+  bảng/link/emoji đẹp). ANSI `rich` chỉ cho terminal local, KHÔNG dán vào chat.
+- **Icon đúng ngữ cảnh** — theo bảng trên; vaccine = 💉.
+- **Không đoán mò**: thiếu tín hiệu → báo `Không đủ context để suy task` thay vì bịa.
 - **Chỉ chạy 1 lần** rồi dừng (dùng `theodoi8` nếu cần live feed CI).
 - Kết quả là **snapshot tại thời điểm gọi** — gọi lại `wip8` để refresh.
 

@@ -230,6 +230,70 @@ class JsSyntaxTest(unittest.TestCase):
         self.assertEqual(r.status, qv.PASS)
 
 
+class SidebarLayoutTest(unittest.TestCase):
+    """sidebar_layout_vaccine — menu/sidebar must be in-grid, not a fixed/absolute
+    overlay covering content (regression: PR #526 right-column nav)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _baseline(self, **over):
+        sidenav = over.get("sidenav",
+            ".side-nav { position: sticky; top: 1rem; z-index: 5; }\n"
+            ".side-nav__link { color: red; }\n"
+            "@media (max-width: 960px) { .side-nav { display: none; } }\n")
+        sidebar = over.get("sidebar", ".sidebar { display: flex; flex-direction: column; }\n")
+        layout = over.get("layout",
+            ".layout-grid { display: grid; grid-template-columns: minmax(0, 1fr) 400px; }\n"
+            ".main-column { min-width: 0; }\n"
+            "@media (max-width: 960px) { .layout-grid { grid-template-columns: 1fr; } }\n")
+        base = over.get("base",
+            '<div class="nav-drawer" id="nav-drawer" hidden></div>\n')
+        self.repo.write("sass/_side-nav.scss", sidenav)
+        self.repo.write("sass/_sidebar.scss", sidebar)
+        self.repo.write("sass/_layout.scss", layout)
+        self.repo.write("templates/base.html", base)
+        return self.repo.ctx()
+
+    def test_real_repo_passes(self):
+        # Calibration: the committed layout is in-grid sticky → PASS (no overlay).
+        r = qv.check_sidebar_layout(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_baseline_passes(self):
+        r = qv.check_sidebar_layout(self._baseline())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_side_nav_fixed_overlay_fails(self):
+        ctx = self._baseline(
+            sidenav=".side-nav { position: fixed; top: 0; z-index: 999; }\n")
+        r = qv.check_sidebar_layout(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("side-nav" in d for d in r.details))
+
+    def test_sidebar_absolute_fails(self):
+        ctx = self._baseline(sidebar=".sidebar { position: absolute; right: 0; }\n")
+        r = qv.check_sidebar_layout(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_single_track_grid_fails(self):
+        # Only a 1-column grid anywhere → sidebar column not reserved → overlap risk.
+        ctx = self._baseline(
+            layout=".layout-grid { display: grid; grid-template-columns: 1fr; }\n"
+                   ".main-column { min-width: 0; }\n")
+        r = qv.check_sidebar_layout(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_min_width_warns(self):
+        ctx = self._baseline(
+            layout=".layout-grid { grid-template-columns: minmax(0, 1fr) 400px; }\n"
+                   ".main-column { padding: 0; }\n"
+                   "@media (max-width: 960px) { .layout-grid { grid-template-columns: 1fr; } }\n")
+        r = qv.check_sidebar_layout(ctx)
+        self.assertEqual(r.status, qv.WARN)
+
+
 class SummaryTest(unittest.TestCase):
     def test_score_and_production_safe(self):
         ctx = qv.Ctx(REPO_ROOT)
