@@ -1268,7 +1268,28 @@ content đã merge → branch là redundant; đóng/xóa thay vì tạo PR thừ
 
 **KHÔNG áp dụng "KHÔNG canh PR" để bỏ qua bước tạo PR** — hai quy tắc khác nhau:
 - Tạo PR + enable auto-merge = **bắt buộc khi hoàn thành task** (mục này).
-- Babysit CI sau push = **cấm** (quy tắc tiếp theo).
+- Theo dõi PR tới trạng thái cuối = **bắt buộc** (mục dưới — GHI ĐÈ luật "cấm babysit" cũ).
+
+### Theo dõi PR tới trạng thái cuối (MANDATORY — 2026-06-20 — user request, GHI ĐÈ "HẾT NHIỆM VỤ — KHÔNG canh PR")
+
+> **Sau khi mở PR, bot PHẢI theo dõi PR tới trạng thái cuối.** Push branch / mở PR **KHÔNG**
+> còn là "hết nhiệm vụ". Quy tắc này **GHI ĐÈ** rule 2026-06-19 ("Đẩy thay đổi xong = HẾT
+> NHIỆM VỤ — KHÔNG canh PR") cho mọi task. Nhiệm vụ chỉ **Done** khi PR đã **MERGED** hoặc
+> bot báo lại **đúng blocker cụ thể** đang chặn.
+
+Sau khi mở PR, bám theo CI/PR và xử lý theo trạng thái:
+
+1. **CI đang chạy (`in_progress`/`pending`):** report **pending** — KHÔNG kết thúc với trạng
+   thái "done". Chờ/poll tới khi CI đạt terminal rồi xử tiếp theo nhánh dưới.
+2. **QA xanh (`success`):** xác nhận **auto-merge + deploy** đã/đang chạy; báo PR merged.
+3. **QA đỏ (`failure`):** **chẩn đoán** (đối chiếu §4 Vaccine library) → tạo **fix delta
+   tối thiểu** trên cùng branch → push → quay lại bước 1.
+4. **Conflict / `dirty`:** chạy **vaccine/preflight conflict checker** (`scripts/autofix_conflicts.py`,
+   `vaccine_hotfix.py --precheck`, V10/V12 FIXER) → resolve semantic → push → quay lại bước 1.
+
+**Done = PR merged HOẶC báo lại đúng blocker** (CI error cụ thể, conflict file cụ thể, hoặc
+việc cần user quyết). KHÔNG bao giờ kết thúc turn ở trạng thái "đã push, để pipeline tự lo"
+khi PR chưa tới trạng thái cuối.
 
 ### Quy tắc chung
 
@@ -1279,24 +1300,18 @@ content đã merge → branch là redundant; đóng/xóa thay vì tạo PR thừ
 - Commit phải có tiêu đề rõ ràng + tóm tắt thay đổi và cách verify (để Merge Report đọc được).
 - Đang dở 1 thay đổi trên branch → push thêm commit vào cùng branch; KHÔNG nhét thay
   đổi MỚI không liên quan vào.
-- **Đẩy thay đổi xong = HẾT NHIỆM VỤ — KHÔNG canh PR (2026-06-19 — user request, GHI ĐÈ
-  luật cũ "Theo dõi tới khi xong (BẮT BUỘC)"):** push để kích hoạt pipeline auto-merge là
-  **kết thúc nhiệm vụ**. Pipeline ZERO_BARRIER tự lo phần còn lại: `qa-check` xanh →
-  `auto-merge.yml` (squash) → `deploy.yml` production. **Lỗi để máy lo:** `qa-check` đỏ →
-  vaccine autofixer (§4) + `ff`/`ff9` tự chẩn & sửa, push lại cùng branch tới khi xanh.
-  - **KHÔNG** `subscribe_pr_activity`, **KHÔNG** canh CI tới khi merge, **KHÔNG** hẹn
-    `send_later` self check-in, **KHÔNG** babysit/poll PR. Push xong là kết thúc turn.
-  - **Ngoại lệ — chỉ khi user CHỦ ĐỘNG yêu cầu** ("canh PR", "babysit", "autofix CI",
-    "theo dõi tới khi merge"): lúc đó mới `subscribe_pr_activity`, fix CI đỏ trên cùng
-    branch (Vaccine §4 / `ff`), và dừng (`unsubscribe_pr_activity`) khi user bảo dừng
-    hoặc PR đã MERGED/CLOSED.
-  - Nếu CI đỏ mà user KHÔNG yêu cầu canh: pipeline tự xử theo cấu hình repo; không tự
-    spawn monitor/subscribe trừ khi được yêu cầu.
+- **⚠️ SUPERSEDED (2026-06-19 "HẾT NHIỆM VỤ — KHÔNG canh PR") → xem "Theo dõi PR tới
+  trạng thái cuối (MANDATORY — 2026-06-20)" bên trên.** Luật cũ coi push là kết thúc
+  nhiệm vụ và cấm canh PR; user đã GHI ĐÈ: nay bot PHẢI theo dõi PR tới khi MERGED hoặc
+  báo đúng blocker. Pipeline ZERO_BARRIER (`qa-check` → `auto-merge.yml` → `deploy.yml`)
+  vẫn chạy như cơ chế nền, nhưng bot **không** dừng ở "đã push, để máy lo": có quyền/
+  nghĩa vụ poll CI, fix QA đỏ (§4 Vaccine / `ff`), resolve conflict (vaccine/preflight)
+  trên cùng branch tới trạng thái cuối.
 
 ### Báo cáo PR sau merge (BẮT BUỘC — 2026-06-19)
 
 > Ghi đè format báo cáo cũ (markdown table đơn giản). 3 quy tắc BẮT BUỘC:
-> 1. **KHÔNG canh PR liên tục** (`subscribe_pr_activity`, `theodoi8`, sleep-loop) — trừ khi user chủ động yêu cầu.
+> 1. **Theo dõi PR tới trạng thái cuối** (MANDATORY 2026-06-20 — GHI ĐÈ luật "KHÔNG canh PR" cũ): poll CI tới terminal, xử QA đỏ/conflict trên cùng branch; Done = MERGED hoặc báo đúng blocker. Vẫn tránh poll-loop vô hạn lãng phí — ưu tiên cơ chế event/`auto-merge.yml`.
 > 2. **Luôn output summary cuối sau merge** (khi gọi `merge`/`gg`/`prm` hoặc merge xong cùng turn) — một lần, rồi dừng.
 > 3. **Status = fail/error → đọc §4 Vaccine library** trong `CLAUDE.md` → đề xuất đúng `Vaccine match` + `Suggested fix tool`.
 
