@@ -2,40 +2,99 @@
   "items": [
     {
       "date": "2026-06-20",
-      "title": "chore(vaccine): Daily Vaccine Autofixer run",
-      "tag": "chore",
-      "lines_added": 45,
-      "lines_removed": 17,
-      "highlights": [],
-      "pr": 555
-    },
-    {
-      "date": "2026-06-20",
-      "title": "chore(domain): post-migration cleanup + V19 vaccine (github.io → seomoney.org)",
-      "tag": "cleanup",
-      "lines_added": 598,
-      "lines_removed": 17,
-      "highlights": [
-        "qa-404-checker.py lines 79–82: stale variable comments (# banhang-chogao.github.io / # /zola) updated to reflect apex-domain values",
-        "docs/seo-strategy.md line 255: custom-domain TODO - [ ] marked as done (- [x] seomoney.org ✅ live 06/2026)",
-        "CLAUDE.md §Watermark Rules: watermark example updated from _banhang-chogao.github.io → _seomoney.org",
-        "CLAUDE.md §4 #### V19: symptom / root-cause / detector / fixer / exclusion list",
-        "scripts/qa_vaccines.py: check_v19_domain_migration_drift — WARN on stale snapshot url or operational refs; FAIL if config.toml/CNAME still hold old domain"
-      ],
-      "pr": 566
-    },
-    {
-      "date": "2026-06-20",
-      "title": "fix(v18): prevent runtime artifact conflicts in Daily Vaccine Autofixer PRs",
+      "title": "fix(deploy-monitor): expire stale in_progress so Deploy Watch can't show \"deploying forever\"",
       "tag": "fix",
-      "lines_added": 242,
+      "lines_added": 311,
+      "lines_removed": 36,
+      "highlights": [
+        "UPTIME_ME (506c595) = deploy.yml run #839 → success @ 10:10:55Z → LIVE ~2h ago",
+        "Only genuine in-flight deploy = #846 d8a44cc (Daily Vaccine Autofixer) — unrelated to UPTIME_ME",
+        "Fetch Merge Report = #229 success (the #222 \"in_progress\" the report saw had already finished)",
+        "Build Failure Auto-Remediator & QA Rule Checker = all skipped (healthy)",
+        "scripts/fetch_deploy_monitor.py — expire non-terminal runs past a 45-min TTL, and any commit already deployed by a success run. Ghosts move to expired[] (not pending), set stale=true, and never drive "
+      ],
+      "pr": 576
+    },
+    {
+      "date": "2026-06-20",
+      "title": "fix(build_references): code-span-safe URL extraction (PR #551 follow-up vaccine)",
+      "tag": "fix",
+      "lines_added": 194,
+      "lines_removed": 134,
+      "highlights": [
+        "build_references.py extract_links() now delegates to link_utils.extract_link_pairs(), which masks fenced code blocks and inline backtick spans before running link regexes",
+        "Adds scripts/test_build_references.py with 12 regression tests",
+        "Regenerates data/references.json (205 posts, no phantom /posting/slug/ entry)"
+      ],
+      "pr": 574
+    },
+    {
+      "date": "2026-06-20",
+      "title": "feat(qa-vaccine): DOMAIN-ROOT detector — block /zola scanner prefix regression",
+      "tag": "chore",
+      "lines_added": 206,
       "lines_removed": 0,
       "highlights": [
-        "data/qa-rule-checker-state.json (timestamp/run-history churn)",
-        "reports/rule-conflict-report.json (timestamp-only change)",
-        "reports/rule-conflict-report.md (timestamp-only change)"
+        "scripts/qa_vaccines.py: new DOMAIN-ROOT detector in DETECTORS[]",
+        "FAIL if config.toml base_url contains a /zola path segment",
+        "FAIL if any of 5 key scanner scripts hardcodes SITE_PREFIX/SITE_BASE_PATH/BASE_PATH/SITE_BASE = \"/zola\" on a non-comment line",
+        "WARN if stale banhang-chogao.github.io/zola refs found in scanner bodies (comment-only excluded)",
+        "scripts/test_qa_vaccines.py: DomainRootUrlVaccineTest — 6 cases"
       ],
-      "pr": 558
+      "pr": 575
+    },
+    {
+      "date": "2026-06-20",
+      "title": "feat(seo): auto-submit sitemap + expand IndexNow to all content",
+      "tag": "chore",
+      "lines_added": 273,
+      "lines_removed": 5,
+      "highlights": [
+        "New scripts/sitemap_ping.py: pings Bing sitemap endpoint after every deploy; also submits to Google Search Console via sitemaps().submit() when GSC_* secrets are configured. Always best-effort (exit 0",
+        "New .github/workflows/sitemap-submit.yml: triggers on workflow_run after the deploy workflow succeeds → runs sitemap_ping.py. Runs on every push to main.",
+        "indexnow.yml path expansion: changed trigger from content/posting/ + content/baochi/ to content/ + templates/ — so tools pages, static pages, and template changes now also fire the IndexNow ping.",
+        "indexnow.py URL collection: now collects URLs from tools/ section + pages/ section (reads path = frontmatter for custom URL overrides like /about/). Total: 222 URLs vs ~192 before."
+      ],
+      "pr": 561
+    },
+    {
+      "date": "2026-06-20",
+      "title": "redesign: soften Korean Hangul banner to SEOMONEY editorial style",
+      "tag": "chore",
+      "lines_added": 98,
+      "lines_removed": 42,
+      "highlights": [
+        "Validates overflow:hidden on .home-tabs (no bleed)",
+        "Validates pointer-events:none on .hangeul-pattern (no content block)",
+        "Validates aria-hidden=\"true\" on banner div (accessibility)",
+        "Validates mobile breakpoint coverage (responsive layout)",
+        "Warns if animation added without prefers-reduced-motion guard"
+      ],
+      "pr": 563
+    },
+    {
+      "date": "2026-06-20",
+      "title": "SEOMONEY rebrand + OG image + placeholder system + Deploy Monitor footer",
+      "tag": "feat",
+      "lines_added": 813,
+      "lines_removed": 951,
+      "highlights": [
+        "config.toml title \"Duy Nguyen\" → \"SEOMONEY\" — cascades to <title>, og:site_name`, RSS/Atom titles, JSON-LD publisher/WebSite/Breadcrumb, header wordmark, nav drawer, footer ©. Description + tagline re",
+        "Duy Nguyen preserved as AUTHOR only: author=\"duynguyenlog\", author_bio, author.json name, about.md byline, S-DNA \"Maintained by Duy Nguyen\" all untouched.",
+        "Rebranded user-facing site-brand strings blog Duy Nguyen → blog SEOMONEY across section/page _index descriptions, robots.txt, and static dir-listing HTML (converter/fonts/img og:site_name + descriptio",
+        "New static/img/og/seomoney-og.svg (1200×630, crop-safe): top bar SEOMONEY logo + name | tagline, article preview card with thumbnail slot, layered SEOMONEY motif, \"Tác giả: Duy Nguyen\".",
+        "base.html default og:image → SEOMONEY twin seomoney-og.og.webp (committed seed so it never 404s; build_og_images.py re-renders it in CI). Per-post og:image still uses the post's first/thumbnail image,"
+      ],
+      "pr": 557
+    },
+    {
+      "date": "2026-06-20",
+      "title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfix PRs",
+      "tag": "fix",
+      "lines_added": 365,
+      "lines_removed": 647,
+      "highlights": [],
+      "pr": 551
     },
     {
       "date": "2026-06-20",

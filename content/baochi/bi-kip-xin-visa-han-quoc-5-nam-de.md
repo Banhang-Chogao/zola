@@ -2,8 +2,7 @@
 title = "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ"
 description = "Bí kíp xin visa Hàn Quốc 5 năm (C-3-9): hồ sơ cần có, chứng minh tài chính, lịch sử du lịch và mẹo tránh rớt hồ sơ cho người Việt."
 date = 2026-06-20
-draft = true
-
+draft = false
 [taxonomies]
 categories = ["Tất cả", "Du lịch", "Báo chí"]
 tags = ["visa hàn quốc", "du lịch hàn quốc", "c-3-9", "xin visa", "kinh nghiệm", "seoul"]
@@ -12,7 +11,6 @@ tags = ["visa hàn quốc", "du lịch hàn quốc", "c-3-9", "xin visa", "kinh 
 seo_keyword = "xin visa Hàn Quốc 5 năm"
 thumbnail = "https://picsum.photos/seed/bi-kip-xin-visa-han-quoc-5-nam-de/600/400"
 featured = false
-publish_at = "2026-06-20T20:00:00+07:00"
 
 [[extra.faq]]
 q = "Visa Hàn Quốc 5 năm là loại gì?"

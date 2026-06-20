@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-20T12:16:58Z",
-  "score": 97.8,
+  "updated_at": "2026-06-20T17:15:19Z",
+  "score": 100.0,
   "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 22,
-    "warn": 1,
+    "pass": 23,
+    "warn": 0,
     "fail": 0,
     "total": 23
   },
@@ -21,7 +21,7 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "785/826 in range"
+          "detail": "798/826 in range"
         },
         {
           "label": "Descriptions",
@@ -158,26 +158,15 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 75.0,
-      "pass": 1,
-      "warn": 1,
+      "score": 100.0,
+      "pass": 2,
+      "warn": 0,
       "fail": 0,
       "items": [
         {
           "label": "Internal links",
-          "status": "warn",
-          "detail": "1 broken / 833 unique",
-          "broken": [
-            {
-              "source_page": "/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/",
-              "source_file": "public/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/index.html",
-              "href": "https://seomoney.org/posting/slug/",
-              "target": "/posting/slug/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            }
-          ]
+          "status": "pass",
+          "detail": "all valid"
         },
         {
           "label": "GitHub Pages base path",
@@ -209,10 +198,6 @@
   ],
   "highlights": [
     {
-      "type": "warn",
-      "text": "Links: Internal links"
-    },
-    {
       "type": "pass",
       "text": "Metadata: Page titles"
     },
@@ -231,24 +216,28 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
+    },
+    {
+      "type": "pass",
+      "text": "Structure: Mobile viewport"
     }
   ],
   "pages_scanned": 826,
   "articles_scanned": 211,
   "fix_log": [
     {
-      "category": "Links",
-      "label": "Internal links",
-      "check_status": "warn",
-      "outcome": "failed",
-      "message": "Còn 1 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/index.html → /posting/slug/ (Target not found in public/ after zola build)",
-      "at": "2026-06-20T12:16:58Z"
+      "category": "—",
+      "label": "Tất cả mục",
+      "check_status": "pass",
+      "outcome": "skipped",
+      "message": "Không có mục warn/fail — bỏ qua auto-fix",
+      "at": "2026-06-20T17:15:19Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 1,
-    "skipped": 0
+    "failed": 0,
+    "skipped": 1
   }
 }
