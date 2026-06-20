@@ -18,9 +18,11 @@
         <div class="content-grid">
             {% for t in grp.items %}
                 {% set ci = loop.index0 % 6 %}
-                <a class="content-block content-block--{{ palette[ci] }}"
+                <a class="content-block content-block--{{ palette[ci] }}{% if t.locked %} content-block--locked{% endif %}"
                    href="{{ t.url | replace(from='$BASE_URL', to=config.base_url) }}">
+                    {% if t.locked %}<span class="content-block__lock" aria-hidden="true">🔒</span>{% endif %}
                     <span class="content-block__name">{{ t.name }}</span>
+                    {% if t.subtitle %}<span class="content-block__subtitle">{{ t.subtitle }}</span>{% endif %}
                 </a>
             {% endfor %}
         </div>

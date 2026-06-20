@@ -324,6 +324,60 @@ class SummaryTest(unittest.TestCase):
         self.assertTrue(qv.gate_failed(s, strict_warn=True))
 
 
+class UptimeMeTest(unittest.TestCase):
+    """uptime_me_vaccine — no key leak · schema · route · card · freshness."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    SEED = ('{"checked_at":"","ok":false,'
+            '"summary":{"total":0,"up":0,"down":0,"paused":0,"breathing":"chưa rõ"},'
+            '"accounts":[],"monitors":[],"incidents":[],"stale":true}')
+
+    def _wire(self, **over):
+        self.repo.write("data/uptime-me.json", over.get("json", self.SEED))
+        self.repo.write("content/tools/uptime-me.md", over.get("md", '+++\ntitle="x"\n+++'))
+        self.repo.write("templates/uptime-me.html",
+                        over.get("tmpl", '{% set u = load_data(path="data/uptime-me.json", required=false) %}'))
+        self.repo.write("content/tools/_index.md",
+                        over.get("idx", 'url = "$BASE_URL/tools/uptime-me"'))
+        self.repo.write("scripts/fetch_uptime_me.py", over.get("script", "# env only"))
+        self.repo.write(".github/workflows/uptime-me.yml", over.get("wf", "secrets only"))
+        self.repo.write("static/js/uptime-me.js", over.get("js", "// no keys"))
+        return self.repo.ctx()
+
+    def test_real_repo_passes(self):
+        r = qv.check_uptime_me(qv.Ctx(REPO_ROOT))
+        self.assertIn(r.status, (qv.PASS, qv.WARN))  # never FAIL on committed repo
+        self.assertNotEqual(r.status, qv.FAIL)
+
+    def test_seed_baseline_passes(self):
+        r = qv.check_uptime_me(self._wire())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_api_key_leak_fails(self):
+        leaked = self.SEED.replace('"stale":true',
+                                   '"stale":true,"oops":"u1234567-abcdef0123456789abcdef99"')
+        r = qv.check_uptime_me(self._wire(json=leaked))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("API key" in d for d in r.details))
+
+    def test_broken_schema_fails(self):
+        r = qv.check_uptime_me(self._wire(json='{"checked_at":""}'))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_card_link_fails(self):
+        r = qv.check_uptime_me(self._wire(idx='url = "$BASE_URL/tools/other"'))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_stale_report_warns(self):
+        old = ('{"checked_at":"2000-01-01T00:00:00+00:00","ok":true,'
+               '"summary":{"total":1,"up":1,"down":0,"paused":0,"breathing":"ok"},'
+               '"accounts":[],"monitors":[],"incidents":[]}')
+        r = qv.check_uptime_me(self._wire(json=old))
+        self.assertEqual(r.status, qv.WARN)
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
@@ -334,6 +388,69 @@ class RealRepoCalibrationTest(unittest.TestCase):
         self.assertEqual(summary["failed"], 0, f"unexpected FAIL on main:\n{msg}")
         self.assertTrue(summary["production_safe"])
         self.assertGreaterEqual(summary["vaccines_loaded"], 12)
+
+
+
+class RuntimeArtifactVaccineTest(unittest.TestCase):
+    """Regression tests for V15 — runtime artifact conflict prevention (PR #547)."""
+
+    def _run(self, root: Path) -> qv.CheckResult:
+        return qv.check_v15_runtime_artifacts(qv.Ctx(root))
+
+    def _make_gitignore(self, root: Path, content: str) -> None:
+        (root / ".gitignore").write_text(content, encoding="utf-8")
+
+    def test_tracked_state_file_fails(self):
+        """A tracked *-state.json triggers FAIL."""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "data").mkdir()
+            state_file = root / "data" / "vaccine-hotfix-state.json"
+            state_file.write_text('{"running": false}', encoding="utf-8")
+            self._make_gitignore(root, "# empty\n")
+            # Simulate git ls-files returning the file as tracked
+            import unittest.mock as mock
+            import subprocess as sp
+            fake_result = mock.MagicMock()
+            fake_result.stdout = "data/vaccine-hotfix-state.json\n"
+            with mock.patch("scripts.qa_vaccines.subprocess.run", return_value=fake_result):
+                result = self._run(root)
+            self.assertEqual(result.status, "FAIL")
+            self.assertIn("vaccine-hotfix-state.json", result.details[0])
+
+    def test_untracked_ignored_file_passes(self):
+        """Volatile files on disk but not tracked → PASS when .gitignore is correct."""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "data").mkdir()
+            (root / "data" / "vaccine-hotfix-state.json").write_text("{}", encoding="utf-8")
+            (root / "data" / "vaccine-hotfix.log").write_text("log", encoding="utf-8")
+            (root / "reports").mkdir()
+            (root / "reports" / "rule-conflict-report.json").write_text("{}", encoding="utf-8")
+            self._make_gitignore(root,
+                "data/*-state.json\ndata/*.log\ndata/vaccine-hotfix-report.json\nreports/rule-conflict-report\n"
+            )
+            import unittest.mock as mock
+            fake_result = mock.MagicMock()
+            fake_result.stdout = ""  # nothing tracked
+            with mock.patch("scripts.qa_vaccines.subprocess.run", return_value=fake_result):
+                result = self._run(root)
+            self.assertEqual(result.status, "PASS")
+
+    def test_missing_gitignore_pattern_warns(self):
+        """Missing .gitignore pattern for volatile files → WARN."""
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "data").mkdir()
+            # .gitignore exists but missing volatile patterns
+            self._make_gitignore(root, "public/\n.DS_Store\n")
+            import unittest.mock as mock
+            fake_result = mock.MagicMock()
+            fake_result.stdout = ""  # nothing tracked
+            with mock.patch("scripts.qa_vaccines.subprocess.run", return_value=fake_result):
+                result = self._run(root)
+            self.assertEqual(result.status, "WARN")
+            self.assertIn("missing", result.diagnosis)
 
 
 if __name__ == "__main__":

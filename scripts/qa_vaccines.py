@@ -680,6 +680,78 @@ def check_v17_vipzone_edge_safari_auth(ctx: Ctx) -> CheckResult:
     return CheckResult("V17", title, PASS)
 
 
+
+def check_v15_runtime_artifacts(ctx: Ctx) -> CheckResult:
+    """V15 — Runtime artifact files (state/log/report) must not be tracked in git.
+
+    Volatile runtime artifacts that change on every QA/vaccine run must never be
+    committed — they cause spurious merge conflicts on every vaccine-hotfix PR.
+    """
+    title = "Runtime artifact files not tracked in git"
+    vaccine = "V15"
+
+    # Files that must NOT be tracked in git
+    VOLATILE_PATTERNS = [
+        "data/*-state.json",
+        "data/*.log",
+        "data/vaccine-hotfix-report.json",
+        "reports/rule-conflict-report.json",
+        "reports/rule-conflict-report.md",
+    ]
+
+    # Enumerate concrete volatile files that exist on disk
+    volatile_candidates: list[str] = []
+    for pat in VOLATILE_PATTERNS:
+        volatile_candidates.extend(str(p.relative_to(ctx.root)) for p in ctx.glob(pat))
+
+    # Check which of these are currently tracked by git
+    tracked_volatile: list[str] = []
+    if volatile_candidates:
+        try:
+            res = subprocess.run(
+                ["git", "ls-files"] + volatile_candidates,
+                cwd=str(ctx.root), capture_output=True, text=True, timeout=15
+            )
+            tracked_volatile = [ln.strip() for ln in res.stdout.splitlines() if ln.strip()]
+        except Exception:
+            pass  # can't check → skip
+
+    if tracked_volatile:
+        return CheckResult(
+            vaccine=vaccine, title=title, status=FAIL,
+            diagnosis=(
+                f"{len(tracked_volatile)} volatile runtime artifact(s) still tracked in git → "
+                "will cause merge conflicts on every vaccine-hotfix PR"
+            ),
+            fix=(
+                "Run: git rm --cached " + " ".join(tracked_volatile[:5])
+                + (" ..." if len(tracked_volatile) > 5 else "")
+                + "  then ensure .gitignore covers data/*-state.json, data/*.log, "
+                "data/vaccine-hotfix-report.json, reports/rule-conflict-report.*"
+            ),
+            details=tracked_volatile[:20],
+        )
+
+    # Check .gitignore has the required patterns
+    gitignore = ctx.read(".gitignore") or ""
+    REQUIRED_PATTERNS = [
+        "data/*-state.json",
+        "data/*.log",
+        "data/vaccine-hotfix-report.json",
+        "reports/rule-conflict-report",
+    ]
+    missing_patterns = [p for p in REQUIRED_PATTERNS if p not in gitignore]
+    if missing_patterns:
+        return CheckResult(
+            vaccine=vaccine, title=title, status=WARN,
+            diagnosis="`.gitignore` missing volatile-artifact patterns — risk of re-introducing tracked runtime files",
+            fix="Add to .gitignore: " + ", ".join(f"`{p}`" for p in missing_patterns),
+            details=[f"missing: {p}" for p in missing_patterns],
+        )
+
+    return CheckResult(vaccine=vaccine, title=title, status=PASS)
+
+
 def check_v10_link_utils_layer(ctx: Ctx) -> CheckResult:
     """V10 (shared link-utils + test layer — link-safety, NOT a §4 vaccine number).
 
@@ -745,6 +817,99 @@ def check_v10_link_utils_layer(ctx: Ctx) -> CheckResult:
                            fix="thêm scripts/test_link_utils.py + để migration tool dùng code_span_ranges",
                            details=warn)
     return CheckResult("V10-LINKS", title, PASS)
+
+
+# UptimeRobot key shapes (main / monitor-specific / read-only): "<u|m|ur>NNNNN-<hex/alnum>".
+_UPTIMEROBOT_KEY_RE = re.compile(r"\b(?:ur|u|m)\d{5,}-[A-Za-z0-9]{20,}\b")
+_UPTIME_REQUIRED = ("checked_at", "ok", "summary", "accounts", "monitors", "incidents")
+_UPTIME_SUMMARY_KEYS = ("total", "up", "down", "paused", "breathing")
+_UPTIME_STALE_HOURS = 6
+
+
+def check_uptime_me(ctx: Ctx) -> CheckResult:
+    """uptime_me_vaccine — UPTIME_ME dashboard safety.
+
+    FAIL: an UptimeRobot API key leaked into any tracked file (data JSON, fetch
+          script, workflow); the public JSON is missing/invalid/malformed schema;
+          the page route (content + template) is absent; or the Tools card does
+          not link to the route.
+    WARN: the report is stale (checked_at older than the cron cadence) — surfaced
+          so a dead cron is noticed (empty checked_at = awaiting first run, OK).
+    """
+    title = "UPTIME_ME dashboard (no key leak · schema · route · freshness)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1 — no API key leaked anywhere in the repo surface for this feature.
+    for rel in ("data/uptime-me.json", "scripts/fetch_uptime_me.py",
+                ".github/workflows/uptime-me.yml", "static/js/uptime-me.js",
+                "templates/uptime-me.html"):
+        src = ctx.read(rel)
+        if src and _UPTIMEROBOT_KEY_RE.search(src):
+            fails.append(f"{rel}: lộ chuỗi giống API key UptimeRobot → chỉ dùng env/secrets")
+
+    # 2 — public JSON exists + valid schema.
+    raw = ctx.read("data/uptime-me.json")
+    if raw is None:
+        fails.append("thiếu data/uptime-me.json (seed an toàn rỗng cần tồn tại để build)")
+    else:
+        try:
+            rep = json.loads(raw)
+        except json.JSONDecodeError:
+            rep = None
+            fails.append("data/uptime-me.json không phải JSON hợp lệ")
+        if isinstance(rep, dict):
+            missing = [k for k in _UPTIME_REQUIRED if k not in rep]
+            if missing:
+                fails.append(f"data/uptime-me.json thiếu khóa schema: {missing}")
+            summ = rep.get("summary")
+            if not isinstance(summ, dict) or any(k not in summ for k in _UPTIME_SUMMARY_KEYS):
+                fails.append("data/uptime-me.json: summary thiếu khóa bắt buộc")
+            for li in ("accounts", "monitors", "incidents"):
+                if li in rep and not isinstance(rep[li], list):
+                    fails.append(f"data/uptime-me.json: '{li}' phải là mảng")
+            # 5 — staleness (only when a real timestamp exists).
+            ts = (rep.get("checked_at") or "").strip()
+            if ts:
+                try:
+                    from datetime import datetime, timezone
+                    age_h = (datetime.now(timezone.utc)
+                             - datetime.fromisoformat(ts.replace("Z", "+00:00"))
+                             ).total_seconds() / 3600
+                    if age_h > _UPTIME_STALE_HOURS:
+                        warns.append(f"report cũ {age_h:.0f}h (> {_UPTIME_STALE_HOURS}h) — "
+                                     f"kiểm tra cron uptime-me.yml")
+                except ValueError:
+                    warns.append("checked_at không parse được (ISO8601)")
+
+    # 3 — route exists (content + template).
+    if not ctx.exists("content/tools/uptime-me.md"):
+        fails.append("thiếu content/tools/uptime-me.md (route /tools/uptime-me/)")
+    tmpl = ctx.read("templates/uptime-me.html")
+    if tmpl is None:
+        fails.append("thiếu templates/uptime-me.html")
+    elif "load_data(path=\"data/uptime-me.json\"" not in tmpl:
+        warns.append("templates/uptime-me.html không load data/uptime-me.json")
+
+    # 4 — Tools card links to the route.
+    tools_idx = ctx.read("content/tools/_index.md") or ""
+    if "/tools/uptime-me" not in tools_idx:
+        fails.append("content/tools/_index.md: thẻ UPTIME_ME không trỏ /tools/uptime-me")
+
+    if fails:
+        return CheckResult("UI-UPTIME", title, FAIL,
+                           diagnosis="UPTIME_ME thiếu an toàn/route/schema",
+                           fix="đảm bảo: không hardcode key (env-only); data/uptime-me.json "
+                               "đúng schema; content+template route tồn tại; thẻ Tools trỏ "
+                               "/tools/uptime-me",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("UI-UPTIME", title, WARN,
+                           diagnosis="UPTIME_ME ổn nhưng có cảnh báo freshness/wiring",
+                           fix="kiểm tra cron uptime-me.yml / checked_at",
+                           details=warns)
+    return CheckResult("UI-UPTIME", title, PASS,
+                       diagnosis="no key leak · schema OK · route + card OK")
 
 
 def _css_blocks(src: str, selector: str) -> list[str]:
@@ -879,6 +1044,7 @@ DETECTORS = [
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
     check_v17_vipzone_edge_safari_auth,
+    check_v15_runtime_artifacts,
     check_config_toml,
     check_workflow_yaml,
     check_dashboard_json,
@@ -892,6 +1058,7 @@ DETECTORS = [
     check_category_first,
     check_nav_menu_overflow,
     check_sidebar_layout,
+    check_uptime_me,
 ]
 
 

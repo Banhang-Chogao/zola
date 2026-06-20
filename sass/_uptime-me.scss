@@ -1,0 +1,219 @@
+/* ============================================================================
+   _uptime-me.scss — UPTIME_ME dashboard (playful but calm, annual-report DNA).
+   Semantic tokens var(--c-*) → đúng light/dark. Cards-first, soft surfaces.
+   Mobile scope tách riêng ở @media (max-width: 720px).
+   ============================================================================ */
+
+.uptime-me {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.5rem 0 3rem;
+}
+
+.uptime-me__eyebrow {
+  font-family: $font-ui;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  margin: 0 0 0.35rem;
+}
+
+.uptime-me__title {
+  font-family: $font-heading;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  margin: 0 0 0.4rem;
+}
+
+.uptime-me__desc {
+  color: var(--c-text-body);
+  max-width: 60ch;
+  margin: 0 0 1.5rem;
+}
+
+.uptime-me__h2 {
+  font-family: $font-heading;
+  font-size: 1.15rem;
+  color: var(--c-text-heading);
+  margin: 2rem 0 0.85rem;
+}
+
+/* ===== Breathing status banner ===== */
+.uptime-me__breath {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  border: 1px solid var(--c-border);
+  background: var(--c-bg-soft);
+  margin-bottom: 1.5rem;
+
+  &--warn { border-color: #f0b429; background: rgba(240, 180, 41, 0.08); }
+  &--down { border-color: #e5484d; background: rgba(229, 72, 77, 0.08); }
+}
+
+.uptime-me__breath-label {
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+}
+
+.uptime-me__breath-verdict {
+  font-family: $font-heading;
+  font-size: 1.35rem;
+  color: var(--c-text-heading);
+}
+
+/* ===== KPI cards ===== */
+.uptime-me__kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.uptime-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  background: var(--c-bg-surface);
+
+  &--score { background: var(--c-accent-soft); border-color: transparent; }
+  &--alert { border-color: #e5484d; }
+
+  &__label {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--c-text-muted);
+  }
+  &__value {
+    font-family: $font-heading;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--c-text-heading);
+    line-height: 1;
+  }
+  &__unit { font-size: 0.85rem; font-weight: 600; color: var(--c-text-muted); }
+}
+
+/* ===== 3 account cards ===== */
+.uptime-me__accounts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+.uptime-acct {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 14px;
+  background: var(--c-bg-surface);
+  font-family: $font-ui;
+
+  &__idx { font-weight: 700; color: var(--c-text-heading); }
+  &__ok { color: #2e7d32; font-size: 0.85rem; font-weight: 600; }
+  &__err { color: var(--c-text-muted); font-size: 0.85rem; }
+  &--err { background: var(--c-bg-soft); }
+}
+
+/* ===== Monitor cards ===== */
+.uptime-me__monitors {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.uptime-mon {
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  background: var(--c-bg-surface);
+
+  &__top { display: flex; align-items: center; gap: 0.5rem; }
+  &__dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--c-text-muted); flex-shrink: 0;
+  }
+  &--up &__dot { background: #2e9e5b; }
+  &--down &__dot { background: #e5484d; }
+  &--paused &__dot { background: #f0b429; }
+
+  &__name { font-weight: 700; color: var(--c-text-heading); }
+  &__status {
+    margin-left: auto; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--c-text-muted);
+  }
+  &__meta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin: 0.6rem 0 0.4rem; font-size: 0.82rem; color: var(--c-text-muted);
+  }
+  &__down { font-size: 0.78rem; color: #e5484d; margin: 0.4rem 0 0; }
+}
+
+.uptime-mon__spark { display: block; height: 36px; margin-top: 0.4rem; }
+.uptime-spark__svg { width: 100%; height: 36px; }
+.uptime-spark__svg polyline { stroke: var(--c-accent); stroke-width: 2; }
+.uptime-spark__dot { fill: var(--c-accent); }
+
+/* ===== Incident timeline ===== */
+.uptime-me__timeline { list-style: none; margin: 0; padding: 0; }
+
+.uptime-tl {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0.25rem 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--c-border);
+  font-size: 0.88rem;
+
+  &__time { color: var(--c-text-muted); }
+  &__mon { font-weight: 700; color: var(--c-text-heading); }
+  &__reason { grid-column: 2; color: var(--c-text-body); }
+}
+
+.uptime-me__none {
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  background: var(--c-bg-soft);
+  color: var(--c-text-body);
+}
+
+.uptime-me__updated {
+  margin-top: 1.75rem;
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+}
+.uptime-me__stale { color: #f0b429; font-weight: 600; }
+
+/* ===== Empty / error state ===== */
+.uptime-me__empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  border: 1px dashed var(--c-border-strong);
+  border-radius: 20px;
+  background: var(--c-bg-soft);
+
+  h2 { font-family: $font-heading; color: var(--c-text-heading); margin: 0.5rem 0; }
+  p { color: var(--c-text-body); max-width: 52ch; margin: 0.5rem auto; }
+  code { font-size: 0.85em; }
+}
+.uptime-me__empty-emoji { font-size: 2.5rem; }
+.uptime-me__empty-hint { color: var(--c-text-muted); font-size: 0.85rem; }
+
+/* ===== MOBILE (≤ 720px) ===== */
+@media (max-width: 720px) {
+  .uptime-me__kpis { grid-template-columns: repeat(2, 1fr); }
+  .uptime-me__accounts { grid-template-columns: 1fr; }
+  .uptime-me__monitors { grid-template-columns: 1fr; }
+  .uptime-me__title { font-size: 1.6rem; }
+  .uptime-tl { grid-template-columns: 1fr; }
+  .uptime-tl__reason { grid-column: 1; }
+}

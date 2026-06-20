@@ -1,9 +1,19 @@
 {
-  "updated_at": "2026-06-20T08:15:12Z",
+  "updated_at": "2026-06-20T09:16:25Z",
   "summary": {
-    "broken_count": 0,
-    "checked_unique": 816,
-    "status": "pass"
+    "broken_count": 1,
+    "checked_unique": 831,
+    "status": "warn"
   },
-  "links": []
+  "links": [
+    {
+      "source_page": "/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/",
+      "source_file": "public/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/index.html",
+      "href": "https://seomoney.org/posting/slug/",
+      "target": "/posting/slug/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    }
+  ]
 }

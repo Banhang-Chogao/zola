@@ -25,6 +25,11 @@ url = "$BASE_URL/tools/o-dashboard"
 name = "H-Dashboard"
 url = "$BASE_URL/tools/h-dashboard"
 [[extra.tool_groups.items]]
+name = "📈 UPTIME_ME"
+url = "$BASE_URL/tools/uptime-me"
+subtitle = "Phân tích uptime từ 3 API UptimeRobot"
+locked = true
+[[extra.tool_groups.items]]
 name = "🌾 Vụ Mùa"
 url = "$BASE_URL/vu-mua"
 [[extra.tool_groups.items]]

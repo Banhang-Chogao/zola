@@ -37,3 +37,14 @@ content/posting/feed-anchor-*.md
 
 # Extracted Zola binary (CI/local build only — source is the .tar.gz)
 /zola
+
+# Vaccine/QA runtime state, logs, volatile reports — never commit (V15)
+# These files change on every QA/vaccine run and cause spurious merge conflicts.
+# State/lock files
+data/*-state.json
+# Runtime logs
+data/*.log
+# Per-run volatile reports (not displayed in Zola templates)
+data/vaccine-hotfix-report.json
+reports/rule-conflict-report.json
+reports/rule-conflict-report.md
