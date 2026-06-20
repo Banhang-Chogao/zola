@@ -1,0 +1,52 @@
+name: Sitemap Submit
+
+# Runs after every successful production deploy — pings Bing sitemap endpoint
+# and submits sitemap to Google Search Console via API (when secrets configured).
+# Best-effort: never blocks deploy or auto-merge.
+
+on:
+  workflow_run:
+    workflows: ["Build and deploy Zola site to GitHub Pages"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sitemap-submit
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  submit:
+    # Only run when the deploy workflow succeeded (skip if cancelled/failed).
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Google API client (needed for GSC submit)
+        run: pip install --quiet google-api-python-client==2.169.0 google-auth==2.40.2
+
+      - name: Submit sitemap
+        env:
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+        run: python3 scripts/sitemap_ping.py
+
+      - name: Save report
+        run: |
+          if [ -f data/sitemap-ping-report.json ]; then
+            echo "=== Sitemap Ping Report ==="
+            cat data/sitemap-ping-report.json
+          fi
