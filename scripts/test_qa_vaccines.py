@@ -463,6 +463,8 @@ class RuntimeArtifactV18Test(unittest.TestCase):
         "data/vaccine-autofixer.log",
         "data/qa-rule-checker-state.json",
         "data/autofix-conflicts-state.json",
+        "reports/rule-conflict-report.json",
+        "reports/rule-conflict-report.md",
     ]
 
     def _make_git_repo(self) -> Path:
@@ -509,12 +511,21 @@ class RuntimeArtifactV18Test(unittest.TestCase):
                 "\n".join(self.ALL_VOLATILE), encoding="utf-8"
             )
             (root / ".github" / "workflows").mkdir(parents=True, exist_ok=True)
-            (root / ".github" / "workflows" / "vaccine-hotfix.yml").write_text(
-                "git restore --staged data/vaccine-hotfix-state.json", encoding="utf-8"
+            wf_content = (
+                "git add -A\n"
+                "git restore --staged \\\n"
+                "  data/vaccine-hotfix-state.json \\\n"
+                "  data/vaccine-autofixer-state.json \\\n"
+                "  data/qa-rule-checker-state.json \\\n"
+                "  reports/rule-conflict-report.json \\\n"
+                "  reports/rule-conflict-report.md \\\n"
+                "  2>/dev/null || true\n"
             )
+            (root / ".github" / "workflows" / "vaccine-hotfix.yml").write_text(wf_content, encoding="utf-8")
+            (root / ".github" / "workflows" / "vaccine-autofixer.yml").write_text(wf_content, encoding="utf-8")
             (root / "scripts").mkdir(exist_ok=True)
             (root / "scripts" / "qa-auto-rule-checker.py").write_text(
-                "# no meaningful change detected — skip write", encoding="utf-8"
+                "total_conflicts = 0  # idempotent: skip write when count unchanged", encoding="utf-8"
             )
             # Write the files but DO NOT git add them
             for rel in self.PR551_FILES:
@@ -567,24 +578,38 @@ class RuntimeArtifactV18Test(unittest.TestCase):
         """
         root = self._make_git_repo()
         try:
-            (root / ".github" / "workflows").mkdir(parents=True, exist_ok=True)
-            (root / ".github" / "workflows" / "vaccine-hotfix.yml").write_text(
-                "git restore --staged volatile", encoding="utf-8"
-            )
-            (root / "scripts").mkdir(exist_ok=True)
-            (root / "scripts" / "qa-auto-rule-checker.py").write_text(
-                "# no meaningful change — idempotent", encoding="utf-8"
-            )
             import subprocess
+            # Step 1: track the PR #551 files BEFORE writing .gitignore
+            # (simulates the pre-fix state where volatile files were tracked)
             for rel in self.PR551_FILES:
                 p = root / rel
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text("{}", encoding="utf-8")
                 subprocess.run(["git", "add", str(p)], cwd=root, capture_output=True)
 
-            # Confirm it's FAIL before fix
+            # Confirm it's FAIL before fix: no .gitignore yet → missing patterns → FAIL
             r_before = qv.check_v18_runtime_artifact_conflict(qv.Ctx(root))
-            self.assertEqual(r_before.status, qv.FAIL)
+            self.assertEqual(r_before.status, qv.FAIL,
+                             f"Expected FAIL (missing gitignore patterns); got {r_before.status}: {r_before.details}")
+
+            # Step 2: add workflows + gitignore + idempotent marker (the V18 fix)
+            (root / ".gitignore").write_text("\n".join(self.ALL_VOLATILE), encoding="utf-8")
+            (root / ".github" / "workflows").mkdir(parents=True, exist_ok=True)
+            wf = (
+                "git add -A\n"
+                "git restore --staged \\\n"
+                "  data/vaccine-hotfix-state.json \\\n"
+                "  data/qa-rule-checker-state.json \\\n"
+                "  reports/rule-conflict-report.json \\\n"
+                "  reports/rule-conflict-report.md \\\n"
+                "  2>/dev/null || true\n"
+            )
+            (root / ".github" / "workflows" / "vaccine-hotfix.yml").write_text(wf, encoding="utf-8")
+            (root / ".github" / "workflows" / "vaccine-autofixer.yml").write_text(wf, encoding="utf-8")
+            (root / "scripts").mkdir(exist_ok=True)
+            (root / "scripts" / "qa-auto-rule-checker.py").write_text(
+                "total_conflicts = 0  # idempotent: skip write when count unchanged", encoding="utf-8"
+            )
 
             # Apply the FIXER: git rm --cached
             subprocess.run(
@@ -597,6 +622,162 @@ class RuntimeArtifactV18Test(unittest.TestCase):
                                 f"After git rm --cached, expected PASS; got {r_after.status}")
         finally:
             self._cleanup(root)
+
+
+class RuntimeArtifactVaccineTest(unittest.TestCase):
+    """V18 regression: exact PR #555 conflict file set must be gitignored and
+    the vaccine-autofixer workflow must filter them before commit.
+
+    PR #555 conflict files:
+      data/qa-rule-checker-state.json
+      reports/rule-conflict-report.json
+      reports/rule-conflict-report.md
+    Related volatile siblings:
+      data/vaccine-autofixer-state.json
+      data/vaccine-autofixer.log
+      data/autofix-conflicts-state.json
+    """
+
+    # Minimal gitignore containing all required patterns.
+    GITIGNORE_GOOD = (
+        "data/vaccine-autofixer-state.json\n"
+        "data/vaccine-autofixer.log\n"
+        "data/qa-rule-checker-state.json\n"
+        "data/autofix-conflicts-state.json\n"
+        "reports/rule-conflict-report.json\n"
+        "reports/rule-conflict-report.md\n"
+    )
+
+    # Minimal vaccine-autofixer.yml with the V18 git restore guard.
+    WORKFLOW_GOOD = (
+        "git add -A\n"
+        "git restore --staged \\\n"
+        "  data/vaccine-autofixer-state.json \\\n"
+        "  data/qa-rule-checker-state.json \\\n"
+        "  reports/rule-conflict-report.json \\\n"
+        "  reports/rule-conflict-report.md \\\n"
+        "  2>/dev/null || true\n"
+    )
+
+    def _ctx(self, gitignore: str = GITIGNORE_GOOD, workflow: str = WORKFLOW_GOOD) -> "qv.Ctx":
+        r = TmpRepo()
+        r.write(".gitignore", gitignore)
+        r.write(".github/workflows/vaccine-autofixer.yml", workflow)
+        r.write("scripts/qa-auto-rule-checker.py",
+                "def write_reports(p, m):\n    # idempotent: total_conflicts check\n    pass\n")
+        return r.ctx()
+
+    def test_pass_when_all_patterns_present(self):
+        """All 6 PR-#555 volatile files gitignored + workflow filter → PASS."""
+        self.assertEqual(qv.check_v18_runtime_artifact_conflict(self._ctx()).status, qv.PASS)
+
+    def test_real_repo_passes(self):
+        """Real repo on current main must pass V18 (calibration)."""
+        r = qv.check_v18_runtime_artifact_conflict(qv.Ctx(REPO_ROOT))
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"V18 FAIL on main — {r.diagnosis}")
+
+    def test_missing_gitignore_patterns_fails(self):
+        """Missing gitignore entries for the exact #555 files → FAIL."""
+        ctx = self._ctx(gitignore="# nothing\n")
+        r = qv.check_v18_runtime_artifact_conflict(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("gitignore", r.diagnosis.lower())
+
+    def test_missing_workflow_filter_fails(self):
+        """vaccine-autofixer.yml without git restore --staged filter → FAIL."""
+        ctx = self._ctx(workflow="git add -A\ngit commit -m 'x'\n")
+        r = qv.check_v18_runtime_artifact_conflict(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("git restore", r.diagnosis)
+
+    def test_pr555_exact_conflict_set_covered(self):
+        """Every file in the exact PR #555 conflict set must appear in .gitignore."""
+        pr555_files = [
+            "data/qa-rule-checker-state.json",
+            "reports/rule-conflict-report.json",
+            "reports/rule-conflict-report.md",
+        ]
+        ctx = self._ctx()
+        # Good baseline passes
+        self.assertEqual(qv.check_v18_runtime_artifact_conflict(ctx).status, qv.PASS)
+
+        # Removing any one PR #555 file from gitignore → FAIL
+        for f in pr555_files:
+            bad_gi = self.GITIGNORE_GOOD.replace(f + "\n", "")
+            ctx2 = self._ctx(gitignore=bad_gi)
+            r = qv.check_v18_runtime_artifact_conflict(ctx2)
+            self.assertEqual(r.status, qv.FAIL,
+                             f"Expected FAIL when {f!r} missing from .gitignore")
+
+
+class DomainMigrationDriftTest(unittest.TestCase):
+    """V19 — Domain Migration Drift detector tests."""
+
+    def _ctx(self, base_url="https://seomoney.org", cname="seomoney.org",
+             snap_url=None, extra_files=None):
+        """Build a minimal Ctx with the given config values."""
+        import tempfile, os
+        td = Path(tempfile.mkdtemp())
+        # config.toml
+        (td / "config.toml").write_text(f'base_url = "{base_url}"\n', encoding="utf-8")
+        # CNAME
+        (td / "static").mkdir(parents=True, exist_ok=True)
+        (td / "static" / "CNAME").write_text(cname + "\n", encoding="utf-8")
+        # snapshot
+        if snap_url is not None:
+            (td / "data").mkdir(parents=True, exist_ok=True)
+            import json
+            (td / "data" / "performance-audit-snapshot.json").write_text(
+                json.dumps({"url": snap_url}), encoding="utf-8")
+        # extra files with stale refs
+        if extra_files:
+            for rel, content in extra_files.items():
+                p = td / rel
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(content, encoding="utf-8")
+        return qv.Ctx(td)
+
+    def test_clean_state_passes(self):
+        """No stale refs, correct config → PASS."""
+        ctx = self._ctx(snap_url="https://seomoney.org/")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_old_base_url_fails(self):
+        """base_url holding github.io → FAIL."""
+        ctx = self._ctx(base_url="https://banhang-chogao.github.io/zola",
+                        cname="seomoney.org")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("github.io", r.diagnosis)
+
+    def test_old_cname_fails(self):
+        """CNAME holding github.io → FAIL."""
+        ctx = self._ctx(cname="banhang-chogao.github.io")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_stale_snapshot_url_warns(self):
+        """performance-audit-snapshot.json with old url → WARN."""
+        ctx = self._ctx(snap_url="https://banhang-chogao.github.io/zola/")
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("performance-audit-snapshot" in d for d in r.details))
+
+    def test_stale_comment_in_script_warns(self):
+        """Script file with github.io/zola comment → WARN."""
+        ctx = self._ctx(extra_files={
+            "scripts/some_tool.py": "# links to banhang-chogao.github.io/zola/posting/x/\n"
+        })
+        r = qv.check_v19_domain_migration_drift(ctx)
+        self.assertEqual(r.status, qv.WARN)
+
+    def test_real_repo_passes_or_warns_not_fails(self):
+        """Real repo must not FAIL V19 after migration fixes applied."""
+        r = qv.check_v19_domain_migration_drift(qv.Ctx(REPO_ROOT))
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"V19 FAIL on main — {r.diagnosis}")
 
 
 class RealRepoCalibrationTest(unittest.TestCase):

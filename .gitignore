@@ -46,3 +46,14 @@ content/posting/feed-anchor-*.md
 
 # Extracted Zola binary (CI/local build only — source is the .tar.gz)
 /zola
+
+# V18 — Volatile runtime artifacts (Vaccine Autofixer + QA rule checker)
+# These files are timestamp/run-history churn — committing them causes spurious
+# merge conflicts on every concurrent vaccine PR (root cause of PR #555).
+# NEVER commit these; they are regenerated on every QA/vaccine run.
+data/vaccine-autofixer-state.json
+data/vaccine-autofixer.log
+data/qa-rule-checker-state.json
+data/autofix-conflicts-state.json
+reports/rule-conflict-report.json
+reports/rule-conflict-report.md

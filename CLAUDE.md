@@ -690,7 +690,12 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   `data/vaccine-hotfix.log`, `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md`.
 - **Regression test list (exact #551 self-conflict files):** `data/qa-rule-checker-state.json`,
   `data/vaccine-hotfix-state.json`, `data/vaccine-hotfix.log`.
-- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v -k V18` (includes `RuntimeArtifactV18Test`).
+- **Regression test list (exact #555 files — vaccine-autofixer):** `data/qa-rule-checker-state.json`,
+  `reports/rule-conflict-report.json`, `reports/rule-conflict-report.md`.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v -k V18` (includes `RuntimeArtifactV18Test` and `RuntimeArtifactVaccineTest`).
+- **Evidence (PR #555, 2026-06-20):** `chore/vaccine-autofixer-20260620-102216` went dirty because
+  `main` ran `qa-rule-checker` at `10:22:42Z` while the PR had entries at `10:15:47Z`. Zero real
+  code in conflict. Resolved by taking main's versions + applying FIXER above.
 
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
@@ -821,6 +826,51 @@ score **97.8/100 (A+)**. Root cause: 104 `feed-anchor` + 10 homepage `/page/N/` 
 0 `<h1>`; 20 `posting/feed-anchor-*.md` lacked taxonomy/body. Reverted mistaken
 code-fence demotion in `sentence-transformers-sbert-deep-dive.md` — demoter skips
 fenced blocks.
+
+#### V19 — Domain Migration Drift: stale `github.io/zola` refs in operational files after apex-domain migration
+
+> Process + tooling vaccine. Match the signature → run `scripts/domain_migration_audit.py`; fix per FIXER below.
+
+- **Symptom:** After migrating `banhang-chogao.github.io/zola` → `https://seomoney.org`, stale
+  `github.io/zola` references survive in operational code (NOT test fixtures or migration-tool
+  docstrings). Typical locations: (a) script variable comments (`# banhang-chogao.github.io` in
+  qa-404-checker.py), (b) `data/performance-audit-snapshot.json` `url` field holding the old
+  origin, (c) docs TODO items still open (`- [ ] custom domain`), (d) CLAUDE.md rule examples
+  using the old domain in watermark/branding strings. Detector: `check_v19_domain_migration_drift`
+  in `scripts/qa_vaccines.py`.
+- **Root cause:** Migration tools (`scripts/rewrite_cdn_urls.py`, `scripts/fix_site_prefix_links.py`)
+  correctly rewrote content/templates, but human-authored comments, cached data snapshots, and
+  documentation examples were not in scope. These drift silently until audited.
+- **Detector (WARN — does not break build):** `check_v19_domain_migration_drift`:
+  1. Reads `config.toml` `base_url`; extract expected apex host (`seomoney.org`).
+  2. Reads `data/performance-audit-snapshot.json`; WARN if `.url` ≠ base_url (stale snapshot).
+  3. Scans operational files (`.py`, `.yml`, `.html`, `.js`, `.scss`, `.toml`, `.md` outside
+     `scripts/test_*`, `data/`, `scripts/rewrite_cdn_urls.py`, `scripts/fix_site_prefix_links.py`,
+     `scripts/dns_vaccine.py`, `CLAUDE.md`) for pattern `banhang-chogao\.github\.io/zola` →
+     WARN per file found.
+  4. Severity: WARN (drift, not build-breaking); escalate to FAIL only if `config.toml`
+     `base_url` or `static/CNAME` still holds `github.io` (already gated by V15/dns_vaccine,
+     but V19 re-checks for defence-in-depth).
+- **FIXER (minimal delta — run after any domain rename):**
+  1. `python3 scripts/domain_migration_audit.py` — full scan + table report.
+  2. Fix stale comments: update `# github.io` / `# /zola` variable comments to reflect new host.
+  3. Regenerate `data/performance-audit-snapshot.json`: trigger `perf-audit.yml` workflow or
+     run `python3 scripts/fetch_pagespeed.py` locally (TARGET_URL already = seomoney.org).
+  4. Mark done any open `- [ ]` doc TODOs about custom domain.
+  5. Update CLAUDE.md examples that use old domain strings (watermark, branding examples).
+  6. Content tutorial articles (`content/posting/*.md`) that *explain* GitHub Pages using
+     `github.io` example URLs are **legitimate content** — do NOT rewrite them.
+- **Exclusion list (never flag as V19 issues):**
+  - `scripts/dns_vaccine.py` (PAGES_ORIGIN_HOST = `banhang-chogao.github.io` is correct DNS www-CNAME target)
+  - `scripts/rewrite_cdn_urls.py`, `scripts/fix_site_prefix_links.py` (migration-tool docstrings)
+  - `scripts/test_*.py`, `data/merge-report.json`, `data/dns-vaccine-report.json` (test fixtures / history)
+  - `content/posting/tao-blog-voi-zola.md`, `content/posting/tu-dong-deploy-zola-github-actions.md`,
+    `content/posting/ung-ho-du-an-ai-ten-mien-ai.md` (tutorial content explaining GitHub Pages)
+- **Validation (20/06/2026):** Applied: stale comment in `qa-404-checker.py` (lines 79–82); done
+  marker on `docs/seo-strategy.md` custom-domain TODO; watermark example in `CLAUDE.md` updated
+  to `seomoney.org`. `scripts/domain_migration_audit.py` created. `dns_vaccine --offline --gate`
+  PASS; `zola build` PASS; `qa_check.py` PASS.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.DomainMigrationDriftTest -v`
 
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
@@ -2240,7 +2290,7 @@ Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi 
 
 - Dynamic watermark overlay khi đọc online: `blogName • emailHash • postId • traceCode`.
 - Print/PDF: `@media print` chèn watermark `{traceCode16}_{blogDomain}` + bản quyền.
-- Ví dụ in: `A9F328BC71D06E2A_banhang-chogao.github.io` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
+- Ví dụ in: `A9F328BC71D06E2A_seomoney.org` + «Bản quyền thuộc blog. Không được sao chép hoặc phân phối lại.»
 - `POST /api/paywall/log-print` ghi log khi user in.
 
 ## Security Rules (Paywall + F-Dashboard)
