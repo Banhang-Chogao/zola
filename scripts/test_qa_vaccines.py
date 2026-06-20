@@ -324,6 +324,60 @@ class SummaryTest(unittest.TestCase):
         self.assertTrue(qv.gate_failed(s, strict_warn=True))
 
 
+class UptimeMeTest(unittest.TestCase):
+    """uptime_me_vaccine — no key leak · schema · route · card · freshness."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    SEED = ('{"checked_at":"","ok":false,'
+            '"summary":{"total":0,"up":0,"down":0,"paused":0,"breathing":"chưa rõ"},'
+            '"accounts":[],"monitors":[],"incidents":[],"stale":true}')
+
+    def _wire(self, **over):
+        self.repo.write("data/uptime-me.json", over.get("json", self.SEED))
+        self.repo.write("content/tools/uptime-me.md", over.get("md", '+++\ntitle="x"\n+++'))
+        self.repo.write("templates/uptime-me.html",
+                        over.get("tmpl", '{% set u = load_data(path="data/uptime-me.json", required=false) %}'))
+        self.repo.write("content/tools/_index.md",
+                        over.get("idx", 'url = "$BASE_URL/tools/uptime-me"'))
+        self.repo.write("scripts/fetch_uptime_me.py", over.get("script", "# env only"))
+        self.repo.write(".github/workflows/uptime-me.yml", over.get("wf", "secrets only"))
+        self.repo.write("static/js/uptime-me.js", over.get("js", "// no keys"))
+        return self.repo.ctx()
+
+    def test_real_repo_passes(self):
+        r = qv.check_uptime_me(qv.Ctx(REPO_ROOT))
+        self.assertIn(r.status, (qv.PASS, qv.WARN))  # never FAIL on committed repo
+        self.assertNotEqual(r.status, qv.FAIL)
+
+    def test_seed_baseline_passes(self):
+        r = qv.check_uptime_me(self._wire())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_api_key_leak_fails(self):
+        leaked = self.SEED.replace('"stale":true',
+                                   '"stale":true,"oops":"u1234567-abcdef0123456789abcdef99"')
+        r = qv.check_uptime_me(self._wire(json=leaked))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("API key" in d for d in r.details))
+
+    def test_broken_schema_fails(self):
+        r = qv.check_uptime_me(self._wire(json='{"checked_at":""}'))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_card_link_fails(self):
+        r = qv.check_uptime_me(self._wire(idx='url = "$BASE_URL/tools/other"'))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_stale_report_warns(self):
+        old = ('{"checked_at":"2000-01-01T00:00:00+00:00","ok":true,'
+               '"summary":{"total":1,"up":1,"down":0,"paused":0,"breathing":"ok"},'
+               '"accounts":[],"monitors":[],"incidents":[]}')
+        r = qv.check_uptime_me(self._wire(json=old))
+        self.assertEqual(r.status, qv.WARN)
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
