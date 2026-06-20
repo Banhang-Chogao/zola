@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "Merge origin/main into pr562: resolve GSC V19 conflicts [claude/eager-gauss-o4yj2w]",
+      "tag": "chore",
+      "lines_added": 204,
+      "lines_removed": 15,
+      "highlights": [
+        "feat(gsc): migrate to sc-domain:seomoney.org domain property",
+        "fix(gsc): semantic merge qa_vaccines.py — preserve all detectors (V18+V19+BRAND+DEPLOY-MON+KOREAN-BANNER)",
+        "Merge remote-tracking branch 'origin/main' into pr562",
+        "Merge origin/main into pr562: resolve GSC V19 conflicts",
+        ".github/workflows/gsc-stats.yml (modified, +1/-0)"
+      ],
+      "pr": 562
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(og): OG smoke verified + deterministic stale-twin FAIL (content-hash manifest)",
       "tag": "chore",
       "lines_added": 150,
