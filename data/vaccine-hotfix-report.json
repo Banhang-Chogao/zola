@@ -5,10 +5,10 @@
   "issue_id": "chore/vaccine-autofixer-20260620-102216",
   "branch": "vaccine-hotfix/chore-vaccine-autofixer-20260620-102216",
   "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/chore-vaccine-autofixer-20260620-102216",
-  "run_id": "27870173468",
-  "started_at": "2026-06-20T18:45:21.719046+07:00",
-  "finished_at": "2026-06-20T18:51:19.931639+07:00",
-  "last_run": "2026-06-20T18:51:19.931639+07:00",
+  "run_id": "27870522950",
+  "started_at": "2026-06-20T19:00:19.691874+07:00",
+  "finished_at": "2026-06-20T19:06:35.576550+07:00",
+  "last_run": "2026-06-20T19:06:35.576550+07:00",
   "precheck": {
     "safe_to_run": true,
     "guarantees": [
@@ -121,16 +121,26 @@
       "attempts": 1,
       "files_changed": 5,
       "last_run": "2026-06-20T18:51:19.931639+07:00"
+    },
+    {
+      "run_id": "27870522950",
+      "trigger": "required_checks_fail",
+      "issue_id": "chore/vaccine-autofixer-20260620-102216",
+      "branch": "vaccine-hotfix/chore-vaccine-autofixer-20260620-102216",
+      "status": "ok",
+      "attempts": 1,
+      "files_changed": 5,
+      "last_run": "2026-06-20T19:06:35.576550+07:00"
     }
   ],
   "latest": {
-    "run_id": "27870173468",
+    "run_id": "27870522950",
     "trigger": "required_checks_fail",
     "issue_id": "chore/vaccine-autofixer-20260620-102216",
     "branch": "vaccine-hotfix/chore-vaccine-autofixer-20260620-102216",
     "status": "ok",
     "attempts": 1,
     "files_changed": 5,
-    "last_run": "2026-06-20T18:51:19.931639+07:00"
+    "last_run": "2026-06-20T19:06:35.576550+07:00"
   }
 }
