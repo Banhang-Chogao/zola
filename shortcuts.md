@@ -1472,6 +1472,12 @@ Mỗi section = `#### NN — <emoji> <TITLE>` + blockquote 1 dòng purpose (như
 
 **`03 — 🔗 PR & CI`** · _purpose: PR mở + trạng thái pipeline cho branch._
 
+> ⚠️ **BẮT BUỘC fetch LIVE mỗi lần gọi** — gọi `mcp__github__list_pull_requests
+> state=open` (và `pull_request_read` nếu cần) NGAY tại thời điểm chạy `wip8`.
+> **TUYỆT ĐỐI KHÔNG** tái dùng list PR từ lượt trước / context cũ (PR có thể đã
+> merged/closed → hiển thị sai). Chỉ liệt kê PR đang **thật sự open**; PR không
+> còn open thì bỏ khỏi bảng (hoặc đánh ✅ merged nếu là PR của chính branch này).
+
 | PR | Title | Branch | CI |
 |---|---|---|---|
 | #X | <title> | `<branch>` | 🟢 / 🟡 / 🔴 / ⚪ |
