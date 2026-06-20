@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "fix(build_references): code-span-safe URL extraction (PR #551 follow-up vaccine)",
+      "tag": "fix",
+      "lines_added": 194,
+      "lines_removed": 134,
+      "highlights": [
+        "build_references.py extract_links() now delegates to link_utils.extract_link_pairs(), which masks fenced code blocks and inline backtick spans before running link regexes",
+        "Adds scripts/test_build_references.py with 12 regression tests",
+        "Regenerates data/references.json (205 posts, no phantom /posting/slug/ entry)"
+      ],
+      "pr": 574
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(qa-vaccine): DOMAIN-ROOT detector — block /zola scanner prefix regression",
       "tag": "chore",
       "lines_added": 206,
