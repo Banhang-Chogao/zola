@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(tools): UPTIME_ME — uptime dashboard from 3 UptimeRobot keys + v…",
+      "tag": "chore",
+      "lines_added": 965,
+      "lines_removed": 1,
+      "highlights": [
+        "scripts/fetch_uptime_me.py: read UPTIMEROBOT_API_KEY_1/2/3 from env, call getMonitors per account, normalize to one report (status, uptime %, response times, last down, incidents, checked_at, breathin",
+        ".github/workflows/uptime-me.yml: cron */30 + dispatch; keys via secrets only; publish data/uptime-me.json via push_to_main.sh.",
+        "templates/uptime-me.html + sass/_uptime-me.scss + static/js/uptime-me.js: load_data render — KPI cards, 3 account cards, response-time sparklines, incident timeline, \"Website đang thở ổn không?\" verdi",
+        "content/tools/uptime-me.md + _index.md card (subtitle/locked, additive in tools.html + _content-blocks.scss). data/uptime-me.json safe empty seed.",
+        "uptime_me_vaccine: check_uptime_me (UI-UPTIME) — no key leak, public JSON schema, route exists, Tools card links, stale-data warning + tests."
+      ],
+      "pr": 546
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(wip8): B-DNA design discipline — health meter, icon table, section kickers for workspace tracker",
       "tag": "chore",
       "lines_added": 304,
