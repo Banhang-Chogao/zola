@@ -1,14 +1,14 @@
 {
   "report_name": "Autofixer_report_by Vacxin",
   "rule": "Vaccine Hotfix",
-  "trigger": "required_checks_fail",
-  "issue_id": "required_checks_fail-27870031976",
-  "branch": "vaccine-hotfix/required_checks_fail-27870031976",
-  "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/required_checks_fail-27870031976",
-  "run_id": "27870326233",
-  "started_at": "2026-06-20T18:51:59.162257+07:00",
-  "finished_at": "2026-06-20T18:57:50.767081+07:00",
-  "last_run": "2026-06-20T18:57:50.767081+07:00",
+  "trigger": "deploy_fail",
+  "issue_id": "deploy_fail-27870523583",
+  "branch": "vaccine-hotfix/deploy_fail-27870523583",
+  "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/deploy_fail-27870523583",
+  "run_id": "27870763109",
+  "started_at": "2026-06-20T19:10:25.675214+07:00",
+  "finished_at": "2026-06-20T19:16:39.219140+07:00",
+  "last_run": "2026-06-20T19:16:39.219140+07:00",
   "precheck": {
     "safe_to_run": true,
     "guarantees": [
@@ -64,7 +64,7 @@
     "qa": {
       "name": "qa_check.py",
       "passed": true,
-      "detail": "  (checks run: 25, skipped: 3)"
+      "detail": "  (checks run: 26, skipped: 3)"
     },
     "build": {
       "name": "zola build",
@@ -129,16 +129,26 @@
       "attempts": 1,
       "files_changed": 3,
       "last_run": "2026-06-20T18:57:50.767081+07:00"
+    },
+    {
+      "run_id": "27870763109",
+      "trigger": "deploy_fail",
+      "issue_id": "deploy_fail-27870523583",
+      "branch": "vaccine-hotfix/deploy_fail-27870523583",
+      "status": "ok",
+      "attempts": 1,
+      "files_changed": 3,
+      "last_run": "2026-06-20T19:16:39.219140+07:00"
     }
   ],
   "latest": {
-    "run_id": "27870326233",
-    "trigger": "required_checks_fail",
-    "issue_id": "required_checks_fail-27870031976",
-    "branch": "vaccine-hotfix/required_checks_fail-27870031976",
+    "run_id": "27870763109",
+    "trigger": "deploy_fail",
+    "issue_id": "deploy_fail-27870523583",
+    "branch": "vaccine-hotfix/deploy_fail-27870523583",
     "status": "ok",
     "attempts": 1,
     "files_changed": 3,
-    "last_run": "2026-06-20T18:57:50.767081+07:00"
+    "last_run": "2026-06-20T19:16:39.219140+07:00"
   }
 }
