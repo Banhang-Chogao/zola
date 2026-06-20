@@ -92,10 +92,19 @@ def render(data: dict) -> None:
     console = Console(force_terminal=True)
     now = datetime.now(ICT).strftime("%H:%M %d/%m/%Y")
 
-    # ── Banner ──────────────────────────────────────────────────────────────
+    # ── Banner + brand bar (B-DNA: mark + name + tag) ───────────────────────
     banner = pyfiglet.figlet_format("wip8", font="small")
     console.print(f"[bold {ACCENT}]{banner}[/]", end="")
-    console.print(f"[{MUTED}]Workspace tracker · {now} (GMT+7) · read-only[/]\n")
+    console.print(f"[{MUTED}]Workspace DNA tracker · {now} (GMT+7) · read-only[/]")
+
+    # ── Workspace health meter (B-DNA consistency-checker style) ─────────────
+    h = data.get("health") or {}
+    tone_color = {"pass": GOOD, "warn": WARN, "fail": DANGER}.get(h.get("tone"), MUTED)
+    console.print(
+        f"[{MUTED}]Workspace health[/]  [{tone_color}]{h.get('meter','')}[/]  "
+        f"[bold {tone_color}]{h.get('score',0)}% · {h.get('verdict','')}[/]  "
+        f"[{MUTED}]— {h.get('reason','')}[/]\n"
+    )
 
     # ── 1. Tổng quan (panel) ────────────────────────────────────────────────
     ab = data.get("aheadbehind", "")
@@ -163,13 +172,50 @@ def _render_plain(data: dict) -> None:
         print("Log:\n" + data["log"])
 
 
+def health(data: dict) -> dict:
+    """Tính 'Workspace health' theo tinh thần consistency-checker của B-DNA.
+
+    Trả {score 0-100, verdict, tone, meter, reason}. Workspace tracker nên coi
+    'dirty' = đang làm (WIP) chứ không phải hỏng; conflict mới là FAIL.
+    """
+    status = data.get("status", "")
+    ab = data.get("aheadbehind", "")
+    behind = ahead = 0
+    if ab and "\t" in ab:
+        b, a = ab.split("\t")[:2]
+        behind, ahead = int(b or 0), int(a or 0)
+    has_conflict = any(
+        line[:2] in ("UU", "AA", "DD", "AU", "UA", "DU", "UD")
+        for line in status.splitlines()
+    )
+    dirty = bool(status.strip())
+
+    if has_conflict:
+        score, verdict, tone, reason = 15, "BLOCKED", "fail", "Có conflict marker cần resolve"
+    elif dirty:
+        score, verdict, tone, reason = 45, "WIP", "warn", "Đang có thay đổi chưa commit"
+    elif ahead > 0:
+        score, verdict, tone, reason = 80, "PENDING", "warn", f"{ahead} commit chưa lên main (chờ pipeline)"
+    elif behind > 0:
+        score, verdict, tone, reason = 70, "BEHIND", "warn", f"Sau origin {behind} commit — cần sync"
+    else:
+        score, verdict, tone, reason = 100, "CLEAN", "pass", "Sạch & đồng bộ — không task dở"
+
+    filled = round(score / 10)
+    meter = "▰" * filled + "▱" * (10 - filled)
+    return {"score": score, "verdict": verdict, "tone": tone,
+            "meter": meter, "reason": reason,
+            "ahead": ahead, "behind": behind, "dirty": dirty}
+
+
 def main(argv: list[str]) -> int:
     quick = "--quick" in argv
     paths = [a for a in argv[1:] if not a.startswith("-")]
     path = paths[0] if paths else None
     data = gather(path=path, quick=quick)
+    data["health"] = health(data)
     if "--data" in argv:
-        # JSON cho Claude render markdown (giao diện chat). READ-ONLY.
+        # JSON cho Claude render markdown (giao diện chat, B-DNA discipline). READ-ONLY.
         import json
         data["now_ict"] = datetime.now(ICT).strftime("%H:%M %d/%m/%Y")
         print(json.dumps(data, ensure_ascii=False, indent=2))

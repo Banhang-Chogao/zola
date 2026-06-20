@@ -1414,10 +1414,25 @@ push, không mở PR, không deploy.
 8. **Suy luận task** — từ diff, commit messages, tên file thay đổi, TODO markers trong code.
 9. **Nhóm files** — gom file thay đổi theo feature/tính năng (không liệt kê flat).
 
-**Output format bắt buộc — MARKDOWN GitHub-flavored, ICON HỢP NGỮ CẢNH.**
-Mỗi section mở đầu bằng heading emoji đúng ngữ cảnh; dữ liệu dạng bảng markdown
-(header tự shade) + file path để dạng `link/inline-code`. KHÔNG dùng plain
-code-block `# Header`, KHÔNG dán ANSI escape.
+**Output format bắt buộc — MARKDOWN GitHub-flavored, theo design discipline của
+[B-DNA](/tools/b-dna/)** (calm enterprise: kicker đánh số · KPI nhấn số · health
+meter · section có 1-dòng purpose · neutral làm nền, accent điểm nhấn). Mỗi
+section mở đầu heading emoji + kicker `NN —`; dữ liệu bảng markdown (header tự
+shade) + file path `link/inline-code`. KHÔNG plain code-block `# Header`, KHÔNG ANSI.
+
+**Brand bar + Health meter (in TRƯỚC mọi section — bắt chước consistency-checker B-DNA):**
+
+```
+### wip8 · Workspace DNA tracker
+🕒 <HH:MM dd/mm/yyyy> (GMT+7) · read-only snapshot
+
+**Workspace health** ▰▰▰▰▰▰▰▰▰▰ 100% · ✅ CLEAN — <reason 1 dòng>
+```
+
+- Lấy từ `python3 scripts/wip8.py --data` → field `health` (`score/verdict/tone/
+  meter/reason`). Verdict + màu: ✅ **CLEAN** (pass) · 🟡 **WIP/PENDING/BEHIND**
+  (warn) · 🔴 **BLOCKED** (fail, có conflict). Meter dùng `▰`/`▱` (10 ô).
+- Workspace tracker coi `dirty` = đang làm (WIP, không phải lỗi); chỉ conflict = BLOCKED.
 
 **Bộ ICON chuẩn (chọn đúng ngữ cảnh — KHÔNG xài 1 icon cho mọi mục):**
 
@@ -1434,33 +1449,36 @@ code-block `# Header`, KHÔNG dán ANSI escape.
 | Running jobs | 🛰️ | | **Vaccine (kim tiêm)** | 💉 |
 | CI ok/chạy/fail/none | 🟢 🟡 🔴 ⚪ | | Time (GMT+7) | 🕒 |
 
-**1. 🔎 Tổng quan**
+Mỗi section = `#### NN — <emoji> <TITLE>` + blockquote 1 dòng purpose (như
+`bdna__sec-desc`), rồi bảng/nội dung.
+
+**`01 — 🔎 TỔNG QUAN`** · _purpose: branch context + trạng thái làm việc._
 
 | Mục | Giá trị |
 |---|---|
-| 🌿 Branch | `<branch>` (ahead N / behind M) |
+| 🌿 Branch | `<branch>` · **ahead N / behind M** (KPI nhấn số) |
 | 📦 Upstream | `<origin/...>` |
-| 📊 Trạng thái | ✅ sạch / ⚠ có thay đổi — <task suy từ diff + commit> |
+| 📝 Task | <1–2 câu suy từ diff + commit messages> |
 | 🗂️ Stash | <stash hoặc "không có"> |
 | 🚧 Blockers | <điều đang chặn; "Không có"> |
 | 🔧 Next step | <1 hành động rõ ràng tiếp theo> |
 
-**2. 📝 Files changed** (nhóm theo feature)
+**`02 — 📝 FILES CHANGED`** · _purpose: gom thay đổi theo feature, không liệt kê flat._
 
 | Nhóm / Feature | File | Loại |
 |---|---|---|
 | <feature> | `path/to/file` | 🆕 new / ✏️ modified / 🗑️ deleted |
 
-> Sạch → in `✅ Working tree sạch — không có file thay đổi.` thay bảng.
+> Sạch → in `✅ Working tree sạch — 0 file thay đổi.` thay bảng.
 
-**3. 🔗 PR & CI**
+**`03 — 🔗 PR & CI`** · _purpose: PR mở + trạng thái pipeline cho branch._
 
 | PR | Title | Branch | CI |
 |---|---|---|---|
 | #X | <title> | `<branch>` | 🟢 / 🟡 / 🔴 / ⚪ |
 
-> Vaccine/hotfix liên quan → đánh dấu 💉; deploy → 🚀; job đang chạy → 🛰️.
-> Không có PR/job → in `Không có PR mở hay job đang chạy cho branch này.`
+> Vaccine/hotfix → 💉; deploy → 🚀; job đang chạy → 🛰️.
+> Không có PR/job → `Không có PR mở hay job đang chạy cho branch này.`
 
 **Quy tắc trình bày**: heading emoji hợp ngữ cảnh từng section (🔎/📝/🔗/🧪/🔧);
 icon vaccine LUÔN là 💉 (kim tiêm); bảng markdown có header; file path inline-code
