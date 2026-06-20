@@ -19,11 +19,17 @@ REPO (offline, deterministic — safe to gate a deploy on):
   R3  base_url uses https and has no leftover "/zola" path segment.
 
 LIVE (network via DNS-over-HTTPS + HTTP probes — monitor/alert):
+  L0  apex NS are delegated to Cloudflare (*.ns.cloudflare.com).
   L1  apex A records ⊆ the 4 GitHub Pages anycast IPs; NO apex CNAME (1016 risk).
+      An EMPTY apex A (the 2026-06-20 root cause: www OK, apex @ A missing) fails
+      with explicit Cloudflare-dashboard fix steps.
   L2  www resolves to banhang-chogao.github.io (CNAME) or the GitHub Pages IPs.
   L3  https://<domain>/ is reachable AND not a Cloudflare error page
       (explicit 1016 / "Origin DNS error" / 5xx cf-error detection).
   L4  the GitHub Pages origin (banhang-chogao.github.io) is itself reachable.
+
+Out of scope (NEVER flagged): Cloudflare R2 custom-domain CNAMEs (subdomains) and
+email-routing MX/TXT (SPF/DKIM/DMARC). Only apex A/CNAME/NS + www CNAME are checked.
 
 Correct GitHub Pages + Cloudflare DNS (the fix this vaccine enforces)
 --------------------------------------------------------------------
@@ -88,6 +94,28 @@ GITHUB_PAGES_IPV6 = {
 }
 # Org/user Pages host that a project-site custom domain ultimately serves from.
 PAGES_ORIGIN_HOST = "banhang-chogao.github.io"
+
+# Apex is delegated to Cloudflare; its authoritative NS must be Cloudflare's.
+# (Diagnosis 2026-06-20: NS/R2/email-routing are fine — only apex @ A is missing.)
+CLOUDFLARE_NS_SUFFIX = ".ns.cloudflare.com"
+
+# OUT OF SCOPE — never gated here (they coexist with the Pages apex setup and are
+# NOT the 1016 cause): Cloudflare R2 custom-domain CNAMEs on subdomains
+# (e.g. cdn.seomoney.org) and email-routing MX/TXT (SPF/DKIM/DMARC) on the apex.
+# This vaccine only inspects apex A/CNAME/NS + the www CNAME, so MX/TXT/R2 records
+# are structurally excluded — documented so a future edit doesn't start flagging them.
+EXCLUDED_RECORD_TYPES = ("MX", "TXT", "SRV", "CAA")
+
+# Cloudflare dashboard steps to add the missing apex A records (Error 1016 fix).
+CF_APEX_FIX_STEPS = (
+    "Cloudflare dashboard → seomoney.org → DNS → Records → Add record ×4:\n"
+    "       Type=A  Name=@  IPv4=185.199.108.153  Proxy=DNS only (grey cloud)  TTL=Auto\n"
+    "       Type=A  Name=@  IPv4=185.199.109.153  Proxy=DNS only  TTL=Auto\n"
+    "       Type=A  Name=@  IPv4=185.199.110.153  Proxy=DNS only  TTL=Auto\n"
+    "       Type=A  Name=@  IPv4=185.199.111.153  Proxy=DNS only  TTL=Auto\n"
+    "     Keep CNAME www → banhang-chogao.github.io. Do NOT add an apex CNAME. "
+    "SSL/TLS = Full (Strict). Do NOT touch R2 CNAMEs or email-routing MX/TXT."
+)
 
 DOH_ENDPOINTS = (
     "https://dns.google/resolve",
@@ -249,6 +277,28 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
     apex = domain
     www = f"www.{domain}"
 
+    # L0 — apex NS must be delegated to Cloudflare (requirement: dig NS).
+    ns = doh_query(apex, "NS")
+    if ns is None:
+        checks.append(_check("L0-ns", "unknown",
+                             "could not query NS (restricted runner?)"))
+    elif not ns:
+        checks.append(_check("L0-ns", "fail",
+                             f"{apex} has no NS records — domain not delegated. "
+                             f"Point the registrar's nameservers at Cloudflare."))
+    else:
+        cf = [n for n in ns if n.lower().endswith(CLOUDFLARE_NS_SUFFIX)]
+        if cf:
+            checks.append(_check("L0-ns", "pass",
+                                 f"{apex} NS → Cloudflare {sorted(cf)}", resolved=ns))
+        else:
+            checks.append(_check("L0-ns", "fail",
+                                 f"{apex} NS are not Cloudflare ({sorted(ns)}); apex "
+                                 f"DNS is managed elsewhere. Set registrar NS to the "
+                                 f"Cloudflare nameservers shown in the Cloudflare "
+                                 f"dashboard (Overview → API/Nameservers).",
+                                 resolved=ns))
+
     # L1 — apex A + apex CNAME conflict
     a = doh_query(apex, "A")
     cname_apex = doh_query(apex, "CNAME")
@@ -257,9 +307,10 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
                              "could not query DNS (restricted runner?)"))
     elif not a:
         checks.append(_check("L1-apex-a", "fail",
-                             f"NXDOMAIN / no A records for {apex} — Cloudflare "
-                             f"will 1016. Add the 4 GitHub Pages A records.",
-                             resolved=a))
+                             f"apex {apex} A is EMPTY (NXDOMAIN / no A records) — "
+                             f"www works but the apex won't resolve. FIX:\n"
+                             f"     {CF_APEX_FIX_STEPS}",
+                             resolved=a, fix=CF_APEX_FIX_STEPS))
     else:
         extra = set(a) - GITHUB_PAGES_IPV4
         if extra:

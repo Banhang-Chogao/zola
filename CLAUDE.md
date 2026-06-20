@@ -1958,9 +1958,9 @@ transaction_id = SHA256(date + "|" + description + "|" + amount + "|" + balance)
 | OAuth callback | GitHub App → `{BACKEND_URL}/auth/callback` | **Không** cần thêm callback riêng cho F-Dashboard (cùng app CMS) |
 | Lỗi auth | `?auth_error=...` trên **đúng** `return_to` | Không ép về `/editor/` |
 
-**F-Dashboard flow:** `auth-gate.js` → `GET {cms_auth_url}/auth/login?return_to=/zola/tools/f-dashboard/` → GitHub → callback → redirect `https://banhang-chogao.github.io/zola/tools/f-dashboard/#sid=...` → `fetchMe()` → hiện dashboard.
+**F-Dashboard flow:** `auth-gate.js` → `GET {cms_auth_url}/auth/login?return_to=/tools/f-dashboard/` → GitHub → callback → redirect `https://seomoney.org/tools/f-dashboard/#sid=...` → `fetchMe()` → hiện dashboard.
 - **Ephemeral:** `exportAndWipe()` — download → `clearAll()` ngay; no persistent online storage.
-- **PDF watermark (trace):** `SHA256-style 16 hex lowercase` + `_` + `banhang-chogao.github.io/zola` (no `https://`).
+- **PDF watermark (trace):** `SHA256-style 16 hex lowercase` + `_` + `seomoney.org` (no `https://`).
 
 ## F-Dashboard PDF Export Rules
 
