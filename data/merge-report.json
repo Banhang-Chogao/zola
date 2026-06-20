@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-20T02:23:18Z",
+  "updated_at": "2026-06-20T06:49:25Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 10,
+    "today": 11,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
     "by_change_type": {
+      "unknown": 28,
       "feature": 86,
       "fix": 49,
-      "unknown": 27,
-      "chore": 26,
+      "chore": 25,
       "ci": 3,
       "qa": 1,
       "content": 8
     }
   },
   "merges": [
+    {
+      "pr_number": 538,
+      "pr_title": "Claude/hello j5dp4s",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/538",
+      "merged_at": "2026-06-20T06:41:27Z",
+      "merge_commit_sha": "18a32e0a9920c9fdb7e2a3a148b593b5383b6c04",
+      "merge_commit_short": "18a32e0",
+      "head_branch": "claude/hello-j5dp4s",
+      "summary_vi": "Claude/hello j5dp4s",
+      "change_type": "unknown",
+      "files_changed": 7,
+      "additions": 1221,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 830,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27863189678",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 536,
       "pr_title": "feat(vaccine-hotfix): conflict-safe pipeline self-heal rule",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 829,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27857242393",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 537,
@@ -56,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 828,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27857090211",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 524,
@@ -75,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 829,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27857242393",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 535,
@@ -643,8 +662,8 @@
       "deletions": 323,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 800,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27826919600",
+      "build_run_number": 801,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27827266987",
       "build_conclusion": "success"
     },
     {
@@ -3795,25 +3814,6 @@
       "files_changed": 5,
       "additions": 32,
       "deletions": 23,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 323,
-      "pr_title": "chore: changelog after PR #318",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/323",
-      "merged_at": "2026-06-17T17:35:23Z",
-      "merge_commit_sha": "83cfac728bcc234b55d147a95c95b71d26612431",
-      "merge_commit_short": "83cfac7",
-      "head_branch": "chore/changelog-sync",
-      "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
-      "change_type": "chore",
-      "files_changed": 1,
-      "additions": 13,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
