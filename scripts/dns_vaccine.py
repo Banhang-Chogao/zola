@@ -24,9 +24,11 @@ LIVE (network via DNS-over-HTTPS + HTTP probes — monitor/alert):
       An EMPTY apex A (the 2026-06-20 root cause: www OK, apex @ A missing) fails
       with explicit Cloudflare-dashboard fix steps.
   L2  www resolves to banhang-chogao.github.io (CNAME) or the GitHub Pages IPs.
-  L3  https://<domain>/ is reachable AND not a Cloudflare error page
+  L3  https://<domain>/ returns 200 (healthy) and is not a Cloudflare error page
       (explicit 1016 / "Origin DNS error" / 5xx cf-error detection).
   L4  the GitHub Pages origin (banhang-chogao.github.io) is itself reachable.
+  L5  https://www.<domain>/ HTTP-redirects (301/308) to the apex (or serves 200);
+      must NOT NXDOMAIN.
 
 Out of scope (NEVER flagged): Cloudflare R2 custom-domain CNAMEs (subdomains) and
 email-routing MX/TXT (SPF/DKIM/DMARC). Only apex A/CNAME/NS + www CNAME are checked.
@@ -199,6 +201,27 @@ def http_probe(url: str) -> dict:
         return {"url": url, "ok": False, "code": None, "error": type(exc).__name__}
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Capture a redirect instead of following it (so we can assert www → apex)."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: D401
+        return None
+
+
+def http_redirect(url: str) -> dict:
+    """HEAD a URL WITHOUT following redirects → {code, location}. code None on failure."""
+    opener = urllib.request.build_opener(_NoRedirect, urllib.request.HTTPSHandler())
+    req = urllib.request.Request(url, method="HEAD", headers={"user-agent": UA})
+    try:
+        with opener.open(req, timeout=TIMEOUT) as resp:
+            return {"code": resp.status, "location": resp.headers.get("Location", "")}
+    except urllib.error.HTTPError as exc:
+        loc = exc.headers.get("Location", "") if exc.headers else ""
+        return {"code": exc.code, "location": loc}
+    except Exception as exc:  # noqa: BLE001
+        return {"code": None, "location": "", "error": type(exc).__name__}
+
+
 def read_base_url_host() -> tuple[str, str]:
     """Return (base_url, host) from config.toml."""
     try:
@@ -344,12 +367,16 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
         checks.append(_check("L2-www", "warn",
                              f"{www} resolves unexpectedly (CNAME={cn}, A={wa})"))
 
-    # L3 — HTTP probe of apex (the actual 1016 surface)
+    # L3 — HTTP probe of apex (the actual 1016 surface; healthy = 200)
     probe = http_probe(f"https://{apex}/")
     if probe.get("is_1016"):
         checks.append(_check("L3-http", "fail",
                              f"https://{apex}/ returns Cloudflare Error 1016 "
                              f"(Origin DNS error). Fix apex DNS records.",
+                             probe=probe))
+    elif probe.get("code") == 200:
+        checks.append(_check("L3-http", "pass",
+                             f"https://{apex}/ returns 200 (served by GitHub Pages)",
                              probe=probe))
     elif probe.get("ok") or (probe.get("code") in (301, 302, 304, 404)):
         checks.append(_check("L3-http", "pass",
@@ -372,6 +399,31 @@ def live_checks(domain: str, checks: list[dict], offline: bool) -> None:
     else:
         checks.append(_check("L4-origin", "unknown",
                              f"origin {PAGES_ORIGIN_HOST} unreachable from runner"))
+
+    # L5 — www must HTTP-redirect to the apex (301/308 → https://apex/) or serve 200;
+    # must NOT NXDOMAIN. Confirms the user-facing www→apex canonicalisation.
+    r = http_redirect(f"https://{www}/")
+    rcode, loc = r.get("code"), (r.get("location") or "")
+    if rcode in (301, 302, 307, 308) and apex in loc:
+        checks.append(_check("L5-www-redirect", "pass",
+                             f"https://{www}/ → {rcode} {loc} (redirects to apex)",
+                             probe=r))
+    elif rcode == 200:
+        checks.append(_check("L5-www-redirect", "pass",
+                             f"https://{www}/ serves 200 (no redirect)", probe=r))
+    elif rcode in (301, 302, 307, 308):
+        checks.append(_check("L5-www-redirect", "warn",
+                             f"https://{www}/ redirects to '{loc}' (not the apex "
+                             f"{apex}) — set the redirect target to https://{apex}/.",
+                             probe=r))
+    elif rcode is None:
+        checks.append(_check("L5-www-redirect", "unknown",
+                             f"could not reach https://{www}/ "
+                             f"({r.get('error', 'network')})", probe=r))
+    else:
+        checks.append(_check("L5-www-redirect", "warn",
+                             f"https://{www}/ HTTP {rcode} (expected 301→apex or 200)",
+                             probe=r))
 
 
 # --------------------------------------------------------------------------- #
