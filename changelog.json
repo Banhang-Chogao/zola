@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "chore(domain): post-migration cleanup + V19 vaccine (github.io → seomoney.org)",
+      "tag": "cleanup",
+      "lines_added": 598,
+      "lines_removed": 17,
+      "highlights": [
+        "qa-404-checker.py lines 79–82: stale variable comments (# banhang-chogao.github.io / # /zola) updated to reflect apex-domain values",
+        "docs/seo-strategy.md line 255: custom-domain TODO - [ ] marked as done (- [x] seomoney.org ✅ live 06/2026)",
+        "CLAUDE.md §Watermark Rules: watermark example updated from _banhang-chogao.github.io → _seomoney.org",
+        "CLAUDE.md §4 #### V19: symptom / root-cause / detector / fixer / exclusion list",
+        "scripts/qa_vaccines.py: check_v19_domain_migration_drift — WARN on stale snapshot url or operational refs; FAIL if config.toml/CNAME still hold old domain"
+      ],
+      "pr": 566
+    },
+    {
+      "date": "2026-06-20",
       "title": "fix(v18): prevent runtime artifact conflicts in Daily Vaccine Autofixer PRs",
       "tag": "fix",
       "lines_added": 242,
