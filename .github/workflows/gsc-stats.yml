@@ -2,6 +2,8 @@ name: Fetch GSC Stats
 
 # Every 20 minutes: pull Search Console metrics → commit data/gsc-metrics.json.
 # REQUIRED SECRETS: GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET
+# GSC_PROPERTY_URL MUST be the domain property "sc-domain:seomoney.org"
+# (deploy.yml runs scripts/gsc_preflight.py as a hard gate on this value).
 # Obtain refresh token via /gsc/oauth/start on blog backend (admin session).
 
 on:

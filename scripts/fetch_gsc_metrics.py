@@ -4,7 +4,8 @@ Fetch Google Search Console metrics → data/gsc-metrics.json + static mirror.
 
 Env (GitHub Actions secrets):
   GSC_REFRESH_TOKEN
-  GSC_PROPERTY_URL      — e.g. https://seomoney.org/
+  GSC_PROPERTY_URL      — domain property: sc-domain:seomoney.org
+                          (enforced by scripts/gsc_preflight.py deploy gate)
   GSC_CLIENT_ID
   GSC_CLIENT_SECRET
 
