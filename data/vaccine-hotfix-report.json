@@ -5,10 +5,10 @@
   "issue_id": "claude/friendly-dijkstra-oo6gwy",
   "branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
   "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
-  "run_id": "27865840274",
-  "started_at": "2026-06-20T15:37:28.279418+07:00",
-  "finished_at": "2026-06-20T15:43:52.445882+07:00",
-  "last_run": "2026-06-20T15:43:52.445882+07:00",
+  "run_id": "27866425914",
+  "started_at": "2026-06-20T16:03:09.948715+07:00",
+  "finished_at": "2026-06-20T16:09:29.019806+07:00",
+  "last_run": "2026-06-20T16:09:29.019806+07:00",
   "precheck": {
     "safe_to_run": true,
     "guarantees": [
@@ -48,13 +48,6 @@
   },
   "fix_actions": [
     {
-      "step": "V-logs",
-      "name": "CI log diagnosis",
-      "matched": true,
-      "fixed": false,
-      "detail": "log signatures: V1"
-    },
-    {
       "step": "V-refs",
       "name": "Reference index",
       "matched": false,
@@ -75,7 +68,7 @@
     "qa": {
       "name": "qa_check.py",
       "passed": true,
-      "detail": "  (checks run: 20, skipped: 3)"
+      "detail": "  (checks run: 22, skipped: 3)"
     },
     "build": {
       "name": "zola build",
@@ -110,16 +103,26 @@
       "attempts": 1,
       "files_changed": 5,
       "last_run": "2026-06-20T15:43:52.445882+07:00"
+    },
+    {
+      "run_id": "27866425914",
+      "trigger": "required_checks_fail",
+      "issue_id": "claude/friendly-dijkstra-oo6gwy",
+      "branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
+      "status": "ok",
+      "attempts": 1,
+      "files_changed": 5,
+      "last_run": "2026-06-20T16:09:29.019806+07:00"
     }
   ],
   "latest": {
-    "run_id": "27865840274",
+    "run_id": "27866425914",
     "trigger": "required_checks_fail",
     "issue_id": "claude/friendly-dijkstra-oo6gwy",
     "branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
     "status": "ok",
     "attempts": 1,
     "files_changed": 5,
-    "last_run": "2026-06-20T15:43:52.445882+07:00"
+    "last_run": "2026-06-20T16:09:29.019806+07:00"
   }
 }
