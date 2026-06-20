@@ -1212,6 +1212,138 @@ def check_seomoney_brand(ctx: Ctx) -> CheckResult:
                        diagnosis="site brand SEOMONEY · author Duy Nguyen giữ · OG + placeholder set OK")
 
 
+def _webp_dimensions(data: bytes) -> tuple[int, int] | None:
+    """Read (width, height) from a WebP byte string — stdlib only, no Pillow.
+
+    Handles the three RIFF/WEBP chunk variants ('VP8 ' lossy, 'VP8L' lossless,
+    'VP8X' extended). Returns None on any malformation so the caller degrades
+    to a warning rather than crashing the gate.
+    """
+    try:
+        if len(data) < 30 or data[:4] != b"RIFF" or data[8:12] != b"WEBP":
+            return None
+        fourcc = data[12:16]
+        if fourcc == b"VP8 ":  # lossy
+            w = int.from_bytes(data[26:28], "little") & 0x3FFF
+            h = int.from_bytes(data[28:30], "little") & 0x3FFF
+            return (w, h)
+        if fourcc == b"VP8L":  # lossless
+            b = int.from_bytes(data[21:25], "little")
+            w = (b & 0x3FFF) + 1
+            h = ((b >> 14) & 0x3FFF) + 1
+            return (w, h)
+        if fourcc == b"VP8X":  # extended
+            w = int.from_bytes(data[24:27], "little") + 1
+            h = int.from_bytes(data[27:30], "little") + 1
+            return (w, h)
+    except Exception:
+        return None
+    return None
+
+
+# OG-image invariants (Open Graph / Twitter summary_large_image).
+_OG_W, _OG_H = 1200, 630
+_OG_OLD_DOMAIN_RE = re.compile(
+    r"banhang-chogao\.github\.io|github\.io/zola|\.github\.io", re.IGNORECASE)
+
+
+def check_og_image_vaccine(ctx: Ctx) -> CheckResult:
+    """OG-IMAGE — social cover SVGs under static/img/og must stay shippable.
+
+    Open Graph / social cards are easy to silently break: a wrong canvas size
+    crops the card, a malformed SVG renders nothing, a stale committed `.og.webp`
+    twin shows the OLD art (social caches it hard), and a leftover old-domain
+    string brands the card with a dead host. None of these break `zola build`
+    (Zola copies static assets verbatim), so only this detector catches them.
+
+    FAIL — SVG missing / not well-formed XML; SVG canvas ≠ 1200×630; the
+           `.og.webp` twin missing or not 1200×630 (broken social card).
+    WARN — twin is stale (SVG newer than committed `.og.webp` → run
+           build_og_images.py --force + commit); old-domain string in the SVG.
+    """
+    title = "OG image 1200×630 · valid SVG · fresh twin · no old domain"
+    og_dir = ctx.root / "static" / "img" / "og"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    if not og_dir.is_dir():
+        return CheckResult("OG-IMAGE", title, SKIP, diagnosis="static/img/og absent")
+
+    svgs = sorted(og_dir.glob("*.svg"))
+    if not svgs:
+        return CheckResult("OG-IMAGE", title, WARN,
+                           diagnosis="no OG cover SVG found under static/img/og",
+                           fix="add static/img/og/seomoney-og.svg (1200×630 default OG)")
+
+    # The default OG cover referenced by base.html must exist.
+    if not (og_dir / "seomoney-og.svg").exists():
+        fails.append("thiếu static/img/og/seomoney-og.svg (OG default)")
+
+    import xml.etree.ElementTree as ET
+
+    for svg in svgs:
+        rel = svg.relative_to(ctx.root)
+        try:
+            svg_text = svg.read_text(encoding="utf-8", errors="ignore")
+        except OSError as exc:
+            fails.append(f"{rel}: không đọc được ({exc})")
+            continue
+
+        # broken XML → FAIL (renders nothing on social).
+        try:
+            ET.fromstring(svg_text)
+        except ET.ParseError as exc:
+            fails.append(f"{rel}: SVG hỏng (XML không hợp lệ): {exc}")
+            continue
+
+        # canvas must be exactly 1200×630.
+        mw = re.search(r'\bwidth\s*=\s*"(\d+)"', svg_text)
+        mh = re.search(r'\bheight\s*=\s*"(\d+)"', svg_text)
+        w = int(mw.group(1)) if mw else None
+        h = int(mh.group(1)) if mh else None
+        if (w, h) != (_OG_W, _OG_H):
+            fails.append(f"{rel}: canvas {w}×{h} ≠ {_OG_W}×{_OG_H} (OG card bị crop)")
+
+        # old-domain string in the cover → WARN (dead host branding).
+        if _OG_OLD_DOMAIN_RE.search(svg_text):
+            warns.append(f"{rel}: còn old-domain (github.io) trong OG SVG")
+
+        # the committed twin must exist, be 1200×630, and not be stale.
+        twin = svg.with_suffix(".og.webp")
+        trel = twin.relative_to(ctx.root)
+        if not twin.exists():
+            fails.append(f"thiếu twin {trel} (social không render SVG → cần .og.webp)")
+            continue
+        try:
+            dims = _webp_dimensions(twin.read_bytes())
+        except OSError:
+            dims = None
+        if dims is None:
+            warns.append(f"{trel}: không đọc được kích thước WebP (kiểm tra file)")
+        elif dims != (_OG_W, _OG_H):
+            fails.append(f"{trel}: twin {dims[0]}×{dims[1]} ≠ {_OG_W}×{_OG_H}")
+        try:
+            if svg.stat().st_mtime > twin.stat().st_mtime + 1:
+                warns.append(f"{trel}: twin cũ hơn SVG (stale) → render lại + commit")
+        except OSError:
+            pass
+
+    if fails:
+        return CheckResult("OG-IMAGE", title, FAIL,
+                           diagnosis="OG cover/twin vỡ chuẩn social (size/XML/twin)",
+                           fix="sửa canvas về 1200×630 + SVG hợp lệ; "
+                               "python3 scripts/build_og_images.py --force rồi commit twin .og.webp",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("OG-IMAGE", title, WARN,
+                           diagnosis="OG cover hợp lệ nhưng có drift (stale twin / old-domain)",
+                           fix="python3 scripts/build_og_images.py --force + commit; "
+                               "xoá ref github.io trong OG SVG",
+                           details=warns)
+    return CheckResult("OG-IMAGE", title, PASS,
+                       diagnosis=f"{len(svgs)} OG SVG đúng {_OG_W}×{_OG_H} · XML hợp lệ · twin tươi · không old-domain")
+
+
 def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
     """V18 — Runtime artifact conflict: volatile state/log/report files must not be tracked.
 
@@ -1672,6 +1804,7 @@ DETECTORS = [
     check_search_ui_vaccine,
     check_korean_banner_ui_vaccine,
     check_seomoney_brand,
+    check_og_image_vaccine,
 ]
 
 

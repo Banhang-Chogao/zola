@@ -1038,6 +1038,112 @@ class DomainRootUrlVaccineTest(unittest.TestCase):
                             f"DOMAIN-ROOT FAIL on real repo — {r.diagnosis}")
 
 
+def _make_webp(w: int, h: int) -> bytes:
+    """Build a minimal valid RIFF/WEBP (VP8X) byte string of the given size."""
+    payload = bytes(4) + (w - 1).to_bytes(3, "little") + (h - 1).to_bytes(3, "little")
+    body = b"VP8X" + len(payload).to_bytes(4, "little") + payload
+    riff = b"WEBP" + body
+    return b"RIFF" + len(riff).to_bytes(4, "little") + riff
+
+
+class OgImageVaccineTest(unittest.TestCase):
+    """OG-IMAGE — social cover SVG + .og.webp twin must stay 1200×630, valid XML,
+    fresh, and free of old-domain branding."""
+
+    _GOOD_SVG = (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" '
+        'viewBox="0 0 1200 630"><rect width="1200" height="630" fill="#0b1220"/>'
+        '<text x="72" y="72" fill="#fff">SEOMONEY · seomoney.org</text></svg>'
+    )
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _write_bytes(self, rel: str, data: bytes) -> Path:
+        p = self.repo.root / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_bytes(data)
+        return p
+
+    def _wire_good(self):
+        self.repo.write("static/img/og/seomoney-og.svg", self._GOOD_SVG)
+        self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+
+    def test_webp_dimensions_parser(self):
+        self.assertEqual(qv._webp_dimensions(_make_webp(1200, 630)), (1200, 630))
+        self.assertIsNone(qv._webp_dimensions(b"not a webp"))
+
+    def test_good_og_passes(self):
+        self._wire_good()
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
+
+    def test_missing_default_svg_fails(self):
+        # an OG svg exists but the named default seomoney-og.svg does not.
+        self.repo.write("static/img/og/other.svg", self._GOOD_SVG)
+        self._write_bytes("static/img/og/other.og.webp", _make_webp(1200, 630))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("seomoney-og.svg" in d for d in r.details))
+
+    def test_broken_xml_fails(self):
+        self.repo.write("static/img/og/seomoney-og.svg",
+                        '<svg width="1200" height="630"><rect></svg>')  # unclosed/mismatched
+        self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("XML" in d for d in r.details))
+
+    def test_wrong_canvas_size_fails(self):
+        self.repo.write("static/img/og/seomoney-og.svg",
+                        self._GOOD_SVG.replace('width="1200" height="630"',
+                                               'width="800" height="418"'))
+        self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("1200×630" in d for d in r.details))
+
+    def test_missing_twin_fails(self):
+        self.repo.write("static/img/og/seomoney-og.svg", self._GOOD_SVG)
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any(".og.webp" in d for d in r.details))
+
+    def test_wrong_twin_dimensions_fails(self):
+        self.repo.write("static/img/og/seomoney-og.svg", self._GOOD_SVG)
+        self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(600, 315))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("600×315" in d for d in r.details))
+
+    def test_old_domain_warns(self):
+        self.repo.write("static/img/og/seomoney-og.svg",
+                        self._GOOD_SVG.replace("seomoney.org",
+                                               "banhang-chogao.github.io/zola"))
+        self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("old-domain" in d for d in r.details))
+
+    def test_stale_twin_warns(self):
+        svg = self.repo.root / "static/img/og/seomoney-og.svg"
+        svg.parent.mkdir(parents=True, exist_ok=True)
+        twin = self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        svg.write_text(self._GOOD_SVG, encoding="utf-8")
+        # twin committed BEFORE the svg was re-edited → stale.
+        os.utime(twin, (1000, 1000))
+        os.utime(svg, (2000, 2000))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("stale" in d.lower() for d in r.details))
+
+    def test_real_repo_passes(self):
+        r = qv.check_og_image_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertIn(r.status, (qv.PASS, qv.WARN),
+                      f"OG vaccine unexpectedly FAILed: {r.diagnosis} {r.details}")
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
