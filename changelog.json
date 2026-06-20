@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(vaccine-hotfix): conflict-safe pipeline self-heal rule",
+      "tag": "chore",
+      "lines_added": 1325,
+      "lines_removed": 0,
+      "highlights": [
+        "never bypasses required checks — re-runs qa_check.py; merge delegated to try_auto_merge.py so a hotfix PR merges ONLY when qa-check is green",
+        "never force-pushes / pushes main — engine only writes vaccine-hotfix/*",
+        "never deletes user content/data — content/, private_content/, *-series.json, categories.json protected"
+      ],
+      "pr": 536
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(cms): CMS V2 Control Center — unified shell, AI Writer, Link Graph, SEO Alerts",
       "tag": "chore",
       "lines_added": 1991,
