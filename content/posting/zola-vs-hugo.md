@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "hugo", "so sánh", "ssg", "static site generator", "zola"]
 [extra]
 seo_keyword = "Zola vs Hugo"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/zola-vs-hugo.svg"
+thumbnail = "https://seomoney.org/img/covers/zola-vs-hugo.svg"
 featured = false
 
 [[extra.faq]]
@@ -31,7 +31,7 @@ a = "Nếu Hugo đang chạy tốt thì không cần đổi. Cân nhắc Zola kh
 
 Khi muốn làm blog tĩnh, hai cái tên hay được nhắc nhất là **Zola** và **Hugo**. Cả hai đều miễn phí, nhanh và là một file thực thi duy nhất. Vậy **Zola vs Hugo — nên chọn cái nào?** Bài này so sánh thẳng từng tiêu chí để bạn quyết định nhanh.
 
-> Mới tinh? Xem trước [hướng dẫn tạo blog với Zola từ A–Z](/zola/posting/tao-blog-voi-zola/) để hình dung quy trình.
+> Mới tinh? Xem trước [hướng dẫn tạo blog với Zola từ A–Z](/posting/tao-blog-voi-zola/) để hình dung quy trình.
 
 ## Bảng so sánh nhanh Zola vs Hugo
 
@@ -80,4 +80,4 @@ Về bảo trì lâu dài, cả hai đều phát hành đều đặn và ổn đ
 
 Không có "cái tốt nhất tuyệt đối" — chỉ có cái hợp với bạn. Ưu tiên cú pháp dễ và tối giản thì Zola; ưu tiên theme sẵn và cộng đồng lớn thì Hugo.
 
-Đọc tiếp: [tạo blog với Zola từ A–Z](/zola/posting/tao-blog-voi-zola/) và [tự động deploy lên GitHub Pages bằng GitHub Actions](/zola/posting/tu-dong-deploy-zola-github-actions/).
+Đọc tiếp: [tạo blog với Zola từ A–Z](/posting/tao-blog-voi-zola/) và [tự động deploy lên GitHub Pages bằng GitHub Actions](/posting/tu-dong-deploy-zola-github-actions/).

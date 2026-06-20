@@ -7,7 +7,7 @@ aliases = ["/10-vaccine-claude-md-giam-loi-production/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["ai coding", "claude.md", "vaccine"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "10 vaccine CLAUDE.md"
 featured = false
 +++
@@ -18,7 +18,7 @@ featured = false
 
 **Vaccine** là quy tắc cố định trong `CLAUDE.md` — AI đọc trước mỗi session, giảm lỗi lặp lại. Tôi ghi **10 vaccine** đã giảm lỗi production từ ~40% xuống <5%.
 
-**Cluster:** [Hệ thống prompt Zola](/zola/he-thong-prompt-zola-blog/) · [QA Gatekeeper](/zola/qa-gatekeeper-vaccine-autofixer/)
+**Cluster:** [Hệ thống prompt Zola](/he-thong-prompt-zola-blog/) · [QA Gatekeeper](/qa-gatekeeper-vaccine-autofixer/)
 
 ---
 
@@ -117,6 +117,6 @@ Nếu fail → không merge.
 
 ## Liên kết
 
-- [Prompt system Zola](/zola/he-thong-prompt-zola-blog/)
-- [QA Gatekeeper](/zola/qa-gatekeeper-vaccine-autofixer/)
-- [FAQ Schema](/zola/faq-schema-cluster-ngan-hang-ctr/)
+- [Prompt system Zola](/he-thong-prompt-zola-blog/)
+- [QA Gatekeeper](/qa-gatekeeper-vaccine-autofixer/)
+- [FAQ Schema](/faq-schema-cluster-ngan-hang-ctr/)

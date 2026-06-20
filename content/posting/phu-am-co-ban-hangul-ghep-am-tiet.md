@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-02"
 premium_title = "Ngày 2 — Phụ âm cơ bản & cách ghép âm tiết"
 premium_teaser_words = 210
 seo_keyword = "phụ âm tiếng hàn"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 2
@@ -49,4 +49,4 @@ Ghép thử: `ㄱ + ㅏ = 가` (ga), `ㄴ + ㅏ = 나` (na), `ㅁ + ㅓ = 머`. 
 
 Trong bài đầy đủ: **bảng tra 10 phụ âm** kèm phiên âm + mẹo nhớ, bảng ghép **가나다라마바사아자하**, cách đọc từ thật (가구, 바나나, 하나), quy tắc xếp ô trái/trên, và **12 câu bài tập có đáp án**. Mở khóa đọc tiếp nào — 화이팅! 💪
 
-👉 Xem lại [Ngày 1 — bảng chữ & nguyên âm](/zola/posting/hoc-tieng-han-bang-chu-hangul-nguyen-am/) hoặc đi tiếp [Ngày 3 — phụ âm căng & bật hơi](/zola/posting/phu-am-cang-bat-hoi-tieng-han/). Toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) và [kho bài Premium](/zola/categories/premium/). Tham khảo thêm hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).
+👉 Xem lại [Ngày 1 — bảng chữ & nguyên âm](/posting/hoc-tieng-han-bang-chu-hangul-nguyen-am/) hoặc đi tiếp [Ngày 3 — phụ âm căng & bật hơi](/posting/phu-am-cang-bat-hoi-tieng-han/). Toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/). Tham khảo thêm hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).

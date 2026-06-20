@@ -7,7 +7,7 @@ aliases = ["/ngan-hang-so-cho-kinh-doanh-online/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["bán hàng online", "liobank", "ngân hàng số", "ngân hàng số cho kinh doanh online", "ngân hàng số series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngân hàng số cho người kinh doanh online"
 featured = false
 series = "ngan-hang-so"
@@ -60,7 +60,7 @@ Nền tảng chuyển tiền nhanh 24/7 do [Ngân hàng Nhà nước](https://ww
 1. **Mở tài khoản bán hàng riêng** chỉ để nhận tiền khách.
 2. **Đối soát hằng ngày** giữa sao kê và đơn hàng.
 3. **Trích sẵn phần thuế** sang một tài khoản khác.
-4. **Dùng công cụ phân tích** như [O-Dashboard](/zola/tools/o-dashboard/) để xem doanh thu theo tháng.
+4. **Dùng công cụ phân tích** như [O-Dashboard](/tools/o-dashboard/) để xem doanh thu theo tháng.
 
 ## Cảnh giác lừa đảo "chuyển khoản giả" khi bán online
 
@@ -74,11 +74,11 @@ Biến động số dư tức thì của ngân hàng số chính là "lá chắn
 
 ## Gợi ý app cho người kinh doanh online
 
-- **[Cake](/zola/posting/review-cake-by-vpbank/)**: phổ biến, nhiều tính năng — khách dễ chuyển khoản.
-- **[Liobank](/zola/posting/review-liobank-by-ocb/)**: hoàn tiền tốt cho chi phí nhập hàng.
-- **[TNEX](/zola/posting/review-tnex-chi-tiet/)**: miễn phí tối đa cho nhiều giao dịch nhỏ.
+- **[Cake](/posting/review-cake-by-vpbank/)**: phổ biến, nhiều tính năng — khách dễ chuyển khoản.
+- **[Liobank](/posting/review-liobank-by-ocb/)**: hoàn tiền tốt cho chi phí nhập hàng.
+- **[TNEX](/posting/review-tnex-chi-tiet/)**: miễn phí tối đa cho nhiều giao dịch nhỏ.
 
-Phân vân giữa hoàn tiền và tính năng? Đọc [Cake vs Liobank](/zola/posting/so-sanh-cake-vs-liobank/). Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+Phân vân giữa hoàn tiền và tính năng? Đọc [Cake vs Liobank](/posting/so-sanh-cake-vs-liobank/). Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 > 💡 **Ưu đãi (link giới thiệu):** Muốn vừa nhận đơn vừa được hoàn tiền cho chi phí nhập hàng? **Tải app và kích hoạt thẻ vật lý Liobank qua [link giới thiệu này](https://liobank.vn/rr/qyAJ) để được nhận hoàn tiền.** *(Link giới thiệu — mình có thể nhận ưu đãi khi bạn đăng ký, không phát sinh chi phí cho bạn.)*
 

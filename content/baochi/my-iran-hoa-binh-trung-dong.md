@@ -7,7 +7,7 @@ categories = ["Tất cả", "Thế giới", "Báo chí"]
 tags = ["quốc tế", "an-ninh", "mỹ-iran", "trung-đông"]
 [extra]
 seo_keyword = "hòa bình Mỹ-Iran"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/my-iran-hoa-binh-trung-dong.svg"
+thumbnail = "https://seomoney.org/img/covers/my-iran-hoa-binh-trung-dong.svg"
 featured = false
 +++
 

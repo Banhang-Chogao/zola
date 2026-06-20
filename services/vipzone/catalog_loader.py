@@ -54,7 +54,7 @@ async def load_catalog() -> dict[str, Any]:
 
     data = _load_local()
     if not data:
-        blog = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+        blog = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
         url = os.getenv("VIPZONE_CATALOG_URL", f"{blog}/data/vipzone-picker-catalog.json")
         data = await _fetch_remote(url)
 

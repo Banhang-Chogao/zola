@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["ai", "bert", "deep learning", "embeddings", "machine learning", "nlp", "python", "pytorch", "sbert", "sentence-transformers"]
 [extra]
 seo_keyword = "Sentence Transformers"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/sentence-transformers-sbert-deep-dive.svg"
+thumbnail = "https://seomoney.org/img/covers/sentence-transformers-sbert-deep-dive.svg"
 featured = false
 [[extra.faq]]
 q = "Sentence Transformers (SBERT) là gì?"
@@ -339,8 +339,8 @@ blog** mà không cần backend server, không cần GPU runtime, không cần
 trả phí inference per request.
 
 Để xem implementation cụ thể của pipeline này, đọc thêm bài
-[Hành trình công nghệ ngày đầu](/zola/posting/cong-nghe-blog-duy-nguyen/)
-hoặc [Syntax highlighting trong Zola: từ cơ bản đến custom theme](/zola/posting/tao-blog-voi-zola/)
+[Hành trình công nghệ ngày đầu](/posting/cong-nghe-blog-duy-nguyen/)
+hoặc [Syntax highlighting trong Zola: từ cơ bản đến custom theme](/posting/tao-blog-voi-zola/)
 nếu bạn quan tâm Zola SSG nói chung.
 
 Repo gốc: [github.com/UKPLab/sentence-transformers](https://github.com/UKPLab/sentence-transformers).

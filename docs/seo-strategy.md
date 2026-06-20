@@ -296,7 +296,7 @@ PILLAR: "Tự xây blog cá nhân $0 với Zola"
 ## 8. Đo lường
 
 - **Google Search Console** (đã có): theo dõi *impressions / clicks / vị trí trung bình* theo query; lọc bài ở vị trí 8–20 để tối ưu đẩy lên top.
-- **Kiểm tra index:** `site:banhang-chogao.github.io/zola` trên Google + Bing.
+- **Kiểm tra index:** `site:seomoney.org` trên Google + Bing.
 - **Mục tiêu định hướng (blog mới, ~6 tháng):** mỗi mảng top có ≥1 bài vào top 10 cho 1 cụm long-tail; tổng số query có impression tăng đều; **traffic KHÔNG đến từ tên blog** mà từ từ khoá nội dung.
 - **Chỉ báo thành công thật:** khi cụm "tạo blog với zola", "lịch trình busan tự túc", "trời mưa sài gòn ăn gì" mang khách về đều — chứng tỏ chiến lược topical authority hiệu quả, không cần brand.
 

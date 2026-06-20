@@ -43,8 +43,8 @@ pip install -r backend/requirements.txt
 
 export PAYWALL_ADMIN_TOKEN="your-strong-token"
 export PAYWALL_DB_PATH="./data/paywall.db"
-export PAYWALL_CORS_ORIGIN="https://banhang-chogao.github.io"
-export PAYWALL_BLOG_DOMAIN="banhang-chogao.github.io"
+export PAYWALL_CORS_ORIGIN="https://seomoney.org"
+export PAYWALL_BLOG_DOMAIN="seomoney.org"
 export PAYWALL_BLOG_NAME="Duy Nguyen Blog"
 
 # SMTP (gửi approve code)
@@ -89,7 +89,7 @@ CLI gửi email (nếu cần):
 python3 scripts/paywall_send_email.py \
   --to reader@example.com \
   --title "Tên bài" \
-  --url "https://banhang-chogao.github.io/zola/posting/.../" \
+  --url "https://seomoney.org/posting/.../" \
   --code ABCD1234EFGH \
   --expires "2026-06-25T00:00:00Z"
 ```

@@ -138,6 +138,6 @@ Trước khi nộp, dành một buổi đọc lại checklist trên trang [Bộ 
 
 📚 Tham khảo thêm hướng dẫn du lịch chính thức: [Visit Korea](https://english.visitkorea.or.kr/).
 
-> **Xem thêm trong cụm:** [Mùa quả chín xứ Đông: du lịch nông nghiệp Hải Phòng](/zola/baochi/mua-qua-chin-xu-dong-hai-phong/)
+> **Xem thêm trong cụm:** [Mùa quả chín xứ Đông: du lịch nông nghiệp Hải Phòng](/baochi/mua-qua-chin-xu-dong-hai-phong/)
 
-> **Xem thêm trong cụm:** [Starbucks Fansipan: cửa hàng cà phê cao nhất châu Á](/zola/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan/)
+> **Xem thêm trong cụm:** [Starbucks Fansipan: cửa hàng cà phê cao nhất châu Á](/baochi/starbucks-cua-hang-cao-nhat-chau-a-fansipan/)

@@ -7,7 +7,7 @@ aliases = ["/ngu-phap-gia-dinh-nang-cao-topik/"]
 categories = ["Tất cả", "Học tiếng Hàn"]
 tags = ["ngữ pháp giả định", "tiếng hàn nâng cao", "topik ii"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ngữ pháp giả định tiếng hàn"
 featured = false
 +++
@@ -18,7 +18,7 @@ featured = false
 
 Phần **đọc hiểu TOPIK II** (câu 27–41) chứa nhiều cấu trúc **giả định, suy đoán, phỏng đoán**. Tôi gom 6 cấu trúc gặp nhiều nhất sau khi làm 30+ đề thi.
 
-**Cluster:** [-더라도 / -는다 해도](/zola/derado-va-neunda-haedo-tieng-han/) · [Pillar](/zola/ngu-phap-nang-cao-sau-topik-4/)
+**Cluster:** [-더라도 / -는다 해도](/derado-va-neunda-haedo-tieng-han/) · [Pillar](/ngu-phap-nang-cao-sau-topik-4/)
 
 ---
 
@@ -80,12 +80,12 @@ Phần **đọc hiểu TOPIK II** (câu 27–41) chứa nhiều cấu trúc **gi
 
 1. Mỗi cấu trúc → **3 câu ví dụ** + 1 câu tự viết
 2. Làm đề đọc hiểu → gạch chân cấu trúc giả định
-3. So sánh với [-더라도](/zola/derado-va-neunda-haedo-tieng-han/) — đừng nhầm nhượng bộ vs giả định
+3. So sánh với [-더라도](/derado-va-neunda-haedo-tieng-han/) — đừng nhầm nhượng bộ vs giả định
 
 ---
 
 ## Liên kết
 
-- [50 mẫu câu TOPIK](/zola/50-mau-cau-topik-nang-cao/)
-- [-곤 하다, -기 마련이다](/zola/gon-hada-ki-mareonida-tieng-han/)
-- [Orphan pages tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/)
+- [50 mẫu câu TOPIK](/50-mau-cau-topik-nang-cao/)
+- [-곤 하다, -기 마련이다](/gon-hada-ki-mareonida-tieng-han/)
+- [Orphan pages tiếng Hàn](/sua-orphan-bai-tieng-han-seo/)

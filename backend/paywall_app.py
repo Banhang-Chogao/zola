@@ -50,7 +50,7 @@ MOMO_LINK = os.getenv(
     "MOMO_PAYMENT_LINK",
     "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
 )
-BLOG_DOMAIN = os.getenv("PAYWALL_BLOG_DOMAIN", "banhang-chogao.github.io")
+BLOG_DOMAIN = os.getenv("PAYWALL_BLOG_DOMAIN", "seomoney.org")
 BLOG_NAME = os.getenv("PAYWALL_BLOG_NAME", "Duy Nguyen Blog")
 
 # In-memory plaintext codes until email sent (code_id -> code); not persisted
@@ -60,7 +60,7 @@ app = FastAPI(title="Zola Paywall API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        os.getenv("PAYWALL_CORS_ORIGIN", "https://banhang-chogao.github.io"),
+        os.getenv("PAYWALL_CORS_ORIGIN", "https://seomoney.org"),
         "http://127.0.0.1:1111",
         "http://localhost:1111",
     ],

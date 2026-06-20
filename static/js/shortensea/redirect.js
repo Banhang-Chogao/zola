@@ -1,6 +1,6 @@
 /**
  * Short URL redirect hook for GitHub Pages 404.html.
- * Matches /zola/s/{slug} → resolve destination → log click → redirect.
+ * Matches /s/{slug} → resolve destination → log click → redirect.
  */
 (function () {
   "use strict";

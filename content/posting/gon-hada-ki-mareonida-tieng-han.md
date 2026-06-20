@@ -7,7 +7,7 @@ aliases = ["/gon-hada-ki-mareonida-tieng-han/"]
 categories = ["Tất cả", "Học tiếng Hàn"]
 tags = ["ngữ pháp tiếng hàn", "topik", "곤 하다", "기 마련이다"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "곤 하다 기 마련이다"
 featured = false
 +++
@@ -18,7 +18,7 @@ featured = false
 
 Ba cấu trúc này xuất hiện **dày đặc** trong đề TOPIK II đọc hiểu. Tôi từng nhầm -기 마련이다 với -기 십상이다 — bài này ghi lại cách tôi phân biệt.
 
-**Cluster:** [Pillar](/zola/ngu-phap-nang-cao-sau-topik-4/) · [-더라도 / -는다 해도](/zola/derado-va-neunda-haedo-tieng-han/)
+**Cluster:** [Pillar](/ngu-phap-nang-cao-sau-topik-4/) · [-더라도 / -는다 해도](/derado-va-neunda-haedo-tieng-han/)
 
 ---
 
@@ -83,11 +83,11 @@ Ba cấu trúc này xuất hiện **dày đặc** trong đề TOPIK II đọc hi
 2. 확인하지 않으면 잘못 **되기 십상**이다. *(rủi ro)*
 3. 어렸을 때 할머니 댁에 **가곤 했다**. *(thói quen)*
 
-Thêm mẫu: [50 câu TOPIK](/zola/50-mau-cau-topik-nang-cao/)
+Thêm mẫu: [50 câu TOPIK](/50-mau-cau-topik-nang-cao/)
 
 ---
 
 ## Liên kết
 
-- [Ngữ pháp giả định](/zola/ngu-phap-gia-dinh-nang-cao-topik/)
-- [Sửa orphan cluster Hàn](/zola/sua-orphan-bai-tieng-han-seo/)
+- [Ngữ pháp giả định](/ngu-phap-gia-dinh-nang-cao-topik/)
+- [Sửa orphan cluster Hàn](/sua-orphan-bai-tieng-han-seo/)

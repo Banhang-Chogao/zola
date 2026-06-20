@@ -6,7 +6,7 @@ date = 2026-06-20
 categories = ["Tất cả", "Công nghệ", "Báo chí"]
 tags = ["phân quyền", "rbac", "role", "bảo mật", "oauth", "kiến trúc phần mềm"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/og-default.webp"
+thumbnail = "https://seomoney.org/img/og-default.webp"
 seo_keyword = "phân quyền role"
 featured = false
 
@@ -28,7 +28,7 @@ Tuần rồi mình dành gần một buổi để dọn lại một thứ tưở
 
 <!-- more -->
 
-![Sơ đồ phân quyền role với một nguồn sự thật duy nhất](/zola/img/placeholder/placeholder-wide.svg)
+![Sơ đồ phân quyền role với một nguồn sự thật duy nhất](/img/placeholder/placeholder-wide.svg)
 
 Mình viết theo kiểu chia sẻ kinh nghiệm thực tế chứ không phải tài liệu hàn lâm, nên sẽ ưu tiên những thứ "đụng vào là thấy đau" hơn là định nghĩa sách vở.
 
@@ -52,7 +52,7 @@ Cách mình làm là tạo ra **một module duy nhất** — gọi nó là `rol
 
 Sau khi gom, kết quả khá gọn. Hàm kiểm tra `is_admin` trước nằm lẫn trong module xác thực thì được dời về `roles`. Hai bản dựng payload `/me` trước đây tính khác nhau thì cùng ủy quyền cho một hàm `build_identity` duy nhất. Và quan trọng nhất: **super giờ chỉ được xác định bằng đúng một danh sách super tường minh**, không còn chuyện admin vô tình leo thang.
 
-Một điểm mình thấy đáng giá là việc xóa email mặc định hardcode. Khi một giá trị nhạy cảm nằm cứng trong source của một repo công khai, nó vừa là rủi ro lộ thông tin vừa là nguồn gây nhầm lẫn về sau. Đẩy hết ra biến môi trường giúp code sạch hơn và an toàn hơn — đây cũng là nguyên tắc mình luôn nhắc trong các bài về [bảo mật ngân hàng số như MSB Digital Bank](/zola/baochi/msb-digital-bank-cong-nghe-bao-mat/): đừng để bí mật nằm trong nơi ai cũng đọc được.
+Một điểm mình thấy đáng giá là việc xóa email mặc định hardcode. Khi một giá trị nhạy cảm nằm cứng trong source của một repo công khai, nó vừa là rủi ro lộ thông tin vừa là nguồn gây nhầm lẫn về sau. Đẩy hết ra biến môi trường giúp code sạch hơn và an toàn hơn — đây cũng là nguyên tắc mình luôn nhắc trong các bài về [bảo mật ngân hàng số như MSB Digital Bank](/baochi/msb-digital-bank-cong-nghe-bao-mat/): đừng để bí mật nằm trong nơi ai cũng đọc được.
 
 ## Ưu tiên role và ma trận quyền
 
@@ -76,7 +76,7 @@ Cách xử lý là phát hành thêm một **cookie phiên cross-site** với đ
 
 Bài học lớn thứ hai nằm ở chỗ này: **đừng để frontend tự đoán quyền**. Trước đây, JavaScript có một danh sách username và email "super" viết cứng để tự quyết định hiển thị nút. Cách này vừa dễ sai vừa không an toàn — ai mở DevTools chỉnh biến là "tự phong" được. Sau khi dọn, toàn bộ frontend chỉ đọc danh sách permission do backend trả về qua một lời gọi `/me` được cache lại, rồi bật tắt giao diện theo đó. Việc kiểm tra thật vẫn nằm ở server, frontend chỉ phản ánh trạng thái.
 
-Nếu bạn quan tâm tới khía cạnh xác thực danh tính nói chung, mình từng viết về [hướng dẫn xác thực CCCD trên app ngân hàng](/zola/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/) và [cách các ngân hàng số bảo mật tài khoản](/zola/baochi/liobank-bao-mat-an-toan-the-nao/) — cùng một tinh thần: lớp xác thực phải nằm ở nơi người dùng không can thiệp được.
+Nếu bạn quan tâm tới khía cạnh xác thực danh tính nói chung, mình từng viết về [hướng dẫn xác thực CCCD trên app ngân hàng](/baochi/huong-dan-xac-thuc-cccd-msb-digital-bank/) và [cách các ngân hàng số bảo mật tài khoản](/baochi/liobank-bao-mat-an-toan-the-nao/) — cùng một tinh thần: lớp xác thực phải nằm ở nơi người dùng không can thiệp được.
 
 ## Vài lưu ý khi triển khai và kiểm thử
 
@@ -94,4 +94,4 @@ Nếu rút gọn cả buổi dọn dẹp thành vài câu, mình sẽ nói thế
 
 Đây không phải kiến thức cao siêu, nhưng là loại lỗi rất hay gặp khi sản phẩm lớn dần mà không ai dừng lại dọn nợ kỹ thuật. Hy vọng vài ghi chú này tiết kiệm được cho bạn một buổi chiều như mình đã mất.
 
-Bạn đang xây hệ thống có nhiều cấp người dùng? Hãy thử rà lại xem logic role của mình đang nằm ở bao nhiêu chỗ — nếu nhiều hơn một, có lẽ đã đến lúc gom về một mối. Đọc thêm các bài cùng chủ đề trong chuyên mục [Công nghệ](/zola/categories/cong-nghe/) hoặc xem toàn bộ tin tại [trang Báo chí](/zola/categories/bao-chi/) của blog nhé.
+Bạn đang xây hệ thống có nhiều cấp người dùng? Hãy thử rà lại xem logic role của mình đang nằm ở bao nhiêu chỗ — nếu nhiều hơn một, có lẽ đã đến lúc gom về một mối. Đọc thêm các bài cùng chủ đề trong chuyên mục [Công nghệ](/categories/cong-nghe/) hoặc xem toàn bộ tin tại [trang Báo chí](/categories/bao-chi/) của blog nhé.

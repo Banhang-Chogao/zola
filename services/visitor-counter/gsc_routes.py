@@ -29,7 +29,7 @@ router = APIRouter(prefix="/gsc", tags=["gsc"])
 GSC_CLIENT_ID = os.getenv("GSC_CLIENT_ID", "")
 GSC_CLIENT_SECRET = os.getenv("GSC_CLIENT_SECRET", "")
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
-BLOG_URL = os.getenv("BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+BLOG_URL = os.getenv("BLOG_URL", "https://seomoney.org").rstrip("/")
 
 GSC_REFRESH_KEY = "gsc:refresh_token"
 GSC_PROPERTY_KEY = "gsc:property"

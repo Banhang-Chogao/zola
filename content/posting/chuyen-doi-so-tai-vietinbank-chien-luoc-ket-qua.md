@@ -7,7 +7,7 @@ aliases = ["/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["chuyển đổi số", "ngân hàng số", "vietinbank", "vietinbank series"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "chuyển đổi số VietinBank"
 featured = false
 series = "vietinbank"
@@ -33,13 +33,13 @@ a = "Cách dễ thấy nhất với người dùng là tỷ lệ giao dịch qua
 
 <!-- more -->
 
-![Sơ đồ chiến lược chuyển đổi số VietinBank với con người, dữ liệu và nền tảng công nghệ](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg "Chuyển đổi số VietinBank")
+![Sơ đồ chiến lược chuyển đổi số VietinBank với con người, dữ liệu và nền tảng công nghệ](https://seomoney.org/img/placeholder/placeholder-wide.svg "Chuyển đổi số VietinBank")
 
 ## Chuyển đổi số VietinBank không chỉ là làm thêm một app
 
 Đầu tiên cần phân biệt cho rõ. Nhiều người nghĩ chuyển đổi số nghĩa là làm một ứng dụng đẹp rồi xong. Thực ra đó mới là phần nổi.
 
-Số hóa là khi bạn đưa một dịch vụ cụ thể lên kênh điện tử. Còn chuyển đổi số là thay đổi cả cách ngân hàng vận hành: quy trình, dữ liệu, con người đều dịch chuyển sang nền tảng số. Mạch chuyện này nối tiếp tự nhiên từ [cách VietinBank ứng dụng công nghệ vào trải nghiệm khách hàng](/zola/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/) mà mình kể ở bài trước, chỉ là lần này nhìn rộng ra toàn bộ guồng máy.
+Số hóa là khi bạn đưa một dịch vụ cụ thể lên kênh điện tử. Còn chuyển đổi số là thay đổi cả cách ngân hàng vận hành: quy trình, dữ liệu, con người đều dịch chuyển sang nền tảng số. Mạch chuyện này nối tiếp tự nhiên từ [cách VietinBank ứng dụng công nghệ vào trải nghiệm khách hàng](/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/) mà mình kể ở bài trước, chỉ là lần này nhìn rộng ra toàn bộ guồng máy.
 
 Theo những gì VietinBank công bố, ngân hàng xác định chuyển đổi số là chiến lược dài hạn, gắn với định hướng chung của ngành. Vậy nên đây là một hành trình, không phải một dự án có ngày kết thúc.
 
@@ -49,7 +49,7 @@ Theo những gì VietinBank công bố, ngân hàng xác định chuyển đổi
 
 - **Con người.** Chuyển đổi số mà nhân sự không đổi tư duy thì khó chạy. Đào tạo lại đội ngũ, hình thành thói quen làm việc trên nền số là phần gốc.
 - **Dữ liệu.** Dữ liệu được số hóa và tổ chức tốt giúp ngân hàng hiểu khách hơn, xử lý hồ sơ nhanh hơn, kiểm soát rủi ro chặt hơn.
-- **Nền tảng công nghệ.** Hạ tầng lõi đủ khỏe mới gánh được lượng giao dịch số lớn. Đây cũng là lý do mình từng dành riêng [một bài về hiện đại hóa core banking](/zola/posting/vietinbank-hien-dai-hoa-core-banking/).
+- **Nền tảng công nghệ.** Hạ tầng lõi đủ khỏe mới gánh được lượng giao dịch số lớn. Đây cũng là lý do mình từng dành riêng [một bài về hiện đại hóa core banking](/posting/vietinbank-hien-dai-hoa-core-banking/).
 - **Đối tác công nghệ.** Ngân hàng không tự làm mọi thứ một mình mà bắt tay với các đối tác công nghệ để rút ngắn thời gian triển khai.
 
 Bốn mảng này không tách rời. Thiếu một cái là cả guồng kẹt, nên mình hiểu vì sao đây phải là chiến lược tổng thể chứ không phải vài sáng kiến rời rạc.
@@ -69,7 +69,7 @@ Về con người, đây là chỗ mình thấy thú vị. Công nghệ mua đư
 Vài dấu hiệu dễ thấy:
 
 - **Tỷ lệ giao dịch qua kênh số tăng.** Ngày càng nhiều việc khách tự làm trên app thay vì ra quầy. Xu hướng này ngành nào cũng ghi nhận, và VietinBank nằm trong dòng chảy đó.
-- **Ứng dụng ngày càng phổ biến.** App VietinBank iPay trở thành kênh giao dịch quen thuộc với lượng người dùng lớn, đúng như mình từng kể trong [bài về iPay qua các thời kỳ](/zola/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/).
+- **Ứng dụng ngày càng phổ biến.** App VietinBank iPay trở thành kênh giao dịch quen thuộc với lượng người dùng lớn, đúng như mình từng kể trong [bài về iPay qua các thời kỳ](/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/).
 - **Quy trình nội bộ gọn hơn.** Số hóa giúp một số yêu cầu được xử lý nhanh hơn, ít phải qua nhiều khâu giấy tờ.
 
 Mình nhấn mạnh: đây là quan sát định tính. Muốn số liệu chính xác theo từng năm, bạn nên xem báo cáo công bố trên [trang chủ VietinBank](https://www.vietinbank.vn) hoặc thông tin từ [Ngân hàng Nhà nước](https://www.sbv.gov.vn).
@@ -86,9 +86,9 @@ Mình thấy đây là phần lành mạnh để nói tới, vì nó cho thấy 
 
 Đã nói nhiều về dữ liệu và giao dịch số, câu hỏi tự nhiên kế tiếp là: làm sao giữ an toàn cho ngần ấy giao dịch? Bài sau mình mổ xẻ cơ chế bảo mật ngân hàng số.
 
-Bạn có thể quay lại [bài về công nghệ và trải nghiệm khách hàng](/zola/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/), ghé [chuyên mục Ngân hàng](/zola/categories/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank](/zola/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/).
+Bạn có thể quay lại [bài về công nghệ và trải nghiệm khách hàng](/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/), ghé [chuyên mục Ngân hàng](/categories/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank](/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/).
 
-> 👉 **Đọc tiếp:** [Bảo mật ngân hàng số VietinBank hoạt động như thế nào? →](/zola/posting/bao-mat-ngan-hang-so-vietinbank/)
+> 👉 **Đọc tiếp:** [Bảo mật ngân hàng số VietinBank hoạt động như thế nào? →](/posting/bao-mat-ngan-hang-so-vietinbank/)
 
 ## Tóm lại
 

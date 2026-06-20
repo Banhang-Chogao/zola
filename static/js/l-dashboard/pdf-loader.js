@@ -1,6 +1,6 @@
 /**
  * L-Dashboard — load pdf.js with local-first + jsDelivr fallback (CSP-safe).
- * cdnjs.cloudflare.com is blocked by site CSP; assets live under /zola/ via get_url().
+ * cdnjs.cloudflare.com is blocked by site CSP; assets live under / via get_url().
  */
 (function (global) {
   "use strict";

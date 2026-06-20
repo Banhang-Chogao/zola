@@ -46,21 +46,26 @@ CASES = [
 ]
 
 
-# Regression: 💉 generated data-artifact conflict class (PR #527/#529 dirty/merge-race).
+# Regression: 💉 generated data-artifact conflict class (PR #527 + #529 dirty/merge-race).
 # data/*qa*.json + data/*score(s)*.json + data/*report*.json + data/*snapshot*.json =
-# regenerate, đừng hand-merge JSON stale.
+# regenerate, đừng hand-merge JSON stale. Union of both PRs' regression coverage.
 GEN_REPORT_CASES = [
     # (path, is_generated_report)
+    # --- PR #527: QA score artifacts ---
     ("data/seo-qa-scores.json", True),                # PR #527 conflict (qa + scores)
     ("data/seo-scores.json", True),
     ("data/compliance-score.json", True),             # score
-    ("data/qa-404-report.json", True),
-    ("data/performance-audit-snapshot.json", True),
-    ("data/merge-report.json", True),
     ("data/related-qa-report.json", True),            # qa
+    # --- PR #529: report/snapshot artifacts ---
+    ("data/performance-audit-snapshot.json", True),   # PR #529 conflict #1
+    ("data/qa-404-report.json", True),                # PR #529 conflict #2
+    ("data/merge-report.json", True),
+    ("data/seo-rank-autofix-report.json", True),
+    # --- False: curated / neutral-name / code ---
+    ("data/build-dashboard.json", False),             # dashboard, not qa/score/report/snapshot
+    ("data/categories.json", False),                  # curate tay
     ("data/seo-foundation-series.json", False),       # series curate tay
     ("data/references.json", False),                  # generated nhưng tên trung tính
-    ("data/categories.json", False),                  # curate tay
     ("scripts/check_internal_links.py", False),       # code → semantic merge
     ("content/posting/foo.md", False),
 ]
@@ -90,7 +95,7 @@ def main() -> int:
             line += f"  (expected {expected})"
         print(line)
 
-    print("\n-- generated data-artifact detector (regression PR #527) --")
+    print("\n-- generated data-artifact detector (regression PR #527 + #529) --")
     for path, expected in GEN_REPORT_CASES:
         ok = _check(f"is_generated_report({path})", is_generated_report(path), expected)
         passed += ok
@@ -106,17 +111,39 @@ def main() -> int:
         ok = _check(f"REGEN_COMMANDS[{path}]", path in REGEN_COMMANDS, True)
         passed += ok
         failed += not ok
-    # seo-qa-scores.json must regenerate via seo_qa_checker.py --all
+    # seo-qa-scores.json must regenerate via seo_qa_checker.py --all (PR #527)
     cmd = REGEN_COMMANDS.get("data/seo-qa-scores.json", [])
     ok = _check("seo-qa-scores generator", "seo_qa_checker.py" in " ".join(cmd) and "--all" in cmd, True)
-    passed += ok; failed += not ok
+    passed += ok
+    failed += not ok
 
     print("\n-- regenerate_reports(dry_run) on PR #527 conflict set --")
     statuses = regenerate_reports(["data/seo-qa-scores.json"], dry_run=True)
     ok = _check("seo-qa-scores regenerated", statuses.get("data/seo-qa-scores.json"), "regenerated")
-    passed += ok; failed += not ok
+    passed += ok
+    failed += not ok
 
-    total = len(CASES) + len(GEN_REPORT_CASES) + 4 + 1 + 1
+    print("\n-- regenerate_reports(dry_run) on PR #529 conflict set --")
+    # check_internal_links.py is code (semantic merge), not a regen target → skipped.
+    statuses = regenerate_reports(
+        [
+            "data/performance-audit-snapshot.json",
+            "data/qa-404-report.json",
+            "scripts/check_internal_links.py",
+        ],
+        dry_run=True,
+    )
+    ok = _check("snapshot regenerated", statuses.get("data/performance-audit-snapshot.json"), "regenerated")
+    passed += ok
+    failed += not ok
+    ok = _check("404 report regenerated", statuses.get("data/qa-404-report.json"), "regenerated")
+    passed += ok
+    failed += not ok
+    ok = _check("code file NOT in regen set", "scripts/check_internal_links.py" not in statuses, True)
+    passed += ok
+    failed += not ok
+
+    total = passed + failed
     print(f"\n{passed}/{total} passed" + (f", {failed} FAILED" if failed else ""))
     return 1 if failed else 0
 

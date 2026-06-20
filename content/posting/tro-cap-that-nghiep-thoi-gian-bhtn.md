@@ -7,7 +7,7 @@ aliases = ["/tro-cap-that-nghiep-thoi-gian-bhtn/"]
 categories = ["Tất cả", "Bảo hiểm"]
 tags = ["hồ sơ hưởng bhtn", "thời gian nhận bhtn", "trợ cấp thất nghiệp"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "trợ cấp thất nghiệp"
 featured = false
 +++
@@ -18,7 +18,7 @@ featured = false
 
 Câu hỏi **"Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?"** tôi nhận nhiều nhất — và câu trả lời không chỉ là "12 tháng đóng BHTN". Có **4 mốc thời gian** khác nhau mà tôi thấy nhiều người nhầm lẫn.
 
-**Điều kiện tiên quyết:** Tra cứu đủ tháng đóng tại [Bài 2](/zola/tra-cuu-thoi-gian-dong-bhtn-vssid/) và xử lý lỗi VssID tại [Bài 1](/zola/vssid-khong-hien-qua-trinh-dong-bhtn/).
+**Điều kiện tiên quyết:** Tra cứu đủ tháng đóng tại [Bài 2](/tra-cuu-thoi-gian-dong-bhtn-vssid/) và xử lý lỗi VssID tại [Bài 1](/vssid-khong-hien-qua-trinh-dong-bhtn/).
 
 ---
 
@@ -79,7 +79,7 @@ Trong thời gian chờ, bạn **không** nhận trợ cấp — chỉ nhận sa
 Chi tiết:
 - Mức trợ cấp = **60% mức lương bình quân** 6 tháng liền trước khi thất nghiệp
 - Thời hạn hưởng: **3 tháng** (nếu đóng 12–36 tháng), tối đa **12 tháng** (nếu đóng > 72 tháng)
-- Nhận qua **tài khoản ngân hàng** — tôi dùng [VietinBank iPay](/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/) để theo dõi
+- Nhận qua **tài khoản ngân hàng** — tôi dùng [VietinBank iPay](/toi-uu-bao-mat-han-muc-vietinbank-ipay/) để theo dõi
 
 ---
 
@@ -115,9 +115,9 @@ Chi tiết:
 
 Trợ cấp thất nghiệp là nguồn thu tạm thời. Tôi kết hợp với:
 
-- [Tính lương hưu 2026](/zola/tinh-luong-huu-2026-huong-dan/) — nếu gần tuổi hưu
-- [BHXH một lần hay lương hưu?](/zola/bhxh-mot-lan-hay-luong-huu/) — nếu cân nhắc rút BHXH
-- [LPBank số](/zola/review-lpbank-so-2026/) — chuyển tiền, tiết kiệm khi chờ trợ cấp
+- [Tính lương hưu 2026](/tinh-luong-huu-2026-huong-dan/) — nếu gần tuổi hưu
+- [BHXH một lần hay lương hưu?](/bhxh-mot-lan-hay-luong-huu/) — nếu cân nhắc rút BHXH
+- [LPBank số](/review-lpbank-so-2026/) — chuyển tiền, tiết kiệm khi chờ trợ cấp
 
 ---
 
@@ -133,4 +133,4 @@ Thường **2–4 tuần** xét duyệt, trợ cấp tháng đầu chuyển **th
 
 ### Hưởng BHTN có ảnh hưởng lương hưu không?
 
-**Không trừ** vào quá trình BHXH. Thời gian hưởng BHTN vẫn tính vào thời gian đóng BHXH (theo quy định hiện hành). Xem thêm [tính lương hưu](/zola/tinh-luong-huu-2026-huong-dan/).
+**Không trừ** vào quá trình BHXH. Thời gian hưởng BHTN vẫn tính vào thời gian đóng BHXH (theo quy định hiện hành). Xem thêm [tính lương hưu](/tinh-luong-huu-2026-huong-dan/).

@@ -7,7 +7,7 @@ categories = ["Tất cả", "Công nghệ", "Báo chí"]
 tags = ["blog", "content-strategy", "seo", "engagement", "mobile-ux"]
 [extra]
 seo_keyword = "ngách nội dung"
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
+thumbnail = "https://seomoney.org/img/covers/chon-ngach-noi-dung-giu-chan-nguoi-doc.svg"
 featured = false
 +++
 
@@ -80,6 +80,6 @@ Cuối cùng, mình nghĩ *bounce rate* thấp không phải là một con số 
 
 *Bài viết được mình biên soạn lại từ một bản tổng hợp về chiến lược nội dung và trải nghiệm người dùng, thêm góc nhìn và trải nghiệm cá nhân khi vận hành blog này.*
 
-> **Xem thêm trong cụm:** [macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?](/zola/baochi/macos-27-golden-gate-co-gi-moi/)
+> **Xem thêm trong cụm:** [macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?](/baochi/macos-27-golden-gate-co-gi-moi/)
 
-> **Xem thêm trong cụm:** [Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI](/zola/baochi/ten-mien-ai-hon-dao-anguilla-hot-bac/)
+> **Xem thêm trong cụm:** [Tên miền .ai và hòn đảo 16.000 dân hốt bạc nhờ AI](/baochi/ten-mien-ai-hon-dao-anguilla-hot-bac/)

@@ -18,7 +18,7 @@ from roles import resolve_role, username_is_superadmin
 
 SESSION_COOKIE_NAME = os.getenv("VIPZONE_SESSION_COOKIE", "zola_cms_sid")
 
-BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 BACKEND_URL = os.getenv(
     "VIPZONE_BACKEND_URL",
     os.getenv("BACKEND_URL", "https://blog-vipzone-api.onrender.com"),

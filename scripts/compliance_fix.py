@@ -190,7 +190,7 @@ def fix_internal_links(log: list[dict]) -> bool:
 
     # 1) Markdown: ensure GitHub Pages /zola/ prefix on root-absolute links
     _md_link_re = re.compile(r"\]\((/[^)\s\"'#]+)")
-    site_prefix = "/zola"
+    site_prefix = ""
     for md in CONTENT.rglob("*.md"):
         try:
             raw = md.read_text(encoding="utf-8")
@@ -235,7 +235,7 @@ def fix_internal_links(log: list[dict]) -> bool:
     if conv.is_file():
         raw = conv.read_text(encoding="utf-8")
         if 'href="../"' in raw:
-            raw = raw.replace('href="../"', 'href="/zola/"')
+            raw = raw.replace('href="../"', 'href="/"')
             conv.write_text(raw, encoding="utf-8")
             changed = True
 
@@ -317,7 +317,7 @@ def fix_robots_sitemap(log: list[dict]) -> bool:
             outcome="skipped", message="robots.txt đã có dòng Sitemap",
         ))
         return False
-    text += "\nSitemap: https://banhang-chogao.github.io/zola/sitemap.xml\n"
+    text += "\nSitemap: https://seomoney.org/sitemap.xml\n"
     robots.write_text(text, encoding="utf-8")
     log.append(_log_entry(
         category="Discovery", label="Crawler rules", status="warn",

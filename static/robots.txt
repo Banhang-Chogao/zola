@@ -1,5 +1,5 @@
 # robots.txt — Blog "Duy Nguyen" (Zola SSG, GitHub Pages)
-# https://banhang-chogao.github.io/zola/
+# https://seomoney.org/
 #
 # SEO-safe: Allow search/ads crawlers; disallow utility paths only.
 # GitHub Pages = static host → robots chỉ hướng dẫn crawl, không chặn truy cập.
@@ -31,4 +31,4 @@ Disallow: /admin/paywall/
 Disallow: /data/reports/
 Disallow: /data/
 
-Sitemap: https://banhang-chogao.github.io/zola/sitemap.xml
+Sitemap: https://seomoney.org/sitemap.xml

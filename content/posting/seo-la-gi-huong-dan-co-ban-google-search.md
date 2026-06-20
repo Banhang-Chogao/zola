@@ -7,7 +7,7 @@ aliases = ["/seo-la-gi-huong-dan-co-ban-google-search/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["blog", "google search", "seo", "seo foundation series", "zola"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "seo là gì"
 featured = false
 series = "seo-foundation"
@@ -29,7 +29,7 @@ a = "15 bài bám sát Google SEO Starter Guide, viết tiếng Việt, có inte
 
 > 📚 **SEO Foundation Series (Bài 1/15)** — Tôi viết loạt bài này để biến [Google SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) thành cụm nội dung tiếng Việt có hệ thống cho blog tĩnh. Đây là bài mở màn: **SEO là gì** và bạn nên bắt đầu từ đâu.
 
-Khi mới [tạo blog với Zola](/zola/posting/tao-blog-voi-zola/) và deploy lên GitHub Pages, câu hỏi tôi gặp nhiều nhất không phải "theme đẹp chưa" mà là: **"Sao Google chưa thấy bài?"** — tức là mọi người đang nhầm SEO với một nút bấm phép thuật. Bài này tôi đặt nền móng cho cả series: hiểu SEO đúng nghĩa Google dùng, trước khi nhảy vào title, backlink hay điểm Lighthouse.
+Khi mới [tạo blog với Zola](/posting/tao-blog-voi-zola/) và deploy lên GitHub Pages, câu hỏi tôi gặp nhiều nhất không phải "theme đẹp chưa" mà là: **"Sao Google chưa thấy bài?"** — tức là mọi người đang nhầm SEO với một nút bấm phép thuật. Bài này tôi đặt nền móng cho cả series: hiểu SEO đúng nghĩa Google dùng, trước khi nhảy vào title, backlink hay điểm Lighthouse.
 
 <!-- more -->
 
@@ -79,7 +79,7 @@ Cách làm này khớp chiến lược blog tôi đã ghi trong nội bộ: **pi
 Các bài sau sẽ lần lượt cover toàn bộ [SEO Starter Guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide):
 
 1. **Bài 1** (bài này): SEO là gì & Search Essentials.
-2. **Bài 2**: [Google Search hoạt động thế nào](/zola/posting/google-search-hoat-dong-the-nao/) — crawl, index, serve.
+2. **Bài 2**: [Google Search hoạt động thế nào](/posting/google-search-hoat-dong-the-nao/) — crawl, index, serve.
 3. **Bài 3**: Bao lâu để thấy kết quả SEO?
 4. **Bài 4**: Giúp Google tìm nội dung (sitemap, liên kết, `site:`).
 5. **Bài 5–15**: Cấu trúc URL, canonical, nội dung people-first, anchor text, title/snippet, ảnh/video, quảng bá & myth SEO.
@@ -90,11 +90,11 @@ Các bài sau sẽ lần lượt cover toàn bộ [SEO Starter Guide](https://de
 
 Nếu site đã live, tôi khuyên ba bước thực tế trước khi đọc Bài 2:
 
-1. **Kiểm tra index**: gõ `site:banhang-chogao.github.io/zola` trên Google — xem trang đã vào index chưa.
-2. **Đăng ký Search Console** — property URL prefix trỏ đúng `https://banhang-chogao.github.io/zola/` (blog tôi đã cấu hình meta verification trong `config.toml`).
+1. **Kiểm tra index**: gõ `site:seomoney.org` trên Google — xem trang đã vào index chưa.
+2. **Đăng ký Search Console** — property URL prefix trỏ đúng `https://seomoney.org/` (blog tôi đã cấu hình meta verification trong `config.toml`).
 3. **Đảm bảo sitemap** — Zola sinh `sitemap.xml` tự động; submit trong Search Console sau khi property xác minh.
 
-Nếu bạn đang xây blog tĩnh, đọc thêm [tự động deploy Zola bằng GitHub Actions](/zola/posting/tu-dong-deploy-zola-github-actions/) để mỗi bài mới được build và lên production — SEO không có tác dụng nếu Google crawl bản cũ.
+Nếu bạn đang xây blog tĩnh, đọc thêm [tự động deploy Zola bằng GitHub Actions](/posting/tu-dong-deploy-zola-github-actions/) để mỗi bài mới được build và lên production — SEO không có tác dụng nếu Google crawl bản cũ.
 
 ## Tóm lại
 
