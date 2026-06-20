@@ -831,6 +831,31 @@ python3 -m unittest scripts.test_vaccine_hotfix -v
 | Report | `data/vaccine-hotfix-report.json` ("Autofixer_report_by Vacxin") |
 | Reuse | `ai_diagnose.py` (root cause) · `autofix_conflicts.py` (conflict) · `vaccine_autofixer.py` (safe fixers) · `try_auto_merge.py` (gated merge) |
 
+## Vaccine Summary Rule (BẮT BUỘC — sau mọi fix / hotfix / PR conflict / domain / QA repair)
+
+> Sau **mọi** lần Claude sửa lỗi (fix, hotfix, resolve PR conflict, domain/DNS
+> repair, QA repair), Claude **PHẢI** xuất một **「Vaccine Summary」** trong câu trả
+> lời. Mục tiêu: mỗi lần sửa đều cộng dồn bộ nhớ vaccine — càng dùng càng đầy.
+
+**Vaccine Summary BẮT BUỘC gồm 6 mục (đúng tên, không bịa — chỉ ghi cái có thật trong repo/diff):**
+
+1. **Existing vaccines used** — vaccine/gate sẵn có đã dùng (vd DNS Vaccine,
+   QA Vaccine Gate, `autofix_conflicts.py`, V1–V17…).
+2. **New vaccines created** — detector/check/vaccine mới thêm (kèm mã, vd `L0-ns`).
+3. **Existing vaccines upgraded** — vaccine cũ được mở rộng (mô tả delta).
+4. **Root cause prevented** — lỗi gì sẽ KHÔNG tái phát nhờ vaccine này.
+5. **Validation result** — lệnh QA/test đã chạy + kết quả (qa_check, build, links,
+   404, dns_vaccine `--gate`, unittest…).
+6. **Where the vaccine/rule was saved** — đường dẫn code/test/doc đã lưu.
+
+**Persist (BẮT BUỘC):** lưu summary theo convention sẵn có —
+`docs/memory/vaccine-<slug>.md` (1 file/loại vaccine, format như
+`docs/memory/vaccine-v17-*.md` / `vaccine-dns-apex-seomoney.md`); nếu vaccine
+auto-check được thì thêm block `#### V<N> — …` ở §4 (engine `load_vaccines` tự đếm)
++ detector trong `scripts/qa_vaccines.py`. Report runtime (nếu có) → `data/*-report.json`.
+
+**KHÔNG bịa kết quả** — chỉ tóm tắt cái thật sự tồn tại trong repo/diff. Minimal delta.
+
 ## Bootstrap session GitHub (BẮT BUỘC — lần đầu mỗi session)
 
 Khi Claude **kết nối repo GitHub `Banhang-Chogao/zola` lần đầu** trong một
