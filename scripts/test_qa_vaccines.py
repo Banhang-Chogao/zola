@@ -378,6 +378,67 @@ class UptimeMeTest(unittest.TestCase):
         self.assertEqual(r.status, qv.WARN)
 
 
+class DeployMonitorTest(unittest.TestCase):
+    """deploy_monitor_vaccine — no token leak · schema · footer · route · pending."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    SEED = ('{"checked_at":"","ok":false,"stale":true,'
+            '"summary":{"prod_status":"unknown","pending_count":0,"avg_deploy_s":null},'
+            '"pending":[],"recent":[]}')
+    BASE = ('{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}'
+            '<details class="deploy-watch"><span>{{ d.pending_count }}</span>'
+            '<a href="/tools/deploy-monitor/">x</a></details>')
+
+    def _wire(self, **over):
+        self.repo.write("data/deploy-monitor.json", over.get("json", self.SEED))
+        self.repo.write("templates/base.html", over.get("base", self.BASE))
+        self.repo.write("content/tools/deploy-monitor.md", over.get("md", '+++\ntitle="x"\n+++'))
+        self.repo.write("templates/deploy-monitor.html", over.get("tmpl", "detail"))
+        self.repo.write("content/tools/_index.md", over.get("idx", 'url = "$BASE_URL/tools/deploy-monitor"'))
+        self.repo.write("scripts/fetch_deploy_monitor.py", over.get("script", "# env token only"))
+        self.repo.write(".github/workflows/deploy-monitor.yml", over.get("wf", "secrets.GITHUB_TOKEN"))
+        return self.repo.ctx()
+
+    def test_real_repo_passes(self):
+        r = qv.check_deploy_monitor(qv.Ctx(REPO_ROOT))
+        self.assertNotEqual(r.status, qv.FAIL)
+
+    def test_seed_baseline_passes(self):
+        self.assertEqual(qv.check_deploy_monitor(self._wire()).status, qv.PASS)
+
+    def test_token_leak_fails(self):
+        leak = self.SEED.replace('"stale":true',
+                                 '"stale":true,"oops":"ghp_' + "a" * 36 + '"')
+        r = qv.check_deploy_monitor(self._wire(json=leak))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("token" in d for d in r.details))
+
+    def test_broken_schema_fails(self):
+        self.assertEqual(qv.check_deploy_monitor(self._wire(json='{"checked_at":""}')).status, qv.FAIL)
+
+    def test_footer_not_wired_fails(self):
+        r = qv.check_deploy_monitor(self._wire(base='<footer>no widget</footer>'))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_pending_count_not_shown_fails(self):
+        base = ('{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}'
+                '<details class="deploy-watch"><a href="/tools/deploy-monitor/">x</a></details>')
+        r = qv.check_deploy_monitor(self._wire(base=base))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_card_link_fails(self):
+        r = qv.check_deploy_monitor(self._wire(idx='url = "$BASE_URL/tools/other"'))
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_stale_report_warns(self):
+        old = ('{"checked_at":"2000-01-01T00:00:00+00:00","ok":true,"stale":false,'
+               '"summary":{"prod_status":"green","pending_count":0,"avg_deploy_s":42},'
+               '"pending":[],"recent":[]}')
+        self.assertEqual(qv.check_deploy_monitor(self._wire(json=old)).status, qv.WARN)
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
