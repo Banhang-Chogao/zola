@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T09:16:25Z",
+  "updated_at": "2026-06-20T10:02:35Z",
   "score": 97.8,
   "grade": "A+",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "783/824 in range"
+          "detail": "784/825 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "803/824 complete"
+          "detail": "803/825 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "823/824 set"
+          "detail": "824/825 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "823/824 single H1"
+          "detail": "824/825 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "823/824 with lang"
+          "detail": "824/825 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "823/824 ready"
+          "detail": "824/825 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "823/824 pages"
+          "detail": "824/825 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "822/824 pages covered"
+          "detail": "823/825 pages covered"
         },
         {
           "label": "Image weight",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 831 unique",
+          "detail": "1 broken / 832 unique",
           "broken": [
             {
               "source_page": "/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/",
@@ -197,7 +197,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "819/824 pages"
+          "detail": "820/825 pages"
         },
         {
           "label": "Skip navigation",
@@ -233,7 +233,7 @@
       "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 824,
+  "pages_scanned": 825,
   "articles_scanned": 211,
   "fix_log": [
     {
@@ -242,7 +242,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 1 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/index.html → /posting/slug/ (Target not found in public/ after zola build)",
-      "at": "2026-06-20T09:16:25Z"
+      "at": "2026-06-20T10:02:35Z"
     }
   ],
   "fix_summary": {
