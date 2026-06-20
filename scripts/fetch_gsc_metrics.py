@@ -11,6 +11,7 @@ Env (GitHub Actions secrets):
 
 After OAuth connect on blog backend, copy refresh token + property to secrets
 for CI snapshot (build-time seo-reality fallback).
+GSC_PROPERTY_URL secret must be updated to sc-domain:seomoney.org (not the old URL-prefix).
 """
 
 from __future__ import annotations

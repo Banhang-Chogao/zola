@@ -1444,6 +1444,130 @@ def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
                        diagnosis="volatile runtime artifacts gitignored + workflow filter present + idempotent writer")
 
 
+_GSC_DOMAIN_PROPERTY = "sc-domain:seomoney.org"
+_GSC_CANONICAL_SITEMAP = "https://seomoney.org/sitemap.xml"
+_OLD_GITHUB_IO_RE = re.compile(r"banhang-chogao\.github\.io(/zola)?", re.IGNORECASE)
+_GSC_CREDENTIAL_FIELDS = ("refresh_token", "access_token", "client_secret", "client_id")
+
+
+def check_gsc_domain_property(ctx: Ctx) -> CheckResult:
+    """V19 — GSC Domain Property migration vaccine.
+
+    After Cloudflare verification (2026-06-20) the canonical GSC property changed
+    from the URL-prefix `https://seomoney.org/` to the Domain property
+    `sc-domain:seomoney.org`.  This detector enforces three invariants:
+
+    FAIL:
+      * gsc_client.py DEFAULT_GSC_PROPERTY_URL ≠ sc-domain:seomoney.org
+      * robots.txt Sitemap directive ≠ https://seomoney.org/sitemap.xml
+      * old banhang-chogao.github.io reference in any GSC/SEO tracking config
+      * data/gsc-metrics.json contains credential fields (secret leak)
+
+    WARN:
+      * data/gsc-metrics.json schema missing required keys (connected/status/updated_at)
+      * config.toml GSC comment still mentions old URL-prefix
+    """
+    title = "GSC Domain Property (sc-domain:seomoney.org)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1 — DEFAULT_GSC_PROPERTY_URL must be the domain property.
+    gsc_client = ctx.read("services/visitor-counter/gsc_client.py") or ""
+    m = re.search(r'DEFAULT_GSC_PROPERTY_URL\s*=\s*["\']([^"\']+)["\']', gsc_client)
+    if m:
+        prop_val = m.group(1)
+        if prop_val != _GSC_DOMAIN_PROPERTY:
+            fails.append(
+                f"gsc_client.py: DEFAULT_GSC_PROPERTY_URL = '{prop_val}' "
+                f"(phải là '{_GSC_DOMAIN_PROPERTY}')"
+            )
+    elif gsc_client:
+        warns.append("gsc_client.py: không tìm thấy DEFAULT_GSC_PROPERTY_URL")
+
+    # 2 — robots.txt sitemap URL must match canonical.
+    robots = ctx.read("static/robots.txt") or ""
+    if robots:
+        sitemap_m = re.search(r"(?i)^Sitemap:\s*(.+)$", robots, re.MULTILINE)
+        if sitemap_m:
+            sitemap_url = sitemap_m.group(1).strip()
+            if sitemap_url != _GSC_CANONICAL_SITEMAP:
+                fails.append(
+                    f"static/robots.txt: Sitemap = '{sitemap_url}' "
+                    f"(phải là '{_GSC_CANONICAL_SITEMAP}')"
+                )
+        else:
+            warns.append("static/robots.txt: không có khai báo Sitemap:")
+
+    # 3 — old github.io refs must NOT appear in GSC/SEO tracking config files.
+    gsc_tracking_files = [
+        "services/visitor-counter/gsc_client.py",
+        "services/visitor-counter/gsc_routes.py",
+        "scripts/fetch_gsc_metrics.py",
+        ".github/workflows/gsc-stats.yml",
+    ]
+    for rel in gsc_tracking_files:
+        src = ctx.read(rel) or ""
+        if _OLD_GITHUB_IO_RE.search(src):
+            # Allow in string literals inside comments (e.g. example watermark text)
+            # but flag if it appears as a property URL value or tracking config.
+            for line in src.splitlines():
+                stripped = line.strip()
+                # skip pure comment lines
+                if stripped.startswith("#") or stripped.startswith("{#") or stripped.startswith("//"):
+                    continue
+                if _OLD_GITHUB_IO_RE.search(line):
+                    fails.append(f"{rel}: old banhang-chogao.github.io ref trong config/code")
+                    break
+
+    # 4 — data/gsc-metrics.json: no credentials leaked + valid schema.
+    raw = ctx.read("data/gsc-metrics.json")
+    if raw is None:
+        warns.append("data/gsc-metrics.json absent (cần tồn tại dù GSC chưa connect)")
+    else:
+        try:
+            gsc_data = json.loads(raw)
+        except json.JSONDecodeError:
+            fails.append("data/gsc-metrics.json không phải JSON hợp lệ")
+            gsc_data = None
+        if isinstance(gsc_data, dict):
+            # No credential fields allowed in the public JSON.
+            leaked = [f for f in _GSC_CREDENTIAL_FIELDS if f in gsc_data]
+            if leaked:
+                fails.append(
+                    f"data/gsc-metrics.json: trường nhạy cảm bị lộ: {leaked} "
+                    "(chỉ dùng env/secrets, KHÔNG commit credentials)"
+                )
+            # Schema spot-check.
+            required_keys = ("connected", "status", "updated_at")
+            missing = [k for k in required_keys if k not in gsc_data]
+            if missing:
+                warns.append(f"data/gsc-metrics.json: thiếu schema keys: {missing}")
+
+    if fails:
+        return CheckResult(
+            "V19", title, FAIL,
+            diagnosis="GSC domain property hoặc sitemap chưa migrate đúng / credential leak",
+            fix=(
+                f"1. Set DEFAULT_GSC_PROPERTY_URL = '{_GSC_DOMAIN_PROPERTY}' trong gsc_client.py. "
+                f"2. Đảm bảo robots.txt Sitemap: = '{_GSC_CANONICAL_SITEMAP}'. "
+                "3. Gỡ bỏ old github.io ref trong GSC tracking files. "
+                "4. Không commit refresh_token/client_secret vào public JSON."
+            ),
+            details=fails + warns,
+        )
+    if warns:
+        return CheckResult(
+            "V19", title, WARN,
+            diagnosis="GSC domain property OK nhưng có cảnh báo bổ sung",
+            fix="Xem chi tiết warns ở trên",
+            details=warns,
+        )
+    return CheckResult(
+        "V19", title, PASS,
+        diagnosis=f"property={_GSC_DOMAIN_PROPERTY} · sitemap={_GSC_CANONICAL_SITEMAP} · no credential leak",
+    )
+
+
 def check_korean_banner_ui_vaccine(ctx: Ctx) -> CheckResult:
     """Korean banner UI — validates the homepage Hangul decorative banner meets
     the SEOMONEY design system: overflow clipped, responsive layout present,
@@ -1834,6 +1958,7 @@ DETECTORS = [
     check_sidebar_layout,
     check_uptime_me,
     check_deploy_monitor,
+    check_gsc_domain_property,
     check_search_ui_vaccine,
     check_korean_banner_ui_vaccine,
     check_seomoney_brand,
