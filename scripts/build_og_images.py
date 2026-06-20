@@ -28,18 +28,56 @@ Cách dùng
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
+import json
 import sys
 from pathlib import Path
 
 # Thư mục chứa SVG cần rasterize (cover bài + placeholder thương hiệu).
-IMG_ROOT = Path(__file__).resolve().parent.parent / "static" / "img"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+IMG_ROOT = REPO_ROOT / "static" / "img"
 
 # Kích thước chuẩn Open Graph / Twitter summary_large_image.
 OG_WIDTH = 1200
 OG_HEIGHT = 630
 WEBP_QUALITY = 82
 OG_SUFFIX = ".og.webp"
+
+# Content-hash manifest: cho phép QA Vaccine Gate phát hiện twin .og.webp "stale"
+# (SVG đã đổi nhưng twin chưa render lại) một cách TẤT ĐỊNH — không phụ thuộc
+# mtime (không tin cậy trên fresh checkout) hay dep (cairosvg/Pillow). Mỗi entry
+# = sha256 của SVG tại thời điểm twin được render/xác nhận khớp.
+MANIFEST = IMG_ROOT / "og-manifest.json"
+
+
+def _svg_sha(svg: Path) -> str:
+    return hashlib.sha256(svg.read_bytes()).hexdigest()
+
+
+def write_manifest(svgs: list[Path]) -> None:
+    """Ghi sha256 của mọi SVG hiện có twin → manifest (idempotent).
+
+    Twin vừa render hoặc đã tươi (không stale) ⇒ sha hiện tại của SVG khớp twin.
+    Bỏ qua SVG chưa có twin. Ghi idempotent (nội dung không đổi → không ghi) để
+    tránh churn/conflict runtime (V18). Lỗi I/O → bỏ qua, không vỡ build.
+    """
+    entries: dict[str, str] = {}
+    for svg in svgs:
+        if not target_for(svg).exists():
+            continue
+        try:
+            rel = str(svg.relative_to(REPO_ROOT))
+            entries[rel] = _svg_sha(svg)
+        except Exception:
+            continue
+    payload = json.dumps(entries, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    try:
+        if MANIFEST.exists() and MANIFEST.read_text(encoding="utf-8") == payload:
+            return  # nội dung không đổi → không ghi (idempotent)
+        MANIFEST.write_text(payload, encoding="utf-8")
+    except OSError:
+        pass
 
 
 def find_svgs() -> list[Path]:
@@ -101,6 +139,7 @@ def main() -> int:
 
     if not stale:
         print(f"build_og_images: {len(svgs)} cover đã có twin .og.webp mới nhất — bỏ qua.")
+        write_manifest(svgs)
         return 0
 
     # Import dep ở đây: thiếu thì cảnh báo + exit 0 (KHÔNG vỡ build — dùng file đã commit).
@@ -127,6 +166,7 @@ def main() -> int:
             failed += 1
             print(f"  ✗ {svg.name}: {exc!r}")
 
+    write_manifest(svgs)
     print(
         f"build_og_images: render {ok}/{len(stale)} twin .og.webp"
         + (f" ({failed} lỗi — giữ file cũ nếu có)" if failed else "")

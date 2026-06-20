@@ -1182,9 +1182,16 @@ class OgImageVaccineTest(unittest.TestCase):
         p.write_bytes(data)
         return p
 
-    def _wire_good(self):
-        self.repo.write("static/img/og/seomoney-og.svg", self._GOOD_SVG)
+    def _wire_good(self, svg: str | None = None):
+        import hashlib
+        import json as _json
+        svg = svg if svg is not None else self._GOOD_SVG
+        self.repo.write("static/img/og/seomoney-og.svg", svg)
         self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        # fresh manifest: records the CURRENT svg sha → twin not stale.
+        sha = hashlib.sha256(svg.encode("utf-8")).hexdigest()
+        self.repo.write("static/img/og-manifest.json",
+                        _json.dumps({"static/img/og/seomoney-og.svg": sha}))
 
     def test_webp_dimensions_parser(self):
         self.assertEqual(qv._webp_dimensions(_make_webp(1200, 630)), (1200, 630))
@@ -1242,12 +1249,25 @@ class OgImageVaccineTest(unittest.TestCase):
         self.assertEqual(r.status, qv.WARN)
         self.assertTrue(any("old-domain" in d for d in r.details))
 
-    def test_stale_twin_warns(self):
+    def test_stale_twin_fails_via_manifest(self):
+        # manifest records a DIFFERENT sha than the current svg → twin is stale
+        # → deterministic FAIL (no mtime dependency).
+        import json as _json
+        self.repo.write("static/img/og/seomoney-og.svg", self._GOOD_SVG)
+        self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
+        self.repo.write("static/img/og-manifest.json",
+                        _json.dumps({"static/img/og/seomoney-og.svg": "deadbeef" * 8}))
+        r = qv.check_og_image_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("STALE" in d for d in r.details))
+
+    def test_stale_bootstrap_mtime_warns_only(self):
+        # No manifest entry → fall back to mtime heuristic as a soft WARN, never
+        # a FAIL (a fresh CI checkout must never falsely block the merge).
         svg = self.repo.root / "static/img/og/seomoney-og.svg"
         svg.parent.mkdir(parents=True, exist_ok=True)
         twin = self._write_bytes("static/img/og/seomoney-og.og.webp", _make_webp(1200, 630))
         svg.write_text(self._GOOD_SVG, encoding="utf-8")
-        # twin committed BEFORE the svg was re-edited → stale.
         os.utime(twin, (1000, 1000))
         os.utime(svg, (2000, 2000))
         r = qv.check_og_image_vaccine(self.repo.ctx())

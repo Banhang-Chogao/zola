@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-20T19:25:46Z",
+  "updated_at": "2026-06-20T19:47:24Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 42,
+    "today": 44,
     "this_week": 200,
     "this_month": 200,
-    "auto_merged": 1,
+    "auto_merged": 0,
     "by_change_type": {
       "feature": 90,
-      "unknown": 36,
       "fix": 50,
+      "unknown": 36,
       "chore": 11,
       "content": 9,
       "ci": 3,
@@ -20,6 +20,44 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 586,
+      "pr_title": "feat(og): OG smoke verified + deterministic stale-twin FAIL (content-hash manifest)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/586",
+      "merged_at": "2026-06-20T19:45:00Z",
+      "merge_commit_sha": "41f39aa09f3a012ac8d4549cb432149a89e35e9f",
+      "merge_commit_short": "41f39aa",
+      "head_branch": "claude/jolly-carson-5kdx5w",
+      "summary_vi": "Post-merge OG smoke test (continuing PR #557 / #584) **plus** one hardening code change. No redesign, no rebuild of the card art.",
+      "change_type": "feature",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 585,
+      "pr_title": "fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/585",
+      "merged_at": "2026-06-20T19:44:37Z",
+      "merge_commit_sha": "663dd0f473e3bc5735ab6f7d5f41fa2984c741be",
+      "merge_commit_short": "663dd0f",
+      "head_branch": "claude/zealous-ride-ky2br1",
+      "summary_vi": "The desktop primary nav card (`.side-nav`, top of the right column) used `position: sticky; top: 1rem`, which detached it from the column and made it **drift/jitter** while scrolling past it. This anchors it in normal do",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 584,
       "pr_title": "feat(og): polish SEOMONEY OG card + legal VN Google Sans-style font + OG vaccine",
@@ -35,9 +73,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 860,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881405787",
-      "build_conclusion": "pending"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 583,
@@ -54,9 +92,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 859,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881189326",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 582,
@@ -73,9 +111,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 858,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881181410",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 581,
@@ -92,9 +130,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 857,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881171401",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 577,
@@ -111,9 +149,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 856,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881159420",
-      "build_conclusion": "in_progress"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 579,
@@ -130,9 +168,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 860,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881405787",
-      "build_conclusion": "pending"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 580,
@@ -149,9 +187,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 860,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881405787",
-      "build_conclusion": "pending"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 576,
@@ -168,9 +206,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 854,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27872369060",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 574,
@@ -187,9 +225,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 853,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27872361204",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 575,
@@ -206,9 +244,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 852,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27872343628",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 561,
@@ -225,9 +263,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 851,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27872241816",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 563,
@@ -244,9 +282,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 850,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27872206582",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 557,
@@ -263,9 +301,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 848,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871834388",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 551,
@@ -282,9 +320,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 847,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871273515",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 555,
@@ -301,9 +339,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 846,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27870982969",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 567,
@@ -320,9 +358,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 845,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27870535975",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 566,
@@ -339,9 +377,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 844,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27870523583",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 558,
@@ -358,9 +396,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 843,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27870031954",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 553,
@@ -377,9 +415,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 842,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27869619952",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 556,
@@ -396,9 +434,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 841,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27869545859",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 546,
@@ -415,9 +453,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 839,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27867381444",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 550,
@@ -434,9 +472,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 838,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27867360262",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 542,
@@ -453,9 +491,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 837,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27866355245",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 544,
@@ -472,9 +510,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 836,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27866345136",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 545,
@@ -491,9 +529,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 835,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27866337780",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 543,
@@ -510,9 +548,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 834,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27866069932",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 541,
@@ -529,9 +567,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 833,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27865960288",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 540,
@@ -548,9 +586,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 832,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27864864314",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 527,
@@ -567,9 +605,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 832,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27864864314",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 539,
@@ -586,9 +624,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 831,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27863833907",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 529,
@@ -605,9 +643,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 831,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27863833907",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 538,
@@ -624,9 +662,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 831,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27863833907",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 536,
@@ -3778,44 +3816,6 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 360,
-      "pr_title": "qa: Compliance Score audit + auto-fix",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/360",
-      "merged_at": "2026-06-17T18:44:20Z",
-      "merge_commit_sha": "a80741665843fb15312b5457dfa56f394b0dd14c",
-      "merge_commit_short": "a807416",
-      "head_branch": "qa/compliance-auto",
-      "summary_vi": "**Automated update** — sẽ **auto-merge** vào `main` khi CI pass (QA Gatekeeper + PR Policy).",
-      "change_type": "fix",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 353,
-      "pr_title": "feat(prompt-support): Token Optimization Engine v3",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/353",
-      "merged_at": "2026-06-17T18:43:42Z",
-      "merge_commit_sha": "ad473eab65b9375f0012ef618f1c0821e7c505c5",
-      "merge_commit_short": "ad473ea",
-      "head_branch": "feature/prompt-support-token-engine",
-      "summary_vi": "Major upgrade to `/prompt-support/` — Token Optimization Engine for coding-agent prompts.",
-      "change_type": "feature",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": true,
       "build_run_number": null,
       "build_url": "",
       "build_conclusion": ""

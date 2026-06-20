@@ -1294,9 +1294,14 @@ def check_og_image_vaccine(ctx: Ctx) -> CheckResult:
     (Zola copies static assets verbatim), so only this detector catches them.
 
     FAIL — SVG missing / not well-formed XML; SVG canvas ≠ 1200×630; the
-           `.og.webp` twin missing or not 1200×630 (broken social card).
-    WARN — twin is stale (SVG newer than committed `.og.webp` → run
-           build_og_images.py --force + commit); old-domain string in the SVG.
+           `.og.webp` twin missing or not 1200×630 (broken social card); the
+           twin is STALE — the committed SVG's sha256 no longer matches the
+           sha recorded in static/img/og-manifest.json when the twin was last
+           rendered (social would cache the OLD card art). Stale detection is
+           content-hash based → deterministic on a fresh/shallow CI checkout,
+           with no dependency on filesystem mtime or cairosvg/Pillow.
+    WARN — old-domain string in the SVG; or a stale signal we can only infer by
+           mtime because the SVG has no manifest entry yet (bootstrap/legacy).
     """
     title = "OG image 1200×630 · valid SVG · fresh twin · no old domain"
     og_dir = ctx.root / "static" / "img" / "og"
@@ -1316,12 +1321,26 @@ def check_og_image_vaccine(ctx: Ctx) -> CheckResult:
     if not (og_dir / "seomoney-og.svg").exists():
         fails.append("thiếu static/img/og/seomoney-og.svg (OG default)")
 
+    # Content-hash manifest (written by build_og_images.py): rel-svg-path → sha256
+    # of the SVG when its twin was last rendered. A mismatch = stale twin.
+    import hashlib
+    manifest: dict = {}
+    man_text = ctx.read("static/img/og-manifest.json")
+    if man_text:
+        try:
+            manifest = json.loads(man_text)
+            if not isinstance(manifest, dict):
+                manifest = {}
+        except Exception:
+            manifest = {}
+
     import xml.etree.ElementTree as ET
 
     for svg in svgs:
         rel = svg.relative_to(ctx.root)
         try:
-            svg_text = svg.read_text(encoding="utf-8", errors="ignore")
+            svg_bytes = svg.read_bytes()
+            svg_text = svg_bytes.decode("utf-8", errors="ignore")
         except OSError as exc:
             fails.append(f"{rel}: không đọc được ({exc})")
             continue
@@ -1359,26 +1378,40 @@ def check_og_image_vaccine(ctx: Ctx) -> CheckResult:
             warns.append(f"{trel}: không đọc được kích thước WebP (kiểm tra file)")
         elif dims != (_OG_W, _OG_H):
             fails.append(f"{trel}: twin {dims[0]}×{dims[1]} ≠ {_OG_W}×{_OG_H}")
-        try:
-            if svg.stat().st_mtime > twin.stat().st_mtime + 1:
-                warns.append(f"{trel}: twin cũ hơn SVG (stale) → render lại + commit")
-        except OSError:
-            pass
+
+        # Stale twin → FAIL, decided by content hash (deterministic on CI).
+        recorded = manifest.get(str(rel))
+        if recorded:
+            current = hashlib.sha256(svg_bytes).hexdigest()
+            if current != recorded:
+                fails.append(
+                    f"{trel}: STALE — SVG đã đổi nhưng twin chưa render lại "
+                    f"(sha {current[:12]}… ≠ manifest {recorded[:12]}…)")
+        else:
+            # No manifest entry yet (bootstrap/legacy) → fall back to the
+            # non-deterministic mtime heuristic, but only as a soft WARN so a
+            # fresh checkout can never falsely block the merge.
+            try:
+                if svg.stat().st_mtime > twin.stat().st_mtime + 1:
+                    warns.append(f"{trel}: có thể stale (chưa có manifest entry) → "
+                                 "chạy build_og_images.py để ghi sha")
+            except OSError:
+                pass
 
     if fails:
         return CheckResult("OG-IMAGE", title, FAIL,
-                           diagnosis="OG cover/twin vỡ chuẩn social (size/XML/twin)",
+                           diagnosis="OG cover/twin vỡ chuẩn social (size/XML/twin/stale)",
                            fix="sửa canvas về 1200×630 + SVG hợp lệ; "
-                               "python3 scripts/build_og_images.py --force rồi commit twin .og.webp",
+                               "python3 scripts/build_og_images.py rồi commit twin .og.webp + og-manifest.json",
                            details=fails + warns)
     if warns:
         return CheckResult("OG-IMAGE", title, WARN,
-                           diagnosis="OG cover hợp lệ nhưng có drift (stale twin / old-domain)",
-                           fix="python3 scripts/build_og_images.py --force + commit; "
+                           diagnosis="OG cover hợp lệ nhưng có drift (stale-mtime / old-domain)",
+                           fix="python3 scripts/build_og_images.py + commit; "
                                "xoá ref github.io trong OG SVG",
                            details=warns)
     return CheckResult("OG-IMAGE", title, PASS,
-                       diagnosis=f"{len(svgs)} OG SVG đúng {_OG_W}×{_OG_H} · XML hợp lệ · twin tươi · không old-domain")
+                       diagnosis=f"{len(svgs)} OG SVG đúng {_OG_W}×{_OG_H} · XML hợp lệ · twin tươi (hash khớp) · không old-domain")
 
 
 def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
