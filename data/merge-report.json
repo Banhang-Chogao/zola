@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-20T19:58:58Z",
+  "updated_at": "2026-06-20T20:03:52Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 46,
+    "today": 47,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 37,
-      "feature": 90,
-      "fix": 49,
+      "unknown": 39,
+      "feature": 89,
+      "fix": 48,
       "chore": 11,
       "content": 9,
       "ci": 3,
@@ -20,6 +20,44 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 588,
+      "pr_title": "Merge remote-tracking branch 'origin/main' into claude/wizardly-cerf-dj77vc [claude/wizardly-cerf-dj77vc]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/588",
+      "merged_at": "2026-06-20T19:58:10Z",
+      "merge_commit_sha": "f3ea06b8248f810fdbb97f1c4364eb02e6ee5e85",
+      "merge_commit_short": "f3ea06b",
+      "head_branch": "claude/wizardly-cerf-dj77vc",
+      "summary_vi": "- fix(editor): commit saves to GitHub, SEO hydrate old posts, single-active sticky",
+      "change_type": "unknown",
+      "files_changed": 7,
+      "additions": 502,
+      "deletions": 197,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 865,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27882232956",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 587,
+      "pr_title": "Merge remote-tracking branch 'origin/main' into claude/zealous-ride-ky2br1 [claude/zealous-ride-ky2br1]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/587",
+      "merged_at": "2026-06-20T19:53:37Z",
+      "merge_commit_sha": "e308532b53930c8327d527ce105c22b97cb9c308",
+      "merge_commit_short": "e308532",
+      "head_branch": "claude/zealous-ride-ky2br1",
+      "summary_vi": "- fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter",
+      "change_type": "unknown",
+      "files_changed": 4,
+      "additions": 293,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 864,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27882126546",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 562,
       "pr_title": "Merge origin/main into pr562: resolve GSC V19 conflicts [claude/eager-gauss-o4yj2w]",
@@ -37,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 863,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27882117111",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 586,
@@ -75,7 +113,7 @@
       "auto_merged": false,
       "build_run_number": 861,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27881911862",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 584,
@@ -344,25 +382,6 @@
       "build_conclusion": "failure"
     },
     {
-      "pr_number": 551,
-      "pr_title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfix PRs",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/551",
-      "merged_at": "2026-06-20T12:32:01Z",
-      "merge_commit_sha": "0b60f39ee662c72efb4b499913af02699ebe847d",
-      "merge_commit_short": "0b60f39",
-      "head_branch": "claude/zealous-tesla-9lu5hd",
-      "summary_vi": "Permanent fix for the class of conflicts that blocked PRs #547, #548, #549 — all `dirty` due to volatile runtime artifacts committed alongside real code fixes.",
-      "change_type": "fix",
-      "files_changed": 21,
-      "additions": 365,
-      "deletions": 647,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 847,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871273515",
-      "build_conclusion": "failure"
-    },
-    {
       "pr_number": 555,
       "pr_title": "chore(vaccine): Daily Vaccine Autofixer run",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/555",
@@ -567,9 +586,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 835,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27866337780",
-      "build_conclusion": "cancelled"
+      "build_run_number": 837,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27866355245",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 543,
@@ -3795,25 +3814,6 @@
       "files_changed": 2,
       "additions": 3,
       "deletions": 3,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 364,
-      "pr_title": "feat(f-dashboard): PDF page numbers, red watermark, Mysign badge, mer…",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/364",
-      "merged_at": "2026-06-17T19:06:08Z",
-      "merge_commit_sha": "2ed6ee714a5c37b984a2b0e87cb4621718398fe1",
-      "merge_commit_short": "2ed6ee7",
-      "head_branch": "feat/f-dashboard-pdf-enhancements",
-      "summary_vi": "- Stamp every PDF page with Trang n/tổng, redder watermark, and Viettel Mysign-style digital signature",
-      "change_type": "feature",
-      "files_changed": 4,
-      "additions": 228,
-      "deletions": 12,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
