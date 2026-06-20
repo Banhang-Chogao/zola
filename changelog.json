@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "feat(tooling): preflight conflict checker to prevent dirty branches/m…",
+      "tag": "chore",
+      "lines_added": 600,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/preflight_conflict_check.py: fetch origin/main, report behind/ahead, detect files changed in both branch and main, flag high-risk shared files (CLAUDE.md, README, config, workflows, scripts/au",
+        "scripts/install_precommit_conflict_hook.py: installs a lightweight pre-commit hook that blocks commits only on HIGH risk (fail-open otherwise).",
+        ".github/workflows/preflight-conflict.yml: runs on pull_request + dispatch, fetches full history, runs unit tests + checker, fails PR on HIGH risk.",
+        "Makefile: make preflight-conflict (+ -json, install-preflight-hook) shortcut.",
+        "scripts/test_preflight_conflict_check.py: tests high-risk detection, real conflict detection, and that the dry-run never mutates the working tree."
+      ],
+      "pr": 581
+    },
+    {
+      "date": "2026-06-20",
       "title": "Merge remote-tracking branch 'origin/main' into claude/eloquent-dirac-1nb2xp [claude/eloquent-dirac-1nb2xp]",
       "tag": "chore",
       "lines_added": 645,
