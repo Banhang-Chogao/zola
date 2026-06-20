@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng", "Công nghệ"]
-tags = ["apple pay", "apple pay series", "mô hình kinh doanh", "ngân hàng số", "hệ sinh thái"]
+tags = ["apple pay", "apple pay series", "hệ sinh thái", "mô hình kinh doanh", "ngân hàng số"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "lợi ích Apple Pay"

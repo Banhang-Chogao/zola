@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng", "Công nghệ"]
-tags = ["apple pay", "apple pay series", "thanh toán không tiếp xúc", "napas", "ví điện tử"]
+tags = ["apple pay", "apple pay series", "napas", "thanh toán không tiếp xúc", "ví điện tử"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "Apple Pay Việt Nam"

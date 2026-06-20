@@ -5,7 +5,7 @@ date = 2026-06-20
 aliases = ["/apple-pay-kiem-tien-the-nao-phi-ngan-hang/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng", "Công nghệ"]
-tags = ["apple pay", "apple pay series", "mô hình kinh doanh", "phí thẻ", "interchange"]
+tags = ["apple pay", "apple pay series", "interchange", "mô hình kinh doanh", "phí thẻ"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "Apple Pay kiếm tiền"
