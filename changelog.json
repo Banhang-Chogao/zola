@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-20",
+      "title": "fix(gsc): deploy preflight gate enforcing sc-domain:seomoney.org [claude/hopeful-brown-ng6lpw]",
+      "tag": "fix",
+      "lines_added": 547,
+      "lines_removed": 2,
+      "highlights": [
+        "sites.list → property is verified and not siteUnverifiedUser (real read permission).",
+        "sitemaps.list → https://seomoney.org/sitemap.xml is registered.",
+        "searchanalytics.query → 7-day smoke fetch answers for the property.",
+        "scripts/gsc_preflight.py (added) — preflight engine (gate + live verify, redacted output).",
+        "services/visitor-counter/gsc_client.py (modified) — EXPECTED_GSC_PROPERTY, EXPECTED_SITEMAP_URL, normalize_property_for_match, is_expected_property, find_property_permission, list_sitemap_paths, smoke"
+      ],
+      "pr": 582
+    },
+    {
+      "date": "2026-06-20",
       "title": "feat(tooling): preflight conflict checker to prevent dirty branches/m…",
       "tag": "chore",
       "lines_added": 600,
