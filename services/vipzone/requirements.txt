@@ -3,3 +3,8 @@ uvicorn[standard]>=0.27.0
 httpx>=0.27.0
 pydantic[email]>=2.0.0
 markdown>=3.5
+# Google Search Console API (SEO Reality Check) — /gsc/* routes are served by this
+# service (blog-vipzone-api). gsc_routes/gsc_client live in services/visitor-counter.
+google-api-python-client>=2.169.0
+google-auth>=2.40.2
+google-auth-httplib2>=0.2.0

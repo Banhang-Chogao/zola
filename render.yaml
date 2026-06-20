@@ -53,3 +53,17 @@ services:
         value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg
       - key: VIPZONE_CATALOG_URL
         value: https://seomoney.org/data/vipzone-picker-catalog.json
+      # Google Search Console (SEO Reality Check) — /gsc/* served by this service.
+      # OAuth redirect URI registered in Google Cloud:
+      #   https://blog-vipzone-api.onrender.com/gsc/oauth/callback
+      - key: GSC_CLIENT_ID
+        sync: false
+      - key: GSC_CLIENT_SECRET
+        sync: false
+      # Domain property (sc-domain:) — covers http/https + all subdomains (V19).
+      - key: GSC_PROPERTY_URL
+        value: sc-domain:seomoney.org
+      # Optional durable refresh token (Render /tmp SQLite is wiped on redeploy).
+      # The OAuth flow also persists one; set this for a redeploy-safe connection.
+      - key: GSC_REFRESH_TOKEN
+        sync: false

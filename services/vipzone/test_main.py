@@ -10,6 +10,11 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 
 os.environ.setdefault("VIPZONE_DB_PATH", "")
+# GSC client id/secret are read by gsc_routes at import time; set dummies BEFORE
+# importing main so the /gsc/* router mounts configured (production sets the real
+# values in the Render service env). Harmless to the non-GSC tests.
+os.environ.setdefault("GSC_CLIENT_ID", "test-id.apps.googleusercontent.com")
+os.environ.setdefault("GSC_CLIENT_SECRET", "test-secret")
 
 from db import VipzoneDB  # noqa: E402
 from main import app, get_db  # noqa: E402
@@ -313,6 +318,109 @@ class VipzoneDbTests(unittest.TestCase):
             past = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
             db.upsert_vip("old@example.com", "monthly", past)
             self.assertIsNone(db.get_active_vip("old@example.com"))
+
+
+class GscRoutesTests(unittest.TestCase):
+    """Regression: /gsc/* must be served BY THIS service (blog-vipzone-api).
+
+    config.toml points the SEO Reality Check widget's API base (vipzone_api_url) at
+    this service, so the GSC OAuth + status routes have to live here. They used to
+    404 because the router was only mounted on services/visitor-counter (not deployed).
+    """
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        os.environ["VIPZONE_DB_PATH"] = str(Path(self._tmp.name) / "gsc.db")
+        import main as main_mod
+
+        main_mod._db = None
+        self.client = TestClient(app)
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_router_mounted(self) -> None:
+        import main as main_mod
+
+        self.assertTrue(main_mod.GSC_MOUNTED, "GSC router failed to mount on vipzone")
+        # This FastAPI version wraps included routers lazily (not flat in app.routes),
+        # so assert via the OpenAPI schema, which lists every served path.
+        schema_paths = set(self.client.get("/openapi.json").json()["paths"])
+        for p in ("/gsc/status", "/gsc/oauth/start", "/gsc/oauth/callback", "/gsc/metrics"):
+            self.assertIn(p, schema_paths, f"{p} not mounted")
+
+    def test_status_uses_vipzone_redirect_uri(self) -> None:
+        body = self.client.get("/gsc/status").json()
+        self.assertEqual(
+            body["redirect_uri"], "https://blog-vipzone-api.onrender.com/gsc/oauth/callback"
+        )
+        self.assertEqual(body["oauth_scope"], "https://www.googleapis.com/auth/webmasters.readonly")
+        self.assertEqual(body["property"], "sc-domain:seomoney.org")
+
+    def test_oauth_start_requires_auth_not_404(self) -> None:
+        res = self.client.get("/gsc/oauth/start", follow_redirects=False)
+        self.assertEqual(res.status_code, 401)  # missing_token, NOT 404
+
+    def test_oauth_start_supervip_redirects_to_google(self) -> None:
+        from urllib.parse import parse_qs, urlparse
+
+        sid = get_db().create_cms_session(
+            {"email": "admin@example.com", "username": "banhang-chogao", "is_super": True}, 3600
+        )
+        res = self.client.get(f"/gsc/oauth/start?sid={sid}", follow_redirects=False)
+        self.assertEqual(res.status_code, 307)
+        q = parse_qs(urlparse(res.headers["location"]).query)
+        self.assertEqual(
+            q["redirect_uri"][0], "https://blog-vipzone-api.onrender.com/gsc/oauth/callback"
+        )
+        self.assertEqual(q["scope"][0], "https://www.googleapis.com/auth/webmasters.readonly")
+        self.assertEqual(q["access_type"][0], "offline")
+
+    def test_oauth_start_non_super_forbidden_not_404(self) -> None:
+        sid = get_db().create_cms_session(
+            {"email": "x@y.com", "username": "rando", "is_super": False}, 3600
+        )
+        res = self.client.get(f"/gsc/oauth/start?sid={sid}", follow_redirects=False)
+        self.assertEqual(res.status_code, 403)
+
+    def test_callback_bad_state_redirects_not_404(self) -> None:
+        res = self.client.get("/gsc/oauth/callback?code=x&state=bad", follow_redirects=False)
+        self.assertEqual(res.status_code, 307)
+        self.assertIn("gsc_error=invalid_state", res.headers["location"])
+
+
+class GscKvTests(unittest.TestCase):
+    """SQLite KV shim used in place of Redis for the GSC router on this service."""
+
+    def test_set_get_delete(self) -> None:
+        import asyncio
+
+        from gsc_kv import SqliteKV
+
+        with tempfile.TemporaryDirectory() as tmp:
+            kv = SqliteKV(Path(tmp) / "kv.db")
+
+            async def run():
+                await kv.set("k", "v")
+                self.assertEqual(await kv.get("k"), "v")
+                await kv.delete("k")
+                self.assertIsNone(await kv.get("k"))
+                # setex + getdel single-use semantics (OAuth state)
+                await kv.setex("s", 60, "/return")
+                self.assertEqual(await kv.getdel("s"), "/return")
+                self.assertIsNone(await kv.get("s"))
+                # expired entries read as None (advance the clock past the TTL)
+                await kv.setex("e", 1, "stale")
+                import gsc_kv
+
+                real_time = gsc_kv.time.time
+                gsc_kv.time.time = lambda: real_time() + 5
+                try:
+                    self.assertIsNone(await kv.get("e"))
+                finally:
+                    gsc_kv.time.time = real_time
+
+            asyncio.run(run())
 
 
 if __name__ == "__main__":
