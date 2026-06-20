@@ -439,6 +439,93 @@ class DeployMonitorTest(unittest.TestCase):
         self.assertEqual(qv.check_deploy_monitor(self._wire(json=old)).status, qv.WARN)
 
 
+class RuntimeArtifactVaccineTest(unittest.TestCase):
+    """V18 regression: exact PR #555 conflict file set must be gitignored and
+    the vaccine-autofixer workflow must filter them before commit.
+
+    PR #555 conflict files:
+      data/qa-rule-checker-state.json
+      reports/rule-conflict-report.json
+      reports/rule-conflict-report.md
+    Related volatile siblings:
+      data/vaccine-autofixer-state.json
+      data/vaccine-autofixer.log
+      data/autofix-conflicts-state.json
+    """
+
+    # Minimal gitignore containing all required patterns.
+    GITIGNORE_GOOD = (
+        "data/vaccine-autofixer-state.json\n"
+        "data/vaccine-autofixer.log\n"
+        "data/qa-rule-checker-state.json\n"
+        "data/autofix-conflicts-state.json\n"
+        "reports/rule-conflict-report.json\n"
+        "reports/rule-conflict-report.md\n"
+    )
+
+    # Minimal vaccine-autofixer.yml with the V18 git restore guard.
+    WORKFLOW_GOOD = (
+        "git add -A\n"
+        "git restore --staged \\\n"
+        "  data/vaccine-autofixer-state.json \\\n"
+        "  data/qa-rule-checker-state.json \\\n"
+        "  reports/rule-conflict-report.json \\\n"
+        "  reports/rule-conflict-report.md \\\n"
+        "  2>/dev/null || true\n"
+    )
+
+    def _ctx(self, gitignore: str = GITIGNORE_GOOD, workflow: str = WORKFLOW_GOOD) -> "qv.Ctx":
+        r = TmpRepo()
+        r.write(".gitignore", gitignore)
+        r.write(".github/workflows/vaccine-autofixer.yml", workflow)
+        r.write("scripts/qa-auto-rule-checker.py",
+                "def write_reports(p, m):\n    # idempotent: total_conflicts check\n    pass\n")
+        return r.ctx()
+
+    def test_pass_when_all_patterns_present(self):
+        """All 6 PR-#555 volatile files gitignored + workflow filter → PASS."""
+        self.assertEqual(qv.check_v18_runtime_artifact_conflict(self._ctx()).status, qv.PASS)
+
+    def test_real_repo_passes(self):
+        """Real repo on current main must pass V18 (calibration)."""
+        r = qv.check_v18_runtime_artifact_conflict(qv.Ctx(REPO_ROOT))
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"V18 FAIL on main — {r.diagnosis}")
+
+    def test_missing_gitignore_patterns_fails(self):
+        """Missing gitignore entries for the exact #555 files → FAIL."""
+        ctx = self._ctx(gitignore="# nothing\n")
+        r = qv.check_v18_runtime_artifact_conflict(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("gitignore", r.diagnosis.lower())
+
+    def test_missing_workflow_filter_fails(self):
+        """vaccine-autofixer.yml without git restore --staged filter → FAIL."""
+        ctx = self._ctx(workflow="git add -A\ngit commit -m 'x'\n")
+        r = qv.check_v18_runtime_artifact_conflict(ctx)
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("git restore", r.diagnosis)
+
+    def test_pr555_exact_conflict_set_covered(self):
+        """Every file in the exact PR #555 conflict set must appear in .gitignore."""
+        pr555_files = [
+            "data/qa-rule-checker-state.json",
+            "reports/rule-conflict-report.json",
+            "reports/rule-conflict-report.md",
+        ]
+        ctx = self._ctx()
+        # Good baseline passes
+        self.assertEqual(qv.check_v18_runtime_artifact_conflict(ctx).status, qv.PASS)
+
+        # Removing any one PR #555 file from gitignore → FAIL
+        for f in pr555_files:
+            bad_gi = self.GITIGNORE_GOOD.replace(f + "\n", "")
+            ctx2 = self._ctx(gitignore=bad_gi)
+            r = qv.check_v18_runtime_artifact_conflict(ctx2)
+            self.assertEqual(r.status, qv.FAIL,
+                             f"Expected FAIL when {f!r} missing from .gitignore")
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
