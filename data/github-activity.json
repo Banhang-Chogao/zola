@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-19T16:21:00Z",
+  "updated_at": "2026-06-20T12:16:08Z",
   "source": "git+api",
   "stale": false,
   "fetch_error": "",
@@ -7,19 +7,11 @@
   "repository_url": "https://github.com/Banhang-Chogao/zola",
   "contributor": "Duy Nguyen",
   "period_days": 365,
-  "period_start": "2025-06-20",
-  "period_end": "2026-06-19",
-  "total_contributions": 2020,
-  "latest_activity_at": "2026-06-19T22:52:44+07:00",
+  "period_start": "2025-06-21",
+  "period_end": "2026-06-20",
+  "total_contributions": 2190,
+  "latest_activity_at": "2026-06-20T19:00:33+07:00",
   "days": [
-    {
-      "date": "2025-06-20",
-      "count": 0,
-      "commits": 0,
-      "pull_requests": 0,
-      "issues": 0,
-      "reviews": 0
-    },
     {
       "date": "2025-06-21",
       "count": 0,
@@ -2902,17 +2894,17 @@
     },
     {
       "date": "2026-06-16",
-      "count": 380,
+      "count": 324,
       "commits": 324,
-      "pull_requests": 56,
+      "pull_requests": 0,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-17",
-      "count": 462,
+      "count": 455,
       "commits": 338,
-      "pull_requests": 124,
+      "pull_requests": 117,
       "issues": 0,
       "reviews": 0
     },
@@ -2926,20 +2918,28 @@
     },
     {
       "date": "2026-06-19",
-      "count": 333,
-      "commits": 287,
-      "pull_requests": 46,
+      "count": 414,
+      "commits": 350,
+      "pull_requests": 64,
+      "issues": 0,
+      "reviews": 0
+    },
+    {
+      "date": "2026-06-20",
+      "count": 152,
+      "commits": 107,
+      "pull_requests": 45,
       "issues": 0,
       "reviews": 0
     }
   ],
   "breakdown": {
-    "commits": 1720,
+    "commits": 1890,
     "pull_requests": 300,
     "issues": 0,
     "reviews": 0,
-    "commits_pct": 85,
-    "pull_requests_pct": 15,
+    "commits_pct": 86,
+    "pull_requests_pct": 14,
     "issues_pct": 0,
     "reviews_pct": 0
   },
@@ -2958,11 +2958,7 @@
           null,
           null,
           null,
-          {
-            "date": "2025-06-20",
-            "count": 0,
-            "level": 0
-          },
+          null,
           {
             "date": "2025-06-21",
             "count": 0,
@@ -5025,12 +5021,12 @@
           },
           {
             "date": "2026-06-16",
-            "count": 380,
+            "count": 324,
             "level": 3
           },
           {
             "date": "2026-06-17",
-            "count": 462,
+            "count": 455,
             "level": 4
           },
           {
@@ -5040,10 +5036,14 @@
           },
           {
             "date": "2026-06-19",
-            "count": 333,
-            "level": 3
+            "count": 414,
+            "level": 4
           },
-          null
+          {
+            "date": "2026-06-20",
+            "count": 152,
+            "level": 2
+          }
         ]
       }
     ],
