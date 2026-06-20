@@ -1122,6 +1122,10 @@ _EXTRA_BLOCK_RE = re.compile(r"(?ms)^(\[extra\]\s*\n)(.*?)(?=^\[|\Z)")
 _FEATURED_TRUE_RE = re.compile(r"(?m)^featured\s*=\s*true\s*$")
 _FEATURED_LINE_RE = re.compile(r"(?m)^featured\s*=\s*true\s*\n?")
 _FEATURED_AT_LINE_RE = re.compile(r'(?m)^featured_at\s*=\s*"[^"]*"\s*\n?')
+# Sticky (ghim) — chỉ 1 bài được phép sticky tại 1 thời điểm. Khi save 1 bài
+# sticky, mọi bài khác bị gỡ sticky tự động (mirror featured semantics).
+_STICKY_TRUE_RE = re.compile(r"(?m)^sticky\s*=\s*true\s*$")
+_STICKY_LINE_RE = re.compile(r"(?m)^sticky\s*=\s*true\s*\n?")
 
 
 async def _ensure_category(client: httpx.AsyncClient, name: str, token: str) -> None:
@@ -1204,6 +1208,66 @@ async def _demote_other_featured_posts(
     return demoted
 
 
+def _frontmatter_forces_sticky(content: str) -> bool:
+    extra = _EXTRA_BLOCK_RE.search(content or "")
+    return bool(extra and _STICKY_TRUE_RE.search(extra.group(2)))
+
+
+def _demote_sticky_frontmatter(content: str) -> str:
+    """Remove the `sticky = true` override from a markdown file's [extra] block."""
+    def replace_extra(match: re.Match) -> str:
+        body = _STICKY_LINE_RE.sub("", match.group(2))
+        return match.group(1) + body
+
+    return _EXTRA_BLOCK_RE.sub(replace_extra, content or "", count=1)
+
+
+async def _demote_other_sticky_posts(
+    client: httpx.AsyncClient,
+    selected_path: str,
+    selected_slug: str,
+    token: str,
+) -> int:
+    """
+    Enforce the "only ONE sticky post" rule for CMS publish: when one post is
+    saved with sticky=true, clear the sticky flag from every OTHER post in the
+    CMS content directory — in the SAME save operation — so the author never has
+    to manually unstick the previous post.
+    """
+    entries = await _gh_list_dir(client, CMS_CONTENT_DIR, token)
+    demoted = 0
+
+    for entry in entries:
+        path = entry.get("path", "")
+        if (
+            entry.get("type") != "file"
+            or not path.endswith(".md")
+            or path.endswith("/_index.md")
+            or path == selected_path
+        ):
+            continue
+
+        sha, text = await _gh_get_file(client, path, token)
+        if not sha or not _frontmatter_forces_sticky(text):
+            continue
+
+        demoted_text = _demote_sticky_frontmatter(text)
+        if demoted_text == text:
+            continue
+
+        await _gh_put_file(
+            client,
+            path,
+            demoted_text,
+            sha,
+            f"CMS: bỏ Sticky cũ khi ghim '{selected_slug}'",
+            token,
+        )
+        demoted += 1
+
+    return demoted
+
+
 @app.post("/cms/save-post")
 async def cms_save_post(request: Request, authorization: str = Header(default="")):
     """
@@ -1240,6 +1304,10 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
     slug    = str(body.get("slug", "")).strip().lower()
     content = body.get("content", "")
     message = str(body.get("message", "")).strip()
+    # Optional sha sent by the editor when updating an existing file. We still
+    # re-read the live sha (authoritative, avoids a stale-sha 409), but the
+    # client-supplied value is used as a fallback if the read fails.
+    client_sha = str(body.get("sha", "") or "").strip() or None
 
     if not _SLUG_RE.match(slug):
         raise HTTPException(400, "invalid_slug")
@@ -1252,13 +1320,16 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
 
     path = f"{CMS_CONTENT_DIR}/{slug}.md"
     force_featured = _frontmatter_forces_featured(content)
+    force_sticky = _frontmatter_forces_sticky(content)
 
     async with httpx.AsyncClient(timeout=20.0) as client:
-        # 1. Đọc sha hiện trạng cho update. 404 → file mới.
+        # 1. Đọc sha hiện trạng cho update. 404 → file mới. Fallback client_sha.
         try:
             existing_sha, _ = await _gh_get_file(client, path, access_token)
         except HTTPException:
-            existing_sha = None
+            existing_sha = client_sha
+        if existing_sha is None:
+            existing_sha = client_sha
 
         # 2. PUT create/update file .md
         try:
@@ -1282,6 +1353,15 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
                 client, path, slug, access_token,
             )
 
+        # 5. Sticky override: chỉ 1 bài được ghim. Nếu bài này sticky → tự động
+        #    gỡ sticky ở mọi bài khác trong CÙNG thao tác save (user không phải
+        #    bỏ ghim bài cũ thủ công).
+        demoted_sticky = 0
+        if force_sticky:
+            demoted_sticky = await _demote_other_sticky_posts(
+                client, path, slug, access_token,
+            )
+
         return {
             "ok":         True,
             "action":     "updated" if existing_sha else "created",
@@ -1289,6 +1369,7 @@ async def cms_save_post(request: Request, authorization: str = Header(default=""
             "commit_url": data.get("commit", {}).get("html_url", ""),
             "commit_sha": data.get("commit", {}).get("sha", ""),
             "demoted_featured": demoted_featured,
+            "demoted_sticky":   demoted_sticky,
             "deploy_eta": "1-2 phút (GitHub Actions auto-build + deploy)",
         }
 

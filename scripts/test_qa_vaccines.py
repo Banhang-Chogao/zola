@@ -944,6 +944,105 @@ class SearchUiVaccineTest(unittest.TestCase):
         self.assertEqual(r.status, qv.PASS, f"search_ui_vaccine not PASS: {r.diagnosis} {r.details}")
 
 
+class EditorPublishVaccineTest(unittest.TestCase):
+    """EDITOR-PUBLISH — saving in /editor/ must commit to GitHub (not download),
+    edits must send SHA, the SEO rail must hydrate old posts, and sticky must be
+    single-active (backend auto-unstick)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    _GOOD_JS = (
+        "async function commitPostToGithub(payload){\n"
+        "  const res = await fetch(AUTH_API + '/cms/save-post', {\n"
+        "    method:'POST',\n"
+        "    body: JSON.stringify({ slug: payload.slug, content: payload.content,\n"
+        "      message: payload.message, sha: payload.sha || '' }) });\n"
+        "  return res.json();\n"
+        "}\n"
+        "function saveAndCommit(){ const sha = state.editing ? state.editing.sha : null;\n"
+        "  commitPostToGithub({ slug, content, message, sha }); }\n"
+        "function dispatchHydrated(){ document.dispatchEvent(new CustomEvent('cms:hydrated')); }\n"
+    )
+    _GOOD_RAIL = "document.addEventListener('cms:hydrated', function(){ analyze(); });\n"
+    _GOOD_BACKEND = (
+        '@app.post("/cms/save-post")\n'
+        "async def cms_save_post(): pass\n"
+        "async def _demote_other_sticky_posts(): pass\n"
+        "force_sticky and await _demote_other_sticky_posts(client, path, slug, token)\n"
+    )
+
+    def _wire_good(self):
+        self.repo.write("static/js/editor.js", self._GOOD_JS)
+        self.repo.write("static/js/cms/editor-seo-rail.js", self._GOOD_RAIL)
+        self.repo.write("services/visitor-counter/main.py", self._GOOD_BACKEND)
+
+    def test_good_passes(self):
+        self._wire_good()
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
+
+    def test_missing_save_endpoint_fails(self):
+        self._wire_good()
+        self.repo.write("static/js/editor.js",
+                        self._GOOD_JS.replace("/cms/save-post", "/cms/nope"))
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("save-post" in d for d in r.details))
+
+    def test_draft_only_download_fails(self):
+        self._wire_good()
+        bad = self._GOOD_JS + (
+            "function putPost(path, content){ const a=document.createElement('a');"
+            " a.download = filename; a.click(); }\n")
+        self.repo.write("static/js/editor.js", bad)
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("putPost" in d or "tải file" in d for d in r.details))
+
+    def test_edit_without_sha_fails(self):
+        self._wire_good()
+        # Strip every SHA signal from the commit path.
+        bad = (self._GOOD_JS
+               .replace("sha: payload.sha || ''", "")
+               .replace("const sha = state.editing ? state.editing.sha : null;", "")
+               .replace("commitPostToGithub({ slug, content, message, sha });",
+                        "commitPostToGithub({ slug, content, message });"))
+        self.repo.write("static/js/editor.js", bad)
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("SHA" in d or "sha" in d for d in r.details))
+
+    def test_seo_rail_no_hydrate_fails(self):
+        self._wire_good()
+        self.repo.write("static/js/cms/editor-seo-rail.js",
+                        "function analyze(){}\n")  # no cms:hydrated listener
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("hydrate" in d.lower() or "cms:hydrated" in d for d in r.details))
+
+    def test_backend_no_sticky_demote_fails(self):
+        self._wire_good()
+        self.repo.write("services/visitor-counter/main.py",
+                        '@app.post("/cms/save-post")\nasync def cms_save_post(): pass\n')
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("sticky" in d.lower() for d in r.details))
+
+    def test_sticky_hard_block_warns(self):
+        self._wire_good()
+        self.repo.write("static/js/editor.js",
+                        self._GOOD_JS + "function ensureStickyAllowed(){ return false; }\n")
+        r = qv.check_editor_publish_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+
+    def test_real_repo_passes(self):
+        """The shipped editor must PASS on the real repo (calibration)."""
+        r = qv.check_editor_publish_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"editor_publish not PASS: {r.diagnosis} {r.details}")
+
+
 class DomainRootUrlVaccineTest(unittest.TestCase):
     """DOMAIN-ROOT — scanner base-path /zola assumption detector tests."""
 

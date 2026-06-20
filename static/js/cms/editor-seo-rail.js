@@ -166,5 +166,11 @@
       .observe(editView, { attributes: true, attributeFilter: ["hidden"] });
   }
 
+  // Hydration signal — editor.js sets the form fields with `.value = …` (which does
+  // NOT fire 'input'), so when an existing post or a recovered draft is loaded the
+  // rail would otherwise stay on an all-zero checklist. editor.js fires
+  // 'cms:hydrated' after populating the form → re-analyze with the loaded values.
+  document.addEventListener("cms:hydrated", function () { setTimeout(analyze, 0); });
+
   analyze();
 })();
