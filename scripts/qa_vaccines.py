@@ -1966,6 +1966,95 @@ def check_domain_root_url_vaccine(ctx: Ctx) -> CheckResult:
     )
 
 
+def check_editor_publish_vaccine(ctx: Ctx) -> CheckResult:
+    """EDITOR-PUBLISH — the /editor/ CMS must commit saves to GitHub, not fall back
+    to a draft-only download path; edits must send a SHA; the SEO rail must hydrate
+    for old posts; and sticky must be single-active (auto-unstick previous sticky).
+
+    Root cause it guards (the bug this task fixed): editor.js had a DRAFT-ONLY
+    `putPost` that merely downloaded the .md file instead of PUT-ing it to GitHub,
+    so "saving" never committed and edits silently went nowhere ("Not Found").
+
+    Static signals (no browser / network needed):
+      FAIL — saving would not commit, or a known regression returns:
+        * editor.js no longer calls the backend publish endpoint /cms/save-post;
+        * editor.js still ships a draft-only download save (URL.createObjectURL /
+          "draft-only") as the save path;
+        * the GitHub commit helper does not forward a `sha` (edit overwrite-safety);
+        * backend main.py is missing the @app.post("/cms/save-post") route;
+        * backend has no sticky auto-unstick (_demote_other_sticky_posts) wired into
+          the save route → multiple sticky posts could remain;
+        * the SEO rail never re-analyzes after an existing post loads (no
+          'cms:hydrated' bridge) → all-zero checklist for old posts.
+      WARN — committed-correctly but a resilience/UX gap:
+        * editor.js still hard-blocks save when another sticky exists (should
+          auto-unstick instead).
+    """
+    title = "Editor publish→GitHub, edit SHA, SEO hydrate, single sticky"
+    js = ctx.read("static/js/editor.js") or ""
+    rail = ctx.read("static/js/cms/editor-seo-rail.js") or ""
+    backend = ctx.read("services/visitor-counter/main.py") or ""
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Editor saves by committing to the backend publish endpoint.
+    if not js:
+        fails.append("static/js/editor.js vắng → không có flow lưu bài")
+    else:
+        if "/cms/save-post" not in js:
+            fails.append("editor.js không gọi POST /cms/save-post → save không commit GitHub")
+        # 2) The draft-only download save path must be gone (no stale putPost that
+        #    only triggers a blob download instead of committing).
+        if re.search(r"function\s+putPost\b", js) or re.search(r"a\.download\s*=\s*filename", js):
+            fails.append("editor.js vẫn còn save kiểu tải file .md (putPost/blob download) thay vì commit")
+        # 3) Edit save must forward a SHA (overwrite-safe update of existing file).
+        if not re.search(r"sha\s*:\s*payload\.sha", js) and not re.search(r"\bsha\s*:", js):
+            fails.append("editor.js không gửi `sha` khi lưu → update bài cũ thiếu SHA (ghi đè không an toàn)")
+        if "state.editing.sha" not in js:
+            fails.append("editor.js không dùng state.editing.sha → SHA bài đang sửa không được truyền")
+        # 4) Hydration bridge for the SEO rail.
+        if "cms:hydrated" not in js:
+            fails.append("editor.js không phát 'cms:hydrated' → SEO rail không hydrate bài cũ")
+        # WARN — sticky should auto-unstick, never hard-block the save.
+        if re.search(r"ensureStickyAllowed", js):
+            warns.append("editor.js còn chặn cứng save khi có sticky khác (nên auto-unstick)")
+
+    # 5) SEO rail listens for the hydration signal → re-analyzes loaded posts.
+    if not rail:
+        fails.append("static/js/cms/editor-seo-rail.js vắng → không có trợ lý SEO")
+    elif "cms:hydrated" not in rail:
+        fails.append("editor-seo-rail.js không lắng nghe 'cms:hydrated' → checklist 0 cho bài cũ")
+
+    # 6) Backend publish route + single-sticky enforcement.
+    if not backend:
+        warns.append("services/visitor-counter/main.py không đọc được → bỏ qua check backend")
+    else:
+        if '"/cms/save-post"' not in backend and "'/cms/save-post'" not in backend:
+            fails.append("backend main.py thiếu route POST /cms/save-post → publish 404")
+        if "_demote_other_sticky_posts" not in backend:
+            fails.append("backend thiếu _demote_other_sticky_posts → sticky không single-active")
+        elif backend.count("_demote_other_sticky_posts") < 2:
+            # defined but never called from the save route
+            fails.append("backend định nghĩa _demote_other_sticky_posts nhưng không gọi trong save-post")
+
+    if fails:
+        return CheckResult("EDITOR-PUBLISH", title, FAIL,
+                           diagnosis="editor save không commit GitHub / thiếu SHA / SEO rail không hydrate / sticky không single-active",
+                           fix=("editor.js: commit qua /cms/save-post kèm sha + phát 'cms:hydrated'; "
+                                "rail: nghe 'cms:hydrated'; backend: route /cms/save-post + "
+                                "_demote_other_sticky_posts gọi khi sticky=true"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("EDITOR-PUBLISH", title, WARN,
+                           diagnosis="editor commit đúng nhưng còn khe hở (sticky block / backend không đọc được)",
+                           fix="đổi sticky sang auto-unstick (bỏ block cứng)",
+                           details=warns)
+    return CheckResult("EDITOR-PUBLISH", title, PASS,
+                       diagnosis="editor commit lên GitHub qua /cms/save-post (kèm SHA), SEO rail hydrate bài cũ, "
+                                 "sticky single-active (backend auto-unstick)")
+
+
 def check_no_floating_nav_vaccine(ctx: Ctx) -> CheckResult:
     """V21 — No Floating Bar / Stable Nav Vaccine.
 
@@ -2096,6 +2185,7 @@ DETECTORS = [
     check_korean_banner_ui_vaccine,
     check_seomoney_brand,
     check_og_image_vaccine,
+    check_editor_publish_vaccine,
 ]
 
 
