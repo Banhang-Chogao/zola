@@ -22,7 +22,7 @@ _spec.loader.exec_module(mod)
 
 class AutofixHelpersTest(unittest.TestCase):
     def test_contribution_level_strip_md(self):
-        text = "**Hello** [link](/zola/posting/x/)"
+        text = "**Hello** [link](/posting/x/)"
         self.assertIn("Hello", mod._strip_md(text))
 
     def test_excerpt_truncates(self):
@@ -80,7 +80,7 @@ class AutofixFixTest(unittest.TestCase):
                 'description = "A long enough meta description for SEO testing purposes here."\n'
                 'date = 2026-06-18\n'
                 '+++\n\n'
-                'See [privacy](/zola/pages/privacy/) for details.\n',
+                'See [privacy](/pages/privacy/) for details.\n',
                 encoding="utf-8",
             )
             orig_content = mod.CONTENT
@@ -92,11 +92,11 @@ class AutofixFixTest(unittest.TestCase):
                 assert doc
                 issue = mod.Issue(
                     "broken_internal_link", "content/posting/sample.md",
-                    detail="/zola/pages/privacy/|/zola/privacy/",
+                    detail="/pages/privacy/|/privacy/",
                 )
                 ok, _ = mod._apply_fix(doc, issue, {})
                 self.assertTrue(ok)
-                self.assertIn("/zola/privacy/", md.read_text())
+                self.assertIn("/privacy/", md.read_text())
             finally:
                 mod.CONTENT = orig_content
                 mod.SCAN_DIRS = orig_scan

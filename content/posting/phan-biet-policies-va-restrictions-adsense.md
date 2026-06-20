@@ -7,7 +7,7 @@ aliases = ["/phan-biet-policies-va-restrictions-adsense/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["adsense", "adsense foundation series", "google adsense", "monetization", "policy center", "publisher policies", "publisher restrictions"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/covers/tao-blog-voi-zola.svg"
+thumbnail = "https://seomoney.org/img/covers/tao-blog-voi-zola.svg"
 seo_keyword = "phân biệt policies restrictions adsense"
 featured = false
 series = "adsense-foundation"
@@ -28,9 +28,9 @@ q = "Một bài viết có thể vừa Policies vừa Restrictions không?"
 a = "Có — ranh giới mức độ quyết định. Ví dụ shocking: tin tức graphic nhẹ → Restrictions; gore gratuitous → Policies. Policy center có thể báo nhiều issue trên cùng URL — ưu tiên xử lý Must fix (Policies) trước, rồi đánh giá limited ads còn lại."
 +++
 
-> 📚 **Google AdSense Foundation Series (Bài 6/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), [Bài 2: Điều kiện đủ tư cách AdSense](/zola/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3: Website sẵn sàng cho AdSense](/zola/posting/website-san-sang-cho-adsense/), [Bài 4: Google Publisher Policies — nội dung bị cấm](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) và [Bài 5: Google Publisher Restrictions — nội dung hạn chế](/zola/posting/google-publisher-restrictions-noi-dung-han-che/), bài này gom hai lớp chính sách thành **thực chiến**: **phân biệt Policies và Restrictions** khi đọc [Policy center](https://support.google.com/adsense/answer/7003627?hl=en), email cảnh báo, và lên kế hoạch chủ đề site.
+> 📚 **Google AdSense Foundation Series (Bài 6/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), [Bài 2: Điều kiện đủ tư cách AdSense](/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3: Website sẵn sàng cho AdSense](/posting/website-san-sang-cho-adsense/), [Bài 4: Google Publisher Policies — nội dung bị cấm](/posting/google-publisher-policies-noi-dung-bi-cam/) và [Bài 5: Google Publisher Restrictions — nội dung hạn chế](/posting/google-publisher-restrictions-noi-dung-han-che/), bài này gom hai lớp chính sách thành **thực chiến**: **phân biệt Policies và Restrictions** khi đọc [Policy center](https://support.google.com/adsense/answer/7003627?hl=en), email cảnh báo, và lên kế hoạch chủ đề site.
 
-[Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) = **cấm**. [Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) = **giới hạn**. Bài 6 trả lời câu publisher hay hỏi sau email Google: **"Must fix hay limited ads — tôi sửa cái nào trước, có bị ban không?"**
+[Bài 4](/posting/google-publisher-policies-noi-dung-bi-cam/) = **cấm**. [Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/) = **giới hạn**. Bài 6 trả lời câu publisher hay hỏi sau email Google: **"Must fix hay limited ads — tôi sửa cái nào trước, có bị ban không?"**
 
 <!-- more -->
 
@@ -40,8 +40,8 @@ Forum AdSense hay gộp mọi cảnh báo thành **"bị policy"** — publisher
 
 Theo [AdSense Program policies](https://support.google.com/adsense/answer/48182?hl=en):
 
-- **Publisher Policies** ([Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-cam/)) — nội dung **không được** monetize.
-- **Publisher Restrictions** ([Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/)) — nội dung **có thể** monetize nhưng **hạn chế** nguồn quảng cáo.
+- **Publisher Policies** ([Bài 4](/posting/google-publisher-policies-noi-dung-bi-cam/)) — nội dung **không được** monetize.
+- **Publisher Restrictions** ([Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/)) — nội dung **có thể** monetize nhưng **hạn chế** nguồn quảng cáo.
 
 Hậu quả khác nhau:
 
@@ -50,7 +50,7 @@ Hậu quả khác nhau:
 | **Policies** | Disable ads, đóng account | Gỡ/sửa nội dung, request review |
 | **Restrictions** | Fill/RPM thấp, no ad slot | Quyết định chủ đề hoặc chấp nhận |
 
-[Bài 1](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/) đã vẽ khung. Bài 6 là **bản đồ đọc Policy center** — không thay thế đọc [9335564](https://support.google.com/adsense/answer/9335564?hl=en) (Policies) và [10437795](https://support.google.com/adsense/answer/10437795?hl=en) (Restrictions).
+[Bài 1](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/) đã vẽ khung. Bài 6 là **bản đồ đọc Policy center** — không thay thế đọc [9335564](https://support.google.com/adsense/answer/9335564?hl=en) (Policies) và [10437795](https://support.google.com/adsense/answer/10437795?hl=en) (Restrictions).
 
 Google đang **migrate** sang [Publisher Policies Help Center](https://support.google.com/publisherpolicies/) — nhãn UI có thể đổi, nhưng logic **cấm vs giới hạn** giữ nguyên.
 
@@ -60,12 +60,12 @@ Google đang **migrate** sang [Publisher Policies Help Center](https://support.g
 
 - Illegal content, scraped, CSAM, malware, misrepresentation…
 - Vi phạm → Google **không serve ads**; account có thể **disabled**.
-- Liên quan **eligibility** và **site readiness** — [Bài 2](/zola/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3](/zola/posting/website-san-sang-cho-adsense/).
+- Liên quan **eligibility** và **site readiness** — [Bài 2](/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3](/posting/website-san-sang-cho-adsense/).
 
 ### Publisher Restrictions — "được phép nhưng hạn chế"
 
 - Tobacco, gambling, shocking (mức nhẹ hơn Policies), behavioral (ad che content)…
-- **Google Ads** thường **không bid** — [Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/).
+- **Google Ads** thường **không bid** — [Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/).
 - Account **thường** vẫn active — doanh thu kém trên URL bị label.
 
 ### Program policies bao bọc cả hai
@@ -109,7 +109,7 @@ Email Google có thể ghi **"policy violation"** chung chung — luôn vào Pol
 - Không sửa trong deadline → **account disabled** có thể xảy ra.
 - Appeal sau khi **đã sửa** nội dung thật — không fake.
 
-**Ví dụ từ [Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-cam/):**
+**Ví dụ từ [Bài 4](/posting/google-publisher-policies-noi-dung-bi-cam/):**
 
 - Site chủ yếu scraped RSS.
 - Trang có malware redirect.
@@ -127,7 +127,7 @@ Email Google có thể ghi **"policy violation"** chung chung — luôn vào Pol
 - RPM/fill thấp trên URL — có thể **blank ad**.
 - **Không** có deadline "Must fix" kiểu disable — nhưng **nên** hiểu để không panic.
 
-**Ví dụ từ [Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/):**
+**Ví dụ từ [Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/):**
 
 - Bài review thuốc lá — restricted.
 - Tin tai nạn có ảnh graphic — shocking restriction.
@@ -156,7 +156,7 @@ Một số chủ đề **bắt đầu** Restrictions, **leo thang** Policies khi
 | **Gambling** | Một số affiliate/info | Promote illegal gambling |
 | **Behavioral** | Ad hơi che content | Cloaking, cố ý ẩn ad |
 
-[Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) đã nhắc ranh giới shocking. **Publisher tin tức:** thêm ảnh graphic → từ limited → Must fix.
+[Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/) đã nhắc ranh giới shocking. **Publisher tin tức:** thêm ảnh graphic → từ limited → Must fix.
 
 **Chiến lược phòng:** Khi chủ đề borderline, **không gắn ad** cho đến khi chắc mức độ — hoặc làm mềm media trước publish.
 
@@ -164,8 +164,8 @@ Một số chủ đề **bắt đầu** Restrictions, **leo thang** Policies khi
 
 ### Case A — Blog giáo dục AdSense/SEO (blog tôi)
 
-- **Policies:** Pass — không scraped, không adult ([Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) audit).
-- **Restrictions:** Pass content — behavioral: không sticky che TOC ([Bài 3](/zola/posting/website-san-sang-cho-adsense/)).
+- **Policies:** Pass — không scraped, không adult ([Bài 4](/posting/google-publisher-policies-noi-dung-bi-cam/) audit).
+- **Restrictions:** Pass content — behavioral: không sticky che TOC ([Bài 3](/posting/website-san-sang-cho-adsense/)).
 - **Policy center kỳ vọng:** No issues hoặc chỉ nhắc readiness lúc mới apply.
 
 ### Case B — Site tin tai nạn
@@ -193,7 +193,7 @@ Quy trình tôi dùng — bám Policy center:
 
 - Mở URL bị flag → đối chiếu [9335564](https://support.google.com/adsense/answer/9335564?hl=en).
 - Sửa/gỡ → chờ cache → **Request review**.
-- Không apply account mới khi site-wide Must fix chưa xử lý ([Bài 2](/zola/posting/dieu-kien-du-tu-cach-adsense/)).
+- Không apply account mới khi site-wide Must fix chưa xử lý ([Bài 2](/posting/dieu-kien-du-tu-cach-adsense/)).
 
 **Bước 3 — Restrictions sau**
 
@@ -219,7 +219,7 @@ Series Bài 13 sẽ đi sâu **khắc phục vi phạm** — Bài 6 là **phân 
 | Hub báo chí | Thấp nếu không gore | Trung nếu thêm ảnh nhạy cảm |
 | `/admin/paywall/` | N/A — không gắn ad | N/A |
 
-**Behavioral:** Theme không che ad/content — đồng bộ [Bài 3](/zola/posting/website-san-sang-cho-adsense/) và [Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/).
+**Behavioral:** Theme không che ad/content — đồng bộ [Bài 3](/posting/website-san-sang-cho-adsense/) và [Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/).
 
 Khi mở rộng chủ đề (review vape, CBD), **tag mental Restrictions** trước publish — tránh đợi Policy center mới biết.
 
@@ -243,7 +243,7 @@ Overkill — có thể chỉ cần no-ad một section.
 
 ### 5. Nhầm eligibility fail với Restrictions
 
-Từ chối apply lần đầu — thường Policies/readiness ([Bài 2](/zola/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3](/zola/posting/website-san-sang-cho-adsense/)), không phải "limited ads".
+Từ chối apply lần đầu — thường Policies/readiness ([Bài 2](/posting/dieu-kien-du-tu-cach-adsense/), [Bài 3](/posting/website-san-sang-cho-adsense/)), không phải "limited ads".
 
 ### 6. Không đọc tên policy trong issue
 
@@ -258,14 +258,14 @@ Restrictions có **geo exclusion** — đối chiếu [online gambling](https://
 Sau email Policy center hoặc audit định kỳ:
 
 - [ ] Mở **Policy center** — liệt kê issue: Must fix vs Limited.
-- [ ] **Must fix trước** — map sang [Publisher Policies](/zola/posting/google-publisher-policies-noi-dung-bi-cam/).
-- [ ] **Limited ads** — map sang [Restrictions](/zola/posting/google-publisher-restrictions-noi-dung-han-che/).
+- [ ] **Must fix trước** — map sang [Publisher Policies](/posting/google-publisher-policies-noi-dung-bi-cam/).
+- [ ] **Limited ads** — map sang [Restrictions](/posting/google-publisher-restrictions-noi-dung-han-che/).
 - [ ] Kiểm tra **URL** bị flag — không chỉ homepage.
 - [ ] **Sửa nội dung thật** trước request review (Policies).
 - [ ] Quyết định **no-ad** cho URL Restrictions borderline.
 - [ ] Ghi log ngày + hành động.
 - [ ] Sau fix Policies — **Request review**; theo dõi 48–72h.
-- [ ] Audit bài cũ — scraped/UGC drift ([Bài 3](/zola/posting/website-san-sang-cho-adsense/)).
+- [ ] Audit bài cũ — scraped/UGC drift ([Bài 3](/posting/website-san-sang-cho-adsense/)).
 - [ ] Đọc [Publisher Policies Help Center](https://support.google.com/publisherpolicies/) khi Google migrate nhãn.
 
 ## Bạn nên làm gì sau bài 6? {#sau-bai-6}
@@ -274,14 +274,14 @@ Khi đã **phân loại** Policies vs Restrictions, bước tiếp trong series 
 
 1. **Đăng nhập Policy center** — baseline issue hiện tại (nếu đã có account).
 2. **Map từng section** blog — tag P-safe / R-risk / no-ad.
-3. **Ôn** [Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) + [Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) — Bài 6 là cầu nối, không thay thế chi tiết danh mục.
+3. **Ôn** [Bài 4](/posting/google-publisher-policies-noi-dung-bi-cam/) + [Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/) — Bài 6 là cầu nối, không thay thế chi tiết danh mục.
 
-Chưa pass eligibility? [Bài 2](/zola/posting/dieu-kien-du-tu-cach-adsense/). Chưa hiểu khung? [Bài 1](/zola/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/).
+Chưa pass eligibility? [Bài 2](/posting/dieu-kien-du-tu-cach-adsense/). Chưa hiểu khung? [Bài 1](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/).
 
 ## Tóm lại {#tom-lai}
 
 **Phân biệt Policies và Restrictions** = kỹ năng đọc **Policy center**: **Must fix** (Publisher Policies — cấm, rủi ro disable) vs **Limited ads** (Restrictions — được phép nhưng fill/RPM thấp). Xử lý **Policies trước**, quyết định có chủ đích với **Restrictions**, và biết **escalation** khi mức độ nội dung tăng.
 
-[Bài 4](/zola/posting/google-publisher-policies-noi-dung-bi-cam/) và [Bài 5](/zola/posting/google-publisher-restrictions-noi-dung-han-che/) cho **danh mục**; **Bài 6** cho **hành động** khi Google báo. Publisher blog giáo dục ít issue — nhưng khi mở rộng chủ đề hoặc nhận email, phân loại đúng tiết kiệm account và thời gian appeal.
+[Bài 4](/posting/google-publisher-policies-noi-dung-bi-cam/) và [Bài 5](/posting/google-publisher-restrictions-noi-dung-han-che/) cho **danh mục**; **Bài 6** cho **hành động** khi Google báo. Publisher blog giáo dục ít issue — nhưng khi mở rộng chủ đề hoặc nhận email, phân loại đúng tiết kiệm account và thời gian appeal.
 
 Series: Bài 1 (khung) → Bài 2 (eligibility) → Bài 3 (readiness) → Bài 4 (Policies) → Bài 5 (Restrictions) → **Bài 6** (phân biệt thực chiến). Tiếp theo: **xây dựng website thân thiện AdSense** — helpful content và unique value (Bài 7).

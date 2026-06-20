@@ -17,7 +17,7 @@ from urllib.parse import urlparse, urlunparse
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "references.json"
-BASE_URL = "https://banhang-chogao.github.io/zola"
+BASE_URL = "https://seomoney.org"
 
 CONTENT_DIRS = (
     ROOT / "content" / "posting",
@@ -106,7 +106,7 @@ def is_site_host(host: str | None) -> bool:
     if not host:
         return False
     h = host.lower()
-    return h in ("banhang-chogao.github.io", "localhost", "127.0.0.1")
+    return h in ("seomoney.org", "localhost", "127.0.0.1")
 
 
 def classify_url(url: str) -> str:

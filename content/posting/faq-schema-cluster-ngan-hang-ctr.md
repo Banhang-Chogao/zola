@@ -7,7 +7,7 @@ aliases = ["/faq-schema-cluster-ngan-hang-ctr/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["faq schema", "json-ld", "ngân hàng", "seo"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "FAQ Schema cluster ngân hàng"
 featured = true
 +++
@@ -18,7 +18,7 @@ featured = true
 
 FAQ rich results trên Google có thể tăng **CTR 15–30%** cho bài ngân hàng — tôi đo trên cluster VietinBank + LPBank + TNEX. Bài pillar này ghi cách tôi triển khai **FAQ Schema (JSON-LD)** cho từng ngân hàng.
 
-**SEO Cluster:** [Sửa orphan tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/) · [LPBank review](/zola/review-lpbank-so-2026/) · [VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
+**SEO Cluster:** [Sửa orphan tiếng Hàn](/sua-orphan-bai-tieng-han-seo/) · [LPBank review](/review-lpbank-so-2026/) · [VietinBank iPay](/10-meo-vietinbank-ipay-nang-cao/)
 
 ---
 
@@ -29,7 +29,7 @@ Người dùng search:
 - "VietinBank iPay hạn mức bao nhiêu"
 - "TNEX chuyển tiền miễn phí không"
 
-**FAQ Schema** giúp Google hiển thị câu trả lời trực tiếp → tăng CTR và topical authority cho [Finance cluster](/zola/review-lpbank-so-2026/).
+**FAQ Schema** giúp Google hiển thị câu trả lời trực tiếp → tăng CTR và topical authority cho [Finance cluster](/review-lpbank-so-2026/).
 
 ---
 
@@ -91,7 +91,7 @@ Người dùng search:
 }
 ```
 
-Nội dung chi tiết: [/vietinbank/toi-uu-bao-mat-han-muc-ipay](/zola/toi-uu-bao-mat-han-muc-vietinbank-ipay/)
+Nội dung chi tiết: [/vietinbank/toi-uu-bao-mat-han-muc-ipay](/toi-uu-bao-mat-han-muc-vietinbank-ipay/)
 
 ---
 
@@ -130,7 +130,7 @@ Nội dung chi tiết: [/vietinbank/toi-uu-bao-mat-han-muc-ipay](/zola/toi-uu-ba
 }
 ```
 
-Chi tiết: [/lpbank/loi-thuong-gap-lpbank-so](/zola/loi-thuong-gap-lpbank-so/)
+Chi tiết: [/lpbank/loi-thuong-gap-lpbank-so](/loi-thuong-gap-lpbank-so/)
 
 ---
 
@@ -183,7 +183,7 @@ Chi tiết: [/lpbank/loi-thuong-gap-lpbank-so](/zola/loi-thuong-gap-lpbank-so/)
 
 ## Kết hợp với AI pipeline
 
-[QA Gatekeeper](/zola/qa-gatekeeper-vaccine-autofixer/) kiểm tra:
+[QA Gatekeeper](/qa-gatekeeper-vaccine-autofixer/) kiểm tra:
 - FAQ ≥ 3 câu
 - JSON-LD syntax valid
 - Không duplicate FAQ giữa các bài (canonical 1 FAQ page/bank)
@@ -192,7 +192,7 @@ Chi tiết: [/lpbank/loi-thuong-gap-lpbank-so](/zola/loi-thuong-gap-lpbank-so/)
 
 ## Liên kết cluster
 
-- [Review LPBank](/zola/review-lpbank-so-2026/)
-- [10 mẹo VietinBank iPay](/zola/10-meo-vietinbank-ipay-nang-cao/)
-- [Sửa orphan tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/)
-- [Prompt system Zola](/zola/he-thong-prompt-zola-blog/)
+- [Review LPBank](/review-lpbank-so-2026/)
+- [10 mẹo VietinBank iPay](/10-meo-vietinbank-ipay-nang-cao/)
+- [Sửa orphan tiếng Hàn](/sua-orphan-bai-tieng-han-seo/)
+- [Prompt system Zola](/he-thong-prompt-zola-blog/)

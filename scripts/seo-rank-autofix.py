@@ -30,8 +30,8 @@ CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
 REPORT_FILE = DATA / "seo-rank-autofix-report.json"
 RELATED_FILE = DATA / "related.json"
-BASE_URL = "https://banhang-chogao.github.io/zola"
-SITE_PREFIX = "/zola"
+BASE_URL = "https://seomoney.org"
+SITE_PREFIX = ""
 
 POST_SECTIONS = ("posting", "baochi", "du-lich", "topic")
 SCAN_DIRS = tuple(CONTENT / s for s in POST_SECTIONS) + (CONTENT / "pages",)

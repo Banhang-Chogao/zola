@@ -34,7 +34,7 @@ LIMIT_DEFAULT = 25
 SOURCE_PAGE = f"https://trends.google.com/trending?geo={GEO}"
 RSS_URL = f"https://trends.google.com/trending/rss?geo={GEO}"
 USER_AGENT = (
-    "Mozilla/5.0 (compatible; ZolaBlogTrendsBot/1.0; +https://banhang-chogao.github.io/zola/)"
+    "Mozilla/5.0 (compatible; ZolaBlogTrendsBot/1.0; +https://seomoney.org/)"
 )
 NS = {"ht": "https://trends.google.com/trending/rss"}
 

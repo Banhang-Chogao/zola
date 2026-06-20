@@ -43,8 +43,8 @@ from pydantic import BaseModel, Field
 from db import ShortenDB
 
 # ============= Config =============
-CORS_ORIGIN = os.getenv("SHORTENSEA_CORS_ORIGIN", "https://banhang-chogao.github.io")
-BLOG_URL = os.getenv("SHORTENSEA_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+CORS_ORIGIN = os.getenv("SHORTENSEA_CORS_ORIGIN", "https://seomoney.org")
+BLOG_URL = os.getenv("SHORTENSEA_BLOG_URL", "https://seomoney.org").rstrip("/")
 BACKEND_URL = os.getenv("SHORTENSEA_BACKEND_URL", "http://localhost:8790").rstrip("/")
 SHORTENSEA_AUTH_URL = os.getenv("SHORTENSEA_AUTH_URL", "https://blog-vipzone-api.onrender.com").rstrip("/")
 GH_CLIENT_ID = os.getenv("GH_CLIENT_ID", "")
@@ -55,7 +55,7 @@ MOMO_LINK = os.getenv(
     "MOMO_PAYMENT_LINK",
     "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
 )
-SHORT_DOMAIN = os.getenv("SHORTENSEA_DOMAIN", "banhang-chogao.github.io/zola")
+SHORT_DOMAIN = os.getenv("SHORTENSEA_DOMAIN", "seomoney.org")
 
 ADMIN_EMAILS = {
     e.strip().lower()

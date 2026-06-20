@@ -18,7 +18,7 @@ LEGACY_DROP_PICKS = frozenset({
 
 
 def norm_url(url: str) -> str:
-    x = (url or "").strip().replace("https://banhang-chogao.github.io/zola", "")
+    x = (url or "").strip().replace("https://seomoney.org", "")
     if not x.startswith("/"):
         x = "/" + x
     return x if x.endswith("/") else x + "/"

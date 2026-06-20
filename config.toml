@@ -1,4 +1,4 @@
-base_url = "https://banhang-chogao.github.io/zola"
+base_url = "https://seomoney.org"
 title = "Duy Nguyen"
 description = "Blog cá nhân của Duy Nguyen về công nghệ, du lịch và ẩm thực — chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ."
 # Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
@@ -41,8 +41,8 @@ enable_qa_dashboard = false
 # Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
 # Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
 # Zola sẽ serve tại path dưới sau khi build.
-author_avatar = "https://banhang-chogao.github.io/zola/img/author-avatar.webp"
-author_url    = "https://banhang-chogao.github.io/zola"
+author_avatar = "https://seomoney.org/img/author-avatar.webp"
+author_url    = "https://seomoney.org"
 author_bio    = """\
 Mình là Duy Nguyen — một developer Việt Nam mê khám phá điểm chung giữa \
 công nghệ và những chuyến đi. Tại blog này, mình ghi lại những trải nghiệm \
@@ -81,7 +81,7 @@ ga_measurement_id = "G-REFBXH86Z5"
 # (cách NHANH NHẤT để bài mới lên Google thay vì chờ crawl tự nhiên).
 # Cách lấy mã:
 #   1. Vào https://search.google.com/search-console → Add property
-#      → chọn "URL prefix" → nhập https://banhang-chogao.github.io/zola/
+#      → chọn "URL prefix" → nhập https://seomoney.org/
 #   2. Chọn phương thức xác minh "HTML tag"
 #   3. Copy phần content="..." trong thẻ <meta google-site-verification ...>
 #      rồi dán giá trị đó vào dưới (chỉ phần trong dấu nháy).
@@ -90,16 +90,16 @@ google_site_verification = "P8D-DHMtUivdNJmeBe9y345PxmIfmIGooscim9x7IM4"
 
 # ============= GOOGLE PROGRAMMABLE SEARCH ENGINE =============
 # Search engine ID (cx) lấy tại https://programmablesearchengine.google.com/
-# → tạo engine giới hạn site https://banhang-chogao.github.io/zola/
+# → tạo engine giới hạn site https://seomoney.org/
 # → copy "Search engine ID" dán vào đây. Để trống = fallback mở Google với
-# truy vấn site:banhang-chogao.github.io/zola nên nút tìm kiếm vẫn hoạt động.
+# truy vấn site:seomoney.org nên nút tìm kiếm vẫn hoạt động.
 google_cse_cx = "533c848cb0eb14de2"
 
 # VIPZone auth backend — FastAPI OAuth on Render.
 # PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta vipzone-auth-api sẽ không render).
 cms_auth_url = "https://blog-vipzone-api.onrender.com"
 # Google Search Console (SEO Reality Check): OAuth + live metrics qua VIPZone auth /gsc/*.
-# Property cố định: https://banhang-chogao.github.io/zola/ (URL prefix trong GSC).
+# Property cố định: https://seomoney.org/ (URL prefix trong GSC).
 # Setup: Google Cloud OAuth → redirect https://blog-vipzone-api.onrender.com/gsc/oauth/callback
 # → Render env GSC_CLIENT_ID + GSC_CLIENT_SECRET → đăng nhập CMS → Kết nối GSC.
 # CI snapshot: GitHub secrets GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET.

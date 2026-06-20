@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-24"
 premium_title = "Ngày 24 — Mong muốn & ý định: -고 싶다, -려고 하다, -기로 하다"
 premium_teaser_words = 210
 seo_keyword = "mong muốn tiếng hàn"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 24
@@ -41,4 +41,4 @@ Nếm thử nhé: 가다 (đi) + 고 싶다 = **가고 싶어요** (*ga-go si-pe
 
 Trong bài đầy đủ hôm nay, bạn sẽ có: **-고 싶다 vs -고 싶어 하다** (ngôi 1/2 vs ngôi 3), **-(으)려고 하다** (định), **-(으)러 가다/오다** (đi để làm gì), **-기로 하다** (quyết định đã chốt), **-(으)ㄹ 계획이다** (có kế hoạch), một **bảng so sánh sắc thái** ý định, và **13 câu bài tập có đáp án**. Mở khóa để nói ra ước mơ tiếng Hàn của bạn nào — 화이팅! 💪
 
-👉 Quay lại [Ngày 23 — khả năng & kinh nghiệm](/zola/posting/kha-nang-kinh-nghiem-tieng-han/) hoặc tiến tới [Ngày 25 — động từ bất quy tắc](/zola/posting/dong-tu-bat-quy-tac-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/).
+👉 Quay lại [Ngày 23 — khả năng & kinh nghiệm](/posting/kha-nang-kinh-nghiem-tieng-han/) hoặc tiến tới [Ngày 25 — động từ bất quy tắc](/posting/dong-tu-bat-quy-tac-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/).

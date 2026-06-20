@@ -49,8 +49,8 @@ from cms_auth import BACKEND_URL, is_admin, router as auth_router, session_dep
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
 from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
 
-CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://banhang-chogao.github.io")
-BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://seomoney.org")
+BLOG_URL = os.getenv("VIPZONE_BLOG_URL", "https://seomoney.org").rstrip("/")
 DB_PATH = os.getenv("VIPZONE_DB_PATH", "")
 
 ADMIN_EMAILS = {

@@ -31,7 +31,7 @@ TOPIC_DIR = ROOT / "content" / "topic"
 DATA_OUT = ROOT / "data" / "authority-report.json"
 MANIFEST_OUT = ROOT / "data" / "authority-booster-manifest.json"
 REPORTS_DIR = ROOT / "reports" / "authority-booster"
-BASE_URL = "https://banhang-chogao.github.io/zola"
+BASE_URL = "https://seomoney.org"
 
 MAX_LINK_FIXES = 8
 MAX_REF_FIXES = 5

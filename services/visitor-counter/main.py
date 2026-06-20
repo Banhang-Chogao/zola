@@ -62,13 +62,13 @@ from vipzone_auth import fetch_vipzone_me, require_supervip as _require_supervip
 
 # ============= Configuration =============
 REDIS_URL   = os.getenv("REDIS_URL", "redis://localhost:6379")
-CORS_ORIGIN = os.getenv("CORS_ORIGIN", "https://banhang-chogao.github.io")
+CORS_ORIGIN = os.getenv("CORS_ORIGIN", "https://seomoney.org")
 COUNTER_KEY = os.getenv("COUNTER_KEY", "blog:visitors")
 
 GH_CLIENT_ID     = os.getenv("GH_CLIENT_ID", "")
 GH_CLIENT_SECRET = os.getenv("GH_CLIENT_SECRET", "")
 BACKEND_URL      = os.getenv("BACKEND_URL", "http://localhost:8000").rstrip("/")
-BLOG_URL         = os.getenv("BLOG_URL", "https://banhang-chogao.github.io/zola").rstrip("/")
+BLOG_URL         = os.getenv("BLOG_URL", "https://seomoney.org").rstrip("/")
 # Base path component của BLOG_URL — vd "/zola". Dùng để strip khi return_to
 # từ client đã có prefix này (do location.pathname trên GitHub Pages bao gồm
 # subpath). Tránh URL kép kiểu /zola/zola/baochi/.

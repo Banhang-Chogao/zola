@@ -2,7 +2,7 @@
 """
 Normalize root-absolute internal markdown links for GitHub Pages subpath.
 
-On https://banhang-chogao.github.io/zola/, markdown links like ](/baochi/foo/)
+On https://seomoney.org/, markdown links like ](/baochi/foo/)
 resolve to github.io/baochi/foo/ (404). This script prefixes /zola/ so built
 HTML hrefs match the deployed base path.
 
@@ -17,7 +17,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 CONTENT = REPO / "content"
-SITE_PREFIX = "/zola"
+SITE_PREFIX = ""
 
 # ](/path) — internal root-absolute markdown links
 _MD_LINK_RE = re.compile(r"\]\((/[^)\s\"'#]+)")

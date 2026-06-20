@@ -7,7 +7,7 @@ aliases = ["/50-mau-cau-topik-nang-cao/"]
 categories = ["Tất cả", "Học tiếng Hàn"]
 tags = ["mẫu câu tiếng hàn", "topik ii", "ôn thi topik"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "50 mẫu câu tiếng hàn TOPIK"
 featured = false
 +++
@@ -18,7 +18,7 @@ featured = false
 
 Đây là bộ **50 mẫu câu** tôi trích từ đề TOPIK II và sách 서울대 5B–6B, nhóm theo cấu trúc. Tôi ôn 5 câu/ngày — sau 10 ngày quay lại từ đầu.
 
-**Cluster:** [Pillar ngữ pháp](/zola/ngu-phap-nang-cao-sau-topik-4/) · [-더라도](/zola/derado-va-neunda-haedo-tieng-han/) · [-곤 하다](/zola/gon-hada-ki-mareonida-tieng-han/)
+**Cluster:** [Pillar ngữ pháp](/ngu-phap-nang-cao-sau-topik-4/) · [-더라도](/derado-va-neunda-haedo-tieng-han/) · [-곤 하다](/gon-hada-ki-mareonida-tieng-han/)
 
 ---
 
@@ -116,5 +116,5 @@ Dùng **Korean Converter** kiểm tra câu tự viết.
 
 ## Liên kết
 
-- [Giả định nâng cao](/zola/ngu-phap-gia-dinh-nang-cao-topik/)
-- [Internal linking orphan](/zola/sua-orphan-bai-tieng-han-seo/)
+- [Giả định nâng cao](/ngu-phap-gia-dinh-nang-cao-topik/)
+- [Internal linking orphan](/sua-orphan-bai-tieng-han-seo/)

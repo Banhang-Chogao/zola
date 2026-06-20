@@ -62,7 +62,7 @@ MIN_INTERNAL_LINKS = 5     # SEO CONTENT SYSTEM RULE §3
 THIN_WORDS = 800           # below this = thin content
 SEO_WEAK_SCORE = 70        # seo_qa_checker grade < B
 REFRESH_AGE_DAYS = 150     # posts older than this are refresh candidates
-SITE_HOST = "banhang-chogao.github.io"
+SITE_HOST = "seomoney.org"
 
 # AdSense / helpful-content guardrails (rule-based, no network).
 ADSENSE_RISK_TERMS = (

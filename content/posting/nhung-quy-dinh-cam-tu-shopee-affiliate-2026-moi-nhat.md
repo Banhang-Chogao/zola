@@ -9,11 +9,11 @@ categories = ["Tất cả"]
 tags = ["affiliate marketing", "kiếm tiền từ facebook reels", "làm affiliate", "quy định cấm từ", "shopee affiliate"]
 
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder-wide.svg"
 seo_keyword = "quy định cấm từ shopee affiliate"
 +++
 
-![Quy định cấm từ Shopee Affiliate 2026 — hành vi bị cấm và mức xử phạt](https://banhang-chogao.github.io/zola/img/placeholder/placeholder-wide.svg)
+![Quy định cấm từ Shopee Affiliate 2026 — hành vi bị cấm và mức xử phạt](https://seomoney.org/img/placeholder/placeholder-wide.svg)
 
 Nếu bạn đang tham gia chương trình tiếp thị liên kết Shopee, việc nắm rõ **những quy định cấm từ Shopee Affiliate** là điều bắt buộc. Chỉ một lỗi nhỏ như spam link, mua traffic hoặc đặt đơn hàng ảo cũng có thể khiến toàn bộ hoa hồng bị hủy, tài khoản bị khóa và mất quyền tham gia chương trình trong tương lai.
 
@@ -228,4 +228,4 @@ Hiểu rõ những quy định cấm từ Shopee Affiliate là bước đầu ti
 
 Thay vì tìm cách "lách luật", hãy tập trung vào việc xây dựng nội dung chất lượng, chia sẻ trải nghiệm thực tế và tạo giá trị cho người dùng. Đó mới là con đường kiếm tiền bền vững với Shopee Affiliate.
 
-Đọc thêm: [Facebook Shopee Affiliate là gì? Hướng dẫn người mới](/zola/posting/facebook-shopee-affiliate-la-gi/) để bắt đầu kiếm tiền đúng cách, hoặc [QA Gatekeeper: blog tự fix lỗi 24/7](/zola/posting/qa-gatekeeper-tu-fix-loi-blog/) nếu bạn đang xây kênh nội dung tự động hóa.
+Đọc thêm: [Facebook Shopee Affiliate là gì? Hướng dẫn người mới](/posting/facebook-shopee-affiliate-la-gi/) để bắt đầu kiếm tiền đúng cách, hoặc [QA Gatekeeper: blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/) nếu bạn đang xây kênh nội dung tự động hóa.

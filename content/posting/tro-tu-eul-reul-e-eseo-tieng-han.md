@@ -14,7 +14,7 @@ premium_post_id = "premium-han30-12"
 premium_title = "Ngày 12 — Trợ từ 을/를, 에, 에서"
 premium_teaser_words = 210
 seo_keyword = "trợ từ 을/를 에 에서"
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 featured = false
 series = "korean-30day"
 series_part = 12
@@ -41,4 +41,4 @@ Nếm thử nhé: 밥**을** 먹어요 (bab-eul meo-geo-yo) = "(Tôi) ăn **cơm
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng tra 을/를** theo batchim, ba vai trò của **에** (đích · thời gian · vị trí tĩnh), hai vai trò của **에서** (nơi diễn ra · xuất phát), **bảng đối chiếu 에 vs 에서** kèm động từ đi cùng, và **14 câu bài tập có đáp án**. Mở khóa để câu tiếng Hàn của bạn "chạy" được nhé — 화이팅! 💪
 
-👉 Ôn lại [Ngày 11 — trợ từ 은/는 và 이/가](/zola/posting/tro-tu-eun-neun-i-ga-tieng-han/), rồi sang [Ngày 13 — số đếm Hán-Hàn & thuần Hàn](/zola/posting/so-dem-tieng-han-han-han-thuan-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/zola/categories/hoc-tieng-han/) hoặc [kho bài Premium](/zola/categories/premium/). Tham khảo thêm tại [Wikipedia: Trợ từ tiếng Hàn](https://en.wikipedia.org/wiki/Korean_postpositions).
+👉 Ôn lại [Ngày 11 — trợ từ 은/는 và 이/가](/posting/tro-tu-eun-neun-i-ga-tieng-han/), rồi sang [Ngày 13 — số đếm Hán-Hàn & thuần Hàn](/posting/so-dem-tieng-han-han-han-thuan-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tham khảo thêm tại [Wikipedia: Trợ từ tiếng Hàn](https://en.wikipedia.org/wiki/Korean_postpositions).

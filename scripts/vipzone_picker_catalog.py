@@ -16,7 +16,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config.toml"
 CONTENT = ROOT / "content"
-BASE_URL = "https://banhang-chogao.github.io/zola"
+BASE_URL = "https://seomoney.org"
 
 MENU_TOOLS_NAME = "Công cụ"
 
@@ -84,7 +84,7 @@ def parse_frontmatter(path: Path) -> dict[str, Any]:
 
 def normalize_menu_url(url: str) -> str:
     u = (url or "").strip()
-    u = u.replace("$BASE_URL", "").replace("https://banhang-chogao.github.io/zola", "")
+    u = u.replace("$BASE_URL", "").replace("https://seomoney.org", "")
     if not u.startswith("/"):
         u = "/" + u
     if not u.endswith("/"):
@@ -94,7 +94,7 @@ def normalize_menu_url(url: str) -> str:
 
 def normalize_pick_url(url: str) -> str:
     u = (url or "").strip()
-    u = u.replace("https://banhang-chogao.github.io/zola", "")
+    u = u.replace("https://seomoney.org", "")
     if not u.startswith("/"):
         u = "/" + u
     if not u.endswith("/"):

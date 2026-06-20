@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
 BAD = re.compile(r"zolapage/", re.I)
-GOOD_HOME = re.compile(r"/zola/page/\d+/")
+GOOD_HOME = re.compile(r"/page/\d+/")
 
 
 class PaginationUrlBuildTest(unittest.TestCase):

@@ -7,7 +7,7 @@ aliases = ["/derado-va-neunda-haedo-tieng-han/"]
 categories = ["Tất cả", "Học tiếng Hàn"]
 tags = ["ngữ pháp tiếng hàn", "topik", "는다 해도", "더라도"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "더라도 và 는다 해도"
 featured = false
 +++
@@ -18,7 +18,7 @@ featured = false
 
 Đây là cặp cấu trúc tôi **nhầm nhiều nhất** khi luyện TOPIK II. Cả hai đều có nghĩa "dù… vẫn…" nhưng **ngữ cảnh và sắc thái** khác nhau.
 
-**Cluster:** [Pillar ngữ pháp nâng cao](/zola/ngu-phap-nang-cao-sau-topik-4/) · [Giả định nâng cao](/zola/ngu-phap-gia-dinh-nang-cao-topik/)
+**Cluster:** [Pillar ngữ pháp nâng cao](/ngu-phap-nang-cao-sau-topik-4/) · [Giả định nâng cao](/ngu-phap-gia-dinh-nang-cao-topik/)
 
 ---
 
@@ -88,6 +88,6 @@ Chọn -더라도 hay -는다 해도:
 
 ## Liên kết cluster
 
-- [Pillar TOPIK 4+](/zola/ngu-phap-nang-cao-sau-topik-4/)
-- [50 mẫu câu TOPIK](/zola/50-mau-cau-topik-nang-cao/)
-- [Internal linking tiếng Hàn](/zola/sua-orphan-bai-tieng-han-seo/)
+- [Pillar TOPIK 4+](/ngu-phap-nang-cao-sau-topik-4/)
+- [50 mẫu câu TOPIK](/50-mau-cau-topik-nang-cao/)
+- [Internal linking tiếng Hàn](/sua-orphan-bai-tieng-han-seo/)

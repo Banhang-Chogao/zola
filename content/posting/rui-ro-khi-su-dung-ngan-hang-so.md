@@ -7,7 +7,7 @@ aliases = ["/rui-ro-khi-su-dung-ngan-hang-so/"]
 categories = ["Tất cả", "Ngân hàng"]
 tags = ["bảo mật ngân hàng số", "lừa đảo otp", "ngân hàng số", "ngân hàng số series", "rủi ro ngân hàng số"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "rủi ro ngân hàng số"
 featured = false
 series = "ngan-hang-so"
@@ -78,7 +78,7 @@ Phản ứng nhanh trong vài phút đầu có thể cứu được tài khoản
 
 ## Rủi ro không nên khiến bạn ngại ngân hàng số
 
-Dù có rủi ro, lợi ích của ngân hàng số (miễn phí, tiện, hoàn tiền) vẫn lớn — quan trọng là dùng đúng cách. Người mới nên đọc [cách mở tài khoản online an toàn](/zola/posting/cach-mo-tai-khoan-ngan-hang-so-online/) và chọn app uy tín trong [top ngân hàng số tốt nhất Việt Nam 2026](/zola/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/). Sinh viên — nhóm dễ bị nhắm tới — nên xem thêm [ngân hàng số cho sinh viên](/zola/posting/ngan-hang-so-cho-sinh-vien/).
+Dù có rủi ro, lợi ích của ngân hàng số (miễn phí, tiện, hoàn tiền) vẫn lớn — quan trọng là dùng đúng cách. Người mới nên đọc [cách mở tài khoản online an toàn](/posting/cach-mo-tai-khoan-ngan-hang-so-online/) và chọn app uy tín trong [top ngân hàng số tốt nhất Việt Nam 2026](/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/). Sinh viên — nhóm dễ bị nhắm tới — nên xem thêm [ngân hàng số cho sinh viên](/posting/ngan-hang-so-cho-sinh-vien/).
 
 ## Tóm lại
 

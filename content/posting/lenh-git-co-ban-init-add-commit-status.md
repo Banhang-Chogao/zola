@@ -7,7 +7,7 @@ aliases = ["/lenh-git-co-ban-init-add-commit-status/"]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["git", "git github series", "github", "lập trình", "lệnh git"]
 [extra]
-thumbnail = "https://banhang-chogao.github.io/zola/img/placeholder/placeholder.svg"
+thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "lệnh git cơ bản"
 featured = false
 series = "git-github"
@@ -27,9 +27,9 @@ q = "Làm sao viết commit message tốt?"
 a = "Dòng đầu ngắn gọn (dưới 50 ký tự), dùng động từ mệnh lệnh như 'Thêm', 'Sửa', 'Xóa', mô tả 'làm gì'. Nếu cần chi tiết, để trống một dòng rồi viết phần thân giải thích 'vì sao'."
 +++
 
-> 📚 **Git & GitHub Series (Bài 3/15)** — Đã [cài đặt Git ở Bài 2](/zola/posting/cai-dat-git-cau-hinh-lan-dau/), giờ là lúc thực hành **các lệnh Git cơ bản** để ghi lại lịch sử dự án thật sự.
+> 📚 **Git & GitHub Series (Bài 3/15)** — Đã [cài đặt Git ở Bài 2](/posting/cai-dat-git-cau-hinh-lan-dau/), giờ là lúc thực hành **các lệnh Git cơ bản** để ghi lại lịch sử dự án thật sự.
 
-Nắm vững **lệnh Git cơ bản** là bước biến lý thuyết ở [Bài 1 về version control](/zola/posting/git-la-gi-version-control-cho-nguoi-moi/) thành kỹ năng thực tế. Chỉ với năm lệnh — `init`, `add`, `commit`, `status`, `log` — bạn đã có thể quản lý phiên bản cho bất kỳ dự án nào. Bài này hướng dẫn từng bước qua một ví dụ chạy thật, kèm `diff` và cách viết commit message chuẩn.
+Nắm vững **lệnh Git cơ bản** là bước biến lý thuyết ở [Bài 1 về version control](/posting/git-la-gi-version-control-cho-nguoi-moi/) thành kỹ năng thực tế. Chỉ với năm lệnh — `init`, `add`, `commit`, `status`, `log` — bạn đã có thể quản lý phiên bản cho bất kỳ dự án nào. Bài này hướng dẫn từng bước qua một ví dụ chạy thật, kèm `diff` và cách viết commit message chuẩn.
 
 <!-- more -->
 
@@ -124,7 +124,7 @@ Gộp lại, vòng lặp công việc điển hình với Git là:
 5. `git commit -m "..."` — lưu lại.
 6. Lặp lại.
 
-Đây chính là nhịp điệu bạn lặp đi lặp lại mỗi ngày khi lập trình — kể cả khi viết một bài blog tĩnh như [blog tạo bằng Zola](/zola/posting/tao-blog-voi-zola/).
+Đây chính là nhịp điệu bạn lặp đi lặp lại mỗi ngày khi lập trình — kể cả khi viết một bài blog tĩnh như [blog tạo bằng Zola](/posting/tao-blog-voi-zola/).
 
 ## File .gitignore — bỏ qua những thứ không cần
 
@@ -137,10 +137,10 @@ node_modules/
 dist/
 ```
 
-Git sẽ tự động bỏ qua các đường dẫn này. Đây là thói quen quan trọng để không vô tình commit dữ liệu nhạy cảm — chủ đề chúng ta sẽ đào sâu ở [Bài 15 về bảo mật](/zola/posting/bao-mat-best-practices-git-github/).
+Git sẽ tự động bỏ qua các đường dẫn này. Đây là thói quen quan trọng để không vô tình commit dữ liệu nhạy cảm — chủ đề chúng ta sẽ đào sâu ở [Bài 15 về bảo mật](/posting/bao-mat-best-practices-git-github/).
 
 ## Tóm lại
 
 Bạn vừa nắm trọn vòng đời cơ bản của **lệnh Git cơ bản**: `init` để khởi tạo, `status`/`diff` để quan sát, `add` để chuẩn bị, `commit` để lưu, và `log` để xem lại. Đây là 80% công việc Git hằng ngày.
 
-Ở **Bài 4**, chúng ta bước sang một sức mạnh thật sự của Git: [làm việc với branch (nhánh)](/zola/posting/git-branch-lam-viec-voi-nhanh/) — cách phát triển nhiều tính năng song song mà không giẫm chân nhau.
+Ở **Bài 4**, chúng ta bước sang một sức mạnh thật sự của Git: [làm việc với branch (nhánh)](/posting/git-branch-lam-viec-voi-nhanh/) — cách phát triển nhiều tính năng song song mà không giẫm chân nhau.

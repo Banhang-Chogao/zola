@@ -121,7 +121,7 @@
 
   const backBtn = $("[data-action='back']");
   if (backBtn) backBtn.addEventListener("click", function () {
-    location.href = "/zola/";
+    location.href = "/";
   });
 
   // ============= FORM HANDLING =============
@@ -191,7 +191,7 @@
       if (d.avatar_path) {
         const url = d.avatar_path.startsWith("http")
           ? d.avatar_path
-          : ("/zola" + d.avatar_path);
+          : (d.avatar_path);
         // Cache-bust qua timestamp để FE thấy ngay sau upload
         avatarPreview.src = url + "?t=" + Date.now();
         avatarPreview.style.display = "block";

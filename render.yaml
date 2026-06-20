@@ -25,9 +25,9 @@ services:
 
     envVars:
       - key: VIPZONE_CORS_ORIGIN
-        value: https://banhang-chogao.github.io
+        value: https://seomoney.org
       - key: VIPZONE_BLOG_URL
-        value: https://banhang-chogao.github.io/zola
+        value: https://seomoney.org
       # Ephemeral SQLite — no Render disk on free tier
       - key: VIPZONE_DB_PATH
         value: /tmp/vipzone.db
@@ -52,4 +52,4 @@ services:
       - key: VIPZONE_MOMO_SEMIANNUAL
         value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg
       - key: VIPZONE_CATALOG_URL
-        value: https://banhang-chogao.github.io/zola/data/vipzone-picker-catalog.json
+        value: https://seomoney.org/data/vipzone-picker-catalog.json
