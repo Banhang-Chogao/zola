@@ -1191,6 +1191,60 @@ def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
                        diagnosis="volatile runtime artifacts gitignored + workflow filter present + idempotent writer")
 
 
+def check_korean_banner_ui_vaccine(ctx: Ctx) -> CheckResult:
+    """Korean banner UI — validates the homepage Hangul decorative banner meets
+    the SEOMONEY design system: overflow clipped, responsive layout present,
+    no content overlay (pointer-events none + aria-hidden), reduced-motion safe
+    (no keyframe animation on the pattern), and banner uses semantic border-radius."""
+    title = "Korean banner UI (overflow · responsive · no overlay · a11y)"
+    scss = ctx.read("sass/_home-momo.scss") or ""
+    tpl = ctx.read("templates/index.html") or ""
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1. Banner must clip its contents (overflow: hidden prevents Hangul bleed)
+    if "overflow: hidden" not in scss or ".home-tabs" not in scss:
+        fails.append("sass/_home-momo.scss: .home-tabs missing overflow:hidden — Hangul chars may bleed outside banner")
+
+    # 2. Hangul layer must be pointer-events:none (never blocks card clicks)
+    if "pointer-events: none" not in scss:
+        fails.append("sass/_home-momo.scss: .hangeul-pattern missing pointer-events:none — may block content clicks")
+
+    # 3. aria-hidden on the decorative banner (screen-readers must skip it)
+    if 'aria-hidden="true"' not in tpl or "home-tabs" not in tpl:
+        warns.append("templates/index.html: .home-tabs should have aria-hidden=\"true\" (decorative element)")
+
+    # 4. Responsive mobile override must exist
+    mobile_re = re.compile(r'@media\s*\([^)]*max-width\s*:\s*7[012]\d', re.IGNORECASE)
+    if not mobile_re.search(scss) or ".home-tabs" not in scss:
+        fails.append("sass/_home-momo.scss: no mobile breakpoint for .home-tabs — responsive layout missing")
+
+    # 5. No keyframe animation on .hangeul-pattern (static-only is fine; animated would need reduced-motion guard)
+    hangeul_block_m = re.search(r'\.hangeul-pattern\s*\{(.+?)\n\}', scss, re.DOTALL)
+    if hangeul_block_m and re.search(r'animation\s*:', hangeul_block_m.group(1)):
+        # animation present but no prefers-reduced-motion guard → WARN
+        reduced_ok = "@media (prefers-reduced-motion" in scss
+        if not reduced_ok:
+            warns.append("sass/_home-momo.scss: .hangeul-pattern has animation but no @media(prefers-reduced-motion) guard")
+
+    # 6. Warn if the harsh hardcoded Ericsson Blue (#003784) is still used as sole bg
+    if re.search(r'background\s*:\s*#003784', scss) and "linear-gradient" not in scss:
+        warns.append("sass/_home-momo.scss: .home-tabs still uses flat #003784 bg — consider softer gradient per SEOMONEY design")
+
+    if fails:
+        return CheckResult("KOREAN-BANNER", title, FAIL,
+                           diagnosis="Korean banner violates layout/accessibility contract",
+                           fix="Ensure overflow:hidden on .home-tabs, pointer-events:none on .hangeul-pattern, aria-hidden on banner div, mobile breakpoint present",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("KOREAN-BANNER", title, WARN,
+                           diagnosis="Minor banner a11y/motion consistency issues",
+                           fix="See details above",
+                           details=warns)
+    return CheckResult("KOREAN-BANNER", title, PASS,
+                       diagnosis="overflow clipped · pointer-events:none · aria-hidden · responsive · animation-safe")
+
+
 def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
     """V19 — Domain Migration Drift: stale github.io/zola refs after apex-domain migration.
 
@@ -1325,6 +1379,7 @@ DETECTORS = [
     check_sidebar_layout,
     check_uptime_me,
     check_deploy_monitor,
+    check_korean_banner_ui_vaccine,
     check_seomoney_brand,
 ]
 

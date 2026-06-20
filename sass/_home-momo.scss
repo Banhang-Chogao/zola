@@ -5,10 +5,10 @@
    2 cột (image trái + content phải), grid 3 cột posts thường. */
 
 /* Decorative wordmark "POSTINGS" — letters spaced evenly across full width.
-   Chữ = dark gray (rgba(64,64,64,0.7)) đặt trên nền Ericsson Blue (#003784);
-   phía sau là lớp Hangul tiếng Hàn rải ngẫu nhiên (trắng 50%). Chỉ trang trí
-   (aria-hidden) → không cướp chú ý khỏi hero card. Nền blue hardcode để giữ
-   nguyên ở cả light/dark (chữ Hangul trắng cần nền tối). */
+   Redesigned 2026-06-20: soft deep-navy gradient replaces harsh Ericsson Blue
+   block; near-white letters replace invisible dark-gray; Hangul reduced to a
+   quiet 15% watermark texture with tight ±8 deg rotation (editorial, not noisy).
+   Background hardcoded (dark-on-dark needs fixed tone in both light/dark modes). */
 .home-tabs {
   position: relative;
   display: flex;
@@ -16,14 +16,14 @@
   justify-content: space-between;
   width: 100%;
   padding: 2.25rem 1.25rem;
-  background: #003784;              /* Ericsson Blue — brand/primary field */
-  border-radius: 6px;
-  overflow: hidden;                /* clip lớp Hangul rải vào trong banner */
+  background: linear-gradient(135deg, #1a2d48 0%, #1f3560 100%);  /* deep muted navy — calm editorial */
+  border-radius: 14px;           /* 14–20px card standard (was 6px) */
+  overflow: hidden;
   margin-bottom: 1.75rem;
 
   &__letter {
     position: relative;
-    z-index: 1;                    /* nổi trên lớp Hangul trang trí */
+    z-index: 1;
     flex: 1 1 0;
     text-align: center;
     font-family: $font-heading;
@@ -31,14 +31,14 @@
     font-weight: 800;
     letter-spacing: 0.02em;
     line-height: 1;
-    color: rgba(64, 64, 64, 0.7);  /* dark gray, opacity 70% */
+    color: rgba(255, 255, 255, 0.88);  /* near-white — was invisible dark gray on dark bg */
     user-select: none;
   }
 }
 
-/* Lớp chữ Hangul tiếng Hàn rải ngẫu nhiên trên nền Ericsson Blue.
-   Trắng @ 50% opacity, cỡ + góc xoay khác nhau → cảm giác playful nhưng sạch;
-   nằm sau wordmark (z-index 0) + pointer-events none → không cản đọc/bấm. */
+/* Hangul texture layer — 15% opacity, 0.85–1.5rem, ±8 deg max.
+   Feels like a quiet watermark (editorial) rather than scattered noise.
+   pointer-events none + aria-hidden on parent → fully decorative, never blocks. */
 .hangeul-pattern {
   position: absolute;
   inset: 0;
@@ -48,38 +48,38 @@
 
   span {
     position: absolute;
-    font-family: $font-heading;
+    font-family: $font-heading, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     font-weight: 700;
     line-height: 1;
-    color: rgba(255, 255, 255, 0.5);  /* white, opacity 50% */
+    color: rgba(255, 255, 255, 0.15);  /* was 50% — subtle texture, not visual noise */
     user-select: none;
   }
 
-  /* Rải tay ở các vị trí / cỡ / góc xoay khác nhau cho cảm giác ngẫu nhiên. */
-  span:nth-child(1)  { top: 8%;  left: 2%;  font-size: 2.2rem; transform: rotate(-12deg); }
-  span:nth-child(2)  { top: 60%; left: 7%;  font-size: 1.4rem; transform: rotate(8deg); }
-  span:nth-child(3)  { top: 24%; left: 14%; font-size: 1.8rem; transform: rotate(16deg); }
-  span:nth-child(4)  { top: 70%; left: 20%; font-size: 2.6rem; transform: rotate(-6deg); }
-  span:nth-child(5)  { top: 5%;  left: 27%; font-size: 1.3rem; transform: rotate(14deg); }
-  span:nth-child(6)  { top: 46%; left: 32%; font-size: 2.0rem; transform: rotate(-16deg); }
-  span:nth-child(7)  { top: 78%; left: 38%; font-size: 1.6rem; transform: rotate(10deg); }
-  span:nth-child(8)  { top: 12%; left: 44%; font-size: 2.4rem; transform: rotate(-9deg); }
-  span:nth-child(9)  { top: 64%; left: 49%; font-size: 1.5rem; transform: rotate(20deg); }
-  span:nth-child(10) { top: 28%; left: 55%; font-size: 1.9rem; transform: rotate(-14deg); }
-  span:nth-child(11) { top: 80%; left: 61%; font-size: 2.1rem; transform: rotate(6deg); }
-  span:nth-child(12) { top: 7%;  left: 66%; font-size: 1.4rem; transform: rotate(-20deg); }
-  span:nth-child(13) { top: 50%; left: 71%; font-size: 2.5rem; transform: rotate(12deg); }
-  span:nth-child(14) { top: 74%; left: 77%; font-size: 1.7rem; transform: rotate(-10deg); }
-  span:nth-child(15) { top: 16%; left: 82%; font-size: 2.0rem; transform: rotate(18deg); }
-  span:nth-child(16) { top: 60%; left: 87%; font-size: 1.5rem; transform: rotate(-6deg); }
-  span:nth-child(17) { top: 34%; left: 92%; font-size: 1.8rem; transform: rotate(22deg); }
-  span:nth-child(18) { top: 86%; left: 10%; font-size: 1.3rem; transform: rotate(-18deg); }
-  span:nth-child(19) { top: 32%; left: 47%; font-size: 1.4rem; transform: rotate(4deg); }
-  span:nth-child(20) { top: 88%; left: 89%; font-size: 1.6rem; transform: rotate(-12deg); }
-  span:nth-child(21) { top: 18%; left: 36%; font-size: 1.5rem; transform: rotate(11deg); }
-  span:nth-child(22) { top: 52%; left: 18%; font-size: 1.7rem; transform: rotate(-13deg); }
-  span:nth-child(23) { top: 40%; left: 80%; font-size: 1.4rem; transform: rotate(7deg); }
-  span:nth-child(24) { top: 84%; left: 52%; font-size: 1.5rem; transform: rotate(-8deg); }
+  /* Gentler sizing (0.85–1.5rem) and rotation (±8deg) for premium editorial feel. */
+  span:nth-child(1)  { top: 8%;  left: 2%;  font-size: 1.5rem; transform: rotate(-5deg); }
+  span:nth-child(2)  { top: 60%; left: 7%;  font-size: 0.9rem; transform: rotate(4deg); }
+  span:nth-child(3)  { top: 24%; left: 14%; font-size: 1.2rem; transform: rotate(7deg); }
+  span:nth-child(4)  { top: 70%; left: 20%; font-size: 1.5rem; transform: rotate(-3deg); }
+  span:nth-child(5)  { top: 5%;  left: 27%; font-size: 0.9rem; transform: rotate(6deg); }
+  span:nth-child(6)  { top: 46%; left: 32%; font-size: 1.3rem; transform: rotate(-7deg); }
+  span:nth-child(7)  { top: 78%; left: 38%; font-size: 1.1rem; transform: rotate(5deg); }
+  span:nth-child(8)  { top: 12%; left: 44%; font-size: 1.4rem; transform: rotate(-4deg); }
+  span:nth-child(9)  { top: 64%; left: 49%; font-size: 1.0rem; transform: rotate(8deg); }
+  span:nth-child(10) { top: 28%; left: 55%; font-size: 1.2rem; transform: rotate(-6deg); }
+  span:nth-child(11) { top: 80%; left: 61%; font-size: 1.3rem; transform: rotate(3deg); }
+  span:nth-child(12) { top: 7%;  left: 66%; font-size: 0.9rem; transform: rotate(-8deg); }
+  span:nth-child(13) { top: 50%; left: 71%; font-size: 1.5rem; transform: rotate(5deg); }
+  span:nth-child(14) { top: 74%; left: 77%; font-size: 1.1rem; transform: rotate(-4deg); }
+  span:nth-child(15) { top: 16%; left: 82%; font-size: 1.3rem; transform: rotate(7deg); }
+  span:nth-child(16) { top: 60%; left: 87%; font-size: 1.0rem; transform: rotate(-3deg); }
+  span:nth-child(17) { top: 34%; left: 92%; font-size: 1.2rem; transform: rotate(8deg); }
+  span:nth-child(18) { top: 86%; left: 10%; font-size: 0.9rem; transform: rotate(-7deg); }
+  span:nth-child(19) { top: 32%; left: 47%; font-size: 0.9rem; transform: rotate(2deg); }
+  span:nth-child(20) { top: 88%; left: 89%; font-size: 1.1rem; transform: rotate(-5deg); }
+  span:nth-child(21) { top: 18%; left: 36%; font-size: 1.0rem; transform: rotate(4deg); }
+  span:nth-child(22) { top: 52%; left: 18%; font-size: 1.1rem; transform: rotate(-6deg); }
+  span:nth-child(23) { top: 40%; left: 80%; font-size: 0.9rem; transform: rotate(3deg); }
+  span:nth-child(24) { top: 84%; left: 52%; font-size: 1.0rem; transform: rotate(-4deg); }
 }
 
 /* HERO featured card — 2 cột desktop */
@@ -266,8 +266,9 @@
    ============================================================ */
 @media (max-width: 720px) {
   .home-tabs {
-    padding: 1.4rem 0.6rem;
+    padding: 1.2rem 0.75rem;
     margin-bottom: 1.25rem;
+    border-radius: 10px;    /* slightly tighter on narrow viewports */
 
     &__letter {
       font-size: 1.05rem;
@@ -275,9 +276,9 @@
     }
   }
 
-  /* Thu nhỏ Hangul rải trên màn hình hẹp để banner gọn, không bị chữ tràn to. */
+  /* Cap Hangul size on narrow screens — already quiet at 15% opacity. */
   .hangeul-pattern span {
-    font-size: 1.1rem !important;
+    font-size: 0.8rem !important;
   }
 
   /* HERO = card nổi bật, ảnh full-bleed phía trên + nội dung padded */
