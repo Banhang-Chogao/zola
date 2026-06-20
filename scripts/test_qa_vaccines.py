@@ -595,6 +595,100 @@ class DomainMigrationDriftTest(unittest.TestCase):
                             f"V19 FAIL on main — {r.diagnosis}")
 
 
+class DomainRootUrlVaccineTest(unittest.TestCase):
+    """DOMAIN-ROOT — scanner base-path /zola assumption detector tests."""
+
+    def _ctx_with_config(self, base_url: str,
+                         scanner_files: dict | None = None) -> "qv.Ctx":
+        """Build a minimal Ctx with a config.toml and optional scanner files."""
+        import tempfile
+        td = Path(tempfile.mkdtemp(prefix="qavax-domroot-"))
+        (td / "config.toml").write_text(f'base_url = "{base_url}"\n', encoding="utf-8")
+        if scanner_files:
+            for rel, content in scanner_files.items():
+                p = td / rel
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(content, encoding="utf-8")
+        return qv.Ctx(td)
+
+    def test_pass_when_root_domain(self):
+        """config.toml base_url = seomoney.org (no /zola), clean scanner → PASS."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "qa-404-checker.py": (
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_PREFIX = ""\n'
+                    'SITE_BASE_PATH = urlparse(BASE_URL).path.rstrip("/")\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.PASS, f"expected PASS, got {r.status}: {r.diagnosis}")
+
+    def test_fail_when_zola_prefix_in_base_url(self):
+        """config.toml base_url contains /zola subpath → FAIL."""
+        ctx = self._ctx_with_config(base_url="https://seomoney.org/zola")
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.FAIL,
+                         f"expected FAIL for base_url with /zola, got {r.status}")
+        self.assertIn("/zola", r.diagnosis)
+
+    def test_fail_when_scanner_hardcodes_site_prefix_zola(self):
+        """Scanner script hardcodes SITE_PREFIX = '/zola' → FAIL."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "qa-404-checker.py": (
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_PREFIX = "/zola"  # old GitHub Pages subpath\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.FAIL,
+                         f"expected FAIL for hardcoded SITE_PREFIX='/zola', got {r.status}")
+        self.assertIn("qa-404-checker.py", r.diagnosis)
+
+    def test_fail_when_scanner_hardcodes_site_base_path_zola(self):
+        """Scanner script hardcodes SITE_BASE_PATH = '/zola' → FAIL."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "scripts/check_internal_links.py": (
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_BASE_PATH = "/zola"\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.FAIL,
+                         f"expected FAIL for hardcoded SITE_BASE_PATH='/zola', got {r.status}")
+
+    def test_comment_with_zola_does_not_fail(self):
+        """Comment lines mentioning /zola in scanner scripts must NOT cause FAIL."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "qa-404-checker.py": (
+                    '# Old value was SITE_PREFIX = "/zola" — now derived from BASE_URL\n'
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_PREFIX = ""\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        # Comment lines must not trigger FAIL (PASS or at most WARN for other reasons)
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"comment-only /zola mention should not FAIL: {r.diagnosis}")
+
+    def test_real_repo_passes(self):
+        """Real repo must not FAIL DOMAIN-ROOT after migration fixes applied."""
+        r = qv.check_domain_root_url_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"DOMAIN-ROOT FAIL on real repo — {r.diagnosis}")
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
