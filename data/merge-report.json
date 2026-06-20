@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-20T02:17:52Z",
+  "updated_at": "2026-06-20T02:23:18Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 9,
+    "today": 10,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 1,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 536,
+      "pr_title": "feat(vaccine-hotfix): conflict-safe pipeline self-heal rule",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/536",
+      "merged_at": "2026-06-20T02:18:20Z",
+      "merge_commit_sha": "cd8afed56bb2f990557823bd4b18d8b99dab4528",
+      "merge_commit_short": "cd8afed",
+      "head_branch": "claude/fervent-planck-275vs4",
+      "summary_vi": "Add the \"Vaccine Hotfix\" rule + engine that self-heals pipeline failures (build fail · deploy fail · auto-merge blocked · merge conflict · required checks fail) on a dedicated vaccine-hotfix/<issue-id> branch.",
+      "change_type": "feature",
+      "files_changed": 8,
+      "additions": 1325,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 829,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27857242393",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 537,
       "pr_title": "feat(cms): CMS V2 Control Center — unified shell, AI Writer, Link Graph, SEO Alerts",
@@ -54,9 +73,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 828,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27857090211",
-      "build_conclusion": "in_progress"
+      "build_run_number": 829,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27857242393",
+      "build_conclusion": "pending"
     },
     {
       "pr_number": 535,
@@ -643,9 +662,9 @@
       "deletions": 51,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 799,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27824890729",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 500,
@@ -662,9 +681,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 799,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27824890729",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 499,
@@ -3795,25 +3814,6 @@
       "files_changed": 1,
       "additions": 13,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 280,
-      "pr_title": "Feature/adsense foundation series",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/280",
-      "merged_at": "2026-06-17T17:35:11Z",
-      "merge_commit_sha": "05525260168642e54894a6fa42b4593f066019c6",
-      "merge_commit_short": "0552526",
-      "head_branch": "feature/adsense-foundation-series",
-      "summary_vi": "Khởi tạo **Google AdSense Foundation Series** (15 bài) — PR đầu tiên publish **Bài 1/15**: Google AdSense là gì và khung Program policies.",
-      "change_type": "feature",
-      "files_changed": 7,
-      "additions": 364,
-      "deletions": 7,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
