@@ -25,6 +25,8 @@
     {% set manifest = load_data(path="data/thpt-2026-dap-an-series.json", required=false) %}
 {% elif page.extra and page.extra.series is defined and page.extra.series == "vaccine-so" %}
     {% set manifest = load_data(path="data/vaccine-so-series.json", required=false) %}
+{% elif page.extra and page.extra.series is defined and page.extra.series == "apple-pay-vn" %}
+    {% set manifest = load_data(path="data/apple-pay-vn-series.json", required=false) %}
 {% endif %}
 {% if manifest and page.extra and page.extra.series is defined and page.extra.series == manifest.id %}
     {% set current_part = page.extra.series_part | default(value=0) %}
