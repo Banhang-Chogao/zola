@@ -160,6 +160,58 @@ class FailDetectorTest(unittest.TestCase):
         self.assertEqual(r.status, qv.PASS)
 
 
+class LinkUtilsLayerTest(unittest.TestCase):
+    """V10-LINKS — the shared link-utils safety layer detector."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def test_missing_layer_fail(self):
+        r = qv.check_v10_link_utils_layer(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_host_guard_drops_zola_fail(self):
+        # The classic regression: a HOST guard makes /zola/* non-internal.
+        self.repo.write("scripts/link_utils.py",
+                        "def classify(u):\n"
+                        "    return 'internal' if 'banhang-chogao.github.io' in u else 'skip'\n"
+                        "def extract_urls(t):\n    return []\n")
+        r = qv.check_v10_link_utils_layer(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("/zola/ invariant" in d for d in r.details))
+
+    def test_code_span_leak_fail(self):
+        # classify is fine, but extraction leaks links from code spans.
+        self.repo.write("scripts/link_utils.py",
+                        "def classify(u):\n"
+                        "    if not u or u[0] == '#':\n        return 'skip'\n"
+                        "    if u.startswith(('/', '@/', './', '../')):\n        return 'internal'\n"
+                        "    if u.startswith(('http://', 'https://')):\n        return 'external'\n"
+                        "    return 'skip'\n"
+                        "import re\n"
+                        "def extract_urls(t):\n"
+                        "    return re.findall(r'\\]\\(([^)\\s]+)', t)\n")
+        r = qv.check_v10_link_utils_layer(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_real_layer_pass(self):
+        # Copy the real, correct link_utils + its sibling wiring → clean PASS.
+        src = (REPO_ROOT / "scripts" / "link_utils.py").read_text(encoding="utf-8")
+        self.repo.write("scripts/link_utils.py", src)
+        self.repo.write("scripts/test_link_utils.py", "# tests present")
+        self.repo.write("scripts/fix_site_prefix_links.py",
+                        "from link_utils import code_span_ranges  # code-span aware")
+        r = qv.check_v10_link_utils_layer(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_real_layer_missing_test_warns(self):
+        # Invariant holds but the test/wiring layer is absent → WARN (not FAIL).
+        src = (REPO_ROOT / "scripts" / "link_utils.py").read_text(encoding="utf-8")
+        self.repo.write("scripts/link_utils.py", src)
+        r = qv.check_v10_link_utils_layer(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+
+
 class JsSyntaxTest(unittest.TestCase):
     def setUp(self):
         self.repo = TmpRepo()
