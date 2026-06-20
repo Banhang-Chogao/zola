@@ -5,10 +5,10 @@
   "issue_id": "claude/zealous-tesla-9lu5hd",
   "branch": "vaccine-hotfix/claude-zealous-tesla-9lu5hd",
   "pr_url": "https://github.com/Banhang-Chogao/zola/pulls?q=is%3Apr+is%3Aopen+head%3ABanhang-Chogao%3Avaccine-hotfix/claude-zealous-tesla-9lu5hd",
-  "run_id": "27868024771",
-  "started_at": "2026-06-20T17:12:17.269009+07:00",
-  "finished_at": "2026-06-20T17:18:31.127262+07:00",
-  "last_run": "2026-06-20T17:18:31.127262+07:00",
+  "run_id": "27870317522",
+  "started_at": "2026-06-20T18:51:33.924379+07:00",
+  "finished_at": "2026-06-20T18:57:55.826513+07:00",
+  "last_run": "2026-06-20T18:57:55.826513+07:00",
   "precheck": {
     "safe_to_run": true,
     "guarantees": [
@@ -37,23 +37,14 @@
     ]
   },
   "root_cause": {
-    "root_cause": "JavaScript / Node test failure: JS test hoặc script runtime lỗi.",
-    "confidence": 77,
-    "suggested_fix": "Chạy test local (npm test / node script); sửa theo stack trace.",
-    "affected_files": [
-      "data/qa-404-report.json"
-    ],
-    "pattern_id": "JS_ERROR",
+    "root_cause": "Unclassified build failure — no known pattern matched",
+    "confidence": 35,
+    "suggested_fix": "Inspect log tail; append new rule to scripts/ai_diagnose.py or vaccine_rules.py.",
+    "affected_files": [],
+    "pattern_id": "UNKNOWN",
     "tier": "heuristic"
   },
   "fix_actions": [
-    {
-      "step": "V-logs",
-      "name": "CI log diagnosis",
-      "matched": true,
-      "fixed": false,
-      "detail": "log signatures: V1"
-    },
     {
       "step": "V-refs",
       "name": "Reference index",
@@ -124,16 +115,26 @@
       "attempts": 1,
       "files_changed": 0,
       "last_run": "2026-06-20T17:18:31.127262+07:00"
+    },
+    {
+      "run_id": "27870317522",
+      "trigger": "required_checks_fail",
+      "issue_id": "claude/zealous-tesla-9lu5hd",
+      "branch": "vaccine-hotfix/claude-zealous-tesla-9lu5hd",
+      "status": "ok",
+      "attempts": 1,
+      "files_changed": 0,
+      "last_run": "2026-06-20T18:57:55.826513+07:00"
     }
   ],
   "latest": {
-    "run_id": "27868024771",
+    "run_id": "27870317522",
     "trigger": "required_checks_fail",
     "issue_id": "claude/zealous-tesla-9lu5hd",
     "branch": "vaccine-hotfix/claude-zealous-tesla-9lu5hd",
     "status": "ok",
     "attempts": 1,
     "files_changed": 0,
-    "last_run": "2026-06-20T17:18:31.127262+07:00"
+    "last_run": "2026-06-20T18:57:55.826513+07:00"
   }
 }
