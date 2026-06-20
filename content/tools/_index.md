@@ -69,6 +69,9 @@ url = "$BASE_URL/tools/b-dna"
 [[extra.tool_groups.items]]
 name = "ShortenSEA"
 url = "$BASE_URL/shortensea"
+[[extra.tool_groups.items]]
+name = "📚 Series Hub"
+url = "$BASE_URL/tools/series"
 
 [[extra.tool_groups]]
 name = "Tiện ích & tài liệu"

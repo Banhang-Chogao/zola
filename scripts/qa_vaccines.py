@@ -579,6 +579,45 @@ def check_workflow_yaml(ctx: Ctx) -> CheckResult:
     return CheckResult("GHA", title, PASS, diagnosis=f"{len(workflows)} workflow OK")
 
 
+def check_series_nav_vaccine(ctx: Ctx) -> CheckResult:
+    """Series Hub completeness — if series JSONs exist but /tools/series/ is
+    missing the hub is empty for users; also validates series-nav.html has at
+    least one elif branch wired to a known manifest."""
+    title = "Series Hub completeness (/tools/series/ + series-nav wiring)"
+    series_files = ctx.glob("data/*-series.json")
+    if not series_files:
+        return CheckResult("SERIES-HUB", title, SKIP,
+                           diagnosis="data/*-series.json absent — bỏ qua")
+    # Hub page must exist when series JSONs are present.
+    if not ctx.exists("content/tools/series.md"):
+        return CheckResult("SERIES-HUB", title, FAIL,
+                           diagnosis=f"{len(series_files)} series JSON có nhưng hub /tools/series/ vắng",
+                           fix="tạo content/tools/series.md với template = 'series-hub-page.html'")
+    details: list[str] = []
+    # Hub template must load at least one series JSON.
+    hub_tpl = ctx.read("templates/series-hub-page.html") or ""
+    if not hub_tpl:
+        details.append("templates/series-hub-page.html vắng — hub sẽ render rỗng")
+    elif "series.json" not in hub_tpl:
+        details.append("templates/series-hub-page.html không load series JSON (hub rỗng)")
+    # series-nav.html must have at least one elif for a known series id.
+    nav = ctx.read("templates/macros/series-nav.html") or ""
+    known_ids = {p.name[: -len("-series.json")] for p in series_files}
+    nav_ids = set(re.findall(r'series\s*==\s*["\']([a-z0-9\-]+)["\']', nav))
+    if not (known_ids & nav_ids):
+        details.append(
+            f"series-nav.html không có elif cho bất kỳ series nào "
+            f"({len(known_ids)} series biết; có: {sorted(nav_ids)[:3]})"
+        )
+    if details:
+        return CheckResult("SERIES-HUB", title, WARN,
+                           diagnosis="hub series chưa đầy đủ",
+                           fix="tạo templates/series-hub-page.html + elif trong series-nav.html",
+                           details=details)
+    return CheckResult("SERIES-HUB", title, PASS,
+                       diagnosis=f"hub OK · {len(series_files)} series · {len(known_ids & nav_ids)} đăng ký nav")
+
+
 def check_nav_menu_overflow(ctx: Ctx) -> CheckResult:
     """Navigation overflow (R4) — too many top-level menu items overflow the
     mobile navbar. Heuristic soft check."""
@@ -849,6 +888,7 @@ DETECTORS = [
     check_missing_assets,
     check_compliance_h1,
     check_v10_link_utils_layer,
+    check_series_nav_vaccine,
     check_category_first,
     check_nav_menu_overflow,
     check_sidebar_layout,
