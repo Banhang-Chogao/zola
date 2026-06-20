@@ -31,6 +31,11 @@ EXPECTED_GSC_PROPERTY = "sc-domain:seomoney.org"
 # Sitemap that must be registered against the property.
 EXPECTED_SITEMAP_URL = "https://seomoney.org/sitemap.xml"
 
+# Acceptable GSC properties for this blog, in order of preference. The sc-domain
+# property (V19) is canonical; the https URL-prefix property is kept as a
+# backwards-compatible fallback so a pre-migration env override still resolves.
+ACCEPTED_GSC_PROPERTIES = ["sc-domain:seomoney.org", "https://seomoney.org/"]
+
 
 def normalize_gsc_property_url(site_url: str) -> str:
     """Normalize URL-prefix GSC properties; keep sc-domain: entries unchanged."""
@@ -57,18 +62,23 @@ def is_expected_property(value: str, expected: str = EXPECTED_GSC_PROPERTY) -> b
 
 
 def pick_preferred_property(properties: list[str]) -> str | None:
-    """Select the blog property only — never fall back to another domain."""
+    """Select the blog property only — never fall back to another domain.
+
+    Prefers the sc-domain property (V19), then the https URL-prefix property as a
+    backwards-compatible fallback. Never returns an unrelated domain.
+    """
     if not properties:
         return None
-    target = normalize_gsc_property_url(DEFAULT_GSC_PROPERTY_URL)
     normalized = {normalize_gsc_property_url(p): p for p in properties}
-    if target in normalized:
-        return normalized[target]
-    # Accept API variant without trailing slash, but only for this exact host/path.
-    bare = target.rstrip("/")
-    for prop in properties:
-        if prop.rstrip("/") == bare:
-            return prop
+    for candidate in ACCEPTED_GSC_PROPERTIES:
+        target = normalize_gsc_property_url(candidate)
+        if target in normalized:
+            return normalized[target]
+        # Accept API variant without trailing slash, but only for this exact host/path.
+        bare = target.rstrip("/")
+        for prop in properties:
+            if prop.rstrip("/") == bare:
+                return prop
     return None
 
 
