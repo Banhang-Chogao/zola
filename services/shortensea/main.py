@@ -53,7 +53,7 @@ SESSION_TTL = int(os.getenv("SHORTENSEA_SESSION_TTL", "86400"))
 DB_PATH = os.getenv("SHORTENSEA_DB_PATH", "")
 MOMO_LINK = os.getenv(
     "MOMO_PAYMENT_LINK",
-    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG",
+    "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP",
 )
 SHORT_DOMAIN = os.getenv("SHORTENSEA_DOMAIN", "seomoney.org")
 

@@ -8,8 +8,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'content/posting/**'
-      - 'content/baochi/**'
+      - 'content/**'
+      - 'templates/**'
   workflow_dispatch:
 
 permissions:

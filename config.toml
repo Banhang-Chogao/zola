@@ -100,7 +100,9 @@ google_cse_cx = "533c848cb0eb14de2"
 # PHẢI nằm dưới [extra], KHÔNG đặt trong [extra.giscus] (meta vipzone-auth-api sẽ không render).
 cms_auth_url = "https://blog-vipzone-api.onrender.com"
 # Google Search Console (SEO Reality Check): OAuth + live metrics qua VIPZone auth /gsc/*.
-# Property: sc-domain:seomoney.org (Domain property — migrate từ URL-prefix 2026-06-20).
+# Property cố định: sc-domain:seomoney.org (DOMAIN property — phủ http/https + mọi
+# subdomain/path). Deploy preflight (scripts/gsc_preflight.py, gate trong deploy.yml)
+# BẮT BUỘC secret GSC_PROPERTY_URL == "sc-domain:seomoney.org"; sai/thiếu → deploy FAIL.
 # Sitemap: https://seomoney.org/sitemap.xml
 # Setup: Google Cloud OAuth → redirect https://blog-vipzone-api.onrender.com/gsc/oauth/callback
 # → Render env GSC_CLIENT_ID + GSC_CLIENT_SECRET → đăng nhập CMS → Kết nối GSC.
@@ -124,11 +126,11 @@ paywall_default_price = 100000
 # Ưu tiên enable_premium_lock; premium_hidden giữ làm fallback (deprecated).
 enable_premium_lock = true
 premium_hidden = false
-momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
+momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP"
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
 # lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link
 # ở trên. DonatePremiumCard (shortcode donate_card) chỉ đọc key này. Trống = ẩn nút.
-donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG"
+donate_momo_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP"
 
 # ============= GISCUS COMMENTS (GitHub Discussions) =============
 # Setup:

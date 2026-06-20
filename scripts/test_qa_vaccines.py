@@ -389,7 +389,16 @@ class DeployMonitorTest(unittest.TestCase):
             '"pending":[],"recent":[]}')
     BASE = ('{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}'
             '<details class="deploy-watch"><span>{{ d.pending_count }}</span>'
+            '{% if dm.stale %}<span class="deploy-watch__stale">⚠</span>{% endif %}'
             '<a href="/tools/deploy-monitor/">x</a></details>')
+    # Fetcher stub carrying every invariant the vaccine now enforces: deploy.yml
+    # only, telemetry guard list, TTL/expiry, already-deployed guard.
+    SCRIPT = ('WORKFLOW_FILE = "deploy.yml"\n'
+              'TELEMETRY_WORKFLOWS = ("merge-report.yml",)\n'
+              '_PENDING_TTL_S = 2700\n'
+              'success_shas = set()  # already-deployed guard\n'
+              '# expired in_progress runs are dropped from pending\nexpired = []\n')
+    JS = 'const STALE_NONTERMINAL_MS = 1800000; // stale deploy guard\n'
 
     def _wire(self, **over):
         self.repo.write("data/deploy-monitor.json", over.get("json", self.SEED))
@@ -397,7 +406,8 @@ class DeployMonitorTest(unittest.TestCase):
         self.repo.write("content/tools/deploy-monitor.md", over.get("md", '+++\ntitle="x"\n+++'))
         self.repo.write("templates/deploy-monitor.html", over.get("tmpl", "detail"))
         self.repo.write("content/tools/_index.md", over.get("idx", 'url = "$BASE_URL/tools/deploy-monitor"'))
-        self.repo.write("scripts/fetch_deploy_monitor.py", over.get("script", "# env token only"))
+        self.repo.write("scripts/fetch_deploy_monitor.py", over.get("script", self.SCRIPT))
+        self.repo.write("static/js/deploy-status.js", over.get("js", self.JS))
         self.repo.write(".github/workflows/deploy-monitor.yml", over.get("wf", "secrets.GITHUB_TOKEN"))
         return self.repo.ctx()
 
@@ -437,6 +447,26 @@ class DeployMonitorTest(unittest.TestCase):
                '"summary":{"prod_status":"green","pending_count":0,"avg_deploy_s":42},'
                '"pending":[],"recent":[]}')
         self.assertEqual(qv.check_deploy_monitor(self._wire(json=old)).status, qv.WARN)
+
+    def test_telemetry_workflow_source_fails(self):
+        # A report workflow used as a deploy-state source (no TELEMETRY guard) FAILs.
+        bad = ('WORKFLOW_FILE = "deploy.yml"\n_PENDING_TTL_S = 1\nexpired = []\n'
+               'success_shas = set()\nruns = query("merge-report.yml")\n')
+        r = qv.check_deploy_monitor(self._wire(script=bad))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("merge-report" in d for d in r.details))
+
+    def test_missing_ttl_detection_fails(self):
+        # No TTL/expiry → a stuck deploy would show "deploying" forever.
+        bad = 'WORKFLOW_FILE = "deploy.yml"\nsuccess_shas = set()\n'
+        r = qv.check_deploy_monitor(self._wire(script=bad))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("TTL" in d or "expiry" in d for d in r.details))
+
+    def test_js_missing_stale_guard_fails(self):
+        r = qv.check_deploy_monitor(self._wire(js='function render(s){ /* no guard */ }'))
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("stale guard" in d for d in r.details))
 
 
 class SeomoneyBrandTest(unittest.TestCase):
@@ -816,6 +846,196 @@ class DomainMigrationDriftTest(unittest.TestCase):
         r = qv.check_v19_domain_migration_drift(qv.Ctx(REPO_ROOT))
         self.assertNotEqual(r.status, qv.FAIL,
                             f"V19 FAIL on main — {r.diagnosis}")
+
+
+class SearchUiVaccineTest(unittest.TestCase):
+    """search_ui_vaccine — the search dialog must render a styled, native,
+    responsive surface with its markup + engine intact (no raw/default UI)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    # A minimal, well-formed search component the detector should PASS on.
+    _GOOD_SCSS = (
+        ".site-search { position: fixed; inset: 0; z-index: 10050; display: flex; }\n"
+        ".site-search[hidden] { display: none; }\n"
+        ".site-search__panel { max-width: 640px; border-radius: 16px; }\n"
+        ".site-search__field { display: flex; border: 1px solid; }\n"
+        ".site-search__submit { background: var(--c-accent); padding: 0 1.4rem; }\n"
+        ".site-search__result { border: 1px solid; padding: 0.9rem; }\n"
+        "@media (max-width: 720px) { .site-search__panel { max-width: 100%; } }\n"
+    )
+    _GOOD_BASE = (
+        '<div class="site-search" data-site-search hidden>'
+        '<button data-search-close></button>'
+        '<input data-search-input>'
+        '<button class="site-search__submit">Tìm</button></div>'
+        '<script id="site-search-data">[]</script>'
+    )
+    _GOOD_JS = "function renderResults(q){ return q; }\n"
+
+    def _wire_good(self):
+        self.repo.write("sass/_site-search.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+
+    def test_missing_partial_fails(self):
+        # Markup + engine present, but no structural SCSS → raw render → FAIL.
+        self.repo.write("sass/site.scss", "@import \"post\";\n")
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("_site-search.scss" in d for d in r.details))
+
+    def test_not_imported_fails(self):
+        self._wire_good()
+        self.repo.write("sass/site.scss", '@import "post";\n')  # partial not imported
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("@import" in d or "site.scss" in d for d in r.details))
+
+    def test_raw_layout_fails(self):
+        # Partial exists & imported but has no positioning / panel / submit → raw.
+        self.repo.write("sass/_site-search.scss", ".site-search__title { color: blue; }\n")
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_input_markup_fails(self):
+        self._wire_good()
+        # Strip the input hook the engine needs → search logic broken.
+        self.repo.write("templates/base.html",
+                        self._GOOD_BASE.replace("data-search-input", "data-x-input"))
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_engine_fails(self):
+        self.repo.write("sass/_site-search.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        # No static/js/site-search.js at all.
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_no_mobile_query_warns(self):
+        good = dict(scss=self._GOOD_SCSS.replace(
+            "@media (max-width: 720px) { .site-search__panel { max-width: 100%; } }\n", ""))
+        self.repo.write("sass/_site-search.scss", good["scss"])
+        self.repo.write("sass/site.scss", '@import "site-search";\n')
+        self.repo.write("templates/base.html", self._GOOD_BASE)
+        self.repo.write("static/js/site-search.js", self._GOOD_JS)
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("mobile" in d.lower() or "720px" in d for d in r.details))
+
+    def test_good_component_passes(self):
+        self._wire_good()
+        r = qv.check_search_ui_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_real_repo_passes(self):
+        """The shipped search UI must PASS on the real repo (calibration)."""
+        r = qv.check_search_ui_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"search_ui_vaccine not PASS: {r.diagnosis} {r.details}")
+
+
+class DomainRootUrlVaccineTest(unittest.TestCase):
+    """DOMAIN-ROOT — scanner base-path /zola assumption detector tests."""
+
+    def _ctx_with_config(self, base_url: str,
+                         scanner_files: dict | None = None) -> "qv.Ctx":
+        """Build a minimal Ctx with a config.toml and optional scanner files."""
+        import tempfile
+        td = Path(tempfile.mkdtemp(prefix="qavax-domroot-"))
+        (td / "config.toml").write_text(f'base_url = "{base_url}"\n', encoding="utf-8")
+        if scanner_files:
+            for rel, content in scanner_files.items():
+                p = td / rel
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(content, encoding="utf-8")
+        return qv.Ctx(td)
+
+    def test_pass_when_root_domain(self):
+        """config.toml base_url = seomoney.org (no /zola), clean scanner → PASS."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "qa-404-checker.py": (
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_PREFIX = ""\n'
+                    'SITE_BASE_PATH = urlparse(BASE_URL).path.rstrip("/")\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.PASS, f"expected PASS, got {r.status}: {r.diagnosis}")
+
+    def test_fail_when_zola_prefix_in_base_url(self):
+        """config.toml base_url contains /zola subpath → FAIL."""
+        ctx = self._ctx_with_config(base_url="https://seomoney.org/zola")
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.FAIL,
+                         f"expected FAIL for base_url with /zola, got {r.status}")
+        self.assertIn("/zola", r.diagnosis)
+
+    def test_fail_when_scanner_hardcodes_site_prefix_zola(self):
+        """Scanner script hardcodes SITE_PREFIX = '/zola' → FAIL."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "qa-404-checker.py": (
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_PREFIX = "/zola"  # old GitHub Pages subpath\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.FAIL,
+                         f"expected FAIL for hardcoded SITE_PREFIX='/zola', got {r.status}")
+        self.assertIn("qa-404-checker.py", r.diagnosis)
+
+    def test_fail_when_scanner_hardcodes_site_base_path_zola(self):
+        """Scanner script hardcodes SITE_BASE_PATH = '/zola' → FAIL."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "scripts/check_internal_links.py": (
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_BASE_PATH = "/zola"\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        self.assertEqual(r.status, qv.FAIL,
+                         f"expected FAIL for hardcoded SITE_BASE_PATH='/zola', got {r.status}")
+
+    def test_comment_with_zola_does_not_fail(self):
+        """Comment lines mentioning /zola in scanner scripts must NOT cause FAIL."""
+        ctx = self._ctx_with_config(
+            base_url="https://seomoney.org",
+            scanner_files={
+                "qa-404-checker.py": (
+                    '# Old value was SITE_PREFIX = "/zola" — now derived from BASE_URL\n'
+                    'BASE_URL = "https://seomoney.org"\n'
+                    'SITE_PREFIX = ""\n'
+                ),
+            },
+        )
+        r = qv.check_domain_root_url_vaccine(ctx)
+        # Comment lines must not trigger FAIL (PASS or at most WARN for other reasons)
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"comment-only /zola mention should not FAIL: {r.diagnosis}")
+
+    def test_real_repo_passes(self):
+        """Real repo must not FAIL DOMAIN-ROOT after migration fixes applied."""
+        r = qv.check_domain_root_url_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertNotEqual(r.status, qv.FAIL,
+                            f"DOMAIN-ROOT FAIL on real repo — {r.diagnosis}")
 
 
 class RealRepoCalibrationTest(unittest.TestCase):

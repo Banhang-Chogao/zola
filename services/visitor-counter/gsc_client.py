@@ -23,6 +23,14 @@ CACHE_TTL_SECONDS = 20 * 60  # 20 minutes
 # Migrated from URL-prefix https://seomoney.org/ after Cloudflare verification (2026-06-20).
 DEFAULT_GSC_PROPERTY_URL = "sc-domain:seomoney.org"
 
+# Canonical Search Console property for production. A *domain* property
+# (sc-domain:) covers http/https and every subdomain/path in one entry, so the
+# deploy preflight requires exactly this value (see scripts/gsc_preflight.py).
+EXPECTED_GSC_PROPERTY = "sc-domain:seomoney.org"
+
+# Sitemap that must be registered against the property.
+EXPECTED_SITEMAP_URL = "https://seomoney.org/sitemap.xml"
+
 
 def normalize_gsc_property_url(site_url: str) -> str:
     """Normalize URL-prefix GSC properties; keep sc-domain: entries unchanged."""
@@ -32,6 +40,20 @@ def normalize_gsc_property_url(site_url: str) -> str:
     if not url.endswith("/"):
         url += "/"
     return url
+
+
+def normalize_property_for_match(value: str) -> str:
+    """Canonicalize a property id for equality checks (case-insensitive host)."""
+    v = (value or "").strip()
+    if v.startswith("sc-domain:"):
+        host = v[len("sc-domain:") :].strip().lower().rstrip("/")
+        return f"sc-domain:{host}"
+    return normalize_gsc_property_url(v).lower()
+
+
+def is_expected_property(value: str, expected: str = EXPECTED_GSC_PROPERTY) -> bool:
+    """True only when ``value`` resolves to the canonical domain property."""
+    return bool(value) and normalize_property_for_match(value) == normalize_property_for_match(expected)
 
 
 def pick_preferred_property(properties: list[str]) -> str | None:
@@ -89,6 +111,50 @@ def list_site_properties(creds: Credentials) -> list[str]:
         if url and (e.get("permissionLevel") or "").lower() != "siteunverifieduser":
             out.append(url)
     return sorted(out)
+
+
+def find_property_permission(creds, expected: str = EXPECTED_GSC_PROPERTY) -> tuple[bool, str | None]:
+    """Return (verified, permissionLevel) for ``expected`` via sites.list().
+
+    ``verified`` is True only when the property is present AND the account is not
+    a mere ``siteUnverifiedUser``. Never returns credentials.
+    """
+    service = build_service(creds)
+    res = service.sites().list().execute()
+    want = normalize_property_for_match(expected)
+    for e in res.get("siteEntry") or []:
+        url = (e.get("siteUrl") or "").strip()
+        perm = (e.get("permissionLevel") or "").strip()
+        if normalize_property_for_match(url) == want:
+            if perm.lower() == "siteunverifieduser":
+                return False, perm
+            return True, perm
+    return False, None
+
+
+def list_sitemap_paths(creds, site_url: str) -> list[str]:
+    """Return submitted sitemap URLs (``path``) registered for ``site_url``."""
+    service = build_service(creds)
+    try:
+        res = service.sitemaps().list(siteUrl=site_url).execute()
+    except HttpError as exc:
+        if exc.resp.status == 403:
+            raise PermissionError(f"GSC sitemap permission denied for {site_url}") from exc
+        raise
+    return [(s.get("path") or "").strip() for s in (res.get("sitemap") or []) if s.get("path")]
+
+
+def smoke_search_analytics(creds, site_url: str, days: int = 7) -> dict[str, float]:
+    """Aggregate Search Analytics totals for the trailing ``days`` window.
+
+    Used as a deploy preflight smoke test — confirms the Search Analytics
+    endpoint answers for the property. Returns aggregated counts only.
+    """
+    service = build_service(creds)
+    end = _utc_today() - timedelta(days=1)
+    start = end - timedelta(days=max(1, days) - 1)
+    rows = _query(service, site_url, start, end, dimensions=None, row_limit=1)
+    return _aggregate_row((rows or [None])[0])
 
 
 def _query(

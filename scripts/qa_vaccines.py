@@ -680,6 +680,62 @@ def check_v17_vipzone_edge_safari_auth(ctx: Ctx) -> CheckResult:
     return CheckResult("V17", title, PASS)
 
 
+def check_v18_runtime_artifact_conflict(ctx: Ctx) -> CheckResult:
+    """V18 — Runtime artifact conflict: volatile state/log/report files in hotfix PRs."""
+    title = "Runtime artifacts gitignored + hotfix PR commit filter"
+    issues: list[str] = []
+
+    # 1. State/lock/log files must NOT be tracked by git (they should be gitignored)
+    volatile_files = [
+        "data/vaccine-hotfix-state.json",
+        "data/vaccine-hotfix.log",
+        "data/vaccine-autofixer-state.json",
+        "data/vaccine-autofixer.log",
+        "data/qa-rule-checker-state.json",
+        "data/autofix-conflicts-state.json",
+    ]
+    try:
+        import subprocess as _sp
+        tracked = _sp.run(
+            ["git", "ls-files"] + volatile_files,
+            cwd=str(ctx.root), capture_output=True, text=True, timeout=10,
+        ).stdout.strip()
+        if tracked:
+            for f in tracked.splitlines():
+                issues.append(f"FAIL: {f} vẫn được git track — phải gitignore (V18)")
+    except Exception as exc:
+        issues.append(f"WARN: không kiểm tra git ls-files được: {exc}")
+
+    # 2. vaccine-hotfix.yml must have git restore --staged filter after git add -A
+    hotfix_yml = ctx.read(".github/workflows/vaccine-hotfix.yml") or ""
+    if hotfix_yml and "git restore --staged" not in hotfix_yml:
+        issues.append("WARN: vaccine-hotfix.yml thiếu 'git restore --staged' filter cho volatile files (V18)")
+
+    # 3. qa-auto-rule-checker.py write_reports must be idempotent (skip timestamp-only write)
+    rule_checker = ctx.read("scripts/qa-auto-rule-checker.py") or ""
+    if rule_checker and "no meaningful change" not in rule_checker and "Idempotent" not in rule_checker:
+        issues.append("WARN: qa-auto-rule-checker.py write_reports() không idempotent — ghi updated_at mỗi run → conflict (V18)")
+
+    fail_issues = [i for i in issues if i.startswith("FAIL")]
+    warn_issues = [i for i in issues if i.startswith("WARN")]
+
+    if fail_issues:
+        return CheckResult(
+            "V18", title, FAIL,
+            diagnosis="Volatile runtime artifacts còn được git track → sẽ conflict ở concurrent hotfix PRs",
+            fix="V18 FIXER: git rm --cached + thêm vào .gitignore; cập nhật vaccine-hotfix.yml",
+            details=issues,
+        )
+    if warn_issues:
+        return CheckResult(
+            "V18", title, WARN,
+            diagnosis="Runtime artifact workflow filter hoặc idempotent write chưa đầy đủ",
+            fix="V18 FIXER: thêm git restore --staged filter; làm write_reports() idempotent",
+            details=warn_issues,
+        )
+    return CheckResult("V18", title, PASS)
+
+
 def check_v10_link_utils_layer(ctx: Ctx) -> CheckResult:
     """V10 (shared link-utils + test layer — link-safety, NOT a §4 vaccine number).
 
@@ -1041,6 +1097,38 @@ def check_deploy_monitor(ctx: Ctx) -> CheckResult:
     if "/tools/deploy-monitor" not in (ctx.read("content/tools/_index.md") or ""):
         fails.append("content/tools/_index.md: thẻ Deploy Monitor không trỏ /tools/deploy-monitor")
 
+    # 6 — deploy STATE must come ONLY from the real Build & Deploy workflow.
+    #     A telemetry/report workflow (merge-report, build-failure, qa-rule-checker)
+    #     as a source would make a feature deploy look "deploying" while a
+    #     background report is still running. Lock the invariant.
+    fetch_src = ctx.read("scripts/fetch_deploy_monitor.py") or ""
+    if fetch_src:
+        if 'WORKFLOW_FILE = "deploy.yml"' not in fetch_src and "deploy.yml" not in fetch_src:
+            fails.append("fetch_deploy_monitor.py: không target deploy.yml — deploy state phải từ workflow deploy thật")
+        # Telemetry workflow names may ONLY appear inside the documented
+        # TELEMETRY_WORKFLOWS guard list, never as a queried source.
+        if "TELEMETRY_WORKFLOWS" not in fetch_src:
+            stray = [w for w in ("merge-report.yml", "build-failure-handler.yml", "qa-rule-checker.yml")
+                     if w in fetch_src]
+            if stray:
+                fails.append(f"fetch_deploy_monitor.py: telemetry workflow {stray} bị dùng làm deploy state — chỉ deploy.yml")
+        # 7 — stale in_progress detection (TTL) → no "deploying forever".
+        if "_PENDING_TTL_S" not in fetch_src or "expired" not in fetch_src:
+            fails.append("fetch_deploy_monitor.py: thiếu TTL/expiry cho in_progress (deploy treo sẽ hiện 'deploying' vĩnh viễn)")
+        # 8 — a commit already deployed (success run) must never be listed pending.
+        if "success_shas" not in fetch_src:
+            warns.append("fetch_deploy_monitor.py: thiếu guard 'đã deploy' (commit live có thể vẫn hiện pending)")
+
+    # 9 — runtime deploy-status.js, if present, must guard stale non-terminal
+    #     states so a stuck deploy can't render "deploying" forever.
+    js = ctx.read("static/js/deploy-status.js")
+    if js is not None and "STALE_NONTERMINAL_MS" not in js:
+        fails.append("static/js/deploy-status.js: thiếu stale guard → trạng thái treo sẽ hiện 'deploying' vĩnh viễn")
+
+    # 10 — footer must surface a stale flag so old data isn't mistaken for a deploy.
+    if base and "dm.stale" not in base and "deploy-watch__stale" not in base:
+        warns.append("templates/base.html: footer thiếu cảnh báo stale (dm.stale) — data cũ trông như đang deploy")
+
     if fails:
         return CheckResult("DEPLOY-MON", title, FAIL,
                            diagnosis="Deploy Monitor thiếu an toàn/route/schema/footer",
@@ -1315,6 +1403,60 @@ def check_gsc_domain_property(ctx: Ctx) -> CheckResult:
     )
 
 
+def check_korean_banner_ui_vaccine(ctx: Ctx) -> CheckResult:
+    """Korean banner UI — validates the homepage Hangul decorative banner meets
+    the SEOMONEY design system: overflow clipped, responsive layout present,
+    no content overlay (pointer-events none + aria-hidden), reduced-motion safe
+    (no keyframe animation on the pattern), and banner uses semantic border-radius."""
+    title = "Korean banner UI (overflow · responsive · no overlay · a11y)"
+    scss = ctx.read("sass/_home-momo.scss") or ""
+    tpl = ctx.read("templates/index.html") or ""
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1. Banner must clip its contents (overflow: hidden prevents Hangul bleed)
+    if "overflow: hidden" not in scss or ".home-tabs" not in scss:
+        fails.append("sass/_home-momo.scss: .home-tabs missing overflow:hidden — Hangul chars may bleed outside banner")
+
+    # 2. Hangul layer must be pointer-events:none (never blocks card clicks)
+    if "pointer-events: none" not in scss:
+        fails.append("sass/_home-momo.scss: .hangeul-pattern missing pointer-events:none — may block content clicks")
+
+    # 3. aria-hidden on the decorative banner (screen-readers must skip it)
+    if 'aria-hidden="true"' not in tpl or "home-tabs" not in tpl:
+        warns.append("templates/index.html: .home-tabs should have aria-hidden=\"true\" (decorative element)")
+
+    # 4. Responsive mobile override must exist
+    mobile_re = re.compile(r'@media\s*\([^)]*max-width\s*:\s*7[012]\d', re.IGNORECASE)
+    if not mobile_re.search(scss) or ".home-tabs" not in scss:
+        fails.append("sass/_home-momo.scss: no mobile breakpoint for .home-tabs — responsive layout missing")
+
+    # 5. No keyframe animation on .hangeul-pattern (static-only is fine; animated would need reduced-motion guard)
+    hangeul_block_m = re.search(r'\.hangeul-pattern\s*\{(.+?)\n\}', scss, re.DOTALL)
+    if hangeul_block_m and re.search(r'animation\s*:', hangeul_block_m.group(1)):
+        # animation present but no prefers-reduced-motion guard → WARN
+        reduced_ok = "@media (prefers-reduced-motion" in scss
+        if not reduced_ok:
+            warns.append("sass/_home-momo.scss: .hangeul-pattern has animation but no @media(prefers-reduced-motion) guard")
+
+    # 6. Warn if the harsh hardcoded Ericsson Blue (#003784) is still used as sole bg
+    if re.search(r'background\s*:\s*#003784', scss) and "linear-gradient" not in scss:
+        warns.append("sass/_home-momo.scss: .home-tabs still uses flat #003784 bg — consider softer gradient per SEOMONEY design")
+
+    if fails:
+        return CheckResult("KOREAN-BANNER", title, FAIL,
+                           diagnosis="Korean banner violates layout/accessibility contract",
+                           fix="Ensure overflow:hidden on .home-tabs, pointer-events:none on .hangeul-pattern, aria-hidden on banner div, mobile breakpoint present",
+                           details=fails + warns)
+    if warns:
+        return CheckResult("KOREAN-BANNER", title, WARN,
+                           diagnosis="Minor banner a11y/motion consistency issues",
+                           fix="See details above",
+                           details=warns)
+    return CheckResult("KOREAN-BANNER", title, PASS,
+                       diagnosis="overflow clipped · pointer-events:none · aria-hidden · responsive · animation-safe")
+
+
 def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
     """V19 — Domain Migration Drift: stale github.io/zola refs after apex-domain migration.
 
@@ -1421,6 +1563,207 @@ def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
                        diagnosis="no stale github.io/zola refs in operational files; config + CNAME clean")
 
 
+def check_search_ui_vaccine(ctx: Ctx) -> CheckResult:
+    """search_ui_vaccine — the internal search dialog ("Tìm trong blog") must
+    render as a STYLED, native SEOMONEY surface, never raw/default browser chrome.
+
+    Root cause it guards (the bug this task fixed): the search markup in
+    templates/base.html uses BEM `.site-search__*` classes, but only colour
+    *tint* overrides existed (_theme-overrides.scss) — the structural/layout
+    CSS was never written, so the panel rendered as an unstyled form. The fix
+    is the scoped partial sass/_site-search.scss, imported in site.scss.
+
+    Static signals (no browser needed):
+      FAIL — search would render raw OR the search logic/markup is gone:
+        * sass/_site-search.scss missing, or not imported in site.scss;
+        * the partial lacks the structural rules (overlay positioning, panel
+          card, field, primary submit, result card);
+        * base.html lost the dialog / input / submit / search-data markup;
+        * static/js/site-search.js (the search engine) is missing.
+      WARN — styled & working but a resilience gap:
+        * no mobile media query (mobile width could overflow);
+        * `.site-search[hidden]` not handled (overlay could show always).
+    """
+    title = "Search UI styled + native (Tìm trong blog)"
+    scss = ctx.read("sass/_site-search.scss")
+    site_scss = ctx.read("sass/site.scss") or ""
+    base = ctx.read("templates/base.html") or ""
+    js = ctx.read("static/js/site-search.js")
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Styled UI exists and is wired into the bundle.
+    if not scss:
+        fails.append("sass/_site-search.scss vắng → search render raw (no structural CSS)")
+    elif not re.search(r'@import\s+["\']site-search["\']', site_scss):
+        fails.append("sass/site.scss thiếu @import \"site-search\" → partial không vào bundle")
+
+    # 2) The partial supplies real STRUCTURE, not just a colour tint — these are
+    #    the selectors whose absence would leave a raw/default layout.
+    if scss:
+        # overlay must be a controlled, positioned surface (not document flow)
+        if not re.search(r'\.site-search\s*\{[^}]*position\s*:\s*fixed', scss, re.S):
+            fails.append(".site-search thiếu position:fixed → overlay không định vị (raw)")
+        for sel, why in (
+            (r'\.site-search__panel\s*\{[^}]*(max-width|border-radius)', "panel card (max-width/radius)"),
+            (r'\.site-search__field\s*\{[^}]*(display|border)', "search field (input wrapper)"),
+            (r'\.site-search__submit\s*\{[^}]*(background|padding)', "primary submit button"),
+            (r'\.site-search__result\s*\{[^}]*(border|padding)', "result card"),
+        ):
+            if not re.search(sel, scss, re.S):
+                fails.append(f"_site-search.scss thiếu style cho {why}")
+        # responsive + hidden-state hygiene (R1–R8 mobile rules / overlay toggle)
+        if "max-width: 720px" not in scss and "max-width:720px" not in scss:
+            warns.append("_site-search.scss thiếu @media (max-width: 720px) → mobile có thể overflow")
+        if not re.search(r'\.site-search\[hidden\]', scss):
+            warns.append(".site-search[hidden] chưa override display → overlay có thể luôn hiện")
+
+    # 3) Markup contract — input + submit + close + the data the JS reads.
+    for needle, why in (
+        ("data-site-search", "search dialog container"),
+        ("data-search-input", "search input"),
+        ("site-search__submit", "submit button"),
+        ("data-search-close", "close/back action"),
+        ("site-search-data", "search index data the engine reads"),
+    ):
+        if needle not in base:
+            fails.append(f"templates/base.html mất `{why}` ({needle}) → search UI/logic vỡ")
+
+    # 4) The search engine itself must still be present (logic unchanged).
+    if not js:
+        fails.append("static/js/site-search.js vắng → search ngừng hoạt động")
+    elif "renderResults" not in js:
+        warns.append("site-search.js có nhưng thiếu renderResults() — kiểm tra logic search")
+
+    if fails:
+        return CheckResult("SEARCH-UI", title, FAIL,
+                           diagnosis="search dialog không có UI styled hoặc mất markup/logic",
+                           fix=("thêm/giữ sass/_site-search.scss (overlay+panel+field+submit+result) + "
+                                "@import \"site-search\" trong site.scss; giữ markup .site-search__* + "
+                                "data-search-* trong base.html và static/js/site-search.js"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("SEARCH-UI", title, WARN,
+                           diagnosis="search UI styled & hoạt động nhưng còn khe hở resilience",
+                           fix="bổ sung @media mobile + .site-search[hidden] trong _site-search.scss",
+                           details=warns)
+    return CheckResult("SEARCH-UI", title, PASS,
+                       diagnosis="search dialog có UI styled native (overlay/panel/field/submit/result), "
+                                 "responsive, markup + engine còn nguyên")
+
+
+def check_domain_root_url_vaccine(ctx: Ctx) -> CheckResult:
+    """DOMAIN-ROOT — scanner scripts must not hardcode /zola as URL-normalization base path.
+
+    After migrating to seomoney.org (apex domain, no subpath), link scanners must
+    derive their base-path from config.toml base_url, not from a hardcoded "/zola"
+    constant. This detector catches regressions where someone re-introduces the
+    old subpath assumption.
+
+    FAIL:
+      * config.toml base_url contains '/zola' (would make SITE_BASE_PATH = '/zola',
+        re-infecting all link normalization downstream).
+      * Any scanner script defines SITE_PREFIX, SITE_BASE_PATH, or BASE_PATH equal
+        to the literal string '/zola' in non-comment assignment code.
+    WARN:
+      * Stale 'github.io/zola' references found in operational scanner scripts
+        (not build-breaking but indicate drift — covered more broadly by V19;
+        here narrowed to the scanner scripts specifically).
+    """
+    title = "DOMAIN-ROOT Scanner Base-Path (/zola prefix assumption)"
+
+    # Scanner scripts to audit — the primary consumers of SITE_PREFIX / SITE_BASE_PATH.
+    SCANNER_SCRIPTS = [
+        "qa-404-checker.py",
+        "scripts/check_internal_links.py",
+        "scripts/build_references.py",
+        "scripts/audit_internal_links.py",
+        "scripts/hotfix_improvement_progress.py",
+    ]
+
+    # Regex: assignment of SITE_PREFIX, SITE_BASE_PATH, BASE_PATH, or SITE_BASE to "/zola".
+    # Matches patterns like:  SITE_PREFIX = "/zola"  or  SITE_BASE_PATH = "/zola"
+    # but NOT comment lines or derived expressions like urlparse(BASE_URL).path.rstrip("/").
+    # Strategy: match non-comment lines containing the assignment, then verify string value.
+    _HARDCODE_PAT = re.compile(
+        r"^[^#\n]*(?:SITE_PREFIX|SITE_BASE_PATH|BASE_PATH|SITE_BASE)\s*=\s*['\"](/zola)['\"]",
+        re.MULTILINE,
+    )
+
+    # Pattern for stale github.io/zola in scanner scripts (WARN)
+    _STALE_HOST_PAT = re.compile(r"banhang-chogao\.github\.io/zola", re.IGNORECASE)
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # --- Check 1: config.toml base_url must NOT include /zola path segment ---
+    cfg_text = ctx.read("config.toml") or ""
+    for line in cfg_text.splitlines():
+        s = line.strip()
+        if s.startswith("base_url") and "=" in s:
+            val = s.split("=", 1)[1].strip().strip('"').strip("'")
+            parsed_path = ""
+            try:
+                from urllib.parse import urlparse as _up
+                parsed_path = _up(val).path.rstrip("/")
+            except Exception:
+                pass
+            if parsed_path == "/zola" or parsed_path.startswith("/zola/"):
+                fails.append(
+                    f"config.toml base_url={val!r} contains /zola subpath — "
+                    "SITE_BASE_PATH will be '/zola', re-infecting link normalization. "
+                    "Fix: set base_url = \"https://seomoney.org\""
+                )
+            break
+
+    # --- Check 2: scanner scripts must not hardcode /zola as a base-path value ---
+    for rel in SCANNER_SCRIPTS:
+        text = ctx.read(rel)
+        if text is None:
+            continue  # script absent — skip (not a FAIL; may be future state)
+        matches = _HARDCODE_PAT.findall(text)
+        if matches:
+            fails.append(
+                f"{rel}: hardcoded SITE_PREFIX/SITE_BASE_PATH = '/zola' found "
+                f"({len(matches)} occurrence(s)) — derive from BASE_URL instead"
+            )
+        # Check for stale host refs (WARN, narrowed to scanner context)
+        host_hits = _STALE_HOST_PAT.findall(text)
+        if host_hits:
+            warns.append(
+                f"{rel}: {len(host_hits)} stale 'banhang-chogao.github.io/zola' "
+                "reference(s) in scanner script"
+            )
+
+    if fails:
+        return CheckResult(
+            "DOMAIN-ROOT", title, FAIL,
+            diagnosis="; ".join(fails),
+            fix=(
+                "Remove hardcoded '/zola' base-path from scanner scripts. "
+                "Derive SITE_BASE_PATH from BASE_URL: "
+                "urlparse(BASE_URL).path.rstrip('/') — returns '' at root domain. "
+                "Set config.toml base_url = \"https://seomoney.org\"."
+            ),
+            details=fails + warns,
+        )
+    if warns:
+        return CheckResult(
+            "DOMAIN-ROOT", title, WARN,
+            diagnosis=f"{len(warns)} stale github.io/zola ref(s) in scanner scripts",
+            fix="Update scanner script comments/strings to reference seomoney.org",
+            details=warns,
+        )
+    return CheckResult(
+        "DOMAIN-ROOT", title, PASS,
+        diagnosis=(
+            "config.toml base_url has no /zola subpath; "
+            "scanner scripts do not hardcode /zola as base-path value"
+        ),
+    )
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -1430,6 +1773,7 @@ DETECTORS = [
     check_v8b_template_block_balance,
     check_v8c_series_registration,
     check_v19_domain_migration_drift,
+    check_domain_root_url_vaccine,
     check_v9_v10_process,
     check_v12_shared_infra_dupes,
     check_v17_vipzone_edge_safari_auth,
@@ -1450,6 +1794,8 @@ DETECTORS = [
     check_uptime_me,
     check_deploy_monitor,
     check_gsc_domain_property,
+    check_search_ui_vaccine,
+    check_korean_banner_ui_vaccine,
     check_seomoney_brand,
 ]
 

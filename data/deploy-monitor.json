@@ -1,19 +1,119 @@
 {
-  "checked_at": "",
-  "ok": false,
-  "stale": true,
+  "checked_at": "2026-06-20T16:09:13.965756+00:00",
+  "ok": true,
+  "stale": false,
   "summary": {
-    "prod_status": "unknown",
-    "prod_commit": null,
-    "prod_commit_short": null,
-    "prod_deployed_at": null,
+    "prod_status": "green",
+    "deploying": false,
+    "prod_commit": "2676ae55b8312d8b502740865c5054a9977e69f2",
+    "prod_commit_short": "2676ae5",
+    "prod_deployed_at": "2026-06-20T13:38:29Z",
     "pending_count": 0,
-    "avg_deploy_s": null,
-    "longest_deploy_s": null,
-    "failed_recent": 0,
-    "cancelled_recent": 0,
-    "storm": false
+    "expired_count": 0,
+    "avg_deploy_s": 925,
+    "longest_deploy_s": 1606,
+    "failed_recent": 7,
+    "cancelled_recent": 8,
+    "storm": true
   },
   "pending": [],
-  "recent": []
+  "expired": [],
+  "recent": [
+    {
+      "sha_short": "2676ae5",
+      "title": "fix(deploy-monitor): expire stale in_progress so Deploy Watch can't s…",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-20T13:18:59Z",
+      "duration_s": 1170
+    },
+    {
+      "sha_short": "607a958",
+      "title": "fix(build_references): code-span-safe URL extraction (PR #551 follow-…",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "created_at": "2026-06-20T13:18:38Z",
+      "duration_s": 22
+    },
+    {
+      "sha_short": "58ca88b",
+      "title": "feat(qa-vaccine): add DOMAIN-ROOT detector — scanner base-path /zola …",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "created_at": "2026-06-20T13:17:50Z",
+      "duration_s": 49
+    },
+    {
+      "sha_short": "e7480ee",
+      "title": "feat(seo): auto-submit sitemap + expand IndexNow to all content (#561)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "created_at": "2026-06-20T13:13:25Z",
+      "duration_s": 266
+    },
+    {
+      "sha_short": "8c91cd8",
+      "title": "redesign: soften Korean Hangul banner to SEOMONEY editorial style (#563)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "created_at": "2026-06-20T13:11:55Z",
+      "duration_s": 91
+    },
+    {
+      "sha_short": "e8942ab",
+      "title": "Build and deploy Zola site to GitHub Pages",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-20T13:11:38Z",
+      "duration_s": 782
+    },
+    {
+      "sha_short": "238120d",
+      "title": "feat: SEOMONEY rebrand + OG image + placeholder system + Deploy Monit…",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-20T12:56:12Z",
+      "duration_s": 675
+    },
+    {
+      "sha_short": "0b60f39",
+      "title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfi…",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-20T12:32:03Z",
+      "duration_s": 957
+    },
+    {
+      "sha_short": "d8a44cc",
+      "title": "chore(vaccine): Daily Vaccine Autofixer run (#555)",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-20T12:19:39Z",
+      "duration_s": 998
+    },
+    {
+      "sha_short": "13dcfd7",
+      "title": "fix(vaccine-hotfix): minimal delta for required_checks_fail-278700319…",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-20T12:00:35Z",
+      "duration_s": 1349
+    },
+    {
+      "sha_short": "40bf016",
+      "title": "chore(domain): post-migration cleanup + V19 vaccine (github.io → seom…",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-20T12:00:11Z",
+      "duration_s": 601
+    },
+    {
+      "sha_short": "a303b7f",
+      "title": "fix(v18): prevent runtime artifact conflicts in Daily Vaccine Autofix…",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-20T11:39:06Z",
+      "duration_s": 836
+    }
+  ]
 }

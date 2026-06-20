@@ -54,6 +54,23 @@ jobs:
       - name: DNS Vaccine gate (repo drift only)
         run: python3 scripts/dns_vaccine.py --offline --gate
 
+      # GSC preflight gate — FAIL the deploy unless GSC_PROPERTY_URL is the
+      # canonical domain property (sc-domain:seomoney.org). The offline gate needs
+      # no network/wheels; when OAuth creds are present it additionally verifies
+      # sites.list permission, sitemap registration and a 7d Search Analytics
+      # smoke fetch. Never logs credentials.
+      - name: GSC property preflight (deploy gate)
+        env:
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+        run: |
+          if [ -n "${GSC_REFRESH_TOKEN}" ] && [ -n "${GSC_CLIENT_ID}" ] && [ -n "${GSC_CLIENT_SECRET}" ]; then
+            pip install --quiet google-api-python-client==2.169.0 google-auth==2.40.2
+          fi
+          python3 scripts/gsc_preflight.py
+
       - name: Build social OG cover images (SVG → .og.webp)
         run: |
           pip install -r scripts/requirements-og-images.txt

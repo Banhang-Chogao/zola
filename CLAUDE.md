@@ -913,6 +913,49 @@ fenced blocks.
   PASS; `zola build` PASS; `qa_check.py` PASS.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.DomainMigrationDriftTest -v`
 
+#### V20 — Search UI raw/unstyled: BEM markup with no structural CSS (only colour tints)
+
+> UI vaccine (not a workflow-run bug — the page builds, it just looks broken).
+> Match the signature → ship the scoped partial; do NOT rewrite the search engine.
+
+- **Symptom:** the internal search dialog ("Tìm trong blog", opened from the navbar
+  search button) renders **raw/default**: plain browser form, bad spacing, ugly close
+  button, input + button not aligned, panel floating with no card. **Search logic works
+  fine** — only the UI is broken. `zola build` PASSES (it is purely missing CSS).
+- **Root cause:** the markup in `templates/base.html` uses BEM `.site-search__*` classes
+  and the engine `static/js/site-search.js` injects `.site-search__summary` /
+  `__results` / `__result*` nodes, but the **structural/layout CSS was never written**.
+  Only **colour-tint** overrides existed in `sass/_theme-overrides.scss`
+  (`:root[data-theme="hilda"] .site-search__*` — background/border/colour). Tints alone
+  cannot lay out a modal: with no `position`, `max-width`, flex, padding or radius the
+  panel collapses into document flow → looks unstyled. A colour override is **not** a
+  component.
+- **FIXER (already applied):** scoped partial **`sass/_site-search.scss`** supplies ALL
+  structure — fixed overlay above the navbar (`z-index: 10050`) with a calm backdrop,
+  a centred command-palette **panel card** (`max-width: 640px`, rounded, soft shadow),
+  kicker + `Tìm trong blog` title, circular **close** button, search **field with icon**
+  + focus ring, **primary submit**, summary chips, and a **result list styled like blog
+  cards**. Imported in `site.scss` **before** `theme-overrides` so the Ericsson/Hilda
+  tints still refine it. All colours use semantic `--c-*` tokens (B-DNA: tokens are the
+  source of truth) → adapts to light/dark. Mobile (`≤720px`) stacks the input/button
+  full-width; `.site-search[hidden]` keeps the overlay off until opened. **Search engine
+  + markup unchanged** (minimal delta, no logic rewrite).
+- **Prevention / Rules:** never ship BEM markup whose only CSS is a theme tint — a
+  component needs its own scoped structural partial; reference the design system first
+  (see the **UI/UX Reference Rule** below: `/branding-guideline/`, `/tools/s-dna/`,
+  `/tools/b-dna/`, `/font/`); dialogs MAY float above content (B-DNA), but a clean,
+  not raw, surface. **A green `zola build` does NOT prove the UI is styled** — only a
+  render/visual check (or this detector) catches a raw component.
+- **Detector:** `scripts/qa_vaccines.py` → `check_search_ui_vaccine` (code `SEARCH-UI`):
+  FAIL if `_site-search.scss` is missing / unimported / lacks the overlay+panel+field+
+  submit+result structure, or if base.html lost the dialog/input/submit/close/search-data
+  markup, or `site-search.js` is gone; WARN if the mobile media query or
+  `.site-search[hidden]` guard is absent.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SearchUiVaccineTest -v`
+- **Validation:** `zola build` PASS · `qa_check.py` PASS (search_ui_vaccine PASS) ·
+  `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken · search dialog
+  renders a styled panel on desktop + mobile with the input/button aligned and visible.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
@@ -1201,6 +1244,33 @@ guideline hiện tại không?"* — **CÓ →** áp dụng có chọn lọc; **
 (vd company profile, bài tài chính/ngành, trang annual-report). Khi đó mới dựng component (scoped SCSS +
 shortcode, opt-in, additive), tái dùng component sẵn có trước khi tạo mới. **Evolution, not proliferation.**
 
+## UI/UX Reference Rule (BẮT BUỘC — mọi lần làm/sửa UI/UX)
+
+> Quy tắc vĩnh viễn. Áp dụng cho **MỌI** lần implement hoặc fix UI/UX (page, component,
+> dashboard, widget, tool, modal, article block, dialog…). Bổ sung "Design Language" +
+> "Design Style Anchor" + "Global UI/UX Design DNA" — KHÔNG thay thế.
+
+**Rule:** When implementing or fixing UI/UX, Claude must **always reference** the existing
+design system **before** writing any markup or CSS:
+
+- **Branding guideline** → `/branding-guideline/` — source of truth (`--c-*` tokens, palette, spacing).
+- **S-DNA** → `/tools/s-dna/` — Sembcorp design DNA (soft surfaces, whitespace, calm hierarchy).
+- **B-DNA** → `/tools/b-dna/` — Brand design DNA (cards-first, kicker+title+purpose, tokens are truth, dialogs may float above content).
+- **Font guideline** → `/font/` — typography (`$font-heading` / `$font-body`, hierarchy).
+
+**Goal:** user-first usability, visual harmony, and consistency with the existing blog UI.
+
+- **Never ship raw/default-looking UI** when the blog already has a polished design system —
+  no default browser form controls/buttons, no unstyled panels, no misaligned inputs.
+- Every new visual component = **scoped SCSS partial** using semantic `var(--c-*)` tokens
+  (auto light/dark), imported in `site.scss`; **reuse** an existing component before inventing one.
+- Respect the responsive scope rules (mobile ≤720px vs desktop — see "Quy tắc tối ưu hoá giao diện").
+- **A green `zola build` does NOT prove the UI is styled** — always do a render/visual check
+  (desktop + mobile) before calling a UI task done. BEM markup whose only CSS is a theme tint
+  is **not** a finished component (see vaccine **V20 — Search UI**).
+- Ask the Design Consistency question first: *"Does this look natural inside an Apple annual
+  report × Bloomberg × Stripe Docs × Notion?"* — if **no → redesign** before shipping.
+
 ## Global UI/UX Design DNA
 
 > Repo này theo một **calm enterprise design language** lấy cảm hứng từ *premium annual report*
@@ -1309,7 +1379,62 @@ content đã merge → branch là redundant; đóng/xóa thay vì tạo PR thừ
 
 **KHÔNG áp dụng "KHÔNG canh PR" để bỏ qua bước tạo PR** — hai quy tắc khác nhau:
 - Tạo PR + enable auto-merge = **bắt buộc khi hoàn thành task** (mục này).
-- Babysit CI sau push = **cấm** (quy tắc tiếp theo).
+- Theo dõi PR tới trạng thái cuối = **bắt buộc** (mục dưới — GHI ĐÈ luật "cấm babysit" cũ).
+
+### Theo dõi PR tới trạng thái cuối (MANDATORY — 2026-06-20 — user request, GHI ĐÈ "HẾT NHIỆM VỤ — KHÔNG canh PR")
+
+> **Sau khi mở PR, bot PHẢI theo dõi PR tới trạng thái cuối.** Push branch / mở PR **KHÔNG**
+> còn là "hết nhiệm vụ". Quy tắc này **GHI ĐÈ** rule 2026-06-19 ("Đẩy thay đổi xong = HẾT
+> NHIỆM VỤ — KHÔNG canh PR") cho mọi task. Nhiệm vụ chỉ **Done** khi PR đã **MERGED** hoặc
+> bot báo lại **đúng blocker cụ thể** đang chặn.
+
+Sau khi mở PR, bám theo CI/PR và xử lý theo trạng thái:
+
+1. **CI đang chạy (`in_progress`/`pending`):** report **pending** — KHÔNG kết thúc với trạng
+   thái "done". Chờ/poll tới khi CI đạt terminal rồi xử tiếp theo nhánh dưới.
+2. **QA xanh (`success`):** xác nhận **auto-merge + deploy** đã/đang chạy; báo PR merged.
+3. **QA đỏ (`failure`):** **chẩn đoán** (đối chiếu §4 Vaccine library) → tạo **fix delta
+   tối thiểu** trên cùng branch → push → quay lại bước 1.
+4. **Conflict / `dirty`:** chạy **vaccine/preflight conflict checker** (`scripts/autofix_conflicts.py`,
+   `vaccine_hotfix.py --precheck`, V10/V12 FIXER) → resolve semantic → push → quay lại bước 1.
+
+**Done = PR merged HOẶC báo lại đúng blocker** (CI error cụ thể, conflict file cụ thể, hoặc
+việc cần user quyết). KHÔNG bao giờ kết thúc turn ở trạng thái "đã push, để pipeline tự lo"
+khi PR chưa tới trạng thái cuối.
+
+### Definition of Done — "branch pushed + PR opened + QA green + auto-merge attempted"
+
+> **Done KHÔNG bao giờ chỉ là "đã push branch".** Push branch mà KHÔNG có PR =
+> **incomplete work** — QA → auto-merge → deploy không thể tiếp tục. Bot tuyệt đối
+> không được dừng ở "I pushed the branch" trừ khi bị chặn quyền (permissions).
+
+**Done = đủ 4 điều kiện:**
+1. **Branch pushed** — code đã lên feature branch (`claude/**`, `codex/**`,
+   `vaccine-hotfix/**`, `fix/**`, `feature/**`, …).
+2. **PR opened/updated** — branch có đúng **1** PR mở vào `main` (reuse nếu đã có,
+   KHÔNG tạo trùng). Title rõ ràng kèm branch/task name; body gồm **summary ·
+   changed files · QA/build status · rollback note**.
+3. **QA green** — chỉ merge khi `qa-check` (QA Gatekeeper) **xanh**. QA đỏ → KHÔNG
+   merge; để lại comment failed checks + next fix action. QA đang chạy → chờ.
+4. **Auto-merge attempted** — đã delegate cho pipeline gated (`try_auto_merge.py` /
+   `auto-merge.yml`), KHÔNG bypass QA.
+
+**Tự động hoá (không cần agent thao tác tay):**
+
+| Thành phần | Path | Vai trò |
+|------------|------|---------|
+| Engine | `scripts/ensure_pr_after_push.py` | Sau push → ensure PR (create/reuse) + body chuẩn + preflight conflict + delegate gated auto-merge |
+| Workflow | `.github/workflows/ensure-pr-after-push.yml` | Trigger `push` tới `claude/**` · `codex/**` · `vaccine-hotfix/**` + `workflow_dispatch` |
+| Tests | `scripts/test_ensure_pr_after_push.py` | Pure-helper tests (eligibility, title/body, summary) |
+| Merge | `scripts/try_auto_merge.py` (reuse) | Gated squash-merge khi `qa-check` xanh — KHÔNG bypass |
+
+- **Preflight conflict:** branch `mergeable_state=dirty` → comment cảnh báo (V10/V12 +
+  `autofix_conflicts.py`/`ff9`), KHÔNG merge cho tới khi resolve.
+- **Không tạo PR trùng:** đã có PR mở cho branch → reuse + cập nhật title/body.
+- **Không force-push, không merge PR đỏ.** Nếu bị chặn quyền (`pull-requests:write`
+  thiếu) → output đúng lý do + lệnh tay: `gh pr create --base main --head <branch>`.
+- Chạy tay: `GITHUB_TOKEN=… GH_REPO=Banhang-Chogao/zola BRANCH=<branch>
+  python3 scripts/ensure_pr_after_push.py --enable-auto-merge`.
 
 ### Quy tắc chung
 
@@ -1320,24 +1445,18 @@ content đã merge → branch là redundant; đóng/xóa thay vì tạo PR thừ
 - Commit phải có tiêu đề rõ ràng + tóm tắt thay đổi và cách verify (để Merge Report đọc được).
 - Đang dở 1 thay đổi trên branch → push thêm commit vào cùng branch; KHÔNG nhét thay
   đổi MỚI không liên quan vào.
-- **Đẩy thay đổi xong = HẾT NHIỆM VỤ — KHÔNG canh PR (2026-06-19 — user request, GHI ĐÈ
-  luật cũ "Theo dõi tới khi xong (BẮT BUỘC)"):** push để kích hoạt pipeline auto-merge là
-  **kết thúc nhiệm vụ**. Pipeline ZERO_BARRIER tự lo phần còn lại: `qa-check` xanh →
-  `auto-merge.yml` (squash) → `deploy.yml` production. **Lỗi để máy lo:** `qa-check` đỏ →
-  vaccine autofixer (§4) + `ff`/`ff9` tự chẩn & sửa, push lại cùng branch tới khi xanh.
-  - **KHÔNG** `subscribe_pr_activity`, **KHÔNG** canh CI tới khi merge, **KHÔNG** hẹn
-    `send_later` self check-in, **KHÔNG** babysit/poll PR. Push xong là kết thúc turn.
-  - **Ngoại lệ — chỉ khi user CHỦ ĐỘNG yêu cầu** ("canh PR", "babysit", "autofix CI",
-    "theo dõi tới khi merge"): lúc đó mới `subscribe_pr_activity`, fix CI đỏ trên cùng
-    branch (Vaccine §4 / `ff`), và dừng (`unsubscribe_pr_activity`) khi user bảo dừng
-    hoặc PR đã MERGED/CLOSED.
-  - Nếu CI đỏ mà user KHÔNG yêu cầu canh: pipeline tự xử theo cấu hình repo; không tự
-    spawn monitor/subscribe trừ khi được yêu cầu.
+- **⚠️ SUPERSEDED (2026-06-19 "HẾT NHIỆM VỤ — KHÔNG canh PR") → xem "Theo dõi PR tới
+  trạng thái cuối (MANDATORY — 2026-06-20)" bên trên.** Luật cũ coi push là kết thúc
+  nhiệm vụ và cấm canh PR; user đã GHI ĐÈ: nay bot PHẢI theo dõi PR tới khi MERGED hoặc
+  báo đúng blocker. Pipeline ZERO_BARRIER (`qa-check` → `auto-merge.yml` → `deploy.yml`)
+  vẫn chạy như cơ chế nền, nhưng bot **không** dừng ở "đã push, để máy lo": có quyền/
+  nghĩa vụ poll CI, fix QA đỏ (§4 Vaccine / `ff`), resolve conflict (vaccine/preflight)
+  trên cùng branch tới trạng thái cuối.
 
 ### Báo cáo PR sau merge (BẮT BUỘC — 2026-06-19)
 
 > Ghi đè format báo cáo cũ (markdown table đơn giản). 3 quy tắc BẮT BUỘC:
-> 1. **KHÔNG canh PR liên tục** (`subscribe_pr_activity`, `theodoi8`, sleep-loop) — trừ khi user chủ động yêu cầu.
+> 1. **Theo dõi PR tới trạng thái cuối** (MANDATORY 2026-06-20 — GHI ĐÈ luật "KHÔNG canh PR" cũ): poll CI tới terminal, xử QA đỏ/conflict trên cùng branch; Done = MERGED hoặc báo đúng blocker. Vẫn tránh poll-loop vô hạn lãng phí — ưu tiên cơ chế event/`auto-merge.yml`.
 > 2. **Luôn output summary cuối sau merge** (khi gọi `merge`/`gg`/`prm` hoặc merge xong cùng turn) — một lần, rồi dừng.
 > 3. **Status = fail/error → đọc §4 Vaccine library** trong `CLAUDE.md` → đề xuất đúng `Vaccine match` + `Suggested fix tool`.
 
@@ -2320,7 +2439,7 @@ Bot phát hiện rule/policy/workflow/automation xung đột — schedule mỗi 
 
 ## Momo Payment Rules
 
-- Payment link mặc định (premium paywall **và** donate): `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/YQdJ8k98OO4vaOG`
+- Payment link mặc định (premium paywall **và** donate): `https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP`
   - Cấu hình: `config.toml` → `momo_payment_link` (paywall) + `donate_momo_link` (donate, key riêng để đổi độc lập). Hiện cùng tài khoản nhận tiền.
   - Đồng bộ ở: `config.toml`, `templates/macros/paywall.html` (fallback), `backend/paywall_app.py` (`MOMO_LINK` default), `render.yaml` (`MOMO_PAYMENT_LINK`), `docs/paywall.md`. Khi đổi link → cập nhật TẤT CẢ chỗ này.
 - Override qua env `MOMO_PAYMENT_LINK` trên backend.

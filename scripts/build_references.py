@@ -15,21 +15,13 @@ import tomllib
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse
 
-# Code-span-aware link masking (shared link-safety layer). Reusing this keeps the
-# references builder from harvesting EXAMPLE links written inside `code spans` /
-# ``` fenced blocks ``` — e.g. an article that documents `[text](/posting/slug/)`
-# must NOT produce a real reference link to /posting/slug/ (the V14 / V10-LINKS
-# class: never parse links inside code spans).
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-try:
-    from link_utils import mask_code_spans
-except ImportError:  # pragma: no cover - degrade safely if the shared lib moves
-    def mask_code_spans(text: str, fill: str = " ") -> str:
-        return text
-
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "references.json"
 BASE_URL = "https://seomoney.org"
+
+# Allow sibling `link_utils` import when run as `python3 scripts/build_references.py`
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from link_utils import extract_link_pairs as _lu_extract_link_pairs  # code-span-aware
 
 CONTENT_DIRS = (
     ROOT / "content" / "posting",
@@ -37,7 +29,7 @@ CONTENT_DIRS = (
     ROOT / "content" / "pages",
 )
 
-# Markdown links — exclude image syntax leading !
+# Kept for reference; actual extraction uses link_utils (code-span-safe).
 LINK_MD_RE = re.compile(r"(?<!!)\[([^\]]*)\]\(([^)]+)\)")
 LINK_HTML_RE = re.compile(
     r'<a\s+[^>]*href=["\']([^"\']+)["\'][^>]*>([^<]*)</a>',
@@ -195,15 +187,8 @@ def resolve_internal_url(url: str, slug_index: dict) -> str:
 
 
 def extract_links(body: str) -> list[tuple[str, str]]:
-    found: list[tuple[str, str]] = []
-    # Mask code spans/fenced blocks first → example links inside `code` are not
-    # harvested as real references (offset-preserving fill keeps regex spans valid).
-    body = mask_code_spans(body)
-    for m in LINK_MD_RE.finditer(body):
-        found.append((m.group(1), m.group(2).strip()))
-    for m in LINK_HTML_RE.finditer(body):
-        found.append((m.group(2), m.group(1).strip()))
-    return found
+    """Extract (anchor_text, url) pairs; code-span-safe via link_utils."""
+    return _lu_extract_link_pairs(body)
 
 
 def build_slug_index() -> dict[str, dict]:
