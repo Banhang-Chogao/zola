@@ -2054,6 +2054,117 @@ def check_editor_publish_vaccine(ctx: Ctx) -> CheckResult:
                        diagnosis="editor commit lên GitHub qua /cms/save-post (kèm SHA), SEO rail hydrate bài cũ, "
                                  "sticky single-active (backend auto-unstick)")
 
+# Glyphs that must NEVER appear as icons in the editor's visible UI (S-DNA
+# redesign — outline SVG only). Plain directional arrows ↑ ↓ ← → (U+2190..2193)
+# are allowed: they are keyboard hints inside <kbd>, not action icons.
+_EDITOR_EMOJI_RANGES = (
+    (0x1F000, 0x1FAFF),  # pictographs / emoji
+    (0x2600, 0x27BF),    # misc symbols + dingbats (pencil/spark/warning …)
+    (0x2300, 0x23FF),    # misc technical (⏻ ⏱ …)
+    (0x2B00, 0x2BFF),    # stars / arrows blocks (⭐ …)
+)
+_EDITOR_EMOJI_EXTRA = {0xFE0F, 0xFF0B, 0x21BB, 0x21C4, 0x21A9, 0x21AA, 0x2934, 0x2935}
+_TERA_COMMENT = re.compile(r"\{#.*?#\}", re.S)
+_HTML_COMMENT = re.compile(r"<!--.*?-->", re.S)
+
+
+def _editor_emoji_hits(text: str) -> list[str]:
+    """Return the distinct forbidden icon glyphs found in editor-visible markup.
+
+    Tera + HTML comments are stripped first so an emoji in a code comment never
+    trips the gate — only glyphs that would actually render are flagged.
+    """
+    body = _HTML_COMMENT.sub(" ", _TERA_COMMENT.sub(" ", text or ""))
+    hits: set[str] = set()
+    for ch in body:
+        o = ord(ch)
+        if o in _EDITOR_EMOJI_EXTRA or any(a <= o <= b for a, b in _EDITOR_EMOJI_RANGES):
+            hits.add(ch)
+    return sorted(hits)
+
+
+def check_editor_sdna_vaccine(ctx: Ctx) -> CheckResult:
+    """EDITOR-SDNA — the /editor/ CMS must keep its S-DNA visual layer and stay
+    emoji-free, without losing publish/edit logic or the SEO assistant.
+
+    The redesign repainted templates/editor.html + the SEO rail partial with the
+    Sembcorp Design DNA (soft KPI cards, coloured left accents, thin outline SVG
+    icons in circle rings) via the scoped partial sass/_editor-sdna.scss. This
+    detector guards that work from regressions.
+
+    FAIL (visible regression or lost functionality):
+      * sass/_editor-sdna.scss missing, or not @import-ed in site.scss;
+      * the editor templates re-introduce emoji icons in visible UI;
+      * publish/edit handlers gone (data-action="publish" / data-form="post" /
+        the editor.js include);
+      * the SEO assistant rail is gone (include or data-seo-rail).
+    WARN (styled but a resilience / fidelity gap):
+      * the S-DNA partial lacks the KPI-card / circle-ring structure;
+      * no mobile (≤720px) media query (mobile layout could drift).
+    """
+    title = "Editor S-DNA visual layer (emoji-free + KPI cards + logic intact)"
+    scss = ctx.read("sass/_editor-sdna.scss")
+    site_scss = ctx.read("sass/site.scss") or ""
+    editor = ctx.read("templates/editor.html") or ""
+    rail = ctx.read("templates/partials/editor-seo-rail.html") or ""
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Scoped S-DNA stylesheet exists and is wired into the bundle.
+    if not scss:
+        fails.append("sass/_editor-sdna.scss vắng → editor mất lớp S-DNA (raw lại)")
+    elif not re.search(r'@import\s+["\']editor-sdna["\']', site_scss):
+        fails.append('sass/site.scss thiếu @import "editor-sdna" → partial không vào bundle')
+
+    # 2) No emoji icons in the editor's visible UI (template source).
+    for rel, text in (("templates/editor.html", editor),
+                      ("templates/partials/editor-seo-rail.html", rail)):
+        hits = _editor_emoji_hits(text)
+        if hits:
+            shown = " ".join(hits[:12])
+            fails.append(f"{rel}: còn icon emoji trong UI ({shown}) → thay bằng outline SVG")
+
+    # 3) Publish / edit handlers must still be present (logic unchanged).
+    for needle, why in (
+        ('data-action="publish"', "nút Đăng lên blog (publish handler)"),
+        ('data-form="post"', "form soạn bài (edit/publish form)"),
+        ("js/editor.js", "editor.js (publish/edit/auth logic)"),
+    ):
+        if needle not in editor:
+            fails.append(f"templates/editor.html mất `{why}` ({needle}) → editor logic vỡ")
+
+    # 4) SEO assistant must still be present.
+    if "editor-seo-rail" not in editor:
+        fails.append("templates/editor.html không còn include SEO rail (editor-seo-rail)")
+    if "data-seo-rail" not in rail:
+        fails.append("partials/editor-seo-rail.html mất data-seo-rail → trợ lý SEO biến mất")
+
+    # 5) S-DNA fidelity — KPI cards + circle rings + responsive (WARN).
+    if scss:
+        if "esr-kpi" not in scss:
+            warns.append("_editor-sdna.scss thiếu style .esr-kpi → SEO assistant chưa thành KPI card")
+        if ".ed-ico" not in scss:
+            warns.append("_editor-sdna.scss thiếu .ed-ico (circle/outline icon helper)")
+        if "max-width: 720px" not in scss and "max-width:720px" not in scss:
+            warns.append("_editor-sdna.scss thiếu @media (max-width: 720px) → mobile có thể trôi layout")
+
+    if fails:
+        return CheckResult("EDITOR-SDNA", title, FAIL,
+                           diagnosis="editor mất lớp S-DNA, còn emoji, hoặc mất logic/SEO assistant",
+                           fix=("giữ sass/_editor-sdna.scss + @import \"editor-sdna\"; thay mọi emoji "
+                                "trong editor.html/SEO rail bằng outline SVG; giữ data-action=\"publish\", "
+                                "data-form=\"post\", include editor.js + SEO rail"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("EDITOR-SDNA", title, WARN,
+                           diagnosis="editor đã S-DNA + emoji-free nhưng còn khe hở fidelity/resilience",
+                           fix="bổ sung .esr-kpi / .ed-ico / @media mobile trong _editor-sdna.scss",
+                           details=warns)
+    return CheckResult("EDITOR-SDNA", title, PASS,
+                       diagnosis=("editor có lớp S-DNA scoped (KPI cards + circle outline icons), "
+                                  "không còn emoji, publish/edit + SEO assistant còn nguyên"))
+
 
 def check_no_floating_nav_vaccine(ctx: Ctx) -> CheckResult:
     """V21 — No Floating Bar / Stable Nav Vaccine.
@@ -2186,6 +2297,7 @@ DETECTORS = [
     check_seomoney_brand,
     check_og_image_vaccine,
     check_editor_publish_vaccine,
+    check_editor_sdna_vaccine,
 ]
 
 
