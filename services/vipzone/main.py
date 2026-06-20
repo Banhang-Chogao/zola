@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import os
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -45,8 +46,9 @@ from pydantic import BaseModel, EmailStr, Field
 
 from catalog_loader import load_catalog, migrate_picks_sync
 from picker_access import expand_items, items_to_map, migrate_picker_items, sparse_items
-from cms_auth import BACKEND_URL, is_admin, router as auth_router, session_dep
+from cms_auth import BACKEND_URL, cms_profile_from_session, is_admin, router as auth_router, session_dep
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
+from gsc_kv import SqliteKV
 from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
 
 CORS_ORIGIN = os.getenv("VIPZONE_CORS_ORIGIN", "https://seomoney.org")
@@ -102,6 +104,62 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(auth_router)
+
+
+# ============= Google Search Console (SEO Reality Check) =============
+# The GSC router lives in services/visitor-counter/ (shared source of truth) but is
+# served HERE: blog-vipzone-api (this service) is the origin config.toml points the
+# SEO widget at (vipzone_api_url), so /gsc/* must exist on THIS app. Without it the
+# frontend's "Kết nối GSC" → /gsc/oauth/start returned {"detail":"Not Found"}.
+# Storage: SQLite KV (this service has no Redis); auth: VIPZone CMS session (supervip).
+GSC_BACKEND_URL = (
+    os.getenv("VIPZONE_BACKEND_URL") or os.getenv("BACKEND_URL") or BACKEND_URL
+).rstrip("/")
+_gsc_kv = SqliteKV(Path(DB_PATH) if DB_PATH else DEFAULT_DB)
+
+
+async def _gsc_get_store() -> SqliteKV:
+    return _gsc_kv
+
+
+async def _gsc_require_supervip(authorization: str) -> dict[str, Any]:
+    """String-form supervip guard for the GSC router (top-level nav passes Bearer sid)."""
+    profile = await cms_profile_from_session(get_db(), authorization or "")
+    if not is_superadmin(profile):
+        raise HTTPException(403, "superadmin_required")
+    return profile
+
+
+async def _gsc_require_session(authorization: str) -> dict[str, Any]:
+    return await cms_profile_from_session(get_db(), authorization or "")
+
+
+def _gsc_build_blog_url(return_to: str, fragment: str = "") -> str:
+    rt = return_to or "/"
+    if not rt.startswith("/"):
+        rt = "/" + rt
+    return f"{BLOG_URL}{rt}" + (f"#{fragment}" if fragment else "")
+
+
+try:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "visitor-counter"))
+    from gsc_routes import configure as _configure_gsc, router as _gsc_router
+
+    _configure_gsc(
+        get_redis=_gsc_get_store,
+        require_session=_gsc_require_session,
+        require_supervip=_gsc_require_supervip,
+        build_blog_url=_gsc_build_blog_url,
+        backend_url=GSC_BACKEND_URL,
+        blog_url=BLOG_URL,
+    )
+    app.include_router(_gsc_router)
+    GSC_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    # If the Google client libs are unavailable the rest of VIPZone must still serve;
+    # /gsc/* will be absent and the SEO widget shows its calm "not configured" state.
+    GSC_MOUNTED = False
+    print(f"[vipzone] GSC router not mounted: {exc!r}")
 
 
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
@@ -224,6 +282,8 @@ def _health_payload() -> dict[str, Any]:
         "momo_configured": bool(MOMO_MONTHLY and MOMO_SEMIANNUAL),
         "deployed_sha": DEPLOYED_SHA,
         "premium_content": PRIVATE_CONTENT.is_dir(),
+        "gsc_mounted": GSC_MOUNTED,
+        "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }
 
 

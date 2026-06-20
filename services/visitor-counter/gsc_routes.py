@@ -44,12 +44,33 @@ _require_supervip = None
 _build_blog_url = None
 
 
-def configure(*, get_redis, require_session, require_supervip, build_blog_url):
+def configure(
+    *,
+    get_redis,
+    require_session,
+    require_supervip,
+    build_blog_url,
+    backend_url: str | None = None,
+    blog_url: str | None = None,
+):
+    """Wire the GSC router to a host service.
+
+    `backend_url` / `blog_url` let a second host (e.g. the VIPZone service, which
+    does not export BACKEND_URL/BLOG_URL under those exact env names) override the
+    OAuth redirect origin + post-login blog origin without relying on module-level
+    env defaults. When omitted the module env defaults (BACKEND_URL/BLOG_URL) win,
+    preserving the original visitor-counter behaviour.
+    """
     global _get_redis, _require_session, _require_supervip, _build_blog_url
+    global BACKEND_URL, BLOG_URL
     _get_redis = get_redis
     _require_session = require_session
     _require_supervip = require_supervip
     _build_blog_url = build_blog_url
+    if backend_url:
+        BACKEND_URL = backend_url.rstrip("/")
+    if blog_url:
+        BLOG_URL = blog_url.rstrip("/")
 
 
 def _gsc_configured() -> bool:
