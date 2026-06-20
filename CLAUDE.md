@@ -915,6 +915,43 @@ fenced blocks.
   `check_internal_links.py` PASS · `qa-404-checker.py` 0 internal broken · search dialog
   renders a styled panel on desktop + mobile with the input/button aligned and visible.
 
+#### V21 — Editor S-DNA visual layer: keep `/editor/` emoji-free + KPI cards, logic intact
+
+> UI vaccine (not a workflow-run bug — the editor builds, the guard protects its look
+> and its handlers). Match the signature → keep the scoped partial + outline SVGs;
+> never re-introduce emoji icons or strip publish/SEO logic.
+
+- **Symptom (regression it guards):** the `/editor/` CMS dashboard reverts to the old
+  loud look — rainbow CMS pill, emoji action icons (🔐 🔍 🗑 📝 💾 📌 ✎ ⇄ 👁 📥 🚀 🧠 ⚠ ↻ ⏻ ✦ ＋),
+  default form chrome — instead of the calm S-DNA surface (soft pastel KPI cards, coloured
+  left accents, thin outline icons in circle rings). A green `zola build` does NOT prove the
+  editor still looks/works right.
+- **Root cause it prevents:** the S-DNA repaint lives in the scoped partial
+  `sass/_editor-sdna.scss` (imported LAST in `site.scss`, after `editor` + `cms`) plus inline
+  Lucide-style outline SVGs in `templates/editor.html` + `templates/partials/editor-seo-rail.html`.
+  If that partial is dropped/unimported, or someone re-adds emoji glyphs, or removes the
+  publish/edit handlers / SEO rail, the editor degrades. The repaint is **scoped to
+  `.editor-app`** — it must never leak into navbar/footer/blog article surfaces (S-DNA's own
+  "borrow selectively, never global redesign" rule).
+- **FIXER:** keep `sass/_editor-sdna.scss` + `@import "editor-sdna"` in `site.scss`; map every
+  visible action to an outline SVG (new/edit/save/publish/delete/back/search/refresh/logout/
+  check/link/seo/sticky/image/tag/calendar) — never an emoji; render the SEO assistant as S-DNA
+  KPI cards (pastel fill · left accent · circle ring · small label · big value); preserve
+  `data-action="publish"`, `data-form="post"`, the `editor.js` include and the SEO rail
+  (`data-seo-rail`). Mobile: two-column → single-column, sticky action bar anchored inside the
+  editor panel (no floating/drifting). Logic (publish/edit GitHub commit, old-post SEO
+  hydration, single-active sticky overwrite) stays in `editor.js` — untouched.
+- **Detector:** `scripts/qa_vaccines.py` → `check_editor_sdna_vaccine` (code `EDITOR-SDNA`):
+  FAIL if `_editor-sdna.scss` missing/unimported, if the editor templates carry emoji icons in
+  visible UI (Tera/HTML comments stripped first; plain `↑↓←→` keycaps in `<kbd>` allowed), if
+  `data-action="publish"` / `data-form="post"` / the `editor.js` include is gone, or if the SEO
+  assistant (`editor-seo-rail` / `data-seo-rail`) is removed; WARN if the partial lacks the
+  KPI-card (`.esr-kpi`) / circle-icon (`.ed-ico`) structure or the `≤720px` media query.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.EditorSdnaVaccineTest -v`
+- **Validation (2026-06-20):** `zola build` PASS (245 pages) · `qa_check.py` PASS (EDITOR-SDNA
+  PASS, 0 FAIL) · editor templates emoji-free · publish/edit handlers + SEO rail intact ·
+  rail renders as KPI cards; redesign scoped to `.editor-app` only.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

@@ -1176,5 +1176,79 @@ class RealRepoCalibrationTest(unittest.TestCase):
         self.assertGreaterEqual(summary["vaccines_loaded"], 12)
 
 
+class EditorSdnaVaccineTest(unittest.TestCase):
+    """EDITOR-SDNA — the /editor/ S-DNA visual layer + emoji-free + logic guard."""
+
+    GOOD_SCSS = (
+        '.editor-app { .ed-ico { color: red; } .esr-kpi { padding: 1rem; } }\n'
+        '@media (max-width: 720px) { .editor-app { } }\n'
+    )
+    GOOD_EDITOR = (
+        '{# comment 🚀 in a comment must be ignored #}\n'
+        '<form data-form="post"><button data-action="publish">Đăng</button></form>\n'
+        '{% include "partials/editor-seo-rail.html" %}\n'
+        '<script src="js/editor.js"></script>\n'
+    )
+    GOOD_RAIL = '<aside data-seo-rail><div class="esr-kpi"></div></aside>\n'
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _write_good(self):
+        self.repo.write("sass/_editor-sdna.scss", self.GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "editor";\n@import "editor-sdna";\n')
+        self.repo.write("templates/editor.html", self.GOOD_EDITOR)
+        self.repo.write("templates/partials/editor-seo-rail.html", self.GOOD_RAIL)
+
+    def test_missing_stylesheet_fail(self):
+        r = qv.check_editor_sdna_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_emoji_in_visible_ui_fail(self):
+        self._write_good()
+        # an emoji OUTSIDE a comment (visible UI) must FAIL
+        self.repo.write("templates/editor.html",
+                        self.GOOD_EDITOR + '<button data-action="x">🚀 Đăng</button>\n')
+        r = qv.check_editor_sdna_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("emoji" in d for d in r.details))
+
+    def test_emoji_only_in_comment_passes(self):
+        self._write_good()  # GOOD_EDITOR has 🚀 inside a {# … #} comment
+        r = qv.check_editor_sdna_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_publish_handler_removed_fail(self):
+        self._write_good()
+        self.repo.write("templates/editor.html",
+                        self.GOOD_EDITOR.replace('data-action="publish"', 'data-action="noop"'))
+        r = qv.check_editor_sdna_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_seo_rail_removed_fail(self):
+        self._write_good()
+        self.repo.write("templates/partials/editor-seo-rail.html",
+                        '<aside>no hook</aside>\n')
+        r = qv.check_editor_sdna_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_not_imported_fail(self):
+        self._write_good()
+        self.repo.write("sass/site.scss", '@import "editor";\n')  # no editor-sdna import
+        r = qv.check_editor_sdna_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_good_repo_pass(self):
+        self._write_good()
+        r = qv.check_editor_sdna_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_real_repo_pass(self):
+        r = qv.check_editor_sdna_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS,
+                         f"editor S-DNA detector not green on repo: {r.details}")
+
+
 if __name__ == "__main__":
     unittest.main()
