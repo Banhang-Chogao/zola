@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(content): add Mac Terminal app cleanup guide + set as featured [claude/blissful-albattani-nb6ob7]",
+      "tag": "cleanup",
+      "lines_added": 345,
+      "lines_removed": 3,
+      "highlights": [
+        "content/posting/cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key.md (added, +226/-0)",
+        "content/posting/tinh-luong-huu-2026-huong-dan.md (modified, +1/-1)",
+        "data/references.json (modified, +23/-0)",
+        "data/seo-qa-scores.json (modified, +95/-2)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 635
+    },
+    {
+      "date": "2026-06-21",
       "title": "docs+feat(triage): Failure Priority Policy — required-on-HEAD-first triage engine [claude/failure-priority-rule-n7ls18]",
       "tag": "chore",
       "lines_added": 567,
