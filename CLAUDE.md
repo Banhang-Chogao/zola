@@ -823,6 +823,18 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
   (`deploysafe8`) before calling a deploy "done"; treat a green Pages deploy + outdated
   backend SHA as **incomplete**; the only human action is a Render Manual Sync (Claude cannot
   deploy Render).
+- **⚠️ GitHub Pages deploy ≠ Render backend deploy (BẮT BUỘC nhớ):** `deploy.yml` →
+  GitHub Pages publishes the **static site** (HTML/JS/CSS) from `main`. It does **NOT**
+  touch the FastAPI services on Render (`blog-vipzone-api` = `services/vipzone`,
+  `blog-paywall-api`, `blog-shortensea-api`). A new/changed backend route on `main` only
+  goes live after an **operator-run Render Manual Sync** (Render → Blueprints → Manual Sync
+  the affected service). Until then the frontend calls the **old** backend → 404 on routes
+  that already exist in the repo. So a backend change is **NOT done at "merged + Pages
+  green"**: the sequence is **merge → Render Manual Sync → smoke `GET {service}/health`
+  (confirm `deployed_sha` == `origin/main` and the mounted flags, e.g. `gsc_mounted: true`)
+  → only then call it deployed.** Claude cannot run the Render sync nor reach `*.onrender.com`
+  from the sandbox (egress allowlist) — surface the manual step, never report a backend route
+  live from a green Pages deploy alone.
 - **Tests:** `python3 -m unittest scripts.test_backend_sha_check -v` (in_sync · outdated ·
   unreachable=unknown · no-backend-sha=unknown · no-main=unknown · prefix-match).
 
