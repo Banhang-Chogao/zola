@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "Phase 1 only — remove Phase 2 features (dashboards, admin zone)",
+      "tag": "chore",
+      "lines_added": 1,
+      "lines_removed": 32567,
+      "highlights": [
+        "4 workflows: ad-report-v2, authority-booster, build-dashboard, content-creator",
+        "4 dashboards: f-dashboard, h-dashboard, l-dashboard, o-dashboard (templates, content, JS, SCSS)",
+        "8+ admin pages: admin-author, admin-countdown, paywall admin, shortensea admin",
+        "9 SCSS partials for dashboards and admin zones",
+        "7 Python scripts: dashboard parsers, insights engines"
+      ],
+      "pr": 653
+    },
+    {
+      "date": "2026-06-21",
       "title": "docs(operator): Phase 1 shortcut grouping and quickstart guides",
       "tag": "chore",
       "lines_added": 536,
