@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "docs(claude): add local-publish vaccine — no build/dependency artifacts [claude/happy-knuth-f6ax2r]",
+      "tag": "chore",
+      "lines_added": 29,
+      "lines_removed": 0,
+      "highlights": [
+        "CLAUDE.md (modified, +29/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/happy-knuth-f6ax2r là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 604
+    },
+    {
+      "date": "2026-06-21",
       "title": "chore(gitignore): ignore local seomoney config [chore/ignore-local-seomoney-json]",
       "tag": "chore",
       "lines_added": 3,
