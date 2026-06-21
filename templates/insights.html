@@ -705,7 +705,6 @@
                         <span class="insights__report-badge insights__report-badge--warn">{{ auth_orphans }} orphans</span>
                         {% endif %}
                     </div>
-                    {# Authority Report page đã gỡ — chỉ giữ summary từ JSON, bỏ link 404 #}
                     <footer class="insights__report-foot">
                         {% if auth_updated %}
                         <time datetime="{{ auth_updated }}">Cập nhật {{ dt::display_datetime(value=auth_updated) }}</time>
@@ -727,7 +726,6 @@
                         <span class="insights__report-badge">2 slots</span>
                         <span class="insights__report-badge insights__report-badge--warn">placeholder</span>
                     </div>
-                    {# Ad-Report page đã gỡ — chỉ giữ summary, bỏ link 404 #}
                     <footer class="insights__report-foot">
                         <span>Archive: <code>reports/adsense-ad-placement-report.md</code></span>
                     </footer>
@@ -751,7 +749,6 @@
                         <span class="insights__report-badge insights__report-badge--warn">sparse ads</span>
                         {% endif %}
                     </div>
-                    {# Ad-Report V2 page đã gỡ — chỉ giữ summary, bỏ link 404 #}
                     <footer class="insights__report-foot">
                         <span>Density: <strong>{{ ad_v2_density }}</strong></span>
                         {% if ad_v2_updated %}

@@ -60,7 +60,7 @@ Nền tảng chuyển tiền nhanh 24/7 do [Ngân hàng Nhà nước](https://ww
 1. **Mở tài khoản bán hàng riêng** chỉ để nhận tiền khách.
 2. **Đối soát hằng ngày** giữa sao kê và đơn hàng.
 3. **Trích sẵn phần thuế** sang một tài khoản khác.
-4. **Dùng công cụ phân tích** sao kê để xem doanh thu theo tháng.
+4. **Dùng công cụ phân tích** như O-Dashboard để xem doanh thu theo tháng.
 
 ## Cảnh giác lừa đảo "chuyển khoản giả" khi bán online
 

@@ -64,7 +64,7 @@ Về **phí cơ bản**, cả hai tương đương: miễn phí chuyển khoản
 - **Liobank**: app tối giản, ít rối, hợp người mới và người chỉ cần chi tiêu + hoàn tiền.
 - **Cake**: nhiều tính năng trong một nơi, hợp người muốn quản lý cả tiết kiệm/vay, nhưng cần thời gian làm quen.
 
-Dù chọn bên nào, bạn cũng nên phân tích sao kê chi tiêu định kỳ — chẳng hạn xuất file sao kê và xem lại ngay trên trình duyệt để nắm rõ dòng tiền.
+Dù chọn bên nào, bạn có thể phân tích sao kê chi tiêu bằng công cụ tài chính trên blog — ví dụ O-Dashboard cho Liobank chạy ngay trên trình duyệt.
 
 ## Bảo mật: hai bên ngang nhau
 

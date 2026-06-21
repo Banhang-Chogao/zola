@@ -26,8 +26,6 @@ vip = true
 name = "Insights"
 path = "insights"
 vip = true
-# AD-Report / Ad-Report V2 / Authority Report / F-/L-/O-/H-Dashboard đã gỡ
-# (trang không còn được build → link 404). Bỏ khỏi danh sách công cụ.
 [[extra.tools]]
 name = "Scoring"
 path = "scoring"
