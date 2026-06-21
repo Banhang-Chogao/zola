@@ -611,11 +611,6 @@
        Trên desktop hiển thị tất cả menu items inline. Trên mobile,
        collapse vào burger, JS toggles .is-open để slide-down panel. #}
     <nav class="navbar" id="navbar">
-        {# REGRESSION GUARD (V21 / CLAUDE.md): decorative nav letters removed.
-           Desktop nav must stay in normal flow (position: static, no sticky/fixed).
-           This container previously injected 31 random alphabet letter spans with
-           inline positioning — they broke navbar layout + caused header wrapping.
-           Fixed: removed decorative content entirely; real nav items preserved. #}
         <div class="navbar__inner">
             {# Burger button — chỉ visible trên mobile via CSS #}
             <button class="navbar__burger" aria-label="Mở menu" aria-expanded="false"
@@ -678,16 +673,8 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-            {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
-               Hilda (set bởi inline script ở <head>). #}
+            {# Search action kept in header (no secondary-action restriction). #}
             <div class="navbar__actions">
-                <button class="navbar__cache" type="button" aria-label="Xoá cache blog" title="Xoá cache trình duyệt của blog trên thiết bị này" data-clear-cache>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <polyline points="1 4 1 10 7 10"></polyline>
-                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                    </svg>
-                    <span data-clear-cache-label>Xoá cache</span>
-                </button>
                 <button class="navbar__search" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" data-search-open>
                     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="7"></circle>
@@ -797,6 +784,24 @@
                 </script>
 
                 <aside class="sidebar">
+                    {# ===== SIDEBAR ACTION TOOLS — Cache clear + admin shortcuts =====
+                       Moved from navbar to prevent header wrapping (V21 layout fix).
+                       Placed at top of sidebar before content sections. #}
+                    <section class="sidebar-block sidebar-actions" data-widget="actions">
+                        <h3 class="sidebar-label">⚙️ TOOLS</h3>
+                        <ul class="sidebar-actions__list">
+                            <li>
+                                <button class="sidebar-actions__btn sidebar-actions__btn--cache" type="button" aria-label="Xoá cache blog" title="Xoá cache trình duyệt của blog trên thiết bị này" data-clear-cache>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="1 4 1 10 7 10"></polyline>
+                                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                                    </svg>
+                                    <span data-clear-cache-label>Xoá cache</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </section>
+
                     {# ===== PREMIUM POSTS — S-DNA CTA widget (ngay TRÊN Featured) =====
                        Liệt kê tối đa 10 bài premium (category "premium" HOẶC extra.premium),
                        random reshuffle mỗi lần load qua sidebar.js (no-duplicate). Server render

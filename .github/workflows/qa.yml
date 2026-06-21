@@ -36,15 +36,23 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install test dependencies (paywall + F-Dashboard + L-Dashboard)
+      - name: Install test dependencies (paywall + optional dashboards)
         run: |
           pip install -r backend/requirements.txt
-          pip install -r scripts/requirements-f-dashboard.txt
-          pip install -r scripts/requirements-l-dashboard.txt
+          # Conditionally install dashboard dependencies if they exist
+          # (F-Dashboard + L-Dashboard removed in Phase 2 cleanup)
+          for req in scripts/requirements-f-dashboard.txt scripts/requirements-l-dashboard.txt; do
+            if [ -f "$req" ]; then
+              echo "Installing: $req"
+              pip install -r "$req"
+            else
+              echo "Skipping missing optional requirements: $req"
+            fi
+          done
 
-      - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose + QA vaccines + social images
+      - name: Unit tests — paywall + footer countdown + ai_diagnose + QA vaccines + social images
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images -v
+          python3 -m unittest scripts.test_paywall scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images -v
 
       # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
       # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library

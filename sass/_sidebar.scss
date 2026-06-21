@@ -363,6 +363,68 @@
   }
 }
 
+/* ===== SIDEBAR ACTIONS — Cache clear + admin shortcuts =====
+   Moved from navbar to prevent header wrapping (V21 layout fix).
+   Buttons with icon + label, stacked in column layout. */
+.sidebar-actions__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-actions__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--c-bg-surface);
+  color: var(--c-text-primary);
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, box-shadow 0.15s ease;
+
+  svg {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+    color: currentColor;
+  }
+
+  &:hover {
+    background: color-mix(in srgb, #003784 6%, var(--c-bg-surface));
+    border-color: #003784;
+    color: #003784;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus-ring);
+    outline-offset: 2px;
+  }
+
+  span {
+    flex: 1;
+  }
+}
+
+.sidebar-actions__btn--cache {
+  /* Cache button styling */
+}
+
 /* TAG CLOUD đã chuyển XUỐNG FOOTER (.footer-tags trong _footer-tags.scss) —
    thẻ là điều hướng phụ trợ, không còn ở sidebar. */
 
