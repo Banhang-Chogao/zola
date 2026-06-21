@@ -25,7 +25,7 @@ def _iso(dt: datetime) -> str:
     return dt.isoformat()
 
 
-def _run(sha, status, conclusion=None, started_ago_s=0, dur_s=0, title="t"):
+def _run(sha, status, conclusion=None, started_ago_s=0, dur_s=0, title="t", run_number=None):
     started = NOW - timedelta(seconds=started_ago_s)
     updated = started + timedelta(seconds=dur_s)
     return {
@@ -33,6 +33,8 @@ def _run(sha, status, conclusion=None, started_ago_s=0, dur_s=0, title="t"):
         "status": status,
         "conclusion": conclusion,
         "display_title": title,
+        "run_number": run_number,
+        "html_url": f"https://github.com/x/y/actions/runs/{run_number}" if run_number else None,
         "run_started_at": _iso(started),
         "created_at": _iso(started),
         "updated_at": _iso(updated),
@@ -107,10 +109,69 @@ class BuildReportTest(unittest.TestCase):
 
     def test_schema_keys_present(self):
         rep = fdm.build_report_from_runs([_run("HHH", "completed", "success", dur_s=100)], now=NOW)
-        for k in ("checked_at", "ok", "stale", "summary", "pending", "expired", "recent"):
+        for k in ("checked_at", "ok", "stale", "summary", "pending", "expired", "recent", "feed"):
             self.assertIn(k, rep)
-        for k in ("prod_status", "pending_count", "expired_count", "deploying", "avg_deploy_s"):
+        for k in ("prod_status", "pending_count", "expired_count", "deploying", "avg_deploy_s",
+                  "running_runs", "last_success_run", "superseded_failures", "status_line"):
             self.assertIn(k, rep["summary"])
+
+
+class FeedTableTest(unittest.TestCase):
+    """The `theodoi8 deploy` table feed: run numbers, ordering, superseded, status line."""
+
+    def _scenario(self):
+        # Mirrors the canonical image: newest #872 in-flight; #871/#870/#869 success;
+        # #868/#867 cancelled; #866/#865 failure (superseded by #869–#871); #864 success.
+        return [
+            _run("c6eb2a9", "in_progress", title="merge origin/main → deploy", run_number=872, started_ago_s=200),
+            _run("b98e4e0", "completed", "success", title="Build & deploy Zola site", run_number=871, started_ago_s=900, dur_s=600),
+            _run("dd1119b", "completed", "success", title="feat(adsense): hotfix readiness", run_number=870, started_ago_s=1500, dur_s=600),
+            _run("24b6780", "completed", "success", title="feat(premium): paywall visa Hàn", run_number=869, started_ago_s=2100, dur_s=600),
+            _run("a00601c", "completed", "cancelled", title="fix(gsc)", run_number=868, started_ago_s=2700, dur_s=110),
+            _run("800f2e6", "completed", "cancelled", title="redesign(editor) S-DNA", run_number=867, started_ago_s=3300, dur_s=200),
+            _run("175c44b", "completed", "failure", title="docs: V22 vaccine", run_number=866, started_ago_s=3900, dur_s=630),
+            _run("f3ea06b", "completed", "failure", title="fix(editor)", run_number=865, started_ago_s=4500, dur_s=900),
+            _run("e308532", "completed", "success", title="merge deploy", run_number=864, started_ago_s=6300, dur_s=1100),
+        ]
+
+    def test_feed_newest_first_with_run_numbers_and_urls(self):
+        rep = fdm.build_report_from_runs(self._scenario(), now=NOW)
+        feed = rep["feed"]
+        self.assertEqual([f["run_number"] for f in feed][:3], [872, 871, 870])
+        head = feed[0]
+        self.assertEqual(head["sha_short"], "c6eb2a9")
+        self.assertEqual(head["state"], "running")
+        self.assertEqual(head["icon"], "🔄")
+        self.assertIn("/commit/c6eb2a9", head["commit_url"])
+        self.assertTrue(head["run_url"])
+
+    def test_failures_superseded_by_later_success(self):
+        rep = fdm.build_report_from_runs(self._scenario(), now=NOW)
+        by_rn = {f["run_number"]: f for f in rep["feed"]}
+        # 866 & 865 failed but 869–871 succeeded later → superseded.
+        self.assertTrue(by_rn[866]["superseded"])
+        self.assertTrue(by_rn[865]["superseded"])
+        # A success is never "superseded".
+        self.assertFalse(by_rn[871]["superseded"])
+        self.assertEqual(sorted(rep["summary"]["superseded_failures"]), [865, 866])
+
+    def test_status_line_pieces(self):
+        s = fdm.build_report_from_runs(self._scenario(), now=NOW)["summary"]
+        self.assertEqual(s["running_runs"], [872])
+        self.assertEqual(s["last_success_run"], 871)
+        self.assertEqual(s["last_success_sha_short"], "b98e4e0")
+        line = s["status_line"]
+        self.assertIn("🔄 #872 đang chạy", line)
+        self.assertIn("✅ last success #871", line)
+        self.assertIn("đã superseded", line)
+
+    def test_no_run_numbers_degrades_gracefully(self):
+        # Older API payloads / tests without run_number must not crash.
+        rep = fdm.build_report_from_runs([_run("ZZZ", "completed", "success", dur_s=100)], now=NOW)
+        self.assertEqual(rep["feed"][0]["run_number"], None)
+        self.assertEqual(rep["summary"]["running_runs"], [])
+        self.assertEqual(rep["summary"]["last_success_run"], None)
+        self.assertEqual(rep["summary"]["status_line"], "")
 
 
 if __name__ == "__main__":
