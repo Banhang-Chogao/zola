@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "fix(tools): restore F/H/L/O dashboard routes removed by #653 + V30 guard [claude/nice-planck-9stwce]",
+      "tag": "fix",
+      "lines_added": 20280,
+      "lines_removed": 0,
+      "highlights": [
+        "CLAUDE.md (modified, +3/-0)",
+        "content/tools/_index.md (modified, +19/-0)",
+        "content/tools/f-dashboard.md (added, +8/-0)",
+        "content/tools/h-dashboard.md (added, +8/-0)",
+        "content/tools/l-dashboard.md (added, +8/-0)"
+      ],
+      "pr": 707
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(images): add global blog image watermark rule [feat/blog-image-watermark]",
       "tag": "chore",
       "lines_added": 741,
