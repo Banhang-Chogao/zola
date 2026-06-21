@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T16:57:39Z",
+  "updated_at": "2026-06-21T22:00:23Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,34 +15,34 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "12 broken links · 16 weak related pairs",
+      "detail": "0 broken links · 18 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-21T16:55:01Z"
+      "updated_at": "2026-06-21T21:44:19Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 53/100 · LCP 10.7 s · needs work",
+      "detail": "Mobile 59/100 · LCP 10.8 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-21T10:50:03+00:00"
+      "updated_at": "2026-06-21T17:09:28+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 869/871 pages",
+      "detail": "15 pages missing FAQ/schema · 894/896 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-21T16:55:01Z"
+      "updated_at": "2026-06-21T21:44:19Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: SEO11: thêm meta description + seo_keyword cho 2 trang còn t",
+      "detail": "Latest: feat(images): add global blog image watermark rule [feat/blo",
       "source": "changelog.json",
       "updated_at": "2026-06-21"
     },
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-21T16:55:01Z"
+      "updated_at": "2026-06-21T21:44:19Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 53/100 vs desktop 94/100 (Δ41) · 870/871 ready",
+      "detail": "Mobile 59/100 vs desktop 94/100 (Δ35) · 895/896 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-21T10:50:03+00:00"
+      "updated_at": "2026-06-21T17:09:28+00:00"
     }
   ],
   "summary": {
