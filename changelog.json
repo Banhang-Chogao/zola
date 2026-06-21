@@ -2,6 +2,18 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "SEO11: thêm meta description + seo_keyword cho 2 trang còn thiếu",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 0,
+      "highlights": [
+        "content/posting/ai-thay-doi-lap-ke-hoach-du-lich.md: thêm meta description (148 ký tự, chứa keyword chính) + [extra] seo_keyword \"AI lập kế hoạch du lịch\" (vốn đã xuất hiện ở title/intro/H2) → điểm SE",
+        "content/topic/_index.md: thêm description cho section hub Topic Pillars."
+      ],
+      "pr": 681
+    },
+    {
+      "date": "2026-06-21",
       "title": "SEO + AdSense Strategy Hotfix: Canonicalization, GSC Persistence, Reader-Supported Model",
       "tag": "chore",
       "lines_added": 912,
