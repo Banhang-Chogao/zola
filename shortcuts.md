@@ -48,7 +48,46 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 ## 2. Phím tắt (Shortcuts)
 
-### `phimtat` — Slash command `/phimtat` liệt kê tất cả phím tắt active
+> **OPERATOR UI CONSTRAINT (BẮT BUỘC):** Hệ thống operator UI KHÔNG được expose một phím tắt per vaccine.
+> Số lượng top-level shortcut PHẢI ≤ 5–7 để tránh UI chaos. Thư viện vaccine đầy đủ (V1–V29, 27 patterns)
+> lưu trong `CLAUDE.md §4` — toàn bộ available lúc cần, nhưng grouped thành 5 top-level chức năng:
+> **fix-merge** (conflict), **fix-deploy** (CI/production), **fix-seo** (content/on-page),
+> **fix-ui** (layout/style), **fix-gsc-ga** (analytics). Tất cả các phím tắt còn lại nằm dưới
+> **Tools & Utilities** (KHÔNG hiển thị top-level UI).
+>
+> Quy trình: khi operator nhận triệu chứng problem → dùng guide `.claude/OPERATOR-QUICKSTART.md`
+> để map tới đúng top-level function → chỉ định phím tắt thích hợp từ danh sách. KHÔNG để user
+> gõ random phím tắt hoặc mở menu 30+ items.
+
+### Mapping tóm tắt (quick reference — chi tiết ở OPERATOR-QUICKSTART.md)
+
+| Top-Level Function | Phím tắt chính | Triệu chứng | Mục đích |
+|---|---|---|---|
+| **fix-merge** | `ff9`, `prn` | Merge conflict, PR bị `dirty`, nhánh stale | Giải quyết conflict an toàn; rebase; re-merge |
+| **fix-deploy** | `ff`, `backend8`, `deploysafe29` | Deploy fail, CI đỏ, Pages ≠ backend | Chẩn đoán CI; auto-fix pattern; verify backend sync |
+| **fix-seo** | `SEO11`, `nangcap`, `seo` | Lighthouse thấp, bài mới thiếu tối ưu | Bulk SEO fix; loop polish; optimize per-article |
+| **fix-ui** | CSS/template audit (chưa shortcut, dùng `ad`) | Layout broken, responsive fail | Xem rule CSS; audit Lighthouse CLS |
+| **fix-gsc-ga** | `backend8` (subset), monitoring tools | GSC/GA metrics stale, data offline | Verify data flow; check API health |
+| **Tools & Utilities** | `topic:`, `baomoi`, `bb`, `bb9`, `topic10`, v.v. | Viết nội dung, tạo bài, sinh series | Content generation, publication workflows |
+
+### Phím tắt Operator (Interactive/Meta)
+
+| Phím tắt | Tên | Mục đích |
+|---|---|---|
+| `/phimtat` | Slash command | Liệt kê tất cả shortcut (CLI reference) |
+| `help` | Danh sách tắt tắt | In bảng shortcut + mô tả 1 dòng |
+| `pp` | Print policy + vaccine | In rule/quy tắc + thư viện vaccine từ CLAUDE.md |
+| `fixrule8` | Rule conflict detector | Phát hiện mâu thuẫn trong rule (read-only) |
+| `?? ` / `run list` / `wip8` | Status trackers | Xem trạng thái workspace, CI, deploy |
+| `runner` / `tieptuc8` | Resume/continue | Tiếp tục tác vụ dở, retry failed workflow |
+
+---
+
+## 2.1 FIX-MERGE — Merge / Conflict Resolution Shortcuts
+
+Khi bị merge conflict, PR `dirty`, hoặc branch stale relative to `main` — dùng phím tắt này.
+
+### `prn` — PR Now (đẩy thay đổi hiện tại thành PR vào main)
 
 Slash command `.claude/commands/phimtat.md` — khi user gõ `/phimtat` trong
 Claude Code, đọc file này và output bảng Markdown 2 cột (tên · mô tả).
