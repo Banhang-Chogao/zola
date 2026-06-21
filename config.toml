@@ -73,8 +73,18 @@ menu = [
 # Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams
 # → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX"
 # Để trống = GA tracking script không load (silent skip).
-# Property ID: 541698865 (tham chiếu Admin → Property Settings)
-ga_measurement_id = "G-REFBXH86Z5"
+#
+# Sau khi đổi tên miền sang seomoney.org (2026-06-21): GA4 property + web
+# stream MỚI. `ga_property_id` là nguồn chân lý cho mọi nơi đọc số liệu — GA
+# Vacxin (hourly) chỉ fetch đúng property này; cache theo property/domain nên
+# số của property cũ (github.io) KHÔNG còn rò rỉ ra giao diện.
+# Property ID: 542421812 (Admin → Property Settings).
+ga_measurement_id = "G-SMTFZVC0XN"
+ga_property_id = "542421812"
+# Deep-link GA4 account-agnostic (`#/p<id>/`) — một nguồn duy nhất cho mọi nút
+# "→ Dashboard" / "Khắc phục" trong module GA stats và GA Vacxin.
+ga_dashboard_url = "https://analytics.google.com/analytics/web/#/p542421812/reports/intelligenthome"
+ga_fix_url = "https://analytics.google.com/analytics/web/#/p542421812/admin/streams/table"
 
 # ============= GOOGLE ADSENSE =============
 # Publisher id dạng "ca-pub-XXXXXXXXXXXXXXXX". Để TRỐNG cho tới khi được

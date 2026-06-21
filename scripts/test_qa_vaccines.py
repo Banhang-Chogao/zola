@@ -1754,5 +1754,98 @@ class VaccineRegistryGuardTest(unittest.TestCase):
             qv.DETECTORS[:] = original
 
 
+class GaStatsVaccineTest(unittest.TestCase):
+    """V25 — GA stats module identity, cache isolation, hourly GA Vacxin, banner."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _wire(self, *, config=None, fetch=None, base_html=None,
+              ga_stats=None, ga_health=None, vacxin_yml=None, health_js=None):
+        self.repo.write("config.toml", config if config is not None else (
+            'base_url = "https://seomoney.org"\n'
+            '[extra]\n'
+            'ga_measurement_id = "G-SMTFZVC0XN"\n'
+            'ga_property_id = "542421812"\n'
+            'ga_dashboard_url = "https://analytics.google.com/analytics/web/#/p542421812/reports/intelligenthome"\n'
+            'ga_fix_url = "https://analytics.google.com/analytics/web/#/p542421812/admin/streams/table"\n'
+        ))
+        self.repo.write("scripts/fetch_ga_stats.py", fetch if fetch is not None else (
+            'import os\nPROPERTY_ID = os.environ.get("GA_PROPERTY_ID", "542421812")\n'
+        ))
+        self.repo.write("templates/base.html", base_html if base_html is not None else (
+            '<script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>\n'
+            '<div class="ga-stats" data-ga-health><div data-ga-banner></div></div>\n'
+        ))
+        self.repo.write("data/ga-stats.json", ga_stats if ga_stats is not None else (
+            '{"property_id":"542421812","measurement_id":"G-SMTFZVC0XN","site":"seomoney.org","updated_at":null}'
+        ))
+        self.repo.write("data/ga-health.json", ga_health if ga_health is not None else (
+            '{"status":"pending","last_checked":"2026-06-21T01:00:00+00:00","property_id":"542421812"}'
+        ))
+        self.repo.write(".github/workflows/ga-vacxin.yml",
+                        vacxin_yml if vacxin_yml is not None else "on:\n  schedule:\n    - cron: '30 * * * *'\n")
+        self.repo.write("static/js/ga-health.js",
+                        health_js if health_js is not None else "(function(){try{}catch(e){}})();\n")
+
+    def test_real_repo_passes(self):
+        r = qv.check_ga_stats_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis + " :: " + "; ".join(r.details))
+
+    def test_synthetic_canonical_passes(self):
+        self._wire()
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.PASS)
+
+    def test_old_property_in_fetch_fails(self):
+        self._wire(fetch='PROPERTY_ID = "541698865"\n')
+        r = qv.check_ga_stats_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_wrong_config_property_fails(self):
+        self._wire(config=(
+            '[extra]\nga_measurement_id = "G-SMTFZVC0XN"\nga_property_id = "999999999"\n'
+            'ga_dashboard_url = "x"\nga_fix_url = "y"\n'
+        ))
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
+
+    def test_old_measurement_in_config_fails(self):
+        self._wire(config=(
+            '[extra]\nga_measurement_id = "G-REFBXH86Z5"\nga_property_id = "542421812"\n'
+            'ga_dashboard_url = "x"\nga_fix_url = "y"\n'
+        ))
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
+
+    def test_foreign_property_in_stats_fails(self):
+        self._wire(ga_stats='{"property_id":"541698865","updated_at":"2026-06-20T00:00:00Z"}')
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
+
+    def test_credential_leak_in_health_fails(self):
+        self._wire(ga_health=(
+            '{"status":"ok","last_checked":"2026-06-21T01:00:00Z","property_id":"542421812",'
+            '"private_key":"-----BEGIN " + "PRIVATE KEY-----"}'
+        ))
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
+
+    def test_hardcoded_gtag_id_fails(self):
+        self._wire(base_html=(
+            '<script src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEF12"></script>\n'
+            '<div data-ga-health><div data-ga-banner></div></div>'
+        ))
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
+
+    def test_missing_vacxin_workflow_warns(self):
+        self._wire()
+        # remove the hourly workflow → WARN (not FAIL)
+        (self.repo.root / ".github/workflows/ga-vacxin.yml").unlink()
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.WARN)
+
+    def test_missing_banner_warns(self):
+        self._wire(base_html=(
+            '<script src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>\n'
+            '<div data-ga-health></div>'  # no data-ga-banner
+        ))
+        self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.WARN)
+
+
 if __name__ == "__main__":
     unittest.main()

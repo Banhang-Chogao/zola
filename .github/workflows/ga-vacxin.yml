@@ -1,0 +1,57 @@
+name: GA Vacxin
+
+# GA Vacxin — hourly Google Analytics 4 health watchdog.
+# Verifies the GA stats module reads ONLY the new seomoney.org property
+# (542421812 · G-SMTFZVC0XN) and never leaks stale github.io numbers, then
+# commits a public-safe snapshot to data/ga-health.json (+ static mirror).
+#
+# Runs at :30 each hour — offset from "Fetch GA Stats" (:00) so the two GA
+# jobs never collide on the push lock and the API load is spread out.
+#
+# OPTIONAL SECRET: GA_SERVICE_ACCOUNT_KEY (same Viewer service account as
+# Fetch GA Stats). Absent → GA Vacxin still runs and reports `pending`
+# (config + cache-isolation checks only); it never fails the workflow.
+
+on:
+  schedule:
+    - cron: '30 * * * *'   # mỗi giờ, phút 30 (lệch ga-stats.yml ở phút 0)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: ga-vacxin
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Google Analytics SDK
+        run: pip install --quiet google-analytics-data==0.18.18
+
+      - name: Run GA Vacxin health check
+        env:
+          GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
+        run: python scripts/ga_vacxin.py --print
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: GA Vacxin health ($(date -u +%FT%TZ))" \
+            data/ga-health.json \
+            static/data/ga-health.json

@@ -2275,6 +2275,167 @@ def _config_base_url(ctx: Ctx) -> str:
     return ""
 
 
+_GA_PROPERTY_ID = "542421812"
+_GA_MEASUREMENT_ID = "G-SMTFZVC0XN"
+_GA_OLD_PROPERTY_ID = "541698865"
+_GA_OLD_MEASUREMENT_ID = "G-REFBXH86Z5"
+_GA_CREDENTIAL_FIELDS = (
+    "private_key", "private_key_id", "client_email", "client_id",
+    "client_secret", "refresh_token", "access_token", "GA_SERVICE_ACCOUNT_KEY",
+)
+# Files that legitimately reference the OLD ids to DETECT them — exempt from the
+# drift check (same pattern as V19 exempting dns_vaccine.py).
+_GA_DRIFT_EXEMPT = ("scripts/ga_vacxin.py", "scripts/qa_vaccines.py")
+
+
+def check_ga_stats_vaccine(ctx: Ctx) -> CheckResult:
+    """V25 — GA stats module identity, cache isolation, hourly GA Vacxin, banner.
+
+    After the seomoney.org domain move the footer GA module must read ONLY the new
+    GA4 property (542421812 · G-SMTFZVC0XN) and never surface old-property numbers.
+
+    FAIL (wrong identity / cache leak / secret leak — would mislead or expose):
+      * config.toml ga_property_id / ga_measurement_id ≠ canonical
+      * scripts/fetch_ga_stats.py default PROPERTY_ID ≠ 542421812
+      * old 541698865 / G-REFBXH86Z5 in active GA config/code (not the guards)
+      * templates/base.html hardcodes a gtag measurement id (must be templated)
+      * data/ga-stats.json or data/ga-health.json stamped with a foreign property
+        or leaking a service-account credential field
+
+    WARN (resilience / required feature wired):
+      * GA Vacxin hourly workflow (ga-vacxin.yml) missing or not hourly
+      * base.html missing the health root / inline warning banner
+      * static/js/ga-health.js missing or without a try/catch guard
+      * config.toml missing ga_dashboard_url / ga_fix_url
+      * data/ga-health.json missing required schema keys
+    """
+    title = "GA stats module (property 542421812 · cache isolation · GA Vacxin)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    cfg = ctx.read("config.toml") or ""
+
+    def _cfg(key: str) -> str | None:
+        m = re.search(rf'^{key}\s*=\s*"([^"]+)"', cfg, re.MULTILINE)
+        return m.group(1) if m else None
+
+    if _cfg("ga_property_id") != _GA_PROPERTY_ID:
+        fails.append(f"config.toml ga_property_id = {_cfg('ga_property_id')!r} (phải là {_GA_PROPERTY_ID!r})")
+    if _cfg("ga_measurement_id") != _GA_MEASUREMENT_ID:
+        fails.append(f"config.toml ga_measurement_id = {_cfg('ga_measurement_id')!r} (phải là {_GA_MEASUREMENT_ID!r})")
+    if not _cfg("ga_dashboard_url"):
+        warns.append("config.toml thiếu ga_dashboard_url (nút Dashboard / Khắc phục)")
+    if not _cfg("ga_fix_url"):
+        warns.append("config.toml thiếu ga_fix_url")
+
+    # fetch script default property (env-overridable form or bare assignment)
+    fetch_src = ctx.read("scripts/fetch_ga_stats.py") or ""
+    fm = re.search(r'PROPERTY_ID\s*=\s*os\.environ\.get\(\s*["\']GA_PROPERTY_ID["\']\s*,\s*["\']([^"\']+)["\']', fetch_src)
+    if not fm:
+        fm = re.search(r'PROPERTY_ID\s*=\s*["\']([^"\']+)["\']', fetch_src)
+    if fm and fm.group(1) != _GA_PROPERTY_ID:
+        fails.append(f"fetch_ga_stats.py PROPERTY_ID default = {fm.group(1)!r} (phải là {_GA_PROPERTY_ID!r})")
+
+    # old-id drift in active GA config/code (exempt the detector + monitor guards)
+    for rel in ("config.toml", "scripts/fetch_ga_stats.py", "templates/base.html",
+                ".github/workflows/ga-stats.yml", ".github/workflows/ga-vacxin.yml"):
+        if rel in _GA_DRIFT_EXEMPT:
+            continue
+        src = ctx.read(rel) or ""
+        if _GA_OLD_PROPERTY_ID in src or _GA_OLD_MEASUREMENT_ID in src:
+            fails.append(f"{rel}: còn id GA cũ ({_GA_OLD_PROPERTY_ID}/{_GA_OLD_MEASUREMENT_ID}) → đọc property cũ")
+
+    # base.html: gtag must be templated, and the health module + banner present
+    base_html = ctx.read("templates/base.html") or ""
+    if re.search(r"gtag/js\?id=G-[A-Z0-9]{6,}", base_html):
+        fails.append("templates/base.html: gtag src hardcode measurement id (phải dùng config.extra.ga_measurement_id)")
+    if "data-ga-health" not in base_html:
+        warns.append("templates/base.html: thiếu data-ga-health (module GA health)")
+    if "data-ga-banner" not in base_html:
+        warns.append("templates/base.html: thiếu banner cảnh báo inline (data-ga-banner)")
+
+    # data/ga-stats.json: stamped with the current property only, no creds
+    raw_stats = ctx.read("data/ga-stats.json")
+    if raw_stats:
+        try:
+            stats = json.loads(raw_stats)
+        except json.JSONDecodeError:
+            fails.append("data/ga-stats.json không phải JSON hợp lệ")
+            stats = None
+        if isinstance(stats, dict):
+            spid = str(stats.get("property_id", ""))
+            if spid and spid != _GA_PROPERTY_ID:
+                fails.append(f"data/ga-stats.json property_id={spid} (kỳ vọng {_GA_PROPERTY_ID}) — rò rỉ property cũ")
+            if _GA_OLD_PROPERTY_ID in raw_stats:
+                fails.append(f"data/ga-stats.json còn dấu vết property cũ {_GA_OLD_PROPERTY_ID}")
+            leaked = [f for f in _GA_CREDENTIAL_FIELDS if f in stats]
+            if leaked:
+                fails.append(f"data/ga-stats.json rò rỉ trường bí mật: {leaked}")
+
+    # data/ga-health.json: schema + no creds + right property
+    raw_health = ctx.read("data/ga-health.json")
+    if raw_health is None:
+        warns.append("data/ga-health.json absent (GA Vacxin chưa chạy lần đầu)")
+    else:
+        try:
+            health = json.loads(raw_health)
+        except json.JSONDecodeError:
+            fails.append("data/ga-health.json không phải JSON hợp lệ")
+            health = None
+        if isinstance(health, dict):
+            leaked = [f for f in _GA_CREDENTIAL_FIELDS if f in health]
+            if leaked:
+                fails.append(f"data/ga-health.json rò rỉ trường bí mật: {leaked}")
+            hp = str(health.get("property_id", ""))
+            if hp and hp != _GA_PROPERTY_ID:
+                fails.append(f"data/ga-health.json property_id={hp} (kỳ vọng {_GA_PROPERTY_ID})")
+            missing = [k for k in ("status", "last_checked", "property_id") if k not in health]
+            if missing:
+                warns.append(f"data/ga-health.json thiếu schema keys: {missing}")
+
+    # GA Vacxin hourly workflow
+    wf = ctx.read(".github/workflows/ga-vacxin.yml")
+    if wf is None:
+        warns.append(".github/workflows/ga-vacxin.yml absent (GA Vacxin hourly job)")
+    elif not re.search(r"cron:\s*['\"]\s*\d+\s+\*\s+\*\s+\*\s+\*\s*['\"]", wf):
+        warns.append("ga-vacxin.yml: không thấy cron chạy mỗi giờ ('<m> * * * *')")
+
+    # ga-health.js present + crash-safe
+    js = ctx.read("static/js/ga-health.js")
+    if js is None:
+        warns.append("static/js/ga-health.js absent (refresh banner client-side)")
+    elif "try" not in js or "catch" not in js:
+        warns.append("static/js/ga-health.js thiếu try/catch (no-JS-crash guard)")
+
+    if fails:
+        return CheckResult(
+            "V25", title, FAIL,
+            diagnosis="GA module sai property/measurement, rò rỉ cache cũ, hoặc lộ credential",
+            fix=(f"1. config.toml ga_property_id={_GA_PROPERTY_ID}, ga_measurement_id={_GA_MEASUREMENT_ID}. "
+                 f"2. fetch_ga_stats.py PROPERTY_ID mặc định {_GA_PROPERTY_ID}. "
+                 f"3. Gỡ id cũ {_GA_OLD_PROPERTY_ID}/{_GA_OLD_MEASUREMENT_ID} khỏi config/code. "
+                 "4. Reset data/ga-stats.json sang property mới; KHÔNG commit credential."),
+            details=fails + warns,
+        )
+    if warns:
+        return CheckResult("V25", title, WARN,
+                           diagnosis="GA module đúng property nhưng thiếu thành phần phụ trợ",
+                           fix="Bổ sung các mục WARN ở trên (workflow hourly / banner / health js / schema).",
+                           details=warns)
+    return CheckResult(
+        "V25", title, PASS,
+        diagnosis=(f"property {_GA_PROPERTY_ID} · {_GA_MEASUREMENT_ID} · GA Vacxin hourly · "
+                   "cache isolated · no credential leak"),
+    )
+
+
+# Vaccine numbers that are *intentionally* documented more than once in CLAUDE.md:
+#   V10/V11/V12 — legacy §4 main vs the compliance block;
+#   V19 — GSC Domain Property vs Domain Migration Drift;
+#   V22 — Editor S-DNA visual layer vs Editor save→GitHub.
+# Any duplicate beyond these is a bug (new vaccines must take the next free number).
+ALLOWED_DUPLICATE_VACCINES = {"V10", "V11", "V12", "V19", "V22"}
+
 def check_toc_rail_vaccine(ctx: Ctx) -> CheckResult:
     """TOC-RAIL — the "On This Page" sticky article rail (scroll-spy) must render
     a styled rail, keep its IntersectionObserver active-state engine, and stay
@@ -2644,6 +2805,7 @@ DETECTORS = [
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
     check_toc_rail_vaccine,
+    check_ga_stats_vaccine,
     check_v20_seo_identity_homepage,
     check_v25_backend_route_parity,
     check_vaccine_registry_integrity,

@@ -2,11 +2,19 @@
 Fetch Google Analytics 4 stats qua Data API, output data/ga-stats.json.
 
 Service Account key: env GA_SERVICE_ACCOUNT_KEY (JSON string).
-Property: 541698865 (GA4 'banhang-chogao' blog).
+Property: 542421812 (GA4 stream cho tên miền seomoney.org — 2026-06-21).
+
+Cache isolation: output LUÔN đóng dấu `property_id` + `measurement_id` + `site`.
+Giao diện chỉ render số khi `property_id` khớp `config.extra.ga_property_id`,
+nên số liệu property cũ (github.io) không bao giờ rò rỉ. Có thể override
+property qua env GA_PROPERTY_ID (mặc định 542421812) để test mà không sửa code.
 
 Output format (mở rộng — gồm 6 chỉ số cơ bản + 5 chỉ số nâng cao 30d):
 {
   "updated_at": "2026-06-15T12:30:00Z",
+  "property_id": "542421812",
+  "measurement_id": "G-SMTFZVC0XN",
+  "site": "seomoney.org",
   "today_users": 42,
   "today_pageviews": 87,
   "week_users": 312,
@@ -44,7 +52,11 @@ from google.oauth2 import service_account
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "ga-stats.json"
-PROPERTY_ID = "541698865"
+# Canonical identity after the seomoney.org domain move (2026-06-21).
+# Env override allows a test run against a sandbox property without a code edit.
+PROPERTY_ID = os.environ.get("GA_PROPERTY_ID", "542421812")
+MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "G-SMTFZVC0XN")
+SITE = os.environ.get("GA_SITE", "seomoney.org")
 
 
 def get_client():
@@ -162,6 +174,10 @@ def main():
 
     result = {
         "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        # Identity stamp → cache isolation by property/domain (no old-property leak).
+        "property_id":    PROPERTY_ID,
+        "measurement_id": MEASUREMENT_ID,
+        "site":           SITE,
         "today_users":      today["users"],
         "today_pageviews":  today["pageviews"],
         "week_users":       week["users"],
