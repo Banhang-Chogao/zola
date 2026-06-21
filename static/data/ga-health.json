@@ -1,7 +1,7 @@
 {
-  "status": "pending",
-  "message": "Chưa xác minh kết nối GA (offline / thiếu service account).",
-  "last_checked": "2026-06-21T08:50:16+00:00",
+  "status": "ok",
+  "message": "GA hoạt động bình thường — số liệu cập nhật theo giờ.",
+  "last_checked": "2026-06-21T08:54:39+00:00",
   "property_id": "542421812",
   "measurement_id": "G-SMTFZVC0XN",
   "site": "seomoney.org",
@@ -19,20 +19,20 @@
     {
       "id": "auth",
       "label": "Xác thực GA Data API",
-      "status": "fail",
-      "detail": "GA_SERVICE_ACCOUNT_KEY không phải JSON: Expecting value: line 1 column 1 (char 0)"
+      "status": "ok",
+      "detail": "service account seomoney-org@seomoney-500020.iam.gserviceaccount.com"
     },
     {
       "id": "property_access",
       "label": "Truy cập property 542421812",
-      "status": "skip",
-      "detail": "chưa xác thực"
+      "status": "ok",
+      "detail": "report API trả về thành công"
     },
     {
       "id": "recent_data",
       "label": "Dữ liệu gần đây (7 ngày)",
-      "status": "skip",
-      "detail": "chưa xác thực"
+      "status": "ok",
+      "detail": "2 users · 6 events trong 7 ngày"
     },
     {
       "id": "site_tag",
@@ -48,10 +48,10 @@
     }
   ],
   "summary": {
-    "ok": 2,
+    "ok": 5,
     "warn": 1,
-    "fail": 1,
-    "skip": 2
+    "fail": 0,
+    "skip": 0
   },
   "generator": "ga_vacxin"
 }
