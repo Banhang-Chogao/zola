@@ -1,4 +1,4 @@
-name: Preflight Conflict Check
+name: Merge Conflict Preflight
 
 # Chặn PR "dirty" / merge conflict với main SỚM — trước khi tốn CI build/QA.
 # Read-only: chỉ dry-run merge (git merge-tree), KHÔNG đụng repo/main.
