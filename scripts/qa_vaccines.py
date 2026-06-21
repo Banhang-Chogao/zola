@@ -2351,6 +2351,52 @@ def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
 ALLOWED_DUPLICATE_VACCINES = {"V10", "V11", "V12", "V19", "V22"}
 
 
+# --------------------------------------------------------------------------
+# V24 — Dirty PR Rebase Safety baseline manifest
+# --------------------------------------------------------------------------
+# Snapshot of what `main` ships RIGHT NOW. A dirty-PR rebase that resolves
+# conflicts using main as base must be ADDITIVE: every detector and every
+# documented vaccine block below MUST survive the rebase. Removing one is only
+# legal by EXPLICITLY editing this manifest together with its test (rename), not
+# by silently dropping it during conflict resolution.
+REQUIRED_DETECTOR_NAMES = frozenset({
+    "check_v1_hf_model_id", "check_v2_slack_v3", "check_v5_deploy_resilience",
+    "check_v8a_tera_filter_kwargs", "check_v8b_template_block_balance",
+    "check_v8c_series_registration", "check_v19_domain_migration_drift",
+    "check_domain_root_url_vaccine", "check_v9_v10_process",
+    "check_v12_shared_infra_dupes", "check_v17_vipzone_edge_safari_auth",
+    "check_v18_runtime_artifact_conflict", "check_config_toml",
+    "check_workflow_yaml", "check_dashboard_json", "check_js_syntax",
+    "check_paywall_integrity", "check_seo_schema_scaffold", "check_missing_assets",
+    "check_compliance_h1", "check_v10_link_utils_layer", "check_series_nav_vaccine",
+    "check_category_first", "check_nav_menu_overflow", "check_sidebar_layout",
+    "check_uptime_me", "check_deploy_monitor", "check_gsc_domain_property",
+    "check_search_ui_vaccine", "check_no_floating_nav_vaccine",
+    "check_korean_banner_ui_vaccine", "check_seomoney_brand", "check_og_image_vaccine",
+    "check_editor_publish_vaccine", "check_editor_sdna_vaccine",
+    "check_v20_seo_identity_homepage", "check_vaccine_registry_integrity",
+})
+
+# Vaccine block numbers documented on main (must not vanish in a rebase). Built
+# from the CLAUDE.md library as of V24's introduction (V15 was never assigned).
+REQUIRED_VACCINE_CODES = frozenset(
+    f"V{n}" for n in range(1, 24) if n != 15
+)
+
+# High-conflict SEO/QA/GSC files a dirty-PR fix tends to touch — a surviving git
+# conflict marker here would silently poison the gate, so flag it explicitly.
+SENSITIVE_CONFLICT_FILES = (
+    "CLAUDE.md",
+    "scripts/qa_vaccines.py",
+    "scripts/test_qa_vaccines.py",
+    "services/visitor-counter/gsc_client.py",
+    "config.toml",
+    "templates/base.html",
+    "templates/index.html",
+    "content/_index.md",
+)
+
+
 def next_free_vaccine_number(ctx: Ctx | None = None) -> int:
     """Return the next free `#### V<N>` number from the CLAUDE.md vaccine library."""
     text = (ctx.read("CLAUDE.md") if ctx else None)
@@ -2410,6 +2456,77 @@ def check_vaccine_registry_integrity(ctx: Ctx) -> CheckResult:
                                   f"{len(DETECTORS)} detectors each registered once"))
 
 
+def check_v24_dirty_pr_rebase_safety(ctx: Ctx) -> CheckResult:
+    """V24 — Dirty PR Rebase Safety: a dirty-PR rebase must not clobber main.
+
+    When a `dirty`/conflicting PR is rebased onto main and its conflicts are
+    resolved using main as base, the resolution must be ADDITIVE — it may port
+    the branch delta but must never drop a detector, lose a documented vaccine
+    block, or leave a conflict marker in a sensitive SEO/QA/GSC file. This is the
+    static guard that proves the rebase preserved everything `main` shipped.
+
+    FAIL:
+      * a detector that shipped on main disappeared from DETECTORS (a deletion /
+        reorder that drops a callable — the #589-style regression class);
+      * a vaccine block documented on main is missing from CLAUDE.md;
+      * a 7-char git conflict marker (open/close) survives in a sensitive file
+        (CLAUDE.md, qa_vaccines.py, its tests, GSC client, SEO config/templates).
+    WARN:
+      * the GSC client lost the sc-domain default or the URL-prefix fallback
+        (a rebase must keep BOTH — see V19/V23).
+    """
+    title = "V24 Dirty PR Rebase Safety (no detector/vaccine lost, no conflict markers)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Every detector that shipped on main must still be registered (additive-only).
+    current = {getattr(d, "__name__", repr(d)) for d in DETECTORS}
+    for name in sorted(REQUIRED_DETECTOR_NAMES - current):
+        fails.append(f"detector lost after rebase: {name}() no longer in DETECTORS")
+
+    # 2) Every vaccine block documented on main must still be present in CLAUDE.md.
+    codes = {v["code"] for v in load_vaccines(ctx.read("CLAUDE.md"))}
+    for code in sorted(REQUIRED_VACCINE_CODES - codes, key=lambda c: int(c[1:])):
+        fails.append(f"main vaccine block lost after rebase: {code} missing from CLAUDE.md")
+
+    # 3) No conflict marker may survive in a sensitive SEO/QA/GSC file. (7-char
+    #    git markers only, so the 6-char grep example in CLAUDE.md never trips.
+    #    Markers are built char-by-char so this source file isn't a false hit.)
+    conflict_markers = ("<" * 7, ">" * 7)
+    for rel in SENSITIVE_CONFLICT_FILES:
+        txt = ctx.read(rel)
+        if not txt:
+            continue
+        for marker in conflict_markers:
+            if marker in txt:
+                fails.append(f"conflict marker {marker!r} left in {rel}")
+
+    # 4) GSC domain property survived the rebase (sc-domain default + URL-prefix fallback).
+    gsc = ctx.read("services/visitor-counter/gsc_client.py")
+    if gsc:
+        if 'DEFAULT_GSC_PROPERTY_URL = "sc-domain:seomoney.org"' not in gsc:
+            warns.append("GSC default property no longer sc-domain:seomoney.org (V19/V23)")
+        if "https://seomoney.org/" not in gsc:
+            warns.append("GSC URL-prefix fallback https://seomoney.org/ dropped (keep both)")
+
+    if fails:
+        return CheckResult("V24", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix=("Resolve the dirty PR with main as base and port ONLY the "
+                                "branch delta — restore every dropped detector/vaccine block, "
+                                "clear conflict markers (see V24 CLAUDE.md)"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V24", title, WARN,
+                           diagnosis="; ".join(warns),
+                           fix="Keep sc-domain:seomoney.org default + URL-prefix fallback (V19/V23)",
+                           details=warns)
+    return CheckResult("V24", title, PASS,
+                       diagnosis=(f"all {len(REQUIRED_DETECTOR_NAMES)} main detectors + "
+                                  f"{len(REQUIRED_VACCINE_CODES)} vaccine blocks intact; "
+                                  "no conflict markers in sensitive files; GSC property preserved"))
+
+
 # Registry — order matters for the printed report.
 DETECTORS = [
     check_v1_hf_model_id,
@@ -2448,6 +2565,7 @@ DETECTORS = [
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
     check_v20_seo_identity_homepage,
+    check_v24_dirty_pr_rebase_safety,
     check_vaccine_registry_integrity,
 ]
 

@@ -1151,6 +1151,51 @@ fenced blocks.
   vaccines must use the next free number from `next_free_vaccine_number()` — never hardcode a taken one.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SeoIdentityV20Test scripts.test_qa_vaccines.VaccineRegistryGuardTest -v`
 
+#### V24 — Dirty PR Rebase Safety: a dirty-PR fix must keep `main` as base and port only the branch delta
+
+> Process + tooling vaccine (the rebase, not a workflow run, is what breaks). Match the
+> signature → run the FIXER **by intent**; the static detector `check_v24_dirty_pr_rebase_safety`
+> (code `V24`) guards it. Documented as **V24** because `#### V20`–`#### V23` were already taken
+> (registry guard requires the next free number — never reuse a taken one). Born from PR #589
+> (V20 SEO Identity / GSC `sc-domain` migration) where a `dirty` rebase risked clobbering the
+> V19/V20/V21 detectors already on `main`.
+
+- **Symptom:** a PR goes `mergeable_state: dirty`/`conflicting` against `main`; the conflicts
+  cluster in the highest-leverage QA/SEO files — `CLAUDE.md`, `scripts/qa_vaccines.py` (+ its
+  tests), `services/visitor-counter/gsc_client.py`, `config.toml`, `templates/base.html`,
+  `templates/index.html`, `content/_index.md`. A careless "resolve" (blind `--ours`/`--theirs`,
+  or accepting one side wholesale) silently **drops a detector**, **reorders/deletes a `#### V<N>`
+  vaccine block that only lived on `main`**, flips GSC back to a URL-prefix property, or leaves a
+  conflict marker behind. `zola build` still PASSES — the loss is invisible until a recurring bug
+  it used to catch slips through.
+- **Root cause:** QA/SEO infra files are **shared, append-mostly registries** (the `DETECTORS`
+  list, the CLAUDE.md vaccine library, the GSC accepted-property list). Parallel PRs each append a
+  detector/vaccine, so a stale branch base + text-merge race makes them collide. A `dirty` PR here
+  is a **merge race, not a code bug** — QA-green on the branch never proves the resolution kept
+  everything `main` shipped.
+- **FIXER (by intent — `main` is the base, port ONLY the branch delta):**
+  1. `git fetch origin main` → checkout the PR branch → **rebase/merge onto latest `main`**.
+  2. Resolve every conflict with **`main` as the authoritative base**; re-apply **only** the
+     branch's own delta on top (e.g. #589 = the V20 SEO/homepage + GSC `sc-domain` change).
+  3. **Additive-only:** never delete or reorder a detector / vaccine block that exists on `main`.
+     A genuine rename is legal ONLY by editing the baseline manifest (`REQUIRED_DETECTOR_NAMES`)
+     **with** its test in the same change — never a silent drop during conflict resolution.
+  4. Keep **GSC** = `sc-domain:seomoney.org` default **plus** the `https://seomoney.org/`
+     URL-prefix fallback (both survive — V19/V23). Keep canonical/sitemap root `https://seomoney.org/`.
+  5. Clear every conflict marker; run `python3 scripts/qa_vaccines.py` (V24 must PASS) +
+     `python3 qa_check.py` before pushing.
+- **Detector (`check_v24_dirty_pr_rebase_safety`, code `V24`):** **FAIL** if (a) a detector named
+  in `REQUIRED_DETECTOR_NAMES` is no longer in `DETECTORS` (deletion/reorder dropping a callable),
+  (b) a vaccine code in `REQUIRED_VACCINE_CODES` is missing from CLAUDE.md (a main-only block lost
+  after rebase), or (c) a 7-char git conflict marker survives in any `SENSITIVE_CONFLICT_FILES`
+  entry; **WARN** if the GSC client lost the `sc-domain` default or the URL-prefix fallback.
+- **Rules (permanent):** dirty-PR fixes keep `main` as base and port ONLY the branch delta;
+  detector/vaccine changes are **additive-only** unless an explicit manifest+test rename; a green
+  `zola build` does not prove a rebase preserved the gate — only V24 / `qa_check.py` does.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.DirtyPrRebaseSafetyV24Test -v`
+  (real repo PASS · missing detector → FAIL · missing main vaccine block → FAIL · conflict marker
+  in a sensitive file → FAIL · GSC fallback dropped → WARN · #589-style SEO delta rebases clean).
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

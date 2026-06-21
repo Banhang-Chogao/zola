@@ -1547,5 +1547,91 @@ class VaccineRegistryGuardTest(unittest.TestCase):
             qv.DETECTORS[:] = original
 
 
+class DirtyPrRebaseSafetyV24Test(unittest.TestCase):
+    """V24 — a dirty-PR rebase must not drop a detector / vaccine block / GSC fallback."""
+
+    MARK = "<" * 7  # build the 7-char git marker without writing it literally here
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _claude_md(self, codes=None) -> str:
+        codes = codes or sorted(qv.REQUIRED_VACCINE_CODES,
+                                key=lambda c: int(c[1:]))
+        return "\n".join(f"#### {c} — vaccine {c}\nbody\n" for c in codes)
+
+    def _gsc(self, default='sc-domain:seomoney.org', fallback=True) -> str:
+        text = f'DEFAULT_GSC_PROPERTY_URL = "{default}"\n'
+        if fallback:
+            text += 'ACCEPTED = ["sc-domain:seomoney.org", "https://seomoney.org/"]\n'
+        return text
+
+    def _wire(self, claude=None, gsc=None):
+        self.repo.write("CLAUDE.md", claude if claude is not None else self._claude_md())
+        self.repo.write("services/visitor-counter/gsc_client.py",
+                        gsc if gsc is not None else self._gsc())
+
+    def test_real_repo_passes(self):
+        r = qv.check_v24_dirty_pr_rebase_safety(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis)
+
+    def test_full_baseline_passes(self):
+        self._wire()
+        self.assertEqual(qv.check_v24_dirty_pr_rebase_safety(self.repo.ctx()).status, qv.PASS)
+
+    def test_missing_main_vaccine_block_fails(self):
+        # Drop V20 from CLAUDE.md → a main vaccine block lost after rebase.
+        codes = [c for c in sorted(qv.REQUIRED_VACCINE_CODES, key=lambda c: int(c[1:]))
+                 if c != "V20"]
+        self._wire(claude=self._claude_md(codes))
+        r = qv.check_v24_dirty_pr_rebase_safety(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("V20", r.diagnosis)
+
+    def test_dropped_detector_fails(self):
+        # Simulate a rebase that removed a main detector from the registry.
+        original = list(qv.DETECTORS)
+        qv.DETECTORS[:] = [d for d in qv.DETECTORS
+                           if getattr(d, "__name__", "") != "check_v20_seo_identity_homepage"]
+        try:
+            self._wire()
+            r = qv.check_v24_dirty_pr_rebase_safety(self.repo.ctx())
+            self.assertEqual(r.status, qv.FAIL)
+            self.assertIn("check_v20_seo_identity_homepage", r.diagnosis)
+        finally:
+            qv.DETECTORS[:] = original
+
+    def test_conflict_marker_in_sensitive_file_fails(self):
+        self._wire(claude=self._claude_md() + f"\n{self.MARK} HEAD\nx\n")
+        self.assertEqual(qv.check_v24_dirty_pr_rebase_safety(self.repo.ctx()).status, qv.FAIL)
+
+    def test_gsc_fallback_dropped_warns(self):
+        self._wire(gsc=self._gsc(fallback=False))
+        self.assertEqual(qv.check_v24_dirty_pr_rebase_safety(self.repo.ctx()).status, qv.WARN)
+
+    def test_gsc_url_prefix_default_warns(self):
+        self._wire(gsc=self._gsc(default='https://seomoney.org/', fallback=False))
+        # URL-prefix as default loses sc-domain → WARN (not a hard build break).
+        self.assertEqual(qv.check_v24_dirty_pr_rebase_safety(self.repo.ctx()).status, qv.WARN)
+
+    def test_589_style_seo_delta_rebases_without_clobbering(self):
+        """A #589-style SEO/homepage delta added on top of the full main baseline
+        must keep every existing detector + vaccine intact (additive rebase)."""
+        # Branch delta: a new SEO vaccine block appended after the main baseline.
+        claude = self._claude_md() + "\n#### V25 — new SEO delta\nbody\n"
+        self._wire(claude=claude)
+        r = qv.check_v24_dirty_pr_rebase_safety(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, r.diagnosis)
+        # And no main detector/vaccine went missing.
+        current = {getattr(d, "__name__", "") for d in qv.DETECTORS}
+        self.assertTrue(qv.REQUIRED_DETECTOR_NAMES.issubset(current))
+
+    def test_v24_registered_and_unique(self):
+        names = [getattr(d, "__name__", "") for d in qv.DETECTORS]
+        self.assertIn("check_v24_dirty_pr_rebase_safety", names)
+        self.assertEqual(len(names), len(set(names)))
+
+
 if __name__ == "__main__":
     unittest.main()
