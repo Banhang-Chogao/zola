@@ -217,6 +217,7 @@
     {% if page and page.slug %}
         {% set_global og_image_slug = page.slug %}
     {% endif %}
+    {# OG image fallback: seomoney-og.og.webp (via img::social_image_url macro) #}
     {% set og_image = img::social_image_url(thumb=og_image_thumb, slug=og_image_slug, base_url=config.base_url) %}
 
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
