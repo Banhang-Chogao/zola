@@ -656,6 +656,47 @@ def run_vaccine_gate(args):
         return False
 
 
+def run_watermark_gate(args):
+    """Gate: every eligible blog image must carry its ownership watermark.
+
+    Enforces the global image-watermark rule (scripts/watermark_blog_images.py +
+    data/image-watermark-manifest.json): a content image added/changed without a
+    watermark cannot pass QA. Mirrors the vaccine gate — only on a full-repo scan,
+    never raises (a gate that crashes must not block the pipeline).
+
+    Returns True if the gate FAILED (≥1 eligible image missing watermark / stale).
+    """
+    if args.targets:
+        return False
+    try:
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import watermark_blog_images as wm
+    except Exception as e:  # module missing / import error → don't block
+        print(YELLOW(f"⚠ Watermark Gate bỏ qua (không nạp được module): {e}"))
+        return False
+    try:
+        ok, missing, stale = wm.check_watermarks()
+        total = len(wm.iter_eligible())
+        print()
+        print(BOLD("Blog Image Watermark Gate"))
+        print(f"- Eligible images:   {total}")
+        print(f"- Missing watermark: {len(missing)}")
+        print(f"- Stale (changed):   {len(stale)}")
+        if ok:
+            print(GREEN("✓ Mọi ảnh blog hợp lệ đã được đóng watermark."))
+            return False
+        for m in missing[:20]:
+            print(RED(f"  ✗ MISSING: {m}"))
+        for s in stale[:20]:
+            print(RED(f"  ✗ STALE:   {s}"))
+        print(RED(BOLD(
+            "\n✗ Watermark Gate FAILED — chạy: python3 scripts/watermark_blog_images.py --apply")))
+        return True
+    except Exception as e:  # detector bug must never crash the gatekeeper
+        print(YELLOW(f"⚠ Watermark Gate bỏ qua (lỗi nội bộ, không chặn): {e}"))
+        return False
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(
@@ -779,7 +820,10 @@ def main():
     # LAST — the mandatory production-safety barrier from the CLAUDE.md vaccines.
     vaccine_failed = run_vaccine_gate(args)
 
-    return 1 if (errors or vaccine_failed) else 0
+    # …and the Blog Image Watermark Gate (global ownership-watermark rule).
+    watermark_failed = run_watermark_gate(args)
+
+    return 1 if (errors or vaccine_failed or watermark_failed) else 0
 
 
 if __name__ == "__main__":
