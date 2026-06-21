@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "fix(qa-404): remove dead internal links blocking the QA gate",
+      "tag": "remove",
+      "lines_added": 52,
+      "lines_removed": 108,
+      "highlights": [
+        "base.html: drop dead /admin-author/ + /admin-countdown/ footer links",
+        "cms.html: drop dead /admin-author/, /admin-countdown/, /admin/paywall/ links",
+        "insights.html: drop dead /authority-report/, /ad-report/, /ad-report-v2/ links (keep data cards)",
+        "content.md: drop 7 dead tool-registry entries (o/f/l/h-dashboard, ad-report*, authority-report)",
+        "9 posts + series.md: unlink dead O/F-Dashboard + Content Creator CTAs (prose kept)"
+      ],
+      "pr": 693
+    },
+    {
+      "date": "2026-06-21",
       "title": "SEO11: thêm meta description + seo_keyword cho 2 trang còn thiếu",
       "tag": "chore",
       "lines_added": 3,
