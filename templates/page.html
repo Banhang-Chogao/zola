@@ -198,9 +198,8 @@
         {% endif %}
 
         {# ===== Cuối bài =====
-           - paywall_active (premium + lock): KHÔNG thêm CTA — paywall box ở trên
-             đã có nút "Thanh toán qua MoMo để đọc tiếp".
-           - premium nhưng lock TẮT: MoMo tự nguyện (donate).
+           - paywall_active (premium + lock, mặc định TẮT): để dormant, không thêm CTA.
+           - bài chuyên sâu (premium) lock tắt: thẻ ủng hộ tự nguyện qua MoMo (reader-supported).
            - bài thường: lời cảm ơn. #}
         {% if paywall_active %}
         {% elif is_premium and not premium_lock %}

@@ -137,12 +137,13 @@ shortensea_api_url = "https://blog-shortensea-api.onrender.com"
 vipzone_api_url = "https://blog-vipzone-api.onrender.com"
 # Giá mặc định bài premium (VND) — category "premium" tự áp dụng, không cần extra.price.
 paywall_default_price = 100000
-# Premium paywall STRICT: true = bài premium chỉ hiển thị teaser + paywall box,
-# bắt buộc thanh toán MoMo qua backend để mở khóa nội dung (KHÔNG phải donate tự nguyện).
-# Build chạy paywall_prepare_build.py --strip → full content giữ ở private_content/,
-# static HTML chỉ chứa teaser (no-bypass khi mở URL trực tiếp).
+# Reader-supported mode (AdSense-safe): false = bài viết chuyên sâu hiển thị ĐẦY ĐỦ,
+# miễn phí, kèm thẻ ủng hộ tự nguyện qua MoMo. KHÔNG khoá nội dung, KHÔNG bắt trả phí
+# để đọc — MoMo chỉ là ủng hộ tự nguyện.
+# Build chạy paywall_prepare_build.py --strip → khi lock TẮT sẽ publish full content
+# từ private_content/ ra bài (không cloaking). Code paywall giữ lại, có thể bật lại sau.
 # Ưu tiên enable_premium_lock; premium_hidden giữ làm fallback (deprecated).
-enable_premium_lock = true
+enable_premium_lock = false
 premium_hidden = false
 momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP"
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc

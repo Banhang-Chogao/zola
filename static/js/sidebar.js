@@ -308,21 +308,10 @@
     `).join("");
   }
 
-  // Giá VND kiểu Việt Nam: 49000 → "49.000đ"; 0/thiếu → "" (ẩn badge giá).
-  function fmtPrice(v) {
-    const n = Number(v) || 0;
-    if (n <= 0) return "";
-    return n.toLocaleString("vi-VN") + "đ";
-  }
-
   function renderPremium(list) {
     const target = document.querySelector('[data-target="premium"]');
     if (!target) return; // section chỉ render khi CÓ bài premium → guard an toàn
     target.innerHTML = list.map((p) => {
-      const price = fmtPrice(p.price);
-      const priceBadge = price
-        ? `<span class="premium-item__badge premium-item__badge--price">${escapeHtml(price)}</span>`
-        : "";
       return `
       <li class="premium-item">
         <a class="premium-item__link" href="${escapeHtml(p.permalink)}">
@@ -330,8 +319,7 @@
           <span class="premium-item__main">
             <span class="premium-item__title">${escapeHtml(p.title)}</span>
             <span class="premium-item__badges">
-              <span class="premium-item__badge premium-item__badge--premium">💎 Premium</span>
-              ${priceBadge}
+              <span class="premium-item__badge premium-item__badge--premium">💎 Chuyên sâu</span>
             </span>
           </span>
         </a>

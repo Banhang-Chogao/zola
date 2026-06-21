@@ -1,6 +1,6 @@
 /**
- * Paywall client — request access, unlock, fetch premium content.
- * Full content KHÔNG có trong static HTML; chỉ load sau khi token hợp lệ.
+ * Reader-support client (dormant khi enable_premium_lock=false).
+ * Gửi lời nhắn ủng hộ tự nguyện; người ủng hộ có mã truy cập có thể xem bản đầy đủ.
  */
 (function () {
   "use strict";
@@ -186,7 +186,7 @@
         payment_note: note,
       });
       showStatus(
-        "Đã gửi yêu cầu! Admin sẽ xác nhận thanh toán Momo và gửi approve code qua email trong thời gian sớm nhất.",
+        "Đã gửi! Cảm ơn lời nhắn của bạn. Nếu bạn cần bản đầy đủ, admin sẽ phản hồi qua email sớm nhất.",
         "success"
       );
       e.target.reset();
@@ -221,9 +221,9 @@
       });
       setToken(out);
       await loadPremiumContent(out);
-      showStatus("Đã mở khóa bài viết!", "success");
+      showStatus("Đã mở bản đầy đủ!", "success");
     } catch (err) {
-      showStatus(err.message || "Mở khóa thất bại.", "error");
+      showStatus(err.message || "Không mở được bài viết.", "error");
     } finally {
       if (btn) btn.disabled = false;
     }

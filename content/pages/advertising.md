@@ -41,14 +41,14 @@ tới tính trung thực của nội dung. Mọi đánh giá đều dựa trên 
 
 ## 4. Cam kết minh bạch
 
-- Chúng tôi **không** yêu cầu, khuyến khích hay hướng dẫn người đọc bấm vào quảng
-  cáo dưới bất kỳ hình thức nào.
+- Chúng tôi **không** yêu cầu, khuyến khích hay hướng dẫn người đọc tương tác với
+  quảng cáo dưới bất kỳ hình thức nào.
 - Quảng cáo **không** quyết định nội dung biên tập. Chúng tôi không xuất bản bài
   viết chỉ để phục vụ nhà quảng cáo.
 - Số lượng và vị trí quảng cáo được kiểm soát để **không cản trở trải nghiệm
   đọc**.
 - Mọi khoản ủng hộ qua MoMo (nếu có) đều **hoàn toàn tự nguyện**, tách biệt với
-  quảng cáo, và không mở khóa nội dung.
+  quảng cáo, và không gắn với quyền truy cập bất kỳ nội dung nào.
 
 ## 5. Hợp tác quảng cáo
 

@@ -87,4 +87,4 @@ name = "Changelog"
 url = "$BASE_URL/changelog"
 +++
 
-Tất cả công cụ dưới đây đều **miễn phí** — không cần VIP, không đăng ký, không paywall. Chọn một khối để mở công cụ tương ứng.
+Tất cả công cụ dưới đây đều **miễn phí** — không cần VIP, không đăng ký, không khoá nội dung. Chọn một khối để mở công cụ tương ứng.

@@ -1,6 +1,6 @@
 +++
 title = "ShortenSEA"
-description = "S-DNA short URL manager — tạo link rút gọn, theo dõi click, gói premium MoMo."
+description = "S-DNA short URL manager — tạo link rút gọn, theo dõi click, gói VIP MoMo."
 template = "shortensea.html"
 
 [extra]

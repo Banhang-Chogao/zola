@@ -1,6 +1,6 @@
 +++
 title = "Content"
-description = "Tất cả chuyên mục bài viết và công cụ của blog gom về một nơi — chọn khối để mở. Nội dung công khai mở ngay, khu vực premium/VIP kiểm tra quyền trước khi vào."
+description = "Tất cả chuyên mục bài viết và công cụ của blog gom về một nơi — chọn khối để mở. Nội dung và công cụ đều mở miễn phí; bài viết chuyên sâu đọc miễn phí, ủng hộ tự nguyện qua MoMo."
 template = "content.html"
 path = "content"
 
