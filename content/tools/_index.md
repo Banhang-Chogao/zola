@@ -34,6 +34,10 @@ name = "🚀 Deploy Monitor"
 url = "$BASE_URL/tools/deploy-monitor"
 subtitle = "Tốc độ deploy + commit đang chờ lên production"
 [[extra.tool_groups.items]]
+name = "📋 Open PRs"
+url = "$BASE_URL/tools/open-prs"
+subtitle = "PR đang mở · QA checks · merge readiness"
+[[extra.tool_groups.items]]
 name = "🌾 Vụ Mùa"
 url = "$BASE_URL/vu-mua"
 [[extra.tool_groups.items]]
