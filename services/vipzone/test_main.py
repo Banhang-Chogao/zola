@@ -675,6 +675,58 @@ class V25HealthAndCriticalRoutesTests(unittest.TestCase):
         )
 
 
+class ProdSmokeContractTests(unittest.TestCase):
+    """V29 prod smoke check contract — CRITICAL_ROUTES parity between backend and checker.
+
+    deploysafe29 (scripts/prod_smoke_check.py) probes specific routes on production.
+    The backend MUST expose exactly the same routes; if /gsc/status or /cms/save-post
+    exist only on undeployed services/visitor-counter, they return 404 → split-brain.
+    """
+
+    def test_critical_routes_exist_in_backend(self) -> None:
+        """Backend CRITICAL_ROUTES must include /health, /gsc/status, /cms/save-post."""
+        import main as main_mod
+
+        # These are the exact routes prod_smoke_check.py probes.
+        expected = {"/health", "/gsc/status", "/gsc/oauth/start", "/cms/save-post"}
+        actual = set(main_mod.CRITICAL_ROUTES)
+        self.assertEqual(
+            actual,
+            expected,
+            f"Backend CRITICAL_ROUTES {actual} does not match checker expectations {expected}",
+        )
+
+    def test_health_and_cms_always_present(self) -> None:
+        """These two routes must exist regardless of optional deps (Google libs)."""
+        import main as main_mod
+
+        mounted = main_mod._registered_paths()
+        # No Google libs required for these.
+        self.assertIn("/health", mounted, "/health must be mounted")
+        self.assertIn("/cms/save-post", mounted, "/cms/save-post must be mounted")
+
+    def test_gsc_status_present_when_google_libs_available(self) -> None:
+        """GSC status mounts only when Google libs are available."""
+        import main as main_mod
+
+        mounted = main_mod._registered_paths()
+        status_mounted = "/gsc/status" in mounted
+        self.assertEqual(status_mounted, main_mod.GSC_MOUNTED,
+                        "gsc/status mount status must match GSC_MOUNTED flag")
+
+    def test_health_payload_includes_critical_routes_status(self) -> None:
+        """The health endpoint reports whether each critical route is mounted."""
+        import main as main_mod
+
+        payload = main_mod._health_payload()
+        self.assertIn("critical_routes", payload)
+        cr = payload["critical_routes"]
+        self.assertIsInstance(cr, dict)
+        # All CRITICAL_ROUTES should have an entry in the status dict.
+        for route in main_mod.CRITICAL_ROUTES:
+            self.assertIn(route, cr, f"{route} missing from health.critical_routes")
+
+
 class CmsStickyFeaturedHelpersTests(unittest.TestCase):
     """Single-active sticky/featured frontmatter demote logic (offline, pure)."""
 

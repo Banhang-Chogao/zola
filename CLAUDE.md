@@ -1636,6 +1636,70 @@ fenced blocks.
   (duplicate-number / duplicate-detector guard).
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.VaccineRegistryMergeV28Test -v`
 
+#### V29 — External Prod Verification / Manual Backend Deploy: GitHub Pages deploy ≠ Render backend deploy
+
+> Deploy/infra vaccine. Match the signature → run `deploysafe29` (do NOT re-diagnose),
+> then suggest a Render Manual Sync if backend routes lag `main`. **Never report success
+> while the backend lags `main`.** CRITICAL: GitHub Pages publishes static site
+> automatically on every merge to `main`, but the FastAPI backend on Render only
+> redeploys on **manual** Blueprint sync. A green Pages deploy is NOT proof the backend
+> serves the new code.
+
+- **Symptom:** QA Gatekeeper green, `auto-merge.yml` merged, **`deploy.yml` (GitHub Pages) succeeds**, yet
+  a VIP/supervip on a premium article, GSC metrics, CMS write endpoint, or any backend-dependent feature
+  **silently fails** — `GET {vipzone_api}/…` returns **404** or stale data. The feature code exists
+  on `main` but the deployed Render backend hasn't been synced. A green static deploy is **not**
+  proof the backend serves the new code. Often co-occurs with a recent `services/vipzone/` commit
+  (new route, updated `main.py`, manifest changes) that passed CI but didn't redeploy.
+- **Root cause (split-brain):** GitHub Pages always ships the latest `main` (auto, every push).
+  Render `blog-vipzone-api` (FastAPI service) only redeploys on a **manual** Blueprint sync from
+  the dashboard — it is **not** automatic. So after a backend code change merges, the static site
+  is ahead of the backend for hours/days until an operator runs Render Manual Sync. A route that
+  exists in the repo 404s in production. This is **not** a code bug and **not** a build failure —
+  it's a **deployment coordination gap**. A green Pages deploy + a 404 backend route = **deploy
+  incomplete**.
+- **FIXER (`deploysafe29`):** `python3 scripts/prod_smoke_check.py` compares **critical routes**
+  against the **live production backend** (`https://blog-vipzone-api.onrender.com`). The script
+  probes 4 fixed routes (`/health`, `/gsc/status`, `/gsc/oauth/start`, `/cms/save-post`) and
+  classifies each as: `present` (non-404) · `missing` (404) · `blocked` (sandbox egress limit) ·
+  `unreachable` (network error). **If ANY route is 404 → backend is stale → suggest Render Manual
+  Sync.** Report: `data/prod-smoke-report.json`. By default exit 0 (report-only); `--strict` exits
+  2 if routes_missing (for CI gates). Output includes **exact curl commands** a human can paste from
+  an allowlisted host if sandbox blocks egress.
+- **Health introspection:** `/health` endpoint on vipzone returns: `backend_sha` (git commit deployed),
+  `gsc_mounted: true/false` (GSC router wired), `cms_mounted: true/false` (CMS write router wired),
+  `critical_routes: {"/health": true, "/gsc/status": true, …}` (router presence flags). These fields
+  let `deploysafe29` emit a detailed verdict: e.g. `backend_sha mismatch (main=abc123, deployed=def456) + cms_mounted=false`.
+- **Prevention / Rules (BẮT BUỘC):**
+  1. After any `services/vipzone/` or `services/*/main.py` change merges, run `deploysafe29 --strict` before
+     declaring the deploy "done". A green Pages deploy + a 404 critical route = **incomplete**. The only way
+     to finalize is: merge → Pages deploy succeeds → Render Manual Sync (operator dashboard) → `deploysafe29`
+     confirms all routes non-404 → deploy complete.
+  2. **GitHub Pages deploy ≠ Render backend deploy.** Never assume they're in sync. Always verify with
+     `deploysafe29` when a backend feature depends on new routes.
+  3. Never report backend feature "live" until `deploysafe29` confirms the route is non-404 on production.
+  4. The smoke check is **sandbox-safe**: if egress to `blog-vipzone-api.onrender.com` is blocked (sandbox
+     network policy), the checker exits 0 (report-only) and surfaces the exact curl commands for a human to
+     run from an allowlisted host. **Do NOT retry forever in a blocked sandbox.**
+- **Commands:**
+  ```bash
+  python3 scripts/prod_smoke_check.py                  # human summary + data/prod-smoke-report.json
+  python3 scripts/prod_smoke_check.py --json           # machine JSON
+  python3 scripts/prod_smoke_check.py --curl           # just print the curl commands
+  python3 scripts/prod_smoke_check.py --offline        # skip network → print curls, exit 0
+  python3 scripts/prod_smoke_check.py --strict         # exit 2 if a route is confirmed 404
+  ```
+- **Tests:** `python3 -m unittest scripts.test_prod_smoke_check -v`
+  - `test_non_404_is_present` — route returns 200/301/401/403/etc → present
+  - `test_404_is_missing` — 404 → missing, note suggests Render Manual Sync
+  - `test_egress_block_is_blocked_not_missing` — 403 + `host_not_allowed` → blocked, not present
+  - `test_connection_error_is_unreachable` — network timeout → unreachable
+  - `test_genuine_403_not_treated_as_egress` — app 403 (superadmin_required) → present, not blocked
+  - `test_real_sandbox_signature` — exact sandbox proxy block signature (x-deny-reason header + allowlist body)
+  - `test_app_403_with_deny_header_absent_is_present` — app 403 without egress marker → present
+  - `test_one_curl_per_route` — curl_commands generates one curl for each CRITICAL_ROUTE
+  - `test_required_routes_present` — CRITICAL_ROUTES always includes `/health`, `/gsc/status`, `/gsc/oauth/start`, `/cms/save-post`
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
