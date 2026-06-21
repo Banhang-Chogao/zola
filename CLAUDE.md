@@ -300,7 +300,57 @@ Auto-merge đã được attempt
 - Simulation: `python3 -m unittest scripts.test_task_priority -v`
 - Pass criteria: P0 hoàn thành trước P1 bị preempt; P1 resume sau P0 drain.
 
-### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
+## Failure Priority Policy (effective 2026-06-21)
+
+> Bổ sung ZERO_BARRIER + Task Priority — **không** thay auto-merge / QA / deploy rules.
+> Áp dụng khi pipeline đỏ (CI/PR/checks failed) và agent phải quyết **sửa gì trước**.
+> Mục tiêu: không phân tán effort vào noise (lỗi cũ, report-only) → tập trung vào lỗi
+> **thật, đang chặn merge trên HEAD mới nhất**.
+
+### Scope — chỉ fix lỗi REQUIRED trên HEAD mới nhất
+
+1. **Latest HEAD only** — chỉ chẩn + sửa failure của **commit/HEAD mới nhất** trên branch/PR.
+   Failure của commit cũ hơn (đã bị superseded bởi push mới) = **stale → BỎ QUA**.
+2. **Required checks only** — chỉ gate trên **required check** (vd `qa-check` / QA Gatekeeper,
+   `zola build`, vaccine gate, internal-link gate). **Report-only / observer / advisory
+   workflow → KHÔNG gate** (V3/V7 doctrine: observer không bao giờ tự chặn). Đỏ ở
+   report-only = noise, không sửa để "cho xanh".
+3. **Cancelled ≠ failed** — `cancelled` do concurrency/superseding = non-critical (V5/Build
+   Dashboard). Xác nhận run **mới nhất** trước khi coi là failure thật.
+
+### Priority order (cao → thấp) — khi nhiều required failure cùng lúc
+
+> Sửa theo thứ tự này; mỗi tier xanh mới xuống tier kế. Một fix có thể giải quyết nhiều tier.
+
+| # | Tier | Ví dụ | Vaccine/tool liên quan |
+|---|------|-------|------------------------|
+| 1 | **Security** | secret leak, exposed token/credential, injection | secret scan, V19/V24 token rules |
+| 2 | **Conflict / merge race** | `mergeable_state: dirty`, conflict markers | V6/V10/V12/V18 · `autofix_conflicts.py` · `ff9` |
+| 3 | **Build / syntax** | `zola build` fail, Tera `replace(old=)`, JS SyntaxError | V8 · `ff` |
+| 4 | **QA / Vaccine gate** | `qa_check.py` FAIL, vaccine detector FAIL | `qa_vaccines.py` · §4 library |
+| 5 | **Links** | internal 404 (`qa-404-checker.py` exit 2) | V13/V14 · `fix_site_prefix_links.py` · `check_internal_links.py --fix` |
+| 6 | **Runtime / API** | backend split-brain, rate limit, 404 endpoint | V5/V16/V22b/V25 · `backend_route_check.py` |
+| 7 | **SEO / AdSense** | thin content, missing schema, SEO score gate | `seo_qa_checker.py` |
+| 8 | **UI / UX** | raw/unstyled component, layout regression | V20/V21/V22/V26/V27 |
+
+### Rules (mandatory)
+
+1. **Never bypass vaccines** — KHÔNG dùng `--no-vaccines` / skip gate để "ép xanh". Vaccine
+   FAIL = sửa root cause theo §4, không tắt detector. (Luật bất biến ZERO_BARRIER.)
+2. **Auto-merge chỉ khi mọi required check XANH** — delegate cho `try_auto_merge.py` /
+   `auto-merge.yml`; KHÔNG merge thủ công khi required check đỏ/đang chạy.
+3. **Match vaccine trước, chẩn lại sau** — failure khớp dấu hiệu §4 → chạy FIXER ngay,
+   không chẩn đoán lại từ đầu (giao thức Vaccine). Không khớp → `ff`/`ff9` rồi append vaccine mới.
+4. **Một fix delta tối thiểu / tier** — không refactor lớn để fix 1 gate; giữ PR sạch.
+5. **Stale failure = không action** — nếu HEAD đã đổi sau khi check fail, **không** sửa lỗi
+   của commit cũ; re-poll check trên HEAD mới.
+
+### Agent protocol
+
+- Nhận sự kiện CI failed → (a) xác minh **đúng HEAD mới nhất** + **required check** + không
+  phải `cancelled` superseded; (b) nếu stale/report-only/cancelled → skip im lặng; (c) nếu
+  thật → chọn tier cao nhất đang đỏ → match vaccine → fix delta tối thiểu → push → re-poll.
+- Lặp tới khi **mọi required check xanh** → auto-merge attempted; hoặc báo đúng blocker cụ thể.
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
 > khi nhận sự kiện build/CI failed → so log lỗi với **Dấu hiệu** của từng vaccine
