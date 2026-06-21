@@ -423,5 +423,126 @@ class GscKvTests(unittest.TestCase):
             asyncio.run(run())
 
 
+class CmsRepoRoutesTests(unittest.TestCase):
+    """CMS repo-write routes must be SERVED by this deployed app (not 404).
+
+    Regression for the production smoke failure after #588: editor.js POSTs to
+    {AUTH_API}/cms/save-post, AUTH_API points at this vipzone service, but the
+    route only existed on the undeployed visitor-counter app → 404 Not Found.
+    """
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.db_path = Path(self._tmp.name) / "vipzone-cms-test.db"
+        os.environ["VIPZONE_DB_PATH"] = str(self.db_path)
+        import main as main_mod
+
+        main_mod._db = None
+        self.client = TestClient(app)
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def test_cms_routes_exist_not_404(self) -> None:
+        # Unauthenticated → 401 (missing_token), NEVER 404. A 404 would mean the
+        # route is absent (the original production bug).
+        cases = [
+            ("post", "/cms/save-post", {"slug": "x", "content": "y"}),
+            ("post", "/cms/posts/bulk-delete", {"slugs": ["x"]}),
+            ("get", "/api/categories/list", None),
+            ("post", "/api/categories/add", {"name": "X"}),
+        ]
+        for method, path, body in cases:
+            with self.subTest(path=path):
+                res = getattr(self.client, method)(path, json=body) if body is not None \
+                    else getattr(self.client, method)(path)
+                self.assertNotEqual(res.status_code, 404, f"{path} must be served, got 404")
+                self.assertEqual(res.status_code, 401, path)
+
+    def test_unknown_cms_route_still_404(self) -> None:
+        # Control: a route we did NOT add must still 404 (proves the 401 above is
+        # real auth-gating, not a catch-all).
+        res = self.client.post("/cms/does-not-exist", json={})
+        self.assertEqual(res.status_code, 404)
+
+    def test_github_token_from_session(self) -> None:
+        import asyncio
+
+        from cms_auth import github_token_from_session
+
+        db = get_db()
+        sid = db.create_cms_session(
+            {"email": "a@b.c", "username": "u", "name": "U", "avatar": "",
+             "access_token": "ghs_secret_token"},
+            3600,
+        )
+        token = asyncio.run(github_token_from_session(db, f"Bearer {sid}"))
+        self.assertEqual(token, "ghs_secret_token")
+
+    def test_github_token_missing_raises_401(self) -> None:
+        import asyncio
+
+        from fastapi import HTTPException
+
+        from cms_auth import github_token_from_session
+
+        db = get_db()
+        # Legacy session without access_token (pre-token-persistence).
+        sid = db.create_cms_session(
+            {"email": "a@b.c", "username": "u", "name": "U", "avatar": ""}, 3600,
+        )
+        with self.assertRaises(HTTPException) as ctx:
+            asyncio.run(github_token_from_session(db, f"Bearer {sid}"))
+        self.assertEqual(ctx.exception.status_code, 401)
+
+    def test_access_token_not_leaked_via_auth_me(self) -> None:
+        # The persisted GitHub token must never surface in profile responses.
+        db = get_db()
+        sid = db.create_cms_session(
+            {"email": "a@b.c", "username": "u", "name": "U", "avatar": "",
+             "is_super": False, "access_token": "ghs_secret_token"},
+            3600,
+        )
+        res = self.client.get("/auth/me", headers={"Authorization": f"Bearer {sid}"})
+        self.assertEqual(res.status_code, 200)
+        self.assertNotIn("access_token", res.json())
+        self.assertNotIn("ghs_secret_token", res.text)
+
+
+class CmsStickyFeaturedHelpersTests(unittest.TestCase):
+    """Single-active sticky/featured frontmatter demote logic (offline, pure)."""
+
+    def test_detect_sticky_and_featured(self) -> None:
+        import cms_repo
+
+        md = '+++\ntitle = "T"\n\n[extra]\nsticky = true\nfeatured = true\n+++\n\nbody'
+        self.assertTrue(cms_repo._frontmatter_forces_sticky(md))
+        self.assertTrue(cms_repo._frontmatter_forces_featured(md))
+
+    def test_demote_sticky_removes_only_sticky(self) -> None:
+        import cms_repo
+
+        md = '+++\ntitle = "T"\n\n[extra]\nthumbnail = "/x.webp"\nsticky = true\n+++\n\nbody'
+        out = cms_repo._demote_sticky_frontmatter(md)
+        self.assertNotIn("sticky = true", out)
+        self.assertIn('thumbnail = "/x.webp"', out)  # other fields preserved
+
+    def test_demote_featured_removes_featured_and_featured_at(self) -> None:
+        import cms_repo
+
+        md = ('+++\ntitle = "T"\n\n[extra]\nfeatured = true\n'
+              'featured_at = "2026-06-20T00:00:00Z"\n+++\n\nbody')
+        out = cms_repo._demote_featured_frontmatter(md)
+        self.assertNotIn("featured = true", out)
+        self.assertNotIn("featured_at", out)
+
+    def test_non_sticky_post_not_detected(self) -> None:
+        import cms_repo
+
+        md = '+++\ntitle = "T"\n\n[extra]\nthumbnail = "/x.webp"\n+++\n\nbody'
+        self.assertFalse(cms_repo._frontmatter_forces_sticky(md))
+        self.assertFalse(cms_repo._frontmatter_forces_featured(md))
+
+
 if __name__ == "__main__":
     unittest.main()

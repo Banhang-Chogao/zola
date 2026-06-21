@@ -46,7 +46,7 @@ from pydantic import BaseModel, EmailStr, Field
 
 from catalog_loader import load_catalog, migrate_picks_sync
 from picker_access import expand_items, items_to_map, migrate_picker_items, sparse_items
-from cms_auth import BACKEND_URL, cms_profile_from_session, is_admin, router as auth_router, session_dep
+from cms_auth import BACKEND_URL, cms_profile_from_session, github_token_from_session, is_admin, router as auth_router, session_dep
 from db import DEFAULT_DB, PLAN_DAYS, VipzoneDB
 from gsc_kv import SqliteKV
 from roles import ROLE_SUPERADMIN, ROLE_VIP, is_superadmin, resolve_role
@@ -160,6 +160,28 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     # /gsc/* will be absent and the SEO widget shows its calm "not configured" state.
     GSC_MOUNTED = False
     print(f"[vipzone] GSC router not mounted: {exc!r}")
+
+
+# ============= CMS repo-write routes (save-post / bulk-delete / categories) =============
+# The blog editor (static/js/editor.js) commits posts to GitHub via
+# POST {AUTH_API}/cms/save-post. AUTH_API points at THIS deployed service, but the
+# route historically lived only in services/visitor-counter (Redis service, not
+# deployed) → production returned 404 {"detail":"Not Found"} for every save/edit.
+# Serve it HERE, sourcing the GitHub OAuth token from the vipzone CMS session.
+try:
+    import cms_repo
+
+    async def _cms_get_token(authorization: str) -> str:
+        from main import get_db
+
+        return await github_token_from_session(get_db(), authorization or "")
+
+    cms_repo.configure(get_token=_cms_get_token)
+    app.include_router(cms_repo.router)
+    CMS_REPO_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    CMS_REPO_MOUNTED = False
+    print(f"[vipzone] CMS repo router not mounted: {exc!r}")
 
 
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:

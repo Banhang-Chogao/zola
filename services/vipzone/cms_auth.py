@@ -176,6 +176,28 @@ async def cms_profile_from_session(
     return await cms_profile_from_sid(db, sid)
 
 
+async def github_token_from_session(
+    db: VipzoneDB,
+    authorization: str = "",
+    *,
+    cookie_sid: str | None = None,
+) -> str:
+    """Resolve the GitHub OAuth access_token stored server-side for this session.
+
+    Used by the CMS repo routes (save-post / bulk-delete / categories) to commit
+    on behalf of the authenticated author. Raises 401 if the session is missing or
+    predates token persistence (legacy session → re-login refreshes it).
+    """
+    sid = resolve_sid(authorization, cookie_sid)
+    session = db.get_cms_session(sid)
+    if not session:
+        raise HTTPException(401, "invalid_cms_session")
+    token = session.get("access_token")
+    if not token:
+        raise HTTPException(401, "no_access_token")
+    return token
+
+
 async def session_dep(
     authorization: str = Header(default=""),
     zola_cms_sid: str | None = Cookie(default=None, alias=SESSION_COOKIE_NAME),
@@ -300,6 +322,11 @@ async def auth_callback(code: str = "", state: str = "") -> RedirectResponse:
             "avatar": user.get("avatar_url", ""),
             "is_super": is_super,
             "is_superadmin": is_super,
+            # GitHub OAuth token (scope read:user user:email public_repo) — kept
+            # server-side in the session payload so the CMS routes can commit posts
+            # to the repo. cms_profile_from_sid() whitelists fields, so this token
+            # never leaks through /auth/me or any profile response.
+            "access_token": access_token,
         },
         SESSION_TTL,
     )
