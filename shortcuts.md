@@ -1965,21 +1965,32 @@ Track: https://github.com/Banhang-Chogao/zola/pulls
 summary cuối (success hoặc fail); (3) fail → tra §4 Vaccine library, đề xuất đúng fix
 tool. Chi tiết vaccine: `CLAUDE.md` §4 + §"Báo cáo PR sau merge".
 
+### Mobile-safe MD output (BẮT BUỘC — áp dụng MỌI bảng shortcut output)
+
+> Output shortcut đọc chủ yếu trên **điện thoại** → bảng rộng/nhiều cột bị vỡ layout,
+> tràn ngang. Mọi bảng do shortcut sinh ra PHẢI mobile-safe:
+
+1. **Tối đa 3 cột/bảng.** Cần thêm field → đưa xuống dạng bullet `• key: value`
+   **ngoài** bảng, KHÔNG thêm cột thứ 4.
+2. **Truncate branch/title dài** → cắt còn **≤ 28 ký tự** + `…` (vd
+   `feat(flight-db): time pic…`). Giữ phần đầu (prefix `feat(...)`/branch name) cho dễ nhận.
+3. **Notes/diễn giải dài ra ngoài bảng** — merged sha, deploy, error, vaccine match,
+   next action… đều là bullet `•` bên dưới, KHÔNG nhồi vào ô bảng.
+4. **Dùng markdown table gọn** (`| … |`), KHÔNG vẽ box-drawing rộng cố định
+   (`┌─┐`) — box-drawing fixed-width tràn mép màn hình mobile.
+
 ### Thành công
 
 ```text
 Tổng kết 1 PR vừa merged
 
-┌──────┬────────────────────────────────────────────────────────────┬────────┐
-│ PR   │ Title                                                      │ Status │
-├──────┼────────────────────────────────────────────────────────────┼────────┤
-│ #487 │ feat(flight-db): time pickers, combinator sync, API enrich │ ✅     │
-└──────┴────────────────────────────────────────────────────────────┴────────┘
+| PR   | Title (≤28, … nếu dài)     | Status |
+|------|----------------------------|--------|
+| #487 | feat(flight-db): time pic… | ✅     |
 
 • Merged: <commit_sha> lúc <HH:mm dd/mm/yyyy> (GMT+7)
 • Deploy: deploy.yml tự chạy trên main → production
-
-Track: https://github.com/Banhang-Chogao/zola/pulls
+• Track: https://github.com/Banhang-Chogao/zola/pulls
 ```
 
 Nhiều PR → thêm dòng bảng; header `Tổng kết N PR vừa merged`.
@@ -1989,18 +2000,15 @@ Nhiều PR → thêm dòng bảng; header `Tổng kết N PR vừa merged`.
 ```text
 Tổng kết PR lỗi
 
-┌──────┬────────────────────────────────────────────────────────────┬────────┐
-│ PR   │ Title                                                      │ Status │
-├──────┼────────────────────────────────────────────────────────────┼────────┤
-│ #487 │ <title>                                                    │ ❌     │
-└──────┴────────────────────────────────────────────────────────────┴────────┘
+| PR   | Title (≤28, … nếu dài) | Status |
+|------|------------------------|--------|
+| #487 | <title cắt ≤28>…       | ❌     |
 
 • Error: <short error>
 • Vaccine match: <V# từ CLAUDE.md §4>
 • Suggested fix tool: <ff | ff9 | vacxin11 | script cụ thể>
 • Next action: <một dòng>
-
-Track: https://github.com/Banhang-Chogao/zola/pulls
+• Track: https://github.com/Banhang-Chogao/zola/pulls
 ```
 
 KHÔNG dài dòng. KHÔNG ⏳ in-progress — chỉ ✅ merged hoặc ❌ fail.
