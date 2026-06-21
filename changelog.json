@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "fix(qa-workflow): Conditionally install dashboard requirements if they exist [claude/tender-bardeen-xurrse]",
+      "tag": "fix",
+      "lines_added": 95,
+      "lines_removed": 20,
+      "highlights": [
+        "fix(V21-header-regression): Move cache button from navbar to sidebar",
+        "fix(qa-workflow): Conditionally install dashboard requirements if they exist",
+        ".github/workflows/qa.yml (modified, +14/-6)",
+        "sass/_sidebar.scss (modified, +62/-0)",
+        "templates/base.html (modified, +19/-14)"
+      ],
+      "pr": 657
+    },
+    {
+      "date": "2026-06-21",
       "title": "Claude/ecstatic mccarthy s0v1ar",
       "tag": "chore",
       "lines_added": 408,
