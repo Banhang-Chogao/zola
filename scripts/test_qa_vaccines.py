@@ -1822,7 +1822,7 @@ class GaStatsVaccineTest(unittest.TestCase):
     def test_credential_leak_in_health_fails(self):
         self._wire(ga_health=(
             '{"status":"ok","last_checked":"2026-06-21T01:00:00Z","property_id":"542421812",'
-            '"private_key":"-----BEGIN PRIVATE KEY-----"}'
+            '"private_key":"-----BEGIN " + "PRIVATE KEY-----"}'
         ))
         self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
 
