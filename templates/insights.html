@@ -118,6 +118,28 @@
         {% set compliance_link_report = false %}
     {% endif %}
 
+    {# Load auto-performance-fix engine report #}
+    {% set perf_fix_report = load_data(path="data/auto-performance-fix-report.json", required=false) %}
+    {% if perf_fix_report %}
+        {% set perf_fix_status = perf_fix_report.status | default(value="pending") %}
+        {% set perf_fix_mobile = perf_fix_report.pagespeed_score_mobile | default(value=0) %}
+        {% set perf_fix_desktop = perf_fix_report.pagespeed_score_desktop | default(value=0) %}
+        {% set perf_fix_issues = perf_fix_report.issues_detected | default(value=0) %}
+        {% set perf_fix_fixes = perf_fix_report.fixes_applied | default(value=0) %}
+        {% set perf_fix_timestamp = perf_fix_report.timestamp | default(value="") %}
+        {% set perf_fix_ga_organic = perf_fix_report.ga4_organic | default(value={}) %}
+        {% set perf_fix_changes = perf_fix_report.fixes | default(value=[]) %}
+    {% else %}
+        {% set perf_fix_status = "no_data" %}
+        {% set perf_fix_mobile = 0 %}
+        {% set perf_fix_desktop = 0 %}
+        {% set perf_fix_issues = 0 %}
+        {% set perf_fix_fixes = 0 %}
+        {% set perf_fix_timestamp = "" %}
+        {% set perf_fix_ga_organic = {} %}
+        {% set perf_fix_changes = [] %}
+    {% endif %}
+
     {% set now_ts = now(timestamp=true) %}
     {% set week_ago_ts = now_ts - 604800 %}
 
@@ -584,6 +606,80 @@
                         <time class="insights__build-updated" datetime="{{ build_updated }}">
                             Cập nhật {{ dt::display_datetime(value=build_updated) }}
                         </time>
+                        {% endif %}
+                    </footer>
+                </div>
+
+                {# ===== AUTO PERFORMANCE FIX ENGINE ===== #}
+                <div class="insights__build insights__perf-fix">
+                    <header class="insights__build-head">
+                        <h3 class="insights__build-title">🚀 Performance Fix Engine</h3>
+                        <span class="insights__build-meta">
+                            Mobile {{ perf_fix_mobile }}/100 · Desktop {{ perf_fix_desktop }}/100
+                        </span>
+                    </header>
+
+                    {% if perf_fix_status != "no_data" %}
+                        <div class="insights__perf-fix-metrics">
+                            <div class="insights__perf-fix-metric">
+                                <span class="insights__perf-fix-metric-label">Issues Detected</span>
+                                <span class="insights__perf-fix-metric-value">{{ perf_fix_issues }}</span>
+                            </div>
+                            <div class="insights__perf-fix-metric">
+                                <span class="insights__perf-fix-metric-label">Fixes Applied</span>
+                                <span class="insights__perf-fix-metric-value insights__perf-fix-metric-value--success">{{ perf_fix_fixes }}</span>
+                            </div>
+                            {% if perf_fix_ga_organic.users > 0 %}
+                            <div class="insights__perf-fix-metric">
+                                <span class="insights__perf-fix-metric-label">Organic (7d)</span>
+                                <span class="insights__perf-fix-metric-value">{{ perf_fix_ga_organic.users }} users</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if perf_fix_changes | length > 0 %}
+                        <ol class="insights__perf-fix-changes" aria-label="Applied fixes">
+                            {% for change in perf_fix_changes %}
+                            <li class="insights__perf-fix-change">
+                                <span class="insights__perf-fix-change-type">{{ change.type }}</span>
+                                <span class="insights__perf-fix-change-msg">{{ change.message }}</span>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        {% endif %}
+
+                        <div class="insights__perf-fix-scores">
+                            <div class="insights__perf-fix-score">
+                                <span class="insights__perf-fix-score-label">Mobile</span>
+                                <div class="insights__perf-fix-score-bar">
+                                    <div class="insights__perf-fix-score-fill" style="width: {{ perf_fix_mobile }}%;"></div>
+                                </div>
+                                <span class="insights__perf-fix-score-value">{{ perf_fix_mobile }}</span>
+                            </div>
+                            <div class="insights__perf-fix-score">
+                                <span class="insights__perf-fix-score-label">Desktop</span>
+                                <div class="insights__perf-fix-score-bar">
+                                    <div class="insights__perf-fix-score-fill" style="width: {{ perf_fix_desktop }}%;"></div>
+                                </div>
+                                <span class="insights__perf-fix-score-value">{{ perf_fix_desktop }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="insights__build-empty">
+                            Workflow <code>auto-performance-fix.yml</code> sẽ cập nhật
+                            sau lần chạy đầu tiên (schedule hằng ngày 03:00 UTC).
+                        </p>
+                    {% endif %}
+
+                    <footer class="insights__build-foot">
+                        <a class="insights__source"
+                           href="https://github.com/Banhang-Chogao/zola/actions/workflows/auto-performance-fix.yml"
+                           target="_blank" rel="noopener">
+                            Workflow : auto-performance-fix.yml
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                        {% if perf_fix_timestamp %}
+                        <time datetime="{{ perf_fix_timestamp }}">Cập nhật {{ dt::display_datetime(value=perf_fix_timestamp) }}</time>
                         {% endif %}
                     </footer>
                 </div>

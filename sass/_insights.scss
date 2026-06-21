@@ -1522,6 +1522,117 @@ main.container:has(.insights) {
   }
 }
 
+/* Auto Performance Fix Engine — Light Mode */
+.insights__perf-fix-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.insights__perf-fix-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.insights__perf-fix-metric-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.insights__perf-fix-metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.insights__perf-fix-metric-value--success {
+  color: #16a34a;
+}
+
+.insights__perf-fix-changes {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.insights__perf-fix-change {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.insights__perf-fix-change-type {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background: #dbeafe;
+  color: #0c4a6e;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.insights__perf-fix-change-msg {
+  color: #334155;
+}
+
+.insights__perf-fix-scores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.insights__perf-fix-score {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.insights__perf-fix-score-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.insights__perf-fix-score-bar {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.insights__perf-fix-score-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.insights__perf-fix-score-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
 /* ============= DARK MODE ============= */
 @media (prefers-color-scheme: dark) {
   .insights__period-range { color: $brand-fog; }
@@ -1665,5 +1776,20 @@ main.container:has(.insights) {
   .insights__domains-foot {
     border-top-color: #334155;
     code { background: $brand-ink-900; color: $brand-ink-300; }
+  }
+
+  /* Auto Performance Fix Engine */
+  .insights__perf-fix {
+    background: $brand-ink-900;
+    .insights__perf-fix-metrics { border-color: #334155; }
+    .insights__perf-fix-metric-label { color: $brand-ink-400; }
+    .insights__perf-fix-metric-value { color: $brand-fog; }
+    .insights__perf-fix-metric-value--success { color: #86efac; }
+    .insights__perf-fix-change-type { color: #60a5fa; }
+    .insights__perf-fix-change-msg { color: $brand-ink-400; }
+    .insights__perf-fix-score-label { color: $brand-ink-400; }
+    .insights__perf-fix-score-value { color: $brand-fog; }
+    .insights__perf-fix-score-bar { background: $brand-ink-800; }
+    .insights__perf-fix-score-fill { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
   }
 }
