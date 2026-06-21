@@ -1424,6 +1424,12 @@
         {% endif %}
 
         <div class="container site-footer__main">
+            <div class="site-footer__left">
+                <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
+                   title="Cấu hình đếm ngược footer">
+                    ⏱ Countdown
+                </a>
+            </div>
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
                 <p class="site-footer__legal">
