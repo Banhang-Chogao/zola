@@ -548,6 +548,35 @@
     "external_count": 0,
     "internal_count": 4
   },
+  "content/posting/cac-lenh-git-dua-blog-len-production.md": {
+    "external": [
+      {
+        "title": "GitHub CLI",
+        "url": "https://cli.github.com/manual",
+        "kind": "external"
+      },
+      {
+        "title": "tài liệu chính thức của Git",
+        "url": "https://git-scm.com/doc",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "case study fix QA Gatekeeper GitHub Actions",
+        "url": "https://seomoney.org/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "viết blog bằng local terminal khi AI hết credit",
+        "url": "https://seomoney.org/posting/viet-blog-bang-local-terminal-khi-ai-het-credit/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub CLI và tài liệu chính thức của Git. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 2
+  },
   "content/posting/cach-mo-tai-khoan-ngan-hang-so-online.md": {
     "external": [
       {
@@ -6792,6 +6821,35 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Ngân hàng Nhà nước và website VietinBank. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
     "internal_count": 4
+  },
+  "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md": {
+    "external": [
+      {
+        "title": "GitHub CLI",
+        "url": "https://cli.github.com/",
+        "kind": "external"
+      },
+      {
+        "title": "tài liệu chính thức của Zola",
+        "url": "https://www.getzola.org/documentation/getting-started/cli-usage",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "case study fix QA Gatekeeper GitHub Actions",
+        "url": "https://seomoney.org/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "bài giải thích các lệnh Git đưa blog lên production",
+        "url": "https://seomoney.org/posting/cac-lenh-git-dua-blog-len-production/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub CLI và tài liệu chính thức của Zola. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 2
   },
   "content/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang.md": {
     "external": [
