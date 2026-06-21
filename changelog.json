@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "fix(seo): restyle fallback OG card — red CTA, editorial, Vietnamese-safe font [fix/og-fallback-red-editorial-clean]",
+      "tag": "fix",
+      "lines_added": 60,
+      "lines_removed": 46,
+      "highlights": [
+        "static/img/og-manifest.json (modified, +1/-1)",
+        "static/img/og/seomoney-og.og.webp (modified, +0/-0)",
+        "static/img/og/seomoney-og.svg (modified, +59/-45)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 708
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(tools): restore F/H/L/O dashboard routes removed by #653 + V30 guard [claude/nice-planck-9stwce]",
       "tag": "fix",
       "lines_added": 20280,
