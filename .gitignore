@@ -36,3 +36,13 @@ content/feed-anchor-*.md
 content/posting/feed-anchor-*.md
 
 node_modules/
+
+# V18: Vaccine/QA runtime artifacts — volatile state/log files, never commit
+data/vaccine-autofixer-state.json
+data/vaccine-autofixer.log
+data/vaccine-hotfix-state.json
+data/vaccine-hotfix.log
+data/qa-rule-checker-state.json
+data/autofix-conflicts-state.json
+reports/rule-conflict-report.json
+reports/rule-conflict-report.md

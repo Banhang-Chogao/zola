@@ -1244,7 +1244,7 @@ fenced blocks.
   (no token leak in status · supervip-only export · invalid sid denied · masked default /
   reveal full · env preferred over KV · missing token → clear 404).
 
-#### V25 — "On This Page" TOC rail: blog posts need the sticky scroll-spy right rail (B-DNA pattern)
+#### V26 — "On This Page" TOC rail: blog posts need the sticky scroll-spy right rail (B-DNA pattern)
 
 > UI vaccine (not a workflow-run bug — the post builds, the guard protects the rail).
 > Match the signature → keep the scoped partial + scroll-spy JS; never ship a raw rail
