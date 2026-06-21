@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["github actions", "qa gatekeeper", "ci cd", "zola", "debug", "merge conflict", "regression test"]
 
 [extra]
-thumbnail = "/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.jpg"
+thumbnail = "/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.webp"
 seo_keyword = "fix QA Gatekeeper GitHub Actions"
 featured = false
 +++
