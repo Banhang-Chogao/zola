@@ -2,6 +2,16 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "replace Tera unsupported default(value=[]) with conditional assignment",
+      "tag": "fix",
+      "lines_added": 168,
+      "lines_removed": 88,
+      "highlights": [],
+      "commit": "8b8d333b8533",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(wip8): merge theodoi8 into wip8 (single WIP + live CI shortcut)",
       "tag": "chore",
       "lines_added": 300,
