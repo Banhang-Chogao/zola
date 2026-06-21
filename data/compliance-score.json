@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T15:58:24Z",
+  "updated_at": "2026-06-21T16:05:31Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "836/868 in range"
+          "detail": "839/871 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "844/868 complete"
+          "detail": "847/871 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "866/868 set"
+          "detail": "869/871 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "865/868 single H1"
+          "detail": "868/871 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "867/868 with lang"
+          "detail": "870/871 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "867/868 ready"
+          "detail": "870/871 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "866/868 pages"
+          "detail": "869/871 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "fail",
-          "detail": "6/868 pages covered"
+          "detail": "6/871 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "215/215 articles"
+          "detail": "216/216 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "209/215 tagged"
+          "detail": "210/216 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "213/215 substantive"
+          "detail": "214/216 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "12 broken / 885 unique",
+          "detail": "12 broken / 888 unique",
           "broken": [
             {
               "source_page": "/404.html",
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "862/868 pages"
+          "detail": "865/871 pages"
         },
         {
           "label": "Skip navigation",
@@ -404,24 +404,24 @@
       "text": "Structure: Heading focus"
     }
   ],
-  "pages_scanned": 868,
-  "articles_scanned": 222,
+  "pages_scanned": 871,
+  "articles_scanned": 223,
   "fix_log": [
     {
       "category": "Media",
       "label": "Image descriptions",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (6/868 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-21T15:58:24Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (6/871 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-21T16:05:31Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 1754 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /admin-author/ (Target not found in public/ after zola build); public/404.html → /admin-countdown/ (Target not found in public/ after zola build); public/about/index.html → /admin-author/ (Target not found in public/ after zola build)",
-      "at": "2026-06-21T15:58:24Z"
+      "message": "Còn 1760 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /admin-author/ (Target not found in public/ after zola build); public/404.html → /admin-countdown/ (Target not found in public/ after zola build); public/about/index.html → /admin-author/ (Target not found in public/ after zola build)",
+      "at": "2026-06-21T16:05:31Z"
     }
   ],
   "fix_summary": {

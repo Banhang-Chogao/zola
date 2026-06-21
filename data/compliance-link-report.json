@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-21T15:58:24Z",
+  "updated_at": "2026-06-21T16:05:31Z",
   "summary": {
     "broken_count": 12,
-    "checked_unique": 885,
+    "checked_unique": 888,
     "status": "fail"
   },
   "links": [
@@ -2187,6 +2187,24 @@
     {
       "source_page": "/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog/",
       "source_file": "public/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog/index.html",
+      "href": "https://seomoney.org/admin-countdown/",
+      "target": "/admin-countdown/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer/",
+      "source_file": "public/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer/index.html",
+      "href": "https://seomoney.org/admin-author/",
+      "target": "/admin-author/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer/",
+      "source_file": "public/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer/index.html",
       "href": "https://seomoney.org/admin-countdown/",
       "target": "/admin-countdown/",
       "status": "404",
@@ -7036,6 +7054,24 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/tags/case-study/",
+      "source_file": "public/tags/case-study/index.html",
+      "href": "https://seomoney.org/admin-author/",
+      "target": "/admin-author/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/case-study/",
+      "source_file": "public/tags/case-study/index.html",
+      "href": "https://seomoney.org/admin-countdown/",
+      "target": "/admin-countdown/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/tags/cashback/",
       "source_file": "public/tags/cashback/index.html",
       "href": "https://seomoney.org/admin-author/",
@@ -14733,6 +14769,24 @@
     {
       "source_page": "/tags/vaccine-autofixer/",
       "source_file": "public/tags/vaccine-autofixer/index.html",
+      "href": "https://seomoney.org/admin-countdown/",
+      "target": "/admin-countdown/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/vaccine-hotfix/",
+      "source_file": "public/tags/vaccine-hotfix/index.html",
+      "href": "https://seomoney.org/admin-author/",
+      "target": "/admin-author/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/tags/vaccine-hotfix/",
+      "source_file": "public/tags/vaccine-hotfix/index.html",
       "href": "https://seomoney.org/admin-countdown/",
       "target": "/admin-countdown/",
       "status": "404",
