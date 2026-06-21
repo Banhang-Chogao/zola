@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-21T04:19:05Z",
+  "updated_at": "2026-06-21T04:40:14Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 10,
+    "today": 11,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "feature": 91,
       "fix": 45,
-      "feature": 90,
       "unknown": 41,
       "chore": 11,
-      "content": 9,
+      "content": 8,
       "ci": 3,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 612,
+      "pr_title": "feat(tools): add PR Sentinel CI radar",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/612",
+      "merged_at": "2026-06-21T04:35:28Z",
+      "merge_commit_sha": "34a12225c27511c8e8a2b16e1862fa7cae2bbe16",
+      "merge_commit_short": "34a1222",
+      "head_branch": "feat/pr-sentinel-ci-radar",
+      "summary_vi": "Add /tools/pr-sentinel/ dashboard for open PRs and CI status using static JSON.",
+      "change_type": "feature",
+      "files_changed": 9,
+      "additions": 509,
+      "deletions": 4,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 878,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27893634787",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 611,
       "pr_title": "fix: avoid secret scanner false positive in GA tests [vaccine-hotfix/claude-busy-curie-wrig6g]",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 877,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27893144524",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 608,
@@ -643,9 +662,9 @@
       "deletions": 951,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 848,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871834388",
-      "build_conclusion": "failure"
+      "build_run_number": 854,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27872369060",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 551,
@@ -662,9 +681,9 @@
       "deletions": 647,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 848,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871834388",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 555,
@@ -3795,25 +3814,6 @@
       "files_changed": 11,
       "additions": 767,
       "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 376,
-      "pr_title": "content(series): Bài 2 — AdSense, SEO, Uranium foundation",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/376",
-      "merged_at": "2026-06-17T23:34:12Z",
-      "merge_commit_sha": "e9c312d3460d206f821f630a7acb1e0519e30523",
-      "merge_commit_short": "e9c312d",
-      "head_branch": "series/content-batch-1-adsense-seo-uranium-p2",
-      "summary_vi": "Batch 1 — **Bài 2/15, 2/15, 2/5** cho ba series đang dở:",
-      "change_type": "content",
-      "files_changed": 10,
-      "additions": 915,
-      "deletions": 9,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
