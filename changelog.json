@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "docs(operator): Phase 1 shortcut grouping and quickstart guides",
+      "tag": "chore",
+      "lines_added": 536,
+      "lines_removed": 1,
+      "highlights": [
+        "Keep Phase 1 only",
+        "Add/update operator shortcut grouping docs",
+        "Add bilingual operator quickstart decision flows",
+        "Add UI layout sketches for future Phase 2",
+        "No dashboard, manifest, alias infrastructure, shortcut search/filter, Admin Zone PDF wiring"
+      ],
+      "pr": 651
+    },
+    {
+      "date": "2026-06-21",
       "title": "content(tech): add Git push rejected and QA workflow guide [claude/tender-einstein-4zz7uf]",
       "tag": "chore",
       "lines_added": 3459,
