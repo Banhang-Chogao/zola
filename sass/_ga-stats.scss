@@ -170,6 +170,21 @@
     .ga-stats__health-btn { background: #b3261e; &:hover { filter: brightness(0.93); } }
   }
 
+  /* ===== Section header (for subsections like "Organic Search") ===== */
+  &__section {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--ga-border);
+  }
+  &__section-title {
+    font-family: $font-heading;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ga-ink);
+    margin: 0 0 0.75rem;
+  }
+
   /* ===== KPI grids ===== */
   &__grid {
     display: grid;
@@ -179,6 +194,11 @@
   &__grid--extended {
     grid-template-columns: repeat(5, 1fr);
     margin-top: 0.85rem;
+    gap: 0.7rem;
+  }
+  &__grid--organic {
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 0.7rem;
     gap: 0.7rem;
   }
 
@@ -263,6 +283,63 @@
   }
 }
 
+/* ===== Channel breakdown widget ===== */
+.ga-channels {
+  --ga-primary: #003784;
+  --ga-tint: #eef3fb;
+  --ga-border: #e8e8e8;
+  --ga-body: #333a44;
+  --ga-muted: #6b7280;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr 120px 80px;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.85rem;
+    background: var(--ga-tint);
+    border: 1px solid var(--ga-border);
+    border-radius: 10px;
+  }
+
+  &__name {
+    font-family: $font-ui;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ga-body);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__bar-wrapper {
+    height: 6px;
+    background: #dce6f4;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  &__bar {
+    height: 100%;
+    background: var(--ga-primary);
+    border-radius: 3px;
+    transition: width .3s ease;
+  }
+
+  &__metric {
+    font-family: $font-meta;
+    font-size: 0.7rem;
+    color: var(--ga-muted);
+    text-align: right;
+  }
+}
+
 /* ===== GA STATS — MOBILE (≤720px) ===== */
 @media (max-width: 720px) {
   .ga-stats {
@@ -270,8 +347,10 @@
     padding: 1.1rem 1rem 0.95rem;
     border-radius: 14px;
     &__title { font-size: 1.05rem; }
+    &__section-title { font-size: 0.9rem; }
     &__grid { gap: 0.55rem; }
     &__grid--extended { grid-template-columns: repeat(3, 1fr); margin-top: 0.55rem; gap: 0.5rem; }
+    &__grid--organic { grid-template-columns: repeat(2, 1fr); margin-top: 0.55rem; gap: 0.5rem; }
     &__cell { padding: 0.75rem 0.6rem; }
     &__cell--mini { padding: 0.6rem 0.45rem; }
     &__num { font-size: 1.55rem; }
@@ -280,10 +359,21 @@
     &__health { padding: 0.8rem 0.9rem; }
     &__health-btn { flex: 1 1 100%; text-align: center; }
   }
+
+  .ga-channels__item {
+    grid-template-columns: 1fr 100px;
+    gap: 0.5rem;
+  }
+  .ga-channels__bar-wrapper {
+    display: none;
+  }
 }
 @media (max-width: 420px) {
   .ga-stats__grid { grid-template-columns: 1fr 1fr; }
   .ga-stats__grid--extended { grid-template-columns: 1fr 1fr; }
+  .ga-stats__grid--organic { grid-template-columns: 1fr 1fr; }
+  .ga-channels__item { grid-template-columns: 1fr 80px; gap: 0.5rem; }
+  .ga-channels__bar-wrapper { display: none; }
 }
 
 /* ============================================================
