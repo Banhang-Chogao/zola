@@ -1,8 +1,5 @@
-# robots.txt — Blog "SEOMONEY" (Zola SSG, GitHub Pages)
-# https://seomoney.org/
-#
-# SEO-safe: Allow search/ads crawlers; disallow utility paths only.
-# GitHub Pages = static host → robots chỉ hướng dẫn crawl, không chặn truy cập.
+# robots.txt — Blog SEOMONEY
+# SEO-safe: allow public crawling; disallow internal/admin/report surfaces only.
 
 User-agent: Googlebot
 Allow: /
@@ -22,13 +19,5 @@ Allow: /
 User-agent: *
 Allow: /
 
-# Utility / admin — không cần index
-Disallow: /editor/
-Disallow: /admin-author/
-Disallow: /admin/paywall/
-
-# Báo cáo nội bộ (đã backend-gated; robots bổ sung tín hiệu)
-Disallow: /data/reports/
-Disallow: /data/
 
 Sitemap: https://seomoney.org/sitemap.xml
