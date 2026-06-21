@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "header/menu regression: navbar to right with 2-item max",
+      "tag": "fix",
+      "lines_added": 39,
+      "lines_removed": 12,
+      "highlights": [
+        "Move navbar menu from hidden (display: none) to visible with flex layout",
+        "Position navbar menu on right side using margin-left: auto",
+        "Limit visible menu items to max 2 using nth-child(n+3) { display: none }",
+        "Hide navbar menu on mobile/tablet (≤960px) to prevent duplication",
+        "Add proper styling for navbar items with padding and hover effects"
+      ],
+      "pr": 670
+    },
+    {
+      "date": "2026-06-21",
       "title": "vaccine cheat sheet to static for public deployment",
       "tag": "refactor",
       "lines_added": 0,
