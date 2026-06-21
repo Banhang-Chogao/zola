@@ -2275,88 +2275,6 @@ def _config_base_url(ctx: Ctx) -> str:
     return ""
 
 
-def check_toc_rail_vaccine(ctx: Ctx) -> CheckResult:
-    """TOC-RAIL — the "On This Page" sticky article rail (scroll-spy) must render
-    a styled rail, keep its IntersectionObserver active-state engine, and stay
-    mobile-safe (hidden below the desktop breakpoint → no overflow).
-
-    Inspired by the B-DNA right rail; an ADDITIVE desktop enhancement layered on
-    top of the existing inline `.toc`. Static signals (no browser needed):
-      FAIL — the rail would not render / loses its scroll-spy:
-        * sass/_toc-rail.scss missing or not imported in site.scss;
-        * the partial lacks the rail (.toc-rail), the sticky behaviour, the
-          two-column `.post-layout` grid, or the `.is-active` highlight;
-        * templates/page.html lost the rail markup (data-toc-rail /
-          data-toc-link / the page.toc loop) or the toc-rail.js include;
-        * static/js/toc-rail.js missing or without IntersectionObserver.
-      WARN — renders but a resilience gap:
-        * rail not hidden by default (display:none) → mobile overflow risk;
-        * no desktop min-width media (rail could show where it squeezes prose).
-    """
-    title = "On-This-Page TOC rail (scroll-spy, mobile-safe)"
-    scss = ctx.read("sass/_toc-rail.scss")
-    site_scss = ctx.read("sass/site.scss") or ""
-    page = ctx.read("templates/page.html") or ""
-    js = ctx.read("static/js/toc-rail.js")
-
-    fails: list[str] = []
-    warns: list[str] = []
-
-    # 1) Styled partial exists and is wired into the bundle.
-    if not scss:
-        fails.append("sass/_toc-rail.scss vắng → rail không có CSS (raw/không hiện)")
-    elif not re.search(r'@import\s+["\']toc-rail["\']', site_scss):
-        fails.append('sass/site.scss thiếu @import "toc-rail" → partial không vào bundle')
-
-    # 2) Structure: rail card, sticky behaviour, 2-col layout, active highlight.
-    if scss:
-        if ".toc-rail" not in scss:
-            fails.append("_toc-rail.scss thiếu selector .toc-rail")
-        if not re.search(r"position\s*:\s*sticky", scss):
-            fails.append("_toc-rail.scss thiếu position:sticky → rail không bám khi cuộn")
-        if ".post-layout" not in scss or "grid-template-columns" not in scss:
-            fails.append("_toc-rail.scss thiếu grid .post-layout (bài + rail 2 cột)")
-        if "is-active" not in scss:
-            fails.append("_toc-rail.scss thiếu .is-active → không tô đậm mục đang đọc")
-        # mobile-safe (hidden by default) + desktop-only (min-width media)
-        if not re.search(r"\.toc-rail\s*\{[^}]*display\s*:\s*none", scss, re.S):
-            warns.append(".toc-rail không display:none mặc định → mobile có thể overflow")
-        if "min-width" not in scss:
-            warns.append("_toc-rail.scss thiếu @media min-width → rail có thể hiện ở màn hẹp")
-
-    # 3) Template markup contract + script include.
-    for needle, why in (
-        ("data-toc-rail", "rail container (data-toc-rail)"),
-        ("data-toc-link", "rail link / scroll-spy target (data-toc-link)"),
-        ("page.toc", "TOC sinh từ heading bài (page.toc)"),
-        ("toc-rail.js", "scroll-spy script include (toc-rail.js)"),
-    ):
-        if needle not in page:
-            fails.append(f"templates/page.html thiếu {why}")
-
-    # 4) The scroll-spy engine must be present (active state on scroll).
-    if not js:
-        fails.append("static/js/toc-rail.js vắng → không có active-state khi cuộn")
-    elif "IntersectionObserver" not in js:
-        fails.append("toc-rail.js thiếu IntersectionObserver → không highlight mục đang đọc")
-
-    if fails:
-        return CheckResult("TOC-RAIL", title, FAIL,
-                           diagnosis="rail TOC On-This-Page không render hoặc mất scroll-spy/markup",
-                           fix=('thêm/giữ sass/_toc-rail.scss (.toc-rail sticky + .post-layout grid + '
-                                '.is-active) và @import "toc-rail"; giữ markup data-toc-rail/data-toc-link/'
-                                'page.toc + include toc-rail.js (IntersectionObserver) trong page.html'),
-                           details=fails + warns)
-    if warns:
-        return CheckResult("TOC-RAIL", title, WARN,
-                           diagnosis="rail hoạt động nhưng còn khe hở mobile/responsive",
-                           fix="ẩn .toc-rail mặc định (display:none) + chỉ hiện trong @media min-width desktop",
-                           details=warns)
-    return CheckResult("TOC-RAIL", title, PASS,
-                       diagnosis="rail On-This-Page có CSS sticky + grid 2 cột + .is-active, "
-                                 "scroll-spy IntersectionObserver, markup + include đủ, ẩn an toàn ở mobile")
-
-
 def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
     """V20 — SEO Identity / Homepage Migration: brand + canonical root must hold.
 
@@ -2425,118 +2343,159 @@ def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
                                   "homepage carries SEOMONEY brand; BlogPosting schema present"))
 
 
-# --------------------------------------------------------------------------
-# V25 — Split-backend route parity (frontend ↔ deployed services/vipzone)
-# --------------------------------------------------------------------------
-# Render deploys ONLY services/vipzone (render.yaml rootDir). A frontend call to
-# blog-vipzone-api whose route lives only in services/visitor-counter returns 404
-# in production. These helpers statically collect the routes mounted on the
-# DEPLOYED app and compare them with the frontend's /cms/* and /gsc/* calls.
-_ROUTE_DECORATOR_RE = re.compile(
-    r"@(?:app|router)\.(?:get|post|put|delete|patch)\(", re.I)
-_PATH_LITERAL_RE = re.compile(r"""["'](/[A-Za-z0-9_\-/{}]*)["']""")
-
-# Route source files mounted onto the deployed services/vipzone app, with the
-# prefix each router contributes (gsc_routes is imported from visitor-counter and
-# mounted with prefix="/gsc"; cms_repo + cms_auth routers mount at root).
-_VIPZONE_ROUTE_SOURCES = (
-    ("services/vipzone/main.py", ""),
-    ("services/vipzone/cms_repo.py", ""),
-    ("services/vipzone/cms_auth.py", ""),
-    ("services/visitor-counter/gsc_routes.py", "/gsc"),
+# ----- GA (Google Analytics 4) stats module — V25 (post seomoney.org move) -----
+_GA_PROPERTY_ID = "542421812"
+_GA_MEASUREMENT_ID = "G-SMTFZVC0XN"
+_GA_OLD_PROPERTY_ID = "541698865"
+_GA_OLD_MEASUREMENT_ID = "G-REFBXH86Z5"
+_GA_CREDENTIAL_FIELDS = (
+    "private_key", "private_key_id", "client_email", "client_id",
+    "client_secret", "refresh_token", "access_token", "GA_SERVICE_ACCOUNT_KEY",
 )
-
-# Routes the production frontend depends on that MUST be served by services/vipzone.
-_V25_CRITICAL_ROUTES = ("/health", "/gsc/status", "/cms/save-post")
-
-
-def _route_family(path: str) -> str:
-    """Collapse a path to its first ≤2 non-parameter segments, e.g.
-    `/cms/giscus/setup` → `/cms/giscus`, `/gsc/oauth/start` → `/gsc/oauth`,
-    `/api/vipzone/content/{post_id}` → `/api/vipzone`."""
-    segs = [s for s in path.strip("/").split("/") if s and not s.startswith("{")]
-    return "/" + "/".join(segs[:2]) if segs else "/"
+# Files that legitimately reference the OLD ids to DETECT them — exempt from the
+# drift check (same pattern as V19 exempting dns_vaccine.py).
+_GA_DRIFT_EXEMPT = ("scripts/ga_vacxin.py", "scripts/qa_vaccines.py")
 
 
-def _extract_vipzone_routes(ctx: Ctx) -> set[str]:
-    """All route path templates mounted on the deployed services/vipzone app."""
-    routes: set[str] = set()
-    for rel, prefix in _VIPZONE_ROUTE_SOURCES:
-        txt = ctx.read(rel)
-        if not txt:
-            continue
-        for m in _ROUTE_DECORATOR_RE.finditer(txt):
-            tail = txt[m.end():m.end() + 400]
-            pm = _PATH_LITERAL_RE.search(tail)
-            if pm:
-                routes.add((prefix + pm.group(1)) or "/")
-    return routes
+def check_ga_stats_vaccine(ctx: Ctx) -> CheckResult:
+    """V25 — GA stats module identity, cache isolation, hourly GA Vacxin, banner.
 
+    After the seomoney.org domain move the footer GA module must read ONLY the new
+    GA4 property (542421812 · G-SMTFZVC0XN) and never surface old-property numbers.
 
-def _frontend_vipzone_calls(ctx: Ctx) -> set[str]:
-    """Literal `/cms/*` and `/gsc/*` paths the static JS calls (vipzone-only
-    prefixes). Skips template-literal / interpolated paths (contain `$`)."""
-    families: set[str] = set()
-    for js in ctx.glob("static/js/**/*.js"):
-        try:
-            txt = js.read_text(encoding="utf-8")
-        except OSError:
-            continue
-        for m in re.finditer(r"""["'](/(?:cms|gsc)/[A-Za-z0-9_\-/]*)["']""", txt):
-            path = m.group(1)
-            if "$" in path:
-                continue
-            families.add(_route_family(path))
-    return families
+    FAIL (wrong identity / cache leak / secret leak — would mislead or expose):
+      * config.toml ga_property_id / ga_measurement_id ≠ canonical
+      * scripts/fetch_ga_stats.py default PROPERTY_ID ≠ 542421812
+      * old 541698865 / G-REFBXH86Z5 in active GA config/code (not the guards)
+      * templates/base.html hardcodes a gtag measurement id (must be templated)
+      * data/ga-stats.json or data/ga-health.json stamped with a foreign property
+        or leaking a service-account credential field
 
-
-def check_v25_backend_route_parity(ctx: Ctx) -> CheckResult:
-    """V25 — every frontend route on blog-vipzone-api must exist on the DEPLOYED
-    services/vipzone app (Render deploys only that service). A route living only in
-    services/visitor-counter is dead in production → 404 split-brain (V16/V22b).
-
-    FAIL — a critical route (/health, /gsc/status, /cms/save-post) is not mounted
-           on services/vipzone (directly or via a mounted router).
-    WARN — a frontend /cms/* or /gsc/* family has no matching deployed route.
+    WARN (resilience / required feature wired):
+      * GA Vacxin hourly workflow (ga-vacxin.yml) missing or not hourly
+      * base.html missing the health root / inline warning banner
+      * static/js/ga-health.js missing or without a try/catch guard
+      * config.toml missing ga_dashboard_url / ga_fix_url
+      * data/ga-health.json missing required schema keys
     """
-    title = "Backend route parity (frontend ↔ deployed services/vipzone)"
-    routes = _extract_vipzone_routes(ctx)
-    if not routes:
-        return CheckResult("V25", title, SKIP,
-                           diagnosis="services/vipzone routes không đọc được")
+    title = "GA stats module (property 542421812 · cache isolation · GA Vacxin)"
+    fails: list[str] = []
+    warns: list[str] = []
 
-    families = {_route_family(r) for r in routes}
+    cfg = ctx.read("config.toml") or ""
 
-    # FAIL — critical routes must be present (param-insensitive family match).
-    missing_critical = [
-        r for r in _V25_CRITICAL_ROUTES
-        if r not in routes and _route_family(r) not in families
-    ]
-    if missing_critical:
+    def _cfg(key: str) -> str | None:
+        m = re.search(rf'^{key}\s*=\s*"([^"]+)"', cfg, re.MULTILINE)
+        return m.group(1) if m else None
+
+    if _cfg("ga_property_id") != _GA_PROPERTY_ID:
+        fails.append(f"config.toml ga_property_id = {_cfg('ga_property_id')!r} (phải là {_GA_PROPERTY_ID!r})")
+    if _cfg("ga_measurement_id") != _GA_MEASUREMENT_ID:
+        fails.append(f"config.toml ga_measurement_id = {_cfg('ga_measurement_id')!r} (phải là {_GA_MEASUREMENT_ID!r})")
+    if not _cfg("ga_dashboard_url"):
+        warns.append("config.toml thiếu ga_dashboard_url (nút Dashboard / Khắc phục)")
+    if not _cfg("ga_fix_url"):
+        warns.append("config.toml thiếu ga_fix_url")
+
+    # fetch script default property (env-overridable form or bare assignment)
+    fetch_src = ctx.read("scripts/fetch_ga_stats.py") or ""
+    fm = re.search(r'PROPERTY_ID\s*=\s*os\.environ\.get\(\s*["\']GA_PROPERTY_ID["\']\s*,\s*["\']([^"\']+)["\']', fetch_src)
+    if not fm:
+        fm = re.search(r'PROPERTY_ID\s*=\s*["\']([^"\']+)["\']', fetch_src)
+    if fm and fm.group(1) != _GA_PROPERTY_ID:
+        fails.append(f"fetch_ga_stats.py PROPERTY_ID default = {fm.group(1)!r} (phải là {_GA_PROPERTY_ID!r})")
+
+    # old-id drift in active GA config/code (exempt the detector + monitor guards)
+    for rel in ("config.toml", "scripts/fetch_ga_stats.py", "templates/base.html",
+                ".github/workflows/ga-stats.yml", ".github/workflows/ga-vacxin.yml"):
+        if rel in _GA_DRIFT_EXEMPT:
+            continue
+        src = ctx.read(rel) or ""
+        if _GA_OLD_PROPERTY_ID in src or _GA_OLD_MEASUREMENT_ID in src:
+            fails.append(f"{rel}: còn id GA cũ ({_GA_OLD_PROPERTY_ID}/{_GA_OLD_MEASUREMENT_ID}) → đọc property cũ")
+
+    # base.html: gtag must be templated, and the health module + banner present
+    base_html = ctx.read("templates/base.html") or ""
+    if re.search(r"gtag/js\?id=G-[A-Z0-9]{6,}", base_html):
+        fails.append("templates/base.html: gtag src hardcode measurement id (phải dùng config.extra.ga_measurement_id)")
+    if "data-ga-health" not in base_html:
+        warns.append("templates/base.html: thiếu data-ga-health (module GA health)")
+    if "data-ga-banner" not in base_html:
+        warns.append("templates/base.html: thiếu banner cảnh báo inline (data-ga-banner)")
+
+    # data/ga-stats.json: stamped with the current property only, no creds
+    raw_stats = ctx.read("data/ga-stats.json")
+    if raw_stats:
+        try:
+            stats = json.loads(raw_stats)
+        except json.JSONDecodeError:
+            fails.append("data/ga-stats.json không phải JSON hợp lệ")
+            stats = None
+        if isinstance(stats, dict):
+            spid = str(stats.get("property_id", ""))
+            if spid and spid != _GA_PROPERTY_ID:
+                fails.append(f"data/ga-stats.json property_id={spid} (kỳ vọng {_GA_PROPERTY_ID}) — rò rỉ property cũ")
+            if _GA_OLD_PROPERTY_ID in raw_stats:
+                fails.append(f"data/ga-stats.json còn dấu vết property cũ {_GA_OLD_PROPERTY_ID}")
+            leaked = [f for f in _GA_CREDENTIAL_FIELDS if f in stats]
+            if leaked:
+                fails.append(f"data/ga-stats.json rò rỉ trường bí mật: {leaked}")
+
+    # data/ga-health.json: schema + no creds + right property
+    raw_health = ctx.read("data/ga-health.json")
+    if raw_health is None:
+        warns.append("data/ga-health.json absent (GA Vacxin chưa chạy lần đầu)")
+    else:
+        try:
+            health = json.loads(raw_health)
+        except json.JSONDecodeError:
+            fails.append("data/ga-health.json không phải JSON hợp lệ")
+            health = None
+        if isinstance(health, dict):
+            leaked = [f for f in _GA_CREDENTIAL_FIELDS if f in health]
+            if leaked:
+                fails.append(f"data/ga-health.json rò rỉ trường bí mật: {leaked}")
+            hp = str(health.get("property_id", ""))
+            if hp and hp != _GA_PROPERTY_ID:
+                fails.append(f"data/ga-health.json property_id={hp} (kỳ vọng {_GA_PROPERTY_ID})")
+            missing = [k for k in ("status", "last_checked", "property_id") if k not in health]
+            if missing:
+                warns.append(f"data/ga-health.json thiếu schema keys: {missing}")
+
+    # GA Vacxin hourly workflow
+    wf = ctx.read(".github/workflows/ga-vacxin.yml")
+    if wf is None:
+        warns.append(".github/workflows/ga-vacxin.yml absent (GA Vacxin hourly job)")
+    elif not re.search(r"cron:\s*['\"]\s*\d+\s+\*\s+\*\s+\*\s+\*\s*['\"]", wf):
+        warns.append("ga-vacxin.yml: không thấy cron chạy mỗi giờ ('<m> * * * *')")
+
+    # ga-health.js present + crash-safe
+    js = ctx.read("static/js/ga-health.js")
+    if js is None:
+        warns.append("static/js/ga-health.js absent (refresh banner client-side)")
+    elif "try" not in js or "catch" not in js:
+        warns.append("static/js/ga-health.js thiếu try/catch (no-JS-crash guard)")
+
+    if fails:
         return CheckResult(
             "V25", title, FAIL,
-            diagnosis=("route quan trọng frontend gọi nhưng KHÔNG mount trên "
-                       "services/vipzone (deployed) → 404 production: "
-                       + ", ".join(missing_critical)),
-            fix=("Mount route trên services/vipzone (main.py @app.* hoặc router "
-                 "include_router) — KHÔNG để route chỉ nằm ở services/visitor-counter"),
-            details=missing_critical)
-
-    # WARN — frontend families with no deployed route (drift to fix, not a hard gate).
-    uncovered = sorted(
-        fam for fam in _frontend_vipzone_calls(ctx) if fam not in families)
-    if uncovered:
-        return CheckResult(
-            "V25", title, WARN,
-            diagnosis=("frontend gọi route /cms|/gsc chưa có trên services/vipzone "
-                       "(deployed) — có thể 404 production"),
-            fix=("Port các route này sang services/vipzone (mounted router); "
-                 "kiểm chứng bằng scripts/backend_route_check.py"),
-            details=uncovered)
-
-    return CheckResult("V25", title, PASS,
-                       diagnosis=(f"{len(routes)} route mounted on services/vipzone; "
-                                  "critical routes present; frontend /cms·/gsc calls covered"))
+            diagnosis="GA module sai property/measurement, rò rỉ cache cũ, hoặc lộ credential",
+            fix=(f"1. config.toml ga_property_id={_GA_PROPERTY_ID}, ga_measurement_id={_GA_MEASUREMENT_ID}. "
+                 f"2. fetch_ga_stats.py PROPERTY_ID mặc định {_GA_PROPERTY_ID}. "
+                 f"3. Gỡ id cũ {_GA_OLD_PROPERTY_ID}/{_GA_OLD_MEASUREMENT_ID} khỏi config/code. "
+                 "4. Reset data/ga-stats.json sang property mới; KHÔNG commit credential."),
+            details=fails + warns,
+        )
+    if warns:
+        return CheckResult("V25", title, WARN,
+                           diagnosis="GA module đúng property nhưng thiếu thành phần phụ trợ",
+                           fix="Bổ sung các mục WARN ở trên (workflow hourly / banner / health js / schema).",
+                           details=warns)
+    return CheckResult(
+        "V25", title, PASS,
+        diagnosis=(f"property {_GA_PROPERTY_ID} · {_GA_MEASUREMENT_ID} · GA Vacxin hourly · "
+                   "cache isolated · no credential leak"),
+    )
 
 
 # Vaccine numbers that are *intentionally* documented more than once in CLAUDE.md:
@@ -2643,9 +2602,8 @@ DETECTORS = [
     check_og_image_vaccine,
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
-    check_toc_rail_vaccine,
     check_v20_seo_identity_homepage,
-    check_v25_backend_route_parity,
+    check_ga_stats_vaccine,
     check_vaccine_registry_integrity,
 ]
 
