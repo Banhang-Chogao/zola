@@ -1,25 +1,63 @@
 {
-  "updated_at": "2026-06-21T16:14:11Z",
+  "updated_at": "2026-06-21T16:42:42Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 70,
+    "today": 72,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 55,
+      "unknown": 42,
+      "fix": 54,
       "feature": 79,
       "ci": 4,
-      "unknown": 41,
       "chore": 13,
       "content": 7,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 681,
+      "pr_title": "SEO11: thêm meta description + seo_keyword cho 2 trang còn thiếu",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/681",
+      "merged_at": "2026-06-21T16:41:36Z",
+      "merge_commit_sha": "715b2e165677691a955ad81ce21accd95e3f5ef6",
+      "merge_commit_short": "715b2e1",
+      "head_branch": "claude/practical-allen-e9bwfr",
+      "summary_vi": "Phase 1 (bulk meta-fix) của SEO11 hybrid audit — vá 2 gap content-level duy nhất mà check_content_seo.py phát hiện (template SEO đã 100/100):",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 679,
+      "pr_title": "SEO + AdSense Strategy Hotfix: Canonicalization, GSC Persistence, Reader-Supported Model",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/679",
+      "merged_at": "2026-06-21T16:37:38Z",
+      "merge_commit_sha": "f5042fd7354afd4d6a89e4a4d16b82a2b0e710e0",
+      "merge_commit_short": "f5042fd",
+      "head_branch": "claude/stoic-bardeen-4hn31k",
+      "summary_vi": "Comprehensive SEO + AdSense strategy hotfix for seomoney.org addressing canonical enforcement, GSC token persistence, premium wording, and content quality validation. Five-phase implementation with automated QA gates.",
+      "change_type": "unknown",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 678,
       "pr_title": "fix(vaccine-hotfix): claude/amazing-goldberg-9hwo4r",
@@ -35,9 +73,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 934,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27910038097",
-      "build_conclusion": "pending"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 677,
@@ -54,9 +92,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 933,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909889774",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 675,
@@ -73,9 +111,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 932,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909723202",
-      "build_conclusion": "in_progress"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 674,
@@ -92,9 +130,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 931,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909686213",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 673,
@@ -111,9 +149,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 930,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909550235",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 670,
@@ -130,9 +168,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 929,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909216173",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 669,
@@ -149,9 +187,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 928,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909129817",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 667,
@@ -168,9 +206,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 926,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27908950745",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 668,
@@ -187,9 +225,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 925,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27908941691",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 666,
@@ -206,9 +244,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 924,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27908578528",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 664,
@@ -225,9 +263,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 922,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27908456036",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 663,
@@ -244,9 +282,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 921,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27908311100",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 662,
@@ -263,9 +301,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 920,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27907285170",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 661,
@@ -282,9 +320,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 919,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27907244676",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 658,
@@ -301,9 +339,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 918,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27907214617",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 659,
@@ -320,9 +358,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 916,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906954443",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 657,
@@ -339,9 +377,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 915,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906757702",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 656,
@@ -358,9 +396,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 914,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906740372",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 660,
@@ -377,9 +415,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 913,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906350579",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 654,
@@ -396,9 +434,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 912,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27905950091",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 652,
@@ -415,9 +453,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 911,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27905681039",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 653,
@@ -434,9 +472,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 910,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27905525287",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 651,
@@ -453,9 +491,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 909,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27905145564",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 650,
@@ -472,9 +510,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 908,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904966850",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 648,
@@ -491,9 +529,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 907,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904834648",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 649,
@@ -510,9 +548,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 905,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904525849",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 647,
@@ -529,9 +567,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 908,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904966850",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 646,
@@ -548,9 +586,9 @@
       "deletions": null,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 907,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904834648",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 645,
@@ -3773,44 +3811,6 @@
       "head_branch": "claude/seo-1j0frj",
       "summary_vi": "Gom batch thay đổi từ phiên làm việc hiện tại vào nhánh chung `claude/seo-1j0frj`.",
       "change_type": "feature",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 446,
-      "pr_title": "hotfix(h-dashboard): fix OCR stuck on worker/WASM init",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/446",
-      "merged_at": "2026-06-18T20:08:39Z",
-      "merge_commit_sha": "a7b3eea20e33ed56a84432ddb1bce7c74567f651",
-      "merge_commit_short": "a7b3eea",
-      "head_branch": "hotfix/h-dashboard-ocr-stuck",
-      "summary_vi": "OCR invoice upload page stuck at \"Đang tải bộ nhận dạng chữ (OCR)...\" when uploading scanned PDF invoices.",
-      "change_type": "fix",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 445,
-      "pr_title": "policy: task priority (P0 user > P1 background)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/445",
-      "merged_at": "2026-06-18T16:07:14Z",
-      "merge_commit_sha": "8d33d95f076a96c35fd1cf329de63117c7ea2a95",
-      "merge_commit_short": "8d33d95",
-      "head_branch": "policy/task-priority",
-      "summary_vi": "Task Priority Policy in CLAUDE.md + simulation tests (3/3 pass).",
-      "change_type": "unknown",
       "files_changed": null,
       "additions": null,
       "deletions": null,

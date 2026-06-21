@@ -2,6 +2,33 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "SEO11: thêm meta description + seo_keyword cho 2 trang còn thiếu",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 0,
+      "highlights": [
+        "content/posting/ai-thay-doi-lap-ke-hoach-du-lich.md: thêm meta description (148 ký tự, chứa keyword chính) + [extra] seo_keyword \"AI lập kế hoạch du lịch\" (vốn đã xuất hiện ở title/intro/H2) → điểm SE",
+        "content/topic/_index.md: thêm description cho section hub Topic Pillars."
+      ],
+      "pr": 681
+    },
+    {
+      "date": "2026-06-21",
+      "title": "SEO + AdSense Strategy Hotfix: Canonicalization, GSC Persistence, Reader-Supported Model",
+      "tag": "chore",
+      "lines_added": 912,
+      "lines_removed": 215,
+      "highlights": [
+        "robots.txt: Expanded disallow rules from 3 to 19 utility paths (editor, admin, cms, dashboards, tools, GSC, etc.)",
+        "base.html: Query string stripping on canonical URLs; auto-detect noindex for utility routes",
+        "page.html: Added noindex frontmatter flag support",
+        "section.html: Noindex logic for thin tags (≤1 post) and utility sections",
+        "paywall.html: Changed \"Bài viết premium — cần thanh toán để mở khóa nội dung\" → \"Premium bài viết — Ủng hộ tác giả qua reader-supported model\""
+      ],
+      "pr": 679
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(shortcut): add dantri inspired blog writing shortcut",
       "tag": "chore",
       "lines_added": 108,
