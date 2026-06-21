@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-21T16:06:35Z",
+  "updated_at": "2026-06-21T16:11:34Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 68,
+    "today": 69,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 55,
-      "feature": 78,
+      "feature": 79,
+      "fix": 54,
       "ci": 4,
       "unknown": 42,
       "chore": 13,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 677,
+      "pr_title": "feat(shortcut): add dantri inspired blog writing shortcut",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/677",
+      "merged_at": "2026-06-21T16:04:57Z",
+      "merge_commit_sha": "a51f9bf0eb888def7dbd00d8b26f14a6ea059441",
+      "merge_commit_short": "a51f9bf",
+      "head_branch": "claude/hopeful-rubin-g4t52d",
+      "summary_vi": "Add new shortcut `dantri` to enable users to paste source content (article, link + excerpt) and have Claude rewrite it as a new blog post with original phrasing, human tone, 1000+ words, SEO-optimized, including personal",
+      "change_type": "feature",
+      "files_changed": 2,
+      "additions": 108,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 933,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909889774",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 675,
       "pr_title": "fix(vaccine-hotfix): required_checks_fail-27909216150",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 932,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909723202",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 674,
@@ -75,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 930,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27909550235",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 670,
@@ -510,9 +529,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 903,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904207546",
-      "build_conclusion": "failure"
+      "build_run_number": 907,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904834648",
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 645,
@@ -3795,25 +3814,6 @@
       "files_changed": 5,
       "additions": 112,
       "deletions": 24,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 443,
-      "pr_title": "fix: improve mobile responsive UX (Momo-inspired)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/443",
-      "merged_at": "2026-06-18T15:56:24Z",
-      "merge_commit_sha": "925900dee74d0a3995ed8c0af8e18c2e2a5a15f0",
-      "merge_commit_short": "925900d",
-      "head_branch": "fix/responsive-momo-mobile-ux",
-      "summary_vi": "Safe mobile-first responsive improvements inspired by momo.vn/blog.",
-      "change_type": "fix",
-      "files_changed": 5,
-      "additions": 86,
-      "deletions": 27,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
