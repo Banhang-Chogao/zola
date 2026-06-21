@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-21T13:02:04Z",
+  "updated_at": "2026-06-21T13:07:17Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 47,
+    "today": 48,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "ci": 4,
+      "unknown": 44,
+      "ci": 3,
       "feature": 83,
-      "unknown": 43,
       "chore": 17,
       "fix": 45,
       "content": 7,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 651,
+      "pr_title": "docs(operator): Phase 1 shortcut grouping and quickstart guides",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/651",
+      "merged_at": "2026-06-21T13:00:53Z",
+      "merge_commit_sha": "512f150360b94259c5ef4f3d4f69b767e979bf1a",
+      "merge_commit_short": "512f150",
+      "head_branch": "claude/optimistic-goldberg-r4pg2j",
+      "summary_vi": "- Add/update operator shortcut grouping docs",
+      "change_type": "unknown",
+      "files_changed": 3,
+      "additions": 536,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 909,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27905145564",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 650,
       "pr_title": "content(tech): add Git push rejected and QA workflow guide [claude/tender-einstein-4zz7uf]",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 908,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904966850",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 648,
@@ -700,9 +719,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 879,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27894963038",
-      "build_conclusion": "success"
+      "build_run_number": 883,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27895522798",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 612,
@@ -3795,25 +3814,6 @@
       "files_changed": 4,
       "additions": 87,
       "deletions": 23,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 423,
-      "pr_title": "docs: vaccine V5 — deploy configure-pages rate limit",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/423",
-      "merged_at": "2026-06-18T12:20:24Z",
-      "merge_commit_sha": "19b8a938c1f6d84f2b0b6d0b96bbe3e25d074197",
-      "merge_commit_short": "19b8a93",
-      "head_branch": "claude/awesome-brown-u90pas",
-      "summary_vi": "Ghi **vaccine V5** vào thư viện vaccine trong `CLAUDE.md` (theo yêu cầu user) — để lần sau tra được lỗi rate-limit deploy.",
-      "change_type": "ci",
-      "files_changed": 1,
-      "additions": 19,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
