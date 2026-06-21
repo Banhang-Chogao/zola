@@ -779,7 +779,31 @@ def main():
     # LAST — the mandatory production-safety barrier from the CLAUDE.md vaccines.
     vaccine_failed = run_vaccine_gate(args)
 
-    return 1 if (errors or vaccine_failed) else 0
+    # Public-surface security gate (source scan): no private/internal files or
+    # secret VALUES on content/ + static/. The authoritative full scan (incl.
+    # the built public/ + sitemap) runs as a dedicated qa.yml step after the
+    # build; here we give local `python3 qa_check.py` the same early signal.
+    # Fail-CLOSED on real findings; fail-OPEN only if the module can't load — a
+    # tooling hiccup must not brick every push (the qa.yml step is the backstop).
+    security_failed = False
+    try:
+        sys.path.insert(0, str(REPO_ROOT / "scripts"))
+        import security_public_audit as spa
+        sec_errors = [f for f in spa.audit_public_surface(REPO_ROOT, include_public=False)
+                      if f.level == "error"]
+        print()
+        print(BOLD("Security Public Audit (source surface)"))
+        for f in sec_errors:
+            print(f.render())
+        if sec_errors:
+            print(RED(BOLD(f"✗ {len(sec_errors)} public exposure(s) — see docs/security-static-blog.md")))
+            security_failed = True
+        else:
+            print(GREEN("✓ No private/internal files or secret values on the public source surface"))
+    except Exception as e:  # tooling hiccup — the qa.yml audit step is the backstop
+        print(YELLOW(f"⚠ security_public_audit skipped: {e}"))
+
+    return 1 if (errors or vaccine_failed or security_failed) else 0
 
 
 if __name__ == "__main__":
