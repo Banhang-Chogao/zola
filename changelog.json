@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "Hide duplicate navbar menu since items now in side-nav [claude/adoring-archimedes-6jhi8o]",
+      "tag": "fix",
+      "lines_added": 242,
+      "lines_removed": 0,
+      "highlights": [
+        "Di chuyển menu chính sang sidebar bên phải",
+        "fix: add missing admin-countdown.js for footer countdown preview",
+        "Fix: Hide duplicate navbar menu since items now in side-nav",
+        "sass/_side-nav.scss (modified, +5/-0)",
+        "static/js/admin-countdown.js (added, +196/-0)"
+      ],
+      "pr": 664
+    },
+    {
+      "date": "2026-06-21",
       "title": "add missing admin-countdown.js for footer countdown preview [claude/adoring-archimedes-6jhi8o]",
       "tag": "fix",
       "lines_added": 237,
