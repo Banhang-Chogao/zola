@@ -9,9 +9,9 @@
 {% set idx = sr.indexing %}
 {% set auth = sr.authority %}
 {% set growth = sr.growth %}
-{% set top_pages = sr.top_pages | default(value=[]) %}
-{% set top_queries = sr.top_queries | default(value=[]) %}
-{% set exec_sum = sr.executive_summary | default(value=[]) %}
+{% if sr.top_pages %}{% set top_pages = sr.top_pages %}{% else %}{% set top_pages = [] %}{% endif %}
+{% if sr.top_queries %}{% set top_queries = sr.top_queries %}{% else %}{% set top_queries = [] %}{% endif %}
+{% if sr.executive_summary %}{% set exec_sum = sr.executive_summary %}{% else %}{% set exec_sum = [] %}{% endif %}
 {% set trend = sr.trend | default(value=false) %}
 <section class="sidebar-block sidebar-block--seo-reality" data-widget="seo-reality"
          data-growth-stage="{{ growth.stage_slug | default(value='indexing') }}">

@@ -17,10 +17,19 @@
 
 {# Bài premium đang khóa paywall → noindex (chỉ teaser công khai, full content nằm
    sau thanh toán). enable_premium_lock ưu tiên hơn premium_hidden (deprecated). #}
-{% block robots %}{% set cats = page.taxonomies.categories | default(value=[]) %}{% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% if is_premium and premium_lock %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+{% block robots %}
+{%- if page.taxonomies.categories -%}
+  {%- set cats = page.taxonomies.categories -%}
+{%- else -%}
+  {%- set cats = [] -%}
+{%- endif -%}
+{%- set is_premium = page.extra.premium | default(value=false) or "premium" in cats -%}
+{%- set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) -%}
+{%- if is_premium and premium_lock -%}noindex, follow{%- else -%}{{ super() }}{%- endif -%}
+{% endblock %}
 
 {% block main %}
-    {% set cats = page.taxonomies.categories | default(value=[]) %}
+    {% if page.taxonomies.categories %}{% set cats = page.taxonomies.categories %}{% else %}{% set cats = [] %}{% endif %}
     {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
     {# Paywall hoạt động cho MỌI bài premium (extra.premium HOẶC category "premium")
@@ -59,7 +68,7 @@
                (cho Google) đã có sẵn ở base.html — đây là phiên bản nhìn thấy được.
                Chuyên mục = category chuyên biệt đầu tiên (bỏ qua "Tất cả"); nếu bài
                chỉ có "Tất cả" thì dùng chính nó. ===== #}
-            {% set bc_cats = page.taxonomies.categories | default(value=[]) %}
+            {% if page.taxonomies.categories %}{% set bc_cats = page.taxonomies.categories %}{% else %}{% set bc_cats = [] %}{% endif %}
             {% set_global bc_cat = "" %}
             {% for c in bc_cats %}
                 {% if bc_cat == "" and c != "Tất cả" %}{% set_global bc_cat = c %}{% endif %}
@@ -283,11 +292,13 @@
            cosine similarity). Fallback: same category, rồi latest. #}
         {% set current_slug = page.slug %}
         {% set current_cat = "" %}
-        {% for cat in page.taxonomies.categories | default(value=[]) %}
-            {% if cat != "Tất cả" and cat != "Báo chí" and current_cat == "" %}
-                {% set_global current_cat = cat %}
-            {% endif %}
-        {% endfor %}
+        {% if page.taxonomies.categories %}
+          {% for cat in page.taxonomies.categories %}
+              {% if cat != "Tất cả" and cat != "Báo chí" and current_cat == "" %}
+                  {% set_global current_cat = cat %}
+              {% endif %}
+          {% endfor %}
+        {% endif %}
         {# HOTFIX: related lấy từ MỌI section (posting/, baochi/, …) để bài ở
            section nào cũng có thể xuất hiện như bài liên quan. #}
         {% set rp_posting = get_section(path="posting/_index.md") %}
@@ -476,7 +487,7 @@
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
     <script src="{{ get_url(path='js/toc-rail.js') }}" defer></script>
-    {% set cats = page.taxonomies.categories | default(value=[]) %}
+    {% if page.taxonomies.categories %}{% set cats = page.taxonomies.categories %}{% else %}{% set cats = [] %}{% endif %}
     {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
     {% if is_premium and premium_lock %}

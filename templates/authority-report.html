@@ -11,19 +11,19 @@
 {% set ar = load_data(path="data/authority-report.json", required=false) %}
 {% if ar %}
 {% set trust = ar.trust_score %}
-{% set trust_score = trust.score | default(value=0) %}
-{% set trust_label = trust.label | default(value="—") %}
-{% set cats = ar.category_authority | default(value=[]) %}
-{% set gaps = ar.topical_gaps | default(value=[]) %}
-{% set forecast = ar.authority_forecast | default(value=false) %}
-{% set orphans = ar.orphan_pages | default(value=[]) %}
-{% set series = ar.series_status | default(value=[]) %}
-{% set backlinks = ar.backlink_opportunities | default(value=[]) %}
-{% set suggestions = ar.internal_link_suggestions | default(value=[]) %}
-{% set history = ar.history | default(value=[]) %}
-{% set generated = ar.generated_at | default(value="") %}
-{% set report_num = ar.report_number | default(value=0) %}
-{% set rec = ar.growth_recommendation | default(value="") %}
+{% set trust_score = trust.score if trust.score else 0 %}
+{% set trust_label = trust.label if trust.label else "—" %}
+{% set cats = ar.category_authority if ar.category_authority else [] %}
+{% set gaps = ar.topical_gaps if ar.topical_gaps else [] %}
+{% set forecast = ar.authority_forecast if ar.authority_forecast else false %}
+{% set orphans = ar.orphan_pages if ar.orphan_pages else [] %}
+{% set series = ar.series_status if ar.series_status else [] %}
+{% set backlinks = ar.backlink_opportunities if ar.backlink_opportunities else [] %}
+{% set suggestions = ar.internal_link_suggestions if ar.internal_link_suggestions else [] %}
+{% set history = ar.history if ar.history else [] %}
+{% set generated = ar.generated_at if ar.generated_at else "" %}
+{% set report_num = ar.report_number if ar.report_number else 0 %}
+{% set rec = ar.growth_recommendation if ar.growth_recommendation else "" %}
 {% else %}
 {% set trust_score = 0 %}{% set trust_label = "—" %}{% set cats = [] %}{% set gaps = [] %}
 {% set forecast = false %}{% set orphans = [] %}{% set series = [] %}{% set backlinks = [] %}

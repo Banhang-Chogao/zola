@@ -316,6 +316,35 @@ def check_v8b_template_block_balance(ctx: Ctx) -> CheckResult:
     return CheckResult("V8", title, PASS)
 
 
+def check_v8b1_tera_map_literals(ctx: Ctx) -> CheckResult:
+    """Tera map/list literal restriction — templates must not use `default(value={})`
+    or `default(value=[])` in filter arguments. Tera does not support object/list
+    literals in filter kwargs; use scalar fallback or `{% if var %}` guards instead."""
+    title = "Tera filter args: no map/list literals"
+    hits = []
+    # Pattern: look for `default(value={...})` or `default(value=[...])` in templates
+    # Skip Tera comments and raw blocks
+    for p in ctx.glob("templates/**/*.html"):
+        src = p.read_text(encoding="utf-8", errors="ignore")
+        # Strip comments and raw blocks first
+        src_clean = _strip_tera_noise(src)
+        # Check for unsupported patterns: `default(value={` or `default(value=[`
+        # This catches the obvious culprits. A smarter regex could handle nested
+        # braces, but for this gate the simple check is sufficient.
+        for m in re.finditer(r'\bdefault\s*\(\s*value\s*=\s*[\{\[]', src_clean):
+            line = src[:m.start()].count("\n") + 1
+            snippet = src_clean[max(0, m.start()-30):m.end()+30].strip()
+            rel = p.relative_to(ctx.root)
+            hits.append(f"{rel}:{line}: default(value={{...}}) or default(value=[...]) "
+                       f"← replace with scalar fallback or ifs guard")
+    if hits:
+        return CheckResult("V8", title, FAIL,
+                           diagnosis="Tera filter kwargs không support `{}` hay `[]` literals → vỡ zola build",
+                           fix="dùng scalar fallback (0, \"\", false) hoặc guard bằng {% if var %} block",
+                           details=hits)
+    return CheckResult("V8", title, PASS)
+
+
 def _series_ids_from_templates(ctx: Ctx) -> set[str]:
     ids: set[str] = set()
     for rel in ("templates/page.html", "templates/macros/series-nav.html",
@@ -2895,6 +2924,7 @@ DETECTORS = [
     check_v2_slack_v3,
     check_v5_deploy_resilience,
     check_v8a_tera_filter_kwargs,
+    check_v8b1_tera_map_literals,
     check_v8b_template_block_balance,
     check_v8c_series_registration,
     check_v19_domain_migration_drift,

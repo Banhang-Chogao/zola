@@ -10,24 +10,24 @@
 {% block main %}
 {% set ar = load_data(path="data/ad-report-v2.json", required=false) %}
 {% if ar %}
-{% set ar_num = ar.report_number | default(value=0) %}
-{% set ar_score = ar.monetization_score | default(value=0) %}
-{% set density_verdict = ar.ad_density.verdict | default(value="unknown") %}
-{% set density_slots = ar.ad_density.slots | default(value=0) %}
-{% set density_units = ar.ad_density.live_units | default(value=0) %}
-{% set density_rec = ar.ad_density.recommendation | default(value="") %}
-{% set ui_grade = ar.ui_review.overall_grade | default(value="—") %}
-{% set ui_findings = ar.ui_review.findings | default(value=[]) %}
-{% set ar_candidates = ar.top_adsense_candidates | default(value=[]) %}
-{% set ar_top20 = ar.priority_posts_top20 | default(value=[]) %}
-{% set ar_keywords = ar.high_value_keywords | default(value=[]) %}
-{% set ar_suggestions = ar.rpm_booster_suggestions | default(value=[]) %}
-{% set ar_cats = ar.revenue_opportunities.top_categories | default(value=[]) %}
-{% set ar_history = ar.history | default(value=[]) %}
-{% set ar_generated = ar.generated_at | default(value="") %}
-{% set ar_incremental = ar.scan_stats.incremental | default(value=false) %}
-{% set ar_pagespeed = ar.pagespeed_snapshot | default(value=false) %}
-{% set ar_report_path = ar.latest_report_path | default(value="reports/ad-report-v2/") %}
+{% set ar_num = ar.report_number if ar.report_number else 0 %}
+{% set ar_score = ar.monetization_score if ar.monetization_score else 0 %}
+{% set density_verdict = ar.ad_density.verdict if ar.ad_density.verdict else "unknown" %}
+{% set density_slots = ar.ad_density.slots if ar.ad_density.slots else 0 %}
+{% set density_units = ar.ad_density.live_units if ar.ad_density.live_units else 0 %}
+{% set density_rec = ar.ad_density.recommendation if ar.ad_density.recommendation else "" %}
+{% set ui_grade = ar.ui_review.overall_grade if ar.ui_review.overall_grade else "—" %}
+{% set ui_findings = ar.ui_review.findings if ar.ui_review.findings else [] %}
+{% set ar_candidates = ar.top_adsense_candidates if ar.top_adsense_candidates else [] %}
+{% set ar_top20 = ar.priority_posts_top20 if ar.priority_posts_top20 else [] %}
+{% set ar_keywords = ar.high_value_keywords if ar.high_value_keywords else [] %}
+{% set ar_suggestions = ar.rpm_booster_suggestions if ar.rpm_booster_suggestions else [] %}
+{% set ar_cats = ar.revenue_opportunities.top_categories if ar.revenue_opportunities.top_categories else [] %}
+{% set ar_history = ar.history if ar.history else [] %}
+{% set ar_generated = ar.generated_at if ar.generated_at else "" %}
+{% set ar_incremental = ar.scan_stats.incremental if ar.scan_stats.incremental else false %}
+{% set ar_pagespeed = ar.pagespeed_snapshot if ar.pagespeed_snapshot else false %}
+{% set ar_report_path = ar.latest_report_path if ar.latest_report_path else "reports/ad-report-v2/" %}
 {% else %}
 {% set ar_num = 0 %}
 {% set ar_score = 0 %}
