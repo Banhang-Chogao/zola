@@ -2,11 +2,20 @@
 Fetch Google Analytics 4 stats qua Data API, output data/ga-stats.json.
 
 Service Account key: env GA_SERVICE_ACCOUNT_KEY (JSON string).
-Property: 541698865 (GA4 'banhang-chogao' blog).
+Property: 542421812 (GA4 'seomoney.org' blog — migrated 21/06/2026 from the
+legacy github.io property). Override với env GA_PROPERTY_ID.
+
+Cách ly cache theo property/domain (BẮT BUỘC — số liệu property cũ KHÔNG được
+leak): mỗi lần fetch ghi kèm `property_id`, `measurement_id`, `site_domain` vào
+output. Template chỉ render khi `property_id` khớp `config.extra.ga_property_id`;
+lệch property → coi như stale, hiện trạng thái "chờ refresh" thay vì số cũ.
 
 Output format (mở rộng — gồm 6 chỉ số cơ bản + 5 chỉ số nâng cao 30d):
 {
   "updated_at": "2026-06-15T12:30:00Z",
+  "property_id": "542421812",
+  "measurement_id": "G-SMTFZVC0XN",
+  "site_domain": "seomoney.org",
   "today_users": 42,
   "today_pageviews": 87,
   "week_users": 312,
@@ -44,7 +53,14 @@ from google.oauth2 import service_account
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "data" / "ga-stats.json"
-PROPERTY_ID = "541698865"
+
+# GA4 property for seomoney.org (migrated 21/06/2026). Env override lets the
+# workflow pin/rotate the property without a code change; default is the
+# canonical seomoney.org property. The legacy github.io property id is
+# intentionally NOT referenced here so its numbers can never leak in.
+PROPERTY_ID = os.environ.get("GA_PROPERTY_ID", "542421812").strip() or "542421812"
+MEASUREMENT_ID = os.environ.get("GA_MEASUREMENT_ID", "G-SMTFZVC0XN").strip() or "G-SMTFZVC0XN"
+SITE_DOMAIN = os.environ.get("GA_SITE_DOMAIN", "seomoney.org").strip() or "seomoney.org"
 
 
 def get_client():
@@ -162,6 +178,12 @@ def main():
 
     result = {
         "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        # ── Cache-isolation stamps: pin this dataset to one property + domain so
+        #    the template can reject a mismatched (stale) file instead of leaking
+        #    numbers from a different/old property. ──
+        "property_id":      PROPERTY_ID,
+        "measurement_id":   MEASUREMENT_ID,
+        "site_domain":      SITE_DOMAIN,
         "today_users":      today["users"],
         "today_pageviews":  today["pageviews"],
         "week_users":       week["users"],

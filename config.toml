@@ -70,11 +70,20 @@ menu = [
 ]
 
 # ============= GOOGLE ANALYTICS 4 =============
+# Domain seomoney.org (migrated 21/06/2026). Property + Measurement ID dưới đây
+# là NGUỒN SỰ THẬT cho on-page tag + dashboard link + data-source isolation.
 # Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams
-# → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX"
+# → chọn Web stream → copy "Measurement ID" dạng "G-XXXXXXXXXX".
 # Để trống = GA tracking script không load (silent skip).
-# Property ID: 541698865 (tham chiếu Admin → Property Settings)
-ga_measurement_id = "G-REFBXH86Z5"
+#
+# ⚠ Khi đổi property/measurement: cập nhật ĐỒNG THỜI scripts/fetch_ga_stats.py
+# (PROPERTY_ID), scripts/ga_vacxin.py, và reset data/ga-stats.json để số cũ
+# (property khác) KHÔNG leak. QA Vaccine V25 (GA Analytics) gate các giá trị này.
+ga_measurement_id = "G-SMTFZVC0XN"
+# GA4 Property ID (numeric) — dùng để build link Dashboard + stamp/cách ly cache
+# theo property trong data/ga-stats.json. KHÔNG nhúng Account ID (deep-link dùng
+# dạng /p<PROPERTY_ID>/ tự resolve account).
+ga_property_id = "542421812"
 
 # ============= GOOGLE ADSENSE =============
 # Publisher id dạng "ca-pub-XXXXXXXXXXXXXXXX". Để TRỐNG cho tới khi được

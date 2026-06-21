@@ -1,0 +1,61 @@
+name: GA Vacxin
+
+# GA Vacxin — hourly health bot for the Google Analytics module (seomoney.org).
+# Verifies GA Data API auth, read access to property 542421812, recent-data
+# availability, and site tag / Measurement ID (G-SMTFZVC0XN) connectivity, then
+# commits data/ga-vacxin-report.json (+ static/ copy) that the footer GA module
+# renders as a subtle healthy state or an inline error banner.
+#
+# Report-only: a degraded/error HEALTH result is committed as data, it does NOT
+# fail the workflow. Runs at minute :30 (offset from Fetch GA Stats at :00) so the
+# two hourly GA jobs never push main at the same time.
+#
+# REQUIRED SECRET: GA_SERVICE_ACCOUNT_KEY (Service Account JSON with role 'Viewer'
+# on GA4 Property 542421812 — the SAME secret used by Fetch GA Stats).
+
+on:
+  schedule:
+    - cron: '30 * * * *'   # every hour at minute 30 (offset from ga-stats :00)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: ga-vacxin
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Google Analytics SDK
+        run: pip install --quiet google-analytics-data==0.18.18
+
+      - name: Run GA Vacxin health checks
+        env:
+          GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
+          GA_PROPERTY_ID: '542421812'
+          GA_MEASUREMENT_ID: G-SMTFZVC0XN
+          GA_SITE_DOMAIN: seomoney.org
+        run: python scripts/ga_vacxin.py --print
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: GA Vacxin health ($(date -u +%FT%TZ))" \
+            data/ga-vacxin-report.json \
+            static/data/ga-vacxin-report.json

@@ -1,0 +1,366 @@
+/* ===========================================================================
+   GA MODULE — Google Analytics footer module (B-DNA calm-enterprise)
+   ---------------------------------------------------------------------------
+   Rebuilt 21/06/2026 for the seomoney.org GA4 property (542421812). The footer
+   is a fixed DARK band (#0a0a0a), so this is a self-contained calm dark-context
+   component (like the .bdna page scopes its own bridge). It follows the B-DNA
+   language — cards first, soft surfaces, clear typographic hierarchy, KPI
+   emphasis through size/weight (NOT neon glow), generous whitespace, calm motion.
+   Every selector is scoped under .ga-module; no global rule is touched.
+   Reference: /tools/b-dna/  ·  /branding-guideline/
+   =========================================================================== */
+
+.ga-module {
+  /* --- Local calm dark palette (the footer band is always dark) --- */
+  --gm-surface:        #15181e;
+  --gm-card:           #1b1f28;
+  --gm-card-2:         #1e232d;
+  --gm-border:         rgba(255, 255, 255, 0.08);
+  --gm-border-strong:  rgba(255, 255, 255, 0.16);
+  --gm-ink:            #f3f5f8;
+  --gm-body:           #c6ccd6;
+  --gm-muted:          #889; /* fallback */
+  --gm-muted:          #8b94a3;
+  --gm-accent:         #6ea8fe;
+  --gm-accent-soft:    rgba(110, 168, 254, 0.14);
+  --gm-success:        #57d191;
+  --gm-success-soft:   rgba(87, 209, 145, 0.14);
+  --gm-warn:           #f0b86c;
+  --gm-warn-soft:      rgba(240, 184, 108, 0.13);
+  --gm-danger:         #ef8d8d;
+  --gm-danger-soft:    rgba(239, 141, 141, 0.13);
+
+  --gm-radius:    16px;
+  --gm-radius-sm: 12px;
+  --gm-pad:       1.4rem;
+
+  max-width: 1400px;
+  margin: 1.25rem auto 0;
+  padding: var(--gm-pad);
+  background: var(--gm-surface);
+  border: 1px solid var(--gm-border);
+  border-radius: var(--gm-radius);
+  color: var(--gm-body);
+  text-align: left;
+
+  * { box-sizing: border-box; }
+
+  /* ===== Header ===== */
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+  }
+  &__mark {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gm-border-strong);
+    border-radius: 11px;
+    color: var(--gm-accent);
+    background: var(--gm-accent-soft);
+  }
+  &__titles { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+  &__title {
+    font-family: $font-heading;
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: var(--gm-ink);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  &__sub {
+    font-family: $font-meta;
+    font-size: 0.72rem;
+    color: var(--gm-muted);
+    letter-spacing: 0.01em;
+  }
+  &__actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+
+  /* ===== Health pill ===== */
+  &__health {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--gm-border);
+    background: var(--gm-card);
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--gm-body);
+  }
+  &__health-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gm-muted);
+    flex: 0 0 auto;
+  }
+  &__health--healthy {
+    color: var(--gm-success);
+    border-color: var(--gm-success-soft);
+    background: var(--gm-success-soft);
+    .ga-module__health-dot { background: var(--gm-success); box-shadow: 0 0 0 3px var(--gm-success-soft); }
+  }
+  &__health--degraded {
+    color: var(--gm-warn);
+    border-color: var(--gm-warn-soft);
+    background: var(--gm-warn-soft);
+    .ga-module__health-dot { background: var(--gm-warn); }
+  }
+  &__health--error {
+    color: var(--gm-danger);
+    border-color: var(--gm-danger-soft);
+    background: var(--gm-danger-soft);
+    .ga-module__health-dot { background: var(--gm-danger); }
+  }
+  &__health--pending {
+    color: var(--gm-muted);
+    .ga-module__health-dot { background: var(--gm-muted); }
+  }
+
+  /* ===== Dashboard CTA ===== */
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    font-family: $font-ui;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--gm-accent);
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--gm-accent-soft);
+    border-radius: 999px;
+    background: var(--gm-accent-soft);
+    transition: border-color .18s ease, background .18s ease, color .18s ease;
+    &:hover { border-color: var(--gm-accent); color: var(--gm-ink); }
+  }
+
+  /* ===== Health banner (error / degraded) ===== */
+  &__banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 1.1rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--gm-radius-sm);
+    border: 1px solid var(--gm-border);
+    background: var(--gm-card);
+  }
+  &__banner--error {
+    border-color: var(--gm-danger-soft);
+    background: var(--gm-danger-soft);
+    .ga-module__banner-icon { color: var(--gm-danger); }
+  }
+  &__banner--degraded {
+    border-color: var(--gm-warn-soft);
+    background: var(--gm-warn-soft);
+    .ga-module__banner-icon { color: var(--gm-warn); }
+  }
+  &__banner-icon { flex: 0 0 auto; margin-top: 0.1rem; }
+  &__banner-body { flex: 1 1 auto; min-width: 0; }
+  &__banner-title {
+    font-family: $font-ui;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--gm-ink);
+    margin: 0 0 0.2rem;
+  }
+  &__banner-detail {
+    font-family: $font-meta;
+    font-size: 0.74rem;
+    line-height: 1.5;
+    color: var(--gm-body);
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  &__banner-fix {
+    flex: 0 0 auto;
+    align-self: center;
+    font-family: $font-ui;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--gm-ink);
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--gm-border-strong);
+    background: rgba(255, 255, 255, 0.04);
+    transition: background .18s ease, border-color .18s ease;
+    &:hover { background: rgba(255, 255, 255, 0.09); border-color: var(--gm-border-strong); }
+  }
+
+  /* ===== KPI cards (Today / 7d / 30d) ===== */
+  &__kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+    margin-top: 1.1rem;
+  }
+  &__kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem;
+    background: var(--gm-card);
+    border: 1px solid var(--gm-border);
+    border-radius: var(--gm-radius-sm);
+  }
+  &__kpi-label {
+    font-family: $font-ui;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gm-muted);
+  }
+  &__kpi-num {
+    font-family: $font-heading;
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--gm-ink);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  &__kpi-sub { font-family: $font-meta; font-size: 0.72rem; color: var(--gm-muted); }
+
+  /* ===== Extended metrics (30d) ===== */
+  &__metrics {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+  }
+  &__metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.8rem 0.75rem;
+    background: var(--gm-card-2);
+    border: 1px solid var(--gm-border);
+    border-radius: var(--gm-radius-sm);
+  }
+  &__metric-label {
+    font-family: $font-ui;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gm-muted);
+  }
+  &__metric-num {
+    font-family: $font-heading;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--gm-accent);
+    font-variant-numeric: tabular-nums;
+    &--text { font-size: 1.05rem; color: var(--gm-ink); }
+  }
+  &__metric-unit { font-size: 0.78rem; font-weight: 700; color: var(--gm-muted); margin-left: 0.08rem; }
+  &__metric-sub { font-family: $font-meta; font-size: 0.66rem; color: var(--gm-muted); }
+
+  /* ===== Top-dimension chips ===== */
+  &__chips { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.9rem; }
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.34rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--gm-border);
+    background: var(--gm-card);
+    font-family: $font-ui;
+    font-size: 0.7rem;
+  }
+  &__chip-label {
+    color: var(--gm-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    font-size: 0.62rem;
+  }
+  &__chip-val { color: var(--gm-ink); font-weight: 800; text-transform: capitalize; }
+
+  /* ===== Awaiting / empty state ===== */
+  &__empty {
+    margin-top: 1.1rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px dashed var(--gm-border-strong);
+    border-radius: var(--gm-radius-sm);
+    background: var(--gm-card);
+  }
+  &__empty-title {
+    font-family: $font-ui;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--gm-ink);
+    margin: 0 0 0.35rem;
+  }
+  &__empty-sub {
+    font-family: $font-meta;
+    font-size: 0.74rem;
+    line-height: 1.55;
+    color: var(--gm-muted);
+    margin: 0;
+    code {
+      font-family: $font-mono;
+      font-size: 0.92em;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 0.08rem 0.35rem;
+      border-radius: 5px;
+      color: var(--gm-body);
+    }
+  }
+
+  /* ===== Update message ===== */
+  &__updated {
+    font-family: $font-meta;
+    font-size: 0.72rem;
+    color: var(--gm-muted);
+    margin: 1.1rem 0 0;
+    text-align: center;
+    time { color: var(--gm-body); font-weight: 700; }
+  }
+}
+
+/* ===== GA MODULE — MOBILE (≤720px) ===== */
+@media (max-width: 720px) {
+  .ga-module {
+    margin: 1rem 12px 0;
+    padding: 1.05rem;
+
+    &__head { gap: 0.7rem; }
+    &__title { font-size: 0.92rem; }
+    &__actions { width: 100%; justify-content: space-between; }
+
+    &__kpis { grid-template-columns: 1fr; gap: 0.65rem; }
+    &__kpi { flex-direction: row; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+    &__kpi-num { font-size: 1.75rem; }
+
+    &__metrics { grid-template-columns: repeat(2, 1fr); gap: 0.55rem; }
+    &__metric-num { font-size: 1.25rem; }
+
+    &__banner { flex-wrap: wrap; }
+    &__banner-fix { align-self: stretch; text-align: center; }
+  }
+}
+
+@media (max-width: 380px) {
+  .ga-module__metrics { grid-template-columns: 1fr; }
+}

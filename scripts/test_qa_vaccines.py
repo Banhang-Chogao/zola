@@ -1506,6 +1506,81 @@ class SeoIdentityV20Test(unittest.TestCase):
         self.assertEqual(qv.check_v20_seo_identity_homepage(self.repo.ctx()).status, qv.WARN)
 
 
+class GaAnalyticsVaccineTest(unittest.TestCase):
+    """V25 — GA property/measurement migration + cache isolation + GA Vacxin."""
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _wire(self, prop="542421812", mid="G-SMTFZVC0XN", fetch_extra="",
+              stats=None, report=None, base_guard=True, banner=True,
+              update_msg=True, vacxin_wf=True, js_ns=True):
+        self.repo.write("config.toml",
+                        f'[extra]\nga_measurement_id = "{mid}"\nga_property_id = "{prop}"\n')
+        self.repo.write("scripts/fetch_ga_stats.py",
+                        'PROPERTY_ID = "542421812"\nresult = {"property_id": PROPERTY_ID}\n' + fetch_extra)
+        self.repo.write("scripts/ga_vacxin.py", 'PROPERTY_ID = "542421812"\n')
+        base = []
+        if base_guard:
+            base.append('{% set ga_prop_match = ga_stats.property_id == ga_prop %}')
+        if update_msg:
+            base.append('Cập nhật: <time>x</time> — fetch hourly từ GA4 Data API')
+        if banner:
+            base.append('<div class="ga-module__banner"><a data-ga-banner-fix href="#">Khắc phục</a></div>')
+        self.repo.write("templates/base.html", "\n".join(base) or "x")
+        self.repo.write(".github/workflows/ga-stats.yml", "on:\n  schedule:\n    - cron: '0 * * * *'\n")
+        if vacxin_wf:
+            self.repo.write(".github/workflows/ga-vacxin.yml",
+                            "on:\n  schedule:\n    - cron: '30 * * * *'\n")
+        if stats is None:
+            stats = '{"property_id": "542421812", "today_users": 0, "week_users": 0, "month_users": 0, "month_pageviews": 0}'
+        self.repo.write("data/ga-stats.json", stats)
+        if report is None:
+            report = '{"property_id": "542421812", "status": "pending"}'
+        self.repo.write("data/ga-vacxin-report.json", report)
+        self.repo.write("static/js/ga-vacxin.js",
+                        ('var CACHE_KEY = "zola-ga-vacxin::" + p;' if js_ns else 'var CACHE_KEY = "x";'))
+        return self.repo.ctx()
+
+    def test_real_repo_passes(self):
+        r = qv.check_ga_analytics_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis)
+
+    def test_valid_wire_passes(self):
+        self.assertEqual(qv.check_ga_analytics_vaccine(self._wire()).status, qv.PASS)
+
+    def test_wrong_property_fails(self):
+        self.assertEqual(qv.check_ga_analytics_vaccine(self._wire(prop="111111111")).status, qv.FAIL)
+
+    def test_wrong_measurement_fails(self):
+        self.assertEqual(qv.check_ga_analytics_vaccine(self._wire(mid="G-REFBXH86Z5")).status, qv.FAIL)
+
+    def test_old_property_in_fetch_fails(self):
+        ctx = self._wire(fetch_extra="# legacy 541698865 left in code\n")
+        self.assertEqual(qv.check_ga_analytics_vaccine(ctx).status, qv.FAIL)
+
+    def test_stats_wrong_property_stamp_fails(self):
+        ctx = self._wire(stats='{"property_id": "541698865", "month_users": 999}')
+        self.assertEqual(qv.check_ga_analytics_vaccine(ctx).status, qv.FAIL)
+
+    def test_stats_unstamped_with_numbers_fails(self):
+        ctx = self._wire(stats='{"month_users": 134, "week_users": 134}')
+        self.assertEqual(qv.check_ga_analytics_vaccine(ctx).status, qv.FAIL)
+
+    def test_missing_base_guard_fails(self):
+        self.assertEqual(qv.check_ga_analytics_vaccine(self._wire(base_guard=False)).status, qv.FAIL)
+
+    def test_secret_leak_in_report_fails(self):
+        ctx = self._wire(report='{"property_id": "542421812", "status": "ok", "private_key": "-----BEGIN"}')
+        self.assertEqual(qv.check_ga_analytics_vaccine(ctx).status, qv.FAIL)
+
+    def test_missing_hourly_workflow_warns(self):
+        self.assertEqual(qv.check_ga_analytics_vaccine(self._wire(vacxin_wf=False)).status, qv.WARN)
+
+    def test_missing_error_banner_warns(self):
+        self.assertEqual(qv.check_ga_analytics_vaccine(self._wire(banner=False)).status, qv.WARN)
+
+
 class VaccineRegistryGuardTest(unittest.TestCase):
     """VACCINE-REGISTRY — duplicate V-number or detector registration must FAIL."""
     def setUp(self):

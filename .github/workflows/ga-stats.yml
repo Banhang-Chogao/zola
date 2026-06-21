@@ -1,10 +1,14 @@
 name: Fetch GA Stats
 
 # Hourly: fetch GA4 metrics qua Data API → commit data/ga-stats.json.
-# Tera template render bảng visitors today/week/month ở footer blog.
+# Tera template render module visitors today/week/month ở footer blog (B-DNA).
+#
+# Property 542421812 (seomoney.org — migrated 21/06/2026). Output được stamp
+# property_id/measurement_id/site_domain để template cách ly cache theo property
+# (số của property cũ KHÔNG leak).
 #
 # REQUIRED SECRET: GA_SERVICE_ACCOUNT_KEY (JSON content của Service Account
-# có role 'Viewer' trên GA4 Property 541698865).
+# có role 'Viewer' trên GA4 Property 542421812).
 
 on:
   schedule:
@@ -38,6 +42,9 @@ jobs:
       - name: Fetch GA stats
         env:
           GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
+          GA_PROPERTY_ID: '542421812'
+          GA_MEASUREMENT_ID: G-SMTFZVC0XN
+          GA_SITE_DOMAIN: seomoney.org
         run: python scripts/fetch_ga_stats.py
 
       - name: Refresh improvement progress snapshot

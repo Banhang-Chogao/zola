@@ -1195,6 +1195,61 @@ fenced blocks.
   (no token leak in status · supervip-only export · invalid sid denied · masked default /
   reveal full · env preferred over KV · missing token → clear 404).
 
+#### V25 — GA Analytics property/measurement migration (seomoney.org) + cache isolation + GA Vacxin hourly bot
+
+> Analytics/data-source vaccine. After the apex-domain move the GA module must read ONLY the
+> new GA4 property, isolate cache by property so the old property's numbers never leak, run an
+> hourly health bot, and surface a clear error banner on disconnect. Match the signature → run
+> the FIXER; the static detector `check_ga_analytics_vaccine` (code `V25`) guards it.
+
+- **Identity (source of truth):** GA4 **Property ID `542421812`**, **Measurement ID `G-SMTFZVC0XN`**,
+  domain `seomoney.org`. Lives in `config.toml [extra]` (`ga_property_id`, `ga_measurement_id`),
+  `scripts/fetch_ga_stats.py` (`PROPERTY_ID` default + env `GA_PROPERTY_ID`), and `scripts/ga_vacxin.py`.
+  The legacy github.io property (numeric id) must NOT survive in any active GA file (only CLAUDE.md
+  may mention it for migration context). Dashboard deep-links use `/p<PROPERTY_ID>/` — never a
+  hardcoded account id.
+- **Symptom it prevents:** after the domain move the footer GA module shows **old-property numbers**
+  (e.g. a US top-country / inflated users from `541…`), or the on-page tag still loads the old
+  `G-REFBXH86Z5`, or the dashboard link points at the old `a…p541…` deep link. A green `zola build`
+  does NOT prove the GA data source is correct — only the property stamp + this detector do.
+- **Root cause:** `data/ga-stats.json` was fetched from the old property and carried **no property
+  stamp**, so a stale file silently rendered another property's numbers. The config + fetch script +
+  dashboard URLs were pinned to the old property/measurement.
+- **FIXER (already applied):**
+  1. `config.toml` → `ga_property_id = "542421812"`, `ga_measurement_id = "G-SMTFZVC0XN"`.
+  2. `scripts/fetch_ga_stats.py` → `PROPERTY_ID` default `542421812` (env `GA_PROPERTY_ID` override) and
+     STAMP every output with `property_id` / `measurement_id` / `site_domain`.
+  3. **Cache isolation:** reset `data/ga-stats.json` to a stamped `waiting_for_refresh` state (zeros, no
+     leaked numbers). `templates/base.html` only renders KPIs when `ga_stats.property_id == config.extra.ga_property_id`
+     (`ga_prop_match` / `ga_live` guard) — a mismatched/old file shows the awaiting state, never numbers.
+     `static/js/ga-vacxin.js` namespaces its sessionStorage cache by property (`zola-ga-vacxin::<id>`) and
+     ignores any report whose `property_id` differs.
+  4. **GA Vacxin hourly bot:** `scripts/ga_vacxin.py` + `.github/workflows/ga-vacxin.yml` (cron `30 * * * *`,
+     offset from Fetch GA Stats `0 * * * *`). Checks **auth · property access · recent data · tag/Measurement
+     connectivity**, writes `data/ga-vacxin-report.json` (+ `static/data/` copy). Report-only (always exit 0);
+     OFFLINE-SAFE (no SDK/secret/network → neutral `pending`, never a false `error`); NEVER prints the
+     Service Account key; the public JSON carries NO credential fields.
+  5. **UI (B-DNA):** `sass/_ga-module.scss` (scoped `.ga-module`, calm dark-context cards, no neon glow) —
+     KPI cards, health pill (subtle healthy state + last-checked time), and an **inline error banner**
+     (`ga-module__banner` + `data-ga-banner-fix` link to the GA dashboard/fix page) when GA Vacxin reports
+     `error`/`degraded`.
+  6. **Update message (exact concept, real GMT+7 runtime time):**
+     `Cập nhật: HH:MM:SS DD-MM-YYYY — fetch hourly từ GA4 Data API`, formatted from `ga_stats.updated_at`
+     via `dt::display_datetime` (Asia/Ho_Chi_Minh) — never hardcoded.
+- **Rules (permanent):** GA reads ONE property (`542421812`); every `ga-stats.json` carries a `property_id`
+  stamp and the template rejects a mismatch (no leak); the on-page gtag uses `config.extra.ga_measurement_id`
+  (`G-SMTFZVC0XN`); the GA Vacxin health JSON never contains a secret; a degraded health result is data, not
+  a CI failure. When rotating the property/measurement: update `config.toml`, `fetch_ga_stats.py`,
+  `ga_vacxin.py`, and RESET `data/ga-stats.json` together.
+- **Env vars / settings needed:** GitHub Secret **`GA_SERVICE_ACCOUNT_KEY`** (Service Account JSON with role
+  *Viewer* on property `542421812`) for both `ga-stats.yml` and `ga-vacxin.yml`; on-page tag needs no secret
+  (Measurement ID is public, baked from config). No Render env required.
+- **Detector:** `scripts/qa_vaccines.py` → `check_ga_analytics_vaccine` (code `V25`). FAIL on wrong/old
+  property or measurement in active config/code, old-property leak in `ga-stats.json` (mismatched/absent
+  stamp with non-zero data), missing `base.html` property guard, or secret leak in the health JSON. WARN on
+  missing hourly workflow / update message / error banner / namespaced cache.
+- **Tests:** `python3 -m unittest scripts.test_ga_vacxin scripts.test_qa_vaccines.GaAnalyticsVaccineTest -v`.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

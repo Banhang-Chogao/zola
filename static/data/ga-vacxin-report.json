@@ -1,0 +1,40 @@
+{
+  "updated_at": "2026-06-21T01:05:56+00:00",
+  "checked_at": "2026-06-21T01:05:56+00:00",
+  "property_id": "542421812",
+  "measurement_id": "G-SMTFZVC0XN",
+  "site_domain": "seomoney.org",
+  "status": "pending",
+  "ok": true,
+  "summary": "Chưa kiểm tra online được (thiếu SDK/secret) — sẽ kiểm tra ở lần chạy CI.",
+  "checks": [
+    {
+      "id": "auth",
+      "label": "GA API auth",
+      "status": "skip",
+      "detail": "SDK google-analytics-data chưa cài (offline) — không kiểm tra auth online được."
+    },
+    {
+      "id": "property_access",
+      "label": "Truy cập property 542421812",
+      "status": "skip",
+      "detail": "Bỏ qua — chưa có client (auth chưa sẵn sàng)."
+    },
+    {
+      "id": "recent_data",
+      "label": "Dữ liệu gần đây",
+      "status": "skip",
+      "detail": "Đang chờ lần fetch đầu tiên từ property mới."
+    },
+    {
+      "id": "measurement",
+      "label": "Kết nối tag / Measurement ID",
+      "status": "ok",
+      "detail": "G-SMTFZVC0XN khớp config (probe homepage bỏ qua: GA_VACXIN_NO_NETWORK)."
+    }
+  ],
+  "dashboard_url": "https://analytics.google.com/analytics/web/#/p542421812/reports/intelligenthome",
+  "fix_url": "https://analytics.google.com/analytics/web/#/p542421812/admin/streams/table",
+  "interval": "hourly",
+  "bot": "GA Vacxin"
+}

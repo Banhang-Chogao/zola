@@ -1067,106 +1067,168 @@
                 {% endif %}
                 <div class="footer-qa__right">
 
-                {# ===== GA STATS LIVE TABLE =====
-                   Always render — placeholder 0 nếu workflow chưa fetch.
-                   data/ga-stats.json LUÔN tồn tại (committed initial với
-                   _status="waiting_for_secret") nên không cần literal dict
-                   fallback (Tera KHÔNG support {k:v} syntax). #}
+                {# ===== GOOGLE ANALYTICS MODULE (B-DNA) =====
+                   Calm enterprise card module. data/ga-stats.json is fetched
+                   hourly (Fetch GA Stats); data/ga-vacxin-report.json is the
+                   hourly GA Vacxin health check. CACHE ISOLATION: stats only
+                   render when the file is stamped with the SAME property as
+                   config.extra.ga_property_id — a mismatched (old-property) file
+                   shows the awaiting state instead of leaking other numbers. #}
                 {% set ga_stats = load_data(path="data/ga-stats.json", required=false) %}
-                {% if ga_stats %}
-                {% set is_demo = ga_stats._status | default(value="") == "waiting_for_secret" %}
-                <div class="ga-stats{% if is_demo %} ga-stats--demo{% endif %}">
-                    <header class="ga-stats__head">
-                        <h4 class="ga-stats__title">📊 GOOGLE ANALYTICS STATS</h4>
-                        {% if is_demo %}
-                        <span class="ga-stats__demo-badge">⏳ DEMO</span>
-                        {% endif %}
-                        <a class="ga-stats__refresh"
-                           href="https://analytics.google.com/analytics/web/?pli=1#/a250151829p541698865/reports/intelligenthome"
-                           target="_blank" rel="noopener"
-                           title="Mở GA dashboard chi tiết">→ Dashboard</a>
+                {% set ga_health = load_data(path="data/ga-vacxin-report.json", required=false) %}
+                {% set ga_prop = config.extra.ga_property_id | default(value="") %}
+                {% set ga_mid = config.extra.ga_measurement_id | default(value="") %}
+                {% set ga_dash = "https://analytics.google.com/analytics/web/#/p" ~ ga_prop ~ "/reports/intelligenthome" %}
+                {% set ga_stats_status = ga_stats._status | default(value="") %}
+                {% set ga_prop_match = ga_stats and ga_stats.property_id and ga_stats.property_id == ga_prop %}
+                {% set ga_live = ga_stats and ga_prop_match and ga_stats_status != "waiting_for_refresh" and ga_stats_status != "waiting_for_secret" %}
+                {% set ga_hstatus = ga_health.status | default(value="pending") %}
+                <section class="ga-module ga-module--{{ ga_hstatus }}" data-ga-module
+                         data-ga-property="{{ ga_prop }}"
+                         data-ga-measurement="{{ ga_mid }}"
+                         data-ga-health="{{ ga_hstatus }}">
+                    <header class="ga-module__head">
+                        <div class="ga-module__brand">
+                            <span class="ga-module__mark" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="6" y1="20" x2="6" y2="13"></line>
+                                    <line x1="12" y1="20" x2="12" y2="6"></line>
+                                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                                </svg>
+                            </span>
+                            <span class="ga-module__titles">
+                                <h4 class="ga-module__title">Google Analytics</h4>
+                                <span class="ga-module__sub">Property {{ ga_prop }}{% if ga_mid %} · {{ ga_mid }}{% endif %}</span>
+                            </span>
+                        </div>
+                        <div class="ga-module__actions">
+                            {% if ga_health %}
+                            <span class="ga-module__health ga-module__health--{{ ga_hstatus }}"
+                                  data-ga-health-pill
+                                  title="GA Vacxin{% if ga_health.checked_at %} · kiểm tra {{ dt::display_datetime(value=ga_health.checked_at) }}{% endif %}">
+                                <span class="ga-module__health-dot" aria-hidden="true"></span>
+                                <span class="ga-module__health-text" data-ga-health-text>
+                                    {% if ga_hstatus == "healthy" %}Hoạt động tốt{% elif ga_hstatus == "error" %}Mất kết nối{% elif ga_hstatus == "degraded" %}Cảnh báo{% else %}Chờ kiểm tra{% endif %}
+                                </span>
+                            </span>
+                            {% endif %}
+                            <a class="ga-module__cta" href="{{ ga_dash | safe }}"
+                               target="_blank" rel="noopener"
+                               title="Mở Google Analytics dashboard">Mở Dashboard</a>
+                        </div>
                     </header>
-                    <div class="ga-stats__grid">
-                        <div class="ga-stats__cell">
-                            <span class="ga-stats__label">Hôm nay</span>
-                            <span class="ga-stats__num">{{ ga_stats.today_users }}</span>
-                            <span class="ga-stats__sub">users · {{ ga_stats.today_pageviews }} views</span>
+
+                    {# ===== HEALTH BANNER — inline warning + fix link when GA Vacxin
+                       reports disconnected/error/degraded. #}
+                    {% if ga_health and (ga_hstatus == "error" or ga_hstatus == "degraded") %}
+                    <div class="ga-module__banner ga-module__banner--{{ ga_hstatus }}" role="status" data-ga-banner>
+                        <span class="ga-module__banner-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </span>
+                        <div class="ga-module__banner-body">
+                            <p class="ga-module__banner-title" data-ga-banner-title>
+                                {% if ga_hstatus == "error" %}Google Analytics đang mất kết nối{% else %}Cảnh báo theo dõi Google Analytics{% endif %}
+                            </p>
+                            <p class="ga-module__banner-detail" data-ga-banner-detail>{{ ga_health.summary | default(value="GA Vacxin phát hiện vấn đề kết nối.") }}</p>
                         </div>
-                        <div class="ga-stats__cell">
-                            <span class="ga-stats__label">7 ngày</span>
-                            <span class="ga-stats__num">{{ ga_stats.week_users }}</span>
-                            <span class="ga-stats__sub">users · {{ ga_stats.week_pageviews }} views</span>
+                        <a class="ga-module__banner-fix" data-ga-banner-fix
+                           href="{{ ga_health.fix_url | default(value=ga_dash) | safe }}"
+                           target="_blank" rel="noopener">Khắc phục →</a>
+                    </div>
+                    {% endif %}
+
+                    {% if ga_live %}
+                    {# ===== KPI CARDS — Today / 7d / 30d ===== #}
+                    <div class="ga-module__kpis" data-ga-kpis>
+                        <div class="ga-module__kpi">
+                            <span class="ga-module__kpi-label">Hôm nay</span>
+                            <span class="ga-module__kpi-num">{{ ga_stats.today_users }}</span>
+                            <span class="ga-module__kpi-sub">users · {{ ga_stats.today_pageviews }} views</span>
                         </div>
-                        <div class="ga-stats__cell">
-                            <span class="ga-stats__label">30 ngày</span>
-                            <span class="ga-stats__num">{{ ga_stats.month_users }}</span>
-                            <span class="ga-stats__sub">users · {{ ga_stats.month_pageviews }} views</span>
+                        <div class="ga-module__kpi">
+                            <span class="ga-module__kpi-label">7 ngày</span>
+                            <span class="ga-module__kpi-num">{{ ga_stats.week_users }}</span>
+                            <span class="ga-module__kpi-sub">users · {{ ga_stats.week_pageviews }} views</span>
+                        </div>
+                        <div class="ga-module__kpi">
+                            <span class="ga-module__kpi-label">30 ngày</span>
+                            <span class="ga-module__kpi-num">{{ ga_stats.month_users }}</span>
+                            <span class="ga-module__kpi-sub">users · {{ ga_stats.month_pageviews }} views</span>
                         </div>
                     </div>
 
-                    {# ===== EXTENDED METRICS (30d) =====
-                       Row thứ 2 với 5 chỉ số GA4 nâng cao: Sessions, New Users,
-                       Bounce, Avg Duration, Engagement. Default value=0 để
-                       template không vỡ khi JSON cũ chưa có các trường này. #}
-                    <div class="ga-stats__grid ga-stats__grid--extended">
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Sessions</span>
-                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_sessions | default(value=0) }}</span>
-                            <span class="ga-stats__sub">phiên · 30d</span>
+                    {# ===== EXTENDED METRICS (30d) ===== #}
+                    <div class="ga-module__metrics">
+                        <div class="ga-module__metric">
+                            <span class="ga-module__metric-label">Sessions</span>
+                            <span class="ga-module__metric-num">{{ ga_stats.month_sessions | default(value=0) }}</span>
+                            <span class="ga-module__metric-sub">phiên · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">New Users</span>
-                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_new_users | default(value=0) }}</span>
-                            <span class="ga-stats__sub">user mới · 30d</span>
+                        <div class="ga-module__metric">
+                            <span class="ga-module__metric-label">New Users</span>
+                            <span class="ga-module__metric-num">{{ ga_stats.month_new_users | default(value=0) }}</span>
+                            <span class="ga-module__metric-sub">user mới · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Bounce</span>
-                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span></span>
-                            <span class="ga-stats__sub">tỷ lệ thoát · 30d</span>
+                        <div class="ga-module__metric">
+                            <span class="ga-module__metric-label">Bounce</span>
+                            <span class="ga-module__metric-num">{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-module__metric-unit">%</span></span>
+                            <span class="ga-module__metric-sub">tỷ lệ thoát · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Avg Session</span>
-                            <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text">{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}</span>
-                            <span class="ga-stats__sub">thời lượng · 30d</span>
+                        <div class="ga-module__metric">
+                            <span class="ga-module__metric-label">Avg Session</span>
+                            <span class="ga-module__metric-num ga-module__metric-num--text">{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}</span>
+                            <span class="ga-module__metric-sub">thời lượng · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--mini">
-                            <span class="ga-stats__label">Engagement</span>
-                            <span class="ga-stats__num ga-stats__num--mini">{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span></span>
-                            <span class="ga-stats__sub">tương tác · 30d</span>
+                        <div class="ga-module__metric">
+                            <span class="ga-module__metric-label">Engagement</span>
+                            <span class="ga-module__metric-num">{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-module__metric-unit">%</span></span>
+                            <span class="ga-module__metric-sub">tương tác · 30d</span>
                         </div>
                     </div>
 
-                    {# ===== TOP DIMENSIONS (chips inline) =====
-                       Quốc gia + thiết bị top 7d, render dạng 2 chip nhỏ. #}
+                    {# ===== TOP DIMENSIONS (chips) ===== #}
                     {% if ga_stats.top_country or ga_stats.top_device %}
-                    <div class="ga-stats__chips">
+                    <div class="ga-module__chips">
                         {% if ga_stats.top_country %}
-                        <span class="ga-stats__chip">
-                            <span class="ga-stats__chip-icon">🌍</span>
-                            <span class="ga-stats__chip-label">Top quốc gia (7d)</span>
-                            <span class="ga-stats__chip-val">{{ ga_stats.top_country }}</span>
+                        <span class="ga-module__chip">
+                            <span class="ga-module__chip-label">Top quốc gia · 7d</span>
+                            <span class="ga-module__chip-val">{{ ga_stats.top_country }}</span>
                         </span>
                         {% endif %}
                         {% if ga_stats.top_device %}
-                        <span class="ga-stats__chip">
-                            <span class="ga-stats__chip-icon">📱</span>
-                            <span class="ga-stats__chip-label">Top thiết bị (7d)</span>
-                            <span class="ga-stats__chip-val">{{ ga_stats.top_device }}</span>
+                        <span class="ga-module__chip">
+                            <span class="ga-module__chip-label">Top thiết bị · 7d</span>
+                            <span class="ga-module__chip-val">{{ ga_stats.top_device }}</span>
                         </span>
                         {% endif %}
                     </div>
                     {% endif %}
+                    {% else %}
+                    {# ===== AWAITING STATE — no leaked numbers, honest empty card ===== #}
+                    <div class="ga-module__empty" data-ga-empty>
+                        <p class="ga-module__empty-title">Đang chờ dữ liệu từ GA4 property {{ ga_prop }}</p>
+                        <p class="ga-module__empty-sub">
+                            Số liệu thật sẽ hiển thị sau lần fetch đầu tiên (cần GitHub Secret
+                            <code>GA_SERVICE_ACCOUNT_KEY</code> + Service Account có quyền Viewer trên property).
+                        </p>
+                    </div>
+                    {% endif %}
 
-                    <p class="ga-stats__updated">
-                        {% if is_demo %}
-                        ⚠ Chờ workflow lần đầu — cần thêm GitHub Secret <code>GA_SERVICE_ACCOUNT_KEY</code> + grant Service Account quyền Viewer trên GA Property.
+                    {# ===== UPDATE MESSAGE — exact concept, real runtime time (GMT+7) ===== #}
+                    <p class="ga-module__updated" data-ga-updated>
+                        {% if ga_live %}
+                        Cập nhật: <time datetime="{{ ga_stats.updated_at }}" data-ga-updated-time>{{ dt::display_datetime(value=ga_stats.updated_at) }}</time> — fetch hourly từ GA4 Data API
+                        {% elif ga_health and ga_health.checked_at %}
+                        Kiểm tra: <time datetime="{{ ga_health.checked_at }}" data-ga-updated-time>{{ dt::display_datetime(value=ga_health.checked_at) }}</time> — GA Vacxin chạy mỗi giờ
                         {% else %}
-                        Cập nhật: <time datetime="{{ ga_stats.updated_at }}">{{ dt::display_datetime(value=ga_stats.updated_at) }}</time>
-                        — fetch hourly từ GA4 Data API
+                        Chờ workflow GA lần đầu — fetch hourly từ GA4 Data API
                         {% endif %}
                     </p>
-                </div>
-                {% endif %}
+                </section>
 
                 {# ===== IMPROVEMENT PROGRESS — informational checklist from QA/SEO/PERF jobs ===== #}
                 {% set ga_improve = load_data(path="data/ga-improvement-progress.json", required=false) %}
@@ -1287,10 +1349,11 @@
                     <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
                 </p>
                 {# GA status pill → click mở GA dashboard intelligenthome.
-                   Property ID 541698865 hardcode trong URL — match config. #}
+                   Dashboard URL build từ config.extra.ga_property_id (KHÔNG hardcode
+                   property/account — đổi property chỉ sửa config). #}
                 {% if config.extra.ga_measurement_id %}
                 <a class="ga-status ga-status--active"
-                   href="https://analytics.google.com/analytics/web/?pli=1#/a250151829p541698865/reports/intelligenthome"
+                   href="https://analytics.google.com/analytics/web/#/p{{ config.extra.ga_property_id | default(value='') }}/reports/intelligenthome"
                    target="_blank" rel="noopener"
                    title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
                     📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
@@ -1385,6 +1448,7 @@
     <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/ga-vacxin.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/side-nav.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
@@ -1438,9 +1502,9 @@
        Đặt ngay trước </body> thay vì <head> → KHÔNG block initial paint.
        Khi ga_measurement_id rỗng → script PLACEHOLDER với chuỗi
        'ĐANG CHỜ MEASUREMENT ID' để user dễ tìm + thay sau.
-       Property ID 541698865 — tham chiếu Admin → Property Settings. #}
+       Property ID từ config.extra.ga_property_id — Admin → Property Settings. #}
     {% if config.extra.ga_measurement_id %}
-    <!-- GA4 Measurement ID: {{ config.extra.ga_measurement_id }} | Property ID: 541698865 -->
+    <!-- GA4 Measurement ID: {{ config.extra.ga_measurement_id }} | Property ID: {{ config.extra.ga_property_id | default(value='') }} -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];

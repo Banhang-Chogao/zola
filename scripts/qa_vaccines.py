@@ -2265,6 +2265,14 @@ def check_no_floating_nav_vaccine(ctx: Ctx) -> CheckResult:
 CANONICAL_HOST = "seomoney.org"
 BRAND_TOKEN = "SEOMONEY"
 
+# GA Analytics identity (V25) — seomoney.org GA4 property + measurement.
+_GA_PROPERTY_ID = "542421812"
+_GA_MEASUREMENT_ID = "G-SMTFZVC0XN"
+_GA_OLD_PROPERTY = "541698865"           # legacy github.io property — must not survive in active GA code
+_GA_UPDATE_MSG = "fetch hourly từ GA4 Data API"
+# Service-account / OAuth field names that must NEVER appear in the public health JSON.
+_GA_SECRET_FIELDS = ("private_key", "client_secret", "refresh_token", "access_token", "client_id")
+
 
 def _config_base_url(ctx: Ctx) -> str:
     """Extract config.toml base_url value (best-effort, stdlib only)."""
@@ -2341,6 +2349,143 @@ def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
     return CheckResult("V20", title, PASS,
                        diagnosis=("canonical root https://seomoney.org/ intact; "
                                   "homepage carries SEOMONEY brand; BlogPosting schema present"))
+
+
+def check_ga_analytics_vaccine(ctx: Ctx) -> CheckResult:
+    """V25 — GA Analytics property/measurement migration + cache isolation + GA Vacxin.
+
+    After the seomoney.org move (21/06/2026) the GA module must read ONLY the new
+    GA4 property 542421812 / measurement G-SMTFZVC0XN, isolate cache by property so
+    the old property's numbers can NEVER leak, run an hourly GA Vacxin health bot,
+    surface an inline error banner on disconnect, keep the exact update message,
+    and never leak the Service Account secret in the public health JSON.
+
+    FAIL — wrong/old property or measurement id in active config/code; old-property
+           numbers leaking in data/ga-stats.json (mismatched property stamp, or
+           non-zero metrics with no stamp); missing property-match guard in
+           base.html; secret leak / corrupt JSON in the health report.
+    WARN — missing hourly workflow; missing update message / error banner markup;
+           ga-vacxin.js missing the property-namespaced cache.
+    """
+    title = "V25 GA Analytics (property 542421812 · G-SMTFZVC0XN · cache isolation · GA Vacxin)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1 — config identity (property + measurement).
+    cfg = ctx.read("config.toml") or ""
+    m_prop = re.search(r'ga_property_id\s*=\s*"([^"]+)"', cfg)
+    if not m_prop:
+        fails.append("config.toml: thiếu ga_property_id")
+    elif m_prop.group(1) != _GA_PROPERTY_ID:
+        fails.append(f"config.toml ga_property_id={m_prop.group(1)} ≠ {_GA_PROPERTY_ID}")
+    m_mid = re.search(r'ga_measurement_id\s*=\s*"([^"]+)"', cfg)
+    if not m_mid:
+        warns.append("config.toml: thiếu ga_measurement_id")
+    elif m_mid.group(1) != _GA_MEASUREMENT_ID:
+        fails.append(f"config.toml ga_measurement_id={m_mid.group(1)} ≠ {_GA_MEASUREMENT_ID}")
+
+    # 2 — fetch script pinned to the new property; no old property in active GA code.
+    fetch = ctx.read("scripts/fetch_ga_stats.py") or ""
+    if fetch and _GA_PROPERTY_ID not in fetch:
+        fails.append(f"fetch_ga_stats.py không pin property {_GA_PROPERTY_ID}")
+    active_ga_files = [
+        "scripts/fetch_ga_stats.py", "scripts/ga_vacxin.py", "config.toml",
+        "templates/base.html",
+        ".github/workflows/ga-stats.yml", ".github/workflows/ga-vacxin.yml",
+    ]
+    for rel in active_ga_files:
+        src = ctx.read(rel) or ""
+        if _GA_OLD_PROPERTY in src:
+            fails.append(f"{rel}: còn property cũ {_GA_OLD_PROPERTY}")
+
+    # 3 — cache isolation: ga-stats.json stamped with the right property; no leak.
+    raw = ctx.read("data/ga-stats.json")
+    if raw is None:
+        warns.append("data/ga-stats.json absent")
+    else:
+        try:
+            stats = json.loads(raw)
+        except json.JSONDecodeError:
+            fails.append("data/ga-stats.json không phải JSON hợp lệ")
+            stats = None
+        if isinstance(stats, dict):
+            stamp = str(stats.get("property_id") or "")
+            if not stamp:
+                metric_keys = ("today_users", "week_users", "month_users", "month_pageviews")
+                if any(int(stats.get(k) or 0) for k in metric_keys):
+                    fails.append("data/ga-stats.json có số liệu nhưng KHÔNG có property_id stamp (leak risk)")
+                else:
+                    warns.append("data/ga-stats.json thiếu property_id stamp")
+            elif stamp != _GA_PROPERTY_ID:
+                fails.append(f"data/ga-stats.json gắn property {stamp} ≠ {_GA_PROPERTY_ID} (cache cũ leak)")
+    if fetch and '"property_id"' not in fetch:
+        warns.append("fetch_ga_stats.py không stamp property_id vào output")
+
+    # base.html property-match guard (server-side cache isolation).
+    base_html = ctx.read("templates/base.html") or ""
+    if base_html and "ga_prop_match" not in base_html and "property_id == ga_prop" not in base_html:
+        fails.append("base.html: thiếu guard so khớp property (cache isolation)")
+
+    # ga-vacxin.js property-namespaced cache (client-side cache isolation).
+    js = ctx.read("static/js/ga-vacxin.js") or ""
+    if not js:
+        warns.append("static/js/ga-vacxin.js absent")
+    elif "zola-ga-vacxin::" not in js:
+        warns.append("ga-vacxin.js: cache sessionStorage chưa namespace theo property")
+
+    # 4 — hourly GA Vacxin job.
+    vacxin_wf = ctx.read(".github/workflows/ga-vacxin.yml") or ""
+    if not vacxin_wf:
+        warns.append("workflow ga-vacxin.yml absent (GA Vacxin hourly job)")
+    elif "cron" not in vacxin_wf:
+        warns.append("ga-vacxin.yml không có cron (hourly)")
+
+    # 5 — update message format (exact concept).
+    if base_html and _GA_UPDATE_MSG not in base_html:
+        warns.append(f"base.html: thiếu thông điệp '{_GA_UPDATE_MSG}'")
+
+    # 6 — inline error banner + fix link button.
+    if base_html and "ga-module__banner" not in base_html:
+        warns.append("base.html: thiếu banner lỗi GA (ga-module__banner)")
+    if base_html and "data-ga-banner-fix" not in base_html:
+        warns.append("base.html: banner lỗi GA thiếu nút Khắc phục (fix link)")
+
+    # 7 — no secret leak / corrupt schema in the public health report.
+    vrep = ctx.read("data/ga-vacxin-report.json")
+    if vrep is None:
+        warns.append("data/ga-vacxin-report.json absent")
+    else:
+        try:
+            vdata = json.loads(vrep)
+        except json.JSONDecodeError:
+            fails.append("data/ga-vacxin-report.json không phải JSON hợp lệ")
+            vdata = None
+        if isinstance(vdata, dict):
+            leaked = [f for f in _GA_SECRET_FIELDS if f in vdata]
+            if leaked:
+                fails.append(f"data/ga-vacxin-report.json lộ trường nhạy cảm: {leaked}")
+            vp = str(vdata.get("property_id") or "")
+            if vp and vp != _GA_PROPERTY_ID:
+                fails.append(f"ga-vacxin-report.json gắn property {vp} ≠ {_GA_PROPERTY_ID}")
+            if "status" not in vdata:
+                warns.append("ga-vacxin-report.json thiếu key 'status'")
+
+    if fails:
+        return CheckResult("V25", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix=(f"Pin GA về property {_GA_PROPERTY_ID} + measurement {_GA_MEASUREMENT_ID} "
+                                "(config.toml + fetch_ga_stats.py), stamp/đối chiếu property_id trong "
+                                "data/ga-stats.json để không leak số property cũ, giữ guard ga_prop_match "
+                                "trong base.html, không commit secret vào ga-vacxin-report.json (xem V25 CLAUDE.md)"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V25", title, WARN,
+                           diagnosis="; ".join(warns),
+                           fix="Áp dụng V25 FIXER trong CLAUDE.md (hourly GA Vacxin job · update message · error banner · namespaced cache)",
+                           details=warns)
+    return CheckResult("V25", title, PASS,
+                       diagnosis=(f"property={_GA_PROPERTY_ID} · measurement={_GA_MEASUREMENT_ID} · "
+                                  "cache isolated by property · hourly GA Vacxin · error banner + update message present"))
 
 
 # Vaccine numbers that are *intentionally* documented more than once in CLAUDE.md:
@@ -2448,6 +2593,7 @@ DETECTORS = [
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
     check_v20_seo_identity_homepage,
+    check_ga_analytics_vaccine,
     check_vaccine_registry_integrity,
 ]
 
