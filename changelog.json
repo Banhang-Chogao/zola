@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "chore(seo-qa): update scores for auto-fixer blog post [claude/great-thompson-xhacsj]",
+      "tag": "chore",
+      "lines_added": 375,
+      "lines_removed": 1,
+      "highlights": [
+        "feat(blog): Auto Fixer - GitHub Actions self-healing pipeline",
+        "chore(seo-qa): update scores for auto-fixer blog post",
+        "content/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md (added, +273/-0)",
+        "data/seo-qa-scores.json (modified, +102/-1)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 658
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(content-routing): remove duplicate Auto Fixer article from baochi/",
       "tag": "remove",
       "lines_added": 0,
