@@ -206,7 +206,13 @@ def check_property_and_data(client, property_id: str) -> tuple[dict, dict]:
     except Exception as exc:
         msg = str(exc)
         low = msg.lower()
-        if "permission" in low or "403" in low or "denied" in low:
+        if "has not been used" in low or "service_disabled" in low or "disabled" in low or "enable" in low:
+            access = _check(
+                "property_access", access_label, FAIL,
+                "Google Analytics Data API chưa bật cho project của service account "
+                "— bật API tại console.cloud.google.com → APIs & Services",
+            )
+        elif "permission" in low or "403" in low or "denied" in low:
             access = _check(
                 "property_access", access_label, FAIL,
                 f"service account chưa có quyền Viewer trên property {property_id}",
