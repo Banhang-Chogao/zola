@@ -2018,21 +2018,26 @@ khi PR chưa tới trạng thái cuối.
 > 2. **Luôn output summary cuối sau merge** (khi gọi `merge`/`gg`/`prm` hoặc merge xong cùng turn) — một lần, rồi dừng.
 > 3. **Status = fail/error → đọc §4 Vaccine library** trong `CLAUDE.md` → đề xuất đúng `Vaccine match` + `Suggested fix tool`.
 
-**Thành công** — copy đúng khung (box-drawing table, GMT+7 `HH:mm dd/mm/yyyy`):
+**Mobile-safe MD output (BẮT BUỘC):** output shortcut đọc chủ yếu trên điện thoại → mọi
+bảng do shortcut sinh ra phải mobile-safe: (1) **tối đa 3 cột/bảng** (field thừa → bullet
+`• key: value` ngoài bảng, KHÔNG thêm cột 4); (2) **truncate branch/title dài ≤ 28 ký tự
++ `…`** (giữ phần đầu để nhận diện); (3) **notes/diễn giải dài ra ngoài bảng** (merged sha,
+deploy, error, vaccine match, next action = bullet `•`); (4) **dùng markdown table gọn**
+(`| … |`), KHÔNG vẽ box-drawing rộng cố định (`┌─┐`) — fixed-width tràn mép màn hình mobile.
+Canonical: `shortcuts.md` §5.
+
+**Thành công** — copy đúng khung (markdown table mobile-safe, GMT+7 `HH:mm dd/mm/yyyy`):
 
 ```text
 Tổng kết 1 PR vừa merged
 
-┌──────┬────────────────────────────────────────────────────────────┬────────┐
-│ PR   │ Title                                                      │ Status │
-├──────┼────────────────────────────────────────────────────────────┼────────┤
-│ #487 │ feat(flight-db): time pickers, combinator sync, API enrich │ ✅     │
-└──────┴────────────────────────────────────────────────────────────┴────────┘
+| PR   | Title (≤28, … nếu dài)     | Status |
+|------|----------------------------|--------|
+| #487 | feat(flight-db): time pic… | ✅     |
 
 • Merged: <commit_sha> lúc <HH:mm dd/mm/yyyy> (GMT+7)
 • Deploy: deploy.yml tự chạy trên main → production
-
-Track: https://github.com/Banhang-Chogao/zola/pulls
+• Track: https://github.com/Banhang-Chogao/zola/pulls
 ```
 
 Nhiều PR merged cùng turn → thêm dòng trong bảng; header `Tổng kết N PR vừa merged`.
@@ -2043,18 +2048,15 @@ Nhiều PR merged cùng turn → thêm dòng trong bảng; header `Tổng kết 
 ```text
 Tổng kết PR lỗi
 
-┌──────┬────────────────────────────────────────────────────────────┬────────┐
-│ PR   │ Title                                                      │ Status │
-├──────┼────────────────────────────────────────────────────────────┼────────┤
-│ #487 │ <title>                                                    │ ❌     │
-└──────┴────────────────────────────────────────────────────────────┴────────┘
+| PR   | Title (≤28, … nếu dài) | Status |
+|------|------------------------|--------|
+| #487 | <title cắt ≤28>…       | ❌     |
 
 • Error: <short error>
 • Vaccine match: <V1–V13 tên vaccine khớp dấu hiệu>
 • Suggested fix tool: <ff | ff9 | vacxin11 | fix_site_prefix_links.py | …>
 • Next action: <một dòng kế hoạch fix>
-
-Track: https://github.com/Banhang-Chogao/zola/pulls
+• Track: https://github.com/Banhang-Chogao/zola/pulls
 ```
 
 Quy tắc vaccine mapping (không chẩn đoán lại từ đầu nếu đã khớp):
