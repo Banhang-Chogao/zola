@@ -242,7 +242,7 @@
     {% elif og_image is ending_with(".jpg") or og_image is ending_with(".jpeg") %}{% set_global og_image_type = "image/jpeg" %}
     {% endif %}
 
-    <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
+    <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}" loading="lazy" decoding="async">
     <meta name="author" content="{{ config.extra.author }}">
 
     {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
@@ -475,7 +475,7 @@
             <a class="site-title-link" href="{{ config.base_url }}"
                {% if latest_commit %}title="Build Zola v{{ zola_ver }} · SHA {{ latest_commit.sha | truncate(length=7, end='') }} · Tổng {{ commit_count }} commit · Tuần này {{ week_count }} · Hôm nay {{ today_count }}"{% endif %}>
                 <span class="site-title-wrap">
-                    <img class="site-logo-mark" src="{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) }}" alt="" width="40" height="40" decoding="async">
+                    <img class="site-logo-mark" src="{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) }}" alt="" width="40" height="40" decoding="async" loading="lazy">
                     <span class="site-title">{{ config.title }}</span>
                     {# Meta Verified-style badge — xác nhận chính chủ. SVG inline,
                        scalloped 12-lobe path + checkmark trắng, gradient Meta blue. #}
