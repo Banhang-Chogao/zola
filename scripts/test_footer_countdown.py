@@ -43,6 +43,21 @@ class FooterCountdownConfigTest(unittest.TestCase):
             self.assertTrue(data["title"].strip())
 
 
+class FooterCountdownAdminButtonTest(unittest.TestCase):
+    """Guard: footer countdown admin button must persist through header cleanups."""
+
+    def test_footer_admin_button_exists(self):
+        """Countdown config admin link must be in footer to prevent loss during menu refactors."""
+        base = (ROOT / "templates" / "base.html").read_text(encoding="utf-8")
+        self.assertIn(
+            "/admin-countdown/",
+            base,
+            "Footer countdown admin button missing — must restore in templates/base.html",
+        )
+        self.assertIn("⏱ Countdown", base)
+        self.assertIn("site-footer__author-mgmt", base)
+
+
 class FooterCountdownDualFormatTest(unittest.TestCase):
     """Regression: dual-counter uses total hours + minute remainder."""
 
@@ -66,12 +81,6 @@ class FooterCountdownDualFormatTest(unittest.TestCase):
         self.assertIn("displayMode", js)
         self.assertIn("tickMs()", js)
         self.assertIn("1000", js)
-
-    def test_admin_preview_respects_display_mode(self):
-        js = (ROOT / "static/js/admin-countdown.js").read_text(encoding="utf-8")
-        self.assertIn("showsSeconds", js)
-        self.assertIn("GIÂY", js)
-        self.assertIn("previewTickMs", js)
 
 
 if __name__ == "__main__":

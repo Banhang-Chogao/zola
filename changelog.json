@@ -2,6 +2,147 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(images): add global blog image watermark rule [feat/blog-image-watermark]",
+      "tag": "chore",
+      "lines_added": 741,
+      "lines_removed": 4,
+      "highlights": [
+        "Quét static/img/**, ext .jpg .jpeg .png .webp.",
+        "Bỏ qua: *.og.webp (OG/social twin), thư mục brand/ og/ placeholder/ icons/ flags/, tên favicon/apple-touch/logo/sprite/placeholder/og-default/author-avatar/-mark, và .svg/.gif/.ico.",
+        "⇒ nhắm ảnh bài viết static/img/posting/* + cover bài static/img/covers/.webp (không phải .og.webp).",
+        "data/image-watermark-manifest.json: path → {hash16, watermark_text, source_sha256, watermarked_sha256, processed_at}.",
+        "Re-run bỏ qua ảnh có watermarked_sha256 khớp (không cần Pillow). Mỗi ảnh mang thêm EXIF/PNG marker seomoney-wm:<hash> đi theo pixel. Ảnh đổi nội dung → watermark lại hash mới. Manifest chỉ ghi khi có "
+      ],
+      "pr": 699
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs [feat/blog-terminal-production-cluster]",
+      "tag": "fix",
+      "lines_added": 427,
+      "lines_removed": 2,
+      "highlights": [
+        "content/posting/cac-lenh-git-dua-blog-len-production.md (added, +253/-0)",
+        "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md (modified, +2/-2)",
+        "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md (added, +172/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 698
+    },
+    {
+      "date": "2026-06-21",
+      "title": "fix(qa-404): remove dead internal links blocking the QA gate",
+      "tag": "remove",
+      "lines_added": 52,
+      "lines_removed": 108,
+      "highlights": [
+        "base.html: drop dead /admin-author/ + /admin-countdown/ footer links",
+        "cms.html: drop dead /admin-author/, /admin-countdown/, /admin/paywall/ links",
+        "insights.html: drop dead /authority-report/, /ad-report/, /ad-report-v2/ links (keep data cards)",
+        "content.md: drop 7 dead tool-registry entries (o/f/l/h-dashboard, ad-report*, authority-report)",
+        "9 posts + series.md: unlink dead O/F-Dashboard + Content Creator CTAs (prose kept)"
+      ],
+      "pr": 693
+    },
+    {
+      "date": "2026-06-21",
+      "title": "SEO11: thêm meta description + seo_keyword cho 2 trang còn thiếu",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 0,
+      "highlights": [
+        "content/posting/ai-thay-doi-lap-ke-hoach-du-lich.md: thêm meta description (148 ký tự, chứa keyword chính) + [extra] seo_keyword \"AI lập kế hoạch du lịch\" (vốn đã xuất hiện ở title/intro/H2) → điểm SE",
+        "content/topic/_index.md: thêm description cho section hub Topic Pillars."
+      ],
+      "pr": 681
+    },
+    {
+      "date": "2026-06-21",
+      "title": "SEO + AdSense Strategy Hotfix: Canonicalization, GSC Persistence, Reader-Supported Model",
+      "tag": "chore",
+      "lines_added": 912,
+      "lines_removed": 215,
+      "highlights": [
+        "robots.txt: Expanded disallow rules from 3 to 19 utility paths (editor, admin, cms, dashboards, tools, GSC, etc.)",
+        "base.html: Query string stripping on canonical URLs; auto-detect noindex for utility routes",
+        "page.html: Added noindex frontmatter flag support",
+        "section.html: Noindex logic for thin tags (≤1 post) and utility sections",
+        "paywall.html: Changed \"Bài viết premium — cần thanh toán để mở khóa nội dung\" → \"Premium bài viết — Ủng hộ tác giả qua reader-supported model\""
+      ],
+      "pr": 679
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(shortcut): add dantri inspired blog writing shortcut",
+      "tag": "chore",
+      "lines_added": 108,
+      "lines_removed": 0,
+      "highlights": [
+        "Added dantri to shortcuts table in shortcuts.md with brief description",
+        "Added full dantri section definition in shortcuts.md with complete workflow and rules",
+        "Created .claude/commands/dantri.md handler with parse, execution, and output specs",
+        "User types: dantri",
+        "Response: Asks for source content/link + excerpt"
+      ],
+      "pr": 677
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(shortcut): add dantri inspired blog writing shortcut [claude/hopeful-rubin-g4t52d]",
+      "tag": "chore",
+      "lines_added": 108,
+      "lines_removed": 0,
+      "highlights": [
+        ".claude/commands/dantri.md (added, +40/-0)",
+        "shortcuts.md (modified, +68/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 674
+    },
+    {
+      "date": "2026-06-21",
+      "title": "publish case study on Auto Fixer self-healing CI/CD pipeline [claude/amazing-goldberg-9hwo4r]",
+      "tag": "feat",
+      "lines_added": 362,
+      "lines_removed": 1,
+      "highlights": [
+        "content/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer.md (added, +262/-0)",
+        "data/seo-qa-scores.json (modified, +100/-1)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 673
+    },
+    {
+      "date": "2026-06-21",
+      "title": "header/menu regression: navbar to right with 2-item max",
+      "tag": "fix",
+      "lines_added": 39,
+      "lines_removed": 12,
+      "highlights": [
+        "Move navbar menu from hidden (display: none) to visible with flex layout",
+        "Position navbar menu on right side using margin-left: auto",
+        "Limit visible menu items to max 2 using nth-child(n+3) { display: none }",
+        "Hide navbar menu on mobile/tablet (≤960px) to prevent duplication",
+        "Add proper styling for navbar items with padding and hover effects"
+      ],
+      "pr": 670
+    },
+    {
+      "date": "2026-06-21",
+      "title": "vaccine cheat sheet to static for public deployment",
+      "tag": "refactor",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 669
+    },
+    {
+      "date": "2026-06-21",
       "title": "README.md",
       "tag": "chore",
       "lines_added": 0,

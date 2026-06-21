@@ -6,8 +6,7 @@ aliases = ["/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github actions", "auto fixer", "ci/cd", "automation", "qa", "blog engineering", "self-healing"]
-
+tags = ["auto fixer", "automation", "blog engineering", "ci/cd", "github actions", "qa", "self-healing"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "auto fixer là gì"
