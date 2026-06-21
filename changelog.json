@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "fix(claude): remove conflict-marker example triggering QA [claude/amazing-brown-rhu2ne]",
+      "tag": "remove",
+      "lines_added": 9,
+      "lines_removed": 1,
+      "highlights": [
+        "chore(ci): enable full auto PR flow for working branches",
+        "fix(claude): remove conflict-marker example triggering QA",
+        ".github/workflows/ensure-pr-after-push.yml (modified, +6/-0)",
+        "CLAUDE.md (modified, +1/-1)",
+        "data/auto-merge-policy.json (modified, +2/-0)"
+      ],
+      "pr": 617
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(assets): restore shared assets causing repeated 404s",
       "tag": "fix",
       "lines_added": 21,
