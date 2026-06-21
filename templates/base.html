@@ -79,7 +79,7 @@
        bài THIẾU thumbnail): listener này bắt cả ảnh CÓ src nhưng load fail. Dùng
        capture phase vì sự kiện 'error' của <img> không bubble; bắt được cả ảnh
        do JS dựng sau (sidebar random/featured). Guard chống lặp vô hạn. #}
-    <script>(function(){var V=['{{ get_url(path='img/placeholder/placeholder.svg') }}','{{ get_url(path='img/placeholder/placeholder-2.svg') }}','{{ get_url(path='img/placeholder/placeholder-3.svg') }}'];function pick(){return V[Math.floor(Math.random()*V.length)];}document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.getAttribute('data-ph')!=='1'&&V.indexOf(t.src)===-1){t.setAttribute('data-ph','1');t.src=pick();}},true);})();</script>
+    <script>(function(){var PH='{{ get_url(path='img/placeholder/placeholder.svg') }}';document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.getAttribute('data-ph')!=='1'&&t.src!==PH){t.setAttribute('data-ph','1');t.src=PH;}},true);})();</script>
     {# Persistent CMS/super-admin session — chạy SỚM (trước mọi script defer auth).
        sid (zola-cms-session-id) trước đây chỉ ở sessionStorage → mất khi đóng tab /
        xoá cache → phải đăng nhập GitHub lại. Bootstrap này mirror sid sang
@@ -99,13 +99,13 @@
        frame-ancestors 'none': chống clickjacking, /editor/ không thể iframe. #}
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'self';
-        script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app https://cse.google.com https://www.google.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://adservice.google.com https://www.googletagservices.com;
+        script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://unpkg.com https://giscus.app https://cse.google.com https://www.google.com;
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.google.com https://cse.google.com;
         font-src 'self' https://fonts.gstatic.com;
         img-src 'self' https: data:;
-        connect-src 'self' https://api.aviationstack.com https://opensky-network.org https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://googleads.g.doubleclick.net https://adservice.google.com;
+        connect-src 'self' https://api.aviationstack.com https://opensky-network.org https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://cse.google.com https://*.googleapis.com https://*.onrender.com https://*.railway.app https://cdn.jsdelivr.net https://tessdata.projectnaptha.com;
         worker-src 'self' blob: https://cdn.jsdelivr.net;
-        frame-src https://giscus.app https://www.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com;
+        frame-src https://giscus.app https://www.google.com;
         frame-ancestors 'none';
         base-uri 'self';
         form-action 'self' https://www.google.com;
@@ -197,19 +197,18 @@
     {% set canonical_url = config.base_url %}
     {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
 
-    {# OG image: social KHÔNG render SVG → raster .webp. Cover SVG có twin
-       `.og.webp` (1200×630) sinh bởi scripts/build_og_images.py → dùng twin để
-       social hiện đúng ảnh BÀI thay vì banner chung. Ưu tiên: og_image →
-       thumbnail (svg→twin, hoặc raster sẵn) → fallback og-default.webp. #}
-    {% set og_image = config.base_url ~ "/img/og/seomoney-og.og.webp" %}
+    {% set brand_tagline = config.extra.brand_tagline | default(value=config.extra.tagline | default(value="SEO, AI & hệ thống tăng trưởng số")) %}
+
+    {# OG image: social KHÔNG render SVG/CSS → dùng card .webp 1200×630 đã
+       bake bởi scripts/build_og_images.py. Card chứa thumbnail, brand bar,
+       logo, trust line và title; page.extra.og_image vẫn override khi cần. #}
+    {% set og_image = config.base_url ~ "/img/og-default.webp" %}
     {% if page and page.extra.og_image %}
         {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
-    {% elif page and page.extra.thumbnail %}
-        {% if page.extra.thumbnail is ending_with(".svg") %}
-            {% set_global og_image = page.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
-        {% else %}
-            {% set_global og_image = img::thumb_src(thumb=page.extra.thumbnail) %}
-        {% endif %}
+    {% elif page and page.extra.feed_anchor %}
+        {% set_global og_image = config.base_url ~ "/img/og-default.webp" %}
+    {% elif page and page.slug %}
+        {% set_global og_image = config.base_url ~ "/img/og/" ~ page.slug ~ ".webp" %}
     {% elif section and section.extra.thumbnail %}
         {% if section.extra.thumbnail is ending_with(".svg") %}
             {% set_global og_image = section.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
@@ -221,22 +220,10 @@
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
 
-    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR).
-       Trang nội bộ/QA/dashboard/thin đặt [extra] noindex = true trong frontmatter →
-       phát noindex + bị loại khỏi sitemap.xml (xem templates/sitemap.xml). ===== #}
-    <meta name="robots" content="{% block robots %}{% if page and page.extra.noindex %}noindex, follow{% elif section and section.extra.noindex %}noindex, follow{% else %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endif %}{% endblock %}">
+    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
+    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
     {# ===== Google Search Console verification — điền mã ở config.extra.google_site_verification ===== #}
     {% if config.extra.google_site_verification %}<meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">{% endif %}
-
-    {# ===== Google AdSense — chỉ phát khi có publisher id (ca-pub-…).
-       Nguồn: env ADSENSE_CLIENT (ưu tiên, set ở deploy) → fallback
-       config.extra.adsense_client. Rỗng = không phát script → site sạch
-       cho tới khi được duyệt AdSense. ===== #}
-    {% set adsense_client = get_env(name="ADSENSE_CLIENT", default=config.extra.adsense_client | default(value="")) %}
-    {% if adsense_client %}
-    <meta name="google-adsense-account" content="{{ adsense_client }}">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client }}" crossorigin="anonymous"></script>
-    {% endif %}
 
     <title>{% block title %}{{ config.title }}{% endblock %}</title>
 
@@ -257,6 +244,7 @@
     <meta property="og:image" content="{{ og_image | safe }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ page_title_full }} — {{ config.title }} social preview">
     <meta property="og:site_name" content="{{ config.title }}">
     <meta property="og:locale" content="vi_VN">
     {% if page %}
@@ -275,6 +263,7 @@
     <meta name="twitter:title" content="{{ page_title_full }}">
     <meta name="twitter:description" content="{{ page_description }}">
     <meta name="twitter:image" content="{{ og_image | safe }}">
+    <meta name="twitter:image:alt" content="{{ page_title_full }} — {{ config.title }} social preview">
 
     {# ===== JSON-LD structured data (rich snippet schema.org) =====
        Page (article) → Article schema với headline, image, datePublished.
@@ -299,7 +288,7 @@
             "url": "{{ config.base_url | safe }}",
             "logo": {
                 "@type": "ImageObject",
-                "url": "{{ config.base_url | safe }}/img/author-avatar.webp"
+                "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) | safe }}"
             }
         },
         "mainEntityOfPage": {
@@ -314,7 +303,11 @@
         "description": {{ page_description | json_encode | safe }},
         "publisher": {
             "@type": "Organization",
-            "name": {{ config.title | json_encode | safe }}
+            "name": {{ config.title | json_encode | safe }},
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) | safe }}"
+            }
         }
         {% endif %}
     }
@@ -455,6 +448,7 @@
             <a class="site-title-link" href="{{ config.base_url }}"
                {% if latest_commit %}title="Build Zola v{{ zola_ver }} · SHA {{ latest_commit.sha | truncate(length=7, end='') }} · Tổng {{ commit_count }} commit · Tuần này {{ week_count }} · Hôm nay {{ today_count }}"{% endif %}>
                 <span class="site-title-wrap">
+                    <img class="site-logo-mark" src="{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) }}" alt="" width="40" height="40" decoding="async">
                     <span class="site-title">{{ config.title }}</span>
                     {# Meta Verified-style badge — xác nhận chính chủ. SVG inline,
                        scalloped 12-lobe path + checkmark trắng, gradient Meta blue. #}
@@ -514,8 +508,8 @@
                 <div class="header-rotator__viewport">
                 {# Slide A: Welcome placeholder — không phải quảng cáo #}
                 <div class="header-welcome header-rotator__slide is-active" role="note" aria-label="Chào mừng">
-                    <p class="header-welcome__title">WELCOME TO MY BLOG</p>
-                    <p class="header-welcome__desc">Kiến thức SEO, công nghệ &amp; tài chính cá nhân — viết bởi Duy Nguyen.</p>
+                    <p class="header-welcome__title">WELCOME TO SEOMONEY</p>
+                    <p class="header-welcome__desc">{{ brand_tagline }} — viết bởi Duy Nguyen.</p>
                 </div>
 
                 {# Slide B: GitHub commit status — render từ load_data (build-time) #}
@@ -610,52 +604,128 @@
         </div>
     </header>
 
-    {# ===== Primary navigation =====
-       Top navbar đã GỠ. Điều hướng chính sống ở .side-nav (đầu cột phải, desktop —
-       trên các widget) và .nav-drawer (mobile/tablet ≤960px, và desktop full-width
-       pages không có sidebar). Nút hamburger fixed top-right; CSS quyết định khi hiện. #}
-    <button class="nav-toggle" type="button" aria-label="Mở điều hướng"
-            aria-expanded="false" aria-controls="nav-drawer" data-nav-toggle>
-        <span class="nav-toggle__box" aria-hidden="true">
-            <span class="nav-toggle__line"></span>
-            <span class="nav-toggle__line"></span>
-            <span class="nav-toggle__line"></span>
-        </span>
-    </button>
+    {# Sticky navbar — mobile burger menu pattern (Momo-style).
+       Trên desktop hiển thị tất cả menu items inline. Trên mobile,
+       collapse vào burger, JS toggles .is-open để slide-down panel. #}
+    <nav class="navbar" id="navbar">
+        {# Trang trí: bảng chữ cái trắng mờ rải rác (font FreightSans Pro kiểu
+           Starbucks) trên nền gradient xanh. aria-hidden + pointer-events:none
+           → thuần trang trí, không ảnh hưởng menu/dropdown. #}
+        <div class="navbar__letters" aria-hidden="true">
+            <span style="left:0.2%;top:15.0px;transform:rotate(36.0deg);font-size:1.01rem;opacity:0.119;font-weight:700">J</span>
+            <span style="left:3.1%;top:26.0px;transform:rotate(5.0deg);font-size:1.71rem;opacity:0.105;font-weight:500">F</span>
+            <span style="left:6.9%;top:34.0px;transform:rotate(-10.0deg);font-size:1.69rem;opacity:0.055;font-weight:500">W</span>
+            <span style="left:10.3%;top:23.0px;transform:rotate(2.0deg);font-size:2.0rem;opacity:0.087;font-weight:700">I</span>
+            <span style="left:12.9%;top:2.0px;transform:rotate(-24.0deg);font-size:2.0rem;opacity:0.057;font-weight:700">H</span>
+            <span style="left:16.7%;top:54.0px;transform:rotate(17.0deg);font-size:1.34rem;opacity:0.128;font-weight:500">Y</span>
+            <span style="left:20.0%;top:-4.0px;transform:rotate(-12.0deg);font-size:2.21rem;opacity:0.084;font-weight:500">O</span>
+            <span style="left:24.1%;top:29.0px;transform:rotate(29.0deg);font-size:1.37rem;opacity:0.106;font-weight:700">T</span>
+            <span style="left:26.9%;top:19.0px;transform:rotate(26.0deg);font-size:2.23rem;opacity:0.088;font-weight:500">Z</span>
+            <span style="left:28.8%;top:40.0px;transform:rotate(11.0deg);font-size:2.29rem;opacity:0.116;font-weight:700">S</span>
+            <span style="left:33.9%;top:55.0px;transform:rotate(-12.0deg);font-size:2.22rem;opacity:0.078;font-weight:500">N</span>
+            <span style="left:36.6%;top:-0.0px;transform:rotate(-16.0deg);font-size:1.95rem;opacity:0.082;font-weight:700">X</span>
+            <span style="left:38.8%;top:19.0px;transform:rotate(4.0deg);font-size:2.14rem;opacity:0.116;font-weight:700">P</span>
+            <span style="left:43.9%;top:63.0px;transform:rotate(14.0deg);font-size:1.46rem;opacity:0.068;font-weight:500">Q</span>
+            <span style="left:45.8%;top:1.0px;transform:rotate(-20.0deg);font-size:1.6rem;opacity:0.097;font-weight:700">A</span>
+            <span style="left:49.4%;top:-6.0px;transform:rotate(3.0deg);font-size:1.77rem;opacity:0.075;font-weight:500">G</span>
+            <span style="left:53.9%;top:24.0px;transform:rotate(9.0deg);font-size:1.86rem;opacity:0.054;font-weight:700">V</span>
+            <span style="left:56.4%;top:14.0px;transform:rotate(-1.0deg);font-size:1.49rem;opacity:0.065;font-weight:500">L</span>
+            <span style="left:59.8%;top:-9.0px;transform:rotate(8.0deg);font-size:1.09rem;opacity:0.095;font-weight:500">D</span>
+            <span style="left:64.6%;top:32.0px;transform:rotate(-33.0deg);font-size:1.23rem;opacity:0.08;font-weight:700">R</span>
+            <span style="left:67.9%;top:31.0px;transform:rotate(-2.0deg);font-size:1.11rem;opacity:0.089;font-weight:700">C</span>
+            <span style="left:69.9%;top:8.0px;transform:rotate(-27.0deg);font-size:1.96rem;opacity:0.109;font-weight:700">B</span>
+            <span style="left:74.3%;top:-5.0px;transform:rotate(-36.0deg);font-size:2.23rem;opacity:0.092;font-weight:500">U</span>
+            <span style="left:77.2%;top:57.0px;transform:rotate(20.0deg);font-size:1.35rem;opacity:0.101;font-weight:500">M</span>
+            <span style="left:80.5%;top:3.0px;transform:rotate(-10.0deg);font-size:1.18rem;opacity:0.112;font-weight:700">E</span>
+            <span style="left:83.7%;top:32.0px;transform:rotate(22.0deg);font-size:1.97rem;opacity:0.066;font-weight:500">K</span>
+            <span style="left:87.6%;top:43.0px;transform:rotate(-21.0deg);font-size:1.65rem;opacity:0.078;font-weight:500">J</span>
+            <span style="left:91.4%;top:47.0px;transform:rotate(-2.0deg);font-size:1.21rem;opacity:0.098;font-weight:700">F</span>
+            <span style="left:93.2%;top:59.0px;transform:rotate(37.0deg);font-size:2.24rem;opacity:0.079;font-weight:500">W</span>
+            <span style="left:95.6%;top:21.0px;transform:rotate(-12.0deg);font-size:1.6rem;opacity:0.129;font-weight:500">I</span>
+        </div>
+        <div class="navbar__inner">
+            {# Burger button — chỉ visible trên mobile via CSS #}
+            <button class="navbar__burger" aria-label="Mở menu" aria-expanded="false"
+                    aria-controls="navbar-menu" data-burger>
+                <span class="navbar__burger-line"></span>
+                <span class="navbar__burger-line"></span>
+                <span class="navbar__burger-line"></span>
+            </button>
 
-    <div class="nav-drawer" id="nav-drawer" data-nav-drawer hidden>
-        <div class="nav-drawer__backdrop" data-nav-close></div>
-        <nav class="nav-drawer__panel" aria-label="Điều hướng chính">
-            <div class="nav-drawer__head">
-                <span class="nav-drawer__brand">{{ config.title }}</span>
-                <button class="nav-drawer__close" type="button" aria-label="Đóng điều hướng" data-nav-close>
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-            <ul class="nav-drawer__list">
+            <ul class="navbar__menu" id="navbar-menu">
                 {% for item in config.extra.menu %}
-                <li><a class="nav-drawer__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
+                    {% set parent_index = loop.index %}
+                    {% if item.children %}
+                        {# Category có sub-category → dropdown xổ xuống. Trigger là
+                           <button> (toggle), trang đại diện nằm ở child đầu tiên. #}
+                        <li class="navbar__item navbar__item--has-children" data-nav-dropdown>
+                            <button type="button" class="navbar__dropdown-trigger"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span class="navbar__dropdown-label">{{ item.name }}</span>
+                                <svg class="navbar__chevron" width="12" height="12" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2.5"
+                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <ul class="navbar__submenu" role="menu">
+                                {% for child in item.children %}
+                                    {% if child.children %}
+                                        {# Nhóm con (accordion): Content / Dashboard / Khác.
+                                           <button> trigger xổ/đóng panel chứa link tool con →
+                                           tầng 1 chỉ hiện tên nhóm, không tràn màn hình. #}
+                                        {% set group_id = "nav-acc-" ~ parent_index ~ "-" ~ loop.index %}
+                                        <li class="navbar__group" role="none" data-nav-accordion>
+                                            <button type="button" class="navbar__group-trigger" role="menuitem"
+                                                    aria-haspopup="true" aria-expanded="false" aria-controls="{{ group_id }}">
+                                                <span class="navbar__group-label">{{ child.name }}</span>
+                                                <svg class="navbar__group-chevron" width="12" height="12" viewBox="0 0 24 24"
+                                                     fill="none" stroke="currentColor" stroke-width="2.5"
+                                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            </button>
+                                            <div class="navbar__group-panel">
+                                                <ul class="navbar__group-items" id="{{ group_id }}" role="menu">
+                                                    {% for leaf in child.children %}
+                                                        <li role="none"><a role="menuitem" href="{{ leaf.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ leaf.name }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    {% else %}
+                                        <li role="none"><a role="menuitem" href="{{ child.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ child.name }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        {# Link đơn (không có children) — giữ nguyên hành vi cũ. #}
+                        <li class="navbar__item"><a href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ item.name }}</a></li>
+                    {% endif %}
                 {% endfor %}
             </ul>
-            <div class="nav-drawer__actions">
-                <button class="nav-action" type="button" data-search-open>
+            {# Theme selector đã gỡ hoàn toàn theo yêu cầu — blog mặc định theme
+               Hilda (set bởi inline script ở <head>). #}
+            <div class="navbar__actions">
+                <button class="navbar__cache" type="button" aria-label="Xoá cache blog" title="Xoá cache trình duyệt của blog trên thiết bị này" data-clear-cache>
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    Tìm kiếm
-                </button>
-                <button class="nav-action" type="button" data-clear-cache>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
                     </svg>
                     <span data-clear-cache-label>Xoá cache</span>
                 </button>
+                <button class="navbar__search" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" data-search-open>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
             </div>
-        </nav>
-    </div>
+        </div>
+        {# Overlay backdrop khi menu mở trên mobile — tap đóng menu #}
+        <div class="navbar__backdrop" data-backdrop aria-hidden="true"></div>
+    </nav>
 
     <div class="site-search" role="dialog" aria-modal="true" aria-labelledby="site-search-title" data-site-search hidden>
         <div class="site-search__backdrop" data-search-close></div>
@@ -750,31 +820,6 @@
                 </script>
 
                 <aside class="sidebar">
-                    {# ===== PRIMARY NAV (desktop) — khối sticky đầu cột phải, TRÊN
-                       các widget (lựa chọn "nav on top of widgets"). Mobile ≤960px
-                       ẩn → dùng .nav-drawer (hamburger). Active state set bởi side-nav.js. #}
-                    <nav class="side-nav" aria-label="Điều hướng chính">
-                        <ul class="side-nav__list">
-                            {% for item in config.extra.menu %}
-                            <li><a class="side-nav__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                        <div class="side-nav__actions">
-                            <button class="nav-action" type="button" data-search-open>
-                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
-                                Tìm kiếm
-                            </button>
-                            <button class="nav-action" type="button" data-clear-cache>
-                                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                                </svg>
-                                <span data-clear-cache-label>Xoá cache</span>
-                            </button>
-                        </div>
-                    </nav>
-
                     {# ===== PREMIUM POSTS — S-DNA CTA widget (ngay TRÊN Featured) =====
                        Liệt kê tối đa 10 bài premium (category "premium" HOẶC extra.premium),
                        random reshuffle mỗi lần load qua sidebar.js (no-duplicate). Server render
@@ -810,6 +855,19 @@
                         </ul>
                     </section>
                     {% endif %}
+
+                    <section class="sidebar-block vipzone-stat" data-widget="vipzone-stat">
+                        <p class="vipzone-stat__text">Đã có <strong data-vipzone-count>0</strong> người kích hoạt VIP để ủng hộ những nội dung giá trị!</p>
+                    </section>
+
+                    {# ===== TOOLS — always-visible system links (no auth) ===== #}
+                    <section class="sidebar-block sidebar-tools" data-widget="tools">
+                        <h3 class="sidebar-label">🧭 TOOLS</h3>
+                        <ul class="sidebar-tools__list">
+                            <li><a class="sidebar-tools__link" href="{{ config.base_url }}/tools/b-dna/">B-DNA <span class="sidebar-tools__hint">Brand design system</span></a></li>
+                            <li><a class="sidebar-tools__link" href="{{ config.base_url }}/tools/s-dna/">S-DNA <span class="sidebar-tools__hint">Sembcorp Design DNA</span></a></li>
+                        </ul>
+                    </section>
 
                     {# FEATURED: manual extra.featured=true thắng auto-pick. CMS publish
                        sẽ demote các bài featured cũ để chỉ còn đúng một override thủ công. #}
@@ -1282,8 +1340,6 @@
                     <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
                     <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
                     <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a> ·
-                    <a href="{{ config.base_url | safe }}/advertising/">Chính sách quảng cáo</a> ·
-                    <a href="{{ config.base_url | safe }}/editorial/">Chính sách biên tập</a> ·
                     <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
                 </p>
                 {# GA status pill → click mở GA dashboard intelligenthome.
@@ -1302,56 +1358,6 @@
                 {% endif %}
             </div>
         </div>
-
-        {# ===== DEPLOY WATCH — compact, non-intrusive footer widget. Fed by CI
-           (data/deploy-monitor.json); browser never calls GitHub. Collapsed
-           <details> = no layout shift. Full timeline at /tools/deploy-monitor/. #}
-        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
-        {% if dm and dm.summary %}
-        {% set d = dm.summary %}
-        <div class="container">
-          <details class="deploy-watch deploy-watch--{{ d.prod_status | default(value='unknown') }}">
-            <summary class="deploy-watch__summary">
-              <span class="deploy-watch__dot" aria-hidden="true"></span>
-              <span class="deploy-watch__label">Deploy Watch</span>
-              <span class="deploy-watch__sha">{{ d.prod_commit_short | default(value='—') }}</span>
-              {% if d.pending_count and d.pending_count > 0 %}
-              <span class="deploy-watch__pending">{{ d.pending_count }} chờ deploy</span>
-              {% endif %}
-              {% if d.avg_deploy_s %}<span class="deploy-watch__avg">~{{ d.avg_deploy_s }}s</span>{% endif %}
-              {% if dm.stale %}<span class="deploy-watch__stale" title="dữ liệu có thể đã cũ">⚠</span>{% endif %}
-              <span class="deploy-watch__chev" aria-hidden="true">▾</span>
-            </summary>
-            <div class="deploy-watch__panel">
-              <div class="deploy-watch__metrics">
-                <span>Prod: <strong>{{ d.prod_status | default(value='?') }}</strong></span>
-                <span>TB: <strong>{% if d.avg_deploy_s %}{{ d.avg_deploy_s }}s{% else %}—{% endif %}</strong></span>
-                <span>Lâu nhất: <strong>{% if d.longest_deploy_s %}{{ d.longest_deploy_s }}s{% else %}—{% endif %}</strong></span>
-                <span>Lỗi/huỷ: <strong>{{ d.failed_recent | default(value=0) }}/{{ d.cancelled_recent | default(value=0) }}</strong></span>
-                {% if d.storm %}<span class="deploy-watch__warn">⚡ storm rate-limit (V5)</span>{% endif %}
-              </div>
-              {% if dm.pending %}
-              <ul class="deploy-watch__list">
-                {% for p in dm.pending %}
-                <li class="deploy-watch__item deploy-watch__item--{{ p.status }}">
-                  <code>{{ p.sha_short }}</code>
-                  <span class="deploy-watch__item-status">{{ p.status }}</span>
-                  {% if p.waiting_s %}<span class="deploy-watch__item-wait">{{ p.waiting_s }}s</span>{% endif %}
-                  <span class="deploy-watch__item-title">{{ p.title | default(value="") | truncate(length=48) }}</span>
-                </li>
-                {% endfor %}
-              </ul>
-              {% else %}
-              <p class="deploy-watch__none">Không có commit nào đang chờ deploy 🎉</p>
-              {% endif %}
-              <p class="deploy-watch__foot">
-                {% if dm.checked_at %}Cập nhật: <time datetime="{{ dm.checked_at }}" data-datetime>{{ dm.checked_at }}</time> · {% endif %}
-                <a href="{{ config.base_url | safe }}/tools/deploy-monitor/">Xem timeline đầy đủ →</a>
-              </p>
-            </div>
-          </details>
-        </div>
-        {% endif %}
 
         {# CATEGORIES — compact footer navigation (moved from sidebar) #}
         <nav class="footer-categories" aria-label="Danh mục bài viết">
@@ -1372,6 +1378,7 @@
             </div>
         </nav>
     </footer>
+  {% include "partials/turnstile_footer.html" %}
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
@@ -1386,12 +1393,14 @@
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/side-nav.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/cache-clear.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-switcher.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/theme-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/vipzone.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/print-watermark.js') }}?v={{ asset_version }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>
