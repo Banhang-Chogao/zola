@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "docs(shortcuts): mobile-safe MD output for shortcut report tables [claude/shortcut-md-mobile-safe-d27hmf]",
+      "tag": "chore",
+      "lines_added": 39,
+      "lines_removed": 29,
+      "highlights": [
+        "CLAUDE.md (modified, +17/-15)",
+        "shortcuts.md (modified, +22/-14)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 625
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(perf): Auto Performance Fix Engine — real Google PageSpeed + GA4 APIs [claude/serene-dirac-zn0ppa]",
       "tag": "fix",
       "lines_added": 1797,
