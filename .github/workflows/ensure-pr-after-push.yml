@@ -19,6 +19,12 @@ on:
       - 'feat/**'
       - 'fix/**'
       - 'hotfix/**'
+      - 'chore/**'
+      - 'feature/**'
+      - 'content/**'
+      - 'qa/**'
+      - 'autofix/**'
+      - 'policy/**'
   workflow_dispatch:
     inputs:
       branch:
