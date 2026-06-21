@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "resolve CLAUDE manifesto conflict [claude/gracious-newton-0uxf2c]",
+      "tag": "fix",
+      "lines_added": 65,
+      "lines_removed": 39,
+      "highlights": [
+        "docs(claude): introduce zero barrier manifesto",
+        "fix: resolve CLAUDE manifesto conflict",
+        "CLAUDE.md (modified, +65/-39)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 614
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(claude): remove conflict-marker example triggering QA [claude/amazing-brown-rhu2ne]",
       "tag": "remove",
       "lines_added": 9,
