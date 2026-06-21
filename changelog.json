@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "docs(operator): Phase 1 vaccine shortcut grouping guide",
+      "tag": "chore",
+      "lines_added": 536,
+      "lines_removed": 1,
+      "highlights": [
+        "Add Phase 1 operator shortcut grouping documentation",
+        "Define top-5 operational functions: fix-merge, fix-deploy, fix-seo, fix-ui, fix-gsc-ga",
+        "Add bilingual EN/VI decision flows and UI layout sketches",
+        "Keep CLAUDE.md, qa_vaccines.py, and vaccine registry unchanged",
+        "CLAUDE.md diff: 0 changes"
+      ],
+      "pr": 649
+    },
+    {
+      "date": "2026-06-21",
       "title": "compress CLAUDE.md to 31KB, move vaccine details to archive [claude/tender-einstein-4zz7uf]",
       "tag": "refactor",
       "lines_added": 3086,
