@@ -193,9 +193,25 @@
         {% set_global page_title_full = section.title ~ " | " ~ config.title %}
     {% endif %}
 
-    {# Per-page canonical URL (Zola provides current_url cho page rendered) #}
+    {# Per-page canonical URL: strip query strings (pagination, utm_*, etc.)
+       to avoid duplicate content penalties. Zola provides current_url. #}
     {% set canonical_url = config.base_url %}
-    {% if current_url %}{% set_global canonical_url = current_url %}{% endif %}
+    {% if current_url %}
+        {%- set url_parts = current_url | split(pat="?") -%}
+        {%- set_global canonical_url = url_parts.0 -%}
+    {% endif %}
+
+    {# Noindex detection: utility routes should not be indexed by search engines.
+       List of noindex patterns (editor, admin, CMS, dashboards, etc.). #}
+    {% set noindex_patterns = ["/editor/", "/cms/", "/admin-zone/", "/admin/", "/scoring/", "/deploy-monitor/", "/open-prs/", "/prompt-support/", "/seo_board/", "/branding/", "/font/", "/changelog/", "/shortensea-admin/", "/tools/content-creator/", "/tools/deploy-monitor/", "/tools/flight-db/", "/tools/l-dashboard/", "/gsc/oauth/"] %}
+    {% set should_noindex = false %}
+    {% if current_url %}
+        {%- for pattern in noindex_patterns -%}
+            {%- if pattern in current_url -%}
+                {%- set_global should_noindex = true -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {% endif %}
 
     {% set brand_tagline = config.extra.brand_tagline | default(value=config.extra.tagline | default(value="SEO, AI & hệ thống tăng trưởng số")) %}
 
@@ -223,8 +239,9 @@
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
 
-    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
-    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
+    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR).
+       Utility routes auto-noindex via should_noindex flag. ===== #}
+    <meta name="robots" content="{% block robots %}{%- if should_noindex -%}noindex, nofollow{%- else -%}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{%- endif -%}{% endblock %}"
     {# ===== Google Search Console verification — điền mã ở config.extra.google_site_verification ===== #}
     {% if config.extra.google_site_verification %}<meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">{% endif %}
 
