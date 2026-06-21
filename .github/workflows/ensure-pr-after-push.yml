@@ -7,7 +7,7 @@ name: Auto PR Gatekeeper
 # auto-merge.yml + try_auto_merge.py (gated qa-check, KHÔNG bypass QA).
 #
 # Trigger:
-#   - push tới claude/** · codex/** · vaccine-hotfix/** (các nhánh agent/bot tạo)
+#   - push tới claude/** · codex/** · vaccine-hotfix/** · feat/** · fix/** · hotfix/**
 #   - workflow_dispatch (chạy tay cho 1 branch bất kỳ)
 
 on:
