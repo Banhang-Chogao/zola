@@ -68,7 +68,7 @@ Liobank dùng **xác thực sinh trắc học** (vân tay/khuôn mặt) và OTP 
 - Giao diện gọn, ít rối, hợp người mới.
 - Thông báo giao dịch tức thì giúp kiểm soát chi tiêu.
 
-Sau khi dùng, bạn có thể tải sao kê và phân tích thu/chi ngay trên máy của bạn — mọi thao tác chạy hoàn toàn trên trình duyệt, không gửi dữ liệu lên server.
+Sau khi dùng, bạn có thể tải sao kê và phân tích thu/chi bằng công cụ **O-Dashboard cho Liobank** ngay trên blog này — chạy hoàn toàn trên trình duyệt, không gửi dữ liệu lên server.
 
 ## Liobank phù hợp với ai?
 
