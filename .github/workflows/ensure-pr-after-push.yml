@@ -43,11 +43,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+
+      - name: Quick preflight conflict check before PR
+        run: |
+          git fetch origin main --quiet
+          python3 scripts/preflight_conflict_check.py --no-fetch --base origin/main
 
       - name: Ensure PR exists + attempt gated auto-merge
         env:
