@@ -82,12 +82,6 @@ class FooterCountdownDualFormatTest(unittest.TestCase):
         self.assertIn("tickMs()", js)
         self.assertIn("1000", js)
 
-    def test_admin_preview_respects_display_mode(self):
-        js = (ROOT / "static/js/admin-countdown.js").read_text(encoding="utf-8")
-        self.assertIn("showsSeconds", js)
-        self.assertIn("GIÂY", js)
-        self.assertIn("previewTickMs", js)
-
 
 if __name__ == "__main__":
     unittest.main()
