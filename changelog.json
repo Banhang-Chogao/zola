@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "add missing admin-countdown.js for footer countdown preview [claude/adoring-archimedes-6jhi8o]",
+      "tag": "fix",
+      "lines_added": 237,
+      "lines_removed": 0,
+      "highlights": [
+        "Di chuyển menu chính sang sidebar bên phải",
+        "fix: add missing admin-countdown.js for footer countdown preview",
+        "static/js/admin-countdown.js (added, +196/-0)",
+        "templates/base.html (modified, +41/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 663
+    },
+    {
+      "date": "2026-06-21",
       "title": "chore(seo-qa): update scores for auto-fixer blog post [claude/great-thompson-xhacsj]",
       "tag": "chore",
       "lines_added": 375,
