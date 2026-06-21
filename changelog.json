@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(ga-dashboard): production-standard analytics refresh system [claude/ecstatic-lamport-fz94p1]",
+      "tag": "chore",
+      "lines_added": 463,
+      "lines_removed": 6,
+      "highlights": [
+        "data/ga-stats.json (modified, +5/-0)",
+        "sass/_ga-stats.scss (modified, +90/-0)",
+        "scripts/fetch_ga_stats.py (modified, +98/-1)",
+        "static/js/ga-stats-refresh.js (added, +223/-0)",
+        "templates/base.html (modified, +47/-5)"
+      ],
+      "pr": 620
+    },
+    {
+      "date": "2026-06-21",
       "title": "resolve CLAUDE manifesto conflict [claude/gracious-newton-0uxf2c]",
       "tag": "fix",
       "lines_added": 65,
