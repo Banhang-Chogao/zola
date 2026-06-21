@@ -2742,6 +2742,106 @@ def next_free_vaccine_number(ctx: Ctx | None = None) -> int:
     return (max(nums) + 1) if nums else 1
 
 
+# Vaccine-registry source files: the merge of these must PRESERVE BOTH sides
+# (append the PR delta, never blind ours/theirs → never renumber/delete a vaccine
+# or drop a detector). The conflict resolver must classify them `manual`.
+_REGISTRY_MANUAL_FILES = (
+    "CLAUDE.md",
+    "scripts/qa_vaccines.py",
+    "scripts/test_qa_vaccines.py",
+)
+# Generated data JSON: must take `main` as base and REGENERATE (never hand-merge
+# stale PR data). The conflict resolver must classify these `main`.
+_REGISTRY_MAIN_FILES = (
+    "data/seo-qa-scores.json",
+    "data/vaccine-autofixer-report.json",
+)
+
+
+def check_v28_vaccine_registry_merge(ctx: Ctx) -> CheckResult:
+    """V28 — Conflict-safe vaccine registry merge.
+
+    When a PR touches the vaccine registry (CLAUDE.md, scripts/qa_vaccines.py,
+    scripts/test_qa_vaccines.py) or generated data JSON, conflict resolution must:
+      * preserve ALL main detectors/rules and append ONLY the PR delta — never a
+        blind `--ours`/`--theirs` that would renumber or delete an existing
+        vaccine → the resolver must classify registry source files as `manual`;
+      * take `main` as the base for generated data JSON and REGENERATE it →
+        the resolver must classify those data files as `main`.
+
+    This detector statically verifies that policy by live-importing
+    `autofix_conflicts.classify()` and asserts no conflict markers leaked into the
+    registry source (a botched merge that could silently drop a vaccine/detector).
+    """
+    code = "V28"
+    title = "Conflict-safe vaccine registry merge"
+    af_path = ctx.root / "scripts" / "autofix_conflicts.py"
+    if not af_path.is_file():
+        return CheckResult(code, title, WARN,
+                           diagnosis="scripts/autofix_conflicts.py vắng — không xác minh được chính sách resolve registry",
+                           fix="khôi phục scripts/autofix_conflicts.py (classify registry source → manual, data JSON → main)")
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("_qa_autofix_probe", af_path)
+        if spec is None or spec.loader is None:
+            raise ImportError("không tạo được spec cho autofix_conflicts")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        classify = mod.classify
+    except Exception as exc:
+        return CheckResult(code, title, FAIL,
+                           diagnosis=f"không import được autofix_conflicts.classify: {exc}",
+                           fix="sửa lỗi cú pháp/định nghĩa classify(path) trong scripts/autofix_conflicts.py")
+
+    fails: list[str] = []
+    try:
+        for rel in _REGISTRY_MANUAL_FILES:
+            got = classify(rel)
+            if got != "manual":
+                fails.append(f"classify({rel!r}) = {got!r}, cần 'manual' (append cả 2 phía, không blind ours/theirs)")
+        for rel in _REGISTRY_MAIN_FILES:
+            got = classify(rel)
+            if got != "main":
+                fails.append(f"classify({rel!r}) = {got!r}, cần 'main' (lấy main rồi regenerate data)")
+    except Exception as exc:
+        return CheckResult(code, title, FAIL,
+                           diagnosis=f"classify() lỗi khi chấm registry: {exc}",
+                           fix="giữ classify(path) -> 'main'|'pr'|'manual' trong autofix_conflicts.py")
+
+    # No leaked conflict markers in the registry source (build markers dynamically
+    # so this detector never matches its own source).
+    open_m = "<" * 7
+    sep_m = "=" * 7
+    close_m = ">" * 7
+    leaked: list[str] = []
+    for rel in (*_REGISTRY_MANUAL_FILES, "scripts/autofix_conflicts.py"):
+        src = ctx.read(rel)
+        if not src:
+            continue
+        for ln in src.splitlines():
+            if ln.startswith(open_m + " ") or ln.rstrip() == sep_m or ln.startswith(close_m + " "):
+                leaked.append(f"{rel}: dấu conflict merge còn sót")
+                break
+
+    if fails or leaked:
+        return CheckResult(code, title, FAIL,
+                           diagnosis="merge registry sai chính sách hoặc còn marker → có thể xoá detector / đổi số vaccine của main",
+                           fix=("CLAUDE.md + qa_vaccines.py + test_qa_vaccines.py → resolve 'manual' (append PR delta, giữ mọi vaccine của main); "
+                                "data JSON → lấy 'main' rồi regenerate; xoá mọi conflict marker"),
+                           details=fails + leaked)
+
+    warns: list[str] = []
+    if not (ctx.root / "scripts" / "test_qa_vaccines.py").is_file():
+        warns.append("thiếu scripts/test_qa_vaccines.py (lớp test cho registry)")
+    if warns:
+        return CheckResult(code, title, WARN,
+                           diagnosis="chính sách resolve registry OK nhưng thiếu lớp test",
+                           fix="giữ scripts/test_qa_vaccines.py để khoá hồi quy registry",
+                           details=warns)
+    return CheckResult(code, title, PASS,
+                       diagnosis="registry source → manual (append delta), data JSON → main+regenerate, không marker sót")
+
+
 def check_vaccine_registry_integrity(ctx: Ctx) -> CheckResult:
     """VACCINE-REGISTRY — fail duplicate V-number or duplicate detector registration.
 
@@ -2830,6 +2930,7 @@ DETECTORS = [
     check_ga_stats_vaccine,
     check_v20_seo_identity_homepage,
     check_v25_backend_route_parity,
+    check_v28_vaccine_registry_merge,
     check_vaccine_registry_integrity,
 ]
 

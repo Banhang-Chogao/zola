@@ -1850,5 +1850,69 @@ class GaStatsVaccineTest(unittest.TestCase):
         self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.WARN)
 
 
+class VaccineRegistryMergeV28Test(unittest.TestCase):
+    """V28 — conflict-safe vaccine registry merge: registry source must resolve
+    `manual` (append delta, keep all main detectors), generated data JSON must
+    resolve `main` (regenerate), and no conflict marker may leak."""
+
+    # A minimal but faithful stand-in for scripts/autofix_conflicts.classify().
+    GOOD_AUTOFIX = (
+        "def classify(path):\n"
+        "    p = path.replace('\\\\', '/')\n"
+        "    if p == 'CLAUDE.md':\n"
+        "        return 'manual'\n"
+        "    if p == 'data/seo-qa-scores.json':\n"
+        "        return 'main'\n"
+        "    if p.endswith('-report.json'):\n"
+        "        return 'main'\n"
+        "    if p.endswith('.py'):\n"
+        "        return 'manual'\n"
+        "    return 'manual'\n"
+    )
+    # A resolver that BLINDLY picks the PR side for source files → would drop a
+    # vaccine/detector that already landed on main.
+    BLIND_AUTOFIX = (
+        "def classify(path):\n"
+        "    return 'pr'\n"
+    )
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _wire(self, autofix=None, claude="#### V28 — registry\n", qa_py="x = 1\n"):
+        self.repo.write("scripts/autofix_conflicts.py", autofix or self.GOOD_AUTOFIX)
+        self.repo.write("CLAUDE.md", claude)
+        self.repo.write("scripts/qa_vaccines.py", qa_py)
+        self.repo.write("scripts/test_qa_vaccines.py", "import unittest\n")
+
+    def test_good_policy_passes(self):
+        self._wire()
+        self.assertEqual(qv.check_v28_vaccine_registry_merge(self.repo.ctx()).status, qv.PASS)
+
+    def test_real_repo_passes(self):
+        r = qv.check_v28_vaccine_registry_merge(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis)
+
+    def test_blind_pick_fails(self):
+        self._wire(autofix=self.BLIND_AUTOFIX)
+        r = qv.check_v28_vaccine_registry_merge(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("manual", r.diagnosis + " ".join(r.details))
+
+    def test_leaked_conflict_marker_fails(self):
+        # Build the marker dynamically so this test file never carries a literal one.
+        marker = ("<" * 7) + " HEAD\n#### V28 — registry\n" + ("=" * 7) + "\nother\n" + (">" * 7) + " main\n"
+        self._wire(claude=marker)
+        r = qv.check_v28_vaccine_registry_merge(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_autofix_warns(self):
+        # No autofix_conflicts.py → cannot verify policy → WARN, never crash.
+        self.repo.write("CLAUDE.md", "#### V28 — registry\n")
+        self.repo.write("scripts/test_qa_vaccines.py", "import unittest\n")
+        self.assertEqual(qv.check_v28_vaccine_registry_merge(self.repo.ctx()).status, qv.WARN)
+
+
 if __name__ == "__main__":
     unittest.main()
