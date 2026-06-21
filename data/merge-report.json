@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-21T15:11:44Z",
+  "updated_at": "2026-06-21T15:18:50Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 59,
+    "today": 60,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 51,
+      "fix": 50,
       "unknown": 43,
-      "feature": 78,
+      "feature": 79,
       "ci": 3,
       "chore": 17,
       "content": 7,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 664,
+      "pr_title": "Fix: Hide duplicate navbar menu since items now in side-nav [claude/adoring-archimedes-6jhi8o]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/664",
+      "merged_at": "2026-06-21T15:09:23Z",
+      "merge_commit_sha": "a8637eb3c04cff0d0bb221552f6cff901207e573",
+      "merge_commit_short": "a8637eb",
+      "head_branch": "claude/adoring-archimedes-6jhi8o",
+      "summary_vi": "- Di chuyển menu chính sang sidebar bên phải",
+      "change_type": "fix",
+      "files_changed": 3,
+      "additions": 242,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 922,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27908456036",
+      "build_conclusion": "failure"
+    },
     {
       "pr_number": 663,
       "pr_title": "fix: add missing admin-countdown.js for footer countdown preview [claude/adoring-archimedes-6jhi8o]",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 921,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27908311100",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 662,
@@ -605,9 +624,9 @@
       "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 893,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27900928707",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 600,
@@ -624,9 +643,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 893,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27900928707",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 629,
@@ -643,9 +662,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 892,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27900216665",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 633,
@@ -662,9 +681,9 @@
       "deletions": 88,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 892,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27900216665",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 631,
@@ -681,9 +700,9 @@
       "deletions": 104,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 892,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27900216665",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 628,
@@ -1762,6 +1781,25 @@
       "files_changed": 3,
       "additions": 304,
       "deletions": 24,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 544,
+      "pr_title": "feat(series): add 5-part Vaccine Số series — digital immune system for blog CI/CD",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/544",
+      "merged_at": "2026-06-20T08:59:45Z",
+      "merge_commit_sha": "2b963db610861de1e9c36a165ef26bf5eed16fa0",
+      "merge_commit_short": "2b963db",
+      "head_branch": "claude/friendly-dijkstra-oo6gwy",
+      "summary_vi": "- Adds 5 full articles (Vaccine Số series: `vaccine-so`) covering the blog's CI/CD self-healing immune system",
+      "change_type": "feature",
+      "files_changed": 15,
+      "additions": 1578,
+      "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3776,44 +3814,6 @@
       "files_changed": 1,
       "additions": 16,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 435,
-      "pr_title": "fix(ci): vaccine V6/V7 — bot data stash conflict + remediation tự đỏ",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/435",
-      "merged_at": "2026-06-18T13:51:16Z",
-      "merge_commit_sha": "426ca7e855fe846b76c31ddd8994fc0e945e3d10",
-      "merge_commit_short": "426ca7e",
-      "head_branch": "chore/ci-self-healing-vaccines",
-      "summary_vi": "Quét các workflow run đỏ gần nhất → **2 failure**, cả hai **chưa có** prevention rule trong CLAUDE.md → tạo Fixer/Vaccine mới.",
-      "change_type": "fix",
-      "files_changed": 4,
-      "additions": 59,
-      "deletions": 3,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 434,
-      "pr_title": "fix(footer): tên sự kiện countdown bị trắng tiệp nền trắng",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/434",
-      "merged_at": "2026-06-18T13:50:59Z",
-      "merge_commit_sha": "dd8dc3140a3e29f1cd8556ee74dfd8b5a5f63de7",
-      "merge_commit_short": "dd8dc31",
-      "head_branch": "fix/footer-countdown-title-color",
-      "summary_vi": "Tên sự kiện ở **countdown dưới footer** hiển thị màu **trắng tiệp nền trắng** → gần như vô hình (dù SCSS `.footer-countdown__title` đã đặt màu xanh `#003784`).",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 5,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
