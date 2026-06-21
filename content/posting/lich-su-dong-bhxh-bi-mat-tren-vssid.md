@@ -1,5 +1,5 @@
 +++
-title = "Lịch sử đóng BHXH bị mất trên VssID? Nguyên nhân và 5 cách xử lý mới nhất"
+title = "Lịch sử đóng BHXH bị mất trên VssID? 5 cách xử lý mới nhất"
 description = "Lịch sử đóng BHXH bị mất trên VssID? Yên tâm, bạn gần như không mất quyền lợi. Đây là nguyên nhân và 5 cách xử lý để dữ liệu hiện lại đầy đủ."
 date = 2026-06-19
 aliases = ["/lich-su-dong-bhxh-bi-mat-tren-vssid/"]
