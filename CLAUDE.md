@@ -300,6 +300,64 @@ Auto-merge đã được attempt
 - Simulation: `python3 -m unittest scripts.test_task_priority -v`
 - Pass criteria: P0 hoàn thành trước P1 bị preempt; P1 resume sau P0 drain.
 
+## Failure Priority Policy (effective 2026-06-21)
+
+> Doctrine vĩnh viễn cho **triage lỗi CI**. Khi pipeline đỏ với **nhiều** failure
+> cùng lúc, KHÔNG sửa tràn lan — chỉ sửa **failure REQUIRED trên HEAD mới nhất**,
+> theo đúng thứ tự ưu tiên dưới. Bổ sung ZERO_BARRIER + Vaccine library (§4),
+> **không** thay auto-merge / QA / deploy. Engine: `scripts/failure_priority.py`.
+
+### Rule (BẮT BUỘC)
+
+1. **Chỉ sửa REQUIRED failure trên LATEST HEAD trước.** Bỏ qua failure **stale**
+   (từ commit cũ hơn HEAD) và workflow **report-only** (observer/audit/dashboard/
+   bot — V3/V5/V7: observer KHÔNG tự đỏ).
+2. **Thứ tự ưu tiên (sửa trên → xuống):**
+
+   | # | Tier | Phạm vi |
+   |---|------|---------|
+   | 1 | **secrets / security** | secret leak, credential, quyền workflow |
+   | 2 | **merge conflict** | conflict markers, `dirty`, non-fast-forward |
+   | 3 | **build / syntax** | `zola build`, Tera/SCSS/YAML/TOML/Python/JS syntax, dep |
+   | 4 | **QA / vaccine** | QA Gatekeeper (`qa-check`), vaccine detector FAIL, unit test |
+   | 5 | **links** | internal link / `qa-404-checker` (gate cứng) |
+   | 6 | **runtime route / API** | backend route 404 (`/cms`,`/gsc`,`/auth`,`/api`), deploy |
+   | 7 | **SEO / AdSense** | schema, meta, sitemap, AdSense |
+   | 8 | **UI** | CSS, responsive, layout, styling |
+
+3. **Auto-fixer chỉ sửa lỗi DETERMINISTIC** (theo §4 Vaccine FIXER / `ai_diagnose.py`);
+   **KHÔNG bao giờ bypass vaccine** (không tắt detector, không `--no-vaccines` để qua gate).
+4. **Auto-merge CHỈ khi mọi required check xanh**; **deploy CHỈ sau khi merge `main`**.
+
+### Cách dùng
+
+```bash
+# Triage list failure (JSON từ gh/CI) → kế hoạch sửa theo ưu tiên, bỏ stale/report-only
+gh ... | python3 scripts/failure_priority.py --head "$(git rev-parse HEAD)" --json
+echo '[{"workflow":"qa","check":"qa-check","log":"merge conflict","head_sha":"H"}]' \
+  | python3 scripts/failure_priority.py --head H
+```
+
+- Input: list `{workflow, check, conclusion, head_sha, pattern_id, log, title}`
+  (mọi field optional; `pattern_id` từ `ai_diagnose.py` được ưu tiên khi phân loại).
+- Output: `fix_first` (1 failure sửa trước) + `ordered_fixes[]` + `dropped[]`
+  (kèm `dropped_reason`: stale / report-only / passing).
+- Exit 1 nếu còn ≥1 required failure actionable; exit 0 nếu sạch.
+
+### File map & Validation
+
+| Thành phần | Path |
+|------------|------|
+| Engine | `scripts/failure_priority.py` (`classify` · `is_stale` · `is_report_only` · `triage` · `build_plan`) |
+| Tests | `scripts/test_failure_priority.py` |
+| Required checks | `data/auto-merge-policy.json` → `required_checks` (canonical: `qa-check`) |
+| Diagnose pair | `scripts/ai_diagnose.py` (`pattern_id` → tier) |
+
+- Validation: `python3 -m unittest scripts.test_failure_priority -v`
+- Pass criteria: ladder đúng thứ tự (security → UI); stale + report-only bị loại
+  khỏi plan; required check (`qa-check`) không bao giờ bị coi là report-only;
+  input lỗi → plan rỗng, không crash.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
