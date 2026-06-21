@@ -1151,7 +1151,7 @@ fenced blocks.
   vaccines must use the next free number from `next_free_vaccine_number()` — never hardcode a taken one.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SeoIdentityV20Test scripts.test_qa_vaccines.VaccineRegistryGuardTest -v`
 
-#### V24 — Split-backend 404: frontend route on `blog-vipzone-api` exists only in undeployed `services/visitor-counter`
+#### V25 — Split-backend 404: frontend route on `blog-vipzone-api` exists only in undeployed `services/visitor-counter`
 
 > Deploy/infra vaccine — generalises V16/V22b into a permanent rule + static gate +
 > post-deploy checker. Match the signature → mount the route on the DEPLOYED service;
@@ -1198,7 +1198,51 @@ fenced blocks.
   - `https://blog-vipzone-api.onrender.com/health` → 200, `critical_routes` all `true`
   - `https://blog-vipzone-api.onrender.com/gsc/status` → not 404 (401/200)
   - `curl -X POST https://blog-vipzone-api.onrender.com/cms/save-post` → 401/403/405, never 404
-- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.BackendRouteParityV24Test scripts.test_backend_route_check -v`
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.BackendRouteParityV25Test scripts.test_backend_route_check -v`
+
+#### V24 — GSC OAuth refresh token acquired but not persistable after redeploy (operator export path)
+
+> Deploy/operator vaccine. The OAuth flow can mint a refresh token into the VIPZone
+> SQLite KV, but on Render free tier `/tmp` is wiped on redeploy → the token vanishes
+> and the SEO Reality Check widget goes back to "not connected" after every deploy.
+> The durable home is the **`GSC_REFRESH_TOKEN` env var**, but the operator had **no
+> safe way to extract** the acquired token to copy it there. Match the signature →
+> use the export endpoint; never widen `/gsc/status`.
+
+- **Symptom:** after a Render redeploy of `blog-vipzone-api`, `/gsc/status` shows
+  `connected:false` / `token_source:none` again even though the operator completed the
+  GSC OAuth flow before. The KV-stored refresh token did not survive the redeploy
+  (`/tmp` SQLite reset, same class as V16/V22b split-brain) and there is no env token.
+  Or: operator wants to persist the token but cannot read it anywhere (status is
+  public-safe and never exposes it).
+- **Root cause:** the OAuth callback persisted the refresh token **only** to the volatile
+  SQLite KV (`gsc:refresh_token`). `GSC_REFRESH_TOKEN` was a *fallback*, and there was no
+  endpoint/CLI to export the minted token, so the operator could not copy it into the
+  durable env var. Result: re-OAuth on every redeploy.
+- **FIXER (already implemented in `services/visitor-counter/gsc_routes.py`):**
+  1. **Env priority** — `_load_refresh_token` / `_token_source` prefer the durable
+     `GSC_REFRESH_TOKEN` env over the volatile KV copy (once persisted, env wins even
+     over a stale KV token).
+  2. **`/gsc/status` stays public-safe** — never returns the token; only `configured`,
+     `connected`, `has_refresh_token`, `token_source` (`env|kv|none`).
+  3. **Supervip-only export** — `GET /gsc/refresh-token` (Bearer sid or `?sid=`):
+     denied 401/403 without a valid superadmin; **masked by default**; full secret only
+     with explicit `?reveal=1`; 404 with a clear `no_refresh_token` message when none;
+     the token is **never logged**. Payload carries `instructions` (the operator runbook).
+  4. **OAuth start forces a refresh token** — `access_type=offline` + `prompt=consent`
+     + `include_granted_scopes=true` so Google always returns `refresh_token`.
+  5. **Operator runbook after callback** — success redirect carries `gsc_persist=1` when
+     the token is not yet in env, signalling the UI to surface: copy refresh_token → set
+     Render env `GSC_REFRESH_TOKEN` → Manual Sync `blog-vipzone-api` → verify
+     `/gsc/status` shows `token_source=env`.
+- **Rules (permanent):** `/gsc/status` is public — NEVER add the raw token to it; the
+  token is exported ONLY through the supervip-gated `/gsc/refresh-token` (masked unless
+  `?reveal=1`); the env token ALWAYS wins over the KV token; never write the token to a
+  log line; the only durable persistence is the Render env var + Manual Sync (Claude
+  cannot set Render env).
+- **Tests:** `python3 -m unittest services.vipzone.test_main.GscRefreshTokenExportTests -v`
+  (no token leak in status · supervip-only export · invalid sid denied · masked default /
+  reveal full · env preferred over KV · missing token → clear 404).
 
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 

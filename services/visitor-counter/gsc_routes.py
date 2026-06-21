@@ -77,11 +77,53 @@ def _gsc_configured() -> bool:
     return bool(GSC_CLIENT_ID and GSC_CLIENT_SECRET)
 
 
-async def _load_refresh_token(r) -> str:
+# Operator runbook surfaced after OAuth + by the export endpoint. The OAuth flow can
+# re-mint a refresh token into the (ephemeral on Render free tier) KV store, but the
+# ONLY durable home is the GSC_REFRESH_TOKEN env var. These steps tell the operator how
+# to copy the acquired token there. Keep token OUT of any log line.
+OPERATOR_PERSIST_INSTRUCTIONS = [
+    "Copy the refresh_token (call GET /gsc/refresh-token?reveal=1 as superadmin).",
+    "Set Render env GSC_REFRESH_TOKEN on blog-vipzone-api to that value.",
+    "Manual Sync blog-vipzone-api (Render → Blueprints) so the env applies.",
+    "Verify GET /gsc/status shows token_source=env.",
+]
+
+
+async def _kv_refresh_token(r) -> str:
     token = await r.get(GSC_REFRESH_KEY)
-    if token:
-        return token
+    return (token or "").strip()
+
+
+def _env_refresh_token() -> str:
     return os.getenv("GSC_REFRESH_TOKEN", "").strip()
+
+
+async def _load_refresh_token(r) -> str:
+    """Resolve the active refresh token. The durable ENV value wins over the volatile
+    KV copy so that once the operator persists the token (GSC_REFRESH_TOKEN) it is the
+    source of truth even if a stale KV token lingers (survives Render redeploy)."""
+    env_token = _env_refresh_token()
+    if env_token:
+        return env_token
+    return await _kv_refresh_token(r)
+
+
+async def _token_source(r) -> str:
+    """Where the active refresh token comes from: env (durable) | kv (volatile) | none."""
+    if _env_refresh_token():
+        return "env"
+    if await _kv_refresh_token(r):
+        return "kv"
+    return "none"
+
+
+def _mask_refresh_token(token: str) -> str:
+    """Show just enough to confirm identity; never the full secret by default."""
+    if not token:
+        return ""
+    if len(token) <= 8:
+        return "•" * len(token)
+    return f"{token[:4]}…{token[-4:]} ({len(token)} chars)"
 
 
 async def _load_property(r) -> str:
@@ -160,7 +202,9 @@ async def _refresh_metrics(r, *, force: bool = False) -> dict:
 @router.get("/status")
 async def gsc_status():
     r = await _get_redis()
-    connected = bool(await _load_refresh_token(r))
+    token_source = await _token_source(r)
+    has_refresh_token = token_source != "none"
+    connected = has_refresh_token
     prop = await _load_property(r)
     cache_at = await r.get(GSC_CACHE_AT_KEY)
     missing: list[str] = []
@@ -170,9 +214,13 @@ async def gsc_status():
         missing.append("GSC_CLIENT_SECRET")
     if not connected:
         missing.append("GSC_REFRESH_TOKEN")
+    # PUBLIC-SAFE: this endpoint never returns the token itself — only whether one
+    # exists and where it lives (env|kv|none). Token export is supervip-gated below.
     return {
         "configured": _gsc_configured(),
         "connected": connected,
+        "has_refresh_token": has_refresh_token,
+        "token_source": token_source,
         "property": prop or DEFAULT_GSC_PROPERTY_URL,
         "default_property": DEFAULT_GSC_PROPERTY_URL,
         "redirect_uri": f"{BACKEND_URL}/gsc/oauth/callback",
@@ -180,6 +228,45 @@ async def gsc_status():
         "missing_credentials": missing,
         "cache_updated_at": cache_at,
         "cache_ttl_seconds": CACHE_TTL_SECONDS,
+    }
+
+
+@router.get("/refresh-token")
+async def gsc_export_refresh_token(
+    reveal: int = 0,
+    sid: str = "",
+    authorization: str = Header(default=""),
+):
+    """Supervip-only one-time export of the acquired refresh token so the operator can
+    copy it into the durable Render env var GSC_REFRESH_TOKEN.
+
+    Masked by default; the full secret is returned ONLY with explicit ?reveal=1 by a
+    valid superadmin. The token is never logged. Denied (401/403) without a supervip sid.
+    """
+    # A top-level browser navigation cannot set the Authorization header, so accept the
+    # session id as a `sid` query param too (header wins). Consumed here, never forwarded.
+    if not authorization and sid:
+        authorization = "Bearer " + sid
+    await _require_supervip(authorization)
+    r = await _get_redis()
+    token = await _load_refresh_token(r)
+    source = await _token_source(r)
+    if not token:
+        # Clear, non-leaky error: nothing to export, point at the OAuth flow.
+        raise HTTPException(
+            404,
+            "no_refresh_token: connect GSC via /gsc/oauth/start first (access_type=offline, prompt=consent).",
+        )
+    revealed = bool(reveal)
+    return {
+        "has_refresh_token": True,
+        "token_source": source,
+        "masked": not revealed,
+        "refresh_token": token if revealed else _mask_refresh_token(token),
+        "env_var": "GSC_REFRESH_TOKEN",
+        "service": "blog-vipzone-api",
+        "already_persisted": source == "env",
+        "instructions": OPERATOR_PERSIST_INSTRUCTIONS,
     }
 
 
@@ -234,8 +321,11 @@ async def gsc_oauth_start(
             "redirect_uri": f"{BACKEND_URL}/gsc/oauth/callback",
             "response_type": "code",
             "scope": "https://www.googleapis.com/auth/webmasters.readonly",
+            # Force Google to return a refresh_token every time: offline access +
+            # forced consent re-prompt (Google omits refresh_token on silent re-auth).
             "access_type": "offline",
             "prompt": "consent",
+            "include_granted_scopes": "true",
             "state": state,
         }
     )
@@ -285,7 +375,12 @@ async def gsc_oauth_callback(code: str = "", state: str = ""):
         await r.set(GSC_PROPERTY_KEY, normalize_gsc_property_url(props[0]))
     await r.delete(GSC_CACHE_KEY)
     await r.delete(GSC_CACHE_AT_KEY)
-    return RedirectResponse(_build_blog_url(return_to, fragment="gsc_connected=1"))
+    # If the token is not yet persisted to the durable env var, tell the UI to surface
+    # the operator runbook (copy token → set Render env → Manual Sync → verify env).
+    fragment = "gsc_connected=1"
+    if not _env_refresh_token():
+        fragment += "&gsc_persist=1"
+    return RedirectResponse(_build_blog_url(return_to, fragment=fragment))
 
 
 @router.get("/properties")

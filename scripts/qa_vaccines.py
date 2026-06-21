@@ -2344,7 +2344,7 @@ def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
 
 
 # --------------------------------------------------------------------------
-# V24 — Split-backend route parity (frontend ↔ deployed services/vipzone)
+# V25 — Split-backend route parity (frontend ↔ deployed services/vipzone)
 # --------------------------------------------------------------------------
 # Render deploys ONLY services/vipzone (render.yaml rootDir). A frontend call to
 # blog-vipzone-api whose route lives only in services/visitor-counter returns 404
@@ -2365,7 +2365,7 @@ _VIPZONE_ROUTE_SOURCES = (
 )
 
 # Routes the production frontend depends on that MUST be served by services/vipzone.
-_V24_CRITICAL_ROUTES = ("/health", "/gsc/status", "/cms/save-post")
+_V25_CRITICAL_ROUTES = ("/health", "/gsc/status", "/cms/save-post")
 
 
 def _route_family(path: str) -> str:
@@ -2408,8 +2408,8 @@ def _frontend_vipzone_calls(ctx: Ctx) -> set[str]:
     return families
 
 
-def check_v24_backend_route_parity(ctx: Ctx) -> CheckResult:
-    """V24 — every frontend route on blog-vipzone-api must exist on the DEPLOYED
+def check_v25_backend_route_parity(ctx: Ctx) -> CheckResult:
+    """V25 — every frontend route on blog-vipzone-api must exist on the DEPLOYED
     services/vipzone app (Render deploys only that service). A route living only in
     services/visitor-counter is dead in production → 404 split-brain (V16/V22b).
 
@@ -2420,19 +2420,19 @@ def check_v24_backend_route_parity(ctx: Ctx) -> CheckResult:
     title = "Backend route parity (frontend ↔ deployed services/vipzone)"
     routes = _extract_vipzone_routes(ctx)
     if not routes:
-        return CheckResult("V24", title, SKIP,
+        return CheckResult("V25", title, SKIP,
                            diagnosis="services/vipzone routes không đọc được")
 
     families = {_route_family(r) for r in routes}
 
     # FAIL — critical routes must be present (param-insensitive family match).
     missing_critical = [
-        r for r in _V24_CRITICAL_ROUTES
+        r for r in _V25_CRITICAL_ROUTES
         if r not in routes and _route_family(r) not in families
     ]
     if missing_critical:
         return CheckResult(
-            "V24", title, FAIL,
+            "V25", title, FAIL,
             diagnosis=("route quan trọng frontend gọi nhưng KHÔNG mount trên "
                        "services/vipzone (deployed) → 404 production: "
                        + ", ".join(missing_critical)),
@@ -2445,14 +2445,14 @@ def check_v24_backend_route_parity(ctx: Ctx) -> CheckResult:
         fam for fam in _frontend_vipzone_calls(ctx) if fam not in families)
     if uncovered:
         return CheckResult(
-            "V24", title, WARN,
+            "V25", title, WARN,
             diagnosis=("frontend gọi route /cms|/gsc chưa có trên services/vipzone "
                        "(deployed) — có thể 404 production"),
             fix=("Port các route này sang services/vipzone (mounted router); "
                  "kiểm chứng bằng scripts/backend_route_check.py"),
             details=uncovered)
 
-    return CheckResult("V24", title, PASS,
+    return CheckResult("V25", title, PASS,
                        diagnosis=(f"{len(routes)} route mounted on services/vipzone; "
                                   "critical routes present; frontend /cms·/gsc calls covered"))
 
@@ -2562,7 +2562,7 @@ DETECTORS = [
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
     check_v20_seo_identity_homepage,
-    check_v24_backend_route_parity,
+    check_v25_backend_route_parity,
     check_vaccine_registry_integrity,
 ]
 

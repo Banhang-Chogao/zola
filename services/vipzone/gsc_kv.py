@@ -8,9 +8,11 @@ the async Redis interface the GSC router needs, persisted in a `gsc_kv` table ne
 the VIPZone tables so OAuth state + the metrics cache survive process restarts.
 
 Durability note: on Render free tier the SQLite file lives at /tmp (lost on redeploy),
-so the GSC refresh token also falls back to the GSC_REFRESH_TOKEN env var inside the
-router (`_load_refresh_token`). The OAuth flow re-mints + persists a token here; for a
-fully durable token set GSC_REFRESH_TOKEN in the service env (an existing GSC env).
+so the GSC refresh token's durable home is the GSC_REFRESH_TOKEN env var. The router
+(`_load_refresh_token`) prefers the ENV token over this volatile KV copy — once the
+operator persists the OAuth-acquired token into GSC_REFRESH_TOKEN it wins even if a
+stale KV token lingers. The OAuth flow re-mints a token into this KV; the supervip-only
+GET /gsc/refresh-token endpoint exports it so the operator can copy it into the env.
 """
 
 from __future__ import annotations

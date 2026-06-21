@@ -1379,8 +1379,8 @@ class OgImageVaccineTest(unittest.TestCase):
                       f"OG vaccine unexpectedly FAILed: {r.diagnosis} {r.details}")
 
 
-class BackendRouteParityV24Test(unittest.TestCase):
-    """V24 — every frontend /cms·/gsc route on blog-vipzone-api must be mounted on
+class BackendRouteParityV25Test(unittest.TestCase):
+    """V25 — every frontend /cms·/gsc route on blog-vipzone-api must be mounted on
     the DEPLOYED services/vipzone app (Render deploys only that service)."""
 
     def setUp(self):
@@ -1435,7 +1435,7 @@ class BackendRouteParityV24Test(unittest.TestCase):
         self._wire_good()
         self.repo.write("static/js/app.js",
                         "fetch(AUTH_API + '/gsc/status'); fetch(AUTH_API + '/cms/save-post');")
-        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
         self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
 
     def test_missing_critical_route_fails(self):
@@ -1445,7 +1445,7 @@ class BackendRouteParityV24Test(unittest.TestCase):
                         "router = APIRouter()\n")  # no save-post
         self.repo.write("services/vipzone/cms_auth.py", self._CMS_AUTH)
         self.repo.write("services/visitor-counter/gsc_routes.py", self._GSC)
-        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
         self.assertEqual(r.status, qv.FAIL)
         self.assertTrue(any("/cms/save-post" in d for d in r.details))
 
@@ -1454,7 +1454,7 @@ class BackendRouteParityV24Test(unittest.TestCase):
         self._wire_good()
         self.repo.write("static/js/admin.js",
                         "fetch(AUTH_API + '/cms/author', {method:'POST'});")
-        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
         self.assertEqual(r.status, qv.WARN)
         self.assertIn("/cms/author", r.details)
 
@@ -1463,15 +1463,15 @@ class BackendRouteParityV24Test(unittest.TestCase):
         # Interpolated path must not be flagged (we cannot statically resolve it).
         self.repo.write("static/js/dyn.js",
                         "fetch(AUTH_API + `/cms/${kind}/x`);")
-        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
         self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
 
     def test_missing_service_skips(self):
-        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
         self.assertEqual(r.status, qv.SKIP)
 
     def test_real_repo_no_fail(self):
-        r = qv.check_v24_backend_route_parity(qv.Ctx(REPO_ROOT))
+        r = qv.check_v25_backend_route_parity(qv.Ctx(REPO_ROOT))
         self.assertIn(r.status, (qv.PASS, qv.WARN))  # calibrated: never FAIL on main
 
 

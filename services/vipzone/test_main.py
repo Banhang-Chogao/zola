@@ -375,6 +375,9 @@ class GscRoutesTests(unittest.TestCase):
         )
         self.assertEqual(q["scope"][0], "https://www.googleapis.com/auth/webmasters.readonly")
         self.assertEqual(q["access_type"][0], "offline")
+        # Force Google to return a refresh token on every connect.
+        self.assertEqual(q["prompt"][0], "consent")
+        self.assertEqual(q["include_granted_scopes"][0], "true")
 
     def test_oauth_start_non_super_forbidden_not_404(self) -> None:
         sid = get_db().create_cms_session(
@@ -387,6 +390,123 @@ class GscRoutesTests(unittest.TestCase):
         res = self.client.get("/gsc/oauth/callback?code=x&state=bad", follow_redirects=False)
         self.assertEqual(res.status_code, 307)
         self.assertIn("gsc_error=invalid_state", res.headers["location"])
+
+
+class GscRefreshTokenExportTests(unittest.TestCase):
+    """Operator path: export the OAuth-acquired refresh token to set Render env.
+
+    /gsc/status stays public-safe (never leaks the token, only has_refresh_token +
+    token_source); /gsc/refresh-token is supervip-only, masked by default, full only
+    with ?reveal=1; env token takes priority over the volatile KV copy.
+    """
+
+    KV_KEY = "gsc:refresh_token"
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        os.environ["VIPZONE_DB_PATH"] = str(Path(self._tmp.name) / "gsc.db")
+        os.environ.pop("GSC_REFRESH_TOKEN", None)
+        import main as main_mod
+
+        main_mod._db = None
+        self._main = main_mod
+        self.client = TestClient(app)
+        self._kv_set(None)  # start clean
+
+    def tearDown(self) -> None:
+        self._kv_set(None)
+        os.environ.pop("GSC_REFRESH_TOKEN", None)
+        self._tmp.cleanup()
+
+    def _kv_set(self, value) -> None:
+        import asyncio
+
+        async def run():
+            if value is None:
+                await self._main._gsc_kv.delete(self.KV_KEY)
+            else:
+                await self._main._gsc_kv.set(self.KV_KEY, value)
+
+        asyncio.run(run())
+
+    def _super_sid(self) -> str:
+        return get_db().create_cms_session(
+            {"email": "admin@example.com", "username": "banhang-chogao", "is_super": True}, 3600
+        )
+
+    def _rando_sid(self) -> str:
+        return get_db().create_cms_session(
+            {"email": "x@y.com", "username": "rando", "is_super": False}, 3600
+        )
+
+    # ---- status: no token leak ----
+    def test_status_never_leaks_token_and_reports_source(self) -> None:
+        self._kv_set("kv-secret-refresh-token-1234567890")
+        body = self.client.get("/gsc/status").json()
+        self.assertTrue(body["has_refresh_token"])
+        self.assertEqual(body["token_source"], "kv")
+        self.assertNotIn("refresh_token", body)
+        # Nothing in the response should contain the actual secret.
+        self.assertNotIn("kv-secret-refresh-token-1234567890", repr(body))
+
+    def test_status_none_when_no_token(self) -> None:
+        body = self.client.get("/gsc/status").json()
+        self.assertFalse(body["has_refresh_token"])
+        self.assertEqual(body["token_source"], "none")
+
+    # ---- supervip-only export ----
+    def test_export_denied_without_sid(self) -> None:
+        self._kv_set("tok")
+        res = self.client.get("/gsc/refresh-token")
+        self.assertEqual(res.status_code, 401)  # missing_token
+
+    def test_export_denied_for_non_super(self) -> None:
+        self._kv_set("tok")
+        res = self.client.get(f"/gsc/refresh-token?sid={self._rando_sid()}")
+        self.assertEqual(res.status_code, 403)
+
+    def test_export_invalid_sid_denied(self) -> None:
+        self._kv_set("tok")
+        res = self.client.get("/gsc/refresh-token?sid=not-a-real-session")
+        self.assertEqual(res.status_code, 401)
+
+    def test_export_masked_by_default(self) -> None:
+        self._kv_set("1//abcdefghijklmnopqrstuvwxyz0123456789")
+        body = self.client.get(f"/gsc/refresh-token?sid={self._super_sid()}").json()
+        self.assertTrue(body["masked"])
+        self.assertNotEqual(body["refresh_token"], "1//abcdefghijklmnopqrstuvwxyz0123456789")
+        self.assertNotIn("abcdefghijklmnop", body["refresh_token"])
+        self.assertEqual(body["env_var"], "GSC_REFRESH_TOKEN")
+        self.assertIn("instructions", body)
+
+    def test_export_reveal_returns_full_for_super(self) -> None:
+        self._kv_set("1//full-secret-token-value-987654321")
+        body = self.client.get(
+            f"/gsc/refresh-token?reveal=1&sid={self._super_sid()}"
+        ).json()
+        self.assertFalse(body["masked"])
+        self.assertEqual(body["refresh_token"], "1//full-secret-token-value-987654321")
+
+    def test_export_missing_token_handled_clearly(self) -> None:
+        res = self.client.get(f"/gsc/refresh-token?sid={self._super_sid()}")
+        self.assertEqual(res.status_code, 404)
+        self.assertIn("no_refresh_token", res.json()["detail"])
+
+    # ---- env preferred over KV ----
+    def test_env_token_preferred_over_kv(self) -> None:
+        self._kv_set("kv-token-value")
+        os.environ["GSC_REFRESH_TOKEN"] = "env-token-value"
+        try:
+            status = self.client.get("/gsc/status").json()
+            self.assertEqual(status["token_source"], "env")
+            body = self.client.get(
+                f"/gsc/refresh-token?reveal=1&sid={self._super_sid()}"
+            ).json()
+            self.assertEqual(body["token_source"], "env")
+            self.assertEqual(body["refresh_token"], "env-token-value")
+            self.assertTrue(body["already_persisted"])
+        finally:
+            os.environ.pop("GSC_REFRESH_TOKEN", None)
 
 
 class GscKvTests(unittest.TestCase):
@@ -509,8 +629,8 @@ class CmsRepoRoutesTests(unittest.TestCase):
         self.assertNotIn("ghs_secret_token", res.text)
 
 
-class V24HealthAndCriticalRoutesTests(unittest.TestCase):
-    """V24 — /health exposes split-backend diagnostics and the critical routes the
+class V25HealthAndCriticalRoutesTests(unittest.TestCase):
+    """V25 — /health exposes split-backend diagnostics and the critical routes the
     production frontend calls are actually mounted on THIS deployed app.
 
     TestClient-free (inspects app.routes + _health_payload directly) so it runs even
