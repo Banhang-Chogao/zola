@@ -18,19 +18,19 @@
 
     {% set builds_data = load_data(path="data/build-dashboard.json", required=false) %}
     {% if builds_data %}
-        {% set build_items = builds_data.builds if builds_data.builds else [] %}
-        {% set build_success = builds_data.stats.success if builds_data.stats.success else 0 %}
-        {% set build_failure = builds_data.stats.failure if builds_data.stats.failure else 0 %}
-        {% set build_cancelled = builds_data.stats.cancelled if builds_data.stats.cancelled else 0 %}
-        {% set build_skipped = builds_data.stats.skipped if builds_data.stats.skipped else 0 %}
-        {% set build_in_progress = builds_data.stats.in_progress if builds_data.stats.in_progress else 0 %}
-        {% set build_source = builds_data.source_repo if builds_data.source_repo else "https://github.com/Banhang-Chogao/zola" %}
-        {% set build_updated = builds_data.updated_at if builds_data.updated_at else "" %}
-        {% set build_history = builds_data.history if builds_data.history else [] %}
-        {% set build_latest = builds_data.latest_workflows if builds_data.latest_workflows else [] %}
-        {% set build_fetch_error = builds_data.fetch_error if builds_data.fetch_error else "" %}
-        {% set build_fetch_error_at = builds_data.fetch_error_at if builds_data.fetch_error_at else "" %}
-        {% set build_cadence = builds_data.history_cadence_min if builds_data.history_cadence_min else 5 %}
+        {% if builds_data.builds %}{% set build_items = builds_data.builds %}{% else %}{% set build_items = [] %}{% endif %}
+        {% if builds_data.stats.success %}{% set build_success = builds_data.stats.success %}{% else %}{% set build_success = 0 %}{% endif %}
+        {% if builds_data.stats.failure %}{% set build_failure = builds_data.stats.failure %}{% else %}{% set build_failure = 0 %}{% endif %}
+        {% if builds_data.stats.cancelled %}{% set build_cancelled = builds_data.stats.cancelled %}{% else %}{% set build_cancelled = 0 %}{% endif %}
+        {% if builds_data.stats.skipped %}{% set build_skipped = builds_data.stats.skipped %}{% else %}{% set build_skipped = 0 %}{% endif %}
+        {% if builds_data.stats.in_progress %}{% set build_in_progress = builds_data.stats.in_progress %}{% else %}{% set build_in_progress = 0 %}{% endif %}
+        {% if builds_data.source_repo %}{% set build_source = builds_data.source_repo %}{% else %}{% set build_source = "https://github.com/Banhang-Chogao/zola" %}{% endif %}
+        {% if builds_data.updated_at %}{% set build_updated = builds_data.updated_at %}{% else %}{% set build_updated = "" %}{% endif %}
+        {% if builds_data.history %}{% set build_history = builds_data.history %}{% else %}{% set build_history = [] %}{% endif %}
+        {% if builds_data.latest_workflows %}{% set build_latest = builds_data.latest_workflows %}{% else %}{% set build_latest = [] %}{% endif %}
+        {% if builds_data.fetch_error %}{% set build_fetch_error = builds_data.fetch_error %}{% else %}{% set build_fetch_error = "" %}{% endif %}
+        {% if builds_data.fetch_error_at %}{% set build_fetch_error_at = builds_data.fetch_error_at %}{% else %}{% set build_fetch_error_at = "" %}{% endif %}
+        {% if builds_data.history_cadence_min %}{% set build_cadence = builds_data.history_cadence_min %}{% else %}{% set build_cadence = 5 %}{% endif %}
     {% else %}
         {% set build_items = [] %}
         {% set build_success = 0 %}
@@ -49,11 +49,11 @@
 
     {% set merge_data = load_data(path="data/merge-report.json", required=false) %}
     {% if merge_data %}
-        {% set merge_items = merge_data.merges if merge_data.merges else [] %}
-        {% set merge_total = merge_data.stats.total if merge_data.stats.total else 0 %}
-        {% set merge_today = merge_data.stats.today if merge_data.stats.today else 0 %}
-        {% set merge_updated = merge_data.updated_at if merge_data.updated_at else "" %}
-        {% set merge_source = merge_data.source_repo if merge_data.source_repo else "https://github.com/Banhang-Chogao/zola" %}
+        {% if merge_data.merges %}{% set merge_items = merge_data.merges %}{% else %}{% set merge_items = [] %}{% endif %}
+        {% if merge_data.stats.total %}{% set merge_total = merge_data.stats.total %}{% else %}{% set merge_total = 0 %}{% endif %}
+        {% if merge_data.stats.today %}{% set merge_today = merge_data.stats.today %}{% else %}{% set merge_today = 0 %}{% endif %}
+        {% if merge_data.updated_at %}{% set merge_updated = merge_data.updated_at %}{% else %}{% set merge_updated = "" %}{% endif %}
+        {% if merge_data.source_repo %}{% set merge_source = merge_data.source_repo %}{% else %}{% set merge_source = "https://github.com/Banhang-Chogao/zola" %}{% endif %}
     {% else %}
         {% set merge_items = [] %}
         {% set merge_total = 0 %}
@@ -93,18 +93,18 @@
 
     {% set compliance_data = load_data(path="data/compliance-score.json", required=false) %}
     {% if compliance_data %}
-        {% set compliance_score = compliance_data.score if compliance_data.score else 0 %}
-        {% set compliance_grade = compliance_data.grade if compliance_data.grade else "—" %}
-        {% set compliance_mood = compliance_data.mood if compliance_data.mood else "attention" %}
-        {% set compliance_pass = compliance_data.stats.pass if compliance_data.stats.pass else 0 %}
-        {% set compliance_warn = compliance_data.stats.warn if compliance_data.stats.warn else 0 %}
-        {% set compliance_fail = compliance_data.stats.fail if compliance_data.stats.fail else 0 %}
-        {% set compliance_categories = compliance_data.categories if compliance_data.categories else [] %}
-        {% set compliance_highlights = compliance_data.highlights if compliance_data.highlights else [] %}
-        {% set compliance_updated = compliance_data.updated_at if compliance_data.updated_at else "" %}
-        {% set compliance_pages = compliance_data.pages_scanned if compliance_data.pages_scanned else 0 %}
-        {% set compliance_fix_log = compliance_data.fix_log if compliance_data.fix_log else [] %}
-        {% set compliance_fix_summary = compliance_data.fix_summary if compliance_data.fix_summary else false %}
+        {% if compliance_data.score %}{% set compliance_score = compliance_data.score %}{% else %}{% set compliance_score = 0 %}{% endif %}
+        {% if compliance_data.grade %}{% set compliance_grade = compliance_data.grade %}{% else %}{% set compliance_grade = "—" %}{% endif %}
+        {% if compliance_data.mood %}{% set compliance_mood = compliance_data.mood %}{% else %}{% set compliance_mood = "attention" %}{% endif %}
+        {% if compliance_data.stats.pass %}{% set compliance_pass = compliance_data.stats.pass %}{% else %}{% set compliance_pass = 0 %}{% endif %}
+        {% if compliance_data.stats.warn %}{% set compliance_warn = compliance_data.stats.warn %}{% else %}{% set compliance_warn = 0 %}{% endif %}
+        {% if compliance_data.stats.fail %}{% set compliance_fail = compliance_data.stats.fail %}{% else %}{% set compliance_fail = 0 %}{% endif %}
+        {% if compliance_data.categories %}{% set compliance_categories = compliance_data.categories %}{% else %}{% set compliance_categories = [] %}{% endif %}
+        {% if compliance_data.highlights %}{% set compliance_highlights = compliance_data.highlights %}{% else %}{% set compliance_highlights = [] %}{% endif %}
+        {% if compliance_data.updated_at %}{% set compliance_updated = compliance_data.updated_at %}{% else %}{% set compliance_updated = "" %}{% endif %}
+        {% if compliance_data.pages_scanned %}{% set compliance_pages = compliance_data.pages_scanned %}{% else %}{% set compliance_pages = 0 %}{% endif %}
+        {% if compliance_data.fix_log %}{% set compliance_fix_log = compliance_data.fix_log %}{% else %}{% set compliance_fix_log = [] %}{% endif %}
+        {% if compliance_data.fix_summary %}{% set compliance_fix_summary = compliance_data.fix_summary %}{% else %}{% set compliance_fix_summary = false %}{% endif %}
         {% set compliance_link_report = load_data(path="data/compliance-link-report.json", required=false) %}
     {% else %}
         {% set compliance_score = 0 %}
@@ -125,14 +125,14 @@
     {# Load auto-performance-fix engine report #}
     {% set perf_fix_report = load_data(path="data/auto-performance-fix-report.json", required=false) %}
     {% if perf_fix_report %}
-        {% set perf_fix_status = perf_fix_report.status if perf_fix_report.status else "pending" %}
-        {% set perf_fix_mobile = perf_fix_report.pagespeed_score_mobile if perf_fix_report.pagespeed_score_mobile else 0 %}
-        {% set perf_fix_desktop = perf_fix_report.pagespeed_score_desktop if perf_fix_report.pagespeed_score_desktop else 0 %}
-        {% set perf_fix_issues = perf_fix_report.issues_detected if perf_fix_report.issues_detected else 0 %}
-        {% set perf_fix_fixes = perf_fix_report.fixes_applied if perf_fix_report.fixes_applied else 0 %}
-        {% set perf_fix_timestamp = perf_fix_report.timestamp if perf_fix_report.timestamp else "" %}
-        {% set perf_fix_ga_organic = perf_fix_report.ga4_organic if perf_fix_report.ga4_organic else false %}
-        {% set perf_fix_changes = perf_fix_report.fixes if perf_fix_report.fixes else [] %}
+        {% if perf_fix_report.status %}{% set perf_fix_status = perf_fix_report.status %}{% else %}{% set perf_fix_status = "pending" %}{% endif %}
+        {% if perf_fix_report.pagespeed_score_mobile %}{% set perf_fix_mobile = perf_fix_report.pagespeed_score_mobile %}{% else %}{% set perf_fix_mobile = 0 %}{% endif %}
+        {% if perf_fix_report.pagespeed_score_desktop %}{% set perf_fix_desktop = perf_fix_report.pagespeed_score_desktop %}{% else %}{% set perf_fix_desktop = 0 %}{% endif %}
+        {% if perf_fix_report.issues_detected %}{% set perf_fix_issues = perf_fix_report.issues_detected %}{% else %}{% set perf_fix_issues = 0 %}{% endif %}
+        {% if perf_fix_report.fixes_applied %}{% set perf_fix_fixes = perf_fix_report.fixes_applied %}{% else %}{% set perf_fix_fixes = 0 %}{% endif %}
+        {% if perf_fix_report.timestamp %}{% set perf_fix_timestamp = perf_fix_report.timestamp %}{% else %}{% set perf_fix_timestamp = "" %}{% endif %}
+        {% if perf_fix_report.ga4_organic %}{% set perf_fix_ga_organic = perf_fix_report.ga4_organic %}{% else %}{% set perf_fix_ga_organic = false %}{% endif %}
+        {% if perf_fix_report.fixes %}{% set perf_fix_changes = perf_fix_report.fixes %}{% else %}{% set perf_fix_changes = [] %}{% endif %}
     {% else %}
         {% set perf_fix_status = "no_data" %}
         {% set perf_fix_mobile = 0 %}
@@ -831,7 +831,7 @@
                 {# ===== QA DOMAIN SELECTOR (gợi ý tên miền) ===== #}
                 {% set domain_data = load_data(path="data/qa-domain-selector-report.json", required=false) %}
                 {% if domain_data %}
-                {% set domain_items = domain_data.top5 if domain_data.top5 else [] %}
+                {% if domain_data.top5 %}{% set domain_items = domain_data.top5 %}{% else %}{% set domain_items = [] %}{% endif %}
                 <div class="insights__domains">
                     <header class="insights__domains-head">
                         <h3 class="insights__domains-title">Domain Selector</h3>
