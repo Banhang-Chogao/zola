@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "fix(assets): restore shared assets causing repeated 404s",
+      "tag": "fix",
+      "lines_added": 21,
+      "lines_removed": 6,
+      "highlights": [],
+      "pr": 618
+    },
+    {
+      "date": "2026-06-21",
       "title": "chore(git): ignore private AI notes and local QA artifacts",
       "tag": "chore",
       "lines_added": 9,
