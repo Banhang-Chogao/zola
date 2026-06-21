@@ -1821,7 +1821,7 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 1. **PR tồn tại** — `mcp__github__list_pull_requests` kiểm tra branch. Chưa có → tạo PR
    với tiêu đề rõ ràng + body mô tả thay đổi + test plan. PR title cũ/tự động
    (vd "Claude/branch-name") → cập nhật bằng `mcp__github__update_pull_request`.
-2. **Không có conflict markers** — `grep -r "<<<<<<\|=======\|>>>>>>" content/ templates/ scripts/`
+2. **Không có conflict markers** — `grep tìm conflict markers trong content/, templates/, scripts/`
    → không được có kết quả (ngoài example text trong comment). Nếu có → giải quyết
    semantically (V10/V12 CLAUDE.md) trước khi push.
 3. **Rebase lên latest `main`** — nếu branch stale (V9/V10 vaccine), merge `origin/main`
