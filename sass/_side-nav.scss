@@ -247,6 +247,11 @@
 /* Khoá scroll nền khi drawer mở (state tạm thời, gỡ khi đóng — KHÔNG global) */
 body.nav-drawer-open { overflow: hidden; }
 
+/* ===== Hide old navbar menu (duplicated in new side-nav) ===== */
+.navbar__menu {
+  display: none;
+}
+
 /* ===== MOBILE / TABLET (≤960px) — hamburger thay cho side-nav ===== */
 @media (max-width: 960px) {
   .nav-toggle { display: inline-flex; }
