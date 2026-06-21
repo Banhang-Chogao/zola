@@ -1195,6 +1195,50 @@ fenced blocks.
   (no token leak in status · supervip-only export · invalid sid denied · masked default /
   reveal full · env preferred over KV · missing token → clear 404).
 
+#### V25 — "On This Page" TOC rail: blog posts need the sticky scroll-spy right rail (B-DNA pattern)
+
+> UI vaccine (not a workflow-run bug — the post builds, the guard protects the rail).
+> Match the signature → keep the scoped partial + scroll-spy JS; never ship a raw rail
+> or break mobile. Detector `check_toc_rail_vaccine` (code `TOC-RAIL`) gates it.
+
+- **Symptom (regression it guards):** a long article loses its sticky **"Trong bài này"**
+  right rail — the desktop scroll-spy TOC inspired by the B-DNA rail (`.bdna__rail`,
+  `templates/b-dna.html`). Either the rail stops rendering, the active-heading highlight
+  dies (no `IntersectionObserver`), or the rail leaks onto narrow/mobile widths and
+  overflows. A green `zola build` does NOT prove the rail still works — only this detector
+  or a render check does.
+- **Root cause it prevents:** the rail lives in three coupled places — the scoped partial
+  `sass/_toc-rail.scss` (`@import "toc-rail"` in `site.scss`, after `toc`), the server-side
+  markup in `templates/page.html` (`<aside class="toc-rail" data-toc-rail>` generated from
+  `page.toc`, gated by `show_rail = show_toc and not paywall_active`), and the scroll-spy
+  engine `static/js/toc-rail.js`. Drop any one → the rail breaks. The rail is **additive**:
+  it sits in a `.post-layout--rail` grid (`minmax(0,1fr) 248px`) beside the article, sticky
+  on desktop **≥1300px only**; below that it is `display:none` and the existing inline
+  `.toc` (top of content) serves instead — never two TOCs at once, no overflow, no layout
+  shift (rail is server-rendered; JS only toggles `.is-active`).
+- **FIXER:** keep `sass/_toc-rail.scss` (`.toc-rail` `position:sticky`, `.post-layout`
+  `grid-template-columns`, `.is-active` accent highlight, `display:none` default + a
+  `@media (min-width: …)` desktop gate) + `@import "toc-rail"`; keep the `data-toc-rail` /
+  `data-toc-link` / `page.toc` markup + the `toc-rail.js` include in `page.html`; keep
+  `IntersectionObserver` in `toc-rail.js`. Smooth scroll on click is CSS-native
+  (`html { scroll-behavior: smooth; scroll-padding-top }`, `_reset.scss`) — do not add a
+  scroll handler. Heading IDs come from Zola (stable slugs) → `#{{ h.id }}` anchors.
+- **Rules (permanent):** the rail is a **reader-facing TOC, not site navigation** — it uses
+  `.toc-rail*` selectors (never `.side-nav`/`.nav-rail`), so it is sticky by design and is
+  **not** subject to V21 (No Floating Nav). Never render the rail on mobile (keep the inline
+  `.toc` there); never duplicate the inline TOC and the rail at the same width; tokens only
+  (`var(--c-*)`), no hardcoded colors; the rail must no-op safely with few/no headings
+  (template `toc_total >= 3` guard + JS early-returns).
+- **Detector:** `scripts/qa_vaccines.py` → `check_toc_rail_vaccine` (code `TOC-RAIL`): FAIL if
+  the partial is missing/unimported, lacks sticky/`.post-layout` grid/`.is-active`, if
+  `page.html` lost `data-toc-rail`/`data-toc-link`/`page.toc`/`toc-rail.js`, or if
+  `toc-rail.js` is gone / has no `IntersectionObserver`; WARN if the rail is not hidden by
+  default or has no desktop `min-width` media (overflow risk).
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.TocRailVaccineTest -v`
+- **Validation:** `python3 scripts/qa_vaccines.py` (TOC-RAIL PASS) · `qa_check.py` PASS ·
+  `zola build` PASS · rail renders sticky on desktop ≥1300px with the active section
+  highlighted on scroll, hidden (inline `.toc` only) on tablet/mobile.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

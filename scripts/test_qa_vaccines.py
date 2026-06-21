@@ -944,6 +944,117 @@ class SearchUiVaccineTest(unittest.TestCase):
         self.assertEqual(r.status, qv.PASS, f"search_ui_vaccine not PASS: {r.diagnosis} {r.details}")
 
 
+class TocRailVaccineTest(unittest.TestCase):
+    """TOC-RAIL — the "On This Page" sticky article rail must render a styled
+    scroll-spy, keep its IntersectionObserver active-state engine, and stay
+    mobile-safe (hidden by default, shown only on the desktop breakpoint)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    _GOOD_SCSS = (
+        ".post-layout { min-width: 0; }\n"
+        ".toc-rail { display: none; }\n"
+        "@media (min-width: 1300px) {\n"
+        "  .post-layout--rail { display: grid; grid-template-columns: minmax(0,1fr) 248px; }\n"
+        "  .post-single__content .toc { display: none; }\n"
+        "  .toc-rail { display: block; position: sticky; top: 88px; }\n"
+        "  .toc-rail__link.is-active { color: var(--c-accent); }\n"
+        "}\n"
+    )
+    _GOOD_PAGE = (
+        '<div class="post-layout post-layout--rail">'
+        '<article class="post-single">{{ page.content | safe }}</article>'
+        '<aside class="toc-rail" data-toc-rail>'
+        '{% for h in page.toc %}<a href="#{{ h.id }}" data-toc-link>{{ h.title }}</a>{% endfor %}'
+        '</aside></div>'
+        "<script src=\"{{ get_url(path='js/toc-rail.js') }}\" defer></script>"
+    )
+    _GOOD_JS = (
+        '(function(){var r=document.querySelector("[data-toc-rail]");if(!r)return;'
+        'new IntersectionObserver(function(e){},{}).observe(r);})();\n'
+    )
+
+    def _wire_good(self):
+        self.repo.write("sass/_toc-rail.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+
+    def test_missing_partial_fails(self):
+        # Markup + engine present, but no structural SCSS → rail can't render.
+        self.repo.write("sass/site.scss", '@import "post";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("_toc-rail.scss" in d for d in r.details))
+
+    def test_not_imported_fails(self):
+        self._wire_good()
+        self.repo.write("sass/site.scss", '@import "post";\n')  # partial not imported
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("@import" in d or "site.scss" in d for d in r.details))
+
+    def test_no_sticky_or_grid_fails(self):
+        # Partial exists & imported but has no sticky / grid / active → broken rail.
+        self.repo.write("sass/_toc-rail.scss", ".toc-rail { display: none; color: blue; }\n")
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("sticky" in d or ".post-layout" in d or "is-active" in d for d in r.details))
+
+    def test_missing_markup_fails(self):
+        self._wire_good()
+        # Strip the scroll-spy link hook the engine needs.
+        self.repo.write("templates/page.html",
+                        self._GOOD_PAGE.replace("data-toc-link", "data-x-link"))
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_engine_fails(self):
+        self.repo.write("sass/_toc-rail.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        # No static/js/toc-rail.js at all → no active state on scroll.
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_no_observer_fails(self):
+        self._wire_good()
+        self.repo.write("static/js/toc-rail.js",
+                        '(function(){var r=document.querySelector("[data-toc-rail]");})();\n')
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("IntersectionObserver" in d for d in r.details))
+
+    def test_not_hidden_by_default_warns(self):
+        # Sticky/grid/active present + everything wired, but rail not hidden by
+        # default → mobile overflow risk → WARN (not FAIL).
+        scss = self._GOOD_SCSS.replace(".toc-rail { display: none; }\n", ".toc-rail { padding: 0; }\n")
+        self.repo.write("sass/_toc-rail.scss", scss)
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("overflow" in d.lower() or "display:none" in d for d in r.details))
+
+    def test_good_component_passes(self):
+        self._wire_good()
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_real_repo_passes(self):
+        """The shipped TOC rail must PASS on the real repo (calibration)."""
+        r = qv.check_toc_rail_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"toc_rail_vaccine not PASS: {r.diagnosis} {r.details}")
+
+
 class EditorPublishVaccineTest(unittest.TestCase):
     """EDITOR-PUBLISH — saving in /editor/ must commit to GitHub (not download),
     edits must send SHA, the SEO rail must hydrate old posts, and sticky must be

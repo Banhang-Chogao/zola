@@ -26,6 +26,17 @@
     {# Paywall hoạt động cho MỌI bài premium (extra.premium HOẶC category "premium")
        khi lock bật → render teaser + paywall box, KHÔNG render full content. #}
     {% set paywall_active = is_premium and premium_lock %}
+    {# Đếm heading (H2/H3) MỘT LẦN → quyết định hiển thị Mục lục inline (.toc)
+       và rail "Trong bài này" (.toc-rail). show_rail chỉ bật cho bài thường
+       (không paywall) đủ heading, tránh reserve cột rail rỗng trên desktop. #}
+    {% set_global toc_total = 0 %}
+    {% for h in page.toc %}
+        {% set_global toc_total = toc_total + 1 %}
+        {% for c in h.children %}{% set_global toc_total = toc_total + 1 %}{% endfor %}
+    {% endfor %}
+    {% set show_toc = toc_total >= 3 and page.extra.toc | default(value=true) %}
+    {% set show_rail = show_toc and not paywall_active %}
+    <div class="post-layout{% if show_rail %} post-layout--rail{% endif %}">
     <article class="post-single">
             <div class="post-single__hero">
                 {% if is_premium %}
@@ -129,13 +140,9 @@
                hoặc auto) nên luôn khớp; smooth scroll + offset navbar đã set
                global ở _reset.scss (html scroll-behavior + scroll-padding-top).
                KHÔNG dùng JS; KHÔNG nằm trong page.content → RSS/summary không bị
-               ảnh hưởng. Tắt thủ công 1 bài: [extra] toc = false. ===== #}
-            {% set_global toc_total = 0 %}
-            {% for h in page.toc %}
-                {% set_global toc_total = toc_total + 1 %}
-                {% for c in h.children %}{% set_global toc_total = toc_total + 1 %}{% endfor %}
-            {% endfor %}
-            {% if toc_total >= 3 and page.extra.toc | default(value=true) %}
+               ảnh hưởng. Tắt thủ công 1 bài: [extra] toc = false. Đếm heading
+               (toc_total) + show_toc đã tính 1 lần ở đầu block main. ===== #}
+            {% if show_toc %}
             <nav class="toc" aria-label="Mục lục">
                 <p class="toc__title">Mục lục</p>
                 <ol class="toc__list">
@@ -438,10 +445,37 @@
         {# ===== GISCUS COMMENTS ===== #}
         {{ giscus::comments() }}
     </article>
+
+    {# ===== "Trong bài này" — sticky On-This-Page rail (scroll-spy) =====
+       Rail TOC bám phải, sinh server-side từ page.toc (cùng nguồn với inline
+       .toc) nên không gây layout shift. Chỉ hiện desktop ≥1300px (CSS); ≤1300px
+       ẩn → inline .toc lo phần đó. Active state do static/js/toc-rail.js tô qua
+       IntersectionObserver; smooth-scroll khi click là CSS-native (_reset.scss).
+       Cảm hứng từ rail B-DNA (.bdna__rail). ===== #}
+    {% if show_rail %}
+    <aside class="toc-rail" data-toc-rail aria-label="Mục lục bài viết">
+        <p class="toc-rail__title">Trong bài này</p>
+        <nav class="toc-rail__nav" aria-label="Danh sách mục trong bài">
+            {% for h in page.toc %}
+            <a class="toc-rail__link" href="#{{ h.id }}" data-toc-link>
+                <span class="toc-rail__num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+                <span class="toc-rail__text">{{ h.title | safe }}</span>
+            </a>
+            {% for c in h.children %}
+            <a class="toc-rail__link toc-rail__link--sub" href="#{{ c.id }}" data-toc-link>
+                <span class="toc-rail__text">{{ c.title | safe }}</span>
+            </a>
+            {% endfor %}
+            {% endfor %}
+        </nav>
+    </aside>
+    {% endif %}
+    </div>{# /.post-layout #}
 {% endblock main %}
 
 {% block extra_scripts %}
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
+    <script src="{{ get_url(path='js/toc-rail.js') }}" defer></script>
     {% set cats = page.taxonomies.categories | default(value=[]) %}
     {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
