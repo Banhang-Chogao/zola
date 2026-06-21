@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "publish case study on Auto Fixer self-healing CI/CD pipeline [claude/amazing-goldberg-9hwo4r]",
+      "tag": "feat",
+      "lines_added": 362,
+      "lines_removed": 1,
+      "highlights": [
+        "content/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer.md (added, +262/-0)",
+        "data/seo-qa-scores.json (modified, +100/-1)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 673
+    },
+    {
+      "date": "2026-06-21",
       "title": "header/menu regression: navbar to right with 2-item max",
       "tag": "fix",
       "lines_added": 39,
