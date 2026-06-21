@@ -78,7 +78,7 @@ Ngoài việc "rơi vào trường hợp không được hoàn", rất nhiều h
 
 ## Làm sao để hồ sơ hoàn thuế suôn sẻ?
 
-Kinh nghiệm của mình gói gọn trong mấy việc: rà soát sổ sách, hóa đơn định kỳ thay vì để dồn; đối chiếu thông tin trên hồ sơ với giấy tờ gốc (mã số thuế, hợp đồng, tài khoản); ưu tiên thanh toán chuyển khoản để giữ chứng từ hợp lệ; và xác định đúng cơ quan thuế trước khi nộp. Với doanh nghiệp nhỏ, một thói quen theo dõi dòng tiền và chứng từ gọn gàng giúp ích rất nhiều — bạn có thể tham khảo cách mình dựng [công cụ phân tích dòng tiền cá nhân](@/tools/f-dashboard.md) để hình dung tư duy "số liệu phải sạch và đối chiếu được".
+Kinh nghiệm của mình gói gọn trong mấy việc: rà soát sổ sách, hóa đơn định kỳ thay vì để dồn; đối chiếu thông tin trên hồ sơ với giấy tờ gốc (mã số thuế, hợp đồng, tài khoản); ưu tiên thanh toán chuyển khoản để giữ chứng từ hợp lệ; và xác định đúng cơ quan thuế trước khi nộp. Với doanh nghiệp nhỏ, một thói quen theo dõi dòng tiền và chứng từ gọn gàng giúp ích rất nhiều.
 
 ## Kết
 
