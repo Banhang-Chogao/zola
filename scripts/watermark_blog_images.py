@@ -12,17 +12,22 @@ same image always yields the same watermark, and a *changed* image yields a new
 one. The watermark is drawn small + low-opacity in a non-destructive bottom
 corner so it never ruins thumbnails, layout or readability.
 
-ELIGIBILITY (what counts as a "blog image")
-    Roots scanned: static/img/  (+ any extra roots passed on the CLI).
-    Extensions:    .jpg .jpeg .png .webp
-    SKIPPED (not content images):
-      - *.og.webp                      generated OG/social twins (build_og_images.py)
-      - static/img/brand|og|placeholder|icons|flags/**   brand / UI / defaults
-      - names containing favicon, apple-touch, logo, sprite, -mark,
-        placeholder, og-default, author-avatar
-      - .svg .gif .ico                 vector / animation / icon (never rasterized)
-    => In practice this targets article/content images (static/img/posting/**)
-       and standalone post covers (static/img/covers/*.webp, excluding *.og.webp).
+ELIGIBILITY — conservative + folder-based (ownership-safe)
+    Auto-watermark ONLY images inside an "owned" root (original SEOMONEY visuals):
+        static/img/posting/**      article images the author created/photographed
+        static/img/owned/**        any other owned originals (drop new ones here)
+    Extensions: .jpg .jpeg .png .webp
+    SKIPPED BY DEFAULT (never stamped) — anything outside owned roots, including:
+      - third-party brand/app/bank/card screenshots & promo art (e.g. static/img/covers/**)
+      - logos, icons, favicons, sprites, placeholders, OG/social twins (*.og.webp)
+      - .svg .gif .ico, and any image of unclear source
+    DEFAULT RULE: unclear ownership ⇒ do NOT watermark.
+    OVERRIDES (data/watermark-policy.json):
+      - "owned_roots": [...]  add more owned folders
+      - "include":     [...]  explicit opt-in (watermark:true) for an owned image
+      - "exclude":     [...]  explicit opt-out (watermark:false)
+    => Normal future posts need NO manual per-image step: owned images placed under
+       posting/ or owned/ are watermarked automatically; everything else is left alone.
 
 IDEMPOTENCY (never stack a second watermark)
     - data/image-watermark-manifest.json maps  repo-path -> {hash16, watermark_text,
@@ -76,17 +81,51 @@ WM_EXIF_PREFIX = "seomoney-wm:"
 EXIF_USERCOMMENT_TAG = 0x9286
 
 ELIGIBLE_EXT = {".jpg", ".jpeg", ".png", ".webp"}
-DEFAULT_ROOTS = ["static/img"]
 
-# Directory segments (immediately under static/img) that are brand / UI / generated
-# and must never receive a content watermark.
-SKIP_DIR_SEGMENTS = {"brand", "og", "placeholder", "icons", "flags", "logos"}
+# OWNERSHIP POLICY — conservative + folder-based.
+#   Auto-watermark ONLY images that live inside an "owned" root: original
+#   SEOMONEY blog visuals the author created/photographed. Everything else is
+#   skipped BY DEFAULT — third-party brand/app/bank/card screenshots, logos,
+#   icons, OG/social twins, placeholders, and anything of unclear source.
+#   "Unclear ownership ⇒ do not watermark."
+#
+#   Extend/override via data/watermark-policy.json:
+#     { "owned_roots": ["static/img/extra-owned"],   # add more owned folders
+#       "include":     ["static/img/x/owned-pic.webp"],  # watermark:true opt-in
+#       "exclude":     ["static/img/posting/x/third-party.webp"] }  # watermark:false
+DEFAULT_OWNED_ROOTS = ["static/img/posting", "static/img/owned"]
+POLICY_PATH = DATA / "watermark-policy.json"
 
-# Filename substrings (case-insensitive) that mark brand / UI / default assets.
+# Defensive name skips even *inside* an owned folder (e.g. a logo/icon that gets
+# dropped into posting/). Explicit `include` overrides these.
 SKIP_NAME_SUBSTRINGS = (
     "favicon", "apple-touch", "logo", "sprite",
-    "placeholder", "og-default", "author-avatar", "-mark",
+    "placeholder", "og-default", "author-avatar", "-mark", "icon",
 )
+
+
+def load_policy() -> dict:
+    """Ownership policy: owned roots (auto-watermark) + include/exclude overrides.
+
+    Always crash-proof: a bad/missing policy file falls back to the conservative
+    defaults (only static/img/posting + static/img/owned).
+    """
+    policy = {"owned_roots": list(DEFAULT_OWNED_ROOTS), "include": [], "exclude": []}
+    policy_path = DATA / "watermark-policy.json"
+    if policy_path.is_file():
+        try:
+            data = json.loads(policy_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            data = None
+        if isinstance(data, dict):
+            for r in data.get("owned_roots") or []:
+                if isinstance(r, str) and r not in policy["owned_roots"]:
+                    policy["owned_roots"].append(r)
+            for key in ("include", "exclude"):
+                vals = data.get(key)
+                if isinstance(vals, list):
+                    policy[key] = [str(x).lstrip("/") for x in vals]
+    return policy
 
 
 # --------------------------------------------------------------------------- #
@@ -113,45 +152,69 @@ def watermark_text(rel_path: str, data: bytes) -> str:
 # --------------------------------------------------------------------------- #
 # Eligibility
 # --------------------------------------------------------------------------- #
-def is_eligible(path: Path) -> bool:
-    """True if `path` is a watermark-eligible blog/content raster image."""
+def is_eligible(path: Path, policy: dict | None = None) -> bool:
+    """True if `path` is an OWNED, watermark-eligible blog image.
+
+    Folder-based + conservative:
+      - explicit `exclude` (watermark:false)            -> never
+      - explicit `include` (watermark:true)             -> yes (still must be raster)
+      - inside an owned root + not a brand/og/icon name  -> yes
+      - anything else (covers, brand, third-party, unclear source) -> NO (default)
+    """
+    policy = policy or load_policy()
+    if path.suffix.lower() not in ELIGIBLE_EXT:
+        return False
+    rel = _rel(path)
     name = path.name.lower()
-    suffix = path.suffix.lower()
-    if suffix not in ELIGIBLE_EXT:
-        return False
-    # Generated OG/social twins — never the human-facing body image.
-    if name.endswith(".og.webp"):
-        return False
-    # Brand / UI / default assets by name.
-    if any(sub in name for sub in SKIP_NAME_SUBSTRINGS):
-        return False
-    # Brand / UI / generated directories under static/img.
-    try:
-        rel_parts = path.resolve().relative_to(REPO).parts
-    except ValueError:
-        rel_parts = path.parts
-    # rel_parts e.g. ("static", "img", "brand", "x.webp")
-    seg_set = {p.lower() for p in rel_parts[:-1]}
-    if seg_set & SKIP_DIR_SEGMENTS:
-        return False
-    return True
+
+    if rel in set(policy.get("exclude", ())):
+        return False  # explicit opt-out
+    explicit_include = rel in set(policy.get("include", ()))
+
+    if not explicit_include:
+        # Generated OG/social twins + brand/UI names are never watermarked.
+        if name.endswith(".og.webp"):
+            return False
+        if any(sub in name for sub in SKIP_NAME_SUBSTRINGS):
+            return False
+    else:
+        return True  # explicit owned opt-in
+
+    # Owned-folder gate — the conservative default (unclear source ⇒ skip).
+    for root in policy.get("owned_roots", ()):
+        r = str(root).strip("/")
+        if rel == r or rel.startswith(r + "/"):
+            return True
+    return False
 
 
 def iter_eligible(roots: list[str] | None = None) -> list[Path]:
-    """Sorted list of eligible image paths under the given roots."""
-    roots = roots or DEFAULT_ROOTS
+    """Sorted eligible image paths. Default scope = owned roots + explicit includes.
+
+    `roots` (CLI/tests) narrows the directories scanned, but every file is still
+    filtered through the ownership policy, so non-owned images never slip in.
+    """
+    policy = load_policy()
+    scan = list(roots) if roots else list(policy.get("owned_roots", []))
     out: list[Path] = []
-    for r in roots:
+    seen: set[Path] = set()
+
+    def _consider(f: Path):
+        if f.is_file() and f not in seen and is_eligible(f, policy):
+            out.append(f)
+            seen.add(f)
+
+    for r in scan:
         base = (REPO / r) if not Path(r).is_absolute() else Path(r)
         if base.is_file():
-            if is_eligible(base):
-                out.append(base)
-            continue
-        if not base.is_dir():
-            continue
-        for f in base.rglob("*"):
-            if f.is_file() and is_eligible(f):
-                out.append(f)
+            _consider(base)
+        elif base.is_dir():
+            for f in base.rglob("*"):
+                _consider(f)
+    # Explicit owned opt-ins may live outside the owned roots.
+    if not roots:
+        for inc in policy.get("include", []):
+            _consider(REPO / inc)
     return sorted(set(out))
 
 
@@ -367,6 +430,17 @@ def process(roots: list[str] | None, apply: bool, dry_run: bool) -> dict:
         res["watermarked"].append(rel)
         changed = True
 
+    # Prune manifest entries that are no longer eligible (image deleted, moved out
+    # of an owned folder, or excluded by policy) so the manifest reflects current
+    # ownership scope. The restored third-party covers drop out here.
+    if apply and not dry_run:
+        for rel in list(images.keys()):
+            p = REPO / rel
+            if not p.is_file() or not is_eligible(p):
+                del images[rel]
+                changed = True
+                res["pruned"] = res.get("pruned", []) + [rel]
+
     # Only rewrite the manifest when something actually changed, so idempotent
     # re-runs (e.g. the daily optimize-images cron) produce no churn / no commit.
     if apply and not dry_run and changed:
@@ -416,7 +490,8 @@ def main(argv: list[str]) -> int:
     mode.add_argument("--dry-run", action="store_true",
                       help="List what --apply would do; change nothing.")
     ap.add_argument("roots", nargs="*", default=None,
-                    help="Override scan roots (default: static/img).")
+                    help="Override scan roots (default: owned roots from policy — "
+                         "static/img/posting, static/img/owned).")
     args = ap.parse_args(argv)
     roots = args.roots or None
 
