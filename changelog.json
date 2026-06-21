@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(shortcut): add dantri inspired blog writing shortcut [claude/hopeful-rubin-g4t52d]",
+      "tag": "chore",
+      "lines_added": 108,
+      "lines_removed": 0,
+      "highlights": [
+        ".claude/commands/dantri.md (added, +40/-0)",
+        "shortcuts.md (modified, +68/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 674
+    },
+    {
+      "date": "2026-06-21",
       "title": "publish case study on Auto Fixer self-healing CI/CD pipeline [claude/amazing-goldberg-9hwo4r]",
       "tag": "feat",
       "lines_added": 362,
