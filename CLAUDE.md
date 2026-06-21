@@ -1110,6 +1110,47 @@ fenced blocks.
   `visitor-counter` is dead in production. Tests: `services/vipzone/test_main.py`
   (`CmsRepoRoutesTests`, `CmsStickyFeaturedHelpersTests`).
 
+#### V23 — SEO Identity / Homepage Migration: brand + canonical root must stay `https://seomoney.org/`
+
+> SEO-identity vaccine (built from the 20/06/2026 apex-domain migration hotfix). Match the
+> signature → restore the canonical identity; do NOT re-introduce the old domain/brand.
+
+- **Symptom:** After moving to the apex domain `https://seomoney.org/`, a later edit silently
+  regresses the **site identity** — any of: (a) `config.toml` `base_url` drifts back to a
+  `github.io` host or a `/zola` subpath / `http://` scheme; (b) the homepage `<title>` / `<h1>`
+  loses the **SEOMONEY** brand (e.g. reverts to the old "Blog công nghệ, du lịch & ẩm thực"
+  wording) so SERP shows a stale identity; (c) article JSON-LD `@type` reverts from
+  `BlogPosting` to a non-blog type, weakening rich-result eligibility. Canonical / OG / Twitter /
+  RSS / sitemap / robots all derive from `config.base_url`, so a wrong `base_url` poisons every
+  canonical signal at once.
+- **Root cause:** the canonical identity lives in a few high-leverage spots
+  (`config.toml base_url`, `templates/index.html` title/H1, `templates/base.html` article schema,
+  `content/_index.md` meta). These are easy to overwrite during unrelated template/content work,
+  and the regression is invisible until a crawler re-indexes the wrong canonical/brand.
+- **FIXER:** (a) `config.toml` `base_url = "https://seomoney.org"` — apex, `https`, **no** `/zola`
+  subpath, **no** `github.io`. (b) Homepage `templates/index.html` `{% block title %}` and the
+  visually-hidden `<h1>` keep the brand string **`SEOMONEY`** (current: `SEOMONEY – SEO, AI WebOps
+  & Tài chính cá nhân`); `content/_index.md` title/description stay on-brand. (c)
+  `templates/base.html` page JSON-LD uses `"@type": "BlogPosting"` with `BreadcrumbList` present.
+  Rebuild and verify the built `public/` has **0** old-domain site URLs, sitemap all-`seomoney.org`,
+  robots Sitemap → `https://seomoney.org/sitemap.xml`.
+- **GSC note:** runtime GSC property = `sc-domain:seomoney.org` (aggregates http/https + www/apex
+  post-migration; `services/visitor-counter/gsc_client.py`), with `https://seomoney.org/`
+  URL-prefix kept as fallback. **Canonical/sitemap stay `https://seomoney.org/`** — the sc-domain
+  form is for the Search Console API only, never for on-page canonical tags.
+- **Detector:** `scripts/qa_vaccines.py` → `check_v20_seo_identity_homepage` (result code `V20`).
+  FAIL if `base_url` is non-apex/`github.io`/`/zola`/`http://`, or the homepage lost the SEOMONEY
+  brand. WARN if article schema is not `BlogPosting`. Calibrated so current `main` = PASS.
+  (Documented as **V23** because `#### V20`–`#### V22` were already taken on `main` when this
+  landed — the registry guard below requires unique `#### V<N>` numbers, so the new vaccine takes
+  the next free number; the detector's *result code* stays `V20` for continuity.)
+- **Registry guard:** `scripts/qa_vaccines.py` → `check_vaccine_registry_integrity` (code
+  `VACCINE-REGISTRY`) FAILs on (1) an **unexpected duplicate `#### V<N>` number** in CLAUDE.md
+  beyond the documented legacy/multi-entry set `{V10, V11, V12, V19, V22}`, or (2) a **duplicate
+  detector registration** (same callable or detector name listed twice in `DETECTORS`). New
+  vaccines must use the next free number from `next_free_vaccine_number()` — never hardcode a taken one.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SeoIdentityV20Test scripts.test_qa_vaccines.VaccineRegistryGuardTest -v`
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

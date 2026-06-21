@@ -283,7 +283,7 @@
     {
         "@context": "https://schema.org",
         {% if page %}
-        "@type": "Article",
+        "@type": "BlogPosting",
         "headline": {{ page.title | json_encode | safe }},
         "image": [{{ og_image | json_encode | safe }}],
         {% if page.date %}"datePublished": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S%:z') }}",{% endif %}
