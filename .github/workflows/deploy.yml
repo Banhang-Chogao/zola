@@ -71,6 +71,21 @@ jobs:
           fi
           python3 scripts/gsc_preflight.py
 
+      # Sync GSC token to backend for post-deploy persistence. Ensures OAuth token
+      # survives deploy cycle and backend auto-refreshes on next API call.
+      # Non-blocking if backend unreachable (deployment continues).
+      - name: Sync GSC token to backend (post-deploy persistence)
+        env:
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+        run: |
+          if [ -n "${GSC_REFRESH_TOKEN}" ] && [ -n "${GSC_CLIENT_ID}" ] && [ -n "${GSC_CLIENT_SECRET}" ]; then
+            pip install --quiet requests google-auth==2.40.2
+            python3 scripts/gsc_token_persist.py
+          fi
+
       - name: Build social OG cover images (SVG → .og.webp)
         run: |
           pip install -r scripts/requirements-og-images.txt
@@ -131,6 +146,18 @@ jobs:
           export ZOLA_BUILD_SHA="$(git rev-parse --short=7 HEAD)"
           echo "Building with Zola $ZOLA_VERSION @ commit $ZOLA_BUILD_SHA"
           zola build
+
+      - name: Schema validation (20+ BlogPosting posts)
+        run: python3 scripts/validate_schema_20plus.py
+
+      - name: Audit old URLs (github.io / zola references)
+        run: python3 scripts/audit_old_urls.py
+
+      - name: Mobile UX audit (lazy-load, LCP, dashboard optimization)
+        run: python3 scripts/audit_mobile_performance.py
+
+      - name: Tag sprawl analysis (identify thin tags for consolidation)
+        run: python3 scripts/analyze_tags.py
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
