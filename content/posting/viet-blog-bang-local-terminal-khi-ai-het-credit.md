@@ -1,13 +1,13 @@
 +++
 title = "Viết blog bằng local terminal khi AI hết credit"
 date = 2026-06-22
+aliases = ["/viet-blog-bang-local-terminal-khi-ai-het-credit/"]
 description = "Quy trình viết và publish một bài blog từ local terminal khi Claude hoặc trợ lý AI hết credit, có QA, Git và PR an toàn."
 slug = "viet-blog-bang-local-terminal-khi-ai-het-credit"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["terminal", "blog", "zola", "github", "git", "ai", "workflow", "production"]
-
+tags = ["ai", "blog", "git", "github", "production", "terminal", "workflow", "zola"]
 [extra]
 thumbnail = "https://picsum.photos/seed/local-terminal-blog/600/400"
 seo_keyword = "viết blog bằng local terminal"
@@ -69,8 +69,7 @@ slug = "bai-viet-moi-cua-toi"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["terminal", "blog", "zola"]
-
+tags = ["blog", "terminal", "zola"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "từ khóa chính"

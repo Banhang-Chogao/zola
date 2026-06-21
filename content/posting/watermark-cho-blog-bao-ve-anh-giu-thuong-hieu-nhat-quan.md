@@ -1,13 +1,13 @@
 +++
 title = "Watermark cho blog: cách mình dùng dấu nhận diện để bảo vệ ảnh và giữ thương hiệu nhất quán"
 date = 2026-06-22
+aliases = ["/watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan/"]
 description = "Chia sẻ kinh nghiệm áp dụng watermark cho ảnh blog và các dashboard tiện ích như F-dashboard, H-dashboard để tăng nhận diện thương hiệu, bảo vệ tài sản visual và tối ưu liên kết nội bộ SEO."
 slug = "watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["watermark cho blog", "tự động gắn watermark", "bảo vệ ảnh blog", "dashboard tiện ích", "tối ưu hình ảnh seo"]
-
+tags = ["bảo vệ ảnh blog", "dashboard tiện ích", "tối ưu hình ảnh seo", "tự động gắn watermark", "watermark cho blog"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "watermark cho blog"
