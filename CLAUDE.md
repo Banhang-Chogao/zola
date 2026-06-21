@@ -110,6 +110,138 @@ Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIO
 - **Acceptance:** không deploy song song; không rate-limit burst; PR xanh merge/deploy
   đúng thứ tự; nhanh nhưng tuần tự; build pass.
 
+## Knowledge Promotion Rule (effective 2026-06-21 — anti-bloat governance)
+
+> Repo tiến hóa từ "fix-per-incident" sang "hệ vaccine trưởng thành" (V1–V26). CLAUDE.md
+> phải vẫn là **Doctrine + Policy**, không thành "Changelog + private strategy". Quy tắc
+> này phân loại tri thức và chỉ định nơi lưu để giữ CLAUDE.md sạch, dễ đọc, đúng scope.
+
+### 4 loại tri thức
+
+| Loại | Định nghĩa | Lưu ở | Tuổi thọ | Ví dụ |
+|------|-----------|-------|----------|--------|
+| **Incident** | Lỗi ngắn hạn, xuất hiện 1 lần hoặc fix point | `data/`, changelog PR, GitHub issue | Tạm thời (tháng) | Lỗi deploy #387 cancelled; 404 link sao chép; migration URL `github.io→seomoney.org` |
+| **Vaccine** | Cùng nhóm lỗi tái phát 2+ lần OR dự phòng | V-number (§4, detector, autofixer, test) | Vĩnh viễn | V1 HF model, V5 rate-limit, V8 Tera syntax, V10 merge race |
+| **Doctrine** | Quy tắc vận hành, kiến trúc vĩnh viễn, policy | **§ CLAUDE.md CHÍNH** | Vĩnh viễn | ZERO_BARRIER, Task Priority, SEO CONTENT SYSTEM, Premium Paywall Rules |
+| **Private Knowledge** | SEO/affiliate/monetization strategy, prompt, vận hành cá nhân | `CLAUDE_PRIVATE.md` + `docs/private/` | Công ty (không public) | Affiliate program, SEO chủ đề mục tiêu, pricing private, team runbook |
+
+### Quy trình — từ Incident → Vaccine → Doctrine
+
+```
+1. Incident Reported
+   └─ Quét Vaccine library (§4 V1–V26) ↓
+   
+2. Match Vaccine?
+   ├─ YES → Run FIXER (không chẩn lại)
+   │        Log vào "Autofixer Conflict Learning Log" / "Merge Session"
+   │        Chỉ append vào CLAUDE.md nếu Vaccine nay cần tuỳnh chỉnh
+   └─ NO → Chẩn đoán từ đầu với `ff`/`ff9`
+          └─ Recurring Issue (2+ lần)?
+             ├─ YES → Create New Vaccine
+             │        Detector + FIXER + Unit test
+             │        Append block `#### V<N> —` vào §4
+             └─ NO → Fix once, log Learning Log
+                     Đừng làm Vaccine nếu chỉ vài lần
+```
+
+### Incident → Report (KHÔNG vào CLAUDE.md)
+
+- **Khi:** lỗi 1 lần, fix mau, không tái phát dễ dàng
+- **Lưu ở:**
+  - GitHub PR/Issue description + comments
+  - Commit message (lý do fix)
+  - `data/merge-report.json` (cho Merge Session)
+  - `data/qa-*.json` reports (dashboard tracing)
+- **Ví dụ:**
+  - "#387 build cancelled do concurrency — không phải fail" → append vào "Build Dashboard Learning" chỗ đó
+  - Link `/zola/` migration từ `github.io` → fix + log "Domain Migration" learning
+
+### Vaccine (§4 + detector + test)
+
+- **Khi:** lỗi xuất hiện 2+ lần, pattern rõ, fix bền vững
+- **Ghi vào:** CLAUDE.md `#### V<N> —` block, **tuyệt đối KHÔNG đổi số**
+- **Cặp theo:** detector (`qa_vaccines.py` check), fixer script, autofixer workflow, unit test
+- **Ví dụ:** V5 rate-limit → V5 detector FAIL khi `deploy.yml` concurrency sai → V5 FIXER rerun deploy
+
+### Doctrine (vĩnh viễn)
+
+- **Khi:** quy tắc vận hành, kiến trúc không đổi, policy repo-wide
+- **Ghi vào:** CLAUDE.md §đầu (Policy, Rules, Standards)
+- **Cấp độ:**
+  - **Cao nhất:** `## Automation Policy` (ZERO_BARRIER), `## Deploy Queue Policy`
+  - **Trung:** `## QA Rules`, `## Git Rules`, `## SEO Content System Rule`
+  - **Chi tiết:** subsection trong § lớn
+- **Ví dụ:** "Auto-merge CI xanh mà không hỏi" = Doctrine → `## Auto-Merge Policy`
+
+### Private Knowledge (ngoài repo public)
+
+- **Khi:** bí mật kinh doanh, strategy, credentials, internal process
+- **KHÔNG ghi:** CLAUDE.md, README, tài liệu public
+- **Lưu ở:** `CLAUDE_PRIVATE.md` + `docs/private/` (private repo or env-gated)
+- **Ví dụ:**
+  - Affiliate link + commission rate
+  - Target niche/SEO pillars (hạn chế publish)
+  - Monetization roadmap (NDA)
+  - Team member names, roles (privacy)
+  - Internal Slack/email template (công ty)
+
+### Anti-Bloat Checklist (trước khi append CLAUDE.md)
+
+**Trước khi thêm section nào vào CLAUDE.md, hỏi:**
+
+1. ✅ Đây là **policy vĩnh viễn** hay **learning từ 1 incident**?
+   - Policy → CLAUDE.md
+   - Incident → learning log / PR notes
+2. ✅ Có **reuse 2+ lần** rồi hay **mới lần đầu**?
+   - Dùng lại 2+ → ghi Vaccine
+   - Lần đầu → fix + learning log, chờ tái phát
+3. ✅ Đây có phải **private strategy** không?
+   - Có → `CLAUDE_PRIVATE.md`
+   - Không → đúng vị trí trong CLAUDE.md
+4. ✅ Có **xung đột** với section nào khác?
+   - Có → merge vào section cũ, không tạo section trùng
+   - Không → tạo section mới
+
+### Vaccine Governance
+
+- **Mỗi vaccine = 1 số duy nhất** (`V<N>`), **KHÔNG bao giờ đổi số**.
+- **Rename vaccine** → chỉ đổi tiêu đề `####` hoặc nội dung, giữ nguyên `V<N>`.
+- **Deprecate vaccine** → đánh dấu `[DEPRECATED — xem V<N+M> thay thế]`, KHÔNG xoá.
+- **Detector + Test bắt buộc** khi thêm vaccine mới. Nếu không thể detect tĩnh → vaccine thuộc type **Process** (ví dụ V10/V12 "Dirty PR" — chỉ phát hiện thời PR bị conflict).
+
+### Learning Log Lifecycle
+
+- **Autofixer Conflict Learning Log:** append tự động sau mỗi lần `autofix_conflicts.py` thành công
+- **Merge Session Learning Log:** append thủ công sau mỗi phiên maintenance merge
+- **Build/Compliance Dashboard Learning:** append khi phát hiện dashboard logic bug hoặc false-positive
+- **Max 10 entries** per log (archive cũ → docs nếu lịch sử dài)
+
+### File Map
+
+| Loại tri thức | File chính | Lưu chỗ khác | Config |
+|----------------|-----------|-------------|--------|
+| **Doctrine** | `CLAUDE.md` §0–§ rules | — | — |
+| **Vaccine** | `CLAUDE.md` §4 `#### V<N>` | detector: `qa_vaccines.py` · test: `test_qa_vaccines.py` · autofixer: workflow `.yml` | data auto-increment `next_free_vaccine_number()` |
+| **Incident** | — | PR / Issue / Merge Report / Dashboard JSON | `data/merge-report.json` history |
+| **Learning Log** | `CLAUDE.md` tail sections | — | append-only (không xoá) |
+| **Private** | `CLAUDE_PRIVATE.md` (nếu có) | `docs/private/*` | env-gated, không push `main` |
+
+### Khi thêm Vaccine mới
+
+1. Bổ sung block `#### V<N> —` vào §4 (CLAUDE.md).
+2. Viết detector trong `CLAUDE.md` → implement trong `scripts/qa_vaccines.py` → register `DETECTORS[]`.
+3. Viết autofixer (nếu safe) hoặc FIXER thủ công (nếu risky).
+4. Viết unit test: negative (phát hiện bug), positive (current `main` = PASS).
+5. Chạy `qa_vaccines.py` → confirm vaccine PASS trên `main`.
+6. Đừng tăng số vaccine vừa tạo nếu có vaccine khác chờ pending (queue by discovery order).
+
+### Khi lỡ ghi sai chỗ
+
+- **Incident ghi vào CLAUDE.md:** xoá, đưa vào PR/learning log thay vì CLAUDE.md chính
+- **Vaccine số trùng:** đánh dấu deprecated, gán số tiếp trong queue
+- **Private ghi vào public:** revert, move `CLAUDE_PRIVATE.md`, xoá khỏi git history (`git filter-repo`)
+- **Vaccine không có detector:** append detector vào `qa_vaccines.py` ngay (không để pending)
+
 ## Task Priority Policy (effective 2026-06-18)
 
 > Bổ sung `docs/OPERATIONS.md` — **không** thay auto-merge / deploy rules. Áp dụng khi
