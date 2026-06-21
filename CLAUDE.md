@@ -1092,6 +1092,23 @@ fenced blocks.
 - **Validation:** `python3 scripts/qa_vaccines.py` (EDITOR-PUBLISH PASS) · `qa_check.py`
   PASS · `zola build` PASS · saving in `/editor/` commits to GitHub, edits carry a SHA,
   old posts hydrate the SEO rail, sticky stays single-active.
+- **V22b — Deployment split-brain (production smoke fail after #588, 2026-06-21):** the
+  V22 backend routes in #588 were added to `services/visitor-counter/main.py`, but that
+  Redis service is NOT deployed — `render.yaml` deploys `blog-vipzone-api` from
+  `services/vipzone`, and `editor.js`'s `AUTH_API` points there. So in production every
+  `POST {AUTH_API}/cms/save-post` (create new post, edit-with-SHA, sticky auto-demote) hit
+  a non-existent route → **`404 {"detail":"Not Found"}`** (SEO-rail hydration is frontend-
+  only and was unaffected). Same class as V16/#594 (GSC routes 404'd until served on the
+  deployed vipzone app). **FIXER:** serve the CMS write surface on the DEPLOYED backend —
+  `services/vipzone/cms_repo.py` (router: `/cms/save-post`, `/cms/posts/bulk-delete`,
+  `/api/categories/{list,add}`, faithful port of the GitHub Contents + featured/sticky
+  single-active demote logic), mounted in `services/vipzone/main.py` via `configure()` with
+  the GitHub token sourced from the vipzone CMS session. `cms_auth.py` now persists the
+  OAuth `access_token` in the session payload (whitelisted out of `/auth/me`, never leaked)
+  and exposes `github_token_from_session()`. **Rule:** any route the frontend calls on
+  `blog-vipzone-api` MUST exist on `services/vipzone` — a route living only in
+  `visitor-counter` is dead in production. Tests: `services/vipzone/test_main.py`
+  (`CmsRepoRoutesTests`, `CmsStickyFeaturedHelpersTests`).
 
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
