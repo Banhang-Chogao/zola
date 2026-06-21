@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-21T13:52:18Z",
+  "updated_at": "2026-06-21T14:07:27Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 52,
+    "today": 54,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 47,
       "unknown": 44,
-      "fix": 45,
-      "feature": 83,
+      "feature": 81,
       "ci": 3,
       "chore": 17,
       "content": 7,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 656,
+      "pr_title": "fix(vaccine-hotfix): claude/stoic-goldberg-tzxf8g",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/656",
+      "merged_at": "2026-06-21T14:02:18Z",
+      "merge_commit_sha": "4bbc21abef7401e0b8bd421d41435564e947343f",
+      "merge_commit_short": "4bbc21a",
+      "head_branch": "vaccine-hotfix/claude-stoic-goldberg-tzxf8g",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 200,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 914,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906740372",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 660,
       "pr_title": "Claude/ecstatic mccarthy s0v1ar",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 913,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906350579",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 654,
@@ -662,9 +681,9 @@
       "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 885,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27896918473",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 619,
@@ -700,9 +719,9 @@
       "deletions": 39,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 884,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27895607274",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 617,
@@ -719,9 +738,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 884,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27895607274",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 618,
@@ -738,9 +757,9 @@
       "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 884,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27895607274",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 615,
@@ -757,9 +776,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 884,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27895607274",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 613,
@@ -776,9 +795,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 884,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27895607274",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 616,
@@ -926,6 +945,25 @@
       "files_changed": 5,
       "additions": 522,
       "deletions": 170,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 599,
+      "pr_title": "fix(gsc): operator export path for OAuth refresh token + env priority [claude/tender-galileo-xvi6w6]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/599",
+      "merged_at": "2026-06-21T00:56:08Z",
+      "merge_commit_sha": "fe49f829042f22990d9ca1a1ad5f0292d4ad635f",
+      "merge_commit_short": "fe49f82",
+      "head_branch": "claude/tender-galileo-xvi6w6",
+      "summary_vi": "fix(gsc): operator export path for OAuth refresh token + env priority",
+      "change_type": "fix",
+      "files_changed": 4,
+      "additions": 269,
+      "deletions": 8,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3776,44 +3814,6 @@
       "files_changed": 1,
       "additions": 88,
       "deletions": 10,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 430,
-      "pr_title": "feat(cluster): Ngân hàng số Việt Nam — pillar + 15 bài (hoàn chỉnh)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/430",
-      "merged_at": "2026-06-18T13:08:05Z",
-      "merge_commit_sha": "84e46e1795cc6982ea10b8cc580e506a96a43077",
-      "merge_commit_short": "84e46e1",
-      "head_branch": "feature/ngan-hang-so-cluster",
-      "summary_vi": "**Cụm nội dung (silo) Ngân hàng số Việt Nam HOÀN CHỈNH** — pillar + **15 bài**, mỗi bài 1 commit riêng, SEO **100/100 A+**, ảnh placeholder.",
-      "change_type": "feature",
-      "files_changed": 22,
-      "additions": 3621,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 431,
-      "pr_title": "feat(home+cms): Sticky post section + CMS sticky toggle (chỉ 1 bài ghim)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/431",
-      "merged_at": "2026-06-18T13:07:56Z",
-      "merge_commit_sha": "13d6e91a7a07286013026d0596ef8fb604411d7a",
-      "merge_commit_short": "13d6e91",
-      "head_branch": "claude/failed-merge-rebase-nbjg25",
-      "summary_vi": "- Thêm **section Sticky** (`.home-sticky`) hiển thị bài được ghim (`extra.sticky=true`) ở **giữa cột nội dung** trang chủ — card 2 cột, viền nhấn, nhãn `📌 Ghim nổi bật`.",
-      "change_type": "feature",
-      "files_changed": 5,
-      "additions": 256,
-      "deletions": 77,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
