@@ -1975,5 +1975,59 @@ class VaccineRegistryMergeV28Test(unittest.TestCase):
         self.assertEqual(qv.check_v28_vaccine_registry_merge(self.repo.ctx()).status, qv.WARN)
 
 
+class ToolsRoutePreservationV30Test(unittest.TestCase):
+    """V30 — public /tools/* dashboard routes must never be silently removed."""
+
+    SLUGS = ("f-dashboard", "l-dashboard", "o-dashboard", "h-dashboard")
+
+    def _write_dashboards(self, repo, slugs):
+        for slug in slugs:
+            repo.write(f"content/tools/{slug}.md",
+                       f'+++\ntitle = "{slug}"\ntemplate = "{slug}.html"\n+++\n')
+            repo.write(f"templates/{slug}.html", '{% extends "base.html" %}\n')
+
+    def test_real_repo_passes(self):
+        # Calibration: after restore, all four dashboards exist on the real tree.
+        r = qv.check_v30_tools_route_preservation(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis)
+
+    def test_all_present_passes(self):
+        repo = TmpRepo()
+        self.addCleanup(repo.cleanup)
+        self._write_dashboards(repo, self.SLUGS)
+        self.assertEqual(qv.check_v30_tools_route_preservation(repo.ctx()).status, qv.PASS)
+
+    def test_missing_page_fails(self):
+        repo = TmpRepo()
+        self.addCleanup(repo.cleanup)
+        # Only three of four present → the missing one is a silent removal → FAIL.
+        self._write_dashboards(repo, self.SLUGS[:-1])
+        r = qv.check_v30_tools_route_preservation(repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("h-dashboard" in d for d in r.details))
+
+    def test_missing_template_fails(self):
+        repo = TmpRepo()
+        self.addCleanup(repo.cleanup)
+        # Page exists but its bound template is gone → route breaks → FAIL.
+        self._write_dashboards(repo, self.SLUGS)
+        (repo.root / "templates" / "h-dashboard.html").unlink()
+        r = qv.check_v30_tools_route_preservation(repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("template" in d for d in r.details))
+
+    def test_allowlisted_slug_skipped(self):
+        repo = TmpRepo()
+        self.addCleanup(repo.cleanup)
+        # An empty repo would normally FAIL on all four; allow-listing them → PASS.
+        original = qv._TOOLS_REMOVAL_ALLOWLIST
+        qv._TOOLS_REMOVAL_ALLOWLIST = frozenset(qv._PROTECTED_TOOLS_ROUTES)
+        try:
+            self.assertEqual(
+                qv.check_v30_tools_route_preservation(repo.ctx()).status, qv.PASS)
+        finally:
+            qv._TOOLS_REMOVAL_ALLOWLIST = original
+
+
 if __name__ == "__main__":
     unittest.main()

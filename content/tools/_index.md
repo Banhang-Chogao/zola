@@ -11,6 +11,25 @@ toc = false
 
 # Mỗi nhóm = 1 section khối màu. Tất cả công cụ MIỄN PHÍ (không còn gate VIP).
 [[extra.tool_groups]]
+name = "Dashboard & phân tích"
+[[extra.tool_groups.items]]
+name = "💰 F-Dashboard"
+url = "$BASE_URL/tools/f-dashboard"
+subtitle = "Sao kê VietinBank (Excel) — phân tích thu/chi & sức khỏe tài chính"
+[[extra.tool_groups.items]]
+name = "🏦 L-Dashboard"
+url = "$BASE_URL/tools/l-dashboard"
+subtitle = "Sao kê LPBank (PDF) — phân tích dòng tiền, biểu đồ & export"
+[[extra.tool_groups.items]]
+name = "🧾 O-Dashboard"
+url = "$BASE_URL/tools/o-dashboard"
+subtitle = "Sao kê Liobank by OCB (PDF) — phân tích dòng tiền"
+[[extra.tool_groups.items]]
+name = "🧮 H-Dashboard"
+url = "$BASE_URL/tools/h-dashboard"
+subtitle = "Hóa đơn/biên lai (OCR) — thống kê chi tiêu"
+
+[[extra.tool_groups]]
 name = "Monitoring & Dashboard"
 [[extra.tool_groups.items]]
 name = "📈 UPTIME_ME"

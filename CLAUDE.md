@@ -493,6 +493,9 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 #### V29 — External Prod Verification / Manual Backend Deploy: GitHub Pages deploy ≠ Render backend deploy
 → See `docs/vaccine-archive.md` for FIXER & validation steps.
 
+#### V30 — Public /tools/* route preservation: SEO/section optimization must be non-destructive (no silent dashboard removal)
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
+
 
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
