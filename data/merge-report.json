@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-21T14:13:20Z",
+  "updated_at": "2026-06-21T14:18:23Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 54,
+    "today": 55,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 47,
-      "unknown": 44,
+      "fix": 48,
+      "unknown": 43,
       "feature": 81,
       "ci": 3,
       "chore": 17,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 659,
+      "pr_title": "fix(vaccine-hotfix): claude/great-thompson-xhacsj",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/659",
+      "merged_at": "2026-06-21T14:10:41Z",
+      "merge_commit_sha": "22143af3f4e8389ceba2e3ad63c897874d627bbf",
+      "merge_commit_short": "22143af",
+      "head_branch": "vaccine-hotfix/claude-great-thompson-xhacsj",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 302,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 916,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906954443",
+      "build_conclusion": "failure"
+    },
     {
       "pr_number": 657,
       "pr_title": "fix(qa-workflow): Conditionally install dashboard requirements if they exist [claude/tender-bardeen-xurrse]",
@@ -681,9 +700,9 @@
       "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 886,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27898518906",
-      "build_conclusion": "success"
+      "build_run_number": 888,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27898635123",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 620,
@@ -2883,25 +2902,6 @@
       "files_changed": 8,
       "additions": 303,
       "deletions": 32,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 479,
-      "pr_title": "Xoá trang Thống kê (Web Vitals) /stats/ và link footer",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/479",
-      "merged_at": "2026-06-19T05:02:37Z",
-      "merge_commit_sha": "1f930fce9f4803598a9e5adf77f98bbb273995b7",
-      "merge_commit_short": "1f930fc",
-      "head_branch": "claude/admiring-goodall-g2rcv0",
-      "summary_vi": "Trang /stats/ chỉ đo Core Web Vitals client-side, lưu localStorage theo từng trình duyệt nên với người dùng luôn trống — không có số liệu. Gỡ bỏ toàn bộ tính năng theo yêu cầu.",
-      "change_type": "unknown",
-      "files_changed": 12,
-      "additions": 12,
-      "deletions": 1060,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
