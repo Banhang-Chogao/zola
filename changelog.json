@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(images): add global blog image watermark rule [feat/blog-image-watermark]",
+      "tag": "chore",
+      "lines_added": 741,
+      "lines_removed": 4,
+      "highlights": [
+        "Quét static/img/**, ext .jpg .jpeg .png .webp.",
+        "Bỏ qua: *.og.webp (OG/social twin), thư mục brand/ og/ placeholder/ icons/ flags/, tên favicon/apple-touch/logo/sprite/placeholder/og-default/author-avatar/-mark, và .svg/.gif/.ico.",
+        "⇒ nhắm ảnh bài viết static/img/posting/* + cover bài static/img/covers/.webp (không phải .og.webp).",
+        "data/image-watermark-manifest.json: path → {hash16, watermark_text, source_sha256, watermarked_sha256, processed_at}.",
+        "Re-run bỏ qua ảnh có watermarked_sha256 khớp (không cần Pillow). Mỗi ảnh mang thêm EXIF/PNG marker seomoney-wm:<hash> đi theo pixel. Ảnh đổi nội dung → watermark lại hash mới. Manifest chỉ ghi khi có "
+      ],
+      "pr": 699
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs [feat/blog-terminal-production-cluster]",
       "tag": "fix",
       "lines_added": 427,
