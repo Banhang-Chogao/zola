@@ -42,8 +42,11 @@ from typing import Any
 import markdown
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from io import BytesIO
 from pydantic import BaseModel, EmailStr, Field
 
+from admin_guideline_pdf import generate_pdf_watermark
 from catalog_loader import load_catalog, migrate_picks_sync
 from picker_access import expand_items, items_to_map, migrate_picker_items, sparse_items
 from cms_auth import BACKEND_URL, cms_profile_from_session, github_token_from_session, is_admin, router as auth_router, session_dep
@@ -532,3 +535,30 @@ async def admin_set_picker(body: PickerIn, _admin: dict[str, Any] = Depends(requ
     migrated = migrate_picker_items(_picker_body_to_raw(body), catalog)
     stored = get_db().set_picker(sparse_items(migrated))
     return {"ok": True, "items": expand_items(stored, catalog)}
+
+
+@app.get("/api/admin/operation-guideline.pdf")
+async def admin_get_operation_guideline_pdf(
+    _admin: dict[str, Any] = Depends(require_admin),
+) -> FileResponse:
+    """
+    Protected PDF endpoint for Operation Guideline.
+    Requires admin session (Bearer token with cms_sid).
+    Generates PDF on-demand with watermark.
+    """
+    try:
+        pdf_buffer = BytesIO()
+        generate_pdf_watermark(pdf_buffer)
+        pdf_buffer.seek(0)
+
+        return FileResponse(
+            iter([pdf_buffer.getvalue()]),
+            media_type="application/pdf",
+            headers={"Content-Disposition": "inline; filename=operation-guideline.pdf"},
+        )
+    except ImportError as e:
+        # reportlab not installed - return error
+        raise HTTPException(
+            status_code=503,
+            detail=f"PDF generation not available: {str(e)}"
+        )
