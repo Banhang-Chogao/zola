@@ -2343,6 +2343,120 @@ def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
                                   "homepage carries SEOMONEY brand; BlogPosting schema present"))
 
 
+# --------------------------------------------------------------------------
+# V24 — Split-backend route parity (frontend ↔ deployed services/vipzone)
+# --------------------------------------------------------------------------
+# Render deploys ONLY services/vipzone (render.yaml rootDir). A frontend call to
+# blog-vipzone-api whose route lives only in services/visitor-counter returns 404
+# in production. These helpers statically collect the routes mounted on the
+# DEPLOYED app and compare them with the frontend's /cms/* and /gsc/* calls.
+_ROUTE_DECORATOR_RE = re.compile(
+    r"@(?:app|router)\.(?:get|post|put|delete|patch)\(", re.I)
+_PATH_LITERAL_RE = re.compile(r"""["'](/[A-Za-z0-9_\-/{}]*)["']""")
+
+# Route source files mounted onto the deployed services/vipzone app, with the
+# prefix each router contributes (gsc_routes is imported from visitor-counter and
+# mounted with prefix="/gsc"; cms_repo + cms_auth routers mount at root).
+_VIPZONE_ROUTE_SOURCES = (
+    ("services/vipzone/main.py", ""),
+    ("services/vipzone/cms_repo.py", ""),
+    ("services/vipzone/cms_auth.py", ""),
+    ("services/visitor-counter/gsc_routes.py", "/gsc"),
+)
+
+# Routes the production frontend depends on that MUST be served by services/vipzone.
+_V24_CRITICAL_ROUTES = ("/health", "/gsc/status", "/cms/save-post")
+
+
+def _route_family(path: str) -> str:
+    """Collapse a path to its first ≤2 non-parameter segments, e.g.
+    `/cms/giscus/setup` → `/cms/giscus`, `/gsc/oauth/start` → `/gsc/oauth`,
+    `/api/vipzone/content/{post_id}` → `/api/vipzone`."""
+    segs = [s for s in path.strip("/").split("/") if s and not s.startswith("{")]
+    return "/" + "/".join(segs[:2]) if segs else "/"
+
+
+def _extract_vipzone_routes(ctx: Ctx) -> set[str]:
+    """All route path templates mounted on the deployed services/vipzone app."""
+    routes: set[str] = set()
+    for rel, prefix in _VIPZONE_ROUTE_SOURCES:
+        txt = ctx.read(rel)
+        if not txt:
+            continue
+        for m in _ROUTE_DECORATOR_RE.finditer(txt):
+            tail = txt[m.end():m.end() + 400]
+            pm = _PATH_LITERAL_RE.search(tail)
+            if pm:
+                routes.add((prefix + pm.group(1)) or "/")
+    return routes
+
+
+def _frontend_vipzone_calls(ctx: Ctx) -> set[str]:
+    """Literal `/cms/*` and `/gsc/*` paths the static JS calls (vipzone-only
+    prefixes). Skips template-literal / interpolated paths (contain `$`)."""
+    families: set[str] = set()
+    for js in ctx.glob("static/js/**/*.js"):
+        try:
+            txt = js.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        for m in re.finditer(r"""["'](/(?:cms|gsc)/[A-Za-z0-9_\-/]*)["']""", txt):
+            path = m.group(1)
+            if "$" in path:
+                continue
+            families.add(_route_family(path))
+    return families
+
+
+def check_v24_backend_route_parity(ctx: Ctx) -> CheckResult:
+    """V24 — every frontend route on blog-vipzone-api must exist on the DEPLOYED
+    services/vipzone app (Render deploys only that service). A route living only in
+    services/visitor-counter is dead in production → 404 split-brain (V16/V22b).
+
+    FAIL — a critical route (/health, /gsc/status, /cms/save-post) is not mounted
+           on services/vipzone (directly or via a mounted router).
+    WARN — a frontend /cms/* or /gsc/* family has no matching deployed route.
+    """
+    title = "Backend route parity (frontend ↔ deployed services/vipzone)"
+    routes = _extract_vipzone_routes(ctx)
+    if not routes:
+        return CheckResult("V24", title, SKIP,
+                           diagnosis="services/vipzone routes không đọc được")
+
+    families = {_route_family(r) for r in routes}
+
+    # FAIL — critical routes must be present (param-insensitive family match).
+    missing_critical = [
+        r for r in _V24_CRITICAL_ROUTES
+        if r not in routes and _route_family(r) not in families
+    ]
+    if missing_critical:
+        return CheckResult(
+            "V24", title, FAIL,
+            diagnosis=("route quan trọng frontend gọi nhưng KHÔNG mount trên "
+                       "services/vipzone (deployed) → 404 production: "
+                       + ", ".join(missing_critical)),
+            fix=("Mount route trên services/vipzone (main.py @app.* hoặc router "
+                 "include_router) — KHÔNG để route chỉ nằm ở services/visitor-counter"),
+            details=missing_critical)
+
+    # WARN — frontend families with no deployed route (drift to fix, not a hard gate).
+    uncovered = sorted(
+        fam for fam in _frontend_vipzone_calls(ctx) if fam not in families)
+    if uncovered:
+        return CheckResult(
+            "V24", title, WARN,
+            diagnosis=("frontend gọi route /cms|/gsc chưa có trên services/vipzone "
+                       "(deployed) — có thể 404 production"),
+            fix=("Port các route này sang services/vipzone (mounted router); "
+                 "kiểm chứng bằng scripts/backend_route_check.py"),
+            details=uncovered)
+
+    return CheckResult("V24", title, PASS,
+                       diagnosis=(f"{len(routes)} route mounted on services/vipzone; "
+                                  "critical routes present; frontend /cms·/gsc calls covered"))
+
+
 # Vaccine numbers that are *intentionally* documented more than once in CLAUDE.md:
 #   V10/V11/V12 — legacy §4 main vs the compliance block;
 #   V19 — GSC Domain Property vs Domain Migration Drift;
@@ -2448,6 +2562,7 @@ DETECTORS = [
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
     check_v20_seo_identity_homepage,
+    check_v24_backend_route_parity,
     check_vaccine_registry_integrity,
 ]
 

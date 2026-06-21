@@ -1379,6 +1379,102 @@ class OgImageVaccineTest(unittest.TestCase):
                       f"OG vaccine unexpectedly FAILed: {r.diagnosis} {r.details}")
 
 
+class BackendRouteParityV24Test(unittest.TestCase):
+    """V24 — every frontend /cms·/gsc route on blog-vipzone-api must be mounted on
+    the DEPLOYED services/vipzone app (Render deploys only that service)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    # A minimal deployed vipzone app that serves the critical routes.
+    _MAIN = (
+        '@app.get("/health")\n'
+        "def health(): ...\n"
+        '@app.post("/api/vipzone/redeem")\n'
+        "def redeem(): ...\n"
+    )
+    _CMS_REPO = (
+        "router = APIRouter()\n"
+        '@router.post("/cms/save-post")\n'
+        "async def save(): ...\n"
+    )
+    _CMS_AUTH = (
+        "router = APIRouter()\n"
+        "@router.get(\n    '/auth/me',\n)\n"  # multi-line decorator form
+        "async def me(): ...\n"
+    )
+    _GSC = (
+        'router = APIRouter(prefix="/gsc")\n'
+        '@router.get("/status")\n'
+        "async def status(): ...\n"
+        '@router.get("/metrics")\n'
+        "async def metrics(): ...\n"
+    )
+
+    def _wire_good(self):
+        self.repo.write("services/vipzone/main.py", self._MAIN)
+        self.repo.write("services/vipzone/cms_repo.py", self._CMS_REPO)
+        self.repo.write("services/vipzone/cms_auth.py", self._CMS_AUTH)
+        self.repo.write("services/visitor-counter/gsc_routes.py", self._GSC)
+
+    def test_route_family_collapses(self):
+        self.assertEqual(qv._route_family("/cms/giscus/setup"), "/cms/giscus")
+        self.assertEqual(qv._route_family("/gsc/oauth/start"), "/gsc/oauth")
+        self.assertEqual(qv._route_family("/api/vipzone/content/{post_id}"),
+                         "/api/vipzone")
+
+    def test_gsc_prefix_applied(self):
+        self._wire_good()
+        routes = qv._extract_vipzone_routes(self.repo.ctx())
+        self.assertIn("/gsc/status", routes)   # prefix from include_router
+        self.assertIn("/cms/save-post", routes)
+        self.assertIn("/auth/me", routes)      # multi-line decorator parsed
+
+    def test_good_repo_passes(self):
+        self._wire_good()
+        self.repo.write("static/js/app.js",
+                        "fetch(AUTH_API + '/gsc/status'); fetch(AUTH_API + '/cms/save-post');")
+        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
+
+    def test_missing_critical_route_fails(self):
+        # Drop /cms/save-post from the deployed service → production 404.
+        self.repo.write("services/vipzone/main.py", self._MAIN)
+        self.repo.write("services/vipzone/cms_repo.py",
+                        "router = APIRouter()\n")  # no save-post
+        self.repo.write("services/vipzone/cms_auth.py", self._CMS_AUTH)
+        self.repo.write("services/visitor-counter/gsc_routes.py", self._GSC)
+        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("/cms/save-post" in d for d in r.details))
+
+    def test_frontend_drift_warns(self):
+        # Critical routes present, but the frontend calls an unmounted /cms family.
+        self._wire_good()
+        self.repo.write("static/js/admin.js",
+                        "fetch(AUTH_API + '/cms/author', {method:'POST'});")
+        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertIn("/cms/author", r.details)
+
+    def test_template_literal_paths_ignored(self):
+        self._wire_good()
+        # Interpolated path must not be flagged (we cannot statically resolve it).
+        self.repo.write("static/js/dyn.js",
+                        "fetch(AUTH_API + `/cms/${kind}/x`);")
+        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
+
+    def test_missing_service_skips(self):
+        r = qv.check_v24_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.SKIP)
+
+    def test_real_repo_no_fail(self):
+        r = qv.check_v24_backend_route_parity(qv.Ctx(REPO_ROOT))
+        self.assertIn(r.status, (qv.PASS, qv.WARN))  # calibrated: never FAIL on main
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
