@@ -22,30 +22,10 @@ Allow: /
 User-agent: *
 Allow: /
 
-# Utility / admin / dashboard — không cần index
+# Utility / admin — không cần index
 Disallow: /editor/
 Disallow: /admin-author/
-Disallow: /admin/
-Disallow: /admin-zone/
-Disallow: /cms/
-Disallow: /scoring/
-Disallow: /seo_board/
-Disallow: /deploy-monitor/
-Disallow: /open-prs/
-Disallow: /prompt-support/
-Disallow: /branding/
-Disallow: /font/
-Disallow: /changelog/
-Disallow: /shortensea-admin/
-Disallow: /tools/content-creator/
-Disallow: /tools/deploy-monitor/
-Disallow: /tools/flight-db/
-Disallow: /tools/l-dashboard/
-Disallow: /tools/uptime-monitor/
-Disallow: /tools/pr-sentinel/
-
-# GSC OAuth / backend routes
-Disallow: /gsc/oauth/
+Disallow: /admin/paywall/
 
 # Báo cáo nội bộ (đã backend-gated; robots bổ sung tín hiệu)
 Disallow: /data/reports/
