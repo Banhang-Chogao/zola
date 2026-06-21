@@ -1,7 +1,7 @@
 {
-  "status": "error",
-  "message": "service account chưa có quyền Viewer trên property 542421812",
-  "last_checked": "2026-06-21T08:24:29+00:00",
+  "status": "ok",
+  "message": "GA hoạt động bình thường — số liệu cập nhật theo giờ.",
+  "last_checked": "2026-06-21T08:54:39+00:00",
   "property_id": "542421812",
   "measurement_id": "G-SMTFZVC0XN",
   "site": "seomoney.org",
@@ -20,19 +20,19 @@
       "id": "auth",
       "label": "Xác thực GA Data API",
       "status": "ok",
-      "detail": "service account gh-actions-indexing@gh-actions-indexing.iam.gserviceaccount.com"
+      "detail": "service account seomoney-org@seomoney-500020.iam.gserviceaccount.com"
     },
     {
       "id": "property_access",
       "label": "Truy cập property 542421812",
-      "status": "fail",
-      "detail": "service account chưa có quyền Viewer trên property 542421812"
+      "status": "ok",
+      "detail": "report API trả về thành công"
     },
     {
       "id": "recent_data",
       "label": "Dữ liệu gần đây (7 ngày)",
-      "status": "skip",
-      "detail": "không lấy được report"
+      "status": "ok",
+      "detail": "2 users · 6 events trong 7 ngày"
     },
     {
       "id": "site_tag",
@@ -48,10 +48,10 @@
     }
   ],
   "summary": {
-    "ok": 3,
+    "ok": 5,
     "warn": 1,
-    "fail": 1,
-    "skip": 1
+    "fail": 0,
+    "skip": 0
   },
   "generator": "ga_vacxin"
 }

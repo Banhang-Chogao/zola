@@ -127,7 +127,7 @@
         {% set perf_fix_issues = perf_fix_report.issues_detected | default(value=0) %}
         {% set perf_fix_fixes = perf_fix_report.fixes_applied | default(value=0) %}
         {% set perf_fix_timestamp = perf_fix_report.timestamp | default(value="") %}
-        {% set perf_fix_ga_organic = perf_fix_report.ga4_organic | default(value={}) %}
+        {% set perf_fix_ga_organic = perf_fix_report.ga4_organic | default(value=false) %}
         {% set perf_fix_changes = perf_fix_report.fixes | default(value=[]) %}
     {% else %}
         {% set perf_fix_status = "no_data" %}
@@ -136,7 +136,7 @@
         {% set perf_fix_issues = 0 %}
         {% set perf_fix_fixes = 0 %}
         {% set perf_fix_timestamp = "" %}
-        {% set perf_fix_ga_organic = {} %}
+        {% set perf_fix_ga_organic = false %}
         {% set perf_fix_changes = [] %}
     {% endif %}
 
@@ -629,7 +629,7 @@
                                 <span class="insights__perf-fix-metric-label">Fixes Applied</span>
                                 <span class="insights__perf-fix-metric-value insights__perf-fix-metric-value--success">{{ perf_fix_fixes }}</span>
                             </div>
-                            {% if perf_fix_ga_organic.users > 0 %}
+                            {% if perf_fix_ga_organic and perf_fix_ga_organic.users > 0 %}
                             <div class="insights__perf-fix-metric">
                                 <span class="insights__perf-fix-metric-label">Organic (7d)</span>
                                 <span class="insights__perf-fix-metric-value">{{ perf_fix_ga_organic.users }} users</span>

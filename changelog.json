@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(wip8): merge theodoi8 into wip8 (single WIP + live CI shortcut)",
+      "tag": "chore",
+      "lines_added": 300,
+      "lines_removed": 104,
+      "highlights": [
+        "wip8 = shortcut DUY NHẤT (WIP + TheoDoi8). Không còn theodoi8 riêng.",
+        "Output đúng 2 heading ##: ## WIP8 table + ## TheoDoi8 table, mobile-readable, fallback khi thiếu data.",
+        "Banner website \"THEODOI8 LIVE\" (build_theodoi8_report.py, templates/JS) không đổi — chỉ là nguồn data được reuse.",
+        "python3 -m py_compile scripts/wip8.py scripts/test_wip8.py → OK",
+        "cd scripts && python3 -m unittest test_wip8 → 9/9 PASS"
+      ],
+      "pr": 631
+    },
+    {
+      "date": "2026-06-21",
       "title": "docs(shortcuts): mobile-safe MD output for shortcut report tables [claude/shortcut-md-mobile-safe-d27hmf]",
       "tag": "chore",
       "lines_added": 39,

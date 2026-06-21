@@ -1572,6 +1572,58 @@ fenced blocks.
   property 542421812 · `ga_vacxin.py --offline` → status `pending`, config + cache checks
   PASS · `ga-stats.json` reset (null metrics, new property) · no old id in active files.
 
+#### V28 — Conflict-safe vaccine registry merge: keep ALL main detectors/rules, append only the PR delta
+
+> Process + tooling vaccine (not a workflow-run bug — it guards how the vaccine
+> registry itself is merged). The vaccine library is now the repo's most-edited
+> shared registry (CLAUDE.md §4 + `scripts/qa_vaccines.py` `DETECTORS[]` +
+> `scripts/test_qa_vaccines.py` + generated `data/*.json`). Parallel PRs each append
+> a new `#### V<N>` block + detector, so they collide on the SAME registry files —
+> a blind `--ours`/`--theirs` silently **renumbers or deletes** a vaccine/detector
+> that already landed on `main`. Match the signature → resolve **by intent**.
+
+- **Symptom:** a PR that adds/edits a vaccine turns `mergeable_state: dirty` with
+  conflicts clustered in `CLAUDE.md` (§4 vaccine blocks), `scripts/qa_vaccines.py`
+  (the `DETECTORS[]` list + new detector fn), `scripts/test_qa_vaccines.py` (new test
+  class), and generated `data/*.json` (e.g. `data/seo-qa-scores.json`,
+  `data/vaccine-autofixer-report.json`). The real feature is fine; only the shared
+  registry collides. A green `zola build` does NOT prove the merge kept every vaccine —
+  a botched resolve can drop a detector or duplicate a `V<N>` number and still build.
+- **Root cause:** the vaccine registry is **append-mostly shared infrastructure** (same
+  class as V12 `base.html`/`_footer.scss`). QA-green on a branch never proves it is
+  merge-safe against the current `main`. Picking one side blindly re-introduces a
+  removed vaccine (`--ours`) or deletes a vaccine that already merged (`--theirs`);
+  hand-merging stale `data/*.json` resurrects old timestamps/entries (V6/V18 family).
+- **FIXER (by intent — never blind ours/theirs on registry files):**
+  1. `git fetch origin main` → merge latest `main` into the branch.
+  2. **Registry SOURCE (`CLAUDE.md`, `scripts/qa_vaccines.py`,
+     `scripts/test_qa_vaccines.py`) → `manual`, keep BOTH sides:** append the PR's new
+     `#### V<N>` block, new detector fn, `DETECTORS[]` entry and test class **on top of**
+     every vaccine/detector already on `main`. Never drop a `#### V<N>` block, never
+     unregister a detector, never renumber an existing vaccine.
+  3. **New vaccine number = `next_free_vaccine_number()`** — never hardcode a taken
+     number; if `main` advanced past your number while the PR waited, **renumber YOUR
+     new block to the next free one** (never an existing one).
+  4. **Generated `data/*.json` → take `main` then REGENERATE** (never hand-merge stale
+     JSON): `git checkout --theirs data/<file>.json` then re-run the generator
+     (`build_references.py`, `seo_qa_checker.py --all`, autofixer report, etc.).
+  5. Gate locally: `python3 scripts/qa_vaccines.py` (V28 + VACCINE-REGISTRY PASS) →
+     `python3 -m unittest scripts.test_qa_vaccines -v` → `python3 qa_check.py`. Confirm
+     zero conflict markers left and `next_free_vaccine_number()` advanced by exactly the
+     number of new vaccines.
+- **Rules (permanent):** registry source is `manual` (append delta, preserve every main
+  detector/rule); generated data JSON is `main`+regenerate; never renumber or delete an
+  existing vaccine (only `[DEPRECATED — xem V<N>]`, per Vaccine Governance); each detector
+  registered exactly once (guarded by `_assert_no_duplicate_registration` +
+  `check_vaccine_registry_integrity`).
+- **Detector:** `scripts/qa_vaccines.py` → `check_v28_vaccine_registry_merge` (code `V28`):
+  live-imports `autofix_conflicts.classify()` and FAILs if a registry source file is not
+  `manual` or a generated data JSON is not `main`, or if a conflict marker leaked into
+  `CLAUDE.md` / `qa_vaccines.py` / `test_qa_vaccines.py` / `autofix_conflicts.py`; WARN if
+  `autofix_conflicts.py` or the test layer is missing. Pairs with `VACCINE-REGISTRY`
+  (duplicate-number / duplicate-detector guard).
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.VaccineRegistryMergeV28Test -v`
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
@@ -1657,6 +1709,19 @@ session (GitHub MCP, `gh`, `git` trỏ repo này), PHẢI:
 
 Nếu message đầu tiên đã là một phím tắt cụ thể → đọc file + thực thi shortcut đó
 (có thể bỏ list đầy đủ nếu user chỉ cần tốc độ). Chi tiết: `shortcuts.md` §0.
+
+### Shortcut `wip8` (gộp WIP + TheoDoi8 — 2026-06-21)
+
+> Rule only — runtime logic ở `scripts/wip8.py` + `shortcuts.md`, KHÔNG ở CLAUDE.md.
+
+- `wip8` là **shortcut DUY NHẤT** gộp WIP (workspace tracker) + TheoDoi8 (live CI feed).
+  Không còn shortcut `theodoi8` riêng — KHÔNG thêm lại.
+- Output **đúng 2 bảng MD**: `## WIP8 table` + `## TheoDoi8 table` (mobile-readable, có
+  fallback khi thiếu data).
+- **No duplicate calls** — TheoDoi8 reuse report CI tự sinh (`data/theodoi8-report.json`),
+  KHÔNG poll lại GitHub trong cùng lần chạy. **No fake data** (thiếu data → fallback, không
+  bịa). **No secrets** (read-only, không token/network).
+- Config TÙY CHỌN: `data/shortcuts/wip8.config.json` (thiếu → default).
 
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 

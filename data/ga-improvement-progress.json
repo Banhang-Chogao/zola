@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-20T20:59:24Z",
+  "updated_at": "2026-06-21T08:52:50Z",
   "tasks": [
     {
       "id": "seo",
@@ -17,7 +17,7 @@
       "status": "running",
       "detail": "0 broken links · 16 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-20T20:57:57Z"
+      "updated_at": "2026-06-21T07:34:48Z"
     },
     {
       "id": "page_speed",
@@ -33,27 +33,27 @@
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 846/847 pages",
+      "detail": "15 pages missing FAQ/schema · 856/857 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-20T20:57:57Z"
+      "updated_at": "2026-06-21T07:34:48Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: feat(premium): paywall visa Hàn 5 năm — Premium category, si",
+      "detail": "Latest: docs(shortcuts): mobile-safe MD output for shortcut report t",
       "source": "changelog.json",
-      "updated_at": "2026-06-20"
+      "updated_at": "2026-06-21"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "960 links OK · IndexNow on publish",
+      "detail": "1300 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-20T17:15:33Z"
+      "updated_at": "2026-06-21T05:44:31Z"
     },
     {
       "id": "image_opt",
@@ -62,14 +62,14 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-20T20:57:57Z"
+      "updated_at": "2026-06-21T07:34:48Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 57/100 vs desktop 83/100 (Δ26) · 846/847 ready",
+      "detail": "Mobile 57/100 vs desktop 83/100 (Δ26) · 856/857 ready",
       "source": "pagespeed.json",
       "updated_at": "2026-06-20T20:52:38+00:00"
     }
