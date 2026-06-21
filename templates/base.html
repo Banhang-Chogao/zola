@@ -740,6 +740,36 @@
     ]
     </script>
 
+    {# Main navigation — hamburger button (fixed top-right, desktop + mobile) #}
+    <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" data-nav-toggle>
+        <div class="nav-toggle__box">
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+            <span class="nav-toggle__line"></span>
+        </div>
+    </button>
+
+    {# Mobile drawer menu — slides in from right #}
+    <div class="nav-drawer" data-nav-drawer hidden>
+        <div class="nav-drawer__backdrop" data-nav-close></div>
+        <div class="nav-drawer__panel">
+            <div class="nav-drawer__head">
+                <span class="nav-drawer__brand">{{ config.title }}</span>
+                <button class="nav-drawer__close" type="button" aria-label="Đóng menu" data-nav-close>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <ul class="nav-drawer__list">
+                {% for item in config.extra.menu %}
+                    <li><a class="nav-drawer__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
     <main id="main-content" class="container">
         <div class="layout-grid">
             <div class="main-column">
@@ -784,6 +814,16 @@
                 </script>
 
                 <aside class="sidebar">
+                    {# ===== MAIN NAVIGATION (Desktop side-nav) =====
+                       Menu items từ config.extra.menu. Mobile dùng nav-drawer. #}
+                    <nav class="side-nav" role="navigation" aria-label="Menu chính">
+                        <ul class="side-nav__list">
+                            {% for item in config.extra.menu %}
+                                <li><a class="side-nav__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+
                     {# ===== SIDEBAR ACTION TOOLS — Cache clear + admin shortcuts =====
                        Moved from navbar to prevent header wrapping (V21 layout fix).
                        Placed at top of sidebar before content sections. #}
@@ -1462,6 +1502,7 @@
     <script src="{{ get_url(path='js/media-guard.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/vipzone.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/print-watermark.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/side-nav.js') }}?v={{ asset_version }}" defer></script>
     {# Hook up theme toggle button to ThemeSwitcher API #}
     <script defer>
     (function() {
