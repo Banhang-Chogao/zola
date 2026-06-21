@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(perf): Auto Performance Fix Engine — real Google PageSpeed + GA4 APIs [claude/serene-dirac-zn0ppa]",
+      "tag": "fix",
+      "lines_added": 1797,
+      "lines_removed": 0,
+      "highlights": [
+        "Real Google PageSpeed Insights API: Public endpoint, 25k/day free quota, extracts Core Web Vitals (LCP, CLS, FCP, INP)",
+        "Real Google Analytics 4 Data API: Service account-based organic search metrics (7-day rolling window)",
+        "Issue Detection: Automatic threshold checking (LCP > 2.5s, CLS > 0.1, SEO < 90, Performance < 90)",
+        "Safe Fixes: Lazy loading, image dimensions/aspect-ratio, SEO meta tags (all reversible via git revert)",
+        "Build Verification: QA check + Zola build validation before committing"
+      ],
+      "pr": 621
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(ga-dashboard): production-standard analytics refresh system [claude/ecstatic-lamport-fz94p1]",
       "tag": "chore",
       "lines_added": 463,
