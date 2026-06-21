@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-21T12:57:15Z",
+  "updated_at": "2026-06-21T13:02:04Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 46,
+    "today": 47,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 84,
+      "ci": 4,
+      "feature": 83,
       "unknown": 43,
       "chore": 17,
       "fix": 45,
-      "ci": 3,
       "content": 7,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 650,
+      "pr_title": "content(tech): add Git push rejected and QA workflow guide [claude/tender-einstein-4zz7uf]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/650",
+      "merged_at": "2026-06-21T12:54:05Z",
+      "merge_commit_sha": "fdbdfbbfefe06b77632e10fbf37320f9765a10bf",
+      "merge_commit_short": "fdbdfbb",
+      "head_branch": "claude/tender-einstein-4zz7uf",
+      "summary_vi": "- refactor: compress CLAUDE.md to 31KB, move vaccine details to archive",
+      "change_type": "ci",
+      "files_changed": 4,
+      "additions": 3459,
+      "deletions": 2833,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 908,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904966850",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 648,
       "pr_title": "feat(admin-zone): Add admin-only utility page with Operation Guideline search, PDF export with watermark, and usage stats [claude/busy-fermi-7m8mjx]",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 907,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904834648",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 649,
@@ -700,9 +719,9 @@
       "deletions": 4,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 878,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27893634787",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 611,
@@ -719,9 +738,9 @@
       "deletions": 501,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 878,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27893634787",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 608,
@@ -2902,25 +2921,6 @@
       "files_changed": 7,
       "additions": 282,
       "deletions": 37,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 470,
-      "pr_title": "feat(tools): add S-DNA documentation page under /tools/s-dna/",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/470",
-      "merged_at": "2026-06-19T01:01:56Z",
-      "merge_commit_sha": "bb55994ce0a84d9676365f539a37a21300e63967",
-      "merge_commit_short": "bb55994",
-      "head_branch": "feature/s-dna-tools",
-      "summary_vi": "Create Sembcorp Design DNA as a second optional design reference beside Branding Guideline. Documentation-only page covering philosophy, colors, typography, KPI cards, icons, charts, slides, examples, anti-patterns, and ",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 558,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
