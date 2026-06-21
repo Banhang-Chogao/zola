@@ -42,9 +42,9 @@ jobs:
           pip install -r scripts/requirements-f-dashboard.txt
           pip install -r scripts/requirements-l-dashboard.txt
 
-      - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose + QA vaccines
+      - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose + QA vaccines + social images
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_prod_smoke_check -v
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images -v
 
       # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
       # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library
@@ -93,6 +93,9 @@ jobs:
       - name: Strip premium content before build
         run: python3 scripts/paywall_prepare_build.py --strip
 
+      - name: Build OG images (SVG → .og.webp for social sharing)
+        run: python3 scripts/build_og_images.py
+
       - name: Zola build smoke test
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -107,3 +110,9 @@ jobs:
       # never hangs CI. External links are intentionally not gated here.
       - name: Gate on broken internal links (404 checker — exit 2 fails build)
         run: python3 qa-404-checker.py
+
+      # Social image validation: ensure all article pages have proper og:image
+      # for Facebook/Zalo/LinkedIn previews. Checks that og:image is absolute URL,
+      # not SVG, and file exists in public/. Exit 2 fails build.
+      - name: Validate social share thumbnails (og:image — exit 2 fails build)
+        run: python3 scripts/check_social_images.py --check
