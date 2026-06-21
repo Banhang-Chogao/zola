@@ -1,64 +1,78 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="SEOMONEY — SEO, Công nghệ, Tài chính cá nhân">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="SEOMONEY — Kiến thức SEO, Công nghệ và Tài chính cá nhân">
   <defs>
-    <!-- Vietnamese-capable, legally-free font fallback chain. "Google Sans"/
-         "Product Sans" only render where legally installed; otherwise the card
-         degrades cleanly to Be Vietnam Pro / Roboto / Noto Sans / DejaVu Sans,
-         all of which cover Vietnamese diacritics. -->
+    <!-- OG/social typography — Vietnamese MUST render with no tofu.
+         Preferred display face is FreightSans Pro (renders Vietnamese well), but
+         it is a proprietary font with no license grant in-repo and the OG build
+         pipeline does not register it with fontconfig, so it is NOT used for the
+         committed render. The twin below is rasterized with the open-source
+         fallback Noto Sans (SIL OFL), then Be Vietnam Pro (SIL OFL), then
+         system-ui — all Vietnamese-complete and CI-reproducible. Ericsson Hilda
+         and Product Sans are intentionally excluded. No font binary is committed. -->
     <style>
-      text { font-family: "Be Vietnam Pro", "Google Sans", "Product Sans", Roboto, "Noto Sans", "DejaVu Sans", "Segoe UI", Arial, Helvetica, sans-serif; }
+      text { font-family: "FreightSans Pro", "Noto Sans", "Be Vietnam Pro", system-ui, "DejaVu Sans", Arial, sans-serif; }
     </style>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#070d1a"/>
-      <stop offset="0.55" stop-color="#0c1a30"/>
-      <stop offset="1" stop-color="#0a3a66"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#faf9f7"/>
+      <stop offset="1" stop-color="#edece9"/>
     </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#38bdf8"/>
-      <stop offset="1" stop-color="#2dd4bf"/>
+    <radialGradient id="redGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e30613" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#e30613" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="warmGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e7b486" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#e7b486" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e30613" stop-opacity="0.10"/>
+      <stop offset="0.55" stop-color="#f0a07c" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#cbbcab" stop-opacity="0.03"/>
+    </linearGradient>
+    <linearGradient id="redbar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e30613"/>
+      <stop offset="1" stop-color="#c20410"/>
     </linearGradient>
   </defs>
 
-  <!-- base -->
+  <!-- editorial light base -->
   <rect width="1200" height="630" fill="url(#bg)"/>
 
-  <!-- ambient depth: soft accent orbs + faint wordmark -->
-  <circle cx="1070" cy="86" r="240" fill="#38bdf8" opacity="0.09"/>
-  <circle cx="92" cy="470" r="160" fill="#2dd4bf" opacity="0.06"/>
-  <text x="600" y="452" text-anchor="middle" font-weight="800" font-size="290"
-        fill="#ffffff" opacity="0.028" letter-spacing="4">SEOMONEY</text>
+  <!-- soft, low-opacity background mood (subtle "faded image" feel — original, no clutter) -->
+  <ellipse cx="1055" cy="120" rx="370" ry="300" fill="url(#redGlow)"/>
+  <ellipse cx="120" cy="40" rx="320" ry="250" fill="url(#warmGlow)"/>
+  <rect x="560" y="-150" width="980" height="210" rx="105" fill="url(#ribbon)" transform="rotate(26 1055 120)"/>
 
-  <!-- top bar: brand lockup (left) + tagline (right) -->
-  <g transform="translate(72,62)">
-    <rect width="64" height="64" rx="18" fill="#0f172a"/>
-    <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="17.25" fill="none" stroke="#38bdf8" stroke-opacity="0.45" stroke-width="1.5"/>
+  <!-- top brand lockup -->
+  <g transform="translate(72,54)">
+    <rect width="64" height="64" rx="18" fill="#14161a"/>
     <path d="M18 38c5 5 23 5 28 0M20 26c4-7 20-7 24 0" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
     <circle cx="24" cy="31" r="3" fill="#f8fafc"/>
     <circle cx="40" cy="31" r="3" fill="#f8fafc"/>
   </g>
-  <text x="152" y="106" font-weight="800" font-size="34" fill="#ffffff" letter-spacing="1.5">SEOMONEY</text>
-  <text x="1128" y="104" text-anchor="end" font-weight="600" font-size="22"
-        fill="#8fbce8" letter-spacing="0.4">SEO · Công nghệ · Tài chính cá nhân</text>
-  <rect x="72" y="150" width="1056" height="2" rx="1" fill="#ffffff" opacity="0.10"/>
+  <text x="152" y="99" font-weight="700" font-size="33" fill="#14161a" letter-spacing="1.4">SEOMONEY</text>
+  <rect x="72" y="140" width="1056" height="1.5" fill="#15161a" opacity="0.10"/>
 
-  <!-- eyebrow / kicker -->
-  <rect x="72" y="212" width="46" height="9" rx="4.5" fill="url(#accent)"/>
-  <text x="132" y="222" font-weight="700" font-size="24" fill="#38bdf8" letter-spacing="2">KIẾN THỨC · TRẢI NGHIỆM · TĂNG TRƯỞNG</text>
+  <!-- eyebrow / kicker (CTA red) -->
+  <rect x="72" y="214" width="40" height="10" rx="3" fill="#e30613"/>
+  <text x="126" y="225" font-weight="700" font-size="22" fill="#e30613" letter-spacing="2.2">BLOG SEOMONEY</text>
 
-  <!-- headline (strong hierarchy, big readable type) -->
-  <text x="70" y="322" font-weight="800" font-size="76" fill="#f8fafc">Học thật, làm thật,</text>
-  <text x="70" y="410" font-weight="800" font-size="76" fill="url(#accent)">tăng trưởng bền vững.</text>
-  <text x="72" y="470" font-weight="500" font-size="27" fill="#cbd5e1">Viết code · xây sản phẩm · và những chuyến đi đáng nhớ.</text>
+  <!-- topic-driven headline (large, high-contrast, 2 lines) -->
+  <text x="70" y="312" font-weight="700" font-size="62" fill="#14161a">Kiến thức SEO, Công nghệ</text>
+  <text x="70" y="390" font-weight="700" font-size="62" fill="#14161a">&amp; Tài chính cá nhân</text>
 
-  <!-- bottom brand bar (full-bleed, news-style) -->
-  <rect x="0" y="534" width="1200" height="96" fill="#0a1120"/>
-  <rect x="0" y="534" width="1200" height="4" fill="url(#accent)"/>
-  <g transform="translate(72,560) scale(0.6875)">
-    <rect width="64" height="64" rx="18" fill="#0f172a"/>
-    <path d="M18 38c5 5 23 5 28 0M20 26c4-7 20-7 24 0" fill="none" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="24" cy="31" r="3" fill="#f8fafc"/>
-    <circle cx="40" cy="31" r="3" fill="#f8fafc"/>
+  <!-- subheadline -->
+  <text x="72" y="456" font-weight="400" font-size="27" fill="#4b5159">Chia sẻ thực chiến để học thật, làm thật và tăng trưởng bền vững.</text>
+
+  <!-- bottom brand bar: solid CTA red, clean & premium -->
+  <rect x="0" y="534" width="1200" height="96" fill="url(#redbar)"/>
+  <g transform="translate(72,562) scale(0.625)">
+    <path d="M18 38c5 5 23 5 28 0M20 26c4-7 20-7 24 0" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="24" cy="31" r="3" fill="#ffffff"/>
+    <circle cx="40" cy="31" r="3" fill="#ffffff"/>
   </g>
-  <text x="130" y="592" font-weight="700" font-size="30" fill="#f8fafc" letter-spacing="0.3">seomoney.org</text>
-  <text x="1128" y="590" text-anchor="end" font-weight="600" font-size="24"
-        fill="#9cc4f4" letter-spacing="0.3">Tác giả: Duy Nguyen</text>
+  <text x="120" y="592" font-weight="700" font-size="30" fill="#ffffff" letter-spacing="0.4">seomoney.org</text>
+  <text x="1128" y="591" text-anchor="end" font-weight="700" font-size="24" fill="#ffffff">Tác giả: Duy Nguyen</text>
+
+  <!-- crisp edge so the light card separates from white social feeds -->
+  <rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="#e2e1de" stroke-width="1"/>
 </svg>
