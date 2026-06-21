@@ -126,6 +126,7 @@ Format bắt buộc:
 | `backend8` | So main SHA vs Render backend SHA — phát hiện split-brain static↔backend (V16) |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
+| `dantri` | Paste nội dung nguồn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
 | `fixrule8` | Soi conflict giữa rule + vaccine trong CLAUDE.md → sinh PROMPT fix cho Claude/Grok (read-only) |
@@ -1853,6 +1854,73 @@ Push: <branch> → auto-merge
 ```
 
 **Morning / runner**: `baomoi` cần argument → **loại** khỏi `morning` (giống `topic:`).
+
+### `dantri` — Viết lại nội dung nguồn thành bài blog mới
+
+**Cú pháp**: gõ `dantri` đúng từ (không cần argument ngay).
+
+**Mục đích**: User dán nội dung bài gốc (từ báo chí, blog khác, hoặc link + excerpt)
+→ Claude viết lại hoàn toàn bằng lời mới, không copy nguyên văn, giữ góc nhìn
+tác giả, văn phong human, ≥1000 từ, chuẩn Google SEO + AdSense, có nhận định/review
+cuối bài, kèm kết luận rõ ràng.
+
+**Workflow (BẮT BUỘC)**:
+
+1. User gõ `dantri` (không dán nội dung ngay).
+2. Claude trả lời:
+   ```
+   Anh dán nội dung bài gốc hoặc link + phần nội dung chính vào đây. 
+   Em sẽ viết lại thành một bài blog mới theo góc nhìn của anh, 
+   văn phong human, chuẩn SEO, hơn 1000 từ, có nhận định/review cuối bài, 
+   và không copy nguyên văn nguồn.
+   ```
+3. User dán nội dung / link + excerpt.
+4. Claude **xử lý**:
+   - Phân tích nội dung nguồn → xác định chủ đề + góc nhìn chính
+   - Research keyword từ nội dung (tự sinh, không hardcode)
+   - Viết bài hoàn toàn mới:
+     * **Mở bài**: Vì sao chủ đề này đáng chú ý?
+     * **Tóm tắt nội dung chính** bằng lời mới (paraphrase, không copy)
+     * **Góc nhìn cá nhân** (I-statement: "mình/tôi nghĩ", có chính kiến)
+     * **Phân tích/bàn luận** những điểm nổi bật
+     * **Tác động hoặc bài học** cho người đọc
+     * **Nhận định/review cuối bài** (rõ ràng quan điểm)
+     * **Kết luận** (cụ thể, không mơ hồ)
+   - ≥1000 từ, ≥2 H2/H3, ≥3 tag, title ≤70 ký tự
+   - Meta description 140–160 ký tự, seo_keyword focus
+   - ≥2 internal link (semantic relevance)
+   - ≥1 external link tới NGUỒN UY TÍN (nếu có trích dẫn)
+   - Ảnh: KHÔNG hardcode, để placeholder hoặc user cung cấp
+   - KHÔNG đưa thông tin cá nhân/local user, KHÔNG lộ email/tên máy/token
+   - KHÔNG nói "bài này lấy từ Dân trí" trừ khi user yêu cầu + có URL công khai
+
+**Quality bar (BẮT BUỘC)**:
+- **Viết lại hoàn toàn** bằng lời mới, không paraphrase máy móc
+- **Không spin**: không sao chép cấu trúc bài gốc quá sát
+- **Không lặp câu nguồn**: nếu có trích dẫn → chỉ trích rất ngắn, cần thiết
+- **Góc nhìn riêng**: không liệt kê khô, có "tôi", có nhận định
+- **Văn phong human**: gần gũi, tự nhiên, không AI fluff
+- **Chuẩn Google SEO + AdSense**: H2 rõ ràng, meta tags đủ, CTA nhẹ
+- **Không bịa**: nếu không chắc sự thật → ghi "theo báo cáo của…" hoặc bỏ qua
+- **Không đụng private data**: không show email, tên máy, đường dẫn local, token, log terminal
+
+**Output (summary)**:
+```
+dantri ✅
+Nguồn: <link hoặc tên báo/blog>
+Chủ đề: <topic>
+File: content/<slug>.md
+Words: <word_count>
+SEO QA: <score>/100
+QA: pass | fail
+Push: <branch> → auto-merge
+```
+
+**Hành động sau khi write**:
+1. Commit (1 file): `feat: add dantri article — <slug> (inspired by <source>)`
+2. Push branch dev → auto-merge → auto-deploy (ZERO_BARRIER)
+
+**Morning / runner**: `dantri` cần user dán nội dung sau khi gọi → **loại** khỏi `morning`.
 
 ---
 

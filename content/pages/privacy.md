@@ -80,4 +80,4 @@ Chúng tôi có thể cập nhật chính sách này theo thời gian. Mọi tha
 ## 9. Liên hệ
 
 Mọi thắc mắc về chính sách bảo mật, vui lòng liên hệ qua email
-**292648126+Banhang-Chogao@users.noreply.github.com** hoặc trang [Liên hệ](/contact/).
+**lienhe@seomoney.org** hoặc trang [Liên hệ](/contact/).

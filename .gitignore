@@ -1,4 +1,6 @@
 public/
+# Extracted Zola binary (repo ships zola-*.tar.gz; the unpacked binary is a local build artifact)
+/zola
 .DS_Store
 *.swp
 __pycache__/

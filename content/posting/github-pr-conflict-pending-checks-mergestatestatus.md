@@ -96,7 +96,7 @@ Tổng: **10–15 phút là bình thường** lần đầu hoặc cold start.
 
 **Nếu force-push (khi conflict/pending):** CI chạy lại từ đầu = +10–15 phút nữa. Đó là lý do tại sao:
 - Force-push nhiều lần = chờ lâu
-- Nên [rebase](/posting/lenh-git-co-ban-commit-checkout-status/) cẩn thận trước force-push
+- Nên rebase cẩn thận trước force-push (xem lại [lệnh Git cơ bản](/posting/lenh-git-co-ban-init-add-commit-status/) nếu cần)
 - Hoặc dùng `git push --force-with-lease` (safer) — xem [best practices Git](/posting/bao-mat-best-practices-git-github/)
 
 ## Khi Nào An Toàn Merge? Checklist
