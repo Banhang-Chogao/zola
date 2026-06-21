@@ -2275,6 +2275,88 @@ def _config_base_url(ctx: Ctx) -> str:
     return ""
 
 
+def check_toc_rail_vaccine(ctx: Ctx) -> CheckResult:
+    """TOC-RAIL — the "On This Page" sticky article rail (scroll-spy) must render
+    a styled rail, keep its IntersectionObserver active-state engine, and stay
+    mobile-safe (hidden below the desktop breakpoint → no overflow).
+
+    Inspired by the B-DNA right rail; an ADDITIVE desktop enhancement layered on
+    top of the existing inline `.toc`. Static signals (no browser needed):
+      FAIL — the rail would not render / loses its scroll-spy:
+        * sass/_toc-rail.scss missing or not imported in site.scss;
+        * the partial lacks the rail (.toc-rail), the sticky behaviour, the
+          two-column `.post-layout` grid, or the `.is-active` highlight;
+        * templates/page.html lost the rail markup (data-toc-rail /
+          data-toc-link / the page.toc loop) or the toc-rail.js include;
+        * static/js/toc-rail.js missing or without IntersectionObserver.
+      WARN — renders but a resilience gap:
+        * rail not hidden by default (display:none) → mobile overflow risk;
+        * no desktop min-width media (rail could show where it squeezes prose).
+    """
+    title = "On-This-Page TOC rail (scroll-spy, mobile-safe)"
+    scss = ctx.read("sass/_toc-rail.scss")
+    site_scss = ctx.read("sass/site.scss") or ""
+    page = ctx.read("templates/page.html") or ""
+    js = ctx.read("static/js/toc-rail.js")
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Styled partial exists and is wired into the bundle.
+    if not scss:
+        fails.append("sass/_toc-rail.scss vắng → rail không có CSS (raw/không hiện)")
+    elif not re.search(r'@import\s+["\']toc-rail["\']', site_scss):
+        fails.append('sass/site.scss thiếu @import "toc-rail" → partial không vào bundle')
+
+    # 2) Structure: rail card, sticky behaviour, 2-col layout, active highlight.
+    if scss:
+        if ".toc-rail" not in scss:
+            fails.append("_toc-rail.scss thiếu selector .toc-rail")
+        if not re.search(r"position\s*:\s*sticky", scss):
+            fails.append("_toc-rail.scss thiếu position:sticky → rail không bám khi cuộn")
+        if ".post-layout" not in scss or "grid-template-columns" not in scss:
+            fails.append("_toc-rail.scss thiếu grid .post-layout (bài + rail 2 cột)")
+        if "is-active" not in scss:
+            fails.append("_toc-rail.scss thiếu .is-active → không tô đậm mục đang đọc")
+        # mobile-safe (hidden by default) + desktop-only (min-width media)
+        if not re.search(r"\.toc-rail\s*\{[^}]*display\s*:\s*none", scss, re.S):
+            warns.append(".toc-rail không display:none mặc định → mobile có thể overflow")
+        if "min-width" not in scss:
+            warns.append("_toc-rail.scss thiếu @media min-width → rail có thể hiện ở màn hẹp")
+
+    # 3) Template markup contract + script include.
+    for needle, why in (
+        ("data-toc-rail", "rail container (data-toc-rail)"),
+        ("data-toc-link", "rail link / scroll-spy target (data-toc-link)"),
+        ("page.toc", "TOC sinh từ heading bài (page.toc)"),
+        ("toc-rail.js", "scroll-spy script include (toc-rail.js)"),
+    ):
+        if needle not in page:
+            fails.append(f"templates/page.html thiếu {why}")
+
+    # 4) The scroll-spy engine must be present (active state on scroll).
+    if not js:
+        fails.append("static/js/toc-rail.js vắng → không có active-state khi cuộn")
+    elif "IntersectionObserver" not in js:
+        fails.append("toc-rail.js thiếu IntersectionObserver → không highlight mục đang đọc")
+
+    if fails:
+        return CheckResult("TOC-RAIL", title, FAIL,
+                           diagnosis="rail TOC On-This-Page không render hoặc mất scroll-spy/markup",
+                           fix=('thêm/giữ sass/_toc-rail.scss (.toc-rail sticky + .post-layout grid + '
+                                '.is-active) và @import "toc-rail"; giữ markup data-toc-rail/data-toc-link/'
+                                'page.toc + include toc-rail.js (IntersectionObserver) trong page.html'),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("TOC-RAIL", title, WARN,
+                           diagnosis="rail hoạt động nhưng còn khe hở mobile/responsive",
+                           fix="ẩn .toc-rail mặc định (display:none) + chỉ hiện trong @media min-width desktop",
+                           details=warns)
+    return CheckResult("TOC-RAIL", title, PASS,
+                       diagnosis="rail On-This-Page có CSS sticky + grid 2 cột + .is-active, "
+                                 "scroll-spy IntersectionObserver, markup + include đủ, ẩn an toàn ở mobile")
+
+
 def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
     """V20 — SEO Identity / Homepage Migration: brand + canonical root must hold.
 
@@ -2561,6 +2643,7 @@ DETECTORS = [
     check_og_image_vaccine,
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
+    check_toc_rail_vaccine,
     check_v20_seo_identity_homepage,
     check_v25_backend_route_parity,
     check_vaccine_registry_integrity,
