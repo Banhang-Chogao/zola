@@ -611,41 +611,11 @@
        Trên desktop hiển thị tất cả menu items inline. Trên mobile,
        collapse vào burger, JS toggles .is-open để slide-down panel. #}
     <nav class="navbar" id="navbar">
-        {# Trang trí: bảng chữ cái trắng mờ rải rác (font FreightSans Pro kiểu
-           Starbucks) trên nền gradient xanh. aria-hidden + pointer-events:none
-           → thuần trang trí, không ảnh hưởng menu/dropdown. #}
-        <div class="navbar__letters" aria-hidden="true">
-            <span style="left:0.2%;top:15.0px;transform:rotate(36.0deg);font-size:1.01rem;opacity:0.119;font-weight:700">J</span>
-            <span style="left:3.1%;top:26.0px;transform:rotate(5.0deg);font-size:1.71rem;opacity:0.105;font-weight:500">F</span>
-            <span style="left:6.9%;top:34.0px;transform:rotate(-10.0deg);font-size:1.69rem;opacity:0.055;font-weight:500">W</span>
-            <span style="left:10.3%;top:23.0px;transform:rotate(2.0deg);font-size:2.0rem;opacity:0.087;font-weight:700">I</span>
-            <span style="left:12.9%;top:2.0px;transform:rotate(-24.0deg);font-size:2.0rem;opacity:0.057;font-weight:700">H</span>
-            <span style="left:16.7%;top:54.0px;transform:rotate(17.0deg);font-size:1.34rem;opacity:0.128;font-weight:500">Y</span>
-            <span style="left:20.0%;top:-4.0px;transform:rotate(-12.0deg);font-size:2.21rem;opacity:0.084;font-weight:500">O</span>
-            <span style="left:24.1%;top:29.0px;transform:rotate(29.0deg);font-size:1.37rem;opacity:0.106;font-weight:700">T</span>
-            <span style="left:26.9%;top:19.0px;transform:rotate(26.0deg);font-size:2.23rem;opacity:0.088;font-weight:500">Z</span>
-            <span style="left:28.8%;top:40.0px;transform:rotate(11.0deg);font-size:2.29rem;opacity:0.116;font-weight:700">S</span>
-            <span style="left:33.9%;top:55.0px;transform:rotate(-12.0deg);font-size:2.22rem;opacity:0.078;font-weight:500">N</span>
-            <span style="left:36.6%;top:-0.0px;transform:rotate(-16.0deg);font-size:1.95rem;opacity:0.082;font-weight:700">X</span>
-            <span style="left:38.8%;top:19.0px;transform:rotate(4.0deg);font-size:2.14rem;opacity:0.116;font-weight:700">P</span>
-            <span style="left:43.9%;top:63.0px;transform:rotate(14.0deg);font-size:1.46rem;opacity:0.068;font-weight:500">Q</span>
-            <span style="left:45.8%;top:1.0px;transform:rotate(-20.0deg);font-size:1.6rem;opacity:0.097;font-weight:700">A</span>
-            <span style="left:49.4%;top:-6.0px;transform:rotate(3.0deg);font-size:1.77rem;opacity:0.075;font-weight:500">G</span>
-            <span style="left:53.9%;top:24.0px;transform:rotate(9.0deg);font-size:1.86rem;opacity:0.054;font-weight:700">V</span>
-            <span style="left:56.4%;top:14.0px;transform:rotate(-1.0deg);font-size:1.49rem;opacity:0.065;font-weight:500">L</span>
-            <span style="left:59.8%;top:-9.0px;transform:rotate(8.0deg);font-size:1.09rem;opacity:0.095;font-weight:500">D</span>
-            <span style="left:64.6%;top:32.0px;transform:rotate(-33.0deg);font-size:1.23rem;opacity:0.08;font-weight:700">R</span>
-            <span style="left:67.9%;top:31.0px;transform:rotate(-2.0deg);font-size:1.11rem;opacity:0.089;font-weight:700">C</span>
-            <span style="left:69.9%;top:8.0px;transform:rotate(-27.0deg);font-size:1.96rem;opacity:0.109;font-weight:700">B</span>
-            <span style="left:74.3%;top:-5.0px;transform:rotate(-36.0deg);font-size:2.23rem;opacity:0.092;font-weight:500">U</span>
-            <span style="left:77.2%;top:57.0px;transform:rotate(20.0deg);font-size:1.35rem;opacity:0.101;font-weight:500">M</span>
-            <span style="left:80.5%;top:3.0px;transform:rotate(-10.0deg);font-size:1.18rem;opacity:0.112;font-weight:700">E</span>
-            <span style="left:83.7%;top:32.0px;transform:rotate(22.0deg);font-size:1.97rem;opacity:0.066;font-weight:500">K</span>
-            <span style="left:87.6%;top:43.0px;transform:rotate(-21.0deg);font-size:1.65rem;opacity:0.078;font-weight:500">J</span>
-            <span style="left:91.4%;top:47.0px;transform:rotate(-2.0deg);font-size:1.21rem;opacity:0.098;font-weight:700">F</span>
-            <span style="left:93.2%;top:59.0px;transform:rotate(37.0deg);font-size:2.24rem;opacity:0.079;font-weight:500">W</span>
-            <span style="left:95.6%;top:21.0px;transform:rotate(-12.0deg);font-size:1.6rem;opacity:0.129;font-weight:500">I</span>
-        </div>
+        {# REGRESSION GUARD (V21 / CLAUDE.md): decorative nav letters removed.
+           Desktop nav must stay in normal flow (position: static, no sticky/fixed).
+           This container previously injected 31 random alphabet letter spans with
+           inline positioning — they broke navbar layout + caused header wrapping.
+           Fixed: removed decorative content entirely; real nav items preserved. #}
         <div class="navbar__inner">
             {# Burger button — chỉ visible trên mobile via CSS #}
             <button class="navbar__burger" aria-label="Mở menu" aria-expanded="false"
