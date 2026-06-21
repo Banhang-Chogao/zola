@@ -74,7 +74,7 @@ eKYC (electronic Know Your Customer) là quy trình **định danh điện tử*
 
 - Bật **sinh trắc học** và thông báo giao dịch để bảo mật.
 - Nạp một khoản nhỏ và thử chuyển khoản kiểm tra.
-- Phân tích chi tiêu bằng công cụ [O-Dashboard cho Liobank](/tools/o-dashboard/) ngay trên blog (chạy offline trên trình duyệt).
+- Phân tích chi tiêu bằng công cụ O-Dashboard cho Liobank ngay trên blog (chạy offline trên trình duyệt).
 - Cân nhắc mở thêm một app khác để tận dụng [ưu đãi hoàn tiền](/posting/ngan-hang-so-hoan-tien-nhieu-nhat/).
 
 > 💡 **Ưu đãi (link giới thiệu):** Chọn Liobank để mở tài khoản? **Tải app và kích hoạt thẻ vật lý Liobank qua [link giới thiệu này](https://liobank.vn/rr/qyAJ) để được nhận hoàn tiền.** *(Link giới thiệu — mình có thể nhận ưu đãi khi bạn đăng ký, không phát sinh chi phí cho bạn.)*
