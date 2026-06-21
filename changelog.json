@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(admin-zone): Add protected backend PDF endpoint for Operation Guideline [claude/busy-fermi-7m8mjx]",
+      "tag": "chore",
+      "lines_added": 635,
+      "lines_removed": 9,
+      "highlights": [
+        "services/vipzone/admin_guideline_pdf.py (added, +271/-0)",
+        "services/vipzone/main.py (modified, +30/-0)",
+        "services/vipzone/test_admin_guideline_endpoint.py (added, +122/-0)",
+        "services/vipzone/test_admin_guideline_pdf.py (added, +143/-0)",
+        "static/js/admin-zone/pdf.js (modified, +69/-9)"
+      ],
+      "pr": 652
+    },
+    {
+      "date": "2026-06-21",
       "title": "Phase 1 only — remove Phase 2 features (dashboards, admin zone)",
       "tag": "chore",
       "lines_added": 1,
