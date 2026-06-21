@@ -1,7 +1,7 @@
 {
-  "status": "pending",
-  "message": "Chưa xác minh kết nối GA (offline / thiếu service account).",
-  "last_checked": "2026-06-21T01:06:06+00:00",
+  "status": "error",
+  "message": "service account chưa có quyền Viewer trên property 542421812",
+  "last_checked": "2026-06-21T08:24:29+00:00",
   "property_id": "542421812",
   "measurement_id": "G-SMTFZVC0XN",
   "site": "seomoney.org",
@@ -19,26 +19,26 @@
     {
       "id": "auth",
       "label": "Xác thực GA Data API",
-      "status": "skip",
-      "detail": "offline mode — bỏ qua xác thực"
+      "status": "ok",
+      "detail": "service account gh-actions-indexing@gh-actions-indexing.iam.gserviceaccount.com"
     },
     {
       "id": "property_access",
       "label": "Truy cập property 542421812",
-      "status": "skip",
-      "detail": "chưa xác thực"
+      "status": "fail",
+      "detail": "service account chưa có quyền Viewer trên property 542421812"
     },
     {
       "id": "recent_data",
       "label": "Dữ liệu gần đây (7 ngày)",
       "status": "skip",
-      "detail": "chưa xác thực"
+      "detail": "không lấy được report"
     },
     {
       "id": "site_tag",
       "label": "Thẻ đo trên site (gtag.js)",
-      "status": "skip",
-      "detail": "offline mode — bỏ qua kiểm tra site"
+      "status": "warn",
+      "detail": "chưa thấy G-SMTFZVC0XN trên trang chủ (có thể chưa deploy / chặn bot)"
     },
     {
       "id": "cache_isolation",
@@ -48,10 +48,10 @@
     }
   ],
   "summary": {
-    "ok": 2,
-    "warn": 0,
-    "fail": 0,
-    "skip": 4
+    "ok": 3,
+    "warn": 1,
+    "fail": 1,
+    "skip": 1
   },
   "generator": "ga_vacxin"
 }
