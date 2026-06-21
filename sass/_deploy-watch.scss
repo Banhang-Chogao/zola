@@ -147,66 +147,205 @@
 }
 
 /* ============================================================================
-   Deploy Monitor detail page (/tools/deploy-monitor/) — reuses .uptime-card.
+   Deploy Monitor detail page (/tools/deploy-monitor/) — B-DNA scoped.
+   Mirrors the `theodoi8 deploy` shortcut: KPI strip → run table → status line →
+   reading guide. Calm enterprise; all color from --c-* tokens via a --bd bridge.
+   Everything scoped under .dmon — no global override.
    ============================================================================ */
-.deploy-mon { max-width: 1040px; margin: 0 auto; padding: 1.5rem 0 3rem; }
+.dmon {
+  /* Token bridge: read the live theme, never redefine it (light/dark just works) */
+  --bd-ink: var(--c-text-heading);
+  --bd-body: var(--c-text-body);
+  --bd-muted: var(--c-text-muted);
+  --bd-primary: var(--c-accent);
+  --bd-primary-soft: var(--c-accent-soft);
+  --bd-surface: var(--c-bg-surface);
+  --bd-soft: var(--c-bg-soft);
+  --bd-border: var(--c-border);
+  --bd-success: var(--c-success);
+  --bd-warning: var(--c-warning);
+  --bd-danger: var(--c-decoration);
 
-.deploy-mon__eyebrow {
-  font-family: $font-ui; font-size: 0.72rem; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--c-text-muted); margin: 0 0 0.35rem;
-}
-.deploy-mon__title {
-  font-family: $font-heading; font-size: 2rem; font-weight: 800;
-  color: var(--c-text-heading); margin: 0 0 0.4rem;
-}
-.deploy-mon__desc { color: var(--c-text-body); max-width: 62ch; margin: 0 0 1.5rem; }
-.deploy-mon__h2 {
-  font-family: $font-heading; font-size: 1.15rem; color: var(--c-text-heading);
-  margin: 2rem 0 0.85rem;
+  /* 4px spacing scale */
+  --bd-2: 8px; --bd-3: 12px; --bd-4: 16px; --bd-5: 24px; --bd-6: 32px;
+  --bd-radius: 14px;
+
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: var(--bd-5) 0 var(--bd-6);
+
+  * { box-sizing: border-box; }
 }
 
-.deploy-mon__kpis {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+/* ===== Hero (kicker + title + purpose) ===== */
+.dmon__hero { margin-bottom: var(--bd-6); }
+.dmon__kicker {
+  font-family: $font-ui; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--bd-primary); margin: 0 0 var(--bd-2);
+}
+.dmon__title {
+  font-family: $font-heading; font-size: clamp(1.7rem, 3.4vw, 2.2rem); font-weight: 800;
+  letter-spacing: -0.02em; color: var(--bd-ink); margin: 0 0 var(--bd-3);
+}
+.dmon__lede { font-size: 0.96rem; line-height: 1.62; color: var(--bd-body); max-width: 72ch; margin: 0; }
+
+.dmon__h2 {
+  font-family: $font-heading; font-size: 1.12rem; font-weight: 700;
+  color: var(--bd-ink); margin: 0;
 }
 
-.deploy-mon__status { text-transform: capitalize; }
-.deploy-mon__status--green  { color: #2e9e5b; }
-.deploy-mon__status--yellow { color: #c98a00; }
-.deploy-mon__status--red    { color: #e5484d; }
-
-.deploy-mon__meta {
-  display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem;
-  margin: 1rem 0; font-size: 0.85rem; color: var(--c-text-muted);
-  strong { color: var(--c-text-heading); }
+/* ===== KPI strip — soft cards, left accent, big tabular number ===== */
+.dmon__kpis {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: var(--bd-4); margin-bottom: var(--bd-6);
 }
-.deploy-mon__warn { color: #e5484d; font-weight: 600; }
-
-.deploy-mon__list, .deploy-mon__timeline { list-style: none; margin: 0; padding: 0; }
-
-.deploy-mon__row, .deploy-mon__tl {
-  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
-  padding: 0.6rem 0; border-bottom: 1px solid var(--c-border); font-size: 0.85rem;
+.dmon__kpi {
+  display: flex; flex-direction: column; gap: 4px;
+  background: var(--bd-surface); border: 1px solid var(--bd-border);
+  border-left: 4px solid var(--bd-border); border-radius: var(--bd-radius);
+  padding: var(--bd-4) var(--bd-5);
 }
-.deploy-mon__sha { font-family: $font-mono; font-size: 0.78rem; color: var(--c-text-muted); }
-.deploy-mon__badge {
-  padding: 0.05rem 0.5rem; border-radius: 7px; background: var(--c-bg-soft);
-  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em;
+.dmon__kpi--green  { border-left-color: var(--bd-success); }
+.dmon__kpi--yellow { border-left-color: var(--bd-warning); }
+.dmon__kpi--red    { border-left-color: var(--bd-danger); }
+.dmon__kpi--accent { border-left-color: var(--bd-primary); }
+.dmon__kpi-label {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--bd-muted);
 }
-.deploy-mon__tl--success .deploy-mon__badge { color: #2e9e5b; }
-.deploy-mon__tl--failure .deploy-mon__badge { color: #e5484d; }
-.deploy-mon__tl--cancelled .deploy-mon__badge { color: #c98a00; }
-.deploy-mon__row--in_progress .deploy-mon__badge { color: #c98a00; }
-.deploy-mon__wait, .deploy-mon__dur, .deploy-mon__time { color: var(--c-text-muted); font-size: 0.78rem; }
-.deploy-mon__rowtitle {
-  color: var(--c-text-body); min-width: 0; overflow: hidden;
-  text-overflow: ellipsis; white-space: nowrap; flex: 1;
+.dmon__kpi-value {
+  font-size: 1.7rem; font-weight: 800; line-height: 1.1; color: var(--bd-ink);
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
 }
-.deploy-mon__none { padding: 0.85rem 1rem; border-radius: 12px; background: var(--c-bg-soft); color: var(--c-text-body); }
-.deploy-mon__updated { margin-top: 1.75rem; font-size: 0.8rem; color: var(--c-text-muted); }
-.deploy-mon__stale { color: #c98a00; font-weight: 600; }
+.dmon__kpi-value--mono { font-family: $font-mono; font-size: 1.3rem; }
+.dmon__kpi-unit { font-size: 0.92rem; font-weight: 600; color: var(--bd-muted); }
+.dmon__kpi-sub { font-size: 0.74rem; color: var(--bd-muted); strong { color: var(--bd-body); } }
 
+/* ===== Panel: the deploy run table ===== */
+.dmon__panel {
+  background: var(--bd-surface); border: 1px solid var(--bd-border);
+  border-radius: var(--bd-radius); padding: var(--bd-5); margin-bottom: var(--bd-6);
+}
+.dmon__panel-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--bd-3); flex-wrap: wrap; margin-bottom: var(--bd-4);
+}
+.dmon__panel-note { font-size: 0.76rem; color: var(--bd-muted); code { font-family: $font-mono; font-size: 0.92em; } }
+
+.dmon__tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.dmon__table {
+  width: 100%; border-collapse: collapse; font-size: 0.86rem;
+  th, td { text-align: left; padding: 0.6rem 0.75rem; vertical-align: middle; }
+  thead th {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--bd-muted); border-bottom: 1px solid var(--bd-border); white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid var(--bd-border); transition: background 0.15s ease; }
+  tbody tr:last-child { border-bottom: 0; }
+  tbody tr:hover { background: var(--bd-soft); }
+}
+.dmon__th-run { width: 1%; white-space: nowrap; }
+.dmon__th-sha { width: 1%; white-space: nowrap; }
+.dmon__th-status { width: 1%; white-space: nowrap; }
+
+.dmon__cell-run {
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+  a { color: var(--bd-primary); text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline; }
+}
+.dmon__cell-sha {
+  white-space: nowrap;
+  code { font-family: $font-mono; font-size: 0.82rem; }
+  a { color: var(--bd-primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+}
+.dmon__cell-title { color: var(--bd-body); min-width: 0; }
+.dmon__title-text {
+  display: inline-block; max-width: 46ch; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; vertical-align: bottom;
+}
+.dmon__tag-sup {
+  display: inline-block; margin-left: var(--bd-2); padding: 1px 7px; border-radius: 999px;
+  background: var(--bd-soft); border: 1px solid var(--bd-border);
+  font-size: 0.64rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--bd-muted); vertical-align: middle;
+}
+
+/* status badge — icon + label, color from semantic tokens */
+.dmon__cell-status { white-space: nowrap; }
+.dmon__badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 9px; border-radius: 999px;
+  background: var(--bd-soft); border: 1px solid var(--bd-border);
+  font-size: 0.72rem; font-weight: 600;
+}
+.dmon__badge-ico { font-size: 0.8rem; line-height: 1; }
+.dmon__badge--success   { color: var(--bd-success); border-color: color-mix(in srgb, var(--bd-success) 35%, var(--bd-border)); }
+.dmon__badge--failure   { color: var(--bd-danger);  border-color: color-mix(in srgb, var(--bd-danger) 35%, var(--bd-border)); }
+.dmon__badge--running   { color: var(--bd-warning); border-color: color-mix(in srgb, var(--bd-warning) 40%, var(--bd-border)); }
+.dmon__badge--queued    { color: var(--bd-muted); }
+.dmon__badge--cancelled { color: var(--bd-warning); }
+.dmon__badge--skipped   { color: var(--bd-muted); }
+.dmon__dur { margin-left: var(--bd-2); font-size: 0.74rem; color: var(--bd-muted); font-variant-numeric: tabular-nums; }
+
+/* superseded rows recede (still readable) — V5: harmless once a later deploy succeeded */
+.dmon__row--superseded .dmon__cell-title,
+.dmon__row--superseded .dmon__cell-run,
+.dmon__row--superseded .dmon__cell-sha { opacity: 0.62; }
+
+.dmon__none { padding: var(--bd-4); border-radius: 10px; background: var(--bd-soft); color: var(--bd-body); font-size: 0.88rem; }
+
+/* ===== Status line (the `theodoi8 deploy` one-liner) ===== */
+.dmon__statusline { margin: var(--bd-4) 0 0; }
+.dmon__statusline code {
+  display: block; font-family: $font-mono; font-size: 0.8rem; line-height: 1.55;
+  color: var(--bd-body); background: var(--bd-soft);
+  border: 1px solid var(--bd-border); border-radius: 10px;
+  padding: var(--bd-3) var(--bd-4); overflow-x: auto; white-space: nowrap;
+}
+
+/* ===== Reading guide ===== */
+.dmon__guide {
+  background: var(--bd-surface); border: 1px solid var(--bd-border);
+  border-radius: var(--bd-radius); padding: var(--bd-5); margin-bottom: var(--bd-5);
+}
+.dmon__guide-list {
+  list-style: none; margin: var(--bd-4) 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: var(--bd-3);
+}
+.dmon__guide-list li {
+  font-size: 0.9rem; line-height: 1.6; color: var(--bd-body);
+  padding-left: var(--bd-5); position: relative;
+  strong { color: var(--bd-ink); }
+}
+.dmon__guide-list li::before {
+  content: ""; position: absolute; left: var(--bd-2); top: 0.62em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--bd-primary);
+}
+.dmon__ic { font-style: normal; }
+
+.dmon__updated {
+  font-size: 0.8rem; color: var(--bd-muted);
+  a { color: var(--bd-primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  time { font-variant-numeric: tabular-nums; }
+}
+.dmon__stale { color: var(--bd-warning); font-weight: 600; }
+
+/* ===== Empty state ===== */
+.dmon__empty {
+  text-align: center; padding: var(--bd-6) var(--bd-4);
+  background: var(--bd-surface); border: 1px solid var(--bd-border); border-radius: var(--bd-radius);
+  h2 { font-family: $font-heading; color: var(--bd-ink); margin: var(--bd-3) 0; }
+  p { color: var(--bd-body); max-width: 60ch; margin: 0 auto; line-height: 1.6; font-size: 0.92rem; }
+}
+.dmon__empty-emoji { font-size: 2.4rem; }
+
+/* ===== MOBILE (≤ 720px) — keep the table scrollable, stack the KPIs ===== */
 @media (max-width: 720px) {
-  .deploy-mon__kpis { grid-template-columns: repeat(2, 1fr); }
-  .deploy-mon__title { font-size: 1.6rem; }
-  .deploy-mon__rowtitle { flex-basis: 100%; }
+  .dmon__kpis { grid-template-columns: repeat(2, 1fr); gap: var(--bd-3); }
+  .dmon__kpi { padding: var(--bd-3) var(--bd-4); }
+  .dmon__kpi-value { font-size: 1.45rem; }
+  .dmon__title-text { max-width: 30ch; }
+  .dmon__panel { padding: var(--bd-4); }
 }
