@@ -1492,11 +1492,22 @@ fenced blocks.
   - GitHub Actions Secret: `GA_SERVICE_ACCOUNT_KEY` (service account JSON key)
   - GA4 Property `542421812`: grant the service-account email **Viewer** role in GA console
   - Existing `WORKFLOW_BOT_PAT` pushes the refreshed data JSON
+- **UI-healthy ≠ data/auth-healthy (BẮT BUỘC):** the GA card MUST distinguish *UI styled* from
+  *data/auth healthy* — **never show the "Khoẻ mạnh" pulse when the GA data source is pending**
+  (offline / no key / disconnected / error / no fresh `updated_at`). The template gates the pulse
+  with `hidden` whenever `stats_ok` is false (`property_match AND ga_stats.updated_at AND
+  health_status == "ok"`), so any healthy badge styling MUST honour `[hidden]`. A bare
+  `.ga-stats__pulse { display: inline-flex }` (author CSS) overrides the UA `[hidden]{display:none}`
+  → a **false healthy chip while GA is pending** (the 2026-06-21 regression). FIXER: add
+  `&[hidden] { display: none; }` to `.ga-stats__pulse` (and `.ga-stats__health`) in
+  `sass/_ga-stats.scss`. A green `zola build` does NOT prove the badge hides — only a render check
+  or the detector catches it.
 - **Detector (`scripts/qa_vaccines.py` → `check_ga_stats_vaccine`, code `V27`):** FAIL on
   wrong property/measurement in config, wrong `fetch_ga_stats.py` default, old id drift in
-  active GA files, hardcoded gtag id, or a credential/old-property leak in `ga-stats.json`
-  / `ga-health.json`. WARN if the hourly workflow, the inline banner, `ga-health.js`, the
-  deep-link config, or the health schema is missing.
+  active GA files, hardcoded gtag id, a credential/old-property leak in `ga-stats.json`
+  / `ga-health.json`, **the pulse not gated by `hidden` in base.html, or `.ga-stats__pulse`
+  missing its `&[hidden]` guard in `_ga-stats.scss`** (false-healthy badge). WARN if the hourly
+  workflow, the inline banner, `ga-health.js`, the deep-link config, or the health schema is missing.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.GaStatsVaccineTest -v` ·
   `python3 -m unittest scripts.test_ga_vacxin -v`.
 - **Validation (2026-06-21):** `qa_vaccines.py` V27 PASS · `fetch_ga_stats.py` stamps

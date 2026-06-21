@@ -85,7 +85,12 @@
     flex-wrap: wrap;
     flex-shrink: 0;
   }
-  /* Subtle healthy pulse — low-noise, only when status == ok */
+  /* Subtle healthy pulse — low-noise, only when status == ok.
+     MUST honour the HTML `hidden` attribute: the template adds `hidden` whenever
+     stats are NOT ok (pending / disconnected / error / no fresh data), so the
+     "Khoẻ mạnh" chip never claims health while the GA data source is pending.
+     `display: inline-flex` (author CSS) would otherwise override the UA
+     `[hidden]{display:none}` and leak a false healthy badge. */
   &__pulse {
     display: inline-flex;
     align-items: center;
@@ -106,6 +111,7 @@
       background: #00a69d;
       box-shadow: 0 0 0 3px rgba(0, 166, 157, 0.18);
     }
+    &[hidden] { display: none; }
   }
   &__dash {
     font-family: $font-ui;
@@ -131,6 +137,9 @@
     border: 1px solid var(--ga-border);
     background: var(--ga-soft);
     margin-bottom: 1.2rem;
+    /* Banner is mutually exclusive with the healthy pulse — when stats ARE ok
+       the template hides it; `display: flex` must yield to `hidden`. */
+    &[hidden] { display: none; }
   }
   &__health-icon { font-size: 1.15rem; line-height: 1; flex-shrink: 0; }
   &__health-text {

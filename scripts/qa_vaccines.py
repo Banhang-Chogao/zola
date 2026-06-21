@@ -2407,6 +2407,28 @@ def check_ga_stats_vaccine(ctx: Ctx) -> CheckResult:
     elif "try" not in js or "catch" not in js:
         warns.append("static/js/ga-health.js thiếu try/catch (no-JS-crash guard)")
 
+    # UI-healthy must NOT diverge from data/auth-healthy. The "Khoẻ mạnh" pulse is
+    # only valid when stats are ok; the template gates it with `hidden` when not.
+    # FAIL if the CSS leaks a false healthy badge by overriding [hidden], or the
+    # template stops hiding the pulse when stats are not ok.
+    if "data-ga-pulse" in base_html:
+        m_pulse = re.search(r"data-ga-pulse[^>]*?(\{%\s*if[^%]*%\}\s*hidden)", base_html)
+        if not m_pulse:
+            fails.append(
+                "templates/base.html: pulse 'Khoẻ mạnh' không gate bằng `hidden` khi "
+                "stats không ok — sẽ báo khoẻ mạnh dù GA đang pending"
+            )
+    scss = ctx.read("sass/_ga-stats.scss") or ""
+    if "ga-stats__pulse" in scss or "&__pulse" in scss:
+        # require the pulse to honour [hidden]; without it, display:inline-flex
+        # overrides the UA hidden rule → false healthy badge while pending.
+        if not re.search(r"&__pulse\b[\s\S]{0,800}?&\[hidden\]", scss) \
+           and "ga-stats__pulse[hidden]" not in scss:
+            fails.append(
+                "sass/_ga-stats.scss: .ga-stats__pulse thiếu `&[hidden] { display: none }` "
+                "→ chip 'Khoẻ mạnh' đè [hidden], hiện sai khi GA pending"
+            )
+
     if fails:
         return CheckResult(
             "V27", title, FAIL,
