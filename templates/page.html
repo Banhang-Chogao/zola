@@ -19,8 +19,8 @@
 {{ super() }}
 {% endblock %}
 
-{# Noindex for: (1) premium posts locked behind paywall, (2) utility/dashboard routes.
-   enable_premium_lock ưu tiên hơn premium_hidden (deprecated). #}
+{# Bài premium đang khóa paywall → noindex (chỉ teaser công khai, full content nằm
+   sau thanh toán). enable_premium_lock ưu tiên hơn premium_hidden (deprecated). #}
 {% block robots %}
 {%- if page.taxonomies.categories -%}
   {%- set cats = page.taxonomies.categories -%}
@@ -29,9 +29,7 @@
 {%- endif -%}
 {%- set is_premium = page.extra.premium | default(value=false) or "premium" in cats -%}
 {%- set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) -%}
-{%- if is_premium and premium_lock -%}noindex, follow
-{%- elif page.extra.noindex | default(value=false) -%}noindex, nofollow
-{%- else -%}{{ super() }}{%- endif -%}
+{%- if is_premium and premium_lock -%}noindex, follow{%- else -%}{{ super() }}{%- endif -%}
 {% endblock %}
 
 {% block main %}

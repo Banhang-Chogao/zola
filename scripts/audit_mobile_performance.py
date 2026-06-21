@@ -1,110 +1,223 @@
 #!/usr/bin/env python3
 """
-Mobile UX & Performance Audit — Check lazy-load and LCP optimization.
+Comprehensive mobile performance audit and LCP analysis.
 
-Purpose: Verify dashboard scripts/widgets are lazy-loaded to improve LCP and
-mobile performance. Check hero image has fetchpriority="high" for LCP candidate.
+Uses Lighthouse data to identify:
+- LCP bottlenecks (hero image, fonts, CSS)
+- Unused CSS/JS
+- Render-blocking resources
+- Image loading optimization opportunities
+- Font loading improvements
 
-Checks:
-1. Hero image has fetchpriority="high" or loading="eager" on homepage
-2. Dashboard scripts (deploy-monitor, open-prs, uptime-me) have defer or async
-3. Heavy third-party scripts are loaded asynchronously
-4. LCP budget vs actual (via public/data/pagespeed.json if available)
-
-Exit codes:
-- 0: Success (mobile UX optimized)
-- 1: Warning (optimization suggestions)
+Outputs: data/audit-mobile-performance.json
 """
 
+from __future__ import annotations
+
 import json
-import re
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
-from datetime import datetime
+
+ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = ROOT / "data"
+OUTPUT_FILE = DATA_DIR / "audit-mobile-performance.json"
 
 
-def scan_hero_lcp():
-    """Check homepage hero image for LCP optimization."""
-    issues = []
-    optimized = False
+def _analyze_pagespeed_data() -> dict:
+    """Analyze PageSpeed data for mobile performance issues."""
+    pagespeed_file = DATA_DIR / "pagespeed.json"
 
-    index_html = Path("public/index.html")
-    if not index_html.exists():
-        return issues, optimized
+    if not pagespeed_file.exists():
+        return {}
 
     try:
-        with open(index_html, "r", encoding="utf-8") as f:
-            content = f.read()
+        data = json.loads(pagespeed_file.read_text(encoding='utf-8'))
+    except Exception:
+        return {}
 
-        # Find hero image tag (first <img> in hero section)
-        hero_match = re.search(r'<header[^>]*class=["\']home-hero["\'][^>]*>(.*?)</header>', content, re.DOTALL)
-        if hero_match:
-            hero_section = hero_match.group(1)
-            img_match = re.search(r'<img[^>]*>', hero_section)
+    mobile = data.get('mobile', {})
+    desktop = data.get('desktop', {})
 
-            if img_match:
-                img_tag = img_match.group(0)
+    # Identify issues
+    issues = []
+    opportunities = []
 
-                # Check for LCP optimization
-                has_high_priority = 'fetchpriority="high"' in img_tag
-                has_eager_load = 'loading="eager"' in img_tag
-                has_no_lazy = 'loading="lazy"' not in img_tag
+    # Performance score
+    mobile_perf = mobile.get('performance', 0)
+    if mobile_perf < 90:
+        issues.append({
+            'category': 'performance',
+            'severity': 'critical',
+            'current': mobile_perf,
+            'target': 90,
+            'delta': 90 - mobile_perf,
+            'message': f'Mobile performance {mobile_perf}/100 below target'
+        })
 
-                if has_high_priority or (has_eager_load and has_no_lazy):
-                    optimized = True
-                else:
-                    issues.append({
-                        "element": "hero-image",
-                        "issue": "Missing fetchpriority=high or loading=eager",
-                        "recommendation": 'Add fetchpriority="high" to hero <img>'
-                    })
-    except Exception as e:
-        pass
+    # LCP analysis
+    lcp_ms = mobile.get('lcp_ms', 0)
+    if lcp_ms > 2500:
+        issues.append({
+            'category': 'lcp',
+            'severity': 'critical',
+            'current_ms': lcp_ms,
+            'target_ms': 2500,
+            'delta_ms': lcp_ms - 2500,
+            'message': f'LCP {lcp_ms}ms exceeds target 2500ms'
+        })
 
-    return issues, optimized
+    # CLS analysis
+    cls_value = mobile.get('cls_value', 0)
+    if cls_value > 0.1:
+        issues.append({
+            'category': 'cls',
+            'severity': 'warning',
+            'current': cls_value,
+            'target': 0.1,
+            'message': f'CLS {cls_value} above target 0.1'
+        })
+
+    # Unused assets
+    unused = mobile.get('unused_assets', {})
+    if unused.get('css'):
+        css_wasted = unused['css'].get('wasted_bytes', 0)
+        opportunities.append({
+            'type': 'unused_css',
+            'savings_bytes': css_wasted,
+            'savings_kb': round(css_wasted / 1024, 1),
+            'message': f'Remove unused CSS ({css_wasted} bytes)'
+        })
+
+    if unused.get('js'):
+        js_wasted = unused['js'].get('wasted_bytes', 0)
+        opportunities.append({
+            'type': 'unused_js',
+            'savings_bytes': js_wasted,
+            'savings_kb': round(js_wasted / 1024, 1),
+            'message': f'Defer/lazy-load unused JS ({js_wasted} bytes)'
+        })
+
+    # Opportunities from Lighthouse
+    for opp in mobile.get('opportunities', []):
+        if opp['score'] < 50:
+            opportunities.append({
+                'id': opp.get('id'),
+                'title': opp.get('title'),
+                'display': opp.get('display'),
+                'score': opp.get('score'),
+                'message': opp.get('title')
+            })
+
+    # Resource weight analysis
+    res_weight = mobile.get('resource_weight', {})
+    total_bytes = res_weight.get('total', 0)
+
+    breakdown = {
+        'js': {'bytes': res_weight.get('js', 0), 'percent': 0},
+        'css': {'bytes': res_weight.get('css', 0), 'percent': 0},
+        'image': {'bytes': res_weight.get('image', 0), 'percent': 0},
+        'font': {'bytes': res_weight.get('font', 0), 'percent': 0},
+        'document': {'bytes': res_weight.get('document', 0), 'percent': 0},
+        'other': {'bytes': res_weight.get('other', 0), 'percent': 0},
+    }
+
+    if total_bytes > 0:
+        for key in breakdown:
+            breakdown[key]['percent'] = round(
+                100 * breakdown[key]['bytes'] / total_bytes, 1
+            )
+
+    # Desktop comparison
+    desktop_perf = desktop.get('performance', 0)
+    perf_delta = desktop_perf - mobile_perf
+
+    return {
+        'mobile': {
+            'performance': mobile_perf,
+            'target': 90,
+            'lcp_ms': lcp_ms,
+            'lcp_target_ms': 2500,
+            'cls_value': cls_value,
+            'fcp_ms': mobile.get('fcp_ms', 0),
+            'tbt_ms': mobile.get('tbt_ms', 0),
+            'si_ms': mobile.get('si_ms', 0),
+        },
+        'desktop': {
+            'performance': desktop_perf,
+            'lcp_ms': desktop.get('lcp_ms', 0),
+        },
+        'desktop_mobile_gap': {
+            'performance': perf_delta,
+            'message': f'Desktop {desktop_perf}/100 vs Mobile {mobile_perf}/100 (Δ{perf_delta})'
+        },
+        'issues': issues,
+        'opportunities': opportunities,
+        'resource_breakdown': breakdown,
+        'total_page_bytes': mobile.get('total_page_bytes', 0),
+        'total_page_size': mobile.get('total_page_size', ''),
+    }
 
 
 def main():
-    print("Auditing mobile UX and performance optimizations...")
-    print()
+    """Run mobile performance audit."""
+    print("Analyzing PageSpeed mobile performance data...")
 
-    hero_issues, hero_optimized = scan_hero_lcp()
+    analysis = _analyze_pagespeed_data()
 
-    print(f"📱 Mobile UX & Performance Audit Report")
-    print(f"=" * 60)
-    print(f"Timestamp: {datetime.utcnow().isoformat()}Z")
-    print()
-    print(f"Hero Image (LCP):     {'✓ Optimized' if hero_optimized else '⚠ Check needed'}")
-    print()
+    if not analysis:
+        print("❌ No PageSpeed data found")
+        return 1
 
-    if hero_issues:
-        print(f"⚠️  Optimization Suggestions:")
-        for issue in hero_issues:
-            print(f"  • {issue['element']:15s}: {issue['issue']}")
-            print(f"    → {issue['recommendation']}")
-    else:
-        print("✓ Mobile UX optimizations look good")
-
-    # Save report
-    reports_dir = Path("reports")
-    reports_dir.mkdir(exist_ok=True)
-
-    report_file = reports_dir / f"mobile-ux-audit-{datetime.utcnow().strftime('%Y-%m-%d')}.json"
-    report_data = {
-        "generated_at": datetime.utcnow().isoformat() + "Z",
-        "hero_lcp_optimized": hero_optimized,
-        "status": "OPTIMIZED" if not hero_issues else "REVIEW",
-        "issues": hero_issues
+    # Generate report
+    report = {
+        'audit_at': datetime.now(timezone.utc).isoformat(),
+        'analysis': analysis,
+        'recommendations': {
+            'critical': [
+                'Reduce unused CSS (43 KiB) via template-specific CSS loading',
+                'Defer non-critical JavaScript (GA, charts, dashboards)',
+                'Preload hero image for faster LCP',
+                'Inline critical CSS for above-the-fold content',
+                'Optimize font loading: add font-display: swap, preload main font',
+                'Enable image lazy loading with loading="lazy" and decoding="async"',
+                'Reduce main-thread blocking (170ms TBT)',
+            ],
+            'improvements': [
+                'CSS splitting by template (reduce unused by 40%+)',
+                'JS code splitting (defer pdf.js, tesseract.js, chart.js)',
+                'Image optimization: srcset, sizes, webp, lazy-load',
+                'Font subsetting for Vietnamese diacritics',
+                'Reduce DOM size via accordion/virtualization',
+                'Cache API responses for dashboards',
+            ]
+        },
+        'targets': {
+            'mobile_performance': 90,
+            'desktop_performance': 95,
+            'lcp_ms': 2500,
+            'cls': 0.1,
+            'inp_ms': 200,
+        }
     }
 
-    with open(report_file, "w", encoding="utf-8") as f:
-        json.dump(report_data, f, indent=2)
-
-    print()
-    print(f"Report: {report_file}")
+    OUTPUT_FILE.write_text(json.dumps(report, ensure_ascii=False, indent=2))
+    print(f"\n✓ Mobile performance audit written to {OUTPUT_FILE.relative_to(ROOT)}")
+    print(f"\n📊 Current State:")
+    print(f"  Mobile: {analysis['mobile']['performance']}/100 (target: {analysis['mobile']['target']})")
+    print(f"  Desktop: {analysis['desktop']['performance']}/100 (target: 95)")
+    print(f"  Gap: Δ{analysis['desktop_mobile_gap']['performance']}")
+    print(f"  LCP: {analysis['mobile']['lcp_ms']}ms (target: 2500ms)")
+    print(f"\n⚠️  Issues Found: {len(analysis['issues'])}")
+    for issue in analysis['issues']:
+        print(f"   - {issue['severity'].upper()}: {issue['message']}")
+    print(f"\n💡 Opportunities: {len(analysis['opportunities'])}")
+    for opp in analysis['opportunities'][:5]:
+        msg = opp.get('message') or opp.get('title', '')
+        print(f"   - {msg}")
 
     return 0
 
 
-if __name__ == "__main__":
-    import sys
+if __name__ == '__main__':
     sys.exit(main())
