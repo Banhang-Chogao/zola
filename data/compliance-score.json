@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T16:23:59Z",
+  "updated_at": "2026-06-21T16:32:31Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -413,7 +413,7 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (6/871 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-21T16:23:59Z"
+      "at": "2026-06-21T16:32:31Z"
     },
     {
       "category": "Links",
@@ -421,7 +421,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 1760 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /admin-author/ (Target not found in public/ after zola build); public/404.html → /admin-countdown/ (Target not found in public/ after zola build); public/about/index.html → /admin-author/ (Target not found in public/ after zola build)",
-      "at": "2026-06-21T16:23:59Z"
+      "at": "2026-06-21T16:32:31Z"
     }
   ],
   "fix_summary": {
