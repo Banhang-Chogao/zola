@@ -349,6 +349,30 @@
     "external_count": 1,
     "internal_count": 3
   },
+  "content/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer.md": {
+    "external": [
+      {
+        "title": "GitHub Actions documentation",
+        "url": "https://docs.github.com/en/actions",
+        "kind": "external"
+      },
+      {
+        "title": "Zola static site generator",
+        "url": "https://www.getzola.org/documentation",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
+        "url": "https://seomoney.org/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub Actions documentation và Zola static site generator. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 1
+  },
   "content/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog.md": {
     "external": [
       {
@@ -553,6 +577,35 @@
     "external_count": 0,
     "internal_count": 4
   },
+  "content/posting/cac-lenh-git-dua-blog-len-production.md": {
+    "external": [
+      {
+        "title": "GitHub CLI",
+        "url": "https://cli.github.com/manual",
+        "kind": "external"
+      },
+      {
+        "title": "tài liệu chính thức của Git",
+        "url": "https://git-scm.com/doc",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "case study fix QA Gatekeeper GitHub Actions",
+        "url": "https://seomoney.org/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "viết blog bằng local terminal khi AI hết credit",
+        "url": "https://seomoney.org/posting/viet-blog-bang-local-terminal-khi-ai-het-credit/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub CLI và tài liệu chính thức của Git. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 2
+  },
   "content/posting/cach-mo-tai-khoan-ngan-hang-so-online.md": {
     "external": [
       {
@@ -573,11 +626,6 @@
         "kind": "internal"
       },
       {
-        "title": "O-Dashboard cho Liobank",
-        "url": "https://seomoney.org/tools/o-dashboard/",
-        "kind": "internal"
-      },
-      {
         "title": "ưu đãi hoàn tiền",
         "url": "https://seomoney.org/posting/ngan-hang-so-hoan-tien-nhieu-nhat/",
         "kind": "internal"
@@ -585,7 +633,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ link giới thiệu này và Ngân hàng Nhà nước. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
-    "internal_count": 3
+    "internal_count": 2
   },
   "content/posting/cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key.md": {
     "external": [],
@@ -2875,8 +2923,8 @@
         "kind": "internal"
       },
       {
-        "title": "rebase",
-        "url": "https://seomoney.org/posting/lenh-git-co-ban-commit-checkout-status/",
+        "title": "lệnh Git cơ bản",
+        "url": "https://seomoney.org/posting/lenh-git-co-ban-init-add-commit-status/",
         "kind": "internal"
       },
       {
@@ -3944,11 +3992,6 @@
         "kind": "internal"
       },
       {
-        "title": "O-Dashboard",
-        "url": "https://seomoney.org/tools/o-dashboard/",
-        "kind": "internal"
-      },
-      {
         "title": "Liobank",
         "url": "https://seomoney.org/posting/review-liobank-by-ocb/",
         "kind": "internal"
@@ -3971,7 +4014,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ link giới thiệu này. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
-    "internal_count": 6
+    "internal_count": 5
   },
   "content/posting/ngan-hang-so-cho-kinh-doanh-online.md": {
     "external": [
@@ -3987,11 +4030,6 @@
       }
     ],
     "internal": [
-      {
-        "title": "O-Dashboard",
-        "url": "https://seomoney.org/tools/o-dashboard/",
-        "kind": "internal"
-      },
       {
         "title": "Cake",
         "url": "https://seomoney.org/posting/review-cake-by-vpbank/",
@@ -4020,7 +4058,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ link giới thiệu này và Ngân hàng Nhà nước. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
-    "internal_count": 6
+    "internal_count": 5
   },
   "content/posting/ngan-hang-so-cho-sinh-vien.md": {
     "external": [
@@ -5106,11 +5144,6 @@
         "kind": "internal"
       },
       {
-        "title": "O-Dashboard cho Liobank",
-        "url": "https://seomoney.org/tools/o-dashboard/",
-        "kind": "internal"
-      },
-      {
         "title": "ngân hàng số cho sinh viên",
         "url": "https://seomoney.org/posting/ngan-hang-so-cho-sinh-vien/",
         "kind": "internal"
@@ -5133,7 +5166,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ link giới thiệu này. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
-    "internal_count": 7
+    "internal_count": 6
   },
   "content/posting/review-lpbank-so-2026.md": {
     "external": [],
@@ -5373,11 +5406,6 @@
         "kind": "internal"
       },
       {
-        "title": "O-Dashboard cho Liobank",
-        "url": "https://seomoney.org/tools/o-dashboard/",
-        "kind": "internal"
-      },
-      {
         "title": "các rủi ro khi dùng ngân hàng số",
         "url": "https://seomoney.org/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/",
         "kind": "internal"
@@ -5385,7 +5413,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ link giới thiệu này. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
-    "internal_count": 5
+    "internal_count": 4
   },
   "content/posting/so-sanh-timo-vs-tnex.md": {
     "external": [
@@ -6190,16 +6218,11 @@
         "title": "ngân hàng số cho sinh viên",
         "url": "https://seomoney.org/posting/ngan-hang-so-cho-sinh-vien/",
         "kind": "internal"
-      },
-      {
-        "title": "O-Dashboard phân tích sao kê Liobank",
-        "url": "https://seomoney.org/tools/o-dashboard/",
-        "kind": "internal"
       }
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ link giới thiệu này và Ngân hàng Nhà nước. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
-    "internal_count": 7
+    "internal_count": 6
   },
   "content/posting/tra-cuu-thoi-gian-dong-bhtn-vssid.md": {
     "external": [
@@ -6561,11 +6584,6 @@
     ],
     "internal": [
       {
-        "title": "O-Dashboard",
-        "url": "https://seomoney.org/tools/o-dashboard/",
-        "kind": "internal"
-      },
-      {
         "title": "ngân hàng số hoàn tiền nhiều nhất",
         "url": "https://seomoney.org/posting/ngan-hang-so-hoan-tien-nhieu-nhat/",
         "kind": "internal"
@@ -6583,7 +6601,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Ngân hàng Nhà nước. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
-    "internal_count": 4
+    "internal_count": 3
   },
   "content/posting/ung-ho-du-an-ai-ten-mien-ai.md": {
     "external": [
@@ -6605,11 +6623,6 @@
         "kind": "internal"
       },
       {
-        "title": "F-Dashboard phân tích chi tiêu cá nhân",
-        "url": "https://seomoney.org/tools/f-dashboard/",
-        "kind": "internal"
-      },
-      {
         "title": "Prompt Support tối ưu câu lệnh AI",
         "url": "https://seomoney.org/prompt-support/",
         "kind": "internal"
@@ -6622,7 +6635,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Google khuyến nghị cho nội dung hữu ích và trang giới thiệu về .ai của Wikipedia. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
-    "internal_count": 4
+    "internal_count": 3
   },
   "content/posting/uranium-la-gi-tai-sao-quan-trong.md": {
     "external": [
@@ -6837,6 +6850,35 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Ngân hàng Nhà nước và website VietinBank. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 2,
     "internal_count": 4
+  },
+  "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md": {
+    "external": [
+      {
+        "title": "GitHub CLI",
+        "url": "https://cli.github.com/",
+        "kind": "external"
+      },
+      {
+        "title": "tài liệu chính thức của Zola",
+        "url": "https://www.getzola.org/documentation/getting-started/cli-usage",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "case study fix QA Gatekeeper GitHub Actions",
+        "url": "https://seomoney.org/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/",
+        "kind": "internal"
+      },
+      {
+        "title": "bài giải thích các lệnh Git đưa blog lên production",
+        "url": "https://seomoney.org/posting/cac-lenh-git-dua-blog-len-production/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ GitHub CLI và tài liệu chính thức của Zola. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 2,
+    "internal_count": 2
   },
   "content/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang.md": {
     "external": [
@@ -7274,6 +7316,40 @@
     "external_count": 3,
     "internal_count": 7
   },
+  "content/posting/vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so.md": {
+    "external": [
+      {
+        "title": "kênh chính thức của VietinBank",
+        "url": "https://www.vietinbank.vn/",
+        "kind": "external"
+      }
+    ],
+    "internal": [
+      {
+        "title": "V-Plus & V-Advance là gì",
+        "url": "https://seomoney.org/posting/vietinbank-v-plus-v-advance-la-gi/",
+        "kind": "internal"
+      },
+      {
+        "title": "đặc quyền chi tiết của V-Advance",
+        "url": "https://seomoney.org/posting/vietinbank-v-advance-nang-tam-trai-nghiem/",
+        "kind": "internal"
+      },
+      {
+        "title": "chuyên mục Ngân hàng",
+        "url": "https://seomoney.org/categories/ngan-hang/",
+        "kind": "internal"
+      },
+      {
+        "title": "gói tài chính nhóm gia đình V-Family",
+        "url": "https://seomoney.org/baochi/vietinbank-v-family-nhom-gia-dinh/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ kênh chính thức của VietinBank. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
+    "external_count": 1,
+    "internal_count": 4
+  },
   "content/posting/vssid-khong-hien-qua-trinh-dong-bhtn.md": {
     "external": [
       {
@@ -7556,11 +7632,6 @@
         "kind": "internal"
       },
       {
-        "title": "công cụ phân tích dòng tiền cá nhân",
-        "url": "https://seomoney.org/tools/f-dashboard/",
-        "kind": "internal"
-      },
-      {
         "title": "Private Banking là gì? Nhìn từ BIDV Sài Gòn",
         "url": "https://seomoney.org/baochi/bidv-flagship-private-banking-tphcm/",
         "kind": "internal"
@@ -7573,7 +7644,7 @@
     ],
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ Tổng cục Thuế. Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
-    "internal_count": 4
+    "internal_count": 3
   },
   "content/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc.md": {
     "external": [
@@ -8130,6 +8201,19 @@
     "copyright": "Một phần dữ liệu trong bài viết được tham khảo từ eo biển Hormuz (Wikipedia). Mọi thương hiệu, tên sản phẩm và tài liệu gốc thuộc quyền sở hữu của chủ sở hữu tương ứng. Bài viết chỉ trích dẫn, tổng hợp và phân tích — không nhằm thay thế tài liệu chính thức.",
     "external_count": 1,
     "internal_count": 2
+  },
+  "content/baochi/ngay-cua-cha-o-viet-nam-la-ngay-nao.md": {
+    "external": [],
+    "internal": [
+      {
+        "title": "Báo chí",
+        "url": "https://seomoney.org/baochi/",
+        "kind": "internal"
+      }
+    ],
+    "copyright": "",
+    "external_count": 0,
+    "internal_count": 1
   },
   "content/baochi/quan-ly-chi-tieu-voi-app-liobank.md": {
     "external": [

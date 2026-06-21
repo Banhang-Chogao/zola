@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-21T10:48:44+00:00",
+  "updated_at": "2026-06-21T16:57:39+00:00",
   "property_id": "542421812",
   "measurement_id": "G-SMTFZVC0XN",
   "site": "seomoney.org",
-  "today_users": 2,
-  "today_pageviews": 2,
-  "week_users": 2,
-  "week_pageviews": 2,
-  "month_users": 2,
-  "month_pageviews": 2,
-  "month_sessions": 2,
-  "month_new_users": 2,
+  "today_users": 11,
+  "today_pageviews": 11,
+  "week_users": 11,
+  "week_pageviews": 11,
+  "month_users": 11,
+  "month_pageviews": 11,
+  "month_sessions": 11,
+  "month_new_users": 10,
   "month_bounce_rate_pct": 100,
-  "month_avg_session_duration_str": "0s",
+  "month_avg_session_duration_str": "13s",
   "month_engagement_rate_pct": 0,
   "organic_users": 0,
   "organic_sessions": 0,
@@ -20,10 +20,18 @@
   "organic_pct_traffic": 0,
   "channel_breakdown": {
     "Direct": {
+      "users": 8,
+      "sessions": 8
+    },
+    "Referral": {
       "users": 2,
       "sessions": 2
+    },
+    "Unassigned": {
+      "users": 1,
+      "sessions": 1
     }
   },
-  "top_country": "—",
-  "top_device": "mobile"
+  "top_country": "United States",
+  "top_device": "desktop"
 }

@@ -1,11 +1,13 @@
 {
   "latest": {
-    "timestamp": "2026-06-21T10:45:50.890056+00:00",
+    "timestamp": "2026-06-21T21:59:48.591491+00:00",
     "root_cause": "dirty/generated-data conflict — auto-resolve + regenerate",
     "resolved": [
-      ".github/workflows/qa.yml"
+      "data/seo-qa-scores.json"
     ],
-    "regenerated": {},
+    "regenerated": {
+      "data/seo-qa-scores.json": "regen-failed"
+    },
     "qa_status": "pass"
   },
   "history": [
@@ -16,6 +18,17 @@
         ".github/workflows/qa.yml"
       ],
       "regenerated": {},
+      "qa_status": "pass"
+    },
+    {
+      "timestamp": "2026-06-21T21:59:48.591491+00:00",
+      "root_cause": "dirty/generated-data conflict — auto-resolve + regenerate",
+      "resolved": [
+        "data/seo-qa-scores.json"
+      ],
+      "regenerated": {
+        "data/seo-qa-scores.json": "regen-failed"
+      },
       "qa_status": "pass"
     }
   ]
