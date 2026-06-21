@@ -1,14 +1,19 @@
 /**
- * PDF generation with watermark for Operation Guideline
+ * PDF handler for Operation Guideline
+ * Fetches from protected backend endpoint /api/admin/operation-guideline.pdf
+ * Fallback: client-side generation via jsPDF if backend unavailable
  */
 
 (function () {
   window.AdminZonePDF = window.AdminZonePDF || {};
 
   const { jsPDF } = window.jspdf;
+  const PDF_ENDPOINT = window.AdminZoneAuth?.AUTH_API
+    ? `${window.AdminZoneAuth.AUTH_API.replace(/\/$/, '')}/api/admin/operation-guideline.pdf`
+    : "/api/admin/operation-guideline.pdf";
 
   function generateContentHash() {
-    // Deterministic 16-char hashcode based on content + timestamp
+    // Deterministic 16-char hashcode (fallback for client-side PDF only)
     const seed = "OPERATION_GUIDELINE_2026_06_21";
     let hash = 0;
     for (let i = 0; i < seed.length; i++) {
@@ -30,6 +35,35 @@
       return (parts[parts.length - 1] || "SEOMONEY").trim();
     }
     return "SEOMONEY";
+  }
+
+  async function fetchPdfFromBackend() {
+    // Try to fetch protected PDF from backend endpoint
+    try {
+      const sid = window.AdminZoneAuth?.getSid?.();
+      if (!sid) {
+        console.warn("PDF: No session ID, cannot fetch from backend");
+        return null;
+      }
+
+      const response = await fetch(PDF_ENDPOINT, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${sid}`,
+          "Accept": "application/pdf",
+        },
+      });
+
+      if (!response.ok) {
+        console.warn(`PDF endpoint returned ${response.status}, falling back to client-side generation`);
+        return null;
+      }
+
+      return await response.blob();
+    } catch (err) {
+      console.warn("PDF fetch failed, falling back to client-side generation:", err);
+      return null;
+    }
   }
 
   function buildPdfContent() {
@@ -211,7 +245,25 @@
     };
   }
 
-  function downloadPdf() {
+  async function downloadPdf() {
+    // Try backend endpoint first
+    const pdfBlob = await fetchPdfFromBackend();
+
+    if (pdfBlob) {
+      // Backend PDF successful
+      const url = URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Operation_Guideline.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      return;
+    }
+
+    // Fallback to client-side generation
+    console.log("Using client-side PDF generation fallback");
     const result = generatePdf();
     if (!result) {
       alert("Không thể tạo PDF. Vui lòng thử lại.");
@@ -221,14 +273,22 @@
     result.pdf.save(result.filename);
   }
 
-  function openPdfWebview() {
-    const result = generatePdf();
-    if (!result) {
-      alert("Không thể tạo PDF. Vui lòng thử lại.");
-      return;
+  async function openPdfWebview() {
+    // Try backend endpoint first
+    const pdfBlob = await fetchPdfFromBackend();
+
+    let blob = pdfBlob;
+    if (!blob) {
+      // Fallback to client-side generation
+      console.log("Using client-side PDF generation fallback");
+      const result = generatePdf();
+      if (!result) {
+        alert("Không thể tạo PDF. Vui lòng thử lại.");
+        return;
+      }
+      blob = result.pdf.output("blob");
     }
 
-    const blob = result.pdf.output("blob");
     const url = URL.createObjectURL(blob);
 
     const viewer = document.getElementById("pdf-viewer");
