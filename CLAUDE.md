@@ -1,63 +1,88 @@
 # CLAUDE.md — Quy tắc làm việc
 
-## Repository Automation Policy (effective 2026-06-18 — ZERO_BARRIER_AUTOMATION)
+# ZERO BARRIER MANIFESTO
 
-> **100% tự động:** CI pass → auto-merge `main` → deploy production. Không kiểm duyệt trung gian.
-> Config: `data/auto-merge-policy.json` · Engine: `scripts/auto_merge_policy.py` · Runner: `auto-merge.yml`.
+> Chúng ta không babysit PR.
+> Chúng ta không merge bằng cảm tính.
+> Chúng ta không dùng human approval để thay thế QA.
+>
+> Máy kiểm tra.
+> Máy sửa lỗi.
+> Máy merge.
+> Máy deploy.
+>
+> Con người chỉ quyết định sản phẩm.
 
-| | |
-|--|--|
-| **Auto-merge** | Mọi PR — chore, qa, fix, feature, content, policy, workflows, auth, payment, bot maintenance |
-| **Manual review** | ❌ Không — blog sạch, không protected domain, không label chặn |
+## Dòng chảy chuẩn
 
-Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIONS-PERMISSIONS.md`.
+Code
+→ Push Branch
+→ Auto PR Gatekeeper
+→ Merge Conflict Preflight
+→ QA Gatekeeper
+→ Auto Merge
+→ Deploy Production
 
-## Auto-Merge Policy (ZERO_BARRIER — ghi đè mọi rule PR-only / manual merge cũ)
+## Branch hợp lệ
 
-> CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
+- feat/**
+- fix/**
+- hotfix/**
+- claude/**
+- codex/**
+- vaccine-hotfix/**
 
-### 1. Không cần qua PR thủ công — code xong → tự lên `main` → prod
+## Luật bất biến
 
-> **Cập nhật (2026-06-19 — user request):** Bỏ rào PR thủ công. Code xong là **tự động**
-> lên `main` → deploy production. KHÔNG mở/duyệt/babysit PR bằng tay, KHÔNG hỏi user.
+Không được bypass:
 
-- Agent làm xong thay đổi → để automation đưa lên `main` → `deploy.yml` → prod. Không
-  tự tay quản lý PR, không chờ human review.
-- **Lỗi để máy bắt & sửa, không phải human gate:** `qa-check` (QA Gatekeeper) chặn build
-  hỏng trước khi lên `main`; có lỗi thì **vaccine autofixer** (§4 V1–V12) + `ff`/`ff9` +
-  autofix-conflicts tự chẩn & sửa. KHÔNG chờ người review.
-- **Hạ tầng (agent không cần bận tâm):** bước "đưa lên `main`" do `auto-merge.yml` tự thực
-  hiện (squash khi `qa-check` xanh) — GITHUB_TOKEN/branch protection KHÔNG cho push thẳng
-  `main` (§5/§5a/§5b), nên auto-merge là **bước máy tự làm**, không phải rào thủ công.
+- Merge Conflict
+- Secret Leak
+- Broken Links Blocker
+- Build Failure
+- QA Failure
+- High-Risk Vaccine Failure
 
-### 2. Auto-merge khi CI xanh (máy tự làm hết)
+CI xanh mới được merge.
 
-1. Code xong → push lên branch (`feature/`, `fix/`, `chore/`, …)
-2. **`auto-merge.yml`** tự đưa lên `main` khi **qa-check** pass (QA Gatekeeper — không PR Policy)
-3. `deploy.yml` chạy sau merge → GitHub Pages → prod
+## QA Doctrine
 
-**Không hỏi user** trước khi merge, **không** cần agent mở/duyệt PR thủ công, không dùng label chặn auto-merge.
+QA là cổng kiểm soát duy nhất.
 
-### 3. Merge Report (thay review thủ công)
+Nếu QA đỏ:
 
-- Script: `scripts/fetch_merge_report.py` → `data/merge-report.json`
-- Workflow: `merge-report.yml` (sau push `main` + hourly)
-- Mỗi entry: PR #, title, summary_vi, change_type, merged_at, build_run_number
-- Đọc report thay vì duyệt từng PR
+1. Đọc log
+2. Tự chẩn đoán
+3. Tự sửa
+4. Commit
+5. Push lại
 
-### 4. Build failed trên PR → fix trên cùng branch
+Không chờ người duyệt.
 
-- Fix trên **cùng branch/PR** — không push `main`
-- CI xanh → auto-merge
+## Định nghĩa DONE
 
-### 5. Automation / bot
+DONE chỉ tồn tại khi:
 
-- Bot **không** `git push origin HEAD:main` trực tiếp
-- Data refresh: `push_via_pr.sh` → PR → auto-merge khi CI pass
-- `main-guard.yml`: cho phép bot merge qua PR (auto-merge commit)
+Branch đã push
++
+PR đã mở
++
+Preflight pass
++
+QA xanh
++
+Auto-merge đã được attempt
 
-### 5a. Workflow permissions (2026-06-18)
+## Hạ tầng liên quan
 
+<<<<<<< HEAD
+- data/auto-merge-policy.json
+- scripts/auto_merge_policy.py
+- .github/workflows/ensure-pr-after-push.yml
+- .github/workflows/preflight-conflict.yml
+- .github/workflows/auto-merge.yml
+- .github/workflows/deploy.yml
+=======
 | Loại workflow | Chạy tự động? | Ghi chú |
 |---------------|---------------|---------|
 | QA / chore bot PR | ✅ | `workflow_run` relay hoặc `WORKFLOW_BOT_PAT` |
@@ -282,6 +307,7 @@ Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIO
 
 - Simulation: `python3 -m unittest scripts.test_task_priority -v`
 - Pass criteria: P0 hoàn thành trước P1 bị preempt; P1 resume sau P0 drain.
+>>>>>>> origin/main
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
