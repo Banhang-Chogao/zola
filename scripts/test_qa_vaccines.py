@@ -84,6 +84,52 @@ class FailDetectorTest(unittest.TestCase):
         r = qv.check_v8a_tera_filter_kwargs(self.repo.ctx())
         self.assertEqual(r.status, qv.PASS)
 
+    def test_v29_empty_map_filter_arg_fail(self):
+        # `| default(value={})` — empty map literal as a filter arg crashes zola build.
+        self.repo.write("templates/i.html",
+                        "{% set ga = report.ga4_organic | default(value={}) %}")
+        r = qv.check_v29_tera_empty_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("V29", r.vaccine)
+
+    def test_v29_set_empty_map_fail(self):
+        # A bare `{% set x = {} %}` assignment is ALSO invalid Tera — map literals
+        # are unsupported in any expression position, not just filter args.
+        self.repo.write("templates/i.html", "{% set ga = {} %}")
+        r = qv.check_v29_tera_empty_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_v29_scalar_false_default_pass(self):
+        # The Tera-safe replacement: a scalar default (false) — no map literal.
+        self.repo.write("templates/i.html",
+                        "{% set ga = report.ga4_organic | default(value=false) %}")
+        r = qv.check_v29_tera_empty_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v29_array_literal_pass(self):
+        # Array literals `[]` ARE valid Tera and must NOT be flagged.
+        self.repo.write("templates/i.html",
+                        "{% set xs = report.fixes | default(value=[]) %}")
+        r = qv.check_v29_tera_empty_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v29_ignores_inline_js_object(self):
+        # An inline-JS object literal outside any Tera tag must NOT be flagged.
+        self.repo.write("templates/i.html", "<script>var cfg = {};</script>")
+        r = qv.check_v29_tera_empty_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v29_ignores_default_in_comment(self):
+        self.repo.write("templates/i.html",
+                        "{# Tera KHÔNG support default(value={}) literal dict #}\n<p>ok</p>")
+        r = qv.check_v29_tera_empty_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v29_real_repo_pass(self):
+        r = qv.check_v29_tera_empty_map_literal(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS,
+                         f"V29 must be green on repo templates: {r.details}")
+
     def test_v8b_unbalanced_block_fail(self):
         self.repo.write("templates/y.html", "{% if x %}\n<p>no endif</p>")
         r = qv.check_v8b_template_block_balance(self.repo.ctx())

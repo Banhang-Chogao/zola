@@ -1566,6 +1566,46 @@ fenced blocks.
   (duplicate-number / duplicate-detector guard).
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.VaccineRegistryMergeV28Test -v`
 
+#### V29 — Tera empty-map literal `{}` (value OR `default(value={})`) crashes `zola build`
+
+> Build/Tera-syntax vaccine (same family as V8). Match the signature → remove EVERY `{}`
+> literal (scalar/`[]` default + a guarded `.key` access); the static detector
+> `check_v29_tera_empty_map_literal` (code `V29`) guards it. **A green local `qa_check.py`
+> does NOT prove the template compiles — only `zola build` (the qa-check gate) or this
+> detector catches it.**
+
+- **Symptom:** `zola build` fails with `Error parsing templates` →
+  `Failed to parse ".../templates/<file>.html"` → `expected a value that can be negated
+  or an array of values`, pointing at a line containing an **empty map literal `{}`** —
+  either a filter arg (`… | default(value={})`) or a plain assignment (`{% set x = {} %}`).
+  Canonical incident (2026-06-21): `templates/insights.html` (Auto Performance Fix Engine)
+  had `perf_fix_report.ga4_organic | default(value={})` **and** two
+  `{% set perf_fix_ga_organic = {} %}` branches → broke the QA Gatekeeper build → blocked
+  every PR (e.g. #600/#632).
+- **Root cause:** Tera has **no map/object literal at all** — `{}` is invalid in EVERY
+  expression position (value, filter arg, kwarg). **Array literals `[]` ARE supported;
+  only map literals are not.** The parser reports only the FIRST error and stops, so a
+  template with several `{}` looks like a single-line bug — fix EVERY `{}` in one pass.
+- **FIXER:** delete every `{}`. For "absent → empty" use a scalar default
+  (`| default(value=false)` / `0` / `""`); for lists `default(value=[])`. Then guard each
+  downstream `.key` access with short-circuiting `and`:
+  `{% if x and x.key and x.key > 0 %}` (proven idiom — used 30+× across repo templates).
+  Never write `{}` inside a Tera tag.
+- **Detector:** `scripts/qa_vaccines.py` → `check_v29_tera_empty_map_literal` (code `V29`,
+  registered beside the V8 Tera detectors): scans Tera tag bodies in `templates/**/*.html`
+  (comments + `{% raw %}` stripped) for an empty-map literal `{}` inside any `{%…%}` /
+  `{{…}}` → **FAIL**. Array literals `[]`, scalar defaults, an inline-JS `var x = {}` in a
+  `<script>` (outside any Tera tag), and a `default(value={})` inside a `{# … #}` comment
+  are NOT flagged.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.FailDetectorTest -v -k v29`
+  (filter-arg `{}` FAIL · bare `{% set x = {} %}` FAIL · `default(value=false)` PASS ·
+  `default(value=[])` PASS · inline-JS `{}` PASS · in-comment PASS · real repo PASS).
+- **Note:** numbered **V29** (next free) — `#### V28` is the Conflict-safe vaccine registry
+  merge above; the §4 number is a label, the gate keys on the detector code.
+- **Validation (2026-06-21):** `main` already repointed `insights.html`
+  (`default(value=false)` + guarded `.users`); `check_v29_tera_empty_map_literal` PASS on
+  repo; `qa_check.py` exit 0, 0 FAIL — this vaccine is the permanent prevention layer.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

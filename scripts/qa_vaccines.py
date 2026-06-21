@@ -280,6 +280,47 @@ def check_v8a_tera_filter_kwargs(ctx: Ctx) -> CheckResult:
     return CheckResult("V8", title, PASS)
 
 
+# Tera has NO map/object literal `{}` in expression position — neither as a value
+# (`{% set x = {} %}`) nor as a filter argument (`| default(value={})`). Either one
+# crashes `zola build` with "expected a value that can be negated or an array of
+# values". (Array literals `[]` ARE supported — only map literals are not.) We scan
+# inside Tera statement/expression tags only, so an inline-JS `var x = {}` in a
+# <script> block (outside any {%…%}/{{…}}) is never falsely flagged.
+_TERA_TAG_RE = re.compile(r"\{%-?(.*?)-?%\}|\{\{-?(.*?)-?\}\}", re.S)
+_TERA_EMPTY_MAP_RE = re.compile(r"\{\s*\}")
+
+
+def check_v29_tera_empty_map_literal(ctx: Ctx) -> CheckResult:
+    """V29 — Tera rejects an empty map/object literal `{}` anywhere in an
+    expression (`{% set x = {} %}` AND `… | default(value={})`) → `zola build`
+    parse error. Detect it statically by scanning Tera tag bodies only (comments
+    and `{% raw %}` stripped first), so inline-JS object literals outside any Tera
+    tag are NOT flagged. Array literals `[]` are valid and never matched.
+
+    Canonical incident (2026-06-21): templates/insights.html had three `{}` literals
+    (a `default(value={})` filter arg + two `{% set perf_fix_ga_organic = {} %}`
+    branches) → QA Gatekeeper `zola build` failed, blocking every PR. The parser
+    reports only the FIRST error and stops, so it looked like a one-line bug; the
+    fix must remove EVERY `{}` (scalar/`[]` default + a guarded `.key` access)."""
+    title = "No empty-map literal {} in Tera tags (e.g. set x = {} / default(value={}))"
+    hits = []
+    for p in ctx.glob("templates/**/*.html"):
+        src = _strip_tera_noise(p.read_text(encoding="utf-8", errors="ignore"))
+        for m in _TERA_TAG_RE.finditer(src):
+            body = m.group(1) if m.group(1) is not None else m.group(2)
+            if body and _TERA_EMPTY_MAP_RE.search(body):
+                line = src[:m.start()].count("\n") + 1
+                rel = p.relative_to(ctx.root)
+                hits.append(f"{rel}:{line}: {m.group(0).strip()} — empty map literal `{{}}` không hợp lệ trong Tera")
+    if hits:
+        return CheckResult("V29", title, FAIL,
+                           diagnosis="Tera KHÔNG hỗ trợ literal map `{}` (value hay filter arg) → vỡ zola build",
+                           fix=("bỏ literal `{}`: dùng scalar default (`| default(value=false)`), "
+                                "hoặc `[]` cho list; guard chỗ truy cập `.key` bằng `if x and x.key`"),
+                           details=hits)
+    return CheckResult("V29", title, PASS)
+
+
 _TERA_OPENERS = {
     "if": re.compile(r"\{%-?\s*if\b"),
     "for": re.compile(r"\{%-?\s*for\b"),
@@ -2895,6 +2936,7 @@ DETECTORS = [
     check_v2_slack_v3,
     check_v5_deploy_resilience,
     check_v8a_tera_filter_kwargs,
+    check_v29_tera_empty_map_literal,
     check_v8b_template_block_balance,
     check_v8c_series_registration,
     check_v19_domain_migration_drift,
