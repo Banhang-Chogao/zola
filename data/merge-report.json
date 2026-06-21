@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-21T02:08:20Z",
+  "updated_at": "2026-06-21T04:19:05Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 9,
+    "today": 10,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 44,
-      "feature": 91,
+      "fix": 45,
+      "feature": 90,
       "unknown": 41,
       "chore": 11,
       "content": 9,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 611,
+      "pr_title": "fix: avoid secret scanner false positive in GA tests [vaccine-hotfix/claude-busy-curie-wrig6g]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/611",
+      "merged_at": "2026-06-21T04:11:44Z",
+      "merge_commit_sha": "3f1502fa82e7b6ce07a7d5a5b44f9d111dca3bc7",
+      "merge_commit_short": "3f1502f",
+      "head_branch": "vaccine-hotfix/claude-busy-curie-wrig6g",
+      "summary_vi": "- feat(ga): migrate GA module to seomoney.org property 542421812 + GA Vacxin + B-DNA redesign",
+      "change_type": "fix",
+      "files_changed": 18,
+      "additions": 1775,
+      "deletions": 501,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 877,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27893144524",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 608,
       "pr_title": "fix(qa): V18 gitignore volatile artifacts; BRAND OG+placeholder; DEPLOY-MON footer widget [claude/determined-curie-q1qs2b]",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 876,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27890402757",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 606,
@@ -56,7 +75,7 @@
       "auto_merged": false,
       "build_run_number": 876,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27890402757",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 603,
@@ -643,8 +662,8 @@
       "deletions": 647,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 847,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871273515",
+      "build_run_number": 848,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871834388",
       "build_conclusion": "failure"
     },
     {
@@ -662,9 +681,9 @@
       "deletions": 17,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 847,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27871273515",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 567,
@@ -3795,25 +3814,6 @@
       "files_changed": 10,
       "additions": 915,
       "deletions": 9,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 385,
-      "pr_title": "feat(sidebar): Google Rank SEO authority widget",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/385",
-      "merged_at": "2026-06-17T23:34:06Z",
-      "merge_commit_sha": "08aef02d2496e338d7d88b54a43d6c536cdd4d58",
-      "merge_commit_short": "08aef02",
-      "head_branch": "feat/sidebar-google-rank",
-      "summary_vi": "Adds a **Google Rank** card at the bottom of the right sidebar — modern SEO authority score (0–100) computed from existing local metrics. No paid APIs.",
-      "change_type": "feature",
-      "files_changed": 11,
-      "additions": 767,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
