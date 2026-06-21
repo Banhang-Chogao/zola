@@ -2,6 +2,167 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "SEO11: thêm meta description + seo_keyword cho 2 trang còn thiếu",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 0,
+      "highlights": [
+        "content/posting/ai-thay-doi-lap-ke-hoach-du-lich.md: thêm meta description (148 ký tự, chứa keyword chính) + [extra] seo_keyword \"AI lập kế hoạch du lịch\" (vốn đã xuất hiện ở title/intro/H2) → điểm SE",
+        "content/topic/_index.md: thêm description cho section hub Topic Pillars."
+      ],
+      "pr": 681
+    },
+    {
+      "date": "2026-06-21",
+      "title": "SEO + AdSense Strategy Hotfix: Canonicalization, GSC Persistence, Reader-Supported Model",
+      "tag": "chore",
+      "lines_added": 912,
+      "lines_removed": 215,
+      "highlights": [
+        "robots.txt: Expanded disallow rules from 3 to 19 utility paths (editor, admin, cms, dashboards, tools, GSC, etc.)",
+        "base.html: Query string stripping on canonical URLs; auto-detect noindex for utility routes",
+        "page.html: Added noindex frontmatter flag support",
+        "section.html: Noindex logic for thin tags (≤1 post) and utility sections",
+        "paywall.html: Changed \"Bài viết premium — cần thanh toán để mở khóa nội dung\" → \"Premium bài viết — Ủng hộ tác giả qua reader-supported model\""
+      ],
+      "pr": 679
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(shortcut): add dantri inspired blog writing shortcut",
+      "tag": "chore",
+      "lines_added": 108,
+      "lines_removed": 0,
+      "highlights": [
+        "Added dantri to shortcuts table in shortcuts.md with brief description",
+        "Added full dantri section definition in shortcuts.md with complete workflow and rules",
+        "Created .claude/commands/dantri.md handler with parse, execution, and output specs",
+        "User types: dantri",
+        "Response: Asks for source content/link + excerpt"
+      ],
+      "pr": 677
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(shortcut): add dantri inspired blog writing shortcut [claude/hopeful-rubin-g4t52d]",
+      "tag": "chore",
+      "lines_added": 108,
+      "lines_removed": 0,
+      "highlights": [
+        ".claude/commands/dantri.md (added, +40/-0)",
+        "shortcuts.md (modified, +68/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 674
+    },
+    {
+      "date": "2026-06-21",
+      "title": "publish case study on Auto Fixer self-healing CI/CD pipeline [claude/amazing-goldberg-9hwo4r]",
+      "tag": "feat",
+      "lines_added": 362,
+      "lines_removed": 1,
+      "highlights": [
+        "content/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer.md (added, +262/-0)",
+        "data/seo-qa-scores.json (modified, +100/-1)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 673
+    },
+    {
+      "date": "2026-06-21",
+      "title": "header/menu regression: navbar to right with 2-item max",
+      "tag": "fix",
+      "lines_added": 39,
+      "lines_removed": 12,
+      "highlights": [
+        "Move navbar menu from hidden (display: none) to visible with flex layout",
+        "Position navbar menu on right side using margin-left: auto",
+        "Limit visible menu items to max 2 using nth-child(n+3) { display: none }",
+        "Hide navbar menu on mobile/tablet (≤960px) to prevent duplication",
+        "Add proper styling for navbar items with padding and hover effects"
+      ],
+      "pr": 670
+    },
+    {
+      "date": "2026-06-21",
+      "title": "vaccine cheat sheet to static for public deployment",
+      "tag": "refactor",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 669
+    },
+    {
+      "date": "2026-06-21",
+      "title": "README.md",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 176,
+      "highlights": [],
+      "commit": "cc2ccb35e7ac",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-21",
+      "title": "Remove broken link to non-existent f-dashboard page",
+      "tag": "fix",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "f7b649128917",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-21",
+      "title": "Hide duplicate navbar menu since items now in side-nav [claude/adoring-archimedes-6jhi8o]",
+      "tag": "fix",
+      "lines_added": 242,
+      "lines_removed": 0,
+      "highlights": [
+        "Di chuyển menu chính sang sidebar bên phải",
+        "fix: add missing admin-countdown.js for footer countdown preview",
+        "Fix: Hide duplicate navbar menu since items now in side-nav",
+        "sass/_side-nav.scss (modified, +5/-0)",
+        "static/js/admin-countdown.js (added, +196/-0)"
+      ],
+      "pr": 664
+    },
+    {
+      "date": "2026-06-21",
+      "title": "add missing admin-countdown.js for footer countdown preview [claude/adoring-archimedes-6jhi8o]",
+      "tag": "fix",
+      "lines_added": 237,
+      "lines_removed": 0,
+      "highlights": [
+        "Di chuyển menu chính sang sidebar bên phải",
+        "fix: add missing admin-countdown.js for footer countdown preview",
+        "static/js/admin-countdown.js (added, +196/-0)",
+        "templates/base.html (modified, +41/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 663
+    },
+    {
+      "date": "2026-06-21",
+      "title": "chore(seo-qa): update scores for auto-fixer blog post [claude/great-thompson-xhacsj]",
+      "tag": "chore",
+      "lines_added": 375,
+      "lines_removed": 1,
+      "highlights": [
+        "feat(blog): Auto Fixer - GitHub Actions self-healing pipeline",
+        "chore(seo-qa): update scores for auto-fixer blog post",
+        "content/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md (added, +273/-0)",
+        "data/seo-qa-scores.json (modified, +102/-1)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 658
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(content-routing): remove duplicate Auto Fixer article from baochi/",
       "tag": "remove",
       "lines_added": 0,

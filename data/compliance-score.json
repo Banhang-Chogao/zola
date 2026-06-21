@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-21T13:17:23Z",
-  "score": 95.7,
-  "grade": "A+",
+  "updated_at": "2026-06-21T17:24:00Z",
+  "score": 91.3,
+  "grade": "A",
   "mood": "good",
   "stats": {
-    "pass": 22,
+    "pass": 21,
     "warn": 0,
-    "fail": 1,
+    "fail": 2,
     "total": 23
   },
   "categories": [
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "844/875 in range"
+          "detail": "839/871 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "852/875 complete"
+          "detail": "847/871 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "874/875 set"
+          "detail": "869/871 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "872/875 single H1"
+          "detail": "868/871 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "874/875 with lang"
+          "detail": "870/871 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "874/875 ready"
+          "detail": "870/871 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "874/875 pages"
+          "detail": "869/871 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "fail",
-          "detail": "5/875 pages covered"
+          "detail": "6/871 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "213/213 articles"
+          "detail": "216/216 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "207/213 tagged"
+          "detail": "210/216 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "211/213 substantive"
+          "detail": "214/216 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,15 +158,197 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
-      "pass": 2,
+      "score": 50.0,
+      "pass": 1,
       "warn": 0,
-      "fail": 0,
+      "fail": 1,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "fail",
+          "detail": "12 broken / 888 unique",
+          "broken": [
+            {
+              "source_page": "/404.html",
+              "source_file": "public/404.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/404.html",
+              "source_file": "public/404.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/about/",
+              "source_file": "public/about/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/about/",
+              "source_file": "public/about/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/advertising/",
+              "source_file": "public/advertising/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/advertising/",
+              "source_file": "public/advertising/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/bao-cao-tong-ket/",
+              "source_file": "public/bao-cao-tong-ket/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/bao-cao-tong-ket/",
+              "source_file": "public/bao-cao-tong-ket/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/",
+              "source_file": "public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/",
+              "source_file": "public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bidv-flagship-private-banking-tphcm/",
+              "source_file": "public/baochi/bidv-flagship-private-banking-tphcm/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bidv-flagship-private-banking-tphcm/",
+              "source_file": "public/baochi/bidv-flagship-private-banking-tphcm/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/",
+              "source_file": "public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/",
+              "source_file": "public/baochi/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/",
+              "source_file": "public/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/",
+              "source_file": "public/baochi/cac-truong-hop-khong-duoc-hoan-thue-gtgt/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc/",
+              "source_file": "public/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc/",
+              "source_file": "public/baochi/chon-ngach-noi-dung-giu-chan-nguoi-doc/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/diem-thi-tuyen-sinh-lop-10-tphcm-2026/",
+              "source_file": "public/baochi/diem-thi-tuyen-sinh-lop-10-tphcm-2026/index.html",
+              "href": "https://seomoney.org/admin-author/",
+              "target": "/admin-author/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/baochi/diem-thi-tuyen-sinh-lop-10-tphcm-2026/",
+              "source_file": "public/baochi/diem-thi-tuyen-sinh-lop-10-tphcm-2026/index.html",
+              "href": "https://seomoney.org/admin-countdown/",
+              "target": "/admin-countdown/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "870/875 pages"
+          "detail": "865/871 pages"
         },
         {
           "label": "Skip navigation",
@@ -200,6 +382,10 @@
     {
       "type": "fail",
       "text": "Media: Image descriptions"
+    },
+    {
+      "type": "fail",
+      "text": "Links: Internal links"
     },
     {
       "type": "pass",
@@ -216,28 +402,32 @@
     {
       "type": "pass",
       "text": "Structure: Heading focus"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 875,
-  "articles_scanned": 220,
+  "pages_scanned": 871,
+  "articles_scanned": 223,
   "fix_log": [
     {
       "category": "Media",
       "label": "Image descriptions",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (5/875 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-21T13:17:23Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (6/871 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-21T17:24:00Z"
+    },
+    {
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Còn 1760 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/404.html → /admin-author/ (Target not found in public/ after zola build); public/404.html → /admin-countdown/ (Target not found in public/ after zola build); public/about/index.html → /admin-author/ (Target not found in public/ after zola build)",
+      "at": "2026-06-21T17:24:00Z"
     }
   ],
   "fix_summary": {
-    "attempted": 1,
+    "attempted": 2,
     "fixed": 0,
-    "failed": 1,
+    "failed": 2,
     "skipped": 0
   }
 }

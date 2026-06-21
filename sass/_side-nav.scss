@@ -247,8 +247,42 @@
 /* Khoá scroll nền khi drawer mở (state tạm thời, gỡ khi đóng — KHÔNG global) */
 body.nav-drawer-open { overflow: hidden; }
 
+/* ===== Desktop navbar menu (max 2 items on right) ===== */
+.navbar__menu {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-left: auto;
+}
+
+.navbar__item {
+  display: flex;
+  align-items: center;
+}
+
+.navbar__item:nth-child(n+3) {
+  display: none;
+}
+
+.navbar__item a {
+  padding: 0.5rem 1rem;
+  color: var(--c-text-body);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.navbar__item a:hover {
+  color: var(--c-accent);
+}
+
 /* ===== MOBILE / TABLET (≤960px) — hamburger thay cho side-nav ===== */
 @media (max-width: 960px) {
+  .navbar__menu { display: none; }
   .nav-toggle { display: inline-flex; }
   .side-nav { display: none; }
 }
