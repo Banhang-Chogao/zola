@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "report_number": 4,
-  "generated_at": "2026-06-20T10:16:00Z",
-  "monetization_score": 87,
+  "report_number": 5,
+  "generated_at": "2026-06-21T10:56:30Z",
+  "monetization_score": 85,
   "ad_density": {
     "verdict": "optimal",
     "slots": 3,
@@ -19,18 +19,18 @@
     "findings": [
       {
         "area": "Core Web Vitals",
-        "level": "ok",
-        "text": "Mobile performance 65/100 · SEO PSI 100."
+        "level": "warn",
+        "text": "Mobile performance 53/100 — LCP 10.7 s, CLS 0.024. Ưu tiên font/CSS trim trước khi bật ads."
       },
       {
         "area": "Compliance",
         "level": "ok",
-        "text": "Compliance score 97.8/100."
+        "text": "Compliance score 95.7/100."
       },
       {
         "area": "Content depth",
         "level": "ok",
-        "text": "Trung bình 1206 từ/bài — đủ depth cho RPM."
+        "text": "Trung bình 1208 từ/bài — đủ depth cho RPM."
       },
       {
         "area": "SEO UX",
@@ -58,7 +58,7 @@
     "top_categories": [
       {
         "category": "Ngân hàng",
-        "post_count": 58,
+        "post_count": 61,
         "avg_rpm_potential": 95.0,
         "max_rpm_potential": 95
       },
@@ -76,21 +76,21 @@
       },
       {
         "category": "Công nghệ",
-        "post_count": 60,
-        "avg_rpm_potential": 79.6,
+        "post_count": 65,
+        "avg_rpm_potential": 80.1,
         "max_rpm_potential": 95
       },
       {
         "category": "Du lịch",
-        "post_count": 12,
-        "avg_rpm_potential": 79.0,
+        "post_count": 11,
+        "avg_rpm_potential": 78.7,
         "max_rpm_potential": 82
       },
       {
         "category": "premium",
-        "post_count": 30,
-        "avg_rpm_potential": 78.0,
-        "max_rpm_potential": 78
+        "post_count": 31,
+        "avg_rpm_potential": 78.1,
+        "max_rpm_potential": 82
       },
       {
         "category": "Giáo dục",
@@ -168,6 +168,24 @@
         ]
       },
       {
+        "title": "Apple Pay tại Việt Nam: 3 năm và ngân hàng hỗ trợ",
+        "url": "https://seomoney.org/posting/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/",
+        "score": 97,
+        "rpm_topics": [
+          "Finance/Banking",
+          "SEO/MarTech"
+        ]
+      },
+      {
+        "title": "Lợi ích Apple Pay: Apple và ngân hàng được gì từ khách",
+        "url": "https://seomoney.org/posting/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/",
+        "score": 95,
+        "rpm_topics": [
+          "Finance/Banking",
+          "SEO/MarTech"
+        ]
+      },
+      {
         "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
         "url": "https://seomoney.org/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
         "score": 94,
@@ -199,6 +217,15 @@
       {
         "title": "Lịch sử VietinBank: những cột mốc phát triển đáng nhớ",
         "url": "https://seomoney.org/posting/cot-moc-lich-su-phat-trien-vietinbank/",
+        "score": 93,
+        "rpm_topics": [
+          "Finance/Banking",
+          "SEO/MarTech"
+        ]
+      },
+      {
+        "title": "Apple Pay kiếm tiền thế nào? Phí 0,15% từ ngân hàng",
+        "url": "https://seomoney.org/posting/apple-pay-kiem-tien-the-nao-phi-ngan-hang/",
         "score": 93,
         "rpm_topics": [
           "Finance/Banking",
@@ -285,33 +312,6 @@
           "SEO/MarTech",
           "Education"
         ]
-      },
-      {
-        "title": "Phân biệt Policies và Restrictions trong AdSense",
-        "url": "https://seomoney.org/posting/phan-biet-policies-va-restrictions-adsense/",
-        "score": 93,
-        "rpm_topics": [
-          "SEO/MarTech",
-          "Technology"
-        ]
-      },
-      {
-        "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
-        "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
-        "score": 93,
-        "rpm_topics": [
-          "SEO/MarTech",
-          "Technology"
-        ]
-      },
-      {
-        "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
-        "url": "https://seomoney.org/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/",
-        "score": 93,
-        "rpm_topics": [
-          "SEO/MarTech",
-          "Education"
-        ]
       }
     ]
   },
@@ -326,7 +326,7 @@
     },
     {
       "topic": "Finance/Banking",
-      "mentions": 69,
+      "mentions": 70,
       "sample_keywords": [
         "ngân hàng số",
         "vietinbank",
@@ -422,6 +422,36 @@
       ]
     },
     {
+      "title": "Apple Pay tại Việt Nam: 3 năm và ngân hàng hỗ trợ",
+      "url": "https://seomoney.org/posting/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng",
+        "Công nghệ"
+      ],
+      "score": 97,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Lợi ích Apple Pay: Apple và ngân hàng được gì từ khách",
+      "url": "https://seomoney.org/posting/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng",
+        "Công nghệ"
+      ],
+      "score": 95,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
       "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
       "url": "https://seomoney.org/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
       "category": "Tất cả",
@@ -472,6 +502,21 @@
       "categories": [
         "Tất cả",
         "Ngân hàng"
+      ],
+      "score": 93,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Apple Pay kiếm tiền thế nào? Phí 0,15% từ ngân hàng",
+      "url": "https://seomoney.org/posting/apple-pay-kiem-tien-the-nao-phi-ngan-hang/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng",
+        "Công nghệ"
       ],
       "score": 93,
       "rpm_topics": [
@@ -950,23 +995,6 @@
       ]
     },
     {
-      "title": "Bài Học Xây Hệ Thống Tự Chữa Lỗi Cho Blog",
-      "url": "https://seomoney.org/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Công nghệ"
-      ],
-      "score": 89,
-      "rpm_topics": [
-        "AI",
-        "SEO/MarTech",
-        "Technology",
-        "Education",
-        "Lifestyle"
-      ]
-    },
-    {
       "title": "VietinBank iPay: Internet Banking qua các thời kỳ",
       "url": "https://seomoney.org/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/",
       "category": "Tất cả",
@@ -978,6 +1006,23 @@
       "rpm_topics": [
         "Finance/Banking",
         "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Bài Học Xây Hệ Thống Tự Chữa Lỗi Cho Blog",
+      "url": "https://seomoney.org/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/",
+      "category": "Tất cả",
+      "categories": [
+        "Tất cả",
+        "Công nghệ"
+      ],
+      "score": 87,
+      "rpm_topics": [
+        "AI",
+        "SEO/MarTech",
+        "Technology",
+        "Education",
+        "Lifestyle"
       ]
     },
     {
@@ -1036,48 +1081,6 @@
         "Finance/Banking",
         "SEO/MarTech",
         "Lifestyle"
-      ]
-    },
-    {
-      "title": "So sánh Cake vs Liobank: nên chọn ngân hàng số nào?",
-      "url": "https://seomoney.org/posting/so-sanh-cake-vs-liobank/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech"
-      ]
-    },
-    {
-      "title": "Ngân hàng số cho sinh viên: chọn app nào tốt nhất?",
-      "url": "https://seomoney.org/posting/ngan-hang-so-cho-sinh-vien/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech"
-      ]
-    },
-    {
-      "title": "Ngân hàng số cho người kinh doanh online tốt nhất",
-      "url": "https://seomoney.org/posting/ngan-hang-so-cho-kinh-doanh-online/",
-      "category": "Tất cả",
-      "categories": [
-        "Tất cả",
-        "Ngân hàng"
-      ],
-      "score": 85,
-      "rpm_topics": [
-        "Finance/Banking",
-        "SEO/MarTech"
       ]
     }
   ],
@@ -1140,6 +1143,36 @@
       ]
     },
     {
+      "title": "Apple Pay tại Việt Nam: 3 năm và ngân hàng hỗ trợ",
+      "url": "https://seomoney.org/posting/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng",
+        "Công nghệ"
+      ],
+      "monetization_score": 97,
+      "rpm_score": 95,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Lợi ích Apple Pay: Apple và ngân hàng được gì từ khách",
+      "url": "https://seomoney.org/posting/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng",
+        "Công nghệ"
+      ],
+      "monetization_score": 95,
+      "rpm_score": 95,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
       "title": "Công nghệ VietinBank thay đổi trải nghiệm khách hàng",
       "url": "https://seomoney.org/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/",
       "categories": [
@@ -1189,6 +1222,21 @@
       "categories": [
         "Tất cả",
         "Ngân hàng"
+      ],
+      "monetization_score": 93,
+      "rpm_score": 95,
+      "rpm_topics": [
+        "Finance/Banking",
+        "SEO/MarTech"
+      ]
+    },
+    {
+      "title": "Apple Pay kiếm tiền thế nào? Phí 0,15% từ ngân hàng",
+      "url": "https://seomoney.org/posting/apple-pay-kiem-tien-the-nao-phi-ngan-hang/",
+      "categories": [
+        "Tất cả",
+        "Ngân hàng",
+        "Công nghệ"
       ],
       "monetization_score": 93,
       "rpm_score": 95,
@@ -1322,48 +1370,6 @@
         "SEO/MarTech",
         "Education"
       ]
-    },
-    {
-      "title": "Phân biệt Policies và Restrictions trong AdSense",
-      "url": "https://seomoney.org/posting/phan-biet-policies-va-restrictions-adsense/",
-      "categories": [
-        "Tất cả",
-        "Công nghệ"
-      ],
-      "monetization_score": 93,
-      "rpm_score": 78,
-      "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Bao lâu để thấy kết quả SEO sau khi chỉnh sửa?",
-      "url": "https://seomoney.org/posting/bao-lau-de-thay-ket-qua-seo/",
-      "categories": [
-        "Tất cả",
-        "Công nghệ"
-      ],
-      "monetization_score": 93,
-      "rpm_score": 78,
-      "rpm_topics": [
-        "SEO/MarTech",
-        "Technology"
-      ]
-    },
-    {
-      "title": "Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?",
-      "url": "https://seomoney.org/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/",
-      "categories": [
-        "Tất cả",
-        "Khoa học"
-      ],
-      "monetization_score": 93,
-      "rpm_score": 78,
-      "rpm_topics": [
-        "SEO/MarTech",
-        "Education"
-      ]
     }
   ],
   "history": [
@@ -1394,18 +1400,25 @@
       "monetization_score": 87,
       "ad_density_verdict": "optimal",
       "ui_grade": "B+"
+    },
+    {
+      "report_number": 5,
+      "generated_at": "2026-06-21T10:56:30Z",
+      "monetization_score": 85,
+      "ad_density_verdict": "optimal",
+      "ui_grade": "B+"
     }
   ],
   "scan_stats": {
-    "total_posts": 200,
+    "total_posts": 205,
     "incremental": false,
     "pages_scanned": 223,
     "site_seo_score": 99.8
   },
   "pagespeed_snapshot": {
-    "mobile_performance": 65,
-    "lcp": "6.4 s",
-    "cls": "0"
+    "mobile_performance": 53,
+    "lcp": "10.7 s",
+    "cls": "0.024"
   },
-  "latest_report_path": "reports/ad-report-v2/report-004-20260620.md"
+  "latest_report_path": "reports/ad-report-v2/report-005-20260621.md"
 }
