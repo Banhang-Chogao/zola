@@ -1,0 +1,10 @@
+{
+  "_comment": "Config TÙY CHỌN cho shortcut wip8 (WIP + TheoDoi8 gộp). Thiếu file này → dùng default bên dưới. KHÔNG chứa secret/token — wip8 read-only, reuse data CI tự sinh.",
+  "show_wip": true,
+  "show_theodoi8": true,
+  "theodoi8_max_commits": 8,
+  "theodoi8_report_paths": [
+    "data/theodoi8-report.json",
+    "static/data/theodoi8-report.json"
+  ]
+}
