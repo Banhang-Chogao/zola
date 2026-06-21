@@ -1190,30 +1190,71 @@
                     <div class="ga-stats__grid ga-stats__grid--extended">
                         <div class="ga-stats__cell ga-stats__cell--mini">
                             <span class="ga-stats__label">Phiên</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}">{% if stats_ok %}{{ ga_stats.month_sessions | default(value=0) }}{% else %}—{% endif %}</span>
+                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="sessions">{% if stats_ok %}{{ ga_stats.month_sessions | default(value=0) }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">sessions · 30d</span>
                         </div>
                         <div class="ga-stats__cell ga-stats__cell--mini">
                             <span class="ga-stats__label">Người dùng mới</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}">{% if stats_ok %}{{ ga_stats.month_new_users | default(value=0) }}{% else %}—{% endif %}</span>
+                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="new_users">{% if stats_ok %}{{ ga_stats.month_new_users | default(value=0) }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">new users · 30d</span>
                         </div>
                         <div class="ga-stats__cell ga-stats__cell--mini">
                             <span class="ga-stats__label">Tỷ lệ thoát</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}">{% if stats_ok %}{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
+                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="bounce_rate">{% if stats_ok %}{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">bounce · 30d</span>
                         </div>
                         <div class="ga-stats__cell ga-stats__cell--mini">
                             <span class="ga-stats__label">Thời lượng phiên</span>
-                            <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text{% if not stats_ok %} ga-stats__num--empty{% endif %}">{% if stats_ok %}{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}{% else %}—{% endif %}</span>
+                            <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="avg_duration">{% if stats_ok %}{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">avg session · 30d</span>
                         </div>
                         <div class="ga-stats__cell ga-stats__cell--mini">
                             <span class="ga-stats__label">Mức tương tác</span>
-                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}">{% if stats_ok %}{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
+                            <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="engagement">{% if stats_ok %}{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">engagement · 30d</span>
                         </div>
                     </div>
+
+                    {# Organic Search metrics (30d) — only when stats are trustworthy. #}
+                    {% set has_organic = ga_stats.organic_users or ga_stats.organic_sessions %}
+                    {% if stats_ok and has_organic %}
+                    <div class="ga-stats__section">
+                        <h5 class="ga-stats__section-title">Tìm kiếm hữu cơ (Organic Search)</h5>
+                        <div class="ga-stats__grid ga-stats__grid--organic">
+                            <div class="ga-stats__cell ga-stats__cell--mini">
+                                <span class="ga-stats__label">Người dùng từ organic</span>
+                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="users">{% if stats_ok %}{{ ga_stats.organic_users | default(value=0) }}{% else %}—{% endif %}</span>
+                                <span class="ga-stats__sub">organic users · 30d</span>
+                            </div>
+                            <div class="ga-stats__cell ga-stats__cell--mini">
+                                <span class="ga-stats__label">% lưu lượng organic</span>
+                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="pct">{% if stats_ok %}{{ ga_stats.organic_pct_traffic | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
+                                <span class="ga-stats__sub">% of total traffic</span>
+                            </div>
+                            <div class="ga-stats__cell ga-stats__cell--mini">
+                                <span class="ga-stats__label">Phiên từ organic</span>
+                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="sessions">{% if stats_ok %}{{ ga_stats.organic_sessions | default(value=0) }}{% else %}—{% endif %}</span>
+                                <span class="ga-stats__sub">organic sessions · 30d</span>
+                            </div>
+                            <div class="ga-stats__cell ga-stats__cell--mini">
+                                <span class="ga-stats__label">Pageviews từ organic</span>
+                                <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-organic="pageviews">{% if stats_ok %}{{ ga_stats.organic_pageviews | default(value=0) }}{% else %}—{% endif %}</span>
+                                <span class="ga-stats__sub">organic pageviews · 30d</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {# Channel breakdown (top 5 channels by activeUsers) — only when stats are trustworthy. #}
+                    {% set has_channels = ga_stats.channel_breakdown and ga_stats.channel_breakdown | length > 0 %}
+                    {% if stats_ok and has_channels %}
+                    <div class="ga-stats__section">
+                        <h5 class="ga-stats__section-title">Kênh truy cập (Top 5 · 30 ngày)</h5>
+                        <div class="ga-channels" data-ga-channels>
+                            <div class="ga-channels__list" data-ga-channels-list></div>
+                        </div>
+                    </div>
+                    {% endif %}
 
                     {# Top country + device (7d) chips — only when stats are trustworthy. #}
                     {% set has_dims = ga_stats.top_country or ga_stats.top_device %}
@@ -1428,6 +1469,7 @@
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-health.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/ga-stats-refresh.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>

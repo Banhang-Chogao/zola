@@ -9,7 +9,7 @@ Giao diện chỉ render số khi `property_id` khớp `config.extra.ga_property
 nên số liệu property cũ (github.io) không bao giờ rò rỉ. Có thể override
 property qua env GA_PROPERTY_ID (mặc định 542421812) để test mà không sửa code.
 
-Output format (mở rộng — gồm 6 chỉ số cơ bản + 5 chỉ số nâng cao 30d):
+Output format (production-standard: base metrics + extended 30d + organic search + channel breakdown):
 {
   "updated_at": "2026-06-15T12:30:00Z",
   "property_id": "542421812",
@@ -26,6 +26,16 @@ Output format (mở rộng — gồm 6 chỉ số cơ bản + 5 chỉ số nâng
   "month_bounce_rate_pct": 33,
   "month_avg_session_duration_str": "1m 23s",
   "month_engagement_rate_pct": 67,
+  "organic_users": 287,
+  "organic_sessions": 312,
+  "organic_pageviews": 654,
+  "organic_pct_traffic": 24,
+  "channel_breakdown": {
+    "Organic Search": {"users": 287, "sessions": 312},
+    "Direct": {"users": 256, "sessions": 278},
+    "Referral": {"users": 185, "sessions": 201},
+    "Social": {"users": 142, "sessions": 155}
+  },
   "top_country": "Vietnam",
   "top_device": "mobile"
 }
@@ -44,6 +54,8 @@ from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import (
     DateRange,
     Dimension,
+    Filter,
+    FilterExpression,
     Metric,
     OrderBy,
     RunReportRequest,
@@ -129,6 +141,78 @@ def fetch_extended_30d(client) -> dict:
     }
 
 
+def fetch_organic_search_30d(client) -> dict:
+    """Organic Search metrics cho 30 ngày: users, sessions, pageviews từ sessionDefaultChannelGroup."""
+    try:
+        req = RunReportRequest(
+            property=f"properties/{PROPERTY_ID}",
+            date_ranges=[DateRange(start_date="30daysAgo", end_date="today")],
+            dimensions=[Dimension(name="sessionDefaultChannelGroup")],
+            metrics=[
+                Metric(name="activeUsers"),
+                Metric(name="sessions"),
+                Metric(name="screenPageViews"),
+            ],
+            dimension_filter=FilterExpression(
+                filter=Filter(
+                    field_name="sessionDefaultChannelGroup",
+                    value="Organic Search",
+                )
+            ),
+        )
+        res = client.run_report(req)
+        if not res.rows:
+            return {
+                "organic_users": 0,
+                "organic_sessions": 0,
+                "organic_pageviews": 0,
+            }
+        v = res.rows[0].metric_values
+        organic_users = int(v[0].value) if v[0].value else 0
+        organic_sessions = int(v[1].value) if v[1].value else 0
+        organic_pageviews = int(v[2].value) if v[2].value else 0
+        return {
+            "organic_users": organic_users,
+            "organic_sessions": organic_sessions,
+            "organic_pageviews": organic_pageviews,
+        }
+    except Exception as e:
+        print(f"WARN: organic search fetch fail: {e}", file=sys.stderr)
+        return {
+            "organic_users": 0,
+            "organic_sessions": 0,
+            "organic_pageviews": 0,
+        }
+
+
+def fetch_channel_breakdown_30d(client) -> dict:
+    """Channel breakdown (Organic Search, Direct, Referral, Social) cho 30 ngày."""
+    try:
+        req = RunReportRequest(
+            property=f"properties/{PROPERTY_ID}",
+            date_ranges=[DateRange(start_date="30daysAgo", end_date="today")],
+            dimensions=[Dimension(name="sessionDefaultChannelGroup")],
+            metrics=[
+                Metric(name="activeUsers"),
+                Metric(name="sessions"),
+            ],
+            order_bys=[OrderBy(metric=OrderBy.MetricOrderBy(metric_name="activeUsers"), desc=True)],
+            limit=10,
+        )
+        res = client.run_report(req)
+        channels = {}
+        for row in res.rows:
+            if row.dimension_values:
+                channel = row.dimension_values[0].value or "Other"
+                users = int(row.metric_values[0].value) if row.metric_values[0].value else 0
+                sessions = int(row.metric_values[1].value) if row.metric_values[1].value else 0
+                channels[channel] = {"users": users, "sessions": sessions}
+        return channels
+    except Exception as e:
+        print(f"WARN: channel breakdown fetch fail: {e}", file=sys.stderr)
+        return {}
+
+
 def fetch_top_dimension(client, dim: str, start: str = "7daysAgo") -> str:
     """Lấy giá trị dimension top 1 (country / deviceCategory) trong 7 ngày."""
     req = RunReportRequest(
@@ -161,6 +245,9 @@ def main():
     week = fetch_metric(client, "7daysAgo", "today")
     month = fetch_metric(client, "30daysAgo", "today")
     ext = fetch_extended_30d(client)
+    organic = fetch_organic_search_30d(client)
+    channels = fetch_channel_breakdown_30d(client)
+
     try:
         top_country = fetch_top_dimension(client, "country")
     except Exception as e:
@@ -171,6 +258,11 @@ def main():
     except Exception as e:
         print(f"WARN: device fetch fail: {e}", file=sys.stderr)
         top_device = "—"
+
+    # Calculate organic search percentage of total traffic.
+    organic_pct = 0
+    if month["users"] > 0:
+        organic_pct = round((organic["organic_users"] / month["users"]) * 100)
 
     result = {
         "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -189,6 +281,11 @@ def main():
         "month_bounce_rate_pct":           ext["bounce_rate_pct"],
         "month_avg_session_duration_str": ext["avg_session_duration_str"],
         "month_engagement_rate_pct":       ext["engagement_rate_pct"],
+        "organic_users":                   organic["organic_users"],
+        "organic_sessions":                organic["organic_sessions"],
+        "organic_pageviews":               organic["organic_pageviews"],
+        "organic_pct_traffic":             organic_pct,
+        "channel_breakdown":               channels,
         "top_country":                     top_country,
         "top_device":                      top_device,
     }
