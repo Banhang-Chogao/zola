@@ -96,6 +96,36 @@ class FailDetectorTest(unittest.TestCase):
         r = qv.check_v8b_template_block_balance(self.repo.ctx())
         self.assertEqual(r.status, qv.PASS)
 
+    def test_v8d_default_map_literal_fail(self):
+        # default(value={}) crashes zola build — Tera has no map literal.
+        self.repo.write("templates/z.html",
+                        "{% set x = rep.ga | default(value={}) %}<p>{{ x.users }}</p>")
+        r = qv.check_v8d_tera_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("V8", r.vaccine)
+
+    def test_v8d_set_map_literal_fail(self):
+        # {% set x = {} %} empty-map literal is also invalid Tera.
+        self.repo.write("templates/z.html", "{% set x = {} %}")
+        r = qv.check_v8d_tera_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_v8d_scalar_and_array_pass(self):
+        # Scalar default + array literal are valid Tera — must PASS.
+        self.repo.write("templates/z.html",
+                        '{% set u = rep.ga.users | default(value=0) %}\n'
+                        '{% set s = rep.status | default(value="") %}\n'
+                        '{% set xs = rep.list | default(value=[]) %}')
+        r = qv.check_v8d_tera_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v8d_ignores_map_literal_in_comment(self):
+        # A default(value={}) documented inside a Tera comment must NOT trip the gate.
+        self.repo.write("templates/z.html",
+                        "{# Tera KHÔNG support default(value={}) literal dict #}\n<p>ok</p>")
+        r = qv.check_v8d_tera_map_literal(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
     def test_dashboard_invalid_json_fail(self):
         self.repo.write("data/broken.json", "{ not: valid json, }")
         r = qv.check_dashboard_json(self.repo.ctx())

@@ -254,6 +254,12 @@ _TERA_RAW_RE = re.compile(r"\{%-?\s*raw\s*-?%\}.*?\{%-?\s*endraw\s*-?%\}", re.DO
 # Tera `replace` uses from=/to=. Python kwargs old=/new= silently break the build.
 _TERA_BAD_REPLACE_RE = re.compile(r"\breplace\s*\(\s*(old|new)\s*=", re.IGNORECASE)
 
+# Tera has NO object/map literal syntax. `default(value={})`, `{% set x = {} %}` or
+# any `{ "k": v }` map crash `zola build` with
+# "expected a value that can be negated or an array of values". Arrays `[...]` are OK.
+_TERA_MAP_DEFAULT_RE = re.compile(r"default\s*\(\s*value\s*=\s*\{")
+_TERA_MAP_SET_RE = re.compile(r"\{%-?\s*set\s+\w[\w]*\s*=\s*\{\s*[}\"'\w]")
+
 
 def _strip_tera_noise(src: str) -> str:
     src = _TERA_RAW_RE.sub("", src)
@@ -324,6 +330,32 @@ def _series_ids_from_templates(ctx: Ctx) -> set[str]:
         for m in re.finditer(r'series\s*==\s*["\']([a-z0-9\-]+)["\']', src):
             ids.add(m.group(1))
     return ids
+
+
+def check_v8d_tera_map_literal(ctx: Ctx) -> CheckResult:
+    """V8 — Tera has no object/map literal. `default(value={})` and
+    `{% set x = {} %}` (or any `{ … }` dict) crash `zola build`; arrays `[…]` are
+    allowed. Regression source: insights.html perf-fix used `default(value={})`,
+    which qa_check.py (no zola build) missed → only CI caught it. This static
+    detector catches the pattern before the build."""
+    title = "Tera map/object literal (no {} dicts)"
+    hits = []
+    for p in ctx.glob("templates/**/*.html"):
+        src = _strip_tera_noise(p.read_text(encoding="utf-8", errors="ignore"))
+        rel = p.relative_to(ctx.root)
+        for label, rx in (("default(value={…})", _TERA_MAP_DEFAULT_RE),
+                          ("set x = {…} map literal", _TERA_MAP_SET_RE)):
+            for m in rx.finditer(src):
+                line = src[:m.start()].count("\n") + 1
+                hits.append(f"{rel}:{line}: {label}")
+    if hits:
+        return CheckResult("V8", title, FAIL,
+                           diagnosis="Tera KHÔNG support object/map literal `{}` → vỡ zola build "
+                                     "('expected a value that can be negated or an array of values')",
+                           fix="bỏ map literal: dùng scalar `x.field | default(value=0/\"\")`, "
+                               "guard `{% if x %}`, hoặc array `[]` — KHÔNG dùng `{}`",
+                           details=hits)
+    return CheckResult("V8", title, PASS)
 
 
 def check_v8c_series_registration(ctx: Ctx) -> CheckResult:
@@ -2797,6 +2829,7 @@ DETECTORS = [
     check_v8a_tera_filter_kwargs,
     check_v8b_template_block_balance,
     check_v8c_series_registration,
+    check_v8d_tera_map_literal,
     check_v19_domain_migration_drift,
     check_domain_root_url_vaccine,
     check_v9_v10_process,
