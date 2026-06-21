@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-21T20:32:17Z",
+  "updated_at": "2026-06-21T21:08:37Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 82,
+    "today": 83,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 62,
-      "feature": 74,
+      "fix": 63,
+      "feature": 73,
       "unknown": 42,
       "ci": 4,
       "chore": 13,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 698,
+      "pr_title": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs [feat/blog-terminal-production-cluster]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/698",
+      "merged_at": "2026-06-21T21:01:16Z",
+      "merge_commit_sha": "7539d23e9137ddb68a0c2181a9db5cd31ee73f62",
+      "merge_commit_short": "7539d23",
+      "head_branch": "feat/blog-terminal-production-cluster",
+      "summary_vi": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs",
+      "change_type": "fix",
+      "files_changed": 3,
+      "additions": 427,
+      "deletions": 2,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 942,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27917350284",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 697,
       "pr_title": "fix(vaccine-hotfix): feat/blog-qa-gatekeeper-case-study",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 941,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27916460817",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 682,
@@ -624,8 +643,8 @@
       "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 912,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27905950091",
+      "build_run_number": 913,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27906350579",
       "build_conclusion": "failure"
     },
     {
@@ -662,9 +681,9 @@
       "deletions": 32567,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 912,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27905950091",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 651,
@@ -3795,25 +3814,6 @@
       "files_changed": 18,
       "additions": 4315,
       "deletions": 80,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 457,
-      "pr_title": "feat(ui): add visible breadcrumb on posts (Trang chủ › Chuyên mục › Bài)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/457",
-      "merged_at": "2026-06-18T23:06:23Z",
-      "merge_commit_sha": "1ed3fd63d65a7fbf8647fb66fb4689c27a43c422",
-      "merge_commit_short": "1ed3fd6",
-      "head_branch": "claude/korean-30day-series-5c0kq1",
-      "summary_vi": "Bài viết (vd \"Git branch: làm việc với nhánh trong Git\") **không có breadcrumb hiển thị** → người đọc không biết bài đang ở chuyên mục nào. (BreadcrumbList JSON-LD cho Google đã có ở `base.html`, nhưng không có bản nhìn ",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 93,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
