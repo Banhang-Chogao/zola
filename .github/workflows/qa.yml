@@ -44,7 +44,7 @@ jobs:
 
       - name: Unit tests — paywall + dashboards + footer countdown + ai_diagnose + QA vaccines
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines -v
+          python3 -m unittest scripts.test_paywall scripts.test_f_dashboard scripts.test_l_dashboard scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs -v
 
       # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
       # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library

@@ -1151,6 +1151,55 @@ fenced blocks.
   vaccines must use the next free number from `next_free_vaccine_number()` — never hardcode a taken one.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SeoIdentityV20Test scripts.test_qa_vaccines.VaccineRegistryGuardTest -v`
 
+#### V25 — Split-backend 404: frontend route on `blog-vipzone-api` exists only in undeployed `services/visitor-counter`
+
+> Deploy/infra vaccine — generalises V16/V22b into a permanent rule + static gate +
+> post-deploy checker. Match the signature → mount the route on the DEPLOYED service;
+> NEVER report success while a frontend-called route 404s.
+
+- **Symptom:** the static site calls `${vipzone_api_url}/…` (= `https://blog-vipzone-api.onrender.com/…`,
+  the `AUTH_API` in `static/js/*`) and gets **`404 {"detail":"Not Found"}`** for a route
+  that clearly exists in the repo — typically a `/cms/*`, `/gsc/*`, `/auth/*` or
+  `/api/vipzone/*` endpoint. `zola build` and the GitHub Pages deploy are both green;
+  the bug is purely backend route absence. Editor save, SEO Reality Check (GSC), author
+  profile, footer countdown, content-creator, giscus setup, etc. silently fail.
+- **Root cause (the permanent trap):** Render deploys **ONLY** `services/vipzone`
+  (`render.yaml` → `rootDir: services/vipzone`, `name: blog-vipzone-api`). The route was
+  added to `services/visitor-counter/` (the old Redis service, **not deployed**), so it
+  lives in the repo but is **dead in production**. A route that exists only in
+  `visitor-counter` is never served to the production frontend. Same class as V16
+  (static↔backend split-brain) and V22b (#588 CMS routes 404'd until ported to vipzone).
+- **RULE (BẮT BUỘC):** **Any** frontend API path that uses `vipzone_api_url` /
+  `blog-vipzone-api.onrender.com` (i.e. `AUTH_API + "/…"` in `static/js/**`) MUST have a
+  matching route mounted on the **deployed** `services/vipzone` app — either directly in
+  `services/vipzone/main.py` (`@app.*`) or on a router mounted there via `include_router`
+  (`cms_auth.py`, `cms_repo.py`, or `gsc_routes.py` imported from visitor-counter with
+  prefix `/gsc`). Keep `services/visitor-counter` for compatibility, but **never rely on
+  it** for any route the production frontend calls.
+- **FIXER:** port/mount the missing route onto `services/vipzone` (faithful minimal port,
+  source the GitHub token from the vipzone CMS session as `cms_repo.py` does); add it to
+  the appropriate mounted router; re-run the static parity detector + the post-deploy
+  checker; after merge, run `backend_route_check.py` against production before calling it
+  done (a green Pages deploy + a 404 critical route = **incomplete**).
+- **Static detector:** `scripts/qa_vaccines.py` → `check_v24_backend_route_parity`
+  (code `V24`). **FAIL** if a critical route (`/health`, `/gsc/status`, `/cms/save-post`)
+  is not mounted on `services/vipzone` (directly or via a mounted router). **WARN** per
+  frontend `/cms/*` or `/gsc/*` family that has no matching deployed route (drift to fix).
+  Calibrated so current `main` = 0 FAIL.
+- **Post-deploy checker:** `python3 scripts/backend_route_check.py` hits the live backend
+  and asserts the critical routes never return 404 — `/health` 200, `/gsc/status` not-404,
+  `/cms/save-post` (POST, no auth) **401/403/405 but NEVER 404**. Report-only by default
+  (exit 0), `--strict` exits 2 on any 404. Reads `/health` `critical_routes`/`cms_mounted`/
+  `gsc_mounted`/`backend_sha` when present.
+- **`/health` fields (optional, additive):** `services/vipzone/main.py` `_health_payload()`
+  now also returns `backend_sha` (alias of `deployed_sha`), `cms_mounted`, `gsc_mounted`,
+  and `critical_routes` (`{route: mounted}` from the live `app.routes`).
+- **Smoke URLs (exact):**
+  - `https://blog-vipzone-api.onrender.com/health` → 200, `critical_routes` all `true`
+  - `https://blog-vipzone-api.onrender.com/gsc/status` → not 404 (401/200)
+  - `curl -X POST https://blog-vipzone-api.onrender.com/cms/save-post` → 401/403/405, never 404
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.BackendRouteParityV25Test scripts.test_backend_route_check -v`
+
 #### V24 — GSC OAuth refresh token acquired but not persistable after redeploy (operator export path)
 
 > Deploy/operator vaccine. The OAuth flow can mint a refresh token into the VIPZone
@@ -1195,63 +1244,49 @@ fenced blocks.
   (no token leak in status · supervip-only export · invalid sid denied · masked default /
   reveal full · env preferred over KV · missing token → clear 404).
 
-#### V25 — GA stats module after the seomoney.org move: read ONLY property 542421812, never leak old-property numbers, GA Vacxin hourly health
+#### V25 — "On This Page" TOC rail: blog posts need the sticky scroll-spy right rail (B-DNA pattern)
 
-> Analytics/identity vaccine. After the domain move the footer GA module must read the
-> NEW GA4 property only; the hourly **GA Vacxin** bot proves the pipeline is healthy.
-> Match the signature → apply the FIXER; detector `check_ga_stats_vaccine` (code `V25`)
-> guards it statically.
+> UI vaccine (not a workflow-run bug — the post builds, the guard protects the rail).
+> Match the signature → keep the scoped partial + scroll-spy JS; never ship a raw rail
+> or break mobile. Detector `check_toc_rail_vaccine` (code `TOC-RAIL`) gates it.
 
-- **Symptom:** the footer "Lưu lượng truy cập" (GA stats) module shows stale numbers from
-  the OLD github.io property (e.g. top country `United States` / `desktop`), or shows
-  nothing with no explanation, after the site moved to `seomoney.org`. Root cause is one
-  of: (a) `scripts/fetch_ga_stats.py` still fetching property `541698865`; (b) `config.toml`
-  still on measurement `G-REFBXH86Z5`; (c) `data/ga-stats.json` cached with the old
-  property so its numbers leak even after the code is fixed; (d) no health signal, so a
-  disconnected GA looks identical to "zero traffic". A green `zola build` does NOT prove
-  the GA module reads the right property.
-- **Canonical identity (single source = `config.toml [extra]`):** property
-  **`542421812`** · measurement **`G-SMTFZVC0XN`** · site `seomoney.org`. Deep links
-  `ga_dashboard_url` / `ga_fix_url` use the account-agnostic `#/p542421812/` form.
-- **Cache isolation (the key rule):** every GA data file is **stamped** with
-  `property_id` + `measurement_id` + `site`. `templates/base.html` renders numbers ONLY
-  when `ga_stats.property_id == config.extra.ga_property_id` AND `ga-health.json` status
-  is `ok`; otherwise every KPI cell shows `—` and an inline warning banner + a link
-  button to GA appears. So a stale/foreign-property file can never leak old numbers.
-- **GA Vacxin (hourly bot):** `scripts/ga_vacxin.py` + `.github/workflows/ga-vacxin.yml`
-  (cron `30 * * * *`, offset from Fetch GA Stats at `:00`). Checks: GA API auth · property
-  access (542421812 only) · recent data (7d) · site tag connectivity (live gtag for
-  `G-SMTFZVC0XN`) · cache isolation. Writes a **public-safe** `data/ga-health.json`
-  (+`static/data/ga-health.json` for `ga-health.js` live refresh). Crash-safe (never
-  raises, exit 0; `--offline` skips network → status `pending`); NEVER writes a credential
-  field. Status ∈ {ok, pending, disconnected, error}: `ok` → subtle healthy chip +
-  last-checked time; otherwise → warning banner + fix link.
-- **FIXER:** (1) `fetch_ga_stats.py` `PROPERTY_ID` default `542421812` + stamp identity in
-  output. (2) `config.toml` `ga_measurement_id = "G-SMTFZVC0XN"`, `ga_property_id = "542421812"`,
-  add `ga_dashboard_url` / `ga_fix_url`. (3) Reset `data/ga-stats.json` to the new property
-  with null metrics (no old-property leak; **no fake/demo numbers**). (4) `base.html` gtag
-  stays templated (`config.extra.ga_measurement_id`, never a hardcoded `G-…`). (5) Remove
-  `541698865` / `G-REFBXH86Z5` from all active GA config/code (only `ga_vacxin.py` +
-  `qa_vaccines.py` may reference them — to DETECT them).
-- **Detector (`scripts/qa_vaccines.py` → `check_ga_stats_vaccine`, code `V25`):** FAIL on
-  wrong property/measurement in config, wrong `fetch_ga_stats.py` default, old id drift in
-  active GA files, hardcoded gtag id, or a credential/old-property leak in `ga-stats.json`
-  / `ga-health.json`. WARN if the hourly workflow, the inline banner, `ga-health.js`, the
-  deep-link config, or the health schema is missing. (`check_js_syntax` separately FAILs on
-  a `ga-health.js` syntax error → "no JS crash".)
-- **Rules (permanent):** GA numbers render only for the CURRENT property; the GA module
-  must show an inline warning + GA link when disconnected/pending/error (never a silent
-  dead module); GA Vacxin runs hourly and is crash-safe; NEVER commit the service-account
-  key or any credential field into `data/*.json`; no fake/hardcoded demo numbers.
-- **Env / settings (operator):** GitHub Actions secret `GA_SERVICE_ACCOUNT_KEY` (Viewer
-  service account on GA4 property 542421812) drives both Fetch GA Stats and GA Vacxin;
-  `WORKFLOW_BOT_PAT` pushes the refreshed data. No Render env needed (GA is build-time
-  data, served as committed JSON). `config.toml` carries the public identity only.
-- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.GaStatsVaccineTest -v` ·
-  `python3 -m unittest scripts.test_ga_vacxin -v`.
-- **Validation (2026-06-21):** `qa_vaccines.py` V25 PASS · `fetch_ga_stats.py` stamps
-  property 542421812 · `ga_vacxin.py --offline` → status `pending`, config + cache checks
-  PASS · `ga-stats.json` reset (null metrics, new property) · no old id in active files.
+- **Symptom (regression it guards):** a long article loses its sticky **"Trong bài này"**
+  right rail — the desktop scroll-spy TOC inspired by the B-DNA rail (`.bdna__rail`,
+  `templates/b-dna.html`). Either the rail stops rendering, the active-heading highlight
+  dies (no `IntersectionObserver`), or the rail leaks onto narrow/mobile widths and
+  overflows. A green `zola build` does NOT prove the rail still works — only this detector
+  or a render check does.
+- **Root cause it prevents:** the rail lives in three coupled places — the scoped partial
+  `sass/_toc-rail.scss` (`@import "toc-rail"` in `site.scss`, after `toc`), the server-side
+  markup in `templates/page.html` (`<aside class="toc-rail" data-toc-rail>` generated from
+  `page.toc`, gated by `show_rail = show_toc and not paywall_active`), and the scroll-spy
+  engine `static/js/toc-rail.js`. Drop any one → the rail breaks. The rail is **additive**:
+  it sits in a `.post-layout--rail` grid (`minmax(0,1fr) 248px`) beside the article, sticky
+  on desktop **≥1300px only**; below that it is `display:none` and the existing inline
+  `.toc` (top of content) serves instead — never two TOCs at once, no overflow, no layout
+  shift (rail is server-rendered; JS only toggles `.is-active`).
+- **FIXER:** keep `sass/_toc-rail.scss` (`.toc-rail` `position:sticky`, `.post-layout`
+  `grid-template-columns`, `.is-active` accent highlight, `display:none` default + a
+  `@media (min-width: …)` desktop gate) + `@import "toc-rail"`; keep the `data-toc-rail` /
+  `data-toc-link` / `page.toc` markup + the `toc-rail.js` include in `page.html`; keep
+  `IntersectionObserver` in `toc-rail.js`. Smooth scroll on click is CSS-native
+  (`html { scroll-behavior: smooth; scroll-padding-top }`, `_reset.scss`) — do not add a
+  scroll handler. Heading IDs come from Zola (stable slugs) → `#{{ h.id }}` anchors.
+- **Rules (permanent):** the rail is a **reader-facing TOC, not site navigation** — it uses
+  `.toc-rail*` selectors (never `.side-nav`/`.nav-rail`), so it is sticky by design and is
+  **not** subject to V21 (No Floating Nav). Never render the rail on mobile (keep the inline
+  `.toc` there); never duplicate the inline TOC and the rail at the same width; tokens only
+  (`var(--c-*)`), no hardcoded colors; the rail must no-op safely with few/no headings
+  (template `toc_total >= 3` guard + JS early-returns).
+- **Detector:** `scripts/qa_vaccines.py` → `check_toc_rail_vaccine` (code `TOC-RAIL`): FAIL if
+  the partial is missing/unimported, lacks sticky/`.post-layout` grid/`.is-active`, if
+  `page.html` lost `data-toc-rail`/`data-toc-link`/`page.toc`/`toc-rail.js`, or if
+  `toc-rail.js` is gone / has no `IntersectionObserver`; WARN if the rail is not hidden by
+  default or has no desktop `min-width` media (overflow risk).
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.TocRailVaccineTest -v`
+- **Validation:** `python3 scripts/qa_vaccines.py` (TOC-RAIL PASS) · `qa_check.py` PASS ·
+  `zola build` PASS · rail renders sticky on desktop ≥1300px with the active section
+  highlighted on scroll, hidden (inline `.toc` only) on tablet/mobile.
 
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 

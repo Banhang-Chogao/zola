@@ -1,130 +1,258 @@
 {
-  "checked_at": "2026-06-20T20:52:50.702561+00:00",
+  "checked_at": "2026-06-21T00:52:55.409468+00:00",
   "ok": true,
   "stale": false,
   "summary": {
     "prod_status": "yellow",
     "deploying": true,
-    "prod_commit": "e308532b53930c8327d527ce105c22b97cb9c308",
-    "prod_commit_short": "e308532",
-    "prod_deployed_at": "2026-06-20T20:12:23Z",
+    "prod_commit": "b98e4e0",
+    "prod_commit_short": "b98e4e0",
+    "prod_deployed_at": "2026-06-21T00:42:55.409243+00:00",
     "pending_count": 1,
     "expired_count": 0,
-    "avg_deploy_s": 956,
-    "longest_deploy_s": 1349,
-    "failed_recent": 9,
-    "cancelled_recent": 11,
-    "storm": true
+    "avg_deploy_s": 764,
+    "longest_deploy_s": 1124,
+    "failed_recent": 2,
+    "cancelled_recent": 2,
+    "storm": false,
+    "running_runs": [
+      872
+    ],
+    "last_success_run": 871,
+    "last_success_sha_short": "b98e4e0",
+    "superseded_failures": [
+      866,
+      865
+    ],
+    "cancelled_runs": [
+      868,
+      867
+    ],
+    "status_line": "🔄 #872 đang chạy · ✅ last success #871 · ❌ #866/#865 (đã superseded)"
   },
-  "pending": [
+  "feed": [
     {
-      "sha_short": "24b6780",
-      "title": "feat(premium): paywall visa Hàn 5 năm — Premium category, single stic…",
+      "run_number": 872,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "c6eb2a9",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/c6eb2a9",
+      "title": "merge origin/main → deploy",
       "status": "in_progress",
       "conclusion": null,
-      "created_at": "2026-06-20T20:46:15Z",
-      "waiting_s": 395,
-      "started_at": "2026-06-20T20:46:15Z",
-      "eta_s": 561
+      "state": "running",
+      "icon": "🔄",
+      "superseded": false,
+      "created_at": "2026-06-21T00:48:55.409243+00:00",
+      "duration_s": null
+    },
+    {
+      "run_number": 871,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "b98e4e0",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/b98e4e0",
+      "title": "Build & deploy Zola site",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-21T00:32:55.409243+00:00",
+      "duration_s": 600
+    },
+    {
+      "run_number": 870,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "dd1119b",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/dd1119b",
+      "title": "feat(adsense): hotfix readiness",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-21T00:17:55.409243+00:00",
+      "duration_s": 640
+    },
+    {
+      "run_number": 869,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "24b6780",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/24b6780",
+      "title": "feat(premium): paywall visa Hàn 5 năm",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-21T00:00:55.409243+00:00",
+      "duration_s": 690
+    },
+    {
+      "run_number": 868,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "a00601c",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/a00601c",
+      "title": "fix(gsc): serve /gsc/* on backend",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "state": "cancelled",
+      "icon": "⊘",
+      "superseded": true,
+      "created_at": "2026-06-20T23:46:55.409243+00:00",
+      "duration_s": 116
+    },
+    {
+      "run_number": 867,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "800f2e6",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/800f2e6",
+      "title": "redesign(editor): S-DNA visual",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "state": "cancelled",
+      "icon": "⊘",
+      "superseded": true,
+      "created_at": "2026-06-20T23:32:55.409243+00:00",
+      "duration_s": 198
+    },
+    {
+      "run_number": 866,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "175c44b",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/175c44b",
+      "title": "docs(claude): add V22 vaccine",
+      "status": "completed",
+      "conclusion": "failure",
+      "state": "failure",
+      "icon": "❌",
+      "superseded": true,
+      "created_at": "2026-06-20T23:17:55.409243+00:00",
+      "duration_s": 634
+    },
+    {
+      "run_number": 865,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "f3ea06b",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/f3ea06b",
+      "title": "fix(editor): commit saves to GitHub",
+      "status": "completed",
+      "conclusion": "failure",
+      "state": "failure",
+      "icon": "❌",
+      "superseded": true,
+      "created_at": "2026-06-20T22:50:55.409243+00:00",
+      "duration_s": 1604
+    },
+    {
+      "run_number": 864,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "sha_short": "e308532",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/e308532",
+      "title": "merge deploy",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-20T22:12:55.409243+00:00",
+      "duration_s": 1124
+    }
+  ],
+  "pending": [
+    {
+      "sha_short": "c6eb2a9",
+      "title": "merge origin/main → deploy",
+      "status": "in_progress",
+      "conclusion": null,
+      "created_at": "2026-06-21T00:48:55.409243+00:00",
+      "run_number": 872,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "waiting_s": 240,
+      "started_at": "2026-06-21T00:48:55.409243+00:00",
+      "eta_s": 524
     }
   ],
   "expired": [],
   "recent": [
     {
+      "sha_short": "b98e4e0",
+      "title": "Build & deploy Zola site",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-21T00:32:55.409243+00:00",
+      "run_number": 871,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "duration_s": 600
+    },
+    {
+      "sha_short": "dd1119b",
+      "title": "feat(adsense): hotfix readiness",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-21T00:17:55.409243+00:00",
+      "run_number": 870,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "duration_s": 640
+    },
+    {
+      "sha_short": "24b6780",
+      "title": "feat(premium): paywall visa Hàn 5 năm",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-21T00:00:55.409243+00:00",
+      "run_number": 869,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
+      "duration_s": 690
+    },
+    {
       "sha_short": "a00601c",
-      "title": "fix(gsc): serve /gsc/* on deployed vipzone backend (was 404 on Render…",
+      "title": "fix(gsc): serve /gsc/* on backend",
       "status": "completed",
       "conclusion": "cancelled",
-      "created_at": "2026-06-20T20:44:20Z",
+      "created_at": "2026-06-20T23:46:55.409243+00:00",
+      "run_number": 868,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
       "duration_s": 116
     },
     {
       "sha_short": "800f2e6",
-      "title": "redesign(editor): apply S-DNA visual language to /editor/ CMS (scoped…",
+      "title": "redesign(editor): S-DNA visual",
       "status": "completed",
       "conclusion": "cancelled",
-      "created_at": "2026-06-20T20:41:03Z",
+      "created_at": "2026-06-20T23:32:55.409243+00:00",
+      "run_number": 867,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
       "duration_s": 198
     },
     {
       "sha_short": "175c44b",
-      "title": "docs(claude): add V22 vaccine — editor save→GitHub, edit SHA, SEO hyd…",
+      "title": "docs(claude): add V22 vaccine",
       "status": "completed",
       "conclusion": "failure",
-      "created_at": "2026-06-20T20:35:49Z",
+      "created_at": "2026-06-20T23:17:55.409243+00:00",
+      "run_number": 866,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
       "duration_s": 634
     },
     {
       "sha_short": "f3ea06b",
-      "title": "fix(editor): commit saves to GitHub, SEO hydrate old posts, single-ac…",
+      "title": "fix(editor): commit saves to GitHub",
       "status": "completed",
       "conclusion": "failure",
-      "created_at": "2026-06-20T19:58:13Z",
+      "created_at": "2026-06-20T22:50:55.409243+00:00",
+      "run_number": 865,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
       "duration_s": 1604
     },
     {
       "sha_short": "e308532",
-      "title": "Merge remote-tracking branch 'origin/main' into claude/zealous-ride-k…",
+      "title": "merge deploy",
       "status": "completed",
       "conclusion": "success",
-      "created_at": "2026-06-20T19:53:39Z",
+      "created_at": "2026-06-20T22:12:55.409243+00:00",
+      "run_number": 864,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/workflows/deploy.yml",
       "duration_s": 1124
-    },
-    {
-      "sha_short": "e2187fd",
-      "title": "feat(gsc): migrate to sc-domain:seomoney.org domain property (#562)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-20T19:53:18Z",
-      "duration_s": 23
-    },
-    {
-      "sha_short": "41f39aa",
-      "title": "feat(og): make OG-IMAGE stale-twin a deterministic FAIL via content-h…",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-20T19:45:02Z",
-      "duration_s": 497
-    },
-    {
-      "sha_short": "663dd0f",
-      "title": "fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter (…",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-20T19:44:39Z",
-      "duration_s": 804
-    },
-    {
-      "sha_short": "12aeb3d",
-      "title": "feat(og): polish SEOMONEY OG card + legal VN Google Sans-style font +…",
-      "status": "completed",
-      "conclusion": "failure",
-      "created_at": "2026-06-20T19:23:47Z",
-      "duration_s": 797
-    },
-    {
-      "sha_short": "358cf95",
-      "title": "chore(momo): update default paid-content link → y5eVvzz2nlXXeEP (#583)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-20T19:14:55Z",
-      "duration_s": 533
-    },
-    {
-      "sha_short": "1af8518",
-      "title": "fix(gsc): deploy preflight gate enforcing sc-domain:seomoney.org (#582)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-20T19:14:35Z",
-      "duration_s": 21
-    },
-    {
-      "sha_short": "59fb2b3",
-      "title": "feat(tooling): preflight conflict checker to prevent dirty branches/m…",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-20T19:14:11Z",
-      "duration_s": 25
     }
   ]
 }

@@ -291,6 +291,28 @@ class VipContentOut(BaseModel):
     deployed_sha: str = ""
 
 
+# Routes the production frontend (config.toml → vipzone_api_url) calls on THIS
+# deployed service. If any returns 404 the static site ↔ backend has split-brain
+# (V24): routes added only to the undeployed services/visitor-counter never serve.
+CRITICAL_ROUTES = ("/health", "/gsc/status", "/cms/save-post")
+
+
+def _registered_paths() -> set[str]:
+    """Path templates currently mounted on the app (after include_router calls)."""
+    paths: set[str] = set()
+    for route in getattr(app, "routes", []):
+        p = getattr(route, "path", None)
+        if isinstance(p, str):
+            paths.add(p)
+    return paths
+
+
+def _critical_routes_status() -> dict[str, bool]:
+    """Map each critical route → whether it is actually mounted on this app."""
+    mounted = _registered_paths()
+    return {r: (r in mounted) for r in CRITICAL_ROUTES}
+
+
 def _health_payload() -> dict[str, Any]:
     from cms_auth import GH_CLIENT_ID, GH_CLIENT_SECRET
 
@@ -303,8 +325,12 @@ def _health_payload() -> dict[str, Any]:
         "oauth_configured": bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
         "momo_configured": bool(MOMO_MONTHLY and MOMO_SEMIANNUAL),
         "deployed_sha": DEPLOYED_SHA,
+        # backend_sha is an alias of deployed_sha (V24 post-deploy checker reads it).
+        "backend_sha": DEPLOYED_SHA,
         "premium_content": PRIVATE_CONTENT.is_dir(),
         "gsc_mounted": GSC_MOUNTED,
+        "cms_mounted": CMS_REPO_MOUNTED,
+        "critical_routes": _critical_routes_status(),
         "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }
 

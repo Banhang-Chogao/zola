@@ -106,6 +106,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build_theodoi8_report.py
 
+      - name: Build Open PR Monitor data (gh pr list → static/data/open-prs.json)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_open_prs.py
+
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only
 
