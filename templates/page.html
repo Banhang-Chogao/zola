@@ -9,6 +9,10 @@
 {% import "macros/premium.html" as premium %}
 {% import "macros/locked.html" as locked %}
 {% import "macros/momo_support.html" as momo_support %}
+
+{# Hide sidebar on blog post pages — article gets full width for better readability #}
+{% block sidebar %}{% endblock %}
+
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
 {% block extra_head %}
