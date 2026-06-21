@@ -1,4 +1,4 @@
-name: Ensure PR after push
+name: Auto PR Gatekeeper
 
 # ZERO_BARRIER: "Done means branch pushed + PR opened + QA green + auto-merge
 # attempted." Sau mỗi push lên feature branch, đảm bảo branch có PR mở vào main —
@@ -16,6 +16,15 @@ on:
       - 'claude/**'
       - 'codex/**'
       - 'vaccine-hotfix/**'
+      - 'feat/**'
+      - 'fix/**'
+      - 'hotfix/**'
+      - 'chore/**'
+      - 'feature/**'
+      - 'content/**'
+      - 'qa/**'
+      - 'autofix/**'
+      - 'policy/**'
   workflow_dispatch:
     inputs:
       branch:
@@ -32,7 +41,7 @@ concurrency:
   # Một lần ensure-pr cho mỗi branch tại một thời điểm (tránh tạo PR trùng khi
   # nhiều push dồn dập).
   group: ensure-pr-${{ github.event.inputs.branch || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   ensure-pr:

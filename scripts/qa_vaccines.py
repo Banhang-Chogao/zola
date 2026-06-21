@@ -2275,75 +2275,6 @@ def _config_base_url(ctx: Ctx) -> str:
     return ""
 
 
-def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
-    """V20 — SEO Identity / Homepage Migration: brand + canonical root must hold.
-
-    Guards the apex-domain migration (20/06/2026): canonical root stays
-    https://seomoney.org/ and the homepage keeps the SEOMONEY brand.
-
-    FAIL: base_url non-apex / github.io / /zola subpath / http://, OR homepage
-          title/H1 lost the SEOMONEY brand (canonical signal regression).
-    WARN: article JSON-LD @type is not BlogPosting (weaker rich-result signal).
-    """
-    title = "V20 SEO Identity / Homepage Migration (canonical seomoney.org + brand)"
-    fails: list[str] = []
-    warns: list[str] = []
-
-    # Check 1: canonical base_url — apex, https, no /zola, no github.io (FAIL).
-    base = _config_base_url(ctx)
-    if not base:
-        warns.append("config.toml base_url not found")
-    else:
-        if base.startswith("http://"):
-            fails.append(f"base_url uses http:// (must be https://): {base!r}")
-        if "github.io" in base:
-            fails.append(f"base_url still on github.io: {base!r}")
-        if "/zola" in base:
-            fails.append(f"base_url still carries /zola subpath: {base!r}")
-        host = base.split("://", 1)[-1].split("/", 1)[0].lower()
-        if host and host not in (CANONICAL_HOST, "www." + CANONICAL_HOST):
-            fails.append(f"base_url host {host!r} is not the canonical apex {CANONICAL_HOST!r}")
-
-    # Check 2: homepage title + H1 keep the SEOMONEY brand (FAIL if lost).
-    idx = ctx.read("templates/index.html") or ""
-    block_title = ""
-    mt = re.search(r"\{%\s*block\s+title\s*%\}(.*?)\{%\s*endblock", idx, re.DOTALL)
-    if mt:
-        block_title = mt.group(1)
-    h1 = ""
-    mh = re.search(r"<h1[^>]*>(.*?)</h1>", idx, re.DOTALL)
-    if mh:
-        h1 = mh.group(1)
-    if idx:
-        if BRAND_TOKEN not in block_title:
-            fails.append("homepage <title> block lost the SEOMONEY brand")
-        if BRAND_TOKEN not in h1:
-            fails.append("homepage <h1> lost the SEOMONEY brand")
-
-    # Check 3: article JSON-LD should use BlogPosting (WARN only).
-    base_html = ctx.read("templates/base.html") or ""
-    if base_html and '"@type": "BlogPosting"' not in base_html:
-        if '"@type": "Article"' in base_html:
-            warns.append('article JSON-LD still uses "Article" — prefer "BlogPosting"')
-
-    if fails:
-        return CheckResult("V20", title, FAIL,
-                           diagnosis="; ".join(fails),
-                           fix=("Restore base_url=https://seomoney.org (apex/https/no /zola), "
-                                "keep SEOMONEY brand in homepage title/H1, BlogPosting schema "
-                                "(see V20 CLAUDE.md)"),
-                           details=fails + warns)
-    if warns:
-        return CheckResult("V20", title, WARN,
-                           diagnosis="; ".join(warns),
-                           fix="Apply V20 FIXER in CLAUDE.md",
-                           details=warns)
-    return CheckResult("V20", title, PASS,
-                       diagnosis=("canonical root https://seomoney.org/ intact; "
-                                  "homepage carries SEOMONEY brand; BlogPosting schema present"))
-
-
-# ----- GA (Google Analytics 4) stats module — V25 (post seomoney.org move) -----
 _GA_PROPERTY_ID = "542421812"
 _GA_MEASUREMENT_ID = "G-SMTFZVC0XN"
 _GA_OLD_PROPERTY_ID = "541698865"
@@ -2478,7 +2409,7 @@ def check_ga_stats_vaccine(ctx: Ctx) -> CheckResult:
 
     if fails:
         return CheckResult(
-            "V25", title, FAIL,
+            "V27", title, FAIL,
             diagnosis="GA module sai property/measurement, rò rỉ cache cũ, hoặc lộ credential",
             fix=(f"1. config.toml ga_property_id={_GA_PROPERTY_ID}, ga_measurement_id={_GA_MEASUREMENT_ID}. "
                  f"2. fetch_ga_stats.py PROPERTY_ID mặc định {_GA_PROPERTY_ID}. "
@@ -2487,15 +2418,286 @@ def check_ga_stats_vaccine(ctx: Ctx) -> CheckResult:
             details=fails + warns,
         )
     if warns:
-        return CheckResult("V25", title, WARN,
+        return CheckResult("V27", title, WARN,
                            diagnosis="GA module đúng property nhưng thiếu thành phần phụ trợ",
                            fix="Bổ sung các mục WARN ở trên (workflow hourly / banner / health js / schema).",
                            details=warns)
     return CheckResult(
-        "V25", title, PASS,
+        "V27", title, PASS,
         diagnosis=(f"property {_GA_PROPERTY_ID} · {_GA_MEASUREMENT_ID} · GA Vacxin hourly · "
                    "cache isolated · no credential leak"),
     )
+
+
+# Vaccine numbers that are *intentionally* documented more than once in CLAUDE.md:
+#   V10/V11/V12 — legacy §4 main vs the compliance block;
+#   V19 — GSC Domain Property vs Domain Migration Drift;
+#   V22 — Editor S-DNA visual layer vs Editor save→GitHub.
+# Any duplicate beyond these is a bug (new vaccines must take the next free number).
+ALLOWED_DUPLICATE_VACCINES = {"V10", "V11", "V12", "V19", "V22"}
+
+def check_toc_rail_vaccine(ctx: Ctx) -> CheckResult:
+    """TOC-RAIL — the "On This Page" sticky article rail (scroll-spy) must render
+    a styled rail, keep its IntersectionObserver active-state engine, and stay
+    mobile-safe (hidden below the desktop breakpoint → no overflow).
+
+    Inspired by the B-DNA right rail; an ADDITIVE desktop enhancement layered on
+    top of the existing inline `.toc`. Static signals (no browser needed):
+      FAIL — the rail would not render / loses its scroll-spy:
+        * sass/_toc-rail.scss missing or not imported in site.scss;
+        * the partial lacks the rail (.toc-rail), the sticky behaviour, the
+          two-column `.post-layout` grid, or the `.is-active` highlight;
+        * templates/page.html lost the rail markup (data-toc-rail /
+          data-toc-link / the page.toc loop) or the toc-rail.js include;
+        * static/js/toc-rail.js missing or without IntersectionObserver.
+      WARN — renders but a resilience gap:
+        * rail not hidden by default (display:none) → mobile overflow risk;
+        * no desktop min-width media (rail could show where it squeezes prose).
+    """
+    title = "On-This-Page TOC rail (scroll-spy, mobile-safe)"
+    scss = ctx.read("sass/_toc-rail.scss")
+    site_scss = ctx.read("sass/site.scss") or ""
+    page = ctx.read("templates/page.html") or ""
+    js = ctx.read("static/js/toc-rail.js")
+
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # 1) Styled partial exists and is wired into the bundle.
+    if not scss:
+        fails.append("sass/_toc-rail.scss vắng → rail không có CSS (raw/không hiện)")
+    elif not re.search(r'@import\s+["\']toc-rail["\']', site_scss):
+        fails.append('sass/site.scss thiếu @import "toc-rail" → partial không vào bundle')
+
+    # 2) Structure: rail card, sticky behaviour, 2-col layout, active highlight.
+    if scss:
+        if ".toc-rail" not in scss:
+            fails.append("_toc-rail.scss thiếu selector .toc-rail")
+        if not re.search(r"position\s*:\s*sticky", scss):
+            fails.append("_toc-rail.scss thiếu position:sticky → rail không bám khi cuộn")
+        if ".post-layout" not in scss or "grid-template-columns" not in scss:
+            fails.append("_toc-rail.scss thiếu grid .post-layout (bài + rail 2 cột)")
+        if "is-active" not in scss:
+            fails.append("_toc-rail.scss thiếu .is-active → không tô đậm mục đang đọc")
+        # mobile-safe (hidden by default) + desktop-only (min-width media)
+        if not re.search(r"\.toc-rail\s*\{[^}]*display\s*:\s*none", scss, re.S):
+            warns.append(".toc-rail không display:none mặc định → mobile có thể overflow")
+        if "min-width" not in scss:
+            warns.append("_toc-rail.scss thiếu @media min-width → rail có thể hiện ở màn hẹp")
+
+    # 3) Template markup contract + script include.
+    for needle, why in (
+        ("data-toc-rail", "rail container (data-toc-rail)"),
+        ("data-toc-link", "rail link / scroll-spy target (data-toc-link)"),
+        ("page.toc", "TOC sinh từ heading bài (page.toc)"),
+        ("toc-rail.js", "scroll-spy script include (toc-rail.js)"),
+    ):
+        if needle not in page:
+            fails.append(f"templates/page.html thiếu {why}")
+
+    # 4) The scroll-spy engine must be present (active state on scroll).
+    if not js:
+        fails.append("static/js/toc-rail.js vắng → không có active-state khi cuộn")
+    elif "IntersectionObserver" not in js:
+        fails.append("toc-rail.js thiếu IntersectionObserver → không highlight mục đang đọc")
+
+    if fails:
+        return CheckResult("TOC-RAIL", title, FAIL,
+                           diagnosis="rail TOC On-This-Page không render hoặc mất scroll-spy/markup",
+                           fix=('thêm/giữ sass/_toc-rail.scss (.toc-rail sticky + .post-layout grid + '
+                                '.is-active) và @import "toc-rail"; giữ markup data-toc-rail/data-toc-link/'
+                                'page.toc + include toc-rail.js (IntersectionObserver) trong page.html'),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("TOC-RAIL", title, WARN,
+                           diagnosis="rail hoạt động nhưng còn khe hở mobile/responsive",
+                           fix="ẩn .toc-rail mặc định (display:none) + chỉ hiện trong @media min-width desktop",
+                           details=warns)
+    return CheckResult("TOC-RAIL", title, PASS,
+                       diagnosis="rail On-This-Page có CSS sticky + grid 2 cột + .is-active, "
+                                 "scroll-spy IntersectionObserver, markup + include đủ, ẩn an toàn ở mobile")
+
+
+def check_v20_seo_identity_homepage(ctx: Ctx) -> CheckResult:
+    """V20 — SEO Identity / Homepage Migration: brand + canonical root must hold.
+
+    Guards the apex-domain migration (20/06/2026): canonical root stays
+    https://seomoney.org/ and the homepage keeps the SEOMONEY brand.
+
+    FAIL: base_url non-apex / github.io / /zola subpath / http://, OR homepage
+          title/H1 lost the SEOMONEY brand (canonical signal regression).
+    WARN: article JSON-LD @type is not BlogPosting (weaker rich-result signal).
+    """
+    title = "V20 SEO Identity / Homepage Migration (canonical seomoney.org + brand)"
+    fails: list[str] = []
+    warns: list[str] = []
+
+    # Check 1: canonical base_url — apex, https, no /zola, no github.io (FAIL).
+    base = _config_base_url(ctx)
+    if not base:
+        warns.append("config.toml base_url not found")
+    else:
+        if base.startswith("http://"):
+            fails.append(f"base_url uses http:// (must be https://): {base!r}")
+        if "github.io" in base:
+            fails.append(f"base_url still on github.io: {base!r}")
+        if "/zola" in base:
+            fails.append(f"base_url still carries /zola subpath: {base!r}")
+        host = base.split("://", 1)[-1].split("/", 1)[0].lower()
+        if host and host not in (CANONICAL_HOST, "www." + CANONICAL_HOST):
+            fails.append(f"base_url host {host!r} is not the canonical apex {CANONICAL_HOST!r}")
+
+    # Check 2: homepage title + H1 keep the SEOMONEY brand (FAIL if lost).
+    idx = ctx.read("templates/index.html") or ""
+    block_title = ""
+    mt = re.search(r"\{%\s*block\s+title\s*%\}(.*?)\{%\s*endblock", idx, re.DOTALL)
+    if mt:
+        block_title = mt.group(1)
+    h1 = ""
+    mh = re.search(r"<h1[^>]*>(.*?)</h1>", idx, re.DOTALL)
+    if mh:
+        h1 = mh.group(1)
+    if idx:
+        if BRAND_TOKEN not in block_title:
+            fails.append("homepage <title> block lost the SEOMONEY brand")
+        if BRAND_TOKEN not in h1:
+            fails.append("homepage <h1> lost the SEOMONEY brand")
+
+    # Check 3: article JSON-LD should use BlogPosting (WARN only).
+    base_html = ctx.read("templates/base.html") or ""
+    if base_html and '"@type": "BlogPosting"' not in base_html:
+        if '"@type": "Article"' in base_html:
+            warns.append('article JSON-LD still uses "Article" — prefer "BlogPosting"')
+
+    if fails:
+        return CheckResult("V20", title, FAIL,
+                           diagnosis="; ".join(fails),
+                           fix=("Restore base_url=https://seomoney.org (apex/https/no /zola), "
+                                "keep SEOMONEY brand in homepage title/H1, BlogPosting schema "
+                                "(see V20 CLAUDE.md)"),
+                           details=fails + warns)
+    if warns:
+        return CheckResult("V20", title, WARN,
+                           diagnosis="; ".join(warns),
+                           fix="Apply V20 FIXER in CLAUDE.md",
+                           details=warns)
+    return CheckResult("V20", title, PASS,
+                       diagnosis=("canonical root https://seomoney.org/ intact; "
+                                  "homepage carries SEOMONEY brand; BlogPosting schema present"))
+
+
+# --------------------------------------------------------------------------
+# V25 — Split-backend route parity (frontend ↔ deployed services/vipzone)
+# --------------------------------------------------------------------------
+# Render deploys ONLY services/vipzone (render.yaml rootDir). A frontend call to
+# blog-vipzone-api whose route lives only in services/visitor-counter returns 404
+# in production. These helpers statically collect the routes mounted on the
+# DEPLOYED app and compare them with the frontend's /cms/* and /gsc/* calls.
+_ROUTE_DECORATOR_RE = re.compile(
+    r"@(?:app|router)\.(?:get|post|put|delete|patch)\(", re.I)
+_PATH_LITERAL_RE = re.compile(r"""["'](/[A-Za-z0-9_\-/{}]*)["']""")
+
+# Route source files mounted onto the deployed services/vipzone app, with the
+# prefix each router contributes (gsc_routes is imported from visitor-counter and
+# mounted with prefix="/gsc"; cms_repo + cms_auth routers mount at root).
+_VIPZONE_ROUTE_SOURCES = (
+    ("services/vipzone/main.py", ""),
+    ("services/vipzone/cms_repo.py", ""),
+    ("services/vipzone/cms_auth.py", ""),
+    ("services/visitor-counter/gsc_routes.py", "/gsc"),
+)
+
+# Routes the production frontend depends on that MUST be served by services/vipzone.
+_V25_CRITICAL_ROUTES = ("/health", "/gsc/status", "/cms/save-post")
+
+
+def _route_family(path: str) -> str:
+    """Collapse a path to its first ≤2 non-parameter segments, e.g.
+    `/cms/giscus/setup` → `/cms/giscus`, `/gsc/oauth/start` → `/gsc/oauth`,
+    `/api/vipzone/content/{post_id}` → `/api/vipzone`."""
+    segs = [s for s in path.strip("/").split("/") if s and not s.startswith("{")]
+    return "/" + "/".join(segs[:2]) if segs else "/"
+
+
+def _extract_vipzone_routes(ctx: Ctx) -> set[str]:
+    """All route path templates mounted on the deployed services/vipzone app."""
+    routes: set[str] = set()
+    for rel, prefix in _VIPZONE_ROUTE_SOURCES:
+        txt = ctx.read(rel)
+        if not txt:
+            continue
+        for m in _ROUTE_DECORATOR_RE.finditer(txt):
+            tail = txt[m.end():m.end() + 400]
+            pm = _PATH_LITERAL_RE.search(tail)
+            if pm:
+                routes.add((prefix + pm.group(1)) or "/")
+    return routes
+
+
+def _frontend_vipzone_calls(ctx: Ctx) -> set[str]:
+    """Literal `/cms/*` and `/gsc/*` paths the static JS calls (vipzone-only
+    prefixes). Skips template-literal / interpolated paths (contain `$`)."""
+    families: set[str] = set()
+    for js in ctx.glob("static/js/**/*.js"):
+        try:
+            txt = js.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        for m in re.finditer(r"""["'](/(?:cms|gsc)/[A-Za-z0-9_\-/]*)["']""", txt):
+            path = m.group(1)
+            if "$" in path:
+                continue
+            families.add(_route_family(path))
+    return families
+
+
+def check_v25_backend_route_parity(ctx: Ctx) -> CheckResult:
+    """V25 — every frontend route on blog-vipzone-api must exist on the DEPLOYED
+    services/vipzone app (Render deploys only that service). A route living only in
+    services/visitor-counter is dead in production → 404 split-brain (V16/V22b).
+
+    FAIL — a critical route (/health, /gsc/status, /cms/save-post) is not mounted
+           on services/vipzone (directly or via a mounted router).
+    WARN — a frontend /cms/* or /gsc/* family has no matching deployed route.
+    """
+    title = "Backend route parity (frontend ↔ deployed services/vipzone)"
+    routes = _extract_vipzone_routes(ctx)
+    if not routes:
+        return CheckResult("V25", title, SKIP,
+                           diagnosis="services/vipzone routes không đọc được")
+
+    families = {_route_family(r) for r in routes}
+
+    # FAIL — critical routes must be present (param-insensitive family match).
+    missing_critical = [
+        r for r in _V25_CRITICAL_ROUTES
+        if r not in routes and _route_family(r) not in families
+    ]
+    if missing_critical:
+        return CheckResult(
+            "V25", title, FAIL,
+            diagnosis=("route quan trọng frontend gọi nhưng KHÔNG mount trên "
+                       "services/vipzone (deployed) → 404 production: "
+                       + ", ".join(missing_critical)),
+            fix=("Mount route trên services/vipzone (main.py @app.* hoặc router "
+                 "include_router) — KHÔNG để route chỉ nằm ở services/visitor-counter"),
+            details=missing_critical)
+
+    # WARN — frontend families with no deployed route (drift to fix, not a hard gate).
+    uncovered = sorted(
+        fam for fam in _frontend_vipzone_calls(ctx) if fam not in families)
+    if uncovered:
+        return CheckResult(
+            "V25", title, WARN,
+            diagnosis=("frontend gọi route /cms|/gsc chưa có trên services/vipzone "
+                       "(deployed) — có thể 404 production"),
+            fix=("Port các route này sang services/vipzone (mounted router); "
+                 "kiểm chứng bằng scripts/backend_route_check.py"),
+            details=uncovered)
+
+    return CheckResult("V25", title, PASS,
+                       diagnosis=(f"{len(routes)} route mounted on services/vipzone; "
+                                  "critical routes present; frontend /cms·/gsc calls covered"))
 
 
 # Vaccine numbers that are *intentionally* documented more than once in CLAUDE.md:
@@ -2602,8 +2804,10 @@ DETECTORS = [
     check_og_image_vaccine,
     check_editor_publish_vaccine,
     check_editor_sdna_vaccine,
-    check_v20_seo_identity_homepage,
+    check_toc_rail_vaccine,
     check_ga_stats_vaccine,
+    check_v20_seo_identity_homepage,
+    check_v25_backend_route_parity,
     check_vaccine_registry_integrity,
 ]
 

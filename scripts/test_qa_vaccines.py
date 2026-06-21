@@ -944,6 +944,117 @@ class SearchUiVaccineTest(unittest.TestCase):
         self.assertEqual(r.status, qv.PASS, f"search_ui_vaccine not PASS: {r.diagnosis} {r.details}")
 
 
+class TocRailVaccineTest(unittest.TestCase):
+    """TOC-RAIL — the "On This Page" sticky article rail must render a styled
+    scroll-spy, keep its IntersectionObserver active-state engine, and stay
+    mobile-safe (hidden by default, shown only on the desktop breakpoint)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    _GOOD_SCSS = (
+        ".post-layout { min-width: 0; }\n"
+        ".toc-rail { display: none; }\n"
+        "@media (min-width: 1300px) {\n"
+        "  .post-layout--rail { display: grid; grid-template-columns: minmax(0,1fr) 248px; }\n"
+        "  .post-single__content .toc { display: none; }\n"
+        "  .toc-rail { display: block; position: sticky; top: 88px; }\n"
+        "  .toc-rail__link.is-active { color: var(--c-accent); }\n"
+        "}\n"
+    )
+    _GOOD_PAGE = (
+        '<div class="post-layout post-layout--rail">'
+        '<article class="post-single">{{ page.content | safe }}</article>'
+        '<aside class="toc-rail" data-toc-rail>'
+        '{% for h in page.toc %}<a href="#{{ h.id }}" data-toc-link>{{ h.title }}</a>{% endfor %}'
+        '</aside></div>'
+        "<script src=\"{{ get_url(path='js/toc-rail.js') }}\" defer></script>"
+    )
+    _GOOD_JS = (
+        '(function(){var r=document.querySelector("[data-toc-rail]");if(!r)return;'
+        'new IntersectionObserver(function(e){},{}).observe(r);})();\n'
+    )
+
+    def _wire_good(self):
+        self.repo.write("sass/_toc-rail.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+
+    def test_missing_partial_fails(self):
+        # Markup + engine present, but no structural SCSS → rail can't render.
+        self.repo.write("sass/site.scss", '@import "post";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("_toc-rail.scss" in d for d in r.details))
+
+    def test_not_imported_fails(self):
+        self._wire_good()
+        self.repo.write("sass/site.scss", '@import "post";\n')  # partial not imported
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("@import" in d or "site.scss" in d for d in r.details))
+
+    def test_no_sticky_or_grid_fails(self):
+        # Partial exists & imported but has no sticky / grid / active → broken rail.
+        self.repo.write("sass/_toc-rail.scss", ".toc-rail { display: none; color: blue; }\n")
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("sticky" in d or ".post-layout" in d or "is-active" in d for d in r.details))
+
+    def test_missing_markup_fails(self):
+        self._wire_good()
+        # Strip the scroll-spy link hook the engine needs.
+        self.repo.write("templates/page.html",
+                        self._GOOD_PAGE.replace("data-toc-link", "data-x-link"))
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_missing_engine_fails(self):
+        self.repo.write("sass/_toc-rail.scss", self._GOOD_SCSS)
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        # No static/js/toc-rail.js at all → no active state on scroll.
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_no_observer_fails(self):
+        self._wire_good()
+        self.repo.write("static/js/toc-rail.js",
+                        '(function(){var r=document.querySelector("[data-toc-rail]");})();\n')
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("IntersectionObserver" in d for d in r.details))
+
+    def test_not_hidden_by_default_warns(self):
+        # Sticky/grid/active present + everything wired, but rail not hidden by
+        # default → mobile overflow risk → WARN (not FAIL).
+        scss = self._GOOD_SCSS.replace(".toc-rail { display: none; }\n", ".toc-rail { padding: 0; }\n")
+        self.repo.write("sass/_toc-rail.scss", scss)
+        self.repo.write("sass/site.scss", '@import "toc-rail";\n')
+        self.repo.write("templates/page.html", self._GOOD_PAGE)
+        self.repo.write("static/js/toc-rail.js", self._GOOD_JS)
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertTrue(any("overflow" in d.lower() or "display:none" in d for d in r.details))
+
+    def test_good_component_passes(self):
+        self._wire_good()
+        r = qv.check_toc_rail_vaccine(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_real_repo_passes(self):
+        """The shipped TOC rail must PASS on the real repo (calibration)."""
+        r = qv.check_toc_rail_vaccine(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, f"toc_rail_vaccine not PASS: {r.diagnosis} {r.details}")
+
+
 class EditorPublishVaccineTest(unittest.TestCase):
     """EDITOR-PUBLISH — saving in /editor/ must commit to GitHub (not download),
     edits must send SHA, the SEO rail must hydrate old posts, and sticky must be
@@ -1379,6 +1490,102 @@ class OgImageVaccineTest(unittest.TestCase):
                       f"OG vaccine unexpectedly FAILed: {r.diagnosis} {r.details}")
 
 
+class BackendRouteParityV25Test(unittest.TestCase):
+    """V25 — every frontend /cms·/gsc route on blog-vipzone-api must be mounted on
+    the DEPLOYED services/vipzone app (Render deploys only that service)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    # A minimal deployed vipzone app that serves the critical routes.
+    _MAIN = (
+        '@app.get("/health")\n'
+        "def health(): ...\n"
+        '@app.post("/api/vipzone/redeem")\n'
+        "def redeem(): ...\n"
+    )
+    _CMS_REPO = (
+        "router = APIRouter()\n"
+        '@router.post("/cms/save-post")\n'
+        "async def save(): ...\n"
+    )
+    _CMS_AUTH = (
+        "router = APIRouter()\n"
+        "@router.get(\n    '/auth/me',\n)\n"  # multi-line decorator form
+        "async def me(): ...\n"
+    )
+    _GSC = (
+        'router = APIRouter(prefix="/gsc")\n'
+        '@router.get("/status")\n'
+        "async def status(): ...\n"
+        '@router.get("/metrics")\n'
+        "async def metrics(): ...\n"
+    )
+
+    def _wire_good(self):
+        self.repo.write("services/vipzone/main.py", self._MAIN)
+        self.repo.write("services/vipzone/cms_repo.py", self._CMS_REPO)
+        self.repo.write("services/vipzone/cms_auth.py", self._CMS_AUTH)
+        self.repo.write("services/visitor-counter/gsc_routes.py", self._GSC)
+
+    def test_route_family_collapses(self):
+        self.assertEqual(qv._route_family("/cms/giscus/setup"), "/cms/giscus")
+        self.assertEqual(qv._route_family("/gsc/oauth/start"), "/gsc/oauth")
+        self.assertEqual(qv._route_family("/api/vipzone/content/{post_id}"),
+                         "/api/vipzone")
+
+    def test_gsc_prefix_applied(self):
+        self._wire_good()
+        routes = qv._extract_vipzone_routes(self.repo.ctx())
+        self.assertIn("/gsc/status", routes)   # prefix from include_router
+        self.assertIn("/cms/save-post", routes)
+        self.assertIn("/auth/me", routes)      # multi-line decorator parsed
+
+    def test_good_repo_passes(self):
+        self._wire_good()
+        self.repo.write("static/js/app.js",
+                        "fetch(AUTH_API + '/gsc/status'); fetch(AUTH_API + '/cms/save-post');")
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
+
+    def test_missing_critical_route_fails(self):
+        # Drop /cms/save-post from the deployed service → production 404.
+        self.repo.write("services/vipzone/main.py", self._MAIN)
+        self.repo.write("services/vipzone/cms_repo.py",
+                        "router = APIRouter()\n")  # no save-post
+        self.repo.write("services/vipzone/cms_auth.py", self._CMS_AUTH)
+        self.repo.write("services/visitor-counter/gsc_routes.py", self._GSC)
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("/cms/save-post" in d for d in r.details))
+
+    def test_frontend_drift_warns(self):
+        # Critical routes present, but the frontend calls an unmounted /cms family.
+        self._wire_good()
+        self.repo.write("static/js/admin.js",
+                        "fetch(AUTH_API + '/cms/author', {method:'POST'});")
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+        self.assertIn("/cms/author", r.details)
+
+    def test_template_literal_paths_ignored(self):
+        self._wire_good()
+        # Interpolated path must not be flagged (we cannot statically resolve it).
+        self.repo.write("static/js/dyn.js",
+                        "fetch(AUTH_API + `/cms/${kind}/x`);")
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS, f"{r.diagnosis} {r.details}")
+
+    def test_missing_service_skips(self):
+        r = qv.check_v25_backend_route_parity(self.repo.ctx())
+        self.assertEqual(r.status, qv.SKIP)
+
+    def test_real_repo_no_fail(self):
+        r = qv.check_v25_backend_route_parity(qv.Ctx(REPO_ROOT))
+        self.assertIn(r.status, (qv.PASS, qv.WARN))  # calibrated: never FAIL on main
+
+
 class RealRepoCalibrationTest(unittest.TestCase):
     """The reinforced gate must be GREEN on current main (0 FAIL), or it would
     block every merge. Warnings are allowed (they surface latent issues)."""
@@ -1548,7 +1755,7 @@ class VaccineRegistryGuardTest(unittest.TestCase):
 
 
 class GaStatsVaccineTest(unittest.TestCase):
-    """V25 — GA stats module identity, cache isolation, hourly GA Vacxin, banner."""
+    """V27 — GA stats module identity, cache isolation, hourly GA Vacxin, banner."""
     def setUp(self):
         self.repo = TmpRepo()
         self.addCleanup(self.repo.cleanup)
@@ -1618,6 +1825,7 @@ class GaStatsVaccineTest(unittest.TestCase):
         self._wire(ga_health=(
             '{"status":"ok","last_checked":"2026-06-21T01:00:00Z","property_id":"542421812",'
             '"private_key":"REDACTED"}'
+
         ))
         self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
 

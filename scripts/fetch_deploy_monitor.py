@@ -84,6 +84,34 @@ def _title(run: dict) -> str:
     return t.splitlines()[0][:90] if t else ""
 
 
+# Normalized run state for the `theodoi8 deploy` table (the on-page Deploy Monitor
+# mirrors the chat shortcut). Icons match shortcuts.md §theodoi8.
+_STATE_ICON = {
+    "running": "🔄", "queued": "⏳", "success": "✅",
+    "failure": "❌", "cancelled": "⊘", "skipped": "⏭",
+}
+
+
+def _state(status: str | None, conclusion: str | None) -> str:
+    s = (status or "").lower()
+    c = (conclusion or "").lower()
+    if s in _PENDING:
+        return "queued" if s in {"queued", "waiting", "requested", "pending"} else "running"
+    if c == "success":
+        return "success"
+    if c in {"failure", "timed_out", "startup_failure"}:
+        return "failure"
+    if c == "cancelled":
+        return "cancelled"
+    if c == "skipped":
+        return "skipped"
+    return "running" if s != "completed" else "success"
+
+
+def _commit_url(sha: str) -> str | None:
+    return f"https://github.com/{REPO}/commit/{sha}" if sha else None
+
+
 def fetch_runs() -> tuple[list[dict], str | None]:
     """Read-only list of recent deploy.yml runs. Returns (runs, error)."""
     if not TOKEN:
@@ -150,6 +178,8 @@ def build_report_from_runs(runs: list[dict], now: datetime | None = None) -> dic
             "status": status,
             "conclusion": concl or None,
             "created_at": r.get("created_at"),
+            "run_number": r.get("run_number"),
+            "run_url": r.get("html_url"),
         }
         if status != "completed":
             wait = int((now - started).total_seconds()) if started else None
@@ -216,6 +246,65 @@ def build_report_from_runs(runs: list[dict], now: datetime | None = None) -> dic
         prod_status = "unknown"
 
     prod_run, prod_dur = (prod or (None, None))
+
+    # ----- Unified live feed for the `theodoi8 deploy` table (newest run first) -----
+    # The on-page Deploy Monitor mirrors the `theodoi8 deploy` chat shortcut: one
+    # table of recent deploy.yml runs (# · commit · title · status). Built here so
+    # the static page never calls GitHub.
+    def _rn(r: dict) -> int:
+        return r.get("run_number") or 0
+
+    max_success_rn = max(
+        (_rn(r) for r in runs if _state(r.get("status"), r.get("conclusion")) == "success"),
+        default=0,
+    )
+    feed: list[dict] = []
+    for r in sorted(runs, key=_rn, reverse=True)[:12]:
+        st = _state(r.get("status"), r.get("conclusion"))
+        rn = r.get("run_number")
+        sha = r.get("head_sha", "")
+        started = _parse(r.get("run_started_at") or r.get("created_at"))
+        updated = _parse(r.get("updated_at"))
+        completed = (r.get("status") or "").lower() == "completed"
+        feed.append({
+            "run_number": rn,
+            "run_url": r.get("html_url"),
+            "sha_short": _short(sha),
+            "commit_url": _commit_url(sha),
+            "title": _title(r),
+            "status": (r.get("status") or "").lower(),
+            "conclusion": (r.get("conclusion") or "").lower() or None,
+            "state": st,
+            "icon": _STATE_ICON.get(st, "•"),
+            # A failed/cancelled deploy is harmless once a LATER run deployed
+            # successfully (V5 / dashboard rule) → flag so the UI greys it out.
+            "superseded": st in {"failure", "cancelled"} and rn is not None and rn < max_success_rn,
+            "created_at": r.get("created_at"),
+            "duration_s": int((updated - started).total_seconds()) if (completed and started and updated) else None,
+        })
+
+    running_runs = [f["run_number"] for f in feed if f["state"] in {"running", "queued"} and f["run_number"]]
+    all_success = sorted(
+        (r for r in runs if _state(r.get("status"), r.get("conclusion")) == "success" and r.get("run_number")),
+        key=_rn, reverse=True,
+    )
+    last_success_run = all_success[0].get("run_number") if all_success else None
+    last_success_sha_short = _short(all_success[0].get("head_sha", "")) if all_success else None
+    superseded_failures = [f["run_number"] for f in feed
+                           if f["state"] == "failure" and f["superseded"] and f["run_number"]]
+    cancelled_runs = [f["run_number"] for f in feed
+                      if f["state"] == "cancelled" and f["run_number"]]
+
+    segs: list[str] = []
+    if running_runs:
+        segs.append(f"🔄 #{running_runs[0]} đang chạy")
+    if last_success_run:
+        segs.append(f"✅ last success #{last_success_run}")
+    if superseded_failures:
+        nums = "/".join(f"#{n}" for n in superseded_failures[:3])
+        segs.append(f"❌ {nums} (đã superseded)")
+    status_line = " · ".join(segs)
+
     return {
         "checked_at": _now(),
         "ok": True,
@@ -235,7 +324,15 @@ def build_report_from_runs(runs: list[dict], now: datetime | None = None) -> dic
             "failed_recent": failed_recent,
             "cancelled_recent": cancelled_recent,
             "storm": storm,
+            # theodoi8-deploy reading (V5 / dashboard rule):
+            "running_runs": running_runs,
+            "last_success_run": last_success_run,
+            "last_success_sha_short": last_success_sha_short,
+            "superseded_failures": superseded_failures,
+            "cancelled_runs": cancelled_runs,
+            "status_line": status_line,
         },
+        "feed": feed,
         "pending": pending[:10],
         "expired": expired[:10],
         "recent": recent[:12],
@@ -258,6 +355,7 @@ def build_report() -> dict:
         prev["stale"] = True
         prev.setdefault("summary", {}).setdefault("prod_status", "unknown")
         prev.setdefault("error", err or "no_runs")
+        prev.setdefault("feed", [])
         prev.setdefault("pending", [])
         prev.setdefault("expired", [])
         prev.setdefault("recent", [])

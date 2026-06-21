@@ -1,62 +1,79 @@
 # CLAUDE.md — Quy tắc làm việc
 
-## Repository Automation Policy (effective 2026-06-18 — ZERO_BARRIER_AUTOMATION)
+# ZERO BARRIER MANIFESTO
 
-> **100% tự động:** CI pass → auto-merge `main` → deploy production. Không kiểm duyệt trung gian.
-> Config: `data/auto-merge-policy.json` · Engine: `scripts/auto_merge_policy.py` · Runner: `auto-merge.yml`.
+> Chúng ta không babysit PR.
+> Chúng ta không merge bằng cảm tính.
+> Chúng ta không dùng human approval để thay thế QA.
+>
+> Máy kiểm tra.
+> Máy sửa lỗi.
+> Máy merge.
+> Máy deploy.
+>
+> Con người chỉ quyết định sản phẩm.
 
-| | |
-|--|--|
-| **Auto-merge** | Mọi PR — chore, qa, fix, feature, content, policy, workflows, auth, payment, bot maintenance |
-| **Manual review** | ❌ Không — blog sạch, không protected domain, không label chặn |
+## Dòng chảy chuẩn
 
-Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIONS-PERMISSIONS.md`.
+Code
+→ Push Branch
+→ Auto PR Gatekeeper
+→ Merge Conflict Preflight
+→ QA Gatekeeper
+→ Auto Merge
+→ Deploy Production
 
-## Auto-Merge Policy (ZERO_BARRIER — ghi đè mọi rule PR-only / manual merge cũ)
+## Branch hợp lệ
 
-> CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
+- feat/**
+- fix/**
+- hotfix/**
+- claude/**
+- codex/**
+- vaccine-hotfix/**
 
-### 1. Không cần qua PR thủ công — code xong → tự lên `main` → prod
+## Luật bất biến
 
-> **Cập nhật (2026-06-19 — user request):** Bỏ rào PR thủ công. Code xong là **tự động**
-> lên `main` → deploy production. KHÔNG mở/duyệt/babysit PR bằng tay, KHÔNG hỏi user.
+Không được bypass:
 
-- Agent làm xong thay đổi → để automation đưa lên `main` → `deploy.yml` → prod. Không
-  tự tay quản lý PR, không chờ human review.
-- **Lỗi để máy bắt & sửa, không phải human gate:** `qa-check` (QA Gatekeeper) chặn build
-  hỏng trước khi lên `main`; có lỗi thì **vaccine autofixer** (§4 V1–V12) + `ff`/`ff9` +
-  autofix-conflicts tự chẩn & sửa. KHÔNG chờ người review.
-- **Hạ tầng (agent không cần bận tâm):** bước "đưa lên `main`" do `auto-merge.yml` tự thực
-  hiện (squash khi `qa-check` xanh) — GITHUB_TOKEN/branch protection KHÔNG cho push thẳng
-  `main` (§5/§5a/§5b), nên auto-merge là **bước máy tự làm**, không phải rào thủ công.
+- Merge Conflict
+- Secret Leak
+- Broken Links Blocker
+- Build Failure
+- QA Failure
+- High-Risk Vaccine Failure
 
-### 2. Auto-merge khi CI xanh (máy tự làm hết)
+CI xanh mới được merge.
 
-1. Code xong → push lên branch (`feature/`, `fix/`, `chore/`, …)
-2. **`auto-merge.yml`** tự đưa lên `main` khi **qa-check** pass (QA Gatekeeper — không PR Policy)
-3. `deploy.yml` chạy sau merge → GitHub Pages → prod
+## QA Doctrine
 
-**Không hỏi user** trước khi merge, **không** cần agent mở/duyệt PR thủ công, không dùng label chặn auto-merge.
+QA là cổng kiểm soát duy nhất.
 
-### 3. Merge Report (thay review thủ công)
+Nếu QA đỏ:
 
-- Script: `scripts/fetch_merge_report.py` → `data/merge-report.json`
-- Workflow: `merge-report.yml` (sau push `main` + hourly)
-- Mỗi entry: PR #, title, summary_vi, change_type, merged_at, build_run_number
-- Đọc report thay vì duyệt từng PR
+1. Đọc log
+2. Tự chẩn đoán
+3. Tự sửa
+4. Commit
+5. Push lại
 
-### 4. Build failed trên PR → fix trên cùng branch
+Không chờ người duyệt.
 
-- Fix trên **cùng branch/PR** — không push `main`
-- CI xanh → auto-merge
+## Định nghĩa DONE
 
-### 5. Automation / bot
+DONE chỉ tồn tại khi:
 
-- Bot **không** `git push origin HEAD:main` trực tiếp
-- Data refresh: `push_via_pr.sh` → PR → auto-merge khi CI pass
-- `main-guard.yml`: cho phép bot merge qua PR (auto-merge commit)
+Branch đã push
++
+PR đã mở
++
+Preflight pass
++
+QA xanh
++
+Auto-merge đã được attempt
 
-### 5a. Workflow permissions (2026-06-18)
+## Hạ tầng liên quan
 
 | Loại workflow | Chạy tự động? | Ghi chú |
 |---------------|---------------|---------|
@@ -109,6 +126,138 @@ Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIO
 
 - **Acceptance:** không deploy song song; không rate-limit burst; PR xanh merge/deploy
   đúng thứ tự; nhanh nhưng tuần tự; build pass.
+
+## Knowledge Promotion Rule (effective 2026-06-21 — anti-bloat governance)
+
+> Repo tiến hóa từ "fix-per-incident" sang "hệ vaccine trưởng thành" (V1–V26). CLAUDE.md
+> phải vẫn là **Doctrine + Policy**, không thành "Changelog + private strategy". Quy tắc
+> này phân loại tri thức và chỉ định nơi lưu để giữ CLAUDE.md sạch, dễ đọc, đúng scope.
+
+### 4 loại tri thức
+
+| Loại | Định nghĩa | Lưu ở | Tuổi thọ | Ví dụ |
+|------|-----------|-------|----------|--------|
+| **Incident** | Lỗi ngắn hạn, xuất hiện 1 lần hoặc fix point | `data/`, changelog PR, GitHub issue | Tạm thời (tháng) | Lỗi deploy #387 cancelled; 404 link sao chép; migration URL `github.io→seomoney.org` |
+| **Vaccine** | Cùng nhóm lỗi tái phát 2+ lần OR dự phòng | V-number (§4, detector, autofixer, test) | Vĩnh viễn | V1 HF model, V5 rate-limit, V8 Tera syntax, V10 merge race |
+| **Doctrine** | Quy tắc vận hành, kiến trúc vĩnh viễn, policy | **§ CLAUDE.md CHÍNH** | Vĩnh viễn | ZERO_BARRIER, Task Priority, SEO CONTENT SYSTEM, Premium Paywall Rules |
+| **Private Knowledge** | SEO/affiliate/monetization strategy, prompt, vận hành cá nhân | `CLAUDE_PRIVATE.md` + `docs/private/` | Công ty (không public) | Affiliate program, SEO chủ đề mục tiêu, pricing private, team runbook |
+
+### Quy trình — từ Incident → Vaccine → Doctrine
+
+```
+1. Incident Reported
+   └─ Quét Vaccine library (§4 V1–V26) ↓
+   
+2. Match Vaccine?
+   ├─ YES → Run FIXER (không chẩn lại)
+   │        Log vào "Autofixer Conflict Learning Log" / "Merge Session"
+   │        Chỉ append vào CLAUDE.md nếu Vaccine nay cần tuỳnh chỉnh
+   └─ NO → Chẩn đoán từ đầu với `ff`/`ff9`
+          └─ Recurring Issue (2+ lần)?
+             ├─ YES → Create New Vaccine
+             │        Detector + FIXER + Unit test
+             │        Append block `#### V<N> —` vào §4
+             └─ NO → Fix once, log Learning Log
+                     Đừng làm Vaccine nếu chỉ vài lần
+```
+
+### Incident → Report (KHÔNG vào CLAUDE.md)
+
+- **Khi:** lỗi 1 lần, fix mau, không tái phát dễ dàng
+- **Lưu ở:**
+  - GitHub PR/Issue description + comments
+  - Commit message (lý do fix)
+  - `data/merge-report.json` (cho Merge Session)
+  - `data/qa-*.json` reports (dashboard tracing)
+- **Ví dụ:**
+  - "#387 build cancelled do concurrency — không phải fail" → append vào "Build Dashboard Learning" chỗ đó
+  - Link `/zola/` migration từ `github.io` → fix + log "Domain Migration" learning
+
+### Vaccine (§4 + detector + test)
+
+- **Khi:** lỗi xuất hiện 2+ lần, pattern rõ, fix bền vững
+- **Ghi vào:** CLAUDE.md `#### V<N> —` block, **tuyệt đối KHÔNG đổi số**
+- **Cặp theo:** detector (`qa_vaccines.py` check), fixer script, autofixer workflow, unit test
+- **Ví dụ:** V5 rate-limit → V5 detector FAIL khi `deploy.yml` concurrency sai → V5 FIXER rerun deploy
+
+### Doctrine (vĩnh viễn)
+
+- **Khi:** quy tắc vận hành, kiến trúc không đổi, policy repo-wide
+- **Ghi vào:** CLAUDE.md §đầu (Policy, Rules, Standards)
+- **Cấp độ:**
+  - **Cao nhất:** `## Automation Policy` (ZERO_BARRIER), `## Deploy Queue Policy`
+  - **Trung:** `## QA Rules`, `## Git Rules`, `## SEO Content System Rule`
+  - **Chi tiết:** subsection trong § lớn
+- **Ví dụ:** "Auto-merge CI xanh mà không hỏi" = Doctrine → `## Auto-Merge Policy`
+
+### Private Knowledge (ngoài repo public)
+
+- **Khi:** bí mật kinh doanh, strategy, credentials, internal process
+- **KHÔNG ghi:** CLAUDE.md, README, tài liệu public
+- **Lưu ở:** `CLAUDE_PRIVATE.md` + `docs/private/` (private repo or env-gated)
+- **Ví dụ:**
+  - Affiliate link + commission rate
+  - Target niche/SEO pillars (hạn chế publish)
+  - Monetization roadmap (NDA)
+  - Team member names, roles (privacy)
+  - Internal Slack/email template (công ty)
+
+### Anti-Bloat Checklist (trước khi append CLAUDE.md)
+
+**Trước khi thêm section nào vào CLAUDE.md, hỏi:**
+
+1. ✅ Đây là **policy vĩnh viễn** hay **learning từ 1 incident**?
+   - Policy → CLAUDE.md
+   - Incident → learning log / PR notes
+2. ✅ Có **reuse 2+ lần** rồi hay **mới lần đầu**?
+   - Dùng lại 2+ → ghi Vaccine
+   - Lần đầu → fix + learning log, chờ tái phát
+3. ✅ Đây có phải **private strategy** không?
+   - Có → `CLAUDE_PRIVATE.md`
+   - Không → đúng vị trí trong CLAUDE.md
+4. ✅ Có **xung đột** với section nào khác?
+   - Có → merge vào section cũ, không tạo section trùng
+   - Không → tạo section mới
+
+### Vaccine Governance
+
+- **Mỗi vaccine = 1 số duy nhất** (`V<N>`), **KHÔNG bao giờ đổi số**.
+- **Rename vaccine** → chỉ đổi tiêu đề `####` hoặc nội dung, giữ nguyên `V<N>`.
+- **Deprecate vaccine** → đánh dấu `[DEPRECATED — xem V<N+M> thay thế]`, KHÔNG xoá.
+- **Detector + Test bắt buộc** khi thêm vaccine mới. Nếu không thể detect tĩnh → vaccine thuộc type **Process** (ví dụ V10/V12 "Dirty PR" — chỉ phát hiện thời PR bị conflict).
+
+### Learning Log Lifecycle
+
+- **Autofixer Conflict Learning Log:** append tự động sau mỗi lần `autofix_conflicts.py` thành công
+- **Merge Session Learning Log:** append thủ công sau mỗi phiên maintenance merge
+- **Build/Compliance Dashboard Learning:** append khi phát hiện dashboard logic bug hoặc false-positive
+- **Max 10 entries** per log (archive cũ → docs nếu lịch sử dài)
+
+### File Map
+
+| Loại tri thức | File chính | Lưu chỗ khác | Config |
+|----------------|-----------|-------------|--------|
+| **Doctrine** | `CLAUDE.md` §0–§ rules | — | — |
+| **Vaccine** | `CLAUDE.md` §4 `#### V<N>` | detector: `qa_vaccines.py` · test: `test_qa_vaccines.py` · autofixer: workflow `.yml` | data auto-increment `next_free_vaccine_number()` |
+| **Incident** | — | PR / Issue / Merge Report / Dashboard JSON | `data/merge-report.json` history |
+| **Learning Log** | `CLAUDE.md` tail sections | — | append-only (không xoá) |
+| **Private** | `CLAUDE_PRIVATE.md` (nếu có) | `docs/private/*` | env-gated, không push `main` |
+
+### Khi thêm Vaccine mới
+
+1. Bổ sung block `#### V<N> —` vào §4 (CLAUDE.md).
+2. Viết detector trong `CLAUDE.md` → implement trong `scripts/qa_vaccines.py` → register `DETECTORS[]`.
+3. Viết autofixer (nếu safe) hoặc FIXER thủ công (nếu risky).
+4. Viết unit test: negative (phát hiện bug), positive (current `main` = PASS).
+5. Chạy `qa_vaccines.py` → confirm vaccine PASS trên `main`.
+6. Đừng tăng số vaccine vừa tạo nếu có vaccine khác chờ pending (queue by discovery order).
+
+### Khi lỡ ghi sai chỗ
+
+- **Incident ghi vào CLAUDE.md:** xoá, đưa vào PR/learning log thay vì CLAUDE.md chính
+- **Vaccine số trùng:** đánh dấu deprecated, gán số tiếp trong queue
+- **Private ghi vào public:** revert, move `CLAUDE_PRIVATE.md`, xoá khỏi git history (`git filter-repo`)
+- **Vaccine không có detector:** append detector vào `qa_vaccines.py` ngay (không để pending)
 
 ## Task Priority Policy (effective 2026-06-18)
 
@@ -1151,6 +1300,55 @@ fenced blocks.
   vaccines must use the next free number from `next_free_vaccine_number()` — never hardcode a taken one.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SeoIdentityV20Test scripts.test_qa_vaccines.VaccineRegistryGuardTest -v`
 
+#### V25 — Split-backend 404: frontend route on `blog-vipzone-api` exists only in undeployed `services/visitor-counter`
+
+> Deploy/infra vaccine — generalises V16/V22b into a permanent rule + static gate +
+> post-deploy checker. Match the signature → mount the route on the DEPLOYED service;
+> NEVER report success while a frontend-called route 404s.
+
+- **Symptom:** the static site calls `${vipzone_api_url}/…` (= `https://blog-vipzone-api.onrender.com/…`,
+  the `AUTH_API` in `static/js/*`) and gets **`404 {"detail":"Not Found"}`** for a route
+  that clearly exists in the repo — typically a `/cms/*`, `/gsc/*`, `/auth/*` or
+  `/api/vipzone/*` endpoint. `zola build` and the GitHub Pages deploy are both green;
+  the bug is purely backend route absence. Editor save, SEO Reality Check (GSC), author
+  profile, footer countdown, content-creator, giscus setup, etc. silently fail.
+- **Root cause (the permanent trap):** Render deploys **ONLY** `services/vipzone`
+  (`render.yaml` → `rootDir: services/vipzone`, `name: blog-vipzone-api`). The route was
+  added to `services/visitor-counter/` (the old Redis service, **not deployed**), so it
+  lives in the repo but is **dead in production**. A route that exists only in
+  `visitor-counter` is never served to the production frontend. Same class as V16
+  (static↔backend split-brain) and V22b (#588 CMS routes 404'd until ported to vipzone).
+- **RULE (BẮT BUỘC):** **Any** frontend API path that uses `vipzone_api_url` /
+  `blog-vipzone-api.onrender.com` (i.e. `AUTH_API + "/…"` in `static/js/**`) MUST have a
+  matching route mounted on the **deployed** `services/vipzone` app — either directly in
+  `services/vipzone/main.py` (`@app.*`) or on a router mounted there via `include_router`
+  (`cms_auth.py`, `cms_repo.py`, or `gsc_routes.py` imported from visitor-counter with
+  prefix `/gsc`). Keep `services/visitor-counter` for compatibility, but **never rely on
+  it** for any route the production frontend calls.
+- **FIXER:** port/mount the missing route onto `services/vipzone` (faithful minimal port,
+  source the GitHub token from the vipzone CMS session as `cms_repo.py` does); add it to
+  the appropriate mounted router; re-run the static parity detector + the post-deploy
+  checker; after merge, run `backend_route_check.py` against production before calling it
+  done (a green Pages deploy + a 404 critical route = **incomplete**).
+- **Static detector:** `scripts/qa_vaccines.py` → `check_v24_backend_route_parity`
+  (code `V24`). **FAIL** if a critical route (`/health`, `/gsc/status`, `/cms/save-post`)
+  is not mounted on `services/vipzone` (directly or via a mounted router). **WARN** per
+  frontend `/cms/*` or `/gsc/*` family that has no matching deployed route (drift to fix).
+  Calibrated so current `main` = 0 FAIL.
+- **Post-deploy checker:** `python3 scripts/backend_route_check.py` hits the live backend
+  and asserts the critical routes never return 404 — `/health` 200, `/gsc/status` not-404,
+  `/cms/save-post` (POST, no auth) **401/403/405 but NEVER 404**. Report-only by default
+  (exit 0), `--strict` exits 2 on any 404. Reads `/health` `critical_routes`/`cms_mounted`/
+  `gsc_mounted`/`backend_sha` when present.
+- **`/health` fields (optional, additive):** `services/vipzone/main.py` `_health_payload()`
+  now also returns `backend_sha` (alias of `deployed_sha`), `cms_mounted`, `gsc_mounted`,
+  and `critical_routes` (`{route: mounted}` from the live `app.routes`).
+- **Smoke URLs (exact):**
+  - `https://blog-vipzone-api.onrender.com/health` → 200, `critical_routes` all `true`
+  - `https://blog-vipzone-api.onrender.com/gsc/status` → not 404 (401/200)
+  - `curl -X POST https://blog-vipzone-api.onrender.com/cms/save-post` → 401/403/405, never 404
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.BackendRouteParityV25Test scripts.test_backend_route_check -v`
+
 #### V24 — GSC OAuth refresh token acquired but not persistable after redeploy (operator export path)
 
 > Deploy/operator vaccine. The OAuth flow can mint a refresh token into the VIPZone
@@ -1195,61 +1393,113 @@ fenced blocks.
   (no token leak in status · supervip-only export · invalid sid denied · masked default /
   reveal full · env preferred over KV · missing token → clear 404).
 
-#### V25 — GA stats module after the seomoney.org move: read ONLY property 542421812, never leak old-property numbers, GA Vacxin hourly health
+#### V26 — "On This Page" TOC rail: blog posts need the sticky scroll-spy right rail (B-DNA pattern)
 
-> Analytics/identity vaccine. After the domain move the footer GA module must read the
-> NEW GA4 property only; the hourly **GA Vacxin** bot proves the pipeline is healthy.
-> Match the signature → apply the FIXER; detector `check_ga_stats_vaccine` (code `V25`)
-> guards it statically.
+> UI vaccine (not a workflow-run bug — the post builds, the guard protects the rail).
+> Match the signature → keep the scoped partial + scroll-spy JS; never ship a raw rail
+> or break mobile. Detector `check_toc_rail_vaccine` (code `TOC-RAIL`) gates it.
 
-- **Symptom:** the footer "Lưu lượng truy cập" (GA stats) module shows stale numbers from
-  the OLD github.io property (e.g. top country `United States` / `desktop`), or shows
-  nothing with no explanation, after the site moved to `seomoney.org`. Root cause is one
-  of: (a) `scripts/fetch_ga_stats.py` still fetching property `541698865`; (b) `config.toml`
-  still on measurement `G-REFBXH86Z5`; (c) `data/ga-stats.json` cached with the old
-  property so its numbers leak even after the code is fixed; (d) no health signal, so a
-  disconnected GA looks identical to "zero traffic". A green `zola build` does NOT prove
-  the GA module reads the right property.
-- **Canonical identity (single source = `config.toml [extra]`):** property
-  **`542421812`** · measurement **`G-SMTFZVC0XN`** · site `seomoney.org`. Deep links
-  `ga_dashboard_url` / `ga_fix_url` use the account-agnostic `#/p542421812/` form.
-- **Cache isolation (the key rule):** every GA data file is **stamped** with
-  `property_id` + `measurement_id` + `site`. `templates/base.html` renders numbers ONLY
-  when `ga_stats.property_id == config.extra.ga_property_id` AND `ga-health.json` status
-  is `ok`; otherwise every KPI cell shows `—` and an inline warning banner + a link
-  button to GA appears. So a stale/foreign-property file can never leak old numbers.
+- **Symptom (regression it guards):** a long article loses its sticky **"Trong bài này"**
+  right rail — the desktop scroll-spy TOC inspired by the B-DNA rail (`.bdna__rail`,
+  `templates/b-dna.html`). Either the rail stops rendering, the active-heading highlight
+  dies (no `IntersectionObserver`), or the rail leaks onto narrow/mobile widths and
+  overflows. A green `zola build` does NOT prove the rail still works — only this detector
+  or a render check does.
+- **Root cause it prevents:** the rail lives in three coupled places — the scoped partial
+  `sass/_toc-rail.scss` (`@import "toc-rail"` in `site.scss`, after `toc`), the server-side
+  markup in `templates/page.html` (`<aside class="toc-rail" data-toc-rail>` generated from
+  `page.toc`, gated by `show_rail = show_toc and not paywall_active`), and the scroll-spy
+  engine `static/js/toc-rail.js`. Drop any one → the rail breaks. The rail is **additive**:
+  it sits in a `.post-layout--rail` grid (`minmax(0,1fr) 248px`) beside the article, sticky
+  on desktop **≥1300px only**; below that it is `display:none` and the existing inline
+  `.toc` (top of content) serves instead — never two TOCs at once, no overflow, no layout
+  shift (rail is server-rendered; JS only toggles `.is-active`).
+- **FIXER:** keep `sass/_toc-rail.scss` (`.toc-rail` `position:sticky`, `.post-layout`
+  `grid-template-columns`, `.is-active` accent highlight, `display:none` default + a
+  `@media (min-width: …)` desktop gate) + `@import "toc-rail"`; keep the `data-toc-rail` /
+  `data-toc-link` / `page.toc` markup + the `toc-rail.js` include in `page.html`; keep
+  `IntersectionObserver` in `toc-rail.js`. Smooth scroll on click is CSS-native
+  (`html { scroll-behavior: smooth; scroll-padding-top }`, `_reset.scss`) — do not add a
+  scroll handler. Heading IDs come from Zola (stable slugs) → `#{{ h.id }}` anchors.
+- **Rules (permanent):** the rail is a **reader-facing TOC, not site navigation** — it uses
+  `.toc-rail*` selectors (never `.side-nav`/`.nav-rail`), so it is sticky by design and is
+  **not** subject to V21 (No Floating Nav). Never render the rail on mobile (keep the inline
+  `.toc` there); never duplicate the inline TOC and the rail at the same width; tokens only
+  (`var(--c-*)`), no hardcoded colors; the rail must no-op safely with few/no headings
+  (template `toc_total >= 3` guard + JS early-returns).
+- **Detector:** `scripts/qa_vaccines.py` → `check_toc_rail_vaccine` (code `TOC-RAIL`): FAIL if
+  the partial is missing/unimported, lacks sticky/`.post-layout` grid/`.is-active`, if
+  `page.html` lost `data-toc-rail`/`data-toc-link`/`page.toc`/`toc-rail.js`, or if
+  `toc-rail.js` is gone / has no `IntersectionObserver`; WARN if the rail is not hidden by
+  default or has no desktop `min-width` media (overflow risk).
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.TocRailVaccineTest -v`
+- **Validation:** `python3 scripts/qa_vaccines.py` (TOC-RAIL PASS) · `qa_check.py` PASS ·
+  `zola build` PASS · rail renders sticky on desktop ≥1300px with the active section
+  highlighted on scroll, hidden (inline `.toc` only) on tablet/mobile.
+#### V27 — GA stats module: build-time analytics, never fake numbers, pending when not configured
+
+> Analytics/identity vaccine. After the seomoney.org domain move the footer GA module must
+> read the NEW GA4 property only. GA data is generated at **CI build-time** (not Render env).
+> If `GA_SERVICE_ACCOUNT_KEY` is missing or property access not granted, the UI shows a calm
+> **pending** state — never fake/demo numbers. Match the signature → apply the FIXER;
+> detector `check_ga_stats_vaccine` (code `V27`) guards it statically.
+
+- **Symptom:** the footer GA stats module shows stale numbers from the OLD github.io property
+  (e.g. top country `United States` / `desktop`), or shows nothing with no explanation, after
+  the site moved to `seomoney.org`. Root cause: (a) `scripts/fetch_ga_stats.py` still fetching
+  property `541698865`; (b) `config.toml` still on measurement `G-REFBXH86Z5`; (c)
+  `data/ga-stats.json` cached with the old property leaking even after the code is fixed;
+  (d) no health signal, so a disconnected GA looks identical to "zero traffic". A green
+  `zola build` does NOT prove the GA module reads the right property.
+- **Canonical identity (single source = `config.toml [extra]`):** property **`542421812`** ·
+  measurement **`G-SMTFZVC0XN`** · site `seomoney.org`. Deep links `ga_dashboard_url` /
+  `ga_fix_url` use the account-agnostic `#/p542421812/` form. **`config.toml` carries public
+  identity only — NEVER the service-account key, NEVER a credential.**
+- **Cache isolation (the key rule):** every GA data file is **stamped** with `property_id` +
+  `measurement_id` + `site`. `templates/base.html` renders numbers ONLY when
+  `ga_stats.property_id == config.extra.ga_property_id` AND `ga-health.json` status is `ok`;
+  otherwise every KPI cell shows `—` and an inline warning banner + a link button to GA
+  appears. A stale/foreign-property file can never leak old numbers.
 - **GA Vacxin (hourly bot):** `scripts/ga_vacxin.py` + `.github/workflows/ga-vacxin.yml`
   (cron `30 * * * *`, offset from Fetch GA Stats at `:00`). Checks: GA API auth · property
   access (542421812 only) · recent data (7d) · site tag connectivity (live gtag for
   `G-SMTFZVC0XN`) · cache isolation. Writes a **public-safe** `data/ga-health.json`
-  (+`static/data/ga-health.json` for `ga-health.js` live refresh). Crash-safe (never
-  raises, exit 0; `--offline` skips network → status `pending`); NEVER writes a credential
-  field. Status ∈ {ok, pending, disconnected, error}: `ok` → subtle healthy chip +
-  last-checked time; otherwise → warning banner + fix link.
+  (+`static/data/ga-health.json` for `ga-health.js` live refresh). Crash-safe (never raises,
+  exit 0; `--offline` skips network → status `pending`); NEVER writes a credential field.
+  Status ∈ {ok, pending, disconnected, error}: `ok` → subtle healthy chip + last-checked time;
+  otherwise → warning banner + fix link.
+- **Build-time analytics rules (PERMANENT):**
+  1. Analytics public UI on static site MUST read CI/build-time generated JSON (`data/ga-stats.json`,
+     `data/ga-health.json`). NO Render env required for this module.
+  2. If `GA_SERVICE_ACCOUNT_KEY` is missing or GA4 property Viewer permission is not granted,
+     the UI MUST show a calm **pending** state — NEVER fake, hardcoded, or demo numbers.
+  3. `GA_SERVICE_ACCOUNT_KEY` lives ONLY in **GitHub Actions Secrets**. NEVER commit it,
+     NEVER put it in `config.toml`, NEVER require it on Render.
+  4. `config.toml` may contain ONLY public identity: `ga_property_id`, `ga_measurement_id`,
+     `ga_dashboard_url`, `ga_fix_url` — NO credentials.
+  5. The GA fetch workflow (`ga-stats.yml`) MUST be fail-safe: if it errors → exit 0,
+     write a `status: pending` health file, NEVER break the production build.
+  6. Only report "live with real numbers" AFTER a successful `ga-stats.yml` run generates
+     valid JSON stamped with `property_id: "542421812"` AND `ga-health.json` status is `ok`.
 - **FIXER:** (1) `fetch_ga_stats.py` `PROPERTY_ID` default `542421812` + stamp identity in
   output. (2) `config.toml` `ga_measurement_id = "G-SMTFZVC0XN"`, `ga_property_id = "542421812"`,
   add `ga_dashboard_url` / `ga_fix_url`. (3) Reset `data/ga-stats.json` to the new property
   with null metrics (no old-property leak; **no fake/demo numbers**). (4) `base.html` gtag
-  stays templated (`config.extra.ga_measurement_id`, never a hardcoded `G-…`). (5) Remove
+  stays templated (`config.extra.ga_measurement_id`, never a hardcoded `G-\u2026`). (5) Remove
   `541698865` / `G-REFBXH86Z5` from all active GA config/code (only `ga_vacxin.py` +
   `qa_vaccines.py` may reference them — to DETECT them).
-- **Detector (`scripts/qa_vaccines.py` → `check_ga_stats_vaccine`, code `V25`):** FAIL on
+- **Operator action (external — Claude cannot do this):**
+  - GitHub Actions Secret: `GA_SERVICE_ACCOUNT_KEY` (service account JSON key)
+  - GA4 Property `542421812`: grant the service-account email **Viewer** role in GA console
+  - Existing `WORKFLOW_BOT_PAT` pushes the refreshed data JSON
+- **Detector (`scripts/qa_vaccines.py` → `check_ga_stats_vaccine`, code `V27`):** FAIL on
   wrong property/measurement in config, wrong `fetch_ga_stats.py` default, old id drift in
   active GA files, hardcoded gtag id, or a credential/old-property leak in `ga-stats.json`
   / `ga-health.json`. WARN if the hourly workflow, the inline banner, `ga-health.js`, the
-  deep-link config, or the health schema is missing. (`check_js_syntax` separately FAILs on
-  a `ga-health.js` syntax error → "no JS crash".)
-- **Rules (permanent):** GA numbers render only for the CURRENT property; the GA module
-  must show an inline warning + GA link when disconnected/pending/error (never a silent
-  dead module); GA Vacxin runs hourly and is crash-safe; NEVER commit the service-account
-  key or any credential field into `data/*.json`; no fake/hardcoded demo numbers.
-- **Env / settings (operator):** GitHub Actions secret `GA_SERVICE_ACCOUNT_KEY` (Viewer
-  service account on GA4 property 542421812) drives both Fetch GA Stats and GA Vacxin;
-  `WORKFLOW_BOT_PAT` pushes the refreshed data. No Render env needed (GA is build-time
-  data, served as committed JSON). `config.toml` carries the public identity only.
+  deep-link config, or the health schema is missing.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.GaStatsVaccineTest -v` ·
   `python3 -m unittest scripts.test_ga_vacxin -v`.
-- **Validation (2026-06-21):** `qa_vaccines.py` V25 PASS · `fetch_ga_stats.py` stamps
+- **Validation (2026-06-21):** `qa_vaccines.py` V27 PASS · `fetch_ga_stats.py` stamps
   property 542421812 · `ga_vacxin.py --offline` → status `pending`, config + cache checks
   PASS · `ga-stats.json` reset (null metrics, new property) · no old id in active files.
 
@@ -1654,7 +1904,7 @@ Bắt buộc với MỌI task có thay đổi code (đã commit + push).
 1. **PR tồn tại** — `mcp__github__list_pull_requests` kiểm tra branch. Chưa có → tạo PR
    với tiêu đề rõ ràng + body mô tả thay đổi + test plan. PR title cũ/tự động
    (vd "Claude/branch-name") → cập nhật bằng `mcp__github__update_pull_request`.
-2. **Không có conflict markers** — `grep -r "<<<<<<\|=======\|>>>>>>" content/ templates/ scripts/`
+2. **Không có conflict markers** — `grep tìm conflict markers trong content/, templates/, scripts/`
    → không được có kết quả (ngoài example text trong comment). Nếu có → giải quyết
    semantically (V10/V12 CLAUDE.md) trước khi push.
 3. **Rebase lên latest `main`** — nếu branch stale (V9/V10 vaccine), merge `origin/main`

@@ -2,6 +2,121 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "resolve CLAUDE manifesto conflict [claude/gracious-newton-0uxf2c]",
+      "tag": "fix",
+      "lines_added": 65,
+      "lines_removed": 39,
+      "highlights": [
+        "docs(claude): introduce zero barrier manifesto",
+        "fix: resolve CLAUDE manifesto conflict",
+        "CLAUDE.md (modified, +65/-39)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 614
+    },
+    {
+      "date": "2026-06-21",
+      "title": "fix(claude): remove conflict-marker example triggering QA [claude/amazing-brown-rhu2ne]",
+      "tag": "remove",
+      "lines_added": 9,
+      "lines_removed": 1,
+      "highlights": [
+        "chore(ci): enable full auto PR flow for working branches",
+        "fix(claude): remove conflict-marker example triggering QA",
+        ".github/workflows/ensure-pr-after-push.yml (modified, +6/-0)",
+        "CLAUDE.md (modified, +1/-1)",
+        "data/auto-merge-policy.json (modified, +2/-0)"
+      ],
+      "pr": 617
+    },
+    {
+      "date": "2026-06-21",
+      "title": "fix(assets): restore shared assets causing repeated 404s",
+      "tag": "fix",
+      "lines_added": 21,
+      "lines_removed": 6,
+      "highlights": [],
+      "pr": 618
+    },
+    {
+      "date": "2026-06-21",
+      "title": "chore(git): ignore private AI notes and local QA artifacts",
+      "tag": "chore",
+      "lines_added": 9,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 615
+    },
+    {
+      "date": "2026-06-21",
+      "title": "docs(ci): define tiered QA architecture",
+      "tag": "chore",
+      "lines_added": 98,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 613
+    },
+    {
+      "date": "2026-06-21",
+      "title": "docs(claude): add knowledge promotion rule [claude/festive-tesla-wgwmcs]",
+      "tag": "chore",
+      "lines_added": 132,
+      "lines_removed": 0,
+      "highlights": [
+        "CLAUDE.md (modified, +132/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/festive-tesla-wgwmcs là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 616
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(tools): add PR Sentinel CI radar",
+      "tag": "chore",
+      "lines_added": 509,
+      "lines_removed": 4,
+      "highlights": [],
+      "pr": 612
+    },
+    {
+      "date": "2026-06-21",
+      "title": "fix(qa): V18 gitignore volatile artifacts; BRAND OG+placeholder; DEPLOY-MON footer widget [claude/determined-curie-q1qs2b]",
+      "tag": "fix",
+      "lines_added": 719,
+      "lines_removed": 30,
+      "highlights": [
+        "feat(open-pr-monitor): build-time Open PR Monitor section below footer",
+        "fix(qa): V18 gitignore volatile artifacts; BRAND OG+placeholder; DEPLOY-MON footer widget",
+        ".github/workflows/deploy.yml (modified, +5/-0)",
+        ".github/workflows/qa.yml (modified, +1/-1)",
+        ".gitignore (modified, +10/-0)"
+      ],
+      "pr": 608
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(security): add Turnstile footer and setup guide",
+      "tag": "security",
+      "lines_added": 522,
+      "lines_removed": 170,
+      "highlights": [],
+      "pr": 605
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(security): add Turnstile footer and setup guide",
+      "tag": "security",
+      "lines_added": 522,
+      "lines_removed": 170,
+      "highlights": [],
+      "commit": "b187a7c7baa7",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-21",
       "title": "CMS: cập nhật bài 'AI lập kế hoạch du lịch: thay đổi cách đi'",
       "tag": "chore",
       "lines_added": 3,
