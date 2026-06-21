@@ -3328,3 +3328,32 @@ Trang `/tools/h-dashboard/` — thống kê chi tiêu từ **hóa đơn mua hàn
 | Styles | `sass/_h-dashboard.scss` (import sau `o-dashboard` trong `site.scss`) |
 | JS | `static/js/h-dashboard/*.js` (`invoice-parser.js`, `ocr-loader.js`, `app.js`, `export.js`…) |
 | Menu | `config.toml` `[[extra.main_menu]]` sau O-Dashboard |
+
+## Vaccine: Local publish không commit build/dependency artifacts
+
+> Production rule (local publish safety). Match the signature → run the FIXER; never
+> commit generated/dependency artifacts to work around a local deploy problem.
+
+**Rule:**
+
+- Always ignore local/generated artifacts: `node_modules/`, `public/`.
+- Before any push, run: `git ls-files node_modules public`.
+- If output is non-empty, stop and remove from Git index: `git rm -r --cached node_modules public 2>/dev/null || true`
+- If GitHub rejects push because of large files, do not retry same branch blindly.
+- Create a clean branch from `origin/main`, copy only intended files, then commit/push.
+- If branch push fails with non-fast-forward, do not force push by default.
+- Create a unique branch name or rebase onto latest `origin/main`.
+- Before pushing to `main`, always run: `git fetch origin && git rebase origin/main`
+- Never commit dependency/build artifacts to fix a local deploy problem.
+
+**Why:** This prevents accidental commits of `node_modules`, Zola `public/` build output,
+Wrangler/workerd binaries, and other heavy generated artifacts that can break GitHub push
+or pollute repo history.
+
+**Pre-push checklist:**
+
+```bash
+git diff --check
+git ls-files node_modules public
+git rev-list --objects HEAD ^origin/main | grep -E "node_modules|workerd|public/" | head -20 || echo "OK: branch sạch."
+```
