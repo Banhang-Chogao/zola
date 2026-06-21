@@ -71,6 +71,21 @@ jobs:
           fi
           python3 scripts/gsc_preflight.py
 
+      # Sync GSC token to backend for post-deploy persistence. Ensures OAuth token
+      # survives deploy cycle and backend auto-refreshes on next API call.
+      # Non-blocking if backend unreachable (deployment continues).
+      - name: Sync GSC token to backend (post-deploy persistence)
+        env:
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+        run: |
+          if [ -n "${GSC_REFRESH_TOKEN}" ] && [ -n "${GSC_CLIENT_ID}" ] && [ -n "${GSC_CLIENT_SECRET}" ]; then
+            pip install --quiet requests google-auth==2.40.2
+            python3 scripts/gsc_token_persist.py
+          fi
+
       - name: Build social OG cover images (SVG → .og.webp)
         run: |
           pip install -r scripts/requirements-og-images.txt
