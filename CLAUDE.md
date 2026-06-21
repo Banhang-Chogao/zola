@@ -1440,7 +1440,7 @@ fenced blocks.
 
 > Analytics/identity vaccine. After the seomoney.org domain move the footer GA module must
 > read the NEW GA4 property only. GA data is generated at **CI build-time** (not Render env).
-> If `GA_SERVICE_ACCOUNT_KEY` is missing or property access not granted, the UI shows a calm
+> If credentials are missing or property access not granted, the UI shows a calm
 > **pending** state — never fake/demo numbers. Match the signature → apply the FIXER;
 > detector `check_ga_stats_vaccine` (code `V27`) guards it statically.
 
@@ -1471,10 +1471,12 @@ fenced blocks.
 - **Build-time analytics rules (PERMANENT):**
   1. Analytics public UI on static site MUST read CI/build-time generated JSON (`data/ga-stats.json`,
      `data/ga-health.json`). NO Render env required for this module.
-  2. If `GA_SERVICE_ACCOUNT_KEY` is missing or GA4 property Viewer permission is not granted,
+  2. If credentials are missing or GA4 property Viewer permission is not granted,
      the UI MUST show a calm **pending** state — NEVER fake, hardcoded, or demo numbers.
-  3. `GA_SERVICE_ACCOUNT_KEY` lives ONLY in **GitHub Actions Secrets**. NEVER commit it,
-     NEVER put it in `config.toml`, NEVER require it on Render.
+  3. Service account credentials live ONLY in **GitHub Actions Secrets** (secret name:
+     `GA_SERVICE_ACCOUNT_KEY_JSON`, value = service account JSON file content). Passed via
+     `GOOGLE_APPLICATION_CREDENTIALS` temp file. NEVER commit, NEVER in `config.toml`,
+     NEVER require on Render. Use standard Google Cloud auth practices.
   4. `config.toml` may contain ONLY public identity: `ga_property_id`, `ga_measurement_id`,
      `ga_dashboard_url`, `ga_fix_url` — NO credentials.
   5. The GA fetch workflow (`ga-stats.yml`) MUST be fail-safe: if it errors → exit 0,
@@ -1489,9 +1491,10 @@ fenced blocks.
   `541698865` / `G-REFBXH86Z5` from all active GA config/code (only `ga_vacxin.py` +
   `qa_vaccines.py` may reference them — to DETECT them).
 - **Operator action (external — Claude cannot do this):**
-  - GitHub Actions Secret: `GA_SERVICE_ACCOUNT_KEY` (service account JSON key)
+  - GitHub Actions Secret: `GA_SERVICE_ACCOUNT_KEY_JSON` (entire service account JSON file content)
   - GA4 Property `542421812`: grant the service-account email **Viewer** role in GA console
   - Existing `WORKFLOW_BOT_PAT` pushes the refreshed data JSON
+  - See `docs/GA_VACXIN_IMPLEMENTATION.md` for full setup guide
 - **Detector (`scripts/qa_vaccines.py` → `check_ga_stats_vaccine`, code `V27`):** FAIL on
   wrong property/measurement in config, wrong `fetch_ga_stats.py` default, old id drift in
   active GA files, hardcoded gtag id, or a credential/old-property leak in `ga-stats.json`

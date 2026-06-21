@@ -1,7 +1,7 @@
 """
 Fetch Google Analytics 4 stats qua Data API, output data/ga-stats.json.
 
-Service Account key: env GA_SERVICE_ACCOUNT_KEY (JSON string).
+Credential: env GOOGLE_APPLICATION_CREDENTIALS (file path to service account JSON).
 Property: 542421812 (GA4 stream cho tên miền seomoney.org — 2026-06-21).
 
 Cache isolation: output LUÔN đóng dấu `property_id` + `measurement_id` + `site`.
@@ -41,14 +41,14 @@ Output format (production-standard: base metrics + extended 30d + organic search
 }
 
 Chạy local (debug):
-  export GA_SERVICE_ACCOUNT_KEY=$(cat key.json)
+  export GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json
   python scripts/fetch_ga_stats.py
 """
 import json
 import os
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path  # Used in get_client()
 
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
 from google.analytics.data_v1beta.types import (
@@ -72,20 +72,37 @@ SITE = os.environ.get("GA_SITE", "seomoney.org")
 
 
 def get_client():
-    key_str = os.environ.get("GA_SERVICE_ACCOUNT_KEY", "")
-    if not key_str:
-        print("ERROR: GA_SERVICE_ACCOUNT_KEY env không có", file=sys.stderr)
+    """Build GA4 Data API client using GOOGLE_APPLICATION_CREDENTIALS.
+
+    Uses the standard Google Cloud way to pass service account credentials (file path).
+    """
+    cred_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "")
+    if not cred_path:
+        print("ERROR: GOOGLE_APPLICATION_CREDENTIALS env không có", file=sys.stderr)
         sys.exit(1)
+
     try:
-        info = json.loads(key_str)
+        cred_file = Path(cred_path)
+        if not cred_file.exists():
+            print(f"ERROR: credential file không tồn tại: {cred_path}", file=sys.stderr)
+            sys.exit(1)
+        info = json.loads(cred_file.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
-        print(f"ERROR: GA_SERVICE_ACCOUNT_KEY không phải JSON: {e}", file=sys.stderr)
+        print(f"ERROR: credential file không phải JSON: {e}", file=sys.stderr)
         sys.exit(1)
-    creds = service_account.Credentials.from_service_account_info(
-        info,
-        scopes=["https://www.googleapis.com/auth/analytics.readonly"],
-    )
-    return BetaAnalyticsDataClient(credentials=creds)
+    except Exception as e:
+        print(f"ERROR: lỗi đọc credential file: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        creds = service_account.Credentials.from_service_account_info(
+            info,
+            scopes=["https://www.googleapis.com/auth/analytics.readonly"],
+        )
+        return BetaAnalyticsDataClient(credentials=creds)
+    except Exception as e:
+        print(f"ERROR: không tạo GA client: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 def fetch_metric(client, start: str, end: str) -> dict:

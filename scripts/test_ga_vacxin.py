@@ -120,30 +120,62 @@ class CacheIsolationTest(unittest.TestCase):
 
 class AuthTest(unittest.TestCase):
     def setUp(self):
-        self._saved = os.environ.pop("GA_SERVICE_ACCOUNT_KEY", None)
+        self.sb = _Sandbox()
+        self.addCleanup(self.sb.restore)
+        self._saved_cred = os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
 
     def tearDown(self):
-        if self._saved is not None:
-            os.environ["GA_SERVICE_ACCOUNT_KEY"] = self._saved
+        if self._saved_cred is not None:
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self._saved_cred
 
     def test_offline_skips(self):
         info, chk = ga.load_service_account(offline=True)
         self.assertIsNone(info)
         self.assertEqual(chk["status"], ga.SKIP)
 
-    def test_missing_key_fails(self):
+    def test_missing_credentials_fails(self):
         info, chk = ga.load_service_account(offline=False)
         self.assertIsNone(info)
         self.assertEqual(chk["status"], ga.FAIL)
 
-    def test_bad_json_fails(self):
-        os.environ["GA_SERVICE_ACCOUNT_KEY"] = "{not json"
+    def test_missing_file_fails(self):
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/nonexistent/path.json"
         try:
             info, chk = ga.load_service_account(offline=False)
             self.assertIsNone(info)
             self.assertEqual(chk["status"], ga.FAIL)
         finally:
-            os.environ.pop("GA_SERVICE_ACCOUNT_KEY", None)
+            os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
+
+    def test_bad_json_file_fails(self):
+        self.sb.write("bad.json", "{not json")
+        bad_path = str(self.sb.root / "bad.json")
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = bad_path
+        try:
+            info, chk = ga.load_service_account(offline=False)
+            self.assertIsNone(info)
+            self.assertEqual(chk["status"], ga.FAIL)
+        finally:
+            os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
+
+    def test_good_credentials_file(self):
+        cred_data = {
+            "type": "service_account",
+            "client_email": "test@example.iam.gserviceaccount.com",
+            "client_id": "123",
+            "private_key_id": "key123",
+            "private_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIE...\n-----END RSA PRIVATE KEY-----\n",
+        }
+        self.sb.write("cred.json", json.dumps(cred_data))
+        cred_path = str(self.sb.root / "cred.json")
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cred_path
+        try:
+            info, chk = ga.load_service_account(offline=False)
+            self.assertIsNotNone(info)
+            self.assertEqual(chk["status"], ga.OK)
+            self.assertEqual(info["client_email"], "test@example.iam.gserviceaccount.com")
+        finally:
+            os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
 
 
 class StatusAndScrubTest(unittest.TestCase):
@@ -192,11 +224,11 @@ class OfflineRunTest(unittest.TestCase):
         self.addCleanup(self.sb.restore)
         self.sb.write("config.toml", GOOD_CONFIG)
         self.sb.write("data/ga-stats.json", '{"property_id":"542421812","updated_at":null}')
-        self._saved = os.environ.pop("GA_SERVICE_ACCOUNT_KEY", None)
+        self._saved_cred = os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
 
     def tearDown(self):
-        if self._saved is not None:
-            os.environ["GA_SERVICE_ACCOUNT_KEY"] = self._saved
+        if self._saved_cred is not None:
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self._saved_cred
 
     def test_build_report_offline_pending(self):
         rep = ga.build_report(offline=True)

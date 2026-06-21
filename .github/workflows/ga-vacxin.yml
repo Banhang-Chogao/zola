@@ -8,9 +8,10 @@ name: GA Vacxin
 # Runs at :30 each hour — offset from "Fetch GA Stats" (:00) so the two GA
 # jobs never collide on the push lock and the API load is spread out.
 #
-# OPTIONAL SECRET: GA_SERVICE_ACCOUNT_KEY (same Viewer service account as
-# Fetch GA Stats). Absent → GA Vacxin still runs and reports `pending`
-# (config + cache-isolation checks only); it never fails the workflow.
+# OPTIONAL SECRET: GA_SERVICE_ACCOUNT_KEY_JSON (Viewer service account JSON).
+# Gets written to temp file and referenced via GOOGLE_APPLICATION_CREDENTIALS.
+# Absent → GA Vacxin still runs and reports `pending` (config + cache-isolation
+# checks only); it never fails the workflow.
 
 on:
   schedule:
@@ -41,9 +42,16 @@ jobs:
       - name: Install Google Analytics SDK
         run: pip install --quiet google-analytics-data==0.18.18
 
-      - name: Run GA Vacxin health check
+      - name: Setup GA credentials
+        run: |
+          if [ -n "$GA_KEY_JSON" ]; then
+            echo "$GA_KEY_JSON" > /tmp/ga-cred.json
+            echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/ga-cred.json" >> $GITHUB_ENV
+          fi
         env:
-          GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
+          GA_KEY_JSON: ${{ secrets.GA_SERVICE_ACCOUNT_KEY_JSON }}
+
+      - name: Run GA Vacxin health check
         run: python scripts/ga_vacxin.py --print
 
       - name: Push to main if changed

@@ -3,8 +3,9 @@ name: Fetch GA Stats
 # Hourly: fetch GA4 metrics qua Data API → commit data/ga-stats.json.
 # Tera template render bảng visitors today/week/month ở footer blog.
 #
-# REQUIRED SECRET: GA_SERVICE_ACCOUNT_KEY (JSON content của Service Account
-# có role 'Viewer' trên GA4 Property 542421812 — stream seomoney.org).
+# REQUIRED SECRET: GA_SERVICE_ACCOUNT_KEY_JSON (Service Account JSON có role 'Viewer'
+# trên GA4 Property 542421812 — stream seomoney.org). Gets written to temp file
+# and referenced via GOOGLE_APPLICATION_CREDENTIALS.
 
 on:
   schedule:
@@ -35,9 +36,16 @@ jobs:
       - name: Install Google Analytics SDK
         run: pip install --quiet google-analytics-data==0.18.18
 
-      - name: Fetch GA stats
+      - name: Setup GA credentials
+        run: |
+          if [ -n "$GA_KEY_JSON" ]; then
+            echo "$GA_KEY_JSON" > /tmp/ga-cred.json
+            echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/ga-cred.json" >> $GITHUB_ENV
+          fi
         env:
-          GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
+          GA_KEY_JSON: ${{ secrets.GA_SERVICE_ACCOUNT_KEY_JSON }}
+
+      - name: Fetch GA stats
         run: python scripts/fetch_ga_stats.py
 
       - name: Refresh improvement progress snapshot

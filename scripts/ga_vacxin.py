@@ -7,7 +7,7 @@ numbers from the old github.io property. GA Vacxin is the watchdog that proves t
 pipeline is wired correctly, every hour:
 
   1. config        — config.toml ga_property_id / ga_measurement_id match canon.
-  2. auth          — GA_SERVICE_ACCOUNT_KEY present + a usable Data API client.
+  2. auth          — GOOGLE_APPLICATION_CREDENTIALS env set + valid credentials.
   3. property_access — a tiny live report against properties/542421812 succeeds.
   4. recent_data   — the property actually returned events in the last 7 days.
   5. site_tag      — the live site ships gtag.js for G-SMTFZVC0XN (best effort).
@@ -20,20 +20,21 @@ It writes a calm, public-safe health snapshot to:
 Contract (UI reads this):
   status ∈ {ok, pending, disconnected, error}
     ok           → healthy: subtle chip + last-checked time
-    pending      → not verified yet (no key / offline) — calm info note
+    pending      → not verified yet (no credentials / offline) — calm info note
     disconnected → auth/network failed — warning banner + fix link
     error        → wrong property/measurement or access denied — warning banner
 
 Hard rules:
-  * NEVER writes the service-account key (or any credential field) into the JSON.
+  * NEVER writes any credential field into the JSON.
   * NEVER raises — every failure becomes a recorded check; exit code is 0 unless
     --strict is passed (then exit 2 on a non-ok status, for an opt-in CI gate).
   * --offline skips every network call (status degrades to pending, never error).
+  * Uses GOOGLE_APPLICATION_CREDENTIALS (file path), NEVER raw JSON env vars.
 
 Run:
-  python3 scripts/ga_vacxin.py                 # full health check (needs key for live)
+  python3 scripts/ga_vacxin.py                 # full health check (needs GOOGLE_APPLICATION_CREDENTIALS)
   python3 scripts/ga_vacxin.py --offline        # config/cache checks only, no network
-  GA_SERVICE_ACCOUNT_KEY=$(cat key.json) python3 scripts/ga_vacxin.py
+  GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json python3 scripts/ga_vacxin.py
 """
 from __future__ import annotations
 
@@ -151,22 +152,38 @@ def check_config(cfg: dict) -> dict:
 
 
 def load_service_account(offline: bool) -> tuple[dict | None, dict]:
-    """Return (key_info, auth_check). key_info=None when unavailable."""
+    """Return (key_info, auth_check). key_info=None when unavailable.
+
+    Uses GOOGLE_APPLICATION_CREDENTIALS environment variable (file path),
+    which is the standard, secure way to pass service account credentials.
+    """
     label = "Xác thực GA Data API"
-    raw = os.environ.get("GA_SERVICE_ACCOUNT_KEY", "")
     if offline:
         return None, _check("auth", label, SKIP, "offline mode — bỏ qua xác thực")
-    if not raw:
+
+    cred_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "")
+    if not cred_path:
         return None, _check(
             "auth", label, FAIL,
-            "thiếu secret GA_SERVICE_ACCOUNT_KEY → backend chưa kết nối GA",
+            "thiếu GOOGLE_APPLICATION_CREDENTIALS → backend chưa kết nối GA",
         )
+
     try:
-        info = json.loads(raw)
+        cred_file = Path(cred_path)
+        if not cred_file.exists():
+            return None, _check(
+                "auth", label, FAIL,
+                f"file {cred_path} không tồn tại",
+            )
+        info = json.loads(cred_file.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
-        return None, _check("auth", label, FAIL, f"GA_SERVICE_ACCOUNT_KEY không phải JSON: {exc}")
+        return None, _check("auth", label, FAIL, f"credential file không phải JSON: {exc}")
+    except Exception as exc:
+        return None, _check("auth", label, FAIL, f"lỗi đọc credential: {exc}")
+
     if not isinstance(info, dict) or "client_email" not in info:
         return None, _check("auth", label, FAIL, "service-account JSON thiếu client_email")
+
     return info, _check(
         "auth", label, OK,
         f"service account {info.get('client_email', '?')}",
@@ -174,7 +191,10 @@ def load_service_account(offline: bool) -> tuple[dict | None, dict]:
 
 
 def get_ga_client(info: dict):
-    """Build a GA Data API client. Returns (client, error_str)."""
+    """Build a GA Data API client. Returns (client, error_str).
+
+    Uses the service account info dict loaded from the credential file.
+    """
     try:
         from google.analytics.data_v1beta import BetaAnalyticsDataClient
         from google.oauth2 import service_account
@@ -309,7 +329,7 @@ def derive_status(checks: list[dict], offline: bool, had_key: bool) -> tuple[str
     if offline or not had_key:
         return "pending", "Chưa xác minh kết nối GA (offline / thiếu service account)."
     if by_id.get("auth", {}).get("status") == FAIL:
-        return "disconnected", "Backend chưa kết nối GA — kiểm tra GA_SERVICE_ACCOUNT_KEY."
+        return "disconnected", "Backend chưa kết nối GA — kiểm tra GOOGLE_APPLICATION_CREDENTIALS."
     if by_id.get("property_access", {}).get("status") == FAIL:
         return "error", by_id["property_access"]["detail"]
     if by_id.get("site_tag", {}).get("status") == FAIL:
