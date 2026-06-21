@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs [feat/blog-terminal-production-cluster]",
+      "tag": "fix",
+      "lines_added": 427,
+      "lines_removed": 2,
+      "highlights": [
+        "content/posting/cac-lenh-git-dua-blog-len-production.md (added, +253/-0)",
+        "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md (modified, +2/-2)",
+        "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md (added, +172/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 698
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(qa-404): remove dead internal links blocking the QA gate",
       "tag": "remove",
       "lines_added": 52,
