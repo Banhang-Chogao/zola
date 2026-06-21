@@ -4,7 +4,7 @@ name: Fetch GA Stats
 # Tera template render bảng visitors today/week/month ở footer blog.
 #
 # REQUIRED SECRET: GA_SERVICE_ACCOUNT_KEY (JSON content của Service Account
-# có role 'Viewer' trên GA4 Property 541698865).
+# có role 'Viewer' trên GA4 Property 542421812 — stream seomoney.org).
 
 on:
   schedule:

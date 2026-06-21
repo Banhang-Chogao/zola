@@ -1195,6 +1195,64 @@ fenced blocks.
   (no token leak in status · supervip-only export · invalid sid denied · masked default /
   reveal full · env preferred over KV · missing token → clear 404).
 
+#### V25 — GA stats module after the seomoney.org move: read ONLY property 542421812, never leak old-property numbers, GA Vacxin hourly health
+
+> Analytics/identity vaccine. After the domain move the footer GA module must read the
+> NEW GA4 property only; the hourly **GA Vacxin** bot proves the pipeline is healthy.
+> Match the signature → apply the FIXER; detector `check_ga_stats_vaccine` (code `V25`)
+> guards it statically.
+
+- **Symptom:** the footer "Lưu lượng truy cập" (GA stats) module shows stale numbers from
+  the OLD github.io property (e.g. top country `United States` / `desktop`), or shows
+  nothing with no explanation, after the site moved to `seomoney.org`. Root cause is one
+  of: (a) `scripts/fetch_ga_stats.py` still fetching property `541698865`; (b) `config.toml`
+  still on measurement `G-REFBXH86Z5`; (c) `data/ga-stats.json` cached with the old
+  property so its numbers leak even after the code is fixed; (d) no health signal, so a
+  disconnected GA looks identical to "zero traffic". A green `zola build` does NOT prove
+  the GA module reads the right property.
+- **Canonical identity (single source = `config.toml [extra]`):** property
+  **`542421812`** · measurement **`G-SMTFZVC0XN`** · site `seomoney.org`. Deep links
+  `ga_dashboard_url` / `ga_fix_url` use the account-agnostic `#/p542421812/` form.
+- **Cache isolation (the key rule):** every GA data file is **stamped** with
+  `property_id` + `measurement_id` + `site`. `templates/base.html` renders numbers ONLY
+  when `ga_stats.property_id == config.extra.ga_property_id` AND `ga-health.json` status
+  is `ok`; otherwise every KPI cell shows `—` and an inline warning banner + a link
+  button to GA appears. So a stale/foreign-property file can never leak old numbers.
+- **GA Vacxin (hourly bot):** `scripts/ga_vacxin.py` + `.github/workflows/ga-vacxin.yml`
+  (cron `30 * * * *`, offset from Fetch GA Stats at `:00`). Checks: GA API auth · property
+  access (542421812 only) · recent data (7d) · site tag connectivity (live gtag for
+  `G-SMTFZVC0XN`) · cache isolation. Writes a **public-safe** `data/ga-health.json`
+  (+`static/data/ga-health.json` for `ga-health.js` live refresh). Crash-safe (never
+  raises, exit 0; `--offline` skips network → status `pending`); NEVER writes a credential
+  field. Status ∈ {ok, pending, disconnected, error}: `ok` → subtle healthy chip +
+  last-checked time; otherwise → warning banner + fix link.
+- **FIXER:** (1) `fetch_ga_stats.py` `PROPERTY_ID` default `542421812` + stamp identity in
+  output. (2) `config.toml` `ga_measurement_id = "G-SMTFZVC0XN"`, `ga_property_id = "542421812"`,
+  add `ga_dashboard_url` / `ga_fix_url`. (3) Reset `data/ga-stats.json` to the new property
+  with null metrics (no old-property leak; **no fake/demo numbers**). (4) `base.html` gtag
+  stays templated (`config.extra.ga_measurement_id`, never a hardcoded `G-…`). (5) Remove
+  `541698865` / `G-REFBXH86Z5` from all active GA config/code (only `ga_vacxin.py` +
+  `qa_vaccines.py` may reference them — to DETECT them).
+- **Detector (`scripts/qa_vaccines.py` → `check_ga_stats_vaccine`, code `V25`):** FAIL on
+  wrong property/measurement in config, wrong `fetch_ga_stats.py` default, old id drift in
+  active GA files, hardcoded gtag id, or a credential/old-property leak in `ga-stats.json`
+  / `ga-health.json`. WARN if the hourly workflow, the inline banner, `ga-health.js`, the
+  deep-link config, or the health schema is missing. (`check_js_syntax` separately FAILs on
+  a `ga-health.js` syntax error → "no JS crash".)
+- **Rules (permanent):** GA numbers render only for the CURRENT property; the GA module
+  must show an inline warning + GA link when disconnected/pending/error (never a silent
+  dead module); GA Vacxin runs hourly and is crash-safe; NEVER commit the service-account
+  key or any credential field into `data/*.json`; no fake/hardcoded demo numbers.
+- **Env / settings (operator):** GitHub Actions secret `GA_SERVICE_ACCOUNT_KEY` (Viewer
+  service account on GA4 property 542421812) drives both Fetch GA Stats and GA Vacxin;
+  `WORKFLOW_BOT_PAT` pushes the refreshed data. No Render env needed (GA is build-time
+  data, served as committed JSON). `config.toml` carries the public identity only.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.GaStatsVaccineTest -v` ·
+  `python3 -m unittest scripts.test_ga_vacxin -v`.
+- **Validation (2026-06-21):** `qa_vaccines.py` V25 PASS · `fetch_ga_stats.py` stamps
+  property 542421812 · `ga_vacxin.py --offline` → status `pending`, config + cache checks
+  PASS · `ga-stats.json` reset (null metrics, new property) · no old id in active files.
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
