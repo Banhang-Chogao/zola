@@ -1755,7 +1755,7 @@ class VaccineRegistryGuardTest(unittest.TestCase):
 
 
 class GaStatsVaccineTest(unittest.TestCase):
-    """V25 — GA stats module identity, cache isolation, hourly GA Vacxin, banner."""
+    """V27 — GA stats module identity, cache isolation, hourly GA Vacxin, banner."""
     def setUp(self):
         self.repo = TmpRepo()
         self.addCleanup(self.repo.cleanup)
@@ -1820,9 +1820,12 @@ class GaStatsVaccineTest(unittest.TestCase):
         self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
 
     def test_credential_leak_in_health_fails(self):
+        # The detector flags the *presence* of the credential KEY, not its value,
+        # so use a redacted value (a real key block would trip qa_check's secret scan).
         self._wire(ga_health=(
             '{"status":"ok","last_checked":"2026-06-21T01:00:00Z","property_id":"542421812",'
-            '"private_key":"-----BEGIN " + "PRIVATE KEY-----"}'
+            '"private_key":"REDACTED"}'
+
         ))
         self.assertEqual(qv.check_ga_stats_vaccine(self.repo.ctx()).status, qv.FAIL)
 

@@ -2409,7 +2409,7 @@ def check_ga_stats_vaccine(ctx: Ctx) -> CheckResult:
 
     if fails:
         return CheckResult(
-            "V25", title, FAIL,
+            "V27", title, FAIL,
             diagnosis="GA module sai property/measurement, rò rỉ cache cũ, hoặc lộ credential",
             fix=(f"1. config.toml ga_property_id={_GA_PROPERTY_ID}, ga_measurement_id={_GA_MEASUREMENT_ID}. "
                  f"2. fetch_ga_stats.py PROPERTY_ID mặc định {_GA_PROPERTY_ID}. "
@@ -2418,12 +2418,12 @@ def check_ga_stats_vaccine(ctx: Ctx) -> CheckResult:
             details=fails + warns,
         )
     if warns:
-        return CheckResult("V25", title, WARN,
+        return CheckResult("V27", title, WARN,
                            diagnosis="GA module đúng property nhưng thiếu thành phần phụ trợ",
                            fix="Bổ sung các mục WARN ở trên (workflow hourly / banner / health js / schema).",
                            details=warns)
     return CheckResult(
-        "V25", title, PASS,
+        "V27", title, PASS,
         diagnosis=(f"property {_GA_PROPERTY_ID} · {_GA_MEASUREMENT_ID} · GA Vacxin hourly · "
                    "cache isolated · no credential leak"),
     )
