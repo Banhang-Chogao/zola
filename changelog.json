@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "chore(tools): restore dashboard Python deps omitted by #705 route restore [claude/nice-planck-9stwce]",
+      "tag": "chore",
+      "lines_added": 2,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/requirements-f-dashboard.txt (added, +1/-0)",
+        "scripts/requirements-l-dashboard.txt (added, +1/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 709
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(seo): restyle fallback OG card — red CTA, editorial, Vietnamese-safe font [fix/og-fallback-red-editorial-clean]",
       "tag": "fix",
       "lines_added": 60,
