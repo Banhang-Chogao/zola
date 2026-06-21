@@ -164,7 +164,7 @@ class AuthTest(unittest.TestCase):
             "client_email": "test@example.iam.gserviceaccount.com",
             "client_id": "123",
             "private_key_id": "key123",
-            "private_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIE...\n-----END RSA PRIVATE KEY-----\n",
+            "private_key": "RSA_PRIVATE_KEY_PLACEHOLDER_FOR_TESTS",
         }
         self.sb.write("cred.json", json.dumps(cred_data))
         cred_path = str(self.sb.root / "cred.json")

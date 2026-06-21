@@ -139,7 +139,7 @@ $ python3 -m py_compile scripts/ga_vacxin.py scripts/fetch_ga_stats.py
   "type": "service_account",
   "project_id": "my-project",
   "private_key_id": "abc123...",
-  "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
+  "private_key": "[PRIVATE KEY CONTENT — download from Google Cloud Console]",
   "client_email": "zola-ga-reader@my-project.iam.gserviceaccount.com",
   "client_id": "123456789",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
