@@ -88,7 +88,7 @@ Thay vì tìm "cái tốt nhất tuyệt đối", hãy chọn theo hoàn cảnh:
 
 ## Quản lý chi tiêu sau khi mở tài khoản
 
-Mở ngân hàng số chỉ là bước đầu — quản lý dòng tiền mới giúp bạn tích lũy. Blog này có sẵn công cụ **[O-Dashboard phân tích sao kê Liobank](/tools/o-dashboard/)** chạy hoàn toàn trên trình duyệt (không gửi dữ liệu lên server), giúp bạn xem thu/chi và sức khỏe tài chính từ file sao kê.
+Mở ngân hàng số chỉ là bước đầu — quản lý dòng tiền mới giúp bạn tích lũy. Hãy tập thói quen phân tích sao kê định kỳ, ngay trên trình duyệt (không gửi dữ liệu lên server), để xem thu/chi và sức khỏe tài chính từ file sao kê.
 
 ## Bảo mật: ngân hàng số có an toàn không?
 

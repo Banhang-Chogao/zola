@@ -223,8 +223,11 @@
     <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
     <meta name="author" content="{{ config.extra.author }}">
 
-    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
-    <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
+    {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR).
+       Trang nội bộ/thin/off-topic đặt `extra.noindex = true` trong frontmatter (page
+       hoặc section) → phát noindex (đồng thời bị loại khỏi sitemap.xml). Template nội
+       bộ vẫn có thể override block robots trực tiếp như trước. ===== #}
+    <meta name="robots" content="{% block robots %}{% if (page and page.extra.noindex | default(value=false)) or (section and section.extra.noindex | default(value=false)) %}noindex, follow{% else %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endif %}{% endblock %}">
     {# ===== Google Search Console verification — điền mã ở config.extra.google_site_verification ===== #}
     {% if config.extra.google_site_verification %}<meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">{% endif %}
 
@@ -1408,14 +1411,11 @@
 
         <div class="container site-footer__main">
             <div class="site-footer__left">
-                <a href="{{ config.base_url | safe }}/admin-author/" class="site-footer__author-mgmt"
-                   title="Cập nhật ảnh đại diện + bio cá nhân">
-                    👤 Author Management
-                </a>
-                <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
-                   title="Cấu hình đếm ngược footer">
-                    ⏱ Countdown
-                </a>
+                {# Admin tools (Author Management, Countdown) đã gỡ khỏi footer công khai:
+                   route /admin-author/ + /admin-countdown/ KHÔNG được build (404 trên mọi
+                   trang) → broken link toàn site + admin-noise với người đọc/AdSense.
+                   Quản trị vẫn truy cập các công cụ này qua bảng /cms/. Giữ div trống để
+                   không xô lệch grid 1fr·2fr·1fr của footer. #}
             </div>
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
