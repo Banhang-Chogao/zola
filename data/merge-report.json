@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-21T12:10:11Z",
+  "updated_at": "2026-06-21T12:29:03Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 42,
+    "today": 43,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 41,
+      "unknown": 42,
       "chore": 17,
       "fix": 45,
-      "feature": 86,
+      "feature": 85,
       "ci": 3,
       "content": 7,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 646,
+      "pr_title": "docs(guides): operator guide Phase 1 — decision flows and UI layout sketches [claude/optimistic-goldberg-r4pg2j]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/646",
+      "merged_at": "2026-06-21T12:23:28Z",
+      "merge_commit_sha": "23f643f24927aee71ce37aaa0d1f71e745e1c2f4",
+      "merge_commit_short": "23f643f",
+      "head_branch": "claude/optimistic-goldberg-r4pg2j",
+      "summary_vi": "- chore(docs): operator guide Phase 1 — grouping vaccine shortcuts into 5 top-level functions",
+      "change_type": "unknown",
+      "files_changed": 3,
+      "additions": 536,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 903,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27904207546",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 645,
       "pr_title": "docs: Add vaccine operator cheat sheet (printable A4) [claude/quirky-gauss-lowevj]",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 902,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27903709407",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 643,
@@ -776,9 +795,9 @@
       "deletions": 12,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 873,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27888943201",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 589,
@@ -795,9 +814,9 @@
       "deletions": 12,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 873,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27888943201",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 596,
@@ -3795,25 +3814,6 @@
       "files_changed": 1,
       "additions": 21,
       "deletions": 4,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 415,
-      "pr_title": "feat: Bài kêu gọi ủng hộ dự án AI + component DonatePremiumCard",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/415",
-      "merged_at": "2026-06-18T10:53:41Z",
-      "merge_commit_sha": "3892154d4f6ea3f0e4caa333b202ae0b100a3d0e",
-      "merge_commit_short": "3892154",
-      "head_branch": "claude/zen-ride-cj2edi",
-      "summary_vi": "Thêm một **bài blog chuẩn SEO kêu gọi ủng hộ tự nguyện** (gây quỹ mua tên miền `.AI`) và một **component `DonatePremiumCard`** tái sử dụng, hiển thị khối \"Ủng Hộ Dự Án\" cuối bài — **KHÔNG khoá nội dung**, không yêu cầu t",
-      "change_type": "feature",
-      "files_changed": 13,
-      "additions": 529,
-      "deletions": 7,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
