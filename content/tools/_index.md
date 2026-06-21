@@ -11,19 +11,7 @@ toc = false
 
 # Mỗi nhóm = 1 section khối màu. Tất cả công cụ MIỄN PHÍ (không còn gate VIP).
 [[extra.tool_groups]]
-name = "Dashboard & phân tích"
-[[extra.tool_groups.items]]
-name = "F-Dashboard"
-url = "$BASE_URL/tools/f-dashboard"
-[[extra.tool_groups.items]]
-name = "L-Dashboard"
-url = "$BASE_URL/tools/l-dashboard"
-[[extra.tool_groups.items]]
-name = "O-Dashboard"
-url = "$BASE_URL/tools/o-dashboard"
-[[extra.tool_groups.items]]
-name = "H-Dashboard"
-url = "$BASE_URL/tools/h-dashboard"
+name = "Monitoring & Dashboard"
 [[extra.tool_groups.items]]
 name = "📈 UPTIME_ME"
 url = "$BASE_URL/tools/uptime-me"
@@ -50,9 +38,6 @@ url = "$BASE_URL/tools/calendar"
 [[extra.tool_groups]]
 name = "Nội dung & SEO"
 [[extra.tool_groups.items]]
-name = "Content Creator"
-url = "$BASE_URL/tools/content-creator"
-[[extra.tool_groups.items]]
 name = "Content Direction"
 url = "$BASE_URL/tools/content-direction"
 [[extra.tool_groups.items]]
@@ -64,15 +49,6 @@ url = "$BASE_URL/scoring"
 [[extra.tool_groups.items]]
 name = "Bảng Vàng SEO"
 url = "$BASE_URL/seo-bang-vang"
-[[extra.tool_groups.items]]
-name = "AD-Report"
-url = "$BASE_URL/ad-report"
-[[extra.tool_groups.items]]
-name = "Ad-Report V2"
-url = "$BASE_URL/ad-report-v2"
-[[extra.tool_groups.items]]
-name = "Authority Report"
-url = "$BASE_URL/authority-report"
 [[extra.tool_groups.items]]
 name = "S-DNA"
 url = "$BASE_URL/tools/s-dna"
