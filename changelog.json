@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "docs+feat(triage): Failure Priority Policy — required-on-HEAD-first triage engine [claude/failure-priority-rule-n7ls18]",
+      "tag": "chore",
+      "lines_added": 567,
+      "lines_removed": 0,
+      "highlights": [
+        "CLAUDE.md (modified, +58/-0)",
+        "scripts/failure_priority.py (added, +352/-0)",
+        "scripts/test_failure_priority.py (added, +157/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 629
+    },
+    {
+      "date": "2026-06-21",
       "title": "replace Tera unsupported default(value=[]) with conditional assignment",
       "tag": "fix",
       "lines_added": 168,
