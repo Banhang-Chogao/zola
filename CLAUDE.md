@@ -1,155 +1,86 @@
 # CLAUDE.md — Quy tắc làm việc
 
-## Repository Automation Policy (effective 2026-06-18 — ZERO_BARRIER_AUTOMATION)
+# ZERO BARRIER MANIFESTO
 
-> **100% tự động:** CI pass → auto-merge `main` → deploy production. Không kiểm duyệt trung gian.
-> Config: `data/auto-merge-policy.json` · Engine: `scripts/auto_merge_policy.py` · Runner: `auto-merge.yml`.
+> Chúng ta không babysit PR.
+> Chúng ta không merge bằng cảm tính.
+> Chúng ta không dùng human approval để thay thế QA.
+>
+> Máy kiểm tra.
+> Máy sửa lỗi.
+> Máy merge.
+> Máy deploy.
+>
+> Con người chỉ quyết định sản phẩm.
 
-| | |
-|--|--|
-| **Auto-merge** | Mọi PR — chore, qa, fix, feature, content, policy, workflows, auth, payment, bot maintenance |
-| **Manual review** | ❌ Không — blog sạch, không protected domain, không label chặn |
+## Dòng chảy chuẩn
 
-Chi tiết: `docs/OPERATIONS.md`, `.github/BRANCH-PROTECTION.md`, `.github/ACTIONS-PERMISSIONS.md`.
+Code
+→ Push Branch
+→ Auto PR Gatekeeper
+→ Merge Conflict Preflight
+→ QA Gatekeeper
+→ Auto Merge
+→ Deploy Production
 
-## Auto-Merge Policy (ZERO_BARRIER — ghi đè mọi rule PR-only / manual merge cũ)
+## Branch hợp lệ
 
-> CI pass → **auto-merge `main` ngay** → `deploy.yml` production. Không chờ human approval.
+- feat/**
+- fix/**
+- hotfix/**
+- claude/**
+- codex/**
+- vaccine-hotfix/**
 
-### 1. Không cần qua PR thủ công — code xong → tự lên `main` → prod
+## Luật bất biến
 
-> **Cập nhật (2026-06-19 — user request):** Bỏ rào PR thủ công. Code xong là **tự động**
-> lên `main` → deploy production. KHÔNG mở/duyệt/babysit PR bằng tay, KHÔNG hỏi user.
+Không được bypass:
 
-- Agent làm xong thay đổi → để automation đưa lên `main` → `deploy.yml` → prod. Không
-  tự tay quản lý PR, không chờ human review.
-- **Lỗi để máy bắt & sửa, không phải human gate:** `qa-check` (QA Gatekeeper) chặn build
-  hỏng trước khi lên `main`; có lỗi thì **vaccine autofixer** (§4 V1–V12) + `ff`/`ff9` +
-  autofix-conflicts tự chẩn & sửa. KHÔNG chờ người review.
-- **Hạ tầng (agent không cần bận tâm):** bước "đưa lên `main`" do `auto-merge.yml` tự thực
-  hiện (squash khi `qa-check` xanh) — GITHUB_TOKEN/branch protection KHÔNG cho push thẳng
-  `main` (§5/§5a/§5b), nên auto-merge là **bước máy tự làm**, không phải rào thủ công.
+- Merge Conflict
+- Secret Leak
+- Broken Links Blocker
+- Build Failure
+- QA Failure
+- High-Risk Vaccine Failure
 
-### 2. Auto-merge khi CI xanh (máy tự làm hết)
+CI xanh mới được merge.
 
-1. Code xong → push lên branch (`feature/`, `fix/`, `chore/`, …)
-2. **`auto-merge.yml`** tự đưa lên `main` khi **qa-check** pass (QA Gatekeeper — không PR Policy)
-3. `deploy.yml` chạy sau merge → GitHub Pages → prod
+## QA Doctrine
 
-**Không hỏi user** trước khi merge, **không** cần agent mở/duyệt PR thủ công, không dùng label chặn auto-merge.
+QA là cổng kiểm soát duy nhất.
 
-### 3. Merge Report (thay review thủ công)
+Nếu QA đỏ:
 
-- Script: `scripts/fetch_merge_report.py` → `data/merge-report.json`
-- Workflow: `merge-report.yml` (sau push `main` + hourly)
-- Mỗi entry: PR #, title, summary_vi, change_type, merged_at, build_run_number
-- Đọc report thay vì duyệt từng PR
+1. Đọc log
+2. Tự chẩn đoán
+3. Tự sửa
+4. Commit
+5. Push lại
 
-### 4. Build failed trên PR → fix trên cùng branch
+Không chờ người duyệt.
 
-- Fix trên **cùng branch/PR** — không push `main`
-- CI xanh → auto-merge
+## Định nghĩa DONE
 
-### 5. Automation / bot
+DONE chỉ tồn tại khi:
 
-- Bot **không** `git push origin HEAD:main` trực tiếp
-- Data refresh: `push_via_pr.sh` → PR → auto-merge khi CI pass
-- `main-guard.yml`: cho phép bot merge qua PR (auto-merge commit)
+Branch đã push
++
+PR đã mở
++
+Preflight pass
++
+QA xanh
++
+Auto-merge đã được attempt
 
-### 5a. Workflow permissions (2026-06-18)
+## Hạ tầng liên quan
 
-| Loại workflow | Chạy tự động? | Ghi chú |
-|---------------|---------------|---------|
-| QA / chore bot PR | ✅ | `workflow_run` relay hoặc `WORKFLOW_BOT_PAT` |
-| Human PR (same repo) | ✅ | `pull_request` bình thường |
-| Fork PR | ⏳ approval | GitHub Settings — giữ bảo vệ |
-| Deploy production (`github-pages` env) | ✅ push `main` only | Không gate QA PR |
-| `manual-approval` / `pr-approval.yml` | ❌ removed | Không thêm lại |
-
-**Settings:** `.github/ACTIONS-PERMISSIONS.md` — Workflow permissions = Read and write; fork approval chỉ cho outside collaborators.
-
-### 5b. Auto-merge Bot-created Maintenance PRs
-
-- Bot-created PRs auto-merge khi checks pass và không conflict — mọi loại thay đổi.
-- Nếu không merge được, bot phải **comment lý do cụ thể** thay vì im lặng (`try_auto_merge.py` → `post_skip_comment`).
-- **GITHUB_TOKEN PR gate / "workflows awaiting approval":** Không dùng `pull_request` trigger — CI qua `push` branch + `workflow_dispatch` + `workflow_run`. `push_via_pr.sh` → push → QA tự chạy. Chi tiết: `.github/ACTIONS-PERMISSIONS.md`, `docs/ROOT-CAUSE-ACTION-REQUIRED.md`.
-- **PR Policy removed:** `pr-policy.yml` đã xóa — chỉ `qa-check` để auto-merge.
-- **Không** dùng lại `pr-approval.yml` / job `manual-approval` — đã xóa (fail giả trên mọi PR).
-
-## Deploy Queue Policy (ZERO_BARRIER_DEPLOY_QUEUE — effective 2026-06-19)
-
-> Bổ sung ZERO_BARRIER auto-merge/deploy. Nhiều PR/commit xanh cùng lúc → **KHÔNG**
-> dispatch nhiều deploy song song (tránh GitHub/Pages API rate-limit burst). Merge
-> nhanh nhưng **tuần tự**.
-
-- **Enqueue, đừng burst:** CI/QA xanh → xếp hàng theo thời điểm push/PR ready; xử lý
-  **FIFO** (item xanh cũ nhất trước).
-- **1 pipeline tại 1 thời điểm:** chỉ một merge/deploy chạy; item kế tiếp bắt đầu **sau**
-  khi `deploy.yml` của item trước đạt trạng thái **terminal** (success/failure).
-- **Concurrency lock (đã patch):**
-  - `deploy.yml` → `concurrency: { group: production-deploy, cancel-in-progress: false }`
-    (queue, không cancel → không spam deploy, không burst Pages API; thay V5 cancel-on-storm).
-  - `auto-merge.yml` → `concurrency: { group: auto-merge-main, cancel-in-progress: false }`
-    (khóa merge toàn cục → merge tuần tự → main nhận 1 push/lần → 1 deploy/lần).
-- **Retry, đừng restart:** deploy fail / rate-limited → retry **exponential backoff**;
-  KHÔNG chạy lại job đã success, KHÔNG restart queue từ đầu.
-- **1 change = 1 PR** (giữ PR sạch).
-- **Behavior:** QA green → queued → tới lượt → merge main → deploy → chờ terminal → PR kế tiếp.
-- **Summary sau mỗi merge/deploy trong queue:**
-
-  ```text
-  Deploy Queue Summary
-  PR: #<id>
-  Status: ✅/❌
-  Queue position: <n>
-  Merged: <sha>
-  Deploy: <status>
-  Next: <next PR or none>
-  ```
-
-- **Acceptance:** không deploy song song; không rate-limit burst; PR xanh merge/deploy
-  đúng thứ tự; nhanh nhưng tuần tự; build pass.
-
-## Task Priority Policy (effective 2026-06-18)
-
-> Bổ sung `docs/OPERATIONS.md` — **không** thay auto-merge / deploy rules. Áp dụng khi
-> agent hoặc automation chạy **đồng thời** tác vụ user và tác vụ nền.
-
-### Priority tiers
-
-| Tier | Class | Examples |
-|------|-------|----------|
-| **P0 — Foreground** | User-triggered tasks/features | Bài viết, fix bug user báo, publish, editor save, PR user yêu cầu, hotfix urgent |
-| **P1 — Background** | Scheduled / bot / audit jobs | `perf-audit`, `seo11`, QA checker, compliance crawl, `build-dashboard`, `merge-report`, `pagespeed`, `security-audit`, `build-related`, image optimize, data refresh bots |
-
-### Rules (mandatory)
-
-1. **Never block P0 for P1** — background job đang chạy KHÔNG được giữ user chờ (no
-   `input()`, no “đợi audit xong”, no serial gate trước user action).
-2. **P0 may preempt P1** — user task đến giữa chừng → pause/yield background ngay,
-   xử lý P0 trước.
-3. **P1 continues asynchronously** — background resume sau khi P0 xong; không drop
-   schedule cron (`workflow` `schedule:` giữ nguyên).
-4. **Auto-resume paused P1** — job pause phải có checkpoint; khi P0 drain → tiếp tục
-   từ checkpoint (không restart từ đầu trừ khi idempotent).
-5. **Resource budget** — P1 giới hạn song song (vd 1 heavy script local); không spawn
-   nhiều crawl/audit cùng lúc khi P0 active. CI: `concurrency.cancel-in-progress` ưu
-   tiên deploy/content PR (đã có V5) — bot burst không cướp quota P0.
-6. **Preserve schedules** — không đổi cron/interval của P1 để “nhường” P0; chỉ defer
-   *instance đang chạy*, không hủy lịch.
-
-### Agent protocol
-
-- Message/ticket từ user = **P0 ngay** — interrupt P1 đang làm trong session.
-- Phím tắt / explicit user command > bot maintenance trong cùng turn.
-- P1 chỉ chạy khi: (a) user không có P0 pending, hoặc (b) chạy nền không chặn P0
-  (parallel CI OK).
-- Kết thúc P0 → log ngắn P1 resumed; không hỏi user trước khi resume.
-
-### Validation
-
-- Simulation: `python3 -m unittest scripts.test_task_priority -v`
-- Pass criteria: P0 hoàn thành trước P1 bị preempt; P1 resume sau P0 drain.
+- data/auto-merge-policy.json
+- scripts/auto_merge_policy.py
+- .github/workflows/ensure-pr-after-push.yml
+- .github/workflows/preflight-conflict.yml
+- .github/workflows/auto-merge.yml
+- .github/workflows/deploy.yml
 
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
