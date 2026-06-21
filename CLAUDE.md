@@ -1600,6 +1600,19 @@ session (GitHub MCP, `gh`, `git` trỏ repo này), PHẢI:
 Nếu message đầu tiên đã là một phím tắt cụ thể → đọc file + thực thi shortcut đó
 (có thể bỏ list đầy đủ nếu user chỉ cần tốc độ). Chi tiết: `shortcuts.md` §0.
 
+### Shortcut `wip8` (gộp WIP + TheoDoi8 — 2026-06-21)
+
+> Rule only — runtime logic ở `scripts/wip8.py` + `shortcuts.md`, KHÔNG ở CLAUDE.md.
+
+- `wip8` là **shortcut DUY NHẤT** gộp WIP (workspace tracker) + TheoDoi8 (live CI feed).
+  Không còn shortcut `theodoi8` riêng — KHÔNG thêm lại.
+- Output **đúng 2 bảng MD**: `## WIP8 table` + `## TheoDoi8 table` (mobile-readable, có
+  fallback khi thiếu data).
+- **No duplicate calls** — TheoDoi8 reuse report CI tự sinh (`data/theodoi8-report.json`),
+  KHÔNG poll lại GitHub trong cùng lần chạy. **No fake data** (thiếu data → fallback, không
+  bịa). **No secrets** (read-only, không token/network).
+- Config TÙY CHỌN: `data/shortcuts/wip8.config.json` (thiếu → default).
+
 ## Quy tắc tối ưu hoá giao diện (CSS / Responsive)
 
 Quy tắc bắt buộc, có hiệu lực với mọi yêu cầu liên quan đến CSS/UI/layout.

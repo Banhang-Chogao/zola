@@ -1,27 +1,46 @@
 #!/usr/bin/env python3
-"""wip8 — Read-only workspace tracker với giao diện trực quan (rich + pyfiglet).
+"""wip8 — Read-only workspace tracker + live CI feed (WIP + TheoDoi8 gộp 1 shortcut).
 
 Tái dựng "mình đang làm gì?" từ git status / diff / log / stash + branch context,
-render ra terminal đẹp mắt: banner ASCII, panel bo góc, bảng có màu + emoji trạng thái.
+VÀ snapshot CI/CD (TheoDoi8) các commit gần nhất — gộp trong cùng 1 shortcut `wip8`.
+Render ra terminal đẹp mắt: banner ASCII, panel bo góc, bảng có màu + emoji trạng thái.
 
-READ-ONLY tuyệt đối: chỉ chạy lệnh git đọc (status/diff/log/stash/rev-list),
-KHÔNG sửa file, commit, push, deploy hay mở PR.
+READ-ONLY tuyệt đối: chỉ chạy lệnh git đọc (status/diff/log/stash/rev-list) + ĐỌC
+report CI có sẵn (`data/theodoi8-report.json`, do CI tự sinh). KHÔNG sửa file, commit,
+push, deploy, mở PR, KHÔNG gọi network, KHÔNG dùng token/secret.
 
 Usage:
-    python3 scripts/wip8.py            # full scan
+    python3 scripts/wip8.py            # full scan (WIP + TheoDoi8)
     python3 scripts/wip8.py --quick    # chỉ git status + branch (bỏ qua log dài)
     python3 scripts/wip8.py <path>     # chỉ inspect 1 file/folder
+    python3 scripts/wip8.py --data     # JSON (cho Claude render 2 bảng markdown)
 
-Chỉ dùng git CLI + rich + pyfiglet (stdlib còn lại). Mọi lệnh git bọc try/except
-→ không bao giờ crash; thiếu rich/pyfiglet → fallback plain text.
+Chỉ dùng git CLI + rich + pyfiglet (stdlib còn lại). Mọi lệnh git/đọc file bọc
+try/except → không bao giờ crash; thiếu rich/pyfiglet → fallback plain text; thiếu
+report CI → TheoDoi8 fallback "chưa có dữ liệu".
 """
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 from datetime import datetime, timezone, timedelta
+from pathlib import Path
 
 ICT = timezone(timedelta(hours=7))
+ROOT = Path(__file__).resolve().parent.parent
+CONFIG_PATH = ROOT / "data" / "shortcuts" / "wip8.config.json"
+
+# Default khi không có data/shortcuts/wip8.config.json (config TÙY CHỌN).
+DEFAULT_CONFIG = {
+    "show_wip": True,
+    "show_theodoi8": True,
+    "theodoi8_max_commits": 8,
+    "theodoi8_report_paths": [
+        "data/theodoi8-report.json",
+        "static/data/theodoi8-report.json",
+    ],
+}
 
 # ── Bảng màu thương hiệu (calm enterprise) ──────────────────────────────────
 ACCENT = "#38bdf8"   # sky
@@ -41,6 +60,51 @@ def _run(args: list[str]) -> str:
         return out.stdout.strip()
     except Exception:
         return ""
+
+
+def load_config() -> dict:
+    """Đọc config TÙY CHỌN data/shortcuts/wip8.config.json (merge lên DEFAULT_CONFIG).
+
+    Thiếu file / JSON hỏng → trả DEFAULT_CONFIG (read-only, không bao giờ crash).
+    """
+    cfg = dict(DEFAULT_CONFIG)
+    try:
+        if CONFIG_PATH.is_file():
+            raw = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+            if isinstance(raw, dict):
+                for k in DEFAULT_CONFIG:
+                    if k in raw:
+                        cfg[k] = raw[k]
+    except Exception:
+        pass
+    return cfg
+
+
+def load_theodoi8(config: dict | None = None) -> dict | None:
+    """Đọc report CI/CD (TheoDoi8) có sẵn — KHÔNG gọi network, KHÔNG dùng token.
+
+    Report do `scripts/build_theodoi8_report.py` (CI) tự sinh ra
+    `data/theodoi8-report.json` + `static/data/theodoi8-report.json`. wip8 chỉ REUSE
+    data đó → không trùng lệnh fetch, không secret, không fake data.
+
+    Trả dict report (đã cắt commits theo `theodoi8_max_commits`) hoặc None nếu chưa
+    có report (caller in fallback "chưa có dữ liệu").
+    """
+    config = config or load_config()
+    for rel in config.get("theodoi8_report_paths", DEFAULT_CONFIG["theodoi8_report_paths"]):
+        p = ROOT / rel
+        try:
+            if p.is_file():
+                report = json.loads(p.read_text(encoding="utf-8"))
+                if isinstance(report, dict):
+                    cap = int(config.get("theodoi8_max_commits", 8) or 8)
+                    commits = report.get("commits")
+                    if isinstance(commits, list):
+                        report["commits"] = commits[:cap]
+                    return report
+        except Exception:
+            continue
+    return None
 
 
 def gather(path: str | None = None, quick: bool = False) -> dict:
@@ -158,9 +222,39 @@ def render(data: dict) -> None:
         console.print(Panel(lt, title="[bold]Commits gần nhất[/]",
                             border_style=MUTED, box=box.ROUNDED, padding=(0, 1)))
 
+    # ── 4. TheoDoi8 — CI/CD feed (gộp vào wip8) ──────────────────────────────
+    td = data.get("theodoi8")
+    if td:
+        head = (f"{td.get('status_icon','📡')} {td.get('status_label','TRỰC TIẾP')} · "
+                f"{td.get('summary','')}  [{MUTED}]({td.get('generated_at_display','')})[/]")
+        commits = td.get("commits") or []
+        if commits:
+            tt = Table(box=box.SIMPLE_HEAVY, header_style=f"bold {ACCENT}", expand=True)
+            tt.add_column("Commit", style=WARN, width=9)
+            tt.add_column("Message", overflow="fold")
+            tt.add_column("Workflow", overflow="fold")
+            tt.add_column("Trạng thái", width=14)
+            for c in commits:
+                tt.add_row(
+                    str(c.get("sha", "")),
+                    str(c.get("message", "")),
+                    f"{c.get('run_name','')} #{c.get('run_number','')}",
+                    f"{c.get('icon','')} {c.get('status','')}",
+                )
+            console.print(Panel(tt, title=f"[bold]TheoDoi8 · CI/CD[/]\n{head}",
+                                border_style=ACCENT, box=box.ROUNDED, padding=(0, 1)))
+        else:
+            console.print(Panel(f"[{MUTED}]{head}\n\nChưa có commit/CI run nào để theo dõi.[/]",
+                                title="[bold]TheoDoi8 · CI/CD[/]", border_style=MUTED,
+                                box=box.ROUNDED, padding=(0, 2)))
+    else:
+        console.print(Panel(f"[{MUTED}]Chưa có dữ liệu CI (data/theodoi8-report.json). "
+                            f"Report do CI tự sinh.[/]", title="[bold]TheoDoi8 · CI/CD[/]",
+                            border_style=MUTED, box=box.ROUNDED, padding=(0, 2)))
+
     # ── Footer ──────────────────────────────────────────────────────────────
-    console.print(f"\n[{MUTED}]Snapshot tại thời điểm gọi · gõ lại [bold]wip8[/bold] để refresh · "
-                  f"[bold]theodoi8[/bold] cho live CI feed[/]")
+    console.print(f"\n[{MUTED}]Snapshot tại thời điểm gọi · gõ lại [bold]wip8[/bold] để refresh "
+                  f"(WIP + TheoDoi8 CI feed gộp chung)[/]")
 
 
 def _render_plain(data: dict) -> None:
@@ -170,6 +264,13 @@ def _render_plain(data: dict) -> None:
     print("Stash:", data["stash"] or "none")
     if data["log"]:
         print("Log:\n" + data["log"])
+    td = data.get("theodoi8")
+    if td:
+        print(f"TheoDoi8: {td.get('status_label','')} · {td.get('summary','')}")
+        for c in (td.get("commits") or []):
+            print(f"  {c.get('icon','')} {c.get('sha','')} {c.get('message','')}")
+    else:
+        print("TheoDoi8: chưa có dữ liệu CI")
 
 
 def health(data: dict) -> dict:
@@ -212,8 +313,11 @@ def main(argv: list[str]) -> int:
     quick = "--quick" in argv
     paths = [a for a in argv[1:] if not a.startswith("-")]
     path = paths[0] if paths else None
+    config = load_config()
     data = gather(path=path, quick=quick)
     data["health"] = health(data)
+    if config.get("show_theodoi8", True):
+        data["theodoi8"] = load_theodoi8(config)
     if "--data" in argv:
         # JSON cho Claude render markdown (giao diện chat, B-DNA discipline). READ-ONLY.
         import json
