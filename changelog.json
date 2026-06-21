@@ -2,6 +2,48 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "fix(assets): restore shared assets causing repeated 404s",
+      "tag": "fix",
+      "lines_added": 21,
+      "lines_removed": 6,
+      "highlights": [],
+      "pr": 618
+    },
+    {
+      "date": "2026-06-21",
+      "title": "chore(git): ignore private AI notes and local QA artifacts",
+      "tag": "chore",
+      "lines_added": 9,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 615
+    },
+    {
+      "date": "2026-06-21",
+      "title": "docs(ci): define tiered QA architecture",
+      "tag": "chore",
+      "lines_added": 98,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 613
+    },
+    {
+      "date": "2026-06-21",
+      "title": "docs(claude): add knowledge promotion rule [claude/festive-tesla-wgwmcs]",
+      "tag": "chore",
+      "lines_added": 132,
+      "lines_removed": 0,
+      "highlights": [
+        "CLAUDE.md (modified, +132/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/festive-tesla-wgwmcs là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 616
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(tools): add PR Sentinel CI radar",
       "tag": "chore",
       "lines_added": 509,
