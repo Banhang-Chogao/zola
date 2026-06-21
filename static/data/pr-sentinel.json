@@ -1,0 +1,146 @@
+{
+  "generated_at": "2026-06-21T04:19:53.799592+00:00",
+  "error": null,
+  "summary": {
+    "open": 7,
+    "passing": 5,
+    "failing": 2,
+    "pending": 0,
+    "draft": 0
+  },
+  "items": [
+    {
+      "number": 610,
+      "title": "fix(qa): avoid private-key block literal in GA vaccine test fixture [claude/busy-curie-wrig6g]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/610",
+      "author": "app/github-actions",
+      "branch": "claude/busy-curie-wrig6g",
+      "base": "main",
+      "updated_at": "2026-06-21T02:03:10Z",
+      "is_draft": false,
+      "labels": [],
+      "checks": {
+        "total": 3,
+        "success": 3,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0
+      },
+      "state": "success"
+    },
+    {
+      "number": 609,
+      "title": "fix(qa): V18 gitignore volatile artifacts + rename duplicate V25→V26 vaccine [claude/affectionate-bardeen-36rl1g]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/609",
+      "author": "app/github-actions",
+      "branch": "claude/affectionate-bardeen-36rl1g",
+      "base": "main",
+      "updated_at": "2026-06-21T01:49:53Z",
+      "is_draft": false,
+      "labels": [],
+      "checks": {
+        "total": 4,
+        "success": 3,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0
+      },
+      "state": "failure"
+    },
+    {
+      "number": 607,
+      "title": "fix(ga): migrate GA module to seomoney.org property 542421812 + B-DNA UI + GA Vacxin [claude/gifted-feynman-3shrk6]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/607",
+      "author": "app/github-actions",
+      "branch": "claude/gifted-feynman-3shrk6",
+      "base": "main",
+      "updated_at": "2026-06-21T01:50:29Z",
+      "is_draft": false,
+      "labels": [],
+      "checks": {
+        "total": 3,
+        "success": 3,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0
+      },
+      "state": "success"
+    },
+    {
+      "number": 604,
+      "title": "docs(claude): add local-publish vaccine — no build/dependency artifacts [claude/happy-knuth-f6ax2r]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/604",
+      "author": "app/github-actions",
+      "branch": "claude/happy-knuth-f6ax2r",
+      "base": "main",
+      "updated_at": "2026-06-21T01:12:33Z",
+      "is_draft": false,
+      "labels": [],
+      "checks": {
+        "total": 3,
+        "success": 2,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0
+      },
+      "state": "failure"
+    },
+    {
+      "number": 602,
+      "title": "feat(vaccine): add V24 External Prod Verification / Manual Backend Deploy [claude/nice-mayer-jxs786]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/602",
+      "author": "app/github-actions",
+      "branch": "claude/nice-mayer-jxs786",
+      "base": "main",
+      "updated_at": "2026-06-21T01:04:15Z",
+      "is_draft": false,
+      "labels": [],
+      "checks": {
+        "total": 4,
+        "success": 4,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0
+      },
+      "state": "success"
+    },
+    {
+      "number": 600,
+      "title": "feat(qa): V23 deployed-backend parity vaccine + post-deploy check; document Pages≠Render (V16) [claude/loving-ride-x4aip3]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/600",
+      "author": "app/github-actions",
+      "branch": "claude/loving-ride-x4aip3",
+      "base": "main",
+      "updated_at": "2026-06-21T00:44:18Z",
+      "is_draft": false,
+      "labels": [],
+      "checks": {
+        "total": 3,
+        "success": 3,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0
+      },
+      "state": "success"
+    },
+    {
+      "number": 598,
+      "title": "feat(qa-vaccine): add V24 Dirty PR Rebase Safety vaccine + detector [claude/loving-lovelace-xg2e3q]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/598",
+      "author": "app/github-actions",
+      "branch": "claude/loving-lovelace-xg2e3q",
+      "base": "main",
+      "updated_at": "2026-06-21T00:56:31Z",
+      "is_draft": false,
+      "labels": [],
+      "checks": {
+        "total": 4,
+        "success": 4,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0
+      },
+      "state": "success"
+    }
+  ]
+}

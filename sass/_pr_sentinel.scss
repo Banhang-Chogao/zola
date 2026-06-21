@@ -1,0 +1,103 @@
+.pr-sentinel {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.pr-sentinel-hero,
+.pr-sentinel-card,
+.pr-sentinel-kpi {
+  border: 1px solid var(--border-color, rgba(148, 163, 184, .25));
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .04);
+  box-shadow: 0 18px 60px rgba(15, 23, 42, .08);
+}
+
+.pr-sentinel-hero {
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.pr-sentinel-hero h1 {
+  margin: 0 0 .5rem;
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.pr-sentinel-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: .75rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.pr-sentinel-kpi {
+  padding: 1rem;
+}
+
+.pr-sentinel-kpi strong {
+  display: block;
+  font-size: 1.8rem;
+}
+
+.pr-sentinel-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+
+.pr-sentinel-filters button {
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: .55rem .9rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pr-sentinel-filters button.is-active {
+  background: currentColor;
+  color: var(--background, #fff);
+}
+
+.pr-sentinel-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: .75rem;
+}
+
+.pr-sentinel-card h2 {
+  margin: .25rem 0;
+  font-size: 1.05rem;
+}
+
+.pr-sentinel-meta,
+.pr-sentinel-checks {
+  margin: 0;
+  opacity: .75;
+  font-size: .9rem;
+}
+
+.pr-sentinel-badge {
+  align-self: start;
+  border-radius: 999px;
+  padding: .35rem .65rem;
+  font-size: .8rem;
+  border: 1px solid currentColor;
+}
+
+.pr-sentinel-empty {
+  padding: 1rem;
+  opacity: .75;
+}
+
+@media (max-width: 760px) {
+  .pr-sentinel-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pr-sentinel-card {
+    flex-direction: column;
+  }
+}
