@@ -68,7 +68,7 @@ tạo workflow mới, Claude phải tự đánh giá:
 | **fix-seo** | `SEO11`, `nangcap`, `seo` | Lighthouse thấp, bài mới thiếu tối ưu | Bulk SEO fix; loop polish; optimize per-article |
 | **fix-ui** | CSS/template audit (chưa shortcut, dùng `ad`) | Layout broken, responsive fail | Xem rule CSS; audit Lighthouse CLS |
 | **fix-gsc-ga** | `backend8` (subset), monitoring tools | GSC/GA metrics stale, data offline | Verify data flow; check API health |
-| **Tools & Utilities** | `topic:`, `baomoi`, `bb`, `bb9`, `topic10`, v.v. | Viết nội dung, tạo bài, sinh series | Content generation, publication workflows |
+| **Tools & Utilities** | `topic:`, `baomoi`, `bb`, `bb9`, `topic10`, `bugblog`, v.v. | Viết nội dung, tạo bài, sinh series, rút bài học bugfix thành blog | Content generation, publication workflows |
 
 ### Phím tắt Operator (Interactive/Meta)
 
@@ -1921,6 +1921,114 @@ Push: <branch> → auto-merge
 2. Push branch dev → auto-merge → auto-deploy (ZERO_BARRIER)
 
 **Morning / runner**: `dantri` cần user dán nội dung sau khi gọi → **loại** khỏi `morning`.
+
+---
+
+### `bugblog` — Sau bugfix dài → nháp blog case-study công nghệ (SEO-safe, không tự đăng)
+
+**Cú pháp**: gõ `bugblog` (không cần argument). Canonical doctrine: `CLAUDE.md`
+§"Post-Bugfix → Blog Draft Policy".
+
+**Mục đích**: Sau một **bugfix dài / nhiều bước debug** (production bug, CI/CD fail,
+SEO/AdSense, dashboard regression, deploy fail, automation/vaccine pattern), biến **bài
+học kỹ thuật** thành một bài blog case-study công nghệ — ngôi thứ nhất, văn phong human,
+hữu ích, chuẩn SEO + AdSense. **KHÔNG tự đăng**; chỉ vào `content/posting/` sau khi user duyệt.
+
+**Khi nào kích hoạt (Trigger)**:
+
+- ✅ Bugfix/debug task đã **substantially complete** HOẶC đã có **bài học rõ ràng**.
+- ✅ Có đủ **chất liệu factual** (triệu chứng, nguyên nhân, cách sửa thật).
+- ❌ KHÔNG chạy cho thay đổi nhỏ/cosmetic; KHÔNG chạy giữa lúc còn đang debug dở.
+- ❌ "Done" cần **bằng chứng** (QA/build/commit/PR/deploy). Thiếu bằng chứng → chỉ ra
+  **draft notes**, KHÔNG bài publish-ready, KHÔNG bịa "đã chạy production".
+
+**Workflow (BẮT BUỘC)**:
+
+1. Nếu vừa fix xong trong session → tự rút thông tin từ session; chỉ hỏi phần còn thiếu.
+   Nếu chưa có context → trả lời gom 6 trường dưới đây:
+
+   ```
+   Để soạn nháp blog case-study từ lần fix này, cho em xin (cái nào thiếu cứ bỏ trống):
+   1) Tóm tắt sự cố (issue summary) — gặp gì, ảnh hưởng ra sao?
+   2) Root cause — nguyên nhân gốc đã xác định?
+   3) Cách fix — đã sửa thế nào (mô tả public-safe, không lộ token/path)?
+   4) QA result — build/QA/deploy đã xanh chưa? Bằng chứng gì?
+   5) Vaccine/Prevention — rule phòng ngừa để không tái phát?
+   6) Public-safe details — phần nào CẦN ẩn (path máy, secret, URL nội bộ, log thô)?
+   ```
+
+2. **Quyết định mode** (theo doctrine):
+   - **Draft notes** — task chưa xong / thiếu evidence / chất liệu mỏng → xuất ghi chú
+     nháp dạng bullet (problem · symptoms · root cause · fix · prevention · TODO), **KHÔNG**
+     frontmatter, **KHÔNG** đưa vào `content/posting/`. Dừng, chờ đủ liệu.
+   - **Full article** — task xong + có evidence + đủ liệu → viết Zola Markdown ≥1000 từ.
+
+3. **Full article — cấu trúc bắt buộc** (ngôi thứ nhất, human, SEO-friendly):
+   - **Mở bài**: bối cảnh + vì sao sự cố đáng kể với người làm web/dev.
+   - **Vấn đề (Problem)**: mô tả ngắn gọn, public-safe.
+   - **Triệu chứng (Symptoms)**: dấu hiệu quan sát được (không paste log thô).
+   - **Nguyên nhân gốc (Root cause)**: vì sao xảy ra.
+   - **Các bước debug (Debugging steps)**: hành trình tìm ra, có thứ tự.
+   - **Cách sửa (Fix)**: giải pháp, abstraction công khai thay vì code nhạy cảm.
+   - **Vaccine / Quy tắc phòng ngừa**: rule để không tái phát.
+   - **Checklist**: bảng/danh sách rút gọn người đọc áp dụng được ngay.
+   - **Bài học (Lessons learned)**: ngắn, thật, không sáo rỗng.
+   - **Kết luận** + (tuỳ chọn) FAQ.
+   - Chuẩn: ≥1000 từ tiếng Việt, ≥2 H2/H3, ≥3 tag, title ≤70 ký tự, meta 140–160 ký tự,
+     ≥2 internal link semantic. Category mặc định **Công nghệ** (trừ khi user đổi).
+
+4. **Template frontmatter** (full mode — KHÔNG `premium`, bài công khai):
+
+   ```toml
+   +++
+   title = "<Tiêu đề case-study ≤70 ký tự, có từ khoá>"
+   description = "<meta 140–160 ký tự: vấn đề + bài học>"
+   date = <YYYY-MM-DD>
+   [taxonomies]
+   categories = ["Tất cả", "Công nghệ"]
+   tags = ["<lĩnh vực>", "<công nghệ>", "bài học", "<...>"]
+   [extra]
+   thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+   seo_keyword = "<từ khoá chính>"
+   featured = false
+
+   [[extra.faq]]
+   q = "<câu hỏi thường gặp về sự cố>"
+   a = "<trả lời ngắn, public-safe, không overclaim>"
+   +++
+   ```
+
+**Safety guards (BẮT BUỘC — gác trước khi xuất bất kỳ nội dung nào)**:
+
+- **Bỏ private/local**: KHÔNG machine path, secret/token/credential, private URL, raw
+  terminal log, account/email data, internal key. Lộ chỗ nào → trừu tượng hoá hoặc bỏ.
+- **AdSense-safe**: không misleading claim, không clickbait, không overclaim tài chính/pháp lý,
+  KHÔNG xúi click ads.
+- **No fabrication**: KHÔNG bịa kết quả; KHÔNG nói "đã chạy production thành công" khi chưa
+  có evidence. Không chắc → ghi "theo quan sát của tôi…" hoặc bỏ.
+- **No auto-publish**: KHÔNG tự đăng. Bài vào `content/posting/` **chỉ sau khi user duyệt**.
+  KHÔNG đụng UI/UX hiện có.
+
+**Output (summary)**:
+
+```text
+bugblog ✅
+Mode: draft-notes | full-article
+Chủ đề: <case-study>
+Material: <đủ | mỏng> · Evidence: <QA/build/commit/PR/deploy>
+File: <draft trong chat | content/posting/<slug>.md sau khi duyệt>
+Words: <n> (full mode)
+Safety: private-stripped ✅ · AdSense-safe ✅ · no-fabrication ✅
+Next: chờ user duyệt để publish
+```
+
+**Hành động sau khi soạn**:
+1. Trình nháp cho user xem (trong chat hoặc file nháp). **KHÔNG** commit vào luồng
+   auto-merge/deploy như bài thường khi chưa duyệt.
+2. User duyệt → lưu `content/posting/<slug>.md` → gate
+   `seo_qa_checker.py` → `qa_check.py` → `check_internal_links.py` → commit 1 file.
+
+**Morning / runner**: `bugblog` cần context/duyệt của user → **loại** khỏi `morning`.
 
 ---
 
