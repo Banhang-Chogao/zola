@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(shortcut): add dantri inspired blog writing shortcut",
+      "tag": "chore",
+      "lines_added": 108,
+      "lines_removed": 0,
+      "highlights": [
+        "Added dantri to shortcuts table in shortcuts.md with brief description",
+        "Added full dantri section definition in shortcuts.md with complete workflow and rules",
+        "Created .claude/commands/dantri.md handler with parse, execution, and output specs",
+        "User types: dantri",
+        "Response: Asks for source content/link + excerpt"
+      ],
+      "pr": 677
+    },
+    {
+      "date": "2026-06-21",
       "title": "feat(shortcut): add dantri inspired blog writing shortcut [claude/hopeful-rubin-g4t52d]",
       "tag": "chore",
       "lines_added": 108,
