@@ -614,3 +614,16 @@ QA Vaccine Summary
 # Additional Sections (Reference)
 
 For full details on remaining sections (F-Dashboard, Premium Paywall, Security, Quy tắc hoá giao dịch, etc.), see the full `CLAUDE.md` or `docs/vaccine-archive.md` archive.
+
+## QA Rule Checker Learning
+
+**Date:** 2026-06-21T14:11:13Z
+
+**Conflict:** Slug trùng: auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog (MEDIUM)
+
+**Root Cause:** content/baochi/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md; content/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md… vs Mỗi slug nên unique trong site…
+
+**Resolution:** Đổi slug hoặc merge bài trùng.
+
+**Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 48h (schedule); đồng bộ CLAUDE.md khi đổi policy.
+
