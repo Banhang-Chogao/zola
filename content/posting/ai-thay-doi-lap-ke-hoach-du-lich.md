@@ -1,6 +1,7 @@
 +++
 title = "AI lập kế hoạch du lịch: thay đổi cách đi"
 date = 2026-06-20
+aliases = ["/ai-thay-doi-lap-ke-hoach-du-lich/"]
 
 [taxonomies]
 categories = ["Tất cả"]

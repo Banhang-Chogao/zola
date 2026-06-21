@@ -2,12 +2,12 @@
 title = "Cách gắn Cloudflare Turnstile vào blog tĩnh để chống spam"
 description = "Hướng dẫn gắn Cloudflare Turnstile cho blog tĩnh hoặc Zola: tạo widget, deploy Worker xác minh token, tránh lộ secret key và hiển thị widget gọn dưới footer."
 date = 2026-06-21
+aliases = ["/cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam/"]
 updated = 2026-06-21
 
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["Cloudflare Turnstile", "chống spam", "Zola", "blog tĩnh", "Cloudflare Workers", "bảo mật website"]
-
+tags = ["blog tĩnh", "bảo mật website", "chống spam", "cloudflare turnstile", "cloudflare workers", "zola"]
 [extra]
 slug = "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam"
 summary = "Kinh nghiệm thực chiến khi gắn Cloudflare Turnstile vào blog tĩnh: đừng chỉ dán widget cho đẹp, hãy xác minh token bằng Worker và tuyệt đối không đưa secret key lên GitHub."

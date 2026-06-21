@@ -6,8 +6,7 @@ aliases = ["/cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["Mac", "macOS", "Terminal", "gỡ ứng dụng", "xoá app trên Mac", "84Key", "bộ gõ tiếng Việt"]
-
+tags = ["84key", "bộ gõ tiếng việt", "gỡ ứng dụng", "mac", "macos", "terminal", "xoá app trên mac"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "xoá app trên Mac bằng Terminal"
