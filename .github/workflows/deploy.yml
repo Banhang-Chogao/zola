@@ -147,6 +147,18 @@ jobs:
           echo "Building with Zola $ZOLA_VERSION @ commit $ZOLA_BUILD_SHA"
           zola build
 
+      - name: Schema validation (20+ BlogPosting posts)
+        run: python3 scripts/validate_schema_20plus.py
+
+      - name: Audit old URLs (github.io / zola references)
+        run: python3 scripts/audit_old_urls.py
+
+      - name: Mobile UX audit (lazy-load, LCP, dashboard optimization)
+        run: python3 scripts/audit_mobile_performance.py
+
+      - name: Tag sprawl analysis (identify thin tags for consolidation)
+        run: python3 scripts/analyze_tags.py
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
         with:
