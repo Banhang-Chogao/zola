@@ -629,6 +629,52 @@ class CmsRepoRoutesTests(unittest.TestCase):
         self.assertNotIn("ghs_secret_token", res.text)
 
 
+class V25HealthAndCriticalRoutesTests(unittest.TestCase):
+    """V25 — /health exposes split-backend diagnostics and the critical routes the
+    production frontend calls are actually mounted on THIS deployed app.
+
+    TestClient-free (inspects app.routes + _health_payload directly) so it runs even
+    when the local FastAPI/httpx TestClient signature drifts from production pins.
+    """
+
+    def test_health_payload_has_split_backend_fields(self) -> None:
+        import main as main_mod
+
+        body = main_mod._health_payload()
+        for field in ("backend_sha", "deployed_sha", "cms_mounted",
+                      "gsc_mounted", "critical_routes"):
+            self.assertIn(field, body, f"/health missing {field}")
+        # backend_sha is an alias of deployed_sha.
+        self.assertEqual(body["backend_sha"], body["deployed_sha"])
+        self.assertIsInstance(body["critical_routes"], dict)
+
+    def test_critical_routes_mounted(self) -> None:
+        import main as main_mod
+
+        mounted = main_mod._registered_paths()
+        # These never require Google libs → always mounted on the deployed app.
+        for route in ("/health", "/cms/save-post"):
+            self.assertIn(route, mounted, f"{route} not mounted → production 404")
+
+    def test_critical_routes_status_reflects_mounts(self) -> None:
+        import main as main_mod
+
+        status = main_mod._critical_routes_status()
+        self.assertTrue(status["/health"])
+        self.assertTrue(status["/cms/save-post"])  # cms_repo router mounted here
+        # /gsc/status mounts only when google libs are present (GSC_MOUNTED).
+        self.assertEqual(status["/gsc/status"], main_mod.GSC_MOUNTED)
+
+    def test_critical_routes_constant_matches_checker(self) -> None:
+        # The backend's critical set must match the post-deploy checker's smoke set.
+        import main as main_mod
+
+        self.assertEqual(
+            set(main_mod.CRITICAL_ROUTES),
+            {"/health", "/gsc/status", "/cms/save-post"},
+        )
+
+
 class CmsStickyFeaturedHelpersTests(unittest.TestCase):
     """Single-active sticky/featured frontmatter demote logic (offline, pure)."""
 

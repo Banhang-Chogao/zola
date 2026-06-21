@@ -1151,6 +1151,55 @@ fenced blocks.
   vaccines must use the next free number from `next_free_vaccine_number()` — never hardcode a taken one.
 - **Tests:** `python3 -m unittest scripts.test_qa_vaccines.SeoIdentityV20Test scripts.test_qa_vaccines.VaccineRegistryGuardTest -v`
 
+#### V25 — Split-backend 404: frontend route on `blog-vipzone-api` exists only in undeployed `services/visitor-counter`
+
+> Deploy/infra vaccine — generalises V16/V22b into a permanent rule + static gate +
+> post-deploy checker. Match the signature → mount the route on the DEPLOYED service;
+> NEVER report success while a frontend-called route 404s.
+
+- **Symptom:** the static site calls `${vipzone_api_url}/…` (= `https://blog-vipzone-api.onrender.com/…`,
+  the `AUTH_API` in `static/js/*`) and gets **`404 {"detail":"Not Found"}`** for a route
+  that clearly exists in the repo — typically a `/cms/*`, `/gsc/*`, `/auth/*` or
+  `/api/vipzone/*` endpoint. `zola build` and the GitHub Pages deploy are both green;
+  the bug is purely backend route absence. Editor save, SEO Reality Check (GSC), author
+  profile, footer countdown, content-creator, giscus setup, etc. silently fail.
+- **Root cause (the permanent trap):** Render deploys **ONLY** `services/vipzone`
+  (`render.yaml` → `rootDir: services/vipzone`, `name: blog-vipzone-api`). The route was
+  added to `services/visitor-counter/` (the old Redis service, **not deployed**), so it
+  lives in the repo but is **dead in production**. A route that exists only in
+  `visitor-counter` is never served to the production frontend. Same class as V16
+  (static↔backend split-brain) and V22b (#588 CMS routes 404'd until ported to vipzone).
+- **RULE (BẮT BUỘC):** **Any** frontend API path that uses `vipzone_api_url` /
+  `blog-vipzone-api.onrender.com` (i.e. `AUTH_API + "/…"` in `static/js/**`) MUST have a
+  matching route mounted on the **deployed** `services/vipzone` app — either directly in
+  `services/vipzone/main.py` (`@app.*`) or on a router mounted there via `include_router`
+  (`cms_auth.py`, `cms_repo.py`, or `gsc_routes.py` imported from visitor-counter with
+  prefix `/gsc`). Keep `services/visitor-counter` for compatibility, but **never rely on
+  it** for any route the production frontend calls.
+- **FIXER:** port/mount the missing route onto `services/vipzone` (faithful minimal port,
+  source the GitHub token from the vipzone CMS session as `cms_repo.py` does); add it to
+  the appropriate mounted router; re-run the static parity detector + the post-deploy
+  checker; after merge, run `backend_route_check.py` against production before calling it
+  done (a green Pages deploy + a 404 critical route = **incomplete**).
+- **Static detector:** `scripts/qa_vaccines.py` → `check_v24_backend_route_parity`
+  (code `V24`). **FAIL** if a critical route (`/health`, `/gsc/status`, `/cms/save-post`)
+  is not mounted on `services/vipzone` (directly or via a mounted router). **WARN** per
+  frontend `/cms/*` or `/gsc/*` family that has no matching deployed route (drift to fix).
+  Calibrated so current `main` = 0 FAIL.
+- **Post-deploy checker:** `python3 scripts/backend_route_check.py` hits the live backend
+  and asserts the critical routes never return 404 — `/health` 200, `/gsc/status` not-404,
+  `/cms/save-post` (POST, no auth) **401/403/405 but NEVER 404**. Report-only by default
+  (exit 0), `--strict` exits 2 on any 404. Reads `/health` `critical_routes`/`cms_mounted`/
+  `gsc_mounted`/`backend_sha` when present.
+- **`/health` fields (optional, additive):** `services/vipzone/main.py` `_health_payload()`
+  now also returns `backend_sha` (alias of `deployed_sha`), `cms_mounted`, `gsc_mounted`,
+  and `critical_routes` (`{route: mounted}` from the live `app.routes`).
+- **Smoke URLs (exact):**
+  - `https://blog-vipzone-api.onrender.com/health` → 200, `critical_routes` all `true`
+  - `https://blog-vipzone-api.onrender.com/gsc/status` → not 404 (401/200)
+  - `curl -X POST https://blog-vipzone-api.onrender.com/cms/save-post` → 401/403/405, never 404
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines.BackendRouteParityV25Test scripts.test_backend_route_check -v`
+
 #### V24 — GSC OAuth refresh token acquired but not persistable after redeploy (operator export path)
 
 > Deploy/operator vaccine. The OAuth flow can mint a refresh token into the VIPZone
