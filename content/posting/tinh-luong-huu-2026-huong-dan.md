@@ -9,7 +9,7 @@ tags = ["bhxh hưu trí", "lương hưu", "tính lương hưu 2026"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tính lương hưu 2026"
-featured = true
+featured = false
 +++
 
 **Cập nhật lần cuối:** 19/06/2026
