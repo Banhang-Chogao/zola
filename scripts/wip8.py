@@ -159,8 +159,8 @@ def render(data: dict) -> None:
                             border_style=MUTED, box=box.ROUNDED, padding=(0, 1)))
 
     # ── Footer ──────────────────────────────────────────────────────────────
-    console.print(f"\n[{MUTED}]Snapshot tại thời điểm gọi · gõ lại [bold]wip8[/bold] để refresh · "
-                  f"[bold]theodoi8[/bold] cho live CI feed[/]")
+    console.print(f"\n[{MUTED}]Snapshot tại thời điểm gọi · gõ lại [bold]wip8[/bold] để refresh "
+                  f"(workspace + CI/CD gộp trong 1 lệnh)[/]")
 
 
 def _render_plain(data: dict) -> None:
