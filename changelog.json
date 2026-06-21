@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-21",
+      "title": "feat(admin-zone): Add admin-only utility page with Operation Guideline search, PDF export with watermark, and usage stats [claude/busy-fermi-7m8mjx]",
+      "tag": "chore",
+      "lines_added": 1669,
+      "lines_removed": 0,
+      "highlights": [
+        "content/tools/admin-zone.md (added, +10/-0)",
+        "sass/_admin-zone.scss (added, +499/-0)",
+        "sass/site.scss (modified, +1/-0)",
+        "scripts/test_admin_zone.py (added, +245/-0)",
+        "static/js/admin-zone/app.js (added, +97/-0)"
+      ],
+      "pr": 648
+    },
+    {
+      "date": "2026-06-21",
       "title": "fix(seo): shorten VssID BHXH article title",
       "tag": "fix",
       "lines_added": 1,
