@@ -2070,8 +2070,8 @@
     "date": "2026-06-20",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.5119,
-    "top_score": 0.8773,
+    "score": 0.5114,
+    "top_score": 0.8705,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2118,8 +2118,8 @@
     "date": "2026-06-20",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.5009,
-    "top_score": 0.8773,
+    "score": 0.5018,
+    "top_score": 0.8705,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2130,8 +2130,8 @@
     "date": "2026-06-20",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.4932,
-    "top_score": 0.8218,
+    "score": 0.4945,
+    "top_score": 0.8285,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2310,7 +2310,7 @@
     "date": "2026-06-18",
     "cluster": "du-lich",
     "cluster_label": "Du lịch",
-    "score": 0.3496,
+    "score": 0.3529,
     "top_score": 0.4457,
     "neighbors": 5,
     "tier": "low"
@@ -2322,8 +2322,8 @@
     "date": "2026-06-20",
     "cluster": "du-lich",
     "cluster_label": "Du lịch",
-    "score": 0.3391,
-    "top_score": 0.485,
+    "score": 0.3351,
+    "top_score": 0.4651,
     "neighbors": 5,
     "tier": "low"
   },
@@ -2334,8 +2334,8 @@
     "date": "2026-06-18",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.3243,
-    "top_score": 0.3499,
+    "score": 0.3237,
+    "top_score": 0.3469,
     "neighbors": 5,
     "tier": "low"
   },
@@ -2348,18 +2348,6 @@
     "cluster_label": "Ẩm thực",
     "score": 0.3006,
     "top_score": 0.4262,
-    "neighbors": 5,
-    "tier": "low"
-  },
-  {
-    "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
-    "section": "posting",
-    "title": "AI lập kế hoạch du lịch: thay đổi cách đi",
-    "date": "2026-06-20",
-    "cluster": "du-lich",
-    "cluster_label": "Du lịch",
-    "score": 0.289,
-    "top_score": 0.485,
     "neighbors": 5,
     "tier": "low"
   },
@@ -2384,6 +2372,18 @@
     "cluster_label": "Thế giới",
     "score": 0.2781,
     "top_score": 0.3656,
+    "neighbors": 5,
+    "tier": "low"
+  },
+  {
+    "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
+    "section": "posting",
+    "title": "AI lập kế hoạch du lịch: thay đổi cách đi",
+    "date": "2026-06-20",
+    "cluster": "du-lich",
+    "cluster_label": "Du lịch",
+    "score": 0.2719,
+    "top_score": 0.4651,
     "neighbors": 5,
     "tier": "low"
   },
