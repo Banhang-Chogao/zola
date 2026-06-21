@@ -11,19 +11,19 @@
 {% set ar = load_data(path="data/authority-report.json", required=false) %}
 {% if ar %}
 {% set trust = ar.trust_score %}
-{% set trust_score = trust.score | default(value=0) %}
-{% set trust_label = trust.label | default(value="—") %}
-{% set cats = ar.category_authority | default(value=[]) %}
-{% set gaps = ar.topical_gaps | default(value=[]) %}
-{% set forecast = ar.authority_forecast | default(value=false) %}
-{% set orphans = ar.orphan_pages | default(value=[]) %}
-{% set series = ar.series_status | default(value=[]) %}
-{% set backlinks = ar.backlink_opportunities | default(value=[]) %}
-{% set suggestions = ar.internal_link_suggestions | default(value=[]) %}
-{% set history = ar.history | default(value=[]) %}
-{% set generated = ar.generated_at | default(value="") %}
-{% set report_num = ar.report_number | default(value=0) %}
-{% set rec = ar.growth_recommendation | default(value="") %}
+{% if trust.score %}{% set trust_score = trust.score %}{% else %}{% set trust_score = 0 %}{% endif %}
+{% if trust.label %}{% set trust_label = trust.label %}{% else %}{% set trust_label = "—" %}{% endif %}
+{% if ar.category_authority %}{% set cats = ar.category_authority %}{% else %}{% set cats = [] %}{% endif %}
+{% if ar.topical_gaps %}{% set gaps = ar.topical_gaps %}{% else %}{% set gaps = [] %}{% endif %}
+{% if ar.authority_forecast %}{% set forecast = ar.authority_forecast %}{% else %}{% set forecast = false %}{% endif %}
+{% if ar.orphan_pages %}{% set orphans = ar.orphan_pages %}{% else %}{% set orphans = [] %}{% endif %}
+{% if ar.series_status %}{% set series = ar.series_status %}{% else %}{% set series = [] %}{% endif %}
+{% if ar.backlink_opportunities %}{% set backlinks = ar.backlink_opportunities %}{% else %}{% set backlinks = [] %}{% endif %}
+{% if ar.internal_link_suggestions %}{% set suggestions = ar.internal_link_suggestions %}{% else %}{% set suggestions = [] %}{% endif %}
+{% if ar.history %}{% set history = ar.history %}{% else %}{% set history = [] %}{% endif %}
+{% if ar.generated_at %}{% set generated = ar.generated_at %}{% else %}{% set generated = "" %}{% endif %}
+{% if ar.report_number %}{% set report_num = ar.report_number %}{% else %}{% set report_num = 0 %}{% endif %}
+{% if ar.growth_recommendation %}{% set rec = ar.growth_recommendation %}{% else %}{% set rec = "" %}{% endif %}
 {% else %}
 {% set trust_score = 0 %}{% set trust_label = "—" %}{% set cats = [] %}{% set gaps = [] %}
 {% set forecast = false %}{% set orphans = [] %}{% set series = [] %}{% set backlinks = [] %}

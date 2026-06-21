@@ -96,6 +96,37 @@ class FailDetectorTest(unittest.TestCase):
         r = qv.check_v8b_template_block_balance(self.repo.ctx())
         self.assertEqual(r.status, qv.PASS)
 
+    def test_v8b1_tera_map_literals_fail(self):
+        # Tera does not support `default(value={})` or `default(value=[])`
+        self.repo.write("templates/bad.html",
+                        '{% set x = data.items | default(value=[]) %}')
+        r = qv.check_v8b1_tera_map_literals(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertGreater(len(r.details), 0)
+
+    def test_v8b1_tera_map_literals_fail_dict(self):
+        # Catch map literal too
+        self.repo.write("templates/bad.html",
+                        '{% set x = data | default(value={}) %}')
+        r = qv.check_v8b1_tera_map_literals(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_v8b1_tera_scalar_fallback_pass(self):
+        # Scalar fallbacks are safe
+        self.repo.write("templates/good.html",
+                        '{% set x = data.items if data.items else [] %}\n'
+                        '{% set y = data.count if data.count else 0 %}')
+        r = qv.check_v8b1_tera_map_literals(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v8b1_tera_ignores_map_in_comment(self):
+        # Map literals inside comments should not trip the gate
+        self.repo.write("templates/commented.html",
+                        '{# old bad code: default(value=[]) #}\n'
+                        '<p>good</p>')
+        r = qv.check_v8b1_tera_map_literals(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
     def test_dashboard_invalid_json_fail(self):
         self.repo.write("data/broken.json", "{ not: valid json, }")
         r = qv.check_dashboard_json(self.repo.ctx())

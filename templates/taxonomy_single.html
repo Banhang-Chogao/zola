@@ -17,7 +17,7 @@
 
     <div class="post-list">
         {% for page in paginator.pages %}
-            {% set page_cats = page.taxonomies.categories | default(value=[]) %}
+            {% if page.taxonomies.categories %}{% set page_cats = page.taxonomies.categories %}{% else %}{% set page_cats = [] %}{% endif %}
             {% set is_premium = page.extra.premium | default(value=false) or "premium" in page_cats %}
             <article class="post-card{% if is_premium %} post-card--premium{% endif %}">
                 <a class="post-card__image" href="{{ page.permalink }}">

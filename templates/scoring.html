@@ -7,7 +7,7 @@
 
 {% block main %}
     {% set scores = load_data(path="data/scores.json", required=false) %}
-    {% set scores = scores | default(value=[]) %}
+    {% if scores %}{% set scores = scores %}{% else %}{% set scores = [] %}{% endif %}
     {% set total = scores | length %}
 
     <section class="scoring">

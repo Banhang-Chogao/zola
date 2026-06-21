@@ -801,7 +801,11 @@
                 <script type="application/json" id="posts-data">
                 [
                 {%- for page in root_pages -%}
-                    {%- set jp_cats = page.taxonomies.categories | default(value=[]) -%}
+                    {%- if page.taxonomies.categories -%}
+                        {%- set jp_cats = page.taxonomies.categories -%}
+                    {%- else -%}
+                        {%- set jp_cats = [] -%}
+                    {%- endif -%}
                     {
                         "title": {{ page.title | json_encode | safe }},
                         "permalink": {{ page.permalink | json_encode | safe }},
@@ -827,7 +831,7 @@
                        premium nào. Click bài → trang bài → paywall flow hiện có (Momo unlock). #}
                     {% set_global premium_posts = [] %}
                     {% for page in root_pages %}
-                        {% set p_cats = page.taxonomies.categories | default(value=[]) %}
+                        {% if page.taxonomies.categories %}{% set p_cats = page.taxonomies.categories %}{% else %}{% set p_cats = [] %}{% endif %}
                         {% if page.extra.premium or "premium" in p_cats %}
                             {% set_global premium_posts = premium_posts | concat(with=[page]) %}
                         {% endif %}
