@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-06-21T23:09:43Z",
+  "updated_at": "2026-06-22T04:00:06Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 93,
-    "this_week": 200,
+    "today": 3,
+    "this_week": 3,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 42,
+      "feature": 75,
       "fix": 65,
-      "feature": 74,
+      "unknown": 41,
       "ci": 4,
       "chore": 12,
       "content": 2,
@@ -20,6 +20,63 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 713,
+      "pr_title": "feat: add bb article — cac-nuoc-chau-a-xu-ly-nha-sieu-mong-sieu-meo (inspired by Dân Trí) [claude/asia-narrow-housing-policies-ntfjg3]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/713",
+      "merged_at": "2026-06-22T03:40:52Z",
+      "merge_commit_sha": "60a500ae5b9f36cf32aa35cca81980afa6385937",
+      "merge_commit_short": "60a500a",
+      "head_branch": "claude/asia-narrow-housing-policies-ntfjg3",
+      "summary_vi": "feat: add bb article — cac-nuoc-chau-a-xu-ly-nha-sieu-mong-sieu-meo (inspired by Dân Trí)",
+      "change_type": "feature",
+      "files_changed": 3,
+      "additions": 265,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 949,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27928403163",
+      "build_conclusion": "in_progress"
+    },
+    {
+      "pr_number": 711,
+      "pr_title": "feat: add itnow shortcut for flexible newspaper-to-blog workflow [claude/itnow-seomoney-shortcut-najvq4]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/711",
+      "merged_at": "2026-06-22T00:57:46Z",
+      "merge_commit_sha": "2663728f15d2c707215bb0dda356e29b2e0b2b30",
+      "merge_commit_short": "2663728",
+      "head_branch": "claude/itnow-seomoney-shortcut-najvq4",
+      "summary_vi": "feat: add itnow shortcut for flexible newspaper-to-blog workflow",
+      "change_type": "feature",
+      "files_changed": 1,
+      "additions": 74,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 710,
+      "pr_title": "fix(shortcuts): restore `bb` as a first-class shortcut + V31 registry guard [claude/funny-cray-9xwe1e]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/710",
+      "merged_at": "2026-06-22T00:25:32Z",
+      "merge_commit_sha": "bd7b0b6c21561c2c2ee82d444fdd56f44e224742",
+      "merge_commit_short": "bd7b0b6",
+      "head_branch": "claude/funny-cray-9xwe1e",
+      "summary_vi": "fix(shortcuts): restore `bb` as a first-class shortcut + V31 registry guard",
+      "change_type": "fix",
+      "files_changed": 7,
+      "additions": 304,
+      "deletions": 26,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 709,
       "pr_title": "chore(tools): restore dashboard Python deps omitted by #705 route restore [claude/nice-planck-9stwce]",
@@ -37,7 +94,7 @@
       "auto_merged": false,
       "build_run_number": 948,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27920265682",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 708,
@@ -75,7 +132,7 @@
       "auto_merged": false,
       "build_run_number": 946,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27920166382",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 706,
@@ -94,7 +151,7 @@
       "auto_merged": false,
       "build_run_number": 948,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27920265682",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 705,
@@ -113,7 +170,7 @@
       "auto_merged": false,
       "build_run_number": 948,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27920265682",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 704,
@@ -132,7 +189,7 @@
       "auto_merged": false,
       "build_run_number": 948,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27920265682",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 701,
@@ -719,8 +776,8 @@
       "deletions": 19,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 919,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27907244676",
+      "build_run_number": 920,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27907285170",
       "build_conclusion": "failure"
     },
     {
@@ -3756,63 +3813,6 @@
       "change_type": "feature",
       "files_changed": 6,
       "additions": 704,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 469,
-      "pr_title": "feature: move Tags module to footer & redesign for footer proportions",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/469",
-      "merged_at": "2026-06-19T01:21:14Z",
-      "merge_commit_sha": "04673ba992468af51dd2f16c70d61b5b6f527503",
-      "merge_commit_short": "04673ba",
-      "head_branch": "claude/nice-noether-ig4tu2",
-      "summary_vi": "Thẻ (tags) là **điều hướng phụ trợ**, không phải nội dung chính. Tag cloud cũ nằm ở sidebar phải hẹp, render *mọi* thẻ thành một bức tường chữ — cao, ồn, và cạnh tranh với nội dung chính.",
-      "change_type": "unknown",
-      "files_changed": 6,
-      "additions": 218,
-      "deletions": 37,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 471,
-      "pr_title": "fix: resolve PR #469 footer conflicts (Tags → footer) + Vaccine V12 semantic merge",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/471",
-      "merged_at": "2026-06-19T01:21:12Z",
-      "merge_commit_sha": "9cd424cefbb88c4e8ba60cc3b7dc1f3b38b46381",
-      "merge_commit_short": "9cd424c",
-      "head_branch": "claude/vibrant-hypatia-73rm5z",
-      "summary_vi": "Giải quyết **merge conflict của PR #469** (move Tags module to footer) trên nền `main` mới nhất, **bằng semantic merge (theo intent, KHÔNG ours/theirs)** để không mất tính năng của bất kỳ nhánh nào. Đây là PR thay thế #4",
-      "change_type": "fix",
-      "files_changed": 7,
-      "additions": 282,
-      "deletions": 37,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 470,
-      "pr_title": "feat(tools): add S-DNA documentation page under /tools/s-dna/",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/470",
-      "merged_at": "2026-06-19T01:01:56Z",
-      "merge_commit_sha": "bb55994ce0a84d9676365f539a37a21300e63967",
-      "merge_commit_short": "bb55994",
-      "head_branch": "feature/s-dna-tools",
-      "summary_vi": "Create Sembcorp Design DNA as a second optional design reference beside Branding Guideline. Documentation-only page covering philosophy, colors, typography, KPI cards, icons, charts, slides, examples, anti-patterns, and ",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 558,
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
