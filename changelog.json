@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "no-API Pixabay image-assist + fix(V32) series_part build crash",
+      "tag": "feat",
+      "lines_added": 1284,
+      "lines_removed": 2,
+      "highlights": [
+        "scripts/pixabay_image_assist.py — discover 3–5 landscape candidates from Pixabay public search pages only (respects robots.txt, rate-limit, no login/CAPTCHA/private endpoints/mass-scrape). Stops grace",
+        "Manual confirmation gate: confirm requires --yes + --commercial-ok; mandatory source/license metadata (sidecar + frontmatter) or it refuses.",
+        "Third-party images saved under static/img/third-party/pixabay/ (outside watermark owned-roots) → never watermarked; assert_third_party() blocks owned folders.",
+        "Optional .webp optimization (Pillow when available).",
+        "content_creator.py integration with opt-out (--no-auto-image / auto_image=false); suggestion-only, never auto-downloads or alters covers."
+      ],
+      "pr": 735
+    },
+    {
+      "date": "2026-06-22",
       "title": "content: series 5 bài chữ ký số MySign (hub + 4 spoke)",
       "tag": "chore",
       "lines_added": 889,
