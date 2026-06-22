@@ -66,4 +66,31 @@ services:
       # Optional durable refresh token (Render /tmp SQLite is wiped on redeploy).
       # The OAuth flow also persists one; set this for a redeploy-safe connection.
       - key: GSC_REFRESH_TOKEN
+        sync: fal
+- type: web
+    name: blog-shortensea-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/shortensea
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SHORTENSEA_CORS_ORIGIN
+        value: https://seomoney.org,https://www.seomoney.org
+      - key: SHORTENSEA_BLOG_URL
+        value: https://seomoney.org
+      - key: SHORTENSEA_BACKEND_URL
+        value: https://blog-shortensea-api.onrender.com
+      - key: SHORTENSEA_DB_PATH
+        value: /tmp/shortensea.db
+      - key: SHORTENSEA_AUTH_URL
+        value: https://blog-vipzone-api.onrender.com
+      - key: ADMIN_EMAILS
+        value: 292648126+banhang-chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
+      - key: GH_CLIENT_ID
+        sync: false
+      - key: GH_CLIENT_SECRET
         sync: false

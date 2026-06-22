@@ -43,7 +43,11 @@ from pydantic import BaseModel, Field
 from db import ShortenDB
 
 # ============= Config =============
-CORS_ORIGIN = os.getenv("SHORTENSEA_CORS_ORIGIN", "https://seomoney.org")
+CORS_ORIGINS = [
+    o.strip()
+    for o in os.getenv("SHORTENSEA_CORS_ORIGIN", "https://seomoney.org,https://www.seomoney.org").split(",")
+    if o.strip()
+]
 BLOG_URL = os.getenv("SHORTENSEA_BLOG_URL", "https://seomoney.org").rstrip("/")
 BACKEND_URL = os.getenv("SHORTENSEA_BACKEND_URL", "http://localhost:8790").rstrip("/")
 SHORTENSEA_AUTH_URL = os.getenv("SHORTENSEA_AUTH_URL", "https://blog-vipzone-api.onrender.com").rstrip("/")
@@ -135,7 +139,7 @@ _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 app = FastAPI(title="ShortenSEA API", version="1.0.0", docs_url=None, redoc_url=None)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[CORS_ORIGIN, "http://127.0.0.1:1111", "http://localhost:1111"],
+    allow_origins=CORS_ORIGINS + ["http://127.0.0.1:1111", "http://localhost:1111"],
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
