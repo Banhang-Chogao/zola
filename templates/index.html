@@ -4,10 +4,9 @@
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
 
-{# Homepage relocates the Google Rank + SEO Reality widgets out of the right
-   sidebar into the "📊 Khám phá thêm" band below the post list (see block main).
-   Empty the sidebar slot so the widgets are not duplicated; top sidebar widgets
-   (Premium / Featured / Hot search / Random) stay untouched via base.html. #}
+{# Homepage: không hiển thị Internal SEO Health / SEO Reality Check widget.
+   Những widget này đã được chuyển sang Master Dashboard V5 (/tools/master-dashboard-v5/).
+   Top sidebar widgets (Premium / Featured / Hot search / Random) vẫn hoạt động qua base.html. #}
 {% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
