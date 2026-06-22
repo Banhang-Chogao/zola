@@ -559,6 +559,9 @@ không qua `filter` trước. Test: `scripts/test_qa_vaccines.py`.
 → See `docs/vaccine-archive.md` for FIXER & validation steps.
 
 
+#### V33 — Post-Conflict Artifact Hygiene: accidental backup/temp/unrelated files committed alongside conflict-resolution work
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
+
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
 > **Tự động quét repo hàng ngày**, phát hiện pattern issue đã biết từ Vaccine library

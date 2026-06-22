@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/breadcrumb.html" as bc %}
 
 {# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
 {% block robots %}noindex, follow{% endblock %}
@@ -11,6 +12,7 @@
 {% endblock %}
 
 {% block main %}
+{{ bc::tools(base_url=config.base_url, section_label="Công cụ", section_url=config.base_url~"/tools/", page_label=page.title | default(value="Lịch & sự kiện")) }}
 <div class="priv" data-priv-root>
   {# ===== Loading (auth check) ===== #}
   <div class="priv__loading" data-priv-loading>
