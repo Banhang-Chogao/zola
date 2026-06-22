@@ -2,6 +2,15 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "fix(gsc): actionable error when /gsc/oauth/start called without session",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 756
+    },
+    {
+      "date": "2026-06-22",
       "title": "fix(yaml): faq-autofixer.yml multi-line commit msg breaks YAML parse (V8 pattern) [fix/category-url-thinkpad]",
       "tag": "fix",
       "lines_added": 3,
