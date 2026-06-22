@@ -3,13 +3,10 @@
 {% import "macros/img.html" as img %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/pagination.html" as pager %}
-{% import "macros/google-rank.html" as google_rank %}
-{% import "macros/seo-reality.html" as seo_reality %}
 
-{# Homepage relocates the Google Rank + SEO Reality widgets out of the right
-   sidebar into the "📊 Khám phá thêm" band below the post list (see block main).
-   Empty the sidebar slot so the widgets are not duplicated; top sidebar widgets
-   (Premium / Featured / Hot search / Random) stay untouched via base.html. #}
+{# Homepage: không hiển thị Internal SEO Health / SEO Reality Check widget.
+   Những widget này đã được chuyển sang Master Dashboard V5 (/tools/master-dashboard-v5/).
+   Top sidebar widgets (Premium / Featured / Hot search / Random) vẫn hoạt động qua base.html. #}
 {% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
@@ -174,26 +171,9 @@
         </section>
     {% endif %}
 
-    {# ===== 📊 KHÁM PHÁ THÊM — SEO authority widgets relocated from the right
-       sidebar. Sits directly below the post list, above pagination; renders on
-       every paginator page (as the sidebar did before). Reuses the existing
-       Google Rank + SEO Reality components — container + responsive grid styled
-       in sass/_discover-more.scss (calm enterprise / Hilda DNA, soft fade-in).
-       Guarded so the titled band never renders empty when data is missing. #}
-    {% set gr_data = load_data(path="data/google-rank.json", required=false) %}
-    {% set sr_data = load_data(path="data/seo-reality.json", required=false) %}
-    {% if (gr_data and gr_data.score is defined) or (sr_data and sr_data.technical_seo) %}
-    <section class="discover-more" aria-labelledby="discover-more-title">
-        <header class="discover-more__head">
-            <h2 class="discover-more__title" id="discover-more-title">📊 Khám phá thêm</h2>
-            <p class="discover-more__sub">Sức khỏe SEO của blog — điểm Google Rank và bức tranh hiệu quả tìm kiếm thực tế trên Google.</p>
-        </header>
-        <div class="discover-more__grid">
-            {{ google_rank::widget() }}
-            {{ seo_reality::widget() }}
-        </div>
-    </section>
-    {% endif %}
+    {# 📊 SEO authority widgets (Google Rank + SEO Reality) đã được CHUYỂN sang
+       Master Dashboard V5 (/tools/master-dashboard-v5/) để trang chủ nhẹ &
+       tập trung vào nội dung. Xem dải trạng thái cuối trang để mở dashboard. #}
 
     {% if feed_pages > 1 %}
         <nav class="pagination" aria-label="Phân trang trang chủ">
@@ -210,4 +190,37 @@
             {% endif %}
         </nav>
     {% endif %}
+
+    {# Reader tools — chỉ 2–3 tiện ích hữu ích cho người đọc, giữ trang chủ nhẹ.
+       Mọi công cụ vận hành/dashboard nằm ở Master Dashboard V5 (dải dưới). #}
+    <section class="home-readertools" aria-labelledby="home-readertools-title">
+        <h2 class="home-readertools__title" id="home-readertools-title">Công cụ hữu ích</h2>
+        <div class="home-readertools__grid">
+            <a class="home-readertools__card" href="{{ config.base_url }}/tools/bhxh-1-lan/">
+                <span class="home-readertools__icon" aria-hidden="true">🧮</span>
+                <span class="home-readertools__name">Tính BHXH 1 lần</span>
+                <span class="home-readertools__desc">Ước tính số tiền rút bảo hiểm xã hội một lần.</span>
+            </a>
+            <a class="home-readertools__card" href="{{ config.base_url }}/tools/bhtn/">
+                <span class="home-readertools__icon" aria-hidden="true">🛡️</span>
+                <span class="home-readertools__name">Trợ cấp thất nghiệp</span>
+                <span class="home-readertools__desc">Tính mức &amp; thời gian hưởng trợ cấp thất nghiệp.</span>
+            </a>
+            <a class="home-readertools__card" href="{{ config.base_url }}/tools/">
+                <span class="home-readertools__icon" aria-hidden="true">🧰</span>
+                <span class="home-readertools__name">Tất cả công cụ</span>
+                <span class="home-readertools__desc">Xem toàn bộ tiện ích miễn phí của blog.</span>
+            </a>
+        </div>
+    </section>
+
+    {# Dải trạng thái cuối trang — link sang Master Dashboard V5. Gọn, không phải
+       dashboard nhúng; giữ trang chủ giống trang blog biên tập. #}
+    <aside class="home-statusstrip" aria-label="Trạng thái hệ thống">
+        <a class="home-statusstrip__link" href="{{ config.base_url }}/tools/master-dashboard-v5/">
+            <span class="home-statusstrip__icon" aria-hidden="true">🎛️</span>
+            <span class="home-statusstrip__text">Master Dashboard V5: trạng thái hệ thống, công cụ blog và kiểm tra an toàn.</span>
+            <span class="home-statusstrip__cta" aria-hidden="true">→</span>
+        </a>
+    </aside>
 {% endblock main %}

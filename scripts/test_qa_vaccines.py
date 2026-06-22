@@ -84,6 +84,33 @@ class FailDetectorTest(unittest.TestCase):
         r = qv.check_v8a_tera_filter_kwargs(self.repo.ctx())
         self.assertEqual(r.status, qv.PASS)
 
+    def test_v32_unguarded_series_part_sort_fail(self):
+        # sort(attribute="extra.series_part") on a NON-filtered list → a member
+        # missing series_part crashes zola build → detector must FAIL.
+        self.repo.write(
+            "templates/macros/series-listing.html",
+            '{% set sorted_pages = group_pages | sort(attribute="extra.series_part") %}')
+        r = qv.check_v32_series_part_sort_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("V32", r.vaccine)
+        self.assertGreater(len(r.details), 0)
+
+    def test_v32_filtered_then_sorted_pass(self):
+        # Filtering by the attribute before sorting is the durable fix → PASS.
+        self.repo.write(
+            "templates/macros/series-listing.html",
+            '{% set sortable = group_pages | filter(attribute="extra.series_part") %}\n'
+            '{% set sorted_pages = sortable | sort(attribute="extra.series_part") %}')
+        r = qv.check_v32_series_part_sort_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v32_no_series_part_sort_pass(self):
+        # A template that never sorts by series_part is trivially safe.
+        self.repo.write("templates/macros/series-listing.html",
+                        '{% set x = pages | sort(attribute="date") %}')
+        r = qv.check_v32_series_part_sort_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
     def test_v8b_unbalanced_block_fail(self):
         self.repo.write("templates/y.html", "{% if x %}\n<p>no endif</p>")
         r = qv.check_v8b_template_block_balance(self.repo.ctx())

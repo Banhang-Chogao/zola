@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/breadcrumb.html" as bc %}
 
 {% block title %}Công cụ | {{ config.title }}{% endblock %}
 
@@ -6,6 +7,7 @@
 {% set palette = ["teal", "blue", "purple", "amber", "green", "slate"] %}
 <div class="content-hub">
     <header class="content-hub__head">
+        {{ bc::tools(base_url=config.base_url, section_label="Công cụ") }}
         <h1 class="content-hub__h1">{{ section.title }}</h1>
         <p class="content-hub__lead">{{ section.description }}</p>
     </header>
