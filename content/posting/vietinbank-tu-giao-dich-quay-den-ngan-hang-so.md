@@ -45,7 +45,7 @@ Với một ngân hàng quy mô lớn như VietinBank, lượng khách ra vào q
 
 Bước ngoặt đầu tiên với nhiều người là cây ATM. Lần đầu rút được tiền lúc nửa đêm mà không cần gặp ai, mình thấy đúng kiểu "ngân hàng không ngủ".
 
-ATM giải phóng khách hàng khỏi giờ hành chính. Rút tiền, kiểm tra số dư, sau này còn chuyển khoản và nộp tiền ngay tại máy. Thẻ ATM trở thành thứ ai cũng có trong ví. Câu chuyện riêng về thẻ mình kể kỹ ở [bài về lịch sử và các dòng thẻ VietinBank](/posting/the-vietinbank-lich-su-va-cac-dong-the/).
+ATM giải phóng khách hàng khỏi giờ hành chính. Rút tiền, kiểm tra số dư, sau này còn chuyển khoản và nộp tiền ngay tại máy. Thẻ ATM trở thành thứ ai cũng có trong ví. Câu chuyện riêng về thẻ mình kể kỹ ở [bài về lịch sử và các dòng thẻ VietinBank](/the-vietinbank-lich-su-va-cac-dong-the/).
 
 Điểm hay của ATM là nó tập cho người dùng quen với việc tự phục vụ. Đây là viên gạch tâm lý quan trọng: khi đã quen tự bấm máy rút tiền, người ta sẵn sàng hơn cho bước tiếp theo là tự thao tác trên màn hình máy tính và điện thoại.
 
@@ -55,7 +55,7 @@ Khi máy tính và Internet phổ biến hơn, ngân hàng đưa nhiều dịch 
 
 Lần đầu chuyển khoản qua web thành công, cảm giác khá lạ vì không có tờ giấy nào, không có ai đóng dấu, mà tiền vẫn tới nơi. Đổi lại, người dùng phải làm quen với mật khẩu, mã xác thực và thói quen bảo mật mới.
 
-Chi tiết các thế hệ Internet Banking và ứng dụng iPay mình tách riêng ở [bài về Internet Banking và VietinBank iPay qua các thời kỳ](/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/) để tiện theo dõi.
+Chi tiết các thế hệ Internet Banking và ứng dụng iPay mình tách riêng ở [bài về Internet Banking và VietinBank iPay qua các thời kỳ](/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/) để tiện theo dõi.
 
 ## App di động và sự dịch chuyển thật sự
 
@@ -81,15 +81,15 @@ Một vài thay đổi dễ thấy trong thói quen:
 - Từ chờ giờ hành chính thành giao dịch bất cứ lúc nào.
 - Từ tiền mặt thành quét QR và chuyển khoản cho cả những khoản nhỏ.
 
-Tất nhiên, sự tiện lợi này đi kèm trách nhiệm mới: người dùng phải tự bảo vệ tài khoản, cẩn thận với lừa đảo và mã OTP. Đó là cái giá hợp lý cho việc cầm cả ngân hàng trong tay. Quá trình hiện đại hóa nền tảng phía sau, mình đã kể ở [bài về core banking của VietinBank](/posting/vietinbank-hien-dai-hoa-core-banking/).
+Tất nhiên, sự tiện lợi này đi kèm trách nhiệm mới: người dùng phải tự bảo vệ tài khoản, cẩn thận với lừa đảo và mã OTP. Đó là cái giá hợp lý cho việc cầm cả ngân hàng trong tay. Quá trình hiện đại hóa nền tảng phía sau, mình đã kể ở [bài về core banking của VietinBank](/vietinbank-hien-dai-hoa-core-banking/).
 
 Nếu muốn xem thông tin chính thức về các kênh giao dịch, bạn có thể tham khảo trực tiếp trang [VietinBank](https://www.vietinbank.vn).
 
 ## Bài tiếp theo trong loạt
 
-Sau khi thấy hành trình từ quầy lên app, bài kế tiếp mình sẽ dựng bức tranh tổng thể: VietinBank thực ra đang cung cấp những nhóm sản phẩm gì. Bạn cũng có thể quay lại [bài về core banking](/posting/vietinbank-hien-dai-hoa-core-banking/) hoặc xem thêm các bài cùng chủ đề tại [chuyên mục Ngân hàng](/categories/ngan-hang/).
+Sau khi thấy hành trình từ quầy lên app, bài kế tiếp mình sẽ dựng bức tranh tổng thể: VietinBank thực ra đang cung cấp những nhóm sản phẩm gì. Bạn cũng có thể quay lại [bài về core banking](/vietinbank-hien-dai-hoa-core-banking/) hoặc xem thêm các bài cùng chủ đề tại [chuyên mục Ngân hàng](/topic/ngan-hang/).
 
-> 👉 **Đọc tiếp:** [Hệ sinh thái sản phẩm của VietinBank hiện nay →](/posting/he-sinh-thai-san-pham-vietinbank/)
+> 👉 **Đọc tiếp:** [Hệ sinh thái sản phẩm của VietinBank hiện nay →](/he-sinh-thai-san-pham-vietinbank/)
 
 ## Tóm lại
 

@@ -62,7 +62,7 @@ Người ta dễ nghĩ chỉ các startup nhỏ mới đổ xô mua **tên miề
 
 Theo tôi, lý do nằm ở tâm lý định vị. Trong một thị trường mà ai cũng tự nhận "có AI", một địa chỉ web kết thúc bằng `.ai` gửi đi thông điệp ngắn gọn và mạnh mẽ: *chúng tôi sinh ra cho kỷ nguyên này*. Khi các tên tuổi hàng đầu Silicon Valley cùng sử dụng, `.ai` dần trở thành một **tiêu chuẩn không chính thức** — giống như cách các công ty công nghệ từng tranh nhau đuôi `.io` cách đây vài năm, nhưng ở quy mô lớn hơn nhiều.
 
-Sức hút thương hiệu này cũng giống bài học tôi rút ra khi tự dựng blog cá nhân: cái tên và địa chỉ bạn chọn chính là bất động sản số. Tôi từng chia sẻ kỹ trong bài [tạo blog với Zola](/posting/tao-blog-voi-zola/) rằng một tên miền gọn, dễ nhớ, đúng ngữ cảnh có thể "nói thay" rất nhiều trước cả khi người đọc click vào.
+Sức hút thương hiệu này cũng giống bài học tôi rút ra khi tự dựng blog cá nhân: cái tên và địa chỉ bạn chọn chính là bất động sản số. Tôi từng chia sẻ kỹ trong bài [tạo blog với Zola](/tao-blog-voi-zola/) rằng một tên miền gọn, dễ nhớ, đúng ngữ cảnh có thể "nói thay" rất nhiều trước cả khi người đọc click vào.
 
 ## Identity Digital và chuyện chuyên nghiệp hóa "mỏ vàng"
 
@@ -98,7 +98,7 @@ Gấp bài báo lại, tôi nghĩ về ba điều.
 
 **Thứ hai, đừng bỏ tất cả trứng vào một giỏ.** Doanh thu `.ai` đang chiếm gần một nửa ngân sách Anguilla — vừa là phước lành, vừa là rủi ro tập trung. Nếu cơn sốt AI hạ nhiệt, dòng tiền có thể co lại nhanh không kém lúc nó phình ra. Việc Anguilla chủ động đầu tư vào năng lượng tái tạo và hạ tầng cho thấy họ hiểu rõ điều này.
 
-**Thứ ba, cơn sốt AI có những người hưởng lợi rất bất ngờ.** Chúng ta hay nghĩ tới Nvidia, OpenAI hay các trung tâm dữ liệu ngốn điện. Nhưng phía sau còn vô số mắt xích thầm lặng — từ một hòn đảo Caribe cho tới các công nghệ nền tảng. Nếu bạn muốn hiểu sâu hơn phần "lõi" của AI hiện đại, tôi có viết một bài khá kỹ về [mô hình SBERT và sentence-transformers](/posting/sentence-transformers-sbert-deep-dive/), còn về hạ tầng công nghệ đứng sau chính blog này thì nằm ở bài [công nghệ blog Duy Nguyen](/posting/cong-nghe-blog-duy-nguyen/).
+**Thứ ba, cơn sốt AI có những người hưởng lợi rất bất ngờ.** Chúng ta hay nghĩ tới Nvidia, OpenAI hay các trung tâm dữ liệu ngốn điện. Nhưng phía sau còn vô số mắt xích thầm lặng — từ một hòn đảo Caribe cho tới các công nghệ nền tảng. Nếu bạn muốn hiểu sâu hơn phần "lõi" của AI hiện đại, tôi có viết một bài khá kỹ về [mô hình SBERT và sentence-transformers](/sentence-transformers-sbert-deep-dive/), còn về hạ tầng công nghệ đứng sau chính blog này thì nằm ở bài [công nghệ blog Duy Nguyen](/cong-nghe-blog-duy-nguyen/).
 
 Câu chuyện Anguilla, với tôi, là lời nhắc nhẹ nhàng: trong một thế giới chạy theo những thuật toán phức tạp nhất, đôi khi thứ thay đổi vận mệnh một cộng đồng lại đơn giản đến không ngờ — chỉ là hai chữ cái, gặp đúng cơn sóng thời đại.
 
