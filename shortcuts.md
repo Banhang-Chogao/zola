@@ -128,7 +128,7 @@ Format bắt buộc:
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
 | `bb` | Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY, human, 1000+ từ, chuẩn SEO; chờ duyệt trước khi đăng |
 | `bb9 <topic>` | Viết bài từ chủ đề + hẹn giờ đăng (draft n+3, buổi tối) — biến thể "hẹn giờ" của `bb` |
-| `dantri` | Alias hẹp của `bb`: paste nội dung nguồn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
+| `dantri` | Crawl bài từ dantri.com.vn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
 | `fixrule8` | Soi conflict giữa rule + vaccine trong CLAUDE.md → sinh PROMPT fix cho Claude/Grok (read-only) |
@@ -1865,31 +1865,29 @@ Push: <branch> → auto-merge
 
 **Morning / runner**: `baomoi` cần argument → **loại** khỏi `morning` (giống `topic:`).
 
-### `dantri` — Viết lại nội dung nguồn thành bài blog mới (alias hẹp của `bb`)
+### `dantri` — Crawl bài từ dantri.com.vn → viết lại thành bài blog mới
 
 **Cú pháp**: gõ `dantri` đúng từ (không cần argument ngay).
 
-> **Alias của `bb`**: `dantri` **dùng chung engine viết lại paste→bài gốc** của `### \`bb\``
-> (đọc section đó). Khác biệt duy nhất: `dantri` là biến thể **hẹp/source-agnostic** — đặt bài
-> ở section phù hợp nội dung (KHÔNG ép `content/baochi/`/`"Báo chí"`), còn `bb` là pipeline tin
-> đầy đủ (nhánh `baochi`). **Cùng approval gate**: chờ user duyệt, KHÔNG tự đăng.
+> **Riêng biệt với `bb`** (KHÔNG dùng chung logic). `dantri` chuyên **crawl tin từ
+> dantri.com.vn**: user đưa link dantri.com.vn → Claude tự fetch/đọc bài rồi viết lại.
+> `bb` thì viết từ **văn bản user copy/dán** (đa nguồn). Phạm vi `dantri`: **chỉ dantri.com.vn**.
 
-**Mục đích**: User dán nội dung bài gốc (từ báo chí, blog khác, hoặc link + excerpt)
-→ Claude viết lại hoàn toàn bằng lời mới, không copy nguyên văn, giữ góc nhìn
-tác giả, văn phong human, ≥1000 từ, chuẩn Google SEO + AdSense, có nhận định/review
-cuối bài, kèm kết luận rõ ràng.
+**Mục đích**: User đưa **link bài trên dantri.com.vn** → Claude crawl/đọc bài đó →
+viết lại hoàn toàn bằng lời mới, không copy nguyên văn, giữ góc nhìn tác giả, văn phong
+human, ≥1000 từ, chuẩn Google SEO + AdSense, có nhận định/review cuối bài, kèm kết luận rõ ràng.
 
 **Workflow (BẮT BUỘC)**:
 
-1. User gõ `dantri` (không dán nội dung ngay).
+1. User gõ `dantri` (chưa đưa link ngay).
 2. Claude trả lời:
    ```
-   Anh dán nội dung bài gốc hoặc link + phần nội dung chính vào đây. 
-   Em sẽ viết lại thành một bài blog mới theo góc nhìn của anh, 
+   Anh dán link bài trên dantri.com.vn (hoặc nội dung chính nếu fetch bị chặn) vào đây. 
+   Em sẽ crawl bài đó, viết lại thành một bài blog mới theo góc nhìn của anh, 
    văn phong human, chuẩn SEO, hơn 1000 từ, có nhận định/review cuối bài, 
    và không copy nguyên văn nguồn.
    ```
-3. User dán nội dung / link + excerpt.
+3. User đưa **link dantri.com.vn** → Claude **fetch/crawl** bài (WebFetch). Network chặn → dùng nội dung user dán.
 4. Claude **xử lý**:
    - Phân tích nội dung nguồn → xác định chủ đề + góc nhìn chính
    - Research keyword từ nội dung (tự sinh, không hardcode)
@@ -1931,12 +1929,11 @@ QA: pass | fail
 Push: <branch> → auto-merge
 ```
 
-**Hành động sau khi write** (cùng approval gate với `bb` — KHÔNG tự đăng):
-1. Commit (1 file) lên branch dev: `feat: add dantri article — <slug> (inspired by <source>)`
-2. **DỪNG & chờ user duyệt** — KHÔNG auto-merge/deploy. Chỉ merge `main` → deploy sau khi
-   user duyệt rõ ràng ("đăng"/"merge").
+**Hành động sau khi write**:
+1. Commit (1 file): `feat: add dantri article — <slug> (inspired by <source>)`
+2. Push branch dev → auto-merge → auto-deploy (ZERO_BARRIER)
 
-**Morning / runner**: `dantri` cần user dán nội dung sau khi gọi → **loại** khỏi `morning`.
+**Morning / runner**: `dantri` cần user đưa link sau khi gọi → **loại** khỏi `morning`.
 
 ---
 
