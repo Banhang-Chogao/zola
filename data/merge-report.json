@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-22T18:57:38Z",
+  "updated_at": "2026-06-22T19:19:39Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 21,
-    "this_week": 21,
+    "today": 22,
+    "this_week": 22,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "unknown": 44,
       "fix": 69,
       "chore": 13,
-      "feature": 66,
+      "feature": 65,
       "content": 5,
-      "unknown": 43,
       "ci": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 741,
+      "pr_title": "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status [claude/trusting-cori-db6sew]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/741",
+      "merged_at": "2026-06-22T19:10:47Z",
+      "merge_commit_sha": "29e87168a6845aca609eb3133aaae8fbe274c4bb",
+      "merge_commit_short": "29e8716",
+      "head_branch": "claude/trusting-cori-db6sew",
+      "summary_vi": "- Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX",
+      "change_type": "unknown",
+      "files_changed": 11,
+      "additions": 228,
+      "deletions": 68,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 974,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27977403143",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 740,
       "pr_title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 973,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27976230035",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 739,
@@ -55,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 972,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27975690329",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 738,
@@ -566,9 +585,9 @@
       "deletions": 20,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 944,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27918715274",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 700,
@@ -585,9 +604,9 @@
       "deletions": 112,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 944,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27918715274",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 699,
@@ -3794,25 +3813,6 @@
       "files_changed": 19,
       "additions": 65,
       "deletions": 65,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 489,
-      "pr_title": "feat(baochi): bài \"Điểm thi tuyển sinh lớp 10 TP.HCM 2026\" (SEO A+)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/489",
-      "merged_at": "2026-06-19T09:26:17Z",
-      "merge_commit_sha": "66d6eaeccc0ac54a729ab53f938895d19f6a059b",
-      "merge_commit_short": "66d6eae",
-      "head_branch": "claude/sleepy-carson-13c9yp",
-      "summary_vi": "Tin thời sự **19/6/2026**: điểm thi tuyển sinh lớp 10 TP.HCM 2026.",
-      "change_type": "feature",
-      "files_changed": 4,
-      "additions": 248,
-      "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
