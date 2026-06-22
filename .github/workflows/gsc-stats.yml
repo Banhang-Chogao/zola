@@ -1,11 +1,14 @@
 name: Fetch GSC Stats
 
 # Every 20 minutes: pull Search Console metrics → commit data/gsc-metrics.json.
-# REQUIRED SECRETS: GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET
-# GSC_PROPERTY_URL MUST be the domain property "sc-domain:seomoney.org"
-# (deploy.yml runs scripts/gsc_preflight.py as a hard gate on this value).
-# Sitemap: https://seomoney.org/sitemap.xml
-# Obtain refresh token via /gsc/oauth/start on blog backend (admin session).
+#
+# V24 doctrine: Render backend (blog-vipzone-api) holds the OAuth refresh token in KV.
+# fetch_gsc_metrics.py prefers direct GSC API (if secrets present) but automatically
+# falls back to GET <GSC_BACKEND_URL>/gsc/metrics — no secrets required for the fallback.
+#
+# OPTIONAL secrets (direct GSC API path — faster, not needed if backend is connected):
+#   GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET
+# Fallback: GSC_BACKEND_URL (default: https://blog-vipzone-api.onrender.com)
 
 on:
   schedule:
@@ -38,10 +41,13 @@ jobs:
 
       - name: Fetch GSC metrics
         env:
+          # Optional — direct GSC API (skipped if empty; falls back to backend KV path)
           GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
           GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
           GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          # V24: backend holds token in KV — always available even without above secrets
+          GSC_BACKEND_URL: https://blog-vipzone-api.onrender.com
         run: python scripts/fetch_gsc_metrics.py
 
       - name: Rebuild SEO reality snapshot
