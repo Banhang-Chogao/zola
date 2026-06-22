@@ -12,7 +12,7 @@ featured_at = "2026-06-22T04:10:47.206Z"
 +++
 
 Có những ngày trợ lý AI của bạn báo hết credit, hết lượt, hoặc đơn giản là đang bảo trì. Nếu cả quy trình xuất bản của bạn phụ thuộc vào AI, bạn sẽ kẹt. Bài này hướng dẫn cách **viết blog bằng local terminal** một cách trọn vẹn — từ tạo nhánh, soạn bài, kiểm tra QA, build sạch, tới mở Pull Request và chờ auto-merge — mà không cần một dòng trợ giúp nào từ AI.
-![alt](url)
+
 Đây là phần ba của cụm bài. Nếu muốn hiểu vì sao quy trình kỷ luật lại quan trọng, hãy đọc [case study fix QA Gatekeeper GitHub Actions](/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/). Còn nếu muốn tra cứu ý nghĩa từng câu lệnh, [bài giải thích các lệnh Git đưa blog lên production](/posting/cac-lenh-git-dua-blog-len-production/) là cẩm nang đi kèm.
 
 <!-- more -->
