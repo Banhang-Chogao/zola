@@ -29,7 +29,7 @@ q = "Có cần nhánh gh-pages riêng không?"
 a = "Không, nếu dùng cách deploy bằng GitHub Pages Actions (actions/deploy-pages). Cách này deploy thẳng artifact, không cần tạo và đẩy vào nhánh gh-pages như phương pháp cũ."
 +++
 
-Sau khi đã [tạo blog với Zola](/posting/tao-blog-voi-zola/), việc bạn muốn tiếp theo chắc chắn là: **mỗi lần viết bài xong, push lên là blog tự cập nhật** — không phải build tay, không phải kéo thả file. Bài này hướng dẫn viết file **`deploy.yml`** để **deploy Zola lên GitHub Pages** bằng GitHub Actions, **giải thích từng phần** để bạn hiểu chứ không chỉ copy.
+Sau khi đã [tạo blog với Zola](/tao-blog-voi-zola/), việc bạn muốn tiếp theo chắc chắn là: **mỗi lần viết bài xong, push lên là blog tự cập nhật** — không phải build tay, không phải kéo thả file. Bài này hướng dẫn viết file **`deploy.yml`** để **deploy Zola lên GitHub Pages** bằng GitHub Actions, **giải thích từng phần** để bạn hiểu chứ không chỉ copy.
 
 ## Cơ chế deploy Zola lên GitHub Pages
 
@@ -114,7 +114,7 @@ Vào **Settings → Pages** của repo, mục *Build and deployment* chọn **So
 
 - **Ghim version Zola** thay vì `latest` để build không gãy khi có bản mới.
 - **Cache** thư mục tải Zola nếu muốn nhanh hơn (với blog nhỏ thì không cần).
-- **Tách kiểm thử**: thêm một workflow QA chạy `zola check` hoặc script kiểm tra link/HTML trước khi deploy — đây chính là nền tảng của [QA Gatekeeper giúp blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/).
+- **Tách kiểm thử**: thêm một workflow QA chạy `zola check` hoặc script kiểm tra link/HTML trước khi deploy — đây chính là nền tảng của [QA Gatekeeper giúp blog tự fix lỗi 24/7](/qa-gatekeeper-tu-fix-loi-blog/).
 
 ## Lỗi thường gặp
 
@@ -133,4 +133,4 @@ Quy trình deploy bằng GitHub Actions ở trên bám sát [tài liệu GitHub 
 
 Chỉ với một file YAML, bạn có pipeline **build và deploy tự động, miễn phí**. Đây là viên gạch đầu tiên để tiến tới tự động hoá toàn diện: kiểm thử tự động, tự sửa lỗi, thậm chí tự đăng bài.
 
-Xem thêm: [tạo blog với Zola từ A–Z](/posting/tao-blog-voi-zola/) và [công nghệ vận hành một blog cá nhân $0/tháng](/posting/cong-nghe-blog-duy-nguyen/).
+Xem thêm: [tạo blog với Zola từ A–Z](/tao-blog-voi-zola/) và [công nghệ vận hành một blog cá nhân $0/tháng](/cong-nghe-blog-duy-nguyen/).

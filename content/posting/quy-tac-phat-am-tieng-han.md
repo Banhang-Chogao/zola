@@ -49,4 +49,4 @@ Và **căng hóa** (경음화): 학교 viết "hak-gyo" nhưng đọc **[학꾜]
 
 Trong bài đầy đủ: 6 quy tắc — **nối âm 연음, căng hóa 경음화, mũi hóa 비음화** (입니다→[임니다]), **bật hơi hóa 격음화** (좋다→[조타]), **ㅎ yếu hóa** (좋아요→[조아요]), **유음화** (신라→[실라]) — mỗi quy tắc kèm bảng "trước → sau" và **14 câu bài tập có đáp án**. Mở khóa nghe – nói chuẩn nào! 💪
 
-👉 Ôn lại [Ngày 5 — patchim & 7 âm đại diện](/posting/patchim-phu-am-cuoi-tieng-han/) hoặc đi tiếp [Ngày 7 — ôn tập tuần 1 & chào hỏi](/posting/on-tap-tuan-1-chao-hoi-tieng-han/). Lộ trình đầy đủ ở [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).
+👉 Ôn lại [Ngày 5 — patchim & 7 âm đại diện](/patchim-phu-am-cuoi-tieng-han/) hoặc đi tiếp [Ngày 7 — ôn tập tuần 1 & chào hỏi](/on-tap-tuan-1-chao-hoi-tieng-han/). Lộ trình đầy đủ ở [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/). Tham khảo hệ chữ tại [Hangul (Wikipedia)](https://en.wikipedia.org/wiki/Hangul).
