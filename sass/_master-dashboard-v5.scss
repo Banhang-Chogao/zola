@@ -1,0 +1,278 @@
+/* ===== Master Dashboard V5 — /tools/master-dashboard-v5/ =====================
+   Trang Công Cụ tổng hợp: gom các widget "nặng dashboard" rời khỏi trang chủ.
+   Calm enterprise / Hilda DNA: semantic --c-* tokens, soft shadow, 4px-family
+   radius, responsive card grid (desktop multi-column → mobile single column).
+   Tái dùng skin của Google Rank / SEO Reality (.sidebar-block) cho hàng SEO. */
+
+.mdash {
+  max-width: 1100px;
+  margin: 0 auto;
+
+  /* ── Hero ───────────────────────────────────────────────────────────── */
+  &__hero {
+    margin: 0 0 2rem;
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--c-text-heading);
+    margin: 0 0 0.6rem;
+  }
+
+  &__lead {
+    max-width: 62ch;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--c-text-body);
+    margin: 0 0 0.6rem;
+  }
+
+  &__back a {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--c-accent);
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  /* ── Section ────────────────────────────────────────────────────────── */
+  &__section {
+    margin: 2.5rem 0;
+  }
+
+  &__h2 {
+    font-family: $font-heading;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--c-text-heading);
+    margin: 0 0 1.1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--c-accent);
+  }
+
+  &__section-note {
+    margin: -0.6rem 0 1.1rem;
+    font-size: 0.9rem;
+    color: var(--c-text-muted);
+  }
+
+  /* ── Card grid ──────────────────────────────────────────────────────── */
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    align-items: start;
+  }
+
+  &__grid--tools {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  /* SEO widgets row — reuse the component skins, just lay them out. */
+  &__seo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+    align-items: start;
+    margin-top: 1.25rem;
+  }
+}
+
+/* ── Generic dashboard card ───────────────────────────────────────────── */
+.mdash-card {
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  padding: 1.1rem 1.15rem;
+  box-shadow: var(--c-shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+
+  &--wide { grid-column: span 1; }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--c-text-heading);
+    margin: 0;
+    flex: 1 1 auto;
+  }
+
+  &__metric {
+    font-family: $font-heading;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--c-text-heading);
+    margin: 0.2rem 0;
+  }
+
+  &__unit {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--c-text-muted);
+    margin-left: 0.15rem;
+  }
+
+  &__feature {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+
+    a { color: var(--c-text-heading); text-decoration: none; }
+    a:hover { color: var(--c-accent); text-decoration: underline; }
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--c-text-muted);
+
+    code {
+      background: var(--c-bg-soft);
+      border-radius: 4px;
+      padding: 0.05em 0.35em;
+      font-size: 0.85em;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    li { font-size: 0.9rem; line-height: 1.4; }
+    a { color: var(--c-text-body); text-decoration: none; }
+    a:hover { color: var(--c-accent); text-decoration: underline; }
+  }
+
+  &__stamp {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--c-text-muted);
+  }
+
+  &__link {
+    align-self: flex-start;
+    margin-top: auto;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--c-accent);
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin-top: 0.2rem;
+
+    .mdash-card__link { margin-top: 0; }
+  }
+}
+
+/* ── Status badge ─────────────────────────────────────────────────────── */
+.mdash-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 0.2em 0.6em;
+  border-radius: 999px;
+  white-space: nowrap;
+
+  &--ok {
+    color: var(--c-success);
+    background: color-mix(in srgb, var(--c-success) 14%, transparent);
+  }
+
+  &--warn {
+    color: var(--c-warning);
+    background: color-mix(in srgb, var(--c-warning) 16%, transparent);
+  }
+
+  &--info {
+    color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+}
+
+/* ── Tool launcher card ───────────────────────────────────────────────── */
+.mdash-tool {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  padding: 1rem 1.05rem;
+  text-decoration: none;
+  box-shadow: var(--c-shadow-md);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--c-accent);
+  }
+
+  &__icon { font-size: 1.4rem; line-height: 1; }
+
+  &__name {
+    font-family: $font-heading;
+    font-weight: 700;
+    color: var(--c-text-heading);
+  }
+
+  &__desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--c-text-muted);
+  }
+}
+
+/* ── Mobile: single column, no overflow ───────────────────────────────── */
+@media (max-width: 600px) {
+  .mdash__grid,
+  .mdash__grid--tools,
+  .mdash__seo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mdash-card__metric { font-size: 1.7rem; }
+}

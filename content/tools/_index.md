@@ -11,6 +11,13 @@ toc = false
 
 # Mỗi nhóm = 1 section khối màu. Tất cả công cụ MIỄN PHÍ (không còn gate VIP).
 [[extra.tool_groups]]
+name = "Tổng quan"
+[[extra.tool_groups.items]]
+name = "🎛️ Master Dashboard V5"
+url = "$BASE_URL/tools/master-dashboard-v5"
+subtitle = "Trung tâm: trạng thái hệ thống, công cụ blog & kiểm tra an toàn — tất cả trong một trang"
+
+[[extra.tool_groups]]
 name = "Dashboard & phân tích"
 [[extra.tool_groups.items]]
 name = "💰 F-Dashboard"
