@@ -7,6 +7,8 @@ categories = ["Tất cả"]
 tags = ["ai", "blog", "git", "github", "production", "terminal", "workflow", "zola"]
 
 [extra]
+featured = true
+featured_at = "2026-06-22T04:10:43.084Z"
 +++
 
 Có những ngày trợ lý AI của bạn báo hết credit, hết lượt, hoặc đơn giản là đang bảo trì. Nếu cả quy trình xuất bản của bạn phụ thuộc vào AI, bạn sẽ kẹt. Bài này hướng dẫn cách **viết blog bằng local terminal** một cách trọn vẹn — từ tạo nhánh, soạn bài, kiểm tra QA, build sạch, tới mở Pull Request và chờ auto-merge — mà không cần một dòng trợ giúp nào từ AI.
