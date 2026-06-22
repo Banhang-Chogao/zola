@@ -6,7 +6,7 @@
    ============================================================ */
 
 .priv {
-  max-width: 1320px;
+  max-width: 1480px;
   margin: 0 auto 3rem;
   padding: 0 0.75rem;
   font-family: $font-body;
@@ -229,7 +229,7 @@ $wb-note-colors: (
 
   &__board {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 0.8rem;
   }
 

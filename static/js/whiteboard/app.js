@@ -125,18 +125,35 @@
         });
       });
 
-      // text edit on blur (save only when changed)
+      // text edit: save on Enter, allow Cmd/Ctrl+Enter or Shift+Enter for newline
       var ta = $("[data-wb-text]", el);
       if (ta) {
-        ta.addEventListener("blur", function () {
+        function saveNote() {
           var n = getNote(id);
           if (!n) return;
           var val = ta.value;
           if (val === n.text) return;
           n.text = val;               // optimistic
           apiUpdate(id, { text: val }).then(function (saved) {
-            if (saved) { replaceNote(saved); updateTime(el, saved); }
+            if (saved) { replaceNote(saved); updateTime(el, saved); toast("đã lưu"); }
           }).catch(function () { toast("Lưu ghi chú thất bại", "error"); reload(); });
+        }
+
+        ta.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            // Enter alone = save
+            if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+              e.preventDefault();
+              saveNote();
+            }
+            // Ctrl/Cmd+Enter or Shift+Enter = insert newline
+            // (default Enter behavior allows this)
+          }
+        });
+
+        ta.addEventListener("blur", function () {
+          // Also save on blur for safety
+          saveNote();
         });
       }
 
