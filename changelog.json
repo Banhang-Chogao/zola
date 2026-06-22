@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "fix(conflict): resolve V10 merge conflict on calendar.html + seo-qa-scores.json [feat/breadcrumb-tools-nav]",
+      "tag": "fix",
+      "lines_added": 222,
+      "lines_removed": 0,
+      "highlights": [
+        "fix(content): remove empty Trello draft posts",
+        "feat(ui): add playful pill breadcrumb to /tools/ and /tools/calendar/",
+        "fix(conflict): resolve V10 merge conflict on calendar.html + seo-qa-scores.json",
+        "content/posting/card-due-date-hien-trong-trello-planner.md.bak-frontmatter (added, +0/-0)",
+        "content/posting/loc-card-den-han-focus-time-trello-mobile.md.bak-frontmatter (added, +0/-0)"
+      ],
+      "pr": 742
+    },
+    {
+      "date": "2026-06-22",
       "title": "chore(data): update backend-status.json from backend8 check [claude/laughing-volta-f15gwx]",
       "tag": "chore",
       "lines_added": 65,
