@@ -12,6 +12,7 @@ thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "Trello Mobile Calendar"
 featured = true
 series = "trello-mobile-calendar"
+series_part = 0
 series_total = 2
 [[extra.faq]]
 q = "Trello Mobile Calendar có phải là một ứng dụng riêng không?"
