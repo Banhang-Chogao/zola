@@ -6,11 +6,6 @@
 {% import "macros/google-rank.html" as google_rank %}
 {% import "macros/seo-reality.html" as seo_reality %}
 
-{# Homepage relocates the Google Rank + SEO Reality widgets out of the right
-   sidebar into the "📊 Khám phá thêm" band below the post list (see block main).
-   Empty the sidebar slot so the widgets are not duplicated; top sidebar widgets
-   (Premium / Featured / Hot search / Random) stay untouched via base.html. #}
-{% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
 
 {# Homepage title giàu từ khoá hơn cho SERP (thay vì chỉ hiện tên brand) #}
 {% block title %}SEOMONEY — SEO, AI WebOps & Tài chính cá nhân{% endblock %}
@@ -172,27 +167,6 @@
                 {% endfor %}
             </div>
         </section>
-    {% endif %}
-
-    {# ===== 📊 KHÁM PHÁ THÊM — SEO authority widgets relocated from the right
-       sidebar. Sits directly below the post list, above pagination; renders on
-       every paginator page (as the sidebar did before). Reuses the existing
-       Google Rank + SEO Reality components — container + responsive grid styled
-       in sass/_discover-more.scss (calm enterprise / Hilda DNA, soft fade-in).
-       Guarded so the titled band never renders empty when data is missing. #}
-    {% set gr_data = load_data(path="data/google-rank.json", required=false) %}
-    {% set sr_data = load_data(path="data/seo-reality.json", required=false) %}
-    {% if (gr_data and gr_data.score is defined) or (sr_data and sr_data.technical_seo) %}
-    <section class="discover-more" aria-labelledby="discover-more-title">
-        <header class="discover-more__head">
-            <h2 class="discover-more__title" id="discover-more-title">📊 Khám phá thêm</h2>
-            <p class="discover-more__sub">Sức khỏe SEO của blog — điểm Google Rank và bức tranh hiệu quả tìm kiếm thực tế trên Google.</p>
-        </header>
-        <div class="discover-more__grid">
-            {{ google_rank::widget() }}
-            {{ seo_reality::widget() }}
-        </div>
-    </section>
     {% endif %}
 
     {% if feed_pages > 1 %}
