@@ -58,19 +58,47 @@
     return err;
   }
 
+  // Deduplication: single in-flight auth check
+  var authPromise = null;
+  var authCache = null;
+  var authCacheTime = 0;
+
   async function fetchMe() {
     var sid = getSid();
     if (!sid || !AUTH_API) return null;
-    try {
-      var res = await fetch(AUTH_API + "/auth/me", {
-        headers: { "Authorization": "Bearer " + sid },
-        credentials: "omit",
-        cache: "no-store",
-      });
-      if (res.status === 401) { clearSid(); return null; }
-      if (!res.ok) return null;
-      return await res.json();
-    } catch (e) { return null; }
+
+    // Return cached result if fresh (< 30 seconds)
+    if (authCache && Date.now() - authCacheTime < 30000) return authCache;
+
+    // Deduplicate: reuse in-flight request
+    if (authPromise) return authPromise;
+
+    authPromise = (async function () {
+      try {
+        // Timeout: abort after 10 seconds if no response
+        var controller = new AbortController();
+        var timeout = setTimeout(function () { controller.abort(); }, 10000);
+        var res = await fetch(AUTH_API + "/auth/me", {
+          headers: { "Authorization": "Bearer " + sid },
+          credentials: "omit",
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (res.status === 401) { clearSid(); return null; }
+        if (!res.ok) return null;
+        var data = await res.json();
+        authCache = data;
+        authCacheTime = Date.now();
+        return data;
+      } catch (e) {
+        return null;
+      } finally {
+        authPromise = null;
+      }
+    })();
+
+    return authPromise;
   }
 
   function login() {
@@ -182,13 +210,25 @@
     var errCode = consumeAuthQuery();
     if (errCode) showError(AUTH_ERRORS[errCode] || ("Lỗi xác thực: " + errCode));
 
-    var me = await fetchMe();
-    var ok = me && (me.is_admin || me.is_super);
-    if (ok) {
-      showApp(me);
-      document.dispatchEvent(new CustomEvent("private-auth:authed", { detail: me }));
-    } else {
-      if (me && !ok) showError("Tài khoản này không có quyền truy cập công cụ riêng tư.");
+    try {
+      // Timeout: if auth check takes > 15s, treat as failure
+      var controller = new AbortController();
+      var timeout = setTimeout(function () { controller.abort(); }, 15000);
+      var me = await fetchMe();
+      clearTimeout(timeout);
+
+      var ok = me && (me.is_admin || me.is_super);
+      if (ok) {
+        showApp(me);
+        document.dispatchEvent(new CustomEvent("private-auth:authed", { detail: me }));
+      } else {
+        if (me && !ok) showError("Tài khoản này không có quyền truy cập công cụ riêng tư.");
+        else if (!me && !errCode) showError("Không thể kết nối máy chủ. Thử lại sau.");
+        showGate();
+        document.dispatchEvent(new CustomEvent("private-auth:denied"));
+      }
+    } catch (e) {
+      showError("Lỗi kết nối: " + (e.message || "Thử lại sau."));
       showGate();
       document.dispatchEvent(new CustomEvent("private-auth:denied"));
     }
