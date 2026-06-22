@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/failed-checks-conflict-report-f99tyu [claude/failed-checks-conflict-report-f99tyu]",
+      "tag": "chore",
+      "lines_added": 342,
+      "lines_removed": 0,
+      "highlights": [
+        "docs(reports): add failed checks/conflict/hotfix history memory map",
+        "Merge remote-tracking branch 'origin/main' into claude/failed-checks-conflict-report-f99tyu",
+        "reports/failed-conflict-history.md (added, +342/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 729
+    },
+    {
+      "date": "2026-06-22",
       "title": "fix(conflict): resolve V10 merge conflict on calendar.html + seo-qa-scores.json [feat/breadcrumb-tools-nav]",
       "tag": "fix",
       "lines_added": 222,
