@@ -4,5 +4,7 @@ description = "Thanh toán MoMo và kích hoạt gói VIP ShortenSEA — custom 
 template = "shortensea-upgrade.html"
 
 [extra]
+# Trang nâng cấp/thanh toán VIP → noindex + loại khỏi sitemap.
+noindex = true
 seo_keyword = "shortensea vip momo nâng cấp"
 +++

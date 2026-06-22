@@ -44,7 +44,7 @@ Theo thời gian, website lớn dần. Từ vài bài viết kỹ thuật, nó t
 Trước khi nói đến chuyện đóng góp, tôi nghĩ công bằng nhất là để bạn thấy website đang cho đi những gì. Tất cả đều miễn phí, không yêu cầu đăng ký phiền hà:
 
 - **Bài viết chuyên sâu** về công nghệ, SEO, tài chính cá nhân và nhiều chủ đề khác, được biên tập kỹ và cập nhật thường xuyên.
-- **Bộ công cụ trực tuyến** như [F-Dashboard phân tích chi tiêu cá nhân](/tools/f-dashboard/) và [Prompt Support tối ưu câu lệnh AI](/prompt-support/) — chạy hoàn toàn trong trình duyệt, không gửi dữ liệu của bạn đi đâu cả.
+- **Bộ công cụ trực tuyến** như F-Dashboard phân tích chi tiêu cá nhân và [Prompt Support tối ưu câu lệnh AI](/prompt-support/) — chạy hoàn toàn trong trình duyệt, không gửi dữ liệu của bạn đi đâu cả.
 - **Trải nghiệm đọc sạch sẽ**: không pop-up che màn hình, không quảng cáo nhấp nháy, tốc độ tải nhanh và thân thiện với thiết bị di động.
 
 Tất cả những điều đó tốn chi phí thật để duy trì — từ tên miền, hạ tầng backend cho các công cụ, đến thời gian. Phần lớn tôi vẫn tự gánh, và sẽ tiếp tục như vậy. Nhưng có một mục tiêu tôi không thể tự xoay sở thoải mái, đó là lý do bài viết này ra đời.

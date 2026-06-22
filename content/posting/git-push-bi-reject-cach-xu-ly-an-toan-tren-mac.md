@@ -5,7 +5,7 @@ date = 2026-06-21
 aliases = ["/git-push-bi-reject-cach-xu-ly-an-toan-tren-mac/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git push reject", "git pull rebase", "non-fast-forward", "git fetch", "QA workflow", "virtualenv", "git mac", "github cli"]
+tags = ["git fetch", "git mac", "git pull rebase", "git push reject", "github cli", "non-fast-forward", "qa workflow", "virtualenv"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "git push bị reject"

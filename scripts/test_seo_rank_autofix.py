@@ -58,9 +58,16 @@ class AutofixScanTest(unittest.TestCase):
                 payload = mod.run_scan(apply=False, dry_run=True)
                 mod.write_report(payload)
                 self.assertTrue(mod.REPORT_FILE.is_file())
-                self.assertTrue((mod.STATIC_DATA / "seo-rank-autofix-report.json").is_file())
+                static_file = mod.STATIC_DATA / "seo-rank-autofix-report.json"
+                self.assertTrue(static_file.is_file())
                 loaded = json.loads(mod.REPORT_FILE.read_text())
                 self.assertEqual(loaded["scoreBefore"], payload["scoreBefore"])
+                # Internal report keeps full detail; public copy is summary-only.
+                self.assertIn("items", loaded)
+                public = json.loads(static_file.read_text())
+                self.assertNotIn("items", public)
+                self.assertIn("itemsTotal", public)
+                self.assertEqual(public["scoreBefore"], payload["scoreBefore"])
             finally:
                 mod.DATA = orig_data
                 mod.STATIC_DATA = orig_static

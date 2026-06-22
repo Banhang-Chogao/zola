@@ -1,4 +1,6 @@
 public/
+# Extracted Zola binary (repo ships zola-*.tar.gz; the unpacked binary is a local build artifact)
+/zola
 .DS_Store
 *.swp
 __pycache__/
@@ -49,6 +51,9 @@ reports/rule-conflict-report.md
 
 # V29: deploysafe29 on-demand prod smoke report — env-specific verdict + timestamp
 data/prod-smoke-report.json
+
+# Pixabay image-assist crawl suggestions — volatile runtime (re-crawlable, gitignored)
+data/pixabay-suggestions/
 
 # private AI operating notes
 CLAUDE_PRIVATE.md

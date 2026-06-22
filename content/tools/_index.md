@@ -11,6 +11,32 @@ toc = false
 
 # Mỗi nhóm = 1 section khối màu. Tất cả công cụ MIỄN PHÍ (không còn gate VIP).
 [[extra.tool_groups]]
+name = "Tổng quan"
+[[extra.tool_groups.items]]
+name = "🎛️ Master Dashboard V5"
+url = "$BASE_URL/tools/master-dashboard-v5"
+subtitle = "Trung tâm: trạng thái hệ thống, công cụ blog & kiểm tra an toàn — tất cả trong một trang"
+
+[[extra.tool_groups]]
+name = "Dashboard & phân tích"
+[[extra.tool_groups.items]]
+name = "💰 F-Dashboard"
+url = "$BASE_URL/tools/f-dashboard"
+subtitle = "Sao kê VietinBank (Excel) — phân tích thu/chi & sức khỏe tài chính"
+[[extra.tool_groups.items]]
+name = "🏦 L-Dashboard"
+url = "$BASE_URL/tools/l-dashboard"
+subtitle = "Sao kê LPBank (PDF) — phân tích dòng tiền, biểu đồ & export"
+[[extra.tool_groups.items]]
+name = "🧾 O-Dashboard"
+url = "$BASE_URL/tools/o-dashboard"
+subtitle = "Sao kê Liobank by OCB (PDF) — phân tích dòng tiền"
+[[extra.tool_groups.items]]
+name = "🧮 H-Dashboard"
+url = "$BASE_URL/tools/h-dashboard"
+subtitle = "Hóa đơn/biên lai (OCR) — thống kê chi tiêu"
+
+[[extra.tool_groups]]
 name = "Monitoring & Dashboard"
 [[extra.tool_groups.items]]
 name = "📈 UPTIME_ME"
@@ -55,6 +81,10 @@ url = "$BASE_URL/tools/s-dna"
 [[extra.tool_groups.items]]
 name = "B-DNA"
 url = "$BASE_URL/tools/b-dna"
+[[extra.tool_groups.items]]
+name = "🏦 B-DNA Banking Demo"
+url = "$BASE_URL/tools/b-dna-banking"
+subtitle = "Ngân hàng số cá nhân — demo UI + flow dựng theo B-DNA (không backend)"
 [[extra.tool_groups.items]]
 name = "ShortenSEA"
 url = "$BASE_URL/shortensea"

@@ -705,9 +705,6 @@
                         <span class="insights__report-badge insights__report-badge--warn">{{ auth_orphans }} orphans</span>
                         {% endif %}
                     </div>
-                    <a class="insights__report-link" href="{{ config.base_url }}/authority-report/">
-                        Xem Authority Report <span aria-hidden="true">→</span>
-                    </a>
                     <footer class="insights__report-foot">
                         {% if auth_updated %}
                         <time datetime="{{ auth_updated }}">Cập nhật {{ dt::display_datetime(value=auth_updated) }}</time>
@@ -729,9 +726,6 @@
                         <span class="insights__report-badge">2 slots</span>
                         <span class="insights__report-badge insights__report-badge--warn">placeholder</span>
                     </div>
-                    <a class="insights__report-link" href="{{ config.base_url }}/ad-report/">
-                        Xem Ad-Report <span aria-hidden="true">→</span>
-                    </a>
                     <footer class="insights__report-foot">
                         <span>Archive: <code>reports/adsense-ad-placement-report.md</code></span>
                     </footer>
@@ -755,9 +749,6 @@
                         <span class="insights__report-badge insights__report-badge--warn">sparse ads</span>
                         {% endif %}
                     </div>
-                    <a class="insights__report-link" href="{{ config.base_url }}/ad-report-v2/">
-                        Xem Ad-Report V2 <span aria-hidden="true">→</span>
-                    </a>
                     <footer class="insights__report-foot">
                         <span>Density: <strong>{{ ad_v2_density }}</strong></span>
                         {% if ad_v2_updated %}
