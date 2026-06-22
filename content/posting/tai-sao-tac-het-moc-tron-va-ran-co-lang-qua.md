@@ -155,4 +155,4 @@ Thay vì cố gắng "sửa" chúng, hãy:
 
 ---
 
-**Liên quan:** [Khoa học đằng sau tóc bạc do stress](/content/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac.md)
+**Liên quan:** [Khoa học đằng sau tóc bạc do stress](/tai-sao-toc-trang-do-stress-va-tuoi-tac/)

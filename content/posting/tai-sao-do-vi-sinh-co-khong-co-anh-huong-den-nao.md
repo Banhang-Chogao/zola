@@ -148,4 +148,4 @@ Vi khuẩn của bạn là bạn—hãy chăm sóc họ, và họ sẽ chăm só
 
 ---
 
-**Liên quan:** [Thiếu ngủ ảnh hưởng tâm trạng](/content/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi.md)
+**Liên quan:** [Thiếu ngủ ảnh hưởng tâm trạng](/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/)

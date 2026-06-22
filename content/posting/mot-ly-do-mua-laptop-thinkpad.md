@@ -9,7 +9,7 @@ categories = ["Tất cả", "Công nghệ"]
 tags = ["laptop", "thinkpad", "lenovo", "phần cứng", "chọn mua laptop", "trackpoint"]
 [extra]
 seo_keyword = "lý do mua ThinkPad"
-thumbnail = "https://seomoney.org/img/posting/mot-ly-do-mua-laptop-thinkpad/cover.jpeg"
+thumbnail = "https://seomoney.org/img/posting/mot-ly-do-mua-laptop-thinkpad/cover.webp"
 featured = false
 
 [[extra.faq]]
@@ -31,7 +31,7 @@ a = "Tùy ngân sách. Máy mới có bảo hành và phần cứng đời mới
 
 > "Give me only 1 reason not to buy a ThinkPad" — cho mình một lý do để **đừng** mua ThinkPad đi. Cái meme này hài vì ai từng xài ThinkPad đều biết phần khó không phải là tìm lý do đừng mua, mà là tìm lý do **để** mua sao cho ngắn gọn. Bài này mình làm điều ngược lại với cái ảnh: chỉ đưa **một lý do** thôi, nhưng là lý do đủ nặng để bạn gật đầu.
 
-![Một bàn tay cầm chiếc laptop ThinkPad màu đen, màn hình mở sẵn, bàn phím có chấm đỏ TrackPoint ở giữa](/img/posting/mot-ly-do-mua-laptop-thinkpad/cover.jpeg)
+![Một bàn tay cầm chiếc laptop ThinkPad màu đen, màn hình mở sẵn, bàn phím có chấm đỏ TrackPoint ở giữa](/img/posting/mot-ly-do-mua-laptop-thinkpad/cover.webp)
 
 ## Lý do mua ThinkPad gói gọn: chiếc máy sinh ra để gõ phím cả ngày
 

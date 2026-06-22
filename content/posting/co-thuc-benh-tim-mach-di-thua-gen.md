@@ -139,4 +139,4 @@ Và **thói quen tốt có thể giảm risk 50-70%** ngay cả nếu bạn có 
 
 ---
 
-**Liên quan:** [Tác dụng của vitamin D trên sức khỏe](/content/posting/tai-sao-chung-ta-can-vitamin-d.md)
+**Liên quan:** [Tác dụng của vitamin D trên sức khỏe](/tai-sao-chung-ta-can-vitamin-d/)

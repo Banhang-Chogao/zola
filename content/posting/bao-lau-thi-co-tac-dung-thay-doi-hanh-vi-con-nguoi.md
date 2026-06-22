@@ -81,4 +81,4 @@ Hãy đo lường ngủ như bạn có thể đo lường dinh dưỡng hoặc t
 
 ---
 
-**Liên quan:** Xem thêm về [tại sao chúng ta cần ngủ?](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** Xem thêm về [tại sao chúng ta cần ngủ?](/tai-sao-chung-ta-can-ngu/)

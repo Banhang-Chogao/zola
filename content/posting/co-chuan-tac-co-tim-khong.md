@@ -157,4 +157,4 @@ Sai. Tập thể dục **có thể giảm RHR 10-20 BPM** trong vòng 3-6 tháng
 
 ---
 
-**Liên quan:** [Bệnh tim di truyền hay do thói quen](/content/posting/co-thuc-benh-tim-mach-di-thua-gen.md)
+**Liên quan:** [Bệnh tim di truyền hay do thói quen](/co-thuc-benh-tim-mach-di-thua-gen/)

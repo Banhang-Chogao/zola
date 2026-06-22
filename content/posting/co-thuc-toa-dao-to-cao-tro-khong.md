@@ -147,4 +147,4 @@ Sai. Đó có thể là **placebo**, hoặc bạn uống nước/ăn healthy hơ
 
 ---
 
-**Liên quan:** [Tác dụng của vitamin D trên sức khỏe](/content/posting/tai-sao-chung-ta-can-vitamin-d.md)
+**Liên quan:** [Tác dụng của vitamin D trên sức khỏe](/tai-sao-chung-ta-can-vitamin-d/)

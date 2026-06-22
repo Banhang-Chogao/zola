@@ -134,4 +134,4 @@ Nó chỉ là **candy có gelatin** thay vì **candy không có gelatin.**
 
 ---
 
-**Liên quan:** [Vitamin D và sức khỏe da](/content/posting/tai-sao-chung-ta-can-vitamin-d.md)
+**Liên quan:** [Vitamin D và sức khỏe da](/tai-sao-chung-ta-can-vitamin-d/)

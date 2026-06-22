@@ -157,4 +157,4 @@ Quá trình:
 
 ---
 
-**Liên quan:** [Khoa học quả chín dưới nắng](/content/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang.md)
+**Liên quan:** [Khoa học quả chín dưới nắng](/tai-sao-trai-hoa-non-khi-de-duoi-nang/)

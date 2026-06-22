@@ -151,7 +151,7 @@ Lần tới bạn ghé Hà Nội, thay vì tìm những quán phở "nổi bật
 ---
 
 **Tham khảo thêm:**  
-Muốn biết thêm về ẩm thực Hà Nội? Hãy xem [Hướng dẫn du lịch ẩm thực Hà Nội cho lần đầu](/du-lich-am-thuc-ha-noi-lan-dau/) hoặc [Top 10 đặc sản Hà Nội phải thử](/top-10-dac-san-ha-noi-phai-thu/).
+Muốn biết thêm về ẩm thực Hà Nội? Hãy xem thêm các bài viết về [du lịch ẩm thực](/du-lich/) trên blog này.
 
 ---
 

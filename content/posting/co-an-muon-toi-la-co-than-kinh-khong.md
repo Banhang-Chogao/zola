@@ -135,4 +135,4 @@ Sai. Nó tùy thuộc vào:
 
 ---
 
-**Liên quan:** [Khoa học đằng sau vitamin D](/content/posting/tai-sao-chung-ta-can-vitamin-d.md)
+**Liên quan:** [Khoa học đằng sau vitamin D](/tai-sao-chung-ta-can-vitamin-d/)

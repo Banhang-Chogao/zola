@@ -144,4 +144,4 @@ Sứa sinh tồn suốt **600 triệu năm** mà không:
 
 ---
 
-**Liên quan:** [Cơ bắp hoạt động như thế nào](/content/posting/co-la-co-sop-hoat-dong-nhu-the-nao.md)
+**Liên quan:** [Cơ bắp hoạt động như thế nào](/co-la-co-sop-hoat-dong-nhu-the-nao/)

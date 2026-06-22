@@ -131,4 +131,4 @@ Nhưng **ĐỪNG kỳ vọng nó là "phương pháp giảm cân" hoặc "tăng 
 
 ---
 
-**Liên quan:** [Tại sao chúng ta cần ngủ?](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** [Tại sao chúng ta cần ngủ?](/tai-sao-chung-ta-can-ngu/)
