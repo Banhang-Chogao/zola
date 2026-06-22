@@ -38,7 +38,7 @@ Tính năng **Live Preview** của Brackets là siêu sao lúc đó. Bạn viế
 3. Refresh page
 4. Quay lại editor
 
-Brackets nói: "Tại sao phải phức tạp vậy?" Nó tích hợp preview trực tiếp vào editor, giúp web designer thấy kết quả ngay khi gõ — tuyệt vời cho quy trình thiết kế. Điều này khác biệt so với khi làm việc với [các lệnh Git đưa blog lên production](/posting/cac-lenh-git-dua-blog-len-production/) sau này, nơi bạn phải lưu, commit, push mới thấy kết quả — Brackets loại bỏ bước đó cho local development.
+Brackets nói: "Tại sao phải phức tạp vậy?" Nó tích hợp preview trực tiếp vào editor, giúp web designer thấy kết quả ngay khi gõ — tuyệt vời cho quy trình thiết kế. Điều này khác biệt so với khi làm việc với [các lệnh Git đưa blog lên production](/cac-lenh-git-dua-blog-len-production/) sau này, nơi bạn phải lưu, commit, push mới thấy kết quả — Brackets loại bỏ bước đó cho local development.
 
 ### Quick Edit: Sửa CSS Mà Không Rời HTML
 
