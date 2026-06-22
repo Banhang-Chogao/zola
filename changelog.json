@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
+      "tag": "fix",
+      "lines_added": 82,
+      "lines_removed": 25,
+      "highlights": [
+        "sass/_calendar.scss (modified, +3/-3)",
+        "sass/_whiteboard.scss (modified, +2/-2)",
+        "static/js/private-auth.js (modified, +57/-17)",
+        "static/js/whiteboard/app.js (modified, +20/-3)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 740
+    },
+    {
+      "date": "2026-06-22",
       "title": "chore(vaccine): Daily Vaccine Autofixer run",
       "tag": "chore",
       "lines_added": 210,
