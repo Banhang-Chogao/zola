@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T19:52:31Z",
+  "updated_at": "2026-06-22T20:12:38Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "14 broken / 1074 unique",
+          "detail": "15 broken / 1075 unique",
           "broken": [
             {
               "source_page": "/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
@@ -413,15 +413,15 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (6/1048 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-22T19:52:31Z"
+      "at": "2026-06-22T20:12:38Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 57 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/co-an-muon-toi-la-co-than-kinh-khong/index.html → /content/posting/tai-sao-chung-ta-can-vitamin-d.md (Target not found in public/ after zola build)",
-      "at": "2026-06-22T19:52:31Z"
+      "message": "Còn 58 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/co-an-muon-toi-la-co-than-kinh-khong/index.html → /content/posting/tai-sao-chung-ta-can-vitamin-d.md (Target not found in public/ after zola build)",
+      "at": "2026-06-22T20:12:38Z"
     }
   ],
   "fix_summary": {
