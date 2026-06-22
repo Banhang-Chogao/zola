@@ -5,11 +5,7 @@ date = 2026-06-21
 aliases = ["/vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so/"]
 [taxonomies]
 categories = ["Tất cả", "Ngân hàng"]
-<<<<<<< HEAD
-tags = ["vietinbank", "v-wealth", "ngân hàng số", "đầu tư", "ipay mobile"]
-=======
 tags = ["ipay mobile", "ngân hàng số", "v-wealth", "vietinbank", "đầu tư"]
->>>>>>> origin/main
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder-square.og.webp"
 seo_keyword = "V-Wealth VietinBank"
