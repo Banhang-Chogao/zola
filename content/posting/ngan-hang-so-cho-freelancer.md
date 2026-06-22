@@ -38,7 +38,7 @@ a = "Gián tiếp. Ngân hàng số ghi lại lịch sử giao dịch rõ ràng,
 
 Người làm tự do có đặc thù tài chính riêng: thu nhập **lên xuống thất thường**, nhiều khách trả tiền vào các thời điểm khác nhau, và phải tự lo phần thuế, bảo hiểm, dự phòng. Ngân hàng số hỗ trợ tốt nhờ:
 
-- **Miễn phí chuyển khoản** khi nhận tiền từ nhiều khách (xem [ngân hàng số miễn phí chuyển khoản](/posting/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/)).
+- **Miễn phí chuyển khoản** khi nhận tiền từ nhiều khách (xem [ngân hàng số miễn phí chuyển khoản](/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/)).
 - **Nhiều tài khoản/hũ** để tách tiền theo mục đích.
 - **Sao kê rõ ràng**, dễ xuất phục vụ kê khai thuế.
 - **Hoàn tiền** cho chi tiêu công việc.
@@ -74,11 +74,11 @@ Thử thách lớn nhất của freelancer là tháng nhiều tháng ít. Vài n
 
 ## Gợi ý app cho freelancer
 
-- **[Liobank](/posting/review-liobank-by-ocb/)**: hoàn tiền tốt, app gọn — hợp người chi tiêu công việc nhiều.
-- **[Cake](/posting/review-cake-by-vpbank/)**: nhiều tính năng, tiết kiệm linh hoạt.
-- **[TNEX](/posting/review-tnex-chi-tiet/)**: miễn phí tối đa, hợp người nhận nhiều khoản nhỏ.
+- **[Liobank](/review-liobank-by-ocb/)**: hoàn tiền tốt, app gọn — hợp người chi tiêu công việc nhiều.
+- **[Cake](/review-cake-by-vpbank/)**: nhiều tính năng, tiết kiệm linh hoạt.
+- **[TNEX](/review-tnex-chi-tiet/)**: miễn phí tối đa, hợp người nhận nhiều khoản nhỏ.
 
-Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 > 💡 **Ưu đãi (link giới thiệu):** Freelancer muốn vừa quản lý chi tiêu vừa nhận hoàn tiền? **Tải app và kích hoạt thẻ vật lý Liobank qua [link giới thiệu này](https://liobank.vn/rr/qyAJ) để được nhận hoàn tiền.** *(Link giới thiệu — mình có thể nhận ưu đãi khi bạn đăng ký, không phát sinh chi phí cho bạn.)*
 

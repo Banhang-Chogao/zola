@@ -55,16 +55,16 @@ Kỳ thi tốt nghiệp THPT 2026 được tổ chức theo Chương trình Giá
 
 Chọn nhanh môn bạn cần tra cứu đáp án:
 
-- [Đáp án môn Toán](/posting/dap-an-chinh-thuc-thpt-2026-mon-toan/)
-- [Đáp án môn Ngữ văn](/posting/dap-an-chinh-thuc-thpt-2026-mon-ngu-van/)
-- [Đáp án môn Ngoại ngữ](/posting/dap-an-chinh-thuc-thpt-2026-mon-ngoai-ngu/)
+- [Đáp án môn Toán](/dap-an-chinh-thuc-thpt-2026-mon-toan/)
+- [Đáp án môn Ngữ văn](/dap-an-chinh-thuc-thpt-2026-mon-ngu-van/)
+- [Đáp án môn Ngoại ngữ](/dap-an-chinh-thuc-thpt-2026-mon-ngoai-ngu/)
 - **Vật lí** — bạn đang ở trang này
-- [Đáp án môn Hóa học](/posting/dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc/)
-- [Đáp án môn Sinh học](/posting/dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc/)
-- [Đáp án môn Lịch sử](/posting/dap-an-chinh-thuc-thpt-2026-mon-lich-su/)
-- [Đáp án môn Địa lí](/posting/dap-an-chinh-thuc-thpt-2026-mon-dia-li/)
-- [Đáp án môn Giáo dục kinh tế và pháp luật](/posting/dap-an-chinh-thuc-thpt-2026-mon-gdkt-pl/)
-- [Đáp án môn Tin học](/posting/dap-an-chinh-thuc-thpt-2026-mon-tin-hoc/)
-- [Đáp án môn Công nghệ](/posting/dap-an-chinh-thuc-thpt-2026-mon-cong-nghe/)
+- [Đáp án môn Hóa học](/dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc/)
+- [Đáp án môn Sinh học](/dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc/)
+- [Đáp án môn Lịch sử](/dap-an-chinh-thuc-thpt-2026-mon-lich-su/)
+- [Đáp án môn Địa lí](/dap-an-chinh-thuc-thpt-2026-mon-dia-li/)
+- [Đáp án môn Giáo dục kinh tế và pháp luật](/dap-an-chinh-thuc-thpt-2026-mon-gdkt-pl/)
+- [Đáp án môn Tin học](/dap-an-chinh-thuc-thpt-2026-mon-tin-hoc/)
+- [Đáp án môn Công nghệ](/dap-an-chinh-thuc-thpt-2026-mon-cong-nghe/)
 
-👉 Xem [trang tổng hợp đáp án tất cả các môn THPT 2026](/posting/dap-an-chinh-thuc-thpt-quoc-gia-2026/) hoặc về [chuyên mục Giáo dục](/categories/giao-duc/).
+👉 Xem [trang tổng hợp đáp án tất cả các môn THPT 2026](/dap-an-chinh-thuc-thpt-quoc-gia-2026/) hoặc về [chuyên mục Giáo dục](/categories/giao-duc/).

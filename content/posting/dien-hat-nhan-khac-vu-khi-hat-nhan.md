@@ -28,7 +28,7 @@ q = "Nhà máy điện hạt nhân có thể 'thành' vũ khí không?"
 a = "Lò điện thương mại không phải vũ khí; nhưng chu trình nhiên liệu (làm giàu, vận hành lò) có khía cạnh dual-use — cùng kiến thức/vật liệu có thể hướng sang mục đích quân sự nếu không giám sát. Đó là lý do IAEA safeguards và tin uranium Iran quan tâm % và kg — không đồng nghĩa mọi nhà máy điện đều là vũ khí."
 +++
 
-> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 4/5)** — Sau [Bài 1: Uranium là gì?](/posting/uranium-la-gi-tai-sao-quan-trong/), [Bài 2: Làm giàu là gì, các mức 0,7%–90%](/posting/uranium-lam-giau-la-gi/) và [Bài 3: Nhà máy làm giàu hoạt động thế nào?](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/), bài này trả lời câu hỏi độc giả hay gặp khi đọc [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/): **điện hạt nhân khác vũ khí hạt nhân ở điểm nào?** Giáo dục khoa học trung lập — không hướng dẫn thiết kế vũ khí.
+> 🔬 **Series Khoa học — Uranium & năng lượng hạt nhân (Bài 4/5)** — Sau [Bài 1: Uranium là gì?](/uranium-la-gi-tai-sao-quan-trong/), [Bài 2: Làm giàu là gì, các mức 0,7%–90%](/uranium-lam-giau-la-gi/) và [Bài 3: Nhà máy làm giàu hoạt động thế nào?](/nha-may-lam-giau-uranium-hoat-dong-the-nao/), bài này trả lời câu hỏi độc giả hay gặp khi đọc [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/): **điện hạt nhân khác vũ khí hạt nhân ở điểm nào?** Giáo dục khoa học trung lập — không hướng dẫn thiết kế vũ khí.
 
 Ba bài trước cho bạn **uranium**, **% U-235**, và **nhà máy làm giàu**. Bài 4 nối các mảnh đó với **ứng dụng hòa bình (điện)** và **bối cảnh vũ khí trong tin tức** — để headline "60%", "HEU", "nhà máy điện" không bị trộn lẫn trong đầu đọc báo.
 
@@ -50,7 +50,7 @@ Cả điện hạt nhân lẫn vũ khí hạt nhân đều dựa trên **phân h
 
 [Wikipedia — Nuclear power](https://en.wikipedia.org/wiki/Nuclear_power) và [Nuclear weapon](https://en.wikipedia.org/wiki/Nuclear_weapon) mô tả hai ứng dụng này tách biệt trong công nghiệp và chính sách — dù chia sẻ nền tảng vật lý.
 
-[Bài 2](/posting/uranium-lam-giau-la-gi/) đã cho bảng %: 0,7% tự nhiên, 3–5% điện, 20%+ HEU. Bài 4 giải thích **vì sao** các con số đó gắn với hai mục đích khác nhau.
+[Bài 2](/uranium-lam-giau-la-gi/) đã cho bảng %: 0,7% tự nhiên, 3–5% điện, 20%+ HEU. Bài 4 giải thích **vì sao** các con số đó gắn với hai mục đích khác nhau.
 
 ## Điện hạt nhân khác vũ khí hạt nhân: phản ứng có kiểm soát {#dien-hat-nhan}
 
@@ -58,7 +58,7 @@ Cả điện hạt nhân lẫn vũ khí hạt nhân đều dựa trên **phân h
 
 ### Các thành phần khái niệm
 
-1. **Nhiên liệu** — thanh uranium oxide (UO₂) trong **fuel rods**, thường từ LEU [làm giàu](/posting/uranium-lam-giau-la-gi/) 3–5%.
+1. **Nhiên liệu** — thanh uranium oxide (UO₂) trong **fuel rods**, thường từ LEU [làm giàu](/uranium-lam-giau-la-gi/) 3–5%.
 2. **Moderator** — thường nước nhẹ (PWR, BWR) — làm chậm neutron để dễ hấp thụ U-235.
 3. **Coolant** — nước hoặc khí — mang nhiệt ra.
 4. **Control rods** — hấp thụ neutron — **điều chỉnh** công suất, tắt lò khi cần.
@@ -93,7 +93,7 @@ Bài này **không** mô tả chi tiết implosion, gun-type, hay kg HEU cụ th
 
 ## So sánh nhiên liệu: LEU điện vs HEU {#leu-vs-heu}
 
-Kết nối [Bài 2](/posting/uranium-lam-giau-la-gi/) và [Bài 3](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/):
+Kết nối [Bài 2](/uranium-lam-giau-la-gi/) và [Bài 3](/nha-may-lam-giau-uranium-hoat-dong-the-nao/):
 
 | Mức U-235 | Tên | Ứng dụng điện? | Bối cảnh tin tức |
 |---|---|---|---|
@@ -102,7 +102,7 @@ Kết nối [Bài 2](/posting/uranium-lam-giau-la-gi/) và [Bài 3](/posting/nha
 | ≥20% | HEU (high enriched) | Không (lò thương mại) | Giám sát proliferation |
 | 60%, 90% | HEU rất cao | Không điện | Headline Iran, vũ khí concern |
 
-**Cùng cascade ly tâm** ở [Bài 3](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/) tạo LEU hoặc tiếp tục tăng % — đó là **dual-use technology**. IAEA không "cấm" mọi làm giàu; họ **kiểm đếm kg và %** tại cơ sở.
+**Cùng cascade ly tâm** ở [Bài 3](/nha-may-lam-giau-uranium-hoat-dong-the-nao/) tạo LEU hoặc tiếp tục tăng % — đó là **dual-use technology**. IAEA không "cấm" mọi làm giàu; họ **kiểm đếm kg và %** tại cơ sở.
 
 Điện hạt nhân Pháp, Hàn, Mỹ… dùng LEU từ nhà máy làm giàu thương mại — **cùng loại máy móc nguyên lý**, khác **điểm dừng cascade** và **khai báo mục đích**.
 
@@ -119,7 +119,7 @@ Không mọi vũ khí đều dùng uranium làm giàu. **Plutonium** sinh ra khi
 
 ## Dual-use: cùng làm giàu, khác đích {#dual-use}
 
-**Dual-use** = công nghệ/vật liệu vừa phục vụ hòa bình vừa có thể chuyển hướng. [Bài 3](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/) — centrifuge, UF₆, cascade — là ví dụ điển hình.
+**Dual-use** = công nghệ/vật liệu vừa phục vụ hòa bình vừa có thể chuyển hướng. [Bài 3](/nha-may-lam-giau-uranium-hoat-dong-the-nao/) — centrifuge, UF₆, cascade — là ví dụ điển hình.
 
 ```
 Quặng → UF₆ → cascade → LEU 3–5% → nhiên liệu lò → ĐIỆN
@@ -152,9 +152,9 @@ Khi đọc báo kèm kiến thức series:
 
 | Headline | Hiểu qua Bài 1–4 |
 |---|---|
-| "Làm giàu 60%" | HEU — **không** phải nhiên liệu điện 3–5% ([Bài 2](/posting/uranium-lam-giau-la-gi/)) |
-| "400 kg" | Product tại [cascade](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/) — material accountancy |
-| "Tiêu hủy uranium" | Disposition vật liệu — [Bài 5](/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/) |
+| "Làm giàu 60%" | HEU — **không** phải nhiên liệu điện 3–5% ([Bài 2](/uranium-lam-giau-la-gi/)) |
+| "400 kg" | Product tại [cascade](/nha-may-lam-giau-uranium-hoat-dong-the-nao/) — material accountancy |
+| "Tiêu hủy uranium" | Disposition vật liệu — [Bài 5](/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/) |
 | "Nhà máy điện Bushehr" vs "Natanz" | Bushehr: điện; Natanz: làm giàu — **khác cơ sở, khác mục đích** |
 
 Series **không** kết luận ý đồ chính trị. Cung cấp **từ vựng khoa học** để không gộp "uranium", "làm giàu", "điện hạt nhân", "vũ khí" thành một cụm mơ hồ.
@@ -175,11 +175,11 @@ Series **không** kết luận ý đồ chính trị. Cung cấp **từ vựng k
 
 ## Lộ trình 5 bài {#lo-trinh-5-bai}
 
-1. [Uranium là gì?](/posting/uranium-la-gi-tai-sao-quan-trong/)
-2. [Làm giàu là gì? Các mức %](/posting/uranium-lam-giau-la-gi/)
-3. [Nhà máy làm giàu hoạt động thế nào?](/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/)
+1. [Uranium là gì?](/uranium-la-gi-tai-sao-quan-trong/)
+2. [Làm giàu là gì? Các mức %](/uranium-lam-giau-la-gi/)
+3. [Nhà máy làm giàu hoạt động thế nào?](/nha-may-lam-giau-uranium-hoat-dong-the-nao/)
 4. **Bài 4** (bài này): Điện hạt nhân khác vũ khí hạt nhân
-5. [Phá hủy cơ sở / tiêu hủy vật liệu](/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/)
+5. [Phá hủy cơ sở / tiêu hủy vật liệu](/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/)
 
 ## Tóm lại {#tom-lai}
 
@@ -187,4 +187,4 @@ Series **không** kết luận ý đồ chính trị. Cung cấp **từ vựng k
 
 Hiểu phân biệt này giúp đọc [tin uranium Iran](/baochi/iran-uranium-destruction-what-it-means/) và mọi tin hạt nhân với **từ đúng nghĩa** — uranium, %, cascade, điện, safeguards — thay vì sợ mọi từ "hạt nhân" như nhau.
 
-Tiếp theo: [**Bài 5 — Điều gì xảy ra khi cơ sở hạt nhân bị phá hủy hoặc tiêu hủy vật liệu?**](/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/) — disposition, môi trường, và sổ sách IAEA sau headline tiêu hủy. *(Series Uranium hoàn tất 5/5.)*
+Tiếp theo: [**Bài 5 — Điều gì xảy ra khi cơ sở hạt nhân bị phá hủy hoặc tiêu hủy vật liệu?**](/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/) — disposition, môi trường, và sổ sách IAEA sau headline tiêu hủy. *(Series Uranium hoàn tất 5/5.)*

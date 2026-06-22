@@ -36,17 +36,17 @@ a = "Bạn chọn môn cần tra cứu trong danh sách phía dưới. Mỗi mô
 
 ## Các môn thi và link đáp án từng môn
 
-- [Đáp án chính thức THPT 2026 môn Toán](/posting/dap-an-chinh-thuc-thpt-2026-mon-toan/) — *bắt buộc* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Ngữ văn](/posting/dap-an-chinh-thuc-thpt-2026-mon-ngu-van/) — *bắt buộc* · Tự luận · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Ngoại ngữ](/posting/dap-an-chinh-thuc-thpt-2026-mon-ngoai-ngu/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Vật lí](/posting/dap-an-chinh-thuc-thpt-2026-mon-vat-li/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Hóa học](/posting/dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Sinh học](/posting/dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Lịch sử](/posting/dap-an-chinh-thuc-thpt-2026-mon-lich-su/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Địa lí](/posting/dap-an-chinh-thuc-thpt-2026-mon-dia-li/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Giáo dục kinh tế và pháp luật](/posting/dap-an-chinh-thuc-thpt-2026-mon-gdkt-pl/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Tin học](/posting/dap-an-chinh-thuc-thpt-2026-mon-tin-hoc/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
-- [Đáp án chính thức THPT 2026 môn Công nghệ](/posting/dap-an-chinh-thuc-thpt-2026-mon-cong-nghe/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Toán](/dap-an-chinh-thuc-thpt-2026-mon-toan/) — *bắt buộc* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Ngữ văn](/dap-an-chinh-thuc-thpt-2026-mon-ngu-van/) — *bắt buộc* · Tự luận · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Ngoại ngữ](/dap-an-chinh-thuc-thpt-2026-mon-ngoai-ngu/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Vật lí](/dap-an-chinh-thuc-thpt-2026-mon-vat-li/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Hóa học](/dap-an-chinh-thuc-thpt-2026-mon-hoa-hoc/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Sinh học](/dap-an-chinh-thuc-thpt-2026-mon-sinh-hoc/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Lịch sử](/dap-an-chinh-thuc-thpt-2026-mon-lich-su/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Địa lí](/dap-an-chinh-thuc-thpt-2026-mon-dia-li/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Giáo dục kinh tế và pháp luật](/dap-an-chinh-thuc-thpt-2026-mon-gdkt-pl/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Tin học](/dap-an-chinh-thuc-thpt-2026-mon-tin-hoc/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
+- [Đáp án chính thức THPT 2026 môn Công nghệ](/dap-an-chinh-thuc-thpt-2026-mon-cong-nghe/) — *tự chọn* · Trắc nghiệm khách quan · **chưa cập nhật**
 
 ## Cấu trúc kỳ thi tốt nghiệp THPT 2026
 

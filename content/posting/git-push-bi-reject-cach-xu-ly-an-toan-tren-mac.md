@@ -32,7 +32,7 @@ q = "Làm sao để chắc chắn push của tôi không bị reject lần tới
 a = "Trước mỗi push, chạy `git fetch origin` để lấy thay đổi mới nhất, kiểm tra `git log origin/main..HEAD` để xem commit của bạn, rồi `git rebase origin/main` nếu có diverge. Ghi nhớ: fetch trước, rebase nếu cần, push sau. Trên Mac, có thể tạo Git hook để tự động làm điều này."
 +++
 
-> 🔧 **Bài học từ thực tế**: Lỗi "git push bị reject" thường xảy ra khi làm việc theo team — ai đó push commit, bạn không fetch kip, rồi bạn push code mà không biết có commit mới từ remote. Bài này hướng dẫn cách xử lý an toàn và cách tránh QA false positive ngoài ý muốn. Xem thêm [hướng dẫn sync cơ bản push/pull/fetch](/posting/push-pull-fetch-dong-bo-voi-github/) hoặc [cách xử lý conflict](/posting/git-merge-va-xu-ly-conflict/).
+> 🔧 **Bài học từ thực tế**: Lỗi "git push bị reject" thường xảy ra khi làm việc theo team — ai đó push commit, bạn không fetch kip, rồi bạn push code mà không biết có commit mới từ remote. Bài này hướng dẫn cách xử lý an toàn và cách tránh QA false positive ngoài ý muốn. Xem thêm [hướng dẫn sync cơ bản push/pull/fetch](/push-pull-fetch-dong-bo-voi-github/) hoặc [cách xử lý conflict](/git-merge-va-xu-ly-conflict/).
 
 Mỗi lập trình viên làm việc với team từng gặp tình huống này: bạn code xong, chạy `git push origin main`, nhưng Git từ chối với dòng lỗi kiểu **"rejected ... \[non-fast-forward\]"**. Điều gì xảy ra? Làm thế nào để sửa mà không mất code, mà không phải xoá branch và clone lại từ đầu? Bài viết này sẽ giải thích rõ ràng, cung cấp từng bước an toàn và cách tránh lỗi phổ biến mà nhiều người mắc phải.
 
