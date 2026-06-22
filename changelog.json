@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "fix(links): bỏ placeholder ![alt](url) gây broken internal link [claude/vssid-bhtn-analysis-seo-arvwmx]",
+      "tag": "fix",
+      "lines_added": 130,
+      "lines_removed": 1,
+      "highlights": [
+        "content: bài phân tích VssID không hiển thị quá trình BHTN",
+        "fix(links): bỏ placeholder !alt gây broken internal link",
+        "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md (modified, +1/-1)",
+        "content/posting/vssid-thieu-bhtn-bhtnld-bnn-thoi-gian-bao-luu.md (added, +129/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 720
+    },
+    {
+      "date": "2026-06-22",
       "title": "update SEO QA scores for 2 new blog posts [claude/beautiful-hopper-eyedqd]",
       "tag": "chore",
       "lines_added": 992,
