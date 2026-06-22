@@ -1496,6 +1496,8 @@
       <a class="site-footer__author-mgmt" href="/admin-countdown/">⏱ Countdown</a>
 </footer>
   {% include "partials/turnstile_footer.html" %}
+  {# Open PR Monitor is intentionally kept here (global footer ops monitor).
+     DO NOT move to /tools/ or /tools/master-dashboard-v5/ — see f pr goal 2026-06-23. #}
   {% include "partials/open_pr_monitor.html" %}
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>

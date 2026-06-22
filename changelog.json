@@ -2,6 +2,48 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "Auto-merge: PR #754 [f pr2]",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "620d06ab32a9",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(gsc): fetch real metrics from backend KV — no GSC_REFRESH_TOKEN secret needed",
+      "tag": "fix",
+      "lines_added": 11,
+      "lines_removed": 5,
+      "highlights": [],
+      "commit": "b2e4cddb9e54",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "add GHA-ACTION-VERSION-GUARD vaccine + fix all violating workflows",
+      "tag": "feat",
+      "lines_added": 204,
+      "lines_removed": 63,
+      "highlights": [
+        "scripts/qa_vaccines.py: new check_gha_action_version_guard function + _GHA_MAX_VERSIONS / _GHA_VERSION_RE constants; registered in DETECTORS list before check_vaccine_registry_integrity.",
+        "scripts/test_qa_vaccines.py: 14 unit tests (FAIL/PASS/unrelated/calibration).",
+        ".github/workflows/*.yml (32 files): pinned actions/checkout@v6→v4, actions/setup-python@v6→v5, actions/upload-artifact@v7→v4 to comply with the new guard and fix pre-existing CI violations."
+      ],
+      "pr": 759
+    },
+    {
+      "date": "2026-06-22",
+      "title": "Feat/breadcrumb tools nav",
+      "tag": "chore",
+      "lines_added": 224,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 755
+    },
+    {
+      "date": "2026-06-22",
       "title": "feat(automation): daily PR production followup — 06:00 ICT triage + merge + deploy check",
       "tag": "chore",
       "lines_added": 359,

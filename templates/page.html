@@ -29,16 +29,18 @@
 {%- endif -%}
 {%- set is_premium = page.extra.premium | default(value=false) or "premium" in cats -%}
 {%- set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) -%}
-{%- if is_premium and premium_lock -%}noindex, follow{%- else -%}{{ super() }}{%- endif -%}
+{%- set free_trial = config.extra.premium_free_trial_active | default(value=false) -%}
+{%- if is_premium and premium_lock and not free_trial -%}noindex, follow{%- else -%}{{ super() }}{%- endif -%}
 {% endblock %}
 
 {% block main %}
     {% if page.taxonomies.categories %}{% set cats = page.taxonomies.categories %}{% else %}{% set cats = [] %}{% endif %}
     {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
-    {# Paywall hoạt động cho MỌI bài premium (extra.premium HOẶC category "premium")
-       khi lock bật → render teaser + paywall box, KHÔNG render full content. #}
-    {% set paywall_active = is_premium and premium_lock %}
+    {# FREE TRIAL: rollback ngày 2026-07-01 — set enable_premium_lock = true + premium_free_trial_active = false. #}
+    {% set free_trial = config.extra.premium_free_trial_active | default(value=false) %}
+    {# Paywall hoạt động cho MỌI bài premium khi lock bật. Tắt trong giai đoạn free_trial. #}
+    {% set paywall_active = is_premium and premium_lock and not free_trial %}
     {# Đếm heading (H2/H3) MỘT LẦN → quyết định hiển thị Mục lục inline (.toc)
        và rail "Trong bài này" (.toc-rail). show_rail chỉ bật cho bài thường
        (không paywall) đủ heading, tránh reserve cột rail rỗng trên desktop. #}
@@ -51,6 +53,12 @@
     {% set show_rail = show_toc and not paywall_active %}
     <div class="post-layout{% if show_rail %} post-layout--rail{% endif %}">
     <article class="post-single">
+            {% if is_premium and free_trial %}
+            <div class="premium-trial-notice" role="note">
+                <span class="premium-trial-notice__icon" aria-hidden="true">🎁</span>
+                <span class="premium-trial-notice__text">Giai đoạn dùng thử: toàn bộ tính năng cao cấp đang được mở miễn phí đến 01/07/2026.</span>
+            </div>
+            {% endif %}
             <div class="post-single__hero">
                 {% if is_premium %}
                     {{ premium::badge() }}
@@ -491,7 +499,8 @@
     {% if page.taxonomies.categories %}{% set cats = page.taxonomies.categories %}{% else %}{% set cats = [] %}{% endif %}
     {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
-    {% if is_premium and premium_lock %}
+    {% set free_trial = config.extra.premium_free_trial_active | default(value=false) %}
+    {% if is_premium and premium_lock and not free_trial %}
     <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
     {% endif %}
     <script>
