@@ -29,4 +29,4 @@ Nếm thử nhé: 시간이 **있으면** 만나요 = *"nếu có thời gian th
 
 Trong bài đầy đủ hôm nay, bạn nhận: cách gắn **-(으)면** chuẩn, công thức **-아/어야 하다/되다** (phải), **-(으)면 되다** (là được), **-(으)면 안 되다** (cấm), bonus **-아/어도 되다** (được phép), **bảng so sánh 야 하다 vs 면 되다 vs 면 안 되다** và **15 câu bài tập có đáp án**. Mở khóa để làm chủ "luật chơi" tiếng Hàn — 화이팅! 💪
 
-👉 Ôn lại [Ngày 26 — kính ngữ](/posting/kinh-ngu-nopimmal-tieng-han/) rồi sang [Ngày 28 — trích dẫn gián tiếp](/posting/trich-dan-gian-tiep-tieng-han/). Xem toàn lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tra thêm tại [Viện Quốc ngữ Quốc gia Hàn Quốc](https://www.korean.go.kr/).
+👉 Ôn lại [Ngày 26 — kính ngữ](/kinh-ngu-nopimmal-tieng-han/) rồi sang [Ngày 28 — trích dẫn gián tiếp](/trich-dan-gian-tiep-tieng-han/). Xem toàn lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tra thêm tại [Viện Quốc ngữ Quốc gia Hàn Quốc](https://www.korean.go.kr/).
