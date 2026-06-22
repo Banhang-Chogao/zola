@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-22T14:36:56Z",
+  "updated_at": "2026-06-22T14:44:12Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 13,
-    "this_week": 13,
+    "today": 14,
+    "this_week": 14,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "content": 3,
       "fix": 67,
+      "content": 3,
       "unknown": 44,
       "chore": 12,
       "feature": 69,
@@ -20,6 +20,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 735,
+      "pr_title": "feat: no-API Pixabay image-assist + fix(V32) series_part build crash",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/735",
+      "merged_at": "2026-06-22T14:37:16Z",
+      "merge_commit_sha": "460c987adea86fc2fa078221337761886bba8a96",
+      "merge_commit_short": "460c987",
+      "head_branch": "claude/pixabay-image-assist-yvv6f9",
+      "summary_vi": "Two changes on this branch:",
+      "change_type": "fix",
+      "files_changed": 11,
+      "additions": 1284,
+      "deletions": 2,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 969,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27960730879",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 734,
       "pr_title": "content: series 5 bài chữ ký số MySign (hub + 4 spoke)",
@@ -54,9 +73,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 968,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27960242266",
-      "build_conclusion": "in_progress"
+      "build_run_number": 969,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27960730879",
+      "build_conclusion": "pending"
     },
     {
       "pr_number": 730,
@@ -586,9 +605,9 @@
       "deletions": 108,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 939,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27913623969",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 692,
@@ -605,9 +624,9 @@
       "deletions": 912,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 939,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27913623969",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 690,
@@ -624,9 +643,9 @@
       "deletions": 108,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 939,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27913623969",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 691,
@@ -643,9 +662,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 939,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27913623969",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 685,
@@ -3795,25 +3814,6 @@
       "files_changed": 3,
       "additions": 266,
       "deletions": 2,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 484,
-      "pr_title": "fix(paywall): restore strict premium paywall (MoMo payment gate) + qa-404 scheduled forward-ref vaccine (V13)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/484",
-      "merged_at": "2026-06-19T05:25:54Z",
-      "merge_commit_sha": "3cc7a88e7e41d8242213a8cc7db4f5998915df34",
-      "merge_commit_short": "3cc7a88",
-      "head_branch": "claude/clever-clarke-v2ebro",
-      "summary_vi": "Premium posts were being served **in full** with a *voluntary* MoMo donation CTA — commit `f3981f4` turned the lock off (`enable_premium_lock = false` → build merged `private_content/` back into the public site, and the ",
-      "change_type": "fix",
-      "files_changed": 10,
-      "additions": 404,
-      "deletions": 37,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
