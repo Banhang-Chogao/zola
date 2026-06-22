@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T14:21:13.206341+07:00",
+  "updated_at": "2026-06-22T15:00:44.934461+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -23345,6 +23345,271 @@
           "scored_at": "2026-06-22T14:21:13.206341+07:00",
           "score": 94.0,
           "grade": "A"
+        }
+      ]
+    },
+    "content/posting/cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam.md": {
+      "title": "Cách gắn Cloudflare Turnstile vào blog tĩnh để chống spam",
+      "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+      "keyword": "",
+      "score": 60.8,
+      "grade": "D",
+      "word_count": 671,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:16.685000+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 0.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 0.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 0.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 0.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword",
+        "không nên dùng H1 (#) trong body — title đã là H1",
+        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém",
+        "thiếu internal link (liên kết tới bài/section khác trong blog)",
+        "thiếu external link tới nguồn uy tín"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T15:00:16.685000+07:00",
+          "score": 60.8,
+          "grade": "D"
+        }
+      ]
+    },
+    "content/posting/watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan.md": {
+      "title": "Watermark cho blog: bảo vệ ảnh và giữ thương hiệu nhất quán",
+      "slug": "watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan",
+      "keyword": "watermark cho blog",
+      "score": 96.0,
+      "grade": "A+",
+      "word_count": 1465,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:33.836840+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 6.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "description 189 ký tự (nên 50–160)"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T15:00:33.836840+07:00",
+          "score": 96.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md": {
+      "title": "QA Gatekeeper GitHub Actions: bài học merge conflict",
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
+      "keyword": "fix QA Gatekeeper GitHub Actions",
+      "score": 76.0,
+      "grade": "C",
+      "word_count": 1851,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:44.934461+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 0.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 0.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa có trong title",
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa có trong đoạn mở đầu",
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa xuất hiện trong heading H2 nào",
+        "thiếu external link tới nguồn uy tín"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T15:00:44.934461+07:00",
+          "score": 76.0,
+          "grade": "C"
         }
       ]
     }
