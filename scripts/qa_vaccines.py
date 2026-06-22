@@ -2971,6 +2971,77 @@ def check_v30_tools_route_preservation(ctx: Ctx) -> CheckResult:
                    "content page + template (không bị silent removal)"))
 
 
+# --------------------------------------------------------------------------
+# V31 — Shortcut registry preservation (operation-guideline restructuring guard)
+# --------------------------------------------------------------------------
+# Restructuring the operation guidelines (moving shortcuts into .claude/commands/
+# skills, rewriting shortcuts.md, condensing CLAUDE.md) must NEVER silently drop an
+# existing user shortcut. History: `bb` (paste a news article from any publisher →
+# an original SEOMONEY blog post) lost its first-class registration during a
+# restructuring — no .claude/commands/bb.md skill and no row in the shortcuts.md
+# `help` table — while a narrower `dantri` stand-in was added. This detector makes
+# that regression a hard, visible FAIL.
+#
+# A required shortcut is "first-class" when BOTH hold:
+#   * shortcuts.md documents it with a `### `<name>`` section (source of truth), and
+#   * (for command-backed shortcuts) a .claude/commands/<name>.md skill exists.
+_REQUIRED_SHORTCUT_SECTIONS = ("bb", "bb9", "dantri")   # must keep a `### `<name>`` section
+_REQUIRED_SHORTCUT_COMMANDS = ("bb", "dantri")          # must keep a .claude/commands/<name>.md skill
+
+
+def _shortcut_section_present(shortcuts_md: str, name: str) -> bool:
+    """True if shortcuts.md has a `### `<name>`` section header. The name may be
+    followed by a closing backtick (`### `bb``) or an argument (`### `bb9 <topic>``)."""
+    pat = re.compile(r"^###\s+`" + re.escape(name) + r"(?:`| )", re.M)
+    return bool(pat.search(shortcuts_md))
+
+
+def check_v31_shortcut_registry_preservation(ctx: Ctx) -> CheckResult:
+    """V31 — Shortcut registry preservation.
+
+    Restructuring operation guidelines must not delete existing user shortcuts.
+    Required shortcuts (at minimum `bb`) must keep their `### `<name>`` section in
+    shortcuts.md AND, for command-backed ones, their .claude/commands/<name>.md skill.
+    A required shortcut registered but missing from the `help` quick table → WARN.
+    """
+    code = "V31"
+    title = "Shortcut registry preservation (required: bb)"
+    sc = ctx.read("shortcuts.md")
+    if sc is None:
+        return CheckResult(code, title, FAIL,
+                           diagnosis="shortcuts.md vắng — source of truth phím tắt bị mất",
+                           fix="khôi phục shortcuts.md (registry phím tắt)")
+
+    fails: list[str] = []
+    for name in _REQUIRED_SHORTCUT_SECTIONS:
+        if not _shortcut_section_present(sc, name):
+            fails.append(f"shortcuts.md thiếu section `### `{name}`` (phím tắt bị xoá khi restructure)")
+    for name in _REQUIRED_SHORTCUT_COMMANDS:
+        if not ctx.exists(f".claude/commands/{name}.md"):
+            fails.append(f".claude/commands/{name}.md vắng — phím tắt `{name}` mất đăng ký first-class")
+
+    if fails:
+        return CheckResult(code, title, FAIL,
+                           diagnosis="restructure operation-guideline đã xoá phím tắt user đang dùng",
+                           fix=("giữ section `### `<name>`` trong shortcuts.md + file "
+                                ".claude/commands/<name>.md cho mọi phím tắt bắt buộc (gồm `bb`); "
+                                "KHÔNG xoá phím tắt khi cấu trúc lại quy trình"),
+                           details=fails)
+
+    # Soft nudge: bb should also appear in the shortcuts.md `help` quick table.
+    warns: list[str] = []
+    if not re.search(r"^\|\s*`bb`\s*\|", sc, re.M):
+        warns.append("bb chưa có dòng trong bảng `help` (quick reference) của shortcuts.md")
+    if warns:
+        return CheckResult(code, title, WARN,
+                           diagnosis="phím tắt bắt buộc còn đăng ký nhưng thiếu ở bảng help",
+                           fix="thêm dòng `| `bb` | … |` vào bảng help trong shortcuts.md",
+                           details=warns)
+    return CheckResult(code, title, PASS,
+                       diagnosis=(f"{len(_REQUIRED_SHORTCUT_SECTIONS)} section + "
+                                  f"{len(_REQUIRED_SHORTCUT_COMMANDS)} skill phím tắt bắt buộc đều còn (gồm `bb`)"))
+
+
 def check_vaccine_registry_integrity(ctx: Ctx) -> CheckResult:
     """VACCINE-REGISTRY — fail duplicate V-number or duplicate detector registration.
 
@@ -3063,6 +3134,7 @@ DETECTORS = [
     check_v25_backend_route_parity,
     check_v30_tools_route_preservation,
     check_v28_vaccine_registry_merge,
+    check_v31_shortcut_registry_preservation,
     check_vaccine_registry_integrity,
 ]
 

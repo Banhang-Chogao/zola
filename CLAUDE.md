@@ -540,6 +540,9 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 #### V30 — Public /tools/* route preservation: SEO/section optimization must be non-destructive (no silent dashboard removal)
 → See `docs/vaccine-archive.md` for FIXER & validation steps.
 
+#### V31 — Shortcut registry preservation: restructuring operation guidelines must not delete existing user shortcuts (required: `bb`)
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
+
 
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
