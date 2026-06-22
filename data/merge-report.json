@@ -1,25 +1,44 @@
 {
-  "updated_at": "2026-06-22T06:28:23Z",
+  "updated_at": "2026-06-22T06:49:45Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 5,
-    "this_week": 5,
+    "today": 6,
+    "this_week": 6,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 66,
       "unknown": 42,
       "chore": 13,
       "feature": 73,
-      "fix": 65,
       "ci": 4,
-      "content": 2,
+      "content": 1,
       "qa": 1
     }
   },
   "merges": [
+    {
+      "pr_number": 720,
+      "pr_title": "fix(links): bỏ placeholder ![alt](url) gây broken internal link [claude/vssid-bhtn-analysis-seo-arvwmx]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/720",
+      "merged_at": "2026-06-22T06:44:15Z",
+      "merge_commit_sha": "032e984147812badf3b4a77a01502be46ad5c645",
+      "merge_commit_short": "032e984",
+      "head_branch": "claude/vssid-bhtn-analysis-seo-arvwmx",
+      "summary_vi": "- content: bài phân tích VssID không hiển thị quá trình BHTN",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 130,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 964,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27934631086",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 715,
       "pr_title": "chore: update SEO QA scores for 2 new blog posts [claude/beautiful-hopper-eyedqd]",
@@ -37,7 +56,7 @@
       "auto_merged": false,
       "build_run_number": 963,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27933741088",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 714,
@@ -567,8 +586,8 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 934,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27910038097",
+      "build_run_number": 935,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27910717764",
       "build_conclusion": "failure"
     },
     {
@@ -586,9 +605,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 934,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27910038097",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 675,
@@ -605,9 +624,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 934,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27910038097",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 674,
@@ -624,9 +643,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 934,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27910038097",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 673,
@@ -643,9 +662,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 934,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27910038097",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 670,
@@ -3795,25 +3814,6 @@
       "files_changed": 3,
       "additions": 368,
       "deletions": 2,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 474,
-      "pr_title": "style(home): Ericsson Blue POSTINGS banner with scattered Hangul",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/474",
-      "merged_at": "2026-06-19T04:42:41Z",
-      "merge_commit_sha": "8f673d6419efd5623984aa15526ff0d96037a419",
-      "merge_commit_short": "8f673d6",
-      "head_branch": "claude/practical-hawking-fsgem6",
-      "summary_vi": "Đổi visual của banner wordmark **\"POSTINGS\"** trên trang chủ (`.home-tabs` trong `templates/index.html`) theo yêu cầu UI.",
-      "change_type": "content",
-      "files_changed": 2,
-      "additions": 74,
-      "deletions": 8,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
