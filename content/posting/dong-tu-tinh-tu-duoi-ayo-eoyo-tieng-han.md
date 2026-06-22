@@ -41,4 +41,4 @@ Nếm thử quy tắc: bỏ 다 lấy gốc, nhìn nguyên âm cuối. Là **ㅏ
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **quy tắc 3 nhánh** giải thích cặn kẽ, **bảng rút gọn** đầy đủ các "ca khó" (가다→가요, 오다→와요, 보다→봐요, 마시다→마셔요, 주다→줘요, 배우다→배워요, 쓰다→써요, 이다→이에요/예요), bảng **động từ thông dụng đã chia sẵn**, so sánh **반말 vs 존댓말 vs ㅂ니다체**, và **15 câu bài tập kèm đáp án**. Mở khóa để câu tiếng Hàn của bạn "sống dậy" — 화이팅! 💪
 
-👉 Quay lại [Ngày 14 — ôn tập & hội thoại mua sắm](/posting/on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han/), hoặc tiến tới [Ngày 16 — thì quá khứ 았/었어요](/posting/thi-qua-khu-asseoyo-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/).
+👉 Quay lại [Ngày 14 — ôn tập & hội thoại mua sắm](/on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han/), hoặc tiến tới [Ngày 16 — thì quá khứ 았/었어요](/thi-qua-khu-asseoyo-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/).

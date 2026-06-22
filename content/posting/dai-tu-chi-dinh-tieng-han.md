@@ -41,4 +41,4 @@ Nếm thử nhé: chỉ vào ly cà phê trên tay bạn → 이거 (i-geo) = "*
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **bảng tra 이/그/저** + 이것·그것·저것 (cái) + 여기·거기·저기 (nơi chốn), bộ **từ để hỏi** 무엇/뭐 (gì) · 누구 (ai) · 어디 (đâu), cách phân biệt đại từ nhân xưng **저/나** (tôi) và **저희/우리** (chúng tôi), cùng **12 câu bài tập có đáp án**. Mở khóa để chỉ đâu nói đó bằng tiếng Hàn nhé — 화이팅! 💪
 
-👉 Ôn lại [Ngày 8 — 이다/입니다 & giới thiệu bản thân](/posting/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han/), rồi sang [Ngày 10 — 있다/없다 & vị trí](/posting/itda-eopda-vi-tri-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tham khảo thêm tại [Wikipedia: Đại từ tiếng Hàn](https://en.wikipedia.org/wiki/Korean_pronouns).
+👉 Ôn lại [Ngày 8 — 이다/입니다 & giới thiệu bản thân](/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han/), rồi sang [Ngày 10 — 있다/없다 & vị trí](/itda-eopda-vi-tri-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/). Tham khảo thêm tại [Wikipedia: Đại từ tiếng Hàn](https://en.wikipedia.org/wiki/Korean_pronouns).
