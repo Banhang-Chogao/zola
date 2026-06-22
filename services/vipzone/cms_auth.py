@@ -141,7 +141,12 @@ def resolve_sid(authorization: str = "", cookie_sid: str | None = None) -> str:
             return sid
     if cookie_sid and cookie_sid.strip():
         return cookie_sid.strip()
-    raise HTTPException(401, "missing_token")
+    raise HTTPException(
+        401,
+        "missing_token: authenticate via /auth/login first, "
+        "then use the CMS 'Kết nối GSC' button or pass ?sid=<your_session_id> "
+        "to /gsc/oauth/start",
+    )
 
 
 def extract_sid(authorization: str, cookie_sid: str | None = None) -> str:
