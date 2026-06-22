@@ -5,6 +5,7 @@
 {% import "macros/pagination.html" as pager %}
 {% import "macros/google-rank.html" as google_rank %}
 {% import "macros/seo-reality.html" as seo_reality %}
+{% import "macros/series-showcase.html" as series %}
 
 {# Homepage relocates the Google Rank + SEO Reality widgets out of the right
    sidebar into the "📊 Khám phá thêm" band below the post list (see block main).
@@ -173,6 +174,9 @@
             </div>
         </section>
     {% endif %}
+
+    {# Series showcase — featured reading paths #}
+    {{ series::series_widget() }}
 
     {# ===== 📊 KHÁM PHÁ THÊM — SEO authority widgets relocated from the right
        sidebar. Sits directly below the post list, above pagination; renders on
