@@ -27,7 +27,7 @@ q = "Tạo nhánh mới trong Git bằng lệnh gì?"
 a = "Dùng git branch ten-nhanh để tạo, rồi git switch ten-nhanh để chuyển sang. Hoặc gộp một bước: git switch -c ten-nhanh (hoặc git checkout -b ten-nhanh)."
 +++
 
-> 📚 **Git & GitHub Series (Bài 4/15)** — Sau khi thành thạo [lệnh Git cơ bản ở Bài 3](/posting/lenh-git-co-ban-init-add-commit-status/), bài này mở khóa sức mạnh lớn nhất của Git: **branch (nhánh)**.
+> 📚 **Git & GitHub Series (Bài 4/15)** — Sau khi thành thạo [lệnh Git cơ bản ở Bài 3](/lenh-git-co-ban-init-add-commit-status/), bài này mở khóa sức mạnh lớn nhất của Git: **branch (nhánh)**.
 
 **Git branch** là tính năng khiến Git trở nên mạnh mẽ và linh hoạt hơn hẳn các công cụ cũ. Nhánh cho phép bạn tạo một "dòng thời gian song song" để thử tính năng mới, sửa lỗi, hay viết bài blog mới — mà không hề đụng tới bản chính đang ổn định. Khi xong, bạn gộp (merge) lại. Bài này hướng dẫn tạo, chuyển, đổi tên và xóa nhánh một cách an toàn.
 
@@ -37,7 +37,7 @@ a = "Dùng git branch ten-nhanh để tạo, rồi git switch ten-nhanh để ch
 
 Hãy hình dung bạn đang có một blog chạy ổn định trên nhánh `main`. Bạn muốn thử một giao diện mới, nhưng nếu sửa trực tiếp `main` mà hỏng thì site sập. Giải pháp: tạo nhánh `giao-dien-moi`, làm thoải mái ở đó, khi ưng ý mới gộp về `main`.
 
-Nhờ tạo nhánh **cực nhanh và nhẹ** (chỉ là một con trỏ tới commit), Git khuyến khích bạn tạo nhánh cho mọi việc. Đây là nền tảng của mọi quy trình cộng tác hiện đại — sẽ bàn ở [Bài 13 về workflow](/posting/git-workflow-chuyen-nghiep-gitflow-github-flow/).
+Nhờ tạo nhánh **cực nhanh và nhẹ** (chỉ là một con trỏ tới commit), Git khuyến khích bạn tạo nhánh cho mọi việc. Đây là nền tảng của mọi quy trình cộng tác hiện đại — sẽ bàn ở [Bài 13 về workflow](/git-workflow-chuyen-nghiep-gitflow-github-flow/).
 
 ## Xem và tạo nhánh
 
@@ -78,7 +78,7 @@ git commit -m "Thêm trang liên hệ"
 git switch main
 ```
 
-Lúc này nhánh `main` vẫn nguyên vẹn, còn công việc của bạn nằm an toàn trên `them-trang-lien-he`. Khi muốn đưa vào `main`, bạn sẽ dùng `git merge` — chủ đề của [Bài 5](/posting/git-merge-va-xu-ly-conflict/).
+Lúc này nhánh `main` vẫn nguyên vẹn, còn công việc của bạn nằm an toàn trên `them-trang-lien-he`. Khi muốn đưa vào `main`, bạn sẽ dùng `git merge` — chủ đề của [Bài 5](/git-merge-va-xu-ly-conflict/).
 
 ## HEAD và con trỏ nhánh hoạt động ra sao
 
@@ -113,7 +113,7 @@ git branch -D tinh-nang-a      # xóa cưỡng bức, kể cả chưa merge
 
 ## Mẹo làm việc với nhiều nhánh
 
-- Luôn `git status` trước khi chuyển nhánh — nếu còn thay đổi chưa commit, hãy commit hoặc dùng `git stash` (xem [Bài 11](/posting/git-stash-cherry-pick-reflog-nang-cao/)).
+- Luôn `git status` trước khi chuyển nhánh — nếu còn thay đổi chưa commit, hãy commit hoặc dùng `git stash` (xem [Bài 11](/git-stash-cherry-pick-reflog-nang-cao/)).
 - Đặt tên nhánh rõ ràng: `feature/`, `fix/`, `chore/` — đúng quy ước blog này đang dùng.
 - `git switch -` quay lại nhánh vừa rời, giống `cd -` trong terminal.
 
@@ -121,4 +121,4 @@ git branch -D tinh-nang-a      # xóa cưỡng bức, kể cả chưa merge
 
 **Git branch** cho bạn quyền tự do thử nghiệm mà không sợ phá bản chính: tạo nhánh bằng `git branch` hoặc `git switch -c`, chuyển bằng `git switch`, dọn dẹp bằng `git branch -d`. Tư duy "mỗi việc một nhánh" là thói quen của lập trình viên chuyên nghiệp.
 
-Ở **Bài 5**, chúng ta học cách hợp nhất công sức trên nhánh trở lại `main` qua [git merge và cách xử lý conflict](/posting/git-merge-va-xu-ly-conflict/) — kỹ năng không thể thiếu khi làm việc nhóm. Nếu bỏ lỡ nền tảng, hãy đọc lại [Bài 1: Git là gì](/posting/git-la-gi-version-control-cho-nguoi-moi/).
+Ở **Bài 5**, chúng ta học cách hợp nhất công sức trên nhánh trở lại `main` qua [git merge và cách xử lý conflict](/git-merge-va-xu-ly-conflict/) — kỹ năng không thể thiếu khi làm việc nhóm. Nếu bỏ lỡ nền tảng, hãy đọc lại [Bài 1: Git là gì](/git-la-gi-version-control-cho-nguoi-moi/).

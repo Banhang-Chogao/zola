@@ -49,7 +49,7 @@ Nếu bạn đang tìm câu trả lời ngắn cho câu hỏi *"V-Plus V-Advance
 
 ## Bối cảnh: Tại sao VietinBank ra mắt V-Plus & V-Advance?
 
-Thị trường [ngân hàng số Việt Nam](/posting/tuong-lai-ngan-hang-so-viet-nam/) năm 2026 đã qua giai đoạn "ai app đẹp hơn". Cạnh tranh dịch chuyển sang **giá trị gia tăng trên mỗi đồng khách hàng bỏ ra** — lãi suất, hoàn tiền, hạn mức, lifestyle.
+Thị trường [ngân hàng số Việt Nam](/tuong-lai-ngan-hang-so-viet-nam/) năm 2026 đã qua giai đoạn "ai app đẹp hơn". Cạnh tranh dịch chuyển sang **giá trị gia tăng trên mỗi đồng khách hàng bỏ ra** — lãi suất, hoàn tiền, hạn mức, lifestyle.
 
 VietinBank không phải ngân hàng đầu tiên thử mô hình gói hội viên. LPBank có LPBank Plus, VietinBank trước đó có [V-Family — gói tài chính nhóm gia đình](/baochi/vietinbank-v-family-nhom-gia-dinh/). V-Plus và V-Advance là bước mở rộng tiếp theo: **cá nhân hóa theo phong cách tài chính**, không theo nhóm gia đình.
 
@@ -98,7 +98,7 @@ Toàn bộ đăng ký, quản lý, theo dõi quyền lợi diễn ra trên **Vie
 
 ## So sánh nhanh với thị trường ngân hàng số
 
-V-Plus/V-Advance không nằm trong nhóm [ngân hàng số thuần túy](/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/) như Timo, Cake hay Liobank. Đây là **lớp membership** trên nền tảng ngân hàng truyền thống có quy mô lớn — ưu thế về hạn mức, hệ sinh thái sản phẩm và mạng lưới chi nhánh.
+V-Plus/V-Advance không nằm trong nhóm [ngân hàng số thuần túy](/top-ngan-hang-so-tot-nhat-viet-nam-2026/) như Timo, Cake hay Liobank. Đây là **lớp membership** trên nền tảng ngân hàng truyền thống có quy mô lớn — ưu thế về hạn mức, hệ sinh thái sản phẩm và mạng lưới chi nhánh.
 
 | Tiêu chí so sánh | Ngân hàng số (neobank) | VietinBank V-Plus |
 |---|---|---|
@@ -157,7 +157,7 @@ Hai gói mới không đứng một mình. Chúng bổ sung cho các sản phẩ
 | **Thẻ Visa Platinum Cashback** | Hoàn tiền 6% (V-Plus) |
 | **Thẻ JCB Ultimate Vietnam Airlines** | Dặm thưởng (V-Advance) |
 
-Nếu bạn đang tìm hiểu [các gói ngân hàng theo danh mục](/categories/ngan-hang/), V-Plus/V-Advance là mảnh ghép mới nhất trong chiến lược "trải nghiệm tích hợp" của VietinBank.
+Nếu bạn đang tìm hiểu [các gói ngân hàng theo danh mục](/topic/ngan-hang/), V-Plus/V-Advance là mảnh ghép mới nhất trong chiến lược "trải nghiệm tích hợp" của VietinBank.
 
 ## Cách đăng ký — Tổng quan
 
@@ -189,12 +189,12 @@ Trước khi đăng ký bất kỳ gói membership nào, hãy đọc kỹ:
 | Phần | Chủ đề | Liên kết |
 |---|---|---|
 | **1** | Tổng quan — V-Plus & V-Advance là gì? | *Bạn đang đọc* |
-| **2** | V-Plus: quyền lợi chi tiết 20.000đ/tháng | [Đọc Phần 2 →](/posting/vietinbank-v-plus-chi-tiet-quyen-loi/) |
-| **3** | V-Advance: đặc quyền Tài chính–Lifestyle | [Xem trước Phần 3](/posting/vietinbank-v-advance-nang-tam-trai-nghiem/) |
+| **2** | V-Plus: quyền lợi chi tiết 20.000đ/tháng | [Đọc Phần 2 →](/vietinbank-v-plus-chi-tiet-quyen-loi/) |
+| **3** | V-Advance: đặc quyền Tài chính–Lifestyle | [Xem trước Phần 3](/vietinbank-v-advance-nang-tam-trai-nghiem/) |
 | **4** | So sánh V-Plus vs V-Advance — chọn gói nào? | Sắp ra mắt |
 | **5** | Hướng dẫn đăng ký trên iPay | Sắp ra mắt |
 
-Xem toàn bộ nội dung [danh mục Ngân hàng](/categories/ngan-hang/) hoặc [Tất cả bài viết](/categories/tat-ca/) để theo dõi series.
+Xem toàn bộ nội dung [danh mục Ngân hàng](/topic/ngan-hang/) hoặc [Tất cả bài viết](/categories/tat-ca/) để theo dõi series.
 
 ---
 
@@ -202,6 +202,6 @@ Xem toàn bộ nội dung [danh mục Ngân hàng](/categories/ngan-hang/) hoặ
 
 Bạn đã nắm được **V-Plus và V-Advance là gì**, khác nhau ra sao và ai nên quan tâm. Bước tiếp theo — và cũng là phần nhiều người quan tâm nhất — là **đào sâu từng quyền lợi V-Plus**: lãi suất 3,5%, hoàn tiền 6%, hạn mức 5 tỷ/15 tỷ, miễn phí thường niên thẻ và hơn thế nữa.
 
-**→ [V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng](/posting/vietinbank-v-plus-chi-tiet-quyen-loi/)** — Phần 2/5, có bảng tính giá trị gói và phân tích từng hạng mục ưu đãi.
+**→ [V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng](/vietinbank-v-plus-chi-tiet-quyen-loi/)** — Phần 2/5, có bảng tính giá trị gói và phân tích từng hạng mục ưu đãi.
 
 *Nguồn tham khảo: [VietinBank — Nâng tầm trải nghiệm cùng 2 gói tiện ích tài chính mới V-Plus & V-Advance](https://www.vietinbank.vn/ca-nhan/tin-noi-bat/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plus-and-v-advance-20260616092541-00-html). Thông tin cập nhật đến 19/06/2026.*

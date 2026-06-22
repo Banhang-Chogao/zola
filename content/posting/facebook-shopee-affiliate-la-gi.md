@@ -219,6 +219,6 @@ Facebook Shopee Affiliate đang mở ra cơ hội kiếm tiền từ nội dung 
 
 Bạn không cần là KOL nổi tiếng, cũng không cần hàng chục nghìn người theo dõi. Điều quan trọng nhất là bắt đầu sớm, tạo nội dung đều đặn và lựa chọn những sản phẩm thực sự hữu ích với người xem.
 
-Trước khi bắt đầu, hãy đọc [quy định cấm từ Shopee Affiliate 2026](/posting/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat/) để tránh vi phạm. Xem thêm [hành trình công nghệ blog cá nhân](/posting/cong-nghe-blog-duy-nguyen/) nếu bạn muốn xây kênh nội dung bền vững.
+Trước khi bắt đầu, hãy đọc [quy định cấm từ Shopee Affiliate 2026](/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat/) để tránh vi phạm. Xem thêm [hành trình công nghệ blog cá nhân](/cong-nghe-blog-duy-nguyen/) nếu bạn muốn xây kênh nội dung bền vững.
 
 Nếu tài khoản của bạn đã được mở quyền kết nối Facebook Shopee Affiliate, đừng để cơ hội bị bỏ lỡ. Hãy hoàn tất liên kết tài khoản, đăng nội dung đầu tiên ngay hôm nay và biến mỗi lượt xem thành cơ hội tạo ra thu nhập thực tế trong tương lai.

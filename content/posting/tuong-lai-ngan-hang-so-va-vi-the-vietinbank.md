@@ -50,25 +50,25 @@ Trước khi nói riêng VietinBank, cần nhìn bức tranh chung của ngành.
 
 Vậy VietinBank có gì để bắt nhịp? Theo mình, lợi thế đến từ những thứ ngân hàng đã làm trong nhiều năm qua.
 
-Thứ nhất là nền tảng kỹ thuật. Mình đã kể quá trình ngân hàng làm lại lõi ở [bài về hiện đại hóa core banking](/posting/vietinbank-hien-dai-hoa-core-banking/). Một hệ thống lõi hiện đại là điều kiện cần để gắn thêm AI hay mở kết nối open banking về sau.
+Thứ nhất là nền tảng kỹ thuật. Mình đã kể quá trình ngân hàng làm lại lõi ở [bài về hiện đại hóa core banking](/vietinbank-hien-dai-hoa-core-banking/). Một hệ thống lõi hiện đại là điều kiện cần để gắn thêm AI hay mở kết nối open banking về sau.
 
-Thứ hai là kinh nghiệm. VietinBank đã trải qua cả chặng [chuyển đổi số với chiến lược và kết quả thực tế](/posting/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/). Đi qua chặng đó rồi thì việc tiếp nhận xu hướng mới sẽ bớt bỡ ngỡ.
+Thứ hai là kinh nghiệm. VietinBank đã trải qua cả chặng [chuyển đổi số với chiến lược và kết quả thực tế](/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua/). Đi qua chặng đó rồi thì việc tiếp nhận xu hướng mới sẽ bớt bỡ ngỡ.
 
 ## AI và cá nhân hóa: bước tự nhiên tiếp theo
 
 AI là từ khóa nóng, nhưng với ngân hàng nó không quá xa lạ. Việc phát hiện giao dịch bất thường, chấm điểm rủi ro, hỗ trợ khách hàng đã dùng các kỹ thuật phân tích dữ liệu từ lâu.
 
-Hướng tự nhiên là cá nhân hóa: app dần hiểu bạn hay chi gì, nhắc bạn khi sắp tới hạn hóa đơn, gợi ý cách quản lý tiền hợp lý hơn. Cách ngân hàng đưa công nghệ vào từng điểm chạm, mình đã bàn ở [bài về công nghệ và trải nghiệm khách hàng](/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/).
+Hướng tự nhiên là cá nhân hóa: app dần hiểu bạn hay chi gì, nhắc bạn khi sắp tới hạn hóa đơn, gợi ý cách quản lý tiền hợp lý hơn. Cách ngân hàng đưa công nghệ vào từng điểm chạm, mình đã bàn ở [bài về công nghệ và trải nghiệm khách hàng](/vietinbank-cong-nghe-trai-nghiem-khach-hang/).
 
 ## Bảo mật càng quan trọng khi càng số hóa
 
 Càng nhiều dữ liệu, càng nhiều kết nối thì bảo mật càng phải chắc. Open banking mở ra tiện ích nhưng cũng đặt ra yêu cầu cao về an toàn thông tin.
 
-Đây là lý do mình nghĩ nền tảng bảo mật mà [bài về bảo mật ngân hàng số VietinBank](/posting/bao-mat-ngan-hang-so-vietinbank/) mô tả sẽ còn quan trọng hơn trong tương lai. Tiện lợi và an toàn phải đi cùng nhau, không thể hy sinh cái này lấy cái kia.
+Đây là lý do mình nghĩ nền tảng bảo mật mà [bài về bảo mật ngân hàng số VietinBank](/bao-mat-ngan-hang-so-vietinbank/) mô tả sẽ còn quan trọng hơn trong tương lai. Tiện lợi và an toàn phải đi cùng nhau, không thể hy sinh cái này lấy cái kia.
 
 ## Vị thế và những điều còn bỏ ngỏ
 
-Mình muốn thành thật: không ai đoán chắc được tương lai. VietinBank có lợi thế quy mô, mạng lưới và kinh nghiệm, nhưng cuộc đua số rất khắc nghiệt, như mình đã so sánh ở [bài về cuộc đua ngân hàng số trong Big 4](/posting/vietinbank-cuoc-dua-ngan-hang-so-big4/).
+Mình muốn thành thật: không ai đoán chắc được tương lai. VietinBank có lợi thế quy mô, mạng lưới và kinh nghiệm, nhưng cuộc đua số rất khắc nghiệt, như mình đã so sánh ở [bài về cuộc đua ngân hàng số trong Big 4](/vietinbank-cuoc-dua-ngan-hang-so-big4/).
 
 Vài điều còn bỏ ngỏ mà mình sẽ tiếp tục theo dõi:
 
@@ -80,11 +80,11 @@ Những câu hỏi này không có đáp án hôm nay, và đó cũng là phần
 
 ## Bài tiếp theo trong loạt
 
-Đến đây thì hành trình gần khép lại. Ở [bài 15 tổng kết toàn cảnh chuyển đổi số VietinBank](/posting/toan-canh-chuyen-doi-so-vietinbank/), mình sẽ nối lại cả chặng đường từ 1988 đến nay thành một bức tranh hoàn chỉnh. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/categories/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank là ai](/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/).
+Đến đây thì hành trình gần khép lại. Ở [bài 15 tổng kết toàn cảnh chuyển đổi số VietinBank](/toan-canh-chuyen-doi-so-vietinbank/), mình sẽ nối lại cả chặng đường từ 1988 đến nay thành một bức tranh hoàn chỉnh. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/topic/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank là ai](/vietinbank-la-ai-hanh-trinh-hinh-thanh/).
 
 Thông tin và định hướng chính thức được công bố tại [website VietinBank](https://www.vietinbank.vn).
 
-> 👉 **Đọc tiếp:** [Toàn cảnh hành trình chuyển đổi số của VietinBank →](/posting/toan-canh-chuyen-doi-so-vietinbank/)
+> 👉 **Đọc tiếp:** [Toàn cảnh hành trình chuyển đổi số của VietinBank →](/toan-canh-chuyen-doi-so-vietinbank/)
 
 ## Tóm lại
 

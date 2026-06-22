@@ -72,6 +72,6 @@ Nhưng tôi cũng tự nhắc mình: cái khó không phải mở được cửa
 
 Với các thương hiệu Việt đang muốn đi theo hướng này, tôi thấy lời khuyên "đừng chạy đua cảm tính" là rất đúng. Đặt quán ở nơi đẹp là dễ; biến nơi đẹp đó thành biểu tượng bền vững mới là phần khó. (Tiện đây, nếu bạn quan tâm chuyện các thương hiệu Việt định vị lại sản phẩm theo "nhóm nhu cầu", có thể đọc thêm bài mình viết về [gói V-Family của VietinBank](/baochi/vietinbank-v-family-nhom-gia-dinh/) — cùng một tư duy nâng tầm thương hiệu.)
 
-Còn nếu bạn mê xê dịch, hãy ngó qua thêm các bài trong chuyên mục [Du lịch](/categories/du-lich/) của blog. Riêng tôi, Fansipan vừa có thêm một lý do để quay lại — dù chỉ để xem "viên pha lê" đó ngoài đời có lung linh như trong ảnh không.
+Còn nếu bạn mê xê dịch, hãy ngó qua thêm các bài trong chuyên mục [Du lịch](/du-lich/) của blog. Riêng tôi, Fansipan vừa có thêm một lý do để quay lại — dù chỉ để xem "viên pha lê" đó ngoài đời có lung linh như trong ảnh không.
 
 *Thông tin trong bài tổng hợp từ Tri Thức - Znews (tác giả Châu Sa) và công bố của thương hiệu; chi tiết sản phẩm xem tại [Starbucks Vietnam](https://www.starbucks.vn).*
