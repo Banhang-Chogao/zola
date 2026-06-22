@@ -1,15 +1,19 @@
 /**
- * Calendar — client-side calendar for the Zola static blog.
+ * Calendar — private personal calendar for the Zola blog (seomoney.org).
  * Microsoft 365-style UX (Day/Week/Month, drag-drop, side agenda, keyboard)
- * with S-DNA visual language. Events persist in localStorage only —
- * nothing is sent to a server.
+ * with S-DNA visual language.
+ *
+ * Privacy/persistence: events are durable and PRIVATE — read/written through the
+ * VIPZone API behind the shared GitHub-OAuth guard (window.PrivateAuth), stored
+ * server-side keyed by the owner email. Nothing is kept in localStorage, so
+ * clearing cookies/storage only ends the session; re-login restores every event.
+ * The app boots only after `private-auth:authed`; until then no event data is
+ * fetched or rendered.
  */
 (function () {
   "use strict";
 
   /* ============================ constants ============================ */
-  const LS_KEY = "zola_calendar_events_v1";
-  const LS_SEEDED = "zola_calendar_seeded_v1";
   const HOUR_H = 48;   // px per hour in the time grid
   const BAR_H = 22;    // px per all-day/multi-day bar row in month view
   const SNAP = 15;     // minutes — drag snap
@@ -81,32 +85,26 @@
   }
 
   /* ============================== storage =========================== */
-  function load() {
-    try { var raw = JSON.parse(localStorage.getItem(LS_KEY) || "[]"); return Array.isArray(raw) ? raw : []; }
-    catch (_) { return []; }
-  }
-  function save() {
-    try { localStorage.setItem(LS_KEY, JSON.stringify(state.events)); } catch (_) { /* quota */ }
+  // Durable, private, server-side persistence via the VIPZone API. The shared
+  // PrivateAuth guard supplies the Bearer session; no localStorage is used.
+  function api(path, opts) { return window.PrivateAuth.api(path, opts); }
+
+  function eventPayload(ev) {
+    return {
+      title: ev.title, start: ev.start, end: ev.end, allDay: !!ev.allDay,
+      color: ev.color, location: ev.location || "", notes: ev.notes || "",
+      status: ev.status || "",
+    };
   }
 
-  function seedIfFirstRun() {
-    if (localStorage.getItem(LS_SEEDED)) return;
-    localStorage.setItem(LS_SEEDED, "1");
-    if (state.events.length) return;
-    var d = today0;
-    state.events = [
-      mkEvent({ title: "Họp kế hoạch tuần", color: "teal",
-        start: toLocalIso(atMinutes(d, 9 * 60)), end: toLocalIso(atMinutes(d, 10 * 60)), location: "Phòng họp A" }),
-      mkEvent({ title: "Viết bài blog", color: "purple",
-        start: toLocalIso(atMinutes(d, 14 * 60)), end: toLocalIso(atMinutes(d, 15 * 60 + 30)) }),
-      mkEvent({ title: "Nghỉ lễ", color: "amber", allDay: true,
-        start: toLocalIso(addDays(d, 2)), end: toLocalIso(addDays(d, 3)) }),
-      mkEvent({ title: "Deadline dự án", color: "red",
-        start: toLocalIso(atMinutes(addDays(d, 1), 17 * 60)), end: toLocalIso(atMinutes(addDays(d, 1), 18 * 60)) }),
-    ];
-    save();
+  async function loadEvents() {
+    var data = await api("/calendar/events");
+    state.events = Array.isArray(data.events) ? data.events : [];
   }
 
+  // Build a normalised in-memory event object (used to populate the editor form
+  // for a brand-new event before it is persisted). The server assigns the real
+  // id + timestamps on create.
   function mkEvent(o) {
     var now = new Date().toISOString();
     return {
@@ -117,20 +115,51 @@
       color: COLOR_KEYS.indexOf(o.color) >= 0 ? o.color : "teal",
       location: (o.location || "").trim(),
       notes: (o.notes || "").trim(),
+      status: o.status || "",
       createdAt: o.createdAt || now,
       updatedAt: now,
     };
   }
 
   function getEvent(id) { return state.events.find(function (e) { return e.id === id; }); }
-  function upsert(ev) {
+
+  // Local-state helpers (no persistence) — the API helpers below own durability.
+  function upsertLocal(ev) {
     var i = state.events.findIndex(function (e) { return e.id === ev.id; });
     if (i >= 0) state.events[i] = ev; else state.events.push(ev);
-    save();
   }
-  function removeEvent(id) {
+  function removeLocal(id) {
     state.events = state.events.filter(function (e) { return e.id !== id; });
-    save();
+  }
+
+  async function createEvent(ev) {
+    var saved = (await api("/calendar/events", { method: "POST", body: eventPayload(ev) })).event;
+    state.events.push(saved);
+    return saved;
+  }
+  async function updateEvent(ev) {
+    var saved = (await api("/calendar/events/" + encodeURIComponent(ev.id),
+      { method: "PATCH", body: eventPayload(ev) })).event;
+    if (saved) upsertLocal(saved);
+    return saved;
+  }
+  async function deleteEvent(id) {
+    await api("/calendar/events/" + encodeURIComponent(id), { method: "DELETE" });
+    removeLocal(id);
+  }
+
+  // Fire-and-forget persistence for optimistic drag/resize edits: state is already
+  // mutated + re-rendered; on failure we surface a toast and resync from server.
+  function persist(ev) {
+    updateEvent(ev).catch(function (err) {
+      if (err && err.status === 401) return;
+      toast("Lưu thất bại — đang tải lại", "error");
+      reloadAndRender();
+    });
+  }
+  async function reloadAndRender() {
+    try { await loadEvents(); } catch (e) { /* gate handles 401 */ }
+    render();
   }
 
   /* ====================== event geometry helpers ==================== */
@@ -597,13 +626,13 @@
       ev.end = toLocalIso(new Date(ns.getTime() + d.origDurMin * 60000));
       ev.allDay = false;
       ev.updatedAt = new Date().toISOString();
-      upsert(ev);
+      persist(ev);
     } else if (d.kind === "resize-time") {
       var dur = d.previewDur || d.origDurMin;
       var s = evStart(ev);
       ev.end = toLocalIso(new Date(s.getTime() + dur * 60000));
       ev.updatedAt = new Date().toISOString();
-      upsert(ev);
+      persist(ev);
     } else if (d.kind === "move-month" && d.previewCellDate) {
       var targetDay = parseYmd(d.previewCellDate);
       var delta = daysBetween(d.origDay, targetDay);
@@ -611,7 +640,7 @@
         ev.start = toLocalIso(addDays(evStart(ev), delta));
         ev.end = toLocalIso(addDays(evEnd(ev), delta));
         ev.updatedAt = new Date().toISOString();
-        upsert(ev);
+        persist(ev);
       }
     }
     render();
@@ -753,12 +782,18 @@
       notes: formRefs.notes.value,
       createdAt: existing ? existing.createdAt : undefined,
     });
-    upsert(ev);
-    closeEditor();
-    state.selected = startOfDay(start);
-    state.anchor = state.selected;
-    render();
-    toast(editingId ? "Đã cập nhật" : "Đã thêm sự kiện");
+    var wasEditing = !!editingId;
+    var op = wasEditing ? updateEvent(ev) : createEvent(ev);
+    op.then(function () {
+      closeEditor();
+      state.selected = startOfDay(start);
+      state.anchor = state.selected;
+      render();
+      toast(wasEditing ? "Đã cập nhật" : "Đã thêm sự kiện");
+    }).catch(function (err) {
+      if (err && err.status === 401) { toast("Phiên hết hạn — đăng nhập lại", "error"); return; }
+      toast("Lưu thất bại: " + (err && err.message || "lỗi"), "error");
+    });
   }
   function combine(dateStr, timeStr) {
     var d = parseYmd(dateStr);
@@ -767,10 +802,15 @@
   }
   function onDelete() {
     if (!editingId) { closeEditor(); return; }
-    removeEvent(editingId);
-    closeEditor();
-    render();
-    toast("Đã xoá sự kiện");
+    var id = editingId;
+    deleteEvent(id).then(function () {
+      closeEditor();
+      render();
+      toast("Đã xoá sự kiện");
+    }).catch(function (err) {
+      if (err && err.status === 401) { toast("Phiên hết hạn — đăng nhập lại", "error"); return; }
+      toast("Xoá thất bại: " + (err && err.message || "lỗi"), "error");
+    });
   }
 
   /* ============================ navigation ========================= */
@@ -864,18 +904,23 @@
     document.addEventListener("keydown", onKeydown);
   }
 
-  function init() {
-    state.events = load();
-    seedIfFirstRun();
+  var booted = false;
+  async function init() {
+    if (booted) return;
+    booted = true;
     cacheModal();
     bindChrome();
-    render();
+    render();                         // empty grid first (no private data yet)
+    try {
+      await loadEvents();
+      render();
+    } catch (e) {
+      if (!(e && e.status === 401)) toast("Không tải được lịch", "error");
+    }
     nowTimer = setInterval(updateNowLine, 60000);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  // Private tool: only start after the shared GitHub-OAuth guard confirms an
+  // authenticated, allowlisted admin. Until then nothing private is fetched.
+  document.addEventListener("private-auth:authed", init);
 })();

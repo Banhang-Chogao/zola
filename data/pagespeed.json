@@ -1,53 +1,53 @@
 {
-  "updated_at": "2026-06-21T17:09:28+00:00",
+  "updated_at": "2026-06-22T16:17:26+00:00",
   "url": "https://seomoney.org/",
   "mobile": {
-    "performance": 59,
-    "accessibility": 84,
+    "performance": 54,
+    "accessibility": 81,
     "best_practices": 92,
     "seo": 100,
-    "lcp": "10.8 s",
-    "lcp_ms": 10793.760406628582,
+    "lcp": "11.0 s",
+    "lcp_ms": 10959.969794609191,
     "cls": "0",
     "cls_value": 0,
     "inp": "—",
     "inp_ms": null,
-    "fcp": "5.5 s",
-    "fcp_ms": 5490.512856795034,
-    "tbt": "80 ms",
-    "tbt_ms": 82,
-    "si": "6.5 s",
-    "si_ms": 6512.445680574625,
-    "total_page_size": "Total size was 1,516 KiB",
-    "total_page_bytes": 1552687,
+    "fcp": "6.0 s",
+    "fcp_ms": 6034.58532881018,
+    "tbt": "200 ms",
+    "tbt_ms": 199,
+    "si": "8.3 s",
+    "si_ms": 8335.607152011167,
+    "total_page_size": "Total size was 1,641 KiB",
+    "total_page_bytes": 1680770,
     "resource_weight": {
-      "js": 224030,
-      "css": 86530,
-      "image": 30894,
-      "font": 281637,
-      "document": 471391,
-      "other": 2342442,
-      "total": 3436924
+      "js": 223876,
+      "css": 96370,
+      "image": 26918,
+      "font": 281631,
+      "document": 534713,
+      "other": 2499217,
+      "total": 3662725
     },
     "render_blocking": [],
     "unused_assets": {
       "css": {
-        "wasted_bytes": 68979,
-        "display": "Est savings of 67 KiB",
+        "wasted_bytes": 79516,
+        "display": "Est savings of 78 KiB",
         "items": [
           {
-            "url": "https://seomoney.org/site.css?v=1782057209",
-            "wasted_bytes": 68979
+            "url": "https://seomoney.org/site.css?v=1782141211",
+            "wasted_bytes": 79516
           }
         ]
       },
       "js": {
-        "wasted_bytes": 66717,
+        "wasted_bytes": 66675,
         "display": "Est savings of 65 KiB",
         "items": [
           {
             "url": "https://www.googletagmanager.com/gtag/js?id=G-SMTFZVC0XN",
-            "wasted_bytes": 66717
+            "wasted_bytes": 66675
           }
         ]
       }
@@ -57,13 +57,13 @@
       {
         "id": "largest-contentful-paint",
         "title": "Largest Contentful Paint",
-        "display": "10.8 s",
+        "display": "11.0 s",
         "score": 0
       },
       {
         "id": "unused-css-rules",
         "title": "Reduce unused CSS",
-        "display": "Est savings of 67 KiB",
+        "display": "Est savings of 78 KiB",
         "score": 0
       },
       {
@@ -75,70 +75,70 @@
       {
         "id": "first-contentful-paint",
         "title": "First Contentful Paint",
-        "display": "5.5 s",
-        "score": 6
+        "display": "6.0 s",
+        "score": 3
       },
       {
         "id": "speed-index",
         "title": "Speed Index",
-        "display": "6.5 s",
-        "score": 39
+        "display": "8.3 s",
+        "score": 19
       },
       {
         "id": "total-blocking-time",
         "title": "Total Blocking Time",
-        "display": "80 ms",
-        "score": 99
+        "display": "200 ms",
+        "score": 90
       }
     ]
   },
   "desktop": {
-    "performance": 94,
+    "performance": 90,
     "accessibility": 81,
     "best_practices": 92,
     "seo": 100,
-    "lcp": "1.3 s",
-    "lcp_ms": 1269.6652112292759,
+    "lcp": "1.2 s",
+    "lcp_ms": 1190.3873707462199,
     "cls": "0.007",
     "cls_value": 0.006895,
     "inp": "—",
     "inp_ms": null,
-    "fcp": "1.1 s",
-    "fcp_ms": 1106.0669374325919,
-    "tbt": "50 ms",
-    "tbt_ms": 49.5,
-    "si": "1.3 s",
-    "si_ms": 1279.6539185190418,
-    "total_page_size": "Total size was 1,977 KiB",
-    "total_page_bytes": 2024931,
+    "fcp": "1.2 s",
+    "fcp_ms": 1190.3873707462196,
+    "tbt": "40 ms",
+    "tbt_ms": 44.5,
+    "si": "2.2 s",
+    "si_ms": 2214.2905861288687,
+    "total_page_size": "Total size was 2,142 KiB",
+    "total_page_bytes": 2193669,
     "resource_weight": {
-      "js": 224066,
-      "css": 86486,
-      "image": 498916,
-      "font": 289670,
-      "document": 471390,
-      "other": 2815078,
-      "total": 4385606
+      "js": 223799,
+      "css": 96412,
+      "image": 531264,
+      "font": 289623,
+      "document": 534713,
+      "other": 3021338,
+      "total": 4697149
     },
     "render_blocking": [],
     "unused_assets": {
       "css": {
-        "wasted_bytes": 70814,
-        "display": "Est savings of 69 KiB",
+        "wasted_bytes": 81241,
+        "display": "Est savings of 79 KiB",
         "items": [
           {
-            "url": "https://seomoney.org/site.css?v=1782057209",
-            "wasted_bytes": 70814
+            "url": "https://seomoney.org/site.css?v=1782141211",
+            "wasted_bytes": 81241
           }
         ]
       },
       "js": {
-        "wasted_bytes": 66718,
+        "wasted_bytes": 66676,
         "display": "Est savings of 65 KiB",
         "items": [
           {
             "url": "https://www.googletagmanager.com/gtag/js?id=G-SMTFZVC0XN",
-            "wasted_bytes": 66718
+            "wasted_bytes": 66676
           }
         ]
       }
@@ -148,8 +148,8 @@
       {
         "id": "unused-css-rules",
         "title": "Reduce unused CSS",
-        "display": "Est savings of 69 KiB",
-        "score": 0
+        "display": "Est savings of 79 KiB",
+        "score": 50
       },
       {
         "id": "unused-javascript",
@@ -158,21 +158,21 @@
         "score": 50
       },
       {
+        "id": "speed-index",
+        "title": "Speed Index",
+        "display": "2.2 s",
+        "score": 53
+      },
+      {
         "id": "first-contentful-paint",
         "title": "First Contentful Paint",
-        "display": "1.1 s",
-        "score": 81
+        "display": "1.2 s",
+        "score": 75
       },
       {
         "id": "largest-contentful-paint",
         "title": "Largest Contentful Paint",
-        "display": "1.3 s",
-        "score": 88
-      },
-      {
-        "id": "speed-index",
-        "title": "Speed Index",
-        "display": "1.3 s",
+        "display": "1.2 s",
         "score": 90
       }
     ]

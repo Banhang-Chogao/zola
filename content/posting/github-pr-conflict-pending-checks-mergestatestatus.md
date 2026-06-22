@@ -9,7 +9,6 @@ tags = ["github", "github actions", "merge conflict", "pull request", "ci cd"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "GitHub PR conflict pending merge checks UNSTABLE UNKNOWN"
-featured = true
 series = "github-workflow"
 series_part = 16
 series_total = 18
