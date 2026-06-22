@@ -6,7 +6,7 @@ aliases = ["/tao-anh-og-guong-mat-mang-xa-hoi-blog-tap-chi-online/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["ảnh og", "open graph", "social preview", "font tiếng việt", "branding", "thiết kế ảnh", "seo hình ảnh"]
+tags = ["branding", "font tiếng việt", "open graph", "seo hình ảnh", "social preview", "thiết kế ảnh", "ảnh og"]
 [extra]
 seo_keyword = "tạo ảnh OG"
 slug = "tao-anh-og-guong-mat-mang-xa-hoi-blog-tap-chi-online"

@@ -5,7 +5,7 @@ Build Open PRs report → static/data/open-prs.json
 Fetches all currently open PRs against `main`, plus the check-runs for each
 PR's head commit, and writes a public-safe JSON file consumed by
 /tools/open-prs/.  No tokens, emails, paths, secrets, or raw CLI output are
-written to the output file.
+written to the output file — nor CI check-run log deep-links.
 
 Anti-hang / graceful:
   - Missing token or network error → keep existing report if present, else
@@ -111,6 +111,9 @@ def _norm_check(run: dict) -> dict:
     else:
         state = "pending"
 
+    # NOTE: the check-run `html_url` deep-links into raw CI job logs. The public
+    # dashboard renders name/state/elapsed only (template guards `{% if check.url %}`),
+    # so we deliberately omit the log link to avoid surfacing log paths publicly.
     return {
         "name": (run.get("name") or "")[:80],
         "state": state,
@@ -118,7 +121,6 @@ def _norm_check(run: dict) -> dict:
         "conclusion": conclusion,
         "elapsed_s": elapsed_s,
         "elapsed_display": elapsed_disp,
-        "url": run.get("html_url") or "",
     }
 
 

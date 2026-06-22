@@ -7,7 +7,7 @@ slug = "cac-lenh-terminal-kiem-tra-pr-github"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github", "terminal", "pr", "ci cd", "github cli", "gh", "git", "debug"]
+tags = ["ci cd", "debug", "gh", "git", "github", "github cli", "pr", "terminal"]
 [extra]
 thumbnail = "https://picsum.photos/seed/terminal-github-pr/600/400"
 seo_keyword = "câu lệnh kiểm tra PR GitHub"
