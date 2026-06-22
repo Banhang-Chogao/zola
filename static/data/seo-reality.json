@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T15:59:58Z",
+  "updated_at": "2026-06-22T21:03:04Z",
   "site_age_days": 7,
   "site_age_label": "7 ngày",
   "site_launch_date": "2026-06-15",
@@ -11,40 +11,73 @@
     "source": "internal"
   },
   "gsc": {
-    "connected": false,
-    "property": null,
-    "updated_at": null,
-    "status": "not_connected",
-    "indexed_pages": null,
-    "impressions": null,
-    "clicks": null,
-    "ctr": null,
-    "avg_position": null,
-    "coverage_issues": null,
-    "sitemap_status": null,
-    "last_crawl": null,
+    "connected": true,
+    "property": "sc-domain:seomoney.org",
+    "updated_at": "2026-06-22T20:46:24Z",
+    "status": "ok",
+    "indexed_pages": 1,
+    "impressions": 1,
+    "clicks": 0,
+    "ctr": 0.0,
+    "avg_position": 1.0,
+    "coverage_issues": 0,
+    "sitemap_status": "ok",
+    "last_crawl": "2026-06-20T10:48:21.850Z",
     "period_days": 28
   },
   "indexing": {
-    "connected": false,
-    "pages_indexed": null,
-    "pages_non_indexed": null,
-    "pages_waiting": null,
-    "submitted_pages": null,
+    "connected": true,
+    "pages_indexed": 1,
+    "pages_non_indexed": 1633,
+    "pages_waiting": 1633,
+    "submitted_pages": 1634,
     "avg_delay_days": null,
-    "last_crawl": null,
-    "sitemap_status": null,
-    "index_health": null,
+    "last_crawl": "2026-06-20T10:48:21.850Z",
+    "sitemap_status": "ok",
+    "index_health": "Problem",
     "sitemap_pages": 223
   },
-  "top_pages": [],
+  "top_pages": [
+    {
+      "page": "https://seomoney.org/posting/ung-ho-du-an-ai-ten-mien-ai/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 1.0
+    }
+  ],
   "top_queries": [],
   "trend": {
-    "daily": [],
-    "weekly": [],
-    "monthly": []
+    "daily": [
+      {
+        "date": "2026-06-19",
+        "clicks": 0,
+        "impressions": 0
+      },
+      {
+        "date": "2026-06-20",
+        "clicks": 0,
+        "impressions": 1
+      }
+    ],
+    "weekly": [
+      {
+        "period": "2026-W25",
+        "clicks": 0,
+        "impressions": 1
+      }
+    ],
+    "monthly": [
+      {
+        "period": "2026-06",
+        "clicks": 0,
+        "impressions": 1
+      }
+    ]
   },
-  "executive_summary": [],
+  "executive_summary": [
+    "Strongest page: /posting/ung-ho-du-an-ai-ten-mien-ai/ (0 clicks)."
+  ],
   "authority": {
     "site_age_days": 7,
     "site_age_label": "7 ngày",

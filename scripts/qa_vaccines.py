@@ -718,6 +718,50 @@ def check_workflow_yaml(ctx: Ctx) -> CheckResult:
     return CheckResult("GHA", title, PASS, diagnosis=f"{len(workflows)} workflow OK")
 
 
+# Allowed maximum major version per guarded action (GHA-ACTION-VERSION-GUARD).
+_GHA_MAX_VERSIONS: dict[str, int] = {
+    "actions/checkout": 4,
+    "actions/setup-python": 5,
+    "actions/upload-artifact": 4,
+    "actions/download-artifact": 4,
+}
+_GHA_VERSION_RE = re.compile(
+    r"uses:\s+(actions/(?:checkout|setup-python|upload-artifact|download-artifact))@v(\d+)"
+)
+
+
+def check_gha_action_version_guard(ctx: Ctx) -> CheckResult:
+    """GHA-ACTION-VERSION-GUARD — detect future/non-existent action major versions.
+
+    Scans every .github/workflows/*.yml|yaml for `uses:` lines targeting the four
+    guarded actions and FAILs if the major version exceeds the allowed maximum.
+    Allowed: checkout<=v4, setup-python<=v5, upload-artifact<=v4, download-artifact<=v4.
+    No network calls — purely static analysis.
+    """
+    title = "GHA action version guard (no non-existent major versions)"
+    workflows = ctx.glob(".github/workflows/*.yml") + ctx.glob(".github/workflows/*.yaml")
+    bad: list[str] = []
+    for p in workflows:
+        text = p.read_text(encoding="utf-8") if hasattr(p, "read_text") else (ctx.read(str(p.relative_to(ctx.root))) or "")
+        rel = str(p.relative_to(ctx.root))
+        for m in _GHA_VERSION_RE.finditer(text):
+            action, ver_str = m.group(1), m.group(2)
+            ver = int(ver_str)
+            max_ver = _GHA_MAX_VERSIONS.get(action, 0)
+            if ver > max_ver:
+                bad.append(f"{rel}: {action}@v{ver} (max allowed: v{max_ver})")
+    if bad:
+        return CheckResult(
+            "GHA-VERSION", title, FAIL,
+            diagnosis="workflow(s) reference non-existent/future action major version — CI will fail at checkout",
+            fix="pin to allowed major: checkout@v4, setup-python@v5, upload-artifact@v4, download-artifact@v4",
+            details=bad,
+        )
+    scanned = len(workflows)
+    return CheckResult("GHA-VERSION", title, PASS,
+                       diagnosis=f"{scanned} workflow(s) scanned — all guarded actions within allowed majors")
+
+
 def check_series_nav_vaccine(ctx: Ctx) -> CheckResult:
     """Series Hub completeness — if series JSONs exist but /tools/series/ is
     missing the hub is empty for users; also validates series-nav.html has at
@@ -3179,6 +3223,7 @@ DETECTORS = [
     check_v30_tools_route_preservation,
     check_v28_vaccine_registry_merge,
     check_v31_shortcut_registry_preservation,
+    check_gha_action_version_guard,
     check_vaccine_registry_integrity,
 ]
 
