@@ -5,11 +5,10 @@ date = 2026-06-21
 aliases = ["/github-pr-conflict-pending-checks/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github", "github actions", "merge conflict", "pull request", "ci cd"]
+tags = ["ci cd", "github", "github actions", "merge conflict", "pull request"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "GitHub PR conflict pending merge checks UNSTABLE UNKNOWN"
-featured = true
 series = "github-workflow"
 series_part = 16
 series_total = 18
@@ -96,7 +95,7 @@ Tổng: **10–15 phút là bình thường** lần đầu hoặc cold start.
 
 **Nếu force-push (khi conflict/pending):** CI chạy lại từ đầu = +10–15 phút nữa. Đó là lý do tại sao:
 - Force-push nhiều lần = chờ lâu
-- Nên [rebase](/posting/lenh-git-co-ban-commit-checkout-status/) cẩn thận trước force-push
+- Nên rebase cẩn thận trước force-push (xem lại [lệnh Git cơ bản](/posting/lenh-git-co-ban-init-add-commit-status/) nếu cần)
 - Hoặc dùng `git push --force-with-lease` (safer) — xem [best practices Git](/posting/bao-mat-best-practices-git-github/)
 
 ## Khi Nào An Toàn Merge? Checklist

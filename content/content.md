@@ -27,36 +27,8 @@ name = "Insights"
 path = "insights"
 vip = true
 [[extra.tools]]
-name = "AD-Report"
-path = "ad-report"
-vip = true
-[[extra.tools]]
-name = "🔥 Ad-Report V2"
-path = "ad-report-v2"
-vip = true
-[[extra.tools]]
-name = "Authority Report"
-path = "authority-report"
-vip = true
-[[extra.tools]]
 name = "Scoring"
 path = "scoring"
-vip = true
-[[extra.tools]]
-name = "F-Dashboard"
-path = "tools/f-dashboard"
-vip = true
-[[extra.tools]]
-name = "L-Dashboard"
-path = "tools/l-dashboard"
-vip = true
-[[extra.tools]]
-name = "O-Dashboard"
-path = "tools/o-dashboard"
-vip = true
-[[extra.tools]]
-name = "H-Dashboard"
-path = "tools/h-dashboard"
 vip = true
 [[extra.tools]]
 name = "✈️ Flight DB"

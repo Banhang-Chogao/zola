@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-06-21T12:31:58Z",
-  "source": "config",
-  "fetch_error": "HTTP Error 403: Forbidden",
+  "updated_at": "2026-06-22T18:59:09Z",
+  "source": "config+api",
+  "fetch_error": "",
   "profile": "Banhang-Chogao",
   "profile_url": "https://github.com/Banhang-Chogao",
   "repository": "Banhang-Chogao/zola",
@@ -78,6 +78,15 @@
       "icon": "🚀",
       "category": "repo",
       "earned_at": "2025-06-01T00:00:00Z"
+    },
+    {
+      "id": "repo-open-issues",
+      "title": "Open Issues",
+      "description": "18 open issues tracked on Banhang-Chogao/zola",
+      "tier": "default",
+      "icon": "📋",
+      "category": "repo_stat",
+      "earned_at": "2026-06-22T18:59:09Z"
     }
   ]
 }

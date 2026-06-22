@@ -9,7 +9,6 @@ tags = ["ai system", "bug fix", "ci/cd", "vaccine số", "zola blog"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "vaccine số là gì"
-featured = true
 series = "vaccine-so"
 series_part = 1
 series_total = 5
