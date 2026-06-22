@@ -1,6 +1,7 @@
 +++
 title = "Viết blog bằng local terminal khi AI hết credit"
 date = 2026-06-22
+aliases = ["/viet-blog-bang-local-terminal-khi-ai-het-credit/"]
 
 [taxonomies]
 categories = ["Tất cả"]

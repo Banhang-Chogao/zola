@@ -7,7 +7,7 @@ slug = "top-10-cong-cu-terminal-mac-2026"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["terminal", "mac", "dev tools", "productivity", "cli", "homebrew", "workflow"]
+tags = ["cli", "dev tools", "homebrew", "mac", "productivity", "terminal", "workflow"]
 [extra]
 thumbnail = "https://picsum.photos/seed/terminal-mac-tools/600/400"
 seo_keyword = "công cụ terminal cho Mac"

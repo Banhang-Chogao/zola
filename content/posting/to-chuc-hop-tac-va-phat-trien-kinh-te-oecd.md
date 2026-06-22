@@ -5,7 +5,7 @@ date = 2026-06-22
 aliases = ["/to-chuc-hop-tac-va-phat-trien-kinh-te-oecd/"]
 [taxonomies]
 categories = ["Tất cả", "Kinh tế"]
-tags = ["oecd", "tổ chức kinh tế", "chính sách kinh tế", "hợp tác quốc tế"]
+tags = ["chính sách kinh tế", "hợp tác quốc tế", "oecd", "tổ chức kinh tế"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "OECD là gì"

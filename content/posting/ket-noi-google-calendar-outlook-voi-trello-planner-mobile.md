@@ -7,15 +7,14 @@ slug = "ket-noi-google-calendar-outlook-voi-trello-planner-mobile"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["trello", "trello planner", "calendar", "productivity", "quản lý công việc", "google calendar"]
-
+tags = ["calendar", "google calendar", "productivity", "quản lý công việc", "trello", "trello planner"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "kết nối Google Calendar với Trello"
 featured = false
 series = "trello-mobile-calendar"
 series_part = 2
-series_total = 5
+series_total = 2
 
 [[extra.faq]]
 q = "Kết nối Google Calendar với Trello là đồng bộ hai chiều hay một chiều?"
@@ -31,7 +30,7 @@ q = "Kết nối lịch có tốn phí không?"
 a = "Một số khả năng cơ bản có thể dùng ở mức miễn phí, nhưng vài tính năng tích hợp lịch nâng cao có thể phụ thuộc gói Trello hoặc Power-Up cụ thể, và điều này thay đổi theo thời gian. Mình tránh khẳng định cứng về phí; cách chắc chắn nhất là xem điều khoản hiện hành ngay trong tài khoản của bạn."
 +++
 
-> 📚 **Series Trello Mobile Calendar — Bài 2/5.** Bài này thuộc loạt 6 bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Nếu chưa rõ Planner là gì, hãy đọc [bài 1 — Trello Planner Mobile là gì](/posting/trello-planner-mobile-la-gi/) trước.
+> 📚 **Series Trello Mobile Calendar — Bài 2/2.** Bài này thuộc loạt bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Nếu chưa rõ Planner là gì, hãy đọc [bài 1 — Trello Planner Mobile là gì](/posting/trello-planner-mobile-la-gi/) trước.
 
 Một trong những điều khiến mình gắn bó với Trello trên điện thoại là khả năng nhìn cả cuộc họp cố định lẫn đầu việc linh hoạt trong cùng một chỗ. Nhưng để làm được điều đó, bạn cần **kết nối Google Calendar với Trello** — hoặc lịch Outlook — và đưa chúng về cùng khung nhìn Planner. Bài này mình chia sẻ các cách kết nối, ưu nhược điểm của từng cách, và những lưu ý thực tế để bạn không bị hụt hẫng vì kỳ vọng sai.
 
@@ -110,12 +109,9 @@ Thứ hai, **mình xác định một "nguồn sự thật" cho mỗi loại.** 
 
 Thứ ba, **mình chấp nhận độ trễ thay vì bực bội với nó.** Hiểu rằng lịch đăng ký cập nhật theo chu kỳ giúp mình bình thản. Khi cần chắc chắn tuyệt đối về một cuộc họp, mình mở thẳng app gốc của nó.
 
-Khi lịch ngoài đã nằm gọn trong Planner, bước tiếp theo là đảm bảo chính các card Trello của bạn cũng hiện ra đúng chỗ. Đó là nội dung mình bóc tách ở [bài 3 — để card due date tự hiện trong Planner](/posting/card-due-date-hien-trong-trello-planner/).
+Khi lịch ngoài đã nằm gọn trong Planner, bước tiếp theo là đảm bảo chính các card Trello của bạn cũng có due date rõ ràng, nằm đúng board và được assign đúng người nếu đó là board chung.
 
 ## Đọc tiếp trong series
 
 - [Bài tổng quan — Trello Mobile Calendar: dùng Trello như lịch làm việc cá nhân](/posting/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/)
 - [Bài 1 — Trello Planner Mobile là gì?](/posting/trello-planner-mobile-la-gi/)
-- [Bài 3 — Cách để card có due date tự hiện trong Trello Planner](/posting/card-due-date-hien-trong-trello-planner/)
-- [Bài 4 — Cách lọc card đến hạn, quản lý việc quá hạn và lên lịch focus time](/posting/loc-card-den-han-focus-time-trello-mobile/)
-- [Bài 5 — Trello Planner vs Calendar View vs Google Calendar: nên dùng cái nào?](/posting/trello-planner-vs-calendar-view-vs-google-calendar/)

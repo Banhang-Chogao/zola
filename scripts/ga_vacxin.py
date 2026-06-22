@@ -25,7 +25,9 @@ Contract (UI reads this):
     error        → wrong property/measurement or access denied — warning banner
 
 Hard rules:
-  * NEVER writes the service-account key (or any credential field) into the JSON.
+  * NEVER writes the service-account key, any credential field, OR the
+    service-account identity (client_email / GCP project) into the JSON —
+    _scrub() drops secret keys and masks `*.iam.gserviceaccount.com` anywhere.
   * NEVER raises — every failure becomes a recorded check; exit code is 0 unless
     --strict is passed (then exit 2 on a non-ok status, for an opt-in CI gate).
   * --offline skips every network call (status degrades to pending, never error).
@@ -72,6 +74,10 @@ SECRET_FIELDS = (
     "client_secret", "refresh_token", "access_token", "token",
     "GA_SERVICE_ACCOUNT_KEY",
 )
+
+# Service-account identity (e.g. ...@<project>.iam.gserviceaccount.com) reveals
+# the GCP project — must never leak through a detail string either.
+SA_EMAIL_RE = re.compile(r"[\w.+-]+@[\w.-]+\.iam\.gserviceaccount\.com", re.IGNORECASE)
 
 OK, WARN, FAIL, SKIP = "ok", "warn", "fail", "skip"
 
@@ -167,9 +173,11 @@ def load_service_account(offline: bool) -> tuple[dict | None, dict]:
         return None, _check("auth", label, FAIL, f"GA_SERVICE_ACCOUNT_KEY không phải JSON: {exc}")
     if not isinstance(info, dict) or "client_email" not in info:
         return None, _check("auth", label, FAIL, "service-account JSON thiếu client_email")
+    # NEVER surface the service-account identity (client_email reveals the GCP
+    # project) in the public health JSON — confirm validity without naming it.
     return info, _check(
         "auth", label, OK,
-        f"service account {info.get('client_email', '?')}",
+        "đã nạp khoá service account hợp lệ",
     )
 
 
@@ -377,9 +385,17 @@ def build_report(offline: bool) -> dict:
     }
 
 
-def _scrub(report: dict) -> dict:
-    """Defence in depth: strip any accidental secret field before persisting."""
-    return {k: v for k, v in report.items() if k not in SECRET_FIELDS}
+def _scrub(obj):
+    """Defence in depth: drop secret-named keys AND mask any service-account
+    identity that slipped into a string (e.g. a check detail), recursively,
+    before the report is persisted or printed."""
+    if isinstance(obj, dict):
+        return {k: _scrub(v) for k, v in obj.items() if k not in SECRET_FIELDS}
+    if isinstance(obj, list):
+        return [_scrub(v) for v in obj]
+    if isinstance(obj, str):
+        return SA_EMAIL_RE.sub("[service-account]", obj)
+    return obj
 
 
 def write_report(report: dict) -> None:
