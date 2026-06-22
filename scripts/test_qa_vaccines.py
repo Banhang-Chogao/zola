@@ -157,6 +157,46 @@ class FailDetectorTest(unittest.TestCase):
         r = qv.check_v8d_tera_map_literal(self.repo.ctx())
         self.assertEqual(r.status, qv.PASS)
 
+    def test_v8e_series_missing_part_fail(self):
+        # A non-draft page in a series WITHOUT series_part crashes the build sort.
+        self.repo.write("content/posting/a.md",
+                        '+++\ntitle = "A"\ndate = 2026-06-22\n[extra]\n'
+                        'series = "trello"\nseries_total = 2\n+++\nbody')
+        r = qv.check_v8e_series_part_present(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertIn("V8", r.vaccine)
+
+    def test_v8e_series_with_part_pass(self):
+        self.repo.write("content/posting/a.md",
+                        '+++\ntitle = "A"\ndate = 2026-06-22\n[extra]\n'
+                        'series = "trello"\nseries_part = 1\nseries_total = 2\n+++\nbody')
+        r = qv.check_v8e_series_part_present(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v8e_pillar_part_zero_pass(self):
+        # Pillar/overview uses series_part = 0 — present, so the sort is safe.
+        self.repo.write("content/posting/pillar.md",
+                        '+++\ntitle = "Pillar"\ndate = 2026-06-22\n[extra]\n'
+                        'series = "trello"\nseries_part = 0\n+++\nbody')
+        r = qv.check_v8e_series_part_present(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v8e_draft_series_ignored_pass(self):
+        # Drafts are not built by Zola, so a draft missing series_part is harmless.
+        self.repo.write("content/posting/draft.md",
+                        '+++\ntitle = "Draft"\ndate = 2026-06-22\ndraft = true\n[extra]\n'
+                        'series = "trello"\n+++\nbody')
+        r = qv.check_v8e_series_part_present(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_v8e_non_series_page_pass(self):
+        # series_total alone (no `series`) must not trip the boundary regex.
+        self.repo.write("content/posting/plain.md",
+                        '+++\ntitle = "Plain"\ndate = 2026-06-22\n[extra]\n'
+                        'seo_keyword = "x"\n+++\nbody')
+        r = qv.check_v8e_series_part_present(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
     def test_dashboard_invalid_json_fail(self):
         self.repo.write("data/broken.json", "{ not: valid json, }")
         r = qv.check_dashboard_json(self.repo.ctx())

@@ -416,6 +416,44 @@ def check_v8c_series_registration(ctx: Ctx) -> CheckResult:
     return CheckResult("V8", title, PASS)
 
 
+# Frontmatter helpers for the per-page series-part detector below.
+# `series = "..."` but NOT `series_part`/`series_total` (the trailing `_` guards
+# the boundary). Drafts (`draft = true`) are excluded — Zola skips them at build.
+_FM_SERIES_RE = re.compile(r'(?m)^\s*series\s*=\s*["\']')
+_FM_SERIES_PART_RE = re.compile(r'(?m)^\s*series_part\s*=')
+_FM_DRAFT_RE = re.compile(r'(?m)^\s*draft\s*=\s*true\b')
+_FM_BLOCK_RE = re.compile(r"^\+\+\+\s*\n(.*?)\n\+\+\+", re.DOTALL)
+
+
+def check_v8e_series_part_present(ctx: Ctx) -> CheckResult:
+    """V8 — every NON-draft page that joins a series (`extra.series`) MUST also set
+    `extra.series_part`. series-listing.html groups those pages and runs
+    `sort(attribute="extra.series_part")`; Tera's `sort` raises
+    "attribute 'extra.series_part' does not reference a field" if ANY page in the
+    group lacks it → the whole `zola build` fails (CI red, no deploy). This recurs
+    whenever a series post is added with incomplete frontmatter, so guard it
+    statically — qa_check.py runs no `zola build`, so only CI caught it before."""
+    title = "Series page has series_part (sort safety)"
+    hits = []
+    for p in ctx.glob("content/**/*.md"):
+        txt = p.read_text(encoding="utf-8", errors="ignore")
+        m = _FM_BLOCK_RE.match(txt)
+        fm = m.group(1) if m else ""
+        if not fm or _FM_DRAFT_RE.search(fm):
+            continue
+        if _FM_SERIES_RE.search(fm) and not _FM_SERIES_PART_RE.search(fm):
+            hits.append(f"{p.relative_to(ctx.root)}: có extra.series nhưng thiếu series_part")
+    if hits:
+        return CheckResult("V8", title, FAIL,
+                           diagnosis='trang thuộc series mà thiếu extra.series_part → '
+                                     'sort(attribute="extra.series_part") trong series-listing.html '
+                                     'vỡ zola build ("does not reference a field")',
+                           fix="thêm series_part = <n> vào [extra] (bài pillar/tổng quan dùng 0); "
+                               "mọi bài cùng series phải có series_part",
+                           details=hits)
+    return CheckResult("V8", title, PASS)
+
+
 def check_v9_v10_process(ctx: Ctx) -> CheckResult:
     """V9/V10 — stale base & dirty-PR merge race are PR-time / git-history
     vaccines, not single-checkout static signals. Surface them as a reminder so
@@ -3101,6 +3139,7 @@ DETECTORS = [
     check_v8b_template_block_balance,
     check_v8c_series_registration,
     check_v8d_tera_map_literal,
+    check_v8e_series_part_present,
     check_v19_domain_migration_drift,
     check_domain_root_url_vaccine,
     check_v9_v10_process,
