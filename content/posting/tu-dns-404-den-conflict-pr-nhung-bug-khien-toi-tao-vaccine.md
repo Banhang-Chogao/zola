@@ -136,4 +136,4 @@ Ba pattern này xuất hiện ở mọi hệ thống phần mềm đủ phức t
 - **Bài 4:** [Bài Học Xây Hệ Thống Tự Chữa Lỗi](/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/) — những gì không hoạt động như tôi nghĩ
 - **Bài 5:** [Hướng Phát Triển Tiếp Theo](/posting/direction-cms-seo-engine-he-vaccine-tu-tien-hoa/) — vaccine tự sinh, SEO engine, CMS
 
-Xem thêm bài [10 Vaccine CLAUDE.md](/10-vaccine-claude-md-giam-loi-production/) và trang [Insights](/insights/) để thấy vaccine đang vận hành thực tế.
+Xem thêm bài [10 Vaccine CLAUDE.md](/10-vaccine-claude-md-giam-loi-production/) và trang [Insights](/shortensea/insights/) để thấy vaccine đang vận hành thực tế.
