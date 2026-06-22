@@ -80,12 +80,80 @@ tạo workflow mới, Claude phải tự đánh giá:
 | `fixrule8` | Rule conflict detector | Phát hiện mâu thuẫn trong rule (read-only) |
 | `?? ` / `run list` / `wip8` | Status trackers | Xem trạng thái workspace, CI, deploy |
 | `runner` / `tieptuc8` | Resume/continue | Tiếp tục tác vụ dở, retry failed workflow |
+| `f pr <N> [N2…]` | Follow PR until merged | Poll CI checks, auto-merge khi xanh, báo kết quả |
+| `f pr2` | Paste CI error → auto-fix | Nhận text/log dán vào → match vaccine → fix ASAP |
 
 ---
 
 ## 2.1 FIX-MERGE — Merge / Conflict Resolution Shortcuts
 
 Khi bị merge conflict, PR `dirty`, hoặc branch stale relative to `main` — dùng phím tắt này.
+
+### `f pr2` — Paste CI error/log → auto-fix theo Vaccine
+
+**Mục đích**: User dán bất kỳ CI log, error message, PR state, GitHub check output vào
+terminal → Claude đọc, match với Vaccine library (V1–V31) hoặc resolution pattern →
+tự chẩn đoán và fix ASAP không hỏi lại.
+
+**Cú pháp**: Gõ `f pr2` rồi dán text vào (hoặc dán URL PR/run, hoặc log thô).
+
+**Hành động (THỰC THI NGAY)**:
+
+1. **Đọc toàn bộ text dán vào** — không truncate, không bỏ qua.
+2. **Extract signals**: tên check fail, error message, file conflict, vaccine pattern.
+3. **Match Vaccine** (V1–V31 trong CLAUDE.md §4):
+   - Khớp → **FIXER tương ứng ngay**, không chẩn lại từ đầu.
+   - Không khớp → chẩn đoán mới với `ff`/`ff9`, ghi log incident.
+4. **Fix tự động** (delta tối thiểu):
+   - Conflict (`data/*.json`) → `git checkout origin/main -- <file>`
+   - Template conflict → merge giữ cả 2 bên
+   - QA fail / Tera syntax → sửa file, `zola check`
+   - Build fail → xem log CI, apply fixer
+5. **Verify**: `zola check` → `python3 scripts/qa_check.py` (nếu cần).
+6. **Commit + Push** → báo kết quả 1 dòng.
+
+**Output**: `✅ Fixed: <mô tả fix>` hoặc `❌ Cannot auto-fix: <lý do> — cần manual`.
+
+### `f pr <N> [N2…]` — Follow PR(s) until merged
+
+**Mục đích**: Theo dõi 1 hoặc nhiều PR cho đến khi tất cả merge hoặc fail — poll CI
+checks, auto-merge qua `try_auto_merge.py` khi xanh, báo trạng thái realtime. Dừng
+khi tất cả PR đạt terminal state (merged / closed / failed).
+
+**Cú pháp**:
+```
+f pr 742
+f pr 742 741
+f pr https://github.com/Banhang-Chogao/zola/pull/742
+```
+
+**Hành động (THỰC THI NGAY)**:
+
+1. **Parse PR numbers** từ argument — nhận số nguyên hoặc URL GitHub PR.
+2. **Check CI ngay** cho mỗi PR: `gh pr checks <N>`.
+3. **In bảng trạng thái** tức thì:
+   ```
+   | PR | Branch | qa-check | ensure-pr | Trạng thái |
+   |---|---|---|---|---|
+   | #742 | feat/... | ⏳ pending | ✅ pass | Chờ QA |
+   ```
+4. **Arm Monitor** (persistent) poll mỗi 20s cho tất cả PR trong danh sách:
+   - Khi `qa-check` = `pass` → gọi `python3 scripts/try_auto_merge.py --pr <N>`
+   - Khi `qa-check` = `fail/error` → in log lỗi, escalate user
+   - Khi PR state = `MERGED` → đánh dấu done, xóa khỏi poll list
+   - Khi tất cả PR done → dừng Monitor, in báo cáo cuối
+5. **ScheduleWakeup** fallback 120s (cache-warm) trong khi chờ Monitor.
+6. **Dừng loop** khi tất cả PR đạt terminal state; dừng Monitor bằng TaskStop.
+
+**Output báo cáo cuối (khi xong)**:
+```
+F PR Summary
+PR #742: ✅ MERGED — feat(ui): breadcrumb tools
+PR #741: ✅ MERGED — refactor(seo): rename Google Rank
+All PRs merged.
+```
+
+**Nếu PR fail**: in job log lỗi, không tự merge, escalate để user fix rồi gọi lại `f pr`.
 
 ### `prn` — PR Now (đẩy thay đổi hiện tại thành PR vào main)
 
@@ -124,6 +192,7 @@ Format bắt buộc:
 | `tieptuc8` | Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở (todo, push, PR, CI, macro) |
 | `wip8` | Read-only workspace tracker + live CI feed (WIP + TheoDoi8 gộp) — 2 bảng MD: workspace đang dở & trạng thái commit/CI gần nhất |
 | `backend8` | So main SHA vs Render backend SHA — phát hiện split-brain static↔backend (V16) |
+| `f pr <N> [N2…]` | Theo dõi 1+ PR cho đến khi merge — poll CI, auto-merge khi xanh, báo trạng thái |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
 | `bb` | Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY, human, 1000+ từ, chuẩn SEO; chờ duyệt trước khi đăng |
