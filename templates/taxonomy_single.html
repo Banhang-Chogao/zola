@@ -5,8 +5,8 @@
 
 {% block title %}{{ term.name }} | {{ config.title }}{% endblock %}
 
-{# Chuyên mục premium đang khóa → SEO-safe noindex. #}
-{% block robots %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% if term.slug == "premium" and premium_lock %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
+{# Chuyên mục premium đang khóa → SEO-safe noindex. Bỏ qua khi free_trial bật. #}
+{% block robots %}{% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}{% set free_trial = config.extra.premium_free_trial_active | default(value=false) %}{% if term.slug == "premium" and premium_lock and not free_trial %}noindex, follow{% else %}{{ super() }}{% endif %}{% endblock %}
 
 {% block main %}
     {# Chuyên mục premium: LUÔN hiển thị listing (teaser card) để người đọc duyệt &
