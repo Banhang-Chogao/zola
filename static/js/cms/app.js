@@ -16,6 +16,12 @@
   var shell = document.getElementById("cms-shell");
   if (!shell) return;
   var BASE = (shell.dataset.cmsBase || "").replace(/\/$/, "");
+  // Live blog backend (OAuth-backed GSC cache). Mirrors seo-reality-gsc.js so the
+  // dashboard reads the SAME real clicks/impressions/pages the backend already holds.
+  var AUTH_API = (shell.dataset.cmsAuthApi || "").replace(/\/$/, "") || (function () {
+    var m = document.querySelector('meta[name="vipzone-auth-api"]');
+    return m && m.content ? m.content.replace(/\/$/, "") : "https://blog-vipzone-api.onrender.com";
+  })();
 
   /* ---------- tiny helpers ---------- */
   function $(s, p) { return (p || document).querySelector(s); }
@@ -187,10 +193,11 @@
         ls >= 80 ? "good" : (ls >= 60 ? "optimize" : "risk"));
     } else { setKpi("linkstrength", "—", "Chưa có dữ liệu liên kết", "neutral"); }
 
-    // Live KPIs from static/data (best-effort).
-    fetchJSON(BASE + "/data/gsc-metrics.json").then(function (g) {
+    // Live KPIs — backend cache first, snapshot fallback (best-effort).
+    fetchGsc().then(function (g) {
       if (g && g.connected) {
-        setKpi("ctr", (g.ctr != null ? (g.ctr * 100).toFixed(1) : "—") + "<small>%</small>", "28 ngày qua", "good");
+        // bundle.ctr is already a percentage (server multiplies by 100).
+        setKpi("ctr", (g.ctr != null ? Number(g.ctr).toFixed(1) : "—") + "<small>%</small>", "28 ngày qua", "good");
         setKpi("impressions", fmtNum(g.impressions), "28 ngày qua", "good");
         setKpi("position", g.avg_position != null ? Number(g.avg_position).toFixed(1) : "—", "vị trí TB", g.avg_position <= 10 ? "good" : "optimize");
       } else {
@@ -248,6 +255,23 @@
     return fetch(url, { cache: "no-store" })
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; });
+  }
+
+  function gscHasData(g) {
+    if (!g || !g.connected) return false;
+    return g.impressions != null || g.clicks != null || g.indexed_pages != null ||
+      (g.top_pages && g.top_pages.length) || (g.top_queries && g.top_queries.length);
+  }
+
+  // GSC bundle: prefer the live backend cache (real, OAuth-backed) then the
+  // build-time snapshot. The CI snapshot can be the "not connected" placeholder
+  // (CI lacks the refresh-token secret) while the backend already has real data —
+  // so live-first is what surfaces real metrics on the dashboard.
+  function fetchGsc() {
+    var live = AUTH_API ? fetchJSON(AUTH_API + "/gsc/metrics") : Promise.resolve(null);
+    return live.then(function (g) {
+      return gscHasData(g) ? g : fetchJSON(BASE + "/data/gsc-metrics.json");
+    });
   }
 
   /* ============================================================
@@ -641,7 +665,7 @@
   }
 
   RENDER.alerts = function () {
-    fetchJSON(BASE + "/data/gsc-metrics.json").then(function (gsc) {
+    fetchGsc().then(function (gsc) {
       var alerts = buildAlerts(gsc);
       var wrap = $("[data-cms-alerts]");
       var current = "all";

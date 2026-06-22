@@ -62,7 +62,7 @@ Quy tắc an toàn:
 
 ## GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN Là Gì?
 
-Khi xử lý trên [GitHub Actions](/posting/github-actions-ci-cd-cho-nguoi-moi/), bạn cần hiểu rõ từng trạng thái merge. Đây là key để biết khi nào an toàn merge, khi nào cần chờ hoặc fix.
+Khi xử lý trên [GitHub Actions](/github-actions-ci-cd-cho-nguoi-moi/), bạn cần hiểu rõ từng trạng thái merge. Đây là key để biết khi nào an toàn merge, khi nào cần chờ hoặc fix.
 
 Sau khi force-push, GitHub status bar hiển thị: `UNSTABLE`. Tôi đợi vài phút rồi check lại thành `UNKNOWN`. Khi đó tôi hoang mang.
 
@@ -95,8 +95,12 @@ Tổng: **10–15 phút là bình thường** lần đầu hoặc cold start.
 
 **Nếu force-push (khi conflict/pending):** CI chạy lại từ đầu = +10–15 phút nữa. Đó là lý do tại sao:
 - Force-push nhiều lần = chờ lâu
-- Nên rebase cẩn thận trước force-push (xem lại [lệnh Git cơ bản](/posting/lenh-git-co-ban-init-add-commit-status/) nếu cần)
-- Hoặc dùng `git push --force-with-lease` (safer) — xem [best practices Git](/posting/bao-mat-best-practices-git-github/)
+<<<<<<< HEAD
+- Nên [rebase](/lenh-git-co-ban-init-add-commit-status/) cẩn thận trước force-push
+=======
+- Nên rebase cẩn thận trước force-push (xem lại [lệnh Git cơ bản](/lenh-git-co-ban-init-add-commit-status/) nếu cần)
+>>>>>>> origin/main
+- Hoặc dùng `git push --force-with-lease` (safer) — xem [best practices Git](/bao-mat-best-practices-git-github/)
 
 ## Khi Nào An Toàn Merge? Checklist
 

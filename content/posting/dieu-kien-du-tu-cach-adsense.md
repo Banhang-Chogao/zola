@@ -28,9 +28,9 @@ q = "Blogger và YouTube có điều kiện AdSense khác website riêng không?
 a = "Có. Blogger và các host partner dùng hosted AdSense account — đăng ký qua tài khoản host, không cần tự dán code trong nhiều trường hợp. YouTube dùng AdSense for YouTube qua YouTube Studio, với ngưỡng đủ tư cách monetization riêng. Cả hai vẫn phải tuân thủ policies và restrictions tương ứng."
 +++
 
-> 📚 **Google AdSense Foundation Series (Bài 2/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), bài này đi vào câu hỏi thực tế nhất trước khi bấm **Sign up**: **điều kiện AdSense** là gì và làm sao biết mình **đủ tư cách AdSense**? Tôi bám [Eligibility requirements for AdSense](https://support.google.com/adsense/answer/9724?hl=en) — phần "Before you sign up" trong Google AdSense Help.
+> 📚 **Google AdSense Foundation Series (Bài 2/15)** — Sau [Bài 1: Google AdSense là gì & khung Program policies](/google-adsense-la-gi-chinh-sach-chuong-trinh/), bài này đi vào câu hỏi thực tế nhất trước khi bấm **Sign up**: **điều kiện AdSense** là gì và làm sao biết mình **đủ tư cách AdSense**? Tôi bám [Eligibility requirements for AdSense](https://support.google.com/adsense/answer/9724?hl=en) — phần "Before you sign up" trong Google AdSense Help.
 
-Ở [Bài 1](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), tôi đã nói AdSense không phải quyền mặc định sau khi có website — đó là **đặc quyền có điều kiện**. Bài 2 cụ thể hóa điều kiện đó: tuổi, nội dung, quyền sở hữu site và tuân thủ chính sách. Nếu bạn vừa [tạo blog với Zola](/posting/tao-blog-voi-zola/) và đang xây nền tảng organic qua [SEO Foundation Series](/posting/seo-la-gi-huong-dan-co-ban-google-search/), đây là bước kiểm tra trước khi gửi duyệt — tránh lãng phí thời gian chờ "Getting ready" rồi bị từ chối vì thiếu một trong các yêu cầu cơ bản.
+Ở [Bài 1](/google-adsense-la-gi-chinh-sach-chuong-trinh/), tôi đã nói AdSense không phải quyền mặc định sau khi có website — đó là **đặc quyền có điều kiện**. Bài 2 cụ thể hóa điều kiện đó: tuổi, nội dung, quyền sở hữu site và tuân thủ chính sách. Nếu bạn vừa [tạo blog với Zola](/tao-blog-voi-zola/) và đang xây nền tảng organic qua [SEO Foundation Series](/seo-la-gi-huong-dan-co-ban-google-search/), đây là bước kiểm tra trước khi gửi duyệt — tránh lãng phí thời gian chờ "Getting ready" rồi bị từ chối vì thiếu một trong các yêu cầu cơ bản.
 
 <!-- more -->
 
@@ -40,7 +40,7 @@ Google gom yêu cầu tham gia chương trình vào trang [Eligibility requireme
 
 > *If you have your own content that meets our policies and you're 18 or over, you can sign up for AdSense.*
 
-Dịch ra tiếng Việt dễ hiểu: bạn cần **nội dung của riêng mình**, **tuân thủ policies**, và **đủ 18 tuổi** — khi đó mới có thể đăng ký. Đây là khung tối thiểu; thực tế Google còn kiểm tra thêm **quyền sở hữu site**, **khả năng đặt mã quảng cáo**, và **mức độ sẵn sàng của website** (chi tiết hơn ở [**Bài 3: Website sẵn sàng cho AdSense**](/posting/website-san-sang-cho-adsense/)).
+Dịch ra tiếng Việt dễ hiểu: bạn cần **nội dung của riêng mình**, **tuân thủ policies**, và **đủ 18 tuổi** — khi đó mới có thể đăng ký. Đây là khung tối thiểu; thực tế Google còn kiểm tra thêm **quyền sở hữu site**, **khả năng đặt mã quảng cáo**, và **mức độ sẵn sàng của website** (chi tiết hơn ở [**Bài 3: Website sẵn sàng cho AdSense**](/website-san-sang-cho-adsense/)).
 
 Điều quan trọng tôi muốn nhấn mạnh: **đủ tư cách AdSense** (eligible) khác với **được duyệt** (approved). Đủ tư cách nghĩa là bạn đáp ứng các yêu cầu đầu vào để *nộp đơn*; duyệt hay không còn phụ thuộc review thực tế — nội dung, UX, traffic, lịch sử domain… Bài 10 trong series sẽ đi sâu nguyên nhân từ chối; bài này giúp bạn không bỏ sót điều kiện *trước* khi gửi.
 
@@ -51,7 +51,7 @@ Tài liệu Google chia [Eligibility requirements](https://support.google.com/ad
 | Trụ cột | Google yêu cầu gì | Tài liệu tham chiếu |
 |---|---|---|
 | **Nội dung** | Unique, interesting, high-quality — thu hút audience | [Site readiness](https://support.google.com/adsense/answer/7299563?hl=en) |
-| **Chính sách** | Tuân thủ Program policies + Publisher Policies | [Program policies](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/) |
+| **Chính sách** | Tuân thủ Program policies + Publisher Policies | [Program policies](/google-adsense-la-gi-chinh-sach-chuong-trinh/) |
 | **Tuổi & pháp lý** | Từ 18 tuổi; đơn từ người đủ tuổi theo Terms | [Terms and Conditions](https://adsense.google.com/adsense/terms) |
 
 Ngoài ba trụ cột trên, Google nhắc thêm trong cùng trang và bài [Owning the site](https://support.google.com/adsense/answer/91205?hl=en):
@@ -100,7 +100,7 @@ Google không công bố số bài tối thiểu hay traffic tối thiểu trong
 
 ### "Attract an audience" — có độc giả tiềm năng
 
-Nội dung phải đủ hấp dẫn để người dùng *muốn* đọc — không chỉ đủ để "lách" bot review. Liên kết với [SEO Foundation Series](/posting/seo-la-gi-huong-dan-co-ban-google-search/): traffic organic hợp lệ và nội dung hữu ích đi cùng nhau. AdSense không thay thế SEO; cả hai cùng cần **helpful content**.
+Nội dung phải đủ hấp dẫn để người dùng *muốn* đọc — không chỉ đủ để "lách" bot review. Liên kết với [SEO Foundation Series](/seo-la-gi-huong-dan-co-ban-google-search/): traffic organic hợp lệ và nội dung hữu ích đi cùng nhau. AdSense không thay thế SEO; cả hai cùng cần **helpful content**.
 
 ## Quyền sở hữu site và truy cập mã HTML {#quyen-so-huu}
 
@@ -137,7 +137,7 @@ Google yêu cầu site **đã tuân thủ** [Program policies](https://support.g
 
 ### Hai lớp chính sách nội dung
 
-Từ [Bài 1](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/), nhớ lại:
+Từ [Bài 1](/google-adsense-la-gi-chinh-sach-chuong-trinh/), nhớ lại:
 
 | Lớp | Ý nghĩa với eligibility |
 |---|---|
@@ -231,8 +231,8 @@ Trước khi bấm [Sign up for AdSense](https://adsense.google.com/adsense/sign
 - [ ] **Sở hữu site**: Tôi kiểm soát domain/hosting và chỉnh được `<head>` (hoặc CMS tương đương).
 - [ ] **Nội dung gốc**: Không copy/scrape; có đủ bài chất lượng, không placeholder.
 - [ ] **Policies**: Đã đối chiếu [Publisher Policies](https://support.google.com/adsense/answer/9335564?hl=en) — không có chủ đề cấm.
-- [ ] **Program policies**: Đã đọc [khung Bài 1](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/) — traffic sources, ad placement chưa vi phạm (kể cả khi chưa có mã ads).
-- [ ] **Site readiness**: Navigation, About, Privacy, Contact — xem [Bài 3](/posting/website-san-sang-cho-adsense/).
+- [ ] **Program policies**: Đã đọc [khung Bài 1](/google-adsense-la-gi-chinh-sach-chuong-trinh/) — traffic sources, ad placement chưa vi phạm (kể cả khi chưa có mã ads).
+- [ ] **Site readiness**: Navigation, About, Privacy, Contact — xem [Bài 3](/website-san-sang-cho-adsense/).
 - [ ] **Blogger/YouTube?**: Nếu có, đăng ký đúng luồng host/Studio — không mix với form website.
 
 Google còn có [AdSense site approvals video series](https://www.youtube.com/playlist?list=PLbAFD4oU9Ycr4j1pViNjkS82rhbF293H8) — tôi khuyên xem ít nhất vài video trước lần apply đầu.
@@ -243,7 +243,7 @@ Sau khi xác nhận **đủ tư cách AdSense** theo bài này, bước tiếp t
 
 1. **Đọc** [Make sure your site's pages are ready for AdSense](https://support.google.com/adsense/answer/7299563?hl=en) — nội dung Bài 3.
 2. **Đối chiếu** nội dung với [Google Publisher Policies](https://support.google.com/adsense/answer/9335564?hl=en).
-3. **Hoàn thiện SEO cơ bản** qua [SEO Foundation Series](/posting/seo-la-gi-huong-dan-co-ban-google-search/) — giúp site có audience thật trước khi monetize.
+3. **Hoàn thiện SEO cơ bản** qua [SEO Foundation Series](/seo-la-gi-huong-dan-co-ban-google-search/) — giúp site có audience thật trước khi monetize.
 
 Nếu một mục checklist trên chưa tick, sửa trước — apply sớm khi chưa đủ điều kiện thường chỉ thêm vài tuần chờ và một lần từ chối trong lịch sử tài khoản.
 
@@ -253,4 +253,4 @@ Nếu một mục checklist trên chưa tick, sửa trước — apply sớm khi
 
 Blogger dùng **hosted AdSense** qua tài khoản host; YouTube dùng **AdSense for YouTube** qua Studio — mỗi kênh có eligibility riêng nhưng đều bám policies. Website riêng (như blog Zola) cần chủ động đặt mã và chứng minh ownership.
 
-Tiếp theo: [**Bài 3: Website sẵn sàng cho AdSense**](/posting/website-san-sang-cho-adsense/) — nội dung gốc chi tiết, navigation, UX và những gì Google reviewer thực sự nhìn khi duyệt site.
+Tiếp theo: [**Bài 3: Website sẵn sàng cho AdSense**](/website-san-sang-cho-adsense/) — nội dung gốc chi tiết, navigation, UX và những gì Google reviewer thực sự nhìn khi duyệt site.

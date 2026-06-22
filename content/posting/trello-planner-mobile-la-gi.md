@@ -30,7 +30,7 @@ q = "Tôi cần cài thêm ứng dụng nào để dùng Planner trên điện t
 a = "Không. Planner nằm trong chính ứng dụng Trello cho iOS và Android. Bạn chỉ cần cập nhật ứng dụng lên bản mới và đăng nhập tài khoản. Một vài thiết lập sâu hơn, như luật lọc theo từng board, đôi khi cần chỉnh trên bản web rồi mới phản ánh xuống mobile."
 +++
 
-> 📚 **Series Trello Mobile Calendar — Bài 1/2.** Đây là một phần trong loạt bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Bắt đầu từ [bài tổng quan của series](/posting/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/).
+> 📚 **Series Trello Mobile Calendar — Bài 1/2.** Đây là một phần trong loạt bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Bắt đầu từ [bài tổng quan của series](/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/).
 
 Nếu bạn từng mở Trello lên và thấy hàng chục card nằm rải rác trong các list "To Do", "Doing", "Done" mà vẫn không biết hôm nay nên làm gì trước, thì bạn không cô đơn. Trong nhiều năm mình cũng dùng Trello như một bảng ghi chú khổng lồ: việc thì nhiều, nhưng cảm giác về thời gian thì gần như không có. Mọi thứ chỉ thật sự thay đổi khi mình bắt đầu xem **Trello Planner mobile** như một cuốn lịch làm việc cá nhân, ngay trên màn hình điện thoại. Bài này mình kể lại Planner là gì, nó làm được gì trên mobile, và làm sao để biến Trello từ một đống card thành một lịch có nhịp.
 
@@ -112,5 +112,5 @@ Cuối cùng, Planner chỉ phát huy khi card của bạn được nhập due d
 
 ## Đọc tiếp trong series
 
-- [Bài tổng quan — Trello Mobile Calendar: dùng Trello như lịch làm việc cá nhân](/posting/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/)
-- [Bài 2 — Cách kết nối Google Calendar hoặc Outlook Calendar với Trello Planner trên mobile](/posting/ket-noi-google-calendar-outlook-voi-trello-planner-mobile/)
+- [Bài tổng quan — Trello Mobile Calendar: dùng Trello như lịch làm việc cá nhân](/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/)
+- [Bài 2 — Cách kết nối Google Calendar hoặc Outlook Calendar với Trello Planner trên mobile](/ket-noi-google-calendar-outlook-voi-trello-planner-mobile/)
