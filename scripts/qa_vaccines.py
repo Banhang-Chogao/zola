@@ -416,6 +416,47 @@ def check_v8c_series_registration(ctx: Ctx) -> CheckResult:
     return CheckResult("V8", title, PASS)
 
 
+def check_v32_series_part_sort_guard(ctx: Ctx) -> CheckResult:
+    """V32 — `sort(attribute="extra.series_part")` must be guarded by a `filter`.
+
+    Tera's `sort` filter raises and breaks `zola build` when ANY element lacks the
+    sort attribute. series-listing.html groups posts by `extra.series`; a single
+    member (e.g. a series overview page) declaring `extra.series` WITHOUT
+    `extra.series_part` is enough to crash every paginated section render
+    ("Filter call 'sort' failed → attribute 'extra.series_part' does not reference
+    a field"). The durable fix narrows the list with
+    `| filter(attribute="extra.series_part")` BEFORE sorting, so a missing part can
+    never abort the build.
+    """
+    title = "Series sort guarded against missing series_part (V32)"
+    html = ctx.read("templates/macros/series-listing.html")
+    if html is None:
+        return CheckResult("V32", title, SKIP,
+                           diagnosis="series-listing.html không tồn tại")
+
+    # Every `sort(attribute="extra.series_part")` must be applied to a variable
+    # produced by `filter(attribute="extra.series_part")` (a sortable subset).
+    sort_calls = re.findall(
+        r"(\w+)\s*\|\s*sort\(attribute\s*=\s*[\"']extra\.series_part[\"']\)", html)
+    filtered_vars = set(re.findall(
+        r"set\s+(\w+)\s*=\s*[^\n]*\|\s*filter\(attribute\s*=\s*[\"']extra\.series_part[\"']\)",
+        html))
+    unguarded = [v for v in sort_calls if v not in filtered_vars]
+
+    if unguarded:
+        return CheckResult(
+            "V32", title, FAIL,
+            diagnosis="sort(attribute=\"extra.series_part\") chạy trên list CHƯA lọc "
+                      "→ 1 bài thiếu series_part làm vỡ zola build",
+            fix='lọc trước: {% set sortable = group_pages | '
+                'filter(attribute="extra.series_part") %} rồi sortable | sort(...); '
+                'bài thuộc series phải có series_part (trang tổng quan = 0)',
+            details=[f"sort trên biến chưa filter: '{v}'" for v in unguarded])
+    if not sort_calls:
+        return CheckResult("V32", title, PASS)
+    return CheckResult("V32", title, PASS)
+
+
 def check_v9_v10_process(ctx: Ctx) -> CheckResult:
     """V9/V10 — stale base & dirty-PR merge race are PR-time / git-history
     vaccines, not single-checkout static signals. Surface them as a reminder so
@@ -1743,6 +1784,7 @@ def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
         "scripts/test_qa_vaccines.py",
         "scripts/test_dns_vaccine.py",
         "CLAUDE.md",                     # vaccine library legitimately documents old domain
+        "docs/vaccine-archive.md",       # vaccine archive documentation
         "data/merge-report.json",
         "data/dns-vaccine-report.json",
         "data/performance-audit-snapshot.json",  # checked separately (snapshot check)
@@ -2979,8 +3021,9 @@ def check_v30_tools_route_preservation(ctx: Ctx) -> CheckResult:
 # existing user shortcut. History: `bb` (paste a news article from any publisher →
 # an original SEOMONEY blog post) lost its first-class registration during a
 # restructuring — no .claude/commands/bb.md skill and no row in the shortcuts.md
-# `help` table — while a narrower `dantri` stand-in was added. This detector makes
-# that regression a hard, visible FAIL.
+# `help` table. A separate `dantri` shortcut (a dantri.com.vn crawler — a different
+# tool, NOT a bb alias) existed, which masked the loss. This detector makes that
+# regression a hard, visible FAIL. Both `bb` and `dantri` are required (distinct).
 #
 # A required shortcut is "first-class" when BOTH hold:
 #   * shortcuts.md documents it with a `### `<name>`` section (source of truth), and
@@ -3099,6 +3142,7 @@ DETECTORS = [
     check_v8b_template_block_balance,
     check_v8c_series_registration,
     check_v8d_tera_map_literal,
+    check_v32_series_part_sort_guard,
     check_v19_domain_migration_drift,
     check_domain_root_url_vaccine,
     check_v9_v10_process,

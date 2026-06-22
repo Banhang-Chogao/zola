@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T14:07:39.317435+07:00",
+  "updated_at": "2026-06-22T21:02:00.328583+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -23227,15 +23227,15 @@
         }
       ]
     },
-    "content/posting/tai-sao-chung-ta-can-ngu.md": {
-      "title": "Tại sao chúng ta cần ngủ? Khoa học nói gì về giấc ngủ",
-      "slug": "tai-sao-chung-ta-can-ngu",
-      "keyword": "tại sao cần ngủ, khoa học giấc ngủ",
-      "score": 78.0,
-      "grade": "C",
-      "word_count": 732,
+    "content/posting/to-chuc-hop-tac-va-phat-trien-kinh-te-oecd.md": {
+      "title": "OECD là gì? Vai trò và ảnh hưởng toàn cầu",
+      "slug": "to-chuc-hop-tac-va-phat-trien-kinh-te-oecd",
+      "keyword": "OECD là gì",
+      "score": 94.0,
+      "grade": "A",
+      "word_count": 1206,
       "published": true,
-      "scored_at": "2026-06-22T13:43:24.262176+07:00",
+      "scored_at": "2026-06-22T14:21:13.206341+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -23258,11 +23258,11 @@
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -23275,6 +23275,127 @@
         },
         "og_image": {
           "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 0.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "thiếu internal link (liên kết tới bài/section khác trong blog)"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T14:20:38.596872+07:00",
+          "score": 87.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-22T14:20:46.274158+07:00",
+          "score": 90.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:20:52.741213+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:20:58.097437+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:02.077541+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:08.286666+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:10.983280+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:13.206341+07:00",
+          "score": 94.0,
+          "grade": "A"
+        }
+      ]
+    },
+    "content/posting/cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam.md": {
+      "title": "Cách gắn Cloudflare Turnstile vào blog tĩnh để chống spam",
+      "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+      "keyword": "",
+      "score": 60.8,
+      "grade": "D",
+      "word_count": 671,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:16.685000+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 0.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 0.0,
           "max": 6
         },
         "img_alt": {
@@ -23303,28 +23424,115 @@
         }
       },
       "issues": [
-        "từ khoá 'tại sao cần ngủ, khoa học giấc ngủ' chưa có trong đoạn mở đầu",
-        "từ khoá 'tại sao cần ngủ, khoa học giấc ngủ' chưa xuất hiện trong heading H2 nào",
+        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword",
+        "không nên dùng H1 (#) trong body — title đã là H1",
+        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém",
         "thiếu internal link (liên kết tới bài/section khác trong blog)",
         "thiếu external link tới nguồn uy tín"
       ],
       "history": [
         {
-          "scored_at": "2026-06-22T13:43:24.262176+07:00",
-          "score": 78.0,
-          "grade": "C"
+          "scored_at": "2026-06-22T15:00:16.685000+07:00",
+          "score": 60.8,
+          "grade": "D"
         }
       ]
     },
-    "content/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi.md": {
-      "title": "Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?",
-      "slug": "bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi",
-      "keyword": "thiếu ngủ thay đổi hành vi, ảnh hưởng của mất ngủ",
+    "content/posting/watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan.md": {
+      "title": "Watermark cho blog: bảo vệ ảnh và giữ thương hiệu nhất quán",
+      "slug": "watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan",
+      "keyword": "watermark cho blog",
+      "score": 96.0,
+      "grade": "A+",
+      "word_count": 1465,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:33.836840+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 6.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "description 189 ký tự (nên 50–160)"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T15:00:33.836840+07:00",
+          "score": 96.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md": {
+      "title": "QA Gatekeeper GitHub Actions: bài học merge conflict",
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
+      "keyword": "fix QA Gatekeeper GitHub Actions",
       "score": 76.0,
       "grade": "C",
-      "word_count": 832,
+      "word_count": 1851,
       "published": true,
-      "scored_at": "2026-06-22T13:44:12.985134+07:00",
+      "scored_at": "2026-06-22T15:00:44.934461+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -23392,649 +23600,28 @@
         }
       },
       "issues": [
-        "từ khoá 'thiếu ngủ thay đổi hành vi, ảnh hưởng của mất ngủ' chưa có trong title",
-        "từ khoá 'thiếu ngủ thay đổi hành vi, ảnh hưởng của mất ngủ' chưa có trong đoạn mở đầu",
-        "từ khoá 'thiếu ngủ thay đổi hành vi, ảnh hưởng của mất ngủ' chưa xuất hiện trong heading H2 nào",
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa có trong title",
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa có trong đoạn mở đầu",
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa xuất hiện trong heading H2 nào",
         "thiếu external link tới nguồn uy tín"
       ],
       "history": [
         {
-          "scored_at": "2026-06-22T13:44:12.985134+07:00",
+          "scored_at": "2026-06-22T15:00:44.934461+07:00",
           "score": 76.0,
           "grade": "C"
         }
       ]
     },
-    "content/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac.md": {
-      "title": "Tại sao tóc bạn trở nên bạc khi stress? Có đúng là do tuổi tác?",
-      "slug": "tai-sao-toc-trang-do-stress-va-tuoi-tac",
-      "keyword": "tóc bạc vì stress, tóc bạc do tuổi tác",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 777,
+    "content/posting/toi-moi-mua-mysign-chu-ky-so-ca-nhan-dung-de-lam-gi.md": {
+      "title": "Tôi mới mua chữ ký số MySign: chữ ký số cá nhân dùng để làm gì?",
+      "slug": "toi-moi-mua-mysign-chu-ky-so-ca-nhan-dung-de-lam-gi",
+      "keyword": "chữ ký số mysign",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1117,
       "published": true,
-      "scored_at": "2026-06-22T13:44:57.940626+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'tóc bạc vì stress, tóc bạc do tuổi tác' chưa có trong title",
-        "từ khoá 'tóc bạc vì stress, tóc bạc do tuổi tác' chưa có trong đoạn mở đầu",
-        "từ khoá 'tóc bạc vì stress, tóc bạc do tuổi tác' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:44:57.940626+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/co-tho-sau-benh-phoi-co-lai-khong.md": {
-      "title": "Có thở sâu lâu ngày sẽ bị bệnh phổi không?",
-      "slug": "co-tho-sau-benh-phoi-co-lai-khong",
-      "keyword": "thở sâu bệnh phổi, thở sâu có hại không",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 641,
-      "published": true,
-      "scored_at": "2026-06-22T13:45:39.459802+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'thở sâu bệnh phổi, thở sâu có hại không' chưa có trong title",
-        "từ khoá 'thở sâu bệnh phổi, thở sâu có hại không' chưa có trong đoạn mở đầu",
-        "từ khoá 'thở sâu bệnh phổi, thở sâu có hại không' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:45:39.459802+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/tai-sao-oxy-hoa-trang-diều-dung.md": {
-      "title": "Tại sao oxygen hoá trắng để dùng? Khoa học đằng sau tẩy trắng",
-      "slug": "tai-sao-oxy-hoa-trang-diều-dung",
-      "keyword": "tẩy trắng oxygen, hóa học tẩy trắng",
-      "score": 79.0,
-      "grade": "C",
-      "word_count": 773,
-      "published": true,
-      "scored_at": "2026-06-22T13:46:23.223517+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 3.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "slug nên dạng chữ-thường-nối-gạch-ngang, không dấu",
-        "từ khoá 'tẩy trắng oxygen, hóa học tẩy trắng' chưa có trong title",
-        "từ khoá 'tẩy trắng oxygen, hóa học tẩy trắng' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:46:23.223517+07:00",
-          "score": 79.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/di-tho-co-than-kinh-hanh-dong-nao.md": {
-      "title": "Dị thường hô hấp — thần kinh hay hành động não bộ?",
-      "slug": "di-tho-co-than-kinh-hanh-dong-nao",
-      "keyword": "dị thường hô hấp, thở gấp lo âu",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 832,
-      "published": true,
-      "scored_at": "2026-06-22T13:47:11.048462+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'dị thường hô hấp, thở gấp lo âu' chưa có trong title",
-        "từ khoá 'dị thường hô hấp, thở gấp lo âu' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:47:11.048462+07:00",
-          "score": 82.0,
-          "grade": "B"
-        }
-      ]
-    },
-    "content/posting/tai-sao-muc-co-de-tro-nem-khi-tua-may-tinh.md": {
-      "title": "Tại sao mắt chúng ta có dễ trở nên cận khi nhìn màn hình?",
-      "slug": "tai-sao-muc-co-de-tro-nem-khi-tua-may-tinh",
-      "keyword": "cận thị màn hình, mắt mỏi",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 796,
-      "published": true,
-      "scored_at": "2026-06-22T13:47:59.861581+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'cận thị màn hình, mắt mỏi' chưa có trong title",
-        "từ khoá 'cận thị màn hình, mắt mỏi' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:47:59.861581+07:00",
-          "score": 82.0,
-          "grade": "B"
-        }
-      ]
-    },
-    "content/posting/co-nhat-am-thuc-bi-dung-tai-gi.md": {
-      "title": "Tại sao nếm thức ăn khó ngay sau khi ngửi nước sốt?",
-      "slug": "co-nhat-am-thuc-bi-dung-tai-gi",
-      "keyword": "nếm vị khi cảm lạnh, mất vị",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 888,
-      "published": true,
-      "scored_at": "2026-06-22T13:48:51.407717+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'nếm vị khi cảm lạnh, mất vị' chưa có trong title",
-        "từ khoá 'nếm vị khi cảm lạnh, mất vị' chưa có trong đoạn mở đầu",
-        "từ khoá 'nếm vị khi cảm lạnh, mất vị' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:48:51.407717+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/tai-sao-chung-ta-can-vitamin-d.md": {
-      "title": "Tại sao chúng ta cần vitamin D? Bao lâu nằng nắng thì đủ?",
-      "slug": "tai-sao-chung-ta-can-vitamin-d",
-      "keyword": "vitamin D, nắng mặt trời",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 874,
-      "published": true,
-      "scored_at": "2026-06-22T13:49:38.018395+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'vitamin D, nắng mặt trời' chưa có trong title",
-        "từ khoá 'vitamin D, nắng mặt trời' chưa có trong đoạn mở đầu",
-        "từ khoá 'vitamin D, nắng mặt trời' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:49:38.018395+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/co-an-muon-toi-la-co-than-kinh-khong.md": {
-      "title": "Ăn muộn tối — có thực sự ảnh hưởng tiêu hoá?",
-      "slug": "co-an-muon-toi-la-co-than-kinh-khong",
-      "keyword": "ăn muộn tối, tiêu hoá",
-      "score": 90.0,
-      "grade": "A",
-      "word_count": 778,
-      "published": true,
-      "scored_at": "2026-06-22T13:50:25.817540+07:00",
+      "scored_at": "2026-06-22T20:57:49.996894+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -24061,7 +23648,7 @@
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -24085,7 +23672,7 @@
           "max": 6
         },
         "external_link": {
-          "got": 0.0,
+          "got": 4.0,
           "max": 4
         },
         "tags": {
@@ -24101,1357 +23688,29 @@
           "max": 3
         }
       },
-      "issues": [
-        "từ khoá 'ăn muộn tối, tiêu hoá' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
+      "issues": [],
       "history": [
         {
-          "scored_at": "2026-06-22T13:50:25.817540+07:00",
+          "scored_at": "2026-06-22T20:57:30.280033+07:00",
           "score": 90.0,
           "grade": "A"
-        }
-      ]
-    },
-    "content/posting/tai-sao-moi-toi-dau-dau.md": {
-      "title": "Tại sao cơn đau đầu lại thường xuyên vào mỗi tối?",
-      "slug": "tai-sao-moi-toi-dau-dau",
-      "keyword": "đau đầu tối, nguyên nhân đau đầu",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 759,
-      "published": true,
-      "scored_at": "2026-06-22T13:51:16.821549+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
         },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'đau đầu tối, nguyên nhân đau đầu' chưa có trong title",
-        "từ khoá 'đau đầu tối, nguyên nhân đau đầu' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
         {
-          "scored_at": "2026-06-22T13:51:16.821549+07:00",
-          "score": 82.0,
-          "grade": "B"
+          "scored_at": "2026-06-22T20:57:49.996894+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
-    "content/posting/co-soan-luong-lan-co-tot-khong.md": {
-      "title": "Nước lạnh vào sáng sớm — có tốt cho sức khỏe?",
-      "slug": "co-soan-luong-lan-co-tot-khong",
-      "keyword": "nước lạnh sáng, tác dụng nước lạnh",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 767,
+    "content/posting/chu-ky-dien-tu-va-chu-ky-so-khac-nhau-the-nao.md": {
+      "title": "Chữ ký điện tử và chữ ký số khác nhau thế nào? (Theo Luật 2023)",
+      "slug": "chu-ky-dien-tu-va-chu-ky-so-khac-nhau-the-nao",
+      "keyword": "chữ ký điện tử và chữ ký số",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1046,
       "published": true,
-      "scored_at": "2026-06-22T13:52:02.833858+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'nước lạnh sáng, tác dụng nước lạnh' chưa có trong title",
-        "từ khoá 'nước lạnh sáng, tác dụng nước lạnh' chưa có trong đoạn mở đầu",
-        "từ khoá 'nước lạnh sáng, tác dụng nước lạnh' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:52:02.833858+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang.md": {
-      "title": "Tại sao quả chín nhanh dưới nắng? Vật lý hay hóa học?",
-      "slug": "tai-sao-trai-hoa-non-khi-de-duoi-nang",
-      "keyword": "quả chín, ethylene gas",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 782,
-      "published": true,
-      "scored_at": "2026-06-22T13:52:50.162466+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'quả chín, ethylene gas' chưa có trong title",
-        "từ khoá 'quả chín, ethylene gas' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:52:50.162466+07:00",
-          "score": 82.0,
-          "grade": "B"
-        }
-      ]
-    },
-    "content/posting/co-thuc-benh-tim-mach-di-thua-gen.md": {
-      "title": "Bệnh tim mạch — di truyền hay do thói quen sống?",
-      "slug": "co-thuc-benh-tim-mach-di-thua-gen",
-      "keyword": "bệnh tim di truyền, gen tim mạch",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 790,
-      "published": true,
-      "scored_at": "2026-06-22T13:53:36.592828+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'bệnh tim di truyền, gen tim mạch' chưa có trong title",
-        "từ khoá 'bệnh tim di truyền, gen tim mạch' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:53:36.592828+07:00",
-          "score": 82.0,
-          "grade": "B"
-        }
-      ]
-    },
-    "content/posting/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua.md": {
-      "title": "Tại sao tóc bạn mọc tròn và rạn cơ là bình thường?",
-      "slug": "tai-sao-tac-het-moc-tron-va-ran-co-lang-qua",
-      "keyword": "tóc tự nhiên, rạn cơ bình thường",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 855,
-      "published": true,
-      "scored_at": "2026-06-22T13:54:28.686004+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'tóc tự nhiên, rạn cơ bình thường' chưa có trong title",
-        "từ khoá 'tóc tự nhiên, rạn cơ bình thường' chưa có trong đoạn mở đầu",
-        "từ khoá 'tóc tự nhiên, rạn cơ bình thường' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:54:28.686004+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/co-chuan-tac-co-tim-khong.md": {
-      "title": "Nhịp tim bình thường là bao nhiêu lần một phút?",
-      "slug": "co-chuan-tac-co-tim-khong",
-      "keyword": "nhịp tim bình thường, đo nhịp tim",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 861,
-      "published": true,
-      "scored_at": "2026-06-22T13:55:20.447571+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'nhịp tim bình thường, đo nhịp tim' chưa có trong title",
-        "từ khoá 'nhịp tim bình thường, đo nhịp tim' chưa có trong đoạn mở đầu",
-        "từ khoá 'nhịp tim bình thường, đo nhịp tim' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:55:20.447571+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/tai-sao-tach-nang-khong-can-det-xuat.md": {
-      "title": "Tại sao chúng ta có một mặt khi nhìn gương và một mặt thực tế?",
-      "slug": "tai-sao-tach-nang-khong-can-det-xuat",
-      "keyword": "gương mặt khác, mirror image",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 729,
-      "published": true,
-      "scored_at": "2026-06-22T13:56:06.567818+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'gương mặt khác, mirror image' chưa có trong title",
-        "từ khoá 'gương mặt khác, mirror image' chưa có trong đoạn mở đầu",
-        "từ khoá 'gương mặt khác, mirror image' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:56:06.567818+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/co-la-co-sop-hoat-dong-nhu-the-nao.md": {
-      "title": "Cơ sò — các cơ chúng ta hoạt động như thế nào?",
-      "slug": "co-la-co-sop-hoat-dong-nhu-the-nao",
-      "keyword": "cơ hoạt động, co cơ",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 795,
-      "published": true,
-      "scored_at": "2026-06-22T13:56:55.450982+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'cơ hoạt động, co cơ' chưa có trong title",
-        "từ khoá 'cơ hoạt động, co cơ' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:56:55.450982+07:00",
-          "score": 82.0,
-          "grade": "B"
-        }
-      ]
-    },
-    "content/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao.md": {
-      "title": "Tại sao vi khuẩn đường ruột ảnh hưởng đến não của chúng ta?",
-      "slug": "tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao",
-      "keyword": "vi khuẩn đường ruột, trục ruột-não",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 790,
-      "published": true,
-      "scored_at": "2026-06-22T13:57:43.537363+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'vi khuẩn đường ruột, trục ruột-não' chưa có trong title",
-        "từ khoá 'vi khuẩn đường ruột, trục ruột-não' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:57:43.537363+07:00",
-          "score": 82.0,
-          "grade": "B"
-        }
-      ]
-    },
-    "content/posting/tai-sao-duong-keo-tro-nua-giap-tiet-thai-khong.md": {
-      "title": "Đường keo — có thực sự tốt hay chỉ là hàng loạt đường hóa học?",
-      "slug": "tai-sao-duong-keo-tro-nua-giap-tiet-thai-khong",
-      "keyword": "đường keo collagen, giá trị dinh dưỡng đường keo",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 686,
-      "published": true,
-      "scored_at": "2026-06-22T13:58:27.544228+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'đường keo collagen, giá trị dinh dưỡng đường keo' chưa có trong title",
-        "từ khoá 'đường keo collagen, giá trị dinh dưỡng đường keo' chưa có trong đoạn mở đầu",
-        "từ khoá 'đường keo collagen, giá trị dinh dưỡng đường keo' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:58:27.544228+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/tai-sao-muc-la-mau-xanh-va-nuoc-bien-la-xanh.md": {
-      "title": "Tại sao mắt con người nhìn thấy màu xanh nhưng đại dương thì không?",
-      "slug": "tai-sao-muc-la-mau-xanh-va-nuoc-bien-la-xanh",
-      "keyword": "màu xanh nước biển, khoa học màu sắc",
-      "score": 79.0,
-      "grade": "C",
-      "word_count": 761,
-      "published": true,
-      "scored_at": "2026-06-22T13:59:17.850717+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 3.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "title 67 ký tự (nên 20–65)",
-        "từ khoá 'màu xanh nước biển, khoa học màu sắc' chưa có trong title",
-        "từ khoá 'màu xanh nước biển, khoa học màu sắc' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T13:59:17.850717+07:00",
-          "score": 79.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/co-thuc-toa-dao-to-cao-tro-khong.md": {
-      "title": "Sự thật về toả cao — có thực sự tốt hay chỉ là quảng cáo?",
-      "slug": "co-thuc-toa-dao-to-cao-tro-khong",
-      "keyword": "detox body, cơ thể tự làm sạch",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 806,
-      "published": true,
-      "scored_at": "2026-06-22T14:00:08.199506+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'detox body, cơ thể tự làm sạch' chưa có trong title",
-        "từ khoá 'detox body, cơ thể tự làm sạch' chưa có trong đoạn mở đầu",
-        "từ khoá 'detox body, cơ thể tự làm sạch' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T14:00:08.199506+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/tai-sao-dong-vat-co-the-thay-trang-sac-toc.md": {
-      "title": "Tại sao một số động vật có thể thay đổi màu tóc/lông thế nào?",
-      "slug": "tai-sao-dong-vat-co-the-thay-trang-sac-toc",
-      "keyword": "thay đổi màu động vật, chromatophores",
-      "score": 78.0,
-      "grade": "C",
-      "word_count": 766,
-      "published": true,
-      "scored_at": "2026-06-22T14:00:58.027792+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 6.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "description 162 ký tự (nên 50–160)",
-        "từ khoá 'thay đổi màu động vật, chromatophores' chưa có trong title",
-        "từ khoá 'thay đổi màu động vật, chromatophores' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T14:00:58.027792+07:00",
-          "score": 78.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/co-mua-o-day-chi-la-mua-truyen-phat.md": {
-      "title": "Mưa — từ nước bay lên tới mưa rơi xuống",
-      "slug": "co-mua-o-day-chi-la-mua-truyen-phat",
-      "keyword": "chu trình nước, hình thành mưa",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 850,
-      "published": true,
-      "scored_at": "2026-06-22T14:01:54.964072+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'chu trình nước, hình thành mưa' chưa có trong title",
-        "từ khoá 'chu trình nước, hình thành mưa' chưa có trong đoạn mở đầu",
-        "từ khoá 'chu trình nước, hình thành mưa' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T14:01:54.964072+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/tai-sao-ai-co-the-lam-ngu-tro-ngu.md": {
-      "title": "Tại sao AI ngày nay có thể vẫn còn sai lầm trong việc nhận diện?",
-      "slug": "tai-sao-ai-co-the-lam-ngu-tro-ngu",
-      "keyword": "AI sai lầm, bias dữ liệu",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 819,
-      "published": true,
-      "scored_at": "2026-06-22T14:02:48.066763+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "từ khoá 'AI sai lầm, bias dữ liệu' chưa có trong title",
-        "từ khoá 'AI sai lầm, bias dữ liệu' chưa có trong đoạn mở đầu",
-        "từ khoá 'AI sai lầm, bias dữ liệu' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
-        {
-          "scored_at": "2026-06-22T14:02:48.066763+07:00",
-          "score": 76.0,
-          "grade": "C"
-        }
-      ]
-    },
-    "content/posting/co-thuc-vi-tri-chi-co-1-mun-sao.md": {
-      "title": "Địa cầu và vũ trụ — vị trí Trái Đất trong không gian là gì?",
-      "slug": "co-thuc-vi-tri-chi-co-1-mun-sao",
-      "keyword": "vị trí Trái Đất, vũ trụ",
-      "score": 90.0,
-      "grade": "A",
-      "word_count": 823,
-      "published": true,
-      "scored_at": "2026-06-22T14:03:43.003155+07:00",
+      "scored_at": "2026-06-22T20:59:00.689332+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -25478,7 +23737,7 @@
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -25502,7 +23761,7 @@
           "max": 6
         },
         "external_link": {
-          "got": 0.0,
+          "got": 4.0,
           "max": 4
         },
         "tags": {
@@ -25518,27 +23777,34 @@
           "max": 3
         }
       },
-      "issues": [
-        "từ khoá 'vị trí Trái Đất, vũ trụ' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
+      "issues": [],
       "history": [
         {
-          "scored_at": "2026-06-22T14:03:43.003155+07:00",
-          "score": 90.0,
+          "scored_at": "2026-06-22T20:58:47.938142+07:00",
+          "score": 92.0,
           "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T20:58:54.431374+07:00",
+          "score": 96.0,
+          "grade": "A+"
+        },
+        {
+          "scored_at": "2026-06-22T20:59:00.689332+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
-    "content/posting/tai-sao-bien-khi-nong-tro-thanh-toa-khong-can-mac-cap.md": {
-      "title": "Tại sao biển khi nóng trở nên axit — điều gì xảy ra với san hô?",
-      "slug": "tai-sao-bien-khi-nong-tro-thanh-toa-khong-can-mac-cap",
-      "keyword": "axit hóa biển, san hô",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 719,
+    "content/posting/luat-giao-dich-dien-tu-2023-va-nghi-dinh-23-2025.md": {
+      "title": "Luật Giao dịch điện tử 2023 và Nghị định 23/2025 về chữ ký số",
+      "slug": "luat-giao-dich-dien-tu-2023-va-nghi-dinh-23-2025",
+      "keyword": "luật giao dịch điện tử 2023",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1022,
       "published": true,
-      "scored_at": "2026-06-22T14:04:33.730259+07:00",
+      "scored_at": "2026-06-22T21:00:09.773646+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -25557,7 +23823,7 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
@@ -25565,7 +23831,7 @@
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -25589,7 +23855,7 @@
           "max": 6
         },
         "external_link": {
-          "got": 0.0,
+          "got": 4.0,
           "max": 4
         },
         "tags": {
@@ -25605,28 +23871,34 @@
           "max": 3
         }
       },
-      "issues": [
-        "từ khoá 'axit hóa biển, san hô' chưa có trong title",
-        "từ khoá 'axit hóa biển, san hô' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
+      "issues": [],
       "history": [
         {
-          "scored_at": "2026-06-22T14:04:33.730259+07:00",
-          "score": 82.0,
-          "grade": "B"
+          "scored_at": "2026-06-22T20:59:54.788503+07:00",
+          "score": 91.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T21:00:02.311034+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T21:00:09.773646+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
-    "content/posting/co-nhung-con-vat-khong-phai-co-nhim-trong-nao.md": {
-      "title": "Có những con vật không có não được không? Sứa ngu là như thế nào?",
-      "slug": "co-nhung-con-vat-khong-phai-co-nhim-trong-nao",
-      "keyword": "động vật không có não, sứa",
-      "score": 76.0,
-      "grade": "C",
-      "word_count": 699,
+    "content/posting/trai-nghiem-ky-so-tu-xa-mysign-viettel-ca.md": {
+      "title": "Trải nghiệm ký số từ xa với MySign của Viettel-CA",
+      "slug": "trai-nghiem-ky-so-tu-xa-mysign-viettel-ca",
+      "keyword": "ký số từ xa mysign",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 995,
       "published": true,
-      "scored_at": "2026-06-22T14:05:27.625704+07:00",
+      "scored_at": "2026-06-22T21:01:05.337104+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -25645,15 +23917,15 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -25677,7 +23949,7 @@
           "max": 6
         },
         "external_link": {
-          "got": 0.0,
+          "got": 4.0,
           "max": 4
         },
         "tags": {
@@ -25693,29 +23965,24 @@
           "max": 3
         }
       },
-      "issues": [
-        "từ khoá 'động vật không có não, sứa' chưa có trong title",
-        "từ khoá 'động vật không có não, sứa' chưa có trong đoạn mở đầu",
-        "từ khoá 'động vật không có não, sứa' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
+      "issues": [],
       "history": [
         {
-          "scored_at": "2026-06-22T14:05:27.625704+07:00",
-          "score": 76.0,
-          "grade": "C"
+          "scored_at": "2026-06-22T21:01:05.337104+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     },
-    "content/posting/tai-sao-canh-co-mau-xanh-va-thuc-vat-can-anh-sang.md": {
-      "title": "Tại sao cánh có màu xanh? Quang hợp — cây cối cần ánh sáng gì?",
-      "slug": "tai-sao-canh-co-mau-xanh-va-thuc-vat-can-anh-sang",
-      "keyword": "chlorophyll, quang hợp cây",
-      "score": 82.0,
-      "grade": "B",
-      "word_count": 842,
+    "content/posting/khi-nao-chu-ky-so-co-gia-tri-phap-ly.md": {
+      "title": "Khi nào chữ ký số thật sự có giá trị pháp lý?",
+      "slug": "khi-nao-chu-ky-so-co-gia-tri-phap-ly",
+      "keyword": "chữ ký số có giá trị pháp lý",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1013,
       "published": true,
-      "scored_at": "2026-06-22T14:06:28.502225+07:00",
+      "scored_at": "2026-06-22T21:02:00.328583+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -25734,7 +24001,7 @@
           "max": 6
         },
         "kw_title": {
-          "got": 0.0,
+          "got": 8.0,
           "max": 8
         },
         "kw_intro": {
@@ -25742,7 +24009,7 @@
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -25766,7 +24033,7 @@
           "max": 6
         },
         "external_link": {
-          "got": 0.0,
+          "got": 4.0,
           "max": 4
         },
         "tags": {
@@ -25782,106 +24049,17 @@
           "max": 3
         }
       },
-      "issues": [
-        "từ khoá 'chlorophyll, quang hợp cây' chưa có trong title",
-        "từ khoá 'chlorophyll, quang hợp cây' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
+      "issues": [],
       "history": [
         {
-          "scored_at": "2026-06-22T14:06:28.502225+07:00",
-          "score": 82.0,
-          "grade": "B"
-        }
-      ]
-    },
-    "content/posting/co-thuc-tac-hanh-con-nguoi-la-do-khoa-hoc-hay-tam-ly.md": {
-      "title": "Tác hành con người — do khoa học sinh học hay tâm lý học quyết định?",
-      "slug": "co-thuc-tac-hanh-con-nguoi-la-do-khoa-hoc-hay-tam-ly",
-      "keyword": "hành vi con người, tự do ý chí",
-      "score": 73.0,
-      "grade": "C",
-      "word_count": 1027,
-      "published": true,
-      "scored_at": "2026-06-22T14:07:39.317435+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
+          "scored_at": "2026-06-22T21:01:55.033070+07:00",
+          "score": 96.0,
+          "grade": "A+"
         },
-        "title_length": {
-          "got": 3.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 0.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 0.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 0.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 0.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [
-        "title 68 ký tự (nên 20–65)",
-        "từ khoá 'hành vi con người, tự do ý chí' chưa có trong title",
-        "từ khoá 'hành vi con người, tự do ý chí' chưa có trong đoạn mở đầu",
-        "từ khoá 'hành vi con người, tự do ý chí' chưa xuất hiện trong heading H2 nào",
-        "thiếu external link tới nguồn uy tín"
-      ],
-      "history": [
         {
-          "scored_at": "2026-06-22T14:07:39.317435+07:00",
-          "score": 73.0,
-          "grade": "C"
+          "scored_at": "2026-06-22T21:02:00.328583+07:00",
+          "score": 100.0,
+          "grade": "A+"
         }
       ]
     }

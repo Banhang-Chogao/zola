@@ -543,6 +543,21 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 #### V31 — Shortcut registry preservation: restructuring operation guidelines must not delete existing user shortcuts (required: `bb`)
 → See `docs/vaccine-archive.md` for FIXER & validation steps.
 
+#### V32 — Series sort crash: `sort(attribute="extra.series_part")` vỡ `zola build` khi 1 bài trong series thiếu `series_part`
+**Dấu hiệu:** `zola build` đỏ với `Failed to render 'section.html'` → `Filter call 'sort' failed`
+→ `attribute 'extra.series_part' does not reference a field`. Nguyên nhân: macro
+`series-listing.html` gom các bài cùng `extra.series` rồi `| sort(attribute="extra.series_part")`;
+Tera `sort` yêu cầu **MỌI** phần tử có thuộc tính đó → chỉ cần 1 bài (vd trang "tổng quan"
+của series) khai báo `extra.series` mà **thiếu** `extra.series_part` là vỡ toàn bộ build.
+**FIXER (đã chốt):** (1) Hardening template — lọc trước khi sort:
+`{% set sortable = group_pages | filter(attribute="extra.series_part") %}` rồi
+`sortable | sort(...)` (áp cho cả nhánh manifest lẫn orphan trong `series-listing.html`);
+(2) Bài thuộc series phải có `extra.series_part` — trang tổng quan/intro đặt `series_part = 0`
+(badge `{% if %}` coi 0 là falsy nên không hiện "Bài 0/N"). Detector tĩnh `qa_vaccines.py`
+(`check_v32_series_part_sort_guard`): FAIL nếu template còn `sort(attribute="extra.series_part")`
+không qua `filter` trước. Test: `scripts/test_qa_vaccines.py`.
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
+
 
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 
