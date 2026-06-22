@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "fix(yaml): faq-autofixer.yml multi-line commit msg breaks YAML parse (V8 pattern) [fix/category-url-thinkpad]",
+      "tag": "fix",
+      "lines_added": 3,
+      "lines_removed": 11,
+      "highlights": [
+        "fix(links): update /categories/cong-nghe/ → /topic/cong-nghe/ in thinkpad post",
+        "fix(yaml): faq-autofixer.yml multi-line commit msg breaks YAML parse (V8 pattern)",
+        ".github/workflows/faq-autofixer.yml (modified, +1/-9)",
+        "content/posting/mot-ly-do-mua-laptop-thinkpad.md (modified, +2/-2)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 761
+    },
+    {
+      "date": "2026-06-22",
       "title": "fix(conflict): merge origin/main — V10 content add/add conflicts in PR #702 [claude/blissful-thompson-oy4z08]",
       "tag": "fix",
       "lines_added": 0,
