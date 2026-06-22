@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-22T19:19:39Z",
+  "updated_at": "2026-06-22T19:25:48Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 22,
-    "this_week": 22,
+    "today": 23,
+    "this_week": 23,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "feature": 66,
       "unknown": 44,
-      "fix": 69,
+      "fix": 68,
       "chore": 13,
-      "feature": 65,
       "content": 5,
       "ci": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 743,
+      "pr_title": "feat(shortcuts): add prq — PR Queue Audit shortcut [claude/laughing-volta-f15gwx]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/743",
+      "merged_at": "2026-06-22T19:19:22Z",
+      "merge_commit_sha": "e4510bb19f7bb7f6206d2f913b27ab7b374ab033",
+      "merge_commit_short": "e4510bb",
+      "head_branch": "claude/laughing-volta-f15gwx",
+      "summary_vi": "feat(shortcuts): add prq — PR Queue Audit shortcut",
+      "change_type": "feature",
+      "files_changed": 1,
+      "additions": 62,
+      "deletions": 2,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 975,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27977886633",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 741,
       "pr_title": "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status [claude/trusting-cori-db6sew]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 974,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27977403143",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 740,
@@ -55,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 973,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27976230035",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 739,
@@ -566,9 +585,9 @@
       "deletions": 131,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 945,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27919722785",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 689,
@@ -3794,25 +3813,6 @@
       "files_changed": 6,
       "additions": 1162,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 493,
-      "pr_title": "fix(content): sửa 40 internal link hỏng trong 19 bài cluster (/bai-N- → slug thật)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/493",
-      "merged_at": "2026-06-19T09:44:30Z",
-      "merge_commit_sha": "4fd83d5ad2e72b69296468e20ad44c6c8a167048",
-      "merge_commit_short": "4fd83d5",
-      "head_branch": "claude/brave-noether-l8peqw",
-      "summary_vi": "`qa-check` đỏ trên mọi PR (gồm **#490** docs-only) vì `qa-404-checker.py` báo **40 internal broken** → exit 2 → chặn auto-merge. Đây là **lỗi sẵn có trên `main`**, không thuộc diff của #490 (checker scan toàn repo).",
-      "change_type": "fix",
-      "files_changed": 19,
-      "additions": 65,
-      "deletions": 65,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
