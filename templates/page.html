@@ -440,9 +440,6 @@
                 {% for p in related %}
                     <article class="related-card">
                         <a class="related-card__image" href="{{ p.permalink }}">
-                            {% if p.taxonomies.categories %}
-                                <span class="related-card__cat">{{ p.taxonomies.categories | first }}</span>
-                            {% endif %}
                             <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}"
                                  width="800" height="500"
                                  loading="lazy" decoding="async">

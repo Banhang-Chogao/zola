@@ -47,7 +47,7 @@ eKYC (electronic Know Your Customer) là quy trình **định danh điện tử*
 
 ## Các bước mở tài khoản ngân hàng số online
 
-1. **Tải app** từ store chính thức của ngân hàng số bạn chọn (xem [top ngân hàng số tốt nhất 2026](/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/)).
+1. **Tải app** từ store chính thức của ngân hàng số bạn chọn (xem [top ngân hàng số tốt nhất 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/)).
 2. **Nhập số điện thoại** và xác thực OTP.
 3. **Chụp CCCD gắn chip** mặt trước/sau theo hướng dẫn.
 4. **Quét khuôn mặt** (nhìn thẳng, nghiêng theo yêu cầu) để khớp với ảnh trên CCCD.
@@ -75,7 +75,7 @@ eKYC (electronic Know Your Customer) là quy trình **định danh điện tử*
 - Bật **sinh trắc học** và thông báo giao dịch để bảo mật.
 - Nạp một khoản nhỏ và thử chuyển khoản kiểm tra.
 - Phân tích chi tiêu bằng công cụ O-Dashboard cho Liobank ngay trên blog (chạy offline trên trình duyệt).
-- Cân nhắc mở thêm một app khác để tận dụng [ưu đãi hoàn tiền](/posting/ngan-hang-so-hoan-tien-nhieu-nhat/).
+- Cân nhắc mở thêm một app khác để tận dụng [ưu đãi hoàn tiền](/ngan-hang-so-hoan-tien-nhieu-nhat/).
 
 > 💡 **Ưu đãi (link giới thiệu):** Chọn Liobank để mở tài khoản? **Tải app và kích hoạt thẻ vật lý Liobank qua [link giới thiệu này](https://liobank.vn/rr/qyAJ) để được nhận hoàn tiền.** *(Link giới thiệu — mình có thể nhận ưu đãi khi bạn đăng ký, không phát sinh chi phí cho bạn.)*
 

@@ -75,7 +75,7 @@ Nếu bạn dùng một static site generator (như Zola) và muốn làm tươn
 7. **Cổng kiểm tra (QA gate)**: nếu một ảnh sở hữu mới chưa được đóng dấu, để CI báo đỏ — tự động hoá chỉ đáng tin khi có người gác cổng.
 8. **Viết tài liệu ngắn** cho chính bạn của tương lai: ảnh gốc bỏ vào đâu, ngoại lệ khai báo thế nào.
 
-Cách publish những thay đổi này lên production thì mình đã chia sẻ chi tiết trong bài [các lệnh Git đưa blog lên production](/posting/cac-lenh-git-dua-blog-len-production/) — watermark cũng đi qua đúng quy trình branch → QA → merge → deploy đó.
+Cách publish những thay đổi này lên production thì mình đã chia sẻ chi tiết trong bài [các lệnh Git đưa blog lên production](/cac-lenh-git-dua-blog-len-production/) — watermark cũng đi qua đúng quy trình branch → QA → merge → deploy đó.
 
 ## Khi nào không nên dùng watermark
 

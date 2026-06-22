@@ -28,7 +28,7 @@ q = "Vì sao Active Users của tôi nhỏ hơn Total Users?"
 a = "Trong GA4, Total Users là tổng người dùng duy nhất, còn Active Users chỉ tính người có phiên tương tác (engaged session). Báo cáo chuẩn của GA4 lấy Active Users làm chỉ số 'Users' chính, nên nó có thể nhỏ hơn Total Users."
 +++
 
-> 📚 **Series "10 ngày để hiểu Google Analytics" — Bài 2/5.** Ở [Bài 1](/posting/google-analytics-la-gi-lo-trinh-10-ngay/) mình đã dựng bản đồ tổng thể. Hôm nay ta soi kỹ ba con số mà mình tin là gây nhầm lẫn nhiều nhất cho người mới.
+> 📚 **Series "10 ngày để hiểu Google Analytics" — Bài 2/5.** Ở [Bài 1](/google-analytics-la-gi-lo-trinh-10-ngay/) mình đã dựng bản đồ tổng thể. Hôm nay ta soi kỹ ba con số mà mình tin là gây nhầm lẫn nhiều nhất cho người mới.
 
 Hồi đầu mình cứ tưởng "100 users" nghĩa là 100 lượt vào web. Sai. Rồi mình lại tưởng "New Users" là người chưa từng biết blog mình. Cũng không hẳn. Ba chỉ số **Users, New Users và Sessions** nghe đơn giản nhưng định nghĩa của chúng trong GA4 có vài cái bẫy. Hiểu sai từ đây thì mọi kết luận phía sau đều lệch.
 
@@ -116,8 +116,8 @@ Vài cái bẫy mình từng mắc, kể ra để bạn né:
 
 Bài này cho bạn cách đếm *bao nhiêu người* và *bao nhiêu lượt*. Nhưng số lượng chưa nói lên chất lượng: 1.000 sessions mà ai cũng thoát sau 2 giây thì không bằng 200 sessions đọc hết bài. Đó chính là việc của nhóm chỉ số *engagement* — chủ đề bài kế tiếp.
 
-Nếu bạn quan tâm tới việc kéo **New Users** từ Google, hãy đọc thêm [SEO là gì](/posting/seo-la-gi-huong-dan-co-ban-google-search/) để hiểu nguồn organic — bài 4 của series sẽ nối hai mạch này lại.
+Nếu bạn quan tâm tới việc kéo **New Users** từ Google, hãy đọc thêm [SEO là gì](/seo-la-gi-huong-dan-co-ban-google-search/) để hiểu nguồn organic — bài 4 của series sẽ nối hai mạch này lại.
 
-👉 **Đọc tiếp:** [Bài 3 — Engagement Rate, Average Engagement Time và Bounce Rate nói gì về nội dung của bạn?](/posting/engagement-rate-bounce-rate-google-analytics/). Quay lại [Bài 1](/posting/google-analytics-la-gi-lo-trinh-10-ngay/) hoặc xem cả series trong chuyên mục [Công nghệ](/categories/cong-nghe/).
+👉 **Đọc tiếp:** [Bài 3 — Engagement Rate, Average Engagement Time và Bounce Rate nói gì về nội dung của bạn?](/engagement-rate-bounce-rate-google-analytics/). Quay lại [Bài 1](/google-analytics-la-gi-lo-trinh-10-ngay/) hoặc xem cả series trong chuyên mục [Công nghệ](/topic/cong-nghe/).
 
 *Nguồn tham khảo: [Google Analytics Help — User metrics](https://support.google.com/analytics/answer/12253918) và tài liệu chính thức về [Active users trong GA4](https://support.google.com/analytics/answer/12253918).*

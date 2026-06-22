@@ -14,7 +14,7 @@ seo_keyword = "lệnh Git đưa blog lên production"
 featured = false
 +++
 
-Bài này liệt kê và giải thích toàn bộ các **lệnh Git đưa blog lên production** mà tôi đã dùng để viết, kiểm tra và xuất bản một bài viết trên blog tĩnh Zola — đúng theo thứ tự thực tế trong terminal. Nếu bạn chưa đọc bối cảnh, hãy xem trước [case study fix QA Gatekeeper GitHub Actions](/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/) để hiểu vì sao quy trình này lại quan trọng.
+Bài này liệt kê và giải thích toàn bộ các **lệnh Git đưa blog lên production** mà tôi đã dùng để viết, kiểm tra và xuất bản một bài viết trên blog tĩnh Zola — đúng theo thứ tự thực tế trong terminal. Nếu bạn chưa đọc bối cảnh, hãy xem trước [case study fix QA Gatekeeper GitHub Actions](/fix-qa-gatekeeper-github-actions-merge-conflict-zola/) để hiểu vì sao quy trình này lại quan trọng.
 
 Mục tiêu của bài là beginner-friendly: với mỗi lệnh, tôi sẽ nói rõ **nó làm gì**, **vì sao tôi dùng**, và **nó tránh được sai lầm nào**. Đây không phải lý thuyết Git hàn lâm, mà là đúng những lệnh một người viết blog cần để đưa nội dung từ máy mình lên production an toàn.
 
@@ -250,4 +250,4 @@ Nếu phải tóm trong một câu: **mỗi lệnh là một lớp kiểm tra**,
 
 Toàn bộ quy trình này không yêu cầu công cụ đắt tiền hay kiến thức Git nâng cao. Nó chỉ cần kỷ luật: đồng bộ, tạo nhánh, kiểm tra local, build sạch, soi diff, staging có chủ đích, commit rõ ràng, push, mở PR, theo dõi check.
 
-Nếu bạn muốn xem các lệnh này được đặt trong một quy trình hoàn chỉnh — kể cả khi không có trợ lý AI hỗ trợ — hãy đọc tiếp [viết blog bằng local terminal khi AI hết credit](/posting/viet-blog-bang-local-terminal-khi-ai-het-credit/). Và để hiểu vì sao việc chạy QA trước khi push lại quý đến vậy, [case study fix QA Gatekeeper GitHub Actions](/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/) sẽ cho bạn một ví dụ rất thật.
+Nếu bạn muốn xem các lệnh này được đặt trong một quy trình hoàn chỉnh — kể cả khi không có trợ lý AI hỗ trợ — hãy đọc tiếp [viết blog bằng local terminal khi AI hết credit](/viet-blog-bang-local-terminal-khi-ai-het-credit/). Và để hiểu vì sao việc chạy QA trước khi push lại quý đến vậy, [case study fix QA Gatekeeper GitHub Actions](/fix-qa-gatekeeper-github-actions-merge-conflict-zola/) sẽ cho bạn một ví dụ rất thật.

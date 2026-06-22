@@ -98,7 +98,7 @@ gh run list               # Workflow run gần nhất
 gh issue list             # Danh sách issue
 ```
 
-**Liên quan:** Xem bài [lệnh terminal kiểm tra PR GitHub](/posting/cac-lenh-terminal-kiem-tra-pr-github/) để biết chi tiết.
+**Liên quan:** Xem bài [lệnh terminal kiểm tra PR GitHub](/cac-lenh-terminal-kiem-tra-pr-github/) để biết chi tiết.
 
 ---
 

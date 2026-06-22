@@ -82,12 +82,12 @@ Bạn không phải thuộc lòng. Cứ biết "muốn xem nguồn traffic thì 
 | Ngày | Bài | Bạn sẽ nắm được |
 |------|-----|------------------|
 | 1–2 | Bài 1 — Tổng quan & lộ trình | GA4 là gì, event/user/session, bản đồ báo cáo |
-| 3–4 | [Bài 2 — Users, New Users, Sessions](/posting/users-new-users-sessions-google-analytics/) | Phân biệt 3 chỉ số dễ nhầm nhất |
+| 3–4 | [Bài 2 — Users, New Users, Sessions](/users-new-users-sessions-google-analytics/) | Phân biệt 3 chỉ số dễ nhầm nhất |
 | 5–6 | Bài 3 — Engagement & Bounce Rate | Đọc *chất lượng* traffic, không chỉ số lượng |
 | 7–8 | Bài 4 — Nguồn traffic | Organic, Direct, Referral, Social, Paid |
 | 9–10 | Bài 5 — Đọc báo cáo 15 phút/ngày | Checklist, KPI, thói quen theo dõi |
 
-Lộ trình này giả định bạn đã có một website. Nếu chưa, bạn có thể bắt đầu từ bài [tạo blog với Zola](/posting/tao-blog-voi-zola/) rồi quay lại đây. Và nếu mục tiêu cuối của bạn là thứ hạng tìm kiếm, nên đọc song song [SEO là gì](/posting/seo-la-gi-huong-dan-co-ban-google-search/) và [Google Search hoạt động thế nào](/posting/google-search-hoat-dong-the-nao/) — Analytics và SEO là hai mặt của một đồng xu.
+Lộ trình này giả định bạn đã có một website. Nếu chưa, bạn có thể bắt đầu từ bài [tạo blog với Zola](/tao-blog-voi-zola/) rồi quay lại đây. Và nếu mục tiêu cuối của bạn là thứ hạng tìm kiếm, nên đọc song song [SEO là gì](/seo-la-gi-huong-dan-co-ban-google-search/) và [Google Search hoạt động thế nào](/google-search-hoat-dong-the-nao/) — Analytics và SEO là hai mặt của một đồng xu.
 
 ## Cách gắn GA4 vào website (nhanh hơn bạn nghĩ)
 
@@ -98,7 +98,7 @@ Lộ trình này giả định bạn đã có một website. Nếu chưa, bạn 
 3. GA4 sinh ra một **Measurement ID** dạng `G-XXXXXXXXXX` và một đoạn Google Tag.
 4. Dán đoạn tag vào phần `<head>` của site — trực tiếp, hoặc gọn hơn là qua **Google Tag Manager**.
 
-Với blog tĩnh, mình thích cách chèn tag vào template chung (file `base.html` chẳng hạn) để mọi trang đều được đo. Nếu bạn dùng Zola, có thể tham khảo cách mình dựng site trong bài [tạo blog với Zola](/posting/tao-blog-voi-zola/) rồi chèn tag vào layout.
+Với blog tĩnh, mình thích cách chèn tag vào template chung (file `base.html` chẳng hạn) để mọi trang đều được đo. Nếu bạn dùng Zola, có thể tham khảo cách mình dựng site trong bài [tạo blog với Zola](/tao-blog-voi-zola/) rồi chèn tag vào layout.
 
 ## Cách kiểm tra GA4 đã chạy đúng chưa
 
@@ -134,6 +134,6 @@ Hiểu sớm ba điều này giúp bạn đỡ mất thời gian đi tìm "lỗi
 
 Bạn vừa có bản đồ tổng thể. Việc cần làm ngay hôm nay: đăng nhập [Google Analytics](https://analytics.google.com/), mở báo cáo **Realtime** và tự ghé thăm blog của mình để thấy dữ liệu nhảy theo thời gian thực — cảm giác "à, nó chạy thật" sẽ khiến bạn hứng thú học tiếp.
 
-👉 **Đọc tiếp:** [Bài 2 — Users, New Users và Sessions: 3 chỉ số khiến người mới dễ nhầm nhất](/posting/users-new-users-sessions-google-analytics/). Đây là ba con số bạn sẽ nhìn mỗi ngày, nên hiểu cho đúng từ đầu. Toàn bộ series nằm trong chuyên mục [Công nghệ](/categories/cong-nghe/).
+👉 **Đọc tiếp:** [Bài 2 — Users, New Users và Sessions: 3 chỉ số khiến người mới dễ nhầm nhất](/users-new-users-sessions-google-analytics/). Đây là ba con số bạn sẽ nhìn mỗi ngày, nên hiểu cho đúng từ đầu. Toàn bộ series nằm trong chuyên mục [Công nghệ](/topic/cong-nghe/).
 
 *Nguồn tham khảo: [Google Analytics Help — \[GA4\] Get started](https://support.google.com/analytics/answer/9304153) và [thông báo ngừng Universal Analytics](https://support.google.com/analytics/answer/11583528).*
