@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "updated_at": "2026-06-22T14:50:15.748590+07:00",
+=======
+  "updated_at": "2026-06-22T21:02:00.328583+07:00",
+>>>>>>> origin/main
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -11977,9 +11981,9 @@
       "keyword": "không được hoàn thuế GTGT",
       "score": 100.0,
       "grade": "A+",
-      "word_count": 1449,
+      "word_count": 1478,
       "published": true,
-      "scored_at": "2026-06-21T22:27:34.444991+07:00",
+      "scored_at": "2026-06-20T14:13:41.804382+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -12065,11 +12069,6 @@
         },
         {
           "scored_at": "2026-06-20T14:13:41.804382+07:00",
-          "score": 100.0,
-          "grade": "A+"
-        },
-        {
-          "scored_at": "2026-06-21T22:27:34.444991+07:00",
           "score": 100.0,
           "grade": "A+"
         }
@@ -22847,15 +22846,203 @@
         }
       ]
     },
-    "content/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md": {
-      "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
-      "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
-      "keyword": "auto fixer là gì",
+    "content/baochi/ngay-cua-cha-o-viet-nam-la-ngay-nao.md": {
+      "title": "Ngày của Cha ở Việt Nam là ngày nào?",
+      "slug": "ngay-cua-cha-o-viet-nam-la-ngay-nao",
+      "keyword": "Ngày của Cha ở Việt Nam là ngày nào",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 679,
+      "published": true,
+      "scored_at": "2026-06-22T00:53:54.821587+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-06-22T00:53:06.345874+07:00",
+          "score": 75.0,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-22T00:53:54.821587+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/baochi/cac-nuoc-chau-a-xu-ly-nha-sieu-mong-sieu-meo.md": {
+      "title": "Nhà siêu mỏng, siêu méo: các nước châu Á xử lý ra sao?",
+      "slug": "cac-nuoc-chau-a-xu-ly-nha-sieu-mong-sieu-meo",
+      "keyword": "nhà siêu mỏng siêu méo",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1617,
+      "published": true,
+      "scored_at": "2026-06-22T10:25:07.855367+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-06-22T10:24:40.204168+07:00",
+          "score": 86.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-22T10:24:54.680527+07:00",
+          "score": 90.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T10:25:00.744043+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T10:25:07.855367+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/cac-lenh-terminal-kiem-tra-pr-github.md": {
+      "title": "Câu lệnh kiểm tra PR GitHub từ terminal: hướng dẫn",
+      "slug": "cac-lenh-terminal-kiem-tra-pr-github",
+      "keyword": "câu lệnh kiểm tra PR GitHub",
       "score": 96.8,
       "grade": "A+",
-      "word_count": 1487,
+      "word_count": 1092,
       "published": true,
-      "scored_at": "2026-06-21T20:45:12.692014+07:00",
+      "scored_at": "2026-06-22T11:06:43.894513+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -22927,36 +23114,523 @@
       ],
       "history": [
         {
-          "scored_at": "2026-06-21T20:44:52.388752+07:00",
-          "score": 83.8,
+          "scored_at": "2026-06-22T11:06:13.428488+07:00",
+          "score": 67.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-22T11:06:20.462630+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-22T11:06:24.759577+07:00",
+          "score": 74.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-22T11:06:33.612389+07:00",
+          "score": 80.8,
           "grade": "B"
         },
         {
-          "scored_at": "2026-06-21T20:45:04.701086+07:00",
+          "scored_at": "2026-06-22T11:06:36.907158+07:00",
           "score": 86.8,
           "grade": "B"
         },
         {
-          "scored_at": "2026-06-21T20:45:09.331511+07:00",
-          "score": 92.8,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-21T20:45:12.692014+07:00",
+          "scored_at": "2026-06-22T11:06:43.894513+07:00",
           "score": 96.8,
           "grade": "A+"
         }
       ]
     },
-    "content/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer.md": {
-      "title": "Auto Fixer Tự Sửa Lỗi CI/CD: Case Study Thực Chiến",
-      "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
-      "keyword": "auto fixer tự sửa lỗi CI/CD",
+    "content/posting/top-10-cong-cu-terminal-mac-2026.md": {
+      "title": "Top 10 công cụ terminal cho Mac 2026: dev toolkit",
+      "slug": "top-10-cong-cu-terminal-mac-2026",
+      "keyword": "công cụ terminal cho Mac",
+      "score": 96.8,
+      "grade": "A+",
+      "word_count": 1235,
+      "published": true,
+      "scored_at": "2026-06-22T11:07:36.917147+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "không nên dùng H1 (#) trong body — title đã là H1"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T11:07:34.218077+07:00",
+          "score": 88.8,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-22T11:07:36.917147+07:00",
+          "score": 96.8,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/to-chuc-hop-tac-va-phat-trien-kinh-te-oecd.md": {
+      "title": "OECD là gì? Vai trò và ảnh hưởng toàn cầu",
+      "slug": "to-chuc-hop-tac-va-phat-trien-kinh-te-oecd",
+      "keyword": "OECD là gì",
+      "score": 94.0,
+      "grade": "A",
+      "word_count": 1206,
+      "published": true,
+      "scored_at": "2026-06-22T14:21:13.206341+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 0.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "thiếu internal link (liên kết tới bài/section khác trong blog)"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T14:20:38.596872+07:00",
+          "score": 87.0,
+          "grade": "B"
+        },
+        {
+          "scored_at": "2026-06-22T14:20:46.274158+07:00",
+          "score": 90.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:20:52.741213+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:20:58.097437+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:02.077541+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:08.286666+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:10.983280+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T14:21:13.206341+07:00",
+          "score": 94.0,
+          "grade": "A"
+        }
+      ]
+    },
+    "content/posting/cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam.md": {
+      "title": "Cách gắn Cloudflare Turnstile vào blog tĩnh để chống spam",
+      "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+      "keyword": "",
+      "score": 60.8,
+      "grade": "D",
+      "word_count": 671,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:16.685000+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 0.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 4.8,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 0.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 0.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 0.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "CHƯA khai báo [extra] seo_keyword → bỏ qua 20đ tiêu chí keyword",
+        "không nên dùng H1 (#) trong body — title đã là H1",
+        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém",
+        "thiếu internal link (liên kết tới bài/section khác trong blog)",
+        "thiếu external link tới nguồn uy tín"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T15:00:16.685000+07:00",
+          "score": 60.8,
+          "grade": "D"
+        }
+      ]
+    },
+    "content/posting/watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan.md": {
+      "title": "Watermark cho blog: bảo vệ ảnh và giữ thương hiệu nhất quán",
+      "slug": "watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan",
+      "keyword": "watermark cho blog",
+      "score": 96.0,
+      "grade": "A+",
+      "word_count": 1465,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:33.836840+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 6.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "description 189 ký tự (nên 50–160)"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T15:00:33.836840+07:00",
+          "score": 96.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md": {
+      "title": "QA Gatekeeper GitHub Actions: bài học merge conflict",
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
+      "keyword": "fix QA Gatekeeper GitHub Actions",
+      "score": 76.0,
+      "grade": "C",
+      "word_count": 1851,
+      "published": true,
+      "scored_at": "2026-06-22T15:00:44.934461+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 0.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 0.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 0.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 0.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa có trong title",
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa có trong đoạn mở đầu",
+        "từ khoá 'fix QA Gatekeeper GitHub Actions' chưa xuất hiện trong heading H2 nào",
+        "thiếu external link tới nguồn uy tín"
+      ],
+      "history": [
+        {
+          "scored_at": "2026-06-22T15:00:44.934461+07:00",
+          "score": 76.0,
+          "grade": "C"
+        }
+      ]
+    },
+    "content/posting/toi-moi-mua-mysign-chu-ky-so-ca-nhan-dung-de-lam-gi.md": {
+      "title": "Tôi mới mua chữ ký số MySign: chữ ký số cá nhân dùng để làm gì?",
+      "slug": "toi-moi-mua-mysign-chu-ky-so-ca-nhan-dung-de-lam-gi",
+      "keyword": "chữ ký số mysign",
       "score": 100.0,
       "grade": "A+",
-      "word_count": 1471,
+      "word_count": 1117,
       "published": true,
-      "scored_at": "2026-06-21T22:48:37.620603+07:00",
+      "scored_at": "2026-06-22T20:57:49.996894+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -23026,22 +23700,373 @@
       "issues": [],
       "history": [
         {
-          "scored_at": "2026-06-21T22:48:15.337827+07:00",
-          "score": 79.0,
-          "grade": "C"
-        },
-        {
-          "scored_at": "2026-06-21T22:48:24.792684+07:00",
+          "scored_at": "2026-06-22T20:57:30.280033+07:00",
           "score": 90.0,
           "grade": "A"
         },
         {
-          "scored_at": "2026-06-21T22:48:31.609233+07:00",
+          "scored_at": "2026-06-22T20:57:49.996894+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/chu-ky-dien-tu-va-chu-ky-so-khac-nhau-the-nao.md": {
+      "title": "Chữ ký điện tử và chữ ký số khác nhau thế nào? (Theo Luật 2023)",
+      "slug": "chu-ky-dien-tu-va-chu-ky-so-khac-nhau-the-nao",
+      "keyword": "chữ ký điện tử và chữ ký số",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1046,
+      "published": true,
+      "scored_at": "2026-06-22T20:59:00.689332+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-06-22T20:58:47.938142+07:00",
+          "score": 92.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T20:58:54.431374+07:00",
           "score": 96.0,
           "grade": "A+"
         },
         {
-          "scored_at": "2026-06-21T22:48:37.620603+07:00",
+          "scored_at": "2026-06-22T20:59:00.689332+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/luat-giao-dich-dien-tu-2023-va-nghi-dinh-23-2025.md": {
+      "title": "Luật Giao dịch điện tử 2023 và Nghị định 23/2025 về chữ ký số",
+      "slug": "luat-giao-dich-dien-tu-2023-va-nghi-dinh-23-2025",
+      "keyword": "luật giao dịch điện tử 2023",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1022,
+      "published": true,
+      "scored_at": "2026-06-22T21:00:09.773646+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-06-22T20:59:54.788503+07:00",
+          "score": 91.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T21:00:02.311034+07:00",
+          "score": 94.0,
+          "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-22T21:00:09.773646+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/trai-nghiem-ky-so-tu-xa-mysign-viettel-ca.md": {
+      "title": "Trải nghiệm ký số từ xa với MySign của Viettel-CA",
+      "slug": "trai-nghiem-ky-so-tu-xa-mysign-viettel-ca",
+      "keyword": "ký số từ xa mysign",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 995,
+      "published": true,
+      "scored_at": "2026-06-22T21:01:05.337104+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-06-22T21:01:05.337104+07:00",
+          "score": 100.0,
+          "grade": "A+"
+        }
+      ]
+    },
+    "content/posting/khi-nao-chu-ky-so-co-gia-tri-phap-ly.md": {
+      "title": "Khi nào chữ ký số thật sự có giá trị pháp lý?",
+      "slug": "khi-nao-chu-ky-so-co-gia-tri-phap-ly",
+      "keyword": "chữ ký số có giá trị pháp lý",
+      "score": 100.0,
+      "grade": "A+",
+      "word_count": 1013,
+      "published": true,
+      "scored_at": "2026-06-22T21:02:00.328583+07:00",
+      "breakdown": {
+        "title_present": {
+          "got": 8.0,
+          "max": 8
+        },
+        "title_length": {
+          "got": 6.0,
+          "max": 6
+        },
+        "description": {
+          "got": 10.0,
+          "max": 10
+        },
+        "slug": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_title": {
+          "got": 8.0,
+          "max": 8
+        },
+        "kw_intro": {
+          "got": 6.0,
+          "max": 6
+        },
+        "kw_heading": {
+          "got": 6.0,
+          "max": 6
+        },
+        "headings": {
+          "got": 8.0,
+          "max": 8
+        },
+        "word_count": {
+          "got": 10.0,
+          "max": 10
+        },
+        "og_image": {
+          "got": 6.0,
+          "max": 6
+        },
+        "img_alt": {
+          "got": 6.0,
+          "max": 6
+        },
+        "internal_link": {
+          "got": 6.0,
+          "max": 6
+        },
+        "external_link": {
+          "got": 4.0,
+          "max": 4
+        },
+        "tags": {
+          "got": 4.0,
+          "max": 4
+        },
+        "date": {
+          "got": 3.0,
+          "max": 3
+        },
+        "readability": {
+          "got": 3.0,
+          "max": 3
+        }
+      },
+      "issues": [],
+      "history": [
+        {
+          "scored_at": "2026-06-22T21:01:55.033070+07:00",
+          "score": 96.0,
+          "grade": "A+"
+        },
+        {
+          "scored_at": "2026-06-22T21:02:00.328583+07:00",
           "score": 100.0,
           "grade": "A+"
         }

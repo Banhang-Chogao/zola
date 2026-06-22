@@ -2,7 +2,10 @@
 
 {% block title %}404 — Không tìm thấy trang | {{ config.title }}{% endblock %}
 
-{% block description %}Trang bạn tìm không tồn tại hoặc đã được di chuyển. Quay lại trang chủ blog {{ config.title }} để tiếp tục khám phá nội dung công nghệ và du lịch.{% endblock %}
+{% block description %}Trang bạn tìm không tồn tại hoặc đã được di chuyển. Quay lại trang chủ blog {{ config.title }} để tiếp tục khám phá nội dung về SEO, AI WebOps và tài chính cá nhân.{% endblock %}
+
+{# Trang lỗi → không index #}
+{% block robots %}noindex, follow{% endblock %}
 
 {% block extra_head %}
     {% set_global shortensea_api = config.extra.shortensea_api_url | default(value="") %}

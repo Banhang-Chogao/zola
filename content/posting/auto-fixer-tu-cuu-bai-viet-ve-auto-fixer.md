@@ -6,8 +6,7 @@ aliases = ["/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github actions", "auto fixer", "ci/cd", "vaccine hotfix", "qa gatekeeper", "automation", "case study", "self-healing"]
-
+tags = ["auto fixer", "automation", "case study", "ci/cd", "github actions", "qa gatekeeper", "self-healing", "vaccine hotfix"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "auto fixer tự sửa lỗi CI/CD"

@@ -6,7 +6,7 @@ aliases = ["/cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam/"]
 updated = 2026-06-21
 
 [taxonomies]
-categories = ["Công nghệ"]
+categories = ["Tất cả", "Công nghệ"]
 tags = ["blog tĩnh", "bảo mật website", "chống spam", "cloudflare turnstile", "cloudflare workers", "zola"]
 [extra]
 slug = "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam"
