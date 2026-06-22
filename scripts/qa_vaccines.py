@@ -1743,6 +1743,7 @@ def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
         "scripts/test_qa_vaccines.py",
         "scripts/test_dns_vaccine.py",
         "CLAUDE.md",                     # vaccine library legitimately documents old domain
+        "docs/vaccine-archive.md",       # vaccine archive documentation
         "data/merge-report.json",
         "data/dns-vaccine-report.json",
         "data/performance-audit-snapshot.json",  # checked separately (snapshot check)
