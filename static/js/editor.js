@@ -1229,8 +1229,9 @@ tags = ${tagsStr}
       // Edit bài đã có slug → khoá auto-fill để không phá URL hiện tại khi đổi title
       slugLocked = true;
       form.title.value = fm.title;
-      // Loại prefix folder (content/posting/) khỏi slug input
-      const slug = data.path.replace(new RegExp("^" + CONTENT_DIR + "/"), "").replace(/\.md$/, "");
+      // Lấy leaf slug (bỏ "content/<section>/", chỉ giữ tên file).
+      // Xử lý cả posting/ lẫn baochi/ và section khác.
+      const slug = data.path.replace(/^content\/[^/]+\//, "").replace(/\.md$/, "");
       form.slug.value = slug;
       lastDraftSlug = slug; // track để autosave xoá draft cũ khi user đổi slug
       form.date.value = fm.date;
@@ -1254,7 +1255,14 @@ tags = ${tagsStr}
       // Check có draft chưa lưu cho slug này không — hiển thị banner khôi phục
       checkDraftFor(slug);
     }).catch((err) => {
-      setStatus("save-status", "✗ " + err.message, "error");
+      // Hiển thị rõ bài nào không tìm thấy — KHÔNG silent-fallback new-post.
+      const slugDisplay = path.replace(/^content\//, "").replace(/\.md$/, "");
+      setStatus("save-status",
+        "✗ Không tìm thấy bài viết để sửa: " + slugDisplay + " (" + err.message + ")",
+        "error"
+      );
+      // Xóa state.editing để tránh ghi đè sai file nếu user bấm Save trong trạng thái lỗi.
+      state.editing = null;
     });
   }
 
@@ -1984,16 +1992,54 @@ tags = ${tagsStr}
   setEditorMode(getInitialMode());
 
   // ============= URL PARAM HANDLING =============
-  // Mở trực tiếp 1 bài qua ?slug=cai-dat-zola — yêu cầu session valid trước
+
+  // Normalize slug từ URL param thành relative content path.
+  // Input variants được chấp nhận:
+  //   baochi/liobank-gioi-thieu-ban-be-nhan-thuong
+  //   /baochi/liobank-gioi-thieu-ban-be-nhan-thuong
+  //   /baochi/liobank-gioi-thieu-ban-be-nhan-thuong/
+  //   cai-dat-zola   (simple slug → CONTENT_DIR)
+  // Output: chuỗi clean không có leading/trailing slash, không domain.
+  // Trả về "" nếu input không hợp lệ (unsafe traversal, null byte…).
+  function normalizeEditorSlug(input) {
+    if (!input) return "";
+    var s = input;
+    try { s = decodeURIComponent(s); } catch (e) {}
+    s = s.trim();
+    // Strip domain nếu là full URL (https://seomoney.org/baochi/...)
+    try {
+      var u = new URL(s);
+      s = u.pathname;
+    } catch (e) { /* không phải URL đầy đủ — bỏ qua */ }
+    // Bỏ query string và hash
+    s = s.split("?")[0].split("#")[0];
+    // Bỏ leading/trailing slashes
+    s = s.replace(/^\/+|\/+$/g, "");
+    // Reject unsafe traversal
+    if (/\.\.|\\|\x00/.test(s)) return "";
+    return s;
+  }
+
+  // Mở trực tiếp 1 bài qua ?slug=... — yêu cầu session valid trước.
+  // Hỗ trợ: slug đơn giản (→ CONTENT_DIR), slug có thư mục (→ content/<slug>).
+  // KHÔNG silent-fallback new-post khi slug hiện diện nhưng file không tồn tại.
   function checkUrlParam() {
-    const params = new URLSearchParams(location.search);
-    const slug = params.get("slug");
-    if (slug) {
-      const path = CONTENT_DIR + "/" + slug + ".md";
-      openEditor(path);
-      return true;
-    }
-    return false;
+    var params = new URLSearchParams(location.search);
+    var rawSlug = params.get("slug");
+    if (!rawSlug) return false;
+
+    var slug = normalizeEditorSlug(rawSlug);
+    if (!slug) return false;
+
+    // Giải quyết content path:
+    //   slug có "/" → nested content path: content/<slug>.md
+    //   slug đơn giản → mặc định dùng CONTENT_DIR: content/posting/<slug>.md
+    var path = (slug.indexOf("/") !== -1)
+      ? "content/" + slug + ".md"
+      : CONTENT_DIR + "/" + slug + ".md";
+
+    openEditor(path);
+    return true;
   }
 
   // ============= INIT — GitHub OAuth Flow =============
