@@ -52,7 +52,7 @@ jobs:
 
       - name: Unit tests — paywall + footer countdown + ai_diagnose + QA vaccines + social images
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images -v
+          python3 -m unittest scripts.test_paywall scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images scripts.test_security_public_audit -v
 
       # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
       # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library
@@ -124,3 +124,11 @@ jobs:
       # not SVG, and file exists in public/. Exit 2 fails build.
       - name: Validate social share thumbnails (og:image — exit 2 fails build)
         run: python3 scripts/check_social_images.py --check
+
+      # Static-site security gate: the built public/ surface (+ content/, static/,
+      # sitemap, menu) must not expose private/internal files or secret values.
+      # Runs AFTER the build so it scans the real published output + sitemap.xml.
+      # Exit 1 (any exposure) fails the job → blocks auto-merge/deploy. Calibrated
+      # so the current main passes clean. See docs/security-static-blog.md.
+      - name: Public-surface security audit (no secrets/private docs published)
+        run: python3 scripts/security_public_audit.py
