@@ -10,7 +10,6 @@ tags = ["dap an thpt 2026", "giáo dục", "thi tốt nghiệp thpt 2026", "tuy�
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "đáp án chính thức thpt 2026"
-featured = true
 series = "thpt-2026-dap-an"
 series_part = 1
 series_total = 12
