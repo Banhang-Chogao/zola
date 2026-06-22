@@ -1,6 +1,360 @@
 {
   "items": [
     {
+      "date": "2026-06-22",
+      "title": "feat(series): add Q&A Khoa Học parts 17-30 + final QA scores [claude/happy-hopper-tp7w7f]",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "feat(series): add Q&A Khoa Học part 8 + update QA scores",
+        "feat(series): add Q&A Khoa Học part 9 + update QA scores",
+        "feat(series): add Q&A Khoa Học part 10 + update QA scores",
+        "feat(series): add Q&A Khoa Học part 11 + update QA scores",
+        "feat(series): add Q&A Khoa Học part 12 + update QA scores"
+      ],
+      "pr": 724
+    },
+    {
+      "date": "2026-06-22",
+      "title": "refactor(homepage): remove \"Khám phá thêm\" SEO widgets band [claude/practical-planck-559skj]",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/site.scss (modified, +0/-1)",
+        "templates/index.html (modified, +0/-26)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 723
+    },
+    {
+      "date": "2026-06-22",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/failed-checks-conflict-report-f99tyu [claude/failed-checks-conflict-report-f99tyu]",
+      "tag": "chore",
+      "lines_added": 342,
+      "lines_removed": 0,
+      "highlights": [
+        "docs(reports): add failed checks/conflict/hotfix history memory map",
+        "Merge remote-tracking branch 'origin/main' into claude/failed-checks-conflict-report-f99tyu",
+        "reports/failed-conflict-history.md (added, +342/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 729
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(conflict): resolve V10 merge conflict on calendar.html + seo-qa-scores.json [feat/breadcrumb-tools-nav]",
+      "tag": "fix",
+      "lines_added": 222,
+      "lines_removed": 0,
+      "highlights": [
+        "fix(content): remove empty Trello draft posts",
+        "feat(ui): add playful pill breadcrumb to /tools/ and /tools/calendar/",
+        "fix(conflict): resolve V10 merge conflict on calendar.html + seo-qa-scores.json",
+        "content/posting/card-due-date-hien-trong-trello-planner.md.bak-frontmatter (added, +0/-0)",
+        "content/posting/loc-card-den-han-focus-time-trello-mobile.md.bak-frontmatter (added, +0/-0)"
+      ],
+      "pr": 742
+    },
+    {
+      "date": "2026-06-22",
+      "title": "chore(data): update backend-status.json from backend8 check [claude/laughing-volta-f15gwx]",
+      "tag": "chore",
+      "lines_added": 65,
+      "lines_removed": 5,
+      "highlights": [
+        "feat(shortcuts): add prq — PR Queue Audit shortcut",
+        "chore(data): update backend-status.json from backend8 check",
+        "data/backend-status.json (modified, +3/-3)",
+        "shortcuts.md (modified, +62/-2)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 744
+    },
+    {
+      "date": "2026-06-22",
+      "title": "feat(shortcuts): add prq — PR Queue Audit shortcut [claude/laughing-volta-f15gwx]",
+      "tag": "chore",
+      "lines_added": 62,
+      "lines_removed": 2,
+      "highlights": [
+        "shortcuts.md (modified, +62/-2)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/laughing-volta-f15gwx là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 743
+    },
+    {
+      "date": "2026-06-22",
+      "title": "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status [claude/trusting-cori-db6sew]",
+      "tag": "refactor",
+      "lines_added": 228,
+      "lines_removed": 68,
+      "highlights": [
+        "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX",
+        "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status",
+        "sass/_calendar.scss (modified, +3/-3)",
+        "sass/_google-rank.scss (modified, +25/-0)",
+        "sass/_master-dashboard-v5.scss (modified, +24/-0)"
+      ],
+      "pr": 741
+    },
+    {
+      "date": "2026-06-22",
+      "title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
+      "tag": "fix",
+      "lines_added": 82,
+      "lines_removed": 25,
+      "highlights": [
+        "sass/_calendar.scss (modified, +3/-3)",
+        "sass/_whiteboard.scss (modified, +2/-2)",
+        "static/js/private-auth.js (modified, +57/-17)",
+        "static/js/whiteboard/app.js (modified, +20/-3)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 740
+    },
+    {
+      "date": "2026-06-22",
+      "title": "chore(vaccine): Daily Vaccine Autofixer run",
+      "tag": "chore",
+      "lines_added": 210,
+      "lines_removed": 17,
+      "highlights": [],
+      "pr": 739
+    },
+    {
+      "date": "2026-06-22",
+      "title": "no-API Pixabay image-assist + fix(V32) series_part build crash",
+      "tag": "feat",
+      "lines_added": 1284,
+      "lines_removed": 2,
+      "highlights": [
+        "scripts/pixabay_image_assist.py — discover 3–5 landscape candidates from Pixabay public search pages only (respects robots.txt, rate-limit, no login/CAPTCHA/private endpoints/mass-scrape). Stops grace",
+        "Manual confirmation gate: confirm requires --yes + --commercial-ok; mandatory source/license metadata (sidecar + frontmatter) or it refuses.",
+        "Third-party images saved under static/img/third-party/pixabay/ (outside watermark owned-roots) → never watermarked; assert_third_party() blocks owned folders.",
+        "Optional .webp optimization (Pillow when available).",
+        "content_creator.py integration with opt-out (--no-auto-image / auto_image=false); suggestion-only, never auto-downloads or alters covers."
+      ],
+      "pr": 735
+    },
+    {
+      "date": "2026-06-22",
+      "title": "content: series 5 bài chữ ký số MySign (hub + 4 spoke)",
+      "tag": "chore",
+      "lines_added": 889,
+      "lines_removed": 1,
+      "highlights": [
+        "Cả 5 bài SEO 100/100 (A+), 995–1117 từ.",
+        "qa_check.py → 0 FAIL, readiness 92/100 PRODUCTION-SAFE.",
+        "Cross-link hub-and-spoke; mỗi slug có aliases khớp link nội bộ (V14-safe).",
+        "Dẫn đúng khung pháp lý hiện hành (Luật 20/2023/QH15 hiệu lực 1/7/2024; NĐ 23/2025 hiệu lực 10/4/2025; chứng thư tối đa 3 năm). Không dẫn NĐ 130/2018 / TT 16/2019.",
+        "Theo front-matter pattern chuẩn (không dùng extra.series_part) → tránh rủi ro V32 series-sort crash."
+      ],
+      "pr": 734
+    },
+    {
+      "date": "2026-06-22",
+      "title": "hotfix: remove empty Trello posts",
+      "tag": "remove",
+      "lines_added": 15,
+      "lines_removed": 72,
+      "highlights": [],
+      "commit": "e87d152331c7",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(content): add missing frontmatter for Trello posts",
+      "tag": "fix",
+      "lines_added": 384,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "c0fbb8c75ec6",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "README.md",
+      "tag": "chore",
+      "lines_added": 78,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "314b42c5cb09",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(links): bỏ placeholder ![alt](url) gây broken internal link [claude/vssid-bhtn-analysis-seo-arvwmx]",
+      "tag": "fix",
+      "lines_added": 130,
+      "lines_removed": 1,
+      "highlights": [
+        "content: bài phân tích VssID không hiển thị quá trình BHTN",
+        "fix(links): bỏ placeholder !alt gây broken internal link",
+        "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md (modified, +1/-1)",
+        "content/posting/vssid-thieu-bhtn-bhtnld-bnn-thoi-gian-bao-luu.md (added, +129/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 720
+    },
+    {
+      "date": "2026-06-22",
+      "title": "update SEO QA scores for 2 new blog posts [claude/beautiful-hopper-eyedqd]",
+      "tag": "chore",
+      "lines_added": 992,
+      "lines_removed": 1,
+      "highlights": [
+        "feat: publish 2 blog posts on terminal commands and tools",
+        "chore: update SEO QA scores for 2 new blog posts",
+        "content/posting/cac-lenh-terminal-kiem-tra-pr-github.md (added, +358/-0)",
+        "content/posting/top-10-cong-cu-terminal-mac-2026.md (added, +431/-0)",
+        "data/seo-qa-scores.json (modified, +203/-1)"
+      ],
+      "pr": 715
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "fa62cd927ed0",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "85c0d469e851",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "6a86251d97f5",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "de2486c8dafb",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "51e2cff6568b",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: cập nhật bài 'Viết blog bằng local terminal khi AI hết credit'",
+      "tag": "chore",
+      "lines_added": 4,
+      "lines_removed": 9,
+      "highlights": [],
+      "commit": "3ecc3d13cfa8",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-21",
+      "title": "chore(tools): restore dashboard Python deps omitted by #705 route restore [claude/nice-planck-9stwce]",
+      "tag": "chore",
+      "lines_added": 2,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/requirements-f-dashboard.txt (added, +1/-0)",
+        "scripts/requirements-l-dashboard.txt (added, +1/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 709
+    },
+    {
+      "date": "2026-06-21",
+      "title": "fix(seo): restyle fallback OG card — red CTA, editorial, Vietnamese-safe font [fix/og-fallback-red-editorial-clean]",
+      "tag": "fix",
+      "lines_added": 60,
+      "lines_removed": 46,
+      "highlights": [
+        "static/img/og-manifest.json (modified, +1/-1)",
+        "static/img/og/seomoney-og.og.webp (modified, +0/-0)",
+        "static/img/og/seomoney-og.svg (modified, +59/-45)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 708
+    },
+    {
+      "date": "2026-06-21",
+      "title": "fix(tools): restore F/H/L/O dashboard routes removed by #653 + V30 guard [claude/nice-planck-9stwce]",
+      "tag": "fix",
+      "lines_added": 20280,
+      "lines_removed": 0,
+      "highlights": [
+        "CLAUDE.md (modified, +3/-0)",
+        "content/tools/_index.md (modified, +19/-0)",
+        "content/tools/f-dashboard.md (added, +8/-0)",
+        "content/tools/h-dashboard.md (added, +8/-0)",
+        "content/tools/l-dashboard.md (added, +8/-0)"
+      ],
+      "pr": 707
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(images): add global blog image watermark rule [feat/blog-image-watermark]",
+      "tag": "chore",
+      "lines_added": 741,
+      "lines_removed": 4,
+      "highlights": [
+        "Quét static/img/**, ext .jpg .jpeg .png .webp.",
+        "Bỏ qua: *.og.webp (OG/social twin), thư mục brand/ og/ placeholder/ icons/ flags/, tên favicon/apple-touch/logo/sprite/placeholder/og-default/author-avatar/-mark, và .svg/.gif/.ico.",
+        "⇒ nhắm ảnh bài viết static/img/posting/* + cover bài static/img/covers/.webp (không phải .og.webp).",
+        "data/image-watermark-manifest.json: path → {hash16, watermark_text, source_sha256, watermarked_sha256, processed_at}.",
+        "Re-run bỏ qua ảnh có watermarked_sha256 khớp (không cần Pillow). Mỗi ảnh mang thêm EXIF/PNG marker seomoney-wm:<hash> đi theo pixel. Ảnh đổi nội dung → watermark lại hash mới. Manifest chỉ ghi khi có "
+      ],
+      "pr": 699
+    },
+    {
+      "date": "2026-06-21",
+      "title": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs [feat/blog-terminal-production-cluster]",
+      "tag": "fix",
+      "lines_added": 427,
+      "lines_removed": 2,
+      "highlights": [
+        "content/posting/cac-lenh-git-dua-blog-len-production.md (added, +253/-0)",
+        "content/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola.md (modified, +2/-2)",
+        "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md (added, +172/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 698
+    },
+    {
       "date": "2026-06-21",
       "title": "fix(qa-404): remove dead internal links blocking the QA gate",
       "tag": "remove",

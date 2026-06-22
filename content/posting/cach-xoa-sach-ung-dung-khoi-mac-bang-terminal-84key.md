@@ -10,8 +10,6 @@ tags = ["84key", "bộ gõ tiếng việt", "gỡ ứng dụng", "mac", "macos",
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "xoá app trên Mac bằng Terminal"
-featured = true
-
 [[extra.faq]]
 q = "Tại sao không xoá app bằng cách kéo vào Trash bình thường?"
 a = "Kéo vào Trash chỉ xoá file ứng dụng chính (.app), nhưng để lại cache, preferences, và các file cấu hình trong Library — làm Mac lâu dần. Terminal cho phép xoá sạch tất cả liên quan."

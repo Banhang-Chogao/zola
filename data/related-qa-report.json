@@ -1,31 +1,44 @@
 {
-  "generated_at": "2026-06-20T20:08:39.080809+00:00",
+  "generated_at": "2026-06-21T20:20:35.600506+00:00",
   "timezone_note": "Scheduled 22:00 Asia/Ho_Chi_Minh (15:00 UTC)",
   "fixed_applied": true,
   "summary": {
-    "total_posts": 202,
+    "total_posts": 211,
     "before": {
       "high": 127,
-      "mid": 55,
-      "low": 16
+      "mid": 64,
+      "low": 17
     },
     "after": {
-      "high": 127,
-      "mid": 59,
-      "low": 16
+      "high": 128,
+      "mid": 65,
+      "low": 18
     },
-    "fixed_count": 6,
-    "still_orange": 59,
-    "still_red": 16,
-    "green_count": 127
+    "fixed_count": 19,
+    "still_orange": 65,
+    "still_red": 18,
+    "green_count": 128
   },
   "fixed_slugs": [
-    "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
-    "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
-    "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
-    "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
-    "bi-kip-xin-visa-han-quoc-5-nam-de",
-    "macos-27-golden-gate-co-gi-moi"
+    "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+    "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
+    "git-push-bi-reject-cach-xu-ly-an-toan-tren-mac",
+    "lich-su-dong-bhxh-bi-mat-tren-vssid",
+    "qa-gatekeeper-tu-fix-loi-blog",
+    "qa-gatekeeper-vaccine-autofixer",
+    "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+    "so-sanh-v-plus-va-v-advance-chon-goi-nao",
+    "vietinbank-v-advance-nang-tam-trai-nghiem",
+    "vietinbank-v-plus-chi-tiet-quyen-loi",
+    "vietinbank-v-plus-v-advance-la-gi",
+    "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so",
+    "bidv-smartbanking-khong-vao-duoc",
+    "huong-dan-xac-thuc-cccd-msb-digital-bank",
+    "msb-digital-bank-cong-nghe-bao-mat",
+    "msb-digital-bank-ra-mat-thay-mbank",
+    "ngay-cua-cha-o-viet-nam-la-ngay-nao",
+    "vietinbank-v-family-nhom-gia-dinh",
+    "vpbank-circle-sieu-the-free-tron-doi-gen-z"
   ],
   "still_orange_slugs": [
     "10-vaccine-claude-md-giam-loi-production",
@@ -34,10 +47,15 @@
     "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
     "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
     "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
+    "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+    "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
     "bhxh-mot-lan-hay-luong-huu",
+    "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
     "cach-mo-tai-khoan-ngan-hang-so-online",
     "engagement-rate-bounce-rate-google-analytics",
     "faq-schema-cluster-ngan-hang-ctr",
+    "git-push-bi-reject-cach-xu-ly-an-toan-tren-mac",
+    "github-pr-conflict-pending-checks-mergestatestatus",
     "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
     "kha-nang-kinh-nghiem-tieng-han",
     "lich-su-dong-bhxh-bi-mat-tren-vssid",
@@ -72,6 +90,7 @@
     "zola-vs-hugo",
     "bi-kip-xin-visa-han-quoc-5-nam-de",
     "bidv-flagship-private-banking-tphcm",
+    "bidv-smartbanking-khong-vao-duoc",
     "cac-truong-hop-khong-duoc-hoan-thue-gtgt",
     "chon-ngach-noi-dung-giu-chan-nguoi-doc",
     "diem-thi-tuyen-sinh-lop-10-tphcm-2026",
@@ -90,6 +109,7 @@
   ],
   "still_red_slugs": [
     "ai-thay-doi-lap-ke-hoach-du-lich",
+    "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key",
     "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
     "facebook-shopee-affiliate-la-gi",
     "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick",
@@ -101,6 +121,7 @@
     "gia-vang-hom-nay-18-6-giam-manh",
     "macos-27-golden-gate-co-gi-moi",
     "mua-qua-chin-xu-dong-hai-phong",
+    "ngay-cua-cha-o-viet-nam-la-ngay-nao",
     "starbucks-cua-hang-cao-nhat-chau-a-fansipan",
     "ten-mien-ai-hon-dao-anguilla-hot-bac",
     "thiet-ke-phan-quyen-role-single-source-of-truth",
@@ -3074,8 +3095,8 @@
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.8784,
-      "score_after": 0.8784,
-      "delta": 0.0,
+      "score_after": 0.898,
+      "delta": 0.0196,
       "related_before": [
         {
           "score": 0.9581,
@@ -3116,11 +3137,11 @@
           "score": 0.8867
         },
         {
-          "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank",
-          "score": 0.7273
+          "slug": "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so",
+          "score": 0.8253
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": null
     },
     {
@@ -3762,6 +3783,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "vietinbank-v-advance-nang-tam-trai-nghiem",
+      "section": "posting",
+      "title": "V-Advance VietinBank: đặc quyền Tài chính–Lifestyle",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8454,
+      "score_after": 0.8489,
+      "delta": 0.0035,
+      "related_before": [
+        {
+          "score": 0.9248,
+          "slug": "vietinbank-v-plus-v-advance-la-gi"
+        },
+        {
+          "score": 0.9142,
+          "slug": "vietinbank-v-plus-chi-tiet-quyen-loi"
+        },
+        {
+          "score": 0.846,
+          "slug": "dang-ky-v-plus-v-advance-tren-ipay"
+        },
+        {
+          "score": 0.7886,
+          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao"
+        },
+        {
+          "score": 0.7534,
+          "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "vietinbank-v-plus-v-advance-la-gi",
+          "score": 0.9248
+        },
+        {
+          "slug": "vietinbank-v-plus-chi-tiet-quyen-loi",
+          "score": 0.9142
+        },
+        {
+          "slug": "dang-ky-v-plus-v-advance-tren-ipay",
+          "score": 0.846
+        },
+        {
+          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao",
+          "score": 0.7886
+        },
+        {
+          "slug": "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so",
+          "score": 0.7711
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "push-pull-fetch-dong-bo-voi-github",
       "section": "posting",
       "title": "Push, pull, fetch: đồng bộ code với GitHub",
@@ -3872,64 +3951,6 @@
         {
           "slug": "chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua",
           "score": 0.8063
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "vietinbank-v-advance-nang-tam-trai-nghiem",
-      "section": "posting",
-      "title": "V-Advance VietinBank: đặc quyền Tài chính–Lifestyle",
-      "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.8454,
-      "score_after": 0.8454,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9248,
-          "slug": "vietinbank-v-plus-v-advance-la-gi"
-        },
-        {
-          "score": 0.9142,
-          "slug": "vietinbank-v-plus-chi-tiet-quyen-loi"
-        },
-        {
-          "score": 0.846,
-          "slug": "dang-ky-v-plus-v-advance-tren-ipay"
-        },
-        {
-          "score": 0.7886,
-          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao"
-        },
-        {
-          "score": 0.7534,
-          "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "vietinbank-v-plus-v-advance-la-gi",
-          "score": 0.9248
-        },
-        {
-          "slug": "vietinbank-v-plus-chi-tiet-quyen-loi",
-          "score": 0.9142
-        },
-        {
-          "slug": "dang-ky-v-plus-v-advance-tren-ipay",
-          "score": 0.846
-        },
-        {
-          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao",
-          "score": 0.7886
-        },
-        {
-          "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank",
-          "score": 0.7534
         }
       ],
       "action": "unchanged",
@@ -4168,6 +4189,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "vietinbank-v-plus-chi-tiet-quyen-loi",
+      "section": "posting",
+      "title": "V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.8287,
+      "score_after": 0.8378,
+      "delta": 0.0091,
+      "related_before": [
+        {
+          "score": 0.9581,
+          "slug": "vietinbank-v-plus-v-advance-la-gi"
+        },
+        {
+          "score": 0.9142,
+          "slug": "vietinbank-v-advance-nang-tam-trai-nghiem"
+        },
+        {
+          "score": 0.7709,
+          "slug": "dang-ky-v-plus-v-advance-tren-ipay"
+        },
+        {
+          "score": 0.7627,
+          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao"
+        },
+        {
+          "score": 0.7375,
+          "slug": "tien-ich-so-vietinbank-chua-tan-dung-het"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "vietinbank-v-plus-v-advance-la-gi",
+          "score": 0.9581
+        },
+        {
+          "slug": "vietinbank-v-advance-nang-tam-trai-nghiem",
+          "score": 0.9142
+        },
+        {
+          "slug": "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so",
+          "score": 0.7832
+        },
+        {
+          "slug": "dang-ky-v-plus-v-advance-tren-ipay",
+          "score": 0.7709
+        },
+        {
+          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao",
+          "score": 0.7627
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "vai-tro-vietinbank-he-thong-ngan-hang-viet-nam",
       "section": "posting",
       "title": "Vai trò VietinBank trong hệ thống ngân hàng Việt Nam",
@@ -4336,64 +4415,6 @@
         {
           "slug": "toan-canh-chuyen-doi-so-vietinbank",
           "score": 0.7943
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "vietinbank-v-plus-chi-tiet-quyen-loi",
-      "section": "posting",
-      "title": "V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng",
-      "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.8287,
-      "score_after": 0.8287,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9581,
-          "slug": "vietinbank-v-plus-v-advance-la-gi"
-        },
-        {
-          "score": 0.9142,
-          "slug": "vietinbank-v-advance-nang-tam-trai-nghiem"
-        },
-        {
-          "score": 0.7709,
-          "slug": "dang-ky-v-plus-v-advance-tren-ipay"
-        },
-        {
-          "score": 0.7627,
-          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao"
-        },
-        {
-          "score": 0.7375,
-          "slug": "tien-ich-so-vietinbank-chua-tan-dung-het"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "vietinbank-v-plus-v-advance-la-gi",
-          "score": 0.9581
-        },
-        {
-          "slug": "vietinbank-v-advance-nang-tam-trai-nghiem",
-          "score": 0.9142
-        },
-        {
-          "slug": "dang-ky-v-plus-v-advance-tren-ipay",
-          "score": 0.7709
-        },
-        {
-          "slug": "so-sanh-v-plus-va-v-advance-chon-goi-nao",
-          "score": 0.7627
-        },
-        {
-          "slug": "tien-ich-so-vietinbank-chua-tan-dung-het",
-          "score": 0.7375
         }
       ],
       "action": "unchanged",
@@ -4930,8 +4951,8 @@
       "tier_before": "high",
       "tier_after": "high",
       "score_before": 0.7947,
-      "score_after": 0.7947,
-      "delta": 0.0,
+      "score_after": 0.7951,
+      "delta": 0.0004,
       "related_before": [
         {
           "score": 0.888,
@@ -4972,8 +4993,66 @@
           "score": 0.7627
         },
         {
-          "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank",
-          "score": 0.6475
+          "slug": "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so",
+          "score": 0.6495
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "tao-blog-voi-zola",
+      "section": "posting",
+      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7896,
+      "score_after": 0.7896,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9282,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.8646,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.7602,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.7271,
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam"
+        },
+        {
+          "score": 0.6681,
+          "slug": "zola-vs-hugo"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.9282
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.8646
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.7602
+        },
+        {
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+          "score": 0.7271
+        },
+        {
+          "slug": "zola-vs-hugo",
+          "score": 0.6681
         }
       ],
       "action": "unchanged",
@@ -5328,6 +5407,43 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so",
+      "section": "posting",
+      "title": "V-Wealth của VietinBank: Tia sáng cho nhà đầu tư bình dân",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
+      "tier_before": "low",
+      "tier_after": "high",
+      "score_before": 0.0,
+      "score_after": 0.7735,
+      "delta": 0.7735,
+      "related_before": [],
+      "related_after": [
+        {
+          "slug": "vietinbank-v-plus-v-advance-la-gi",
+          "score": 0.8253
+        },
+        {
+          "slug": "vietinbank-v-plus-chi-tiet-quyen-loi",
+          "score": 0.7832
+        },
+        {
+          "slug": "vietinbank-v-advance-nang-tam-trai-nghiem",
+          "score": 0.7711
+        },
+        {
+          "slug": "tuong-lai-ngan-hang-so-va-vi-the-vietinbank",
+          "score": 0.7693
+        },
+        {
+          "slug": "vietinbank-cong-nghe-trai-nghiem-khach-hang",
+          "score": 0.7184
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "google-analytics-la-gi-lo-trinh-10-ngay",
       "section": "posting",
       "title": "Google Analytics là gì? Lộ trình 10 ngày đọc hiểu dữ liệu",
@@ -5380,64 +5496,6 @@
         {
           "slug": "bao-lau-de-thay-ket-qua-seo",
           "score": 0.6475
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "tao-blog-voi-zola",
-      "section": "posting",
-      "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.7679,
-      "score_after": 0.7679,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9282,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.8646,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.7602,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.6681,
-          "slug": "zola-vs-hugo"
-        },
-        {
-          "score": 0.6182,
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.9282
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.8646
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.7602
-        },
-        {
-          "slug": "zola-vs-hugo",
-          "score": 0.6681
-        },
-        {
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
-          "score": 0.6182
         }
       ],
       "action": "unchanged",
@@ -5966,6 +6024,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "tu-dong-deploy-zola-github-actions",
+      "section": "posting",
+      "title": "Deploy blog Zola lên GitHub Pages tự động",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7551,
+      "score_after": 0.7551,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.9282,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.8025,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.7044,
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam"
+        },
+        {
+          "score": 0.6871,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.6531,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.9282
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.8025
+        },
+        {
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+          "score": 0.7044
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.6871
+        },
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.6531
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "nha-may-lam-giau-uranium-hoat-dong-the-nao",
       "section": "posting",
       "title": "Nhà máy làm giàu uranium hoạt động như thế nào?",
@@ -6192,6 +6308,64 @@
         {
           "slug": "iran-uranium-destruction-what-it-means",
           "score": 0.2252
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": null
+    },
+    {
+      "slug": "cong-nghe-blog-duy-nguyen",
+      "section": "posting",
+      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7387,
+      "score_after": 0.7387,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8646,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.8025,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.6899,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.682,
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam"
+        },
+        {
+          "score": 0.6544,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.8646
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.8025
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.6899
+        },
+        {
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+          "score": 0.682
+        },
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.6544
         }
       ],
       "action": "unchanged",
@@ -6488,64 +6662,6 @@
       "cannot_green_reason": null
     },
     {
-      "slug": "tu-dong-deploy-zola-github-actions",
-      "section": "posting",
-      "title": "Deploy blog Zola lên GitHub Pages tự động",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.7339,
-      "score_after": 0.7339,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.9282,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.8025,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.6871,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.6531,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.5986,
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.9282
-        },
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.8025
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.6871
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.6531
-        },
-        {
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
-          "score": 0.5986
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
       "slug": "ngan-hang-so-cho-kinh-doanh-online",
       "section": "posting",
       "title": "Ngân hàng số cho người kinh doanh online tốt nhất",
@@ -6720,64 +6836,6 @@
       "cannot_green_reason": null
     },
     {
-      "slug": "cong-nghe-blog-duy-nguyen",
-      "section": "posting",
-      "title": "Tự xây blog cá nhân $0/tháng với Zola + GitHub Pages",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.725,
-      "score_after": 0.725,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.8646,
-          "slug": "tao-blog-voi-zola"
-        },
-        {
-          "score": 0.8025,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.6899,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.6544,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.6134,
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.8646
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.8025
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.6899
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.6544
-        },
-        {
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
-          "score": 0.6134
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
       "slug": "ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat",
       "section": "posting",
       "title": "Ngân hàng số nào miễn phí chuyển khoản tốt nhất?",
@@ -6843,8 +6901,8 @@
       "cluster_label": "Du lịch",
       "tier_before": "high",
       "tier_after": "high",
-      "score_before": 0.7197,
-      "score_after": 0.7197,
+      "score_before": 0.7219,
+      "score_after": 0.7219,
       "delta": 0.0,
       "related_before": [
         {
@@ -6864,8 +6922,8 @@
           "slug": "thang-6-di-han-an-gi-lam-gi"
         },
         {
-          "score": 0.6296,
-          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
+          "score": 0.6402,
+          "slug": "bi-kip-xin-visa-han-quoc-5-nam-de"
         }
       ],
       "related_after": [
@@ -6886,8 +6944,8 @@
           "score": 0.6473
         },
         {
-          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
-          "score": 0.6296
+          "slug": "bi-kip-xin-visa-han-quoc-5-nam-de",
+          "score": 0.6402
         }
       ],
       "action": "unchanged",
@@ -7184,6 +7242,64 @@
       "cannot_green_reason": null
     },
     {
+      "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+      "section": "posting",
+      "title": "Quy Trình Vaccine Website: 5 Bước Từ Bug Đến Prevention",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "high",
+      "tier_after": "high",
+      "score_before": 0.7059,
+      "score_after": 0.7116,
+      "delta": 0.0057,
+      "related_before": [
+        {
+          "score": 0.7977,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        },
+        {
+          "score": 0.7652,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        },
+        {
+          "score": 0.6968,
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine"
+        },
+        {
+          "score": 0.681,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        },
+        {
+          "score": 0.5888,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.7977
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.7652
+        },
+        {
+          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
+          "score": 0.6968
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.681
+        },
+        {
+          "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
+          "score": 0.6172
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": null
+    },
+    {
       "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
       "section": "posting",
       "title": "Vaccine Số Là Gì? Tôi Biến Bug Thành Hệ Miễn Dịch Website",
@@ -7294,64 +7410,6 @@
         {
           "slug": "google-nhin-trang-giong-nguoi-dung",
           "score": 0.6551
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": null
-    },
-    {
-      "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
-      "section": "posting",
-      "title": "Quy Trình Vaccine Website: 5 Bước Từ Bug Đến Prevention",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "high",
-      "tier_after": "high",
-      "score_before": 0.7059,
-      "score_after": 0.7059,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7977,
-          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
-        },
-        {
-          "score": 0.7652,
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
-        },
-        {
-          "score": 0.6968,
-          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine"
-        },
-        {
-          "score": 0.681,
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
-        },
-        {
-          "score": 0.5888,
-          "slug": "10-vaccine-claude-md-giam-loi-production"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
-          "score": 0.7977
-        },
-        {
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
-          "score": 0.7652
-        },
-        {
-          "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
-          "score": 0.6968
-        },
-        {
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
-          "score": 0.681
-        },
-        {
-          "slug": "10-vaccine-claude-md-giam-loi-production",
-          "score": 0.5888
         }
       ],
       "action": "unchanged",
@@ -7655,9 +7713,9 @@
       "cluster_label": "Du lịch",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6814,
-      "score_after": 0.6907,
-      "delta": 0.0093,
+      "score_before": 0.6914,
+      "score_after": 0.6914,
+      "delta": 0.0,
       "related_before": [
         {
           "score": 0.7864,
@@ -7676,8 +7734,8 @@
           "slug": "di-han-mua-nao-re-nhat"
         },
         {
-          "score": 0.5696,
-          "slug": "tet-doan-ngo-han-viet-trung"
+          "score": 0.6196,
+          "slug": "bi-kip-xin-visa-han-quoc-5-nam-de"
         }
       ],
       "related_after": [
@@ -7699,10 +7757,10 @@
         },
         {
           "slug": "bi-kip-xin-visa-han-quoc-5-nam-de",
-          "score": 0.6164
+          "score": 0.6196
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.69 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -7830,8 +7888,8 @@
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6762,
-      "score_after": 0.6762,
-      "delta": 0.0,
+      "score_after": 0.6778,
+      "delta": 0.0016,
       "related_before": [
         {
           "score": 0.6982,
@@ -7872,12 +7930,70 @@
           "score": 0.6737
         },
         {
-          "slug": "vietinbank-ipay-internet-banking-qua-cac-thoi-ky",
-          "score": 0.6534
+          "slug": "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so",
+          "score": 0.6613
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.68 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+      "section": "posting",
+      "title": "Cách gắn Cloudflare Turnstile vào blog tĩnh để chống spam",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6692,
+      "score_after": 0.6692,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7271,
+          "slug": "tao-blog-voi-zola"
+        },
+        {
+          "score": 0.7044,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.682,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.6479,
+          "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.5847,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "tao-blog-voi-zola",
+          "score": 0.7271
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.7044
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.682
+        },
+        {
+          "slug": "he-thong-prompt-zola-blog",
+          "score": 0.6479
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.5847
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.68 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung bình top-5 = 0.67 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "cach-mo-tai-khoan-ngan-hang-so-online",
@@ -7996,6 +8112,64 @@
       "cannot_green_reason": "Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
+      "section": "posting",
+      "title": "Auto Fixer Tự Sửa Lỗi CI/CD: Case Study Thực Chiến",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.643,
+      "score_after": 0.6601,
+      "delta": 0.0171,
+      "related_before": [
+        {
+          "score": 0.8848,
+          "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog"
+        },
+        {
+          "score": 0.6366,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        },
+        {
+          "score": 0.5879,
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent"
+        },
+        {
+          "score": 0.5659,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
+        },
+        {
+          "score": 0.5399,
+          "slug": "qa-gatekeeper-vaccine-autofixer"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+          "score": 0.8872
+        },
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.6315
+        },
+        {
+          "slug": "quy-trinh-vaccine-detect-diagnose-fix-validate-prevent",
+          "score": 0.6172
+        },
+        {
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.597
+        },
+        {
+          "slug": "qa-gatekeeper-vaccine-autofixer",
+          "score": 0.5674
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "10-vaccine-claude-md-giam-loi-production",
       "section": "posting",
       "title": "10 vaccine trong CLAUDE.md đã giúp tôi giảm lỗi production",
@@ -8054,6 +8228,64 @@
       "cannot_green_reason": "Trung bình top-5 = 0.66 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "huong-dan-xac-thuc-cccd-msb-digital-bank",
+      "section": "baochi",
+      "title": "Hướng dẫn xác thực CCCD trên MSB Digital Bank từ A–Z",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6379,
+      "score_after": 0.6526,
+      "delta": 0.0147,
+      "related_before": [
+        {
+          "score": 0.8318,
+          "slug": "msb-digital-bank-ra-mat-thay-mbank"
+        },
+        {
+          "score": 0.8038,
+          "slug": "msb-digital-bank-cong-nghe-bao-mat"
+        },
+        {
+          "score": 0.5822,
+          "slug": "the-tin-dung-msb-huong-dan-chi-tiet"
+        },
+        {
+          "score": 0.489,
+          "slug": "mo-the-tin-dung-liobank-online-nhanh"
+        },
+        {
+          "score": 0.4827,
+          "slug": "vpbank-circle-sieu-the-free-tron-doi-gen-z"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "msb-digital-bank-ra-mat-thay-mbank",
+          "score": 0.8318
+        },
+        {
+          "slug": "msb-digital-bank-cong-nghe-bao-mat",
+          "score": 0.8038
+        },
+        {
+          "slug": "the-tin-dung-msb-huong-dan-chi-tiet",
+          "score": 0.5822
+        },
+        {
+          "slug": "bidv-smartbanking-khong-vao-duoc",
+          "score": 0.5564
+        },
+        {
+          "slug": "mo-the-tin-dung-liobank-online-nhanh",
+          "score": 0.489
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "msb-digital-bank-ra-mat-thay-mbank",
       "section": "baochi",
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -8062,8 +8294,8 @@
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6494,
-      "score_after": 0.6494,
-      "delta": 0.0,
+      "score_after": 0.6512,
+      "delta": 0.0018,
       "related_before": [
         {
           "score": 0.8318,
@@ -8100,15 +8332,15 @@
           "score": 0.5967
         },
         {
-          "slug": "bidv-flagship-private-banking-tphcm",
-          "score": 0.5355
+          "slug": "bidv-smartbanking-khong-vao-duoc",
+          "score": 0.5416
         },
         {
-          "slug": "review-lpbank-so-2026",
-          "score": 0.5328
+          "slug": "bidv-flagship-private-banking-tphcm",
+          "score": 0.5355
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -8119,8 +8351,8 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6448,
-      "score_after": 0.6448,
+      "score_before": 0.6509,
+      "score_after": 0.6509,
       "delta": 0.0,
       "related_before": [
         {
@@ -8136,7 +8368,7 @@
           "slug": "bhxh-mot-lan-hay-luong-huu"
         },
         {
-          "score": 0.5576,
+          "score": 0.5883,
           "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid"
         },
         {
@@ -8159,7 +8391,7 @@
         },
         {
           "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid",
-          "score": 0.5576
+          "score": 0.5883
         },
         {
           "slug": "tinh-luong-huu-2026-huong-dan",
@@ -8167,7 +8399,65 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "qa-gatekeeper-tu-fix-loi-blog",
+      "section": "posting",
+      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6533,
+      "score_after": 0.6507,
+      "delta": -0.0026,
+      "related_before": [
+        {
+          "score": 0.713,
+          "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog"
+        },
+        {
+          "score": 0.6544,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.6531,
+          "slug": "tu-dong-deploy-zola-github-actions"
+        },
+        {
+          "score": 0.6366,
+          "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer"
+        },
+        {
+          "score": 0.6094,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+          "score": 0.7053
+        },
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.6544
+        },
+        {
+          "slug": "tu-dong-deploy-zola-github-actions",
+          "score": 0.6531
+        },
+        {
+          "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
+          "score": 0.6315
+        },
+        {
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.6094
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.65 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "kha-nang-kinh-nghiem-tieng-han",
@@ -8228,61 +8518,61 @@
       "cannot_green_reason": "Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "huong-dan-xac-thuc-cccd-msb-digital-bank",
-      "section": "baochi",
-      "title": "Hướng dẫn xác thực CCCD trên MSB Digital Bank từ A–Z",
-      "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
+      "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+      "section": "posting",
+      "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6379,
-      "score_after": 0.6379,
-      "delta": 0.0,
+      "score_before": 0.6414,
+      "score_after": 0.639,
+      "delta": -0.0024,
       "related_before": [
         {
-          "score": 0.8318,
-          "slug": "msb-digital-bank-ra-mat-thay-mbank"
+          "score": 0.8848,
+          "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer"
         },
         {
-          "score": 0.8038,
-          "slug": "msb-digital-bank-cong-nghe-bao-mat"
+          "score": 0.713,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
         },
         {
-          "score": 0.5822,
-          "slug": "the-tin-dung-msb-huong-dan-chi-tiet"
+          "score": 0.5421,
+          "slug": "qa-gatekeeper-vaccine-autofixer"
         },
         {
-          "score": 0.489,
-          "slug": "mo-the-tin-dung-liobank-online-nhanh"
+          "score": 0.5336,
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
         },
         {
-          "score": 0.4827,
-          "slug": "vpbank-circle-sieu-the-free-tron-doi-gen-z"
+          "score": 0.5334,
+          "slug": "github-actions-ci-cd-cho-nguoi-moi"
         }
       ],
       "related_after": [
         {
-          "slug": "msb-digital-bank-ra-mat-thay-mbank",
-          "score": 0.8318
+          "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
+          "score": 0.8872
         },
         {
-          "slug": "msb-digital-bank-cong-nghe-bao-mat",
-          "score": 0.8038
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.7053
         },
         {
-          "slug": "the-tin-dung-msb-huong-dan-chi-tiet",
-          "score": 0.5822
+          "slug": "qa-gatekeeper-vaccine-autofixer",
+          "score": 0.5487
         },
         {
-          "slug": "mo-the-tin-dung-liobank-online-nhanh",
-          "score": 0.489
+          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
+          "score": 0.5352
         },
         {
-          "slug": "vpbank-circle-sieu-the-free-tron-doi-gen-z",
-          "score": 0.4827
+          "slug": "github-actions-ci-cd-cho-nguoi-moi",
+          "score": 0.5185
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": "Trung bình top-5 = 0.64 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -8344,6 +8634,64 @@
       "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "github-pr-conflict-pending-checks-mergestatestatus",
+      "section": "posting",
+      "title": "GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.6287,
+      "score_after": 0.6287,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.7795,
+          "slug": "git-merge-va-xu-ly-conflict"
+        },
+        {
+          "score": 0.5977,
+          "slug": "git-rebase-lam-sach-lich-su-commit"
+        },
+        {
+          "score": 0.595,
+          "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
+        },
+        {
+          "score": 0.5887,
+          "slug": "push-pull-fetch-dong-bo-voi-github"
+        },
+        {
+          "score": 0.5827,
+          "slug": "git-stash-cherry-pick-reflog-nang-cao"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "git-merge-va-xu-ly-conflict",
+          "score": 0.7795
+        },
+        {
+          "slug": "git-rebase-lam-sach-lich-su-commit",
+          "score": 0.5977
+        },
+        {
+          "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow",
+          "score": 0.595
+        },
+        {
+          "slug": "push-pull-fetch-dong-bo-voi-github",
+          "score": 0.5887
+        },
+        {
+          "slug": "git-stash-cherry-pick-reflog-nang-cao",
+          "score": 0.5827
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "bidv-flagship-private-banking-tphcm",
       "section": "baochi",
       "title": "Private Banking là gì? Nhìn từ BIDV Sài Gòn",
@@ -8396,6 +8744,64 @@
         {
           "slug": "vai-tro-vietinbank-he-thong-ngan-hang-viet-nam",
           "score": 0.5904
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.63 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de",
+      "section": "baochi",
+      "title": "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ",
+      "cluster": "du-lich",
+      "cluster_label": "Du lịch",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.626,
+      "score_after": 0.626,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.6539,
+          "slug": "summer-korea-4-diem-dung-mua-he"
+        },
+        {
+          "score": 0.6411,
+          "slug": "di-han-het-bao-nhieu-tien"
+        },
+        {
+          "score": 0.6402,
+          "slug": "di-han-mua-nao-re-nhat"
+        },
+        {
+          "score": 0.6196,
+          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
+        },
+        {
+          "score": 0.575,
+          "slug": "thang-6-di-han-an-gi-lam-gi"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "summer-korea-4-diem-dung-mua-he",
+          "score": 0.6539
+        },
+        {
+          "slug": "di-han-het-bao-nhieu-tien",
+          "score": 0.6411
+        },
+        {
+          "slug": "di-han-mua-nao-re-nhat",
+          "score": 0.6402
+        },
+        {
+          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
+          "score": 0.6196
+        },
+        {
+          "slug": "thang-6-di-han-an-gi-lam-gi",
+          "score": 0.575
         }
       ],
       "action": "unchanged",
@@ -8518,37 +8924,58 @@
       "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "bi-kip-xin-visa-han-quoc-5-nam-de",
-      "section": "baochi",
-      "title": "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ",
-      "cluster": "du-lich",
-      "cluster_label": "Du lịch",
-      "tier_before": "low",
+      "slug": "git-push-bi-reject-cach-xu-ly-an-toan-tren-mac",
+      "section": "posting",
+      "title": "Git push bị reject? Cách xử lý an toàn trên Mac",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.0,
-      "score_after": 0.6194,
-      "delta": 0.6194,
-      "related_before": [],
+      "score_before": 0.6034,
+      "score_after": 0.6201,
+      "delta": 0.0167,
+      "related_before": [
+        {
+          "score": 0.7061,
+          "slug": "push-pull-fetch-dong-bo-voi-github"
+        },
+        {
+          "score": 0.635,
+          "slug": "pull-request-quy-trinh-cong-tac-github"
+        },
+        {
+          "score": 0.5649,
+          "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
+        },
+        {
+          "score": 0.5594,
+          "slug": "git-stash-cherry-pick-reflog-nang-cao"
+        },
+        {
+          "score": 0.5516,
+          "slug": "git-la-gi-version-control-cho-nguoi-moi"
+        }
+      ],
       "related_after": [
         {
-          "slug": "summer-korea-4-diem-dung-mua-he",
-          "score": 0.6518
+          "slug": "push-pull-fetch-dong-bo-voi-github",
+          "score": 0.7293
         },
         {
-          "slug": "di-han-het-bao-nhieu-tien",
-          "score": 0.63
+          "slug": "pull-request-quy-trinh-cong-tac-github",
+          "score": 0.6466
         },
         {
-          "slug": "di-han-mua-nao-re-nhat",
-          "score": 0.629
+          "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow",
+          "score": 0.5799
         },
         {
-          "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
-          "score": 0.6164
+          "slug": "git-stash-cherry-pick-reflog-nang-cao",
+          "score": 0.5793
         },
         {
-          "slug": "thang-6-di-han-an-gi-lam-gi",
-          "score": 0.5698
+          "slug": "git-rebase-lam-sach-lich-su-commit",
+          "score": 0.5654
         }
       ],
       "action": "fixed",
@@ -8621,8 +9048,8 @@
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.6145,
-      "score_after": 0.6145,
-      "delta": 0.0,
+      "score_after": 0.6153,
+      "delta": 0.0008,
       "related_before": [
         {
           "score": 0.8038,
@@ -8663,12 +9090,12 @@
           "score": 0.4612
         },
         {
-          "slug": "vietinbank-ipay-internet-banking-qua-cac-thoi-ky",
-          "score": 0.4438
+          "slug": "bidv-smartbanking-khong-vao-duoc",
+          "score": 0.4481
         }
       ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.62 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "vssid-khong-hien-qua-trinh-dong-bhtn",
@@ -8678,8 +9105,8 @@
       "cluster_label": "Tài chính & Ngân hàng",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6126,
-      "score_after": 0.6126,
+      "score_before": 0.6149,
+      "score_after": 0.6149,
       "delta": 0.0,
       "related_before": [
         {
@@ -8687,7 +9114,7 @@
           "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid"
         },
         {
-          "score": 0.6868,
+          "score": 0.6981,
           "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid"
         },
         {
@@ -8710,7 +9137,7 @@
         },
         {
           "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid",
-          "score": 0.6868
+          "score": 0.6981
         },
         {
           "slug": "bhxh-mot-lan-hay-luong-huu",
@@ -8729,61 +9156,61 @@
       "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "qa-gatekeeper-tu-fix-loi-blog",
+      "slug": "qa-gatekeeper-vaccine-autofixer",
       "section": "posting",
-      "title": "QA Gatekeeper: blog tự fix lỗi 24/7 GitHub Actions",
+      "title": "Tôi thiết kế QA Gatekeeper và Daily Vaccine Autofixer",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.6111,
-      "score_after": 0.6111,
-      "delta": 0.0,
+      "score_before": 0.6083,
+      "score_after": 0.6135,
+      "delta": 0.0052,
       "related_before": [
         {
-          "score": 0.6544,
-          "slug": "cong-nghe-blog-duy-nguyen"
+          "score": 0.7889,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
         },
         {
-          "score": 0.6531,
-          "slug": "tu-dong-deploy-zola-github-actions"
-        },
-        {
-          "score": 0.6094,
+          "score": 0.5895,
           "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
         },
         {
-          "score": 0.5877,
-          "slug": "tao-blog-voi-zola"
+          "score": 0.573,
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
         },
         {
-          "score": 0.5509,
+          "score": 0.5478,
           "slug": "he-thong-prompt-zola-blog"
+        },
+        {
+          "score": 0.5421,
+          "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog"
         }
       ],
       "related_after": [
         {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.6544
-        },
-        {
-          "slug": "tu-dong-deploy-zola-github-actions",
-          "score": 0.6531
+          "slug": "10-vaccine-claude-md-giam-loi-production",
+          "score": 0.7889
         },
         {
           "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
-          "score": 0.6094
+          "score": 0.5895
         },
         {
-          "slug": "tao-blog-voi-zola",
-          "score": 0.5877
+          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
+          "score": 0.573
         },
         {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.5509
+          "slug": "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer",
+          "score": 0.5674
+        },
+        {
+          "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+          "score": 0.5487
         }
       ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -8959,64 +9386,6 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.61 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "qa-gatekeeper-vaccine-autofixer",
-      "section": "posting",
-      "title": "Tôi thiết kế QA Gatekeeper và Daily Vaccine Autofixer",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.6044,
-      "score_after": 0.6044,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.7889,
-          "slug": "10-vaccine-claude-md-giam-loi-production"
-        },
-        {
-          "score": 0.5895,
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
-        },
-        {
-          "score": 0.573,
-          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website"
-        },
-        {
-          "score": 0.5478,
-          "slug": "he-thong-prompt-zola-blog"
-        },
-        {
-          "score": 0.5226,
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "10-vaccine-claude-md-giam-loi-production",
-          "score": 0.7889
-        },
-        {
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
-          "score": 0.5895
-        },
-        {
-          "slug": "vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website",
-          "score": 0.573
-        },
-        {
-          "slug": "he-thong-prompt-zola-blog",
-          "score": 0.5478
-        },
-        {
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
-          "score": 0.5226
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.60 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "so-sanh-timo-vs-tnex",
@@ -9374,8 +9743,8 @@
       "cluster_label": "Công nghệ",
       "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.5825,
-      "score_after": 0.5825,
+      "score_before": 0.5832,
+      "score_after": 0.5832,
       "delta": 0.0,
       "related_before": [
         {
@@ -9395,8 +9764,8 @@
           "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
         },
         {
-          "score": 0.5279,
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog"
+          "score": 0.5312,
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam"
         }
       ],
       "related_after": [
@@ -9417,8 +9786,8 @@
           "score": 0.5386
         },
         {
-          "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
-          "score": 0.5279
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+          "score": 0.5312
         }
       ],
       "action": "unchanged",
@@ -9715,6 +10084,43 @@
       "cannot_green_reason": "Trung bình top-5 = 0.55 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "bidv-smartbanking-khong-vao-duoc",
+      "section": "baochi",
+      "title": "BIDV SmartBanking không vào được? Cách xử lý nhanh",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
+      "tier_before": "low",
+      "tier_after": "mid",
+      "score_before": 0.0,
+      "score_after": 0.5441,
+      "delta": 0.5441,
+      "related_before": [],
+      "related_after": [
+        {
+          "slug": "rui-ro-khi-su-dung-ngan-hang-so",
+          "score": 0.5832
+        },
+        {
+          "slug": "huong-dan-xac-thuc-cccd-msb-digital-bank",
+          "score": 0.5564
+        },
+        {
+          "slug": "msb-digital-bank-ra-mat-thay-mbank",
+          "score": 0.5416
+        },
+        {
+          "slug": "loi-thuong-gap-lpbank-so",
+          "score": 0.5228
+        },
+        {
+          "slug": "vietinbank-tu-giao-dich-quay-den-ngan-hang-so",
+          "score": 0.5167
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.54 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "review-cake-by-vpbank",
       "section": "posting",
       "title": "Review Cake by VPBank chi tiết: ưu nhược điểm, phí, tính năng",
@@ -9771,6 +10177,64 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.54 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid",
+      "section": "posting",
+      "title": "Lịch sử đóng BHXH bị mất trên VssID? 5 cách xử lý mới nhất",
+      "cluster": "tai-chinh",
+      "cluster_label": "Tài chính & Ngân hàng",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5284,
+      "score_after": 0.534,
+      "delta": 0.0056,
+      "related_before": [
+        {
+          "score": 0.6981,
+          "slug": "vssid-khong-hien-qua-trinh-dong-bhtn"
+        },
+        {
+          "score": 0.5883,
+          "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid"
+        },
+        {
+          "score": 0.4917,
+          "slug": "rui-ro-khi-su-dung-ngan-hang-so"
+        },
+        {
+          "score": 0.4503,
+          "slug": "toi-uu-bao-mat-han-muc-vietinbank-ipay"
+        },
+        {
+          "score": 0.4138,
+          "slug": "tro-cap-that-nghiep-thoi-gian-bhtn"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "vssid-khong-hien-qua-trinh-dong-bhtn",
+          "score": 0.6981
+        },
+        {
+          "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid",
+          "score": 0.5883
+        },
+        {
+          "slug": "rui-ro-khi-su-dung-ngan-hang-so",
+          "score": 0.4917
+        },
+        {
+          "slug": "toi-uu-bao-mat-han-muc-vietinbank-ipay",
+          "score": 0.4503
+        },
+        {
+          "slug": "bidv-smartbanking-khong-vao-duoc",
+          "score": 0.4415
+        }
+      ],
+      "action": "fixed",
+      "cannot_green_reason": "Trung bình top-5 = 0.53 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "troi-mua-sai-gon-an-gi",
@@ -9955,8 +10419,8 @@
       "tier_before": "mid",
       "tier_after": "mid",
       "score_before": 0.5186,
-      "score_after": 0.5186,
-      "delta": 0.0,
+      "score_after": 0.519,
+      "delta": 0.0004,
       "related_before": [
         {
           "score": 0.5691,
@@ -9997,69 +10461,11 @@
           "score": 0.4975
         },
         {
-          "slug": "review-cake-by-vpbank",
-          "score": 0.4867
+          "slug": "bidv-smartbanking-khong-vao-duoc",
+          "score": 0.4886
         }
       ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.52 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
-      "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid",
-      "section": "posting",
-      "title": "Lịch sử đóng BHXH bị mất trên VssID? Nguyên nhân và 5 cách xử lý mới nhất",
-      "cluster": "tai-chinh",
-      "cluster_label": "Tài chính & Ngân hàng",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.5163,
-      "score_after": 0.5163,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.6868,
-          "slug": "vssid-khong-hien-qua-trinh-dong-bhtn"
-        },
-        {
-          "score": 0.5576,
-          "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid"
-        },
-        {
-          "score": 0.4962,
-          "slug": "rui-ro-khi-su-dung-ngan-hang-so"
-        },
-        {
-          "score": 0.4206,
-          "slug": "bhxh-mot-lan-hay-luong-huu"
-        },
-        {
-          "score": 0.4205,
-          "slug": "toi-uu-bao-mat-han-muc-vietinbank-ipay"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "vssid-khong-hien-qua-trinh-dong-bhtn",
-          "score": 0.6868
-        },
-        {
-          "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid",
-          "score": 0.5576
-        },
-        {
-          "slug": "rui-ro-khi-su-dung-ngan-hang-so",
-          "score": 0.4962
-        },
-        {
-          "slug": "bhxh-mot-lan-hay-luong-huu",
-          "score": 0.4206
-        },
-        {
-          "slug": "toi-uu-bao-mat-han-muc-vietinbank-ipay",
-          "score": 0.4205
-        }
-      ],
-      "action": "unchanged",
+      "action": "fixed",
       "cannot_green_reason": "Trung bình top-5 = 0.52 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -10068,35 +10474,56 @@
       "title": "Lợi ích Apple Pay: Apple và ngân hàng được gì từ khách",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
-      "tier_before": "low",
+      "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.0,
-      "score_after": 0.5119,
-      "delta": 0.5119,
-      "related_before": [],
+      "score_before": 0.5114,
+      "score_after": 0.5114,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8705,
+          "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang"
+        },
+        {
+          "score": 0.7304,
+          "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro"
+        },
+        {
+          "score": 0.3469,
+          "slug": "macos-27-golden-gate-co-gi-moi"
+        },
+        {
+          "score": 0.3069,
+          "slug": "ung-ho-du-an-ai-ten-mien-ai"
+        },
+        {
+          "score": 0.3022,
+          "slug": "life-systems-trong-ky-nguyen-ai"
+        }
+      ],
       "related_after": [
         {
           "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
-          "score": 0.8773
+          "score": 0.8705
         },
         {
           "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
-          "score": 0.733
+          "score": 0.7304
         },
         {
           "slug": "macos-27-golden-gate-co-gi-moi",
-          "score": 0.3499
+          "score": 0.3469
         },
         {
           "slug": "ung-ho-du-an-ai-ten-mien-ai",
-          "score": 0.3016
+          "score": 0.3069
         },
         {
-          "slug": "dieu-kien-du-tu-cach-adsense",
-          "score": 0.2975
+          "slug": "life-systems-trong-ky-nguyen-ai",
+          "score": 0.3022
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.51 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -10216,6 +10643,122 @@
       "cannot_green_reason": "Trung bình top-5 = 0.51 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
+      "slug": "premium-fintech-paywall-demo",
+      "section": "posting",
+      "title": "Fintech 2026: Paywall premium trên blog cá nhân",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5059,
+      "score_after": 0.5059,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.5557,
+          "slug": "cong-nghe-blog-duy-nguyen"
+        },
+        {
+          "score": 0.5532,
+          "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc"
+        },
+        {
+          "score": 0.5412,
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam"
+        },
+        {
+          "score": 0.4654,
+          "slug": "qa-gatekeeper-tu-fix-loi-blog"
+        },
+        {
+          "score": 0.4141,
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "cong-nghe-blog-duy-nguyen",
+          "score": 0.5557
+        },
+        {
+          "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc",
+          "score": 0.5532
+        },
+        {
+          "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+          "score": 0.5412
+        },
+        {
+          "slug": "qa-gatekeeper-tu-fix-loi-blog",
+          "score": 0.4654
+        },
+        {
+          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
+          "score": 0.4141
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.51 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
+      "section": "posting",
+      "title": "Apple Pay kiếm tiền thế nào? Phí 0,15% từ ngân hàng",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "mid",
+      "tier_after": "mid",
+      "score_before": 0.5058,
+      "score_after": 0.5058,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8705,
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay"
+        },
+        {
+          "score": 0.8285,
+          "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro"
+        },
+        {
+          "score": 0.2872,
+          "slug": "macos-27-golden-gate-co-gi-moi"
+        },
+        {
+          "score": 0.2829,
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+        },
+        {
+          "score": 0.2599,
+          "slug": "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+          "score": 0.8705
+        },
+        {
+          "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
+          "score": 0.8285
+        },
+        {
+          "slug": "macos-27-golden-gate-co-gi-moi",
+          "score": 0.2872
+        },
+        {
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
+          "score": 0.2829
+        },
+        {
+          "slug": "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key",
+          "score": 0.2599
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.51 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "faq-schema-cluster-ngan-hang-ctr",
       "section": "posting",
       "title": "Tôi sử dụng FAQ Schema để tăng CTR cho cluster ngân hàng",
@@ -10274,77 +10817,61 @@
       "cannot_green_reason": "Trung bình top-5 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
-      "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
-      "section": "posting",
-      "title": "Apple Pay kiếm tiền thế nào? Phí 0,15% từ ngân hàng",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "low",
-      "tier_after": "mid",
-      "score_before": 0.0,
-      "score_after": 0.5009,
-      "delta": 0.5009,
-      "related_before": [],
-      "related_after": [
-        {
-          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
-          "score": 0.8773
-        },
-        {
-          "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
-          "score": 0.8218
-        },
-        {
-          "slug": "macos-27-golden-gate-co-gi-moi",
-          "score": 0.2858
-        },
-        {
-          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
-          "score": 0.2791
-        },
-        {
-          "slug": "life-systems-trong-ky-nguyen-ai",
-          "score": 0.2407
-        }
-      ],
-      "action": "fixed",
-      "cannot_green_reason": "Trung bình top-5 = 0.50 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
-    },
-    {
       "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
       "section": "posting",
       "title": "Apple Pay tại Việt Nam: 3 năm và ngân hàng hỗ trợ",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
-      "tier_before": "low",
+      "tier_before": "mid",
       "tier_after": "mid",
-      "score_before": 0.0,
-      "score_after": 0.4932,
-      "delta": 0.4932,
-      "related_before": [],
+      "score_before": 0.4945,
+      "score_after": 0.4945,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.8285,
+          "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang"
+        },
+        {
+          "score": 0.7304,
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay"
+        },
+        {
+          "score": 0.3139,
+          "slug": "faq-schema-cluster-ngan-hang-ctr"
+        },
+        {
+          "score": 0.3017,
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+        },
+        {
+          "score": 0.2982,
+          "slug": "doc-bao-cao-google-analytics-15-phut-moi-ngay"
+        }
+      ],
       "related_after": [
         {
           "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
-          "score": 0.8218
+          "score": 0.8285
         },
         {
           "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
-          "score": 0.733
+          "score": 0.7304
         },
         {
           "slug": "faq-schema-cluster-ngan-hang-ctr",
-          "score": 0.3114
+          "score": 0.3139
         },
         {
           "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
-          "score": 0.3036
+          "score": 0.3017
         },
         {
           "slug": "doc-bao-cao-google-analytics-15-phut-moi-ngay",
-          "score": 0.2962
+          "score": 0.2982
         }
       ],
-      "action": "fixed",
+      "action": "unchanged",
       "cannot_green_reason": "Trung bình top-5 = 0.49 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
@@ -10404,64 +10931,6 @@
       ],
       "action": "unchanged",
       "cannot_green_reason": "Top semantic score thấp (0.53) — nội dung quá khác biệt trong cluster."
-    },
-    {
-      "slug": "premium-fintech-paywall-demo",
-      "section": "posting",
-      "title": "Fintech 2026: Paywall premium trên blog cá nhân",
-      "cluster": "cong-nghe",
-      "cluster_label": "Công nghệ",
-      "tier_before": "mid",
-      "tier_after": "mid",
-      "score_before": 0.4795,
-      "score_after": 0.4795,
-      "delta": 0.0,
-      "related_before": [
-        {
-          "score": 0.5557,
-          "slug": "cong-nghe-blog-duy-nguyen"
-        },
-        {
-          "score": 0.5532,
-          "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc"
-        },
-        {
-          "score": 0.4654,
-          "slug": "qa-gatekeeper-tu-fix-loi-blog"
-        },
-        {
-          "score": 0.4141,
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa"
-        },
-        {
-          "score": 0.409,
-          "slug": "phan-biet-policies-va-restrictions-adsense"
-        }
-      ],
-      "related_after": [
-        {
-          "slug": "cong-nghe-blog-duy-nguyen",
-          "score": 0.5557
-        },
-        {
-          "slug": "chon-ngach-noi-dung-giu-chan-nguoi-doc",
-          "score": 0.5532
-        },
-        {
-          "slug": "qa-gatekeeper-tu-fix-loi-blog",
-          "score": 0.4654
-        },
-        {
-          "slug": "direction-cms-seo-engine-he-vaccine-tu-tien-hoa",
-          "score": 0.4141
-        },
-        {
-          "slug": "phan-biet-policies-va-restrictions-adsense",
-          "score": 0.409
-        }
-      ],
-      "action": "unchanged",
-      "cannot_green_reason": "Trung bình top-5 = 0.48 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
     },
     {
       "slug": "toi-nay-sai-gon-an-gi",
@@ -10986,6 +11455,64 @@
       "cannot_green_reason": "Top semantic score thấp (0.50) — nội dung quá khác biệt trong cluster."
     },
     {
+      "slug": "macos-27-golden-gate-co-gi-moi",
+      "section": "baochi",
+      "title": "macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?",
+      "cluster": "cong-nghe",
+      "cluster_label": "Công nghệ",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.3801,
+      "score_after": 0.3801,
+      "delta": 0.0,
+      "related_before": [
+        {
+          "score": 0.5847,
+          "slug": "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key"
+        },
+        {
+          "score": 0.3469,
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay"
+        },
+        {
+          "score": 0.3369,
+          "slug": "qa-gatekeeper-vaccine-autofixer"
+        },
+        {
+          "score": 0.3223,
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+        },
+        {
+          "score": 0.3096,
+          "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr"
+        }
+      ],
+      "related_after": [
+        {
+          "slug": "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key",
+          "score": 0.5847
+        },
+        {
+          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
+          "score": 0.3469
+        },
+        {
+          "slug": "qa-gatekeeper-vaccine-autofixer",
+          "score": 0.3369
+        },
+        {
+          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
+          "score": 0.3223
+        },
+        {
+          "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr",
+          "score": 0.3096
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.38 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
       "slug": "facebook-shopee-affiliate-la-gi",
       "section": "posting",
       "title": "Facebook Shopee Affiliate là gì? Hướng dẫn người mới",
@@ -11167,8 +11694,8 @@
       "cluster_label": "Du lịch",
       "tier_before": "low",
       "tier_after": "low",
-      "score_before": 0.3496,
-      "score_after": 0.3496,
+      "score_before": 0.3494,
+      "score_after": 0.3494,
       "delta": 0.0,
       "related_before": [
         {
@@ -11188,7 +11715,7 @@
           "slug": "toi-nay-sai-gon-an-gi"
         },
         {
-          "score": 0.2876,
+          "score": 0.2865,
           "slug": "ai-thay-doi-lap-ke-hoach-du-lich"
         }
       ],
@@ -11211,7 +11738,7 @@
         },
         {
           "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
-          "score": 0.2876
+          "score": 0.2865
         }
       ],
       "action": "unchanged",
@@ -11225,12 +11752,12 @@
       "cluster_label": "Du lịch",
       "tier_before": "low",
       "tier_after": "low",
-      "score_before": 0.3391,
-      "score_after": 0.3391,
+      "score_before": 0.3347,
+      "score_after": 0.3347,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.485,
+          "score": 0.463,
           "slug": "ai-thay-doi-lap-ke-hoach-du-lich"
         },
         {
@@ -11253,7 +11780,7 @@
       "related_after": [
         {
           "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
-          "score": 0.485
+          "score": 0.463
         },
         {
           "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
@@ -11273,65 +11800,102 @@
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.48) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score thấp (0.46) — nội dung quá khác biệt trong cluster."
     },
     {
-      "slug": "macos-27-golden-gate-co-gi-moi",
-      "section": "baochi",
-      "title": "macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?",
+      "slug": "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key",
+      "section": "posting",
+      "title": "Cách xoá sạch ứng dụng khỏi Mac bằng Terminal: ví dụ gỡ 84Key",
       "cluster": "cong-nghe",
       "cluster_label": "Công nghệ",
       "tier_before": "low",
       "tier_after": "low",
-      "score_before": 0.3124,
-      "score_after": 0.3243,
-      "delta": 0.0119,
+      "score_before": 0.3261,
+      "score_after": 0.3261,
+      "delta": 0.0,
       "related_before": [
         {
-          "score": 0.3369,
+          "score": 0.5847,
+          "slug": "macos-27-golden-gate-co-gi-moi"
+        },
+        {
+          "score": 0.2662,
+          "slug": "10-vaccine-claude-md-giam-loi-production"
+        },
+        {
+          "score": 0.2644,
           "slug": "qa-gatekeeper-vaccine-autofixer"
         },
         {
-          "score": 0.3223,
-          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac"
+          "score": 0.2599,
+          "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang"
         },
         {
-          "score": 0.3096,
-          "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr"
-        },
-        {
-          "score": 0.3029,
+          "score": 0.2553,
           "slug": "cai-dat-git-cau-hinh-lan-dau"
-        },
-        {
-          "score": 0.2905,
-          "slug": "10-vaccine-claude-md-giam-loi-production"
         }
       ],
       "related_after": [
         {
-          "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
-          "score": 0.3499
+          "slug": "macos-27-golden-gate-co-gi-moi",
+          "score": 0.5847
+        },
+        {
+          "slug": "10-vaccine-claude-md-giam-loi-production",
+          "score": 0.2662
         },
         {
           "slug": "qa-gatekeeper-vaccine-autofixer",
-          "score": 0.3369
+          "score": 0.2644
         },
         {
-          "slug": "ten-mien-ai-hon-dao-anguilla-hot-bac",
-          "score": 0.3223
-        },
-        {
-          "slug": "vneid-2-2-8-phan-anh-lua-dao-quet-qr",
-          "score": 0.3096
+          "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
+          "score": 0.2599
         },
         {
           "slug": "cai-dat-git-cau-hinh-lan-dau",
-          "score": 0.3029
+          "score": 0.2553
+        }
+      ],
+      "action": "unchanged",
+      "cannot_green_reason": "Trung bình top-5 = 0.33 < 0.70 — cần thêm bài cùng intent hoặc làm sâu nội dung cluster."
+    },
+    {
+      "slug": "ngay-cua-cha-o-viet-nam-la-ngay-nao",
+      "section": "baochi",
+      "title": "Ngày của Cha ở Việt Nam là ngày nào?",
+      "cluster": "misc",
+      "cluster_label": "Khác",
+      "tier_before": "low",
+      "tier_after": "low",
+      "score_before": 0.0,
+      "score_after": 0.326,
+      "delta": 0.326,
+      "related_before": [],
+      "related_after": [
+        {
+          "slug": "dong-tu-bat-quy-tac-tieng-han",
+          "score": 0.3444
+        },
+        {
+          "slug": "ngu-phap-nang-cao-topik-tieng-han",
+          "score": 0.3243
+        },
+        {
+          "slug": "dap-an-chinh-thuc-thpt-2026-mon-lich-su",
+          "score": 0.3226
+        },
+        {
+          "slug": "on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han",
+          "score": 0.3222
+        },
+        {
+          "slug": "diem-thi-tuyen-sinh-lop-10-tphcm-2026",
+          "score": 0.3163
         }
       ],
       "action": "fixed",
-      "cannot_green_reason": "Top semantic score thấp (0.35) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score thấp (0.34) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "dap-an-chinh-thuc-thpt-2026-mon-ngu-van",
@@ -11399,55 +11963,55 @@
       "cluster_label": "Du lịch",
       "tier_before": "low",
       "tier_after": "low",
-      "score_before": 0.289,
-      "score_after": 0.289,
+      "score_before": 0.2854,
+      "score_after": 0.2854,
       "delta": 0.0,
       "related_before": [
         {
-          "score": 0.485,
+          "score": 0.463,
           "slug": "solo-travel-khoabug-phan-tich-xu-huong"
         },
         {
-          "score": 0.2897,
+          "score": 0.2876,
           "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem"
         },
         {
-          "score": 0.2876,
+          "score": 0.2865,
           "slug": "mua-qua-chin-xu-dong-hai-phong"
         },
         {
-          "score": 0.2109,
+          "score": 0.2123,
           "slug": "di-han-mua-nao-re-nhat"
         },
         {
-          "score": 0.1719,
+          "score": 0.1774,
           "slug": "di-han-het-bao-nhieu-tien"
         }
       ],
       "related_after": [
         {
           "slug": "solo-travel-khoabug-phan-tich-xu-huong",
-          "score": 0.485
+          "score": 0.463
         },
         {
           "slug": "lich-trinh-busan-tu-tuc-3-ngay-2-dem",
-          "score": 0.2897
-        },
-        {
-          "slug": "mua-qua-chin-xu-dong-hai-phong",
           "score": 0.2876
         },
         {
+          "slug": "mua-qua-chin-xu-dong-hai-phong",
+          "score": 0.2865
+        },
+        {
           "slug": "di-han-mua-nao-re-nhat",
-          "score": 0.2109
+          "score": 0.2123
         },
         {
           "slug": "di-han-het-bao-nhieu-tien",
-          "score": 0.1719
+          "score": 0.1774
         }
       ],
       "action": "unchanged",
-      "cannot_green_reason": "Top semantic score thấp (0.48) — nội dung quá khác biệt trong cluster."
+      "cannot_green_reason": "Top semantic score thấp (0.46) — nội dung quá khác biệt trong cluster."
     },
     {
       "slug": "bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi",

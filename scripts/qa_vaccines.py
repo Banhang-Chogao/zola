@@ -416,6 +416,47 @@ def check_v8c_series_registration(ctx: Ctx) -> CheckResult:
     return CheckResult("V8", title, PASS)
 
 
+def check_v32_series_part_sort_guard(ctx: Ctx) -> CheckResult:
+    """V32 — `sort(attribute="extra.series_part")` must be guarded by a `filter`.
+
+    Tera's `sort` filter raises and breaks `zola build` when ANY element lacks the
+    sort attribute. series-listing.html groups posts by `extra.series`; a single
+    member (e.g. a series overview page) declaring `extra.series` WITHOUT
+    `extra.series_part` is enough to crash every paginated section render
+    ("Filter call 'sort' failed → attribute 'extra.series_part' does not reference
+    a field"). The durable fix narrows the list with
+    `| filter(attribute="extra.series_part")` BEFORE sorting, so a missing part can
+    never abort the build.
+    """
+    title = "Series sort guarded against missing series_part (V32)"
+    html = ctx.read("templates/macros/series-listing.html")
+    if html is None:
+        return CheckResult("V32", title, SKIP,
+                           diagnosis="series-listing.html không tồn tại")
+
+    # Every `sort(attribute="extra.series_part")` must be applied to a variable
+    # produced by `filter(attribute="extra.series_part")` (a sortable subset).
+    sort_calls = re.findall(
+        r"(\w+)\s*\|\s*sort\(attribute\s*=\s*[\"']extra\.series_part[\"']\)", html)
+    filtered_vars = set(re.findall(
+        r"set\s+(\w+)\s*=\s*[^\n]*\|\s*filter\(attribute\s*=\s*[\"']extra\.series_part[\"']\)",
+        html))
+    unguarded = [v for v in sort_calls if v not in filtered_vars]
+
+    if unguarded:
+        return CheckResult(
+            "V32", title, FAIL,
+            diagnosis="sort(attribute=\"extra.series_part\") chạy trên list CHƯA lọc "
+                      "→ 1 bài thiếu series_part làm vỡ zola build",
+            fix='lọc trước: {% set sortable = group_pages | '
+                'filter(attribute="extra.series_part") %} rồi sortable | sort(...); '
+                'bài thuộc series phải có series_part (trang tổng quan = 0)',
+            details=[f"sort trên biến chưa filter: '{v}'" for v in unguarded])
+    if not sort_calls:
+        return CheckResult("V32", title, PASS)
+    return CheckResult("V32", title, PASS)
+
+
 def check_v9_v10_process(ctx: Ctx) -> CheckResult:
     """V9/V10 — stale base & dirty-PR merge race are PR-time / git-history
     vaccines, not single-checkout static signals. Surface them as a reminder so
@@ -1743,6 +1784,7 @@ def check_v19_domain_migration_drift(ctx: Ctx) -> CheckResult:
         "scripts/test_qa_vaccines.py",
         "scripts/test_dns_vaccine.py",
         "CLAUDE.md",                     # vaccine library legitimately documents old domain
+        "docs/vaccine-archive.md",       # vaccine archive documentation
         "data/merge-report.json",
         "data/dns-vaccine-report.json",
         "data/performance-audit-snapshot.json",  # checked separately (snapshot check)
@@ -2903,6 +2945,146 @@ def check_v28_vaccine_registry_merge(ctx: Ctx) -> CheckResult:
                        diagnosis="registry source → manual (append delta), data JSON → main+regenerate, không marker sót")
 
 
+# --------------------------------------------------------------------------
+# V30 — Public /tools/* route preservation (anti-silent-removal guard)
+# --------------------------------------------------------------------------
+# Public utility pages under /tools/ that SEO/section optimization and
+# "thin/orphan" cleanup must NEVER silently delete or hide. Each maps to the
+# Zola content page that creates its route. A route may be absent ONLY if its
+# slug is explicitly listed in _TOOLS_REMOVAL_ALLOWLIST (a reviewed decision).
+#
+# History: a "chore: remove Phase 2 features" cleanup deleted all four finance
+# dashboards (content + template + scss + js) while qa-404-checker's
+# _DYNAMIC_APP_ROUTES still allow-listed them — so internal links never flagged
+# the breakage and the routes 404'd silently. This detector makes that a hard,
+# visible FAIL so a public route can never be removed without explicit approval.
+_PROTECTED_TOOLS_ROUTES = {
+    "f-dashboard": "content/tools/f-dashboard.md",  # VietinBank Excel statements
+    "l-dashboard": "content/tools/l-dashboard.md",  # LPBank PDF statements
+    "o-dashboard": "content/tools/o-dashboard.md",  # Liobank/OCB PDF statements
+    "h-dashboard": "content/tools/h-dashboard.md",  # invoice/receipt OCR
+}
+# Slugs explicitly approved for removal (route intentionally retired). Adding a
+# slug here — with reviewer sign-off — is the ONLY sanctioned way to drop a
+# protected /tools/* route. Empty by default: nothing is approved for removal.
+_TOOLS_REMOVAL_ALLOWLIST: frozenset[str] = frozenset()
+
+_FM_TEMPLATE_RE = re.compile(r'(?m)^\s*template\s*=\s*"([^"]+)"')
+
+
+def check_v30_tools_route_preservation(ctx: Ctx) -> CheckResult:
+    """V30 — SEO/section optimization must be NON-DESTRUCTIVE for public /tools/*
+    routes. Existing dashboard pages require route-preservation: orphan/thin
+    cleanup may only REPORT, never delete/hide, unless the slug is in the
+    removal allowlist.
+
+    FAIL — a protected /tools/<slug>/ page (or its bound template) is missing and
+           the slug is NOT in _TOOLS_REMOVAL_ALLOWLIST (silent removal).
+    PASS — every protected route still has its content page + template, or the
+           slug was explicitly approved for removal.
+    """
+    code = "V30"
+    title = "Public /tools/* route preservation (no silent dashboard removal)"
+    problems: list[str] = []
+    for slug, page in sorted(_PROTECTED_TOOLS_ROUTES.items()):
+        if slug in _TOOLS_REMOVAL_ALLOWLIST:
+            continue
+        body = ctx.read(page)
+        if body is None:
+            problems.append(f"/tools/{slug}/ → trang {page} đã bị xoá/ẩn (thiếu)")
+            continue
+        m = _FM_TEMPLATE_RE.search(body)
+        if m and not ctx.exists(f"templates/{m.group(1)}"):
+            problems.append(f"/tools/{slug}/ → template templates/{m.group(1)} thiếu")
+    if problems:
+        return CheckResult(
+            code, title, FAIL,
+            diagnosis=("Trang công cụ /tools/* công khai đã tồn tại bị xoá/ẩn mà KHÔNG có "
+                       "trong removal allowlist. SEO/section optimization & dọn orphan/thin "
+                       "chỉ được REPORT, KHÔNG được xoá route công khai."),
+            fix=("Khôi phục trang + template từ lịch sử "
+                 "(git checkout <pre-deletion> -- content/tools/<slug>.md templates/<slug>.html "
+                 "sass/_<slug>.scss static/js/<slug>); HOẶC nếu cố ý gỡ → thêm slug vào "
+                 "_TOOLS_REMOVAL_ALLOWLIST (cần review duyệt)."),
+            details=problems)
+    return CheckResult(
+        code, title, PASS,
+        diagnosis=(f"{len(_PROTECTED_TOOLS_ROUTES)} route /tools/* công khai đều còn "
+                   "content page + template (không bị silent removal)"))
+
+
+# --------------------------------------------------------------------------
+# V31 — Shortcut registry preservation (operation-guideline restructuring guard)
+# --------------------------------------------------------------------------
+# Restructuring the operation guidelines (moving shortcuts into .claude/commands/
+# skills, rewriting shortcuts.md, condensing CLAUDE.md) must NEVER silently drop an
+# existing user shortcut. History: `bb` (paste a news article from any publisher →
+# an original SEOMONEY blog post) lost its first-class registration during a
+# restructuring — no .claude/commands/bb.md skill and no row in the shortcuts.md
+# `help` table. A separate `dantri` shortcut (a dantri.com.vn crawler — a different
+# tool, NOT a bb alias) existed, which masked the loss. This detector makes that
+# regression a hard, visible FAIL. Both `bb` and `dantri` are required (distinct).
+#
+# A required shortcut is "first-class" when BOTH hold:
+#   * shortcuts.md documents it with a `### `<name>`` section (source of truth), and
+#   * (for command-backed shortcuts) a .claude/commands/<name>.md skill exists.
+_REQUIRED_SHORTCUT_SECTIONS = ("bb", "bb9", "dantri")   # must keep a `### `<name>`` section
+_REQUIRED_SHORTCUT_COMMANDS = ("bb", "dantri")          # must keep a .claude/commands/<name>.md skill
+
+
+def _shortcut_section_present(shortcuts_md: str, name: str) -> bool:
+    """True if shortcuts.md has a `### `<name>`` section header. The name may be
+    followed by a closing backtick (`### `bb``) or an argument (`### `bb9 <topic>``)."""
+    pat = re.compile(r"^###\s+`" + re.escape(name) + r"(?:`| )", re.M)
+    return bool(pat.search(shortcuts_md))
+
+
+def check_v31_shortcut_registry_preservation(ctx: Ctx) -> CheckResult:
+    """V31 — Shortcut registry preservation.
+
+    Restructuring operation guidelines must not delete existing user shortcuts.
+    Required shortcuts (at minimum `bb`) must keep their `### `<name>`` section in
+    shortcuts.md AND, for command-backed ones, their .claude/commands/<name>.md skill.
+    A required shortcut registered but missing from the `help` quick table → WARN.
+    """
+    code = "V31"
+    title = "Shortcut registry preservation (required: bb)"
+    sc = ctx.read("shortcuts.md")
+    if sc is None:
+        return CheckResult(code, title, FAIL,
+                           diagnosis="shortcuts.md vắng — source of truth phím tắt bị mất",
+                           fix="khôi phục shortcuts.md (registry phím tắt)")
+
+    fails: list[str] = []
+    for name in _REQUIRED_SHORTCUT_SECTIONS:
+        if not _shortcut_section_present(sc, name):
+            fails.append(f"shortcuts.md thiếu section `### `{name}`` (phím tắt bị xoá khi restructure)")
+    for name in _REQUIRED_SHORTCUT_COMMANDS:
+        if not ctx.exists(f".claude/commands/{name}.md"):
+            fails.append(f".claude/commands/{name}.md vắng — phím tắt `{name}` mất đăng ký first-class")
+
+    if fails:
+        return CheckResult(code, title, FAIL,
+                           diagnosis="restructure operation-guideline đã xoá phím tắt user đang dùng",
+                           fix=("giữ section `### `<name>`` trong shortcuts.md + file "
+                                ".claude/commands/<name>.md cho mọi phím tắt bắt buộc (gồm `bb`); "
+                                "KHÔNG xoá phím tắt khi cấu trúc lại quy trình"),
+                           details=fails)
+
+    # Soft nudge: bb should also appear in the shortcuts.md `help` quick table.
+    warns: list[str] = []
+    if not re.search(r"^\|\s*`bb`\s*\|", sc, re.M):
+        warns.append("bb chưa có dòng trong bảng `help` (quick reference) của shortcuts.md")
+    if warns:
+        return CheckResult(code, title, WARN,
+                           diagnosis="phím tắt bắt buộc còn đăng ký nhưng thiếu ở bảng help",
+                           fix="thêm dòng `| `bb` | … |` vào bảng help trong shortcuts.md",
+                           details=warns)
+    return CheckResult(code, title, PASS,
+                       diagnosis=(f"{len(_REQUIRED_SHORTCUT_SECTIONS)} section + "
+                                  f"{len(_REQUIRED_SHORTCUT_COMMANDS)} skill phím tắt bắt buộc đều còn (gồm `bb`)"))
+
+
 def check_vaccine_registry_integrity(ctx: Ctx) -> CheckResult:
     """VACCINE-REGISTRY — fail duplicate V-number or duplicate detector registration.
 
@@ -2960,6 +3142,7 @@ DETECTORS = [
     check_v8b_template_block_balance,
     check_v8c_series_registration,
     check_v8d_tera_map_literal,
+    check_v32_series_part_sort_guard,
     check_v19_domain_migration_drift,
     check_domain_root_url_vaccine,
     check_v9_v10_process,
@@ -2993,7 +3176,9 @@ DETECTORS = [
     check_ga_stats_vaccine,
     check_v20_seo_identity_homepage,
     check_v25_backend_route_parity,
+    check_v30_tools_route_preservation,
     check_v28_vaccine_registry_merge,
+    check_v31_shortcut_registry_preservation,
     check_vaccine_registry_integrity,
 ]
 
