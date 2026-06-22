@@ -41,4 +41,4 @@ Nếm thử nhé: 먹다 (ăn) + 는 + 사람 = **먹는 사람** (*meong-neun s
 
 Trong bài đầy đủ hôm nay, bạn sẽ có: **bảng lớn động từ × thì** (-는 / -은 / -을), quy tắc **tính từ làm định ngữ** (-은/ㄴ: 예쁜 꽃, 작은 집), trường hợp đặc biệt **있다/없다 → 있는/없는** (맛있는 음식) và **이다 → 인**, mẹo nhớ **trật tự ngược tiếng Việt**, và **14 câu bài tập có đáp án**. Mở khóa để nói câu dài như người Hàn nào — 화이팅! 💪
 
-👉 Quay lại [Ngày 21 — ôn tập tuần 3 & kể chuyện một ngày](/posting/on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han/) hoặc tiến tới [Ngày 23 — khả năng & kinh nghiệm](/posting/kha-nang-kinh-nghiem-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/).
+👉 Quay lại [Ngày 21 — ôn tập tuần 3 & kể chuyện một ngày](/on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han/) hoặc tiến tới [Ngày 23 — khả năng & kinh nghiệm](/kha-nang-kinh-nghiem-tieng-han/). Xem toàn bộ lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) hoặc [kho bài Premium](/categories/premium/).

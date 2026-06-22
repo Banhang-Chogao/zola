@@ -41,4 +41,4 @@ Nếm thử: bỏ 다 lấy gốc, nguyên âm cuối **ㅏ/ㅗ → 았어요**,
 
 Trong bài đầy đủ hôm nay bạn sẽ có: **quy tắc 3 nhánh** ở quá khứ, **bảng rút gọn** đầy đủ (갔어요, 왔어요, 봤어요, 마셨어요…), dạng **이다 → 이었어요/였어요**, đuôi **trang trọng -았/었습니다**, bộ **từ chỉ thời gian quá khứ** (어제, 지난주, 작년…), một **câu chuyện "hôm qua" mẫu**, và **15 câu bài tập kèm đáp án**. Mở khóa để kể chuyện quá khứ bằng tiếng Hàn — 화이팅! 💪
 
-👉 Quay lại [Ngày 15 — động từ đuôi 아요/어요](/posting/dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han/), hoặc tiến tới [Ngày 17 — thì tương lai & ý định](/posting/thi-tuong-lai-y-dinh-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/).
+👉 Quay lại [Ngày 15 — động từ đuôi 아요/어요](/dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han/), hoặc tiến tới [Ngày 17 — thì tương lai & ý định](/thi-tuong-lai-y-dinh-tieng-han/). Xem lộ trình tại [chuyên mục Học tiếng Hàn](/categories/hoc-tieng-han/) và [kho bài Premium](/categories/premium/).
