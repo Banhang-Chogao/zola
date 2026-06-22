@@ -1,45 +1,68 @@
 /* ============================================================
    ===== FAQ (Câu hỏi thường gặp) =====
    ============================================================
-   Accordion <details>/<summary>, KHÔNG cần JS. Render cuối bài từ
-   page.extra.faq → đồng thời sinh JSON-LD FAQPage (base.html) để
-   bắt rich result + People Also Ask.
-   Component MỚI — không đụng selector global. Dùng brand vars. */
+   B-DNA aligned accordion: <details>/<summary>, no JS.
+   Rendered at article end via page.extra.faq → FAQPage JSON-LD (base.html).
+   All colors from --c-* tokens, 4px spacing scale, 200ms motion,
+   mobile-first responsive, full a11y (focus-visible + reduced-motion).
+   Scoped to .faq — no global overrides. */
 
 .faq {
-  margin: 2.75rem 0 0;
+  margin: calc(var(--c-spacing-6, 2.75rem)) 0 0;
+  padding: var(--c-spacing-3, 0.75rem) 0;
 }
 
 .faq__title {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
   font-weight: 800;
-  color: $brand-ink-900;
-  margin: 0 0 1.1rem;
+  letter-spacing: -0.015em;
+  color: var(--c-text-heading, $brand-ink-900);
+  margin: 0 0 var(--c-spacing-4, 1.1rem);
+  line-height: 1.1;
 }
 
 .faq__item {
-  border: 1px solid $brand-edge-strong;
+  border: 1px solid var(--c-border, $brand-edge-strong);
   border-radius: 12px;
-  background: $brand-snow;
-  margin-bottom: 0.7rem;
+  background: var(--c-bg-surface, $brand-snow);
+  margin-bottom: var(--c-spacing-2, 0.7rem);
   overflow: hidden;
-  transition: border-color 0.2s ease;
+  transition: border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+}
+
+.faq__item:hover {
+  border-color: var(--c-border-strong, $brand-edge-strong);
 }
 
 .faq__item[open] {
-  border-color: $brand-trust-cyan;
+  border-color: var(--c-accent, $brand-trust-cyan);
+  background: var(--c-bg-page, #fff);
+  box-shadow: 0 2px 8px var(--c-shadow-md, rgba(0, 0, 0, 0.04));
 }
 
 .faq__q {
   cursor: pointer;
   list-style: none;
-  padding: 1rem 1.2rem;
+  padding: var(--c-spacing-3, 1rem) var(--c-spacing-4, 1.2rem);
   font-weight: 600;
-  color: $brand-ink-900;
+  font-size: 0.95rem;
+  color: var(--c-text-heading, $brand-ink-900);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: var(--c-spacing-3, 1rem);
+  background: inherit;
+  transition: background 150ms ease;
+}
+
+.faq__q:hover {
+  background: var(--c-bg-soft, rgba(0, 0, 0, 0.02));
+}
+
+.faq__q:focus-visible {
+  outline: 2px solid var(--c-focus-ring, var(--c-accent));
+  outline-offset: -2px;
+  border-radius: 10px;
 }
 
 .faq__q::-webkit-details-marker {
@@ -48,19 +71,82 @@
 
 .faq__q::after {
   content: "+";
-  font-size: 1.45rem;
+  font-size: 1.5rem;
+  font-weight: 800;
   line-height: 1;
-  color: $brand-trust-cyan;
-  transition: transform 0.2s ease;
+  color: var(--c-accent, $brand-trust-cyan);
+  transition: transform 200ms ease;
   flex-shrink: 0;
 }
 
 .faq__item[open] .faq__q::after {
   transform: rotate(45deg);
+  color: var(--c-accent, $brand-trust-cyan);
 }
 
 .faq__a {
-  padding: 0 1.2rem 1.1rem;
-  color: $brand-ink-800;
+  padding: 0 var(--c-spacing-4, 1.2rem) var(--c-spacing-4, 1.1rem);
+  color: var(--c-text-body, $brand-ink-800);
   line-height: 1.7;
+  font-size: 0.94rem;
+}
+
+.faq__a a {
+  color: var(--c-accent, inherit);
+  text-decoration: underline;
+  transition: color 150ms ease;
+}
+
+.faq__a a:hover {
+  color: var(--c-accent-hover, inherit);
+  text-decoration-thickness: 2px;
+}
+
+.faq__a a:focus-visible {
+  outline: 2px solid var(--c-focus-ring, var(--c-accent));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ===== Responsive: mobile first ===== */
+@media (max-width: 640px) {
+  .faq {
+    margin: var(--c-spacing-5, 1.5rem) 0 0;
+  }
+
+  .faq__title {
+    font-size: 1.25rem;
+    margin: 0 0 var(--c-spacing-3, 0.75rem);
+  }
+
+  .faq__item {
+    margin-bottom: var(--c-spacing-2, 0.5rem);
+    border-radius: 10px;
+  }
+
+  .faq__q {
+    padding: var(--c-spacing-3, 0.75rem) var(--c-spacing-3, 0.75rem);
+    font-size: 0.9rem;
+    gap: var(--c-spacing-2, 0.5rem);
+  }
+
+  .faq__q::after {
+    font-size: 1.35rem;
+  }
+
+  .faq__a {
+    padding: 0 var(--c-spacing-3, 0.75rem) var(--c-spacing-3, 0.75rem);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .faq__item,
+  .faq__q,
+  .faq__q::after,
+  .faq__a a {
+    transition: none;
+  }
 }
