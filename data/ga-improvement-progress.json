@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T22:00:23Z",
+  "updated_at": "2026-06-22T16:20:40Z",
   "tasks": [
     {
       "id": "seo",
@@ -17,43 +17,43 @@
       "status": "running",
       "detail": "0 broken links · 18 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-21T21:44:19Z"
+      "updated_at": "2026-06-22T15:37:38Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 59/100 · LCP 10.8 s · needs work",
+      "detail": "Mobile 54/100 · LCP 11.0 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-21T17:09:28+00:00"
+      "updated_at": "2026-06-22T16:17:26+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 894/896 pages",
+      "detail": "15 pages missing FAQ/schema · 958/960 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-21T21:44:19Z"
+      "updated_at": "2026-06-22T15:37:38Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: feat(images): add global blog image watermark rule [feat/blo",
+      "detail": "Latest: no-API Pixabay image-assist + fix(V32) series_part build cra",
       "source": "changelog.json",
-      "updated_at": "2026-06-21"
+      "updated_at": "2026-06-22"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "1007 links OK · IndexNow on publish",
+      "detail": "1084 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-21T11:00:08Z"
+      "updated_at": "2026-06-22T08:13:54Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-21T21:44:19Z"
+      "updated_at": "2026-06-22T15:37:38Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 59/100 vs desktop 94/100 (Δ35) · 895/896 ready",
+      "detail": "Mobile 54/100 vs desktop 90/100 (Δ36) · 959/960 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-21T17:09:28+00:00"
+      "updated_at": "2026-06-22T16:17:26+00:00"
     }
   ],
   "summary": {

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/breadcrumb.html" as bc %}
 
 {# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
 {% block robots %}noindex, follow{% endblock %}
@@ -11,6 +12,48 @@
 {% endblock %}
 
 {% block main %}
+{{ bc::tools(base_url=config.base_url, section_label="Công cụ", section_url=config.base_url~"/tools/", page_label=page.title | default(value="Lịch & sự kiện")) }}
+<div class="priv" data-priv-root>
+  {# ===== Loading (auth check) ===== #}
+  <div class="priv__loading" data-priv-loading>
+    <span class="priv__spinner" aria-hidden="true"></span>
+    <span>Đang kiểm tra đăng nhập…</span>
+  </div>
+
+  {# ===== Login-required gate — NO private data rendered until authed ===== #}
+  <section class="priv__gate" data-priv-gate hidden role="dialog" aria-labelledby="priv-gate-title">
+    <div class="priv__gate-card">
+      <div class="priv__gate-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="40" height="40"><path d="M12 1l9 4v6c0 5-3.8 9.4-9 11-5.2-1.6-9-6-9-11V5l9-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h1 class="priv__gate-title" id="priv-gate-title">Khu vực riêng tư</h1>
+      <p class="priv__gate-sub">
+        Lịch &amp; Bảng ghi chú 3M là công cụ cá nhân. Đăng nhập GitHub để truy cập —
+        dữ liệu được lưu an toàn phía máy chủ, không hiển thị công khai.
+      </p>
+      <p class="priv__gate-error" data-priv-error role="status" aria-live="polite" hidden></p>
+      <button type="button" class="priv__gate-btn" data-priv-login>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 00-3.64 22.42c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.1-.75.4-1.27.73-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0012 .5z"/></svg>
+        <span>Đăng nhập GitHub</span>
+      </button>
+      <p class="priv__gate-hint" data-priv-hint hidden>Backend xác thực chưa được cấu hình.</p>
+    </div>
+  </section>
+
+  {# ===== Authenticated workspace — Calendar (left) + 3M Whiteboard (right) ===== #}
+  <div class="priv__app" data-priv-app hidden>
+    <header class="priv__userbar" data-priv-userbar hidden>
+      <img class="priv__avatar" data-priv-avatar src="" alt="" loading="lazy" decoding="async">
+      <span class="priv__userinfo">
+        <span class="priv__username" data-priv-name></span>
+        <span class="priv__useremail" data-priv-email></span>
+      </span>
+      <span class="priv__rolechip" title="Quyền truy cập">RIÊNG TƯ</span>
+      <button type="button" class="priv__logout" data-priv-logout>Đăng xuất</button>
+    </header>
+
+    <div class="priv__workspace">
+      <section class="priv__pane priv__pane--cal" aria-label="Lịch">
 <div id="cal-app" class="cal" data-cal-root>
   {# ===== Toolbar — Microsoft 365 command bar ===== #}
   <header class="cal__toolbar">
@@ -139,10 +182,36 @@
     <kbd>←</kbd>/<kbd>→</kbd> điều hướng · <kbd>Esc</kbd> đóng
   </p>
 </div>
+      </section>
+
+      {# ===== 3M Whiteboard — yellow post-it sticky notes ===== #}
+      <aside class="priv__pane priv__pane--wb" aria-label="Bảng ghi chú 3M">
+        <div id="wb-app" class="wb" data-wb-root>
+          <header class="wb__head">
+            <div class="wb__headings">
+              <h2 class="wb__title">Bảng ghi chú 3M</h2>
+              <p class="wb__sub">Giấy nhớ cá nhân — lưu riêng tư, an toàn.</p>
+            </div>
+            <button type="button" class="wb__add" data-wb-add>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Ghi chú</span>
+            </button>
+          </header>
+          <p class="wb__empty" data-wb-empty hidden>Chưa có ghi chú. Bấm “Ghi chú” để dán một tờ giấy nhớ.</p>
+          <div class="wb__board" data-wb-board aria-live="polite"></div>
+          <div class="wb__toast" data-wb-toast role="status" aria-live="polite"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
 {% endblock main %}
 
 {% block sidebar %}{% endblock %}
 
 {% block extra_scripts %}
+    {# Shared GitHub-OAuth guard first → emits private-auth:authed for the apps. #}
+    <script src="{{ get_url(path='js/private-auth.js') }}" defer></script>
     <script src="{{ get_url(path='js/calendar/app.js') }}" defer></script>
+    <script src="{{ get_url(path='js/whiteboard/app.js') }}" defer></script>
 {% endblock %}

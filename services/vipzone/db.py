@@ -89,6 +89,37 @@ class VipzoneDB:
                     payload TEXT NOT NULL,
                     expires_at TEXT NOT NULL
                 );
+                -- Private personal Calendar — durable server-side store (never a
+                -- cookie / public static file). Rows are scoped by `owner` (the
+                -- GitHub-verified email of the authenticated admin), so clearing
+                -- cookies only drops the session: re-login restores every event.
+                CREATE TABLE IF NOT EXISTS calendar_events (
+                    id TEXT PRIMARY KEY,
+                    owner TEXT NOT NULL,
+                    title TEXT NOT NULL DEFAULT '',
+                    start TEXT NOT NULL DEFAULT '',
+                    end TEXT NOT NULL DEFAULT '',
+                    all_day INTEGER NOT NULL DEFAULT 0,
+                    color TEXT NOT NULL DEFAULT 'teal',
+                    location TEXT NOT NULL DEFAULT '',
+                    notes TEXT NOT NULL DEFAULT '',
+                    status TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_calendar_owner ON calendar_events(owner);
+                -- Private "3M Whiteboard" sticky notes — same durable, owner-scoped
+                -- store. `order_index` keeps the pinned-note ordering stable.
+                CREATE TABLE IF NOT EXISTS whiteboard_notes (
+                    id TEXT PRIMARY KEY,
+                    owner TEXT NOT NULL,
+                    text TEXT NOT NULL DEFAULT '',
+                    color TEXT NOT NULL DEFAULT 'yellow',
+                    order_index INTEGER NOT NULL DEFAULT 0,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_whiteboard_owner ON whiteboard_notes(owner);
                 """
             )
 
@@ -354,3 +385,188 @@ class VipzoneDB:
     def delete_cms_session(self, sid: str) -> None:
         with self._conn() as conn:
             conn.execute("DELETE FROM cms_sessions WHERE sid = ?", (sid,))
+
+    # ============= Private Calendar (owner-scoped, durable) =============
+    @staticmethod
+    def _event_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+        """Map a DB row to the shape the frontend calendar app consumes directly."""
+        return {
+            "id": row["id"],
+            "title": row["title"],
+            "start": row["start"],
+            "end": row["end"],
+            "allDay": bool(row["all_day"]),
+            "color": row["color"],
+            "location": row["location"],
+            "notes": row["notes"],
+            "status": row["status"],
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+        }
+
+    def list_calendar_events(self, owner: str) -> list[dict[str, Any]]:
+        owner = (owner or "").lower().strip()
+        if not owner:
+            return []
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT * FROM calendar_events WHERE owner = ? ORDER BY start ASC",
+                (owner,),
+            ).fetchall()
+        return [self._event_row_to_dict(r) for r in rows]
+
+    def get_calendar_event(self, owner: str, event_id: str) -> dict[str, Any] | None:
+        owner = (owner or "").lower().strip()
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT * FROM calendar_events WHERE owner = ? AND id = ?",
+                (owner, event_id),
+            ).fetchone()
+        return self._event_row_to_dict(row) if row else None
+
+    def create_calendar_event(self, owner: str, data: dict[str, Any]) -> dict[str, Any]:
+        owner = (owner or "").lower().strip()
+        eid = data.get("id") or f"ev_{uuid.uuid4().hex[:16]}"
+        now = _now()
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT INTO calendar_events
+                    (id, owner, title, start, end, all_day, color, location, notes, status, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    eid, owner,
+                    data.get("title", ""), data.get("start", ""), data.get("end", ""),
+                    1 if data.get("allDay") else 0,
+                    data.get("color", "teal"), data.get("location", ""),
+                    data.get("notes", ""), data.get("status", ""),
+                    now, now,
+                ),
+            )
+        return self.get_calendar_event(owner, eid)  # type: ignore[return-value]
+
+    def update_calendar_event(
+        self, owner: str, event_id: str, data: dict[str, Any]
+    ) -> dict[str, Any] | None:
+        owner = (owner or "").lower().strip()
+        existing = self.get_calendar_event(owner, event_id)
+        if not existing:
+            return None
+        merged = {**existing, **{k: v for k, v in data.items() if v is not None}}
+        with self._conn() as conn:
+            conn.execute(
+                """
+                UPDATE calendar_events
+                SET title = ?, start = ?, end = ?, all_day = ?, color = ?,
+                    location = ?, notes = ?, status = ?, updated_at = ?
+                WHERE owner = ? AND id = ?
+                """,
+                (
+                    merged.get("title", ""), merged.get("start", ""), merged.get("end", ""),
+                    1 if merged.get("allDay") else 0,
+                    merged.get("color", "teal"), merged.get("location", ""),
+                    merged.get("notes", ""), merged.get("status", ""),
+                    _now(), owner, event_id,
+                ),
+            )
+        return self.get_calendar_event(owner, event_id)
+
+    def delete_calendar_event(self, owner: str, event_id: str) -> bool:
+        owner = (owner or "").lower().strip()
+        with self._conn() as conn:
+            cur = conn.execute(
+                "DELETE FROM calendar_events WHERE owner = ? AND id = ?",
+                (owner, event_id),
+            )
+        return cur.rowcount > 0
+
+    # ============= Private Whiteboard sticky notes (owner-scoped, durable) =============
+    @staticmethod
+    def _note_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+        return {
+            "id": row["id"],
+            "text": row["text"],
+            "color": row["color"],
+            "order": row["order_index"],
+            "createdAt": row["created_at"],
+            "updatedAt": row["updated_at"],
+        }
+
+    def list_whiteboard_notes(self, owner: str) -> list[dict[str, Any]]:
+        owner = (owner or "").lower().strip()
+        if not owner:
+            return []
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT * FROM whiteboard_notes WHERE owner = ? ORDER BY order_index ASC, created_at ASC",
+                (owner,),
+            ).fetchall()
+        return [self._note_row_to_dict(r) for r in rows]
+
+    def get_whiteboard_note(self, owner: str, note_id: str) -> dict[str, Any] | None:
+        owner = (owner or "").lower().strip()
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT * FROM whiteboard_notes WHERE owner = ? AND id = ?",
+                (owner, note_id),
+            ).fetchone()
+        return self._note_row_to_dict(row) if row else None
+
+    def create_whiteboard_note(self, owner: str, data: dict[str, Any]) -> dict[str, Any]:
+        owner = (owner or "").lower().strip()
+        nid = data.get("id") or f"note_{uuid.uuid4().hex[:16]}"
+        now = _now()
+        # Default new notes to the end of the board unless an order is given.
+        order = data.get("order")
+        if order is None:
+            with self._conn() as conn:
+                row = conn.execute(
+                    "SELECT COALESCE(MAX(order_index), -1) + 1 AS nxt FROM whiteboard_notes WHERE owner = ?",
+                    (owner,),
+                ).fetchone()
+            order = row["nxt"] if row else 0
+        with self._conn() as conn:
+            conn.execute(
+                """
+                INSERT INTO whiteboard_notes
+                    (id, owner, text, color, order_index, created_at, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    nid, owner, data.get("text", ""), data.get("color", "yellow"),
+                    int(order), now, now,
+                ),
+            )
+        return self.get_whiteboard_note(owner, nid)  # type: ignore[return-value]
+
+    def update_whiteboard_note(
+        self, owner: str, note_id: str, data: dict[str, Any]
+    ) -> dict[str, Any] | None:
+        owner = (owner or "").lower().strip()
+        existing = self.get_whiteboard_note(owner, note_id)
+        if not existing:
+            return None
+        merged = {**existing, **{k: v for k, v in data.items() if v is not None}}
+        with self._conn() as conn:
+            conn.execute(
+                """
+                UPDATE whiteboard_notes
+                SET text = ?, color = ?, order_index = ?, updated_at = ?
+                WHERE owner = ? AND id = ?
+                """,
+                (
+                    merged.get("text", ""), merged.get("color", "yellow"),
+                    int(merged.get("order", 0)), _now(), owner, note_id,
+                ),
+            )
+        return self.get_whiteboard_note(owner, note_id)
+
+    def delete_whiteboard_note(self, owner: str, note_id: str) -> bool:
+        owner = (owner or "").lower().strip()
+        with self._conn() as conn:
+            cur = conn.execute(
+                "DELETE FROM whiteboard_notes WHERE owner = ? AND id = ?",
+                (owner, note_id),
+            )
+        return cur.rowcount > 0
