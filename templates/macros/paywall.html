@@ -1,5 +1,4 @@
-{# Reader-support box (dormant khi enable_premium_lock=false). Ủng hộ tự nguyện qua MoMo
-   + đường nhận bản đầy đủ cho người ủng hộ. KHÔNG khoá nội dung — MoMo chỉ là ủng hộ tự nguyện. #}
+{# Paywall box — hiển thị sau teaser cho bài premium. Full content fetch qua API. #}
 {% import "macros/premium.html" as premium %}
 {% macro box(page, config) %}
 {% set post_id = page.extra.premium_post_id | default(value=page.slug) %}
@@ -15,69 +14,49 @@
          data-blog-name="{{ config.title }}"
          aria-labelledby="paywall-heading">
     <header class="paywall-box__header">
-        <span class="paywall-box__badge" aria-hidden="true">❤️</span>
+        <span class="paywall-box__badge" aria-hidden="true">🔒</span>
         {{ premium::badge() }}
-<<<<<<< HEAD
-        <h2 class="paywall-box__title" id="paywall-heading">Bài viết chuyên sâu — Reader-supported — ủng hộ tự nguyện qua MoMo</h2>
-        <p class="paywall-box__lead">SEOMONEY là blog reader-supported. Nếu nội dung này hữu ích, bạn có thể ủng hộ tự nguyện qua MoMo để giúp mình duy trì hosting, công cụ và thời gian viết bài.</p>
-=======
         <h2 class="paywall-box__title" id="paywall-heading">Bài viết premium — cần thanh toán để mở khóa nội dung</h2>
         <p class="paywall-box__lead">Đây là nội dung trả phí. Bạn cần thanh toán qua MoMo để đọc tiếp toàn bộ bài viết — không phải ủng hộ tự nguyện.</p>
         <p class="paywall-box__price">Giá mở khóa: <strong data-paywall-price="{{ price_fmt }}">{{ price_fmt }}</strong></p>
->>>>>>> origin/main
     </header>
 
     <div class="paywall-box__steps">
         <div class="paywall-step">
-<<<<<<< HEAD
-            <h3 class="paywall-step__label"><span class="paywall-step__num">1</span> Ủng hộ tự nguyện qua MoMo</h3>
-            <a class="paywall-btn paywall-btn--momo" href="{{ momo_link }}" target="_blank" rel="noopener noreferrer">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8v-2h3V9h2v4h3v2h-3v4h-2z"/></svg>
-                Ủng hộ qua MoMo
-=======
             <h3 class="paywall-step__label"><span class="paywall-step__num">1</span> Thanh toán qua MoMo để đọc tiếp</h3>
             <a class="paywall-btn paywall-btn--momo" href="{{ momo_link }}" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8v-2h3V9h2v4h3v2h-3v4h-2z"/></svg>
                 Thanh toán qua MoMo để đọc tiếp
->>>>>>> origin/main
             </a>
         </div>
 
         <div class="paywall-step">
-<<<<<<< HEAD
-            <h3 class="paywall-step__label"><span class="paywall-step__num">2</span> Gửi lời nhắn (tuỳ chọn)</h3>
-=======
             <h3 class="paywall-step__label"><span class="paywall-step__num">2</span> Gửi yêu cầu đọc</h3>
->>>>>>> origin/main
             <form class="paywall-form" data-form="request" novalidate>
                 <label class="paywall-field">
                     <span>Email của bạn</span>
                     <input type="email" name="email" class="paywall-input" placeholder="reader@example.com" required autocomplete="email">
                 </label>
                 <label class="paywall-field">
-                    <span>Lời nhắn cho tác giả (tuỳ chọn)</span>
-                    <input type="text" name="payment_note" class="paywall-input" placeholder="VD: Cảm ơn bài viết, mình vừa ủng hộ..." maxlength="500">
+                    <span>Ghi chú giao dịch Momo nếu có</span>
+                    <input type="text" name="payment_note" class="paywall-input" placeholder="VD: Chuyển lúc 20:30, nội dung CK..." maxlength="500">
                 </label>
-<<<<<<< HEAD
-                <button type="submit" class="paywall-btn paywall-btn--primary">Gửi lời nhắn</button>
-=======
                 <button type="submit" class="paywall-btn paywall-btn--primary">Tôi đã thanh toán, gửi yêu cầu đọc</button>
->>>>>>> origin/main
             </form>
         </div>
 
         <div class="paywall-step">
-            <h3 class="paywall-step__label"><span class="paywall-step__num">3</span> Nếu bạn có mã truy cập (người ủng hộ)</h3>
+            <h3 class="paywall-step__label"><span class="paywall-step__num">3</span> Nếu đã có approve code</h3>
             <form class="paywall-form" data-form="unlock" novalidate>
                 <label class="paywall-field">
                     <span>Email</span>
                     <input type="email" name="email" class="paywall-input" placeholder="reader@example.com" required autocomplete="email">
                 </label>
                 <label class="paywall-field">
-                    <span>Mã truy cập</span>
+                    <span>Approve code</span>
                     <input type="text" name="approve_code" class="paywall-input paywall-input--code" placeholder="ABCD1234EFGH" required autocomplete="one-time-code" spellcheck="false">
                 </label>
-                <button type="submit" class="paywall-btn paywall-btn--unlock">Xem bản đầy đủ</button>
+                <button type="submit" class="paywall-btn paywall-btn--unlock">Mở khóa bài viết</button>
             </form>
         </div>
     </div>
@@ -88,7 +67,7 @@
 <div class="paywall-premium" id="paywall-premium" hidden>
     <div class="paywall-premium__watermark" data-paywall-watermark aria-hidden="true"></div>
     <div class="paywall-premium__body" data-paywall-body></div>
-    <p class="paywall-premium__notice">Bản đầy đủ — chỉ đọc online, không sao chép hoặc phân phối lại.</p>
+    <p class="paywall-premium__notice">Nội dung đã mở khóa — chỉ đọc online, không sao chép hoặc phân phối lại.</p>
 </div>
 
 <div class="paywall-print-footer" data-paywall-print-footer aria-hidden="true">
