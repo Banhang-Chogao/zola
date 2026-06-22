@@ -2029,5 +2029,76 @@ class ToolsRoutePreservationV30Test(unittest.TestCase):
             qv._TOOLS_REMOVAL_ALLOWLIST = original
 
 
+class ShortcutRegistryPreservationV31Test(unittest.TestCase):
+    """V31 — restructuring operation guidelines must not delete user shortcuts (required: bb)."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _wire(self, *, shortcuts=None, bb_cmd=True, dantri_cmd=True):
+        self.repo.write("shortcuts.md", shortcuts if shortcuts is not None else (
+            "### `bb` — paste news (any publisher) → original SEOMONEY post\n"
+            "### `bb9 <topic>` — scheduled variant of bb\n"
+            "### `dantri` — narrower alias of bb\n"
+            "| `bb` | paste news → original post; chờ duyệt |\n"
+        ))
+        if bb_cmd:
+            self.repo.write(".claude/commands/bb.md", "---\ndescription: bb\n---\nbody\n")
+        if dantri_cmd:
+            self.repo.write(".claude/commands/dantri.md", "---\ndescription: dantri\n---\nbody\n")
+
+    def test_real_repo_passes(self):
+        # Calibration: after restore, bb has a section + skill + help row on the real tree.
+        r = qv.check_v31_shortcut_registry_preservation(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS, r.diagnosis + " :: " + "; ".join(r.details))
+
+    def test_all_present_passes(self):
+        self._wire()
+        self.assertEqual(
+            qv.check_v31_shortcut_registry_preservation(self.repo.ctx()).status, qv.PASS)
+
+    def test_missing_bb_section_fails(self):
+        # bb9 + dantri sections present, but the `### `bb`` section was deleted → FAIL.
+        self._wire(shortcuts=(
+            "### `bb9 <topic>` — scheduled variant\n"
+            "### `dantri` — narrower alias\n"
+        ))
+        r = qv.check_v31_shortcut_registry_preservation(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("bb" in d for d in r.details))
+
+    def test_missing_bb_command_fails(self):
+        # Section survives but the first-class skill file is gone → still a regression → FAIL.
+        self._wire(bb_cmd=False)
+        r = qv.check_v31_shortcut_registry_preservation(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("bb.md" in d for d in r.details))
+
+    def test_bb_section_not_matched_by_bb9(self):
+        # The `bb` section regex must NOT be satisfied by a `### `bb9 …`` header alone.
+        self._wire(shortcuts=(
+            "### `bb9 <topic>` — scheduled variant\n"
+            "### `dantri` — narrower alias\n"
+        ))
+        self.assertFalse(qv._shortcut_section_present(
+            self.repo.ctx().read("shortcuts.md"), "bb"))
+
+    def test_missing_shortcuts_md_fails(self):
+        self.repo.write(".claude/commands/bb.md", "x")
+        r = qv.check_v31_shortcut_registry_preservation(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+
+    def test_help_row_missing_warns(self):
+        # Fully registered (sections + skills) but no `| `bb` |` help row → WARN, not FAIL.
+        self._wire(shortcuts=(
+            "### `bb` — paste news → original post\n"
+            "### `bb9 <topic>` — scheduled variant\n"
+            "### `dantri` — narrower alias\n"
+        ))
+        r = qv.check_v31_shortcut_registry_preservation(self.repo.ctx())
+        self.assertEqual(r.status, qv.WARN)
+
+
 if __name__ == "__main__":
     unittest.main()

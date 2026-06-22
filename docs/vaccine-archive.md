@@ -1397,6 +1397,59 @@ fenced blocks.
   - `test_v30_fails_when_dashboard_page_removed` — delete a protected page → FAIL
   - `test_v30_allowlisted_slug_is_skipped` — slug in `_TOOLS_REMOVAL_ALLOWLIST` → not a FAIL
 
+#### V31 — Shortcut registry preservation: restructuring operation guidelines must not delete existing user shortcuts (required: `bb`)
+
+> Governance vaccine. **Restructuring the operation guidelines** (moving shortcuts into
+> `.claude/commands/*.md` skills, rewriting `shortcuts.md`, condensing `CLAUDE.md`) **must
+> never silently drop an existing user shortcut.** A shortcut the operator already relies on
+> must keep BOTH its source-of-truth section in `shortcuts.md` AND its first-class skill in
+> `.claude/commands/`. Required shortcuts include **`bb`** (paste a news article from any
+> publisher → an original SEOMONEY blog post).
+
+- **Symptom:** Operator types `bb` and nothing reliable happens. There is no
+  `.claude/commands/bb.md` skill and no `| `bb` |` row in the `shortcuts.md` `help` table, so
+  `bb` is not a first-class, invokable shortcut. A narrower `dantri` stand-in (added in PR #682)
+  exists with its own skill file, but it is not the source-agnostic, multi-publisher
+  paste→rewrite workflow the operator expects from `bb`.
+- **Root cause:** during an operation-guideline restructuring (shortcuts migrated to
+  `.claude/commands/*.md` skills + the `dantri` skill introduced), `bb` was left **half-
+  registered**: its detailed spec survived as a `### `bb`` section in `shortcuts.md`, but no
+  command skill was created and no `help`-table row was added, while the surviving section was
+  reframed as publisher-specific ("Dân Trí / VnExpress"). Half-registration ≠ deletion, but
+  from the operator's seat the shortcut is effectively lost — the skill registry does not know
+  about it.
+- **FIXER (restore first-class registration):**
+  ```bash
+  # 1) Recreate the command skill (paste-first, source-agnostic, approval gate — no auto-publish)
+  #    → .claude/commands/bb.md  (mirror dantri.md style; delegate to `### `bb`` in shortcuts.md)
+  # 2) Keep the `### `bb`` section in shortcuts.md source-agnostic (any publisher) and add the
+  #    `| `bb` | … |` row to the `help` quick table.
+  # 3) Keep `dantri` (do not remove) but make it reuse bb's logic as a narrower alias.
+  python3 scripts/qa_vaccines.py            # V31 detector must PASS
+  python3 -m unittest scripts.test_qa_vaccines -v
+  ```
+- **Detector (static, in `scripts/qa_vaccines.py`):** `check_v31_shortcut_registry_preservation`
+  reads `shortcuts.md` and asserts, for every required shortcut, that a `### `<name>`` section
+  exists; and for every command-backed required shortcut, that `.claude/commands/<name>.md`
+  exists. A missing section OR a missing skill file → **FAIL** (`_REQUIRED_SHORTCUT_SECTIONS`,
+  `_REQUIRED_SHORTCUT_COMMANDS` — both include `bb`). A required shortcut registered but absent
+  from the `help` quick table → **WARN**. Registered in `DETECTORS`; surfaced by `qa_check.py`
+  → blocks auto-merge/deploy if a required shortcut is ever deleted again.
+- **Rule (BẮT BUỘC):**
+  1. Restructuring operation guidelines may rename, regroup, or condense shortcuts — but must
+     **not delete** an existing user shortcut. Required shortcuts include `bb`.
+  2. A first-class shortcut needs BOTH a `### `<name>`` section in `shortcuts.md` AND a
+     `.claude/commands/<name>.md` skill. Adding one without the other is a regression.
+  3. `dantri` is preserved as a **narrower alias** of `bb` (reuses the same paste→rewrite
+     logic + approval gate); it is never a replacement that justifies dropping `bb`.
+  4. `bb` is **paste-first** (no auto-crawl) and **must not auto-publish** without explicit user
+     approval — it commits to a dev branch and waits.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v`
+  - `test_real_repo_passes` — current tree (bb section + bb.md skill + help row) → PASS
+  - `test_missing_bb_section_fails` — drop the `### `bb`` section → FAIL
+  - `test_missing_bb_command_fails` — drop `.claude/commands/bb.md` → FAIL
+  - `test_help_row_missing_warns` — bb registered but no `help` row → WARN
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`

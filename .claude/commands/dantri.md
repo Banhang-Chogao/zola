@@ -5,6 +5,11 @@ description: Paste nội dung nguồn → viết lại thành bài blog mới, h
 Khi user gõ `dantri` (plain text, không argument ngay), thực thi **NGAY** theo section
 `### dantri` trong `shortcuts.md` — đọc file đó trước khi làm.
 
+> **Alias hẹp của `bb`**: `dantri` dùng chung engine viết lại paste→bài gốc của `bb`
+> (xem `.claude/commands/bb.md` + section `### \`bb\`` trong `shortcuts.md`). Khác biệt:
+> `dantri` không ép `content/baochi/`/`"Báo chí"` (đặt section theo nội dung). **Cùng
+> approval gate** với `bb`: chờ user duyệt, KHÔNG tự đăng.
+
 ## Parse
 
 - Cú pháp: `dantri` (user sẽ dán nội dung/link sau khi nhận prompt)
@@ -29,8 +34,9 @@ Khi user gõ `dantri` (plain text, không argument ngay), thực thi **NGAY** th
 8. KHÔNG đưa private data: email, tên máy, path local, token, log terminal.
 9. Category: chọn từ `categories.json` theo nội dung; `"Tất cả"` đầu mảng.
 10. Gate: `build_references.py` → `seo_qa_checker.py` → `qa_check.py` → `check_internal_links.py`.
-11. Commit (1 file): `feat: add dantri article — <slug> (inspired by <source>)`.
-12. Push → auto-merge (không mở PR thủ công).
+11. Commit (1 file) lên branch dev: `feat: add dantri article — <slug> (inspired by <source>)`.
+12. **DỪNG & chờ user duyệt** (cùng approval gate với `bb`) — KHÔNG auto-merge/deploy;
+    chỉ merge `main` → deploy sau khi user duyệt rõ ràng.
 
 ## Output
 

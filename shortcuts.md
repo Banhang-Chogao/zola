@@ -126,7 +126,9 @@ Format bắt buộc:
 | `backend8` | So main SHA vs Render backend SHA — phát hiện split-brain static↔backend (V16) |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
-| `dantri` | Paste nội dung nguồn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
+| `bb` | Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY, human, 1000+ từ, chuẩn SEO; chờ duyệt trước khi đăng |
+| `bb9 <topic>` | Viết bài từ chủ đề + hẹn giờ đăng (draft n+3, buổi tối) — biến thể "hẹn giờ" của `bb` |
+| `dantri` | Alias hẹp của `bb`: paste nội dung nguồn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
 | `fixrule8` | Soi conflict giữa rule + vaccine trong CLAUDE.md → sinh PROMPT fix cho Claude/Grok (read-only) |
@@ -1611,18 +1613,22 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 **Safe fallback**: Nếu conflict quá phức tạp → output diff + escalate user manual review.
 
-### `bb` — Xử lý bài báo từ Dân Trí / VnExpress (Interactive article processor)
+### `bb` — Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY (paste-first, chờ duyệt)
 
-**Mục đích**: Copy-paste nội dung bài báo từ Dân Trí/VnExpress → Claude tự viết lại theo phong cách blog cá nhân → auto-commit vào nhánh `baochi` → PR → merge ngay.
+**Mục đích**: Copy-paste nội dung bài báo từ **bất kỳ nguồn nào** (VnExpress, Dân Trí,
+Tuổi Trẻ, Thanh Niên, VietnamNet…) → Claude viết lại thành bài blog **gốc** theo giọng cá
+nhân → commit vào nhánh `baochi` → **chờ user duyệt** rồi mới merge/đăng. **Source-agnostic,
+paste-first** (KHÔNG tự crawl web).
 
 **Hành động**:
 
 1. **Prompt user**:
    - Gõ `bb`
-   - Claude hỏi: "📰 Dán nội dung bài báo (hoặc chỉ heading + URL):"
-   
+   - Claude hỏi: "📰 Dán nội dung bài báo (đa nguồn — hoặc tiêu đề + đoạn chính, kèm URL nếu có):"
+   - **Nội dung dán quá ngắn / không rõ → HỎI thêm trước khi viết, KHÔNG tự bịa.**
+
 2. **Nhập liệu**:
-   - User copy-paste full bài hoặc chỉ title + nội dung chính
+   - User copy-paste full bài hoặc chỉ title + nội dung chính (từ bất kỳ báo nào)
    - Format chấp nhận: text thô hoặc đã format markdown
    - URL bài báo (optional, để tham khảo source)
 
@@ -1636,11 +1642,16 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
      Nếu category mới chưa có trong `categories.json` → thêm vào file đó.
    - Sinh slug kebab-case từ title
 
-4. **Rewrite engine**:
-   - Claude viết lại bài từ đầu (KHÔNG paraphrase máy móc)
+4. **Rewrite engine** (bài gốc, KHÔNG copy đoạn dài):
+   - Claude viết lại bài từ đầu (KHÔNG paraphrase máy móc), cấu trúc bắt buộc:
+     **Mở bài** (vì sao đáng chú ý) · **Bối cảnh/context** · **Phân tích chính** (≥2 H2) ·
+     **Điều người đọc rút ra được** (practical takeaway) · **Nhận định/quan điểm cá nhân
+     cuối bài** (I-statement) · **Kết luận** rõ ràng.
    - Giọng cá nhân: 1st person ("mình", "tôi"), quan điểm riêng
    - Tổng hợp kiến thức từ nội dung gốc → mở rộng góc nhìn độc lập
-   - Thêm internal links tới 2-3 bài liên quan nếu có
+   - **Chỉ giữ fact có trong nội dung dán**; điểm cần kiểm chứng → ghi "theo nội dung được
+     trích/dán" hoặc bỏ. KHÔNG bịa số liệu/sự kiện.
+   - Thêm internal links tới 2-3 bài liên quan **nếu có** (không bịa URL)
    - Output tối thiểu ~1000 từ (lý tưởng 1000–1800), tự nhiên Tiếng Việt
      (xem "Tiêu chí AdSense-friendly" bên dưới)
 
@@ -1663,22 +1674,21 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
      mặc định `"Tất cả"` + `"Báo chí"`, kèm category theo content nếu detect được.
    - Nếu không detect được content-category → chỉ `["Tất cả", "Báo chí"]`.
 
-6. **Auto-workflow**:
-   - Checkout nhánh `baochi` (hoặc create nếu không tồn tại)
+6. **Workflow (chờ duyệt — KHÔNG tự đăng)**:
    - Write file `content/baochi/<slug>.md`
-   - Commit: `feat: Add Dân Trí article — <short title>`
-   - Push lên `baochi`
-   - Tạo PR từ `baochi` → `main`
-   - **MERGE NGAY** (bypass 16:00 rule vì là article aggregation, KHÔNG code)
-   - Trigger deploy
+   - Chạy gate: `build_references.py` → `seo_qa_checker.py` → `qa_check.py` → `check_internal_links.py`
+   - Commit (1 file) lên branch dev: `feat: add bb article — <slug> (inspired by <source>)`
+   - **DỪNG & chờ user duyệt** — KHÔNG auto-merge/deploy. Chỉ merge `main` → deploy **sau khi
+     user duyệt rõ ràng** ("đăng"/"merge"). Đây là yêu cầu an toàn của `bb` (no auto-publish).
 
 7. **Output summary**:
    ```
-   ✅ Bài báo xử lý thành công
+   ✅ Bài đã viết xong (chờ duyệt)
    📝 Slug: <slug>
-   🏷️ Category: <auto-detected>
-   🔗 PR: #<số> → merged
-   🚀 Deploy: in progress
+   🏷️ Category: Tất cả · <best-fit> · Báo chí
+   📄 File: content/baochi/<slug>.md  ·  Words: <n>  ·  SEO QA: <score>
+   🌿 Branch: <dev> (đã commit, CHƯA merge)
+   👉 Duyệt đăng? (gõ để merge/deploy)
    ```
 
 **Quality checks**:
@@ -1855,9 +1865,14 @@ Push: <branch> → auto-merge
 
 **Morning / runner**: `baomoi` cần argument → **loại** khỏi `morning` (giống `topic:`).
 
-### `dantri` — Viết lại nội dung nguồn thành bài blog mới
+### `dantri` — Viết lại nội dung nguồn thành bài blog mới (alias hẹp của `bb`)
 
 **Cú pháp**: gõ `dantri` đúng từ (không cần argument ngay).
+
+> **Alias của `bb`**: `dantri` **dùng chung engine viết lại paste→bài gốc** của `### \`bb\``
+> (đọc section đó). Khác biệt duy nhất: `dantri` là biến thể **hẹp/source-agnostic** — đặt bài
+> ở section phù hợp nội dung (KHÔNG ép `content/baochi/`/`"Báo chí"`), còn `bb` là pipeline tin
+> đầy đủ (nhánh `baochi`). **Cùng approval gate**: chờ user duyệt, KHÔNG tự đăng.
 
 **Mục đích**: User dán nội dung bài gốc (từ báo chí, blog khác, hoặc link + excerpt)
 → Claude viết lại hoàn toàn bằng lời mới, không copy nguyên văn, giữ góc nhìn
@@ -1916,9 +1931,10 @@ QA: pass | fail
 Push: <branch> → auto-merge
 ```
 
-**Hành động sau khi write**:
-1. Commit (1 file): `feat: add dantri article — <slug> (inspired by <source>)`
-2. Push branch dev → auto-merge → auto-deploy (ZERO_BARRIER)
+**Hành động sau khi write** (cùng approval gate với `bb` — KHÔNG tự đăng):
+1. Commit (1 file) lên branch dev: `feat: add dantri article — <slug> (inspired by <source>)`
+2. **DỪNG & chờ user duyệt** — KHÔNG auto-merge/deploy. Chỉ merge `main` → deploy sau khi
+   user duyệt rõ ràng ("đăng"/"merge").
 
 **Morning / runner**: `dantri` cần user dán nội dung sau khi gọi → **loại** khỏi `morning`.
 
