@@ -1,6 +1,7 @@
 +++
 title = "Viết blog bằng local terminal khi AI hết credit"
 date = 2026-06-22
+aliases = ["/viet-blog-bang-local-terminal-khi-ai-het-credit/"]
 
 [taxonomies]
 categories = ["Tất cả"]
@@ -12,7 +13,7 @@ featured = false
 
 Có những ngày trợ lý AI của bạn báo hết credit, hết lượt, hoặc đơn giản là đang bảo trì. Nếu cả quy trình xuất bản của bạn phụ thuộc vào AI, bạn sẽ kẹt. Bài này hướng dẫn cách **viết blog bằng local terminal** một cách trọn vẹn — từ tạo nhánh, soạn bài, kiểm tra QA, build sạch, tới mở Pull Request và chờ auto-merge — mà không cần một dòng trợ giúp nào từ AI.
 
-Đây là phần ba của cụm bài. Nếu muốn hiểu vì sao quy trình kỷ luật lại quan trọng, hãy đọc [case study fix QA Gatekeeper GitHub Actions](/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/). Còn nếu muốn tra cứu ý nghĩa từng câu lệnh, [bài giải thích các lệnh Git đưa blog lên production](/posting/cac-lenh-git-dua-blog-len-production/) là cẩm nang đi kèm.
+Đây là phần ba của cụm bài. Nếu muốn hiểu vì sao quy trình kỷ luật lại quan trọng, hãy đọc [case study fix QA Gatekeeper GitHub Actions](/fix-qa-gatekeeper-github-actions-merge-conflict-zola/). Còn nếu muốn tra cứu ý nghĩa từng câu lệnh, [bài giải thích các lệnh Git đưa blog lên production](/cac-lenh-git-dua-blog-len-production/) là cẩm nang đi kèm.
 
 <!-- more -->
 
@@ -164,4 +165,4 @@ Theo [tài liệu chính thức của Zola](https://www.getzola.org/documentatio
 
 AI hết credit không phải là cái cớ để dừng xuất bản. Quy trình cốt lõi vẫn nằm trong tay bạn: bắt đầu từ `main` mới, tạo nhánh, viết frontmatter chuẩn, thêm ảnh an toàn, chạy QA, build sạch, kiểm 404, commit có chủ đích, push, mở PR và chờ auto-merge.
 
-Hãy xem AI như một người cộng sự sáng tạo, còn terminal và Git như dây chuyền sản xuất. Khi bạn vững phần vận hành, mọi thứ khác chỉ là gia vị. Để ôn lại từng câu lệnh, hãy ghé [các lệnh Git đưa blog lên production](/posting/cac-lenh-git-dua-blog-len-production/); và để thấy quy trình này cứu bạn thế nào trong một sự cố thật, [case study fix QA Gatekeeper GitHub Actions](/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/) là minh chứng rõ nhất.
+Hãy xem AI như một người cộng sự sáng tạo, còn terminal và Git như dây chuyền sản xuất. Khi bạn vững phần vận hành, mọi thứ khác chỉ là gia vị. Để ôn lại từng câu lệnh, hãy ghé [các lệnh Git đưa blog lên production](/cac-lenh-git-dua-blog-len-production/); và để thấy quy trình này cứu bạn thế nào trong một sự cố thật, [case study fix QA Gatekeeper GitHub Actions](/fix-qa-gatekeeper-github-actions-merge-conflict-zola/) là minh chứng rõ nhất.

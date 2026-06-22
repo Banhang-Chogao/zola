@@ -7,7 +7,7 @@ slug = "top-10-cong-cu-terminal-mac-2026"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["terminal", "mac", "dev tools", "productivity", "cli", "homebrew", "workflow"]
+tags = ["cli", "dev tools", "homebrew", "mac", "productivity", "terminal", "workflow"]
 [extra]
 thumbnail = "https://picsum.photos/seed/terminal-mac-tools/600/400"
 seo_keyword = "công cụ terminal cho Mac"
@@ -98,7 +98,7 @@ gh run list               # Workflow run gần nhất
 gh issue list             # Danh sách issue
 ```
 
-**Liên quan:** Xem bài [lệnh terminal kiểm tra PR GitHub](/posting/cac-lenh-terminal-kiem-tra-pr-github/) để biết chi tiết.
+**Liên quan:** Xem bài [lệnh terminal kiểm tra PR GitHub](/cac-lenh-terminal-kiem-tra-pr-github/) để biết chi tiết.
 
 ---
 

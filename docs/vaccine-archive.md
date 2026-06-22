@@ -3109,3 +3109,30 @@ git diff --check
 git ls-files node_modules public
 git rev-list --objects HEAD ^origin/main | grep -E "node_modules|workerd|public/" | head -20 || echo "OK: branch sạch."
 ```
+
+---
+
+## V33 — Post-Conflict Artifact Hygiene
+
+**Pattern:** Sau khi resolve merge conflict, branch còn chứa các file ngoài scope PR gốc — backup `.bak-*`, helper script `fix-*.sh`, ảnh unrelated, `.orig`/`.rej` artifacts.
+
+**Dấu hiệu:**
+- `git diff --name-only origin/main <branch>` có `*.bak-frontmatter`, `*.bak`, `fix-*.sh`, `.orig`, `.rej`, ảnh không liên quan tới mục tiêu PR
+- PR size tăng bất thường (file thêm vào không match mô tả PR)
+- QA hoặc reviewer phát hiện file "không ai biết từ đâu ra"
+
+**Phân biệt với V10/V12:**
+- V10: merge race / dirty PR — conflict markers, mergeable_state=dirty
+- V12: semantic conflict — shared infra files (base.html, footer.scss)
+- **V33: artifact hygiene** — conflict đã resolve clean nhưng sau resolve còn sót backup/temp/unrelated files theo trong commit
+
+**FIXER:**
+1. `git diff --name-only origin/main <branch>` → xem danh sách
+2. Xoá: `*.md.bak-frontmatter`, `fix-*.sh`, `*.orig`, `*.rej`, `.bak`, ảnh unrelated
+3. Giữ: files thuộc mục tiêu PR + data files cần thiết (series JSON, seo-qa-scores lấy từ main)
+4. `git rm <artifact_files>` → commit với message `chore(hygiene): remove post-conflict artifacts`
+5. Push → CI retrigger
+
+**Detector tĩnh (`qa_vaccines.py`):** warn nếu branch diff có `*.bak-frontmatter`, `fix-*.sh`, `*.orig` so với main.
+
+**Prevention rule:** Sau mỗi `git merge origin/main` → chạy `git diff --name-only origin/main HEAD` và audit danh sách trước khi commit.

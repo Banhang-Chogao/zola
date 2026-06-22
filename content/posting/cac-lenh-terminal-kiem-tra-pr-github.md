@@ -7,7 +7,7 @@ slug = "cac-lenh-terminal-kiem-tra-pr-github"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github", "terminal", "pr", "ci cd", "github cli", "gh", "git", "debug"]
+tags = ["ci cd", "debug", "gh", "git", "github", "github cli", "pr", "terminal"]
 [extra]
 thumbnail = "https://picsum.photos/seed/terminal-github-pr/600/400"
 seo_keyword = "câu lệnh kiểm tra PR GitHub"
@@ -351,7 +351,7 @@ Biết các lệnh terminal để kiểm tra PR, CI, deploy sẽ giúp bạn:
 
 ✅ **Tự động:** có thể kết hợp script để monitor.
 
-Nếu bạn muốn tìm hiểu sâu hơn về quy trình git từ đầu, đừng bỏ qua bài [lệnh Git đưa blog lên production](/posting/cac-lenh-git-dua-blog-len-production/) — nó giải thích từng bước push, commit, tạo PR.
+Nếu bạn muốn tìm hiểu sâu hơn về quy trình git từ đầu, đừng bỏ qua bài [lệnh Git đưa blog lên production](/cac-lenh-git-dua-blog-len-production/) — nó giải thích từng bước push, commit, tạo PR.
 
 Hôm nay, hãy mở terminal và thử `gh pr status` — bạn sẽ thấy nó dễ dùng hơn bạn tưởng. 
 

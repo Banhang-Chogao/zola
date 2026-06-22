@@ -63,7 +63,7 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 | Top-Level Function | Phím tắt chính | Triệu chứng | Mục đích |
 |---|---|---|---|
-| **fix-merge** | `ff9`, `prn` | Merge conflict, PR bị `dirty`, nhánh stale | Giải quyết conflict an toàn; rebase; re-merge |
+| **fix-merge** | `ff9`, `prn`, `prq` | Merge conflict, PR bị `dirty`, nhánh stale, queue audit | Giải quyết conflict an toàn; rebase; re-merge; audit PR queue |
 | **fix-deploy** | `ff`, `backend8`, `deploysafe29` | Deploy fail, CI đỏ, Pages ≠ backend | Chẩn đoán CI; auto-fix pattern; verify backend sync |
 | **fix-seo** | `SEO11`, `nangcap`, `seo` | Lighthouse thấp, bài mới thiếu tối ưu | Bulk SEO fix; loop polish; optimize per-article |
 | **fix-ui** | CSS/template audit (chưa shortcut, dùng `ad`) | Layout broken, responsive fail | Xem rule CSS; audit Lighthouse CLS |
@@ -78,14 +78,83 @@ tạo workflow mới, Claude phải tự đánh giá:
 | `help` | Danh sách tắt tắt | In bảng shortcut + mô tả 1 dòng |
 | `pp` | Print policy + vaccine | In rule/quy tắc + thư viện vaccine từ CLAUDE.md |
 | `fixrule8` | Rule conflict detector | Phát hiện mâu thuẫn trong rule (read-only) |
-| `?? ` / `run list` / `wip8` | Status trackers | Xem trạng thái workspace, CI, deploy |
+| `??` / `run list` / `wip8` | Status trackers | Xem trạng thái workspace, CI, deploy |
+| `prq` | PR Queue Audit | Rà toàn bộ hàng đợi PR/build/deploy — phân loại lỗi thật/pending/chưa deploy |
 | `runner` / `tieptuc8` | Resume/continue | Tiếp tục tác vụ dở, retry failed workflow |
+| `f pr <N> [N2…]` | Follow PR until merged | Poll CI checks, auto-merge khi xanh, báo kết quả |
+| `f pr2` | Paste CI error → auto-fix | Nhận text/log dán vào → match vaccine → fix ASAP |
 
 ---
 
 ## 2.1 FIX-MERGE — Merge / Conflict Resolution Shortcuts
 
 Khi bị merge conflict, PR `dirty`, hoặc branch stale relative to `main` — dùng phím tắt này.
+
+### `f pr2` — Paste CI error/log → auto-fix theo Vaccine
+
+**Mục đích**: User dán bất kỳ CI log, error message, PR state, GitHub check output vào
+terminal → Claude đọc, match với Vaccine library (V1–V31) hoặc resolution pattern →
+tự chẩn đoán và fix ASAP không hỏi lại.
+
+**Cú pháp**: Gõ `f pr2` rồi dán text vào (hoặc dán URL PR/run, hoặc log thô).
+
+**Hành động (THỰC THI NGAY)**:
+
+1. **Đọc toàn bộ text dán vào** — không truncate, không bỏ qua.
+2. **Extract signals**: tên check fail, error message, file conflict, vaccine pattern.
+3. **Match Vaccine** (V1–V31 trong CLAUDE.md §4):
+   - Khớp → **FIXER tương ứng ngay**, không chẩn lại từ đầu.
+   - Không khớp → chẩn đoán mới với `ff`/`ff9`, ghi log incident.
+4. **Fix tự động** (delta tối thiểu):
+   - Conflict (`data/*.json`) → `git checkout origin/main -- <file>`
+   - Template conflict → merge giữ cả 2 bên
+   - QA fail / Tera syntax → sửa file, `zola check`
+   - Build fail → xem log CI, apply fixer
+5. **Verify**: `zola check` → `python3 scripts/qa_check.py` (nếu cần).
+6. **Commit + Push** → báo kết quả 1 dòng.
+
+**Output**: `✅ Fixed: <mô tả fix>` hoặc `❌ Cannot auto-fix: <lý do> — cần manual`.
+
+### `f pr <N> [N2…]` — Follow PR(s) until merged
+
+**Mục đích**: Theo dõi 1 hoặc nhiều PR cho đến khi tất cả merge hoặc fail — poll CI
+checks, auto-merge qua `try_auto_merge.py` khi xanh, báo trạng thái realtime. Dừng
+khi tất cả PR đạt terminal state (merged / closed / failed).
+
+**Cú pháp**:
+```
+f pr 742
+f pr 742 741
+f pr https://github.com/Banhang-Chogao/zola/pull/742
+```
+
+**Hành động (THỰC THI NGAY)**:
+
+1. **Parse PR numbers** từ argument — nhận số nguyên hoặc URL GitHub PR.
+2. **Check CI ngay** cho mỗi PR: `gh pr checks <N>`.
+3. **In bảng trạng thái** tức thì:
+   ```
+   | PR | Branch | qa-check | ensure-pr | Trạng thái |
+   |---|---|---|---|---|
+   | #742 | feat/... | ⏳ pending | ✅ pass | Chờ QA |
+   ```
+4. **Arm Monitor** (persistent) poll mỗi 20s cho tất cả PR trong danh sách:
+   - Khi `qa-check` = `pass` → gọi `python3 scripts/try_auto_merge.py --pr <N>`
+   - Khi `qa-check` = `fail/error` → in log lỗi, escalate user
+   - Khi PR state = `MERGED` → đánh dấu done, xóa khỏi poll list
+   - Khi tất cả PR done → dừng Monitor, in báo cáo cuối
+5. **ScheduleWakeup** fallback 120s (cache-warm) trong khi chờ Monitor.
+6. **Dừng loop** khi tất cả PR đạt terminal state; dừng Monitor bằng TaskStop.
+
+**Output báo cáo cuối (khi xong)**:
+```
+F PR Summary
+PR #742: ✅ MERGED — feat(ui): breadcrumb tools
+PR #741: ✅ MERGED — refactor(seo): rename Google Rank
+All PRs merged.
+```
+
+**Nếu PR fail**: in job log lỗi, không tự merge, escalate để user fix rồi gọi lại `f pr`.
 
 ### `prn` — PR Now (đẩy thay đổi hiện tại thành PR vào main)
 
@@ -110,6 +179,7 @@ Format bắt buộc:
 | Shortcut | Mục đích |
 |---|---|
 | `gg` | Merge open PRs to production |
+| `prq` | Rà hàng đợi PR/build/deploy — phân loại lỗi thật/pending/chưa deploy |
 | `ad` | Full blog audit (perf+sec+seo+a11y) |
 | `ff` | Full Fix & Deploy comprehensive |
 | `cautruc9` | Show ASCII folder tree của blog |
@@ -124,6 +194,7 @@ Format bắt buộc:
 | `tieptuc8` | Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở (todo, push, PR, CI, macro) |
 | `wip8` | Read-only workspace tracker + live CI feed (WIP + TheoDoi8 gộp) — 2 bảng MD: workspace đang dở & trạng thái commit/CI gần nhất |
 | `backend8` | So main SHA vs Render backend SHA — phát hiện split-brain static↔backend (V16) |
+| `f pr <N> [N2…]` | Theo dõi 1+ PR cho đến khi merge — poll CI, auto-merge khi xanh, báo trạng thái |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
 | `bb` | Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY, human, 1000+ từ, chuẩn SEO; chờ duyệt trước khi đăng |
@@ -315,6 +386,64 @@ Hành động:
 4. Output **một lần** báo cáo theo §5 (KHÔNG poll/canhc PR sau đó).
 
 KHÔNG hỏi lại. KHÔNG giải thích flow.
+
+### `prq` — PR Queue Audit (Rà hàng đợi PR/build/deploy)
+
+**Mục đích**: Audit toàn bộ hàng đợi PR/build/deploy của repo, phân loại chính xác từng item:
+lỗi thật, đang pending, đã merge chưa lên production. Không sửa code trừ khi lỗi rõ ràng,
+safe và bounded. Output bảng compact để ra quyết định nhanh.
+
+**Hành động** (theo thứ tự):
+
+1. **Scan all open PRs** (`mcp__github__list_pull_requests state=open`):
+   - PR number + title + branch + author + base sha
+   - Mergeability / stale base (V10 pattern: base ≠ main HEAD → preflight fail)
+   - Latest qa-check conclusion (success/failure/pending/none)
+   - Preflight conclusion
+   - Auto-merge status
+
+2. **Classify từng PR** vào bucket:
+
+   | Bucket | Tiêu chí |
+   |---|---|
+   | `Needs conflict fix` | PR `dirty`, merge conflict markers, non-fast-forward |
+   | `QA failed` | `qa-check` conclusion = `failure` trên head sha mới nhất |
+   | `Checks pending` | `qa-check` đang `in_progress` / `queued`, chưa có kết quả |
+   | `Auto-merge blocked` | QA xanh nhưng auto-merge skip/block (label, branch protection) |
+   | `Stale base` | PR base sha ≠ main HEAD → sẽ fail preflight; QA có thể đã xanh nhưng cần rebase |
+   | `Merged but not deployed` | PR merged ≤24h; `deploy.yml` chưa success sau merge commit |
+   | `Prod verification needed` | Merged + deployed nhưng chưa verify live trên `https://seomoney.org` |
+   | `Safe / no action` | QA xanh + base current + auto-merge đang xử lý hoặc đã queue |
+
+3. **Scan GitHub Actions** (20 runs gần nhất):
+   - `deploy.yml`: lần cuối success/failure + sha deployed vs main HEAD
+   - `auto-merge.yml`: lần cuối success/skipped
+   - Phân biệt lỗi thật vs `cancelled` (superseded/bão rate-limit) vs report-only (observer — V7)
+   - Các vaccine-hotfix PR tồn đọng: phân loại `Stale base`, ghi nhận nhưng không đóng tay
+
+4. **Prod verification** (nếu có PR merged ≤24h):
+   - Kiểm tra deploy.yml run mới nhất sau merge → success = deployed, failure = chưa lên
+   - KHÔNG tuyên bố "đã production" khi chưa có evidence deploy success
+
+5. **Output bảng compact** (bắt buộc):
+
+   | PR/Run | Title | Status | Blocker | Root cause | Next action | URL |
+   |---|---|---|---|---|---|---|
+
+6. **Tóm tắt 4 nhóm sau bảng**:
+   - PRs safe to merge: (list PR# + title)
+   - PRs needing fix: (list PR# + root cause ngắn)
+   - Builds needing rerun only: (list run# + workflow)
+   - Merged not visible on prod: (list PR# + deploy status)
+
+**Rules (BẮT BUỘC)**:
+- **Không fake QA** — không coi PR là xanh khi qa-check chưa complete hoặc failed.
+- **Không guess deploy** — không tuyên bố "đã lên production" khi chưa verify `deploy.yml` success.
+- **Không sửa code** trừ khi lỗi rõ ràng, safe, bounded (vd stale base → đề xuất rebase).
+- **Không mix** fix của nhiều PR vào 1 hotfix — mỗi PR giữ riêng.
+- **Không redesign UI** — nếu cần touch UI/icon, tuân thủ S-DNA icon rule (internal icons only).
+- Vaccine-hotfix stale PRs: phân loại `Stale base`, không đóng thủ công (bot tự quản lý).
+- Nếu cần hotfix: tạo PR riêng, chạy QA đầy đủ, commit + push theo ZERO_BARRIER flow.
 
 ### `ad` — Audit blog
 

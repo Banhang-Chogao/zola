@@ -7,15 +7,14 @@ slug = "trello-planner-mobile-la-gi"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["trello", "trello planner", "calendar", "productivity", "quản lý công việc", "google calendar"]
-
+tags = ["calendar", "google calendar", "productivity", "quản lý công việc", "trello", "trello planner"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "Trello Planner mobile"
 featured = false
 series = "trello-mobile-calendar"
 series_part = 1
-series_total = 5
+series_total = 2
 
 [[extra.faq]]
 q = "Trello Planner trên mobile dùng để làm gì?"
@@ -31,7 +30,7 @@ q = "Tôi cần cài thêm ứng dụng nào để dùng Planner trên điện t
 a = "Không. Planner nằm trong chính ứng dụng Trello cho iOS và Android. Bạn chỉ cần cập nhật ứng dụng lên bản mới và đăng nhập tài khoản. Một vài thiết lập sâu hơn, như luật lọc theo từng board, đôi khi cần chỉnh trên bản web rồi mới phản ánh xuống mobile."
 +++
 
-> 📚 **Series Trello Mobile Calendar — Bài 1/5.** Đây là một phần trong loạt 6 bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Bắt đầu từ [bài tổng quan của series](/posting/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/).
+> 📚 **Series Trello Mobile Calendar — Bài 1/2.** Đây là một phần trong loạt bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Bắt đầu từ [bài tổng quan của series](/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/).
 
 Nếu bạn từng mở Trello lên và thấy hàng chục card nằm rải rác trong các list "To Do", "Doing", "Done" mà vẫn không biết hôm nay nên làm gì trước, thì bạn không cô đơn. Trong nhiều năm mình cũng dùng Trello như một bảng ghi chú khổng lồ: việc thì nhiều, nhưng cảm giác về thời gian thì gần như không có. Mọi thứ chỉ thật sự thay đổi khi mình bắt đầu xem **Trello Planner mobile** như một cuốn lịch làm việc cá nhân, ngay trên màn hình điện thoại. Bài này mình kể lại Planner là gì, nó làm được gì trên mobile, và làm sao để biến Trello từ một đống card thành một lịch có nhịp.
 
@@ -61,7 +60,7 @@ Planner cho phép bạn đặt những khối thời gian tập trung — focus 
 
 ### Liên kết card với khối thời gian hoặc sự kiện
 
-Khi một card được gắn vào một khoảng thời gian, nó không còn là việc "lúc nào đó sẽ làm" mà trở thành việc "có chỗ trong ngày". Mối liên kết card–thời gian này là cầu nối giữa danh sách việc và lịch thật. Ở [bài 3 về cách để card due date tự hiện](/posting/card-due-date-hien-trong-trello-planner/), mình sẽ đi sâu hơn vào điều kiện để card xuất hiện đúng chỗ.
+Khi một card được gắn vào một khoảng thời gian, nó không còn là việc "lúc nào đó sẽ làm" mà trở thành việc "có chỗ trong ngày". Mối liên kết card–thời gian này là cầu nối giữa danh sách việc và lịch thật. Điều quan trọng là card cần có due date rõ ràng, và với board chung thì thường cần được giao đúng người, để Planner có cơ sở đưa nó vào khung nhìn.
 
 ### Đánh dấu việc đã hoàn tất
 
@@ -93,7 +92,7 @@ Tất nhiên, nếu công việc của bạn gần như không có deadline cố
 
 Để bạn không thất vọng, mình liệt kê vài giới hạn thực tế:
 
-- **Một số thiết lập là web-only.** Các luật lọc theo từng board, hoặc vài tùy chỉnh sâu, đôi khi chỉ chỉnh được trên bản web; trên mobile bạn có thể chỉ xem chứ không sửa được. Mình sẽ nói kỹ hơn ở [bài 4 về lọc card đến hạn](/posting/loc-card-den-han-focus-time-trello-mobile/).
+- **Một số thiết lập là web-only.** Các luật lọc theo từng board, hoặc vài tùy chỉnh sâu, đôi khi chỉ chỉnh được trên bản web; trên mobile bạn có thể chỉ xem chứ không sửa được.
 - **Tính năng phụ thuộc gói và đợt triển khai.** Một số khả năng có thể gắn với gói trả phí hoặc được bật dần theo tài khoản. Mình tránh khẳng định "miễn phí là có hết", vì điều đó không đúng với mọi người tại mọi thời điểm.
 - **Card phải đủ điều kiện mới hiện.** Card cần có due date, và với board chung thì cần được giao cho bạn. Thiếu là không thấy.
 
@@ -109,12 +108,9 @@ Thứ hai, **mình giữ Planner gọn.** Mỗi sáng, mình dành đúng hai ph
 
 Thứ ba, **mình không phụ thuộc hoàn toàn vào điện thoại cho mọi thao tác.** Những lúc cần cấu hình sâu, mình mở bản web. Mobile là nơi mình *xem và điều chỉnh nhanh*, còn web là nơi mình *thiết lập*. Phân vai như vậy giúp mình không cố ép điện thoại làm việc nó chưa làm tốt.
 
-Cuối cùng, Planner chỉ phát huy khi card của bạn được nhập due date đầy đủ. Nếu bạn đang băn khoăn vì sao có card không hiện lên lịch, hãy đọc tiếp [bài 3 trong series](/posting/card-due-date-hien-trong-trello-planner/) — đó chính là chỗ mình gỡ rối điều kiện hiển thị.
+Cuối cùng, Planner chỉ phát huy khi card của bạn được nhập due date đầy đủ. Nếu bạn đang băn khoăn vì sao có card không hiện lên lịch, hãy kiểm tra lại ngày đến hạn, board chứa card và người được assign trước khi kết luận Planner bị lỗi.
 
 ## Đọc tiếp trong series
 
-- [Bài tổng quan — Trello Mobile Calendar: dùng Trello như lịch làm việc cá nhân](/posting/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/)
-- [Bài 2 — Cách kết nối Google Calendar hoặc Outlook Calendar với Trello Planner trên mobile](/posting/ket-noi-google-calendar-outlook-voi-trello-planner-mobile/)
-- [Bài 3 — Cách để card có due date tự hiện trong Trello Planner](/posting/card-due-date-hien-trong-trello-planner/)
-- [Bài 4 — Cách lọc card đến hạn, quản lý việc quá hạn và lên lịch focus time](/posting/loc-card-den-han-focus-time-trello-mobile/)
-- [Bài 5 — Trello Planner vs Calendar View vs Google Calendar: nên dùng cái nào?](/posting/trello-planner-vs-calendar-view-vs-google-calendar/)
+- [Bài tổng quan — Trello Mobile Calendar: dùng Trello như lịch làm việc cá nhân](/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/)
+- [Bài 2 — Cách kết nối Google Calendar hoặc Outlook Calendar với Trello Planner trên mobile](/ket-noi-google-calendar-outlook-voi-trello-planner-mobile/)
