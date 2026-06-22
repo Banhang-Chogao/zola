@@ -9,7 +9,6 @@ tags = ["faq schema", "json-ld", "ngân hàng", "seo"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "FAQ Schema cluster ngân hàng"
-featured = true
 +++
 
 **Cập nhật lần cuối:** 19/06/2026

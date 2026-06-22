@@ -1,5 +1,5 @@
 +++
-title = "Fix QA Gatekeeper trong GitHub Actions: bài học từ một nút Countdown bị mất ở footer"
+title = "QA Gatekeeper GitHub Actions: bài học merge conflict"
 date = 2026-06-22
 aliases = ["/fix-qa-gatekeeper-github-actions-merge-conflict-zola/"]
 description = "Case study debug GitHub Actions: từ merge conflict, stale branch đến QA Gatekeeper xanh và auto-merge sau 12 phút."
