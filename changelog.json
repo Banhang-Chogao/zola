@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "feat(automation): daily PR production followup — 06:00 ICT triage + merge + deploy check",
+      "tag": "chore",
+      "lines_added": 359,
+      "lines_removed": 0,
+      "highlights": [
+        "Schedule: cron 0 23   * = 06:00 ICT daily",
+        "Script: scripts/daily_pr_followup.py — reuses autofix_conflicts.py, try_auto_merge.py, prod_smoke_check.py",
+        "Triage categories: pending | conflict | qa_fail | qa_pass | merged",
+        "Actions: conflict → autofix (V10/V12); qa_pass → try_auto_merge; deploys after merge to main",
+        "Report: reports/daily-pr-production-followup.md + data/daily-pr-followup.json"
+      ],
+      "pr": 745
+    },
+    {
+      "date": "2026-06-22",
       "title": "fix(conflict): merge origin/main — V10 for claude/dreamy-maxwell-e86rse [claude/dreamy-maxwell-e86rse]",
       "tag": "fix",
       "lines_added": 244,
