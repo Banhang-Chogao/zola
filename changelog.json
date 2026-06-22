@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "content: series 5 bài chữ ký số MySign (hub + 4 spoke)",
+      "tag": "chore",
+      "lines_added": 889,
+      "lines_removed": 1,
+      "highlights": [
+        "Cả 5 bài SEO 100/100 (A+), 995–1117 từ.",
+        "qa_check.py → 0 FAIL, readiness 92/100 PRODUCTION-SAFE.",
+        "Cross-link hub-and-spoke; mỗi slug có aliases khớp link nội bộ (V14-safe).",
+        "Dẫn đúng khung pháp lý hiện hành (Luật 20/2023/QH15 hiệu lực 1/7/2024; NĐ 23/2025 hiệu lực 10/4/2025; chứng thư tối đa 3 năm). Không dẫn NĐ 130/2018 / TT 16/2019.",
+        "Theo front-matter pattern chuẩn (không dùng extra.series_part) → tránh rủi ro V32 series-sort crash."
+      ],
+      "pr": 734
+    },
+    {
+      "date": "2026-06-22",
       "title": "hotfix: remove empty Trello posts",
       "tag": "remove",
       "lines_added": 15,
