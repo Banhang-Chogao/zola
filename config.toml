@@ -142,8 +142,12 @@ paywall_default_price = 100000
 # Build chạy paywall_prepare_build.py --strip → full content giữ ở private_content/,
 # static HTML chỉ chứa teaser (no-bypass khi mở URL trực tiếp).
 # Ưu tiên enable_premium_lock; premium_hidden giữ làm fallback (deprecated).
-enable_premium_lock = true
+# FREE TRIAL 2026-06-23 → 2026-07-01: tắt paywall, mọi người dùng thử miễn phí.
+# Rollback 2026-07-01: đổi enable_premium_lock = true VÀ premium_free_trial_active = false.
+enable_premium_lock = false
 premium_hidden = false
+premium_free_trial_active = true
+premium_free_trial_until = "2026-07-01"
 momo_payment_link = "https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP"
 # Link MoMo cho DONATE (ủng hộ tự nguyện) — key RIÊNG để donate có thể đổi độc
 # lập với paywall sau này. Hiện trỏ cùng tài khoản nhận tiền với momo_payment_link
