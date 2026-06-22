@@ -31,7 +31,7 @@ a = "Mùa đông rẻ nhưng vẫn nhiều thứ chơi: trượt tuyết, ngắm
 
 Hoa anh đào và lá đỏ đẹp thật, nhưng đó cũng là lúc **vé máy bay, khách sạn đắt nhất và đông nhất**. Nếu ưu tiên **ngân sách**, câu hỏi đúng phải là: *đi Hàn mùa nào rẻ?* Bài này xếp hạng **12 tháng** theo giá vé, độ đông và thời tiết để bạn chọn thời điểm tiết kiệm nhất.
 
-> Nếu bạn ưu tiên cảnh đẹp hơn giá, đọc bài [đi Hàn mùa nào đẹp nhất](/posting/mua-nao-di-han-la-dep-nhat/) để cân nhắc.
+> Nếu bạn ưu tiên cảnh đẹp hơn giá, đọc bài [đi Hàn mùa nào đẹp nhất](/mua-nao-di-han-la-dep-nhat/) để cân nhắc.
 
 ## Nguyên tắc giá du lịch Hàn
 
@@ -59,7 +59,7 @@ Giá phụ thuộc 3 yếu tố: **mùa cao/thấp điểm**, **dịp lễ** và
 ## Đi Hàn mùa nào rẻ nhất: đông ngoài lễ & đầu hè
 
 - **Tháng 1–2 (né Tết):** rẻ nhất. Lạnh nhưng có tuyết, trượt tuyết, suối nước nóng, mùa sale. Chỉ cần đồ ấm tốt.
-- **Đầu tháng 6:** chớm hè, trước cao điểm nghỉ hè và trước mùa mưa jangma — giá còn mềm, thời tiết dễ chịu. Xem thêm [tháng 6 đi Hàn ăn gì, làm gì](/posting/thang-6-di-han-an-gi-lam-gi/).
+- **Đầu tháng 6:** chớm hè, trước cao điểm nghỉ hè và trước mùa mưa jangma — giá còn mềm, thời tiết dễ chịu. Xem thêm [tháng 6 đi Hàn ăn gì, làm gì](/thang-6-di-han-an-gi-lam-gi/).
 
 ## Mùa nên tránh nếu tiếc tiền
 
@@ -71,7 +71,7 @@ Giá phụ thuộc 3 yếu tố: **mùa cao/thấp điểm**, **dịp lễ** và
 - **Đặt vé sớm 2–3 tháng**, ưu tiên **bay giữa tuần** và hãng giá rẻ.
 - **Ở guesthouse/khu Hongdae, Seomyeon** thay vì khách sạn trung tâm.
 - **Đi tự túc + metro** thay vì tour; mua thẻ **T-money**.
-- Gộp điểm theo vùng để đỡ di chuyển — ví dụ ghép Busan vào lịch trình, xem [lịch trình Busan tự túc 3N2Đ](/posting/lich-trinh-busan-tu-tuc-3-ngay-2-dem/).
+- Gộp điểm theo vùng để đỡ di chuyển — ví dụ ghép Busan vào lịch trình, xem [lịch trình Busan tự túc 3N2Đ](/lich-trinh-busan-tu-tuc-3-ngay-2-dem/).
 
 ## Đặt vé thế nào để bắt đúng mùa rẻ?
 

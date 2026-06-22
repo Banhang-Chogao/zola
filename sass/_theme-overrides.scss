@@ -121,8 +121,13 @@
 
   /* ===== 5. RELATED ARTICLES (cuối mỗi post) ===== */
   .related-articles__title {
-    color: var(--c-text-heading);
+    background: var(--c-accent);
+    color: var(--c-bg-surface);
     letter-spacing: $kicker-spacing;
+  }
+
+  .related-articles__head {
+    border-bottom-color: var(--c-accent);
   }
 
   .related-card {

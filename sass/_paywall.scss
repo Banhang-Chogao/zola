@@ -1,3 +1,20 @@
+/* FREE TRIAL notice — remove after 2026-07-01 when premium_free_trial_active = false */
+.premium-trial-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: color-mix(in srgb, var(--color-accent, #2e7d32) 10%, transparent);
+  border-left: 3px solid var(--color-accent, #2e7d32);
+  border-radius: 4px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-text, #333);
+
+  &__icon { flex-shrink: 0; }
+  &__text { line-height: 1.4; }
+}
+
 /* ============= PREMIUM BADGE + LOCKED TEASER ============= */
 
 .premium-badge {

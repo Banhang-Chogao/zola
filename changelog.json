@@ -2,6 +2,60 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "Feat/breadcrumb tools nav",
+      "tag": "chore",
+      "lines_added": 224,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 755
+    },
+    {
+      "date": "2026-06-22",
+      "title": "feat(automation): daily PR production followup — 06:00 ICT triage + merge + deploy check",
+      "tag": "chore",
+      "lines_added": 359,
+      "lines_removed": 0,
+      "highlights": [
+        "Schedule: cron 0 23   * = 06:00 ICT daily",
+        "Script: scripts/daily_pr_followup.py — reuses autofix_conflicts.py, try_auto_merge.py, prod_smoke_check.py",
+        "Triage categories: pending | conflict | qa_fail | qa_pass | merged",
+        "Actions: conflict → autofix (V10/V12); qa_pass → try_auto_merge; deploys after merge to main",
+        "Report: reports/daily-pr-production-followup.md + data/daily-pr-followup.json"
+      ],
+      "pr": 745
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(conflict): merge origin/main — V10 for claude/dreamy-maxwell-e86rse [claude/dreamy-maxwell-e86rse]",
+      "tag": "fix",
+      "lines_added": 244,
+      "lines_removed": 0,
+      "highlights": [
+        "feat: add bb article — brackets-code-editor-**** (inspired by Brackets 2015 review)",
+        "chore: update seo-qa-scores after bb article review",
+        "fix(conflict): merge origin/main — V10 for claude/dreamy-maxwell-e86rse",
+        "content/baochi/brackets-code-editor-****.md (added, +244/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 717
+    },
+    {
+      "date": "2026-06-22",
+      "title": "remove dark band in RELATED ARTICLES section [claude/stoic-noether-35xfbo]",
+      "tag": "fix",
+      "lines_added": 14,
+      "lines_removed": 10,
+      "highlights": [
+        "sass/_single.scss (modified, +8/-6)",
+        "sass/_theme-overrides.scss (modified, +6/-1)",
+        "templates/page.html (modified, +0/-3)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 746
+    },
+    {
+      "date": "2026-06-22",
       "title": "feat(series): add Q&A Khoa Học parts 17-30 + final QA scores [claude/happy-hopper-tp7w7f]",
       "tag": "chore",
       "lines_added": 0,

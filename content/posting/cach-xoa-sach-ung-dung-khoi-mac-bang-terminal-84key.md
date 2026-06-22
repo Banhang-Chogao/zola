@@ -218,6 +218,6 @@ Mac của bạn sẽ nhẹ nhàng hơn — đó là lý do bạn nên làm sạc
 **Bạn đã thử Terminal xoá app trên Mac chưa?** Bình luận bên dưới nếu có câu hỏi hoặc muốn hỏi thêm về app khác.
 
 **Đọc thêm:** 
-- [Git là gì? Version Control dành cho người mới](/posting/git-la-gi-version-control-cho-nguoi-moi/)
-- [Cài đặt Git và cấu hình lần đầu](/posting/cai-dat-git-cau-hinh-lan-dau/)
-- [Bảo mật Best Practices cho Git & GitHub](/posting/bao-mat-best-practices-git-github/)
+- [Git là gì? Version Control dành cho người mới](/git-la-gi-version-control-cho-nguoi-moi/)
+- [Cài đặt Git và cấu hình lần đầu](/cai-dat-git-cau-hinh-lan-dau/)
+- [Bảo mật Best Practices cho Git & GitHub](/bao-mat-best-practices-git-github/)

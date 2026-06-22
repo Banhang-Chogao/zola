@@ -39,7 +39,7 @@ Ngân hàng số (digital bank / neobank) là dịch vụ ngân hàng vận hàn
 
 Khác biệt chính so với ngân hàng truyền thống:
 
-- **Mở tài khoản 100% online**, 5–15 phút (xem [hướng dẫn mở tài khoản online](/posting/cach-mo-tai-khoan-ngan-hang-so-online/)).
+- **Mở tài khoản 100% online**, 5–15 phút (xem [hướng dẫn mở tài khoản online](/cach-mo-tai-khoan-ngan-hang-so-online/)).
 - **Phí thấp hoặc miễn phí** chuyển khoản, quản lý tài khoản.
 - **Ưu đãi hoàn tiền (cashback)** hấp dẫn để hút người dùng mới.
 - Trải nghiệm app hiện đại, tích hợp quản lý chi tiêu.
@@ -72,19 +72,19 @@ Trước khi xem bảng so sánh, hãy xác định bạn ưu tiên gì:
 
 Mỗi lựa chọn đều có bài đánh giá riêng đi sâu vào ưu/nhược điểm, phí, bảo mật và trải nghiệm thực tế:
 
-- **[Review Liobank by OCB](/posting/review-liobank-by-ocb/)** — ngôi sao về hoàn tiền và thẻ vật lý.
-- **[Review Cake by VPBank](/posting/review-cake-by-vpbank/)** — ngân hàng số đông người dùng nhất.
+- **[Review Liobank by OCB](/review-liobank-by-ocb/)** — ngôi sao về hoàn tiền và thẻ vật lý.
+- **[Review Cake by VPBank](/review-cake-by-vpbank/)** — ngân hàng số đông người dùng nhất.
 - Review Timo và TNEX sẽ được bổ sung trong cụm bài này.
 
-Nếu bạn phân vân giữa hai cái tên hot nhất, đọc bài **[so sánh Cake vs Liobank](/posting/so-sanh-cake-vs-liobank/)** để thấy rõ khác biệt.
+Nếu bạn phân vân giữa hai cái tên hot nhất, đọc bài **[so sánh Cake vs Liobank](/so-sanh-cake-vs-liobank/)** để thấy rõ khác biệt.
 
 ## Chọn theo nhu cầu cụ thể
 
 Thay vì tìm "cái tốt nhất tuyệt đối", hãy chọn theo hoàn cảnh:
 
-- **Muốn hoàn tiền nhiều nhất** → xem [ngân hàng số hoàn tiền nhiều nhất](/posting/ngan-hang-so-hoan-tien-nhieu-nhat/).
-- **Là sinh viên** → xem [ngân hàng số cho sinh viên](/posting/ngan-hang-so-cho-sinh-vien/).
-- **Cần mở tài khoản ngay** → xem [cách mở tài khoản online](/posting/cach-mo-tai-khoan-ngan-hang-so-online/).
+- **Muốn hoàn tiền nhiều nhất** → xem [ngân hàng số hoàn tiền nhiều nhất](/ngan-hang-so-hoan-tien-nhieu-nhat/).
+- **Là sinh viên** → xem [ngân hàng số cho sinh viên](/ngan-hang-so-cho-sinh-vien/).
+- **Cần mở tài khoản ngay** → xem [cách mở tài khoản online](/cach-mo-tai-khoan-ngan-hang-so-online/).
 
 ## Quản lý chi tiêu sau khi mở tài khoản
 

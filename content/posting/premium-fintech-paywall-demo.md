@@ -29,7 +29,7 @@ thanh toán đơn giản (Momo QR, không cần đăng ký tài khoản phức t
 
 ## Paywall blog premium: khi nào nên dùng?
 
-**Paywall blog premium** hợp lý khi bạn đã có [pipeline deploy Zola ổn định](/posting/tu-dong-deploy-zola-github-actions/) và muốn bổ sung doanh thu bên cạnh [Google AdSense](/posting/google-adsense-la-gi-chinh-sach-chuong-trinh/). Google khuyến nghị publisher cân nhắc [chính sách nội dung AdSense](https://support.google.com/adsense/answer/48182) trước khi kết hợp nhiều kênh monetization — premium không thay thế quality content công khai.
+**Paywall blog premium** hợp lý khi bạn đã có [pipeline deploy Zola ổn định](/tu-dong-deploy-zola-github-actions/) và muốn bổ sung doanh thu bên cạnh [Google AdSense](/google-adsense-la-gi-chinh-sach-chuong-trinh/). Google khuyến nghị publisher cân nhắc [chính sách nội dung AdSense](https://support.google.com/adsense/answer/48182) trước khi kết hợp nhiều kênh monetization — premium không thay thế quality content công khai.
 
 ## Triển khai paywall trên blog Zola
 
