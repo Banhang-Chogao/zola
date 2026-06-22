@@ -2979,8 +2979,9 @@ def check_v30_tools_route_preservation(ctx: Ctx) -> CheckResult:
 # existing user shortcut. History: `bb` (paste a news article from any publisher →
 # an original SEOMONEY blog post) lost its first-class registration during a
 # restructuring — no .claude/commands/bb.md skill and no row in the shortcuts.md
-# `help` table — while a narrower `dantri` stand-in was added. This detector makes
-# that regression a hard, visible FAIL.
+# `help` table. A separate `dantri` shortcut (a dantri.com.vn crawler — a different
+# tool, NOT a bb alias) existed, which masked the loss. This detector makes that
+# regression a hard, visible FAIL. Both `bb` and `dantri` are required (distinct).
 #
 # A required shortcut is "first-class" when BOTH hold:
 #   * shortcuts.md documents it with a `### `<name>`` section (source of truth), and
