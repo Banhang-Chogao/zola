@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "refactor(homepage): remove \"Khám phá thêm\" SEO widgets band [claude/practical-planck-559skj]",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/site.scss (modified, +0/-1)",
+        "templates/index.html (modified, +0/-26)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 723
+    },
+    {
+      "date": "2026-06-22",
       "title": "Merge remote-tracking branch 'origin/main' into claude/failed-checks-conflict-report-f99tyu [claude/failed-checks-conflict-report-f99tyu]",
       "tag": "chore",
       "lines_added": 342,
