@@ -820,7 +820,6 @@ def main():
     # LAST — the mandatory production-safety barrier from the CLAUDE.md vaccines.
     vaccine_failed = run_vaccine_gate(args)
 
-<<<<<<< HEAD
     # Public-surface security gate (source scan): no private/internal files or
     # secret VALUES on content/ + static/. The authoritative full scan (incl.
     # the built public/ + sitemap) runs as a dedicated qa.yml step after the
@@ -845,13 +844,10 @@ def main():
     except Exception as e:  # tooling hiccup — the qa.yml audit step is the backstop
         print(YELLOW(f"⚠ security_public_audit skipped: {e}"))
 
-    return 1 if (errors or vaccine_failed or security_failed) else 0
-=======
     # …and the Blog Image Watermark Gate (global ownership-watermark rule).
     watermark_failed = run_watermark_gate(args)
 
-    return 1 if (errors or vaccine_failed or watermark_failed) else 0
->>>>>>> origin/main
+    return 1 if (errors or vaccine_failed or security_failed or watermark_failed) else 0
 
 
 if __name__ == "__main__":
