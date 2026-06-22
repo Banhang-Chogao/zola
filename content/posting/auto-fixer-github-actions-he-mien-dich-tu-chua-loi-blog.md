@@ -10,8 +10,6 @@ tags = ["auto fixer", "automation", "blog engineering", "ci/cd", "github actions
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "auto fixer là gì"
-featured = true
-
 [[extra.faq]]
 q = "Auto Fixer là gì?"
 a = "Auto Fixer là một hệ thống tự động phát hiện và sửa lỗi CI/CD lặp lại mà không cần can thiệp thủ công. Nó hoạt động như 'hệ miễn dịch' của kho lưu trữ — nhớ các lỗi cũ (vaccine), phát hiện pattern, và áp dụng fix nhỏ được kiểm chứng."

@@ -1,15 +1,15 @@
 +++
-title = "Fix QA Gatekeeper trong GitHub Actions: bài học từ một nút Countdown bị mất ở footer"
+title = "QA Gatekeeper GitHub Actions: bài học merge conflict"
 date = 2026-06-22
+aliases = ["/fix-qa-gatekeeper-github-actions-merge-conflict-zola/"]
 description = "Case study debug GitHub Actions: từ merge conflict, stale branch đến QA Gatekeeper xanh và auto-merge sau 12 phút."
 slug = "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github actions", "qa gatekeeper", "ci cd", "zola", "debug", "merge conflict", "regression test"]
-
+tags = ["ci cd", "debug", "github actions", "merge conflict", "qa gatekeeper", "regression test", "zola"]
 [extra]
-thumbnail = "/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.jpg"
+thumbnail = "/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.webp"
 seo_keyword = "fix QA Gatekeeper GitHub Actions"
 featured = false
 +++

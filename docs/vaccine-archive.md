@@ -1338,6 +1338,120 @@ fenced blocks.
   - `test_one_curl_per_route` — curl_commands generates one curl for each CRITICAL_ROUTE
   - `test_required_routes_present` — CRITICAL_ROUTES always includes `/health`, `/gsc/status`, `/gsc/oauth/start`, `/cms/save-post`
 
+#### V30 — Public /tools/* route preservation: SEO/section optimization must be non-destructive (no silent dashboard removal)
+
+> Governance vaccine. **SEO section optimization (seo11, section metadata/cards/index
+> cleanup) must be NON-DESTRUCTIVE for public routes.** It may improve titles,
+> descriptions, cards, internal links, sitemap/index quality — but it must **never**
+> delete or hide a working public `/tools/*` utility page as "thin/orphan". Orphan/thin
+> cleanup may only **REPORT**, never delete/hide, unless the path is explicitly in a
+> reviewed **removal allowlist**.
+
+- **Symptom:** Public tool routes `/tools/f-dashboard/`, `/tools/l-dashboard/`,
+  `/tools/o-dashboard/`, `/tools/h-dashboard/` return **404** in production. `/tools/`
+  itself still builds, but the four finance dashboards are missing from routing and from
+  the tools hub cards. CI stays green because `qa-404-checker.py`'s `_DYNAMIC_APP_ROUTES`
+  allowlist still lists those routes as "resolvable internal targets" — so internal links
+  to them are never flagged as broken. The removal is **silent**.
+- **Root cause:** a bulk cleanup commit (`chore: remove Phase 2 features (dashboards,
+  manifests, admin zone)`, PR #653) deleted the whole dashboard stack —
+  `content/tools/{f,l,o,h}-dashboard.md`, `templates/{f,l,o,h}-dashboard.html`,
+  `sass/_{f,l,o,h}-dashboard.scss`, `static/js/{f,l,o,h}-dashboard/*` — and stripped the
+  "Dashboard & phân tích" group from `content/tools/_index.md` + the `@import` lines in
+  `sass/site.scss`. The page files are what create the Zola routes; without them the routes
+  404. The dangling references in `sitemap.xml` (exclusion list), `qa-404-checker.py`
+  (allowlist), docs, and `mobile_ux_improvements.py` masked the breakage. **Not seo11** —
+  but exactly the kind of "thin/orphan internal page" cleanup that SEO optimization is
+  tempted to do, so it must be permanently fenced.
+- **FIXER (restore from history — preferred):**
+  ```bash
+  # find the pre-deletion parent, then restore the four routes verbatim
+  DEL=$(git log --oneline --all --diff-filter=D -- 'content/tools/*dashboard*.md' | head -1 | awk '{print $1}')
+  PARENT=$(git rev-parse "${DEL}^")
+  git checkout "$PARENT" -- \
+    content/tools/{f,h,l,o}-dashboard.md \
+    templates/{f,h,l,o}-dashboard.html \
+    sass/_{f,h,l,o}-dashboard.scss \
+    static/js/{f,h,l,o}-dashboard
+  # re-wire: add the 4 `@import` lines in sass/site.scss (after `scoring`, order f,l,o,h)
+  # and re-add the "Dashboard & phân tích" tool group cards in content/tools/_index.md
+  zola build && python3 qa_check.py
+  ```
+- **Detector (static, in `scripts/qa_vaccines.py`):** `check_v30_tools_route_preservation`
+  iterates `_PROTECTED_TOOLS_ROUTES` (the four dashboards → their `content/tools/<slug>.md`).
+  For each protected slug it asserts the content page exists AND the `template = "…"` it
+  binds exists under `templates/`. A missing page or template → **FAIL** unless the slug is
+  in `_TOOLS_REMOVAL_ALLOWLIST` (empty by default; adding a slug there is the ONLY sanctioned
+  way to retire a protected route, and requires reviewer sign-off). Registered in `DETECTORS`;
+  surfaced by `qa_check.py` → blocks auto-merge/deploy.
+- **Rule (BẮT BUỘC):**
+  1. SEO/section optimization may update metadata, cards, internal links, sitemap/index — but
+     must **not** delete or hide a public `/tools/*` page.
+  2. Orphan/thin cleanup is **report-only** for public routes. To actually remove one, add its
+     slug to `_TOOLS_REMOVAL_ALLOWLIST` with review approval — never delete silently.
+  3. Do not rename a `/tools/*` URL without adding a redirect `alias`.
+  4. If a tool page is intentionally non-indexed (`noindex, follow`), keep it **accessible** —
+     noindex ≠ delete.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v`
+  - `test_v30_passes_when_all_dashboards_present` — current tree (4 pages + templates) → PASS
+  - `test_v30_fails_when_dashboard_page_removed` — delete a protected page → FAIL
+  - `test_v30_allowlisted_slug_is_skipped` — slug in `_TOOLS_REMOVAL_ALLOWLIST` → not a FAIL
+
+#### V31 — Shortcut registry preservation: restructuring operation guidelines must not delete existing user shortcuts (required: `bb`)
+
+> Governance vaccine. **Restructuring the operation guidelines** (moving shortcuts into
+> `.claude/commands/*.md` skills, rewriting `shortcuts.md`, condensing `CLAUDE.md`) **must
+> never silently drop an existing user shortcut.** A shortcut the operator already relies on
+> must keep BOTH its source-of-truth section in `shortcuts.md` AND its first-class skill in
+> `.claude/commands/`. Required shortcuts include **`bb`** (paste a news article from any
+> publisher → an original SEOMONEY blog post).
+
+- **Symptom:** Operator types `bb` and nothing reliable happens. There is no
+  `.claude/commands/bb.md` skill and no `| `bb` |` row in the `shortcuts.md` `help` table, so
+  `bb` is not a first-class, invokable shortcut. A separate `dantri` shortcut (added in PR #682)
+  exists with its own skill file, but `dantri` is a **different tool** — a dantri.com.vn crawler
+  — not the source-agnostic, copy/paste-any-publisher → original-post workflow `bb` provides.
+- **Root cause:** during an operation-guideline restructuring (shortcuts migrated to
+  `.claude/commands/*.md` skills + the `dantri` skill introduced), `bb` was left **half-
+  registered**: its detailed spec survived as a `### `bb`` section in `shortcuts.md`, but no
+  command skill was created and no `help`-table row was added, while the surviving section was
+  reframed as publisher-specific ("Dân Trí / VnExpress"). Half-registration ≠ deletion, but
+  from the operator's seat the shortcut is effectively lost — the skill registry does not know
+  about it.
+- **FIXER (restore first-class registration):**
+  ```bash
+  # 1) Recreate the command skill (paste-first, source-agnostic, approval gate — no auto-publish)
+  #    → .claude/commands/bb.md  (delegates to the `### `bb`` section in shortcuts.md)
+  # 2) Keep the `### `bb`` section in shortcuts.md source-agnostic (any publisher) and add the
+  #    `| `bb` | … |` row to the `help` quick table.
+  # 3) Keep `dantri` (do not remove) as its OWN distinct shortcut (dantri.com.vn crawler) —
+  #    never merge it into `bb` or treat it as a `bb` alias.
+  python3 scripts/qa_vaccines.py            # V31 detector must PASS
+  python3 -m unittest scripts.test_qa_vaccines -v
+  ```
+- **Detector (static, in `scripts/qa_vaccines.py`):** `check_v31_shortcut_registry_preservation`
+  reads `shortcuts.md` and asserts, for every required shortcut, that a `### `<name>`` section
+  exists; and for every command-backed required shortcut, that `.claude/commands/<name>.md`
+  exists. A missing section OR a missing skill file → **FAIL** (`_REQUIRED_SHORTCUT_SECTIONS`,
+  `_REQUIRED_SHORTCUT_COMMANDS` — both include `bb`). A required shortcut registered but absent
+  from the `help` quick table → **WARN**. Registered in `DETECTORS`; surfaced by `qa_check.py`
+  → blocks auto-merge/deploy if a required shortcut is ever deleted again.
+- **Rule (BẮT BUỘC):**
+  1. Restructuring operation guidelines may rename, regroup, or condense shortcuts — but must
+     **not delete** an existing user shortcut. Required shortcuts include `bb`.
+  2. A first-class shortcut needs BOTH a `### `<name>`` section in `shortcuts.md` AND a
+     `.claude/commands/<name>.md` skill. Adding one without the other is a regression.
+  3. `dantri` and `bb` are **separate, distinct shortcuts** — `dantri` is a dantri.com.vn
+     crawler, `bb` is paste-any-publisher. `dantri` does NOT reuse `bb` logic and is never a
+     replacement that justifies dropping `bb`; neither may be deleted in favour of the other.
+  4. `bb` is **paste-first** (no auto-crawl) and **must not auto-publish** without explicit user
+     approval — it commits to a dev branch and waits.
+- **Tests:** `python3 -m unittest scripts.test_qa_vaccines -v`
+  - `test_real_repo_passes` — current tree (bb section + bb.md skill + help row) → PASS
+  - `test_missing_bb_section_fails` — drop the `### `bb`` section → FAIL
+  - `test_missing_bb_command_fails` — drop `.claude/commands/bb.md` → FAIL
+  - `test_help_row_missing_warns` — bb registered but no `help` row → WARN
+
 ## Vaccine Hotfix (conflict-safe pipeline self-heal — BẮT BUỘC)
 
 > Engine: `scripts/vaccine_hotfix.py` · Workflow: `.github/workflows/vaccine-hotfix.yml`
@@ -2995,3 +3109,30 @@ git diff --check
 git ls-files node_modules public
 git rev-list --objects HEAD ^origin/main | grep -E "node_modules|workerd|public/" | head -20 || echo "OK: branch sạch."
 ```
+
+---
+
+## V33 — Post-Conflict Artifact Hygiene
+
+**Pattern:** Sau khi resolve merge conflict, branch còn chứa các file ngoài scope PR gốc — backup `.bak-*`, helper script `fix-*.sh`, ảnh unrelated, `.orig`/`.rej` artifacts.
+
+**Dấu hiệu:**
+- `git diff --name-only origin/main <branch>` có `*.bak-frontmatter`, `*.bak`, `fix-*.sh`, `.orig`, `.rej`, ảnh không liên quan tới mục tiêu PR
+- PR size tăng bất thường (file thêm vào không match mô tả PR)
+- QA hoặc reviewer phát hiện file "không ai biết từ đâu ra"
+
+**Phân biệt với V10/V12:**
+- V10: merge race / dirty PR — conflict markers, mergeable_state=dirty
+- V12: semantic conflict — shared infra files (base.html, footer.scss)
+- **V33: artifact hygiene** — conflict đã resolve clean nhưng sau resolve còn sót backup/temp/unrelated files theo trong commit
+
+**FIXER:**
+1. `git diff --name-only origin/main <branch>` → xem danh sách
+2. Xoá: `*.md.bak-frontmatter`, `fix-*.sh`, `*.orig`, `*.rej`, `.bak`, ảnh unrelated
+3. Giữ: files thuộc mục tiêu PR + data files cần thiết (series JSON, seo-qa-scores lấy từ main)
+4. `git rm <artifact_files>` → commit với message `chore(hygiene): remove post-conflict artifacts`
+5. Push → CI retrigger
+
+**Detector tĩnh (`qa_vaccines.py`):** warn nếu branch diff có `*.bak-frontmatter`, `fix-*.sh`, `*.orig` so với main.
+
+**Prevention rule:** Sau mỗi `git merge origin/main` → chạy `git diff --name-only origin/main HEAD` và audit danh sách trước khi commit.
