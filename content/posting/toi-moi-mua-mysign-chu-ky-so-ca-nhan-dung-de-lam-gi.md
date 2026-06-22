@@ -7,8 +7,7 @@ slug = "toi-moi-mua-mysign-chu-ky-so-ca-nhan-dung-de-lam-gi"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["chữ ký số", "mysign", "viettel-ca", "định danh điện tử", "chuyển đổi số", "an toàn giao dịch"]
-
+tags = ["an toàn giao dịch", "chuyển đổi số", "chữ ký số", "mysign", "viettel-ca", "định danh điện tử"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "chữ ký số mysign"

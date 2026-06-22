@@ -7,8 +7,7 @@ slug = "chu-ky-dien-tu-va-chu-ky-so-khac-nhau-the-nao"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["chữ ký điện tử", "chữ ký số", "luật giao dịch điện tử", "định danh điện tử", "an toàn giao dịch", "bảo mật"]
-
+tags = ["an toàn giao dịch", "bảo mật", "chữ ký số", "chữ ký điện tử", "luật giao dịch điện tử", "định danh điện tử"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "chữ ký điện tử và chữ ký số"

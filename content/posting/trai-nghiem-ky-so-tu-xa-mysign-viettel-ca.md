@@ -7,8 +7,7 @@ slug = "trai-nghiem-ky-so-tu-xa-mysign-viettel-ca"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["ký số từ xa", "mysign", "viettel-ca", "ekyc", "xác thực cccd", "định danh điện tử"]
-
+tags = ["ekyc", "ký số từ xa", "mysign", "viettel-ca", "xác thực cccd", "định danh điện tử"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ký số từ xa mysign"

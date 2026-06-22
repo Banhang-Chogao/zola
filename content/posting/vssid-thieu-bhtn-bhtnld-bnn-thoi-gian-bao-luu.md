@@ -5,7 +5,7 @@ date = 2026-06-22
 aliases = ["/vssid-thieu-bhtn-bhtnld-bnn-thoi-gian-bao-luu/"]
 [taxonomies]
 categories = ["Tất cả", "Bảo hiểm"]
-tags = ["vssid", "bảo hiểm thất nghiệp", "bhtn", "trợ cấp thất nghiệp", "bhxh", "kinh nghiệm lao động"]
+tags = ["bhtn", "bhxh", "bảo hiểm thất nghiệp", "kinh nghiệm lao động", "trợ cấp thất nghiệp", "vssid"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "VssID không hiển thị quá trình BHTN"

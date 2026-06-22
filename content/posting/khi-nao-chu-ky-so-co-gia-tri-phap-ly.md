@@ -7,8 +7,7 @@ slug = "khi-nao-chu-ky-so-co-gia-tri-phap-ly"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["giá trị pháp lý", "chữ ký số", "dịch vụ tin cậy", "luật giao dịch điện tử", "an toàn giao dịch", "định danh điện tử"]
-
+tags = ["an toàn giao dịch", "chữ ký số", "dịch vụ tin cậy", "giá trị pháp lý", "luật giao dịch điện tử", "định danh điện tử"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "chữ ký số có giá trị pháp lý"

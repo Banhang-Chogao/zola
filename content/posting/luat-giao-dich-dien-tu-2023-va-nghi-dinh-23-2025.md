@@ -7,8 +7,7 @@ slug = "luat-giao-dich-dien-tu-2023-va-nghi-dinh-23-2025"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["luật giao dịch điện tử", "nghị định 23/2025", "chữ ký số", "dịch vụ tin cậy", "chuyển đổi số", "định danh điện tử"]
-
+tags = ["chuyển đổi số", "chữ ký số", "dịch vụ tin cậy", "luật giao dịch điện tử", "nghị định 23/2025", "định danh điện tử"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "luật giao dịch điện tử 2023"

@@ -7,8 +7,7 @@ slug = "ket-noi-google-calendar-outlook-voi-trello-planner-mobile"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["trello", "trello planner", "calendar", "productivity", "quản lý công việc", "google calendar"]
-
+tags = ["calendar", "google calendar", "productivity", "quản lý công việc", "trello", "trello planner"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "kết nối Google Calendar với Trello"
