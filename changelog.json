@@ -1,6 +1,106 @@
 {
   "items": [
     {
+      "date": "2026-06-22",
+      "title": "README.md",
+      "tag": "chore",
+      "lines_added": 78,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "314b42c5cb09",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(links): bỏ placeholder ![alt](url) gây broken internal link [claude/vssid-bhtn-analysis-seo-arvwmx]",
+      "tag": "fix",
+      "lines_added": 130,
+      "lines_removed": 1,
+      "highlights": [
+        "content: bài phân tích VssID không hiển thị quá trình BHTN",
+        "fix(links): bỏ placeholder !alt gây broken internal link",
+        "content/posting/viet-blog-bang-local-terminal-khi-ai-het-credit.md (modified, +1/-1)",
+        "content/posting/vssid-thieu-bhtn-bhtnld-bnn-thoi-gian-bao-luu.md (added, +129/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 720
+    },
+    {
+      "date": "2026-06-22",
+      "title": "update SEO QA scores for 2 new blog posts [claude/beautiful-hopper-eyedqd]",
+      "tag": "chore",
+      "lines_added": 992,
+      "lines_removed": 1,
+      "highlights": [
+        "feat: publish 2 blog posts on terminal commands and tools",
+        "chore: update SEO QA scores for 2 new blog posts",
+        "content/posting/cac-lenh-terminal-kiem-tra-pr-github.md (added, +358/-0)",
+        "content/posting/top-10-cong-cu-terminal-mac-2026.md (added, +431/-0)",
+        "data/seo-qa-scores.json (modified, +203/-1)"
+      ],
+      "pr": 715
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "fa62cd927ed0",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "85c0d469e851",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "6a86251d97f5",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "de2486c8dafb",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: bỏ Featured cũ khi chọn 'viet-blog-bang-local-terminal-khi-ai-het-credit'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "51e2cff6568b",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: cập nhật bài 'Viết blog bằng local terminal khi AI hết credit'",
+      "tag": "chore",
+      "lines_added": 4,
+      "lines_removed": 9,
+      "highlights": [],
+      "commit": "3ecc3d13cfa8",
+      "pr": 0
+    },
+    {
       "date": "2026-06-21",
       "title": "chore(tools): restore dashboard Python deps omitted by #705 route restore [claude/nice-planck-9stwce]",
       "tag": "chore",

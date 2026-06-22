@@ -618,7 +618,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.898,
+    "score": 0.8979,
     "top_score": 0.9581,
     "neighbors": 5,
     "tier": "high"
@@ -762,7 +762,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.8489,
+    "score": 0.8488,
     "top_score": 0.9248,
     "neighbors": 5,
     "tier": "high"
@@ -1002,7 +1002,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.7951,
+    "score": 0.7955,
     "top_score": 0.888,
     "neighbors": 5,
     "tier": "high"
@@ -1014,7 +1014,7 @@
     "date": "2026-06-16",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7922,
+    "score": 0.7918,
     "top_score": 0.9282,
     "neighbors": 5,
     "tier": "high"
@@ -1098,8 +1098,8 @@
     "date": "2026-06-21",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.7735,
-    "top_score": 0.8253,
+    "score": 0.7725,
+    "top_score": 0.825,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1110,7 +1110,7 @@
     "date": "2026-06-16",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7714,
+    "score": 0.7707,
     "top_score": 0.9282,
     "neighbors": 5,
     "tier": "high"
@@ -1428,6 +1428,18 @@
     "tier": "high"
   },
   {
+    "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid",
+    "section": "posting",
+    "title": "Tra cứu thời gian đóng bảo hiểm thất nghiệp trên VssID",
+    "date": "2026-06-19",
+    "cluster": "tai-chinh",
+    "cluster_label": "Tài chính & Ngân hàng",
+    "score": 0.7157,
+    "top_score": 0.8689,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
     "slug": "review-lpbank-so-2026",
     "section": "posting",
     "title": "Review LPBank số năm 2026",
@@ -1464,18 +1476,6 @@
     "tier": "high"
   },
   {
-    "slug": "cac-lenh-git-dua-blog-len-production",
-    "section": "posting",
-    "title": "Git commands đưa blog lên production: giải thích từng lệnh",
-    "date": "2026-06-22",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.7129,
-    "top_score": 0.7692,
-    "neighbors": 5,
-    "tier": "high"
-  },
-  {
     "slug": "bai-hoc-xay-he-thong-tu-chua-loi-cho-blog",
     "section": "posting",
     "title": "Bài Học Xây Hệ Thống Tự Chữa Lỗi Cho Blog",
@@ -1508,6 +1508,18 @@
     "cluster_label": "Công nghệ",
     "score": 0.7104,
     "top_score": 0.7977,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
+    "slug": "vssid-khong-hien-qua-trinh-dong-bhtn",
+    "section": "posting",
+    "title": "VssID không hiện quá trình đóng bảo hiểm thất nghiệp",
+    "date": "2026-06-19",
+    "cluster": "tai-chinh",
+    "cluster_label": "Tài chính & Ngân hàng",
+    "score": 0.7096,
+    "top_score": 0.9069,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1572,6 +1584,18 @@
     "tier": "mid"
   },
   {
+    "slug": "vssid-thieu-bhtn-bhtnld-bnn-thoi-gian-bao-luu",
+    "section": "posting",
+    "title": "VssID không hiển thị quá trình BHTN: đừng nhầm với bảo lưu",
+    "date": "2026-06-22",
+    "cluster": "tai-chinh",
+    "cluster_label": "Tài chính & Ngân hàng",
+    "score": 0.6955,
+    "top_score": 0.9069,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "rui-ro-khi-su-dung-ngan-hang-so",
     "section": "posting",
     "title": "Các rủi ro khi sử dụng ngân hàng số và cách phòng tránh",
@@ -1592,6 +1616,18 @@
     "cluster_label": "Du lịch",
     "score": 0.6914,
     "top_score": 0.7864,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "cac-lenh-git-dua-blog-len-production",
+    "section": "posting",
+    "title": "Git commands đưa blog lên production: giải thích từng lệnh",
+    "date": "2026-06-22",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6899,
+    "top_score": 0.7312,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1626,8 +1662,8 @@
     "date": "2026-06-15",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.6784,
-    "top_score": 0.7094,
+    "score": 0.6796,
+    "top_score": 0.7131,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1638,7 +1674,7 @@
     "date": "2026-06-18",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.6778,
+    "score": 0.6769,
     "top_score": 0.6982,
     "neighbors": 5,
     "tier": "mid"
@@ -1686,7 +1722,7 @@
     "date": "2026-06-21",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.6638,
+    "score": 0.6631,
     "top_score": 0.8872,
     "neighbors": 5,
     "tier": "mid"
@@ -1716,18 +1752,6 @@
     "tier": "mid"
   },
   {
-    "slug": "github-pr-conflict-pending-checks-mergestatestatus",
-    "section": "posting",
-    "title": "GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN",
-    "date": "2026-06-21",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6512,
-    "top_score": 0.7795,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "msb-digital-bank-ra-mat-thay-mbank",
     "section": "baochi",
     "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -1740,25 +1764,13 @@
     "tier": "mid"
   },
   {
-    "slug": "tra-cuu-thoi-gian-dong-bhtn-vssid",
-    "section": "posting",
-    "title": "Tra cứu thời gian đóng bảo hiểm thất nghiệp trên VssID",
-    "date": "2026-06-19",
-    "cluster": "tai-chinh",
-    "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.6509,
-    "top_score": 0.8689,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
     "section": "posting",
     "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
     "date": "2026-06-21",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.6476,
+    "score": 0.6481,
     "top_score": 0.8872,
     "neighbors": 5,
     "tier": "mid"
@@ -1776,14 +1788,50 @@
     "tier": "mid"
   },
   {
+    "slug": "cac-lenh-terminal-kiem-tra-pr-github",
+    "section": "posting",
+    "title": "Câu lệnh kiểm tra PR GitHub từ terminal: hướng dẫn",
+    "date": "2026-06-22",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6428,
+    "top_score": 0.6535,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "github-pr-conflict-pending-checks-mergestatestatus",
+    "section": "posting",
+    "title": "GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6422,
+    "top_score": 0.7754,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
     "section": "posting",
     "title": "Fix QA Gatekeeper trong GitHub Actions: bài học từ một nút Countdown bị mất ở footer",
     "date": "2026-06-22",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.643,
-    "top_score": 0.7094,
+    "score": 0.6367,
+    "top_score": 0.7131,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "ai-thiet-ke-cuoc-song-he-thong",
+    "section": "posting",
+    "title": "AI thiết kế cuộc sống: hệ thống thực dụng",
+    "date": "2026-06-20",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6365,
+    "top_score": 0.885,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1860,26 +1908,14 @@
     "tier": "mid"
   },
   {
-    "slug": "viet-blog-bang-local-terminal-khi-ai-het-credit",
+    "slug": "tro-cap-that-nghiep-thoi-gian-bhtn",
     "section": "posting",
-    "title": "Viết blog bằng local terminal khi AI hết credit",
-    "date": "2026-06-22",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6196,
-    "top_score": 0.7692,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "ai-thiet-ke-cuoc-song-he-thong",
-    "section": "posting",
-    "title": "AI thiết kế cuộc sống: hệ thống thực dụng",
-    "date": "2026-06-20",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6174,
-    "top_score": 0.885,
+    "title": "Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?",
+    "date": "2026-06-19",
+    "cluster": "tai-chinh",
+    "cluster_label": "Tài chính & Ngân hàng",
+    "score": 0.6178,
+    "top_score": 0.7157,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1892,18 +1928,6 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.6153,
     "top_score": 0.8038,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "vssid-khong-hien-qua-trinh-dong-bhtn",
-    "section": "posting",
-    "title": "VssID không hiện quá trình đóng bảo hiểm thất nghiệp",
-    "date": "2026-06-19",
-    "cluster": "tai-chinh",
-    "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.6149,
-    "top_score": 0.8689,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1968,18 +1992,6 @@
     "tier": "mid"
   },
   {
-    "slug": "tro-cap-that-nghiep-thoi-gian-bhtn",
-    "section": "posting",
-    "title": "Nghỉ việc bao lâu được hưởng trợ cấp thất nghiệp?",
-    "date": "2026-06-19",
-    "cluster": "tai-chinh",
-    "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.599,
-    "top_score": 0.7157,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "review-tnex-chi-tiet",
     "section": "posting",
     "title": "Review TNEX chi tiết: ngân hàng số miễn phí của MSB",
@@ -1988,6 +2000,18 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.5988,
     "top_score": 0.644,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "life-systems-trong-ky-nguyen-ai",
+    "section": "posting",
+    "title": "Life systems trong kỷ nguyên AI: sống rõ hơn",
+    "date": "2026-06-20",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.5957,
+    "top_score": 0.885,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2004,18 +2028,6 @@
     "tier": "mid"
   },
   {
-    "slug": "life-systems-trong-ky-nguyen-ai",
-    "section": "posting",
-    "title": "Life systems trong kỷ nguyên AI: sống rõ hơn",
-    "date": "2026-06-20",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.5914,
-    "top_score": 0.885,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "ngan-hang-so-cho-freelancer",
     "section": "posting",
     "title": "Ngân hàng số cho freelancer: quản lý thu nhập tự do",
@@ -2024,6 +2036,18 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.5902,
     "top_score": 0.6598,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid",
+    "section": "posting",
+    "title": "Lịch sử đóng BHXH bị mất trên VssID? 5 cách xử lý mới nhất",
+    "date": "2026-06-19",
+    "cluster": "tai-chinh",
+    "cluster_label": "Tài chính & Ngân hàng",
+    "score": 0.5847,
+    "top_score": 0.6981,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2046,7 +2070,7 @@
     "date": "2026-06-20",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.5787,
+    "score": 0.5788,
     "top_score": 0.7614,
     "neighbors": 5,
     "tier": "mid"
@@ -2060,6 +2084,18 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.5768,
     "top_score": 0.6133,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "viet-blog-bang-local-terminal-khi-ai-het-credit",
+    "section": "posting",
+    "title": "Viết blog bằng local terminal khi AI hết credit",
+    "date": "2026-06-22",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.5729,
+    "top_score": 0.5989,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2124,18 +2160,6 @@
     "tier": "mid"
   },
   {
-    "slug": "lich-su-dong-bhxh-bi-mat-tren-vssid",
-    "section": "posting",
-    "title": "Lịch sử đóng BHXH bị mất trên VssID? 5 cách xử lý mới nhất",
-    "date": "2026-06-19",
-    "cluster": "tai-chinh",
-    "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.534,
-    "top_score": 0.6981,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "troi-mua-sai-gon-an-gi",
     "section": "posting",
     "title": "Trời mưa Sài Gòn ăn gì? 8 món ấm bụng",
@@ -2184,6 +2208,18 @@
     "tier": "mid"
   },
   {
+    "slug": "premium-fintech-paywall-demo",
+    "section": "posting",
+    "title": "Fintech 2026: Paywall premium trên blog cá nhân",
+    "date": "2026-06-18",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.5159,
+    "top_score": 0.5557,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay",
     "section": "posting",
     "title": "Lợi ích Apple Pay: Apple và ngân hàng được gì từ khách",
@@ -2220,18 +2256,6 @@
     "tier": "mid"
   },
   {
-    "slug": "premium-fintech-paywall-demo",
-    "section": "posting",
-    "title": "Fintech 2026: Paywall premium trên blog cá nhân",
-    "date": "2026-06-18",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.5059,
-    "top_score": 0.5557,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "apple-pay-kiem-tien-the-nao-phi-ngan-hang",
     "section": "posting",
     "title": "Apple Pay kiếm tiền thế nào? Phí 0,15% từ ngân hàng",
@@ -2256,6 +2280,18 @@
     "tier": "mid"
   },
   {
+    "slug": "top-10-cong-cu-terminal-mac-2026",
+    "section": "posting",
+    "title": "Top 10 công cụ terminal cho Mac 2026: dev toolkit",
+    "date": "2026-06-22",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.4997,
+    "top_score": 0.7027,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "apple-pay-viet-nam-3-nam-ngan-hang-ho-tro",
     "section": "posting",
     "title": "Apple Pay tại Việt Nam: 3 năm và ngân hàng hỗ trợ",
@@ -2274,8 +2310,44 @@
     "date": "2026-06-18",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.4806,
+    "score": 0.4866,
     "top_score": 0.5254,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "tao-anh-og-guong-mat-mang-xa-hoi-blog-tap-chi-online",
+    "section": "posting",
+    "title": "Tạo ảnh OG: gương mặt trên mạng xã hội của blog và tạp chí online",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.4695,
+    "top_score": 0.4936,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "my-iran-hoa-binh-trung-dong",
+    "section": "baochi",
+    "title": "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?",
+    "date": "2026-06-16",
+    "cluster": "the-gioi",
+    "cluster_label": "Thế giới",
+    "score": 0.4664,
+    "top_score": 0.7594,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key",
+    "section": "posting",
+    "title": "Cách xoá sạch ứng dụng khỏi Mac bằng Terminal: ví dụ gỡ 84Key",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.4517,
+    "top_score": 0.7027,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2292,14 +2364,26 @@
     "tier": "mid"
   },
   {
-    "slug": "my-iran-hoa-binh-trung-dong",
+    "slug": "my-iran-peace-deal-global-energy",
     "section": "baochi",
-    "title": "Hòa bình Mỹ-Iran: bước ngoặt hay ảo vọng?",
+    "title": "Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?",
     "date": "2026-06-16",
     "cluster": "the-gioi",
     "cluster_label": "Thế giới",
-    "score": 0.4498,
+    "score": 0.4458,
     "top_score": 0.7594,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan",
+    "section": "posting",
+    "title": "Watermark cho blog: cách mình dùng dấu nhận diện để bảo vệ ảnh và giữ thương hiệu nhất quán",
+    "date": "2026-06-22",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.4421,
+    "top_score": 0.4842,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2316,26 +2400,26 @@
     "tier": "mid"
   },
   {
+    "slug": "macos-27-golden-gate-co-gi-moi",
+    "section": "baochi",
+    "title": "macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?",
+    "date": "2026-06-18",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.4375,
+    "top_score": 0.5966,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude",
     "section": "posting",
     "title": "Giới hạn sử dụng và độ dài trên Claude AI",
     "date": "2026-06-16",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.4279,
+    "score": 0.4355,
     "top_score": 0.4788,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "my-iran-peace-deal-global-energy",
-    "section": "baochi",
-    "title": "Hòa bình Mỹ-Iran tác động túi tiền bạn thế nào?",
-    "date": "2026-06-16",
-    "cluster": "the-gioi",
-    "cluster_label": "Thế giới",
-    "score": 0.4095,
-    "top_score": 0.7594,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2346,7 +2430,7 @@
     "date": "2026-06-16",
     "cluster": "the-gioi",
     "cluster_label": "Thế giới",
-    "score": 0.4055,
+    "score": 0.4255,
     "top_score": 0.6565,
     "neighbors": 5,
     "tier": "mid"
@@ -2370,7 +2454,7 @@
     "date": "2026-06-20",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.3908,
+    "score": 0.3913,
     "top_score": 0.4331,
     "neighbors": 5,
     "tier": "low"
@@ -2384,18 +2468,6 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.3884,
     "top_score": 0.499,
-    "neighbors": 5,
-    "tier": "low"
-  },
-  {
-    "slug": "macos-27-golden-gate-co-gi-moi",
-    "section": "baochi",
-    "title": "macOS 27 Golden Gate có gì mới và máy Mac nào hỗ trợ?",
-    "date": "2026-06-18",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.3801,
-    "top_score": 0.5847,
     "neighbors": 5,
     "tier": "low"
   },
@@ -2418,7 +2490,7 @@
     "date": "2026-06-15",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.3676,
+    "score": 0.3685,
     "top_score": 0.3922,
     "neighbors": 5,
     "tier": "low"
@@ -2460,18 +2532,6 @@
     "tier": "low"
   },
   {
-    "slug": "cach-xoa-sach-ung-dung-khoi-mac-bang-terminal-84key",
-    "section": "posting",
-    "title": "Cách xoá sạch ứng dụng khỏi Mac bằng Terminal: ví dụ gỡ 84Key",
-    "date": "2026-06-21",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.3261,
-    "top_score": 0.5847,
-    "neighbors": 5,
-    "tier": "low"
-  },
-  {
     "slug": "ngay-cua-cha-o-viet-nam-la-ngay-nao",
     "section": "baochi",
     "title": "Ngày của Cha ở Việt Nam là ngày nào?",
@@ -2496,6 +2556,18 @@
     "tier": "low"
   },
   {
+    "slug": "f18-crash-when-technology-fails",
+    "section": "baochi",
+    "title": "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD",
+    "date": "2026-06-16",
+    "cluster": "the-gioi",
+    "cluster_label": "Thế giới",
+    "score": 0.2909,
+    "top_score": 0.3656,
+    "neighbors": 5,
+    "tier": "low"
+  },
+  {
     "slug": "ai-thay-doi-lap-ke-hoach-du-lich",
     "section": "posting",
     "title": "AI lập kế hoạch du lịch: thay đổi cách đi",
@@ -2508,26 +2580,26 @@
     "tier": "low"
   },
   {
+    "slug": "cac-nuoc-chau-a-xu-ly-nha-sieu-mong-sieu-meo",
+    "section": "baochi",
+    "title": "Nhà siêu mỏng, siêu méo: các nước châu Á xử lý ra sao?",
+    "date": "2026-06-22",
+    "cluster": "the-gioi",
+    "cluster_label": "Thế giới",
+    "score": 0.2802,
+    "top_score": 0.348,
+    "neighbors": 5,
+    "tier": "low"
+  },
+  {
     "slug": "bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi",
     "section": "baochi",
     "title": "Bồ Đào Nha vs Congo: Messi gọi, Ronaldo trả lời?",
     "date": "2026-06-18",
     "cluster": "the-gioi",
     "cluster_label": "Thế giới",
-    "score": 0.2811,
+    "score": 0.2623,
     "top_score": 0.5584,
-    "neighbors": 4,
-    "tier": "low"
-  },
-  {
-    "slug": "f18-crash-when-technology-fails",
-    "section": "baochi",
-    "title": "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD",
-    "date": "2026-06-16",
-    "cluster": "the-gioi",
-    "cluster_label": "Thế giới",
-    "score": 0.2781,
-    "top_score": 0.3656,
     "neighbors": 5,
     "tier": "low"
   },

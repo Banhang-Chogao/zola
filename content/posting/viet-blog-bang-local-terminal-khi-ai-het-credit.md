@@ -1,17 +1,14 @@
 +++
 title = "Viết blog bằng local terminal khi AI hết credit"
 date = 2026-06-22
-aliases = ["/viet-blog-bang-local-terminal-khi-ai-het-credit/"]
-description = "Quy trình viết và publish một bài blog từ local terminal khi Claude hoặc trợ lý AI hết credit, có QA, Git và PR an toàn."
-slug = "viet-blog-bang-local-terminal-khi-ai-het-credit"
 
 [taxonomies]
-categories = ["Tất cả", "Công nghệ"]
+categories = ["Tất cả"]
 tags = ["ai", "blog", "git", "github", "production", "terminal", "workflow", "zola"]
+
 [extra]
-thumbnail = "https://picsum.photos/seed/local-terminal-blog/600/400"
-seo_keyword = "viết blog bằng local terminal"
-featured = false
+featured = true
+featured_at = "2026-06-22T04:10:47.206Z"
 +++
 
 Có những ngày trợ lý AI của bạn báo hết credit, hết lượt, hoặc đơn giản là đang bảo trì. Nếu cả quy trình xuất bản của bạn phụ thuộc vào AI, bạn sẽ kẹt. Bài này hướng dẫn cách **viết blog bằng local terminal** một cách trọn vẹn — từ tạo nhánh, soạn bài, kiểm tra QA, build sạch, tới mở Pull Request và chờ auto-merge — mà không cần một dòng trợ giúp nào từ AI.
