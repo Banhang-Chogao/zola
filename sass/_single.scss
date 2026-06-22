@@ -516,19 +516,20 @@
   margin: 2rem 0 1rem;
 
   &__head {
-    border-bottom: 2px solid #0f172a;
+    border-bottom: 2px solid var(--c-border, #e2e8f0);
     margin-bottom: 1.25rem;
   }
 
   &__title {
     display: inline-block;
     margin: 0;
-    padding: 0.7rem 1.25rem;
-    background: #0f172a;
+    padding: 0.6rem 1.1rem;
+    background: var(--c-accent, #003784);
     color: #fff;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    border-radius: 4px 4px 0 0;
   }
 
   &__grid {
@@ -556,6 +557,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: left center;
       display: block;
       transition: transform .35s ease;
     }

@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "remove dark band in RELATED ARTICLES section [claude/stoic-noether-35xfbo]",
+      "tag": "fix",
+      "lines_added": 14,
+      "lines_removed": 10,
+      "highlights": [
+        "sass/_single.scss (modified, +8/-6)",
+        "sass/_theme-overrides.scss (modified, +6/-1)",
+        "templates/page.html (modified, +0/-3)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 746
+    },
+    {
+      "date": "2026-06-22",
       "title": "feat(series): add Q&A Khoa Học parts 17-30 + final QA scores [claude/happy-hopper-tp7w7f]",
       "tag": "chore",
       "lines_added": 0,

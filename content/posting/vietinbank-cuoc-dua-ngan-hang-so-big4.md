@@ -37,15 +37,15 @@ a = "Theo thông tin công bố, điểm mạnh truyền thống của VietinBan
 
 ## Big 4 và bốn cách làm ngân hàng số
 
-Trước khi so sánh, cần nhắc lại nhóm Big 4 gồm Vietcombank, VietinBank, BIDV và Agribank. Cả bốn đều có gốc nhà nước, quy mô lớn, mạng lưới rộng. Mình đã kể vai trò trụ cột của VietinBank trong nhóm này ở [bài về vai trò trong hệ thống ngân hàng](/posting/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/).
+Trước khi so sánh, cần nhắc lại nhóm Big 4 gồm Vietcombank, VietinBank, BIDV và Agribank. Cả bốn đều có gốc nhà nước, quy mô lớn, mạng lưới rộng. Mình đã kể vai trò trụ cột của VietinBank trong nhóm này ở [bài về vai trò trong hệ thống ngân hàng](/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam/).
 
 Điểm chung là cả bốn ngân hàng đều có app di động riêng, đều cho phép chuyển khoản, thanh toán hóa đơn, mở tài khoản online. Nhưng cách họ làm khác nhau, vì xuất phát điểm và tệp khách hàng mỗi bên một kiểu.
 
 ## Ngân hàng số VietinBank đứng ở đâu trong cuộc đua
 
-Với VietinBank, kênh số chính cho khách hàng cá nhân là **VietinBank iPay**. Mình đã đi qua lịch sử của nó ở [bài về VietinBank iPay qua các thời kỳ](/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/).
+Với VietinBank, kênh số chính cho khách hàng cá nhân là **VietinBank iPay**. Mình đã đi qua lịch sử của nó ở [bài về VietinBank iPay qua các thời kỳ](/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/).
 
-Theo thông tin công bố, thế mạnh lâu năm của VietinBank gắn với mảng công thương và khách hàng doanh nghiệp. Điều đó để lại dấu ấn trên hệ sinh thái số: ngân hàng chú trọng cả cá nhân lẫn doanh nghiệp, từ chuyển tiền hằng ngày đến các giải pháp thanh toán cho công ty. Ai từng đọc [bài về hệ sinh thái sản phẩm VietinBank](/posting/he-sinh-thai-san-pham-vietinbank/) sẽ thấy mảng số chỉ là một lát cắt trong bức tranh lớn hơn đó.
+Theo thông tin công bố, thế mạnh lâu năm của VietinBank gắn với mảng công thương và khách hàng doanh nghiệp. Điều đó để lại dấu ấn trên hệ sinh thái số: ngân hàng chú trọng cả cá nhân lẫn doanh nghiệp, từ chuyển tiền hằng ngày đến các giải pháp thanh toán cho công ty. Ai từng đọc [bài về hệ sinh thái sản phẩm VietinBank](/he-sinh-thai-san-pham-vietinbank/) sẽ thấy mảng số chỉ là một lát cắt trong bức tranh lớn hơn đó.
 
 ## So sánh định tính: mỗi bên một thế mạnh
 
@@ -66,10 +66,10 @@ Bảng này chỉ là cách nhận diện chung mình rút từ tài liệu côn
 
 - App có mượt không, có hay treo khi cao điểm không.
 - Chuyển tiền có nhanh, có dễ tìm đúng tính năng không.
-- Bảo mật có chắc mà vẫn tiện không — chủ đề mình bàn kỹ ở [bài về bảo mật ngân hàng số VietinBank](/posting/bao-mat-ngan-hang-so-vietinbank/).
+- Bảo mật có chắc mà vẫn tiện không — chủ đề mình bàn kỹ ở [bài về bảo mật ngân hàng số VietinBank](/bao-mat-ngan-hang-so-vietinbank/).
 - Khi gặp sự cố, hỗ trợ có kịp thời không.
 
-VietinBank cũng đang đi theo mạch đó. Cách ngân hàng ứng dụng công nghệ vào từng điểm chạm mình đã kể ở [bài về công nghệ và trải nghiệm khách hàng](/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/).
+VietinBank cũng đang đi theo mạch đó. Cách ngân hàng ứng dụng công nghệ vào từng điểm chạm mình đã kể ở [bài về công nghệ và trải nghiệm khách hàng](/vietinbank-cong-nghe-trai-nghiem-khach-hang/).
 
 ## Nên chọn ngân hàng số nào?
 
@@ -83,11 +83,11 @@ Nhiều người còn dùng song song hai, ba ngân hàng để bù trừ cho nh
 
 ## Bài tiếp theo trong loạt
 
-So sánh xong, mình nhận ra một điều: nhiều tiện ích hay trên app lại bị bỏ quên. Ở [bài 13 về những tiện ích số nhiều người chưa tận dụng hết](/posting/tien-ich-so-vietinbank-chua-tan-dung-het/), mình sẽ liệt kê những tính năng đáng dùng mà không phải ai cũng để ý. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/categories/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank là ai](/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/) để nắm gốc gác.
+So sánh xong, mình nhận ra một điều: nhiều tiện ích hay trên app lại bị bỏ quên. Ở [bài 13 về những tiện ích số nhiều người chưa tận dụng hết](/tien-ich-so-vietinbank-chua-tan-dung-het/), mình sẽ liệt kê những tính năng đáng dùng mà không phải ai cũng để ý. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/topic/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank là ai](/vietinbank-la-ai-hanh-trinh-hinh-thanh/) để nắm gốc gác.
 
 Thông tin tham khảo thêm tại [website chính thức VietinBank](https://www.vietinbank.vn).
 
-> 👉 **Đọc tiếp:** [Những tiện ích số VietinBank chưa tận dụng hết →](/posting/tien-ich-so-vietinbank-chua-tan-dung-het/)
+> 👉 **Đọc tiếp:** [Những tiện ích số VietinBank chưa tận dụng hết →](/tien-ich-so-vietinbank-chua-tan-dung-het/)
 
 ## Tóm lại
 

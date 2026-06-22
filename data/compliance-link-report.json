@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-22T19:52:31Z",
+  "updated_at": "2026-06-22T20:02:15Z",
   "summary": {
-    "broken_count": 14,
-    "checked_unique": 1074,
+    "broken_count": 15,
+    "checked_unique": 1075,
     "status": "fail"
   },
   "links": [
@@ -515,6 +515,15 @@
       "source_file": "public/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang/index.html",
       "href": "https://seomoney.org/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
       "target": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/scoring/",
+      "source_file": "public/scoring/index.html",
+      "href": "https://seomoney.org/posting/tai-sao-oxy-hoa-trang-diều-dung/",
+      "target": "/posting/tai-sao-oxy-hoa-trang-diều-dung/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"

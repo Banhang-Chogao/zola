@@ -258,4 +258,4 @@ Bài blog về Auto Fixer cần được Auto Fixer cứu chính là ví dụ tu
 
 ---
 
-**Muốn tìm hiểu thêm?** Xem bài "[Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog](/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog/)" để hiểu chi tiết cách xây dựng hệ thống này.
+**Muốn tìm hiểu thêm?** Xem bài "[Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog](/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog/)" để hiểu chi tiết cách xây dựng hệ thống này.
