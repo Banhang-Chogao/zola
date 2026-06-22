@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-21T10:48:45Z",
+  "updated_at": "2026-06-22T16:20:40Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,45 +15,45 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 16 weak related pairs",
+      "detail": "0 broken links · 18 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-21T10:28:20Z"
+      "updated_at": "2026-06-22T15:37:38Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 57/100 · LCP 7.9 s · needs work",
+      "detail": "Mobile 54/100 · LCP 11.0 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-20T20:52:38+00:00"
+      "updated_at": "2026-06-22T16:17:26+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 864/865 pages",
+      "detail": "15 pages missing FAQ/schema · 958/960 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-21T10:28:20Z"
+      "updated_at": "2026-06-22T15:37:38Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: feat(content): add Mac Terminal app cleanup guide + set as f",
+      "detail": "Latest: no-API Pixabay image-assist + fix(V32) series_part build cra",
       "source": "changelog.json",
-      "updated_at": "2026-06-21"
+      "updated_at": "2026-06-22"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "done",
-      "detail": "1300 links OK · IndexNow on publish",
+      "detail": "1084 links OK · IndexNow on publish",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-21T05:44:31Z"
+      "updated_at": "2026-06-22T08:13:54Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-21T10:28:20Z"
+      "updated_at": "2026-06-22T15:37:38Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 57/100 vs desktop 83/100 (Δ26) · 864/865 ready",
+      "detail": "Mobile 54/100 vs desktop 90/100 (Δ36) · 959/960 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-20T20:52:38+00:00"
+      "updated_at": "2026-06-22T16:17:26+00:00"
     }
   ],
   "summary": {

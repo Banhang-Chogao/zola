@@ -1,4 +1,6 @@
-{# Google Rank — sidebar SEO authority widget (data/google-rank.json) #}
+{# Internal SEO Health — sidebar technical SEO widget (data/google-rank.json).
+   KHÔNG phải thứ hạng Google. Đây là điểm kỹ thuật nội bộ đo metadata, schema,
+   internal linking, compliance — không đo traffic, thứ hạng, hay tốc độ lập chỉ mục. #}
 {% import "macros/datetime.html" as dt %}
 {% macro widget() %}
 {% set gr = load_data(path="data/google-rank.json", required=false) %}
@@ -6,7 +8,7 @@
 {% if gr and gr.score is defined %}
 <section class="sidebar-block sidebar-block--google-rank" data-widget="google-rank" data-google-rank-root
          data-score-tier="{% if gr.score >= 81 %}elite{% elif gr.score >= 61 %}high{% elif gr.score >= 41 %}mid-high{% elif gr.score >= 31 %}mid{% elif gr.score >= 11 %}mid-low{% else %}low{% endif %}">
-    <h3 class="sidebar-label">GOOGLE RANK</h3>
+    <h3 class="sidebar-label">Internal SEO Health</h3>
     <script type="application/json" id="google-rank-data">{{ gr | json_encode | safe }}</script>
     <div class="google-rank__card">
         <div class="google-rank__score-row">
@@ -17,7 +19,6 @@
             <p class="google-rank__badge google-rank__badge--{{ gr.level_slug | default(value='new-site') }}"
                data-gr-badge
                title="{{ gr.tooltip | default(value='') }}">
-                <span class="google-rank__badge-emoji" data-gr-emoji aria-hidden="true">{{ gr.level_emoji }}</span>
                 <span class="google-rank__badge-text" data-gr-level>{{ gr.level | upper }}</span>
             </p>
         </div>
@@ -26,17 +27,21 @@
              aria-valuenow="{{ gr.score }}"
              aria-valuemin="0"
              aria-valuemax="100"
-             aria-label="SEO Authority Score"
+             aria-label="Technical SEO Score"
              data-gr-bar
              data-score="{{ gr.score }}">
             <span class="google-rank__bar-fill" data-gr-bar-fill style="width: {{ gr.score }}%"></span>
         </div>
 
         <p class="google-rank__caption">
-            SEO Authority Score
+            Technical SEO Score
             <button type="button" class="google-rank__info" data-gr-info
-                    aria-label="Giải thích điểm SEO"
+                    aria-label="Giải thích điểm kỹ thuật SEO"
                     title="{{ gr.tooltip | default(value='') }}">ⓘ</button>
+        </p>
+        <p class="google-rank__disclaimer">
+            Điểm kỹ thuật nội bộ — <strong>không phải</strong> thứ hạng Google, traffic, lập chỉ mục hay đảm bảo Top 1.
+            <span class="google-rank__src-chip">INTERNAL</span>
         </p>
 
         <details class="google-rank__details">
@@ -58,9 +63,9 @@
 
         {% if af and af.progressPercent is defined %}
         <div class="google-rank__autofix" data-gr-autofix aria-label="SEO Auto-Fix progress">
-            <h4 class="google-rank__autofix-title">SEO AUTO-FIX</h4>
+            <h4 class="google-rank__autofix-title">SEO Auto-Fix</h4>
             <p class="google-rank__autofix-progress-label">
-                Đang fix: <strong data-gr-af-pct>{{ af.progressPercent }}%</strong>
+                Tiến độ: <strong data-gr-af-pct>{{ af.progressPercent }}%</strong>
             </p>
             <div class="google-rank__autofix-bar" role="progressbar"
                  aria-valuenow="{{ af.progressPercent }}"
@@ -76,39 +81,31 @@
                     <dt>Trạng thái</dt>
                     <dd data-gr-af-status>{{ af.statusLabel | default(value=af.status) }}</dd>
                 </div>
-                {% if af.scoreBefore is defined %}
                 <div>
-                    <dt>Điểm trước</dt>
-                    <dd data-gr-af-before>{{ af.scoreBefore }}</dd>
-                </div>
-                {% endif %}
-                {% if af.scoreAfterEstimate is defined %}
-                <div>
-                    <dt>Ước tính sau</dt>
-                    <dd data-gr-af-after>{{ af.scoreAfterEstimate }}</dd>
-                </div>
-                {% endif %}
-                <div>
-                    <dt>Đã fix được</dt>
+                    <dt>Đã fix</dt>
                     <dd data-gr-af-fixed>{{ af.fixedCount | default(value=0) }} lỗi</dd>
                 </div>
                 <div>
-                    <dt>Chưa fix được</dt>
+                    <dt>Chưa fix</dt>
                     <dd data-gr-af-unfixed>{{ af.unfixedCount | default(value=0) }} lỗi</dd>
                 </div>
                 {% if af.manualReviewCount is defined and af.manualReviewCount > 0 %}
                 <div>
-                    <dt>Cần duyệt</dt>
+                    <dt>Cần duyệt thủ công</dt>
                     <dd data-gr-af-manual>{{ af.manualReviewCount }} mục</dd>
                 </div>
                 {% endif %}
+                <div>
+                    <dt>Hoàn thành ước tính</dt>
+                    <dd>{% if af.fixedCount > 0 and af.unfixedCount > 0 %}Đang tính…{% else %}Chưa đủ dữ liệu để ước tính{% endif %}</dd>
+                </div>
             </dl>
             {% if af.currentTask %}
-            <p class="google-rank__autofix-task" data-gr-af-task>{{ af.currentTask }}</p>
+            <p class="google-rank__autofix-task" data-gr-af-task>Việc đang làm: {{ af.currentTask }}</p>
             {% endif %}
             {% if af.blockerReason %}
             <p class="google-rank__autofix-reason" data-gr-af-reason>
-                Lý do: {{ af.blockerReason }}
+                Lý do chờ: {{ af.blockerReason }}
             </p>
             {% endif %}
             {% if af.updatedAt %}

@@ -54,6 +54,13 @@ TIMEOUT = 15
 # UptimeRobot status codes → our vocabulary.
 _STATUS = {0: "paused", 1: "unknown", 2: "up", 8: "down", 9: "down"}
 
+# This dashboard tracks ONE site: the canonical seomoney.org root (V23 — brand +
+# canonical root must stay seomoney.org). The 3 UptimeRobot accounts each monitor
+# extra infra (e.g. blog-visitor-api.onrender.com) that is irrelevant here and
+# also report the same seomoney.org monitor more than once. We keep only allowed
+# hosts and collapse duplicates so the page renders exactly one seomoney.org card.
+ALLOWED_HOSTS = ("seomoney.org",)
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -65,6 +72,17 @@ def _host(url: str) -> str:
         return h.replace("www.", "")
     except Exception:
         return url or "—"
+
+
+def _norm_host(value: str) -> str:
+    """Normalize a host/URL for comparison: lowercase, no scheme/path/www/slash."""
+    h = (value or "").strip().lower()
+    if "//" in h:
+        h = h.split("//", 1)[1]
+    h = h.split("/", 1)[0]  # drop any path or trailing slash
+    if h.startswith("www."):
+        h = h[4:]
+    return h
 
 
 def fetch_account(api_key: str) -> tuple[list[dict], str | None]:
@@ -153,6 +171,45 @@ def breathing(up: int, total: int, uptime30: float | None) -> str:
     return "đang ốm, cần xem ngay 🤒"
 
 
+def select_monitors(monitors: list[dict]) -> list[dict]:
+    """Keep only ALLOWED_HOSTS monitors, deduped by normalized host.
+
+    The 3 accounts each return the seomoney.org monitor (so it shows up several
+    times) plus unrelated infra such as blog-visitor-api.onrender.com. We render
+    a single, deduplicated card per allowed host — never the extra infra.
+    """
+    allowed = {_norm_host(h) for h in ALLOWED_HOSTS}
+    seen: set[str] = set()
+    kept: list[dict] = []
+    for m in monitors or []:
+        host = _norm_host(str(m.get("host", "")))
+        if host not in allowed or host in seen:
+            continue
+        seen.add(host)
+        kept.append(m)
+    return kept
+
+
+def summarize(monitors: list[dict]) -> tuple[dict, list[dict]]:
+    """Derive the summary block + flattened incident timeline from monitors."""
+    up = sum(1 for m in monitors if m.get("status") == "up")
+    down = sum(1 for m in monitors if m.get("status") == "down")
+    paused = sum(1 for m in monitors if m.get("status") == "paused")
+    u30 = [m["uptime_30d"] for m in monitors if m.get("uptime_30d") is not None]
+    overall = round(sum(u30) / len(u30), 3) if u30 else None
+    resp = [m["avg_response_ms"] for m in monitors if m.get("avg_response_ms")]
+    avg_resp = round(sum(resp) / len(resp)) if resp else None
+    incidents = sorted(
+        ({"monitor": m["name"], **inc} for m in monitors for inc in (m.get("incidents") or [])),
+        key=lambda x: x["start"], reverse=True)[:15]
+    summary = {
+        "total": len(monitors), "up": up, "down": down, "paused": paused,
+        "overall_uptime_30d": overall, "avg_response_ms": avg_resp,
+        "breathing": breathing(up, len(monitors), overall),
+    }
+    return summary, incidents
+
+
 def build_report() -> dict:
     accounts, monitors = [], []
     for i, env in enumerate(ENV_KEYS, start=1):
@@ -168,25 +225,14 @@ def build_report() -> dict:
         monitors.extend(norm)
         accounts.append({"key_index": i, "ok": True, "monitor_count": len(norm), "error": None})
 
-    up = sum(1 for m in monitors if m["status"] == "up")
-    down = sum(1 for m in monitors if m["status"] == "down")
-    paused = sum(1 for m in monitors if m["status"] == "paused")
-    u30 = [m["uptime_30d"] for m in monitors if m["uptime_30d"] is not None]
-    overall = round(sum(u30) / len(u30), 3) if u30 else None
-    resp = [m["avg_response_ms"] for m in monitors if m["avg_response_ms"]]
-    avg_resp = round(sum(resp) / len(resp)) if resp else None
-    incidents = sorted(
-        ({"monitor": m["name"], **inc} for m in monitors for inc in m["incidents"]),
-        key=lambda x: x["start"], reverse=True)[:15]
+    # Render only the seomoney.org monitor (deduped); drop unrelated infra.
+    monitors = select_monitors(monitors)
+    summary, incidents = summarize(monitors)
     any_ok = any(a["ok"] for a in accounts)
     return {
         "checked_at": _now(),
         "ok": any_ok,
-        "summary": {
-            "total": len(monitors), "up": up, "down": down, "paused": paused,
-            "overall_uptime_30d": overall, "avg_response_ms": avg_resp,
-            "breathing": breathing(up, len(monitors), overall),
-        },
+        "summary": summary,
         "accounts": accounts,
         "monitors": monitors,
         "incidents": incidents,
