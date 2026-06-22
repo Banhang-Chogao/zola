@@ -1,27 +1,15 @@
 +++
-<<<<<<< HEAD
-title = "Fix QA Gatekeeper trong GitHub Actions: bài học từ một nút Countdown bị mất ở footer"
-date = 2026-06-22
-=======
 title = "QA Gatekeeper GitHub Actions: bài học merge conflict"
 date = 2026-06-22
 aliases = ["/fix-qa-gatekeeper-github-actions-merge-conflict-zola/"]
->>>>>>> origin/main
 description = "Case study debug GitHub Actions: từ merge conflict, stale branch đến QA Gatekeeper xanh và auto-merge sau 12 phút."
 slug = "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-<<<<<<< HEAD
-tags = ["github actions", "qa gatekeeper", "ci cd", "zola", "debug", "merge conflict", "regression test"]
-
-[extra]
-thumbnail = "/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.jpg"
-=======
 tags = ["ci cd", "debug", "github actions", "merge conflict", "qa gatekeeper", "regression test", "zola"]
 [extra]
 thumbnail = "/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.webp"
->>>>>>> origin/main
 seo_keyword = "fix QA Gatekeeper GitHub Actions"
 featured = false
 +++
@@ -30,11 +18,7 @@ Khoảng 2:02 sáng ngày 22/06/2026, tôi ngồi ở The Coffee Bean & Tea Leaf
 
 Cảm giác lúc đó rất khó tả. Không phải vì bug quá lớn, mà vì lần đầu tiên tôi đi trọn một vòng debug bằng local terminal: đọc log, hiểu test đang la gì, sửa đúng nguyên nhân, chạy QA local, push lại và chờ hệ thống xác nhận. Một nút Countdown nhỏ ở footer đã dạy tôi nhiều hơn vài giờ đọc tài liệu CI/CD khô khan.
 
-<<<<<<< HEAD
-![MacBook trên bàn cà phê trong buổi debug QA Gatekeeper GitHub Actions lúc khuya](/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.jpg)
-=======
 ![MacBook trên bàn cà phê trong buổi debug QA Gatekeeper GitHub Actions lúc khuya](/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/cover.webp)
->>>>>>> origin/main
 
 *Khoảnh khắc 2:02 sáng: một PR đỏ, một ly nước, và bài học thực tế về CI/CD.*
 
@@ -113,11 +97,7 @@ python3 qa_check.py
 
 Cách này tiết kiệm thời gian hơn nhiều so với chạy full QA liên tục. Nếu lỗi nằm ở một module nhỏ, hãy chạy đúng test nhỏ trước. Khi test nhỏ xanh, full QA xanh sẽ có xác suất cao hơn.
 
-<<<<<<< HEAD
-![Ly matcha ở The Coffee Bean trong lúc chờ GitHub Actions auto merge PR](/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/coffee-debug.jpg)
-=======
 ![Ly matcha ở The Coffee Bean trong lúc chờ GitHub Actions auto merge PR](/img/posting/fix-qa-gatekeeper-github-actions-merge-conflict-zola/coffee-debug.webp)
->>>>>>> origin/main
 
 *Ly nước trên bàn trong lúc chờ GitHub Actions chạy QA và auto-merge PR.*
 
