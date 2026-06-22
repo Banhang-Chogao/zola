@@ -185,11 +185,16 @@
             </article>
         </div>
 
-        {# SEO health widgets — RELOCATED from the homepage "Khám phá thêm" band.
-           Reuse the existing Google Rank + SEO Reality components unchanged. #}
+        {# SEO health widgets — Internal SEO Health + GSC Reality Check.
+           Điểm kỹ thuật nội bộ (KHÔNG phải thứ hạng Google) + trạng thái GSC. #}
         {% set gr_data = load_data(path="data/google-rank.json", required=false) %}
         {% set sr_data = load_data(path="data/seo-reality.json", required=false) %}
         {% if (gr_data and gr_data.score is defined) or (sr_data and sr_data.technical_seo) %}
+        <h3 class="mdash__h3">SEO &amp; Google Search Console</h3>
+        <p class="mdash__section-note">
+            Điểm kỹ thuật nội bộ + trạng thái kết nối GSC (<code>sc-domain:seomoney.org</code>).
+            Điểm Technical SEO <strong>không phải</strong> thứ hạng Google, không đo traffic hay đảm bảo lập chỉ mục.
+        </p>
         <div class="mdash__seo-grid">
             {{ google_rank::widget() }}
             {{ seo_reality::widget() }}
