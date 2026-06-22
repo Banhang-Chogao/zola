@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "fix(conflict): merge origin/main — V10 content add/add conflicts in PR #702 [claude/blissful-thompson-oy4z08]",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "feat(blog): bài viết watermark an toàn — owned-only policy cho ảnh blog",
+        "fix(conflict): merge origin/main — V10 content add/add conflicts in PR #702",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 702
+    },
+    {
+      "date": "2026-06-22",
       "title": "Auto-merge: PR #754 [f pr2]",
       "tag": "chore",
       "lines_added": 0,
