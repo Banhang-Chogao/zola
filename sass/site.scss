@@ -76,3 +76,7 @@
 @import "open-pr-monitor";
 
 @import "pr_sentinel";
+
+/* Mobile readability hardening — MUST stay last so its defensive
+   overflow/wrapping guards win over earlier component rules. */
+@import "mobile-hardening";
