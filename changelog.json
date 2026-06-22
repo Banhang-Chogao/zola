@@ -2,6 +2,16 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "fix(gsc): fetch real metrics from backend KV — no GSC_REFRESH_TOKEN secret needed",
+      "tag": "fix",
+      "lines_added": 11,
+      "lines_removed": 5,
+      "highlights": [],
+      "commit": "b2e4cddb9e54",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
       "title": "add GHA-ACTION-VERSION-GUARD vaccine + fix all violating workflows",
       "tag": "feat",
       "lines_added": 204,
