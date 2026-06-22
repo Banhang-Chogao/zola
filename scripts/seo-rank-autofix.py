@@ -700,12 +700,30 @@ def _task_label(issue_type: str) -> str:
     return labels.get(issue_type, f"Processing {issue_type}")
 
 
+def _public_view(payload: dict[str, Any]) -> dict[str, Any]:
+    """Public-safe projection for static/data/ (served at /data/).
+
+    The UI (google-rank.js + macros/google-rank.html) only reads the summary
+    fields. The per-issue `items[]` list exposes internal content paths and the
+    site's SEO weaknesses (thin posts, missing schema) — competitive intel that
+    no public consumer renders — so it stays in the internal data/ report only.
+    The aggregate `itemsTotal` count is kept for the progress display.
+    """
+    return {k: v for k, v in payload.items() if k != "items"}
+
+
 def write_report(payload: dict[str, Any]) -> None:
     DATA.mkdir(parents=True, exist_ok=True)
     STATIC_DATA.mkdir(parents=True, exist_ok=True)
-    text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
-    REPORT_FILE.write_text(text, encoding="utf-8")
-    (STATIC_DATA / "seo-rank-autofix-report.json").write_text(text, encoding="utf-8")
+    # Internal report keeps the full detail (items[]) for diagnostics.
+    REPORT_FILE.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    # Public copy is summary-only — never ship the internal backlog of weak pages.
+    (STATIC_DATA / "seo-rank-autofix-report.json").write_text(
+        json.dumps(_public_view(payload), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
 
 def main() -> int:
