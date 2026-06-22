@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-22T18:49:30Z",
+  "updated_at": "2026-06-22T18:57:38Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 20,
-    "this_week": 20,
+    "today": 21,
+    "this_week": 21,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 69,
       "chore": 13,
       "feature": 66,
       "content": 5,
-      "fix": 68,
-      "unknown": 44,
+      "unknown": 43,
       "ci": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 740,
+      "pr_title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/740",
+      "merged_at": "2026-06-22T18:50:32Z",
+      "merge_commit_sha": "ca43ea22d0a9f370c7690c8db6aa32b659a15821",
+      "merge_commit_short": "ca43ea2",
+      "head_branch": "claude/trusting-cori-db6sew",
+      "summary_vi": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX",
+      "change_type": "fix",
+      "files_changed": 4,
+      "additions": 82,
+      "deletions": 25,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 973,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27976230035",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 739,
       "pr_title": "chore(vaccine): Daily Vaccine Autofixer run",
@@ -585,9 +604,9 @@
       "deletions": 4,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 943,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27917891255",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 698,
@@ -604,9 +623,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 943,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27917891255",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 697,
@@ -3794,25 +3813,6 @@
       "files_changed": 4,
       "additions": 248,
       "deletions": 2,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 490,
-      "pr_title": "Cập nhật rule báo cáo PR sau merge: 3 quy tắc enforceable (no watch l…",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/490",
-      "merged_at": "2026-06-19T09:26:02Z",
-      "merge_commit_sha": "df88a060fbc1caf2dc540a526588d0c2696248fe",
-      "merge_commit_short": "df88a06",
-      "head_branch": "claude/awesome-gauss-edm7ve",
-      "summary_vi": "…oop, luôn summary, vaccine on fail)",
-      "change_type": "unknown",
-      "files_changed": 2,
-      "additions": 7,
-      "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
