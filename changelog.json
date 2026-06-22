@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status [claude/trusting-cori-db6sew]",
+      "tag": "refactor",
+      "lines_added": 228,
+      "lines_removed": 68,
+      "highlights": [
+        "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX",
+        "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status",
+        "sass/_calendar.scss (modified, +3/-3)",
+        "sass/_google-rank.scss (modified, +25/-0)",
+        "sass/_master-dashboard-v5.scss (modified, +24/-0)"
+      ],
+      "pr": 741
+    },
+    {
+      "date": "2026-06-22",
       "title": "Hotfix: /tools/calendar/ - fix stuck auth state, optimize admin check, widen layout, improve note UX [claude/trusting-cori-db6sew]",
       "tag": "fix",
       "lines_added": 82,
