@@ -127,6 +127,7 @@ Format bắt buộc:
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
 | `bb` | Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY, human, 1000+ từ, chuẩn SEO; chờ duyệt trước khi đăng |
+| `itnow` | Dán bài báo (VnExpress, Dân Trí…) → viết lại thành bài blog gốc SEOMONEY, 1000+ từ, AdSense-safe; chờ duyệt |
 | `bb9 <topic>` | Viết bài từ chủ đề + hẹn giờ đăng (draft n+3, buổi tối) — biến thể "hẹn giờ" của `bb` |
 | `dantri` | Alias hẹp của `bb`: paste nội dung nguồn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
@@ -1726,6 +1727,79 @@ paste-first** (KHÔNG tự crawl web).
 **Network fallback**:
 - Nếu user cung cấp URL nhưng network blocked → skip crawl, dùng content họ paste
 - Không vì không fetch được mà block shortcut
+
+---
+
+### `itnow` — Dán bài báo (bất kỳ nguồn) → viết lại thành bài blog gốc SEOMONEY (chờ duyệt)
+
+**Mục đích**: Paste nội dung bài báo từ **bất kỳ nhà báo nào** (VnExpress, Dân Trí, Tuổi Trẻ, Thanh Niên, VietnamNet…) → Claude viết lại thành bài blog **gốc** giọng cá nhân → commit vào branch dev → **chờ user duyệt** trước khi đăng. Giống `bb`, nhưng tập trung vào **input linh hoạt + output SEO-safe + AdSense-compliant**.
+
+**Hành động**:
+
+1. **Prompt user**: gõ `itnow` → Claude hỏi: "📰 Dán nội dung bài báo (từ bất kỳ nguồn — tiêu đề, nội dung chính, hoặc link + excerpt):"
+   - Nếu input quá ngắn / không rõ → **HỎI thêm trước khi viết**, KHÔNG tự bịa.
+
+2. **Parse + analyze**:
+   - Extract tiêu đề, date (nếu có), nội dung chính.
+   - Detect category tự động từ content:
+     - "Công nghệ", "Tài chính", "SEO", "Đời sống"… → map vào `categories.json`
+   - **BẮT BUỘC**: mọi bài `itnow` PHẢI có `["Tất cả", <auto-category>, "Báo chí"]`
+     (nếu auto-detect không được → chỉ `["Tất cả", "Báo chí"]`)
+   - Sinh slug kebab-case từ tiêu đề.
+
+3. **Rewrite engine** (bài gốc, KHÔNG copy):
+   - **Cấu trúc bắt buộc**: Mở bài (vì sao đáng chú ý) · Bối cảnh/context · Phân tích chính (≥2 H2) · Điều người đọc rút ra (practical takeaway) · Nhận định/quan điểm cá nhân (I-statement: "mình"/"tôi") · Kết luận rõ ràng.
+   - Giọng cá nhân: 1st person, quan điểm riêng.
+   - **Chỉ giữ fact có trong nội dung dán**; điểm cần kiểm chứng → ghi "theo nội dung được trích/dán" hoặc bỏ. KHÔNG bịa số liệu/sự kiện.
+   - Thêm internal links tới 2-3 bài liên quan **nếu có** (không bịa URL).
+   - Output tối thiểu **≥1000 từ** (lý tưởng 1000–1500), tự nhiên Tiếng Việt.
+
+4. **Tiêu chí AdSense-friendly (BẮT BUỘC)**:
+   - ≥1000 từ, nội dung gốc + nghiên cứu kỹ, giá trị thật.
+   - ≥2 H2, đoạn ngắn dễ đọc, ≥1 ảnh có `alt`.
+   - YMYL (tài chính/ngân hàng/bảo hiểm): nêu "chỉ mang tính tham khảo"; link tới `/terms/` khi cần.
+   - Disclosure affiliate/referral nếu có: blockquote minh bạch sau `<!-- more -->`.
+   - **KHÔNG**: nội dung người lớn, cờ bạc, vi phạm bản quyền, clickbait, xúi click ads.
+   - Internal + external links uy tín, có thật (không bịa).
+
+5. **Frontmatter** (tuân rule SEO + Category):
+   ```toml
+   +++
+   title = "<Tiêu đề ≤70 ký tự, chứa từ khoá chính>"
+   description = "<50–160 ký tự, chứa từ khoá>"
+   date = <hôm nay>
+   [taxonomies]
+   categories = ["Tất cả", "<auto-detected>", "Báo chí"]
+   tags = [<3-6 tags relevant>]
+   [extra]
+   thumbnail = "https://picsum.photos/seed/<slug>/600/400"
+   seo_keyword = "<từ khoá chính>"
+   featured = false
+   +++
+   ```
+
+6. **Workflow (chờ duyệt — KHÔNG tự đăng)**:
+   - Write file `content/baochi/<slug>.md`
+   - Chạy gate: `qa_check.py` + `seo_qa_checker.py`
+   - Commit lên branch dev: `feat: add itnow article — <slug> (from <source>)`
+   - **DỪNG & chờ user duyệt** — KHÔNG auto-merge/deploy. Merge `main` → deploy **sau khi user phê duyệt**.
+
+7. **Output summary**:
+   ```
+   ✅ Bài đã viết xong (chờ duyệt)
+   📝 Slug: <slug>
+   🏷️ Category: Tất cả · <auto-cat> · Báo chí
+   📄 File: content/baochi/<slug>.md  ·  Words: <n>
+   🌿 Branch: <dev> (đã commit, CHƯA merge)
+   👉 Duyệt đăng? (gõ để merge/deploy)
+   ```
+
+**Quality checks**:
+- Tiếng Việt tự nhiên, KHÔNG AI-generated flavor.
+- KHÔNG plagiarize bài gốc → trích dẫn source properly.
+- Có quan điểm cá nhân hoặc góc nhìn mới.
+- Internal links semantic (không generic "xem thêm").
+- KHÔNG bịa số liệu, sự kiện, URL.
 
 ---
 
