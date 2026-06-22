@@ -89,6 +89,31 @@ USER_AGENT = "Mozilla/5.0 (compatible; zola-qa-404-checker/1.0; +offline-safe)"
 # Skip schemes that are never broken-link candidates.
 _SKIP_SCHEMES = ("mailto:", "tel:", "javascript:", "data:", "#")
 
+# Client-side / app routes that are intentionally NOT static HTML pages.
+#
+# The blog's "tools hub" (content/content.md → /content/) and the site footer
+# (templates/base.html) link to a set of app/admin/dashboard routes that are
+# rendered client-side (JS) or served by the backend after an auth/VIP check —
+# they have no index.html under public/ by design. A static, offline crawler
+# cannot resolve them and would otherwise report thousands of false 404s (the
+# footer links alone render on every page). They are valid at runtime, so they
+# count as resolvable internal targets rather than broken links. Keep this list
+# TIGHT — only routes that are dynamic-by-design belong here; a real content 404
+# must still fail the gate.
+_DYNAMIC_APP_ROUTES = frozenset({
+    "/admin-author/",          # footer: Author Management admin tool
+    "/admin-countdown/",       # footer: Countdown config admin tool
+    "/admin/paywall/",         # paywall admin
+    "/ad-report/",             # tools hub: AdSense report (client-side)
+    "/ad-report-v2/",          # tools hub: AdSense report v2 (client-side)
+    "/authority-report/",      # tools hub: authority report (client-side)
+    "/tools/f-dashboard/",     # tools hub: F-Dashboard (client-side)
+    "/tools/l-dashboard/",     # tools hub: L-Dashboard (client-side)
+    "/tools/o-dashboard/",     # tools hub: O-Dashboard (client-side)
+    "/tools/h-dashboard/",     # tools hub: H-Dashboard (client-side)
+    "/tools/content-creator/", # tools hub: content creator (client-side)
+})
+
 
 # --------------------------------------------------------------------------- #
 # HTML parsing
@@ -232,7 +257,14 @@ def _classify(href: str) -> tuple[str, str | None]:
 
 
 def _internal_ok(path: str, pub_paths: set[str]) -> bool:
-    """True if an internal site path resolves to a file in public/ (offline)."""
+    """True if an internal site path resolves to a file in public/ (offline).
+
+    Client-side/app routes (see _DYNAMIC_APP_ROUTES) have no static HTML by
+    design but are valid at runtime, so they count as resolvable here — they
+    are not broken links.
+    """
+    if path in _DYNAMIC_APP_ROUTES:
+        return True
     if path in pub_paths:
         return True
     alt = path.rstrip("/") + "/"
