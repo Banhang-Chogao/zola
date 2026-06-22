@@ -3,13 +3,57 @@
    Google (GSC) data and ESTIMATED authority/growth. Truth > vanity metrics. */
 .sidebar-block--seo-reality {
   .seo-reality__intro {
-    margin: 0 0 1rem;
+    margin: 0 0 0.65rem;
     font-size: 0.78rem;
     line-height: 1.55;
     color: var(--c-text-muted);
 
     strong { color: var(--c-text-heading); font-weight: 700; }
     em { font-style: italic; }
+  }
+
+  .seo-reality__gsc-question {
+    margin: 0 0 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.5rem;
+
+    strong { color: var(--c-text-heading); font-weight: 700; }
+    code {
+      font-size: 0.75rem;
+      padding: 0.05em 0.3em;
+      background: color-mix(in srgb, var(--c-border) 50%, transparent);
+      border-radius: 3px;
+    }
+  }
+
+  .seo-reality__gsc-status-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.55rem;
+    font-family: $font-meta;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    border: 1px solid;
+    white-space: nowrap;
+
+    &--ok {
+      color: var(--c-success, #2e7d32);
+      border-color: color-mix(in srgb, var(--c-success, #2e7d32) 35%, var(--c-border));
+      background: color-mix(in srgb, var(--c-success, #2e7d32) 10%, var(--c-bg-surface));
+    }
+
+    &--pending {
+      color: var(--c-warning, #e65100);
+      border-color: color-mix(in srgb, var(--c-warning, #e65100) 35%, var(--c-border));
+      background: color-mix(in srgb, var(--c-warning, #e65100) 10%, var(--c-bg-surface));
+    }
   }
 
   .seo-reality__card {

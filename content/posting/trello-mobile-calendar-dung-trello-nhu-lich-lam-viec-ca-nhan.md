@@ -6,12 +6,13 @@ aliases = ["/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/"]
 slug = "trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan"
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["trello", "trello planner", "calendar", "productivity", "quản lý công việc", "google calendar"]
+tags = ["calendar", "google calendar", "productivity", "quản lý công việc", "trello", "trello planner"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "Trello Mobile Calendar"
 featured = true
 series = "trello-mobile-calendar"
+series_part = 0
 series_total = 2
 [[extra.faq]]
 q = "Trello Mobile Calendar có phải là một ứng dụng riêng không?"
