@@ -1,5 +1,5 @@
 +++
-title = "Watermark cho blog: cách mình dùng dấu nhận diện để bảo vệ ảnh và giữ thương hiệu nhất quán"
+title = "Watermark cho blog: bảo vệ ảnh và giữ thương hiệu nhất quán"
 date = 2026-06-22
 aliases = ["/watermark-cho-blog-bao-ve-anh-giu-thuong-hieu-nhat-quan/"]
 description = "Chia sẻ kinh nghiệm áp dụng watermark cho ảnh blog và các dashboard tiện ích như F-dashboard, H-dashboard để tăng nhận diện thương hiệu, bảo vệ tài sản visual và tối ưu liên kết nội bộ SEO."
