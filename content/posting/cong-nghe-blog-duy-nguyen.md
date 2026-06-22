@@ -170,8 +170,8 @@ viết. Thêm khi cần, không thêm khi không.
 
 ---
 
-Đọc thêm chi tiết về [QA Gatekeeper: bí quyết blog tự fix lỗi 24/7](/posting/qa-gatekeeper-tu-fix-loi-blog/)
-hoặc [Sentence Transformers SBERT cho semantic related posts](/posting/sentence-transformers-sbert-deep-dive/).
+Đọc thêm chi tiết về [QA Gatekeeper: bí quyết blog tự fix lỗi 24/7](/qa-gatekeeper-tu-fix-loi-blog/)
+hoặc [Sentence Transformers SBERT cho semantic related posts](/sentence-transformers-sbert-deep-dive/).
 
 **Repo công khai**: [github.com/Banhang-Chogao/zola](https://github.com/Banhang-Chogao/zola).
 Mọi feature mô tả ở trên đều có thể đọc source trực tiếp.

@@ -13,11 +13,11 @@ Pillar page cho cụm **Khoa học** — hub nội bộ liên kết các bài li
 
 ## Bài nổi bật
 
-- [Uranium làm giàu là gì? Các mức độ 0,7% đến 90%](https://seomoney.org/posting/uranium-lam-giau-la-gi/)
-- [Nhà máy làm giàu uranium hoạt động như thế nào?](https://seomoney.org/posting/nha-may-lam-giau-uranium-hoat-dong-the-nao/)
-- [Phá hủy cơ sở hạt nhân và tiêu hủy uranium: điều gì xảy ra?](https://seomoney.org/posting/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/)
-- [Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?](https://seomoney.org/posting/dien-hat-nhan-khac-vu-khi-hat-nhan/)
-- [Uranium là gì? Vì sao nguyên tố này quan trọng](https://seomoney.org/posting/uranium-la-gi-tai-sao-quan-trong/)
+- [Uranium làm giàu là gì? Các mức độ 0,7% đến 90%](/uranium-lam-giau-la-gi/)
+- [Nhà máy làm giàu uranium hoạt động như thế nào?](/nha-may-lam-giau-uranium-hoat-dong-the-nao/)
+- [Phá hủy cơ sở hạt nhân và tiêu hủy uranium: điều gì xảy ra?](/pha-huy-co-so-hat-nhan-dieu-gi-xay-ra/)
+- [Điện hạt nhân khác vũ khí hạt nhân ở điểm nào?](/dien-hat-nhan-khac-vu-khi-hat-nhan/)
+- [Uranium là gì? Vì sao nguyên tố này quan trọng](/uranium-la-gi-tai-sao-quan-trong/)
 - [Uranium Iran: từ lập trường cứng sang ngoại giao](https://seomoney.org/baochi/iran-uranium-destruction-what-it-means/)
 
 ## Nguồn tham khảo

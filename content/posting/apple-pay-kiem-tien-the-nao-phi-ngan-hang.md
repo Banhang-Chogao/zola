@@ -28,7 +28,7 @@ q = "Phí Apple Pay ở Việt Nam có giống nước ngoài không?"
 a = "Apple không công bố mức phí riêng cho từng nước, và con số 0,15% được biết đến chủ yếu từ thị trường Mỹ. Ở Việt Nam mức cụ thể do Apple và từng ngân hàng thỏa thuận, nhưng mô hình chung vẫn là Apple thu từ ngân hàng phát hành, không thu từ khách hay cửa hàng."
 +++
 
-> 📚 **Apple Pay tại Việt Nam (Bài 2/3).** Sau khi nhìn lại [hành trình 3 năm và danh sách ngân hàng](/posting/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/), lần này mình bóc tách dòng tiền: Apple Pay kiếm tiền bằng cách nào.
+> 📚 **Apple Pay tại Việt Nam (Bài 2/3).** Sau khi nhìn lại [hành trình 3 năm và danh sách ngân hàng](/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/), lần này mình bóc tách dòng tiền: Apple Pay kiếm tiền bằng cách nào.
 
 **Apple Pay kiếm tiền** ra sao là câu hỏi làm mình tò mò nhất. Một dịch vụ mà khách không mất thêm đồng nào, cửa hàng cũng không bị thu phí riêng, vậy Apple sống bằng gì? Bài này mình đi tìm câu trả lời, dựa trên các phân tích quốc tế và cách hệ thống thẻ vận hành.
 
@@ -75,7 +75,7 @@ Cái Apple bán không phải nút bấm thanh toán, mà là một **lời bả
 - **Mã dùng một lần:** mỗi giao dịch tạo ra một mã bảo mật động, dùng xong là bỏ. Kẻ gian có chặn được cũng không tái sử dụng được.
 - **Sinh trắc học:** Face ID hoặc Touch ID đảm bảo người trả tiền đúng là chủ máy.
 
-Ba lớp này khiến giao dịch Apple Pay có tỷ lệ gian lận thấp hơn nhiều so với quẹt thẻ thường. Với ngân hàng, gian lận là chi phí thật: tiền bồi hoàn, tiền xử lý tranh chấp, tiền phát lại thẻ. Trả 0,15% cho Apple để giảm mạnh rủi ro đó là một phép tính mà nhiều ngân hàng thấy có lời. Mình sẽ phân tích kỹ bài toán lời lỗ này của ngân hàng ở [bài 3 về lợi ích của Apple và ngân hàng](/posting/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/).
+Ba lớp này khiến giao dịch Apple Pay có tỷ lệ gian lận thấp hơn nhiều so với quẹt thẻ thường. Với ngân hàng, gian lận là chi phí thật: tiền bồi hoàn, tiền xử lý tranh chấp, tiền phát lại thẻ. Trả 0,15% cho Apple để giảm mạnh rủi ro đó là một phép tính mà nhiều ngân hàng thấy có lời. Mình sẽ phân tích kỹ bài toán lời lỗ này của ngân hàng ở [bài 3 về lợi ích của Apple và ngân hàng](/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/).
 
 ## Apple Pay kiếm tiền theo mô hình lợi nhuận cao, ít rủi ro
 
@@ -91,6 +91,6 @@ Apple không công bố mức phí áp dụng riêng cho từng nước, nên co
 
 Nhưng mô hình thì không đổi: Apple thu từ ngân hàng phát hành, khách và cửa hàng không trả thêm. Với thẻ nội địa qua NAPAS, cấu trúc phí có thể khác thẻ quốc tế do interchange nội địa thấp hơn, song nguyên tắc chia phần vẫn vậy.
 
-Điều này dẫn tới một câu hỏi rất hợp lý mà mình dành hẳn cho [bài cuối của series](/posting/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/): nếu ngân hàng đã phải nhường phí, lại còn lo phần triển khai, thì họ được lợi gì để vẫn hào hứng tham gia? Và Apple, ngoài 0,15%, còn thu được gì khác từ khách hàng?
+Điều này dẫn tới một câu hỏi rất hợp lý mà mình dành hẳn cho [bài cuối của series](/apple-ngan-hang-loi-gi-tu-khach-hang-apple-pay/): nếu ngân hàng đã phải nhường phí, lại còn lo phần triển khai, thì họ được lợi gì để vẫn hào hứng tham gia? Và Apple, ngoài 0,15%, còn thu được gì khác từ khách hàng?
 
-Nếu bạn muốn xem lại tổng quan trước khi đi tiếp, mời ghé [bài 1 của series](/posting/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/) hoặc dạo qua [chuyên mục Ngân hàng](/categories/ngan-hang/).
+Nếu bạn muốn xem lại tổng quan trước khi đi tiếp, mời ghé [bài 1 của series](/apple-pay-viet-nam-3-nam-ngan-hang-ho-tro/) hoặc dạo qua [chuyên mục Ngân hàng](/topic/ngan-hang/).

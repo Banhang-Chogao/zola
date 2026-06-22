@@ -28,7 +28,7 @@ q = "User acquisition và Traffic acquisition khác nhau thế nào?"
 a = "User acquisition cho biết nguồn mà người dùng đến với site lần đầu tiên, gắn với cả vòng đời của user đó. Traffic acquisition cho biết nguồn của từng phiên truy cập, kể cả khi cùng một người quay lại bằng kênh khác. Một cái nói về người, một cái nói về phiên."
 +++
 
-> 📚 **Series "10 ngày để hiểu Google Analytics" — Bài 4/5.** Ở [Bài 3](/posting/engagement-rate-bounce-rate-google-analytics/) ta đã đọc *chất lượng* của traffic. Hôm nay ta trả lời câu hỏi đứng sau mọi quyết định nội dung: khách của bạn đến từ *đâu*?
+> 📚 **Series "10 ngày để hiểu Google Analytics" — Bài 4/5.** Ở [Bài 3](/engagement-rate-bounce-rate-google-analytics/) ta đã đọc *chất lượng* của traffic. Hôm nay ta trả lời câu hỏi đứng sau mọi quyết định nội dung: khách của bạn đến từ *đâu*?
 
 Có một báo cáo mà mình mở gần như mỗi ngày: **nguồn traffic**. Lý do đơn giản — biết người đọc đến từ đâu thì mới biết nên đầu tư công sức vào kênh nào. Nhưng cũng chính báo cáo này khiến mình hiểu nhầm khá lâu, đặc biệt là cái nhãn "Direct". Bài này sẽ bóc tách năm nhóm nguồn traffic chính trong GA4 và chỉ ra mấy cái bẫy mình từng sa vào.
 
@@ -84,7 +84,7 @@ Tiếp theo, mình kết hợp với **landing page** — trong báo cáo Traffi
 
 Cuối cùng, GA4 không phải tất cả. Để hiểu *người ta gõ từ khoá gì* trước khi vào bài, bạn cần ghép thêm **Google Search Console** — công cụ cho biết truy vấn, vị trí trung bình, tỉ lệ click. GA4 nói *sau khi vào site họ làm gì*, Search Console nói *họ tìm gì để vào*. Hai cái bổ trợ nhau.
 
-Nếu bạn chưa nắm chắc cách Google xếp hạng, nên đọc song song [SEO là gì](/posting/seo-la-gi-huong-dan-co-ban-google-search/) và [Google Search hoạt động thế nào](/posting/google-search-hoat-dong-the-nao/) — hiểu vế tìm kiếm thì đọc Organic Search trong GA4 mới có chiều sâu.
+Nếu bạn chưa nắm chắc cách Google xếp hạng, nên đọc song song [SEO là gì](/seo-la-gi-huong-dan-co-ban-google-search/) và [Google Search hoạt động thế nào](/google-search-hoat-dong-the-nao/) — hiểu vế tìm kiếm thì đọc Organic Search trong GA4 mới có chiều sâu.
 
 ## Bốn hiểu lầm phổ biến về nguồn traffic
 
@@ -139,6 +139,6 @@ Mình từng dính cả bốn. Sau khi gắn UTM bài bản và loại trừ sel
 
 Giờ bạn đọc được *bao nhiêu người, chất lượng ra sao, đến từ đâu*. Mảnh ghép cuối là biến tất cả thành một *thói quen*: mở GA4 mỗi ngày 15 phút và biết chính xác cần nhìn gì. Đó là bài khép lại series.
 
-👉 **Đọc tiếp:** [Bài 5 — Đọc báo cáo Google Analytics 15 phút mỗi ngày](/posting/doc-bao-cao-google-analytics-15-phut-moi-ngay/). Muốn ôn lại nền tảng thì quay về [Bài 1](/posting/google-analytics-la-gi-lo-trinh-10-ngay/), hoặc xem cả series trong chuyên mục [Công nghệ](/categories/cong-nghe/).
+👉 **Đọc tiếp:** [Bài 5 — Đọc báo cáo Google Analytics 15 phút mỗi ngày](/doc-bao-cao-google-analytics-15-phut-moi-ngay/). Muốn ôn lại nền tảng thì quay về [Bài 1](/google-analytics-la-gi-lo-trinh-10-ngay/), hoặc xem cả series trong chuyên mục [Công nghệ](/topic/cong-nghe/).
 
 *Nguồn tham khảo: [Google Analytics Help — Default channel group](https://support.google.com/analytics/answer/9756891) và tài liệu chính thức về [User acquisition và Traffic acquisition](https://support.google.com/analytics/answer/12922327).*

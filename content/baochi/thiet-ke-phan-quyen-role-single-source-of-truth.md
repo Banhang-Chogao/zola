@@ -94,4 +94,4 @@ Nếu rút gọn cả buổi dọn dẹp thành vài câu, mình sẽ nói thế
 
 Đây không phải kiến thức cao siêu, nhưng là loại lỗi rất hay gặp khi sản phẩm lớn dần mà không ai dừng lại dọn nợ kỹ thuật. Hy vọng vài ghi chú này tiết kiệm được cho bạn một buổi chiều như mình đã mất.
 
-Bạn đang xây hệ thống có nhiều cấp người dùng? Hãy thử rà lại xem logic role của mình đang nằm ở bao nhiêu chỗ — nếu nhiều hơn một, có lẽ đã đến lúc gom về một mối. Đọc thêm các bài cùng chủ đề trong chuyên mục [Công nghệ](/categories/cong-nghe/) hoặc xem toàn bộ tin tại [trang Báo chí](/categories/bao-chi/) của blog nhé.
+Bạn đang xây hệ thống có nhiều cấp người dùng? Hãy thử rà lại xem logic role của mình đang nằm ở bao nhiêu chỗ — nếu nhiều hơn một, có lẽ đã đến lúc gom về một mối. Đọc thêm các bài cùng chủ đề trong chuyên mục [Công nghệ](/topic/cong-nghe/) hoặc xem toàn bộ tin tại [trang Báo chí](/categories/bao-chi/) của blog nhé.
