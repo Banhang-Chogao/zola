@@ -2,9 +2,10 @@
 title = "Dị thường hô hấp — thần kinh hay hành động não bộ?"
 description = "Dị thường trong thở (suy sô, thở gấp) có thể do thần kinh hoặc do não bộ. Khoa học phân biệt giữa các nguyên nhân sinh lý và tâm lý."
 date = 2026-06-22
+aliases = ["/di-tho-co-than-kinh-hanh-dong-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "hô hấp", "tâm lý"]
+tags = ["hô hấp", "khoa học q&a", "tâm lý"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "dị thường hô hấp, thở gấp lo âu"

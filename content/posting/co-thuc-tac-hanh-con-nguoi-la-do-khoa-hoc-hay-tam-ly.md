@@ -2,9 +2,10 @@
 title = "Tác hành con người — do khoa học sinh học hay tâm lý học quyết định?"
 description = "Tác hành của con người là 50% sinh lý (gen, hormone, não), 50% tâm lý (kinh nghiệm, văn hóa, lựa chọn). Nó không phải \"hay cái này hay cái kia\"—nó là cả hai."
 date = 2026-06-22
+aliases = ["/co-thuc-tac-hanh-con-nguoi-la-do-khoa-hoc-hay-tam-ly/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "hành vi", "tự do ý chí"]
+tags = ["hành vi", "khoa học q&a", "tự do ý chí"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "hành vi con người, tự do ý chí"

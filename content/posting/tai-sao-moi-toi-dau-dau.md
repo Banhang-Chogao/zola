@@ -2,9 +2,10 @@
 title = "Tại sao cơn đau đầu lại thường xuyên vào mỗi tối?"
 description = "Đau đầu vào tối thường do stress tích luỹ, dehydration, caffeine withdrawal, hoặc tension muscles. Đó là pattern, không phải ngẫu nhiên."
 date = 2026-06-22
+aliases = ["/tai-sao-moi-toi-dau-dau/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "đau đầu", "sức khỏe"]
+tags = ["khoa học q&a", "sức khỏe", "đau đầu"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "đau đầu tối, nguyên nhân đau đầu"

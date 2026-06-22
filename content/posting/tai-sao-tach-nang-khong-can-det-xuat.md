@@ -2,9 +2,10 @@
 title = "Tại sao chúng ta có một mặt khi nhìn gương và một mặt thực tế?"
 description = "Gương lật hình ảnh (mirror inversion). Mặt của bạn không hoàn toàn đối xứng—khi lật, nó trông khác vì bạn quen với hình ảnh lật này."
 date = 2026-06-22
+aliases = ["/tai-sao-tach-nang-khong-can-det-xuat/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "tâm lý", "vật lý"]
+tags = ["khoa học q&a", "tâm lý", "vật lý"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "gương mặt khác, mirror image"

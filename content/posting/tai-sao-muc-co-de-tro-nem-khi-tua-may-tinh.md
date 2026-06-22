@@ -2,9 +2,10 @@
 title = "Tại sao mắt chúng ta có dễ trở nên cận khi nhìn màn hình?"
 description = "Cận thị từ màn hình là do sự thay đổi hình dạng của mắt khi nhìn gần trong thời gian dài. Không phải do ánh sáng xanh, mà do sự căng thẳng của các cơ nhìn."
 date = 2026-06-22
+aliases = ["/tai-sao-muc-co-de-tro-nem-khi-tua-may-tinh/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "mắt", "công nghệ"]
+tags = ["công nghệ", "khoa học q&a", "mắt"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "cận thị màn hình, mắt mỏi"

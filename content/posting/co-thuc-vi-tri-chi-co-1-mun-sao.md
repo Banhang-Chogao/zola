@@ -2,9 +2,10 @@
 title = "Địa cầu và vũ trụ — vị trí Trái Đất trong không gian là gì?"
 description = "Trái Đất là một hành tinh nhỏ quay quanh một ngôi sao nhỏ (Mặt Trời) trong một dải ngân hà trung bình (Milky Way), trong một vũ trụ có hàng trăm tỷ dải."
 date = 2026-06-22
+aliases = ["/co-thuc-vi-tri-chi-co-1-mun-sao/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "không gian", "vũ trụ"]
+tags = ["khoa học q&a", "không gian", "vũ trụ"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "vị trí Trái Đất, vũ trụ"

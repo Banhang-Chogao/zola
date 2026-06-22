@@ -2,9 +2,10 @@
 title = "Tại sao một số động vật có thể thay đổi màu tóc/lông thế nào?"
 description = "Một số động vật (tắc kè, cá mập, bạch tuộc) thay đổi màu bằng cách điều khiển pigment cells (chromatophores). Đó là hoạt động dây thần kinh, không phải di truyền."
 date = 2026-06-22
+aliases = ["/tai-sao-dong-vat-co-the-thay-trang-sac-toc/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "động vật", "sinh lý"]
+tags = ["khoa học q&a", "sinh lý", "động vật"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "thay đổi màu động vật, chromatophores"

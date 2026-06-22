@@ -2,9 +2,10 @@
 title = "Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?"
 description = "Thiếu ngủ thay đổi nhân cách chỉ sau 24 giờ. Khoa học chứng minh rằng không ngủ một đêm làm suy giảm khả năng kiểm soát cảm xúc và tăng tính hung hăng."
 date = 2026-06-22
+aliases = ["/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "thiếu ngủ", "tâm lý"]
+tags = ["khoa học q&a", "thiếu ngủ", "tâm lý"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "thiếu ngủ thay đổi hành vi, ảnh hưởng của mất ngủ"

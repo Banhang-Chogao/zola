@@ -2,9 +2,10 @@
 title = "Nước lạnh vào sáng sớm — có tốt cho sức khỏe?"
 description = "Nước lạnh vào sáng có thể kích hoạt hệ thần kinh phó giao cảm, tăng metabolism, và cải thiện tuần hoàn. Nhưng không phải cho tất cả mọi người."
 date = 2026-06-22
+aliases = ["/co-soan-luong-lan-co-tot-khong/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "sức khỏe", "thói quen"]
+tags = ["khoa học q&a", "sức khỏe", "thói quen"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "nước lạnh sáng, tác dụng nước lạnh"

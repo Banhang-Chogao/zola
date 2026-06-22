@@ -2,9 +2,10 @@
 title = "Cơ sò — các cơ chúng ta hoạt động như thế nào?"
 description = "Cơ hoạt động bằng cách protein actin và myosin trượt qua nhau. Năng lượng ATP làm myosin co lại, kéo actin → cơ co → chuyển động."
 date = 2026-06-22
+aliases = ["/co-la-co-sop-hoat-dong-nhu-the-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "cơ", "sinh lý"]
+tags = ["cơ", "khoa học q&a", "sinh lý"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "cơ hoạt động, co cơ"

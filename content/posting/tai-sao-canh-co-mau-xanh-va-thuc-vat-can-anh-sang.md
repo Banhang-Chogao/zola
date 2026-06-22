@@ -2,9 +2,10 @@
 title = "Tại sao cánh có màu xanh? Quang hợp — cây cối cần ánh sáng gì?"
 description = "Cây xanh vì chlorophyll hấp thụ ánh sáng xanh và đỏ, nhưng phản ánh xanh lá. Quang hợp cần ánh sáng mặt trời để chuyển CO2 + H2O → glucose + O2."
 date = 2026-06-22
+aliases = ["/tai-sao-canh-co-mau-xanh-va-thuc-vat-can-anh-sang/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "quang hợp", "thực vật"]
+tags = ["khoa học q&a", "quang hợp", "thực vật"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "chlorophyll, quang hợp cây"

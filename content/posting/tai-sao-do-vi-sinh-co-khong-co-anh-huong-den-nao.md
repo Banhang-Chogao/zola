@@ -2,9 +2,10 @@
 title = "Tại sao vi khuẩn đường ruột ảnh hưởng đến não của chúng ta?"
 description = "Não và đường ruột kết nối qua \"trục ruột-não\" (gut-brain axis). Vi khuẩn sản sinh neurotransmitter ảnh hưởng trực tiếp đến tâm trạng và suy nghĩ."
 date = 2026-06-22
+aliases = ["/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "vi khuẩn", "não"]
+tags = ["khoa học q&a", "não", "vi khuẩn"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "vi khuẩn đường ruột, trục ruột-não"

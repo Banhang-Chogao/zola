@@ -2,9 +2,10 @@
 title = "Tại sao tóc bạn trở nên bạc khi stress? Có đúng là do tuổi tác?"
 description = "Tóc bạc không chỉ vì tuổi tác. Stress mạnh có thể làm tóc bạc nhanh chóng bằng cách làm cạn kiệt thế bào gốc sản sinh melanin trong nang tóc."
 date = 2026-06-22
+aliases = ["/tai-sao-toc-trang-do-stress-va-tuoi-tac/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "tóc bạc", "stress"]
+tags = ["khoa học q&a", "stress", "tóc bạc"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tóc bạc vì stress, tóc bạc do tuổi tác"
