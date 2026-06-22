@@ -59,7 +59,10 @@
                 {% endif %}
             {% endfor %}
             {% if group_pages | length > 0 %}
-            {% set sorted_pages = group_pages | sort(attribute="extra.series_part") %}
+            {# Vaccine: only pages that DECLARE extra.series_part are sortable by it —
+               a series member missing series_part must never crash `zola build`. #}
+            {% set sortable = group_pages | filter(attribute="extra.series_part") %}
+            {% set sorted_pages = sortable | sort(attribute="extra.series_part") %}
             <div class="series-listing__group" id="series-{{ manifest.id }}">
                 <h3 class="series-listing__group-title">{{ manifest.title_vi | default(value=manifest.title) }}</h3>
                 {% if manifest.description %}
@@ -93,7 +96,9 @@
         {% if group_pages | length > 0 %}
         {% set first = group_pages | first %}
         {% set title = first.extra.series_title | default(value=sid | replace(from="-", to=" ")) %}
-        {% set sorted_pages = group_pages | sort(attribute="extra.series_part") %}
+        {# Vaccine: guard sort against series members missing extra.series_part. #}
+        {% set sortable = group_pages | filter(attribute="extra.series_part") %}
+        {% set sorted_pages = sortable | sort(attribute="extra.series_part") %}
         <div class="series-listing__group" id="series-{{ sid }}">
             <h3 class="series-listing__group-title">{{ title }}</h3>
             <ol class="series-listing__posts">
