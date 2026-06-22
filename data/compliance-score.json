@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-22T20:12:38Z",
-  "score": 91.3,
-  "grade": "A",
+  "updated_at": "2026-06-22T20:59:49Z",
+  "score": 89.1,
+  "grade": "B",
   "mood": "good",
   "stats": {
-    "pass": 21,
-    "warn": 0,
+    "pass": 20,
+    "warn": 1,
     "fail": 2,
     "total": 23
   },
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "988/1048 in range"
+          "detail": "1001/1063 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1023/1048 complete"
+          "detail": "1038/1063 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1046/1048 set"
+          "detail": "1061/1063 set"
         }
       ]
     },
@@ -46,42 +46,42 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1044/1048 single H1"
+          "detail": "1059/1063 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1047/1048 with lang"
+          "detail": "1062/1063 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1047/1048 ready"
+          "detail": "1062/1063 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1046/1048 pages"
+          "detail": "1061/1063 pages"
         }
       ]
     },
     {
       "id": "media",
       "label": "Media",
-      "score": 66.7,
-      "pass": 2,
-      "warn": 0,
+      "score": 50.0,
+      "pass": 1,
+      "warn": 1,
       "fail": 1,
       "items": [
         {
           "label": "Image descriptions",
           "status": "fail",
-          "detail": "6/1048 pages covered"
+          "detail": "6/1063 pages covered"
         },
         {
           "label": "Image weight",
-          "status": "pass",
-          "detail": "within budget"
+          "status": "warn",
+          "detail": "1 large file(s)"
         },
         {
           "label": "Image formats",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "266/266 articles"
+          "detail": "268/268 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "260/266 tagged"
+          "detail": "262/268 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "264/266 substantive"
+          "detail": "266/268 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "15 broken / 1075 unique",
+          "detail": "15 broken / 1238 unique",
           "broken": [
             {
               "source_page": "/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1042/1048 pages"
+          "detail": "1057/1063 pages"
         },
         {
           "label": "Skip navigation",
@@ -382,6 +382,10 @@
     {
       "type": "fail",
       "text": "Media: Image descriptions"
+    },
+    {
+      "type": "warn",
+      "text": "Media: Image weight"
     },
     {
       "type": "fail",
@@ -398,22 +402,26 @@
     {
       "type": "pass",
       "text": "Metadata: Canonical URLs"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Heading focus"
     }
   ],
-  "pages_scanned": 1048,
-  "articles_scanned": 273,
+  "pages_scanned": 1063,
+  "articles_scanned": 275,
   "fix_log": [
     {
       "category": "Media",
       "label": "Image descriptions",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (6/1048 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-22T20:12:38Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (6/1063 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-22T20:59:49Z"
+    },
+    {
+      "category": "Media",
+      "label": "Image weight",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-22T20:59:49Z"
     },
     {
       "category": "Links",
@@ -421,13 +429,13 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 58 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/co-an-muon-toi-la-co-than-kinh-khong/index.html → /content/posting/tai-sao-chung-ta-can-vitamin-d.md (Target not found in public/ after zola build)",
-      "at": "2026-06-22T20:12:38Z"
+      "at": "2026-06-22T20:59:49Z"
     }
   ],
   "fix_summary": {
-    "attempted": 2,
+    "attempted": 3,
     "fixed": 0,
-    "failed": 2,
+    "failed": 3,
     "skipped": 0
   }
 }

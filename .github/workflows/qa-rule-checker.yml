@@ -68,11 +68,11 @@ jobs:
 
       - name: Checkout
         if: github.event_name != 'schedule' || steps.active_gate.outputs.skip != 'true'
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Python
         if: github.event_name != 'schedule' || steps.active_gate.outputs.skip != 'true'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
