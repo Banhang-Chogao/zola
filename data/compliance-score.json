@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-21T21:44:19Z",
-  "score": 95.7,
-  "grade": "A+",
+  "updated_at": "2026-06-22T19:52:31Z",
+  "score": 91.3,
+  "grade": "A",
   "mood": "good",
   "stats": {
-    "pass": 22,
+    "pass": 21,
     "warn": 0,
-    "fail": 1,
+    "fail": 2,
     "total": 23
   },
   "categories": [
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "861/896 in range"
+          "detail": "988/1048 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "872/896 complete"
+          "detail": "1023/1048 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "894/896 set"
+          "detail": "1046/1048 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "893/896 single H1"
+          "detail": "1044/1048 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "895/896 with lang"
+          "detail": "1047/1048 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "895/896 ready"
+          "detail": "1047/1048 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "894/896 pages"
+          "detail": "1046/1048 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "fail",
-          "detail": "6/896 pages covered"
+          "detail": "6/1048 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "221/221 articles"
+          "detail": "266/266 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "215/221 tagged"
+          "detail": "260/266 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "219/221 substantive"
+          "detail": "264/266 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,15 +158,197 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 100.0,
-      "pass": 2,
+      "score": 50.0,
+      "pass": 1,
       "warn": 0,
-      "fail": 0,
+      "fail": 1,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "fail",
+          "detail": "14 broken / 1074 unique",
+          "broken": [
+            {
+              "source_page": "/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "source_file": "public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html",
+              "href": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "source_file": "public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-an-muon-toi-la-co-than-kinh-khong/",
+              "source_file": "public/posting/co-an-muon-toi-la-co-than-kinh-khong/index.html",
+              "href": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-an-muon-toi-la-co-than-kinh-khong/",
+              "source_file": "public/posting/co-an-muon-toi-la-co-than-kinh-khong/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-chuan-tac-co-tim-khong/",
+              "source_file": "public/posting/co-chuan-tac-co-tim-khong/index.html",
+              "href": "/content/posting/co-thuc-benh-tim-mach-di-thua-gen.md",
+              "target": "/content/posting/co-thuc-benh-tim-mach-di-thua-gen.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-chuan-tac-co-tim-khong/",
+              "source_file": "public/posting/co-chuan-tac-co-tim-khong/index.html",
+              "href": "https://seomoney.org/content/posting/co-thuc-benh-tim-mach-di-thua-gen.md",
+              "target": "/content/posting/co-thuc-benh-tim-mach-di-thua-gen.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-la-co-sop-hoat-dong-nhu-the-nao/",
+              "source_file": "public/posting/co-la-co-sop-hoat-dong-nhu-the-nao/index.html",
+              "href": "/content/posting/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua.md",
+              "target": "/content/posting/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-la-co-sop-hoat-dong-nhu-the-nao/",
+              "source_file": "public/posting/co-la-co-sop-hoat-dong-nhu-the-nao/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua.md",
+              "target": "/content/posting/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-mua-o-day-chi-la-mua-truyen-phat/",
+              "source_file": "public/posting/co-mua-o-day-chi-la-mua-truyen-phat/index.html",
+              "href": "/content/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang.md",
+              "target": "/content/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-mua-o-day-chi-la-mua-truyen-phat/",
+              "source_file": "public/posting/co-mua-o-day-chi-la-mua-truyen-phat/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang.md",
+              "target": "/content/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-nhat-am-thuc-bi-dung-tai-gi/",
+              "source_file": "public/posting/co-nhat-am-thuc-bi-dung-tai-gi/index.html",
+              "href": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-nhat-am-thuc-bi-dung-tai-gi/",
+              "source_file": "public/posting/co-nhat-am-thuc-bi-dung-tai-gi/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-nhung-con-vat-khong-phai-co-nhim-trong-nao/",
+              "source_file": "public/posting/co-nhung-con-vat-khong-phai-co-nhim-trong-nao/index.html",
+              "href": "/content/posting/co-la-co-sop-hoat-dong-nhu-the-nao.md",
+              "target": "/content/posting/co-la-co-sop-hoat-dong-nhu-the-nao.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-nhung-con-vat-khong-phai-co-nhim-trong-nao/",
+              "source_file": "public/posting/co-nhung-con-vat-khong-phai-co-nhim-trong-nao/index.html",
+              "href": "https://seomoney.org/content/posting/co-la-co-sop-hoat-dong-nhu-the-nao.md",
+              "target": "/content/posting/co-la-co-sop-hoat-dong-nhu-the-nao.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-soan-luong-lan-co-tot-khong/",
+              "source_file": "public/posting/co-soan-luong-lan-co-tot-khong/index.html",
+              "href": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-soan-luong-lan-co-tot-khong/",
+              "source_file": "public/posting/co-soan-luong-lan-co-tot-khong/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-tho-sau-benh-phoi-co-lai-khong/",
+              "source_file": "public/posting/co-tho-sau-benh-phoi-co-lai-khong/index.html",
+              "href": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-tho-sau-benh-phoi-co-lai-khong/",
+              "source_file": "public/posting/co-tho-sau-benh-phoi-co-lai-khong/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-thuc-benh-tim-mach-di-thua-gen/",
+              "source_file": "public/posting/co-thuc-benh-tim-mach-di-thua-gen/index.html",
+              "href": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/co-thuc-benh-tim-mach-di-thua-gen/",
+              "source_file": "public/posting/co-thuc-benh-tim-mach-di-thua-gen/index.html",
+              "href": "https://seomoney.org/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "target": "/content/posting/tai-sao-chung-ta-can-vitamin-d.md",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
         },
         {
           "label": "GitHub Pages base path",
@@ -186,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "890/896 pages"
+          "detail": "1042/1048 pages"
         },
         {
           "label": "Skip navigation",
@@ -200,6 +382,10 @@
     {
       "type": "fail",
       "text": "Media: Image descriptions"
+    },
+    {
+      "type": "fail",
+      "text": "Links: Internal links"
     },
     {
       "type": "pass",
@@ -216,28 +402,32 @@
     {
       "type": "pass",
       "text": "Structure: Heading focus"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Document language"
     }
   ],
-  "pages_scanned": 896,
-  "articles_scanned": 228,
+  "pages_scanned": 1048,
+  "articles_scanned": 273,
   "fix_log": [
     {
       "category": "Media",
       "label": "Image descriptions",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (6/896 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-21T21:44:19Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (6/1048 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-22T19:52:31Z"
+    },
+    {
+      "category": "Links",
+      "label": "Internal links",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Còn 57 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/posting/co-an-muon-toi-la-co-than-kinh-khong/index.html → /content/posting/tai-sao-chung-ta-can-vitamin-d.md (Target not found in public/ after zola build)",
+      "at": "2026-06-22T19:52:31Z"
     }
   ],
   "fix_summary": {
-    "attempted": 1,
+    "attempted": 2,
     "fixed": 0,
-    "failed": 1,
+    "failed": 2,
     "skipped": 0
   }
 }

@@ -66,3 +66,72 @@
     max-width: 58vw;
   }
 }
+
+/* ===== breadcrumb--tools : pill/card playful variant for /tools/* pages =====
+   Nổi bật hơn breadcrumb thường — pill background, rounded, emoji icon, → separator. */
+
+.breadcrumb--tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--c-bg-soft);
+  border: 1px solid var(--c-border);
+  border-radius: 2rem;
+  padding: 0.35rem 0.95rem 0.35rem 0.7rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  margin: 0 0 1.25rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+
+  .breadcrumb__icon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .breadcrumb__list {
+    flex-wrap: wrap;
+    row-gap: 0.15rem;
+  }
+
+  .breadcrumb__item:not(:first-child)::before {
+    content: "→";
+    margin: 0 0.45rem;
+    color: var(--c-accent);
+    font-weight: 500;
+    font-size: 0.85em;
+  }
+
+  .breadcrumb__link {
+    color: var(--c-accent);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--c-accent-hover);
+      text-decoration: underline;
+    }
+  }
+
+  .breadcrumb__item--current {
+    color: var(--c-text-heading);
+    font-weight: 600;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    max-width: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .breadcrumb--tools {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.75rem 0.3rem 0.6rem;
+
+    .breadcrumb__icon {
+      font-size: 0.82rem;
+    }
+  }
+}
