@@ -30,7 +30,7 @@ q = "Kết nối lịch có tốn phí không?"
 a = "Một số khả năng cơ bản có thể dùng ở mức miễn phí, nhưng vài tính năng tích hợp lịch nâng cao có thể phụ thuộc gói Trello hoặc Power-Up cụ thể, và điều này thay đổi theo thời gian. Mình tránh khẳng định cứng về phí; cách chắc chắn nhất là xem điều khoản hiện hành ngay trong tài khoản của bạn."
 +++
 
-> 📚 **Series Trello Mobile Calendar — Bài 2/2.** Bài này thuộc loạt bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Nếu chưa rõ Planner là gì, hãy đọc [bài 1 — Trello Planner Mobile là gì](/posting/trello-planner-mobile-la-gi/) trước.
+> 📚 **Series Trello Mobile Calendar — Bài 2/2.** Bài này thuộc loạt bài hướng dẫn dùng Trello trên điện thoại như cuốn lịch làm việc cá nhân. Nếu chưa rõ Planner là gì, hãy đọc [bài 1 — Trello Planner Mobile là gì](/trello-planner-mobile-la-gi/) trước.
 
 Một trong những điều khiến mình gắn bó với Trello trên điện thoại là khả năng nhìn cả cuộc họp cố định lẫn đầu việc linh hoạt trong cùng một chỗ. Nhưng để làm được điều đó, bạn cần **kết nối Google Calendar với Trello** — hoặc lịch Outlook — và đưa chúng về cùng khung nhìn Planner. Bài này mình chia sẻ các cách kết nối, ưu nhược điểm của từng cách, và những lưu ý thực tế để bạn không bị hụt hẫng vì kỳ vọng sai.
 
@@ -42,7 +42,7 @@ Một trong những điều khiến mình gắn bó với Trello trên điện t
 
 Trước khi bắt tay làm, hãy rõ về mục đích. Lịch hẹn trong Google Calendar hay Outlook thường là những thứ **cố định**: cuộc họp lúc 10 giờ, lịch khám, buổi hẹn với khách. Còn card trong Trello là những **đầu việc linh hoạt** mà bạn có thể tự xếp vào khoảng trống. Khi hai loại này nằm tách rời ở hai app, bạn rất dễ xếp một việc Trello đúng vào giờ đã có cuộc họp mà không biết.
 
-Đưa lịch ngoài vào cùng khung nhìn giải quyết đúng vấn đề đó. Bạn thấy được những khoảng đã kín, từ đó chỉ kéo card vào những khoảng còn trống. Với mình, đây là lý do quan trọng nhất: tránh xung đột giờ giấc. Như mình đã nói ở [bài tổng quan của series](/posting/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/), mục tiêu cuối cùng là một nơi duy nhất để buổi sáng mở ra là biết cả ngày trông thế nào.
+Đưa lịch ngoài vào cùng khung nhìn giải quyết đúng vấn đề đó. Bạn thấy được những khoảng đã kín, từ đó chỉ kéo card vào những khoảng còn trống. Với mình, đây là lý do quan trọng nhất: tránh xung đột giờ giấc. Như mình đã nói ở [bài tổng quan của series](/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/), mục tiêu cuối cùng là một nơi duy nhất để buổi sáng mở ra là biết cả ngày trông thế nào.
 
 ## Hai hướng kết nối cần phân biệt
 
@@ -113,5 +113,5 @@ Khi lịch ngoài đã nằm gọn trong Planner, bước tiếp theo là đảm
 
 ## Đọc tiếp trong series
 
-- [Bài tổng quan — Trello Mobile Calendar: dùng Trello như lịch làm việc cá nhân](/posting/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/)
-- [Bài 1 — Trello Planner Mobile là gì?](/posting/trello-planner-mobile-la-gi/)
+- [Bài tổng quan — Trello Mobile Calendar: dùng Trello như lịch làm việc cá nhân](/trello-mobile-calendar-dung-trello-nhu-lich-lam-viec-ca-nhan/)
+- [Bài 1 — Trello Planner Mobile là gì?](/trello-planner-mobile-la-gi/)

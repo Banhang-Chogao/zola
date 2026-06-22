@@ -74,11 +74,11 @@ Biến động số dư tức thì của ngân hàng số chính là "lá chắn
 
 ## Gợi ý app cho người kinh doanh online
 
-- **[Cake](/posting/review-cake-by-vpbank/)**: phổ biến, nhiều tính năng — khách dễ chuyển khoản.
-- **[Liobank](/posting/review-liobank-by-ocb/)**: hoàn tiền tốt cho chi phí nhập hàng.
-- **[TNEX](/posting/review-tnex-chi-tiet/)**: miễn phí tối đa cho nhiều giao dịch nhỏ.
+- **[Cake](/review-cake-by-vpbank/)**: phổ biến, nhiều tính năng — khách dễ chuyển khoản.
+- **[Liobank](/review-liobank-by-ocb/)**: hoàn tiền tốt cho chi phí nhập hàng.
+- **[TNEX](/review-tnex-chi-tiet/)**: miễn phí tối đa cho nhiều giao dịch nhỏ.
 
-Phân vân giữa hoàn tiền và tính năng? Đọc [Cake vs Liobank](/posting/so-sanh-cake-vs-liobank/). Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/posting/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
+Phân vân giữa hoàn tiền và tính năng? Đọc [Cake vs Liobank](/so-sanh-cake-vs-liobank/). Toàn cảnh ở [top ngân hàng số tốt nhất Việt Nam 2026](/top-ngan-hang-so-tot-nhat-viet-nam-2026/).
 
 > 💡 **Ưu đãi (link giới thiệu):** Muốn vừa nhận đơn vừa được hoàn tiền cho chi phí nhập hàng? **Tải app và kích hoạt thẻ vật lý Liobank qua [link giới thiệu này](https://liobank.vn/rr/qyAJ) để được nhận hoàn tiền.** *(Link giới thiệu — mình có thể nhận ưu đãi khi bạn đăng ký, không phát sinh chi phí cho bạn.)*
 

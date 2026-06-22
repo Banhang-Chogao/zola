@@ -39,7 +39,7 @@ a = "Có. Theo thông tin công bố, ứng dụng ngân hàng số của Vietin
 
 Lý do đơn giản: app ngân hàng giờ nhiều tính năng đến mức choáng. Chúng ta mở app để chuyển tiền, xong là thoát, ít khi mò vào các menu khác.
 
-Mình đã kể hành trình app này lớn lên thế nào ở [bài về VietinBank iPay qua các thời kỳ](/posting/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/). Càng nhiều phiên bản, càng nhiều tính năng được nhét thêm, và đó cũng là lúc nhiều tiện ích hay bị chìm. Dưới đây là những thứ mình nghĩ đáng để bạn dành vài phút khám phá.
+Mình đã kể hành trình app này lớn lên thế nào ở [bài về VietinBank iPay qua các thời kỳ](/vietinbank-ipay-internet-banking-qua-cac-thoi-ky/). Càng nhiều phiên bản, càng nhiều tính năng được nhét thêm, và đó cũng là lúc nhiều tiện ích hay bị chìm. Dưới đây là những thứ mình nghĩ đáng để bạn dành vài phút khám phá.
 
 ## Tiện ích số VietinBank đáng dùng nhất
 
@@ -55,7 +55,7 @@ Tính năng này hợp với khoản trả định kỳ: tiền nhà, học phí
 
 ### 3. Quản lý và khóa thẻ ngay trên app
 
-Mất thẻ hay nghi ngờ lộ thông tin, bạn khóa thẻ ngay trong app thay vì cuống cuồng gọi tổng đài. Khi yên tâm rồi thì mở lại. Đây là tuyến phòng thủ nhanh, rất hợp với mạch [bài về bảo mật ngân hàng số VietinBank](/posting/bao-mat-ngan-hang-so-vietinbank/).
+Mất thẻ hay nghi ngờ lộ thông tin, bạn khóa thẻ ngay trong app thay vì cuống cuồng gọi tổng đài. Khi yên tâm rồi thì mở lại. Đây là tuyến phòng thủ nhanh, rất hợp với mạch [bài về bảo mật ngân hàng số VietinBank](/bao-mat-ngan-hang-so-vietinbank/).
 
 ### 4. Thanh toán hóa đơn tự động
 
@@ -80,7 +80,7 @@ Cần xem lại một giao dịch cũ, lọc theo ngày, tải sao kê — tất
 | Tiết kiệm online | Người có tiền nhàn rỗi |
 | Tra cứu sao kê | Người cần đối chiếu chi tiêu |
 
-Những tiện ích này nằm trong bức tranh hệ sinh thái rộng hơn mà mình đã vẽ ở [bài về hệ sinh thái sản phẩm VietinBank](/posting/he-sinh-thai-san-pham-vietinbank/).
+Những tiện ích này nằm trong bức tranh hệ sinh thái rộng hơn mà mình đã vẽ ở [bài về hệ sinh thái sản phẩm VietinBank](/he-sinh-thai-san-pham-vietinbank/).
 
 ## Vài mẹo nhỏ khi dùng
 
@@ -91,15 +91,15 @@ Theo trải nghiệm tìm hiểu của mình:
 - Lưu sẵn vài người nhận hay chuyển vào danh bạ trong app cho nhanh.
 - Cập nhật app thường xuyên — tính năng mới và bản vá bảo mật đi cùng nhau.
 
-Cách VietinBank thiết kế những điểm chạm này, mình đã bàn ở [bài về công nghệ và trải nghiệm khách hàng](/posting/vietinbank-cong-nghe-trai-nghiem-khach-hang/).
+Cách VietinBank thiết kế những điểm chạm này, mình đã bàn ở [bài về công nghệ và trải nghiệm khách hàng](/vietinbank-cong-nghe-trai-nghiem-khach-hang/).
 
 ## Bài tiếp theo trong loạt
 
-Dùng quen các tiện ích hiện tại rồi, câu hỏi tiếp theo là: ngân hàng số sẽ đi về đâu? Ở [bài 14 về tương lai ngân hàng số và vị thế VietinBank](/posting/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/), mình sẽ nói về xu hướng sắp tới. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/categories/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank là ai](/posting/vietinbank-la-ai-hanh-trinh-hinh-thanh/).
+Dùng quen các tiện ích hiện tại rồi, câu hỏi tiếp theo là: ngân hàng số sẽ đi về đâu? Ở [bài 14 về tương lai ngân hàng số và vị thế VietinBank](/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/), mình sẽ nói về xu hướng sắp tới. Bạn cũng có thể xem toàn bộ chủ đề tại [chuyên mục Ngân hàng](/topic/ngan-hang/), hoặc đọc lại [bài mở đầu loạt VietinBank là ai](/vietinbank-la-ai-hanh-trinh-hinh-thanh/).
 
 Hướng dẫn chi tiết từng tính năng có trên [website chính thức VietinBank](https://www.vietinbank.vn).
 
-> 👉 **Đọc tiếp:** [Tương lai ngân hàng số và vị thế của VietinBank →](/posting/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/)
+> 👉 **Đọc tiếp:** [Tương lai ngân hàng số và vị thế của VietinBank →](/tuong-lai-ngan-hang-so-va-vi-the-vietinbank/)
 
 ## Tóm lại
 
