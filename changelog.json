@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-22",
+      "title": "feat(shortcuts): add prq — PR Queue Audit shortcut [claude/laughing-volta-f15gwx]",
+      "tag": "chore",
+      "lines_added": 62,
+      "lines_removed": 2,
+      "highlights": [
+        "shortcuts.md (modified, +62/-2)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/laughing-volta-f15gwx là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 743
+    },
+    {
+      "date": "2026-06-22",
       "title": "refactor(seo): rename Google Rank → Internal SEO Health, clarify GSC status [claude/trusting-cori-db6sew]",
       "tag": "refactor",
       "lines_added": 228,
