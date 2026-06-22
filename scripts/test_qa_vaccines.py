@@ -2127,5 +2127,101 @@ class ShortcutRegistryPreservationV31Test(unittest.TestCase):
         self.assertEqual(r.status, qv.WARN)
 
 
+class GhaActionVersionGuardTest(unittest.TestCase):
+    """GHA-ACTION-VERSION-GUARD — tests for check_gha_action_version_guard."""
+
+    def setUp(self):
+        self.repo = TmpRepo()
+        self.addCleanup(self.repo.cleanup)
+
+    def _write_workflow(self, name: str, uses_lines: list[str]) -> None:
+        body = "on: push\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n"
+        for line in uses_lines:
+            body += f"      - uses: {line}\n"
+        self.repo.write(f".github/workflows/{name}.yml", body)
+
+    # ---- FAIL cases -----------------------------------------------------------
+
+    def test_checkout_v5_fails(self):
+        self._write_workflow("ci", ["actions/checkout@v5"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("checkout@v5" in d for d in r.details))
+
+    def test_checkout_v6_fails(self):
+        self._write_workflow("ci", ["actions/checkout@v6"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("checkout@v6" in d for d in r.details))
+
+    def test_setup_python_v6_fails(self):
+        self._write_workflow("ci", ["actions/setup-python@v6"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("setup-python@v6" in d for d in r.details))
+
+    def test_upload_artifact_v5_fails(self):
+        self._write_workflow("ci", ["actions/upload-artifact@v5"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("upload-artifact@v5" in d for d in r.details))
+
+    def test_download_artifact_v5_fails(self):
+        self._write_workflow("ci", ["actions/download-artifact@v5"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertTrue(any("download-artifact@v5" in d for d in r.details))
+
+    def test_multiple_violations_all_reported(self):
+        self._write_workflow("ci", ["actions/checkout@v6", "actions/setup-python@v6"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.FAIL)
+        self.assertEqual(len(r.details), 2)
+
+    # ---- PASS cases -----------------------------------------------------------
+
+    def test_checkout_v4_passes(self):
+        self._write_workflow("ci", ["actions/checkout@v4"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_checkout_v3_passes(self):
+        self._write_workflow("ci", ["actions/checkout@v3"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_setup_python_v5_passes(self):
+        self._write_workflow("ci", ["actions/setup-python@v5"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_upload_artifact_v4_passes(self):
+        self._write_workflow("ci", ["actions/upload-artifact@v4"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_download_artifact_v4_passes(self):
+        self._write_workflow("ci", ["actions/download-artifact@v4"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_unrelated_action_ignored(self):
+        self._write_workflow("ci", ["actions/github-script@v10", "actions/setup-node@v9"])
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    def test_no_workflows_passes(self):
+        r = qv.check_gha_action_version_guard(self.repo.ctx())
+        self.assertEqual(r.status, qv.PASS)
+
+    # ---- calibration ----------------------------------------------------------
+
+    def test_real_repo_passes(self):
+        """After fixing all workflow files, the real repo must PASS GHA-VERSION."""
+        r = qv.check_gha_action_version_guard(qv.Ctx(REPO_ROOT))
+        self.assertEqual(r.status, qv.PASS,
+                         f"GHA-VERSION FAIL on real repo: {r.details}")
+
+
 if __name__ == "__main__":
     unittest.main()
