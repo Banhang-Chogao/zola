@@ -5,11 +5,10 @@ date = 2026-06-21
 aliases = ["/github-pr-conflict-pending-checks/"]
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["github", "github actions", "merge conflict", "pull request", "ci cd"]
+tags = ["ci cd", "github", "github actions", "merge conflict", "pull request"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "GitHub PR conflict pending merge checks UNSTABLE UNKNOWN"
-featured = true
 series = "github-workflow"
 series_part = 16
 series_total = 18

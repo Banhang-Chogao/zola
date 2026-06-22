@@ -358,6 +358,50 @@ echo '[{"workflow":"qa","check":"qa-check","log":"merge conflict","head_sha":"H"
   khỏi plan; required check (`qa-check`) không bao giờ bị coi là report-only;
   input lỗi → plan rỗng, không crash.
 
+## Post-Bugfix → Blog Draft Policy (effective 2026-06-21 — "Long Bugfix → Blog Draft")
+
+> Doctrine: sau **mỗi bugfix dài / nhiều bước debug** (production bug, CI/CD fail,
+> SEO/AdSense, dashboard regression, deploy fail, automation/vaccine pattern), khi
+> task đã **substantially complete** hoặc đã có **bài học rõ ràng** → tự chuẩn bị
+> **nháp blog case-study công nghệ SEO-safe** từ bài học kỹ thuật. Bổ sung ZERO_BARRIER
+> + Knowledge Promotion Rule; **KHÔNG** thay QA / auto-merge / deploy. Shortcut + template
+> đầy đủ: `shortcuts.md` §`bugblog`. Đây là tri thức **Doctrine** (vĩnh viễn), không phải Incident.
+
+### Trigger (chỉ kích hoạt khi đủ điều kiện)
+
+1. **Chỉ sau bugfix/debug task** đã substantially complete **hoặc** có bài học rõ.
+   KHÔNG chạy cho thay đổi nhỏ/cosmetic; KHÔNG chạy giữa lúc còn đang debug dở.
+2. **"Done" cần bằng chứng** — KHÔNG coi là xong cho tới khi có QA / build / commit /
+   PR / deploy evidence. Thiếu bằng chứng → **chỉ tạo "blog draft notes"**, KHÔNG bài
+   publish-ready.
+3. **Đủ chất liệu factual** mới viết bài đầy đủ; thiếu → dừng ở ý tưởng/nháp.
+
+### Hai chế độ output
+
+| Mode | Khi nào | Output |
+|------|---------|--------|
+| **Draft notes** | Task chưa hoàn tất / thiếu evidence / chất liệu mỏng | Ghi chú nháp (bullet) — KHÔNG frontmatter publish, KHÔNG đưa vào `content/posting/` |
+| **Full article** | Task xong + có evidence + đủ chất liệu | Zola Markdown ≥1000 từ tiếng Việt, ngôi thứ nhất, human, SEO-friendly |
+
+### Bài viết phải có (full mode)
+
+Problem · Symptoms · Root cause · Debugging steps · Fix · Vaccine/Prevention rule ·
+Checklist · Lessons learned. Category mặc định **Công nghệ** (trừ khi user đổi).
+
+### Safety guards (BẮT BUỘC)
+
+- **Bỏ private/local:** KHÔNG machine path, secret, token, private URL, raw terminal log,
+  account data, internal key. Ưu tiên **public-safe abstraction** thay vì lộ implementation nhạy cảm.
+- **AdSense-safe:** không misleading claim, không clickbait, không overclaim tài chính/pháp lý,
+  KHÔNG xúi người đọc click ads.
+- **No fabrication:** KHÔNG bịa kết quả, KHÔNG tuyên bố "production success" khi chưa có evidence.
+
+### Approval gate (no auto-publish)
+
+- **KHÔNG tự đăng.** Bài chỉ chuyển vào `content/posting/` **sau khi user duyệt rõ ràng**.
+- Trước khi duyệt: giữ ở dạng nháp (draft notes hoặc draft article chờ review) — KHÔNG đẩy
+  vào luồng auto-merge/deploy như bài thường, KHÔNG đụng UI/UX hiện có.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
@@ -493,6 +537,30 @@ syntax → vỡ `zola build`), **V9** (docs-only PR fail do base cũ) và **V10*
 #### V29 — External Prod Verification / Manual Backend Deploy: GitHub Pages deploy ≠ Render backend deploy
 → See `docs/vaccine-archive.md` for FIXER & validation steps.
 
+#### V30 — Public /tools/* route preservation: SEO/section optimization must be non-destructive (no silent dashboard removal)
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
+
+#### V31 — Shortcut registry preservation: restructuring operation guidelines must not delete existing user shortcuts (required: `bb`)
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
+
+#### V32 — Series sort crash: `sort(attribute="extra.series_part")` vỡ `zola build` khi 1 bài trong series thiếu `series_part`
+**Dấu hiệu:** `zola build` đỏ với `Failed to render 'section.html'` → `Filter call 'sort' failed`
+→ `attribute 'extra.series_part' does not reference a field`. Nguyên nhân: macro
+`series-listing.html` gom các bài cùng `extra.series` rồi `| sort(attribute="extra.series_part")`;
+Tera `sort` yêu cầu **MỌI** phần tử có thuộc tính đó → chỉ cần 1 bài (vd trang "tổng quan"
+của series) khai báo `extra.series` mà **thiếu** `extra.series_part` là vỡ toàn bộ build.
+**FIXER (đã chốt):** (1) Hardening template — lọc trước khi sort:
+`{% set sortable = group_pages | filter(attribute="extra.series_part") %}` rồi
+`sortable | sort(...)` (áp cho cả nhánh manifest lẫn orphan trong `series-listing.html`);
+(2) Bài thuộc series phải có `extra.series_part` — trang tổng quan/intro đặt `series_part = 0`
+(badge `{% if %}` coi 0 là falsy nên không hiện "Bài 0/N"). Detector tĩnh `qa_vaccines.py`
+(`check_v32_series_part_sort_guard`): FAIL nếu template còn `sort(attribute="extra.series_part")`
+không qua `filter` trước. Test: `scripts/test_qa_vaccines.py`.
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
+
+
+#### V33 — Post-Conflict Artifact Hygiene: accidental backup/temp/unrelated files committed alongside conflict-resolution work
+→ See `docs/vaccine-archive.md` for FIXER & validation steps.
 
 ## Daily Vaccine Autofixer (BẮT BUỘC — chạy 06:00 GMT+7)
 

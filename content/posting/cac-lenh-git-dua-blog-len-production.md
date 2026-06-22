@@ -1,13 +1,13 @@
 +++
 title = "Git commands đưa blog lên production: giải thích từng lệnh"
 date = 2026-06-22
+aliases = ["/cac-lenh-git-dua-blog-len-production/"]
 description = "Giải thích các câu lệnh Git đã dùng để viết bài blog từ local terminal, chạy QA, tạo PR và đưa nội dung lên production."
 slug = "cac-lenh-git-dua-blog-len-production"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["git", "github", "terminal", "ci cd", "production", "qa gatekeeper", "static blog"]
-
+tags = ["ci cd", "git", "github", "production", "qa gatekeeper", "static blog", "terminal"]
 [extra]
 thumbnail = "https://picsum.photos/seed/git-terminal-production/600/400"
 seo_keyword = "lệnh Git đưa blog lên production"

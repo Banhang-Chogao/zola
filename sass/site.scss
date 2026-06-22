@@ -7,6 +7,7 @@
 @import "layout";
 @import "side-nav";
 @import "post";
+@import "blog-ui-refresh";
 @import "breadcrumb";
 @import "toc";
 @import "toc-rail";
@@ -15,6 +16,7 @@
 @import "google-rank";
 @import "seo-reality";
 @import "discover-more";
+@import "series-showcase";
 @import "home-clusters";
 @import "single";
 @import "faq";
@@ -35,6 +37,10 @@
 @import "baochi";
 @import "du-lich";
 @import "scoring";
+@import "f-dashboard";
+@import "l-dashboard";
+@import "o-dashboard";
+@import "h-dashboard";
 @import "uptime-me";
 @import "vu-mua";
 @import "prompt-support";
@@ -54,6 +60,7 @@
 @import "shortensea";
 @import "flight-db";
 @import "calendar";
+@import "whiteboard";
 @import "bhxh-1-lan";
 @import "bhtn";
 @import "paywall";
@@ -68,5 +75,10 @@
 @import "cms";
 @import "editor-sdna";
 @import "open-pr-monitor";
+@import "master-dashboard-v5";
 
 @import "pr_sentinel";
+
+/* Mobile readability hardening — MUST stay last so its defensive
+   overflow/wrapping guards win over earlier component rules. */
+@import "mobile-hardening";
