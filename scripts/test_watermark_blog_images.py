@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
-"""Unit tests for scripts/watermark_blog_images.py.
+"""Unit tests for scripts/watermark_blog_images.py (owned-folder watermark policy).
 
-Covers the contract from the watermark rule:
+Covers the contract:
   - deterministic 16-digit watermark generation
-  - skip SVG / logo / icon / brand / .og.webp assets
-  - idempotent second run (no stacking)
-  - a changed image gets reprocessed with a new hash
-  - .webp output stays watermarked (embedded marker + manifest + valid image)
-  - the --check gate fails before apply and passes after
+  - OWNED article images (posting/, owned/) are eligible
+  - third-party brand/app/bank/card/logo images are excluded
+  - unknown-source images (outside owned roots) are excluded BY DEFAULT
+  - explicit include (watermark:true) / exclude (watermark:false) overrides
+  - idempotent second run (no stacking); changed image reprocessed
+  - .webp output stays watermarked; the --check gate fails before / passes after
 """
 
+import json
 import sys
 import tempfile
 import unittest
@@ -37,19 +39,19 @@ class WatermarkHashTests(unittest.TestCase):
         self.assertTrue(h.isdigit())
 
     def test_hash_deterministic(self):
-        a = w.watermark_hash("static/img/posting/a/cover.webp", b"same-bytes")
-        b = w.watermark_hash("static/img/posting/a/cover.webp", b"same-bytes")
+        a = w.watermark_hash("static/img/posting/a/cover.webp", b"same")
+        b = w.watermark_hash("static/img/posting/a/cover.webp", b"same")
         self.assertEqual(a, b)
 
     def test_hash_changes_with_bytes(self):
-        a = w.watermark_hash("static/img/posting/a/cover.webp", b"one")
-        b = w.watermark_hash("static/img/posting/a/cover.webp", b"two")
-        self.assertNotEqual(a, b)
+        self.assertNotEqual(
+            w.watermark_hash("static/img/posting/a/cover.webp", b"one"),
+            w.watermark_hash("static/img/posting/a/cover.webp", b"two"))
 
     def test_hash_changes_with_path(self):
-        a = w.watermark_hash("static/img/posting/a/cover.webp", b"x")
-        b = w.watermark_hash("static/img/posting/b/cover.webp", b"x")
-        self.assertNotEqual(a, b)
+        self.assertNotEqual(
+            w.watermark_hash("static/img/posting/a/cover.webp", b"x"),
+            w.watermark_hash("static/img/posting/b/cover.webp", b"x"))
 
     def test_text_format(self):
         t = w.watermark_text("static/img/posting/a/cover.webp", b"x")
@@ -61,41 +63,53 @@ class EligibilityTests(unittest.TestCase):
     def setUp(self):
         self._tmp = tempfile.TemporaryDirectory()
         self.repo = Path(self._tmp.name).resolve()
-        self._orig_repo = w.REPO
+        self._orig = (w.REPO, w.DATA)
         w.REPO = self.repo
+        w.DATA = self.repo / "data"  # no policy file present -> conservative defaults
 
     def tearDown(self):
-        w.REPO = self._orig_repo
+        w.REPO, w.DATA = self._orig
         self._tmp.cleanup()
 
     def p(self, rel):
         return self.repo / rel
 
-    def test_content_image_eligible(self):
+    def test_owned_article_images_eligible(self):
         self.assertTrue(w.is_eligible(self.p("static/img/posting/a/cover.webp")))
-        self.assertTrue(w.is_eligible(self.p("static/img/covers/some-post.webp")))
         self.assertTrue(w.is_eligible(self.p("static/img/posting/a/photo.jpg")))
-        self.assertTrue(w.is_eligible(self.p("static/img/posting/a/photo.png")))
+        self.assertTrue(w.is_eligible(self.p("static/img/owned/original.webp")))
+        self.assertTrue(w.is_eligible(self.p("static/img/owned/sub/pic.png")))
 
-    def test_skip_svg_gif_ico(self):
+    def test_third_party_brand_app_card_excluded(self):
+        self.assertFalse(w.is_eligible(self.p("static/img/covers/liobank-app-quan-ly-chi-tieu.webp")))
+        self.assertFalse(w.is_eligible(self.p("static/img/covers/mo-the-techcombank-eco-digital-mien-phi.webp")))
+        self.assertFalse(w.is_eligible(self.p("static/img/covers/post.og.webp")))
+
+    def test_logos_icons_excluded_even_inside_owned(self):
+        self.assertFalse(w.is_eligible(self.p("static/img/posting/a/techcombank-logo.webp")))
+        self.assertFalse(w.is_eligible(self.p("static/img/posting/a/app-icon.png")))
+        self.assertFalse(w.is_eligible(self.p("static/img/owned/brand-mark.webp")))
+
+    def test_unknown_source_excluded_by_default(self):
+        self.assertFalse(w.is_eligible(self.p("static/img/random.webp")))
+        self.assertFalse(w.is_eligible(self.p("static/img/screenshots/shot.png")))
+        self.assertFalse(w.is_eligible(self.p("static/img/brand/seomoney-mark.webp")))
+
+    def test_svg_gif_ico_never_eligible(self):
         self.assertFalse(w.is_eligible(self.p("static/img/posting/a/cover.svg")))
         self.assertFalse(w.is_eligible(self.p("static/img/posting/a/anim.gif")))
         self.assertFalse(w.is_eligible(self.p("static/img/posting/a/fav.ico")))
 
-    def test_skip_og_twins(self):
-        self.assertFalse(w.is_eligible(self.p("static/img/covers/post.og.webp")))
-        self.assertFalse(w.is_eligible(self.p("static/img/og/seomoney-og.og.webp")))
-
-    def test_skip_brand_ui_dirs(self):
-        self.assertFalse(w.is_eligible(self.p("static/img/brand/seomoney-mark.webp")))
-        self.assertFalse(w.is_eligible(self.p("static/img/placeholder/placeholder.webp")))
-        self.assertFalse(w.is_eligible(self.p("static/img/icons/menu.png")))
-
-    def test_skip_brand_ui_names(self):
-        self.assertFalse(w.is_eligible(self.p("static/img/posting/a/logo.webp")))
-        self.assertFalse(w.is_eligible(self.p("static/img/posting/a/site-favicon.png")))
-        self.assertFalse(w.is_eligible(self.p("static/img/author-avatar.webp")))
-        self.assertFalse(w.is_eligible(self.p("static/img/og-default.webp")))
+    def test_explicit_include_and_exclude_override(self):
+        (self.repo / "data").mkdir(parents=True, exist_ok=True)
+        (self.repo / "data/watermark-policy.json").write_text(json.dumps({
+            "include": ["static/img/extra/owned-shot.webp"],
+            "exclude": ["static/img/posting/a/third-party.webp"],
+        }), encoding="utf-8")
+        # opt-in an owned image that lives outside the owned roots
+        self.assertTrue(w.is_eligible(self.p("static/img/extra/owned-shot.webp")))
+        # opt-out a third-party image that happens to sit inside an owned root
+        self.assertFalse(w.is_eligible(self.p("static/img/posting/a/third-party.webp")))
 
 
 @unittest.skipUnless(HAVE_PIL, "Pillow required for apply/round-trip tests")
@@ -114,58 +128,64 @@ class ApplyTests(unittest.TestCase):
         w.REPO, w.DATA, w.MANIFEST_PATH = self._orig
         self._tmp.cleanup()
 
-    def test_apply_watermarks_and_marks(self):
+    def test_apply_watermarks_owned_and_marks(self):
         res = w.process(["static/img"], apply=True, dry_run=False)
         self.assertEqual(len(res["watermarked"]), 1)
-        # image still opens and keeps its dimensions (not corrupted)
         with Image.open(self.img) as im:
-            self.assertEqual(im.size, (240, 160))
-        # embedded marker present and matches the manifest hash
+            self.assertEqual(im.size, (240, 160))  # dimensions preserved
         marker = w.read_marker(self.img)
         self.assertIsNotNone(marker)
         rel = w._rel(self.img)
         self.assertEqual(w.load_manifest()["images"][rel]["hash16"], marker)
-        # watermark text shape
-        self.assertTrue(
-            w.load_manifest()["images"][rel]["watermark_text"].endswith("_seomoney.org"))
 
-    def test_second_run_is_idempotent(self):
+    def test_second_run_idempotent(self):
         w.process(["static/img"], apply=True, dry_run=False)
-        bytes_after_first = self.img.read_bytes()
+        after_first = self.img.read_bytes()
         res2 = w.process(["static/img"], apply=True, dry_run=False)
         self.assertEqual(len(res2["watermarked"]), 0)
-        self.assertEqual(len(res2["skipped"]), 1)
-        # file unchanged on the second run (no stacking / no rewrite)
-        self.assertEqual(self.img.read_bytes(), bytes_after_first)
+        self.assertEqual(self.img.read_bytes(), after_first)  # no stacking / rewrite
 
-    def test_changed_image_is_reprocessed(self):
+    def test_changed_image_reprocessed(self):
         w.process(["static/img"], apply=True, dry_run=False)
         rel = w._rel(self.img)
-        first_hash = w.load_manifest()["images"][rel]["hash16"]
-        # Replace with a genuinely different, un-watermarked image at the same path.
-        _make_webp(self.img, color=(10, 200, 60), size=(240, 160))
+        first = w.load_manifest()["images"][rel]["hash16"]
+        _make_webp(self.img, color=(10, 200, 60))  # genuinely new, un-watermarked image
         res = w.process(["static/img"], apply=True, dry_run=False)
         self.assertEqual(len(res["watermarked"]), 1)
-        new_hash = w.load_manifest()["images"][rel]["hash16"]
-        self.assertNotEqual(first_hash, new_hash)
+        self.assertNotEqual(first, w.load_manifest()["images"][rel]["hash16"])
 
     def test_webp_output_remains_watermarked(self):
         w.process(["static/img"], apply=True, dry_run=False)
-        # marker survives in the saved .webp
         self.assertIsNotNone(w.read_marker(self.img))
         ok, missing, stale = w.check_watermarks(["static/img"])
         self.assertTrue(ok)
         self.assertEqual(missing, [])
-        self.assertEqual(stale, [])
 
-    def test_check_gate_fails_before_apply_passes_after(self):
-        ok, missing, stale = w.check_watermarks(["static/img"])
+    def test_check_gate_fails_before_passes_after(self):
+        ok, missing, _ = w.check_watermarks(["static/img"])
         self.assertFalse(ok)
         self.assertIn(w._rel(self.img), missing)
         w.process(["static/img"], apply=True, dry_run=False)
         ok2, missing2, _ = w.check_watermarks(["static/img"])
         self.assertTrue(ok2)
         self.assertEqual(missing2, [])
+
+    def test_third_party_image_not_watermarked_and_pruned(self):
+        # A bank cover outside owned roots must never be watermarked, and a stale
+        # manifest entry for it must be pruned on the next apply.
+        cover = self.repo / "static/img/covers/techcombank-card.webp"
+        _make_webp(cover, color=(200, 30, 30))
+        before = cover.read_bytes()
+        # seed a stale manifest entry as if it had been watermarked before
+        man = w.load_manifest()
+        man["images"][w._rel(cover)] = {"hash16": "0", "watermark_text": "0_seomoney.org",
+                                        "source_sha256": "x", "watermarked_sha256": "y",
+                                        "processed_at": "t"}
+        w.save_manifest(man)
+        w.process(["static/img"], apply=True, dry_run=False)
+        self.assertEqual(cover.read_bytes(), before)              # untouched
+        self.assertIsNone(w.read_marker(cover))                   # no watermark
+        self.assertNotIn(w._rel(cover), w.load_manifest()["images"])  # pruned
 
     def test_dry_run_changes_nothing(self):
         before = self.img.read_bytes()

@@ -63,12 +63,12 @@ tạo workflow mới, Claude phải tự đánh giá:
 
 | Top-Level Function | Phím tắt chính | Triệu chứng | Mục đích |
 |---|---|---|---|
-| **fix-merge** | `ff9`, `prn` | Merge conflict, PR bị `dirty`, nhánh stale | Giải quyết conflict an toàn; rebase; re-merge |
+| **fix-merge** | `ff9`, `prn`, `prq` | Merge conflict, PR bị `dirty`, nhánh stale, queue audit | Giải quyết conflict an toàn; rebase; re-merge; audit PR queue |
 | **fix-deploy** | `ff`, `backend8`, `deploysafe29` | Deploy fail, CI đỏ, Pages ≠ backend | Chẩn đoán CI; auto-fix pattern; verify backend sync |
 | **fix-seo** | `SEO11`, `nangcap`, `seo` | Lighthouse thấp, bài mới thiếu tối ưu | Bulk SEO fix; loop polish; optimize per-article |
 | **fix-ui** | CSS/template audit (chưa shortcut, dùng `ad`) | Layout broken, responsive fail | Xem rule CSS; audit Lighthouse CLS |
 | **fix-gsc-ga** | `backend8` (subset), monitoring tools | GSC/GA metrics stale, data offline | Verify data flow; check API health |
-| **Tools & Utilities** | `topic:`, `baomoi`, `bb`, `bb9`, `topic10`, v.v. | Viết nội dung, tạo bài, sinh series | Content generation, publication workflows |
+| **Tools & Utilities** | `topic:`, `baomoi`, `bb`, `bb9`, `topic10`, `bugblog`, v.v. | Viết nội dung, tạo bài, sinh series, rút bài học bugfix thành blog | Content generation, publication workflows |
 
 ### Phím tắt Operator (Interactive/Meta)
 
@@ -78,14 +78,83 @@ tạo workflow mới, Claude phải tự đánh giá:
 | `help` | Danh sách tắt tắt | In bảng shortcut + mô tả 1 dòng |
 | `pp` | Print policy + vaccine | In rule/quy tắc + thư viện vaccine từ CLAUDE.md |
 | `fixrule8` | Rule conflict detector | Phát hiện mâu thuẫn trong rule (read-only) |
-| `?? ` / `run list` / `wip8` | Status trackers | Xem trạng thái workspace, CI, deploy |
+| `??` / `run list` / `wip8` | Status trackers | Xem trạng thái workspace, CI, deploy |
+| `prq` | PR Queue Audit | Rà toàn bộ hàng đợi PR/build/deploy — phân loại lỗi thật/pending/chưa deploy |
 | `runner` / `tieptuc8` | Resume/continue | Tiếp tục tác vụ dở, retry failed workflow |
+| `f pr <N> [N2…]` | Follow PR until merged | Poll CI checks, auto-merge khi xanh, báo kết quả |
+| `f pr2` | Paste CI error → auto-fix | Nhận text/log dán vào → match vaccine → fix ASAP |
 
 ---
 
 ## 2.1 FIX-MERGE — Merge / Conflict Resolution Shortcuts
 
 Khi bị merge conflict, PR `dirty`, hoặc branch stale relative to `main` — dùng phím tắt này.
+
+### `f pr2` — Paste CI error/log → auto-fix theo Vaccine
+
+**Mục đích**: User dán bất kỳ CI log, error message, PR state, GitHub check output vào
+terminal → Claude đọc, match với Vaccine library (V1–V31) hoặc resolution pattern →
+tự chẩn đoán và fix ASAP không hỏi lại.
+
+**Cú pháp**: Gõ `f pr2` rồi dán text vào (hoặc dán URL PR/run, hoặc log thô).
+
+**Hành động (THỰC THI NGAY)**:
+
+1. **Đọc toàn bộ text dán vào** — không truncate, không bỏ qua.
+2. **Extract signals**: tên check fail, error message, file conflict, vaccine pattern.
+3. **Match Vaccine** (V1–V31 trong CLAUDE.md §4):
+   - Khớp → **FIXER tương ứng ngay**, không chẩn lại từ đầu.
+   - Không khớp → chẩn đoán mới với `ff`/`ff9`, ghi log incident.
+4. **Fix tự động** (delta tối thiểu):
+   - Conflict (`data/*.json`) → `git checkout origin/main -- <file>`
+   - Template conflict → merge giữ cả 2 bên
+   - QA fail / Tera syntax → sửa file, `zola check`
+   - Build fail → xem log CI, apply fixer
+5. **Verify**: `zola check` → `python3 scripts/qa_check.py` (nếu cần).
+6. **Commit + Push** → báo kết quả 1 dòng.
+
+**Output**: `✅ Fixed: <mô tả fix>` hoặc `❌ Cannot auto-fix: <lý do> — cần manual`.
+
+### `f pr <N> [N2…]` — Follow PR(s) until merged
+
+**Mục đích**: Theo dõi 1 hoặc nhiều PR cho đến khi tất cả merge hoặc fail — poll CI
+checks, auto-merge qua `try_auto_merge.py` khi xanh, báo trạng thái realtime. Dừng
+khi tất cả PR đạt terminal state (merged / closed / failed).
+
+**Cú pháp**:
+```
+f pr 742
+f pr 742 741
+f pr https://github.com/Banhang-Chogao/zola/pull/742
+```
+
+**Hành động (THỰC THI NGAY)**:
+
+1. **Parse PR numbers** từ argument — nhận số nguyên hoặc URL GitHub PR.
+2. **Check CI ngay** cho mỗi PR: `gh pr checks <N>`.
+3. **In bảng trạng thái** tức thì:
+   ```
+   | PR | Branch | qa-check | ensure-pr | Trạng thái |
+   |---|---|---|---|---|
+   | #742 | feat/... | ⏳ pending | ✅ pass | Chờ QA |
+   ```
+4. **Arm Monitor** (persistent) poll mỗi 20s cho tất cả PR trong danh sách:
+   - Khi `qa-check` = `pass` → gọi `python3 scripts/try_auto_merge.py --pr <N>`
+   - Khi `qa-check` = `fail/error` → in log lỗi, escalate user
+   - Khi PR state = `MERGED` → đánh dấu done, xóa khỏi poll list
+   - Khi tất cả PR done → dừng Monitor, in báo cáo cuối
+5. **ScheduleWakeup** fallback 120s (cache-warm) trong khi chờ Monitor.
+6. **Dừng loop** khi tất cả PR đạt terminal state; dừng Monitor bằng TaskStop.
+
+**Output báo cáo cuối (khi xong)**:
+```
+F PR Summary
+PR #742: ✅ MERGED — feat(ui): breadcrumb tools
+PR #741: ✅ MERGED — refactor(seo): rename Google Rank
+All PRs merged.
+```
+
+**Nếu PR fail**: in job log lỗi, không tự merge, escalate để user fix rồi gọi lại `f pr`.
 
 ### `prn` — PR Now (đẩy thay đổi hiện tại thành PR vào main)
 
@@ -110,6 +179,7 @@ Format bắt buộc:
 | Shortcut | Mục đích |
 |---|---|
 | `gg` | Merge open PRs to production |
+| `prq` | Rà hàng đợi PR/build/deploy — phân loại lỗi thật/pending/chưa deploy |
 | `ad` | Full blog audit (perf+sec+seo+a11y) |
 | `ff` | Full Fix & Deploy comprehensive |
 | `cautruc9` | Show ASCII folder tree của blog |
@@ -124,9 +194,12 @@ Format bắt buộc:
 | `tieptuc8` | Tiếp tục & hoàn tất TẤT CẢ tác vụ đang dở (todo, push, PR, CI, macro) |
 | `wip8` | Read-only workspace tracker + live CI feed (WIP + TheoDoi8 gộp) — 2 bảng MD: workspace đang dở & trạng thái commit/CI gần nhất |
 | `backend8` | So main SHA vs Render backend SHA — phát hiện split-brain static↔backend (V16) |
+| `f pr <N> [N2…]` | Theo dõi 1+ PR cho đến khi merge — poll CI, auto-merge khi xanh, báo trạng thái |
 | `topic: <chủ đề>` | Research + viết 1 bài + deploy theo chủ đề user nhập |
 | `baomoi <topic>` | Từ chủ đề → bài/series Markdown production-ready, category AI-driven, SEO Google |
-| `dantri` | Paste nội dung nguồn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
+| `bb` | Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY, human, 1000+ từ, chuẩn SEO; chờ duyệt trước khi đăng |
+| `bb9 <topic>` | Viết bài từ chủ đề + hẹn giờ đăng (draft n+3, buổi tối) — biến thể "hẹn giờ" của `bb` |
+| `dantri` | Crawl bài từ dantri.com.vn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review |
 | `topic10` | Viết 10 bài Du lịch (chủ đề ngẫu nhiên cùng cluster) — test topical authority |
 | `pp` | Liệt kê toàn bộ rule/quy tắc + thư viện vaccine hotfix trong CLAUDE.md (để ghi nhớ) |
 | `fixrule8` | Soi conflict giữa rule + vaccine trong CLAUDE.md → sinh PROMPT fix cho Claude/Grok (read-only) |
@@ -313,6 +386,64 @@ Hành động:
 4. Output **một lần** báo cáo theo §5 (KHÔNG poll/canhc PR sau đó).
 
 KHÔNG hỏi lại. KHÔNG giải thích flow.
+
+### `prq` — PR Queue Audit (Rà hàng đợi PR/build/deploy)
+
+**Mục đích**: Audit toàn bộ hàng đợi PR/build/deploy của repo, phân loại chính xác từng item:
+lỗi thật, đang pending, đã merge chưa lên production. Không sửa code trừ khi lỗi rõ ràng,
+safe và bounded. Output bảng compact để ra quyết định nhanh.
+
+**Hành động** (theo thứ tự):
+
+1. **Scan all open PRs** (`mcp__github__list_pull_requests state=open`):
+   - PR number + title + branch + author + base sha
+   - Mergeability / stale base (V10 pattern: base ≠ main HEAD → preflight fail)
+   - Latest qa-check conclusion (success/failure/pending/none)
+   - Preflight conclusion
+   - Auto-merge status
+
+2. **Classify từng PR** vào bucket:
+
+   | Bucket | Tiêu chí |
+   |---|---|
+   | `Needs conflict fix` | PR `dirty`, merge conflict markers, non-fast-forward |
+   | `QA failed` | `qa-check` conclusion = `failure` trên head sha mới nhất |
+   | `Checks pending` | `qa-check` đang `in_progress` / `queued`, chưa có kết quả |
+   | `Auto-merge blocked` | QA xanh nhưng auto-merge skip/block (label, branch protection) |
+   | `Stale base` | PR base sha ≠ main HEAD → sẽ fail preflight; QA có thể đã xanh nhưng cần rebase |
+   | `Merged but not deployed` | PR merged ≤24h; `deploy.yml` chưa success sau merge commit |
+   | `Prod verification needed` | Merged + deployed nhưng chưa verify live trên `https://seomoney.org` |
+   | `Safe / no action` | QA xanh + base current + auto-merge đang xử lý hoặc đã queue |
+
+3. **Scan GitHub Actions** (20 runs gần nhất):
+   - `deploy.yml`: lần cuối success/failure + sha deployed vs main HEAD
+   - `auto-merge.yml`: lần cuối success/skipped
+   - Phân biệt lỗi thật vs `cancelled` (superseded/bão rate-limit) vs report-only (observer — V7)
+   - Các vaccine-hotfix PR tồn đọng: phân loại `Stale base`, ghi nhận nhưng không đóng tay
+
+4. **Prod verification** (nếu có PR merged ≤24h):
+   - Kiểm tra deploy.yml run mới nhất sau merge → success = deployed, failure = chưa lên
+   - KHÔNG tuyên bố "đã production" khi chưa có evidence deploy success
+
+5. **Output bảng compact** (bắt buộc):
+
+   | PR/Run | Title | Status | Blocker | Root cause | Next action | URL |
+   |---|---|---|---|---|---|---|
+
+6. **Tóm tắt 4 nhóm sau bảng**:
+   - PRs safe to merge: (list PR# + title)
+   - PRs needing fix: (list PR# + root cause ngắn)
+   - Builds needing rerun only: (list run# + workflow)
+   - Merged not visible on prod: (list PR# + deploy status)
+
+**Rules (BẮT BUỘC)**:
+- **Không fake QA** — không coi PR là xanh khi qa-check chưa complete hoặc failed.
+- **Không guess deploy** — không tuyên bố "đã lên production" khi chưa verify `deploy.yml` success.
+- **Không sửa code** trừ khi lỗi rõ ràng, safe, bounded (vd stale base → đề xuất rebase).
+- **Không mix** fix của nhiều PR vào 1 hotfix — mỗi PR giữ riêng.
+- **Không redesign UI** — nếu cần touch UI/icon, tuân thủ S-DNA icon rule (internal icons only).
+- Vaccine-hotfix stale PRs: phân loại `Stale base`, không đóng thủ công (bot tự quản lý).
+- Nếu cần hotfix: tạo PR riêng, chạy QA đầy đủ, commit + push theo ZERO_BARRIER flow.
 
 ### `ad` — Audit blog
 
@@ -1611,18 +1742,22 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
 
 **Safe fallback**: Nếu conflict quá phức tạp → output diff + escalate user manual review.
 
-### `bb` — Xử lý bài báo từ Dân Trí / VnExpress (Interactive article processor)
+### `bb` — Dán nội dung báo (đa nguồn) → bài blog gốc SEOMONEY (paste-first, chờ duyệt)
 
-**Mục đích**: Copy-paste nội dung bài báo từ Dân Trí/VnExpress → Claude tự viết lại theo phong cách blog cá nhân → auto-commit vào nhánh `baochi` → PR → merge ngay.
+**Mục đích**: Copy-paste nội dung bài báo từ **bất kỳ nguồn nào** (VnExpress, Dân Trí,
+Tuổi Trẻ, Thanh Niên, VietnamNet…) → Claude viết lại thành bài blog **gốc** theo giọng cá
+nhân → commit vào nhánh `baochi` → **chờ user duyệt** rồi mới merge/đăng. **Source-agnostic,
+paste-first** (KHÔNG tự crawl web).
 
 **Hành động**:
 
 1. **Prompt user**:
    - Gõ `bb`
-   - Claude hỏi: "📰 Dán nội dung bài báo (hoặc chỉ heading + URL):"
-   
+   - Claude hỏi: "📰 Dán nội dung bài báo (đa nguồn — hoặc tiêu đề + đoạn chính, kèm URL nếu có):"
+   - **Nội dung dán quá ngắn / không rõ → HỎI thêm trước khi viết, KHÔNG tự bịa.**
+
 2. **Nhập liệu**:
-   - User copy-paste full bài hoặc chỉ title + nội dung chính
+   - User copy-paste full bài hoặc chỉ title + nội dung chính (từ bất kỳ báo nào)
    - Format chấp nhận: text thô hoặc đã format markdown
    - URL bài báo (optional, để tham khảo source)
 
@@ -1636,11 +1771,16 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
      Nếu category mới chưa có trong `categories.json` → thêm vào file đó.
    - Sinh slug kebab-case từ title
 
-4. **Rewrite engine**:
-   - Claude viết lại bài từ đầu (KHÔNG paraphrase máy móc)
+4. **Rewrite engine** (bài gốc, KHÔNG copy đoạn dài):
+   - Claude viết lại bài từ đầu (KHÔNG paraphrase máy móc), cấu trúc bắt buộc:
+     **Mở bài** (vì sao đáng chú ý) · **Bối cảnh/context** · **Phân tích chính** (≥2 H2) ·
+     **Điều người đọc rút ra được** (practical takeaway) · **Nhận định/quan điểm cá nhân
+     cuối bài** (I-statement) · **Kết luận** rõ ràng.
    - Giọng cá nhân: 1st person ("mình", "tôi"), quan điểm riêng
    - Tổng hợp kiến thức từ nội dung gốc → mở rộng góc nhìn độc lập
-   - Thêm internal links tới 2-3 bài liên quan nếu có
+   - **Chỉ giữ fact có trong nội dung dán**; điểm cần kiểm chứng → ghi "theo nội dung được
+     trích/dán" hoặc bỏ. KHÔNG bịa số liệu/sự kiện.
+   - Thêm internal links tới 2-3 bài liên quan **nếu có** (không bịa URL)
    - Output tối thiểu ~1000 từ (lý tưởng 1000–1800), tự nhiên Tiếng Việt
      (xem "Tiêu chí AdSense-friendly" bên dưới)
 
@@ -1663,22 +1803,21 @@ main  ← user gõ `manual #X` / `prm` / `gg` để merge tay
      mặc định `"Tất cả"` + `"Báo chí"`, kèm category theo content nếu detect được.
    - Nếu không detect được content-category → chỉ `["Tất cả", "Báo chí"]`.
 
-6. **Auto-workflow**:
-   - Checkout nhánh `baochi` (hoặc create nếu không tồn tại)
+6. **Workflow (chờ duyệt — KHÔNG tự đăng)**:
    - Write file `content/baochi/<slug>.md`
-   - Commit: `feat: Add Dân Trí article — <short title>`
-   - Push lên `baochi`
-   - Tạo PR từ `baochi` → `main`
-   - **MERGE NGAY** (bypass 16:00 rule vì là article aggregation, KHÔNG code)
-   - Trigger deploy
+   - Chạy gate: `build_references.py` → `seo_qa_checker.py` → `qa_check.py` → `check_internal_links.py`
+   - Commit (1 file) lên branch dev: `feat: add bb article — <slug> (inspired by <source>)`
+   - **DỪNG & chờ user duyệt** — KHÔNG auto-merge/deploy. Chỉ merge `main` → deploy **sau khi
+     user duyệt rõ ràng** ("đăng"/"merge"). Đây là yêu cầu an toàn của `bb` (no auto-publish).
 
 7. **Output summary**:
    ```
-   ✅ Bài báo xử lý thành công
+   ✅ Bài đã viết xong (chờ duyệt)
    📝 Slug: <slug>
-   🏷️ Category: <auto-detected>
-   🔗 PR: #<số> → merged
-   🚀 Deploy: in progress
+   🏷️ Category: Tất cả · <best-fit> · Báo chí
+   📄 File: content/baochi/<slug>.md  ·  Words: <n>  ·  SEO QA: <score>
+   🌿 Branch: <dev> (đã commit, CHƯA merge)
+   👉 Duyệt đăng? (gõ để merge/deploy)
    ```
 
 **Quality checks**:
@@ -1855,26 +1994,29 @@ Push: <branch> → auto-merge
 
 **Morning / runner**: `baomoi` cần argument → **loại** khỏi `morning` (giống `topic:`).
 
-### `dantri` — Viết lại nội dung nguồn thành bài blog mới
+### `dantri` — Crawl bài từ dantri.com.vn → viết lại thành bài blog mới
 
 **Cú pháp**: gõ `dantri` đúng từ (không cần argument ngay).
 
-**Mục đích**: User dán nội dung bài gốc (từ báo chí, blog khác, hoặc link + excerpt)
-→ Claude viết lại hoàn toàn bằng lời mới, không copy nguyên văn, giữ góc nhìn
-tác giả, văn phong human, ≥1000 từ, chuẩn Google SEO + AdSense, có nhận định/review
-cuối bài, kèm kết luận rõ ràng.
+> **Riêng biệt với `bb`** (KHÔNG dùng chung logic). `dantri` chuyên **crawl tin từ
+> dantri.com.vn**: user đưa link dantri.com.vn → Claude tự fetch/đọc bài rồi viết lại.
+> `bb` thì viết từ **văn bản user copy/dán** (đa nguồn). Phạm vi `dantri`: **chỉ dantri.com.vn**.
+
+**Mục đích**: User đưa **link bài trên dantri.com.vn** → Claude crawl/đọc bài đó →
+viết lại hoàn toàn bằng lời mới, không copy nguyên văn, giữ góc nhìn tác giả, văn phong
+human, ≥1000 từ, chuẩn Google SEO + AdSense, có nhận định/review cuối bài, kèm kết luận rõ ràng.
 
 **Workflow (BẮT BUỘC)**:
 
-1. User gõ `dantri` (không dán nội dung ngay).
+1. User gõ `dantri` (chưa đưa link ngay).
 2. Claude trả lời:
    ```
-   Anh dán nội dung bài gốc hoặc link + phần nội dung chính vào đây. 
-   Em sẽ viết lại thành một bài blog mới theo góc nhìn của anh, 
+   Anh dán link bài trên dantri.com.vn (hoặc nội dung chính nếu fetch bị chặn) vào đây. 
+   Em sẽ crawl bài đó, viết lại thành một bài blog mới theo góc nhìn của anh, 
    văn phong human, chuẩn SEO, hơn 1000 từ, có nhận định/review cuối bài, 
    và không copy nguyên văn nguồn.
    ```
-3. User dán nội dung / link + excerpt.
+3. User đưa **link dantri.com.vn** → Claude **fetch/crawl** bài (WebFetch). Network chặn → dùng nội dung user dán.
 4. Claude **xử lý**:
    - Phân tích nội dung nguồn → xác định chủ đề + góc nhìn chính
    - Research keyword từ nội dung (tự sinh, không hardcode)
@@ -1920,7 +2062,115 @@ Push: <branch> → auto-merge
 1. Commit (1 file): `feat: add dantri article — <slug> (inspired by <source>)`
 2. Push branch dev → auto-merge → auto-deploy (ZERO_BARRIER)
 
-**Morning / runner**: `dantri` cần user dán nội dung sau khi gọi → **loại** khỏi `morning`.
+**Morning / runner**: `dantri` cần user đưa link sau khi gọi → **loại** khỏi `morning`.
+
+---
+
+### `bugblog` — Sau bugfix dài → nháp blog case-study công nghệ (SEO-safe, không tự đăng)
+
+**Cú pháp**: gõ `bugblog` (không cần argument). Canonical doctrine: `CLAUDE.md`
+§"Post-Bugfix → Blog Draft Policy".
+
+**Mục đích**: Sau một **bugfix dài / nhiều bước debug** (production bug, CI/CD fail,
+SEO/AdSense, dashboard regression, deploy fail, automation/vaccine pattern), biến **bài
+học kỹ thuật** thành một bài blog case-study công nghệ — ngôi thứ nhất, văn phong human,
+hữu ích, chuẩn SEO + AdSense. **KHÔNG tự đăng**; chỉ vào `content/posting/` sau khi user duyệt.
+
+**Khi nào kích hoạt (Trigger)**:
+
+- ✅ Bugfix/debug task đã **substantially complete** HOẶC đã có **bài học rõ ràng**.
+- ✅ Có đủ **chất liệu factual** (triệu chứng, nguyên nhân, cách sửa thật).
+- ❌ KHÔNG chạy cho thay đổi nhỏ/cosmetic; KHÔNG chạy giữa lúc còn đang debug dở.
+- ❌ "Done" cần **bằng chứng** (QA/build/commit/PR/deploy). Thiếu bằng chứng → chỉ ra
+  **draft notes**, KHÔNG bài publish-ready, KHÔNG bịa "đã chạy production".
+
+**Workflow (BẮT BUỘC)**:
+
+1. Nếu vừa fix xong trong session → tự rút thông tin từ session; chỉ hỏi phần còn thiếu.
+   Nếu chưa có context → trả lời gom 6 trường dưới đây:
+
+   ```
+   Để soạn nháp blog case-study từ lần fix này, cho em xin (cái nào thiếu cứ bỏ trống):
+   1) Tóm tắt sự cố (issue summary) — gặp gì, ảnh hưởng ra sao?
+   2) Root cause — nguyên nhân gốc đã xác định?
+   3) Cách fix — đã sửa thế nào (mô tả public-safe, không lộ token/path)?
+   4) QA result — build/QA/deploy đã xanh chưa? Bằng chứng gì?
+   5) Vaccine/Prevention — rule phòng ngừa để không tái phát?
+   6) Public-safe details — phần nào CẦN ẩn (path máy, secret, URL nội bộ, log thô)?
+   ```
+
+2. **Quyết định mode** (theo doctrine):
+   - **Draft notes** — task chưa xong / thiếu evidence / chất liệu mỏng → xuất ghi chú
+     nháp dạng bullet (problem · symptoms · root cause · fix · prevention · TODO), **KHÔNG**
+     frontmatter, **KHÔNG** đưa vào `content/posting/`. Dừng, chờ đủ liệu.
+   - **Full article** — task xong + có evidence + đủ liệu → viết Zola Markdown ≥1000 từ.
+
+3. **Full article — cấu trúc bắt buộc** (ngôi thứ nhất, human, SEO-friendly):
+   - **Mở bài**: bối cảnh + vì sao sự cố đáng kể với người làm web/dev.
+   - **Vấn đề (Problem)**: mô tả ngắn gọn, public-safe.
+   - **Triệu chứng (Symptoms)**: dấu hiệu quan sát được (không paste log thô).
+   - **Nguyên nhân gốc (Root cause)**: vì sao xảy ra.
+   - **Các bước debug (Debugging steps)**: hành trình tìm ra, có thứ tự.
+   - **Cách sửa (Fix)**: giải pháp, abstraction công khai thay vì code nhạy cảm.
+   - **Vaccine / Quy tắc phòng ngừa**: rule để không tái phát.
+   - **Checklist**: bảng/danh sách rút gọn người đọc áp dụng được ngay.
+   - **Bài học (Lessons learned)**: ngắn, thật, không sáo rỗng.
+   - **Kết luận** + (tuỳ chọn) FAQ.
+   - Chuẩn: ≥1000 từ tiếng Việt, ≥2 H2/H3, ≥3 tag, title ≤70 ký tự, meta 140–160 ký tự,
+     ≥2 internal link semantic. Category mặc định **Công nghệ** (trừ khi user đổi).
+
+4. **Template frontmatter** (full mode — KHÔNG `premium`, bài công khai):
+
+   ```toml
+   +++
+   title = "<Tiêu đề case-study ≤70 ký tự, có từ khoá>"
+   description = "<meta 140–160 ký tự: vấn đề + bài học>"
+   date = <YYYY-MM-DD>
+   [taxonomies]
+   categories = ["Tất cả", "Công nghệ"]
+   tags = ["<lĩnh vực>", "<công nghệ>", "bài học", "<...>"]
+   [extra]
+   thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
+   seo_keyword = "<từ khoá chính>"
+   featured = false
+
+   [[extra.faq]]
+   q = "<câu hỏi thường gặp về sự cố>"
+   a = "<trả lời ngắn, public-safe, không overclaim>"
+   +++
+   ```
+
+**Safety guards (BẮT BUỘC — gác trước khi xuất bất kỳ nội dung nào)**:
+
+- **Bỏ private/local**: KHÔNG machine path, secret/token/credential, private URL, raw
+  terminal log, account/email data, internal key. Lộ chỗ nào → trừu tượng hoá hoặc bỏ.
+- **AdSense-safe**: không misleading claim, không clickbait, không overclaim tài chính/pháp lý,
+  KHÔNG xúi click ads.
+- **No fabrication**: KHÔNG bịa kết quả; KHÔNG nói "đã chạy production thành công" khi chưa
+  có evidence. Không chắc → ghi "theo quan sát của tôi…" hoặc bỏ.
+- **No auto-publish**: KHÔNG tự đăng. Bài vào `content/posting/` **chỉ sau khi user duyệt**.
+  KHÔNG đụng UI/UX hiện có.
+
+**Output (summary)**:
+
+```text
+bugblog ✅
+Mode: draft-notes | full-article
+Chủ đề: <case-study>
+Material: <đủ | mỏng> · Evidence: <QA/build/commit/PR/deploy>
+File: <draft trong chat | content/posting/<slug>.md sau khi duyệt>
+Words: <n> (full mode)
+Safety: private-stripped ✅ · AdSense-safe ✅ · no-fabrication ✅
+Next: chờ user duyệt để publish
+```
+
+**Hành động sau khi soạn**:
+1. Trình nháp cho user xem (trong chat hoặc file nháp). **KHÔNG** commit vào luồng
+   auto-merge/deploy như bài thường khi chưa duyệt.
+2. User duyệt → lưu `content/posting/<slug>.md` → gate
+   `seo_qa_checker.py` → `qa_check.py` → `check_internal_links.py` → commit 1 file.
+
+**Morning / runner**: `bugblog` cần context/duyệt của user → **loại** khỏi `morning`.
 
 ---
 

@@ -99,6 +99,31 @@
     gap: 0.35rem;
   }
 
+  .google-rank__disclaimer {
+    margin: 0;
+    font-size: 0.68rem;
+    line-height: 1.5;
+    color: var(--c-text-muted);
+
+    strong { color: var(--c-text-body); font-weight: 700; }
+  }
+
+  .google-rank__src-chip {
+    display: inline-block;
+    padding: 0.1rem 0.35rem;
+    font-family: $font-meta;
+    font-size: 0.54rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    border: 1px solid;
+    color: var(--c-accent);
+    border-color: color-mix(in srgb, var(--c-accent) 40%, var(--c-border));
+    background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-surface));
+    vertical-align: middle;
+  }
+
   .google-rank__info {
     appearance: none;
     border: none;

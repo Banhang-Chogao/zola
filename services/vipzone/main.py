@@ -187,6 +187,21 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
     print(f"[vipzone] CMS repo router not mounted: {exc!r}")
 
 
+# ============= Private Calendar + 3M Whiteboard routes =============
+# Personal/private tool at /tools/calendar/ — durable, owner-scoped storage behind
+# the SAME GitHub OAuth admin guard the editor uses. Mounted like cms_repo so the
+# db getter is injected without a circular import.
+try:
+    import personal_data
+
+    personal_data.configure(get_db=get_db)
+    app.include_router(personal_data.router)
+    PERSONAL_MOUNTED = True
+except Exception as exc:  # pragma: no cover - defensive: keep the rest of the API up
+    PERSONAL_MOUNTED = False
+    print(f"[vipzone] personal_data router not mounted: {exc!r}")
+
+
 async def require_admin(profile: dict[str, Any] = Depends(session_dep)) -> dict[str, Any]:
     if not is_admin(profile.get("email"), profile.get("username")) and not is_superadmin(profile):
         raise HTTPException(403, "admin_only")
@@ -333,6 +348,7 @@ def _health_payload() -> dict[str, Any]:
         "premium_content": PRIVATE_CONTENT.is_dir(),
         "gsc_mounted": GSC_MOUNTED,
         "cms_mounted": CMS_REPO_MOUNTED,
+        "personal_mounted": PERSONAL_MOUNTED,
         "critical_routes": _critical_routes_status(),
         "gsc_configured": bool(os.getenv("GSC_CLIENT_ID") and os.getenv("GSC_CLIENT_SECRET")),
     }

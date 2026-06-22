@@ -154,6 +154,35 @@ class StatusAndScrubTest(unittest.TestCase):
         self.assertNotIn("client_email", scrubbed)
         self.assertIn("status", scrubbed)
 
+    def test_scrub_masks_service_account_email_in_nested_detail(self):
+        # The real leak was the SA email embedded in checks[].detail (a string
+        # value, not a key) — _scrub must mask it recursively.
+        # Synthetic identity only — never embed the real project in the repo.
+        report = {
+            "status": "ok",
+            "checks": [
+                {"id": "auth", "detail":
+                 "service account bot@example-123456.iam.gserviceaccount.com"},
+            ],
+        }
+        blob = json.dumps(ga._scrub(report))
+        self.assertNotIn("iam.gserviceaccount.com", blob)
+        self.assertNotIn("example-123456", blob)
+        self.assertIn("[service-account]", blob)
+
+    def test_auth_ok_detail_has_no_identity(self):
+        os.environ["GA_SERVICE_ACCOUNT_KEY"] = json.dumps(
+            {"client_email": "x@proj.iam.gserviceaccount.com", "private_key": "k"}
+        )
+        try:
+            info, chk = ga.load_service_account(offline=False)
+        finally:
+            os.environ.pop("GA_SERVICE_ACCOUNT_KEY", None)
+        self.assertIsNotNone(info)
+        self.assertEqual(chk["status"], ga.OK)
+        self.assertNotIn("gserviceaccount.com", chk["detail"])
+        self.assertNotIn("@", chk["detail"])
+
     def test_derive_status_config_fail_is_error(self):
         checks = [ga._check("config", "c", ga.FAIL, "bad")]
         status, _ = ga.derive_status(checks, offline=False, had_key=True)
@@ -212,10 +241,13 @@ class OfflineRunTest(unittest.TestCase):
         self.assertEqual(rc, 0)
         for out in (ga.DATA_OUT, ga.STATIC_OUT):
             self.assertTrue(out.is_file(), out)
-            data = json.loads(out.read_text(encoding="utf-8"))
+            raw = out.read_text(encoding="utf-8")
+            data = json.loads(raw)
             # public-safe: no credential field ever persisted
             for field in ga.SECRET_FIELDS:
                 self.assertNotIn(field, data)
+            # ...and no service-account identity anywhere in the serialized blob
+            self.assertNotIn("iam.gserviceaccount.com", raw)
             self.assertIn("status", data)
             self.assertEqual(data["property_id"], "542421812")
 

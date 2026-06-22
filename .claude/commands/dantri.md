@@ -1,18 +1,23 @@
 ---
-description: Paste nội dung nguồn → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review
+description: Crawl bài từ dantri.com.vn (link) → viết lại thành bài blog mới, human-tone, 1000+ từ, chuẩn SEO, có review
 ---
 
 Khi user gõ `dantri` (plain text, không argument ngay), thực thi **NGAY** theo section
 `### dantri` trong `shortcuts.md` — đọc file đó trước khi làm.
 
+> **Riêng biệt với `bb`** (KHÔNG dùng chung logic). `dantri` chuyên **crawl tin từ
+> dantri.com.vn** (user đưa link dantri.com.vn → Claude tự fetch/đọc bài → viết lại).
+> `bb` thì ngược lại — viết từ **văn bản user copy/dán** (đa nguồn). Phạm vi `dantri`:
+> **chỉ dantri.com.vn**.
+
 ## Parse
 
-- Cú pháp: `dantri` (user sẽ dán nội dung/link sau khi nhận prompt)
-- Response: "Anh dán nội dung bài gốc hoặc link + phần nội dung chính vào đây. Em sẽ viết lại thành một bài blog mới theo góc nhìn của anh, văn phong human, chuẩn SEO, hơn 1000 từ, có nhận định/review cuối bài, và không copy nguyên văn nguồn."
+- Cú pháp: `dantri` (user sẽ đưa **link dantri.com.vn** sau khi nhận prompt).
+- Response: "Anh dán **link bài trên dantri.com.vn** (hoặc nội dung chính nếu fetch bị chặn) vào đây. Em sẽ crawl bài đó, viết lại thành một bài blog mới theo góc nhìn của anh, văn phong human, chuẩn SEO, hơn 1000 từ, có nhận định/review cuối bài, và không copy nguyên văn nguồn."
 
 ## Thực thi (tóm tắt)
 
-1. Chờ user dán nội dung / link + excerpt.
+1. Chờ user đưa link dantri.com.vn → **fetch/crawl** bài (WebFetch). Network chặn → dùng nội dung user dán.
 2. Phân tích nguồn → topic + góc nhìn chính.
 3. Research keyword từ nội dung (tự sinh, không hardcode).
 4. Viết bài **hoàn toàn mới**:

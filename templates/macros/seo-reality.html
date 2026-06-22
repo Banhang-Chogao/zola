@@ -17,12 +17,20 @@
          data-growth-stage="{{ growth.stage_slug | default(value='indexing') }}">
     <script type="application/json" id="seo-reality-gsc-data">{{ sr | json_encode | safe }}</script>
 
-    <h3 class="sidebar-label">SEO REALITY CHECK</h3>
+    <h3 class="sidebar-label">SEO Reality Check</h3>
 
     <p class="seo-reality__intro">
-        Phân biệt <strong>mức độ sẵn sàng kỹ thuật</strong> với <strong>hiệu quả tìm kiếm thực tế</strong>
-        trên Google. Điểm kỹ thuật cao <em>không</em> đồng nghĩa Top 1, đã được lập chỉ mục
+        Phân biệt <strong>mức độ sẵn sàng kỹ thuật</strong> (điểm nội bộ) với <strong>hiệu quả tìm kiếm thực tế</strong>
+        (dữ liệu GSC). Điểm kỹ thuật cao <em>không</em> đồng nghĩa Top 1, đã được lập chỉ mục
         hay có nhiều traffic.
+    </p>
+    <p class="seo-reality__gsc-question">
+        <strong>GSC đã connect số liệu với <code>seomoney.org</code> chưa?</strong>
+        {% if gsc and gsc.connected %}
+        <span class="seo-reality__gsc-status-chip seo-reality__gsc-status-chip--ok">Đã kết nối</span>
+        {% else %}
+        <span class="seo-reality__gsc-status-chip seo-reality__gsc-status-chip--pending">Chưa kết nối</span>
+        {% endif %}
     </p>
 
     {# 1 — TECHNICAL SEO READINESS (unchanged) #}
@@ -98,10 +106,11 @@
             <p class="seo-reality__pending" data-gsc-api-pending hidden>⏳ Đang chờ dữ liệu GSC</p>
         </div>
 
-        {# No Property ID yet — save form only (no verification token) #}
+        {# No Property ID yet — connect form (SuperVIP only) #}
         <div data-gsc-property-disconnected>
             <p class="seo-reality__empty">
-                Nhập <strong>GSC Property ID</strong> (Domain property <code>sc-domain:</code>) để theo dõi dữ liệu thực.
+                ⚠️ GSC chưa kết nối cho <code>sc-domain:seomoney.org</code> — dữ liệu impressions, clicks, indexing
+                chưa có. Kết nối GSC để thấy số liệu thực.
             </p>
             <form class="seo-reality__gsc-connect" data-gsc-supervip data-gsc-admin hidden novalidate>
                 <label class="visually-hidden" for="seo-reality-gsc-input">GSC Property ID</label>
@@ -110,12 +119,12 @@
                        placeholder="sc-domain:seomoney.org"
                        autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="url" />
                 <p class="seo-reality__gsc-examples">
-                    Ví dụ: <code>sc-domain:seomoney.org</code> · <code>https://seomoney.org/</code>
+                    Domain property: <code>sc-domain:seomoney.org</code>
                 </p>
                 <p class="seo-reality__gsc-validation" data-gsc-validation hidden role="alert"></p>
                 <div class="seo-reality__gsc-actions">
                     <button type="submit" class="seo-reality__gsc-btn seo-reality__gsc-btn--primary" data-gsc-connect>
-                        <span class="seo-reality__gsc-btn-label">Lưu Property ID</span>
+                        <span class="seo-reality__gsc-btn-label">Kết nối GSC</span>
                     </button>
                 </div>
             </form>
@@ -179,7 +188,7 @@
         </div>
         <p class="seo-reality__pending" data-idx-api-pending hidden>⏳ Đang chờ dữ liệu GSC</p>
         <p class="seo-reality__empty" data-idx-disconnected>
-            Lưu Property ID để xem trạng thái lập chỉ mục.
+            Kết nối GSC để xem trạng thái lập chỉ mục của <code>seomoney.org</code>.
         </p>
         {% if idx.sitemap_pages %}
         <p class="seo-reality__footrow">
@@ -214,7 +223,7 @@
                 </tbody>
             </table>
             {% else %}
-            <p class="seo-reality__empty" data-top-pages-empty>Lưu Property ID để theo dõi top pages.</p>
+            <p class="seo-reality__empty" data-top-pages-empty>⏳ Kết nối GSC để xem top pages.</p>
             {% endif %}
         </div>
     </article>
@@ -234,7 +243,7 @@
             </li>
             {% endfor %}
             {% else %}
-            <li class="seo-reality__empty" data-queries-empty>Lưu Property ID để theo dõi query insights.</li>
+            <li class="seo-reality__empty" data-queries-empty>⏳ Kết nối GSC để theo dõi query insights.</li>
             {% endif %}
         </ul>
     </article>
@@ -251,7 +260,7 @@
             <button type="button" class="seo-reality__trend-tab" data-trend-tab="monthly">Monthly</button>
         </div>
         <canvas class="seo-reality__trend-chart" data-trend-canvas height="120" aria-label="GSC clicks trend"></canvas>
-        <p class="seo-reality__empty" data-trend-empty{% if trend and trend.daily and trend.daily | length > 0 %} hidden{% endif %}>Lưu Property ID để xem growth trend.</p>
+        <p class="seo-reality__empty" data-trend-empty{% if trend and trend.daily and trend.daily | length > 0 %} hidden{% endif %}>⏳ Kết nối GSC để xem growth trend.</p>
     </article>
 
     {# NEW — SEO Executive Summary #}
