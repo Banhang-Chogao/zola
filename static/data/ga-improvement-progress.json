@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T16:20:40Z",
+  "updated_at": "2026-06-22T22:58:33Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,9 +15,9 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 18 weak related pairs",
+      "detail": "3290 broken links · 24 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-22T21:49:20Z"
     },
     {
       "id": "page_speed",
@@ -33,16 +33,16 @@
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 958/960 pages",
+      "detail": "15 pages missing FAQ/schema · 1067/1068 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-22T21:49:20Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: no-API Pixabay image-assist + fix(V32) series_part build cra",
+      "detail": "Latest: fix(gsc): actionable error when /gsc/oauth/start called with",
       "source": "changelog.json",
       "updated_at": "2026-06-22"
     },
@@ -50,10 +50,10 @@
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "done",
-      "detail": "1084 links OK · IndexNow on publish",
+      "status": "running",
+      "detail": "3273 broken of 667 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-22T08:13:54Z"
+      "updated_at": "2026-06-22T20:01:23Z"
     },
     {
       "id": "image_opt",
@@ -62,22 +62,22 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-22T21:49:20Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 54/100 vs desktop 90/100 (Δ36) · 959/960 ready",
+      "detail": "Mobile 54/100 vs desktop 90/100 (Δ36) · 1067/1068 ready",
       "source": "pagespeed.json",
       "updated_at": "2026-06-22T16:17:26+00:00"
     }
   ],
   "summary": {
     "pending": 0,
-    "running": 5,
-    "done": 3
+    "running": 6,
+    "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }
