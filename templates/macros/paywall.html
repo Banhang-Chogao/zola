@@ -16,17 +16,17 @@
     <header class="paywall-box__header">
         <span class="paywall-box__badge" aria-hidden="true">🔒</span>
         {{ premium::badge() }}
-        <h2 class="paywall-box__title" id="paywall-heading">Bài viết premium — cần thanh toán để mở khóa nội dung</h2>
-        <p class="paywall-box__lead">Đây là nội dung trả phí. Bạn cần thanh toán qua MoMo để đọc tiếp toàn bộ bài viết — không phải ủng hộ tự nguyện.</p>
-        <p class="paywall-box__price">Giá mở khóa: <strong data-paywall-price="{{ price_fmt }}">{{ price_fmt }}</strong></p>
+        <h2 class="paywall-box__title" id="paywall-heading">Bài viết cao cấp — ủng hộ để mở khóa</h2>
+        <p class="paywall-box__lead">Nội dung này dành cho người đọc ủng hộ blog. Ủng hộ qua MoMo để nhận approve code và đọc toàn bộ bài.</p>
+        <p class="paywall-box__price">Mức ủng hộ gợi ý: <strong data-paywall-price="{{ price_fmt }}">{{ price_fmt }}</strong> VND</p>
     </header>
 
     <div class="paywall-box__steps">
         <div class="paywall-step">
-            <h3 class="paywall-step__label"><span class="paywall-step__num">1</span> Thanh toán qua MoMo để đọc tiếp</h3>
+            <h3 class="paywall-step__label"><span class="paywall-step__num">1</span> Ủng hộ tự nguyện qua MoMo</h3>
             <a class="paywall-btn paywall-btn--momo" href="{{ momo_link }}" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8v-2h3V9h2v4h3v2h-3v4h-2z"/></svg>
-                Thanh toán qua MoMo để đọc tiếp
+                Ủng hộ qua MoMo
             </a>
         </div>
 
