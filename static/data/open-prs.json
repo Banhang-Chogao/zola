@@ -1,32 +1,254 @@
 {
-  "generated_at": "2026-06-22T03:58:55+0700",
-  "generated_at_display": "03:58 22/06/2026",
+  "generated_at": "2026-06-22T22:59:34+0700",
+  "generated_at_display": "22:59 22/06/2026",
   "repo_url": "https://github.com/Banhang-Chogao/zola",
   "prs_url": "https://github.com/Banhang-Chogao/zola/pulls",
   "summary": {
-    "total": 11,
+    "total": 18,
     "ready": 0,
-    "needs_attention": 5,
-    "pending": 6,
-    "conflict": 0,
+    "needs_attention": 14,
+    "pending": 3,
+    "conflict": 1,
     "draft": 0
   },
   "prs": [
     {
-      "number": 698,
-      "title": "feat(blog): add terminal production posts 2-3, fix post-1 webp refs [feat/blog-terminal-production-cluster]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/698",
-      "branch": "feat/blog-terminal-production-cluster",
+      "number": 729,
+      "title": "docs(reports): add failed checks/conflict/hotfix history memory map [claude/failed-checks-conflict-report-f99tyu]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/729",
+      "branch": "claude/failed-checks-conflict-report-f99tyu",
       "base": "main",
       "is_draft": false,
-      "merge_state": "unstable",
-      "updated_at": "2026-06-22T03:50:23+0700",
-      "updated_at_display": "03:50 22/06/2026",
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T20:01:41+0700",
+      "updated_at_display": "20:01 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 2,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 3
+      },
+      "checks": [
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 472,
+          "elapsed_display": "7m 52s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 16,
+          "elapsed_display": "16s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        }
+      ]
+    },
+    {
+      "number": 680,
+      "title": "fix(qa-404): whitelist dynamic app routes + fix broken internal link [claude/sweet-mccarthy-ds9ayv]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/680",
+      "branch": "claude/sweet-mccarthy-ds9ayv",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T15:36:54+0700",
+      "updated_at_display": "15:36 22/06/2026",
       "readiness": "pending",
       "checks_summary": {
         "success": 3,
         "failure": 0,
-        "pending": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 3
+      },
+      "checks": [
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 4,
+          "elapsed_display": "4s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 7,
+          "elapsed_display": "7s"
+        },
+        {
+          "name": "qa-check",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 823,
+          "elapsed_display": "13m 43s"
+        }
+      ]
+    },
+    {
+      "number": 727,
+      "title": "fix(vaccine-hotfix): claude/happy-hopper-tp7w7f",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/727",
+      "branch": "vaccine-hotfix/claude-happy-hopper-tp7w7f",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T14:35:24+0700",
+      "updated_at_display": "14:35 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 0,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 1
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 6,
+          "elapsed_display": "6s"
+        }
+      ]
+    },
+    {
+      "number": 724,
+      "title": "feat(series): add Q&A Khoa Học parts 17-30 + final QA scores [claude/happy-hopper-tp7w7f]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/724",
+      "branch": "claude/happy-hopper-tp7w7f",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T14:08:49+0700",
+      "updated_at_display": "14:08 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 3,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 4
+      },
+      "checks": [
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 1071,
+          "elapsed_display": "17m 51s"
+        },
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 7,
+          "elapsed_display": "7s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 3,
+          "elapsed_display": "3s"
+        }
+      ]
+    },
+    {
+      "number": 723,
+      "title": "refactor(homepage): remove \"Khám phá thêm\" SEO widgets band [claude/practical-planck-559skj]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/723",
+      "branch": "claude/practical-planck-559skj",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T13:18:54+0700",
+      "updated_at_display": "13:18 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 2,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 3
+      },
+      "checks": [
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 918,
+          "elapsed_display": "15m 18s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 3,
+          "elapsed_display": "3s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 15,
+          "elapsed_display": "15s"
+        }
+      ]
+    },
+    {
+      "number": 722,
+      "title": "Bài: Một lý do để mua laptop ThinkPad (Công nghệ) [claude/thinkpad-laptop-article-q5dljl]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/722",
+      "branch": "claude/thinkpad-laptop-article-q5dljl",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T13:18:51+0700",
+      "updated_at_display": "13:18 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 3,
+        "failure": 1,
+        "pending": 0,
         "skipped": 0,
         "cancelled": 0,
         "total": 4
@@ -37,24 +259,16 @@
           "state": "success",
           "status": "completed",
           "conclusion": "success",
-          "elapsed_s": 10,
-          "elapsed_display": "10s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 10,
-          "elapsed_display": "10s"
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
         },
         {
           "name": "qa-check",
-          "state": "pending",
-          "status": "in_progress",
-          "conclusion": null,
-          "elapsed_s": 513,
-          "elapsed_display": "8m 33s"
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 921,
+          "elapsed_display": "15m 21s"
         },
         {
           "name": "notify",
@@ -63,6 +277,388 @@
           "conclusion": "success",
           "elapsed_s": 4,
           "elapsed_display": "4s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 12,
+          "elapsed_display": "12s"
+        }
+      ]
+    },
+    {
+      "number": 719,
+      "title": "fix(vaccine-hotfix): claude/dreamy-maxwell-e86rse",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/719",
+      "branch": "vaccine-hotfix/claude-dreamy-maxwell-e86rse",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T11:44:03+0700",
+      "updated_at_display": "11:44 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 0,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 1
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 6,
+          "elapsed_display": "6s"
+        }
+      ]
+    },
+    {
+      "number": 717,
+      "title": "chore: update seo-qa-scores after bb article review [claude/dreamy-maxwell-e86rse]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/717",
+      "branch": "claude/dreamy-maxwell-e86rse",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T11:21:17+0700",
+      "updated_at_display": "11:21 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 2,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 3
+      },
+      "checks": [
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 941,
+          "elapsed_display": "15m 41s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 13,
+          "elapsed_display": "13s"
+        }
+      ]
+    },
+    {
+      "number": 716,
+      "title": "feat: UI refresh + FAQ_fixer_auto automation [claude/clever-brown-oj8wer]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/716",
+      "branch": "claude/clever-brown-oj8wer",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T11:20:56+0700",
+      "updated_at_display": "11:20 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 3,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 4
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
+        },
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 20,
+          "elapsed_display": "20s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 12,
+          "elapsed_display": "12s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 4,
+          "elapsed_display": "4s"
+        }
+      ]
+    },
+    {
+      "number": 702,
+      "title": "feat(blog): bài viết watermark an toàn — owned-only policy cho ảnh blog [claude/blissful-thompson-oy4z08]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/702",
+      "branch": "claude/blissful-thompson-oy4z08",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "dirty",
+      "updated_at": "2026-06-22T05:21:54+0700",
+      "updated_at_display": "05:21 22/06/2026",
+      "readiness": "conflict",
+      "checks_summary": {
+        "success": 3,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 4
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 7,
+          "elapsed_display": "7s"
+        },
+        {
+          "name": "qa-check",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 863,
+          "elapsed_display": "14m 23s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 12,
+          "elapsed_display": "12s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 4,
+          "elapsed_display": "4s"
+        }
+      ]
+    },
+    {
+      "number": 671,
+      "title": "feat(blog): 5 quán phở Hà Nội lên Michelin 2026",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/671",
+      "branch": "claude/great-lovelace-5dh0e2",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T05:00:03+0700",
+      "updated_at_display": "05:00 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 0,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 1
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 10,
+          "elapsed_display": "10s"
+        }
+      ]
+    },
+    {
+      "number": 672,
+      "title": "fix(vaccine-hotfix): claude/great-lovelace-5dh0e2",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/672",
+      "branch": "vaccine-hotfix/claude-great-lovelace-5dh0e2",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T04:59:54+0700",
+      "updated_at_display": "04:59 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 0,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 1
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
+        }
+      ]
+    },
+    {
+      "number": 676,
+      "title": "fix(vaccine-hotfix): claude/busy-curie-dulk0s",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/676",
+      "branch": "vaccine-hotfix/claude-busy-curie-dulk0s",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T04:59:44+0700",
+      "updated_at_display": "04:59 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 0,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 1
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 10,
+          "elapsed_display": "10s"
+        }
+      ]
+    },
+    {
+      "number": 683,
+      "title": "Merge origin/main into claude/vibrant-hawking-dhzptd — resolve paywall/premium conflicts, preserve AdSense-safe wording ",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/683",
+      "branch": "claude/vibrant-hawking-dhzptd",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T04:59:31+0700",
+      "updated_at_display": "04:59 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 2,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 3
+      },
+      "checks": [
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 867,
+          "elapsed_display": "14m 27s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 6,
+          "elapsed_display": "6s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 6,
+          "elapsed_display": "6s"
+        }
+      ]
+    },
+    {
+      "number": 684,
+      "title": "Thêm security gate cho public-surface của static blog (no secret/private leak) [claude/charming-bardeen-leyxdf]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/684",
+      "branch": "claude/charming-bardeen-leyxdf",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-22T04:59:30+0700",
+      "updated_at_display": "04:59 22/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 3,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 4
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 7,
+          "elapsed_display": "7s"
+        },
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 811,
+          "elapsed_display": "13m 31s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 3,
+          "elapsed_display": "3s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 13,
+          "elapsed_display": "13s"
         }
       ]
     },
@@ -132,35 +728,23 @@
       "updated_at_display": "01:46 22/06/2026",
       "readiness": "pending",
       "checks_summary": {
-        "success": 0,
+        "success": 1,
         "failure": 0,
         "pending": 0,
         "skipped": 0,
         "cancelled": 0,
-        "total": 0
+        "total": 1
       },
-      "checks": []
-    },
-    {
-      "number": 689,
-      "title": "fix(vaccine-hotfix): feat/ngay-cua-cha-baochi",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/689",
-      "branch": "vaccine-hotfix/feat-ngay-cua-cha-baochi",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-22T00:55:51+0700",
-      "updated_at_display": "00:55 22/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 11,
+          "elapsed_display": "11s"
+        }
+      ]
     },
     {
       "number": 686,
@@ -182,248 +766,6 @@
         "total": 0
       },
       "checks": []
-    },
-    {
-      "number": 683,
-      "title": "Merge origin/main into claude/vibrant-hawking-dhzptd — resolve paywall/premium conflicts, preserve AdSense-safe wording ",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/683",
-      "branch": "claude/vibrant-hawking-dhzptd",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-22T00:02:39+0700",
-      "updated_at_display": "00:02 22/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 2,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 3
-      },
-      "checks": [
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 867,
-          "elapsed_display": "14m 27s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 6,
-          "elapsed_display": "6s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 6,
-          "elapsed_display": "6s"
-        }
-      ]
-    },
-    {
-      "number": 684,
-      "title": "Thêm security gate cho public-surface của static blog (no secret/private leak) [claude/charming-bardeen-leyxdf]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/684",
-      "branch": "claude/charming-bardeen-leyxdf",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-21T23:53:47+0700",
-      "updated_at_display": "23:53 21/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 3,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 4
-      },
-      "checks": [
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 7,
-          "elapsed_display": "7s"
-        },
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 811,
-          "elapsed_display": "13m 31s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 3,
-          "elapsed_display": "3s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 13,
-          "elapsed_display": "13s"
-        }
-      ]
-    },
-    {
-      "number": 680,
-      "title": "fix(gsc): show real cached GSC metrics on homepage + CMS dashboard",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/680",
-      "branch": "claude/sweet-mccarthy-ds9ayv",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-21T23:30:43+0700",
-      "updated_at_display": "23:30 21/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 3,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 4
-      },
-      "checks": [
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 8,
-          "elapsed_display": "8s"
-        },
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 758,
-          "elapsed_display": "12m 38s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 5,
-          "elapsed_display": "5s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 4,
-          "elapsed_display": "4s"
-        }
-      ]
-    },
-    {
-      "number": 676,
-      "title": "fix(vaccine-hotfix): claude/busy-curie-dulk0s",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/676",
-      "branch": "vaccine-hotfix/claude-busy-curie-dulk0s",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-21T22:58:17+0700",
-      "updated_at_display": "22:58 21/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
-    {
-      "number": 672,
-      "title": "fix(vaccine-hotfix): claude/great-lovelace-5dh0e2",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/672",
-      "branch": "vaccine-hotfix/claude-great-lovelace-5dh0e2",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-21T22:47:48+0700",
-      "updated_at_display": "22:47 21/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
-    {
-      "number": 671,
-      "title": "feat(blog): 5 quán phở Hà Nội lên Michelin 2026",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/671",
-      "branch": "claude/great-lovelace-5dh0e2",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-21T22:45:30+0700",
-      "updated_at_display": "22:45 21/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 2,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 3
-      },
-      "checks": [
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 95,
-          "elapsed_display": "1m 35s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 5,
-          "elapsed_display": "5s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 4,
-          "elapsed_display": "4s"
-        }
-      ]
     }
   ]
 }
