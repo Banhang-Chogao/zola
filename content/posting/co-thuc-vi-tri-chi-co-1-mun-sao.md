@@ -153,4 +153,4 @@ Trên một hành tinh nhỏ xung quanh một ngôi sao bình thường, trong m
 
 ---
 
-**Liên quan:** [Khoa học ánh sáng và màu sắc](/content/posting/tai-sao-muc-la-mau-xanh-va-nuoc-bien-la-xanh.md)
+**Liên quan:** [Khoa học ánh sáng và màu sắc](/tai-sao-muc-la-mau-xanh-va-nuoc-bien-la-xanh/)
