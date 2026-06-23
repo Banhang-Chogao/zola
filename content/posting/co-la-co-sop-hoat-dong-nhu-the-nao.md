@@ -153,4 +153,4 @@ Mỗi lần bạn cử động tay, chân, hoặc cơ bắp—hàng tỉ protein
 
 ---
 
-**Liên quan:** [Rạn cơ và cơ bắp bình thường](/content/posting/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua.md)
+**Liên quan:** [Rạn cơ và cơ bắp bình thường](/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua/)
