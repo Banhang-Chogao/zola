@@ -124,4 +124,4 @@ Não bộ của bạn đang làm công việc của nó—bảo vệ bạn khỏ
 
 ---
 
-**Liên quan:** [Ảnh hưởng của thiếu ngủ trên hành vi](/content/posting/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi.md)
+**Liên quan:** [Ảnh hưởng của thiếu ngủ trên hành vi](/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/)
