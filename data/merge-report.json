@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-23T22:56:22Z",
+  "updated_at": "2026-06-23T23:06:19Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 27,
-    "this_week": 74,
+    "today": 28,
+    "this_week": 75,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 49,
+      "unknown": 40,
+      "feature": 48,
       "fix": 91,
       "chore": 12,
-      "unknown": 39,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 796,
+      "pr_title": "remove(shortensea): retire ShortenSEA and paywall gates",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/796",
+      "merged_at": "2026-06-23T23:00:54Z",
+      "merge_commit_sha": "e510ce5ce03af6cf62f0ba29e174ff9293664cad",
+      "merge_commit_short": "e510ce5",
+      "head_branch": "remove/shortensea-paywall-clean",
+      "summary_vi": "Remove ShortenSEA and retired paywall/payment gates safely. Keep VIPZone auth, Editor, CMS, GSC and unrelated dashboard payment labels untouched.",
+      "change_type": "unknown",
+      "files_changed": 4,
+      "additions": 46,
+      "deletions": 3,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1042,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28062876089",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 798,
       "pr_title": "feat(r2): serve static media from Cloudflare R2 CDN [feat/cloudflare-r2-assets]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1041,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28062385217",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 797,
@@ -3794,25 +3813,6 @@
       "files_changed": 20,
       "additions": 1006,
       "deletions": 33,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 542,
-      "pr_title": "feat(wip8): B-DNA design discipline — health meter, icon table, section kickers for workspace tracker",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/542",
-      "merged_at": "2026-06-20T09:00:09Z",
-      "merge_commit_sha": "000428aa6143588acd46cf0e7b3fc0a581cca687",
-      "merge_commit_short": "000428a",
-      "head_branch": "claude/affectionate-gates-kwgo2o",
-      "summary_vi": "- Adds `scripts/wip8.py` — read-only workspace DNA tracker (git status/diff/log/stash/branch/PR snapshot)",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 304,
-      "deletions": 24,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
