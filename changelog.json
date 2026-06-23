@@ -2,6 +2,16 @@
   "items": [
     {
       "date": "2026-06-23",
+      "title": "fix(nav): remove broken top navbar (already removed in config.toml comment)",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 80,
+      "highlights": [],
+      "commit": "f6548e8f996f",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
       "title": "seo_engine.js",
       "tag": "chore",
       "lines_added": 1636,
