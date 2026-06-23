@@ -41,6 +41,12 @@ from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 
 from db import ShortenDB
+import logging as _logging
+_log = _logging.getLogger("shortensea")
+_logging.basicConfig(level=_logging.INFO)
+_log.info("ShortenSEA startup: blog_url=%s backend=%s oauth_configured=%s db=%s",
+    BLOG_URL, BACKEND_URL, bool(GH_CLIENT_ID and GH_CLIENT_SECRET), DB_PATH or "default")
+
 
 # ============= Config =============
 CORS_ORIGINS = [
@@ -379,6 +385,20 @@ def health() -> dict[str, Any]:
         "momo_configured": bool(MOMO_LINK),
     }
 
+
+
+
+@app.get("/healthz")
+def healthz() -> dict:
+    """Lightweight health probe — does NOT require OAuth or DB."""
+    import sys
+    return {
+        "service": "shortensea",
+        "status": "ok",
+        "python": sys.version.split()[0],
+        "oauth_configured": bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
+        "db_path": DB_PATH or "default",
+    }
 
 # ============= OAuth =============
 @app.get("/auth/login")

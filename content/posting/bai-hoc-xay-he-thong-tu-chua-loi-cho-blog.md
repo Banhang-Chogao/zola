@@ -121,4 +121,4 @@ Xem [10 Vaccine CLAUDE.md](/10-vaccine-claude-md-giam-loi-production/) để th�
 
 Bài tiếp theo: [CMS, SEO Engine Và Hệ Vaccine Tự Tiến Hoá](/posting/direction-cms-seo-engine-he-vaccine-tu-tien-hoa/) — hướng phát triển của hệ thống vaccine trong năm tới, bao gồm tự sinh vaccine từ CI log và tích hợp với SEO engine.
 
-Theo dõi tiến độ thực tế tại trang [Insights](/insights/).
+Theo dõi tiến độ thực tế tại trang [Insights](/shortensea/insights/).

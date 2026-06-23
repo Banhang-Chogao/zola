@@ -117,6 +117,6 @@ Nếu muốn xem các vaccine hoạt động trong thực tế:
 
 - Bài [10 Vaccine CLAUDE.md Giảm Lỗi Production](/10-vaccine-claude-md-giam-loi-production/) — ví dụ cụ thể từng vaccine
 - Bài [QA Gatekeeper Vaccine Autofixer](/qa-gatekeeper-vaccine-autofixer/) — kiến trúc pipeline kiểm tra tự động
-- Trang [Insights](/insights/) — báo cáo vaccine autofixer chạy mỗi ngày 6h sáng GMT+7
+- Trang [Insights](/shortensea/insights/) — báo cáo vaccine autofixer chạy mỗi ngày 6h sáng GMT+7
 
 Vaccine số không phải phép màu. Nó là kết quả của việc **không bao giờ fix cùng một bug hai lần mà không học được gì từ nó**. Bug đầu tiên là tai nạn. Bug thứ hai là cảnh báo. Bug thứ ba là lý do để viết vaccine.
