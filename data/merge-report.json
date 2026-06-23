@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-23T10:59:26Z",
+  "updated_at": "2026-06-23T11:40:28Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 2,
-    "this_week": 49,
+    "today": 3,
+    "this_week": 50,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 80,
+      "ci": 4,
+      "fix": 79,
       "feature": 58,
       "unknown": 43,
       "chore": 11,
-      "content": 5,
-      "ci": 3
+      "content": 5
     }
   },
   "merges": [
+    {
+      "pr_number": 777,
+      "pr_title": "post: add GitHub Actions YAML conflict QA case study",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/777",
+      "merged_at": "2026-06-23T11:32:00Z",
+      "merge_commit_sha": "28bb82761ab175a7d51869a18e0e5e89aae93cb2",
+      "merge_commit_short": "28bb827",
+      "head_branch": "post/github-actions-yaml-conflict-qa-experience",
+      "summary_vi": "Adds a practical WebOps case study about resolving a GitHub Actions YAML conflict, validating QA, and keeping PR scope clean.",
+      "change_type": "ci",
+      "files_changed": 1,
+      "additions": 273,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1015,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28023079882",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 770,
       "pr_title": "fix(conflict): merge references.json for PR #770 [skip changelog] [vaccine-hotfix/claude-great-lovelace-5dh0e2]",
@@ -338,8 +357,8 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 985,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27980463624",
+      "build_run_number": 989,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27981707053",
       "build_conclusion": "failure"
     },
     {
@@ -471,9 +490,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 985,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27980463624",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 742,
@@ -490,9 +509,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 985,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27980463624",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 744,
@@ -509,9 +528,9 @@
       "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 985,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27980463624",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 743,
@@ -1863,25 +1882,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 649,
-      "pr_title": "docs(operator): Phase 1 vaccine shortcut grouping guide",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/649",
-      "merged_at": "2026-06-21T12:36:11Z",
-      "merge_commit_sha": "26607c840f061139b013de7c874f752aa853016f",
-      "merge_commit_short": "26607c8",
-      "head_branch": "claude/optimistic-goldberg-r4pg2j",
-      "summary_vi": "- Add Phase 1 operator shortcut grouping documentation",
-      "change_type": "unknown",
-      "files_changed": 3,
-      "additions": 536,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 647,
       "pr_title": "refactor: compress CLAUDE.md to 31KB, move vaccine details to archive [claude/tender-einstein-4zz7uf]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/647",
@@ -1894,6 +1894,25 @@
       "files_changed": 2,
       "additions": 3086,
       "deletions": 2832,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 646,
+      "pr_title": "docs(guides): operator guide Phase 1 — decision flows and UI layout sketches [claude/optimistic-goldberg-r4pg2j]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/646",
+      "merged_at": "2026-06-21T12:23:28Z",
+      "merge_commit_sha": "23f643f24927aee71ce37aaa0d1f71e745e1c2f4",
+      "merge_commit_short": "23f643f",
+      "head_branch": "claude/optimistic-goldberg-r4pg2j",
+      "summary_vi": "- chore(docs): operator guide Phase 1 — grouping vaccine shortcuts into 5 top-level functions",
+      "change_type": "unknown",
+      "files_changed": 3,
+      "additions": 536,
+      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3794,25 +3813,6 @@
       "files_changed": 0,
       "additions": 0,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 520,
-      "pr_title": "fix(vipzone): load picker catalog from admin API instead of unpublish…",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/520",
-      "merged_at": "2026-06-19T20:24:46Z",
-      "merge_commit_sha": "e10f044fcccd43aedaadd3ee02ff0818f93a0bb1",
-      "merge_commit_short": "e10f044",
-      "head_branch": "fix/vipzone-picker-catalog-api",
-      "summary_vi": "Root cause: vip-admin.js fetched /zola/data/vipzone-picker-catalog.json first, but that file lives in repo data/ (not static/) so it is never published to the site (and robots.txt Disallows /data/) → 404. The API fallbac",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 22,
-      "deletions": 7,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
