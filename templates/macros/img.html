@@ -43,8 +43,8 @@
    ACTUALLY exists in production:
 
    - .svg  → DIR-PRESERVING .og.webp twin baked by scripts/build_og_images.py.
-             Keeps the source folder (/img/covers/x.svg → /img/covers/x.og.webp)
-             so the URL hits the twin that ships — NOT a flat /img/og/ guess.
+             Keeps the source folder (https://assets.seomoney.org/img/covers/x.svg → https://assets.seomoney.org/img/covers/x.og.webp)
+             so the URL hits the twin that ships — NOT a flat https://assets.seomoney.org/img/og/ guess.
    - .jpg/.jpeg/.png → .webp (optimize-images.yml replaces rasters with WebP and
              DELETES the original; the raster URL would 404 in production).
    - .webp → kept as-is.
@@ -54,7 +54,7 @@
    root-relative paths are prefixed with base_url).
    ---------------------------------------------------------------------------- #}
 {% macro social_image_url(src="", base_url="") -%}
-{%- set fallback = base_url ~ "/img/og/seomoney-og.og.webp" -%}
+{%- set fallback = base_url ~ "https://assets.seomoney.org/img/og/seomoney-og.og.webp" -%}
 {%- set out = "" -%}
 {%- if src is ending_with(".svg") -%}{%- set out = src | replace(from=".svg", to=".og.webp") -%}
 {%- elif src is ending_with(".jpg") -%}{%- set out = src | replace(from=".jpg", to=".webp") -%}
