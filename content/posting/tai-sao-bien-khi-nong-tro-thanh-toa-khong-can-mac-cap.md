@@ -2,9 +2,10 @@
 title = "Tại sao biển khi nóng trở nên axit — điều gì xảy ra với san hô?"
 description = "Biển hấp thụ CO2 từ khí quyển → tạo axit carbonic → pH giảm (axit hóa). San hô không thể tạo xương ở pH thấp → chết."
 date = 2026-06-22
+aliases = ["/tai-sao-bien-khi-nong-tro-thanh-toa-khong-can-mac-cap/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "biển", "hóa học"]
+tags = ["biển", "hóa học", "khoa học q&a"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "axit hóa biển, san hô"
