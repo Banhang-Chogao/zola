@@ -126,7 +126,7 @@ jobs:
           PY
 
           if [ -f static/data/blog-heartbeat.json ]; then
-            python3 - <<'PY'
+            if python3 - <<'PY'
             import json
             import sys
             from pathlib import Path
@@ -139,8 +139,7 @@ jobs:
 
             sys.exit(0 if old == new else 1)
             PY
-            SAME="$?"
-            if [ "$SAME" = "0" ]; then
+            then
               echo "No heartbeat data change; skip commit."
               exit 0
             fi

@@ -1,0 +1,146 @@
+templates/base.html:55:{# THEODOI8 LIVE banner — snapshot CI/CD build-time (source of truth), JS
+templates/base.html:56:   auto-refresh từ /data/theodoi8-report.json. Sinh bởi build_theodoi8_report.py. #}
+templates/base.html:57:{% set theodoi8 = load_data(path="data/theodoi8-report.json", required=false) %}
+templates/base.html:502:            {# Latest deployments card — Ở LEFT, ngay dưới title block (theo
+templates/base.html:505:                <p class="header-deploy-card__label">Latest deployments from pinned environments</p>
+templates/base.html:507:                   href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
+templates/base.html:511:                        <span class="header-deploy-card__title">github-pages</span>
+templates/base.html:597:                {# Slide C: THEODOI8 LIVE — trạng thái CI/CD trực tiếp. Build-time
+templates/base.html:599:                <a class="header-theodoi8 header-rotator__slide is-{{ theodoi8.status | default(value='idle') }}"
+templates/base.html:600:                   href="{{ theodoi8.url | default(value='https://github.com/Banhang-Chogao/zola/actions') }}"
+templates/base.html:602:                   data-theodoi8
+templates/base.html:603:                   data-theodoi8-url="{{ config.base_url | safe }}/data/theodoi8-report.json"
+templates/base.html:604:                   aria-label="THEODOI8 LIVE — theo dõi trạng thái CI/CD trực tiếp trên GitHub Actions">
+templates/base.html:605:                    <div class="header-theodoi8__top">
+templates/base.html:606:                        <span class="header-theodoi8__label"><span class="header-theodoi8__eye" aria-hidden="true">👀</span> THEODOI8 LIVE</span>
+templates/base.html:607:                        <span class="header-theodoi8__pulse" aria-hidden="true"></span>
+templates/base.html:609:                    <div class="header-theodoi8__body">
+templates/base.html:610:                        <span class="header-theodoi8__status" data-theodoi8-icon>{{ theodoi8.status_icon | default(value="📡") }}</span>
+templates/base.html:611:                        <div class="header-theodoi8__main">
+templates/base.html:612:                            <p class="header-theodoi8__summary" data-theodoi8-summary>{{ theodoi8.summary | default(value="Theo dõi commit & CI/CD chạy trực tiếp trên GitHub Actions") }}</p>
+templates/base.html:613:                            <p class="header-theodoi8__meta">
+templates/base.html:614:                                <span class="header-theodoi8__time" data-theodoi8-time>{{ theodoi8.generated_at_display | default(value="—") }}</span>
+templates/base.html:615:                                <span class="header-theodoi8__cta" data-theodoi8-cta>{{ theodoi8.cta | default(value="Mở GitHub Actions") }} →</span>
+templates/base.html:930:    {% include "partials/live-theodoi8.html" %}
+templates/base.html:1405:        {# Deploy Monitor widget — build-time CI pipeline status (no token) #}
+templates/base.html:1425:    <script src="{{ get_url(path='js/theodoi8-parser.js') }}?v={{ asset_version }}" defer></script>
+templates/base.html:1426:    <script src="{{ get_url(path='js/theodoi8-banner.js') }}?v={{ asset_version }}" defer></script>
+templates/base.html:1427:    <script src="{{ get_url(path='js/live-theodoi8.js') }}?v={{ asset_version }}" defer></script>
+templates/deploy-monitor.html:14:{# ── Deploy Monitor — mirrors the `theodoi8 deploy` chat shortcut on-page.
+templates/deploy-monitor.html:21:    <h1 class="dmon__title">Deploy Monitor</h1>
+templates/deploy-monitor.html:59:  {# ===== The deploy run table — exactly the `theodoi8 deploy` feed ===== #}
+templates/deploy-monitor.html:107:    {# ===== One-line status (the `theodoi8 deploy` summary) ===== #}
+templates/deploy-monitor.html:109:    <p class="dmon__statusline"><code>theodoi8 deploy: {{ s.status_line }} (GMT+7)</code></p>
+templates/deploy-monitor.html:149:       trạng thái production và dòng tóm tắt <code>theodoi8 deploy</code> sẽ hiện ở đây.</p>
+templates/master-dashboard-v5.html:73:                <a class="mdash-card__link" href="{{ config.base_url }}/tools/deploy-monitor/">Mở Deploy Monitor →</a>
+templates/partials/live-theodoi8.html:1:{# Live TheoDoi8 — terminal CI/CD ngay trên footer. JSON: build_theodoi8_report.py #}
+templates/partials/live-theodoi8.html:2:<section class="live-t8" data-live-theodoi8
+templates/partials/live-theodoi8.html:3:         data-live-t8-url="{{ config.base_url | safe }}/data/theodoi8-report.json"
+templates/partials/live-theodoi8.html:4:         aria-label="Live TheoDoi8 — theo dõi GitHub Actions">
+templates/partials/live-theodoi8.html:11:                    <h2 class="live-t8__title">Live TheoDoi8</h2>
+templates/partials/live-theodoi8.html:14:            <span class="live-t8__badge live-t8__badge--{{ theodoi8.status | default(value='idle') }}"
+templates/partials/live-theodoi8.html:15:                  data-live-t8-badge>{{ theodoi8.status_icon | default(value="📡") }} {{ theodoi8.status | default(value="idle") }}</span>
+templates/partials/live-theodoi8.html:23:                <span class="live-t8__chrome-label">theodoi8@github-actions</span>
+templates/partials/live-theodoi8.html:26:                <p class="live-t8__loading">Đang tải terminal theodoi8…</p>
+templates/partials/live-theodoi8.html:29:                <a class="live-t8__link" href="{{ theodoi8.url | default(value='https://github.com/Banhang-Chogao/zola/actions') }}" target="_blank" rel="noopener noreferrer">{{ theodoi8.cta | default(value="Mở GitHub Actions") }} →</a>
+templates/partials/live-theodoi8.html:34:    <script type="application/json" id="live-t8-seed">{{ theodoi8 | json_encode() | safe }}</script>
+content/tools/deploy-monitor.md:2:title = "Deploy Monitor"
+content/tools/_index.md:51:name = "🚀 Deploy Monitor"
+content/posting/tu-dong-deploy-zola-github-actions.md:82:      name: github-pages
+content/posting/tu-dong-deploy-zola-github-actions.md:130:Quy trình deploy bằng GitHub Actions ở trên bám sát [tài liệu GitHub Pages chính thức](https://docs.github.com/en/pages) và [hướng dẫn deploy Zola](https://www.getzola.org/documentation/deployment/github-pages/) — nếu workflow đổi hành vi sau này, hai nguồn đó luôn là chỗ kiểm chứng đầu tiên.
+content/posting/cong-nghe-blog-duy-nguyen.md:97:// 1. GET /repos/.../deployments?environment=github-pages
+content/posting/cong-nghe-blog-duy-nguyen.md:104:box + github-pages card) share cùng một fetch qua `querySelectorAll`.
+content/posting/tao-blog-voi-zola.md:226:      name: github-pages
+static/js/theodoi8-banner.js:2: * THEODOI8 LIVE header banner — auto-refresh trạng thái CI/CD từ static JSON.
+static/js/theodoi8-banner.js:5: * /data/theodoi8-report.json đổi (so sánh generated_at). Poll mỗi 60s, chỉ khi tab
+static/js/theodoi8-banner.js:12:  var el = document.querySelector("[data-theodoi8]");
+static/js/theodoi8-banner.js:15:  var url = el.getAttribute("data-theodoi8-url") || P.reportUrl();
+static/js/theodoi8-banner.js:17:  var lastStamp = el.getAttribute("data-theodoi8-stamp") || null;
+static/js/theodoi8-banner.js:36:    set("[data-theodoi8-icon]", d.status_icon || st.icon);
+static/js/theodoi8-banner.js:37:    set("[data-theodoi8-summary]", d.summary || "");
+static/js/theodoi8-banner.js:38:    set("[data-theodoi8-time]", d.generated_at_display || "");
+static/js/theodoi8-banner.js:39:    if (d.cta) set("[data-theodoi8-cta]", d.cta + " →");
+static/js/header-rotator.js:9: * file này thuần logic carousel. Banner THEODOI8 LIVE tự refresh ở theodoi8-banner.js.
+static/js/live-theodoi8.js:2: * Live TheoDoi8 — footer terminal panel. Poll /data/theodoi8-report.json
+static/js/live-theodoi8.js:3: * (cùng nguồn shortcut theodoi8), hiển thị 1 vòng terminal, auto-refresh 30–35s.
+static/js/live-theodoi8.js:11:  var root = document.querySelector("[data-live-theodoi8]");
+static/js/theodoi8-parser.js:2: * THEODOI8 shared parser — format JSON report (build_theodoi8_report.py) thành
+static/js/theodoi8-parser.js:3: * output terminal giống shortcut `theodoi8`. Dùng bởi theodoi8-banner.js + live-theodoi8.js.
+static/js/theodoi8-parser.js:90:    return "theodoi8 [vòng " + roundNum + "]: " + summary + " (" + time + ")";
+static/js/theodoi8-parser.js:171:    return root + "/data/theodoi8-report.json";
+static/js/deploy-status.js:26:  const ENV = "github-pages";
+sass/_deploy-watch.scss:150:   Deploy Monitor detail page (/tools/deploy-monitor/) — B-DNA scoped.
+sass/_deploy-watch.scss:151:   Mirrors the `theodoi8 deploy` shortcut: KPI strip → run table → status line →
+sass/_deploy-watch.scss:298:/* ===== Status line (the `theodoi8 deploy` one-liner) ===== */
+sass/_live-theodoi8.scss:1:/* ===== Live TheoDoi8 — S-DNA dark terminal above footer ===== */
+sass/_banner.scss:426:/* ----- Header THEODOI8 LIVE banner (slide 3) — data-driven, auto-refresh -----
+sass/_banner.scss:429:.header-theodoi8 {
+sass/_banner.scss:479:    animation: theodoi8-bounce 1.8s ease-in-out infinite;
+sass/_banner.scss:487:    animation: theodoi8-pulse 1.6s ease-out infinite;
+sass/_banner.scss:551:    .header-theodoi8__pulse { animation: none; }
+sass/_banner.scss:555:@keyframes theodoi8-pulse {
+sass/_banner.scss:561:@keyframes theodoi8-bounce {
+sass/_banner.scss:567:  .header-theodoi8__eye,
+sass/_banner.scss:568:  .header-theodoi8__pulse { animation: none; }
+sass/_banner.scss:572:  .header-theodoi8 {
+sass/_banner.scss:797:/* ----- 'Latest deployments' card (github-pages style) bên phải header ----- */
+sass/site.scss:25:@import "live-theodoi8";
+data/github-profile-badges.config.json:71:      "id": "deploy-github-pages",
+data/references.json:7283:        "url": "https://www.getzola.org/documentation/deployment/github-pages",
+data/qa-404-report.json:921:      "href": "https://seomoney.org/tags/github-pages/",
+data/qa-404-report.json:922:      "target": "/tags/github-pages/",
+data/qa-404-report.json:6291:      "href": "https://seomoney.org/js/theodoi8-parser.js?v=1782158467",
+data/qa-404-report.json:6292:      "target": "/js/theodoi8-parser.js",
+data/qa-404-report.json:6301:      "href": "https://seomoney.org/js/theodoi8-banner.js?v=1782158467",
+data/qa-404-report.json:6302:      "target": "/js/theodoi8-banner.js",
+data/qa-404-report.json:6311:      "href": "https://seomoney.org/js/live-theodoi8.js?v=1782158467",
+data/qa-404-report.json:6312:      "target": "/js/live-theodoi8.js",
+data/qa-404-report.json:7451:      "href": "https://seomoney.org/tags/github-pages/",
+data/qa-404-report.json:7452:      "target": "/tags/github-pages/",
+data/qa-404-report.json:12821:      "href": "https://seomoney.org/js/theodoi8-parser.js?v=1782158467",
+data/qa-404-report.json:12822:      "target": "/js/theodoi8-parser.js",
+data/qa-404-report.json:12831:      "href": "https://seomoney.org/js/theodoi8-banner.js?v=1782158467",
+data/qa-404-report.json:12832:      "target": "/js/theodoi8-banner.js",
+data/qa-404-report.json:12841:      "href": "https://seomoney.org/js/live-theodoi8.js?v=1782158467",
+data/qa-404-report.json:12842:      "target": "/js/live-theodoi8.js",
+data/qa-404-report.json:14001:      "href": "https://seomoney.org/tags/github-pages/",
+data/qa-404-report.json:14002:      "target": "/tags/github-pages/",
+data/qa-404-report.json:19371:      "href": "https://seomoney.org/js/theodoi8-parser.js?v=1782158467",
+data/qa-404-report.json:19372:      "target": "/js/theodoi8-parser.js",
+data/qa-404-report.json:19381:      "href": "https://seomoney.org/js/theodoi8-banner.js?v=1782158467",
+data/qa-404-report.json:19382:      "target": "/js/theodoi8-banner.js",
+data/qa-404-report.json:19391:      "href": "https://seomoney.org/js/live-theodoi8.js?v=1782158467",
+data/qa-404-report.json:19392:      "target": "/js/live-theodoi8.js",
+data/qa-404-report.json:20551:      "href": "https://seomoney.org/tags/github-pages/",
+data/qa-404-report.json:20552:      "target": "/tags/github-pages/",
+data/qa-404-report.json:25921:      "href": "https://seomoney.org/js/theodoi8-parser.js?v=1782158467",
+data/qa-404-report.json:25922:      "target": "/js/theodoi8-parser.js",
+data/qa-404-report.json:25931:      "href": "https://seomoney.org/js/theodoi8-banner.js?v=1782158467",
+data/qa-404-report.json:25932:      "target": "/js/theodoi8-banner.js",
+data/qa-404-report.json:25941:      "href": "https://seomoney.org/js/live-theodoi8.js?v=1782158467",
+data/qa-404-report.json:25942:      "target": "/js/live-theodoi8.js",
+data/qa-404-report.json:27101:      "href": "https://seomoney.org/tags/github-pages/",
+data/qa-404-report.json:27102:      "target": "/tags/github-pages/",
+data/qa-404-report.json:32471:      "href": "https://seomoney.org/js/theodoi8-parser.js?v=1782158467",
+data/qa-404-report.json:32472:      "target": "/js/theodoi8-parser.js",
+data/qa-404-report.json:32481:      "href": "https://seomoney.org/js/theodoi8-banner.js?v=1782158467",
+data/qa-404-report.json:32482:      "target": "/js/theodoi8-banner.js",
+data/qa-404-report.json:32491:      "href": "https://seomoney.org/js/live-theodoi8.js?v=1782158467",
+data/qa-404-report.json:32492:      "target": "/js/live-theodoi8.js",
+data/seo-scores.json:657:      "path": "/tags/github-pages/",
+data/shortcuts/wip8.config.json:2:  "_comment": "Config TÙY CHỌN cho shortcut wip8 (WIP + TheoDoi8 gộp). Thiếu file này → dùng default bên dưới. KHÔNG chứa secret/token — wip8 read-only, reuse data CI tự sinh.",
+data/shortcuts/wip8.config.json:4:  "show_theodoi8": true,
+data/shortcuts/wip8.config.json:5:  "theodoi8_max_commits": 8,
+data/shortcuts/wip8.config.json:6:  "theodoi8_report_paths": [
+data/shortcuts/wip8.config.json:7:    "data/theodoi8-report.json",
+data/shortcuts/wip8.config.json:8:    "static/data/theodoi8-report.json"
+data/merge-report.json:2304:      "pr_title": "feat(wip8): merge theodoi8 into wip8 (single WIP + live CI shortcut)",
+data/merge-report.json:2309:      "head_branch": "claude/merge-theodoi8-wip8-v0glx1",
+data/merge-report.json:2310:      "summary_vi": "Gộp shortcut `theodoi8` (live CI watcher) vào `wip8`, giữ **duy nhất `wip8`**. Một shortcut nay xuất **2 bảng MD**: `## WIP8 table` (workspace) + `## TheoDoi8 table` (CI/CD feed). TheoDoi8 **reuse** report CI tự sinh (`d",
+data/merge-report.json:2342:      "pr_title": "feat(wip8): merge theodoi8 into wip8 (single WIP + live CI shortcut) [claude/merge-theodoi8-wip8-v0glx1]",
+data/merge-report.json:2347:      "head_branch": "claude/merge-theodoi8-wip8-v0glx1",
+data/merge-report.json:2348:      "summary_vi": "feat(wip8): merge theodoi8 into wip8 (single WIP + live CI shortcut)",
+data/merge-report.json:2646:      "pr_title": "feat(deploy-monitor): theodoi8-deploy table view (B-DNA) tại /tools/deploy-monitor/ [claude/eager-bell-l4qukz]",
+data/merge-report.json:2652:      "summary_vi": "feat(deploy-monitor): theodoi8-deploy table view (B-DNA) tại /tools/deploy-monitor/",
+data/merge-report.json:3197:      "pr_title": "feat: SEOMONEY rebrand + OG image + placeholder system + Deploy Monitor footer",
+data/github-profile-badges.json:74:      "id": "deploy-github-pages",
