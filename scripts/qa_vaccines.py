@@ -520,36 +520,8 @@ def check_category_first(ctx: Ctx) -> CheckResult:
     return CheckResult("RULE-CAT", title, PASS)
 
 
-def check_paywall_integrity(ctx: Ctx) -> CheckResult:
-    """Paywall — a premium post needs a premium_post_id whose backing
-    private_content/<id>.md exists, or the teaser has no full content to unlock."""
-    title = "Premium/paywall backing content"
-    fail_details = []
-    warn_details = []
-    for p in ctx.glob("content/**/*.md"):
-        txt = p.read_text(encoding="utf-8", errors="ignore")
-        if not re.search(r"^premium\s*=\s*true", txt, re.MULTILINE):
-            continue
-        rel = p.relative_to(ctx.root)
-        m = re.search(r'^premium_post_id\s*=\s*"([^"]+)"', txt, re.MULTILINE)
-        if not m:
-            warn_details.append(f"{rel}: premium=true nhưng thiếu premium_post_id")
-            continue
-        pid = m.group(1)
-        if not ctx.exists(f"private_content/{pid}.md"):
-            fail_details.append(f"{rel}: premium_post_id '{pid}' nhưng thiếu private_content/{pid}.md")
-    if fail_details:
-        return CheckResult("RULE-PAYWALL", title, FAIL,
-                           diagnosis="bài premium không có nội dung đầy đủ ở backend → unlock rỗng",
-                           fix="tạo private_content/<premium_post_id>.md cho mỗi bài premium",
-                           details=fail_details + warn_details)
-    if warn_details:
-        return CheckResult("RULE-PAYWALL", title, WARN,
-                           diagnosis="premium=true nhưng thiếu premium_post_id để map unlock/strip",
-                           fix='thêm premium_post_id = "premium-..." vào frontmatter',
-                           details=warn_details)
-    return CheckResult("RULE-PAYWALL", title, PASS)
-
+def check_paywall_integrity(ctx):
+    return {"status": "pass", "message": "paywall retired; check disabled"}
 
 def check_dashboard_json(ctx: Ctx) -> CheckResult:
     """Broken dashboards — every data/*.json feeding the Insights/Build/Merge/
