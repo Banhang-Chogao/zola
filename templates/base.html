@@ -444,10 +444,14 @@
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
 
-    {# Google Analytics 4 đã được dời xuống trước </body> để tối ưu page
+    {# Google Analytics 4 đã được dời xuống trước <!-- BLOG_HEARTBEAT_CLIENT_JS -->
+<script defer src="/js/blog-heartbeat-client.js"></script>
+</body> để tối ưu page
        load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
 
     {% block extra_head %}{% endblock %}
+<!-- BLOG_HEARTBEAT_CLIENT_CSS -->
+<link rel="stylesheet" href="/css/blog-heartbeat-client.css">
 </head>
 <body>
 
