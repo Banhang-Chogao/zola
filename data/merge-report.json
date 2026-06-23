@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-23T22:02:11Z",
+  "updated_at": "2026-06-23T22:56:22Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 26,
-    "this_week": 73,
+    "today": 27,
+    "this_week": 74,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "feature": 49,
       "fix": 91,
       "chore": 12,
       "unknown": 39,
       "ci": 5,
-      "feature": 49,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 798,
+      "pr_title": "feat(r2): serve static media from Cloudflare R2 CDN [feat/cloudflare-r2-assets]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/798",
+      "merged_at": "2026-06-23T22:49:39Z",
+      "merge_commit_sha": "c48deeb5c733d4dae401f675cb2e7a5a49110418",
+      "merge_commit_short": "c48deeb",
+      "head_branch": "feat/cloudflare-r2-assets",
+      "summary_vi": "- feat(r2): serve static media from Cloudflare R2 CDN",
+      "change_type": "feature",
+      "files_changed": 17,
+      "additions": 681,
+      "deletions": 31,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1041,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28062385217",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 797,
       "pr_title": "fix(vaccine-hotfix): remove/shortensea-paywall-clean",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1040,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28059696643",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 773,
@@ -509,9 +528,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1011,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28017269158",
-      "build_conclusion": "failure"
+      "build_run_number": 1014,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28017724218",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 756,
@@ -3794,25 +3813,6 @@
       "files_changed": 3,
       "additions": 304,
       "deletions": 24,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 544,
-      "pr_title": "feat(series): add 5-part Vaccine Số series — digital immune system for blog CI/CD",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/544",
-      "merged_at": "2026-06-20T08:59:45Z",
-      "merge_commit_sha": "2b963db610861de1e9c36a165ef26bf5eed16fa0",
-      "merge_commit_short": "2b963db",
-      "head_branch": "claude/friendly-dijkstra-oo6gwy",
-      "summary_vi": "- Adds 5 full articles (Vaccine Số series: `vaccine-so`) covering the blog's CI/CD self-healing immune system",
-      "change_type": "feature",
-      "files_changed": 15,
-      "additions": 1578,
-      "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
