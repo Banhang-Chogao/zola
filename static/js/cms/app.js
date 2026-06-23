@@ -200,7 +200,13 @@
         setKpi("ctr", (g.ctr != null ? Number(g.ctr).toFixed(1) : "—") + "<small>%</small>", "28 ngày qua", "good");
         setKpi("impressions", fmtNum(g.impressions), "28 ngày qua", "good");
         setKpi("position", g.avg_position != null ? Number(g.avg_position).toFixed(1) : "—", "vị trí TB", g.avg_position <= 10 ? "good" : "optimize");
+      } else if (!g) {
+        // Both backend and static JSON fetch failed (network error, not a disconnection).
+        setKpi("ctr", "—", "Không tải được dữ liệu GSC", "neutral");
+        setKpi("impressions", "—", "Không tải được dữ liệu GSC", "neutral");
+        setKpi("position", "—", "Không tải được dữ liệu GSC", "neutral");
       } else {
+        // g.connected is explicitly false — GSC not connected on backend.
         setKpi("ctr", "—", "Chưa kết nối GSC", "neutral");
         setKpi("impressions", "—", "Chưa kết nối GSC", "neutral");
         setKpi("position", "—", "Chưa kết nối GSC", "neutral");
@@ -235,19 +241,26 @@
   function renderGsc(g) {
     var box = $("[data-cms-gsc]");
     if (!box) return;
+    function row(k, v) {
+      return '<div class="cms-gsc__row"><span>' + esc(k) + '</span><strong>' + v + '</strong></div>';
+    }
     if (g && g.connected) {
+      var health = g.index_health ? ' · ' + esc(g.index_health) : '';
       box.innerHTML =
         row("Trạng thái", "✓ Đã kết nối") +
         row("Trang đã index", fmtNum(g.indexed_pages)) +
+        row("Chưa index", fmtNum(g.non_indexed_pages) + health) +
         row("Clicks (28d)", fmtNum(g.clicks)) +
         row("Sitemap", esc(g.sitemap_status || "—"));
-    } else {
+    } else if (!g) {
+      // Both fetches failed — network error, not a GSC disconnection.
       box.innerHTML =
-        '<p class="cms-muted">Google Search Console <strong>chưa kết nối</strong>. Các chỉ số CTR / Impressions / vị trí sẽ tự xuất hiện khi kết nối — đây không phải lỗi.</p>' +
-        row("Trang sitemap", "223") + row("Technical SEO", "91/100 · A+");
-    }
-    function row(k, v) {
-      return '<div class="cms-gsc__row"><span>' + esc(k) + '</span><strong>' + v + '</strong></div>';
+        '<p class="cms-muted">Không tải được dữ liệu GSC (<code>' + esc(BASE) + '/data/gsc-metrics.json</code>). ' +
+        'Kiểm tra kết nối mạng hoặc thử lại sau.</p>';
+    } else {
+      // g.connected === false — backend explicitly reports GSC not connected.
+      box.innerHTML =
+        '<p class="cms-muted">Google Search Console <strong>chưa kết nối</strong>. Các chỉ số CTR / Impressions / vị trí sẽ tự xuất hiện khi kết nối — đây không phải lỗi.</p>';
     }
   }
 
@@ -278,6 +291,18 @@
      POSTS
      ============================================================ */
   function scoreClass(s) { return s >= 80 ? "is-good" : (s >= 60 ? "is-mid" : "is-low"); }
+
+  // Tạo slug deep-link cho Editor từ permalink của bài viết.
+  // n.url = "https://seomoney.org/baochi/liobank-.../" → slug = "/baochi/liobank-..."
+  // Editor normalizeEditorSlug() sẽ strip leading slash và resolve đúng content path.
+  function editSlugParam(n) {
+    try {
+      var pathname = new URL(n.url).pathname.replace(/\/+$/, "");
+      return encodeURIComponent(pathname); // "/baochi/liobank-..." → URL-encoded
+    } catch (e) {
+      return encodeURIComponent(n.slug); // fallback: leaf slug
+    }
+  }
 
   RENDER.posts = function () {
     var listEl = $("[data-cms-postlist]"), searchEl = $("[data-cms-post-search]"),
@@ -314,7 +339,7 @@
               (rec.words ? '<span>·</span><span>' + fmtNum(rec.words) + ' từ</span>' : '') + '</div>' +
           '</div>' +
           scHtml +
-          '<a class="cms-postrow__edit" href="' + BASE + '/editor/" title="Sửa trong trình soạn thảo">✎ Sửa</a>' +
+          '<a class="cms-postrow__edit" href="' + BASE + '/editor/?slug=' + editSlugParam(n) + '" title="Sửa bài: ' + esc(n.title) + '">✎ Sửa</a>' +
         '</div>';
       }).join("");
     }
@@ -640,15 +665,15 @@
       meta: "Chạy qa-404-checker.py --fix để sửa tự động.",
       action: null
     });
-    // GSC-derived
+    // GSC-derived — only add alerts when we have explicit connected state (not when load failed).
     if (gsc && gsc.connected) {
-      // (placeholders for when GSC connected — CTR drop / not indexed would be computed from trend)
       if (gsc.non_indexed_pages > 0) a.push({
         sev: "risk", icon: "🛑", title: "Trang chưa index (" + gsc.non_indexed_pages + ")",
         desc: "Một số trang chưa được Google index. Kiểm tra Coverage trong GSC.",
         meta: "", action: null
       });
-    } else {
+    } else if (gsc && !gsc.connected) {
+      // Explicitly disconnected — prompt to connect.
       a.push({
         sev: "optimize", icon: "🔌", title: "Kết nối Google Search Console",
         desc: "Chưa kết nối GSC nên không thể theo dõi CTR drop, impressions hay trang chưa index.",
@@ -656,6 +681,7 @@
         action: null
       });
     }
+    // gsc === null means load failed — don't add a false "connect GSC" alert.
     if (!a.length) a.push({
       sev: "good", icon: "✓", title: "Không có cảnh báo",
       desc: "Liên kết nội bộ khỏe mạnh, không có bài mồ côi hay điểm SEO thấp.",
