@@ -1,7 +1,6 @@
 +++
 title = "Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?"
 date = 2026-06-22
-aliases = ["/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/"]
 
 [taxonomies]
 categories = ["Tất cả"]

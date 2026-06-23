@@ -290,6 +290,7 @@
     initAdmin: initAdmin,
     initProtected: initProtected,
     initUpgrade: initUpgrade,
+    ensureGuestSession: ensureGuestSession,
     login: login,
     logout: logout,
     getSid: getActiveSid,
