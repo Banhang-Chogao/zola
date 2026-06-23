@@ -520,8 +520,14 @@ def check_category_first(ctx: Ctx) -> CheckResult:
     return CheckResult("RULE-CAT", title, PASS)
 
 
-def check_paywall_integrity(ctx):
-    return {"status": "pass", "message": "paywall retired; check disabled"}
+
+def check_paywall_integrity(*args, **kwargs):
+    """Retired: paywall/MoMo/ShortenSEA gates are no longer active."""
+    return SimpleNamespace(
+        status="pass",
+        message="paywall/MoMo/ShortenSEA retired; gate skipped",
+        details=[],
+    )
 
 def check_dashboard_json(ctx: Ctx) -> CheckResult:
     """Broken dashboards — every data/*.json feeding the Insights/Build/Merge/
