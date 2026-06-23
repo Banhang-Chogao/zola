@@ -1,19 +1,52 @@
-# Render Blueprint — VIPZone API (Render Free tier, no persistent disk).
+# Render Blueprint — ShortenSEA + VIPZone APIs
 #
 # Deploy:
 #   1. https://dashboard.render.com/blueprints → New Blueprint Instance
-#   2. Connect repo Banhang-Chogao/zola
-#   3. Branch: feat/vipzone (or main after merge)
-#   4. Blueprint path: render.yaml
-#   5. Apply → fill sync:false env vars in dashboard
-#   6. Copy service URL → config.toml `vipzone_api_url`
-#
-# Persistence: SQLite at /tmp (ephemeral — survives restarts, lost on redeploy).
-# For durable storage later, point VIPZONE_DB_PATH at an external DB via env.
+#   2. Connect repo Banhang-Chogao/zola, branch: main
+#   3. Blueprint path: render.yaml
+#   4. Apply → fill sync:false env vars in dashboard
+#   5. See services/shortensea/README.md for full checklist
 #
 # Docs: https://render.com/docs/blueprint-spec
 
 services:
+  # ─── ShortenSEA API ───────────────────────────────────────────────────────
+  - type: web
+    name: blog-shortensea-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/shortensea
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+
+    disk:
+      name: shortensea-data
+      mountPath: /data
+      sizeGB: 1
+
+    envVars:
+      - key: SHORTENSEA_CORS_ORIGIN
+        value: https://seomoney.org,https://www.seomoney.org
+      - key: SHORTENSEA_BLOG_URL
+        value: https://seomoney.org
+      - key: SHORTENSEA_BACKEND_URL
+        value: https://blog-shortensea-api.onrender.com
+      - key: SHORTENSEA_DB_PATH
+        value: /data/shortensea.db
+      - key: ADMIN_EMAILS
+        value: 292648126+banhang-chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
+      - key: MOMO_PAYMENT_LINK
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP
+      # OAuth — fill in Render dashboard (do NOT commit secrets here)
+      - key: GH_CLIENT_ID
+        sync: false
+      - key: GH_CLIENT_SECRET
+        sync: false
+
+  # ─── VIPZone API ──────────────────────────────────────────────────────────
   - type: web
     name: blog-vipzone-api
     runtime: python
@@ -28,15 +61,10 @@ services:
         value: https://seomoney.org
       - key: VIPZONE_BLOG_URL
         value: https://seomoney.org
-      # Ephemeral SQLite — no Render disk on free tier
       - key: VIPZONE_DB_PATH
         value: /tmp/vipzone.db
       - key: VIPZONE_BACKEND_URL
         value: https://blog-vipzone-api.onrender.com
-      - key: GITHUB_CLIENT_ID
-        sync: false
-      - key: GITHUB_CLIENT_SECRET
-        sync: false
       - key: ADMIN_EMAILS
         value: 292648126+banhang-chogao@users.noreply.github.com
       - key: ADMIN_USERNAMES
@@ -53,17 +81,15 @@ services:
         value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg
       - key: VIPZONE_CATALOG_URL
         value: https://seomoney.org/data/vipzone-picker-catalog.json
-      # Google Search Console (SEO Reality Check) — /gsc/* served by this service.
-      # OAuth redirect URI registered in Google Cloud:
-      #   https://blog-vipzone-api.onrender.com/gsc/oauth/callback
       - key: GSC_CLIENT_ID
         sync: false
       - key: GSC_CLIENT_SECRET
         sync: false
-      # Domain property (sc-domain:) — covers http/https + all subdomains (V19).
       - key: GSC_PROPERTY_URL
         value: sc-domain:seomoney.org
-      # Optional durable refresh token (Render /tmp SQLite is wiped on redeploy).
-      # The OAuth flow also persists one; set this for a redeploy-safe connection.
       - key: GSC_REFRESH_TOKEN
+        sync: false
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
         sync: false
