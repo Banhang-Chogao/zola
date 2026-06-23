@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-23T23:11:28Z",
+  "updated_at": "2026-06-23T23:20:03Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 30,
-    "this_week": 77,
+    "today": 31,
+    "this_week": 78,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 802,
+      "pr_title": "fix(layout): widen desktop blog post body",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/802",
+      "merged_at": "2026-06-23T23:11:48Z",
+      "merge_commit_sha": "2992eb43dd4c6b836b80a9d105152c47624ff51e",
+      "merge_commit_short": "2992eb4",
+      "head_branch": "vaccine-hotfix/feat-cloudflare-r2-assets",
+      "summary_vi": "Widen desktop article reading body while keeping TOC rail safe. QA: zola check, qa_check.py, zola build.",
+      "change_type": "fix",
+      "files_changed": 0,
+      "additions": 0,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1045,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28063372576",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 800,
       "pr_title": "fix(conflict): resolve generated qa report for R2 hotfix [vaccine-hotfix/feat-cloudflare-r2-assets]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1044,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28063076274",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 799,
@@ -74,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1042,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28062876089",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 798,
@@ -547,8 +566,8 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1015,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28023079882",
+      "build_run_number": 1016,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28023711385",
       "build_conclusion": "success"
     },
     {
@@ -2414,6 +2433,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 649,
+      "pr_title": "docs(operator): Phase 1 vaccine shortcut grouping guide",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/649",
+      "merged_at": "2026-06-21T12:36:11Z",
+      "merge_commit_sha": "26607c840f061139b013de7c874f752aa853016f",
+      "merge_commit_short": "26607c8",
+      "head_branch": "claude/optimistic-goldberg-r4pg2j",
+      "summary_vi": "- Add Phase 1 operator shortcut grouping documentation",
+      "change_type": "unknown",
+      "files_changed": 3,
+      "additions": 536,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 647,
       "pr_title": "refactor: compress CLAUDE.md to 31KB, move vaccine details to archive [claude/tender-einstein-4zz7uf]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/647",
@@ -2426,25 +2464,6 @@
       "files_changed": 2,
       "additions": 3086,
       "deletions": 2832,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 646,
-      "pr_title": "docs(guides): operator guide Phase 1 — decision flows and UI layout sketches [claude/optimistic-goldberg-r4pg2j]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/646",
-      "merged_at": "2026-06-21T12:23:28Z",
-      "merge_commit_sha": "23f643f24927aee71ce37aaa0d1f71e745e1c2f4",
-      "merge_commit_short": "23f643f",
-      "head_branch": "claude/optimistic-goldberg-r4pg2j",
-      "summary_vi": "- chore(docs): operator guide Phase 1 — grouping vaccine shortcuts into 5 top-level functions",
-      "change_type": "unknown",
-      "files_changed": 3,
-      "additions": 536,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3794,25 +3813,6 @@
       "files_changed": 3,
       "additions": 502,
       "deletions": 432,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 556,
-      "pr_title": "fix(vaccine-hotfix): claude/deploy-monitor",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/556",
-      "merged_at": "2026-06-20T11:18:01Z",
-      "merge_commit_sha": "d4baaa87b6e720cbd2c5899f210333837998c43e",
-      "merge_commit_short": "d4baaa8",
-      "head_branch": "vaccine-hotfix/claude-deploy-monitor",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 18,
-      "additions": 973,
-      "deletions": 23,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
