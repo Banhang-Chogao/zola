@@ -521,15 +521,13 @@ def check_category_first(ctx: Ctx) -> CheckResult:
 
 
 
-def check_paywall_integrity(ctx):
-    """Retired paywall gate: keep compatibility with QA runner, but never block."""
-    from types import SimpleNamespace
+def check_paywall_integrity(*args, **kwargs):
+    """Retired: paywall/MoMo/ShortenSEA gates are no longer active."""
     return SimpleNamespace(
-        name="paywall_integrity",
         status="pass",
-        message="paywall retired; check disabled",
+        message="paywall/MoMo/ShortenSEA retired; gate skipped",
+        details=[],
     )
-
 
 def check_dashboard_json(ctx: Ctx) -> CheckResult:
     """Broken dashboards — every data/*.json feeding the Insights/Build/Merge/

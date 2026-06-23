@@ -31,7 +31,7 @@ a = "Không. macOS 27 Golden Gate chính thức ngừng hỗ trợ mọi máy Ma
 
 <!-- more -->
 
-![macOS 27 Golden Gate có gì mới - tổng quan các tính năng AI trên Mac](/img/placeholder/placeholder-wide.svg)
+![macOS 27 Golden Gate có gì mới - tổng quan các tính năng AI trên Mac](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 Trong bài này tôi sẽ đi qua những thay đổi đáng chú ý nhất, kèm vài nhận xét cá nhân về việc bản cập nhật này thực sự có ý nghĩa gì với người dùng Mac ở Việt Nam — chứ không chỉ liệt kê khô khan theo slide của Apple.
 

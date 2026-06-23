@@ -44,7 +44,7 @@ GA4 lấy cặp **source/medium** rồi đối chiếu với một bộ quy tắ
 
 Một điều mình mất khá lâu mới hiểu: GA4 phân kênh theo *quy tắc cố định*, nó không "đoán" được ý định của bạn. Nếu bạn gửi một chiến dịch email mà gắn medium là `newsletter` thay vì `email`, GA4 sẽ không nhận ra đó là kênh Email theo quy tắc mặc định, mà có thể xếp nó vào nhóm khác hoặc Unassigned. Vì thế, dùng đúng *từ khoá medium chuẩn* mà Google quy ước (`organic`, `cpc`, `email`, `referral`, `affiliate`…) quan trọng hơn người ta tưởng. Sai một chữ là cả chiến dịch bị quy nhầm chỗ.
 
-![Infographic: cách GA4 dùng source, medium và UTM để gom traffic vào các kênh](/img/placeholder/placeholder-wide.svg)
+![Infographic: cách GA4 dùng source, medium và UTM để gom traffic vào các kênh](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Nguồn traffic trong GA4 gồm những gì
 
@@ -72,7 +72,7 @@ Trong GA4, mục Acquisition có *hai* báo cáo nghe na ná nhau nhưng trả l
 
 Khi nào dùng cái nào? Mình dùng **User acquisition** khi muốn biết *kênh nào kéo người lạ về blog* (đo độ phủ, đo hiệu quả thu hút khách mới). Còn **Traffic acquisition** khi muốn biết *kênh nào đang tạo ra lượt truy cập gần đây* (đo nhịp traffic hằng ngày, đánh giá một chiến dịch vừa chạy).
 
-![Infographic: phân biệt User acquisition theo người và Traffic acquisition theo phiên](/img/placeholder/placeholder-wide.svg)
+![Infographic: phân biệt User acquisition theo người và Traffic acquisition theo phiên](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Đọc nguồn traffic để đánh giá SEO
 
