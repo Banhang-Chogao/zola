@@ -520,8 +520,16 @@ def check_category_first(ctx: Ctx) -> CheckResult:
     return CheckResult("RULE-CAT", title, PASS)
 
 
+
 def check_paywall_integrity(ctx):
-    return {"status": "pass", "message": "paywall retired; check disabled"}
+    """Retired paywall gate: keep compatibility with QA runner, but never block."""
+    from types import SimpleNamespace
+    return SimpleNamespace(
+        name="paywall_integrity",
+        status="pass",
+        message="paywall retired; check disabled",
+    )
+
 
 def check_dashboard_json(ctx: Ctx) -> CheckResult:
     """Broken dashboards — every data/*.json feeding the Insights/Build/Merge/
