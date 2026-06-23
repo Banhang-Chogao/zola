@@ -21,13 +21,20 @@
     var sid = global.ShortenSEAAuth ? global.ShortenSEAAuth.getSid() : "";
     var headers = Object.assign({ "Content-Type": "application/json" }, opts.headers || {});
     if (sid) headers.Authorization = "Bearer " + sid;
-    var res = await fetch(API + path, {
-      method: opts.method || "GET",
-      headers: headers,
-      body: opts.body ? JSON.stringify(opts.body) : undefined,
-      credentials: "omit",
-      cache: "no-store",
-    });
+    var res;
+    try {
+      res = await fetch(API + path, {
+        method: opts.method || "GET",
+        headers: headers,
+        body: opts.body ? JSON.stringify(opts.body) : undefined,
+        credentials: "omit",
+        cache: "no-store",
+      });
+    } catch (fetchErr) {
+      var netErr = new Error("Đang đánh thức ShortenSEA API… Vui lòng thử lại sau vài giây.");
+      netErr.isNetworkError = true;
+      throw netErr;
+    }
     var data = null;
     try { data = await res.json(); } catch (e) {}
     if (!res.ok) {
