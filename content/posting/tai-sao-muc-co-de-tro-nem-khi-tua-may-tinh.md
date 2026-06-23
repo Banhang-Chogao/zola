@@ -128,4 +128,4 @@ Không cần kính chống ánh sáng xanh đắt tiền. Chỉ cần **hiểu k
 
 ---
 
-**Liên quan:** [Tại sao chúng ta cần ngủ?](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** [Tại sao chúng ta cần ngủ?](/tai-sao-chung-ta-can-ngu/)
