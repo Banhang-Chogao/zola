@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-23T23:35:56Z",
+  "updated_at": "2026-06-23T23:40:09Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 34,
-    "this_week": 81,
+    "today": 35,
+    "this_week": 82,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 809,
+      "pr_title": "fix(seo): hide technical widgets from search snippets",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/809",
+      "merged_at": "2026-06-23T23:38:27Z",
+      "merge_commit_sha": "2dcd836a5380b112c986736b5a14ba06c1f3b0c0",
+      "merge_commit_short": "2dcd836",
+      "head_branch": "fix/serp-snippet-cleanup",
+      "summary_vi": "Add data-nosnippet to header welcome and Open PR Monitor so search snippets do not show operational text. QA: qa_check.py, zola build.",
+      "change_type": "fix",
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
     {
       "pr_number": 806,
       "pr_title": "fix(vaccine-hotfix): feat-cloudflare-r2-assets",
@@ -3791,25 +3810,6 @@
       "head_branch": "chore/vaccine-autofixer-20260620-102216",
       "summary_vi": "Automated run of the Daily Vaccine Autofixer (Vaccine V11). Auto-merges when QA passes.",
       "change_type": "chore",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 567,
-      "pr_title": "fix(vaccine-hotfix): required_checks_fail-27870031976",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/567",
-      "merged_at": "2026-06-20T12:00:33Z",
-      "merge_commit_sha": "13dcfd730fa672eae129acb499f1f429b7f44234",
-      "merge_commit_short": "13dcfd7",
-      "head_branch": "vaccine-hotfix/required_checks_fail-27870031976",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
       "files_changed": null,
       "additions": null,
       "deletions": null,
