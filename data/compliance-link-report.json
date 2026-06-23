@@ -1,11 +1,20 @@
 {
-  "updated_at": "2026-06-23T16:00:11Z",
+  "updated_at": "2026-06-23T16:11:14Z",
   "summary": {
-    "broken_count": 2,
-    "checked_unique": 1259,
+    "broken_count": 3,
+    "checked_unique": 1261,
     "status": "warn"
   },
   "links": [
+    {
+      "source_page": "/posting/mot-ly-do-mua-laptop-thinkpad/",
+      "source_file": "public/posting/mot-ly-do-mua-laptop-thinkpad/index.html",
+      "href": "https://seomoney.org-vs-hugo/",
+      "target": "/-vs-hugo/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
     {
       "source_page": "/posting/tai-sao-oxy-hoa-trang-dieu-dung/",
       "source_file": "public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html",

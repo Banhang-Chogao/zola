@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T16:00:11Z",
+  "updated_at": "2026-06-23T16:11:14Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -166,8 +166,17 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "2 broken / 1259 unique",
+          "detail": "3 broken / 1261 unique",
           "broken": [
+            {
+              "source_page": "/posting/mot-ly-do-mua-laptop-thinkpad/",
+              "source_file": "public/posting/mot-ly-do-mua-laptop-thinkpad/index.html",
+              "href": "https://seomoney.org-vs-hugo/",
+              "target": "/-vs-hugo/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
             {
               "source_page": "/posting/tai-sao-oxy-hoa-trang-dieu-dung/",
               "source_file": "public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html",
@@ -251,7 +260,7 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (5/1082 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-23T16:00:11Z"
+      "at": "2026-06-23T16:11:14Z"
     },
     {
       "category": "Media",
@@ -259,15 +268,15 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-23T16:00:11Z"
+      "at": "2026-06-23T16:11:14Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 2 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/scoring/index.html → /posting/tai-sao-oxy-hoa-trang-diều-dung/ (Target not found in public/ after zola build)",
-      "at": "2026-06-23T16:00:11Z"
+      "message": "Còn 3 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/mot-ly-do-mua-laptop-thinkpad/index.html → /-vs-hugo/ (Target not found in public/ after zola build); public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/scoring/index.html → /posting/tai-sao-oxy-hoa-trang-diều-dung/ (Target not found in public/ after zola build)",
+      "at": "2026-06-23T16:11:14Z"
     }
   ],
   "fix_summary": {
