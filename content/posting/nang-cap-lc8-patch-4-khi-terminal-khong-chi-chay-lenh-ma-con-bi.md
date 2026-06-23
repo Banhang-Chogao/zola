@@ -2,9 +2,10 @@
 title = "Nâng cấp LC8 Patch 4: khi Terminal không chỉ chạy lệnh, mà còn bi..."
 description = "Hôm nay tôi tiếp tục nâng cấp workflow LC8 lên Patch 4. Đây là một nâng cấp nhỏ về giao diện Terminal, nhưng lại làm trải nghiệm dùng thật dễ chịu hơn rất nh..."
 date = 2026-06-23
+aliases = ["/nang-cap-lc8-patch-4-khi-terminal-khong-chi-chay-lenh-ma-con-bi/"]
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["LC8", "Terminal", "Git", "Zola", "WebOps"]
+tags = ["git", "lc8", "terminal", "webops", "zola"]
 +++
 
 # Nâng cấp LC8 Patch 4: khi Terminal không chỉ chạy lệnh, mà còn bi...
