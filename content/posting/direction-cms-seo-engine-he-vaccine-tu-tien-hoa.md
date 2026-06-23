@@ -43,7 +43,7 @@ Bài này kết thúc series [Vaccine Số](/posting/vaccine-so-la-gi-bien-bug-t
 
 Trước khi nói về tương lai, tôi cần nói rõ những gì đang thực sự vận hành:
 
-**Daily Vaccine Autofixer** chạy mỗi ngày lúc 6h sáng GMT+7 qua GitHub Actions. Nó đọc `CLAUDE.md`, extract danh sách vaccine, quét repo, và tự fix những vấn đề an toàn. Kết quả xuất hiện trên trang [Insights](/insights/) dưới dạng panel "Vaccine Autofixer".
+**Daily Vaccine Autofixer** chạy mỗi ngày lúc 6h sáng GMT+7 qua GitHub Actions. Nó đọc `CLAUDE.md`, extract danh sách vaccine, quét repo, và tự fix những vấn đề an toàn. Kết quả xuất hiện trên trang [Insights](/shortensea/insights/) dưới dạng panel "Vaccine Autofixer".
 
 **Vaccine Hotfix** được trigger khi CI fail — chẩn đoán lỗi, tạo branch `vaccine-hotfix/<issue-id>`, fix delta tối thiểu, và auto-merge qua cổng `qa-check` như mọi PR khác. Có anti-loop (dừng sau 3 lần fail cùng issue-id).
 
@@ -152,4 +152,4 @@ Nếu bạn đang vận hành bất kỳ hệ thống CI/CD nào có bug tái ph
 - **Bài 4:** [Bài Học Xây Hệ Thống Tự Chữa Lỗi](/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/)
 - **Bài 5:** Bài này
 
-Xem báo cáo vaccine chạy thực tế tại trang [Insights](/insights/).
+Xem báo cáo vaccine chạy thực tế tại trang [Insights](/shortensea/insights/).
