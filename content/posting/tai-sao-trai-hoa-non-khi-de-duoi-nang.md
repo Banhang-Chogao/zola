@@ -2,9 +2,10 @@
 title = "Tại sao quả chín nhanh dưới nắng? Vật lý hay hóa học?"
 description = "Quả chín dưới nắng do ethylene gas tăng khi quả tiếp xúc ánh sáng và nhiệt. Đó là hóa học, không phải vật lý."
 date = 2026-06-22
+aliases = ["/tai-sao-trai-hoa-non-khi-de-duoi-nang/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "thực vật", "hóa sinh"]
+tags = ["hóa sinh", "khoa học q&a", "thực vật"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "quả chín, ethylene gas"

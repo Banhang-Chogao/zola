@@ -2,9 +2,10 @@
 title = "Tại sao mắt con người nhìn thấy màu xanh nhưng đại dương thì không?"
 description = "Mắt con người không nhìn thấy \"đúng\" màu nước biển. Nước biển hấp thụ màu đỏ → phản ánh màu xanh. Não bộ chúng ta hiện thị nó dựa trên điều đó."
 date = 2026-06-22
+aliases = ["/tai-sao-muc-la-mau-xanh-va-nuoc-bien-la-xanh/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "quang học", "màu sắc"]
+tags = ["khoa học q&a", "màu sắc", "quang học"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "màu xanh nước biển, khoa học màu sắc"

@@ -2,9 +2,10 @@
 title = "Bệnh tim mạch — di truyền hay do thói quen sống?"
 description = "Bệnh tim mạch là 50% di truyền, 50% thói quen. Gen quyết định nguy cơ cơ bản, nhưng thói quen sống quyết định liệu nó có phát triển."
 date = 2026-06-22
+aliases = ["/co-thuc-benh-tim-mach-di-thua-gen/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "tim mạch", "gen"]
+tags = ["gen", "khoa học q&a", "tim mạch"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "bệnh tim di truyền, gen tim mạch"
