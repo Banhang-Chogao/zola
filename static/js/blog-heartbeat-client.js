@@ -5,7 +5,7 @@
   var API_URL = window.SEOMONEY_HEARTBEAT_API || "https://blog-vipzone-api.onrender.com/api/blog-heartbeat";
   var RUNS_URL = "https://api.github.com/repos/" + REPO + "/actions/runs?per_page=10";
   var PRS_URL = "https://api.github.com/repos/" + REPO + "/pulls?state=open&per_page=10";
-  var STATIC_URL = "/static/data/blog-heartbeat.json";
+  var STATIC_URL = "/data/blog-heartbeat.json";
   var CACHE_KEY = "seomoney.blogHeartbeat.payload.v2";
 
   function esc(value) {
