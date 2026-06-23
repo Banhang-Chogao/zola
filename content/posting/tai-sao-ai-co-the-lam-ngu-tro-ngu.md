@@ -147,4 +147,4 @@ Sai. AI có thể chính xác hơn con người **trên tập dữ liệu quen t
 
 ---
 
-**Liên quan:** [Khoa học đằng sau nhận thức mô hình](/content/posting/tai-sao-tach-nang-khong-can-det-xuat.md)
+**Liên quan:** [Khoa học đằng sau nhận thức mô hình](/tai-sao-tach-nang-khong-can-det-xuat/)
