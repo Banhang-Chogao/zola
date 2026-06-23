@@ -1,59 +1,17 @@
 {
-  "generated_at": "2026-06-23T17:48:12+0700",
-  "generated_at_display": "17:48 23/06/2026",
+  "generated_at": "2026-06-24T00:30:16+0700",
+  "generated_at_display": "00:30 24/06/2026",
   "repo_url": "https://github.com/Banhang-Chogao/zola",
   "prs_url": "https://github.com/Banhang-Chogao/zola/pulls",
   "summary": {
-    "total": 6,
-    "ready": 1,
+    "total": 3,
+    "ready": 0,
     "needs_attention": 1,
-    "pending": 2,
+    "pending": 0,
     "conflict": 2,
     "draft": 0
   },
   "prs": [
-    {
-      "number": 775,
-      "title": "fix(vaccine-hotfix): claude-great-lovelace-5dh0e2",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/775",
-      "branch": "vaccine-hotfix/claude-great-lovelace-5dh0e2",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unstable",
-      "updated_at": "2026-06-23T17:23:48+0700",
-      "updated_at_display": "17:23 23/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
-    {
-      "number": 774,
-      "title": "fix(vaccine-hotfix): deploy_fail-28017269158",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/774",
-      "branch": "vaccine-hotfix/deploy_fail-28017269158",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unstable",
-      "updated_at": "2026-06-23T17:17:07+0700",
-      "updated_at_display": "17:17 23/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
     {
       "number": 773,
       "title": "fix(vaccine-hotfix): minimal delta for fix/shortensea-failed-to-fetch [skip changelog] [vaccine-hotfix/fix-shortensea-fa",
@@ -61,10 +19,10 @@
       "branch": "vaccine-hotfix/fix-shortensea-failed-to-fetch",
       "base": "main",
       "is_draft": false,
-      "merge_state": "clean",
-      "updated_at": "2026-06-23T16:58:05+0700",
-      "updated_at_display": "16:58 23/06/2026",
-      "readiness": "ready",
+      "merge_state": "dirty",
+      "updated_at": "2026-06-23T23:00:14+0700",
+      "updated_at_display": "23:00 23/06/2026",
+      "readiness": "conflict",
       "checks_summary": {
         "success": 0,
         "failure": 0,
@@ -76,110 +34,40 @@
       "checks": []
     },
     {
-      "number": 772,
-      "title": "fix(links): fix 33 broken internal links blocking QA gate [fix/shortensea-failed-to-fetch]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/772",
-      "branch": "fix/shortensea-failed-to-fetch",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "dirty",
-      "updated_at": "2026-06-23T16:24:56+0700",
-      "updated_at_display": "16:24 23/06/2026",
-      "readiness": "conflict",
-      "checks_summary": {
-        "success": 4,
-        "failure": 2,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 6
-      },
-      "checks": [
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 4,
-          "elapsed_display": "4s"
-        },
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1346,
-          "elapsed_display": "22m 26s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 16,
-          "elapsed_display": "16s"
-        },
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1312,
-          "elapsed_display": "21m 52s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 7,
-          "elapsed_display": "7s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 2,
-          "elapsed_display": "2s"
-        }
-      ]
-    },
-    {
       "number": 768,
-      "title": "fix(ci): fix faq-autofixer.yml YAML syntax (second pass after conflict merge) [skip changelog] [claude/clever-brown-oj8w",
+      "title": "fix(ci): resolve faq-autofixer workflow conflict [skip changelog] [claude/clever-brown-oj8wer]",
       "url": "https://github.com/Banhang-Chogao/zola/pull/768",
       "branch": "claude/clever-brown-oj8wer",
       "base": "main",
       "is_draft": false,
-      "merge_state": "dirty",
-      "updated_at": "2026-06-23T16:24:52+0700",
-      "updated_at_display": "16:24 23/06/2026",
-      "readiness": "conflict",
+      "merge_state": "unstable",
+      "updated_at": "2026-06-23T18:15:42+0700",
+      "updated_at_display": "18:15 23/06/2026",
+      "readiness": "needs_attention",
       "checks_summary": {
-        "success": 4,
-        "failure": 2,
+        "success": 3,
+        "failure": 1,
         "pending": 0,
         "skipped": 0,
         "cancelled": 0,
-        "total": 6
+        "total": 4
       },
       "checks": [
         {
-          "name": "qa-check",
-          "state": "failure",
+          "name": "preflight",
+          "state": "success",
           "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1334,
-          "elapsed_display": "22m 14s"
+          "conclusion": "success",
+          "elapsed_s": 10,
+          "elapsed_display": "10s"
         },
         {
           "name": "ensure-pr",
           "state": "success",
           "status": "completed",
           "conclusion": "success",
-          "elapsed_s": 13,
-          "elapsed_display": "13s"
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
         },
         {
           "name": "notify",
@@ -194,70 +82,38 @@
           "state": "failure",
           "status": "completed",
           "conclusion": "failure",
-          "elapsed_s": 1361,
-          "elapsed_display": "22m 41s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 15,
-          "elapsed_display": "15s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 2,
-          "elapsed_display": "2s"
+          "elapsed_s": 1247,
+          "elapsed_display": "20m 47s"
         }
       ]
     },
     {
-      "number": 769,
-      "title": "fix(vaccine-hotfix): minimal delta for fix/category-url-thinkpad [skip changelog] [vaccine-hotfix/fix-category-url-think",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/769",
-      "branch": "vaccine-hotfix/fix-category-url-thinkpad",
+      "number": 772,
+      "title": "fix(links): fix 33 broken internal links blocking QA gate [fix/shortensea-failed-to-fetch]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/772",
+      "branch": "fix/shortensea-failed-to-fetch",
       "base": "main",
       "is_draft": false,
-      "merge_state": "unstable",
-      "updated_at": "2026-06-23T16:24:48+0700",
-      "updated_at_display": "16:24 23/06/2026",
-      "readiness": "needs_attention",
+      "merge_state": "dirty",
+      "updated_at": "2026-06-23T17:48:19+0700",
+      "updated_at_display": "17:48 23/06/2026",
+      "readiness": "conflict",
       "checks_summary": {
-        "success": 2,
+        "success": 0,
         "failure": 1,
         "pending": 0,
         "skipped": 0,
         "cancelled": 0,
-        "total": 3
+        "total": 1
       },
       "checks": [
         {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 13,
-          "elapsed_display": "13s"
-        },
-        {
-          "name": "qa-check",
+          "name": "preflight",
           "state": "failure",
           "status": "completed",
           "conclusion": "failure",
-          "elapsed_s": 16,
-          "elapsed_display": "16s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 2,
-          "elapsed_display": "2s"
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
         }
       ]
     }
