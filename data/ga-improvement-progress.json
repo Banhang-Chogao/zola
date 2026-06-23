@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T10:50:17Z",
+  "updated_at": "2026-06-23T17:31:27Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,34 +15,34 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "3291 broken links · 24 weak related pairs",
+      "detail": "36832 broken links · 24 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-23T10:39:46Z"
+      "updated_at": "2026-06-23T17:09:09Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 41/100 · LCP 12.6 s · needs work",
+      "detail": "Mobile 52/100 · LCP 12.7 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T23:02:49+00:00"
+      "updated_at": "2026-06-23T10:50:36+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 1068/1069 pages",
+      "detail": "15 pages missing FAQ/schema · 1081/1082 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-23T10:39:46Z"
+      "updated_at": "2026-06-23T17:09:09Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: fix(shortensea): CORS_ORIGINS list + /healthz endpoint + sta",
+      "detail": "Latest: chore(vaccine): Daily Vaccine Autofixer run",
       "source": "changelog.json",
       "updated_at": "2026-06-23"
     },
@@ -51,9 +51,9 @@
       "label": "Indexing checks",
       "icon": "🗂️",
       "status": "running",
-      "detail": "3273 broken of 667 links",
+      "detail": "36829 broken of 837 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-22T20:01:23Z"
+      "updated_at": "2026-06-23T14:42:01Z"
     },
     {
       "id": "image_opt",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-23T10:39:46Z"
+      "updated_at": "2026-06-23T17:09:09Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 41/100 vs desktop 91/100 (Δ50) · 1068/1069 ready",
+      "detail": "Mobile 52/100 vs desktop 91/100 (Δ39) · 1081/1082 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T23:02:49+00:00"
+      "updated_at": "2026-06-23T10:50:36+00:00"
     }
   ],
   "summary": {
