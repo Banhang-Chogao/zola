@@ -41,9 +41,19 @@ from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 
 from db import ShortenDB
+import logging as _logging
+_log = _logging.getLogger("shortensea")
+_logging.basicConfig(level=_logging.INFO)
+_log.info("ShortenSEA startup: blog_url=%s backend=%s oauth_configured=%s db=%s",
+    BLOG_URL, BACKEND_URL, bool(GH_CLIENT_ID and GH_CLIENT_SECRET), DB_PATH or "default")
+
 
 # ============= Config =============
-CORS_ORIGIN = os.getenv("SHORTENSEA_CORS_ORIGIN", "https://seomoney.org")
+CORS_ORIGINS = [
+    o.strip()
+    for o in os.getenv("SHORTENSEA_CORS_ORIGIN", "https://seomoney.org,https://www.seomoney.org").split(",")
+    if o.strip()
+]
 BLOG_URL = os.getenv("SHORTENSEA_BLOG_URL", "https://seomoney.org").rstrip("/")
 BACKEND_URL = os.getenv("SHORTENSEA_BACKEND_URL", "http://localhost:8790").rstrip("/")
 SHORTENSEA_AUTH_URL = os.getenv("SHORTENSEA_AUTH_URL", "https://blog-vipzone-api.onrender.com").rstrip("/")
@@ -135,7 +145,7 @@ _BLOG_BASE_PATH = urlparse(BLOG_URL).path.rstrip("/")
 app = FastAPI(title="ShortenSEA API", version="1.0.0", docs_url=None, redoc_url=None)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[CORS_ORIGIN, "http://127.0.0.1:1111", "http://localhost:1111"],
+    allow_origins=CORS_ORIGINS + ["http://127.0.0.1:1111", "http://localhost:1111"],
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -375,6 +385,20 @@ def health() -> dict[str, Any]:
         "momo_configured": bool(MOMO_LINK),
     }
 
+
+
+
+@app.get("/healthz")
+def healthz() -> dict:
+    """Lightweight health probe — does NOT require OAuth or DB."""
+    import sys
+    return {
+        "service": "shortensea",
+        "status": "ok",
+        "python": sys.version.split()[0],
+        "oauth_configured": bool(GH_CLIENT_ID and GH_CLIENT_SECRET),
+        "db_path": DB_PATH or "default",
+    }
 
 # ============= OAuth =============
 @app.get("/auth/login")
