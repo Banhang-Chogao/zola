@@ -2,9 +2,10 @@
 title = "Ăn muộn tối — có thực sự ảnh hưởng tiêu hoá?"
 description = "Ăn muộn tối không tự nó gây tiêu hoá kém. Nhưng nó có thể làm gián đoạn nhịp điệu sinh học và làm trào ngược dạ dày."
 date = 2026-06-22
+aliases = ["/co-an-muon-toi-la-co-than-kinh-khong/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "tiêu hoá", "ăn uống"]
+tags = ["khoa học q&a", "tiêu hoá", "ăn uống"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "ăn muộn tối, tiêu hoá"
