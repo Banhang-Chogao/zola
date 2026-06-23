@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-23T12:19:11Z",
+  "updated_at": "2026-06-23T12:47:53Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 4,
-    "this_week": 51,
+    "today": 5,
+    "this_week": 52,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "unknown": 44,
       "fix": 80,
       "ci": 4,
-      "feature": 58,
-      "unknown": 43,
+      "feature": 57,
       "chore": 10,
       "content": 5
     }
   },
   "merges": [
+    {
+      "pr_number": 781,
+      "pr_title": "post: add LC8 Patch 4 progress bar story",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/781",
+      "merged_at": "2026-06-23T12:39:07Z",
+      "merge_commit_sha": "7ec21bec78f2430843042302febc70df12586c2c",
+      "merge_commit_short": "7ec21be",
+      "head_branch": "post/lc8-20260623-191338",
+      "summary_vi": "Adds a practical blog post about LC8 Patch 4, including terminal progress bar, fallback workflow, QA gate, branch, commit, push, and PR automation.",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 115,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1018,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28026804623",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 780,
       "pr_title": "fix(vaccine-hotfix): post/github-actions-yaml-conflict-qa-experience",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1017,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28025309214",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 777,
@@ -452,9 +471,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 988,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27981370093",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 723,
@@ -471,9 +490,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 988,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27981370093",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 729,
@@ -3794,25 +3813,6 @@
       "files_changed": 2,
       "additions": 37,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 522,
-      "pr_title": "feat(content): series \"Đáp án chính thức THPT Quốc gia 2026\" (Giáo dục)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/522",
-      "merged_at": "2026-06-19T21:34:13Z",
-      "merge_commit_sha": "3683c7600eba1ffb6a282b039952a144839634f1",
-      "merge_commit_short": "3683c76",
-      "head_branch": "feat/thpt-2026-dap-an-series",
-      "summary_vi": "Tạo series giáo dục đáp án chính thức kỳ thi tốt nghiệp THPT 2026 theo cấu trúc môn thi chính thức (Chương trình GDPT 2018): 2 môn bắt buộc (Toán, Ngữ văn) + 9 môn tự chọn. Mỗi môn = 1 bài landing trung lập, chưa đăng đá",
-      "change_type": "feature",
-      "files_changed": 16,
-      "additions": 949,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
