@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T15:50:18Z",
+  "updated_at": "2026-06-23T16:00:11Z",
   "score": 91.3,
   "grade": "A",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "1013/1079 in range"
+          "detail": "1016/1082 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1055/1079 complete"
+          "detail": "1058/1082 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1078/1079 set"
+          "detail": "1081/1082 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1070/1079 single H1"
+          "detail": "1073/1082 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1078/1079 with lang"
+          "detail": "1081/1082 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1078/1079 ready"
+          "detail": "1081/1082 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1078/1079 pages"
+          "detail": "1081/1082 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "fail",
-          "detail": "5/1079 pages covered"
+          "detail": "5/1082 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,12 +131,12 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "272/273 articles"
+          "detail": "273/273 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "266/273 tagged"
+          "detail": "267/273 tagged"
         },
         {
           "label": "Article depth",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "2 broken / 1256 unique",
+          "detail": "2 broken / 1259 unique",
           "broken": [
             {
               "source_page": "/posting/tai-sao-oxy-hoa-trang-dieu-dung/",
@@ -206,7 +206,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1074/1079 pages"
+          "detail": "1077/1082 pages"
         },
         {
           "label": "Skip navigation",
@@ -242,7 +242,7 @@
       "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 1079,
+  "pages_scanned": 1082,
   "articles_scanned": 280,
   "fix_log": [
     {
@@ -250,8 +250,8 @@
       "label": "Image descriptions",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (5/1079 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-23T15:50:18Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (5/1082 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-23T16:00:11Z"
     },
     {
       "category": "Media",
@@ -259,7 +259,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-23T15:50:18Z"
+      "at": "2026-06-23T16:00:11Z"
     },
     {
       "category": "Links",
@@ -267,7 +267,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 2 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build); public/scoring/index.html → /posting/tai-sao-oxy-hoa-trang-diều-dung/ (Target not found in public/ after zola build)",
-      "at": "2026-06-23T15:50:18Z"
+      "at": "2026-06-23T16:00:11Z"
     }
   ],
   "fix_summary": {
