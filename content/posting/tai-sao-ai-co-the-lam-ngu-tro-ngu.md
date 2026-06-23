@@ -2,9 +2,10 @@
 title = "Tại sao AI ngày nay có thể vẫn còn sai lầm trong việc nhận diện?"
 description = "AI nhận diện chỉ tốt như dữ liệu huấn luyện của nó. Nếu dữ liệu thiếu diverse, AI sẽ sai lầm. Đó là vấn đề dữ liệu, không phải thuật toán."
 date = 2026-06-22
+aliases = ["/tai-sao-ai-co-the-lam-ngu-tro-ngu/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "AI", "máy học"]
+tags = ["ai", "khoa học q&a", "máy học"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "AI sai lầm, bias dữ liệu"
