@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-23",
+      "title": "feat(tools): thêm trang Organic Search dashboard (/tools/organic-search/) [feat/organic-search-dashboard]",
+      "tag": "chore",
+      "lines_added": 928,
+      "lines_removed": 0,
+      "highlights": [
+        "content/tools/_index.md (modified, +4/-0)",
+        "content/tools/organic-search.md (added, +9/-0)",
+        "sass/_organic-search.scss (added, +519/-0)",
+        "sass/site.scss (modified, +1/-0)",
+        "templates/organic-search.html (added, +395/-0)"
+      ],
+      "pr": 771
+    },
+    {
+      "date": "2026-06-23",
       "title": "fix(nav): remove broken top navbar (already removed in config.toml comment)",
       "tag": "remove",
       "lines_added": 0,
