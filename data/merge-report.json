@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-23T09:29:43Z",
+  "updated_at": "2026-06-23T09:52:47Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 0,
-    "this_week": 47,
+    "today": 1,
+    "this_week": 48,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 80,
+      "feature": 59,
+      "fix": 79,
       "unknown": 43,
-      "feature": 58,
       "chore": 11,
       "content": 5,
       "ci": 3
     }
   },
   "merges": [
+    {
+      "pr_number": 771,
+      "pr_title": "feat(tools): thêm trang Organic Search dashboard (/tools/organic-search/) [feat/organic-search-dashboard]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/771",
+      "merged_at": "2026-06-23T09:44:11Z",
+      "merge_commit_sha": "1546b7d657adf27f6f3d54257c3c41258f225b0c",
+      "merge_commit_short": "1546b7d",
+      "head_branch": "feat/organic-search-dashboard",
+      "summary_vi": "feat(tools): thêm trang Organic Search dashboard (/tools/organic-search/)",
+      "change_type": "feature",
+      "files_changed": 5,
+      "additions": 928,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1011,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28017269158",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 756,
       "pr_title": "fix(gsc): actionable error when /gsc/oauth/start called without session",
@@ -376,9 +395,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 981,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27979819794",
-      "build_conclusion": "cancelled"
+      "build_run_number": 988,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27981370093",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 723,
@@ -3794,25 +3813,6 @@
       "files_changed": 3,
       "additions": 226,
       "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 517,
-      "pr_title": "fix(content-creator): restore editor UI so superadmin/admin can access tool",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/517",
-      "merged_at": "2026-06-19T20:23:38Z",
-      "merge_commit_sha": "e2c07c367fd26b1e6043096ccdc3282f0eb67012",
-      "merge_commit_short": "e2c07c3",
-      "head_branch": "fix/content-creator-restore-editor",
-      "summary_vi": "PR #513 reduced `/tools/content-creator/` to an \"Under construction\" placeholder — removed the editor form and dropped the `app.js` include, so every user (incl. superadmin) saw no UI. Auth was never the problem: `vipzon",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 96,
-      "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
