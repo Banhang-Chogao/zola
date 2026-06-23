@@ -104,4 +104,4 @@ Thở sâu là một công cụ phòng ngừa và chữa trị, không phải ng
 
 ---
 
-**Liên quan:** Tìm hiểu thêm về [tác dụng của thiếu ngủ trên não bộ](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** Tìm hiểu thêm về [tác dụng của thiếu ngủ trên não bộ](/tai-sao-chung-ta-can-ngu/)
