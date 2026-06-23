@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-23T17:38:01Z",
+  "updated_at": "2026-06-23T18:08:18Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 24,
-    "this_week": 71,
+    "today": 25,
+    "this_week": 72,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 773,
+      "pr_title": "fix(vaccine-hotfix): minimal delta for fix/shortensea-failed-to-fetch [skip changelog] [vaccine-hotfix/fix-shortensea-failed-to-fetch]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/773",
+      "merged_at": "2026-06-23T17:44:28Z",
+      "merge_commit_sha": "bbd28b21599e8a66ddddbd35d41ea257420c2d41",
+      "merge_commit_short": "bbd28b2",
+      "head_branch": "vaccine-hotfix/fix-shortensea-failed-to-fetch",
+      "summary_vi": "- Sửa lỗi: fix(shortensea): backend chưa deploy + \"Failed to fetch\" → friendly UX",
+      "change_type": "fix",
+      "files_changed": 9,
+      "additions": 628,
+      "deletions": 11,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1038,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28046273246",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 795,
       "pr_title": "fix: use Render-backed resilient blog heartbeat bar [skip changelog] [fix/blog-heartbeat-client-fallback]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1037,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28044419763",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 794,
@@ -3794,25 +3813,6 @@
       "files_changed": 1,
       "additions": 34,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 543,
-      "pr_title": "fix(vaccine-hotfix): claude/friendly-dijkstra-oo6gwy",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/543",
-      "merged_at": "2026-06-20T08:47:25Z",
-      "merge_commit_sha": "e40603272d37df96bbe5d06d0fa78807b15537e4",
-      "merge_commit_short": "e406032",
-      "head_branch": "vaccine-hotfix/claude-friendly-dijkstra-oo6gwy",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 15,
-      "additions": 1586,
-      "deletions": 11,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
