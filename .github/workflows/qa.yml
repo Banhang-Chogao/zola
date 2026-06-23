@@ -36,7 +36,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install test dependencies (paywall + optional dashboards)
+      - name: Install test dependencies (optional dashboards)
         run: |
           pip install -r backend/requirements.txt
           # Conditionally install dashboard dependencies if they exist
@@ -50,9 +50,9 @@ jobs:
             fi
           done
 
-      - name: Unit tests — paywall + footer countdown + ai_diagnose + QA vaccines + social images
+      - name: Unit tests — footer countdown + ai_diagnose + QA vaccines + social images
         run: |
-          python3 -m unittest scripts.test_paywall scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images scripts.test_security_public_audit -v
+          python3 -m unittest scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images scripts.test_security_public_audit -v
 
       # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
       # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library
@@ -97,9 +97,6 @@ jobs:
 
       - name: SEO Rank auto-fix report (scan only)
         run: python3 scripts/seo-rank-autofix.py --scan-only
-
-      - name: Strip premium content before build
-        run: python3 scripts/paywall_prepare_build.py --strip
 
       - name: Build OG images (SVG → .og.webp for social sharing)
         run: python3 scripts/build_og_images.py

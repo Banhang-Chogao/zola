@@ -51,11 +51,6 @@
     {% endfor %}
     {% if not build_sha %}{% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}{% endif %}
 {% endif %}
-
-{# THEODOI8 LIVE banner — snapshot CI/CD build-time (source of truth), JS
-   auto-refresh từ /data/theodoi8-report.json. Sinh bởi build_theodoi8_report.py. #}
-{% set theodoi8 = load_data(path="data/theodoi8-report.json", required=false) %}
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -449,10 +444,14 @@
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
 
-    {# Google Analytics 4 đã được dời xuống trước </body> để tối ưu page
+    {# Google Analytics 4 đã được dời xuống trước <!-- BLOG_HEARTBEAT_CLIENT_JS -->
+<script defer src="/js/blog-heartbeat-client.js"></script>
+</body> để tối ưu page
        load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
 
     {% block extra_head %}{% endblock %}
+<!-- BLOG_HEARTBEAT_CLIENT_CSS -->
+<link rel="stylesheet" href="/css/blog-heartbeat-client.css">
 </head>
 <body>
 
@@ -498,32 +497,7 @@
                     <strong class="version-id">#{{ numeric_id }}</strong>
                 </span>
             </a>
-
-            {# Latest deployments card — Ở LEFT, ngay dưới title block (theo
-               user feedback). GitHub box bên phải sẽ giãn đủ full width còn lại. #}
-            <div class="header-deploy-card is-success" data-deploy-status data-deploy-card>
-                <p class="header-deploy-card__label">Latest deployments from pinned environments</p>
-                <a class="header-deploy-card__panel"
-                   href="https://github.com/Banhang-Chogao/zola/deployments/github-pages"
-                   target="_blank" rel="noopener">
-                    <div class="header-deploy-card__head">
-                        <span class="header-deploy-card__icon" data-deploy-icon aria-hidden="true">✓</span>
-                        <span class="header-deploy-card__title">github-pages</span>
-                        <span class="header-deploy-card__ext" aria-hidden="true">
-                            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
-                                <path d="M3.75 2A1.75 1.75 0 0 0 2 3.75v8.5A1.75 1.75 0 0 0 3.75 14h8.5A1.75 1.75 0 0 0 14 12.25v-3a.75.75 0 0 0-1.5 0v3a.25.25 0 0 1-.25.25h-8.5a.25.25 0 0 1-.25-.25v-8.5a.25.25 0 0 1 .25-.25h3a.75.75 0 0 0 0-1.5h-3Zm8 1H10A.75.75 0 0 1 10 1.5h3.25c.41 0 .75.34.75.75V5.5a.75.75 0 0 1-1.5 0V4.06L8.78 7.78a.75.75 0 0 1-1.06-1.06L11.44 3Z"/>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="header-deploy-card__body">
-                        <span class="header-deploy-card__row">
-                            Last <span data-deploy-verb>deployed</span>
-                            <span data-deploy-time>—</span>
-                        </span>
-                        <span class="header-deploy-card__url">{{ config.base_url | safe }}/</span>
-                    </div>
-                </a>
-            </div>
+</div>
             </div> {# /.site-header__left #}
 
             <div class="header-side">
@@ -593,32 +567,7 @@
                         </span>
                     </div>
                 </a>
-
-                {# Slide C: THEODOI8 LIVE — trạng thái CI/CD trực tiếp. Build-time
-                   từ load_data (source of truth) + JS auto-refresh khi JSON đổi. #}
-                <a class="header-theodoi8 header-rotator__slide is-{{ theodoi8.status | default(value='idle') }}"
-                   href="{{ theodoi8.url | default(value='https://github.com/Banhang-Chogao/zola/actions') }}"
-                   target="_blank" rel="noopener"
-                   data-theodoi8
-                   data-theodoi8-url="{{ config.base_url | safe }}/data/theodoi8-report.json"
-                   aria-label="THEODOI8 LIVE — theo dõi trạng thái CI/CD trực tiếp trên GitHub Actions">
-                    <div class="header-theodoi8__top">
-                        <span class="header-theodoi8__label"><span class="header-theodoi8__eye" aria-hidden="true">👀</span> THEODOI8 LIVE</span>
-                        <span class="header-theodoi8__pulse" aria-hidden="true"></span>
-                    </div>
-                    <div class="header-theodoi8__body">
-                        <span class="header-theodoi8__status" data-theodoi8-icon>{{ theodoi8.status_icon | default(value="📡") }}</span>
-                        <div class="header-theodoi8__main">
-                            <p class="header-theodoi8__summary" data-theodoi8-summary>{{ theodoi8.summary | default(value="Theo dõi commit & CI/CD chạy trực tiếp trên GitHub Actions") }}</p>
-                            <p class="header-theodoi8__meta">
-                                <span class="header-theodoi8__time" data-theodoi8-time>{{ theodoi8.generated_at_display | default(value="—") }}</span>
-                                <span class="header-theodoi8__cta" data-theodoi8-cta>{{ theodoi8.cta | default(value="Mở GitHub Actions") }} →</span>
-                            </p>
-                        </div>
-                    </div>
-                </a>
-
-                {# Mũi tên điều hướng thủ công (carousel) #}
+{# Mũi tên điều hướng thủ công (carousel) #}
                 <button type="button" class="header-rotator__arrow header-rotator__arrow--prev" data-rotator-prev aria-label="Banner trước">‹</button>
                 <button type="button" class="header-rotator__arrow header-rotator__arrow--next" data-rotator-next aria-label="Banner kế tiếp">›</button>
                 </div> {# /.header-rotator__viewport #}
@@ -926,10 +875,7 @@
             {% endblock sidebar %}
         </div>
     </main>
-
-    {% include "partials/live-theodoi8.html" %}
-
-    <footer class="site-footer">
+<footer class="site-footer">
         {# Tag cloud nằm Ở FOOTER (metadata phụ trợ) — xem block ".footer-tags"
            ngay trước .site-footer__main, sau countdown. #}
 
@@ -1422,10 +1368,7 @@
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/theodoi8-parser.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/theodoi8-banner.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/live-theodoi8.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/open-pr-monitor.js') }}?v={{ asset_version }}" defer></script>
+<script src="{{ get_url(path='js/open-pr-monitor.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/seo-reality-gsc.js') }}?v={{ asset_version }}" defer></script>

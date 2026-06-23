@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T22:58:33Z",
+  "updated_at": "2026-06-23T10:50:17Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,36 +15,36 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "3290 broken links · 24 weak related pairs",
+      "detail": "3291 broken links · 24 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-22T21:49:20Z"
+      "updated_at": "2026-06-23T10:39:46Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 54/100 · LCP 11.0 s · needs work",
+      "detail": "Mobile 41/100 · LCP 12.6 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T16:17:26+00:00"
+      "updated_at": "2026-06-22T23:02:49+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 1067/1068 pages",
+      "detail": "15 pages missing FAQ/schema · 1068/1069 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-22T21:49:20Z"
+      "updated_at": "2026-06-23T10:39:46Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: fix(gsc): actionable error when /gsc/oauth/start called with",
+      "detail": "Latest: fix(shortensea): CORS_ORIGINS list + /healthz endpoint + sta",
       "source": "changelog.json",
-      "updated_at": "2026-06-22"
+      "updated_at": "2026-06-23"
     },
     {
       "id": "indexing",
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-22T21:49:20Z"
+      "updated_at": "2026-06-23T10:39:46Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 54/100 vs desktop 90/100 (Δ36) · 1067/1068 ready",
+      "detail": "Mobile 41/100 vs desktop 91/100 (Δ50) · 1068/1069 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T16:17:26+00:00"
+      "updated_at": "2026-06-22T23:02:49+00:00"
     }
   ],
   "summary": {
