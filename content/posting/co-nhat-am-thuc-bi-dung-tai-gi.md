@@ -2,9 +2,10 @@
 title = "Tại sao nếm thức ăn khó ngay sau khi ngửi nước sốt?"
 description = "Hương vị gồm 80% mùi. Khi mũi bị tắc, não bộ không thể xử lý tín hiệu mùi → thức ăn không có vị."
 date = 2026-06-22
+aliases = ["/co-nhat-am-thuc-bi-dung-tai-gi/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "cảm giác", "mùi"]
+tags = ["cảm giác", "khoa học q&a", "mùi"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "nếm vị khi cảm lạnh, mất vị"
