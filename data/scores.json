@@ -78,7 +78,7 @@
     "date": "2026-06-18",
     "cluster": "misc",
     "cluster_label": "Khác",
-    "score": 1.0319,
+    "score": 1.0318,
     "top_score": 1.052,
     "neighbors": 5,
     "tier": "high"
@@ -175,7 +175,7 @@
     "cluster": "misc",
     "cluster_label": "Khác",
     "score": 1.0163,
-    "top_score": 1.0273,
+    "top_score": 1.0272,
     "neighbors": 5,
     "tier": "high"
   },
@@ -727,7 +727,7 @@
     "cluster": "misc",
     "cluster_label": "Khác",
     "score": 0.8526,
-    "top_score": 0.9189,
+    "top_score": 0.919,
     "neighbors": 5,
     "tier": "high"
   },
@@ -894,7 +894,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.8265,
+    "score": 0.8264,
     "top_score": 0.8951,
     "neighbors": 5,
     "tier": "high"
@@ -1206,7 +1206,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.7612,
+    "score": 0.7611,
     "top_score": 0.7766,
     "neighbors": 5,
     "tier": "high"
@@ -1260,6 +1260,18 @@
     "tier": "high"
   },
   {
+    "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh",
+    "section": "posting",
+    "title": "Kinh nghiệm fix conflict GitHub Actions: từ PR bị kẹt đến build xanh",
+    "date": "2026-06-24",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.7512,
+    "top_score": 0.854,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
     "slug": "thang-6-di-han-an-gi-lam-gi",
     "section": "posting",
     "title": "Du lịch Hàn Quốc tháng 6: ăn gì, làm gì?",
@@ -1280,6 +1292,18 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.7442,
     "top_score": 0.7859,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
+    "slug": "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml",
+    "section": "posting",
+    "title": "Kinh nghiệm xử lý PR conflict GitHub Actions bằng Terminal",
+    "date": "2026-06-23",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.7439,
+    "top_score": 0.854,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1399,7 +1423,7 @@
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.7243,
-    "top_score": 0.7588,
+    "top_score": 0.7587,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1436,6 +1460,18 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.7164,
     "top_score": 0.8689,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
+    "slug": "github-pr-conflict-pending-checks-mergestatestatus",
+    "section": "posting",
+    "title": "GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.7151,
+    "top_score": 0.7754,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1530,20 +1566,8 @@
     "date": "2026-06-18",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7088,
-    "top_score": 0.7729,
-    "neighbors": 5,
-    "tier": "high"
-  },
-  {
-    "slug": "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml",
-    "section": "posting",
-    "title": "Kinh nghiệm xử lý PR conflict GitHub Actions bằng Terminal",
-    "date": "2026-06-23",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.7051,
-    "top_score": 0.7305,
+    "score": 0.7089,
+    "top_score": 0.773,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1570,6 +1594,30 @@
     "top_score": 0.9115,
     "neighbors": 5,
     "tier": "high"
+  },
+  {
+    "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
+    "section": "posting",
+    "title": "QA Gatekeeper GitHub Actions: bài học merge conflict",
+    "date": "2026-06-22",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.7011,
+    "top_score": 0.7407,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
+    "slug": "github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k",
+    "section": "posting",
+    "title": "GitHub CLI: lệnh nhỏ giúp tôi biết workflow còn chạy bao lâu mà k...",
+    "date": "2026-06-23",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6996,
+    "top_score": 0.7733,
+    "neighbors": 5,
+    "tier": "mid"
   },
   {
     "slug": "diem-thi-tuyen-sinh-lop-10-tphcm-2026",
@@ -1680,18 +1728,6 @@
     "tier": "mid"
   },
   {
-    "slug": "github-pr-conflict-pending-checks-mergestatestatus",
-    "section": "posting",
-    "title": "GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN",
-    "date": "2026-06-21",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6826,
-    "top_score": 0.7754,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
     "section": "posting",
     "title": "Bug Website Và Vaccine Số: Từ DNS, 404 Đến Conflict PR",
@@ -1700,18 +1736,6 @@
     "cluster_label": "Công nghệ",
     "score": 0.6812,
     "top_score": 0.7437,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola",
-    "section": "posting",
-    "title": "QA Gatekeeper GitHub Actions: bài học merge conflict",
-    "date": "2026-06-22",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.681,
-    "top_score": 0.7407,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1736,18 +1760,6 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.6769,
     "top_score": 0.6982,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k",
-    "section": "posting",
-    "title": "GitHub CLI: lệnh nhỏ giúp tôi biết workflow còn chạy bao lâu mà k...",
-    "date": "2026-06-23",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6761,
-    "top_score": 0.6948,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1824,6 +1836,18 @@
     "tier": "mid"
   },
   {
+    "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+    "section": "posting",
+    "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6578,
+    "top_score": 0.8872,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "cac-lenh-terminal-kiem-tra-pr-github",
     "section": "posting",
     "title": "Câu lệnh kiểm tra PR GitHub từ terminal: hướng dẫn",
@@ -1856,18 +1880,6 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.6512,
     "top_score": 0.8318,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
-    "section": "posting",
-    "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
-    "date": "2026-06-21",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.646,
-    "top_score": 0.8872,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2220,6 +2232,18 @@
     "tier": "mid"
   },
   {
+    "slug": "nang-cap-lc8-patch-4-khi-terminal-khong-chi-chay-lenh-ma-con-bi",
+    "section": "posting",
+    "title": "Nâng cấp LC8 Patch 4: khi Terminal không chỉ chạy lệnh, mà còn bi...",
+    "date": "2026-06-23",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.572,
+    "top_score": 0.6757,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "trai-nghiem-ky-so-tu-xa-mysign-viettel-ca",
     "section": "posting",
     "title": "Trải nghiệm ký số từ xa với MySign của Viettel-CA",
@@ -2360,18 +2384,6 @@
     "cluster_label": "Công nghệ",
     "score": 0.5316,
     "top_score": 0.5629,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "nang-cap-lc8-patch-4-khi-terminal-khong-chi-chay-lenh-ma-con-bi",
-    "section": "posting",
-    "title": "Nâng cấp LC8 Patch 4: khi Terminal không chỉ chạy lệnh, mà còn bi...",
-    "date": "2026-06-23",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.5303,
-    "top_score": 0.6166,
     "neighbors": 5,
     "tier": "mid"
   },

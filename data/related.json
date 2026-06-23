@@ -9,7 +9,7 @@
       "slug": "tien-ich-so-vietinbank-chua-tan-dung-het"
     },
     {
-      "score": 0.7588,
+      "score": 0.7587,
       "slug": "ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat"
     },
     {
@@ -67,7 +67,7 @@
   ],
   "50-mau-cau-topik-nang-cao": [
     {
-      "score": 0.9189,
+      "score": 0.919,
       "slug": "ngu-phap-gia-dinh-nang-cao-topik"
     },
     {
@@ -229,16 +229,16 @@
       "slug": "qa-gatekeeper-tu-fix-loi-blog"
     },
     {
+      "score": 0.5982,
+      "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
+    },
+    {
       "score": 0.5495,
       "slug": "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml"
     },
     {
       "score": 0.5487,
       "slug": "qa-gatekeeper-vaccine-autofixer"
-    },
-    {
-      "score": 0.5393,
-      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     }
   ],
   "auto-fixer-tu-cuu-bai-viet-ve-auto-fixer": [
@@ -1179,7 +1179,7 @@
       "slug": "vietinbank-v-advance-nang-tam-trai-nghiem"
     },
     {
-      "score": 0.771,
+      "score": 0.7709,
       "slug": "vietinbank-v-plus-chi-tiet-quyen-loi"
     },
     {
@@ -1695,7 +1695,7 @@
   ],
   "dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han": [
     {
-      "score": 1.0273,
+      "score": 1.0272,
       "slug": "phu-dinh-an-mot-tieng-han"
     },
     {
@@ -1839,12 +1839,12 @@
       "slug": "qa-gatekeeper-tu-fix-loi-blog"
     },
     {
-      "score": 0.6489,
-      "slug": "git-merge-va-xu-ly-conflict"
+      "score": 0.7048,
+      "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
     },
     {
-      "score": 0.6042,
-      "slug": "github-actions-ci-cd-cho-nguoi-moi"
+      "score": 0.6489,
+      "slug": "git-merge-va-xu-ly-conflict"
     }
   ],
   "gia-vang-hom-nay-18-6-giam-manh": [
@@ -2091,6 +2091,10 @@
   ],
   "github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k": [
     {
+      "score": 0.7733,
+      "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
+    },
+    {
       "score": 0.6948,
       "slug": "pull-request-quy-trinh-cong-tac-github"
     },
@@ -2105,10 +2109,6 @@
     {
       "score": 0.6622,
       "slug": "tu-dong-deploy-zola-github-actions"
-    },
-    {
-      "score": 0.6558,
-      "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
     }
   ],
   "github-la-gi-tao-repository-dau-tien": [
@@ -2139,6 +2139,10 @@
       "slug": "git-merge-va-xu-ly-conflict"
     },
     {
+      "score": 0.7481,
+      "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
+    },
+    {
       "score": 0.7407,
       "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
     },
@@ -2149,10 +2153,6 @@
     {
       "score": 0.5907,
       "slug": "git-rebase-lam-sach-lich-su-commit"
-    },
-    {
-      "score": 0.5859,
-      "slug": "git-workflow-chuyen-nghiep-gitflow-github-flow"
     }
   ],
   "giup-google-tim-noi-dung-site": [
@@ -2231,7 +2231,7 @@
       "slug": "users-new-users-sessions-google-analytics"
     },
     {
-      "score": 0.7729,
+      "score": 0.773,
       "slug": "nguon-traffic-organic-direct-referral-social-paid"
     },
     {
@@ -2551,7 +2551,33 @@
       "slug": "dieu-kien-du-tu-cach-adsense"
     }
   ],
+  "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh": [
+    {
+      "score": 0.854,
+      "slug": "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml"
+    },
+    {
+      "score": 0.7733,
+      "slug": "github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k"
+    },
+    {
+      "score": 0.7481,
+      "slug": "github-pr-conflict-pending-checks-mergestatestatus"
+    },
+    {
+      "score": 0.7048,
+      "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
+    },
+    {
+      "score": 0.6757,
+      "slug": "nang-cap-lc8-patch-4-khi-terminal-khong-chi-chay-lenh-ma-con-bi"
+    }
+  ],
   "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml": [
+    {
+      "score": 0.854,
+      "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
+    },
     {
       "score": 0.7305,
       "slug": "cac-lenh-terminal-kiem-tra-pr-github"
@@ -2567,10 +2593,6 @@
     {
       "score": 0.706,
       "slug": "fix-qa-gatekeeper-github-actions-merge-conflict-zola"
-    },
-    {
-      "score": 0.6596,
-      "slug": "git-merge-va-xu-ly-conflict"
     }
   ],
   "kinh-ngu-nopimmal-tieng-han": [
@@ -3147,6 +3169,10 @@
   ],
   "nang-cap-lc8-patch-4-khi-terminal-khong-chi-chay-lenh-ma-con-bi": [
     {
+      "score": 0.6757,
+      "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh"
+    },
+    {
       "score": 0.6166,
       "slug": "github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k"
     },
@@ -3161,10 +3187,6 @@
     {
       "score": 0.4841,
       "slug": "git-stash-cherry-pick-reflog-nang-cao"
-    },
-    {
-      "score": 0.4672,
-      "slug": "git-reset-revert-khoi-phuc-su-co"
     }
   ],
   "nen-tang-ai-du-lich-doi-song": [
@@ -3279,7 +3301,7 @@
   ],
   "ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat": [
     {
-      "score": 0.7588,
+      "score": 0.7587,
       "slug": "10-meo-vietinbank-ipay-nang-cao"
     },
     {
@@ -3327,7 +3349,7 @@
       "slug": "gon-hada-ki-mareonida-tieng-han"
     },
     {
-      "score": 0.9189,
+      "score": 0.919,
       "slug": "50-mau-cau-topik-nang-cao"
     },
     {
@@ -3389,7 +3411,7 @@
   ],
   "nguon-traffic-organic-direct-referral-social-paid": [
     {
-      "score": 0.7729,
+      "score": 0.773,
       "slug": "google-analytics-la-gi-lo-trinh-10-ngay"
     },
     {
@@ -3661,7 +3683,7 @@
       "slug": "tro-tu-eun-neun-i-ga-tieng-han"
     },
     {
-      "score": 1.0273,
+      "score": 1.0272,
       "slug": "dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han"
     },
     {
@@ -5619,7 +5641,7 @@
       "slug": "vietinbank-v-wealth-tao-dien-moi-quan-ly-tai-san-so"
     },
     {
-      "score": 0.771,
+      "score": 0.7709,
       "slug": "dang-ky-v-plus-v-advance-tren-ipay"
     },
     {
