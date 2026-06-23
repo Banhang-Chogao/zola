@@ -2,9 +2,10 @@
 title = "GitHub CLI: lệnh nhỏ giúp tôi biết workflow còn chạy bao lâu mà k..."
 description = "Có một khoảnh khắc rất quen với người làm blog bằng GitHub Actions: vừa push code xong, pull request đã tạo xong, nhưng không biết workflow đang chạy tới đâu..."
 date = 2026-06-23
+aliases = ["/github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k/"]
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["LC8", "Terminal", "Git", "Zola", "WebOps"]
+tags = ["git", "lc8", "terminal", "webops", "zola"]
 +++
 
 # GitHub CLI: lệnh nhỏ giúp tôi biết workflow còn chạy bao lâu mà k...
