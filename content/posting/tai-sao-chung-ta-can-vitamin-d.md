@@ -139,4 +139,4 @@ Nó không chỉ về xương. Nó về miễn dịch, tâm trạng, huyết áp
 
 ---
 
-**Liên quan:** [Tại sao chúng ta cần ngủ?](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** [Tại sao chúng ta cần ngủ?](/tai-sao-chung-ta-can-ngu/)
