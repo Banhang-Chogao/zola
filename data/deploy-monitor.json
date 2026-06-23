@@ -1,52 +1,90 @@
 {
-  "checked_at": "2026-06-23T17:31:19.108250+00:00",
+  "checked_at": "2026-06-23T22:06:05.877863+00:00",
   "ok": true,
   "stale": false,
   "summary": {
-    "prod_status": "yellow",
-    "deploying": true,
-    "prod_commit": "598c1c01f094c87cf61d32ad004930decb6e53b8",
-    "prod_commit_short": "598c1c0",
-    "prod_deployed_at": "2026-06-23T16:58:46Z",
-    "pending_count": 1,
+    "prod_status": "red",
+    "deploying": false,
+    "prod_commit": "ca48d8f4e1fcd0df3d5349866e0140e077708698",
+    "prod_commit_short": "ca48d8f",
+    "prod_deployed_at": "2026-06-23T19:49:07Z",
+    "pending_count": 0,
     "expired_count": 0,
-    "avg_deploy_s": 1840,
-    "longest_deploy_s": 2546,
-    "failed_recent": 6,
+    "avg_deploy_s": 1728,
+    "longest_deploy_s": 2256,
+    "failed_recent": 7,
     "cancelled_recent": 11,
     "storm": true,
-    "running_runs": [
-      1037
-    ],
-    "last_success_run": 1036,
-    "last_success_sha_short": "598c1c0",
+    "running_runs": [],
+    "last_success_run": 1039,
+    "last_success_sha_short": "ca48d8f",
     "superseded_failures": [
-      1035,
-      1026
+      1035
     ],
     "cancelled_runs": [
       1034,
       1032,
       1031,
-      1030,
-      1027
+      1030
     ],
-    "status_line": "🔄 #1037 đang chạy · ✅ last success #1036 · ❌ #1035/#1026 (đã superseded)"
+    "status_line": "✅ last success #1039 · ❌ #1035 (đã superseded)"
   },
   "feed": [
+    {
+      "run_number": 1040,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28059696643",
+      "sha_short": "d9f22d5",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/d9f22d5f050e771b39fc4f31301f612bab7f1b65",
+      "title": "fix(vaccine-hotfix): remove/shortensea-paywall-clean (#797)",
+      "status": "completed",
+      "conclusion": "failure",
+      "state": "failure",
+      "icon": "❌",
+      "superseded": false,
+      "created_at": "2026-06-23T21:54:29Z",
+      "duration_s": 80
+    },
+    {
+      "run_number": 1039,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28051361315",
+      "sha_short": "ca48d8f",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/ca48d8f4e1fcd0df3d5349866e0140e077708698",
+      "title": "Build and deploy Zola site to GitHub Pages",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-23T19:26:54Z",
+      "duration_s": 1333
+    },
+    {
+      "run_number": 1038,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28046273246",
+      "sha_short": "f0ee4bb",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/f0ee4bb8d20aab51d7e54baba6956fb3baa2bc42",
+      "title": "fix: correct blog heartbeat static fallback path",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-23T17:59:58Z",
+      "duration_s": 1481
+    },
     {
       "run_number": 1037,
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28044419763",
       "sha_short": "33ee95d",
       "commit_url": "https://github.com/Banhang-Chogao/zola/commit/33ee95d3b0cfd0d43961828ca8a983c4289f6cfb",
       "title": "fix: use Render-backed resilient blog heartbeat bar [skip changelog] …",
-      "status": "in_progress",
-      "conclusion": null,
-      "state": "running",
-      "icon": "🔄",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
       "superseded": false,
       "created_at": "2026-06-23T17:28:35Z",
-      "duration_s": null
+      "duration_s": 1400
     },
     {
       "run_number": 1036,
@@ -159,66 +197,51 @@
       "superseded": false,
       "created_at": "2026-06-23T15:25:03Z",
       "duration_s": 1406
-    },
-    {
-      "run_number": 1028,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034375531",
-      "sha_short": "ed55a43",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/ed55a433400600597bc156e933287ccee02430f5",
-      "title": "fix: restore Blog Heart Beat tool page with date [skip changelog] (#788)",
-      "status": "completed",
-      "conclusion": "success",
-      "state": "success",
-      "icon": "✅",
-      "superseded": false,
-      "created_at": "2026-06-23T14:43:36Z",
-      "duration_s": 1586
-    },
-    {
-      "run_number": 1027,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034184834",
-      "sha_short": "13cf4d8",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/13cf4d880014d377732aaae357eb6d9da67409f8",
-      "title": "fix: repair Blog Heart Beat build and remove legacy TheoDoi8 assets […",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "state": "cancelled",
-      "icon": "⊘",
-      "superseded": true,
-      "created_at": "2026-06-23T14:40:10Z",
-      "duration_s": 208
-    },
-    {
-      "run_number": 1026,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033831875",
-      "sha_short": "9cea978",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/9cea97883145629dc9e090b8f8067a3e80f52809",
-      "title": "fix(vaccine-hotfix): minimal delta for deploy_fail-28017269158 [skip …",
-      "status": "completed",
-      "conclusion": "failure",
-      "state": "failure",
-      "icon": "❌",
-      "superseded": true,
-      "created_at": "2026-06-23T14:33:42Z",
-      "duration_s": 756
     }
   ],
-  "pending": [
+  "pending": [],
+  "expired": [],
+  "recent": [
+    {
+      "sha_short": "d9f22d5",
+      "title": "fix(vaccine-hotfix): remove/shortensea-paywall-clean (#797)",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-23T21:54:29Z",
+      "run_number": 1040,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28059696643",
+      "duration_s": 80
+    },
+    {
+      "sha_short": "ca48d8f",
+      "title": "Build and deploy Zola site to GitHub Pages",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-23T19:26:54Z",
+      "run_number": 1039,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28051361315",
+      "duration_s": 1333
+    },
+    {
+      "sha_short": "f0ee4bb",
+      "title": "fix: correct blog heartbeat static fallback path",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-23T17:59:58Z",
+      "run_number": 1038,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28046273246",
+      "duration_s": 1481
+    },
     {
       "sha_short": "33ee95d",
       "title": "fix: use Render-backed resilient blog heartbeat bar [skip changelog] …",
-      "status": "in_progress",
-      "conclusion": null,
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-23T17:28:35Z",
       "run_number": 1037,
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28044419763",
-      "waiting_s": 164,
-      "started_at": "2026-06-23T17:28:35Z",
-      "eta_s": 1676
-    }
-  ],
-  "expired": [],
-  "recent": [
+      "duration_s": 1400
+    },
     {
       "sha_short": "598c1c0",
       "title": "chore(ci): retire legacy paywall gate from default QA [skip changelog…",
@@ -298,46 +321,6 @@
       "run_number": 1029,
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28036814574",
       "duration_s": 1406
-    },
-    {
-      "sha_short": "ed55a43",
-      "title": "fix: restore Blog Heart Beat tool page with date [skip changelog] (#788)",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-23T14:43:36Z",
-      "run_number": 1028,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034375531",
-      "duration_s": 1586
-    },
-    {
-      "sha_short": "13cf4d8",
-      "title": "fix: repair Blog Heart Beat build and remove legacy TheoDoi8 assets […",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-23T14:40:10Z",
-      "run_number": 1027,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034184834",
-      "duration_s": 208
-    },
-    {
-      "sha_short": "9cea978",
-      "title": "fix(vaccine-hotfix): minimal delta for deploy_fail-28017269158 [skip …",
-      "status": "completed",
-      "conclusion": "failure",
-      "created_at": "2026-06-23T14:33:42Z",
-      "run_number": 1026,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033831875",
-      "duration_s": 756
-    },
-    {
-      "sha_short": "74dd0fc",
-      "title": "fix(vaccine-hotfix): minimal delta for claude-great-lovelace-5dh0e2 […",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-23T14:33:21Z",
-      "run_number": 1025,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033812856",
-      "duration_s": 23
     }
   ]
 }

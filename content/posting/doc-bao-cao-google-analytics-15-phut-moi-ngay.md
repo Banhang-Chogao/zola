@@ -48,7 +48,7 @@ Một lưu ý về *độ trễ dữ liệu*: GA4 cần thời gian để xử l
 
 Mình cũng học được rằng *spike bất thường không phải lúc nào cũng đáng mừng*. Một đợt traffic vọt lên đột ngột đôi khi là bot, spam referral, hoặc một link bị share sai chỗ — engagement của những phiên đó thường rất thấp. Nên mỗi khi thấy spike, mình kiểm tra luôn engagement rate và nguồn của nó trước khi ăn mừng.
 
-![Infographic: checklist 5 bước đọc báo cáo GA4 trong 15 phút mỗi ngày](/img/placeholder/placeholder-wide.svg)
+![Infographic: checklist 5 bước đọc báo cáo GA4 trong 15 phút mỗi ngày](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## KPI cho blogger: nhìn xu hướng, đừng nhìn một ngày
 
@@ -85,7 +85,7 @@ Mình khuyên bắt đầu *nhỏ và gọn*. Đừng cố dựng một dashboar
 
 Một điểm cần nhớ về Explorations: dữ liệu ở đây có thể bị *lấy mẫu (sampling)* khi khối lượng quá lớn, và cách nó đếm có thể khác báo cáo chuẩn đôi chút. Với một blog nhỏ thì hầu như không gặp, nhưng cứ biết để khỏi hoảng nếu con số ở Exploration lệch nhẹ so với báo cáo mặc định.
 
-![Infographic: bố trí một dashboard GA4 đơn giản gồm snapshot, collection và exploration](/img/placeholder/placeholder-wide.svg)
+![Infographic: bố trí một dashboard GA4 đơn giản gồm snapshot, collection và exploration](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Chia nhịp: ngày, tuần, tháng
 

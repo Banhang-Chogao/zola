@@ -1,0 +1,21 @@
+
+/* Vaccine KOREAN-BANNER: prevent Hangul pattern overflow/click overlay on responsive home tabs. */
+.home-tabs {
+  overflow: hidden;
+}
+
+.home-tabs .hangeul-pattern,
+.hangeul-pattern {
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .home-tabs {
+    overflow: hidden;
+  }
+
+  .home-tabs .hangeul-pattern,
+  .hangeul-pattern {
+    pointer-events: none;
+  }
+}

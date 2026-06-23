@@ -3,12 +3,12 @@
  *
  * Khác bản cũ (UX-gate bằng PAT sessionStorage): report .md KHÔNG còn nằm trong
  * repo public. Nội dung lưu Redis trên backend, chỉ tải được qua endpoint
- * /reports/* sau khi /auth/me xác thực session OAuth GitHub + email whitelist.
+ * https://assets.seomoney.org/reports/* sau khi /auth/me xác thực session OAuth GitHub + email whitelist.
  *
  * Flow:
  *   1. Đọc sid (#sid=... sau OAuth callback, hoặc sessionStorage 'zola-cms-session-id')
  *   2. /auth/me (Bearer sid) → guest hay admin
- *   3. Admin → GET /reports (list) + tải qua GET /reports/{file} → Blob download
+ *   3. Admin → GET /reports (list) + tải qua GET https://assets.seomoney.org/reports/{file} → Blob download
  *   4. Guest → chỉ hiện banner + nút "Đăng nhập GitHub"
  */
 (function () {
@@ -72,7 +72,7 @@
     const old = btn ? btn.textContent : "";
     if (btn) { btn.textContent = "⏳ Đang tải…"; btn.disabled = true; }
     try {
-      const res = await api("/reports/" + encodeURIComponent(filename));
+      const res = await api("https://assets.seomoney.org/reports/" + encodeURIComponent(filename));
       if (res.status === 401) { clearSid(); render(null); return; }
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
