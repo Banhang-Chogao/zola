@@ -39,6 +39,10 @@ subtitle = "Hóa đơn/biên lai (OCR) — thống kê chi tiêu"
 [[extra.tool_groups]]
 name = "Monitoring & Dashboard"
 [[extra.tool_groups.items]]
+name = "🔍 Organic Search"
+url = "$BASE_URL/tools/organic-search"
+subtitle = "Báo cáo tìm kiếm tự nhiên từ Google Search Console — clicks, impressions, CTR, index health"
+[[extra.tool_groups.items]]
 name = "📈 UPTIME_ME"
 url = "$BASE_URL/tools/uptime-me"
 subtitle = "Phân tích uptime từ 3 API UptimeRobot"

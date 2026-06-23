@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+{% import "macros/datetime.html" as dt %}
+
+{# Organic Search — E-DNA (Ericsson-inspired enterprise dashboard).
+   Đọc static/data/gsc-metrics.json (served bởi Zola static pass-through)
+   qua load_data path="static/data/gsc-metrics.json". Không gọi OAuth/backend
+   từ browser. Không expose token. noindex vì trang nội bộ. #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}Organic Search — Báo cáo GSC | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+{% set gsc = load_data(path="static/data/gsc-metrics.json", required=false) %}
+{% set connected = gsc and gsc.connected == true and gsc.status == "ok" %}
+
+<div class="orgsc">
+
+  {# ── Breadcrumb ── #}
+  <nav class="breadcrumb orgsc__breadcrumb" aria-label="Đường dẫn">
+    <ol class="breadcrumb__list">
+      <li class="breadcrumb__item"><a class="breadcrumb__link" href="{{ config.base_url }}/tools/">Công cụ</a></li>
+      <li class="breadcrumb__item"><span class="breadcrumb__current">Monitoring &amp; Dashboard</span></li>
+      <li class="breadcrumb__item"><span class="breadcrumb__current">Organic Search</span></li>
+    </ol>
+  </nav>
+
+  {# ── Hero ── #}
+  <header class="orgsc__hero">
+    <p class="orgsc__kicker">Tools · SEO · Google Search Console</p>
+    <h1 class="orgsc__title">Organic Search</h1>
+    <p class="orgsc__lede">Báo cáo hiệu quả tìm kiếm tự nhiên từ Google Search Console.</p>
+
+    {# Status pill #}
+    {% if gsc %}
+    <div class="orgsc__status-bar">
+      {% if connected %}
+      <span class="orgsc__pill orgsc__pill--ok">Connected</span>
+      {% else %}
+      <span class="orgsc__pill orgsc__pill--warn">Not connected</span>
+      {% endif %}
+      <span class="orgsc__pill orgsc__pill--neutral">{{ gsc.property | default(value="sc-domain:seomoney.org") }}</span>
+      {% if gsc.updated_at %}
+      <span class="orgsc__pill orgsc__pill--neutral">Cập nhật: {{ gsc.updated_at | truncate(length=10, end="") }}</span>
+      {% endif %}
+    </div>
+    {% endif %}
+  </header>
+
+  {# ════ CONNECTED STATE ════ #}
+  {% if connected %}
+  {% set period = gsc.period_days | default(value=28) %}
+
+  {# ── Stale data warning ── #}
+  {% if gsc.updated_at %}
+  {# Zola build-time check: warn nếu updated_at quá cũ (>3 ngày). #}
+  {% set now_ts = now(timestamp=true) %}
+  {% set updated_ts = gsc.updated_at | date(format="%s") | int %}
+  {% set age_days = (now_ts - updated_ts) / 86400 | int %}
+  {% if age_days > 3 %}
+  <div class="orgsc__alert orgsc__alert--warn" role="alert">
+    <strong>Dữ liệu cũ:</strong> GSC metrics chưa được cập nhật {{ age_days }} ngày.
+    Chạy workflow <code>gsc-stats.yml</code> để refresh.
+  </div>
+  {% endif %}
+  {% endif %}
+
+  {# ════ 1. KPI Strip ════ #}
+  <section class="orgsc__section" aria-labelledby="orgsc-kpi">
+    <h2 class="orgsc__h2" id="orgsc-kpi">KPI — {{ period }} ngày gần nhất</h2>
+    <div class="orgsc__kpis">
+
+      <article class="orgsc__kpi">
+        <span class="orgsc__kpi-label">Clicks</span>
+        <span class="orgsc__kpi-value">{{ gsc.clicks | default(value=0) }}</span>
+        <span class="orgsc__kpi-sub">lượt click</span>
+      </article>
+
+      <article class="orgsc__kpi">
+        <span class="orgsc__kpi-label">Impressions</span>
+        <span class="orgsc__kpi-value">{{ gsc.impressions | default(value=0) }}</span>
+        <span class="orgsc__kpi-sub">lần hiển thị</span>
+      </article>
+
+      <article class="orgsc__kpi">
+        <span class="orgsc__kpi-label">CTR</span>
+        <span class="orgsc__kpi-value">
+          {% set ctr_val = gsc.ctr | default(value=0) %}
+          {% if ctr_val %}{{ ctr_val | round(precision=1) }}%{% else %}0.0%{% endif %}
+        </span>
+        <span class="orgsc__kpi-sub">tỉ lệ click</span>
+      </article>
+
+      <article class="orgsc__kpi">
+        <span class="orgsc__kpi-label">Avg Position</span>
+        <span class="orgsc__kpi-value">
+          {% set pos = gsc.avg_position | default(value=0) %}
+          {% if pos %}{{ pos | round(precision=1) }}{% else %}—{% endif %}
+        </span>
+        <span class="orgsc__kpi-sub">vị trí TB</span>
+      </article>
+
+      <article class="orgsc__kpi orgsc__kpi--indexed">
+        <span class="orgsc__kpi-label">Indexed Pages</span>
+        <span class="orgsc__kpi-value">{{ gsc.indexed_pages | default(value=0) }}</span>
+        <span class="orgsc__kpi-sub">trang đã lập chỉ mục</span>
+      </article>
+
+      <article class="orgsc__kpi orgsc__kpi--warn-light">
+        <span class="orgsc__kpi-label">Non-indexed</span>
+        <span class="orgsc__kpi-value">{{ gsc.non_indexed_pages | default(value=0) }}</span>
+        <span class="orgsc__kpi-sub">chờ / bị loại</span>
+      </article>
+
+      <article class="orgsc__kpi orgsc__kpi--health-{{ gsc.index_health | default(value='unknown') | lower }}">
+        <span class="orgsc__kpi-label">Index Health</span>
+        <span class="orgsc__kpi-value orgsc__kpi-value--badge">{{ gsc.index_health | default(value="—") }}</span>
+        <span class="orgsc__kpi-sub">trạng thái chỉ mục</span>
+      </article>
+
+    </div>
+  </section>
+
+  {# ════ 2. Organic Health Panel ════ #}
+  <section class="orgsc__section" aria-labelledby="orgsc-health">
+    <h2 class="orgsc__h2" id="orgsc-health">Sức khoẻ chỉ mục</h2>
+    <div class="orgsc__panel orgsc__panel--health">
+
+      <div class="orgsc__health-grid">
+        <div class="orgsc__health-row">
+          <span class="orgsc__health-label">Sitemap</span>
+          <span class="orgsc__health-val orgsc__health-val--{% if gsc.sitemap_status == 'ok' %}ok{% else %}warn{% endif %}">
+            {{ gsc.sitemap_status | default(value="—") | upper }}
+          </span>
+        </div>
+        <div class="orgsc__health-row">
+          <span class="orgsc__health-label">Submitted pages</span>
+          <span class="orgsc__health-val">{{ gsc.submitted_pages | default(value="—") }}</span>
+        </div>
+        <div class="orgsc__health-row">
+          <span class="orgsc__health-label">Indexed pages</span>
+          <span class="orgsc__health-val">{{ gsc.indexed_pages | default(value="—") }}</span>
+        </div>
+        <div class="orgsc__health-row">
+          <span class="orgsc__health-label">Waiting / Non-indexed</span>
+          <span class="orgsc__health-val">{{ gsc.pages_waiting | default(value=gsc.non_indexed_pages) | default(value="—") }}</span>
+        </div>
+        <div class="orgsc__health-row">
+          <span class="orgsc__health-label">Last crawl</span>
+          <span class="orgsc__health-val">
+            {% if gsc.last_crawl %}{{ gsc.last_crawl | truncate(length=10, end="") }}{% else %}—{% endif %}
+          </span>
+        </div>
+        <div class="orgsc__health-row orgsc__health-row--status">
+          <span class="orgsc__health-label">Health</span>
+          <span class="orgsc__health-badge orgsc__health-badge--{{ gsc.index_health | default(value='unknown') | lower }}">
+            {{ gsc.index_health | default(value="Unknown") }}
+          </span>
+        </div>
+      </div>
+
+      {% if gsc.index_health == "Problem" %}
+      <div class="orgsc__alert orgsc__alert--info">
+        Một số trang chưa được lập chỉ mục — thường do site mới hoặc Google chưa crawl đủ.
+        Kiểm tra <strong>Google Search Console</strong> để xem chi tiết coverage issues.
+      </div>
+      {% endif %}
+
+    </div>
+  </section>
+
+  {# ════ 3. Trend Section ════ #}
+  {% if gsc.trend %}
+  <section class="orgsc__section" aria-labelledby="orgsc-trend">
+    <h2 class="orgsc__h2" id="orgsc-trend">Xu hướng</h2>
+
+    {# Daily table #}
+    {% if gsc.trend.daily and gsc.trend.daily | length > 0 %}
+    <div class="orgsc__panel">
+      <h3 class="orgsc__h3">Hàng ngày ({{ gsc.trend.daily | length }} ngày gần nhất)</h3>
+      <div class="orgsc__tablewrap">
+        <table class="orgsc__table">
+          <thead>
+            <tr>
+              <th scope="col">Ngày</th>
+              <th scope="col" class="orgsc__th-num">Clicks</th>
+              <th scope="col" class="orgsc__th-num">Impressions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in gsc.trend.daily %}
+            <tr>
+              <td>{{ d.date }}</td>
+              <td class="orgsc__td-num">{{ d.clicks | default(value=0) }}</td>
+              <td class="orgsc__td-num">{{ d.impressions | default(value=0) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="orgsc__trend-summaries">
+      {# Weekly summary #}
+      {% if gsc.trend.weekly and gsc.trend.weekly | length > 0 %}
+      <div class="orgsc__panel orgsc__panel--half">
+        <h3 class="orgsc__h3">Theo tuần</h3>
+        <div class="orgsc__tablewrap">
+          <table class="orgsc__table">
+            <thead>
+              <tr>
+                <th scope="col">Tuần</th>
+                <th scope="col" class="orgsc__th-num">Clicks</th>
+                <th scope="col" class="orgsc__th-num">Impressions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for w in gsc.trend.weekly %}
+              <tr>
+                <td>{{ w.period }}</td>
+                <td class="orgsc__td-num">{{ w.clicks | default(value=0) }}</td>
+                <td class="orgsc__td-num">{{ w.impressions | default(value=0) }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+      {# Monthly summary #}
+      {% if gsc.trend.monthly and gsc.trend.monthly | length > 0 %}
+      <div class="orgsc__panel orgsc__panel--half">
+        <h3 class="orgsc__h3">Theo tháng</h3>
+        <div class="orgsc__tablewrap">
+          <table class="orgsc__table">
+            <thead>
+              <tr>
+                <th scope="col">Tháng</th>
+                <th scope="col" class="orgsc__th-num">Clicks</th>
+                <th scope="col" class="orgsc__th-num">Impressions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for m in gsc.trend.monthly %}
+              <tr>
+                <td>{{ m.period }}</td>
+                <td class="orgsc__td-num">{{ m.clicks | default(value=0) }}</td>
+                <td class="orgsc__td-num">{{ m.impressions | default(value=0) }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  {# ════ 4. Top Pages ════ #}
+  <section class="orgsc__section" aria-labelledby="orgsc-pages">
+    <h2 class="orgsc__h2" id="orgsc-pages">Top Pages</h2>
+    {% if gsc.top_pages and gsc.top_pages | length > 0 %}
+    <div class="orgsc__panel">
+      <div class="orgsc__tablewrap">
+        <table class="orgsc__table orgsc__table--pages">
+          <thead>
+            <tr>
+              <th scope="col">Trang</th>
+              <th scope="col" class="orgsc__th-num">Clicks</th>
+              <th scope="col" class="orgsc__th-num">Impressions</th>
+              <th scope="col" class="orgsc__th-num">CTR</th>
+              <th scope="col" class="orgsc__th-num">Position</th>
+              <th scope="col" class="orgsc__th-action">Mở</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in gsc.top_pages %}
+            <tr>
+              <td class="orgsc__td-page">
+                <span class="orgsc__page-url" title="{{ p.page }}">{{ p.page | truncate(length=60) }}</span>
+              </td>
+              <td class="orgsc__td-num">{{ p.clicks | default(value=0) }}</td>
+              <td class="orgsc__td-num">{{ p.impressions | default(value=0) }}</td>
+              <td class="orgsc__td-num">
+                {% set ctr_p = p.ctr | default(value=0) %}
+                {% if ctr_p %}{{ ctr_p | round(precision=1) }}%{% else %}0%{% endif %}
+              </td>
+              <td class="orgsc__td-num">
+                {% set pos_p = p.position | default(value=0) %}
+                {% if pos_p %}{{ pos_p | round(precision=1) }}{% else %}—{% endif %}
+              </td>
+              <td class="orgsc__td-action">
+                <a class="orgsc__open-link" href="{{ p.page }}" target="_blank" rel="noopener" aria-label="Mở trang">↗</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="orgsc__empty">
+      <p class="orgsc__empty-text">Chưa đủ dữ liệu trang từ Google Search Console.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  {# ════ 5. Top Queries ════ #}
+  <section class="orgsc__section" aria-labelledby="orgsc-queries">
+    <h2 class="orgsc__h2" id="orgsc-queries">Top Queries</h2>
+    {% if gsc.top_queries and gsc.top_queries | length > 0 %}
+    <div class="orgsc__panel">
+      <div class="orgsc__tablewrap">
+        <table class="orgsc__table">
+          <thead>
+            <tr>
+              <th scope="col">Truy vấn</th>
+              <th scope="col" class="orgsc__th-num">Clicks</th>
+              <th scope="col" class="orgsc__th-num">Impressions</th>
+              <th scope="col" class="orgsc__th-num">CTR</th>
+              <th scope="col" class="orgsc__th-num">Position</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for q in gsc.top_queries %}
+            <tr>
+              <td class="orgsc__td-query">{{ q.query }}</td>
+              <td class="orgsc__td-num">{{ q.clicks | default(value=0) }}</td>
+              <td class="orgsc__td-num">{{ q.impressions | default(value=0) }}</td>
+              <td class="orgsc__td-num">
+                {% set ctr_q = q.ctr | default(value=0) %}
+                {% if ctr_q %}{{ ctr_q | round(precision=1) }}%{% else %}0%{% endif %}
+              </td>
+              <td class="orgsc__td-num">
+                {% set pos_q = q.position | default(value=0) %}
+                {% if pos_q %}{{ pos_q | round(precision=1) }}{% else %}—{% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="orgsc__empty">
+      <p class="orgsc__empty-text">Chưa đủ dữ liệu truy vấn từ Google Search Console.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  {# ════ 6. Executive Summary ════ #}
+  {% if gsc.executive_summary and gsc.executive_summary | length > 0 %}
+  <section class="orgsc__section" aria-labelledby="orgsc-summary">
+    <h2 class="orgsc__h2" id="orgsc-summary">Tổng quan</h2>
+    <div class="orgsc__panel">
+      <ul class="orgsc__summary-list">
+        {% for line in gsc.executive_summary %}
+        <li class="orgsc__summary-item">{{ line }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% endif %}
+
+  {# ════ NOT CONNECTED STATE ════ #}
+  {% elif gsc and gsc.connected == false %}
+  <div class="orgsc__setup">
+    <div class="orgsc__setup-icon" aria-hidden="true">🔌</div>
+    <h2 class="orgsc__setup-title">Chưa kết nối Google Search Console</h2>
+    <p class="orgsc__setup-text">
+      GSC pipeline chưa được kết nối. Để xem báo cáo organic search,
+      truy cập <strong>Editor</strong> và hoàn tất bước xác thực OAuth GSC.
+    </p>
+    <a class="orgsc__setup-link" href="{{ config.base_url }}/editor/">Đến Editor →</a>
+  </div>
+
+  {# ════ NO DATA STATE ════ #}
+  {% else %}
+  <div class="orgsc__setup">
+    <div class="orgsc__setup-icon" aria-hidden="true">📊</div>
+    <h2 class="orgsc__setup-title">Dữ liệu chưa sẵn sàng</h2>
+    <p class="orgsc__setup-text">
+      File <code>static/data/gsc-metrics.json</code> chưa có hoặc chưa được cập nhật.
+      Chạy workflow <code>gsc-stats.yml</code> để fetch dữ liệu từ Render backend.
+    </p>
+  </div>
+  {% endif %}
+
+  <p class="orgsc__back"><a href="{{ config.base_url }}/tools/">← Về trang Công cụ</a></p>
+
+</div>
+{% endblock %}
