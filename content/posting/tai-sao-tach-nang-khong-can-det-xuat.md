@@ -136,4 +136,4 @@ Khi bạn nhìn ảnh selfie và nghĩ "Đó không phải tôi!"—nó thực t
 
 ---
 
-**Liên quan:** [Tâm lý đằng sau nhận thức cơ thể](/content/posting/tai-sao-muc-co-de-tro-nem-khi-tua-may-tinh.md)
+**Liên quan:** [Tâm lý đằng sau nhận thức cơ thể](/tai-sao-muc-co-de-tro-nem-khi-tua-may-tinh/)
