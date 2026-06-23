@@ -78,7 +78,7 @@
     "date": "2026-06-18",
     "cluster": "misc",
     "cluster_label": "Khác",
-    "score": 1.0318,
+    "score": 1.0319,
     "top_score": 1.052,
     "neighbors": 5,
     "tier": "high"
@@ -175,7 +175,7 @@
     "cluster": "misc",
     "cluster_label": "Khác",
     "score": 1.0163,
-    "top_score": 1.0272,
+    "top_score": 1.0273,
     "neighbors": 5,
     "tier": "high"
   },
@@ -727,7 +727,7 @@
     "cluster": "misc",
     "cluster_label": "Khác",
     "score": 0.8526,
-    "top_score": 0.919,
+    "top_score": 0.9189,
     "neighbors": 5,
     "tier": "high"
   },
@@ -894,7 +894,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.8264,
+    "score": 0.8265,
     "top_score": 0.8951,
     "neighbors": 5,
     "tier": "high"
@@ -1008,6 +1008,18 @@
     "tier": "high"
   },
   {
+    "slug": "tao-blog-voi-zola",
+    "section": "posting",
+    "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
+    "date": "2026-06-16",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.7977,
+    "top_score": 0.9282,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
     "slug": "nha-may-lam-giau-uranium-hoat-dong-the-nao",
     "section": "posting",
     "title": "Nhà máy làm giàu uranium hoạt động như thế nào?",
@@ -1040,18 +1052,6 @@
     "cluster_label": "Khoa học",
     "score": 0.7949,
     "top_score": 0.9597,
-    "neighbors": 5,
-    "tier": "high"
-  },
-  {
-    "slug": "tao-blog-voi-zola",
-    "section": "posting",
-    "title": "Tạo blog với Zola từ A–Z: deploy GitHub Pages",
-    "date": "2026-06-16",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.7918,
-    "top_score": 0.9282,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1206,7 +1206,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.7611,
+    "score": 0.7612,
     "top_score": 0.7766,
     "neighbors": 5,
     "tier": "high"
@@ -1399,7 +1399,7 @@
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.7243,
-    "top_score": 0.7587,
+    "top_score": 0.7588,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1530,8 +1530,8 @@
     "date": "2026-06-18",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7089,
-    "top_score": 0.773,
+    "score": 0.7088,
+    "top_score": 0.7729,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1692,6 +1692,18 @@
     "tier": "mid"
   },
   {
+    "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
+    "section": "posting",
+    "title": "Cách gắn Cloudflare Turnstile vào blog tĩnh để chống spam",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.682,
+    "top_score": 0.7271,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "tu-dns-404-den-conflict-pr-nhung-bug-khien-toi-tao-vaccine",
     "section": "posting",
     "title": "Bug Website Và Vaccine Số: Từ DNS, 404 Đến Conflict PR",
@@ -1764,18 +1776,6 @@
     "tier": "mid"
   },
   {
-    "slug": "cach-gan-cloudflare-turnstile-vao-blog-tinh-chong-spam",
-    "section": "posting",
-    "title": "Cách gắn Cloudflare Turnstile vào blog tĩnh để chống spam",
-    "date": "2026-06-21",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6692,
-    "top_score": 0.7271,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "cach-mo-tai-khoan-ngan-hang-so-online",
     "section": "posting",
     "title": "Cách mở tài khoản ngân hàng số online từ A đến Z",
@@ -1832,6 +1832,18 @@
     "cluster_label": "Công nghệ",
     "score": 0.6567,
     "top_score": 0.7305,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "lc8-blog-20260623-215111",
+    "section": "posting",
+    "title": "+++",
+    "date": "2026-06-23",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6549,
+    "top_score": 0.7085,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2124,6 +2136,18 @@
     "tier": "mid"
   },
   {
+    "slug": "zola-vs-hugo",
+    "section": "posting",
+    "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
+    "date": "2026-06-16",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.5888,
+    "top_score": 0.6681,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "ket-noi-google-calendar-outlook-voi-trello-planner-mobile",
     "section": "posting",
     "title": "Cách kết nối Google Calendar hoặc Outlook Calendar với Trello Planner trên mobile",
@@ -2144,18 +2168,6 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.5842,
     "top_score": 0.6981,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "zola-vs-hugo",
-    "section": "posting",
-    "title": "Zola vs Hugo: chọn SSG nào cho blog cá nhân?",
-    "date": "2026-06-16",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.5832,
-    "top_score": 0.6681,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2322,7 +2334,7 @@
     "date": "2026-06-23",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.5375,
+    "score": 0.5377,
     "top_score": 0.6529,
     "neighbors": 5,
     "tier": "mid"
@@ -2826,7 +2838,7 @@
     "date": "2026-06-22",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.4263,
+    "score": 0.4272,
     "top_score": 0.4726,
     "neighbors": 5,
     "tier": "mid"
