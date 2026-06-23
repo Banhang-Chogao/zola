@@ -2,9 +2,10 @@
 title = "Kinh nghiệm xử lý PR conflict GitHub Actions bằng Terminal"
 description = "Ghi lại một ca xử lý thực tế khi PR GitHub Actions bị conflict YAML, QA Gatekeeper fail, và cách resolve an toàn bằng local Terminal."
 date = 2026-06-23
+aliases = ["/kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml/"]
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["GitHub Actions", "Terminal", "Git", "CI/CD", "YAML", "QA", "WebOps"]
+tags = ["ci/cd", "git", "github actions", "qa", "terminal", "webops", "yaml"]
 +++
 
 # Kinh nghiệm xử lý PR conflict GitHub Actions bằng Terminal
