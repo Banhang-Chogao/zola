@@ -175,4 +175,4 @@ Done — thư viện vaccine +1
 
 Bài tiếp theo: [Bài Học Xây Hệ Thống Tự Chữa Lỗi](/posting/bai-hoc-xay-he-thong-tu-chua-loi-cho-blog/) — những điều tôi tưởng sẽ hoạt động tốt nhưng thực ra không, và những gì bất ngờ hoạt động rất tốt.
 
-Xem báo cáo vaccine chạy thực tế tại trang [Insights](/shortensea/insights/) và bài giới thiệu series tại [Vaccine Số Là Gì?](/posting/vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website/).
+Xem báo cáo vaccine chạy thực tế tại trang [Insights](/insights/) và bài giới thiệu series tại [Vaccine Số Là Gì?](/posting/vaccine-so-la-gi-bien-bug-thanh-he-mien-dich-website/).
