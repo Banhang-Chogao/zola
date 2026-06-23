@@ -2,9 +2,10 @@
 title = "Mưa — từ nước bay lên tới mưa rơi xuống"
 description = "Mưa là một phần của chu trình nước. Nước bốc hơi → tạo mây → nước đông tụ → rơi xuống. Đó là vật lý nguyên tố, không phải sự ngẫu nhiên."
 date = 2026-06-22
+aliases = ["/co-mua-o-day-chi-la-mua-truyen-phat/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "thời tiết", "chu trình nước"]
+tags = ["chu trình nước", "khoa học q&a", "thời tiết"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "chu trình nước, hình thành mưa"
@@ -157,4 +158,4 @@ Quá trình:
 
 ---
 
-**Liên quan:** [Khoa học quả chín dưới nắng](/content/posting/tai-sao-trai-hoa-non-khi-de-duoi-nang.md)
+**Liên quan:** [Khoa học quả chín dưới nắng](/tai-sao-trai-hoa-non-khi-de-duoi-nang/)

@@ -124,7 +124,7 @@ gạch nhấn dưới tiêu đề, và thanh đáy.
 
 Việc chọn màu nên xuất phát từ một bộ nguyên tắc, không phải cảm hứng nhất thời.
 Nếu bạn muốn đào sâu cách một hệ thống nhận diện được tổ chức, có thể tham khảo
-[Branding Guideline lấy cảm hứng từ Ericsson](/branding/hilda-guideline/) và bộ tài
+[Branding Guideline lấy cảm hứng từ Ericsson](/branding-guideline/) và bộ tài
 liệu [S-DNA](/tools/s-dna/) mà chúng tôi dùng làm tham chiếu thiết kế. Một hướng
 tiếp cận khác, gọn gàng và thiên về sản phẩm số, được ghi lại trong
 [B-DNA lấy cảm hứng từ Bolt](/tools/b-dna/). Xin nói rõ: những cái tên như

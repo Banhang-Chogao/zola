@@ -45,6 +45,26 @@
     box.hidden = false;
   }
 
+  function setApiError(msg) {
+    var el = $("[data-sse-api-error]");
+    if (!el) return;
+    if (msg) { el.textContent = msg; el.hidden = false; }
+    else { el.hidden = true; }
+  }
+
+  async function doCreateLink(body) {
+    if (!auth.getSid()) await auth.ensureGuestSession();
+    return api.createLink(body);
+  }
+
+  function applyLinkSuccess(link) {
+    toast.show("Đã tạo link!", "success");
+    showResult(link.short_url);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link.short_url).catch(function () {});
+    }
+  }
+
   async function onCreate(e) {
     e.preventDefault();
     var dest = $("#sse-dest").value.trim();
@@ -60,16 +80,30 @@
       qr_enabled: false,
     };
     try {
-      var link = await api.createLink(body);
-      toast.show("Đã tạo link!", "success");
-      showResult(link.short_url);
-      if (navigator.clipboard) {
-        try { await navigator.clipboard.writeText(link.short_url); } catch (err) {}
-      }
+      var link = await doCreateLink(body);
+      applyLinkSuccess(link);
       var account = await api.getAccount();
       applyAccountUI(account);
       $("#sse-create-form").reset();
     } catch (err) {
+      if (err.isNetworkError) {
+        setApiError("Đang đánh thức ShortenSEA API… Thử lại sau 10 giây.");
+        await new Promise(function (r) { setTimeout(r, 10000); });
+        try {
+          var link2 = await doCreateLink(body);
+          setApiError(null);
+          applyLinkSuccess(link2);
+          try {
+            var acct2 = await api.getAccount();
+            applyAccountUI(acct2);
+          } catch (_) {}
+          $("#sse-create-form").reset();
+        } catch (err2) {
+          setApiError("ShortenSEA API chưa kết nối. Kiểm tra Render service blog-shortensea-api.");
+          toast.show("ShortenSEA API chưa kết nối.", "error");
+        }
+        return;
+      }
       if (err.status === 403) {
         toast.show(err.message || "Hết quota hoặc cần VIP.", "error");
         setTimeout(function () {
@@ -121,7 +155,10 @@
     }
 
     var user = await auth.initPublic();
-    if (!user) return;
+    if (!user) {
+      setApiError("ShortenSEA API chưa kết nối. Kiểm tra Render service blog-shortensea-api.");
+      return;
+    }
 
     try {
       var account = await api.getAccount();

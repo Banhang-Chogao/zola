@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T16:20:40Z",
+  "updated_at": "2026-06-23T10:50:17Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,45 +15,45 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 18 weak related pairs",
+      "detail": "3291 broken links · 24 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-23T10:39:46Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 54/100 · LCP 11.0 s · needs work",
+      "detail": "Mobile 41/100 · LCP 12.6 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T16:17:26+00:00"
+      "updated_at": "2026-06-22T23:02:49+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 958/960 pages",
+      "detail": "15 pages missing FAQ/schema · 1068/1069 pages",
       "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-23T10:39:46Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: no-API Pixabay image-assist + fix(V32) series_part build cra",
+      "detail": "Latest: fix(shortensea): CORS_ORIGINS list + /healthz endpoint + sta",
       "source": "changelog.json",
-      "updated_at": "2026-06-22"
+      "updated_at": "2026-06-23"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "done",
-      "detail": "1084 links OK · IndexNow on publish",
+      "status": "running",
+      "detail": "3273 broken of 667 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-22T08:13:54Z"
+      "updated_at": "2026-06-22T20:01:23Z"
     },
     {
       "id": "image_opt",
@@ -62,22 +62,22 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-23T10:39:46Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 54/100 vs desktop 90/100 (Δ36) · 959/960 ready",
+      "detail": "Mobile 41/100 vs desktop 91/100 (Δ50) · 1068/1069 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T16:17:26+00:00"
+      "updated_at": "2026-06-22T23:02:49+00:00"
     }
   ],
   "summary": {
     "pending": 0,
-    "running": 5,
-    "done": 3
+    "running": 6,
+    "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }

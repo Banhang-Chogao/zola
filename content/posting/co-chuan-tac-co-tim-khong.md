@@ -2,9 +2,10 @@
 title = "Nhịp tim bình thường là bao nhiêu lần một phút?"
 description = "Nhịp tim bình thường ở người trưởng thành là 60-100 lần/phút. Nhưng vận động viên có thể 40-60. Điều quan trọng là sự thay đổi theo tình huống."
 date = 2026-06-22
+aliases = ["/co-chuan-tac-co-tim-khong/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "tim", "sức khỏe"]
+tags = ["khoa học q&a", "sức khỏe", "tim"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "nhịp tim bình thường, đo nhịp tim"
@@ -157,4 +158,4 @@ Sai. Tập thể dục **có thể giảm RHR 10-20 BPM** trong vòng 3-6 tháng
 
 ---
 
-**Liên quan:** [Bệnh tim di truyền hay do thói quen](/content/posting/co-thuc-benh-tim-mach-di-thua-gen.md)
+**Liên quan:** [Bệnh tim di truyền hay do thói quen](/co-thuc-benh-tim-mach-di-thua-gen/)

@@ -2,9 +2,10 @@
 title = "Tại sao chúng ta cần vitamin D? Bao lâu nằng nắng thì đủ?"
 description = "Vitamin D không phải là vitamin—nó là hormone. Nó giúp hấp thụ canxi, điều chỉnh miễn dịch, và kiểm soát tâm trạng."
 date = 2026-06-22
+aliases = ["/tai-sao-chung-ta-can-vitamin-d/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "vitamin D", "sức khỏe"]
+tags = ["khoa học q&a", "sức khỏe", "vitamin d"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "vitamin D, nắng mặt trời"
@@ -138,4 +139,4 @@ Nó không chỉ về xương. Nó về miễn dịch, tâm trạng, huyết áp
 
 ---
 
-**Liên quan:** [Tại sao chúng ta cần ngủ?](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** [Tại sao chúng ta cần ngủ?](/tai-sao-chung-ta-can-ngu/)

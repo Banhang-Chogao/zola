@@ -89,7 +89,11 @@ jobs:
           git config user.name "Claude FAQ Autofixer"
           git config user.email "noreply@anthropic.com"
           git add -A
+<<<<<<< HEAD
           git commit -m "$(printf 'chore: auto-add FAQ to posts\n\nAuto-generated FAQ questions for improved SEO and AI overview support.\n- Scanned posts modified in last 7 days\n- Category-aware generation (banking, finance, SEO, AI, tutorial)\n- Preserved existing FAQs and post structure\n- No schema/routing changes\n\nReport: data/faq-autofixer-report.json')"
+=======
+          git commit -m "chore: auto-add FAQ to posts [skip changelog]"
+>>>>>>> origin/main
 
       - name: Create Pull Request
         if: steps.git_check.outputs.has_changes == 'true'

@@ -2,9 +2,10 @@
 title = "Sự thật về toả cao — có thực sự tốt hay chỉ là quảng cáo?"
 description = "Toả cao (detox) không phải là một quá trình sinh lý có bằng chứng. Gan, thận, da của bạn đã \"detox\" tự động. Các sản phẩm detox hầu hết là lừa dối."
 date = 2026-06-22
+aliases = ["/co-thuc-toa-dao-to-cao-tro-khong/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "detox", "sức khỏe"]
+tags = ["detox", "khoa học q&a", "sức khỏe"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "detox body, cơ thể tự làm sạch"
@@ -147,4 +148,4 @@ Sai. Đó có thể là **placebo**, hoặc bạn uống nước/ăn healthy hơ
 
 ---
 
-**Liên quan:** [Tác dụng của vitamin D trên sức khỏe](/content/posting/tai-sao-chung-ta-can-vitamin-d.md)
+**Liên quan:** [Tác dụng của vitamin D trên sức khỏe](/tai-sao-chung-ta-can-vitamin-d/)

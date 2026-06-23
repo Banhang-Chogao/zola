@@ -1,28 +1,13 @@
 +++
 title = "Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?"
-description = "Thiếu ngủ thay đổi nhân cách chỉ sau 24 giờ. Khoa học chứng minh rằng không ngủ một đêm làm suy giảm khả năng kiểm soát cảm xúc và tăng tính hung hăng."
 date = 2026-06-22
+
 [taxonomies]
-categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "thiếu ngủ", "tâm lý"]
+categories = ["Tất cả"]
+tags = ["khoa học q&a", "thiếu ngủ", "tâm lý"]
+
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
-seo_keyword = "thiếu ngủ thay đổi hành vi, ảnh hưởng của mất ngủ"
-series = "qa-khoa-hoc"
-series_part = 2
-series_total = 30
-
-[[extra.faq]]
-q = "Sau bao lâu không ngủ, năng lực nhận thức suy giảm?"
-a = "Sau 17-19 giờ thức liên tục, nhận thức suy giảm tương đương với uống 2-3 cốc rượu. Ảnh hưởng rõ ràng nhất vào khả năng tập trung, phản xạ và quyết định."
-
-[[extra.faq]]
-q = "Người nào bị ảnh hưởng nặng nhất từ thiếu ngủ?"
-a = "Trẻ em, người cao tuổi, tài xế, và những người làm công việc yêu cầu sự tập trung cao như bác sĩ hay phi công bị ảnh hưởng nặng hơn."
-
-[[extra.faq]]
-q = "Thiếu ngủ gây bệnh tâm thần vĩnh viễn không?"
-a = "Không, nhưng thiếu ngủ mãn tính tăng nguy cơ trầm cảm, lo âu và các rối loạn tâm thần khác. Ngủ lại đủ có thể phục hồi."
 +++
 
 ## TL;DR
@@ -79,6 +64,6 @@ Thay đổi hành vi do thiếu ngủ không phải là một biểu hiện củ
 
 Hãy đo lường ngủ như bạn có thể đo lường dinh dưỡng hoặc tập thể dục. Nó không phải lúc nào cũng cảm thấy khẩn cấp—cho tới khi bạn nhận ra rằng nó đã.
 
----
+----
 
-**Liên quan:** Xem thêm về [tại sao chúng ta cần ngủ?](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** Xem thêm về [tại sao chúng ta cần ngủ?](/tai-sao-chung-ta-can-ngu/)

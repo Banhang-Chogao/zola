@@ -2,9 +2,10 @@
 title = "Tại sao chúng ta cần ngủ? Khoa học nói gì về giấc ngủ"
 description = "Giấc ngủ không phải lao động lãng phí. Khoa học chứng minh rằng khi ngủ, não bộ của chúng ta đang hoạt động mạnh mẽ để sửa chữa và tối ưu hóa."
 date = 2026-06-22
+aliases = ["/tai-sao-chung-ta-can-ngu/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "giấc ngủ", "sức khỏe"]
+tags = ["giấc ngủ", "khoa học q&a", "sức khỏe"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tại sao cần ngủ, khoa học giấc ngủ"

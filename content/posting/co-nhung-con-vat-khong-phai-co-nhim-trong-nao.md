@@ -2,9 +2,10 @@
 title = "Có những con vật không có não được không? Sứa ngu là như thế nào?"
 description = "Có. Sứa không có não, dạ dày, hoặc máu. Nó chỉ có hệ thần kinh đơn giản (~1000 neuron vs. con người ~100 tỷ). Nhưng nó vẫn sống sót."
 date = 2026-06-22
+aliases = ["/co-nhung-con-vat-khong-phai-co-nhim-trong-nao/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "động vật", "não"]
+tags = ["khoa học q&a", "não", "động vật"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "động vật không có não, sứa"
@@ -144,4 +145,4 @@ Sứa sinh tồn suốt **600 triệu năm** mà không:
 
 ---
 
-**Liên quan:** [Cơ bắp hoạt động như thế nào](/content/posting/co-la-co-sop-hoat-dong-nhu-the-nao.md)
+**Liên quan:** [Cơ bắp hoạt động như thế nào](/co-la-co-sop-hoat-dong-nhu-the-nao/)

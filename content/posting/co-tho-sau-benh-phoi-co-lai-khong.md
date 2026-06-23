@@ -2,9 +2,10 @@
 title = "Có thở sâu lâu ngày sẽ bị bệnh phổi không?"
 description = "Thở sâu không gây bệnh phổi. Thực tế ngược lại: thở sâu giúp tăng cường dung tích phổi, làm tăng oxy máu và giảm stress."
 date = 2026-06-22
+aliases = ["/co-tho-sau-benh-phoi-co-lai-khong/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "hô hấp", "sức khỏe phổi"]
+tags = ["hô hấp", "khoa học q&a", "sức khỏe phổi"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "thở sâu bệnh phổi, thở sâu có hại không"
@@ -103,4 +104,4 @@ Thở sâu là một công cụ phòng ngừa và chữa trị, không phải ng
 
 ---
 
-**Liên quan:** Tìm hiểu thêm về [tác dụng của thiếu ngủ trên não bộ](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** Tìm hiểu thêm về [tác dụng của thiếu ngủ trên não bộ](/tai-sao-chung-ta-can-ngu/)

@@ -2,9 +2,10 @@
 title = "Tại sao tóc bạn mọc tròn và rạn cơ là bình thường?"
 description = "Tóc mọc tròn và rạn cơ là những đặc điểm sinh học hoàn toàn bình thường. Chúng không phải bệnh tật—chúng là cách cơ thể của chúng ta thiết kế."
 date = 2026-06-22
+aliases = ["/tai-sao-tac-het-moc-tron-va-ran-co-lang-qua/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "cơ thể", "sinh học"]
+tags = ["cơ thể", "khoa học q&a", "sinh học"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "tóc tự nhiên, rạn cơ bình thường"
@@ -155,4 +156,4 @@ Thay vì cố gắng "sửa" chúng, hãy:
 
 ---
 
-**Liên quan:** [Khoa học đằng sau tóc bạc do stress](/content/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac.md)
+**Liên quan:** [Khoa học đằng sau tóc bạc do stress](/tai-sao-toc-trang-do-stress-va-tuoi-tac/)

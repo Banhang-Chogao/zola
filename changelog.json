@@ -1,6 +1,140 @@
 {
   "items": [
     {
+      "date": "2026-06-23",
+      "title": "fix(shortensea): CORS_ORIGINS list + /healthz endpoint + startup log",
+      "tag": "fix",
+      "lines_added": 26,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "8b1a99c6ea3f",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "fix(deploy): add blog-shortensea-api to render.yaml blueprint",
+      "tag": "fix",
+      "lines_added": 46,
+      "lines_removed": 20,
+      "highlights": [],
+      "commit": "2139c0cc6e85",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "feat(tools): thêm trang Organic Search dashboard (/tools/organic-search/) [feat/organic-search-dashboard]",
+      "tag": "chore",
+      "lines_added": 928,
+      "lines_removed": 0,
+      "highlights": [
+        "content/tools/_index.md (modified, +4/-0)",
+        "content/tools/organic-search.md (added, +9/-0)",
+        "sass/_organic-search.scss (added, +519/-0)",
+        "sass/site.scss (modified, +1/-0)",
+        "templates/organic-search.html (added, +395/-0)"
+      ],
+      "pr": 771
+    },
+    {
+      "date": "2026-06-23",
+      "title": "fix(nav): remove broken top navbar (already removed in config.toml comment)",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 80,
+      "highlights": [],
+      "commit": "f6548e8f996f",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "seo_engine.js",
+      "tag": "chore",
+      "lines_added": 1636,
+      "lines_removed": 324,
+      "highlights": [],
+      "commit": "69caaffa52f7",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "Create seo-check.yml",
+      "tag": "chore",
+      "lines_added": 29,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "f927c0cdcac4",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "Create seo_engine.js",
+      "tag": "chore",
+      "lines_added": 532,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "f6e6ace0990a",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: cập nhật bài 'Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "b51599b9614e",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: cập nhật bài 'Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?'",
+      "tag": "chore",
+      "lines_added": 5,
+      "lines_removed": 21,
+      "highlights": [],
+      "commit": "841a1e830766",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(gsc): actionable error when /gsc/oauth/start called without session",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 756
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(yaml): faq-autofixer.yml multi-line commit msg breaks YAML parse (V8 pattern) [fix/category-url-thinkpad]",
+      "tag": "fix",
+      "lines_added": 3,
+      "lines_removed": 11,
+      "highlights": [
+        "fix(links): update /categories/cong-nghe/ → /topic/cong-nghe/ in thinkpad post",
+        "fix(yaml): faq-autofixer.yml multi-line commit msg breaks YAML parse (V8 pattern)",
+        ".github/workflows/faq-autofixer.yml (modified, +1/-9)",
+        "content/posting/mot-ly-do-mua-laptop-thinkpad.md (modified, +2/-2)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 761
+    },
+    {
+      "date": "2026-06-22",
+      "title": "fix(conflict): merge origin/main — V10 content add/add conflicts in PR #702 [claude/blissful-thompson-oy4z08]",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [
+        "feat(blog): bài viết watermark an toàn — owned-only policy cho ảnh blog",
+        "fix(conflict): merge origin/main — V10 content add/add conflicts in PR #702",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 702
+    },
+    {
       "date": "2026-06-22",
       "title": "Auto-merge: PR #754 [f pr2]",
       "tag": "chore",

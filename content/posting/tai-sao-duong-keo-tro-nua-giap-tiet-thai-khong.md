@@ -2,9 +2,10 @@
 title = "Đường keo — có thực sự tốt hay chỉ là hàng loạt đường hóa học?"
 description = "Đường keo không \"tốt\" mà cũng không phải \"độc tố\". Nó là carbs (tinh bột đã nấu) + gelatin + đường + thêm vitamin/collagen. Nó bình thường như candy khác."
 date = 2026-06-22
+aliases = ["/tai-sao-duong-keo-tro-nua-giap-tiet-thai-khong/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
-tags = ["khoa học Q&A", "đường keo", "dinh dưỡng"]
+tags = ["dinh dưỡng", "khoa học q&a", "đường keo"]
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "đường keo collagen, giá trị dinh dưỡng đường keo"
@@ -134,4 +135,4 @@ Nó chỉ là **candy có gelatin** thay vì **candy không có gelatin.**
 
 ---
 
-**Liên quan:** [Vitamin D và sức khỏe da](/content/posting/tai-sao-chung-ta-can-vitamin-d.md)
+**Liên quan:** [Vitamin D và sức khỏe da](/tai-sao-chung-ta-can-vitamin-d/)
