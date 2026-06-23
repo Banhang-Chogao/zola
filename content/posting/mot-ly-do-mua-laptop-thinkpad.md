@@ -6,10 +6,10 @@ aliases = ["/mot-ly-do-mua-laptop-thinkpad/"]
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["laptop", "thinkpad", "lenovo", "phần cứng", "chọn mua laptop", "trackpoint"]
+tags = ["chọn mua laptop", "laptop", "lenovo", "phần cứng", "thinkpad", "trackpoint"]
 [extra]
 seo_keyword = "lý do mua ThinkPad"
-thumbnail = "https://seomoney.org/img/posting/mot-ly-do-mua-laptop-thinkpad/cover.webp"
+thumbnail = "https://seomoney.org/img/posting/mot-ly-do-mua-laptop-thinkpad/cover.jpeg"
 featured = false
 
 [[extra.faq]]
