@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-23T11:40:28Z",
+  "updated_at": "2026-06-23T12:19:11Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 3,
-    "this_week": 50,
+    "today": 4,
+    "this_week": 51,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 80,
       "ci": 4,
-      "fix": 79,
       "feature": 58,
       "unknown": 43,
-      "chore": 11,
+      "chore": 10,
       "content": 5
     }
   },
   "merges": [
+    {
+      "pr_number": 780,
+      "pr_title": "fix(vaccine-hotfix): post/github-actions-yaml-conflict-qa-experience",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/780",
+      "merged_at": "2026-06-23T12:12:59Z",
+      "merge_commit_sha": "ad5418d44586e7d6d5685de035826f537796e94f",
+      "merge_commit_short": "ad5418d",
+      "head_branch": "vaccine-hotfix/post-github-actions-yaml-conflict-qa-experience",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 38,
+      "deletions": 38,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1017,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28025309214",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 777,
       "pr_title": "post: add GitHub Actions YAML conflict QA case study",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1015,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28023079882",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 770,
@@ -319,9 +338,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 987,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27980898751",
-      "build_conclusion": "failure"
+      "build_run_number": 991,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27982579729",
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 717,
@@ -338,9 +357,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 986,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27980877318",
-      "build_conclusion": "failure"
+      "build_run_number": 991,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27982579729",
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 719,
@@ -471,9 +490,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 987,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/27980898751",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 727,
@@ -1882,6 +1901,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 649,
+      "pr_title": "docs(operator): Phase 1 vaccine shortcut grouping guide",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/649",
+      "merged_at": "2026-06-21T12:36:11Z",
+      "merge_commit_sha": "26607c840f061139b013de7c874f752aa853016f",
+      "merge_commit_short": "26607c8",
+      "head_branch": "claude/optimistic-goldberg-r4pg2j",
+      "summary_vi": "- Add Phase 1 operator shortcut grouping documentation",
+      "change_type": "unknown",
+      "files_changed": 3,
+      "additions": 536,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 647,
       "pr_title": "refactor: compress CLAUDE.md to 31KB, move vaccine details to archive [claude/tender-einstein-4zz7uf]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/647",
@@ -1894,25 +1932,6 @@
       "files_changed": 2,
       "additions": 3086,
       "deletions": 2832,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 646,
-      "pr_title": "docs(guides): operator guide Phase 1 — decision flows and UI layout sketches [claude/optimistic-goldberg-r4pg2j]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/646",
-      "merged_at": "2026-06-21T12:23:28Z",
-      "merge_commit_sha": "23f643f24927aee71ce37aaa0d1f71e745e1c2f4",
-      "merge_commit_short": "23f643f",
-      "head_branch": "claude/optimistic-goldberg-r4pg2j",
-      "summary_vi": "- chore(docs): operator guide Phase 1 — grouping vaccine shortcuts into 5 top-level functions",
-      "change_type": "unknown",
-      "files_changed": 3,
-      "additions": 536,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3794,25 +3813,6 @@
       "files_changed": 16,
       "additions": 949,
       "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 518,
-      "pr_title": "chore(vaccine): Daily Vaccine Autofixer run",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/518",
-      "merged_at": "2026-06-19T20:40:22Z",
-      "merge_commit_sha": "1019856d0cc4249e4911987307f14f5237cf18b7",
-      "merge_commit_short": "1019856",
-      "head_branch": "chore/vaccine-autofixer-20260619-202134",
-      "summary_vi": "Automated run of the Daily Vaccine Autofixer (Vaccine V11). Auto-merges when QA passes.",
-      "change_type": "chore",
-      "files_changed": 0,
-      "additions": 0,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
