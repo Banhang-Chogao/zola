@@ -164,4 +164,4 @@ Chúng ta nợ cây cảm ơn vì:
 
 ---
 
-**Liên quan:** [Vitamin D từ ánh sáng mặt trời](/content/posting/tai-sao-chung-ta-can-vitamin-d.md)
+**Liên quan:** [Vitamin D từ ánh sáng mặt trời](/tai-sao-chung-ta-can-vitamin-d/)
