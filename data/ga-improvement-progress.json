@@ -1,48 +1,48 @@
 {
-  "updated_at": "2026-06-23T17:31:27Z",
+  "updated_at": "2026-06-23T22:46:55Z",
   "tasks": [
     {
       "id": "seo",
       "label": "SEO optimization",
       "icon": "🔍",
       "status": "running",
-      "detail": "Adding copyright sections",
-      "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-18T06:52:03+0700"
+      "detail": "223 posts · avg 93.9/100 · tuning",
+      "source": "seo-qa-scores.json",
+      "updated_at": "2026-06-23T06:58:36.990339+07:00"
     },
     {
       "id": "internal_links",
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "36832 broken links · 24 weak related pairs",
+      "detail": "5 broken links · 0 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-23T17:09:09Z"
+      "updated_at": "2026-06-23T19:32:30Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 52/100 · LCP 12.7 s · needs work",
+      "detail": "Mobile 58/100 · LCP 12.2 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-23T10:50:36+00:00"
+      "updated_at": "2026-06-23T18:19:34+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 1081/1082 pages",
-      "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-23T17:09:09Z"
+      "detail": "1081/1082 pages",
+      "source": "compliance-score.json",
+      "updated_at": "2026-06-23T19:32:30Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: chore(vaccine): Daily Vaccine Autofixer run",
+      "detail": "Latest: correct blog heartbeat static fallback path",
       "source": "changelog.json",
       "updated_at": "2026-06-23"
     },
@@ -50,10 +50,10 @@
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "running",
-      "detail": "36829 broken of 837 links",
-      "source": "qa-404-report.json",
-      "updated_at": "2026-06-23T14:42:01Z"
+      "status": "pending",
+      "detail": "No build-dashboard snapshot",
+      "source": "build-dashboard.json",
+      "updated_at": "2026-06-23T21:52:47Z"
     },
     {
       "id": "image_opt",
@@ -62,21 +62,21 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-23T17:09:09Z"
+      "updated_at": "2026-06-23T19:32:30Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 52/100 vs desktop 91/100 (Δ39) · 1081/1082 ready",
+      "detail": "Mobile 58/100 vs desktop 92/100 (Δ34) · 1081/1082 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-23T10:50:36+00:00"
+      "updated_at": "2026-06-23T18:19:34+00:00"
     }
   ],
   "summary": {
-    "pending": 0,
-    "running": 6,
+    "pending": 1,
+    "running": 5,
     "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."

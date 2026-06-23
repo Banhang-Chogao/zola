@@ -2,6 +2,30 @@
   "items": [
     {
       "date": "2026-06-23",
+      "title": "remove(shortensea): retire ShortenSEA and paywall gates",
+      "tag": "remove",
+      "lines_added": 46,
+      "lines_removed": 3,
+      "highlights": [],
+      "pr": 796
+    },
+    {
+      "date": "2026-06-23",
+      "title": "feat(r2): serve static media from Cloudflare R2 CDN [feat/cloudflare-r2-assets]",
+      "tag": "chore",
+      "lines_added": 681,
+      "lines_removed": 31,
+      "highlights": [
+        "feat(r2): serve static media from Cloudflare R2 CDN",
+        "feat(r2): serve static media from Cloudflare R2 CDN",
+        "content/baochi/macos-27-golden-gate-co-gi-moi.md (modified, +1/-1)",
+        "content/baochi/thiet-ke-phan-quyen-role-single-source-of-truth.md (modified, +1/-1)",
+        "content/posting/doc-bao-cao-google-analytics-15-phut-moi-ngay.md (modified, +2/-2)"
+      ],
+      "pr": 798
+    },
+    {
+      "date": "2026-06-23",
       "title": "correct blog heartbeat static fallback path",
       "tag": "fix",
       "lines_added": 1,
