@@ -2,9 +2,10 @@
 title = "5 quán phở nổi tiếng Hà Nội góp mặt trong danh sách Michelin 2026"
 description = "Phở Hà Nội lên sàn Michelin — những quán ăn đạt chuẩn quốc tế mà mình vẫn có thể ăn bình dân"
 date = 2026-06-21
+aliases = ["/5-quan-pho-ha-noi-michelin-2026/"]
 [taxonomies]
 categories = ["Tất cả", "Ẩm thực", "Du lịch"]
-tags = ["phở hà nội", "michelin 2026", "quán ăn nổi tiếng", "du lịch ẩm thực", "bib gourmand"]
+tags = ["bib gourmand", "du lịch ẩm thực", "michelin 2026", "phở hà nội", "quán ăn nổi tiếng"]
 [extra]
 thumbnail = "https://picsum.photos/seed/5-quan-pho-ha-noi-michelin-2026/600/400"
 seo_keyword = "phở Hà Nội Michelin 2026"
@@ -151,7 +152,7 @@ Lần tới bạn ghé Hà Nội, thay vì tìm những quán phở "nổi bật
 ---
 
 **Tham khảo thêm:**  
-Muốn biết thêm về ẩm thực Hà Nội? Hãy xem [Hướng dẫn du lịch ẩm thực Hà Nội cho lần đầu](/du-lich-am-thuc-ha-noi-lan-dau/) hoặc [Top 10 đặc sản Hà Nội phải thử](/top-10-dac-san-ha-noi-phai-thu/).
+Muốn biết thêm về ẩm thực Hà Nội? Hãy xem thêm các bài viết về [du lịch ẩm thực](/du-lich/) trên blog này.
 
 ---
 
