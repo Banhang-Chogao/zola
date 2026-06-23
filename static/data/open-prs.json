@@ -1,52 +1,177 @@
 {
-  "generated_at": "2026-06-23T05:25:44+0700",
-  "generated_at_display": "05:25 23/06/2026",
+  "generated_at": "2026-06-23T17:48:12+0700",
+  "generated_at_display": "17:48 23/06/2026",
   "repo_url": "https://github.com/Banhang-Chogao/zola",
   "prs_url": "https://github.com/Banhang-Chogao/zola/pulls",
   "summary": {
-    "total": 13,
-    "ready": 0,
-    "needs_attention": 8,
-    "pending": 5,
-    "conflict": 0,
+    "total": 6,
+    "ready": 1,
+    "needs_attention": 1,
+    "pending": 2,
+    "conflict": 2,
     "draft": 0
   },
   "prs": [
     {
-      "number": 766,
-      "title": "Sửa lỗi: fix(shortensea): backend chưa deploy + \"Failed to fetch\" → friendly UX [fix/shortensea-failed-to-fetch]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/766",
+      "number": 775,
+      "title": "fix(vaccine-hotfix): claude-great-lovelace-5dh0e2",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/775",
+      "branch": "vaccine-hotfix/claude-great-lovelace-5dh0e2",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unstable",
+      "updated_at": "2026-06-23T17:23:48+0700",
+      "updated_at_display": "17:23 23/06/2026",
+      "readiness": "pending",
+      "checks_summary": {
+        "success": 0,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 0
+      },
+      "checks": []
+    },
+    {
+      "number": 774,
+      "title": "fix(vaccine-hotfix): deploy_fail-28017269158",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/774",
+      "branch": "vaccine-hotfix/deploy_fail-28017269158",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unstable",
+      "updated_at": "2026-06-23T17:17:07+0700",
+      "updated_at_display": "17:17 23/06/2026",
+      "readiness": "pending",
+      "checks_summary": {
+        "success": 0,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 0
+      },
+      "checks": []
+    },
+    {
+      "number": 773,
+      "title": "fix(vaccine-hotfix): minimal delta for fix/shortensea-failed-to-fetch [skip changelog] [vaccine-hotfix/fix-shortensea-fa",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/773",
+      "branch": "vaccine-hotfix/fix-shortensea-failed-to-fetch",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "clean",
+      "updated_at": "2026-06-23T16:58:05+0700",
+      "updated_at_display": "16:58 23/06/2026",
+      "readiness": "ready",
+      "checks_summary": {
+        "success": 0,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 0
+      },
+      "checks": []
+    },
+    {
+      "number": 772,
+      "title": "fix(links): fix 33 broken internal links blocking QA gate [fix/shortensea-failed-to-fetch]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/772",
       "branch": "fix/shortensea-failed-to-fetch",
       "base": "main",
       "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T05:04:02+0700",
-      "updated_at_display": "05:04 23/06/2026",
-      "readiness": "pending",
+      "merge_state": "dirty",
+      "updated_at": "2026-06-23T16:24:56+0700",
+      "updated_at_display": "16:24 23/06/2026",
+      "readiness": "conflict",
       "checks_summary": {
-        "success": 2,
-        "failure": 0,
-        "pending": 1,
+        "success": 4,
+        "failure": 2,
+        "pending": 0,
         "skipped": 0,
         "cancelled": 0,
-        "total": 3
+        "total": 6
       },
       "checks": [
         {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 4,
+          "elapsed_display": "4s"
+        },
+        {
           "name": "qa-check",
-          "state": "pending",
-          "status": "in_progress",
-          "conclusion": null,
-          "elapsed_s": 1300,
-          "elapsed_display": "21m 40s"
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 1346,
+          "elapsed_display": "22m 26s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 16,
+          "elapsed_display": "16s"
+        },
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 1312,
+          "elapsed_display": "21m 52s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 7,
+          "elapsed_display": "7s"
         },
         {
           "name": "notify",
           "state": "success",
           "status": "completed",
           "conclusion": "success",
-          "elapsed_s": 3,
-          "elapsed_display": "3s"
+          "elapsed_s": 2,
+          "elapsed_display": "2s"
+        }
+      ]
+    },
+    {
+      "number": 768,
+      "title": "fix(ci): fix faq-autofixer.yml YAML syntax (second pass after conflict merge) [skip changelog] [claude/clever-brown-oj8w",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/768",
+      "branch": "claude/clever-brown-oj8wer",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "dirty",
+      "updated_at": "2026-06-23T16:24:52+0700",
+      "updated_at_display": "16:24 23/06/2026",
+      "readiness": "conflict",
+      "checks_summary": {
+        "success": 4,
+        "failure": 2,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 6
+      },
+      "checks": [
+        {
+          "name": "qa-check",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 1334,
+          "elapsed_display": "22m 14s"
         },
         {
           "name": "ensure-pr",
@@ -55,36 +180,6 @@
           "conclusion": "success",
           "elapsed_s": 13,
           "elapsed_display": "13s"
-        }
-      ]
-    },
-    {
-      "number": 765,
-      "title": "feat(tools): thêm trang Organic Search dashboard (/tools/organic-search/) [feat/organic-search-dashboard]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/765",
-      "branch": "feat/organic-search-dashboard",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T04:54:16+0700",
-      "updated_at_display": "04:54 23/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 2,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 3
-      },
-      "checks": [
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 15,
-          "elapsed_display": "15s"
         },
         {
           "name": "notify",
@@ -94,99 +189,6 @@
           "elapsed_s": 5,
           "elapsed_display": "5s"
         },
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1338,
-          "elapsed_display": "22m 18s"
-        }
-      ]
-    },
-    {
-      "number": 764,
-      "title": "fix(vaccine-hotfix): claude-great-lovelace-5dh0e2",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/764",
-      "branch": "vaccine-hotfix/claude-great-lovelace-5dh0e2",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T04:34:19+0700",
-      "updated_at_display": "04:34 23/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
-    {
-      "number": 763,
-      "title": "fix(vaccine-hotfix): fix/category-url-thinkpad",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/763",
-      "branch": "vaccine-hotfix/fix-category-url-thinkpad",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T04:20:16+0700",
-      "updated_at_display": "04:20 23/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
-    {
-      "number": 748,
-      "title": "fix(vaccine-hotfix): claude/sweet-mccarthy-ds9ayv",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/748",
-      "branch": "vaccine-hotfix/claude-sweet-mccarthy-ds9ayv",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T04:17:38+0700",
-      "updated_at_display": "04:17 23/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
-    {
-      "number": 762,
-      "title": "fix(ci): fix faq-autofixer.yml YAML syntax (second pass after conflict merge) [skip changelog] [claude/clever-brown-oj8w",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/762",
-      "branch": "claude/clever-brown-oj8wer",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T04:15:53+0700",
-      "updated_at_display": "04:15 23/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 2,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 3
-      },
-      "checks": [
         {
           "name": "qa-check",
           "state": "failure",
@@ -214,347 +216,48 @@
       ]
     },
     {
-      "number": 696,
-      "title": "fix(ci): fix faq-autofixer.yml YAML syntax — unindented multiline in run block [skip changelog] [feat/blog-qa-gatekeeper",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/696",
-      "branch": "feat/blog-qa-gatekeeper-case-study",
+      "number": 769,
+      "title": "fix(vaccine-hotfix): minimal delta for fix/category-url-thinkpad [skip changelog] [vaccine-hotfix/fix-category-url-think",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/769",
+      "branch": "vaccine-hotfix/fix-category-url-thinkpad",
       "base": "main",
       "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T04:06:03+0700",
-      "updated_at_display": "04:06 23/06/2026",
+      "merge_state": "unstable",
+      "updated_at": "2026-06-23T16:24:48+0700",
+      "updated_at_display": "16:24 23/06/2026",
       "readiness": "needs_attention",
       "checks_summary": {
-        "success": 3,
+        "success": 2,
         "failure": 1,
         "pending": 0,
         "skipped": 0,
         "cancelled": 0,
-        "total": 4
+        "total": 3
       },
       "checks": [
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 7,
-          "elapsed_display": "7s"
-        },
         {
           "name": "ensure-pr",
           "state": "success",
           "status": "completed",
           "conclusion": "success",
-          "elapsed_s": 18,
-          "elapsed_display": "18s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 3,
-          "elapsed_display": "3s"
+          "elapsed_s": 13,
+          "elapsed_display": "13s"
         },
         {
           "name": "qa-check",
           "state": "failure",
           "status": "completed",
           "conclusion": "failure",
-          "elapsed_s": 1369,
-          "elapsed_display": "22m 49s"
-        }
-      ]
-    },
-    {
-      "number": 751,
-      "title": "fix(vaccine-hotfix): claude/clever-brown-oj8wer",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/751",
-      "branch": "vaccine-hotfix/claude-clever-brown-oj8wer",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T04:02:00+0700",
-      "updated_at_display": "04:02 23/06/2026",
-      "readiness": "pending",
-      "checks_summary": {
-        "success": 0,
-        "failure": 0,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 0
-      },
-      "checks": []
-    },
-    {
-      "number": 676,
-      "title": "fix(conflict): merge origin/main — V10 for vaccine-hotfix/claude-busy-curie-dulk0s [vaccine-hotfix/claude-busy-curie-dul",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/676",
-      "branch": "vaccine-hotfix/claude-busy-curie-dulk0s",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T03:53:40+0700",
-      "updated_at_display": "03:53 23/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 3,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 4
-      },
-      "checks": [
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 11,
-          "elapsed_display": "11s"
-        },
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1343,
-          "elapsed_display": "22m 23s"
+          "elapsed_s": 16,
+          "elapsed_display": "16s"
         },
         {
           "name": "notify",
           "state": "success",
           "status": "completed",
           "conclusion": "success",
-          "elapsed_s": 3,
-          "elapsed_display": "3s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 4,
-          "elapsed_display": "4s"
-        }
-      ]
-    },
-    {
-      "number": 683,
-      "title": "fix(conflict): merge origin/main — V10 for claude/vibrant-hawking-dhzptd [claude/vibrant-hawking-dhzptd]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/683",
-      "branch": "claude/vibrant-hawking-dhzptd",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T03:53:36+0700",
-      "updated_at_display": "03:53 23/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 3,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 4
-      },
-      "checks": [
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1268,
-          "elapsed_display": "21m 8s"
-        },
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 9,
-          "elapsed_display": "9s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 7,
-          "elapsed_display": "7s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 5,
-          "elapsed_display": "5s"
-        }
-      ]
-    },
-    {
-      "number": 684,
-      "title": "fix(conflict): merge origin/main — V10 for claude/charming-bardeen-leyxdf [claude/charming-bardeen-leyxdf]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/684",
-      "branch": "claude/charming-bardeen-leyxdf",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T03:53:32+0700",
-      "updated_at_display": "03:53 23/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 3,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 4
-      },
-      "checks": [
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1265,
-          "elapsed_display": "21m 5s"
-        },
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 7,
-          "elapsed_display": "7s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 7,
-          "elapsed_display": "7s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 3,
-          "elapsed_display": "3s"
-        }
-      ]
-    },
-    {
-      "number": 686,
-      "title": "fix(conflict): remove leftover conflict markers — PR #686 [vaccine-hotfix/claude-nice-franklin-oabbzh]",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/686",
-      "branch": "vaccine-hotfix/claude-nice-franklin-oabbzh",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T03:53:27+0700",
-      "updated_at_display": "03:53 23/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 3,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 4
-      },
-      "checks": [
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1218,
-          "elapsed_display": "20m 18s"
-        },
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 10,
-          "elapsed_display": "10s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 8,
-          "elapsed_display": "8s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 3,
-          "elapsed_display": "3s"
-        }
-      ]
-    },
-    {
-      "number": 695,
-      "title": "Merge remote-tracking branch 'origin/main' into vaccine-hotfix/claude-happy-gauss-2igd5s [vaccine-hotfix/claude-happy-ga",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/695",
-      "branch": "vaccine-hotfix/claude-happy-gauss-2igd5s",
-      "base": "main",
-      "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-23T03:53:23+0700",
-      "updated_at_display": "03:53 23/06/2026",
-      "readiness": "needs_attention",
-      "checks_summary": {
-        "success": 3,
-        "failure": 1,
-        "pending": 0,
-        "skipped": 0,
-        "cancelled": 0,
-        "total": 4
-      },
-      "checks": [
-        {
-          "name": "preflight",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 11,
-          "elapsed_display": "11s"
-        },
-        {
-          "name": "ensure-pr",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 6,
-          "elapsed_display": "6s"
-        },
-        {
-          "name": "qa-check",
-          "state": "failure",
-          "status": "completed",
-          "conclusion": "failure",
-          "elapsed_s": 1204,
-          "elapsed_display": "20m 4s"
-        },
-        {
-          "name": "notify",
-          "state": "success",
-          "status": "completed",
-          "conclusion": "success",
-          "elapsed_s": 3,
-          "elapsed_display": "3s"
+          "elapsed_s": 2,
+          "elapsed_display": "2s"
         }
       ]
     }
