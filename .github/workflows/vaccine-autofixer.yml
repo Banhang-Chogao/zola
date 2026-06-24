@@ -1,17 +1,13 @@
 name: Daily Vaccine Autofixer
 
-# Vaccine V11 — Daily Vaccine Autofixer.
-# Reads the vaccine library from CLAUDE.md, scans the repo + latest CI logs,
-# auto-fixes the SAFE vaccine-class issues, runs QA/build, uploads the report as
-# an artifact, writes a run summary, and (if anything changed) opens a PR —
-# never a direct push to main.
+# TEMP DISABLED:
+# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
+# production-verified deploy strategy. Keep manual workflow_dispatch only.
 #
-# Schedule: 06:00 Asia/Ho_Chi_Minh (= 23:00 UTC the previous day).
-# Manual:   workflow_dispatch (the `vacxin11` shortcut) — runs immediately.
+# Previously ran on a daily schedule (06:00 ICT) and created chore/vaccine-autofixer-*
+# PRs. The scheduled auto-remediation is paused to reduce bot PR noise.
 
 on:
-  schedule:
-    - cron: '0 23 * * *'   # 23:00 UTC == 06:00 Asia/Ho_Chi_Minh
   workflow_dispatch:
 
 permissions:
