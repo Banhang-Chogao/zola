@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "chore(ci): pause auto vaccine hotfix generators [chore/disable-auto-vaccine-hotfix]",
+      "tag": "chore",
+      "lines_added": 46,
+      "lines_removed": 100,
+      "highlights": [
+        ".github/workflows/build-failure-handler.yml (modified, +12/-30)",
+        ".github/workflows/self-healing.yml (modified, +7/-5)",
+        ".github/workflows/vaccine-autofixer.yml (modified, +5/-9)",
+        ".github/workflows/vaccine-hotfix.yml (modified, +12/-56)",
+        "CLAUDE.md (modified, +10/-0)"
+      ],
+      "pr": 847
+    },
+    {
+      "date": "2026-06-24",
       "title": "feat(home): align homepage with editorial UI spec [fix/homepage-editorial-ui-spec]",
       "tag": "fix",
       "lines_added": 659,
