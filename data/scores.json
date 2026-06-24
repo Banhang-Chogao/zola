@@ -1260,14 +1260,14 @@
     "tier": "high"
   },
   {
-    "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh",
+    "slug": "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml",
     "section": "posting",
-    "title": "Kinh nghiệm fix conflict GitHub Actions: từ PR bị kẹt đến build xanh",
-    "date": "2026-06-24",
+    "title": "Kinh nghiệm xử lý PR conflict GitHub Actions bằng Terminal",
+    "date": "2026-06-23",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7512,
-    "top_score": 0.854,
+    "score": 0.7456,
+    "top_score": 0.8621,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1296,14 +1296,14 @@
     "tier": "high"
   },
   {
-    "slug": "kinh-nghiem-xu-ly-pr-conflict-github-actions-yaml",
+    "slug": "kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh",
     "section": "posting",
-    "title": "Kinh nghiệm xử lý PR conflict GitHub Actions bằng Terminal",
-    "date": "2026-06-23",
+    "title": "Kinh nghiệm fix conflict GitHub Actions: từ PR bị kẹt đến build xanh",
+    "date": "2026-06-24",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7439,
-    "top_score": 0.854,
+    "score": 0.7436,
+    "top_score": 0.8621,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1464,18 +1464,6 @@
     "tier": "high"
   },
   {
-    "slug": "github-pr-conflict-pending-checks-mergestatestatus",
-    "section": "posting",
-    "title": "GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN",
-    "date": "2026-06-21",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.7151,
-    "top_score": 0.7754,
-    "neighbors": 5,
-    "tier": "high"
-  },
-  {
     "slug": "review-lpbank-so-2026",
     "section": "posting",
     "title": "Review LPBank số năm 2026",
@@ -1572,6 +1560,18 @@
     "tier": "high"
   },
   {
+    "slug": "github-pr-conflict-pending-checks-mergestatestatus",
+    "section": "posting",
+    "title": "GitHub PR Conflict Pending Merge Checks UNSTABLE UNKNOWN",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.7087,
+    "top_score": 0.7754,
+    "neighbors": 5,
+    "tier": "high"
+  },
+  {
     "slug": "mua-nao-di-han-la-dep-nhat",
     "section": "posting",
     "title": "Đi Hàn mùa nào đẹp nhất? So sánh 4 mùa (2026)",
@@ -1602,20 +1602,8 @@
     "date": "2026-06-22",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7011,
+    "score": 0.6994,
     "top_score": 0.7407,
-    "neighbors": 5,
-    "tier": "high"
-  },
-  {
-    "slug": "github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k",
-    "section": "posting",
-    "title": "GitHub CLI: lệnh nhỏ giúp tôi biết workflow còn chạy bao lâu mà k...",
-    "date": "2026-06-23",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6996,
-    "top_score": 0.7733,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1676,6 +1664,18 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.6942,
     "top_score": 0.7452,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "github-cli-lenh-nho-giup-toi-biet-workflow-con-chay-bao-lau-ma-k",
+    "section": "posting",
+    "title": "GitHub CLI: lệnh nhỏ giúp tôi biết workflow còn chạy bao lâu mà k...",
+    "date": "2026-06-23",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6924,
+    "top_score": 0.7374,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1836,18 +1836,6 @@
     "tier": "mid"
   },
   {
-    "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
-    "section": "posting",
-    "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
-    "date": "2026-06-21",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.6578,
-    "top_score": 0.8872,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "cac-lenh-terminal-kiem-tra-pr-github",
     "section": "posting",
     "title": "Câu lệnh kiểm tra PR GitHub từ terminal: hướng dẫn",
@@ -1856,6 +1844,18 @@
     "cluster_label": "Công nghệ",
     "score": 0.6567,
     "top_score": 0.7305,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog",
+    "section": "posting",
+    "title": "Auto Fixer Là Gì? GitHub Actions Tự Chữa Lỗi Blog",
+    "date": "2026-06-21",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.6541,
+    "top_score": 0.8872,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2220,6 +2220,18 @@
     "tier": "mid"
   },
   {
+    "slug": "nang-cap-lc8-patch-4-khi-terminal-khong-chi-chay-lenh-ma-con-bi",
+    "section": "posting",
+    "title": "Nâng cấp LC8 Patch 4: khi Terminal không chỉ chạy lệnh, mà còn bi...",
+    "date": "2026-06-23",
+    "cluster": "cong-nghe",
+    "cluster_label": "Công nghệ",
+    "score": 0.578,
+    "top_score": 0.706,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "the-tin-dung-msb-huong-dan-chi-tiet",
     "section": "baochi",
     "title": "Thẻ tín dụng MSB: ưu đãi và cách dùng hiệu quả",
@@ -2228,18 +2240,6 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.5768,
     "top_score": 0.6133,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "nang-cap-lc8-patch-4-khi-terminal-khong-chi-chay-lenh-ma-con-bi",
-    "section": "posting",
-    "title": "Nâng cấp LC8 Patch 4: khi Terminal không chỉ chạy lệnh, mà còn bi...",
-    "date": "2026-06-23",
-    "cluster": "cong-nghe",
-    "cluster_label": "Công nghệ",
-    "score": 0.572,
-    "top_score": 0.6757,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2898,7 +2898,7 @@
     "date": "2026-06-20",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.3965,
+    "score": 0.3971,
     "top_score": 0.4331,
     "neighbors": 5,
     "tier": "low"
