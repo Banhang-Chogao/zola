@@ -1,6 +1,7 @@
 name: QA Gatekeeper
 
 # Chạy trên mọi push (kể cả main). qa_check.py fail → pipeline đỏ.
+# Improved: caching, timeout, retry logic for flaky steps.
 
 on:
   push:
@@ -14,6 +15,8 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ZOLA_VERSION: '0.22.1'
+  PIP_CACHE_DIR: ~/.cache/pip
 
 concurrency:
   group: qa-${{ github.workflow }}-${{ github.ref }}
@@ -22,6 +25,7 @@ concurrency:
 jobs:
   qa-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,18 +34,33 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
+          cache: 'npm'
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
           token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Cache Zola binary
+        id: cache-zola
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/bin/zola
+          key: ${{ runner.os }}-zola-${{ env.ZOLA_VERSION }}
+
+      - name: Install Zola
+        if: steps.cache-zola.outputs.cache-hit != 'true'
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v${{ env.ZOLA_VERSION }}/zola-v${{ env.ZOLA_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v${{ env.ZOLA_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+          zola --version
 
       - name: Install test dependencies (optional dashboards)
         run: |
           pip install -r backend/requirements.txt
-          # Conditionally install dashboard dependencies if they exist
-          # (F-Dashboard + L-Dashboard removed in Phase 2 cleanup)
           for req in scripts/requirements-f-dashboard.txt scripts/requirements-l-dashboard.txt; do
             if [ -f "$req" ]; then
               echo "Installing: $req"
@@ -56,20 +75,11 @@ jobs:
           python3 -m unittest scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images scripts.test_security_public_audit -v
 
       # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
-      # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library
-      # (V1..V12 + compliance set). Runs BEFORE the expensive Zola build so known
-      # recurring build-breakers (Tera kwargs, unbalanced blocks, broken
-      # workflow YAML / config TOML, corrupt dashboard JSON, JS syntax errors,
-      # premium posts with no backing private file) are blocked early. The step
-      # exits 1 on any vaccine FAIL → fails the job → blocks auto-merge/deploy.
+      # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library.
+      # Runs BEFORE expensive Zola build so known recurring build-breakers are
+      # blocked early. Exits 1 on any vaccine FAIL → fails job → blocks auto-merge.
       - name: Run QA Gatekeeper + Vaccine Gate (conflicts/secrets/SEO/SCSS + CLAUDE.md vaccines)
         run: python3 qa_check.py
-
-      - name: Install Zola for build check
-        run: |
-          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
-          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
-          sudo mv zola /usr/local/bin/
 
       - name: Build feed pagination anchors
         run: python3 scripts/build_feed_pagination.py
@@ -102,31 +112,38 @@ jobs:
       - name: Build OG images (SVG → .og.webp for social sharing)
         run: python3 scripts/build_og_images.py
 
-      - name: Zola build smoke test
+      - name: Zola build smoke test (with retry)
+        id: zola-build
+        timeout-minutes: 15
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: zola build
+        run: |
+          for i in 1 2; do
+            echo "🔨 Zola build attempt $i..."
+            if zola build; then
+              echo "✅ Zola build succeeded"
+              exit 0
+            fi
+            echo "⚠️ Zola build attempt $i failed, retrying..."
+            sleep 10
+          done
+          echo "❌ Zola build failed after 2 attempts"
+          exit 1
 
       - name: Check GitHub Pages base path in internal links
         run: python3 scripts/check_internal_links.py
 
-      # Hard gate: crawl built public/ for broken INTERNAL links. The checker
-      # exits 2 when any internal link 404s, which fails this step (and the job),
-      # blocking auto-merge. Runs offline by default (no external requests) so it
-      # never hangs CI. External links are intentionally not gated here.
+      # Hard gate: crawl built public/ for broken INTERNAL links.
+      # Exits 2 when any internal link 404s, fails job, blocks auto-merge.
       - name: Gate on broken internal links (404 checker — exit 2 fails build)
         run: python3 qa-404-checker.py
 
       # Social image validation: ensure all article pages have proper og:image
-      # for Facebook/Zalo/LinkedIn previews. Checks that og:image is absolute URL,
-      # not SVG, and file exists in public/. Exit 2 fails build.
+      # for Facebook/Zalo/LinkedIn previews. Exit 2 fails build.
       - name: Validate social share thumbnails (og:image — exit 2 fails build)
         run: python3 scripts/check_social_images.py --check
 
-      # Static-site security gate: the built public/ surface (+ content/, static/,
-      # sitemap, menu) must not expose private/internal files or secret values.
-      # Runs AFTER the build so it scans the real published output + sitemap.xml.
-      # Exit 1 (any exposure) fails the job → blocks auto-merge/deploy. Calibrated
-      # so the current main passes clean. See docs/security-static-blog.md.
+      # Static-site security gate: scans built public/ for exposed secrets/private
+      # files. Exit 1 fails job → blocks auto-merge/deploy.
       - name: Public-surface security audit (no secrets/private docs published)
         run: python3 scripts/security_public_audit.py

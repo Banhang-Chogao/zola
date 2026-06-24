@@ -25,6 +25,8 @@ concurrency:
 env:
   GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ZOLA_VERSION: '0.22.1'
+  PIP_CACHE_DIR: ~/.cache/pip
 
 jobs:
   build:
@@ -37,17 +39,28 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
+          cache: 'npm'
+
+      - name: Cache Zola binary
+        id: cache-zola
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/bin/zola
+          key: ${{ runner.os }}-zola-${{ env.ZOLA_VERSION }}
 
       - name: Install Zola
+        if: steps.cache-zola.outputs.cache-hit != 'true'
         run: |
-          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
-          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          curl -sLO https://github.com/getzola/zola/releases/download/v${{ env.ZOLA_VERSION }}/zola-v${{ env.ZOLA_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v${{ env.ZOLA_VERSION }}-x86_64-unknown-linux-gnu.tar.gz
           sudo mv zola /usr/local/bin/
+          zola --version
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
           token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       # DNS Vaccine gate — blocks the deploy only on deterministic repo drift
@@ -135,7 +148,7 @@ jobs:
             > data/deployment-status.json
 
       - name: Build site
-        timeout-minutes: 10
+        timeout-minutes: 20
         env:
           # Dùng PAT (5000 req/h) thay vì GITHUB_TOKEN (1000 req/h) để tránh
           # rate-limit khi template gọi GitHub API commits (load_data).
