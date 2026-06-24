@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "fix(ci): fix blog heartbeat heredoc [fix/blog-heartbeat-heredoc]",
+      "tag": "fix",
+      "lines_added": 1,
+      "lines_removed": 14,
+      "highlights": [
+        ".github/workflows/blog-heartbeat.yml (modified, +1/-14)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/blog-heartbeat-heredoc là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 830
+    },
+    {
+      "date": "2026-06-24",
       "title": "feat(post): add copy code button [feat/post-copy-code-button]",
       "tag": "chore",
       "lines_added": 77,
