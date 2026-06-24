@@ -1,79 +1,180 @@
-<section class="seo-github-insights">
-  <h2>GitHub Pulse</h2>
+<!-- SEOMONEY / ZOLA — README SHOWCASE BLOCK -->
 
-  <div class="insight-grid">
-    <article class="insight-card">
-      <h3>Commit Activity</h3>
-      <canvas id="commitChart" height="120"></canvas>
-      <a href="https://github.com/tetdinhmui/tetdinhmui/graphs/commit-activity" target="_blank">Xem GitHub</a>
-    </article>
+<div align="center">
 
-    <article class="insight-card">
-      <h3>Deploy / Actions</h3>
-      <div class="action-buttons">
-        <button class="ok">Thành công: <span id="successCount">0</span></button>
-        <button class="fail">Thất bại: <span id="failCount">0</span></button>
-      </div>
-      <canvas id="actionsChart" height="120"></canvas>
-      <a href="https://github.com/Banhang-Chogao/zola/actions" target="_blank">Xem Actions</a>
-    </article>
-  </div>
-</section>
+# SEOMONEY Engine
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-(async () => {
-  const headers = { Accept: "application/vnd.github+json" };
+### Static blog. AI-assisted WebOps. SEO automation. Production-grade publishing pipeline.
 
-  const commitRes = await fetch(
-    "https://api.github.com/repos/tetdinhmui/tetdinhmui/stats/commit_activity",
-    { headers }
-  );
-  const commitData = await commitRes.json();
+[![Live](https://img.shields.io/badge/live-seomoney.org-111827?style=for-the-badge&logo=googlechrome&logoColor=white)](https://seomoney.org/)
+[![Zola](https://img.shields.io/badge/Zola-static_site-0f766e?style=for-the-badge&logo=rust&logoColor=white)](https://www.getzola.org/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-deploy-181717?style=for-the-badge&logo=github&logoColor=white)](https://pages.github.com/)
+[![Python QA](https://img.shields.io/badge/Python-QA_Automation-3776AB?style=for-the-badge&logo=python&logoColor=white)](#)
+[![FastAPI](https://img.shields.io/badge/FastAPI-backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)](#)
+[![SCSS](https://img.shields.io/badge/SCSS-design_system-CC6699?style=for-the-badge&logo=sass&logoColor=white)](#)
 
-  const weeks = commitData.slice(-12).map(w =>
-    new Date(w.week * 1000).toLocaleDateString("vi-VN", { month: "2-digit", day: "2-digit" })
-  );
-  const commits = commitData.slice(-12).map(w => w.total);
+</div>
 
-  new Chart(document.getElementById("commitChart"), {
-    type: "line",
-    data: {
-      labels: weeks,
-      datasets: [{ label: "Commits / tuần", data: commits, tension: 0.35 }]
-    }
-  });
+---
 
-  const actionsRes = await fetch(
-    "https://api.github.com/repos/Banhang-Chogao/zola/actions/runs?per_page=30",
-    { headers }
-  );
-  const actionsData = await actionsRes.json();
+## What this repo really is
 
-  const runs = actionsData.workflow_runs || [];
-  const success = runs.filter(r => r.conclusion === "success").length;
-  const fail = runs.filter(r => ["failure", "cancelled", "timed_out"].includes(r.conclusion)).length;
+This is not “just a blog”.
 
-  document.getElementById("successCount").textContent = success;
-  document.getElementById("failCount").textContent = fail;
+This repository is a **self-hosted SEO publishing engine** built around Zola, GitHub Actions, Python QA scripts, FastAPI services, structured content, and internal WebOps dashboards.
 
-  new Chart(document.getElementById("actionsChart"), {
-    type: "doughnut",
-    data: {
-      labels: ["Thành công", "Thất bại"],
-      datasets: [{ data: [success, fail] }]
-    }
-  });
-})();
-</script>
+It behaves like a small newsroom, a static-site compiler, an SEO lab, and a deployment control room living inside one repo.
 
-<style>
-.seo-github-insights{padding:24px;border:1px solid #eee;border-radius:20px;background:#fff}
-.insight-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.insight-card{padding:18px;border:1px solid #eee;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.04)}
-.action-buttons{display:flex;gap:8px;margin:12px 0}
-.action-buttons button{border:0;border-radius:999px;padding:8px 12px;font-weight:700}
-.ok{background:#e8fff0}
-.fail{background:#fff0f0}
-.insight-card a{display:inline-block;margin-top:10px;font-size:14px}
-</style>
+---
+
+## Architecture at a glance
+
+```txt
+SEOMONEY/
+├─ content/           # Editorial content, SEO articles, long-tail posts
+├─ templates/         # Zola/Tera rendering system
+├─ sass/              # S-DNA / B-DNA visual system
+├─ static/            # OG images, assets, public files
+├─ data/              # SEO, dashboard, report, and structured datasets
+├─ scripts/           # QA, SEO, internal-link, automation utilities
+├─ reports/           # Generated health reports and audit outputs
+├─ backend/           # Supporting backend logic
+├─ services/          # FastAPI / VIPZone / integrations
+├─ .github/           # CI, deploy, auto-check, workflow automation
+├─ CLAUDE.md          # AI operating manual for safe coding
+└─ qa_check.py        # Production safety gate
+````
+
+---
+
+## Built-in systems
+
+### SEO Engine
+
+* Canonical domain strategy for `seomoney.org`
+* Sitemap hygiene workflow
+* Google Search Console integration
+* GA4 / organic dashboard preparation
+* Index priority planning
+* Internal link radar
+* Orphan post detection
+* Topic cluster mapping
+* SEO article save gate
+* OG image fallback strategy
+
+### WebOps Automation
+
+* GitHub Actions based CI/CD
+* GitHub Pages deployment
+* QA gate before production
+* 404 checker
+* Internal link checker
+* Build verification
+* Deployment monitor
+* PR/build status dashboards
+* Warning vs hard-fail QA policy
+
+### AI-assisted Publishing
+
+* Claude/Codex operating rules
+* Prompt-driven article workflow
+* Safe content structure rules
+* Human SEO writing format
+* Reusable shortcut system
+* Guardrails for content, UI, and production safety
+
+### Design System
+
+* S-DNA / B-DNA visual language
+* Mobile-first blog layout
+* SEO Command Center dashboard
+* OG image system
+* Responsive article cards
+* Dashboard modules
+* AdSense-friendly UI principles
+
+### Backend + Private Tools
+
+* FastAPI service layer
+* VIP/admin-only tools
+* GitHub OAuth protected areas
+* CMS/editor workflow
+* GSC/GA data bridge
+* Render service deployment
+
+---
+
+## The philosophy
+
+```txt
+Static where it should be static.
+Dynamic where it actually matters.
+Automated where humans waste time.
+Human-written where trust matters.
+```
+
+SEOMONEY is built for practical SEO, AI WebOps, and real publishing operations — not vanity metrics.
+
+---
+
+## Tech stack
+
+| Layer       | Tools                                              |
+| ----------- | -------------------------------------------------- |
+| Static site | Zola, Tera templates                               |
+| Styling     | SCSS, S-DNA/B-DNA design system                    |
+| Automation  | GitHub Actions, Python scripts                     |
+| Backend     | FastAPI, Render services                           |
+| Analytics   | Google Search Console, GA4                         |
+| Deployment  | GitHub Pages, custom domain                        |
+| QA          | Build checks, 404 checks, internal link checks     |
+| AI workflow | Claude rules, Codex prompts, repo-level guardrails |
+
+---
+
+## Production guardrails
+
+This repo treats production like a real system:
+
+```txt
+Build must pass.
+Links must not break.
+Secrets must not leak.
+Private tools must not become indexable.
+SEO warnings must guide work — not block shipping.
+```
+
+Hard failures block production.
+SEO/content warnings become reports.
+
+---
+
+## Why it is different
+
+Most blogs only publish posts.
+
+This one also watches itself.
+
+It can:
+
+* detect weak internal links
+* identify orphan content
+* classify topic clusters
+* track indexing health
+* warn about sitemap noise
+* generate QA reports
+* guide the next SEO actions
+* protect production from unsafe changes
+
+---
+
+<div align="center">
+
+### SEOMONEY is a blog with an engine room.
+
+Not just content.
+Not just code.
+A living SEO/WebOps system.
+
+</div>
+```
