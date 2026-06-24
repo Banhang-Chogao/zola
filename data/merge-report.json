@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T04:31:55Z",
+  "updated_at": "2026-06-24T04:36:46Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 8,
-    "this_week": 90,
+    "today": 9,
+    "this_week": 91,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "feature": 44,
       "chore": 13,
       "fix": 95,
       "unknown": 39,
-      "feature": 44,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 824,
+      "pr_title": "feat(post): add reader utility bar",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/824",
+      "merged_at": "2026-06-24T04:31:46Z",
+      "merge_commit_sha": "67532b1aebb4d16d97ffb3f8b98fd8d6e396a598",
+      "merge_commit_short": "67532b1",
+      "head_branch": "improve/post-reader-utility-bar",
+      "summary_vi": "Adds a lightweight reader utility bar on post pages with copy link, native share fallback, font-size controls, and back-to-top. Static-first, mobile-friendly, no external dependency, no content/data logic changes.",
+      "change_type": "feature",
+      "files_changed": 2,
+      "additions": 153,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1060,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075298058",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 823,
       "pr_title": "design(mobile): refresh blog listing UX with B-DNA cards",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1059,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075128190",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 822,
@@ -528,9 +547,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1030,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28036955066",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1033,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28038009369",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 792,
@@ -3794,25 +3813,6 @@
       "files_changed": 10,
       "additions": 726,
       "deletions": 17,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 580,
-      "pr_title": "feat(automation): enforce ZERO_BARRIER \"Done means PR opened\" after every push [claude/zero-barrier-auto-pr-merge-j3xc7h]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/580",
-      "merged_at": "2026-06-20T19:06:43Z",
-      "merge_commit_sha": "d3f6ff048bd04f25b1649b33778c86634bcbe6b6",
-      "merge_commit_short": "d3f6ff0",
-      "head_branch": "claude/zero-barrier-auto-pr-merge-j3xc7h",
-      "summary_vi": "feat(automation): enforce ZERO_BARRIER \"Done means PR opened\" after every push",
-      "change_type": "feature",
-      "files_changed": 5,
-      "additions": 602,
-      "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
