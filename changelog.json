@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "layout audit — guard [object Object] in heartbeat JS + responsive embed CSS [fix/heartbeat-object-object-layout]",
+      "tag": "fix",
+      "lines_added": 38,
+      "lines_removed": 6,
+      "highlights": [
+        "sass/site.scss (modified, +24/-0)",
+        "static/js/blog-heartbeat-card.js (modified, +12/-4)",
+        "static/js/blog-heartbeat-client.js (modified, +2/-2)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 853
+    },
+    {
+      "date": "2026-06-24",
       "title": "feat(design): add E-DNA guideline page",
       "tag": "chore",
       "lines_added": 610,
