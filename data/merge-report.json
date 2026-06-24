@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T04:49:25Z",
+  "updated_at": "2026-06-24T04:56:06Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 10,
-    "this_week": 92,
+    "today": 11,
+    "this_week": 93,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 44,
+      "feature": 45,
       "chore": 13,
       "fix": 95,
-      "unknown": 39,
+      "unknown": 38,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 826,
+      "pr_title": "feat(editor): add takeaways fields to post editor [feat/post-key-takeaways-box]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/826",
+      "merged_at": "2026-06-24T04:50:26Z",
+      "merge_commit_sha": "7c2a614064681256dd71c4b6fdc233791c3db7f8",
+      "merge_commit_short": "7c2a614",
+      "head_branch": "feat/post-key-takeaways-box",
+      "summary_vi": "feat(editor): add takeaways fields to post editor",
+      "change_type": "feature",
+      "files_changed": 3,
+      "additions": 107,
+      "deletions": 2,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1062,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075939620",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 825,
       "pr_title": "feat(post): add optional key takeaways box [feat/post-key-takeaways-box]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1061,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075667300",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 824,
@@ -528,9 +547,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1032,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28037744229",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1035,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28039093706",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 791,
@@ -3794,25 +3813,6 @@
       "files_changed": 5,
       "additions": 600,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 577,
-      "pr_title": "Merge remote-tracking branch 'origin/main' into claude/eloquent-dirac-1nb2xp [claude/eloquent-dirac-1nb2xp]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/577",
-      "merged_at": "2026-06-20T19:13:38Z",
-      "merge_commit_sha": "ec6b8e41c43e4cf75ba3746c2197c82a806f5bbc",
-      "merge_commit_short": "ec6b8e4",
-      "head_branch": "claude/eloquent-dirac-1nb2xp",
-      "summary_vi": "- fix(search): style internal search dialog to match SEOMONEY UI",
-      "change_type": "unknown",
-      "files_changed": 6,
-      "additions": 645,
-      "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
