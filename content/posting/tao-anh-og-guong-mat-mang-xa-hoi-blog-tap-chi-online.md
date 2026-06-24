@@ -193,7 +193,7 @@ mình, vài tài liệu sau đi cùng nhau khá tự nhiên:
 - [S-DNA](/tools/s-dna/) — bộ tham chiếu nguyên tắc thiết kế.
 - [Font Guideline và bài học từ Hilda](/font/) — vì sao font đẹp vẫn có thể vỡ
   với tiếng Việt.
-- [Branding Guideline lấy cảm hứng từ Ericsson](/branding-guideline/) — cách tổ
+- [Branding Guideline lấy cảm hứng từ Ericsson](/branding/hilda-guideline/) — cách tổ
   chức màu, typography và nhận diện.
 - [B-DNA lấy cảm hứng từ Bolt](/tools/b-dna/) — hướng nhận diện thiên về sản phẩm
   số.
