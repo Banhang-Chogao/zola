@@ -1,6 +1,593 @@
 {
   "items": [
     {
+      "date": "2026-06-24",
+      "title": "feat(design): add E-DNA guideline page",
+      "tag": "chore",
+      "lines_added": 610,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 852
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(E-DNA): add Enterprise Editorial Design System reference page",
+      "tag": "chore",
+      "lines_added": 610,
+      "lines_removed": 0,
+      "highlights": [
+        "Add content/tools/e-dna.md (front matter, template = e-dna.html)",
+        "Add templates/e-dna.html (600-line design system reference with CSS, scroll-spy, components)",
+        "Link E-DNA in sidebar tools section (base.html)"
+      ],
+      "pr": 851
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(E-DNA): add Enterprise Editorial Design System reference page",
+      "tag": "chore",
+      "lines_added": 610,
+      "lines_removed": 0,
+      "highlights": [
+        "Add content/tools/e-dna.md (front matter, template = e-dna.html)",
+        "Add templates/e-dna.html (600-line design system reference with CSS, scroll-spy, components)",
+        "Link E-DNA in sidebar tools section (base.html)"
+      ],
+      "pr": 850
+    },
+    {
+      "date": "2026-06-24",
+      "title": "add PR846 conflict resolution case note",
+      "tag": "chore",
+      "lines_added": 28,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 849
+    },
+    {
+      "date": "2026-06-24",
+      "title": "revert(home): revert broken homepage editorial UI",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 10,
+      "highlights": [],
+      "pr": 846
+    },
+    {
+      "date": "2026-06-24",
+      "title": "revert(home): rollback broken homepage editorial UI",
+      "tag": "fix",
+      "lines_added": 214,
+      "lines_removed": 659,
+      "highlights": [
+        "Revert \"feat(home): align homepage with editorial UI spec (#845)\" (40fd5597)",
+        "templates/index.html — restored pre-#845 homepage layout",
+        "templates/base.html — restored stable header/sidebar/footer",
+        "sass/_home-editorial.scss — deleted (editorial UI redesign)",
+        "sass/_fonts.scss, sass/_mobile-blog-momo-spirit.scss, sass/_site-search.scss, sass/site.scss — reverted styling"
+      ],
+      "pr": 848
+    },
+    {
+      "date": "2026-06-24",
+      "title": "chore(ci): pause auto vaccine hotfix generators [chore/disable-auto-vaccine-hotfix]",
+      "tag": "chore",
+      "lines_added": 46,
+      "lines_removed": 100,
+      "highlights": [
+        ".github/workflows/build-failure-handler.yml (modified, +12/-30)",
+        ".github/workflows/self-healing.yml (modified, +7/-5)",
+        ".github/workflows/vaccine-autofixer.yml (modified, +5/-9)",
+        ".github/workflows/vaccine-hotfix.yml (modified, +12/-56)",
+        "CLAUDE.md (modified, +10/-0)"
+      ],
+      "pr": 847
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(home): align homepage with editorial UI spec [fix/homepage-editorial-ui-spec]",
+      "tag": "fix",
+      "lines_added": 659,
+      "lines_removed": 214,
+      "highlights": [
+        "Removed POSTINGS/Hangul decorative banner, header-rotator carousel, Premium Posts sidebar, 'Insights khán giả' label",
+        "Added editorial 3-column feature grid on homepage (left compact list, center lead, right stacked)",
+        "Enhanced feed cards with horizontal layout + bottom border dividers",
+        "Refined search UI: removed redundant eyebrow label, simplified input, kept submit button for JS compat",
+        "Created _home-editorial.scss with full responsive editorial layout"
+      ],
+      "pr": 845
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(search): add missing Google site search partial [fix/missing-google-search-partial]",
+      "tag": "fix",
+      "lines_added": 95,
+      "lines_removed": 0,
+      "highlights": [
+        "Created templates/partials/google-site-search.html — lightweight Google site search form (action=https://www.google.com/search, sitesearch=seomoney.org, Vietnamese UI)",
+        "Added responsive .mobile-search-card CSS in sass/site.scss (mobile-first, max-width 768px)",
+        "zola build — 501 pages, 0 errors",
+        "python3 qa_check.py — 0 errors, 0 vaccine failures, production readiness 84/100 (PRODUCTION-SAFE)",
+        "python3 scripts/check_internal_links.py — OK"
+      ],
+      "pr": 844
+    },
+    {
+      "date": "2026-06-24",
+      "title": "chore(release): add severity-based pipeline policy [chore/release-pipeline-policy]",
+      "tag": "chore",
+      "lines_added": 240,
+      "lines_removed": 54,
+      "highlights": [
+        "fix(home): remove old welcome banner",
+        "chore(release): add severity-based pipeline policy",
+        "CLAUDE.md (modified, +18/-0)",
+        "reports/release-pipeline-audit.md (added, +32/-0)",
+        "reports/release-pipeline-policy.md (added, +65/-0)"
+      ],
+      "pr": 837
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(home): remove old welcome banner [fix/home-remove-old-welcome-banner]",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 54,
+      "highlights": [
+        "templates/base.html (modified, +0/-54)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/home-remove-old-welcome-banner là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 836
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(home): connect heartbeat json card [fix/homepage-heartbeat-json-card]",
+      "tag": "fix",
+      "lines_added": 165,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/site.scss (modified, +78/-0)",
+        "static/js/blog-heartbeat-card.js (added, +70/-0)",
+        "templates/index.html (modified, +17/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 835
+    },
+    {
+      "date": "2026-06-24",
+      "title": "CMS: cập nhật bài 'Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ'",
+      "tag": "chore",
+      "lines_added": 15,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "73b58c397410",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-24",
+      "title": "restore lc8 shortcut [chore/restore-lc8-shortcut]",
+      "tag": "chore",
+      "lines_added": 23,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/shortcuts/lc8.sh (added, +23/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch chore/restore-lc8-shortcut là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 833
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(editor): add internal link helper [feat/editor-internal-link-helper]",
+      "tag": "chore",
+      "lines_added": 183,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/_editor.scss (modified, +60/-0)",
+        "static/js/editor.js (modified, +112/-0)",
+        "templates/editor.html (modified, +11/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 832
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(ci): harden blog heartbeat push race [fix/blog-heartbeat-push-race]",
+      "tag": "security",
+      "lines_added": 13,
+      "lines_removed": 1,
+      "highlights": [
+        ".github/workflows/blog-heartbeat.yml (modified, +13/-1)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/blog-heartbeat-push-race là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 831
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(ci): fix blog heartbeat heredoc [fix/blog-heartbeat-heredoc]",
+      "tag": "fix",
+      "lines_added": 1,
+      "lines_removed": 14,
+      "highlights": [
+        ".github/workflows/blog-heartbeat.yml (modified, +1/-14)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/blog-heartbeat-heredoc là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 830
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(post): add copy code button [feat/post-copy-code-button]",
+      "tag": "chore",
+      "lines_added": 77,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/_single.scss (modified, +36/-0)",
+        "static/js/copy-code.js (added, +40/-0)",
+        "templates/page.html (modified, +1/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 829
+    },
+    {
+      "date": "2026-06-24",
+      "title": "style(post): polish scoring-based related articles [feat/related-posts-inline-ui]",
+      "tag": "chore",
+      "lines_added": 130,
+      "lines_removed": 2,
+      "highlights": [
+        "feat(post): improve scoring-based related articles UI",
+        "style(post): polish scoring-based related articles",
+        "sass/_post.scss (modified, +63/-0)",
+        "sass/_single.scss (modified, +63/-0)",
+        "templates/page.html (modified, +4/-2)"
+      ],
+      "pr": 828
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(editor): add publish checklist [feat/editor-publish-checklist]",
+      "tag": "chore",
+      "lines_added": 205,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/_editor.scss (modified, +42/-0)",
+        "static/js/editor.js (modified, +163/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 827
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(editor): add takeaways fields to post editor [feat/post-key-takeaways-box]",
+      "tag": "chore",
+      "lines_added": 107,
+      "lines_removed": 2,
+      "highlights": [
+        "sass/_editor.scss (modified, +23/-1)",
+        "static/js/editor.js (modified, +73/-1)",
+        "templates/editor.html (modified, +11/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 826
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(post): add optional key takeaways box [feat/post-key-takeaways-box]",
+      "tag": "chore",
+      "lines_added": 83,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/_post.scss (modified, +71/-0)",
+        "templates/page.html (modified, +12/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 825
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(post): add reader utility bar",
+      "tag": "chore",
+      "lines_added": 153,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 824
+    },
+    {
+      "date": "2026-06-24",
+      "title": "design(mobile): refresh blog listing UX with B-DNA cards",
+      "tag": "chore",
+      "lines_added": 357,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 823
+    },
+    {
+      "date": "2026-06-24",
+      "title": "design(og): refresh fallback card with B-DNA editorial style",
+      "tag": "chore",
+      "lines_added": 79,
+      "lines_removed": 67,
+      "highlights": [],
+      "pr": 822
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(og): use stable local fallback social image",
+      "tag": "fix",
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [],
+      "pr": 821
+    },
+    {
+      "date": "2026-06-24",
+      "title": "restore generated qa report after serp hotfix [chore/restore-qa-report-after-serp-hotfix]",
+      "tag": "chore",
+      "lines_added": 187144,
+      "lines_removed": 88614,
+      "highlights": [
+        "data/qa-404-report.json (modified, +187144/-88614)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch chore/restore-qa-report-after-serp-hotfix là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 820
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(vaccine-hotfix): fix-serp-snippet-cleanup",
+      "tag": "fix",
+      "lines_added": 88539,
+      "lines_removed": 187069,
+      "highlights": [],
+      "pr": 819
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(seo): exclude turnstile footer from search snippets [fix/turnstile-footer-nosnippet]",
+      "tag": "fix",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [
+        "templates/partials/turnstile_footer.html (modified, +1/-1)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/turnstile-footer-nosnippet là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 818
+    },
+    {
+      "date": "2026-06-24",
+      "title": "fix(seo): keep technical widgets out of search snippets [fix/serp-snippet-cleanup-reader-first]",
+      "tag": "fix",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [
+        "templates/page.html (modified, +0/-1)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/serp-snippet-cleanup-reader-first là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 817
+    },
+    {
+      "date": "2026-06-24",
+      "title": "2nd",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "8a561d1c18b2",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-24",
+      "title": "README.md",
+      "tag": "chore",
+      "lines_added": 181,
+      "lines_removed": 79,
+      "highlights": [],
+      "commit": "f0fccf3c3cbd",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "fix(seo): hide technical widgets from search snippets",
+      "tag": "fix",
+      "lines_added": 2,
+      "lines_removed": 2,
+      "highlights": [],
+      "pr": 809
+    },
+    {
+      "date": "2026-06-23",
+      "title": "remove(shortensea): retire ShortenSEA and paywall gates",
+      "tag": "remove",
+      "lines_added": 46,
+      "lines_removed": 3,
+      "highlights": [],
+      "pr": 796
+    },
+    {
+      "date": "2026-06-23",
+      "title": "feat(r2): serve static media from Cloudflare R2 CDN [feat/cloudflare-r2-assets]",
+      "tag": "chore",
+      "lines_added": 681,
+      "lines_removed": 31,
+      "highlights": [
+        "feat(r2): serve static media from Cloudflare R2 CDN",
+        "feat(r2): serve static media from Cloudflare R2 CDN",
+        "content/baochi/macos-27-golden-gate-co-gi-moi.md (modified, +1/-1)",
+        "content/baochi/thiet-ke-phan-quyen-role-single-source-of-truth.md (modified, +1/-1)",
+        "content/posting/doc-bao-cao-google-analytics-15-phut-moi-ngay.md (modified, +2/-2)"
+      ],
+      "pr": 798
+    },
+    {
+      "date": "2026-06-23",
+      "title": "correct blog heartbeat static fallback path",
+      "tag": "fix",
+      "lines_added": 1,
+      "lines_removed": 1,
+      "highlights": [],
+      "commit": "f0ee4bb8d20a",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "chore(vaccine): Daily Vaccine Autofixer run",
+      "tag": "chore",
+      "lines_added": 60,
+      "lines_removed": 49,
+      "highlights": [],
+      "pr": 776
+    },
+    {
+      "date": "2026-06-23",
+      "title": "post: add LC8 Patch 4 progress bar story",
+      "tag": "chore",
+      "lines_added": 115,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 781
+    },
+    {
+      "date": "2026-06-23",
+      "title": "fix(vaccine-hotfix): post/github-actions-yaml-conflict-qa-experience",
+      "tag": "fix",
+      "lines_added": 38,
+      "lines_removed": 38,
+      "highlights": [],
+      "pr": 780
+    },
+    {
+      "date": "2026-06-23",
+      "title": "post: add GitHub Actions YAML conflict QA case study",
+      "tag": "chore",
+      "lines_added": 273,
+      "lines_removed": 0,
+      "highlights": [],
+      "pr": 777
+    },
+    {
+      "date": "2026-06-23",
+      "title": "fix(shortensea): CORS_ORIGINS list + /healthz endpoint + startup log",
+      "tag": "fix",
+      "lines_added": 26,
+      "lines_removed": 2,
+      "highlights": [],
+      "commit": "8b1a99c6ea3f",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "fix(deploy): add blog-shortensea-api to render.yaml blueprint",
+      "tag": "fix",
+      "lines_added": 46,
+      "lines_removed": 20,
+      "highlights": [],
+      "commit": "2139c0cc6e85",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "feat(tools): thêm trang Organic Search dashboard (/tools/organic-search/) [feat/organic-search-dashboard]",
+      "tag": "chore",
+      "lines_added": 928,
+      "lines_removed": 0,
+      "highlights": [
+        "content/tools/_index.md (modified, +4/-0)",
+        "content/tools/organic-search.md (added, +9/-0)",
+        "sass/_organic-search.scss (added, +519/-0)",
+        "sass/site.scss (modified, +1/-0)",
+        "templates/organic-search.html (added, +395/-0)"
+      ],
+      "pr": 771
+    },
+    {
+      "date": "2026-06-23",
+      "title": "fix(nav): remove broken top navbar (already removed in config.toml comment)",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 80,
+      "highlights": [],
+      "commit": "f6548e8f996f",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "seo_engine.js",
+      "tag": "chore",
+      "lines_added": 1636,
+      "lines_removed": 324,
+      "highlights": [],
+      "commit": "69caaffa52f7",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "Create seo-check.yml",
+      "tag": "chore",
+      "lines_added": 29,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "f927c0cdcac4",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-23",
+      "title": "Create seo_engine.js",
+      "tag": "chore",
+      "lines_added": 532,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "f6e6ace0990a",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: cập nhật bài 'Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?'",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 0,
+      "highlights": [],
+      "commit": "b51599b9614e",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-22",
+      "title": "CMS: cập nhật bài 'Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?'",
+      "tag": "chore",
+      "lines_added": 5,
+      "lines_removed": 21,
+      "highlights": [],
+      "commit": "841a1e830766",
+      "pr": 0
+    },
+    {
       "date": "2026-06-22",
       "title": "fix(gsc): actionable error when /gsc/oauth/start called without session",
       "tag": "fix",

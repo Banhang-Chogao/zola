@@ -8,7 +8,7 @@ UI/UX mong muốn. Mỗi bài là 1 file content/posting/<slug>.md với frontma
 bám SEO CONTENT SYSTEM RULE: title/description, FAQ, internal link (gồm hub chuyên
 mục), external link uy tín, CTA/next-step. Ghi thêm data/<series_id>-series.json.
 
-Bài premium tách teaser bằng <!-- more --> → scripts/paywall_prepare_build.py --strip
+Tất cả bài viết xuất bản miễn phí; paywall đã retire.
 sẽ chuyển full body sang private_content/ khi deploy (không lộ nội dung tĩnh).
 
 In ra "PUBLISHED:<path>" cho mỗi file để workflow phát hiện thay đổi.
@@ -83,7 +83,7 @@ def build_article(
     today: str,
 ) -> tuple[str, str]:
     """Trả về (slug, file_text) cho 1 bài."""
-    is_paid = pricing == "paid"
+    is_paid = False
     part_topic = f"{topic} — Phần {part}" if total > 1 else topic
     slug = slugify(f"{topic}-phan-{part}") if total > 1 else slugify(topic)
 
@@ -252,7 +252,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Sinh series bài viết từ brief Content Creator.")
     ap.add_argument("--topic", required=True)
     ap.add_argument("--count", type=int, default=3)
-    ap.add_argument("--pricing", choices=["free", "paid"], default="free")
+    ap.add_argument("--pricing", choices=["free"], default="free")
     ap.add_argument("--brief", default="")
     ap.add_argument("--ux", default="")
     ap.add_argument("--series-id", default="")
@@ -312,7 +312,7 @@ def main() -> int:
         if auto_image:
             suggest_pixabay_images(
                 slug=slug, title=f"{topic} — Phần {part}" if count > 1 else topic,
-                keyword=topic.lower(), category=("premium" if pricing == "paid" else ""),
+                keyword=topic.lower(), category="",
                 tags=["content creator", slugify(topic).replace("-", " ")],
             )
 
@@ -323,7 +323,7 @@ def main() -> int:
         "title_vi": topic,
         "description": (brief.strip() or topic)[:300],
         "section": "posting",
-        "category": "premium" if pricing == "paid" else "Tất cả",
+        "category": "Tất cả",
         "pricing": pricing,
         "ux_brief": ux.strip(),
         "total_parts": count,

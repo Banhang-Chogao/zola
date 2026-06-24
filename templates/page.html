@@ -5,10 +5,8 @@
 {% import "macros/references.html" as references %}
 {% import "macros/series-nav.html" as series %}
 {% import "macros/series-hub.html" as series_hub %}
-{% import "macros/paywall.html" as paywall %}
 {% import "macros/premium.html" as premium %}
 {% import "macros/locked.html" as locked %}
-{% import "macros/momo_support.html" as momo_support %}
 
 {# Hide sidebar on blog post pages — article gets full width for better readability #}
 {% block sidebar %}{% endblock %}
@@ -40,7 +38,7 @@
     {# FREE TRIAL: rollback ngày 2026-07-01 — set enable_premium_lock = true + premium_free_trial_active = false. #}
     {% set free_trial = config.extra.premium_free_trial_active | default(value=false) %}
     {# Paywall hoạt động cho MỌI bài premium khi lock bật. Tắt trong giai đoạn free_trial. #}
-    {% set paywall_active = is_premium and premium_lock and not free_trial %}
+    {% set paywall_active = false %}
     {# Đếm heading (H2/H3) MỘT LẦN → quyết định hiển thị Mục lục inline (.toc)
        và rail "Trong bài này" (.toc-rail). show_rail chỉ bật cho bài thường
        (không paywall) đủ heading, tránh reserve cột rail rỗng trên desktop. #}
@@ -132,6 +130,18 @@
                 {% endif %}
             </div>
 
+            {% if page.extra.takeaways %}
+            <aside class="post-takeaways" aria-labelledby="post-takeaways-title">
+                <p class="post-takeaways__eyebrow">Ý chính nhanh</p>
+                <h2 class="post-takeaways__title" id="post-takeaways-title">Bài này giúp bạn nắm nhanh</h2>
+                <ul class="post-takeaways__list">
+                    {% for item in page.extra.takeaways %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </aside>
+            {% endif %}
+
             {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
             <div class="post-actions" data-post-actions hidden>
                 {# page.path = "/posting/{slug}/" → tách lấy đoạn cuối (slug thuần).
@@ -147,13 +157,22 @@
                     Sửa trên GitHub
                 </a>
             </div>
+
+            <nav class="post-readerbar" aria-label="Công cụ đọc bài" data-post-readerbar>
+                <button class="post-readerbar__btn" type="button" data-reader-copy>Copy link</button>
+                <button class="post-readerbar__btn" type="button" data-reader-share>Chia sẻ</button>
+                <button class="post-readerbar__btn" type="button" data-reader-font="down" aria-label="Giảm cỡ chữ">A−</button>
+                <button class="post-readerbar__btn" type="button" data-reader-font="up" aria-label="Tăng cỡ chữ">A+</button>
+                <a class="post-readerbar__btn post-readerbar__btn--ghost" href="#top" data-reader-top>Lên đầu</a>
+                <span class="post-readerbar__status" data-reader-status aria-live="polite"></span>
+            </nav>
         </header>
 
         {% if paywall_active %}
         <div class="post-single__content post-single__content--teaser post-single__content--premium-locked">
             {{ page.content | safe }}
         </div>
-        {{ paywall::box(page=page, config=config) }}
+        
         {% else %}
         <div class="post-single__content">
             {# ===== Mục lục (TOC) — tự động từ native page.toc cho MỌI bài có
@@ -212,7 +231,6 @@
            - bài thường: lời cảm ơn. #}
         {% if paywall_active %}
         {% elif is_premium and not premium_lock %}
-        {{ momo_support::card(config=config) }}
         {% elif not is_premium %}
         <aside class="post-thanks" aria-label="Lời cảm ơn">
             <p class="post-thanks__text">Cám ơn bạn đã đọc blog tới cuối bài. Hãy tham khảo thêm nhiều bài viết hay khác trên blog nhé.</p>
@@ -441,9 +459,11 @@
         {% endif %}
 
         {% if related | length > 0 %}
-        <section class="related-articles" aria-label="Bài viết liên quan">
+        <section class="related-articles related-articles--scored" aria-label="Đọc tiếp theo điểm liên quan">
             <header class="related-articles__head">
-                <h3 class="related-articles__title">RELATED ARTICLES</h3>
+                <p class="related-articles__eyebrow">Đọc tiếp</p>
+                <h3 class="related-articles__title">Bài liên quan theo điểm liên quan</h3>
+                <p class="related-articles__desc">Gợi ý từ hệ thống scoring/related build-time của SEOMONEY, ưu tiên bài cùng cụm nội dung.</p>
             </header>
             <div class="related-articles__grid">
                 {% for p in related %}
@@ -491,9 +511,75 @@
     </aside>
     {% endif %}
     </div>{# /.post-layout #}
+
+<script>
+(() => {
+  const bar = document.querySelector("[data-post-readerbar]");
+  if (!bar) return;
+
+  const content = document.querySelector(".post-single__content");
+  const status = bar.querySelector("[data-reader-status]");
+  const setStatus = (text) => {
+    if (!status) return;
+    status.textContent = text;
+    window.clearTimeout(setStatus._t);
+    setStatus._t = window.setTimeout(() => { status.textContent = ""; }, 1800);
+  };
+
+  const storageKey = "seomoney.readerFontScale";
+  const clamp = (value) => Math.min(2, Math.max(0, value));
+  const applyScale = (scale) => {
+    if (!content) return;
+    content.dataset.readerScale = String(scale);
+    content.style.setProperty("--reader-font-scale", String(1 + scale * 0.06));
+  };
+
+  let scale = clamp(Number(localStorage.getItem(storageKey) || 0));
+  applyScale(scale);
+
+  bar.addEventListener("click", async (event) => {
+    const copy = event.target.closest("[data-reader-copy]");
+    const share = event.target.closest("[data-reader-share]");
+    const font = event.target.closest("[data-reader-font]");
+
+    if (copy) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setStatus("Đã copy link");
+      } catch (_) {
+        setStatus("Không copy được");
+      }
+    }
+
+    if (share) {
+      const payload = { title: document.title, url: window.location.href };
+      try {
+        if (navigator.share) {
+          await navigator.share(payload);
+          setStatus("Đã mở chia sẻ");
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          setStatus("Đã copy link");
+        }
+      } catch (_) {
+        setStatus("Đã hủy chia sẻ");
+      }
+    }
+
+    if (font) {
+      scale = clamp(scale + (font.dataset.readerFont === "up" ? 1 : -1));
+      localStorage.setItem(storageKey, String(scale));
+      applyScale(scale);
+      setStatus(scale === 0 ? "Cỡ chữ mặc định" : "Đã chỉnh cỡ chữ");
+    }
+  });
+})();
+</script>
+
 {% endblock main %}
 
 {% block extra_scripts %}
+    <script src="{{ get_url(path='js/copy-code.js') }}" defer></script>
     <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
     <script src="{{ get_url(path='js/toc-rail.js') }}" defer></script>
     {% if page.taxonomies.categories %}{% set cats = page.taxonomies.categories %}{% else %}{% set cats = [] %}{% endif %}
@@ -501,7 +587,6 @@
     {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
     {% set free_trial = config.extra.premium_free_trial_active | default(value=false) %}
     {% if is_premium and premium_lock and not free_trial %}
-    <script src="{{ get_url(path='js/paywall.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
     {% endif %}
     <script>
         // Show edit button nếu user có PAT (admin đã login CMS)

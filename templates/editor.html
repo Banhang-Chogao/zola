@@ -244,6 +244,17 @@
                         <input type="url" name="thumbnail" placeholder="https://..." class="editor-input">
                     </label>
 
+                    <fieldset class="editor-field editor-field--full editor-takeaways" data-takeaways-wrap>
+                        <legend>Ý chính nhanh</legend>
+                        <p class="editor-field-hint">Nhập 1–3 ý chính. Editor tự lưu vào bài, không cần học Markdown/TOML.</p>
+                        <div class="editor-takeaways__grid">
+                            <input type="text" name="takeaway_1" data-takeaway class="editor-input" maxlength="160" placeholder="VD: Nắm nhanh vấn đề chính trong 30 giây.">
+                            <input type="text" name="takeaway_2" data-takeaway class="editor-input" maxlength="160" placeholder="VD: Biết nên làm gì tiếp theo.">
+                            <input type="text" name="takeaway_3" data-takeaway class="editor-input" maxlength="160" placeholder="VD: Tránh lỗi thường gặp khi áp dụng.">
+                        </div>
+                        <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-action="takeaways-suggest">Gợi ý nhanh từ tiêu đề</button>
+                    </fieldset>
+
                     <label class="editor-field editor-field--check">
                         <input type="checkbox" name="featured"> <span>Bài nổi bật (lên Featured Post — sidebar phải)</span>
                     </label>
@@ -320,6 +331,17 @@
                     {# Wrap 2 pane vào content-body để CSS grid thành 2 cột ở split mode #}
                     <div class="editor-content-body" data-content-body>
                         <textarea name="body" data-tab-pane="write" class="editor-input editor-textarea" placeholder="# Nội dung markdown..." required></textarea>
+
+                        <section class="editor-internal-link-helper" aria-label="Gợi ý link nội bộ">
+                            <div class="editor-internal-link-helper__head">
+                                <h3>Gợi ý link nội bộ</h3>
+                                <p>Gõ từ khóa để tìm bài cũ và chèn Markdown link nhanh vào nội dung.</p>
+                            </div>
+                            <div class="editor-internal-link-helper__search">
+                                <input id="internalLinkQuery" type="search" placeholder="Ví dụ: SEO, GitHub Actions, GSC..." autocomplete="off">
+                            </div>
+                            <div id="internalLinkResults" class="editor-internal-link-helper__results" aria-live="polite"></div>
+                        </section>
                         <div data-tab-pane="preview" class="editor-preview">
                             <em>Bắt đầu gõ để xem preview…</em>
                         </div>

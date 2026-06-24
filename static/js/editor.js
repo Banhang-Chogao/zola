@@ -505,6 +505,58 @@
     return cat;
   }
 
+
+  function tomlString(value) {
+    return "\"" + String(value || "").replace(/\\/g, "\\\\").replace(/"/g, "\\\"") + "\"";
+  }
+
+  function cleanTakeaways(items) {
+    if (!Array.isArray(items)) return [];
+    const seen = new Set();
+    return items
+      .map((x) => String(x || "").trim())
+      .filter(Boolean)
+      .filter((x) => {
+        const k = x.toLowerCase();
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      })
+      .slice(0, 3);
+  }
+
+  function takeawayInputs(root) {
+    return Array.from((root || document).querySelectorAll("[data-takeaway]"));
+  }
+
+  function collectTakeawayInputs(root) {
+    return cleanTakeaways(takeawayInputs(root).map((input) => input.value));
+  }
+
+  function fillTakeawayInputs(items) {
+    const values = cleanTakeaways(items);
+    takeawayInputs(document).forEach((input, idx) => {
+      input.value = values[idx] || "";
+    });
+  }
+
+  function suggestTakeawaysFromForm(form) {
+    const title = form && form.title ? form.title.value.trim() : "";
+    const category = getSelectedCategory ? getSelectedCategory() : "";
+    const body = form && form.body ? form.body.value.trim() : "";
+    const firstLine = body
+      .split(/\n+/)
+      .map((x) => x.replace(/^#+\s*/, "").trim())
+      .filter(Boolean)[0] || "";
+
+    const base = title || firstLine || "bài viết này";
+    return cleanTakeaways([
+      "Nắm nhanh ý chính của “" + base + "”.",
+      category ? "Biết góc nhìn thực tế trong nhóm " + category + "." : "Biết điểm cần chú ý trước khi áp dụng.",
+      "Có checklist ngắn để đọc tiếp hiệu quả hơn."
+    ]);
+  }
+
   function parseFrontmatter(md) {
     // TOML frontmatter giữa +++ ... +++
     const m = md.match(/^\+\+\+\n([\s\S]*?)\n\+\+\+\n?([\s\S]*)$/);
@@ -515,7 +567,7 @@
     const fm = {
       title: "", date: "", category: "Posting", tags: [], thumbnail: "",
       featured: false, featured_at: "", sticky: false,
-      premium: false, momo_payment_link: "",
+      premium: false, momo_payment_link: "", takeaways: [],
     };
 
     const lines = fmText.split("\n");
@@ -549,6 +601,7 @@
         else if (key === "featured_at") fm.featured_at = val;
         else if (key === "sticky") fm.sticky = val === true;
         else if (key === "premium") fm.premium = val === true;
+        else if (key === "takeaways") fm.takeaways = Array.isArray(val) ? cleanTakeaways(val) : [];
         else if (key === "momo_payment_link" || key === "momo_link") fm.momo_payment_link = val;
       }
     }
@@ -569,6 +622,12 @@ tags = ${tagsStr}
 [extra]
 `;
     if (fm.thumbnail) fmText += `thumbnail = "${fm.thumbnail}"\n`;
+    if (fm.takeaways && fm.takeaways.length) {
+      const takeaways = cleanTakeaways(fm.takeaways);
+      if (takeaways.length) {
+        fmText += `takeaways = [${takeaways.map(tomlString).join(", ")}]\n`;
+      }
+    }
     if (fm.featured) {
       fmText += `featured = true\n`;
       // featured_at = thời điểm tick — bài tick sau cùng có timestamp lớn nhất,
@@ -602,6 +661,7 @@ tags = ${tagsStr}
       category: category,
       tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
       thumbnail: form.thumbnail.value.trim(),
+      takeaways: collectTakeawayInputs(form),
       featured: isFeatured,
       featured_at: featuredAt,
       sticky: isSticky,
@@ -968,6 +1028,16 @@ tags = ${tagsStr}
     }
   }
 
+
+  const takeawaysSuggestBtn = $("[data-action='takeaways-suggest']");
+  if (takeawaysSuggestBtn) {
+    takeawaysSuggestBtn.addEventListener("click", () => {
+      const form = $("[data-form='post']");
+      fillTakeawayInputs(suggestTakeawaysFromForm(form));
+      setStatus("[data-status]", "✓ Đã gợi ý 3 ý chính nhanh", "success");
+    });
+  }
+
   const reloadBtn = $("[data-action='reload']");
   if (reloadBtn) {
     reloadBtn.addEventListener("click", () => reloadPostsFromSource(reloadBtn));
@@ -1194,6 +1264,7 @@ tags = ${tagsStr}
   function openEditor(path) {
     const form = $("[data-form='post']");
     form.reset();
+      fillTakeawayInputs([]);
     $("[data-target='save-status']").textContent = "";
     hideDraftBanner(); // reset banner cũ từ session trước
     // Bài mới chưa có slug → mở khoá auto-fill. Edit bài cũ sẽ set lại bên dưới.
@@ -1238,6 +1309,7 @@ tags = ${tagsStr}
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
+      fillTakeawayInputs(fm.takeaways || []);
       form.featured.checked = fm.featured;
       if (form.sticky) form.sticky.checked = fm.sticky;
       const momoInput = form.querySelector("[name='momo_link']");
@@ -2097,4 +2169,279 @@ tags = ${tagsStr}
   });
 
   init();
+})();
+
+/* ============= Editor Markdown Slash Helper =============
+   Lightweight Medium/Notion-style helper:
+   Type /h2, /list, /quote, /link, /tip at the start of a line.
+   Static-first, no dependency, no WYSIWYG.
+*/
+(() => {
+  const COMMANDS = [
+    { key: "h2", label: "Tiêu đề H2", hint: "## Tiêu đề", insert: "## Tiêu đề\n\n" },
+    { key: "h3", label: "Tiêu đề H3", hint: "### Tiêu đề", insert: "### Tiêu đề\n\n" },
+    { key: "list", label: "Danh sách bullet", hint: "- Ý chính", insert: "- Ý chính 1\n- Ý chính 2\n- Ý chính 3\n\n" },
+    { key: "quote", label: "Trích dẫn", hint: "> Ghi chú", insert: "> Ghi chú đáng nhớ\n\n" },
+    { key: "link", label: "Liên kết", hint: "[text](url)", insert: "[Tên liên kết](https://example.com)\n\n" },
+    { key: "tip", label: "Box ghi chú nhẹ", hint: "> 💡 Mẹo", insert: "> 💡 **Mẹo:** Viết ghi chú ngắn ở đây.\n\n" },
+    { key: "code", label: "Code block", hint: "```", insert: "```bash\n# command\n```\n\n" }
+  ];
+
+  function bodyField() {
+    return document.querySelector(
+      "[data-form='post'] textarea[name='body'], " +
+      "[data-form='post'] textarea[name='content'], " +
+      "[data-form='post'] textarea[data-body], " +
+      "[data-form='post'] textarea"
+    );
+  }
+
+  function ensureMenu() {
+    let menu = document.querySelector("[data-md-slash-menu]");
+    if (menu) return menu;
+
+    menu = document.createElement("div");
+    menu.className = "editor-slash-menu";
+    menu.setAttribute("data-md-slash-menu", "");
+    menu.setAttribute("role", "listbox");
+    menu.hidden = true;
+    document.body.appendChild(menu);
+    return menu;
+  }
+
+  function lineBeforeCursor(ta) {
+    const before = ta.value.slice(0, ta.selectionStart);
+    return before.slice(before.lastIndexOf("\n") + 1);
+  }
+
+  function currentQuery(ta) {
+    const line = lineBeforeCursor(ta);
+    const m = line.match(/^\/([a-z0-9-]*)$/i);
+    return m ? m[1].toLowerCase() : null;
+  }
+
+  function replaceSlashWith(ta, text) {
+    const start = ta.selectionStart;
+    const before = ta.value.slice(0, start);
+    const lineStart = before.lastIndexOf("\n") + 1;
+    const after = ta.value.slice(ta.selectionEnd);
+    const prefix = ta.value.slice(0, lineStart);
+
+    ta.value = prefix + text + after;
+    const nextPos = (prefix + text).length;
+    ta.focus();
+    ta.setSelectionRange(nextPos, nextPos);
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function getCaretRect(ta) {
+    const rect = ta.getBoundingClientRect();
+    return {
+      left: Math.min(rect.left + 18, window.innerWidth - 320),
+      top: Math.min(rect.top + 64, window.innerHeight - 260)
+    };
+  }
+
+  function hideMenu() {
+    const menu = document.querySelector("[data-md-slash-menu]");
+    if (menu) menu.hidden = true;
+  }
+
+  function renderMenu(ta) {
+    const q = currentQuery(ta);
+    const menu = ensureMenu();
+
+    if (q === null) {
+      hideMenu();
+      return;
+    }
+
+    const matches = COMMANDS.filter((cmd) =>
+      cmd.key.includes(q) || cmd.label.toLowerCase().includes(q)
+    ).slice(0, 7);
+
+    if (!matches.length) {
+      hideMenu();
+      return;
+    }
+
+    menu.innerHTML = matches.map((cmd, idx) => (
+      '<button type="button" class="editor-slash-menu__item' + (idx === 0 ? ' is-active' : '') + '" data-md-command="' + cmd.key + '" role="option">' +
+        '<span class="editor-slash-menu__label">/' + cmd.key + ' · ' + cmd.label + '</span>' +
+        '<span class="editor-slash-menu__hint">' + cmd.hint.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</span>' +
+      '</button>'
+    )).join("");
+
+    const pos = getCaretRect(ta);
+    menu.style.left = pos.left + "px";
+    menu.style.top = pos.top + "px";
+    menu.hidden = false;
+
+    menu.querySelectorAll("[data-md-command]").forEach((btn) => {
+      btn.addEventListener("mousedown", (event) => {
+        event.preventDefault();
+        const cmd = COMMANDS.find((x) => x.key === btn.dataset.mdCommand);
+        if (cmd) replaceSlashWith(ta, cmd.insert);
+        hideMenu();
+      });
+    });
+  }
+
+  function activeCommand(menu) {
+    return menu && menu.querySelector(".editor-slash-menu__item.is-active");
+  }
+
+  document.addEventListener("input", (event) => {
+    const ta = bodyField();
+    if (!ta || event.target !== ta) return;
+    renderMenu(ta);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const ta = bodyField();
+    const menu = document.querySelector("[data-md-slash-menu]");
+    if (!ta || event.target !== ta || !menu || menu.hidden) return;
+
+    const items = Array.from(menu.querySelectorAll(".editor-slash-menu__item"));
+    const current = Math.max(0, items.findIndex((x) => x.classList.contains("is-active")));
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      hideMenu();
+    }
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      items.forEach((x) => x.classList.remove("is-active"));
+      const next = event.key === "ArrowDown"
+        ? Math.min(items.length - 1, current + 1)
+        : Math.max(0, current - 1);
+      items[next].classList.add("is-active");
+    }
+
+    if (event.key === "Enter" || event.key === "Tab") {
+      const btn = activeCommand(menu);
+      if (!btn) return;
+      event.preventDefault();
+      const cmd = COMMANDS.find((x) => x.key === btn.dataset.mdCommand);
+      if (cmd) replaceSlashWith(ta, cmd.insert);
+      hideMenu();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-md-slash-menu]")) hideMenu();
+  });
+})();
+
+/* Internal Link Helper — lightweight editor-only helper */
+(() => {
+  const queryInput = document.getElementById("internalLinkQuery");
+  const resultsEl = document.getElementById("internalLinkResults");
+  const bodyInput = document.querySelector('textarea[name="body"]');
+
+  if (!queryInput || !resultsEl || !bodyInput) return;
+
+  const normalize = (value) =>
+    String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const escapeHtml = (value) =>
+    String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const readPosts = () => {
+    const el = document.getElementById("site-search-data");
+    if (!el) return [];
+
+    try {
+      const raw = JSON.parse(el.textContent || "[]");
+      return Array.isArray(raw)
+        ? raw
+            .map((item) => ({
+              title: item.title || item.name || "Bài viết",
+              url: item.url || item.permalink || item.path || "",
+              description: item.description || item.summary || item.excerpt || "",
+            }))
+            .filter((item) => item.url && item.title)
+        : [];
+    } catch (_) {
+      return [];
+    }
+  };
+
+  const posts = readPosts();
+
+  const insertAtCursor = (text) => {
+    const start = bodyInput.selectionStart || 0;
+    const end = bodyInput.selectionEnd || 0;
+    const before = bodyInput.value.slice(0, start);
+    const after = bodyInput.value.slice(end);
+    bodyInput.value = `${before}${text}${after}`;
+    bodyInput.focus();
+    const cursor = start + text.length;
+    bodyInput.setSelectionRange(cursor, cursor);
+    bodyInput.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  const render = () => {
+    const q = normalize(queryInput.value.trim());
+
+    if (!posts.length) {
+      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Chưa có dữ liệu tìm kiếm nội bộ.</p>';
+      return;
+    }
+
+    if (q.length < 2) {
+      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Nhập ít nhất 2 ký tự để tìm bài cũ.</p>';
+      return;
+    }
+
+    const terms = q.split(/\s+/).filter(Boolean);
+
+    const matches = posts
+      .map((post) => {
+        const haystack = normalize(`${post.title} ${post.description} ${post.url}`);
+        const score = terms.reduce((total, term) => total + (haystack.includes(term) ? 1 : 0), 0);
+        return { ...post, score };
+      })
+      .filter((post) => post.score > 0)
+      .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
+      .slice(0, 6);
+
+    if (!matches.length) {
+      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Chưa tìm thấy bài phù hợp.</p>';
+      return;
+    }
+
+    resultsEl.innerHTML = matches
+      .map((post, index) => `
+        <article class="editor-internal-link-helper__item">
+          <div>
+            <div class="editor-internal-link-helper__item-title">${escapeHtml(post.title)}</div>
+            <div class="editor-internal-link-helper__item-url">${escapeHtml(post.url)}</div>
+          </div>
+          <button class="editor-internal-link-helper__insert" type="button" data-internal-link-index="${index}">
+            Chèn link
+          </button>
+        </article>
+      `)
+      .join("");
+
+    resultsEl.querySelectorAll("[data-internal-link-index]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const post = matches[Number(btn.dataset.internalLinkIndex)];
+        if (!post) return;
+        insertAtCursor(`[${post.title}](${post.url})`);
+      });
+    });
+  };
+
+  queryInput.addEventListener("input", render);
+  render();
 })();

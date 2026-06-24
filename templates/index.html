@@ -13,6 +13,7 @@
 {% block title %}SEOMONEY — SEO, AI WebOps & Tài chính cá nhân{% endblock %}
 
 {% block main %}
+
     <header class="home-hero">
         <h1 class="home-hero__title">SEOMONEY – SEO, AI WebOps &amp; Tài chính cá nhân</h1>
         <p class="home-hero__sub">
@@ -47,6 +48,23 @@
             </a>
         </div>
     </nav>
+
+    <section class="home-heartbeat" data-home-heartbeat aria-label="Blog Heart Beat">
+        <div class="home-heartbeat__top">
+            <span class="home-heartbeat__eyebrow">Blog Heart Beat</span>
+            <span class="home-heartbeat__pill" data-heartbeat-status>Đang tải…</span>
+        </div>
+        <h2 class="home-heartbeat__title" data-heartbeat-title>SEOMONEY đang đọc nhịp kiểm tra</h2>
+        <p class="home-heartbeat__desc" data-heartbeat-desc>
+            Dữ liệu được đọc từ <code>/data/blog-heartbeat.json</code>.
+        </p>
+        <div class="home-heartbeat__meta">
+            <span data-heartbeat-time></span>
+            <span data-heartbeat-meta>Nguồn: /data/blog-heartbeat.json</span>
+        </div>
+    </section>
+
+    <script src="{{ get_url(path='js/blog-heartbeat-card.js') }}" defer></script>
     {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
        Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI
        bài, không phân biệt section/category; bài mới nhất luôn tự lên đầu. #}
@@ -86,7 +104,7 @@
        (#003784), phủ lớp chữ Hangul tiếng Hàn rải ngẫu nhiên (trắng 50%). Toàn
        bộ chỉ để trang trí → aria-hidden, không cản đọc nội dung. #}
     <div class="home-tabs" aria-hidden="true">
-        <div class="hangeul-pattern">
+        <div aria-hidden="true" class="hangeul-pattern">
             <span>가</span><span>나</span><span>다</span><span>라</span><span>마</span>
             <span>바</span><span>사</span><span>아</span><span>자</span><span>차</span>
             <span>카</span><span>타</span><span>파</span><span>하</span><span>한</span>

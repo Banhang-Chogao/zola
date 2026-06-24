@@ -23,6 +23,16 @@ Code
 → Auto Merge
 → Deploy Production
 
+## Temporary: Auto Vaccine/Hotfix PR Generators Disabled
+
+Auto vaccine/hotfix PR generators are temporarily disabled. Do not re-enable or create new auto-remediation PR spam unless explicitly requested. Use the PR-first deploy strategy: bounded fix → QA/build → PR → checks → squash merge → deploy main → production verify.
+
+The following workflows are affected (manual `workflow_dispatch` only now):
+- `vaccine-hotfix.yml` — previously auto-triggered on QA/deploy/auto-merge failures
+- `vaccine-autofixer.yml` — previously scheduled daily (06:00 ICT)
+- `build-failure-handler.yml` — previously auto-triggered on critical workflow failures
+- `self-healing.yml` — previously scheduled every 6h
+
 ## Branch hợp lệ
 
 - feat/**
@@ -402,6 +412,58 @@ Checklist · Lessons learned. Category mặc định **Công nghệ** (trừ khi
 - Trước khi duyệt: giữ ở dạng nháp (draft notes hoặc draft article chờ review) — KHÔNG đẩy
   vào luồng auto-merge/deploy như bài thường, KHÔNG đụng UI/UX hiện có.
 
+## Conflict Resolution Priority
+
+When resolving merge conflicts, classify files before editing:
+
+1. Generated/report files
+   - Examples: `changelog.json`, QA reports, 404 reports, deploy reports, uptime reports, generated metrics JSON.
+   - Default action: prefer the version from `main`, then regenerate only if the PR explicitly owns that report.
+   - Do not hand-merge generated/report JSON unless explicitly required.
+
+2. Template/CSS/UI files
+   - Examples: `templates/**/*.html`, `sass/**/*.scss`, `static/**/*.css`, UI JS.
+   - Default action: inspect both sides and preserve the PR intent while keeping current `main` safety fixes.
+   - Do not blindly choose one side.
+
+3. Content files
+   - Examples: `content/**/*.md`, taxonomy/front matter, article body.
+   - Default action: do not rewrite or "fix" content during conflict resolution unless the PR specifically targets that content.
+   - Stop and report ambiguity if the correct content version is unclear.
+
+Rule of thumb:
+Generated/report conflict → prefer main.
+Template/CSS conflict → read carefully and preserve intent.
+Content conflict → do not edit unless explicitly instructed.
+
+### Case note: PR #846 changelog conflict
+
+In PR #846, the only conflict was `changelog.json`.
+
+Resolution:
+- Treat `changelog.json` as a generated/report file.
+- Prefer the version from `main`.
+- Do not hand-merge generated JSON.
+- After resolving, confirm with:
+
+```bash
+git diff --name-only --diff-filter=U
+```
+
+Expected output: empty.
+
+Important:
+
+- `mergeable` only means Git conflicts are resolved.
+- It does **not** mean the PR is safe to merge.
+- Required checks such as `qa-check`, preflight, and deploy gates must still pass.
+- If `qa-check` is pending, cancelled, or failed, do not merge yet.
+
+Rule reinforced:
+Generated/report conflict → prefer `main`.
+Template/CSS/UI conflict → inspect both sides and preserve PR intent plus main safety.
+Content conflict → do not edit unless the PR explicitly targets that content.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
@@ -684,13 +746,48 @@ QA Vaccine Summary
 For full details on remaining sections (F-Dashboard, Premium Paywall, Security, Quy tắc hoá giao dịch, etc.), see the full `CLAUDE.md` or `docs/vaccine-archive.md` archive.
 ## QA Rule Checker Learning
 
-**Date:** 2026-06-21T14:12:50Z
+**Date:** 2026-06-24T15:43:05Z
 
-**Conflict:** Slug trùng: auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog (MEDIUM)
+**Conflict:** Slug trùng: bi-kip-xin-visa-han-quoc-5-nam-de (MEDIUM)
 
-**Root Cause:** content/baochi/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md; content/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md… vs Mỗi slug nên unique trong site…
+**Root Cause:** content/baochi/bi-kip-xin-visa-han-quoc-5-nam-de.md; content/posting/bi-kip-xin-visa-han-quoc-5-nam-de.md… vs Mỗi slug nên unique trong site…
 
 **Resolution:** Đổi slug hoặc merge bài trùng.
 
 **Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 48h (schedule); đồng bộ CLAUDE.md khi đổi policy.
 
+## Release Pipeline Rule
+
+SEOMONEY uses a severity-based release pipeline.
+
+Only production-breaking issues may block PR/deploy:
+build failures, template crashes, syntax errors, conflict markers, leaked secrets, missing required assets, broken required internal links, and accidental public exposure of private/admin/auth/editor pages.
+
+SEO/content/dashboard issues must become warnings or reports unless they expose private pages or break production:
+orphan posts, weak internal links, thin clusters, empty categories, missing FAQ/TLDR, low GSC data, non-indexed pages, dashboard data gaps, and content opportunity suggestions.
+
+Claude must always distinguish:
+- local preflight
+- PR hard gate
+- deploy
+- production verification
+
+A task is not truly done until production verification confirms the real site is live.
+
+## Vaccine Autofixer PR Spam Rule
+
+Vaccine/autofixer workflows must not spam duplicate PRs.
+
+Rules:
+- Only one open `deploy_fail` hotfix PR is allowed at a time.
+- When a newer `deploy_fail` PR is created, older open `deploy_fail` PRs must be closed as superseded.
+- Maximum auto-fix retry per failing workflow: 2.
+- After 2 failed retries, stop creating PRs and write a report only.
+- Warning-only QA issues must not trigger `vaccine-hotfix` PRs.
+- Do not batch-fix unrelated PRs.
+- Do not touch content unless the PR is explicitly content-scoped.
+- Do not touch payment/premium/paywall logic unless explicitly requested.
+- If the issue is duplicate, stale, or already fixed on main, close the PR with a clear comment instead of creating another fix PR.
+
+Expected behavior:
+Autofixer should reduce noise, protect production, and surface only real blockers.

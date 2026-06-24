@@ -578,3 +578,11 @@ async def admin_get_operation_guideline_pdf(
             status_code=503,
             detail=f"PDF generation not available: {str(e)}"
         )
+
+try:
+    from .blog_heartbeat import router as blog_heartbeat_router
+except ImportError:
+    from blog_heartbeat import router as blog_heartbeat_router
+
+app.include_router(blog_heartbeat_router)
+

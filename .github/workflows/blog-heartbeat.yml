@@ -1,0 +1,163 @@
+name: Blog Heart Beat
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "*/15 * * * *"
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: read
+
+concurrency:
+  group: blog-heartbeat
+  cancel-in-progress: true
+
+jobs:
+  update-heartbeat:
+    if: github.event_name != 'push' || !contains(github.event.head_commit.message, '[skip heartbeat]')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Collect GitHub status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          mkdir -p static/data
+
+          PR_JSON="$(gh pr list \
+            --repo "$REPO" \
+            --state open \
+            --limit 20 \
+            --json number,title,headRefName,baseRefName,state,isDraft,mergeStateStatus,createdAt,updatedAt,url)"
+
+          RUN_JSON="$(gh run list \
+            --repo "$REPO" \
+            --limit 30 \
+            --json databaseId,displayTitle,workflowName,headBranch,headSha,event,status,conclusion,createdAt,updatedAt,url)"
+
+          DEPLOY_JSON="$(gh run list \
+            --repo "$REPO" \
+            --workflow deploy.yml \
+            --branch main \
+            --limit 10 \
+            --json databaseId,displayTitle,workflowName,headBranch,headSha,event,status,conclusion,createdAt,updatedAt,url || true)"
+
+          export PR_JSON RUN_JSON DEPLOY_JSON REPO
+
+          python3 - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          def load_env(name):
+              raw = os.environ.get(name, "[]")
+              try:
+                  return json.loads(raw)
+              except Exception:
+                  return []
+
+          def run_item(x):
+              return {
+                  "id": x.get("databaseId"),
+                  "title": x.get("displayTitle"),
+                  "workflow": x.get("workflowName"),
+                  "branch": x.get("headBranch"),
+                  "sha": (x.get("headSha") or "")[:7],
+                  "event": x.get("event"),
+                  "status": x.get("status"),
+                  "conclusion": x.get("conclusion"),
+                  "created_at": x.get("createdAt"),
+                  "updated_at": x.get("updatedAt"),
+                  "url": x.get("url"),
+              }
+
+          def pr_item(x):
+              return {
+                  "number": x.get("number"),
+                  "title": x.get("title"),
+                  "head": x.get("headRefName"),
+                  "base": x.get("baseRefName"),
+                  "state": x.get("state"),
+                  "draft": x.get("isDraft"),
+                  "merge_state": x.get("mergeStateStatus"),
+                  "created_at": x.get("createdAt"),
+                  "updated_at": x.get("updatedAt"),
+                  "url": x.get("url"),
+              }
+
+          prs = [pr_item(x) for x in load_env("PR_JSON")]
+          runs = [run_item(x) for x in load_env("RUN_JSON")]
+          deploy_runs = [run_item(x) for x in load_env("DEPLOY_JSON")]
+
+          summary = {
+              "in_progress": sum(1 for r in runs if r.get("status") == "in_progress"),
+              "queued": sum(1 for r in runs if r.get("status") in {"queued", "waiting"}),
+              "success": sum(1 for r in runs if r.get("conclusion") == "success"),
+              "failure": sum(1 for r in runs if r.get("conclusion") in {"failure", "cancelled", "timed_out"}),
+          }
+
+          payload = {
+              "schema_version": 1,
+              "name": "Blog Heart Beat",
+              "repository": os.environ.get("REPO"),
+              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "summary": summary,
+              "pull_requests": prs,
+              "runs": runs,
+              "deploy_runs": deploy_runs,
+          }
+
+          Path("/tmp/blog-heartbeat.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          if [ -f static/data/blog-heartbeat.json ]; then
+            if python3 -c 'import json, sys; from pathlib import Path; old=json.loads(Path("static/data/blog-heartbeat.json").read_text(encoding="utf-8")); new=json.loads(Path("/tmp/blog-heartbeat.json").read_text(encoding="utf-8")); old.pop("generated_at", None); new.pop("generated_at", None); sys.exit(0 if old == new else 1)'; then
+              echo "No heartbeat data change; skip commit."
+              exit 0
+            fi
+          fi
+
+          mv /tmp/blog-heartbeat.json static/data/blog-heartbeat.json
+
+      - name: Commit heartbeat data
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- static/data/blog-heartbeat.json; then
+            echo "No data diff."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add static/data/blog-heartbeat.json
+          git commit -m "chore: update blog heartbeat [skip heartbeat] [skip changelog]"
+          BRANCH="${GITHUB_REF_NAME:-main}"
+          for i in 1 2 3; do
+            git pull --rebase origin "$BRANCH" || true
+            if git push origin "HEAD:$BRANCH"; then
+              echo "Heartbeat data pushed."
+              exit 0
+            fi
+            echo "Push race detected; retry $i/3..."
+            sleep 5
+          done
+
+          echo "Failed to push heartbeat data after retries."
+          exit 1

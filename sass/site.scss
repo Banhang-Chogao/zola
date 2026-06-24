@@ -11,7 +11,6 @@
 @import "breadcrumb";
 @import "toc";
 @import "toc-rail";
-@import "home-momo";
 @import "sidebar";
 @import "google-rank";
 @import "seo-reality";
@@ -22,7 +21,6 @@
 @import "faq";
 @import "references";
 @import "banner";
-@import "live-theodoi8";
 @import "footer";
 @import "ga-stats";
 @import "footer-tags";
@@ -57,17 +55,14 @@
 @import "branding";
 @import "s-dna";
 @import "content-direction";
-@import "shortensea";
 @import "flight-db";
 @import "calendar";
 @import "whiteboard";
 @import "bhxh-1-lan";
 @import "bhtn";
-@import "paywall";
 @import "premium-posts";
 @import "open-prs";
 @import "donate-card";
-@import "momo-support";
 @import "post-nav";
 @import "vaccine-autofixer";
 @import "content-blocks";
@@ -78,7 +73,164 @@
 @import "master-dashboard-v5";
 
 @import "pr_sentinel";
+@import "organic-search";
 
 /* Mobile readability hardening — MUST stay last so its defensive
    overflow/wrapping guards win over earlier component rules. */
+@import "mobile-blog-momo-spirit";
 @import "mobile-hardening";
+
+
+/* Homepage Blog Heart Beat JSON card */
+.home-heartbeat {
+  margin: 1.25rem 0 1.5rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.10), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+}
+
+.home-heartbeat[data-status="ok"] {
+  border-color: rgba(16, 185, 129, 0.32);
+}
+
+.home-heartbeat[data-status="warn"] {
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.home-heartbeat__top,
+.home-heartbeat__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.home-heartbeat__eyebrow {
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+
+.home-heartbeat__pill {
+  padding: 0.22rem 0.55rem;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #047857;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.home-heartbeat__title {
+  margin: 0.55rem 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.2;
+}
+
+.home-heartbeat__desc {
+  margin: 0.45rem 0 0;
+  max-width: 72ch;
+  color: rgba(15, 23, 42, 0.72);
+}
+
+.home-heartbeat__desc code {
+  font-size: 0.9em;
+}
+
+.home-heartbeat__meta {
+  margin-top: 0.8rem;
+  color: rgba(15, 23, 42, 0.62);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .home-heartbeat {
+    margin: 1rem 0;
+    padding: 0.95rem;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-search-card {
+    margin: 1.25rem 0;
+    padding: 1.25rem;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 1.25rem;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  }
+
+  .mobile-search-card__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(12, 74, 110, 0.08);
+    color: #0f4c81;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .mobile-search-card__title {
+    margin: 0 0 0.35rem;
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+
+  .mobile-search-card__desc {
+    margin: 0 0 1rem;
+    color: rgba(15, 23, 42, 0.68);
+    line-height: 1.55;
+  }
+
+  .mobile-search-card__form {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .mobile-search-card__input,
+  .mobile-search-card__button {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 0.9rem;
+    font: inherit;
+  }
+
+  .mobile-search-card__input {
+    border: 1px solid rgba(15, 23, 42, 0.18);
+    padding: 0.9rem 1rem;
+    background: #f8fafc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .mobile-search-card__input:focus {
+    outline: none;
+    border-color: #0f4c81;
+    box-shadow: 0 0 0 3px rgba(12, 74, 110, 0.15);
+  }
+
+  .mobile-search-card__button {
+    padding: 0.9rem 1.5rem;
+    border: none;
+    background: #0f172a;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .mobile-search-card__button:hover {
+    background: #1e293b;
+  }
+}

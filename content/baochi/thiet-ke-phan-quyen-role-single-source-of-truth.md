@@ -28,7 +28,7 @@ Tuần rồi mình dành gần một buổi để dọn lại một thứ tưở
 
 <!-- more -->
 
-![Sơ đồ phân quyền role với một nguồn sự thật duy nhất](/img/placeholder/placeholder-wide.svg)
+![Sơ đồ phân quyền role với một nguồn sự thật duy nhất](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 Mình viết theo kiểu chia sẻ kinh nghiệm thực tế chứ không phải tài liệu hàn lâm, nên sẽ ưu tiên những thứ "đụng vào là thấy đau" hơn là định nghĩa sách vở.
 

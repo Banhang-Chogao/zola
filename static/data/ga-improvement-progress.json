@@ -1,59 +1,59 @@
 {
-  "updated_at": "2026-06-22T16:20:40Z",
+  "updated_at": "2026-06-24T10:34:40Z",
   "tasks": [
     {
       "id": "seo",
       "label": "SEO optimization",
       "icon": "🔍",
       "status": "running",
-      "detail": "Adding copyright sections",
-      "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-18T06:52:03+0700"
+      "detail": "223 posts · avg 93.9/100 · tuning",
+      "source": "seo-qa-scores.json",
+      "updated_at": "2026-06-23T06:58:36.990339+07:00"
     },
     {
       "id": "internal_links",
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "0 broken links · 18 weak related pairs",
+      "detail": "76741 broken links · 0 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-24T10:33:31Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 54/100 · LCP 11.0 s · needs work",
+      "detail": "Mobile 58/100 · LCP 12.2 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T16:17:26+00:00"
+      "updated_at": "2026-06-23T18:19:34+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "15 pages missing FAQ/schema · 958/960 pages",
-      "source": "seo-rank-autofix-report.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "detail": "1075/1076 pages",
+      "source": "compliance-score.json",
+      "updated_at": "2026-06-24T10:33:31Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: no-API Pixabay image-assist + fix(V32) series_part build cra",
+      "detail": "Latest: CMS: cập nhật bài 'Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn",
       "source": "changelog.json",
-      "updated_at": "2026-06-22"
+      "updated_at": "2026-06-24"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "done",
-      "detail": "1084 links OK · IndexNow on publish",
+      "status": "running",
+      "detail": "76735 broken of 1167 links",
       "source": "qa-404-report.json",
-      "updated_at": "2026-06-22T08:13:54Z"
+      "updated_at": "2026-06-24T00:08:10Z"
     },
     {
       "id": "image_opt",
@@ -62,22 +62,22 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-22T15:37:38Z"
+      "updated_at": "2026-06-24T10:33:31Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 54/100 vs desktop 90/100 (Δ36) · 959/960 ready",
+      "detail": "Mobile 58/100 vs desktop 92/100 (Δ34) · 1075/1076 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-22T16:17:26+00:00"
+      "updated_at": "2026-06-23T18:19:34+00:00"
     }
   ],
   "summary": {
     "pending": 0,
-    "running": 5,
-    "done": 3
+    "running": 6,
+    "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
 }

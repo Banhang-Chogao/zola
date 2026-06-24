@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-22T18:59:09Z",
+  "updated_at": "2026-06-24T13:57:09Z",
   "source": "git+api",
   "stale": false,
   "fetch_error": "",
@@ -7,27 +7,11 @@
   "repository_url": "https://github.com/Banhang-Chogao/zola",
   "contributor": "Duy Nguyen",
   "period_days": 365,
-  "period_start": "2025-06-23",
-  "period_end": "2026-06-22",
-  "total_contributions": 2738,
-  "latest_activity_at": "2026-06-22T21:37:15+07:00",
+  "period_start": "2025-06-25",
+  "period_end": "2026-06-24",
+  "total_contributions": 3242,
+  "latest_activity_at": "2026-06-24T20:12:08+07:00",
   "days": [
-    {
-      "date": "2025-06-23",
-      "count": 0,
-      "commits": 0,
-      "pull_requests": 0,
-      "issues": 0,
-      "reviews": 0
-    },
-    {
-      "date": "2025-06-24",
-      "count": 0,
-      "commits": 0,
-      "pull_requests": 0,
-      "issues": 0,
-      "reviews": 0
-    },
     {
       "date": "2025-06-25",
       "count": 0,
@@ -2894,52 +2878,68 @@
     },
     {
       "date": "2026-06-18",
-      "count": 479,
+      "count": 455,
       "commits": 455,
-      "pull_requests": 24,
+      "pull_requests": 0,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-19",
-      "count": 414,
+      "count": 350,
       "commits": 350,
-      "pull_requests": 64,
+      "pull_requests": 0,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-20",
-      "count": 282,
+      "count": 263,
       "commits": 214,
-      "pull_requests": 67,
+      "pull_requests": 48,
       "issues": 1,
       "reviews": 0
     },
     {
       "date": "2026-06-21",
-      "count": 448,
-      "commits": 334,
+      "count": 453,
+      "commits": 339,
       "pull_requests": 114,
       "issues": 0,
       "reviews": 0
     },
     {
       "date": "2026-06-22",
-      "count": 137,
-      "commits": 105,
-      "pull_requests": 31,
+      "count": 247,
+      "commits": 189,
+      "pull_requests": 57,
       "issues": 0,
       "reviews": 1
+    },
+    {
+      "date": "2026-06-23",
+      "count": 290,
+      "commits": 243,
+      "pull_requests": 47,
+      "issues": 0,
+      "reviews": 0
+    },
+    {
+      "date": "2026-06-24",
+      "count": 206,
+      "commits": 172,
+      "pull_requests": 34,
+      "issues": 0,
+      "reviews": 0
     }
   ],
   "breakdown": {
-    "commits": 2436,
+    "commits": 2940,
     "pull_requests": 300,
     "issues": 1,
     "reviews": 1,
-    "commits_pct": 89,
-    "pull_requests_pct": 11,
+    "commits_pct": 91,
+    "pull_requests_pct": 9,
     "issues_pct": 0,
     "reviews_pct": 0
   },
@@ -2954,16 +2954,8 @@
         "month_label": "Jun",
         "days": [
           null,
-          {
-            "date": "2025-06-23",
-            "count": 0,
-            "level": 0
-          },
-          {
-            "date": "2025-06-24",
-            "count": 0,
-            "level": 0
-          },
+          null,
+          null,
           {
             "date": "2025-06-25",
             "count": 0,
@@ -5011,17 +5003,17 @@
           },
           {
             "date": "2026-06-18",
-            "count": 479,
+            "count": 455,
             "level": 4
           },
           {
             "date": "2026-06-19",
-            "count": 414,
+            "count": 350,
             "level": 4
           },
           {
             "date": "2026-06-20",
-            "count": 282,
+            "count": 263,
             "level": 3
           }
         ]
@@ -5031,22 +5023,30 @@
         "days": [
           {
             "date": "2026-06-21",
-            "count": 448,
+            "count": 453,
             "level": 4
           },
           {
             "date": "2026-06-22",
-            "count": 137,
+            "count": 247,
+            "level": 3
+          },
+          {
+            "date": "2026-06-23",
+            "count": 290,
+            "level": 3
+          },
+          {
+            "date": "2026-06-24",
+            "count": 206,
             "level": 2
           },
-          null,
-          null,
           null,
           null,
           null
         ]
       }
     ],
-    "max_count": 479
+    "max_count": 455
   }
 }

@@ -43,12 +43,12 @@
    ACTUALLY exists in production:
 
    - .svg  → DIR-PRESERVING .og.webp twin baked by scripts/build_og_images.py.
-             Keeps the source folder (/img/covers/x.svg → /img/covers/x.og.webp)
-             so the URL hits the twin that ships — NOT a flat /img/og/ guess.
+             Keeps the source folder (https://assets.seomoney.org/img/covers/x.svg → https://assets.seomoney.org/img/covers/x.og.webp)
+             so the URL hits the twin that ships — NOT a flat https://assets.seomoney.org/img/og/ guess.
    - .jpg/.jpeg/.png → .webp (optimize-images.yml replaces rasters with WebP and
              DELETES the original; the raster URL would 404 in production).
    - .webp → kept as-is.
-   - empty / unknown ext → built-in S-DNA default card (seomoney-og.og.webp).
+   - empty / unknown ext → built-in local S-DNA default card (/img/og/seomoney-og.og.webp).
 
    Output is ALWAYS absolute + HTTPS (http:// and // are upgraded to https://;
    root-relative paths are prefixed with base_url).

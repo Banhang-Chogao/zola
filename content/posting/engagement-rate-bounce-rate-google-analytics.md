@@ -50,7 +50,7 @@ Vì sao Google chọn ba điều kiện này mà không phải điều kiện kh
 
 Một điểm hay bị bỏ qua: ba điều kiện này là quan hệ **HOẶC**, không phải VÀ. Bạn không cần thoả cả ba. Chỉ cần một là đủ. Điều đó giải thích vì sao một bài dài người ta đọc chăm chú trên *đúng một trang* vẫn được tính engaged — nó đã qua mốc 10 giây từ lâu.
 
-![Infographic: ba điều kiện để một phiên được tính là engaged session trong GA4](/img/placeholder/placeholder-wide.svg)
+![Infographic: ba điều kiện để một phiên được tính là engaged session trong GA4](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Engagement Rate và Bounce Rate khác nhau thế nào
 
@@ -104,7 +104,7 @@ Dấu hiệu một bài **đáng xem lại**:
 
 Mình nhấn mạnh chữ *lệch search intent* vì đây là nguyên nhân âm thầm nhất. Một bài viết hay nhưng đặt sai từ khoá vẫn sẽ có engagement thấp. Nếu bạn chưa rõ khái niệm ý định tìm kiếm, nên đọc thêm [SEO là gì](/seo-la-gi-huong-dan-co-ban-google-search/) và [Google Search hoạt động thế nào](/google-search-hoat-dong-the-nao/) — hiểu Google ghép truy vấn với trang ra sao sẽ giúp bạn lý giải con số engagement.
 
-![Infographic: bảng đối chiếu engagement rate cao và thấp với nguyên nhân thường gặp](/img/placeholder/placeholder-wide.svg)
+![Infographic: bảng đối chiếu engagement rate cao và thấp với nguyên nhân thường gặp](https://assets.seomoney.org/img/placeholder/placeholder-wide.svg)
 
 ## Cải thiện engagement: vài cách mình đã thử
 

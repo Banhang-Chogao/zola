@@ -404,3 +404,216 @@
   .post-single__content { font-size: 0.92rem; }
   .post-card__title { font-size: 1.05rem; }
 }
+
+/* ============= Reader Utility Bar ============= */
+
+.post-readerbar {
+  margin: 1rem 0 1.25rem;
+  padding: 0.65rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  background: var(--c-bg-surface);
+}
+
+.post-readerbar__btn {
+  min-height: 38px;
+  padding: 0 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.post-readerbar__btn:hover,
+.post-readerbar__btn:focus-visible {
+  color: var(--c-accent);
+  border-color: var(--c-accent);
+}
+
+.post-readerbar__btn--ghost {
+  margin-left: auto;
+}
+
+.post-readerbar__status {
+  min-width: 7rem;
+  color: var(--c-text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.post-single__content {
+  font-size: calc(1rem * var(--reader-font-scale, 1));
+}
+
+@media (max-width: 760px) {
+  .post-readerbar {
+    position: sticky;
+    top: 0.5rem;
+    z-index: 4;
+    margin: 0.75rem 0 1rem;
+    border-radius: 18px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.10);
+  }
+
+  .post-readerbar__btn {
+    flex: 1 1 auto;
+    min-height: 42px;
+  }
+
+  .post-readerbar__btn--ghost {
+    margin-left: 0;
+  }
+
+  .post-readerbar__status {
+    flex-basis: 100%;
+    min-width: 0;
+    padding: 0 0.45rem;
+  }
+}
+
+/* ============= Post Key Takeaways ============= */
+
+.post-takeaways {
+  margin: 1rem 0 1.25rem;
+  padding: 1rem 1.1rem 1.05rem;
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, var(--c-bg-surface), var(--c-bg-soft));
+}
+
+.post-takeaways__eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--c-accent);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.post-takeaways__title {
+  margin: 0 0 0.75rem;
+  color: var(--c-text);
+  font-size: 1.05rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.post-takeaways__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.post-takeaways__list li {
+  position: relative;
+  padding-left: 1.35rem;
+  color: var(--c-text);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.post-takeaways__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--c-accent);
+}
+
+@media (max-width: 760px) {
+  .post-takeaways {
+    margin: 0.9rem 0 1rem;
+    padding: 1rem;
+    border-radius: 18px;
+  }
+
+  .post-takeaways__title {
+    font-size: 1rem;
+  }
+
+  .post-takeaways__list li {
+    font-size: 0.93rem;
+  }
+}
+
+/* ============= Related Posts Inline — scoring-based UI ============= */
+
+.related-articles--scored {
+  margin: 2.5rem 0;
+  padding: 1.1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, var(--c-bg-surface), var(--c-bg-soft));
+}
+
+.related-articles--scored .related-articles__head {
+  margin-bottom: 1rem;
+}
+
+.related-articles__eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--c-accent);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.related-articles--scored .related-articles__title {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.related-articles__desc {
+  max-width: 46rem;
+  margin: 0.45rem 0 0;
+  color: var(--c-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.related-articles--scored .related-card {
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  background: var(--c-bg-surface);
+  overflow: hidden;
+}
+
+.related-articles--scored .related-card__title {
+  font-size: 0.98rem;
+  line-height: 1.38;
+}
+
+@media (max-width: 760px) {
+  .related-articles--scored {
+    margin: 2rem 0;
+    padding: 0.9rem;
+    border-radius: 18px;
+  }
+
+  .related-articles__desc {
+    font-size: 0.84rem;
+  }
+}
