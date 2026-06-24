@@ -30,6 +30,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
           cache: pip
           cache-dependency-path: scripts/requirements.txt
 
@@ -38,6 +39,7 @@ jobs:
         with:
           path: ~/.cache/huggingface
           key: hf-paraphrase-multilingual-MiniLM-L12-v2
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Install dependencies
         run: pip install --quiet -r scripts/requirements.txt
