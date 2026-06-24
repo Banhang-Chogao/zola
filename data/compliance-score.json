@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T18:57:22Z",
+  "updated_at": "2026-06-24T21:02:22Z",
   "score": 87.0,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "1012/1081 in range"
+          "detail": "1016/1085 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1057/1081 complete"
+          "detail": "1060/1085 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1080/1081 set"
+          "detail": "1084/1085 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1071/1081 single H1"
+          "detail": "1072/1085 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1080/1081 with lang"
+          "detail": "1084/1085 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1080/1081 ready"
+          "detail": "1084/1085 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1080/1081 pages"
+          "detail": "1084/1085 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1080/1081 pages covered"
+          "detail": "1084/1085 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "276/276 articles"
+          "detail": "277/277 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "270/276 tagged"
+          "detail": "271/277 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "274/276 substantive"
+          "detail": "275/277 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "8 broken / 1263 unique",
+          "detail": "9 broken / 1268 unique",
           "broken": [
             {
               "source_page": "/content/",
@@ -270,6 +270,15 @@
             {
               "source_page": "/scoring/",
               "source_file": "public/scoring/index.html",
+              "href": "https://seomoney.org/posting/2026-06-25-cai-thien-qa-ci-cd/",
+              "target": "/posting/2026-06-25-cai-thien-qa-ci-cd/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/scoring/",
+              "source_file": "public/scoring/index.html",
               "href": "https://seomoney.org/posting/tai-sao-oxy-hoa-trang-diều-dung/",
               "target": "/posting/tai-sao-oxy-hoa-trang-diều-dung/",
               "status": "404",
@@ -323,7 +332,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1076/1081 pages"
+          "detail": "1080/1085 pages"
         },
         {
           "label": "Skip navigation",
@@ -359,8 +368,8 @@
       "text": "Metadata: Descriptions"
     }
   ],
-  "pages_scanned": 1081,
-  "articles_scanned": 283,
+  "pages_scanned": 1085,
+  "articles_scanned": 284,
   "fix_log": [
     {
       "category": "Media",
@@ -368,7 +377,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T18:57:22Z"
+      "at": "2026-06-24T21:02:22Z"
     },
     {
       "category": "Content",
@@ -376,7 +385,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T18:57:22Z"
+      "at": "2026-06-24T21:02:22Z"
     },
     {
       "category": "Content",
@@ -384,15 +393,15 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T18:57:22Z"
+      "at": "2026-06-24T21:02:22Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 15 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/index.html → /search/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build)",
-      "at": "2026-06-24T18:57:22Z"
+      "message": "Còn 16 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/index.html → /search/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build)",
+      "at": "2026-06-24T21:02:22Z"
     }
   ],
   "fix_summary": {
