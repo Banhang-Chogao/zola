@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "add GH_GITHUB_COM_TOKEN to @v5 actions to resolve rate limit [claude/merge-conflict-preflight-article]",
+      "tag": "fix",
+      "lines_added": 302,
+      "lines_removed": 0,
+      "highlights": [
+        "feat: add deployment status dashboard in footer",
+        "fix: add GH_GITHUB_COM_TOKEN to @v5 actions to resolve rate limit",
+        ".github/workflows/auto-merge.yml (modified, +1/-0)",
+        ".github/workflows/autofix-conflicts.yml (modified, +1/-0)",
+        ".github/workflows/build-failure-handler.yml (modified, +1/-0)"
+      ],
+      "pr": 861
+    },
+    {
+      "date": "2026-06-24",
       "title": "add GitHub Actions rate limit fix article [feat/v5-rate-limit-article]",
       "tag": "feat",
       "lines_added": 178,
