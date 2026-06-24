@@ -210,7 +210,6 @@
            - bài thường: lời cảm ơn. #}
         {% if paywall_active %}
         {% elif is_premium and not premium_lock %}
-        {{ momo_support::card(config=config) }}
         {% elif not is_premium %}
         <aside class="post-thanks" aria-label="Lời cảm ơn">
             <p class="post-thanks__text">Cám ơn bạn đã đọc blog tới cuối bài. Hãy tham khảo thêm nhiều bài viết hay khác trên blog nhé.</p>
