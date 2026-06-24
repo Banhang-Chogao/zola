@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-23T19:32:30Z",
-  "score": 91.3,
-  "grade": "A",
+  "updated_at": "2026-06-24T02:51:09Z",
+  "score": 89.1,
+  "grade": "B",
   "mood": "good",
   "stats": {
     "pass": 20,
-    "warn": 2,
-    "fail": 1,
+    "warn": 1,
+    "fail": 2,
     "total": 23
   },
   "categories": [
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "1016/1082 in range"
+          "detail": "1008/1075 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1058/1082 complete"
+          "detail": "1052/1075 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1081/1082 set"
+          "detail": "1074/1075 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1073/1082 single H1"
+          "detail": "1065/1075 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1081/1082 with lang"
+          "detail": "1074/1075 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1081/1082 ready"
+          "detail": "1074/1075 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1081/1082 pages"
+          "detail": "1074/1075 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "fail",
-          "detail": "5/1082 pages covered"
+          "detail": "5/1075 pages covered"
         },
         {
           "label": "Image weight",
@@ -158,30 +158,21 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 75.0,
+      "score": 50.0,
       "pass": 1,
-      "warn": 1,
-      "fail": 0,
+      "warn": 0,
+      "fail": 1,
       "items": [
         {
           "label": "Internal links",
-          "status": "warn",
-          "detail": "5 broken / 1261 unique",
+          "status": "fail",
+          "detail": "6 broken / 1257 unique",
           "broken": [
             {
-              "source_page": "/posting/di-tho-co-than-kinh-hanh-dong-nao/",
-              "source_file": "public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html",
-              "href": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            },
-            {
-              "source_page": "/posting/di-tho-co-than-kinh-hanh-dong-nao/",
-              "source_file": "public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html",
-              "href": "https://seomoney.org/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "source_page": "/content/",
+              "source_file": "public/content/index.html",
+              "href": "https://seomoney.org/shortensea",
+              "target": "/shortensea/",
               "status": "404",
               "reason": "Target not found in public/ after zola build",
               "auto_fix_status": "pending"
@@ -196,46 +187,10 @@
               "auto_fix_status": "pending"
             },
             {
-              "source_page": "/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/",
-              "source_file": "public/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/index.html",
-              "href": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            },
-            {
-              "source_page": "/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/",
-              "source_file": "public/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/index.html",
-              "href": "https://seomoney.org/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            },
-            {
               "source_page": "/posting/tai-sao-oxy-hoa-trang-dieu-dung/",
               "source_file": "public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html",
               "href": "/content/posting/tai-sao-chung-ta-can-ngu.md",
               "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            },
-            {
-              "source_page": "/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/",
-              "source_file": "public/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/index.html",
-              "href": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "status": "404",
-              "reason": "Target not found in public/ after zola build",
-              "auto_fix_status": "pending"
-            },
-            {
-              "source_page": "/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/",
-              "source_file": "public/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/index.html",
-              "href": "https://seomoney.org/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
-              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
               "status": "404",
               "reason": "Target not found in public/ after zola build",
               "auto_fix_status": "pending"
@@ -252,8 +207,26 @@
             {
               "source_page": "/seo-bang-vang/",
               "source_file": "public/seo-bang-vang/index.html",
+              "href": "https://seomoney.org/posting/premium-fintech-paywall-demo/",
+              "target": "/posting/premium-fintech-paywall-demo/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/seo-bang-vang/",
+              "source_file": "public/seo-bang-vang/index.html",
               "href": "https://seomoney.org/posting/fix-gsc-dashboard-du-lieu-gia-thanh-du-lieu-that/",
               "target": "/posting/fix-gsc-dashboard-du-lieu-gia-thanh-du-lieu-that/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/tools/",
+              "source_file": "public/tools/index.html",
+              "href": "https://seomoney.org/shortensea",
+              "target": "/shortensea/",
               "status": "404",
               "reason": "Target not found in public/ after zola build",
               "auto_fix_status": "pending"
@@ -278,7 +251,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1077/1082 pages"
+          "detail": "1070/1075 pages"
         },
         {
           "label": "Skip navigation",
@@ -298,7 +271,7 @@
       "text": "Media: Image weight"
     },
     {
-      "type": "warn",
+      "type": "fail",
       "text": "Links: Internal links"
     },
     {
@@ -314,7 +287,7 @@
       "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 1082,
+  "pages_scanned": 1075,
   "articles_scanned": 280,
   "fix_log": [
     {
@@ -322,8 +295,8 @@
       "label": "Image descriptions",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (5/1082 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-23T19:32:30Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (5/1075 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-24T02:51:09Z"
     },
     {
       "category": "Media",
@@ -331,15 +304,15 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-23T19:32:30Z"
+      "at": "2026-06-24T02:51:09Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 10 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build); public/posting/mot-ly-do-mua-laptop-thinkpad/index.html → /-vs-hugo/ (Target not found in public/ after zola build)",
-      "at": "2026-06-23T19:32:30Z"
+      "message": "Còn 7 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/posting/mot-ly-do-mua-laptop-thinkpad/index.html → /-vs-hugo/ (Target not found in public/ after zola build); public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build)",
+      "at": "2026-06-24T02:51:09Z"
     }
   ],
   "fix_summary": {
