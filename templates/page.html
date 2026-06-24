@@ -145,6 +145,15 @@
                     Sửa trên GitHub
                 </a>
             </div>
+
+            <nav class="post-readerbar" aria-label="Công cụ đọc bài" data-post-readerbar>
+                <button class="post-readerbar__btn" type="button" data-reader-copy>Copy link</button>
+                <button class="post-readerbar__btn" type="button" data-reader-share>Chia sẻ</button>
+                <button class="post-readerbar__btn" type="button" data-reader-font="down" aria-label="Giảm cỡ chữ">A−</button>
+                <button class="post-readerbar__btn" type="button" data-reader-font="up" aria-label="Tăng cỡ chữ">A+</button>
+                <a class="post-readerbar__btn post-readerbar__btn--ghost" href="#top" data-reader-top>Lên đầu</a>
+                <span class="post-readerbar__status" data-reader-status aria-live="polite"></span>
+            </nav>
         </header>
 
         {% if paywall_active %}
@@ -488,6 +497,71 @@
     </aside>
     {% endif %}
     </div>{# /.post-layout #}
+
+<script>
+(() => {
+  const bar = document.querySelector("[data-post-readerbar]");
+  if (!bar) return;
+
+  const content = document.querySelector(".post-single__content");
+  const status = bar.querySelector("[data-reader-status]");
+  const setStatus = (text) => {
+    if (!status) return;
+    status.textContent = text;
+    window.clearTimeout(setStatus._t);
+    setStatus._t = window.setTimeout(() => { status.textContent = ""; }, 1800);
+  };
+
+  const storageKey = "seomoney.readerFontScale";
+  const clamp = (value) => Math.min(2, Math.max(0, value));
+  const applyScale = (scale) => {
+    if (!content) return;
+    content.dataset.readerScale = String(scale);
+    content.style.setProperty("--reader-font-scale", String(1 + scale * 0.06));
+  };
+
+  let scale = clamp(Number(localStorage.getItem(storageKey) || 0));
+  applyScale(scale);
+
+  bar.addEventListener("click", async (event) => {
+    const copy = event.target.closest("[data-reader-copy]");
+    const share = event.target.closest("[data-reader-share]");
+    const font = event.target.closest("[data-reader-font]");
+
+    if (copy) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setStatus("Đã copy link");
+      } catch (_) {
+        setStatus("Không copy được");
+      }
+    }
+
+    if (share) {
+      const payload = { title: document.title, url: window.location.href };
+      try {
+        if (navigator.share) {
+          await navigator.share(payload);
+          setStatus("Đã mở chia sẻ");
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          setStatus("Đã copy link");
+        }
+      } catch (_) {
+        setStatus("Đã hủy chia sẻ");
+      }
+    }
+
+    if (font) {
+      scale = clamp(scale + (font.dataset.readerFont === "up" ? 1 : -1));
+      localStorage.setItem(storageKey, String(scale));
+      applyScale(scale);
+      setStatus(scale === 0 ? "Cỡ chữ mặc định" : "Đã chỉnh cỡ chữ");
+    }
+  });
+})();
+</script>
+
 {% endblock main %}
 
 {% block extra_scripts %}
