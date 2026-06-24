@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T02:44:27Z",
+  "updated_at": "2026-06-24T02:50:08Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 3,
-    "this_week": 85,
+    "today": 4,
+    "this_week": 86,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 819,
+      "pr_title": "fix(vaccine-hotfix): fix-serp-snippet-cleanup",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/819",
+      "merged_at": "2026-06-24T02:40:26Z",
+      "merge_commit_sha": "35dc248c667ca2e17a4f1cffb9390fc568191237",
+      "merge_commit_short": "35dc248",
+      "head_branch": "vaccine-hotfix/fix-serp-snippet-cleanup",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 88539,
+      "deletions": 187069,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1055,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071386427",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 818,
       "pr_title": "fix(seo): exclude turnstile footer from search snippets [fix/turnstile-footer-nosnippet]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1054,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071296762",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 817,
@@ -528,9 +547,9 @@
       "deletions": 9,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1025,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033812856",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1028,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034375531",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 776,
@@ -2369,25 +2388,6 @@
       "files_changed": 2,
       "additions": 302,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 657,
-      "pr_title": "fix(qa-workflow): Conditionally install dashboard requirements if they exist [claude/tender-bardeen-xurrse]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/657",
-      "merged_at": "2026-06-21T14:02:59Z",
-      "merge_commit_sha": "7d5bc26a456626902a7e4d7fde3c1e8b41c0f0f1",
-      "merge_commit_short": "7d5bc26",
-      "head_branch": "claude/tender-bardeen-xurrse",
-      "summary_vi": "- fix(V21-header-regression): Move cache button from navbar to sidebar",
-      "change_type": "fix",
-      "files_changed": 3,
-      "additions": 95,
-      "deletions": 20,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
