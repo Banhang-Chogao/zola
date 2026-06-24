@@ -2,21 +2,6 @@
   "items": [
     {
       "date": "2026-06-24",
-      "title": "feat(home): align homepage with editorial UI spec [fix/homepage-editorial-ui-spec]",
-      "tag": "fix",
-      "lines_added": 659,
-      "lines_removed": 214,
-      "highlights": [
-        "Removed POSTINGS/Hangul decorative banner, header-rotator carousel, Premium Posts sidebar, 'Insights khán giả' label",
-        "Added editorial 3-column feature grid on homepage (left compact list, center lead, right stacked)",
-        "Enhanced feed cards with horizontal layout + bottom border dividers",
-        "Refined search UI: removed redundant eyebrow label, simplified input, kept submit button for JS compat",
-        "Created _home-editorial.scss with full responsive editorial layout"
-      ],
-      "pr": 845
-    },
-    {
-      "date": "2026-06-24",
       "title": "fix(search): add missing Google site search partial [fix/missing-google-search-partial]",
       "tag": "fix",
       "lines_added": 95,
