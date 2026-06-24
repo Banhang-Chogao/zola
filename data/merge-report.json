@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T05:44:41Z",
+  "updated_at": "2026-06-24T06:30:11Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 13,
-    "this_week": 95,
+    "today": 14,
+    "this_week": 96,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 46,
+      "feature": 47,
       "chore": 13,
       "fix": 94,
-      "unknown": 38,
+      "unknown": 37,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 829,
+      "pr_title": "feat(post): add copy code button [feat/post-copy-code-button]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/829",
+      "merged_at": "2026-06-24T06:24:59Z",
+      "merge_commit_sha": "0814bf18d6159b99597790b4076fd4db059a953e",
+      "merge_commit_short": "0814bf1",
+      "head_branch": "feat/post-copy-code-button",
+      "summary_vi": "feat(post): add copy code button",
+      "change_type": "feature",
+      "files_changed": 3,
+      "additions": 77,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1065,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28079602475",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 828,
       "pr_title": "style(post): polish scoring-based related articles [feat/related-posts-inline-ui]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1064,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28077679329",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 827,
@@ -528,9 +547,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1035,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28039093706",
-      "build_conclusion": "failure"
+      "build_run_number": 1036,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28040837253",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 787,
@@ -566,9 +585,9 @@
       "deletions": 12,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1035,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28039093706",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 790,
@@ -585,9 +604,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1035,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28039093706",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 791,
@@ -3794,25 +3813,6 @@
       "files_changed": 4,
       "additions": 287,
       "deletions": 35,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 583,
-      "pr_title": "chore(momo): update default paid-content link → y5eVvzz2nlXXeEP",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/583",
-      "merged_at": "2026-06-20T19:14:53Z",
-      "merge_commit_sha": "358cf954b58cd05a3ef0f738e605c73b99fcd5a6",
-      "merge_commit_short": "358cf95",
-      "head_branch": "claude/momo-paid-content-links-lgls0f",
-      "summary_vi": "Replace the default MoMo paid-content/donate link",
-      "change_type": "unknown",
-      "files_changed": 8,
-      "additions": 90,
-      "deletions": 8,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
