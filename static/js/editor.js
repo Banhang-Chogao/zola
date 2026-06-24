@@ -2170,3 +2170,166 @@ tags = ${tagsStr}
 
   init();
 })();
+
+/* ============= Editor Markdown Slash Helper =============
+   Lightweight Medium/Notion-style helper:
+   Type /h2, /list, /quote, /link, /tip at the start of a line.
+   Static-first, no dependency, no WYSIWYG.
+*/
+(() => {
+  const COMMANDS = [
+    { key: "h2", label: "Tiêu đề H2", hint: "## Tiêu đề", insert: "## Tiêu đề\n\n" },
+    { key: "h3", label: "Tiêu đề H3", hint: "### Tiêu đề", insert: "### Tiêu đề\n\n" },
+    { key: "list", label: "Danh sách bullet", hint: "- Ý chính", insert: "- Ý chính 1\n- Ý chính 2\n- Ý chính 3\n\n" },
+    { key: "quote", label: "Trích dẫn", hint: "> Ghi chú", insert: "> Ghi chú đáng nhớ\n\n" },
+    { key: "link", label: "Liên kết", hint: "[text](url)", insert: "[Tên liên kết](https://example.com)\n\n" },
+    { key: "tip", label: "Box ghi chú nhẹ", hint: "> 💡 Mẹo", insert: "> 💡 **Mẹo:** Viết ghi chú ngắn ở đây.\n\n" },
+    { key: "code", label: "Code block", hint: "```", insert: "```bash\n# command\n```\n\n" }
+  ];
+
+  function bodyField() {
+    return document.querySelector(
+      "[data-form='post'] textarea[name='body'], " +
+      "[data-form='post'] textarea[name='content'], " +
+      "[data-form='post'] textarea[data-body], " +
+      "[data-form='post'] textarea"
+    );
+  }
+
+  function ensureMenu() {
+    let menu = document.querySelector("[data-md-slash-menu]");
+    if (menu) return menu;
+
+    menu = document.createElement("div");
+    menu.className = "editor-slash-menu";
+    menu.setAttribute("data-md-slash-menu", "");
+    menu.setAttribute("role", "listbox");
+    menu.hidden = true;
+    document.body.appendChild(menu);
+    return menu;
+  }
+
+  function lineBeforeCursor(ta) {
+    const before = ta.value.slice(0, ta.selectionStart);
+    return before.slice(before.lastIndexOf("\n") + 1);
+  }
+
+  function currentQuery(ta) {
+    const line = lineBeforeCursor(ta);
+    const m = line.match(/^\/([a-z0-9-]*)$/i);
+    return m ? m[1].toLowerCase() : null;
+  }
+
+  function replaceSlashWith(ta, text) {
+    const start = ta.selectionStart;
+    const before = ta.value.slice(0, start);
+    const lineStart = before.lastIndexOf("\n") + 1;
+    const after = ta.value.slice(ta.selectionEnd);
+    const prefix = ta.value.slice(0, lineStart);
+
+    ta.value = prefix + text + after;
+    const nextPos = (prefix + text).length;
+    ta.focus();
+    ta.setSelectionRange(nextPos, nextPos);
+    ta.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function getCaretRect(ta) {
+    const rect = ta.getBoundingClientRect();
+    return {
+      left: Math.min(rect.left + 18, window.innerWidth - 320),
+      top: Math.min(rect.top + 64, window.innerHeight - 260)
+    };
+  }
+
+  function hideMenu() {
+    const menu = document.querySelector("[data-md-slash-menu]");
+    if (menu) menu.hidden = true;
+  }
+
+  function renderMenu(ta) {
+    const q = currentQuery(ta);
+    const menu = ensureMenu();
+
+    if (q === null) {
+      hideMenu();
+      return;
+    }
+
+    const matches = COMMANDS.filter((cmd) =>
+      cmd.key.includes(q) || cmd.label.toLowerCase().includes(q)
+    ).slice(0, 7);
+
+    if (!matches.length) {
+      hideMenu();
+      return;
+    }
+
+    menu.innerHTML = matches.map((cmd, idx) => (
+      '<button type="button" class="editor-slash-menu__item' + (idx === 0 ? ' is-active' : '') + '" data-md-command="' + cmd.key + '" role="option">' +
+        '<span class="editor-slash-menu__label">/' + cmd.key + ' · ' + cmd.label + '</span>' +
+        '<span class="editor-slash-menu__hint">' + cmd.hint.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</span>' +
+      '</button>'
+    )).join("");
+
+    const pos = getCaretRect(ta);
+    menu.style.left = pos.left + "px";
+    menu.style.top = pos.top + "px";
+    menu.hidden = false;
+
+    menu.querySelectorAll("[data-md-command]").forEach((btn) => {
+      btn.addEventListener("mousedown", (event) => {
+        event.preventDefault();
+        const cmd = COMMANDS.find((x) => x.key === btn.dataset.mdCommand);
+        if (cmd) replaceSlashWith(ta, cmd.insert);
+        hideMenu();
+      });
+    });
+  }
+
+  function activeCommand(menu) {
+    return menu && menu.querySelector(".editor-slash-menu__item.is-active");
+  }
+
+  document.addEventListener("input", (event) => {
+    const ta = bodyField();
+    if (!ta || event.target !== ta) return;
+    renderMenu(ta);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const ta = bodyField();
+    const menu = document.querySelector("[data-md-slash-menu]");
+    if (!ta || event.target !== ta || !menu || menu.hidden) return;
+
+    const items = Array.from(menu.querySelectorAll(".editor-slash-menu__item"));
+    const current = Math.max(0, items.findIndex((x) => x.classList.contains("is-active")));
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      hideMenu();
+    }
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      items.forEach((x) => x.classList.remove("is-active"));
+      const next = event.key === "ArrowDown"
+        ? Math.min(items.length - 1, current + 1)
+        : Math.max(0, current - 1);
+      items[next].classList.add("is-active");
+    }
+
+    if (event.key === "Enter" || event.key === "Tab") {
+      const btn = activeCommand(menu);
+      if (!btn) return;
+      event.preventDefault();
+      const cmd = COMMANDS.find((x) => x.key === btn.dataset.mdCommand);
+      if (cmd) replaceSlashWith(ta, cmd.insert);
+      hideMenu();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-md-slash-menu]")) hideMenu();
+  });
+})();
