@@ -54,6 +54,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Ensure PR exists + attempt gated auto-merge
         env:

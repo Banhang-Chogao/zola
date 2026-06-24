@@ -75,6 +75,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Run QA Rule Checker (scan, report, push fixes to main)
         if: github.event_name != 'schedule' || steps.active_gate.outputs.skip != 'true'

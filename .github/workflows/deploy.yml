@@ -23,6 +23,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
+  GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -47,6 +48,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       # DNS Vaccine gate — blocks the deploy only on deterministic repo drift
       # (base_url host ≠ static/CNAME). Live DNS is monitored separately by

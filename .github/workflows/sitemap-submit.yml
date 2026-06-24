@@ -32,6 +32,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
       - name: Install Google API client (needed for GSC submit)
         run: pip install --quiet google-api-python-client==2.169.0 google-auth==2.40.2
