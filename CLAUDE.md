@@ -436,6 +436,34 @@ Generated/report conflict → prefer main.
 Template/CSS conflict → read carefully and preserve intent.
 Content conflict → do not edit unless explicitly instructed.
 
+### Case note: PR #846 changelog conflict
+
+In PR #846, the only conflict was `changelog.json`.
+
+Resolution:
+- Treat `changelog.json` as a generated/report file.
+- Prefer the version from `main`.
+- Do not hand-merge generated JSON.
+- After resolving, confirm with:
+
+```bash
+git diff --name-only --diff-filter=U
+```
+
+Expected output: empty.
+
+Important:
+
+- `mergeable` only means Git conflicts are resolved.
+- It does **not** mean the PR is safe to merge.
+- Required checks such as `qa-check`, preflight, and deploy gates must still pass.
+- If `qa-check` is pending, cancelled, or failed, do not merge yet.
+
+Rule reinforced:
+Generated/report conflict → prefer `main`.
+Template/CSS/UI conflict → inspect both sides and preserve PR intent plus main safety.
+Content conflict → do not edit unless the PR explicitly targets that content.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
