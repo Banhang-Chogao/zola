@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "feat(editor): add internal link helper [feat/editor-internal-link-helper]",
+      "tag": "chore",
+      "lines_added": 183,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/_editor.scss (modified, +60/-0)",
+        "static/js/editor.js (modified, +112/-0)",
+        "templates/editor.html (modified, +11/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 832
+    },
+    {
+      "date": "2026-06-24",
       "title": "fix(ci): harden blog heartbeat push race [fix/blog-heartbeat-push-race]",
       "tag": "security",
       "lines_added": 13,
