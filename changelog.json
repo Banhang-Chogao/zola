@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "add missing _home-wwdc.scss for homepage redesign [fix/heartbeat-object-object-layout]",
+      "tag": "chore",
+      "lines_added": 394,
+      "lines_removed": 6,
+      "highlights": [
+        "fix: layout audit — guard [object Object] in heartbeat JS + responsive embed CSS",
+        "chore: add missing _home-wwdc.scss for homepage redesign",
+        "sass/_home-wwdc.scss (added, +356/-0)",
+        "sass/site.scss (modified, +24/-0)",
+        "static/js/blog-heartbeat-card.js (modified, +12/-4)"
+      ],
+      "pr": 854
+    },
+    {
+      "date": "2026-06-24",
       "title": "layout audit — guard [object Object] in heartbeat JS + responsive embed CSS [fix/heartbeat-object-object-layout]",
       "tag": "fix",
       "lines_added": 38,
