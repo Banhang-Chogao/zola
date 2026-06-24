@@ -684,7 +684,7 @@ QA Vaccine Summary
 For full details on remaining sections (F-Dashboard, Premium Paywall, Security, Quy tắc hoá giao dịch, etc.), see the full `CLAUDE.md` or `docs/vaccine-archive.md` archive.
 ## QA Rule Checker Learning
 
-**Date:** 2026-06-24T10:22:02Z
+**Date:** 2026-06-24T11:31:42Z
 
 **Conflict:** Slug trùng: bi-kip-xin-visa-han-quoc-5-nam-de (MEDIUM)
 
@@ -693,7 +693,6 @@ For full details on remaining sections (F-Dashboard, Premium Paywall, Security, 
 **Resolution:** Đổi slug hoặc merge bài trùng.
 
 **Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 48h (schedule); đồng bộ CLAUDE.md khi đổi policy.
-
 
 ## Release Pipeline Rule
 
