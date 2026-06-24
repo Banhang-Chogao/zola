@@ -2,11 +2,11 @@
   "schema_version": 1,
   "name": "Blog Heart Beat",
   "repository": "Banhang-Chogao/zola",
-  "generated_at": "2026-06-24T23:10:03.883499+00:00",
+  "generated_at": "2026-06-24T23:42:59.819559+00:00",
   "summary": {
-    "in_progress": 4,
-    "queued": 1,
-    "success": 13,
+    "in_progress": 5,
+    "queued": 0,
+    "success": 11,
     "failure": 5
   },
   "pull_requests": [
@@ -25,16 +25,107 @@
   ],
   "runs": [
     {
+      "id": 28136833512,
+      "title": "fix(wwdc26): render branding and catalogue via block main",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "dd4a63a",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T23:42:51Z",
+      "updated_at": "2026-06-24T23:42:52Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136833512"
+    },
+    {
+      "id": 28136833500,
+      "title": "fix(wwdc26): render branding and catalogue via block main",
+      "workflow": "Blog Heart Beat",
+      "branch": "main",
+      "sha": "dd4a63a",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T23:42:51Z",
+      "updated_at": "2026-06-24T23:42:55Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136833500"
+    },
+    {
+      "id": 28136833481,
+      "title": "fix(wwdc26): render branding and catalogue via block main",
+      "workflow": "Slack Commit Notification",
+      "branch": "main",
+      "sha": "dd4a63a",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T23:42:51Z",
+      "updated_at": "2026-06-24T23:42:56Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136833481"
+    },
+    {
+      "id": 28136833477,
+      "title": "fix(wwdc26): render branding and catalogue via block main",
+      "workflow": "QA Gatekeeper",
+      "branch": "main",
+      "sha": "dd4a63a",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T23:42:51Z",
+      "updated_at": "2026-06-24T23:42:56Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136833477"
+    },
+    {
+      "id": 28136833476,
+      "title": "fix(wwdc26): render branding and catalogue via block main",
+      "workflow": "IndexNow ping",
+      "branch": "main",
+      "sha": "dd4a63a",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T23:42:51Z",
+      "updated_at": "2026-06-24T23:42:55Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136833476"
+    },
+    {
+      "id": 28136333449,
+      "title": "QA Rule Checker",
+      "workflow": "QA Rule Checker",
+      "branch": "main",
+      "sha": "716c40d",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-06-24T23:30:17Z",
+      "updated_at": "2026-06-24T23:30:27Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136333449"
+    },
+    {
+      "id": 28136333441,
+      "title": "Auto-merge",
+      "workflow": "Auto-merge",
+      "branch": "main",
+      "sha": "716c40d",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-06-24T23:30:17Z",
+      "updated_at": "2026-06-24T23:30:18Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136333441"
+    },
+    {
       "id": 28135518652,
       "title": "fix(build): remove index-backup.html from templates — Zola parses all…",
       "workflow": "IndexNow ping",
       "branch": "main",
       "sha": "3199435",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T23:09:55Z",
-      "updated_at": "2026-06-24T23:09:59Z",
+      "updated_at": "2026-06-24T23:10:06Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28135518652"
     },
     {
@@ -57,10 +148,10 @@
       "branch": "main",
       "sha": "3199435",
       "event": "push",
-      "status": "queued",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "cancelled",
       "created_at": "2026-06-24T23:09:55Z",
-      "updated_at": "2026-06-24T23:09:55Z",
+      "updated_at": "2026-06-24T23:30:16Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28135518633"
     },
     {
@@ -70,10 +161,10 @@
       "branch": "main",
       "sha": "3199435",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T23:09:55Z",
-      "updated_at": "2026-06-24T23:09:59Z",
+      "updated_at": "2026-06-24T23:10:02Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28135518630"
     },
     {
@@ -83,10 +174,10 @@
       "branch": "main",
       "sha": "3199435",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T23:09:55Z",
-      "updated_at": "2026-06-24T23:09:59Z",
+      "updated_at": "2026-06-24T23:10:07Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28135518596"
     },
     {
@@ -322,100 +413,22 @@
       "created_at": "2026-06-24T22:09:06Z",
       "updated_at": "2026-06-24T22:09:16Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132821774"
-    },
-    {
-      "id": 28132821745,
-      "title": "fix: WWDC26 homepage — load posting+baochi posts, full-width layout, …",
-      "workflow": "Blog Heart Beat",
-      "branch": "main",
-      "sha": "16952e2",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T22:09:06Z",
-      "updated_at": "2026-06-24T22:09:17Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132821745"
-    },
-    {
-      "id": 28132821743,
-      "title": "fix: WWDC26 homepage — load posting+baochi posts, full-width layout, …",
-      "workflow": "Slack Commit Notification",
-      "branch": "main",
-      "sha": "16952e2",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T22:09:06Z",
-      "updated_at": "2026-06-24T22:09:12Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132821743"
-    },
-    {
-      "id": 28132821738,
-      "title": "fix: WWDC26 homepage — load posting+baochi posts, full-width layout, …",
-      "workflow": "QA Gatekeeper",
-      "branch": "main",
-      "sha": "16952e2",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "created_at": "2026-06-24T22:09:06Z",
-      "updated_at": "2026-06-24T22:12:37Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132821738"
-    },
-    {
-      "id": 28132650848,
-      "title": "Auto-merge",
-      "workflow": "Auto-merge",
-      "branch": "main",
-      "sha": "ce409d3",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T22:05:25Z",
-      "updated_at": "2026-06-24T22:05:26Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132650848"
-    },
-    {
-      "id": 28132650836,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "ce409d3",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T22:05:25Z",
-      "updated_at": "2026-06-24T22:05:39Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132650836"
-    },
-    {
-      "id": 28132505280,
-      "title": "feat: redesign homepage WWDC26 style (override index.html)",
-      "workflow": "Blog Heart Beat",
-      "branch": "main",
-      "sha": "598b0db",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T22:02:37Z",
-      "updated_at": "2026-06-24T22:02:50Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132505280"
-    },
-    {
-      "id": 28132505258,
-      "title": "feat: redesign homepage WWDC26 style (override index.html)",
-      "workflow": "IndexNow ping",
-      "branch": "main",
-      "sha": "598b0db",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T22:02:37Z",
-      "updated_at": "2026-06-24T22:02:46Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28132505258"
     }
   ],
   "deploy_runs": [
+    {
+      "id": 28136833512,
+      "title": "fix(wwdc26): render branding and catalogue via block main",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "dd4a63a",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T23:42:51Z",
+      "updated_at": "2026-06-24T23:42:52Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28136833512"
+    },
     {
       "id": 28135518635,
       "title": "fix(build): remove index-backup.html from templates — Zola parses all…",
@@ -532,19 +545,6 @@
       "created_at": "2026-06-24T20:38:48Z",
       "updated_at": "2026-06-24T20:52:09Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128094837"
-    },
-    {
-      "id": 28121780375,
-      "title": "fix: improve deploy & QA workflows — caching, timeout, retry logic (#…",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "branch": "main",
-      "sha": "d836c55",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "created_at": "2026-06-24T18:47:16Z",
-      "updated_at": "2026-06-24T18:47:29Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28121780375"
     }
   ]
 }
