@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T14:43:05Z",
+  "updated_at": "2026-06-24T15:03:42Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 28,
-    "this_week": 110,
+    "today": 29,
+    "this_week": 111,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 33,
+      "unknown": 34,
       "chore": 16,
-      "fix": 99,
+      "fix": 98,
       "feature": 43,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 849,
+      "pr_title": "docs: add PR846 conflict resolution case note",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/849",
+      "merged_at": "2026-06-24T14:53:01Z",
+      "merge_commit_sha": "2d0b206f99d984b1644c34e139f49c6e0fbc9dbd",
+      "merge_commit_short": "2d0b206",
+      "head_branch": "docs/conflict-resolution-case-pr846",
+      "summary_vi": "Adds a compact CLAUDE.md case note documenting how to resolve generated/report file conflicts such as changelog.json and clarifies that mergeable does not mean ready to merge until QA passes.",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 28,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1084,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28107519044",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 846,
       "pr_title": "revert(home): revert broken homepage editorial UI",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1083,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105932563",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 848,
@@ -55,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1081,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105169816",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 847,
@@ -509,9 +528,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1054,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071296762",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1056,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071679019",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 817,
@@ -1663,9 +1682,9 @@
       "head_branch": "claude/laughing-volta-f15gwx",
       "summary_vi": "- feat(shortcuts): add prq — PR Queue Audit shortcut",
       "change_type": "unknown",
-      "files_changed": 2,
-      "additions": 65,
-      "deletions": 5,
+      "files_changed": null,
+      "additions": null,
+      "deletions": null,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
@@ -3794,25 +3813,6 @@
       "files_changed": 5,
       "additions": 522,
       "deletions": 170,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 599,
-      "pr_title": "fix(gsc): operator export path for OAuth refresh token + env priority [claude/tender-galileo-xvi6w6]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/599",
-      "merged_at": "2026-06-21T00:56:08Z",
-      "merge_commit_sha": "fe49f829042f22990d9ca1a1ad5f0292d4ad635f",
-      "merge_commit_short": "fe49f82",
-      "head_branch": "claude/tender-galileo-xvi6w6",
-      "summary_vi": "fix(gsc): operator export path for OAuth refresh token + env priority",
-      "change_type": "fix",
-      "files_changed": 4,
-      "additions": 269,
-      "deletions": 8,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
