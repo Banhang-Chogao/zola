@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T18:02:34Z",
+  "updated_at": "2026-06-24T18:13:12Z",
   "score": 87.0,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "1010/1078 in range"
+          "detail": "1012/1081 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1054/1078 complete"
+          "detail": "1057/1081 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1077/1078 set"
+          "detail": "1080/1081 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1068/1078 single H1"
+          "detail": "1071/1081 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1077/1078 with lang"
+          "detail": "1080/1081 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1077/1078 ready"
+          "detail": "1080/1081 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1077/1078 pages"
+          "detail": "1080/1081 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1077/1078 pages covered"
+          "detail": "1080/1081 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "275/275 articles"
+          "detail": "276/276 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "269/275 tagged"
+          "detail": "270/276 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "273/275 substantive"
+          "detail": "274/276 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "8 broken / 1260 unique",
+          "detail": "8 broken / 1263 unique",
           "broken": [
             {
               "source_page": "/content/",
@@ -323,7 +323,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1073/1078 pages"
+          "detail": "1076/1081 pages"
         },
         {
           "label": "Skip navigation",
@@ -359,8 +359,8 @@
       "text": "Metadata: Descriptions"
     }
   ],
-  "pages_scanned": 1078,
-  "articles_scanned": 282,
+  "pages_scanned": 1081,
+  "articles_scanned": 283,
   "fix_log": [
     {
       "category": "Media",
@@ -368,7 +368,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T18:02:34Z"
+      "at": "2026-06-24T18:13:12Z"
     },
     {
       "category": "Content",
@@ -376,7 +376,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T18:02:34Z"
+      "at": "2026-06-24T18:13:12Z"
     },
     {
       "category": "Content",
@@ -384,7 +384,7 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T18:02:34Z"
+      "at": "2026-06-24T18:13:12Z"
     },
     {
       "category": "Links",
@@ -392,7 +392,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 15 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/index.html → /search/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build)",
-      "at": "2026-06-24T18:02:35Z"
+      "at": "2026-06-24T18:13:13Z"
     }
   ],
   "fix_summary": {
