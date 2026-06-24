@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T04:36:46Z",
+  "updated_at": "2026-06-24T04:49:25Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 9,
-    "this_week": 91,
+    "today": 10,
+    "this_week": 92,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 825,
+      "pr_title": "feat(post): add optional key takeaways box [feat/post-key-takeaways-box]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/825",
+      "merged_at": "2026-06-24T04:42:34Z",
+      "merge_commit_sha": "e23013611e1f05d5abac36351e63fbf6f3af1c06",
+      "merge_commit_short": "e230136",
+      "head_branch": "feat/post-key-takeaways-box",
+      "summary_vi": "feat(post): add optional key takeaways box",
+      "change_type": "feature",
+      "files_changed": 2,
+      "additions": 83,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1061,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075667300",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 824,
       "pr_title": "feat(post): add reader utility bar",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1060,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075298058",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 823,
@@ -74,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1058,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28074502051",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 821,
@@ -528,9 +547,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1031,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28037080029",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1033,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28038009369",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 793,
@@ -3794,25 +3813,6 @@
       "files_changed": 6,
       "additions": 645,
       "deletions": 3,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 579,
-      "pr_title": "feat(content): series 3 bài Apple Pay tròn 3 năm tại Việt Nam",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/579",
-      "merged_at": "2026-06-20T19:08:27Z",
-      "merge_commit_sha": "0c6971729a682351deab04cf0d5a9ed99df0654b",
-      "merge_commit_short": "0c69717",
-      "head_branch": "claude/apple-pay-vietnam-series-22jtwz",
-      "summary_vi": "Series `apple-pay-vn` gồm 3 bài (category **Ngân hàng** + **Công nghệ**), trả lời câu hỏi của user: Apple Pay tròn 3 năm vào Việt Nam, tổng số ngân hàng hỗ trợ, và mô hình kiếm tiền — Apple lẫn ngân hàng được lợi gì từ k",
-      "change_type": "feature",
-      "files_changed": 10,
-      "additions": 726,
-      "deletions": 17,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
