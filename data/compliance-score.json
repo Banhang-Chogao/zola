@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T09:42:14Z",
-  "score": 89.1,
+  "updated_at": "2026-06-24T10:33:31Z",
+  "score": 82.6,
   "grade": "B",
-  "mood": "good",
+  "mood": "attention",
   "stats": {
-    "pass": 20,
-    "warn": 1,
-    "fail": 2,
+    "pass": 18,
+    "warn": 2,
+    "fail": 3,
     "total": 23
   },
   "categories": [
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "1008/1075 in range"
+          "detail": "1009/1076 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1052/1075 complete"
+          "detail": "1053/1076 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1074/1075 set"
+          "detail": "1075/1076 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1065/1075 single H1"
+          "detail": "1066/1076 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1074/1075 with lang"
+          "detail": "1075/1076 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1074/1075 ready"
+          "detail": "1075/1076 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1074/1075 pages"
+          "detail": "1075/1076 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "fail",
-          "detail": "5/1075 pages covered"
+          "detail": "5/1076 pages covered"
         },
         {
           "label": "Image weight",
@@ -123,35 +123,35 @@
     {
       "id": "content",
       "label": "Content",
-      "score": 100.0,
-      "pass": 5,
-      "warn": 0,
-      "fail": 0,
+      "score": 70.0,
+      "pass": 3,
+      "warn": 1,
+      "fail": 1,
       "items": [
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "273/273 articles"
+          "detail": "274/274 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "267/273 tagged"
+          "detail": "268/274 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "271/273 substantive"
+          "detail": "272/274 substantive"
         },
         {
           "label": "Unique titles",
-          "status": "pass",
-          "detail": "no duplicates"
+          "status": "warn",
+          "detail": "1 duplicate(s)"
         },
         {
           "label": "Unique slugs",
-          "status": "pass",
-          "detail": "no duplicates"
+          "status": "fail",
+          "detail": "1 duplicate(s)"
         }
       ]
     },
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "6 broken / 1257 unique",
+          "detail": "6 broken / 1258 unique",
           "broken": [
             {
               "source_page": "/content/",
@@ -251,7 +251,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1070/1075 pages"
+          "detail": "1071/1076 pages"
         },
         {
           "label": "Skip navigation",
@@ -271,32 +271,32 @@
       "text": "Media: Image weight"
     },
     {
+      "type": "warn",
+      "text": "Content: Unique titles"
+    },
+    {
+      "type": "fail",
+      "text": "Content: Unique slugs"
+    },
+    {
       "type": "fail",
       "text": "Links: Internal links"
     },
     {
       "type": "pass",
       "text": "Metadata: Page titles"
-    },
-    {
-      "type": "pass",
-      "text": "Metadata: Descriptions"
-    },
-    {
-      "type": "pass",
-      "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 1075,
-  "articles_scanned": 280,
+  "pages_scanned": 1076,
+  "articles_scanned": 281,
   "fix_log": [
     {
       "category": "Media",
       "label": "Image descriptions",
       "check_status": "fail",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (5/1075 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T09:42:14Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (5/1076 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-24T10:33:31Z"
     },
     {
       "category": "Media",
@@ -304,7 +304,23 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T09:42:14Z"
+      "at": "2026-06-24T10:33:31Z"
+    },
+    {
+      "category": "Content",
+      "label": "Unique titles",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-24T10:33:31Z"
+    },
+    {
+      "category": "Content",
+      "label": "Unique slugs",
+      "check_status": "fail",
+      "outcome": "failed",
+      "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-24T10:33:31Z"
     },
     {
       "category": "Links",
@@ -312,13 +328,13 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 7 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/posting/mot-ly-do-mua-laptop-thinkpad/index.html → /-vs-hugo/ (Target not found in public/ after zola build); public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build)",
-      "at": "2026-06-24T09:42:14Z"
+      "at": "2026-06-24T10:33:31Z"
     }
   ],
   "fix_summary": {
-    "attempted": 3,
+    "attempted": 5,
     "fixed": 0,
-    "failed": 3,
+    "failed": 5,
     "skipped": 0
   }
 }
