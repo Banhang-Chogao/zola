@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-24T06:50:14Z",
+  "updated_at": "2026-06-24T07:02:08Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 16,
-    "this_week": 98,
+    "today": 17,
+    "this_week": 99,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 95,
       "feature": 46,
+      "fix": 95,
       "chore": 13,
       "unknown": 37,
       "ci": 5,
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 832,
+      "pr_title": "feat(editor): add internal link helper [feat/editor-internal-link-helper]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/832",
+      "merged_at": "2026-06-24T06:56:38Z",
+      "merge_commit_sha": "fecc6e4955131fdfcac45800315db139db39d5d0",
+      "merge_commit_short": "fecc6e4",
+      "head_branch": "feat/editor-internal-link-helper",
+      "summary_vi": "feat(editor): add internal link helper",
+      "change_type": "feature",
+      "files_changed": 3,
+      "additions": 183,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1068,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28080986489",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 831,
       "pr_title": "fix(ci): harden blog heartbeat push race [fix/blog-heartbeat-push-race]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1067,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28080369205",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 830,
@@ -74,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1065,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28079602475",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 828,
@@ -528,9 +547,9 @@
       "deletions": 11,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1038,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28046273246",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 795,
@@ -3794,25 +3813,6 @@
       "files_changed": 8,
       "additions": 204,
       "deletions": 15,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 586,
-      "pr_title": "feat(og): OG smoke verified + deterministic stale-twin FAIL (content-hash manifest)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/586",
-      "merged_at": "2026-06-20T19:45:00Z",
-      "merge_commit_sha": "41f39aa09f3a012ac8d4549cb432149a89e35e9f",
-      "merge_commit_short": "41f39aa",
-      "head_branch": "claude/jolly-carson-5kdx5w",
-      "summary_vi": "Post-merge OG smoke test (continuing PR #557 / #584) **plus** one hardening code change. No redesign, no rebuild of the card art.",
-      "change_type": "feature",
-      "files_changed": 4,
-      "additions": 150,
-      "deletions": 19,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
