@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-06-24T10:29:27.888928+00:00",
-  "ok": true,
-  "stale": false,
+  "checked_at": "2026-06-24T17:32:01.502194+00:00",
+  "ok": false,
+  "stale": true,
   "summary": {
     "prod_status": "green",
     "deploying": false,
@@ -322,5 +322,6 @@
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075298058",
       "duration_s": 1432
     }
-  ]
+  ],
+  "error": "rate_limit"
 }
