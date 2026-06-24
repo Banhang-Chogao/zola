@@ -886,3 +886,66 @@
     padding: 0.55rem 0.95rem;
   }
 }
+
+/* ============= Related Posts Inline — scoring-based UI ============= */
+
+.related-articles--scored {
+  margin: 2.5rem 0;
+  padding: 1.1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, var(--c-bg-surface), var(--c-bg-soft));
+}
+
+.related-articles--scored .related-articles__head {
+  margin-bottom: 1rem;
+}
+
+.related-articles__eyebrow {
+  margin: 0 0 0.25rem;
+  color: var(--c-accent);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.related-articles--scored .related-articles__title {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.related-articles__desc {
+  max-width: 46rem;
+  margin: 0.45rem 0 0;
+  color: var(--c-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.related-articles--scored .related-card {
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  background: var(--c-bg-surface);
+  overflow: hidden;
+}
+
+.related-articles--scored .related-card__title {
+  font-size: 0.98rem;
+  line-height: 1.38;
+}
+
+@media (max-width: 760px) {
+  .related-articles--scored {
+    margin: 2rem 0;
+    padding: 0.9rem;
+    border-radius: 18px;
+  }
+
+  .related-articles__desc {
+    font-size: 0.84rem;
+  }
+}
