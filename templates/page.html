@@ -459,9 +459,11 @@
         {% endif %}
 
         {% if related | length > 0 %}
-        <section class="related-articles" aria-label="Bài viết liên quan">
+        <section class="related-articles related-articles--scored" aria-label="Đọc tiếp theo điểm liên quan">
             <header class="related-articles__head">
-                <h3 class="related-articles__title">RELATED ARTICLES</h3>
+                <p class="related-articles__eyebrow">Đọc tiếp</p>
+                <h3 class="related-articles__title">Bài liên quan theo điểm liên quan</h3>
+                <p class="related-articles__desc">Gợi ý từ hệ thống scoring/related build-time của SEOMONEY, ưu tiên bài cùng cụm nội dung.</p>
             </header>
             <div class="related-articles__grid">
                 {% for p in related %}
