@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T01:44:54Z",
+  "updated_at": "2026-06-24T01:50:39Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 0,
-    "this_week": 82,
+    "today": 1,
+    "this_week": 83,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 93,
+      "fix": 94,
       "unknown": 40,
       "feature": 47,
-      "chore": 11,
+      "chore": 10,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 814,
+      "pr_title": "fix(vaccine-hotfix): deploy_fail-28064541575",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/814",
+      "merged_at": "2026-06-24T01:45:25Z",
+      "merge_commit_sha": "336198eca828ca3527b5f6e22b828447e0fab239",
+      "merge_commit_short": "336198e",
+      "head_branch": "vaccine-hotfix/deploy_fail-28064541575",
+      "summary_vi": "Automated **Vaccine Hotfix** (`deploy_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by Vacxin\").",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 484256,
+      "deletions": 77666,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1052,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28069447865",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 809,
       "pr_title": "fix(seo): hide technical widgets from search snippets",
@@ -528,9 +547,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1022,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033570273",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1028,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034375531",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 782,
@@ -3794,25 +3813,6 @@
       "files_changed": 21,
       "additions": 365,
       "deletions": 647,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 555,
-      "pr_title": "chore(vaccine): Daily Vaccine Autofixer run",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/555",
-      "merged_at": "2026-06-20T12:19:36Z",
-      "merge_commit_sha": "d8a44cc99b5cf61cfcae157650c45636aa288e70",
-      "merge_commit_short": "d8a44cc",
-      "head_branch": "chore/vaccine-autofixer-20260620-102216",
-      "summary_vi": "Automated run of the Daily Vaccine Autofixer (Vaccine V11). Auto-merges when QA passes.",
-      "change_type": "chore",
-      "files_changed": 3,
-      "additions": 45,
-      "deletions": 17,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
