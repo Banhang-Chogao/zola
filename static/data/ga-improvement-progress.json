@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T10:34:40Z",
+  "updated_at": "2026-06-24T18:13:00Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,9 +15,9 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "76741 broken links · 0 weak related pairs",
+      "detail": "8 broken links · 0 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-24T10:33:31Z"
+      "updated_at": "2026-06-24T18:02:34Z"
     },
     {
       "id": "page_speed",
@@ -33,16 +33,16 @@
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "1075/1076 pages",
+      "detail": "1077/1078 pages",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-24T10:33:31Z"
+      "updated_at": "2026-06-24T18:02:34Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: CMS: cập nhật bài 'Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn",
+      "detail": "Latest: remove broken Google Search module from header and SEO widge",
       "source": "changelog.json",
       "updated_at": "2026-06-24"
     },
@@ -50,10 +50,10 @@
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "running",
-      "detail": "76735 broken of 1167 links",
-      "source": "qa-404-report.json",
-      "updated_at": "2026-06-24T00:08:10Z"
+      "status": "pending",
+      "detail": "No build-dashboard snapshot",
+      "source": "build-dashboard.json",
+      "updated_at": "2026-06-24T11:36:24Z"
     },
     {
       "id": "image_opt",
@@ -62,21 +62,21 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-24T10:33:31Z"
+      "updated_at": "2026-06-24T18:02:34Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 58/100 vs desktop 92/100 (Δ34) · 1075/1076 ready",
+      "detail": "Mobile 58/100 vs desktop 92/100 (Δ34) · 1077/1078 ready",
       "source": "pagespeed.json",
       "updated_at": "2026-06-23T18:19:34+00:00"
     }
   ],
   "summary": {
-    "pending": 0,
-    "running": 6,
+    "pending": 1,
+    "running": 5,
     "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
