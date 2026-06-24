@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T17:32:48Z",
+  "updated_at": "2026-06-24T17:42:40Z",
   "score": 87.0,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "1010/1077 in range"
+          "detail": "1010/1078 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1053/1077 complete"
+          "detail": "1054/1078 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1076/1077 set"
+          "detail": "1077/1078 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1067/1077 single H1"
+          "detail": "1068/1078 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1076/1077 with lang"
+          "detail": "1077/1078 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1076/1077 ready"
+          "detail": "1077/1078 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1076/1077 pages"
+          "detail": "1077/1078 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1076/1077 pages covered"
+          "detail": "1077/1078 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "274/274 articles"
+          "detail": "275/275 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "268/274 tagged"
+          "detail": "269/275 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "272/274 substantive"
+          "detail": "273/275 substantive"
         },
         {
           "label": "Unique titles",
@@ -166,13 +166,22 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "6 broken / 1258 unique",
+          "detail": "8 broken / 1260 unique",
           "broken": [
             {
               "source_page": "/content/",
               "source_file": "public/content/index.html",
               "href": "https://seomoney.org/shortensea",
               "target": "/shortensea/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/",
+              "source_file": "public/index.html",
+              "href": "https://seomoney.org/search/",
+              "target": "/search/",
               "status": "404",
               "reason": "Target not found in public/ after zola build",
               "auto_fix_status": "pending"
@@ -241,6 +250,24 @@
               "auto_fix_status": "pending"
             },
             {
+              "source_page": "/posting/tao-anh-og-guong-mat-mang-xa-hoi-blog-tap-chi-online/",
+              "source_file": "public/posting/tao-anh-og-guong-mat-mang-xa-hoi-blog-tap-chi-online/index.html",
+              "href": "/branding/hilda-guideline/",
+              "target": "/branding/hilda-guideline/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/tao-anh-og-guong-mat-mang-xa-hoi-blog-tap-chi-online/",
+              "source_file": "public/posting/tao-anh-og-guong-mat-mang-xa-hoi-blog-tap-chi-online/index.html",
+              "href": "https://seomoney.org/branding/hilda-guideline/",
+              "target": "/branding/hilda-guideline/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
               "source_page": "/scoring/",
               "source_file": "public/scoring/index.html",
               "href": "https://seomoney.org/posting/tai-sao-oxy-hoa-trang-diều-dung/",
@@ -296,7 +323,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1072/1077 pages"
+          "detail": "1073/1078 pages"
         },
         {
           "label": "Skip navigation",
@@ -332,8 +359,8 @@
       "text": "Metadata: Descriptions"
     }
   ],
-  "pages_scanned": 1077,
-  "articles_scanned": 281,
+  "pages_scanned": 1078,
+  "articles_scanned": 282,
   "fix_log": [
     {
       "category": "Media",
@@ -341,7 +368,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T17:32:48Z"
+      "at": "2026-06-24T17:42:40Z"
     },
     {
       "category": "Content",
@@ -349,7 +376,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T17:32:48Z"
+      "at": "2026-06-24T17:42:40Z"
     },
     {
       "category": "Content",
@@ -357,15 +384,15 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T17:32:48Z"
+      "at": "2026-06-24T17:42:40Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 12 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build)",
-      "at": "2026-06-24T17:32:48Z"
+      "message": "Còn 15 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/index.html → /search/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build)",
+      "at": "2026-06-24T17:42:40Z"
     }
   ],
   "fix_summary": {
