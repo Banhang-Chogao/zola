@@ -694,3 +694,21 @@ For full details on remaining sections (F-Dashboard, Premium Paywall, Security, 
 
 **Prevention:** Chạy `qa-auto-rule-checker.py` mỗi 48h (schedule); đồng bộ CLAUDE.md khi đổi policy.
 
+
+## Release Pipeline Rule
+
+SEOMONEY uses a severity-based release pipeline.
+
+Only production-breaking issues may block PR/deploy:
+build failures, template crashes, syntax errors, conflict markers, leaked secrets, missing required assets, broken required internal links, and accidental public exposure of private/admin/auth/editor pages.
+
+SEO/content/dashboard issues must become warnings or reports unless they expose private pages or break production:
+orphan posts, weak internal links, thin clusters, empty categories, missing FAQ/TLDR, low GSC data, non-indexed pages, dashboard data gaps, and content opportunity suggestions.
+
+Claude must always distinguish:
+- local preflight
+- PR hard gate
+- deploy
+- production verification
+
+A task is not truly done until production verification confirms the real site is live.
