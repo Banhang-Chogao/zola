@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T06:40:56Z",
+  "updated_at": "2026-06-24T06:50:14Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 15,
-    "this_week": 97,
+    "today": 16,
+    "this_week": 98,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 831,
+      "pr_title": "fix(ci): harden blog heartbeat push race [fix/blog-heartbeat-push-race]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/831",
+      "merged_at": "2026-06-24T06:42:45Z",
+      "merge_commit_sha": "c63f2dce54c0cbba7028290a60f33c81777c692d",
+      "merge_commit_short": "c63f2dc",
+      "head_branch": "fix/blog-heartbeat-push-race",
+      "summary_vi": "fix(ci): harden blog heartbeat push race",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 13,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1067,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28080369205",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 830,
       "pr_title": "fix(ci): fix blog heartbeat heredoc [fix/blog-heartbeat-heredoc]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1066,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28079939413",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 829,
@@ -528,9 +547,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1037,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28044419763",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 794,
@@ -3794,25 +3813,6 @@
       "files_changed": 4,
       "additions": 150,
       "deletions": 19,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 585,
-      "pr_title": "fix(nav): stable desktop side-nav + V21 No-Floating-Bar vaccine",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/585",
-      "merged_at": "2026-06-20T19:44:37Z",
-      "merge_commit_sha": "663dd0f473e3bc5735ab6f7d5f41fa2984c741be",
-      "merge_commit_short": "663dd0f",
-      "head_branch": "claude/zealous-ride-ky2br1",
-      "summary_vi": "Two tightly-coupled changes: the desktop nav stability fix, plus a permanent vaccine that protects it.",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 7,
-      "deletions": 4,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
