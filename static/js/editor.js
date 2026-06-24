@@ -2333,3 +2333,115 @@ tags = ${tagsStr}
     if (!event.target.closest("[data-md-slash-menu]")) hideMenu();
   });
 })();
+
+/* Internal Link Helper — lightweight editor-only helper */
+(() => {
+  const queryInput = document.getElementById("internalLinkQuery");
+  const resultsEl = document.getElementById("internalLinkResults");
+  const bodyInput = document.querySelector('textarea[name="body"]');
+
+  if (!queryInput || !resultsEl || !bodyInput) return;
+
+  const normalize = (value) =>
+    String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const escapeHtml = (value) =>
+    String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const readPosts = () => {
+    const el = document.getElementById("site-search-data");
+    if (!el) return [];
+
+    try {
+      const raw = JSON.parse(el.textContent || "[]");
+      return Array.isArray(raw)
+        ? raw
+            .map((item) => ({
+              title: item.title || item.name || "Bài viết",
+              url: item.url || item.permalink || item.path || "",
+              description: item.description || item.summary || item.excerpt || "",
+            }))
+            .filter((item) => item.url && item.title)
+        : [];
+    } catch (_) {
+      return [];
+    }
+  };
+
+  const posts = readPosts();
+
+  const insertAtCursor = (text) => {
+    const start = bodyInput.selectionStart || 0;
+    const end = bodyInput.selectionEnd || 0;
+    const before = bodyInput.value.slice(0, start);
+    const after = bodyInput.value.slice(end);
+    bodyInput.value = `${before}${text}${after}`;
+    bodyInput.focus();
+    const cursor = start + text.length;
+    bodyInput.setSelectionRange(cursor, cursor);
+    bodyInput.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  const render = () => {
+    const q = normalize(queryInput.value.trim());
+
+    if (!posts.length) {
+      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Chưa có dữ liệu tìm kiếm nội bộ.</p>';
+      return;
+    }
+
+    if (q.length < 2) {
+      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Nhập ít nhất 2 ký tự để tìm bài cũ.</p>';
+      return;
+    }
+
+    const terms = q.split(/\s+/).filter(Boolean);
+
+    const matches = posts
+      .map((post) => {
+        const haystack = normalize(`${post.title} ${post.description} ${post.url}`);
+        const score = terms.reduce((total, term) => total + (haystack.includes(term) ? 1 : 0), 0);
+        return { ...post, score };
+      })
+      .filter((post) => post.score > 0)
+      .sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
+      .slice(0, 6);
+
+    if (!matches.length) {
+      resultsEl.innerHTML = '<p class="editor-internal-link-helper__empty">Chưa tìm thấy bài phù hợp.</p>';
+      return;
+    }
+
+    resultsEl.innerHTML = matches
+      .map((post, index) => `
+        <article class="editor-internal-link-helper__item">
+          <div>
+            <div class="editor-internal-link-helper__item-title">${escapeHtml(post.title)}</div>
+            <div class="editor-internal-link-helper__item-url">${escapeHtml(post.url)}</div>
+          </div>
+          <button class="editor-internal-link-helper__insert" type="button" data-internal-link-index="${index}">
+            Chèn link
+          </button>
+        </article>
+      `)
+      .join("");
+
+    resultsEl.querySelectorAll("[data-internal-link-index]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const post = matches[Number(btn.dataset.internalLinkIndex)];
+        if (!post) return;
+        insertAtCursor(`[${post.title}](${post.url})`);
+      });
+    });
+  };
+
+  queryInput.addEventListener("input", render);
+  render();
+})();
