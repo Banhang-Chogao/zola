@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "feat(post): add copy code button [feat/post-copy-code-button]",
+      "tag": "chore",
+      "lines_added": 77,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/_single.scss (modified, +36/-0)",
+        "static/js/copy-code.js (added, +40/-0)",
+        "templates/page.html (modified, +1/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 829
+    },
+    {
+      "date": "2026-06-24",
       "title": "style(post): polish scoring-based related articles [feat/related-posts-inline-ui]",
       "tag": "chore",
       "lines_added": 130,
