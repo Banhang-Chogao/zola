@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "restore lc8 shortcut [chore/restore-lc8-shortcut]",
+      "tag": "chore",
+      "lines_added": 23,
+      "lines_removed": 0,
+      "highlights": [
+        "scripts/shortcuts/lc8.sh (added, +23/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch chore/restore-lc8-shortcut là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 833
+    },
+    {
+      "date": "2026-06-24",
       "title": "feat(editor): add internal link helper [feat/editor-internal-link-helper]",
       "tag": "chore",
       "lines_added": 183,
