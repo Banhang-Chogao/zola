@@ -2,11 +2,11 @@
   "schema_version": 1,
   "name": "Blog Heart Beat",
   "repository": "Banhang-Chogao/zola",
-  "generated_at": "2026-06-24T14:17:37.577082+00:00",
+  "generated_at": "2026-06-24T14:21:48.372396+00:00",
   "summary": {
-    "in_progress": 8,
+    "in_progress": 7,
     "queued": 0,
-    "success": 9,
+    "success": 12,
     "failure": 0
   },
   "pull_requests": [
@@ -217,16 +217,107 @@
   ],
   "runs": [
     {
+      "id": 28105438667,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "Blog Heart Beat",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:42Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438667"
+    },
+    {
+      "id": 28105438663,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:39Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438663"
+    },
+    {
+      "id": 28105438613,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "QA Gatekeeper",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:39Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438613"
+    },
+    {
+      "id": 28105438603,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "Automatic SEO Priority Engine Audit",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:43Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438603"
+    },
+    {
+      "id": 28105438590,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "Auto-update changelog.json",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:42Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438590"
+    },
+    {
+      "id": 28105438553,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "Slack Commit Notification",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:46Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438553"
+    },
+    {
+      "id": 28105438536,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "Fetch Merge Report",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:39Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438536"
+    },
+    {
       "id": 28105169837,
       "title": "merge: rollback homepage editorial UI redesign (#848)",
       "workflow": "IndexNow ping",
       "branch": "main",
       "sha": "be438f6",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T14:17:26Z",
-      "updated_at": "2026-06-24T14:17:31Z",
+      "updated_at": "2026-06-24T14:17:37Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105169837"
     },
     {
@@ -262,10 +353,10 @@
       "branch": "main",
       "sha": "be438f6",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T14:17:26Z",
-      "updated_at": "2026-06-24T14:17:30Z",
+      "updated_at": "2026-06-24T14:17:41Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105169792"
     },
     {
@@ -275,10 +366,10 @@
       "branch": "main",
       "sha": "be438f6",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T14:17:26Z",
-      "updated_at": "2026-06-24T14:17:30Z",
+      "updated_at": "2026-06-24T14:17:40Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105169788"
     },
     {
@@ -314,10 +405,10 @@
       "branch": "main",
       "sha": "be438f6",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T14:17:25Z",
-      "updated_at": "2026-06-24T14:17:30Z",
+      "updated_at": "2026-06-24T14:17:41Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105169732"
     },
     {
@@ -514,100 +605,22 @@
       "created_at": "2026-06-24T13:17:50Z",
       "updated_at": "2026-06-24T13:17:51Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101371730"
-    },
-    {
-      "id": 28101298500,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "81cc8c1",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T13:16:38Z",
-      "updated_at": "2026-06-24T13:16:39Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101298500"
-    },
-    {
-      "id": 28101219366,
-      "title": "Auto-merge",
-      "workflow": "Auto-merge",
-      "branch": "main",
-      "sha": "c6953c3",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T13:15:21Z",
-      "updated_at": "2026-06-24T13:15:22Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101219366"
-    },
-    {
-      "id": 28101219353,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "c6953c3",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T13:15:21Z",
-      "updated_at": "2026-06-24T13:15:31Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101219353"
-    },
-    {
-      "id": 28101044615,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "c6953c3",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T13:12:32Z",
-      "updated_at": "2026-06-24T13:12:33Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101044615"
-    },
-    {
-      "id": 28101044569,
-      "title": "Auto-merge",
-      "workflow": "Auto-merge",
-      "branch": "main",
-      "sha": "c6953c3",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T13:12:31Z",
-      "updated_at": "2026-06-24T13:12:43Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101044569"
-    },
-    {
-      "id": 28101023469,
-      "title": "chore(ci): pause auto vaccine hotfix generators (#847)",
-      "workflow": "Automatic SEO Priority Engine Audit",
-      "branch": "main",
-      "sha": "ac33158",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T13:12:11Z",
-      "updated_at": "2026-06-24T13:12:25Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101023469"
-    },
-    {
-      "id": 28101023347,
-      "title": "chore(ci): pause auto vaccine hotfix generators (#847)",
-      "workflow": "Fetch Merge Report",
-      "branch": "main",
-      "sha": "ac33158",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T13:12:11Z",
-      "updated_at": "2026-06-24T13:17:47Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28101023347"
     }
   ],
   "deploy_runs": [
+    {
+      "id": 28105438663,
+      "title": "docs: add conflict resolution priority rule",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "4583c47",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T14:21:38Z",
+      "updated_at": "2026-06-24T14:21:39Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105438663"
+    },
     {
       "id": 28105169816,
       "title": "merge: rollback homepage editorial UI redesign (#848)",
@@ -724,19 +737,6 @@
       "created_at": "2026-06-24T11:04:35Z",
       "updated_at": "2026-06-24T11:25:18Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28093991666"
-    },
-    {
-      "id": 28092557501,
-      "title": "Build and deploy Zola site to GitHub Pages",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "branch": "main",
-      "sha": "0747dfa",
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T10:36:37Z",
-      "updated_at": "2026-06-24T10:59:28Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28092557501"
     }
   ]
 }
