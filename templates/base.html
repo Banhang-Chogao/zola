@@ -443,6 +443,7 @@
 
     {% set asset_version = now(timestamp=true) %}
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
+    <link rel="stylesheet" href="{{ get_url(path='css/dashboard.css') }}?v={{ asset_version }}">
 
     {# Google Analytics 4 đã được dời xuống trước <!-- BLOG_HEARTBEAT_CLIENT_JS -->
 <script defer src="/js/blog-heartbeat-client.js"></script>
@@ -1297,6 +1298,47 @@
             </div>
         </nav>
 
+        {# ===== DEPLOYMENT STATUS DASHBOARD =====
+           Real-time deploy status: success/failure, commit SHA, message, run link.
+           Rendered from data/deployment-status.json (updated by cron workflow every 5 min).
+           Client-side JS (dashboard.js) refreshes UI without page reload. #}
+         {% set ds_path = config.extra.deployment_status_path | default(value="data/deployment-status.json") %}
+         {% set ds = load_data(path=ds_path, required=false) %}
+        {% if ds %}
+        <div class="deployment-dashboard container" data-deployment-dashboard>
+          <h4 class="dashboard-title">Deployment Status</h4>
+          <div class="status-grid">
+            <div class="status-item">
+              <span class="status-label">Status</span>
+              <span class="status-value status-{{ ds.status | default(value='unknown') }}" data-ds-badge>
+                {% if ds.status == "success" %}SUCCESS{% elif ds.status == "failure" %}FAILED{% elif ds.status == "pending" %}PENDING{% else %}UNKNOWN{% endif %}
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Last Deploy</span>
+              <span class="status-value" data-ds-time>{{ ds.deploy_time | default(value="N/A") }}</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Commit</span>
+              <span class="status-value">
+                <a href="https://github.com/Banhang-Chogao/zola/commit/{{ ds.commit_sha }}" target="_blank" rel="noopener" data-ds-sha-link>
+                  <code data-ds-sha>{{ ds.commit_sha | default(value="N/A") }}</code>
+                </a>
+              </span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Message</span>
+              <span class="status-value commit-msg" data-ds-msg>{{ ds.commit_message | default(value="N/A") | truncate(length=50) }}</span>
+            </div>
+            <div class="status-item full-width">
+              <a href="{{ ds.run_url }}" target="_blank" rel="noopener" class="run-link" data-ds-run-link>
+                View GitHub Actions Run →
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
         {# Deploy Monitor widget — build-time CI pipeline status (no token) #}
         {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
         {% if dm and dm.summary %}
@@ -1323,6 +1365,7 @@
     <script src="{{ get_url(path='js/seo-reality-gsc.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/dashboard.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-health.js') }}?v={{ asset_version }}" defer></script>
