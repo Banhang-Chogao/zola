@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T01:50:39Z",
+  "updated_at": "2026-06-24T02:36:42Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 1,
-    "this_week": 83,
+    "today": 2,
+    "this_week": 84,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 817,
+      "pr_title": "fix(seo): keep technical widgets out of search snippets [fix/serp-snippet-cleanup-reader-first]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/817",
+      "merged_at": "2026-06-24T02:30:02Z",
+      "merge_commit_sha": "a869fc8b91ee354b925ca74d0b8dc7d945ee768a",
+      "merge_commit_short": "a869fc8",
+      "head_branch": "fix/serp-snippet-cleanup-reader-first",
+      "summary_vi": "fix(seo): keep technical widgets out of search snippets",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 0,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1053,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071028741",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 814,
       "pr_title": "fix(vaccine-hotfix): deploy_fail-28064541575",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1052,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28069447865",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 809,
@@ -528,9 +547,9 @@
       "deletions": 38,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1023,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033586133",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1028,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034375531",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 783,
@@ -3794,25 +3813,6 @@
       "files_changed": 35,
       "additions": 813,
       "deletions": 951,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 551,
-      "pr_title": "fix(vaccine-v18): stop runtime artifact conflicts in concurrent hotfix PRs",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/551",
-      "merged_at": "2026-06-20T12:32:01Z",
-      "merge_commit_sha": "0b60f39ee662c72efb4b499913af02699ebe847d",
-      "merge_commit_short": "0b60f39",
-      "head_branch": "claude/zealous-tesla-9lu5hd",
-      "summary_vi": "Permanent fix for the class of conflicts that blocked PRs #547, #548, #549 — all `dirty` due to volatile runtime artifacts committed alongside real code fixes.",
-      "change_type": "fix",
-      "files_changed": 21,
-      "additions": 365,
-      "deletions": 647,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
