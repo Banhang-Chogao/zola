@@ -151,7 +151,7 @@
   }
 
   function formatTime(iso) {
-    if (!iso) return "chưa rõ";
+    if (!iso || typeof iso !== "string") return "chưa rõ";
     try {
       return new Date(iso).toLocaleString("vi-VN", {
         hour: "2-digit",
@@ -160,7 +160,7 @@
         month: "2-digit"
       });
     } catch (e) {
-      return iso;
+      return "chưa rõ";
     }
   }
 

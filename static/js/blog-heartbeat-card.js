@@ -8,6 +8,14 @@
   const descEl = card.querySelector("[data-heartbeat-desc]");
   const metaEl = card.querySelector("[data-heartbeat-meta]");
 
+  function safeStr(v) {
+    if (v == null) return "";
+    if (typeof v === "string") return v;
+    if (typeof v === "number") return String(v);
+    if (typeof v === "boolean") return v ? "true" : "false";
+    try { return JSON.stringify(v); } catch (_) { return String(v); }
+  }
+
   function pick(obj, keys) {
     for (const key of keys) {
       if (obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== "") return obj[key];
@@ -35,10 +43,10 @@
     })
     .then(function (data) {
       const status = String(pick(data, ["status", "state", "health", "result"]) || "ok").toLowerCase();
-      const generatedAt = pick(data, ["generated_at", "updated_at", "last_updated", "timestamp"]);
-      const commit = pick(data, ["commit", "sha", "short_sha", "head_sha"]);
-      const message = pick(data, ["message", "summary", "title"]);
-      const totalPosts = pick(data, ["total_posts", "posts_total", "live_posts"]);
+      const generatedAt = safeStr(pick(data, ["generated_at", "updated_at", "last_updated", "timestamp"]));
+      const commit = safeStr(pick(data, ["commit", "sha", "short_sha", "head_sha"]));
+      const message = safeStr(pick(data, ["message", "title", "description", "name"]));
+      const totalPosts = safeStr(pick(data, ["total_posts", "posts_total", "live_posts"]));
       const latestRuns = Array.isArray(data.recent_runs) ? data.recent_runs.length : "";
       const latestItems = Array.isArray(data.items) ? data.items.length : "";
 

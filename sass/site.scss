@@ -71,6 +71,7 @@
 @import "editor-sdna";
 @import "open-pr-monitor";
 @import "master-dashboard-v5";
+@import "home-wwdc";
 
 @import "pr_sentinel";
 @import "organic-search";
@@ -232,5 +233,28 @@
 
   .mobile-search-card__button:hover {
     background: #1e293b;
+  }
+}
+
+/* ===== EMBED / BADGE RESPONSIVE — defense-in-depth =====
+   GitHub badges, Google Search CSE, iframe widgets — ensure no
+   embed can overflow viewport or push layout wider than screen. */
+.github-badge,
+.gh-badges__card,
+.embed-container,
+.gsc-control-cse {
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.gh-badges__card {
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .github-badge {
+    display: block;
+    width: 100%;
   }
 }
