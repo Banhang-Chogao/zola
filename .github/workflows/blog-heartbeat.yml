@@ -148,4 +148,16 @@ jobs:
 
           git add static/data/blog-heartbeat.json
           git commit -m "chore: update blog heartbeat [skip heartbeat] [skip changelog]"
-          git push
+          BRANCH="${GITHUB_REF_NAME:-main}"
+          for i in 1 2 3; do
+            git pull --rebase origin "$BRANCH" || true
+            if git push origin "HEAD:$BRANCH"; then
+              echo "Heartbeat data pushed."
+              exit 0
+            fi
+            echo "Push race detected; retry $i/3..."
+            sleep 5
+          done
+
+          echo "Failed to push heartbeat data after retries."
+          exit 1
