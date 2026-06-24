@@ -412,6 +412,30 @@ Checklist · Lessons learned. Category mặc định **Công nghệ** (trừ khi
 - Trước khi duyệt: giữ ở dạng nháp (draft notes hoặc draft article chờ review) — KHÔNG đẩy
   vào luồng auto-merge/deploy như bài thường, KHÔNG đụng UI/UX hiện có.
 
+## Conflict Resolution Priority
+
+When resolving merge conflicts, classify files before editing:
+
+1. Generated/report files
+   - Examples: `changelog.json`, QA reports, 404 reports, deploy reports, uptime reports, generated metrics JSON.
+   - Default action: prefer the version from `main`, then regenerate only if the PR explicitly owns that report.
+   - Do not hand-merge generated/report JSON unless explicitly required.
+
+2. Template/CSS/UI files
+   - Examples: `templates/**/*.html`, `sass/**/*.scss`, `static/**/*.css`, UI JS.
+   - Default action: inspect both sides and preserve the PR intent while keeping current `main` safety fixes.
+   - Do not blindly choose one side.
+
+3. Content files
+   - Examples: `content/**/*.md`, taxonomy/front matter, article body.
+   - Default action: do not rewrite or "fix" content during conflict resolution unless the PR specifically targets that content.
+   - Stop and report ambiguity if the correct content version is unclear.
+
+Rule of thumb:
+Generated/report conflict → prefer main.
+Template/CSS conflict → read carefully and preserve intent.
+Content conflict → do not edit unless explicitly instructed.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
