@@ -1,0 +1,600 @@
+{% extends "base.html" %}
+
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}WWDC26 Branding Guideline | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block extra_head %}
+<style>
+  .layout-grid:has(.wdna) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.wdna) { max-width: 1240px; }
+
+  .wdna {
+    --wd-ink:           var(--c-text-heading, #0a0a0a);
+    --wd-body:          var(--c-text-body, #333);
+    --wd-muted:         var(--c-text-muted, #6a6a6a);
+    --wd-blue:          #007aff;
+    --wd-blue-hover:    #0051d5;
+    --wd-blue-soft:     #e8f1ff;
+    --wd-glass:         #a78bfa;
+    --wd-surface:       var(--c-bg-surface, #fff);
+    --wd-page:          var(--c-bg-page, #f8f9fb);
+    --wd-soft:          var(--c-bg-soft, #f4f4f4);
+    --wd-border:        var(--c-border, #e3e3e3);
+    --wd-border-strong: var(--c-border-strong, #d0d0d0);
+    --wd-success:       var(--c-success, #00a69d);
+    --wd-shadow:        0 2px 8px rgba(0,122,255,.08);
+    --wd-shadow-lg:     0 8px 24px rgba(0,122,255,.12);
+    --wd-radius:        14px;
+    --wd-radius-sm:     8px;
+    --wd-mono:          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --wd-rail:          232px;
+    --wd-nav-offset:    76px;
+    --wd-1: 4px;  --wd-2: 8px;  --wd-3: 12px; --wd-4: 16px;
+    --wd-5: 24px; --wd-6: 32px; --wd-7: 48px; --wd-8: 64px;
+
+    font-family: inherit;
+    color: var(--wd-body);
+    line-height: 1.62;
+    padding: 0 var(--wd-4) var(--wd-8);
+    margin: 0 auto;
+  }
+
+  .wdna *, .wdna *::before, .wdna *::after { box-sizing: border-box; }
+
+  /* ===== Brand bar ===== */
+  .wdna__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--wd-4); flex-wrap: wrap;
+    padding: var(--wd-5) 0 var(--wd-4);
+    border-bottom: 1px solid var(--wd-border);
+  }
+  .wdna__brand { display: flex; align-items: center; gap: var(--wd-3); }
+  .wdna__mark {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--wd-blue);
+    border-radius: var(--wd-radius-sm);
+    color: var(--wd-blue);
+    font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--wd-blue-soft), #fff);
+  }
+  .wdna__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .wdna__brand-name { font-size: 1.1rem; font-weight: 800; color: var(--wd-ink); letter-spacing: -0.02em; }
+  .wdna__brand-tag { font-size: 0.74rem; color: var(--wd-muted); }
+  .wdna__top-link {
+    font-size: 0.8rem; font-weight: 600; text-decoration: none;
+    color: var(--wd-blue); padding: var(--wd-2) var(--wd-3);
+    border: 1px solid var(--wd-border); border-radius: 999px;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .wdna__top-link:hover { border-color: var(--wd-blue); background: var(--wd-blue-soft); }
+
+  /* ===== Hero ===== */
+  .wdna__hero {
+    padding: var(--wd-8) 0 var(--wd-7);
+    border-bottom: 1px solid var(--wd-border);
+  }
+  .wdna__eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--wd-blue); margin: 0 0 var(--wd-4);
+  }
+  .wdna__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+    color: var(--wd-ink); margin: 0 0 var(--wd-3); max-width: 20ch;
+  }
+  .wdna__subtitle {
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    line-height: 1.55; color: var(--wd-muted); margin: 0 0 var(--wd-5); max-width: 64ch;
+  }
+  .wdna__lede {
+    font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.6;
+    color: var(--wd-body); margin: 0; max-width: 64ch;
+  }
+  .wdna__lede strong { color: var(--wd-ink); }
+  .wdna__sources { margin: var(--wd-5) 0 0; font-size: 0.82rem; color: var(--wd-muted); }
+  .wdna__sources a { color: var(--wd-blue); }
+  .wdna__principles {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--wd-4); margin-top: var(--wd-7);
+    padding-top: var(--wd-6); border-top: 1px solid var(--wd-border);
+  }
+  .wdna__principle-n { font-size: 1.9rem; font-weight: 800; color: var(--wd-ink); letter-spacing: -0.02em; line-height: 1; }
+  .wdna__principle-l { display: block; margin-top: var(--wd-2); font-size: 0.82rem; color: var(--wd-muted); }
+
+  /* ===== Two-column body ===== */
+  .wdna__body { display: grid; grid-template-columns: minmax(0, 1fr) var(--wd-rail); gap: var(--wd-8); align-items: start; }
+
+  .wdna__rail { position: sticky; top: var(--wd-nav-offset); align-self: start; }
+  .wdna__rail-title {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--wd-muted); margin: 0 0 var(--wd-3); padding-left: var(--wd-3);
+  }
+  .wdna__rail nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--wd-border); }
+  .wdna__rail a {
+    display: flex; align-items: baseline; gap: var(--wd-2);
+    font-size: 0.84rem; font-weight: 500; text-decoration: none;
+    color: var(--wd-muted); padding: var(--wd-2) var(--wd-3);
+    border-left: 2px solid transparent; margin-left: -1px;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .wdna__rail a:hover { color: var(--wd-ink); }
+  .wdna__rail a.is-active { color: var(--wd-blue); border-left-color: var(--wd-blue); background: var(--wd-blue-soft); border-radius: 0 6px 6px 0; }
+  .wdna__rail-num { font-family: var(--wd-mono); font-size: 0.72rem; color: var(--wd-muted); flex-shrink: 0; }
+  .wdna__rail a.is-active .wdna__rail-num { color: var(--wd-blue); }
+
+  /* ===== Sections ===== */
+  .wdna__section { padding: var(--wd-8) 0; border-bottom: 1px solid var(--wd-border); scroll-margin-top: var(--wd-nav-offset); }
+  .wdna__section:last-child { border-bottom: 0; }
+  .wdna__sec-head { margin-bottom: var(--wd-6); }
+  .wdna__sec-kicker { font-family: var(--wd-mono); font-size: 0.8rem; color: var(--wd-blue); font-weight: 600; }
+  .wdna__sec-title { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; color: var(--wd-ink); margin: var(--wd-2) 0 var(--wd-3); }
+  .wdna__sec-desc { font-size: 0.98rem; line-height: 1.62; color: var(--wd-body); margin: 0; max-width: 70ch; }
+
+  .wdna__h3 { font-size: 1.02rem; font-weight: 700; color: var(--wd-ink); margin: var(--wd-6) 0 var(--wd-3); }
+  .wdna__h3:first-child { margin-top: 0; }
+  .wdna__p { font-size: 0.94rem; line-height: 1.66; color: var(--wd-body); margin: 0 0 var(--wd-3); max-width: 70ch; }
+  .wdna__p strong { color: var(--wd-ink); }
+  .wdna code { font-family: var(--wd-mono); font-size: 0.84em; color: var(--wd-blue); background: var(--wd-blue-soft); padding: 1px 6px; border-radius: 5px; }
+
+  /* ===== Card grid ===== */
+  .wdna__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--wd-4); }
+  .wdna__card { background: var(--wd-surface); border: 1px solid var(--wd-border); border-radius: var(--wd-radius-sm); padding: var(--wd-5); }
+  .wdna__card h4 { font-size: 0.9rem; font-weight: 700; color: var(--wd-ink); margin: 0 0 var(--wd-2); }
+  .wdna__card p { font-size: 0.84rem; line-height: 1.55; color: var(--wd-muted); margin: 0; }
+
+  /* ===== Do / Don't ===== */
+  .wdna__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--wd-4); margin-top: var(--wd-4); }
+  .wdna__list { list-style: none; margin: 0; padding: var(--wd-5); border-radius: var(--wd-radius-sm); border: 1px solid var(--wd-border); background: var(--wd-surface); }
+  .wdna__list h5 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 var(--wd-3); }
+  .wdna__list li { font-size: 0.86rem; line-height: 1.5; color: var(--wd-body); padding: var(--wd-2) 0 var(--wd-2) var(--wd-5); position: relative; }
+  .wdna__list--do h5 { color: var(--wd-success); }
+  .wdna__list--dont h5 { color: var(--wd-blue-hover); }
+  .wdna__list--do li::before { content: "✓"; position: absolute; left: 0; color: var(--wd-success); font-weight: 800; }
+  .wdna__list--dont li::before { content: "✕"; position: absolute; left: 0; color: var(--wd-blue-hover); font-weight: 800; }
+
+  /* ===== Typography specimen ===== */
+  .wdna__type-row { display: grid; grid-template-columns: 1fr auto; gap: var(--wd-4); align-items: baseline; padding: var(--wd-4) var(--wd-5); border: 1px solid var(--wd-border); border-radius: var(--wd-radius-sm); background: var(--wd-surface); margin-bottom: var(--wd-2); }
+  .wdna__type-sample { color: var(--wd-ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wdna__type-meta { font-family: var(--wd-mono); font-size: 0.74rem; color: var(--wd-muted); text-align: right; white-space: nowrap; }
+  .wdna__type-hilda { font-family: 'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+  /* ===== Component demos ===== */
+  .wdna__demo { background: var(--wd-soft); border: 1px solid var(--wd-border); border-radius: var(--wd-radius-sm); padding: var(--wd-6); display: flex; flex-wrap: wrap; gap: var(--wd-4); align-items: center; }
+
+  .wdna__hero-card {
+    background: var(--wd-surface); border: 1px solid var(--wd-border);
+    border-left: 5px solid var(--wd-blue); border-radius: var(--wd-radius-sm);
+    padding: var(--wd-7) var(--wd-6);
+    max-width: 580px; width: 100%;
+  }
+  .wdna__hero-card-eyebrow {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--wd-blue); margin: 0 0 var(--wd-3);
+  }
+  .wdna__hero-card-title {
+    font-size: 1.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--wd-ink); margin: 0 0 var(--wd-3);
+  }
+  .wdna__hero-card-desc {
+    font-size: 0.88rem; line-height: 1.55; color: var(--wd-body); margin: 0;
+  }
+
+  .wdna__news-card {
+    background: var(--wd-surface); border: 1px solid var(--wd-border);
+    border-radius: var(--wd-radius-sm); padding: var(--wd-5);
+    max-width: 320px; width: 100%;
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .wdna__news-card:hover { box-shadow: var(--wd-shadow-lg); transform: translateY(-2px); }
+  .wdna__news-tag {
+    display: inline-block; font-size: 0.64rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--wd-blue); background: var(--wd-blue-soft);
+    padding: 3px 9px; border-radius: 999px; margin-bottom: var(--wd-3);
+  }
+  .wdna__news-card h4 { font-size: 1rem; font-weight: 700; color: var(--wd-ink); margin: 0 0 var(--wd-2); }
+  .wdna__news-card p { font-size: 0.82rem; line-height: 1.5; color: var(--wd-muted); margin: 0; }
+
+  .wdna__topic-card {
+    background: var(--wd-surface); border: 1px solid var(--wd-border);
+    border-top: 3px solid var(--wd-blue); border-radius: var(--wd-radius-sm);
+    padding: var(--wd-5); max-width: 280px; width: 100%;
+  }
+  .wdna__topic-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--wd-ink); margin: 0 0 var(--wd-2); }
+  .wdna__topic-card p { font-size: 0.8rem; line-height: 1.5; color: var(--wd-muted); margin: 0 0 var(--wd-3); }
+  .wdna__topic-stat { font-size: 0.72rem; font-weight: 600; color: var(--wd-glass); }
+
+  .wdna__status-card {
+    background: var(--wd-surface); border: 1px solid var(--wd-border);
+    border-radius: var(--wd-radius-sm); padding: var(--wd-5);
+    display: flex; align-items: center; gap: var(--wd-4);
+    max-width: 380px; width: 100%;
+  }
+  .wdna__status-indicator {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--wd-success); flex-shrink: 0;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--wd-success) 18%, transparent);
+  }
+  .wdna__status-label { font-size: 0.72rem; font-weight: 600; color: var(--wd-muted); letter-spacing: 0.04em; }
+  .wdna__status-value { font-size: 0.92rem; font-weight: 700; color: var(--wd-ink); }
+
+  .wdna__footer-area {
+    background: var(--wd-soft); border: 1px solid var(--wd-border);
+    border-radius: var(--wd-radius-sm); padding: var(--wd-5);
+    display: flex; flex-wrap: wrap; gap: var(--wd-5);
+    max-width: 580px; width: 100%;
+  }
+  .wdna__footer-col { display: flex; flex-direction: column; gap: var(--wd-2); }
+  .wdna__footer-col h5 { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--wd-muted); margin: 0; }
+  .wdna__footer-col a { font-size: 0.82rem; color: var(--wd-body); text-decoration: none; }
+  .wdna__footer-col a:hover { color: var(--wd-blue); }
+
+  /* ===== Foot ===== */
+  .wdna__foot { padding: var(--wd-7) 0 0; text-align: center; font-size: 0.82rem; color: var(--wd-muted); }
+  .wdna__foot a { color: var(--wd-blue); }
+  .wdna__foot p { margin: 4px 0; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 960px) {
+    .wdna__body { grid-template-columns: 1fr; gap: var(--wd-5); }
+    .wdna__rail {
+      position: sticky; top: 56px; z-index: 5;
+      order: -1; margin: 0 calc(-1 * var(--wd-4)) var(--wd-4);
+      padding: var(--wd-2) var(--wd-4);
+      background: color-mix(in srgb, var(--wd-page) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--wd-border);
+    }
+    .wdna__rail-title { display: none; }
+    .wdna__rail nav { flex-direction: row; overflow-x: auto; border-left: 0; gap: var(--wd-2); scrollbar-width: none; scroll-snap-type: x proximity; }
+    .wdna__rail nav::-webkit-scrollbar { display: none; }
+    .wdna__rail a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; margin-left: 0; scroll-snap-align: start; }
+    .wdna__rail a.is-active { border-radius: 8px; border-left-color: transparent; }
+  }
+  @media (max-width: 640px) {
+    .wdna { padding: 0 var(--wd-4) var(--wd-7); }
+    .wdna__cols { grid-template-columns: 1fr; }
+    .wdna__type-row { grid-template-columns: 1fr; }
+    .wdna__type-meta { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wdna *, .wdna *::before, .wdna *::after { transition: none !important; }
+  }
+</style>
+{% endblock extra_head %}
+
+{% block main %}
+<section class="wdna">
+
+  {# ===== Brand bar ===== #}
+  <div class="wdna__top">
+    <div class="wdna__brand">
+      <span class="wdna__mark" aria-hidden="true">W</span>
+      <span class="wdna__brand-text">
+        <span class="wdna__brand-name">WWDC26 Branding</span>
+        <span class="wdna__brand-tag">Apple-Inspired Design Reference · Liquid Glass era</span>
+      </span>
+    </div>
+    <a class="wdna__top-link" href="{{ config.base_url }}/branding-guideline/">Source of truth → Branding Guideline</a>
+  </div>
+
+  {# ===== Hero ===== #}
+  <header class="wdna__hero" id="overview" data-wd-section>
+    <p class="wdna__eyebrow">WWDC26 Design Language · Design Reference</p>
+    <h1 class="wdna__title">WWDC26 Branding Guideline</h1>
+    <p class="wdna__subtitle">
+      Ngôn ngữ thiết kế lấy cảm hứng từ WWDC26 — Liquid Glass tinh chỉnh, typography Hilda, bình yên biên tập. Dùng làm nguồn tham khảo cho các trang công cụ và dashboard SEOMONEY mang tinh thần Apple Intelligence era.
+    </p>
+    <p class="wdna__lede">
+      <strong>WWDC26 Branding</strong> ghi lại phương hướng thị giác lấy cảm hứng từ ngôn ngữ thiết kế mà Apple trình bày tại WWDC26 —
+      kính Liquid Glass trong hơn, khoảng trắng bình yên, typography tự tin, điều hướng có nhóm. Đây là
+      <strong>tham chiếu tương lai</strong> cho các trang công cụ và dashboard SEOMONEY.
+      Không sao chép logo, icon hay tài sản sở hữu của Apple — chỉ học các nguyên tắc thiết kế từ ngôn ngữ WWDC26.
+    </p>
+    <p class="wdna__sources">
+      Reference inspiration: <a href="https://developer.apple.com/wwdc26/" target="_blank" rel="noopener">Apple WWDC26</a> ·
+      <a href="{{ config.base_url }}/baochi/macos-27-golden-gate-co-gi-moi/">macOS 27 Golden Gate coverage</a> ·
+      Companion to <a href="{{ config.base_url }}/tools/e-dna/">E-DNA</a>,
+      <a href="{{ config.base_url }}/tools/s-dna/">S-DNA</a> and
+      <a href="{{ config.base_url }}/tools/b-dna/">B-DNA</a> ·
+      governed by the <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a>
+    </p>
+    <div class="wdna__principles">
+      <div><span class="wdna__principle-n">3</span><span class="wdna__principle-l">design principles — clarity, calm, editorial</span></div>
+      <div><span class="wdna__principle-n">6</span><span class="wdna__principle-l">layout grammar rules</span></div>
+      <div><span class="wdna__principle-n">1</span><span class="wdna__principle-l">design signature — Hilda</span></div>
+    </div>
+  </header>
+
+  {# ===== Body: docs + right rail ===== #}
+  <div class="wdna__body">
+
+    <main class="wdna__main">
+
+      {# 01 DESIGN PRINCIPLES #}
+      <section class="wdna__section" id="principles" data-wd-section>
+        <header class="wdna__sec-head">
+          <span class="wdna__sec-kicker">01 — Principles</span>
+          <h2 class="wdna__sec-title">Design principles</h2>
+          <p class="wdna__sec-desc">Ba nguyên tắc học từ ngôn ngữ WWDC26 — không phải từ một thương hiệu đơn lẻ.</p>
+        </header>
+
+        <div class="wdna__grid">
+          <article class="wdna__card"><h4>Clarity</h4><p>Content leads. Visual decisions serve the message. Hierarchy is built with weight and space, not color effects or decorative graphics.</p></article>
+          <article class="wdna__card"><h4>Calm</h4><p>White space is a feature, not an accident. Liquid Glass tinh chỉnh thay vì hiệu ứng rực rỡ. Mọi phần tử phải xứng đáng vị trí của nó.</p></article>
+          <article class="wdna__card"><h4>Editorial</h4><p>Fewer widgets, stronger sections. A page is a stack of purpose-driven editorial blocks — each does one thing well.</p></article>
+        </div>
+
+        <div class="wdna__cols">
+          <ul class="wdna__list wdna__list--do">
+            <h5>Do</h5>
+            <li>Let whitespace define relationships between sections.</li>
+            <li>Use size and weight to establish hierarchy over color.</li>
+            <li>Design sections as self-contained editorial blocks.</li>
+          </ul>
+          <ul class="wdna__list wdna__list--dont">
+            <h5>Don't</h5>
+            <li>Use color as the only signal for importance.</li>
+            <li>Stack noisy effects mimicking faux-glass blur overload.</li>
+            <li>Fragment attention with scattered widgets.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 02 TYPOGRAPHY #}
+      <section class="wdna__section" id="typography" data-wd-section>
+        <header class="wdna__sec-head">
+          <span class="wdna__sec-kicker">02 — Type</span>
+          <h2 class="wdna__sec-title">Typography system</h2>
+          <p class="wdna__sec-desc">
+            WWDC26 Branding dùng <strong>Ericsson Hilda</strong> làm chữ ký thiết kế cho tiêu đề hero, nhãn mục và tiêu đề section — cùng typeface đã self-host trong font pipeline của site. Body text giữ readability với fallback stack an toàn cho tiếng Việt. Nếu Hilda có hạn chế dấu, chỉ dùng cho nhãn Latin ngắn và tiêu đề.
+          </p>
+        </header>
+
+        <div class="wdna__type-row"><div class="wdna__type-sample wdna__type-hilda" style="font-size:2.8rem;font-weight:800;letter-spacing:-0.03em;">WWDC26 Display</div><div class="wdna__type-meta">Hilda ExtraBold · 2.8rem</div></div>
+        <div class="wdna__type-row"><div class="wdna__type-sample wdna__type-hilda" style="font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;">Section Heading</div><div class="wdna__type-meta">Hilda Bold · 1.8rem</div></div>
+        <div class="wdna__type-row"><div class="wdna__type-sample wdna__type-hilda" style="font-size:1.2rem;font-weight:600;">Card title · Hilda Medium</div><div class="wdna__type-meta">Hilda Medium · 1.2rem</div></div>
+        <div class="wdna__type-row"><div class="wdna__type-sample" style="font-size:0.94rem;font-weight:400;">Vietnamese body text with diacritics: Tiếng Việt có dấu, tổng quan thị trường, doanh nghiệp công nghệ.</div><div class="wdna__type-meta">Body · Manrope / Inter / system-ui</div></div>
+        <div class="wdna__type-row"><div class="wdna__type-sample" style="font-size:0.78rem;font-weight:600;color:var(--wd-muted);text-transform:uppercase;letter-spacing:0.08em;">LABEL · CAPTION · STATUS</div><div class="wdna__type-meta">Label · 0.78rem · muted</div></div>
+        <div class="wdna__type-row"><div class="wdna__type-sample" style="font-family:var(--wd-mono);font-size:0.84rem;">code / metric / mono value</div><div class="wdna__type-meta">Mono · 0.84rem</div></div>
+
+        <div class="wdna__cols">
+          <ul class="wdna__list wdna__list--do">
+            <h5>Do</h5>
+            <li>Use Hilda for hero titles, section headings, short display labels.</li>
+            <li>Let Vietnamese body fall back to Manrope, Inter, system-ui.</li>
+            <li>Build hierarchy with weight and size, not multiple typefaces.</li>
+          </ul>
+          <ul class="wdna__list wdna__list--dont">
+            <h5>Don't</h5>
+            <li>Import new external fonts — Hilda is already self-hosted.</li>
+            <li>Use Hilda for long Vietnamese paragraphs if diacritics render poorly.</li>
+            <li>Use color as the only signal of type hierarchy.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 03 LAYOUT GRAMMAR #}
+      <section class="wdna__section" id="layout" data-wd-section>
+        <header class="wdna__sec-head">
+          <span class="wdna__sec-kicker">03 — Layout</span>
+          <h2 class="wdna__sec-title">Layout grammar</h2>
+          <p class="wdna__sec-desc">Sáu layout primitives định nhịp WWDC26 Branding. Kết hợp chúng, nhưng đừng phá vỡ sự bình yên.</p>
+        </header>
+
+        <div class="wdna__grid">
+          <article class="wdna__card"><h4>Large hero</h4><p>A single, confident hero per page. Large Hilda title, short lede, minimal navigation. No carousels.</p></article>
+          <article class="wdna__card"><h4>Grouped navigation</h4><p>Navigation clusters by category — not flat link clouds. Clear category headings, mega-menu structure.</p></article>
+          <article class="wdna__card"><h4>Highlight card grid</h4><p>Cards with strong top accent or left border. Used for featured content, KPIs, status summaries.</p></article>
+          <article class="wdna__card"><h4>Calm status modules</h4><p>System status rendered as quiet cards: indicator dot, label, value. No gauges, no animation.</p></article>
+          <article class="wdna__card"><h4>Clear content rails</h4><p>Content flows in vertical rails. Each rail has a kicker, a title, and a focused purpose.</p></article>
+          <article class="wdna__card"><h4>No link-cloud feeling</h4><p>Links belong in navigation or inline context — never as a tag cloud or dense link list in main content.</p></article>
+        </div>
+
+        <div class="wdna__cols">
+          <ul class="wdna__list wdna__list--do">
+            <h5>Do</h5>
+            <li>Start every page with a strong, calm hero.</li>
+            <li>Group links by category with clear labels.</li>
+            <li>Use card grids for scannable content blocks.</li>
+            <li>Keep status information in quiet, readable cards.</li>
+          </ul>
+          <ul class="wdna__list wdna__list--dont">
+            <h5>Don't</h5>
+            <li>Use tag clouds or link-dense widgets in main content.</li>
+            <li>Mix more than two layout systems on one page.</li>
+            <li>Add carousels, sliders, or rotating hero blocks.</li>
+            <li>Compress layout to "fit above the fold" — scroll is natural.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 04 COMPONENT EXAMPLES #}
+      <section class="wdna__section" id="components" data-wd-section>
+        <header class="wdna__sec-head">
+          <span class="wdna__sec-kicker">04 — Components</span>
+          <h2 class="wdna__sec-title">Component examples</h2>
+          <p class="wdna__sec-desc">Ví dụ thị giác cho các layout primitives. Đây là hướng dẫn phương hướng — không phải component production cuối cùng.</p>
+        </header>
+
+        <h3 class="wdna__h3">WWDC26 hero</h3>
+        <p class="wdna__p">A large, calm hero with a left blue accent border. Hilda title, short lede, minimal chrome.</p>
+        <div class="wdna__demo">
+          <div class="wdna__hero-card">
+            <p class="wdna__hero-card-eyebrow">Apple Intelligence era</p>
+            <h3 class="wdna__hero-card-title">WWDC26 Session Catalog</h3>
+            <p class="wdna__hero-card-desc">Keynote, sessions and lab highlights — trình bày trong một editorial view bình yên thay vì dashboard dày đặc.</p>
+          </div>
+        </div>
+
+        <h3 class="wdna__h3">Highlight / news card</h3>
+        <p class="wdna__p">Top-tagged card with hover shadow lift. Used for featured articles, announcements, or key metrics.</p>
+        <div class="wdna__demo">
+          <article class="wdna__news-card">
+            <span class="wdna__news-tag">Keynote</span>
+            <h4>macOS 27 Golden Gate</h4>
+            <p>Siri AI làm lại từ móng, Safari AI, khai tử chip Intel — phân tích từ WWDC26.</p>
+          </article>
+        </div>
+
+        <h3 class="wdna__h3">Topic cluster card</h3>
+        <p class="wdna__p">Blue top-border card for grouping related topics or categories. Includes a summary stat line.</p>
+        <div class="wdna__demo">
+          <article class="wdna__topic-card">
+            <h4>Apple Intelligence</h4>
+            <p>Siri AI, Writing Tools, Visual Intelligence, Image Playgrounds</p>
+            <span class="wdna__topic-stat">8 sessions · 3 labs</span>
+          </article>
+        </div>
+
+        <h3 class="wdna__h3">Dashboard status card</h3>
+        <p class="wdna__p">Calm status module with green indicator dot, label, and value. No gauges, no animation.</p>
+        <div class="wdna__demo">
+          <div class="wdna__status-card">
+            <span class="wdna__status-indicator" aria-hidden="true"></span>
+            <div>
+              <p class="wdna__status-label">Catalog status</p>
+              <p class="wdna__status-value">All sessions indexed</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="wdna__h3">Footer / status area</h3>
+        <p class="wdna__p">A grouped link area with category headers — no flat link lists. Calm, editorial footer pattern.</p>
+        <div class="wdna__demo">
+          <div class="wdna__footer-area">
+            <div class="wdna__footer-col">
+              <h5>Platform</h5>
+              <a href="#">Sessions</a>
+              <a href="#">Keynote</a>
+              <a href="#">Labs</a>
+            </div>
+            <div class="wdna__footer-col">
+              <h5>Resources</h5>
+              <a href="#">Catalog</a>
+              <a href="#">Status page</a>
+              <a href="#">Developer docs</a>
+            </div>
+            <div class="wdna__footer-col">
+              <h5>Company</h5>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# 05 DO / DON'T #}
+      <section class="wdna__section" id="rules" data-wd-section>
+        <header class="wdna__sec-head">
+          <span class="wdna__sec-kicker">05 — Rules</span>
+          <h2 class="wdna__sec-title">Do / Don't</h2>
+          <p class="wdna__sec-desc">Quick-reference checklist để giữ đúng phương hướng WWDC26.</p>
+        </header>
+
+        <div class="wdna__cols">
+          <ul class="wdna__list wdna__list--do">
+            <h5>Do</h5>
+            <li>Use calm spacing and strong visual hierarchy.</li>
+            <li>Curate topics into clear, grouped sections.</li>
+            <li>Keep actions focused — one primary per view.</li>
+            <li>Use Hilda for display and headings.</li>
+            <li>Design for 360px first, expand to desktop.</li>
+            <li>Let whitespace create editorial rhythm.</li>
+          </ul>
+          <ul class="wdna__list wdna__list--dont">
+            <h5>Don't</h5>
+            <li>Use random icons — stick to a single outline set.</li>
+            <li>Build crypto-style dashboards with neon, pulse, or gauges.</li>
+            <li>Create admin noise with crowded sidebar widgets.</li>
+            <li>Design layouts that accidentally resemble ad placements.</li>
+            <li>Override global navigation, header, or footer styles.</li>
+            <li>Introduce new colors outside the WWDC26 / Hilda palette.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 06 FUTURE USAGE #}
+      <section class="wdna__section" id="future" data-wd-section>
+        <header class="wdna__sec-head">
+          <span class="wdna__sec-kicker">06 — Future</span>
+          <h2 class="wdna__sec-title">Future usage</h2>
+          <p class="wdna__sec-desc">WWDC26 Branding là tham chiếu cho các giao diện SEOMONEY sắp tới. Mỗi ứng dụng cần phê duyệt riêng trước khi triển khai.</p>
+        </header>
+
+        <div class="wdna__grid">
+          <article class="wdna__card"><h4>WWDC26 session catalog</h4><p>Trang tổng hợp keynote, sessions và labs — calm editorial view với hero lớn, card grid, và calm status modules.</p></article>
+          <article class="wdna__card"><h4>Master Dashboard refresh</h4><p>Next-gen master dashboard với nhịp WWDC26: hero summary, grouped navigation, calm status cards, editorial content rails.</p></article>
+          <article class="wdna__card"><h4>Monitoring / status pages</h4><p>System health, uptime, service status trình bày bằng calm cards và indicator dots — không gauge ồn.</p></article>
+          <article class="wdna__card"><h4>Homepage redesign (future)</h4><p>WWDC26 có thể inform một đợt refresh homepage — large Hilda hero, grouped topic navigation, editorial card grid. Cần phê duyệt riêng.</p></article>
+        </div>
+
+        <aside class="wdna__p" style="margin-top: var(--wd-5); padding: var(--wd-4); background: var(--wd-blue-soft); border-radius: var(--wd-radius-sm);">
+          <strong>Note:</strong> WWDC26 Branding là tham chiếu thôi. Không trang, dashboard hay UI hiện có nên refactor mà chưa có phê duyệt rõ ràng. Trang này ghi lại phương hướng thị giác — nó không triển khai phương hướng đó.
+        </aside>
+      </section>
+
+    </main>
+
+    {# ===== Right rail ===== #}
+    <aside class="wdna__rail">
+      <p class="wdna__rail-title">On this page</p>
+      <nav aria-label="WWDC26 Branding sections">
+        <a href="#overview" data-wd-link><span class="wdna__rail-num">00</span> Overview</a>
+        <a href="#principles" data-wd-link><span class="wdna__rail-num">01</span> Principles</a>
+        <a href="#typography" data-wd-link><span class="wdna__rail-num">02</span> Typography</a>
+        <a href="#layout" data-wd-link><span class="wdna__rail-num">03</span> Layout</a>
+        <a href="#components" data-wd-link><span class="wdna__rail-num">04</span> Components</a>
+        <a href="#rules" data-wd-link><span class="wdna__rail-num">05</span> Do / Don't</a>
+        <a href="#future" data-wd-link><span class="wdna__rail-num">06</span> Future</a>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="wdna__foot">
+    <p>WWDC26 Branding Guideline · Design Reference v1.0</p>
+    <p>Companion to <a href="{{ config.base_url }}/tools/e-dna/">E-DNA</a> ·
+       <a href="{{ config.base_url }}/tools/s-dna/">S-DNA</a> ·
+       <a href="{{ config.base_url }}/tools/b-dna/">B-DNA</a> ·
+       governed by the <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a></p>
+  </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  var root = document.querySelector('.wdna');
+  if (!root) return;
+
+  var links = Array.prototype.slice.call(root.querySelectorAll('[data-wd-link]'));
+  var map = {};
+  links.forEach(function (l) {
+    var id = (l.getAttribute('href') || '').replace('#', '');
+    if (id) map[id] = l;
+  });
+
+  function setActive(id) {
+    links.forEach(function (l) { l.classList.remove('is-active'); l.removeAttribute('aria-current'); });
+    if (map[id]) { map[id].classList.add('is-active'); map[id].setAttribute('aria-current', 'true'); }
+  }
+
+  var sections = Array.prototype.slice.call(root.querySelectorAll('[data-wd-section]'));
+  if ('IntersectionObserver' in window && sections.length) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+  setActive('overview');
+})();
+</script>
+{% endblock extra_scripts %}
