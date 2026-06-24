@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-23T22:46:55Z",
+  "updated_at": "2026-06-24T10:34:40Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,9 +15,9 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "5 broken links · 0 weak related pairs",
+      "detail": "76741 broken links · 0 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-23T19:32:30Z"
+      "updated_at": "2026-06-24T10:33:31Z"
     },
     {
       "id": "page_speed",
@@ -33,27 +33,27 @@
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "1081/1082 pages",
+      "detail": "1075/1076 pages",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-23T19:32:30Z"
+      "updated_at": "2026-06-24T10:33:31Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: correct blog heartbeat static fallback path",
+      "detail": "Latest: CMS: cập nhật bài 'Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn",
       "source": "changelog.json",
-      "updated_at": "2026-06-23"
+      "updated_at": "2026-06-24"
     },
     {
       "id": "indexing",
       "label": "Indexing checks",
       "icon": "🗂️",
-      "status": "pending",
-      "detail": "No build-dashboard snapshot",
-      "source": "build-dashboard.json",
-      "updated_at": "2026-06-23T21:52:47Z"
+      "status": "running",
+      "detail": "76735 broken of 1167 links",
+      "source": "qa-404-report.json",
+      "updated_at": "2026-06-24T00:08:10Z"
     },
     {
       "id": "image_opt",
@@ -62,21 +62,21 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-23T19:32:30Z"
+      "updated_at": "2026-06-24T10:33:31Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 58/100 vs desktop 92/100 (Δ34) · 1081/1082 ready",
+      "detail": "Mobile 58/100 vs desktop 92/100 (Δ34) · 1075/1076 ready",
       "source": "pagespeed.json",
       "updated_at": "2026-06-23T18:19:34+00:00"
     }
   ],
   "summary": {
-    "pending": 1,
-    "running": 5,
+    "pending": 0,
+    "running": 6,
     "done": 2
   },
   "note": "Statuses from QA/SEO/PERF snapshots — informational, not GA metrics."
