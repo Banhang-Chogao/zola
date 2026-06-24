@@ -6,7 +6,7 @@
 {% block description %}{{ section.description }}{% endblock %}
 
 {% set wwdc = load_data(path="data/wwdc26-sessions.json", required=false) %}
-{% set sessions = wwdc.sessions | default(value=[]) %}
+{% if wwdc and wwdc.sessions %}{% set sessions = wwdc.sessions %}{% else %}{% set sessions = [] %}{% endif %}
 {% set categories = sessions | map(attribute="category") | unique | sort %}
 
 {% block extra_head %}
