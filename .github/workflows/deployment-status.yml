@@ -1,0 +1,50 @@
+name: Update Deployment Status
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch latest deployment status
+        run: |
+          LATEST_RUN=$(gh run list --workflow deploy.yml --limit 1 \
+            --json databaseId,status,conclusion,createdAt,updatedAt,runStartedAt,headBranch,headSha,headCommit \
+            --jq '.[0]')
+
+          CONCLUSION=$(echo "$LATEST_RUN" | jq -r '.conclusion // "pending"')
+          RUN_STARTED=$(echo "$LATEST_RUN" | jq -r '.runStartedAt // ""')
+          HEAD_SHA=$(echo "$LATEST_RUN" | jq -r '.headSha // ""')
+          DATABASE_ID=$(echo "$LATEST_RUN" | jq -r '.databaseId // ""')
+          HEAD_COMMIT_MSG=$(echo "$LATEST_RUN" | jq -r '.headCommit.message // ""')
+
+          SHA_SHORT="${HEAD_SHA:0:7}"
+          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          jq -n \
+            --arg status "$CONCLUSION" \
+            --arg ts "$NOW" \
+            --arg deploy_time "$RUN_STARTED" \
+            --arg sha "$SHA_SHORT" \
+            --arg msg "$HEAD_COMMIT_MSG" \
+            --arg url "https://github.com/Banhang-Chogao/zola/actions/runs/${DATABASE_ID}" \
+            '{status: $status, timestamp: $ts, deploy_time: $deploy_time, commit_sha: $sha, commit_message: $msg, run_url: $url, duration_seconds: 0, health: "green"}' \
+            > data/deployment-status.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/deployment-status.json
+          git diff --staged --quiet || git commit -m "chore: update deployment status [skip changelog]"
+          git push

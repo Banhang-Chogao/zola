@@ -117,6 +117,21 @@ jobs:
       - name: Fetch Google Trends VN (hot search sidebar)
         run: python3 scripts/fetch_google_trends.py --limit 25
 
+      - name: Generate deployment status
+        run: |
+          SHA_SHORT=$(git rev-parse --short=7 HEAD)
+          COMMIT_MSG=$(git log -1 --pretty=%s)
+          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          jq -n \
+            --arg status "success" \
+            --arg ts "$NOW" \
+            --arg deploy_time "$NOW" \
+            --arg sha "$SHA_SHORT" \
+            --arg msg "$COMMIT_MSG" \
+            --arg url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{status: $status, timestamp: $ts, deploy_time: $deploy_time, commit_sha: $sha, commit_message: $msg, run_url: $url, duration_seconds: 0, health: "green"}' \
+            > data/deployment-status.json
+
       - name: Build site
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

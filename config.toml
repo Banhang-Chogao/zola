@@ -37,6 +37,9 @@ tagline = "SEO · Công nghệ · Tài chính cá nhân"
 # QA Dashboard footer (6 metric cards). false = ẩn UI public, giữ scripts/data/jobs.
 enable_qa_dashboard = false
 
+# Deployment Status Dashboard — path to JSON data file (updated by cron workflow every 5 min).
+deployment_status_path = "data/deployment-status.json"
+
 # Author box hiển thị cuối mỗi bài viết.
 # Bio, avatar — sửa ở đây ảnh hưởng mọi bài.
 # Avatar: upload file ảnh vào static/img/author-avatar.webp trong repo,
