@@ -35,6 +35,11 @@ footer .sm-heartbeat-bar,
   box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.12);
 }
 
+.sm-heartbeat-bar--ok .sm-heartbeat-bar__dot {
+  background: #22c55e;
+  box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.12);
+}
+
 .sm-heartbeat-bar--live .sm-heartbeat-bar__dot {
   background: #f59e0b;
   box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.14);
