@@ -146,8 +146,9 @@ jobs:
             '{status: $status, timestamp: $ts, deploy_time: $deploy_time, commit_sha: $sha, commit_message: $msg, run_url: $url, duration_seconds: 0, health: "green"}' \
             > data/deployment-status.json
 
-      - name: Build site
-        timeout-minutes: 30
+      - name: Build site (zola build — retry 3×, timeout 15 min/attempt per issue #876)
+        id: zola-build
+        timeout-minutes: 50
         env:
           # Dùng PAT (5000 req/h) thay vì GITHUB_TOKEN (1000 req/h) để tránh
           # rate-limit khi template gọi GitHub API commits (load_data).
@@ -159,10 +160,22 @@ jobs:
           export ZOLA_VERSION="$(zola --version | awk '{print $2}')"
           export ZOLA_BUILD_SHA="$(git rev-parse --short=7 HEAD)"
           echo "Building with Zola $ZOLA_VERSION @ commit $ZOLA_BUILD_SHA"
-          # Site 595 trang; mỗi trang gọi load_data GitHub commits API trong
-          # base.html → build thực mất ~16min (log run #28113769085: 16:33→16:49).
-          # PR #875/#877 giới hạn 12min/attempt 480s đã cắt nhầm build success.
-          zola build
+          # Site 503+ trang; build thực mất ~16 min (log run #28113769085).
+          # 3 attempts với `timeout --preserve-status 900` (15 min/attempt) cap
+          # → process deadlock bị SIGTERM, không để runner chết đứng. Backoff
+          # 30/60/90s tránh burst. Step timeout-minutes:50 làm backstop.
+          for attempt in 1 2 3; do
+            echo "🔨 Build attempt $attempt/3..."
+            if timeout --preserve-status 900 zola build; then
+              echo "✅ Zola build succeeded on attempt $attempt"
+              exit 0
+            fi
+            RC=$?
+            echo "⚠️ Build attempt $attempt rc=$RC, retrying..."
+            sleep $((30 * attempt))
+          done
+          echo "❌ Zola build failed after 3 attempts"
+          exit 1
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
