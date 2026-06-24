@@ -16,6 +16,14 @@
       .replace(/"/g, "&quot;");
   }
 
+  function pick(obj, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      if (obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== "") return obj[key];
+    }
+    return "";
+  }
+
   function fetchJson(url) {
     return fetch(url, {
       cache: "no-store",
@@ -184,15 +192,23 @@
 
   function render(payload) {
     var bar = ensureBar();
-    var summary = payload.summary || {};
-    var prs = payload.pull_requests || [];
-    var runs = payload.runs || [];
 
-    var failures = Number(summary.failure || 0);
-    var active = Number(summary.in_progress || 0) + Number(summary.queued || 0);
-    var state = failures > 0 ? "warn" : active > 0 ? "live" : "ok";
+    var status = String(
+      pick(payload, ["status", "state", "health", "result"]) || "ok"
+    ).toLowerCase();
+    var message = pick(payload, ["message", "title", "description", "name"]) || "Blog đang hoạt động";
+    var lastCheck = pick(payload, ["last_check", "generated_at", "updated_at", "last_updated", "timestamp"]);
+    var totalPosts = pick(payload, ["total_posts", "posts_total", "live_posts"]);
 
-    bar.className = "sm-heartbeat-bar sm-heartbeat-bar--" + state;
+    var ok = (
+      status.indexOf("ok") !== -1 ||
+      status.indexOf("pass") !== -1 ||
+      status.indexOf("success") !== -1 ||
+      status.indexOf("healthy") !== -1 ||
+      status === "live"
+    );
+
+    bar.className = "sm-heartbeat-bar sm-heartbeat-bar--" + (ok ? "ok" : "warn");
 
     var sourceLabel = payload.source === "render-api"
       ? "Render live"
@@ -204,25 +220,19 @@
             ? "cache"
             : "chờ dữ liệu";
 
-    var title = failures > 0
-      ? "Heartbeat: có workflow cần xem"
-      : active > 0
-        ? "Heartbeat: đang có pipeline chạy"
-        : "Heartbeat: blog đang ổn";
-
-    var latestRun = runs[0];
-    var latestText = latestRun
-      ? ((latestRun.workflow || "GitHub Actions") + " · " + (latestRun.conclusion || latestRun.status || "unknown"))
-      : "chưa có run mới";
+    var metaParts = [];
+    if (totalPosts) metaParts.push(totalPosts + " bài");
+    metaParts.push(sourceLabel);
+    if (lastCheck) metaParts.push(formatTime(lastCheck));
 
     bar.innerHTML =
       '<a class="sm-heartbeat-bar__link" href="/tools/blog-heart-beat/">' +
         '<span class="sm-heartbeat-bar__dot" aria-hidden="true"></span>' +
-        '<span class="sm-heartbeat-bar__main">' + esc(title) + '</span>' +
+        '<span class="sm-heartbeat-bar__main">' + esc(message) + '</span>' +
         '<span class="sm-heartbeat-bar__meta">' +
-          esc(active + ' chạy/chờ · ' + failures + ' lỗi · ' + prs.length + ' PR mở · ' + sourceLabel + ' · cập nhật ' + formatTime(payload.generated_at)) +
+          esc(metaParts.join(" · ")) +
         '</span>' +
-        '<span class="sm-heartbeat-bar__latest">' + esc(latestText) + '</span>' +
+        '<span class="sm-heartbeat-bar__latest">' + (ok ? "Đang ổn" : "Cần xem") + '</span>' +
       '</a>';
   }
 

@@ -1,23 +1,16 @@
 (function () {
-  const card = document.querySelector("[data-home-heartbeat]");
+  var card = document.querySelector("[data-home-heartbeat]");
   if (!card) return;
 
-  const statusEl = card.querySelector("[data-heartbeat-status]");
-  const timeEl = card.querySelector("[data-heartbeat-time]");
-  const titleEl = card.querySelector("[data-heartbeat-title]");
-  const descEl = card.querySelector("[data-heartbeat-desc]");
-  const metaEl = card.querySelector("[data-heartbeat-meta]");
-
-  function safeStr(v) {
-    if (v == null) return "";
-    if (typeof v === "string") return v;
-    if (typeof v === "number") return String(v);
-    if (typeof v === "boolean") return v ? "true" : "false";
-    try { return JSON.stringify(v); } catch (_) { return String(v); }
-  }
+  var statusEl = card.querySelector("[data-heartbeat-status]");
+  var timeEl = card.querySelector("[data-heartbeat-time]");
+  var titleEl = card.querySelector("[data-heartbeat-title]");
+  var descEl = card.querySelector("[data-heartbeat-desc]");
+  var metaEl = card.querySelector("[data-heartbeat-meta]");
 
   function pick(obj, keys) {
-    for (const key of keys) {
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
       if (obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== "") return obj[key];
     }
     return "";
@@ -42,36 +35,30 @@
       return res.json();
     })
     .then(function (data) {
-      const status = String(pick(data, ["status", "state", "health", "result"]) || "ok").toLowerCase();
-      const generatedAt = safeStr(pick(data, ["generated_at", "updated_at", "last_updated", "timestamp"]));
-      const commit = safeStr(pick(data, ["commit", "sha", "short_sha", "head_sha"]));
-      const message = safeStr(pick(data, ["message", "title", "description", "name"]));
-      const totalPosts = safeStr(pick(data, ["total_posts", "posts_total", "live_posts"]));
-      const latestRuns = Array.isArray(data.recent_runs) ? data.recent_runs.length : "";
-      const latestItems = Array.isArray(data.items) ? data.items.length : "";
+      var status = String(pick(data, ["status", "state", "health", "result"]) || "ok").toLowerCase();
+      var lastCheck = pick(data, ["last_check", "generated_at", "updated_at", "last_updated", "timestamp"]);
+      var message = pick(data, ["message", "title", "description", "name"]) || "Blog đang hoạt động bình thường";
+      var totalPosts = pick(data, ["total_posts", "posts_total", "live_posts"]);
 
-      const ok = (
-        status.includes("ok") ||
-        status.includes("pass") ||
-        status.includes("success") ||
-        status.includes("healthy") ||
+      var ok = (
+        status.indexOf("ok") !== -1 ||
+        status.indexOf("pass") !== -1 ||
+        status.indexOf("success") !== -1 ||
+        status.indexOf("healthy") !== -1 ||
         status === "live"
       );
 
       card.dataset.status = ok ? "ok" : "warn";
       setText(statusEl, ok ? "Đang sống khỏe" : "Cần kiểm tra nhẹ");
       setText(titleEl, ok ? "SEOMONEY đang sống khỏe" : "SEOMONEY cần kiểm tra lại");
-      setText(descEl, message || "Heartbeat đã đọc dữ liệu kiểm tra mới nhất từ workflow.");
+      setText(descEl, message);
 
-      if (generatedAt) {
-        setText(timeEl, "Cập nhật: " + generatedAt);
+      if (lastCheck) {
+        setText(timeEl, "Cập nhật: " + lastCheck);
       }
 
-      const bits = [];
-      if (commit) bits.push("Commit " + String(commit).slice(0, 7));
+      var bits = [];
       if (totalPosts) bits.push(totalPosts + " bài live");
-      if (latestRuns) bits.push(latestRuns + " run gần đây");
-      if (latestItems) bits.push(latestItems + " mục dữ liệu");
       setText(metaEl, bits.length ? bits.join(" · ") : "Nguồn: /data/blog-heartbeat.json");
     })
     .catch(fallback);
