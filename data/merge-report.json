@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T16:50:48Z",
+  "updated_at": "2026-06-24T16:57:30Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 34,
-    "this_week": 116,
+    "today": 35,
+    "this_week": 117,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 854,
+      "pr_title": "chore: add missing _home-wwdc.scss for homepage redesign [fix/heartbeat-object-object-layout]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/854",
+      "merged_at": "2026-06-24T16:47:51Z",
+      "merge_commit_sha": "d1bc1699c85227d35d24c500d61166e865df1b34",
+      "merge_commit_short": "d1bc169",
+      "head_branch": "fix/heartbeat-object-object-layout",
+      "summary_vi": "- fix: layout audit — guard [object Object] in heartbeat JS + responsive embed CSS",
+      "change_type": "fix",
+      "files_changed": 4,
+      "additions": 394,
+      "deletions": 6,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1090,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28114739475",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 853,
       "pr_title": "fix: layout audit — guard [object Object] in heartbeat JS + responsive embed CSS [fix/heartbeat-object-object-layout]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1089,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28114335828",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 772,
@@ -509,9 +528,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1060,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075298058",
-      "build_conclusion": "success"
+      "build_run_number": 1063,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28076277374",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 823,
@@ -547,9 +566,9 @@
       "deletions": 67,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1060,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075298058",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 821,
@@ -3794,25 +3813,6 @@
       "files_changed": 9,
       "additions": 509,
       "deletions": 4,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 611,
-      "pr_title": "fix: avoid secret scanner false positive in GA tests [vaccine-hotfix/claude-busy-curie-wrig6g]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/611",
-      "merged_at": "2026-06-21T04:11:44Z",
-      "merge_commit_sha": "3f1502fa82e7b6ce07a7d5a5b44f9d111dca3bc7",
-      "merge_commit_short": "3f1502f",
-      "head_branch": "vaccine-hotfix/claude-busy-curie-wrig6g",
-      "summary_vi": "- feat(ga): migrate GA module to seomoney.org property 542421812 + GA Vacxin + B-DNA redesign",
-      "change_type": "fix",
-      "files_changed": 18,
-      "additions": 1775,
-      "deletions": 501,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
