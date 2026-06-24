@@ -2,12 +2,12 @@
   "schema_version": 1,
   "name": "Blog Heart Beat",
   "repository": "Banhang-Chogao/zola",
-  "generated_at": "2026-06-24T20:52:35.555487+00:00",
+  "generated_at": "2026-06-24T20:53:20.812709+00:00",
   "summary": {
-    "in_progress": 9,
-    "queued": 0,
+    "in_progress": 7,
+    "queued": 1,
     "success": 13,
-    "failure": 1
+    "failure": 2
   },
   "pull_requests": [
     {
@@ -33,21 +33,113 @@
       "created_at": "2026-06-24T19:00:22Z",
       "updated_at": "2026-06-24T19:00:23Z",
       "url": "https://github.com/Banhang-Chogao/zola/pull/870"
-    },
-    {
-      "number": 869,
-      "title": "fix(qa): use GH_GITHUB_COM_TOKEN for static-data + zola build to avoid rate-limit [fix/qa-gatekeeper-pat]",
-      "head": "fix/qa-gatekeeper-pat",
-      "base": "main",
-      "state": "OPEN",
-      "draft": false,
-      "merge_state": "UNSTABLE",
-      "created_at": "2026-06-24T18:50:32Z",
-      "updated_at": "2026-06-24T20:52:06Z",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/869"
     }
   ],
   "runs": [
+    {
+      "id": 28128891178,
+      "title": "QA Rule Checker",
+      "workflow": "QA Rule Checker",
+      "branch": "main",
+      "sha": "47cb64d",
+      "event": "workflow_run",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T20:53:16Z",
+      "updated_at": "2026-06-24T20:53:17Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128891178"
+    },
+    {
+      "id": 28128891171,
+      "title": "Auto-merge",
+      "workflow": "Auto-merge",
+      "branch": "main",
+      "sha": "47cb64d",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-06-24T20:53:16Z",
+      "updated_at": "2026-06-24T20:53:17Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128891171"
+    },
+    {
+      "id": 28128885127,
+      "title": "fix(qa): use GH_GITHUB_COM_TOKEN for static-data + zola build to avoi…",
+      "workflow": "QA Gatekeeper",
+      "branch": "main",
+      "sha": "47cb64d",
+      "event": "push",
+      "status": "queued",
+      "conclusion": "",
+      "created_at": "2026-06-24T20:53:09Z",
+      "updated_at": "2026-06-24T20:53:14Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128885127"
+    },
+    {
+      "id": 28128885120,
+      "title": "fix(qa): use GH_GITHUB_COM_TOKEN for static-data + zola build to avoi…",
+      "workflow": "Blog Heart Beat",
+      "branch": "main",
+      "sha": "47cb64d",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T20:53:09Z",
+      "updated_at": "2026-06-24T20:53:15Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128885120"
+    },
+    {
+      "id": 28128885105,
+      "title": "fix(qa): use GH_GITHUB_COM_TOKEN for static-data + zola build to avoi…",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "47cb64d",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T20:53:09Z",
+      "updated_at": "2026-06-24T20:53:10Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128885105"
+    },
+    {
+      "id": 28128885096,
+      "title": "fix(qa): use GH_GITHUB_COM_TOKEN for static-data + zola build to avoi…",
+      "workflow": "Slack Commit Notification",
+      "branch": "main",
+      "sha": "47cb64d",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T20:53:09Z",
+      "updated_at": "2026-06-24T20:53:14Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128885096"
+    },
+    {
+      "id": 28128862720,
+      "title": "QA Rule Checker",
+      "workflow": "QA Rule Checker",
+      "branch": "main",
+      "sha": "e47e32a",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-06-24T20:52:47Z",
+      "updated_at": "2026-06-24T20:52:48Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128862720"
+    },
+    {
+      "id": 28128862712,
+      "title": "Auto-merge",
+      "workflow": "Auto-merge",
+      "branch": "main",
+      "sha": "e47e32a",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-06-24T20:52:47Z",
+      "updated_at": "2026-06-24T20:52:53Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128862712"
+    },
     {
       "id": 28128844489,
       "title": "fix: rollback header layout to pre-removal stable state [fix/rollback…",
@@ -55,10 +147,10 @@
       "branch": "main",
       "sha": "6700d51",
       "event": "push",
-      "status": "pending",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "cancelled",
       "created_at": "2026-06-24T20:52:27Z",
-      "updated_at": "2026-06-24T20:52:28Z",
+      "updated_at": "2026-06-24T20:53:14Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128844489"
     },
     {
@@ -68,10 +160,10 @@
       "branch": "main",
       "sha": "6700d51",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T20:52:27Z",
-      "updated_at": "2026-06-24T20:52:31Z",
+      "updated_at": "2026-06-24T20:52:39Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128844427"
     },
     {
@@ -81,10 +173,10 @@
       "branch": "main",
       "sha": "6700d51",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T20:52:27Z",
-      "updated_at": "2026-06-24T20:52:31Z",
+      "updated_at": "2026-06-24T20:52:38Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128844412"
     },
     {
@@ -94,10 +186,10 @@
       "branch": "main",
       "sha": "6700d51",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T20:52:27Z",
-      "updated_at": "2026-06-24T20:52:32Z",
+      "updated_at": "2026-06-24T20:52:35Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128844401"
     },
     {
@@ -276,10 +368,10 @@
       "branch": "main",
       "sha": "842884b",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "cancelled",
       "created_at": "2026-06-24T20:38:48Z",
-      "updated_at": "2026-06-24T20:38:53Z",
+      "updated_at": "2026-06-24T20:52:45Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128094903"
     },
     {
@@ -333,113 +425,22 @@
       "created_at": "2026-06-24T20:38:48Z",
       "updated_at": "2026-06-24T20:38:57Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128094842"
-    },
-    {
-      "id": 28128094837,
-      "title": "blog: thêm bài viết về cải thiện QA & CI/CD (issue #874) [feat/wwdc26…",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "branch": "main",
-      "sha": "842884b",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-24T20:38:48Z",
-      "updated_at": "2026-06-24T20:52:09Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128094837"
-    },
-    {
-      "id": 28128024254,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "f352639",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T20:37:28Z",
-      "updated_at": "2026-06-24T20:37:29Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128024254"
-    },
-    {
-      "id": 28128024241,
-      "title": "Auto-merge",
-      "workflow": "Auto-merge",
-      "branch": "main",
-      "sha": "f352639",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T20:37:28Z",
-      "updated_at": "2026-06-24T20:37:29Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128024241"
-    },
-    {
-      "id": 28128022722,
-      "title": "blog: thêm bài viết về cải thiện QA & CI/CD (issue #874) [feat/wwdc26-landing]",
-      "workflow": "Merge Conflict Preflight",
-      "branch": "feat/wwdc26-landing",
-      "sha": "f25a43d",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T20:37:26Z",
-      "updated_at": "2026-06-24T20:37:37Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128022722"
-    },
-    {
-      "id": 28128019197,
-      "title": "blog: thêm bài viết về cải thiện QA & CI/CD (issue #874)",
-      "workflow": "Auto PR Gatekeeper",
-      "branch": "feat/wwdc26-landing",
-      "sha": "f25a43d",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T20:37:22Z",
-      "updated_at": "2026-06-24T20:37:45Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128019197"
-    },
-    {
-      "id": 28128019151,
-      "title": "blog: thêm bài viết về cải thiện QA & CI/CD (issue #874)",
-      "workflow": "Slack Commit Notification",
-      "branch": "feat/wwdc26-landing",
-      "sha": "f25a43d",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-24T20:37:22Z",
-      "updated_at": "2026-06-24T20:37:28Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128019151"
-    },
-    {
-      "id": 28128019148,
-      "title": "blog: thêm bài viết về cải thiện QA & CI/CD (issue #874)",
-      "workflow": "QA Gatekeeper",
-      "branch": "feat/wwdc26-landing",
-      "sha": "f25a43d",
-      "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
-      "created_at": "2026-06-24T20:37:22Z",
-      "updated_at": "2026-06-24T20:37:29Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128019148"
-    },
-    {
-      "id": 28128013478,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "f352639",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T20:37:16Z",
-      "updated_at": "2026-06-24T20:37:17Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128013478"
     }
   ],
   "deploy_runs": [
+    {
+      "id": 28128885105,
+      "title": "fix(qa): use GH_GITHUB_COM_TOKEN for static-data + zola build to avoi…",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "47cb64d",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T20:53:09Z",
+      "updated_at": "2026-06-24T20:53:10Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28128885105"
+    },
     {
       "id": 28128844387,
       "title": "fix: rollback header layout to pre-removal stable state [fix/rollback…",
@@ -556,19 +557,6 @@
       "created_at": "2026-06-24T17:59:08Z",
       "updated_at": "2026-06-24T18:01:32Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28118950947"
-    },
-    {
-      "id": 28118818971,
-      "title": "fix: [object Object] guard in blog-heartbeat-client.js",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "branch": "main",
-      "sha": "22cc890",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-24T17:56:54Z",
-      "updated_at": "2026-06-24T17:59:09Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28118818971"
     }
   ]
 }
