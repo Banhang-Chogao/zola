@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T14:34:27Z",
+  "updated_at": "2026-06-24T14:43:05Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 27,
-    "this_week": 109,
+    "today": 28,
+    "this_week": 110,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 846,
+      "pr_title": "revert(home): revert broken homepage editorial UI",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/846",
+      "merged_at": "2026-06-24T14:29:14Z",
+      "merge_commit_sha": "59fe2cbf46489778c624d401088a8a62a82b23f8",
+      "merge_commit_short": "59fe2cb",
+      "head_branch": "revert/pr845-homepage-ui",
+      "summary_vi": "Reverts PR #845 because it caused a homepage UI regression: search block rendered into homepage body, hero squeezed into the right column, and topic cards became unreadable.",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 0,
+      "deletions": 10,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1083,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28105932563",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 848,
       "pr_title": "revert(home): rollback broken homepage editorial UI",
@@ -124,9 +143,9 @@
       "head_branch": "hotfix/restore-google-search-module",
       "summary_vi": "fix(search): restore Google site search module",
       "change_type": "fix",
-      "files_changed": null,
-      "additions": null,
-      "deletions": null,
+      "files_changed": 2,
+      "additions": 6,
+      "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": 1076,
@@ -509,9 +528,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1053,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071028741",
-      "build_conclusion": "success"
+      "build_run_number": 1056,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071679019",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 814,
@@ -2920,25 +2939,6 @@
       "files_changed": 5,
       "additions": 635,
       "deletions": 9,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 653,
-      "pr_title": "chore: Phase 1 only — remove Phase 2 features (dashboards, admin zone)",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/653",
-      "merged_at": "2026-06-21T13:15:29Z",
-      "merge_commit_sha": "d8e2e29f1b8a0d138a57bbae0f3e6dbe40a8436c",
-      "merge_commit_short": "d8e2e29",
-      "head_branch": "claude/modest-feynman-k7b53v",
-      "summary_vi": "Remove all Phase 2 features and infrastructure. Keep Phase 1 only (Operator guide + shortcuts).",
-      "change_type": "unknown",
-      "files_changed": 98,
-      "additions": 1,
-      "deletions": 32567,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
