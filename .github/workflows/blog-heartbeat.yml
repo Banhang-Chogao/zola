@@ -126,20 +126,7 @@ jobs:
           PY
 
           if [ -f static/data/blog-heartbeat.json ]; then
-            if python3 - <<'PY'
-            import json
-            import sys
-            from pathlib import Path
-
-            old = json.loads(Path("static/data/blog-heartbeat.json").read_text(encoding="utf-8"))
-            new = json.loads(Path("/tmp/blog-heartbeat.json").read_text(encoding="utf-8"))
-
-            old.pop("generated_at", None)
-            new.pop("generated_at", None)
-
-            sys.exit(0 if old == new else 1)
-            PY
-            then
+            if python3 -c 'import json, sys; from pathlib import Path; old=json.loads(Path("static/data/blog-heartbeat.json").read_text(encoding="utf-8")); new=json.loads(Path("/tmp/blog-heartbeat.json").read_text(encoding="utf-8")); old.pop("generated_at", None); new.pop("generated_at", None); sys.exit(0 if old == new else 1)'; then
               echo "No heartbeat data change; skip commit."
               exit 0
             fi
