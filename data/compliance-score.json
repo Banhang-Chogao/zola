@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T14:55:05Z",
+  "updated_at": "2026-06-24T15:24:41Z",
   "score": 87.0,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "1009/1076 in range"
+          "detail": "1010/1077 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1053/1076 complete"
+          "detail": "1053/1077 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1075/1076 set"
+          "detail": "1076/1077 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1066/1076 single H1"
+          "detail": "1067/1077 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1075/1076 with lang"
+          "detail": "1076/1077 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1075/1076 ready"
+          "detail": "1076/1077 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1075/1076 pages"
+          "detail": "1076/1077 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1075/1076 pages covered"
+          "detail": "1076/1077 pages covered"
         },
         {
           "label": "Image weight",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "6 broken / 1258 unique",
+          "detail": "6 broken / 1259 unique",
           "broken": [
             {
               "source_page": "/content/",
@@ -251,7 +251,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1071/1076 pages"
+          "detail": "1072/1077 pages"
         },
         {
           "label": "Skip navigation",
@@ -287,7 +287,7 @@
       "text": "Metadata: Descriptions"
     }
   ],
-  "pages_scanned": 1076,
+  "pages_scanned": 1077,
   "articles_scanned": 281,
   "fix_log": [
     {
@@ -296,7 +296,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T14:55:05Z"
+      "at": "2026-06-24T15:24:41Z"
     },
     {
       "category": "Content",
@@ -304,7 +304,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T14:55:05Z"
+      "at": "2026-06-24T15:24:41Z"
     },
     {
       "category": "Content",
@@ -312,7 +312,7 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T14:55:05Z"
+      "at": "2026-06-24T15:24:41Z"
     },
     {
       "category": "Links",
@@ -320,7 +320,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 7 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/posting/mot-ly-do-mua-laptop-thinkpad/index.html → /-vs-hugo/ (Target not found in public/ after zola build); public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build)",
-      "at": "2026-06-24T14:55:05Z"
+      "at": "2026-06-24T15:24:41Z"
     }
   ],
   "fix_summary": {
