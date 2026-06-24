@@ -55,6 +55,14 @@ name = "Branding Guideline"
 path = "branding-guideline"
 vip = false
 [[extra.tools]]
+name = "WWDC26 Catalogue"
+path = "wwdc26"
+vip = false
+[[extra.tools]]
+name = "WWDC26 Design Language"
+path = "wwdc26-branding"
+vip = false
+[[extra.tools]]
 name = "S-DNA"
 path = "tools/s-dna"
 vip = false

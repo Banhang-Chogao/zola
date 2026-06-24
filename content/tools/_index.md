@@ -114,6 +114,14 @@ url = "$BASE_URL/editor"
 name = "Branding Guideline"
 url = "$BASE_URL/branding-guideline"
 [[extra.tool_groups.items]]
+name = "WWDC26 Catalogue"
+url = "$BASE_URL/wwdc26"
+subtitle = "Session catalogue lấy cảm hứng Apple WWDC26 — hero, lọc theo thẻ, card grid"
+[[extra.tool_groups.items]]
+name = "WWDC26 Design Language"
+url = "$BASE_URL/wwdc26-branding"
+subtitle = "Branding guideline cảm hứng WWDC26 — typography Hilda, layout grammar, Do/Don't"
+[[extra.tool_groups.items]]
 name = "Font Guideline"
 url = "$BASE_URL/font"
 [[extra.tool_groups.items]]

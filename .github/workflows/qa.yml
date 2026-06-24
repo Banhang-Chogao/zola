@@ -1,7 +1,9 @@
 name: QA Gatekeeper
 
 # Chạy trên mọi push (kể cả main). qa_check.py fail → pipeline đỏ.
-# Improved: caching, timeout, retry logic for flaky steps.
+# Restructured (issue #874): tách static-checks (gate chính, không gọi zola
+# build) khỏi build-smoke (zola build song song, không chặn merge). Mục tiêu:
+# gate chính xanh nhanh, không bị hang do zola build 503-page phức tạp.
 
 on:
   push:
@@ -23,9 +25,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  qa-check:
+  # ─────────────────────────────────────────────────────────────────────
+  # static-checks: GATE CHÍNH — chặn auto-merge khi đỏ.
+  # Chạy nhanh (không gọi zola build → không hang).
+  # Bao gồm: conflict markers, secret leak, SCSS syntax, SEO frontmatter,
+  # QA Vaccine Gate (static detectors từ CLAUDE.md), unit tests, public-surface
+  # security audit (source-side).
+  # ─────────────────────────────────────────────────────────────────────
+  static-checks:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,7 +43,61 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
-          cache: 'npm'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Install test dependencies
+        run: |
+          pip install -r backend/requirements.txt
+          for req in scripts/requirements-f-dashboard.txt scripts/requirements-l-dashboard.txt; do
+            if [ -f "$req" ]; then
+              echo "Installing: $req"
+              pip install -r "$req"
+            else
+              echo "Skipping missing optional requirements: $req"
+            fi
+          done
+
+      - name: Unit tests — footer countdown + ai_diagnose + QA vaccines + social images
+        run: |
+          python3 -m unittest scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images scripts.test_security_public_audit -v
+
+      # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
+      # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library.
+      # Runs BEFORE expensive Zola build so known recurring build-breakers are
+      # blocked early. Exits 1 on any vaccine FAIL → fails job → blocks auto-merge.
+      - name: Run QA Gatekeeper + Vaccine Gate (conflicts/secrets/SEO/SCSS + CLAUDE.md vaccines)
+        run: python3 qa_check.py
+
+      # Static-site security gate (SOURCE scan, pre-build): no private/internal
+      # files or secret VALUES on content/ + static/. The authoritative full scan
+      # (incl. built public/ + sitemap) runs in build-smoke after the build.
+      - name: Public-surface security audit (source pre-build)
+        run: python3 scripts/security_public_audit.py
+
+  # ─────────────────────────────────────────────────────────────────────
+  # build-smoke: Zola build + post-build checks (404, og:image, security).
+  # Chạy SONG SONG với static-checks (không needs: → không chặn gate chính).
+  # Nếu fail/cancel/timeout → không chặn auto-merge (vaccine gate đã bắt lỗi
+  # build-breaker trong static-checks). Workflow báo đỏ nhưng merge vẫn được
+  # attempt khi static-checks xanh.
+  # ─────────────────────────────────────────────────────────────────────
+  build-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -58,7 +121,7 @@ jobs:
           sudo mv zola /usr/local/bin/
           zola --version
 
-      - name: Install test dependencies (optional dashboards)
+      - name: Install build dependencies
         run: |
           pip install -r backend/requirements.txt
           for req in scripts/requirements-f-dashboard.txt scripts/requirements-l-dashboard.txt; do
@@ -69,17 +132,6 @@ jobs:
               echo "Skipping missing optional requirements: $req"
             fi
           done
-
-      - name: Unit tests — footer countdown + ai_diagnose + QA vaccines + social images
-        run: |
-          python3 -m unittest scripts.test_footer_countdown scripts.test_ai_diagnose scripts.test_google_rank scripts.test_github_activity scripts.test_seo_rank_autofix scripts.test_qa_vaccines scripts.test_build_open_prs scripts.test_check_social_images scripts.test_security_public_audit -v
-
-      # QA Gatekeeper: generic checks (conflicts/secrets/SEO/SCSS) PLUS the QA
-      # Vaccine Gate — static detectors built from the CLAUDE.md vaccine library.
-      # Runs BEFORE expensive Zola build so known recurring build-breakers are
-      # blocked early. Exits 1 on any vaccine FAIL → fails job → blocks auto-merge.
-      - name: Run QA Gatekeeper + Vaccine Gate (conflicts/secrets/SEO/SCSS + CLAUDE.md vaccines)
-        run: python3 qa_check.py
 
       - name: Build feed pagination anchors
         run: python3 scripts/build_feed_pagination.py
@@ -134,7 +186,7 @@ jobs:
         run: python3 scripts/check_internal_links.py
 
       # Hard gate: crawl built public/ for broken INTERNAL links.
-      # Exits 2 when any internal link 404s, fails job, blocks auto-merge.
+      # Exits 2 when any internal link 404s, fails job.
       - name: Gate on broken internal links (404 checker — exit 2 fails build)
         run: python3 qa-404-checker.py
 
@@ -143,7 +195,6 @@ jobs:
       - name: Validate social share thumbnails (og:image — exit 2 fails build)
         run: python3 scripts/check_social_images.py --check
 
-      # Static-site security gate: scans built public/ for exposed secrets/private
-      # files. Exit 1 fails job → blocks auto-merge/deploy.
-      - name: Public-surface security audit (no secrets/private docs published)
+      # Full security audit on built public/ (backstop — static-checks đã scan source).
+      - name: Public-surface security audit (built public/ + sitemap)
         run: python3 scripts/security_public_audit.py

@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}{{ section.title }} — Session Catalogue | {{ config.title }}{% endblock %}
+{% block description %}{{ section.description }}{% endblock %}
+
+{% set wwdc = load_data(path="data/wwdc26-sessions.json", required=false) %}
+{% if wwdc and wwdc.sessions %}{% set sessions = wwdc.sessions %}{% else %}{% set sessions = [] %}{% endif %}
+{% set categories = sessions | map(attribute="category") | unique | sort %}
+
+{% block extra_head %}
+<style>
+  .layout-grid:has(.wwdc) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.wwdc) { max-width: 1180px; }
+
+  .wwdc {
+    --w-ink:        var(--c-text-heading, #0a0a0a);
+    --w-body:       var(--c-text-body, #333);
+    --w-muted:      var(--c-text-muted, #6a6a6a);
+    --w-blue:       var(--c-accent, #003784);
+    --w-blue-hover: var(--c-accent-hover, #002566);
+    --w-blue-soft:  var(--c-accent-soft, #e8edf5);
+    --w-surface:    var(--c-bg-surface, #fff);
+    --w-page:       var(--c-bg-page, #f8f9fb);
+    --w-soft:       var(--c-bg-soft, #f4f4f4);
+    --w-border:     var(--c-border, #e3e3e3);
+    --w-border-strong: var(--c-border-strong, #d0d0d0);
+    --w-shadow:     var(--c-shadow-md, 0 2px 8px rgba(0,55,132,.08));
+    --w-shadow-lg:  var(--c-shadow-lg, 0 8px 24px rgba(0,55,132,.12));
+    --w-radius:     10px;
+    --w-mono:       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --w-heading:    'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    font-family: inherit;
+    color: var(--w-body);
+    line-height: 1.62;
+    padding: 0 16px 64px;
+    margin: 0 auto;
+  }
+  .wwdc *, .wwdc *::before, .wwdc *::after { box-sizing: border-box; }
+
+  .wwdc__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 24px 0 16px;
+    border-bottom: 1px solid var(--w-border);
+  }
+  .wwdc__brand { display: flex; align-items: center; gap: 12px; }
+  .wwdc__mark {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--w-blue);
+    border-radius: var(--w-radius);
+    color: var(--w-blue);
+    font-family: var(--w-heading);
+    font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;
+  }
+  .wwdc__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .wwdc__brand-name { font-family: var(--w-heading); font-size: 1.15rem; font-weight: 800; color: var(--w-ink); letter-spacing: -0.02em; }
+  .wwdc__brand-tag { font-size: 0.74rem; color: var(--w-muted); }
+  .wwdc__top-right { font-family: var(--w-mono); font-size: 0.8rem; color: var(--w-muted); }
+  .wwdc__top-right strong { color: var(--w-blue); }
+
+  .wwdc__hero {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--w-border);
+  }
+  .wwdc__eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--w-blue); margin: 0 0 12px;
+  }
+  .wwdc__title {
+    font-family: var(--w-heading);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+    color: var(--w-ink); margin: 0 0 12px;
+  }
+  .wwdc__sub {
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    line-height: 1.6; color: var(--w-muted); margin: 0 0 24px; max-width: 64ch;
+  }
+  .wwdc__stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px; margin-top: 24px; padding-top: 24px;
+    border-top: 1px solid var(--w-border);
+  }
+  .wwdc__stat-n { font-size: 1.7rem; font-weight: 800; color: var(--w-ink); letter-spacing: -0.02em; line-height: 1; }
+  .wwdc__stat-l { display: block; margin-top: 6px; font-size: 0.78rem; color: var(--w-muted); }
+
+  .wwdc__filters {
+    position: sticky; top: 0; z-index: 6;
+    display: flex; flex-direction: column; gap: 14px;
+    padding: 20px 0; margin: 8px 0;
+    background: color-mix(in srgb, var(--w-page) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--w-border);
+  }
+  .wwdc__search {
+    width: 100%;
+    padding: 11px 16px;
+    border: 1px solid var(--w-border);
+    border-radius: var(--w-radius);
+    font-size: 0.95rem;
+    background: var(--w-surface);
+    color: var(--w-ink);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .wwdc__search:focus {
+    outline: none;
+    border-color: var(--w-blue);
+    box-shadow: 0 0 0 3px var(--w-blue-soft);
+  }
+  .wwdc__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wwdc__chip {
+    display: inline-flex; align-items: center;
+    padding: 6px 14px;
+    border: 1px solid var(--w-border);
+    border-radius: 999px;
+    background: var(--w-surface);
+    color: var(--w-muted);
+    font-size: 0.82rem; font-weight: 600;
+    line-height: 1.3; cursor: pointer; user-select: none;
+    white-space: nowrap;
+    transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+  }
+  .wwdc__chip:hover { border-color: var(--w-blue); color: var(--w-blue); }
+  .wwdc__chip--active { background: var(--w-blue); color: #fff; border-color: var(--w-blue); }
+  .wwdc__chip--active:hover { background: var(--w-blue-hover); border-color: var(--w-blue-hover); color: #fff; }
+  .wwdc__chip-count { font-family: var(--w-mono); font-size: 0.68rem; margin-left: 6px; opacity: 0.7; }
+
+  .wwdc__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin: 24px 0 8px;
+  }
+  .wwdc__card {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 20px;
+    border: 1px solid var(--w-border);
+    border-radius: var(--w-radius);
+    background: var(--w-surface);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  }
+  .wwdc__card:hover {
+    border-color: var(--w-border-strong);
+    box-shadow: var(--w-shadow-lg);
+    transform: translateY(-2px);
+  }
+  .wwdc__card-meta {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.75rem; font-weight: 600; color: var(--w-muted);
+  }
+  .wwdc__card-id { font-family: var(--w-mono); font-size: 0.72rem; font-weight: 700; color: var(--w-blue); }
+  .wwdc__card-duration {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border: 1px solid var(--w-border); border-radius: 4px;
+    font-family: var(--w-mono); font-size: 0.72rem; font-weight: 700;
+    color: var(--w-blue); white-space: nowrap;
+  }
+  .wwdc__card-cat { color: var(--w-muted); }
+  .wwdc__card-title {
+    font-family: var(--w-heading);
+    font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+    font-weight: 700; line-height: 1.3; color: var(--w-ink); margin: 0;
+  }
+  .wwdc__card-desc {
+    font-size: 0.84rem; line-height: 1.5; color: var(--w-muted); margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .wwdc__card-tag {
+    display: inline-block; align-self: flex-start;
+    padding: 2px 10px; border-radius: 999px;
+    background: var(--w-blue-soft);
+    font-size: 0.72rem; font-weight: 600; color: var(--w-blue);
+    margin-top: auto;
+  }
+
+  .wwdc__count { font-size: 0.84rem; font-weight: 600; color: var(--w-muted); margin: 20px 0 0; letter-spacing: 0.02em; }
+  .wwdc__count strong { color: var(--w-ink); font-family: var(--w-mono); }
+  .wwdc__empty { text-align: center; padding: 48px 24px; color: var(--w-muted); font-size: 0.92rem; }
+
+  .wwdc__foot {
+    padding: 40px 0 8px; text-align: center;
+    font-size: 0.82rem; color: var(--w-muted);
+    border-top: 1px solid var(--w-border); margin-top: 32px;
+  }
+  .wwdc__foot a { color: var(--w-blue); }
+
+  @media (max-width: 720px) {
+    .wwdc__hero { padding: 28px 0 24px; }
+    .wwdc__grid { grid-template-columns: 1fr; gap: 12px; }
+    .wwdc__card { padding: 16px; }
+    .wwdc__filters { position: static; padding: 16px 0; margin: 0; }
+  }
+  @media (max-width: 400px) {
+    .wwdc__chip { padding: 5px 10px; font-size: 0.76rem; }
+    .wwdc__chips { gap: 6px; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="wwdc">
+  <div class="wwdc__top">
+    <div class="wwdc__brand">
+      <span class="wwdc__mark">W</span>
+      <span class="wwdc__brand-text">
+        <span class="wwdc__brand-name">WWDC26</span>
+        <span class="wwdc__brand-tag">Session Catalogue</span>
+      </span>
+    </div>
+    <span class="wwdc__top-right"><strong>{{ wwdc.edition | default(value="WWDC26") }}</strong> · {{ wwdc.year | default(value=2026) }}</span>
+  </div>
+
+  <header class="wwdc__hero">
+    <p class="wwdc__eyebrow">Cảm hứng Apple WWDC26</p>
+    <h1 class="wwdc__title">{{ section.title }}</h1>
+    <p class="wwdc__sub">{{ wwdc.tagline | default(value=section.description) }}</p>
+    <div class="wwdc__stats">
+      <div><span class="wwdc__stat-n">{{ sessions | length }}</span><span class="wwdc__stat-l">Phiên/bài</span></div>
+      <div><span class="wwdc__stat-n">{{ categories | length }}</span><span class="wwdc__stat-l">Chủ đề</span></div>
+      <div><span class="wwdc__stat-n">26</span><span class="wwdc__stat-l">Nền tảng</span></div>
+    </div>
+  </header>
+
+  <div class="wwdc__filters">
+    <input class="wwdc__search" type="text" id="wwdc-search" placeholder="Tìm theo tiêu đề hoặc mô tả…" autocomplete="off" aria-label="Tìm kiếm phiên WWDC26" />
+    <div class="wwdc__chips" id="wwdc-chips" role="group" aria-label="Lọc theo chủ đề">
+      <button class="wwdc__chip wwdc__chip--active" type="button" data-filter="all">
+        Tất cả <span class="wwdc__chip-count">{{ sessions | length }}</span>
+      </button>
+      {% for cat in categories %}
+      <button class="wwdc__chip" type="button" data-filter="{{ cat }}">
+        {{ cat }} <span class="wwdc__chip-count">{{ sessions | filter(attribute="category", value=cat) | length }}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <p class="wwdc__count" id="wwdc-count" aria-live="polite">
+    Đang hiển thị <strong id="wwdc-shown">{{ sessions | length }}</strong> / {{ sessions | length }} phiên
+  </p>
+
+  <div class="wwdc__grid" id="wwdc-grid">
+    {% for s in sessions %}
+    <article class="wwdc__card" data-category="{{ s.category }}" data-title="{{ s.title | lower }}" data-desc="{{ s.description | lower }}">
+      <div class="wwdc__card-meta">
+        <span class="wwdc__card-id">#{{ s.id }}</span>
+        <span class="wwdc__card-duration">{{ s.duration }}</span>
+        <span class="wwdc__card-cat">· {{ s.category }}</span>
+      </div>
+      <h3 class="wwdc__card-title">{{ s.title }}</h3>
+      <p class="wwdc__card-desc">{{ s.description }}</p>
+      <span class="wwdc__card-tag">{{ s.category }}</span>
+    </article>
+    {% endfor %}
+  </div>
+
+  <p class="wwdc__empty" id="wwdc-empty" hidden>Không tìm thấy phiên nào khớp. Thử từ khoá hoặc chủ đề khác.</p>
+
+  <footer class="wwdc__foot">
+    <p>WWDC26 Session Catalogue — bố cục lấy cảm hứng từ <a href="{{ config.base_url }}/tools/e-dna/">E-DNA</a> và <a href="{{ config.base_url }}/wwdc26-branding/">Branding Guideline</a>.</p>
+    <p>Dữ liệu mẫu, không phải nội dung chính thức của Apple.</p>
+  </footer>
+</section>
+
+<script>
+  (function () {
+    var search = document.getElementById('wwdc-search');
+    var grid   = document.getElementById('wwdc-grid');
+    var chips  = document.getElementById('wwdc-chips');
+    var count  = document.getElementById('wwdc-shown');
+    var empty  = document.getElementById('wwdc-empty');
+    var cards  = grid.querySelectorAll('.wwdc__card');
+    var activeCat = 'all';
+
+    function filter() {
+      var q = (search.value || '').toLowerCase().trim();
+      var shown = 0;
+      cards.forEach(function (card) {
+        var title = card.dataset.title;
+        var desc  = card.dataset.desc;
+        var cat   = card.dataset.category;
+        var matchSearch = !q || title.indexOf(q) !== -1 || desc.indexOf(q) !== -1;
+        var matchCat    = activeCat === 'all' || cat === activeCat;
+        var show = matchSearch && matchCat;
+        card.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      count.textContent = String(shown);
+      empty.hidden = shown !== 0;
+    }
+
+    search.addEventListener('input', filter);
+    chips.addEventListener('click', function (e) {
+      var btn = e.target.closest('.wwdc__chip');
+      if (!btn) return;
+      chips.querySelectorAll('.wwdc__chip').forEach(function (c) {
+        c.classList.toggle('wwdc__chip--active', c === btn);
+      });
+      activeCat = btn.dataset.filter;
+      filter();
+    });
+  })();
+</script>
+{% endblock %}
