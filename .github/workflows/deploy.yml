@@ -146,9 +146,9 @@ jobs:
             '{status: $status, timestamp: $ts, deploy_time: $deploy_time, commit_sha: $sha, commit_message: $msg, run_url: $url, duration_seconds: 0, health: "green"}' \
             > data/deployment-status.json
 
-      - name: Build site (zola build — retry with timeout, issue #875)
+      - name: Build site (zola build — per-attempt timeout + retry, issue #875)
         id: zola-build
-        timeout-minutes: 12
+        timeout-minutes: 30
         env:
           # Dùng PAT (5000 req/h) thay vì GITHUB_TOKEN (1000 req/h) để tránh
           # rate-limit khi template gọi GitHub API commits (load_data).
