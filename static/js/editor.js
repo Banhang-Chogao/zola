@@ -505,6 +505,58 @@
     return cat;
   }
 
+
+  function tomlString(value) {
+    return "\"" + String(value || "").replace(/\\/g, "\\\\").replace(/"/g, "\\\"") + "\"";
+  }
+
+  function cleanTakeaways(items) {
+    if (!Array.isArray(items)) return [];
+    const seen = new Set();
+    return items
+      .map((x) => String(x || "").trim())
+      .filter(Boolean)
+      .filter((x) => {
+        const k = x.toLowerCase();
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      })
+      .slice(0, 3);
+  }
+
+  function takeawayInputs(root) {
+    return Array.from((root || document).querySelectorAll("[data-takeaway]"));
+  }
+
+  function collectTakeawayInputs(root) {
+    return cleanTakeaways(takeawayInputs(root).map((input) => input.value));
+  }
+
+  function fillTakeawayInputs(items) {
+    const values = cleanTakeaways(items);
+    takeawayInputs(document).forEach((input, idx) => {
+      input.value = values[idx] || "";
+    });
+  }
+
+  function suggestTakeawaysFromForm(form) {
+    const title = form && form.title ? form.title.value.trim() : "";
+    const category = getSelectedCategory ? getSelectedCategory() : "";
+    const body = form && form.body ? form.body.value.trim() : "";
+    const firstLine = body
+      .split(/\n+/)
+      .map((x) => x.replace(/^#+\s*/, "").trim())
+      .filter(Boolean)[0] || "";
+
+    const base = title || firstLine || "bài viết này";
+    return cleanTakeaways([
+      "Nắm nhanh ý chính của “" + base + "”.",
+      category ? "Biết góc nhìn thực tế trong nhóm " + category + "." : "Biết điểm cần chú ý trước khi áp dụng.",
+      "Có checklist ngắn để đọc tiếp hiệu quả hơn."
+    ]);
+  }
+
   function parseFrontmatter(md) {
     // TOML frontmatter giữa +++ ... +++
     const m = md.match(/^\+\+\+\n([\s\S]*?)\n\+\+\+\n?([\s\S]*)$/);
@@ -515,7 +567,7 @@
     const fm = {
       title: "", date: "", category: "Posting", tags: [], thumbnail: "",
       featured: false, featured_at: "", sticky: false,
-      premium: false, momo_payment_link: "",
+      premium: false, momo_payment_link: "", takeaways: [],
     };
 
     const lines = fmText.split("\n");
@@ -549,6 +601,7 @@
         else if (key === "featured_at") fm.featured_at = val;
         else if (key === "sticky") fm.sticky = val === true;
         else if (key === "premium") fm.premium = val === true;
+        else if (key === "takeaways") fm.takeaways = Array.isArray(val) ? cleanTakeaways(val) : [];
         else if (key === "momo_payment_link" || key === "momo_link") fm.momo_payment_link = val;
       }
     }
@@ -569,6 +622,12 @@ tags = ${tagsStr}
 [extra]
 `;
     if (fm.thumbnail) fmText += `thumbnail = "${fm.thumbnail}"\n`;
+    if (fm.takeaways && fm.takeaways.length) {
+      const takeaways = cleanTakeaways(fm.takeaways);
+      if (takeaways.length) {
+        fmText += `takeaways = [${takeaways.map(tomlString).join(", ")}]\n`;
+      }
+    }
     if (fm.featured) {
       fmText += `featured = true\n`;
       // featured_at = thời điểm tick — bài tick sau cùng có timestamp lớn nhất,
@@ -602,6 +661,7 @@ tags = ${tagsStr}
       category: category,
       tags: form.tags.value.split(",").map((t) => t.trim()).filter(Boolean),
       thumbnail: form.thumbnail.value.trim(),
+      takeaways: collectTakeawayInputs(form),
       featured: isFeatured,
       featured_at: featuredAt,
       sticky: isSticky,
@@ -968,6 +1028,16 @@ tags = ${tagsStr}
     }
   }
 
+
+  const takeawaysSuggestBtn = $("[data-action='takeaways-suggest']");
+  if (takeawaysSuggestBtn) {
+    takeawaysSuggestBtn.addEventListener("click", () => {
+      const form = $("[data-form='post']");
+      fillTakeawayInputs(suggestTakeawaysFromForm(form));
+      setStatus("[data-status]", "✓ Đã gợi ý 3 ý chính nhanh", "success");
+    });
+  }
+
   const reloadBtn = $("[data-action='reload']");
   if (reloadBtn) {
     reloadBtn.addEventListener("click", () => reloadPostsFromSource(reloadBtn));
@@ -1194,6 +1264,7 @@ tags = ${tagsStr}
   function openEditor(path) {
     const form = $("[data-form='post']");
     form.reset();
+      fillTakeawayInputs([]);
     $("[data-target='save-status']").textContent = "";
     hideDraftBanner(); // reset banner cũ từ session trước
     // Bài mới chưa có slug → mở khoá auto-fill. Edit bài cũ sẽ set lại bên dưới.
@@ -1238,6 +1309,7 @@ tags = ${tagsStr}
       rebuildCategoryOptions(fm.category);
       form.tags.value = fm.tags.join(", ");
       form.thumbnail.value = fm.thumbnail;
+      fillTakeawayInputs(fm.takeaways || []);
       form.featured.checked = fm.featured;
       if (form.sticky) form.sticky.checked = fm.sticky;
       const momoInput = form.querySelector("[name='momo_link']");
