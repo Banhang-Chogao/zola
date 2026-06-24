@@ -2,6 +2,16 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "use PAT for build steps (V5 rate limit)",
+      "tag": "fix",
+      "lines_added": 8,
+      "lines_removed": 5,
+      "highlights": [],
+      "commit": "30728f518993",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-24",
       "title": "add GH_GITHUB_COM_TOKEN to @v5 actions to resolve rate limit [fix/v5-rate-limit]",
       "tag": "fix",
       "lines_added": 38,
