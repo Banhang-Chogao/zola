@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "feat(home): WWDC-inspired homepage + branding guideline [fix/heartbeat-module] [fix/heartbeat-module]",
+      "tag": "fix",
+      "lines_added": 832,
+      "lines_removed": 278,
+      "highlights": [
+        "fix: heartbeat module — replace PR/CI data with blog health status, fix desktop display",
+        "feat(home): WWDC-inspired homepage + branding guideline [fix/heartbeat-module]",
+        "content/branding-guideline.md (removed, +0/-6)",
+        "content/branding-guideline/_index.md (added, +9/-0)",
+        "static/css/blog-heartbeat-client.css (modified, +5/-0)"
+      ],
+      "pr": 856
+    },
+    {
+      "date": "2026-06-24",
       "title": "deploy — WWDC homepage redesign + branding guideline",
       "tag": "chore",
       "lines_added": 0,
