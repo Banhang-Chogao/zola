@@ -77,4 +77,5 @@
 
 /* Mobile readability hardening — MUST stay last so its defensive
    overflow/wrapping guards win over earlier component rules. */
+@import "mobile-blog-momo-spirit";
 @import "mobile-hardening";
