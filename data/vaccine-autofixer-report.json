@@ -1,10 +1,10 @@
 {
   "trigger": "schedule",
-  "run_id": "28020810607",
-  "started_at": "2026-06-23T17:49:41.558082+07:00",
-  "finished_at": "2026-06-23T17:58:58.005741+07:00",
-  "last_run": "2026-06-23T17:58:58.005741+07:00",
-  "next_scheduled_run": "2026-06-24T06:00:00+07:00",
+  "run_id": "28092443941",
+  "started_at": "2026-06-24T17:34:41.029175+07:00",
+  "finished_at": "2026-06-24T17:43:46.969895+07:00",
+  "last_run": "2026-06-24T17:43:46.969895+07:00",
+  "next_scheduled_run": "2026-06-25T06:00:00+07:00",
   "vaccine_library_count": 37,
   "steps": [
     {
@@ -53,7 +53,7 @@
       "matched": false,
       "fixed": false,
       "changed": true,
-      "detail": "Wrote data/references.json: 266 posts with references"
+      "detail": "Wrote data/references.json: 267 posts with references"
     },
     {
       "vaccine": "V-rules",
@@ -146,12 +146,23 @@
       "issues_fixed": 0,
       "issues_prs_created": 0,
       "errors": []
+    },
+    {
+      "run_id": "28092443941",
+      "trigger": "schedule",
+      "last_run": "2026-06-24T17:43:46.969895+07:00",
+      "status": "ok",
+      "vaccine_scanned": 37,
+      "issues_detected": 1,
+      "issues_fixed": 0,
+      "issues_prs_created": 0,
+      "errors": []
     }
   ],
   "latest": {
-    "run_id": "28020810607",
+    "run_id": "28092443941",
     "trigger": "schedule",
-    "last_run": "2026-06-23T17:58:58.005741+07:00",
+    "last_run": "2026-06-24T17:43:46.969895+07:00",
     "status": "ok",
     "vaccine_scanned": 37,
     "issues_detected": 1,
