@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "restore generated qa report after serp hotfix [chore/restore-qa-report-after-serp-hotfix]",
+      "tag": "chore",
+      "lines_added": 187144,
+      "lines_removed": 88614,
+      "highlights": [
+        "data/qa-404-report.json (modified, +187144/-88614)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch chore/restore-qa-report-after-serp-hotfix là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 820
+    },
+    {
+      "date": "2026-06-24",
       "title": "fix(vaccine-hotfix): fix-serp-snippet-cleanup",
       "tag": "fix",
       "lines_added": 88539,
