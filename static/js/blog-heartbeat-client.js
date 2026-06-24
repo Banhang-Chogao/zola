@@ -9,7 +9,8 @@
   var CACHE_KEY = "seomoney.blogHeartbeat.payload.v2";
 
   function esc(value) {
-    return String(value == null ? "" : value)
+    var str = value == null ? "" : (typeof value === "object" ? JSON.stringify(value) : String(value));
+    return str
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -196,9 +197,13 @@
     var status = String(
       pick(payload, ["status", "state", "health", "result"]) || "ok"
     ).toLowerCase();
-    var message = pick(payload, ["message", "title", "description", "name"]) || "Blog đang hoạt động";
+    var messageRaw = pick(payload, ["message", "title", "description", "name"]) || "Blog đang hoạt động";
+    var message = typeof messageRaw === "object" ? JSON.stringify(messageRaw) : String(messageRaw);
     var lastCheck = pick(payload, ["last_check", "generated_at", "updated_at", "last_updated", "timestamp"]);
-    var totalPosts = pick(payload, ["total_posts", "posts_total", "live_posts"]);
+    var totalPostsRaw = pick(payload, ["total_posts", "posts_total", "live_posts"]);
+    var totalPosts = totalPostsRaw && typeof totalPostsRaw === "object"
+      ? (totalPostsRaw.value || totalPostsRaw.count || 0)
+      : Number(totalPostsRaw);
 
     var ok = (
       status.indexOf("ok") !== -1 ||
