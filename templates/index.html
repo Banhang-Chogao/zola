@@ -14,231 +14,212 @@
 
 {% block main %}
 
-    <header class="home-hero">
-        <h1 class="home-hero__title">SEOMONEY – SEO, AI WebOps &amp; Tài chính cá nhân</h1>
-        <p class="home-hero__sub">
-            Chia sẻ kinh nghiệm thực tế về SEO &amp; công nghệ web, vận hành tự động (WebOps),
-            tài chính cá nhân và các công cụ miễn phí. Nội dung viết bằng trải nghiệm,
-            kiểm chứng nguồn và cập nhật thường xuyên.
-        </p>
-    </header>
+{# === DATA: posting + baochi → merged, sorted, paginated === #}
+{% set posting = get_section(path="posting/_index.md") %}
+{% set baochi = get_section(path="baochi/_index.md") %}
+{% set_global all_pages = [] %}
+{% for page in posting.pages | concat(with=baochi.pages) %}
+    {% if not page.extra.feed_anchor %}
+        {% set_global all_pages = all_pages | concat(with=[page]) %}
+    {% endif %}
+{% endfor %}
+{% set all_pages = all_pages | sort(attribute="date") | reverse %}
 
-    <nav class="home-clusters" aria-label="Chủ đề chính">
-        <h2 class="home-clusters__heading">Khám phá theo chủ đề</h2>
-        <div class="home-clusters__grid">
-            <a class="home-cluster" href="{{ config.base_url }}/categories/cong-nghe/">
-                <span class="home-cluster__icon" aria-hidden="true">🔎</span>
-                <span class="home-cluster__title">SEO &amp; Công nghệ</span>
-                <span class="home-cluster__desc">AdSense, SEO on-page, web &amp; tự động hoá.</span>
-            </a>
-            <a class="home-cluster" href="{{ config.base_url }}/categories/ngan-hang/">
-                <span class="home-cluster__icon" aria-hidden="true">💳</span>
-                <span class="home-cluster__title">Tài chính &amp; Ngân hàng</span>
-                <span class="home-cluster__desc">Ngân hàng số, tiết kiệm, quản lý chi tiêu.</span>
-            </a>
-            <a class="home-cluster" href="{{ config.base_url }}/categories/hoc-tieng-han/">
-                <span class="home-cluster__icon" aria-hidden="true">📚</span>
-                <span class="home-cluster__title">Học tiếng Hàn</span>
-                <span class="home-cluster__desc">Lộ trình tự học Hangul, ngữ pháp, từ vựng.</span>
-            </a>
-            <a class="home-cluster" href="{{ config.base_url }}/tools/">
-                <span class="home-cluster__icon" aria-hidden="true">🧰</span>
-                <span class="home-cluster__title">Công cụ miễn phí</span>
-                <span class="home-cluster__desc">Tiện ích chạy ngay trên trình duyệt, không cài đặt.</span>
-            </a>
-        </div>
-    </nav>
+{% set per_page = 10 %}
+{% set page_num = paginator.current_index | default(value=1) %}
+{% set offset = (page_num - 1) * per_page %}
 
-    <section class="home-heartbeat" data-home-heartbeat aria-label="Blog Heart Beat">
-        <div class="home-heartbeat__top">
-            <span class="home-heartbeat__eyebrow">Blog Heart Beat</span>
-            <span class="home-heartbeat__pill" data-heartbeat-status>Đang tải…</span>
-        </div>
-        <h2 class="home-heartbeat__title" data-heartbeat-title>SEOMONEY đang đọc nhịp kiểm tra</h2>
-        <p class="home-heartbeat__desc" data-heartbeat-desc>
-            Dữ liệu được đọc từ <code>/data/blog-heartbeat.json</code>.
-        </p>
-        <div class="home-heartbeat__meta">
-            <span data-heartbeat-time></span>
-            <span data-heartbeat-meta>Nguồn: /data/blog-heartbeat.json</span>
-        </div>
-    </section>
-
-    <script src="{{ get_url(path='js/blog-heartbeat-card.js') }}" defer></script>
-    {# HOTFIX: bài viết sống rải rác ở nhiều section (posting/, baochi/, …).
-       Gộp TẤT CẢ bài lại + sort theo ngày giảm dần → trang chủ hiển thị MỌI
-       bài, không phân biệt section/category; bài mới nhất luôn tự lên đầu. #}
-    {% set posting = get_section(path="posting/_index.md") %}
-    {% set baochi = get_section(path="baochi/_index.md") %}
-    {% set_global all_pages = [] %}
-    {% for page in posting.pages | concat(with=baochi.pages) %}
-        {% if not page.extra.feed_anchor %}
-            {% set_global all_pages = all_pages | concat(with=[page]) %}
-        {% endif %}
+{# STICKY: only page 1 #}
+{% set_global sticky = false %}
+{% if page_num == 1 %}
+    {% for page in all_pages %}
+        {% if not sticky and page.extra.sticky %}{% set_global sticky = page %}{% endif %}
     {% endfor %}
-    {% set all_pages = all_pages | sort(attribute="date") | reverse %}
+{% endif %}
 
-    {% set per_page = 10 %}
-    {% set page_num = paginator.current_index | default(value=1) %}
-    {% set offset = (page_num - 1) * per_page %}
+{# Feed = exclude sticky from paginated list #}
+{% set_global feed = [] %}
+{% for page in all_pages %}
+    {% if not sticky or page.slug != sticky.slug %}{% set_global feed = feed | concat(with=[page]) %}{% endif %}
+{% endfor %}
 
-    {# STICKY: chỉ trang 1; bài ghim (extra.sticky=true) — CMS chặn >1. #}
-    {% set_global sticky = false %}
-    {% if page_num == 1 %}
-        {% for page in all_pages %}
-            {% if not sticky and page.extra.sticky %}{% set_global sticky = page %}{% endif %}
+{% set feed_total = feed | length %}
+{% set feed_pages = paginator.number_pagers | default(value=1) %}
+{% set page_feed = feed | slice(start=offset, end=offset + per_page) %}
+
+{# Extract unique tags for filter chips (top 15) #}
+{% set_global all_tags = [] %}
+{% for page in all_pages %}
+    {% if page.taxonomies.tags %}
+        {% for tag in page.taxonomies.tags %}
+            {% set_global all_tags = all_tags | concat(with=[tag]) %}
         {% endfor %}
     {% endif %}
+{% endfor %}
+{% set all_tags = all_tags | unique | sort %}
+{% set chip_tags = all_tags | slice(end=15) %}
 
-    {# Feed = tất cả bài, loại sticky khỏi danh sách phân trang. #}
-    {% set_global feed = [] %}
-    {% for page in all_pages %}
-        {% if not sticky or page.slug != sticky.slug %}{% set_global feed = feed | concat(with=[page]) %}{% endif %}
-    {% endfor %}
-
-    {% set feed_total = feed | length %}
-    {% set feed_pages = paginator.number_pagers | default(value=1) %}
-    {% set page_feed = feed | slice(start=offset, end=offset + per_page) %}
-
-    {# Decorative wordmark banner — "POSTINGS" (dark gray) trên nền Ericsson Blue
-       (#003784), phủ lớp chữ Hangul tiếng Hàn rải ngẫu nhiên (trắng 50%). Toàn
-       bộ chỉ để trang trí → aria-hidden, không cản đọc nội dung. #}
-    <div class="home-tabs" aria-hidden="true">
-        <div aria-hidden="true" class="hangeul-pattern">
-            <span>가</span><span>나</span><span>다</span><span>라</span><span>마</span>
-            <span>바</span><span>사</span><span>아</span><span>자</span><span>차</span>
-            <span>카</span><span>타</span><span>파</span><span>하</span><span>한</span>
-            <span>글</span><span>배</span><span>움</span><span>문</span><span>법</span>
-            <span>읽</span><span>기</span><span>쓰</span><span>말</span>
-        </div>
-        <span class="home-tabs__letter">P</span>
-        <span class="home-tabs__letter">O</span>
-        <span class="home-tabs__letter">S</span>
-        <span class="home-tabs__letter">T</span>
-        <span class="home-tabs__letter">I</span>
-        <span class="home-tabs__letter">N</span>
-        <span class="home-tabs__letter">G</span>
-        <span class="home-tabs__letter">S</span>
-    </div>
-
-    {% if sticky %}
-        <section class="home-sticky" aria-label="Bài ghim nổi bật">
-            <article class="home-sticky__card">
-                <a class="home-sticky__image" href="{{ sticky.permalink }}">
-                    <img src="{{ img::thumb_src(thumb=sticky.extra.thumbnail | default(value='')) }}" alt="{{ sticky.title }}"
-                         width="1200" height="800"
-                         loading="eager" fetchpriority="high" decoding="async">
-                </a>
-                <div class="home-sticky__body">
-                    <span class="home-sticky__pin">📌 Ghim nổi bật</span>
-                    {% if sticky.extra.premium %}
-                        {{ premium::badge() }}
-                    {% elif sticky.taxonomies.categories %}
-                        <span class="home-sticky__cat">{{ sticky.taxonomies.categories[0] }}</span>
-                    {% endif %}
-                    <h2 class="home-sticky__title">
-                        <a href="{{ sticky.permalink }}">{{ sticky.title }}</a>
-                    </h2>
-                    <p class="home-sticky__desc">
-                        {{ sticky.description | default(value=sticky.summary | default(value="") | safe | striptags | truncate(length=280)) }}
-                    </p>
-                    <div class="home-sticky__meta">
-                        <span class="home-sticky__author">{{ config.extra.author }}{{ v::badge() }}</span>
-                        <span class="home-sticky__date">{{ sticky.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
-                    </div>
-                </div>
-            </article>
-        </section>
-    {% endif %}
-
-    {% if page_feed | length > 0 %}
-        <section class="home-latest">
-            <h2 class="home-latest__heading">
-                Bài mới nhất
-                {% if feed_pages > 1 %}
-                <span class="home-latest__page">Trang {{ page_num }}/{{ feed_pages }}</span>
-                {% endif %}
-            </h2>
-            <div class="home-grid">
-                {% for page in page_feed %}
-                    <article class="home-card{% if page.extra.premium %} home-card--premium{% endif %}">
-                        <a class="home-card__image" href="{{ page.permalink }}">
-                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
-                                 width="800" height="500"
-                                 loading="{% if loop.first and page_num == 1 and not sticky %}eager{% else %}lazy{% endif %}"
-                                 {% if loop.first and page_num == 1 and not sticky %}fetchpriority="high"{% endif %}
-                                 decoding="async">
-                        </a>
-                        <div class="home-card__body">
-                            {% if page.extra.premium %}
-                                {{ premium::badge() }}
-                            {% elif page.taxonomies.categories %}
-                                <span class="home-card__cat">{{ page.taxonomies.categories[0] }}</span>
-                            {% endif %}
-                            <span class="home-card__insight">Insights khán giả</span>
-                            <h3 class="home-card__title">
-                                <a href="{{ page.permalink }}">{{ page.title }}</a>
-                            </h3>
-                            <p class="home-card__desc">
-                                {{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=140)) }}
-                            </p>
-                        </div>
-                    </article>
-                {% endfor %}
-            </div>
-        </section>
-    {% endif %}
-
-    {# 📊 SEO authority widgets (Google Rank + SEO Reality) đã được CHUYỂN sang
-       Master Dashboard V5 (/tools/master-dashboard-v5/) để trang chủ nhẹ &
-       tập trung vào nội dung. Xem dải trạng thái cuối trang để mở dashboard. #}
-
-    {% if feed_pages > 1 %}
-        <nav class="pagination" aria-label="Phân trang trang chủ">
-            {% if page_num > 1 %}
-                <a class="pagination__btn pagination__btn--prev" href="{{ pager::page_href(base=config.base_url, page_num=page_num - 1) }}">« Trang trước</a>
-            {% else %}
-                <span class="pagination__btn pagination__btn--prev" aria-hidden="true"></span>
-            {% endif %}
-            <span class="pagination__info">Trang {{ page_num }} / {{ feed_pages }} · {{ feed_total }} bài</span>
-            {% if page_num < feed_pages %}
-                <a class="pagination__btn pagination__btn--next" href="{{ pager::page_href(base=config.base_url, page_num=page_num + 1) }}">Trang sau »</a>
-            {% else %}
-                <span class="pagination__btn pagination__btn--next" aria-hidden="true"></span>
-            {% endif %}
-        </nav>
-    {% endif %}
-
-    {# Reader tools — chỉ 2–3 tiện ích hữu ích cho người đọc, giữ trang chủ nhẹ.
-       Mọi công cụ vận hành/dashboard nằm ở Master Dashboard V5 (dải dưới). #}
-    <section class="home-readertools" aria-labelledby="home-readertools-title">
-        <h2 class="home-readertools__title" id="home-readertools-title">Công cụ hữu ích</h2>
-        <div class="home-readertools__grid">
-            <a class="home-readertools__card" href="{{ config.base_url }}/tools/bhxh-1-lan/">
-                <span class="home-readertools__icon" aria-hidden="true">🧮</span>
-                <span class="home-readertools__name">Tính BHXH 1 lần</span>
-                <span class="home-readertools__desc">Ước tính số tiền rút bảo hiểm xã hội một lần.</span>
-            </a>
-            <a class="home-readertools__card" href="{{ config.base_url }}/tools/bhtn/">
-                <span class="home-readertools__icon" aria-hidden="true">🛡️</span>
-                <span class="home-readertools__name">Trợ cấp thất nghiệp</span>
-                <span class="home-readertools__desc">Tính mức &amp; thời gian hưởng trợ cấp thất nghiệp.</span>
-            </a>
-            <a class="home-readertools__card" href="{{ config.base_url }}/tools/">
-                <span class="home-readertools__icon" aria-hidden="true">🧰</span>
-                <span class="home-readertools__name">Tất cả công cụ</span>
-                <span class="home-readertools__desc">Xem toàn bộ tiện ích miễn phí của blog.</span>
-            </a>
-        </div>
-    </section>
-
-    {# Dải trạng thái cuối trang — link sang Master Dashboard V5. Gọn, không phải
-       dashboard nhúng; giữ trang chủ giống trang blog biên tập. #}
-    <aside class="home-statusstrip" aria-label="Trạng thái hệ thống">
-        <a class="home-statusstrip__link" href="{{ config.base_url }}/tools/master-dashboard-v5/">
-            <span class="home-statusstrip__icon" aria-hidden="true">🎛️</span>
-            <span class="home-statusstrip__text">Master Dashboard V5: trạng thái hệ thống, công cụ blog và kiểm tra an toàn.</span>
-            <span class="home-statusstrip__cta" aria-hidden="true">→</span>
+{# ==================== HERO ==================== #}
+<header class="hw-hero">
+    <h1 class="hw-hero__title">SEOMONEY — SEO, AI WebOps &amp; Tài chính cá nhân</h1>
+    <p class="hw-hero__sub">
+        Chia sẻ kinh nghiệm thực tế về SEO &amp; công nghệ web, vận hành tự động (WebOps),
+        tài chính cá nhân và các công cụ miễn phí. Nội dung viết bằng trải nghiệm,
+        kiểm chứng nguồn và cập nhật thường xuyên.
+    </p>
+    <div class="hw-hero__actions">
+        <a class="hw-hero__search-btn" href="{{ config.base_url }}/search/" role="button">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Tìm trong blog…
         </a>
-    </aside>
+        {% if chip_tags | length > 0 %}
+        <div class="hw-hero__filters" id="hw-filters" role="group" aria-label="Lọc theo thẻ">
+            <button class="hw-chip hw-chip--active" type="button" data-filter="all">Tất cả</button>
+            {% for tag in chip_tags %}
+            <button class="hw-chip" type="button" data-filter="{{ tag }}">{{ tag }}</button>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</header>
+
+{# ==================== STICKY POST ==================== #}
+{% if sticky %}
+<section class="hw-sticky" aria-label="Bài ghim nổi bật">
+    <span class="hw-sticky__pin">Ghim nổi bật</span>
+    <h2 class="hw-sticky__title"><a href="{{ sticky.permalink }}">{{ sticky.title }}</a></h2>
+    <p class="hw-sticky__desc">{{ sticky.description | default(value=sticky.summary | default(value="") | safe | striptags | truncate(length=280)) }}</p>
+    <div class="hw-sticky__meta">
+        <span class="hw-sticky__date">{{ sticky.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+        {% if sticky.taxonomies.tags %}
+        <div class="hw-sticky__tags">
+            {% for tag in sticky.taxonomies.tags | slice(end=3) %}
+            <span class="hw-tag">{{ tag }}</span>
+            {% endfor %}
+            {% if sticky.taxonomies.tags | length > 3 %}
+            <span class="hw-tag hw-tag--more">+{{ sticky.taxonomies.tags | length - 3 }}</span>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+{# ==================== CARD GRID ==================== #}
+{% if page_feed | length > 0 %}
+<div class="hw-grid" id="hw-grid">
+    {% for page in page_feed %}
+    <article class="hw-card" data-tags="{% if page.taxonomies.tags %}{{ page.taxonomies.tags | join(sep=',') }}{% endif %}">
+        <div class="hw-card__meta">
+            <span class="hw-card__duration">{{ page.reading_time }} phút</span>
+            {% if page.extra.premium %}
+                {{ premium::badge() }}
+            {% elif page.taxonomies.categories %}
+            <span class="hw-card__cat">{{ page.taxonomies.categories[0] }}</span>
+            {% endif %}
+        </div>
+        <h3 class="hw-card__title"><a href="{{ page.permalink }}">{{ page.title }}</a></h3>
+        <p class="hw-card__desc">{{ page.description | default(value=page.summary | default(value="") | safe | striptags | truncate(length=140)) }}</p>
+        {% if page.taxonomies.tags %}
+        <div class="hw-card__tags">
+            {% for tag in page.taxonomies.tags | slice(end=4) %}
+            <span class="hw-tag">{{ tag }}</span>
+            {% endfor %}
+            {% if page.taxonomies.tags | length > 4 %}
+            <span class="hw-tag hw-tag--more">+{{ page.taxonomies.tags | length - 4 }}</span>
+            {% endif %}
+        </div>
+        {% endif %}
+    </article>
+    {% endfor %}
+</div>
+{% endif %}
+
+{# ==================== PAGINATION ==================== #}
+{% if feed_pages > 1 %}
+<nav class="hw-pagination" aria-label="Phân trang">
+    {% if page_num > 1 %}
+    <a class="hw-pagination__arrow" href="{{ pager::page_href(base=config.base_url, page_num=page_num - 1) }}" aria-label="Trang trước">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </a>
+    {% else %}
+    <span class="hw-pagination__arrow hw-pagination__arrow--disabled" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </span>
+    {% endif %}
+    <span class="hw-pagination__info">Trang {{ page_num }} / {{ feed_pages }} &middot; {{ feed_total }} bài</span>
+    {% if page_num < feed_pages %}
+    <a class="hw-pagination__arrow" href="{{ pager::page_href(base=config.base_url, page_num=page_num + 1) }}" aria-label="Trang sau">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </a>
+    {% else %}
+    <span class="hw-pagination__arrow hw-pagination__arrow--disabled" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </span>
+    {% endif %}
+</nav>
+{% endif %}
+
+{# ==================== TAG FILTER JS ==================== #}
+<script>
+(function() {
+    var grid = document.getElementById('hw-grid');
+    if (!grid) return;
+    var chips = document.querySelectorAll('[data-filter]');
+    var cards = grid.querySelectorAll('.hw-card');
+    if (!chips.length || !cards.length) return;
+    function filter(tag) {
+        for (var i = 0; i < chips.length; i++) {
+            chips[i].classList.toggle('hw-chip--active', chips[i].dataset.filter === tag);
+        }
+        for (var j = 0; j < cards.length; j++) {
+            var card = cards[j];
+            var tags = (card.dataset.tags || '').split(',');
+            var visible = (tag === 'all' || tags.indexOf(tag) !== -1);
+            card.style.display = visible ? '' : 'none';
+        }
+    }
+    for (var k = 0; k < chips.length; k++) {
+        chips[k].addEventListener('click', function(e) {
+            filter(this.dataset.filter);
+        });
+    }
+})();
+</script>
+
+{# ==================== BOTTOM SECTIONS (unchanged) ==================== #}
+{# Reader tools — only 2–3 useful utilities for readers #}
+<section class="home-readertools" aria-labelledby="home-readertools-title">
+    <h2 class="home-readertools__title" id="home-readertools-title">Công cụ hữu ích</h2>
+    <div class="home-readertools__grid">
+        <a class="home-readertools__card" href="{{ config.base_url }}/tools/bhxh-1-lan/">
+            <span class="home-readertools__icon" aria-hidden="true">🧮</span>
+            <span class="home-readertools__name">Tính BHXH 1 lần</span>
+            <span class="home-readertools__desc">Ước tính số tiền rút bảo hiểm xã hội một lần.</span>
+        </a>
+        <a class="home-readertools__card" href="{{ config.base_url }}/tools/bhtn/">
+            <span class="home-readertools__icon" aria-hidden="true">🛡️</span>
+            <span class="home-readertools__name">Trợ cấp thất nghiệp</span>
+            <span class="home-readertools__desc">Tính mức &amp; thời gian hưởng trợ cấp thất nghiệp.</span>
+        </a>
+        <a class="home-readertools__card" href="{{ config.base_url }}/tools/">
+            <span class="home-readertools__icon" aria-hidden="true">🧰</span>
+            <span class="home-readertools__name">Tất cả công cụ</span>
+            <span class="home-readertools__desc">Xem toàn bộ tiện ích miễn phí của blog.</span>
+        </a>
+    </div>
+</section>
+
+{# Status strip — link to Master Dashboard V5 #}
+<aside class="home-statusstrip" aria-label="Trạng thái hệ thống">
+    <a class="home-statusstrip__link" href="{{ config.base_url }}/tools/master-dashboard-v5/">
+        <span class="home-statusstrip__icon" aria-hidden="true">🎛️</span>
+        <span class="home-statusstrip__text">Master Dashboard V5: trạng thái hệ thống, công cụ blog và kiểm tra an toàn.</span>
+        <span class="home-statusstrip__cta" aria-hidden="true">→</span>
+    </a>
+</aside>
+
 {% endblock main %}
