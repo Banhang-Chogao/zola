@@ -2,6 +2,51 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "revert(home): rollback broken homepage editorial UI",
+      "tag": "fix",
+      "lines_added": 214,
+      "lines_removed": 659,
+      "highlights": [
+        "Revert \"feat(home): align homepage with editorial UI spec (#845)\" (40fd5597)",
+        "templates/index.html — restored pre-#845 homepage layout",
+        "templates/base.html — restored stable header/sidebar/footer",
+        "sass/_home-editorial.scss — deleted (editorial UI redesign)",
+        "sass/_fonts.scss, sass/_mobile-blog-momo-spirit.scss, sass/_site-search.scss, sass/site.scss — reverted styling"
+      ],
+      "pr": 848
+    },
+    {
+      "date": "2026-06-24",
+      "title": "chore(ci): pause auto vaccine hotfix generators [chore/disable-auto-vaccine-hotfix]",
+      "tag": "chore",
+      "lines_added": 46,
+      "lines_removed": 100,
+      "highlights": [
+        ".github/workflows/build-failure-handler.yml (modified, +12/-30)",
+        ".github/workflows/self-healing.yml (modified, +7/-5)",
+        ".github/workflows/vaccine-autofixer.yml (modified, +5/-9)",
+        ".github/workflows/vaccine-hotfix.yml (modified, +12/-56)",
+        "CLAUDE.md (modified, +10/-0)"
+      ],
+      "pr": 847
+    },
+    {
+      "date": "2026-06-24",
+      "title": "feat(home): align homepage with editorial UI spec [fix/homepage-editorial-ui-spec]",
+      "tag": "fix",
+      "lines_added": 659,
+      "lines_removed": 214,
+      "highlights": [
+        "Removed POSTINGS/Hangul decorative banner, header-rotator carousel, Premium Posts sidebar, 'Insights khán giả' label",
+        "Added editorial 3-column feature grid on homepage (left compact list, center lead, right stacked)",
+        "Enhanced feed cards with horizontal layout + bottom border dividers",
+        "Refined search UI: removed redundant eyebrow label, simplified input, kept submit button for JS compat",
+        "Created _home-editorial.scss with full responsive editorial layout"
+      ],
+      "pr": 845
+    },
+    {
+      "date": "2026-06-24",
       "title": "fix(search): add missing Google site search partial [fix/missing-google-search-partial]",
       "tag": "fix",
       "lines_added": 95,

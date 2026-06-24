@@ -1,11 +1,13 @@
 name: Self-Healing QA
 
-# Cron 6h — auto-fix mechanical issues → push thẳng main.
+# TEMP DISABLED:
+# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
+# production-verified deploy strategy. Keep manual workflow_dispatch only.
+#
+# Previously ran every 6 hours to auto-fix mechanical QA issues and push to main.
+# This auto-remediation is paused to reduce bot noise.
 
 on:
-  schedule:
-    - cron: '0 */6 * * *'
-    - cron: '0 4 * * *'
   workflow_dispatch:
 
 concurrency:

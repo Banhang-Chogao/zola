@@ -1,26 +1,14 @@
 name: Vaccine Hotfix
 
-# Conflict-safe automated hotfix for pipeline failures. Activated when QA
-# Gatekeeper, the production deploy, or Auto-merge FINISHES IN FAILURE (or a merge
-# conflict / blocked auto-merge), plus manual workflow_dispatch.
+# TEMP DISABLED:
+# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
+# production-verified deploy strategy. Keep manual workflow_dispatch only.
 #
-# It diagnoses the root cause, creates/updates a `vaccine-hotfix/<issue-id>` branch,
-# applies the minimal safe delta (reusing autofix_conflicts + the vaccine fixers),
-# re-runs QA/build/tests, opens/updates a PR, and logs to
-# data/vaccine-hotfix-report.json ("Autofixer_report_by Vacxin").
-#
-# Merge is DELEGATED to the existing auto-merge engine (auto-merge.yml +
-# try_auto_merge.py): the hotfix PR merges ONLY when every required check is green.
-# The engine never pushes/force-pushes `main` and never deletes user content.
-# See CLAUDE.md → "Vaccine Hotfix".
+# Previously triggered automatically via workflow_run on QA/deploy/auto-merge
+# failures. The engine created vaccine-hotfix/* branches and PRs for deploy_fail,
+# required_checks_fail, etc. That auto-remediation is paused to reduce bot PR noise.
 
 on:
-  workflow_run:
-    workflows:
-      - "QA Gatekeeper"
-      - "Build and deploy Zola site to GitHub Pages"
-      - "Auto-merge"
-    types: [completed]
   workflow_dispatch:
     inputs:
       trigger:
@@ -51,11 +39,8 @@ env:
 jobs:
   hotfix:
     name: Conflict-safe hotfix
-    # Only act on real failures (workflow_run) or a manual dispatch. Successful
-    # runs are no-ops.
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'failure'
+    # Manual dispatch only (auto triggers disabled).
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -85,39 +70,14 @@ jobs:
       - name: Resolve trigger + issue id
         id: ctx
         env:
-          EVENT: ${{ github.event_name }}
-          WR_NAME: ${{ github.event.workflow_run.name }}
-          WR_BRANCH: ${{ github.event.workflow_run.head_branch }}
-          WR_ID: ${{ github.event.workflow_run.id }}
           IN_TRIGGER: ${{ github.event.inputs.trigger }}
           IN_ISSUE: ${{ github.event.inputs.issue_id }}
           IN_BRANCH: ${{ github.event.inputs.branch }}
         run: |
           set -euo pipefail
-          if [ "$EVENT" = "workflow_dispatch" ]; then
-            TRIGGER="$IN_TRIGGER"
-            ISSUE_ID="${IN_ISSUE:-${IN_TRIGGER}-${WR_ID:-$GITHUB_RUN_ID}}"
-            BASE="${IN_BRANCH:-main}"
-          else
-            case "$WR_NAME" in
-              "Build and deploy"*) TRIGGER="deploy_fail" ;;
-              "Auto-merge")        TRIGGER="auto_merge_blocked" ;;
-              *)                   TRIGGER="required_checks_fail" ;;
-            esac
-            # Stable id keyed on the failing branch so retries increment the SAME
-            # anti-loop counter. If the failure is already on a hotfix branch,
-            # reuse it (no nesting).
-            if [ "${WR_BRANCH:-}" = "main" ] || [ -z "${WR_BRANCH:-}" ]; then
-              ISSUE_ID="${TRIGGER}-${WR_ID}"
-              BASE="main"
-            elif [[ "$WR_BRANCH" == vaccine-hotfix/* ]]; then
-              ISSUE_ID="${WR_BRANCH#vaccine-hotfix/}"
-              BASE="$WR_BRANCH"
-            else
-              ISSUE_ID="$WR_BRANCH"
-              BASE="$WR_BRANCH"
-            fi
-          fi
+          TRIGGER="$IN_TRIGGER"
+          ISSUE_ID="${IN_ISSUE:-${IN_TRIGGER}-${GITHUB_RUN_ID}}"
+          BASE="${IN_BRANCH:-main}"
           BRANCH=$(python3 - "$ISSUE_ID" <<'PY'
           import sys
           sys.path.insert(0, "scripts")
@@ -129,7 +89,6 @@ jobs:
           echo "issue_id=$ISSUE_ID" >> "$GITHUB_OUTPUT"
           echo "base=$BASE"         >> "$GITHUB_OUTPUT"
           echo "branch=$BRANCH"     >> "$GITHUB_OUTPUT"
-          echo "run_id=${WR_ID:-}"  >> "$GITHUB_OUTPUT"
           echo "Trigger=$TRIGGER · issue=$ISSUE_ID · base=$BASE · branch=$BRANCH"
 
       - name: Create / update vaccine-hotfix branch
@@ -161,14 +120,11 @@ jobs:
           set -euo pipefail
           TRIGGER="${{ steps.ctx.outputs.trigger }}"
           ISSUE_ID="${{ steps.ctx.outputs.issue_id }}"
-          RUN_ID="${{ steps.ctx.outputs.run_id }}"
           EXTRA=""
           if [ "$TRIGGER" = "merge_conflict" ]; then
             EXTRA="--branch ${{ steps.ctx.outputs.base }}"
           fi
-          RID_ARG=""
-          if [ -n "$RUN_ID" ]; then RID_ARG="--run-id $RUN_ID"; fi
-          python3 scripts/vaccine_hotfix.py --trigger "$TRIGGER" --issue-id "$ISSUE_ID" $EXTRA $RID_ARG || true
+          python3 scripts/vaccine_hotfix.py --trigger "$TRIGGER" --issue-id "$ISSUE_ID" $EXTRA || true
 
       - name: Upload report artifact
         if: always()
