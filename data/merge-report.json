@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T06:30:11Z",
+  "updated_at": "2026-06-24T06:40:56Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 14,
-    "this_week": 96,
+    "today": 15,
+    "this_week": 97,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 47,
+      "fix": 95,
+      "feature": 46,
       "chore": 13,
-      "fix": 94,
       "unknown": 37,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 830,
+      "pr_title": "fix(ci): fix blog heartbeat heredoc [fix/blog-heartbeat-heredoc]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/830",
+      "merged_at": "2026-06-24T06:32:44Z",
+      "merge_commit_sha": "e8e98dc82ae323b115e3bf13ddef20e3b7a8e67d",
+      "merge_commit_short": "e8e98dc",
+      "head_branch": "fix/blog-heartbeat-heredoc",
+      "summary_vi": "fix(ci): fix blog heartbeat heredoc",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 1,
+      "deletions": 14,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1066,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28079939413",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 829,
       "pr_title": "feat(post): add copy code button [feat/post-copy-code-button]",
@@ -528,9 +547,9 @@
       "deletions": 9,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1036,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28040837253",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 769,
@@ -547,9 +566,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1036,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28040837253",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 787,
@@ -566,9 +585,9 @@
       "deletions": 7321,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1036,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28040837253",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 789,
@@ -3794,25 +3813,6 @@
       "files_changed": 1,
       "additions": 7,
       "deletions": 4,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 584,
-      "pr_title": "feat(og): polish SEOMONEY OG card + legal VN Google Sans-style font + OG vaccine",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/584",
-      "merged_at": "2026-06-20T19:23:44Z",
-      "merge_commit_sha": "12aeb3d19d1b7cfc693daf53dd839467d9de96b6",
-      "merge_commit_short": "12aeb3d",
-      "head_branch": "claude/jolly-carson-5kdx5w",
-      "summary_vi": "Continues the OG work from PR #557 (now merged). **Static-asset only — no site rebuild / no template logic change.** The existing OG pipeline (`scripts/build_og_images.py`) and `templates/base.html` OG wiring are untouch",
-      "change_type": "feature",
-      "files_changed": 4,
-      "additions": 287,
-      "deletions": 35,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
