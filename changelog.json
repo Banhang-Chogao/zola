@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "feat(editor): add takeaways fields to post editor [feat/post-key-takeaways-box]",
+      "tag": "chore",
+      "lines_added": 107,
+      "lines_removed": 2,
+      "highlights": [
+        "sass/_editor.scss (modified, +23/-1)",
+        "static/js/editor.js (modified, +73/-1)",
+        "templates/editor.html (modified, +11/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 826
+    },
+    {
+      "date": "2026-06-24",
       "title": "feat(post): add optional key takeaways box [feat/post-key-takeaways-box]",
       "tag": "chore",
       "lines_added": 83,
