@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "fix(search): add missing Google site search partial [fix/missing-google-search-partial]",
+      "tag": "fix",
+      "lines_added": 95,
+      "lines_removed": 0,
+      "highlights": [
+        "Created templates/partials/google-site-search.html — lightweight Google site search form (action=https://www.google.com/search, sitesearch=seomoney.org, Vietnamese UI)",
+        "Added responsive .mobile-search-card CSS in sass/site.scss (mobile-first, max-width 768px)",
+        "zola build — 501 pages, 0 errors",
+        "python3 qa_check.py — 0 errors, 0 vaccine failures, production readiness 84/100 (PRODUCTION-SAFE)",
+        "python3 scripts/check_internal_links.py — OK"
+      ],
+      "pr": 844
+    },
+    {
+      "date": "2026-06-24",
       "title": "chore(release): add severity-based pipeline policy [chore/release-pipeline-policy]",
       "tag": "chore",
       "lines_added": 240,
