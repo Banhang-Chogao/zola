@@ -113,4 +113,4 @@ Khi hiểu được cơ chế này, bạn sẽ hiểu được tại sao:
 
 ---
 
-**Liên quan:** Tìm hiểu thêm về [khoa học đằng sau hydrogen peroxide](/content/posting/tai-sao-chung-ta-can-ngu.md)
+**Liên quan:** Tìm hiểu thêm về [khoa học đằng sau hydrogen peroxide](/tai-sao-chung-ta-can-ngu/)
