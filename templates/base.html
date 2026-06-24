@@ -459,60 +459,6 @@
 
     {# Header: logo left + ad banner right #}
     <header class="site-header">
-        <div class="container site-header__inner">
-            {# Version scheme: '<zola_version>·<commit_id>'.
-               - zola_ver = phiên bản Zola DÙNG ĐỂ BUILD bản hiện tại, lấy từ
-                 env ZOLA_VERSION (deploy.yml export `zola --version` trước khi
-                 build). Local build không set → default theo bản pin trong CI.
-               - numeric_id = SHA commit mới nhất (7 ký tự) tương ứng bản build đó.
-               Ghép lại = số phiên bản blog: 'vX.Y.Z · <sha>'. commit_count vẫn
-               giữ cho tooltip (tổng commit fetched). #}
-            {% set commit_count = 0 %}
-            {% if commits %}{% set commit_count = commits | length %}{% endif %}
-            {% set zola_ver = get_env(name="ZOLA_VERSION", default="0.22.1") %}
-            <div class="site-header__left">
-            <a class="site-title-link" href="{{ config.base_url }}"
-               {% if latest_commit %}title="Build Zola v{{ zola_ver }} · SHA {{ latest_commit.sha | truncate(length=7, end='') }} · Tổng {{ commit_count }} commit · Tuần này {{ week_count }} · Hôm nay {{ today_count }}"{% endif %}>
-                <span class="site-title-wrap">
-                    <img class="site-logo-mark" src="{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) }}" alt="" width="40" height="40" decoding="async" loading="lazy">
-                    <span class="site-title">{{ config.title }}</span>
-                    {# Meta Verified-style badge — xác nhận chính chủ. SVG inline,
-                       scalloped 12-lobe path + checkmark trắng, gradient Meta blue. #}
-                    <span class="site-verified-badge" aria-label="Verified">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <defs>
-                                <linearGradient id="site-verified-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#60A5FA"/>
-                                    <stop offset="100%" stop-color="#1D4ED8"/>
-                                </linearGradient>
-                            </defs>
-                            <path fill="url(#site-verified-grad)" d="M12 1.4l1.3 1.6 2-.6 1 1.8 2.1.1.1 2.1 1.8 1-.6 2 1.6 1.3-1.6 1.3.6 2-1.8 1-.1 2.1-2.1.1-1 1.8-2-.6L12 22.6l-1.3-1.6-2 .6-1-1.8-2.1-.1-.1-2.1-1.8-1 .6-2-1.6-1.3 1.6-1.3-.6-2 1.8-1 .1-2.1 2.1-.1 1-1.8 2 .6L12 1.4z"/>
-                            <path fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M8 12.3L10.7 15L16 9.5"/>
-                        </svg>
-                    </span>
-                </span>
-                <span class="site-tagline">
-                    <strong class="site-tagline__label">Phiên bản blog:</strong>
-                    <strong class="version-num">v{{ zola_ver }}</strong>
-                    <strong class="version-id">#{{ numeric_id }}</strong>
-                </span>
-            </a>
-</div>
-            </div> {# /.site-header__left #}
-
-            <div class="header-side">
-            {#
-                Khu vực bên cạnh logo — luân phiên Welcome ⇄ GitHub commit status (3 phút).
-                Chỉ đổi data-rotate="false" nếu muốn cố định một slide.
-            #}
-            <div class="header-rotator" data-rotate="true" data-interval="7000">
-                <div class="header-rotator__viewport">
-                {# Slide A: Welcome placeholder — không phải quảng cáo #}
-                <div class="header-welcome header-rotator__slide is-active" role="note" aria-label="Chào mừng" data-nosnippet>
-                    <p class="header-welcome__title">WELCOME TO SEOMONEY</p>
-                    <p class="header-welcome__desc">{{ brand_tagline }} — viết bởi Duy Nguyen.</p>
-                </div>
-
                 {# Slide B: GitHub commit status — render từ load_data (build-time) #}
                 <a class="header-github header-rotator__slide" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
                     <div class="header-github__tags">
