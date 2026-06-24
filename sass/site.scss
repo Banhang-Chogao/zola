@@ -79,3 +79,81 @@
    overflow/wrapping guards win over earlier component rules. */
 @import "mobile-blog-momo-spirit";
 @import "mobile-hardening";
+
+
+/* Homepage Blog Heart Beat JSON card */
+.home-heartbeat {
+  margin: 1.25rem 0 1.5rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.10), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.98));
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+}
+
+.home-heartbeat[data-status="ok"] {
+  border-color: rgba(16, 185, 129, 0.32);
+}
+
+.home-heartbeat[data-status="warn"] {
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.home-heartbeat__top,
+.home-heartbeat__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.home-heartbeat__eyebrow {
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+
+.home-heartbeat__pill {
+  padding: 0.22rem 0.55rem;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.08);
+  color: #047857;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.home-heartbeat__title {
+  margin: 0.55rem 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.2;
+}
+
+.home-heartbeat__desc {
+  margin: 0.45rem 0 0;
+  max-width: 72ch;
+  color: rgba(15, 23, 42, 0.72);
+}
+
+.home-heartbeat__desc code {
+  font-size: 0.9em;
+}
+
+.home-heartbeat__meta {
+  margin-top: 0.8rem;
+  color: rgba(15, 23, 42, 0.62);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+@media (max-width: 720px) {
+  .home-heartbeat {
+    margin: 1rem 0;
+    padding: 0.95rem;
+    border-radius: 16px;
+  }
+}
