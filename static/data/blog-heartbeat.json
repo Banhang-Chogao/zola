@@ -2,26 +2,14 @@
   "schema_version": 1,
   "name": "Blog Heart Beat",
   "repository": "Banhang-Chogao/zola",
-  "generated_at": "2026-06-24T21:23:03.492683+00:00",
+  "generated_at": "2026-06-24T21:25:00.222929+00:00",
   "summary": {
-    "in_progress": 6,
-    "queued": 1,
-    "success": 8,
+    "in_progress": 8,
+    "queued": 0,
+    "success": 12,
     "failure": 0
   },
   "pull_requests": [
-    {
-      "number": 877,
-      "title": "fix(ci): per-attempt timeout + 3 retry for zola build (issues #876 #874 #875) [fix/zola-build-timeout-876]",
-      "head": "fix/zola-build-timeout-876",
-      "base": "main",
-      "state": "OPEN",
-      "draft": false,
-      "merge_state": "UNKNOWN",
-      "created_at": "2026-06-24T21:19:41Z",
-      "updated_at": "2026-06-24T21:19:43Z",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/877"
-    },
     {
       "number": 872,
       "title": "fix(ci): remove cache:'npm' from qa.yml and deploy.yml [fix/ci-remove-npm-cache]",
@@ -37,16 +25,107 @@
   ],
   "runs": [
     {
+      "id": 28130592746,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876) […",
+      "workflow": "Slack Commit Notification",
+      "branch": "main",
+      "sha": "ca28fa7",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T21:24:52Z",
+      "updated_at": "2026-06-24T21:24:57Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130592746"
+    },
+    {
+      "id": 28130592726,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876) […",
+      "workflow": "QA Gatekeeper",
+      "branch": "main",
+      "sha": "ca28fa7",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T21:24:52Z",
+      "updated_at": "2026-06-24T21:24:53Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130592726"
+    },
+    {
+      "id": 28130592719,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876) […",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "ca28fa7",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T21:24:52Z",
+      "updated_at": "2026-06-24T21:24:53Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130592719"
+    },
+    {
+      "id": 28130592705,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876) […",
+      "workflow": "Blog Heart Beat",
+      "branch": "main",
+      "sha": "ca28fa7",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T21:24:52Z",
+      "updated_at": "2026-06-24T21:24:56Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130592705"
+    },
+    {
+      "id": 28130509462,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876)",
+      "workflow": "QA Gatekeeper",
+      "branch": "fix/zola-build-timeout-900",
+      "sha": "17259da",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-24T21:23:16Z",
+      "updated_at": "2026-06-24T21:23:21Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130509462"
+    },
+    {
+      "id": 28130509453,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876)",
+      "workflow": "Slack Commit Notification",
+      "branch": "fix/zola-build-timeout-900",
+      "sha": "17259da",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-24T21:23:16Z",
+      "updated_at": "2026-06-24T21:23:24Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130509453"
+    },
+    {
+      "id": 28130509441,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876)",
+      "workflow": "Auto PR Gatekeeper",
+      "branch": "fix/zola-build-timeout-900",
+      "sha": "17259da",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-24T21:23:16Z",
+      "updated_at": "2026-06-24T21:23:36Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130509441"
+    },
+    {
       "id": 28130490444,
       "title": "fix(deploy): revert 12min cap — zola build needs ~16min [fix/revert-d…",
       "workflow": "QA Gatekeeper",
       "branch": "main",
       "sha": "36512de",
       "event": "push",
-      "status": "queued",
+      "status": "in_progress",
       "conclusion": "",
       "created_at": "2026-06-24T21:22:55Z",
-      "updated_at": "2026-06-24T21:22:55Z",
+      "updated_at": "2026-06-24T21:23:05Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130490444"
     },
     {
@@ -56,10 +135,10 @@
       "branch": "main",
       "sha": "36512de",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T21:22:55Z",
-      "updated_at": "2026-06-24T21:22:59Z",
+      "updated_at": "2026-06-24T21:23:03Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130490441"
     },
     {
@@ -82,10 +161,10 @@
       "branch": "main",
       "sha": "36512de",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-24T21:22:55Z",
-      "updated_at": "2026-06-24T21:22:59Z",
+      "updated_at": "2026-06-24T21:23:06Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130490410"
     },
     {
@@ -334,100 +413,22 @@
       "created_at": "2026-06-24T21:09:54Z",
       "updated_at": "2026-06-24T21:10:05Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129806619"
-    },
-    {
-      "id": 28129806615,
-      "title": "Auto-merge",
-      "workflow": "Auto-merge",
-      "branch": "main",
-      "sha": "92c7295",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T21:09:54Z",
-      "updated_at": "2026-06-24T21:10:04Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129806615"
-    },
-    {
-      "id": 28129721571,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "92c7295",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T21:08:15Z",
-      "updated_at": "2026-06-24T21:08:16Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129721571"
-    },
-    {
-      "id": 28129721532,
-      "title": "Auto-merge",
-      "workflow": "Auto-merge",
-      "branch": "main",
-      "sha": "92c7295",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T21:08:15Z",
-      "updated_at": "2026-06-24T21:08:16Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129721532"
-    },
-    {
-      "id": 28129402636,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "92c7295",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T21:02:30Z",
-      "updated_at": "2026-06-24T21:02:37Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129402636"
-    },
-    {
-      "id": 28129265491,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "7793c74",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T21:00:05Z",
-      "updated_at": "2026-06-24T21:00:15Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129265491"
-    },
-    {
-      "id": 28129261492,
-      "title": "Sitemap Submit",
-      "workflow": "Sitemap Submit",
-      "branch": "main",
-      "sha": "7793c74",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T21:00:02Z",
-      "updated_at": "2026-06-24T21:00:03Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129261492"
-    },
-    {
-      "id": 28129261411,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "7793c74",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-24T21:00:02Z",
-      "updated_at": "2026-06-24T21:00:03Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28129261411"
     }
   ],
   "deploy_runs": [
+    {
+      "id": 28130592719,
+      "title": "fix(ci): increase zola build timeout to 15 min/attempt (issue #876) […",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "ca28fa7",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-24T21:24:52Z",
+      "updated_at": "2026-06-24T21:24:53Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130592719"
+    },
     {
       "id": 28130490431,
       "title": "fix(deploy): revert 12min cap — zola build needs ~16min [fix/revert-d…",
@@ -544,19 +545,6 @@
       "created_at": "2026-06-24T18:15:38Z",
       "updated_at": "2026-06-24T18:27:36Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28119924833"
-    },
-    {
-      "id": 28119248961,
-      "title": "chore: retry deploy",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "branch": "main",
-      "sha": "f4c548a",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-24T18:04:02Z",
-      "updated_at": "2026-06-24T18:14:58Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28119248961"
     }
   ]
 }
