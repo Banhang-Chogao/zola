@@ -684,11 +684,11 @@ QA Vaccine Summary
 For full details on remaining sections (F-Dashboard, Premium Paywall, Security, Quy tắc hoá giao dịch, etc.), see the full `CLAUDE.md` or `docs/vaccine-archive.md` archive.
 ## QA Rule Checker Learning
 
-**Date:** 2026-06-21T14:12:50Z
+**Date:** 2026-06-24T10:22:02Z
 
-**Conflict:** Slug trùng: auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog (MEDIUM)
+**Conflict:** Slug trùng: bi-kip-xin-visa-han-quoc-5-nam-de (MEDIUM)
 
-**Root Cause:** content/baochi/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md; content/posting/auto-fixer-github-actions-he-mien-dich-tu-chua-loi-blog.md… vs Mỗi slug nên unique trong site…
+**Root Cause:** content/baochi/bi-kip-xin-visa-han-quoc-5-nam-de.md; content/posting/bi-kip-xin-visa-han-quoc-5-nam-de.md… vs Mỗi slug nên unique trong site…
 
 **Resolution:** Đổi slug hoặc merge bài trùng.
 
