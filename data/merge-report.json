@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T10:05:55Z",
+  "updated_at": "2026-06-24T11:10:13Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 18,
-    "this_week": 100,
+    "today": 19,
+    "this_week": 101,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 96,
       "chore": 14,
       "feature": 46,
-      "fix": 95,
-      "unknown": 36,
+      "unknown": 35,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 835,
+      "pr_title": "fix(home): connect heartbeat json card [fix/homepage-heartbeat-json-card]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/835",
+      "merged_at": "2026-06-24T11:04:32Z",
+      "merge_commit_sha": "11278a104aadfbe14e3e9fc93d8154d72e04f8ef",
+      "merge_commit_short": "11278a1",
+      "head_branch": "fix/homepage-heartbeat-json-card",
+      "summary_vi": "fix(home): connect heartbeat json card",
+      "change_type": "fix",
+      "files_changed": 3,
+      "additions": 165,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1073,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28093991666",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 833,
       "pr_title": "chore: restore lc8 shortcut [chore/restore-lc8-shortcut]",
@@ -490,9 +509,9 @@
       "deletions": 24,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1043,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28062900596",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1048,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28063998823",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 796,
@@ -509,8 +528,8 @@
       "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1042,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28062876089",
+      "build_run_number": 1048,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28063998823",
       "build_conclusion": "failure"
     },
     {
@@ -3794,25 +3813,6 @@
       "files_changed": 7,
       "additions": 502,
       "deletions": 197,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 587,
-      "pr_title": "Merge remote-tracking branch 'origin/main' into claude/zealous-ride-ky2br1 [claude/zealous-ride-ky2br1]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/587",
-      "merged_at": "2026-06-20T19:53:37Z",
-      "merge_commit_sha": "e308532b53930c8327d527ce105c22b97cb9c308",
-      "merge_commit_short": "e308532",
-      "head_branch": "claude/zealous-ride-ky2br1",
-      "summary_vi": "- fix(nav): anchor desktop side-nav in flow, stop scroll drift/jitter",
-      "change_type": "unknown",
-      "files_changed": 4,
-      "additions": 293,
-      "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
