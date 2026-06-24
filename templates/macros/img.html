@@ -48,13 +48,13 @@
    - .jpg/.jpeg/.png → .webp (optimize-images.yml replaces rasters with WebP and
              DELETES the original; the raster URL would 404 in production).
    - .webp → kept as-is.
-   - empty / unknown ext → built-in S-DNA default card (seomoney-og.og.webp).
+   - empty / unknown ext → built-in local S-DNA default card (/img/og/seomoney-og.og.webp).
 
    Output is ALWAYS absolute + HTTPS (http:// and // are upgraded to https://;
    root-relative paths are prefixed with base_url).
    ---------------------------------------------------------------------------- #}
 {% macro social_image_url(src="", base_url="") -%}
-{%- set fallback = base_url ~ "https://assets.seomoney.org/img/og/seomoney-og.og.webp" -%}
+{%- set fallback = base_url ~ "/img/og/seomoney-og.og.webp" -%}
 {%- set out = "" -%}
 {%- if src is ending_with(".svg") -%}{%- set out = src | replace(from=".svg", to=".og.webp") -%}
 {%- elif src is ending_with(".jpg") -%}{%- set out = src | replace(from=".jpg", to=".webp") -%}
