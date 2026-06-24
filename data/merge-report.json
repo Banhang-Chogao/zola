@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-24T02:50:08Z",
+  "updated_at": "2026-06-24T02:55:38Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 4,
-    "this_week": 86,
+    "today": 5,
+    "this_week": 87,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "chore": 11,
       "fix": 96,
       "unknown": 39,
-      "feature": 46,
-      "chore": 10,
+      "feature": 45,
       "ci": 5,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 820,
+      "pr_title": "chore: restore generated qa report after serp hotfix [chore/restore-qa-report-after-serp-hotfix]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/820",
+      "merged_at": "2026-06-24T02:48:51Z",
+      "merge_commit_sha": "73ae67ae5b5f95e40c4bd8f54129253efffbea76",
+      "merge_commit_short": "73ae67a",
+      "head_branch": "chore/restore-qa-report-after-serp-hotfix",
+      "summary_vi": "chore: restore generated qa report after serp hotfix",
+      "change_type": "chore",
+      "files_changed": 1,
+      "additions": 187144,
+      "deletions": 88614,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1056,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071679019",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 819,
       "pr_title": "fix(vaccine-hotfix): fix-serp-snippet-cleanup",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1055,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28071386427",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 818,
@@ -528,9 +547,9 @@
       "deletions": 38,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1026,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033831875",
-      "build_conclusion": "failure"
+      "build_run_number": 1028,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28034375531",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 775,
@@ -642,9 +661,9 @@
       "deletions": 230,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1026,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28033831875",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 784,
@@ -3794,25 +3813,6 @@
       "files_changed": 2,
       "additions": 206,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 561,
-      "pr_title": "feat(seo): auto-submit sitemap + expand IndexNow to all content",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/561",
-      "merged_at": "2026-06-20T13:13:23Z",
-      "merge_commit_sha": "e7480ee1e83bfc4e31fe86d88971f8e6a0a768dc",
-      "merge_commit_short": "e7480ee",
-      "head_branch": "claude/beautiful-cerf-tnrtp8",
-      "summary_vi": "- **New `scripts/sitemap_ping.py`**: pings Bing sitemap endpoint after every deploy; also submits to Google Search Console via `sitemaps().submit()` when `GSC_*` secrets are configured. Always best-effort (exit 0).",
-      "change_type": "feature",
-      "files_changed": 5,
-      "additions": 273,
-      "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
