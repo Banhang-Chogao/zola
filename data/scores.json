@@ -78,7 +78,7 @@
     "date": "2026-06-18",
     "cluster": "misc",
     "cluster_label": "Khác",
-    "score": 1.0318,
+    "score": 1.0319,
     "top_score": 1.052,
     "neighbors": 5,
     "tier": "high"
@@ -175,7 +175,7 @@
     "cluster": "misc",
     "cluster_label": "Khác",
     "score": 1.0163,
-    "top_score": 1.0272,
+    "top_score": 1.0273,
     "neighbors": 5,
     "tier": "high"
   },
@@ -727,7 +727,7 @@
     "cluster": "misc",
     "cluster_label": "Khác",
     "score": 0.8526,
-    "top_score": 0.919,
+    "top_score": 0.9189,
     "neighbors": 5,
     "tier": "high"
   },
@@ -894,7 +894,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.8264,
+    "score": 0.8265,
     "top_score": 0.8951,
     "neighbors": 5,
     "tier": "high"
@@ -1206,7 +1206,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.7611,
+    "score": 0.7612,
     "top_score": 0.7766,
     "neighbors": 5,
     "tier": "high"
@@ -1423,7 +1423,7 @@
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.7243,
-    "top_score": 0.7587,
+    "top_score": 0.7588,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1566,8 +1566,8 @@
     "date": "2026-06-18",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7089,
-    "top_score": 0.773,
+    "score": 0.7088,
+    "top_score": 0.7729,
     "neighbors": 5,
     "tier": "high"
   },
@@ -2070,7 +2070,7 @@
     "date": "2026-06-22",
     "cluster": "khoa-hoc",
     "cluster_label": "Khoa học",
-    "score": 0.6077,
+    "score": 0.6083,
     "top_score": 0.7348,
     "neighbors": 5,
     "tier": "mid"
@@ -2084,6 +2084,18 @@
     "cluster_label": "Tài chính & Ngân hàng",
     "score": 0.6074,
     "top_score": 0.7766,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi",
+    "section": "posting",
+    "title": "Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?",
+    "date": "2026-06-22",
+    "cluster": "khoa-hoc",
+    "cluster_label": "Khoa học",
+    "score": 0.6048,
+    "top_score": 0.7644,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2256,6 +2268,18 @@
     "tier": "mid"
   },
   {
+    "slug": "tai-sao-chung-ta-can-ngu",
+    "section": "posting",
+    "title": "Tại sao chúng ta cần ngủ? Khoa học nói gì về giấc ngủ",
+    "date": "2026-06-22",
+    "cluster": "khoa-hoc",
+    "cluster_label": "Khoa học",
+    "score": 0.5671,
+    "top_score": 0.7644,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "trello-planner-mobile-la-gi",
     "section": "posting",
     "title": "Trello Planner Mobile là gì? Cách biến Trello thành lịch làm việc cá nhân trên điện thoại",
@@ -2364,6 +2388,18 @@
     "tier": "mid"
   },
   {
+    "slug": "co-soan-luong-lan-co-tot-khong",
+    "section": "posting",
+    "title": "Nước lạnh vào sáng sớm — có tốt cho sức khỏe?",
+    "date": "2026-06-22",
+    "cluster": "khoa-hoc",
+    "cluster_label": "Khoa học",
+    "score": 0.5356,
+    "top_score": 0.5748,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "tai-sao-canh-co-mau-xanh-va-thuc-vat-can-anh-sang",
     "section": "posting",
     "title": "Tại sao cánh có màu xanh? Quang hợp — cây cối cần ánh sáng gì?",
@@ -2436,18 +2472,6 @@
     "tier": "mid"
   },
   {
-    "slug": "co-soan-luong-lan-co-tot-khong",
-    "section": "posting",
-    "title": "Nước lạnh vào sáng sớm — có tốt cho sức khỏe?",
-    "date": "2026-06-22",
-    "cluster": "khoa-hoc",
-    "cluster_label": "Khoa học",
-    "score": 0.5193,
-    "top_score": 0.558,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "vpbank-circle-sieu-the-free-tron-doi-gen-z",
     "section": "baochi",
     "title": "Thẻ VPBank Circle: 'siêu thẻ' free trọn đời cho Gen Z",
@@ -2472,18 +2496,6 @@
     "tier": "mid"
   },
   {
-    "slug": "tai-sao-chung-ta-can-ngu",
-    "section": "posting",
-    "title": "Tại sao chúng ta cần ngủ? Khoa học nói gì về giấc ngủ",
-    "date": "2026-06-22",
-    "cluster": "khoa-hoc",
-    "cluster_label": "Khoa học",
-    "score": 0.5125,
-    "top_score": 0.558,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "top-10-cong-cu-terminal-mac-2026",
     "section": "posting",
     "title": "Top 10 công cụ terminal cho Mac 2026: dev toolkit",
@@ -2504,6 +2516,18 @@
     "cluster_label": "Công nghệ",
     "score": 0.5114,
     "top_score": 0.8705,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "tai-sao-moi-toi-dau-dau",
+    "section": "posting",
+    "title": "Tại sao cơn đau đầu lại thường xuyên vào mỗi tối?",
+    "date": "2026-06-22",
+    "cluster": "khoa-hoc",
+    "cluster_label": "Khoa học",
+    "score": 0.5114,
+    "top_score": 0.5503,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2652,18 +2676,6 @@
     "tier": "mid"
   },
   {
-    "slug": "tai-sao-moi-toi-dau-dau",
-    "section": "posting",
-    "title": "Tại sao cơn đau đầu lại thường xuyên vào mỗi tối?",
-    "date": "2026-06-22",
-    "cluster": "khoa-hoc",
-    "cluster_label": "Khoa học",
-    "score": 0.4858,
-    "top_score": 0.528,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "tai-sao-dong-vat-co-the-thay-trang-sac-toc",
     "section": "posting",
     "title": "Tại sao một số động vật có thể thay đổi màu tóc/lông thế nào?",
@@ -2684,6 +2696,18 @@
     "cluster_label": "Khoa học",
     "score": 0.4823,
     "top_score": 0.512,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
+    "slug": "co-an-muon-toi-la-co-than-kinh-khong",
+    "section": "posting",
+    "title": "Ăn muộn tối — có thực sự ảnh hưởng tiêu hoá?",
+    "date": "2026-06-22",
+    "cluster": "khoa-hoc",
+    "cluster_label": "Khoa học",
+    "score": 0.4788,
+    "top_score": 0.6099,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -2730,7 +2754,7 @@
     "date": "2026-06-22",
     "cluster": "khoa-hoc",
     "cluster_label": "Khoa học",
-    "score": 0.4601,
+    "score": 0.4653,
     "top_score": 0.5465,
     "neighbors": 5,
     "tier": "mid"
@@ -2828,18 +2852,6 @@
     "cluster_label": "Công nghệ",
     "score": 0.4355,
     "top_score": 0.4788,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
-    "slug": "co-an-muon-toi-la-co-than-kinh-khong",
-    "section": "posting",
-    "title": "Ăn muộn tối — có thực sự ảnh hưởng tiêu hoá?",
-    "date": "2026-06-22",
-    "cluster": "khoa-hoc",
-    "cluster_label": "Khoa học",
-    "score": 0.4338,
-    "top_score": 0.5012,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -3018,7 +3030,7 @@
     "date": "2026-06-22",
     "cluster": "khoa-hoc",
     "cluster_label": "Khoa học",
-    "score": 0.3396,
+    "score": 0.3435,
     "top_score": 0.4853,
     "neighbors": 5,
     "tier": "low"
@@ -3189,18 +3201,6 @@
     "score": 0.202,
     "top_score": 0.2203,
     "neighbors": 4,
-    "tier": "low"
-  },
-  {
-    "slug": "bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi",
-    "section": "posting",
-    "title": "Bao lâu thì thiếu ngủ có tác dụng thay đổi hành vi con người?",
-    "date": "2026-06-22",
-    "cluster": "misc",
-    "cluster_label": "Khác",
-    "score": 0.191,
-    "top_score": 0.2186,
-    "neighbors": 5,
     "tier": "low"
   }
 ]
