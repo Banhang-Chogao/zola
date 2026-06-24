@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "add GH_GITHUB_COM_TOKEN to @v5 actions to resolve rate limit [fix/v5-rate-limit]",
+      "tag": "fix",
+      "lines_added": 38,
+      "lines_removed": 0,
+      "highlights": [
+        ".github/workflows/auto-merge.yml (modified, +1/-0)",
+        ".github/workflows/autofix-conflicts.yml (modified, +1/-0)",
+        ".github/workflows/build-failure-handler.yml (modified, +1/-0)",
+        ".github/workflows/build-related.yml (modified, +2/-0)",
+        ".github/workflows/changelog-update.yml (modified, +1/-0)"
+      ],
+      "pr": 860
+    },
+    {
+      "date": "2026-06-24",
       "title": "add deployment status dashboard in footer",
       "tag": "feat",
       "lines_added": 264,
