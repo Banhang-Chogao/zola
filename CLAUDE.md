@@ -23,6 +23,16 @@ Code
 → Auto Merge
 → Deploy Production
 
+## Temporary: Auto Vaccine/Hotfix PR Generators Disabled
+
+Auto vaccine/hotfix PR generators are temporarily disabled. Do not re-enable or create new auto-remediation PR spam unless explicitly requested. Use the PR-first deploy strategy: bounded fix → QA/build → PR → checks → squash merge → deploy main → production verify.
+
+The following workflows are affected (manual `workflow_dispatch` only now):
+- `vaccine-hotfix.yml` — previously auto-triggered on QA/deploy/auto-merge failures
+- `vaccine-autofixer.yml` — previously scheduled daily (06:00 ICT)
+- `build-failure-handler.yml` — previously auto-triggered on critical workflow failures
+- `self-healing.yml` — previously scheduled every 6h
+
 ## Branch hợp lệ
 
 - feat/**
@@ -402,6 +412,30 @@ Checklist · Lessons learned. Category mặc định **Công nghệ** (trừ khi
 - Trước khi duyệt: giữ ở dạng nháp (draft notes hoặc draft article chờ review) — KHÔNG đẩy
   vào luồng auto-merge/deploy như bài thường, KHÔNG đụng UI/UX hiện có.
 
+## Conflict Resolution Priority
+
+When resolving merge conflicts, classify files before editing:
+
+1. Generated/report files
+   - Examples: `changelog.json`, QA reports, 404 reports, deploy reports, uptime reports, generated metrics JSON.
+   - Default action: prefer the version from `main`, then regenerate only if the PR explicitly owns that report.
+   - Do not hand-merge generated/report JSON unless explicitly required.
+
+2. Template/CSS/UI files
+   - Examples: `templates/**/*.html`, `sass/**/*.scss`, `static/**/*.css`, UI JS.
+   - Default action: inspect both sides and preserve the PR intent while keeping current `main` safety fixes.
+   - Do not blindly choose one side.
+
+3. Content files
+   - Examples: `content/**/*.md`, taxonomy/front matter, article body.
+   - Default action: do not rewrite or "fix" content during conflict resolution unless the PR specifically targets that content.
+   - Stop and report ambiguity if the correct content version is unclear.
+
+Rule of thumb:
+Generated/report conflict → prefer main.
+Template/CSS conflict → read carefully and preserve intent.
+Content conflict → do not edit unless explicitly instructed.
+
 ### 4. THƯ VIỆN VACCINE — lỗi build đã biết → FIX NGAY theo cách đã chốt (auto)
 
 > 💉 Bộ "vaccine" tích luỹ từ audit toàn bộ lịch sử CI. **Giao thức bắt buộc**:
@@ -684,7 +718,7 @@ QA Vaccine Summary
 For full details on remaining sections (F-Dashboard, Premium Paywall, Security, Quy tắc hoá giao dịch, etc.), see the full `CLAUDE.md` or `docs/vaccine-archive.md` archive.
 ## QA Rule Checker Learning
 
-**Date:** 2026-06-24T11:45:12Z
+**Date:** 2026-06-24T13:33:23Z
 
 **Conflict:** Slug trùng: bi-kip-xin-visa-han-quoc-5-nam-de (MEDIUM)
 
