@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "chore(release): add severity-based pipeline policy [chore/release-pipeline-policy]",
+      "tag": "chore",
+      "lines_added": 240,
+      "lines_removed": 54,
+      "highlights": [
+        "fix(home): remove old welcome banner",
+        "chore(release): add severity-based pipeline policy",
+        "CLAUDE.md (modified, +18/-0)",
+        "reports/release-pipeline-audit.md (added, +32/-0)",
+        "reports/release-pipeline-policy.md (added, +65/-0)"
+      ],
+      "pr": 837
+    },
+    {
+      "date": "2026-06-24",
       "title": "fix(home): remove old welcome banner [fix/home-remove-old-welcome-banner]",
       "tag": "remove",
       "lines_added": 0,
