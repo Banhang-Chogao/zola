@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-24T16:57:30Z",
+  "updated_at": "2026-06-24T17:12:17Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 35,
-    "this_week": 117,
+    "today": 36,
+    "this_week": 118,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 99,
-      "feature": 43,
+      "fix": 100,
+      "feature": 42,
       "unknown": 33,
       "chore": 16,
       "ci": 5,
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 804,
+      "pr_title": "fix: resolve qa-404-report.json conflict — prefer main version (generated/report file) [vaccine-hotfix/remove-shortensea-paywall-clean]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/804",
+      "merged_at": "2026-06-24T17:03:43Z",
+      "merge_commit_sha": "522ac450b4be9a8707d3226655282db8d6e31c32",
+      "merge_commit_short": "522ac45",
+      "head_branch": "vaccine-hotfix/remove-shortensea-paywall-clean",
+      "summary_vi": "- remove(shortensea): retire ShortenSEA and paywall gates",
+      "change_type": "fix",
+      "files_changed": 13,
+      "additions": 67,
+      "deletions": 22,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1091,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28115688899",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 854,
       "pr_title": "chore: add missing _home-wwdc.scss for homepage redesign [fix/heartbeat-object-object-layout]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1090,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28114739475",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 853,
@@ -74,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1088,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28113769085",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 852,
@@ -509,9 +528,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1061,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075667300",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1063,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28076277374",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 824,
@@ -3794,25 +3813,6 @@
       "files_changed": 1,
       "additions": 132,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 612,
-      "pr_title": "feat(tools): add PR Sentinel CI radar",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/612",
-      "merged_at": "2026-06-21T04:35:28Z",
-      "merge_commit_sha": "34a12225c27511c8e8a2b16e1862fa7cae2bbe16",
-      "merge_commit_short": "34a1222",
-      "head_branch": "feat/pr-sentinel-ci-radar",
-      "summary_vi": "Add /tools/pr-sentinel/ dashboard for open PRs and CI status using static JSON.",
-      "change_type": "feature",
-      "files_changed": 9,
-      "additions": 509,
-      "deletions": 4,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
