@@ -2,6 +2,19 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "feat(E-DNA): add Enterprise Editorial Design System reference page",
+      "tag": "chore",
+      "lines_added": 610,
+      "lines_removed": 0,
+      "highlights": [
+        "Add content/tools/e-dna.md (front matter, template = e-dna.html)",
+        "Add templates/e-dna.html (600-line design system reference with CSS, scroll-spy, components)",
+        "Link E-DNA in sidebar tools section (base.html)"
+      ],
+      "pr": 850
+    },
+    {
+      "date": "2026-06-24",
       "title": "add PR846 conflict resolution case note",
       "tag": "chore",
       "lines_added": 28,
