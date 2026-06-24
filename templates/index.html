@@ -1,34 +1,132 @@
 {% extends "base.html" %}
+{% import "macros/premium.html" as premium %}
+{% import "macros/pagination.html" as pager %}
+
+{% block sidebar %}{% endblock sidebar %}
+{% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
+{% block title %}SEOMONEY — SEO, AI WebOps & Tài chính cá nhân{% endblock %}
 
 {% block main %}
+
+{% set posting = get_section(path="posting/_index.md") %}
+{% set baochi = get_section(path="baochi/_index.md") %}
+{% set_global all_pages = [] %}
+{% for page in posting.pages | concat(with=baochi.pages) %}
+    {% if not page.extra.feed_anchor %}
+        {% set_global all_pages = all_pages | concat(with=[page]) %}
+    {% endif %}
+{% endfor %}
+{% set all_pages = all_pages | sort(attribute="date") | reverse %}
+
+{% set per_page = 10 %}
+{% set page_num = paginator.current_index | default(value=1) %}
+{% set offset = (page_num - 1) * per_page %}
+
+{% set_global sticky = false %}
+{% if page_num == 1 %}
+    {% for page in all_pages %}
+        {% if not sticky and page.extra.sticky %}{% set_global sticky = page %}{% endif %}
+    {% endfor %}
+{% endif %}
+
+{% set_global feed = [] %}
+{% for page in all_pages %}
+    {% if not sticky or page.slug != sticky.slug %}{% set_global feed = feed | concat(with=[page]) %}{% endif %}
+{% endfor %}
+
+{% set feed_total = feed | length %}
+{% set feed_pages = paginator.number_pagers | default(value=1) %}
+{% set page_feed = feed | slice(start=offset, end=offset + per_page) %}
+
+{% set_global all_tags = [] %}
+{% for page in all_pages %}
+    {% if page.taxonomies.tags %}
+        {% for tag in page.taxonomies.tags %}
+            {% set_global all_tags = all_tags | concat(with=[tag]) %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+{% set all_tags = all_tags | unique | sort %}
+{% set chip_tags = all_tags | slice(end=15) %}
+
 <section class="wwdc-hero">
   <h1 class="wwdc-title">SEOMONEY Insights</h1>
   <p class="wwdc-subtitle">Khám phá bài viết về công nghệ, SEO và AI</p>
   <div class="wwdc-filters">
-    <input type="text" placeholder="Tìm kiếm..." />
-    <div class="filter-tags">
-      <span class="filter-tag active">Tất cả</span>
-      <span class="filter-tag">Swift</span>
-      <span class="filter-tag">SwiftUI</span>
-      <span class="filter-tag">AI</span>
-      <span class="filter-tag">visionOS</span>
+    <button class="wwdc-search" type="button" data-search-open aria-label="Mở tìm kiếm bài viết">
+      <span>Tìm kiếm bài viết…</span>
+    </button>
+    {% if chip_tags | length > 0 %}
+    <div class="filter-tags" role="group" aria-label="Lọc theo thẻ">
+      <button class="filter-tag active" type="button" data-filter="all">Tất cả</button>
+      {% for tag in chip_tags %}
+      <button class="filter-tag" type="button" data-filter="{{ tag }}">{{ tag }}</button>
+      {% endfor %}
     </div>
+    {% endif %}
   </div>
 </section>
 
-<section class="wwdc-grid">
-  {% for post in section.pages %}
-  <article class="wwdc-card">
-    <div class="card-duration">{{ post.reading_time }} min</div>
-    <h3 class="card-title">{{ post.title }}</h3>
+{% if sticky %}
+<section class="wwdc-sticky" aria-label="Bài ghim nổi bật">
+  <span class="wwdc-sticky__pin">Ghim nổi bật</span>
+  <h2 class="card-title"><a href="{{ sticky.permalink }}">{{ sticky.title }}</a></h2>
+  <p class="wwdc-sticky__desc">{{ sticky.description | default(value=sticky.summary | default(value="") | safe | striptags | truncate(length=280)) }}</p>
+</section>
+{% endif %}
+
+<section class="wwdc-grid" id="wwdc-grid" aria-label="Danh sách bài viết">
+  {% for post in page_feed %}
+  <article class="wwdc-card" data-tags="{% if post.taxonomies.tags %}{{ post.taxonomies.tags | join(sep=',') }}{% endif %}">
+    <div class="card-duration">{{ post.reading_time }} phút</div>
+    <h3 class="card-title"><a href="{{ post.permalink }}">{{ post.title }}</a></h3>
+    <p class="wwdc-card__desc">{{ post.description | default(value=post.summary | default(value="") | safe | striptags | truncate(length=140)) }}</p>
+    {% if post.taxonomies.tags %}
     <div class="card-tags">
-      {% for tag in post.taxonomies.tags %}
+      {% for tag in post.taxonomies.tags | slice(end=4) %}
       <span class="card-tag">{{ tag }}</span>
       {% endfor %}
     </div>
+    {% endif %}
   </article>
   {% endfor %}
 </section>
 
-<div class="wwdc-pagination">Trang 1 / {{ section.pages | length // 10 + 1 }}</div>
+{% if feed_pages > 1 %}
+<nav class="wwdc-pagination" aria-label="Phân trang">
+  {% if page_num > 1 %}
+  <a class="wwdc-pagination__prev" href="{{ pager::page_href(base=config.base_url, page_num=page_num - 1) }}">←</a>
+  {% endif %}
+  <span>Trang {{ page_num }} / {{ feed_pages }} · {{ feed_total }} bài</span>
+  {% if page_num < feed_pages %}
+  <a class="wwdc-pagination__next" href="{{ pager::page_href(base=config.base_url, page_num=page_num + 1) }}">→</a>
+  {% endif %}
+</nav>
+{% else %}
+<div class="wwdc-pagination">Trang 1 / 1 · {{ feed_total }} bài</div>
+{% endif %}
+
+<script>
+(function() {
+  var grid = document.getElementById('wwdc-grid');
+  if (!grid) return;
+  var chips = document.querySelectorAll('[data-filter]');
+  var cards = grid.querySelectorAll('.wwdc-card');
+  if (!chips.length || !cards.length) return;
+  function filter(tag) {
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].classList.toggle('active', chips[i].dataset.filter === tag);
+    }
+    for (var j = 0; j < cards.length; j++) {
+      var card = cards[j];
+      var tags = (card.dataset.tags || '').split(',');
+      card.style.display = (tag === 'all' || tags.indexOf(tag) !== -1) ? '' : 'none';
+    }
+  }
+  for (var k = 0; k < chips.length; k++) {
+    chips[k].addEventListener('click', function() { filter(this.dataset.filter); });
+  }
+})();
+</script>
+
 {% endblock %}
