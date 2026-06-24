@@ -712,3 +712,21 @@ Claude must always distinguish:
 - production verification
 
 A task is not truly done until production verification confirms the real site is live.
+
+## Vaccine Autofixer PR Spam Rule
+
+Vaccine/autofixer workflows must not spam duplicate PRs.
+
+Rules:
+- Only one open `deploy_fail` hotfix PR is allowed at a time.
+- When a newer `deploy_fail` PR is created, older open `deploy_fail` PRs must be closed as superseded.
+- Maximum auto-fix retry per failing workflow: 2.
+- After 2 failed retries, stop creating PRs and write a report only.
+- Warning-only QA issues must not trigger `vaccine-hotfix` PRs.
+- Do not batch-fix unrelated PRs.
+- Do not touch content unless the PR is explicitly content-scoped.
+- Do not touch payment/premium/paywall logic unless explicitly requested.
+- If the issue is duplicate, stale, or already fixed on main, close the PR with a clear comment instead of creating another fix PR.
+
+Expected behavior:
+Autofixer should reduce noise, protect production, and surface only real blockers.
