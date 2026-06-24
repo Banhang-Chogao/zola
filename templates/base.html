@@ -611,7 +611,9 @@
 
     <main id="main-content" class="container">
         <div class="layout-grid">
-            <div class="main-column">
+            {% include "partials/google-site-search.html" %}
+
+<div class="main-column">
                 {% block main %}{% endblock %}
             </div>
 
