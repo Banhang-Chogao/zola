@@ -1,11 +1,11 @@
 +++
 title = "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ"
 date = 2026-06-20
+aliases = ["/bi-kip-xin-visa-han-quoc-5-nam-de/"]
 
 [taxonomies]
 categories = ["Tất cả"]
-tags = ["visa hàn quốc", "du lịch hàn quốc", "c-3-9", "xin visa", "kinh nghiệm", "seoul"]
-
+tags = ["c-3-9", "du lịch hàn quốc", "kinh nghiệm", "seoul", "visa hàn quốc", "xin visa"]
 [extra]
 thumbnail = "https://picsum.photos/seed/bi-kip-xin-visa-han-quoc-5-nam-de/600/400"
 +++

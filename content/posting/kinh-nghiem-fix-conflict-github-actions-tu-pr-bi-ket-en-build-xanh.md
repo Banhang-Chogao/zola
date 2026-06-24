@@ -1,11 +1,11 @@
 +++
 title = "Kinh nghiệm fix conflict GitHub Actions: từ PR bị kẹt đến build xanh"
 date = 2026-06-24
+aliases = ["/kinh-nghiem-fix-conflict-github-actions-tu-pr-bi-ket-en-build-xanh/"]
 
 [taxonomies]
 categories = ["Công nghệ"]
-tags = ["LC8", "Terminal", "Git", "Zola", "WebOps"]
-
+tags = ["git", "lc8", "terminal", "webops", "zola"]
 [extra]
 +++
 
