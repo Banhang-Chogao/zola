@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-24T16:26:39Z",
+  "updated_at": "2026-06-24T16:58:43Z",
   "score": 87.0,
   "grade": "B",
   "mood": "good",
@@ -166,13 +166,31 @@
         {
           "label": "Internal links",
           "status": "fail",
-          "detail": "6 broken / 1259 unique",
+          "detail": "6 broken / 1258 unique",
           "broken": [
             {
               "source_page": "/content/",
               "source_file": "public/content/index.html",
               "href": "https://seomoney.org/shortensea",
               "target": "/shortensea/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/di-tho-co-than-kinh-hanh-dong-nao/",
+              "source_file": "public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html",
+              "href": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/di-tho-co-than-kinh-hanh-dong-nao/",
+              "source_file": "public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html",
+              "href": "https://seomoney.org/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
               "status": "404",
               "reason": "Target not found in public/ after zola build",
               "auto_fix_status": "pending"
@@ -187,10 +205,37 @@
               "auto_fix_status": "pending"
             },
             {
-              "source_page": "/posting/tai-sao-oxy-hoa-trang-dieu-dung/",
-              "source_file": "public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html",
-              "href": "/content/posting/tai-sao-chung-ta-can-ngu.md",
-              "target": "/content/posting/tai-sao-chung-ta-can-ngu.md",
+              "source_page": "/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/",
+              "source_file": "public/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/index.html",
+              "href": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/",
+              "source_file": "public/posting/tai-sao-do-vi-sinh-co-khong-co-anh-huong-den-nao/index.html",
+              "href": "https://seomoney.org/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/",
+              "source_file": "public/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/index.html",
+              "href": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            },
+            {
+              "source_page": "/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/",
+              "source_file": "public/posting/tai-sao-toc-trang-do-stress-va-tuoi-tac/index.html",
+              "href": "https://seomoney.org/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
+              "target": "/bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/",
               "status": "404",
               "reason": "Target not found in public/ after zola build",
               "auto_fix_status": "pending"
@@ -296,7 +341,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T16:26:39Z"
+      "at": "2026-06-24T16:58:43Z"
     },
     {
       "category": "Content",
@@ -304,7 +349,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T16:26:39Z"
+      "at": "2026-06-24T16:58:43Z"
     },
     {
       "category": "Content",
@@ -312,15 +357,15 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-24T16:26:39Z"
+      "at": "2026-06-24T16:58:43Z"
     },
     {
       "category": "Links",
       "label": "Internal links",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Còn 7 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/posting/mot-ly-do-mua-laptop-thinkpad/index.html → /-vs-hugo/ (Target not found in public/ after zola build); public/posting/tai-sao-oxy-hoa-trang-dieu-dung/index.html → /content/posting/tai-sao-chung-ta-can-ngu.md (Target not found in public/ after zola build)",
-      "at": "2026-06-24T16:26:39Z"
+      "message": "Còn 12 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/content/index.html → /shortensea/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build); public/posting/di-tho-co-than-kinh-hanh-dong-nao/index.html → /bao-lau-thi-co-tac-dung-thay-doi-hanh-vi-con-nguoi/ (Target not found in public/ after zola build)",
+      "at": "2026-06-24T16:58:43Z"
     }
   ],
   "fix_summary": {
