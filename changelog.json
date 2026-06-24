@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "heartbeat module — replace PR/CI data with blog health status, fix desktop display [fix/heartbeat-module]",
+      "tag": "fix",
+      "lines_added": 62,
+      "lines_removed": 54,
+      "highlights": [
+        "static/css/blog-heartbeat-client.css (modified, +5/-0)",
+        "static/data/blog-heartbeat.json (modified, +6/-0)",
+        "static/js/blog-heartbeat-card.js (modified, +21/-34)",
+        "static/js/blog-heartbeat-client.js (modified, +30/-20)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy"
+      ],
+      "pr": 855
+    },
+    {
+      "date": "2026-06-24",
       "title": "add missing _home-wwdc.scss for homepage redesign [fix/heartbeat-object-object-layout]",
       "tag": "chore",
       "lines_added": 394,
