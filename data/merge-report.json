@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-24T16:38:02Z",
+  "updated_at": "2026-06-24T16:50:48Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 33,
-    "this_week": 115,
+    "today": 34,
+    "this_week": 116,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -19,6 +19,25 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 853,
+      "pr_title": "fix: layout audit — guard [object Object] in heartbeat JS + responsive embed CSS [fix/heartbeat-object-object-layout]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/853",
+      "merged_at": "2026-06-24T16:41:03Z",
+      "merge_commit_sha": "8f7281c4526bb687c59bf60e41780c586194df03",
+      "merge_commit_short": "8f7281c",
+      "head_branch": "fix/heartbeat-object-object-layout",
+      "summary_vi": "fix: layout audit — guard [object Object] in heartbeat JS + responsive embed CSS",
+      "change_type": "fix",
+      "files_changed": 3,
+      "additions": 38,
+      "deletions": 6,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1089,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28114335828",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 772,
       "pr_title": "Merge remote PR branch updates into resolved merge [fix/shortensea-failed-to-fetch]",
@@ -509,9 +528,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1059,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075128190",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1062,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28075939620",
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 822,
@@ -3794,25 +3813,6 @@
       "files_changed": 18,
       "additions": 1775,
       "deletions": 501,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 608,
-      "pr_title": "fix(qa): V18 gitignore volatile artifacts; BRAND OG+placeholder; DEPLOY-MON footer widget [claude/determined-curie-q1qs2b]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/608",
-      "merged_at": "2026-06-21T02:02:32Z",
-      "merge_commit_sha": "a32ace5d8ce34e1039200516bf07f173c4133f6c",
-      "merge_commit_short": "a32ace5",
-      "head_branch": "claude/determined-curie-q1qs2b",
-      "summary_vi": "- feat(open-pr-monitor): build-time Open PR Monitor section below footer",
-      "change_type": "fix",
-      "files_changed": 13,
-      "additions": 719,
-      "deletions": 30,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
