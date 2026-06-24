@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "fix(ci): harden blog heartbeat push race [fix/blog-heartbeat-push-race]",
+      "tag": "security",
+      "lines_added": 13,
+      "lines_removed": 1,
+      "highlights": [
+        ".github/workflows/blog-heartbeat.yml (modified, +13/-1)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/blog-heartbeat-push-race là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 831
+    },
+    {
+      "date": "2026-06-24",
       "title": "fix(ci): fix blog heartbeat heredoc [fix/blog-heartbeat-heredoc]",
       "tag": "fix",
       "lines_added": 1,
