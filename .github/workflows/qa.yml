@@ -164,20 +164,20 @@ jobs:
       - name: Build OG images (SVG → .og.webp for social sharing)
         run: python3 scripts/build_og_images.py
 
-      - name: Zola build smoke test (with retry)
+      - name: Zola build smoke test (retry 2×, timeout 15 min/attempt per issue #876)
         id: zola-build
-        timeout-minutes: 15
+        timeout-minutes: 35
         env:
           ZOLA_GH_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
         run: |
           for i in 1 2; do
-            echo "🔨 Zola build attempt $i..."
-            if zola build; then
+            echo "🔨 Zola build attempt $i/2..."
+            if timeout --preserve-status 900 zola build; then
               echo "✅ Zola build succeeded"
               exit 0
             fi
             echo "⚠️ Zola build attempt $i failed, retrying..."
-            sleep 10
+            sleep 30
           done
           echo "❌ Zola build failed after 2 attempts"
           exit 1
