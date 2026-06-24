@@ -1591,3 +1591,25 @@ body.editor-modal-open {
     flex-direction: column;
   }
 }
+/* ============= Editor Takeaways ============= */
+
+.editor-takeaways {
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  background: var(--c-bg-soft);
+}
+
+.editor-takeaways legend {
+  padding: 0 0.35rem;
+  font-weight: 850;
+  color: var(--c-text);
+}
+
+.editor-takeaways__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+  margin: 0.75rem 0;
+}

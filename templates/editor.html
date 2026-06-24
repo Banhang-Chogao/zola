@@ -244,6 +244,17 @@
                         <input type="url" name="thumbnail" placeholder="https://..." class="editor-input">
                     </label>
 
+                    <fieldset class="editor-field editor-field--full editor-takeaways" data-takeaways-wrap>
+                        <legend>Ý chính nhanh</legend>
+                        <p class="editor-field-hint">Nhập 1–3 ý chính. Editor tự lưu vào bài, không cần học Markdown/TOML.</p>
+                        <div class="editor-takeaways__grid">
+                            <input type="text" name="takeaway_1" data-takeaway class="editor-input" maxlength="160" placeholder="VD: Nắm nhanh vấn đề chính trong 30 giây.">
+                            <input type="text" name="takeaway_2" data-takeaway class="editor-input" maxlength="160" placeholder="VD: Biết nên làm gì tiếp theo.">
+                            <input type="text" name="takeaway_3" data-takeaway class="editor-input" maxlength="160" placeholder="VD: Tránh lỗi thường gặp khi áp dụng.">
+                        </div>
+                        <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-action="takeaways-suggest">Gợi ý nhanh từ tiêu đề</button>
+                    </fieldset>
+
                     <label class="editor-field editor-field--check">
                         <input type="checkbox" name="featured"> <span>Bài nổi bật (lên Featured Post — sidebar phải)</span>
                     </label>
