@@ -457,12 +457,72 @@
 
     <a href="#main-content" class="skip-link">Bỏ qua đến nội dung chính</a>
 
-    {# Header: brand logo only #}
+    {# Header: logo left + ad banner right #}
     <header class="site-header">
-        <div class="container site-header__wrapper">
-            <a class="site-logo" href="{{ config.base_url | safe }}" aria-label="{{ config.title }}" title="{{ config.title }}">
-                <img src="{{ get_url(path='img/brand/seomoney-mark.svg') }}" alt="{{ config.title }}" width="40" height="40" class="site-logo__img" />
-            </a>
+                {# Slide B: GitHub commit status — render từ load_data (build-time) #}
+                <a class="header-github header-rotator__slide" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
+                    <div class="header-github__tags">
+                        {% if latest_commit %}
+                            <span class="tag tag--active">HOẠT ĐỘNG</span>
+                        {% else %}
+                            <span class="tag tag--code">OFFLINE BUILD</span>
+                        {% endif %}
+                        <span class="tag tag--code">SOURCE CODE</span>
+                    </div>
+                    <div class="header-github__row">
+                        <div class="header-github__main">
+                            <span class="header-github__brand-title">GitHub</span>
+                            <p class="header-github__commit">
+                                {% if latest_commit %}
+                                    <strong>{{ latest_commit.commit.message | split(pat="\n") | first | truncate(length=80) }}</strong>
+                                    <span class="header-github__meta">
+                                        <code>{{ latest_commit.sha | truncate(length=7, end="") }}</code>
+                                        <span class="dot">·</span>
+                                        <span>Commit đã được bake vào build này.</span>
+                                    </span>
+                                {% else %}
+                                    <strong>Local build — chưa có commit data</strong>
+                                    <span class="header-github__meta">
+                                        <code>local</code>
+                                        <span class="dot">·</span>
+                                        <span>CI build sẽ fetch commit mới nhất.</span>
+                                    </span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="header-github__side">
+                            <span class="header-github__brand">⌘ GitHub</span>
+                            <span class="header-github__clock" title="Thời điểm commit lên main (giờ Việt Nam UTC+7)">
+                                {%- if latest_commit -%}
+                                    {{ dt::display_datetime(value=latest_commit.commit.committer.date) }}
+                                {%- else -%}
+                                    --:-- --/--/----
+                                {%- endif -%}
+                            </span>
+                        </div>
+                    </div>
+
+                    {# DEPLOYED row — nằm gọn TRONG GitHub box, không tách riêng.
+                       Real-time fetch qua deploy-status.js (cùng [data-deploy-status]
+                       attr với card bên phải → share 1 fetch, sync 1 state). #}
+                    <div class="header-github__deploy" data-deploy-status>
+                        <span class="header-github__deploy-badge header-github__deploy-badge--success" data-deploy-badge>✓ DEPLOYED</span>
+                        <span class="header-github__deploy-msg">
+                            <span class="status-dot status-dot--success"></span>
+                            <span data-deploy-text>Build hiện tại đã deploy lên GitHub Pages</span>
+                        </span>
+                    </div>
+                </a>
+{# Mũi tên điều hướng thủ công (carousel) #}
+                <button type="button" class="header-rotator__arrow header-rotator__arrow--prev" data-rotator-prev aria-label="Banner trước">‹</button>
+                <button type="button" class="header-rotator__arrow header-rotator__arrow--next" data-rotator-next aria-label="Banner kế tiếp">›</button>
+                </div> {# /.header-rotator__viewport #}
+
+                {# Chấm điều hướng — JS sinh theo số slide #}
+                <div class="header-rotator__dots" data-rotator-dots role="tablist" aria-label="Chọn banner"></div>
+            </div>
+
+            </div> {# /.header-side #}
         </div>
     </header>
 
@@ -470,9 +530,12 @@
         <div class="site-search__backdrop" data-search-close></div>
         <section class="site-search__panel">
             <div class="site-search__head">
-                <h2 class="site-search__title" id="site-search-title">Tìm trong blog</h2>
+                <div>
+                    <p class="site-search__eyebrow">Search nội bộ</p>
+                    <h2 class="site-search__title" id="site-search-title">Tìm trong blog</h2>
+                </div>
                 <button class="site-search__close" type="button" aria-label="Đóng tìm kiếm" data-search-close>
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
@@ -481,19 +544,14 @@
             <form class="site-search__fallback" role="search" data-local-search-form>
                 <label class="site-search__field">
                     <span class="site-search__field-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="7"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
                     </span>
-                    <input type="search" name="q" placeholder="Tìm kiếm..." autocomplete="off" data-search-input>
+                    <input type="search" name="q" placeholder="Nhập từ khóa..." autocomplete="off" data-search-input>
                 </label>
-                <button class="site-search__submit" type="submit" aria-label="Tìm kiếm">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <circle cx="11" cy="11" r="7"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </button>
+                <button class="site-search__submit" type="submit">Tìm</button>
             </form>
             <div class="site-search__local" data-local-search-results aria-live="polite">
                 <p class="site-search__note">Nhập từ khóa để tìm trực tiếp trong bài viết của blog.</p>
@@ -625,7 +683,41 @@
                         </ul>
                     </section>
 
-
+                    {# ===== PREMIUM POSTS — S-DNA CTA widget (ngay TRÊN Featured) =====
+                       Liệt kê tối đa 10 bài premium (category "premium" HOẶC extra.premium),
+                       random reshuffle mỗi lần load qua sidebar.js (no-duplicate). Server render
+                       sẵn 10 bài (no-JS fallback + chống CLS). ẨN hẳn section nếu KHÔNG có bài
+                       premium nào. Click bài → trang bài → paywall flow hiện có (Momo unlock). #}
+                    {% set_global premium_posts = [] %}
+                    {% for page in root_pages %}
+                        {% if page.taxonomies.categories %}{% set p_cats = page.taxonomies.categories %}{% else %}{% set p_cats = [] %}{% endif %}
+                        {% if page.extra.premium or "premium" in p_cats %}
+                            {% set_global premium_posts = premium_posts | concat(with=[page]) %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if premium_posts | length > 0 %}
+                    <section class="sidebar-block premium-posts" data-widget="premium">
+                        <h3 class="sidebar-label sidebar-label--premium">💎 Premium Posts</h3>
+                        <p class="premium-posts__intro">Nội dung chuyên sâu — mở khóa nhanh qua Momo.</p>
+                        <ul class="premium-list" data-target="premium">
+                            {% for page in premium_posts | slice(end=10) %}
+                            {% set p_price = page.extra.price | default(value=0) | int %}
+                            <li class="premium-item">
+                                <a class="premium-item__link" href="{{ page.permalink }}">
+                                    <span class="premium-item__icon" aria-hidden="true">💎</span>
+                                    <span class="premium-item__main">
+                                        <span class="premium-item__title">{{ page.title }}</span>
+                                        <span class="premium-item__badges">
+                                            <span class="premium-item__badge premium-item__badge--premium">💎 Premium</span>
+                                            {% if p_price > 0 %}<span class="premium-item__badge premium-item__badge--price">{{ p_price }}đ</span>{% endif %}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                    {% endif %}
 
                     <section class="sidebar-block vipzone-stat" data-widget="vipzone-stat">
                         <p class="vipzone-stat__text">Đã có <strong data-vipzone-count>0</strong> người kích hoạt VIP để ủng hộ những nội dung giá trị!</p>
@@ -1185,54 +1277,6 @@
             </div>
         </div>
 
-        {# GitHub commit & deploy status — moved from header #}
-        <div class="container footer-github">
-            <a class="footer-github__card" href="https://github.com/Banhang-Chogao/zola{% if latest_commit %}/commit/{{ latest_commit.sha }}{% endif %}" target="_blank" rel="noopener" title="Xem commit trên GitHub">
-                <div class="footer-github__tags">
-                    {% if latest_commit %}
-                        <span class="tag tag--active">HOẠT ĐỘNG</span>
-                    {% else %}
-                        <span class="tag tag--code">OFFLINE BUILD</span>
-                    {% endif %}
-                    <span class="tag tag--code">SOURCE CODE</span>
-                </div>
-                <div class="footer-github__main">
-                    <span class="footer-github__brand">GitHub</span>
-                    <p class="footer-github__commit">
-                        {% if latest_commit %}
-                            <strong>{{ latest_commit.commit.message | split(pat="\n") | first | truncate(length=80) }}</strong>
-                            <span class="footer-github__meta">
-                                <code>{{ latest_commit.sha | truncate(length=7, end="") }}</code>
-                                <span class="dot">·</span>
-                                <span>Đã bake vào build này</span>
-                            </span>
-                        {% else %}
-                            <strong>Local build — chưa có commit data</strong>
-                            <span class="footer-github__meta">
-                                <code>local</code>
-                                <span class="dot">·</span>
-                                <span>CI build sẽ fetch mới nhất</span>
-                            </span>
-                        {% endif %}
-                    </p>
-                </div>
-                <div class="footer-github__side">
-                    {%- if latest_commit -%}
-                        {{ dt::display_datetime(value=latest_commit.commit.committer.date) }}
-                    {%- else -%}
-                        --:-- --/--/----
-                    {%- endif -%}
-                </div>
-                <div class="footer-github__deploy" data-deploy-status>
-                    <span class="footer-github__badge" data-deploy-badge>✓ DEPLOYED</span>
-                    <span class="footer-github__deploy-text">
-                        <span class="status-dot status-dot--success"></span>
-                        <span data-deploy-text>Build hiện tại đã deploy lên GitHub Pages</span>
-                    </span>
-                </div>
-            </a>
-        </div>
-
         {# CATEGORIES — compact footer navigation (moved from sidebar) #}
         <nav class="footer-categories" aria-label="Danh mục bài viết">
             <div class="container">
@@ -1263,6 +1307,7 @@
             </a>
         </div>
         {% endif %}
+      <a class="site-footer__author-mgmt" href="/admin-countdown/">⏱ Countdown</a>
 </footer>
   {% include "partials/turnstile_footer.html" %}
   {# Open PR Monitor is intentionally kept here (global footer ops monitor).
@@ -1270,6 +1315,7 @@
   {% include "partials/open_pr_monitor.html" %}
 
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
 <script src="{{ get_url(path='js/open-pr-monitor.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
