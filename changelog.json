@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "remove broken Google Search module from header and SEO widget [feat/v5-rate-limit-article]",
+      "tag": "fix",
+      "lines_added": 186,
+      "lines_removed": 7,
+      "highlights": [
+        "feat: add GitHub Actions rate limit fix article",
+        "fix: [object Object] guard in blog-heartbeat-client.js — handle object values in message and totalPosts",
+        "fix: remove broken Google Search module from header and SEO widget",
+        "content/posting/github-actions-rate-limit-v5-fix.md (added, +178/-0)",
+        "static/js/blog-heartbeat-client.js (modified, +8/-3)"
+      ],
+      "pr": 866
+    },
+    {
+      "date": "2026-06-24",
       "title": "remove broken Google Search module from header",
       "tag": "fix",
       "lines_added": 0,
