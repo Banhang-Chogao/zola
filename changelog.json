@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-24",
+      "title": "fix(home): connect heartbeat json card [fix/homepage-heartbeat-json-card]",
+      "tag": "fix",
+      "lines_added": 165,
+      "lines_removed": 0,
+      "highlights": [
+        "sass/site.scss (modified, +78/-0)",
+        "static/js/blog-heartbeat-card.js (added, +70/-0)",
+        "templates/index.html (modified, +17/-0)",
+        "QA Gatekeeper (qa-check): 🟡 đang chạy — qa-check đang chạy",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 835
+    },
+    {
+      "date": "2026-06-24",
       "title": "CMS: cập nhật bài 'Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ'",
       "tag": "chore",
       "lines_added": 15,
