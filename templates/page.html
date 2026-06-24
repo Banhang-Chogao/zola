@@ -130,6 +130,18 @@
                 {% endif %}
             </div>
 
+            {% if page.extra.takeaways %}
+            <aside class="post-takeaways" aria-labelledby="post-takeaways-title">
+                <p class="post-takeaways__eyebrow">Ý chính nhanh</p>
+                <h2 class="post-takeaways__title" id="post-takeaways-title">Bài này giúp bạn nắm nhanh</h2>
+                <ul class="post-takeaways__list">
+                    {% for item in page.extra.takeaways %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </aside>
+            {% endif %}
+
             {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
             <div class="post-actions" data-post-actions hidden>
                 {# page.path = "/posting/{slug}/" → tách lấy đoạn cuối (slug thuần).
