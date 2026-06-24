@@ -23,6 +23,16 @@ Code
 → Auto Merge
 → Deploy Production
 
+## Temporary: Auto Vaccine/Hotfix PR Generators Disabled
+
+Auto vaccine/hotfix PR generators are temporarily disabled. Do not re-enable or create new auto-remediation PR spam unless explicitly requested. Use the PR-first deploy strategy: bounded fix → QA/build → PR → checks → squash merge → deploy main → production verify.
+
+The following workflows are affected (manual `workflow_dispatch` only now):
+- `vaccine-hotfix.yml` — previously auto-triggered on QA/deploy/auto-merge failures
+- `vaccine-autofixer.yml` — previously scheduled daily (06:00 ICT)
+- `build-failure-handler.yml` — previously auto-triggered on critical workflow failures
+- `self-healing.yml` — previously scheduled every 6h
+
 ## Branch hợp lệ
 
 - feat/**
