@@ -95,22 +95,22 @@ jobs:
 
       - name: Build GitHub Activity data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
         run: python3 scripts/build_github_activity.py
 
       - name: Build GitHub Profile Badges data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
         run: python3 scripts/build_github_profile_badges.py
 
       - name: Build THEODOI8 LIVE banner report
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
         run: python3 scripts/build_theodoi8_report.py
 
       - name: Build Open PR Monitor data (gh pr list → static/data/open-prs.json)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
         run: python3 scripts/build_open_prs.py
 
       - name: SEO Rank auto-fix report (scan only)
@@ -135,8 +135,11 @@ jobs:
             > data/deployment-status.json
 
       - name: Build site
+        timeout-minutes: 10
         env:
-          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Dùng PAT (5000 req/h) thay vì GITHUB_TOKEN (1000 req/h) để tránh
+          # rate-limit khi template gọi GitHub API commits (load_data).
+          ZOLA_GH_TOKEN: ${{ secrets.GH_GITHUB_COM_TOKEN }}
           # Google AdSense publisher id (ca-pub-…). Để trống nếu chưa duyệt →
           # base.html bỏ qua loader. Đặt secret ADSENSE_CLIENT để bật quảng cáo.
           ADSENSE_CLIENT: ${{ secrets.ADSENSE_CLIENT }}
