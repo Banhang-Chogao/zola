@@ -79,6 +79,49 @@ button {
     box-shadow 0.3s ease;
 }
 
+/* ===== E-DNA (Enterprise Editorial Design System) — DEFAULT ACTIVE THEME ===== */
+:root[data-theme="edna"],
+:root {
+  /* Surface — calm white with professional tint */
+  --c-bg-page:        #f8f9fb;  /* Enterprise soft white */
+  --c-bg-surface:     #ffffff;  /* Pure white */
+  --c-bg-soft:        #f0f3f8;  /* Soft background (tinted) */
+
+  /* Text — calm, readable blacks and grays */
+  --c-text-heading:   #0a0a0a;  /* Pure black for headings */
+  --c-text-body:      #333333;  /* Charcoal body text */
+  --c-text-muted:     #6a6a6a;  /* Muted gray for secondary */
+
+  /* Accent — Ericsson Blue (professional) */
+  --c-accent:         #003784;  /* Ericsson Blue (primary) */
+  --c-accent-hover:   #002566;  /* Darker blue for hover */
+  --c-accent-soft:    #e8edf5;  /* Soft blue tint */
+
+  /* Decoration — Teal for secondary/success */
+  --c-decoration:     #00a69d;  /* Teal accent */
+
+  /* Border — calm, light dividers */
+  --c-border:         #e3e3e3;  /* Enterprise light divider */
+  --c-border-strong:  #d0d0d0;  /* Darker divider */
+
+  /* Shadow — professional depth (minimal) */
+  --c-shadow-md:      0 2px 8px rgba(0, 55, 132, 0.08);
+  --c-shadow-lg:      0 8px 24px rgba(0, 55, 132, 0.12);
+
+  /* Status */
+  --c-success:        #00a69d;  /* Teal for success */
+  --c-warning:        #ff9500;  /* Orange for warning */
+
+  /* Focus ring */
+  --c-focus-ring:     rgba(0, 55, 132, 0.35);
+
+  /* Color scheme for native form controls */
+  color-scheme: light;
+
+  /* Font stack — professional typography */
+  font-family: 'Ericsson Hilda', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
 /* ============================================================
    ===== HILDA DARK MODE — auto via prefers-color-scheme =====
    ============================================================
@@ -88,7 +131,8 @@ button {
    component tự đổi theo, KHÔNG đụng layout/overflow/height/position.
    Light vẫn mặc định; user OS sáng không bị ảnh hưởng. */
 @media (prefers-color-scheme: dark) {
-  :root[data-theme="hilda"] {
+  :root[data-theme="hilda"],
+  :root[data-theme="edna"] {
     /* Surface — near-black ngả navy */
     --c-bg-page:        #0e1217;
     --c-bg-surface:     #161c24;

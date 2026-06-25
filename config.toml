@@ -1,12 +1,16 @@
 base_url = "https://seomoney.org"
 theme = "zulma"
 title = "SEOMONEY"
+
+# Theme system: E-DNA (Enterprise Editorial Design System) is the default visual theme
+# Applied via CSS custom properties (--c-*) + SCSS theme overrides in sass/_themes.scss
+# Users can toggle via theme switcher (requires data-theme attribute on :root)
 description = "SEOMONEY — blog về SEO, công nghệ, du lịch và tài chính cá nhân: chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ. Tác giả: Duy Nguyen."
 default_language = "vi"
 author = "duynguyenlog"
 
 compile_sass = true
-build_search_index = true
+build_search_index = false
 
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
@@ -52,6 +56,14 @@ cả hai đều mở ra cánh cửa mới, đòi hỏi sự tò mò không ngừ
 phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã ghé thăm — hy vọng \
 chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 """
+
+menu = [
+    { name = "Trang chủ", url = "$BASE_URL/" },
+    { name = "Insights", url = "$BASE_URL/insights" },
+    { name = "Công cụ", url = "$BASE_URL/tools" },
+    { name = "Bài viết", url = "$BASE_URL/posting" },
+    { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
+]
 
 [extra.menus]
 menu = [
