@@ -90,6 +90,10 @@ name = "🏦 B-DNA Banking Demo"
 url = "$BASE_URL/tools/b-dna-banking"
 subtitle = "Ngân hàng số cá nhân — demo UI + flow dựng theo B-DNA (không backend)"
 [[extra.tool_groups.items]]
+name = "📊 SEO Money — B-DNA Dashboard"
+url = "$BASE_URL/tools/seo-money-dashboard"
+subtitle = "Dashboard phân tích SEO — demo UI dark-navy dựng theo B-DNA (không backend)"
+[[extra.tool_groups.items]]
 name = "📚 Series Hub"
 url = "$BASE_URL/tools/series"
 

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+{# ============================================================
+   SEO MONEY DASHBOARD — B-DNA Design (standalone demo)
+   Pixel-faithful, self-contained front-end demonstration of the
+   B-DNA dark-navy design system applied to an SEO analytics
+   dashboard. There is NO backend: every metric is mock data and
+   all controls are static UI only.
+   - standalone page (does NOT extend base.html) so the mockup's
+     own nav/footer/dark theme render exactly as designed
+   - all selectors are scoped under the .b-* namespace
+   - noindex + excluded from sitemap (internal demo / thin page)
+   ============================================================ #}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ page.description | default(value='SEO Money Dashboard — bản demo UI/UX dựng theo B-DNA (dark navy + mint). Chỉ giao diện, không backend.') }}">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="{{ current_url | default(value=config.base_url ~ '/tools/seo-money-dashboard/') }}">
+    <meta property="og:title" content="{{ page.title | default(value='SEO Money — B-DNA Dashboard') }} | {{ config.title }}">
+    <meta property="og:description" content="{{ page.description | default(value='SEO Money Dashboard — bản demo UI/UX dựng theo B-DNA.') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ current_url | default(value=config.base_url ~ '/tools/seo-money-dashboard/') }}">
+    <meta property="og:image" content="{{ config.base_url }}/img/og-default.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>{{ page.title | default(value='SEO Money — B-DNA Dashboard') }} | {{ config.title }}</title>
+    <style>
+        /* ===== B-DNA DESIGN SYSTEM ===== */
+        :root {
+            --b-primary: #0A192F;
+            --b-secondary: #112240;
+            --b-accent: #64FFDA;
+            --b-accent-dim: rgba(100, 255, 218, 0.1);
+            --b-text-primary: #E6F1FF;
+            --b-text-secondary: #8892B0;
+            --b-card-bg: #112240;
+            --b-border: #233554;
+            --b-font-mono: 'SF Mono', 'Fira Code', monospace;
+            --b-font-sans: 'Inter', 'Calibre', sans-serif;
+            --b-space-xs: 4px;
+            --b-space-sm: 8px;
+            --b-space-md: 16px;
+            --b-space-lg: 24px;
+            --b-space-xl: 32px;
+            --b-space-2xl: 48px;
+            --b-space-3xl: 64px;
+            --b-radius-sm: 4px;
+            --b-radius-md: 8px;
+            --b-radius-lg: 12px;
+            --b-transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--b-primary);
+            color: var(--b-text-primary);
+            font-family: var(--b-font-sans);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .b-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--b-space-lg);
+        }
+
+        /* ===== NAVIGATION ===== */
+        .b-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--b-border);
+            padding: var(--b-space-md) 0;
+        }
+
+        .b-nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .b-logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--b-text-primary);
+            text-decoration: none;
+        }
+
+        .b-accent { color: var(--b-accent); }
+
+        .b-nav-links {
+            display: flex;
+            gap: var(--b-space-lg);
+        }
+
+        .b-nav-link {
+            color: var(--b-text-secondary);
+            text-decoration: none;
+            padding: var(--b-space-sm) var(--b-space-md);
+            border-radius: var(--b-radius-sm);
+            transition: var(--b-transition);
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .b-nav-link:hover {
+            color: var(--b-text-primary);
+            background: var(--b-accent-dim);
+        }
+
+        .b-nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--b-accent);
+            transition: var(--b-transition);
+            transform: translateX(-50%);
+        }
+
+        .b-nav-link:hover::after { width: 100%; }
+
+        .b-nav-actions {
+            display: flex;
+            gap: var(--b-space-sm);
+        }
+
+        /* ===== BUTTONS ===== */
+        .b-btn {
+            padding: var(--b-space-sm) var(--b-space-xl);
+            border-radius: var(--b-radius-sm);
+            font-family: var(--b-font-mono);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--b-transition);
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .b-btn-primary {
+            background: var(--b-accent);
+            color: var(--b-primary);
+            box-shadow: 0 4px 14px rgba(100, 255, 218, 0.2);
+        }
+
+        .b-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 255, 218, 0.3);
+        }
+
+        .b-btn-ghost {
+            color: var(--b-text-secondary);
+            border: 1px solid var(--b-border);
+        }
+
+        .b-btn-ghost:hover {
+            color: var(--b-text-primary);
+            border-color: var(--b-accent);
+        }
+
+        /* ===== CARDS ===== */
+        .b-card {
+            background: var(--b-card-bg);
+            border-radius: var(--b-radius-lg);
+            padding: var(--b-space-xl);
+            border: 1px solid var(--b-border);
+            transition: var(--b-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .b-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -15px rgba(0, 0, 0, 0.5);
+            border-color: var(--b-accent);
+        }
+
+        .b-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--b-accent), transparent);
+            opacity: 0;
+            transition: var(--b-transition);
+        }
+
+        .b-card:hover::before { opacity: 1; }
+
+        .b-card-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--b-space-md);
+            color: var(--b-text-primary);
+        }
+
+        .b-card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--b-accent);
+            font-family: var(--b-font-mono);
+        }
+
+        .b-card-label {
+            color: var(--b-text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .b-card-change {
+            display: inline-block;
+            padding: var(--b-space-xs) var(--b-space-sm);
+            border-radius: var(--b-radius-sm);
+            font-size: 0.75rem;
+            font-family: var(--b-font-mono);
+            margin-top: var(--b-space-sm);
+        }
+
+        .b-card-change.positive {
+            background: rgba(100, 255, 218, 0.15);
+            color: var(--b-accent);
+        }
+
+        .b-card-change.negative {
+            background: rgba(255, 107, 107, 0.15);
+            color: #FF6B6B;
+        }
+
+        /* ===== GRID ===== */
+        .b-grid {
+            display: grid;
+            gap: var(--b-space-xl);
+        }
+
+        .b-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .b-grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .b-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        /* ===== SECTION ===== */
+        .b-section {
+            padding: var(--b-space-3xl) 0;
+        }
+
+        .b-section-header {
+            margin-bottom: var(--b-space-2xl);
+        }
+
+        .b-section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--b-text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .b-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--b-accent);
+            border-radius: 2px;
+        }
+
+        .b-section-subtitle {
+            color: var(--b-text-secondary);
+            font-size: 1.125rem;
+            margin-top: var(--b-space-md);
+        }
+
+        /* ===== TABLES ===== */
+        .b-table-container {
+            overflow-x: auto;
+            border-radius: var(--b-radius-lg);
+            border: 1px solid var(--b-border);
+            background: var(--b-card-bg);
+        }
+
+        .b-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .b-table th {
+            background: var(--b-secondary);
+            color: var(--b-text-primary);
+            padding: var(--b-space-md) var(--b-space-lg);
+            text-align: left;
+            font-family: var(--b-font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--b-border);
+        }
+
+        .b-table td {
+            padding: var(--b-space-md) var(--b-space-lg);
+            color: var(--b-text-secondary);
+            border-bottom: 1px solid var(--b-border);
+        }
+
+        .b-table tr:hover td {
+            background: var(--b-accent-dim);
+        }
+
+        /* ===== FORMS ===== */
+        .b-form-group {
+            margin-bottom: var(--b-space-lg);
+        }
+
+        .b-form-label {
+            display: block;
+            color: var(--b-text-primary);
+            font-family: var(--b-font-mono);
+            font-size: 0.875rem;
+            margin-bottom: var(--b-space-sm);
+        }
+
+        .b-form-input, .b-form-select {
+            width: 100%;
+            padding: var(--b-space-md);
+            background: var(--b-primary);
+            border: 1px solid var(--b-border);
+            border-radius: var(--b-radius-sm);
+            color: var(--b-text-primary);
+            font-family: var(--b-font-sans);
+            transition: var(--b-transition);
+        }
+
+        .b-form-input:focus, .b-form-select:focus {
+            outline: none;
+            border-color: var(--b-accent);
+            box-shadow: 0 0 0 3px var(--b-accent-dim);
+        }
+
+        .b-form-select option { background: var(--b-primary); }
+
+        /* ===== TAGS ===== */
+        .b-tag {
+            display: inline-block;
+            padding: var(--b-space-xs) var(--b-space-md);
+            background: var(--b-accent-dim);
+            color: var(--b-accent);
+            border-radius: var(--b-radius-sm);
+            font-family: var(--b-font-mono);
+            font-size: 0.75rem;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+        }
+
+        /* ===== PROGRESS ===== */
+        .b-progress {
+            width: 100%;
+            height: 6px;
+            background: var(--b-border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: var(--b-space-sm);
+        }
+
+        .b-progress-bar {
+            height: 100%;
+            background: var(--b-accent);
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        /* ===== CHARTS ===== */
+        .b-chart-placeholder {
+            background: var(--b-card-bg);
+            border-radius: var(--b-radius-lg);
+            padding: var(--b-space-xl);
+            border: 1px solid var(--b-border);
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--b-text-secondary);
+            font-family: var(--b-font-mono);
+            font-size: 0.875rem;
+        }
+
+        /* ===== PAGINATION ===== */
+        .b-pagination {
+            display: flex;
+            gap: var(--b-space-sm);
+            justify-content: center;
+            margin-top: var(--b-space-xl);
+        }
+
+        .b-pagination-item {
+            padding: var(--b-space-sm) var(--b-space-md);
+            border: 1px solid var(--b-border);
+            border-radius: var(--b-radius-sm);
+            color: var(--b-text-secondary);
+            transition: var(--b-transition);
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .b-pagination-item:hover,
+        .b-pagination-item.active {
+            background: var(--b-accent);
+            color: var(--b-primary);
+            border-color: var(--b-accent);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .b-grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .b-grid-3 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .b-grid-2, .b-grid-3, .b-grid-4 { grid-template-columns: 1fr; }
+
+            .b-nav-links {
+                display: none;
+            }
+
+            .b-section-title {
+                font-size: 1.75rem;
+            }
+
+            .b-card-value {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .b-animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .b-animate:nth-child(2) { animation-delay: 0.1s; }
+        .b-animate:nth-child(3) { animation-delay: 0.2s; }
+        .b-animate:nth-child(4) { animation-delay: 0.3s; }
+        .b-animate:nth-child(5) { animation-delay: 0.4s; }
+        .b-animate:nth-child(6) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="b-nav">
+        <div class="b-container">
+            <div class="b-nav-inner">
+                <a href="/" class="b-logo-text">SEO<span class="b-accent">Money</span></a>
+                <div class="b-nav-links">
+                    <a href="#" class="b-nav-link">Dashboard</a>
+                    <a href="#" class="b-nav-link">Analytics</a>
+                    <a href="#" class="b-nav-link">Tools</a>
+                    <a href="#" class="b-nav-link">Reports</a>
+                    <a href="#" class="b-nav-link">Settings</a>
+                </div>
+                <div class="b-nav-actions">
+                    <button class="b-btn b-btn-ghost">Sign In</button>
+                    <button class="b-btn b-btn-primary">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main>
+        <div class="b-container">
+            <!-- ===== DASHBOARD SECTION ===== -->
+            <section class="b-section">
+                <div class="b-section-header">
+                    <h1 class="b-section-title">Dashboard</h1>
+                    <p class="b-section-subtitle">Real-time performance metrics and insights</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="b-grid b-grid-4">
+                    <div class="b-card b-animate">
+                        <div class="b-card-label">Total Traffic</div>
+                        <div class="b-card-value">1,284,392</div>
+                        <span class="b-card-change positive">↑ 12.5%</span>
+                    </div>
+                    <div class="b-card b-animate">
+                        <div class="b-card-label">Organic Search</div>
+                        <div class="b-card-value">847,201</div>
+                        <span class="b-card-change positive">↑ 8.3%</span>
+                    </div>
+                    <div class="b-card b-animate">
+                        <div class="b-card-label">Bounce Rate</div>
+                        <div class="b-card-value">34.7%</div>
+                        <span class="b-card-change negative">↓ 2.1%</span>
+                    </div>
+                    <div class="b-card b-animate">
+                        <div class="b-card-label">Conversion Rate</div>
+                        <div class="b-card-value">4.82%</div>
+                        <span class="b-card-change positive">↑ 1.4%</span>
+                    </div>
+                </div>
+
+                <!-- Charts & Data Row -->
+                <div class="b-grid b-grid-2" style="margin-top: var(--b-space-xl);">
+                    <div class="b-card">
+                        <h3 class="b-card-title">Traffic Overview</h3>
+                        <div class="b-chart-placeholder">📊 Chart: Traffic Trends</div>
+                    </div>
+                    <div class="b-card">
+                        <h3 class="b-card-title">Top Performing Keywords</h3>
+                        <div class="b-table-container">
+                            <table class="b-table">
+                                <thead>
+                                    <tr>
+                                        <th>Keyword</th>
+                                        <th>Volume</th>
+                                        <th>Position</th>
+                                        <th>Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>SEO optimization</td>
+                                        <td>12,500</td>
+                                        <td>#3</td>
+                                        <td><span class="b-tag">↑ +2</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>keyword research</td>
+                                        <td>8,200</td>
+                                        <td>#1</td>
+                                        <td><span class="b-tag">→ Stable</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>backlink analysis</td>
+                                        <td>5,400</td>
+                                        <td>#7</td>
+                                        <td><span class="b-tag">↓ -1</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== ANALYTICS SECTION ===== -->
+            <section class="b-section">
+                <div class="b-section-header">
+                    <h1 class="b-section-title">Analytics</h1>
+                    <p class="b-section-subtitle">Deep dive into your website performance</p>
+                </div>
+
+                <div class="b-grid b-grid-3">
+                    <div class="b-card">
+                        <div class="b-form-group">
+                            <label class="b-form-label">Date Range</label>
+                            <select class="b-form-select">
+                                <option>Last 30 days</option>
+                                <option>Last 90 days</option>
+                                <option>Last 12 months</option>
+                            </select>
+                        </div>
+                        <div class="b-form-group">
+                            <label class="b-form-label">Metric</label>
+                            <select class="b-form-select">
+                                <option>Page Views</option>
+                                <option>Unique Visitors</option>
+                                <option>Session Duration</option>
+                            </select>
+                        </div>
+                        <button class="b-btn b-btn-primary" style="width:100%;">Apply Filters</button>
+                    </div>
+
+                    <div class="b-card">
+                        <h3 class="b-card-title">Traffic Sources</h3>
+                        <div class="b-chart-placeholder" style="height:200px;">📊 Source Distribution</div>
+                    </div>
+
+                    <div class="b-card">
+                        <h3 class="b-card-title">Page Performance</h3>
+                        <div style="margin-bottom: var(--b-space-md);">
+                            <div style="display:flex;justify-content:space-between;color:var(--b-text-secondary);font-size:0.875rem;">
+                                <span>Homepage</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="b-progress"><div class="b-progress-bar" style="width:85%;"></div></div>
+                        </div>
+                        <div style="margin-bottom: var(--b-space-md);">
+                            <div style="display:flex;justify-content:space-between;color:var(--b-text-secondary);font-size:0.875rem;">
+                                <span>Blog</span>
+                                <span>62%</span>
+                            </div>
+                            <div class="b-progress"><div class="b-progress-bar" style="width:62%;"></div></div>
+                        </div>
+                        <div>
+                            <div style="display:flex;justify-content:space-between;color:var(--b-text-secondary);font-size:0.875rem;">
+                                <span>Products</span>
+                                <span>43%</span>
+                            </div>
+                            <div class="b-progress"><div class="b-progress-bar" style="width:43%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== TOOLS SECTION ===== -->
+            <section class="b-section">
+                <div class="b-section-header">
+                    <h1 class="b-section-title">SEO Tools</h1>
+                    <p class="b-section-subtitle">Powerful tools to optimize your strategy</p>
+                </div>
+
+                <div class="b-grid b-grid-3">
+                    <div class="b-card b-animate" style="text-align:center;">
+                        <div style="font-size:3rem;margin-bottom:var(--b-space-md);">🔍</div>
+                        <h3 class="b-card-title">Keyword Research</h3>
+                        <p style="color:var(--b-text-secondary);margin-bottom:var(--b-space-md);">Find high-volume keywords with low competition</p>
+                        <button class="b-btn b-btn-primary">Use Tool →</button>
+                    </div>
+
+                    <div class="b-card b-animate" style="text-align:center;">
+                        <div style="font-size:3rem;margin-bottom:var(--b-space-md);">🔗</div>
+                        <h3 class="b-card-title">Backlink Analyzer</h3>
+                        <p style="color:var(--b-text-secondary);margin-bottom:var(--b-space-md);">Analyze your backlink profile and identify opportunities</p>
+                        <button class="b-btn b-btn-primary">Use Tool →</button>
+                    </div>
+
+                    <div class="b-card b-animate" style="text-align:center;">
+                        <div style="font-size:3rem;margin-bottom:var(--b-space-md);">📈</div>
+                        <h3 class="b-card-title">Rank Tracker</h3>
+                        <p style="color:var(--b-text-secondary);margin-bottom:var(--b-space-md);">Monitor your keyword rankings across search engines</p>
+                        <button class="b-btn b-btn-primary">Use Tool →</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== REPORTS SECTION ===== -->
+            <section class="b-section">
+                <div class="b-section-header">
+                    <h1 class="b-section-title">Reports</h1>
+                    <p class="b-section-subtitle">Detailed performance reports and exports</p>
+                </div>
+
+                <div class="b-card">
+                    <div class="b-table-container">
+                        <table class="b-table">
+                            <thead>
+                                <tr>
+                                    <th>Report Name</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monthly SEO Performance</td>
+                                    <td>June 2026</td>
+                                    <td><span class="b-tag">Ready</span></td>
+                                    <td><button class="b-btn b-btn-ghost" style="padding:var(--b-space-xs) var(--b-space-md);">Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Keyword Rankings Report</td>
+                                    <td>June 2026</td>
+                                    <td><span class="b-tag">Processing</span></td>
+                                    <td><button class="b-btn b-btn-ghost" style="padding:var(--b-space-xs) var(--b-space-md);">Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Backlink Analysis</td>
+                                    <td>May 2026</td>
+                                    <td><span class="b-tag">Ready</span></td>
+                                    <td><button class="b-btn b-btn-ghost" style="padding:var(--b-space-xs) var(--b-space-md);">Download</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="b-pagination">
+                        <button class="b-pagination-item">Previous</button>
+                        <button class="b-pagination-item active">1</button>
+                        <button class="b-pagination-item">2</button>
+                        <button class="b-pagination-item">3</button>
+                        <button class="b-pagination-item">Next</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== SETTINGS SECTION ===== -->
+            <section class="b-section">
+                <div class="b-section-header">
+                    <h1 class="b-section-title">Settings</h1>
+                    <p class="b-section-subtitle">Configure your account and preferences</p>
+                </div>
+
+                <div class="b-grid b-grid-2">
+                    <div class="b-card">
+                        <h3 class="b-card-title">General Settings</h3>
+                        <div class="b-form-group">
+                            <label class="b-form-label">Site Name</label>
+                            <input type="text" class="b-form-input" value="SEO Money">
+                        </div>
+                        <div class="b-form-group">
+                            <label class="b-form-label">Default Language</label>
+                            <select class="b-form-select">
+                                <option>English</option>
+                                <option>Spanish</option>
+                                <option>French</option>
+                            </select>
+                        </div>
+                        <button class="b-btn b-btn-primary">Save Changes</button>
+                    </div>
+
+                    <div class="b-card">
+                        <h3 class="b-card-title">Notification Preferences</h3>
+                        <div style="display:flex;justify-content:space-between;padding:var(--b-space-md) 0;border-bottom:1px solid var(--b-border);">
+                            <span style="color:var(--b-text-secondary);">Email Reports</span>
+                            <span class="b-tag">Enabled</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:var(--b-space-md) 0;border-bottom:1px solid var(--b-border);">
+                            <span style="color:var(--b-text-secondary);">Ranking Alerts</span>
+                            <span class="b-tag">Enabled</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:var(--b-space-md) 0;">
+                            <span style="color:var(--b-text-secondary);">Weekly Digest</span>
+                            <span class="b-tag" style="background:transparent;color:var(--b-text-secondary);border-color:var(--b-border);">Disabled</span>
+                        </div>
+                        <button class="b-btn b-btn-ghost" style="margin-top:var(--b-space-md);">Manage Notifications</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="border-top:1px solid var(--b-border);padding:var(--b-space-xl) 0;margin-top:var(--b-space-2xl);">
+        <div class="b-container">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--b-space-md);">
+                <span style="color:var(--b-text-secondary);font-size:0.875rem;">© 2026 SEO Money. All rights reserved.</span>
+                <div style="display:flex;gap:var(--b-space-lg);">
+                    <a href="#" style="color:var(--b-text-secondary);text-decoration:none;font-size:0.875rem;">Privacy</a>
+                    <a href="#" style="color:var(--b-text-secondary);text-decoration:none;font-size:0.875rem;">Terms</a>
+                    <a href="#" style="color:var(--b-text-secondary);text-decoration:none;font-size:0.875rem;">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
