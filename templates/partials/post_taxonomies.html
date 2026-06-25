@@ -1,0 +1,18 @@
+{# Minimal, theme-independent post taxonomies (categories, tags, authors, …).
+   Restored as a site-level partial after the production theme switched to "zulma"
+   (previously supplied only by the linkita theme). No-op when the page has no
+   taxonomy terms or on non-post pages. Uses only taxonomy kinds already defined
+   in config, so get_taxonomy_url is always valid. #}
+{%- if page and page.taxonomies %}
+<footer class="post-taxonomies">
+  {%- for taxonomy_name, terms in page.taxonomies %}
+    {%- if terms %}
+  <div class="post-taxonomies__group">
+    {%- for term in terms %}
+    <a class="post-taxonomies__term" href="{{ get_taxonomy_url(kind=taxonomy_name, name=term) | safe }}">{{ term }}</a>
+    {%- endfor %}
+  </div>
+    {%- endif %}
+  {%- endfor %}
+</footer>
+{%- endif %}
