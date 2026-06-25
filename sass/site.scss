@@ -76,6 +76,11 @@
 @import "pr_sentinel";
 @import "organic-search";
 
+/* Refactored page systems — Oasis (post page, WWDC26 language) and
+   Island (home dashboard, S-DNA). Scoped to .oasis / .island. */
+@import "oasis";
+@import "island";
+
 /* Mobile readability hardening — MUST stay last so its defensive
    overflow/wrapping guards win over earlier component rules. */
 @import "mobile-blog-momo-spirit";
