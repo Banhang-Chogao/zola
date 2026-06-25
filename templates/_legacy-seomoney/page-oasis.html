@@ -1,0 +1,127 @@
+{% extends "index.html" %}
+{%- block meta %}
+  {%- set g_is_article = true %}
+{%- endblock meta %}
+{# Full-width single-column reading view — match the WWDC26 reference (no sidebar).
+   Applies to EVERY post (default template for posting + baochi, all categories). #}
+{% block sidebar %}{% endblock sidebar %}
+{% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
+{% block main %}
+{% set_global toc_total = 0 %}
+{% for h in page.toc %}
+  {% set_global toc_total = toc_total + 1 %}
+  {% for c in h.children %}{% set_global toc_total = toc_total + 1 %}{% endfor %}
+{% endfor %}
+{% set show_rail = toc_total >= 3 and page.extra.toc | default(value=true) %}
+
+{# Eyebrow category — first real category (skip the "Tất cả" / "premium" buckets). #}
+{% set_global oasis_cat = "" %}
+{% if page.taxonomies.categories %}
+  {% for c in page.taxonomies.categories %}
+    {% if oasis_cat == "" and c != "Tất cả" and c != "premium" %}{% set_global oasis_cat = c %}{% endif %}
+  {% endfor %}
+{% endif %}
+
+<div class="oasis">
+  {# ===== Brand top bar (WWDC26 language) ===== #}
+  <a class="oasis__top" href="{{ config.base_url | safe }}/">
+    <span class="oasis__brand">
+      <span class="oasis__mark">{{ config.title | truncate(length=1, end="") }}</span>
+      <span class="oasis__brand-text">
+        <span class="oasis__brand-name">{{ config.title }}</span>
+        <span class="oasis__brand-tag">{{ config.extra.tagline | default(value="") }}</span>
+      </span>
+    </span>
+    <span class="oasis__top-right">
+      {%- if oasis_cat %}<strong>{{ oasis_cat }}</strong>{% if page.date %} · {% endif %}{% endif -%}
+      {%- if page.date %}{{ page.date | date(format="%d.%m.%Y") }}{% endif -%}
+    </span>
+  </a>
+
+  {# ===== Breadcrumb (MoMo theme test): Trang chủ › Chuyên mục › bài ===== #}
+  <nav class="oasis__crumb" aria-label="Breadcrumb">
+    <a href="{{ config.base_url | safe }}/">Trang chủ</a>
+    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
+    {%- if oasis_cat %}
+    <a href="{{ get_taxonomy_url(kind='categories', name=oasis_cat) }}">{{ oasis_cat }}</a>
+    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
+    {%- endif %}
+    <span class="oasis__crumb-current">{{ page.title | truncate(length=48) }}</span>
+  </nav>
+
+  {# ===== Hero — eyebrow / title / sub / stats ===== #}
+  <header class="oasis__hero">
+    {%- if oasis_cat %}<p class="oasis__eyebrow">{{ oasis_cat }}</p>{% endif %}
+    <h1 class="oasis__title">{{ page.title }}</h1>
+    {%- if page.description %}<p class="oasis__sub">{{ page.description }}</p>{% endif %}
+    <div class="oasis__stats">
+      <div class="oasis__stat"><span class="oasis__stat-n">{{ page.reading_time }}</span><span class="oasis__stat-l">Phút đọc</span></div>
+      <div class="oasis__stat"><span class="oasis__stat-n">{{ page.word_count }}</span><span class="oasis__stat-l">Từ</span></div>
+      {%- if toc_total > 0 %}<div class="oasis__stat"><span class="oasis__stat-n">{{ toc_total }}</span><span class="oasis__stat-l">Mục lục</span></div>{% endif %}
+      {%- if page.date %}<div class="oasis__stat"><span class="oasis__stat-n">{{ page.date | date(format="%d.%m") }}</span><span class="oasis__stat-l">{{ page.date | date(format="%Y") }}</span></div>{% endif %}
+    </div>
+    {% include "partials/page_info.html" %}
+  </header>
+
+  <div class="post-layout{% if show_rail %} post-layout--rail{% endif %}">
+  <article>
+    <!-- Begin Page Start inject -->
+    {% include "injects/page_start.html" ignore missing %}
+    <!-- End Page Start inject -->
+
+    {%- if g_image_url %}
+    <figure class="oasis__cover">
+      <img
+        src="{{ _link::rel(dest=g_image_url, cu=_cu, base=_base) }}"
+        {%- if page.extra.cover.alt is defined %}
+        alt="{{ page.extra.cover.alt | escape_xml | safe }}"{% endif %}
+        {%- if g_image_data.width is defined %}
+        width="{{ g_image_data.width | int }}"{% endif %}
+        {%- if g_image_data.height is defined %}
+        height="{{ g_image_data.height | int }}"{% endif %}
+      />
+    </figure>
+    {%- endif %}
+    {%- set page_toc = true %}
+    {% include "partials/toc.html" %}
+    <!-- Content -->
+    <section class="oasis__body post-single__content">{{ page.content | safe }}</section>
+    <hr />
+    {% include "partials/post_taxonomies.html" %}
+    {%- if page.lower or page.higher %}
+    {% include "partials/post_navigation.html" %}
+    {%- endif %}
+    {%- if page.extra.comment | default(value=config.extra.comment) %}
+    {% include "partials/comment.html" %}
+    {%- endif %}
+    <!-- Begin Page End inject -->
+    {% include "injects/page_end.html" ignore missing %}
+    <!-- End Page End inject -->
+  </article>
+  {% if show_rail %}
+  <aside class="toc-rail" data-toc-rail aria-label="Mục lục bài viết">
+    <p class="toc-rail__title">Trong bài này</p>
+    <nav class="toc-rail__nav" aria-label="Danh sách mục trong bài">
+      {% for h in page.toc %}
+      <a class="toc-rail__link" href="#{{ h.id }}" data-toc-link>
+        <span class="toc-rail__num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+        <span class="toc-rail__text">{{ h.title | safe }}</span>
+      </a>
+      {% for c in h.children %}
+      <a class="toc-rail__link toc-rail__link--sub" href="#{{ c.id }}" data-toc-link>
+        <span class="toc-rail__text">{{ c.title | safe }}</span>
+      </a>
+      {% endfor %}
+      {% endfor %}
+    </nav>
+  </aside>
+  {% endif %}
+  </div>
+
+  {# ===== Footer note ===== #}
+  <footer class="oasis__foot">
+    <p>Đọc thêm trên <a href="{{ config.base_url | safe }}/">{{ config.title }}</a>{% if oasis_cat %} · chuyên mục <strong>{{ oasis_cat }}</strong>{% endif %}.</p>
+  </footer>
+</div>
+<script src="{{ get_url(path='js/toc-rail.js') }}" defer></script>
+{% endblock main %}

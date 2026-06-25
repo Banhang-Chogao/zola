@@ -1,5 +1,5 @@
 base_url = "https://seomoney.org"
-theme = "linkita"
+theme = "Zulma"
 title = "SEOMONEY"
 description = "SEOMONEY — blog về SEO, công nghệ, du lịch và tài chính cá nhân: chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ. Tác giả: Duy Nguyen."
 # Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
@@ -37,7 +37,20 @@ theme = "catppuccin-mocha"
 extra_syntaxes_and_themes = ["highlight_themes"]
 
 [extra]
-# Linkita theme
+# Zulma theme
+zulma_title = "SEOMONEY"
+zulma_theme = "darkly"
+zulma_brand = { text = "SEOMONEY" }
+zulma_menu = [
+    { url = "$BASE_URL/", name = "Trang chủ" },
+    { url = "$BASE_URL/insights", name = "Insights" },
+    { url = "$BASE_URL/tools", name = "Công cụ" },
+    { url = "$BASE_URL/posting", name = "Bài viết" },
+    { url = "$BASE_URL/categories", name = "Categories" },
+    { url = "$BASE_URL/tags", name = "Tags" },
+    { url = "$BASE_URL/vu-mua", name = "Vụ Mùa" },
+]
+
 header_menu_name = "menu"
 title_separator = " | "
 comment = false
