@@ -310,6 +310,19 @@
    Color values qua --c-* tokens. Mixin chỉ inject non-color
    tokens (radius / shadow / kicker / heading-ls). */
 
+/* ===== E-DNA (Enterprise Editorial Design System) — DEFAULT ===== */
+:root[data-theme="edna"],
+:root {
+  @include theme-overrides(
+    $radius-card:        4px,                    /* Sharp professional corners */
+    $radius-tag:         4px,                    /* Consistent sharp */
+    $shadow-card:        0 2px 8px rgba(0, 55, 132, 0.08),     /* Calm enterprise shadow */
+    $shadow-card-hover:  0 8px 24px rgba(0, 55, 132, 0.12),    /* Lift on hover */
+    $kicker-spacing:     0.08em,                 /* Editorial clarity */
+    $heading-ls:         -0.03em                 /* Confident display */
+  );
+}
+
 /* ===== HILDA (Ericsson) — sharp, professional ===== */
 :root[data-theme="hilda"] {
   @include theme-overrides(

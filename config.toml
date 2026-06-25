@@ -1,6 +1,10 @@
 base_url = "https://seomoney.org"
 theme = "zulma"
 title = "SEOMONEY"
+
+# Theme system: E-DNA (Enterprise Editorial Design System) is the default visual theme
+# Applied via CSS custom properties (--c-*) + SCSS theme overrides in sass/_themes.scss
+# Users can toggle via theme switcher (requires data-theme attribute on :root)
 description = "SEOMONEY — blog về SEO, công nghệ, du lịch và tài chính cá nhân: chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ. Tác giả: Duy Nguyen."
 default_language = "vi"
 author = "duynguyenlog"
