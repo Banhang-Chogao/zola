@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-25T13:46:00Z",
+  "updated_at": "2026-06-25T13:55:59Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 27,
-    "this_week": 165,
+    "today": 28,
+    "this_week": 166,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 42,
+      "feature": 43,
       "unknown": 34,
-      "fix": 107,
+      "fix": 106,
       "chore": 10,
       "ci": 3,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 914,
+      "pr_title": "feat: WWDC 26 theme integration (PR #908 + #909)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/914",
+      "merged_at": "2026-06-25T13:48:43Z",
+      "merge_commit_sha": "123a0f6d9abd1b145e3564fbdd814a8621e9bbc6",
+      "merge_commit_short": "123a0f6",
+      "head_branch": "feat/wwdc-final",
+      "summary_vi": "Nhánh tích hợp gộp **toàn bộ giao diện WWDC 26** vào một nơi: PR #908 (đã merge `main`) + PR #909 (Priority 3 — trang danh mục/listing).",
+      "change_type": "feature",
+      "files_changed": 5,
+      "additions": 474,
+      "deletions": 114,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1149,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28174902527",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 915,
       "pr_title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc-demo/)",
@@ -528,9 +547,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1119,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28137714141",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1122,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28138641329",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 880,
@@ -3793,25 +3812,6 @@
       "change_type": "fix",
       "files_changed": 3,
       "additions": 242,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 663,
-      "pr_title": "fix: add missing admin-countdown.js for footer countdown preview [claude/adoring-archimedes-6jhi8o]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/663",
-      "merged_at": "2026-06-21T15:03:30Z",
-      "merge_commit_sha": "2642c568151db6daae2d1b5c269c3e9b3bf7d248",
-      "merge_commit_short": "2642c56",
-      "head_branch": "claude/adoring-archimedes-6jhi8o",
-      "summary_vi": "- Di chuyển menu chính sang sidebar bên phải",
-      "change_type": "fix",
-      "files_changed": 2,
-      "additions": 237,
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
