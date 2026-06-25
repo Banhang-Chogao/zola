@@ -2,6 +2,66 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "feat(tools): add \"Momo Brand Voice\" guide page at /tools/momo-brand-voice/ [claude/nifty-johnson-co8fp7]",
+      "tag": "chore",
+      "lines_added": 643,
+      "lines_removed": 0,
+      "highlights": [
+        "docs: add Blog MoMo UI/UX design reference notes",
+        "feat(tools): add \"Momo Brand Voice\" guide page at /tools/momo-brand-voice/",
+        "content/tools/momo-brand-voice/index.md (added, +11/-0)",
+        "docs/momo-blog-design-notes.md (added, +197/-0)",
+        "templates/momo-brand-voice.html (added, +435/-0)"
+      ],
+      "pr": 911
+    },
+    {
+      "date": "2026-06-25",
+      "title": "Nokia theme — Phase 1 (opt-in switcher) + design notes/demo/plan [DRAFT review]",
+      "tag": "chore",
+      "lines_added": 1077,
+      "lines_removed": 5,
+      "highlights": [
+        "Theme nokia = lớp MÀU thứ 2, bật qua nút \"Giao diện màu\" trong nav-drawer.",
+        "Chỉ đổi MÀU (token --c-: accent #****→#005AFF, navy…). *GIỮ NGUYÊN",
+        "Cô lập: toàn bộ Nokia trong _nokia-theme.scss (import cuối). KHÔNG sửa",
+        "Nút toggle trong drawer → responsive desktop+mobile, không floating (V21-safe).",
+        "zola build exit 0 · qa_check.py exit 0 (Vaccine 0 fail, V21/SEARCH-UI/TOC-RAIL/EDITOR PASS, security sạch, watermark OK)."
+      ],
+      "pr": 913
+    },
+    {
+      "date": "2026-06-25",
+      "title": "WWDC 26 theme integration (PR #908 + #909)",
+      "tag": "feat",
+      "lines_added": 474,
+      "lines_removed": 114,
+      "highlights": [
+        "PR #908 (đã merge vào main): Phase 1–3 + Priority 1–2 → design tokens, component library, homepage (island-v2), post page (post-wwdc), wwdc26.html. → đã có sẵn trong main, feat/wwdc-final tạo từ main ",
+        "PR #909 delta = đúng 1 commit c08e3bd \"WWDC Priority 3 — Category / Listing pages\". → cherry-pick vào feat/wwdc-final.",
+        "Cherry-pick: sạch, 0 conflict.",
+        "SCSS: _wwdc-tokens + _wwdc-components + _wwdc-listing compile OK (dart-sass, 0 lỗi). Toàn bộ 18 token mà listing dùng đều tồn tại trong _wwdc-tokens.scss.",
+        "Tera templates: block cân bằng (if/for/block), logic listing được bảo toàn nguyên vẹn."
+      ],
+      "pr": 914
+    },
+    {
+      "date": "2026-06-25",
+      "title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc-demo/)",
+      "tag": "chore",
+      "lines_added": 423,
+      "lines_removed": 0,
+      "highlights": [
+        "Post-card grid — dùng bài viết thật gần nhất (gộp posting + baochi, bỏ feed-anchor — đúng logic section.html).",
+        "Term-card grid — dùng categories thật (get_taxonomy).",
+        "Pagination dạng pill (tĩnh, chỉ để xem style).",
+        "GIỮ sidebar đúng như trang danh mục thật (taxonomy_single) → preview trung thực.",
+        "Tera balance: if 6/6 · for 3/3 · block 5/5 ✓"
+      ],
+      "pr": 915
+    },
+    {
+      "date": "2026-06-25",
       "title": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ [claude/adoring-mayer-jrca7z]",
       "tag": "chore",
       "lines_added": 606,
