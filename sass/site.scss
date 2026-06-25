@@ -87,6 +87,11 @@
 @import "island-v2";
 /* @import "island"; — replaced by island-v2 (WWDC redesign) */
 
+/* MoMo theme test — experimental accent re-skin (branch
+   feat/momo-theme-test). MUST come after oasis/island-v2 so its
+   scoped token overrides win. Revert = remove this one line. */
+@import "momo-skin";
+
 /* Nokia theme — color skin thứ 2 (opt-in qua switcher, Hilda vẫn default).
    Import sau theme-overrides để token + accent remap thắng sạch. Color-only,
    không đụng layout → đặt trước mobile-hardening. */

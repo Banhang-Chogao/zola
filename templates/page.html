@@ -38,6 +38,17 @@
     </span>
   </a>
 
+  {# ===== Breadcrumb (MoMo theme test): Trang chủ › Chuyên mục › bài ===== #}
+  <nav class="oasis__crumb" aria-label="Breadcrumb">
+    <a href="{{ config.base_url | safe }}/">Trang chủ</a>
+    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
+    {%- if oasis_cat %}
+    <a href="{{ get_taxonomy_url(kind='categories', name=oasis_cat) }}">{{ oasis_cat }}</a>
+    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
+    {%- endif %}
+    <span class="oasis__crumb-current">{{ page.title | truncate(length=48) }}</span>
+  </nav>
+
   {# ===== Hero — eyebrow / title / sub / stats ===== #}
   <header class="oasis__hero">
     {%- if oasis_cat %}<p class="oasis__eyebrow">{{ oasis_cat }}</p>{% endif %}
