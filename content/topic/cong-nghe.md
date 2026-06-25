@@ -2,7 +2,6 @@
 title = "Công nghệ & Dev"
 date = 2026-06-19
 description = "Pillar page — Công nghệ & Dev. Auto-updated by authority-booster."
-template = "page.html"
 aliases = ["/topic/cong-nghe/"]
 
 [extra]

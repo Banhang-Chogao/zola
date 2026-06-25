@@ -2,7 +2,6 @@
 title = "Tiếng Hàn"
 date = 2026-06-19
 description = "Pillar page — Tiếng Hàn. Auto-updated by authority-booster."
-template = "page.html"
 aliases = ["/topic/tieng-han/"]
 
 [extra]

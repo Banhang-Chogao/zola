@@ -1,11 +1,14 @@
 base_url = "https://seomoney.org"
+theme = "linkita"
 title = "SEOMONEY"
 description = "SEOMONEY — blog về SEO, công nghệ, du lịch và tài chính cá nhân: chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ. Tác giả: Duy Nguyen."
 # Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
 # xml:lang="vi" thay vì mặc định "en", khớp <html lang="vi">.
 default_language = "vi"
+author = "duynguyenlog"
 
 compile_sass = true
+# Linkita search uses elasticlunr — vi chưa được Zola hỗ trợ; tắt tạm để build pass.
 build_search_index = false
 
 # SEO: sinh feed RSS/Atom toàn site + cho từng taxonomy.
@@ -29,6 +32,14 @@ theme = "catppuccin-mocha"
 extra_syntaxes_and_themes = ["highlight_themes"]
 
 [extra]
+# Linkita theme
+header_menu_name = "menu"
+title_separator = " | "
+comment = false
+math = false
+mermaid = false
+menu_i18n = false
+
 # Optional AviationStack free-tier key for Flight DB API enrich (Search only)
 aviationstack_api_key = ""
 author = "duynguyenlog"
@@ -60,10 +71,7 @@ phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã g
 chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 """
 
-# Menu navigation — điều hướng chính. Top navbar ĐÃ GỠ → menu render ở
-# .side-nav (desktop: khối sticky ĐẦU cột phải, trên các widget) và .nav-drawer
-# (mobile/tablet ≤960px: hamburger → drawer trượt từ phải). Danh sách PHẲNG,
-# không dropdown. Liên kết About/legal nằm ở footer. Thêm/bớt = sửa mảng này.
+# Menu navigation — Linkita: extra.menus + header_menu_name; legacy templates: extra.menu.
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },
     { name = "Insights", url = "$BASE_URL/insights" },
@@ -71,6 +79,45 @@ menu = [
     { name = "Bài viết", url = "$BASE_URL/posting" },
     { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
 ]
+
+[extra.menus]
+menu = [
+    { name = "Trang chủ", url = "$BASE_URL/" },
+    { name = "Insights", url = "$BASE_URL/insights" },
+    { name = "Công cụ", url = "$BASE_URL/tools" },
+    { name = "Bài viết", url = "$BASE_URL/posting" },
+    { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
+]
+
+[extra.profiles.duynguyenlog]
+avatar_url = "https://seomoney.org/img/author-avatar.webp"
+avatar_alt = "Duy Nguyen"
+name = "Duy Nguyen"
+bio = """\
+Mình là Duy Nguyen — một developer Việt Nam mê khám phá điểm chung giữa \
+công nghệ và những chuyến đi. Tại blog này, mình ghi lại những trải nghiệm \
+cá nhân về việc xây dựng các sản phẩm phần mềm.\
+"""
+social = [
+    { name = "rss", url = "$BASE_URL/atom.xml" },
+]
+
+[extra.footer]
+since = 2024
+license_url = "https://creativecommons.org/licenses/by-sa/4.0/deed"
+copyright = "&copy; $YEAR Duy Nguyen &vert; [CC BY-SA 4.0]($LICENSE_URL)"
+
+[extra.languages.vi]
+locale = "vi_VN"
+date_format = "%d/%m/%Y"
+hreflang = "vi"
+
+[extra.style]
+bg_color = "#f4f4f5"
+bg_dark_color = "#18181b"
+header_blur = false
+header_color = "#e4e4e7"
+header_dark_color = "#27272a"
 
 # ============= GOOGLE ANALYTICS 4 =============
 # Lấy MEASUREMENT_ID tại https://analytics.google.com → Admin → Data Streams

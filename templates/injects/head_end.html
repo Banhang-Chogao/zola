@@ -1,0 +1,12 @@
+{% if config.extra.google_site_verification %}
+<meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">
+{% endif %}
+{% if config.extra.ga_measurement_id %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ config.extra.ga_measurement_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ config.extra.ga_measurement_id }}');
+</script>
+{% endif %}
