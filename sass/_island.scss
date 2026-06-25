@@ -604,3 +604,125 @@ main.container:has(.island) { max-width: 1240px; }
   .island__cats { grid-template-columns: repeat(2, 1fr); }
   .island__kpis { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   04 · "Mới nhất & đáng đọc" — 4×2 grid: thumbnail on top,
+   title below on a solid colour @ 50% opacity (cycling S-DNA
+   palette). Elements live inside .island so --isl-* vars cascade.
+   ============================================================ */
+.island__newest {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 2.6rem;
+}
+.island__ncard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--isl-border);
+  border-radius: var(--isl-radius);
+  overflow: hidden;
+  background: var(--isl-surface);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.island__ncard:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(17, 17, 17, 0.10); }
+.island__ncard-thumb {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--isl-teal-soft);
+
+  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+}
+.island__ncard-title {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.75rem 0.85rem 0.85rem;
+  background: rgba(0, 167, 160, 0.5); /* default — overridden per card */
+}
+.island__ncard-cat {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--isl-ink);
+  opacity: 0.72;
+}
+.island__ncard-text {
+  font-family: $font-heading;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: var(--isl-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Cycling palette — solid colour @ ~50% opacity (S-DNA + reference hues). */
+.island__ncard--0 .island__ncard-title { background: rgba(0, 167, 160, 0.50); }   /* teal */
+.island__ncard--1 .island__ncard-title { background: rgba(0, 55, 132, 0.42); }    /* Ericsson blue */
+.island__ncard--2 .island__ncard-title { background: rgba(224, 122, 122, 0.50); } /* red */
+.island__ncard--3 .island__ncard-title { background: rgba(232, 168, 56, 0.55); }  /* amber */
+.island__ncard--4 .island__ncard-title { background: rgba(155, 143, 212, 0.50); } /* purple */
+.island__ncard--5 .island__ncard-title { background: rgba(91, 155, 213, 0.50); }  /* sky */
+.island__ncard--6 .island__ncard-title { background: rgba(79, 178, 134, 0.50); }  /* green */
+.island__ncard--7 .island__ncard-title { background: rgba(240, 136, 62, 0.52); }  /* orange */
+
+/* 05 · board — rankings + deploy + calendar row */
+.island__board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  align-items: start;
+}
+
+@media (max-width: 1040px) { .island__newest { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 760px)  { .island__newest { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 380px)  { .island__newest { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; } }
+
+/* ===== Weather forecast widget (S-DNA) — compact card in the board ===== */
+.island__weather {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+.island__weather-icon {
+  width: 2.6rem;
+  height: 2.6rem;
+  color: var(--isl-blue-accent);
+  flex-shrink: 0;
+
+  svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+}
+.island__weather-main { display: flex; flex-direction: column; gap: 0.18rem; min-width: 0; }
+.island__weather-city {
+  font-family: $font-heading;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--isl-ink);
+  line-height: 1.2;
+}
+.island__weather-aqi {
+  font-size: 0.72rem;
+  color: var(--isl-muted);
+
+  strong { color: var(--isl-teal); font-weight: 700; }
+}
+.island__weather-temp { display: flex; flex-direction: column; align-items: flex-end; }
+.island__weather-now {
+  font-family: $font-heading;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--isl-ink);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.island__weather-unit { font-size: 0.8rem; font-weight: 700; color: var(--isl-muted); margin-left: 0.08rem; }
+.island__weather-hl { font-family: $font-mono; font-size: 0.72rem; color: var(--isl-muted); margin-top: 0.25rem; }
+.island__weather-note { margin: 0.7rem 0 0; font-size: 0.68rem; color: var(--isl-gray); font-style: italic; }
