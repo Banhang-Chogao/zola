@@ -19,11 +19,6 @@
 {%- set_global skip = false %}
 {%- if e.extra.premium | default(value=false) %}{% set_global skip = true %}{% endif %}
 {%- if e.extra.noindex | default(value=false) %}{% set_global skip = true %}{% endif %}
-{#- SEO 2026-06-25: trang tag = thin taxonomy (631 tag, 471 dùng 1 lần) → KHÔNG submit
-    qua sitemap (vẫn crawl được qua internal link, chỉ không "đề cử" cho Google). Giữ
-    /categories/ (16 hub thật). Sau khi gộp tag còn ~51 hub mạnh có thể đảo lại chọn lọc.
-    Xem KE-HOACH-INDEXING.md §3.1 (A2). -#}
-{%- if "/tags/" in e.permalink %}{% set_global skip = true %}{% endif %}
 {%- for frag in excluded %}{% if frag in e.permalink %}{% set_global skip = true %}{% endif %}{% endfor %}
 {%- if not skip %}
     <url>

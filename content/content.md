@@ -71,6 +71,10 @@ name = "B-DNA"
 path = "tools/b-dna"
 vip = false
 [[extra.tools]]
+name = "ShortenSEA"
+path = "shortensea"
+vip = true
+[[extra.tools]]
 name = "Font Guideline"
 path = "font"
 vip = false

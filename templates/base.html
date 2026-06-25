@@ -201,9 +201,7 @@
          1) ẢNH THẬT đầu tiên trong thân bài (page.content) — bỏ qua /placeholder/
          2) page.extra.og_image (override) → page.extra.thumbnail (nếu là ảnh thật)
          3) section.extra.thumbnail (nếu là ảnh thật)
-         4) Card mặc định S-DNA WWDC26 1200×630 /img/og/seomoney-og.og.webp
-            (twin rasterise từ seomoney-og.svg; .webp là định dạng phát hành
-            duy nhất của site — optimize-images xoá mọi raster .jpg/.png).
+         4) Card mặc định S-DNA dựng sẵn (https://assets.seomoney.org/img/og/seomoney-og.og.webp)
        Ảnh /placeholder/ bị coi là "chưa có ảnh" → rơi xuống card S-DNA cho đẹp,
        thay vì hiện ảnh placeholder generic khi share. #}
     {% set_global og_src = "" %}
@@ -313,46 +311,27 @@
             "url": "{{ config.base_url | safe }}",
             "logo": {
                 "@type": "ImageObject",
-                "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-logo.webp')) | safe }}",
-                "width": 512,
-                "height": 512
-            },
-            "image": "{{ config.base_url | safe }}/img/og/seomoney-og.og.webp"
+                "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) | safe }}"
+            }
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "{{ canonical_url | safe }}"
         },
-        "inLanguage": "vi-VN",
         "description": {{ page_description | json_encode | safe }}
         {% else %}
-        {# Homepage / section / taxonomy → @graph: standalone WebSite + Organization
-           (Google reads Organization.logo for the brand/knowledge-panel logo from a
-           top-level node, not a nested publisher). #}
-        "@graph": [
-            {
-                "@type": "WebSite",
-                "@id": "{{ config.base_url | safe }}/#website",
-                "name": {{ config.title | json_encode | safe }},
-                "url": "{{ config.base_url | safe }}",
-                "description": {{ page_description | json_encode | safe }},
-                "inLanguage": "vi-VN",
-                "publisher": { "@id": "{{ config.base_url | safe }}/#organization" }
-            },
-            {
-                "@type": "Organization",
-                "@id": "{{ config.base_url | safe }}/#organization",
-                "name": {{ config.title | json_encode | safe }},
-                "url": "{{ config.base_url | safe }}",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-logo.webp')) | safe }}",
-                    "width": 512,
-                    "height": 512
-                },
-                "image": "{{ config.base_url | safe }}/img/og/seomoney-og.og.webp"
+        "@type": "WebSite",
+        "name": {{ config.title | json_encode | safe }},
+        "url": "{{ config.base_url | safe }}",
+        "description": {{ page_description | json_encode | safe }},
+        "publisher": {
+            "@type": "Organization",
+            "name": {{ config.title | json_encode | safe }},
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ get_url(path=config.extra.brand_mark | default(value='img/brand/seomoney-mark.svg')) | safe }}"
             }
-        ]
+        }
         {% endif %}
     }
     </script>
@@ -1371,9 +1350,6 @@
         </div>
         {% endif %}
       <a class="site-footer__author-mgmt" href="/admin-countdown/">⏱ Countdown</a>
-
-        {# WD Heartbeat Stats — WWDC26 calm-first deploy overview (build-time) #}
-        {% include "partials/wd-heartbeat.html" %}
 </footer>
   {% include "partials/turnstile_footer.html" %}
   {# Open PR Monitor is intentionally kept here (global footer ops monitor).
