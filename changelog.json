@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "Nokia theme — Phase 1 (opt-in switcher) + design notes/demo/plan [DRAFT review]",
+      "tag": "chore",
+      "lines_added": 1077,
+      "lines_removed": 5,
+      "highlights": [
+        "Theme nokia = lớp MÀU thứ 2, bật qua nút \"Giao diện màu\" trong nav-drawer.",
+        "Chỉ đổi MÀU (token --c-: accent #****→#005AFF, navy…). *GIỮ NGUYÊN",
+        "Cô lập: toàn bộ Nokia trong _nokia-theme.scss (import cuối). KHÔNG sửa",
+        "Nút toggle trong drawer → responsive desktop+mobile, không floating (V21-safe).",
+        "zola build exit 0 · qa_check.py exit 0 (Vaccine 0 fail, V21/SEARCH-UI/TOC-RAIL/EDITOR PASS, security sạch, watermark OK)."
+      ],
+      "pr": 913
+    },
+    {
+      "date": "2026-06-25",
       "title": "WWDC 26 theme integration (PR #908 + #909)",
       "tag": "feat",
       "lines_added": 474,
