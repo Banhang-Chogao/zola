@@ -27,7 +27,7 @@ q = "Tối ưu intent có giúp tăng doanh thu AdSense không?"
 a = "Có. Khi nội dung khớp intent, người đọc ở lại lâu hơn, xem nhiều trang hơn và ít thoát ngay — nhờ đó số lần hiển thị quảng cáo tăng và RPM cải thiện một cách tự nhiên, không cần thêm vị trí quảng cáo nào."
 +++
 
-> 📚 **Series Tăng Organic Search (Bài 1/5)** — Đây là bài nền tảng. Bốn bài sau sẽ bàn về [topic cluster & internal link](/topic-cluster-internal-link-thong-minh/), [Core Web Vitals](/core-web-vitals-giam-bounce-rate-seo/), [backlink E-E-A-T](/backlink-tu-nhien-eeat-linkable-assets/) và [SEO × AdSense](/seo-adsense-toi-da-hoa-doanh-thu-organic/).
+> 📚 **Series Tăng Organic Search (Bài 1/5)** — Đây là bài nền tảng. Bốn bài sau sẽ bàn về [topic cluster & internal link](/posting/topic-cluster-internal-link-thong-minh/), [Core Web Vitals](/posting/core-web-vitals-giam-bounce-rate-seo/), [backlink E-E-A-T](/posting/backlink-tu-nhien-eeat-linkable-assets/) và [SEO × AdSense](/posting/seo-adsense-toi-da-hoa-doanh-thu-organic/).
 
 Bạn nghiên cứu từ khóa kỹ lưỡng, nhồi đúng keyword vào tiêu đề, chấm điểm SEO trên-trang 95/100 — mà bài vẫn nằm trang 3 Google. Quen không? Tôi đã gặp đúng tình cảnh đó suốt năm đầu làm SEO. Sự thật phũ phàng mà tôi học được: **phần lớn bài tụt hạng không phải vì sai từ khóa, mà vì sai search intent (ý định tìm kiếm).** Bài đầu tiên của series này sẽ chữa đúng gốc bệnh đó.
 
@@ -74,7 +74,7 @@ Bạn không cần đoán intent. Google đã trả lời sẵn trên trang kế
 - **Đọc thẻ tiêu đề top 3:** chúng dùng động từ gì? "là gì", "cách" → biết. "tốt nhất", "review" → so sánh. "mua", "giá" → giao dịch.
 - **Đối chiếu với bài của bạn:** định dạng bài bạn có khớp với 70% kết quả đang xếp hạng không? Nếu lệch, đó là lý do bạn không lên.
 
-Đây cũng là tiền đề cho [Bài 2 về topic cluster](/topic-cluster-internal-link-thong-minh/): khi đã hiểu intent từng từ khóa, bạn mới gom chúng thành cụm chủ đề hợp lý.
+Đây cũng là tiền đề cho [Bài 2 về topic cluster](/posting/topic-cluster-internal-link-thong-minh/): khi đã hiểu intent từng từ khóa, bạn mới gom chúng thành cụm chủ đề hợp lý.
 
 ## Checklist tối ưu Search Intent
 
@@ -90,7 +90,7 @@ Bạn không cần đoán intent. Google đã trả lời sẵn trên trang kế
 
 Nhiều người nghĩ doanh thu quảng cáo chỉ phụ thuộc lượng truy cập. Thực ra **chất lượng intent ảnh hưởng trực tiếp tới RPM**. Khi nội dung khớp ý định, người đọc không thoát ngay sau 3 giây (pogo-sticking) — họ cuộn, đọc, xem thêm bài. Mỗi giây ở lại thêm là thêm cơ hội hiển thị quảng cáo và tăng viewability — yếu tố mà AdSense thưởng điểm.
 
-Ngoài ra, từ khóa **Commercial** và **Transactional** thường có giá thầu quảng cáo (CPC) cao hơn Informational. Một blog biết phân bổ: bài Informational kéo traffic rộng, vài bài Commercial "tiền tươi" hốt RPM cao — sẽ tối ưu doanh thu mà không cần nhồi thêm đơn vị quảng cáo gây hại trải nghiệm. Chủ đề đặt quảng cáo ở đâu cho khéo, tôi sẽ mổ xẻ kỹ ở [Bài 5](/seo-adsense-toi-da-hoa-doanh-thu-organic/).
+Ngoài ra, từ khóa **Commercial** và **Transactional** thường có giá thầu quảng cáo (CPC) cao hơn Informational. Một blog biết phân bổ: bài Informational kéo traffic rộng, vài bài Commercial "tiền tươi" hốt RPM cao — sẽ tối ưu doanh thu mà không cần nhồi thêm đơn vị quảng cáo gây hại trải nghiệm. Chủ đề đặt quảng cáo ở đâu cho khéo, tôi sẽ mổ xẻ kỹ ở [Bài 5](/posting/seo-adsense-toi-da-hoa-doanh-thu-organic/).
 
 ## Kết bài
 

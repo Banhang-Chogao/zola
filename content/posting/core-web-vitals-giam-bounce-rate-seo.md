@@ -27,7 +27,7 @@ q = "Làm sao kiểm tra Core Web Vitals của trang?"
 a = "Dùng PageSpeed Insights (nhập URL), Google Search Console (báo cáo Core Web Vitals theo nhóm trang) hoặc tab Lighthouse trong Chrome DevTools. Ưu tiên dữ liệu thực tế (field data) từ người dùng thật hơn là dữ liệu phòng thí nghiệm."
 +++
 
-> 📚 **Series Tăng Organic Search (Bài 3/5)** — Sau khi nắn [search intent](/toi-uu-search-intent-tang-organic-search/) và dệt [topic cluster](/topic-cluster-internal-link-thong-minh/), giờ ta giữ chân người đọc bằng trải nghiệm. Bài tới: [backlink E-E-A-T](/backlink-tu-nhien-eeat-linkable-assets/) và [SEO × AdSense](/seo-adsense-toi-da-hoa-doanh-thu-organic/).
+> 📚 **Series Tăng Organic Search (Bài 3/5)** — Sau khi nắn [search intent](/posting/toi-uu-search-intent-tang-organic-search/) và dệt [topic cluster](/posting/topic-cluster-internal-link-thong-minh/), giờ ta giữ chân người đọc bằng trải nghiệm. Bài tới: [backlink E-E-A-T](/posting/backlink-tu-nhien-eeat-linkable-assets/) và [SEO × AdSense](/posting/seo-adsense-toi-da-hoa-doanh-thu-organic/).
 
 Bạn lên được top 5, lưu lượng đổ về — nhưng người dùng bấm vào rồi thoát ra trong 2 giây, và tuần sau bạn tụt hạng. Lý do thường rất "vật lý": trang tải chậm, chữ nhảy loạn khi đang đọc, nút bấm không phản hồi. Tối ưu **Core Web Vitals** là cách giữ người đọc ở lại đủ lâu để Google tin rằng bạn xứng đáng ở top.
 
@@ -89,7 +89,7 @@ Tốc độ mới là một nửa. Nửa còn lại là **khả năng đọc**:
 
 Đây là chỗ SEO và AdSense gặp nhau rõ nhất. Trang tải nhanh nghĩa là **quảng cáo cũng tải kịp trước khi người dùng cuộn qua** — tăng viewability, yếu tố cốt lõi của RPM. Trang chậm khiến người dùng cuộn vượt quảng cáo trước khi nó kịp hiện, hoặc thoát trước khi quảng cáo tải xong: tiền bay theo từng mili-giây trễ.
 
-CLS xấu còn nguy hiểm gấp đôi: quảng cáo nhảy chỗ gây **click nhầm** — vừa hại trải nghiệm vừa vi phạm chính sách AdSense về click không hợp lệ, có thể khiến tài khoản bị phạt. Vì vậy đặt kích thước khung quảng cáo cố định không chỉ tốt cho CLS mà còn bảo vệ tài khoản. Cách bố trí quảng cáo cân bằng giữa doanh thu và UX, tôi mổ xẻ ở [Bài 5](/seo-adsense-toi-da-hoa-doanh-thu-organic/).
+CLS xấu còn nguy hiểm gấp đôi: quảng cáo nhảy chỗ gây **click nhầm** — vừa hại trải nghiệm vừa vi phạm chính sách AdSense về click không hợp lệ, có thể khiến tài khoản bị phạt. Vì vậy đặt kích thước khung quảng cáo cố định không chỉ tốt cho CLS mà còn bảo vệ tài khoản. Cách bố trí quảng cáo cân bằng giữa doanh thu và UX, tôi mổ xẻ ở [Bài 5](/posting/seo-adsense-toi-da-hoa-doanh-thu-organic/).
 
 ## Kết bài
 

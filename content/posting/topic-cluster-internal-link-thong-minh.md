@@ -27,7 +27,7 @@ q = "Nên đặt bao nhiêu internal link mỗi bài?"
 a = "Không có con số tuyệt đối, nhưng 3-8 link nội bộ phù hợp ngữ cảnh là hợp lý cho một bài 1200-1500 từ. Quan trọng là link đúng chỗ, anchor text mô tả rõ, và luôn trỏ về bài trụ của cụm."
 +++
 
-> 📚 **Series Tăng Organic Search (Bài 2/5)** — Tiếp nối [Bài 1 về search intent](/toi-uu-search-intent-tang-organic-search/). Khi đã hiểu ý định từng từ khóa, giờ là lúc gom chúng thành cụm chủ đề có sức mạnh. Các bài sau: [Core Web Vitals](/core-web-vitals-giam-bounce-rate-seo/), [backlink E-E-A-T](/backlink-tu-nhien-eeat-linkable-assets/), [SEO × AdSense](/seo-adsense-toi-da-hoa-doanh-thu-organic/).
+> 📚 **Series Tăng Organic Search (Bài 2/5)** — Tiếp nối [Bài 1 về search intent](/posting/toi-uu-search-intent-tang-organic-search/). Khi đã hiểu ý định từng từ khóa, giờ là lúc gom chúng thành cụm chủ đề có sức mạnh. Các bài sau: [Core Web Vitals](/posting/core-web-vitals-giam-bounce-rate-seo/), [backlink E-E-A-T](/posting/backlink-tu-nhien-eeat-linkable-assets/), [SEO × AdSense](/posting/seo-adsense-toi-da-hoa-doanh-thu-organic/).
 
 Bạn viết được 50 bài nhưng mỗi bài như một hòn đảo cô đơn — không bài nào lên top, traffic dàn mỏng. Tôi từng có một blog đúng như vậy: nội dung nhiều mà yếu, vì Google không thấy tôi là chuyên gia của bất kỳ chủ đề nào. Giải pháp không phải viết thêm bài, mà là **xây topic cluster** và dệt chúng lại bằng internal link thông minh.
 
@@ -43,7 +43,7 @@ Bài lẻ còn lãng phí "link juice" — sức mạnh xếp hạng từ backli
 
 ### Bài trụ (Pillar)
 
-Đây là bài bao quát chủ đề rộng, ví dụ "Hướng dẫn tăng Organic Search" — chính là vai trò của [Bài 1 trong series này](/toi-uu-search-intent-tang-organic-search/). Bài trụ dài, tổng quan, nhắm từ khóa rộng và cạnh tranh cao.
+Đây là bài bao quát chủ đề rộng, ví dụ "Hướng dẫn tăng Organic Search" — chính là vai trò của [Bài 1 trong series này](/posting/toi-uu-search-intent-tang-organic-search/). Bài trụ dài, tổng quan, nhắm từ khóa rộng và cạnh tranh cao.
 
 ### Bài con (Cluster)
 
@@ -67,7 +67,7 @@ Sau 8 tuần, tổng organic của cụm **tăng 180%**, và bài trụ — vố
 
 ## Internal Linking thông minh: làm đúng cách
 
-- **Anchor text mô tả, không generic:** "đọc tiếp [tối ưu Core Web Vitals](/core-web-vitals-giam-bounce-rate-seo/)" tốt hơn "đọc tiếp tại đây". Anchor giúp Google hiểu trang đích nói về gì.
+- **Anchor text mô tả, không generic:** "đọc tiếp [tối ưu Core Web Vitals](/posting/core-web-vitals-giam-bounce-rate-seo/)" tốt hơn "đọc tiếp tại đây". Anchor giúp Google hiểu trang đích nói về gì.
 - **Link theo ngữ cảnh, trong thân bài:** link nằm giữa đoạn văn liên quan có giá trị hơn link ở chân trang.
 - **Trỏ từ bài mới sang bài cũ và ngược lại:** mỗi khi xuất bản bài mới, quay lại 2-3 bài cũ liên quan để thêm link trỏ tới bài mới — đừng để bài mới "mồ côi".
 - **Không nhồi link:** 3-8 link nội bộ phù hợp cho bài 1200-1500 từ. Nhồi 30 link làm loãng giá trị và rối mắt.
@@ -87,10 +87,10 @@ Sau 8 tuần, tổng organic của cụm **tăng 180%**, và bài trụ — vố
 
 Topic cluster là cỗ máy tăng **số trang mỗi phiên** — chỉ số sống còn với doanh thu quảng cáo. Khi người đọc xong bài và thấy 3 link nội bộ hấp dẫn cùng chủ đề, họ click sang bài tiếp. Mỗi lần chuyển trang là một lượt tải quảng cáo mới, nhân tổng số hiển thị lên nhiều lần mà bạn không cần thêm bất kỳ đơn vị quảng cáo nào trên mỗi trang.
 
-Internal link tốt cũng giảm tỷ lệ thoát: thay vì đọc xong rồi đóng tab, người dùng đi sâu vào site. Phiên dài hơn, viewability cao hơn, RPM cải thiện. Đây là lý do tôi luôn coi internal linking là "đòn bẩy kép" — vừa lợi SEO, vừa lợi tiền. Chủ đề giữ chân người đọc bằng trải nghiệm trang, tôi bàn tiếp ở [Bài 3](/core-web-vitals-giam-bounce-rate-seo/).
+Internal link tốt cũng giảm tỷ lệ thoát: thay vì đọc xong rồi đóng tab, người dùng đi sâu vào site. Phiên dài hơn, viewability cao hơn, RPM cải thiện. Đây là lý do tôi luôn coi internal linking là "đòn bẩy kép" — vừa lợi SEO, vừa lợi tiền. Chủ đề giữ chân người đọc bằng trải nghiệm trang, tôi bàn tiếp ở [Bài 3](/posting/core-web-vitals-giam-bounce-rate-seo/).
 
 ## Kết bài
 
 Ngừng nghĩ theo "bài viết", hãy nghĩ theo "cụm chủ đề". Một topic cluster được dệt bằng internal link thông minh biến những bài lẻ yếu ớt thành một mạng lưới kéo nhau lên top — và giữ người đọc ở lại lâu hơn. Nhưng giữ chân người đọc còn phụ thuộc một yếu tố nữa: trải nghiệm tải trang.
 
-👉 Đọc tiếp **[Bài 3: Core Web Vitals và tỷ lệ thoát](/core-web-vitals-giam-bounce-rate-seo/)** để biết cách giữ người đọc không bỏ đi vì trang tải chậm. Khám phá thêm tại [chuyên mục Công nghệ](/categories/cong-nghe/).
+👉 Đọc tiếp **[Bài 3: Core Web Vitals và tỷ lệ thoát](/posting/core-web-vitals-giam-bounce-rate-seo/)** để biết cách giữ người đọc không bỏ đi vì trang tải chậm. Khám phá thêm tại [chuyên mục Công nghệ](/categories/cong-nghe/).
