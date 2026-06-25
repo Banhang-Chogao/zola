@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "WWDC 26 theme integration (PR #908 + #909)",
+      "tag": "feat",
+      "lines_added": 474,
+      "lines_removed": 114,
+      "highlights": [
+        "PR #908 (đã merge vào main): Phase 1–3 + Priority 1–2 → design tokens, component library, homepage (island-v2), post page (post-wwdc), wwdc26.html. → đã có sẵn trong main, feat/wwdc-final tạo từ main ",
+        "PR #909 delta = đúng 1 commit c08e3bd \"WWDC Priority 3 — Category / Listing pages\". → cherry-pick vào feat/wwdc-final.",
+        "Cherry-pick: sạch, 0 conflict.",
+        "SCSS: _wwdc-tokens + _wwdc-components + _wwdc-listing compile OK (dart-sass, 0 lỗi). Toàn bộ 18 token mà listing dùng đều tồn tại trong _wwdc-tokens.scss.",
+        "Tera templates: block cân bằng (if/for/block), logic listing được bảo toàn nguyên vẹn."
+      ],
+      "pr": 914
+    },
+    {
+      "date": "2026-06-25",
       "title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc-demo/)",
       "tag": "chore",
       "lines_added": 423,
