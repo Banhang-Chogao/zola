@@ -79,7 +79,7 @@
         width="{{ g_image_data.width | int }}"{% endif %}
         {%- if g_image_data.height is defined %}
         height="{{ g_image_data.height | int }}"{% endif %}
-      />
+      / loading="lazy" decoding="async">
     </figure>
     {%- endif %}
     {%- set page_toc = true %}

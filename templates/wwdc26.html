@@ -236,7 +236,7 @@
   <div class="wwdc-grid" id="wwdc-grid">
     {% for s in sessions %}
     <article class="wwdc-card" data-category="{{ s.category }}" data-title="{{ s.title | lower }}" data-desc="{{ s.description | lower }}">
-      {% if s.image %}<img class="wwdc-card__image" src="{{ s.image }}" alt="{{ s.title }}" loading="lazy" />{% endif %}
+      {% if s.image %}<img class="wwdc-card__image" src="{{ s.image }}" alt="{{ s.title }}" loading="lazy" / decoding="async">{% endif %}
       <div class="wwdc-card__content">
         <div class="wwdc-card__meta">
           <span class="wwdc-card__id">#{{ s.id }}</span>
