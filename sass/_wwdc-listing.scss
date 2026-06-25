@@ -1,0 +1,335 @@
+/* ============================================================
+   WWDC 2026 — Category / Listing Pages (Priority 3)
+   ============================================================
+   Apple-inspired listing for section + taxonomy pages.
+   Scoped under `.wwdc-listing` so the global `.post-card`
+   styles (used elsewhere) stay untouched. Uses Phase 1 design
+   tokens (var(--wwdc-*)); dark mode handled by the tokens.
+
+   Kept INSIDE the existing layout-grid (sidebar preserved) →
+   non-destructive: nav, premium CTA, SEO widgets, pagination,
+   and series listing all remain. Grid is 2-col in the main
+   column (→ 1-col on mobile).
+   ============================================================ */
+
+.wwdc-listing {
+  /* ── Header (minimal, Apple-style) ──────────────────── */
+  &__header {
+    margin: 0 0 var(--wwdc-space-8);
+    padding-bottom: var(--wwdc-space-6);
+    border-bottom: 1px solid var(--wwdc-border);
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    margin: 0 0 var(--wwdc-space-3);
+    font-family: var(--wwdc-family-mono);
+    font-size: var(--wwdc-text-xs);
+    font-weight: var(--wwdc-font-heavy);
+    letter-spacing: var(--wwdc-letter-caps);
+    text-transform: uppercase;
+    color: var(--wwdc-accent);
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--wwdc-family-display);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: var(--wwdc-font-heavy);
+    line-height: var(--wwdc-leading-tight);
+    letter-spacing: var(--wwdc-letter-tight);
+    color: var(--wwdc-ink);
+  }
+
+  &__count {
+    margin: var(--wwdc-space-3) 0 0;
+    font-size: var(--wwdc-text-base);
+    font-weight: var(--wwdc-font-medium);
+    color: var(--wwdc-muted);
+
+    strong {
+      color: var(--wwdc-ink);
+      font-family: var(--wwdc-family-mono);
+      font-weight: var(--wwdc-font-bold);
+    }
+  }
+
+  /* ── Card grid (2-col in main column → 1-col mobile) ─── */
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--wwdc-space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: var(--wwdc-space-5);
+    }
+  }
+}
+
+/* ── Post Card (vertical: image top, content below) ───── */
+.wwdc-post-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--wwdc-border);
+  border-radius: var(--wwdc-radius-lg);
+  background: var(--wwdc-surface);
+  overflow: hidden;
+  transition: border-color var(--wwdc-transition-base),
+              box-shadow var(--wwdc-transition-base),
+              transform var(--wwdc-transition-base);
+
+  &:hover {
+    border-color: var(--wwdc-border-strong);
+    box-shadow: var(--wwdc-shadow-lg);
+    transform: translateY(-6px);
+  }
+
+  &__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--wwdc-soft);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform var(--wwdc-transition-slow);
+    }
+  }
+
+  &:hover &__media img {
+    transform: scale(1.04);
+  }
+
+  /* Badge floating on the image (premium / category) */
+  &__badge {
+    position: absolute;
+    top: var(--wwdc-space-3);
+    left: var(--wwdc-space-3);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wwdc-space-1);
+    padding: var(--wwdc-space-1) var(--wwdc-space-3);
+    border-radius: var(--wwdc-radius-pill);
+    font-size: var(--wwdc-text-xs);
+    font-weight: var(--wwdc-font-heavy);
+    letter-spacing: var(--wwdc-letter-wide);
+    text-transform: uppercase;
+    background: var(--wwdc-accent);
+    color: #fff;
+    box-shadow: var(--wwdc-shadow-sm);
+    backdrop-filter: var(--wwdc-glass-backdrop);
+  }
+
+  &__badge--premium {
+    background: linear-gradient(135deg, var(--wwdc-orange), var(--wwdc-pink));
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    gap: var(--wwdc-space-3);
+    padding: var(--wwdc-space-5);
+
+    @media (max-width: 480px) {
+      padding: var(--wwdc-space-4);
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--wwdc-space-3);
+    font-size: var(--wwdc-text-xs);
+    font-weight: var(--wwdc-font-semibold);
+    color: var(--wwdc-muted);
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--wwdc-space-1);
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--wwdc-family-display);
+    font-size: var(--wwdc-text-xl);
+    font-weight: var(--wwdc-font-bold);
+    line-height: var(--wwdc-leading-tight);
+    letter-spacing: var(--wwdc-letter-tight);
+    color: var(--wwdc-ink);
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--wwdc-transition-fast);
+
+      &:hover {
+        color: var(--wwdc-accent);
+      }
+    }
+  }
+
+  &__summary {
+    margin: 0;
+    font-size: var(--wwdc-text-base);
+    line-height: var(--wwdc-leading-relaxed);
+    color: var(--wwdc-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__more {
+    margin-top: auto;
+    padding-top: var(--wwdc-space-2);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wwdc-space-1);
+    font-size: var(--wwdc-text-sm);
+    font-weight: var(--wwdc-font-bold);
+    letter-spacing: var(--wwdc-letter-wide);
+    text-transform: uppercase;
+    color: var(--wwdc-accent);
+    text-decoration: none;
+    width: fit-content;
+
+    .wwdc-post-card__arrow {
+      transition: transform var(--wwdc-transition-fast);
+    }
+
+    &:hover .wwdc-post-card__arrow {
+      transform: translateX(4px);
+    }
+  }
+}
+
+/* ── Term Index (taxonomy_list: grid of category/tag cards) ─ */
+.wwdc-term-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--wwdc-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--wwdc-space-3);
+  }
+}
+
+.wwdc-term-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wwdc-space-3);
+  padding: var(--wwdc-space-4) var(--wwdc-space-5);
+  border: 1px solid var(--wwdc-border);
+  border-radius: var(--wwdc-radius-lg);
+  background: var(--wwdc-surface);
+  color: var(--wwdc-ink);
+  font-weight: var(--wwdc-font-semibold);
+  text-decoration: none;
+  transition: border-color var(--wwdc-transition-base),
+              box-shadow var(--wwdc-transition-base),
+              transform var(--wwdc-transition-base);
+
+  &:hover {
+    border-color: var(--wwdc-accent);
+    box-shadow: var(--wwdc-shadow-md);
+    transform: translateY(-3px);
+    color: var(--wwdc-accent);
+  }
+
+  &__name {
+    font-family: var(--wwdc-family-display);
+    font-size: var(--wwdc-text-lg);
+    line-height: var(--wwdc-leading-tight);
+  }
+
+  &__count {
+    flex-shrink: 0;
+    min-width: 28px;
+    padding: var(--wwdc-space-1) var(--wwdc-space-2);
+    border-radius: var(--wwdc-radius-pill);
+    background: var(--wwdc-soft);
+    color: var(--wwdc-muted);
+    font-family: var(--wwdc-family-mono);
+    font-size: var(--wwdc-text-xs);
+    font-weight: var(--wwdc-font-bold);
+    text-align: center;
+  }
+
+  &:hover &__count {
+    background: var(--wwdc-accent-soft);
+    color: var(--wwdc-accent);
+  }
+}
+
+/* ── Pagination (WWDC-scoped polish over shared markup) ── */
+.wwdc-listing .pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wwdc-space-5);
+  margin-top: var(--wwdc-space-10);
+  padding-top: var(--wwdc-space-6);
+  border-top: 1px solid var(--wwdc-border);
+
+  &__info {
+    font-size: var(--wwdc-text-sm);
+    font-weight: var(--wwdc-font-semibold);
+    color: var(--wwdc-muted);
+    letter-spacing: var(--wwdc-letter-wide);
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wwdc-space-2);
+    padding: var(--wwdc-space-3) var(--wwdc-space-5);
+    border: 1px solid var(--wwdc-border);
+    border-radius: var(--wwdc-radius-pill);
+    background: var(--wwdc-surface);
+    color: var(--wwdc-ink);
+    font-size: var(--wwdc-text-sm);
+    font-weight: var(--wwdc-font-semibold);
+    text-decoration: none;
+    transition: border-color var(--wwdc-transition-fast),
+                background-color var(--wwdc-transition-fast),
+                color var(--wwdc-transition-fast);
+
+    &:hover {
+      border-color: var(--wwdc-accent);
+      background: var(--wwdc-accent);
+      color: #fff;
+    }
+  }
+
+  @media (max-width: 480px) {
+    gap: var(--wwdc-space-3);
+    flex-wrap: wrap;
+  }
+}
+
+/* ── Empty state ──────────────────────────────────────── */
+.wwdc-listing__empty {
+  padding: var(--wwdc-space-12) var(--wwdc-space-4);
+  text-align: center;
+  color: var(--wwdc-muted);
+  font-size: var(--wwdc-text-base);
+}
