@@ -11,6 +11,13 @@
    to the institutional WWDC look on the standard light theme.
    ============================================================ */
 
+/* Full-width single column — match the WWDC26 reference (no sidebar),
+   mirroring how /wwdc26/ forces `.layout-grid:has(.wwdc)`. The post keeps
+   its article + sticky TOC rail; the base.html sidebar is emptied in
+   templates/page.html so this applies to every post. */
+.layout-grid:has(.oasis) { grid-template-columns: minmax(0, 1fr); }
+main.container:has(.oasis) { max-width: 1180px; }
+
 .oasis {
   --o-ink:           var(--c-text-heading, #0a0a0a);
   --o-body:          var(--c-text, #333);

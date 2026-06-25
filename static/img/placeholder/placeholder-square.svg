@@ -1,18 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800" role="img" aria-label="SEOMONEY">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#38bdf8"/>
-      <stop offset="1" stop-color="#1d4ed8"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E2F5F2"/>
     </linearGradient>
+    <pattern id="dots" width="41.6" height="41.6" patternUnits="userSpaceOnUse">
+      <circle cx="20.8" cy="20.8" r="2.8" fill="#00A7A0" opacity="0.07"/>
+    </pattern>
   </defs>
-  <rect width="800" height="800" fill="url(#g)"/>
-  <circle cx="688" cy="144" r="144" fill="#93c5fd" opacity="0.10"/>
-  <circle cx="96" cy="688" r="112" fill="#93c5fd" opacity="0.08"/>
-  <text x="400.0" y="528" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
-        font-weight="800" font-size="128" fill="#ffffff" opacity="0.06" letter-spacing="4">SEOMONEY</text>
-  <g opacity="0.92">
-    <rect x="280" y="348" width="240" height="104" rx="29" fill="#ffffff" opacity="0.14"/>
-    <text x="400.0" y="419" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
-          font-weight="800" font-size="44" fill="#ffffff" letter-spacing="3">SEOMONEY</text>
-  </g>
+
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <circle cx="680" cy="128" r="136" fill="#00A7A0" opacity="0.045"/>
+  <circle cx="104" cy="704" r="104" fill="#00A7A0" opacity="0.04"/>
+  <rect x="36.0" y="36.0" width="728.0" height="728.0" rx="24.0" fill="url(#dots)"/>
+  <rect x="36.0" y="36.0" width="728.0" height="728.0" rx="24.0" fill="none" stroke="#00A7A0" stroke-width="1.76" opacity="0.28"/>
+
+  <circle cx="400.0" cy="320.0" r="144.7" fill="none" stroke="#00A7A0" stroke-width="2.0" opacity="0.20"/>
+  <circle cx="400.0" cy="320.0" r="108.0" fill="#DDF4F2" stroke="#00A7A0" stroke-width="5.9"/>
+  <g transform="translate(346.0 266.0) scale(4.5)" fill="none" stroke="#00A7A0" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></g>
+
+  <text x="400.0" y="548" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+        font-weight="800" font-size="61" letter-spacing="6.1" fill="#0B6E69">SEOMONEY</text>
+  <rect x="370.0" y="585" width="60" height="5" rx="2" fill="#00A7A0"/>
+  <text x="400.0" y="633" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+        font-weight="600" font-size="24" letter-spacing="8.2" fill="#5E8E8B">SEOMONEY.ORG</text>
 </svg>

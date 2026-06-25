@@ -2,7 +2,7 @@
 title = "Tại sao oxygen hoá trắng để dùng? Khoa học đằng sau tẩy trắng"
 description = "Tẩy trắng sử dụng hydrogen peroxide hoặc oxygen để phá vỡ các phân tử phân tử màu. Đây là một quá trình hóa học bản chất, không phải một thủ thuật ma thuật."
 date = 2026-06-22
-aliases = ["/tai-sao-oxy-hoa-trang-diều-dung/"]
+aliases = ["/tai-sao-oxy-hoa-trang-dieu-dung/"]
 [taxonomies]
 categories = ["Tất cả", "Khoa học"]
 tags = ["hóa học", "khoa học q&a", "tẩy trắng"]

@@ -1331,7 +1331,10 @@ def check_seomoney_brand(ctx: Ctx) -> CheckResult:
     if '"Duy Nguyen"' not in aj:
         fails.append("author.json: tên tác giả 'Duy Nguyen' bị mất (phải giữ author identity)")
 
-    # OG default (SEOMONEY) — svg + committed twin.
+    # OG default (SEOMONEY) — svg source + committed .og.webp twin.
+    # .webp is the site's only release format (optimize-images.yml deletes every
+    # raster .jpg/.png), so the og:image default must be the stable .og.webp twin
+    # rasterised from seomoney-og.svg — never a raster that the pipeline would eat.
     if not ctx.exists("static/img/og/seomoney-og.svg"):
         fails.append("thiếu static/img/og/seomoney-og.svg (OG default SEOMONEY)")
     if not ctx.exists("static/img/og/seomoney-og.og.webp"):
