@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "WWDC 26 listing demo page (PR #909 preview)",
+      "tag": "feat",
+      "lines_added": 423,
+      "lines_removed": 0,
+      "highlights": [
+        "templates/wwdc-demo.html — New demo template with:",
+        "Inline WWDC listing styles (post-card grid, term-card grid, pagination)",
+        "Real post data from posting/ and baochi/ sections (excluding feed anchors)",
+        "Real category taxonomy with item counts",
+        "Static pagination UI for style preview"
+      ],
+      "pr": 916
+    },
+    {
+      "date": "2026-06-25",
       "title": "Pr 917",
       "tag": "chore",
       "lines_added": 176,
