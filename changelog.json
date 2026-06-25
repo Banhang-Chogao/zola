@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc-demo/)",
+      "tag": "chore",
+      "lines_added": 423,
+      "lines_removed": 0,
+      "highlights": [
+        "Post-card grid — dùng bài viết thật gần nhất (gộp posting + baochi, bỏ feed-anchor — đúng logic section.html).",
+        "Term-card grid — dùng categories thật (get_taxonomy).",
+        "Pagination dạng pill (tĩnh, chỉ để xem style).",
+        "GIỮ sidebar đúng như trang danh mục thật (taxonomy_single) → preview trung thực.",
+        "Tera balance: if 6/6 · for 3/3 · block 5/5 ✓"
+      ],
+      "pr": 915
+    },
+    {
+      "date": "2026-06-25",
       "title": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ [claude/adoring-mayer-jrca7z]",
       "tag": "chore",
       "lines_added": 606,
