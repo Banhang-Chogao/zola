@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-25T23:28:17Z",
+  "updated_at": "2026-06-25T23:36:11Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 37,
-    "this_week": 175,
+    "today": 39,
+    "this_week": 177,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "fix": 107,
       "unknown": 34,
-      "fix": 106,
-      "feature": 43,
+      "feature": 42,
       "ci": 3,
       "chore": 10,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 929,
+      "pr_title": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Countdown [fix/footer-remove-deploy-status]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/929",
+      "merged_at": "2026-06-25T23:28:54Z",
+      "merge_commit_sha": "14c6f0f4cb7fcdc72b31115715c50da4bad2a66e",
+      "merge_commit_short": "14c6f0f",
+      "head_branch": "fix/footer-remove-deploy-status",
+      "summary_vi": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Countdown",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 4,
+      "deletions": 53,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1161,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207001126",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 928,
       "pr_title": "Redesign SEOMONEY homepage: 3-column editorial portal layout [claude/seomoney-homepage-redesign-j7x31f]",
@@ -400,6 +419,25 @@
       "build_conclusion": "success"
     },
     {
+      "pr_number": 900,
+      "pr_title": "fix(links): clear remaining 5 broken internal links (qa-404 gate) [claude/charming-knuth-hquqro]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/900",
+      "merged_at": "2026-06-25T11:01:20Z",
+      "merge_commit_sha": "b99f0ee04c36df601ecf576b18886c614560b74f",
+      "merge_commit_short": "b99f0ee",
+      "head_branch": "claude/charming-knuth-hquqro",
+      "summary_vi": "- seo(index): tắt feed tags + loại tag mỏng khỏi sitemap + siết robots [Phase 1+3 Tier A]",
+      "change_type": "fix",
+      "files_changed": 38,
+      "additions": 1037,
+      "deletions": 398,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1140,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28165470442",
+      "build_conclusion": "success"
+    },
+    {
       "pr_number": 901,
       "pr_title": "feat(tools): add SEO Money B-DNA dashboard demo (standalone UI) [claude/seo-money-dashboard-gj3sko]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/901",
@@ -528,8 +566,8 @@
       "deletions": 24,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1132,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28158466419",
+      "build_run_number": 1134,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28159931479",
       "build_conclusion": "success"
     },
     {
@@ -547,9 +585,9 @@
       "deletions": 9,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1131,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28152405665",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 892,
@@ -566,9 +604,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1131,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28152405665",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 889,
@@ -3566,44 +3604,6 @@
       "files_changed": 4,
       "additions": 241,
       "deletions": 2,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 682,
-      "pr_title": "fix(uptime): show seomoney monitor only [claude/exciting-meitner-xdwr6x]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/682",
-      "merged_at": "2026-06-21T19:06:07Z",
-      "merge_commit_sha": "e954bafcb17c9a2de5a771c4e6877ba9bae4fe4e",
-      "merge_commit_short": "e954baf",
-      "head_branch": "claude/exciting-meitner-xdwr6x",
-      "summary_vi": "fix(uptime): show seomoney monitor only",
-      "change_type": "fix",
-      "files_changed": 3,
-      "additions": 203,
-      "deletions": 291,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 688,
-      "pr_title": "Merge remote-tracking branch 'origin/main' into feat/ngay-cua-cha-baochi [feat/ngay-cua-cha-baochi]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/688",
-      "merged_at": "2026-06-21T19:05:48Z",
-      "merge_commit_sha": "e41798ddf581817b1cab6ee34fa5fd3444fca97d",
-      "merge_commit_short": "e41798d",
-      "head_branch": "feat/ngay-cua-cha-baochi",
-      "summary_vi": "- feat(baochi): add Father's Day article (Dân Trí style, SEO A+)",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 66,
-      "deletions": 134,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
