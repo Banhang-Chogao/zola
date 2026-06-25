@@ -3,27 +3,26 @@
    Responsive: 1 col mobile, 2 col tablet, 3 col desktop.
 #}
 
-{% if page.lower or page.higher %}
+{%- if page.section -%}
+{%- set section_path = page.section -%}
+{%- set related_section = get_section(path=section_path) -%}
+{%- set related = [] -%}
+
+{%- if related_section and related_section.pages -%}
+  {%- for p in related_section.pages -%}
+    {%- if p.permalink != page.permalink -%}
+      {%- set related = related | concat(with=[p]) -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if related | length > 0 -%}
 <section class="related-posts" aria-labelledby="related-posts-title">
   <div class="related-posts__header">
     <h2 id="related-posts-title" class="related-posts__title">📚 Bài viết liên quan</h2>
   </div>
 
   <div class="related-posts__grid">
-    {# Collect related posts from same section #}
-    {# Try to get parent section pages #}
-    {% set related = [] %}
-    {% if page.higher %}
-      {% set section = get_section(path=page.higher) %}
-      {% if section and section.pages %}
-        {% for p in section.pages %}
-          {% if p.path != page.path %}
-            {% set_global related = related | concat(with=[p]) %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endif %}
-
     {% for post in related | slice(end=6) %}
     <article class="related-posts__card">
       {# Thumbnail #}
@@ -91,4 +90,5 @@
     {% endfor %}
   </div>
 </section>
-{% endif %}
+{%- endif -%}
+{%- endif -%}
