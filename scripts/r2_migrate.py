@@ -86,6 +86,17 @@ CONTENT_TYPES = {
 
 REQUIRED_ENV = ("R2_BUCKET", "R2_ENDPOINT", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY")
 
+# Emergency kill-switch — R2/S3 uploads disabled unless explicitly re-enabled.
+# Set R2_ENABLED=true AND unset CLOUDFLARE_R2_DISABLED to opt back in.
+R2_DISABLED = (
+    os.environ.get("CLOUDFLARE_R2_DISABLED", "true").lower() in ("1", "true", "yes")
+    or os.environ.get("R2_ENABLED", "false").lower() not in ("1", "true", "yes")
+)
+
+
+def r2_connections_disabled() -> bool:
+    return R2_DISABLED
+
 
 def log(msg: str) -> None:
     print(msg, flush=True)
@@ -151,6 +162,9 @@ def collect_files(roots: list[str]) -> list[tuple[Path, str]]:
 
 
 def make_client(env: dict[str, str]):
+    if r2_connections_disabled():
+        log("ERROR: Cloudflare R2 connections are disabled (R2_ENABLED=false / CLOUDFLARE_R2_DISABLED=true).")
+        sys.exit(3)
     try:
         import boto3
         from botocore.config import Config
@@ -240,6 +254,11 @@ def upload_one(client, bucket: str, fp: Path, key: str, force: bool,
 
 
 def main() -> int:
+    if r2_connections_disabled():
+        log("R2 migration disabled — no Cloudflare R2/S3 connections will be made.")
+        log("Re-enable with R2_ENABLED=true and CLOUDFLARE_R2_DISABLED unset/false.")
+        return 0
+
     ap = argparse.ArgumentParser(description="Upload static media assets to Cloudflare R2.")
     ap.add_argument("--roots", nargs="*", default=DEFAULT_ROOTS,
                     help="static/ subdirs to migrate (default: %(default)s)")
