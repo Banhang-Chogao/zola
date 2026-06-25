@@ -43,8 +43,7 @@ PHÂN BỐ ĐỘ DÀI (239 bài công khai):
 
 TAXONOMY:
   Tags:        631 unique  →  471 dùng 1 lần · 58 dùng 2 lần · 42 dùng 3–4 · 34 dùng 5–9 · 26 dùng 10+
-  Categories:  16 (gồm "Tất cả" gắn 269 bài — CÓ CHỦ ĐÍCH: hub /categories/tat-ca/,
-                   check_category_first bắt buộc đứng đầu mọi bài → GIỮ, KHÔNG xoá)
+  Categories:  16 (gồm "Tất cả" gắn 269 bài — vô nghĩa SEO, cần bỏ)
   Feed:        feed=true cho CẢ tags lẫn categories → ~ (631+16) × 2 = 1.294 feed URL mỏng
 ```
 
@@ -113,16 +112,10 @@ khi term có `< 3` bài:
 - Tag trùng do format gộp luôn: `ci/cd`(11) + `ci cd`(6) → `ci/cd`; `khoa học q&a`(29) + `khoa học Q&A`(1) → `khoa học q&a`.
 - Tag tiếng Hàn 1-lần (`받침`, `높임말`, `간접화법`…) → gộp vào `ngữ pháp tiếng hàn` hoặc xoá.
 
-### A4. ~~Bỏ category "Tất cả"~~ → ĐÃ HUỶ (giữ nguyên — infrastructure có chủ đích)
+### A4. Bỏ category rác "Tất cả"
 
-> ⚠️ **Đính chính sau khi audit code:** kế hoạch ban đầu định gỡ `"Tất cả"`. **SAI.**
-> `scripts/qa_vaccines.py::check_category_first` bắt buộc **mọi bài có "Tất cả" đứng ĐẦU**
-> mảng categories → hub `/categories/tat-ca/` gom toàn bộ bài (thiết kế có chủ đích).
-> Gỡ "Tất cả" sẽ vỡ hub + WARN toàn site. → **GIỮ NGUYÊN.** `remove_category` trong map = `[]`;
-> `consolidate_tags.py` có guard cứng không bao giờ xoá "Tất cả" và luôn ép nó đứng đầu.
->
-> *Nếu* sau này lo trùng lặp `/categories/tat-ca/` với homepage → giải pháp đúng là **noindex
-> riêng trang đó** (không phải xoá tag). Để **deferred/optional**, không làm trong Phase 1.
+`Tất cả` gắn 269/239 bài → 1 trang category khổng lồ trùng lặp homepage, vô giá trị SEO.
+Script gỡ `"Tất cả"` khỏi `taxonomies.categories` mọi bài (gộp chung bước Tầng B). Mỗi bài giữ 1 category thật.
 
 ---
 
@@ -252,19 +245,13 @@ Tách **branch riêng** vì là content change qua approval gate.
 Phase 1+3 (branch claude/charming-knuth-hquqro)  →  Phase 4 (cùng branch)  →  Phase 2 (branch nội dung riêng)
 ```
 
-**Phase 1+3 — các commit nhỏ, reversible. Trạng thái thực thi (✅ đã làm trong commit này):**
-1. ✅ `config.toml`: `feed=false` cho tags (A1).
-2. ✅ `templates/sitemap.xml`: loại `/tags/` (A2). *(lastmod: template đã in `e.updated` khi có — giữ nguyên.)*
-3. ⏭️ `templates/taxonomy_single.html`: noindex term <3 bài (A3) — **DEFER**: theme linkita là
-   submodule **không tải được qua proxy** → không build/test local được; override sai sẽ vỡ render
-   taxonomy. A2 (loại khỏi sitemap) + Tầng B (gộp còn ~51 hub ≥5 bài) đã xử lý tag mỏng. Làm A3
-   khi build được theme (CI hoặc local có mạng codeberg).
-4. ✅ `static/robots.txt`: Disallow trang nội bộ (3.2).
-5. ✅ `scripts/build_tag_map.py` → `data/tag-consolidation-map.json` (chờ bạn duyệt) +
-   `scripts/consolidate_tags.py` (dormant, mặc định dry-run). Tầng B chạy `--apply` **sau khi bạn duyệt map**.
-6. ⏭️ Detector QA "tag <5 bài" — **SKIP**: governance repo yêu cầu mỗi detector = 1 vaccine có số
-   (CLAUDE.md §4) + `check_vaccine_registry_integrity`/test assert; nhét vào dễ vỡ test. `build_tag_map.py`
-   chạy bất kỳ lúc nào đã in stats bloat → đủ vai trò monitor mà không đụng vaccine registry.
+**Phase 1+3 — các commit nhỏ, reversible:**
+1. `config.toml`: `feed=false` cho tags (A1).
+2. `templates/sitemap.xml`: loại `/tags/` (A2) + lastmod (3.1).
+3. `templates/taxonomy_single.html`: noindex term <3 bài (A3).
+4. `static/robots.txt`: Disallow trang nội bộ (3.2).
+5. `data/tag-consolidation-map.json` (bạn duyệt) → `scripts/consolidate_tags.py` chạy Tầng B + bỏ "Tất cả" (A4).
+6. Detector QA: thêm check "tag <5 bài" cảnh báo (WARN, không chặn) vào `qa_vaccines.py`.
 
 **Phase 4:** `scripts/request_indexing.py` + `request-indexing.yml` + panel `/insights/`.
 
