@@ -1,0 +1,435 @@
+{% extends "base.html" %}
+
+{% block title %}Momo Brand Voice — Hướng dẫn &amp; Prompt viết nội dung | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description | default(value="Bộ hướng dẫn và prompt mẫu giúp viết nội dung theo giọng thương hiệu thân thiện, rõ ràng, đáng tin — lấy cảm hứng từ phong cách Blog MoMo.") }}{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Trang full-width 1 cột; thu hẹp sidebar mặc định (chỉ ảnh hưởng trang này). */
+  .layout-grid:has(.mbv) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.mbv) { max-width: 1200px; }
+
+  .mbv {
+    /* Neutrals tái sử dụng theme tokens (có fallback) — KHÔNG đổi style toàn cục. */
+    --mbv-ink:        var(--c-text-heading, #0a0a0a);
+    --mbv-body:       var(--c-text-body, #333);
+    --mbv-muted:      var(--c-text-muted, #6a6a6a);
+    --mbv-surface:    var(--c-bg-surface, #fff);
+    --mbv-page:       var(--c-bg-page, #f8f9fb);
+    --mbv-soft:       var(--c-bg-soft, #f4f4f5);
+    --mbv-border:     var(--c-border, #e4e4e7);
+    --mbv-success:    var(--c-success, #00a69d);
+    /* Accent thương hiệu — cảm hứng Blog MoMo: hồng magenta + teal. */
+    --mbv-pink:       #a50064;
+    --mbv-pink-2:     #d82d8b;
+    --mbv-pink-soft:  #fbe4f1;
+    --mbv-teal:       #00aec7;
+    --mbv-radius:     12px;
+    --mbv-radius-sm:  8px;
+    --mbv-mono:       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --mbv-heading:    'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mbv-rail:       232px;
+    --mbv-offset:     76px;
+    --mbv-1: 4px;  --mbv-2: 8px;  --mbv-3: 12px; --mbv-4: 16px;
+    --mbv-5: 24px; --mbv-6: 32px; --mbv-7: 48px; --mbv-8: 64px;
+
+    font-family: inherit;
+    color: var(--mbv-body);
+    line-height: 1.62;
+    padding: 0 16px 64px;
+    margin: 0 auto;
+  }
+  .mbv *, .mbv *::before, .mbv *::after { box-sizing: border-box; }
+
+  /* ===== Top brand bar ===== */
+  .mbv__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--mbv-4); flex-wrap: wrap;
+    padding: var(--mbv-5) 0 var(--mbv-4);
+    border-bottom: 1px solid var(--mbv-border);
+  }
+  .mbv__brand { display: flex; align-items: center; gap: var(--mbv-3); }
+  .mbv__mark {
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--mbv-pink), var(--mbv-pink-2));
+    color: #fff;
+    font-family: var(--mbv-heading);
+    font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;
+  }
+  .mbv__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .mbv__brand-name { font-family: var(--mbv-heading); font-size: 1.1rem; font-weight: 800; color: var(--mbv-ink); letter-spacing: -0.02em; }
+  .mbv__brand-tag { font-size: 0.74rem; color: var(--mbv-muted); }
+  .mbv__top-meta { font-family: var(--mbv-mono); font-size: 0.78rem; color: var(--mbv-muted); }
+  .mbv__top-meta strong { color: var(--mbv-pink); }
+
+  /* ===== Hero ===== */
+  .mbv__hero { padding: var(--mbv-8) 0 var(--mbv-7); border-bottom: 1px solid var(--mbv-border); }
+  .mbv__eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mbv-pink); margin: 0 0 var(--mbv-4);
+  }
+  .mbv__title {
+    font-family: var(--mbv-heading);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+    color: var(--mbv-ink); margin: 0 0 var(--mbv-3); max-width: 18ch;
+  }
+  .mbv__title em { font-style: normal; color: var(--mbv-pink); }
+  .mbv__sub { font-size: clamp(0.9rem, 1.4vw, 1.05rem); line-height: 1.55; color: var(--mbv-muted); margin: 0 0 var(--mbv-5); max-width: 64ch; }
+  .mbv__lede { font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.6; color: var(--mbv-body); margin: 0; max-width: 64ch; }
+  .mbv__lede strong { color: var(--mbv-ink); }
+  .mbv__stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--mbv-4); margin-top: var(--mbv-7);
+    padding-top: var(--mbv-6); border-top: 1px solid var(--mbv-border);
+  }
+  .mbv__stat-n { font-size: 1.9rem; font-weight: 800; color: var(--mbv-ink); letter-spacing: -0.02em; line-height: 1; }
+  .mbv__stat-n span { color: var(--mbv-pink); }
+  .mbv__stat-l { display: block; margin-top: var(--mbv-2); font-size: 0.82rem; color: var(--mbv-muted); }
+
+  /* ===== Body + rail ===== */
+  .mbv__body { display: grid; grid-template-columns: minmax(0, 1fr) var(--mbv-rail); gap: var(--mbv-8); align-items: start; }
+  .mbv__rail { position: sticky; top: var(--mbv-offset); align-self: start; }
+  .mbv__rail-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mbv-muted); margin: 0 0 var(--mbv-3); padding-left: var(--mbv-3); }
+  .mbv__rail nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--mbv-border); }
+  .mbv__rail a {
+    display: flex; align-items: baseline; gap: var(--mbv-2);
+    font-size: 0.84rem; font-weight: 500; text-decoration: none;
+    color: var(--mbv-muted); padding: var(--mbv-2) var(--mbv-3);
+    border-left: 2px solid transparent; margin-left: -1px;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .mbv__rail a:hover { color: var(--mbv-ink); }
+  .mbv__rail a.is-active { color: var(--mbv-pink); border-left-color: var(--mbv-pink); background: var(--mbv-pink-soft); border-radius: 0 6px 6px 0; }
+  .mbv__rail-num { font-family: var(--mbv-mono); font-size: 0.72rem; color: var(--mbv-muted); flex-shrink: 0; }
+  .mbv__rail a.is-active .mbv__rail-num { color: var(--mbv-pink); }
+
+  /* ===== Sections ===== */
+  .mbv__section { padding: var(--mbv-8) 0; border-bottom: 1px solid var(--mbv-border); scroll-margin-top: var(--mbv-offset); }
+  .mbv__section:last-child { border-bottom: 0; }
+  .mbv__sec-head { margin-bottom: var(--mbv-6); }
+  .mbv__sec-kicker { font-family: var(--mbv-mono); font-size: 0.8rem; color: var(--mbv-pink); font-weight: 600; }
+  .mbv__sec-title { font-family: var(--mbv-heading); font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; color: var(--mbv-ink); margin: var(--mbv-2) 0 var(--mbv-3); }
+  .mbv__sec-desc { font-size: 0.98rem; line-height: 1.62; color: var(--mbv-body); margin: 0; max-width: 70ch; }
+
+  .mbv__h3 { font-size: 1.02rem; font-weight: 700; color: var(--mbv-ink); margin: var(--mbv-6) 0 var(--mbv-3); }
+  .mbv__h3:first-child { margin-top: 0; }
+  .mbv__p { font-size: 0.94rem; line-height: 1.66; color: var(--mbv-body); margin: 0 0 var(--mbv-3); max-width: 70ch; }
+  .mbv__p strong { color: var(--mbv-ink); }
+  .mbv__list { margin: 0 0 var(--mbv-3); padding-left: var(--mbv-5); max-width: 70ch; }
+  .mbv__list li { font-size: 0.94rem; line-height: 1.6; color: var(--mbv-body); margin: var(--mbv-2) 0; }
+  .mbv__list li strong { color: var(--mbv-ink); }
+  .mbv code { font-family: var(--mbv-mono); font-size: 0.84em; color: var(--mbv-pink); background: var(--mbv-pink-soft); padding: 1px 6px; border-radius: 5px; }
+
+  /* ===== Principle cards ===== */
+  .mbv__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--mbv-4); }
+  .mbv__card { background: var(--mbv-surface); border: 1px solid var(--mbv-border); border-radius: var(--mbv-radius); padding: var(--mbv-5); }
+  .mbv__card--accent { border-left: 4px solid var(--mbv-pink); }
+  .mbv__card h4 { font-family: var(--mbv-heading); font-size: 0.95rem; font-weight: 700; color: var(--mbv-ink); margin: 0 0 var(--mbv-2); }
+  .mbv__card p { font-size: 0.85rem; line-height: 1.55; color: var(--mbv-muted); margin: 0; }
+
+  /* ===== Use-case + prompt block ===== */
+  .mbv__uc { border: 1px solid var(--mbv-border); border-radius: var(--mbv-radius); background: var(--mbv-surface); padding: var(--mbv-5); margin-bottom: var(--mbv-4); }
+  .mbv__uc-head { display: flex; align-items: center; gap: var(--mbv-3); flex-wrap: wrap; margin-bottom: var(--mbv-2); }
+  .mbv__uc-tag { font-family: var(--mbv-mono); font-size: 0.72rem; font-weight: 700; color: var(--mbv-teal); background: color-mix(in srgb, var(--mbv-teal) 12%, transparent); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .mbv__uc h4 { font-family: var(--mbv-heading); font-size: 1.05rem; font-weight: 800; color: var(--mbv-ink); margin: 0; letter-spacing: -0.01em; }
+  .mbv__uc-when { font-size: 0.86rem; line-height: 1.55; color: var(--mbv-muted); margin: 0 0 var(--mbv-3); }
+  .mbv__prompt { position: relative; background: var(--mbv-soft); border: 1px solid var(--mbv-border); border-radius: var(--mbv-radius-sm); padding: var(--mbv-4) var(--mbv-5); margin: 0; }
+  .mbv__prompt pre { font-family: var(--mbv-mono); font-size: 0.84rem; line-height: 1.62; color: var(--mbv-body); margin: 0; white-space: pre-wrap; word-break: break-word; padding-right: 84px; }
+  .mbv__copy {
+    position: absolute; top: 10px; right: 10px;
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.74rem; font-weight: 600; font-family: inherit;
+    color: var(--mbv-pink); background: var(--mbv-surface);
+    border: 1px solid var(--mbv-border); border-radius: 999px;
+    padding: 4px 11px; cursor: pointer; transition: all .15s ease;
+  }
+  .mbv__copy:hover { border-color: var(--mbv-pink); background: var(--mbv-pink-soft); }
+  .mbv__copy.is-done { color: var(--mbv-success); border-color: var(--mbv-success); }
+
+  /* ===== Before / after ===== */
+  .mbv__ba { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mbv-4); margin-top: var(--mbv-4); }
+  .mbv__ba-card { border: 1px solid var(--mbv-border); border-radius: var(--mbv-radius); background: var(--mbv-surface); padding: var(--mbv-5); }
+  .mbv__ba-card h5 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 var(--mbv-3); }
+  .mbv__ba-card p { font-size: 0.9rem; line-height: 1.6; color: var(--mbv-body); margin: 0; }
+  .mbv__ba-card--before { border-top: 3px solid var(--mbv-border); }
+  .mbv__ba-card--before h5 { color: var(--mbv-muted); }
+  .mbv__ba-card--after { border-top: 3px solid var(--mbv-pink); }
+  .mbv__ba-card--after h5 { color: var(--mbv-pink); }
+
+  /* ===== Do / Don't ===== */
+  .mbv__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mbv-4); margin-top: var(--mbv-4); }
+  .mbv__dlist { list-style: none; margin: 0; padding: var(--mbv-5); border-radius: var(--mbv-radius); border: 1px solid var(--mbv-border); background: var(--mbv-surface); }
+  .mbv__dlist h5 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 var(--mbv-3); }
+  .mbv__dlist li { font-size: 0.86rem; line-height: 1.5; color: var(--mbv-body); padding: var(--mbv-2) 0 var(--mbv-2) var(--mbv-5); position: relative; }
+  .mbv__dlist--do h5 { color: var(--mbv-success); }
+  .mbv__dlist--dont h5 { color: var(--mbv-pink); }
+  .mbv__dlist--do li::before { content: "\2713"; position: absolute; left: 0; color: var(--mbv-success); font-weight: 800; }
+  .mbv__dlist--dont li::before { content: "\2715"; position: absolute; left: 0; color: var(--mbv-pink); font-weight: 800; }
+
+  .mbv__foot { padding: var(--mbv-7) 0 0; text-align: center; font-size: 0.82rem; color: var(--mbv-muted); }
+  .mbv__foot a { color: var(--mbv-pink); }
+  .mbv__foot p { margin: 4px 0; }
+
+  @media (max-width: 960px) {
+    .mbv__body { grid-template-columns: 1fr; gap: var(--mbv-5); }
+    .mbv__rail {
+      position: sticky; top: 56px; z-index: 5;
+      order: -1; margin: 0 calc(-1 * var(--mbv-4)) var(--mbv-4);
+      padding: var(--mbv-2) var(--mbv-4);
+      background: color-mix(in srgb, var(--mbv-page) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--mbv-border);
+    }
+    .mbv__rail-title { display: none; }
+    .mbv__rail nav { flex-direction: row; overflow-x: auto; border-left: 0; gap: var(--mbv-2); scrollbar-width: none; scroll-snap-type: x proximity; }
+    .mbv__rail nav::-webkit-scrollbar { display: none; }
+    .mbv__rail a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; margin-left: 0; scroll-snap-align: start; }
+    .mbv__rail a.is-active { border-radius: 8px; }
+    .mbv__cols, .mbv__ba { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+
+{# Trang công cụ full-width: ẩn sidebar bài viết mặc định, chỉ áp dụng cho trang này. #}
+{% block sidebar %}{% endblock %}
+
+{% block main %}
+<section class="mbv">
+  <div class="mbv__top">
+    <div class="mbv__brand">
+      <span class="mbv__mark">M</span>
+      <span class="mbv__brand-text">
+        <span class="mbv__brand-name">Momo Brand Voice</span>
+        <span class="mbv__brand-tag">Hướng dẫn &amp; Prompt viết nội dung</span>
+      </span>
+    </div>
+    <span class="mbv__top-meta">v1.0 · <strong>2026</strong> · friendly-first</span>
+  </div>
+
+  <header class="mbv__hero">
+    <p class="mbv__eyebrow">Brand Voice Toolkit</p>
+    <h1 class="mbv__title">Viết nội dung bằng giọng <em>thân thiện, rõ ràng</em></h1>
+    <p class="mbv__sub">Bộ hướng dẫn và prompt mẫu giúp bạn (hoặc trợ lý AI) viết nội dung theo một giọng thương hiệu nhất quán — gần gũi, dễ hiểu và đáng tin. Lấy cảm hứng từ phong cách giao tiếp của Blog MoMo.</p>
+    <p class="mbv__lede">Dùng như một <strong>checklist + thư viện prompt</strong>: chọn tình huống, sao chép prompt, điền thông tin của bạn và dán vào trợ lý AI để ra bản nháp đúng giọng.</p>
+    <div class="mbv__stats">
+      <div><span class="mbv__stat-n"><span>6</span></span><span class="mbv__stat-l">Prompt mẫu</span></div>
+      <div><span class="mbv__stat-n"><span>5</span></span><span class="mbv__stat-l">Nguyên tắc giọng</span></div>
+      <div><span class="mbv__stat-n"><span>4</span></span><span class="mbv__stat-l">Loại nội dung</span></div>
+    </div>
+  </header>
+
+  <div class="mbv__body">
+    <div class="mbv__content">
+
+      <section class="mbv__section" id="gioi-thieu">
+        <div class="mbv__sec-head">
+          <p class="mbv__sec-kicker">01 — Brand voice</p>
+          <h2 class="mbv__sec-title">"Momo Brand Voice" là gì?</h2>
+          <p class="mbv__sec-desc">Brand voice là tính cách nhất quán của thương hiệu khi giao tiếp bằng chữ. Năm nguyên tắc dưới đây là "kim chỉ nam" — khi phân vân, ưu tiên theo thứ tự Thân thiện → Rõ ràng → Đáng tin.</p>
+        </div>
+        <div class="mbv__grid">
+          <div class="mbv__card mbv__card--accent"><h4>Thân thiện &amp; gần gũi</h4><p>Xưng "bạn", viết như đang trò chuyện. Ấm áp nhưng không suồng sã, luôn tôn trọng người đọc.</p></div>
+          <div class="mbv__card mbv__card--accent"><h4>Rõ ràng &amp; dễ hiểu</h4><p>Câu ngắn, ý gọn. Biến chủ đề phức tạp (tài chính, bảo hiểm…) thành điều ai cũng hiểu.</p></div>
+          <div class="mbv__card mbv__card--accent"><h4>Đáng tin cậy</h4><p>Chính xác, có dẫn nguồn khi cần, không phóng đại. Thừa nhận giới hạn thay vì hứa hẹn quá mức.</p></div>
+          <div class="mbv__card mbv__card--accent"><h4>Hữu ích &amp; hành động được</h4><p>Luôn cho người đọc bước tiếp theo rõ ràng: nên làm gì, ở đâu, như thế nào.</p></div>
+          <div class="mbv__card mbv__card--accent"><h4>Tích cực &amp; hiện đại</h4><p>Năng lượng tươi mới, lạc quan, đề cao giải pháp — không gây sợ hãi hay áp lực.</p></div>
+        </div>
+      </section>
+
+      <section class="mbv__section" id="tinh-huong">
+        <div class="mbv__sec-head">
+          <p class="mbv__sec-kicker">02 — Use cases</p>
+          <h2 class="mbv__sec-title">Các tình huống sử dụng + prompt mẫu</h2>
+          <p class="mbv__sec-desc">Sáu prompt sẵn sàng dùng cho những việc viết lách thường gặp. Bấm "Sao chép", thay phần trong <code>[ngoặc vuông]</code> bằng thông tin của bạn rồi gửi cho trợ lý AI.</p>
+        </div>
+
+        <div class="mbv__uc">
+          <div class="mbv__uc-head"><span class="mbv__uc-tag">Develop voice</span><h4>1. Phát triển giọng riêng cho một nhóm độc giả</h4></div>
+          <p class="mbv__uc-when">Khi bắt đầu một chuyên mục/sản phẩm mới và cần định hình tông giọng cho đúng đối tượng.</p>
+          <div class="mbv__prompt"><button class="mbv__copy" type="button" aria-label="Sao chép prompt">Sao chép</button><pre>Giúp tôi xây dựng giọng văn (brand voice) cho nhóm độc giả: [vd: người trẻ lần đầu tìm hiểu bảo hiểm y tế].
+Trả về: (1) mô tả tông giọng trong 2-3 câu, (2) 5 từ khoá tính cách, (3) 3 câu mẫu NÊN dùng, (4) 3 kiểu diễn đạt NÊN tránh.
+Yêu cầu: thân thiện, rõ ràng, đáng tin; không thuật ngữ khó nếu chưa giải thích.</pre></div>
+        </div>
+
+        <div class="mbv__uc">
+          <div class="mbv__uc-head"><span class="mbv__uc-tag">Improve style</span><h4>2. Cải thiện văn phong một đoạn có sẵn</h4></div>
+          <p class="mbv__uc-when">Khi đã có bản nháp nhưng muốn nó "đúng giọng" hơn — gần gũi, dễ đọc.</p>
+          <div class="mbv__prompt"><button class="mbv__copy" type="button" aria-label="Sao chép prompt">Sao chép</button><pre>Viết lại đoạn dưới đây theo giọng thân thiện, rõ ràng, gần gũi: xưng "bạn", câu ngắn, tránh thuật ngữ khó.
+Giữ nguyên ý nghĩa và mọi con số/dữ kiện. Không thêm thông tin mới.
+Đoạn gốc:
+"""
+[dán đoạn văn của bạn vào đây]
+"""</pre></div>
+        </div>
+
+        <div class="mbv__uc">
+          <div class="mbv__uc-head"><span class="mbv__uc-tag">Brainstorm</span><h4>3. Brainstorm ý tưởng nội dung</h4></div>
+          <p class="mbv__uc-when">Khi cần nhiều góc tiếp cận cho một chủ đề trước khi chọn bài để viết.</p>
+          <div class="mbv__prompt"><button class="mbv__copy" type="button" aria-label="Sao chép prompt">Sao chép</button><pre>Brainstorm 10 ý tưởng bài viết về chủ đề: [vd: chi phí khám bảo hiểm y tế] cho độc giả phổ thông.
+Mỗi ý kèm: 1 tiêu đề hấp dẫn nhưng KHÔNG giật tít, và 1 câu mô tả ngắn về giá trị mang lại cho người đọc.
+Ưu tiên các câu hỏi mà người đọc thực sự hay thắc mắc.</pre></div>
+        </div>
+
+        <div class="mbv__uc">
+          <div class="mbv__uc-head"><span class="mbv__uc-tag">Explain</span><h4>4. Giải thích chủ đề phức tạp một cách đơn giản</h4></div>
+          <p class="mbv__uc-when">Khi cần "phiên dịch" một khái niệm khó thành điều dễ hiểu với người không chuyên.</p>
+          <div class="mbv__prompt"><button class="mbv__copy" type="button" aria-label="Sao chép prompt">Sao chép</button><pre>Giải thích khái niệm: [vd: mức hưởng BHYT khi khám đúng tuyến và trái tuyến] cho người không chuyên.
+Yêu cầu: tối đa 150 từ, dùng 1 ví dụ đời thường, không dùng thuật ngữ chuyên ngành (nếu buộc phải dùng thì giải thích ngay).
+Kết thúc bằng 1 câu tóm tắt dễ nhớ.</pre></div>
+        </div>
+
+        <div class="mbv__uc">
+          <div class="mbv__uc-head"><span class="mbv__uc-tag">Headline</span><h4>5. Viết tiêu đề &amp; sapo</h4></div>
+          <p class="mbv__uc-when">Khi cần phần mở đầu thu hút mà vẫn trung thực, đúng giọng thương hiệu.</p>
+          <div class="mbv__prompt"><button class="mbv__copy" type="button" aria-label="Sao chép prompt">Sao chép</button><pre>Viết 5 phương án tiêu đề + 1 sapo (2 câu) cho bài về: [chủ đề].
+Giọng: rõ ràng, hữu ích, đáng tin. Tránh giật tít, tránh hứa hẹn quá mức hoặc tuyên bố tài chính tuyệt đối.
+Mỗi tiêu đề tối đa 70 ký tự để hiển thị đẹp trên Google.</pre></div>
+        </div>
+
+        <div class="mbv__uc">
+          <div class="mbv__uc-head"><span class="mbv__uc-tag">Tone shift</span><h4>6. Chuyển tông trang trọng → thân thiện</h4></div>
+          <p class="mbv__uc-when">Khi có nội dung gốc quá khô khan/hành chính và muốn mềm hoá cho dễ tiếp cận.</p>
+          <div class="mbv__prompt"><button class="mbv__copy" type="button" aria-label="Sao chép prompt">Sao chép</button><pre>Chuyển đoạn văn phong trang trọng/hành chính sau thành giọng thân thiện, gần gũi mà vẫn chính xác và lịch sự.
+Giữ đúng quy định/số liệu, chỉ đổi cách diễn đạt. Độ dài tương đương bản gốc.
+Đoạn gốc:
+"""
+[dán đoạn văn vào đây]
+"""</pre></div>
+        </div>
+      </section>
+
+      <section class="mbv__section" id="cach-dung">
+        <div class="mbv__sec-head">
+          <p class="mbv__sec-kicker">03 — How-to</p>
+          <h2 class="mbv__sec-title">Áp dụng brand voice cho từng loại nội dung</h2>
+          <p class="mbv__sec-desc">Cùng một giọng, nhưng liều lượng điều chỉnh theo định dạng. Bốn loại nội dung thường gặp:</p>
+        </div>
+        <div class="mbv__grid">
+          <div class="mbv__card"><h4>📝 Bài blog / hướng dẫn</h4><p>Mở bài bằng vấn đề người đọc gặp → giải thích từng bước → chốt bằng hành động. Dùng tiêu đề phụ rõ ràng, ví dụ thực tế, và một sapo in nghiêng tóm ý.</p></div>
+          <div class="mbv__card"><h4>❓ FAQ / giải đáp</h4><p>Mỗi câu hỏi đặt đúng như cách người đọc hỏi. Trả lời thẳng vào trọng tâm trong 1-2 câu đầu, chi tiết bổ sung phía sau.</p></div>
+          <div class="mbv__card"><h4>📣 Mạng xã hội</h4><p>Ngắn, một ý chính, một lời mời hành động nhẹ nhàng. Giữ sự tích cực; tránh khẩn cấp giả tạo ("nhanh tay kẻo lỡ!").</p></div>
+          <div class="mbv__card"><h4>🧮 Nội dung số liệu</h4><p>Luôn kèm một câu "nghĩa là gì với bạn" sau mỗi con số. Số liệu phục vụ người đọc, không phải để gây choáng.</p></div>
+        </div>
+        <h3 class="mbv__h3">Quy trình 4 bước gợi ý</h3>
+        <ul class="mbv__list">
+          <li><strong>Bước 1 — Xác định người đọc:</strong> họ là ai, đang lo lắng/thắc mắc điều gì?</li>
+          <li><strong>Bước 2 — Chọn prompt:</strong> lấy prompt phù hợp ở mục 02, điền thông tin của bạn.</li>
+          <li><strong>Bước 3 — Tinh chỉnh:</strong> đối chiếu bản nháp với 5 nguyên tắc ở mục 01.</li>
+          <li><strong>Bước 4 — Kiểm tra cuối:</strong> chạy qua checklist Do/Don't ở mục 05 trước khi đăng.</li>
+        </ul>
+      </section>
+
+      <section class="mbv__section" id="vi-du">
+        <div class="mbv__sec-head">
+          <p class="mbv__sec-kicker">04 — Ví dụ</p>
+          <h2 class="mbv__sec-title">Ví dụ cụ thể: trước &amp; sau</h2>
+          <p class="mbv__sec-desc">Cùng một thông điệp, khác nhau ở giọng. Cột bên phải là phiên bản đã áp dụng brand voice.</p>
+        </div>
+
+        <h3 class="mbv__h3">Ví dụ A — Giải thích quyền lợi</h3>
+        <div class="mbv__ba">
+          <div class="mbv__ba-card mbv__ba-card--before"><h5>Trước (khô khan)</h5><p>"Người tham gia bảo hiểm y tế khi khám chữa bệnh trái tuyến tại bệnh viện tuyến tỉnh được quỹ BHYT chi trả theo tỷ lệ quy định tại điều khoản hiện hành."</p></div>
+          <div class="mbv__ba-card mbv__ba-card--after"><h5>Sau (đúng giọng)</h5><p>"Bạn vẫn được hỗ trợ chi phí khi khám trái tuyến ở bệnh viện tỉnh — chỉ là mức chi trả sẽ khác so với khi đi đúng tuyến. Dưới đây là tỷ lệ cụ thể để bạn dễ hình dung."</p></div>
+        </div>
+
+        <h3 class="mbv__h3">Ví dụ B — Tiêu đề</h3>
+        <div class="mbv__ba">
+          <div class="mbv__ba-card mbv__ba-card--before"><h5>Trước (giật tít)</h5><p>"SỐC: Không biết điều này bạn sẽ MẤT TRẮNG tiền bảo hiểm!!!"</p></div>
+          <div class="mbv__ba-card mbv__ba-card--after"><h5>Sau (đúng giọng)</h5><p>"3 điều nên biết để không bỏ lỡ quyền lợi bảo hiểm y tế của bạn"</p></div>
+        </div>
+      </section>
+
+      <section class="mbv__section" id="checklist">
+        <div class="mbv__sec-head">
+          <p class="mbv__sec-kicker">05 — Checklist</p>
+          <h2 class="mbv__sec-title">Do / Don't</h2>
+          <p class="mbv__sec-desc">Bảng kiểm nhanh trước khi xuất bản. Đây cũng là các ranh giới an toàn về nội dung.</p>
+        </div>
+        <div class="mbv__cols">
+          <ul class="mbv__dlist mbv__dlist--do">
+            <li><h5>Nên làm</h5></li>
+            <li>Xưng "bạn", viết như trò chuyện</li>
+            <li>Câu ngắn, một ý mỗi câu</li>
+            <li>Dùng ví dụ đời thường để minh hoạ</li>
+            <li>Giải thích thuật ngữ ngay khi xuất hiện</li>
+            <li>Luôn cho bước hành động tiếp theo</li>
+            <li>Dẫn nguồn cho số liệu/quy định</li>
+          </ul>
+          <ul class="mbv__dlist mbv__dlist--dont">
+            <li><h5>Không làm</h5></li>
+            <li>Giật tít, viết hoa toàn bộ, lạm dụng "!!!"</li>
+            <li>Hứa hẹn tài chính tuyệt đối ("chắc chắn lời")</li>
+            <li>Tạo cảm giác khẩn cấp/sợ hãi giả tạo</li>
+            <li>Nhồi thuật ngữ không giải thích</li>
+            <li>Phóng đại hoặc bịa số liệu</li>
+            <li>Sao chép nguyên văn nguồn khác</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <aside class="mbv__rail" aria-label="Mục lục">
+      <p class="mbv__rail-title">Mục lục</p>
+      <nav>
+        <a href="#gioi-thieu"><span class="mbv__rail-num">01</span> Brand voice</a>
+        <a href="#tinh-huong"><span class="mbv__rail-num">02</span> Tình huống &amp; prompt</a>
+        <a href="#cach-dung"><span class="mbv__rail-num">03</span> Cách dùng</a>
+        <a href="#vi-du"><span class="mbv__rail-num">04</span> Ví dụ</a>
+        <a href="#checklist"><span class="mbv__rail-num">05</span> Checklist</a>
+      </nav>
+    </aside>
+  </div>
+
+  <footer class="mbv__foot">
+    <p>Momo Brand Voice — bộ hướng dẫn viết nội dung tham khảo cho SEOMONEY.</p>
+    <p>Xem thêm <a href="{{ config.base_url }}/tools/">Công cụ</a> · <a href="{{ config.base_url }}/wwdc26-branding/">WWDC26 Design Language</a> · <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a>.</p>
+    <p>Tài liệu lấy cảm hứng từ phong cách giao tiếp của Blog MoMo; không phải tài liệu thương hiệu chính thức của MoMo / M_Service và không có liên kết chính thức với MoMo.</p>
+  </footer>
+</section>
+
+<script>
+  (function () {
+    /* Scroll-spy: highlight mục lục theo section đang xem */
+    var railLinks = document.querySelectorAll('.mbv__rail nav a');
+    var sections  = Array.prototype.slice.call(document.querySelectorAll('.mbv__section'));
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var id = entry.target.id;
+          railLinks.forEach(function (a) {
+            a.classList.toggle('is-active', a.getAttribute('href') === '#' + id);
+          });
+        });
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+      sections.forEach(function (s) { io.observe(s); });
+    }
+
+    /* Nút sao chép prompt */
+    document.querySelectorAll('.mbv__copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var pre = btn.parentElement.querySelector('pre');
+        if (!pre) return;
+        var text = pre.innerText;
+        var done = function () {
+          var old = btn.textContent;
+          btn.textContent = 'Đã chép';
+          btn.classList.add('is-done');
+          setTimeout(function () { btn.textContent = old; btn.classList.remove('is-done'); }, 1600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, function () {});
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = text; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      });
+    });
+  })();
+</script>
+{% endblock %}
