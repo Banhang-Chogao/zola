@@ -60,3 +60,4 @@ jobs:
           chmod +x .github/scripts/push_to_main.sh
           .github/scripts/push_to_main.sh "Cập nhật: QA 404 checker ($(date -u +%FT%TZ))" \
             data/qa-404-report.json content/
+
