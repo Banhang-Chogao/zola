@@ -168,6 +168,12 @@ Hiện tại "Allow: /" toàn bộ — quá rộng, để Google crawl cả tran
 
 ## 4. PHẦN 4 — CHIẾN LƯỢC REQUEST INDEXING MỖI NGÀY
 
+> ✅ **ĐÃ THỰC THI** (branch `claude/charming-knuth-hquqro`): `scripts/request_indexing.py`
+> + `.github/workflows/request-indexing.yml` (cron 06:00 ICT) + panel `/insights/` +
+> `scripts/test_request_indexing.py` (14 test PASS). Report files do workflow tự sinh
+> (không commit — V18/V33). **Cần thêm secret `BING_API_KEY`** để bật Bing URL Submission
+> (tùy chọn — thiếu vẫn chạy, chỉ skip Bing). GSC secrets tái dùng của gsc-stats.
+
 ### 4.1 Sự thật về "request indexing" (đừng kỳ vọng sai)
 - **Google KHÔNG có API submit URL công khai** cho nội dung thường (Indexing API chỉ chính thức cho
   `JobPosting`/`BroadcastEvent`; dùng cho bài blog là vùng xám, có thể bị bỏ qua). → **Không tự động hoá kiểu này.**
