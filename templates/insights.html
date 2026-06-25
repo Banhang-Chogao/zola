@@ -943,6 +943,51 @@
             {% endif %}
         </section>
 
+        {# ===== Request Indexing Daily (Phase 4 — SEO indexing) ===== #}
+        {% set ri = load_data(path="data/request-indexing-report.json", required=false) %}
+        {% set ri_queue = load_data(path="data/request-indexing-queue.json", required=false) %}
+        <section class="vaccine-panel" aria-labelledby="ri-panel-title">
+            <div class="vaccine-panel__head">
+                <h2 class="vaccine-panel__title" id="ri-panel-title">🔎 Request Indexing Daily</h2>
+                <a class="vaccine-panel__run-btn"
+                   href="https://github.com/Banhang-Chogao/zola/actions/workflows/request-indexing.yml"
+                   target="_blank" rel="noopener"
+                   title="Mở GitHub Actions → Run workflow request-indexing">▶ Run Request Indexing</a>
+            </div>
+
+            {% if ri %}
+            <div class="vaccine-panel__meta">
+                <span>Last run: <strong>{{ ri.generated_at | default(value="—") | truncate(length=16, end="") }}</strong></span>
+                <span>Property: <strong>{{ ri.property | default(value="—") }}</strong></span>
+                <span>Bài đáng index: <strong>{{ ri.candidates_total | default(value=0) }}</strong></span>
+                <span>Đã index: <strong>{{ ri.indexed | default(value=0) }}</strong></span>
+                <span>Chưa index/unknown: <strong>{{ ri.not_indexed_or_unknown | default(value=0) }}</strong></span>
+            </div>
+
+            <div class="vaccine-panel__chips">
+                {% if ri.gsc_connected %}
+                    <span class="vaccine-chip vaccine-chip--ok">GSC: connected</span>
+                {% else %}
+                    <span class="vaccine-chip vaccine-chip--idle">GSC: chưa kết nối</span>
+                {% endif %}
+                <span class="vaccine-chip vaccine-chip--ok">IndexNow: {{ ri.indexnow | default(value="—") }}</span>
+                <span class="vaccine-chip vaccine-chip--idle">Bing: {{ ri.bing | default(value="—") }}</span>
+                <span class="vaccine-chip vaccine-chip--warn">Shortlist: {{ ri.shortlist_count | default(value=0) }}</span>
+            </div>
+
+            {% if ri_queue and ri_queue.shortlist %}
+            <p class="vaccine-panel__meta" style="margin-top:.9rem;margin-bottom:.4rem;">Shortlist hôm nay — bấm để mở GSC URL Inspection rồi "Request Indexing":</p>
+            <div class="vaccine-panel__chips">
+                {% for item in ri_queue.shortlist %}
+                <a class="vaccine-chip vaccine-chip--idle" href="{{ item.gsc_inspect }}" target="_blank" rel="noopener" title="{{ item.coverage }}">{{ item.url }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% else %}
+            <p class="vaccine-panel__empty">Chưa có báo cáo. Chạy workflow <code>Request Indexing Daily</code> (Actions) hoặc đợi lịch 06:00 (GMT+7).</p>
+            {% endif %}
+        </section>
+
         {{ github_activity::widget() }}
     </section>
 {% endblock main %}
