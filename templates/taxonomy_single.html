@@ -11,50 +11,56 @@
 {% block main %}
     {# Chuyên mục premium: LUÔN hiển thị listing (teaser card) để người đọc duyệt &
        click vào bài → gặp paywall. KHÔNG ẩn cả chuyên mục. #}
-    <header class="section-header">
-        <h1 class="section-header__title">{{ taxonomy.name | upper }}: {{ term.name | upper }}</h1>
-    </header>
+    <div class="wwdc-listing">
+        <header class="wwdc-listing__header">
+            <span class="wwdc-listing__eyebrow">{{ taxonomy.name }}</span>
+            <h1 class="wwdc-listing__title">{{ term.name }}</h1>
+            {% if term.pages | length > 0 %}
+                <p class="wwdc-listing__count"><strong>{{ term.pages | length }}</strong> bài viết</p>
+            {% endif %}
+        </header>
 
-    <div class="post-list">
-        {% for page in paginator.pages %}
-            {% if page.taxonomies.categories %}{% set page_cats = page.taxonomies.categories %}{% else %}{% set page_cats = [] %}{% endif %}
-            {% set is_premium = page.extra.premium | default(value=false) or "premium" in page_cats %}
-            <article class="post-card{% if is_premium %} post-card--premium{% endif %}">
-                <a class="post-card__image" href="{{ page.permalink }}">
-                    {% if is_premium %}
-                        {{ premium::badge() }}
-                    {% elif page.taxonomies.categories %}
-                        <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
-                    {% endif %}
-                    {# LCP: bài đầu tiên load eager + high priority, rest lazy. #}
-                    {% if loop.first %}
-                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
-                             width="800" height="600"
-                             loading="eager" fetchpriority="high" decoding="async">
-                    {% else %}
-                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
-                             width="800" height="600"
-                             loading="lazy" decoding="async">
-                    {% endif %}
-                </a>
-                <div class="post-card__body">
-                    <h3 class="post-card__title">
-                        <a href="{{ page.permalink }}">{{ page.title }}</a>
-                    </h3>
-                    <div class="post-meta">
-                        <span class="post-meta__author">{{ config.extra.author }}{{ v::badge() }}</span>
-                        <span class="post-meta__date">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+        <div class="wwdc-listing__grid">
+            {% for page in paginator.pages %}
+                {% if page.taxonomies.categories %}{% set page_cats = page.taxonomies.categories %}{% else %}{% set page_cats = [] %}{% endif %}
+                {% set is_premium = page.extra.premium | default(value=false) or "premium" in page_cats %}
+                <article class="wwdc-post-card{% if is_premium %} wwdc-post-card--premium{% endif %}">
+                    <a class="wwdc-post-card__media" href="{{ page.permalink }}">
+                        {% if is_premium %}
+                            <span class="wwdc-post-card__badge wwdc-post-card__badge--premium">⭐ Premium</span>
+                        {% elif page.taxonomies.categories %}
+                            <span class="wwdc-post-card__badge">{{ page.taxonomies.categories[0] }}</span>
+                        {% endif %}
+                        {# LCP: bài đầu tiên load eager + high priority, rest lazy. #}
+                        {% if loop.first %}
+                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                                 width="800" height="450"
+                                 loading="eager" fetchpriority="high" decoding="async">
+                        {% else %}
+                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                                 width="800" height="450"
+                                 loading="lazy" decoding="async">
+                        {% endif %}
+                    </a>
+                    <div class="wwdc-post-card__body">
+                        <div class="wwdc-post-card__meta">
+                            <span class="wwdc-post-card__author">{{ config.extra.author }}{{ v::badge() }}</span>
+                            <span class="wwdc-post-card__date">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                        </div>
+                        <h3 class="wwdc-post-card__title">
+                            <a href="{{ page.permalink }}">{{ page.title }}</a>
+                        </h3>
+                        <p class="wwdc-post-card__summary">{{ page.summary | default(value="") | safe | striptags | truncate(length=160) }}</p>
+                        <a class="wwdc-post-card__more" href="{{ page.permalink }}">Đọc tiếp <span class="wwdc-post-card__arrow">→</span></a>
                     </div>
-                    <p class="post-card__summary">{{ page.summary | default(value="") | safe | striptags | truncate(length=200) }}</p>
-                    <a class="read-more" href="{{ page.permalink }}">READ MORE <span class="read-more__arrow">»</span></a>
-                </div>
-            </article>
-        {% endfor %}
-    </div>
+                </article>
+            {% endfor %}
+        </div>
 
-    <nav class="pagination">
-        {% if paginator.previous %}<a class="pagination__btn pagination__btn--prev" href="{{ paginator.previous }}">« Trang trước</a>{% endif %}
-        <span class="pagination__info">Trang {{ paginator.current_index }} / {{ paginator.number_pagers }}</span>
-        {% if paginator.next %}<a class="pagination__btn pagination__btn--next" href="{{ paginator.next }}">Trang sau »</a>{% endif %}
-    </nav>
+        <nav class="pagination">
+            {% if paginator.previous %}<a class="pagination__btn pagination__btn--prev" href="{{ paginator.previous }}">« Trang trước</a>{% endif %}
+            <span class="pagination__info">Trang {{ paginator.current_index }} / {{ paginator.number_pagers }}</span>
+            {% if paginator.next %}<a class="pagination__btn pagination__btn--next" href="{{ paginator.next }}">Trang sau »</a>{% endif %}
+        </nav>
+    </div>
 {% endblock main %}
