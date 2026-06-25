@@ -1,17 +1,17 @@
 {
-  "updated_at": "2026-06-25T12:01:05Z",
+  "updated_at": "2026-06-25T12:09:08Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 20,
-    "this_week": 158,
+    "today": 22,
+    "this_week": 161,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 30,
-      "fix": 113,
+      "unknown": 32,
+      "fix": 111,
       "feature": 40,
       "chore": 10,
       "ci": 3,
@@ -19,6 +19,44 @@
     }
   },
   "merges": [
+    {
+      "pr_number": 902,
+      "pr_title": "Remove 404 links checker — manual daily verification [claude/gifted-volta-uj6ki9]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/902",
+      "merged_at": "2026-06-25T12:00:54Z",
+      "merge_commit_sha": "af91af31a43bcae41f2c62edc567595e52bbbd7b",
+      "merge_commit_short": "af91af3",
+      "head_branch": "claude/gifted-volta-uj6ki9",
+      "summary_vi": "Remove 404 links checker — manual daily verification",
+      "change_type": "unknown",
+      "files_changed": 8,
+      "additions": 4,
+      "deletions": 996,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1143,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168565882",
+      "build_conclusion": "pending"
+    },
+    {
+      "pr_number": 905,
+      "pr_title": "chore(themes): vendor kodama-theme as reference copy (not activated) [claude/exciting-galileo-aornh2]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/905",
+      "merged_at": "2026-06-25T11:54:53Z",
+      "merge_commit_sha": "da8b72932b29bd392d9acf1f13256c03fc75ad7a",
+      "merge_commit_short": "da8b729",
+      "head_branch": "claude/exciting-galileo-aornh2",
+      "summary_vi": "chore(themes): vendor kodama-theme as reference copy (not activated)",
+      "change_type": "unknown",
+      "files_changed": 63,
+      "additions": 22069,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1142,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249052",
+      "build_conclusion": "cancelled"
+    },
     {
       "pr_number": 906,
       "pr_title": "docs: thêm ghi chú thiết kế tham khảo Nokia Blog [claude/adoring-mayer-jrca7z]",
@@ -433,9 +471,9 @@
       "deletions": 11,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1114,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130592719",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 878,
@@ -452,9 +490,9 @@
       "deletions": 18,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1113,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130490431",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 875,
@@ -471,9 +509,9 @@
       "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1114,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130592719",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 869,
@@ -490,9 +528,9 @@
       "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1113,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28130490431",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 871,
@@ -2224,6 +2262,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 754,
+      "pr_title": "fix(vaccine-hotfix): claude-dreamy-maxwell-e86rse",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/754",
+      "merged_at": "2026-06-22T21:05:12Z",
+      "merge_commit_sha": "620d06ab32a90086641ec1b546529eaa87ed69b8",
+      "merge_commit_short": "620d06a",
+      "head_branch": "vaccine-hotfix/claude-dreamy-maxwell-e86rse",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 2,
+      "additions": 268,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 759,
       "pr_title": "feat: add GHA-ACTION-VERSION-GUARD vaccine + fix all violating workflows",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/759",
@@ -3725,25 +3782,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 661,
-      "pr_title": "fix(vaccine-hotfix): required_checks_fail-27907151019",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/661",
-      "merged_at": "2026-06-21T14:22:00Z",
-      "merge_commit_sha": "127662f7335a63add46b7dfade5abc96610a8468",
-      "merge_commit_short": "127662f",
-      "head_branch": "vaccine-hotfix/required_checks_fail-27907151019",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 0,
-      "deletions": 19,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 658,
       "pr_title": "chore(seo-qa): update scores for auto-fixer blog post [claude/great-thompson-xhacsj]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/658",
@@ -3774,44 +3812,6 @@
       "change_type": "fix",
       "files_changed": 2,
       "additions": 302,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 657,
-      "pr_title": "fix(qa-workflow): Conditionally install dashboard requirements if they exist [claude/tender-bardeen-xurrse]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/657",
-      "merged_at": "2026-06-21T14:02:59Z",
-      "merge_commit_sha": "7d5bc26a456626902a7e4d7fde3c1e8b41c0f0f1",
-      "merge_commit_short": "7d5bc26",
-      "head_branch": "claude/tender-bardeen-xurrse",
-      "summary_vi": "- fix(V21-header-regression): Move cache button from navbar to sidebar",
-      "change_type": "fix",
-      "files_changed": 3,
-      "additions": 95,
-      "deletions": 20,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 656,
-      "pr_title": "fix(vaccine-hotfix): claude/stoic-goldberg-tzxf8g",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/656",
-      "merged_at": "2026-06-21T14:02:18Z",
-      "merge_commit_sha": "4bbc21abef7401e0b8bd421d41435564e947343f",
-      "merge_commit_short": "4bbc21a",
-      "head_branch": "vaccine-hotfix/claude-stoic-goldberg-tzxf8g",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 2,
-      "additions": 200,
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
