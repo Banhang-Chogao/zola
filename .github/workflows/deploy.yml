@@ -204,3 +204,38 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  # WD Heartbeat — report the deploy outcome to the live stats backend
+  # (POST /api/heartbeat). Separate job with `if: always()` so it records BOTH
+  # success and failure (a failed build skips `deploy`, but this still fires).
+  # Fully non-blocking: missing config or an unreachable backend never fails the
+  # pipeline. The footer module itself reads the build-time JSON, so this is
+  # purely supplementary live telemetry.
+  heartbeat:
+    needs: [build, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report deploy heartbeat
+        env:
+          WD_HEARTBEAT_URL: ${{ secrets.WD_HEARTBEAT_URL }}
+          WD_HEARTBEAT_SECRET: ${{ secrets.WD_HEARTBEAT_SECRET }}
+        run: |
+          set -uo pipefail
+          if [ -z "${WD_HEARTBEAT_URL:-}" ] || [ -z "${WD_HEARTBEAT_SECRET:-}" ]; then
+            echo "Heartbeat backend not configured (WD_HEARTBEAT_URL / WD_HEARTBEAT_SECRET) — skip."
+            exit 0
+          fi
+          if [ "${{ needs.build.result }}" = "success" ] && [ "${{ needs.deploy.result }}" = "success" ]; then
+            STATUS="success"
+          else
+            STATUS="failed"
+          fi
+          NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          SHA="$(echo "${GITHUB_SHA}" | cut -c1-7)"
+          echo "Reporting deploy heartbeat: status=$STATUS sha=$SHA"
+          curl -sS -X POST "$WD_HEARTBEAT_URL" \
+            -H "Content-Type: application/json" \
+            -H "X-Heartbeat-Secret: $WD_HEARTBEAT_SECRET" \
+            -d "{\"status\":\"$STATUS\",\"timestamp\":\"$NOW\",\"commit_hash\":\"$SHA\",\"duration\":0}" \
+            --max-time 15 || echo "Heartbeat POST failed (non-blocking)."
