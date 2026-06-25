@@ -1,0 +1,42 @@
+{# ===== Copyright Notice Macro
+   Displays copyright and usage rights notice at the end of blog posts
+
+   Usage:
+     {% import "macros/copyright.html" as copyright_macro %}
+     {{ copyright_macro::display(page=page, config=config) }}
+#}
+
+{% macro display(page, config) %}
+  {%- set author = page.extra.author | default(value=config.extra.author) %}
+  {%- set author_name = config.extra.profiles.duynguyenlog.name | default(value="Duy Nguyen") %}
+  {%- set copyright_year = now() | date(format="%Y") %}
+  {%- set site_title = config.title %}
+
+  <section class="copyright-notice" aria-labelledby="copyright-title">
+    <div class="copyright-notice__content">
+      <p id="copyright-title" class="copyright-notice__title">
+        <span class="copyright-notice__icon">©</span>
+        <span class="copyright-notice__text">Tuyên bố bản quyền</span>
+      </p>
+      <p class="copyright-notice__body">
+        © {{ copyright_year }} <strong>{{ author_name }}</strong> &vert; <strong>{{ site_title }}</strong>.
+        <br>
+        Bài viết này được đăng tải với mục đích chia sẻ kiến thức. Bạn có thể tự do đọc, chia sẻ và trích dẫn,
+        nhưng <strong>vui lòng ghi rõ nguồn</strong> khi sao chép một phần hoặc toàn bộ nội dung.
+        <br>
+        <span class="copyright-notice__contact">
+          📧 Mọi thắc mắc xin liên hệ:
+          <a href="mailto:{{ config.extra.email | default(value='tamsudev.com@gmail.com') | safe }}" class="copyright-notice__email">
+            {{ config.extra.email | default(value='tamsudev.com@gmail.com') | safe }}
+          </a>
+        </span>
+      </p>
+      <p class="copyright-notice__license">
+        <span class="copyright-notice__license-label">Giấy phép:</span>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.vi" target="_blank" rel="noopener noreferrer" class="copyright-notice__license-link">
+          CC BY-SA 4.0 (Creative Commons)
+        </a>
+      </p>
+    </div>
+  </section>
+{% endmacro display %}

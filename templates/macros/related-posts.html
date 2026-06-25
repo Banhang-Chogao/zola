@@ -1,0 +1,66 @@
+{# ===== Related Posts Macro — Display related blog posts
+   Displays recent posts from the same section, excluding current page.
+   Fallback strategy: latest posts sorted by date.
+
+   Usage:
+     {% import "macros/related-posts.html" as related %}
+     {{ related::display(page=page, section=section, config=config) }}
+#}
+
+{% macro display(page, section, config) %}
+  {%- set related_posts = [] %}
+
+  {# Try to get posts from the same section #}
+  {%- if section and section.pages is defined %}
+    {%- for p in section.pages | sort(attribute="date") | reverse %}
+      {%- if p.path != page.path and related_posts | length < 6 %}
+        {%- set related_posts = related_posts | concat(with=[p]) %}
+      {%- endif %}
+    {%- endfor %}
+  {%- endif %}
+
+  {# Display related posts if we found any #}
+  {%- if related_posts | length >= 1 %}
+  <section class="related-posts-section" aria-labelledby="related-posts-title">
+    <h2 id="related-posts-title" class="related-posts-section__title">
+      <span class="related-posts-section__icon">📚</span>
+      <span>Bài viết liên quan</span>
+    </h2>
+    <div class="related-posts-grid">
+      {%- for p in related_posts %}
+      <article class="related-post-card" data-post-index="{{ loop.index }}">
+        {%- if p.extra.thumbnail is defined and p.extra.thumbnail %}
+        <div class="related-post-card__image">
+          <img
+            src="{{ p.extra.thumbnail | safe }}"
+            alt="{{ p.title | escape_xml }}"
+            loading="lazy"
+            decoding="async"
+            width="300"
+            height="200"
+          />
+        </div>
+        {%- endif %}
+        <div class="related-post-card__content">
+          <h3 class="related-post-card__title">
+            <a href="{{ p.permalink | safe }}" class="related-post-card__link">
+              {{ p.title }}
+            </a>
+          </h3>
+          {%- if p.description %}
+          <p class="related-post-card__excerpt">
+            {{ p.description | truncate(length=100) }}
+          </p>
+          {%- endif %}
+          {%- if p.date %}
+          <time class="related-post-card__date" datetime="{{ p.date | date(format='%Y-%m-%d') }}">
+            {{ p.date | date(format="%d.%m.%Y") }}
+          </time>
+          {%- endif %}
+        </div>
+      </article>
+      {%- endfor %}
+    </div>
+  </section>
+  {%- endif %}
+{% endmacro display %}

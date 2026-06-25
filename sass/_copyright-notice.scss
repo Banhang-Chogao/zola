@@ -1,0 +1,189 @@
+/* ============================================================
+   ===== Copyright Notice (Tuyên bố bản quyền) =====
+   ============================================================
+   B-DNA aligned notice box: left border accent, consistent spacing,
+   mobile-first responsive, full a11y (focus-visible).
+   Scoped to .copyright-notice — no global overrides.
+*/
+
+.copyright-notice {
+  margin: calc(var(--c-spacing-6, 2.75rem)) 0 0;
+  padding: var(--c-spacing-3, 0.75rem) 0;
+}
+
+.copyright-notice__content {
+  border-left: 4px solid var(--c-accent, $brand-trust-cyan);
+  border-radius: 4px;
+  background: var(--c-bg-soft, rgba(6, 168, 236, 0.05));
+  padding: var(--c-spacing-4, 1.1rem) var(--c-spacing-4, 1.1rem);
+  padding-left: var(--c-spacing-3, 0.75rem);
+}
+
+.copyright-notice__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-text-heading, $brand-ink-900);
+  margin: 0 0 var(--c-spacing-2, 0.5rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.2;
+}
+
+.copyright-notice__icon {
+  display: inline-block;
+  font-size: 1.1em;
+  flex-shrink: 0;
+}
+
+.copyright-notice__text {
+  display: inline;
+}
+
+.copyright-notice__body {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--c-text-body, $brand-ink-800);
+  margin: 0 0 var(--c-spacing-2, 0.5rem);
+  text-align: left;
+
+  br {
+    line-height: 1.4;
+  }
+
+  strong {
+    font-weight: 700;
+    color: var(--c-text-heading, $brand-ink-900);
+  }
+}
+
+.copyright-notice__contact {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.copyright-notice__email {
+  color: var(--c-accent, $brand-trust-cyan);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid var(--c-accent, $brand-trust-cyan);
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.copyright-notice__email:hover {
+  color: var(--c-accent-hover, #0aa0d3);
+  border-color: var(--c-accent-hover, #0aa0d3);
+}
+
+.copyright-notice__email:focus-visible {
+  outline: 2px solid var(--c-focus-ring, var(--c-accent));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.copyright-notice__license {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--c-text-muted, $brand-ink-700);
+  margin: var(--c-spacing-2, 0.5rem) 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.copyright-notice__license-label {
+  font-weight: 600;
+  color: var(--c-text-body, $brand-ink-800);
+}
+
+.copyright-notice__license-link {
+  color: var(--c-accent, $brand-trust-cyan);
+  text-decoration: underline;
+  transition: color 150ms ease;
+}
+
+.copyright-notice__license-link:hover {
+  color: var(--c-accent-hover, #0aa0d3);
+  text-decoration-thickness: 2px;
+}
+
+.copyright-notice__license-link:focus-visible {
+  outline: 2px solid var(--c-focus-ring, var(--c-accent));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ===== Responsive: Tablet ===== */
+@media (max-width: 768px) {
+  .copyright-notice__content {
+    padding: var(--c-spacing-3, 1rem) var(--c-spacing-3, 1rem);
+    padding-left: var(--c-spacing-2, 0.7rem);
+    border-left-width: 3px;
+  }
+
+  .copyright-notice__title {
+    font-size: 0.9rem;
+  }
+
+  .copyright-notice__body {
+    font-size: 0.85rem;
+  }
+
+  .copyright-notice__contact {
+    font-size: 0.85rem;
+  }
+
+  .copyright-notice__license {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== Responsive: Mobile ===== */
+@media (max-width: 640px) {
+  .copyright-notice {
+    margin: var(--c-spacing-5, 1.5rem) 0 0;
+    padding: 0;
+  }
+
+  .copyright-notice__content {
+    padding: var(--c-spacing-3, 0.9rem) var(--c-spacing-3, 0.9rem);
+    padding-left: var(--c-spacing-2, 0.6rem);
+    border-left-width: 3px;
+    border-radius: 2px;
+  }
+
+  .copyright-notice__title {
+    font-size: 0.85rem;
+    margin-bottom: var(--c-spacing-1, 0.4rem);
+  }
+
+  .copyright-notice__body {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: var(--c-spacing-1, 0.4rem);
+  }
+
+  .copyright-notice__contact {
+    font-size: 0.8rem;
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+  }
+
+  .copyright-notice__license {
+    font-size: 0.75rem;
+    margin-top: 0.4rem;
+    gap: 0.3rem;
+  }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .copyright-notice__email,
+  .copyright-notice__license-link {
+    transition: none;
+  }
+}

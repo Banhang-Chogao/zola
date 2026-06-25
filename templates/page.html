@@ -88,6 +88,19 @@
     <section class="oasis__body post-single__content">{{ page.content | safe }}</section>
     <hr />
     {% include "partials/post_taxonomies.html" %}
+
+    <!-- FAQ Section -->
+    {%- import "macros/faq.html" as faq_macro %}
+    {{ faq_macro::display(page=page, config=config) }}
+
+    <!-- Related Posts Section -->
+    {%- import "macros/related-posts.html" as related %}
+    {{ related::display(page=page, section=section, config=config) }}
+
+    <!-- Copyright Notice Section -->
+    {%- import "macros/copyright.html" as copyright_macro %}
+    {{ copyright_macro::display(page=page, config=config) }}
+
     {%- if page.lower or page.higher %}
     {% include "partials/post_navigation.html" %}
     {%- endif %}
