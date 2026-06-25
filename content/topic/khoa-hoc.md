@@ -2,7 +2,6 @@
 title = "Khoa học"
 date = 2026-06-19
 description = "Pillar page — Khoa học. Auto-updated by authority-booster."
-template = "page.html"
 aliases = ["/topic/khoa-hoc/"]
 
 [extra]

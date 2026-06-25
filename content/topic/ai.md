@@ -2,7 +2,6 @@
 title = "AI & Machine Learning"
 date = 2026-06-19
 description = "Pillar page — AI & Machine Learning. Auto-updated by authority-booster."
-template = "page.html"
 aliases = ["/topic/ai/"]
 
 [extra]

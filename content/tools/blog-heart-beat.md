@@ -2,7 +2,6 @@
 title = "Blog Heart Beat"
 description = "Bảng theo dõi nhịp tim CI/CD của SEOMONEY: PR, workflow, deploy, elapsed time và trạng thái GitHub Actions."
 date = 2026-06-23
-template = "page.html"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]

@@ -2,7 +2,6 @@
 title = "BHXH & An sinh xã hội"
 date = 2026-06-19
 description = "Pillar page — BHXH & An sinh xã hội. Auto-updated by authority-booster."
-template = "page.html"
 aliases = ["/topic/bhxh/"]
 
 [extra]
