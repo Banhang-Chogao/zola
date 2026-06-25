@@ -1331,22 +1331,17 @@ def check_seomoney_brand(ctx: Ctx) -> CheckResult:
     if '"Duy Nguyen"' not in aj:
         fails.append("author.json: tên tác giả 'Duy Nguyen' bị mất (phải giữ author identity)")
 
-    # OG default (SEOMONEY) — svg source + committed JPG default + webp twin seed.
-    # JPG is the og:image default (Zalo/LinkedIn/Facebook render it reliably; .webp
-    # is not universally supported by social scrapers); .og.webp ships as the
-    # modern-format twin seed so it never 404s.
+    # OG default (SEOMONEY) — svg source + committed .og.webp twin.
+    # .webp is the site's only release format (optimize-images.yml deletes every
+    # raster .jpg/.png), so the og:image default must be the stable .og.webp twin
+    # rasterised from seomoney-og.svg — never a raster that the pipeline would eat.
     if not ctx.exists("static/img/og/seomoney-og.svg"):
         fails.append("thiếu static/img/og/seomoney-og.svg (OG default SEOMONEY)")
-    if not ctx.exists("static/img/og/seomoney-og.jpg"):
-        fails.append("thiếu static/img/og/seomoney-og.jpg (OG default JPG — universally rendered)")
     if not ctx.exists("static/img/og/seomoney-og.og.webp"):
         fails.append("thiếu static/img/og/seomoney-og.og.webp (twin OG — seed để không 404)")
     base = ctx.read("templates/base.html") or ""
     if "seomoney-og.og.webp" not in base:
-        fails.append("templates/base.html: mất tham chiếu SEOMONEY OG twin (.og.webp seed)")
-    img_macro = ctx.read("templates/macros/img.html") or ""
-    if "seomoney-og.jpg" not in img_macro:
-        fails.append("templates/macros/img.html: social_image_url fallback không trỏ seomoney-og.jpg (JPG default)")
+        fails.append("templates/base.html: og:image default không trỏ SEOMONEY OG twin")
 
     # Placeholder fallback set incl. random variants.
     for ph in ("placeholder.svg", "placeholder-2.svg", "placeholder-3.svg"):

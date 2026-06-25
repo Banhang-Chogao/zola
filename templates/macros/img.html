@@ -49,16 +49,16 @@
              DELETES the original; the raster URL would 404 in production).
    - .webp → kept as-is.
    - empty / unknown ext → built-in local S-DNA default card
-     (/img/og/seomoney-og.jpg). JPG is the og:image default because Zalo,
-     LinkedIn and some Facebook scrapers do NOT reliably render .webp social
-     cards; the .og.webp twin (seomoney-og.og.webp) ships alongside as the
-     modern-format seed but JPG is the universally-rendered fallback.
+     (/img/og/seomoney-og.og.webp). This is the WWDC26 card twin rasterised
+     from seomoney-og.svg; .webp is the site's only release format
+     (optimize-images.yml deletes every raster .jpg/.png), so the default
+     must be the stable .og.webp twin, never a raster.
 
    Output is ALWAYS absolute + HTTPS (http:// and // are upgraded to https://;
    root-relative paths are prefixed with base_url).
    ---------------------------------------------------------------------------- #}
 {% macro social_image_url(src="", base_url="") -%}
-{%- set fallback = base_url ~ "/img/og/seomoney-og.jpg" -%}
+{%- set fallback = base_url ~ "/img/og/seomoney-og.og.webp" -%}
 {%- set out = "" -%}
 {%- if src is ending_with(".svg") -%}{%- set out = src | replace(from=".svg", to=".og.webp") -%}
 {%- elif src is ending_with(".jpg") -%}{%- set out = src | replace(from=".jpg", to=".webp") -%}
