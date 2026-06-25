@@ -1328,59 +1328,10 @@
             </div>
         </nav>
 
-        {# ===== DEPLOYMENT STATUS DASHBOARD =====
-           Real-time deploy status: success/failure, commit SHA, message, run link.
-           Rendered from data/deployment-status.json (updated by cron workflow every 5 min).
-           Client-side JS (dashboard.js) refreshes UI without page reload. #}
-         {% set ds_path = config.extra.deployment_status_path | default(value="data/deployment-status.json") %}
-         {% set ds = load_data(path=ds_path, required=false) %}
-        {% if ds %}
-        <div class="deployment-dashboard container" data-deployment-dashboard>
-          <h4 class="dashboard-title">Deployment Status</h4>
-          <div class="status-grid">
-            <div class="status-item">
-              <span class="status-label">Status</span>
-              <span class="status-value status-{{ ds.status | default(value='unknown') }}" data-ds-badge>
-                {% if ds.status == "success" %}SUCCESS{% elif ds.status == "failure" %}FAILED{% elif ds.status == "pending" %}PENDING{% else %}UNKNOWN{% endif %}
-              </span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Last Deploy</span>
-              <span class="status-value" data-ds-time>{{ ds.deploy_time | default(value="N/A") }}</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Commit</span>
-              <span class="status-value">
-                <a href="https://github.com/Banhang-Chogao/zola/commit/{{ ds.commit_sha }}" target="_blank" rel="noopener" data-ds-sha-link>
-                  <code data-ds-sha>{{ ds.commit_sha | default(value="N/A") }}</code>
-                </a>
-              </span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Message</span>
-              <span class="status-value commit-msg" data-ds-msg>{{ ds.commit_message | default(value="N/A") | truncate(length=50) }}</span>
-            </div>
-            <div class="status-item full-width">
-              <a href="{{ ds.run_url }}" target="_blank" rel="noopener" class="run-link" data-ds-run-link>
-                View GitHub Actions Run →
-              </a>
-            </div>
-          </div>
-        </div>
-        {% endif %}
-
-        {# Deploy Monitor widget — build-time CI pipeline status (no token) #}
-        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
-        {% if dm and dm.summary %}
-        <div class="deploy-watch container" role="status" aria-label="Deploy pipeline status">
-            <a href="{{ config.base_url | safe }}/tools/deploy-monitor/" class="deploy-watch__link">
-                🚀 Deploy:
-                <strong>{{ dm.summary.pending_count }}</strong> đang chờ
-                {% if dm.stale %}<span class="deploy-watch__stale">⚠ dữ liệu cũ</span>{% endif %}
-            </a>
-        </div>
-        {% endif %}
-      <a class="site-footer__author-mgmt" href="/admin-countdown/">⏱ Countdown</a>
+        {# Footer deploy-status blocks removed (Deployment Status card + "🚀 Deploy" strip)
+           — footer layout cleanup. Deploy data + standalone /tools/deploy-monitor/ page
+           are intentionally kept; only the footer rendering was removed. Countdown stays
+           (widget at footer_countdown::render() + nav link in .site-footer__left). #}
 
         {# WD Heartbeat Stats — WWDC26 calm-first deploy overview (build-time) #}
         {% include "partials/wd-heartbeat.html" %}
