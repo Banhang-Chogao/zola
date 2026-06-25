@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-25T14:03:58Z",
+  "updated_at": "2026-06-25T14:14:09Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 29,
-    "this_week": 167,
+    "today": 30,
+    "this_week": 168,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "feature": 44,
       "unknown": 35,
-      "feature": 43,
-      "fix": 105,
+      "fix": 104,
       "chore": 10,
       "ci": 3,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 911,
+      "pr_title": "feat(tools): add \"Momo Brand Voice\" guide page at /tools/momo-brand-voice/ [claude/nifty-johnson-co8fp7]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/911",
+      "merged_at": "2026-06-25T14:05:27Z",
+      "merge_commit_sha": "3b8478c68bb4e919498c627d1761a4371b096046",
+      "merge_commit_short": "3b8478c",
+      "head_branch": "claude/nifty-johnson-co8fp7",
+      "summary_vi": "- docs: add Blog MoMo UI/UX design reference notes",
+      "change_type": "feature",
+      "files_changed": 3,
+      "additions": 643,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1151,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175968991",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 913,
       "pr_title": "Nokia theme — Phase 1 (opt-in switcher) + design notes/demo/plan [DRAFT review]",
@@ -528,9 +547,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1121,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28138023014",
-      "build_conclusion": "failure"
+      "build_run_number": 1122,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28138641329",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 882,
@@ -3794,25 +3813,6 @@
       "files_changed": 2,
       "additions": 2,
       "deletions": 7,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 666,
-      "pr_title": "fix(vaccine-hotfix): deploy_fail-27908456036",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/666",
-      "merged_at": "2026-06-21T15:14:13Z",
-      "merge_commit_sha": "403efac61305dd727d6001cb93c6252c4e239de7",
-      "merge_commit_short": "403efac",
-      "head_branch": "vaccine-hotfix/deploy_fail-27908456036",
-      "summary_vi": "Automated **Vaccine Hotfix** (`deploy_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by Vacxin\").",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 1,
-      "deletions": 6,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
