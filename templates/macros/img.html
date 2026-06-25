@@ -74,3 +74,94 @@
 {%- else -%}{{ base_url ~ "/" ~ out }}
 {%- endif -%}
 {%- endmacro social_image_url %}
+
+{# ----------------------------------------------------------------------------
+   cat_key(cat) — map a (Vietnamese) category name → owned placeholder key.
+   Mirrors scripts/generate_cover.py CATEGORY_MAP. Unknown → "default".
+   ---------------------------------------------------------------------------- #}
+{% macro cat_key(cat="") -%}
+{%- if cat == "Công nghệ" -%}cong-nghe
+{%- elif cat == "Ngân hàng" -%}ngan-hang
+{%- elif cat == "Tài chính" -%}tai-chinh
+{%- elif cat == "Du lịch" -%}du-lich
+{%- elif cat == "Ẩm thực" -%}am-thuc
+{%- elif cat == "Khoa học" -%}khoa-hoc
+{%- elif cat == "Học tiếng Hàn" -%}hoc-tieng-han
+{%- else -%}default
+{%- endif -%}
+{%- endmacro cat_key %}
+
+{# ----------------------------------------------------------------------------
+   card_image(page, base_url) — OWNED image fallback chain for post/card
+   thumbnails (homepage · category · taxonomy). No external/hotlinked images.
+
+   Priority:
+     1. explicit frontmatter  extra.image → extra.cover.image → extra.thumbnail
+     2. first LOCAL inline image in the body (under our own host/path only)
+     3. generated/drawn owned cover  /img/covers/<slug>.svg  (covers-manifest)
+     4. category placeholder  /img/placeholders/category-<key>.svg
+     5. (chain never returns empty → category-default placeholder always exists)
+
+   Raster ext is normalised to the released .webp; output is an absolute URL.
+   ---------------------------------------------------------------------------- #}
+{% macro card_image(page, base_url="") -%}
+{%- set covers = load_data(path="data/covers-manifest.json", required=false) -%}
+{%- set_global src = "" -%}
+{# 1) explicit frontmatter (ignore the generic placeholder pointer) #}
+{%- if page.extra.image -%}{%- set_global src = page.extra.image -%}
+{%- elif page.extra.cover and page.extra.cover.image -%}{%- set_global src = page.extra.cover.image -%}
+{%- elif page.extra.thumbnail -%}{%- set_global src = page.extra.thumbnail -%}
+{%- endif -%}
+{%- if src is containing("/placeholder") -%}{%- set_global src = "" -%}{%- endif -%}
+{# 2) first LOCAL inline body image (no hotlinking: must be our host / root-relative).
+   NB: set_global — a plain `set` inside a for-loop does NOT escape the loop scope. #}
+{%- if src == "" and page.content and page.content is containing("<img") -%}
+  {%- for chunk in page.content | split(pat="<img") -%}
+    {%- if src == "" and not loop.first and chunk is containing('src="') -%}
+      {%- set cand = chunk | split(pat='src="') | nth(n=1) | split(pat='"') | first -%}
+      {%- if cand and (cand is starting_with("/") or cand is containing("seomoney.org/") or cand is containing("assets.seomoney")) and not (cand is containing("/placeholder")) and not (cand is containing("momo-qr")) -%}
+        {%- set_global src = cand -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{# 3) owned generated/drawn cover by slug #}
+{%- if src == "" and covers and covers.slugs and page.slug and page.slug in covers.slugs -%}
+  {%- set_global src = "img/covers/" ~ page.slug ~ ".svg" -%}
+{%- endif -%}
+{# 4) category placeholder (first real category, skipping "Tất cả" / premium buckets) #}
+{%- if src == "" -%}
+  {%- set_global cat = "" -%}
+  {%- if page.taxonomies and page.taxonomies.categories -%}
+    {%- for c in page.taxonomies.categories -%}
+      {%- if cat == "" and c != "Tất cả" and c != "premium" -%}{%- set_global cat = c -%}{%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- set key = "default" -%}
+  {%- if cat == "Công nghệ" -%}{%- set key = "cong-nghe" -%}
+  {%- elif cat == "Ngân hàng" -%}{%- set key = "ngan-hang" -%}
+  {%- elif cat == "Tài chính" -%}{%- set key = "tai-chinh" -%}
+  {%- elif cat == "Du lịch" -%}{%- set key = "du-lich" -%}
+  {%- elif cat == "Ẩm thực" -%}{%- set key = "am-thuc" -%}
+  {%- elif cat == "Khoa học" -%}{%- set key = "khoa-hoc" -%}
+  {%- elif cat == "Học tiếng Hàn" -%}{%- set key = "hoc-tieng-han" -%}
+  {%- endif -%}
+  {%- set_global src = "img/placeholders/category-" ~ key ~ ".svg" -%}
+{%- endif -%}
+{# normalise raster ext → released .webp #}
+{%- if src is ending_with(".jpg") or src is ending_with(".jpeg") -%}{%- set_global src = src | replace(from=".jpg", to=".webp") | replace(from=".jpeg", to=".webp") -%}
+{%- elif src is ending_with(".png") -%}{%- set_global src = src | replace(from=".png", to=".webp") -%}{%- endif -%}
+{# emit absolute URL #}
+{%- if src is starting_with("https://") -%}{{ src }}
+{%- elif src is starting_with("http://") -%}{{ src | replace(from="http://", to="https://") }}
+{%- elif src is starting_with("//") -%}{{ "https:" ~ src }}
+{%- elif src is starting_with("/") -%}{{ get_url(path=src | trim_start_matches(pat="/")) }}
+{%- else -%}{{ get_url(path=src) }}
+{%- endif -%}
+{%- endmacro card_image %}
+
+{# card_image_alt(page) — descriptive alt: explicit image_alt → title. #}
+{% macro card_image_alt(page) -%}
+{%- if page.extra.image_alt -%}{{ page.extra.image_alt }}
+{%- else -%}{{ page.title }}{%- endif -%}
+{%- endmacro card_image_alt %}
