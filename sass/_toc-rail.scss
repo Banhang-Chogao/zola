@@ -21,11 +21,26 @@
        its own grid cell; JS only toggles an `.is-active` class (no reflow)
    ============================================================================ */
 
-/* Article + rail wrapper. Stays a plain block (full-width article) for paywall /
-   short posts that get no rail; only `.post-layout--rail` becomes a 2-col grid,
-   so an empty rail column is never reserved. */
+/* Article + rail wrapper. Stays a plain block for paywall / short posts that get
+   no rail; only `.post-layout--rail` becomes a 2-col grid, so an empty rail column
+   is never reserved.
+
+   Desktop reading-width contract (≥1024px), independent of the outer `.layout-grid`
+   so a phantom sidebar track can never squeeze the prose into a mobile-width column:
+     • article measure capped at 760px (~68–74 chars at the body font-size)
+     • TOC rail ~264–300px, sticky on the right
+     • gap clamp(48px, 5vw, 72px); the [article + rail] pair is centred in the
+       1180px post shell → balanced left/right whitespace, intentional margins. */
 .post-layout {
   min-width: 0;
+}
+
+/* Posts without a TOC rail: keep the article centred at a sane reading measure
+   instead of stretching full-shell-width (newspaper). Scoped to .oasis so other
+   uses of .post-layout are untouched; harmless on mobile (viewport < 760px). */
+.oasis .post-layout:not(.post-layout--rail) > article {
+  max-width: 760px;
+  margin-inline: auto;
 }
 
 /* Hidden by default (mobile, tablet, narrow desktop) → no overflow; the inline
@@ -34,12 +49,16 @@
   display: none;
 }
 
-/* ===== DESKTOP (≥1280px) — room for prose + a 248px rail beside the sidebar ===== */
-@media (min-width: 1280px) {
+/* ===== DESKTOP (≥1024px) — balanced article + sticky TOC rail ===== */
+@media (min-width: 1024px) {
   .post-layout--rail {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 256px;
-    gap: 2.75rem;
+    /* article capped at 760px (shrinks gracefully below the cap on narrower
+       desktops — never overflows), rail ~264–300px. justify-content centres the
+       pair so the post shell shows balanced margins on both sides. */
+    grid-template-columns: minmax(0, 760px) clamp(264px, 22vw, 300px);
+    justify-content: center;
+    gap: clamp(48px, 5vw, 72px);
     align-items: start;
   }
 
@@ -143,10 +162,11 @@
   }
 }
 
-/* ===== ULTRA-WIDE (≥1920px) — maximize reading comfort with wider article ===== */
+/* ===== ULTRA-WIDE (≥1920px) — shell is already capped at 1180px, so the article
+   measure stays at 760px (centred) for reading comfort; only nudge the rail. ===== */
 @media (min-width: 1920px) {
   .post-layout--rail {
-    grid-template-columns: minmax(0, 1fr) 280px;
+    grid-template-columns: minmax(0, 760px) 300px;
     gap: 3rem;
   }
 
