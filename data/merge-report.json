@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-25T12:21:42Z",
+  "updated_at": "2026-06-25T12:28:28Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 25,
+    "today": 26,
     "this_week": 164,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "feature": 41,
       "unknown": 34,
       "fix": 108,
-      "feature": 40,
-      "chore": 11,
+      "chore": 10,
       "ci": 3,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 910,
+      "pr_title": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ [claude/adoring-mayer-jrca7z]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/910",
+      "merged_at": "2026-06-25T12:18:04Z",
+      "merge_commit_sha": "796c27bfdffaaba5d932e0a23f4d527bcd8e6970",
+      "merge_commit_short": "796c27b",
+      "head_branch": "claude/adoring-mayer-jrca7z",
+      "summary_vi": "- docs: thêm ghi chú thiết kế tham khảo Nokia Blog",
+      "change_type": "feature",
+      "files_changed": 4,
+      "additions": 606,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1147,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169511946",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 907,
       "pr_title": "docs: add Blog MoMo UI/UX design reference notes [claude/nifty-johnson-co8fp7]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1146,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169275464",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 908,
@@ -1419,25 +1438,6 @@
       "files_changed": 2,
       "additions": 357,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 822,
-      "pr_title": "design(og): refresh fallback card with B-DNA editorial style",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/822",
-      "merged_at": "2026-06-24T04:09:00Z",
-      "merge_commit_sha": "92e2a6fe480c74c5c14a5c0639092913bcd150e5",
-      "merge_commit_short": "92e2a6f",
-      "head_branch": "improve/og-visual-editorial-card",
-      "summary_vi": "Refreshes the default SEOMONEY OG fallback card using B-DNA principles: neutral-first layout, clear hierarchy, restrained accent usage, and Google Sans/Noto Sans fallback stack for Vietnamese support.",
-      "change_type": "chore",
-      "files_changed": 3,
-      "additions": 79,
-      "deletions": 67,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
