@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-25T12:28:28Z",
+  "updated_at": "2026-06-25T13:46:00Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 26,
-    "this_week": 164,
+    "today": 27,
+    "this_week": 165,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 41,
+      "feature": 42,
       "unknown": 34,
-      "fix": 108,
+      "fix": 107,
       "chore": 10,
       "ci": 3,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 915,
+      "pr_title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc-demo/)",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/915",
+      "merged_at": "2026-06-25T13:37:40Z",
+      "merge_commit_sha": "cfecb1adfd6dca97aa327b6e9770c78ab71fb6c5",
+      "merge_commit_short": "cfecb1a",
+      "head_branch": "feat/wwdc-demo",
+      "summary_vi": "Trang **demo độc lập** để **xem trước giao diện danh mục / listing WWDC 26** (đóng góp của PR #909) **trước khi** merge nhánh tích hợp `feat/wwdc-final` (#914).",
+      "change_type": "feature",
+      "files_changed": 2,
+      "additions": 423,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1148,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28174213157",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 910,
       "pr_title": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ [claude/adoring-mayer-jrca7z]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1147,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169511946",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 907,
@@ -74,7 +93,7 @@
       "auto_merged": false,
       "build_run_number": 1145,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168666391",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 904,
@@ -3794,25 +3813,6 @@
       "files_changed": 2,
       "additions": 237,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 662,
-      "pr_title": "fix(vaccine-hotfix): deploy_fail-27907151018",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/662",
-      "merged_at": "2026-06-21T14:23:35Z",
-      "merge_commit_sha": "261f89a6554e79c050773c2fb15b02d2d0831b03",
-      "merge_commit_short": "261f89a",
-      "head_branch": "vaccine-hotfix/deploy_fail-27907151018",
-      "summary_vi": "Automated **Vaccine Hotfix** (`deploy_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by Vacxin\").",
-      "change_type": "fix",
-      "files_changed": 1,
-      "additions": 0,
-      "deletions": 19,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
