@@ -629,6 +629,16 @@
                     <li><a class="nav-drawer__link" href="{{ item.url | replace(from='$BASE_URL', to=config.base_url) }}" data-nav-link>{{ item.name }}</a></li>
                 {% endfor %}
             </ul>
+
+            {# Theme switcher — Hilda (default) ↔ Nokia. Trong drawer → responsive
+               desktop + mobile, KHÔNG floating (V21-safe). Markup cho #theme-toggle-btn
+               mà theme-switcher hookup phía dưới đang chờ. #}
+            <div class="nav-drawer__theme">
+                <button id="theme-toggle-btn" type="button" class="theme-toggle" aria-label="Chuyển giao diện màu giữa Hilda và Nokia">
+                    <span class="theme-toggle__name">Giao diện màu</span>
+                    <span class="theme-toggle__value" id="theme-label">Hilda</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1414,7 +1424,7 @@
 
         // Set initial label
         if (label && window.ThemeSwitcher) {
-          label.textContent = window.ThemeSwitcher.getTheme() === 'zx' ? 'Z-X' : 'Hilda';
+          label.textContent = window.ThemeSwitcher.getTheme() === 'nokia' ? 'Nokia' : 'Hilda';
         }
 
         // Click handler
@@ -1422,7 +1432,7 @@
           if (window.ThemeSwitcher) {
             var nextTheme = window.ThemeSwitcher.toggleTheme();
             if (label) {
-              label.textContent = nextTheme === 'zx' ? 'Z-X' : 'Hilda';
+              label.textContent = nextTheme === 'nokia' ? 'Nokia' : 'Hilda';
             }
           }
         });
@@ -1430,7 +1440,7 @@
         // Listen for external theme changes
         document.addEventListener('themechange', function(e) {
           if (label) {
-            label.textContent = e.detail.theme === 'zx' ? 'Z-X' : 'Hilda';
+            label.textContent = e.detail.theme === 'nokia' ? 'Nokia' : 'Hilda';
           }
         });
       }

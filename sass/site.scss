@@ -87,6 +87,11 @@
 @import "island-v2";
 /* @import "island"; — replaced by island-v2 (WWDC redesign) */
 
+/* Nokia theme — color skin thứ 2 (opt-in qua switcher, Hilda vẫn default).
+   Import sau theme-overrides để token + accent remap thắng sạch. Color-only,
+   không đụng layout → đặt trước mobile-hardening. */
+@import "nokia-theme";
+
 /* Mobile readability hardening — MUST stay last so its defensive
    overflow/wrapping guards win over earlier component rules. */
 @import "mobile-blog-momo-spirit";
