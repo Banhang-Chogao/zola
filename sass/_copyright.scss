@@ -1,0 +1,102 @@
+/* ============================================================
+   ===== Copyright Section =====
+   ============================================================
+   Styled box with border-left accent, nice spacing.
+   Used at the end of blog posts.
+*/
+
+.copyright {
+  margin: calc(var(--c-spacing-6, 2.75rem)) 0 0;
+  padding: 0;
+}
+
+.copyright__box {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--c-spacing-4, 1.2rem);
+  padding: var(--c-spacing-4, 1.5rem);
+  background: var(--c-bg-soft, #f9fafb);
+  border-left: 4px solid var(--c-accent, #06b6d4);
+  border-radius: 8px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.copyright__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  background: var(--c-accent, #06b6d4);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  border-radius: 8px;
+  line-height: 1;
+}
+
+.copyright__content {
+  flex-grow: 1;
+  padding-top: 0.25rem;
+}
+
+.copyright__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--c-text-body, #333);
+
+  strong {
+    color: var(--c-text-heading, #000);
+    font-weight: 700;
+  }
+}
+
+.copyright__link {
+  color: var(--c-accent, #06b6d4);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 150ms ease, text-decoration 150ms ease;
+
+  &:hover {
+    color: var(--c-accent-hover, #0891b2);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus-ring, var(--c-accent));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .copyright__box {
+    gap: var(--c-spacing-3, 1rem);
+    padding: var(--c-spacing-3, 1rem);
+  }
+
+  .copyright__icon {
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    font-size: 1.25rem;
+  }
+
+  .copyright__text {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .copyright__box,
+  .copyright__link {
+    transition: none;
+  }
+}

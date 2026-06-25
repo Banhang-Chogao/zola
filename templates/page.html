@@ -38,16 +38,15 @@
     </span>
   </a>
 
-  {# ===== Breadcrumb (MoMo theme test): Trang chủ › Chuyên mục › bài ===== #}
-  <nav class="oasis__crumb" aria-label="Breadcrumb">
-    <a href="{{ config.base_url | safe }}/">Trang chủ</a>
-    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
-    {%- if oasis_cat %}
-    <a href="{{ get_taxonomy_url(kind='categories', name=oasis_cat) }}">{{ oasis_cat }}</a>
-    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
-    {%- endif %}
-    <span class="oasis__crumb-current">{{ page.title | truncate(length=48) }}</span>
-  </nav>
+  {# ===== Breadcrumb with JSON-LD ===== #}
+  {% import "macros/breadcrumb-blog.html" as bc %}
+  {{ bc::blog(
+    base_url=config.base_url,
+    category=oasis_cat,
+    category_url=get_taxonomy_url(kind='categories', name=oasis_cat) if oasis_cat else "",
+    page_title=page.title,
+    page_url=page.permalink
+  ) }}
 
   {# ===== Hero — eyebrow / title / sub / stats ===== #}
   <header class="oasis__hero">
@@ -94,9 +93,25 @@
     {%- if page.extra.comment | default(value=config.extra.comment) %}
     {% include "partials/comment.html" %}
     {%- endif %}
+
     <!-- Begin Page End inject -->
     {% include "injects/page_end.html" ignore missing %}
     <!-- End Page End inject -->
+
+    {# ===== FAQ Section ===== #}
+    {% include "partials/faq.html" %}
+
+    {# ===== Divider ===== #}
+    <hr class="section-divider" />
+
+    {# ===== Related Posts ===== #}
+    {% include "partials/related-posts.html" %}
+
+    {# ===== Divider ===== #}
+    <hr class="section-divider" />
+
+    {# ===== Copyright ===== #}
+    {% include "partials/copyright.html" %}
   </article>
   {% if show_rail %}
   <aside class="toc-rail" data-toc-rail aria-label="Mục lục bài viết">
