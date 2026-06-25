@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% import "macros/img.html" as img %}
+{% import "macros/premium.html" as premium %}
+{% import "macros/series-listing.html" as series_listing %}
+{% import "macros/pagination.html" as pager %}
+
+{% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <header class="section-header">
+        <h1 class="section-header__title">{{ section.title | upper }}</h1>
+    </header>
+
+    {# Khi section có paginate_by, Zola truyền `paginator` và `section.pages` rỗng.
+       Khi không paginate, ngược lại. Fallback cover cả 2 trường hợp. #}
+    {# HOTFIX: section "posting" = trang tổng hợp bài viết → gộp bài từ MỌI section
+       (posting/ + baochi/, …) + sort ngày giảm dần để /posting/ hiển thị đồng nhất
+       với trang chủ: mọi bài đều xuất hiện, không phân biệt thư mục. #}
+    {% set per_page = 10 %}
+    {% set is_blog_listing = section.relative_path == "posting/_index.md" %}
+
+    {% if is_blog_listing %}
+        {% set s_posting = get_section(path="posting/_index.md") %}
+        {% set s_baochi = get_section(path="baochi/_index.md") %}
+        {% set_global all_merged = [] %}
+        {% for page in s_posting.pages | concat(with=s_baochi.pages) %}
+            {% if not page.extra.feed_anchor %}
+                {% set_global all_merged = all_merged | concat(with=[page]) %}
+            {% endif %}
+        {% endfor %}
+        {% set all_merged = all_merged | sort(attribute="date") | reverse %}
+        {% set page_num = paginator.current_index | default(value=1) %}
+        {% set offset = (page_num - 1) * per_page %}
+        {% set pages = all_merged | slice(start=offset, end=offset + per_page) %}
+        {% set list_total = all_merged | length %}
+        {% set list_pages = paginator.number_pagers | default(value=1) %}
+    {% elif paginator %}
+        {% set pages = paginator.pages %}
+        {% set list_pages = paginator.number_pagers %}
+        {% set page_num = paginator.current_index %}
+        {% set list_total = 0 %}
+        {% set all_merged = [] %}
+    {% else %}
+        {% set pages = section.pages %}
+        {% set list_pages = 1 %}
+        {% set page_num = 1 %}
+        {% set list_total = section.pages | length %}
+        {% set all_merged = section.pages %}
+    {% endif %}
+
+    <div class="post-list">
+        {% for page in pages %}
+            <article class="post-card{% if page.extra.premium %} post-card--premium{% endif %}">
+                <a class="post-card__image" href="{{ page.permalink }}">
+                    {% if loop.first %}
+                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                             width="800" height="600"
+                             loading="eager" fetchpriority="high" decoding="async">
+                    {% else %}
+                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                             width="800" height="600"
+                             loading="lazy" decoding="async">
+                    {% endif %}
+                </a>
+                <div class="post-card__body">
+                    {% if page.extra.premium %}{{ premium::badge() }}{% endif %}
+                    <h3 class="post-card__title">
+                        <a href="{{ page.permalink }}">{{ page.title }}</a>
+                    </h3>
+                    <div class="post-meta">
+                        <span class="post-meta__date">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</span>
+                    </div>
+                    <p class="post-card__summary">{{ page.summary | default(value="") | safe | striptags | truncate(length=200) }}</p>
+                    <a class="read-more" href="{{ page.permalink }}">READ MORE <span class="read-more__arrow">»</span></a>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+
+    {% if is_blog_listing and list_pages > 1 %}
+        <nav class="pagination" aria-label="Phân trang danh sách bài viết">
+            {% if page_num > 1 %}
+                <a class="pagination__btn pagination__btn--prev" href="{{ pager::page_href(base=section.permalink, page_num=page_num - 1) }}">« Trang trước</a>
+            {% else %}
+                <span class="pagination__btn pagination__btn--prev" aria-hidden="true"></span>
+            {% endif %}
+            <span class="pagination__info">Trang {{ page_num }} / {{ list_pages }} · {{ list_total }} bài</span>
+            {% if page_num < list_pages %}
+                <a class="pagination__btn pagination__btn--next" href="{{ pager::page_href(base=section.permalink, page_num=page_num + 1) }}">Trang sau »</a>
+            {% else %}
+                <span class="pagination__btn pagination__btn--next" aria-hidden="true"></span>
+            {% endif %}
+        </nav>
+    {% elif paginator and paginator.number_pagers > 1 %}
+        <nav class="pagination">
+            {% if paginator.previous %}
+                <a class="pagination__btn pagination__btn--prev" href="{{ paginator.previous }}">« Trang trước</a>
+            {% endif %}
+            <span class="pagination__info">Trang {{ paginator.current_index }} / {{ paginator.number_pagers }}</span>
+            {% if paginator.next %}
+                <a class="pagination__btn pagination__btn--next" href="{{ paginator.next }}">Trang sau »</a>
+            {% endif %}
+        </nav>
+    {% endif %}
+
+    {% if is_blog_listing %}
+        {{ series_listing::section(pages=all_merged) }}
+    {% endif %}
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
