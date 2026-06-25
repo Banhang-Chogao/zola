@@ -1,48 +1,135 @@
 {
-  "checked_at": "2026-06-25T19:16:48.378386+00:00",
+  "checked_at": "2026-06-25T23:58:23.178481+00:00",
   "ok": true,
   "stale": false,
   "summary": {
     "prod_status": "yellow",
     "deploying": true,
-    "prod_commit": "63cd6d327c00898db997479f54d8149d06f6dbd5",
-    "prod_commit_short": "63cd6d3",
-    "prod_deployed_at": "2026-06-25T18:58:57Z",
-    "pending_count": 2,
+    "prod_commit": "90c3f02b3a4af2521e45baa3bb5759ba9c0d2b6e",
+    "prod_commit_short": "90c3f02",
+    "prod_deployed_at": "2026-06-25T23:40:45Z",
+    "pending_count": 1,
     "expired_count": 0,
-    "avg_deploy_s": 794,
+    "avg_deploy_s": 891,
     "longest_deploy_s": 1551,
-    "failed_recent": 0,
-    "cancelled_recent": 7,
+    "failed_recent": 4,
+    "cancelled_recent": 8,
     "storm": true,
     "running_runs": [
+      1162
+    ],
+    "last_success_run": 1160,
+    "last_success_sha_short": "90c3f02",
+    "superseded_failures": [
+      1158,
+      1157,
       1156,
       1155
     ],
-    "last_success_run": 1154,
-    "last_success_sha_short": "63cd6d3",
-    "superseded_failures": [],
     "cancelled_runs": [
-      1151,
-      1149,
-      1146
+      1161,
+      1151
     ],
-    "status_line": "🔄 #1156 đang chạy · ✅ last success #1154"
+    "status_line": "🔄 #1162 đang chạy · ✅ last success #1160 · ❌ #1158/#1157/#1156 (đã superseded)"
   },
   "feed": [
+    {
+      "run_number": 1162,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207015283",
+      "sha_short": "f186b36",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/f186b36b5383f8a6e029cc30f04aaf0a6ed6a247",
+      "title": "feat(cards): Korean-editorial thumbnail hover (touch-guard + reduced-…",
+      "status": "in_progress",
+      "conclusion": null,
+      "state": "running",
+      "icon": "🔄",
+      "superseded": false,
+      "created_at": "2026-06-25T23:29:18Z",
+      "duration_s": null
+    },
+    {
+      "run_number": 1161,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207001126",
+      "sha_short": "14c6f0f",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/14c6f0f4cb7fcdc72b31115715c50da4bad2a66e",
+      "title": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Cou…",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "state": "cancelled",
+      "icon": "⊘",
+      "superseded": false,
+      "created_at": "2026-06-25T23:28:56Z",
+      "duration_s": 23
+    },
+    {
+      "run_number": 1160,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28206771653",
+      "sha_short": "90c3f02",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/90c3f02b3a4af2521e45baa3bb5759ba9c0d2b6e",
+      "title": "Redesign SEOMONEY homepage: 3-column editorial portal layout (#928)",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-25T23:23:02Z",
+      "duration_s": 1063
+    },
+    {
+      "run_number": 1159,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28205302043",
+      "sha_short": "98d42e9",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/98d42e91978f2eef28f22a1ff6e21ae336aa37d1",
+      "title": "fix(theme): restore site-level post partials missing after switch to …",
+      "status": "completed",
+      "conclusion": "success",
+      "state": "success",
+      "icon": "✅",
+      "superseded": false,
+      "created_at": "2026-06-25T22:46:57Z",
+      "duration_s": 1051
+    },
+    {
+      "run_number": 1158,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28195264209",
+      "sha_short": "1abd7e4",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/1abd7e421fe2185fbdb5345d2bb208918169594e",
+      "title": "Fix: Pre-existing template compatibility issues for Zola 0.22.1 [clau…",
+      "status": "completed",
+      "conclusion": "failure",
+      "state": "failure",
+      "icon": "❌",
+      "superseded": true,
+      "created_at": "2026-06-25T19:30:01Z",
+      "duration_s": 649
+    },
+    {
+      "run_number": 1157,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28194832785",
+      "sha_short": "e94a9f2",
+      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/e94a9f2fea2afed394a56b85ebab27245eb39c23",
+      "title": "Build and deploy Zola site to GitHub Pages",
+      "status": "completed",
+      "conclusion": "failure",
+      "state": "failure",
+      "icon": "❌",
+      "superseded": true,
+      "created_at": "2026-06-25T19:21:57Z",
+      "duration_s": 606
+    },
     {
       "run_number": 1156,
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28194407984",
       "sha_short": "a34a4ef",
       "commit_url": "https://github.com/Banhang-Chogao/zola/commit/a34a4ef3fa187cecc1ceb71f6d7d3926244f6acf",
       "title": "Merge remote-tracking branch 'origin/main'",
-      "status": "pending",
-      "conclusion": null,
-      "state": "queued",
-      "icon": "⏳",
-      "superseded": false,
+      "status": "completed",
+      "conclusion": "failure",
+      "state": "failure",
+      "icon": "❌",
+      "superseded": true,
       "created_at": "2026-06-25T19:14:08Z",
-      "duration_s": null
+      "duration_s": 704
     },
     {
       "run_number": 1155,
@@ -50,13 +137,13 @@
       "sha_short": "b01f0fb",
       "commit_url": "https://github.com/Banhang-Chogao/zola/commit/b01f0fb16ac9307b111ac366d23c911f5d83098b",
       "title": "Merge branch 'main' into claude/zulma-zola-theme-setup-qxhc6b",
-      "status": "in_progress",
-      "conclusion": null,
-      "state": "running",
-      "icon": "🔄",
-      "superseded": false,
+      "status": "completed",
+      "conclusion": "failure",
+      "state": "failure",
+      "icon": "❌",
+      "superseded": true,
       "created_at": "2026-06-25T19:13:41Z",
-      "duration_s": null
+      "duration_s": 363
     },
     {
       "run_number": 1154,
@@ -113,120 +200,94 @@
       "superseded": true,
       "created_at": "2026-06-25T14:05:30Z",
       "duration_s": 783
-    },
-    {
-      "run_number": 1150,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175232984",
-      "sha_short": "43fa5d0",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/43fa5d0ecaa180d665f031c6a1b5233d8bfccd43",
-      "title": "Nokia theme — Phase 1 (opt-in color switcher) + design notes/demo/pla…",
-      "status": "completed",
-      "conclusion": "success",
-      "state": "success",
-      "icon": "✅",
-      "superseded": false,
-      "created_at": "2026-06-25T13:54:03Z",
-      "duration_s": 1551
-    },
-    {
-      "run_number": 1149,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28174902527",
-      "sha_short": "123a0f6",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/123a0f6d9abd1b145e3564fbdd814a8621e9bbc6",
-      "title": "refactor: WWDC Priority 3 — Category / Listing pages redesign (#914)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "state": "cancelled",
-      "icon": "⊘",
-      "superseded": true,
-      "created_at": "2026-06-25T13:48:46Z",
-      "duration_s": 318
-    },
-    {
-      "run_number": 1148,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28174213157",
-      "sha_short": "cfecb1a",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/cfecb1adfd6dca97aa327b6e9770c78ab71fb6c5",
-      "title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc…",
-      "status": "completed",
-      "conclusion": "success",
-      "state": "success",
-      "icon": "✅",
-      "superseded": false,
-      "created_at": "2026-06-25T13:37:43Z",
-      "duration_s": 1103
-    },
-    {
-      "run_number": 1147,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169511946",
-      "sha_short": "796c27b",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/796c27bfdffaaba5d932e0a23f4d527bcd8e6970",
-      "title": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ […",
-      "status": "completed",
-      "conclusion": "success",
-      "state": "success",
-      "icon": "✅",
-      "superseded": false,
-      "created_at": "2026-06-25T12:18:06Z",
-      "duration_s": 1333
-    },
-    {
-      "run_number": 1146,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169275464",
-      "sha_short": "436769c",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/436769c81af457e02823ceda5ca9b92eb2c29666",
-      "title": "docs: add Blog MoMo UI/UX design reference notes (#907)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "state": "cancelled",
-      "icon": "⊘",
-      "superseded": true,
-      "created_at": "2026-06-25T12:13:51Z",
-      "duration_s": 256
-    },
-    {
-      "run_number": 1145,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168666391",
-      "sha_short": "488ff82",
-      "commit_url": "https://github.com/Banhang-Chogao/zola/commit/488ff82222e70fa737accc64b4c0f255ad2c8146",
-      "title": "Claude/stoic feynman rx0m7m (#908)",
-      "status": "completed",
-      "conclusion": "success",
-      "state": "success",
-      "icon": "✅",
-      "superseded": false,
-      "created_at": "2026-06-25T12:02:51Z",
-      "duration_s": 1188
     }
   ],
   "pending": [
     {
-      "sha_short": "a34a4ef",
-      "title": "Merge remote-tracking branch 'origin/main'",
-      "status": "pending",
-      "conclusion": null,
-      "created_at": "2026-06-25T19:14:08Z",
-      "run_number": 1156,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28194407984",
-      "waiting_s": 160,
-      "started_at": "2026-06-25T19:14:08Z",
-      "eta_s": 634
-    },
-    {
-      "sha_short": "b01f0fb",
-      "title": "Merge branch 'main' into claude/zulma-zola-theme-setup-qxhc6b",
+      "sha_short": "f186b36",
+      "title": "feat(cards): Korean-editorial thumbnail hover (touch-guard + reduced-…",
       "status": "in_progress",
       "conclusion": null,
-      "created_at": "2026-06-25T19:13:41Z",
-      "run_number": 1155,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28194382854",
-      "waiting_s": 187,
-      "started_at": "2026-06-25T19:13:41Z",
-      "eta_s": 607
+      "created_at": "2026-06-25T23:29:18Z",
+      "run_number": 1162,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207015283",
+      "waiting_s": 1745,
+      "started_at": "2026-06-25T23:29:18Z",
+      "eta_s": 0
     }
   ],
   "expired": [],
   "recent": [
+    {
+      "sha_short": "14c6f0f",
+      "title": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Cou…",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "created_at": "2026-06-25T23:28:56Z",
+      "run_number": 1161,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207001126",
+      "duration_s": 23
+    },
+    {
+      "sha_short": "90c3f02",
+      "title": "Redesign SEOMONEY homepage: 3-column editorial portal layout (#928)",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-25T23:23:02Z",
+      "run_number": 1160,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28206771653",
+      "duration_s": 1063
+    },
+    {
+      "sha_short": "98d42e9",
+      "title": "fix(theme): restore site-level post partials missing after switch to …",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-06-25T22:46:57Z",
+      "run_number": 1159,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28205302043",
+      "duration_s": 1051
+    },
+    {
+      "sha_short": "1abd7e4",
+      "title": "Fix: Pre-existing template compatibility issues for Zola 0.22.1 [clau…",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-25T19:30:01Z",
+      "run_number": 1158,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28195264209",
+      "duration_s": 649
+    },
+    {
+      "sha_short": "e94a9f2",
+      "title": "Build and deploy Zola site to GitHub Pages",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-25T19:21:57Z",
+      "run_number": 1157,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28194832785",
+      "duration_s": 606
+    },
+    {
+      "sha_short": "a34a4ef",
+      "title": "Merge remote-tracking branch 'origin/main'",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-25T19:14:08Z",
+      "run_number": 1156,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28194407984",
+      "duration_s": 704
+    },
+    {
+      "sha_short": "b01f0fb",
+      "title": "Merge branch 'main' into claude/zulma-zola-theme-setup-qxhc6b",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-06-25T19:13:41Z",
+      "run_number": 1155,
+      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28194382854",
+      "duration_s": 363
+    },
     {
       "sha_short": "63cd6d3",
       "title": "ci: retry QA after merge conflict resolve (PR #909) [claude/stoic-fey…",
@@ -276,76 +337,6 @@
       "run_number": 1150,
       "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175232984",
       "duration_s": 1551
-    },
-    {
-      "sha_short": "123a0f6",
-      "title": "refactor: WWDC Priority 3 — Category / Listing pages redesign (#914)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-25T13:48:46Z",
-      "run_number": 1149,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28174902527",
-      "duration_s": 318
-    },
-    {
-      "sha_short": "cfecb1a",
-      "title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc…",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-25T13:37:43Z",
-      "run_number": 1148,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28174213157",
-      "duration_s": 1103
-    },
-    {
-      "sha_short": "796c27b",
-      "title": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ […",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-25T12:18:06Z",
-      "run_number": 1147,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169511946",
-      "duration_s": 1333
-    },
-    {
-      "sha_short": "436769c",
-      "title": "docs: add Blog MoMo UI/UX design reference notes (#907)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-25T12:13:51Z",
-      "run_number": 1146,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169275464",
-      "duration_s": 256
-    },
-    {
-      "sha_short": "488ff82",
-      "title": "Claude/stoic feynman rx0m7m (#908)",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-25T12:02:51Z",
-      "run_number": 1145,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168666391",
-      "duration_s": 1188
-    },
-    {
-      "sha_short": "6711bb2",
-      "title": "refactor: WWDC Priority 2 — Grid (3-column), Card Images, Badge Polis…",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-25T12:01:20Z",
-      "run_number": 1144,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168586277",
-      "duration_s": 93
-    },
-    {
-      "sha_short": "af91af3",
-      "title": "Remove 404 links checker — manual daily verification (#902)",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-25T12:00:57Z",
-      "run_number": 1143,
-      "run_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168565882",
-      "duration_s": 24
     }
   ]
 }
