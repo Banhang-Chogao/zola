@@ -7,192 +7,274 @@
 
 {% block extra_head %}
 <style>
-  .layout-grid:has(.wwdc) { grid-template-columns: minmax(0, 1fr); }
-  main.container:has(.wwdc) { max-width: 1180px; }
+  .layout-grid:has(.wwdc-hero-simple) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.wwdc-hero-simple) { max-width: 100%; }
 
-  .wwdc {
-    --w-ink:        var(--c-text-heading, #0a0a0a);
-    --w-body:       var(--c-text-body, #333);
-    --w-muted:      var(--c-text-muted, #6a6a6a);
-    --w-blue:       var(--c-accent, #003784);
-    --w-blue-hover: var(--c-accent-hover, #002566);
-    --w-blue-soft:  var(--c-accent-soft, #e8edf5);
-    --w-surface:    var(--c-bg-surface, #fff);
-    --w-page:       var(--c-bg-page, #f8f9fb);
-    --w-soft:       var(--c-bg-soft, #f4f4f4);
-    --w-border:     var(--c-border, #e3e3e3);
-    --w-border-strong: var(--c-border-strong, #d0d0d0);
-    --w-shadow:     var(--c-shadow-md, 0 2px 8px rgba(0,55,132,.08));
-    --w-shadow-lg:  var(--c-shadow-lg, 0 8px 24px rgba(0,55,132,.12));
-    --w-radius:     10px;
-    --w-mono:       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-    --w-heading:    'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  .wwdc-page {
+    background: var(--wwdc-page);
+    color: var(--wwdc-body);
+    padding: 0;
+    margin: 0;
+  }
 
-    font-family: inherit;
-    color: var(--w-body);
-    line-height: 1.62;
-    padding: 0 16px 64px;
+  .wwdc-page *, .wwdc-page *::before, .wwdc-page *::after {
+    box-sizing: border-box;
+  }
+
+  /* Simplified Hero Section (Apple-style) */
+  .wwdc-hero-simple {
+    padding: var(--wwdc-section-y) var(--wwdc-section-x);
+    margin: 0 auto;
+    text-align: center;
+    max-width: 1180px;
+  }
+
+  .wwdc-hero-simple__title {
+    font-family: var(--wwdc-family-display);
+    font-size: clamp(2.8rem, 7vw, 4.2rem);
+    font-weight: var(--wwdc-font-heavy);
+    line-height: var(--wwdc-leading-tight);
+    letter-spacing: var(--wwdc-letter-tight);
+    color: var(--wwdc-ink);
+    margin: 0 0 var(--wwdc-space-4);
+  }
+
+  .wwdc-hero-simple__subtitle {
+    font-size: var(--wwdc-text-lg);
+    color: var(--wwdc-muted);
+    margin: 0;
+    max-width: 72ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Filter Bar */
+  .wwdc-filters-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: var(--wwdc-space-3);
+    padding: var(--wwdc-space-5) var(--wwdc-section-x);
+    margin: 0;
+    background: color-mix(in srgb, var(--wwdc-page) 92%, transparent);
+    backdrop-filter: var(--wwdc-glass-backdrop);
+    border-bottom: 1px solid var(--wwdc-border);
+  }
+
+  .wwdc-search-box {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: var(--wwdc-space-3) var(--wwdc-space-4);
+    border: 1px solid var(--wwdc-border);
+    border-radius: var(--wwdc-radius-lg);
+    font-size: var(--wwdc-text-base);
+    background: var(--wwdc-surface);
+    color: var(--wwdc-body);
+    font-family: var(--wwdc-family-sans);
+    transition: border-color var(--wwdc-transition-base),
+                box-shadow var(--wwdc-transition-base);
+  }
+
+  .wwdc-search-box:focus {
+    outline: none;
+    border-color: var(--wwdc-accent);
+    box-shadow: 0 0 0 2px var(--wwdc-accent-soft);
+  }
+
+  .wwdc-search-box::placeholder {
+    color: var(--wwdc-muted);
+  }
+
+  .wwdc-chips-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--wwdc-space-2);
+    max-width: 1180px;
     margin: 0 auto;
   }
-  .wwdc *, .wwdc *::before, .wwdc *::after { box-sizing: border-box; }
 
-  .wwdc__top {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; flex-wrap: wrap;
-    padding: 24px 0 16px;
-    border-bottom: 1px solid var(--w-border);
-  }
-  .wwdc__brand { display: flex; align-items: center; gap: 12px; }
-  .wwdc__mark {
-    width: 38px; height: 38px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border: 2px solid var(--w-blue);
-    border-radius: var(--w-radius);
-    color: var(--w-blue);
-    font-family: var(--w-heading);
-    font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;
-  }
-  .wwdc__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
-  .wwdc__brand-name { font-family: var(--w-heading); font-size: 1.15rem; font-weight: 800; color: var(--w-ink); letter-spacing: -0.02em; }
-  .wwdc__brand-tag { font-size: 0.74rem; color: var(--w-muted); }
-  .wwdc__top-right { font-family: var(--w-mono); font-size: 0.8rem; color: var(--w-muted); }
-  .wwdc__top-right strong { color: var(--w-blue); }
-
-  .wwdc__hero {
-    padding: 48px 0 32px;
-    border-bottom: 1px solid var(--w-border);
-  }
-  .wwdc__eyebrow {
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--w-blue); margin: 0 0 12px;
-  }
-  .wwdc__title {
-    font-family: var(--w-heading);
-    font-size: clamp(2.4rem, 6vw, 4rem);
-    font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
-    color: var(--w-ink); margin: 0 0 12px;
-  }
-  .wwdc__sub {
-    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-    line-height: 1.6; color: var(--w-muted); margin: 0 0 24px; max-width: 64ch;
-  }
-  .wwdc__stats {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 16px; margin-top: 24px; padding-top: 24px;
-    border-top: 1px solid var(--w-border);
-  }
-  .wwdc__stat-n { font-size: 1.7rem; font-weight: 800; color: var(--w-ink); letter-spacing: -0.02em; line-height: 1; }
-  .wwdc__stat-l { display: block; margin-top: 6px; font-size: 0.78rem; color: var(--w-muted); }
-
-  .wwdc__filters {
-    position: sticky; top: 0; z-index: 6;
-    display: flex; flex-direction: column; gap: 14px;
-    padding: 20px 0; margin: 8px 0;
-    background: color-mix(in srgb, var(--w-page) 92%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--w-border);
-  }
-  .wwdc__search {
-    width: 100%;
-    padding: 11px 16px;
-    border: 1px solid var(--w-border);
-    border-radius: var(--w-radius);
-    font-size: 0.95rem;
-    background: var(--w-surface);
-    color: var(--w-ink);
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
-  }
-  .wwdc__search:focus {
-    outline: none;
-    border-color: var(--w-blue);
-    box-shadow: 0 0 0 3px var(--w-blue-soft);
-  }
-  .wwdc__chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .wwdc__chip {
-    display: inline-flex; align-items: center;
-    padding: 6px 14px;
-    border: 1px solid var(--w-border);
-    border-radius: 999px;
-    background: var(--w-surface);
-    color: var(--w-muted);
-    font-size: 0.82rem; font-weight: 600;
-    line-height: 1.3; cursor: pointer; user-select: none;
-    white-space: nowrap;
-    transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
-  }
-  .wwdc__chip:hover { border-color: var(--w-blue); color: var(--w-blue); }
-  .wwdc__chip--active { background: var(--w-blue); color: #fff; border-color: var(--w-blue); }
-  .wwdc__chip--active:hover { background: var(--w-blue-hover); border-color: var(--w-blue-hover); color: #fff; }
-  .wwdc__chip-count { font-family: var(--w-mono); font-size: 0.68rem; margin-left: 6px; opacity: 0.7; }
-
-  .wwdc__grid {
+  /* Card Grid */
+  .wwdc-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
-    margin: 24px 0 8px;
+    gap: var(--wwdc-space-4);
+    padding: var(--wwdc-section-y) var(--wwdc-section-x);
+    max-width: 1180px;
+    margin: 0 auto;
   }
-  .wwdc__card {
-    display: flex; flex-direction: column; gap: 8px;
-    padding: 20px;
-    border: 1px solid var(--w-border);
-    border-radius: var(--w-radius);
-    background: var(--w-surface);
-    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+
+  .wwdc-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wwdc-space-3);
+    padding: var(--wwdc-space-5);
+    border: 1px solid var(--wwdc-border);
+    border-radius: var(--wwdc-radius-lg);
+    background: var(--wwdc-surface);
+    transition: border-color var(--wwdc-transition-base),
+                box-shadow var(--wwdc-transition-base),
+                transform var(--wwdc-transition-base);
   }
-  .wwdc__card:hover {
-    border-color: var(--w-border-strong);
-    box-shadow: var(--w-shadow-lg);
-    transform: translateY(-2px);
+
+  .wwdc-card:hover {
+    border-color: var(--wwdc-border-strong);
+    box-shadow: var(--wwdc-shadow-lg);
+    transform: translateY(-4px);
   }
-  .wwdc__card-meta {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 0.75rem; font-weight: 600; color: var(--w-muted);
+
+  .wwdc-card__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--wwdc-space-3);
+    font-size: var(--wwdc-text-xs);
+    font-weight: var(--wwdc-font-semibold);
+    color: var(--wwdc-muted);
   }
-  .wwdc__card-id { font-family: var(--w-mono); font-size: 0.72rem; font-weight: 700; color: var(--w-blue); }
-  .wwdc__card-duration {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 2px 8px; border: 1px solid var(--w-border); border-radius: 4px;
-    font-family: var(--w-mono); font-size: 0.72rem; font-weight: 700;
-    color: var(--w-blue); white-space: nowrap;
+
+  .wwdc-card__id {
+    font-family: var(--wwdc-family-mono);
+    font-size: 0.7rem;
+    font-weight: var(--wwdc-font-heavy);
+    color: var(--wwdc-accent);
   }
-  .wwdc__card-cat { color: var(--w-muted); }
-  .wwdc__card-title {
-    font-family: var(--w-heading);
-    font-size: clamp(0.98rem, 1.3vw, 1.08rem);
-    font-weight: 700; line-height: 1.3; color: var(--w-ink); margin: 0;
+
+  .wwdc-card__duration {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--wwdc-space-1);
+    padding: var(--wwdc-space-1) var(--wwdc-space-2);
+    border: 1px solid var(--wwdc-border);
+    border-radius: var(--wwdc-radius-sm);
+    font-family: var(--wwdc-family-mono);
+    font-size: 0.7rem;
+    font-weight: var(--wwdc-font-heavy);
+    color: var(--wwdc-accent);
   }
-  .wwdc__card-desc {
-    font-size: 0.84rem; line-height: 1.5; color: var(--w-muted); margin: 0;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+
+  .wwdc-card__title {
+    font-family: var(--wwdc-family-display);
+    font-size: var(--wwdc-text-lg);
+    font-weight: var(--wwdc-font-bold);
+    line-height: var(--wwdc-leading-tight);
+    color: var(--wwdc-ink);
+    margin: 0;
   }
-  .wwdc__card-tag {
-    display: inline-block; align-self: flex-start;
-    padding: 2px 10px; border-radius: 999px;
-    background: var(--w-blue-soft);
-    font-size: 0.72rem; font-weight: 600; color: var(--w-blue);
+
+  .wwdc-card__description {
+    font-size: var(--wwdc-text-base);
+    line-height: var(--wwdc-leading-relaxed);
+    color: var(--wwdc-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .wwdc-card__tag {
+    display: inline-block;
+    padding: var(--wwdc-space-2) var(--wwdc-space-3);
+    background: var(--wwdc-accent-soft);
+    border-radius: var(--wwdc-radius-sm);
+    font-size: var(--wwdc-text-xs);
+    font-weight: var(--wwdc-font-semibold);
+    color: var(--wwdc-accent);
     margin-top: auto;
+    width: fit-content;
   }
 
-  .wwdc__count { font-size: 0.84rem; font-weight: 600; color: var(--w-muted); margin: 20px 0 0; letter-spacing: 0.02em; }
-  .wwdc__count strong { color: var(--w-ink); font-family: var(--w-mono); }
-  .wwdc__empty { text-align: center; padding: 48px 24px; color: var(--w-muted); font-size: 0.92rem; }
-
-  .wwdc__foot {
-    padding: 40px 0 8px; text-align: center;
-    font-size: 0.82rem; color: var(--w-muted);
-    border-top: 1px solid var(--w-border); margin-top: 32px;
+  /* Count Info */
+  .wwdc-count {
+    text-align: center;
+    font-size: var(--wwdc-text-sm);
+    color: var(--wwdc-muted);
+    padding: 0 var(--wwdc-section-x);
+    margin: var(--wwdc-space-4) 0;
+    font-weight: var(--wwdc-font-semibold);
   }
-  .wwdc__foot a { color: var(--w-blue); }
 
-  @media (max-width: 720px) {
-    .wwdc__hero { padding: 28px 0 24px; }
-    .wwdc__grid { grid-template-columns: 1fr; gap: 12px; }
-    .wwdc__card { padding: 16px; }
-    .wwdc__filters { position: static; padding: 16px 0; margin: 0; }
+  .wwdc-count strong {
+    color: var(--wwdc-ink);
+    font-family: var(--wwdc-family-mono);
   }
-  @media (max-width: 400px) {
-    .wwdc__chip { padding: 5px 10px; font-size: 0.76rem; }
-    .wwdc__chips { gap: 6px; }
+
+  /* Empty State */
+  .wwdc-empty {
+    text-align: center;
+    padding: var(--wwdc-space-12) var(--wwdc-section-x);
+    color: var(--wwdc-muted);
+    font-size: var(--wwdc-text-base);
+  }
+
+  /* Footer */
+  .wwdc-footer {
+    padding: var(--wwdc-space-8) var(--wwdc-section-x);
+    text-align: center;
+    font-size: var(--wwdc-text-sm);
+    color: var(--wwdc-muted);
+    border-top: 1px solid var(--wwdc-border);
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .wwdc-footer a {
+    color: var(--wwdc-accent);
+    text-decoration: none;
+  }
+
+  .wwdc-footer a:hover {
+    text-decoration: underline;
+  }
+
+  .wwdc-footer p {
+    margin: 0 0 var(--wwdc-space-2);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .wwdc-hero-simple {
+      padding: var(--wwdc-space-8) var(--wwdc-space-4);
+    }
+
+    .wwdc-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--wwdc-space-3);
+      padding: var(--wwdc-space-6) var(--wwdc-space-4);
+    }
+
+    .wwdc-card {
+      padding: var(--wwdc-space-4);
+    }
+
+    .wwdc-filters-sticky {
+      padding: var(--wwdc-space-4) var(--wwdc-space-3);
+      position: static;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .wwdc-hero-simple {
+      padding: var(--wwdc-space-6) var(--wwdc-space-3);
+    }
+
+    .wwdc-hero-simple__title {
+      font-size: 2rem;
+    }
+
+    .wwdc-grid {
+      grid-template-columns: 1fr;
+      gap: var(--wwdc-space-3);
+      padding: var(--wwdc-space-4) var(--wwdc-space-3);
+    }
+
+    .wwdc-chips-container {
+      gap: var(--wwdc-space-1);
+    }
   }
 </style>
 {% endblock %}
@@ -202,69 +284,58 @@
 {% set_global sessions = [] %}
 {% if wwdc and wwdc.sessions %}{% set_global sessions = wwdc.sessions %}{% endif %}
 {% set_global categories = sessions | map(attribute="category") | unique | sort %}
-<section class="wwdc">
-  <div class="wwdc__top">
-    <div class="wwdc__brand">
-      <span class="wwdc__mark">W</span>
-      <span class="wwdc__brand-text">
-        <span class="wwdc__brand-name">WWDC26</span>
-        <span class="wwdc__brand-tag">Session Catalogue</span>
-      </span>
-    </div>
-    <span class="wwdc__top-right"><strong>{{ wwdc.edition | default(value="WWDC26") }}</strong> · {{ wwdc.year | default(value=2026) }}</span>
-  </div>
 
-  <header class="wwdc__hero">
-    <p class="wwdc__eyebrow">Cảm hứng Apple WWDC26</p>
-    <h1 class="wwdc__title">{{ section.title }}</h1>
-    <p class="wwdc__sub">{{ wwdc.tagline | default(value=section.description) }}</p>
-    <div class="wwdc__stats">
-      <div><span class="wwdc__stat-n">{{ sessions | length }}</span><span class="wwdc__stat-l">Phiên/bài</span></div>
-      <div><span class="wwdc__stat-n">{{ categories | length }}</span><span class="wwdc__stat-l">Chủ đề</span></div>
-      <div><span class="wwdc__stat-n">26</span><span class="wwdc__stat-l">Nền tảng</span></div>
-    </div>
+<div class="wwdc-page wwdc-hero-simple">
+  <!-- Hero Section: Minimal (Apple-style) -->
+  <header class="wwdc-hero-simple">
+    <h1 class="wwdc-hero-simple__title">{{ section.title }}</h1>
+    <p class="wwdc-hero-simple__subtitle">{{ wwdc.tagline | default(value=section.description) }}</p>
   </header>
 
-  <div class="wwdc__filters">
-    <input class="wwdc__search" type="text" id="wwdc-search" placeholder="Tìm theo tiêu đề hoặc mô tả…" autocomplete="off" aria-label="Tìm kiếm phiên WWDC26" />
-    <div class="wwdc__chips" id="wwdc-chips" role="group" aria-label="Lọc theo chủ đề">
-      <button class="wwdc__chip wwdc__chip--active" type="button" data-filter="all">
-        Tất cả <span class="wwdc__chip-count">{{ sessions | length }}</span>
+  <!-- Filter Bar: Sticky -->
+  <div class="wwdc-filters-sticky">
+    <input class="wwdc-search-box" type="text" id="wwdc-search" placeholder="Tìm theo tiêu đề hoặc mô tả…" autocomplete="off" aria-label="Tìm kiếm phiên WWDC26" />
+    <div class="wwdc-chips-container" id="wwdc-chips" role="group" aria-label="Lọc theo chủ đề">
+      <button class="wwdc-chip wwdc-chip--active" type="button" data-filter="all">
+        Tất cả <span class="wwdc-chip-count">({{ sessions | length }})</span>
       </button>
       {% for cat in categories %}
-      <button class="wwdc__chip" type="button" data-filter="{{ cat }}">
-        {{ cat }} <span class="wwdc__chip-count">{{ sessions | filter(attribute="category", value=cat) | length }}</span>
+      <button class="wwdc-chip" type="button" data-filter="{{ cat }}">
+        {{ cat }} <span class="wwdc-chip-count">({{ sessions | filter(attribute="category", value=cat) | length }})</span>
       </button>
       {% endfor %}
     </div>
   </div>
 
-  <p class="wwdc__count" id="wwdc-count" aria-live="polite">
+  <!-- Results Count -->
+  <p class="wwdc-count" id="wwdc-count" aria-live="polite">
     Đang hiển thị <strong id="wwdc-shown">{{ sessions | length }}</strong> / {{ sessions | length }} phiên
   </p>
 
-  <div class="wwdc__grid" id="wwdc-grid">
+  <!-- Grid of Cards -->
+  <div class="wwdc-grid" id="wwdc-grid">
     {% for s in sessions %}
-    <article class="wwdc__card" data-category="{{ s.category }}" data-title="{{ s.title | lower }}" data-desc="{{ s.description | lower }}">
-      <div class="wwdc__card-meta">
-        <span class="wwdc__card-id">#{{ s.id }}</span>
-        <span class="wwdc__card-duration">{{ s.duration }}</span>
-        <span class="wwdc__card-cat">· {{ s.category }}</span>
+    <article class="wwdc-card" data-category="{{ s.category }}" data-title="{{ s.title | lower }}" data-desc="{{ s.description | lower }}">
+      <div class="wwdc-card__meta">
+        <span class="wwdc-card__id">#{{ s.id }}</span>
+        <span class="wwdc-card__duration">{{ s.duration }}</span>
       </div>
-      <h3 class="wwdc__card-title">{{ s.title }}</h3>
-      <p class="wwdc__card-desc">{{ s.description }}</p>
-      <span class="wwdc__card-tag">{{ s.category }}</span>
+      <h3 class="wwdc-card__title">{{ s.title }}</h3>
+      <p class="wwdc-card__description">{{ s.description }}</p>
+      <span class="wwdc-card__tag">{{ s.category }}</span>
     </article>
     {% endfor %}
   </div>
 
-  <p class="wwdc__empty" id="wwdc-empty" hidden>Không tìm thấy phiên nào khớp. Thử từ khoá hoặc chủ đề khác.</p>
+  <!-- Empty State -->
+  <p class="wwdc-empty" id="wwdc-empty" hidden>Không tìm thấy phiên nào khớp. Thử từ khoá hoặc chủ đề khác.</p>
 
-  <footer class="wwdc__foot">
-    <p>WWDC26 Session Catalogue — bố cục lấy cảm hứng từ <a href="{{ config.base_url }}/tools/e-dna/">E-DNA</a> và <a href="{{ config.base_url }}/wwdc26-branding/">Branding Guideline</a>.</p>
+  <!-- Footer -->
+  <footer class="wwdc-footer">
+    <p>WWDC26 Session Catalogue — lấy cảm hứng từ <a href="https://developer.apple.com/videos/wwdc2026/">developer.apple.com/videos</a></p>
     <p>Dữ liệu mẫu, không phải nội dung chính thức của Apple.</p>
   </footer>
-</section>
+</div>
 
 <script>
   (function () {
