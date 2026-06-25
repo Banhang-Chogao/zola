@@ -85,7 +85,7 @@ def is_article_page(html: str, url: str) -> bool:
     return is_article
 
 
-def validate_og_image(url: str, meta: dict) -> tuple[bool, list[str]]:
+def validate_og_image(url: str, meta: dict, check_files: bool = True) -> tuple[bool, list[str]]:
     """Validate OG image URL and properties. Returns (is_valid, errors)."""
     errors = []
 
@@ -112,7 +112,7 @@ def validate_og_image(url: str, meta: dict) -> tuple[bool, list[str]]:
             )
 
     # Try to resolve static file (only if public/ exists — post-build validation)
-    if PUBLIC_ROOT.exists() and og_image.startswith(("http://", "https://")) and "seomoney.org" in og_image:
+    if check_files and PUBLIC_ROOT.exists() and og_image.startswith(("http://", "https://")) and "seomoney.org" in og_image:
         # Extract path after domain
         m = re.search(r"seomoney\.org(/[^?#]+)", og_image)
         if m:
