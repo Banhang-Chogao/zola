@@ -1,6 +1,21 @@
 {
   "items": [
     {
+      "date": "2026-06-25",
+      "title": "thêm ghi chú thiết kế tham khảo Nokia Blog [claude/adoring-mayer-jrca7z]",
+      "tag": "chore",
+      "lines_added": 220,
+      "lines_removed": 0,
+      "highlights": [
+        "docs/nokia-blog-design-notes.md (added, +220/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/adoring-mayer-jrca7z là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 906
+    },
+    {
       "date": "2026-06-24",
       "title": "remove broken Google Search module from header and SEO widget [feat/v5-rate-limit-article]",
       "tag": "fix",
