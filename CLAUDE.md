@@ -48,12 +48,13 @@ Không được bypass:
 
 - Merge Conflict
 - Secret Leak
-- Broken Links Blocker
 - Build Failure
 - QA Failure
 - High-Risk Vaccine Failure
 
 CI xanh mới được merge.
+
+*Note: Broken Links Blocker (qa-404-checker) removed — manual daily link check instead.*
 
 ## QA Doctrine
 
