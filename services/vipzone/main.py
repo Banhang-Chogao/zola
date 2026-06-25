@@ -586,3 +586,10 @@ except ImportError:
 
 app.include_router(blog_heartbeat_router)
 
+try:
+    from .wd_heartbeat import router as wd_heartbeat_router
+except ImportError:
+    from wd_heartbeat import router as wd_heartbeat_router
+
+app.include_router(wd_heartbeat_router)
+
