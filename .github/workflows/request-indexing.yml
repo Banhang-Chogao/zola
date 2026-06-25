@@ -1,0 +1,66 @@
+name: Request Indexing Daily
+
+# Mỗi sáng 06:00 ICT (23:00 UTC): chọn shortlist 10–12 URL ưu tiên CHƯA index →
+# tự ping IndexNow (Bing/Yandex/…) + Bing URL Submission API, và xuất deep-link GSC
+# URL Inspection cho người vận hành bấm "Request Indexing" thủ công (Google không có
+# API submit công khai cho nội dung thường). Report → /insights/.
+#
+# OPTIONAL secrets (thiếu → degrade, KHÔNG fake "indexed", shortlist xếp theo priority):
+#   GSC_REFRESH_TOKEN, GSC_PROPERTY_URL (sc-domain:seomoney.org), GSC_CLIENT_ID, GSC_CLIENT_SECRET
+#   BING_API_KEY  — Bing Webmaster URL Submission API (hợp lệ, tự động, quota 10k/ngày)
+# IndexNow cần file static/<key>.txt trong repo (đã có cho indexnow.yml).
+
+on:
+  schedule:
+    - cron: '0 23 * * *'   # 06:00 ICT
+  workflow_dispatch:
+    inputs:
+      shortlist:
+        description: 'Số URL trong shortlist/ngày'
+        required: false
+        default: '12'
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# Tuần tự — không chạy đè (state rotation cần nhất quán).
+concurrency:
+  group: request-indexing
+  cancel-in-progress: false
+
+jobs:
+  request-indexing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Install Google API client (cho GSC URL Inspection)
+        run: pip install --quiet google-api-python-client==2.169.0 google-auth==2.40.2
+
+      - name: Build shortlist + submit + report
+        env:
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          BING_API_KEY: ${{ secrets.BING_API_KEY }}
+        run: python3 scripts/request_indexing.py --shortlist "${{ github.event.inputs.shortlist || '12' }}"
+
+      - name: Push report to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: request-indexing shortlist ($(date -u +%FT%TZ)) [skip changelog]" \
+            data/request-indexing-report.json \
+            data/request-indexing-queue.json \
+            data/request-indexing-state.json
