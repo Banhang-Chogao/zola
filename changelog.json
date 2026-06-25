@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Countdown [fix/footer-remove-deploy-status]",
+      "tag": "remove",
+      "lines_added": 4,
+      "lines_removed": 53,
+      "highlights": [
+        "templates/base.html (modified, +4/-53)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch fix/footer-remove-deploy-status là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 929
+    },
+    {
+      "date": "2026-06-25",
       "title": "Redesign SEOMONEY homepage: 3-column editorial portal layout [claude/seomoney-homepage-redesign-j7x31f]",
       "tag": "chore",
       "lines_added": 134,
