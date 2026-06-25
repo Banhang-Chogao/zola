@@ -208,40 +208,41 @@
   </section>
   {% endif %}
 
-  {# ===== 04 · MỚI NHẤT — 4×2 thumbnail + colored title grid ===== #}
-  <section aria-labelledby="isl-latest">
-    <div class="island__sec-head">
-      <span class="island__sec-num">04</span>
-      <h2 class="island__sec-title" id="isl-latest">Mới nhất &amp; đáng đọc</h2>
-      <a class="island__sec-link" href="{{ posting.permalink }}">Kho bài viết →</a>
-    </div>
-    <div class="island__newest">
-      {% for p in latest %}
-      {% set_global pcat = "" %}
-      {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pcat == "" and c != "Tất cả" and c != "premium" %}{% set_global pcat = c %}{% endif %}{% endfor %}{% endif %}
-      <a class="island__ncard island__ncard--{{ loop.index0 % 8 }}" href="{{ p.permalink }}">
-        <span class="island__ncard-thumb">
-          <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}" loading="lazy" decoding="async" width="300" height="180">
-        </span>
-        <span class="island__ncard-title">
-          {% if pcat %}<span class="island__ncard-cat">{{ pcat }}</span>{% endif %}
-          <span class="island__ncard-text">{{ p.title }}</span>
-        </span>
-      </a>
-      {% endfor %}
-    </div>
-  </section>
+  {# ===== 04-05 · 3-COLUMN GRID: Newest (left) + Rankings (middle) + Widgets (right) ===== #}
+  <div class="island__grid">
 
-  {# ===== 05 · BẢNG XẾP HẠNG & TRẠNG THÁI (rail widgets) ===== #}
-  <section aria-labelledby="isl-board">
-    <div class="island__sec-head">
-      <span class="island__sec-num">05</span>
-      <h2 class="island__sec-title" id="isl-board">Bảng xếp hạng &amp; trạng thái</h2>
-    </div>
-    <div class="island__board">
+    {# --- LEFT: Newest posts --- #}
+    <section aria-labelledby="isl-latest">
+      <div class="island__sec-head">
+        <span class="island__sec-num">04</span>
+        <h2 class="island__sec-title" id="isl-latest">Mới nhất</h2>
+        <a class="island__sec-link" href="{{ posting.permalink }}">Kho bài viết →</a>
+      </div>
+      <div class="island__newest">
+        {% for p in latest %}
+        {% set_global pcat = "" %}
+        {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pcat == "" and c != "Tất cả" and c != "premium" %}{% set_global pcat = c %}{% endif %}{% endfor %}{% endif %}
+        <a class="island__ncard island__ncard--{{ loop.index0 % 8 }}" href="{{ p.permalink }}">
+          <span class="island__ncard-thumb">
+            <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}" loading="lazy" decoding="async" width="300" height="180">
+          </span>
+          <span class="island__ncard-title">
+            {% if pcat %}<span class="island__ncard-cat">{{ pcat }}</span>{% endif %}
+            <span class="island__ncard-text">{{ p.title }}</span>
+          </span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
 
+    {# --- MIDDLE: Rankings + On-site ---- #}
+    <section aria-labelledby="isl-ranking">
+      <div class="island__sec-head">
+        <span class="island__sec-num">05</span>
+        <h2 class="island__sec-title" id="isl-ranking">Xếp hạng &amp; sâu</h2>
+      </div>
       <div class="island__widget">
-        <div class="island__widget-head"><h3 class="island__widget-title">Bảng xếp hạng · Đọc chuyên sâu</h3></div>
+        <div class="island__widget-head"><h3 class="island__widget-title">Top bài viết</h3></div>
         <div class="island__widget-body">
           <ol class="island__ranks">
             {% for p in ranks %}
@@ -254,61 +255,66 @@
           </ol>
         </div>
       </div>
+    </section>
 
-      <div class="island__widget" data-island-weather>
-        <div class="island__widget-head"><h3 class="island__widget-title">Dự báo thời tiết</h3></div>
-        <div class="island__widget-body">
-          <div class="island__weather">
-            <span class="island__weather-icon" data-weather-icon aria-hidden="true">
-              <svg viewBox="0 0 24 24">
-                <circle cx="7.5" cy="7.5" r="2.8"/>
-                <line x1="7.5" y1="2" x2="7.5" y2="3.3"/><line x1="7.5" y1="11.7" x2="7.5" y2="13"/>
-                <line x1="2" y1="7.5" x2="3.3" y2="7.5"/><line x1="11.7" y1="7.5" x2="13" y2="7.5"/>
-                <line x1="3.6" y1="3.6" x2="4.5" y2="4.5"/><line x1="10.5" y1="10.5" x2="11.4" y2="11.4"/>
-                <path d="M17.5 20H10a3.5 3.5 0 0 1-.5-6.96A4.5 4.5 0 0 1 18 13.5a3.25 3.25 0 0 1-.5 6.5z"/>
-              </svg>
-            </span>
-            <span class="island__weather-main">
-              <span class="island__weather-city" data-weather-city>Hà Nội · Nhiều mây</span>
-              <span class="island__weather-aqi" data-weather-aqi>Mịn <strong>Tốt</strong> · Siêu mịn <strong>Tốt</strong></span>
-            </span>
-            <span class="island__weather-temp">
-              <span class="island__weather-now" data-weather-now>23<span class="island__weather-unit">°C</span></span>
-              <span class="island__weather-hl" data-weather-hl>25° / 20°</span>
-            </span>
-          </div>
-          <p class="island__weather-note" data-weather-note>Dữ liệu mẫu · đang chờ kết nối API thời tiết.</p>
-        </div>
+    {# --- RIGHT: Utility widgets (compact stacked) ---- #}
+    <section aria-labelledby="isl-widgets">
+      <div class="island__sec-head">
+        <span class="island__sec-num">06</span>
+        <h2 class="island__sec-title" id="isl-widgets">Tiện ích</h2>
       </div>
+      <div class="island__widgets-col">
 
-      <div class="island__widget">
-        <div class="island__widget-head"><h3 class="island__widget-title">Trạng thái triển khai</h3></div>
-        <div class="island__widget-body">
-          <div class="island__deploy" data-deploy-status>
-            <span class="island__deploy-dot"></span>
-            <span class="island__deploy-text"><strong data-deploy-badge>Đang đồng bộ…</strong><br><span data-deploy-text>Build sản xuất trên GitHub Pages</span></span>
+        <div class="island__widget">
+          <div class="island__widget-head"><h3 class="island__widget-title">Admin &amp; GitHub</h3></div>
+          <div class="island__widget-body">
+            <a class="island__admin" href="{{ config.base_url | safe }}/tools/admin-zone/">
+              <span class="island__ring" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+              <span>Đăng nhập GitHub</span>
+            </a>
           </div>
-          <a class="island__sec-link" style="display:inline-block;margin-top:.7rem" href="{{ config.base_url | safe }}/tools/deploy-monitor/">Hàng đợi &amp; uptime →</a>
         </div>
-      </div>
 
-      <div class="island__widget">
-        <div class="island__widget-head"><h3 class="island__widget-title">Hôm nay</h3></div>
-        <div class="island__widget-body" data-island-cal>
-          <div class="island__cal-today">
-            <span class="island__cal-day" data-cal-day>—</span>
-            <span class="island__cal-rest" data-cal-rest><strong>—</strong></span>
+        <div class="island__widget" data-island-weather>
+          <div class="island__widget-head"><h3 class="island__widget-title">Dự báo</h3></div>
+          <div class="island__widget-body">
+            <div class="island__weather">
+              <span class="island__weather-icon" data-weather-icon aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="7.5" cy="7.5" r="2.8"/>
+                  <line x1="7.5" y1="2" x2="7.5" y2="3.3"/><line x1="7.5" y1="11.7" x2="7.5" y2="13"/>
+                  <line x1="2" y1="7.5" x2="3.3" y2="7.5"/><line x1="11.7" y1="7.5" x2="13" y2="7.5"/>
+                  <line x1="3.6" y1="3.6" x2="4.5" y2="4.5"/><line x1="10.5" y1="10.5" x2="11.4" y2="11.4"/>
+                  <path d="M17.5 20H10a3.5 3.5 0 0 1-.5-6.96A4.5 4.5 0 0 1 18 13.5a3.25 3.25 0 0 1-.5 6.5z"/>
+                </svg>
+              </span>
+              <span class="island__weather-main">
+                <span class="island__weather-city" data-weather-city>Hà Nội · Nhiều mây</span>
+                <span class="island__weather-aqi" data-weather-aqi>Tốt</span>
+              </span>
+              <span class="island__weather-temp">
+                <span class="island__weather-now" data-weather-now>23<span class="island__weather-unit">°C</span></span>
+              </span>
+            </div>
+            <p class="island__weather-note" data-weather-note>Dữ liệu mẫu · chờ API.</p>
           </div>
-          <span class="island__cal-clock" data-cal-clock>--:--:--</span>
-          <a class="island__admin" style="margin-top:0.8rem" href="{{ config.base_url | safe }}/tools/admin-zone/">
-            <span class="island__ring" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
-            <span>Admin · Đăng nhập GitHub</span>
-          </a>
         </div>
-      </div>
 
-    </div>
-  </section>
+        <div class="island__widget">
+          <div class="island__widget-head"><h3 class="island__widget-title">Triển khai</h3></div>
+          <div class="island__widget-body">
+            <div class="island__deploy" data-deploy-status>
+              <span class="island__deploy-dot"></span>
+              <span class="island__deploy-text"><strong data-deploy-badge>Đang đồng bộ…</strong></span>
+            </div>
+            <a class="island__sec-link" style="display:inline-block;margin-top:.6rem;font-size:0.75rem" href="{{ config.base_url | safe }}/tools/deploy-monitor/">Hàng đợi →</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>{# end island__grid #}
 
   {# ===== PAGINATION ===== #}
   <nav class="island__pager" aria-label="Phân trang">

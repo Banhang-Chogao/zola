@@ -340,10 +340,10 @@ main.container:has(.island) { max-width: 1240px; }
     color: var(--isl-gray);
   }
 
-  /* ===== MAIN GRID: latest (left) + rail (right) ===== */
+  /* ===== MAIN GRID: 3-column (newest left, rankings middle, widgets right) ===== */
   &__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr) minmax(280px, 0.9fr);
     gap: 1.6rem;
     align-items: start;
   }
@@ -516,16 +516,21 @@ main.container:has(.island) { max-width: 1240px; }
     align-items: center;
     gap: 0.6rem;
     padding: 0.7rem 0.85rem;
-    border: 1px dashed var(--isl-border);
+    border: 1px solid var(--isl-border);
     border-radius: var(--isl-radius);
+    background: var(--isl-surface);
     text-decoration: none;
     color: var(--isl-body);
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    transition: border-color 0.15s ease, color 0.15s ease;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   }
-  &__admin:hover { border-color: var(--isl-teal); color: var(--isl-teal); }
-  &__admin .island__ring { width: 26px; height: 26px; svg { width: 13px; height: 13px; } }
+  &__admin:hover {
+    border-color: var(--isl-teal);
+    color: var(--isl-teal);
+    background-color: var(--isl-teal-soft);
+  }
+  &__admin .island__ring { width: 24px; height: 24px; svg { width: 12px; height: 12px; } }
 
   /* ===== PAGINATION ===== */
   &__pager {
@@ -569,13 +574,22 @@ main.container:has(.island) { max-width: 1240px; }
   }
 }
 
-/* ===== RESPONSIVE — one design, reflowed. Mobile mirrors web. ===== */
-@media (max-width: 1040px) {
-  .island__grid { grid-template-columns: minmax(0, 1fr); }
-  .island__rail {
+/* ===== RESPONSIVE — Desktop 3-col → Tablet 2-col → Mobile 1-col ===== */
+@media (max-width: 1200px) {
+  .island__grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+  .island__widgets-col {
+    grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .island__grid { grid-template-columns: minmax(0, 1fr); }
+  .island__widgets-col {
+    grid-column: auto;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -606,15 +620,16 @@ main.container:has(.island) { max-width: 1240px; }
 }
 
 /* ============================================================
-   04 · "Mới nhất & đáng đọc" — 4×2 grid: thumbnail on top,
-   title below on a solid colour @ 50% opacity (cycling S-DNA
-   palette). Elements live inside .island so --isl-* vars cascade.
+   04 · "Mới nhất" — 2-column grid (inside left column of main grid).
+   Thumbnail on top, title below on a solid colour @ 50% opacity
+   (cycling S-DNA palette). Elements live inside .island so
+   --isl-* vars cascade.
    ============================================================ */
 .island__newest {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.9rem;
-  margin-bottom: 2.6rem;
+  margin-bottom: 0;
 }
 .island__ncard {
   display: flex;
@@ -673,56 +688,55 @@ main.container:has(.island) { max-width: 1240px; }
 .island__ncard--6 .island__ncard-title { background: rgba(79, 178, 134, 0.50); }  /* green */
 .island__ncard--7 .island__ncard-title { background: rgba(240, 136, 62, 0.52); }  /* orange */
 
-/* 05 · board — rankings + deploy + calendar row */
-.island__board {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+/* 06 · widgets column — compact stacked widgets for right sidebar */
+.island__widgets-col {
+  display: flex;
+  flex-direction: column;
   gap: 1.2rem;
-  align-items: start;
 }
 
-@media (max-width: 1040px) { .island__newest { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 1040px) { .island__newest { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 760px)  { .island__newest { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 380px)  { .island__newest { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; } }
+@media (max-width: 560px)  { .island__newest { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; } }
 
-/* ===== Weather forecast widget (S-DNA) — compact card in the board ===== */
+/* ===== Weather forecast widget (S-DNA) — compact card ===== */
 .island__weather {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 .island__weather-icon {
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.4rem;
+  height: 2.4rem;
   color: var(--isl-blue-accent);
   flex-shrink: 0;
 
   svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 }
-.island__weather-main { display: flex; flex-direction: column; gap: 0.18rem; min-width: 0; }
+.island__weather-main { display: flex; flex-direction: column; gap: 0.12rem; min-width: 0; }
 .island__weather-city {
   font-family: $font-heading;
-  font-size: 0.9rem;
-  font-weight: 800;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--isl-ink);
   line-height: 1.2;
 }
 .island__weather-aqi {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--isl-muted);
 
   strong { color: var(--isl-teal); font-weight: 700; }
 }
-.island__weather-temp { display: flex; flex-direction: column; align-items: flex-end; }
+.island__weather-temp { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; gap: 0.3rem; }
 .island__weather-now {
   font-family: $font-heading;
-  font-size: 1.7rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: var(--isl-ink);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
-.island__weather-unit { font-size: 0.8rem; font-weight: 700; color: var(--isl-muted); margin-left: 0.08rem; }
-.island__weather-hl { font-family: $font-mono; font-size: 0.72rem; color: var(--isl-muted); margin-top: 0.25rem; }
-.island__weather-note { margin: 0.7rem 0 0; font-size: 0.68rem; color: var(--isl-gray); font-style: italic; }
+.island__weather-unit { font-size: 0.7rem; font-weight: 700; color: var(--isl-muted); }
+.island__weather-hl { font-family: $font-mono; font-size: 0.7rem; color: var(--isl-muted); display: none; }
+.island__weather-note { margin: 0.5rem 0 0; font-size: 0.66rem; color: var(--isl-gray); font-style: italic; }
