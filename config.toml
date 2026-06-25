@@ -18,9 +18,14 @@ build_search_index = false
 generate_feeds = true
 feed_filenames = ["atom.xml", "rss.xml"]
 
+# SEO indexing (2026-06-25): tắt feed cho `tags`.
+# Lý do: 631 tag (471 dùng 1 lần) × 2 feed (atom+rss) = ~1.262 URL feed MỎNG
+# loãng crawl budget của domain mới (seomoney.org migrate 06/2026). Tag vẫn dùng
+# để gom bài/điều hướng; chỉ feed bị tắt. Category feed (16×2) GIỮ — ít & hữu ích
+# cho Google Discover. Xem KE-HOACH-INDEXING.md §2 (A1).
 taxonomies = [
     {name = "categories", feed = true, paginate_by = 10},
-    {name = "tags", feed = true, paginate_by = 10},
+    {name = "tags", feed = false, paginate_by = 10},
 ]
 
 [markdown]

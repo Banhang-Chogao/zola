@@ -1,23 +1,64 @@
 # robots.txt — Blog SEOMONEY
-# SEO-safe: allow public crawling; disallow internal/admin/report surfaces only.
+# Cập nhật 2026-06-25 (SEO indexing): siết crawl trang nội bộ/dashboard/report.
+# Các trang này đã `noindex`; Disallow để Google KHÔNG tốn crawl budget vào chúng —
+# dồn ngân sách cho ~239 bài công khai. Danh sách Disallow đồng bộ 1-1 với mảng
+# `excluded` trong templates/sitemap.xml. Xem KE-HOACH-INDEXING.md §3.2.
+#
+# LƯU Ý: KHÔNG Disallow /tags/ — tag vẫn cần crawl được (internal link, follow);
+# chỉ loại tag khỏi sitemap (không "đề cử"), không chặn crawl.
 
-User-agent: Googlebot
-Allow: /
-
-User-agent: Googlebot-Image
-Allow: /
-
+# AdSense crawlers — full access (bắt buộc cho quảng cáo; AdsBot KHÔNG theo User-agent: *)
 User-agent: Mediapartners-Google
 Allow: /
 
 User-agent: AdsBot-Google
 Allow: /
 
-User-agent: Bingbot
+User-agent: AdsBot-Google-Mobile
 Allow: /
 
+# Google Image — cho crawl ảnh mọi nơi
+User-agent: Googlebot-Image
+Allow: /
+
+# Mọi crawler khác (GỒM Googlebot, Bingbot — rơi vào nhóm này vì không còn nhóm riêng):
+# crawl công khai, trừ các surface nội bộ dưới đây.
 User-agent: *
 Allow: /
+Disallow: /ad-report/
+Disallow: /ad-report-v2/
+Disallow: /authority-report/
+Disallow: /bao-cao-tong-ket/
+Disallow: /seo-bang-vang/
+Disallow: /insights/
+Disallow: /scoring/
+Disallow: /branding-guideline/
+Disallow: /font/
+Disallow: /changelog/
+Disallow: /content/
+Disallow: /uptime-me/
+Disallow: /calendar/
+Disallow: /b-dna/
+Disallow: /s-dna/
+Disallow: /admin-author/
+Disallow: /admin-countdown/
+Disallow: /admin/paywall/
+Disallow: /paywall-admin/
+Disallow: /shortensea-admin/
+Disallow: /shortensea-insights/
+Disallow: /cms/
+Disallow: /editor/
+Disallow: /categories-premium/
+Disallow: /categories/premium/
+Disallow: /tags/premium/
+Disallow: /tools/f-dashboard/
+Disallow: /tools/l-dashboard/
+Disallow: /tools/o-dashboard/
+Disallow: /tools/h-dashboard/
+Disallow: /tools/deploy-monitor/
+Disallow: /tools/content-creator/
+Disallow: /tools/content-direction/
+Disallow: /feed-anchor
 
 
 Sitemap: https://seomoney.org/sitemap.xml
