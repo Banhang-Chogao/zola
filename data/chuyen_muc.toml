@@ -1,0 +1,35 @@
+# =============================================================================
+# Cấu hình hiển thị khối "01 · Chuyên mục" trên trang chủ (templates/island.html)
+# -----------------------------------------------------------------------------
+# Mục tiêu: kiểm soát THỨ TỰ hiển thị mà KHÔNG phá vỡ cơ chế tự động.
+#
+# Cách hoạt động:
+#   1. Các chuyên mục liệt kê trong `order` hiển thị TRƯỚC, đúng thứ tự ở đây.
+#   2. Nếu `show_all = true`, MỌI chuyên mục khác (taxonomy `categories` có bài
+#      viết) sẽ TỰ ĐỘNG xuất hiện phía sau — không cần sửa file này khi thêm
+#      chuyên mục mới từ front-matter bài viết.
+#   3. Các tên trong `hidden` không bao giờ hiển thị (taxonomy nội bộ/ảo).
+#
+# => Thêm bài viết với `categories = ["Tất cả", "<Tên mới>"]` là đủ; chuyên mục
+#    mới tự lên trang chủ. File này chỉ để TINH CHỈNH thứ tự ưu tiên.
+# =============================================================================
+
+# Tự động hiển thị các chuyên mục không nằm trong `order` (sau danh sách ưu tiên).
+# Đặt false nếu chỉ muốn hiện đúng các mục trong `order`.
+show_all = true
+
+# Thứ tự ưu tiên. "Seri Hub" là mục đặc biệt trỏ tới trang Series Hub
+# (/tools/series/); vẫn hiển thị kể cả khi chưa có bài nào gắn chuyên mục này.
+order = [
+  "Công nghệ",
+  "Ngân hàng",
+  "Khoa học",
+  "Báo chí",
+  "Học tiếng Hàn",
+  "Giáo dục",
+  "Du lịch",
+  "Seri Hub",
+]
+
+# Taxonomy nội bộ — không hiển thị như một chuyên mục công khai.
+hidden = ["Tất cả", "premium"]
