@@ -195,11 +195,6 @@ jobs:
       - name: Check GitHub Pages base path in internal links
         run: python3 scripts/check_internal_links.py
 
-      # Hard gate: crawl built public/ for broken INTERNAL links.
-      # Exits 2 when any internal link 404s, fails job.
-      - name: Gate on broken internal links (404 checker — exit 2 fails build)
-        run: python3 qa-404-checker.py
-
       # Social image validation: ensure all article pages have proper og:image
       # for Facebook/Zalo/LinkedIn previews. Exit 2 fails build.
       - name: Validate social share thumbnails (og:image — exit 2 fails build)

@@ -1,0 +1,122 @@
+/* ============================================================
+   MoMo Theme Test — experimental skin
+   (branch: feat/momo-theme-test — NOT for production merge as-is)
+
+   Re-skins the site accent to MoMo magenta/pink (#A50064) with a
+   teal secondary (#00AEC7) for category "eyebrow" labels, echoing
+   the Blog MoMo design notes (docs/momo-blog-design-notes.md).
+
+   Strategy: TOKEN-ONLY overrides. The whole site reads
+   --c-accent (→ --wwdc-accent → .island --w-blue, and → .oasis
+   --o-blue), so re-pointing the root tokens cascades site-wide
+   with near-zero risk to layout/JS/responsive behaviour.
+
+   Imported LAST in site.scss (after oasis / island-v2) so the
+   scoped token overrides win by source order.
+   Revert = delete `@import "momo-skin";` from site.scss.
+   ============================================================ */
+
+// ----- MoMo brand palette -----
+$momo-pink:        #a50064; // primary magenta (brand)
+$momo-pink-bright: #d82d8b;
+$momo-pink-deep:   #7d004c; // hover / pressed
+$momo-teal:        #00aec7; // secondary — category eyebrows
+
+/* ===== Root accent tokens (light) — cascades to 355+ usages ===== */
+:root {
+  --c-accent:        #{$momo-pink};
+  --c-accent-hover:  #{$momo-pink-deep};
+  --c-accent-soft:   rgba(165, 0, 100, 0.10);
+  --c-focus-ring:    rgba(165, 0, 100, 0.35);
+  --c-shadow-md:     0 2px 4px rgba(165, 0, 100, 0.08);
+  --c-shadow-lg:     0 8px 16px rgba(165, 0, 100, 0.12);
+
+  /* MoMo secondary (new token used by eyebrow overrides below) */
+  --c-accent-2:      #{$momo-teal};
+  --c-accent-2-soft: rgba(0, 174, 199, 0.12);
+  --momo-pink-bright: #{$momo-pink-bright};
+}
+
+/* ===== Dark mode — keep MoMo identity, brighten for contrast ===== */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="hilda"] {
+    --c-accent:        #ff63b0;
+    --c-accent-hover:  #ff8cc6;
+    --c-accent-soft:   rgba(255, 99, 176, 0.16);
+    --c-focus-ring:    rgba(255, 99, 176, 0.45);
+    --c-accent-2:      #2fd0e0;
+    --c-accent-2-soft: rgba(47, 208, 224, 0.18);
+  }
+}
+
+/* ============================================================
+   HOME (Island) — accent already follows --c-accent via
+   --wwdc-accent; pin it explicitly + give category labels the
+   teal MoMo eyebrow treatment.
+   ============================================================ */
+.island {
+  --w-blue:       var(--c-accent);
+  --w-blue-hover: var(--c-accent-hover);
+  --w-blue-soft:  var(--c-accent-soft);
+}
+
+/* MoMo signature: the brand mark / "M" badge as a filled pink chip */
+.island__logo {
+  background: linear-gradient(135deg, var(--c-accent), var(--momo-pink-bright));
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Category eyebrow labels → teal (color-coded categories, MoMo style) */
+.island__ncard-cat {
+  background: var(--c-accent-2-soft);
+  color: var(--c-accent-2);
+}
+.island__feat-pin {
+  color: var(--c-accent-2);
+}
+
+/* ============================================================
+   SINGLE ARTICLE (Oasis) — accent auto-pinks via --o-blue;
+   category eyebrow + brand emphasis go teal. Breadcrumb styles
+   for the nav added in templates/page.html.
+   ============================================================ */
+.oasis__eyebrow {
+  color: var(--c-accent-2);
+}
+.oasis__top-right strong {
+  color: var(--c-accent-2);
+}
+/* MoMo brand mark on the article top bar → filled pink chip */
+.oasis__mark {
+  background: linear-gradient(135deg, var(--c-accent), var(--momo-pink-bright));
+  border-color: transparent;
+  color: #fff;
+}
+
+/* Breadcrumb (added to the Oasis hero in page.html) */
+.oasis__crumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--o-muted, #6a6a6a);
+}
+.oasis__crumb a {
+  color: var(--o-muted, #6a6a6a);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+.oasis__crumb a:hover {
+  color: var(--c-accent);
+}
+.oasis__crumb-sep {
+  opacity: 0.5;
+}
+.oasis__crumb-current {
+  color: var(--c-accent);
+  font-weight: 600;
+}

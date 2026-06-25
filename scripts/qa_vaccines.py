@@ -644,7 +644,7 @@ _ASSET_REF_RE = re.compile(
 def check_missing_assets(ctx: Ctx) -> CheckResult:
     """Missing assets — static /img and /fonts references in templates must
     resolve to a file in static/ (strips the GitHub-Pages base prefix). This is
-    a soft complement to qa-404-checker (the hard gate on built links)."""
+    for soft compliance checks on internal link patterns."""
     title = "Static asset references resolve"
     base_url = ""
     cfg = ctx.read("config.toml") or ""

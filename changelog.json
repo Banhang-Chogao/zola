@@ -1,6 +1,159 @@
 {
   "items": [
     {
+      "date": "2026-06-25",
+      "title": "WWDC 26 listing demo page (PR #909 preview)",
+      "tag": "feat",
+      "lines_added": 423,
+      "lines_removed": 0,
+      "highlights": [
+        "templates/wwdc-demo.html — New demo template with:",
+        "Inline WWDC listing styles (post-card grid, term-card grid, pagination)",
+        "Real post data from posting/ and baochi/ sections (excluding feed anchors)",
+        "Real category taxonomy with item counts",
+        "Static pagination UI for style preview"
+      ],
+      "pr": 916
+    },
+    {
+      "date": "2026-06-25",
+      "title": "Pr 917",
+      "tag": "chore",
+      "lines_added": 176,
+      "lines_removed": 22,
+      "highlights": [],
+      "pr": 918
+    },
+    {
+      "date": "2026-06-25",
+      "title": "feat(tools): add \"Momo Brand Voice\" guide page at /tools/momo-brand-voice/ [claude/nifty-johnson-co8fp7]",
+      "tag": "chore",
+      "lines_added": 643,
+      "lines_removed": 0,
+      "highlights": [
+        "docs: add Blog MoMo UI/UX design reference notes",
+        "feat(tools): add \"Momo Brand Voice\" guide page at /tools/momo-brand-voice/",
+        "content/tools/momo-brand-voice/index.md (added, +11/-0)",
+        "docs/momo-blog-design-notes.md (added, +197/-0)",
+        "templates/momo-brand-voice.html (added, +435/-0)"
+      ],
+      "pr": 911
+    },
+    {
+      "date": "2026-06-25",
+      "title": "Nokia theme — Phase 1 (opt-in switcher) + design notes/demo/plan [DRAFT review]",
+      "tag": "chore",
+      "lines_added": 1077,
+      "lines_removed": 5,
+      "highlights": [
+        "Theme nokia = lớp MÀU thứ 2, bật qua nút \"Giao diện màu\" trong nav-drawer.",
+        "Chỉ đổi MÀU (token --c-: accent #****→#005AFF, navy…). *GIỮ NGUYÊN",
+        "Cô lập: toàn bộ Nokia trong _nokia-theme.scss (import cuối). KHÔNG sửa",
+        "Nút toggle trong drawer → responsive desktop+mobile, không floating (V21-safe).",
+        "zola build exit 0 · qa_check.py exit 0 (Vaccine 0 fail, V21/SEARCH-UI/TOC-RAIL/EDITOR PASS, security sạch, watermark OK)."
+      ],
+      "pr": 913
+    },
+    {
+      "date": "2026-06-25",
+      "title": "WWDC 26 theme integration (PR #908 + #909)",
+      "tag": "feat",
+      "lines_added": 474,
+      "lines_removed": 114,
+      "highlights": [
+        "PR #908 (đã merge vào main): Phase 1–3 + Priority 1–2 → design tokens, component library, homepage (island-v2), post page (post-wwdc), wwdc26.html. → đã có sẵn trong main, feat/wwdc-final tạo từ main ",
+        "PR #909 delta = đúng 1 commit c08e3bd \"WWDC Priority 3 — Category / Listing pages\". → cherry-pick vào feat/wwdc-final.",
+        "Cherry-pick: sạch, 0 conflict.",
+        "SCSS: _wwdc-tokens + _wwdc-components + _wwdc-listing compile OK (dart-sass, 0 lỗi). Toàn bộ 18 token mà listing dùng đều tồn tại trong _wwdc-tokens.scss.",
+        "Tera templates: block cân bằng (if/for/block), logic listing được bảo toàn nguyên vẹn."
+      ],
+      "pr": 914
+    },
+    {
+      "date": "2026-06-25",
+      "title": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc-demo/)",
+      "tag": "chore",
+      "lines_added": 423,
+      "lines_removed": 0,
+      "highlights": [
+        "Post-card grid — dùng bài viết thật gần nhất (gộp posting + baochi, bỏ feed-anchor — đúng logic section.html).",
+        "Term-card grid — dùng categories thật (get_taxonomy).",
+        "Pagination dạng pill (tĩnh, chỉ để xem style).",
+        "GIỮ sidebar đúng như trang danh mục thật (taxonomy_single) → preview trung thực.",
+        "Tera balance: if 6/6 · for 3/3 · block 5/5 ✓"
+      ],
+      "pr": 915
+    },
+    {
+      "date": "2026-06-25",
+      "title": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ [claude/adoring-mayer-jrca7z]",
+      "tag": "chore",
+      "lines_added": 606,
+      "lines_removed": 0,
+      "highlights": [
+        "docs: thêm ghi chú thiết kế tham khảo Nokia Blog",
+        "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/",
+        "content/nokia-demo/_index.md (added, +9/-0)",
+        "data/nokia-demo.json (added, +85/-0)",
+        "docs/nokia-blog-design-notes.md (added, +220/-0)"
+      ],
+      "pr": 910
+    },
+    {
+      "date": "2026-06-25",
+      "title": "Claude/stoic feynman rx0m7m",
+      "tag": "chore",
+      "lines_added": 2344,
+      "lines_removed": 207,
+      "highlights": [],
+      "pr": 908
+    },
+    {
+      "date": "2026-06-25",
+      "title": "WWDC Priority 2 — Grid (3-column), Card Images, Badge Polish, Hover Effects [claude/stoic-feynman-rx0m7m]",
+      "tag": "refactor",
+      "lines_added": 2344,
+      "lines_removed": 207,
+      "highlights": [
+        "refactor: WWDC Phase 1 — Design tokens & component library",
+        "refactor: WWDC Phase 2 — Homepage redesign (island.html styling)",
+        "refactor: WWDC Phase 3 — Post page redesign",
+        "refactor: WWDC Priority 1 — Hero + Filter Chips (Template Restructure)",
+        "Add missing legacy template files to fix build errors"
+      ],
+      "pr": 904
+    },
+    {
+      "date": "2026-06-25",
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) [claude/exciting-galileo-aornh2]",
+      "tag": "chore",
+      "lines_added": 22069,
+      "lines_removed": 0,
+      "highlights": [
+        "themes/kodama-theme/.github/workflows/job.yml (added, +19/-0)",
+        "themes/kodama-theme/CHANGES.md (added, +87/-0)",
+        "themes/kodama-theme/LICENSE.md (added, +22/-0)",
+        "themes/kodama-theme/README.md (added, +263/-0)",
+        "themes/kodama-theme/config.toml (added, +73/-0)"
+      ],
+      "pr": 905
+    },
+    {
+      "date": "2026-06-25",
+      "title": "thêm ghi chú thiết kế tham khảo Nokia Blog [claude/adoring-mayer-jrca7z]",
+      "tag": "chore",
+      "lines_added": 220,
+      "lines_removed": 0,
+      "highlights": [
+        "docs/nokia-blog-design-notes.md (added, +220/-0)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/adoring-mayer-jrca7z là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 906
+    },
+    {
       "date": "2026-06-24",
       "title": "remove broken Google Search module from header and SEO widget [feat/v5-rate-limit-article]",
       "tag": "fix",
