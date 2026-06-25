@@ -2,26 +2,14 @@
   "schema_version": 1,
   "name": "Blog Heart Beat",
   "repository": "Banhang-Chogao/zola",
-  "generated_at": "2026-06-25T11:54:47.261228+00:00",
+  "generated_at": "2026-06-25T11:55:04.374709+00:00",
   "summary": {
-    "in_progress": 11,
-    "queued": 0,
-    "success": 13,
+    "in_progress": 9,
+    "queued": 1,
+    "success": 15,
     "failure": 1
   },
   "pull_requests": [
-    {
-      "number": 905,
-      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) [claude/exciting-galileo-aornh2]",
-      "head": "claude/exciting-galileo-aornh2",
-      "base": "main",
-      "state": "OPEN",
-      "draft": false,
-      "merge_state": "UNKNOWN",
-      "created_at": "2026-06-25T11:52:17Z",
-      "updated_at": "2026-06-25T11:52:17Z",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/905"
-    },
     {
       "number": 904,
       "title": "Add missing legacy template files to fix build errors [claude/stoic-feynman-rx0m7m]",
@@ -85,16 +73,107 @@
   ],
   "runs": [
     {
+      "id": 28168249092,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "Slack Commit Notification",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:54:59Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249092"
+    },
+    {
+      "id": 28168249080,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "Blog Heart Beat",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:54:59Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249080"
+    },
+    {
+      "id": 28168249067,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "Automatic SEO Priority Engine Audit",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:54:59Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249067"
+    },
+    {
+      "id": 28168249060,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "Auto-update changelog.json",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:55:01Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249060"
+    },
+    {
+      "id": 28168249052,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:54:57Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249052"
+    },
+    {
+      "id": 28168249045,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "QA Gatekeeper",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "queued",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:55:00Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249045"
+    },
+    {
+      "id": 28168249044,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "Fetch Merge Report",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:54:56Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249044"
+    },
+    {
       "id": 28168233236,
       "title": "docs: thêm ghi chú thiết kế tham khảo Nokia Blog (#906)",
       "workflow": "Auto-update changelog.json",
       "branch": "main",
       "sha": "c233fbf",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-25T11:54:37Z",
-      "updated_at": "2026-06-25T11:54:43Z",
+      "updated_at": "2026-06-25T11:54:54Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168233236"
     },
     {
@@ -104,10 +183,10 @@
       "branch": "main",
       "sha": "c233fbf",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-25T11:54:37Z",
-      "updated_at": "2026-06-25T11:54:41Z",
+      "updated_at": "2026-06-25T11:54:51Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168233222"
     },
     {
@@ -117,10 +196,10 @@
       "branch": "main",
       "sha": "c233fbf",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-25T11:54:37Z",
-      "updated_at": "2026-06-25T11:54:41Z",
+      "updated_at": "2026-06-25T11:54:46Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168233202"
     },
     {
@@ -130,10 +209,10 @@
       "branch": "main",
       "sha": "c233fbf",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "cancelled",
       "created_at": "2026-06-25T11:54:37Z",
-      "updated_at": "2026-06-25T11:54:41Z",
+      "updated_at": "2026-06-25T11:55:00Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168233185"
     },
     {
@@ -156,10 +235,10 @@
       "branch": "main",
       "sha": "c233fbf",
       "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
+      "status": "completed",
+      "conclusion": "success",
       "created_at": "2026-06-25T11:54:37Z",
-      "updated_at": "2026-06-25T11:54:41Z",
+      "updated_at": "2026-06-25T11:54:52Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168233152"
     },
     {
@@ -226,19 +305,6 @@
       "created_at": "2026-06-25T11:53:32Z",
       "updated_at": "2026-06-25T11:53:49Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168176259"
-    },
-    {
-      "id": 28168111930,
-      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) [claude/exciting-galileo-aornh2]",
-      "workflow": "Merge Conflict Preflight",
-      "branch": "claude/exciting-galileo-aornh2",
-      "sha": "9b0d19c",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "action_required",
-      "created_at": "2026-06-25T11:52:21Z",
-      "updated_at": "2026-06-25T11:52:21Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168111930"
     },
     {
       "id": 28168097146,
@@ -395,87 +461,22 @@
       "created_at": "2026-06-25T11:44:00Z",
       "updated_at": "2026-06-25T11:44:11Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28167676027"
-    },
-    {
-      "id": 28167675951,
-      "title": "Add missing legacy template files to fix build errors",
-      "workflow": "QA Gatekeeper",
-      "branch": "claude/stoic-feynman-rx0m7m",
-      "sha": "a48bade",
-      "event": "push",
-      "status": "in_progress",
-      "conclusion": "",
-      "created_at": "2026-06-25T11:43:59Z",
-      "updated_at": "2026-06-25T11:44:18Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28167675951"
-    },
-    {
-      "id": 28167305504,
-      "title": "QA Rule Checker",
-      "workflow": "QA Rule Checker",
-      "branch": "main",
-      "sha": "f2739e4",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-25T11:36:45Z",
-      "updated_at": "2026-06-25T11:36:46Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28167305504"
-    },
-    {
-      "id": 28167305441,
-      "title": "Auto-merge",
-      "workflow": "Auto-merge",
-      "branch": "main",
-      "sha": "f2739e4",
-      "event": "workflow_run",
-      "status": "completed",
-      "conclusion": "skipped",
-      "created_at": "2026-06-25T11:36:45Z",
-      "updated_at": "2026-06-25T11:36:46Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28167305441"
-    },
-    {
-      "id": 28167299347,
-      "title": "Add missing legacy template files to fix build errors [claude/stoic-feynman-rx0m7m]",
-      "workflow": "Merge Conflict Preflight",
-      "branch": "claude/stoic-feynman-rx0m7m",
-      "sha": "0ca94fd",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-25T11:36:38Z",
-      "updated_at": "2026-06-25T11:36:49Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28167299347"
-    },
-    {
-      "id": 28167297483,
-      "title": "refactor: WWDC Priority 1 — Hero + Filter Chips (Template Restructure)",
-      "workflow": "Slack Commit Notification",
-      "branch": "claude/stoic-feynman-rx0m7m",
-      "sha": "0ca94fd",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-25T11:36:35Z",
-      "updated_at": "2026-06-25T11:36:45Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28167297483"
-    },
-    {
-      "id": 28167297455,
-      "title": "refactor: WWDC Priority 1 — Hero + Filter Chips (Template Restructure)",
-      "workflow": "QA Gatekeeper",
-      "branch": "claude/stoic-feynman-rx0m7m",
-      "sha": "0ca94fd",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "created_at": "2026-06-25T11:36:35Z",
-      "updated_at": "2026-06-25T11:44:13Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28167297455"
     }
   ],
   "deploy_runs": [
+    {
+      "id": 28168249052,
+      "title": "chore(themes): vendor kodama-theme as reference copy (not activated) …",
+      "workflow": "Build and deploy Zola site to GitHub Pages",
+      "branch": "main",
+      "sha": "da8b729",
+      "event": "push",
+      "status": "pending",
+      "conclusion": "",
+      "created_at": "2026-06-25T11:54:55Z",
+      "updated_at": "2026-06-25T11:54:57Z",
+      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168249052"
+    },
     {
       "id": 28168233146,
       "title": "docs: thêm ghi chú thiết kế tham khảo Nokia Blog (#906)",
@@ -592,19 +593,6 @@
       "created_at": "2026-06-25T09:09:36Z",
       "updated_at": "2026-06-25T09:17:22Z",
       "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28159495551"
-    },
-    {
-      "id": 28158466419,
-      "title": "fix(links): clear 2 pre-existing qa-404 broken links (non-ASCII + dat…",
-      "workflow": "Build and deploy Zola site to GitHub Pages",
-      "branch": "main",
-      "sha": "1d90a09",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "created_at": "2026-06-25T08:51:08Z",
-      "updated_at": "2026-06-25T08:59:38Z",
-      "url": "https://github.com/Banhang-Chogao/zola/actions/runs/28158466419"
     }
   ]
 }
