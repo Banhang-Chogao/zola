@@ -1,0 +1,19 @@
+name: Build and publish theme
+on: [push]
+
+jobs:
+  Nix-Flake-Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v18
+      with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - run: nix build .#packages.x86_64-linux.website
+    - run: cp -rL result ./site
+    - run: chmod +xwr site &&  find site -type d -exec chmod +xwr {} + && find site -type f -exec chmod 644 {} +
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.1
+      with:
+        branch: gh-pages
+        folder: ./site
