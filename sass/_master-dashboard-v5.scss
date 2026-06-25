@@ -1,10 +1,19 @@
 /* ===== Master Dashboard V5 — /tools/master-dashboard-v5/ =====================
    Trang Công Cụ tổng hợp: gom các widget "nặng dashboard" rời khỏi trang chủ.
-   Calm enterprise / Hilda DNA: semantic --c-* tokens, soft shadow, 4px-family
-   radius, responsive card grid (desktop multi-column → mobile single column).
+   S-DNA visual layer (Sembcorp Design DNA, /tools/s-dna/): data-first, calm
+   enterprise — thin outline icons inside teal rings (NO emoji), KPI cards with a
+   4px teal left-accent, borders instead of heavy shadows, large tabular numbers
+   with whispering units. Borrowed *selectively* and scoped under .mdash (per the
+   S-DNA Compatibility Rule). Structural colours keep using the semantic
+   var(--c-*) tokens so light/dark stay correct; only the accent hue is local.
    Tái dùng skin của Google Rank / SEO Reality (.sidebar-block) cho hàng SEO. */
 
 .mdash {
+  /* S-DNA accent hue (fixed, like the /tools/s-dna/ reference); soft tint is a
+     theme-safe color-mix over the current surface so dark mode stays correct. */
+  --mds-teal: #00a7a0;
+  --mds-teal-soft: #{"color-mix(in srgb, var(--mds-teal) 12%, var(--c-bg-surface))"};
+
   max-width: 1100px;
   margin: 0 auto;
 
@@ -97,9 +106,10 @@
 .mdash-card {
   background: var(--c-bg-surface);
   border: 1px solid var(--c-border);
+  border-left: 4px solid var(--mds-teal); /* S-DNA KPI left-accent */
   border-radius: 8px;
   padding: 1.1rem 1.15rem;
-  box-shadow: var(--c-shadow-md);
+  box-shadow: none; /* S-DNA: borders + whitespace, not shadows */
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
@@ -113,9 +123,20 @@
     gap: 0.5rem;
   }
 
+  /* S-DNA Icon DNA — thin outline SVG in a circle ring (replaces emoji). */
   &__icon {
-    font-size: 1.15rem;
-    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border: 1.5px solid var(--mds-teal);
+    border-radius: 50%;
+    background: var(--mds-teal-soft);
+    color: var(--mds-teal);
+
+    svg { width: 16px; height: 16px; }
   }
 
   &__title {
@@ -134,6 +155,7 @@
     line-height: 1;
     color: var(--c-text-heading);
     margin: 0.2rem 0;
+    font-variant-numeric: tabular-nums; /* S-DNA: aligned large numbers */
   }
 
   &__unit {
@@ -237,21 +259,35 @@
 .mdash-tool {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.5rem;
   background: var(--c-bg-surface);
   border: 1px solid var(--c-border);
   border-radius: 8px;
   padding: 1rem 1.05rem;
   text-decoration: none;
-  box-shadow: var(--c-shadow-md);
+  box-shadow: none; /* S-DNA: flat bordered card */
   transition: transform 0.15s ease, border-color 0.15s ease;
 
   &:hover {
     transform: translateY(-2px);
-    border-color: var(--c-accent);
+    border-color: var(--mds-teal);
   }
 
-  &__icon { font-size: 1.4rem; line-height: 1; }
+  /* S-DNA Icon DNA — outline SVG in a circle ring (replaces emoji). */
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border: 1.5px solid var(--mds-teal);
+    border-radius: 50%;
+    background: var(--mds-teal-soft);
+    color: var(--mds-teal);
+
+    svg { width: 17px; height: 17px; }
+  }
 
   &__name {
     font-family: $font-heading;

@@ -2,6 +2,7 @@
 {% import "macros/datetime.html" as dt %}
 {% import "macros/google-rank.html" as google_rank %}
 {% import "macros/seo-reality.html" as seo_reality %}
+{% import "macros/sdna-icons.html" as icons %}
 
 {# Master Dashboard V5 — trang Công Cụ tổng hợp trạng thái hệ thống, công cụ blog
    & kiểm tra an toàn. Gom các widget "nặng dashboard" rời khỏi trang chủ vào ĐÂY,
@@ -44,7 +45,7 @@
             {% if up and up.summary %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">📈</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="trending-up") }}</span>
                     <h3 class="mdash-card__title">Uptime (30 ngày)</h3>
                 </header>
                 <p class="mdash-card__metric">{{ up.summary.overall_uptime_30d | default(value="—") }}<span class="mdash-card__unit">%</span></p>
@@ -60,7 +61,7 @@
             {% set avg_min = (avg_s / 60) | round %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🚀</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="activity") }}</span>
                     <h3 class="mdash-card__title">Trạng thái deploy</h3>
                     <span class="mdash-badge mdash-badge--{% if st == 'green' %}ok{% elif st == 'red' %}warn{% else %}info{% endif %}">
                         {% if st == "green" %}Ổn định{% elif st == "red" %}Cần xem{% else %}Đang chạy{% endif %}
@@ -78,7 +79,7 @@
             {% if comp and comp.score is defined %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">✅</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="check-circle") }}</span>
                     <h3 class="mdash-card__title">Build &amp; QA</h3>
                     {% if comp.grade %}<span class="mdash-badge mdash-badge--{% if comp.mood == 'good' %}ok{% elif comp.mood == 'bad' %}warn{% else %}info{% endif %}">{{ comp.grade }}</span>{% endif %}
                 </header>
@@ -95,7 +96,7 @@
             {% set clean = sec.total == 0 %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🔒</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="lock") }}</span>
                     <h3 class="mdash-card__title">Bảo mật</h3>
                     <span class="mdash-badge mdash-badge--{% if clean %}ok{% else %}warn{% endif %}">{% if clean %}Sạch{% else %}{{ sec.total }} vấn đề{% endif %}</span>
                 </header>
@@ -109,7 +110,7 @@
             {# Cloudflare Turnstile status — static informational card (no secrets) #}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🛡️</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="shield") }}</span>
                     <h3 class="mdash-card__title">Cloudflare Turnstile</h3>
                     <span class="mdash-badge mdash-badge--ok">Đang bật</span>
                 </header>
@@ -142,7 +143,7 @@
             {% if featured %}
             <article class="mdash-card mdash-card--wide">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">⭐</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="star") }}</span>
                     <h3 class="mdash-card__title">Bài viết nổi bật</h3>
                 </header>
                 <p class="mdash-card__feature"><a href="{{ featured.permalink }}">{{ featured.title }}</a></p>
@@ -155,7 +156,7 @@
             {% if all_pages | length > 0 %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🆕</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="file-text") }}</span>
                     <h3 class="mdash-card__title">Bài mới nhất</h3>
                 </header>
                 <ul class="mdash-card__list">
@@ -170,7 +171,7 @@
             {# Content / draft queue + SEO checks → CMS + Insights (no private data inline) #}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🗂️</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="layers") }}</span>
                     <h3 class="mdash-card__title">Hàng chờ &amp; SEO</h3>
                 </header>
                 <p class="mdash-card__note">
@@ -207,32 +208,32 @@
         <h2 class="mdash__h2" id="mdash-tools">3 · Công cụ blog</h2>
         <div class="mdash__grid mdash__grid--tools">
             <a class="mdash-tool" href="{{ config.base_url }}/tools/calendar/">
-                <span class="mdash-tool__icon" aria-hidden="true">📅</span>
+                <span class="mdash-tool__icon" aria-hidden="true">{{ icons::icon(name="calendar") }}</span>
                 <span class="mdash-tool__name">Lịch &amp; Whiteboard</span>
                 <span class="mdash-tool__desc">Lịch 3 tháng + bảng ghi chú cá nhân.</span>
             </a>
             <a class="mdash-tool" href="{{ config.base_url }}/timer/">
-                <span class="mdash-tool__icon" aria-hidden="true">⏱️</span>
+                <span class="mdash-tool__icon" aria-hidden="true">{{ icons::icon(name="clock") }}</span>
                 <span class="mdash-tool__name">Đếm ngược</span>
                 <span class="mdash-tool__desc">Tạo bộ đếm ngược cho mục tiêu/sự kiện.</span>
             </a>
             <a class="mdash-tool" href="{{ config.base_url }}/editor/">
-                <span class="mdash-tool__icon" aria-hidden="true">✍️</span>
+                <span class="mdash-tool__icon" aria-hidden="true">{{ icons::icon(name="edit") }}</span>
                 <span class="mdash-tool__name">Trình biên tập</span>
                 <span class="mdash-tool__desc">Viết &amp; lưu bài, phím tắt biên tập.</span>
             </a>
             <a class="mdash-tool" href="{{ config.base_url }}/prompt-support/">
-                <span class="mdash-tool__icon" aria-hidden="true">💡</span>
+                <span class="mdash-tool__icon" aria-hidden="true">{{ icons::icon(name="lightbulb") }}</span>
                 <span class="mdash-tool__name">Trợ lý viết bài</span>
                 <span class="mdash-tool__desc">Gợi ý prompt &amp; định hướng nội dung.</span>
             </a>
             <a class="mdash-tool" href="{{ config.base_url }}/scoring/">
-                <span class="mdash-tool__icon" aria-hidden="true">🎯</span>
+                <span class="mdash-tool__icon" aria-hidden="true">{{ icons::icon(name="target") }}</span>
                 <span class="mdash-tool__name">Chấm điểm bài</span>
                 <span class="mdash-tool__desc">Đánh giá chất lượng &amp; chuẩn SEO.</span>
             </a>
             <a class="mdash-tool" href="{{ config.base_url }}/tools/content-direction/">
-                <span class="mdash-tool__icon" aria-hidden="true">🧭</span>
+                <span class="mdash-tool__icon" aria-hidden="true">{{ icons::icon(name="compass") }}</span>
                 <span class="mdash-tool__name">Định hướng nội dung</span>
                 <span class="mdash-tool__desc">Kế hoạch chủ đề &amp; cụm bài.</span>
             </a>
@@ -248,7 +249,7 @@
             {% if comp and comp.categories %}{% for c in comp.categories %}{% if c.id == "adsense" or c.id == "ads" or c.id == "monetization" %}{% set_global ads_cat = c %}{% endif %}{% endfor %}{% endif %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">📐</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="check-square") }}</span>
                     <h3 class="mdash-card__title">Chuẩn AdSense</h3>
                     {% if ads_cat %}<span class="mdash-badge mdash-badge--{% if ads_cat.fail == 0 %}ok{% else %}warn{% endif %}">{{ ads_cat.score | round }}/100</span>{% endif %}
                 </header>
@@ -262,7 +263,7 @@
             {# No ad-click warning — policy statement #}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🚫</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="ban") }}</span>
                     <h3 class="mdash-card__title">Không khuyến khích click quảng cáo</h3>
                 </header>
                 <p class="mdash-card__note">
@@ -277,7 +278,7 @@
             {% if comp and comp.categories %}{% for c in comp.categories %}{% if c.id == "images" or c.id == "media" %}{% set_global img_cat = c %}{% endif %}{% endfor %}{% endif %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🖼️</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="image") }}</span>
                     <h3 class="mdash-card__title">Bản quyền &amp; ảnh</h3>
                     {% if img_cat %}<span class="mdash-badge mdash-badge--{% if img_cat.fail == 0 %}ok{% else %}warn{% endif %}">{{ img_cat.score | round }}/100</span>{% endif %}
                 </header>
@@ -291,7 +292,7 @@
             {% if sec and sec.secret_leaks is defined %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🔎</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="search") }}</span>
                     <h3 class="mdash-card__title">Rò rỉ bề mặt công khai</h3>
                     <span class="mdash-badge mdash-badge--{% if sec.secret_leaks == 0 %}ok{% else %}warn{% endif %}">{% if sec.secret_leaks == 0 %}Không phát hiện{% else %}{{ sec.secret_leaks }}{% endif %}</span>
                 </header>
@@ -316,7 +317,7 @@
             {% if oprs and oprs.summary %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">📋</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="clipboard") }}</span>
                     <h3 class="mdash-card__title">Pull Request</h3>
                     <span class="mdash-badge mdash-badge--info">{{ oprs.summary.total | default(value=0) }} mở</span>
                 </header>
@@ -331,7 +332,7 @@
             {% if dm and dm.summary %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">⚙️</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="settings") }}</span>
                     <h3 class="mdash-card__title">Workflow gần đây</h3>
                 </header>
                 <p class="mdash-card__note">
@@ -346,7 +347,7 @@
             {% if back and back.status %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">🌐</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="globe") }}</span>
                     <h3 class="mdash-card__title">Backend (Render)</h3>
                     <span class="mdash-badge mdash-badge--{% if back.reachable %}ok{% else %}info{% endif %}">{% if back.reachable %}Online{% else %}Đang nghỉ{% endif %}</span>
                 </header>
@@ -359,7 +360,7 @@
             {% if vax and vax.vaccine_library_count is defined %}
             <article class="mdash-card">
                 <header class="mdash-card__head">
-                    <span class="mdash-card__icon" aria-hidden="true">💉</span>
+                    <span class="mdash-card__icon" aria-hidden="true">{{ icons::icon(name="shield-check") }}</span>
                     <h3 class="mdash-card__title">Vaccine Autofixer</h3>
                     <span class="mdash-badge mdash-badge--ok">{{ vax.vaccine_library_count }} vaccine</span>
                 </header>
