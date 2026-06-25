@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-25T14:14:09Z",
+  "updated_at": "2026-06-25T14:26:56Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 30,
-    "this_week": 168,
+    "today": 31,
+    "this_week": 169,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "unknown": 36,
       "feature": 44,
-      "unknown": 35,
-      "fix": 104,
+      "fix": 103,
       "chore": 10,
       "ci": 3,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 918,
+      "pr_title": "Pr 917",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/918",
+      "merged_at": "2026-06-25T14:18:28Z",
+      "merge_commit_sha": "8bb11c4406ecb0d78b644c7a8e8666f610960003",
+      "merge_commit_short": "8bb11c4",
+      "head_branch": "pr-917",
+      "summary_vi": "Pr 917",
+      "change_type": "unknown",
+      "files_changed": 5,
+      "additions": 176,
+      "deletions": 22,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1152,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28176803433",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 911,
       "pr_title": "feat(tools): add \"Momo Brand Voice\" guide page at /tools/momo-brand-voice/ [claude/nifty-johnson-co8fp7]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1151,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175968991",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 913,
@@ -528,8 +547,8 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1122,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28138641329",
+      "build_run_number": 1124,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28139565154",
       "build_conclusion": "success"
     },
     {
@@ -547,9 +566,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1122,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28138641329",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 882,
@@ -566,9 +585,9 @@
       "deletions": 17,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1122,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28138641329",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 881,
@@ -585,9 +604,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1122,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28138641329",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 880,
@@ -3794,25 +3813,6 @@
       "files_changed": 1,
       "additions": 1,
       "deletions": 6,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 668,
-      "pr_title": "fix(vaccine-hotfix): hotfix/broken-f-dashboard-link",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/668",
-      "merged_at": "2026-06-21T15:28:29Z",
-      "merge_commit_sha": "7b16eef6303a6c2772578e4319bbee9920370b20",
-      "merge_commit_short": "7b16eef",
-      "head_branch": "vaccine-hotfix/hotfix-broken-f-dashboard-link",
-      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
-      "change_type": "fix",
-      "files_changed": 2,
-      "additions": 2,
-      "deletions": 7,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
