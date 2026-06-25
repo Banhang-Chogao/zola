@@ -48,11 +48,7 @@
    - .jpg/.jpeg/.png → .webp (optimize-images.yml replaces rasters with WebP and
              DELETES the original; the raster URL would 404 in production).
    - .webp → kept as-is.
-   - empty / unknown ext → built-in local S-DNA default card
-     (/img/og/seomoney-og.og.webp). This is the WWDC26 card twin rasterised
-     from seomoney-og.svg; .webp is the site's only release format
-     (optimize-images.yml deletes every raster .jpg/.png), so the default
-     must be the stable .og.webp twin, never a raster.
+   - empty / unknown ext → built-in local S-DNA default card (/img/og/seomoney-og.og.webp).
 
    Output is ALWAYS absolute + HTTPS (http:// and // are upgraded to https://;
    root-relative paths are prefixed with base_url).
