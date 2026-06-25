@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-25T14:39:11Z",
+  "updated_at": "2026-06-25T18:48:29Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 32,
-    "this_week": 170,
+    "today": 33,
+    "this_week": 171,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "ci": 3,
       "feature": 45,
       "unknown": 36,
-      "fix": 103,
+      "fix": 102,
       "chore": 10,
-      "ci": 2,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 909,
+      "pr_title": "ci: retry QA after merge conflict resolve (PR #909) [claude/stoic-feynman-rx0m7m]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/909",
+      "merged_at": "2026-06-25T18:42:18Z",
+      "merge_commit_sha": "63cd6d327c00898db997479f54d8149d06f6dbd5",
+      "merge_commit_short": "63cd6d3",
+      "head_branch": "claude/stoic-feynman-rx0m7m",
+      "summary_vi": "- refactor: WWDC Phase 1 — Design tokens & component library",
+      "change_type": "ci",
+      "files_changed": 1,
+      "additions": 0,
+      "deletions": 10,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1154,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28192582387",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 916,
       "pr_title": "Add WWDC 26 listing demo page (PR #909 preview)",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1153,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28177714706",
-      "build_conclusion": "pending"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 918,
@@ -55,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1152,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28176803433",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 911,
@@ -547,9 +566,9 @@
       "deletions": 251,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1124,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28139565154",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 883,
@@ -566,9 +585,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1124,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28139565154",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 872,
@@ -3775,25 +3794,6 @@
       "files_changed": 2,
       "additions": 362,
       "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 670,
-      "pr_title": "Fix header/menu regression: navbar to right with 2-item max",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/670",
-      "merged_at": "2026-06-21T15:39:04Z",
-      "merge_commit_sha": "fffa8afeba4e07177e0e98c46401a8584475bdad",
-      "merge_commit_short": "fffa8af",
-      "head_branch": "claude/busy-curie-dulk0s",
-      "summary_vi": "- Move navbar menu from hidden (display: none) to visible with flex layout",
-      "change_type": "fix",
-      "files_changed": 5,
-      "additions": 39,
-      "deletions": 12,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
