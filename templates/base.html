@@ -1232,45 +1232,52 @@
            hiện top N (server-rendered, không CLS); phần còn lại trong <details>
            "Xem thêm". Footer rộng-ngang nên tag cloud dày NGANG + thấp, calm
            enterprise (pills nhỏ, viền mềm, nền dịu, đếm số phụ). #}
+        {# Tag cloud with dynamic font sizing based on post count #}
         {% set footer_tags_taxo = get_taxonomy(kind="tags") %}
         {% set footer_tags_total = footer_tags_taxo.items | length %}
         {% if footer_tags_total > 0 %}
         {% set footer_tags_sorted = footer_tags_taxo.items | sort(attribute="page_count") | reverse %}
-        {% set footer_tags_initial = 60 %}
+        {% set footer_tags_limit = 40 %}
+        {% set footer_tags_to_display = footer_tags_sorted | slice(end=footer_tags_limit) %}
+
+        {# Calculate tag cloud font size scale (min/max for visual hierarchy) #}
+        {% set tag_counts = footer_tags_to_display | map(attribute="page_count") | list %}
+        {% set max_count = tag_counts | first | default(value=1) %}
+        {% set min_count = tag_counts | last | default(value=1) %}
+
         <section class="footer-tags" aria-labelledby="footer-tags-title">
             <div class="container">
                 <div class="footer-tags__head">
-                    <h3 class="footer-tags__title" id="footer-tags-title">Thẻ phổ biến</h3>
-                    <span class="footer-tags__meta">{{ footer_tags_total }} thẻ phân loại bài viết</span>
+                    <div>
+                        <h3 class="footer-tags__title" id="footer-tags-title">🏷️ Thẻ phổ biến</h3>
+                    </div>
+                    <a href="{{ get_taxonomy_url(kind='tags') }}" class="footer-tags__view-all">
+                        Xem tất cả →
+                    </a>
                 </div>
                 <div class="footer-tags__cloud">
-                    {% for t in footer_tags_sorted | slice(end=footer_tags_initial) %}
-                    <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                        <span class="footer-tags__name">#{{ t.name }}</span>
+                    {% for t in footer_tags_to_display %}
+                    {% set scale = (t.page_count - min_count) / (max_count - min_count + 1) %}
+                    {% set font_size_class = "" %}
+                    {% if scale >= 0.75 %}
+                        {% set font_size_class = "footer-tags__item--lg" %}
+                    {% elif scale >= 0.5 %}
+                        {% set font_size_class = "footer-tags__item--md" %}
+                    {% elif scale >= 0.25 %}
+                        {% set font_size_class = "footer-tags__item--sm" %}
+                    {% else %}
+                        {% set font_size_class = "footer-tags__item--xs" %}
+                    {% endif %}
+                    <a class="footer-tags__item {{ font_size_class }}" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
+                        <span class="footer-tags__name">{{ t.name }}</span>
                         <span class="footer-tags__count">{{ t.page_count }}</span>
                     </a>
                     {% endfor %}
                 </div>
-                {% if footer_tags_total > footer_tags_initial %}
-                <details class="footer-tags__more">
-                    <summary class="footer-tags__toggle">
-                        <span class="footer-tags__toggle-more">Xem thêm {{ footer_tags_total - footer_tags_initial }} thẻ</span>
-                        <span class="footer-tags__toggle-less">Thu gọn</span>
-                        <svg class="footer-tags__toggle-chevron" viewBox="0 0 24 24" width="14" height="14"
-                             fill="none" stroke="currentColor" stroke-width="2.5"
-                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </summary>
-                    <div class="footer-tags__cloud footer-tags__cloud--extra">
-                        {% for t in footer_tags_sorted | slice(start=footer_tags_initial) %}
-                        <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                            <span class="footer-tags__name">#{{ t.name }}</span>
-                            <span class="footer-tags__count">{{ t.page_count }}</span>
-                        </a>
-                        {% endfor %}
-                    </div>
-                </details>
+                {% if footer_tags_total > footer_tags_limit %}
+                <div class="footer-tags__more">
+                    <p class="footer-tags__more-text">Và {{ footer_tags_total - footer_tags_limit }} thẻ khác</p>
+                </div>
                 {% endif %}
             </div>
         </section>
@@ -1301,30 +1308,24 @@
                    title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
                     📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
                 </a>
-                {% else %}
-                <span class="ga-status ga-status--pending" title="Chưa cấu hình Google Analytics — sửa config.toml ga_measurement_id để bật">
-                    ⏳ ĐANG CHỜ MEASUREMENT ID
-                </span>
                 {% endif %}
             </div>
         </div>
 
-        {# CATEGORIES — compact footer navigation (moved from sidebar) #}
+        {# CATEGORIES — compact card grid (moved from sidebar) #}
         <nav class="footer-categories" aria-label="Danh mục bài viết">
             <div class="container">
-                <h3 class="footer-categories__title">Danh mục</h3>
-                <ul class="footer-categories__grid">
+                <h3 class="footer-categories__title">📂 Danh mục</h3>
+                <div class="footer-categories__grid">
                     {% for c in qa_cats.items %}
                         {% if c.name != "Tất cả" %}
-                        <li class="footer-categories__item">
-                            <a class="footer-categories__link" href="{{ c.permalink }}">
-                                <span class="footer-categories__name">{{ c.name }}</span>
-                                <span class="footer-categories__count" aria-label="{{ c.pages | length }} bài viết">{{ c.pages | length }}</span>
-                            </a>
-                        </li>
+                        <a class="footer-categories__card" href="{{ c.permalink }}">
+                            <div class="footer-categories__card-title">{{ c.name }}</div>
+                            <div class="footer-categories__card-count">{{ c.pages | length }}</div>
+                        </a>
                         {% endif %}
                     {% endfor %}
-                </ul>
+                </div>
             </div>
         </nav>
 
