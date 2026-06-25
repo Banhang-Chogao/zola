@@ -97,95 +97,11 @@
     margin: 0 auto;
   }
 
-  /* Card Grid */
-  .wwdc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--wwdc-space-4);
-    padding: var(--wwdc-section-y) var(--wwdc-section-x);
-    max-width: 1180px;
-    margin: 0 auto;
-  }
-
-  .wwdc-card {
+  /* Card Grid, Cards, and Tags — all styles defined in _wwdc-components.scss */
+  .wwdc-card__content {
     display: flex;
     flex-direction: column;
     gap: var(--wwdc-space-3);
-    padding: var(--wwdc-space-5);
-    border: 1px solid var(--wwdc-border);
-    border-radius: var(--wwdc-radius-lg);
-    background: var(--wwdc-surface);
-    transition: border-color var(--wwdc-transition-base),
-                box-shadow var(--wwdc-transition-base),
-                transform var(--wwdc-transition-base);
-  }
-
-  .wwdc-card:hover {
-    border-color: var(--wwdc-border-strong);
-    box-shadow: var(--wwdc-shadow-lg);
-    transform: translateY(-4px);
-  }
-
-  .wwdc-card__meta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--wwdc-space-3);
-    font-size: var(--wwdc-text-xs);
-    font-weight: var(--wwdc-font-semibold);
-    color: var(--wwdc-muted);
-  }
-
-  .wwdc-card__id {
-    font-family: var(--wwdc-family-mono);
-    font-size: 0.7rem;
-    font-weight: var(--wwdc-font-heavy);
-    color: var(--wwdc-accent);
-  }
-
-  .wwdc-card__duration {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--wwdc-space-1);
-    padding: var(--wwdc-space-1) var(--wwdc-space-2);
-    border: 1px solid var(--wwdc-border);
-    border-radius: var(--wwdc-radius-sm);
-    font-family: var(--wwdc-family-mono);
-    font-size: 0.7rem;
-    font-weight: var(--wwdc-font-heavy);
-    color: var(--wwdc-accent);
-  }
-
-  .wwdc-card__title {
-    font-family: var(--wwdc-family-display);
-    font-size: var(--wwdc-text-lg);
-    font-weight: var(--wwdc-font-bold);
-    line-height: var(--wwdc-leading-tight);
-    color: var(--wwdc-ink);
-    margin: 0;
-  }
-
-  .wwdc-card__description {
-    font-size: var(--wwdc-text-base);
-    line-height: var(--wwdc-leading-relaxed);
-    color: var(--wwdc-muted);
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .wwdc-card__tag {
-    display: inline-block;
-    padding: var(--wwdc-space-2) var(--wwdc-space-3);
-    background: var(--wwdc-accent-soft);
-    border-radius: var(--wwdc-radius-sm);
-    font-size: var(--wwdc-text-xs);
-    font-weight: var(--wwdc-font-semibold);
-    color: var(--wwdc-accent);
-    margin-top: auto;
-    width: fit-content;
   }
 
   /* Count Info */
@@ -236,19 +152,23 @@
   }
 
   /* Responsive */
+  @media (max-width: 1024px) {
+    .wwdc-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--wwdc-space-4);
+      padding: var(--wwdc-section-y) var(--wwdc-section-x);
+    }
+  }
+
   @media (max-width: 768px) {
     .wwdc-hero-simple {
       padding: var(--wwdc-space-8) var(--wwdc-space-4);
     }
 
     .wwdc-grid {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: var(--wwdc-space-3);
+      grid-template-columns: 1fr;
+      gap: var(--wwdc-space-4);
       padding: var(--wwdc-space-6) var(--wwdc-space-4);
-    }
-
-    .wwdc-card {
-      padding: var(--wwdc-space-4);
     }
 
     .wwdc-filters-sticky {
@@ -316,13 +236,16 @@
   <div class="wwdc-grid" id="wwdc-grid">
     {% for s in sessions %}
     <article class="wwdc-card" data-category="{{ s.category }}" data-title="{{ s.title | lower }}" data-desc="{{ s.description | lower }}">
-      <div class="wwdc-card__meta">
-        <span class="wwdc-card__id">#{{ s.id }}</span>
-        <span class="wwdc-card__duration">{{ s.duration }}</span>
+      {% if s.image %}<img class="wwdc-card__image" src="{{ s.image }}" alt="{{ s.title }}" loading="lazy" />{% endif %}
+      <div class="wwdc-card__content">
+        <div class="wwdc-card__meta">
+          <span class="wwdc-card__id">#{{ s.id }}</span>
+          <span class="wwdc-card__duration">{{ s.duration }}</span>
+        </div>
+        <h3 class="wwdc-card__title">{{ s.title }}</h3>
+        <p class="wwdc-card__description">{{ s.description }}</p>
+        <span class="wwdc-card__tag">{{ s.category }}</span>
       </div>
-      <h3 class="wwdc-card__title">{{ s.title }}</h3>
-      <p class="wwdc-card__description">{{ s.description }}</p>
-      <span class="wwdc-card__tag">{{ s.category }}</span>
     </article>
     {% endfor %}
   </div>
@@ -344,7 +267,7 @@
     var chips  = document.getElementById('wwdc-chips');
     var count  = document.getElementById('wwdc-shown');
     var empty  = document.getElementById('wwdc-empty');
-    var cards  = grid.querySelectorAll('.wwdc__card');
+    var cards  = grid.querySelectorAll('.wwdc-card');
     var activeCat = 'all';
 
     function filter() {
@@ -366,10 +289,10 @@
 
     search.addEventListener('input', filter);
     chips.addEventListener('click', function (e) {
-      var btn = e.target.closest('.wwdc__chip');
+      var btn = e.target.closest('.wwdc-chip');
       if (!btn) return;
-      chips.querySelectorAll('.wwdc__chip').forEach(function (c) {
-        c.classList.toggle('wwdc__chip--active', c === btn);
+      chips.querySelectorAll('.wwdc-chip').forEach(function (c) {
+        c.classList.toggle('wwdc-chip--active', c === btn);
       });
       activeCat = btn.dataset.filter;
       filter();
