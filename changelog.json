@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "ci: retry QA after merge conflict resolve (PR #909) [claude/stoic-feynman-rx0m7m]",
+      "tag": "chore",
+      "lines_added": 0,
+      "lines_removed": 10,
+      "highlights": [
+        "refactor: WWDC Phase 1 — Design tokens & component library",
+        "refactor: WWDC Phase 2 — Homepage redesign (island.html styling)",
+        "refactor: WWDC Phase 3 — Post page redesign",
+        "refactor: WWDC Priority 1 — Hero + Filter Chips (Template Restructure)",
+        "Add missing legacy template files to fix build errors"
+      ],
+      "pr": 909
+    },
+    {
+      "date": "2026-06-25",
       "title": "WWDC 26 listing demo page (PR #909 preview)",
       "tag": "feat",
       "lines_added": 423,
