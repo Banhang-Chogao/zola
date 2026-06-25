@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-25T19:37:52Z",
+  "updated_at": "2026-06-25T22:53:59Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -10,15 +10,34 @@
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 106,
+      "fix": 107,
       "feature": 43,
       "ci": 3,
-      "unknown": 34,
+      "unknown": 33,
       "chore": 10,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 926,
+      "pr_title": "fix(theme): restore site-level post partials missing after switch to zulma",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/926",
+      "merged_at": "2026-06-25T22:46:54Z",
+      "merge_commit_sha": "98d42e91978f2eef28f22a1ff6e21ae336aa37d1",
+      "merge_commit_short": "98d42e9",
+      "head_branch": "hotfix/page-info-template-path",
+      "summary_vi": "QA Gatekeeper `build-smoke` ([run 28194842941](https://github.com/Banhang-Chogao/zola/actions/runs/28194842941/job/83518739268)) failed:",
+      "change_type": "fix",
+      "files_changed": 5,
+      "additions": 85,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1159,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28205302043",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 923,
       "pr_title": "Fix: Pre-existing template compatibility issues for Zola 0.22.1 [claude/seomoney-blog-theme-qdmxbm]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1158,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28195264209",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "failure"
     },
     {
       "pr_number": 921,
@@ -438,25 +457,6 @@
       "build_conclusion": "success"
     },
     {
-      "pr_number": 891,
-      "pr_title": "Merge remote-tracking branch 'origin/claude/slack-notification-ux-piceha' into claude/slack-notification-ux-piceha [claude/slack-notification-ux-piceha]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/891",
-      "merged_at": "2026-06-25T09:28:57Z",
-      "merge_commit_sha": "18d6dc26c24008bcbda7dc600bf16a2748414f74",
-      "merge_commit_short": "18d6dc2",
-      "head_branch": "claude/slack-notification-ux-piceha",
-      "summary_vi": "- feat: Slack Block Kit notification UX generator (3 tình huống)",
-      "change_type": "unknown",
-      "files_changed": 4,
-      "additions": 411,
-      "deletions": 70,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 1135,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28160585999",
-      "build_conclusion": "success"
-    },
-    {
       "pr_number": 896,
       "pr_title": "Merge origin/main into claude/oasis-wwdc-aurora (clear stale-base qa-404) [claude/oasis-wwdc-aurora]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/896",
@@ -566,9 +566,9 @@
       "deletions": 166,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1129,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28147934150",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 885,
@@ -3630,25 +3630,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 693,
-      "pr_title": "fix(qa-404): remove dead internal links blocking the QA gate",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/693",
-      "merged_at": "2026-06-21T18:32:02Z",
-      "merge_commit_sha": "38745bb5bed5ac981a0580817f158082bb5afae0",
-      "merge_commit_short": "38745bb",
-      "head_branch": "fix/qa-404-dead-admin-footer-links",
-      "summary_vi": "The qa-404 gate failed site-wide (~2453 broken internal links) chiefly because the global footer linked to /admin-author/ and /admin-countdown/ on EVERY page — routes with no page anywhere (no content, template, static f",
-      "change_type": "fix",
-      "files_changed": 14,
-      "additions": 52,
-      "deletions": 108,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 678,
       "pr_title": "fix(vaccine-hotfix): claude/amazing-goldberg-9hwo4r",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/678",
@@ -3813,6 +3794,25 @@
       "files_changed": 2,
       "additions": 200,
       "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 654,
+      "pr_title": "fix(vaccine-hotfix): claude/ecstatic-mccarthy-s0v1ar",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/654",
+      "merged_at": "2026-06-21T13:32:03Z",
+      "merge_commit_sha": "8f41316098f0969f7015c4675a38b1a20f3c2457",
+      "merge_commit_short": "8f41316",
+      "head_branch": "vaccine-hotfix/claude-ecstatic-mccarthy-s0v1ar",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 4,
+      "additions": 437,
+      "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
