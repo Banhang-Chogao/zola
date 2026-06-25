@@ -8,7 +8,7 @@ from scripts.slack_notify_ux import HEADER_LIMIT, TEXT_LIMIT, build_payload
 
 class TestBuildPayload(unittest.TestCase):
     def test_all_kinds_valid(self):
-        for kind in ("success", "warning", "critical"):
+        for kind in ("success", "warning", "critical", "info"):
             p = build_payload(kind, title="X", message="hello")
             self.assertIn("blocks", p)
             self.assertIn("text", p)  # fallback bắt buộc
@@ -60,6 +60,18 @@ class TestBuildPayload(unittest.TestCase):
         self.assertFalse(any(b["type"] == "context" for b in p_no["blocks"]))
         p_yes = build_payload("warning", title="t", message="m", host="web-01", time="14:30")
         self.assertTrue(any(b["type"] == "context" for b in p_yes["blocks"]))
+
+    def test_info_kind_neutral(self):
+        p = build_payload("info", title="Commit mới", message="m", host="main")
+        self.assertTrue(p["blocks"][0]["text"]["text"].startswith("🔔"))
+        # info trung tính → không divider gây "ồn"
+        self.assertFalse(any(b["type"] == "divider" for b in p["blocks"]))
+
+    def test_info_button_no_style(self):
+        p = build_payload(
+            "info", title="t", message="m", button_text="Xem", button_url="https://x"
+        )
+        self.assertNotIn("style", p["blocks"][1]["accessory"])
 
     def test_warning_has_divider(self):
         p = build_payload("warning", title="t", message="m", host="web-01")

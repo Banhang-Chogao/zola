@@ -6,10 +6,11 @@ Biến thông báo Slack khô khan thành Block Kit có phân cấp thông tin, 
 gũi, emoji có chủ đích và nút hành động ngay trong message. Hệ thống chỉ cần truyền
 biến (host, %, user…) → script tự dựng payload hợp lệ rồi bắn vào Incoming Webhook.
 
-3 loại:
+Các loại:
     success  — Tin vui (deploy OK, job xong…)
     warning  — Cảnh báo (CPU cao, ngưỡng gần chạm…)
     critical — Lỗi khẩn cấp (service down, 5xx…)
+    info     — Trung tính (commit mới, sự kiện thường — không gây cảm xúc mạnh)
 
 Thiết kế UX (xem chi tiết PR/commit):
     - Số liệu quan trọng nhất lên `header` → quét <1s.
@@ -69,6 +70,12 @@ KINDS = {
         "emoji": "🚨",
         "fallback_title": "Sự cố khẩn cấp",
         "button_style": "danger",
+        "lead": "",
+    },
+    "info": {
+        "emoji": "🔔",
+        "fallback_title": "Thông báo",
+        "button_style": None,  # trung tính, không nhuộm màu hành động
         "lead": "",
     },
 }
