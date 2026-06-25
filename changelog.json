@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "fix(theme): restore site-level post partials missing after switch to zulma",
+      "tag": "fix",
+      "lines_added": 85,
+      "lines_removed": 0,
+      "highlights": [
+        "core page fields only — no linkita macros (_str::, _link::, _profile::), no extra.* requirement;",
+        "guarded ({% if page and page.date %} etc.) so they never crash on sections/paginators/non-post pages.",
+        "templates/partials/page_info.html (new)",
+        "templates/partials/toc.html (new)",
+        "templates/partials/post_taxonomies.html (new)"
+      ],
+      "pr": 926
+    },
+    {
+      "date": "2026-06-25",
       "title": "Pre-existing template compatibility issues for Zola 0.22.1 [claude/seomoney-blog-theme-qdmxbm]",
       "tag": "fix",
       "lines_added": 72,
