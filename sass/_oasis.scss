@@ -1,0 +1,333 @@
+/* ============================================================
+   OASIS — Post page (single article) design system.
+   Replicates the WWDC26 reference UI/UX 1:1:
+   brand top-bar → hero (eyebrow/title/sub/stats) → clean prose
+   frame → footer. Blue (#003784) + mono accents, calm borders,
+   generous whitespace. Scoped to `.oasis` so it never leaks to
+   listing pages. Pairs with templates/page.html.
+
+   Design tokens mirror the WWDC26 template (var() with the same
+   fallbacks) so the page adapts to the active theme but defaults
+   to the institutional WWDC look on the standard light theme.
+   ============================================================ */
+
+.oasis {
+  --o-ink:           var(--c-text-heading, #0a0a0a);
+  --o-body:          var(--c-text, #333);
+  --o-muted:         var(--c-text-muted, #6a6a6a);
+  --o-blue:          var(--c-accent, #003784);
+  --o-blue-hover:    var(--c-accent-hover, #002566);
+  --o-blue-soft:     var(--c-accent-soft, #e8edf5);
+  --o-surface:       var(--c-bg-surface, #fff);
+  --o-page:          var(--c-bg-page, #f8f9fb);
+  --o-soft:          var(--c-bg-soft, #f4f4f4);
+  --o-border:        var(--c-border, #e3e3e3);
+  --o-border-strong: var(--c-border-strong, #d0d0d0);
+  --o-radius:        10px;
+  --o-mono:          #{$font-mono};
+  --o-heading:       #{$font-heading};
+
+  color: var(--o-body);
+  line-height: 1.62;
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  /* ===== TOP BRAND BAR ===== */
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 22px 0 16px;
+    border-bottom: 1px solid var(--o-border);
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  &__mark {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--o-blue);
+    border-radius: var(--o-radius);
+    color: var(--o-blue);
+    font-family: var(--o-heading);
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  &__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  &__brand-name {
+    font-family: var(--o-heading);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--o-ink);
+    letter-spacing: -0.02em;
+  }
+  &__brand-tag { font-size: 0.74rem; color: var(--o-muted); }
+
+  &__top-right {
+    font-family: var(--o-mono);
+    font-size: 0.8rem;
+    color: var(--o-muted);
+    white-space: nowrap;
+  }
+  &__top-right strong { color: var(--o-blue); }
+
+  /* ===== HERO ===== */
+  &__hero {
+    padding: 44px 0 28px;
+    margin: 0;
+    border-bottom: 1px solid var(--o-border);
+  }
+
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--o-blue);
+    margin: 0 0 14px;
+    text-decoration: none;
+  }
+  &__eyebrow:hover { color: var(--o-blue-hover); }
+
+  &__title {
+    font-family: var(--o-heading);
+    font-size: clamp(2.1rem, 5.2vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.07;
+    letter-spacing: -0.03em;
+    color: var(--o-ink);
+    margin: 0 0 14px;
+  }
+
+  &__sub {
+    font-size: clamp(0.98rem, 1.4vw, 1.12rem);
+    line-height: 1.6;
+    color: var(--o-muted);
+    margin: 0 0 4px;
+    max-width: 68ch;
+  }
+
+  &__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 32px;
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid var(--o-border);
+  }
+
+  &__stat { display: flex; flex-direction: column; gap: 4px; }
+  &__stat-n {
+    font-family: var(--o-heading);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--o-ink);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  &__stat-l {
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--o-muted);
+  }
+
+  /* page_info (theme partial) sits under the hero — keep it quiet/mono */
+  &__hero .page-info,
+  &__hero .post-info,
+  &__hero .post-meta {
+    margin-top: 18px;
+    font-family: var(--o-mono);
+    font-size: 0.78rem;
+    color: var(--o-muted);
+  }
+
+  /* ===== COVER FIGURE ===== */
+  &__cover {
+    margin: 28px 0 8px;
+  }
+  &__cover img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--o-radius);
+    border: 1px solid var(--o-border);
+  }
+
+  /* ===== ARTICLE BODY (prose) ===== */
+  &__body {
+    padding-top: 8px;
+    font-size: 1.02rem;
+    line-height: 1.78;
+    color: var(--o-body);
+  }
+
+  &__body > *:first-child { margin-top: 0; }
+
+  &__body p { margin: 0 0 1.25em; }
+
+  &__body h2,
+  &__body h3,
+  &__body h4 {
+    font-family: var(--o-heading);
+    color: var(--o-ink);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    scroll-margin-top: 80px;
+  }
+  &__body h2 {
+    font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+    font-weight: 800;
+    margin: 2.2em 0 0.7em;
+    padding-top: 1.1em;
+    border-top: 1px solid var(--o-border);
+  }
+  &__body h2:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+  &__body h3 {
+    font-size: clamp(1.2rem, 2vw, 1.42rem);
+    font-weight: 800;
+    margin: 1.8em 0 0.55em;
+  }
+  &__body h4 {
+    font-size: 1.12rem;
+    font-weight: 700;
+    margin: 1.5em 0 0.5em;
+  }
+
+  &__body a {
+    color: var(--o-blue);
+    text-decoration: none;
+    border-bottom: 1px solid var(--o-blue-soft);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  &__body a:hover {
+    color: var(--o-blue-hover);
+    border-bottom-color: currentColor;
+  }
+
+  &__body ul,
+  &__body ol { margin: 0 0 1.25em; padding-left: 1.4em; }
+  &__body li { margin-bottom: 0.5em; }
+  &__body li::marker { color: var(--o-blue); }
+
+  &__body blockquote {
+    margin: 1.6em 0;
+    padding: 1rem 1.35rem;
+    background: var(--o-blue-soft);
+    border-left: 4px solid var(--o-blue);
+    border-radius: 0 var(--o-radius) var(--o-radius) 0;
+    color: var(--o-ink);
+    font-style: normal;
+  }
+  &__body blockquote p:last-child { margin-bottom: 0; }
+
+  &__body :not(pre) > code {
+    font-family: var(--o-mono);
+    font-size: 0.88em;
+    background: var(--o-soft);
+    border: 1px solid var(--o-border);
+    border-radius: 5px;
+    padding: 0.12em 0.42em;
+    color: var(--o-blue-hover);
+  }
+
+  &__body pre {
+    border-radius: var(--o-radius);
+    border: 1px solid var(--o-border-strong);
+  }
+
+  &__body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--o-radius);
+    border: 1px solid var(--o-border);
+  }
+
+  &__body hr {
+    border: 0;
+    border-top: 1px solid var(--o-border);
+    margin: 2.2em 0;
+  }
+
+  &__body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    margin: 1.5em 0;
+    border: 1px solid var(--o-border);
+    border-radius: var(--o-radius);
+    overflow: hidden;
+  }
+  &__body th,
+  &__body td {
+    text-align: left;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--o-border);
+  }
+  &__body th {
+    background: var(--o-blue-soft);
+    font-family: var(--o-heading);
+    font-weight: 700;
+    color: var(--o-ink);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  &__body tr:last-child td { border-bottom: 0; }
+
+  /* ===== FOOTER ===== */
+  &__foot {
+    padding: 36px 0 8px;
+    margin-top: 32px;
+    border-top: 1px solid var(--o-border);
+    text-align: center;
+    font-size: 0.84rem;
+    color: var(--o-muted);
+  }
+  &__foot a { color: var(--o-blue); }
+}
+
+/* The hero + brand bar span the full content width; the existing
+   .post-layout grid (article + TOC rail) sits between them. Make
+   the article column borderless so the OASIS frame is the only
+   chrome. */
+.oasis .post-layout {
+  margin-top: 24px;
+}
+
+/* ===== RESPONSIVE — same design reflowed, never a separate UI ===== */
+@media (max-width: 760px) {
+  .oasis {
+    &__top { padding: 16px 0 12px; }
+    &__hero { padding: 26px 0 22px; }
+    &__stats { gap: 12px 22px; margin-top: 18px; padding-top: 16px; }
+    &__stat-n { font-size: 1.25rem; }
+    &__cover { margin: 20px 0 4px; }
+    &__cover img { border-radius: 8px; }
+    &__body { font-size: 1rem; line-height: 1.74; }
+    &__foot { padding: 28px 0 4px; }
+  }
+  .oasis .post-layout { margin-top: 18px; }
+}
+
+@media (max-width: 400px) {
+  .oasis__top-right { font-size: 0.72rem; }
+  .oasis__brand-name { font-size: 1rem; }
+}

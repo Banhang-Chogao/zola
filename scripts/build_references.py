@@ -150,13 +150,29 @@ def link_title(text: str, url: str, kind: str, slug_index: dict) -> str:
     return url
 
 
+def strip_zola_base_path(path: str) -> str:
+    """Drop the legacy /zola GitHub-Pages base-path prefix, BOUNDARY-AWARE.
+
+    Only the exact '/zola' segment is removed ('/zola' or '/zola/…'), never a
+    slug that merely *starts with* the letters 'zola' such as '/zola-vs-hugo/'.
+    The old code did url.removeprefix('/zola'), which mangled '/zola-vs-hugo/'
+    into '-vs-hugo/' → 'https://seomoney.org-vs-hugo/' (a phantom host). Mirrors
+    qa-404-checker._strip_base_path so generated links match what the gate checks.
+    """
+    if path == "/zola":
+        return "/"
+    if path.startswith("/zola/"):
+        return path[len("/zola"):]
+    return path
+
+
 def internal_lookup_key(url: str) -> str | None:
     if url.startswith("@/"):
         return "content/" + url[2:].lstrip("/")
     if url.startswith("/"):
-        # /zola/posting/slug/ or /posting/slug/ — strip base-url path prefix
-        # (links across the blog are written with the /zola prefix).
-        path = url.removeprefix("/zola")
+        # /zola/posting/slug/ or /posting/slug/ — strip the legacy base-url path
+        # prefix (boundary-aware: only the '/zola' segment, not '/zola-…' slugs).
+        path = strip_zola_base_path(url)
         parts = [p for p in path.strip("/").split("/") if p]
         if len(parts) >= 2:
             section, slug = parts[0], parts[1]
@@ -165,7 +181,7 @@ def internal_lookup_key(url: str) -> str | None:
             return f"content/pages/{parts[0]}.md"
     parsed = urlparse(url)
     if is_site_host(parsed.hostname):
-        path = parsed.path.removeprefix("/zola").strip("/")
+        path = strip_zola_base_path(parsed.path).strip("/")
         parts = [p for p in path.split("/") if p]
         if len(parts) >= 2:
             return f"content/{parts[0]}/{parts[1]}.md"
@@ -181,8 +197,9 @@ def resolve_internal_url(url: str, slug_index: dict) -> str:
         rel = url[2:].replace(".md", "/").replace("content/", "")
         return f"{BASE_URL}/{rel}"
     if url.startswith("/"):
-        # Strip the /zola base-url path before re-prefixing → avoid /zola/zola/.
-        return BASE_URL + url.removeprefix("/zola")
+        # Re-prefix with the canonical base URL. Boundary-aware /zola strip so a
+        # slug like '/zola-vs-hugo/' is preserved (was mangled to a phantom host).
+        return BASE_URL + strip_zola_base_path(url)
     return url
 
 
