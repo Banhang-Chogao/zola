@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-25T23:36:11Z",
+  "updated_at": "2026-06-25T23:42:18Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
@@ -10,15 +10,34 @@
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "fix": 107,
+      "feature": 43,
+      "fix": 106,
       "unknown": 34,
-      "feature": 42,
       "ci": 3,
       "chore": 10,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 930,
+      "pr_title": "feat(cards): Korean-editorial thumbnail hover (touch-guard + reduced-motion) [feat/thumbnail-hover-microinteraction]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/930",
+      "merged_at": "2026-06-25T23:29:15Z",
+      "merge_commit_sha": "f186b36b5383f8a6e029cc30f04aaf0a6ed6a247",
+      "merge_commit_short": "f186b36",
+      "head_branch": "feat/thumbnail-hover-microinteraction",
+      "summary_vi": "feat(cards): Korean-editorial thumbnail hover (touch-guard + reduced-motion)",
+      "change_type": "feature",
+      "files_changed": 2,
+      "additions": 47,
+      "deletions": 20,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1162,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207015283",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 929,
       "pr_title": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Countdown [fix/footer-remove-deploy-status]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1161,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28207001126",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 928,
@@ -398,25 +417,6 @@
       "build_run_number": null,
       "build_url": "",
       "build_conclusion": ""
-    },
-    {
-      "pr_number": 900,
-      "pr_title": "fix(links): clear remaining 5 broken internal links (qa-404 gate) [claude/charming-knuth-hquqro]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/900",
-      "merged_at": "2026-06-25T11:01:20Z",
-      "merge_commit_sha": "b99f0ee04c36df601ecf576b18886c614560b74f",
-      "merge_commit_short": "b99f0ee",
-      "head_branch": "claude/charming-knuth-hquqro",
-      "summary_vi": "- seo(index): tắt feed tags + loại tag mỏng khỏi sitemap + siết robots [Phase 1+3 Tier A]",
-      "change_type": "fix",
-      "files_changed": 38,
-      "additions": 1037,
-      "deletions": 398,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": 1140,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28165470442",
-      "build_conclusion": "success"
     },
     {
       "pr_number": 900,
