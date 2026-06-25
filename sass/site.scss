@@ -82,7 +82,8 @@
 /* Refactored page systems — Oasis (post page, WWDC26 language) and
    Island (home dashboard, S-DNA). Scoped to .oasis / .island. */
 @import "oasis";
-@import "island";
+@import "island-v2";
+/* @import "island"; — replaced by island-v2 (WWDC redesign) */
 
 /* Mobile readability hardening — MUST stay last so its defensive
    overflow/wrapping guards win over earlier component rules. */
