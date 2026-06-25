@@ -1,0 +1,119 @@
+name: Performance QA Checker
+
+# Cron hằng ngày — audit Lighthouse/PageSpeed, SAFE auto-fix → push thẳng main.
+
+on:
+  schedule:
+    - cron: '0 17 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: perf-audit
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  performance-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Run Lighthouse/PageSpeed audit + local perf scan
+        id: audit
+        env:
+          PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+        run: |
+          set +e
+          python3 scripts/performance_qa_checker.py \
+            --report-only \
+            --output reports/performance/latest.json \
+            2>&1 | tee perf-scan.txt
+          audit_exit=$?
+          echo "exit_code=${audit_exit}" >> "$GITHUB_OUTPUT"
+          if [ "$audit_exit" -gt 2 ]; then exit "$audit_exit"; fi
+
+      - name: Apply SAFE perf auto-fix (img lazy/decoding)
+        id: fix
+        if: steps.audit.outputs.exit_code == '2' || steps.audit.outputs.exit_code == '0'
+        run: |
+          python3 scripts/performance_qa_checker.py \
+            --fix \
+            --write-pr-body pr-body.md \
+            --output reports/performance/latest-with-fix.json \
+            2>&1 | tee perf-fix.txt
+          if git diff --quiet templates/ static/ sass/ content/ config.toml data/performance-audit-snapshot.json 2>/dev/null; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload audit report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-audit-${{ github.run_id }}
+          path: |
+            reports/performance/
+            perf-scan.txt
+            perf-fix.txt
+            pr-body.md
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: Push SAFE perf fixes to main
+        if: steps.fix.outputs.changed == 'true'
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh \
+            "QA: Performance optimization ($(date -u +%FT%TZ))" \
+            templates/ static/ sass/ content/ config.toml \
+            data/performance-audit-snapshot.json reports/performance/
+
+      - name: Open issue if audit needs action but no safe fix
+        if: steps.audit.outputs.exit_code == '2' && steps.fix.outputs.changed != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "QA: Performance below threshold ($(date -u +%F))" \
+            --body-file pr-body.md \
+            --label "performance" 2>/dev/null || \
+          gh issue create \
+            --title "QA: Performance below threshold ($(date -u +%F))" \
+            --body-file pr-body.md || true
+
+      - name: Zola build smoke test
+        if: steps.fix.outputs.changed == 'true'
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+          git pull origin main
+          zola build

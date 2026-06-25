@@ -1,0 +1,39 @@
+{
+  "mode": "ZERO_BARRIER_AUTOMATION",
+  "effective_date": "2026-06-18",
+  "default": "auto_merge_when_checks_pass",
+  "description": "Blog sạch — không kiểm duyệt trung gian. CI pass → auto-merge → deploy production ngay.",
+  "required_checks": {
+    "QA Gatekeeper": ["qa-check", "QA Gatekeeper"]
+  },
+  "protected_domain_keywords": [],
+  "protected_path_prefixes": [],
+  "protected_path_exceptions": [],
+  "auto_eligible_branch_prefixes": [
+    "chore/",
+    "qa/",
+    "autofix/",
+    "vaccine-hotfix/",
+    "fix/",
+    "feat/",
+    "feature/",
+    "hotfix/",
+    "content/",
+    "policy/",
+    "claude/",
+    "codex/"
+  ],
+  "auto_eligible_title_patterns": [],
+  "bot_actors": ["github-actions[bot]"],
+  "blocked_bot_actors": [
+    "dependabot[bot]",
+    "dependabot-preview[bot]",
+    "renovate[bot]",
+    "renovate-bot[bot]"
+  ],
+  "blocked_labels": [],
+  "compliance_auto_merge_min_score": 0,
+  "bot_confidence_min": 0,
+  "anti_loop_window": 12,
+  "anti_loop_repeat_threshold": 5
+}

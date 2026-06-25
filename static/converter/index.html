@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.">
+    <title>Số → Chữ Hán Hàn · 한자어 수사 변환기</title>
+
+    <!-- ===== SEO: canonical + Open Graph + Twitter + JSON-LD =====
+         Trang tĩnh (không qua Tera) nên khai báo trực tiếp. URL/base hardcode
+         khớp config.toml base_url. -->
+    <link rel="canonical" href="https://seomoney.org/converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Số → Chữ Hán Hàn · 한자어 수사 변환기">
+    <meta property="og:description" content="Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.">
+    <meta property="og:url" content="https://seomoney.org/converter/">
+    <meta property="og:image" content="https://seomoney.org/img/og-default.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="SEOMONEY">
+    <meta property="og:locale" content="vi_VN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Số → Chữ Hán Hàn · 한자어 수사 변환기">
+    <meta name="twitter:description" content="Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.">
+    <meta name="twitter:image" content="https://seomoney.org/img/og-default.webp">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Số → Chữ Hán Hàn · 한자어 수사 변환기",
+        "url": "https://seomoney.org/converter/",
+        "description": "Chuyển đổi số sang chữ Hán Hàn (Sino-Korean) — hỗ trợ tối đa hàng kinh (경, 10^16). Vanilla JS, real-time, 0 dependency.",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any (web browser)",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "VND" },
+        "inLanguage": "vi-VN",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Duy Nguyen",
+            "url": "https://seomoney.org"
+        }
+    }
+    </script>
+
+    <!-- CSS namespaced với prefix .nk- (numbers-korean) để không conflict
+         khi nhúng vào blog. Toàn bộ style scoped trong .nk-app wrapper. -->
+    <style>
+        .nk-app, .nk-app *, .nk-app *::before, .nk-app *::after { box-sizing: border-box; }
+
+        .nk-app {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                         "Helvetica Neue", "Apple SD Gothic Neo", "Malgun Gothic",
+                         "Noto Sans KR", sans-serif;
+            max-width: 720px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            color: #1f2937;
+            line-height: 1.55;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .nk-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .nk-title {
+            margin: 0 0 0.35rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.01em;
+        }
+        .nk-subtitle {
+            margin: 0;
+            font-size: 0.88rem;
+            color: #64748b;
+        }
+
+        .nk-input-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+        }
+        .nk-label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+        .nk-input {
+            width: 100%;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 0.65rem 0.85rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+            font-variant-numeric: tabular-nums;
+            color: #0f172a;
+            background: #f8fafc;
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+        .nk-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        .nk-formatted {
+            margin-top: 0.5rem;
+            font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+            min-height: 1.2em;
+        }
+
+        .nk-result {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.85rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+        }
+        .nk-result__head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.45rem;
+            gap: 0.5rem;
+        }
+        .nk-result__title {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .nk-result__tag {
+            display: inline-block;
+            padding: 1px 7px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            background: #eff6ff;
+            color: #1e40af;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .nk-result__tag--natural {
+            background: #f0fdf4;
+            color: #166534;
+        }
+
+        .nk-copy {
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.35rem 0.7rem;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all .12s ease;
+            flex-shrink: 0;
+        }
+        .nk-copy:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+        .nk-copy.is-copied {
+            background: #dcfce7;
+            color: #166534;
+            border-color: #86efac;
+        }
+
+        .nk-result__text {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #0f172a;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            min-height: 1.6em;
+            font-weight: 500;
+        }
+        .nk-result__text--empty {
+            color: #94a3b8;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .nk-footer {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.78rem;
+            color: #94a3b8;
+            text-align: center;
+        }
+        .nk-footer code {
+            background: #f1f5f9;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.85em;
+        }
+
+        .nk-back-btn {
+            display: inline-block;
+            margin-top: 1.25rem;
+            padding: 0.5rem 1rem;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all .15s ease;
+        }
+        .nk-back-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+        .nk-back-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .nk-app { margin: 1rem auto; padding: 0 0.75rem; }
+            .nk-title { font-size: 1.25rem; }
+            .nk-input { font-size: 1.2rem; }
+            .nk-result__text { font-size: 1.05rem; }
+            .nk-result__head { flex-wrap: wrap; }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .nk-app { color: #e2e8f0; }
+            .nk-title { color: #f1f5f9; }
+            .nk-subtitle, .nk-formatted, .nk-footer { color: #94a3b8; }
+            .nk-input-card, .nk-result { background: #1e293b; border-color: #334155; }
+            .nk-input { background: #0f172a; color: #f1f5f9; border-color: #334155; }
+            .nk-input:focus { background: #0f172a; border-color: #60a5fa; }
+            .nk-label, .nk-result__title { color: #cbd5e1; }
+            .nk-result__text { color: #f1f5f9; }
+            .nk-result__text--empty { color: #64748b; }
+            .nk-copy { background: #334155; color: #cbd5e1; border-color: #475569; }
+            .nk-copy:hover { background: #475569; color: #f1f5f9; }
+            .nk-result__tag { background: #1e3a8a; color: #bfdbfe; }
+            .nk-result__tag--natural { background: #14532d; color: #bbf7d0; }
+            .nk-footer { border-top-color: #334155; }
+            .nk-footer code { background: #334155; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nk-app">
+        <header class="nk-header">
+            <h1 class="nk-title">Số → Chữ Hán Hàn</h1>
+            <p class="nk-subtitle">한자어 수사 변환기 · Sino-Korean numerals (대 / 큰 숫자 지원)</p>
+        </header>
+
+        <section class="nk-input-card">
+            <label class="nk-label" for="nk-input">Nhập số (tối đa 17 chữ số / 경)</label>
+            <input
+                type="text"
+                id="nk-input"
+                class="nk-input"
+                inputmode="numeric"
+                pattern="[0-9,]*"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="123,456,789"
+                maxlength="22"
+                aria-describedby="nk-formatted">
+            <div class="nk-formatted" id="nk-formatted" aria-live="polite"></div>
+        </section>
+
+        <article class="nk-result">
+            <header class="nk-result__head">
+                <h2 class="nk-result__title">
+                    Formal <span class="nk-result__tag">정식</span>
+                </h2>
+                <button type="button" class="nk-copy" data-copy-target="nk-formal" aria-label="Sao chép cách đọc formal">📋 Copy</button>
+            </header>
+            <div class="nk-result__text nk-result__text--empty" id="nk-formal" aria-live="polite">
+                Gõ số vào ô trên để xem kết quả
+            </div>
+        </article>
+
+        <article class="nk-result">
+            <header class="nk-result__head">
+                <h2 class="nk-result__title">
+                    Natural <span class="nk-result__tag nk-result__tag--natural">자연</span>
+                </h2>
+                <button type="button" class="nk-copy" data-copy-target="nk-natural" aria-label="Sao chép cách đọc natural">📋 Copy</button>
+            </header>
+            <div class="nk-result__text nk-result__text--empty" id="nk-natural" aria-live="polite">
+                Bỏ "일" trước 십/백/천/만/억 khi đứng đầu
+            </div>
+        </article>
+
+        <footer class="nk-footer">
+            Đơn vị mỗi 4 chữ số: <code>만</code> 10⁴ · <code>억</code> 10⁸ · <code>조</code> 10¹² · <code>경</code> 10¹⁶
+            <br>0 dependency · Vanilla JS · Hoạt động offline sau lần đầu load
+            <br><a href="/" class="nk-back-btn">← Quay lại Home</a>
+        </footer>
+    </div>
+
+    <!-- JS namespaced trong IIFE để không leak biến ra global scope của
+         blog parent (nếu nhúng iframe hoặc inline). -->
+    <script>
+        (function () {
+            "use strict";
+
+            // Sino-Korean digit characters
+            var DIGITS = ["", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+            // Place values WITHIN một group 4 chữ số
+            // (vị trí 1, 10, 100, 1000)
+            var PLACES_INNER = ["", "십", "백", "천"];
+            // Place values GIỮA các group 4 chữ số
+            // (1, 10000, 10^8, 10^12, 10^16)
+            var PLACES_OUTER = ["", "만", "억", "조", "경"];
+
+            // Maximum digit count = 4 groups × 4 digits = 17 (lên hàng 경)
+            var MAX_DIGITS = 17;
+
+            // ============= CORE: Chuyển 1 group 4-digit sang chữ Hán Hàn =============
+            // n: 0-9999
+            // formal: true → giữ "일" trước 십/백/천 (e.g. "일백" = 100)
+            //         false → bỏ "일" cho tự nhiên (e.g. "백" = 100)
+            function convertGroupOf4(n, formal) {
+                if (n === 0) return "";
+                var d3 = Math.floor(n / 1000) % 10; // hàng nghìn
+                var d2 = Math.floor(n / 100)  % 10; // hàng trăm
+                var d1 = Math.floor(n / 10)   % 10; // hàng chục
+                var d0 = n % 10;                    // hàng đơn vị
+                var parts = [];
+                if (d3) parts.push(((formal || d3 !== 1) ? DIGITS[d3] : "") + PLACES_INNER[3]);
+                if (d2) parts.push(((formal || d2 !== 1) ? DIGITS[d2] : "") + PLACES_INNER[2]);
+                if (d1) parts.push(((formal || d1 !== 1) ? DIGITS[d1] : "") + PLACES_INNER[1]);
+                if (d0) parts.push(DIGITS[d0]);
+                return parts.join("");
+            }
+
+            // ============= CORE: Chuyển toàn bộ số sang chữ Hán Hàn =============
+            // numStr: string các chữ số (đã strip non-digit)
+            // formal: như trên + áp dụng cho 일 trước 만/억/조 boundary
+            // Dùng BigInt để an toàn với số lớn (vượt Number.MAX_SAFE_INTEGER khi
+            // > ~9000조). Hoạt động trên mọi browser ES2020+ (Chrome 67+, FF 68+,
+            // Safari 14+).
+            function convertNumber(numStr, formal) {
+                if (!numStr) return "";
+                if (numStr === "0") return "영";
+                if (numStr.length > MAX_DIGITS) {
+                    return "(số quá lớn — tối đa " + MAX_DIGITS + " chữ số / 9999경)";
+                }
+
+                var n;
+                try {
+                    n = BigInt(numStr);
+                } catch (e) {
+                    return "(số không hợp lệ)";
+                }
+                if (n === 0n) return "영";
+
+                // Tách thành các group 4-digit từ thấp đến cao
+                // groups[0] = phần dưới vạn, groups[1] = phần vạn, groups[2] = ức, ...
+                var groups = [];
+                while (n > 0n) {
+                    groups.push(Number(n % 10000n)); // 0-9999 chắc chắn safe int
+                    n = n / 10000n;
+                }
+
+                // Render từ group lớn nhất xuống nhỏ nhất
+                var parts = [];
+                for (var i = groups.length - 1; i >= 0; i--) {
+                    var g = groups[i];
+                    if (g === 0) continue; // skip group toàn 0 (giữ space giữa các unit)
+                    var group = convertGroupOf4(g, formal);
+                    if (i > 0) {
+                        // Boundary suffix (만/억/조/경)
+                        // Natural mode: bỏ "일" khi group === 1 (e.g. 10000 → "만" not "일만")
+                        if (!formal && g === 1) {
+                            group = "";
+                        }
+                        group += PLACES_OUTER[i];
+                    }
+                    parts.push(group);
+                }
+                return parts.join(" "); // space giữa các unit để dễ đọc
+            }
+
+            // ============= UTIL: Format số với dấu phẩy ngăn cách hàng nghìn =============
+            function formatWithCommas(numStr) {
+                if (!numStr || numStr === "0") return numStr || "";
+                // Dùng regex để chèn dấu phẩy mỗi 3 chữ số từ phải sang trái
+                return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            // ============= UTIL: Strip non-digit characters =============
+            function stripNonDigit(s) {
+                return String(s || "").replace(/[^0-9]/g, "");
+            }
+
+            // ============= UTIL: Copy text to clipboard với fallback =============
+            // Modern API: navigator.clipboard.writeText (cần HTTPS hoặc localhost).
+            // Fallback: textarea + execCommand("copy") cho browser cũ / file://.
+            function copyToClipboard(text) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    return navigator.clipboard.writeText(text).catch(function (e) {
+                        return fallbackCopy(text);
+                    });
+                }
+                return new Promise(function (resolve, reject) {
+                    try {
+                        fallbackCopy(text);
+                        resolve();
+                    } catch (e) {
+                        reject(e);
+                    }
+                });
+            }
+            function fallbackCopy(text) {
+                var ta = document.createElement("textarea");
+                ta.value = text;
+                ta.setAttribute("readonly", "");
+                ta.style.position = "absolute";
+                ta.style.left = "-9999px";
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand("copy");
+                document.body.removeChild(ta);
+            }
+
+            // ============= DOM: Wire up input + render =============
+            var input        = document.getElementById("nk-input");
+            var formattedEl  = document.getElementById("nk-formatted");
+            var formalEl     = document.getElementById("nk-formal");
+            var naturalEl    = document.getElementById("nk-natural");
+            var copyButtons  = document.querySelectorAll("[data-copy-target]");
+
+            function update() {
+                var raw = stripNonDigit(input.value);
+                // Hiển thị lại input đã format (giữ caret tự nhiên cho user)
+                // Chỉ chèn comma vào display, KHÔNG modify input.value để tránh
+                // khó chịu khi user đang gõ giữa chuỗi.
+                formattedEl.textContent = raw ? formatWithCommas(raw) : "";
+
+                if (!raw) {
+                    formalEl.textContent = "Gõ số vào ô trên để xem kết quả";
+                    naturalEl.textContent = 'Bỏ "일" trước 십/백/천/만/억 khi đứng đầu';
+                    formalEl.classList.add("nk-result__text--empty");
+                    naturalEl.classList.add("nk-result__text--empty");
+                    return;
+                }
+
+                var formalText  = convertNumber(raw, true);
+                var naturalText = convertNumber(raw, false);
+
+                // textContent (không innerHTML) → an toàn 100% với XSS, dù
+                // raw input chỉ là chữ số sau khi strip nhưng vẫn defense-in-depth.
+                formalEl.textContent  = formalText  || "—";
+                naturalEl.textContent = naturalText || "—";
+                formalEl.classList.remove("nk-result__text--empty");
+                naturalEl.classList.remove("nk-result__text--empty");
+            }
+
+            // Real-time: render mỗi input event (không debounce vì conversion <1ms)
+            input.addEventListener("input", update);
+
+            // Cleanup khi user paste có ký tự khác → ép input.value về digit only
+            // sau 1 tick (cho browser xử lý xong native paste UI)
+            input.addEventListener("paste", function () {
+                setTimeout(function () {
+                    var raw = stripNonDigit(input.value);
+                    if (raw !== input.value.replace(/,/g, "")) {
+                        input.value = formatWithCommas(raw);
+                    }
+                    update();
+                }, 0);
+            });
+
+            // Copy buttons
+            copyButtons.forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    var targetId = btn.getAttribute("data-copy-target");
+                    var el = document.getElementById(targetId);
+                    if (!el || el.classList.contains("nk-result__text--empty")) return;
+                    var text = el.textContent.trim();
+                    if (!text || text === "—") return;
+                    copyToClipboard(text).then(function () {
+                        var original = btn.textContent;
+                        btn.textContent = "✓ Đã copy";
+                        btn.classList.add("is-copied");
+                        setTimeout(function () {
+                            btn.textContent = original;
+                            btn.classList.remove("is-copied");
+                        }, 1500);
+                    }).catch(function () {
+                        btn.textContent = "✗ Lỗi";
+                        setTimeout(function () { btn.textContent = "📋 Copy"; }, 1500);
+                    });
+                });
+            });
+
+            // Init: render lần đầu (trường hợp user reload với value sẵn từ browser)
+            update();
+        })();
+    </script>
+</body>
+</html>

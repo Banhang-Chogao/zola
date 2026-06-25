@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{#- AdSense-readiness sitemap: loại trang nội bộ/QA/dashboard/thin/premium (noindex)
+    khỏi sitemap để Google chỉ thấy nội dung công khai chất lượng. Nguồn loại trừ:
+    (1) e.extra.premium (bài premium teaser → noindex), (2) e.extra.noindex,
+    (3) danh sách fragment URL nội bộ bên dưới (khớp template noindex tương ứng). -#}
+{%- set excluded = [
+    "/ad-report/", "/ad-report-v2/", "/authority-report/", "/bao-cao-tong-ket/",
+    "/seo-bang-vang/", "/insights/", "/scoring/", "/branding-guideline/", "/font/",
+    "/changelog/", "/content/", "/uptime-me/", "/calendar/", "/b-dna/", "/s-dna/",
+    "/admin-author/", "/admin-countdown/", "/admin/paywall/", "/paywall-admin/",
+    "/shortensea-admin/", "/shortensea-insights/", "/cms/", "/editor/",
+    "/categories-premium/", "/categories/premium/", "/tags/premium/",
+    "/tools/f-dashboard/", "/tools/l-dashboard/", "/tools/o-dashboard/",
+    "/tools/h-dashboard/", "/tools/deploy-monitor/", "/tools/content-creator/",
+    "/tools/content-direction/", "/feed-anchor"
+] -%}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for e in entries %}
+{%- set_global skip = false %}
+{%- if e.extra.premium | default(value=false) %}{% set_global skip = true %}{% endif %}
+{%- if e.extra.noindex | default(value=false) %}{% set_global skip = true %}{% endif %}
+{#- SEO 2026-06-25: trang tag = thin taxonomy (631 tag, 471 dùng 1 lần) → KHÔNG submit
+    qua sitemap (vẫn crawl được qua internal link, chỉ không "đề cử" cho Google). Giữ
+    /categories/ (16 hub thật). Sau khi gộp tag còn ~51 hub mạnh có thể đảo lại chọn lọc.
+    Xem KE-HOACH-INDEXING.md §3.1 (A2). -#}
+{%- if "/tags/" in e.permalink %}{% set_global skip = true %}{% endif %}
+{%- for frag in excluded %}{% if frag in e.permalink %}{% set_global skip = true %}{% endif %}{% endfor %}
+{%- if not skip %}
+    <url>
+        <loc>{{ e.permalink | escape_xml | safe }}</loc>
+        {%- if e.updated %}
+        <lastmod>{{ e.updated }}</lastmod>
+        {%- endif %}
+    </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

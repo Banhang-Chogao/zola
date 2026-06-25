@@ -1,0 +1,160 @@
+/* ============================================================================
+   _toc-rail.scss — "On This Page" sticky right rail (scroll-spy) for articles.
+
+   Inspired by the B-DNA right rail (templates/b-dna.html `.bdna__rail`). An
+   ADDITIVE desktop enhancement: on wide desktop (≥1280px) the article body and
+   a sticky table-of-contents rail sit side by side. The rail tracks the reader's
+   position via IntersectionObserver (static/js/toc-rail.js) and highlights the
+   active heading; smooth scroll on click is CSS-native (html scroll-behavior +
+   scroll-padding-top in _reset.scss).
+
+   Below 1280px the rail is hidden and the existing inline `.toc` (top of
+   content) serves instead — never two TOCs at once, no mobile overflow.
+
+   Rules honoured (CLAUDE.md):
+     • semantic var(--c-*) tokens only (auto light/dark) — no hardcoded colors
+     • scoped component partial, imported in site.scss
+     • desktop-only via min-width media (mobile untouched; inline toc keeps it)
+     • NOT a site nav bar → not subject to V21 (no .side-nav/.nav-rail selectors);
+       this is a reader-facing TOC, sticky by design and distinct from navigation
+     • no layout shift: rail rendered server-side from page.toc; sticky reserves
+       its own grid cell; JS only toggles an `.is-active` class (no reflow)
+   ============================================================================ */
+
+/* Article + rail wrapper. Stays a plain block (full-width article) for paywall /
+   short posts that get no rail; only `.post-layout--rail` becomes a 2-col grid,
+   so an empty rail column is never reserved. */
+.post-layout {
+  min-width: 0;
+}
+
+/* Hidden by default (mobile, tablet, narrow desktop) → no overflow; the inline
+   `.toc` covers those widths. */
+.toc-rail {
+  display: none;
+}
+
+/* ===== DESKTOP (≥1280px) — room for prose + a 248px rail beside the sidebar ===== */
+@media (min-width: 1280px) {
+  .post-layout--rail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 256px;
+    gap: 2.75rem;
+    align-items: start;
+  }
+
+  /* On wide desktop the rail replaces the inline TOC to avoid duplication. */
+  .post-single__content .toc {
+    display: none;
+  }
+
+  .toc-rail {
+    display: block;
+    position: sticky;
+    /* clear the 60px global scroll-padding-top + breathing room */
+    top: 88px;
+    align-self: start;
+    max-height: calc(100vh - 112px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.2rem 0 0.5rem;
+    font-family: $font-ui;
+  }
+
+  .toc-rail__title {
+    margin: 0 0 0.75rem;
+    padding-left: 0.85rem;
+    font-family: $font-heading;
+    font-size: 0.71rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-text-muted);
+  }
+
+  .toc-rail__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border-left: 1px solid var(--c-border);
+  }
+
+  .toc-rail__link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-left: -1px;
+    padding: 0.4rem 0.8rem;
+    border-left: 2px solid transparent;
+    font-size: 0.84rem;
+    line-height: 1.4;
+    color: var(--c-text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    word-break: break-word;
+
+    &:hover {
+      color: var(--c-text-heading);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--c-accent);
+      outline-offset: -2px;
+    }
+
+    /* Active section — accent left border + soft fill (B-DNA rail pattern). */
+    &.is-active {
+      color: var(--c-accent);
+      border-left-color: var(--c-accent);
+      background: var(--c-accent-soft);
+      border-radius: 0 6px 6px 0;
+      font-weight: 700;
+    }
+  }
+
+  /* H3 children: indented, no number, slightly smaller. */
+  .toc-rail__link--sub {
+    padding-left: 1.6rem;
+    font-size: 0.81rem;
+  }
+
+  .toc-rail__num {
+    flex-shrink: 0;
+    font-family: $font-mono;
+    font-size: 0.72rem;
+    color: var(--c-text-muted);
+  }
+
+  .toc-rail__text {
+    min-width: 0;
+  }
+
+  .toc-rail__link.is-active .toc-rail__num {
+    color: var(--c-accent);
+  }
+
+  /* Slim, unobtrusive scrollbar for a long TOC. */
+  .toc-rail::-webkit-scrollbar {
+    width: 6px;
+  }
+  .toc-rail::-webkit-scrollbar-thumb {
+    background: var(--c-border-strong);
+    border-radius: 3px;
+  }
+}
+
+/* ===== ULTRA-WIDE (≥1920px) — maximize reading comfort with wider article ===== */
+@media (min-width: 1920px) {
+  .post-layout--rail {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 3rem;
+  }
+
+  .toc-rail__link {
+    font-size: 0.85rem;
+  }
+
+  .toc-rail__link--sub {
+    font-size: 0.82rem;
+  }
+}

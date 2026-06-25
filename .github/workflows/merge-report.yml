@@ -1,0 +1,47 @@
+name: Fetch Merge Report
+
+# Thu thập lịch sử merge auto → data/merge-report.json
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '20 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: merge-report
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Fetch merge history
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_REPORT_SINCE: "2026-06-17T00:00:00Z"
+        run: python3 scripts/fetch_merge_report.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh Merge Report ($(date -u +%FT%TZ))" \
+            data/merge-report.json

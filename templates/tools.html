@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "macros/breadcrumb.html" as bc %}
+
+{% block title %}Công cụ | {{ config.title }}{% endblock %}
+
+{% block main %}
+{% set palette = ["teal", "blue", "purple", "amber", "green", "slate"] %}
+<div class="content-hub">
+    <header class="content-hub__head">
+        {{ bc::tools(base_url=config.base_url, section_label="Công cụ") }}
+        <h1 class="content-hub__h1">{{ section.title }}</h1>
+        <p class="content-hub__lead">{{ section.description }}</p>
+    </header>
+
+    {{ section.content | safe }}
+
+    {% for grp in section.extra.tool_groups %}
+    <section class="content-hub__section">
+        <h2 class="content-hub__title">{{ grp.name }}</h2>
+        <div class="content-grid">
+            {% for t in grp.items %}
+                {% set ci = loop.index0 % 6 %}
+                <a class="content-block content-block--{{ palette[ci] }}{% if t.locked %} content-block--locked{% endif %}"
+                   href="{{ t.url | replace(from='$BASE_URL', to=config.base_url) }}">
+                    {% if t.locked %}<span class="content-block__lock" aria-hidden="true">🔒</span>{% endif %}
+                    <span class="content-block__name">{{ t.name }}</span>
+                    {% if t.subtitle %}<span class="content-block__subtitle">{{ t.subtitle }}</span>{% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

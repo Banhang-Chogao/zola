@@ -1,0 +1,292 @@
+/* ============================================================
+   WD HEARTBEAT STATS — WWDC26 calm-first footer module
+   ============================================================
+   Design language: Clarity (content leads) · Calm (whitespace, no flicker,
+   motion ≤200ms) · Editorial (clear blocks). One accent + neutrals only, no
+   multi-colour gradients. Numbers use a mono font with tabular-nums.
+
+   Namespace .wd- (WWDC) + BEM (.wd-heartbeat__stats) so styles never leak into
+   the global cascade. Self-contained palette: the module renders on the generic
+   site-footer surface in BOTH themes, so it defines its own neutral scale rather
+   than theme-flipping tokens (avoids white-on-white). Accent follows the brand
+   via `var(--c-accent)` with a safe fallback.
+   ============================================================ */
+
+.wd-heartbeat {
+  /* ---- Spacing scale: 4 8 12 16 24 32 48 64 ---- */
+  --wd-s1: 4px;
+  --wd-s2: 8px;
+  --wd-s3: 12px;
+  --wd-s4: 16px;
+  --wd-s6: 24px;
+  --wd-s8: 32px;
+  --wd-s12: 48px;
+  --wd-s16: 64px;
+
+  /* ---- Palette: one accent + neutral ramp ---- */
+  --wd-accent: var(--c-accent, #003784);
+  --wd-accent-500: var(--c-accent, #0a5cb8);
+  --wd-neutral-50: #f7f8fa;
+  --wd-neutral-100: #eceef2;
+  --wd-neutral-200: #dfe2e8;
+  --wd-neutral-300: #cfd3db;
+  --wd-neutral-400: #8b919e;
+  --wd-neutral-600: #515763;
+  --wd-ink: #14171c;
+  --wd-surface: #ffffff;
+  --wd-border: #e6e8ee;
+  --wd-success: #00756c;
+  --wd-danger: #b3261e;
+
+  --wd-radius: 12px;
+  --wd-radius-sm: 4px;
+  --wd-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --wd-display: "Ericsson Hilda", "Manrope", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  padding: var(--wd-s8) 0 var(--wd-s12);
+  border-top: 1px solid var(--wd-border);
+  background: var(--wd-neutral-50);
+  font-family: var(--wd-display);
+  color: var(--wd-ink);
+}
+
+.wd-heartbeat__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wd-s6);
+}
+
+/* ---- Header ---- */
+.wd-heartbeat__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wd-s1);
+}
+
+.wd-heartbeat__eyebrow {
+  margin: 0;
+  font-family: var(--wd-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wd-neutral-400);
+}
+
+.wd-heartbeat__title {
+  margin: 0;
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--wd-ink);
+}
+
+.wd-heartbeat__lede {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--wd-neutral-600);
+}
+
+/* ---- Hero stats: responsive grid, mobile-first ---- */
+.wd-heartbeat__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--wd-s4);
+}
+
+.wd-heartbeat__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wd-s2);
+  padding: var(--wd-s6);
+  background: var(--wd-surface);
+  border: 1px solid var(--wd-border);
+  border-radius: var(--wd-radius);
+}
+
+.wd-heartbeat__stat--accent {
+  border-color: color-mix(in srgb, var(--wd-accent) 28%, var(--wd-border));
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--wd-accent) 8%, transparent);
+}
+
+.wd-heartbeat__stat-label {
+  font-family: var(--wd-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wd-neutral-400);
+}
+
+.wd-heartbeat__stat-value {
+  font-family: var(--wd-mono);
+  font-size: clamp(32px, 6vw, 44px);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--wd-ink);
+}
+
+.wd-heartbeat__stat--accent .wd-heartbeat__stat-value {
+  color: var(--wd-accent-500);
+}
+
+.wd-heartbeat__stat-unit {
+  font-size: 0.5em;
+  font-weight: 600;
+  margin-left: 2px;
+  color: var(--wd-neutral-400);
+}
+
+.wd-heartbeat__stat-note {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--wd-neutral-600);
+}
+
+/* ---- 30-day heatmap ---- */
+.wd-heartbeat__heat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wd-s3);
+  padding: var(--wd-s6);
+  background: var(--wd-surface);
+  border: 1px solid var(--wd-border);
+  border-radius: var(--wd-radius);
+}
+
+.wd-heartbeat__heat-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wd-s3);
+}
+
+.wd-heartbeat__heat-title {
+  font-family: var(--wd-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--wd-neutral-600);
+}
+
+.wd-heartbeat__legend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wd-s1);
+}
+
+.wd-heartbeat__legend-label {
+  font-family: var(--wd-mono);
+  font-size: 11px;
+  color: var(--wd-neutral-400);
+  padding: 0 var(--wd-s1);
+}
+
+.wd-heartbeat__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16px, 1fr));
+  gap: var(--wd-s1);
+}
+
+.wd-heartbeat__cell {
+  aspect-ratio: 1 / 1;
+  min-width: 14px;
+  border-radius: var(--wd-radius-sm);
+  background: var(--wd-neutral-100);
+  /* calm: gentle reveal on hover, no flashing */
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.wd-heartbeat__legend .wd-heartbeat__cell {
+  width: 14px;
+  flex: 0 0 14px;
+}
+
+.wd-heartbeat__cell[data-level="0"] { background: var(--wd-neutral-100); }
+.wd-heartbeat__cell[data-level="1"] {
+  background: color-mix(in srgb, var(--wd-accent) 22%, var(--wd-neutral-100));
+}
+.wd-heartbeat__cell[data-level="2"] {
+  background: color-mix(in srgb, var(--wd-accent) 45%, var(--wd-neutral-100));
+}
+.wd-heartbeat__cell[data-level="3"] {
+  background: color-mix(in srgb, var(--wd-accent) 70%, var(--wd-neutral-50));
+}
+.wd-heartbeat__cell[data-level="4"] {
+  background: var(--wd-accent-500);
+}
+
+.wd-heartbeat__grid .wd-heartbeat__cell:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--wd-accent) 30%, transparent);
+}
+
+/* ---- Meta line ---- */
+.wd-heartbeat__meta {
+  margin: 0;
+  font-family: var(--wd-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--wd-neutral-400);
+}
+
+.wd-heartbeat__meta-status--success { color: var(--wd-success); }
+.wd-heartbeat__meta-status--failed { color: var(--wd-danger); }
+
+.wd-heartbeat__sha {
+  font-family: var(--wd-mono);
+  font-size: 12px;
+  padding: 1px var(--wd-s1);
+  border-radius: var(--wd-radius-sm);
+  background: var(--wd-neutral-100);
+  color: var(--wd-neutral-600);
+}
+
+/* ---- Pending state (V27: never fake numbers) ---- */
+.wd-heartbeat__pending {
+  display: flex;
+  align-items: center;
+  gap: var(--wd-s3);
+  padding: var(--wd-s6);
+  background: var(--wd-surface);
+  border: 1px dashed var(--wd-border);
+  border-radius: var(--wd-radius);
+}
+
+.wd-heartbeat__pending-dot {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--wd-neutral-300);
+}
+
+.wd-heartbeat__pending-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--wd-neutral-600);
+}
+
+/* ---- Mobile-first refinements (base is 360px); enlarge cells from md up ---- */
+@media (min-width: 640px) {
+  .wd-heartbeat__grid {
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wd-heartbeat__cell {
+    transition: none;
+  }
+}

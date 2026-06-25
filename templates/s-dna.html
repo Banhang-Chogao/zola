@@ -1,0 +1,431 @@
+{% extends "base.html" %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}{{ page.title }} — Sembcorp Design DNA | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+<section class="sdna">
+    <header class="sdna__header">
+        <div class="sdna__brand">
+            <span class="sdna__logo-mark" aria-hidden="true">S</span>
+            <span class="sdna__logo-text">S-DNA</span>
+        </div>
+        <nav class="sdna__nav" aria-label="S-DNA sections">
+            <a href="#philosophy">Philosophy</a>
+            <a href="#tokens">Tokens</a>
+            <a href="#typography">Typography</a>
+            <a href="#kpi-cards">KPI</a>
+            <a href="#icons">Icons</a>
+            <a href="#charts">Charts</a>
+            <a href="#slide-dna">Slides</a>
+            <a href="#boardroom">Boardroom</a>
+            <a href="#compatibility">Rules</a>
+        </nav>
+    </header>
+
+    {# ===== HERO — demonstrates cover-slide DNA ===== #}
+    <div class="sdna__hero">
+        <p class="sdna__hero-eyebrow">Sembcorp Design DNA · Second Design OS</p>
+        <h1 class="sdna__hero-title">Data-first. Decoration-last.</h1>
+        <p class="sdna__hero-sub">
+            S-DNA là tài liệu tham khảo thiết kế lấy cảm hứng từ Annual Report và Investor Relations
+            của Sembcorp — lựa chọn thứ hai bên cạnh
+            <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a>.
+            Trang này <strong>demonstrates the philosophy</strong>: documentation that looks like Sembcorp.
+        </p>
+        <p class="sdna__hero-sources">
+            Nguồn:
+            <a href="https://media.sembcorp.com/data/cms/ar/ar2025/index.html" target="_blank" rel="noopener">Interactive AR 2025</a> ·
+            <a href="https://www.sembcorp.com/media/atiizbzs/sci_1h2025_results-slides.pdf" target="_blank" rel="noopener">1H2025 Slides</a>
+        </p>
+        <div class="sdna__hero-metrics" aria-label="Hero KPI strip">
+            <div class="sdna__kpi sdna__kpi--white" style="flex: 1; min-width: 140px; border: none; background: transparent; padding: 0;">
+                <span class="sdna__kpi-label">Energy capacity</span>
+                <div class="sdna__kpi-value">8,082 <span class="sdna__kpi-unit">MW</span></div>
+            </div>
+            <div class="sdna__kpi sdna__kpi--white" style="flex: 1; min-width: 140px; border: none; background: transparent; padding: 0;">
+                <span class="sdna__kpi-label">Urban land bank</span>
+                <div class="sdna__kpi-value">16,223 <span class="sdna__kpi-unit">ha</span></div>
+            </div>
+            <div class="sdna__kpi sdna__kpi--white" style="flex: 1; min-width: 140px; border: none; background: transparent; padding: 0;">
+                <span class="sdna__kpi-label">Built-up area</span>
+                <div class="sdna__kpi-value">1.1 <span class="sdna__kpi-unit">million sqm</span></div>
+            </div>
+        </div>
+    </div>
+
+    <aside class="sdna__quote">
+        <strong>Legendary quote</strong>
+        <p><strong>General UI:</strong> Think Apple Annual Report × Bloomberg × Stripe Docs × Notion,
+        not AdminLTE or Crypto Dashboard.</p>
+        <p><strong>Data-heavy UI:</strong> Think Sembcorp Annual Report × Apple Annual Report × Bloomberg Terminal × McKinsey Investor Deck,
+        not PowerPoint templates, AdminLTE, Crypto Dashboard or Dribbble effects.</p>
+        <p>Beauty comes from hierarchy and whitespace, not colors and effects.
+        Preserve consistency above novelty. Guidelines first. Components later. Evolution, not proliferation.</p>
+    </aside>
+
+    {# ===== 01 PHILOSOPHY ===== #}
+    <section id="philosophy" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">01</span>
+            <h2 class="sdna__section-title">Design Philosophy</h2>
+            <p class="sdna__section-desc">
+                Enterprise calm · data-first · minimal decoration · high information density · large whitespace ·
+                strong hierarchy. Cards first. Charts second. Animation last.
+            </p>
+        </header>
+        <div class="sdna__cards">
+            <article class="sdna__card"><h4>Enterprise calm</h4><p>Truth &gt; vanity metrics. Institutional, board-ready — not startup pitch.</p></article>
+            <article class="sdna__card"><h4>Data-first</h4><p>Numbers and insights drive layout. Decoration stays quiet.</p></article>
+            <article class="sdna__card"><h4>Cards first</h4><p>KPI cards are the default primitive for dashboards and investor pages.</p></article>
+            <article class="sdna__card"><h4>Whitespace breathes</h4><p>White space &gt; shadows. Borders &gt; gradients. Teal &gt; rainbow.</p></article>
+        </div>
+    </section>
+
+    {# ===== 02 COLOR TOKENS ===== #}
+    <section id="tokens" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">02</span>
+            <h2 class="sdna__section-title">Color Tokens</h2>
+            <p class="sdna__section-desc">
+                Approximate Sembcorp palette — <strong>inspiration only</strong>. Does not replace Branding Guideline <code>--c-*</code> tokens.
+            </p>
+        </header>
+
+        <table class="sdna__tokens">
+            <thead>
+                <tr><th>Token</th><th>Hex</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Primary teal</td><td><code>#00A7A0</code></td><td>Hero cards, charts, progress, highlights</td></tr>
+                <tr><td>Soft teal</td><td><code>#DDF4F2</code></td><td>Background blocks, KPI fills</td></tr>
+                <tr><td>Soft blue</td><td><code>#DCEAF8</code></td><td>Secondary cards, segments</td></tr>
+                <tr><td>Soft purple</td><td><code>#ECE7FA</code></td><td>Alternate KPI cards</td></tr>
+                <tr><td>Text heading</td><td><code>#111111</code></td><td>Titles, KPI values</td></tr>
+                <tr><td>Text body</td><td><code>#555555</code></td><td>Paragraphs, insights</td></tr>
+                <tr><td>Muted</td><td><code>#888888</code></td><td>Labels, units, captions</td></tr>
+                <tr><td>Border</td><td><code>#E6E6E6</code></td><td>Card outlines, dividers</td></tr>
+            </tbody>
+        </table>
+
+        <div class="sdna__swatches">
+            <article class="sdna__swatch-card" style="--swatch: #00A7A0"><div class="sdna__swatch-chip"></div><div class="sdna__swatch-info"><strong>Primary teal</strong><code>#00A7A0</code><span>Charts, accents</span></div></article>
+            <article class="sdna__swatch-card" style="--swatch: #DDF4F2"><div class="sdna__swatch-chip"></div><div class="sdna__swatch-info"><strong>Soft teal</strong><code>#DDF4F2</code><span>KPI backgrounds</span></div></article>
+            <article class="sdna__swatch-card" style="--swatch: #DCEAF8"><div class="sdna__swatch-chip"></div><div class="sdna__swatch-info"><strong>Soft blue</strong><code>#DCEAF8</code><span>Secondary blocks</span></div></article>
+            <article class="sdna__swatch-card" style="--swatch: #ECE7FA"><div class="sdna__swatch-chip"></div><div class="sdna__swatch-info"><strong>Soft purple</strong><code>#ECE7FA</code><span>Alternate KPI</span></div></article>
+        </div>
+    </section>
+
+    {# ===== 03 TYPOGRAPHY ===== #}
+    <section id="typography" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">03</span>
+            <h2 class="sdna__section-title">Annual Report Typography</h2>
+            <p class="sdna__section-desc">Large numbers dominate. Labels support. Units whisper. Weight 700–800. Units never dominate.</p>
+        </header>
+        <article class="sdna__type-row">
+            <div class="sdna__type-sample" style="font-size: 2.5rem; font-weight: 800; letter-spacing: -0.02em;">
+                8,082 <span style="font-size: 0.95rem; font-weight: 600; color: #888888;">MW</span>
+            </div>
+            <div class="sdna__type-meta"><code>2.5rem / 800</code><span>Energy — unit whisper</span></div>
+        </article>
+        <article class="sdna__type-row">
+            <div class="sdna__type-sample" style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #888888;">
+                Gross profit · EBITDA margin · Segment revenue
+            </div>
+            <div class="sdna__type-meta"><code>0.7rem / 700 / uppercase</code><span>Labels support — never compete</span></div>
+        </article>
+    </section>
+
+    {# ===== 04 KPI CARDS ===== #}
+    <section id="kpi-cards" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">04</span>
+            <h2 class="sdna__section-title">KPI Cards</h2>
+            <p class="sdna__section-desc">Soft pastel · colored left accent · large value · small unit · thin outline icons · wide cards.</p>
+        </header>
+        <div class="sdna__kpi-grid">
+            <article class="sdna__kpi">
+                <div class="sdna__kpi-head">
+                    <span class="sdna__icon-ring" style="--sdna-icon-color: #00A7A0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg></span>
+                    <span class="sdna__kpi-label">Energy</span>
+                </div>
+                <div class="sdna__kpi-value">8,082 <span class="sdna__kpi-unit">MW</span></div>
+            </article>
+            <article class="sdna__kpi sdna__kpi--blue">
+                <div class="sdna__kpi-head">
+                    <span class="sdna__icon-ring" style="--sdna-icon-color: #5B9BD5"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="1"/><path d="M9 8V5a3 3 0 0 1 6 0v3"/></svg></span>
+                    <span class="sdna__kpi-label">Urban Solutions</span>
+                </div>
+                <div class="sdna__kpi-value">16,223 <span class="sdna__kpi-unit">ha</span></div>
+            </article>
+            <article class="sdna__kpi sdna__kpi--purple">
+                <div class="sdna__kpi-head">
+                    <span class="sdna__icon-ring" style="--sdna-icon-color: #9B8FD4"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-4 6-8 8-8 12a8 8 0 0 0 16 0c0-4-4-6-8-12z"/></svg></span>
+                    <span class="sdna__kpi-label">Water</span>
+                </div>
+                <div class="sdna__kpi-value">12.4 <span class="sdna__kpi-unit">M m³/d</span></div>
+            </article>
+            <article class="sdna__kpi sdna__kpi--white">
+                <div class="sdna__kpi-head">
+                    <span class="sdna__icon-ring"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M10 8h4M10 12h4"/></svg></span>
+                    <span class="sdna__kpi-label">Storage</span>
+                </div>
+                <div class="sdna__kpi-value">676 <span class="sdna__kpi-unit">MWh</span></div>
+            </article>
+            <article class="sdna__kpi">
+                <div class="sdna__kpi-head">
+                    <span class="sdna__icon-ring"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></span>
+                    <span class="sdna__kpi-label">Renewables</span>
+                </div>
+                <div class="sdna__kpi-value">3.2 <span class="sdna__kpi-unit">GW</span></div>
+            </article>
+        </div>
+    </section>
+
+    {# ===== 05 ICON DNA ===== #}
+    <section id="icons" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">05</span>
+            <h2 class="sdna__section-title">Icon DNA</h2>
+            <p class="sdna__section-desc">Outline icons · thin strokes · circle containers. Lucide · Tabler · Phosphor — outline only.</p>
+        </header>
+        <div class="sdna__icon-row">
+            <span class="sdna__icon-ring" title="Energy"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg></span>
+            <span class="sdna__icon-ring" title="Water"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-4 6-8 8-8 12a8 8 0 0 0 16 0c0-4-4-6-8-12z"/></svg></span>
+            <span class="sdna__icon-ring" style="--sdna-icon-color: #5B9BD5" title="City"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="6" height="12"/><rect x="14" y="4" width="6" height="16"/></svg></span>
+            <span class="sdna__icon-ring" title="Wind"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10 0h8a2 2 0 1 1 0 4h-2m-6 4h8a2 2 0 1 1 0 4h-2"/></svg></span>
+            <span class="sdna__icon-ring" style="--sdna-icon-color: #E8A838" title="Solar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></span>
+            <span class="sdna__icon-ring" style="--sdna-icon-color: #9B8FD4" title="Battery"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="12" height="16" rx="2"/><path d="M10 8h4M10 12h4"/></svg></span>
+        </div>
+        <div class="sdna__chart-lists">
+            <ul class="sdna__checklist sdna__checklist--yes">
+                <li>Lucide · Tabler · Phosphor</li>
+                <li>Outline icons only</li>
+                <li>Thin strokes · circle containers</li>
+            </ul>
+            <ul class="sdna__checklist sdna__checklist--no">
+                <li>Emoji</li>
+                <li>Filled icons</li>
+                <li>Cartoon · 3D icons</li>
+            </ul>
+        </div>
+    </section>
+
+    {# ===== 06 CHART DNA ===== #}
+    <section id="charts" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">06</span>
+            <h2 class="sdna__section-title">Chart DNA</h2>
+            <p class="sdna__section-desc">Waterfall preferred. Minimal legends. ECharts · Chart.js · Highcharts. No 3D · no rainbow · no decorative charts.</p>
+        </header>
+        <div class="sdna__chart-lists">
+            <ul class="sdna__checklist sdna__checklist--yes">
+                <li>Waterfall charts</li>
+                <li>Horizontal bar</li>
+                <li>Stacked bar</li>
+                <li>Trend line</li>
+                <li>Distribution chart</li>
+            </ul>
+            <ul class="sdna__checklist sdna__checklist--no">
+                <li>Pie overload</li>
+                <li>3D charts</li>
+                <li>Rainbow charts</li>
+                <li>Decorative charts</li>
+            </ul>
+        </div>
+        <div class="sdna__chart-row">
+            <div class="sdna__chart-panel">
+                <p class="sdna__chart-title">Waterfall — EBITDA bridge</p>
+                <div class="sdna__waterfall" aria-hidden="true">
+                    <div class="sdna__wf-bar sdna__wf-bar--base"><span>Base</span></div>
+                    <div class="sdna__wf-bar sdna__wf-bar--up"><span>+Rev</span></div>
+                    <div class="sdna__wf-bar sdna__wf-bar--seg"><span>Seg</span></div>
+                    <div class="sdna__wf-bar sdna__wf-bar--down"><span>−Cost</span></div>
+                    <div class="sdna__wf-bar sdna__wf-bar--total"><span>Total</span></div>
+                </div>
+            </div>
+            <div class="sdna__chart-panel">
+                <p class="sdna__chart-title">Horizontal bar — segment mix</p>
+                <div class="sdna__hbar-list" aria-hidden="true">
+                    <div class="sdna__hbar"><span>Energy</span><div class="sdna__hbar-track"><div class="sdna__hbar-fill" style="width: 72%"></div></div><span class="sdna__hbar-val">72%</span></div>
+                    <div class="sdna__hbar"><span>Urban</span><div class="sdna__hbar-track"><div class="sdna__hbar-fill" style="width: 48%"></div></div><span class="sdna__hbar-val">48%</span></div>
+                    <div class="sdna__hbar"><span>Water</span><div class="sdna__hbar-track"><div class="sdna__hbar-fill" style="width: 31%"></div></div><span class="sdna__hbar-val">31%</span></div>
+                </div>
+            </div>
+        </div>
+        <p class="sdna__note" style="margin-top: 1.25rem;">
+            <strong>Chart colors:</strong> Positive teal · Neutral gray · Secondary soft blue · Warning orange · Negative soft red.
+        </p>
+    </section>
+
+    {# ===== 07 ANNUAL REPORT SLIDE DNA ===== #}
+    <section id="slide-dna" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">07</span>
+            <h2 class="sdna__section-title">Annual Report Slide DNA</h2>
+            <p class="sdna__section-desc">
+                Investor relations · board meeting · institutional presentation.
+                Not startup pitch · not YouTube thumbnail · not marketing brochure.
+            </p>
+        </header>
+
+        <div class="sdna__slides">
+            {# Cover #}
+            <article class="sdna__slide sdna__slide--cover">
+                <div class="sdna__slide-label">Cover Slide</div>
+                <div class="sdna__slide-canvas">
+                    <h3 class="sdna__slide-title">1H2025 Results</h3>
+                    <p class="sdna__slide-subtitle">Sembcorp Industries · Investor Presentation</p>
+                    <div class="sdna__slide-rule" aria-hidden="true"></div>
+                </div>
+            </article>
+
+            {# KPI #}
+            <article class="sdna__slide">
+                <div class="sdna__slide-label">KPI Slide</div>
+                <div class="sdna__slide-canvas">
+                    <div class="sdna__slide-kpis">
+                        <div class="sdna__slide-kpi-mini"><span>Revenue</span><strong>3.2<em>B</em></strong></div>
+                        <div class="sdna__slide-kpi-mini sdna__slide-kpi-mini--blue"><span>EBITDA</span><strong>892<em>M</em></strong></div>
+                        <div class="sdna__slide-kpi-mini sdna__slide-kpi-mini--purple"><span>Net profit</span><strong>456<em>M</em></strong></div>
+                    </div>
+                </div>
+            </article>
+
+            {# Segment #}
+            <article class="sdna__slide">
+                <div class="sdna__slide-label">Segment Slide</div>
+                <div class="sdna__slide-canvas" style="justify-content: flex-start; padding-top: 1rem;">
+                    <div class="sdna__slide-split">
+                        <div class="sdna__waterfall" style="height: 90px; margin-bottom: 1.5rem;">
+                            <div class="sdna__wf-bar sdna__wf-bar--base" style="height: 50%"><span></span></div>
+                            <div class="sdna__wf-bar sdna__wf-bar--up" style="height: 70%"><span></span></div>
+                            <div class="sdna__wf-bar sdna__wf-bar--seg" style="height: 55%"><span></span></div>
+                            <div class="sdna__wf-bar sdna__wf-bar--total" style="height: 80%"><span></span></div>
+                        </div>
+                        <div>
+                            <ul class="sdna__slide-bullets">
+                                <li>Energy segment +12% YoY</li>
+                                <li>Urban pipeline on track</li>
+                                <li>Water stable utilisation</li>
+                            </ul>
+                            <p class="sdna__slide-insight">Energy remains the primary earnings driver.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            {# Financial #}
+            <article class="sdna__slide">
+                <div class="sdna__slide-label">Financial Slide</div>
+                <div class="sdna__slide-canvas" style="justify-content: flex-start; padding-top: 1rem;">
+                    <table class="sdna__slide-table">
+                        <thead><tr><th>Segment</th><th>Revenue</th><th>EBITDA</th></tr></thead>
+                        <tbody>
+                            <tr><td>Energy</td><td>1,842</td><td>412</td></tr>
+                            <tr><td>Urban</td><td>628</td><td>198</td></tr>
+                            <tr><td>Water</td><td>384</td><td>142</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="sdna__hbar-list" style="margin-top: 0.5rem;">
+                        <div class="sdna__hbar"><span>EBITDA</span><div class="sdna__hbar-track"><div class="sdna__hbar-fill" style="width: 65%"></div></div><span class="sdna__hbar-val">65%</span></div>
+                    </div>
+                </div>
+            </article>
+
+            {# Summary #}
+            <article class="sdna__slide">
+                <div class="sdna__slide-label">Summary Slide</div>
+                <div class="sdna__slide-canvas" style="justify-content: flex-start; padding-top: 1rem; counter-reset: takeaway;">
+                    <ol class="sdna__slide-takeaways">
+                        <li>Resilient earnings across core segments</li>
+                        <li>Renewables capacity expansion on schedule</li>
+                        <li>Balance sheet remains strong</li>
+                    </ol>
+                    <p class="sdna__slide-outlook">Outlook: mid-single-digit earnings growth for FY2025.</p>
+                    <div class="sdna__slide-callout">No marketing language — factual, institutional tone only.</div>
+                </div>
+            </article>
+        </div>
+
+        <div class="sdna__cards" style="margin-top: 1.5rem;">
+            <article class="sdna__card"><h4>Cover</h4><p>Large title · tiny subtitle · strong whitespace · no decorations.</p></article>
+            <article class="sdna__card"><h4>KPI</h4><p>Large metrics · small units · thin icons · soft pastel cards.</p></article>
+            <article class="sdna__card"><h4>Segment</h4><p>Waterfall + horizontal bars · 3 bullets · one insight sentence.</p></article>
+            <article class="sdna__card"><h4>Financial</h4><p>Tables + bars · neutral colors · minimal legend.</p></article>
+            <article class="sdna__card"><h4>Summary</h4><p>3 takeaways · 1 outlook · 1 callout · no marketing language.</p></article>
+        </div>
+    </section>
+
+    {# ===== 08 BOARDROOM TEST ===== #}
+    <section id="boardroom" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">08</span>
+            <h2 class="sdna__section-title">Boardroom Test</h2>
+            <p class="sdna__section-desc">Quality gate trước khi ship dashboard, stats page, hoặc investor slide.</p>
+        </header>
+        <div class="sdna__boardroom">
+            <p class="sdna__boardroom-q">"Would this look natural inside a Sembcorp annual report or a board meeting deck?"</p>
+            <p class="sdna__boardroom-a">If not → simplify.</p>
+        </div>
+    </section>
+
+    {# ===== 09 ANTI-PATTERNS ===== #}
+    <section id="anti-patterns" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">09</span>
+            <h2 class="sdna__section-title">Anti-patterns</h2>
+            <p class="sdna__section-desc">Think Sembcorp Annual Report × Bloomberg × McKinsey — not AdminLTE or Crypto Dashboard.</p>
+        </header>
+        <div class="sdna__cards">
+            <article class="sdna__card"><h4>AdminLTE</h4><p>Boxed widgets, saturated Bootstrap palette.</p></article>
+            <article class="sdna__card"><h4>Crypto dashboard</h4><p>Neon, pulsing numbers, dark overload.</p></article>
+            <article class="sdna__card"><h4>Glassmorphism</h4><p>Blur layers conflict with data clarity.</p></article>
+            <article class="sdna__card"><h4>3D charts</h4><p>Perspective distortion, unreadable values.</p></article>
+            <article class="sdna__card"><h4>Dribbble effects</h4><p>Fancy motion, decorative UI noise.</p></article>
+            <article class="sdna__card"><h4>PowerPoint templates</h4><p>Gradient overload, clip-art icons.</p></article>
+        </div>
+    </section>
+
+    {# ===== 10 COMPATIBILITY ===== #}
+    <section id="compatibility" class="sdna__section">
+        <header class="sdna__section-head">
+            <span class="sdna__section-num">10</span>
+            <h2 class="sdna__section-title">Compatibility Rule</h2>
+            <p class="sdna__section-desc">S-DNA is optional. Never apply globally. Never redesign existing pages because Sembcorp looks beautiful.</p>
+        </header>
+
+        <table class="sdna__tokens">
+            <thead><tr><th>Priority</th><th>Source</th><th>Role</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Branding Guideline</td><td>Default design DNA</td></tr>
+                <tr><td>2</td><td>Existing Design DNA</td><td>Patterns already on blog</td></tr>
+                <tr><td>3</td><td>Existing component library</td><td>Reuse before creating</td></tr>
+                <tr><td>4</td><td>S-DNA</td><td>Optional — borrow selectively</td></tr>
+            </tbody>
+        </table>
+
+        <div class="sdna__cards" style="margin-top: 1.25rem;">
+            <article class="sdna__card"><h4>Use S-DNA for</h4><p>Stats pages · dashboards · annual reports · investor slides · KPI-heavy sections.</p></article>
+            <article class="sdna__card"><h4>Never use for</h4><p>Global redesign · blog articles · navbar · footer · existing page refresh.</p></article>
+        </div>
+
+        <aside class="sdna__note" style="margin-top: 1.25rem;">
+            📌 <strong>Documentation only.</strong> Page-specific demo styles on <code>/tools/s-dna/</code> demonstrate the philosophy —
+            they do not migrate globally. Borrow selectively. Preserve consistency above novelty.
+        </aside>
+    </section>
+
+    <footer class="sdna__foot">
+        <p>S-DNA — Sembcorp Design DNA v1.1 · Second Design Operating System</p>
+        <p>Companion to <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a> ·
+           <a href="{{ config.base_url }}/about/">Duy Nguyen</a></p>
+    </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

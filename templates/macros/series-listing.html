@@ -1,0 +1,133 @@
+{# SERIES block for blog listing — group posts by extra.series / manifest title_vi. #}
+{% macro section(pages) %}
+{% set manifests = [
+    load_data(path="data/seo-foundation-series.json", required=false),
+    load_data(path="data/adsense-foundation-series.json", required=false),
+    load_data(path="data/science-uranium-series.json", required=false),
+    load_data(path="data/ngan-hang-so-series.json", required=false),
+    load_data(path="data/git-github-series.json", required=false),
+    load_data(path="data/korean-30day-series.json", required=false),
+    load_data(path="data/google-analytics-series.json", required=false),
+    load_data(path="data/vietinbank-series.json", required=false),
+    load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false),
+    load_data(path="data/thpt-2026-dap-an-series.json", required=false),
+    load_data(path="data/vaccine-so-series.json", required=false),
+    load_data(path="data/apple-pay-vn-series.json", required=false)
+] %}
+{% set_global seen_ids = [] %}
+{% set_global has_series = false %}
+
+{% for manifest in manifests %}
+    {% if manifest and manifest.id %}
+        {% set_global group_pages = [] %}
+        {% for page in pages %}
+            {% if page.extra.series is defined and page.extra.series == manifest.id %}
+                {% set_global group_pages = group_pages | concat(with=[page]) %}
+            {% endif %}
+        {% endfor %}
+        {% if group_pages | length > 0 %}
+            {% set_global has_series = true %}
+            {% set_global seen_ids = seen_ids | concat(with=[manifest.id]) %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% set_global orphan_ids = [] %}
+{% for page in pages %}
+    {% if page.extra.series is defined and page.extra.series %}
+        {% set sid = page.extra.series %}
+        {% if sid not in seen_ids and sid not in orphan_ids %}
+            {% set_global orphan_ids = orphan_ids | concat(with=[sid]) %}
+            {% set_global has_series = true %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% if has_series %}
+<section class="series-listing" aria-labelledby="series-listing-title">
+    <header class="series-listing__head">
+        <h2 class="series-listing__title" id="series-listing-title">SERIES</h2>
+        <p class="series-listing__sub">Các cụm bài theo chủ đề — đọc tuần tự để nắm trọn một mảng kiến thức</p>
+    </header>
+
+    {% for manifest in manifests %}
+        {% if manifest and manifest.id %}
+            {% set_global group_pages = [] %}
+            {% for page in pages %}
+                {% if page.extra.series is defined and page.extra.series == manifest.id %}
+                    {% set_global group_pages = group_pages | concat(with=[page]) %}
+                {% endif %}
+            {% endfor %}
+            {% if group_pages | length > 0 %}
+            {# V32 guard: filter before sort to prevent crash from missing series_part.
+               Only pages with series_part get sorted; others append at end. #}
+            {% set sortable = group_pages | filter(attribute="extra.series_part") %}
+            {% set sorted_pages = sortable | sort(attribute="extra.series_part") %}
+            {% for page in group_pages %}
+                {% if page.extra.series_part is not defined %}
+                    {% set sorted_pages = sorted_pages | concat(with=[page]) %}
+                {% endif %}
+            {% endfor %}
+            <div class="series-listing__group" id="series-{{ manifest.id }}">
+                <h3 class="series-listing__group-title">{{ manifest.title_vi | default(value=manifest.title) }}</h3>
+                {% if manifest.description %}
+                <p class="series-listing__group-desc">{{ manifest.description }}</p>
+                {% endif %}
+                <ol class="series-listing__posts">
+                    {% for page in sorted_pages %}
+                    <li class="series-listing__item">
+                        <a class="series-listing__link" href="{{ page.permalink }}">
+                            {% if page.extra.series_part %}
+                            <span class="series-listing__part">Bài {{ page.extra.series_part }}{% if page.extra.series_total %}/{{ page.extra.series_total }}{% endif %}</span>
+                            {% endif %}
+                            <span class="series-listing__name">{{ page.title }}</span>
+                        </a>
+                        <time class="series-listing__date" datetime="{{ page.date }}">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% for sid in orphan_ids %}
+        {% set_global group_pages = [] %}
+        {% for page in pages %}
+            {% if page.extra.series is defined and page.extra.series == sid %}
+                {% set_global group_pages = group_pages | concat(with=[page]) %}
+            {% endif %}
+        {% endfor %}
+        {% if group_pages | length > 0 %}
+        {% set first = group_pages | first %}
+        {% set title = first.extra.series_title | default(value=sid | replace(from="-", to=" ")) %}
+        {# V32 guard: filter before sort to prevent crash from missing series_part.
+           Only pages with series_part get sorted; others append at end. #}
+        {% set sortable = group_pages | filter(attribute="extra.series_part") %}
+        {% set sorted_pages = sortable | sort(attribute="extra.series_part") %}
+        {% for page in group_pages %}
+            {% if page.extra.series_part is not defined %}
+                {% set sorted_pages = sorted_pages | concat(with=[page]) %}
+            {% endif %}
+        {% endfor %}
+        <div class="series-listing__group" id="series-{{ sid }}">
+            <h3 class="series-listing__group-title">{{ title }}</h3>
+            <ol class="series-listing__posts">
+                {% for page in sorted_pages %}
+                <li class="series-listing__item">
+                    <a class="series-listing__link" href="{{ page.permalink }}">
+                        {% if page.extra.series_part %}
+                        <span class="series-listing__part">Bài {{ page.extra.series_part }}{% if page.extra.series_total %}/{{ page.extra.series_total }}{% endif %}</span>
+                        {% endif %}
+                        <span class="series-listing__name">{{ page.title }}</span>
+                    </a>
+                    <time class="series-listing__date" datetime="{{ page.date }}">{{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}</time>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+    {% endfor %}
+</section>
+{% endif %}
+{% endmacro %}

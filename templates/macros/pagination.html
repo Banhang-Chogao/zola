@@ -1,0 +1,8 @@
+{# Safe pagination URLs — base must end with / before appending page/N/ (avoids /zolapage/2/). #}
+{% macro page_href(base, page_num) -%}
+{%- if page_num <= 1 -%}
+{%- if base is ending_with("/") -%}{{ base }}{%- else -%}{{ base }}/{%- endif -%}
+{%- else -%}
+{%- if base is ending_with("/") -%}{{ base }}page/{{ page_num }}/{%- else -%}{{ base }}/page/{{ page_num }}/{%- endif -%}
+{%- endif -%}
+{%- endmacro %}

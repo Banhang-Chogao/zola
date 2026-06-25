@@ -1,0 +1,70 @@
+{
+  "generated_at": "2026-06-25T00:30:34+0700",
+  "generated_at_display": "00:30 25/06/2026",
+  "repo_url": "https://github.com/Banhang-Chogao/zola",
+  "prs_url": "https://github.com/Banhang-Chogao/zola/pulls",
+  "summary": {
+    "total": 1,
+    "ready": 0,
+    "needs_attention": 0,
+    "pending": 1,
+    "conflict": 0,
+    "draft": 0
+  },
+  "prs": [
+    {
+      "number": 858,
+      "title": "feat: add deployment status dashboard in footer",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/858",
+      "branch": "claude/merge-conflict-preflight-article",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-25T00:29:29+0700",
+      "updated_at_display": "00:29 25/06/2026",
+      "readiness": "pending",
+      "checks_summary": {
+        "success": 3,
+        "failure": 0,
+        "pending": 1,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 4
+      },
+      "checks": [
+        {
+          "name": "qa-check",
+          "state": "pending",
+          "status": "in_progress",
+          "conclusion": null,
+          "elapsed_s": 55,
+          "elapsed_display": "55s"
+        },
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 13,
+          "elapsed_display": "13s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 7,
+          "elapsed_display": "7s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        }
+      ]
+    }
+  ]
+}

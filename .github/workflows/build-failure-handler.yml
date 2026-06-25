@@ -1,0 +1,81 @@
+name: Build Failure Auto-Remediation
+
+# TEMP DISABLED:
+# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
+# production-verified deploy strategy. Keep manual workflow_dispatch only.
+#
+# Previously triggered automatically via workflow_run when critical workflows
+# failed on main. The auto-remediation (qa-failed.py → push fix to main) is
+# paused to reduce bot noise.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  actions: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: build-failure-manual
+  cancel-in-progress: false
+
+jobs:
+  remediate:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Analyze failure and push fix to main
+        id: fix
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          AI_DIAGNOSE_USE_CLAUDE: "0"
+          AI_DIAGNOSE_USE_OLLAMA: "0"
+        run: python3 qa-failed.py
+
+      - name: Install Zola for post-fix validation
+        if: steps.fix.outputs.pushed == 'true'
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Validate Zola build after fix
+        if: steps.fix.outputs.pushed == 'true'
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git pull origin main
+          zola build
+
+      - name: Upload remediation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-failure-remediation-log
+          path: qa-failed.log
+          if-no-files-found: ignore
+          retention-days: 14

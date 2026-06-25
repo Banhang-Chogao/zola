@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}WWDC26 Design Language — Branding Guideline | {{ config.title }}{% endblock %}
+{% block description %}{{ section.description }}{% endblock %}
+
+{% block extra_head %}
+<style>
+  .layout-grid:has(.wd) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.wd) { max-width: 1240px; }
+
+  .wd {
+    --wd-ink:            var(--c-text-heading, #0a0a0a);
+    --wd-body:           var(--c-text-body, #333);
+    --wd-muted:          var(--c-text-muted, #6a6a6a);
+    --wd-blue:           var(--c-accent, #003784);
+    --wd-blue-hover:     var(--c-accent-hover, #002566);
+    --wd-blue-soft:      var(--c-accent-soft, #e8edf5);
+    --wd-violet:         #5e5ce6;
+    --wd-surface:        var(--c-bg-surface, #fff);
+    --wd-page:           var(--c-bg-page, #f8f9fb);
+    --wd-soft:           var(--c-bg-soft, #f4f4f4);
+    --wd-border:         var(--c-border, #e3e3e3);
+    --wd-border-strong:  var(--c-border-strong, #d0d0d0);
+    --wd-success:        var(--c-success, #00a69d);
+    --wd-shadow:         var(--c-shadow-md, 0 2px 8px rgba(0,55,132,.08));
+    --wd-shadow-lg:      var(--c-shadow-lg, 0 8px 24px rgba(0,55,132,.12));
+    --wd-radius:         4px;
+    --wd-mono:           ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --wd-heading:        'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --wd-rail:           232px;
+    --wd-offset:         76px;
+    --wd-1: 4px;  --wd-2: 8px;  --wd-3: 12px; --wd-4: 16px;
+    --wd-5: 24px; --wd-6: 32px; --wd-7: 48px; --wd-8: 64px;
+
+    font-family: inherit;
+    color: var(--wd-body);
+    line-height: 1.62;
+    padding: 0 16px 64px;
+    margin: 0 auto;
+  }
+  .wd *, .wd *::before, .wd *::after { box-sizing: border-box; }
+
+  .wd__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--wd-4); flex-wrap: wrap;
+    padding: var(--wd-5) 0 var(--wd-4);
+    border-bottom: 1px solid var(--wd-border);
+  }
+  .wd__brand { display: flex; align-items: center; gap: var(--wd-3); }
+  .wd__mark {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--wd-blue);
+    border-radius: var(--wd-radius);
+    color: var(--wd-blue);
+    font-family: var(--wd-heading);
+    font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;
+  }
+  .wd__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .wd__brand-name { font-family: var(--wd-heading); font-size: 1.1rem; font-weight: 800; color: var(--wd-ink); letter-spacing: -0.02em; }
+  .wd__brand-tag { font-size: 0.74rem; color: var(--wd-muted); }
+  .wd__top-meta { font-family: var(--wd-mono); font-size: 0.78rem; color: var(--wd-muted); }
+  .wd__top-meta strong { color: var(--wd-blue); }
+
+  .wd__hero {
+    padding: var(--wd-8) 0 var(--wd-7);
+    border-bottom: 1px solid var(--wd-border);
+  }
+  .wd__eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--wd-blue); margin: 0 0 var(--wd-4);
+  }
+  .wd__title {
+    font-family: var(--wd-heading);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+    color: var(--wd-ink); margin: 0 0 var(--wd-3); max-width: 20ch;
+  }
+  .wd__sub {
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    line-height: 1.55; color: var(--wd-muted); margin: 0 0 var(--wd-5); max-width: 64ch;
+  }
+  .wd__lede {
+    font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.6;
+    color: var(--wd-body); margin: 0; max-width: 64ch;
+  }
+  .wd__lede strong { color: var(--wd-ink); }
+  .wd__stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--wd-4); margin-top: var(--wd-7);
+    padding-top: var(--wd-6); border-top: 1px solid var(--wd-border);
+  }
+  .wd__stat-n { font-size: 1.9rem; font-weight: 800; color: var(--wd-ink); letter-spacing: -0.02em; line-height: 1; }
+  .wd__stat-l { display: block; margin-top: var(--wd-2); font-size: 0.82rem; color: var(--wd-muted); }
+
+  .wd__body { display: grid; grid-template-columns: minmax(0, 1fr) var(--wd-rail); gap: var(--wd-8); align-items: start; }
+  .wd__rail { position: sticky; top: var(--wd-offset); align-self: start; }
+  .wd__rail-title {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--wd-muted); margin: 0 0 var(--wd-3); padding-left: var(--wd-3);
+  }
+  .wd__rail nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--wd-border); }
+  .wd__rail a {
+    display: flex; align-items: baseline; gap: var(--wd-2);
+    font-size: 0.84rem; font-weight: 500; text-decoration: none;
+    color: var(--wd-muted); padding: var(--wd-2) var(--wd-3);
+    border-left: 2px solid transparent; margin-left: -1px;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .wd__rail a:hover { color: var(--wd-ink); }
+  .wd__rail a.is-active { color: var(--wd-blue); border-left-color: var(--wd-blue); background: var(--wd-blue-soft); border-radius: 0 6px 6px 0; }
+  .wd__rail-num { font-family: var(--wd-mono); font-size: 0.72rem; color: var(--wd-muted); flex-shrink: 0; }
+  .wd__rail a.is-active .wd__rail-num { color: var(--wd-blue); }
+
+  .wd__section { padding: var(--wd-8) 0; border-bottom: 1px solid var(--wd-border); scroll-margin-top: var(--wd-offset); }
+  .wd__section:last-child { border-bottom: 0; }
+  .wd__sec-head { margin-bottom: var(--wd-6); }
+  .wd__sec-kicker { font-family: var(--wd-mono); font-size: 0.8rem; color: var(--wd-blue); font-weight: 600; }
+  .wd__sec-title { font-family: var(--wd-heading); font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; color: var(--wd-ink); margin: var(--wd-2) 0 var(--wd-3); }
+  .wd__sec-desc { font-size: 0.98rem; line-height: 1.62; color: var(--wd-body); margin: 0; max-width: 70ch; }
+
+  .wd__h3 { font-size: 1.02rem; font-weight: 700; color: var(--wd-ink); margin: var(--wd-6) 0 var(--wd-3); }
+  .wd__h3:first-child { margin-top: 0; }
+  .wd__p { font-size: 0.94rem; line-height: 1.66; color: var(--wd-body); margin: 0 0 var(--wd-3); max-width: 70ch; }
+  .wd__p strong { color: var(--wd-ink); }
+  .wd__list { margin: 0 0 var(--wd-3); padding-left: var(--wd-5); max-width: 70ch; }
+  .wd__list li { font-size: 0.94rem; line-height: 1.6; color: var(--wd-body); margin: var(--wd-2) 0; }
+  .wd__list li strong { color: var(--wd-ink); }
+  .wd code { font-family: var(--wd-mono); font-size: 0.84em; color: var(--wd-blue); background: var(--wd-blue-soft); padding: 1px 6px; border-radius: 5px; }
+
+  .wd__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--wd-4); }
+  .wd__card { background: var(--wd-surface); border: 1px solid var(--wd-border); border-radius: var(--wd-radius); padding: var(--wd-5); }
+  .wd__card--accent { border-left: 4px solid var(--wd-blue); }
+  .wd__card h4 { font-family: var(--wd-heading); font-size: 0.92rem; font-weight: 700; color: var(--wd-ink); margin: 0 0 var(--wd-2); }
+  .wd__card p { font-size: 0.84rem; line-height: 1.55; color: var(--wd-muted); margin: 0; }
+
+  .wd__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--wd-4); margin-top: var(--wd-4); }
+  .wd__dlist { list-style: none; margin: 0; padding: var(--wd-5); border-radius: var(--wd-radius); border: 1px solid var(--wd-border); background: var(--wd-surface); }
+  .wd__dlist h5 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 var(--wd-3); }
+  .wd__dlist li { font-size: 0.86rem; line-height: 1.5; color: var(--wd-body); padding: var(--wd-2) 0 var(--wd-2) var(--wd-5); position: relative; }
+  .wd__dlist--do h5 { color: var(--wd-success); }
+  .wd__dlist--dont h5 { color: var(--wd-blue); }
+  .wd__dlist--do li::before { content: "\2713"; position: absolute; left: 0; color: var(--wd-success); font-weight: 800; }
+  .wd__dlist--dont li::before { content: "\2715"; position: absolute; left: 0; color: var(--wd-blue); font-weight: 800; }
+
+  .wd__type-row {
+    display: grid; grid-template-columns: 1fr auto; gap: var(--wd-4);
+    align-items: baseline; padding: var(--wd-4) var(--wd-5);
+    border: 1px solid var(--wd-border); border-radius: var(--wd-radius);
+    background: var(--wd-surface); margin-bottom: var(--wd-2);
+  }
+  .wd__type-sample { color: var(--wd-ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wd__type-meta { font-family: var(--wd-mono); font-size: 0.74rem; color: var(--wd-muted); text-align: right; white-space: nowrap; }
+  .wd__type-hilda { font-family: 'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .wd__type-body { font-family: 'Manrope', 'Inter', system-ui, sans-serif; }
+  .wd__type-mono { font-family: var(--wd-mono); }
+
+  .wd__swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--wd-3); margin-top: var(--wd-4); }
+  .wd__swatch {
+    border: 1px solid var(--wd-border); border-radius: var(--wd-radius); overflow: hidden;
+    background: var(--wd-surface);
+  }
+  .wd__swatch-chip { height: 56px; }
+  .wd__swatch-meta { padding: var(--wd-2) var(--wd-3); }
+  .wd__swatch-name { font-size: 0.78rem; font-weight: 700; color: var(--wd-ink); }
+  .wd__swatch-val { font-family: var(--wd-mono); font-size: 0.7rem; color: var(--wd-muted); }
+
+  .wd__demo { background: var(--wd-soft); border: 1px solid var(--wd-border); border-radius: var(--wd-radius); padding: var(--wd-6); display: flex; flex-wrap: wrap; gap: var(--wd-4); align-items: flex-start; }
+  .wd__hero-card {
+    background: var(--wd-surface); border: 1px solid var(--wd-border);
+    border-left: 5px solid var(--wd-blue); border-radius: var(--wd-radius);
+    padding: var(--wd-7) var(--wd-6);
+    max-width: 580px; width: 100%;
+  }
+  .wd__hero-card h3 { font-family: var(--wd-heading); font-size: 1.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--wd-ink); margin: 0 0 var(--wd-3); }
+  .wd__hero-card p { font-size: 0.88rem; line-height: 1.55; color: var(--wd-body); margin: 0; }
+  .wd__demo-card {
+    background: var(--wd-surface); border: 1px solid var(--wd-border);
+    border-radius: var(--wd-radius); padding: var(--wd-5);
+    max-width: 280px; width: 100%;
+    transition: box-shadow .2s ease;
+  }
+  .wd__demo-card:hover { box-shadow: var(--wd-shadow-lg); }
+  .wd__demo-card h4 { font-family: var(--wd-heading); font-size: 1rem; font-weight: 700; color: var(--wd-ink); margin: 0 0 var(--wd-2); }
+  .wd__demo-card p { font-size: 0.84rem; line-height: 1.5; color: var(--wd-muted); margin: 0; }
+  .wd__chip-demo {
+    display: inline-flex; align-items: center; padding: 6px 14px;
+    border: 1px solid var(--wd-border); border-radius: 999px;
+    background: var(--wd-surface); color: var(--wd-muted);
+    font-size: 0.82rem; font-weight: 600; cursor: pointer; user-select: none;
+  }
+  .wd__chip-demo:hover { border-color: var(--wd-blue); color: var(--wd-blue); }
+  .wd__chip-demo--active { background: var(--wd-blue); color: #fff; border-color: var(--wd-blue); }
+
+  .wd__foot { padding: var(--wd-7) 0 0; text-align: center; font-size: 0.82rem; color: var(--wd-muted); }
+  .wd__foot a { color: var(--wd-blue); }
+  .wd__foot p { margin: 4px 0; }
+
+  @media (max-width: 960px) {
+    .wd__body { grid-template-columns: 1fr; gap: var(--wd-5); }
+    .wd__rail {
+      position: sticky; top: 56px; z-index: 5;
+      order: -1; margin: 0 calc(-1 * var(--wd-4)) var(--wd-4);
+      padding: var(--wd-2) var(--wd-4);
+      background: color-mix(in srgb, var(--wd-page) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--wd-border);
+    }
+    .wd__rail-title { display: none; }
+    .wd__rail nav { flex-direction: row; overflow-x: auto; border-left: 0; gap: var(--wd-2); scrollbar-width: none; scroll-snap-type: x proximity; }
+    .wd__rail nav::-webkit-scrollbar { display: none; }
+    .wd__rail a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; margin-left: 0; scroll-snap-align: start; }
+    .wd__rail a.is-active { border-radius: 8px; }
+    .wd__cols { grid-template-columns: 1fr; }
+  }
+</style>
+{% endblock %}
+
+{% block main %}
+<section class="wd">
+  <div class="wd__top">
+    <div class="wd__brand">
+      <span class="wd__mark">W</span>
+      <span class="wd__brand-text">
+        <span class="wd__brand-name">WWDC26 Design Language</span>
+        <span class="wd__brand-tag">Branding Guideline</span>
+      </span>
+    </div>
+    <span class="wd__top-meta">v1.0 · <strong>2026</strong> · calm-first</span>
+  </div>
+
+  <header class="wd__hero">
+    <p class="wd__eyebrow">Cảm hứng Apple WWDC26</p>
+    <h1 class="wd__title">Thiết kế calm-first cho giao diện SEOMONEY</h1>
+    <p class="wd__sub">Bộ hướng dẫn thương hiệu lấy cảm hứng từ ngôn ngữ thiết kế WWDC26: rõ ràng, yên tĩnh, biên tập. Dùng làm tham chiếu cho mọi trang công cụ và dashboard trong tương lai.</p>
+    <p class="wd__lede">Giống như <a href="{{ config.base_url }}/tools/e-dna/">E-DNA</a>, trang này là documentation, không thay đổi style toàn cục và tái sử dụng theme tokens sẵn có.</p>
+    <div class="wd__stats">
+      <div><span class="wd__stat-n">3</span><span class="wd__stat-l">Nguyên tắc gốc</span></div>
+      <div><span class="wd__stat-n">5</span><span class="wd__stat-l">Quy tắc layout</span></div>
+      <div><span class="wd__stat-n">360px</span><span class="wd__stat-l">Mobile-first</span></div>
+    </div>
+  </header>
+
+  <div class="wd__body">
+    <div class="wd__content">
+      <section class="wd__section" id="principles">
+        <div class="wd__sec-head">
+          <p class="wd__sec-kicker">01 — Nguyên tắc</p>
+          <h2 class="wd__sec-title">Design Principles</h2>
+          <p class="wd__sec-desc">Ba nguyên tắc dẫn dắt mọi quyết định giao diện. Khi phân vân, ưu tiên theo thứ tự Clarity → Calm → Editorial.</p>
+        </div>
+        <div class="wd__grid">
+          <div class="wd__card wd__card--accent">
+            <h4>Clarity — Nội dung dẫn dắt</h4>
+            <p>Mọi quyết định thị giác phục vụ thông điệp. Bớt flourish, thêm cấu trúc. Người đọc nhận ngay mục đích trang.</p>
+          </div>
+          <div class="wd__card wd__card--accent">
+            <h4>Calm — Khoảng trắng là tính năng</h4>
+            <p>White space có chủ đích, không phải đồ thừa. Nhịp điệu yên tĩnh giúp đọc lâu không mỏi. Tránh "wall of widgets".</p>
+          </div>
+          <div class="wd__card wd__card--accent">
+            <h4>Editorial — Nhịp biên tập</h4>
+            <p>Ít widget, mạnh section. Hero lớn, navigation gom theo nhóm, highlight card grid, status module calm. Không cảm giác link-cloud.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wd__section" id="typography">
+        <div class="wd__sec-head">
+          <p class="wd__sec-kicker">02 — Kiểu chữ</p>
+          <h2 class="wd__sec-title">Typography</h2>
+          <p class="wd__sec-desc">Hilda cho tiêu đề (display), Manrope/Inter cho thân bài, mono cho số liệu. Tỷ lệ nhất quán, không quá nhiều họ font.</p>
+        </div>
+        <h3 class="wd__h3">Specimen</h3>
+        <div class="wd__type-row"><span class="wd__type-sample wd__type-hilda" style="font-size:1.9rem;font-weight:800;letter-spacing:-0.03em">WWDC Calm</span><span class="wd__type-meta">Hilda · 800 · -0.03em</span></div>
+        <div class="wd__type-row"><span class="wd__type-sample wd__type-hilda" style="font-size:1.3rem;font-weight:700">Section Heading</span><span class="wd__type-meta">Hilda · 700</span></div>
+        <div class="wd__type-row"><span class="wd__type-sample wd__type-body" style="font-size:1rem">Nội dung thân bài dễ đọc, khoảng dẫn hợp lý.</span><span class="wd__type-meta">Manrope/Inter · 400</span></div>
+        <div class="wd__type-row"><span class="wd__type-sample wd__type-mono" style="font-size:0.9rem;font-weight:700;color:var(--wd-blue)">76:14</span><span class="wd__type-meta">Mono · tabular-nums</span></div>
+        <h3 class="wd__h3">Quy tắc</h3>
+        <ul class="wd__list">
+          <li><strong>Tỷ lệ</strong>: clamp() cho mọi tiêu đề lớn — co trên mobile, mở trên desktop.</li>
+          <li><strong>Letter-spacing</strong>: -0.02em đến -0.03em cho display, 0 cho thân.</li>
+          <li><strong>Số liệu</strong>: font-family mono + <code>font-variant-numeric: tabular-nums</code> để cột số thẳng hàng.</li>
+          <li><strong>Không bao giờ</strong> dùng font decorations (comic, script) cho giao diện dashboard.</li>
+        </ul>
+      </section>
+
+      <section class="wd__section" id="layout">
+        <div class="wd__sec-head">
+          <p class="wd__sec-kicker">03 — Bố cục</p>
+          <h2 class="wd__sec-title">Layout Grammar</h2>
+          <p class="wd__sec-desc">Cấu trúc trang lặp lại, dự đoán được. Người dùng học một lần, dùng mọi nơi.</p>
+        </div>
+        <div class="wd__grid">
+          <div class="wd__card"><h4>1. Large hero</h4><p>Tiêu đề + lede + stats. Mở trang bằng mục đích rõ, không widget rác ngay đầu.</p></div>
+          <div class="wd__card"><h4>2. Grouped navigation</h4><p>Menu theo nhóm danh mục phẳng, không dropdown nhiều tầng. Phẳng = mượt.</p></div>
+          <div class="wd__card"><h4>3. Highlight card grid</h4><p><code>auto-fill, minmax(300px,1fr)</code> — responsive tự nhiên, mobile hạ xuống 1 cột.</p></div>
+          <div class="wd__card"><h4>4. Calm status modules</h4><p>Tính trạng thái (uptime, deploy) tĩnh, nhỏ, không nhấp nháy. Trạng thái ≠ alarm.</p></div>
+          <div class="wd__card"><h4>5. Clear content rails</h4><p>Sticky TOC rail trái/phải khi đủ rộng, inline scroll-x khi hẹp — giữ ngữ cảnh.</p></div>
+        </div>
+        <h3 class="wd__h3">Spacing scale</h3>
+        <ul class="wd__list">
+          <li><code>--wd-1..8</code>: 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64px — cấp số nhân 1.5× đơn giản.</li>
+          <li><strong>Max-width</strong>: 1240px cho trang document, 1180px cho catalog grid.</li>
+          <li><strong>Radius</strong>: 4px (calm), 10px (card), 999px (chip/pill).</li>
+        </ul>
+      </section>
+
+      <section class="wd__section" id="color">
+        <div class="wd__sec-head">
+          <p class="wd__sec-kicker">04 — Màu</p>
+          <h2 class="wd__sec-title">Color Tokens</h2>
+          <p class="wd__sec-desc">Tái sử dụng theme tokens, không invent màu mới. Màu là tín hiệu phụ, không bao giờ là tín hiệu duy nhất.</p>
+        </div>
+        <div class="wd__swatches">
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-blue)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Accent</div><div class="wd__swatch-val">--c-accent</div></div></div>
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-blue-soft)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Accent soft</div><div class="wd__swatch-val">--c-accent-soft</div></div></div>
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-ink)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Ink</div><div class="wd__swatch-val">--c-text-heading</div></div></div>
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-muted)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Muted</div><div class="wd__swatch-val">--c-text-muted</div></div></div>
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-surface);border-bottom:1px solid var(--wd-border)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Surface</div><div class="wd__swatch-val">--c-bg-surface</div></div></div>
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-soft)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Soft</div><div class="wd__swatch-val">--c-bg-soft</div></div></div>
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-success)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Success</div><div class="wd__swatch-val">--c-success</div></div></div>
+          <div class="wd__swatch"><div class="wd__swatch-chip" style="background:var(--wd-violet)"></div><div class="wd__swatch-meta"><div class="wd__swatch-name">Violet</div><div class="wd__swatch-val">#5e5ce6 (accents)</div></div></div>
+        </div>
+        <p class="wd__p" style="margin-top:16px"><strong>Quy tắc:</strong> tối đa 1 accent + neutral trên mỗi màn hình. Tránh gradient nhiều màu cho nền dashboard.</p>
+      </section>
+
+      <section class="wd__section" id="components">
+        <div class="wd__sec-head">
+          <p class="wd__sec-kicker">05 — Thành phần</p>
+          <h2 class="wd__sec-title">Component System</h2>
+          <p class="wd__sec-desc">Vài nguyên tố lặp lại, kết hợp được thành mọi trang. Demo thực tế ở dưới.</p>
+        </div>
+        <h3 class="wd__h3">Hero card + grid card + filter chip</h3>
+        <div class="wd__demo">
+          <div class="wd__hero-card">
+            <h3>WWDC26</h3>
+            <p>Khung hero: eyebrow + tiêu đề lớn + lede + stats. Dùng cho trang danh mục.</p>
+          </div>
+          <div class="wd__demo-card">
+            <h4>Session #201</h4>
+            <p>Meet the new Liquid Glass design — 24:09 · Design</p>
+          </div>
+          <div class="wd__demo-card">
+            <h4>Session #202</h4>
+            <p>What's new in SwiftUI — 32:42 · SwiftUI</p>
+          </div>
+          <span class="wd__chip-demo wd__chip-demo--active">Tất cả</span>
+          <span class="wd__chip-demo">Swift</span>
+          <span class="wd__chip-demo">AI</span>
+          <span class="wd__chip-demo">Design</span>
+        </div>
+        <h3 class="wd__h3">Quy ước đặt tên</h3>
+        <ul class="wd__list">
+          <li><strong>BEM-like</strong>: <code>.wwdc__card</code>, <code>.wwdc__card--title</code> (block__element--modifier).</li>
+          <li><strong>Một namespace mỗi trang</strong>: <code>.hw-</code> (home wwdc), <code>.wd-</code> (wwdc dok), <code>.edna-</code> — tránh đụng kiểu dáng toàn cục.</li>
+          <li><strong>State classes</strong>: <code>--active</code>, <code>--disabled</code>, <code>is-hidden</code> qua thuộc tính <code>hidden</code>.</li>
+        </ul>
+      </section>
+
+      <section class="wd__section" id="do-dont">
+        <div class="wd__sec-head">
+          <p class="wd__sec-kicker">06 — Checklist</p>
+          <h2 class="wd__sec-title">Do / Don't</h2>
+          <p class="wd__sec-desc">Danh sách rút gọn. Khi review trang mới, kiểm tra nhanh bảng này.</p>
+        </div>
+        <div class="wd__cols">
+          <ul class="wd__dlist wd__dlist--do">
+            <li><h5>Nên làm</h5></li>
+            <li>Dùng spacing scale & clamp() cho mọi kích thước</li>
+            <li>Thiết kế cho 360px trước, mở rộng lên</li>
+            <li>Sticky rail cho TOC khi đủ rộng</li>
+            <li>Tabular-nums cho cột số liệu</li>
+            <li>Một accent + neutral mỗi màn hình</li>
+            <li>Nội dung dẫn dắt, bớt flourish</li>
+          </ul>
+          <ul class="wd__dlist wd__dlist--dont">
+            <li><h5>Không làm</h5></li>
+            <li>Pattern dashboard crypto/fintech (đèn nhấp nháy)</li>
+            <li>Màu làm tín hiệu duy nhất (cần nhãn/icon)</li>
+            <li>Link-cloud hay wall of widgets</li>
+            <li>Dropdown nhiều tầng</li>
+            <li>Gradient nhiều màu cho nền dashboard</li>
+            <li>Font decoration (comic, script)</li>
+            <li>Widget rác ngay đầu hero</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <aside class="wd__rail" aria-label="Mục lục">
+      <p class="wd__rail-title">Mục lục</p>
+      <nav>
+        <a href="#principles"><span class="wd__rail-num">01</span> Nguyên tắc</a>
+        <a href="#typography"><span class="wd__rail-num">02</span> Kiểu chữ</a>
+        <a href="#layout"><span class="wd__rail-num">03</span> Bố cục</a>
+        <a href="#color"><span class="wd__rail-num">04</span> Màu</a>
+        <a href="#components"><span class="wd__rail-num">05</span> Thành phần</a>
+        <a href="#do-dont"><span class="wd__rail-num">06</span> Checklist</a>
+      </nav>
+    </aside>
+  </div>
+
+  <footer class="wd__foot">
+    <p>WWDC26 Design Language — tham chiếu mở cho team SEOMONEY.</p>
+    <p>Xem thêm <a href="{{ config.base_url }}/tools/e-dna/">E-DNA</a> · <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a> · <a href="{{ config.base_url }}/wwdc26/">WWDC26 Catalogue</a>.</p>
+    <p>Cảm hứng thiết kế Apple WWDC; không phải tài liệu chính thức của Apple.</p>
+  </footer>
+</section>
+
+<script>
+  (function () {
+    var railLinks = document.querySelectorAll('.wd__rail nav a');
+    var sections  = Array.prototype.slice.call(document.querySelectorAll('.wd__section'));
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = entry.target.id;
+        railLinks.forEach(function (a) {
+          a.classList.toggle('is-active', a.getAttribute('href') === '#' + id);
+        });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    sections.forEach(function (s) { io.observe(s); });
+  })();
+</script>
+{% endblock %}

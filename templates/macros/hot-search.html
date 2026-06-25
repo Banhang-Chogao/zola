@@ -1,0 +1,44 @@
+{# Today hot search — sidebar widget from data/google-trends-vn.json #}
+{% import "macros/datetime.html" as dt %}
+{% macro widget() %}
+{% set trends_data = load_data(path="data/google-trends-vn.json", required=false) %}
+{% if trends_data and trends_data.items and trends_data.items | length > 0 %}
+<section class="sidebar-block sidebar-block--hot-search" data-widget="hot-search">
+    <h3 class="sidebar-label">TODAY HOT SEARCH</h3>
+    <p class="hot-search__meta">
+        <span class="hot-search__geo">🇻🇳 Vietnam</span>
+        {% if trends_data.fetched_at %}
+        <time class="hot-search__updated" datetime="{{ trends_data.fetched_at }}">
+            {{ dt::display_date(value=trends_data.fetched_at) }}
+        </time>
+        {% endif %}
+    </p>
+    <ol class="hot-search__list" aria-label="Google Trends Vietnam — top {{ trends_data.count }}">
+        {% for item in trends_data.items %}
+        <li class="hot-search__item{% if item.rank <= 3 %} is-top{% endif %}">
+            <span class="hot-search__rank" aria-hidden="true">{{ item.rank }}</span>
+            <a class="hot-search__link"
+               href="{{ item.search_url | safe }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               title="Tìm trên Google — {{ item.keyword }}">
+                <span class="hot-search__keyword">{{ item.keyword }}</span>
+                {% if item.volume_label %}
+                <span class="hot-search__volume">{{ item.volume_label }}</span>
+                {% endif %}
+            </a>
+            <span class="hot-search__trend-icon" aria-hidden="true" title="Trending">▲</span>
+        </li>
+        {% endfor %}
+    </ol>
+    <p class="hot-search__source">
+        Nguồn:
+        <a href="{{ trends_data.source_page | default(value='https://trends.google.com/trending?geo=VN') | safe }}"
+           target="_blank" rel="noopener noreferrer">Google Trends</a>
+        {% if trends_data.status == "cached" or trends_data.status == "partial" %}
+        <span class="hot-search__badge">cache</span>
+        {% endif %}
+    </p>
+</section>
+{% endif %}
+{% endmacro %}

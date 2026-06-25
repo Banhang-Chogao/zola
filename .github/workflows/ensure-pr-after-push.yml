@@ -1,0 +1,64 @@
+name: Auto PR Gatekeeper
+
+# ZERO_BARRIER: "Done means branch pushed + PR opened + QA green + auto-merge
+# attempted." Sau mỗi push lên feature branch, đảm bảo branch có PR mở vào main —
+# push branch mà không có PR là việc dở dang (QA → auto-merge → deploy không tiếp
+# tục được). Engine: scripts/ensure_pr_after_push.py. Merge vẫn DELEGATE cho
+# auto-merge.yml + try_auto_merge.py (gated qa-check, KHÔNG bypass QA).
+#
+# Trigger:
+#   - push tới claude/** · codex/** · vaccine-hotfix/** (các nhánh agent/bot tạo)
+#   - workflow_dispatch (chạy tay cho 1 branch bất kỳ)
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+      - 'codex/**'
+      - 'vaccine-hotfix/**'
+      - 'feat/**'
+      - 'fix/**'
+      - 'hotfix/**'
+      - 'chore/**'
+      - 'feature/**'
+      - 'content/**'
+      - 'qa/**'
+      - 'autofix/**'
+      - 'policy/**'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch cần đảm bảo có PR (bỏ trống = branch hiện tại)."
+        required: false
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  actions: read
+
+concurrency:
+  # Một lần ensure-pr cho mỗi branch tại một thời điểm (tránh tạo PR trùng khi
+  # nhiều push dồn dập).
+  group: ensure-pr-${{ github.event.inputs.branch || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ensure-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Ensure PR exists + attempt gated auto-merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          BRANCH: ${{ github.event.inputs.branch || github.ref_name }}
+        run: python3 scripts/ensure_pr_after_push.py --enable-auto-merge

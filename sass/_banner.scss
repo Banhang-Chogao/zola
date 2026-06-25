@@ -1,0 +1,1130 @@
+.ad-banner {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  align-items: center;
+
+  margin: 0 2.5rem 2rem;
+  padding: 1.25rem 1.5rem;
+
+  background: linear-gradient(135deg, #0d1525 0%, #1a1f3a 50%, #2d1b3d 100%);
+  color: #fff;
+  border-left: 4px solid #d63d3d;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 50%, rgba(214, 61, 61, 0.18), transparent 55%),
+      radial-gradient(circle at 90% 80%, rgba(167, 139, 250, 0.15), transparent 55%);
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+    color: #fff;
+  }
+
+  &__image {
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #6d4c2b 0%, #8b6635 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+    }
+
+    &--placeholder img { display: none; }
+  }
+
+  &__icon {
+    font-size: 4rem;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    pointer-events: none;
+  }
+
+  // Hide emoji when image loads successfully
+  &__image:not(.ad-banner__image--placeholder) &__icon { display: none; }
+
+  &__text {
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__label {
+    display: inline-block;
+    background: #d63d3d;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    padding: 0.25rem 0.6rem;
+    margin-bottom: 0.6rem;
+    border-radius: 2px;
+    font-family: $font-mono;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.25rem;
+    color: #fff;
+    margin: 0 0 0.35rem;
+    line-height: 1.3;
+    font-weight: 800;
+  }
+
+  &__desc {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  &__arrow {
+    font-size: 1.75rem;
+    color: #d63d3d;
+    font-weight: 700;
+    padding-right: 0.5rem;
+    transition: transform .2s ease;
+  }
+
+  &:hover &__arrow {
+    transform: translateX(4px);
+  }
+}
+
+@media (max-width: 720px) {
+  .ad-banner {
+    grid-template-columns: 90px 1fr;
+    margin: 0 1.25rem 1.5rem;
+    padding: 1rem;
+    gap: 1rem;
+
+    &__arrow { display: none; }
+    &__icon { font-size: 2.5rem; }
+    &__title { font-size: 1rem; }
+    &__desc { font-size: 0.8rem; }
+    &__label { font-size: 0.6rem; padding: 0.2rem 0.45rem; margin-bottom: 0.4rem; }
+  }
+}
+
+/* ----- Header welcome placeholder (thay ad slot) ----- */
+
+.header-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 88px;
+  padding: 0.9rem 1.25rem;
+  background: #ddf4f2;
+  border: 1px solid rgba(0, 167, 160, 0.28);
+  border-left: 4px solid #00a7a0;
+  border-radius: 6px;
+
+  &__title {
+    margin: 0;
+    font-family: $font-heading;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #111;
+    line-height: 1.2;
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 720px) {
+  .header-welcome {
+    min-height: 64px;
+    padding: 0.75rem 0.9rem;
+
+    &__title { font-size: 0.95rem; }
+    &__desc {
+      font-size: 0.72rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+
+/* ----- Cuối bài — lời cảm ơn (thay ad slot) ----- */
+
+.post-thanks {
+  margin: 2rem 2.5rem 1.5rem;
+  padding: 1.15rem 1.35rem;
+  background: #f8fafb;
+  border: 1px solid #e6e6e6;
+  border-left: 4px solid #00a7a0;
+  border-radius: 8px;
+
+  &__text {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #444;
+  }
+}
+
+@media (max-width: 720px) {
+  .post-thanks {
+    margin: 1.5rem 1.25rem 1rem;
+    padding: 1rem 1.1rem;
+
+    &__text { font-size: 0.88rem; }
+  }
+}
+
+/* ----- Header banner (logo + ad layout) — legacy, giữ cho theme overrides ----- */
+
+.header-ad {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: 1.1rem;
+  align-items: center;
+
+  padding: 0.9rem 1.25rem;
+  background: linear-gradient(135deg, #0d1525 0%, #1a1f3a 50%, #2d1b3d 100%);
+  color: #fff;
+  border-radius: 6px;
+  border-left: 4px solid #d63d3d;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+
+  transition: transform .2s ease, box-shadow .2s ease;
+  min-height: 88px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 12% 50%, rgba(214, 61, 61, 0.18), transparent 50%),
+      radial-gradient(circle at 95% 90%, rgba(167, 139, 250, 0.14), transparent 55%);
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    color: #fff;
+  }
+
+  &__icon {
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #6d4c2b 0%, #8b6635 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+    }
+
+    &--placeholder img { display: none; }
+  }
+
+  &__emoji {
+    font-size: 2rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+    pointer-events: none;
+  }
+
+  &__icon:not(.header-ad__icon--placeholder) &__emoji { display: none; }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__label {
+    font-family: $font-mono;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #d63d3d;
+    background: rgba(214, 61, 61, 0.12);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    width: fit-content;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.25;
+  }
+
+  &__desc {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.4;
+  }
+
+  &__arrow {
+    font-size: 1.4rem;
+    color: #d63d3d;
+    font-weight: 700;
+    padding-right: 0.25rem;
+    transition: transform .2s ease;
+  }
+
+  &:hover &__arrow { transform: translateX(3px); }
+}
+
+@media (max-width: 720px) {
+  .header-ad {
+    grid-template-columns: 56px minmax(0, 1fr);
+    padding: 0.75rem 0.9rem;
+    gap: 0.8rem;
+    min-height: 64px;
+
+    &__arrow { display: none; }
+    &__emoji { font-size: 1.5rem; }
+    &__title { font-size: 0.9rem; }
+    &__desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 0.72rem;
+    }
+    &__label { font-size: 0.55rem; padding: 0.1rem 0.4rem; }
+  }
+}
+
+/* ----- Header carousel/slider (3 banner, điều khiển tay) ----- */
+
+.header-rotator {
+  position: relative;
+  min-width: 0;
+
+  &__viewport {
+    position: relative;
+    display: grid;
+    min-width: 0;
+  }
+
+  &__slide {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .4s ease, transform .4s ease;
+    transform: translateY(6px);
+
+    &.is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mũi tên ‹ › — overlay, hiện khi hover/focus (mobile luôn hiện) */
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    color: #0a6e69;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .2s ease, background .15s ease, transform .15s ease;
+    -webkit-tap-highlight-color: transparent;
+
+    &--prev { left: 6px; }
+    &--next { right: 6px; }
+
+    &:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.08);
+    }
+    &:focus-visible { opacity: 1; outline: 2px solid #00a7a0; outline-offset: 2px; }
+  }
+
+  &:hover &__arrow,
+  &:focus-within &__arrow { opacity: 1; }
+
+  /* Chấm điều hướng */
+  &__dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 0.4rem;
+    min-height: 8px;
+  }
+
+  &__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: rgba(10, 110, 105, 0.28);
+    cursor: pointer;
+    transition: width .2s ease, background .2s ease;
+
+    &.is-active { width: 18px; background: #00a7a0; }
+    &:hover { background: #00a7a0; }
+  }
+}
+
+/* ----- Header THEODOI8 LIVE banner (slide 3) — data-driven, auto-refresh -----
+   S-DNA teal primary + colorful/playful. --t8 = RGB màu trạng thái CI hiện tại. */
+
+.header-theodoi8 {
+  --t8: 0, 167, 160;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 88px;
+  padding: 0.8rem 1.1rem;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 167, 160, 0.28);
+  border-left: 5px solid rgb(var(--t8));
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0, 167, 160, 0.16), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(155, 143, 212, 0.18), transparent 60%),
+    linear-gradient(135deg, #f2fbfa 0%, #eef4ff 55%, #f7f1fd 100%);
+  box-shadow: 0 6px 18px rgba(0, 167, 160, 0.12);
+  transition: transform .2s ease, box-shadow .2s ease;
+  font-family: $font-body;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(0, 167, 160, 0.22);
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: $font-heading;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #0a6e69;
+    background: rgba(0, 167, 160, 0.14);
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  &__eye {
+    font-size: 1.05rem;
+    animation: theodoi8-bounce 1.8s ease-in-out infinite;
+  }
+
+  &__pulse {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgb(var(--t8));
+    animation: theodoi8-pulse 1.6s ease-out infinite;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+  }
+
+  &__status {
+    font-size: 1.65rem;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.08));
+  }
+
+  &__main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__summary {
+    margin: 0;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #173a38;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__meta {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+  }
+
+  &__time {
+    color: #5b7c79;
+    font-family: $font-mono;
+  }
+
+  &__cta {
+    color: #00a7a0;
+    font-weight: 800;
+    transition: transform .15s ease;
+  }
+
+  &:hover &__cta { transform: translateX(3px); }
+
+  /* Status variants — đổi màu viền + pulse theo trạng thái CI */
+  &.is-running   { --t8: 245, 158, 11; }
+  &.is-failure   { --t8: 239, 68, 68; }
+  &.is-success   { --t8: 34, 197, 94; }
+  &.is-cancelled { --t8: 148, 163, 184;
+    .header-theodoi8__pulse { animation: none; }
+  }
+}
+
+@keyframes theodoi8-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--t8), 0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(var(--t8), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--t8), 0); }
+}
+
+@keyframes theodoi8-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-theodoi8__eye,
+  .header-theodoi8__pulse { animation: none; }
+}
+
+@media (max-width: 720px) {
+  .header-theodoi8 {
+    min-height: 64px;
+    padding: 0.7rem 0.85rem;
+    border-radius: 14px;
+
+    &__label { font-size: 0.78rem; padding: 0.22rem 0.55rem; }
+    &__status { font-size: 1.3rem; }
+    &__summary { font-size: 0.78rem; }
+    &__meta { font-size: 0.66rem; }
+  }
+
+  /* Mobile không hover → luôn hiện mũi tên để bấm tay */
+  .header-rotator__arrow { opacity: 0.92; }
+}
+
+/* ----- Header GitHub status block ----- */
+
+.header-github {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.85rem 1.2rem;
+
+  background: linear-gradient(135deg, #0a0f1d 0%, #0d1525 100%);
+  color: #e2e8f0;
+  border-radius: 6px;
+  border-left: 4px solid #22c55e;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  min-height: 88px;
+  font-family: $font-body;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 5% 50%, rgba(34, 197, 94, 0.12), transparent 50%),
+      radial-gradient(circle at 95% 50%, rgba(167, 139, 250, 0.10), transparent 55%);
+    pointer-events: none;
+  }
+
+  &:hover { color: #fff; }
+
+  &__tags {
+    display: flex;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+
+    .tag {
+      display: inline-block;
+      padding: 0.18rem 0.5rem;
+      border: 1.5px solid currentColor;
+      border-radius: 3px;
+      font-family: $font-mono;
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      background: transparent;
+    }
+    .tag--active { color: #22c55e; }
+    .tag--code   { color: #a78bfa; }
+    .tag--error  { color: #f59e0b; }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  &__brand-title {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+  }
+
+  &__commit {
+    margin: 0;
+    line-height: 1.3;
+
+    strong {
+      display: block;
+      color: #f1f5f9;
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__meta {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    color: #94a3b8;
+
+    code {
+      color: #cbd5e1;
+      background: transparent;
+      padding: 0;
+    }
+
+    .dot { color: #475569; padding: 0 0.2rem; }
+  }
+
+  &__side {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-family: $font-mono;
+    font-size: 0.72rem;
+  }
+
+  &__brand { color: #a78bfa; font-weight: 600; }
+  &__clock {
+    color: #86efac;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+  }
+}
+
+@media (max-width: 720px) {
+  .header-github {
+    padding: 0.7rem 0.85rem;
+    min-height: 64px;
+
+    &__brand-title { font-size: 0.85rem; }
+    &__commit strong { font-size: 0.72rem; }
+    &__meta { font-size: 0.62rem; }
+    &__side { font-size: 0.62rem; }
+    &__clock { font-size: 0.72rem; }
+    &__tags .tag { font-size: 0.55rem; padding: 0.12rem 0.4rem; }
+    &__meta .dot, &__meta span:last-child { display: none; }
+  }
+}
+
+/* ----- Header side wrapper (rotator + queue stacked) ----- */
+
+.header-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+
+  > .header-rotator { flex: 1 1 auto; min-width: 0; width: 100%; }
+
+  /* Legacy fallback nếu .deploy-queue được tái thêm sau này */
+  @media (min-width: 900px) {
+    > .deploy-queue {
+      flex: 0 0 240px;
+      align-items: flex-start;
+      align-self: stretch;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.4rem;
+
+      .deploy-queue__items { flex: 0 1 auto; }
+      .deploy-queue__msg   { font-size: 0.72rem; }
+    }
+  }
+}
+
+/* ----- DEPLOYED row INSIDE GitHub box (bottom of card) ----- */
+
+.header-github__deploy {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.74rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.header-github__deploy-badge {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  padding: 0.28rem 0.6rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+
+  &--success { /* placeholder cho future state classes — JS toggles này */ }
+}
+
+.header-github__deploy-msg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-weight: 700;
+  font-size: 0.74rem;
+  min-width: 0;
+  flex: 1;
+}
+
+/* ----- 'Latest deployments' card (github-pages style) bên phải header ----- */
+
+.header-deploy-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+  font-family: $font-ui;
+
+  &__label {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.74rem;
+    font-weight: 500;
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.7rem 0.85rem;
+    background: #fff;
+    border: 1px solid #d1d9e0;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease, box-shadow .15s ease;
+
+    &:hover {
+      border-color: #b0bbc4;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    }
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: #22c55e;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: background .2s ease;
+  }
+
+  &__title {
+    flex: 1;
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 0.92rem;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__ext {
+    display: inline-flex;
+    color: #6e7781;
+    transition: color .15s ease;
+
+    .header-deploy-card__panel:hover & { color: #0866ff; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    color: #57606a;
+    font-size: 0.78rem;
+    padding-left: 1.55rem;
+  }
+
+  &__row {
+    [data-deploy-verb] {
+      color: #1a7f37;
+      font-weight: 600;
+    }
+    [data-deploy-time] {
+      color: #57606a;
+    }
+  }
+
+  &__url {
+    color: #0969da;
+    word-break: break-all;
+    font-size: 0.76rem;
+
+    .header-deploy-card__panel:hover & { text-decoration: underline; }
+  }
+
+  /* State variants — icon color + verb color */
+  &.is-success &__icon { background: #22c55e; }
+  &.is-progress {
+    .header-deploy-card__icon {
+      background: #3b82f6;
+      animation: header-deploy-pulse 1.5s ease-in-out infinite;
+    }
+    [data-deploy-verb] { color: #0969da; }
+  }
+  &.is-queued {
+    .header-deploy-card__icon {
+      background: #f59e0b;
+      animation: header-deploy-pulse 1.5s ease-in-out infinite;
+    }
+    [data-deploy-verb] { color: #9a6700; }
+  }
+  &.is-error {
+    .header-deploy-card__icon { background: #cf222e; }
+    [data-deploy-verb] { color: #cf222e; }
+  }
+}
+
+@keyframes header-deploy-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1;   }
+  50%      { transform: scale(0.9); opacity: 0.7; }
+}
+
+/* ----- Deploy queue (pending GitHub Actions runs) — LEGACY, sẽ xoá sau ----- */
+
+.deploy-queue {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+
+  /* Nền dark navy hài hoà với GitHub card phía trên */
+  background: #1a1f2e;
+  border: 1px solid #252b3d;
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.78rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 0% 50%, rgba(239, 68, 68, 0.08), transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Khi queue trống — viền trái xanh */
+  &:has([data-queue-badge].deploy-queue__badge--success) {
+    border-left: 3px solid #22c55e;
+    &::before { background: radial-gradient(circle at 0% 50%, rgba(34, 197, 94, 0.08), transparent 50%); }
+  }
+
+  /* Badge: nền trong suốt + chữ ĐỎ + đèn đỏ pulse */
+  &__badge {
+    background: rgba(214, 61, 61, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(214, 61, 61, 0.45);
+    font-family: $font-mono;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    padding: 0.32rem 0.7rem 0.32rem 0.6rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    /* Đèn đỏ pulse trước chữ */
+    &::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow:
+        0 0 6px rgba(239, 68, 68, 1),
+        0 0 14px rgba(239, 68, 68, 0.6);
+      animation: red-light-pulse 0.9s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    /* Trạng thái queue trống → đèn + chữ XANH, không pulse */
+    &--success {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border-color: rgba(34, 197, 94, 0.5);
+
+      &::before {
+        background: #22c55e;
+        box-shadow:
+          0 0 6px rgba(34, 197, 94, 0.9),
+          0 0 12px rgba(34, 197, 94, 0.5);
+        animation: none;
+      }
+    }
+  }
+
+  &__items {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Thông điệp: trắng đậm + status-dot */
+  &__msg {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 700;
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Pill mỗi commit đang chờ — chữ trắng đậm trên nền tối */
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.92);
+    padding: 0.3rem 0.65rem;
+    border-radius: 3px;
+    font-family: $font-mono;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+
+    transition: background .15s ease, color .15s ease;
+
+    code {
+      color: #fff;
+      font-weight: 800;
+      background: transparent;
+      padding: 0;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    &--running {
+      border-left-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.18);
+      color: #fde68a;
+
+      code { color: #fef3c7; }
+    }
+
+    &--queued {
+      border-left-color: #ef4444;
+      background: rgba(239, 68, 68, 0.18);
+      color: #fecaca;
+
+      code { color: #fee2e2; }
+    }
+  }
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+
+  &--queued {
+    background: #ef4444;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+    animation: red-light-pulse 0.9s ease-in-out infinite;
+  }
+
+  &--running {
+    background: #f59e0b;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+    animation: status-pulse 1.2s ease-in-out infinite;
+  }
+
+  &--success {
+    background: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+  }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.3); }
+}
+
+@keyframes red-light-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow:
+      0 0 6px rgba(239, 68, 68, 1),
+      0 0 14px rgba(239, 68, 68, 0.6);
+  }
+  50% {
+    opacity: 0.5;
+    box-shadow:
+      0 0 3px rgba(239, 68, 68, 0.4),
+      0 0 8px rgba(239, 68, 68, 0.2);
+  }
+}
+
+@media (max-width: 720px) {
+  .deploy-queue {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.7rem;
+
+    &__badge { font-size: 0.55rem; padding: 0.25rem 0.5rem; }
+    &__msg { font-size: 0.7rem; }
+    &__item { font-size: 0.65rem; padding: 0.22rem 0.45rem; }
+  }
+}

@@ -1,0 +1,955 @@
+{% extends "base.html" %}
+{% import "macros/github-activity.html" as github_activity %}
+{% import "macros/datetime.html" as dt %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}GitHub Insights | {{ config.title }}{% endblock %}
+
+{% block main %}
+    {% set data = load_data(path="changelog.json", required=false) %}
+    {% if data and data.items %}
+        {% set pr_items = data.items %}
+    {% else %}
+        {% set pr_items = [] %}
+    {% endif %}
+    {% set total_prs = pr_items | length %}
+
+    {% set builds_data = load_data(path="data/build-dashboard.json", required=false) %}
+    {% if builds_data %}
+        {% if builds_data.builds %}{% set build_items = builds_data.builds %}{% else %}{% set build_items = [] %}{% endif %}
+        {% if builds_data.stats.success %}{% set build_success = builds_data.stats.success %}{% else %}{% set build_success = 0 %}{% endif %}
+        {% if builds_data.stats.failure %}{% set build_failure = builds_data.stats.failure %}{% else %}{% set build_failure = 0 %}{% endif %}
+        {% if builds_data.stats.cancelled %}{% set build_cancelled = builds_data.stats.cancelled %}{% else %}{% set build_cancelled = 0 %}{% endif %}
+        {% if builds_data.stats.skipped %}{% set build_skipped = builds_data.stats.skipped %}{% else %}{% set build_skipped = 0 %}{% endif %}
+        {% if builds_data.stats.in_progress %}{% set build_in_progress = builds_data.stats.in_progress %}{% else %}{% set build_in_progress = 0 %}{% endif %}
+        {% if builds_data.source_repo %}{% set build_source = builds_data.source_repo %}{% else %}{% set build_source = "https://github.com/Banhang-Chogao/zola" %}{% endif %}
+        {% if builds_data.updated_at %}{% set build_updated = builds_data.updated_at %}{% else %}{% set build_updated = "" %}{% endif %}
+        {% if builds_data.history %}{% set build_history = builds_data.history %}{% else %}{% set build_history = [] %}{% endif %}
+        {% if builds_data.latest_workflows %}{% set build_latest = builds_data.latest_workflows %}{% else %}{% set build_latest = [] %}{% endif %}
+        {% if builds_data.fetch_error %}{% set build_fetch_error = builds_data.fetch_error %}{% else %}{% set build_fetch_error = "" %}{% endif %}
+        {% if builds_data.fetch_error_at %}{% set build_fetch_error_at = builds_data.fetch_error_at %}{% else %}{% set build_fetch_error_at = "" %}{% endif %}
+        {% if builds_data.history_cadence_min %}{% set build_cadence = builds_data.history_cadence_min %}{% else %}{% set build_cadence = 5 %}{% endif %}
+    {% else %}
+        {% set build_items = [] %}
+        {% set build_success = 0 %}
+        {% set build_failure = 0 %}
+        {% set build_cancelled = 0 %}
+        {% set build_skipped = 0 %}
+        {% set build_in_progress = 0 %}
+        {% set build_source = "https://github.com/Banhang-Chogao/zola" %}
+        {% set build_updated = "" %}
+        {% set build_history = [] %}
+        {% set build_latest = [] %}
+        {% set build_fetch_error = "" %}
+        {% set build_fetch_error_at = "" %}
+        {% set build_cadence = 5 %}
+    {% endif %}
+
+    {% set merge_data = load_data(path="data/merge-report.json", required=false) %}
+    {% if merge_data %}
+        {% if merge_data.merges %}{% set merge_items = merge_data.merges %}{% else %}{% set merge_items = [] %}{% endif %}
+        {% if merge_data.stats.total %}{% set merge_total = merge_data.stats.total %}{% else %}{% set merge_total = 0 %}{% endif %}
+        {% if merge_data.stats.today %}{% set merge_today = merge_data.stats.today %}{% else %}{% set merge_today = 0 %}{% endif %}
+        {% if merge_data.updated_at %}{% set merge_updated = merge_data.updated_at %}{% else %}{% set merge_updated = "" %}{% endif %}
+        {% if merge_data.source_repo %}{% set merge_source = merge_data.source_repo %}{% else %}{% set merge_source = "https://github.com/Banhang-Chogao/zola" %}{% endif %}
+    {% else %}
+        {% set merge_items = [] %}
+        {% set merge_total = 0 %}
+        {% set merge_today = 0 %}
+        {% set merge_updated = "" %}
+        {% set merge_source = "https://github.com/Banhang-Chogao/zola" %}
+    {% endif %}
+
+    {% set auth_report = load_data(path="data/authority-report.json", required=false) %}
+    {% if auth_report %}
+        {% set auth_trust = auth_report.trust_score.score | default(value=0) %}
+        {% set auth_label = auth_report.trust_score.label | default(value="—") %}
+        {% set auth_num = auth_report.report_number | default(value=0) %}
+        {% set auth_updated = auth_report.generated_at | default(value="") %}
+        {% set auth_orphans = auth_report.orphan_pages | length | default(value=0) %}
+    {% else %}
+        {% set auth_trust = 0 %}{% set auth_label = "—" %}{% set auth_num = 0 %}
+        {% set auth_updated = "" %}{% set auth_orphans = 0 %}
+    {% endif %}
+
+    {% set ad_v2 = load_data(path="data/ad-report-v2.json", required=false) %}
+    {% if ad_v2 %}
+        {% set ad_v2_score = ad_v2.monetization_score | default(value=0) %}
+        {% set ad_v2_num = ad_v2.report_number | default(value=0) %}
+        {% set ad_v2_density = ad_v2.ad_density.verdict | default(value="unknown") %}
+        {% set ad_v2_grade = ad_v2.ui_review.overall_grade | default(value="—") %}
+        {% set ad_v2_updated = ad_v2.generated_at | default(value="") %}
+        {% set ad_v2_candidates = ad_v2.top_adsense_candidates | length | default(value=0) %}
+    {% else %}
+        {% set ad_v2_score = 0 %}
+        {% set ad_v2_num = 0 %}
+        {% set ad_v2_density = "unknown" %}
+        {% set ad_v2_grade = "—" %}
+        {% set ad_v2_updated = "" %}
+        {% set ad_v2_candidates = 0 %}
+    {% endif %}
+
+    {% set compliance_data = load_data(path="data/compliance-score.json", required=false) %}
+    {% if compliance_data %}
+        {% if compliance_data.score %}{% set compliance_score = compliance_data.score %}{% else %}{% set compliance_score = 0 %}{% endif %}
+        {% if compliance_data.grade %}{% set compliance_grade = compliance_data.grade %}{% else %}{% set compliance_grade = "—" %}{% endif %}
+        {% if compliance_data.mood %}{% set compliance_mood = compliance_data.mood %}{% else %}{% set compliance_mood = "attention" %}{% endif %}
+        {% if compliance_data.stats.pass %}{% set compliance_pass = compliance_data.stats.pass %}{% else %}{% set compliance_pass = 0 %}{% endif %}
+        {% if compliance_data.stats.warn %}{% set compliance_warn = compliance_data.stats.warn %}{% else %}{% set compliance_warn = 0 %}{% endif %}
+        {% if compliance_data.stats.fail %}{% set compliance_fail = compliance_data.stats.fail %}{% else %}{% set compliance_fail = 0 %}{% endif %}
+        {% if compliance_data.categories %}{% set compliance_categories = compliance_data.categories %}{% else %}{% set compliance_categories = [] %}{% endif %}
+        {% if compliance_data.highlights %}{% set compliance_highlights = compliance_data.highlights %}{% else %}{% set compliance_highlights = [] %}{% endif %}
+        {% if compliance_data.updated_at %}{% set compliance_updated = compliance_data.updated_at %}{% else %}{% set compliance_updated = "" %}{% endif %}
+        {% if compliance_data.pages_scanned %}{% set compliance_pages = compliance_data.pages_scanned %}{% else %}{% set compliance_pages = 0 %}{% endif %}
+        {% if compliance_data.fix_log %}{% set compliance_fix_log = compliance_data.fix_log %}{% else %}{% set compliance_fix_log = [] %}{% endif %}
+        {% if compliance_data.fix_summary %}{% set compliance_fix_summary = compliance_data.fix_summary %}{% else %}{% set compliance_fix_summary = false %}{% endif %}
+        {% set compliance_link_report = load_data(path="data/compliance-link-report.json", required=false) %}
+    {% else %}
+        {% set compliance_score = 0 %}
+        {% set compliance_grade = "—" %}
+        {% set compliance_mood = "attention" %}
+        {% set compliance_pass = 0 %}
+        {% set compliance_warn = 0 %}
+        {% set compliance_fail = 0 %}
+        {% set compliance_categories = [] %}
+        {% set compliance_highlights = [] %}
+        {% set compliance_updated = "" %}
+        {% set compliance_pages = 0 %}
+        {% set compliance_fix_log = [] %}
+        {% set compliance_fix_summary = false %}
+        {% set compliance_link_report = false %}
+    {% endif %}
+
+    {# Load auto-performance-fix engine report #}
+    {% set perf_fix_report = load_data(path="data/auto-performance-fix-report.json", required=false) %}
+    {% if perf_fix_report %}
+        {% if perf_fix_report.status %}{% set perf_fix_status = perf_fix_report.status %}{% else %}{% set perf_fix_status = "pending" %}{% endif %}
+        {% if perf_fix_report.pagespeed_score_mobile %}{% set perf_fix_mobile = perf_fix_report.pagespeed_score_mobile %}{% else %}{% set perf_fix_mobile = 0 %}{% endif %}
+        {% if perf_fix_report.pagespeed_score_desktop %}{% set perf_fix_desktop = perf_fix_report.pagespeed_score_desktop %}{% else %}{% set perf_fix_desktop = 0 %}{% endif %}
+        {% if perf_fix_report.issues_detected %}{% set perf_fix_issues = perf_fix_report.issues_detected %}{% else %}{% set perf_fix_issues = 0 %}{% endif %}
+        {% if perf_fix_report.fixes_applied %}{% set perf_fix_fixes = perf_fix_report.fixes_applied %}{% else %}{% set perf_fix_fixes = 0 %}{% endif %}
+        {% if perf_fix_report.timestamp %}{% set perf_fix_timestamp = perf_fix_report.timestamp %}{% else %}{% set perf_fix_timestamp = "" %}{% endif %}
+        {% if perf_fix_report.ga4_organic %}{% set perf_fix_ga_organic = perf_fix_report.ga4_organic %}{% else %}{% set perf_fix_ga_organic = false %}{% endif %}
+        {% if perf_fix_report.fixes %}{% set perf_fix_changes = perf_fix_report.fixes %}{% else %}{% set perf_fix_changes = [] %}{% endif %}
+    {% else %}
+        {% set perf_fix_status = "no_data" %}
+        {% set perf_fix_mobile = 0 %}
+        {% set perf_fix_desktop = 0 %}
+        {% set perf_fix_issues = 0 %}
+        {% set perf_fix_fixes = 0 %}
+        {% set perf_fix_timestamp = "" %}
+        {% set perf_fix_ga_organic = false %}
+        {% set perf_fix_changes = [] %}
+    {% endif %}
+
+    {% set now_ts = now(timestamp=true) %}
+    {% set week_ago_ts = now_ts - 604800 %}
+
+    {% set total_commits = 0 %}
+    {% if commits %}{% set total_commits = commits | length %}{% endif %}
+
+    <section class="insights">
+        <h1 class="visually-hidden">GitHub Insights — Hoạt động phát triển blog</h1>
+
+        <header class="insights__period">
+            <h2 class="insights__period-range">
+                {{ week_ago_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                – {{ now_ts | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+            </h2>
+            <span class="insights__period-badge">Period: 1 week ▾</span>
+        </header>
+
+        <div class="insights__grid">
+
+            {# ===== LEFT: TIMELINE OF PRs ===== #}
+            <div class="insights__left">
+                <header class="insights__details-head">
+                    <span class="insights__details-icon" aria-hidden="true">⌥</span>
+                    <h3 class="insights__details-title">{{ total_prs }} pull requests merged by 1 person</h3>
+                </header>
+
+                <ol class="insights__timeline" data-insights-timeline aria-label="Pull requests timeline">
+                    {% for item in pr_items %}
+                    <li class="insights__pr" data-timeline-row>
+                        <span class="insights__pr-dot" aria-hidden="true"></span>
+                        <div class="insights__pr-body">
+                            <h4 class="insights__pr-title">
+                                {% if item.pr %}
+                                <a href="https://github.com/Banhang-Chogao/zola/pull/{{ item.pr }}"
+                                   target="_blank" rel="noopener">{{ item.title }}</a>
+                                {% else %}
+                                {{ item.title }}
+                                {% endif %}
+                            </h4>
+                            <p class="insights__pr-meta">
+                                {% if item.pr %}<span class="insights__pr-num">#{{ item.pr }}</span>{% endif %}
+                                merged
+                                <time datetime="{{ item.date }}">{{ dt::display_datetime(value=item.date) }}</time>
+                            </p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ol>
+
+                <nav class="insights__timeline-pager" data-timeline-pager hidden aria-label="Timeline pagination">
+                    <button type="button" class="insights__timeline-pager-btn" data-timeline-prev disabled>
+                        ← Prev
+                    </button>
+                    <span class="insights__timeline-pager-info" data-timeline-page-info aria-live="polite">
+                        Trang 1 / 1
+                    </span>
+                    <button type="button" class="insights__timeline-pager-btn" data-timeline-next>
+                        Next →
+                    </button>
+                </nav>
+            </div>
+
+            {# ===== RIGHT: OVERVIEW STATS ===== #}
+            <div class="insights__right">
+
+                <header class="insights__right-header">
+                    <h3 class="insights__overview-title">Overview</h3>
+                    <a class="insights__source"
+                       href="https://github.com/Banhang-Chogao/zola/pulse?period=weekly"
+                       target="_blank" rel="noopener"
+                       title="Xem trực tiếp trên GitHub Pulse">
+                        Nguồn : Github Pulse <span aria-hidden="true">↗</span>
+                    </a>
+                </header>
+
+                {# Active bar — 2 thanh PRs (tím full) vs Issues (xám empty) #}
+                <div class="insights__active">
+                    <div class="insights__active-bars">
+                        <div class="insights__bar insights__bar--prs" style="width: 100%"></div>
+                        <div class="insights__bar insights__bar--issues" style="width: 100%"></div>
+                    </div>
+                    <div class="insights__active-labels">
+                        <span class="insights__active-label">
+                            <strong>{{ total_prs }}</strong> Active pull requests
+                        </span>
+                        <span class="insights__active-label">
+                            <strong>0</strong> Active issues
+                        </span>
+                    </div>
+                </div>
+
+                {# 4 stat cards với icon SVG #}
+                <div class="insights__stats-grid">
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#8957e5;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">{{ total_prs }}</div>
+                        <div class="insights__stat-label">Merged pull requests</div>
+                    </div>
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#2da44e;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M1.643 3.143 1.5 4.357v7.286A2.857 2.857 0 0 0 4.357 14.5h7.286A2.857 2.857 0 0 0 14.5 11.643V4.357A2.857 2.857 0 0 0 11.643 1.5H4.357A2.857 2.857 0 0 0 1.5 4.357l.143-1.214Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">0</div>
+                        <div class="insights__stat-label">Open pull requests</div>
+                    </div>
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#8957e5;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M11.28 6.78a.75.75 0 0 0-1.06-1.06L7.25 8.69 5.78 7.22a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0l3.5-3.5Z"/>
+                                <path d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm7-5.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">0</div>
+                        <div class="insights__stat-label">Closed issues</div>
+                    </div>
+                    <div class="insights__stat">
+                        <div class="insights__stat-icon" style="color:#2da44e;" aria-hidden="true">
+                            <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/>
+                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/>
+                            </svg>
+                        </div>
+                        <div class="insights__stat-num">0</div>
+                        <div class="insights__stat-label">New issues</div>
+                    </div>
+                </div>
+
+                {# ===== COMPLIANCE SCORE (trong Overview) ===== #}
+                <div class="insights__compliance insights__compliance--{{ compliance_mood }}">
+                    <header class="insights__compliance-head">
+                        <h4 class="insights__compliance-title">Compliance Score</h4>
+                        {% if compliance_pages > 0 %}
+                        <span class="insights__compliance-meta">{{ compliance_pages }} pages</span>
+                        {% endif %}
+                    </header>
+
+                    {% if compliance_data %}
+                    <div class="insights__compliance-body">
+                        <div class="insights__compliance-ring-wrap"
+                             style="--compliance-pct: {{ compliance_score }};">
+                            <div class="insights__compliance-ring" aria-hidden="true">
+                                <div class="insights__compliance-ring-inner">
+                                    <span class="insights__compliance-value">{{ compliance_score }}</span>
+                                    <span class="insights__compliance-grade">{{ compliance_grade }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="insights__compliance-side">
+                            <ul class="insights__compliance-stats" aria-label="Check summary">
+                                <li class="insights__compliance-stat insights__compliance-stat--pass">
+                                    <span class="insights__compliance-stat-num">{{ compliance_pass }}</span>
+                                    <span class="insights__compliance-stat-label">Pass</span>
+                                </li>
+                                <li class="insights__compliance-stat insights__compliance-stat--warn">
+                                    <span class="insights__compliance-stat-num">{{ compliance_warn }}</span>
+                                    <span class="insights__compliance-stat-label">Review</span>
+                                </li>
+                                <li class="insights__compliance-stat insights__compliance-stat--fail">
+                                    <span class="insights__compliance-stat-num">{{ compliance_fail }}</span>
+                                    <span class="insights__compliance-stat-label">Fix</span>
+                                </li>
+                            </ul>
+
+                            {% if compliance_categories | length > 0 %}
+                            <ul class="insights__compliance-cats" aria-label="Category scores">
+                                {% for cat in compliance_categories %}
+                                <li class="insights__compliance-cat">
+                                    <div class="insights__compliance-cat-head">
+                                        <span class="insights__compliance-cat-label">{{ cat.label }}</span>
+                                        <span class="insights__compliance-cat-score">{{ cat.score }}</span>
+                                    </div>
+                                    <div class="insights__compliance-cat-bar" aria-hidden="true">
+                                        <div class="insights__compliance-cat-fill"
+                                             style="width: {{ cat.score }}%;"></div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if compliance_highlights | length > 0 %}
+                    <ul class="insights__compliance-notes" aria-label="Recent signals">
+                        {% for note in compliance_highlights %}
+                        {% if loop.index0 < 4 %}
+                        <li class="insights__compliance-note insights__compliance-note--{{ note.type }}">
+                            <span class="insights__compliance-note-dot" aria-hidden="true"></span>
+                            {{ note.text }}
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {% if compliance_link_report and compliance_link_report.links | length > 0 %}
+                    <div class="insights__compliance-links" aria-label="Broken internal links">
+                        <p class="insights__compliance-fixes-title">Broken internal links</p>
+                        <ul class="insights__compliance-fix-list">
+                            {% for lk in compliance_link_report.links %}
+                            {% if loop.index0 < 5 %}
+                            <li class="insights__compliance-fix-item insights__compliance-fix-item--failed">
+                                <span class="insights__compliance-fix-badge">broken</span>
+                                <span class="insights__compliance-fix-text">
+                                    <strong>{{ lk.source_file | default(value=lk.source_page) }}</strong><br>
+                                    Target: <code>{{ lk.target }}</code><br>
+                                    Reason: {{ lk.reason | default(value="404 Not Found") }}
+                                </span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% elif compliance_link_report and compliance_link_report.summary.broken_count == 0 %}
+                    <p class="insights__compliance-links-ok">No broken internal links found</p>
+                    {% endif %}
+
+                    {% if compliance_fix_log | length > 0 %}
+                    <div class="insights__compliance-fixes" aria-label="Auto-fix log">
+                        <p class="insights__compliance-fixes-title">Auto-fix (ưu tiên thấp)</p>
+                        {% if compliance_fix_summary %}
+                        <p class="insights__compliance-fixes-meta">
+                            {{ compliance_fix_summary.fixed }} đã sửa ·
+                            {{ compliance_fix_summary.failed }} autofix miss ·
+                            {{ compliance_fix_summary.skipped }} bỏ qua
+                        </p>
+                        {% endif %}
+                        <ul class="insights__compliance-fix-list">
+                            {% for fx in compliance_fix_log %}
+                            {% if fx.outcome == "failed" or fx.outcome == "fixed" %}
+                            <li class="insights__compliance-fix-item insights__compliance-fix-item--{{ fx.outcome }}">
+                                <span class="insights__compliance-fix-badge">
+                                    {% if fx.outcome == "failed" %}autofix{% else %}{{ fx.outcome }}{% endif %}
+                                </span>
+                                <span class="insights__compliance-fix-text">
+                                    <strong>{{ fx.category }}: {{ fx.label }}</strong>
+                                    (check: {{ fx.check_status | default(value="warn") }}) —
+                                    {{ fx.message }}
+                                </span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if compliance_updated %}
+                    <footer class="insights__compliance-foot">
+                        <time datetime="{{ compliance_updated }}">
+                            Cập nhật {{ dt::display_datetime(value=compliance_updated) }}
+                        </time>
+                    </footer>
+                    {% endif %}
+                    {% else %}
+                    <p class="insights__compliance-empty">
+                        Chưa có dữ liệu. Workflow
+                        <code>compliance-score.yml</code> sẽ cập nhật sau lần audit tiếp theo.
+                    </p>
+                    {% endif %}
+                </div>
+
+                <div class="insights__bottom">
+                    {# Summary card #}
+                    <div class="insights__card">
+                        <h4 class="insights__card-title">Summary</h4>
+                        <p class="insights__summary-text">
+                            Excluding merges, <strong>1 author</strong> đã push
+                            <strong>{{ total_commits }} commits</strong> lên
+                            <code>main</code> và toàn bộ branches.
+                        </p>
+                        <p class="insights__summary-text">
+                            Trên <code>main</code>, đã có <strong>{{ total_prs }} PR</strong>
+                            merged trong khoảng thời gian này.
+                        </p>
+                    </div>
+
+                    {# Top Committers — simple CSS bar chart #}
+                    <div class="insights__card">
+                        <h4 class="insights__card-title">Top Committers</h4>
+                        <ol class="insights__committers">
+                            <li class="insights__committer">
+                                <span class="insights__committer-avatar"
+                                      style="background:linear-gradient(135deg,#d63d3d,#b91c1c);">D</span>
+                                <div class="insights__committer-bar-wrap">
+                                    <div class="insights__committer-name">Banhang-Chogao</div>
+                                    <div class="insights__committer-bar">
+                                        <div class="insights__committer-fill" style="width:100%;"></div>
+                                    </div>
+                                </div>
+                                <span class="insights__committer-count">{{ total_prs }}</span>
+                            </li>
+                            <li class="insights__committer">
+                                <span class="insights__committer-avatar"
+                                      style="background:linear-gradient(135deg,#475569,#1e293b);">🤖</span>
+                                <div class="insights__committer-bar-wrap">
+                                    <div class="insights__committer-name">github-actions[bot]</div>
+                                    <div class="insights__committer-bar">
+                                        <div class="insights__committer-fill" style="width:35%;"></div>
+                                    </div>
+                                </div>
+                                <span class="insights__committer-count">{{ total_prs }}</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                {# ===== BUILD DASHBOARD (dưới Overview, cột phải) ===== #}
+                <div class="insights__build">
+                    <header class="insights__build-head">
+                        <h3 class="insights__build-title">Build Dashboard</h3>
+                        <span class="insights__build-meta">
+                            {{ build_success }} thành công · {{ build_failure }} thất bại
+                            {%- if build_cancelled > 0 %} · {{ build_cancelled }} đã huỷ{% endif -%}
+                            {%- if build_in_progress > 0 %} · {{ build_in_progress }} đang chạy{% endif -%}
+                            · quét mỗi {{ build_cadence }} phút
+                        </span>
+                    </header>
+
+                    {% if build_fetch_error %}
+                    <p class="insights__build-warn" role="status">
+                        ⚠ Không quét được GitHub Actions lúc này — hiển thị dữ liệu cache gần nhất.
+                        {% if build_fetch_error_at %}
+                        <time datetime="{{ build_fetch_error_at }}">({{ dt::display_datetime(value=build_fetch_error_at) }})</time>
+                        {% endif %}
+                    </p>
+                    {% endif %}
+
+                    {% if build_latest | length > 0 %}
+                    <div class="insights__build-latest" aria-label="Trạng thái deploy/QA mới nhất">
+                        {% for wf in build_latest %}
+                        {% set wf_norm = wf.status_normalized | default(value="unknown") %}
+                        <div class="insights__build-latest-item insights__build-latest-item--{{ wf_norm }}">
+                            <span class="insights__build-latest-label">
+                                {% if wf.workflow_file == "deploy.yml" %}Deploy{% elif wf.workflow_file == "qa.yml" %}QA{% else %}{{ wf.workflow_file }}{% endif %}
+                            </span>
+                            <span class="insights__build-badge insights__build-badge--{{ wf_norm }}">
+                                {{ wf.status_vi | default(value=wf_norm) }}
+                            </span>
+                            {% if wf.run_number %}
+                            <span class="insights__build-num">#{{ wf.run_number }}</span>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if build_history | length > 0 %}
+                    {% set hist_count = build_history | length %}
+                    <div class="insights__build-trend" aria-label="Xu hướng trạng thái theo thời gian">
+                        <h4 class="insights__build-trend-title">Trend ({{ hist_count }} mốc)</h4>
+                        <div class="insights__build-trend-bars">
+                            {% for point in build_history %}
+                            {% if loop.index > hist_count - 24 %}
+                            {% set pt_in_prog = point.stats.in_progress | default(value=0) %}
+                            {% set pt_fail = point.stats.failure | default(value=0) %}
+                            {% set trend_class = "ok" %}
+                            {% if pt_fail > 0 %}{% set trend_class = "fail" %}
+                            {% elif pt_in_prog > 0 %}{% set trend_class = "run" %}{% endif %}
+                            <span class="insights__build-trend-bar insights__build-trend-bar--{{ trend_class }}"
+                                  title="{{ point.recorded_at }} · {{ point.type | default(value='snapshot') }}">
+                            </span>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="insights__build-trend-legend">
+                            <span>■</span> ổn định
+                            <span class="insights__build-trend-legend--run">■</span> đang chạy
+                            <span class="insights__build-trend-legend--fail">■</span> lỗi
+                        </p>
+                    </div>
+
+                    <ol class="insights__build-history" aria-label="Timeline snapshot mỗi 5 phút">
+                        {% for point in build_history %}
+                        {% if loop.index > hist_count - 8 %}
+                        <li class="insights__build-history-item insights__build-history-item--{{ point.type | default(value='change') }}">
+                            <time class="insights__build-history-time" datetime="{{ point.recorded_at }}">
+                                {{ dt::display_datetime(value=point.recorded_at) }}
+                            </time>
+                            <span class="insights__build-history-type">{{ point.type | default(value="change") }}</span>
+                            <span class="insights__build-history-stats">
+                                {{ point.stats.success | default(value=0) }}✓
+                                {{ point.stats.failure | default(value=0) }}✗
+                                {{ point.stats.in_progress | default(value=0) }}…
+                            </span>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ol>
+                    {% endif %}
+
+                    {% if build_items | length > 0 %}
+                    <ol class="insights__build-list" aria-label="Lịch sử build GitHub Actions">
+                        {% for build in build_items %}
+                        {% set build_norm = build.status_normalized | default(value=build.conclusion) %}
+                        {% if build_norm == "failure" %}{% set build_norm = "failed" %}{% endif %}
+                        <li class="insights__build-item insights__build-item--{{ build_norm }}">
+                            <div class="insights__build-status" aria-hidden="true">
+                                {% if build_norm == "success" %}✓
+                                {% elif build_norm == "failed" %}✗
+                                {% elif build_norm == "cancelled" %}⊘
+                                {% elif build_norm == "skipped" %}–
+                                {% elif build_norm == "in_progress" %}…
+                                {% else %}?{% endif %}
+                            </div>
+                            <div class="insights__build-body">
+                                <p class="insights__build-summary">{{ build.summary_vi }}</p>
+                                <p class="insights__build-row">
+                                    {% if build.commit_short %}
+                                    <a class="insights__build-commit"
+                                       href="{{ build.commit_url }}"
+                                       target="_blank" rel="noopener"
+                                       title="Commit {{ build.commit_id }}">
+                                        {{ build.commit_short }}
+                                    </a>
+                                    {% endif %}
+                                    <span class="insights__build-num">#{{ build.run_number }}</span>
+                                    <span class="insights__build-badge insights__build-badge--{{ build_norm }}">
+                                        {{ build.status_vi }}
+                                    </span>
+                                    {% if build.conclusion %}
+                                    <span class="insights__build-raw"
+                                          title="GitHub conclusion thô">
+                                        {{ build.conclusion }}
+                                    </span>
+                                    {% endif %}
+                                </p>
+                                {% if build.cause_vi %}
+                                <p class="insights__build-cause">{{ build.cause_vi }}</p>
+                                {% endif %}
+                                {% if build.run_url %}
+                                <a class="insights__build-link"
+                                   href="{{ build.run_url }}"
+                                   target="_blank" rel="noopener">
+                                    Xem run trên GitHub <span aria-hidden="true">↗</span>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p class="insights__build-empty">
+                        Chưa có dữ liệu build. Workflow
+                        <code>build-dashboard.yml</code> sẽ cập nhật sau lần deploy tiếp theo.
+                    </p>
+                    {% endif %}
+
+                    <footer class="insights__build-foot">
+                        <a class="insights__source"
+                           href="{{ build_source }}/actions"
+                           target="_blank" rel="noopener"
+                           title="Xem GitHub Actions">
+                            Nguồn : {{ build_source }}
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                        {% if build_updated %}
+                        <time class="insights__build-updated" datetime="{{ build_updated }}">
+                            Cập nhật {{ dt::display_datetime(value=build_updated) }}
+                        </time>
+                        {% endif %}
+                    </footer>
+                </div>
+
+                {# ===== AUTO PERFORMANCE FIX ENGINE ===== #}
+                <div class="insights__build insights__perf-fix">
+                    <header class="insights__build-head">
+                        <h3 class="insights__build-title">🚀 Performance Fix Engine</h3>
+                        <span class="insights__build-meta">
+                            Mobile {{ perf_fix_mobile }}/100 · Desktop {{ perf_fix_desktop }}/100
+                        </span>
+                    </header>
+
+                    {% if perf_fix_status != "no_data" %}
+                        <div class="insights__perf-fix-metrics">
+                            <div class="insights__perf-fix-metric">
+                                <span class="insights__perf-fix-metric-label">Issues Detected</span>
+                                <span class="insights__perf-fix-metric-value">{{ perf_fix_issues }}</span>
+                            </div>
+                            <div class="insights__perf-fix-metric">
+                                <span class="insights__perf-fix-metric-label">Fixes Applied</span>
+                                <span class="insights__perf-fix-metric-value insights__perf-fix-metric-value--success">{{ perf_fix_fixes }}</span>
+                            </div>
+                            {% if perf_fix_ga_organic and perf_fix_ga_organic.users > 0 %}
+                            <div class="insights__perf-fix-metric">
+                                <span class="insights__perf-fix-metric-label">Organic (7d)</span>
+                                <span class="insights__perf-fix-metric-value">{{ perf_fix_ga_organic.users }} users</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if perf_fix_changes | length > 0 %}
+                        <ol class="insights__perf-fix-changes" aria-label="Applied fixes">
+                            {% for change in perf_fix_changes %}
+                            <li class="insights__perf-fix-change">
+                                <span class="insights__perf-fix-change-type">{{ change.type }}</span>
+                                <span class="insights__perf-fix-change-msg">{{ change.message }}</span>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                        {% endif %}
+
+                        <div class="insights__perf-fix-scores">
+                            <div class="insights__perf-fix-score">
+                                <span class="insights__perf-fix-score-label">Mobile</span>
+                                <div class="insights__perf-fix-score-bar">
+                                    <div class="insights__perf-fix-score-fill" style="width: {{ perf_fix_mobile }}%;"></div>
+                                </div>
+                                <span class="insights__perf-fix-score-value">{{ perf_fix_mobile }}</span>
+                            </div>
+                            <div class="insights__perf-fix-score">
+                                <span class="insights__perf-fix-score-label">Desktop</span>
+                                <div class="insights__perf-fix-score-bar">
+                                    <div class="insights__perf-fix-score-fill" style="width: {{ perf_fix_desktop }}%;"></div>
+                                </div>
+                                <span class="insights__perf-fix-score-value">{{ perf_fix_desktop }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="insights__build-empty">
+                            Workflow <code>auto-performance-fix.yml</code> sẽ cập nhật
+                            sau lần chạy đầu tiên (schedule hằng ngày 03:00 UTC).
+                        </p>
+                    {% endif %}
+
+                    <footer class="insights__build-foot">
+                        <a class="insights__source"
+                           href="https://github.com/Banhang-Chogao/zola/actions/workflows/auto-performance-fix.yml"
+                           target="_blank" rel="noopener">
+                            Workflow : auto-performance-fix.yml
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                        {% if perf_fix_timestamp %}
+                        <time datetime="{{ perf_fix_timestamp }}">Cập nhật {{ dt::display_datetime(value=perf_fix_timestamp) }}</time>
+                        {% endif %}
+                    </footer>
+                </div>
+
+                {# ===== AUTHORITY REPORT ===== #}
+                <article class="insights__report-card insights__report-card--v2">
+                    <div class="insights__report-head">
+                        <span class="insights__report-icon" aria-hidden="true">🛡️</span>
+                        <div class="insights__report-titles">
+                            <h3 class="insights__report-title">Authority Report</h3>
+                            <p class="insights__report-desc">Trust Score, topical authority, gaps, forecast — Authority Booster daily 06:00.</p>
+                        </div>
+                    </div>
+                    <div class="insights__report-badges">
+                        <span class="insights__report-badge insights__report-badge--score">Trust {{ auth_trust }}</span>
+                        <span class="insights__report-badge">#{{ auth_num }}</span>
+                        <span class="insights__report-badge">{{ auth_label }}</span>
+                        {% if auth_orphans > 0 %}
+                        <span class="insights__report-badge insights__report-badge--warn">{{ auth_orphans }} orphans</span>
+                        {% endif %}
+                    </div>
+                    <footer class="insights__report-foot">
+                        {% if auth_updated %}
+                        <time datetime="{{ auth_updated }}">Cập nhật {{ dt::display_datetime(value=auth_updated) }}</time>
+                        {% endif %}
+                    </footer>
+                </article>
+
+                {# ===== AD-REPORT (V1) ===== #}
+                <article class="insights__report-card insights__report-card--v1">
+                    <div class="insights__report-head">
+                        <span class="insights__report-icon" aria-hidden="true">📊</span>
+                        <div class="insights__report-titles">
+                            <h3 class="insights__report-title">Ad-Report</h3>
+                            <p class="insights__report-desc">Báo cáo vị trí AdSense + tổng hợp tính năng phiên 18–19/06.</p>
+                        </div>
+                    </div>
+                    <div class="insights__report-badges">
+                        <span class="insights__report-badge insights__report-badge--live">LIVE</span>
+                        <span class="insights__report-badge">2 slots</span>
+                        <span class="insights__report-badge insights__report-badge--warn">placeholder</span>
+                    </div>
+                    <footer class="insights__report-foot">
+                        <span>Archive: <code>reports/adsense-ad-placement-report.md</code></span>
+                    </footer>
+                </article>
+
+                {# ===== AD-REPORT V2 ===== #}
+                <article class="insights__report-card insights__report-card--v2">
+                    <div class="insights__report-head">
+                        <span class="insights__report-icon" aria-hidden="true">🔥</span>
+                        <div class="insights__report-titles">
+                            <h3 class="insights__report-title">Ad-Report V2</h3>
+                            <p class="insights__report-desc">Deep UI/UX + phân tích RPM, ad density, top 50 candidates — auto daily 06:00.</p>
+                        </div>
+                    </div>
+                    <div class="insights__report-badges">
+                        <span class="insights__report-badge insights__report-badge--score">Score {{ ad_v2_score }}</span>
+                        <span class="insights__report-badge">#{{ ad_v2_num }}</span>
+                        <span class="insights__report-badge">{{ ad_v2_grade }} UX</span>
+                        <span class="insights__report-badge">{{ ad_v2_candidates }} candidates</span>
+                        {% if ad_v2_density == "too_sparse" %}
+                        <span class="insights__report-badge insights__report-badge--warn">sparse ads</span>
+                        {% endif %}
+                    </div>
+                    <footer class="insights__report-foot">
+                        <span>Density: <strong>{{ ad_v2_density }}</strong></span>
+                        {% if ad_v2_updated %}
+                        <time datetime="{{ ad_v2_updated }}">Cập nhật {{ dt::display_datetime(value=ad_v2_updated) }}</time>
+                        {% endif %}
+                    </footer>
+                </article>
+
+                {# ===== AUTO-MERGE REPORT ===== #}
+                <div class="insights__build insights__merge">
+                    <header class="insights__build-head">
+                        <h3 class="insights__build-title">Auto-Merge Report</h3>
+                        <span class="insights__build-meta">
+                            {{ merge_total }} merge · {{ merge_today }} hôm nay
+                        </span>
+                    </header>
+
+                    {% if merge_items | length > 0 %}
+                    <ol class="insights__build-list" aria-label="Lịch sử auto-merge">
+                        {% for m in merge_items %}
+                        {% if loop.index <= 12 %}
+                        <li class="insights__build-item insights__build-item--ok">
+                            <div class="insights__build-status" aria-hidden="true">⊕</div>
+                            <div class="insights__build-body">
+                                <p class="insights__build-summary">
+                                    <a href="{{ m.pr_url }}" target="_blank" rel="noopener">#{{ m.pr_number }}</a>
+                                    {{ m.pr_title }}
+                                </p>
+                                <p class="insights__build-row">
+                                    <span class="insights__build-badge insights__build-badge--ok">{{ m.change_type }}</span>
+                                    {% if m.merge_commit_short %}
+                                    <span class="insights__build-num">{{ m.merge_commit_short }}</span>
+                                    {% endif %}
+                                    {% if m.build_run_number %}
+                                    <span class="insights__build-num">build #{{ m.build_run_number }}</span>
+                                    {% endif %}
+                                </p>
+                                {% if m.summary_vi %}
+                                <p class="insights__build-cause">{{ m.summary_vi }}</p>
+                                {% endif %}
+                                {% if m.merged_at %}
+                                <time class="insights__build-updated" datetime="{{ m.merged_at }}">{{ dt::display_datetime(value=m.merged_at) }}</time>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p class="insights__build-empty">
+                        Chưa có merge nào sau ngày bật auto-merge.
+                        Workflow <code>merge-report.yml</code> sẽ ghi lại từ đây.
+                    </p>
+                    {% endif %}
+
+                    <footer class="insights__build-foot">
+                        <a class="insights__source"
+                           href="{{ merge_source }}/pulls?q=is%3Apr+is%3Amerged"
+                           target="_blank" rel="noopener">
+                            Nguồn : {{ merge_source }}
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                        {% if merge_updated %}
+                        <time class="insights__build-updated" datetime="{{ merge_updated }}">
+                            Cập nhật {{ dt::display_datetime(value=merge_updated) }}
+                        </time>
+                        {% endif %}
+                    </footer>
+                </div>
+
+                {# ===== QA DOMAIN SELECTOR (gợi ý tên miền) ===== #}
+                {% set domain_data = load_data(path="data/qa-domain-selector-report.json", required=false) %}
+                {% if domain_data %}
+                {% if domain_data.top5 %}{% set domain_items = domain_data.top5 %}{% else %}{% set domain_items = [] %}{% endif %}
+                <div class="insights__domains">
+                    <header class="insights__domains-head">
+                        <h3 class="insights__domains-title">Domain Selector</h3>
+                        <span class="insights__domains-meta">
+                            {{ domain_data.candidate_count | default(value=0) }} ứng viên ·
+                            {{ domain_data.checked_count | default(value=0) }} đã kiểm tra ·
+                            {% if domain_data.method == "api" %}API{% elif domain_data.method == "offline" %}offline{% else %}DNS fallback{% endif %}
+                        </span>
+                    </header>
+
+                    {% if domain_data.niche_summary %}
+                    <p class="insights__domains-niche">{{ domain_data.niche_summary }}</p>
+                    {% endif %}
+
+                    {% if domain_items | length > 0 %}
+                    <ol class="insights__domains-list" aria-label="Top tên miền gợi ý">
+                        {% for d in domain_items %}
+                        <li class="insights__domains-item">
+                            <div class="insights__domains-row">
+                                <span class="insights__domains-name">{{ d.domain }}</span>
+                                <span class="insights__domains-score">{{ d.total_score }}<small>/100</small></span>
+                                <span class="insights__domains-badge insights__domains-badge--{{ d.availability }}">
+                                    {% if d.availability == "available" %}có thể trống
+                                    {%- elif d.availability == "taken" %}đã đăng ký
+                                    {%- else %}chưa rõ{% endif %}
+                                </span>
+                            </div>
+                            <p class="insights__domains-reason">{{ d.reason }}</p>
+                        </li>
+                        {% endfor %}
+                    </ol>
+                    {% else %}
+                    <p class="insights__domains-empty">Chưa có gợi ý tên miền.</p>
+                    {% endif %}
+
+                    {% if domain_data.note %}
+                    <p class="insights__domains-note">{{ domain_data.note }}</p>
+                    {% endif %}
+
+                    {% if domain_data.generated_at %}
+                    <footer class="insights__domains-foot">
+                        <span class="insights__domains-src">
+                            Nguồn : <code>qa-domain-selector.py</code> · cron 2h
+                        </span>
+                        <time class="insights__domains-updated" datetime="{{ domain_data.generated_at }}">
+                            Cập nhật {{ domain_data.generated_at | date(format="%H:%M:%S %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                        </time>
+                    </footer>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {# Vaccine Autofixer UI consolidated into the full-width
+                   `.vaccine-panel` section below (single source — no duplicate). #}
+
+            </div>
+        </div>
+
+        {# ===== Daily Vaccine Autofixer (Vaccine V11) ===== #}
+        {% set vaccine = load_data(path="data/vaccine-autofixer-report.json", required=false) %}
+        {% set vaccine_state = load_data(path="data/vaccine-autofixer-state.json", required=false) %}
+        <section class="vaccine-panel" aria-labelledby="vaccine-panel-title">
+            <div class="vaccine-panel__head">
+                <h2 class="vaccine-panel__title" id="vaccine-panel-title">🧪 Daily Vaccine Autofixer</h2>
+                {% if vaccine_state and vaccine_state.running %}
+                    <span class="vaccine-chip vaccine-chip--warn">Đang chạy…</span>
+                {% endif %}
+                <a class="vaccine-panel__run-btn"
+                   href="https://github.com/Banhang-Chogao/zola/actions/workflows/vaccine-autofixer.yml"
+                   target="_blank" rel="noopener"
+                   title="Mở GitHub Actions → Run workflow (vacxin11)">▶ Run Daily Vaccine Autofixer</a>
+            </div>
+
+            {% if vaccine %}
+            <div class="vaccine-panel__meta">
+                <span>Last run: <strong>
+                    {% if vaccine.last_run %}{{ vaccine.last_run | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}—{% endif %}
+                </strong></span>
+                <span>Next scheduled: <strong>
+                    {% if vaccine.next_scheduled_run %}{{ vaccine.next_scheduled_run | date(format="%H:%M %d/%m/%Y", timezone="Asia/Ho_Chi_Minh") }}{% else %}06:00 hằng ngày{% endif %}
+                </strong></span>
+                <span>Trigger: <strong>{{ vaccine.trigger | default(value="—") }}</strong></span>
+                <span>Vaccine library: <strong>{{ vaccine.vaccine_library_count | default(value=0) }}</strong></span>
+                <span>Đã fix: <strong>{{ vaccine.fixed_count | default(value=0) }}</strong></span>
+            </div>
+
+            <div class="vaccine-panel__chips">
+                {% if vaccine.status == "ok" %}
+                    <span class="vaccine-chip vaccine-chip--ok">✓ {{ vaccine.status }}</span>
+                {% elif vaccine.status == "dry-run" %}
+                    <span class="vaccine-chip vaccine-chip--idle">{{ vaccine.status }}</span>
+                {% else %}
+                    <span class="vaccine-chip vaccine-chip--fail">✗ {{ vaccine.status }}</span>
+                {% endif %}
+                {% if vaccine.qa_result %}
+                    <span class="vaccine-chip vaccine-chip--{% if vaccine.qa_result.passed %}ok{% else %}fail{% endif %}">QA: {% if vaccine.qa_result.passed %}pass{% else %}fail{% endif %}</span>
+                {% endif %}
+                {% if vaccine.build_result %}
+                    <span class="vaccine-chip vaccine-chip--{% if vaccine.build_result.passed %}ok{% else %}fail{% endif %}">Build: {% if vaccine.build_result.passed %}pass{% else %}fail{% endif %}</span>
+                {% endif %}
+                <span class="vaccine-chip vaccine-chip--{% if vaccine.production_status == 'up-to-date' %}ok{% else %}warn{% endif %}">Prod: {{ vaccine.production_status | default(value="—") }}</span>
+            </div>
+
+            {% if vaccine.matched_vaccines and vaccine.matched_vaccines | length > 0 %}
+            <p class="vaccine-panel__meta" style="margin-top:.9rem;margin-bottom:.4rem;">Vaccine khớp lần chạy này:</p>
+            <div class="vaccine-panel__chips">
+                {% for mv in vaccine.matched_vaccines %}
+                    <span class="vaccine-chip vaccine-chip--{% if mv.fixed %}fixed{% else %}warn{% endif %}" title="{{ mv.detail }}">
+                        {{ mv.code }} · {{ mv.name }}{% if mv.fixed %} ✓{% endif %}
+                    </span>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="vaccine-panel__empty" style="margin-top:.6rem;">Lần chạy gần nhất: không phát hiện vaccine-class issue nào cần fix. 🟢</p>
+            {% endif %}
+            {% else %}
+            <p class="vaccine-panel__empty">Chưa có báo cáo. Chạy <code>vacxin11</code> hoặc đợi lịch 06:00 (GMT+7) để sinh báo cáo đầu tiên.</p>
+            {% endif %}
+        </section>
+
+        {{ github_activity::widget() }}
+    </section>
+{% endblock main %}
+
+{% block extra_scripts %}
+<script src="{{ get_url(path='js/github-activity.js') }}" defer></script>
+<script src="{{ get_url(path='js/insights-timeline.js') }}" defer></script>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

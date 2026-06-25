@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% import "macros/verified.html" as v %}
+
+{% block title %}Du lịch — Tin từ VnExpress | {{ config.title }}{% endblock %}
+{% block description %}Tin tức Du lịch mới nhất từ VnExpress — cache 30 phút, refresh tự động.{% endblock %}
+
+{% block main %}
+    <section class="du-lich">
+        <header class="du-lich__header">
+            <h1 class="du-lich__title">
+                <span class="du-lich__icon" aria-hidden="true">✈️</span>
+                Tin tức Du lịch từ <span class="du-lich__source">VnExpress{{ v::badge() }}</span>
+            </h1>
+            <p class="du-lich__sub">
+                10 bài viết mới nhất từ chuyên mục Du lịch của VnExpress.
+                Cache 30 phút, cập nhật tự động.
+            </p>
+        </header>
+
+        {# Loading state — JS swap khi data arrived #}
+        <div class="du-lich__status" data-status>
+            <div class="du-lich__skeleton" aria-hidden="true">
+                {% for i in [1,2,3,4] %}
+                <div class="du-lich-card du-lich-card--skeleton">
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--title"></div>
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--meta"></div>
+                    <div class="du-lich-card__skeleton-bar du-lich-card__skeleton-bar--summary"></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# List cards — populated by JS #}
+        <div class="du-lich__list" data-list hidden></div>
+
+        {# Error state — message dynamic theo nguồn (JS điền data-source) #}
+        <div class="du-lich__error" data-error hidden role="alert">
+            <span class="du-lich__error-icon" aria-hidden="true">📡</span>
+            <div>
+                <strong data-error-title>Tạm thời không lấy được tin từ nguồn</strong>
+                <p data-error-detail>
+                    Backend có thể đang khởi động (free tier sleep ~30s), hoặc nguồn
+                    đang block scraper. Thử tải lại sau vài phút.
+                </p>
+            </div>
+        </div>
+
+        {# Footer info — show cache status + retry button #}
+        <footer class="du-lich__footer" data-footer hidden>
+            <span class="du-lich__cache-info" data-cache-info></span>
+            <button type="button" class="editor-btn editor-btn--ghost editor-btn--small" data-reload>↻ Tải lại</button>
+        </footer>
+    </section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
+    <script src="{{ get_url(path='js/du-lich.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}

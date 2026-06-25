@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}Scoring Card | {{ config.title }}{% endblock %}
+
+{% block main %}
+    {% set scores = load_data(path="data/scores.json", required=false) %}
+    {% if scores %}{% set scores = scores %}{% else %}{% set scores = [] %}{% endif %}
+    {% set total = scores | length %}
+
+    <section class="scoring">
+        <header class="scoring__head">
+            <div class="scoring__title-row">
+                <h1 class="scoring__title">SCORING CARD</h1>
+                <span class="scoring__count">{{ total }} bài</span>
+            </div>
+            <p class="scoring__desc">
+                Topic-aware semantic score: <code>sentence-transformers</code> +
+                cosine similarity, ưu tiên related cùng cluster (Du lịch, Ẩm thực,
+                Công nghệ, Tài chính…). Score ≥70 = xanh. QA tự chạy 22:00 giờ VN.
+            </p>
+        </header>
+
+        {% if total == 0 %}
+            <div class="scoring__empty">
+                <p>Chưa có dữ liệu score. Chờ workflow
+                <code>Build Semantic Related Posts</code> chạy lần đầu.</p>
+                <p>Trigger manual:
+                <code>gh workflow run build-related.yml</code></p>
+            </div>
+        {% else %}
+            {# ===== CONTROLS: filter time + sort ===== #}
+            <div class="scoring__controls" data-scoring-controls>
+                <div class="scoring__filter">
+                    <span class="scoring__filter-label">Thời gian:</span>
+                    <button type="button" class="scoring__chip scoring__chip--active" data-filter="all">Tất cả</button>
+                    <button type="button" class="scoring__chip" data-filter="7">7 ngày</button>
+                    <button type="button" class="scoring__chip" data-filter="30">30 ngày</button>
+                    <button type="button" class="scoring__chip" data-filter="90">90 ngày</button>
+                </div>
+                <div class="scoring__sort">
+                    <label for="sort-select" class="scoring__sort-label">Sắp xếp:</label>
+                    <select id="sort-select" class="scoring__select" data-sort>
+                        <option value="score-desc">Điểm cao → thấp</option>
+                        <option value="score-asc">Điểm thấp → cao</option>
+                        <option value="date-desc">Mới nhất → cũ</option>
+                        <option value="date-asc">Cũ nhất → mới</option>
+                        <option value="title-asc">Tiêu đề A → Z</option>
+                    </select>
+                </div>
+            </div>
+
+            {# ===== TABLE ===== #}
+            <div class="scoring__table-wrap">
+                <table class="scoring__table" data-scoring-table>
+                    <thead>
+                        <tr>
+                            <th class="scoring__th scoring__th--rank">#</th>
+                            <th class="scoring__th">Tiêu đề</th>
+                            <th class="scoring__th scoring__th--score">Score</th>
+                            <th class="scoring__th scoring__th--date">Cập nhật</th>
+                            <th class="scoring__th scoring__th--action">Mở</th>
+                        </tr>
+                    </thead>
+                    <tbody data-scoring-tbody>
+                        {% for s in scores %}
+                            {% set pct = s.score * 100 %}
+                            {% set tier = "low" %}
+                            {% if pct >= 70 %}{% set tier = "high" %}
+                            {% elif pct >= 40 %}{% set tier = "mid" %}
+                            {% endif %}
+                            <tr class="scoring__row"
+                                data-score="{{ s.score }}"
+                                data-date="{{ s.date }}"
+                                data-title="{{ s.title }}">
+                                <td class="scoring__td scoring__td--rank">{{ loop.index }}</td>
+                                <td class="scoring__td scoring__td--title">
+                                    {% set sec = s.section | default(value="posting") %}
+                                    <a href="{{ config.base_url }}/{{ sec }}/{{ s.slug }}/" class="scoring__link">
+                                        {{ s.title }}
+                                    </a>
+                                    <span class="scoring__neighbors">
+                                        {{ s.neighbors }} liên quan
+                                        {% if s.cluster_label %} · {{ s.cluster_label }}{% endif %}
+                                    </span>
+                                </td>
+                                <td class="scoring__td scoring__td--score">
+                                    <span class="scoring__badge scoring__badge--{{ tier }}">
+                                        {{ pct | round(precision=1) }}
+                                    </span>
+                                </td>
+                                <td class="scoring__td scoring__td--date">
+                                    {% if s.date %}
+                                        {{ s.date | truncate(length=10, end="") }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+                                <td class="scoring__td scoring__td--action">
+                                    <a href="{{ config.base_url }}/{{ sec }}/{{ s.slug }}/"
+                                       class="scoring__btn" title="Đọc bài">→</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="scoring__empty-filter" data-empty-msg hidden>
+                Không có bài nào trong khoảng thời gian này.
+            </p>
+        {% endif %}
+    </section>
+
+    <script src="{{ get_url(path='js/scoring.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

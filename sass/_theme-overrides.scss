@@ -1,0 +1,774 @@
+/* ============================================================
+   ===== THEME OVERRIDES — full component coverage =====
+   ============================================================
+   Phase 4 (Hybrid refactor từ PR #140):
+   - COLOR tokens dùng var(--c-*) (Phase 1) → auto-update khi
+     toggle theme. KHÔNG hardcode hex per theme block.
+   - NON-COLOR tokens (radius, shadow, kicker-spacing) override
+     per theme qua SCSS mixin (build-time).
+
+   Theme hiện hành: Hilda/Ericsson Professional. Các block legacy vẫn được
+   giữ để build ổn định, nhưng lớp cuối file cưỡng bức UI về Hilda tokens.
+
+   ============================================================
+   Quy tắc CLAUDE.md tuân thủ:
+   - Mọi rule scoped dưới `:root[data-theme="..."]`
+   - KHÔNG sửa `overflow`, `height`, `position`, `display`
+   - Mobile media query (≤720px) tách block riêng cuối file. */
+
+/* ============================================================
+   ===== MIXIN: full component coverage (color = var(--c-*)) =====
+   ============================================================ */
+@mixin theme-overrides(
+  $radius-card,       // card border-radius
+  $radius-tag,        // tag/button border-radius
+  $shadow-card,       // card resting shadow
+  $shadow-card-hover, // card hover shadow
+  $kicker-spacing,    // uppercase label letter-spacing
+  $heading-ls         // letter-spacing cho heading
+) {
+  /* ===== 1. POST CARD GRID (home, category, section list) ===== */
+  .post-card {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-card;
+    box-shadow: $shadow-card;
+
+    &:hover {
+      border-color: var(--c-border-strong);
+      box-shadow: $shadow-card-hover;
+    }
+
+    &__title {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+
+      a {
+        color: inherit;
+        &:hover { color: var(--c-accent); }
+      }
+    }
+
+    &__summary { color: var(--c-text-muted); }
+  }
+
+  /* ===== 2. CATEGORY TAG (badge trên thumbnail) ===== */
+  .cat-tag {
+    background: var(--c-accent);
+    color: var(--c-bg-surface);
+    border-radius: $radius-tag;
+    letter-spacing: $kicker-spacing;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  /* ===== 3. READ-MORE BUTTON (cuối card) ===== */
+  .read-more {
+    background: var(--c-accent);
+    color: var(--c-bg-surface);
+    border-radius: $radius-tag;
+    letter-spacing: $kicker-spacing;
+    border-left-color: var(--c-accent-hover);
+
+    &:hover {
+      background: var(--c-accent-hover);
+      color: var(--c-bg-surface);
+    }
+  }
+
+  /* ===== 4. SIDEBAR (block, label flag, featured, random, cat-list) ===== */
+  .sidebar-block {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-tag;
+    box-shadow: $shadow-card;
+  }
+
+  .sidebar-label {
+    background: var(--c-text-heading);
+    color: var(--c-bg-surface);
+    letter-spacing: $kicker-spacing;
+    font-weight: 700;
+    border-radius: $radius-tag;
+
+    &::after {
+      border-top-color: var(--c-text-heading);
+      border-bottom-color: var(--c-text-heading);
+    }
+  }
+
+  .featured-card__title {
+    color: var(--c-text-heading);
+
+    a {
+      color: inherit;
+      &:hover { color: var(--c-accent); }
+    }
+  }
+
+  .random-item {
+    &__title {
+      color: var(--c-text-heading);
+
+      a {
+        color: inherit;
+        &:hover { color: var(--c-accent); }
+      }
+    }
+
+    &__date { color: var(--c-text-muted); }
+  }
+
+  /* ===== 5. RELATED ARTICLES (cuối mỗi post) ===== */
+  .related-articles__title {
+    background: var(--c-accent);
+    color: var(--c-bg-surface);
+    letter-spacing: $kicker-spacing;
+  }
+
+  .related-articles__head {
+    border-bottom-color: var(--c-accent);
+  }
+
+  .related-card {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-card;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+    &:hover {
+      border-color: var(--c-border-strong);
+      box-shadow: $shadow-card-hover;
+    }
+
+    &__cat {
+      background: var(--c-accent);
+      color: var(--c-bg-surface);
+      border-radius: $radius-tag;
+      letter-spacing: $kicker-spacing;
+    }
+
+    &__title {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+
+      a {
+        color: inherit;
+        &:hover { color: var(--c-accent); }
+      }
+    }
+  }
+
+  /* ===== 6. TAG LIST (cuối article) ===== */
+  .tag-list {
+    &__label {
+      color: var(--c-text-heading);
+      letter-spacing: $kicker-spacing;
+    }
+
+    &__tag {
+      background: var(--c-bg-soft);
+      color: var(--c-text-body);
+      border-radius: $radius-tag;
+
+      &:hover {
+        background: var(--c-accent);
+        color: var(--c-bg-surface);
+      }
+    }
+  }
+
+  /* ===== 7. POST SINGLE (article body) ===== */
+  .post-single {
+    background: var(--c-bg-surface);
+    box-shadow: $shadow-card;
+
+    &__title {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+    }
+
+    &__content {
+      color: var(--c-text-body);
+
+      h2, h3, h4 {
+        color: var(--c-text-heading);
+        letter-spacing: $heading-ls;
+      }
+
+      a {
+        color: var(--c-accent);
+        border-bottom-color: var(--c-accent-soft);
+
+        &:hover {
+          color: var(--c-accent-hover);
+          border-bottom-color: var(--c-accent-hover);
+        }
+      }
+
+      blockquote {
+        border-left-color: var(--c-accent);
+        color: var(--c-text-muted);
+      }
+
+      p code, li code { background: var(--c-bg-soft); }
+
+      table {
+        th, td { border-bottom-color: var(--c-border); }
+        th { background: var(--c-bg-soft); color: var(--c-text-heading); }
+      }
+    }
+
+    &__footer { border-top-color: var(--c-border); }
+  }
+
+  /* ===== 8. SECTION HEADER (taxonomy + category page) ===== */
+  .section-header__title {
+    color: var(--c-text-heading);
+    letter-spacing: $heading-ls;
+  }
+
+  .section-subtitle { color: var(--c-text-muted); }
+
+  /* ===== 9. SITE HEADER (title + tagline) ===== */
+  .site-title {
+    color: var(--c-text-heading);
+    letter-spacing: $heading-ls;
+  }
+
+  .site-tagline { color: var(--c-text-muted); }
+
+  /* ===== 10. FOOTER QA DASHBOARD =====
+     QA band nền trắng #fff cố định (không đảo theo dark-mode) → chữ tối
+     để luôn đọc rõ ở cả light & dark. (Tag cloud nằm ở footer —
+     xem .footer-tags trong _footer-tags.scss.) */
+  .footer-qa__title {
+    color: #111;                   /* tối trên QA band trắng */
+    letter-spacing: $heading-ls;
+  }
+
+  .footer-qa__sub { color: #888; }
+
+  /* ===== 11. PAGINATION =====
+     Winning layer (under :root[data-theme="hilda"]). MUST set background or
+     the base black surface leaks → dark-on-dark. Calm light button: surface
+     bg + heading text + clear border. Radius stays fixed 4px ($radius-tag)
+     per branding guideline — contrast/readability is the fix, not corners. */
+  .pagination__btn {
+    background: var(--c-bg-surface);
+    color: var(--c-text-heading);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-tag;
+
+    &:hover {
+      background: var(--c-bg-soft);
+      color: var(--c-accent);
+      border-color: var(--c-border-strong);
+    }
+  }
+
+  /* Forward action = primary CTA: soft accent fill for clear hierarchy. */
+  .pagination__btn--next {
+    background: var(--c-accent-soft);
+    border-color: transparent;
+    color: var(--c-accent);
+
+    &:hover {
+      background: var(--c-accent);
+      border-color: var(--c-accent);
+      color: #fff;
+    }
+  }
+
+  .pagination__info { color: var(--c-text-muted); }
+
+  /* ===== 12. AUTHOR BOX (cuối post) ===== */
+  .author-box {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: $radius-card;
+
+    &__name {
+      color: var(--c-text-heading);
+      letter-spacing: $heading-ls;
+    }
+
+    &__url { color: var(--c-accent); }
+    &__bio { color: var(--c-text-body); }
+  }
+
+  /* ===== 13. POST META (date, author byline) ===== */
+  .post-meta { color: var(--c-text-muted); }
+
+  /* ===== 14. THEME-TOGGLE button current label ===== */
+  .theme-toggle__btn { color: var(--c-text-body); }
+}
+
+/* ============================================================
+   ===== APPLY MIXIN — Hilda (single theme) =====
+   ============================================================
+   Color values qua --c-* tokens. Mixin chỉ inject non-color
+   tokens (radius / shadow / kicker / heading-ls). */
+
+/* ===== HILDA (Ericsson) — sharp, professional ===== */
+:root[data-theme="hilda"] {
+  @include theme-overrides(
+    $radius-card:        4px,                    /* Sharp corners */
+    $radius-tag:         4px,                    /* Consistent sharp */
+    $shadow-card:        0 2px 4px rgba(0, 55, 132, 0.08),
+    $shadow-card-hover:  0 8px 16px rgba(0, 55, 132, 0.12),
+    $kicker-spacing:     0.05em,                 /* Tighter spacing */
+    $heading-ls:         -0.02em
+  );
+}
+
+/* ============================================================
+   ===== HILDA UX POLISH — interaction states (guideline) =====
+   ============================================================
+   Hilda-only (KHÔNG đụng Z-X / shared mixin). Hiện thực guideline rule
+   "Smooth transitions 0.3s ease": hover nâng shadow + lift nhẹ, focus ring
+   WCAG. CHỈ hover/focus — KHÔNG sửa layout, overflow, height, position. */
+:root[data-theme="hilda"] {
+  .sidebar-label::after {
+    content: none;
+  }
+
+  .section-header__title {
+    letter-spacing: 0.05em;
+  }
+
+  .post-card {
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+
+    &:hover { transform: translateY(-2px); }
+  }
+
+  .read-more {
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 55, 132, 0.20);
+      transform: translateY(-1px);
+    }
+  }
+
+  .tag-list__tag,
+  .pagination__btn {
+    transition:
+      color 0.3s ease,
+      background-color 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  .theme-dropdown__item:focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* Tôn trọng prefers-reduced-motion: tắt lift/transition cho người nhạy cảm
+   chuyển động (a11y). Áp dụng cho Hilda interaction states. */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="hilda"] {
+    .post-card,
+    .read-more {
+      transition: none;
+      &:hover { transform: none; }
+    }
+  }
+}
+
+/* ============================================================
+   ===== MOBILE (≤ 720px) — Responsive spacing optimization =====
+   ============================================================ */
+@media (max-width: 720px) {
+  :root {
+    .cat-tag,
+    .sidebar-label {
+      letter-spacing: 0.08em;     /* rút nhẹ tránh wrap khó đọc trên mobile */
+      font-size: 0.65rem;
+    }
+
+    .related-articles__title,
+    .tag-list__label {
+      letter-spacing: 0.08em;
+    }
+
+    .post-card__title,
+    .post-single__title,
+    .section-header__title,
+    .site-title,
+    .related-card__title,
+    .author-box__name {
+      letter-spacing: -0.015em;
+    }
+  }
+}
+
+/* ============================================================
+   ===== HILDA COMPONENTS — buttons / badges / pagination =====
+   ============================================================
+   Chuẩn hoá theo guideline: CTA 12/24px·14px/600, badge/tag
+   6/12px·12px/600, pagination 8/16px·14px, radius 4px (từ mixin).
+   Scoped Hilda. DESKTOP + MOBILE tách block (rule 4) để rule
+   Hilda specificity cao không "đè" mất responsive global. */
+
+/* ----- DESKTOP (Hilda) ----- */
+:root[data-theme="hilda"] {
+  /* CTA Button (read-more) — guideline Primary CTA */
+  .read-more {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  /* Badge — category tag trên thumbnail */
+  .cat-tag {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Tag pills (cuối bài) — đồng bộ badge */
+  .tag-list__tag {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Pagination — nút vuông 4px, chữ 14px. Comfortable padding + bold label
+     cho discoverability (contrast fix ở block PAGINATION phía trên). */
+  .pagination__btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  /* Navbar — nền trắng + link hover #003784 đã có sẵn qua var(--c-*).
+     Đồng bộ nốt focus-ring về 4px cho khớp brand "all 4px"
+     (dropdown .theme-dropdown đã 4px sẵn). */
+  .navbar__search,
+  .navbar__cache,
+  .navbar__theme {
+    &:focus-visible { border-radius: 4px; }
+  }
+}
+
+/* ----- MOBILE (Hilda, ≤720px) — giữ responsive, chống bẫy specificity ----- */
+@media (max-width: 720px) {
+  :root[data-theme="hilda"] {
+    .read-more       { padding: 10px 18px; font-size: 13px; }
+    .cat-tag         { padding: 4px 10px;  font-size: 0.65rem; }  /* khớp mobile cũ */
+    .tag-list__tag   { padding: 5px 10px;  font-size: 12px; }
+    .pagination__btn { padding: 8px 14px;  font-size: 13px; }
+  }
+}
+
+/* ============================================================
+   ===== HILDA COMPLIANCE PATCH — shell, CMS, search, docs =====
+   ============================================================
+   Final override layer for older UI surfaces that still carried pre-Hilda
+   colors, pill radii, or rainbow gradients. */
+:root,
+:root[data-theme="hilda"] {
+  .cms-brand__btn {
+    border-radius: 4px;
+    background: #003784;
+    background-size: auto;
+    animation: none;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+    transform: none;
+    letter-spacing: 0.05em;
+
+    &:hover {
+      background: #002566;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+    }
+
+    .cms-brand__tag {
+      color: #003784;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .cms-brand__spark {
+      animation: none;
+    }
+  }
+
+  .editor-login__modal,
+  .editor-user-bar,
+  .editor-header-widget,
+  .editor-card,
+  .editor-status,
+  .editor-modal__content,
+  .editor-draft-banner,
+  .editor-table,
+  .editor-preview,
+  .editor-content-wrap {
+    border-radius: 4px;
+    border-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+  }
+
+  .editor-header-widget {
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .editor-header-widget__stat,
+  .editor-header-widget__latest,
+  .editor-input,
+  .editor-btn,
+  .editor-badge,
+  .editor-md-btn,
+  .editor-tab,
+  .editor-modal__content,
+  .editor-login__error,
+  .editor-login__hint {
+    border-radius: 4px;
+  }
+
+  .editor-header-widget__stat,
+  .editor-header-widget__latest,
+  .site-search__summary div {
+    background: #f4f4f4;
+    border-color: #e0e0e0;
+  }
+
+  .editor-header-widget__icon {
+    color: #003784;
+    border-color: #e0e0e0;
+    border-radius: 4px;
+  }
+
+  .editor-user-bar__role,
+  .editor-btn--success,
+  .editor-status--success {
+    background: #00a69d;
+    border-color: #00a69d;
+    color: #ffffff;
+  }
+
+  .editor-input {
+    border-color: #d0d0d0;
+    color: #333333;
+
+    &::placeholder { color: #666666; }
+
+    &:hover { border-color: #003784; }
+
+    &:focus {
+      border-color: #003784;
+      box-shadow: 0 0 0 3px rgba(0, 55, 132, 0.16);
+    }
+  }
+
+  .editor-btn--primary,
+  .editor-login__button,
+  .site-search__submit {
+    background: #003784;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+
+    &:hover {
+      background: #002566;
+      color: #ffffff;
+      box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+    }
+  }
+
+  .editor-btn--danger,
+  .editor-status--error {
+    background: #e30613;
+    border-color: #e30613;
+    color: #ffffff;
+  }
+
+  .editor-btn--ghost,
+  .editor-search-input,
+  .site-search__field,
+  .site-search__result {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    color: #333333;
+  }
+
+  .editor-help a,
+  .editor-header-widget a,
+  .site-search__result-title,
+  .site-search__result-url {
+    color: #003784;
+
+    &:hover {
+      color: #002566;
+      border-bottom-color: rgba(0, 55, 132, 0.35);
+    }
+  }
+
+  .site-search__panel {
+    border-radius: 16px;
+    border-color: #e0e0e0;
+    border-top: 3px solid #003784;
+    box-shadow: 0 24px 48px rgba(0, 55, 132, 0.18);
+  }
+
+  .site-search__eyebrow,
+  .site-search__summary strong,
+  .site-search__count {
+    color: #003784;
+  }
+
+  .brandx__logo-text::after {
+    content: " Hilda";
+    color: #003784;
+  }
+
+  .brandx__swatch,
+  .brandx__comp,
+  .brandx-card,
+  .brandx-input,
+  .brandx-btn,
+  .brandx__type-row,
+  .brandx__rationale {
+    border-radius: 4px;
+    border-color: #e0e0e0;
+  }
+
+  .brandx__swatch:hover,
+  .brandx-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 55, 132, 0.12);
+  }
+
+  .post-single,
+  .author-box,
+  .related-card,
+  .taxonomy-list li,
+  .summary-card,
+  .vital-card,
+  .insights__details,
+  .insights__card,
+  .insights__stat,
+  .scoring-card,
+  .scoring-board,
+  .bao-cao-card,
+  .report-card,
+  .du-lich-card,
+  .fontguide__meta-item,
+  .fontguide__facts,
+  .fontguide__weight,
+  .fontguide__charset-block,
+  .fontguide__usage-col,
+  .fontguide__award,
+  .ad-banner,
+  .header-ad,
+  .header-welcome,
+  .post-thanks {
+    border-radius: 4px;
+    border-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+  }
+
+  .header-welcome,
+  .post-thanks {
+    background: #ddf4f2;
+    border-left-color: #00a69d;
+  }
+
+  .ad-banner,
+  .header-ad {
+    background: #003784;
+    border-left-color: #00a69d;
+
+    &::before {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent);
+    }
+  }
+
+  .ad-banner__image,
+  .header-ad__image,
+  .post-single__content img,
+  .author-box__avatar,
+  .du-lich-card__thumb,
+  .fontguide__swatch-chip {
+    border-radius: 4px;
+  }
+
+  .ad-banner__label,
+  .header-ad__label,
+  .post-stat__grade,
+  .footer-status,
+  .footer-qa__chip,
+  .scoring-badge,
+  .du-lich-card__rating,
+  .du-lich-card__source,
+  .brandx__section-num,
+  .brandx__group-label {
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .ad-banner__label,
+  .header-ad__label,
+  .edit-btn,
+  .brandx-btn--primary {
+    background: #003784;
+    border-color: #003784;
+    color: #ffffff;
+
+    &:hover {
+      background: #002566;
+      border-color: #002566;
+      color: #ffffff;
+    }
+  }
+
+  .ad-banner__arrow,
+  .header-ad__arrow,
+  .tag-list__tag:hover,
+  .taxonomy-list li:hover,
+  .post-stat--seo strong,
+  .author-box__name,
+  .single-meta a,
+  .fontguide__eyebrow,
+  .fontguide__section-title,
+  .brandx__section-title,
+  .brandx__swatch-info code,
+  .brandx__type-meta code {
+    color: #003784;
+  }
+
+  .tag-list__tag,
+  .brandx-btn--secondary,
+  .brandx-btn--ghost {
+    background: #f4f4f4;
+    border-color: #e0e0e0;
+    color: #333333;
+    border-radius: 4px;
+  }
+
+  .author-box,
+  .post-actions,
+  .post-stats {
+    border-color: #e0e0e0;
+  }
+
+  .edit-btn--ghost:hover,
+  .brandx-btn--secondary:hover,
+  .brandx-btn--ghost:hover {
+    background: #f4f4f4;
+    border-color: #003784;
+    color: #003784;
+  }
+}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}Bảng Vàng SEO | {{ config.title }}{% endblock %}
+{% block description %}Bảng điểm SEO của tất cả bài viết trên blog — chấm theo thang on-page chuẩn Google, cập nhật tự động mỗi khi đăng/sửa bài.{% endblock %}
+
+{% block main %}
+    {% set data = load_data(path="data/seo-qa-scores.json", required=false) %}
+    {% set_global posts = false %}
+    {% set_global total = 0 %}
+    {% set_global sum_score = 0 %}
+    {% set_global n_aplus = 0 %}
+    {% set_global avg = 0 %}
+    {% if data and data.posts %}
+        {% set_global posts = data.posts %}
+        {% set_global total = posts | length %}
+        {% for path, p in posts %}
+            {% set_global sum_score = sum_score + p.score %}
+            {% if p.grade == "A+" %}{% set_global n_aplus = n_aplus + 1 %}{% endif %}
+        {% endfor %}
+        {% if total > 0 %}{% set_global avg = sum_score / total %}{% endif %}
+    {% endif %}
+
+    <section class="seo-board">
+        <header class="seo-board__head">
+            <div class="seo-board__title-row">
+                <h1 class="seo-board__title">Bảng Vàng SEO</h1>
+                <span class="seo-board__count">{{ total }} bài</span>
+            </div>
+            <p class="seo-board__desc">
+                Điểm SEO on-page của từng bài viết, chấm theo thang chuẩn Google
+                (title, meta description, từ khoá, cấu trúc heading, độ dài, alt ảnh,
+                liên kết nội bộ/ngoài…). Cập nhật tự động mỗi khi đăng hoặc sửa bài.
+            </p>
+        </header>
+
+        {% if total == 0 %}
+            <div class="seo-board__empty">
+                <p>Chưa có dữ liệu điểm SEO. Chạy
+                <code>python3 scripts/seo_qa_checker.py --all</code> để chấm toàn bộ bài.</p>
+            </div>
+        {% else %}
+            {# ===== Thẻ tổng quan ===== #}
+            <div class="seo-board__summary">
+                <div class="seo-board__stat">
+                    <span class="seo-board__stat-num">{{ avg | round(precision=1) }}</span>
+                    <span class="seo-board__stat-label">Điểm trung bình</span>
+                </div>
+                <div class="seo-board__stat">
+                    <span class="seo-board__stat-num">{{ total }}</span>
+                    <span class="seo-board__stat-label">Bài đã chấm</span>
+                </div>
+                <div class="seo-board__stat">
+                    <span class="seo-board__stat-num">{{ n_aplus }}</span>
+                    <span class="seo-board__stat-label">Bài hạng A+</span>
+                </div>
+            </div>
+
+            {# ===== Điều khiển sắp xếp ===== #}
+            <div class="seo-board__controls">
+                <label for="seo-sort" class="seo-board__sort-label">Sắp xếp:</label>
+                <select id="seo-sort" class="seo-board__select" data-seo-sort>
+                    <option value="score-desc">Điểm cao → thấp</option>
+                    <option value="score-asc">Điểm thấp → cao</option>
+                    <option value="title-asc">Tiêu đề A → Z</option>
+                </select>
+            </div>
+
+            {# ===== Bảng ===== #}
+            <div class="seo-board__table-wrap">
+                <table class="seo-board__table" data-seo-table>
+                    <thead>
+                        <tr>
+                            <th class="seo-board__th seo-board__th--rank">#</th>
+                            <th class="seo-board__th">Bài viết</th>
+                            <th class="seo-board__th seo-board__th--num">Từ</th>
+                            <th class="seo-board__th seo-board__th--score">Điểm SEO</th>
+                            <th class="seo-board__th seo-board__th--grade">Hạng</th>
+                            <th class="seo-board__th seo-board__th--action">Mở</th>
+                        </tr>
+                    </thead>
+                    <tbody data-seo-tbody>
+                        {% for path, p in posts %}
+                            {% set parts = path | split(pat="/") %}
+                            {% set url = config.base_url ~ "/" ~ parts.1 ~ "/" ~ p.slug ~ "/" %}
+                            {% set tier = "f" %}
+                            {% if p.score >= 90 %}{% set tier = "a" %}
+                            {% elif p.score >= 80 %}{% set tier = "b" %}
+                            {% elif p.score >= 70 %}{% set tier = "c" %}
+                            {% elif p.score >= 60 %}{% set tier = "d" %}
+                            {% endif %}
+                            <tr class="seo-board__row"
+                                data-score="{{ p.score }}"
+                                data-title="{{ p.title }}">
+                                <td class="seo-board__td seo-board__td--rank"></td>
+                                <td class="seo-board__td seo-board__td--title">
+                                    {% if p.published | default(value=true) == false %}
+                                    <span class="seo-board__link seo-board__link--draft">{{ p.title }} <em>(nháp)</em></span>
+                                    {% else %}
+                                    <a href="{{ url }}" class="seo-board__link">{{ p.title }}</a>
+                                    {% endif %}
+                                    {% if p.keyword %}
+                                        <span class="seo-board__kw">🔑 {{ p.keyword }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="seo-board__td seo-board__td--num">{{ p.word_count | default(value="—") }}</td>
+                                <td class="seo-board__td seo-board__td--score">
+                                    <span class="seo-board__bar-wrap" title="{{ p.score }}/100">
+                                        <span class="seo-board__bar seo-board__bar--{{ tier }}"
+                                              style="width: {{ p.score }}%;"></span>
+                                        <span class="seo-board__bar-val">{{ p.score | round(precision=0) }}</span>
+                                    </span>
+                                </td>
+                                <td class="seo-board__td seo-board__td--grade">
+                                    <span class="seo-board__grade seo-board__grade--{{ tier }}">{{ p.grade }}</span>
+                                </td>
+                                <td class="seo-board__td seo-board__td--action">
+                                    {% if p.published | default(value=true) == false %}
+                                    <span class="seo-board__btn seo-board__btn--draft" title="Bài nháp">—</span>
+                                    {% else %}
+                                    <a href="{{ url }}" class="seo-board__btn" title="Đọc bài">→</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if data.updated_at %}
+                <p class="seo-board__updated">
+                    Cập nhật lần cuối: {{ data.updated_at | date(format="%H:%M:%S %d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                </p>
+            {% endif %}
+        {% endif %}
+    </section>
+
+    <script src="{{ get_url(path='js/seo-board.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

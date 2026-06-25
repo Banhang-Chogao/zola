@@ -1,0 +1,728 @@
+{% extends "base.html" %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}B-DNA — Brand Design DNA | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{# ============================================================
+   B-DNA — Brand Design DNA
+   Single self-contained documentation page. Inspired by the
+   S-DNA structure and Bolt's color *discipline* (bolt.eu/brand),
+   but fully original. It is a GUIDELINE layer only:
+   - binds exclusively to existing --c-* theme tokens
+   - introduces no new theme colors and overrides no global styles
+   - every selector is scoped under .bdna
+   ============================================================ #}
+
+{% block extra_head %}
+<style>
+  /* Reclaim full width only when B-DNA is on the page (scoped via :has) */
+  .layout-grid:has(.bdna) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.bdna) { max-width: 1240px; }
+
+  .bdna {
+    /* --- Token bridge: read the existing theme, never redefine it --- */
+    --bd-ink:           var(--c-text-heading);
+    --bd-body:          var(--c-text-body);
+    --bd-muted:         var(--c-text-muted);
+    --bd-primary:       var(--c-accent);
+    --bd-primary-hover: var(--c-accent-hover);
+    --bd-primary-soft:  var(--c-accent-soft);
+    --bd-action:        var(--c-decoration);
+    --bd-surface:       var(--c-bg-surface);
+    --bd-page:          var(--c-bg-page);
+    --bd-soft:          var(--c-bg-soft);
+    --bd-border:        var(--c-border);
+    --bd-border-strong: var(--c-border-strong);
+    --bd-success:       var(--c-success);
+    --bd-warning:       var(--c-warning);
+    --bd-focus:         var(--c-focus-ring);
+    --bd-shadow:        var(--c-shadow-md);
+    --bd-shadow-lg:     var(--c-shadow-lg);
+
+    /* --- Spacing scale (4px base) — layout only, not theme --- */
+    --bd-1: 4px;  --bd-2: 8px;  --bd-3: 12px; --bd-4: 16px;
+    --bd-5: 24px; --bd-6: 32px; --bd-7: 48px; --bd-8: 64px;
+    --bd-radius: 14px;
+    --bd-radius-sm: 10px;
+    --bd-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --bd-rail: 232px;
+    --bd-nav-offset: 76px;
+
+    font-family: inherit;
+    color: var(--bd-body);
+    line-height: 1.62;
+    padding: 0 var(--bd-4) var(--bd-8);
+    margin: 0 auto;
+  }
+
+  .bdna *, .bdna *::before, .bdna *::after { box-sizing: border-box; }
+
+  /* ===== Brand bar ===== */
+  .bdna__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--bd-4);
+    flex-wrap: wrap;
+    padding: var(--bd-5) 0 var(--bd-4);
+    border-bottom: 1px solid var(--bd-border);
+  }
+  .bdna__brand { display: flex; align-items: center; gap: var(--bd-3); }
+  .bdna__mark {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--bd-primary);
+    border-radius: 11px;
+    color: var(--bd-primary);
+    font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;
+  }
+  .bdna__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .bdna__brand-name { font-size: 1.1rem; font-weight: 800; color: var(--bd-ink); letter-spacing: -0.02em; }
+  .bdna__brand-tag { font-size: 0.74rem; color: var(--bd-muted); }
+  .bdna__top-link {
+    font-size: 0.8rem; font-weight: 600; text-decoration: none;
+    color: var(--bd-primary); padding: var(--bd-2) var(--bd-3);
+    border: 1px solid var(--bd-border); border-radius: 999px;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .bdna__top-link:hover { border-color: var(--bd-primary); background: var(--bd-primary-soft); }
+
+  /* ===== Hero ===== */
+  .bdna__hero { padding: var(--bd-8) 0 var(--bd-7); border-bottom: 1px solid var(--bd-border); }
+  .bdna__eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--bd-primary); margin: 0 0 var(--bd-4);
+  }
+  .bdna__title {
+    font-size: clamp(2rem, 4.6vw, 3.1rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+    color: var(--bd-ink); margin: 0 0 var(--bd-4); max-width: 20ch;
+  }
+  .bdna__lede { font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.6; color: var(--bd-body); margin: 0; max-width: 64ch; }
+  .bdna__lede strong { color: var(--bd-ink); }
+  .bdna__sources { margin: var(--bd-5) 0 0; font-size: 0.82rem; color: var(--bd-muted); }
+  .bdna__sources a { color: var(--bd-primary); }
+  .bdna__principles {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--bd-4); margin-top: var(--bd-7);
+    padding-top: var(--bd-6); border-top: 1px solid var(--bd-border);
+  }
+  .bdna__principle-n { font-size: 1.9rem; font-weight: 800; color: var(--bd-ink); letter-spacing: -0.02em; line-height: 1; }
+  .bdna__principle-l { display: block; margin-top: var(--bd-2); font-size: 0.82rem; color: var(--bd-muted); }
+
+  /* ===== Two-column body: docs + right rail ===== */
+  .bdna__body { display: grid; grid-template-columns: minmax(0, 1fr) var(--bd-rail); gap: var(--bd-8); align-items: start; }
+
+  .bdna__rail { position: sticky; top: var(--bd-nav-offset); align-self: start; }
+  .bdna__rail-title {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--bd-muted); margin: 0 0 var(--bd-3); padding-left: var(--bd-3);
+  }
+  .bdna__rail nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--bd-border); }
+  .bdna__rail a {
+    display: flex; align-items: baseline; gap: var(--bd-2);
+    font-size: 0.84rem; font-weight: 500; text-decoration: none;
+    color: var(--bd-muted); padding: var(--bd-2) var(--bd-3);
+    border-left: 2px solid transparent; margin-left: -1px;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .bdna__rail a:hover { color: var(--bd-ink); }
+  .bdna__rail a.is-active { color: var(--bd-primary); border-left-color: var(--bd-primary); background: var(--bd-primary-soft); border-radius: 0 6px 6px 0; }
+  .bdna__rail-num { font-family: var(--bd-mono); font-size: 0.72rem; color: var(--bd-muted); flex-shrink: 0; }
+  .bdna__rail a.is-active .bdna__rail-num { color: var(--bd-primary); }
+
+  /* ===== Sections ===== */
+  .bdna__section { padding: var(--bd-8) 0; border-bottom: 1px solid var(--bd-border); scroll-margin-top: var(--bd-nav-offset); }
+  .bdna__section:last-child { border-bottom: 0; }
+  .bdna__sec-head { margin-bottom: var(--bd-6); }
+  .bdna__sec-kicker { font-family: var(--bd-mono); font-size: 0.8rem; color: var(--bd-primary); font-weight: 600; }
+  .bdna__sec-title { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; color: var(--bd-ink); margin: var(--bd-2) 0 var(--bd-3); }
+  .bdna__sec-desc { font-size: 0.98rem; line-height: 1.62; color: var(--bd-body); margin: 0; max-width: 70ch; }
+
+  .bdna__h3 { font-size: 1.02rem; font-weight: 700; color: var(--bd-ink); margin: var(--bd-6) 0 var(--bd-3); }
+  .bdna__h3:first-child { margin-top: 0; }
+  .bdna__p { font-size: 0.94rem; line-height: 1.66; color: var(--bd-body); margin: 0 0 var(--bd-3); max-width: 70ch; }
+  .bdna__p strong { color: var(--bd-ink); }
+  .bdna code { font-family: var(--bd-mono); font-size: 0.84em; color: var(--bd-primary); background: var(--bd-primary-soft); padding: 1px 6px; border-radius: 5px; }
+
+  /* ===== Generic card / grid ===== */
+  .bdna__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--bd-4); }
+  .bdna__card { background: var(--bd-surface); border: 1px solid var(--bd-border); border-radius: var(--bd-radius); padding: var(--bd-5); }
+  .bdna__card h4 { font-size: 0.9rem; font-weight: 700; color: var(--bd-ink); margin: 0 0 var(--bd-2); }
+  .bdna__card p { font-size: 0.84rem; line-height: 1.55; color: var(--bd-muted); margin: 0; }
+
+  /* ===== Do / Don't ===== */
+  .bdna__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bd-4); margin-top: var(--bd-4); }
+  .bdna__list { list-style: none; margin: 0; padding: var(--bd-5); border-radius: var(--bd-radius); border: 1px solid var(--bd-border); background: var(--bd-surface); }
+  .bdna__list h5 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 var(--bd-3); }
+  .bdna__list li { font-size: 0.86rem; line-height: 1.5; color: var(--bd-body); padding: var(--bd-2) 0 var(--bd-2) var(--bd-5); position: relative; }
+  .bdna__list--do h5 { color: var(--bd-success); }
+  .bdna__list--dont h5 { color: var(--bd-action); }
+  .bdna__list--do li::before { content: "✓"; position: absolute; left: 0; color: var(--bd-success); font-weight: 800; }
+  .bdna__list--dont li::before { content: "✕"; position: absolute; left: 0; color: var(--bd-action); font-weight: 800; }
+
+  /* ===== Color swatches ===== */
+  .bdna__swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--bd-3); margin-top: var(--bd-4); }
+  .bdna__swatch { border: 1px solid var(--bd-border); border-radius: var(--bd-radius-sm); overflow: hidden; background: var(--bd-surface); }
+  .bdna__swatch-chip { height: 64px; background: var(--bd-chip, var(--bd-soft)); border-bottom: 1px solid var(--bd-border); }
+  .bdna__swatch-meta { padding: var(--bd-3); }
+  .bdna__swatch-meta strong { display: block; font-size: 0.82rem; color: var(--bd-ink); }
+  .bdna__swatch-meta code { font-size: 0.72rem; background: none; padding: 0; }
+  .bdna__swatch-meta span { display: block; font-size: 0.72rem; color: var(--bd-muted); margin-top: 2px; }
+  .bdna__ratio { display: flex; height: 30px; border-radius: var(--bd-radius-sm); overflow: hidden; border: 1px solid var(--bd-border); margin-top: var(--bd-4); font-size: 0.68rem; font-weight: 700; }
+  .bdna__ratio span { display: flex; align-items: center; justify-content: center; }
+  .bdna__ratio-neutral { flex: 0 0 80%; background: var(--bd-soft); color: var(--bd-muted); }
+  .bdna__ratio-primary { flex: 0 0 13%; background: var(--bd-primary); color: #fff; }
+  .bdna__ratio-action { flex: 0 0 7%; background: var(--bd-action); color: #fff; }
+
+  /* ===== Typography scale ===== */
+  .bdna__type-row { display: grid; grid-template-columns: 1fr auto; gap: var(--bd-4); align-items: baseline; padding: var(--bd-4) var(--bd-5); border: 1px solid var(--bd-border); border-radius: var(--bd-radius); background: var(--bd-surface); margin-bottom: var(--bd-2); }
+  .bdna__type-sample { color: var(--bd-ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bdna__type-meta { font-family: var(--bd-mono); font-size: 0.74rem; color: var(--bd-muted); text-align: right; white-space: nowrap; }
+
+  /* ===== Component demos ===== */
+  .bdna__demo { background: var(--bd-soft); border: 1px solid var(--bd-border); border-radius: var(--bd-radius); padding: var(--bd-6); display: flex; flex-wrap: wrap; gap: var(--bd-3); align-items: center; }
+  .bdna__btn { font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; border-radius: 10px; padding: 10px 18px; border: 1px solid transparent; transition: background .18s ease, border-color .18s ease, color .18s ease; }
+  .bdna__btn--primary { background: var(--bd-primary); color: #fff; }
+  .bdna__btn--primary:hover { background: var(--bd-primary-hover); }
+  .bdna__btn--secondary { background: var(--bd-surface); color: var(--bd-primary); border-color: var(--bd-border-strong); }
+  .bdna__btn--secondary:hover { border-color: var(--bd-primary); }
+  .bdna__btn--ghost { background: transparent; color: var(--bd-primary); }
+  .bdna__btn--ghost:hover { background: var(--bd-primary-soft); }
+  .bdna__btn--danger { background: var(--bd-action); color: #fff; }
+  .bdna__btn--danger:hover { filter: brightness(0.92); }
+  .bdna__btn:focus-visible { outline: 3px solid var(--bd-focus); outline-offset: 2px; }
+
+  .bdna__field { display: flex; flex-direction: column; gap: 6px; min-width: 230px; }
+  .bdna__field label { font-size: 0.76rem; font-weight: 600; color: var(--bd-ink); }
+  .bdna__field input, .bdna__field select { font: inherit; font-size: 0.88rem; color: var(--bd-body); background: var(--bd-surface); border: 1px solid var(--bd-border-strong); border-radius: 10px; padding: 10px 12px; }
+  .bdna__field input:focus-visible, .bdna__field select:focus-visible { outline: none; border-color: var(--bd-primary); box-shadow: 0 0 0 3px var(--bd-focus); }
+  .bdna__field small { font-size: 0.72rem; color: var(--bd-muted); }
+
+  .bdna__democard { background: var(--bd-surface); border: 1px solid var(--bd-border); border-radius: var(--bd-radius); padding: var(--bd-5); max-width: 280px; transition: transform .2s ease, box-shadow .2s ease; }
+  .bdna__democard:hover { transform: translateY(-3px); box-shadow: var(--bd-shadow-lg); }
+  .bdna__democard .bdna__tag { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bd-primary); background: var(--bd-primary-soft); padding: 3px 9px; border-radius: 999px; }
+  .bdna__democard h4 { font-size: 1rem; font-weight: 700; color: var(--bd-ink); margin: var(--bd-3) 0 var(--bd-2); }
+  .bdna__democard p { font-size: 0.84rem; color: var(--bd-muted); margin: 0; line-height: 1.5; }
+
+  /* ===== Spacing scale visual ===== */
+  .bdna__scale { display: flex; flex-direction: column; gap: var(--bd-2); margin-top: var(--bd-4); }
+  .bdna__scale-row { display: grid; grid-template-columns: 56px 1fr; align-items: center; gap: var(--bd-3); font-family: var(--bd-mono); font-size: 0.74rem; color: var(--bd-muted); }
+  .bdna__scale-bar { height: 14px; background: var(--bd-primary); border-radius: 4px; }
+
+  /* ===== Hierarchy KPI sample ===== */
+  .bdna__kpi { display: inline-flex; flex-direction: column; padding: var(--bd-5); border: 1px solid var(--bd-border); border-left: 4px solid var(--bd-primary); border-radius: var(--bd-radius); background: var(--bd-surface); }
+  .bdna__kpi-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--bd-muted); }
+  .bdna__kpi-value { font-size: 2.4rem; font-weight: 800; color: var(--bd-ink); line-height: 1.05; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin-top: 6px; }
+  .bdna__kpi-unit { font-size: 0.9rem; font-weight: 600; color: var(--bd-muted); }
+
+  /* ===== Consistency checker ===== */
+  .bdna__checker { background: var(--bd-surface); border: 1px solid var(--bd-border); border-radius: var(--bd-radius); padding: var(--bd-6); margin-top: var(--bd-5); }
+  .bdna__meter { display: flex; align-items: center; gap: var(--bd-4); margin-bottom: var(--bd-5); flex-wrap: wrap; }
+  .bdna__meter-pct { font-size: 2rem; font-weight: 800; color: var(--bd-ink); font-variant-numeric: tabular-nums; min-width: 80px; }
+  .bdna__meter-track { flex: 1; min-width: 180px; height: 10px; background: var(--bd-soft); border-radius: 999px; overflow: hidden; border: 1px solid var(--bd-border); }
+  .bdna__meter-fill { height: 100%; width: 0; background: var(--bd-primary); border-radius: 999px; transition: width .35s ease; }
+  .bdna__verdict { font-size: 0.86rem; font-weight: 600; margin: 0 0 var(--bd-5); padding: var(--bd-3) var(--bd-4); border-radius: var(--bd-radius-sm); border: 1px solid var(--bd-border); background: var(--bd-soft); color: var(--bd-body); }
+  .bdna__verdict.is-pass { color: var(--bd-success); border-color: color-mix(in srgb, var(--bd-success) 40%, var(--bd-border)); }
+  .bdna__verdict.is-warn { color: var(--bd-warning); border-color: color-mix(in srgb, var(--bd-warning) 40%, var(--bd-border)); }
+  .bdna__verdict.is-fail { color: var(--bd-action); border-color: color-mix(in srgb, var(--bd-action) 40%, var(--bd-border)); }
+  .bdna__checks { display: grid; grid-template-columns: 1fr 1fr; gap: var(--bd-2) var(--bd-5); }
+  .bdna__check { display: flex; gap: var(--bd-3); align-items: flex-start; padding: var(--bd-2) 0; cursor: pointer; }
+  .bdna__check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--bd-primary); flex-shrink: 0; cursor: pointer; }
+  .bdna__check span { font-size: 0.86rem; line-height: 1.45; color: var(--bd-body); }
+  .bdna__check b { color: var(--bd-ink); font-weight: 600; }
+  .bdna__check-cat { font-family: var(--bd-mono); font-size: 0.66rem; color: var(--bd-muted); text-transform: uppercase; }
+  .bdna__checker-foot { margin-top: var(--bd-5); display: flex; justify-content: space-between; align-items: center; gap: var(--bd-3); flex-wrap: wrap; }
+  .bdna__gate { font-size: 0.84rem; font-style: italic; color: var(--bd-muted); margin: 0; }
+
+  .bdna__foot { padding: var(--bd-7) 0 0; text-align: center; font-size: 0.82rem; color: var(--bd-muted); }
+  .bdna__foot a { color: var(--bd-primary); }
+  .bdna__foot p { margin: 4px 0; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 960px) {
+    .bdna__body { grid-template-columns: 1fr; gap: var(--bd-5); }
+    .bdna__rail {
+      position: sticky; top: 56px; z-index: 5;
+      order: -1; margin: 0 calc(-1 * var(--bd-4)) var(--bd-4);
+      padding: var(--bd-2) var(--bd-4);
+      background: color-mix(in srgb, var(--bd-page) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--bd-border);
+    }
+    .bdna__rail-title { display: none; }
+    .bdna__rail nav { flex-direction: row; overflow-x: auto; border-left: 0; gap: var(--bd-2); scrollbar-width: none; scroll-snap-type: x proximity; }
+    .bdna__rail nav::-webkit-scrollbar { display: none; }
+    .bdna__rail a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; margin-left: 0; scroll-snap-align: start; }
+    .bdna__rail a.is-active { border-radius: 8px; border-left-color: transparent; }
+  }
+  @media (max-width: 640px) {
+    .bdna { padding: 0 var(--bd-4) var(--bd-7); }
+    .bdna__cols { grid-template-columns: 1fr; }
+    .bdna__checks { grid-template-columns: 1fr; }
+    .bdna__type-row { grid-template-columns: 1fr; }
+    .bdna__type-meta { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bdna *, .bdna *::before, .bdna *::after { transition: none !important; }
+    .bdna__democard:hover { transform: none; }
+  }
+</style>
+{% endblock extra_head %}
+
+{% block main %}
+<section class="bdna">
+
+  {# ===== Brand bar ===== #}
+  <div class="bdna__top">
+    <div class="bdna__brand">
+      <span class="bdna__mark" aria-hidden="true">B</span>
+      <span class="bdna__brand-text">
+        <span class="bdna__brand-name">B-DNA</span>
+        <span class="bdna__brand-tag">Brand Design DNA · UI/UX Guideline System</span>
+      </span>
+    </div>
+    <a class="bdna__top-link" href="{{ config.base_url }}/branding-guideline/">Source of truth → Branding Guideline</a>
+  </div>
+
+  {# ===== Hero ===== #}
+  <header class="bdna__hero" id="overview" data-bd-section>
+    <p class="bdna__eyebrow">Brand Design DNA · Guideline Layer</p>
+    <h1 class="bdna__title">A branding guideline system, not a theme.</h1>
+    <p class="bdna__lede">
+      <strong>B-DNA</strong> defines how UI/UX decisions stay consistent across the product — a documentation
+      layer covering structure, color usage, typography, components, spacing, motion and hierarchy. It borrows
+      the <strong>discipline</strong> of Bolt's brand thinking (color earns attention; neutral does the work),
+      yet it ships <strong>no styles</strong>: it changes no theme tokens and overrides no existing UI. Read it
+      before you build, audit against it before you ship.
+    </p>
+    <p class="bdna__sources">
+      Reference: <a href="https://bolt.eu/en/company/brand/" target="_blank" rel="noopener">Bolt brand</a> ·
+      companion to <a href="{{ config.base_url }}/tools/s-dna/">S-DNA</a> and the
+      <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a>.
+    </p>
+    <div class="bdna__principles">
+      <div><span class="bdna__principle-n">1</span><span class="bdna__principle-l">source of truth — the existing <code>--c-*</code> tokens</span></div>
+      <div><span class="bdna__principle-n">0</span><span class="bdna__principle-l">token or color overrides — guideline only</span></div>
+      <div><span class="bdna__principle-n">8</span><span class="bdna__principle-l">rule domains, one consistency gate</span></div>
+    </div>
+  </header>
+
+  {# ===== Body: docs + right rail ===== #}
+  <div class="bdna__body">
+
+    {# ----- Doc sections ----- #}
+    <main class="bdna__main">
+
+      {# 01 UI STRUCTURE #}
+      <section class="bdna__section" id="structure" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">01 — Structure</span>
+          <h2 class="bdna__sec-title">UI structure rules</h2>
+          <p class="bdna__sec-desc">A page is a stack of clearly bounded sections built from a single primitive: the card. Structure first, decoration never.</p>
+        </header>
+
+        <div class="bdna__grid">
+          <article class="bdna__card"><h4>One column of meaning</h4><p>Content flows top-to-bottom in a clear reading order. Side rails are for navigation and metadata, never the primary message.</p></article>
+          <article class="bdna__card"><h4>Cards before tables</h4><p>Group related data in cards. Reach for a table only for dense, comparable rows — never as the default container.</p></article>
+          <article class="bdna__card"><h4>Bounded sections</h4><p>Every section has a kicker, a title and a one-line purpose. If a block can't be named, it doesn't belong.</p></article>
+          <article class="bdna__card"><h4>Flat z-index</h4><p>Surfaces sit at one elevation. Overlays (menus, dialogs) are the only thing allowed to float above content.</p></article>
+        </div>
+
+        <div class="bdna__cols">
+          <ul class="bdna__list bdna__list--do">
+            <h5>Do</h5>
+            <li>Keep a predictable container width and consistent section rhythm.</li>
+            <li>Lead each section with intent, then detail.</li>
+            <li>Use surfaces (<code>--c-bg-surface</code>) to separate, not heavy borders.</li>
+          </ul>
+          <ul class="bdna__list bdna__list--dont">
+            <h5>Don't</h5>
+            <li>Nest cards inside cards inside cards.</li>
+            <li>Mix three competing layouts on one screen.</li>
+            <li>Restyle global navigation, header or footer from a feature page.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 02 COLOR USAGE — Bolt-inspired discipline #}
+      <section class="bdna__section" id="color" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">02 — Color</span>
+          <h2 class="bdna__sec-title">Color usage rules</h2>
+          <p class="bdna__sec-desc">
+            Bolt-inspired logic, applied to <em>our</em> palette: color earns attention, so spend it deliberately.
+            These are <strong>usage rules only</strong> — every swatch below is an existing theme token. No new color is introduced and no token is changed.
+          </p>
+        </header>
+
+        <h3 class="bdna__h3">Three roles</h3>
+        <p class="bdna__p"><strong>Primary</strong> marks the one action you want taken. <strong>Action</strong> is reserved for high-stakes or destructive moments. <strong>Neutral</strong> carries everything else — and it is roughly 90% of any screen.</p>
+
+        <div class="bdna__swatches">
+          <article class="bdna__swatch" style="--bd-chip: var(--c-accent)"><div class="bdna__swatch-chip"></div><div class="bdna__swatch-meta"><strong>Primary</strong><code>--c-accent</code><span>Primary action, links, focus</span></div></article>
+          <article class="bdna__swatch" style="--bd-chip: var(--c-accent-soft)"><div class="bdna__swatch-chip"></div><div class="bdna__swatch-meta"><strong>Primary soft</strong><code>--c-accent-soft</code><span>Badges, active states, tints</span></div></article>
+          <article class="bdna__swatch" style="--bd-chip: var(--c-decoration)"><div class="bdna__swatch-chip"></div><div class="bdna__swatch-meta"><strong>Action</strong><code>--c-decoration</code><span>Destructive / highest emphasis</span></div></article>
+          <article class="bdna__swatch" style="--bd-chip: var(--c-bg-surface)"><div class="bdna__swatch-chip"></div><div class="bdna__swatch-meta"><strong>Surface</strong><code>--c-bg-surface</code><span>Cards, panels, inputs</span></div></article>
+          <article class="bdna__swatch" style="--bd-chip: var(--c-bg-soft)"><div class="bdna__swatch-chip"></div><div class="bdna__swatch-meta"><strong>Soft</strong><code>--c-bg-soft</code><span>Hover, callouts, fills</span></div></article>
+          <article class="bdna__swatch" style="--bd-chip: var(--c-border)"><div class="bdna__swatch-chip"></div><div class="bdna__swatch-meta"><strong>Border</strong><code>--c-border</code><span>Dividers, outlines</span></div></article>
+        </div>
+
+        <h3 class="bdna__h3">The 90 / 10 budget</h3>
+        <p class="bdna__p">Neutral surfaces and text dominate; primary and action are the exceptions that direct the eye. If color is everywhere, it points to nothing.</p>
+        <div class="bdna__ratio" aria-hidden="true">
+          <span class="bdna__ratio-neutral">Neutral ~80%</span>
+          <span class="bdna__ratio-primary">Primary</span>
+          <span class="bdna__ratio-action">Action</span>
+        </div>
+
+        <div class="bdna__cols">
+          <ul class="bdna__list bdna__list--do">
+            <h5>Do</h5>
+            <li>Spend primary on the single most important action per view.</li>
+            <li>Read color from <code>var(--c-*)</code> so light/dark just works.</li>
+            <li>Let neutral and whitespace create calm.</li>
+          </ul>
+          <ul class="bdna__list bdna__list--dont">
+            <h5>Don't</h5>
+            <li>Hard-code hex values or invent a new palette.</li>
+            <li>Fill large areas with primary or action color.</li>
+            <li>Adopt Bolt's actual green — borrow the discipline, not the hue.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 03 TYPOGRAPHY #}
+      <section class="bdna__section" id="type" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">03 — Type</span>
+          <h2 class="bdna__sec-title">Typography system rules</h2>
+          <p class="bdna__sec-desc">One family, inherited from the site. Hierarchy comes from size and weight — not from new fonts or color. Samples below render in the live theme font.</p>
+        </header>
+
+        <div class="bdna__type-row"><div class="bdna__type-sample" style="font-size:2.4rem;font-weight:800;letter-spacing:-0.03em;">Display</div><div class="bdna__type-meta">2.4rem · 800 · -0.03em</div></div>
+        <div class="bdna__type-row"><div class="bdna__type-sample" style="font-size:1.7rem;font-weight:800;letter-spacing:-0.02em;">Heading 1</div><div class="bdna__type-meta">1.7rem · 800</div></div>
+        <div class="bdna__type-row"><div class="bdna__type-sample" style="font-size:1.25rem;font-weight:700;">Heading 2</div><div class="bdna__type-meta">1.25rem · 700</div></div>
+        <div class="bdna__type-row"><div class="bdna__type-sample" style="font-size:1rem;font-weight:600;">Heading 3 — section label</div><div class="bdna__type-meta">1rem · 600</div></div>
+        <div class="bdna__type-row"><div class="bdna__type-sample" style="font-size:0.94rem;font-weight:400;">Body — the default reading size for prose and descriptions.</div><div class="bdna__type-meta">0.94rem · 400 · 1.6</div></div>
+        <div class="bdna__type-row"><div class="bdna__type-sample" style="font-size:0.78rem;font-weight:600;color:var(--bd-muted);text-transform:uppercase;letter-spacing:0.08em;">Caption · meta · label</div><div class="bdna__type-meta">0.78rem · 600 · muted</div></div>
+        <div class="bdna__type-row"><div class="bdna__type-sample" style="font-family:var(--bd-mono);font-size:0.84rem;">code / token / value</div><div class="bdna__type-meta">mono · 0.84rem</div></div>
+
+        <div class="bdna__cols">
+          <ul class="bdna__list bdna__list--do">
+            <h5>Do</h5>
+            <li>Build hierarchy with weight and scale, not new typefaces.</li>
+            <li>Keep prose measure to ~60–75 characters.</li>
+            <li>Use tabular numerals for data and metrics.</li>
+          </ul>
+          <ul class="bdna__list bdna__list--dont">
+            <h5>Don't</h5>
+            <li>Introduce a decorative or display font.</li>
+            <li>Use color as the only signal of hierarchy.</li>
+            <li>Center long paragraphs or stretch lines edge-to-edge.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 04 COMPONENTS #}
+      <section class="bdna__section" id="components" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">04 — Components</span>
+          <h2 class="bdna__sec-title">Component rules</h2>
+          <p class="bdna__sec-desc">Buttons, cards and inputs are the core kit. Reuse them before inventing anything. Each demo below is scoped to this page and built only from theme tokens.</p>
+        </header>
+
+        <h3 class="bdna__h3">Buttons</h3>
+        <p class="bdna__p">One primary per view. Secondary and ghost carry lower-priority actions; danger is reserved for destructive intent.</p>
+        <div class="bdna__demo">
+          <button type="button" class="bdna__btn bdna__btn--primary">Primary</button>
+          <button type="button" class="bdna__btn bdna__btn--secondary">Secondary</button>
+          <button type="button" class="bdna__btn bdna__btn--ghost">Ghost</button>
+          <button type="button" class="bdna__btn bdna__btn--danger">Danger</button>
+        </div>
+
+        <h3 class="bdna__h3">Cards</h3>
+        <p class="bdna__p">The default container: soft surface, thin border, generous padding, ~14px radius.</p>
+        <div class="bdna__demo">
+          <article class="bdna__democard">
+            <span class="bdna__tag">Card</span>
+            <h4>Default primitive</h4>
+            <p>Group related content here before reaching for any other layout. Hover shows the standard lift.</p>
+          </article>
+        </div>
+
+        <h3 class="bdna__h3">Inputs</h3>
+        <p class="bdna__p">Always paired with a label and an optional helper. Focus uses the theme focus ring for accessibility.</p>
+        <div class="bdna__demo">
+          <div class="bdna__field">
+            <label for="bd-demo-input">Email</label>
+            <input id="bd-demo-input" type="email" placeholder="you@example.com" autocomplete="off">
+            <small>Helper text sits below, muted and small.</small>
+          </div>
+          <div class="bdna__field">
+            <label for="bd-demo-select">Role</label>
+            <select id="bd-demo-select">
+              <option>Primary</option>
+              <option>Secondary</option>
+              <option>Neutral</option>
+            </select>
+            <small>Native control, themed border + focus.</small>
+          </div>
+        </div>
+
+        <div class="bdna__cols">
+          <ul class="bdna__list bdna__list--do">
+            <h5>Do</h5>
+            <li>Extend an existing component before creating a new one.</li>
+            <li>Give every interactive element a visible focus state.</li>
+            <li>Keep one clear primary action per surface.</li>
+          </ul>
+          <ul class="bdna__list bdna__list--dont">
+            <h5>Don't</h5>
+            <li>Ship inputs without labels or helper context.</li>
+            <li>Stack multiple primary buttons competing for attention.</li>
+            <li>Override global component styles from a single page.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 05 LAYOUT & SPACING #}
+      <section class="bdna__section" id="layout" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">05 — Space</span>
+          <h2 class="bdna__sec-title">Layout & spacing rules</h2>
+          <p class="bdna__sec-desc">All spacing steps off a 4px base. Whitespace is a feature, not leftover room — when in doubt, add space, not another element.</p>
+        </header>
+
+        <div class="bdna__scale" aria-hidden="true">
+          <div class="bdna__scale-row"><span>4px</span><div class="bdna__scale-bar" style="width:4px"></div></div>
+          <div class="bdna__scale-row"><span>8px</span><div class="bdna__scale-bar" style="width:8px"></div></div>
+          <div class="bdna__scale-row"><span>12px</span><div class="bdna__scale-bar" style="width:12px"></div></div>
+          <div class="bdna__scale-row"><span>16px</span><div class="bdna__scale-bar" style="width:16px"></div></div>
+          <div class="bdna__scale-row"><span>24px</span><div class="bdna__scale-bar" style="width:24px"></div></div>
+          <div class="bdna__scale-row"><span>32px</span><div class="bdna__scale-bar" style="width:32px"></div></div>
+          <div class="bdna__scale-row"><span>48px</span><div class="bdna__scale-bar" style="width:48px"></div></div>
+          <div class="bdna__scale-row"><span>64px</span><div class="bdna__scale-bar" style="width:64px"></div></div>
+        </div>
+
+        <div class="bdna__cols">
+          <ul class="bdna__list bdna__list--do">
+            <h5>Do</h5>
+            <li>Pick gaps and padding from the 4px scale only.</li>
+            <li>Keep a consistent vertical rhythm between sections.</li>
+            <li>Use one radius family (~10–14px) across surfaces.</li>
+          </ul>
+          <ul class="bdna__list bdna__list--dont">
+            <h5>Don't</h5>
+            <li>Use arbitrary one-off values like 7px or 23px.</li>
+            <li>Compress dense data to remove breathing room.</li>
+            <li>Mix sharp and round corners in the same group.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 06 INTERACTION & MOTION #}
+      <section class="bdna__section" id="motion" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">06 — Motion</span>
+          <h2 class="bdna__sec-title">Interaction & motion rules</h2>
+          <p class="bdna__sec-desc">Motion clarifies state; it never performs. Transitions land in 150–250ms with subtle easing, and always respect reduced-motion.</p>
+        </header>
+
+        <div class="bdna__demo">
+          <article class="bdna__democard">
+            <span class="bdna__tag">Hover</span>
+            <h4>Lift, don't leap</h4>
+            <p>A 3px rise and a soft shadow at 200ms. Enough to feel responsive, never enough to distract.</p>
+          </article>
+          <div class="bdna__field" style="align-self:center">
+            <label for="bd-motion-input">Focus me</label>
+            <input id="bd-motion-input" type="text" placeholder="Tab here to see the ring" autocomplete="off">
+            <small>State changes are felt, not announced.</small>
+          </div>
+        </div>
+
+        <div class="bdna__cols">
+          <ul class="bdna__list bdna__list--do">
+            <h5>Do</h5>
+            <li>Keep durations in the 150–250ms range.</li>
+            <li>Animate to communicate state and continuity.</li>
+            <li>Honor <code>prefers-reduced-motion</code> everywhere.</li>
+          </ul>
+          <ul class="bdna__list bdna__list--dont">
+            <h5>Don't</h5>
+            <li>Use bounce, spin or large scale transforms.</li>
+            <li>Animate purely for decoration.</li>
+            <li>Block interaction while an animation plays.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 07 INFORMATION HIERARCHY #}
+      <section class="bdna__section" id="hierarchy" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">07 — Hierarchy</span>
+          <h2 class="bdna__sec-title">Information hierarchy rules</h2>
+          <p class="bdna__sec-desc">Make the important thing obvious in one glance. Large numbers earn weight; labels support; units whisper.</p>
+        </header>
+
+        <div class="bdna__demo">
+          <div class="bdna__kpi">
+            <span class="bdna__kpi-label">Monthly active</span>
+            <span class="bdna__kpi-value">128,400 <span class="bdna__kpi-unit">users</span></span>
+          </div>
+          <p class="bdna__p" style="max-width:34ch;margin:0;align-self:center">The value dominates, the label orients, the unit recedes — the same pattern scales to any metric.</p>
+        </div>
+
+        <div class="bdna__cols">
+          <ul class="bdna__list bdna__list--do">
+            <h5>Do</h5>
+            <li>Keep exactly one H1 and a scannable heading order.</li>
+            <li>Give key metrics the most visual weight.</li>
+            <li>Reveal detail progressively — summary first.</li>
+          </ul>
+          <ul class="bdna__list bdna__list--dont">
+            <h5>Don't</h5>
+            <li>Make everything bold — then nothing reads as important.</li>
+            <li>Bury the primary message below secondary noise.</li>
+            <li>Skip heading levels for visual effect.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 08 CONSISTENCY CHECKER #}
+      <section class="bdna__section" id="checker" data-bd-section>
+        <header class="bdna__sec-head">
+          <span class="bdna__sec-kicker">08 — Gate</span>
+          <h2 class="bdna__sec-title">Consistency checker</h2>
+          <p class="bdna__sec-desc">Before shipping any new UI, walk this checklist. The readiness meter updates live — aim for 100% and pass the gate question.</p>
+        </header>
+
+        <div class="bdna__checker">
+          <div class="bdna__meter">
+            <span class="bdna__meter-pct" data-bd-pct>0%</span>
+            <div class="bdna__meter-track" role="progressbar" aria-label="B-DNA readiness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="bdna__meter-fill" data-bd-bar></div>
+            </div>
+          </div>
+          <p class="bdna__verdict is-fail" data-bd-verdict>Needs work — does not meet the B-DNA bar yet.</p>
+
+          <div class="bdna__checks">
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Color</span><br><b>Tokens only.</b> Uses <code>var(--c-*)</code>; no hard-coded hex or new palette.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Color</span><br><b>One primary action</b> per view; neutral carries ~90% of the surface.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Type</span><br><b>Single family.</b> Hierarchy from weight + size, not new fonts.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Components</span><br><b>Reuse first.</b> Built from existing buttons, cards, inputs.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Space</span><br><b>4px scale.</b> All gaps and padding step off the base unit.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Motion</span><br><b>Calm motion ≤250ms</b> and <code>prefers-reduced-motion</code> respected.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Hierarchy</span><br><b>One H1</b> and a clear, scannable heading order.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Structure</span><br><b>Cards before tables</b> for grouped content.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">A11y</span><br><b>Visible focus</b> on every interactive element.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Responsive</span><br><b>Holds at 360 / 768 / 1024</b> and desktop.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Scope</span><br><b>No global override.</b> Doesn't restyle nav, header, footer or tokens.</span></label>
+            <label class="bdna__check"><input type="checkbox" data-bd-check><span><span class="bdna__check-cat">Theme</span><br><b>Light & dark</b> both verified via the theme tokens.</span></label>
+          </div>
+
+          <div class="bdna__checker-foot">
+            <p class="bdna__gate">Gate question: “Would this look like it has always belonged in the product?” If not — simplify.</p>
+            <button type="button" class="bdna__btn bdna__btn--secondary" data-bd-reset>Reset</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    {# ----- Right rail navigation (sticky) ----- #}
+    <aside class="bdna__rail">
+      <p class="bdna__rail-title">On this page</p>
+      <nav aria-label="B-DNA sections">
+        <a href="#overview" data-bd-link><span class="bdna__rail-num">00</span> Overview</a>
+        <a href="#structure" data-bd-link><span class="bdna__rail-num">01</span> UI Structure</a>
+        <a href="#color" data-bd-link><span class="bdna__rail-num">02</span> Color Usage</a>
+        <a href="#type" data-bd-link><span class="bdna__rail-num">03</span> Typography</a>
+        <a href="#components" data-bd-link><span class="bdna__rail-num">04</span> Components</a>
+        <a href="#layout" data-bd-link><span class="bdna__rail-num">05</span> Layout & Spacing</a>
+        <a href="#motion" data-bd-link><span class="bdna__rail-num">06</span> Motion</a>
+        <a href="#hierarchy" data-bd-link><span class="bdna__rail-num">07</span> Hierarchy</a>
+        <a href="#checker" data-bd-link><span class="bdna__rail-num">08</span> Checker</a>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="bdna__foot">
+    <p>B-DNA — Brand Design DNA · guideline layer, not a theme.</p>
+    <p>Companion to <a href="{{ config.base_url }}/tools/s-dna/">S-DNA</a> ·
+       governed by the <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a></p>
+  </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  var root = document.querySelector('.bdna');
+  if (!root) return;
+
+  /* ----- Scroll-spy: highlight the active rail link (smooth scroll is CSS-native) ----- */
+  var links = Array.prototype.slice.call(root.querySelectorAll('[data-bd-link]'));
+  var map = {};
+  links.forEach(function (l) {
+    var id = (l.getAttribute('href') || '').replace('#', '');
+    if (id) map[id] = l;
+  });
+
+  function setActive(id) {
+    links.forEach(function (l) { l.classList.remove('is-active'); l.removeAttribute('aria-current'); });
+    if (map[id]) { map[id].classList.add('is-active'); map[id].setAttribute('aria-current', 'true'); }
+  }
+
+  var sections = Array.prototype.slice.call(root.querySelectorAll('[data-bd-section]'));
+  if ('IntersectionObserver' in window && sections.length) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+  setActive('overview');
+
+  /* ----- Consistency checker: live readiness meter ----- */
+  var boxes = Array.prototype.slice.call(root.querySelectorAll('[data-bd-check]'));
+  var bar = root.querySelector('[data-bd-bar]');
+  var track = bar ? bar.parentElement : null;
+  var pct = root.querySelector('[data-bd-pct]');
+  var verdict = root.querySelector('[data-bd-verdict]');
+  var reset = root.querySelector('[data-bd-reset]');
+
+  function update() {
+    var total = boxes.length;
+    var done = boxes.filter(function (b) { return b.checked; }).length;
+    var p = total ? Math.round((done / total) * 100) : 0;
+    if (bar) bar.style.width = p + '%';
+    if (track) track.setAttribute('aria-valuenow', String(p));
+    if (pct) pct.textContent = p + '%';
+    if (verdict) {
+      var text, cls;
+      if (p === 100) { text = 'Ship it — fully consistent with B-DNA.'; cls = 'is-pass'; }
+      else if (p >= 70) { text = 'Almost there — resolve the unchecked rules before shipping.'; cls = 'is-warn'; }
+      else { text = 'Needs work — does not meet the B-DNA bar yet.'; cls = 'is-fail'; }
+      verdict.textContent = text;
+      verdict.className = 'bdna__verdict ' + cls;
+    }
+  }
+
+  boxes.forEach(function (b) { b.addEventListener('change', update); });
+  if (reset) reset.addEventListener('click', function () {
+    boxes.forEach(function (b) { b.checked = false; });
+    update();
+  });
+  update();
+})();
+</script>
+{% endblock extra_scripts %}

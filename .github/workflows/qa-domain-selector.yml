@@ -1,0 +1,43 @@
+name: QA Domain Selector
+
+# Gợi ý tên miền cho blog "Chợ Gạo" → data/qa-domain-selector-report.json
+# (hiển thị ở /insights/). Phân tích niche từ content/ + chấm điểm + check
+# availability (API nếu có DOMAIN_CHECK_API_KEY, else DNS fallback 3s/domain).
+# Stdlib only — không cần zola build (script chỉ quét content/ source).
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # mỗi 2 giờ (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: qa-domain-selector
+  cancel-in-progress: false
+
+jobs:
+  suggest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Run domain selector
+        env:
+          DOMAIN_CHECK_API_KEY: ${{ secrets.DOMAIN_CHECK_API_KEY }}
+        run: python3 qa-domain-selector.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: QA Domain Selector ($(date -u +%FT%TZ))" \
+            data/qa-domain-selector-report.json

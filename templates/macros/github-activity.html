@@ -1,0 +1,201 @@
+{# GitHub Activity + Profile Badges — /insights/ (data/github-activity.json, data/github-profile-badges.json) #}
+{% import "macros/datetime.html" as dt %}
+{% macro widget() %}
+{% set gh = load_data(path="data/github-activity.json", required=false) %}
+{% set badge_data = load_data(path="data/github-profile-badges.json", required=false) %}
+{% set has_activity = gh and gh.total_contributions is defined %}
+{% if badge_data %}
+    {% if badge_data.badges %}{% set badge_list = badge_data.badges %}{% else %}{% set badge_list = [] %}{% endif %}
+{% else %}
+{% set badge_list = [] %}
+{% endif %}
+{% if has_activity or badge_data %}
+<section class="insights__build gh-activity" data-widget="github-activity" aria-labelledby="gh-activity-title">
+    {% if has_activity %}
+    <header class="insights__build-head gh-activity__head">
+        <div>
+            <h3 class="insights__build-title" id="gh-activity-title">GitHub Activity</h3>
+            <p class="gh-activity__subtitle">
+                <strong>{{ gh.total_contributions }}</strong> contributions in the last year
+            </p>
+        </div>
+        {% if gh.contributor %}
+        <span class="insights__build-meta">@{{ gh.contributor }}</span>
+        {% endif %}
+    </header>
+
+    {% if gh.stale or gh.fetch_error %}
+    <p class="insights__build-warn gh-activity__warn" role="status">
+        GitHub activity data may be outdated
+        {% if gh.updated_at %}
+        <time datetime="{{ gh.updated_at }}">({{ dt::display_datetime(value=gh.updated_at) }})</time>
+        {% endif %}
+    </p>
+    {% endif %}
+
+    <div class="gh-activity__heatmap-wrap">
+        <div class="gh-activity__heatmap" role="img"
+             aria-label="Contribution heatmap for the last {{ gh.period_days | default(value=365) }} days">
+            <div class="gh-activity__months" aria-hidden="true">
+                {% for week in gh.heatmap.weeks %}
+                <span class="gh-activity__month">{{ week.month_label | default(value="") }}</span>
+                {% endfor %}
+            </div>
+            <div class="gh-activity__grid-row">
+                <div class="gh-activity__weekdays" aria-hidden="true">
+                    {% for label in gh.heatmap.weekday_labels %}
+                    <span class="gh-activity__weekday">{{ label }}</span>
+                    {% endfor %}
+                </div>
+                <div class="gh-activity__weeks">
+                    {% for week in gh.heatmap.weeks %}
+                    <div class="gh-activity__week-col">
+                        {% for cell in week.days %}
+                        {% if cell %}
+                        <span class="gh-activity__cell gh-activity__cell--{{ cell.level }}"
+                              data-date="{{ cell.date }}"
+                              data-count="{{ cell.count }}"
+                              title="{{ cell.count }} contributions on {{ cell.date }}"></span>
+                        {% else %}
+                        <span class="gh-activity__cell gh-activity__cell--empty" aria-hidden="true"></span>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="gh-activity__legend" aria-hidden="true">
+            <span class="gh-activity__legend-label">Less</span>
+            <span class="gh-activity__cell gh-activity__cell--0"></span>
+            <span class="gh-activity__cell gh-activity__cell--1"></span>
+            <span class="gh-activity__cell gh-activity__cell--2"></span>
+            <span class="gh-activity__cell gh-activity__cell--3"></span>
+            <span class="gh-activity__cell gh-activity__cell--4"></span>
+            <span class="gh-activity__legend-label">More</span>
+        </div>
+    </div>
+
+    <div class="gh-activity__overview">
+        <h4 class="gh-activity__overview-title">Activity overview</h4>
+        <ul class="gh-activity__breakdown">
+            <li>
+                <span class="gh-activity__breakdown-label">Commits</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--commits"
+                          style="width: {{ gh.breakdown.commits_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.commits_pct }}%</span>
+            </li>
+            <li>
+                <span class="gh-activity__breakdown-label">Pull requests</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--prs"
+                          style="width: {{ gh.breakdown.pull_requests_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.pull_requests_pct }}%</span>
+            </li>
+            <li>
+                <span class="gh-activity__breakdown-label">Issues</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--issues"
+                          style="width: {{ gh.breakdown.issues_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.issues_pct }}%</span>
+            </li>
+            <li>
+                <span class="gh-activity__breakdown-label">Code review</span>
+                <span class="gh-activity__breakdown-bar" aria-hidden="true">
+                    <span class="gh-activity__breakdown-fill gh-activity__breakdown-fill--reviews"
+                          style="width: {{ gh.breakdown.reviews_pct }}%"></span>
+                </span>
+                <span class="gh-activity__breakdown-pct">{{ gh.breakdown.reviews_pct }}%</span>
+            </li>
+        </ul>
+    </div>
+    {% else %}
+    <header class="insights__build-head gh-activity__head">
+        <div>
+            <h3 class="insights__build-title" id="gh-activity-title">GitHub Profile Badges</h3>
+            {% if badge_data and badge_data.profile %}
+            <p class="gh-activity__subtitle">Archived badges for <strong>@{{ badge_data.profile }}</strong></p>
+            {% endif %}
+        </div>
+    </header>
+    {% endif %}
+
+    <div class="gh-badges" data-widget="github-profile-badges" aria-labelledby="gh-badges-title">
+        {% if has_activity %}
+        <h4 class="gh-badges__title" id="gh-badges-title">GitHub Profile Badges</h4>
+        {% else %}
+        <h4 class="gh-badges__title visually-hidden" id="gh-badges-title">GitHub Profile Badges</h4>
+        {% endif %}
+        {% if badge_list | length > 0 %}
+        <ul class="gh-badges__grid">
+            {% for badge in badge_list %}
+            <li class="gh-badges__card gh-badges__card--{{ badge.tier | default(value='default') }}">
+                <span class="gh-badges__icon" aria-hidden="true">{{ badge.icon | default(value="🏅") }}</span>
+                <div class="gh-badges__body">
+                    <span class="gh-badges__name">{{ badge.title }}</span>
+                    {% if badge.description %}
+                    <p class="gh-badges__desc">{{ badge.description }}</p>
+                    {% endif %}
+                    {% if badge.earned_at %}
+                    <time class="gh-badges__earned" datetime="{{ badge.earned_at }}">
+                        Earned {{ dt::display_datetime(value=badge.earned_at) }}
+                    </time>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="gh-badges__empty" role="status">Chưa có huy hiệu GitHub nào được lưu trữ.</p>
+        {% endif %}
+        {% if badge_data and badge_data.fetch_error %}
+        <p class="insights__build-warn gh-badges__warn" role="status">
+            Badge data may be outdated
+            {% if badge_data.updated_at %}
+            <time datetime="{{ badge_data.updated_at }}">({{ dt::display_datetime(value=badge_data.updated_at) }})</time>
+            {% endif %}
+        </p>
+        {% endif %}
+    </div>
+
+    {% if has_activity %}
+    <footer class="insights__build-foot gh-activity__foot">
+        <a class="insights__source"
+           href="{{ gh.repository_url | default(value='https://github.com/Banhang-Chogao/zola') }}"
+           target="_blank" rel="noopener">
+            Contributed to {{ gh.repository | default(value="Banhang-Chogao/zola") }}
+            <span aria-hidden="true">↗</span>
+        </a>
+        {% if gh.latest_activity_at %}
+        <time class="insights__build-updated" datetime="{{ gh.latest_activity_at }}">
+            Latest {{ dt::display_datetime(value=gh.latest_activity_at) }}
+        </time>
+        {% elif gh.updated_at %}
+        <time class="insights__build-updated" datetime="{{ gh.updated_at }}">
+            Cập nhật {{ dt::display_datetime(value=gh.updated_at) }}
+        </time>
+        {% endif %}
+    </footer>
+    {% elif badge_data and badge_data.profile_url %}
+    <footer class="insights__build-foot gh-activity__foot">
+        <a class="insights__source"
+           href="{{ badge_data.profile_url }}"
+           target="_blank" rel="noopener">
+            @{{ badge_data.profile | default(value="Banhang-Chogao") }} on GitHub
+            <span aria-hidden="true">↗</span>
+        </a>
+        {% if badge_data.updated_at %}
+        <time class="insights__build-updated" datetime="{{ badge_data.updated_at }}">
+            Cập nhật {{ dt::display_datetime(value=badge_data.updated_at) }}
+        </time>
+        {% endif %}
+    </footer>
+    {% endif %}
+</section>
+{% endif %}
+{% endmacro %}

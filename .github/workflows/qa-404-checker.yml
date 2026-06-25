@@ -1,0 +1,57 @@
+name: QA 404 Checker
+
+# Broken-link checker → data/qa-404-report.json (hiển thị ở /insights/).
+# OFFLINE-SAFE: chạy internal-only (KHÔNG network) nên không bao giờ treo.
+# Build site (zola) rồi quét public/, resolve link nội bộ offline, tự sửa
+# (--fix) link nội bộ 404 khi có gợi ý chắc chắn (sửa SOURCE content/*.md).
+# External link KHÔNG kiểm tra trong CI (tránh treo); chỉ warn khi chạy tay
+# với --external.
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'   # mỗi 2 giờ (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: qa-404-checker
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Zola
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Build reference index
+        run: python3 scripts/build_references.py
+
+      - name: Build site
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: zola build
+
+      - name: Run QA 404 checker (internal-only, offline — never hangs)
+        run: python3 qa-404-checker.py --fix
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: QA 404 checker ($(date -u +%FT%TZ))" \
+            data/qa-404-report.json content/

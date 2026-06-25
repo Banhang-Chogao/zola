@@ -1,0 +1,98 @@
+{
+  "checked_at": "2026-06-22T16:14:57.319799+00:00",
+  "ok": true,
+  "summary": {
+    "total": 1,
+    "up": 1,
+    "down": 0,
+    "paused": 0,
+    "overall_uptime_30d": 100.0,
+    "avg_response_ms": 143,
+    "breathing": "thở đều, khỏe re 😎"
+  },
+  "accounts": [
+    {
+      "key_index": 1,
+      "ok": true,
+      "monitor_count": 2,
+      "error": null
+    },
+    {
+      "key_index": 2,
+      "ok": true,
+      "monitor_count": 1,
+      "error": null
+    },
+    {
+      "key_index": 3,
+      "ok": true,
+      "monitor_count": 2,
+      "error": null
+    }
+  ],
+  "monitors": [
+    {
+      "name": "seomoney.org/",
+      "host": "seomoney.org",
+      "status": "up",
+      "uptime_24h": 100.0,
+      "uptime_7d": 100.0,
+      "uptime_30d": 100.0,
+      "avg_response_ms": 143,
+      "response_times": [
+        {
+          "t": "2026-06-21T17:10:00+00:00",
+          "ms": 243
+        },
+        {
+          "t": "2026-06-21T17:05:00+00:00",
+          "ms": 15
+        },
+        {
+          "t": "2026-06-21T17:00:00+00:00",
+          "ms": 243
+        },
+        {
+          "t": "2026-06-21T16:55:00+00:00",
+          "ms": 194
+        },
+        {
+          "t": "2026-06-21T16:50:00+00:00",
+          "ms": 246
+        },
+        {
+          "t": "2026-06-21T16:45:00+00:00",
+          "ms": 14
+        },
+        {
+          "t": "2026-06-21T16:40:00+00:00",
+          "ms": 21
+        },
+        {
+          "t": "2026-06-21T16:35:00+00:00",
+          "ms": 21
+        },
+        {
+          "t": "2026-06-21T16:30:00+00:00",
+          "ms": 188
+        },
+        {
+          "t": "2026-06-21T16:25:00+00:00",
+          "ms": 25
+        },
+        {
+          "t": "2026-06-21T16:20:00+00:00",
+          "ms": 252
+        },
+        {
+          "t": "2026-06-21T16:15:00+00:00",
+          "ms": 250
+        }
+      ],
+      "last_down": null,
+      "incidents": []
+    }
+  ],
+  "incidents": [],
+  "stale": false
+}

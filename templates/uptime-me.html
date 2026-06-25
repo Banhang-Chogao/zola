@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% import "macros/datetime.html" as dt %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+{% set u = load_data(path="data/uptime-me.json", required=false) %}
+{% set has = u and u.summary and u.summary.total > 0 %}
+
+<section class="uptime-me">
+  <header class="uptime-me__head">
+    <p class="uptime-me__eyebrow">Tools · Dashboard &amp; phân tích · UptimeRobot ×3</p>
+    <h1 class="uptime-me__title">📈 UPTIME_ME</h1>
+    <p class="uptime-me__desc">{{ page.description }}</p>
+  </header>
+
+  {% if has %}
+  {% set s = u.summary %}
+  {# ===== Breathing status — "Website đang thở ổn không?" ===== #}
+  {% set bstate = "ok" %}
+  {% if s.down > 0 %}{% set bstate = "warn" %}{% endif %}
+  {% if s.up == 0 %}{% set bstate = "down" %}{% endif %}
+  <div class="uptime-me__breath uptime-me__breath--{{ bstate }}">
+    <span class="uptime-me__breath-label">Website đang thở ổn không?</span>
+    <strong class="uptime-me__breath-verdict">{{ s.breathing }}</strong>
+  </div>
+
+  {# ===== KPI cards ===== #}
+  <div class="uptime-me__kpis">
+    <div class="uptime-card uptime-card--score">
+      <span class="uptime-card__label">Uptime 30 ngày</span>
+      <span class="uptime-card__value">{% if s.overall_uptime_30d %}{{ s.overall_uptime_30d }}%{% else %}—{% endif %}</span>
+    </div>
+    <div class="uptime-card">
+      <span class="uptime-card__label">Đang sống</span>
+      <span class="uptime-card__value">{{ s.up }}<span class="uptime-card__unit">/{{ s.total }}</span></span>
+    </div>
+    <div class="uptime-card">
+      <span class="uptime-card__label">Phản hồi TB</span>
+      <span class="uptime-card__value">{% if s.avg_response_ms %}{{ s.avg_response_ms }}<span class="uptime-card__unit">ms</span>{% else %}—{% endif %}</span>
+    </div>
+    <div class="uptime-card {% if s.down > 0 %}uptime-card--alert{% endif %}">
+      <span class="uptime-card__label">Sự cố / tạm dừng</span>
+      <span class="uptime-card__value">{{ s.down }}<span class="uptime-card__unit"> · {{ s.paused }} ⏸</span></span>
+    </div>
+  </div>
+
+  {# ===== 3 account cards ===== #}
+  {% if u.accounts %}
+  <h2 class="uptime-me__h2">3 tài khoản UptimeRobot</h2>
+  <div class="uptime-me__accounts">
+    {% for a in u.accounts %}
+    <div class="uptime-acct uptime-acct--{% if a.ok %}ok{% else %}err{% endif %}">
+      <span class="uptime-acct__idx">API #{{ a.key_index }}</span>
+      {% if a.ok %}
+        <span class="uptime-acct__ok">● {{ a.monitor_count }} monitor</span>
+      {% else %}
+        <span class="uptime-acct__err">○ {{ a.error | default(value="lỗi") }}</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {# ===== Monitor list + response-time chart (JS enhances) ===== #}
+  <h2 class="uptime-me__h2">Monitors</h2>
+  <div class="uptime-me__monitors" id="uptime-monitors">
+    {% for m in u.monitors %}
+    <article class="uptime-mon uptime-mon--{{ m.status }}">
+      <div class="uptime-mon__top">
+        <span class="uptime-mon__dot" aria-hidden="true"></span>
+        <span class="uptime-mon__name">{{ m.name }}</span>
+        <span class="uptime-mon__status">{{ m.status }}</span>
+      </div>
+      <div class="uptime-mon__meta">
+        <span>{{ m.host }}</span>
+        <span>{% if m.uptime_30d %}{{ m.uptime_30d }}% / 30d{% else %}—{% endif %}</span>
+        <span>{% if m.avg_response_ms %}{{ m.avg_response_ms }} ms{% else %}—{% endif %}</span>
+      </div>
+      {% if m.response_times %}
+      <div class="uptime-mon__spark" data-spark='{{ m.response_times | json_encode | safe }}' aria-label="Thời gian phản hồi gần đây"></div>
+      {% endif %}
+      {% if m.last_down %}
+      <p class="uptime-mon__down">Lần sập gần nhất: <time datetime="{{ m.last_down }}">{{ dt::display_datetime(value=m.last_down) }}</time></p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+
+  {# ===== Incident timeline ===== #}
+  {% if u.incidents %}
+  <h2 class="uptime-me__h2">Dòng thời gian sự cố</h2>
+  <ol class="uptime-me__timeline">
+    {% for inc in u.incidents %}
+    <li class="uptime-tl">
+      <time class="uptime-tl__time" datetime="{{ inc.start }}">{{ dt::display_datetime(value=inc.start) }}</time>
+      <span class="uptime-tl__mon">{{ inc.monitor }}</span>
+      <span class="uptime-tl__reason">{{ inc.reason | default(value="(không rõ lý do)") }}{% if inc.duration_s %} · {{ inc.duration_s }}s{% endif %}</span>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p class="uptime-me__none">🎉 Không có sự cố nào gần đây — cứ thế mà thở.</p>
+  {% endif %}
+
+  <p class="uptime-me__updated">
+    {% if u.checked_at %}Cập nhật: <time datetime="{{ u.checked_at }}">{{ dt::display_datetime(value=u.checked_at) }}</time>{% endif %}
+    {% if u.stale %} · <span class="uptime-me__stale">⚠ dữ liệu có thể đã cũ</span>{% endif %}
+  </p>
+
+  {% else %}
+  {# ===== Empty / error state ===== #}
+  <div class="uptime-me__empty">
+    <div class="uptime-me__empty-emoji">🌬️</div>
+    <h2>Chưa có nhịp thở nào để đo</h2>
+    <p>Dashboard này được nuôi bằng CI cron từ 3 API UptimeRobot. Khi job chạy lần đầu
+       (và 3 secret <code>UPTIMEROBOT_API_KEY_1/2/3</code> đã được set), số liệu uptime,
+       thời gian phản hồi và dòng sự cố sẽ hiện ở đây.</p>
+    <p class="uptime-me__empty-hint">Trạng thái hiện tại: chờ dữ liệu đầu tiên.</p>
+  </div>
+  {% endif %}
+</section>
+
+<script src="{{ get_url(path='js/uptime-me.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

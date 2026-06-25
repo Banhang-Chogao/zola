@@ -1,0 +1,600 @@
+{% extends "base.html" %}
+
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}E-DNA — Enterprise Editorial Design System | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block extra_head %}
+<style>
+  .layout-grid:has(.edna) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.edna) { max-width: 1240px; }
+
+  .edna {
+    --ed-ink:           var(--c-text-heading, #0a0a0a);
+    --ed-body:          var(--c-text-body, #333);
+    --ed-muted:         var(--c-text-muted, #6a6a6a);
+    --ed-blue:          var(--c-accent, #003784);
+    --ed-blue-hover:    var(--c-accent-hover, #002566);
+    --ed-blue-soft:     var(--c-accent-soft, #e8edf5);
+    --ed-teal:          #00a69d;
+    --ed-surface:       var(--c-bg-surface, #fff);
+    --ed-page:          var(--c-bg-page, #f8f9fb);
+    --ed-soft:          var(--c-bg-soft, #f4f4f4);
+    --ed-border:        var(--c-border, #e3e3e3);
+    --ed-border-strong: var(--c-border-strong, #d0d0d0);
+    --ed-success:       var(--c-success, #00a69d);
+    --ed-shadow:        var(--c-shadow-md, 0 2px 8px rgba(0,55,132,.08));
+    --ed-shadow-lg:     var(--c-shadow-lg, 0 8px 24px rgba(0,55,132,.12));
+    --ed-radius:        4px;
+    --ed-mono:          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --ed-rail:          232px;
+    --ed-nav-offset:    76px;
+    --ed-1: 4px;  --ed-2: 8px;  --ed-3: 12px; --ed-4: 16px;
+    --ed-5: 24px; --ed-6: 32px; --ed-7: 48px; --ed-8: 64px;
+
+    font-family: inherit;
+    color: var(--ed-body);
+    line-height: 1.62;
+    padding: 0 var(--ed-4) var(--ed-8);
+    margin: 0 auto;
+  }
+
+  .edna *, .edna *::before, .edna *::after { box-sizing: border-box; }
+
+  /* ===== Brand bar ===== */
+  .edna__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--ed-4); flex-wrap: wrap;
+    padding: var(--ed-5) 0 var(--ed-4);
+    border-bottom: 1px solid var(--ed-border);
+  }
+  .edna__brand { display: flex; align-items: center; gap: var(--ed-3); }
+  .edna__mark {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--ed-blue);
+    border-radius: var(--ed-radius);
+    color: var(--ed-blue);
+    font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;
+  }
+  .edna__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .edna__brand-name { font-size: 1.1rem; font-weight: 800; color: var(--ed-ink); letter-spacing: -0.02em; }
+  .edna__brand-tag { font-size: 0.74rem; color: var(--ed-muted); }
+  .edna__top-link {
+    font-size: 0.8rem; font-weight: 600; text-decoration: none;
+    color: var(--ed-blue); padding: var(--ed-2) var(--ed-3);
+    border: 1px solid var(--ed-border); border-radius: 999px;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .edna__top-link:hover { border-color: var(--ed-blue); background: var(--ed-blue-soft); }
+
+  /* ===== Hero ===== */
+  .edna__hero {
+    padding: var(--ed-8) 0 var(--ed-7);
+    border-bottom: 1px solid var(--ed-border);
+  }
+  .edna__eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ed-blue); margin: 0 0 var(--ed-4);
+  }
+  .edna__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+    color: var(--ed-ink); margin: 0 0 var(--ed-3); max-width: 20ch;
+  }
+  .edna__subtitle {
+    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+    line-height: 1.55; color: var(--ed-muted); margin: 0 0 var(--ed-5); max-width: 64ch;
+  }
+  .edna__lede {
+    font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.6;
+    color: var(--ed-body); margin: 0; max-width: 64ch;
+  }
+  .edna__lede strong { color: var(--ed-ink); }
+  .edna__sources { margin: var(--ed-5) 0 0; font-size: 0.82rem; color: var(--ed-muted); }
+  .edna__sources a { color: var(--ed-blue); }
+  .edna__principles {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--ed-4); margin-top: var(--ed-7);
+    padding-top: var(--ed-6); border-top: 1px solid var(--ed-border);
+  }
+  .edna__principle-n { font-size: 1.9rem; font-weight: 800; color: var(--ed-ink); letter-spacing: -0.02em; line-height: 1; }
+  .edna__principle-l { display: block; margin-top: var(--ed-2); font-size: 0.82rem; color: var(--ed-muted); }
+
+  /* ===== Two-column body ===== */
+  .edna__body { display: grid; grid-template-columns: minmax(0, 1fr) var(--ed-rail); gap: var(--ed-8); align-items: start; }
+
+  .edna__rail { position: sticky; top: var(--ed-nav-offset); align-self: start; }
+  .edna__rail-title {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ed-muted); margin: 0 0 var(--ed-3); padding-left: var(--ed-3);
+  }
+  .edna__rail nav { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--ed-border); }
+  .edna__rail a {
+    display: flex; align-items: baseline; gap: var(--ed-2);
+    font-size: 0.84rem; font-weight: 500; text-decoration: none;
+    color: var(--ed-muted); padding: var(--ed-2) var(--ed-3);
+    border-left: 2px solid transparent; margin-left: -1px;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .edna__rail a:hover { color: var(--ed-ink); }
+  .edna__rail a.is-active { color: var(--ed-blue); border-left-color: var(--ed-blue); background: var(--ed-blue-soft); border-radius: 0 6px 6px 0; }
+  .edna__rail-num { font-family: var(--ed-mono); font-size: 0.72rem; color: var(--ed-muted); flex-shrink: 0; }
+  .edna__rail a.is-active .edna__rail-num { color: var(--ed-blue); }
+
+  /* ===== Sections ===== */
+  .edna__section { padding: var(--ed-8) 0; border-bottom: 1px solid var(--ed-border); scroll-margin-top: var(--ed-nav-offset); }
+  .edna__section:last-child { border-bottom: 0; }
+  .edna__sec-head { margin-bottom: var(--ed-6); }
+  .edna__sec-kicker { font-family: var(--ed-mono); font-size: 0.8rem; color: var(--ed-blue); font-weight: 600; }
+  .edna__sec-title { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; color: var(--ed-ink); margin: var(--ed-2) 0 var(--ed-3); }
+  .edna__sec-desc { font-size: 0.98rem; line-height: 1.62; color: var(--ed-body); margin: 0; max-width: 70ch; }
+
+  .edna__h3 { font-size: 1.02rem; font-weight: 700; color: var(--ed-ink); margin: var(--ed-6) 0 var(--ed-3); }
+  .edna__h3:first-child { margin-top: 0; }
+  .edna__p { font-size: 0.94rem; line-height: 1.66; color: var(--ed-body); margin: 0 0 var(--ed-3); max-width: 70ch; }
+  .edna__p strong { color: var(--ed-ink); }
+  .edna code { font-family: var(--ed-mono); font-size: 0.84em; color: var(--ed-blue); background: var(--ed-blue-soft); padding: 1px 6px; border-radius: 5px; }
+
+  /* ===== Card grid ===== */
+  .edna__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--ed-4); }
+  .edna__card { background: var(--ed-surface); border: 1px solid var(--ed-border); border-radius: var(--ed-radius); padding: var(--ed-5); }
+  .edna__card h4 { font-size: 0.9rem; font-weight: 700; color: var(--ed-ink); margin: 0 0 var(--ed-2); }
+  .edna__card p { font-size: 0.84rem; line-height: 1.55; color: var(--ed-muted); margin: 0; }
+
+  /* ===== Do / Don't ===== */
+  .edna__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ed-4); margin-top: var(--ed-4); }
+  .edna__list { list-style: none; margin: 0; padding: var(--ed-5); border-radius: var(--ed-radius); border: 1px solid var(--ed-border); background: var(--ed-surface); }
+  .edna__list h5 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 var(--ed-3); }
+  .edna__list li { font-size: 0.86rem; line-height: 1.5; color: var(--ed-body); padding: var(--ed-2) 0 var(--ed-2) var(--ed-5); position: relative; }
+  .edna__list--do h5 { color: var(--ed-success); }
+  .edna__list--dont h5 { color: var(--ed-blue-hover); }
+  .edna__list--do li::before { content: "âœ“"; position: absolute; left: 0; color: var(--ed-success); font-weight: 800; }
+  .edna__list--dont li::before { content: "âœ•"; position: absolute; left: 0; color: var(--ed-blue-hover); font-weight: 800; }
+
+  /* ===== Typography specimen ===== */
+  .edna__type-row { display: grid; grid-template-columns: 1fr auto; gap: var(--ed-4); align-items: baseline; padding: var(--ed-4) var(--ed-5); border: 1px solid var(--ed-border); border-radius: var(--ed-radius); background: var(--ed-surface); margin-bottom: var(--ed-2); }
+  .edna__type-sample { color: var(--ed-ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .edna__type-meta { font-family: var(--ed-mono); font-size: 0.74rem; color: var(--ed-muted); text-align: right; white-space: nowrap; }
+  .edna__type-hilda { font-family: 'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+  /* ===== Component demos ===== */
+  .edna__demo { background: var(--ed-soft); border: 1px solid var(--ed-border); border-radius: var(--ed-radius); padding: var(--ed-6); display: flex; flex-wrap: wrap; gap: var(--ed-4); align-items: center; }
+
+  .edna__hero-card {
+    background: var(--ed-surface); border: 1px solid var(--ed-border);
+    border-left: 5px solid var(--ed-blue); border-radius: var(--ed-radius);
+    padding: var(--ed-7) var(--ed-6);
+    max-width: 580px; width: 100%;
+  }
+  .edna__hero-card-eyebrow {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ed-blue); margin: 0 0 var(--ed-3);
+  }
+  .edna__hero-card-title {
+    font-size: 1.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--ed-ink); margin: 0 0 var(--ed-3);
+  }
+  .edna__hero-card-desc {
+    font-size: 0.88rem; line-height: 1.55; color: var(--ed-body); margin: 0;
+  }
+
+  .edna__news-card {
+    background: var(--ed-surface); border: 1px solid var(--ed-border);
+    border-radius: var(--ed-radius); padding: var(--ed-5);
+    max-width: 320px; width: 100%;
+    transition: box-shadow .2s ease;
+  }
+  .edna__news-card:hover { box-shadow: var(--ed-shadow-lg); }
+  .edna__news-tag {
+    display: inline-block; font-size: 0.64rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--ed-blue); background: var(--ed-blue-soft);
+    padding: 3px 9px; border-radius: 999px; margin-bottom: var(--ed-3);
+  }
+  .edna__news-card h4 { font-size: 1rem; font-weight: 700; color: var(--ed-ink); margin: 0 0 var(--ed-2); }
+  .edna__news-card p { font-size: 0.82rem; line-height: 1.5; color: var(--ed-muted); margin: 0; }
+
+  .edna__topic-card {
+    background: var(--ed-surface); border: 1px solid var(--ed-border);
+    border-top: 3px solid var(--ed-blue); border-radius: var(--ed-radius);
+    padding: var(--ed-5); max-width: 280px; width: 100%;
+  }
+  .edna__topic-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--ed-ink); margin: 0 0 var(--ed-2); }
+  .edna__topic-card p { font-size: 0.8rem; line-height: 1.5; color: var(--ed-muted); margin: 0 0 var(--ed-3); }
+  .edna__topic-stat { font-size: 0.72rem; font-weight: 600; color: var(--ed-teal); }
+
+  .edna__status-card {
+    background: var(--ed-surface); border: 1px solid var(--ed-border);
+    border-radius: var(--ed-radius); padding: var(--ed-5);
+    display: flex; align-items: center; gap: var(--ed-4);
+    max-width: 380px; width: 100%;
+  }
+  .edna__status-indicator {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--ed-success); flex-shrink: 0;
+  }
+  .edna__status-label { font-size: 0.72rem; font-weight: 600; color: var(--ed-muted); letter-spacing: 0.04em; }
+  .edna__status-value { font-size: 0.92rem; font-weight: 700; color: var(--ed-ink); }
+
+  .edna__footer-area {
+    background: var(--ed-soft); border: 1px solid var(--ed-border);
+    border-radius: var(--ed-radius); padding: var(--ed-5);
+    display: flex; flex-wrap: wrap; gap: var(--ed-5);
+    max-width: 580px; width: 100%;
+  }
+  .edna__footer-col { display: flex; flex-direction: column; gap: var(--ed-2); }
+  .edna__footer-col h5 { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ed-muted); margin: 0; }
+  .edna__footer-col a { font-size: 0.82rem; color: var(--ed-body); text-decoration: none; }
+  .edna__footer-col a:hover { color: var(--ed-blue); }
+
+  /* ===== Foot ===== */
+  .edna__foot { padding: var(--ed-7) 0 0; text-align: center; font-size: 0.82rem; color: var(--ed-muted); }
+  .edna__foot a { color: var(--ed-blue); }
+  .edna__foot p { margin: 4px 0; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 960px) {
+    .edna__body { grid-template-columns: 1fr; gap: var(--ed-5); }
+    .edna__rail {
+      position: sticky; top: 56px; z-index: 5;
+      order: -1; margin: 0 calc(-1 * var(--ed-4)) var(--ed-4);
+      padding: var(--ed-2) var(--ed-4);
+      background: color-mix(in srgb, var(--ed-page) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--ed-border);
+    }
+    .edna__rail-title { display: none; }
+    .edna__rail nav { flex-direction: row; overflow-x: auto; border-left: 0; gap: var(--ed-2); scrollbar-width: none; scroll-snap-type: x proximity; }
+    .edna__rail nav::-webkit-scrollbar { display: none; }
+    .edna__rail a { white-space: nowrap; border-left: 0; border-bottom: 2px solid transparent; margin-left: 0; scroll-snap-align: start; }
+    .edna__rail a.is-active { border-radius: 8px; border-left-color: transparent; }
+  }
+  @media (max-width: 640px) {
+    .edna { padding: 0 var(--ed-4) var(--ed-7); }
+    .edna__cols { grid-template-columns: 1fr; }
+    .edna__type-row { grid-template-columns: 1fr; }
+    .edna__type-meta { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .edna *, .edna *::before, .edna *::after { transition: none !important; }
+  }
+</style>
+{% endblock extra_head %}
+
+{% block main %}
+<section class="edna">
+
+  {# ===== Brand bar ===== #}
+  <div class="edna__top">
+    <div class="edna__brand">
+      <span class="edna__mark" aria-hidden="true">E</span>
+      <span class="edna__brand-text">
+        <span class="edna__brand-name">E-DNA</span>
+        <span class="edna__brand-tag">Enterprise Editorial Design System · Guideline Reference</span>
+      </span>
+    </div>
+    <a class="edna__top-link" href="{{ config.base_url }}/branding-guideline/">Source of truth → Branding Guideline</a>
+  </div>
+
+  {# ===== Hero ===== #}
+  <header class="edna__hero" id="overview" data-ed-section>
+    <p class="edna__eyebrow">Enterprise Editorial Design System · Design Reference</p>
+    <h1 class="edna__title">E-DNA — Enterprise Editorial Design System</h1>
+    <p class="edna__subtitle">
+      Ngôn ngữ giao diện doanh nghiệp, sạch, có nhịp biên tập — dùng làm nguồn tham khảo cho các dashboard và trang công cụ SEOMONEY trong tương lai.
+    </p>
+    <p class="edna__lede">
+      <strong>E-DNA</strong> captures the visual direction inspired by enterprise and editorial technology leaders —
+      calm layouts, strong whitespace, confident typography, and structured navigation. It is a
+      <strong>future reference</strong> for SEOMONEY dashboards, status pages, and tool interfaces.
+      No brand assets, logos, or proprietary elements have been copied — only design principles learned
+      from studying enterprise/editorial rhythm.
+    </p>
+    <p class="edna__sources">
+      Reference inspiration: <a href="https://www.ericsson.com/en" target="_blank" rel="noopener">Ericsson</a> ·
+      enterprise/editorial technology category · Companion to
+      <a href="{{ config.base_url }}/tools/s-dna/">S-DNA</a> and
+      <a href="{{ config.base_url }}/tools/b-dna/">B-DNA</a> ·
+      governed by the <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a>
+    </p>
+    <div class="edna__principles">
+      <div><span class="edna__principle-n">5</span><span class="edna__principle-l">design principles for enterprise calm</span></div>
+      <div><span class="edna__principle-n">6</span><span class="edna__principle-l">layout grammar rules</span></div>
+      <div><span class="edna__principle-n">1</span><span class="edna__principle-l">design signature — Hilda</span></div>
+    </div>
+  </header>
+
+  {# ===== Body: docs + right rail ===== #}
+  <div class="edna__body">
+
+    <main class="edna__main">
+
+      {# 01 DESIGN PRINCIPLES #}
+      <section class="edna__section" id="principles" data-ed-section>
+        <header class="edna__sec-head">
+          <span class="edna__sec-kicker">01 — Principles</span>
+          <h2 class="edna__sec-title">Design principles</h2>
+          <p class="edna__sec-desc">Five principles borrowed from enterprise editorial thinking — not from any single brand.</p>
+        </header>
+
+        <div class="edna__grid">
+          <article class="edna__card"><h4>Enterprise calm</h4><p>Institutional tone. No startup noise, no crypto urgency. White space is a feature, not an accident. Every element earns its place.</p></article>
+          <article class="edna__card"><h4>Editorial clarity</h4><p>Content leads. Visual decisions serve the message. Hierarchy is built with weight and space, not color effects or decorative graphics.</p></article>
+          <article class="edna__card"><h4>Fewer widgets, stronger sections</h4><p>A page is a stack of purpose-driven sections. Do not fragment attention with scattered widgets. Each section does one thing well.</p></article>
+          <article class="edna__card"><h4>Status belongs in calm cards</h4><p>System status, metrics, and health belong in quiet, readable cards — not noisy dashboard widgets. A green dot and a clean value communicate better than a gauge with animation.</p></article>
+          <article class="edna__card"><h4>Mobile-first readability</h4><p>Every layout must work at 360px without horizontal scroll. Desktop is where detail expands; mobile is where clarity is earned.</p></article>
+        </div>
+
+        <div class="edna__cols">
+          <ul class="edna__list edna__list--do">
+            <h5>Do</h5>
+            <li>Let whitespace define relationships between sections.</li>
+            <li>Use size and weight to establish hierarchy over color.</li>
+            <li>Design sections as self-contained editorial blocks.</li>
+            <li>Prefer calm status cards over animated dashboards.</li>
+          </ul>
+          <ul class="edna__list edna__list--dont">
+            <h5>Don't</h5>
+            <li>Copy crypto or fintech dashboard patterns (neon, pulse, gauge overload).</li>
+            <li>Add widgets just because there is room.</li>
+            <li>Use color as the only signal for importance.</li>
+            <li>Ship a page that fails at 360px width.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 02 TYPOGRAPHY #}
+      <section class="edna__section" id="typography" data-ed-section>
+        <header class="edna__sec-head">
+          <span class="edna__sec-kicker">02 — Type</span>
+          <h2 class="edna__sec-title">Typography system</h2>
+          <p class="edna__sec-desc">
+            E-DNA uses <strong>Ericsson Hilda</strong> as its design signature for display titles, hero labels, and section headings — the same typeface already self-hosted in the site's font pipeline. Body text stays readable with the existing Vietnamese-safe fallback stack. If Hilda has diacritic limitations, use it for short Latin labels and headings only.
+          </p>
+        </header>
+
+        <div class="edna__type-row"><div class="edna__type-sample edna__type-hilda" style="font-size:2.8rem;font-weight:800;letter-spacing:-0.03em;">E-DNA Display</div><div class="edna__type-meta">Hilda ExtraBold · 2.8rem</div></div>
+        <div class="edna__type-row"><div class="edna__type-sample edna__type-hilda" style="font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;">Section Heading</div><div class="edna__type-meta">Hilda Bold · 1.8rem</div></div>
+        <div class="edna__type-row"><div class="edna__type-sample edna__type-hilda" style="font-size:1.2rem;font-weight:600;">Card title · Hilda Medium</div><div class="edna__type-meta">Hilda Medium · 1.2rem</div></div>
+        <div class="edna__type-row"><div class="edna__type-sample" style="font-size:0.94rem;font-weight:400;">Vietnamese body text with diacritics: Tiếng Việt có dấu, tổng quan thị trường, doanh nghiệp công nghệ.</div><div class="edna__type-meta">Body · 0.94rem · fallback stack</div></div>
+        <div class="edna__type-row"><div class="edna__type-sample" style="font-size:0.78rem;font-weight:600;color:var(--ed-muted);text-transform:uppercase;letter-spacing:0.08em;">LABEL · CAPTION · STATUS</div><div class="edna__type-meta">Label · 0.78rem · muted</div></div>
+        <div class="edna__type-row"><div class="edna__type-sample" style="font-family:var(--ed-mono);font-size:0.84rem;">code / metric / mono value</div><div class="edna__type-meta">Mono · 0.84rem</div></div>
+
+        <div class="edna__cols">
+          <ul class="edna__list edna__list--do">
+            <h5>Do</h5>
+            <li>Use Hilda for hero titles, section headings, and short display labels.</li>
+            <li>Let Vietnamese body text fall back to the existing safe stack (Manrope, Inter, system).</li>
+            <li>Build hierarchy with weight and size, not multiple typefaces.</li>
+          </ul>
+          <ul class="edna__list edna__list--dont">
+            <h5>Don't</h5>
+            <li>Import new external fonts — Hilda is already self-hosted.</li>
+            <li>Use Hilda for long Vietnamese paragraphs if diacritics render poorly.</li>
+            <li>Use color as the only signal of type hierarchy.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 03 LAYOUT GRAMMAR #}
+      <section class="edna__section" id="layout" data-ed-section>
+        <header class="edna__sec-head">
+          <span class="edna__sec-kicker">03 — Layout</span>
+          <h2 class="edna__sec-title">Layout grammar</h2>
+          <p class="edna__sec-desc">Six layout primitives that define the E-DNA rhythm. Mix them, but never break the calm.</p>
+        </header>
+
+        <div class="edna__grid">
+          <article class="edna__card"><h4>Large hero</h4><p>A single, confident hero section per page. Large Hilda title, short lede, minimal navigation. No carousels.</p></article>
+          <article class="edna__card"><h4>Grouped navigation</h4><p>Navigation clusters by purpose — not flat link clouds. Mega-menu structure with clear category headings.</p></article>
+          <article class="edna__card"><h4>Highlight card grid</h4><p>Cards with strong top accent or left border. Used for featured content, KPIs, status summaries.</p></article>
+          <article class="edna__card"><h4>Calm status module</h4><p>System status rendered as a quiet card: indicator dot, label, value. No gauges, no animation.</p></article>
+          <article class="edna__card"><h4>Clear content rails</h4><p>Content flows in vertical rails. Each rail has a kicker, a title, and a focused purpose.</p></article>
+          <article class="edna__card"><h4>No link-cloud feeling</h4><p>Links belong in navigation or inline context, never as a tag cloud or dense link list in the main content area.</p></article>
+        </div>
+
+        <div class="edna__cols">
+          <ul class="edna__list edna__list--do">
+            <h5>Do</h5>
+            <li>Start every page with a strong, calm hero.</li>
+            <li>Group links by category with clear labels.</li>
+            <li>Use card grids for scannable content blocks.</li>
+            <li>Keep status information in quiet, readable cards.</li>
+          </ul>
+          <ul class="edna__list edna__list--dont">
+            <h5>Don't</h5>
+            <li>Use tag clouds or link-dense widgets in main content.</li>
+            <li>Mix more than two layout systems on one page.</li>
+            <li>Add carousels, sliders, or rotating hero blocks.</li>
+            <li>Compress layout to "fit above the fold" — scroll is natural.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 04 COMPONENT EXAMPLES #}
+      <section class="edna__section" id="components" data-ed-section>
+        <header class="edna__sec-head">
+          <span class="edna__sec-kicker">04 — Components</span>
+          <h2 class="edna__sec-title">Component examples</h2>
+          <p class="edna__sec-desc">Visual examples of the five E-DNA layout primitives. These demonstrate the direction — not final production components.</p>
+        </header>
+
+        <h3 class="edna__h3">E-DNA hero</h3>
+        <p class="edna__p">A large, calm hero with a left blue accent border. Hilda title, short lede, minimal chrome.</p>
+        <div class="edna__demo">
+          <div class="edna__hero-card">
+            <p class="edna__hero-card-eyebrow">Enterprise platform</p>
+            <h3 class="edna__hero-card-title">Organic Search Dashboard</h3>
+            <p class="edna__hero-card-desc">Track keyword performance, competitor movements, and content opportunities — all in one calm editorial view.</p>
+          </div>
+        </div>
+
+        <h3 class="edna__h3">Highlight / news card</h3>
+        <p class="edna__p">Top-tagged card with hover shadow lift. Used for featured articles, announcements, or key metrics.</p>
+        <div class="edna__demo">
+          <article class="edna__news-card">
+            <span class="edna__news-tag">Featured</span>
+            <h4>Google August 2026 Core Update</h4>
+            <p>Early analysis shows content experience signals carrying more weight than backlink volume.</p>
+          </article>
+        </div>
+
+        <h3 class="edna__h3">Topic cluster card</h3>
+        <p class="edna__p">Blue top-border card for grouping related topics or categories. Includes a summary stat line.</p>
+        <div class="edna__demo">
+          <article class="edna__topic-card">
+            <h4>Technical SEO</h4>
+            <p>Core Web Vitals, structured data, crawl optimization, log file analysis</p>
+            <span class="edna__topic-stat">12 articles · 3 series</span>
+          </article>
+        </div>
+
+        <h3 class="edna__h3">Dashboard status card</h3>
+        <p class="edna__p">Calm status module with green indicator dot, label, and value. No gauges, no animation.</p>
+        <div class="edna__demo">
+          <div class="edna__status-card">
+            <span class="edna__status-indicator" aria-hidden="true"></span>
+            <div>
+              <p class="edna__status-label">System status</p>
+              <p class="edna__status-value">All services operational</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="edna__h3">Footer / status area</h3>
+        <p class="edna__p">A grouped link area with category headers — no flat link lists. Calm, editorial footer pattern.</p>
+        <div class="edna__demo">
+          <div class="edna__footer-area">
+            <div class="edna__footer-col">
+              <h5>Platform</h5>
+              <a href="#">Dashboard</a>
+              <a href="#">Organic Search</a>
+              <a href="#">Content tools</a>
+            </div>
+            <div class="edna__footer-col">
+              <h5>Resources</h5>
+              <a href="#">Documentation</a>
+              <a href="#">Status page</a>
+              <a href="#">API reference</a>
+            </div>
+            <div class="edna__footer-col">
+              <h5>Company</h5>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# 05 DO / DON'T #}
+      <section class="edna__section" id="rules" data-ed-section>
+        <header class="edna__sec-head">
+          <span class="edna__sec-kicker">05 — Rules</span>
+          <h2 class="edna__sec-title">Do / Don't</h2>
+          <p class="edna__sec-desc">A quick-reference checklist for staying on the E-DNA direction.</p>
+        </header>
+
+        <div class="edna__cols">
+          <ul class="edna__list edna__list--do">
+            <h5>Do</h5>
+            <li>Use calm spacing and strong visual hierarchy.</li>
+            <li>Curate topics into clear, grouped sections.</li>
+            <li>Keep actions focused — one primary per view.</li>
+            <li>Use Hilda for display and headings.</li>
+            <li>Design for 360px first, expand to desktop.</li>
+            <li>Let whitespace create editorial rhythm.</li>
+          </ul>
+          <ul class="edna__list edna__list--dont">
+            <h5>Don't</h5>
+            <li>Use random icons — stick to Lucide/Tabler outline set.</li>
+            <li>Build crypto-style dashboards with neon, pulse, or gauges.</li>
+            <li>Create admin noise with crowded sidebar widgets.</li>
+            <li>Design layouts that accidentally resemble ad placements.</li>
+            <li>Override global navigation, header, or footer styles.</li>
+            <li>Introduce new colors outside the existing Hilda/Ericsson palette.</li>
+          </ul>
+        </div>
+      </section>
+
+      {# 06 FUTURE USAGE #}
+      <section class="edna__section" id="future" data-ed-section>
+        <header class="edna__sec-head">
+          <span class="edna__sec-kicker">06 — Future</span>
+          <h2 class="edna__sec-title">Future usage</h2>
+          <p class="edna__sec-desc">E-DNA is a reference for upcoming SEOMONEY interfaces. These are the target applications — each requires separate approval before implementation.</p>
+        </header>
+
+        <div class="edna__grid">
+          <article class="edna__card"><h4>Organic Search dashboard</h4><p>Keyword tracking, competitor intelligence, content gap analysis — calm enterprise editorial view replacing the current dense dashboard.</p></article>
+          <article class="edna__card"><h4>Master Dashboard V5</h4><p>Next-generation master dashboard with E-DNA structure: hero summary, grouped navigation, calm status cards, editorial content rails.</p></article>
+          <article class="edna__card"><h4>Monitoring / status pages</h4><p>System health, uptime, and service status presented with calm cards and indicator dots — not noisy gauges or alerts.</p></article>
+          <article class="edna__card"><h4>Homepage redesign (future)</h4><p>E-DNA could inform a future homepage refresh — large Hilda hero, grouped topic navigation, editorial card grid. Requires separate approval.</p></article>
+        </div>
+
+        <aside class="edna__p" style="margin-top: var(--ed-5); padding: var(--ed-4); background: var(--ed-blue-soft); border-radius: var(--ed-radius);">
+          <strong>Note:</strong> E-DNA is a reference only. No existing pages, dashboards, or UI should be refactored without explicit approval. This page documents the visual direction — it does not implement it.
+        </aside>
+      </section>
+
+    </main>
+
+    {# ===== Right rail ===== #}
+    <aside class="edna__rail">
+      <p class="edna__rail-title">On this page</p>
+      <nav aria-label="E-DNA sections">
+        <a href="#overview" data-ed-link><span class="edna__rail-num">00</span> Overview</a>
+        <a href="#principles" data-ed-link><span class="edna__rail-num">01</span> Principles</a>
+        <a href="#typography" data-ed-link><span class="edna__rail-num">02</span> Typography</a>
+        <a href="#layout" data-ed-link><span class="edna__rail-num">03</span> Layout</a>
+        <a href="#components" data-ed-link><span class="edna__rail-num">04</span> Components</a>
+        <a href="#rules" data-ed-link><span class="edna__rail-num">05</span> Do / Don't</a>
+        <a href="#future" data-ed-link><span class="edna__rail-num">06</span> Future</a>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="edna__foot">
+    <p>E-DNA — Enterprise Editorial Design System · Design Reference v1.0</p>
+    <p>Companion to <a href="{{ config.base_url }}/tools/s-dna/">S-DNA</a> ·
+       <a href="{{ config.base_url }}/tools/b-dna/">B-DNA</a> ·
+       governed by the <a href="{{ config.base_url }}/branding-guideline/">Branding Guideline</a></p>
+  </footer>
+</section>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  var root = document.querySelector('.edna');
+  if (!root) return;
+
+  var links = Array.prototype.slice.call(root.querySelectorAll('[data-ed-link]'));
+  var map = {};
+  links.forEach(function (l) {
+    var id = (l.getAttribute('href') || '').replace('#', '');
+    if (id) map[id] = l;
+  });
+
+  function setActive(id) {
+    links.forEach(function (l) { l.classList.remove('is-active'); l.removeAttribute('aria-current'); });
+    if (map[id]) { map[id].classList.add('is-active'); map[id].setAttribute('aria-current', 'true'); }
+  }
+
+  var sections = Array.prototype.slice.call(root.querySelectorAll('[data-ed-section]'));
+  if ('IntersectionObserver' in window && sections.length) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+    sections.forEach(function (s) { observer.observe(s); });
+  }
+  setActive('overview');
+})();
+</script>
+{% endblock extra_scripts %}

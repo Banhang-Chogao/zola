@@ -1,0 +1,174 @@
+/* ============================================================
+   ===== THEME DROPDOWN STYLES — Professional Menu Design =====
+   ============================================================
+   Dropdown menu for theme switching (Z-X ↔ Hilda)
+   Features: smooth animations, keyboard nav, mobile responsive
+*/
+
+/* ===== Theme Dropdown Container ===== */
+.theme-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* ===== Trigger Button (Icon Only) ===== */
+.theme-dropdown__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--c-text-body);
+  transition: all 0.2s ease;
+  font-size: 18px;
+
+  &:hover {
+    background: var(--c-bg-soft);
+    color: var(--c-accent);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &[aria-expanded="true"] {
+    background: var(--c-bg-soft);
+    color: var(--c-accent);
+  }
+}
+
+/* ===== Dropdown Menu ===== */
+.theme-dropdown__menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 240px;
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  background: var(--c-bg-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+
+  &:not([hidden]) {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* ===== Menu Item Button ===== */
+.theme-dropdown__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--c-text-body);
+  text-align: left;
+  transition: all 0.15s ease;
+  gap: 12px;
+
+  &:hover {
+    background: var(--c-bg-soft);
+    color: var(--c-accent);
+  }
+
+  &[aria-selected="true"] {
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    font-weight: 600;
+  }
+}
+
+/* ===== Check Mark ===== */
+.theme-dropdown__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+
+  .theme-dropdown__item[aria-selected="true"] & {
+    opacity: 1;
+  }
+}
+
+/* ===== Text Content ===== */
+.theme-dropdown__name {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.theme-dropdown__desc {
+  display: block;
+  font-size: 12px;
+  color: var(--c-text-muted);
+  line-height: 1.2;
+}
+
+/* ===== Focus State (Accessibility) ===== */
+.theme-dropdown__trigger:focus-visible {
+  outline: 2px solid var(--c-focus-ring);
+  outline-offset: 2px;
+}
+
+.theme-dropdown__item:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--c-focus-ring);
+}
+
+/* ===== Mobile Responsive ===== */
+@media (max-width: 720px) {
+  .theme-dropdown__menu {
+    min-width: 200px;
+    right: 0;
+
+    /* Dropdown stays above content on mobile */
+    top: calc(100% + 4px);
+  }
+
+  .theme-dropdown__item {
+    padding: 10px 12px;
+    font-size: 13px;
+    gap: 10px;
+  }
+
+  .theme-dropdown__name {
+    font-size: 13px;
+  }
+
+  .theme-dropdown__desc {
+    font-size: 11px;
+  }
+}
+
+/* ===== Prevent Dropdown Menu from Wrapping ===== */
+.theme-dropdown__menu li {
+  white-space: nowrap;
+}

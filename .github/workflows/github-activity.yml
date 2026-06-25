@@ -1,0 +1,55 @@
+name: Fetch GitHub Activity
+
+# Thu thập hoạt động repo (commits, PR, issues, reviews) → data/github-activity.json
+# Trang /insights/ đọc file này để render heatmap GitHub Activity.
+
+on:
+  # NOTE: workflow_run trigger removed (2026-06-18) — refreshing after every
+  # deploy pushed a new data/github-activity.json → triggered deploy.yml →
+  # re-ran this → part of the deploy loop that exhausted the API rate limit.
+  # Now runs daily on schedule + manual dispatch only.
+  schedule:
+    - cron: '0 6 * * *'   # hằng ngày 13:00 GMT+7
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: github-activity
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Build GitHub Activity JSON
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_github_activity.py
+
+      - name: Build GitHub Profile Badges JSON
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_github_profile_badges.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh GitHub Activity ($(date -u +%FT%TZ))" \
+            data/github-activity.json data/github-profile-badges.json

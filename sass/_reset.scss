@@ -1,0 +1,225 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+/* ===== TYPOGRAPHY DESKTOP (global) =====
+   Manrope round + friendly → tăng size 17px (từ 16) + line-height 1.7
+   để dễ đọc nhưng vẫn cân đối. letter-spacing 0 vì Manrope đã round sẵn,
+   không cần expand. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 10000;
+  padding: 0.6rem 1rem;
+  background: var(--c-accent, #0969da);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 4px;
+
+  &:focus {
+    left: 0.75rem;
+    top: 0.75rem;
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+}
+
+body {
+  font-family: $font-body;
+  background: var(--c-bg-page);
+  color: var(--c-text-body);
+  font-size: 17px;
+  line-height: 1.7;
+  letter-spacing: 0;
+  overflow-wrap: break-word;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; text-decoration: none; transition: color .15s ease; }
+a:hover { color: var(--c-accent); }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-heading;
+  font-weight: 800;
+  /* Manrope display: hơi tighter để headings không bị thưa */
+  letter-spacing: -0.015em;
+  margin: 0;
+  line-height: 1.2;
+  color: var(--c-text-heading);
+}
+h1 { font-size: 2.6rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.05rem; }
+h6 { font-size: 0.95rem; letter-spacing: 0.02em; text-transform: uppercase; }
+
+button { font-family: inherit; cursor: pointer; }
+
+ul, ol { padding: 0; margin: 0; list-style: none; }
+
+/* ============= iPhone Safe Area Insets =============
+   Bật bởi <meta viewport-fit=cover>. Các env(safe-area-inset-*) trả
+   pixel offset từ Dynamic Island / Home Indicator / Notch:
+   - top: vùng Dynamic Island (iPhone 14 Pro+, 15 Pro+, 16 Pro, 17 Pro)
+   - bottom: vùng Home Indicator (iPhone X trở lên)
+   - left/right: vùng notch khi landscape
+   Browser cũ KHÔNG support env() → fallback 0 tự động (safe). */
+
+.container {
+  /* Nới rộng vùng nội dung desktop (1280 -> 1500) theo yêu cầu — main blog
+     + sidebar rộng hơn, bớt khoảng trắng 2 bên. Trang riêng vẫn override
+     được (insights 1800, du-lich 1100 qua :has()). Mobile dùng full-width. */
+  max-width: 1500px;
+  margin: 0 auto;
+  /* max() đảm bảo padding ngang TỐI THIỂU 24px DÙ env() = 0,
+     đồng thời cộng safe-area cho landscape iPhone (notch bên trái/phải). */
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  /* Base font giảm nhẹ trên tablet cho proportion hài hoà */
+  html { font-size: 15.5px; }
+
+  /* ===== TYPOGRAPHY MOBILE =====
+     Body 16px (giảm từ 17px desktop) + line-height 1.65 đủ thoáng
+     cho viewport hẹp. Headings nhỏ hơn cho proportion. */
+  body {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.65rem; }
+  h3 { font-size: 1.3rem; }
+  h4 { font-size: 1.1rem; }
+}
+
+@media (max-width: 540px) {
+  .container {
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+  }
+  /* Mobile: font base 15px → các rem tự scale theo */
+  html { font-size: 15px; }
+
+  /* Mobile nhỏ: thêm 1 step giảm body */
+  body { font-size: 15.5px; }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+  }
+}
+
+/* Prevent horizontal scroll khi 1 element overflow accidentally — defense
+   in depth. CHỈ áp trên body, KHÔNG áp html. Pattern html+body cùng
+   overflow-x: hidden là anti-pattern → khoá scroll vertical iOS Safari +
+   xung đột position: sticky navbar. html giữ scroll tự nhiên. */
+body {
+  overflow-x: hidden;
+}
+
+/* Smooth scroll + scroll-padding cho sticky navbar (~52px tablet, 60px+
+   khi có Dynamic Island). Anchor link nhảy tới sẽ tự offset khỏi navbar. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(60px + env(safe-area-inset-top));
+}
+
+/* Threads-style font rendering: kerning + ligatures + tabular numbers
+   khi cần. Tự render mượt hơn trên iOS Safari. */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  /* iOS: ngăn rubber-band scroll khi đến đầu/cuối trang gây flash */
+  overscroll-behavior-y: contain;
+}
+
+/* Tap highlight subtle (Threads-feel) thay vì màu xanh mặc định iOS */
+* {
+  -webkit-tap-highlight-color: rgba(214, 61, 61, 0.08);
+}
+
+/* Tap feedback active state cho mọi link + button — scale nhẹ + opacity */
+@media (hover: none) and (pointer: coarse) {
+  a:active,
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+    transition: transform .08s ease-out, opacity .08s ease-out;
+  }
+}
+
+/* Touch target ≥44px for chrome controls only — NOT inline prose links. */
+@media (max-width: 720px) {
+  button,
+  a.editor-btn,
+  .navbar__menu a,
+  .navbar__burger,
+  .navbar__cache,
+  .navbar__search,
+  .footer-card a,
+  .site-footer__author-mgmt,
+  .theme-toggle__btn,
+  .theme-toggle__opt,
+  .read-more,
+  .pagination__btn,
+  .post-card__image,
+  .home-card__image,
+  .home-hero__image,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: max(0.5em, 8px) max(0.75em, 12px);
+  }
+
+  /* Prose + card title links: keep natural inline flow (Momo readability) */
+  .post-single__content a,
+  .post-single__content p a,
+  .post-card__title a,
+  .home-card__title a,
+  .home-hero__title a,
+  .related-card__title a {
+    padding: 0;
+    min-height: unset;
+    min-width: unset;
+  }
+
+  a, button, [role="button"] {
+    touch-action: manipulation;
+  }
+}
+
+/* Accessible visually-hidden — đặt <h1> ngữ nghĩa cho SEO/screen-reader trên
+   các trang tool không có tiêu đề hiển thị rõ (Insights, Editor) mà KHÔNG
+   chiếm chỗ hay ảnh hưởng layout/scroll. Class additive, không sửa selector
+   global nào sẵn có. */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

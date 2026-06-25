@@ -1,0 +1,76 @@
+{# ============================================================================
+   Macro ảnh WebP — ảnh raster nội bộ chỉ phát hành .webp.
+
+   Pipeline: scripts/to_webp.py + workflow optimize-images.yml.
+   SVG placeholder / cover vector giữ nguyên .svg.
+   ============================================================================ #}
+{% macro picture_webp(src, alt="", cls="", loading="lazy", width="", height="") %}
+{%- if src is ending_with(".jpg") or src is ending_with(".jpeg") -%}
+{%- set webp_src = src | replace(from=".jpg", to=".webp") | replace(from=".jpeg", to=".webp") -%}
+{%- elif src is ending_with(".png") -%}
+{%- set webp_src = src | replace(from=".png", to=".webp") -%}
+{%- else -%}
+{%- set webp_src = src -%}
+{%- endif -%}
+<img src="{{ webp_src }}" alt="{{ alt }}"
+     {% if cls %}class="{{ cls }}"{% endif %}
+     loading="{{ loading }}" decoding="async"
+     {% if width %}width="{{ width }}"{% endif %}
+     {% if height %}height="{{ height }}"{% endif %}>
+{%- endmacro picture_webp %}
+
+{% macro thumb_src(thumb="") -%}
+{%- if thumb -%}
+{%- if thumb is ending_with(".jpg") or thumb is ending_with(".jpeg") -%}
+{{ thumb | replace(from=".jpg", to=".webp") | replace(from=".jpeg", to=".webp") }}
+{%- elif thumb is ending_with(".png") -%}
+{{ thumb | replace(from=".png", to=".webp") }}
+{%- else -%}
+{{ thumb }}
+{%- endif -%}
+{%- else -%}
+{{ get_url(path="img/placeholder/placeholder.svg") }}
+{%- endif -%}
+{%- endmacro thumb_src %}
+
+{# ----------------------------------------------------------------------------
+   social_image_url(src, base_url) — normalize ANY image reference into an
+   absolute, HTTPS, production-existing URL for og:image / twitter:image.
+
+   Social networks (Facebook, Zalo, Telegram, X…) cannot render SVG/CSS, and the
+   optimize-images pipeline rewrites rasters, so a raw frontmatter/body src often
+   points at a file that no longer ships. This macro maps src → the asset that
+   ACTUALLY exists in production:
+
+   - .svg  → DIR-PRESERVING .og.webp twin baked by scripts/build_og_images.py.
+             Keeps the source folder (https://assets.seomoney.org/img/covers/x.svg → https://assets.seomoney.org/img/covers/x.og.webp)
+             so the URL hits the twin that ships — NOT a flat https://assets.seomoney.org/img/og/ guess.
+   - .jpg/.jpeg/.png → .webp (optimize-images.yml replaces rasters with WebP and
+             DELETES the original; the raster URL would 404 in production).
+   - .webp → kept as-is.
+   - empty / unknown ext → built-in local S-DNA default card
+     (/img/og/seomoney-og.og.webp). This is the WWDC26 card twin rasterised
+     from seomoney-og.svg; .webp is the site's only release format
+     (optimize-images.yml deletes every raster .jpg/.png), so the default
+     must be the stable .og.webp twin, never a raster.
+
+   Output is ALWAYS absolute + HTTPS (http:// and // are upgraded to https://;
+   root-relative paths are prefixed with base_url).
+   ---------------------------------------------------------------------------- #}
+{% macro social_image_url(src="", base_url="") -%}
+{%- set fallback = base_url ~ "/img/og/seomoney-og.og.webp" -%}
+{%- set out = "" -%}
+{%- if src is ending_with(".svg") -%}{%- set out = src | replace(from=".svg", to=".og.webp") -%}
+{%- elif src is ending_with(".jpg") -%}{%- set out = src | replace(from=".jpg", to=".webp") -%}
+{%- elif src is ending_with(".jpeg") -%}{%- set out = src | replace(from=".jpeg", to=".webp") -%}
+{%- elif src is ending_with(".png") -%}{%- set out = src | replace(from=".png", to=".webp") -%}
+{%- elif src is ending_with(".webp") -%}{%- set out = src -%}
+{%- endif -%}
+{%- if not out -%}{{ fallback }}
+{%- elif out is starting_with("https://") -%}{{ out }}
+{%- elif out is starting_with("http://") -%}{{ out | replace(from="http://", to="https://") }}
+{%- elif out is starting_with("//") -%}{{ "https:" ~ out }}
+{%- elif out is starting_with("/") -%}{{ base_url ~ out }}
+{%- else -%}{{ base_url ~ "/" ~ out }}
+{%- endif -%}
+{%- endmacro social_image_url %}

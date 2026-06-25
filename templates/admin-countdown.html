@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{# Internal admin/utility route → keep out of search index + sitemap. #}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block main %}
+{% set cfg = load_data(path="data/footer-countdown.json", required=false) %}
+<section class="admin-countdown" data-preview-countdown>
+  <header>
+    <h1>{{ page.title }}</h1>
+    <p class="admin-countdown__field-hint">{{ page.description }}</p>
+  </header>
+
+  <div class="admin-countdown__preview">
+    <p class="admin-countdown__preview-label">Xem trước</p>
+    <div data-preview-text>—</div>
+  </div>
+
+  <div class="editor-field-row">
+    <div class="editor-field">
+      <label class="editor-label" for="countdown-title">Tiêu đề</label>
+      <input class="editor-input" type="text" id="countdown-title"
+             value="{{ cfg.title | default(value='') }}" placeholder="đạt mục tiêu">
+    </div>
+    <div class="editor-field">
+      <label class="editor-label" for="countdown-display-mode">Chế độ hiển thị</label>
+      <select class="editor-input" id="countdown-display-mode">
+        <option value="full"{% if cfg and cfg.displayMode == "full" %} selected{% endif %}>Đầy đủ (ngày · giờ · phút · giây)</option>
+        <option value="days"{% if cfg and cfg.displayMode == "days" %} selected{% endif %}>Chỉ số ngày</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="editor-field-row">
+    <div class="editor-field">
+      <label class="editor-label" for="countdown-date">Ngày đích</label>
+      <input class="editor-input" type="date" id="countdown-date" value="{{ cfg.targetDate | default(value='') }}">
+    </div>
+    <div class="editor-field">
+      <label class="editor-label" for="countdown-time">Giờ đích</label>
+      <input class="editor-input" type="time" id="countdown-time" value="{{ cfg.targetTime | default(value='') }}">
+    </div>
+  </div>
+
+  <div class="editor-field-row">
+    <div class="editor-field">
+      <label class="editor-label" for="countdown-timezone">Múi giờ</label>
+      <input class="editor-input" type="text" id="countdown-timezone"
+             value="{{ cfg.timezone | default(value='Asia/Ho_Chi_Minh') }}">
+    </div>
+  </div>
+
+  <p class="admin-countdown__field-hint">
+    Đây là công cụ <strong>xem trước</strong>. Cấu hình thật được lưu ở
+    <code>data/footer-countdown.json</code> và cập nhật qua CI (site tĩnh — trình duyệt không ghi file).
+  </p>
+</section>
+
+<script src="{{ get_url(path='js/admin-countdown.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

@@ -1,0 +1,46 @@
+name: Fetch PageSpeed Insights
+
+# Hourly: fetch Lighthouse scores qua PageSpeed Insights API v5.
+# API public (free 25k queries/day) - KHÔNG cần Service Account.
+# Optional secret PAGESPEED_API_KEY cho rate limit cao.
+
+on:
+  schedule:
+    - cron: '15 * * * *'   # phút 15 mỗi giờ (lệch GA stats ở phút 0)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: pagespeed
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Fetch PageSpeed
+        env:
+          PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
+        run: python scripts/fetch_pagespeed.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh PageSpeed scores ($(date -u +%FT%TZ))" \
+            data/pagespeed.json

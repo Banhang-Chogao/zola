@@ -1,0 +1,66 @@
+name: Self-Healing QA
+
+# TEMP DISABLED:
+# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
+# production-verified deploy strategy. Keep manual workflow_dispatch only.
+#
+# Previously ran every 6 hours to auto-fix mechanical QA issues and push to main.
+# This auto-remediation is paused to reduce bot noise.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: self-healing
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Run auto-fix (safe only)
+        id: fix
+        run: |
+          python3 qa_check.py --fix safe 2>&1 | tee fix-log.txt
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing to auto-fix — skip."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push fixes to main
+        if: steps.fix.outputs.changed == 'true'
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh \
+            "Self-healing: auto-fix QA mechanical issues ($(date -u +%FT%TZ))" \
+            content/

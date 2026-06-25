@@ -1,0 +1,64 @@
+name: Auto-merge
+
+# ZERO_BARRIER: QA Gatekeeper xanh → tự squash-merge PR mở vào main → deploy.
+# Engine: scripts/try_auto_merge.py · Policy: data/auto-merge-policy.json
+#
+# Trigger:
+#   - schedule (5'): NGUỒN TIN CẬY CHÍNH — quét mọi PR mở, merge cái nào qa-check
+#     xanh + mergeable. workflow_run KHÔNG fire ổn định cho run trên branch feature
+#     (head_branch hay về main) nên không thể dựa vào nó cho PR thật.
+#   - workflow_run: fast-path khi nó có fire (đỡ phải chờ tới nhịp cron).
+#   - workflow_dispatch: chạy tay (tuỳ chọn input pr_number).
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_run:
+    workflows: ["QA Gatekeeper"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR cụ thể để thử auto-merge (bỏ trống = quét mọi PR mở đủ điều kiện)"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: read
+
+concurrency:
+  # ZERO_BARRIER_DEPLOY_QUEUE: single global auto-merge lock → merges run one at a
+  # time (FIFO) → main receives one push at a time → one deploy at a time.
+  group: auto-merge-main
+  cancel-in-progress: false
+
+jobs:
+  auto-merge:
+    # Chạy khi: cron schedule, dispatch tay, hoặc QA Gatekeeper xanh (workflow_run)
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (policy + engine từ main)
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Try auto-merge eligible PRs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          WR_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          WR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          WR_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          INPUT_PR: ${{ github.event.inputs.pr_number }}
+        run: python3 scripts/try_auto_merge.py

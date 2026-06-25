@@ -1,0 +1,544 @@
+.site-footer {
+  /* Footer là dải TỐI cố định (dark-footer pattern). KHÔNG dùng token
+     var(--c-text-heading) vì token này đảo màu ở dark-mode (#000 -> #fff)
+     → nền footer thành trắng, chữ trắng biến mất. Màu cố định cho ổn định
+     cả light & dark. (QA band con vẫn nền trắng #fff cố định riêng.) */
+  background: #0a0a0a;
+  color: #9aa4b2;
+  /* Home Indicator clearance: cộng safe-area-inset-bottom vào padding
+     bottom → trên iPhone (X+) nội dung không dính sát Home Indicator. */
+  padding: 0 0 calc(1.75rem + env(safe-area-inset-bottom));
+  text-align: center;
+  margin-top: auto;
+  font-size: 0.85rem;
+
+  /* Footer body emphasis = trắng trên nền tối. Exclude countdown band (white card):
+     `.site-footer strong` (0,1,1) beat `.footer-countdown__title` (0,1,0) → event
+     title invisible on white. Scoped :not + hard override in _footer-countdown.scss. */
+  strong:not([class*="footer-countdown"]) { color: #fff; }
+
+  .footer-countdown strong.footer-countdown__title {
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+  }
+
+  a:hover { color: #5b9bff; }
+
+  &__sep {
+    margin: 0 0.4rem;
+    color: #555;
+  }
+
+  &__admin {
+    color: #666;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    border-bottom: 1px dotted #444;
+    transition: color .15s ease, border-color .15s ease;
+
+    &:hover {
+      color: #5b9bff;
+      border-bottom-color: #5b9bff;
+    }
+  }
+
+  > .container:last-child {
+    padding-top: 1.75rem;
+  }
+
+  /* 3-column footer: Author Mgmt góc trái + copyright/Admin trung tâm.
+     Author Mgmt link nổi bật vì utility cho admin (user yêu cầu). */
+  &__main {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  &__left {
+    justify-self: start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  &__center { text-align: center; }
+
+  /* Legal links (Giới thiệu · Liên hệ · Privacy · Terms) — trust signal
+     cho AdSense, nằm dưới copyright. Selector mới, không đụng layout cũ. */
+  &__legal {
+    margin: 0.35rem 0 0;
+    font-size: 0.8rem;
+    opacity: 0.85;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+  }
+
+  &__right { justify-self: end; }
+
+  /* GA status pill — responsive, nằm dưới copyright trong footer center.
+     2 states: active (xanh lá, có ID) vs pending (amber, đang chờ ID). */
+  .ga-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.45rem;
+    padding: 0.28rem 0.7rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 999px;
+    line-height: 1.3;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    code {
+      font-family: $font-mono;
+      font-size: 0.92em;
+      font-weight: 600;
+      letter-spacing: 0;
+      background: transparent;
+      padding: 0;
+    }
+
+    &--active {
+      background: rgba(91, 155, 255, 0.1);
+      color: #5b9bff;
+      border: 1px solid rgba(91, 155, 255, 0.3);
+    }
+
+    &--pending {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    @media (max-width: 720px) {
+      font-size: 0.66rem;
+      padding: 0.24rem 0.6rem;
+      max-width: 90vw;
+    }
+  }
+
+  &__stats-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.95rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #d1d5db;
+    background: rgba(91, 155, 255, 0.1);
+    border: 1px solid rgba(91, 155, 255, 0.25);
+    border-radius: 8px;
+    transition: background .15s ease, color .15s ease, transform .12s ease;
+
+    &:hover {
+      background: rgba(91, 155, 255, 0.25);
+      color: #fff;
+      border-color: rgba(91, 155, 255, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__author-mgmt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.95rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #d1d5db;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    transition: background .15s ease, color .15s ease, transform .12s ease;
+
+    &:hover {
+      background: rgba(91, 155, 255, 0.2);
+      color: #fff;
+      border-color: rgba(91, 155, 255, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+
+  @media (max-width: 720px) {
+    &__main {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+      padding-top: 1.25rem;
+    }
+    &__left, &__right { justify-self: center; }
+
+    /* Mobile button rộng hơn để tap dễ */
+    &__author-mgmt,
+    &__stats-link {
+      padding: 0.65rem 1rem;
+      font-size: 0.82rem;
+    }
+  }
+}
+
+/* ============================================================
+   ===== FOOTER CATEGORIES — compact multi-column nav =====
+   ============================================================
+   Moved from sidebar. Wide/short layout: category name dominant,
+   count secondary in parentheses. No cards, no oversized circles. */
+.footer-categories {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 1rem 0 0;
+  margin-top: 0.25rem;
+  text-align: left;
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin: 0 0 0.55rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.28rem 1.1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    min-width: 0;
+    --cat-accent: #8bb8ff;
+
+    &:nth-child(6n + 1) { --cat-accent: #8bb8ff; }
+    &:nth-child(6n + 2) { --cat-accent: #8fe3d8; }
+    &:nth-child(6n + 3) { --cat-accent: #f5b5bc; }
+    &:nth-child(6n + 4) { --cat-accent: #bda7ff; }
+    &:nth-child(6n + 5) { --cat-accent: #ffd38a; }
+    &:nth-child(6n + 6) { --cat-accent: #9ed7ff; }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    max-width: 100%;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #d1d5db;
+    text-decoration: none;
+    line-height: 1.35;
+    padding: 0.12rem 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      color: #fff;
+      border-bottom-color: color-mix(in srgb, var(--cat-accent) 55%, transparent);
+
+      .footer-categories__count { color: #9aa4b2; }
+    }
+  }
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  &__count {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #555;
+    font-variant-numeric: tabular-nums;
+
+    &::before { content: "("; }
+    &::after  { content: ")"; }
+  }
+
+  @media (max-width: 1200px) {
+    &__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 1024px) {
+    &__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 820px) {
+    &__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 600px) {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.25rem 0.75rem;
+    }
+
+    &__link {
+      font-size: 0.8rem;
+      min-height: 36px;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 380px) {
+    &__grid { grid-template-columns: 1fr; }
+  }
+}
+
+/* ============================================================
+   ===== TAG CLOUD nằm Ở FOOTER (.footer-tags) =====
+   ============================================================
+   Style cũ (.tag-grid / .tag-card / .footer-tags-section) đã gỡ. Tag cloud
+   hiện tại = .footer-tags trong _footer-tags.scss (pills nhỏ, sắp theo số bài,
+   top N + <details> mở rộng) — nằm ngay trước .site-footer__main. */
+
+/* ============================================================
+   ===== QA DASHBOARD — DESKTOP (global) =====
+   ============================================================
+   6 card metrics build-time, grid 3 cột uniform. Mỗi card có border,
+   labels màu phía trên (NÂNG CAO/CƠ BẢN style), title, footer count+date. */
+.footer-qa {
+  background: #fff;
+  border-top: 1px solid #ececec;
+  padding: 2rem 0 1.5rem;
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  &__title {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #111;
+    margin: 0;
+  }
+  &__sub {
+    font-family: $font-meta;
+    font-size: 0.8rem;
+    color: #888;
+  }
+}
+
+/* ============================================================
+   ===== FOOTER SPLIT — QA Dashboard (trái) · GA Stats (phải) =====
+   ============================================================
+   Mobile-first: mặc định xếp chồng (1 cột). Desktop (≥981px) tách 2
+   cột song song — QA bên trái, Google Analytics bên phải. */
+.footer-qa__split {
+  display: grid;
+  grid-template-columns: 1fr;        /* mặc định: stack (mobile/tablet hẹp) */
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.footer-qa__left,
+.footer-qa__right { min-width: 0; }
+
+/* QA tắt: chỉ GA — 1 cột, không khoảng trống cột trái */
+.footer-qa__split--ga-only {
+  gap: 0;
+  .footer-qa__right { width: 100%; }
+  .ga-stats { max-width: none; margin: 0 auto; }
+}
+
+@media (min-width: 981px) {
+  .footer-qa__split {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+  }
+  .footer-qa__split--ga-only {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  /* Header căn trái + QA grid 2 cột gọn trong nửa trái */
+  .footer-qa__split .footer-qa__head { justify-content: flex-start; }
+  .footer-qa__split .qa-grid {
+    max-width: none;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* GA fill trọn cột phải (bỏ căn giữa + cap width của bản standalone) */
+  .footer-qa__split .ga-stats { max-width: none; margin: 0; }
+}
+
+.qa-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Accent theo loại card: icon tint + màu số liệu. Mỗi card 1 cặp
+   accent (đậm) + tint (nền nhạt) qua custom property → dễ chỉnh. */
+/* Đơn sắc Ericsson Blue cho đồng bộ toàn footer (khớp tag badge + label
+   đã chuyển xanh upstream). Cycle 3 tông xanh thương hiệu để vẫn có nhịp
+   thị giác nhẹ giữa các card. */
+.qa-card--perf   { --qa-accent: #003784; --qa-tint: #eef3fb; }
+.qa-card--sec    { --qa-accent: #002566; --qa-tint: #eaeff8; }
+.qa-card--ai     { --qa-accent: #0a5cb8; --qa-tint: #eaf2fc; }
+.qa-card--pr     { --qa-accent: #003784; --qa-tint: #eef3fb; }
+.qa-card--tag    { --qa-accent: #002566; --qa-tint: #eaeff8; }
+.qa-card--deploy { --qa-accent: #0a5cb8; --qa-tint: #eaf2fc; }
+
+.qa-card {
+  --qa-accent: #003784;
+  --qa-tint: #eef3fb;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 1.05rem 1.15rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: #dcdcdc;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07);
+  }
+
+  /* Hàng đầu: icon chip (trái) + nhãn trạng thái (phải) */
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--qa-tint);
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  &__labels {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  &__label {
+    display: inline-block;
+    font-family: $font-ui;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid;
+    line-height: 1;
+
+    /* Đơn sắc Ericsson Blue — gộp toàn bộ variant về 1 tông xanh. Bỏ
+       color-code đỏ/xanh-lá/tím/vàng/cam (text label vẫn giữ nghĩa). */
+    &--red,
+    &--green,
+    &--blue,
+    &--yellow,
+    &--orange,
+    &--purple,
+    &--gray { color: #003784; border-color: #003784; background: #eef3fb; }
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.08rem;
+    font-weight: 800;
+    color: #111;
+    margin: 0.1rem 0 0;
+    line-height: 1.25;
+  }
+
+  /* Giải thích chỉ số bằng tiếng Việt — để hiểu ngay không cần đoán */
+  &__desc {
+    font-family: $font-meta;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: #6b7280;
+    margin: 0;
+    flex: 1;
+  }
+
+  &__foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #f0f0f0;
+    font-family: $font-meta;
+    font-size: 0.78rem;
+  }
+  &__count { color: var(--qa-accent); font-weight: 700; }
+  &__date  { color: #9ca3af; font-variant-numeric: tabular-nums; }
+}
+
+/* ============================================================
+   ===== QA DASHBOARD — MOBILE (≤720px → 2 cột, ≤480px → 1 cột) =====
+   ============================================================ */
+@media (max-width: 1024px) {
+  .qa-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .footer-qa {
+    padding: 1.5rem 0 1.25rem;
+    &__head {
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+    &__title { font-size: 0.9rem; }
+    &__sub   { font-size: 0.72rem; }
+  }
+  .qa-grid { gap: 0.65rem; }
+  .qa-card {
+    padding: 0.9rem 0.95rem;
+    gap: 0.45rem;
+    border-radius: 10px;
+    &__icon  { width: 34px; height: 34px; font-size: 1.05rem; border-radius: 9px; }
+    &__title { font-size: 1rem; }
+    &__desc  { font-size: 0.76rem; }
+    &__label { font-size: 0.58rem; padding: 0.18rem 0.45rem; }
+    &__foot  { font-size: 0.72rem; flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+  }
+}
+@media (max-width: 480px) {
+  .qa-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ===== GA STATS + GA IMPROVEMENT PROGRESS =====
+   Visual styling moved to the scoped partial `_ga-stats.scss` (B-DNA
+   redesign, 2026-06-21). Layout-only hooks for these modules stay above
+   in `.footer-qa__split`. Do not re-add `.ga-stats*` visual rules here. */

@@ -1,0 +1,45 @@
+name: UPTIME_ME
+
+# Fetch UptimeRobot status from 3 read-only API keys and publish a sanitized
+# report to data/uptime-me.json (shown on /tools/uptime-me/). Keys come ONLY from
+# repo secrets; they are never printed or committed. Stdlib-only fetch script.
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # every 30 minutes (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: uptime-me
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Fetch uptime report
+        env:
+          UPTIMEROBOT_API_KEY_1: ${{ secrets.UPTIMEROBOT_API_KEY_1 }}
+          UPTIMEROBOT_API_KEY_2: ${{ secrets.UPTIMEROBOT_API_KEY_2 }}
+          UPTIMEROBOT_API_KEY_3: ${{ secrets.UPTIMEROBOT_API_KEY_3 }}
+        run: python3 scripts/fetch_uptime_me.py
+
+      - name: Publish report (only if meaningfully changed)
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh || true
+          .github/scripts/push_to_main.sh \
+            "Cập nhật: UPTIME_ME report ($(date -u +%FT%TZ)) [skip changelog]" \
+            data/uptime-me.json || echo "report unchanged / push skipped"

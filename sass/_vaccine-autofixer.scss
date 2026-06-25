@@ -1,0 +1,89 @@
+/* ===== Daily Vaccine Autofixer panel (Vaccine V11) =====
+   Scoped Insights panel that renders data/vaccine-autofixer-report.json:
+   last run, next scheduled run, matched vaccines as chips, fixed count, and
+   status chips. Semantic theme tokens with fallbacks. Additive component. ===== */
+
+.vaccine-panel {
+  margin: 2rem 0;
+  padding: 1.25rem 1.4rem;
+  border-radius: 16px;
+  background: var(--c-surface, rgba(128, 128, 128, 0.06));
+  border: 1px solid var(--c-border, rgba(128, 128, 128, 0.18));
+}
+
+.vaccine-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.vaccine-panel__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.vaccine-panel__run-btn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  background: var(--c-accent, #1d4ed8);
+  border: 1px solid transparent;
+}
+
+.vaccine-panel__run-btn:hover { filter: brightness(1.08); }
+
+.vaccine-panel__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--c-text-muted, #888);
+}
+
+.vaccine-panel__meta strong { color: var(--c-text, inherit); }
+
+.vaccine-panel__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.vaccine-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--c-border, rgba(128, 128, 128, 0.25));
+  background: var(--c-bg, rgba(255, 255, 255, 0.04));
+}
+
+.vaccine-chip--ok      { color: #047857; border-color: rgba(4, 120, 87, 0.4); }
+.vaccine-chip--fixed   { color: #1d4ed8; border-color: rgba(29, 78, 216, 0.4); }
+.vaccine-chip--warn    { color: #b45309; border-color: rgba(180, 83, 9, 0.4); }
+.vaccine-chip--fail    { color: #b91c1c; border-color: rgba(185, 28, 28, 0.4); }
+.vaccine-chip--idle    { color: var(--c-text-muted, #888); }
+
+.vaccine-panel__empty {
+  font-size: 0.9rem;
+  color: var(--c-text-muted, #888);
+}
+
+/* ===== MOBILE (<= 720px) ===== */
+@media (max-width: 720px) {
+  .vaccine-panel__run-btn { margin-left: 0; width: 100%; justify-content: center; }
+  .vaccine-panel__meta { gap: 0.5rem 1rem; }
+}

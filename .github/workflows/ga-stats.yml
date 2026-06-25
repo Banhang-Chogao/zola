@@ -1,0 +1,56 @@
+name: Fetch GA Stats
+
+# Hourly: fetch GA4 metrics qua Data API → commit data/ga-stats.json.
+# Tera template render bảng visitors today/week/month ở footer blog.
+#
+# REQUIRED SECRET: GA_SERVICE_ACCOUNT_KEY (JSON content của Service Account
+# có role 'Viewer' trên GA4 Property 542421812 — stream seomoney.org).
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # mỗi giờ đầu phút 0
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: ga-stats
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Install Google Analytics SDK
+        run: pip install --quiet google-analytics-data==0.18.18
+
+      - name: Fetch GA stats
+        env:
+          GA_SERVICE_ACCOUNT_KEY: ${{ secrets.GA_SERVICE_ACCOUNT_KEY }}
+        run: python scripts/fetch_ga_stats.py
+
+      - name: Refresh improvement progress snapshot
+        run: python scripts/fetch_ga_improvement_progress.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh GA stats ($(date -u +%FT%TZ))" \
+            data/ga-stats.json \
+            data/ga-improvement-progress.json \
+            static/data/ga-improvement-progress.json

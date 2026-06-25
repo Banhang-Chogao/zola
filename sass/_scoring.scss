@@ -1,0 +1,388 @@
+/* ===== SCORING CARD — DESKTOP (global) =====
+   Clean minimalist: white bg, subtle borders, Manrope, score badge gradient.
+   Inspired by Notion table + Linear UI. */
+
+.scoring {
+  max-width: 1100px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1.5rem;
+  font-family: $font-body;
+
+  &__head {
+    margin-bottom: 1.5rem;
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $brand-ink-900;
+  }
+
+  &__count {
+    font-family: $font-meta;
+    font-size: 0.85rem;
+    color: $brand-ink-500;
+    background: #f1f1f1;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+  }
+
+  &__desc {
+    font-size: 0.95rem;
+    color: $brand-ink-500;
+    line-height: 1.65;
+    margin: 0;
+    max-width: 720px;
+
+    code {
+      background: #f1f1f1;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.88em;
+      font-family: $font-mono;
+    }
+  }
+
+  &__empty {
+    background: $brand-mist;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    color: #666;
+
+    code {
+      background: #1a1a1a;
+      color: $brand-mist;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      font-family: $font-mono;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* ===== Controls bar ===== */
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    background: $brand-mist;
+    border: 1px solid $brand-edge;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  &__filter {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  &__filter-label, &__sort-label {
+    font-family: $font-ui;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #666;
+    margin-right: 0.35rem;
+  }
+
+  &__chip {
+    font-family: $font-ui;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    background: $brand-snow;
+    color: $brand-ink-800;
+    cursor: pointer;
+    transition: all .15s ease;
+
+    &:hover { border-color: $brand-ink-800; }
+
+    &--active {
+      background: $brand-ink-900;
+      color: $brand-snow;
+      border-color: $brand-ink-900;
+    }
+  }
+
+  &__sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__select {
+    font-family: $font-ui;
+    font-size: 0.85rem;
+    padding: 0.42rem 0.85rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: $brand-snow;
+    cursor: pointer;
+    color: $brand-ink-900;
+
+    &:focus { border-color: $brand-ink-900; outline: none; }
+  }
+
+  /* ===== Table ===== */
+  &__table-wrap {
+    overflow-x: auto;
+    border: 1px solid $brand-edge;
+    border-radius: 10px;
+    background: $brand-snow;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+
+  &__th {
+    text-align: left;
+    padding: 0.85rem 1rem;
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $brand-ink-500;
+    border-bottom: 1px solid $brand-edge;
+    background: $brand-mist;
+    white-space: nowrap;
+
+    &--rank   { width: 50px; text-align: center; }
+    &--score  { width: 110px; text-align: center; }
+    &--date   { width: 120px; }
+    &--action { width: 55px; text-align: center; }
+  }
+
+  &__row {
+    transition: background .12s ease;
+    &:hover { background: $brand-mist; }
+    &:not(:last-child) .scoring__td { border-bottom: 1px solid $brand-fog; }
+  }
+
+  &__td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+    color: $brand-ink-800;
+
+    &--rank {
+      text-align: center;
+      font-family: $font-mono;
+      color: $brand-ink-400;
+      font-size: 0.82rem;
+      font-variant-numeric: tabular-nums;
+    }
+    &--title { line-height: 1.4; }
+    &--score { text-align: center; }
+    &--date {
+      font-family: $font-meta;
+      color: $brand-ink-500;
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+    }
+    &--action { text-align: center; }
+  }
+
+  &__link {
+    font-weight: 600;
+    color: $brand-ink-900;
+    text-decoration: none;
+    &:hover { color: $brand-signal-red; text-decoration: underline; }
+  }
+
+  &__neighbors {
+    display: block;
+    font-family: $font-meta;
+    font-size: 0.72rem;
+    color: $brand-ink-400;
+    margin-top: 0.15rem;
+  }
+
+  /* Score badge — gradient theo tier */
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    padding: 0.38rem 0.75rem;
+    border-radius: 6px;
+    font-family: $font-ui;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    color: $brand-snow;
+
+    &--high {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+    &--mid {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+    &--low {
+      background: linear-gradient(135deg, $brand-ink-400 0%, $brand-ink-500 100%);
+    }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: #f1f1f1;
+    color: $brand-ink-800;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background .15s ease, transform .15s ease;
+    &:hover {
+      background: $brand-ink-900;
+      color: $brand-snow;
+      transform: translateX(2px);
+    }
+  }
+
+  &__empty-filter {
+    text-align: center;
+    color: $brand-ink-500;
+    padding: 2rem;
+    font-style: italic;
+  }
+}
+
+/* ===== SCORING CARD — MOBILE (≤720px) =====
+   Table biến thành card stack — không scroll ngang khó dùng. */
+@media (max-width: 720px) {
+  .scoring {
+    padding: 0 1rem;
+    margin: 1rem auto 2rem;
+
+    &__title { font-size: 1.4rem; }
+    &__desc  { font-size: 0.88rem; }
+
+    &__controls {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.65rem;
+    }
+    &__filter, &__sort {
+      width: 100%;
+      justify-content: flex-start;
+    }
+    &__select { flex: 1; }
+
+    &__table-wrap {
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      overflow: visible;
+      min-height: auto;
+    }
+
+    &__table {
+      display: none;
+      width: 100%;
+    }
+
+    &__table thead {
+      display: none;
+    }
+
+    &__table tbody {
+      display: block !important;
+      width: 100%;
+    }
+
+    &__row {
+      display: block !important;
+      width: 100%;
+      background: $brand-snow;
+      border: 1px solid $brand-edge;
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.75rem;
+      &:hover { background: lighten($brand-snow, 2%); }
+      &:not(:last-child) .scoring__td { border-bottom: 0; }
+    }
+
+    &__td {
+      padding: 0.5rem 0;
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      &--rank, &--action { display: none !important; }
+
+      &--title {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 0.65rem;
+        margin-bottom: 0.5rem;
+      }
+
+      &--score {
+        order: -1;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid $brand-fog;
+        width: 100%;
+      }
+
+      &--date {
+        font-size: 0.78rem;
+        color: $brand-ink-500;
+        &::before {
+          content: "Cập nhật: ";
+          color: $brand-ink-400;
+          margin-right: 0.35rem;
+        }
+      }
+    }
+
+    &__neighbors {
+      font-size: 0.75rem;
+      color: $brand-ink-400;
+      display: block;
+      margin-top: 0.35rem;
+    }
+
+    &__link {
+      color: var(--c-accent);
+      text-decoration: none;
+      font-weight: 600;
+      &:hover { text-decoration: underline; }
+    }
+
+    &__badge {
+      display: inline-block;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      &--high { background: rgba(34, 197, 94, 0.15); color: #15803d; }
+      &--mid { background: rgba(168, 85, 247, 0.15); color: #7c3aed; }
+      &--low { background: rgba(107, 114, 128, 0.15); color: #374151; }
+    }
+  }
+}

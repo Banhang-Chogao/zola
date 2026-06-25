@@ -1,0 +1,67 @@
+name: Fetch GSC Stats
+
+# Every 20 minutes: pull Search Console metrics → commit data/gsc-metrics.json.
+#
+# V24 doctrine: Render backend (blog-vipzone-api) holds the OAuth refresh token in KV.
+# fetch_gsc_metrics.py prefers direct GSC API (if secrets present) but automatically
+# falls back to GET <GSC_BACKEND_URL>/gsc/metrics — no secrets required for the fallback.
+#
+# OPTIONAL secrets (direct GSC API path — faster, not needed if backend is connected):
+#   GSC_REFRESH_TOKEN, GSC_PROPERTY_URL, GSC_CLIENT_ID, GSC_CLIENT_SECRET
+# Fallback: GSC_BACKEND_URL (default: https://blog-vipzone-api.onrender.com)
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: gsc-stats
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Install Google API client
+        run: pip install --quiet google-api-python-client==2.169.0 google-auth==2.40.2
+
+      - name: Fetch GSC metrics
+        env:
+          # Optional — direct GSC API (skipped if empty; falls back to backend KV path)
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          # V24: backend holds token in KV — always available even without above secrets
+          GSC_BACKEND_URL: https://blog-vipzone-api.onrender.com
+        run: python scripts/fetch_gsc_metrics.py
+
+      - name: Rebuild SEO reality snapshot
+        run: python3 scripts/build_seo_reality.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: refresh GSC metrics ($(date -u +%FT%TZ))" \
+            data/gsc-metrics.json \
+            static/data/gsc-metrics.json \
+            data/seo-reality.json \
+            static/data/seo-reality.json

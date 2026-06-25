@@ -1,0 +1,35 @@
+# Pre-commit hooks — chạy local trước mỗi `git commit`.
+# Cài: pip install pre-commit && pre-commit install
+# Manual run all files: pre-commit run --all-files
+#
+# Mục tiêu: bắt lỗi cú pháp Python/SCSS/TOML trước khi push, giảm số lần
+# CI xanh-đỏ + giảm gánh cho ff.py (AI agent chỉ cần lo lỗi build phức tạp).
+
+repos:
+  # Generic clean-ups
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+
+  # Ruff — lint + format Python (siêu nhanh, thay flake8+isort+pyupgrade)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # Mypy — type checking (chỉ cho scripts/, services/)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        files: ^(scripts/|services/).*\.py$
+        additional_dependencies: [pydantic>=2.7]

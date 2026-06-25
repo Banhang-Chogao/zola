@@ -1,0 +1,73 @@
+name: DNS Vaccine
+
+# Early detection of Cloudflare/GitHub Pages origin failures for the apex
+# domain (seomoney.org) — guards against Error 1016 (Origin DNS error),
+# NXDOMAIN, apex-CNAME conflicts, and base_url ↔ CNAME drift after the
+# github.io → seomoney.org migration. Logs diagnostics per run to
+# data/dns-vaccine-report.json (shown on /insights/). Stdlib only; the
+# runner has full network so DNS-over-HTTPS + HTTP probes actually resolve.
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # every 30 minutes (UTC) — catch regressions fast
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: Apex domain to check
+        required: false
+        default: seomoney.org
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dns-vaccine
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Run DNS Vaccine
+        id: vaccine
+        run: |
+          DOMAIN="${{ github.event.inputs.domain || 'seomoney.org' }}"
+          set +e
+          python3 scripts/dns_vaccine.py --domain "$DOMAIN" | tee /tmp/dns.out
+          echo "rc=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## DNS Vaccine — \`${{ github.event.inputs.domain || 'seomoney.org' }}\`"
+            echo '```'
+            cat /tmp/dns.out 2>/dev/null || echo "(no output)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Persist diagnostics report
+        if: always()
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh || true
+          .github/scripts/push_to_main.sh \
+            "Cập nhật: DNS Vaccine report ($(date -u +%FT%TZ)) [skip changelog]" \
+            data/dns-vaccine-report.json || echo "report unchanged / push skipped"
+
+      # Hard failure (1016 / apex NXDOMAIN / drift) → red workflow = alert.
+      - name: Raise alert on failure
+        if: steps.vaccine.outputs.rc != '0'
+        run: |
+          echo "::error::DNS Vaccine detected an origin/DNS failure (rc=${{ steps.vaccine.outputs.rc }}). See summary + data/dns-vaccine-report.json."
+          exit 1

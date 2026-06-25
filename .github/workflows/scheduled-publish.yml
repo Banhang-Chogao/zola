@@ -1,0 +1,88 @@
+name: Scheduled publish (đăng bài hẹn giờ)
+
+# Đăng bài draft đã tới giờ hẹn (phím tắt bb9 lưu draft + publish_at).
+# Chạy mỗi tối: flip draft -> published, push thẳng main nếu PASS QA gate.
+# Nếu QA fail → KHÔNG publish, revert + mở issue để user xử lý (theo rule deploy).
+
+on:
+  schedule:
+    - cron: '0 13 * * *'    # 20:00 GMT+7 (buổi tối) = 13:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: scheduled-publish
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Flip drafts tới hạn
+        id: flip
+        run: |
+          OUT=$(python3 scripts/scheduled_publish.py)
+          echo "$OUT"
+          if echo "$OUT" | grep -q '^PUBLISHED:'; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: QA gate — qa_check.py
+        if: steps.flip.outputs.changed == 'true'
+        id: qa
+        run: python3 qa_check.py
+
+      - name: QA gate — Zola build smoke test
+        if: steps.flip.outputs.changed == 'true'
+        env:
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+          zola build
+
+      - name: Push published content to main
+        if: steps.flip.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "feat(publish): đăng bài hẹn giờ tới hạn (scheduled publish)" \
+            content/
+
+      - name: Báo lỗi nếu QA fail (mở issue, KHÔNG publish)
+        if: failure() && steps.flip.outputs.changed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `⚠️ Scheduled publish bị chặn bởi QA (${new Date().toISOString().slice(0,10)})`,
+              body: [
+                'Có bài draft tới giờ hẹn nhưng **không vượt qua QA gate** nên CHƯA được đăng.',
+                '',
+                `Run log: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                '',
+                'Cách xử lý: chạy phím tắt `ff` để auto-fix, hoặc sửa thủ công rồi đăng lại.'
+              ].join('\n')
+            });

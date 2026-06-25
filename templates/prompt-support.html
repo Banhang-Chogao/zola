@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Prompt Support | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <section class="psupport" data-prompt-support>
+        <header class="psupport__head">
+            <h1 class="psupport__title">Prompt Support</h1>
+            <p class="psupport__desc">
+                Token Optimization Engine — nén yêu cầu thô thành coding-agent prompt ngắn, rõ, tiết kiệm token.
+                Dán yêu cầu thô → <strong>Cải thiện ngay</strong> → <strong>Copy Prompt</strong>. Lint chỉ kiểm tra chất lượng, không copy.
+            </p>
+        </header>
+
+        <div class="psupport__grid">
+            <div class="psupport__panel">
+                <label class="psupport__label" for="psupport-input">Yêu cầu thô</label>
+                <textarea
+                    id="psupport-input"
+                    class="psupport__input"
+                    data-psupport-input
+                    rows="12"
+                    spellcheck="false"
+                    placeholder="Dán yêu cầu coding (tiếng Việt hoặc English).&#10;&#10;Ví dụ:&#10;fix gấp lỗi workflow, sửa ngay check run fail do manual approval, bỏ nó ra khỏi workflow nhưng đừng auto merge vào main, tạo PR riêng"
+                ></textarea>
+
+                <div class="psupport__controls">
+                    <div class="psupport__control-row">
+                        <label class="psupport__select-label">
+                            <span>Mode</span>
+                            <select class="psupport__select" data-psupport-mode>
+                                <option value="auto" selected>Auto Token Saver</option>
+                                <option value="ultra">Ultra Compact (80–150 từ)</option>
+                                <option value="compact">Compact (150–300 từ)</option>
+                                <option value="standard">Standard (300–600 từ)</option>
+                                <option value="full">Full Spec (feature lớn)</option>
+                            </select>
+                        </label>
+                        <label class="psupport__select-label">
+                            <span>Target AI</span>
+                            <select class="psupport__select" data-psupport-target>
+                                <option value="grok" selected>Grok</option>
+                                <option value="claude">Claude</option>
+                                <option value="generic">Generic Coding Agent</option>
+                            </select>
+                        </label>
+                        <span class="psupport__task-badge" data-psupport-task-type hidden></span>
+                        <span class="psupport__mode-badge" data-psupport-mode-badge hidden></span>
+                    </div>
+
+                    <div class="psupport__checkboxes" role="group" aria-label="Tùy chọn generate">
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-token-saver checked>
+                            Token Saver
+                        </label>
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-repo-rules checked>
+                            Repo Rules (zola)
+                        </label>
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-claude-md>
+                            CLAUDE.md learning
+                        </label>
+                        <label class="psupport__check">
+                            <input type="checkbox" data-psupport-acceptance checked>
+                            Acceptance Criteria
+                        </label>
+                    </div>
+                </div>
+
+                <div class="psupport__actions">
+                    <button type="button" class="psupport__btn psupport__btn--primary" data-psupport-improve>
+                        Cải thiện ngay
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-generate>
+                        Generate Prompt
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-lint title="Kiểm tra chất lượng prompt — không copy">
+                        Lint Prompt
+                    </button>
+                    <button type="button" class="psupport__btn psupport__btn--ghost" data-psupport-compare aria-pressed="false">
+                        Compare Before/After
+                    </button>
+                    <span class="psupport__status" data-psupport-status role="status" aria-live="polite"></span>
+                </div>
+            </div>
+
+            <div class="psupport__panel psupport__panel--output">
+                <div class="psupport__output-head">
+                    <span class="psupport__label">Prompt tối ưu</span>
+                    <button
+                        type="button"
+                        class="psupport__btn psupport__btn--copy"
+                        data-psupport-copy
+                        disabled
+                        title="Copy prompt đang hiển thị (mode đã chọn)"
+                    >
+                        Copy Prompt
+                    </button>
+                </div>
+
+                <div class="psupport__budget" data-psupport-budget hidden aria-label="Token budget"></div>
+                <div class="psupport__scores" data-psupport-scores hidden aria-label="Quality scores"></div>
+
+                <pre class="psupport__output" data-psupport-output aria-label="Optimized prompt output"><code data-psupport-code>Cải thiện ngay hoặc Generate Prompt để xem kết quả.</code></pre>
+
+                <details class="psupport__copy-variants">
+                    <summary class="psupport__copy-variants-label">Copy theo mode khác</summary>
+                    <div class="psupport__copy-row" aria-label="Copy prompt variants">
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-ultra disabled>
+                            Ultra Compact
+                        </button>
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-compact disabled>
+                            Compact
+                        </button>
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-standard disabled>
+                            Standard
+                        </button>
+                        <button type="button" class="psupport__btn psupport__btn--ghost psupport__btn--sm" data-psupport-copy-full disabled>
+                            Full Spec
+                        </button>
+                    </div>
+                </details>
+
+                <div class="psupport__lint-results" data-psupport-lint-results hidden></div>
+                <div class="psupport__tips" data-psupport-tips hidden></div>
+            </div>
+        </div>
+
+        <div class="psupport__compare-panel" data-psupport-compare-panel hidden>
+            <h2 class="psupport__compare-title">Before / After</h2>
+            <div class="psupport__compare-grid">
+                <div class="psupport__compare-col">
+                    <span class="psupport__label">Input (thô)</span>
+                    <pre class="psupport__compare-pre"><code data-psupport-before></code></pre>
+                </div>
+                <div class="psupport__compare-col">
+                    <span class="psupport__label">Output (tối ưu)</span>
+                    <pre class="psupport__compare-pre psupport__compare-pre--after"><code data-psupport-after></code></pre>
+                </div>
+            </div>
+            <div class="psupport__diff-section">
+                <span class="psupport__label">Removed (diff)</span>
+                <div class="psupport__diff" data-psupport-diff></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="{{ get_url(path='js/prompt-support.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

@@ -1,0 +1,84 @@
+/* ===== Prev / Next post navigation ("Đọc tiếp") =====
+   Scoped component rendered at the end of a single post (templates/page.html).
+   Purpose: SEO crawl-depth + anti-orphan internal linking between chronological
+   siblings. Uses semantic theme tokens (with safe fallbacks) so it adapts to
+   both light and dark themes. Additive component — does not touch any global
+   layout selector. ===== */
+
+/* ===== DESKTOP (global) ===== */
+.post-nav {
+  margin: 2.5rem 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--c-border, rgba(128, 128, 128, 0.25));
+}
+
+.post-nav__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-text-muted, #888);
+}
+
+.post-nav__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.post-nav__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 12px;
+  background: var(--c-surface, rgba(128, 128, 128, 0.06));
+  border: 1px solid var(--c-border, rgba(128, 128, 128, 0.18));
+  text-decoration: none;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.post-nav__link:hover {
+  border-color: var(--c-accent, #1d4ed8);
+  transform: translateY(-2px);
+}
+
+.post-nav__link--next {
+  text-align: right;
+}
+
+/* Empty placeholder keeps the next link right-aligned when there is no prev. */
+.post-nav__link--empty {
+  background: transparent;
+  border: none;
+  pointer-events: none;
+}
+
+.post-nav__dir {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-accent, #1d4ed8);
+}
+
+.post-nav__label {
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--c-text, inherit);
+}
+
+/* ===== MOBILE (<= 720px) ===== */
+@media (max-width: 720px) {
+  .post-nav__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .post-nav__link--next {
+    text-align: left;
+  }
+
+  .post-nav__link--empty {
+    display: none;
+  }
+}

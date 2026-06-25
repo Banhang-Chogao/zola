@@ -1,0 +1,65 @@
++++
+title = "Ăn khuya Sài Gòn: 10 món mở sau 11h"
+description = "Ăn khuya Sài Gòn: 10 món và khu dân cú đêm nổi tiếng mở sau 11h — phố ốc, chợ Lớn, bún đêm và quán mở khuya cho dân Sài Gòn."
+date = 2026-06-16
+aliases = ["/an-khuya-sai-gon/"]
+
+[taxonomies]
+categories = ["Tất cả", "Ẩm thực"]
+tags = ["món ngon", "sài gòn", "tphcm", "ăn khuya", "ăn đêm", "ẩm thực"]
+
+[extra]
+thumbnail = "https://seomoney.org/img/covers/an-khuya-sai-gon.svg"
+seo_keyword = "ăn khuya Sài Gòn"
++++
+
+Sài Gòn là thành phố **không ngủ** — và dân cú đêm thì luôn có chỗ để lấp đầy cái bụng lúc nửa khuya. Nếu bạn hay thức muộn, đi chơi về trễ, hoặc đơn giản là thèm ăn đêm, đây là **10 món & khu ăn khuya** quen thuộc, nhiều nơi mở **sau 11h đêm**.
+
+> Muốn gợi ý cho cả buổi tối sớm hơn, xem [tối nay ở Sài Gòn ăn gì](/toi-nay-sai-gon-an-gi/).
+
+## Khu ăn khuya Sài Gòn nổi tiếng
+
+### Phố ốc Vĩnh Khánh (Quận 4)
+"Kinh đô" ăn đêm của Sài Gòn. Hàng loạt quán ốc san sát, mở tới khuya, đủ món: ốc len xào dừa, ốc hương rang muối, sò huyết... Giá bình dân, không khí nhộn nhịp.
+
+### Chợ Lớn (Quận 5)
+Thiên đường món Hoa về đêm: hủ tiếu sa tế, mì vịt tiềm, cháo, sủi cảo. Nhiều quán gia truyền mở khuya, đậm vị người Hoa.
+
+### Quận 1 & Quận 3
+Rải rác nhiều quán lẩu, mì cay, bánh mì, phá lấu, quán nhậu mở muộn quanh khu trung tâm và các con hẻm.
+
+## 10 món đáng thử lúc nửa đêm
+
+1. **Ốc các loại** — "đặc sản" ăn đêm, hợp lai rai.
+2. **Hủ tiếu gõ** — rẻ, nóng, bán tới khuya khắp các hẻm.
+3. **Cháo lòng / cháo trắng hột vịt muối** — ấm bụng, nhẹ nhàng.
+4. **Mì cay** — cay nóng, tỉnh cả ngủ.
+5. **Lẩu** — hợp nhóm bạn tụ tập đêm.
+6. **Bánh mì** — nhanh gọn, có mặt 24/7.
+7. **Phá lấu** — món "tủ" của hội ăn vặt đêm.
+8. **Bột chiên** — giòn, rẻ, đậm đà.
+9. **Mì vịt tiềm** — đậm đà kiểu Hoa ở Quận 5.
+10. **Chè / sữa đậu nóng** — "tráng miệng" khép lại buổi ăn khuya.
+
+## Mẹo đi ăn khuya
+
+- **Ưu tiên quán đông khách** — vừa ngon vừa an toàn, đồ luôn tươi.
+- **Giữ ví, điện thoại cẩn thận**, gửi xe đúng chỗ có vé.
+- **Hỏi giờ trước** với quán xa, vì lịch đêm có thể đổi theo ngày trong tuần.
+- Đi nhóm sẽ vui và gọi được nhiều món để thử hơn.
+
+## Giá cả, vệ sinh và di chuyển khi ăn khuya Sài Gòn
+
+Một bữa ăn khuya ở Sài Gòn hiếm khi đắt: phần lớn món đường phố dao động **30.000 – 80.000 đồng**, ốc và lẩu đi nhóm thì tính theo đầu người khoảng **100.000 – 200.000 đồng** là thoải mái. Mang theo **tiền mặt mệnh giá nhỏ** vẫn tiện nhất, vì nhiều xe đẩy và quán vỉa hè chưa nhận chuyển khoản hay quét mã.
+
+Về vệ sinh, mẹo đơn giản mà hiệu quả: **chọn quán đông khách và bán liên tục**. Quán đắt hàng thì nguyên liệu quay vòng nhanh, đồ tươi hơn, nước lèo nấu mới thường xuyên. Với hải sản như ốc, nên ăn nóng tại chỗ thay vì để nguội lâu.
+
+Chuyện đi lại đêm cũng đáng cân nhắc. Sau nửa đêm, các ứng dụng gọi xe (Grab, Be, Xanh SM) vẫn hoạt động nhưng giá có thể nhỉnh hơn giờ thường và tài xế thưa dần về sáng. Nếu tự chạy xe máy, hãy **gửi xe ở chỗ có vé** và tránh để đồ giá trị trong cốp. Đi theo nhóm 2–4 người vừa vui, vừa an toàn, lại gọi được nhiều món để chia nhau thử.
+
+## Kết
+
+Ăn khuya là một phần "đặc sản văn hoá" của Sài Gòn — nơi một đĩa ốc hay tô hủ tiếu gõ lúc nửa đêm cũng thành kỷ niệm. Lần tới lỡ bữa hay thèm ăn muộn, bạn đã biết đi đâu.
+
+Đói nữa thì xem tiếp [12 quán ăn tối & ăn khuya](/toi-nay-sai-gon-an-gi/) và [trời mưa Sài Gòn ăn gì](/troi-mua-sai-gon-an-gi/).
+
+📚 Tìm hiểu thêm về nền [ẩm thực Việt Nam trên Wikipedia](https://vi.wikipedia.org/wiki/%E1%BA%A8m_th%E1%BB%B1c_Vi%E1%BB%87t_Nam).

@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}Font Guideline — Ericsson Hilda | {{ config.title }}{% endblock %}
+{% block description %}Hướng dẫn typeface Ericsson Hilda: lịch sử, các độ đậm (weights), type scale, bộ ký tự và quy tắc sử dụng. Thiết kế bởi Letters from Sweden.{% endblock %}
+
+{% block main %}
+<article class="fontguide">
+
+    {# ===== HERO ===== #}
+    <header class="fontguide__hero">
+        <p class="fontguide__eyebrow">Letters from Sweden · Custom Typeface</p>
+        <h1 class="fontguide__wordmark">Hilda</h1>
+        <p class="fontguide__hero-sub">The Ericsson typeface — clear communication, in the right voice.</p>
+
+        <dl class="fontguide__meta">
+            <div class="fontguide__meta-item"><dt>Foundry</dt><dd>Letters from Sweden</dd></div>
+            <div class="fontguide__meta-item"><dt>Designer</dt><dd>Göran Söderström</dd></div>
+            <div class="fontguide__meta-item"><dt>Năm</dt><dd>2018</dd></div>
+            <div class="fontguide__meta-item"><dt>Bảng chữ</dt><dd>Latin · Greek · Cyrillic</dd></div>
+            <div class="fontguide__meta-item"><dt>Độ đậm</dt><dd>5 weights</dd></div>
+        </dl>
+    </header>
+
+    {# ===== BIG STATEMENT ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__statement">
+            Một typeface được vẽ cho <em>màn hình trước tiên</em> — tối giản, rõ ràng, có chức năng.
+        </p>
+    </section>
+
+    {# ===== ABOUT / STORY ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">01 — Câu chuyện</p>
+        <div class="fontguide__about-grid">
+            <div class="fontguide__prose">
+                <p>
+                    <strong>Ericsson Hilda</strong> là typeface độc quyền (proprietary) được
+                    <strong>Letters from Sweden</strong> — xưởng chữ Thụy Điển do Göran Söderström sáng lập —
+                    thiết kế cho cuộc tái định vị thương hiệu của Ericsson, phối hợp cùng
+                    <strong>Stockholm Design Lab</strong>.
+                </p>
+                <p>
+                    Bộ chữ mang tên <strong>Hilda</strong> — tên người vợ của Lars Magnus Ericsson, nhà sáng lập
+                    Ericsson — như một lời tri ân tới gốc rễ của công ty. Đây là một sans-serif
+                    nhân văn (humanist), được dựng theo tư duy <strong>digital-first</strong>: tối ưu cho các
+                    giao diện phần mềm của Ericsson, đặt sự rõ ràng và tính chức năng lên hàng đầu.
+                </p>
+                <p>
+                    Chữ được vẽ trọn vẹn cho ba bảng ký tự — <strong>Latin, Greek và Cyrillic</strong> —
+                    để phục vụ một thương hiệu hoạt động trên toàn cầu. Tinh thần thiết kế Thụy Sĩ/Bắc Âu
+                    pha trộn với sự hiện đại của công nghệ tạo nên một giọng nói thị giác bình tĩnh,
+                    chính xác và đáng tin cậy.
+                </p>
+            </div>
+            <dl class="fontguide__facts">
+                <div><dt>Tên đầy đủ</dt><dd>Ericsson Hilda</dd></div>
+                <div><dt>Phân loại</dt><dd>Humanist Sans-serif</dd></div>
+                <div><dt>Xưởng chữ</dt><dd>Letters from Sweden</dd></div>
+                <div><dt>Đối tác</dt><dd>Stockholm Design Lab</dd></div>
+                <div><dt>Đặt tên theo</dt><dd>Hilda Ericsson</dd></div>
+                <div><dt>Định hướng</dt><dd>Digital-first / GUI</dd></div>
+                <div><dt>Bản quyền</dt><dd>Proprietary</dd></div>
+            </dl>
+        </div>
+    </section>
+
+    {# ===== SPECIMEN ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">02 — Specimen</p>
+        <p class="fontguide__glyph-row">Aa</p>
+        <p class="fontguide__pangram">The quick brown fox jumps over the lazy dog. 0123456789</p>
+    </section>
+
+    {# ===== WEIGHTS ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">03 — Độ đậm</p>
+        <h2 class="fontguide__section-title">Năm weights</h2>
+        <p class="fontguide__section-desc">
+            Dải độ đậm từ ExtraLight tới ExtraBold — đủ để xây dựng một hệ thống phân cấp
+            (hierarchy) rõ ràng cho cả tiêu đề lớn lẫn nội dung giao diện.
+        </p>
+
+        <div class="fontguide__weights">
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">ExtraLight<span>Weight 200</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--200">Communication</div>
+            </div>
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">Light<span>Weight 300</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--300">Communication</div>
+            </div>
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">Medium<span>Weight 500</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--500">Communication</div>
+            </div>
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">Bold<span>Weight 700</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--700">Communication</div>
+            </div>
+            <div class="fontguide__weight">
+                <div class="fontguide__weight-name">ExtraBold<span>Weight 800</span></div>
+                <div class="fontguide__weight-sample fontguide__weight-sample--800">Communication</div>
+            </div>
+        </div>
+    </section>
+
+    {# ===== TYPE SCALE ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">04 — Type scale</p>
+        <h2 class="fontguide__section-title">Thang kích thước</h2>
+        <p class="fontguide__section-desc">
+            Thang typographic gợi ý cho web — heading dùng letter-spacing âm để chữ chắc chắn
+            hơn về mặt thị giác, body giữ spacing tự nhiên để đọc thoải mái.
+        </p>
+
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size: 3.25rem; font-weight: 800;">Display</div>
+            <div class="fontguide__scale-spec"><strong>Display</strong>52px · 800 · -0.03em</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size: 2.25rem; font-weight: 700;">Heading 1</div>
+            <div class="fontguide__scale-spec"><strong>H1</strong>36px · 700 · -0.02em</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size: 1.6rem; font-weight: 700;">Heading 2</div>
+            <div class="fontguide__scale-spec"><strong>H2</strong>26px · 700 · -0.01em</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size: 1.2rem; font-weight: 500;">Heading 3</div>
+            <div class="fontguide__scale-spec"><strong>H3</strong>19px · 500</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size: 1rem; font-weight: 300; letter-spacing: 0;">Body — clear communication in the right voice.</div>
+            <div class="fontguide__scale-spec"><strong>Body</strong>16px · 300 · lh 1.6</div>
+        </div>
+        <div class="fontguide__scale-row">
+            <div class="fontguide__scale-sample" style="font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; color: #6a6a6a;">CAPTION / LABEL</div>
+            <div class="fontguide__scale-spec"><strong>Caption</strong>13px · 500 · 0.04em</div>
+        </div>
+    </section>
+
+    {# ===== CHARACTER SET ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">05 — Bộ ký tự</p>
+        <h2 class="fontguide__section-title">Character set</h2>
+        <p class="fontguide__section-desc">
+            Bộ ký tự Latin đầy đủ, chữ số và dấu câu. Bản gốc còn hỗ trợ Greek và Cyrillic
+            cho phạm vi sử dụng toàn cầu của Ericsson.
+        </p>
+
+        <div class="fontguide__charset">
+            <div class="fontguide__charset-block">
+                <h3>Uppercase</h3>
+                <p class="fontguide__glyphs">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</p>
+            </div>
+            <div class="fontguide__charset-block">
+                <h3>Lowercase</h3>
+                <p class="fontguide__glyphs">a b c d e f g h i j k l m n o p q r s t u v w x y z</p>
+            </div>
+            <div class="fontguide__charset-block">
+                <h3>Numerals &amp; Punctuation</h3>
+                <p class="fontguide__glyphs">0 1 2 3 4 5 6 7 8 9 &amp; @ # % ( ) ? ! . , : ; — “ ”</p>
+            </div>
+        </div>
+    </section>
+
+    {# ===== TYPE TESTER ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">06 — Type tester</p>
+        <h2 class="fontguide__section-title">Gõ thử</h2>
+        <p class="fontguide__section-desc">Nhập nội dung, đổi độ đậm và kích thước để xem Ericsson Hilda hoạt động trực tiếp.</p>
+
+        <div class="fontguide__tester-controls">
+            <input class="fontguide__tester-input" data-tester-input type="text"
+                   value="Clear communication" aria-label="Nội dung gõ thử">
+            <div class="fontguide__tester-weights" data-tester-weights>
+                <button type="button" class="fontguide__tester-w" data-w="200">EL</button>
+                <button type="button" class="fontguide__tester-w" data-w="300">L</button>
+                <button type="button" class="fontguide__tester-w is-active" data-w="500">M</button>
+                <button type="button" class="fontguide__tester-w" data-w="700">B</button>
+                <button type="button" class="fontguide__tester-w" data-w="800">XB</button>
+            </div>
+            <label class="fontguide__tester-size">
+                Size
+                <input type="range" min="24" max="120" value="64" data-tester-range>
+                <span data-tester-val>64px</span>
+            </label>
+        </div>
+        <p class="fontguide__tester-preview" data-tester-preview>Clear communication</p>
+    </section>
+
+    {# ===== COLOR ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">07 — Màu sắc</p>
+        <h2 class="fontguide__section-title">Palette thương hiệu</h2>
+        <p class="fontguide__section-desc">
+            Ericsson Blue là màu chủ đạo; teal và đỏ dùng cho điểm nhấn và hành động.
+            Chữ Hilda đạt độ tương phản cao trên nền trắng (WCAG AAA).
+        </p>
+
+        <div class="fontguide__colors">
+            <div class="fontguide__swatch">
+                <div class="fontguide__swatch-chip" style="background:#003784"></div>
+                <div class="fontguide__swatch-info"><strong>Ericsson Blue</strong><code>#003784</code><span>Màu chủ đạo</span></div>
+            </div>
+            <div class="fontguide__swatch">
+                <div class="fontguide__swatch-chip" style="background:#00a69d"></div>
+                <div class="fontguide__swatch-info"><strong>Teal</strong><code>#00a69d</code><span>Hỗ trợ / success</span></div>
+            </div>
+            <div class="fontguide__swatch">
+                <div class="fontguide__swatch-chip" style="background:#e30613"></div>
+                <div class="fontguide__swatch-info"><strong>Signal Red</strong><code>#e30613</code><span>CTA / cảnh báo</span></div>
+            </div>
+            <div class="fontguide__swatch">
+                <div class="fontguide__swatch-chip" style="background:#0a0a0a"></div>
+                <div class="fontguide__swatch-info"><strong>Ink</strong><code>#0a0a0a</code><span>Tiêu đề</span></div>
+            </div>
+        </div>
+    </section>
+
+    {# ===== USAGE (Do / Don't) ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">08 — Quy tắc sử dụng</p>
+        <h2 class="fontguide__section-title">Nên &amp; Không nên</h2>
+
+        <div class="fontguide__usage">
+            <div class="fontguide__usage-col fontguide__usage-col--do">
+                <h3>Nên</h3>
+                <ul>
+                    <li>Dùng ExtraBold/Bold cho tiêu đề lớn, Light/Medium cho nội dung.</li>
+                    <li>Áp letter-spacing âm nhẹ cho heading cỡ lớn (≥ 24px).</li>
+                    <li>Giữ độ tương phản cao — chữ tối trên nền sáng.</li>
+                    <li>Ưu tiên sự rõ ràng và khoảng trắng rộng rãi.</li>
+                </ul>
+            </div>
+            <div class="fontguide__usage-col fontguide__usage-col--dont">
+                <h3>Không nên</h3>
+                <ul>
+                    <li>Không kéo giãn (stretch/condense) hay nghiêng giả lập chữ.</li>
+                    <li>Không trộn quá nhiều weight trong một khối nội dung.</li>
+                    <li>Không đặt chữ mảnh (ExtraLight) ở cỡ nhỏ trên nền nhiễu.</li>
+                    <li>Không dùng letter-spacing dương cho đoạn văn dài.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    {# ===== HISTORY / AWARDS ===== #}
+    <section class="fontguide__section">
+        <p class="fontguide__eyebrow">09 — Ghi nhận</p>
+        <h2 class="fontguide__section-title">Red Dot Awards 2018</h2>
+        <p class="fontguide__section-desc">
+            Hệ thống nhận diện và thiết kế của Ericsson — nơi Hilda là một thành tố nền tảng —
+            được vinh danh tại Red Dot Award, một trong những giải thưởng thiết kế lớn nhất thế giới.
+        </p>
+
+        <div class="fontguide__awards">
+            <article class="fontguide__award">
+                <span class="fontguide__award-dot"></span>
+                <h3>Brand Design</h3>
+                <p>Vinh danh nỗ lực tối ưu thương hiệu toàn diện của Ericsson, xây dựng dựa trên các nguyên tắc thiết kế sản phẩm.</p>
+                <time>Red Dot · 31/08/2018</time>
+            </article>
+            <article class="fontguide__award">
+                <span class="fontguide__award-dot"></span>
+                <h3>Interface Design</h3>
+                <p>Ericsson Design System (EDS) được ghi nhận vì cách tiếp cận đổi mới về trải nghiệm người dùng, hỗ trợ thiết kế và phát triển phần mềm linh hoạt.</p>
+                <time>Red Dot · 31/08/2018</time>
+            </article>
+        </div>
+    </section>
+
+    {# ===== CREDITS ===== #}
+    <footer class="fontguide__credits">
+        <p class="fontguide__eyebrow">Credits</p>
+        <p>Typeface <strong>Ericsson Hilda</strong> — thiết kế bởi <strong>Letters from Sweden</strong> (Göran Söderström)</p>
+        <p>Tái định vị thương hiệu cùng <strong>Stockholm Design Lab</strong> · Tham chiếu: <a href="https://lettersfromsweden.se/ericsson/" target="_blank" rel="noopener">lettersfromsweden.se/ericsson</a></p>
+        <p class="fontguide__note">
+            Lưu ý: Ericsson Hilda là một typeface độc quyền (proprietary) thuộc về Ericsson.
+            Trang này chỉ mang tính giới thiệu &amp; hướng dẫn (font guideline), được dựng để
+            tham khảo phong cách trình bày typeface theo chuẩn foundry.
+        </p>
+    </footer>
+
+</article>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+  var root = document.querySelector('.fontguide');
+  if (!root) return;
+
+  var input   = root.querySelector('[data-tester-input]');
+  var preview = root.querySelector('[data-tester-preview]');
+  var range   = root.querySelector('[data-tester-range]');
+  var val     = root.querySelector('[data-tester-val]');
+  var wWrap   = root.querySelector('[data-tester-weights]');
+  if (!input || !preview) return;
+
+  function syncText() {
+    preview.textContent = input.value || 'Clear communication';
+  }
+  input.addEventListener('input', syncText);
+
+  if (range && val) {
+    range.addEventListener('input', function () {
+      preview.style.fontSize = range.value + 'px';
+      val.textContent = range.value + 'px';
+    });
+  }
+
+  if (wWrap) {
+    wWrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-w]');
+      if (!btn) return;
+      wWrap.querySelectorAll('.fontguide__tester-w').forEach(function (b) {
+        b.classList.remove('is-active');
+      });
+      btn.classList.add('is-active');
+      preview.style.fontWeight = btn.getAttribute('data-w');
+    });
+  }
+})();
+</script>
+{% endblock extra_scripts %}

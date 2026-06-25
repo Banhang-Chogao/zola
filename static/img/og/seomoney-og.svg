@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">SEOMONEY social preview card</title>
+  <desc id="desc">WWDC26 calm-first editorial OG card for SEOMONEY — SEO, AI WebOps and personal finance.</desc>
+
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="22" flood-color="#003784" flood-opacity="0.12"/>
+    </filter>
+    <clipPath id="cardClip">
+      <rect x="24" y="24" width="1152" height="582" rx="6"/>
+    </clipPath>
+    <style>
+      .hilda { font-family: "Ericsson Hilda", "Inter", "DejaVu Sans", sans-serif; }
+      .body  { font-family: "Nokia Pure Text", "Inter", "DejaVu Sans", sans-serif; }
+      .mono  { font-family: "DejaVu Sans Mono", ui-monospace, monospace; }
+    </style>
+  </defs>
+
+  <!-- page -->
+  <rect width="1200" height="630" fill="#f8f9fb"/>
+
+  <!-- white surface card -->
+  <rect x="24" y="24" width="1152" height="582" rx="6" fill="#ffffff" stroke="#e3e3e3" stroke-width="1" filter="url(#cardShadow)"/>
+
+  <!-- calm decoration: soft blue-tint shapes, clipped to card -->
+  <g clip-path="url(#cardClip)">
+    <circle cx="1232" cy="64" r="240" fill="#e8edf5" opacity="0.7"/>
+    <circle cx="1180" cy="648" r="150" fill="#e8edf5" opacity="0.5"/>
+  </g>
+
+  <!-- signature deep-blue left accent bar -->
+  <rect x="24" y="24" width="10" height="582" fill="#003784" clip-path="url(#cardClip)"/>
+
+  <!-- ===== top bar ===== -->
+  <!-- outlined brand mark -->
+  <rect x="80" y="66" width="58" height="58" rx="6" fill="none" stroke="#003784" stroke-width="2.6"/>
+  <text x="109" y="107" text-anchor="middle" class="hilda" font-size="32" font-weight="800" fill="#003784">S</text>
+
+  <text x="156" y="96" class="hilda" font-size="30" font-weight="800" fill="#0a0a0a" letter-spacing="-0.6">SEOMONEY</text>
+  <text x="157" y="121" class="body" font-size="15.5" font-weight="400" fill="#6a6a6a">SEO · AI WebOps · Tài chính cá nhân</text>
+
+  <!-- top-right mono meta -->
+  <text x="1140" y="92" text-anchor="end" class="mono" font-size="14" fill="#6a6a6a" letter-spacing="1.2">CALM-FIRST · WWDC26</text>
+  <text x="1140" y="116" text-anchor="end" class="mono" font-size="14" fill="#003784" letter-spacing="1.2">v1.0 · 2026</text>
+
+  <!-- hairline under top bar -->
+  <line x1="80" y1="150" x2="1140" y2="150" stroke="#e3e3e3" stroke-width="1"/>
+
+  <!-- ===== hero ===== -->
+  <text x="80" y="212" class="body" font-size="17" font-weight="700" fill="#003784" letter-spacing="2.4">BLOG SEO · AI WEBOPS · CALM-FIRST</text>
+
+  <text x="78" y="300" class="hilda" font-size="78" font-weight="800" fill="#0a0a0a" letter-spacing="-2.4">SEO, AI WebOps</text>
+  <text x="78" y="384" class="hilda" font-size="78" font-weight="800" fill="#0a0a0a" letter-spacing="-2.4">&amp; tài chính cá nhân</text>
+
+  <text x="80" y="452" class="body" font-size="23" font-weight="400" fill="#555555">Ghi chép thực chiến: blog tĩnh, tự động hoá vận hành web bằng AI</text>
+  <text x="80" y="486" class="body" font-size="23" font-weight="400" fill="#555555">và tăng trưởng tìm kiếm — rõ ràng, yên tĩnh, biên tập.</text>
+
+  <!-- ===== bottom chips ===== -->
+  <g class="body" font-size="16" font-weight="700">
+    <rect x="80" y="530" width="86" height="42" rx="6" fill="#003784"/>
+    <text x="123" y="557" text-anchor="middle" fill="#ffffff">SEO</text>
+
+    <rect x="178" y="530" width="150" height="42" rx="6" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.4"/>
+    <text x="253" y="557" text-anchor="middle" fill="#333333">AI WebOps</text>
+
+    <rect x="340" y="530" width="212" height="42" rx="6" fill="#ffffff" stroke="#d0d0d0" stroke-width="1.4"/>
+    <text x="446" y="557" text-anchor="middle" fill="#333333">Static-first blog</text>
+  </g>
+
+  <!-- bottom-right url -->
+  <rect x="1004" y="542" width="12" height="12" fill="#003784"/>
+  <text x="1140" y="557" text-anchor="end" class="mono" font-size="18" font-weight="700" fill="#003784">seomoney.org</text>
+</svg>

@@ -1,0 +1,180 @@
+name: Security Audit
+
+# Cron 1 lần/tuần (Thứ 7 03:00 UTC = 10:00 VN): quét lỗ hổng dependencies
+# Python + secret leak + GitHub Actions misconfigs. Tạo issue nếu phát hiện
+# severity HIGH/CRITICAL. KHÔNG tự fix → user review trước.
+#
+# workflow_dispatch để chạy thủ công bất kỳ lúc nào.
+
+on:
+  schedule:
+    - cron: '0 3 * * 6'    # Weekly Saturday 03:00 UTC (10:00 VN)
+    - cron: '0 4 * * *'    # Daily 11:00 GMT+7 = 04:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: security-audit
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+  security-events: write
+  actions: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      # ---------- Python deps vulnerability scan ----------
+      - name: Install pip-audit
+        run: pip install --quiet pip-audit
+
+      - name: Scan services/visitor-counter/requirements.txt
+        id: pip_audit_be
+        continue-on-error: true
+        run: |
+          pip-audit -r services/visitor-counter/requirements.txt \
+            --format json --output be-vulns.json || true
+          cat be-vulns.json
+
+      - name: Scan scripts/requirements.txt
+        id: pip_audit_scripts
+        continue-on-error: true
+        run: |
+          if [ -f scripts/requirements.txt ]; then
+            pip-audit -r scripts/requirements.txt \
+              --format json --output scripts-vulns.json || true
+            cat scripts-vulns.json
+          fi
+
+      # ---------- Secret leak scan ----------
+      - name: Install gitleaks
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz \
+            | tar -xzC /usr/local/bin gitleaks
+
+      - name: Run gitleaks
+        id: gitleaks
+        continue-on-error: true
+        run: |
+          gitleaks detect --no-banner --redact \
+            --report-format json --report-path gitleaks-report.json \
+            --exit-code 0
+
+      # ---------- Workflow misconfig check ----------
+      - name: Check workflow permissions
+        id: wfcheck
+        continue-on-error: true
+        run: |
+          echo "Checking workflows for missing permissions..."
+          ISSUES=0
+          for wf in .github/workflows/*.yml; do
+            if ! grep -q "^permissions:" "$wf" && ! grep -q "  permissions:" "$wf"; then
+              echo "⚠ $wf missing explicit permissions block"
+              ISSUES=$((ISSUES+1))
+            fi
+          done
+          echo "workflow_issues=$ISSUES" >> $GITHUB_OUTPUT
+
+      # ---------- Aggregate + create issue if needed ----------
+      - name: Summarize
+        run: |
+          echo "## Security Audit Summary" > summary.md
+          echo "Run date: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> summary.md
+          echo "" >> summary.md
+
+          if [ -f be-vulns.json ]; then
+            BE_VULN=$(python3 -c "import json; d=json.load(open('be-vulns.json')); print(sum(len(p.get('vulns',[])) for p in d.get('dependencies',[])))" 2>/dev/null || echo "?")
+            echo "- Backend Python vulns: $BE_VULN" >> summary.md
+          fi
+          if [ -f scripts-vulns.json ]; then
+            SCR_VULN=$(python3 -c "import json; d=json.load(open('scripts-vulns.json')); print(sum(len(p.get('vulns',[])) for p in d.get('dependencies',[])))" 2>/dev/null || echo "?")
+            echo "- Scripts Python vulns: $SCR_VULN" >> summary.md
+          fi
+          if [ -f gitleaks-report.json ]; then
+            LEAKS=$(python3 -c "import json; print(len(json.load(open('gitleaks-report.json'))))" 2>/dev/null || echo "?")
+            echo "- Secret leaks: $LEAKS" >> summary.md
+          fi
+          echo "- Workflow misconfig: ${{ steps.wfcheck.outputs.workflow_issues }}" >> summary.md
+          cat summary.md
+
+      # ---------- Build-time QA snapshot cho dashboard footer ----------
+      - name: Write data/security.json (QA dashboard snapshot)
+        env:
+          WF_ISSUES: ${{ steps.wfcheck.outputs.workflow_issues }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+
+          def count_vulns(path):
+              try:
+                  d = json.load(open(path))
+                  return sum(len(p.get("vulns", [])) for p in d.get("dependencies", []))
+              except Exception:
+                  return 0
+
+          def count_leaks(path):
+              try:
+                  return len(json.load(open(path)))
+              except Exception:
+                  return 0
+
+          py_vulns = count_vulns("be-vulns.json") + count_vulns("scripts-vulns.json")
+          secret_leaks = count_leaks("gitleaks-report.json")
+          try:
+              wf_issues = int(os.environ.get("WF_ISSUES", "0") or "0")
+          except ValueError:
+              wf_issues = 0
+
+          data = {
+              "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+              "py_vulns": py_vulns,
+              "secret_leaks": secret_leaks,
+              "workflow_issues": wf_issues,
+              "total": py_vulns + secret_leaks + wf_issues,
+          }
+          os.makedirs("data", exist_ok=True)
+          with open("data/security.json", "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+              f.write("\n")
+          print(json.dumps(data, indent=2))
+          PY
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: security audit snapshot ($(date -u +%FT%TZ))" \
+            data/security.json
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-${{ github.run_id }}
+          path: |
+            be-vulns.json
+            scripts-vulns.json
+            gitleaks-report.json
+            summary.md
+          if-no-files-found: ignore
+          retention-days: 30

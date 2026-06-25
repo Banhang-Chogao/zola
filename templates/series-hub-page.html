@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+
+{% block main %}
+{% set palette = ["teal", "blue", "purple", "amber", "green", "slate"] %}
+{% set all_series = [
+    load_data(path="data/seo-foundation-series.json", required=false),
+    load_data(path="data/adsense-foundation-series.json", required=false),
+    load_data(path="data/science-uranium-series.json", required=false),
+    load_data(path="data/qa-khoa-hoc-series.json", required=false),
+    load_data(path="data/ngan-hang-so-series.json", required=false),
+    load_data(path="data/git-github-series.json", required=false),
+    load_data(path="data/korean-30day-series.json", required=false),
+    load_data(path="data/google-analytics-series.json", required=false),
+    load_data(path="data/vietinbank-series.json", required=false),
+    load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false),
+    load_data(path="data/thpt-2026-dap-an-series.json", required=false),
+    load_data(path="data/vaccine-so-series.json", required=false)
+] %}
+
+<div class="content-hub">
+    <header class="content-hub__head">
+        <h1 class="content-hub__h1">{{ page.title }}</h1>
+        <p class="content-hub__lead">{{ page.description }}</p>
+    </header>
+
+    <section class="content-hub__section">
+        <h2 class="content-hub__title">Tất cả series</h2>
+        <div class="content-grid">
+            {% for s in all_series %}
+            {% if s and s.id %}
+            {% set ci = loop.index0 % 6 %}
+            {% set section_path = s.section | default(value="posting") %}
+            <a class="content-block content-block--{{ palette[ci] }}"
+               href="{{ config.base_url }}/{{ section_path }}/{{ s.pillar_slug }}/">
+                <span class="content-block__count">{{ s.total_parts }} bài</span>
+                <span class="content-block__name">{{ s.title_vi | default(value=s.title) }}</span>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if page.content %}
+    <div class="content-hub__body" style="max-width:680px;margin-top:2rem;font-size:0.95rem;line-height:1.7;color:var(--c-text-body)">
+        {{ page.content | safe }}
+    </div>
+    {% endif %}
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}

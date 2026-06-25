@@ -1,0 +1,598 @@
+{% extends "base.html" %}
+{% import "macros/verified.html" as v %}
+{% import "macros/giscus.html" as giscus %}
+{% import "macros/img.html" as img %}
+{% import "macros/references.html" as references %}
+{% import "macros/series-nav.html" as series %}
+{% import "macros/series-hub.html" as series_hub %}
+{% import "macros/premium.html" as premium %}
+{% import "macros/locked.html" as locked %}
+
+{# Hide sidebar on blog post pages — article gets full width for better readability #}
+{% block sidebar %}{% endblock %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+
+{% block extra_head %}
+{{ super() }}
+{% endblock %}
+
+{# Bài premium đang khóa paywall → noindex (chỉ teaser công khai, full content nằm
+   sau thanh toán). enable_premium_lock ưu tiên hơn premium_hidden (deprecated). #}
+{% block robots %}
+{%- if page.taxonomies.categories -%}
+  {%- set cats = page.taxonomies.categories -%}
+{%- else -%}
+  {%- set cats = [] -%}
+{%- endif -%}
+{%- set is_premium = page.extra.premium | default(value=false) or "premium" in cats -%}
+{%- set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) -%}
+{%- set free_trial = config.extra.premium_free_trial_active | default(value=false) -%}
+{%- if is_premium and premium_lock and not free_trial -%}noindex, follow{%- else -%}{{ super() }}{%- endif -%}
+{% endblock %}
+
+{% block main %}
+    {% if page.taxonomies.categories %}{% set cats = page.taxonomies.categories %}{% else %}{% set cats = [] %}{% endif %}
+    {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
+    {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
+    {# FREE TRIAL: rollback ngày 2026-07-01 — set enable_premium_lock = true + premium_free_trial_active = false. #}
+    {% set free_trial = config.extra.premium_free_trial_active | default(value=false) %}
+    {# Paywall hoạt động cho MỌI bài premium khi lock bật. Tắt trong giai đoạn free_trial. #}
+    {% set paywall_active = false %}
+    {# Đếm heading (H2/H3) MỘT LẦN → quyết định hiển thị Mục lục inline (.toc)
+       và rail "Trong bài này" (.toc-rail). show_rail chỉ bật cho bài thường
+       (không paywall) đủ heading, tránh reserve cột rail rỗng trên desktop. #}
+    {% set_global toc_total = 0 %}
+    {% for h in page.toc %}
+        {% set_global toc_total = toc_total + 1 %}
+        {% for c in h.children %}{% set_global toc_total = toc_total + 1 %}{% endfor %}
+    {% endfor %}
+    {% set show_toc = toc_total >= 3 and page.extra.toc | default(value=true) %}
+    {% set show_rail = show_toc and not paywall_active %}
+    <div class="post-layout{% if show_rail %} post-layout--rail{% endif %}">
+    <article class="post-single">
+            {% if is_premium and free_trial %}
+            <div class="premium-trial-notice" role="note">
+                <span class="premium-trial-notice__icon" aria-hidden="true">🎁</span>
+                <span class="premium-trial-notice__text">Giai đoạn dùng thử: toàn bộ tính năng cao cấp đang được mở miễn phí đến 01/07/2026.</span>
+            </div>
+            {% endif %}
+            <div class="post-single__hero">
+                {% if is_premium %}
+                    {{ premium::badge() }}
+                {% elif page.taxonomies.categories %}
+                    <span class="cat-tag">{{ page.taxonomies.categories[0] | upper }}</span>
+                {% endif %}
+                {# Hero image = LCP candidate. eager + fetchpriority high
+                   + width/height (aspect 16/7 matching CSS) → browser
+                   reserve space tránh CLS dù CSS chưa kịp parse.
+                   Bài chưa có thumbnail → placeholder thương hiệu (macro img). #}
+                <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                     width="1600" height="700"
+                     loading="eager" fetchpriority="high" decoding="async">
+            </div>
+
+        <header class="post-single__header">
+            {# ===== Breadcrumb hiển thị (Trang chủ › Chuyên mục › Bài) =====
+               Cho người đọc biết bài đang ở chuyên mục nào. BreadcrumbList JSON-LD
+               (cho Google) đã có sẵn ở base.html — đây là phiên bản nhìn thấy được.
+               Chuyên mục = category chuyên biệt đầu tiên (bỏ qua "Tất cả"); nếu bài
+               chỉ có "Tất cả" thì dùng chính nó. ===== #}
+            {% if page.taxonomies.categories %}{% set bc_cats = page.taxonomies.categories %}{% else %}{% set bc_cats = [] %}{% endif %}
+            {% set_global bc_cat = "" %}
+            {% for c in bc_cats %}
+                {% if bc_cat == "" and c != "Tất cả" %}{% set_global bc_cat = c %}{% endif %}
+            {% endfor %}
+            {% if bc_cat == "" and bc_cats | length > 0 %}{% set_global bc_cat = bc_cats | first %}{% endif %}
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb__list">
+                    <li class="breadcrumb__item">
+                        <a class="breadcrumb__link" href="{{ config.base_url | safe }}/">Trang chủ</a>
+                    </li>
+                    {% if bc_cat != "" %}
+                    <li class="breadcrumb__item">
+                        <a class="breadcrumb__link" href="{{ get_taxonomy_url(kind='categories', name=bc_cat) }}">{{ bc_cat }}</a>
+                    </li>
+                    {% endif %}
+                    <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">{{ page.title }}</li>
+                </ol>
+            </nav>
+            <h1 class="post-single__title">{{ page.title }}</h1>
+            <div class="post-meta">
+                <span class="post-meta__author">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    {{ config.extra.author }}{{ v::badge() }}
+                </span>
+                <span class="post-meta__date">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    {{ page.date | date(format="%d-%m-%Y", timezone="Asia/Ho_Chi_Minh") }}
+                </span>
+            </div>
+
+            {# Stats badge — SEO score render từ DB build-time, reading stats do JS bổ sung. #}
+            {% set seo_data = load_data(path="data/seo-qa-scores.json", required=false) %}
+            {% set page_parts = page.path | trim_start_matches(pat="/") | trim_end_matches(pat="/") | split(pat="/") %}
+            {% set content_path = "content/" ~ page_parts.0 ~ "/" ~ page.slug ~ ".md" %}
+            {% set_global seo_post = false %}
+            {% if seo_data and seo_data.posts and seo_data.posts[content_path] %}
+                {% set_global seo_post = seo_data.posts[content_path] %}
+            {% endif %}
+            <div class="post-stats" data-post-stats>
+                {% if seo_post %}
+                    <span class="post-stat post-stat--seo" title="Điểm SEO on-page của bài này từ Bảng Vàng SEO">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 14l3-3"></path>
+                            <path d="M3.34 19a10 10 0 1 1 17.32 0"></path>
+                        </svg>
+                        SEO <strong>{{ seo_post.score | round(precision=0) }}</strong><span class="post-stat__suffix">/100</span>
+                        <span class="post-stat__grade">{{ seo_post.grade }}</span>
+                    </span>
+                {% endif %}
+            </div>
+
+            {% if page.extra.takeaways %}
+            <aside class="post-takeaways" aria-labelledby="post-takeaways-title">
+                <p class="post-takeaways__eyebrow">Ý chính nhanh</p>
+                <h2 class="post-takeaways__title" id="post-takeaways-title">Bài này giúp bạn nắm nhanh</h2>
+                <ul class="post-takeaways__list">
+                    {% for item in page.extra.takeaways %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </aside>
+            {% endif %}
+
+            {# Edit button — chỉ hiện cho admin đã login CMS (PAT trong localStorage) #}
+            <div class="post-actions" data-post-actions hidden>
+                {# page.path = "/posting/{slug}/" → tách lấy đoạn cuối (slug thuần).
+                   Trước đây dùng page.relative_path nhưng giá trị này có lúc rỗng/sai
+                   trong section rendering → build URL từ slug để tường minh và ổn định. #}
+                {% set slug = page.path | trim_start_matches(pat="/posting/") | trim_end_matches(pat="/") %}
+                <a class="edit-btn" href="{{ config.base_url }}/editor/?slug={{ slug }}">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Sửa bài
+                </a>
+                <a class="edit-btn edit-btn--ghost" href="https://github.com/Banhang-Chogao/zola/edit/main/content/posting/{{ slug }}.md" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Sửa trên GitHub
+                </a>
+            </div>
+
+            <nav class="post-readerbar" aria-label="Công cụ đọc bài" data-post-readerbar>
+                <button class="post-readerbar__btn" type="button" data-reader-copy>Copy link</button>
+                <button class="post-readerbar__btn" type="button" data-reader-share>Chia sẻ</button>
+                <button class="post-readerbar__btn" type="button" data-reader-font="down" aria-label="Giảm cỡ chữ">A−</button>
+                <button class="post-readerbar__btn" type="button" data-reader-font="up" aria-label="Tăng cỡ chữ">A+</button>
+                <a class="post-readerbar__btn post-readerbar__btn--ghost" href="#top" data-reader-top>Lên đầu</a>
+                <span class="post-readerbar__status" data-reader-status aria-live="polite"></span>
+            </nav>
+        </header>
+
+        {% if paywall_active %}
+        <div class="post-single__content post-single__content--teaser post-single__content--premium-locked">
+            {{ page.content | safe }}
+        </div>
+        
+        {% else %}
+        <div class="post-single__content">
+            {# ===== Mục lục (TOC) — tự động từ native page.toc cho MỌI bài có
+               >= 3 heading (H2/H3). Anchor dùng id heading thật (custom {#id}
+               hoặc auto) nên luôn khớp; smooth scroll + offset navbar đã set
+               global ở _reset.scss (html scroll-behavior + scroll-padding-top).
+               KHÔNG dùng JS; KHÔNG nằm trong page.content → RSS/summary không bị
+               ảnh hưởng. Tắt thủ công 1 bài: [extra] toc = false. Đếm heading
+               (toc_total) + show_toc đã tính 1 lần ở đầu block main. ===== #}
+            {% if show_toc %}
+            <nav class="toc" aria-label="Mục lục">
+                <p class="toc__title">Mục lục</p>
+                <ol class="toc__list">
+                    {% for h in page.toc %}
+                    <li>
+                        <a href="#{{ h.id }}">{{ h.title | safe }}</a>
+                        {% if h.children %}
+                        <ol>
+                            {% for c in h.children %}
+                            <li><a href="#{{ c.id }}">{{ c.title | safe }}</a></li>
+                            {% endfor %}
+                        </ol>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </nav>
+            {% endif %}
+            {{ page.content | safe }}
+        </div>
+        {% endif %}
+
+        {{ series_hub::callout(page=page) }}
+
+        {{ series::nav(page=page) }}
+
+        {{ references::section(page=page) }}
+
+        {# ===== FAQ (Câu hỏi thường gặp) → JSON-LD FAQPage sinh ở base.html ===== #}
+        {% if page.extra.faq %}
+        <section class="faq" aria-labelledby="faq-heading">
+            <h2 class="faq__title" id="faq-heading">Câu hỏi thường gặp</h2>
+            {% for item in page.extra.faq %}
+            <details class="faq__item"{% if loop.first %} open{% endif %}>
+                <summary class="faq__q">{{ item.q }}</summary>
+                <div class="faq__a">{{ item.a }}</div>
+            </details>
+            {% endfor %}
+        </section>
+        {% endif %}
+
+        {# ===== Cuối bài =====
+           - paywall_active (premium + lock): KHÔNG thêm CTA — paywall box ở trên
+             đã có nút "Thanh toán qua MoMo để đọc tiếp".
+           - premium nhưng lock TẮT: MoMo tự nguyện (donate).
+           - bài thường: lời cảm ơn. #}
+        {% if paywall_active %}
+        {% elif is_premium and not premium_lock %}
+        {% elif not is_premium %}
+        <aside class="post-thanks" aria-label="Lời cảm ơn">
+            <p class="post-thanks__text">Cám ơn bạn đã đọc blog tới cuối bài. Hãy tham khảo thêm nhiều bài viết hay khác trên blog nhé.</p>
+        </aside>
+        {% endif %}
+
+        {# ===== PREV / NEXT POST NAVIGATION ("Đọc tiếp") =====
+           SEO crawl-depth + anti-orphan: link every post to its chronological
+           siblings so no published page is left without inbound/outbound links.
+           Zola exposes page.lower / page.higher for the page's section (sorted
+           by date here): lower = older post (lower date), higher = newer post.
+           The guard renders nothing when a section has no neighbours.
+           Complements series-nav above, which only links within a curated
+           series — this works for every standalone post too. ===== #}
+        {% if page.lower or page.higher %}
+        <nav class="post-nav" aria-label="Đọc tiếp">
+            <p class="post-nav__title">Đọc tiếp</p>
+            <div class="post-nav__grid">
+                {% if page.lower %}
+                <a class="post-nav__link post-nav__link--prev" href="{{ page.lower.permalink }}" rel="prev">
+                    <span class="post-nav__dir">← Bài trước</span>
+                    <span class="post-nav__label">{{ page.lower.title }}</span>
+                </a>
+                {% else %}
+                <span class="post-nav__link post-nav__link--empty" aria-hidden="true"></span>
+                {% endif %}
+                {% if page.higher %}
+                <a class="post-nav__link post-nav__link--next" href="{{ page.higher.permalink }}" rel="next">
+                    <span class="post-nav__dir">Bài kế tiếp →</span>
+                    <span class="post-nav__label">{{ page.higher.title }}</span>
+                </a>
+                {% endif %}
+            </div>
+        </nav>
+        {% endif %}
+
+        {% if page.taxonomies.tags %}
+            <footer class="post-single__footer">
+                <div class="tag-list">
+                    <span class="tag-list__label">TAGS:</span>
+                    {% for tag in page.taxonomies.tags %}
+                        <a class="tag-list__tag" href="{{ get_taxonomy_url(kind='tags', name=tag) }}">#{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </footer>
+        {% endif %}
+
+        {# ===== AUTHOR BOX ===== #}
+        {# Đọc author info từ author.json (source of truth) → update qua
+           /admin-author/ mà không edit config.toml + push manual. Fallback
+           config.extra nếu file thiếu (dev local hoặc lần đầu). #}
+        {% set author_data = load_data(path="author.json", required=false) %}
+        {% set author_name = author_data.name | default(value=config.extra.author) %}
+        {% set author_url = author_data.url | default(value=config.extra.author_url | default(value="")) %}
+        {% set author_bio = author_data.bio | default(value=config.extra.author_bio | default(value="")) %}
+        {% set author_avatar = author_data.avatar_path | default(value=config.extra.author_avatar | default(value="")) %}
+        {% if author_avatar and not author_avatar is starting_with("http") %}
+            {% set author_avatar = config.base_url ~ author_avatar %}
+        {% endif %}
+
+        <aside class="author-box" aria-label="Tác giả">
+            <a class="author-box__avatar"
+               {% if author_url %}href="{{ author_url }}" target="_blank" rel="noopener"{% endif %}>
+                <img src="{{ author_avatar }}"
+                     alt="{{ author_name }}"
+                     width="80" height="80"
+                     loading="lazy"
+                     decoding="async"
+                     onerror="this.style.display='none'">
+            </a>
+            <div class="author-box__body">
+                <h3 class="author-box__name">
+                    {{ author_name }}{{ v::badge() }}
+                </h3>
+                {% if author_url %}
+                    <a class="author-box__url" href="{{ author_url }}" target="_blank" rel="noopener">
+                        {{ author_url | replace(from='https://', to='') | replace(from='http://', to='') }}
+                    </a>
+                {% endif %}
+                {% if author_bio %}
+                    <p class="author-box__bio">{{ author_bio }}</p>
+                {% endif %}
+            </div>
+        </aside>
+
+        {# ===== RELATED ARTICLES =====
+           Ưu tiên đọc semantic related từ data/related.json (built bởi
+           scripts/build_related.py qua sentence-transformers embedding +
+           cosine similarity). Fallback: same category, rồi latest. #}
+        {% set current_slug = page.slug %}
+        {% set current_cat = "" %}
+        {% if page.taxonomies.categories %}
+          {% for cat in page.taxonomies.categories %}
+              {% if cat != "Tất cả" and cat != "Báo chí" and current_cat == "" %}
+                  {% set_global current_cat = cat %}
+              {% endif %}
+          {% endfor %}
+        {% endif %}
+        {# HOTFIX: related lấy từ MỌI section (posting/, baochi/, …) để bài ở
+           section nào cũng có thể xuất hiện như bài liên quan. #}
+        {% set rp_posting = get_section(path="posting/_index.md") %}
+        {% set rp_baochi = get_section(path="baochi/_index.md") %}
+        {% set root_pages = rp_posting.pages | concat(with=rp_baochi.pages) | sort(attribute="date") | reverse %}
+        {% set_global related = [] %}
+
+        {# Hub series (bài báo gốc): ưu tiên toàn bộ series khoa học. #}
+        {% if page.extra and page.extra.hub_series is defined and page.extra.hub_series == "science-uranium" %}
+            {% set hub_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% if hub_manifest %}
+                {% for item in hub_manifest.parts %}
+                    {% if item.status == "published" and item.slug != current_slug %}
+                        {% for p in root_pages %}
+                            {% if p.slug == item.slug and related | length < 5 %}
+                                {% set found = false %}
+                                {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                                {% if not found %}
+                                    {% set_global related = related | concat(with=[p]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+        {# Series cluster: ưu tiên bài cùng series trước semantic/category. #}
+        {% if page.extra and page.extra.series is defined %}
+            {% set series_manifest = false %}
+            {% if page.extra.series == "seo-foundation" %}
+                {% set series_manifest = load_data(path="data/seo-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "adsense-foundation" %}
+                {% set series_manifest = load_data(path="data/adsense-foundation-series.json", required=false) %}
+            {% elif page.extra.series == "science-uranium" %}
+                {% set series_manifest = load_data(path="data/science-uranium-series.json", required=false) %}
+            {% elif page.extra.series == "ngan-hang-so" %}
+                {% set series_manifest = load_data(path="data/ngan-hang-so-series.json", required=false) %}
+            {% elif page.extra.series == "git-github" %}
+                {% set series_manifest = load_data(path="data/git-github-series.json", required=false) %}
+            {% elif page.extra.series == "korean-30day" %}
+                {% set series_manifest = load_data(path="data/korean-30day-series.json", required=false) %}
+            {% elif page.extra.series == "google-analytics" %}
+                {% set series_manifest = load_data(path="data/google-analytics-series.json", required=false) %}
+            {% elif page.extra.series == "vietinbank" %}
+                {% set series_manifest = load_data(path="data/vietinbank-series.json", required=false) %}
+            {% elif page.extra.series == "nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb" %}
+                {% set series_manifest = load_data(path="data/nang-tam-trai-nghiem-cung-2-goi-tien-ich-tai-chinh-moi-v-plu-7715eb-series.json", required=false) %}
+            {% elif page.extra.series == "thpt-2026-dap-an" %}
+                {% set series_manifest = load_data(path="data/thpt-2026-dap-an-series.json", required=false) %}
+            {% elif page.extra.series == "vaccine-so" %}
+                {% set series_manifest = load_data(path="data/vaccine-so-series.json", required=false) %}
+            {% elif page.extra.series == "apple-pay-vn" %}
+                {% set series_manifest = load_data(path="data/apple-pay-vn-series.json", required=false) %}
+            {% endif %}
+            {% if series_manifest and page.extra.series == series_manifest.id %}
+                {% for item in series_manifest.parts %}
+                    {% if item.status == "published" and item.slug != current_slug and related | length < 5 %}
+                        {% for p in root_pages %}
+                            {% if p.slug == item.slug %}
+                                {% set found = false %}
+                                {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                                {% if not found %}
+                                    {% set_global related = related | concat(with=[p]) %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {# Liên kết ngược về bài báo hub #}
+                {% if series_manifest.hub_slug is defined and series_manifest.hub_section is defined and related | length < 5 %}
+                    {% for p in root_pages %}
+                        {% if p.slug == series_manifest.hub_slug %}
+                            {% set found = false %}
+                            {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                            {% if not found %}
+                                {% set_global related = related | concat(with=[p]) %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+        {# Semantic: required=false → load_data trả false/empty nếu file
+           không tồn tại. Tera KHÔNG support default(value={}) literal dict
+           → check defensive bằng if rel_data thay vì dùng default filter. #}
+        {% set rel_data = load_data(path="data/related.json", required=false) %}
+        {% if rel_data and rel_data[current_slug] %}
+            {% for entry in rel_data[current_slug] %}
+                {% if related | length < 3 %}
+                    {% for p in root_pages %}
+                        {% if p.slug == entry.slug and related | length < 3 %}
+                            {% set_global related = related | concat(with=[p]) %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {# Fallback 1: same category #}
+        {% if related | length < 3 and current_cat %}
+            {% for p in root_pages %}
+                {% if p.slug != current_slug
+                   and p.taxonomies.categories
+                   and p.taxonomies.categories | first == current_cat
+                   and related | length < 3 %}
+                    {% set found = false %}
+                    {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                    {% if not found %}
+                        {% set_global related = related | concat(with=[p]) %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {# Fallback 2: latest #}
+        {% if related | length < 3 %}
+            {% for p in root_pages %}
+                {% if p.slug != current_slug and related | length < 3 %}
+                    {% set found = false %}
+                    {% for r in related %}{% if r.slug == p.slug %}{% set_global found = true %}{% endif %}{% endfor %}
+                    {% if not found %}
+                        {% set_global related = related | concat(with=[p]) %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if related | length > 0 %}
+        <section class="related-articles related-articles--scored" aria-label="Đọc tiếp theo điểm liên quan">
+            <header class="related-articles__head">
+                <p class="related-articles__eyebrow">Đọc tiếp</p>
+                <h3 class="related-articles__title">Bài liên quan theo điểm liên quan</h3>
+                <p class="related-articles__desc">Gợi ý từ hệ thống scoring/related build-time của SEOMONEY, ưu tiên bài cùng cụm nội dung.</p>
+            </header>
+            <div class="related-articles__grid">
+                {% for p in related %}
+                    <article class="related-card">
+                        <a class="related-card__image" href="{{ p.permalink }}">
+                            <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}"
+                                 width="800" height="500"
+                                 loading="lazy" decoding="async">
+                        </a>
+                        <h4 class="related-card__title">
+                            <a href="{{ p.permalink }}">{{ p.title }}</a>
+                        </h4>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        {# ===== GISCUS COMMENTS ===== #}
+        {{ giscus::comments() }}
+    </article>
+
+    {# ===== "Trong bài này" — sticky On-This-Page rail (scroll-spy) =====
+       Rail TOC bám phải, sinh server-side từ page.toc (cùng nguồn với inline
+       .toc) nên không gây layout shift. Chỉ hiện desktop ≥1300px (CSS); ≤1300px
+       ẩn → inline .toc lo phần đó. Active state do static/js/toc-rail.js tô qua
+       IntersectionObserver; smooth-scroll khi click là CSS-native (_reset.scss).
+       Cảm hứng từ rail B-DNA (.bdna__rail). ===== #}
+    {% if show_rail %}
+    <aside class="toc-rail" data-toc-rail aria-label="Mục lục bài viết">
+        <p class="toc-rail__title">Trong bài này</p>
+        <nav class="toc-rail__nav" aria-label="Danh sách mục trong bài">
+            {% for h in page.toc %}
+            <a class="toc-rail__link" href="#{{ h.id }}" data-toc-link>
+                <span class="toc-rail__num">{% if loop.index < 10 %}0{% endif %}{{ loop.index }}</span>
+                <span class="toc-rail__text">{{ h.title | safe }}</span>
+            </a>
+            {% for c in h.children %}
+            <a class="toc-rail__link toc-rail__link--sub" href="#{{ c.id }}" data-toc-link>
+                <span class="toc-rail__text">{{ c.title | safe }}</span>
+            </a>
+            {% endfor %}
+            {% endfor %}
+        </nav>
+    </aside>
+    {% endif %}
+    </div>{# /.post-layout #}
+
+<script>
+(() => {
+  const bar = document.querySelector("[data-post-readerbar]");
+  if (!bar) return;
+
+  const content = document.querySelector(".post-single__content");
+  const status = bar.querySelector("[data-reader-status]");
+  const setStatus = (text) => {
+    if (!status) return;
+    status.textContent = text;
+    window.clearTimeout(setStatus._t);
+    setStatus._t = window.setTimeout(() => { status.textContent = ""; }, 1800);
+  };
+
+  const storageKey = "seomoney.readerFontScale";
+  const clamp = (value) => Math.min(2, Math.max(0, value));
+  const applyScale = (scale) => {
+    if (!content) return;
+    content.dataset.readerScale = String(scale);
+    content.style.setProperty("--reader-font-scale", String(1 + scale * 0.06));
+  };
+
+  let scale = clamp(Number(localStorage.getItem(storageKey) || 0));
+  applyScale(scale);
+
+  bar.addEventListener("click", async (event) => {
+    const copy = event.target.closest("[data-reader-copy]");
+    const share = event.target.closest("[data-reader-share]");
+    const font = event.target.closest("[data-reader-font]");
+
+    if (copy) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setStatus("Đã copy link");
+      } catch (_) {
+        setStatus("Không copy được");
+      }
+    }
+
+    if (share) {
+      const payload = { title: document.title, url: window.location.href };
+      try {
+        if (navigator.share) {
+          await navigator.share(payload);
+          setStatus("Đã mở chia sẻ");
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          setStatus("Đã copy link");
+        }
+      } catch (_) {
+        setStatus("Đã hủy chia sẻ");
+      }
+    }
+
+    if (font) {
+      scale = clamp(scale + (font.dataset.readerFont === "up" ? 1 : -1));
+      localStorage.setItem(storageKey, String(scale));
+      applyScale(scale);
+      setStatus(scale === 0 ? "Cỡ chữ mặc định" : "Đã chỉnh cỡ chữ");
+    }
+  });
+})();
+</script>
+
+{% endblock main %}
+
+{% block extra_scripts %}
+    <script src="{{ get_url(path='js/copy-code.js') }}" defer></script>
+    <script src="{{ get_url(path='js/post-stats.js') }}" defer></script>
+    <script src="{{ get_url(path='js/toc-rail.js') }}" defer></script>
+    {% if page.taxonomies.categories %}{% set cats = page.taxonomies.categories %}{% else %}{% set cats = [] %}{% endif %}
+    {% set is_premium = page.extra.premium | default(value=false) or "premium" in cats %}
+    {% set premium_lock = config.extra.enable_premium_lock | default(value=config.extra.premium_hidden | default(value=false)) %}
+    {% set free_trial = config.extra.premium_free_trial_active | default(value=false) %}
+    {% if is_premium and premium_lock and not free_trial %}
+    {% endif %}
+    <script>
+        // Show edit button nếu user có PAT (admin đã login CMS)
+        if (localStorage.getItem("zola-cms-token")) {
+            const actions = document.querySelector("[data-post-actions]");
+            if (actions) actions.hidden = false;
+        }
+    </script>
+{% endblock %}

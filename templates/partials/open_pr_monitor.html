@@ -1,0 +1,20 @@
+{# Open PR Monitor — small footer widget. Data is generated at build/CI time by
+   scripts/build_open_prs.py (`gh pr list`) → static/data/open-prs.json and fetched
+   client-side here (GitHub Pages has no backend). Starts hidden; open-pr-monitor.js
+   reveals it only when there is ≥1 open PR, so an empty/missing file never adds noise
+   or layout shift. Does not touch the Turnstile footer above it. #}
+<section class="open-pr-monitor" data-open-pr-monitor
+         data-open-pr-url="{{ config.base_url | safe }}/data/open-prs.json"
+         aria-label="Theo dõi Pull Request đang mở" hidden data-nosnippet>
+  <div class="container">
+    <header class="open-pr-monitor__head">
+      <div class="open-pr-monitor__titles">
+        <p class="open-pr-monitor__eyebrow">CI · GitHub</p>
+        <h2 class="open-pr-monitor__title">Open PR Monitor</h2>
+      </div>
+      <span class="open-pr-monitor__count" data-open-pr-count hidden></span>
+    </header>
+    <ul class="open-pr-monitor__list" data-open-pr-list></ul>
+    <p class="open-pr-monitor__empty" data-open-pr-empty hidden>Không có PR nào đang mở.</p>
+  </div>
+</section>

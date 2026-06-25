@@ -1,0 +1,46 @@
+name: Open PRs Report
+
+# Fetch all open PRs + their check-runs and publish a public-safe JSON to
+# static/data/open-prs.json, consumed by /tools/open-prs/.
+# Token stays server-side; only aggregate, non-sensitive data is published.
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # every 10 minutes (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+  actions: read
+
+concurrency:
+  group: open-prs-report
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Build Open PRs report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 scripts/build_open_prs_report.py
+
+      - name: Publish report (only if meaningfully changed)
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh || true
+          .github/scripts/push_to_main.sh \
+            "Cập nhật: Open PRs report ($(date -u +%FT%TZ)) [skip changelog]" \
+            data/open-prs.json static/data/open-prs.json || echo "report unchanged / push skipped"

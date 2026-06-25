@@ -1,0 +1,128 @@
+/* ============================================================
+   ===== THEME SYSTEM — Hilda (Ericsson Professional) =====
+   ============================================================
+   Single theme: Hilda (Ericsson blue professional style)
+
+   Semantic token naming:
+   - --c-bg-page       : page background
+   - --c-bg-surface    : card / panel surface
+   - --c-bg-soft       : tinted soft bg (hover, callout)
+   - --c-text-heading  : H1-H6
+   - --c-text-body     : paragraph
+   - --c-text-muted    : caption / meta
+   - --c-accent        : primary CTA / link / brand
+   - --c-accent-hover  : darker hover state
+   - --c-accent-soft   : tag bg, badge bg
+   - --c-decoration    : secondary accent (red action buttons)
+   - --c-border        : default divider
+   - --c-border-strong : table border, input border
+   - --c-shadow-md     : card shadow
+   - --c-shadow-lg     : hover lift shadow
+*/
+
+/* ===== HILDA (Ericsson - Professional Blue) - DEFAULT THEME ===== */
+:root {
+  /* Surface — white with light gray tint */
+  --c-bg-page:        #f4f4f4;  /* Light Gray */
+  --c-bg-surface:     #ffffff;  /* White */
+  --c-bg-soft:        #f4f4f4;  /* Soft background */
+
+  /* Text — pure black to gray */
+  --c-text-heading:   #000000;  /* Pure Black */
+  --c-text-body:      #333333;  /* Charcoal */
+  --c-text-muted:     #666666;  /* Gray */
+
+  /* Accent — Ericsson Blue (professional) */
+  --c-accent:         #003784;  /* Ericsson Blue (primary) */
+  --c-accent-hover:   #002566;  /* Darker blue for hover */
+  --c-accent-soft:    rgba(0, 55, 132, 0.1);
+
+  /* Decoration — Red for CTAs */
+  --c-decoration:     #e30613;  /* Red action buttons */
+
+  /* Border */
+  --c-border:         #e0e0e0;  /* Light divider */
+  --c-border-strong:  #d0d0d0;  /* Darker divider */
+
+  /* Shadow — professional depth (subtle) */
+  --c-shadow-md:      0 2px 4px rgba(0, 55, 132, 0.08);
+  --c-shadow-lg:      0 8px 16px rgba(0, 55, 132, 0.12);
+
+  /* Status */
+  --c-success:        #00a69d;  /* Teal for success */
+  --c-warning:        #ff9500;  /* Orange for warning */
+
+  /* Focus ring */
+  --c-focus-ring:     rgba(0, 55, 132, 0.35);
+
+  /* Color scheme for native form controls */
+  color-scheme: light;
+
+  /* Font stack */
+  font-family: 'Ericsson Hilda', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ===== Smooth transitions when theme properties change =====
+   Applied to body for smooth UX. */
+body {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+a,
+button {
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* ============================================================
+   ===== HILDA DARK MODE — auto via prefers-color-scheme =====
+   ============================================================
+   Khi OS bật dark mode + theme Hilda → đảo palette sang nền tối,
+   GIỮ Ericsson Blue làm accent (làm sáng nhẹ để đủ tương phản WCAG
+   trên nền tối). Chỉ override COLOR token (var(--c-*)) → toàn bộ
+   component tự đổi theo, KHÔNG đụng layout/overflow/height/position.
+   Light vẫn mặc định; user OS sáng không bị ảnh hưởng. */
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="hilda"] {
+    /* Surface — near-black ngả navy */
+    --c-bg-page:        #0e1217;
+    --c-bg-surface:     #161c24;
+    --c-bg-soft:        #1f2731;
+
+    /* Text — trắng → xám sáng */
+    --c-text-heading:   #ffffff;
+    --c-text-body:      #d4dae2;
+    --c-text-muted:     #97a2b0;
+
+    /* Accent — Ericsson Blue làm sáng cho tương phản trên nền tối */
+    --c-accent:         #5b9bff;  /* Ericsson Blue (brightened) */
+    --c-accent-hover:   #84b4ff;
+    --c-accent-soft:    rgba(91, 155, 255, 0.16);
+
+    /* Decoration — đỏ CTA sáng hơn */
+    --c-decoration:     #ff5a5f;
+
+    /* Border */
+    --c-border:         #2a323c;
+    --c-border-strong:  #3a444f;
+
+    /* Shadow — sâu hơn trên nền tối */
+    --c-shadow-md:      0 2px 8px rgba(0, 0, 0, 0.5);
+    --c-shadow-lg:      0 8px 24px rgba(0, 0, 0, 0.6);
+
+    /* Status */
+    --c-success:        #2bd4c4;
+    --c-warning:        #ffb340;
+
+    /* Focus ring */
+    --c-focus-ring:     rgba(91, 155, 255, 0.45);
+
+    /* Native form controls dark */
+    color-scheme: dark;
+  }
+}

@@ -1,0 +1,54 @@
+/* ===== MEDIA GUARD — casual anti-download friction (images + attachments) =====
+   Deterrent layer only. Text selection in articles stays enabled.
+   Scoped to content/media surfaces — not nav chrome or CMS forms. */
+
+.post-single__content img,
+.post-single__content picture,
+.post-single__hero img,
+.post-card__image img,
+.home-hero__image img,
+.home-card__image img,
+.featured-card__image img,
+.random-item__image img,
+.related-card__image img,
+.ad-banner__image img,
+.header-ad img,
+.media-guard {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.post-single__content a.media-guard--attach,
+a.media-guard--attach {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* Visible media stays renderable — no pointer-events:none on images. */
+
+/* ===== TEXT PROTECTION — thân bài (free + premium) =====
+   Chặn bôi đen/copy text cơ bản trong nội dung bài viết. Deterrent only:
+   trang static GitHub Pages không thể chặn tuyệt đối (HTML/devtools vẫn đọc được).
+   Cho phép chọn trong field nhập liệu để không vỡ UX. JS (media-guard.js) chặn
+   copy/cut/contextmenu/selectstart tương ứng. */
+.post-single__content {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+
+  input,
+  textarea,
+  select,
+  [contenteditable="true"] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+}

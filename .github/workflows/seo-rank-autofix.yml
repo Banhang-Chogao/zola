@@ -1,0 +1,69 @@
+name: SEO Rank Auto-Fix
+
+# Scan SEO quick wins, apply safe fixes, open PR (never push directly to main).
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'   # Mondays 08:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: seo-rank-autofix
+  cancel-in-progress: false
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Install Zola
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Build Google Rank baseline
+        run: python3 scripts/build_google_rank.py
+
+      - name: Run SEO Rank auto-fix
+        run: python3 scripts/seo-rank-autofix.py
+
+      - name: Rebuild Google Rank after fixes
+        run: |
+          python3 scripts/build_google_rank.py
+          python3 scripts/seo-rank-autofix.py --scan-only
+
+      - name: Create PR with safe fixes
+        env:
+          GH_TOKEN: ${{ secrets.WORKFLOW_BOT_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="autofix/seo-rank-quick-wins"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$BRANCH"
+          git add data/seo-rank-autofix-report.json static/data/seo-rank-autofix-report.json content/ || true
+          if git diff --cached --quiet; then
+            echo "No auto-fix changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(seo): auto-fix SEO rank quick wins"
+          git push -f origin "$BRANCH"
+          gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number' | grep -q . || \
+            gh pr create --base main --head "$BRANCH" \
+              --title "chore(seo): SEO Rank auto-fix quick wins" \
+              --body "Automated safe SEO fixes from \`scripts/seo-rank-autofix.py\`. Review before merge."

@@ -1,0 +1,122 @@
+# Render Blueprint — ShortenSEA + VIPZone APIs
+#
+# Deploy:
+#   1. https://dashboard.render.com/blueprints → New Blueprint Instance
+#   2. Connect repo Banhang-Chogao/zola, branch: main
+#   3. Blueprint path: render.yaml
+#   4. Apply → fill sync:false env vars in dashboard
+#   5. See services/shortensea/README.md for full checklist
+#
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  # ─── ShortenSEA API ───────────────────────────────────────────────────────
+  - type: web
+    name: blog-shortensea-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/shortensea
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+
+    disk:
+      name: shortensea-data
+      mountPath: /data
+      sizeGB: 1
+
+    envVars:
+      - key: SHORTENSEA_CORS_ORIGIN
+        value: https://seomoney.org,https://www.seomoney.org
+      - key: SHORTENSEA_BLOG_URL
+        value: https://seomoney.org
+      - key: SHORTENSEA_BACKEND_URL
+        value: https://blog-shortensea-api.onrender.com
+      - key: SHORTENSEA_DB_PATH
+        value: /data/shortensea.db
+      - key: ADMIN_EMAILS
+        value: 292648126+banhang-chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
+      - key: MOMO_PAYMENT_LINK
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/y5eVvzz2nlXXeEP
+      # OAuth — fill in Render dashboard (do NOT commit secrets here)
+      - key: GH_CLIENT_ID
+        sync: false
+      - key: GH_CLIENT_SECRET
+        sync: false
+
+  # ─── VIPZone API ──────────────────────────────────────────────────────────
+  - type: web
+    name: blog-vipzone-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/vipzone
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+
+    envVars:
+      - key: VIPZONE_CORS_ORIGIN
+        value: https://seomoney.org
+      - key: VIPZONE_BLOG_URL
+        value: https://seomoney.org
+      - key: VIPZONE_DB_PATH
+        value: /tmp/vipzone.db
+      - key: VIPZONE_BACKEND_URL
+        value: https://blog-vipzone-api.onrender.com
+      - key: ADMIN_EMAILS
+        value: 292648126+banhang-chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
+      - key: SUPERADMIN_GITHUB_USERNAMES
+        value: banhang-chogao
+      - key: SUPERADMIN_REPO_OWNER
+        value: Banhang-Chogao
+      - key: SUPERADMIN_REPO_NAME
+        value: zola
+      - key: VIPZONE_MOMO_MONTHLY
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/MvbmqW94lpp0bYA
+      - key: VIPZONE_MOMO_SEMIANNUAL
+        value: https://me.momo.vn/G5T1CDFRuJFWfBCDiK/lNbWPA9NgD64dyg
+      - key: VIPZONE_CATALOG_URL
+        value: https://seomoney.org/data/vipzone-picker-catalog.json
+      - key: GSC_CLIENT_ID
+        sync: false
+      - key: GSC_CLIENT_SECRET
+        sync: false
+      - key: GSC_PROPERTY_URL
+        value: sc-domain:seomoney.org
+      - key: GSC_REFRESH_TOKEN
+        sync: fal
+- type: web
+    name: blog-shortensea-api
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: services/shortensea
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SHORTENSEA_CORS_ORIGIN
+        value: https://seomoney.org,https://www.seomoney.org
+      - key: SHORTENSEA_BLOG_URL
+        value: https://seomoney.org
+      - key: SHORTENSEA_BACKEND_URL
+        value: https://blog-shortensea-api.onrender.com
+      - key: SHORTENSEA_DB_PATH
+        value: /tmp/shortensea.db
+      - key: SHORTENSEA_AUTH_URL
+        value: https://blog-vipzone-api.onrender.com
+      - key: ADMIN_EMAILS
+        value: 292648126+banhang-chogao@users.noreply.github.com
+      - key: ADMIN_USERNAMES
+        value: banhang-chogao
+      - key: GH_CLIENT_ID
+        sync: false
+      - key: GH_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false

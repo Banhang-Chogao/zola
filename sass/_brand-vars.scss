@@ -1,0 +1,36 @@
+/* ============================================================
+   ===== HILDA COLOR VARIABLES =====
+   ============================================================
+   Legacy $brand-* aliases mapped to the Hilda/Ericsson guideline.
+   Keep the variable names so older SCSS keeps compiling, but the visual
+   language stays on the current palette: Ericsson Blue, Teal, Red, black,
+   white, and neutral grays. */
+
+/* Ink — text hierarchy */
+$brand-ink-900:        #000000;
+$brand-ink-800:        #333333;
+$brand-ink-700:        #333333;
+$brand-ink-500:        #666666;
+$brand-ink-400:        #666666;
+$brand-ink-300:        #d0d0d0;
+
+/* Accent */
+$brand-signal-red:     #e30613;
+$brand-signal-red-dk:  #b8000b;
+$brand-hot-pink:       #00a69d; /* legacy decoration alias → Hilda Teal */
+$brand-trust-cyan:     #003784; /* legacy link/info alias → Ericsson Blue */
+
+/* Surface */
+$brand-snow:           #ffffff;
+$brand-mist:           #f4f4f4;
+$brand-fog:            #f4f4f4;
+
+/* Border */
+$brand-edge:           #e0e0e0;
+$brand-edge-strong:    #d0d0d0;
+
+/* Status colors (kept for warnings/success) */
+$brand-success:        #00a69d;
+$brand-success-bg:     rgba(0, 166, 157, 0.1);
+$brand-warning:        #ff9500;
+$brand-warning-bg:     rgba(255, 149, 0, 0.12);

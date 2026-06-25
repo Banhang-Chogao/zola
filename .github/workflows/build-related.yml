@@ -1,0 +1,75 @@
+name: Build Semantic Related Posts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/posting/**.md'
+      - 'content/baochi/**.md'
+      - 'content/pages/**.md'
+      - 'scripts/build_related.py'
+      - 'scripts/related_engine.py'
+      - 'scripts/related_qa_checker.py'
+      - 'scripts/build_references.py'
+      - 'scripts/requirements.txt'
+  schedule:
+    # Mỗi GIỜ — đủ tươi cho related posts mà KHÔNG đốt quota Actions.
+    # (Trước đây '*/5' mỗi 5 phút ~576 min/ngày → vượt free tier sau ~3.5 ngày;
+    #  đã throttle trực tiếp tại đây, gỡ workflow auto-throttle.yml one-shot.)
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+# Native Node.js 24 opt-in (best practice, không dùng FORCE env)
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: build-related
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+          cache: 'pip'
+          cache-dependency-path: scripts/requirements.txt
+
+      - name: Cache HuggingFace model
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/huggingface
+          key: hf-paraphrase-multilingual-MiniLM-L12-v2
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Install dependencies
+        run: pip install --quiet -r scripts/requirements.txt
+
+      - name: Build related index
+        run: python scripts/build_related.py
+
+      - name: Build references index
+        run: python3 scripts/build_references.py
+
+      - name: Push to main if changed
+        env:
+          WORKFLOW_BOT_PAT: ${{ secrets.WORKFLOW_BOT_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/push_to_main.sh
+          .github/scripts/push_to_main.sh "Cập nhật: rebuild related posts + references ($(date +%Y-%m-%d))" \
+            data/related.json data/scores.json data/references.json

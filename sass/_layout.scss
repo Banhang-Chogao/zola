@@ -1,0 +1,385 @@
+.site-header {
+  padding: 1.75rem 0 1.5rem;
+  background: var(--c-bg-page);
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Left column: title block trên + deploy card dưới, flex column */
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+  }
+}
+
+.site-title-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-decoration: none;
+
+  &:hover .site-title { color: var(--c-accent); }
+}
+
+/* Wrap title + verified badge inline */
+.site-title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.site-title {
+  font-family: $font-heading;
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--c-text-heading);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color .15s ease;
+}
+
+/* Verified badge inline cạnh tên tác giả — kích thước scale theo line-height
+   container (1em ≈ chiều cao chữ 'n'). align middle với chữ thường. Hiển thị
+   trên page.html, index.html, taxonomy_single.html, base.html sidebar. */
+.verified-badge--author {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  margin-left: 0.25em;
+  vertical-align: -0.12em;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgba(29, 78, 216, 0.2));
+
+  svg { width: 100%; height: 100%; display: block; }
+}
+
+/* Meta Verified-style badge — gradient blue circle với checkmark trắng.
+   Drop-shadow nhỏ cho hiệu ứng nổi. Scale theo font-size title. */
+.site-verified-badge {
+  display: inline-flex;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 3px rgba(29, 78, 216, 0.25));
+
+  svg { width: 100%; height: 100%; display: block; }
+}
+
+.site-tagline {
+  color: var(--c-text-muted);
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+
+  /* Label 'Phiên bản blog:' — bold đậm, KHÔNG có chip background */
+  &__label {
+    color: var(--c-text-body);
+    font-weight: 800;
+    background: none;
+    padding: 0;
+    font-family: $font-body;
+    font-size: inherit;
+    letter-spacing: normal;
+  }
+
+  /* Chip styling chỉ áp dụng cho version chips (num + id) */
+  .version-num,
+  .version-id {
+    color: var(--c-text-heading);
+    font-weight: 800;
+    font-family: $font-mono;
+    background: #f1f1f1;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+    letter-spacing: 0.02em;
+  }
+
+  .version-num {
+    color: #1a8f44;
+    background: rgba(26, 143, 68, 0.1);
+  }
+
+  .version-id {
+    color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.1);
+  }
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    padding: 1rem 1rem 0.85rem;
+
+    &__inner {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      text-align: center;
+    }
+  }
+  .site-title-link { align-items: center; }
+  .site-title-wrap { justify-content: center; }
+  .site-title { font-size: 1.55rem; line-height: 1.2; }
+  .site-verified-badge { width: 22px; height: 22px; }
+
+  /* Momo-style minimal mobile header: ẩn deploy card + GitHub side panel.
+     Chỉ giữ logo + version chip → header gọn nhẹ, tập trung reading. */
+  .header-deploy-card,
+  .header-side {
+    display: none;
+  }
+  .site-tagline {
+    justify-content: center;
+    font-size: 0.78rem;
+  }
+
+  /* Layout grid: stack single column trên mobile (đã có trong _layout
+     @max-width: 960px), thêm margin và gap tối ưu cho mobile. */
+  .layout-grid {
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  /* Section header responsive — Hilda block title, không dùng ribbon lệch. */
+  .section-header__title {
+    font-size: 0.82rem;
+    padding: 0.8rem 1rem 0.7rem;
+  }
+
+  /* Pagination button — improve touch target size */
+  .pagination__btn {
+    padding: 0.85rem 1.5rem;
+    font-size: 0.8rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .site-title { font-size: 1.3rem; }
+  .site-tagline { font-size: 0.7rem; }
+}
+
+.layout-grid {
+  display: grid;
+  /* Sidebar phải rộng hơn (340 -> 400); main-column (1fr) tự giãn theo
+     .container 1500 → cả 2 cột rộng hơn. Mobile (≤960) vẫn stack 1 cột. */
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 30px;
+  margin-top: 1.75rem;
+  margin-bottom: 3rem;
+}
+
+.main-column { min-width: 0; }
+
+.section-header {
+  position: relative;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.section-header__title {
+  background: var(--c-bg-surface);
+  border: 1px solid #e0e0e0;
+  border-left: 4px solid #003784;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 55, 132, 0.08);
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--c-text-heading);
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+
+  &::after {
+    content: none;
+  }
+}
+
+.section-subtitle {
+  color: var(--c-text-muted);
+  margin: -0.5rem 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Blog listing — SERIES grouped by topic */
+.series-listing {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--c-border);
+
+  &__head {
+    margin-bottom: 1.5rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: $font-heading;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--c-text-heading);
+  }
+
+  &__sub {
+    margin: 0.4rem 0 0;
+    font-size: 0.88rem;
+    color: var(--c-text-muted);
+    line-height: 1.5;
+  }
+
+  &__group {
+    margin-bottom: 1.75rem;
+    padding: 1.15rem 1.25rem;
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    background: var(--c-bg-soft);
+  }
+
+  &__group-title {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--c-text-heading);
+  }
+
+  &__group-desc {
+    margin: 0 0 0.85rem;
+    font-size: 0.86rem;
+    color: var(--c-text-muted);
+    line-height: 1.55;
+  }
+
+  &__posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+    align-items: baseline;
+    font-size: 0.9rem;
+  }
+
+  &__link {
+    color: var(--c-text-heading);
+    text-decoration: none;
+    line-height: 1.45;
+
+    &:hover .series-listing__name {
+      color: var(--c-accent);
+      text-decoration: underline;
+    }
+  }
+
+  &__part {
+    display: inline-block;
+    margin-right: 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+  }
+
+  &__date {
+    font-family: $font-meta;
+    font-size: 0.78rem;
+    color: var(--c-text-muted);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .series-listing__item {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+
+  &__btn {
+    /* Calm, readable surface button (was dark-on-dark). Light surface +
+       heading text + clear border → high contrast, obvious affordance.
+       Radius 4px kept via _theme-overrides (branding guideline: fixed 4px). */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    background: var(--c-bg-surface);
+    color: var(--c-text-heading);
+    border: 1px solid var(--c-border);
+    padding: 0.7rem 1.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: var(--c-bg-soft);
+      border-color: var(--c-border-strong);
+      color: var(--c-accent);
+    }
+
+    /* Disabled placeholder (page 1 prev / last page next) renders as an empty
+       span — keep its flex slot so info stays centered, but hide the box. */
+    &:empty {
+      visibility: hidden;
+    }
+  }
+
+  /* Forward action = primary CTA → soft accent fill for clear hierarchy. */
+  &__btn--next {
+    background: var(--c-accent-soft);
+    border-color: transparent;
+    color: var(--c-accent);
+
+    &:hover {
+      background: var(--c-accent);
+      border-color: var(--c-accent);
+      color: #fff;
+    }
+  }
+
+  &__info {
+    color: var(--c-text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 960px) {
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+}

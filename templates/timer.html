@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ page.description | default(value='Đồng hồ đếm ngược trực tuyến: đặt ngày giờ mục tiêu và theo dõi thời gian còn lại.') }}">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="{{ current_url | default(value=config.base_url ~ '/timer/') }}">
+    <meta property="og:title" content="{{ page.title | default(value='Đồng hồ đếm ngược') }} | {{ config.title }}">
+    <meta property="og:description" content="{{ page.description | default(value='Đồng hồ đếm ngược trực tuyến.') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ current_url | default(value=config.base_url ~ '/timer/') }}">
+    <meta property="og:image" content="{{ config.base_url }}/img/og-default.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>{{ page.title | default(value='Đồng hồ đếm ngược') }} | {{ config.title }}</title>
+    {% set timer_title = page.title | default(value="Đồng hồ đếm ngược") %}
+    {% set timer_desc = page.description | default(value="Đồng hồ đếm ngược trực tuyến.") %}
+    {% set timer_url = current_url | default(value=config.base_url ~ "/timer/") %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": {{ timer_title | json_encode | safe }},
+        "description": {{ timer_desc | json_encode | safe }},
+        "url": "{{ timer_url | safe }}"
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        .heading {
+            font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+
+        .timer-card {
+            background-color: #FFF8F0;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.06), 0 4px 6px -4px rgb(0 0 0 / 0.06);
+        }
+
+        .countdown-footer {
+            background: white;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+        }
+
+        /* Hiệu ứng động cho số */
+        #days-number {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        color 0.3s ease;
+            will-change: transform;
+        }
+
+        .number-pop {
+            animation: numberPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes numberPop {
+            0% {
+                transform: scale(0.6);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.25);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#FFF8F0] min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="heading text-4xl text-[#2D3436] tracking-tighter">Timer</h1>
+            <p class="text-[#2D3436]/50 text-sm mt-1">Đếm ngược ngày quan trọng của bạn</p>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white rounded-3xl p-8 shadow-xl timer-card border border-[#2D3436]/5">
+            
+            <!-- Form -->
+            <div id="form-section">
+                <div class="mb-5">
+                    <label class="block text-[#2D3436] font-semibold mb-2 text-sm tracking-tight">
+                        Chọn ngày cần đếm ngược đến
+                    </label>
+                    <div class="flex gap-3">
+                        <input 
+                            type="date" 
+                            id="target-date"
+                            class="flex-1 px-4 py-3.5 border border-[#2D3436]/15 rounded-2xl focus:outline-none focus:border-[#FF8A65] text-[#2D3436] bg-white transition-all text-base"
+                        >
+                        <button 
+                            onclick="saveAndStartCountdown()"
+                            class="px-7 py-3.5 bg-[#FF8A65] hover:bg-[#FF7048] active:bg-[#FF5C2E] text-white font-semibold rounded-2xl transition-all flex items-center gap-2 shadow-sm active:scale-[0.985] whitespace-nowrap">
+                            <i class="fa-solid fa-play text-sm"></i>
+                            <span>Lưu & Bắt đầu</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="success-message" class="hidden text-center py-2 px-4 bg-[#4ECDC4]/10 text-[#4ECDC4] rounded-2xl text-sm font-medium">
+                    Đã lưu thành công!
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- FOOTER COUNTDOWN -->
+        <div id="footer-countdown" 
+             class="mt-6 px-6 py-5 rounded-3xl countdown-footer border border-[#2D3436]/10 hidden">
+            <div class="text-center">
+                <div id="footer-text" 
+                     class="text-[#2D3436] text-[1.4rem] font-semibold leading-tight tracking-tight">
+                </div>
+                <button onclick="resetTimer()" 
+                        class="mt-4 text-xs text-[#FF8A65] hover:text-[#FF5C2E] font-medium flex items-center gap-1.5 mx-auto transition-colors">
+                    <i class="fa-solid fa-trash text-[10px]"></i>
+                    <span>Xóa bộ đếm</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Placeholder -->
+        <div id="footer-placeholder" 
+             class="mt-6 px-6 py-5 rounded-3xl bg-white/70 border border-[#2D3436]/10 text-center">
+            <div class="text-[#2D3436]/50 text-sm">
+                Chưa có bộ đếm nào
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let countdownInterval = null;
+        let previousDays = null;
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        function calculateDaysRemaining(targetDateStr) {
+            const target = new Date(targetDateStr);
+            const today = new Date();
+            target.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+            const diffTime = target - today;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function saveAndStartCountdown() {
+            const dateInput = document.getElementById('target-date');
+            const messageEl = document.getElementById('success-message');
+            
+            if (!dateInput.value) {
+                alert("Vui lòng chọn ngày!");
+                return;
+            }
+            
+            localStorage.setItem('timer_target_date', dateInput.value);
+            
+            messageEl.classList.remove('hidden');
+            setTimeout(() => messageEl.classList.add('hidden'), 1600);
+            
+            startCountdown();
+        }
+
+        function startCountdown() {
+            const targetDate = localStorage.getItem('timer_target_date');
+            if (!targetDate) return;
+
+            const formSection = document.getElementById('form-section');
+            const footerCountdown = document.getElementById('footer-countdown');
+            const footerPlaceholder = document.getElementById('footer-placeholder');
+
+            formSection.classList.add('hidden');
+            footerPlaceholder.classList.add('hidden');
+            footerCountdown.classList.remove('hidden');
+
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            updateFooterCountdown(targetDate);
+
+            countdownInterval = setInterval(() => {
+                updateFooterCountdown(targetDate);
+            }, 1000);
+        }
+
+        function updateFooterCountdown(targetDateStr) {
+            const daysLeft = calculateDaysRemaining(targetDateStr);
+            const formattedDate = formatDate(targetDateStr);
+            const footerText = document.getElementById('footer-text');
+
+            let html = '';
+
+            if (daysLeft > 0) {
+                html = `
+                    CÒN <span id="days-number" class="text-[#FF8A65] font-extrabold text-[1.65rem]">${daysLeft}</span> 
+                    NGÀY NỮA LÀ TỚI NGÀY <span class="font-bold">${formattedDate}</span>
+                `;
+            } else if (daysLeft === 0) {
+                html = `<span class="text-[#4ECDC4] font-extrabold">HÔM NAY LÀ NGÀY ${formattedDate}</span>`;
+            } else {
+                html = `<span class="text-[#FF8A65]">Đã tới ngày ${formattedDate}</span>`;
+            }
+
+            footerText.innerHTML = html;
+
+            // Hiệu ứng động khi số thay đổi
+            if (daysLeft > 0) {
+                const numberEl = document.getElementById('days-number');
+                if (numberEl && previousDays !== null && previousDays !== daysLeft) {
+                    numberEl.classList.remove('number-pop');
+                    void numberEl.offsetWidth;
+                    numberEl.classList.add('number-pop');
+                }
+                previousDays = daysLeft;
+            }
+        }
+
+        function resetTimer() {
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            localStorage.removeItem('timer_target_date');
+            previousDays = null;
+            
+            document.getElementById('form-section').classList.remove('hidden');
+            document.getElementById('footer-countdown').classList.add('hidden');
+            document.getElementById('footer-placeholder').classList.remove('hidden');
+            
+            document.getElementById('target-date').value = '';
+        }
+
+        function initializeTimer() {
+            const targetDate = localStorage.getItem('timer_target_date');
+            const footerCountdown = document.getElementById('footer-countdown');
+            const footerPlaceholder = document.getElementById('footer-placeholder');
+            
+            if (targetDate) {
+                document.getElementById('form-section').classList.add('hidden');
+                footerPlaceholder.classList.add('hidden');
+                footerCountdown.classList.remove('hidden');
+                startCountdown();
+            } else {
+                footerPlaceholder.classList.remove('hidden');
+                footerCountdown.classList.add('hidden');
+            }
+        }
+
+        window.onload = initializeTimer;
+    </script>
+</body>
+</html>

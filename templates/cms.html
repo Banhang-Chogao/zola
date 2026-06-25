@@ -1,0 +1,490 @@
+{% extends "base.html" %}
+
+{# ============================================================================
+   CMS V2 — Control Center (SEOMONEY).
+   Additive shell AROUND the existing CMS. Does NOT replace /editor/, /insights/
+   or any admin tool — it unifies navigation and adds AI Writer · Internal Link
+   Graph · SEO Alerts on top of the existing system.
+
+   Design: S-DNA inspired (clean · modular · high-density · calm enterprise).
+   All colors via semantic var(--c-*) tokens → correct in light/dark.
+
+   Data strategy (production-safe, no hard backend dependency):
+     • Build-time bake (load_data, required=false) → compact JSON islands:
+         #cms-nodes  posts (slug,title,cat,url,date)
+         #cms-edges  internal links (source slug → target slug)
+         #cms-seo    per-slug SEO score / grade / word_count
+         #cms-404    broken-link report (compact)
+     • Runtime fetch (static/data/*.json) for live site KPIs:
+         seo-reality.json · google-rank.json · gsc-metrics.json
+     • Everything degrades to placeholders if a source is missing.
+   ============================================================================ #}
+
+{% block title %}CMS — Control Center | {{ config.title }}{% endblock %}
+{% block description %}Trung tâm điều khiển CMS: Insights, quản lý bài viết, AI Writer (kiểm soát bởi con người), đồ thị liên kết nội bộ và cảnh báo SEO — gọn, mô-đun, mật độ cao.{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block main %}
+<h1 class="visually-hidden">CMS Control Center</h1>
+
+<div class="cms-shell" id="cms-shell" data-cms-shell
+     data-cms-base="{{ config.base_url | safe }}"
+     {% if cms_auth %}data-cms-auth-api="{{ cms_auth | safe }}"{% endif %}>
+
+    {# ===== TOPBAR ===== #}
+    <header class="cms-topbar">
+        <button class="cms-topbar__burger" type="button" data-cms-nav-toggle
+                aria-label="Mở/đóng điều hướng CMS" aria-expanded="true">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <a class="cms-topbar__brand" href="{{ config.base_url }}/cms/">
+            <span class="cms-topbar__mark" aria-hidden="true">◈</span>
+            <span class="cms-topbar__name">SEOMONEY <strong>CMS</strong></span>
+            <span class="cms-topbar__ver">v2</span>
+        </a>
+        <div class="cms-topbar__spacer"></div>
+        <span class="cms-topbar__pill" data-cms-clock title="Giờ Việt Nam (GMT+7)">—</span>
+        <span class="cms-authchip" data-cms-auth title="Phiên đăng nhập CMS">
+            <span class="cms-authchip__dot" aria-hidden="true"></span>
+            <span class="cms-authchip__text">Khách</span>
+        </span>
+    </header>
+
+    <div class="cms-body">
+        {# ===== PERSISTENT LEFT SIDEBAR ===== #}
+        <nav class="cms-sidebar" data-cms-sidebar aria-label="Điều hướng CMS">
+            <ul class="cms-nav">
+                <li><a class="cms-navlink is-active" data-cms-link="insights" href="#insights">
+                    <span class="cms-navlink__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l3-4 3 2 4-6"/></svg></span>
+                    <span class="cms-navlink__tx">Insights</span>
+                </a></li>
+                <li><a class="cms-navlink" data-cms-link="posts" href="#posts">
+                    <span class="cms-navlink__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h11l5 5v11a0 0 0 0 1 0 0H4z"/><path d="M14 4v5h5"/><path d="M8 13h8M8 17h5"/></svg></span>
+                    <span class="cms-navlink__tx">Bài viết</span>
+                </a></li>
+                <li><a class="cms-navlink" data-cms-link="ai-writer" href="#ai-writer">
+                    <span class="cms-navlink__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 0-4 4c0 1 .3 1.7.8 2.4C7 10.6 6 12.3 6 14a6 6 0 0 0 12 0c0-1.7-1-3.4-2.8-4.6.5-.7.8-1.4.8-2.4a4 4 0 0 0-4-4z"/><path d="M12 14v4"/></svg></span>
+                    <span class="cms-navlink__tx">AI Writer</span>
+                    <span class="cms-navlink__tag">AI</span>
+                </a></li>
+                <li><a class="cms-navlink" data-cms-link="links" href="#links">
+                    <span class="cms-navlink__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="8" r="2.5"/><circle cx="9" cy="18" r="2.5"/><path d="M8 7l8 1M8.5 16l7-7"/></svg></span>
+                    <span class="cms-navlink__tx">Link Graph</span>
+                </a></li>
+                <li><a class="cms-navlink" data-cms-link="alerts" href="#alerts">
+                    <span class="cms-navlink__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></span>
+                    <span class="cms-navlink__tx">SEO Alerts</span>
+                    <span class="cms-navlink__count" data-cms-alert-count hidden>0</span>
+                </a></li>
+                <li><a class="cms-navlink" data-cms-link="settings" href="#settings">
+                    <span class="cms-navlink__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1L16.5 2h-4l-.4 2.6a7 7 0 0 0-1.7 1l-2.3-1-2 3.4L5.1 11a7 7 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.5a7 7 0 0 0 .1-1z"/></svg></span>
+                    <span class="cms-navlink__tx">Settings</span>
+                </a></li>
+            </ul>
+
+            <div class="cms-sidebar__foot">
+                <p class="cms-sidebar__foot-label">Hệ thống gốc</p>
+                <a class="cms-sidebar__sublink" href="{{ config.base_url }}/editor/">↳ Trình soạn thảo</a>
+                <a class="cms-sidebar__sublink" href="{{ config.base_url }}/insights/">↳ Insights đầy đủ</a>
+                <a class="cms-sidebar__sublink" href="{{ config.base_url }}/seo-bang-vang/">↳ Bảng Vàng SEO</a>
+            </div>
+        </nav>
+
+        {# ===== MAIN PANELS ===== #}
+        <main class="cms-main" data-cms-main>
+
+            {# ---------- INSIGHTS ---------- #}
+            <section class="cms-panel is-active" data-cms-panel="insights" aria-label="Insights">
+                <header class="cms-phead">
+                    <div>
+                        <p class="cms-phead__eyebrow">Tổng quan</p>
+                        <h2 class="cms-phead__title">Insights</h2>
+                        <p class="cms-phead__sub">Chỉ số sức khỏe nội dung &amp; SEO — đọc nhanh, hành động nhanh.</p>
+                    </div>
+                    <a class="cms-btn cms-btn--ghost" href="{{ config.base_url }}/insights/">Mở Insights đầy đủ →</a>
+                </header>
+
+                <div class="cms-kpis" data-cms-kpis>
+                    {# KPI cards — populated by app.js from runtime data; markup is the
+                       no-JS / loading skeleton. Color status set via data-status. #}
+                    <article class="cms-kpi" data-kpi="ctr" data-status="neutral">
+                        <div class="cms-kpi__top">
+                            <span class="cms-kpi__ring"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg></span>
+                            <span class="cms-kpi__label">CTR</span>
+                        </div>
+                        <div class="cms-kpi__value" data-kpi-value>—</div>
+                        <div class="cms-kpi__foot" data-kpi-note>Đang tải…</div>
+                    </article>
+                    <article class="cms-kpi" data-kpi="impressions" data-status="neutral">
+                        <div class="cms-kpi__top">
+                            <span class="cms-kpi__ring"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                            <span class="cms-kpi__label">Hiển thị (Impressions)</span>
+                        </div>
+                        <div class="cms-kpi__value" data-kpi-value>—</div>
+                        <div class="cms-kpi__foot" data-kpi-note>Đang tải…</div>
+                    </article>
+                    <article class="cms-kpi" data-kpi="position" data-status="neutral">
+                        <div class="cms-kpi__top">
+                            <span class="cms-kpi__ring"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7-6.5-4.5L5.5 27"/><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span>
+                            <span class="cms-kpi__label">Vị trí trung bình</span>
+                        </div>
+                        <div class="cms-kpi__value" data-kpi-value>—</div>
+                        <div class="cms-kpi__foot" data-kpi-note>Đang tải…</div>
+                    </article>
+                    <article class="cms-kpi" data-kpi="decay" data-status="neutral">
+                        <div class="cms-kpi__top">
+                            <span class="cms-kpi__ring"><svg viewBox="0 0 24 24"><path d="M12 2v6l4 2"/><circle cx="12" cy="13" r="9"/></svg></span>
+                            <span class="cms-kpi__label">Điểm phân rã nội dung</span>
+                        </div>
+                        <div class="cms-kpi__value" data-kpi-value>—</div>
+                        <div class="cms-kpi__foot" data-kpi-note>Đang tải…</div>
+                    </article>
+                    <article class="cms-kpi" data-kpi="linkstrength" data-status="neutral">
+                        <div class="cms-kpi__top">
+                            <span class="cms-kpi__ring"><svg viewBox="0 0 24 24"><path d="M9 12a3 3 0 0 1 3-3h3a3 3 0 0 1 0 6h-1"/><path d="M15 12a3 3 0 0 1-3 3H9a3 3 0 0 1 0-6h1"/></svg></span>
+                            <span class="cms-kpi__label">Sức mạnh liên kết nội bộ</span>
+                        </div>
+                        <div class="cms-kpi__value" data-kpi-value>—</div>
+                        <div class="cms-kpi__foot" data-kpi-note>Đang tải…</div>
+                    </article>
+                </div>
+
+                <div class="cms-cols">
+                    <article class="cms-card">
+                        <h3 class="cms-card__title">Sức khỏe SEO tổng thể</h3>
+                        <div class="cms-health" data-cms-health>
+                            <div class="cms-health__score">
+                                <span class="cms-health__num" data-health-score>—</span>
+                                <span class="cms-health__max">/100</span>
+                            </div>
+                            <ul class="cms-health__bars" data-health-bars>
+                                <li class="cms-health__row"><span class="cms-muted">Đang tải thành phần điểm…</span></li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="cms-card">
+                        <h3 class="cms-card__title">Trạng thái Google Search Console</h3>
+                        <div class="cms-gsc" data-cms-gsc>
+                            <p class="cms-muted">Đang kiểm tra kết nối GSC…</p>
+                        </div>
+                        <p class="cms-card__hint">Khi GSC chưa kết nối, CTR / Impressions / vị trí hiển thị ở trạng thái chờ dữ liệu — không phải lỗi.</p>
+                    </article>
+                </div>
+            </section>
+
+            {# ---------- POSTS ---------- #}
+            <section class="cms-panel" data-cms-panel="posts" aria-label="Bài viết" hidden>
+                <header class="cms-phead">
+                    <div>
+                        <p class="cms-phead__eyebrow">Quản lý nội dung</p>
+                        <h2 class="cms-phead__title">Bài viết</h2>
+                        <p class="cms-phead__sub">Danh sách bài đã xuất bản kèm điểm SEO. Soạn &amp; xuất bản qua trình soạn thảo gốc.</p>
+                    </div>
+                    <a class="cms-btn cms-btn--primary" href="{{ config.base_url }}/editor/">✎ Mở trình soạn thảo</a>
+                </header>
+
+                <div class="cms-toolbar">
+                    <div class="cms-search">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="search" data-cms-post-search placeholder="Lọc theo tiêu đề, slug, category…" aria-label="Lọc bài viết">
+                    </div>
+                    <select data-cms-post-sort class="cms-select" aria-label="Sắp xếp">
+                        <option value="date">Mới nhất</option>
+                        <option value="score">Điểm SEO cao → thấp</option>
+                        <option value="score-asc">Điểm SEO thấp → cao</option>
+                        <option value="title">A → Z</option>
+                    </select>
+                    <span class="cms-count" data-cms-post-count>0</span>
+                </div>
+
+                <div class="cms-postlist" data-cms-postlist>
+                    <p class="cms-muted">Đang tải danh sách bài viết…</p>
+                </div>
+            </section>
+
+            {# ---------- AI WRITER ---------- #}
+            <section class="cms-panel" data-cms-panel="ai-writer" aria-label="AI Writer" hidden>
+                <header class="cms-phead">
+                    <div>
+                        <p class="cms-phead__eyebrow">Tầng thực thi AI · Con người kiểm soát</p>
+                        <h2 class="cms-phead__title">AI Writer</h2>
+                        <p class="cms-phead__sub">Con người ra ý định → AI sinh nháp → cổng chất lượng → con người duyệt. <strong>Không tự động xuất bản.</strong></p>
+                    </div>
+                </header>
+
+                <div class="cms-aiw">
+                    <div class="cms-aiw__form">
+                        {# Step 1 — Pillar #}
+                        <div class="cms-step">
+                            <p class="cms-step__head"><span class="cms-step__n">1</span> Chọn trụ cột (Pillar)</p>
+                            <div class="cms-seg" data-aiw-pillar role="radiogroup" aria-label="Pillar">
+                                <button type="button" class="cms-seg__btn is-active" data-val="ai" role="radio" aria-checked="true">AI</button>
+                                <button type="button" class="cms-seg__btn" data-val="travel" role="radio" aria-checked="false">Travel</button>
+                                <button type="button" class="cms-seg__btn" data-val="life" role="radio" aria-checked="false">Life</button>
+                            </div>
+                        </div>
+                        {# Step 2 — Mode #}
+                        <div class="cms-step">
+                            <p class="cms-step__head"><span class="cms-step__n">2</span> Chọn chế độ (Mode)</p>
+                            <div class="cms-seg" data-aiw-mode role="radiogroup" aria-label="Mode">
+                                <button type="button" class="cms-seg__btn is-active" data-val="idea" role="radio" aria-checked="true">Idea</button>
+                                <button type="button" class="cms-seg__btn" data-val="draft" role="radio" aria-checked="false">Draft</button>
+                                <button type="button" class="cms-seg__btn" data-val="full" role="radio" aria-checked="false">Full Article</button>
+                            </div>
+                        </div>
+                        {# Step 3 — Prompt #}
+                        <div class="cms-step">
+                            <p class="cms-step__head"><span class="cms-step__n">3</span> Nhập yêu cầu (Prompt)</p>
+                            <textarea class="cms-textarea" data-aiw-prompt rows="4"
+                                placeholder="VD: So sánh 3 ngân hàng số miễn phí chuyển khoản tốt nhất 2026 cho người mới đi làm…"></textarea>
+                            <label class="cms-field-inline">
+                                <span>Từ khóa SEO chính</span>
+                                <input type="text" class="cms-input" data-aiw-keyword placeholder="vd: ngân hàng số miễn phí">
+                            </label>
+                        </div>
+                        <div class="cms-aiw__actions">
+                            <button type="button" class="cms-btn cms-btn--primary" data-aiw-generate>
+                                <span class="cms-spin" data-aiw-spin hidden></span> Sinh nội dung
+                            </button>
+                            <button type="button" class="cms-btn cms-btn--ghost" data-aiw-reset>Xóa</button>
+                        </div>
+                        <p class="cms-aiw__rule">⚠ Quy tắc: AI chỉ hỗ trợ. Mọi nội dung phải qua <strong>cổng chất lượng</strong> và được <strong>con người duyệt</strong> trước khi đưa sang trình soạn thảo để xuất bản.</p>
+                    </div>
+
+                    {# Step 4 + 5 — Quality Gate Preview + Approve/Reject #}
+                    <div class="cms-aiw__preview" data-aiw-preview hidden>
+                        <div class="cms-aiw__gate">
+                            <p class="cms-step__head"><span class="cms-step__n">4</span> Cổng chất lượng (Quality Gate)</p>
+                            <div class="cms-gate">
+                                <div class="cms-gate__score">
+                                    <svg class="cms-gauge" viewBox="0 0 36 36" aria-hidden="true">
+                                        <path class="cms-gauge__bg" d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31"/>
+                                        <path class="cms-gauge__fg" data-aiw-gauge d="M18 2.5a15.5 15.5 0 1 1 0 31 15.5 15.5 0 0 1 0-31" stroke-dasharray="0 100"/>
+                                    </svg>
+                                    <span class="cms-gate__num" data-aiw-score>0</span>
+                                </div>
+                                <ul class="cms-gate__checks" data-aiw-checks></ul>
+                            </div>
+                        </div>
+                        <div class="cms-aiw__draft">
+                            <p class="cms-step__head">Bản nháp đề xuất</p>
+                            <div class="cms-aiw__meta">
+                                <span class="cms-chip" data-aiw-out-pillar>—</span>
+                                <span class="cms-chip" data-aiw-out-mode>—</span>
+                                <span class="cms-chip" data-aiw-out-words>0 từ</span>
+                            </div>
+                            <textarea class="cms-textarea cms-textarea--draft" data-aiw-output rows="14" spellcheck="false"></textarea>
+                        </div>
+                        <div class="cms-aiw__decide">
+                            <p class="cms-step__head"><span class="cms-step__n">5</span> Quyết định</p>
+                            <div class="cms-aiw__decide-row">
+                                <button type="button" class="cms-btn cms-btn--success" data-aiw-approve>✓ Duyệt &amp; chuyển sang Editor</button>
+                                <button type="button" class="cms-btn cms-btn--ghost" data-aiw-copy>⧉ Copy markdown</button>
+                                <button type="button" class="cms-btn cms-btn--danger" data-aiw-reject>✕ Từ chối</button>
+                            </div>
+                            <p class="cms-aiw__decide-note" data-aiw-decide-note hidden></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {# ---------- INTERNAL LINK GRAPH ---------- #}
+            <section class="cms-panel" data-cms-panel="links" aria-label="Internal Link Graph" hidden>
+                <header class="cms-phead">
+                    <div>
+                        <p class="cms-phead__eyebrow">Kiến trúc liên kết</p>
+                        <h2 class="cms-phead__title">Đồ thị liên kết nội bộ</h2>
+                        <p class="cms-phead__sub">Node = bài viết · Cạnh = liên kết nội bộ. Kích thước node ∝ số liên kết trỏ đến (authority).</p>
+                    </div>
+                    <div class="cms-graph-toggles">
+                        <label class="cms-toggle"><input type="checkbox" data-graph-orphans checked> Tô cam node mồ côi</label>
+                        <label class="cms-toggle"><input type="checkbox" data-graph-weak checked> Tô vàng authority yếu</label>
+                    </div>
+                </header>
+
+                <div class="cms-graphwrap">
+                    <div class="cms-graph" data-cms-graph>
+                        <svg class="cms-graph__svg" data-graph-svg viewBox="0 0 800 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Đồ thị liên kết nội bộ">
+                            <g data-graph-edges></g>
+                            <g data-graph-nodes></g>
+                        </svg>
+                        <div class="cms-graph__tooltip" data-graph-tip hidden></div>
+                    </div>
+                    <aside class="cms-graph-side">
+                        <div class="cms-graph-stat" data-graph-stats>
+                            <div class="cms-graph-stat__cell"><span data-gs="nodes">0</span><small>bài</small></div>
+                            <div class="cms-graph-stat__cell"><span data-gs="edges">0</span><small>liên kết</small></div>
+                            <div class="cms-graph-stat__cell cms-graph-stat__cell--warn"><span data-gs="orphans">0</span><small>mồ côi</small></div>
+                        </div>
+                        <div class="cms-graph-list">
+                            <h4>🚨 Node mồ côi (không có link trỏ đến)</h4>
+                            <ul data-graph-orphan-list><li class="cms-muted">Đang tính…</li></ul>
+                        </div>
+                        <div class="cms-graph-list">
+                            <h4>⚠ Authority yếu</h4>
+                            <ul data-graph-weak-list><li class="cms-muted">Đang tính…</li></ul>
+                        </div>
+                        <div class="cms-graph-list">
+                            <h4>🧠 AI gợi ý liên kết</h4>
+                            <ul data-graph-suggest-list><li class="cms-muted">Đang tính…</li></ul>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            {# ---------- SEO ALERTS ---------- #}
+            <section class="cms-panel" data-cms-panel="alerts" aria-label="SEO Alerts" hidden>
+                <header class="cms-phead">
+                    <div>
+                        <p class="cms-phead__eyebrow">Hành động, không phải log</p>
+                        <h2 class="cms-phead__title">SEO Alerts</h2>
+                        <p class="cms-phead__sub">Chỉ những cảnh báo có thể hành động — mỗi thẻ kèm việc cần làm.</p>
+                    </div>
+                    <div class="cms-alert-filters" data-cms-alert-filters>
+                        <button type="button" class="cms-chip cms-chip--btn is-active" data-sev="all">Tất cả</button>
+                        <button type="button" class="cms-chip cms-chip--btn" data-sev="risk">Rủi ro</button>
+                        <button type="button" class="cms-chip cms-chip--btn" data-sev="optimize">Cần tối ưu</button>
+                    </div>
+                </header>
+                <div class="cms-alerts" data-cms-alerts>
+                    <p class="cms-muted">Đang quét cảnh báo…</p>
+                </div>
+            </section>
+
+            {# ---------- SETTINGS ---------- #}
+            <section class="cms-panel" data-cms-panel="settings" aria-label="Settings" hidden>
+                <header class="cms-phead">
+                    <div>
+                        <p class="cms-phead__eyebrow">Cấu hình &amp; hệ thống</p>
+                        <h2 class="cms-phead__title">Settings</h2>
+                        <p class="cms-phead__sub">Thông tin cấu hình (chỉ đọc) và lối tắt tới các bảng quản trị hiện có.</p>
+                    </div>
+                </header>
+
+                <div class="cms-cols cms-cols--3">
+                    <article class="cms-card">
+                        <h3 class="cms-card__title">Trang &amp; build</h3>
+                        <dl class="cms-deflist">
+                            <dt>Tiêu đề</dt><dd>{{ config.title }}</dd>
+                            <dt>Base URL</dt><dd><code>{{ config.base_url }}</code></dd>
+                            <dt>Build SHA</dt><dd><code>{{ numeric_id }}</code></dd>
+                            <dt>Zola</dt><dd>v{{ get_env(name="ZOLA_VERSION", default="0.22.1") }}</dd>
+                        </dl>
+                    </article>
+                    <article class="cms-card">
+                        <h3 class="cms-card__title">Tầng tự động hóa (backend)</h3>
+                        <dl class="cms-deflist">
+                            <dt>CMS Auth</dt><dd>{% if cms_auth %}<span class="cms-chip cms-chip--ok">đã cấu hình</span>{% else %}<span class="cms-chip cms-chip--warn">chưa</span>{% endif %}</dd>
+                            <dt>Paywall API</dt><dd>{% if paywall_api %}<span class="cms-chip cms-chip--ok">bật</span>{% else %}<span class="cms-chip">—</span>{% endif %}</dd>
+                            <dt>VIPZone API</dt><dd>{% if vipzone_api %}<span class="cms-chip cms-chip--ok">bật</span>{% else %}<span class="cms-chip">—</span>{% endif %}</dd>
+                            <dt>Quy trình</dt><dd>CI gate → auto-merge → Pages</dd>
+                        </dl>
+                    </article>
+                    <article class="cms-card">
+                        <h3 class="cms-card__title">Bảng quản trị hiện có</h3>
+                        <div class="cms-linkgrid">
+                            {# admin-author / admin-countdown / admin/paywall đã gỡ — route không build (404) #}
+                            <a href="{{ config.base_url }}/editor/">Trình soạn thảo</a>
+                            <a href="{{ config.base_url }}/insights/">Insights</a>
+                            <a href="{{ config.base_url }}/tools/s-dna/">S-DNA</a>
+                        </div>
+                    </article>
+                </div>
+
+                <article class="cms-card">
+                    <h3 class="cms-card__title">Quy trình xuất bản (Publish Flow)</h3>
+                    <ol class="cms-flow">
+                        <li><span class="cms-flow__dot">1</span> Ý định của con người</li>
+                        <li><span class="cms-flow__dot">2</span> AI sinh nháp</li>
+                        <li><span class="cms-flow__dot">3</span> Cổng chất lượng</li>
+                        <li><span class="cms-flow__dot">4</span> Con người duyệt</li>
+                        <li><span class="cms-flow__dot">5</span> CI kiểm tra</li>
+                        <li><span class="cms-flow__dot">6</span> Lên GitHub Pages</li>
+                        <li><span class="cms-flow__dot">7</span> Phản hồi GSC → gợi ý tối ưu</li>
+                    </ol>
+                </article>
+            </section>
+
+        </main>
+    </div>
+</div>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
+
+{% block extra_scripts %}
+    {# ===== DATA ISLAND: posts (nodes) ===== #}
+    {% set s_posting = get_section(path="posting/_index.md") %}
+    {% set s_baochi = get_section(path="baochi/_index.md") %}
+    {% set cms_pages = s_posting.pages | concat(with=s_baochi.pages) | sort(attribute="date") | reverse %}
+    <script type="application/json" id="cms-nodes">
+    [
+    {%- for page in cms_pages -%}
+        {
+            "slug": {{ page.slug | json_encode | safe }},
+            "title": {{ page.title | json_encode | safe }},
+            "url": {{ page.permalink | json_encode | safe }},
+            "date": {{ page.date | json_encode | safe }},
+            "cat": {% if page.taxonomies.categories %}{{ page.taxonomies.categories | last | json_encode | safe }}{% else %}"Tất cả"{% endif %}
+        }{%- if not loop.last -%},{%- endif -%}
+    {%- endfor -%}
+    ]
+    </script>
+
+    {# ===== DATA ISLAND: internal-link edges (slug → slug) =====
+       Derived from data/references.json. Target slug = penultimate path segment
+       of the internal URL. JS filters edges to known nodes + computes degrees. #}
+    {% set cms_refs = load_data(path="data/references.json", required=false) %}
+    <script type="application/json" id="cms-edges">
+    [
+    {%- if cms_refs -%}
+        {%- set_global cms_edge_first = true -%}
+        {%- for src_path, refs in cms_refs -%}
+            {%- set src_slug = src_path | split(pat="/") | last | trim_end_matches(pat=".md") -%}
+            {%- if refs.internal -%}
+                {%- for lnk in refs.internal -%}
+                    {%- set tslug = lnk.url | trim_end_matches(pat="/") | split(pat="/") | last -%}
+                    {%- if tslug and tslug != src_slug -%}
+                        {%- if not cms_edge_first -%},{%- endif -%}{%- set_global cms_edge_first = false -%}
+                        {"s": {{ src_slug | json_encode | safe }}, "t": {{ tslug | json_encode | safe }}}
+                    {%- endif -%}
+                {%- endfor -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+    ]
+    </script>
+
+    {# ===== DATA ISLAND: compact SEO scores per slug ===== #}
+    {% set cms_seo = load_data(path="data/seo-qa-scores.json", required=false) %}
+    <script type="application/json" id="cms-seo">
+    {
+    {%- if cms_seo and cms_seo.posts -%}
+        {%- set_global cms_seo_first = true -%}
+        {%- for path, rec in cms_seo.posts -%}
+            {%- if rec.slug -%}
+                {%- if not cms_seo_first -%},{%- endif -%}{%- set_global cms_seo_first = false -%}
+                {{ rec.slug | json_encode | safe }}: {
+                    "score": {{ rec.score | default(value=0) }},
+                    "grade": {{ rec.grade | default(value="") | json_encode | safe }},
+                    "words": {{ rec.word_count | default(value=0) }},
+                    "published": {% if rec.published is defined and not rec.published %}false{% else %}true{% endif %}
+                }
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+    }
+    </script>
+
+    {# ===== DATA ISLAND: broken-link report (compact) ===== #}
+    {% set cms_404 = load_data(path="data/qa-404-report.json", required=false) %}
+    <script type="application/json" id="cms-404">
+    {
+        "broken": {% if cms_404 and cms_404.summary and cms_404.summary.broken_count %}{{ cms_404.summary.broken_count }}{% else %}0{% endif %},
+        "status": {% if cms_404 and cms_404.summary and cms_404.summary.status %}{{ cms_404.summary.status | json_encode | safe }}{% else %}"ok"{% endif %}
+    }
+    </script>
+
+    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
+    <script src="{{ get_url(path='js/cms/app.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+{% endblock %}

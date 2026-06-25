@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>CLAUDE.md Vaccine Operator Cheat Sheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+                font-size: 10pt;
+                color: #666;
+            }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: white;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            page-break-after: avoid;
+            border-bottom: 3px solid #f39c12;
+        }
+
+        h1 {
+            font-size: 28pt;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 12pt;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-info {
+            font-size: 9pt;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 0.5rem;
+        }
+
+        /* Quick stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem;
+            page-break-after: avoid;
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            border-left: 4px solid #2a5298;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 18pt;
+            font-weight: 700;
+            color: #2a5298;
+        }
+
+        .stat-label {
+            font-size: 10pt;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        /* Most Used Vaccines */
+        .most-used {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 1.5rem;
+            margin: 1.5rem;
+            border-radius: 4px;
+            page-break-after: avoid;
+        }
+
+        .most-used h2 {
+            color: #f39c12;
+            font-size: 14pt;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .most-used ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 1.5rem;
+        }
+
+        .most-used li {
+            background: white;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 3px;
+            break-inside: avoid;
+        }
+
+        .most-used strong {
+            color: #2a5298;
+        }
+
+        /* TOC */
+        .toc {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 1.5rem;
+            margin: 1.5rem;
+            border-radius: 4px;
+            page-break-after: avoid;
+        }
+
+        .toc h2 {
+            color: #2a5298;
+            font-size: 14pt;
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            columns: 3;
+            column-gap: 2rem;
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+            font-size: 10pt;
+        }
+
+        .toc-list a {
+            color: #2a5298;
+            text-decoration: none;
+        }
+
+        /* Main Table */
+        .vaccine-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .vaccine-table thead {
+            background: #2a5298;
+            color: white;
+        }
+
+        .vaccine-table th {
+            padding: 0.75rem;
+            text-align: left;
+            font-size: 10pt;
+            font-weight: 600;
+            border: 1px solid #ddd;
+        }
+
+        .vaccine-table td {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+
+        /* Zebra rows */
+        .vaccine-table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .vaccine-table tbody tr:nth-child(odd) {
+            background: #ffffff;
+        }
+
+        /* Vaccine ID column */
+        .vaccine-id {
+            font-weight: 700;
+            color: #2a5298;
+            width: 5%;
+            text-align: center;
+        }
+
+        /* Status badge */
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 8pt;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.archived {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.unclear {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Footer */
+        footer {
+            background: #2a5298;
+            color: white;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 9pt;
+            page-break-before: avoid;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-divider {
+            opacity: 0.3;
+            margin: 0.5rem 0;
+        }
+
+        /* Page break helper */
+        .page-break-before {
+            page-break-before: always;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                max-width: 100%;
+                margin: 0;
+            }
+            header {
+                page-break-after: avoid;
+            }
+            .vaccine-table {
+                page-break-inside: avoid;
+            }
+            .vaccine-table tbody tr {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive for web view */
+        @media screen and (max-width: 768px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .toc-list {
+                columns: 1;
+            }
+        }
+
+        /* Title for sections */
+        h2 {
+            color: #2a5298;
+            font-size: 14pt;
+            margin: 1.5rem 1.5rem 1rem 1.5rem;
+            page-break-after: avoid;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 0.5rem;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-family: 'Courier New', monospace;
+            font-size: 8pt;
+        }
+
+        .note {
+            font-size: 8pt;
+            color: #666;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>💉 Vaccine Operator Cheat Sheet</h1>
+            <div class="subtitle">CLAUDE.md Repository Policy & Build Automation</div>
+            <div class="doc-info">
+                <p>Generated: <strong>2026-06-21</strong> | Source: <code>CLAUDE.md §4 Thư viện Vaccine</code></p>
+                <p>Repository: <strong>banhang-chogao/zola</strong></p>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">29</div>
+                <div class="stat-label">Total Vaccines</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">29</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">7</div>
+                <div class="stat-label">CI/Build</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">22</div>
+                <div class="stat-label">Other</div>
+            </div>
+        </div>
+
+        <!-- Most Used -->
+        <div class="most-used">
+            <h2>🚨 Most-Used Vaccines (Priority Order)</h2>
+            <ul>
+                <li><strong>V5:</strong> Deploy rate-limit (Pages API quota)</li>
+                <li><strong>V10:</strong> Dirty PR merge race (stale base)</li>
+                <li><strong>V8:</strong> Series registration + Tera syntax</li>
+                <li><strong>V14:</strong> Fabricated cluster links (`/bai-N-`)</li>
+                <li><strong>V13:</strong> Scheduled draft forward-ref (false 404)</li>
+                <li><strong>V18:</strong> Runtime artifact gitignore (state/log)</li>
+                <li><strong>V19:</strong> Domain/GSC property migration</li>
+                <li><strong>V29:</strong> Backend smoke check (Pages ≠ Render)</li>
+            </ul>
+        </div>
+
+        <!-- TOC -->
+        <div class="toc">
+            <h2>📑 Quick Index (Jump to Vaccine)</h2>
+            <ul class="toc-list">
+                <li><a href="#v1">V1: HuggingFace</a></li>
+                <li><a href="#v2">V2: Slack notify</a></li>
+                <li><a href="#v3">V3: Perf-audit PR</a></li>
+                <li><a href="#v4">V4: Perf-audit img</a></li>
+                <li><a href="#v5">V5: Deploy rate-limit</a></li>
+                <li><a href="#v6">V6: Bot data conflict</a></li>
+                <li><a href="#v7">V7: Bot remediation</a></li>
+                <li><a href="#v8">V8: Series + Tera</a></li>
+                <li><a href="#v9">V9: Docs stale base</a></li>
+                <li><a href="#v10">V10: Dirty PR / Heading</a></li>
+                <li><a href="#v11">V11: Autofixer / Taxonomies</a></li>
+                <li><a href="#v12">V12: Semantic / Article</a></li>
+                <li><a href="#v13">V13: Scheduled ref</a></li>
+                <li><a href="#v14">V14: Cluster links</a></li>
+                <li><a href="#v16">V16: Backend split-brain</a></li>
+                <li><a href="#v17">V17: OAuth Edge/Safari</a></li>
+                <li><a href="#v18">V18: Runtime artifact</a></li>
+                <li><a href="#v19">V19: GSC / Migration</a></li>
+                <li><a href="#v20">V20: Search UI</a></li>
+                <li><a href="#v21">V21: No Floating Nav</a></li>
+                <li><a href="#v22">V22: Editor S-DNA / Save</a></li>
+                <li><a href="#v23">V23: SEO Identity</a></li>
+                <li><a href="#v24">V24: OAuth token export</a></li>
+                <li><a href="#v25">V25: Backend route parity</a></li>
+                <li><a href="#v26">V26: TOC rail</a></li>
+                <li><a href="#v27">V27: GA stats</a></li>
+                <li><a href="#v28">V28: Registry merge</a></li>
+                <li><a href="#v29">V29: Prod smoke</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Table -->
+        <h2>📋 Vaccine Registry</h2>
+        <table class="vaccine-table">
+            <thead>
+                <tr>
+                    <th class="vaccine-id">ID</th>
+                    <th>Tên / Title</th>
+                    <th>Mục đích chính</th>
+                    <th>Khi nào dùng</th>
+                    <th>File / Test / Detector</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- V1 -->
+                <tr id="v1">
+                    <td class="vaccine-id">V1</td>
+                    <td><strong>HuggingFace 401</strong> (build-related.yml)</td>
+                    <td>Sửa model ID thiếu org prefix</td>
+                    <td>Log <code>401 Client Error</code> + SBERT model not found</td>
+                    <td><code>scripts/build_related.py</code> → set full org/model</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V2 -->
+                <tr id="v2">
+                    <td class="vaccine-id">V2</td>
+                    <td><strong>Slack notify</strong> (v3 API change)</td>
+                    <td>Update action input syntax sau version bump</td>
+                    <td><code>##[error]Missing input webhook type</code> after Slack action update</td>
+                    <td><code>.github/workflows/slack-notify.yml</code> → v3 format</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V3 -->
+                <tr id="v3">
+                    <td class="vaccine-id">V3</td>
+                    <td><strong>Perf-audit PR</strong> (GitHub Actions perms)</td>
+                    <td>Fallback khi Actions không tạo PR được</td>
+                    <td><code>GraphQL: not permitted to create PR</code></td>
+                    <td><code>perf-audit.yml</code> → nuốt exit code, in manual URL</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V4 -->
+                <tr id="v4">
+                    <td class="vaccine-id">V4</td>
+                    <td><strong>Perf-audit img</strong> (comment injection)</td>
+                    <td>Loại trừ <code>&lt;img&gt;</code> fix từ comment/Tera</td>
+                    <td>PR chèn <code>loading=lazy</code> vào trong comment Tera</td>
+                    <td><code>qa_check.py</code> _comment_spans() filter</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V5 -->
+                <tr id="v5">
+                    <td class="vaccine-id">V5</td>
+                    <td><strong>Deploy rate-limit</strong> (configure-pages)</td>
+                    <td>Queue deploy + disable auto-dispatch</td>
+                    <td><code>API rate limit exceeded for installation</code> trên Pages</td>
+                    <td><code>deploy.yml</code> concurrency + <code>push_to_main.sh</code> gate</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V6 -->
+                <tr id="v6">
+                    <td class="vaccine-id">V6</td>
+                    <td><strong>Bot data stash</strong> (conflict resolve)</td>
+                    <td>Giải quyết conflict khi bot pull+regenerate</td>
+                    <td><code>git stash pop</code> fail trên <code>data/*.json</code></td>
+                    <td><code>.github/scripts/push_to_main.sh</code> → if/else checkout</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V7 -->
+                <tr id="v7">
+                    <td class="vaccine-id">V7</td>
+                    <td><strong>Bot remediation</strong> (self-fail guard)</td>
+                    <td>Lặp retry khi status parse lỗi</td>
+                    <td>Workflow remediation đỏ vì <code>unknown</code> status</td>
+                    <td><code>qa-failed.py</code> → retry logic + <code>continue-on-error</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V8 -->
+                <tr id="v8">
+                    <td class="vaccine-id">V8</td>
+                    <td><strong>Series + Tera</strong> (registration + syntax)</td>
+                    <td>Đăng ký series + dùng <code>from=/to=</code> không <code>old=/new=</code></td>
+                    <td>Zola build fail: orphan series + Python keyword filter</td>
+                    <td><code>series-listing.html</code>, <code>page.html</code>, templates</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V9 -->
+                <tr id="v9">
+                    <td class="vaccine-id">V9</td>
+                    <td><strong>Docs stale base</strong> (rebase rule)</td>
+                    <td>Rebase docs-only PR lên latest <code>main</code></td>
+                    <td>QA fail vì bug đã fix trên main được resurrect</td>
+                    <td>Rebase + regenerate + <code>qa_check.py</code> gate</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V10a -->
+                <tr id="v10">
+                    <td class="vaccine-id">V10a</td>
+                    <td><strong>Dirty PR</strong> (merge race, CI)</td>
+                    <td>Merge <code>main</code> + regenerate <code>data/*.json</code></td>
+                    <td>PR <code>mergeable_state: dirty</code> sau QA pass</td>
+                    <td><code>build_references.py</code>, <code>seo_qa_checker.py</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V10b -->
+                <tr id="v10b">
+                    <td class="vaccine-id">V10b</td>
+                    <td><strong>Heading Focus</strong> (compliance, feed-anchor)</td>
+                    <td>Thêm invisible <code>&lt;h1&gt;</code> trong feed-anchor + index</td>
+                    <td><code>compliance_audit.py</code> báo 0 <code>&lt;h1&gt;</code></td>
+                    <td><code>templates/feed-anchor.html</code>, <code>index.html</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V11a -->
+                <tr id="v11">
+                    <td class="vaccine-id">V11a</td>
+                    <td><strong>Daily Autofixer</strong> (cron 06:00 ICT)</td>
+                    <td>Chạy ngay vaccine autofixer (không chờ lịch)</td>
+                    <td>Shortcut <code>vacxin11</code> hoặc nút Insights</td>
+                    <td><code>scripts/vaccine_autofixer.py</code>, workflow</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V11b -->
+                <tr id="v11b">
+                    <td class="vaccine-id">V11b</td>
+                    <td><strong>Taxonomies</strong> (compliance, feed-anchor)</td>
+                    <td>Tag feed-anchor stubs với default category</td>
+                    <td>Feed-anchor file không có taxonomy</td>
+                    <td><code>build_feed_pagination.py</code> ANCHOR_TEMPLATE</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V12a -->
+                <tr id="v12">
+                    <td class="vaccine-id">V12a</td>
+                    <td><strong>Semantic conflict</strong> (base.html + footer)</td>
+                    <td>Merge by intent (BOTH sides) không blind ours/theirs</td>
+                    <td>Conflict ở <code>base.html</code> + <code>_footer.scss</code></td>
+                    <td>Merge semantic: dedupe, keep both additive blocks</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V12b -->
+                <tr id="v12b">
+                    <td class="vaccine-id">V12b</td>
+                    <td><strong>Article Depth</strong> (compliance, thin feed-anchor)</td>
+                    <td>Append stub body vào feed-anchor thay vì rỗng</td>
+                    <td>Feed-anchor body &lt; 300 chars</td>
+                    <td><code>build_feed_pagination.py</code>, <code>compliance_fix.py</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V13 -->
+                <tr id="v13">
+                    <td class="vaccine-id">V13</td>
+                    <td><strong>Scheduled forward-ref</strong> (draft future)</td>
+                    <td>Skip 404 check cho draft + <code>publish_at</code> future</td>
+                    <td>Link đến post draft chưa publish → false 404</td>
+                    <td><code>qa-404-checker.py</code> _scheduled_forward_targets()</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V14 -->
+                <tr id="v14">
+                    <td class="vaccine-id">V14</td>
+                    <td><strong>Cluster links</strong> (fabricated /bai-N-)</td>
+                    <td>Repoint từng <code>/bai-N-slug</code> → real <code>/posting/slug</code></td>
+                    <td>QA gate: 40 internal broken từ <code>/bai-N-</code> links</td>
+                    <td><code>qa-404-checker.py</code> + grep + intent-based repoint</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V16 -->
+                <tr id="v16">
+                    <td class="vaccine-id">V16</td>
+                    <td><strong>Backend split-brain</strong> (Pages ≠ Render)</td>
+                    <td>Render Manual Sync backend sau merge</td>
+                    <td>GitHub Pages green nhưng backend route 404</td>
+                    <td><code>scripts/backend_sha_check.py</code>, health endpoint</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V17 -->
+                <tr id="v17">
+                    <td class="vaccine-id">V17</td>
+                    <td><strong>OAuth Edge/Safari</strong> (VIPZone auth)</td>
+                    <td>Set HttpOnly cookie + localStorage mirror + <code>credentials:include</code></td>
+                    <td>Login loop Edge/Safari, Content Picker blank</td>
+                    <td><code>cms_auth.py</code>, <code>cms_roles.py</code>, JS files</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V18 -->
+                <tr id="v18">
+                    <td class="vaccine-id">V18</td>
+                    <td><strong>Runtime artifact</strong> (gitignore state/log)</td>
+                    <td><code>.gitignore</code> state files + <code>git restore --staged</code></td>
+                    <td>Conflict chỉ ở <code>data/*-state.json</code>, <code>*.log</code></td>
+                    <td><code>.gitignore</code>, <code>vaccine-hotfix.yml</code> filter</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V19a -->
+                <tr id="v19">
+                    <td class="vaccine-id">V19a</td>
+                    <td><strong>GSC domain property</strong> (sc-domain)</td>
+                    <td>Đổi từ URL-prefix → domain property</td>
+                    <td>GSC data 0 pages / property mismatch</td>
+                    <td><code>gsc_client.py</code>, <code>config.toml</code>, env var</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V19b -->
+                <tr id="v19b">
+                    <td class="vaccine-id">V19b</td>
+                    <td><strong>Domain migration drift</strong> (cleanup stale refs)</td>
+                    <td>Xoá <code>github.io</code> refs khỏi code (NOT content)</td>
+                    <td>Stale <code>github.io</code> comment sau apex move</td>
+                    <td><code>qa_vaccines.py</code> detector + grep cleanup</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V20 -->
+                <tr id="v20">
+                    <td class="vaccine-id">V20</td>
+                    <td><strong>Search UI</strong> (BEM + structural CSS)</td>
+                    <td>Ship scoped <code>_site-search.scss</code> (overlay + modal)</td>
+                    <td>Search dialog raw/unstyled, default browser input</td>
+                    <td><code>sass/_site-search.scss</code>, <code>templates/base.html</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V21 -->
+                <tr id="v21">
+                    <td class="vaccine-id">V21</td>
+                    <td><strong>No Floating Nav</strong> (desktop static)</td>
+                    <td>Desktop nav <code>position: static</code>, KHÔNG sticky/fixed</td>
+                    <td>Desktop nav drift/float khi scroll</td>
+                    <td><code>sass/_side-nav.scss</code> + <code>position: static</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V22a -->
+                <tr id="v22">
+                    <td class="vaccine-id">V22a</td>
+                    <td><strong>Editor S-DNA</strong> (visual layer)</td>
+                    <td>Keep <code>/editor/</code> S-DNA (pastel cards + outline icons)</td>
+                    <td>Editor reverts to old look (rainbow, emoji)</td>
+                    <td><code>sass/_editor-sdna.scss</code>, <code>templates/editor.html</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V22b -->
+                <tr id="v22b">
+                    <td class="vaccine-id">V22b</td>
+                    <td><strong>Editor save→GitHub</strong> (commit not draft)</td>
+                    <td>Editor save POST <code>/cms/save-post</code> + SHA + rail hydrate</td>
+                    <td>Save/Publish không commit, nhưng download blob</td>
+                    <td><code>static/js/editor.js</code>, <code>cms_repo.py</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V23 -->
+                <tr id="v23">
+                    <td class="vaccine-id">V23</td>
+                    <td><strong>SEO Identity</strong> (canonical homepage)</td>
+                    <td>Keep <code>base_url = https://seomoney.org</code> (no <code>/zola</code>, http)</td>
+                    <td>Brand/canonical drifts sau migration</td>
+                    <td><code>config.toml</code>, <code>templates/index.html</code>, <code>base.html</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V24 -->
+                <tr id="v24">
+                    <td class="vaccine-id">V24</td>
+                    <td><strong>OAuth token export</strong> (operator path)</td>
+                    <td>Export refresh_token via <code>/gsc/refresh-token</code> (supervip-gated)</td>
+                    <td>Token vanishes sau Render redeploy (tmp wiped)</td>
+                    <td><code>gsc_routes.py</code>, <code>/gsc/refresh-token</code> endpoint</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V25 -->
+                <tr id="v25">
+                    <td class="vaccine-id">V25</td>
+                    <td><strong>Backend route parity</strong> (split-backend fix)</td>
+                    <td>Mọi <code>/cms/</code>, <code>/gsc/</code>, <code>/api/</code> trên deployed vipzone</td>
+                    <td>Frontend route 404 trên backend (exists ở visitor-counter)</td>
+                    <td><code>qa_vaccines.py</code> detector, <code>test_backend_route_check.py</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V26 -->
+                <tr id="v26">
+                    <td class="vaccine-id">V26</td>
+                    <td><strong>TOC rail</strong> (scroll-spy sticky)</td>
+                    <td>Keep <code>_toc-rail.scss</code> + <code>IntersectionObserver</code> + grid</td>
+                    <td>Long post mất sticky right TOC ("Trong bài này")</td>
+                    <td><code>sass/_toc-rail.scss</code>, <code>static/js/toc-rail.js</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V27 -->
+                <tr id="v27">
+                    <td class="vaccine-id">V27</td>
+                    <td><strong>GA stats</strong> (build-time, no fake)</td>
+                    <td><code>fetch_ga_stats.py</code> property 542421812 + check identity match</td>
+                    <td>Footer GA shows old numbers / pending state</td>
+                    <td><code>fetch_ga_stats.py</code>, <code>ga_vacxin.py</code>, <code>config.toml</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V28 -->
+                <tr id="v28">
+                    <td class="vaccine-id">V28</td>
+                    <td><strong>Registry merge</strong> (conflict-safe)</td>
+                    <td>Merge bằng <code>manual</code> (append delta + keep all main detectors)</td>
+                    <td>PR vaccine conflict ở CLAUDE.md + <code>qa_vaccines.py</code></td>
+                    <td><code>CLAUDE.md</code> §4 (append), <code>qa_vaccines.py</code> (keep BOTH)</td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+                <!-- V29 -->
+                <tr id="v29">
+                    <td class="vaccine-id">V29</td>
+                    <td><strong>Prod smoke check</strong> (Pages ≠ Backend)</td>
+                    <td>Run <code>prod_smoke_check.py</code> sau merge (confirm routes 200)</td>
+                    <td>Pages deploy green nhưng backend routes still 404</td>
+                    <td><code>scripts/prod_smoke_check.py</code>, <code>prod-smoke-report.json</code></td>
+                    <td><span class="status active">Active</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Usage Guide -->
+        <h2>🔍 Cách tra cứu nhanh</h2>
+        <div style="margin: 1.5rem; background: #f0f7ff; padding: 1.5rem; border-left: 4px solid #2a5298; border-radius: 4px; page-break-inside: avoid;">
+            <p><strong>Bước 1:</strong> Gặp lỗi CI → đọc log</p>
+            <p><strong>Bước 2:</strong> Khớp log với "Khi nào dùng" ở bảng → xác định Vaccine ID</p>
+            <p><strong>Bước 3:</strong> Tra cột "File / Test / Detector" → chạy FIXER (KHÔNG chẩn lại)</p>
+            <p><strong>Bước 4:</strong> Commit + push</p>
+            <br>
+            <p><strong>Ví dụ:</strong></p>
+            <ul style="margin-left: 1rem;">
+                <li>Log: <code>401 Client Error: Repository Not Found</code> HuggingFace → <strong>V1</strong></li>
+                <li>Log: <code>API rate limit exceeded</code> Pages → <strong>V5</strong></li>
+                <li>Git: <code>mergeable_state: dirty</code> + code OK + data conflict → <strong>V10a/V12a</strong></li>
+                <li>QA: <code>40 internal broken</code> + <code>/bai-N-...</code> link → <strong>V14</strong></li>
+            </ul>
+        </div>
+
+        <!-- Notes -->
+        <h2>📌 Operator Notes</h2>
+        <div style="margin: 1.5rem; font-size: 9pt; color: #666; page-break-inside: avoid;">
+            <p><strong>• Vaccine có 2 bản (cùng số, khác scope):</strong> V10 (CI merge race + compliance heading), V11 (autofixer + taxonomies), V12 (semantic conflict + article depth), V19 (GSC + migration), V22 (editor S-DNA + save).</p>
+            <p><strong>• Quy tắc bắt buộc:</strong> Khi lỗi khớp vaccine dấu hiệu → chạy FIXER ngay (KHÔNG chẩn lại từ đầu). Nếu chưa biết → tra gauge Vaccine library trước khi hỏi ý kiến.</p>
+            <p><strong>• Process vaccine (V9, V10, V12):</strong> Phát hiện thời PR bị conflict / stale base. FIXER là quy trình merge semantic + regenerate, không phải code fix tự động.</p>
+            <p><strong>• File map:</strong> Detector / test / script chính nằm ở cột "File / Test / Detector". Nếu thông tin Unclear → tra <code>CLAUDE.md</code> gốc.</p>
+            <p><strong>• CI gate:</strong> V5 (rate-limit), V10 (dirty), V13 (broken link), V14 (cluster), V25 (route), V29 (smoke) có thể chặn auto-merge. Phải fix trước push.</p>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p><strong>CLAUDE.md Vaccine Operator Cheat Sheet</strong></p>
+            <p>Repository: <code>banhang-chogao/zola</code> · Branch: All active branches</p>
+            <div class="footer-divider">―――――――――――――――――</div>
+            <p>Generated: 2026-06-21 | Source: <code>CLAUDE.md §4 Thư viện Vaccine (V1–V29)</code></p>
+            <p>For offline reference, deployment ops, and CI troubleshooting.</p>
+            <p style="margin-top: 1rem; font-size: 8pt;">💡 Tip: Save this page as PDF for a printable pocket guide. Bookmark the jump-to index for quick lookup.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+name: Daily Vaccine Autofixer
+
+# TEMP DISABLED:
+# Auto vaccine/hotfix PR generation is paused because SEOMONEY now uses a PR-first,
+# production-verified deploy strategy. Keep manual workflow_dispatch only.
+#
+# Previously ran on a daily schedule (06:00 ICT) and created chore/vaccine-autofixer-*
+# PRs. The scheduled auto-remediation is paused to reduce bot PR noise.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write          # push the fix branch for the PR
+  actions: read            # gh CI-log diagnosis
+  pull-requests: write     # open the autofix PR
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# No concurrent runs: a second trigger queues behind the active one.
+concurrency:
+  group: vaccine-autofixer
+  cancel-in-progress: false
+
+jobs:
+  autofix:
+    name: Scan & Fix via Vaccines
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
+
+      - name: Install Zola for build verification
+        run: |
+          curl -sLO https://github.com/getzola/zola/releases/download/v0.22.1/zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzf zola-v0.22.1-x86_64-unknown-linux-gnu.tar.gz
+          sudo mv zola /usr/local/bin/
+
+      - name: Run engine tests
+        run: python3 -m unittest scripts.test_vaccine_autofixer -v
+
+      - name: Run Daily Vaccine Autofixer
+        id: autofix
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          ZOLA_GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/vaccine_autofixer.py --trigger schedule
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vaccine-autofixer-report
+          path: data/vaccine-autofixer-report.json
+          if-no-files-found: warn
+
+      - name: Write run summary
+        if: always()
+        run: |
+          if [[ -f data/vaccine-autofixer-report.json ]]; then
+            echo "## 🔬 Vaccine Autofixer Report" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          try:
+              d = json.load(open("data/vaccine-autofixer-report.json"))
+              latest = (d.get("history") or [{}])[-1]
+              print(f"- **Run ID**: {latest.get('run_id', 'N/A')}")
+              print(f"- **Vaccines scanned**: {latest.get('vaccine_scanned', 0)}")
+              print(f"- **Issues detected**: {latest.get('issues_detected', 0)}")
+              print(f"- **Issues fixed**: {latest.get('issues_fixed', 0)}")
+              print(f"- **PRs created**: {latest.get('issues_prs_created', 0)}")
+              print(f"- **Status**: {d.get('status', 'N/A')} · QA {d.get('qa_result', {}).get('passed')}")
+              for err in latest.get("errors") or []:
+                  print(f"  - ⚠️ {err}")
+          except Exception as exc:
+              print(f"Error reading report: {exc}")
+          PY
+          else
+            echo "No autofixer report generated" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Open PR if anything changed (PR flow — never push to main)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes — nothing to PR."
+            exit 0
+          fi
+          BRANCH="chore/vaccine-autofixer-$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          # V18: unstage volatile runtime artifacts — these are timestamp/run-history churn
+          # that causes spurious merge conflicts on every concurrent vaccine PR (root cause PR #555).
+          # The report JSON (vaccine-autofixer-report.json) is intentionally kept; only
+          # pure state/log/rule-checker output that carries zero real information is dropped.
+          git restore --staged \
+            data/vaccine-autofixer-state.json \
+            data/vaccine-autofixer.log \
+            data/qa-rule-checker-state.json \
+            data/autofix-conflicts-state.json \
+            reports/rule-conflict-report.json \
+            reports/rule-conflict-report.md \
+            2>/dev/null || true
+          # If only volatile files changed, nothing real to commit.
+          if [ -z "$(git diff --cached --name-only)" ]; then
+            echo "Only volatile runtime artifacts changed — skipping PR (no real delta)."
+            exit 0
+          fi
+          git commit -m "chore(vaccine): daily autofixer report + safe fixes"
+          git push -u origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "chore(vaccine): Daily Vaccine Autofixer run" \
+            --body "Automated run of the Daily Vaccine Autofixer (Vaccine V11). Auto-merges when QA passes." \
+            || echo "::warning::could not open PR automatically"

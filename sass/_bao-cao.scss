@@ -1,0 +1,337 @@
+/* ============================================================
+   ===== BÁO CÁO TỔNG KẾT — DESKTOP (global) =====
+   ============================================================
+   Trang lịch sử báo cáo deploy status từ phím tắt ?? trong chat.
+   Clean Notion-style với auth gate ẩn nút tải khi chưa login. */
+.bao-cao {
+  max-width: 980px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1.5rem;
+  font-family: $font-body;
+
+  &__head {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid $brand-edge;
+    padding-bottom: 1rem;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $brand-ink-900;
+    margin: 0 0 0.45rem;
+  }
+
+  &__desc {
+    color: $brand-ink-500;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin: 0;
+
+    code {
+      background: #f1f1f1;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      font-family: $font-mono;
+      font-size: 0.88em;
+    }
+  }
+
+  /* Auth gate banner */
+  &__auth {
+    margin-bottom: 1.5rem;
+  }
+
+  &__auth-state {
+    display: flex;
+    // BẮT BUỘC: class set display:flex sẽ ĐÈ thuộc tính HTML `hidden` (UA style
+    // [hidden]{display:none} thua selector class) → box admin/anon hiện sai. Phải
+    // có rule này để JS auth-gate (toggle .hidden) hoạt động đúng.
+    &[hidden] { display: none; }
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1.25rem;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    border-radius: 10px;
+
+    strong {
+      color: #92760a;
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: $brand-ink-500;
+      line-height: 1.5;
+
+      a {
+        color: $brand-signal-red;
+        font-weight: 600;
+        border-bottom: 1px dotted;
+      }
+    }
+
+    &--admin {
+      background: rgba(74, 222, 128, 0.08);
+      border-color: rgba(74, 222, 128, 0.3);
+
+      strong { color: #047a3f; }
+    }
+  }
+
+  &__auth-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  /* Latest report card */
+  &__latest {
+    background: $brand-mist;
+    border: 1px solid $brand-edge;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  &__latest-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.85rem;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  &__latest-title {
+    font-family: $font-heading;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: $brand-ink-900;
+    margin: 0;
+  }
+
+  &__latest-date {
+    font-family: $font-meta;
+    font-size: 0.8rem;
+    color: $brand-ink-500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__latest-body {
+    font-size: 0.9rem;
+    color: $brand-ink-800;
+    line-height: 1.65;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+
+      th, td {
+        text-align: left;
+        padding: 0.45rem 0.65rem;
+        border-bottom: 1px solid $brand-edge;
+      }
+
+      th {
+        font-family: $font-ui;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: $brand-ink-500;
+        background: $brand-snow;
+      }
+    }
+  }
+
+  &__download {
+    display: inline-flex;
+    &[hidden] { display: none; }   // tôn trọng `hidden` của JS auth-gate (guest KHÔNG thấy nút tải)
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.85rem;
+    padding: 0.5rem 0.95rem;
+    background: $brand-ink-900;
+    color: $brand-snow;
+    text-decoration: none;
+    border-radius: 6px;
+    font-family: $font-ui;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: background .15s ease, transform .12s ease;
+
+    code {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.05rem 0.35rem;
+      border-radius: 3px;
+      font-family: $font-mono;
+    }
+
+    &:hover {
+      background: $brand-signal-red;
+      transform: translateY(-1px);
+    }
+  }
+
+  /* History list */
+  &__history-title {
+    font-family: $font-heading;
+    font-size: 1rem;
+    font-weight: 800;
+    color: $brand-ink-900;
+    margin: 0 0 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__empty {
+    background: $brand-mist;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    color: $brand-ink-500;
+    font-size: 0.9rem;
+
+    code {
+      background: #1a1a1a;
+      color: $brand-snow;
+      padding: 0.1rem 0.5rem;
+      border-radius: 3px;
+      font-family: $font-mono;
+    }
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid $brand-edge;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    background: $brand-snow;
+    transition: background .12s ease;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $brand-fog;
+    }
+
+    &:hover {
+      background: $brand-mist;
+    }
+  }
+
+  &__item-name code {
+    font-family: $font-mono;
+    font-size: 0.85rem;
+    color: $brand-ink-900;
+    font-weight: 500;
+  }
+
+  &__item-date {
+    font-family: $font-meta;
+    font-size: 0.78rem;
+    color: $brand-ink-500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__item-download,
+  &__item-locked {
+    display: inline-flex;
+    &[hidden] { display: none; }   // guest: ẩn nút tải, chỉ hiện 🔒 (JS toggle qua `hidden`)
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  &__item-download {
+    background: $brand-ink-900;
+    color: $brand-snow;
+    transition: background .15s ease;
+    &:hover { background: $brand-signal-red; }
+  }
+
+  &__item-locked {
+    background: #f1f1f1;
+    color: $brand-ink-400;
+    cursor: not-allowed;
+  }
+
+  &__foot {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid $brand-edge;
+    font-size: 0.82rem;
+    color: $brand-ink-500;
+    line-height: 1.65;
+
+    p { margin: 0 0 0.55rem; }
+    p:last-child { margin: 0; }
+
+    code {
+      background: #f1f1f1;
+      padding: 0.08rem 0.35rem;
+      border-radius: 3px;
+      font-family: $font-mono;
+      font-size: 0.85em;
+    }
+
+    strong { color: $brand-ink-800; }
+  }
+}
+
+/* ===== BÁO CÁO TỔNG KẾT — MOBILE (≤720px) ===== */
+@media (max-width: 720px) {
+  .bao-cao {
+    padding: 0 1rem;
+    margin: 1rem auto 2rem;
+
+    &__title { font-size: 1.5rem; }
+    &__desc  { font-size: 0.88rem; }
+
+    &__auth-state {
+      padding: 0.85rem;
+      gap: 0.55rem;
+      strong { font-size: 0.88rem; }
+      p { font-size: 0.82rem; }
+    }
+
+    &__latest {
+      padding: 1rem 1.1rem;
+    }
+
+    &__item {
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+      padding: 0.75rem 0.85rem;
+
+      &-date {
+        grid-column: 1 / -1;
+        font-size: 0.7rem;
+      }
+    }
+
+    &__foot {
+      font-size: 0.76rem;
+    }
+  }
+}

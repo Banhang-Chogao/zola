@@ -1,0 +1,211 @@
+{
+  "generated_at": "2026-06-24T18:13:24.778581+00:00",
+  "domain": "seomoney.org",
+  "summary": {
+    "status": "ok",
+    "fail": 0,
+    "warn": 0,
+    "unknown": 0,
+    "pass": 9
+  },
+  "checks": [
+    {
+      "check": "R1-cname-file",
+      "status": "pass",
+      "detail": "static/CNAME = seomoney.org"
+    },
+    {
+      "check": "R3-base-https",
+      "status": "pass",
+      "detail": "base_url = https://seomoney.org"
+    },
+    {
+      "check": "R2-host-match",
+      "status": "pass",
+      "detail": "base_url host == CNAME (seomoney.org)"
+    },
+    {
+      "check": "L0-ns",
+      "status": "pass",
+      "detail": "seomoney.org NS → Cloudflare ['khalid.ns.cloudflare.com', 'ursula.ns.cloudflare.com']",
+      "resolved": [
+        "ursula.ns.cloudflare.com",
+        "khalid.ns.cloudflare.com"
+      ]
+    },
+    {
+      "check": "L1-apex-a",
+      "status": "pass",
+      "detail": "seomoney.org → GitHub Pages IPs ['185.199.108.153', '185.199.109.153', '185.199.110.153', '185.199.111.153']",
+      "resolved": [
+        "185.199.109.153",
+        "185.199.111.153",
+        "185.199.110.153",
+        "185.199.108.153"
+      ]
+    },
+    {
+      "check": "L2-www",
+      "status": "pass",
+      "detail": "www.seomoney.org CNAME → ['banhang-chogao.github.io']"
+    },
+    {
+      "check": "L3-http",
+      "status": "pass",
+      "detail": "https://seomoney.org/ returns 200 (served by GitHub Pages)",
+      "probe": {
+        "url": "https://seomoney.org/",
+        "ok": true,
+        "code": 200,
+        "server": "GitHub.com",
+        "cf_ray": "",
+        "is_1016": false
+      }
+    },
+    {
+      "check": "L4-origin",
+      "status": "pass",
+      "detail": "origin banhang-chogao.github.io reachable (HTTP 404)"
+    },
+    {
+      "check": "L5-www-redirect",
+      "status": "pass",
+      "detail": "https://www.seomoney.org/ → 301 https://seomoney.org/ (redirects to apex)",
+      "probe": {
+        "code": 301,
+        "location": "https://seomoney.org/"
+      }
+    }
+  ],
+  "expected": {
+    "apex_a_records": [
+      "185.199.108.153",
+      "185.199.109.153",
+      "185.199.110.153",
+      "185.199.111.153"
+    ],
+    "www_cname": "banhang-chogao.github.io",
+    "ssl_mode": "Full (Strict)"
+  },
+  "history": [
+    {
+      "at": "2026-06-24T18:13:24.778581+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-24T10:34:59.047629+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-23T22:47:11.929172+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-23T17:31:56.611777+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-23T10:48:51.554297+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-22T22:28:21.361902+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-22T16:18:47.839029+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-21T22:01:01.045533+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-21T16:58:13.752978+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-21T10:55:06.301078+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-20T21:57:10.019880+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-20T17:54:38.944665+00:00",
+      "domain": "seomoney.org",
+      "status": "ok",
+      "fail": 0,
+      "warn": 0
+    },
+    {
+      "at": "2026-06-20T06:36:38.030564+00:00",
+      "domain": "banhang-chogao.github.io",
+      "status": "warn",
+      "fail": 0,
+      "warn": 2
+    },
+    {
+      "at": "2026-06-20T06:36:15.829505+00:00",
+      "domain": "banhang-chogao.github.io",
+      "status": "warn",
+      "fail": 0,
+      "warn": 2
+    },
+    {
+      "at": "2026-06-20T06:35:41.563913+00:00",
+      "domain": "seomoney.org",
+      "status": "warn",
+      "fail": 0,
+      "warn": 2
+    },
+    {
+      "at": "2026-06-20T06:34:38.135573+00:00",
+      "domain": "seomoney.org",
+      "status": "warn",
+      "fail": 0,
+      "warn": 2
+    },
+    {
+      "at": "2026-06-20T06:34:37.227284+00:00",
+      "domain": "banhang-chogao.github.io",
+      "status": "warn",
+      "fail": 0,
+      "warn": 2
+    }
+  ]
+}

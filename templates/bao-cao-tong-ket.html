@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{# AdSense-readiness: trang nội bộ/QA/dashboard/thin → không index, loại khỏi sitemap #}
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}Báo cáo tổng kết | {{ config.title }}{% endblock %}
+
+{% block main %}
+    <section class="bao-cao">
+        <header class="bao-cao__head">
+            <h1 class="bao-cao__title">📋 BÁO CÁO TỔNG KẾT</h1>
+            <p class="bao-cao__desc">
+                Lịch sử các báo cáo deploy status được tạo qua phím tắt
+                <code>??</code> trong chat. Báo cáo được lưu an toàn trên backend,
+                <strong>chỉ admin đăng nhập GitHub</strong> mới xem và tải về được.
+            </p>
+        </header>
+
+        {# Auth gate — JS (bao-cao.js) toggle theo /auth/me. Mặc định hiện anon. #}
+        <div class="bao-cao__auth" data-auth-gate>
+            <div class="bao-cao__auth-state" data-auth-anon>
+                <span class="bao-cao__auth-icon">🔒</span>
+                <div>
+                    <strong>Bạn đang ở chế độ KHÁCH</strong>
+                    <p>Đăng nhập bằng tài khoản GitHub admin để xem và tải báo cáo
+                    <code>.md</code>. File KHÔNG nằm trong repo public nên khách
+                    không thể truy cập trực tiếp.</p>
+                    <button type="button" class="editor-btn editor-btn--primary" data-action="login">
+                        Đăng nhập với GitHub
+                    </button>
+                </div>
+            </div>
+            <div class="bao-cao__auth-state bao-cao__auth-state--admin" data-auth-admin hidden>
+                <span class="bao-cao__auth-icon">✅</span>
+                <div>
+                    <strong>Đã xác thực admin GitHub</strong>
+                    <p>Bạn có thể tải tất cả file <code>.md</code> báo cáo về máy.</p>
+                </div>
+            </div>
+        </div>
+
+        {# Danh sách báo cáo — JS render từ backend (/reports). #}
+        <div data-reports>
+            <p class="bao-cao__empty">Đang kiểm tra phiên đăng nhập…</p>
+        </div>
+
+        <footer class="bao-cao__foot">
+            <p>
+                <strong>Cơ chế bảo mật:</strong> báo cáo lưu trên backend FastAPI
+                (Redis), chỉ serve qua endpoint <code>/reports/*</code> sau khi
+                xác thực OAuth GitHub + email whitelist. File KHÔNG nằm trong
+                <code>static/</code> hay repo public → khách không tải trực tiếp được.
+            </p>
+        </footer>
+    </section>
+
+    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
+    <script src="{{ get_url(path='js/bao-cao.js') }}" defer></script>
+{% endblock main %}
+
+{% block sidebar %}{% endblock %}
