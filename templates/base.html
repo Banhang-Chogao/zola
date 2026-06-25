@@ -3,7 +3,6 @@
 {% import "macros/google-rank.html" as google_rank %}
 {% import "macros/seo-reality.html" as seo_reality %}
 {% import "macros/img.html" as img %}
-{% import "macros/footer-countdown.html" as footer_countdown %}
 {% import "macros/datetime.html" as dt %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
@@ -1224,8 +1223,6 @@
             </div>
         </div>
 
-        {{ footer_countdown::render() }}
-
         {# ===== FOOTER TAGS =====
            Tag cloud chuyển từ sidebar xuống footer: thẻ là điều hướng phụ trợ,
            KHÔNG phải nội dung chính. Sắp theo số bài giảm dần (page_count) →
@@ -1278,11 +1275,6 @@
 
         <div class="container site-footer__main">
             <div class="site-footer__left">
-                <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
-                   title="Cấu hình đếm ngược footer">
-                    ⏱ Countdown
-                </a>
-            </div>
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
                 <p class="site-footer__legal">
@@ -1330,8 +1322,7 @@
 
         {# Footer deploy-status blocks removed (Deployment Status card + "🚀 Deploy" strip)
            — footer layout cleanup. Deploy data + standalone /tools/deploy-monitor/ page
-           are intentionally kept; only the footer rendering was removed. Countdown stays
-           (widget at footer_countdown::render() + nav link in .site-footer__left). #}
+           are intentionally kept; only the footer rendering was removed. #}
 
         {# WD Heartbeat Stats — WWDC26 calm-first deploy overview (build-time) #}
         {% include "partials/wd-heartbeat.html" %}
@@ -1350,7 +1341,6 @@
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/dashboard.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-health.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/ga-stats-refresh.js') }}?v={{ asset_version }}" defer></script>
