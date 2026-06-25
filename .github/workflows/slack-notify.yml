@@ -1,8 +1,11 @@
 name: Slack Commit Notification
 
 # Trigger push lên bất kỳ branch → gửi notification về Slack.
-# FIX: truncate commit message để không vượt Slack Block Kit limit 3000 chars
-# (squash merge với nhiều commits có thể tạo message rất dài → invalid_blocks).
+#
+# Dùng generator nội bộ scripts/slack_notify_ux.py (gửi trực tiếp qua urllib) thay
+# cho slackapi/slack-github-action. Lý do: action đó từng vỡ workflow khi version
+# bị bump (V2 — input v1 ≠ v2/v3). Generator stdlib-only → không còn version churn,
+# tự truncate theo limit Block Kit 3000 chars, layout đẹp + human (header/context/button).
 #
 # Yêu cầu GitHub Secret: SLACK_WEBHOOK_URL (lấy từ Slack Incoming Webhook).
 
@@ -14,9 +17,6 @@ on:
 permissions:
   contents: read
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   notify:
     # Bỏ qua commit có [skip ci]
@@ -24,69 +24,31 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - name: Truncate commit message
-        id: trim
-        env:
-          FULL_MSG: ${{ github.event.head_commit.message }}
-        run: |
-          # Cap 2500 chars (buffer cho prefix + JSON escape)
-          # Slack Block Kit text limit = 3000 chars per element
-          MSG="${FULL_MSG:0:2500}"
-          if [ ${#FULL_MSG} -gt 2500 ]; then
-            MSG="$MSG\n\n... [truncated, full: ${#FULL_MSG} chars]"
-          fi
-          # Multiline env var for next step
-          {
-            echo 'msg<<EOF'
-            echo "$MSG"
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+      - name: Checkout (cần script generator)
+        uses: actions/checkout@v4
 
-      - name: Send commit info to Slack
-        uses: slackapi/slack-github-action@v3.0.3
-        with:
-          # slack-github-action v2+ đổi API: dùng input `webhook` +
-          # `webhook-type: incoming-webhook` thay cho env SLACK_WEBHOOK_URL/TYPE
-          # kiểu v1. (Dependabot từng bump v1.27.0 → v3.0.3 làm vỡ workflow.)
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "text": "New commit on ${{ github.repository }}",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "Commit mới trên ${{ github.repository }}"
-                  }
-                },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n`${{ github.ref_name }}`"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author:*\n${{ github.actor }}"
-                    }
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ${{ toJSON(format('*Commit message:*\n{0}', steps.trim.outputs.msg)) }}
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|Xem commit trên GitHub>"
-                  }
-                }
-              ]
-            }
+      - name: Gửi notification commit qua generator
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          ACTOR: ${{ github.actor }}
+          SHA: ${{ github.sha }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+        run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "SLACK_WEBHOOK_URL chưa cấu hình — bỏ qua."
+            exit 0
+          fi
+          # Dòng đầu commit = summary (title). Phần thân giữ trong link "Xem commit".
+          SUMMARY="${COMMIT_MSG%%$'\n'*}"
+          SHORT="${SHA:0:7}"
+          python3 scripts/slack_notify_ux.py info \
+            --title "Commit mới: ${SUMMARY}" \
+            --message "*${ACTOR}* vừa đẩy 1 commit lên \`${BRANCH}\`. Bấm để xem chi tiết thay đổi 👇" \
+            --host "$REPO" \
+            --context-extra "🔀 ${BRANCH}  ·  🧬 ${SHORT}" \
+            --button-text "Xem commit" \
+            --button-url "$COMMIT_URL" \
+            --send

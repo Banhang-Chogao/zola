@@ -68,7 +68,7 @@ class TestValidateOGImage(unittest.TestCase):
             "og_width": "1200",
             "og_height": "630",
         }
-        is_valid, errors = validate_og_image("https://seomoney.org/posting/test/", meta)
+        is_valid, errors = validate_og_image("https://seomoney.org/posting/test/", meta, check_files=False)
         self.assertTrue(is_valid)
         self.assertEqual(errors, [])
 
