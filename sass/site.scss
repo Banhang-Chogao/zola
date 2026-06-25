@@ -75,6 +75,7 @@
 @import "home-wwdc";
 @import "wwdc-tokens";
 @import "wwdc-components";
+@import "wwdc-listing";
 @import "post-wwdc";
 
 @import "pr_sentinel";
@@ -86,9 +87,15 @@
 @import "island-v2";
 /* @import "island"; — replaced by island-v2 (WWDC redesign) */
 
+/* Nokia theme — color skin thứ 2 (opt-in qua switcher, Hilda vẫn default).
+   Import sau theme-overrides để token + accent remap thắng sạch. Color-only,
+   không đụng layout → đặt trước mobile-hardening. */
+@import "nokia-theme";
+
 /* MoMo theme test — experimental accent re-skin (branch
    feat/momo-theme-test). MUST come after oasis/island-v2 so its
-   scoped token overrides win. Revert = remove this one line. */
+   scoped token overrides win. Revert = remove this one line.
+   MoMo pink (#A50064) + teal (#00AEC7) kept for test. */
 @import "momo-skin";
 
 /* Mobile readability hardening — MUST stay last so its defensive
