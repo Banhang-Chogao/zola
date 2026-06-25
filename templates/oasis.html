@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+{% import "macros/img.html" as img %}
+
+{% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
+{% block description %}{{ section.description }}{% endblock %}
+{# Full-width catalogue — no sidebar, like /wwdc26/. #}
+{% block sidebar %}{% endblock sidebar %}
+{% block sidebar_seo_widgets %}{% endblock sidebar_seo_widgets %}
+
+{% block extra_head %}
+<style>
+  .layout-grid:has(.wwdc) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.wwdc) { max-width: 1180px; }
+
+  .wwdc {
+    --w-ink:        var(--c-text-heading, #0a0a0a);
+    --w-body:       var(--c-text-body, #333);
+    --w-muted:      var(--c-text-muted, #6a6a6a);
+    /* S-DNA teal accent — synchronised with the Island dashboard + placeholder
+       (was WWDC blue). One institutional brand across home, cards, fallbacks. */
+    --w-blue:       #00A7A0;
+    --w-blue-hover: #00857F;
+    --w-blue-soft:  #DDF4F2;
+    --w-surface:    var(--c-bg-surface, #fff);
+    --w-page:       var(--c-bg-page, #f8f9fb);
+    --w-soft:       var(--c-bg-soft, #f4f4f4);
+    --w-border:     var(--c-border, #e3e3e3);
+    --w-border-strong: var(--c-border-strong, #d0d0d0);
+    --w-shadow:     0 2px 10px rgba(0,167,160,.10);
+    --w-shadow-lg:  0 12px 30px rgba(0,90,86,.16);
+    --w-radius:     10px;
+    --w-mono:       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --w-heading:    'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    font-family: inherit;
+    color: var(--w-body);
+    line-height: 1.62;
+    padding: 0 16px 64px;
+    margin: 0 auto;
+  }
+  .wwdc *, .wwdc *::before, .wwdc *::after { box-sizing: border-box; }
+
+  .wwdc__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 24px 0 16px;
+    border-bottom: 1px solid var(--w-border);
+  }
+  .wwdc__brand { display: flex; align-items: center; gap: 12px; }
+  .wwdc__mark {
+    width: 38px; height: 38px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--w-blue);
+    border-radius: var(--w-radius);
+    color: var(--w-blue);
+    font-family: var(--w-heading);
+    font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;
+  }
+  .wwdc__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+  .wwdc__brand-name { font-family: var(--w-heading); font-size: 1.15rem; font-weight: 800; color: var(--w-ink); letter-spacing: -0.02em; }
+  .wwdc__brand-tag { font-size: 0.74rem; color: var(--w-muted); }
+  .wwdc__top-right { font-family: var(--w-mono); font-size: 0.8rem; color: var(--w-muted); }
+  .wwdc__top-right strong { color: var(--w-blue); }
+
+  .wwdc__hero {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--w-border);
+  }
+  .wwdc__eyebrow {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--w-blue); margin: 0 0 12px;
+  }
+  .wwdc__title {
+    font-family: var(--w-heading);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+    color: var(--w-ink); margin: 0 0 12px;
+  }
+  .wwdc__sub {
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    line-height: 1.6; color: var(--w-muted); margin: 0 0 24px; max-width: 64ch;
+  }
+  .wwdc__stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px; margin-top: 24px; padding-top: 24px;
+    border-top: 1px solid var(--w-border);
+  }
+  .wwdc__stat-n { font-size: 1.7rem; font-weight: 800; color: var(--w-ink); letter-spacing: -0.02em; line-height: 1; }
+  .wwdc__stat-l { display: block; margin-top: 6px; font-size: 0.78rem; color: var(--w-muted); }
+
+  .wwdc__filters {
+    position: sticky; top: 0; z-index: 6;
+    display: flex; flex-direction: column; gap: 14px;
+    padding: 20px 0; margin: 8px 0;
+    background: color-mix(in srgb, var(--w-page) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--w-border);
+  }
+  .wwdc__search {
+    width: 100%;
+    padding: 11px 16px;
+    border: 1px solid var(--w-border);
+    border-radius: var(--w-radius);
+    font-size: 0.95rem;
+    background: var(--w-surface);
+    color: var(--w-ink);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .wwdc__search:focus {
+    outline: none;
+    border-color: var(--w-blue);
+    box-shadow: 0 0 0 3px var(--w-blue-soft);
+  }
+  .wwdc__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wwdc__chip {
+    display: inline-flex; align-items: center;
+    padding: 6px 14px;
+    border: 1px solid var(--w-border);
+    border-radius: 999px;
+    background: var(--w-surface);
+    color: var(--w-muted);
+    font-size: 0.82rem; font-weight: 600;
+    line-height: 1.3; cursor: pointer; user-select: none;
+    white-space: nowrap;
+    transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+  }
+  .wwdc__chip:hover { border-color: var(--w-blue); color: var(--w-blue); }
+  .wwdc__chip--active { background: var(--w-blue); color: #fff; border-color: var(--w-blue); }
+  .wwdc__chip--active:hover { background: var(--w-blue-hover); border-color: var(--w-blue-hover); color: #fff; }
+  .wwdc__chip-count { font-family: var(--w-mono); font-size: 0.68rem; margin-left: 6px; opacity: 0.7; }
+
+  .wwdc__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 20px;
+    margin: 24px 0 8px;
+  }
+  .wwdc__card {
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    border: 1px solid var(--w-border);
+    border-radius: var(--w-radius);
+    background: var(--w-surface);
+    overflow: hidden;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  }
+  .wwdc__card:hover {
+    border-color: var(--w-blue);
+    box-shadow: var(--w-shadow-lg);
+    transform: translateY(-3px);
+  }
+  .wwdc__card:focus-visible {
+    outline: none; border-color: var(--w-blue);
+    box-shadow: 0 0 0 3px var(--w-blue-soft);
+  }
+
+  /* Thumbnail — custom cover or the S-DNA placeholder fallback. */
+  .wwdc__thumb {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--w-blue-soft);
+    overflow: hidden;
+    border-bottom: 1px solid var(--w-border);
+  }
+  .wwdc__thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.45s cubic-bezier(.2,.6,.2,1);
+  }
+  .wwdc__card:hover .wwdc__thumb img { transform: scale(1.045); }
+
+  .wwdc__card-body {
+    display: flex; flex-direction: column; gap: 9px;
+    padding: 15px 17px 16px; flex: 1 1 auto;
+  }
+  .wwdc__card-cat-pill {
+    align-self: flex-start;
+    padding: 3px 11px; border-radius: 999px;
+    background: var(--w-blue-soft); color: var(--w-blue);
+    font-size: 0.71rem; font-weight: 700; letter-spacing: 0.01em;
+  }
+  .wwdc__card-title {
+    font-family: var(--w-heading);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    font-weight: 800; line-height: 1.3; letter-spacing: -0.01em;
+    color: var(--w-ink); margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .wwdc__card:hover .wwdc__card-title { color: var(--w-blue-hover); }
+  .wwdc__card-desc {
+    font-size: 0.84rem; line-height: 1.5; color: var(--w-muted); margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .wwdc__card-foot {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: auto; padding-top: 6px;
+    font-family: var(--w-mono); font-size: 0.71rem; color: var(--w-muted);
+  }
+  .wwdc__card-foot .sep { color: var(--w-border-strong); }
+  .wwdc__card-foot .wwdc__card-rt { font-weight: 700; color: var(--w-blue); }
+
+  .wwdc__count { font-size: 0.84rem; font-weight: 600; color: var(--w-muted); margin: 20px 0 0; letter-spacing: 0.02em; }
+  .wwdc__count strong { color: var(--w-ink); font-family: var(--w-mono); }
+  .wwdc__empty { text-align: center; padding: 48px 24px; color: var(--w-muted); font-size: 0.92rem; }
+
+  .wwdc__foot {
+    padding: 40px 0 8px; text-align: center;
+    font-size: 0.82rem; color: var(--w-muted);
+    border-top: 1px solid var(--w-border); margin-top: 32px;
+  }
+  .wwdc__foot a { color: var(--w-blue); }
+
+  @media (max-width: 720px) {
+    .wwdc__hero { padding: 28px 0 24px; }
+    .wwdc__grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .wwdc__card-body { padding: 13px 15px 14px; }
+    .wwdc__filters { position: static; padding: 16px 0; margin: 0; }
+  }
+  @media (max-width: 400px) {
+    .wwdc__chip { padding: 5px 10px; font-size: 0.76rem; }
+    .wwdc__chips { gap: 6px; }
+  }
+</style>
+{% endblock %}
+
+{% block main %}
+{# OASIS — blog-post catalogue (WWDC26 design language). Aggregate every post
+   (posting + baochi), newest first; client-side search + category filter. #}
+{% set posting = get_section(path="posting/_index.md") %}
+{% set baochi = get_section(path="baochi/_index.md") %}
+{% set_global all_posts = [] %}
+{% for p in posting.pages | concat(with=baochi.pages) %}
+  {% if not p.extra.feed_anchor %}{% set_global all_posts = all_posts | concat(with=[p]) %}{% endif %}
+{% endfor %}
+{% set all_posts = all_posts | sort(attribute="date") | reverse %}
+
+{% set_global all_tags = [] %}
+{% set_global cat_list = [] %}
+{% for p in all_posts %}
+  {% if p.taxonomies.tags %}{% for t in p.taxonomies.tags %}{% set_global all_tags = all_tags | concat(with=[t]) %}{% endfor %}{% endif %}
+  {% set_global pc0 = "" %}
+  {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pc0 == "" and c != "Tất cả" and c != "premium" %}{% set_global pc0 = c %}{% endif %}{% endfor %}{% endif %}
+  {% if pc0 %}{% set_global cat_list = cat_list | concat(with=[pc0]) %}{% endif %}
+{% endfor %}
+{% set all_tags = all_tags | unique %}
+{% set cats = cat_list | unique | sort %}
+
+<section class="wwdc">
+  <div class="wwdc__top">
+    <div class="wwdc__brand">
+      <span class="wwdc__mark">{{ config.title | truncate(length=1, end="") }}</span>
+      <span class="wwdc__brand-text">
+        <span class="wwdc__brand-name">{{ config.title }}</span>
+        <span class="wwdc__brand-tag">Thư viện bài viết</span>
+      </span>
+    </div>
+    <span class="wwdc__top-right"><strong>Bài viết</strong> · {{ all_posts | length }}</span>
+  </div>
+
+  <header class="wwdc__hero">
+    <p class="wwdc__eyebrow">Thư viện {{ config.title }}</p>
+    <h1 class="wwdc__title">{{ section.title | default(value="Bài viết") }}</h1>
+    <p class="wwdc__sub">{{ section.description | default(value=config.extra.tagline) }}</p>
+    <div class="wwdc__stats">
+      <div><span class="wwdc__stat-n">{{ all_posts | length }}</span><span class="wwdc__stat-l">Bài viết</span></div>
+      <div><span class="wwdc__stat-n">{{ cats | length }}</span><span class="wwdc__stat-l">Chuyên mục</span></div>
+      <div><span class="wwdc__stat-n">{{ all_tags | length }}</span><span class="wwdc__stat-l">Chủ đề</span></div>
+    </div>
+  </header>
+
+  <div class="wwdc__filters">
+    <input class="wwdc__search" type="text" id="wwdc-search" placeholder="Tìm theo tiêu đề hoặc mô tả…" autocomplete="off" aria-label="Tìm kiếm bài viết" />
+    <div class="wwdc__chips" id="wwdc-chips" role="group" aria-label="Lọc theo chuyên mục">
+      <button class="wwdc__chip wwdc__chip--active" type="button" data-filter="all">
+        Tất cả <span class="wwdc__chip-count">{{ all_posts | length }}</span>
+      </button>
+      {% for cat in cats %}
+      {% set_global ccount = 0 %}{% for x in cat_list %}{% if x == cat %}{% set_global ccount = ccount + 1 %}{% endif %}{% endfor %}
+      <button class="wwdc__chip" type="button" data-filter="{{ cat }}">
+        {{ cat }} <span class="wwdc__chip-count">{{ ccount }}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <p class="wwdc__count" id="wwdc-count" aria-live="polite">
+    Đang hiển thị <strong id="wwdc-shown">{{ all_posts | length }}</strong> / {{ all_posts | length }} bài
+  </p>
+
+  <div class="wwdc__grid" id="wwdc-grid">
+    {% for p in all_posts %}
+    {% set_global pc = "" %}
+    {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pc == "" and c != "Tất cả" and c != "premium" %}{% set_global pc = c %}{% endif %}{% endfor %}{% endif %}
+    {# cycle the 3 S-DNA placeholder variants (doc/insights/compass) on fallback;
+       custom covers override. `loop.index0 % 3` yields a FLOAT in this Tera build,
+       so `phm == 1` (int) is strictly false — coerce to int before comparing. #}
+    {% set_global phm = loop.index0 % 3 %}
+    {% set_global phm = phm | int %}
+    <a class="wwdc__card" href="{{ p.permalink }}" data-category="{{ pc }}" data-title="{{ p.title | lower }}" data-desc="{{ p.description | default(value='') | lower }}">
+      <span class="wwdc__thumb">
+        <img src="{% if p.extra.thumbnail %}{{ img::thumb_src(thumb=p.extra.thumbnail) }}{% elif phm == 1 %}{{ get_url(path='img/placeholder/placeholder-2.svg') }}{% elif phm == 2 %}{{ get_url(path='img/placeholder/placeholder-3.svg') }}{% else %}{{ get_url(path='img/placeholder/placeholder.svg') }}{% endif %}" alt="{{ p.title }}" loading="lazy" decoding="async" width="320" height="200">
+      </span>
+      <div class="wwdc__card-body">
+        {% if pc %}<span class="wwdc__card-cat-pill">{{ pc }}</span>{% endif %}
+        <h3 class="wwdc__card-title">{{ p.title }}</h3>
+        <p class="wwdc__card-desc">{{ p.description | default(value=p.summary | default(value="") | striptags) | truncate(length=140) }}</p>
+        <div class="wwdc__card-foot">
+          <span class="wwdc__card-rt">{{ p.reading_time }} phút đọc</span>
+          {% if p.date %}<span class="sep">·</span><span>{{ p.date | date(format="%d.%m.%Y") }}</span>{% endif %}
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <p class="wwdc__empty" id="wwdc-empty" hidden>Không tìm thấy bài viết nào khớp. Thử từ khoá hoặc chuyên mục khác.</p>
+
+  <footer class="wwdc__foot">
+    <p>Thư viện bài viết {{ config.title }} — bố cục lấy cảm hứng từ <a href="{{ config.base_url }}/wwdc26/">WWDC26</a> và <a href="{{ config.base_url }}/wwdc26-branding/">Branding Guideline</a>.</p>
+  </footer>
+</section>
+
+<script>
+  (function () {
+    var search = document.getElementById('wwdc-search');
+    var grid   = document.getElementById('wwdc-grid');
+    var chips  = document.getElementById('wwdc-chips');
+    var count  = document.getElementById('wwdc-shown');
+    var empty  = document.getElementById('wwdc-empty');
+    if (!grid) return;
+    var cards  = grid.querySelectorAll('.wwdc__card');
+    var activeCat = 'all';
+
+    function filter() {
+      var q = (search.value || '').toLowerCase().trim();
+      var shown = 0;
+      cards.forEach(function (card) {
+        var title = card.dataset.title || '';
+        var desc  = card.dataset.desc || '';
+        var cat   = card.dataset.category || '';
+        var matchSearch = !q || title.indexOf(q) !== -1 || desc.indexOf(q) !== -1;
+        var matchCat    = activeCat === 'all' || cat === activeCat;
+        var show = matchSearch && matchCat;
+        card.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      count.textContent = String(shown);
+      empty.hidden = shown !== 0;
+    }
+
+    search.addEventListener('input', filter);
+    chips.addEventListener('click', function (e) {
+      var btn = e.target.closest('.wwdc__chip');
+      if (!btn) return;
+      chips.querySelectorAll('.wwdc__chip').forEach(function (c) {
+        c.classList.toggle('wwdc__chip--active', c === btn);
+      });
+      activeCat = btn.dataset.filter;
+      filter();
+    });
+  })();
+</script>
+{% endblock %}

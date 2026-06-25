@@ -183,82 +183,105 @@
   </section>
   {% endif %}
 
-  {# ===== 04 · LATEST + RAIL ===== #}
+  {# ===== 04 · MỚI NHẤT — 4×2 thumbnail + colored title grid ===== #}
   <section aria-labelledby="isl-latest">
     <div class="island__sec-head">
       <span class="island__sec-num">04</span>
       <h2 class="island__sec-title" id="isl-latest">Mới nhất &amp; đáng đọc</h2>
       <a class="island__sec-link" href="{{ posting.permalink }}">Kho bài viết →</a>
     </div>
-    <div class="island__grid">
+    <div class="island__newest">
+      {% for p in latest %}
+      {% set_global pcat = "" %}
+      {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pcat == "" and c != "Tất cả" and c != "premium" %}{% set_global pcat = c %}{% endif %}{% endfor %}{% endif %}
+      <a class="island__ncard island__ncard--{{ loop.index0 % 8 }}" href="{{ p.permalink }}">
+        <span class="island__ncard-thumb">
+          <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}" loading="lazy" decoding="async" width="300" height="180">
+        </span>
+        <span class="island__ncard-title">
+          {% if pcat %}<span class="island__ncard-cat">{{ pcat }}</span>{% endif %}
+          <span class="island__ncard-text">{{ p.title }}</span>
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
 
-      {# main: latest posts (image + title) #}
-      <div class="island__posts">
-        {% for p in latest %}
-        {% set_global pcat = "" %}
-        {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pcat == "" and c != "Tất cả" and c != "premium" %}{% set_global pcat = c %}{% endif %}{% endfor %}{% endif %}
-        <a class="island__post" href="{{ p.permalink }}">
-          <span class="island__post-thumb">
-            <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}" loading="lazy" decoding="async" width="132" height="99">
-          </span>
-          <span class="island__post-body">
-            {% if pcat %}<span class="island__post-cat">{{ pcat }}</span>{% endif %}
-            <h3 class="island__post-title">{{ p.title }}</h3>
-            <span class="island__post-meta">
-              {% if p.date %}<span>{{ p.date | date(format="%d.%m.%Y") }}</span>{% endif %}
-              <span>{{ p.reading_time }}′ đọc</span>
-            </span>
-          </span>
-        </a>
-        {% endfor %}
+  {# ===== 05 · BẢNG XẾP HẠNG & TRẠNG THÁI (rail widgets) ===== #}
+  <section aria-labelledby="isl-board">
+    <div class="island__sec-head">
+      <span class="island__sec-num">05</span>
+      <h2 class="island__sec-title" id="isl-board">Bảng xếp hạng &amp; trạng thái</h2>
+    </div>
+    <div class="island__board">
+
+      <div class="island__widget">
+        <div class="island__widget-head"><h3 class="island__widget-title">Bảng xếp hạng · Đọc chuyên sâu</h3></div>
+        <div class="island__widget-body">
+          <ol class="island__ranks">
+            {% for p in ranks %}
+            <li class="island__rank">
+              <span class="island__rank-n">{{ loop.index }}</span>
+              <a class="island__rank-link" href="{{ p.permalink }}">{{ p.title }}</a>
+              <span class="island__rank-val">{{ p.reading_time }}′</span>
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
       </div>
 
-      {# rail: rankings + deploy + calendar + admin #}
-      <aside class="island__rail">
-
-        <div class="island__widget">
-          <div class="island__widget-head"><h3 class="island__widget-title">Bảng xếp hạng · Đọc chuyên sâu</h3></div>
-          <div class="island__widget-body">
-            <ol class="island__ranks">
-              {% for p in ranks %}
-              <li class="island__rank">
-                <span class="island__rank-n">{{ loop.index }}</span>
-                <a class="island__rank-link" href="{{ p.permalink }}">{{ p.title }}</a>
-                <span class="island__rank-val">{{ p.reading_time }}′</span>
-              </li>
-              {% endfor %}
-            </ol>
+      <div class="island__widget" data-island-weather>
+        <div class="island__widget-head"><h3 class="island__widget-title">Dự báo thời tiết</h3></div>
+        <div class="island__widget-body">
+          <div class="island__weather">
+            <span class="island__weather-icon" data-weather-icon aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="7.5" cy="7.5" r="2.8"/>
+                <line x1="7.5" y1="2" x2="7.5" y2="3.3"/><line x1="7.5" y1="11.7" x2="7.5" y2="13"/>
+                <line x1="2" y1="7.5" x2="3.3" y2="7.5"/><line x1="11.7" y1="7.5" x2="13" y2="7.5"/>
+                <line x1="3.6" y1="3.6" x2="4.5" y2="4.5"/><line x1="10.5" y1="10.5" x2="11.4" y2="11.4"/>
+                <path d="M17.5 20H10a3.5 3.5 0 0 1-.5-6.96A4.5 4.5 0 0 1 18 13.5a3.25 3.25 0 0 1-.5 6.5z"/>
+              </svg>
+            </span>
+            <span class="island__weather-main">
+              <span class="island__weather-city" data-weather-city>Hà Nội · Nhiều mây</span>
+              <span class="island__weather-aqi" data-weather-aqi>Mịn <strong>Tốt</strong> · Siêu mịn <strong>Tốt</strong></span>
+            </span>
+            <span class="island__weather-temp">
+              <span class="island__weather-now" data-weather-now>23<span class="island__weather-unit">°C</span></span>
+              <span class="island__weather-hl" data-weather-hl>25° / 20°</span>
+            </span>
           </div>
+          <p class="island__weather-note" data-weather-note>Dữ liệu mẫu · đang chờ kết nối API thời tiết.</p>
         </div>
+      </div>
 
-        <div class="island__widget">
-          <div class="island__widget-head"><h3 class="island__widget-title">Trạng thái triển khai</h3></div>
-          <div class="island__widget-body">
-            <div class="island__deploy" data-deploy-status>
-              <span class="island__deploy-dot"></span>
-              <span class="island__deploy-text"><strong data-deploy-badge>Đang đồng bộ…</strong><br><span data-deploy-text>Build sản xuất trên GitHub Pages</span></span>
-            </div>
-            <a class="island__sec-link" style="display:inline-block;margin-top:.7rem" href="{{ config.base_url | safe }}/tools/deploy-monitor/">Hàng đợi &amp; uptime →</a>
+      <div class="island__widget">
+        <div class="island__widget-head"><h3 class="island__widget-title">Trạng thái triển khai</h3></div>
+        <div class="island__widget-body">
+          <div class="island__deploy" data-deploy-status>
+            <span class="island__deploy-dot"></span>
+            <span class="island__deploy-text"><strong data-deploy-badge>Đang đồng bộ…</strong><br><span data-deploy-text>Build sản xuất trên GitHub Pages</span></span>
           </div>
+          <a class="island__sec-link" style="display:inline-block;margin-top:.7rem" href="{{ config.base_url | safe }}/tools/deploy-monitor/">Hàng đợi &amp; uptime →</a>
         </div>
+      </div>
 
-        <div class="island__widget">
-          <div class="island__widget-head"><h3 class="island__widget-title">Hôm nay</h3></div>
-          <div class="island__widget-body" data-island-cal>
-            <div class="island__cal-today">
-              <span class="island__cal-day" data-cal-day>—</span>
-              <span class="island__cal-rest" data-cal-rest><strong>—</strong></span>
-            </div>
-            <span class="island__cal-clock" data-cal-clock>--:--:--</span>
+      <div class="island__widget">
+        <div class="island__widget-head"><h3 class="island__widget-title">Hôm nay</h3></div>
+        <div class="island__widget-body" data-island-cal>
+          <div class="island__cal-today">
+            <span class="island__cal-day" data-cal-day>—</span>
+            <span class="island__cal-rest" data-cal-rest><strong>—</strong></span>
           </div>
+          <span class="island__cal-clock" data-cal-clock>--:--:--</span>
+          <a class="island__admin" style="margin-top:0.8rem" href="{{ config.base_url | safe }}/tools/admin-zone/">
+            <span class="island__ring" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <span>Admin · Đăng nhập GitHub</span>
+          </a>
         </div>
+      </div>
 
-        <a class="island__admin" href="{{ config.base_url | safe }}/tools/admin-zone/">
-          <span class="island__ring" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
-          <span>Admin · Đăng nhập GitHub</span>
-        </a>
-
-      </aside>
     </div>
   </section>
 
@@ -291,6 +314,39 @@
   }
   tick();
   setInterval(tick, 1000);
+})();
+</script>
+
+<script>
+/* Weather widget — sample data now; wired for a real API later.
+   When you provide an API key + endpoint, enable the fetch block below
+   and adjust mapApi() to the response schema. */
+(function () {
+  var card = document.querySelector('[data-island-weather]');
+  if (!card) return;
+
+  function render(d) {
+    var set = function (sel, html) { var el = card.querySelector(sel); if (el) el.innerHTML = html; };
+    set('[data-weather-city]', (d.city || '—') + ' · ' + (d.cond || '—'));
+    set('[data-weather-now]', (d.now != null ? d.now : '—') + '<span class="island__weather-unit">°C</span>');
+    set('[data-weather-hl]', (d.hi != null ? d.hi + '°' : '—') + ' / ' + (d.lo != null ? d.lo + '°' : '—'));
+    set('[data-weather-aqi]', 'Mịn <strong>' + (d.pm25 || '—') + '</strong> · Siêu mịn <strong>' + (d.pm10 || '—') + '</strong>');
+  }
+
+  // Dữ liệu mẫu hiện tại.
+  render({ city: 'Hà Nội', cond: 'Nhiều mây', now: 23, hi: 25, lo: 20, pm25: 'Tốt', pm10: 'Tốt' });
+
+  // TODO(weather API): bật khi có key/endpoint (cập nhật mapApi cho schema thực).
+  // var ENDPOINT = '', API_KEY = '', NOTE = card.querySelector('[data-weather-note]');
+  // function mapApi(j) {
+  //   return { city: j.name, cond: j.weather[0].description, now: Math.round(j.main.temp),
+  //            hi: Math.round(j.main.temp_max), lo: Math.round(j.main.temp_min),
+  //            pm25: j.aqi && j.aqi.pm25, pm10: j.aqi && j.aqi.pm10 };
+  // }
+  // fetch(ENDPOINT + '?q=Hanoi&units=metric&lang=vi&appid=' + API_KEY)
+  //   .then(function (r) { return r.json(); })
+  //   .then(function (j) { render(mapApi(j)); if (NOTE) NOTE.textContent = 'Cập nhật ' + new Date().toLocaleTimeString('vi-VN'); })
+  //   .catch(function () { if (NOTE) NOTE.textContent = 'Không kết nối được API thời tiết.'; });
 })();
 </script>
 {% endblock main %}
