@@ -1,0 +1,23 @@
+{# Minimal, theme-independent page meta line.
+   Restored as a site-level partial after the production theme switched to "zulma"
+   (the partial was previously supplied only by the linkita theme, so the include
+   in templates/page.html broke once linkita stopped being the active theme).
+   Guards on `page and page.date` so it never crashes on sections, paginators,
+   taxonomy lists, or any non-post page. Uses core page fields only — no extra.* required. #}
+{%- if page and page.date %}
+<div class="page-info">
+  <time datetime="{{ page.date | date(format='%+') }}">{{ page.date | date(format='%d/%m/%Y') }}</time>
+  {%- if page.updated and page.updated != page.date %}
+  <span class="page-info__sep" aria-hidden="true">·</span>
+  <span>Cập nhật {{ page.updated | date(format='%d/%m/%Y') }}</span>
+  {%- endif %}
+  {%- if page.reading_time %}
+  <span class="page-info__sep" aria-hidden="true">·</span>
+  <span>{{ page.reading_time }} phút đọc</span>
+  {%- endif %}
+  {%- if page.taxonomies and page.taxonomies.authors %}
+  <span class="page-info__sep" aria-hidden="true">·</span>
+  <span>{{ page.taxonomies.authors | join(sep=", ") }}</span>
+  {%- endif %}
+</div>
+{%- endif %}
