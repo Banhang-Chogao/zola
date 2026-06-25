@@ -1,0 +1,27 @@
+{# ============================================================
+   Copyright Declaration Box Partial
+   ============================================================
+   Displays copyright notice with:
+   - Blog name from config
+   - Year
+   - Email for inquiries
+   - Beautiful styled box (border-left, gradient bg)
+   ============================================================ #}
+
+<section class="copyright-box" aria-label="Tuyên bố bản quyền">
+  <div class="copyright-box__inner">
+    <div class="copyright-box__icon" aria-hidden="true">©</div>
+
+    <div class="copyright-box__content">
+      <p class="copyright-box__text">
+        <strong>© $YEAR {{ config.extra.author | default(value=config.author) }}</strong>.
+        Bài viết được đăng tải với mục đích <strong>chia sẻ kiến thức</strong>. Vui lòng ghi rõ nguồn khi sao chép hoặc trích dẫn.
+      </p>
+
+      {% set contact_email = config.extra.author_email | default(value="contact@seomoney.org") %}
+      <p class="copyright-box__contact">
+        📧 Mọi thắc mắc: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>
+      </p>
+    </div>
+  </div>
+</section>

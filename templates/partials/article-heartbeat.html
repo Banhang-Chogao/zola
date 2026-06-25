@@ -1,0 +1,33 @@
+{# ============================================================
+   Article Heartbeat Widget — Mini Deploy Status
+   ============================================================
+   Compact version of Pipeline Heartbeat for article end:
+   - Status indicator (● Online)
+   - Last check time
+   - Response time
+   - Minimal footprint
+   ============================================================ #}
+
+{% set hb = load_data(path="data/wd-heartbeat-stats.json", required=false) %}
+
+{% if hb %}
+  {# Calculate last check time (if available) #}
+  {% set last_check = hb.last_updated | default(value="") %}
+
+  <section class="article-heartbeat" aria-label="Trạng thái deploy">
+    <div class="article-heartbeat__badge">
+      <span class="article-heartbeat__status-dot" aria-hidden="true">●</span>
+      <span class="article-heartbeat__status-text">Online</span>
+    </div>
+
+    <div class="article-heartbeat__info">
+      {% if last_check %}
+        <small class="article-heartbeat__meta">Last check: {{ last_check }}</small>
+      {% endif %}
+
+      {% if hb.last_response_time %}
+        <small class="article-heartbeat__meta">Response: {{ hb.last_response_time }}ms</small>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
