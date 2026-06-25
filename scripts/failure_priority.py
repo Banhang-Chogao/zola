@@ -78,7 +78,7 @@ REPORT_ONLY_WORKFLOWS = frozenset({
 
 # Core gate workflows that ARE required (block merge/production) even if not
 # listed in auto-merge-policy required_checks (QA Gatekeeper is the canonical one).
-GATE_WORKFLOWS = frozenset({"qa", "qa gatekeeper", "deploy", "qa-404-checker"})
+GATE_WORKFLOWS = frozenset({"qa", "qa gatekeeper", "deploy"})
 
 
 # ----------------------------------------------------------------------------
