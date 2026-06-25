@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros/img.html" as img %}
 
 {% block title %}{{ section.title }} | {{ config.title }}{% endblock %}
 {% block description %}{{ section.description }}{% endblock %}
@@ -15,16 +16,18 @@
     --w-ink:        var(--c-text-heading, #0a0a0a);
     --w-body:       var(--c-text-body, #333);
     --w-muted:      var(--c-text-muted, #6a6a6a);
-    --w-blue:       var(--c-accent, #003784);
-    --w-blue-hover: var(--c-accent-hover, #002566);
-    --w-blue-soft:  var(--c-accent-soft, #e8edf5);
+    /* S-DNA teal accent — synchronised with the Island dashboard + placeholder
+       (was WWDC blue). One institutional brand across home, cards, fallbacks. */
+    --w-blue:       #00A7A0;
+    --w-blue-hover: #00857F;
+    --w-blue-soft:  #DDF4F2;
     --w-surface:    var(--c-bg-surface, #fff);
     --w-page:       var(--c-bg-page, #f8f9fb);
     --w-soft:       var(--c-bg-soft, #f4f4f4);
     --w-border:     var(--c-border, #e3e3e3);
     --w-border-strong: var(--c-border-strong, #d0d0d0);
-    --w-shadow:     var(--c-shadow-md, 0 2px 8px rgba(0,55,132,.08));
-    --w-shadow-lg:  var(--c-shadow-lg, 0 8px 24px rgba(0,55,132,.12));
+    --w-shadow:     0 2px 10px rgba(0,167,160,.10);
+    --w-shadow-lg:  0 12px 30px rgba(0,90,86,.16);
     --w-radius:     10px;
     --w-mono:       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     --w-heading:    'Ericsson Hilda', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -128,52 +131,73 @@
 
   .wwdc__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 20px;
     margin: 24px 0 8px;
   }
   .wwdc__card {
-    display: flex; flex-direction: column; gap: 8px;
+    display: flex; flex-direction: column;
     text-decoration: none; color: inherit;
-    padding: 20px;
     border: 1px solid var(--w-border);
     border-radius: var(--w-radius);
     background: var(--w-surface);
+    overflow: hidden;
     transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
   }
   .wwdc__card:hover {
-    border-color: var(--w-border-strong);
+    border-color: var(--w-blue);
     box-shadow: var(--w-shadow-lg);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
   }
-  .wwdc__card-meta {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 0.75rem; font-weight: 600; color: var(--w-muted);
+  .wwdc__card:focus-visible {
+    outline: none; border-color: var(--w-blue);
+    box-shadow: 0 0 0 3px var(--w-blue-soft);
   }
-  .wwdc__card-id { font-family: var(--w-mono); font-size: 0.72rem; font-weight: 700; color: var(--w-blue); }
-  .wwdc__card-duration {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 2px 8px; border: 1px solid var(--w-border); border-radius: 4px;
-    font-family: var(--w-mono); font-size: 0.72rem; font-weight: 700;
-    color: var(--w-blue); white-space: nowrap;
+
+  /* Thumbnail — custom cover or the S-DNA placeholder fallback. */
+  .wwdc__thumb {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--w-blue-soft);
+    overflow: hidden;
+    border-bottom: 1px solid var(--w-border);
   }
-  .wwdc__card-cat { color: var(--w-muted); }
+  .wwdc__thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.45s cubic-bezier(.2,.6,.2,1);
+  }
+  .wwdc__card:hover .wwdc__thumb img { transform: scale(1.045); }
+
+  .wwdc__card-body {
+    display: flex; flex-direction: column; gap: 9px;
+    padding: 15px 17px 16px; flex: 1 1 auto;
+  }
+  .wwdc__card-cat-pill {
+    align-self: flex-start;
+    padding: 3px 11px; border-radius: 999px;
+    background: var(--w-blue-soft); color: var(--w-blue);
+    font-size: 0.71rem; font-weight: 700; letter-spacing: 0.01em;
+  }
   .wwdc__card-title {
     font-family: var(--w-heading);
-    font-size: clamp(0.98rem, 1.3vw, 1.08rem);
-    font-weight: 700; line-height: 1.3; color: var(--w-ink); margin: 0;
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    font-weight: 800; line-height: 1.3; letter-spacing: -0.01em;
+    color: var(--w-ink); margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
+  .wwdc__card:hover .wwdc__card-title { color: var(--w-blue-hover); }
   .wwdc__card-desc {
     font-size: 0.84rem; line-height: 1.5; color: var(--w-muted); margin: 0;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .wwdc__card-tag {
-    display: inline-block; align-self: flex-start;
-    padding: 2px 10px; border-radius: 999px;
-    background: var(--w-blue-soft);
-    font-size: 0.72rem; font-weight: 600; color: var(--w-blue);
-    margin-top: auto;
+  .wwdc__card-foot {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: auto; padding-top: 6px;
+    font-family: var(--w-mono); font-size: 0.71rem; color: var(--w-muted);
   }
+  .wwdc__card-foot .sep { color: var(--w-border-strong); }
+  .wwdc__card-foot .wwdc__card-rt { font-weight: 700; color: var(--w-blue); }
 
   .wwdc__count { font-size: 0.84rem; font-weight: 600; color: var(--w-muted); margin: 20px 0 0; letter-spacing: 0.02em; }
   .wwdc__count strong { color: var(--w-ink); font-family: var(--w-mono); }
@@ -188,8 +212,8 @@
 
   @media (max-width: 720px) {
     .wwdc__hero { padding: 28px 0 24px; }
-    .wwdc__grid { grid-template-columns: 1fr; gap: 12px; }
-    .wwdc__card { padding: 16px; }
+    .wwdc__grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .wwdc__card-body { padding: 13px 15px 14px; }
     .wwdc__filters { position: static; padding: 16px 0; margin: 0; }
   }
   @media (max-width: 400px) {
@@ -267,15 +291,24 @@
     {% for p in all_posts %}
     {% set_global pc = "" %}
     {% if p.taxonomies.categories %}{% for c in p.taxonomies.categories %}{% if pc == "" and c != "Tất cả" and c != "premium" %}{% set_global pc = c %}{% endif %}{% endfor %}{% endif %}
+    {# cycle the 3 S-DNA placeholder variants (doc/insights/compass) on fallback;
+       custom covers override. `loop.index0 % 3` yields a FLOAT in this Tera build,
+       so `phm == 1` (int) is strictly false — coerce to int before comparing. #}
+    {% set_global phm = loop.index0 % 3 %}
+    {% set_global phm = phm | int %}
     <a class="wwdc__card" href="{{ p.permalink }}" data-category="{{ pc }}" data-title="{{ p.title | lower }}" data-desc="{{ p.description | default(value='') | lower }}">
-      <div class="wwdc__card-meta">
-        {% if pc %}<span class="wwdc__card-id">{{ pc }}</span>{% endif %}
-        <span class="wwdc__card-duration">{{ p.reading_time }} phút</span>
-        {% if p.date %}<span class="wwdc__card-cat">· {{ p.date | date(format="%d.%m.%Y") }}</span>{% endif %}
+      <span class="wwdc__thumb">
+        <img src="{% if p.extra.thumbnail %}{{ img::thumb_src(thumb=p.extra.thumbnail) }}{% elif phm == 1 %}{{ get_url(path='img/placeholder/placeholder-2.svg') }}{% elif phm == 2 %}{{ get_url(path='img/placeholder/placeholder-3.svg') }}{% else %}{{ get_url(path='img/placeholder/placeholder.svg') }}{% endif %}" alt="{{ p.title }}" loading="lazy" decoding="async" width="320" height="200">
+      </span>
+      <div class="wwdc__card-body">
+        {% if pc %}<span class="wwdc__card-cat-pill">{{ pc }}</span>{% endif %}
+        <h3 class="wwdc__card-title">{{ p.title }}</h3>
+        <p class="wwdc__card-desc">{{ p.description | default(value=p.summary | default(value="") | striptags) | truncate(length=140) }}</p>
+        <div class="wwdc__card-foot">
+          <span class="wwdc__card-rt">{{ p.reading_time }} phút đọc</span>
+          {% if p.date %}<span class="sep">·</span><span>{{ p.date | date(format="%d.%m.%Y") }}</span>{% endif %}
+        </div>
       </div>
-      <h3 class="wwdc__card-title">{{ p.title }}</h3>
-      <p class="wwdc__card-desc">{{ p.description | default(value=p.summary | default(value="") | striptags) | truncate(length=160) }}</p>
-      {% if pc %}<span class="wwdc__card-tag">{{ pc }}</span>{% endif %}
     </a>
     {% endfor %}
   </div>
