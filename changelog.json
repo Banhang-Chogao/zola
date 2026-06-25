@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "Pre-existing template compatibility issues for Zola 0.22.1 [claude/seomoney-blog-theme-qdmxbm]",
+      "tag": "fix",
+      "lines_added": 72,
+      "lines_removed": 3,
+      "highlights": [
+        "Thememoi: Apply E-DNA (Enterprise Editorial Design System) as default theme",
+        "Fix: Pre-existing template compatibility issues for Zola 0.22.1",
+        "config.toml (modified, +13/-1)",
+        "sass/_theme-overrides.scss (modified, +13/-0)",
+        "sass/_themes.scss (modified, +45/-1)"
+      ],
+      "pr": 923
+    },
+    {
+      "date": "2026-06-25",
       "title": "Merge remote-tracking branch 'origin/main'",
       "tag": "chore",
       "lines_added": 295,
