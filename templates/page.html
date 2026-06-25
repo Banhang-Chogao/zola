@@ -60,7 +60,6 @@
       {%- if toc_total > 0 %}<div class="oasis__stat"><span class="oasis__stat-n">{{ toc_total }}</span><span class="oasis__stat-l">Mục lục</span></div>{% endif %}
       {%- if page.date %}<div class="oasis__stat"><span class="oasis__stat-n">{{ page.date | date(format="%d.%m") }}</span><span class="oasis__stat-l">{{ page.date | date(format="%Y") }}</span></div>{% endif %}
     </div>
-    {% include "partials/page_info.html" %}
   </header>
 
   <div class="post-layout{% if show_rail %} post-layout--rail{% endif %}">
