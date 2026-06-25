@@ -1,60 +1,60 @@
 {
-  "generated_at": "2026-06-25T00:30:34+0700",
-  "generated_at_display": "00:30 25/06/2026",
+  "generated_at": "2026-06-26T02:16:54+0700",
+  "generated_at_display": "02:16 26/06/2026",
   "repo_url": "https://github.com/Banhang-Chogao/zola",
   "prs_url": "https://github.com/Banhang-Chogao/zola/pulls",
   "summary": {
-    "total": 1,
+    "total": 7,
     "ready": 0,
-    "needs_attention": 0,
-    "pending": 1,
+    "needs_attention": 2,
+    "pending": 4,
     "conflict": 0,
-    "draft": 0
+    "draft": 1
   },
   "prs": [
     {
-      "number": 858,
-      "title": "feat: add deployment status dashboard in footer",
-      "url": "https://github.com/Banhang-Chogao/zola/pull/858",
-      "branch": "claude/merge-conflict-preflight-article",
+      "number": 920,
+      "title": "Add Zulma-style theme prototype (Bulma + theme switcher + S-DNA skin) [claude/sleepy-knuth-s1zval]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/920",
+      "branch": "claude/sleepy-knuth-s1zval",
       "base": "main",
       "is_draft": false,
-      "merge_state": "unknown",
-      "updated_at": "2026-06-25T00:29:29+0700",
-      "updated_at_display": "00:29 25/06/2026",
-      "readiness": "pending",
+      "merge_state": "unstable",
+      "updated_at": "2026-06-25T22:11:00+0700",
+      "updated_at_display": "22:11 25/06/2026",
+      "readiness": "needs_attention",
       "checks_summary": {
         "success": 3,
-        "failure": 0,
-        "pending": 1,
+        "failure": 1,
+        "pending": 0,
         "skipped": 0,
         "cancelled": 0,
         "total": 4
       },
       "checks": [
         {
-          "name": "qa-check",
-          "state": "pending",
-          "status": "in_progress",
-          "conclusion": null,
-          "elapsed_s": 55,
-          "elapsed_display": "55s"
-        },
-        {
-          "name": "preflight",
+          "name": "build-smoke",
           "state": "success",
           "status": "completed",
           "conclusion": "success",
-          "elapsed_s": 13,
-          "elapsed_display": "13s"
+          "elapsed_s": 975,
+          "elapsed_display": "16m 15s"
+        },
+        {
+          "name": "static-checks",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 68,
+          "elapsed_display": "1m 8s"
         },
         {
           "name": "ensure-pr",
           "state": "success",
           "status": "completed",
           "conclusion": "success",
-          "elapsed_s": 7,
-          "elapsed_display": "7s"
+          "elapsed_s": 12,
+          "elapsed_display": "12s"
         },
         {
           "name": "notify",
@@ -63,6 +63,362 @@
           "conclusion": "success",
           "elapsed_s": 5,
           "elapsed_display": "5s"
+        }
+      ]
+    },
+    {
+      "number": 919,
+      "title": "ci: halt all automatic production deployments [claude/blog-deployment-halt-bxrfxs]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/919",
+      "branch": "claude/blog-deployment-halt-bxrfxs",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unstable",
+      "updated_at": "2026-06-25T21:56:43+0700",
+      "updated_at_display": "21:56 25/06/2026",
+      "readiness": "pending",
+      "checks_summary": {
+        "success": 4,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 4
+      },
+      "checks": [
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        },
+        {
+          "name": "static-checks",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 68,
+          "elapsed_display": "1m 8s"
+        },
+        {
+          "name": "build-smoke",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 997,
+          "elapsed_display": "16m 37s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 12,
+          "elapsed_display": "12s"
+        }
+      ]
+    },
+    {
+      "number": 917,
+      "title": "Resolve merge conflict: combine nokia-theme + momo-skin imports so MoMo theme works on current main [feat/momo-theme-tes",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/917",
+      "branch": "feat/momo-theme-test",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unstable",
+      "updated_at": "2026-06-25T21:33:10+0700",
+      "updated_at_display": "21:33 25/06/2026",
+      "readiness": "needs_attention",
+      "checks_summary": {
+        "success": 3,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 4
+      },
+      "checks": [
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 13,
+          "elapsed_display": "13s"
+        },
+        {
+          "name": "static-checks",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 46,
+          "elapsed_display": "46s"
+        },
+        {
+          "name": "build-smoke",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 247,
+          "elapsed_display": "4m 7s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        }
+      ]
+    },
+    {
+      "number": 912,
+      "title": "feat(s-dna): add \"Bài liên quan\" S-DNA card section to blog posts (Oasis) [claude/magical-lovelace-biv96p]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/912",
+      "branch": "claude/magical-lovelace-biv96p",
+      "base": "main",
+      "is_draft": true,
+      "merge_state": "unstable",
+      "updated_at": "2026-06-25T20:57:56+0700",
+      "updated_at_display": "20:57 25/06/2026",
+      "readiness": "draft",
+      "checks_summary": {
+        "success": 4,
+        "failure": 1,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 5
+      },
+      "checks": [
+        {
+          "name": "static-checks",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 72,
+          "elapsed_display": "1m 12s"
+        },
+        {
+          "name": "build-smoke",
+          "state": "failure",
+          "status": "completed",
+          "conclusion": "failure",
+          "elapsed_s": 178,
+          "elapsed_display": "2m 58s"
+        },
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 11,
+          "elapsed_display": "11s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 11,
+          "elapsed_display": "11s"
+        }
+      ]
+    },
+    {
+      "number": 887,
+      "title": "Merge main into claude/charming-davinci-c620w2: resolve UI layout conflicts [claude/charming-davinci-c620w2]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/887",
+      "branch": "claude/charming-davinci-c620w2",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-25T18:17:01+0700",
+      "updated_at_display": "18:17 25/06/2026",
+      "readiness": "pending",
+      "checks_summary": {
+        "success": 5,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 5
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
+        },
+        {
+          "name": "build-smoke",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 460,
+          "elapsed_display": "7m 40s"
+        },
+        {
+          "name": "static-checks",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 78,
+          "elapsed_display": "1m 18s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        }
+      ]
+    },
+    {
+      "number": 898,
+      "title": "ci: trigger workflows [skip changelog] [claude/recurring-error-investigation-f4r6tc]",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/898",
+      "branch": "claude/recurring-error-investigation-f4r6tc",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-25T18:17:01+0700",
+      "updated_at_display": "18:17 25/06/2026",
+      "readiness": "pending",
+      "checks_summary": {
+        "success": 5,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 5
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 7,
+          "elapsed_display": "7s"
+        },
+        {
+          "name": "build-smoke",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 468,
+          "elapsed_display": "7m 48s"
+        },
+        {
+          "name": "static-checks",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 45,
+          "elapsed_display": "45s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 5,
+          "elapsed_display": "5s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 10,
+          "elapsed_display": "10s"
+        }
+      ]
+    },
+    {
+      "number": 890,
+      "title": "fix(links): restore /posting/ prefix on series internal links (5 posts) [PR #890] [claude/seo-organic-search-series-nenu",
+      "url": "https://github.com/Banhang-Chogao/zola/pull/890",
+      "branch": "claude/seo-organic-search-series-nenu7q",
+      "base": "main",
+      "is_draft": false,
+      "merge_state": "unknown",
+      "updated_at": "2026-06-25T18:17:00+0700",
+      "updated_at_display": "18:17 25/06/2026",
+      "readiness": "pending",
+      "checks_summary": {
+        "success": 5,
+        "failure": 0,
+        "pending": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "total": 5
+      },
+      "checks": [
+        {
+          "name": "preflight",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
+        },
+        {
+          "name": "build-smoke",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 511,
+          "elapsed_display": "8m 31s"
+        },
+        {
+          "name": "static-checks",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 51,
+          "elapsed_display": "51s"
+        },
+        {
+          "name": "notify",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 6,
+          "elapsed_display": "6s"
+        },
+        {
+          "name": "ensure-pr",
+          "state": "success",
+          "status": "completed",
+          "conclusion": "success",
+          "elapsed_s": 8,
+          "elapsed_display": "8s"
         }
       ]
     }
