@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-25",
+      "title": "Redesign SEOMONEY homepage: 3-column editorial portal layout [claude/seomoney-homepage-redesign-j7x31f]",
+      "tag": "chore",
+      "lines_added": 134,
+      "lines_removed": 114,
+      "highlights": [
+        "sass/_island.scss (modified, +53/-39)",
+        "templates/island.html (modified, +81/-75)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn."
+      ],
+      "pr": 928
+    },
+    {
+      "date": "2026-06-25",
       "title": "fix(theme): restore site-level post partials missing after switch to zulma",
       "tag": "fix",
       "lines_added": 85,
