@@ -1,13 +1,26 @@
 name: Build and deploy Zola site to GitHub Pages
 
 on:
-  push:
-    branches: [main]
+  # ⛔ DEPLOYMENTS HALTED (2026-06-25) — automatic production deploys are PAUSED
+  # at the operator's request. The push-to-main and 6-hour schedule triggers are
+  # disabled below; the only remaining path is a deliberate manual dispatch that
+  # requires typing "deploy" to confirm (see the `build` job guard).
+  #
+  # To RE-ENABLE automatic deploys: uncomment the `push` and `schedule` blocks
+  # below and remove the `if:` guard on the `build` job.
+  #
+  # push:
+  #   branches: [main]
+  # schedule:
+  #   # Deploy định kỳ mỗi 6h để publish data bot refresh (dashboard/trends/…) mà
+  #   # KHÔNG cần mỗi lần bot refresh tự dispatch deploy → giảm mạnh số deploy run.
+  #   - cron: '0 */6 * * *'
   workflow_dispatch:
-  schedule:
-    # Deploy định kỳ mỗi 6h để publish data bot refresh (dashboard/trends/…) mà
-    # KHÔNG cần mỗi lần bot refresh tự dispatch deploy → giảm mạnh số deploy run.
-    - cron: '0 */6 * * *'
+    inputs:
+      confirm_deploy:
+        description: 'Deployments are HALTED. Type "deploy" to force a one-off manual deploy.'
+        required: true
+        default: ''
 
 permissions:
   contents: read
@@ -31,6 +44,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # ⛔ DEPLOYMENTS HALTED — only a manual dispatch with confirm_deploy="deploy"
+    # may proceed. Any other invocation is a no-op. Remove this guard to re-enable.
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.confirm_deploy == 'deploy' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
