@@ -382,3 +382,90 @@ main.container:has(.oasis) { max-width: 1180px; }
   background: var(--o-teal-soft);
 }
 .oasis .toc-rail__link.is-active .toc-rail__num { color: var(--o-teal); }
+
+/* ===== BÀI LIÊN QUAN — S-DNA related-posts cards ==========================
+   Site-owned block rendered in templates/page.html (inside `.oasis`, so the
+   --o-* tokens inherit). Card-first, teal left-accent, calm meta — data-first.
+   Auto-fit grid → up to 3 columns on desktop, single column on mobile. */
+.oasis-related {
+  margin: 8px 0 0;
+  padding-top: 30px;
+  border-top: 1px solid var(--o-border);
+}
+.oasis-related__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--o-heading);
+  font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--o-ink);
+  margin: 0 0 18px;
+}
+.oasis-related__title-ico {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid var(--o-teal);
+  border-radius: 50%;
+  background: var(--o-teal-soft);
+  color: var(--o-teal);
+
+  svg { width: 17px; height: 17px; }
+}
+.oasis-related__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.oasis-related__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 18px 16px;
+  background: var(--o-surface);
+  border: 1px solid var(--o-border);
+  border-left: 4px solid var(--o-teal);
+  border-radius: var(--o-radius);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--o-teal);
+    background: var(--o-teal-soft);
+  }
+}
+.oasis-related__card-title {
+  font-family: var(--o-heading);
+  font-size: 1.04rem;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: var(--o-ink);
+  margin: 0;
+}
+.oasis-related__desc {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--o-muted);
+  margin: 0;
+}
+.oasis-related__meta {
+  margin-top: auto;
+  padding-top: 2px;
+  font-family: var(--o-mono);
+  font-size: 0.74rem;
+  color: var(--o-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 760px) {
+  .oasis-related { padding-top: 24px; }
+  .oasis-related__grid { gap: 12px; }
+  .oasis-related__card { padding: 15px 15px 14px; }
+}

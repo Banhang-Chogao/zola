@@ -1,4 +1,5 @@
 {% extends "index.html" %}
+{% import "macros/sdna-icons.html" as icons %}
 {%- block meta %}
   {%- set g_is_article = true %}
 {%- endblock meta %}
@@ -106,6 +107,48 @@
   </aside>
   {% endif %}
   </div>
+
+  {# ===== Bài liên quan — S-DNA card grid (site-owned) =========================
+     Reuses the SBERT semantic-related map (data/related.json, built by
+     scripts/related_engine.py): keyed by slug → [{score, slug}]. Each related
+     slug is resolved to a REAL page in the posting/baochi sections, so links
+     only ever point at pages that exist (no fabricated cross-links → V14-safe).
+     Renders nothing when there is no match. Data-first, decoration-last. #}
+  {% set rel_map = load_data(path="data/related.json", required=false) %}
+  {% if rel_map %}
+    {% set rel_list = rel_map | get(key=page.slug, default=[]) %}
+    {% if rel_list | length > 0 %}
+      {% set posting = get_section(path="posting/_index.md") %}
+      {% set baochi = get_section(path="baochi/_index.md") %}
+      {% set_global rel_pages = [] %}
+      {% for r in rel_list %}
+        {% if rel_pages | length < 3 %}
+          {% set_global rel_hit = false %}
+          {% for p in posting.pages %}{% if not rel_hit and p.slug == r.slug and not p.extra.feed_anchor %}{% set_global rel_pages = rel_pages | concat(with=[p]) %}{% set_global rel_hit = true %}{% endif %}{% endfor %}
+          {% if not rel_hit %}{% for p in baochi.pages %}{% if not rel_hit and p.slug == r.slug and not p.extra.feed_anchor %}{% set_global rel_pages = rel_pages | concat(with=[p]) %}{% set_global rel_hit = true %}{% endif %}{% endfor %}{% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if rel_pages | length > 0 %}
+      <section class="oasis-related" aria-labelledby="oasis-related-h">
+        <h2 class="oasis-related__title" id="oasis-related-h">
+          <span class="oasis-related__title-ico" aria-hidden="true">{{ icons::icon(name="layers") }}</span>
+          Bài liên quan
+        </h2>
+        <div class="oasis-related__grid">
+          {% for rp in rel_pages %}
+          <a class="oasis-related__card" href="{{ rp.permalink }}">
+            <h3 class="oasis-related__card-title">{{ rp.title }}</h3>
+            {% if rp.description %}<p class="oasis-related__desc">{{ rp.description | truncate(length=110) }}</p>{% endif %}
+            <span class="oasis-related__meta">
+              {%- if rp.reading_time %}{{ rp.reading_time }} phút đọc{% endif %}{% if rp.reading_time and rp.date %} · {% endif %}{% if rp.date %}{{ rp.date | date(format="%d.%m.%Y") }}{% endif -%}
+            </span>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    {% endif %}
+  {% endif %}
 
   {# ===== Footer note ===== #}
   <footer class="oasis__foot">
