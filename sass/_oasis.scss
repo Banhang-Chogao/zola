@@ -1,30 +1,45 @@
 /* ============================================================
    OASIS — Post page (single article) design system.
-   Replicates the WWDC26 reference UI/UX 1:1:
-   brand top-bar → hero (eyebrow/title/sub/stats) → clean prose
-   frame → footer. Blue (#003784) + mono accents, calm borders,
-   generous whitespace. Scoped to `.oasis` so it never leaks to
-   listing pages. Pairs with templates/page.html.
+   Reading surface for every blog post (pairs with templates/page.html):
+   brand top-bar → hero (eyebrow/title/sub/KPI stats) → clean prose
+   frame → footer. Scoped to `.oasis` so it never leaks to listing pages.
 
-   Design tokens mirror the WWDC26 template (var() with the same
-   fallbacks) so the page adapts to the active theme but defaults
-   to the institutional WWDC look on the standard light theme.
+   S-DNA layer (Sembcorp Design DNA, /tools/s-dna/): "Data-first.
+   Decoration-last." — enterprise calm, S-DNA teal palette (#00A7A0 +
+   soft teal/blue/purple), hero metadata rendered as KPI cards, borders +
+   whitespace over effects. Applied to the reading page as an explicit
+   product decision (this intentionally overrides S-DNA's own
+   "never blog articles" Compatibility-Rule guidance). Structural colours
+   stay theme-derived via var(--c-*) so light/dark remain correct; only the
+   accent hue is fixed to S-DNA teal.
    ============================================================ */
 
-/* Full-width single column — match the WWDC26 reference (no sidebar),
-   mirroring how /wwdc26/ forces `.layout-grid:has(.wwdc)`. The post keeps
-   its article + sticky TOC rail; the base.html sidebar is emptied in
-   templates/page.html so this applies to every post. */
+/* Full-width single column — no sidebar; the post keeps its article +
+   sticky TOC rail. The base.html sidebar is emptied in templates/page.html
+   so this applies to every post. */
 .layout-grid:has(.oasis) { grid-template-columns: minmax(0, 1fr); }
 main.container:has(.oasis) { max-width: 1180px; }
 
 .oasis {
+  /* S-DNA accent palette — fixed teal like the /tools/s-dna/ reference. Soft
+     tints are theme-safe color-mix over the current surface (dark mode stays
+     correct). Secondary blue/purple drive the KPI-card rhythm. */
+  --o-teal:          #00a7a0;
+  --o-teal-hover:    #008f89;
+  --o-teal-soft:     #{"color-mix(in srgb, #00a7a0 12%, var(--c-bg-surface, #fff))"};
+  --o-blue-accent:   #5b9bd5;
+  --o-blue-soft-2:   #{"color-mix(in srgb, #5b9bd5 14%, var(--c-bg-surface, #fff))"};
+  --o-purple-accent: #9b8fd4;
+  --o-purple-soft:   #{"color-mix(in srgb, #9b8fd4 14%, var(--c-bg-surface, #fff))"};
+
   --o-ink:           var(--c-text-heading, #0a0a0a);
   --o-body:          var(--c-text, #333);
   --o-muted:         var(--c-text-muted, #6a6a6a);
-  --o-blue:          var(--c-accent, #003784);
-  --o-blue-hover:    var(--c-accent-hover, #002566);
-  --o-blue-soft:     var(--c-accent-soft, #e8edf5);
+  /* Accent now points at S-DNA teal (was WWDC blue #003784); every existing
+     rule that reads --o-blue* shifts to teal from this one place. */
+  --o-blue:          var(--o-teal);
+  --o-blue-hover:    var(--o-teal-hover);
+  --o-blue-soft:     var(--o-teal-soft);
   --o-surface:       var(--c-bg-surface, #fff);
   --o-page:          var(--c-bg-page, #f8f9fb);
   --o-soft:          var(--c-bg-soft, #f4f4f4);
@@ -130,19 +145,34 @@ main.container:has(.oasis) { max-width: 1180px; }
     max-width: 68ch;
   }
 
+  /* Hero metadata as S-DNA KPI cards: soft pastel fill, coloured left accent,
+     large tabular number, small whispering label. Data-first, decoration-last. */
   &__stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 12px;
     margin-top: 24px;
     padding-top: 22px;
     border-top: 1px solid var(--o-border);
   }
 
-  &__stat { display: flex; flex-direction: column; gap: 4px; }
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 13px 15px;
+    background: var(--o-teal-soft);
+    border: 1px solid var(--o-border);
+    border-left: 4px solid var(--o-teal);
+    border-radius: var(--o-radius);
+
+    /* S-DNA pastel rhythm (teal → blue → purple) — calm, never rainbow. */
+    &:nth-child(3n+2) { background: var(--o-blue-soft-2);  border-left-color: var(--o-blue-accent); }
+    &:nth-child(3n+3) { background: var(--o-purple-soft);  border-left-color: var(--o-purple-accent); }
+  }
   &__stat-n {
     font-family: var(--o-heading);
-    font-size: 1.45rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--o-ink);
     letter-spacing: -0.02em;
@@ -150,9 +180,9 @@ main.container:has(.oasis) { max-width: 1180px; }
     font-variant-numeric: tabular-nums;
   }
   &__stat-l {
-    font-size: 0.74rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--o-muted);
   }
@@ -324,8 +354,9 @@ main.container:has(.oasis) { max-width: 1180px; }
   .oasis {
     &__top { padding: 16px 0 12px; }
     &__hero { padding: 26px 0 22px; }
-    &__stats { gap: 12px 22px; margin-top: 18px; padding-top: 16px; }
-    &__stat-n { font-size: 1.25rem; }
+    &__stats { gap: 10px; margin-top: 18px; padding-top: 16px; }
+    &__stat { padding: 11px 13px; }
+    &__stat-n { font-size: 1.3rem; }
     &__cover { margin: 20px 0 4px; }
     &__cover img { border-radius: 8px; }
     &__body { font-size: 1rem; line-height: 1.74; }
@@ -338,3 +369,16 @@ main.container:has(.oasis) { max-width: 1180px; }
   .oasis__top-right { font-size: 0.72rem; }
   .oasis__brand-name { font-size: 1rem; }
 }
+
+/* ===== TOC RAIL — S-DNA teal retint (reading surface only) =================
+   The rail markup, layout and scroll-spy behaviour stay exactly as
+   _toc-rail.scss defines them (V26). This only repaints the active/focus
+   accent to S-DNA teal within `.oasis`, leaving the base `.toc-rail` rules
+   (semantic var(--c-*) tokens) untouched for any other context. */
+.oasis .toc-rail__link:focus-visible { outline-color: var(--o-teal); }
+.oasis .toc-rail__link.is-active {
+  color: var(--o-teal);
+  border-left-color: var(--o-teal);
+  background: var(--o-teal-soft);
+}
+.oasis .toc-rail__link.is-active .toc-rail__num { color: var(--o-teal); }
