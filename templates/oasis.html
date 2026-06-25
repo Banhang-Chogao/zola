@@ -23,12 +23,12 @@
     --w-ink:        #1d1d1f;
     --w-body:       #38383c;
     --w-muted:      #6e6e73;
-    /* WWDC vibrant system hues */
-    --w-blue:   #0a84ff;  --w-indigo: #5e5ce6;  --w-purple: #bf5af2;
-    --w-pink:   #ff375f;  --w-orange: #ff9f0a;  --w-green:  #30d158;
-    --w-teal:   #64d2ff;
+    /* MoMo brand hues (theme test): magenta/pink dominant + teal */
+    --w-blue:   #a50064;  --w-indigo: #c71f7e;  --w-purple: #7d004c;
+    --w-pink:   #ff4fa3;  --w-orange: #00aec7;  --w-green:  #ff7ab8;
+    --w-teal:   #00aec7;
     --w-hue:    var(--w-blue);                 /* per-card, overridden below */
-    --w-grad:   linear-gradient(120deg, #0a84ff, #5e5ce6 42%, #bf5af2);
+    --w-grad:   linear-gradient(120deg, #a50064, #d82d8b 50%, #ff4fa3);
     --w-border:        rgba(60, 60, 67, 0.12);
     --w-border-strong: rgba(60, 60, 67, 0.22);
     /* glass */
@@ -58,13 +58,13 @@
     content: "";
     position: fixed; inset: 0; z-index: -1; pointer-events: none;
     background:
-      radial-gradient(38% 44% at 12% 8%,  rgba(10,132,255,.22),  transparent 70%),
-      radial-gradient(40% 48% at 88% 6%,  rgba(191,90,242,.20),  transparent 70%),
-      radial-gradient(42% 50% at 97% 60%, rgba(255,55,95,.15),   transparent 72%),
-      radial-gradient(46% 54% at 72% 99%, rgba(255,159,10,.15),  transparent 72%),
-      radial-gradient(46% 54% at 16% 96%, rgba(48,209,88,.15),   transparent 72%),
-      radial-gradient(40% 48% at 0% 50%,  rgba(100,210,255,.20), transparent 72%),
-      #f6f8fe;
+      radial-gradient(38% 44% at 12% 8%,  rgba(165,0,100,.18),  transparent 70%),
+      radial-gradient(40% 48% at 88% 6%,  rgba(216,45,139,.16), transparent 70%),
+      radial-gradient(42% 50% at 97% 60%, rgba(255,79,163,.13), transparent 72%),
+      radial-gradient(46% 54% at 72% 99%, rgba(0,174,199,.12),  transparent 72%),
+      radial-gradient(46% 54% at 16% 96%, rgba(165,0,100,.12),  transparent 72%),
+      radial-gradient(40% 48% at 0% 50%,  rgba(0,174,199,.14),  transparent 72%),
+      #fdf4f9;
   }
 
   /* ---- top brand bar ---- */
@@ -82,7 +82,7 @@
     color: #fff;
     font-family: var(--w-heading);
     font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;
-    box-shadow: 0 8px 20px rgba(94,92,230,.36);
+    box-shadow: 0 8px 20px rgba(165,0,100,.36);
   }
   .wwdc__brand-text { display: flex; flex-direction: column; line-height: 1.2; }
   .wwdc__brand-name { font-family: var(--w-heading); font-size: 1.16rem; font-weight: 800; color: var(--w-ink); letter-spacing: -0.02em; }
@@ -111,7 +111,7 @@
     font-size: clamp(2.6rem, 6.4vw, 4.2rem);
     font-weight: 800; line-height: 1.04; letter-spacing: -0.035em;
     margin: 0 0 16px;
-    background: linear-gradient(116deg, #0a84ff 0%, #5e5ce6 36%, #bf5af2 68%, #ff375f 100%);
+    background: linear-gradient(116deg, #a50064 0%, #d82d8b 45%, #ff4fa3 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .wwdc__sub {
@@ -174,7 +174,7 @@
   .wwdc__chip:hover { border-color: var(--w-blue); color: var(--w-blue); transform: translateY(-1px); }
   .wwdc__chip--active {
     background: var(--w-grad); color: #fff; border-color: transparent;
-    box-shadow: 0 6px 16px rgba(94,92,230,.32);
+    box-shadow: 0 6px 16px rgba(165,0,100,.32);
   }
   .wwdc__chip--active:hover { color: #fff; transform: translateY(-1px); }
   .wwdc__chip-count { font-family: var(--w-mono); font-size: 0.68rem; margin-left: 7px; opacity: 0.62; }
@@ -261,13 +261,13 @@
   .wwdc__card:hover .wwdc__card-go { transform: translateX(4px); }
 
   /* per-card rainbow hue (cycled by index) */
-  .wwdc__card--0 { --w-hue: #0a84ff; }
-  .wwdc__card--1 { --w-hue: #5e5ce6; }
-  .wwdc__card--2 { --w-hue: #bf5af2; }
-  .wwdc__card--3 { --w-hue: #ff375f; }
-  .wwdc__card--4 { --w-hue: #ff9f0a; }
-  .wwdc__card--5 { --w-hue: #30d158; }
-  .wwdc__card--6 { --w-hue: #64d2ff; }
+  .wwdc__card--0 { --w-hue: #a50064; }
+  .wwdc__card--1 { --w-hue: #d82d8b; }
+  .wwdc__card--2 { --w-hue: #c71f7e; }
+  .wwdc__card--3 { --w-hue: #ff4fa3; }
+  .wwdc__card--4 { --w-hue: #00aec7; }
+  .wwdc__card--5 { --w-hue: #7d004c; }
+  .wwdc__card--6 { --w-hue: #e84fa0; }
 
   .wwdc__empty { text-align: center; padding: 48px 24px; color: var(--w-muted); font-size: 0.92rem; }
 
