@@ -1,0 +1,13 @@
+title = "Zulma"
+description = "A minimalist Zola theme with dark mode support and search functionality"
+template_engine = "tera"
+min_version = "0.15"
+
+[extra]
+show_menu = true
+enable_search = true
+theme_mode = "darkly"
+allow_theme_toggle = true
+
+author = "Worble"
+license = "MIT"

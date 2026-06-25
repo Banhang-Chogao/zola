@@ -1,5 +1,5 @@
 base_url = "https://seomoney.org"
-theme = "linkita"
+theme = "zulma"
 title = "SEOMONEY"
 description = "SEOMONEY — blog về SEO, công nghệ, du lịch và tài chính cá nhân: chuyện viết code, xây dựng sản phẩm phần mềm và những chuyến đi đáng nhớ. Tác giả: Duy Nguyen."
 # Blog tiếng Việt → khai báo để feed (atom/rss) + sitemap mang đúng
@@ -8,8 +8,8 @@ default_language = "vi"
 author = "duynguyenlog"
 
 compile_sass = true
-# Linkita search uses elasticlunr — vi chưa được Zola hỗ trợ; tắt tạm để build pass.
-build_search_index = false
+# Zulma search uses built-in search index
+build_search_index = true
 
 # SEO: sinh feed RSS/Atom toàn site + cho từng taxonomy.
 # Zola 0.19+ đổi `generate_rss`→`generate_feeds`, taxonomy `rss`→`feed`.
@@ -37,16 +37,12 @@ theme = "catppuccin-mocha"
 extra_syntaxes_and_themes = ["highlight_themes"]
 
 [extra]
-# Linkita theme
-header_menu_name = "menu"
-title_separator = " | "
-comment = false
-math = false
-mermaid = false
-menu_i18n = false
+# Zulma theme configuration
+show_menu = true
+enable_search = true
+theme_mode = "darkly"
+allow_theme_toggle = true
 
-# Optional AviationStack free-tier key for Flight DB API enrich (Search only)
-aviationstack_api_key = ""
 author = "duynguyenlog"
 tagline = "SEO · Công nghệ · Tài chính cá nhân"
 
@@ -76,15 +72,7 @@ phải chấp nhận thất bại để trưởng thành. Cảm ơn bạn đã g
 chúng ta có thể đồng hành cùng nhau qua từng bài viết.\
 """
 
-# Menu navigation — Linkita: extra.menus + header_menu_name; legacy templates: extra.menu.
-menu = [
-    { name = "Trang chủ", url = "$BASE_URL/" },
-    { name = "Insights", url = "$BASE_URL/insights" },
-    { name = "Công cụ", url = "$BASE_URL/tools" },
-    { name = "Bài viết", url = "$BASE_URL/posting" },
-    { name = "Vụ Mùa", url = "$BASE_URL/vu-mua" },
-]
-
+# Menu navigation — Zulma uses extra.menus.menu
 [extra.menus]
 menu = [
     { name = "Trang chủ", url = "$BASE_URL/" },

@@ -1,0 +1,15 @@
+/* Search Styles */
+
+.search-input {
+    width: 100%;
+}
+
+.search-results {
+    max-height: calc(70vh - 120px);
+}
+
+.search-empty {
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--color-text-secondary);
+}

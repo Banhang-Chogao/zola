@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <header class="section-header">
+        <h1>{{ section.title }}</h1>
+        {% if section.description %}
+        <p>{{ section.description }}</p>
+        {% endif %}
+    </header>
+
+    {% if section.pages %}
+    <section class="posts">
+        <div class="posts-grid">
+            {% for page in section.pages %}
+            <article class="post-card">
+                <h3><a href="{{ page.permalink }}">{{ page.title }}</a></h3>
+                <p class="post-meta">
+                    <time datetime="{{ page.date }}">
+                        {{ page.date | date(format="%Y-%m-%d") }}
+                    </time>
+                </p>
+                <p>{{ page.summary | default(value=page.content | truncate(length=150)) }}</p>
+                <a href="{{ page.permalink }}" class="read-more">Read more →</a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}
