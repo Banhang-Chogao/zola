@@ -1,0 +1,85 @@
+{
+  "brand": "Nokia",
+  "hero_eyebrow": "Nokia Blog — Theme Demo (reference-only)",
+  "hero_title": "Insights cho một thế giới kết nối, an toàn và bền vững hơn",
+  "hero_sub": "Trang demo tái hiện phong cách thiết kế của Nokia Blog: hero lớn, lưới 3 cột, lọc theo nhóm độc giả và bảng màu trắng + xanh đen + accent #005AFF. Dữ liệu dưới đây là mẫu minh hoạ, không phải nội dung chính thức của Nokia.",
+  "tabs": [
+    { "key": "ai",         "label": "AI and cloud providers" },
+    { "key": "enterprise", "label": "Mission-critical enterprises" },
+    { "key": "telecom",    "label": "Telecommunication providers" }
+  ],
+  "posts": [
+    {
+      "key": "ai",
+      "category": "AI and cloud providers",
+      "title": "Mở rộng data center AI với mạng có độ trễ tất định",
+      "date": "20 Th06, 2026",
+      "read": "6 phút đọc",
+      "description": "Vì sao kết nối có độ trễ thấp và tất định là nền tảng để huấn luyện mô hình AI quy mô lớn — và cách kiến trúc fabric trong trung tâm dữ liệu đang thay đổi để đáp ứng."
+    },
+    {
+      "key": "ai",
+      "category": "AI and cloud providers",
+      "title": "Kết nối quang thế hệ mới cho hạ tầng đám mây",
+      "date": "14 Th06, 2026",
+      "read": "5 phút đọc",
+      "description": "Các đường truyền quang dung lượng cao giúp nhà cung cấp đám mây mở rộng băng thông giữa các cụm máy chủ mà vẫn kiểm soát được điện năng tiêu thụ."
+    },
+    {
+      "key": "ai",
+      "category": "AI and cloud providers",
+      "title": "Tự động hoá vận hành fabric trong trung tâm dữ liệu",
+      "date": "03 Th06, 2026",
+      "read": "8 phút đọc",
+      "description": "Từ cấu hình thủ công sang điều phối dựa trên ý định (intent-based): cách automation giảm lỗi con người và rút ngắn thời gian khắc phục sự cố."
+    },
+    {
+      "key": "enterprise",
+      "category": "Mission-critical enterprises",
+      "title": "Mạng riêng không dây cho tự động hoá Industry 4.0",
+      "date": "18 Th06, 2026",
+      "read": "7 phút đọc",
+      "description": "Private wireless mang lại độ tin cậy và độ trễ ổn định cho robot, AGV và cảm biến trong nhà máy thông minh — nơi Wi-Fi truyền thống thường hụt hơi."
+    },
+    {
+      "key": "enterprise",
+      "category": "Mission-critical enterprises",
+      "title": "Xây dựng mạng kiên cường cho hạ tầng trọng yếu",
+      "date": "09 Th06, 2026",
+      "read": "6 phút đọc",
+      "description": "Điện lực, giao thông và cảng biển cần mạng chịu lỗi cao. Bài viết phân tích các nguyên tắc thiết kế dự phòng và phân tách miền sự cố."
+    },
+    {
+      "key": "enterprise",
+      "category": "Mission-critical enterprises",
+      "title": "Edge computing — trái tim của nhà máy thông minh",
+      "date": "28 Th05, 2026",
+      "read": "5 phút đọc",
+      "description": "Đưa xử lý dữ liệu về sát nơi phát sinh giúp giảm độ trễ ra quyết định và giữ dữ liệu nhạy cảm trong phạm vi kiểm soát của doanh nghiệp."
+    },
+    {
+      "key": "telecom",
+      "category": "Telecommunication providers",
+      "title": "5G-Advanced và con đường tiến tới 6G",
+      "date": "22 Th06, 2026",
+      "read": "9 phút đọc",
+      "description": "Những năng lực mới của 5G-Advanced đặt nền móng cho 6G: cảm biến tích hợp, AI-native RAN và hiệu quả phổ tần cao hơn."
+    },
+    {
+      "key": "telecom",
+      "category": "Telecommunication providers",
+      "title": "Thương mại hoá Network API cho nhà mạng",
+      "date": "11 Th06, 2026",
+      "read": "6 phút đọc",
+      "description": "Mở năng lực mạng qua API chuẩn hoá giúp nhà cung cấp dịch vụ tạo nguồn doanh thu mới từ chất lượng dịch vụ, định vị và xác thực."
+    },
+    {
+      "key": "telecom",
+      "category": "Telecommunication providers",
+      "title": "Hiệu quả năng lượng trong mạng truy nhập vô tuyến hiện đại",
+      "date": "01 Th06, 2026",
+      "read": "7 phút đọc",
+      "description": "RAN tiêu thụ phần lớn điện năng của nhà mạng. Các kỹ thuật ngủ sâu, tắt sóng thông minh và phần cứng tiết kiệm điện giúp cắt giảm chi phí và phát thải."
+    }
+  ]
+}

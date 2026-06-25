@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{# Trang DEMO độc lập — phong cách Nokia Blog. KHÔNG ảnh hưởng WWDC/index.
+   Toàn bộ CSS scope trong `.nokia`, không sửa site.scss. noindex vì là demo. #}
+
+{% block robots %}noindex, follow{% endblock %}
+
+{% block title %}{{ section.title }} — Theme Demo | {{ config.title }}{% endblock %}
+{% block description %}{{ section.description }}{% endblock %}
+
+{# Full-width: bỏ sidebar + ép layout-grid 1 cột (giống pattern WWDC). #}
+{% block sidebar %}{% endblock %}
+
+{% block extra_head %}
+<style>
+  .layout-grid:has(.nokia) { grid-template-columns: minmax(0, 1fr); }
+  main.container:has(.nokia) { max-width: 1200px; }
+
+  .nokia {
+    /* ===== Nokia design tokens (scoped) — tương thích pattern WWDC ===== */
+    --nokia-accent:        #005AFF;   /* Moroccan Blue — bright blue thương hiệu */
+    --nokia-accent-hover:  #0047CC;
+    --nokia-accent-light:  #5C9BFF;   /* accent sáng cho nền tối */
+    --nokia-accent-soft:   #E6EEFF;
+    --nokia-ink:           #0A0A0A;   /* near-black cho tiêu đề */
+    --nokia-navy:          #001135;   /* xanh đen — hero band */
+    --nokia-body:          #2b2f36;
+    --nokia-muted:         #6b7280;
+    --nokia-surface:       #ffffff;
+    --nokia-soft:          #f5f7fa;
+    --nokia-border:        #e5e8ec;
+    --nokia-border-strong: #d2d7de;
+    --nokia-radius:        8px;
+    --nokia-shadow:        0 1px 3px rgba(0, 17, 53, .06);
+    --nokia-shadow-lg:     0 16px 40px rgba(0, 17, 53, .14);
+    --nokia-font:          'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+    font-family: var(--nokia-font);
+    color: var(--nokia-body);
+    line-height: 1.62;
+    padding: 0 16px 72px;
+    margin: 0 auto;
+  }
+  .nokia *, .nokia *::before, .nokia *::after { box-sizing: border-box; }
+
+  /* ---------- Brand bar ---------- */
+  .nokia__top {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 22px 0 18px;
+  }
+  .nokia__brand { display: flex; align-items: baseline; gap: 12px; }
+  .nokia__logo {
+    font-family: var(--nokia-font);
+    font-weight: 800; font-size: 1.5rem; letter-spacing: 0.12em;
+    color: var(--nokia-accent);
+  }
+  .nokia__brand-tag { font-size: 0.82rem; font-weight: 600; color: var(--nokia-muted); }
+  .nokia__compare {
+    font-size: 0.82rem; font-weight: 700; text-decoration: none;
+    color: var(--nokia-muted);
+    border: 1px solid var(--nokia-border); border-radius: 999px;
+    padding: 7px 14px;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .nokia__compare:hover { color: var(--nokia-accent); border-color: var(--nokia-accent); }
+
+  /* ---------- Hero (xanh đen, whitespace lớn) ---------- */
+  .nokia__hero {
+    position: relative; overflow: hidden;
+    background: var(--nokia-navy);
+    color: #fff;
+    border-radius: 16px;
+    padding: clamp(44px, 7vw, 92px) clamp(24px, 5vw, 64px);
+    margin: 4px 0 44px;
+  }
+  .nokia__hero::after {
+    content: ""; position: absolute; right: -90px; top: -90px;
+    width: 340px; height: 340px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 90, 255, .55), transparent 70%);
+    pointer-events: none;
+  }
+  .nokia__eyebrow {
+    position: relative; z-index: 1;
+    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--nokia-accent-light); margin: 0 0 16px;
+  }
+  .nokia__title {
+    position: relative; z-index: 1;
+    font-family: var(--nokia-font);
+    font-size: clamp(2.1rem, 5.4vw, 3.6rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+    color: #fff; margin: 0 0 18px; max-width: 20ch;
+  }
+  .nokia__sub {
+    position: relative; z-index: 1;
+    font-size: clamp(0.98rem, 1.4vw, 1.18rem);
+    line-height: 1.66; color: rgba(255, 255, 255, .80);
+    margin: 0; max-width: 62ch;
+  }
+
+  /* ---------- Filter tabs (underline) ---------- */
+  .nokia__filters {
+    display: flex; flex-wrap: wrap; gap: 2px 30px;
+    border-bottom: 1px solid var(--nokia-border);
+    margin: 0 0 38px;
+  }
+  .nokia__tab {
+    appearance: none; background: none; border: none; font: inherit;
+    font-size: 0.96rem; font-weight: 600; color: var(--nokia-muted);
+    padding: 14px 2px; margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer; white-space: nowrap;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .nokia__tab:hover { color: var(--nokia-ink); }
+  .nokia__tab--active { color: var(--nokia-accent); border-bottom-color: var(--nokia-accent); }
+  .nokia__tab-count { font-size: 0.72rem; font-weight: 700; color: var(--nokia-muted); margin-left: 7px; }
+  .nokia__tab--active .nokia__tab-count { color: var(--nokia-accent); }
+
+  /* ---------- Grid 3 cột → 2 → 1 ---------- */
+  .nokia__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin: 0 0 8px;
+  }
+
+  .nokia__card {
+    display: flex; flex-direction: column;
+    background: var(--nokia-surface);
+    border: 1px solid var(--nokia-border);
+    border-radius: var(--nokia-radius);
+    overflow: hidden;
+    transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+  }
+  .nokia__card:hover {
+    box-shadow: var(--nokia-shadow-lg);
+    transform: translateY(-4px);
+    border-color: var(--nokia-border-strong);
+  }
+
+  /* Thumbnail = gradient placeholder theo nhóm (không phụ thuộc asset ngoài) */
+  .nokia__thumb {
+    display: flex; align-items: flex-end;
+    aspect-ratio: 16 / 10;
+    padding: 16px; text-decoration: none;
+    background: var(--nokia-accent);
+  }
+  .nokia__thumb[data-key="ai"]         { background: linear-gradient(135deg, #005AFF, #34C8FF); }
+  .nokia__thumb[data-key="enterprise"] { background: linear-gradient(135deg, #001135, #005AFF); }
+  .nokia__thumb[data-key="telecom"]    { background: linear-gradient(135deg, #0047CC, #6E8BFF); }
+  .nokia__thumb-label {
+    color: #fff; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    background: rgba(0, 17, 53, .30);
+    padding: 5px 11px; border-radius: 999px;
+  }
+
+  .nokia__card-body { display: flex; flex-direction: column; gap: 10px; padding: 22px; flex: 1; }
+  .nokia__card-meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 7px;
+    font-size: 0.74rem; font-weight: 600; color: var(--nokia-muted);
+  }
+  .nokia__card-cat { color: var(--nokia-accent); font-weight: 700; }
+  .nokia__card-dot { color: var(--nokia-border-strong); }
+  .nokia__card-title {
+    font-size: 1.18rem; font-weight: 700; line-height: 1.32;
+    letter-spacing: -0.01em; color: var(--nokia-ink); margin: 2px 0 0;
+  }
+  .nokia__card-desc {
+    font-size: 0.9rem; line-height: 1.6; color: var(--nokia-body); margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .nokia__card-more {
+    margin-top: auto; padding-top: 10px;
+    font-size: 0.86rem; font-weight: 700; color: var(--nokia-accent);
+  }
+
+  .nokia__empty { text-align: center; padding: 56px 24px; color: var(--nokia-muted); font-size: 0.95rem; }
+
+  .nokia__foot {
+    margin-top: 44px; padding-top: 24px;
+    border-top: 1px solid var(--nokia-border);
+    font-size: 0.82rem; color: var(--nokia-muted); line-height: 1.7;
+  }
+  .nokia__foot a { color: var(--nokia-accent); }
+
+  /* ---------- Responsive 3 → 2 → 1 ---------- */
+  @media (max-width: 980px) {
+    .nokia__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  }
+  @media (max-width: 640px) {
+    .nokia__grid { grid-template-columns: 1fr; gap: 20px; }
+    .nokia__hero { border-radius: 12px; }
+    .nokia__filters { gap: 2px 20px; }
+  }
+</style>
+{% endblock %}
+
+{% block main %}
+{% set demo = load_data(path="data/nokia-demo.json", required=false) %}
+{% set_global posts = [] %}
+{% set_global tabs = [] %}
+{% if demo and demo.posts %}{% set_global posts = demo.posts %}{% endif %}
+{% if demo and demo.tabs %}{% set_global tabs = demo.tabs %}{% endif %}
+<section class="nokia">
+  <div class="nokia__top">
+    <div class="nokia__brand">
+      <span class="nokia__logo">NOKIA</span>
+      <span class="nokia__brand-tag">Blog · Theme Demo</span>
+    </div>
+    <a class="nokia__compare" href="{{ config.base_url }}/wwdc26/">So sánh phong cách WWDC →</a>
+  </div>
+
+  <header class="nokia__hero">
+    <p class="nokia__eyebrow">{{ demo.hero_eyebrow | default(value="Nokia Blog — Theme Demo") }}</p>
+    <h1 class="nokia__title">{{ demo.hero_title | default(value=section.title) }}</h1>
+    <p class="nokia__sub">{{ demo.hero_sub | default(value=section.description) }}</p>
+  </header>
+
+  <nav class="nokia__filters" id="nokia-tabs" aria-label="Lọc bài theo nhóm độc giả">
+    <button class="nokia__tab nokia__tab--active" type="button" data-filter="all">
+      Tất cả <span class="nokia__tab-count">{{ posts | length }}</span>
+    </button>
+    {% for tab in tabs %}
+    <button class="nokia__tab" type="button" data-filter="{{ tab.key }}">
+      {{ tab.label }} <span class="nokia__tab-count">{{ posts | filter(attribute="key", value=tab.key) | length }}</span>
+    </button>
+    {% endfor %}
+  </nav>
+
+  <div class="nokia__grid" id="nokia-grid">
+    {% for p in posts %}
+    <article class="nokia__card" data-key="{{ p.key }}">
+      <a class="nokia__thumb" data-key="{{ p.key }}" href="#" tabindex="-1" aria-hidden="true">
+        <span class="nokia__thumb-label">{{ p.category }}</span>
+      </a>
+      <div class="nokia__card-body">
+        <div class="nokia__card-meta">
+          <span class="nokia__card-cat">{{ p.category }}</span>
+          <span class="nokia__card-dot">·</span>
+          <span>{{ p.date }}</span>
+          <span class="nokia__card-dot">·</span>
+          <span>{{ p.read }}</span>
+        </div>
+        <h3 class="nokia__card-title">{{ p.title }}</h3>
+        <p class="nokia__card-desc">{{ p.description }}</p>
+        <span class="nokia__card-more">Đọc tiếp <span aria-hidden="true">→</span></span>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <p class="nokia__empty" id="nokia-empty" hidden>Không có bài nào trong nhóm này.</p>
+
+  <footer class="nokia__foot">
+    <p><strong>Trang demo phong cách Nokia Blog</strong> — tái hiện từ ghi chú thiết kế
+      <a href="{{ config.base_url }}/wwdc26/">(so sánh với phong cách Apple WWDC)</a>.
+      Dữ liệu là mẫu minh hoạ, không phải nội dung chính thức của Nokia. Reference-only,
+      không ảnh hưởng giao diện thật của blog.</p>
+  </footer>
+</section>
+
+<script>
+  (function () {
+    var tabs = document.getElementById('nokia-tabs');
+    var grid = document.getElementById('nokia-grid');
+    var empty = document.getElementById('nokia-empty');
+    if (!tabs || !grid) return;
+    var cards = grid.querySelectorAll('.nokia__card');
+
+    tabs.addEventListener('click', function (e) {
+      var btn = e.target.closest('.nokia__tab');
+      if (!btn) return;
+      var key = btn.dataset.filter;
+
+      tabs.querySelectorAll('.nokia__tab').forEach(function (t) {
+        t.classList.toggle('nokia__tab--active', t === btn);
+      });
+
+      var shown = 0;
+      cards.forEach(function (card) {
+        var show = key === 'all' || card.dataset.key === key;
+        card.style.display = show ? '' : 'none';
+        if (show) shown++;
+      });
+      if (empty) empty.hidden = shown !== 0;
+    });
+  })();
+</script>
+{% endblock %}
