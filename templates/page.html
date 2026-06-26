@@ -38,15 +38,23 @@
     </span>
   </a>
 
-  {# ===== Breadcrumb (MoMo theme test): Trang chủ › Chuyên mục › bài ===== #}
-  <nav class="oasis__crumb" aria-label="Breadcrumb">
-    <a href="{{ config.base_url | safe }}/">Trang chủ</a>
-    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
-    {%- if oasis_cat %}
-    <a href="{{ get_taxonomy_url(kind='categories', name=oasis_cat) }}">{{ oasis_cat }}</a>
-    <span class="oasis__crumb-sep" aria-hidden="true">›</span>
-    {%- endif %}
-    <span class="oasis__crumb-current">{{ page.title | truncate(length=48) }}</span>
+  {# ===== Breadcrumb Navigation ===== #}
+  <nav class="blog-breadcrumb" aria-label="Breadcrumb">
+    <ol class="blog-breadcrumb__list">
+      <li class="blog-breadcrumb__item">
+        <a class="blog-breadcrumb__link" href="{{ config.base_url | safe }}/">Trang chủ</a>
+        <span class="blog-breadcrumb__sep" aria-hidden="true">›</span>
+      </li>
+      {% if oasis_cat %}
+      <li class="blog-breadcrumb__item">
+        <a class="blog-breadcrumb__link" href="{{ get_taxonomy_url(kind='categories', name=oasis_cat) | safe }}">{{ oasis_cat }}</a>
+        <span class="blog-breadcrumb__sep" aria-hidden="true">›</span>
+      </li>
+      {% endif %}
+      <li class="blog-breadcrumb__item blog-breadcrumb__item--current" aria-current="page">
+        {{ page.title }}
+      </li>
+    </ol>
   </nav>
 
   {# ===== Hero — eyebrow / title / sub / stats ===== #}
@@ -94,9 +102,25 @@
     {%- if page.extra.comment | default(value=config.extra.comment) %}
     {% include "partials/comment.html" %}
     {%- endif %}
+
     <!-- Begin Page End inject -->
     {% include "injects/page_end.html" ignore missing %}
     <!-- End Page End inject -->
+
+    {# ===== FAQ Section ===== #}
+    {% include "partials/faq.html" %}
+
+    {# ===== Divider ===== #}
+    <hr class="section-divider" />
+
+    {# ===== Related Posts ===== #}
+    {% include "partials/related-posts.html" %}
+
+    {# ===== Divider ===== #}
+    <hr class="section-divider" />
+
+    {# ===== Copyright ===== #}
+    {% include "partials/copyright.html" %}
   </article>
   {% if show_rail %}
   <aside class="toc-rail" data-toc-rail aria-label="Mục lục bài viết">
@@ -117,6 +141,9 @@
   </aside>
   {% endif %}
   </div>
+
+  {# ===== JSON-LD Breadcrumb Schema ===== #}
+  {% include "partials/breadcrumb-jsonld.html" %}
 
   {# ===== Footer note ===== #}
   <footer class="oasis__foot">
