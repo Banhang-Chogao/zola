@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-26T23:28:54Z",
+  "updated_at": "2026-06-26T23:34:16Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 86,
+    "today": 87,
     "this_week": 190,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "feature": 45,
+      "fix": 101,
+      "feature": 44,
       "chore": 4,
       "unknown": 43,
-      "fix": 100,
       "content": 5,
       "ci": 3
     }
   },
   "merges": [
+    {
+      "pr_number": 1033,
+      "pr_title": "fix(tools): render MoMo URL admin UI on /tools/momo-url/",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1033",
+      "merged_at": "2026-06-26T23:29:06Z",
+      "merge_commit_sha": "6f91c9cf9a1eb73e3c8f42bb96fae9daa9dc22a1",
+      "merge_commit_short": "6f91c9c",
+      "head_branch": "fix/momo-url-block-main",
+      "summary_vi": "`/tools/momo-url/` has been live since PR #1025 but the main column was empty — auth gate + admin table never rendered.",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 6,
+      "deletions": 2,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1229,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28270977378",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 1031,
       "pr_title": "feat(worldcup-2026): add WorldCup 2026 News Hub",
@@ -642,9 +661,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1199,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28231065846",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 995,
@@ -661,9 +680,9 @@
       "deletions": 20,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1199,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28231065846",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 969,
@@ -680,9 +699,9 @@
       "deletions": 20,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1199,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28231065846",
-      "build_conclusion": "failure"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 968,
@@ -3243,25 +3262,6 @@
       "files_changed": 2,
       "additions": 205,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 826,
-      "pr_title": "feat(editor): add takeaways fields to post editor [feat/post-key-takeaways-box]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/826",
-      "merged_at": "2026-06-24T04:50:26Z",
-      "merge_commit_sha": "7c2a614064681256dd71c4b6fdc233791c3db7f8",
-      "merge_commit_short": "7c2a614",
-      "head_branch": "feat/post-key-takeaways-box",
-      "summary_vi": "feat(editor): add takeaways fields to post editor",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 107,
-      "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
