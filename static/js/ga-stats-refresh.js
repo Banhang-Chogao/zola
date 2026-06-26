@@ -79,6 +79,36 @@
   }
 
   /**
+   * Channel emoji mapping for visual consistency.
+   */
+  const CHANNEL_EMOJIS = {
+    "Direct": "🔗",
+    "Organic Search": "🔍",
+    "Organic Social": "📱",
+    "Paid Social": "📣",
+    "Paid Search": "💰",
+    "Social": "📱",
+    "Email": "📧",
+    "Referral": "🔄",
+    "Unassigned": "❓",
+    "Display": "📺",
+    "Affiliate": "💼",
+    "Video": "🎥",
+  };
+
+  /**
+   * Get emoji for a channel name.
+   */
+  function getChannelEmoji(channelName) {
+    for (const [key, emoji] of Object.entries(CHANNEL_EMOJIS)) {
+      if (channelName.includes(key)) {
+        return emoji;
+      }
+    }
+    return "📊";
+  }
+
+  /**
    * Update channel breakdown widget (if present).
    */
   function updateChannelBreakdown(channels) {
@@ -96,14 +126,15 @@
 
     for (const [channel, data] of Object.entries(channels).slice(0, 5)) {
       const pct = maxUsers > 0 ? Math.round((data.users / maxUsers) * 100) : 0;
+      const emoji = getChannelEmoji(channel);
       const item = document.createElement("div");
       item.className = "ga-channels__item";
       item.innerHTML = `
-        <span class="ga-channels__name">${escapeHtml(channel)}</span>
+        <span class="ga-channels__name">${emoji} ${escapeHtml(channel)}</span>
         <div class="ga-channels__bar-wrapper">
           <div class="ga-channels__bar" style="width: ${pct}%"></div>
         </div>
-        <span class="ga-channels__metric">${data.users || 0} users</span>
+        <span class="ga-channels__metric">${data.users || 0}</span>
       `;
       list.appendChild(item);
     }

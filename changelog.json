@@ -1,6 +1,41 @@
 {
   "items": [
     {
+      "date": "2026-06-26",
+      "title": "blog post ending redesign: breadcrumb, FAQ, related posts, copyright, heartbeat",
+      "tag": "feat",
+      "lines_added": 1223,
+      "lines_removed": 97,
+      "highlights": [],
+      "commit": "019a39a3a760",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
+      "title": "blog footer UI redesign with breadcrumb, FAQ, related posts, copyright",
+      "tag": "feat",
+      "lines_added": 793,
+      "lines_removed": 11,
+      "highlights": [],
+      "commit": "06ab246217ce",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
+      "title": "add pending_count and dm.stale references to base.html [fix/deploy-monitor]",
+      "tag": "fix",
+      "lines_added": 119,
+      "lines_removed": 0,
+      "highlights": [
+        "fix: add deploy-monitor.json load to footer",
+        "fix: add pending_count and dm.stale references to base.html",
+        "sass/_footer.scss (modified, +72/-0)",
+        "templates/base.html (modified, +9/-0)",
+        "templates/partials/deploy-watch.html (added, +38/-0)"
+      ],
+      "pr": 940
+    },
+    {
       "date": "2026-06-25",
       "title": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Countdown [fix/footer-remove-deploy-status]",
       "tag": "remove",
