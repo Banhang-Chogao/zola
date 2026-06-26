@@ -13,10 +13,10 @@
      ) }}
 #}
 
-{% macro section(title="💡 Câu hỏi thường gặp", items=[]) %}
+{% macro section(title="Câu hỏi thường gặp", items="") %}
 {% if items and items | length > 0 %}
 <section class="faq-accordion" aria-label="Câu hỏi thường gặp">
-  <h2 class="faq-accordion__title">{{ title }}</h2>
+  <h2 class="faq-accordion__title">💡 {{ title }}</h2>
   <div class="faq-accordion__container">
     {% for item in items %}
     <details class="faq-accordion__item" data-faq-item>

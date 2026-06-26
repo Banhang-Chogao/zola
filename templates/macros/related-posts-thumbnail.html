@@ -10,7 +10,7 @@
      ) }}
 #}
 
-{% macro grid(base_url, posts=[], current_slug="") %}
+{% macro grid(base_url, posts="", current_slug="") %}
 {% if posts and posts | length > 0 %}
 <section class="related-posts">
   <h2 class="related-posts__title">📚 Bài viết liên quan</h2>
