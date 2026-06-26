@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "refactor(nav): Bài viết → compact category mega menu (grouped)",
+      "tag": "refactor",
+      "lines_added": 11,
+      "lines_removed": 11,
+      "highlights": [
+        "config.toml — Bài viết menu: children → groups",
+        "Tổng quan → Tất cả bài viết",
+        "Chủ đề tri thức → Báo chí · Khoa học · Thế giới · Công nghệ",
+        "Đời sống → Du lịch · Ẩm thực",
+        "Tài chính cá nhân → Ngân hàng · Bảo hiểm"
+      ],
+      "pr": 1009
+    },
+    {
+      "date": "2026-06-26",
       "title": "10-part Merchant Category Code (MCC) blog series [claude/mcc-blog-series-f6pctw]",
       "tag": "feat",
       "lines_added": 2689,
