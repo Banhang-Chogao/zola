@@ -82,6 +82,23 @@ services:
       - key: GOOGLE_ADMIN_EMAILS
         sync: false
 
+      # ----- Native comments (Google login cho người bình luận) -----
+      # Người bình luận đăng nhập Google qua /auth/comment/start (KHÔNG vào được CMS).
+      # GOOGLE_ADMIN_EMAILS vẫn là ranh giới admin/moderate. Mặc định an toàn AdSense:
+      # bình luận mới = pending (chờ duyệt). Reuse GOOGLE_CLIENT_ID/SECRET ở trên.
+      - key: COMMENTS_ENABLED
+        value: "true"
+      - key: COMMENTS_AUTH_PROVIDER
+        value: google
+      - key: COMMENTS_DEFAULT_STATUS
+        value: pending
+      - key: COMMENTS_MAX_LENGTH
+        value: "1500"
+      # Giới hạn domain email được bình luận (comma-separated, vd "company.com").
+      # Để trống = mọi tài khoản Google đã xác minh đều bình luận được.
+      - key: COMMENTS_ALLOWED_DOMAINS
+        sync: false
+
       # ----- Google Search Console (SEO Reality Check, /gsc/* routes) -----
       - key: GSC_CLIENT_ID
         sync: false
