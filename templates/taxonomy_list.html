@@ -2,6 +2,10 @@
 
 {% block title %}{{ taxonomy.name | capitalize }} | {{ config.title }}{% endblock %}
 
+{# Trang mục lục tag/category (danh sách term) là thin index → noindex, follow:
+   bỏ khỏi Google index nhưng vẫn cho crawl/truyền link-equity. #}
+{% block robots %}noindex, follow{% endblock %}
+
 {% block main %}
     <div class="wwdc-listing">
         <header class="wwdc-listing__header">
