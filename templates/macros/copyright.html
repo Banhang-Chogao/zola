@@ -9,7 +9,11 @@
 {% macro display(page, config) %}
   {%- set author = page.extra.author | default(value=config.extra.author) %}
   {%- set author_name = config.extra.profiles.duynguyenlog.name | default(value="Duy Nguyen") %}
-  {%- set copyright_year = now() | date(format="%Y") %}
+  {%- if page.date %}
+    {%- set copyright_year = page.date | date(format="%Y") %}
+  {%- else %}
+    {%- set copyright_year = "2024" %}
+  {%- endif %}
   {%- set site_title = config.title %}
 
   <section class="copyright-notice" aria-labelledby="copyright-title">
