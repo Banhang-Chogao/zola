@@ -1,24 +1,62 @@
 {
-  "updated_at": "2026-06-26T18:38:58Z",
+  "updated_at": "2026-06-26T21:18:50Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 71,
+    "today": 73,
     "this_week": 193,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
       "fix": 102,
-      "feature": 41,
+      "feature": 42,
       "content": 4,
       "unknown": 43,
       "ci": 3,
-      "chore": 7
+      "chore": 6
     }
   },
   "merges": [
+    {
+      "pr_number": 1019,
+      "pr_title": "fix(ui): remove public navbar Xoá cache button",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1019",
+      "merged_at": "2026-06-26T19:11:18Z",
+      "merge_commit_sha": "e2ed870c1ad4e7e920ab8706c1504d5aa5fe7a5c",
+      "merge_commit_short": "e2ed870",
+      "head_branch": "fix/remove-public-cache-button",
+      "summary_vi": "Removes the visible **Xoá cache** button from the public blog navbar — confusing for readers and not needed on production pages.",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 0,
+      "deletions": 8,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 1018,
+      "pr_title": "feat(editor): Sticky/Featured placement + CMS UX refactor",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/1018",
+      "merged_at": "2026-06-26T18:45:54Z",
+      "merge_commit_sha": "fb432dbd8304321b28a47629cdfbb31a0a037497",
+      "merge_commit_short": "fb432db",
+      "head_branch": "feat/editor-sticky-featured-ux",
+      "summary_vi": "Refactors the SEOMONEY Editor (`/editor/`) with a calmer S-DNA visual layer and formalizes **Sticky** + **Featured** homepage placement controls end-to-end.",
+      "change_type": "feature",
+      "files_changed": 9,
+      "additions": 1744,
+      "deletions": 86,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1211,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28258476254",
+      "build_conclusion": "success"
+    },
     {
       "pr_number": 1016,
       "pr_title": "fix(paywall): disable premium lock — all SEOMONEY content free",
@@ -36,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1210,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257192124",
-      "build_conclusion": "queued"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1017,
@@ -74,7 +112,7 @@
       "auto_merged": false,
       "build_run_number": 1210,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28257192124",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "success"
     },
     {
       "pr_number": 1014,
@@ -718,9 +756,9 @@
       "deletions": 1,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1181,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28220078942",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 973,
@@ -737,9 +775,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1181,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28220078942",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 972,
@@ -3376,44 +3414,6 @@
       "files_changed": 9,
       "additions": 628,
       "deletions": 11,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 795,
-      "pr_title": "fix: use Render-backed resilient blog heartbeat bar [skip changelog] [fix/blog-heartbeat-client-fallback]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/795",
-      "merged_at": "2026-06-23T17:28:27Z",
-      "merge_commit_sha": "33ee95d3b0cfd0d43961828ca8a983c4289f6cfb",
-      "merge_commit_short": "33ee95d",
-      "head_branch": "fix/blog-heartbeat-client-fallback",
-      "summary_vi": "fix: use Render-backed resilient blog heartbeat bar [skip changelog]",
-      "change_type": "fix",
-      "files_changed": 5,
-      "additions": 495,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 794,
-      "pr_title": "chore(ci): retire legacy paywall gate from default QA [skip changelog] [chore/ci-speed-paywall-retire-20260623]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/794",
-      "merged_at": "2026-06-23T16:29:19Z",
-      "merge_commit_sha": "598c1c01f094c87cf61d32ad004930decb6e53b8",
-      "merge_commit_short": "598c1c0",
-      "head_branch": "chore/ci-speed-paywall-retire-20260623",
-      "summary_vi": "chore(ci): retire legacy paywall gate from default QA [skip changelog]",
-      "change_type": "chore",
-      "files_changed": 3,
-      "additions": 40,
-      "deletions": 9,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
