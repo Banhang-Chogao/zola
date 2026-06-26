@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "implement /reports API endpoints for báo cáo tổng kết",
+      "tag": "fix",
+      "lines_added": 969,
+      "lines_removed": 60,
+      "highlights": [
+        "Frontend (static/js/bao-cao.js) correctly calls GET /reports and GET /reports/{filename} endpoints",
+        "VIPZone backend was missing the entire reports router",
+        "No reports table in SQLite database",
+        "Result: 404 Not Found responses, displayed as \"backend offline?\"",
+        "Added reports SQLite table schema with columns: id, filename, content, preview, created_at"
+      ],
+      "pr": 1023
+    },
+    {
+      "date": "2026-06-26",
       "title": "fix(ui): move 'Giới thiệu' menu from header to footer, create 'Về SEO…",
       "tag": "fix",
       "lines_added": 56,
