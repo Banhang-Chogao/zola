@@ -51,6 +51,10 @@
     {% endfor %}
     {% if not build_sha %}{% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}{% endif %}
 {% endif %}
+
+{# Deploy Monitor Widget data — load as GLOBAL so all templates can access it #}
+{% set_global dm = load_data(path="data/deploy-monitor.json", required=false) %}
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -1328,10 +1332,29 @@
             </div>
         </nav>
 
-        {# Footer deploy-status blocks removed (Deployment Status card + "🚀 Deploy" strip)
-           — footer layout cleanup. Deploy data + standalone /tools/deploy-monitor/ page
-           are intentionally kept; only the footer rendering was removed. Countdown stays
-           (widget at footer_countdown::render() + nav link in .site-footer__left). #}
+        {# Deploy Monitor Widget — displays deployment queue status, pending count, stale warning #}
+        {% if dm %}
+        <div class="deploy-watch" role="status" aria-label="Deploy queue status">
+            <div class="container">
+                <div class="deploy-watch__content">
+                    {% if dm.stale %}
+                    <span class="deploy-watch__stale" title="Data is stale — last updated {{ dm.checked_at }}">
+                        ⚠️ Stale deploy data ({{ dm.checked_at }})
+                    </span>
+                    {% endif %}
+                    {% if dm.summary and dm.summary.pending_count > 0 %}
+                    <span class="deploy-watch__pending">
+                        🚀 Deploy queue: {{ dm.summary.pending_count }} pending
+                    </span>
+                    {% else %}
+                    <span class="deploy-watch__idle">
+                        ✅ Deployment queue idle
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
         {# WD Heartbeat Stats — WWDC26 calm-first deploy overview (build-time) #}
         {% include "partials/wd-heartbeat.html" %}
