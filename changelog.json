@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "PIPELINE HEARTBEAT placeholder section from blog footer [claude/pipeline-heartbeat-placeholder-718rnt]",
+      "tag": "remove",
+      "lines_added": 0,
+      "lines_removed": 3,
+      "highlights": [
+        "templates/base.html (modified, +0/-3)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py).",
+        "Squash-merge → 1 commit duy nhất trên main; revert bằng git revert <merge_sha> rồi push qua PR là rollback hoàn toàn.",
+        "Chưa merge: đóng PR + xoá branch claude/pipeline-heartbeat-placeholder-718rnt là đủ (không ảnh hưởng main)."
+      ],
+      "pr": 984
+    },
+    {
+      "date": "2026-06-26",
       "title": "remove unused CSS for carousel arrow buttons [claude/remove-carousel-nav-buttons-5hmtx8]",
       "tag": "fix",
       "lines_added": 0,
