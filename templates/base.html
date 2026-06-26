@@ -1257,16 +1257,15 @@
                 </div>
                 <div class="footer-tags__cloud">
                     {% for t in footer_tags_to_display %}
-                    {% set scale = (t.page_count - min_count) / (max_count - min_count + 1) %}
-                    {% set font_size_class = "" %}
-                    {% if scale >= 0.75 %}
+                    {% set idx = loop.index0 %}
+                    {% set count_max = footer_tags_to_display | length %}
+                    {% set font_size_class = "footer-tags__item--xs" %}
+                    {% if idx < count_max * 0.25 %}
                         {% set font_size_class = "footer-tags__item--lg" %}
-                    {% elif scale >= 0.5 %}
+                    {% elif idx < count_max * 0.5 %}
                         {% set font_size_class = "footer-tags__item--md" %}
-                    {% elif scale >= 0.25 %}
+                    {% elif idx < count_max * 0.75 %}
                         {% set font_size_class = "footer-tags__item--sm" %}
-                    {% else %}
-                        {% set font_size_class = "footer-tags__item--xs" %}
                     {% endif %}
                     <a class="footer-tags__item {{ font_size_class }}" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
                         <span class="footer-tags__name">{{ t.name }}</span>
