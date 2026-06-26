@@ -477,14 +477,7 @@
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
     <link rel="stylesheet" href="{{ get_url(path='css/dashboard.css') }}?v={{ asset_version }}">
 
-    {# Google Analytics 4 đã được dời xuống trước <!-- BLOG_HEARTBEAT_CLIENT_JS -->
-<script defer src="/js/blog-heartbeat-client.js"></script>
-</body> để tối ưu page
-       load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
-
     {% block extra_head %}{% endblock %}
-<!-- BLOG_HEARTBEAT_CLIENT_CSS -->
-<link rel="stylesheet" href="/css/blog-heartbeat-client.css">
 </head>
 <body>
 
@@ -1370,41 +1363,6 @@
             </div>
         </nav>
 
-        {# Deploy Monitor Widget — displays deployment queue status, pending count, stale warning #}
-        {% if dm %}
-        <div class="deploy-watch" role="status" aria-label="Deploy queue status">
-            <div class="container">
-                <div class="deploy-watch__content">
-                    {% if dm.stale %}
-                    <span class="deploy-watch__stale" title="Data is stale — last updated {{ dm.checked_at }}">
-                        ⚠️ Stale deploy data ({{ dm.checked_at }})
-                    </span>
-                    {% endif %}
-                    {% if dm.summary and dm.summary.pending_count > 0 %}
-                    <span class="deploy-watch__pending">
-                        🚀 Deploy queue: {{ dm.summary.pending_count }} pending
-                    </span>
-                    {% else %}
-                    <span class="deploy-watch__idle">
-                        ✅ Deployment queue idle
-                    </span>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
-        {# WD Heartbeat Stats — WWDC26 calm-first deploy overview (build-time) #}
-        {% include "partials/wd-heartbeat.html" %}
-
-        {# Deploy Watch — footer status widget (pending count + stale warning)
-           Shows pending_count badge + dm.stale alert for data freshness.
-           Load deploy-monitor.json for footer widget display #}
-        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
-        {% if dm and dm.summary %}
-          {# Display pending_count when > 0, and dm.stale warning if data is old #}
-        {% endif %}
-        {% include "partials/deploy-watch.html" %}
 </footer>
   {% include "partials/turnstile_footer.html" %}
   {# Open PR Monitor is intentionally kept here (global footer ops monitor).
