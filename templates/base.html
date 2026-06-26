@@ -1330,8 +1330,8 @@
 
         {# Deploy Monitor Widget — load build-time data/deploy-monitor.json
            Displays deployment queue status, pending count, stale warning. #}
-        {% set dm = load_data(path="data/deploy-monitor.json") | default(value={}) %}
-        {% if dm.pending_count is defined %}
+        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+        {% if dm %}
         <div class="deploy-watch" role="status" aria-label="Deploy queue status">
             <div class="container">
                 <div class="deploy-watch__content">
