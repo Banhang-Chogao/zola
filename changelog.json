@@ -2,6 +2,16 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "ga: remove GA_MEASUREMENT_ID placeholder sentinel from analytics bootstrap",
+      "tag": "remove",
+      "lines_added": 2,
+      "lines_removed": 12,
+      "highlights": [],
+      "commit": "fa06a9ea804e",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
       "title": "Merge remote-tracking branch 'origin/main' into claude/footer-markup-styling-78rgqm [claude/footer-markup-styling-78rgqm]",
       "tag": "chore",
       "lines_added": 64,
