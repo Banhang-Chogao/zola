@@ -1247,7 +1247,7 @@
                 <div class="footer-tags__cloud">
                     {% for t in footer_tags_sorted | slice(end=footer_tags_initial) %}
                     <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                        <span class="footer-tags__name">#{{ t.name }}</span>
+                        <span class="footer-tags__name">{{ t.name }}</span>
                         <span class="footer-tags__count">{{ t.page_count }}</span>
                     </a>
                     {% endfor %}
@@ -1266,7 +1266,7 @@
                     <div class="footer-tags__cloud footer-tags__cloud--extra">
                         {% for t in footer_tags_sorted | slice(start=footer_tags_initial) %}
                         <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                            <span class="footer-tags__name">#{{ t.name }}</span>
+                            <span class="footer-tags__name">{{ t.name }}</span>
                             <span class="footer-tags__count">{{ t.page_count }}</span>
                         </a>
                         {% endfor %}
