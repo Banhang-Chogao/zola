@@ -5,13 +5,16 @@ description = "Từ chaos sang order: Tôi thiết kế framework dựa trên CL
 date = 2026-06-26
 updated = 2026-06-26
 slug = "thiet-ke-framework-giai-quyet-merge-conflict"
+series = "merge-conflict-preflight"
+
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "merge-conflict", "automation", "framework", "git"]
-series = "merge-conflict-preflight"
-extra.series_part = 2
-extra.seo_keyword = "merge conflict resolution framework"
-extra.thumbnail = "/images/blog/conflict-framework.jpg"
+
+[extra]
+series_part = 2
+seo_keyword = "merge conflict resolution framework"
+thumbnail = "/images/blog/conflict-framework.jpg"
 +++
 
 ## Từ Chaos Sang Order

@@ -5,13 +5,16 @@ description = "7 PR conflict → hệ thống tự động → vaccine library. 
 date = 2026-06-26
 updated = 2026-06-26
 slug = "bai-hoc-merge-conflict-future"
+series = "merge-conflict-preflight"
+
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
 tags = ["CI/CD", "lessons-learned", "zero-barrier", "automation"]
-series = "merge-conflict-preflight"
-extra.series_part = 5
-extra.seo_keyword = "merge conflict lessons learned automation"
-extra.thumbnail = "/images/blog/lessons-learned.jpg"
+
+[extra]
+series_part = 5
+seo_keyword = "merge conflict lessons learned automation"
+thumbnail = "/images/blog/lessons-learned.jpg"
 +++
 
 ## Root Causes Fixed
