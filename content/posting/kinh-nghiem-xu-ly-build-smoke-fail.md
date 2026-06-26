@@ -2,7 +2,7 @@
 title = "Cách Fix Build-Smoke Fail: 3 Bài Học Từ Kinh Nghiệm Zola"
 date = 2026-06-26
 description = "3 bài học từ việc fix build-smoke fail hàng chục lần: log không nói dối, frontmatter là thủ phạm, và quy trình chuẩn để tự fix."
-slug = "cach-fix-build-smoke-fail"
+slug = "kinh-nghiem-xu-ly-build-smoke-fail"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
