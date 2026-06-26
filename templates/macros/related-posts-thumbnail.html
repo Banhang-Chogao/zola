@@ -13,7 +13,7 @@
 {% macro grid(base_url, posts="", current_slug="") %}
 {% if posts and posts | length > 0 %}
 <section class="related-posts">
-  <h2 class="related-posts__title">📚 Bài viết liên quan</h2>
+  <h2 class="related-posts__title">Bài viết liên quan</h2>
   <div class="related-posts__grid">
     {% for post in posts %}
     {% set thumb = post.extra.image or post.extra.og_image or "" %}
@@ -30,7 +30,7 @@
           />
           {% else %}
           <div class="related-posts__placeholder">
-            <span aria-hidden="true">📖</span>
+            <span aria-hidden="true"></span>
           </div>
           {% endif %}
         </div>
