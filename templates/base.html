@@ -1342,9 +1342,9 @@
                         ⚠️ Stale deploy data ({{ dm.checked_at }})
                     </span>
                     {% endif %}
-                    {% if dm.pending_count > 0 %}
+                    {% if dm.summary and dm.summary.pending_count > 0 %}
                     <span class="deploy-watch__pending">
-                        🚀 Deploy queue: {{ dm.pending_count }} pending
+                        🚀 Deploy queue: {{ dm.summary.pending_count }} pending
                     </span>
                     {% else %}
                     <span class="deploy-watch__idle">
