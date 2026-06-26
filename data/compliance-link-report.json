@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-26T07:50:14Z",
+  "updated_at": "2026-06-26T08:23:42Z",
   "summary": {
-    "broken_count": 11,
-    "checked_unique": 1269,
+    "broken_count": 7,
+    "checked_unique": 1265,
     "status": "fail"
   },
   "links": [
@@ -450,8 +450,8 @@
     {
       "source_page": "/posting/automation-merge-conflict-saved-us/",
       "source_file": "public/posting/automation-merge-conflict-saved-us/index.html",
-      "href": "../preflight-catching-conflicts",
-      "target": "/../preflight-catching-conflicts/",
+      "href": "../merge-conflict-preflight-catch-early",
+      "target": "/../merge-conflict-preflight-catch-early/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
@@ -468,8 +468,8 @@
     {
       "source_page": "/posting/bai-hoc-merge-conflict-future/",
       "source_file": "public/posting/bai-hoc-merge-conflict-future/index.html",
-      "href": "../khi-7-pull-request-that-do",
-      "target": "/../khi-7-pull-request-that-do/",
+      "href": "../merge-conflict-khung-hoang-7-pr-that-bai",
+      "target": "/../merge-conflict-khung-hoang-7-pr-that-bai/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
@@ -1485,8 +1485,8 @@
     {
       "source_page": "/posting/merge-conflict-khung-hoang-7-pr-that-bai/",
       "source_file": "public/posting/merge-conflict-khung-hoang-7-pr-that-bai/index.html",
-      "href": "../xay-dung-conflict-resolution-framework",
-      "target": "/../xay-dung-conflict-resolution-framework/",
+      "href": "../thiet-ke-framework-giai-quyet-merge-conflict",
+      "target": "/../thiet-ke-framework-giai-quyet-merge-conflict/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
@@ -1503,8 +1503,8 @@
     {
       "source_page": "/posting/merge-conflict-preflight-catch-early/",
       "source_file": "public/posting/merge-conflict-preflight-catch-early/index.html",
-      "href": "../lessons-learned-future-proofing",
-      "target": "/../lessons-learned-future-proofing/",
+      "href": "../bai-hoc-merge-conflict-future",
+      "target": "/../bai-hoc-merge-conflict-future/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
@@ -2196,8 +2196,8 @@
     {
       "source_page": "/posting/thiet-ke-framework-giai-quyet-merge-conflict/",
       "source_file": "public/posting/thiet-ke-framework-giai-quyet-merge-conflict/index.html",
-      "href": "../automation-that-saved-us",
-      "target": "/../automation-that-saved-us/",
+      "href": "../automation-merge-conflict-saved-us",
+      "target": "/../automation-merge-conflict-saved-us/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
