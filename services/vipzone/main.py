@@ -172,10 +172,12 @@ except Exception as exc:  # pragma: no cover - defensive: keep the rest of the A
 try:
     import cms_repo
 
-    async def _cms_get_token(authorization: str) -> str:
+    async def _cms_get_token(authorization: str, cookie_sid: str | None = None) -> str:
         from main import get_db
 
-        return await github_token_from_session(get_db(), authorization or "")
+        return await github_token_from_session(
+            get_db(), authorization or "", cookie_sid=cookie_sid
+        )
 
     cms_repo.configure(get_token=_cms_get_token)
     app.include_router(cms_repo.router)

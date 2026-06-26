@@ -363,7 +363,12 @@
         {%- endfor %}]
     </script>
 
-    {# Cache-bust theo commit SHA → mỗi lần deploy mới, browser tự fetch JS mới #}
-    <script src="{{ get_url(path='js/datetime-format.js') }}"></script>
-    <script src="{{ get_url(path='js/editor.js') }}{% if latest_commit %}?v={{ latest_commit.sha | truncate(length=7, end='') }}{% endif %}" defer></script>
+    {# Cache-bust theo build timestamp (giống base.html) → MỖI lần deploy đổi
+       ?v= nên browser luôn tự fetch editor JS mới. User KHÔNG cần "clear site
+       data" để thấy JS mới — hard refresh là đủ (mà thường cũng không cần).
+       Trước đây datetime-format.js KHÔNG có ?v= (cache vĩnh viễn) và editor.js
+       chỉ bust khi có latest_commit → JS cũ kẹt lại. #}
+    {% set editor_asset_version = now(timestamp=true) %}
+    <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ editor_asset_version }}"></script>
+    <script src="{{ get_url(path='js/editor.js') }}?v={{ editor_asset_version }}" defer></script>
 {% endblock %}

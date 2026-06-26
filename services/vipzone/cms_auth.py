@@ -25,7 +25,14 @@ BACKEND_URL = os.getenv(
 ).rstrip("/")
 GH_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID") or os.getenv("GH_CLIENT_ID", "")
 GH_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET") or os.getenv("GH_CLIENT_SECRET", "")
-SESSION_TTL = int(os.getenv("VIPZONE_SESSION_TTL", str(8 * 3600)))
+# Admin session lifetime. Default 30 days so the editor stays logged in across
+# days of work and across browser restarts — the persistent HttpOnly cookie
+# (attach_session_cookie) uses this same value for Max-Age, and the server-side
+# cms_sessions row expires at the same horizon, so cookie TTL == server TTL.
+# Was 8h previously, which forced a re-login every working day. Override via the
+# VIPZONE_SESSION_TTL env var (seconds). Clearing cookies/site data still logs
+# out immediately regardless of TTL.
+SESSION_TTL = int(os.getenv("VIPZONE_SESSION_TTL", str(30 * 24 * 3600)))
 
 ADMIN_EMAILS = {
     e.strip().lower()

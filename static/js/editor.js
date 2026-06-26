@@ -1,11 +1,12 @@
 /**
  * Mini CMS — viết bài blog, đẩy file .md vào repo GitHub qua REST API.
  *
- * Authentication: GitHub Personal Access Token (PAT) lưu localStorage.
- * Token chỉ ở trình duyệt này, không gửi đi đâu khác (chỉ tới api.github.com).
+ * Authentication: GitHub/Google OAuth qua backend FastAPI (services/vipzone).
+ * Phiên = cookie HttpOnly `zola_cms_sid` (bền, Max-Age 30 ngày) + sid opaque
+ * trong localStorage làm Bearer fallback. Không lưu OAuth token nào ở client.
  *
  * Workflow:
- *   1. User login bằng PAT
+ *   1. User login bằng OAuth (GitHub/Google)
  *   2. List bài viết (GET /contents/content/)
  *   3. Tạo/sửa bài → PUT /contents/content/{slug}.md với base64 content
  *   4. GitHub Actions auto-build + deploy site sau ~1 phút
@@ -23,18 +24,32 @@
      OAuth flow (replaces OTP):
        1. User click "Đăng nhập GitHub" → redirect BACKEND/auth/login
        2. GitHub OAuth → BACKEND callback → check email white-list
-       3. Backend redirect /editor/#sid=... → JS đọc hash → sessionStorage
-       4. /auth/me validate session mỗi page load
+       3. Backend set cookie HttpOnly + redirect /editor/#sid=... → JS đọc hash
+          → lưu localStorage (Bearer fallback)
+       4. /auth/me validate session mỗi page load (credentials:include → cookie)
        5. Save bài = download .md (DRAFT-ONLY mode giữ nguyên từ PR #34)
 
      Security:
-       - sid là opaque random 32-byte, KHÔNG carry info
-       - access_token GitHub giữ Redis-side trên backend, KHÔNG về client
-       - sessionStorage → auto-clear khi đóng tab
-       - Backend TTL 2h → idle quá tự logout
+       - sid là opaque random, KHÔNG carry info (KHÔNG phải OAuth token)
+       - access_token GitHub / id_token Google giữ server-side, KHÔNG về client
+       - cookie HttpOnly = nguồn phiên bền (Max-Age = SESSION_TTL, mặc định 30d)
+       - localStorage sống qua đóng tab + xoá static cache; chỉ mất khi xoá
+         cookie/site data → khi đó logout là ĐÚNG kỳ vọng
        - White-list email check server-side, client KHÔNG bypass được */
 
   const SESSION_KEY = "zola-cms-session-id";
+  // Persistence model (fix: "xoá cache xong bị bắt đăng nhập lại"):
+  //   - Nguồn phiên BỀN VỮNG là cookie HttpOnly `zola_cms_sid` do backend set
+  //     (Secure + SameSite=None, Max-Age = SESSION_TTL). Mọi fetch dùng
+  //     credentials:"include" để cookie tự gửi → còn cookie là còn đăng nhập,
+  //     kể cả khi xoá "cached images/files" hay đóng/mở lại tab.
+  //   - sid cũng lưu localStorage làm Bearer fallback cho trình duyệt CHẶN
+  //     cookie bên thứ ba (Safari ITP, Firefox). localStorage sống qua đóng tab
+  //     + xoá static cache; CHỈ mất khi user "clear cookies / site data" → khi
+  //     đó logout là ĐÚNG kỳ vọng. (Trước đây dùng sessionStorage → mất ngay
+  //     khi đóng tab nên hay bị bắt login lại.)
+  //   - sid là opaque, KHÔNG phải OAuth token; access_token GitHub luôn ở
+  //     server-side. Không lưu OAuth token nào trong trình duyệt.
   // Fallback chain: meta cms-auth → meta visitor-api → hardcode prod URL
   const AUTH_API = (function () {
     const m1 = document.querySelector('meta[name="zola-cms-auth-api"]');
@@ -47,13 +62,27 @@
   let currentUser = null; // { email, username, name, avatar }
 
   function getSid() {
-    try { return sessionStorage.getItem(SESSION_KEY) || ""; }
-    catch (e) { return ""; }
+    try {
+      // localStorage là nguồn chính (bền qua đóng tab). Migrate sid cũ còn kẹt
+      // trong sessionStorage (phiên trước bản vá này) sang localStorage 1 lần.
+      let sid = localStorage.getItem(SESSION_KEY) || "";
+      if (!sid) {
+        const legacy = sessionStorage.getItem(SESSION_KEY) || "";
+        if (legacy) {
+          localStorage.setItem(SESSION_KEY, legacy);
+          sessionStorage.removeItem(SESSION_KEY);
+          sid = legacy;
+        }
+      }
+      return sid;
+    } catch (e) { return ""; }
   }
   function setSid(sid) {
-    try { sessionStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+    try { localStorage.setItem(SESSION_KEY, sid); } catch (e) {}
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
   function clearSid() {
+    try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
     try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
@@ -79,21 +108,53 @@
     return err;
   }
 
-  async function fetchMe() {
-    const sid = getSid();
-    if (!sid || !AUTH_API) return null;
-    try {
-      const res = await fetch(AUTH_API + "/auth/me", {
-        headers: { "Authorization": "Bearer " + sid },
-        credentials: "omit",
-        cache: "no-store",
-      });
-      if (res.status === 401) { clearSid(); return null; }
-      if (!res.ok) return null;
-      return await res.json();
-    } catch (e) {
-      return null; // network fail → coi như chưa login, không phá UI
+  // Xác thực phiên. Thử Bearer (nếu có sid localStorage) TRƯỚC; nếu thiếu sid
+  // hoặc Bearer 401 thì thử lại CHỈ bằng cookie HttpOnly (credentials:include)
+  // → còn cookie là còn đăng nhập dù localStorage trống (vd vừa xoá static cache
+  // ở trình duyệt cho cookie sống nhưng không cho JS đọc sid). Network fail →
+  // trả "unknown" để KHÔNG logout phá UI (xem init()).
+  async function meRequest(useBearer) {
+    const opts = { credentials: "include", cache: "no-store", headers: {} };
+    if (useBearer) {
+      const sid = getSid();
+      if (!sid) return { status: 0 };
+      opts.headers["Authorization"] = "Bearer " + sid;
     }
+    try {
+      const res = await fetch(AUTH_API + "/auth/me", opts);
+      if (!res.ok) return { status: res.status };
+      return { status: 200, user: await res.json() };
+    } catch (e) {
+      return { status: -1 }; // network/CORS fail → transient, KHÔNG coi là logout
+    }
+  }
+
+  async function fetchMe() {
+    if (!AUTH_API) return null;
+    const sid = getSid();
+    // 1. Bearer trước (nếu có sid). 2. Cookie-only fallback.
+    let r = sid ? await meRequest(true) : { status: 0 };
+    if (r.status === 200) return r.user;
+    // Bearer thiếu / 401 / lỗi → thử cookie HttpOnly.
+    if (r.status === 0 || r.status === 401 || r.status === -1) {
+      const c = await meRequest(false);
+      if (c.status === 200) return c.user;
+      // Chỉ clear sid khi backend KHẲNG ĐỊNH 401 (cả Bearer lẫn cookie đều fail).
+      if (c.status === 401 && sid) clearSid();
+    }
+    return null;
+  }
+
+  // Phiên hết hạn GIỮA lúc đang soạn (save/publish/list trả 401): lưu bản nháp
+  // hiện tại vào localStorage TRƯỚC khi đẩy về màn login, rồi báo rõ cho user.
+  // Draft được khôi phục qua draft-recovery banner sau khi đăng nhập lại.
+  function handleSessionExpired() {
+    try { if (typeof autosaveDraft === "function") autosaveDraft(); } catch (e) {}
+    clearSid();
+    alert(
+      "Phiên đăng nhập đã hết hạn. Bản nháp đã được lưu tạm trước khi đăng nhập lại."
+    );
+    showView("login");
   }
 
   async function logoutRemote() {
@@ -103,7 +164,7 @@
       await fetch(AUTH_API + "/auth/logout", {
         method: "POST",
         headers: { "Authorization": "Bearer " + sid },
-        credentials: "omit",
+        credentials: "include",
         keepalive: true,
       });
     } catch (e) { /* network fail OK — session client-side đã clear */ }
@@ -910,7 +971,7 @@ tags = ${tagsStr}
           "Authorization": "Bearer " + sid,
           "Content-Type": "application/json",
         },
-        credentials: "omit",
+        credentials: "include",
         body: JSON.stringify({ slugs: slugs }),
       });
       if (res.status === 401) {
@@ -1053,7 +1114,7 @@ tags = ${tagsStr}
     try {
       const res = await fetch(AUTH_API + "/api/categories/list", {
         headers: { "Authorization": "Bearer " + sid },
-        credentials: "omit",
+        credentials: "include",
         cache: "no-store",
       });
       if (res.status === 401) { clearSid(); return; }
@@ -1079,7 +1140,7 @@ tags = ${tagsStr}
         "Authorization": "Bearer " + sid,
         "Content-Type": "application/json",
       },
-      credentials: "omit",
+      credentials: "include",
       body: JSON.stringify({ name }),
     });
     if (res.status === 401) { clearSid(); throw new Error("Phiên hết hạn"); }
@@ -1348,15 +1409,13 @@ tags = ${tagsStr}
     if (!form.reportValidity()) return; // browser native validation
 
     const sid = getSid();
-    if (!sid) {
-      alert("Phiên đăng nhập đã hết. Đăng nhập lại để publish.");
-      showView("login");
-      return;
-    }
     if (!AUTH_API) {
       alert("Backend chưa cấu hình.");
       return;
     }
+    // KHÔNG chặn cứng khi thiếu sid: phiên có thể còn sống qua cookie HttpOnly
+    // (credentials:include). Backend trả 401 nếu thật sự hết hạn →
+    // handleSessionExpired() lưu draft + báo + về login.
 
     const fm = collectFormFrontmatter(form);
     const isSticky = fm.sticky;
@@ -1395,20 +1454,17 @@ tags = ${tagsStr}
     setStatus("save-status", "Đang đẩy lên GitHub…", "info");
 
     try {
+      const headers = { "Content-Type": "application/json" };
+      if (sid) headers["Authorization"] = "Bearer " + sid;
       const res = await fetch(AUTH_API + "/cms/save-post", {
         method: "POST",
-        headers: {
-          "Authorization": "Bearer " + sid,
-          "Content-Type": "application/json",
-        },
-        credentials: "omit",
+        headers: headers,
+        credentials: "include",
         body: JSON.stringify({ slug, content, message }),
       });
 
       if (res.status === 401) {
-        clearSid();
-        alert("Phiên hết hạn. Đăng nhập lại.");
-        showView("login");
+        handleSessionExpired(); // lưu draft + báo + về login
         return;
       }
       if (res.status === 403) {
@@ -2128,18 +2184,18 @@ tags = ${tagsStr}
       return;
     }
 
-    // 4. Có sid → validate qua backend /auth/me
-    const sid = getSid();
-    if (sid) {
-      const user = await fetchMe();
-      if (user) {
-        currentUser = user;
-        populateUserBar(user);
-        if (!checkUrlParam()) await enterDashboard(true);
-        return;
-      }
-      // Session expired/invalid → đã clearSid trong fetchMe
+    // 4. Validate phiên qua /auth/me — thử Bearer (localStorage) RỒI cookie
+    //    HttpOnly. Gọi cả khi localStorage trống: nếu cookie còn sống (vd user
+    //    chỉ xoá static cache, không xoá site data) thì vẫn đăng nhập được,
+    //    KHÔNG bắt login lại.
+    const user = await fetchMe();
+    if (user) {
+      currentUser = user;
+      populateUserBar(user);
+      if (!checkUrlParam()) await enterDashboard(true);
+      return;
     }
+    // Hết phiên thật (cả Bearer lẫn cookie fail) → rơi xuống màn login.
 
     // 5. Chưa login → fetch /auth/config TRƯỚC (render đúng nút + biết provider
     //    nào đang bật), rồi mới quyết định có hiện cảnh báo *_disabled không.
