@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "feat(worldcup-2026): add WorldCup 2026 News Hub",
+      "tag": "chore",
+      "lines_added": 1326,
+      "lines_removed": 0,
+      "highlights": [
+        "Hero + badges (WorldCup 2026 · Đời sống · Bóng đá) + CTA",
+        "Dashboard nhanh: 4 stat cards (tin/lịch/đội/góc nhìn) tính từ data",
+        "Filter tabs client-side (vanilla JS, no framework; JS tắt vẫn thấy đủ nội dung)",
+        "5 section: Tin mới · Lịch thi đấu (giờ VN GMT+7) · Đội tuyển · Bên lề & Đời sống · FAQ",
+        "Mọi section có empty state đẹp khi data rỗng → không vỡ build"
+      ],
+      "pr": 1031
+    },
+    {
+      "date": "2026-06-26",
       "title": "docs(readme): refresh SEOMONEY architecture and tech stack",
       "tag": "chore",
       "lines_added": 685,
