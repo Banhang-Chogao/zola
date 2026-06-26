@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-06-26T17:41:13Z",
-  "score": 100.0,
+  "updated_at": "2026-06-26T18:16:55Z",
+  "score": 97.8,
   "grade": "A+",
   "mood": "good",
   "stats": {
-    "pass": 23,
-    "warn": 0,
+    "pass": 22,
+    "warn": 1,
     "fail": 0,
     "total": 23
   },
@@ -68,15 +68,15 @@
     {
       "id": "media",
       "label": "Media",
-      "score": 100.0,
-      "pass": 3,
-      "warn": 0,
+      "score": 83.3,
+      "pass": 2,
+      "warn": 1,
       "fail": 0,
       "items": [
         {
           "label": "Image descriptions",
-          "status": "pass",
-          "detail": "683/683 pages covered"
+          "status": "warn",
+          "detail": "547/683 pages covered"
         },
         {
           "label": "Image weight",
@@ -198,6 +198,10 @@
   ],
   "highlights": [
     {
+      "type": "warn",
+      "text": "Media: Image descriptions"
+    },
+    {
       "type": "pass",
       "text": "Metadata: Page titles"
     },
@@ -216,28 +220,24 @@
     {
       "type": "pass",
       "text": "Structure: Document language"
-    },
-    {
-      "type": "pass",
-      "text": "Structure: Mobile viewport"
     }
   ],
   "pages_scanned": 683,
   "articles_scanned": 173,
   "fix_log": [
     {
-      "category": "—",
-      "label": "Tất cả mục",
-      "check_status": "pass",
-      "outcome": "skipped",
-      "message": "Không có mục warn/fail — bỏ qua auto-fix",
-      "at": "2026-06-26T17:41:13Z"
+      "category": "Media",
+      "label": "Image descriptions",
+      "check_status": "warn",
+      "outcome": "failed",
+      "message": "Chưa có auto-fix an toàn cho mục này (547/683 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T18:16:55Z"
     }
   ],
   "fix_summary": {
     "attempted": 1,
     "fixed": 0,
-    "failed": 0,
-    "skipped": 1
+    "failed": 1,
+    "skipped": 0
   }
 }
