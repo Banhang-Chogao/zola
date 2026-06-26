@@ -25,9 +25,7 @@
   font-family: var(--wwdc-family-sans);
   color: var(--w-body);
   line-height: var(--wwdc-leading-normal);
-  /* Fluid container padding — shrinks smoothly from desktop to phone,
-     no breakpoint step needed. */
-  padding: 0 clamp(8px, 3vw, 16px) clamp(32px, 6vw, 64px);
+  padding: 0 16px 64px;
   margin: 0 auto;
 
   *, *::before, *::after {
@@ -86,9 +84,7 @@
 
 .island__title {
   font-family: var(--wwdc-family-display);
-  /* Fluid hero scale: 1.5rem on phones → 4rem on wide desktop.
-     Replaces the old fixed 2rem / 1.5rem breakpoint overrides. */
-  font-size: clamp(1.5rem, 6vw, 4rem);
+  font-size: var(--wwdc-hero-title);
   font-weight: var(--wwdc-font-heavy);
   line-height: var(--wwdc-leading-tight);
   letter-spacing: var(--wwdc-letter-tight);
@@ -187,7 +183,7 @@
 
 .island__sec-num {
   font-family: var(--wwdc-family-mono);
-  font-size: clamp(var(--wwdc-text-sm), 1.4vw, var(--wwdc-text-base));
+  font-size: var(--wwdc-text-base);
   font-weight: var(--wwdc-font-heavy);
   color: var(--w-blue);
   letter-spacing: var(--wwdc-letter-wide);
@@ -196,7 +192,7 @@
 
 .island__sec-title {
   font-family: var(--wwdc-family-display);
-  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  font-size: 1.3rem;
   font-weight: var(--wwdc-font-bold);
   color: var(--w-ink);
   margin: 0;
@@ -268,12 +264,18 @@
 /* ── KPI Cards ──────────────────────────────────────────– */
 .island__kpis {
   display: grid;
-  /* Fluid auto-fit: cards reflow from many columns to one as the
-     viewport shrinks. min(180px, 100%) prevents overflow on phones
-     narrower than the track, so no column-count breakpoints needed. */
-  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
-  gap: clamp(var(--wwdc-space-3), 1.5vw, var(--wwdc-space-4));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--wwdc-space-4);
   margin-bottom: var(--wwdc-space-8);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--wwdc-space-3);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .island__kpi {
@@ -335,17 +337,25 @@
 /* ── Featured Section ───────────────────────────────────– */
 .island__featured {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
-  gap: clamp(var(--wwdc-space-3), 1.5vw, var(--wwdc-space-4));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--wwdc-space-4);
   margin-bottom: var(--wwdc-space-8);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--wwdc-space-3);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .island__feat {
   display: flex;
   flex-direction: column;
   gap: var(--wwdc-space-4);
-  padding: clamp(var(--wwdc-space-4), 2.5vw, var(--wwdc-space-5))
-           clamp(var(--wwdc-space-4), 3vw, var(--wwdc-space-6));
+  padding: var(--wwdc-space-5) var(--wwdc-space-6);
   border: 1px solid var(--w-border);
   border-left: 4px solid var(--w-blue);
   border-radius: var(--w-radius);
@@ -360,6 +370,10 @@
     border-color: var(--w-blue-hover);
     box-shadow: var(--w-shadow-lg);
     transform: translateY(-4px);
+  }
+
+  @media (max-width: 480px) {
+    padding: var(--wwdc-space-4);
   }
 }
 
@@ -403,9 +417,18 @@
 /* ── Latest Posts Grid ──────────────────────────────────– */
 .island__newest {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
-  gap: clamp(var(--wwdc-space-3), 1.5vw, var(--wwdc-space-4));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--wwdc-space-4);
   margin-bottom: var(--wwdc-space-8);
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--wwdc-space-3);
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .island__ncard {
@@ -438,8 +461,7 @@
 
 .island__ncard-thumb {
   display: block;
-  /* Fluid thumbnail height scales with viewport instead of a fixed px. */
-  height: clamp(140px, 22vw, 180px);
+  height: 180px;
   overflow: hidden;
   background: var(--w-soft);
 
@@ -503,9 +525,13 @@
 /* ── Widget Board (Rankings, Status) ─────────────────────– */
 .island__board {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-  gap: clamp(var(--wwdc-space-4), 2.5vw, var(--wwdc-space-6));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--wwdc-space-6);
   margin-bottom: var(--wwdc-space-8);
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .island__widget {
@@ -575,13 +601,12 @@
   flex-shrink: 0;
 }
 
-/* ── Reflow Adjustments ────────────────────────────────–
-   Single theme, scaled. Spacing and typography scale fluidly via
-   clamp()/min() above, so the only breakpoint left handles genuine
-   reflow: stacking the header so the brand + search don't crowd on
-   narrow viewports. Layout structure is identical to desktop —
-   it just shrinks and stacks, it is not redesigned. */
+/* ── Responsive Adjustments ────────────────────────────– */
 @media (max-width: 768px) {
+  .island {
+    padding: 0 12px 48px;
+  }
+
   .island__head {
     gap: var(--wwdc-space-4);
     flex-direction: column;
@@ -589,5 +614,32 @@
 
   .island__sec-head {
     flex-wrap: wrap;
+    margin: var(--wwdc-space-6) 0 var(--wwdc-space-4);
+  }
+
+  .island__title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .island {
+    padding: 0 8px 32px;
+  }
+
+  .island__head {
+    padding: var(--wwdc-space-4) 0 var(--wwdc-space-4);
+  }
+
+  .island__title {
+    font-size: 1.5rem;
+  }
+
+  .island__sec-num {
+    font-size: var(--wwdc-text-sm);
+  }
+
+  .island__sec-title {
+    font-size: 1.1rem;
   }
 }

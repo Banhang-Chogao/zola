@@ -3,6 +3,7 @@
 {% import "macros/google-rank.html" as google_rank %}
 {% import "macros/seo-reality.html" as seo_reality %}
 {% import "macros/img.html" as img %}
+{% import "macros/footer-countdown.html" as footer_countdown %}
 {% import "macros/datetime.html" as dt %}
 {# ============================================================================
    GitHub commits — fetch ở BUILD-TIME qua load_data, KHÔNG fetch client-side.
@@ -50,15 +51,11 @@
     {% endfor %}
     {% if not build_sha %}{% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}{% endif %}
 {% endif %}
-
-{# Deploy Monitor Widget data — load as GLOBAL so all templates can access it #}
-{% set_global dm = load_data(path="data/deploy-monitor.json", required=false) %}
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/wwdc-style.css">
+    <meta charset="UTF-8">
     {# Zero-flash font + theme (PHẢI là script đầu tiên trong <head>):
        Hilda là theme DUY NHẤT → set data-theme="hilda" NGAY trước khi CSS
        render để các rule [data-theme="hilda"] (font vars, smoothing, UX polish)
@@ -215,8 +212,8 @@
         {% for chunk in page.content | split(pat="<img") %}
             {% if og_src == "" and not loop.first and chunk is containing('src="') %}
                 {% set cand = chunk | split(pat='src="') | nth(n=1) | split(pat='"') | first %}
-                {# bỏ qua ảnh không-phải-nội-dung + KHÔNG hotlink: chỉ nhận ảnh LOCAL (host mình / root-relative) #}
-                {% if cand and (cand is starting_with("/") or cand is containing("seomoney.org/") or cand is containing("assets.seomoney")) and not (cand is containing("/placeholder")) and not (cand is containing("momo-qr")) %}
+                {# bỏ qua ảnh không-phải-nội-dung: placeholder generic + QR donate (momo) #}
+                {% if cand and not (cand is containing("/placeholder/")) and not (cand is containing("momo-qr")) %}
                     {% set_global og_src = cand %}
                 {% endif %}
             {% endif %}
@@ -236,13 +233,6 @@
             {% set_global og_src = og_thumb %}
         {% endif %}
     {% endif %}
-    {# 3b) ẢNH SỞ HỮU theo slug: cover vẽ sẵn /img/covers/<slug>.svg (twin .og.webp đã commit) #}
-    {% if og_src == "" and page and page.slug %}
-        {% set og_covers = load_data(path="data/covers-manifest.json", required=false) %}
-        {% if og_covers and og_covers.slugs and page.slug in og_covers.slugs %}
-            {% set_global og_src = "/img/covers/" ~ page.slug ~ ".svg" %}
-        {% endif %}
-    {% endif %}
     {# 4) normalize → absolute HTTPS .webp; rỗng/unknown → card S-DNA mặc định #}
     {% set_global og_image = img::social_image_url(src=og_src, base_url=config.base_url) | trim %}
     {% set_global og_image_type = "image/webp" %}
@@ -250,7 +240,7 @@
     {% elif og_image is ending_with(".jpg") or og_image is ending_with(".jpeg") %}{% set_global og_image_type = "image/jpeg" %}
     {% endif %}
 
-    <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}">
+    <meta name="description" content="{% block description %}{{ page_description }}{% endblock %}" loading="lazy" decoding="async">
     <meta name="author" content="{{ config.extra.author }}">
 
     {# ===== Robots: cho phép index + bật rich preview lớn (tốt cho Google Discover & CTR) ===== #}
@@ -477,7 +467,14 @@
     <link rel="stylesheet" href="{{ get_url(path='site.css') }}?v={{ asset_version }}">
     <link rel="stylesheet" href="{{ get_url(path='css/dashboard.css') }}?v={{ asset_version }}">
 
+    {# Google Analytics 4 đã được dời xuống trước <!-- BLOG_HEARTBEAT_CLIENT_JS -->
+<script defer src="/js/blog-heartbeat-client.js"></script>
+</body> để tối ưu page
+       load — KHÔNG block <head> render. Tham khảo block GA dưới cùng. #}
+
     {% block extra_head %}{% endblock %}
+<!-- BLOG_HEARTBEAT_CLIENT_CSS -->
+<link rel="stylesheet" href="/css/blog-heartbeat-client.css">
 </head>
 <body>
 
@@ -539,6 +536,9 @@
                         </span>
                     </div>
                 </a>
+{# Mũi tên điều hướng thủ công (carousel) #}
+                <button type="button" class="header-rotator__arrow header-rotator__arrow--prev" data-rotator-prev aria-label="Banner trước">‹</button>
+                <button type="button" class="header-rotator__arrow header-rotator__arrow--next" data-rotator-next aria-label="Banner kế tiếp">›</button>
                 </div> {# /.header-rotator__viewport #}
 
                 {# Chấm điều hướng — JS sinh theo số slide #}
@@ -1040,8 +1040,8 @@
                 <div class="ga-stats" data-ga-health data-ga-status="{{ health_status }}"{% if ga_health and ga_health.last_checked %} data-baked-checked="{{ ga_health.last_checked }}"{% endif %}>
                     <header class="ga-stats__head">
                         <div class="ga-stats__heading">
-                            <span class="ga-stats__kicker">📊 Google Analytics 4</span>
-                            <h4 class="ga-stats__title">Thống kê lưu lượng truy cập</h4>
+                            <span class="ga-stats__kicker">Google Analytics 4</span>
+                            <h4 class="ga-stats__title">Lưu lượng truy cập</h4>
                             <span class="ga-stats__meta-line">property <code>{{ ga_prop_expected }}</code>{% if ga_meas %} · <code>{{ ga_meas }}</code>{% endif %}</span>
                         </div>
                         <div class="ga-stats__head-meta">
@@ -1061,47 +1061,47 @@
                     </div>
 
                     <div class="ga-stats__grid">
-                        <div class="ga-stats__cell ga-stats__cell--today">
-                            <span class="ga-stats__label">📅 Hôm nay</span>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">Hôm nay</span>
                             <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="today_users">{% if stats_ok %}{{ ga_stats.today_users }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.today_pageviews }} {% endif %}views</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--week">
-                            <span class="ga-stats__label">🌊 7 ngày</span>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">7 ngày</span>
                             <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="week_users">{% if stats_ok %}{{ ga_stats.week_users }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.week_pageviews }} {% endif %}views</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--month">
-                            <span class="ga-stats__label">🌈 30 ngày</span>
+                        <div class="ga-stats__cell">
+                            <span class="ga-stats__label">30 ngày</span>
                             <span class="ga-stats__num{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-num="month_users">{% if stats_ok %}{{ ga_stats.month_users }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">users · {% if stats_ok %}{{ ga_stats.month_pageviews }} {% endif %}views</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--sessions ga-stats__cell--mini">
-                            <span class="ga-stats__label">👤 Phiên</span>
+                    </div>
+
+                    {# Extended 30d metrics: sessions, new users, bounce, avg session, engagement. #}
+                    <div class="ga-stats__grid ga-stats__grid--extended">
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Phiên</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="sessions">{% if stats_ok %}{{ ga_stats.month_sessions | default(value=0) }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">sessions · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--new-users ga-stats__cell--mini">
-                            <span class="ga-stats__label">🎯 Người mới</span>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Người dùng mới</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="new_users">{% if stats_ok %}{{ ga_stats.month_new_users | default(value=0) }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">new users · 30d</span>
                         </div>
-                    </div>
-
-                    {# Extended 30d metrics: bounce, avg session, engagement. #}
-                    <div class="ga-stats__grid ga-stats__grid--extended">
-                        <div class="ga-stats__cell ga-stats__cell--bounce ga-stats__cell--mini">
-                            <span class="ga-stats__label">📤 Tỷ lệ thoát</span>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Tỷ lệ thoát</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="bounce_rate">{% if stats_ok %}{{ ga_stats.month_bounce_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">bounce · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--duration ga-stats__cell--mini">
-                            <span class="ga-stats__label">⏱️ Thời lượng</span>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Thời lượng phiên</span>
                             <span class="ga-stats__num ga-stats__num--mini ga-stats__num--text{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="avg_duration">{% if stats_ok %}{{ ga_stats.month_avg_session_duration_str | default(value="0s") }}{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">avg session · 30d</span>
                         </div>
-                        <div class="ga-stats__cell ga-stats__cell--engagement ga-stats__cell--mini">
-                            <span class="ga-stats__label">💡 Tương tác</span>
+                        <div class="ga-stats__cell ga-stats__cell--mini">
+                            <span class="ga-stats__label">Mức tương tác</span>
                             <span class="ga-stats__num ga-stats__num--mini{% if not stats_ok %} ga-stats__num--empty{% endif %}" data-ga-extended="engagement">{% if stats_ok %}{{ ga_stats.month_engagement_rate_pct | default(value=0) }}<span class="ga-stats__unit">%</span>{% else %}—{% endif %}</span>
                             <span class="ga-stats__sub">engagement · 30d</span>
                         </div>
@@ -1141,7 +1141,7 @@
                     {% set has_channels = ga_stats.channel_breakdown and ga_stats.channel_breakdown | length > 0 %}
                     {% if stats_ok and has_channels %}
                     <div class="ga-stats__section">
-                        <h5 class="ga-stats__section-title">🌟 Kênh truy cập (Top 5 · 30 ngày)</h5>
+                        <h5 class="ga-stats__section-title">Kênh truy cập (Top 5 · 30 ngày)</h5>
                         <div class="ga-channels" data-ga-channels>
                             <div class="ga-channels__list" data-ga-channels-list></div>
                         </div>
@@ -1224,6 +1224,8 @@
             </div>
         </div>
 
+        {{ footer_countdown::render() }}
+
         {# ===== FOOTER TAGS =====
            Tag cloud chuyển từ sidebar xuống footer: thẻ là điều hướng phụ trợ,
            KHÔNG phải nội dung chính. Sắp theo số bài giảm dần (page_count) →
@@ -1244,7 +1246,7 @@
                 <div class="footer-tags__cloud">
                     {% for t in footer_tags_sorted | slice(end=footer_tags_initial) %}
                     <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                        <span class="footer-tags__name">{{ t.name }}</span>
+                        <span class="footer-tags__name">#{{ t.name }}</span>
                         <span class="footer-tags__count">{{ t.page_count }}</span>
                     </a>
                     {% endfor %}
@@ -1263,7 +1265,7 @@
                     <div class="footer-tags__cloud footer-tags__cloud--extra">
                         {% for t in footer_tags_sorted | slice(start=footer_tags_initial) %}
                         <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                            <span class="footer-tags__name">{{ t.name }}</span>
+                            <span class="footer-tags__name">#{{ t.name }}</span>
                             <span class="footer-tags__count">{{ t.page_count }}</span>
                         </a>
                         {% endfor %}
@@ -1274,72 +1276,38 @@
         </section>
         {% endif %}
 
-        {# ===== FOOTER BRAND — modern 3-column layout (self-contained) =====
-           Giữ NGUYÊN container hiện có (.site-footer / .container / .site-footer__main);
-           chỉ thay phần ruột bằng grid 3 cột (gập 1 cột trên mobile). KHÔNG tạo class
-           .scss mới — layout đặt inline, còn :hover + responsive (không inline được)
-           gói trong 1 <style> scoped theo .site-footer__main + data-attr. Biến theme
-           (--primary/--accent/--text-muted/--border-color) kèm fallback khớp palette
-           footer tối để không đảo màu ở dark-mode. GA pill "pending" đã gỡ hoàn toàn;
-           chỉ giữ link Analytics khi đã cấu hình Measurement ID. #}
-        <div class="container site-footer__main" style="display:block; text-align:left;">
-            <div data-footer-grid
-                 style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:2.5rem; border-top:2px solid var(--accent, #5b9bff); padding-top:2rem;">
-                <div>
-                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Về chúng tôi</h4>
-                    <p style="color:var(--text-muted, #9aa4b2); font-size:0.9rem; line-height:1.8; margin:0 0 1rem;">
-                        <strong style="color:#fff;">{{ config.title }}</strong> — Nền tảng SEO &amp; phân tích
-                        dữ liệu hàng đầu. Powered by Zola.
-                    </p>
-                </div>
-                <div>
-                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Liên kết</h4>
-                    <ul style="list-style:none; padding:0; margin:0; color:var(--text-muted, #9aa4b2); font-size:0.9rem; line-height:1.95;">
-                        <li><a href="{{ config.base_url | safe }}/about/">Giới thiệu</a></li>
-                        <li><a href="{{ config.base_url | safe }}/contact/">Liên hệ</a></li>
-                        <li><a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a></li>
-                        <li><a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a></li>
-                        <li><a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color:var(--primary, #fff); font-size:1rem; margin:0 0 0.75rem;">Theo dõi</h4>
-                    <div data-footer-social style="display:flex; gap:1rem; font-size:1.5rem;">
-                        <a href="#" aria-label="Facebook" title="Facebook">📘</a>
-                        <a href="#" aria-label="Twitter" title="Twitter">🐦</a>
-                        <a href="#" aria-label="YouTube" title="YouTube">📺</a>
-                        <a href="#" aria-label="LinkedIn" title="LinkedIn">💼</a>
-                    </div>
-                    {# GA status pill → click mở GA dashboard. URL từ config
-                       (ga_dashboard_url, account-agnostic #/p<id>/) — property 542421812.
-                       Chỉ hiện khi đã cấu hình Measurement ID (bỏ trạng thái pending). #}
-                    {% if config.extra.ga_measurement_id %}
-                    <a class="ga-status ga-status--active" style="margin-top:1rem;"
-                       href="{{ config.extra.ga_dashboard_url | default(value='https://analytics.google.com/') }}"
-                       target="_blank" rel="noopener"
-                       title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
-                        📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
-                    </a>
-                    {% endif %}
-                </div>
+        <div class="container site-footer__main">
+            <div class="site-footer__left">
+                <a href="{{ config.base_url | safe }}/admin-countdown/" class="site-footer__author-mgmt"
+                   title="Cấu hình đếm ngược footer">
+                    ⏱ Countdown
+                </a>
             </div>
-            <div style="text-align:center; border-top:1px solid var(--border-color, rgba(255,255,255,0.1)); margin-top:2rem; padding-top:1.5rem; color:var(--text-muted, #9aa4b2); font-size:0.85rem;">
-                <p style="margin:0;">©2026 <strong style="color:#fff;">{{ config.title }}</strong> — Powered by Zola</p>
+            <div class="site-footer__center">
+                <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
+                <p class="site-footer__legal">
+                    <a href="{{ config.base_url | safe }}/about/">Giới thiệu</a> ·
+                    <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
+                    <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
+                    <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a> ·
+                    <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
+                </p>
+                {# GA status pill → click mở GA dashboard. URL từ config
+                   (ga_dashboard_url, account-agnostic #/p<id>/) — property 542421812. #}
+                {% if config.extra.ga_measurement_id %}
+                <a class="ga-status ga-status--active"
+                   href="{{ config.extra.ga_dashboard_url | default(value='https://analytics.google.com/') }}"
+                   target="_blank" rel="noopener"
+                   title="Mở Google Analytics dashboard — Measurement ID: {{ config.extra.ga_measurement_id }}">
+                    📊 Analytics: <code>{{ config.extra.ga_measurement_id }}</code>
+                </a>
+                {% else %}
+                <span class="ga-status ga-status--pending" title="Chưa cấu hình Google Analytics — sửa config.toml ga_measurement_id để bật">
+                    ⏳ ĐANG CHỜ MEASUREMENT ID
+                </span>
+                {% endif %}
             </div>
         </div>
-        {# Hover + responsive cho footer brand (không biểu diễn được bằng inline).
-           Scoped theo .site-footer__main — KHÔNG thêm class .scss mới. #}
-        <style>
-            .site-footer__main a { text-decoration:none; transition:color .15s ease, transform .15s ease; }
-            .site-footer__main ul li a,
-            .site-footer__main [data-footer-social] a { color:var(--text-muted, #9aa4b2); }
-            .site-footer__main ul li a:hover,
-            .site-footer__main [data-footer-social] a:hover { color:var(--accent, #5b9bff); }
-            .site-footer__main [data-footer-social] a:hover { transform:translateY(-2px); }
-            @media (max-width:768px) {
-                .site-footer__main [data-footer-grid] { grid-template-columns:1fr; gap:1.75rem; }
-            }
-        </style>
 
         {# CATEGORIES — compact footer navigation (moved from sidebar) #}
         <nav class="footer-categories" aria-label="Danh mục bài viết">
@@ -1360,54 +1328,42 @@
             </div>
         </nav>
 
+        {# Footer deploy-status blocks removed (Deployment Status card + "🚀 Deploy" strip)
+           — footer layout cleanup. Deploy data + standalone /tools/deploy-monitor/ page
+           are intentionally kept; only the footer rendering was removed. Countdown stays
+           (widget at footer_countdown::render() + nav link in .site-footer__left). #}
+
+        {# WD Heartbeat Stats — WWDC26 calm-first deploy overview (build-time) #}
+        {% include "partials/wd-heartbeat.html" %}
+
+        {# Deploy Watch — footer status widget (pending count + stale warning)
+           Shows pending_count badge + dm.stale alert for data freshness.
+           Load deploy-monitor.json for footer widget display #}
+        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+        {% if dm and dm.summary %}
+          {# Display pending_count when > 0, and dm.stale warning if data is old #}
+        {% endif %}
+        {% include "partials/deploy-watch.html" %}
 </footer>
   {% include "partials/turnstile_footer.html" %}
   {# Open PR Monitor is intentionally kept here (global footer ops monitor).
      DO NOT move to /tools/ or /tools/master-dashboard-v5/ — see f pr goal 2026-06-23. #}
   {% include "partials/open_pr_monitor.html" %}
 
-    {# ===== Public scripts — loaded for EVERY visitor =====
-       Navigation, search, theme, sidebar widgets + the SEO-value widgets
-       (google-rank, seo-reality-gsc) that show value to anonymous readers. #}
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
+<script src="{{ get_url(path='js/open-pr-monitor.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/seo-reality-gsc.js') }}?v={{ asset_version }}" defer></script>
-    {# auth.js stays unconditional: it is the PRE-login trigger handler
-       ([data-auth-trigger]) an admin needs BEFORE a session exists, so it
-       must never be gated behind an existing session. It self-exits when no
-       trigger element is present (current state) → ~zero cost. #}
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
-    {# ===== Admin/ops widget JS — client-side gated (perf) =====
-       This is a static site (GitHub Pages) — no server-side auth at render
-       time, so the same HTML ships to everyone. These ops/admin scripts are
-       injected ONLY when an admin CMS session token (zola-cms-session-id) is
-       present in storage. Anonymous readers still see each widget's build-time
-       baked HTML (Open PR Monitor, deploy badge, GA-stats footer); they simply
-       skip the live JS refresh and the background fetches to *.onrender.com /
-       GA / GSC. Cuts 7 script requests + all admin background fetches off
-       public page loads. SEO-value scripts above stay unconditional. #}
-    <script>
-    (function () {
-      try {
-        var K = 'zola-cms-session-id';
-        var hasAdmin = !!(localStorage.getItem(K) || sessionStorage.getItem(K));
-        if (!hasAdmin) return;
-        var v = '{{ asset_version }}';
-        var base = '{{ config.base_url | safe }}/js/';
-        var ops = ['open-pr-monitor', 'deploy-status', 'staging-queue',
-                   'dashboard', 'ga-improvement-progress',
-                   'ga-health', 'ga-stats-refresh'];
-        for (var i = 0; i < ops.length; i++) {
-          var s = document.createElement('script');
-          s.src = base + ops[i] + '.js?v=' + v;
-          s.defer = true;
-          document.body.appendChild(s);
-        }
-      } catch (e) {}
-    })();
-    </script>
+    <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/dashboard.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/footer-countdown.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/ga-health.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/ga-stats-refresh.js') }}?v={{ asset_version }}" defer></script>
+    <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
@@ -1461,8 +1417,8 @@
 
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====
        Đặt ngay trước </body> thay vì <head> → KHÔNG block initial paint.
-       Chỉ render khi đã cấu hình config.extra.ga_measurement_id; khi rỗng
-       thì KHÔNG xuất script nào (đã gỡ placeholder sentinel).
+       Khi ga_measurement_id rỗng → script PLACEHOLDER với chuỗi
+       'ĐANG CHỜ MEASUREMENT ID' để user dễ tìm + thay sau.
        Property ID 542421812 (stream seomoney.org) — Admin → Property Settings. #}
     {% if config.extra.ga_measurement_id %}
     <!-- GA4 Measurement ID: {{ config.extra.ga_measurement_id }} | Property ID: {{ config.extra.ga_property_id | default(value='542421812') }} -->
@@ -1472,6 +1428,16 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', '{{ config.extra.ga_measurement_id }}');
+    </script>
+    {% else %}
+    <!-- Google Analytics 4 — chưa active, đang chờ MEASUREMENT ID -->
+    <script>
+        // Sửa MEASUREMENT_ID dưới đây với ID thật từ
+        // https://analytics.google.com → Admin → Data Streams → Web stream
+        // → Measurement ID dạng "G-XXXXXXXXXX". Sau đó set vào
+        // config.toml [extra] ga_measurement_id để Tera auto-bake.
+        const GA_MEASUREMENT_ID = 'ĐANG CHỜ MEASUREMENT ID';
+        console.info('[GA4] ' + GA_MEASUREMENT_ID + ' — set config.toml ga_measurement_id để bật tracking');
     </script>
     {% endif %}
 
