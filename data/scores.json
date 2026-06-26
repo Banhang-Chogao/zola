@@ -714,7 +714,7 @@
     "date": "2026-06-19",
     "cluster": "tai-chinh",
     "cluster_label": "Tài chính & Ngân hàng",
-    "score": 0.8265,
+    "score": 0.8264,
     "top_score": 0.8951,
     "neighbors": 5,
     "tier": "high"
@@ -1170,8 +1170,8 @@
     "date": "2026-06-18",
     "cluster": "cong-nghe",
     "cluster_label": "Công nghệ",
-    "score": 0.7088,
-    "top_score": 0.7729,
+    "score": 0.7089,
+    "top_score": 0.773,
     "neighbors": 5,
     "tier": "high"
   },
@@ -1416,6 +1416,18 @@
     "tier": "mid"
   },
   {
+    "slug": "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem",
+    "section": "posting",
+    "title": "Google Preferred Sources: Từ thuật toán sang tùy chọn của người dùng",
+    "date": "2026-06-26",
+    "cluster": "misc",
+    "cluster_label": "Khác",
+    "score": 0.6155,
+    "top_score": 0.8781,
+    "neighbors": 5,
+    "tier": "mid"
+  },
+  {
     "slug": "msb-digital-bank-cong-nghe-bao-mat",
     "section": "baochi",
     "title": "Bên trong MSB Digital Bank: công nghệ và bảo mật",
@@ -1464,18 +1476,6 @@
     "tier": "mid"
   },
   {
-    "slug": "google-preferred-sources-1-tu-thuat-toi-giao-dien-tim-kiem",
-    "section": "posting",
-    "title": "Google Preferred Sources: Từ thuật toán sang tùy chọn của người dùng",
-    "date": "2026-06-26",
-    "cluster": "misc",
-    "cluster_label": "Khác",
-    "score": 0.5991,
-    "top_score": 0.8761,
-    "neighbors": 5,
-    "tier": "mid"
-  },
-  {
     "slug": "review-tnex-chi-tiet",
     "section": "posting",
     "title": "Review TNEX chi tiết: ngân hàng số miễn phí của MSB",
@@ -1494,8 +1494,8 @@
     "date": "2026-06-26",
     "cluster": "misc",
     "cluster_label": "Khác",
-    "score": 0.5969,
-    "top_score": 0.8467,
+    "score": 0.5967,
+    "top_score": 0.8459,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1554,8 +1554,8 @@
     "date": "2026-06-26",
     "cluster": "misc",
     "cluster_label": "Khác",
-    "score": 0.576,
-    "top_score": 0.8761,
+    "score": 0.5764,
+    "top_score": 0.8781,
     "neighbors": 5,
     "tier": "mid"
   },
@@ -1578,7 +1578,7 @@
     "date": "2026-06-26",
     "cluster": "misc",
     "cluster_label": "Khác",
-    "score": 0.5552,
+    "score": 0.5568,
     "top_score": 0.7172,
     "neighbors": 5,
     "tier": "mid"
@@ -2028,6 +2028,18 @@
     "tier": "low"
   },
   {
+    "slug": "ung-ho-du-an-ai-ten-mien-ai",
+    "section": "posting",
+    "title": "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?",
+    "date": "2026-06-18",
+    "cluster": "misc",
+    "cluster_label": "Khác",
+    "score": 0.2793,
+    "top_score": 0.3602,
+    "neighbors": 5,
+    "tier": "low"
+  },
+  {
     "slug": "f18-crash-when-technology-fails",
     "section": "baochi",
     "title": "Vụ rơi tiêm kích F/A-18 và bài học 57 triệu USD",
@@ -2036,18 +2048,6 @@
     "cluster_label": "Thế giới",
     "score": 0.2781,
     "top_score": 0.3656,
-    "neighbors": 5,
-    "tier": "low"
-  },
-  {
-    "slug": "ung-ho-du-an-ai-ten-mien-ai",
-    "section": "posting",
-    "title": "Ủng Hộ Dự Án AI: Vì Sao Website Cần Tên Miền .AI?",
-    "date": "2026-06-18",
-    "cluster": "misc",
-    "cluster_label": "Khác",
-    "score": 0.2673,
-    "top_score": 0.3273,
     "neighbors": 5,
     "tier": "low"
   },
