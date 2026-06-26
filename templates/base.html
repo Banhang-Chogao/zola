@@ -1470,8 +1470,8 @@
 
     {# ===== GOOGLE ANALYTICS 4 (gtag.js mới nhất) =====
        Đặt ngay trước </body> thay vì <head> → KHÔNG block initial paint.
-       Khi ga_measurement_id rỗng → script PLACEHOLDER với chuỗi
-       'ĐANG CHỜ MEASUREMENT ID' để user dễ tìm + thay sau.
+       Chỉ render khi đã cấu hình config.extra.ga_measurement_id; khi rỗng
+       thì KHÔNG xuất script nào (đã gỡ placeholder sentinel).
        Property ID 542421812 (stream seomoney.org) — Admin → Property Settings. #}
     {% if config.extra.ga_measurement_id %}
     <!-- GA4 Measurement ID: {{ config.extra.ga_measurement_id }} | Property ID: {{ config.extra.ga_property_id | default(value='542421812') }} -->
@@ -1481,16 +1481,6 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', '{{ config.extra.ga_measurement_id }}');
-    </script>
-    {% else %}
-    <!-- Google Analytics 4 — chưa active, đang chờ MEASUREMENT ID -->
-    <script>
-        // Sửa MEASUREMENT_ID dưới đây với ID thật từ
-        // https://analytics.google.com → Admin → Data Streams → Web stream
-        // → Measurement ID dạng "G-XXXXXXXXXX". Sau đó set vào
-        // config.toml [extra] ga_measurement_id để Tera auto-bake.
-        const GA_MEASUREMENT_ID = 'ĐANG CHỜ MEASUREMENT ID';
-        console.info('[GA4] ' + GA_MEASUREMENT_ID + ' — set config.toml ga_measurement_id để bật tracking');
     </script>
     {% endif %}
 
