@@ -1,5 +1,5 @@
 +++
-draft = true  # held for content review — flip to false to publish
+draft = false
 title = "Merge Conflict Preflight: Phát Hiện Lỗi Trước Khi Quá Muộn"
 description = "Tại sao phát hiện conflict trước khi merge lại quan trọng hơn giải quyết sau? Và làm sao Preflight catch 94% conflicts?"
 date = 2026-06-26
@@ -235,7 +235,7 @@ Once conflict is detected:
 
 ## Phần Tiếp Theo
 
-[Part 5: Lessons Learned & Future-Proofing](../lessons-learned-future-proofing) — Những gì chúng tôi học được, và what's next?
+[Part 5: Lessons Learned & Future-Proofing](../bai-hoc-merge-conflict-future) — Những gì chúng tôi học được, và what's next?
 
 ---
 

@@ -1,5 +1,5 @@
 +++
-draft = true  # held for content review — flip to false to publish
+draft = false
 title = "Thiết Kế Framework Giải Quyết Merge Conflict Tự Động"
 description = "Từ chaos sang order: Tôi thiết kế framework dựa trên CLAUDE.md protocol V10/V12 để auto-resolve 70% conflicts."
 date = 2026-06-26
@@ -270,7 +270,7 @@ Preflight Workflow (15 min polling)
 
 ## Phần Tiếp Theo
 
-[Part 3: The Automation That Saved Us](../automation-that-saved-us) — Hệ thống chạy trên production. Những gì xảy ra?
+[Part 3: The Automation That Saved Us](../automation-merge-conflict-saved-us) — Hệ thống chạy trên production. Những gì xảy ra?
 
 ---
 

@@ -1,5 +1,5 @@
 +++
-draft = true  # held for content review — flip to false to publish
+draft = false
 title = "Bài Học Từ Merge Conflict Crisis: Tương Lai Không Conflict"
 description = "7 PR conflict → hệ thống tự động → vaccine library. Tôi giải thích cách xây dựng hệ thống tự chữa lỏm."
 date = 2026-06-26
@@ -266,7 +266,7 @@ Máy làm việc. Con người được tập trung vào sản phẩm.
 
 ## Full Series
 
-- [Part 1: Khi 7 PR Thất Bại](../khi-7-pull-request-that-do)
+- [Part 1: Khi 7 PR Thất Bại](../merge-conflict-khung-hoang-7-pr-that-bai)
 - [Part 2: Xây Dựng Framework](../thiet-ke-framework-giai-quyet-merge-conflict)
 - [Part 3: Automation Cứu Chúng Tôi](../automation-merge-conflict-saved-us)
 - [Part 4: Preflight Early Detection](../merge-conflict-preflight-catch-early)

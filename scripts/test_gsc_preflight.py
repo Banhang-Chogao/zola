@@ -149,7 +149,7 @@ class ConstantsInSyncTest(unittest.TestCase):
         sys.modules["googleapiclient.errors"].HttpError = type("HttpError", (Exception,), {})
         sys.modules["googleapiclient.discovery"].build = lambda *a, **k: None
 
-        client_path = ROOT / "services" / "visitor-counter" / "gsc_client.py"
+        client_path = ROOT / "services" / "vipzone" / "gsc_client.py"
         spec = importlib.util.spec_from_file_location("gsc_client_sync", client_path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)

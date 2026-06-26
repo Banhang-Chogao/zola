@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-06-26T04:55:54Z",
+  "updated_at": "2026-06-26T07:50:14Z",
   "summary": {
-    "broken_count": 6,
-    "checked_unique": 1255,
+    "broken_count": 11,
+    "checked_unique": 1269,
     "status": "fail"
   },
   "links": [
@@ -434,6 +434,78 @@
       "source_file": "public/posting/auto-fixer-tu-cuu-bai-viet-ve-auto-fixer/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/automation-merge-conflict-saved-us/",
+      "source_file": "public/posting/automation-merge-conflict-saved-us/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/automation-merge-conflict-saved-us/",
+      "source_file": "public/posting/automation-merge-conflict-saved-us/index.html",
+      "href": "../preflight-catching-conflicts",
+      "target": "/../preflight-catching-conflicts/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/bai-hoc-merge-conflict-future/",
+      "source_file": "public/posting/bai-hoc-merge-conflict-future/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/bai-hoc-merge-conflict-future/",
+      "source_file": "public/posting/bai-hoc-merge-conflict-future/index.html",
+      "href": "../khi-7-pull-request-that-do",
+      "target": "/../khi-7-pull-request-that-do/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/bai-hoc-merge-conflict-future/",
+      "source_file": "public/posting/bai-hoc-merge-conflict-future/index.html",
+      "href": "../thiet-ke-framework-giai-quyet-merge-conflict",
+      "target": "/../thiet-ke-framework-giai-quyet-merge-conflict/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/bai-hoc-merge-conflict-future/",
+      "source_file": "public/posting/bai-hoc-merge-conflict-future/index.html",
+      "href": "../automation-merge-conflict-saved-us",
+      "target": "/../automation-merge-conflict-saved-us/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/bai-hoc-merge-conflict-future/",
+      "source_file": "public/posting/bai-hoc-merge-conflict-future/index.html",
+      "href": "../merge-conflict-preflight-catch-early",
+      "target": "/../merge-conflict-preflight-catch-early/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/bai-hoc-merge-conflict-future/",
+      "source_file": "public/posting/bai-hoc-merge-conflict-future/index.html",
+      "href": "../bai-hoc-merge-conflict-future",
+      "target": "/../bai-hoc-merge-conflict-future/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
@@ -1402,6 +1474,42 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/posting/merge-conflict-khung-hoang-7-pr-that-bai/",
+      "source_file": "public/posting/merge-conflict-khung-hoang-7-pr-that-bai/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/merge-conflict-khung-hoang-7-pr-that-bai/",
+      "source_file": "public/posting/merge-conflict-khung-hoang-7-pr-that-bai/index.html",
+      "href": "../xay-dung-conflict-resolution-framework",
+      "target": "/../xay-dung-conflict-resolution-framework/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/merge-conflict-preflight-catch-early/",
+      "source_file": "public/posting/merge-conflict-preflight-catch-early/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/merge-conflict-preflight-catch-early/",
+      "source_file": "public/posting/merge-conflict-preflight-catch-early/index.html",
+      "href": "../lessons-learned-future-proofing",
+      "target": "/../lessons-learned-future-proofing/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/posting/merge-conflict-preflight-workflow-github-actions/",
       "source_file": "public/posting/merge-conflict-preflight-workflow-github-actions/index.html",
       "href": "https://seomoney.org/blog/",
@@ -1496,6 +1604,24 @@
       "source_file": "public/posting/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh/",
+      "source_file": "public/posting/ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh/",
+      "source_file": "public/posting/ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh/index.html",
+      "href": "/ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh/",
+      "target": "/ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"
@@ -2059,6 +2185,24 @@
       "auto_fix_status": "pending"
     },
     {
+      "source_page": "/posting/thiet-ke-framework-giai-quyet-merge-conflict/",
+      "source_file": "public/posting/thiet-ke-framework-giai-quyet-merge-conflict/index.html",
+      "href": "https://seomoney.org/blog/",
+      "target": "/blog/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
+      "source_page": "/posting/thiet-ke-framework-giai-quyet-merge-conflict/",
+      "source_file": "public/posting/thiet-ke-framework-giai-quyet-merge-conflict/index.html",
+      "href": "../automation-that-saved-us",
+      "target": "/../automation-that-saved-us/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    },
+    {
       "source_page": "/posting/thumbnail-hover-touch-guard-reduced-motion-easing/",
       "source_file": "public/posting/thumbnail-hover-touch-guard-reduced-motion-easing/index.html",
       "href": "https://seomoney.org/blog/",
@@ -2477,51 +2621,6 @@
       "source_file": "public/posting/zola-vs-hugo/index.html",
       "href": "https://seomoney.org/blog/",
       "target": "/blog/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    },
-    {
-      "source_page": "/scoring/",
-      "source_file": "public/scoring/index.html",
-      "href": "https://seomoney.org/posting/thiet-ke-framework-giai-quyet-merge-conflict/",
-      "target": "/posting/thiet-ke-framework-giai-quyet-merge-conflict/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    },
-    {
-      "source_page": "/scoring/",
-      "source_file": "public/scoring/index.html",
-      "href": "https://seomoney.org/posting/bai-hoc-merge-conflict-future/",
-      "target": "/posting/bai-hoc-merge-conflict-future/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    },
-    {
-      "source_page": "/scoring/",
-      "source_file": "public/scoring/index.html",
-      "href": "https://seomoney.org/posting/automation-merge-conflict-saved-us/",
-      "target": "/posting/automation-merge-conflict-saved-us/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    },
-    {
-      "source_page": "/scoring/",
-      "source_file": "public/scoring/index.html",
-      "href": "https://seomoney.org/posting/merge-conflict-khung-hoang-7-pr-that-bai/",
-      "target": "/posting/merge-conflict-khung-hoang-7-pr-that-bai/",
-      "status": "404",
-      "reason": "Target not found in public/ after zola build",
-      "auto_fix_status": "pending"
-    },
-    {
-      "source_page": "/scoring/",
-      "source_file": "public/scoring/index.html",
-      "href": "https://seomoney.org/posting/merge-conflict-preflight-catch-early/",
-      "target": "/posting/merge-conflict-preflight-catch-early/",
       "status": "404",
       "reason": "Target not found in public/ after zola build",
       "auto_fix_status": "pending"

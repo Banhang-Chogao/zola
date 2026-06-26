@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """backend_route_check — V24 post-deploy smoke for blog-vipzone-api routes.
 
-Render deploys ONLY services/vipzone (render.yaml rootDir). A frontend route whose
-handler lives only in services/visitor-counter is dead in production → 404
-split-brain (see CLAUDE.md V24 / V16 / V22b). This checker hits the LIVE backend
+Render deploys services/vipzone (render.yaml rootDir). This checker asserts the
+critical routes are available in production (see CLAUDE.md V24 / V16 / V22b). This checker hits the LIVE backend
 and asserts the routes the production frontend depends on never return 404:
 
   * GET  /health        → 200 (and, when present, critical_routes all mounted)
@@ -209,7 +208,7 @@ def run(argv=None) -> int:
                   f"→ {r['status'] or '—'} ({r['verdict']})")
         if missing:
             print("\n  V24: route(s) 404 on deployed services/vipzone — split-backend.")
-            print("  FIXER: mount the route on services/vipzone (not visitor-counter).")
+            print("  FIXER: ensure all routes are mounted on services/vipzone.")
 
     # Report-only by default (exit 0). Strict gate fails only on a real 404.
     if args.strict and missing:

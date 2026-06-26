@@ -49,7 +49,7 @@ def _stub_google_modules() -> None:
 
 def _load_module():
     _stub_google_modules()
-    sys.path.insert(0, str(ROOT / "services" / "visitor-counter"))
+    sys.path.insert(0, str(ROOT / "services" / "vipzone"))
     spec = importlib.util.spec_from_file_location("fetch_gsc_metrics", SCRIPT)
     mod = importlib.util.module_from_spec(spec)
     assert spec and spec.loader

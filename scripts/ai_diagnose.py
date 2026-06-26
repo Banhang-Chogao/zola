@@ -132,7 +132,7 @@ DIAGNOSTIC_RULES: list[DiagnosticRule] = [
         "Python ModuleNotFoundError",
         re.compile(r"ModuleNotFoundError: No module named ['\"]([^'\"]+)['\"]", re.I),
         "Thiếu Python package trong requirements.txt của service/script.",
-        "Thêm package vào scripts/requirements.txt hoặc services/visitor-counter/requirements.txt.",
+        "Thêm package vào scripts/requirements.txt hoặc services/vipzone/requirements.txt.",
         87,
         _module_from_log,
     ),
