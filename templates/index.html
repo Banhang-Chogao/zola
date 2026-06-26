@@ -121,6 +121,13 @@
                     </article>
                 {% endfor %}
             </div>
+            {# CTA xem toàn bộ bài — trang chủ chỉ hiện bài mới nhất, link tới
+               archive đầy đủ để KHÔNG bài nào bị "ẩn" khỏi người đọc. #}
+            <div class="home-viewall">
+                <a class="home-viewall__btn" href="{{ config.base_url }}/archive/">
+                    Xem tất cả {{ feed_total }} bài viết →
+                </a>
+            </div>
         </section>
     {% endif %}
 

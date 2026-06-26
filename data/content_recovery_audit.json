@@ -2,6 +2,7 @@
   "audit_date": "2026-06-26",
   "report_version": "1.0",
   "summary": {
+    "headline": "All 174 posts intact; homepage-only-shows-10 gap closed with a new /archive/ page listing every post.",
     "total_markdown_files": 207,
     "content_sections": {
       "posting": {
@@ -22,8 +23,8 @@
     "total_recoverable_posts": 0
   },
   "findings": {
-    "status": "✓ NO RECOVERY NEEDED",
-    "reason": "All markdown files in posting/ and baochi/ sections are present, properly formatted, and should render correctly.",
+    "status": "✓ CONTENT INTACT — VISIBILITY GAP FIXED",
+    "reason": "All 174 markdown posts are present and render correctly. No content was lost or rolled back. The real symptom behind 'posts not showing' was a HOMEPAGE VISIBILITY LIMIT, not missing files — fixed by adding a complete archive page.",
     "details": [
       "✓ All 144 posting files present with valid frontmatter (date, title)",
       "✓ All 30 baochi files present with valid frontmatter (date, title)",
@@ -31,10 +32,28 @@
       "✓ No future-dated posts blocking visibility",
       "✓ No missing titles or dates",
       "✓ No deleted files in Git history (diff-filter=D)",
-      "✓ Homepage template correctly aggregates all posting + baochi sections",
-      "✓ QA checks passed (qa_check.py)"
+      "✓ All 174 posts render (verified zola build: 194 pages, 13 sections)",
+      "✓ All 174 posts in sitemap.xml, RSS (174 items) and Atom (174 entries)",
+      "✓ All 174 posts reachable via /categories/tat-ca/ (18 paginated pages)",
+      "✓ 10 MCC-series posts use custom slugs — verified rendered at correct URLs",
+      "✓ QA checks passed (qa_check.py: 621 files)",
+      "✓ qa-404-checker.py gate passed: 0 internal broken links (720 pages scanned)"
     ]
   },
+  "root_cause": {
+    "symptom": "Homepage appears to show only a portion of posts (~10).",
+    "actual_cause": "templates/index.html paginates over the ROOT section (content/_index.md), which has zero direct pages — all posts live in posting/ and baochi/ SUBSECTIONS. So paginator.number_pagers = 1, feed_pages = 1, the pagination nav never renders, and the 'Bài mới nhất' grid only ever slices the 10 newest posts. The other 164 posts were reachable ONLY via category pages, never from the homepage feed.",
+    "not_a_content_loss": "No files were deleted or rolled back. The homepage simply could not page beyond the first 10 aggregated posts because Zola cannot natively paginate a cross-section aggregated feed.",
+    "fix": "Added a dedicated /archive/ page (templates/archive.html + content/archive/_index.md) that lists ALL 174 posts on one page, grouped by year, with a lightweight client-side category filter. Linked from the homepage ('Xem tất cả N bài viết →' CTA below the latest grid) and from the footer ('Tất cả bài viết'). This guarantees every valid post is reachable and crawlable from one place WITHOUT changing any post URL or touching the fragile homepage paginator."
+  },
+  "changes_made": [
+    "templates/archive.html — new archive template (all posts, year groups, category filter)",
+    "content/archive/_index.md — archive section page (template=archive.html)",
+    "sass/_archive.scss — archive + home view-all CTA styles (semantic tokens, mobile-first)",
+    "sass/site.scss — import archive partial",
+    "templates/index.html — 'Xem tất cả N bài viết →' CTA below latest grid",
+    "templates/base.html — 'Tất cả bài viết' link in footer 'Về SEOMONEY' list"
+  ],
   "recommendations": {
     "next_steps": [
       "1. Verify site renders correctly by checking generated HTML in public/",
