@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "audit(content): comprehensive recovery audit — all 174 posts verified…",
+      "tag": "chore",
+      "lines_added": 742,
+      "lines_removed": 0,
+      "highlights": [
+        "✓ All 144 posting/ files present and properly formatted",
+        "✓ All 30 baochi/ news files present and properly formatted",
+        "✓ Total 174 posts with valid frontmatter (date, title)",
+        "✓ No posts detected as draft or future-dated",
+        "✓ No deleted/rolled-back files in Git history"
+      ],
+      "pr": 1028
+    },
+    {
+      "date": "2026-06-26",
       "title": "implement MoMo URL admin management page",
       "tag": "feat",
       "lines_added": 2044,
