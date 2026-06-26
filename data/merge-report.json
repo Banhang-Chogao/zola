@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-26T22:09:57Z",
+  "updated_at": "2026-06-26T22:16:00Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 75,
+    "today": 76,
     "this_week": 189,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "content": 5,
       "feature": 42,
       "fix": 103,
-      "content": 4,
-      "unknown": 42,
+      "unknown": 41,
       "ci": 3,
       "chore": 6
     }
   },
   "merges": [
+    {
+      "pr_number": 994,
+      "pr_title": "Update SEO QA scores for Preferred Sources series articles [claude/google-preferred-sources-series-n3n4fi]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/994",
+      "merged_at": "2026-06-26T22:06:40Z",
+      "merge_commit_sha": "38b11c5b95ea1e46575a72083ad12de54fe4a929",
+      "merge_commit_short": "38b11c5",
+      "head_branch": "claude/google-preferred-sources-series-n3n4fi",
+      "summary_vi": "- Add Google Preferred Sources 6-article series with technical implementation",
+      "change_type": "content",
+      "files_changed": 7,
+      "additions": 1753,
+      "deletions": 0,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1213,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28267956026",
+      "build_conclusion": "in_progress"
+    },
     {
       "pr_number": 1020,
       "pr_title": "feat(changelog): production snapshot panel (shortcut ??)",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1212,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28267882601",
-      "build_conclusion": "in_progress"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 1021,
@@ -53,8 +72,8 @@
       "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1212,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28267882601",
+      "build_run_number": 1213,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28267956026",
       "build_conclusion": "in_progress"
     },
     {
@@ -737,9 +756,9 @@
       "deletions": 7,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1183,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28223333666",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 978,
@@ -1818,25 +1837,6 @@
       "files_changed": 1,
       "additions": 220,
       "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 903,
-      "pr_title": "Initialize SEOMONEY blog with Zola static site generator",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/903",
-      "merged_at": "2026-06-25T11:18:58Z",
-      "merge_commit_sha": "f2739e4586dcaa290dbc93390faae404c8bb550a",
-      "merge_commit_short": "f2739e4",
-      "head_branch": "claude/epic-bell-63b7p8",
-      "summary_vi": "This PR establishes the complete foundation for the SEOMONEY blog, a Vietnamese-language static site built with Zola. It includes the full site configuration, content structure, CI/CD automation workflows, and operationa",
-      "change_type": "unknown",
-      "files_changed": 1130,
-      "additions": 283436,
-      "deletions": 51,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
