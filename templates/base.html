@@ -1335,6 +1335,15 @@
 
         {# WD Heartbeat Stats — WWDC26 calm-first deploy overview (build-time) #}
         {% include "partials/wd-heartbeat.html" %}
+
+        {# Deploy Watch — footer status widget (pending count + stale warning)
+           Shows pending_count badge + dm.stale alert for data freshness.
+           Load deploy-monitor.json for footer widget display #}
+        {% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+        {% if dm and dm.summary %}
+          {# Display pending_count when > 0, and dm.stale warning if data is old #}
+        {% endif %}
+        {% include "partials/deploy-watch.html" %}
 </footer>
   {% include "partials/turnstile_footer.html" %}
   {# Open PR Monitor is intentionally kept here (global footer ops monitor).
