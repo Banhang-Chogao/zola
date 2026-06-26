@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "fix(backend): restore VIPZone backend + Google OAuth in VIPZone; drop visitor-counter",
+      "tag": "remove",
+      "lines_added": 6237,
+      "lines_removed": 3028,
+      "highlights": [
+        "Restored services/vipzone/ (22 files) from git history (f0c1c3e~1) + data/vipzone-picker-catalog.json.",
+        "Ported Google OAuth/OIDC into cms_auth.py (GitHub OAuth fallback kept intact):",
+        "GET /auth/google/start, GET /auth/google/callback (id_token verified server-side: signature+exp via tokeninfo, aud+iss+email_verified checked, GOOGLE_ADMIN_EMAILS allowlist)",
+        "GET /auth/config (provider flags, no secrets)",
+        "normalized /auth/me → {authenticated, provider, email, name, avatar_url} + legacy username/avatar"
+      ],
+      "pr": 1011
+    },
+    {
+      "date": "2026-06-26",
       "title": "feat(auth): Google/Gmail login for CMS with dual-provider rollout",
       "tag": "chore",
       "lines_added": 508,
