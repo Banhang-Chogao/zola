@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-26T01:51:13Z",
+  "updated_at": "2026-06-26T01:56:10Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
     "today": 14,
-    "this_week": 186,
+    "this_week": 185,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
@@ -36,7 +36,7 @@
       "auto_merged": false,
       "build_run_number": 1175,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211787859",
-      "build_conclusion": "pending"
+      "build_conclusion": "cancelled"
     },
     {
       "pr_number": 947,
@@ -53,9 +53,9 @@
       "deletions": 3,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1175,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211787859",
-      "build_conclusion": "pending"
+      "build_run_number": 1176,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211877000",
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 945,
@@ -91,9 +91,9 @@
       "deletions": 97,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1175,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211787859",
-      "build_conclusion": "pending"
+      "build_run_number": 1176,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28211877000",
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 943,
@@ -566,9 +566,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1146,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169275464",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1147,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28169511946",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 908,
@@ -3535,25 +3535,6 @@
       "build_conclusion": ""
     },
     {
-      "pr_number": 720,
-      "pr_title": "fix(links): bỏ placeholder ![alt](url) gây broken internal link [claude/vssid-bhtn-analysis-seo-arvwmx]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/720",
-      "merged_at": "2026-06-22T06:44:15Z",
-      "merge_commit_sha": "032e984147812badf3b4a77a01502be46ad5c645",
-      "merge_commit_short": "032e984",
-      "head_branch": "claude/vssid-bhtn-analysis-seo-arvwmx",
-      "summary_vi": "- content: bài phân tích VssID không hiển thị quá trình BHTN",
-      "change_type": "fix",
-      "files_changed": 2,
-      "additions": 130,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
       "pr_number": 689,
       "pr_title": "fix(vaccine-hotfix): feat/ngay-cua-cha-baochi",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/689",
@@ -3813,6 +3794,25 @@
       "files_changed": 4,
       "additions": 41,
       "deletions": 27,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
+      "pr_number": 556,
+      "pr_title": "fix(vaccine-hotfix): claude/deploy-monitor",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/556",
+      "merged_at": "2026-06-20T11:18:01Z",
+      "merge_commit_sha": "d4baaa87b6e720cbd2c5899f210333837998c43e",
+      "merge_commit_short": "d4baaa8",
+      "head_branch": "vaccine-hotfix/claude-deploy-monitor",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 18,
+      "additions": 973,
+      "deletions": 23,
       "merged_by": "",
       "auto_merged": false,
       "build_run_number": null,
