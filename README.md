@@ -8,7 +8,7 @@
 [![QA](https://img.shields.io/github/actions/workflow/status/Banhang-Chogao/zola/qa.yml?branch=main&style=flat-square&label=qa)](https://github.com/Banhang-Chogao/zola/actions/workflows/qa.yml)
 [![License: EUPL 1.2](https://img.shields.io/badge/License-EUPL%201.2-blue.svg?style=flat-square)](LICENSE)
 
-[🏠 Home](https://seomoney.org) · [✍️ Editor (CMS)](https://seomoney.org/editor/) · [📊 Insights](https://seomoney.org/insights/) · [🔍 SEO](https://seomoney.org/seo-bang-vang/) · [⚡ Web Vitals](https://seomoney.org/stats/)
+[🏠 Home](/) · [✍️ Editor (CMS)](/editor/) · [📊 Insights](/insights/) · [🔍 SEO](/seo-bang-vang/) · [⚡ Web Vitals](/stats/)
 
 ---
 
@@ -335,7 +335,7 @@ python3 -m unittest discover -s scripts -p 'test_*.py' -v
 
 ### Deploy Details
 
-**Production:** https://seomoney.org
+**Production:** [https://seomoney.org](https://seomoney.org) (GitHub Pages custom domain)
 
 **Hosting:** GitHub Pages (custom domain via CNAME in repo)
 
@@ -752,11 +752,11 @@ This is a personal blog/product. If you spot a bug or have suggestions:
 
 | Resource | Link |
 |----------|------|
-| **Blog** | https://seomoney.org |
-| **Editor (CMS)** | https://seomoney.org/editor/ |
-| **Insights Dashboard** | https://seomoney.org/insights/ |
-| **SEO Scoreboard** | https://seomoney.org/seo-bang-vang/ |
-| **Web Vitals** | https://seomoney.org/stats/ |
+| **Blog** | [https://seomoney.org](https://seomoney.org) |
+| **Editor (CMS)** | [/editor/](/editor/) |
+| **Insights Dashboard** | [/insights/](/insights/) |
+| **SEO Scoreboard** | [/seo-bang-vang/](/seo-bang-vang/) |
+| **Web Vitals** | [/stats/](/stats/) |
 | **Operations Runbook** | [docs/OPERATIONS.md](docs/OPERATIONS.md) |
 | **Repository** | https://github.com/Banhang-Chogao/zola |
 | **License** | [EUPL-1.2](LICENSE) |
