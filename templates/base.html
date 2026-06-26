@@ -1232,50 +1232,45 @@
            hiện top N (server-rendered, không CLS); phần còn lại trong <details>
            "Xem thêm". Footer rộng-ngang nên tag cloud dày NGANG + thấp, calm
            enterprise (pills nhỏ, viền mềm, nền dịu, đếm số phụ). #}
-        {# Tag cloud with dynamic font sizing based on post count #}
         {% set footer_tags_taxo = get_taxonomy(kind="tags") %}
         {% set footer_tags_total = footer_tags_taxo.items | length %}
         {% if footer_tags_total > 0 %}
         {% set footer_tags_sorted = footer_tags_taxo.items | sort(attribute="page_count") | reverse %}
-        {% set footer_tags_limit = 40 %}
-        {% set footer_tags_to_display = footer_tags_sorted | slice(end=footer_tags_limit) %}
-
-        {# Calculate tag cloud font size scale (min/max for visual hierarchy) #}
-        {% set tag_counts = footer_tags_to_display | map(attribute="page_count") | list %}
-        {% set max_count = tag_counts | first | default(value=1) %}
-        {% set min_count = tag_counts | last | default(value=1) %}
-
+        {% set footer_tags_initial = 60 %}
         <section class="footer-tags" aria-labelledby="footer-tags-title">
             <div class="container">
                 <div class="footer-tags__head">
-                    <div>
-                        <h3 class="footer-tags__title" id="footer-tags-title">Thẻ phổ biến</h3>
-                    </div>
-                    <a href="{{ get_taxonomy_url(kind='tags') }}" class="footer-tags__view-all">
-                        Xem tất cả →
-                    </a>
+                    <h3 class="footer-tags__title" id="footer-tags-title">Thẻ phổ biến</h3>
+                    <span class="footer-tags__meta">{{ footer_tags_total }} thẻ phân loại bài viết</span>
                 </div>
                 <div class="footer-tags__cloud">
-                    {% for t in footer_tags_to_display %}
-                    {% set idx = loop.index %}
-                    {% set font_size_class = "footer-tags__item--xs" %}
-                    {% if idx <= 10 %}
-                        {% set font_size_class = "footer-tags__item--lg" %}
-                    {% elif idx <= 20 %}
-                        {% set font_size_class = "footer-tags__item--md" %}
-                    {% elif idx <= 30 %}
-                        {% set font_size_class = "footer-tags__item--sm" %}
-                    {% endif %}
-                    <a class="footer-tags__item {{ font_size_class }}" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
-                        <span class="footer-tags__name">{{ t.name }}</span>
+                    {% for t in footer_tags_sorted | slice(end=footer_tags_initial) %}
+                    <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
+                        <span class="footer-tags__name">#{{ t.name }}</span>
                         <span class="footer-tags__count">{{ t.page_count }}</span>
                     </a>
                     {% endfor %}
                 </div>
-                {% if footer_tags_total > footer_tags_limit %}
-                <div class="footer-tags__more">
-                    <p class="footer-tags__more-text">Và {{ footer_tags_total - footer_tags_limit }} thẻ khác</p>
-                </div>
+                {% if footer_tags_total > footer_tags_initial %}
+                <details class="footer-tags__more">
+                    <summary class="footer-tags__toggle">
+                        <span class="footer-tags__toggle-more">Xem thêm {{ footer_tags_total - footer_tags_initial }} thẻ</span>
+                        <span class="footer-tags__toggle-less">Thu gọn</span>
+                        <svg class="footer-tags__toggle-chevron" viewBox="0 0 24 24" width="14" height="14"
+                             fill="none" stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </summary>
+                    <div class="footer-tags__cloud footer-tags__cloud--extra">
+                        {% for t in footer_tags_sorted | slice(start=footer_tags_initial) %}
+                        <a class="footer-tags__item" href="{{ t.permalink }}" title="{{ t.name }} — {{ t.page_count }} bài viết">
+                            <span class="footer-tags__name">#{{ t.name }}</span>
+                            <span class="footer-tags__count">{{ t.page_count }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </details>
                 {% endif %}
             </div>
         </section>

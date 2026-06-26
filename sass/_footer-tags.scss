@@ -8,28 +8,27 @@
    - Rộng-NGANG, THẤP: pills dày ngang trong container rộng thay vì tường thẻ
      dọc ở sidebar hẹp → giảm >70% chiều cao.
    - Pills nhỏ, viền mềm, nền dịu, typography nhẹ, đủ whitespace.
-   - TAG CLOUD: font-size động theo số lượng bài (lg/md/sm/xs).
-   - Sắp theo số bài giảm dần; chỉ hiện top 40 tags, phần còn lại note.
+   - Sắp theo số bài giảm dần; chỉ hiện top N, phần còn lại trong <details>.
    - Số bài (count) là thứ yếu: nhỏ + mờ; tên thẻ vẫn nổi.
 
    Màu CỐ ĐỊNH (không dùng var(--c-*)): footer là dải tối cố định — token
    semantic đảo màu ở dark-mode sẽ phá nền (cùng lý do _footer.scss). */
 .footer-tags {
   border-top: 1px solid rgba(255, 255, 255, 0.07);
-  padding: 1.5rem 0 1rem;
+  padding: 1.5rem 0 0.25rem;
 
   &__head {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 0.75rem 1rem;
     flex-wrap: wrap;
-    margin-bottom: 1rem;
+    margin-bottom: 0.9rem;
   }
 
   &__title {
     font-family: $font-heading;
-    font-size: 0.95rem;
+    font-size: 0.78rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -37,51 +36,41 @@
     margin: 0;
   }
 
-  &__view-all {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #93c5fd;
-    text-decoration: none;
-    padding: 0.4rem 0.8rem;
-    border: 1px solid rgba(147, 197, 253, 0.3);
-    border-radius: 6px;
-    transition: all .15s ease;
-
-    &:hover {
-      color: #bfdbfe;
-      border-color: rgba(147, 197, 253, 0.6);
-      background: rgba(91, 155, 255, 0.1);
-    }
+  &__meta {
+    font-family: $font-meta;
+    font-size: 0.72rem;
+    color: #6b7280;
+    font-variant-numeric: tabular-nums;
   }
 
   /* Tag cloud — flex wrap dày ngang. gap nhỏ cho mật độ cao. */
   &__cloud {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 0.6rem;
-    align-items: flex-start;
+    gap: 0.4rem 0.45rem;
   }
 
-  /* Pill với font-size thay đổi theo scale (tag cloud effect) */
+  &__cloud--extra { margin-top: 0.55rem; }
+
+  /* Pill nhỏ: tên thẻ (đậm vừa) + count (nhỏ, mờ). */
   &__item {
     display: inline-flex;
     align-items: baseline;
-    gap: 0.28rem;
-    padding: 0.3rem 0.7rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.04);
+    gap: 0.32rem;
+    padding: 0.26rem 0.62rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.035);
     color: #cbd5e1;
     text-decoration: none;
-    line-height: 1.2;
-    transition: all .15s ease;
+    line-height: 1.3;
+    transition: color .15s ease, background .15s ease, border-color .15s ease;
 
     &:hover,
     &:focus-visible {
       color: #fff;
-      background: rgba(91, 155, 255, 0.16);
-      border-color: rgba(91, 155, 255, 0.5);
-      transform: translateY(-1px);
+      background: rgba(91, 155, 255, 0.14);
+      border-color: rgba(91, 155, 255, 0.45);
       outline: none;
     }
 
@@ -89,98 +78,78 @@
     &:focus-visible .footer-tags__count { color: #93c5fd; }
   }
 
-  /* Font size variations for tag cloud */
-  &__item--lg {
-    .footer-tags__name { font-size: 1rem; font-weight: 700; }
-    .footer-tags__count { font-size: 0.75rem; }
-  }
-
-  &__item--md {
-    .footer-tags__name { font-size: 0.9rem; font-weight: 650; }
-    .footer-tags__count { font-size: 0.72rem; }
-  }
-
-  &__item--sm {
-    .footer-tags__name { font-size: 0.8rem; font-weight: 600; }
-    .footer-tags__count { font-size: 0.68rem; }
-  }
-
-  &__item--xs {
-    .footer-tags__name { font-size: 0.72rem; font-weight: 600; }
-    .footer-tags__count { font-size: 0.62rem; opacity: 0.7; }
-  }
-
   &__name {
+    font-size: 0.76rem;
     font-weight: 600;
   }
 
   &__count {
+    font-size: 0.66rem;
     font-weight: 500;
     color: #6b7280;
     font-variant-numeric: tabular-nums;
     transition: color .15s ease;
   }
 
-  /* "Và N thẻ khác" note — text nhỏ thay vì details expand */
+  /* Expand — <details> native (không JS, không CLS, mở/đóng tức thời). */
   &__more {
-    margin-top: 0.8rem;
+    margin-top: 0.7rem;
+
+    &[open] .footer-tags__toggle-chevron { transform: rotate(180deg); }
+    &[open] .footer-tags__toggle-more { display: none; }
+    &[open] .footer-tags__toggle-less { display: inline; }
   }
 
-  &__more-text {
-    font-size: 0.8rem;
-    color: #6b7280;
-    margin: 0;
-    font-style: italic;
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: fit-content;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    font-family: $font-ui;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #93c5fd;
+    padding: 0.35rem 0.1rem;
+    transition: color .15s ease;
+
+    &::-webkit-details-marker { display: none; }
+    &:hover,
+    &:focus-visible { color: #bfdbfe; outline: none; }
+  }
+
+  &__toggle-less { display: none; }
+
+  &__toggle-chevron {
+    flex-shrink: 0;
+    transition: transform .18s ease;
   }
 }
 
 /* ===== TABLET / MOBILE (≤ 720px) ===== */
 @media (max-width: 720px) {
   .footer-tags {
-    padding: 1.25rem 0 0.75rem;
+    padding: 1.25rem 0 0.25rem;
 
-    &__head {
-      margin-bottom: 0.75rem;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-
+    &__head { margin-bottom: 0.75rem; }
     &__cloud { gap: 0.35rem 0.4rem; }
-
-    &__item {
-      padding: 0.3rem 0.6rem;
-
-      &--lg .footer-tags__name { font-size: 0.95rem; }
-      &--md .footer-tags__name { font-size: 0.85rem; }
-      &--sm .footer-tags__name { font-size: 0.75rem; }
-      &--xs .footer-tags__name { font-size: 0.68rem; }
-    }
-
-    &__view-all {
-      font-size: 0.8rem;
-      padding: 0.35rem 0.7rem;
-    }
+    &__item { padding: 0.3rem 0.62rem; }
+    /* Toggle là CTA → tap target thoải mái (R6: chrome control, không phải link prose). */
+    &__toggle { min-height: 44px; }
   }
 }
 
 @media (max-width: 380px) {
-  .footer-tags {
-    &__title { font-size: 0.85rem; }
-    &__item {
-      padding: 0.28rem 0.55rem;
-
-      &--lg .footer-tags__name { font-size: 0.9rem; }
-      &--md .footer-tags__name { font-size: 0.8rem; }
-      &--sm .footer-tags__name { font-size: 0.7rem; }
-      &--xs .footer-tags__name { font-size: 0.65rem; }
-    }
-  }
+  .footer-tags__name { font-size: 0.74rem; }
 }
 
 /* Tôn trọng prefers-reduced-motion: bỏ mọi transition trang trí. */
 @media (prefers-reduced-motion: reduce) {
   .footer-tags__item,
   .footer-tags__count,
-  .footer-tags__view-all { transition: none; }
+  .footer-tags__toggle,
+  .footer-tags__toggle-chevron { transition: none; }
 }
