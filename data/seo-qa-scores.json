@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T12:08:12.353668+07:00",
+  "updated_at": "2026-06-26T12:34:14.968295+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -24412,14 +24412,14 @@
       ]
     },
     "content/posting/deploy-mon-tera-scoping-fix-2026.md": {
-      "title": "Tera Scoping: Why {% set_global %} Fixed DEPLOY-MON Widget",
+      "title": "Tera Template Scoping & {% set_global %}: Zola Widget Fix",
       "slug": "tera-scoping-deploy-monitor-fix",
       "keyword": "Tera template variable scoping Zola set_global",
-      "score": 66.8,
-      "grade": "D",
-      "word_count": 731,
+      "score": 72.8,
+      "grade": "C",
+      "word_count": 794,
       "published": true,
-      "scored_at": "2026-06-26T08:19:32.955180+07:00",
+      "scored_at": "2026-06-26T12:34:14.968295+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -24446,7 +24446,7 @@
           "max": 6
         },
         "kw_heading": {
-          "got": 0.0,
+          "got": 6.0,
           "max": 6
         },
         "headings": {
@@ -24489,36 +24489,110 @@
       "issues": [
         "từ khoá 'Tera template variable scoping Zola set_global' chưa có trong title",
         "từ khoá 'Tera template variable scoping Zola set_global' chưa có trong đoạn mở đầu",
-        "từ khoá 'Tera template variable scoping Zola set_global' chưa xuất hiện trong heading H2 nào",
         "không nên dùng H1 (#) trong body — title đã là H1",
         "thiếu internal link (liên kết tới bài/section khác trong blog)",
         "chưa gắn tag nào"
       ],
       "history": [
         {
-          "scored_at": "2026-06-26T08:17:46.194630+07:00",
-          "score": 53.8,
-          "grade": "F"
-        },
-        {
-          "scored_at": "2026-06-26T08:17:53.418598+07:00",
-          "score": 62.8,
-          "grade": "D"
-        },
-        {
-          "scored_at": "2026-06-26T08:18:00.143135+07:00",
+          "scored_at": "2026-06-26T12:32:52.720406+07:00",
           "score": 66.8,
           "grade": "D"
         },
         {
-          "scored_at": "2026-06-26T08:18:04.392429+07:00",
+          "scored_at": "2026-06-26T12:32:55.929242+07:00",
           "score": 66.8,
           "grade": "D"
         },
         {
-          "scored_at": "2026-06-26T08:19:32.955180+07:00",
+          "scored_at": "2026-06-26T12:32:58.819370+07:00",
           "score": 66.8,
           "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:01.762674+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:05.507643+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:08.256078+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:11.259305+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:13.852892+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:18.136568+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:20.604200+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:23.168031+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:27.823662+07:00",
+          "score": 71.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:32.495497+07:00",
+          "score": 71.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:35.631735+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:41.869076+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:45.083572+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:50.116422+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:33:58.723337+07:00",
+          "score": 66.8,
+          "grade": "D"
+        },
+        {
+          "scored_at": "2026-06-26T12:34:03.894756+07:00",
+          "score": 72.8,
+          "grade": "C"
+        },
+        {
+          "scored_at": "2026-06-26T12:34:14.968295+07:00",
+          "score": 72.8,
+          "grade": "C"
         }
       ]
     },
@@ -24529,7 +24603,7 @@
       "score": 84.8,
       "grade": "B",
       "word_count": 635,
-      "published": false,
+      "published": true,
       "scored_at": "2026-06-26T10:34:47.682375+07:00",
       "breakdown": {
         "title_present": {
@@ -24637,7 +24711,7 @@
       "score": 72.0,
       "grade": "C",
       "word_count": 320,
-      "published": false,
+      "published": true,
       "scored_at": "2026-06-26T10:35:15.621098+07:00",
       "breakdown": {
         "title_present": {
@@ -24727,7 +24801,7 @@
       "score": 72.0,
       "grade": "C",
       "word_count": 443,
-      "published": false,
+      "published": true,
       "scored_at": "2026-06-26T10:35:39.702169+07:00",
       "breakdown": {
         "title_present": {
@@ -24817,7 +24891,7 @@
       "score": 74.8,
       "grade": "C",
       "word_count": 394,
-      "published": false,
+      "published": true,
       "scored_at": "2026-06-26T10:36:02.366007+07:00",
       "breakdown": {
         "title_present": {
@@ -24907,7 +24981,7 @@
       "score": 68.8,
       "grade": "D",
       "word_count": 563,
-      "published": false,
+      "published": true,
       "scored_at": "2026-06-26T10:36:29.095260+07:00",
       "breakdown": {
         "title_present": {
@@ -24988,135 +25062,6 @@
           "scored_at": "2026-06-26T10:36:29.095260+07:00",
           "score": 68.8,
           "grade": "D"
-        }
-      ]
-    },
-    "content/posting/ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh.md": {
-      "title": "Git lịch sử: từ BitKeeper đến Linus Torvalds tạo ra Git",
-      "slug": "ngon-lua-tu-bitkeeper-va-su-ra-doi-cua-ke-vo-danh",
-      "keyword": "Git lịch sử, BitKeeper, Linus Torvalds",
-      "score": 100.0,
-      "grade": "A+",
-      "word_count": 1946,
-      "published": true,
-      "scored_at": "2026-06-26T12:08:12.353668+07:00",
-      "breakdown": {
-        "title_present": {
-          "got": 8.0,
-          "max": 8
-        },
-        "title_length": {
-          "got": 6.0,
-          "max": 6
-        },
-        "description": {
-          "got": 10.0,
-          "max": 10
-        },
-        "slug": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_title": {
-          "got": 8.0,
-          "max": 8
-        },
-        "kw_intro": {
-          "got": 6.0,
-          "max": 6
-        },
-        "kw_heading": {
-          "got": 6.0,
-          "max": 6
-        },
-        "headings": {
-          "got": 8.0,
-          "max": 8
-        },
-        "word_count": {
-          "got": 10.0,
-          "max": 10
-        },
-        "og_image": {
-          "got": 6.0,
-          "max": 6
-        },
-        "img_alt": {
-          "got": 6.0,
-          "max": 6
-        },
-        "internal_link": {
-          "got": 6.0,
-          "max": 6
-        },
-        "external_link": {
-          "got": 4.0,
-          "max": 4
-        },
-        "tags": {
-          "got": 4.0,
-          "max": 4
-        },
-        "date": {
-          "got": 3.0,
-          "max": 3
-        },
-        "readability": {
-          "got": 3.0,
-          "max": 3
-        }
-      },
-      "issues": [],
-      "history": [
-        {
-          "scored_at": "2026-06-26T12:07:30.891585+07:00",
-          "score": 60.0,
-          "grade": "D"
-        },
-        {
-          "scored_at": "2026-06-26T12:07:35.056596+07:00",
-          "score": 66.0,
-          "grade": "D"
-        },
-        {
-          "scored_at": "2026-06-26T12:07:40.568154+07:00",
-          "score": 70.0,
-          "grade": "C"
-        },
-        {
-          "scored_at": "2026-06-26T12:07:43.740180+07:00",
-          "score": 78.0,
-          "grade": "C"
-        },
-        {
-          "scored_at": "2026-06-26T12:07:49.775236+07:00",
-          "score": 84.0,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-26T12:07:53.068043+07:00",
-          "score": 84.0,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-26T12:07:56.015431+07:00",
-          "score": 84.0,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-26T12:08:01.293718+07:00",
-          "score": 88.0,
-          "grade": "B"
-        },
-        {
-          "scored_at": "2026-06-26T12:08:08.268346+07:00",
-          "score": 94.0,
-          "grade": "A"
-        },
-        {
-          "scored_at": "2026-06-26T12:08:12.353668+07:00",
-          "score": 100.0,
-          "grade": "A+"
         }
       ]
     }
