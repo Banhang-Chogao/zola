@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "Merge remote-tracking branch 'origin/main' into claude/remove-progress-countdown-ltkzf9 [claude/remove-progress-countdown-ltkzf9]",
+      "tag": "remove",
+      "lines_added": 4,
+      "lines_removed": 867,
+      "highlights": [
+        "Remove progress countdown and IMPROVEMENT PROGRESS sections completely",
+        "fix(ci): remove deleted test_footer_countdown from qa workflow",
+        "Merge remote-tracking branch 'origin/main' into claude/remove-progress-countdown-ltkzf9",
+        ".github/workflows/qa.yml (modified, +2/-2)",
+        "content/admin-countdown.md (removed, +0/-10)"
+      ],
+      "pr": 934
+    },
+    {
+      "date": "2026-06-26",
       "title": "blog post ending redesign: breadcrumb, FAQ, related posts, copyright, heartbeat",
       "tag": "feat",
       "lines_added": 1223,
