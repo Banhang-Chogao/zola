@@ -1404,19 +1404,48 @@
      DO NOT move to /tools/ or /tools/master-dashboard-v5/ — see f pr goal 2026-06-23. #}
   {% include "partials/open_pr_monitor.html" %}
 
+    {# ===== Public scripts — loaded for EVERY visitor =====
+       Navigation, search, theme, sidebar widgets + the SEO-value widgets
+       (google-rank, seo-reality-gsc) that show value to anonymous readers. #}
     <script src="{{ get_url(path='js/datetime-format.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/header-rotator.js') }}?v={{ asset_version }}" defer></script>
-<script src="{{ get_url(path='js/open-pr-monitor.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/sidebar.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/google-rank.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/seo-reality-gsc.js') }}?v={{ asset_version }}" defer></script>
+    {# auth.js stays unconditional: it is the PRE-login trigger handler
+       ([data-auth-trigger]) an admin needs BEFORE a session exists, so it
+       must never be gated behind an existing session. It self-exits when no
+       trigger element is present (current state) → ~zero cost. #}
     <script src="{{ get_url(path='js/auth.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/deploy-status.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/dashboard.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/ga-improvement-progress.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/ga-health.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/ga-stats-refresh.js') }}?v={{ asset_version }}" defer></script>
-    <script src="{{ get_url(path='js/staging-queue.js') }}?v={{ asset_version }}" defer></script>
+    {# ===== Admin/ops widget JS — client-side gated (perf) =====
+       This is a static site (GitHub Pages) — no server-side auth at render
+       time, so the same HTML ships to everyone. These ops/admin scripts are
+       injected ONLY when an admin CMS session token (zola-cms-session-id) is
+       present in storage. Anonymous readers still see each widget's build-time
+       baked HTML (Open PR Monitor, deploy badge, GA-stats footer); they simply
+       skip the live JS refresh and the background fetches to *.onrender.com /
+       GA / GSC. Cuts 7 script requests + all admin background fetches off
+       public page loads. SEO-value scripts above stay unconditional. #}
+    <script>
+    (function () {
+      try {
+        var K = 'zola-cms-session-id';
+        var hasAdmin = !!(localStorage.getItem(K) || sessionStorage.getItem(K));
+        if (!hasAdmin) return;
+        var v = '{{ asset_version }}';
+        var base = '{{ config.base_url | safe }}/js/';
+        var ops = ['open-pr-monitor', 'deploy-status', 'staging-queue',
+                   'dashboard', 'ga-improvement-progress',
+                   'ga-health', 'ga-stats-refresh'];
+        for (var i = 0; i < ops.length; i++) {
+          var s = document.createElement('script');
+          s.src = base + ops[i] + '.js?v=' + v;
+          s.defer = true;
+          document.body.appendChild(s);
+        }
+      } catch (e) {}
+    })();
+    </script>
     <script src="{{ get_url(path='js/navbar-mobile.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/navbar-dropdown.js') }}?v={{ asset_version }}" defer></script>
     <script src="{{ get_url(path='js/site-search.js') }}?v={{ asset_version }}" defer></script>
