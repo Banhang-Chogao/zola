@@ -1,0 +1,290 @@
+{
+  "generated_at": "2026-06-26T14:58:43Z",
+  "repo": "Banhang-Chogao/zola",
+  "production_url": "https://seomoney.org",
+  "current_head": "a23f564ec33d67f4697e5d1d185b022da1b0e2f7",
+  "current_theme": {
+    "theme_name": "Hilda (Ericsson)",
+    "color_system": "Ericsson Blue + teal accent",
+    "font_system": "Ericsson Hilda, ui-monospace",
+    "accent": "#00a69d"
+  },
+  "themes": [
+    {
+      "theme_id": "theme-20260626-f0c1c3e",
+      "commit_hash": "f0c1c3e",
+      "datetime": "2026-06-26T13:29:59Z",
+      "theme_name": "S-DNA milestone",
+      "layout_style": "Rollback milestone",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "live",
+      "notes": "Rollback toàn bộ blog về mốc tạo trang /tools/s-dna/ (19/6) + patch domain production seomoney.org (#1002)"
+    },
+    {
+      "theme_id": "theme-20260626-356450f",
+      "commit_hash": "356450f",
+      "datetime": "2026-06-26T12:29:50Z",
+      "theme_name": "B-DNA milestone",
+      "layout_style": "Rollback milestone",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "rollback target",
+      "notes": "Rollback theme về mốc hoàn thành trang /tools/b-dna/ (#997)"
+    },
+    {
+      "theme_id": "theme-20260626-40639f7",
+      "commit_hash": "40639f7",
+      "datetime": "2026-06-26T15:40:15+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Header / nav",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "fix: hide empty header-rotator on mobile (#989)"
+    },
+    {
+      "theme_id": "theme-20260626-c8161a2",
+      "commit_hash": "c8161a2",
+      "datetime": "2026-06-26T15:39:39+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Header / nav",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "fix: hide empty header-rotator on mobile (remove gap + floating arrows) (#988)"
+    },
+    {
+      "theme_id": "theme-20260626-d7b27f4",
+      "commit_hash": "d7b27f4",
+      "datetime": "2026-06-26T15:13:14+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Footer layout",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "Remove PIPELINE HEARTBEAT placeholder section from blog footer (#984)"
+    },
+    {
+      "theme_id": "theme-20260626-a1f000e",
+      "commit_hash": "a1f000e",
+      "datetime": "2026-06-26T03:23:02Z",
+      "theme_name": "unknown",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "fix: responsive theme unification - mobile = desktop scaled (#961)"
+    },
+    {
+      "theme_id": "theme-20260626-553fe21",
+      "commit_hash": "553fe21",
+      "datetime": "2026-06-26T02:36:35Z",
+      "theme_name": "Zulma",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "fix(qa): skip vendored *.min.css in SCSS paren-balance check [feat/zulma-sdna-theme] (#952)"
+    },
+    {
+      "theme_id": "theme-20260626-a539e6b",
+      "commit_hash": "a539e6b",
+      "datetime": "2026-06-26T08:43:15+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Footer layout",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "feat: remove hash prefix from footer tags for cleaner appearance (#948)"
+    },
+    {
+      "theme_id": "theme-20260626-e069737",
+      "commit_hash": "e069737",
+      "datetime": "2026-06-26T08:21:49+07:00",
+      "theme_name": "unknown",
+      "layout_style": "3-column editorial",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "footer: modern 3-column brand layout, remove GA \"pending\" pill (#943)"
+    },
+    {
+      "theme_id": "theme-20260626-32f4e5c",
+      "commit_hash": "32f4e5c",
+      "datetime": "2026-06-26T08:18:45+07:00",
+      "theme_name": "unknown",
+      "layout_style": "unknown",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "Merge remote-tracking branch 'origin/main' into claude/tags-categories-redesign-gcufdl [claude/tags-categories-redesign-gcufdl] (#936)"
+    },
+    {
+      "theme_id": "theme-20260626-019a39a",
+      "commit_hash": "019a39a",
+      "datetime": "2026-06-26T08:08:02+07:00",
+      "theme_name": "unknown",
+      "layout_style": "unknown",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "Add blog post ending redesign: breadcrumb, FAQ, related posts, copyright, heartbeat"
+    },
+    {
+      "theme_id": "theme-20260626-c81c792",
+      "commit_hash": "c81c792",
+      "datetime": "2026-06-26T00:47:30Z",
+      "theme_name": "unknown",
+      "layout_style": "Homepage redesign",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "feat: add qa-check job for auto-merge gate (try_auto_merge.py requirement) [claude/homepage-deploy-qa-check-8hscgi] (#941)"
+    },
+    {
+      "theme_id": "theme-20260626-06ab246",
+      "commit_hash": "06ab246",
+      "datetime": "2026-06-26T07:38:07+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Footer layout",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "feat: blog footer UI redesign with breadcrumb, FAQ, related posts, copyright"
+    },
+    {
+      "theme_id": "theme-20260626-14c6f0f",
+      "commit_hash": "14c6f0f",
+      "datetime": "2026-06-26T06:28:53+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Footer layout",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "fix(footer): remove Deployment Status card + 🚀 Deploy strip, keep Countdown (#929)"
+    },
+    {
+      "theme_id": "theme-20260626-90c3f02",
+      "commit_hash": "90c3f02",
+      "datetime": "2026-06-26T06:22:59+07:00",
+      "theme_name": "unknown",
+      "layout_style": "3-column editorial",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "Redesign SEOMONEY homepage: 3-column editorial portal layout (#928)"
+    },
+    {
+      "theme_id": "theme-20260626-98d42e9",
+      "commit_hash": "98d42e9",
+      "datetime": "2026-06-26T05:46:54+07:00",
+      "theme_name": "Zulma",
+      "layout_style": "Post partials",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "fix(theme): restore site-level post partials missing after switch to zulma (#926)"
+    },
+    {
+      "theme_id": "theme-20260626-1abd7e4",
+      "commit_hash": "1abd7e4",
+      "datetime": "2026-06-26T02:29:59+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "Fix: Pre-existing template compatibility issues for Zola 0.22.1 [claude/seomoney-blog-theme-qdmxbm] (#923)"
+    },
+    {
+      "theme_id": "theme-20260625-d97af0b",
+      "commit_hash": "d97af0b",
+      "datetime": "2026-06-25T19:10:34Z",
+      "theme_name": "Zulma",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "feat: setup Zulma theme for Zola with search, dark mode, and navigation menu"
+    },
+    {
+      "theme_id": "theme-20260625-8bb11c4",
+      "commit_hash": "8bb11c4",
+      "datetime": "2026-06-25T21:18:28+07:00",
+      "theme_name": "MoMo skin",
+      "layout_style": "Homepage redesign",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "reference",
+      "notes": "feat(theme): experimental MoMo skin (home + catalogue + article) (#918)"
+    },
+    {
+      "theme_id": "theme-20260625-3b8478c",
+      "commit_hash": "3b8478c",
+      "datetime": "2026-06-25T21:05:27+07:00",
+      "theme_name": "MoMo skin",
+      "layout_style": "unknown",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "reference",
+      "notes": "feat(tools): add \"Momo Brand Voice\" guide page at /tools/momo-brand-voice/ [claude/nifty-johnson-co8fp7] (#911)"
+    },
+    {
+      "theme_id": "theme-20260625-43fa5d0",
+      "commit_hash": "43fa5d0",
+      "datetime": "2026-06-25T20:53:59+07:00",
+      "theme_name": "Nokia",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "reference",
+      "notes": "Nokia theme — Phase 1 (opt-in color switcher) + design notes/demo/plan (#913)"
+    },
+    {
+      "theme_id": "theme-20260625-123a0f6",
+      "commit_hash": "123a0f6",
+      "datetime": "2026-06-25T20:48:43+07:00",
+      "theme_name": "WWDC 26",
+      "layout_style": "Category / listing",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "reference",
+      "notes": "refactor: WWDC Priority 3 — Category / Listing pages redesign (#914)"
+    },
+    {
+      "theme_id": "theme-20260625-cfecb1a",
+      "commit_hash": "cfecb1a",
+      "datetime": "2026-06-25T20:37:40+07:00",
+      "theme_name": "WWDC 26",
+      "layout_style": "unknown",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "reference",
+      "notes": "feat(demo): WWDC 26 — trang xem trước giao diện danh mục (/tools/wwdc-demo/) (#915)"
+    },
+    {
+      "theme_id": "theme-20260625-796c27b",
+      "commit_hash": "796c27b",
+      "datetime": "2026-06-25T19:18:03+07:00",
+      "theme_name": "Nokia",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "reference",
+      "notes": "feat(demo): trang theme demo phong cách Nokia Blog tại /nokia-demo/ [claude/adoring-mayer-jrca7z] (#910)"
+    },
+    {
+      "theme_id": "theme-20260625-6711bb2",
+      "commit_hash": "6711bb2",
+      "datetime": "2026-06-25T19:01:16+07:00",
+      "theme_name": "WWDC 26",
+      "layout_style": "3-column editorial",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "reference",
+      "notes": "refactor: WWDC Priority 2 — Grid (3-column), Card Images, Badge Polish, Hover Effects [claude/stoic-feynman-rx0m7m] (#904)"
+    }
+  ],
+  "excluded": []
+}

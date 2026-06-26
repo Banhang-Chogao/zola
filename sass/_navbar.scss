@@ -758,6 +758,130 @@
 }
 
 /* ============================================================
+   ===== TOOLS MEGA MENU (item có 'groups') — DESKTOP =====
+   ============================================================
+   Thay dropdown 1 cột dài bằng panel nhiều cột, có heading nhóm mờ.
+   Bám left:0 vào item; width clamp để KHÔNG phủ kín viewport; max-height
+   70vh + scroll nội bộ. Kế thừa positioning/animation của .navbar__submenu;
+   chỉ override layout. Mọi link vẫn nằm trong .navbar__submenu nên JS bàn
+   phím + active-state hiện có vẫn chạy. */
+.navbar__submenu--mega {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 0.25rem 0.5rem;
+  width: clamp(420px, 46vw, 640px);
+  max-width: calc(100vw - 32px);
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+@media (min-width: 1100px) {
+  .navbar__submenu--mega {
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+  }
+}
+
+.navbar__megagroup {
+  min-width: 0;
+}
+
+/* Heading nhóm — desktop: nhãn mờ, KHÔNG tương tác (chevron ẩn). */
+.navbar__megagroup-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.6rem 0.3rem;
+  background: transparent;
+  border: none;
+  cursor: default;
+  text-align: left;
+  color: var(--c-text-muted);
+  font-family: $font-ui;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--c-focus-ring);
+    border-radius: 6px;
+  }
+}
+
+.navbar__megagroup-chevron {
+  flex-shrink: 0;
+  opacity: 0.6;
+  display: none;                /* desktop: ẩn — nhóm luôn mở */
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar__megagroup-body {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;               /* desktop: luôn hiện */
+
+  li { display: block; }
+}
+
+/* ============================================================
+   ===== TOOLS MEGA MENU — MOBILE (≤ 720px) = accordion =====
+   ============================================================
+   Bỏ layout cột; mỗi nhóm thành 1 dòng accordion xổ/đóng độc lập. Heading
+   thành nút bấm 44px, chevron xoay. Body ẩn mặc định, .is-open mới hiện. */
+@media (max-width: 720px) {
+  .navbar__submenu--mega {
+    display: block;
+    width: auto;
+    min-width: 220px;
+    max-width: calc(100vw - 24px);
+    max-height: min(70vh, calc(100vh - 140px));
+    grid-template-columns: none;
+  }
+
+  .navbar__megagroup {
+    border-bottom: 1px solid var(--c-border);
+
+    &:last-child { border-bottom: none; }
+  }
+
+  .navbar__megagroup-toggle {
+    min-height: 44px;
+    padding: 0.65rem 0.6rem;
+    cursor: pointer;
+  }
+
+  .navbar__megagroup-chevron {
+    display: block;             /* mobile: hiện chevron accordion */
+  }
+
+  .navbar__megagroup.is-open .navbar__megagroup-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Body ẩn mặc định; chỉ mở khi nhóm .is-open. */
+  .navbar__megagroup-body {
+    display: none;
+    padding-bottom: 0.35rem;
+  }
+
+  .navbar__megagroup.is-open .navbar__megagroup-body {
+    display: block;
+  }
+
+  /* Link accordion — touch target ≥ 44px. */
+  .navbar__megagroup-body a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+  }
+}
+
+/* ============================================================
    ===== NAVBAR CATEGORY DROPDOWN — MOBILE (≤ 720px) =====
    ============================================================
    3 nhóm chính vừa khít màn hình → KHÔNG cần scroll ngang. Cho

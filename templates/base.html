@@ -607,7 +607,42 @@
 
             <ul class="navbar__menu" id="navbar-menu">
                 {% for item in config.extra.menu %}
-                    {% if item.children %}
+                    {% if item.groups %}
+                        {# Mega menu: 'groups' = nhiều nhóm có heading. Desktop → panel
+                           nhiều cột; mobile → accordion (mỗi nhóm xổ/đóng riêng). Trang
+                           đại diện = item.url. Links nằm trong .navbar__submenu để JS
+                           bàn phím + active-state hiện có vẫn hoạt động. #}
+                        <li class="navbar__item navbar__item--has-children navbar__item--mega" data-nav-dropdown>
+                            <button type="button" class="navbar__dropdown-trigger"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span class="navbar__dropdown-label">{{ item.name }}</span>
+                                <svg class="navbar__chevron" width="12" height="12" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2.5"
+                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="navbar__submenu navbar__submenu--mega" role="menu">
+                                {% for group in item.groups %}
+                                    <div class="navbar__megagroup">
+                                        <button type="button" class="navbar__megagroup-toggle" aria-expanded="false">
+                                            <span class="navbar__megagroup-title">{{ group.name }}</span>
+                                            <svg class="navbar__megagroup-chevron" width="11" height="11" viewBox="0 0 24 24"
+                                                 fill="none" stroke="currentColor" stroke-width="2.5"
+                                                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </button>
+                                        <ul class="navbar__megagroup-body" role="none">
+                                            {% for child in group.children %}
+                                                <li role="none"><a role="menuitem" href="{{ child.url | replace(from='$BASE_URL', to=config.base_url) }}">{{ child.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% elif item.children %}
                         {# Category có sub-category → dropdown xổ xuống. Trigger là
                            <button> (toggle), trang đại diện nằm ở child đầu tiên. #}
                         <li class="navbar__item navbar__item--has-children" data-nav-dropdown>
