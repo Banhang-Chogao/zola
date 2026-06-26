@@ -145,7 +145,6 @@ def _gsc_build_blog_url(return_to: str, fragment: str = "") -> str:
 
 
 try:
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "visitor-counter"))
     from gsc_routes import configure as _configure_gsc, router as _gsc_router
 
     _configure_gsc(

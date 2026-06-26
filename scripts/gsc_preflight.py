@@ -42,7 +42,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SERVICE_DIR = ROOT / "services" / "visitor-counter"
+SERVICE_DIR = ROOT / "services" / "vipzone"
 sys.path.insert(0, str(SERVICE_DIR))
 
 # Canonical values are kept in sync with gsc_client.EXPECTED_GSC_PROPERTY /

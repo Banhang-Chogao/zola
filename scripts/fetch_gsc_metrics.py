@@ -35,7 +35,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "services" / "visitor-counter"))
+sys.path.insert(0, str(ROOT / "services" / "vipzone"))
 
 from gsc_client import (  # noqa: E402
     DEFAULT_GSC_PROPERTY_URL,
