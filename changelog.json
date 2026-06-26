@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "re-enable Cloudflare R2 connection (opt-out kill-switch + CDN endpoint)",
+      "tag": "fix",
+      "lines_added": 21,
+      "lines_removed": 7,
+      "highlights": [
+        "scripts/r2_migrate.py — flip the kill-switch to opt-out: R2 is enabled by default; set CLOUDFLARE_R2_DISABLED=true (or R2_ENABLED=false) to pause in an emergency. Credentials are still read from envir",
+        "config.toml [extra] — define the public CDN endpoint cdn = \"https://cdn.seomoney.org\" so read_cdn_base() resolves and report URLs are correct without requiring CDN_BASE in the environment.",
+        "✅ Default dry-run now plans 91 media files → https://cdn.seomoney.org/...",
+        "✅ Missing credentials still exit cleanly (code 2), no traceback",
+        "✅ Kill-switch opt-out still works (CLOUDFLARE_R2_DISABLED=true → paused)"
+      ],
+      "pr": 979
+    },
+    {
+      "date": "2026-06-26",
       "title": "Publish: 5-part Merge Conflict Preflight blog series",
       "tag": "chore",
       "lines_added": 5,
