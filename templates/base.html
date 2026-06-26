@@ -1194,13 +1194,20 @@
             </div>
             <div class="site-footer__center">
                 <p>©2026 <strong>{{ config.title }}</strong> — Powered by Zola</p>
-                <p class="site-footer__legal">
-                    <a href="{{ config.base_url | safe }}/about/">Giới thiệu</a> ·
-                    <a href="{{ config.base_url | safe }}/contact/">Liên hệ</a> ·
-                    <a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a> ·
-                    <a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a> ·
-                    <a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a>
-                </p>
+
+                {# Về SEOMONEY — nhóm link pháp lý & giới thiệu #}
+                <div class="footer-about">
+                    <h4 class="footer-about__title">Về SEOMONEY</h4>
+                    <ul class="footer-about__list">
+                        <li><a href="{{ config.base_url | safe }}/about/">Giới thiệu</a></li>
+                        <li><a href="{{ config.base_url | safe }}/contact/">Liên hệ</a></li>
+                        <li><a href="{{ config.base_url | safe }}/privacy/">Chính sách bảo mật</a></li>
+                        <li><a href="{{ config.base_url | safe }}/terms/">Điều khoản &amp; Miễn trừ</a></li>
+                        <li><a href="{{ config.base_url | safe }}/copyright/">Bản quyền</a></li>
+                        <li><a href="{{ config.base_url | safe }}/bao-cao-tong-ket/">Báo cáo tổng kết</a></li>
+                    </ul>
+                </div>
+
                 {# GA status pill → click mở GA dashboard intelligenthome.
                    Property ID 541698865 hardcode trong URL — match config. #}
                 {% if config.extra.ga_measurement_id %}
