@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T23:26:31Z",
+  "updated_at": "2026-06-26T23:33:28Z",
   "score": 95.6,
   "grade": "A+",
   "mood": "good",
@@ -21,7 +21,7 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "699/727 in range"
+          "detail": "700/727 in range"
         },
         {
           "label": "Descriptions",
@@ -242,7 +242,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (552/727 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T23:26:31Z"
+      "at": "2026-06-26T23:33:28Z"
     },
     {
       "category": "Links",
@@ -250,7 +250,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 1 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/incheon-airport-remote-baggage-2026/index.html → /@/posting/ai-thay-doi-lap-ke-hoach-du-lich/ (Target not found in public/ after zola build)",
-      "at": "2026-06-26T23:26:31Z"
+      "at": "2026-06-26T23:33:28Z"
     }
   ],
   "fix_summary": {
