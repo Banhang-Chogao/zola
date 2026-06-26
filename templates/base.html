@@ -52,8 +52,8 @@
     {% if not build_sha %}{% set_global numeric_id = latest_commit.sha | truncate(length=7, end="") %}{% endif %}
 {% endif %}
 
-{# Deploy Monitor Widget data — load at global scope so all templates can access it #}
-{% set dm = load_data(path="data/deploy-monitor.json", required=false) %}
+{# Deploy Monitor Widget data — load as GLOBAL so all templates can access it #}
+{% set_global dm = load_data(path="data/deploy-monitor.json", required=false) %}
 
 <!DOCTYPE html>
 <html lang="vi">
