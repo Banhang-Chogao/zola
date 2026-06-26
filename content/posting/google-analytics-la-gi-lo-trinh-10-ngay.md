@@ -10,7 +10,6 @@ tags = ["ga4", "google analytics", "google analytics series", "phân tích dữ 
 [extra]
 thumbnail = "https://seomoney.org/img/placeholder/placeholder.svg"
 seo_keyword = "google analytics là gì"
-featured = true
 series = "google-analytics"
 series_part = 1
 series_total = 5
