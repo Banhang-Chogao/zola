@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-26T15:22:57Z",
+  "generated_at": "2026-06-26T15:45:34Z",
   "repo": "Banhang-Chogao/zola",
   "production_url": "https://seomoney.org",
-  "current_head": "33ee50cc026be9aa72424fa8b3ff7cc72038a5f0",
+  "current_head": "a2b7b701d45d821e83d46cf6ac284056cdbb29fd",
   "current_theme": {
     "theme_name": "Hilda (Ericsson)",
     "color_system": "Ericsson Blue + teal accent",
@@ -11,9 +11,23 @@
   },
   "baseline": {
     "start_date": "2026-06-14T00:00:00+07:00",
-    "note": "Rollback history reliably available from 2026-06-14 00:00 Asia/Ho_Chi_Minh onward"
+    "note": "Rollback history reliably available from 2026-06-14 00:00 Asia/Ho_Chi_Minh onward",
+    "headline": "Rollback history since 14-06-2026",
+    "early_window_count": 1,
+    "oldest_row": "2026-06-14T00:09:46+07:00"
   },
   "themes": [
+    {
+      "theme_id": "theme-20260626-dec23a1",
+      "commit_hash": "dec23a1",
+      "datetime": "2026-06-26T22:23:58+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "live",
+      "notes": "fix(tools): backfill theme log from 14 Jun 2026 (#1005)"
+    },
     {
       "theme_id": "theme-20260626-efe4ec9",
       "commit_hash": "efe4ec9",
@@ -22,7 +36,7 @@
       "layout_style": "Theme skin",
       "color_system": "unknown",
       "font_system": "unknown",
-      "status": "live",
+      "status": "archived",
       "notes": "feat(tools): Theme log + Công cụ mega menu (#1004)"
     },
     {
@@ -310,6 +324,28 @@
       "font_system": "unknown",
       "status": "reference",
       "notes": "refactor: WWDC Priority 2 — Grid (3-column), Card Images, Badge Polish, Hover Effects [claude/stoic-feynman-rx0m7m] (#904)"
+    },
+    {
+      "theme_id": "theme-20260625-f2739e4",
+      "commit_hash": "f2739e4",
+      "datetime": "2026-06-25T18:18:58+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Theme baseline",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "rollback target",
+      "notes": "Initialize SEOMONEY blog with Zola static site generator (#903)"
+    },
+    {
+      "theme_id": "theme-20260614-212d6a5",
+      "commit_hash": "212d6a5",
+      "datetime": "2026-06-14T00:09:46+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Theme baseline",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "rollback target",
+      "notes": "Theme/site baseline (touched: config.toml) — start of reliable rollback history (14-06-2026)"
     }
   ],
   "excluded": []
