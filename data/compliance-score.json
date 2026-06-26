@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T01:23:20Z",
+  "updated_at": "2026-06-26T01:31:44Z",
   "score": 86.9,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "warn",
-          "detail": "789/1071 in range"
+          "detail": "787/1069 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1043/1071 complete"
+          "detail": "1041/1069 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1069/1071 set"
+          "detail": "1067/1069 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1060/1071 single H1"
+          "detail": "1058/1069 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1069/1071 with lang"
+          "detail": "1067/1069 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1069/1071 ready"
+          "detail": "1067/1069 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1069/1071 pages"
+          "detail": "1067/1069 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1070/1071 pages covered"
+          "detail": "1068/1069 pages covered"
         },
         {
           "label": "Image weight",
@@ -166,7 +166,7 @@
         {
           "label": "Internal links",
           "status": "warn",
-          "detail": "1 broken / 1243 unique",
+          "detail": "1 broken / 1241 unique",
           "broken": [
             {
               "source_page": "/bai-viet-dau-tien/",
@@ -368,7 +368,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1065/1071 pages"
+          "detail": "1063/1069 pages"
         },
         {
           "label": "Skip navigation",
@@ -404,7 +404,7 @@
       "text": "Metadata: Descriptions"
     }
   ],
-  "pages_scanned": 1071,
+  "pages_scanned": 1069,
   "articles_scanned": 285,
   "fix_log": [
     {
@@ -412,8 +412,8 @@
       "label": "Page titles",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (789/1071 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:23:20Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (787/1069 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T01:31:44Z"
     },
     {
       "category": "Media",
@@ -421,7 +421,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:23:20Z"
+      "at": "2026-06-26T01:31:44Z"
     },
     {
       "category": "Content",
@@ -429,7 +429,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:23:20Z"
+      "at": "2026-06-26T01:31:44Z"
     },
     {
       "category": "Content",
@@ -437,7 +437,7 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T01:23:20Z"
+      "at": "2026-06-26T01:31:44Z"
     },
     {
       "category": "Links",
@@ -445,7 +445,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Còn 280 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/bai-viet-dau-tien/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bi-kip-xin-visa-han-quoc-5-nam-de/index.html → /blog/ (Target not found in public/ after zola build); public/baochi/bidv-flagship-private-banking-tphcm/index.html → /blog/ (Target not found in public/ after zola build)",
-      "at": "2026-06-26T01:23:20Z"
+      "at": "2026-06-26T01:31:44Z"
     }
   ],
   "fix_summary": {
