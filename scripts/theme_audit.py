@@ -38,6 +38,10 @@ OUT_JSON = os.path.join(REPO_ROOT, "data", "theme-log.json")
 REPO_SLUG = "Banhang-Chogao/zola"
 PRODUCTION_URL = "https://seomoney.org"
 
+# **Baseline protection:** Rollback history reliably available from 2026-06-14 00:00 Asia/Ho_Chi_Minh.
+# If this date is changed in the future, QA should flag the change. Do not backfill beyond this date.
+THEME_LOG_START_DATE = "2026-06-14T00:00:00+07:00"
+
 # Path định hình theme/blog UI — chỉ commit chạm vào đây mới là ứng viên milestone.
 THEME_PATHS = [
     "templates/",
@@ -52,14 +56,19 @@ THEME_PATHS = [
 
 # Số mốc tối đa trong bảng chính (ledger gọn, dễ rollback). Có thể override qua
 # biến môi trường THEME_LOG_LIMIT.
-DEFAULT_LIMIT = int(os.environ.get("THEME_LOG_LIMIT", "30"))
+DEFAULT_LIMIT = int(os.environ.get("THEME_LOG_LIMIT", "50"))
 
 # Subject phải khớp ≥1 keyword này mới coi là *milestone theme/UI* (lọc nhiễu
 # khỏi hàng trăm commit CSS lặt vặt). Tất cả là dữ liệu thật từ subject git.
+# Extended to include responsive, branding, design DNA references, and UI system keywords.
 MILESTONE_RE = re.compile(
     r"\b(theme|rollback|redesign|b-?dna|s-?dna|e-?dna|z-?x|e-?x|"
     r"hila|hilda|ericsson|zulma|momo|nokia|wwdc|layout|homepage|"
-    r"footer|header|navbar|giao\s*diện|switch\s+to|skin)\b",
+    r"footer|header|navbar|giao\s*diện|switch\s+to|skin|"
+    r"responsive|mobile|branding|color|font|typography|"
+    r"ui\s*ux|user\s*interface|design\s*system|card|component|"
+    r"postcard|article|post\s+partial|category\s+page|"
+    r"mega\s*menu|dropdown|navigation)\b",
     re.IGNORECASE,
 )
 
@@ -197,10 +206,23 @@ def detect_current_summary():
 
 
 def collect_candidates():
-    """Lấy commit ứng viên milestone từ git log trên THEME_PATHS (dữ liệu thật)."""
+    """
+    Lấy commit ứng viên milestone từ git log trên THEME_PATHS (dữ liệu thật).
+
+    Filters commits to only include those on or after THEME_LOG_START_DATE
+    (2026-06-14 00:00:00 +07:00), ensuring timezone-safe backfill.
+    """
     fmt = "%H%x1f%cI%x1f%an%x1f%s"
     raw = run_git(
-        ["log", "-400", "--no-merges", f"--pretty=format:{fmt}", "--", *THEME_PATHS]
+        [
+            "log",
+            "-500",  # Increased from 400 to capture more commits when filtered by date
+            "--no-merges",
+            f"--since={THEME_LOG_START_DATE}",  # Timezone-safe date filter
+            f"--pretty=format:{fmt}",
+            "--",
+            *THEME_PATHS,
+        ]
     )
     seen = set()
     rows = []
@@ -288,6 +310,10 @@ def build():
         "production_url": PRODUCTION_URL,
         "current_head": head,
         "current_theme": detect_current_summary(),
+        "baseline": {
+            "start_date": THEME_LOG_START_DATE,
+            "note": "Rollback history reliably available from 2026-06-14 00:00 Asia/Ho_Chi_Minh onward",
+        },
         "themes": themes,
         "excluded": excluded,
     }

@@ -1,30 +1,45 @@
 {
-  "generated_at": "2026-06-26T14:58:43Z",
+  "generated_at": "2026-06-26T15:22:57Z",
   "repo": "Banhang-Chogao/zola",
   "production_url": "https://seomoney.org",
-  "current_head": "a23f564ec33d67f4697e5d1d185b022da1b0e2f7",
+  "current_head": "33ee50cc026be9aa72424fa8b3ff7cc72038a5f0",
   "current_theme": {
     "theme_name": "Hilda (Ericsson)",
     "color_system": "Ericsson Blue + teal accent",
     "font_system": "Ericsson Hilda, ui-monospace",
     "accent": "#00a69d"
   },
+  "baseline": {
+    "start_date": "2026-06-14T00:00:00+07:00",
+    "note": "Rollback history reliably available from 2026-06-14 00:00 Asia/Ho_Chi_Minh onward"
+  },
   "themes": [
+    {
+      "theme_id": "theme-20260626-efe4ec9",
+      "commit_hash": "efe4ec9",
+      "datetime": "2026-06-26T22:05:33+07:00",
+      "theme_name": "unknown",
+      "layout_style": "Theme skin",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "live",
+      "notes": "feat(tools): Theme log + Công cụ mega menu (#1004)"
+    },
     {
       "theme_id": "theme-20260626-f0c1c3e",
       "commit_hash": "f0c1c3e",
-      "datetime": "2026-06-26T13:29:59Z",
+      "datetime": "2026-06-26T13:29:59+00:00",
       "theme_name": "S-DNA milestone",
       "layout_style": "Rollback milestone",
       "color_system": "unknown",
       "font_system": "unknown",
-      "status": "live",
+      "status": "rollback target",
       "notes": "Rollback toàn bộ blog về mốc tạo trang /tools/s-dna/ (19/6) + patch domain production seomoney.org (#1002)"
     },
     {
       "theme_id": "theme-20260626-356450f",
       "commit_hash": "356450f",
-      "datetime": "2026-06-26T12:29:50Z",
+      "datetime": "2026-06-26T12:29:50+00:00",
       "theme_name": "B-DNA milestone",
       "layout_style": "Rollback milestone",
       "color_system": "unknown",
@@ -66,9 +81,20 @@
       "notes": "Remove PIPELINE HEARTBEAT placeholder section from blog footer (#984)"
     },
     {
+      "theme_id": "theme-20260626-506fc2b",
+      "commit_hash": "506fc2b",
+      "datetime": "2026-06-26T06:18:47+00:00",
+      "theme_name": "unknown",
+      "layout_style": "Category / listing",
+      "color_system": "unknown",
+      "font_system": "unknown",
+      "status": "archived",
+      "notes": "fix: remove unnecessary slide navigation buttons from category carousel (#978)"
+    },
+    {
       "theme_id": "theme-20260626-a1f000e",
       "commit_hash": "a1f000e",
-      "datetime": "2026-06-26T03:23:02Z",
+      "datetime": "2026-06-26T03:23:02+00:00",
       "theme_name": "unknown",
       "layout_style": "Theme skin",
       "color_system": "unknown",
@@ -79,7 +105,7 @@
     {
       "theme_id": "theme-20260626-553fe21",
       "commit_hash": "553fe21",
-      "datetime": "2026-06-26T02:36:35Z",
+      "datetime": "2026-06-26T02:36:35+00:00",
       "theme_name": "Zulma",
       "layout_style": "Theme skin",
       "color_system": "unknown",
@@ -134,7 +160,7 @@
     {
       "theme_id": "theme-20260626-c81c792",
       "commit_hash": "c81c792",
-      "datetime": "2026-06-26T00:47:30Z",
+      "datetime": "2026-06-26T00:47:30+00:00",
       "theme_name": "unknown",
       "layout_style": "Homepage redesign",
       "color_system": "unknown",
@@ -200,7 +226,7 @@
     {
       "theme_id": "theme-20260625-d97af0b",
       "commit_hash": "d97af0b",
-      "datetime": "2026-06-25T19:10:34Z",
+      "datetime": "2026-06-25T19:10:34+00:00",
       "theme_name": "Zulma",
       "layout_style": "Theme skin",
       "color_system": "unknown",
