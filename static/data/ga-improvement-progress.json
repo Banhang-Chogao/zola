@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-25T19:22:05Z",
+  "updated_at": "2026-06-26T00:22:35Z",
   "tasks": [
     {
       "id": "seo",
@@ -15,34 +15,34 @@
       "label": "Internal links improvement",
       "icon": "🔗",
       "status": "running",
-      "detail": "9 broken links · 0 weak related pairs",
+      "detail": "0 broken links · 24 weak related pairs",
       "source": "compliance-link-report.json",
-      "updated_at": "2026-06-24T21:56:32Z"
+      "updated_at": "2026-06-26T00:09:12Z"
     },
     {
       "id": "page_speed",
       "label": "Page speed fixes",
       "icon": "⚡",
       "status": "running",
-      "detail": "Mobile 58/100 · LCP 12.2 s · needs work",
+      "detail": "Mobile 61/100 · LCP 7.1 s · needs work",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-23T18:19:34+00:00"
+      "updated_at": "2026-06-25T19:27:19+00:00"
     },
     {
       "id": "schema",
       "label": "Schema enhancement",
       "icon": "📋",
       "status": "running",
-      "detail": "1084/1085 pages",
+      "detail": "1065/1067 pages",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-24T21:56:32Z"
+      "updated_at": "2026-06-26T00:09:12Z"
     },
     {
       "id": "content_refresh",
       "label": "Content refresh",
       "icon": "📝",
       "status": "done",
-      "detail": "Latest: Merge remote-tracking branch 'origin/main'",
+      "detail": "Latest: fix(footer): remove Deployment Status card + 🚀 Deploy strip,",
       "source": "changelog.json",
       "updated_at": "2026-06-25"
     },
@@ -62,16 +62,16 @@
       "status": "done",
       "detail": "formats OK · WebP workflow",
       "source": "compliance-score.json",
-      "updated_at": "2026-06-24T21:56:32Z"
+      "updated_at": "2026-06-26T00:09:12Z"
     },
     {
       "id": "mobile_ux",
       "label": "Mobile UX improvements",
       "icon": "📱",
       "status": "running",
-      "detail": "Mobile 58/100 vs desktop 92/100 (Δ34) · 1084/1085 ready",
+      "detail": "Mobile 61/100 vs desktop 93/100 (Δ32) · 1065/1067 ready",
       "source": "pagespeed.json",
-      "updated_at": "2026-06-23T18:19:34+00:00"
+      "updated_at": "2026-06-25T19:27:19+00:00"
     }
   ],
   "summary": {

@@ -538,6 +538,78 @@
 }
 
 
+/* ============================================================
+   ===== DEPLOY WATCH — footer monitor widget =====
+   ============================================================
+   Minimal footer widget: pending deploy count + stale data warning.
+   Non-intrusive, hidden by default when no action needed. */
+.deploy-watch {
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 0.75rem 0;
+  font-size: 0.8rem;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__pending {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fbbf24;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9aa4b2;
+  }
+
+  &__count {
+    font-weight: 700;
+    color: #fbbf24;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__stale {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #f97316;
+    font-weight: 600;
+  }
+
+  &__warn {
+    font-size: 1.1em;
+    line-height: 1;
+  }
+
+  &__status {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin: 0;
+    code {
+      font-family: monospace;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    padding: 0.6rem 0;
+    &__inner { gap: 1rem; }
+    &__label { font-size: 0.7rem; }
+    &__status { font-size: 0.7rem; }
+  }
+}
+
 /* ===== GA STATS + GA IMPROVEMENT PROGRESS =====
    Visual styling moved to the scoped partial `_ga-stats.scss` (B-DNA
    redesign, 2026-06-21). Layout-only hooks for these modules stay above
