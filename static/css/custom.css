@@ -1,0 +1,20 @@
+/* Mobile layout fixes — hide empty header-rotator on viewport < 768px */
+
+@media (max-width: 767px) {
+  /* Hide header-rotator container on mobile to remove empty gap */
+  .header-rotator {
+    display: none;
+  }
+
+  /* Remove top gap by hiding the rotator dots navigation */
+  .header-rotator__dots {
+    display: none;
+  }
+
+  /* Hide floating navigation arrows */
+  .header-rotator__slide .header-github__arrow,
+  .header-rotator__slide .header-ad__arrow,
+  .header-rotator__slide .header-theodoi8__arrow {
+    display: none !important;
+  }
+}
