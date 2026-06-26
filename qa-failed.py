@@ -231,7 +231,7 @@ def push_fix_to_main(
             "git", "add",
             "content/", "scripts/", "sass/", "templates/", "static/",
             "config.toml", "qa_check.py",
-            "services/visitor-counter/requirements.txt",
+            "services/vipzone/requirements.txt",
             "scripts/requirements.txt",
         ],
         check=False,

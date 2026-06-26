@@ -3,9 +3,11 @@
 Tài liệu này hướng dẫn bật **đăng nhập bằng Google** cho Editor/CMS, chạy song song
 với GitHub OAuth (chế độ `dual`) rồi chuyển hẳn sang Google (`google`) khi đã ổn.
 
-> Backend: FastAPI tại `services/visitor-counter/` (Render service
-> `blog-visitor-api`). Frontend: `templates/editor.html` + `static/js/editor.js`
-> + `static/js/auth.js`.
+> Backend: FastAPI tại `services/vipzone/` (Render service `blog-vipzone-api`,
+> **Root Directory = `services/vipzone`**). Frontend: `templates/editor.html`
+> + `static/js/editor.js` + `static/js/auth.js`.
+>
+> ⚠️ Service `visitor-counter`/`blog-visitor-api` cũ đã bỏ — KHÔNG dùng.
 
 Mọi thay đổi **code** đã xong trong repo. Chỉ còn **3 việc tay** bên ngoài:
 
@@ -33,7 +35,7 @@ Mọi thay đổi **code** đã xong trong repo. Chỉ còn **3 việc tay** bê
 
 ```
 https://seomoney.org
-https://blog-visitor-api.onrender.com
+https://blog-vipzone-api.onrender.com
 ```
 
 ### 1.3 Authorized redirect URI
@@ -41,12 +43,12 @@ https://blog-visitor-api.onrender.com
 Phải khớp **CHÍNH XÁC** với `GOOGLE_REDIRECT_URI` trên backend:
 
 ```
-https://blog-visitor-api.onrender.com/auth/google/callback
+https://blog-vipzone-api.onrender.com/auth/google/callback
 ```
 
-> Nếu backend của bạn deploy ở domain khác (vd `blog-vipzone-api.onrender.com`),
-> dùng đúng domain đó cho cả origin lẫn redirect URI, và set `GOOGLE_REDIRECT_URI`
-> trùng giá trị này. `redirect_uri` lệch dù một ký tự → Google trả `redirect_uri_mismatch`.
+> `redirect_uri` lệch dù một ký tự → Google trả `redirect_uri_mismatch`. Nếu backend
+> đổi domain, dùng đúng domain đó cho cả origin lẫn redirect URI và set
+> `GOOGLE_REDIRECT_URI` trùng giá trị này.
 
 ### 1.4 Lấy thông tin
 
@@ -56,13 +58,18 @@ Sau khi tạo, copy **Client ID** và **Client Secret**.
 
 ## 2. Render env vars
 
+> **Root Directory phải đúng:** Render Dashboard → service **`blog-vipzone-api`**
+> → **Settings → Root Directory** → đặt CHÍNH XÁC `services/vipzone` (KHÔNG phải
+> `vipzone`). Sai/ thiếu thư mục → deploy fail `Root directory "services/vipzone"
+> does not exist`. Sau khi sửa → **Save** rồi **Manual Deploy**.
+
 Trên Render dashboard của service backend → **Environment** → thêm:
 
 ```env
 AUTH_PROVIDER=dual
 GOOGLE_CLIENT_ID=xxxxxxxxxxxx-xxxx.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-xxxxxxxxxxxxxxxxxxxx
-GOOGLE_REDIRECT_URI=https://blog-visitor-api.onrender.com/auth/google/callback
+GOOGLE_REDIRECT_URI=https://blog-vipzone-api.onrender.com/auth/google/callback
 GOOGLE_ADMIN_EMAILS=admin@gmail.com
 ```
 
