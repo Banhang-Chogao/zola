@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "fix(ui): move 'Giới thiệu' menu from header to footer, create 'Về SEO…",
+      "tag": "fix",
+      "lines_added": 56,
+      "lines_removed": 15,
+      "highlights": [
+        "Remove 'Giới thiệu' dropdown menu from navbar (config.toml)",
+        "Replace footer legal links with new 'Về SEOMONEY' section containing 6 links:",
+        "Giới thiệu, Liên hệ, Chính sách bảo mật, Điều khoản & Miễn trừ, Tuyên bố bản quyền, Báo cáo tổng kết",
+        "Add responsive CSS for footer-about group (.footer-about, .footer-about__title, .footer-about__list)",
+        "Mobile-friendly: links wrap naturally, font size 0.8rem"
+      ],
+      "pr": 1024
+    },
+    {
+      "date": "2026-06-26",
       "title": "CMS: bỏ Featured cũ khi chọn 'ung-ho-du-an-ai-ten-mien-ai'",
       "tag": "chore",
       "lines_added": 0,
