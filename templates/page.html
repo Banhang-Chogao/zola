@@ -32,7 +32,7 @@
                    + width/height (aspect 16/7 matching CSS) → browser
                    reserve space tránh CLS dù CSS chưa kịp parse.
                    Bài chưa có thumbnail → placeholder thương hiệu (macro img). #}
-                <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
                      width="1600" height="700"
                      loading="eager" fetchpriority="high" decoding="async">
             </div>
@@ -411,7 +411,7 @@
                             {% if p.taxonomies.categories %}
                                 <span class="related-card__cat">{{ p.taxonomies.categories | first }}</span>
                             {% endif %}
-                            <img src="{{ img::thumb_src(thumb=p.extra.thumbnail | default(value='')) }}" alt="{{ p.title }}"
+                            <img src="{{ img::cover_src(page=p) }}" alt="{{ img::cover_alt(page=p) }}"
                                  width="800" height="500"
                                  loading="lazy" decoding="async">
                         </a>

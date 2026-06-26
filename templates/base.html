@@ -179,10 +179,25 @@
        `.og.webp` (1200×630) sinh bởi scripts/build_og_images.py → dùng twin để
        social hiện đúng ảnh BÀI thay vì banner chung. Ưu tiên: og_image →
        thumbnail (svg→twin, hoặc raster sẵn) → fallback og-default.webp. #}
+    {# Owned-image chain cho social/structured-data: chỉ ảnh RASTER local (social không
+       render SVG). Cover SVG tự sinh KHÔNG đặt làm og:image → giữ og-default.webp owned
+       raster làm fallback site-level → KHÔNG bao giờ broken/hotlink ngoài. #}
     {% set og_image = config.base_url ~ "/img/og-default.webp" %}
     {% if page and page.extra.og_image %}
         {% set_global og_image = img::thumb_src(thumb=page.extra.og_image) %}
-    {% elif page and page.extra.thumbnail %}
+    {% elif page and page.extra.image %}
+        {% if page.extra.image is ending_with(".svg") %}
+            {% set_global og_image = page.extra.image | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=page.extra.image) %}
+        {% endif %}
+    {% elif page and page.extra.cover %}
+        {% if page.extra.cover is ending_with(".svg") %}
+            {% set_global og_image = page.extra.cover | replace(from=".svg", to=".og.webp") %}
+        {% else %}
+            {% set_global og_image = img::thumb_src(thumb=page.extra.cover) %}
+        {% endif %}
+    {% elif page and page.extra.thumbnail and "/img/placeholder/" not in page.extra.thumbnail %}
         {% if page.extra.thumbnail is ending_with(".svg") %}
             {% set_global og_image = page.extra.thumbnail | replace(from=".svg", to=".og.webp") %}
         {% else %}
@@ -767,7 +782,7 @@
                         "title": {{ page.title | json_encode | safe }},
                         "permalink": {{ page.permalink | json_encode | safe }},
                         "date": {{ page.date | json_encode | safe }},
-                        "thumbnail": {{ img::thumb_src(thumb=page.extra.thumbnail | default(value="")) | json_encode | safe }},
+                        "thumbnail": {{ img::cover_src(page=page) | json_encode | safe }},
                         "category": {% if page.taxonomies.categories %}{{ page.taxonomies.categories.0 | json_encode | safe }}{% else %}""{% endif %},
                         "featured": {% if page.extra.featured %}true{% else %}false{% endif %},
                         "featured_at": {{ page.extra.featured_at | default(value="") | json_encode | safe }}
@@ -797,7 +812,7 @@
                                 {% if featured.taxonomies.categories %}
                                     <span class="cat-tag">{{ featured.taxonomies.categories[0] | upper }}</span>
                                 {% endif %}
-                                <img src="{{ img::thumb_src(thumb=featured.extra.thumbnail | default(value='')) }}" alt="{{ featured.title }}"
+                                <img src="{{ img::cover_src(page=featured) }}" alt="{{ img::cover_alt(page=featured) }}"
                                      width="800" height="500"
                                      loading="lazy" decoding="async">
                                 <span class="rank-overlay rank-overlay--lg" aria-hidden="true">1</span>
@@ -821,7 +836,7 @@
                             {% for page in root_pages | slice(end=5) %}
                                 <li class="random-item">
                                     <a class="random-item__image" href="{{ page.permalink }}">
-                                        <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                                        <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
                                              width="100" height="100"
                                              loading="lazy" decoding="async">
                                         <span class="rank-overlay" aria-hidden="true">{{ loop.index }}</span>

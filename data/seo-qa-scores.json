@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26T21:08:41.009259+07:00",
+  "updated_at": "2026-06-26T22:57:31.756933+07:00",
   "posts": {
     "content/baochi/msb-digital-bank-ra-mat-thay-mbank.md": {
       "title": "MSB Digital Bank thay mBank: cần làm gì?",
@@ -4811,10 +4811,11 @@
       "title": "Bí kíp xin visa Hàn Quốc 5 năm dễ hơn bạn nghĩ",
       "slug": "bi-kip-xin-visa-han-quoc-5-nam-de",
       "keyword": "xin visa Hàn Quốc 5 năm",
-      "score": 94.0,
-      "grade": "A",
+      "score": 88.0,
+      "grade": "B",
       "word_count": 1348,
-      "scored_at": "2026-06-19T05:16:12.113167+07:00",
+      "published": false,
+      "scored_at": "2026-06-26T22:57:31.756933+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -4853,7 +4854,7 @@
           "max": 10
         },
         "og_image": {
-          "got": 6.0,
+          "got": 0.0,
           "max": 6
         },
         "img_alt": {
@@ -4882,7 +4883,8 @@
         }
       },
       "issues": [
-        "từ khoá 'xin visa Hàn Quốc 5 năm' chưa xuất hiện trong heading H2 nào"
+        "từ khoá 'xin visa Hàn Quốc 5 năm' chưa xuất hiện trong heading H2 nào",
+        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém"
       ],
       "history": [
         {
@@ -4904,9 +4906,13 @@
           "scored_at": "2026-06-19T05:16:12.113167+07:00",
           "score": 94.0,
           "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T22:57:31.756933+07:00",
+          "score": 88.0,
+          "grade": "B"
         }
-      ],
-      "published": false
+      ]
     },
     "content/baochi/the-tin-dung-msb-huong-dan-chi-tiet.md": {
       "title": "Thẻ tín dụng MSB: ưu đãi và cách dùng hiệu quả",
@@ -15171,11 +15177,11 @@
       "title": "Theme log rollback: an toàn cho blog tĩnh",
       "slug": "lam-theme-log-sua-menu-cong-cu",
       "keyword": "theme log rollback",
-      "score": 94.0,
-      "grade": "A",
+      "score": 88.0,
+      "grade": "B",
       "word_count": 1643,
       "published": true,
-      "scored_at": "2026-06-26T21:08:41.009259+07:00",
+      "scored_at": "2026-06-26T22:57:21.248373+07:00",
       "breakdown": {
         "title_present": {
           "got": 8.0,
@@ -15214,7 +15220,7 @@
           "max": 10
         },
         "og_image": {
-          "got": 6.0,
+          "got": 0.0,
           "max": 6
         },
         "img_alt": {
@@ -15243,6 +15249,7 @@
         }
       },
       "issues": [
+        "thiếu [extra] thumbnail (og:image) → share mạng xã hội kém",
         "thiếu internal link (liên kết tới bài/section khác trong blog)"
       ],
       "history": [
@@ -15290,6 +15297,11 @@
           "scored_at": "2026-06-26T21:08:41.009259+07:00",
           "score": 94.0,
           "grade": "A"
+        },
+        {
+          "scored_at": "2026-06-26T22:57:21.248373+07:00",
+          "score": 88.0,
+          "grade": "B"
         }
       ]
     }

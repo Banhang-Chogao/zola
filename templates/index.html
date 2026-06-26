@@ -60,7 +60,7 @@
         <section class="home-sticky" aria-label="Bài ghim nổi bật">
             <article class="home-sticky__card">
                 <a class="home-sticky__image" href="{{ sticky.permalink }}">
-                    <img src="{{ img::thumb_src(thumb=sticky.extra.thumbnail | default(value='')) }}" alt="{{ sticky.title }}"
+                    <img src="{{ img::cover_src(page=sticky) }}" alt="{{ img::cover_alt(page=sticky) }}"
                          width="1200" height="800"
                          loading="eager" fetchpriority="high" decoding="async">
                 </a>
@@ -98,7 +98,7 @@
                 {% for page in page_feed %}
                     <article class="home-card{% if page.extra.premium %} home-card--premium{% endif %}">
                         <a class="home-card__image" href="{{ page.permalink }}">
-                            <img src="{{ img::thumb_src(thumb=page.extra.thumbnail | default(value='')) }}" alt="{{ page.title }}"
+                            <img src="{{ img::cover_src(page=page) }}" alt="{{ img::cover_alt(page=page) }}"
                                  width="800" height="500"
                                  loading="{% if loop.first and page_num == 1 and not sticky %}eager{% else %}lazy{% endif %}"
                                  {% if loop.first and page_num == 1 and not sticky %}fetchpriority="high"{% endif %}
