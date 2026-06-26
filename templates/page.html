@@ -38,15 +38,24 @@
     </span>
   </a>
 
-  {# ===== Breadcrumb with JSON-LD ===== #}
-  {% import "macros/breadcrumb-blog.html" as bc %}
-  {{ bc::blog(
-    base_url=config.base_url,
-    category=oasis_cat,
-    category_url=get_taxonomy_url(kind='categories', name=oasis_cat) if oasis_cat else "",
-    page_title=page.title,
-    page_url=page.permalink
-  ) }}
+  {# ===== Breadcrumb Navigation ===== #}
+  <nav class="blog-breadcrumb" aria-label="Breadcrumb">
+    <ol class="blog-breadcrumb__list">
+      <li class="blog-breadcrumb__item">
+        <a class="blog-breadcrumb__link" href="{{ config.base_url | safe }}/">Trang chủ</a>
+        <span class="blog-breadcrumb__sep" aria-hidden="true">›</span>
+      </li>
+      {% if oasis_cat %}
+      <li class="blog-breadcrumb__item">
+        <a class="blog-breadcrumb__link" href="{{ get_taxonomy_url(kind='categories', name=oasis_cat) | safe }}">{{ oasis_cat }}</a>
+        <span class="blog-breadcrumb__sep" aria-hidden="true">›</span>
+      </li>
+      {% endif %}
+      <li class="blog-breadcrumb__item blog-breadcrumb__item--current" aria-current="page">
+        {{ page.title }}
+      </li>
+    </ol>
+  </nav>
 
   {# ===== Hero — eyebrow / title / sub / stats ===== #}
   <header class="oasis__hero">
