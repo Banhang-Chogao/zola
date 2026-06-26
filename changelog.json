@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "add bb article — incheon-airport-remote-baggage-2026 (inspired by Korea Times) [claude/bb-n9sjpq]",
+      "tag": "feat",
+      "lines_added": 521,
+      "lines_removed": 1,
+      "highlights": [
+        "content/baochi/incheon-airport-remote-baggage-2026.md (added, +92/-0)",
+        "data/references.json (modified, +19/-0)",
+        "data/seo-qa-scores.json (modified, +120/-1)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 993
+    },
+    {
+      "date": "2026-06-26",
       "title": "Disconnect Cloudflare from blog (Turnstile + R2 CDN + _headers), reversible [claude/cloudflare-blog-disconnect-rykwlu]",
       "tag": "chore",
       "lines_added": 31,
