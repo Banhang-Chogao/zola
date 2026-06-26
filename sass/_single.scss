@@ -985,3 +985,11 @@
     right: 0.5rem;
   }
 }
+
+/* ===== Section Divider ===== */
+.section-divider {
+  margin: var(--c-spacing-6, 2.5rem) 0;
+  border: none;
+  border-top: 1px solid var(--c-border-light, #e5e7eb);
+  height: 0;
+}
