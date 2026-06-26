@@ -10,7 +10,8 @@ tags = ["visa hàn quốc", "du lịch hàn quốc", "c-3-9", "xin visa", "kinh 
 
 [extra]
 seo_keyword = "xin visa Hàn Quốc 5 năm"
-thumbnail = "https://picsum.photos/seed/bi-kip-xin-visa-han-quoc-5-nam-de/600/400"
+image_source = "seomoney-generated"
+image_license = "owned"
 featured = false
 publish_at = "2026-06-20T20:00:00+07:00"
 

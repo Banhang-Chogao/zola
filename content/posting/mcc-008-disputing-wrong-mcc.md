@@ -13,7 +13,6 @@ tags = ["MCC", "disputes", "credit-cards", "consumer-rights"]
 series = "merchant-category-codes-series"
 series_part = 8
 seo_keyword = "MCC dispute process credit card cardholder rights"
-thumbnail = "/images/blog/mcc-dispute.jpg"
 +++
 
 ## Understanding Your Rights

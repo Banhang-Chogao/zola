@@ -1089,6 +1089,38 @@ không áp dụng ảnh ngoài (picsum, CDN bên thứ ba — không kiểm soá
   thumbnail). Bắt được cả ảnh do JS dựng sau (sidebar random/featured). Khi thêm
   chỗ render `<img>` mới KHÔNG cần lặp lại — listener toàn cục lo hết.
 
+### Owned-image fallback chain (SEOMONEY — KHÔNG ảnh stock ngoài)
+
+> AdSense-safe + SEO-safe: chặn mọi ảnh stock/random ngoài (Pixabay/Unsplash/Pexels/
+> picsum). Bài thiếu ảnh → cover editorial **tự sở hữu** mang thương hiệu SEOMONEY.
+> **KHÔNG** thêm provider ảnh ngoài, **KHÔNG** hotlink bên thứ ba.
+
+Thứ tự ưu tiên (resolver `img::cover_src(page=...)` + `img::cover_alt(page=...)` trong
+`templates/macros/img.html`):
+
+1. Ảnh khai báo: `extra.image` → `extra.cover` → `extra.thumbnail` (thumbnail trỏ
+   `/img/placeholder/` chung KHÔNG tính là ảnh thật).
+2. Ảnh local đầu tiên trong body **chỉ khi** nằm dưới `/uploads/` (own path).
+3. Cover editorial SEOMONEY tự sinh: `/generated/covers/<slug>.svg` (tiêu đề + chuyên
+   mục + wordmark SEOMONEY + icon S-DNA ◈ + gradient editorial). Deterministic theo
+   slug/title/category → rebuild KHÔNG tạo diff nhiễu.
+4. Placeholder theo chuyên mục: `/img/placeholders/category-{tech,finance,seo,ai,default}.svg`.
+5. Fallback site-level: `/img/og-default.webp` (giữ làm OG cuối cùng).
+
+- **Engine:** `scripts/build_owned_covers.py` — sinh cover + category placeholder +
+  manifest `data/owned-covers.json` (key = slug). Chạy `python3 scripts/build_owned_covers.py`
+  sau khi thêm bài (giống `build_references.py`); `--check` để CI gate. Test:
+  `python3 -m unittest scripts.test_build_owned_covers`.
+- **OG/JSON-LD (`base.html`):** chỉ dùng ảnh **raster** local (social không render SVG):
+  `extra.og_image`/`image`/`cover`/`thumbnail`(non-placeholder) → twin `.og.webp`; bài
+  cover-sinh giữ `og-default.webp` → KHÔNG bao giờ broken/hotlink ngoài. Card/hero
+  on-site hiện cover SVG branded.
+- **SEO metadata frontmatter (tuỳ chọn):** `image`, `image_alt` (alt mô tả tiếng Việt
+  theo tiêu đề/chuyên mục), `image_source` (`seomoney-generated` | `local-upload`),
+  `image_license` (`owned`).
+- **KHÔNG** dùng lại picsum/Pixabay làm fallback ở bất kỳ script nào (đã bỏ trong
+  `scripts/momo_crawler.py`).
+
 ## Quy tắc Bảo mật (Static host — thực tế GitHub Pages)
 
 - Blog là **Zola static site deploy GitHub Pages, repo public** → KHÔNG có

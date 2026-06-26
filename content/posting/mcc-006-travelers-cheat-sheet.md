@@ -13,7 +13,6 @@ tags = ["MCC", "travel", "reference", "international"]
 series = "merchant-category-codes-series"
 series_part = 6
 seo_keyword = "MCC cheat sheet travel codes merchants reference"
-thumbnail = "/images/blog/mcc-reference.jpg"
 +++
 
 ## Airlines & Air Travel (MCC 4011)

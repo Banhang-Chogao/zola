@@ -1,0 +1,820 @@
+{
+  "_comment": "Owned-image fallback manifest (SEOMONEY). KHÔNG ảnh ngoài. Sinh bởi scripts/build_owned_covers.py — deterministic.",
+  "site_og_fallback": "img/og-default.webp",
+  "default_placeholder": "img/placeholders/category-default.svg",
+  "category_map": {
+    "báo chí": "img/placeholders/category-default.svg",
+    "bảo hiểm": "img/placeholders/category-finance.svg",
+    "công nghệ": "img/placeholders/category-tech.svg",
+    "du lịch": "img/placeholders/category-default.svg",
+    "học tiếng hàn": "img/placeholders/category-default.svg",
+    "khoa học": "img/placeholders/category-ai.svg",
+    "linh tinh": "img/placeholders/category-default.svg",
+    "làm affiliate": "img/placeholders/category-seo.svg",
+    "ngân hàng": "img/placeholders/category-finance.svg",
+    "thế giới": "img/placeholders/category-default.svg",
+    "thể thao": "img/placeholders/category-default.svg",
+    "điện ảnh": "img/placeholders/category-default.svg",
+    "ẩm thực": "img/placeholders/category-default.svg"
+  },
+  "covers": {
+    "bao-mat-best-practices-git-github": {
+      "image": "generated/covers/bao-mat-best-practices-git-github.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Bảo mật và best practices với Git/GitHub — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "bao-mat-ngan-hang-so-vietinbank": {
+      "image": "generated/covers/bao-mat-ngan-hang-so-vietinbank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Bảo mật VietinBank: ngân hàng số an toàn ra sao? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi": {
+      "image": "generated/covers/bo-dao-nha-chdc-congo-world-cup-2026-ronaldo-messi.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Bồ Đào Nha vs Congo: Messi gọi, Ronaldo trả lời? — chuyên mục Thể thao trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Thể thao"
+    },
+    "cac-truong-hop-khong-duoc-hoan-thue-gtgt": {
+      "image": "generated/covers/cac-truong-hop-khong-duoc-hoan-thue-gtgt.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Các trường hợp không được hoàn thuế GTGT [cập nhật 2026] — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "cach-mo-tai-khoan-ngan-hang-so-online": {
+      "image": "generated/covers/cach-mo-tai-khoan-ngan-hang-so-online.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Cách mở tài khoản ngân hàng số online từ A đến Z — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "cai-dat-git-cau-hinh-lan-dau": {
+      "image": "generated/covers/cai-dat-git-cau-hinh-lan-dau.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Cài đặt Git và cấu hình lần đầu (Windows, macOS, Linux) — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "cau-dieu-kien-gia-dinh-tieng-han": {
+      "image": "generated/covers/cau-dieu-kien-gia-dinh-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 27 — Câu điều kiện & nghĩa vụ tiếng Hàn — chuyên mục premium trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "premium"
+    },
+    "cau-menh-lenh-ru-re-tieng-han": {
+      "image": "generated/covers/cau-menh-lenh-ru-re-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 19 — Mệnh lệnh & rủ rê 으세요, ㅂ시다, 을까요 tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "cau-truc-ipnida-gioi-thieu-ban-than-tieng-han": {
+      "image": "generated/covers/cau-truc-ipnida-gioi-thieu-ban-than-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 8: 이다/입니다 & giới thiệu bản thân tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua": {
+      "image": "generated/covers/chuyen-doi-so-tai-vietinbank-chien-luoc-ket-qua.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Chuyển đổi số VietinBank: chiến lược và kết quả — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "cot-moc-lich-su-phat-trien-vietinbank": {
+      "image": "generated/covers/cot-moc-lich-su-phat-trien-vietinbank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Lịch sử VietinBank: những cột mốc phát triển đáng nhớ — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "dai-tu-chi-dinh-tieng-han": {
+      "image": "generated/covers/dai-tu-chi-dinh-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 9: Đại từ & chỉ định 이/그/저 trong tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "dang-ky-v-plus-v-advance-tren-ipay": {
+      "image": "generated/covers/dang-ky-v-plus-v-advance-tren-ipay.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Đăng ký V-Plus & V-Advance trên iPay: hướng dẫn — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "dinh-ngu-quan-hinh-tu-tieng-han": {
+      "image": "generated/covers/dinh-ngu-quan-hinh-tu-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 22 — Định ngữ tiếng Hàn (관형사형): -는, -은, -을 — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "doc-bao-cao-google-analytics-15-phut-moi-ngay": {
+      "image": "generated/covers/doc-bao-cao-google-analytics-15-phut-moi-ngay.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Đọc báo cáo Google Analytics 15 phút mỗi ngày — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "dong-tu-bat-quy-tac-tieng-han": {
+      "image": "generated/covers/dong-tu-bat-quy-tac-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 25 — Động từ bất quy tắc tiếng Hàn (불규칙) — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han": {
+      "image": "generated/covers/dong-tu-tinh-tu-duoi-ayo-eoyo-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 15 — Động từ + đuôi 아요/어요 (hiện tại) tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "engagement-rate-bounce-rate-google-analytics": {
+      "image": "generated/covers/engagement-rate-bounce-rate-google-analytics.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Engagement Rate và Bounce Rate trong Google Analytics — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "facebook-shopee-affiliate-la-gi": {
+      "image": "generated/covers/facebook-shopee-affiliate-la-gi.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Facebook Shopee Affiliate là gì? Hướng dẫn người mới — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "faq-toan-tap-ngan-hang-so": {
+      "image": "generated/covers/faq-toan-tap-ngan-hang-so.svg",
+      "image_alt": "Ảnh minh hoạ bài viết FAQ toàn tập về ngân hàng số: giải đáp mọi thắc mắc — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "gia-vang-hom-nay-18-6-giam-manh": {
+      "image": "generated/covers/gia-vang-hom-nay-18-6-giam-manh.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Giá vàng hôm nay 18/6 giảm mạnh: vì sao, có nên mua? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "git-branch-lam-viec-voi-nhanh": {
+      "image": "generated/covers/git-branch-lam-viec-voi-nhanh.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git branch: làm việc với nhánh trong Git — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-la-gi-version-control-cho-nguoi-moi": {
+      "image": "generated/covers/git-la-gi-version-control-cho-nguoi-moi.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git là gì? Version control cho người mới bắt đầu — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-merge-va-xu-ly-conflict": {
+      "image": "generated/covers/git-merge-va-xu-ly-conflict.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git merge và cách xử lý conflict khi gộp nhánh — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-ra-doi-tu-bitkeeper": {
+      "image": "generated/covers/git-ra-doi-tu-bitkeeper.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git ra đời từ BitKeeper: ngọn lửa sinh ra 'kẻ vô danh' — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-rebase-lam-sach-lich-su-commit": {
+      "image": "generated/covers/git-rebase-lam-sach-lich-su-commit.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git rebase: làm sạch lịch sử commit (nâng cao) — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-remote-lam-viec-voi-repository-tu-xa": {
+      "image": "generated/covers/git-remote-lam-viec-voi-repository-tu-xa.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git remote: làm việc với repository từ xa — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-reset-revert-khoi-phuc-su-co": {
+      "image": "generated/covers/git-reset-revert-khoi-phuc-su-co.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git reset, revert và khôi phục sự cố (nâng cao) — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-stash-cherry-pick-reflog-nang-cao": {
+      "image": "generated/covers/git-stash-cherry-pick-reflog-nang-cao.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git stash, cherry-pick và reflog (nâng cao) — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "git-workflow-chuyen-nghiep-gitflow-github-flow": {
+      "image": "generated/covers/git-workflow-chuyen-nghiep-gitflow-github-flow.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Git workflow chuyên nghiệp: Git Flow và GitHub Flow — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "github-actions-ci-cd-cho-nguoi-moi": {
+      "image": "generated/covers/github-actions-ci-cd-cho-nguoi-moi.svg",
+      "image_alt": "Ảnh minh hoạ bài viết GitHub Actions: CI/CD tự động hóa cho người mới — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "github-la-gi-tao-repository-dau-tien": {
+      "image": "generated/covers/github-la-gi-tao-repository-dau-tien.svg",
+      "image_alt": "Ảnh minh hoạ bài viết GitHub là gì? Tạo tài khoản và repository đầu tiên — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "google-analytics-la-gi-lo-trinh-10-ngay": {
+      "image": "generated/covers/google-analytics-la-gi-lo-trinh-10-ngay.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Google Analytics là gì? Lộ trình 10 ngày đọc hiểu dữ liệu — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "he-sinh-thai-san-pham-vietinbank": {
+      "image": "generated/covers/he-sinh-thai-san-pham-vietinbank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Sản phẩm VietinBank: bức tranh hệ sinh thái hiện nay — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude": {
+      "image": "generated/covers/hieu-ve-gioi-han-su-dung-va-gioi-han-do-dai-tren-claude.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Giới hạn sử dụng và độ dài trên Claude AI — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "hoc-tieng-han-bang-chu-hangul-nguyen-am": {
+      "image": "generated/covers/hoc-tieng-han-bang-chu-hangul-nguyen-am.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Học tiếng Hàn ngày 1: Bảng chữ Hangul & nguyên âm — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "huong-dan-xac-thuc-cccd-msb-digital-bank": {
+      "image": "generated/covers/huong-dan-xac-thuc-cccd-msb-digital-bank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Hướng dẫn xác thực CCCD trên MSB Digital Bank từ A–Z — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "itda-eopda-vi-tri-tieng-han": {
+      "image": "generated/covers/itda-eopda-vi-tri-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 10: 있다/없다 & diễn đạt vị trí tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "kha-nang-kinh-nghiem-tieng-han": {
+      "image": "generated/covers/kha-nang-kinh-nghiem-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 23 — Khả năng & kinh nghiệm tiếng Hàn: 수 있다, 적이 있다 — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "kinh-ngu-nopimmal-tieng-han": {
+      "image": "generated/covers/kinh-ngu-nopimmal-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 26 — Kính ngữ (높임말) trong tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "lam-theme-log-sua-menu-cong-cu": {
+      "image": "generated/covers/lam-theme-log-sua-menu-cong-cu.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Theme log rollback: an toàn cho blog tĩnh — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "lenh-git-co-ban-init-add-commit-status": {
+      "image": "generated/covers/lenh-git-co-ban-init-add-commit-status.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Lệnh Git cơ bản: init, add, commit, status, log — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick": {
+      "image": "generated/covers/lich-thi-dau-world-cup-2026-theo-gio-viet-nam-moi-nhat-messi-lap-hat-trick.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Lịch thi đấu World Cup 2026 giờ VN: Messi hat-trick — chuyên mục Báo chí trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Báo chí"
+    },
+    "lien-tu-cau-tieng-han": {
+      "image": "generated/covers/lien-tu-cau-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 20 — Liên từ nối câu: 그래서, 하지만, -아서, -고 — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "liobank-bao-mat-an-toan-the-nao": {
+      "image": "generated/covers/liobank-bao-mat-an-toan-the-nao.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Liobank bảo mật thế nào? Yên tâm giao dịch mỗi ngày — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam": {
+      "image": "generated/covers/lpbank-plus-chinh-thuc-ra-mat-cham-loc-phat-tron-an-tam.svg",
+      "image_alt": "Ảnh minh hoạ bài viết LPBank Plus ra mắt: Chạm Lộc Phát, Trọn An tâm — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "mcc-corporate-compliance-expenses": {
+      "image": "generated/covers/mcc-corporate-compliance-expenses.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MCC for Finance Teams: Corporate Expense Automation and Tax Rules — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-cross-border-fees-interchange": {
+      "image": "generated/covers/mcc-cross-border-fees-interchange.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MCC and Cross-Border Fees: Why Hotels Cost More Than Casinos — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-decoded-international-spending": {
+      "image": "generated/covers/mcc-decoded-international-spending.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MCC Decoded: What International Travelers Need to Know — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-dispute-process-template": {
+      "image": "generated/covers/mcc-dispute-process-template.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Disputing a Wrong MCC: Your Rights as an International Cardholder — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-fraud-blocks-international": {
+      "image": "generated/covers/mcc-fraud-blocks-international.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MCC Fraud Flags: Why Your Card Gets Blocked Abroad — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-future-dynamic-ai-codes": {
+      "image": "generated/covers/mcc-future-dynamic-ai-codes.svg",
+      "image_alt": "Ảnh minh hoạ bài viết The Future of MCCs: Dynamic Codes and AI-Powered Categorization — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-masterclass-personal-strategy": {
+      "image": "generated/covers/mcc-masterclass-personal-strategy.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MCC Masterclass: Build Your Personal International Spending Strategy — chuyên mục Du lịch trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Du lịch"
+    },
+    "mcc-merchant-choosing-code": {
+      "image": "generated/covers/mcc-merchant-choosing-code.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MCC for Merchants: Choosing the Right Code for International Sales — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-rewards-cashback-international": {
+      "image": "generated/covers/mcc-rewards-cashback-international.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Credit Card Rewards and MCC: Maximize Your International Cashback — chuyên mục Tài chính trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Tài chính"
+    },
+    "mcc-travelers-cheat-sheet": {
+      "image": "generated/covers/mcc-travelers-cheat-sheet.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MCC Cheat Sheet: 50+ Codes Every Traveler Should Know — chuyên mục Du lịch trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Du lịch"
+    },
+    "mo-the-tin-dung-liobank-online-nhanh": {
+      "image": "generated/covers/mo-the-tin-dung-liobank-online-nhanh.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Mở thẻ tín dụng Liobank online: nhanh, khỏi ra quầy — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "mong-muon-y-dinh-tieng-han": {
+      "image": "generated/covers/mong-muon-y-dinh-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 24 — Mong muốn & ý định tiếng Hàn: 고 싶다, 려고 하다 — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "msb-digital-bank-ra-mat-thay-mbank": {
+      "image": "generated/covers/msb-digital-bank-ra-mat-thay-mbank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết MSB Digital Bank thay mBank: cần làm gì? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "muc-dong-bhyt-ho-gia-dinh-2026": {
+      "image": "generated/covers/muc-dong-bhyt-ho-gia-dinh-2026.svg",
+      "image_alt": "Ảnh minh hoạ bài viết BHYT hộ gia đình 2026: đóng bao nhiêu, giảm trừ? — chuyên mục Bảo hiểm trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Bảo hiểm"
+    },
+    "ngan-hang-so-cho-freelancer": {
+      "image": "generated/covers/ngan-hang-so-cho-freelancer.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngân hàng số cho freelancer: quản lý thu nhập tự do — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "ngan-hang-so-cho-kinh-doanh-online": {
+      "image": "generated/covers/ngan-hang-so-cho-kinh-doanh-online.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngân hàng số cho người kinh doanh online tốt nhất — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "ngan-hang-so-cho-sinh-vien": {
+      "image": "generated/covers/ngan-hang-so-cho-sinh-vien.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngân hàng số cho sinh viên: chọn app nào tốt nhất? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "ngan-hang-so-hoan-tien-nhieu-nhat": {
+      "image": "generated/covers/ngan-hang-so-hoan-tien-nhieu-nhat.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngân hàng số nào có nhiều ưu đãi hoàn tiền nhất? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat": {
+      "image": "generated/covers/ngan-hang-so-mien-phi-chuyen-khoan-tot-nhat.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngân hàng số nào miễn phí chuyển khoản tốt nhất? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "ngu-phap-nang-cao-topik-tieng-han": {
+      "image": "generated/covers/ngu-phap-nang-cao-topik-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 29 — Ngữ pháp nâng cao tiếng Hàn cho TOPIK — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "nguon-traffic-organic-direct-referral-social-paid": {
+      "image": "generated/covers/nguon-traffic-organic-direct-referral-social-paid.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Nguồn traffic GA4: Organic, Direct, Referral, Social, Paid — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "nguyen-am-doi-tieng-han": {
+      "image": "generated/covers/nguyen-am-doi-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Học tiếng Hàn ngày 4: Nguyên âm đôi & nguyên âm ghép — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat": {
+      "image": "generated/covers/nhung-quy-dinh-cam-tu-shopee-affiliate-2026-moi-nhat.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Những Quy Định Cấm Từ Shopee Affiliate 2026 Mới Nhất trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": ""
+    },
+    "on-tap-tuan-1-chao-hoi-tieng-han": {
+      "image": "generated/covers/on-tap-tuan-1-chao-hoi-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Học tiếng Hàn ngày 7: Ôn tập tuần 1 & chào hỏi cơ bản — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han": {
+      "image": "generated/covers/on-tap-tuan-2-hoi-thoai-mua-sam-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 14 — Ôn tập tuần 2 & hội thoại mua sắm tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han": {
+      "image": "generated/covers/on-tap-tuan-3-ke-chuyen-mot-ngay-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 21 — Ôn tập tuần 3 & kể chuyện một ngày tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "patchim-phu-am-cuoi-tieng-han": {
+      "image": "generated/covers/patchim-phu-am-cuoi-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Học tiếng Hàn ngày 5: Patchim (받침) & 7 âm đại diện — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "phu-am-cang-bat-hoi-tieng-han": {
+      "image": "generated/covers/phu-am-cang-bat-hoi-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Học tiếng Hàn ngày 3: Phụ âm căng & phụ âm bật hơi — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "phu-am-co-ban-hangul-ghep-am-tiet": {
+      "image": "generated/covers/phu-am-co-ban-hangul-ghep-am-tiet.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Học tiếng Hàn ngày 2: Phụ âm cơ bản & ghép âm tiết — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "phu-dinh-an-mot-tieng-han": {
+      "image": "generated/covers/phu-dinh-an-mot-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 18 — Phủ định 안 / 못 & -지 않다 trong tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "premium-fintech-paywall-demo": {
+      "image": "generated/covers/premium-fintech-paywall-demo.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Fintech 2026: Paywall premium trên blog cá nhân — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "pull-request-quy-trinh-cong-tac-github": {
+      "image": "generated/covers/pull-request-quy-trinh-cong-tac-github.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Pull Request và quy trình cộng tác trên GitHub — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "push-pull-fetch-dong-bo-voi-github": {
+      "image": "generated/covers/push-pull-fetch-dong-bo-voi-github.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Push, pull, fetch: đồng bộ code với GitHub — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "quy-tac-phat-am-tieng-han": {
+      "image": "generated/covers/quy-tac-phat-am-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Học tiếng Hàn ngày 6: Quy tắc phát âm nối âm & đồng hóa — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "review-cake-by-vpbank": {
+      "image": "generated/covers/review-cake-by-vpbank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Review Cake by VPBank chi tiết: ưu nhược điểm, phí, tính năng — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "review-liobank-by-ocb": {
+      "image": "generated/covers/review-liobank-by-ocb.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Review Liobank by OCB chi tiết: ưu nhược điểm, phí, hoàn tiền — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "review-tnex-chi-tiet": {
+      "image": "generated/covers/review-tnex-chi-tiet.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Review TNEX chi tiết: ngân hàng số miễn phí của MSB — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "rui-ro-khi-su-dung-ngan-hang-so": {
+      "image": "generated/covers/rui-ro-khi-su-dung-ngan-hang-so.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Các rủi ro khi sử dụng ngân hàng số và cách phòng tránh — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "so-dem-tieng-han-han-han-thuan-han": {
+      "image": "generated/covers/so-dem-tieng-han-han-han-thuan-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 13: Số đếm tiếng Hàn Hán-Hàn & thuần Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "so-sanh-cake-vs-liobank": {
+      "image": "generated/covers/so-sanh-cake-vs-liobank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết So sánh Cake vs Liobank: nên chọn ngân hàng số nào? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "so-sanh-timo-vs-tnex": {
+      "image": "generated/covers/so-sanh-timo-vs-tnex.svg",
+      "image_alt": "Ảnh minh hoạ bài viết So sánh Timo vs TNEX: chọn ngân hàng số nào? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "so-sanh-v-plus-va-v-advance-chon-goi-nao": {
+      "image": "generated/covers/so-sanh-v-plus-va-v-advance-chon-goi-nao.svg",
+      "image_alt": "Ảnh minh hoạ bài viết V-Plus hay V-Advance: chọn gói VietinBank nào? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "starbucks-cua-hang-cao-nhat-chau-a-fansipan": {
+      "image": "generated/covers/starbucks-cua-hang-cao-nhat-chau-a-fansipan.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Starbucks Fansipan: cửa hàng cà phê cao nhất châu Á — chuyên mục Du lịch trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Du lịch"
+    },
+    "the-tin-dung-msb-huong-dan-chi-tiet": {
+      "image": "generated/covers/the-tin-dung-msb-huong-dan-chi-tiet.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Thẻ tín dụng MSB: ưu đãi và cách dùng hiệu quả — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "the-vietinbank-lich-su-va-cac-dong-the": {
+      "image": "generated/covers/the-vietinbank-lich-su-va-cac-dong-the.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Thẻ VietinBank: lịch sử và các dòng thẻ nổi bật — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "thi-qua-khu-asseoyo-tieng-han": {
+      "image": "generated/covers/thi-qua-khu-asseoyo-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 16 — Thì quá khứ 았/었어요 trong tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "thi-tuong-lai-y-dinh-tieng-han": {
+      "image": "generated/covers/thi-tuong-lai-y-dinh-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 17 — Thì tương lai & ý định ㄹ 거예요, 겠 tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "tien-ich-so-vietinbank-chua-tan-dung-het": {
+      "image": "generated/covers/tien-ich-so-vietinbank-chua-tan-dung-het.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Tiện ích số VietinBank nhiều người chưa dùng hết — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "timo-la-gi-co-nen-dung": {
+      "image": "generated/covers/timo-la-gi-co-nen-dung.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Timo là gì? Có nên dùng ngân hàng số Timo không? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "toan-canh-chuyen-doi-so-vietinbank": {
+      "image": "generated/covers/toan-canh-chuyen-doi-so-vietinbank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Toàn cảnh chuyển đổi số VietinBank từ 1988 đến nay — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "tong-on-chien-luoc-thi-topik-tieng-han": {
+      "image": "generated/covers/tong-on-chien-luoc-thi-topik-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 30 — Tổng ôn & chiến lược thi TOPIK I tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "top-ngan-hang-so-tot-nhat-viet-nam-2026": {
+      "image": "generated/covers/top-ngan-hang-so-tot-nhat-viet-nam-2026.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Top ngân hàng số tốt nhất Việt Nam năm 2026 — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "trich-dan-gian-tiep-tieng-han": {
+      "image": "generated/covers/trich-dan-gian-tiep-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 28 — Trích dẫn gián tiếp (간접화법) tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "tro-tu-eul-reul-e-eseo-tieng-han": {
+      "image": "generated/covers/tro-tu-eul-reul-e-eseo-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 12: Trợ từ 을/를, 에, 에서 trong tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "tro-tu-eun-neun-i-ga-tieng-han": {
+      "image": "generated/covers/tro-tu-eun-neun-i-ga-tieng-han.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngày 11: Trợ từ 은/는 và 이/가 trong tiếng Hàn — chuyên mục Học tiếng Hàn trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Học tiếng Hàn"
+    },
+    "tuong-lai-ngan-hang-so-va-vi-the-vietinbank": {
+      "image": "generated/covers/tuong-lai-ngan-hang-so-va-vi-the-vietinbank.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Tương lai VietinBank trong làn sóng ngân hàng số — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "tuong-lai-ngan-hang-so-viet-nam": {
+      "image": "generated/covers/tuong-lai-ngan-hang-so-viet-nam.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Tương lai ngân hàng số tại Việt Nam: xu hướng 2026+ — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "users-new-users-sessions-google-analytics": {
+      "image": "generated/covers/users-new-users-sessions-google-analytics.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Users, New Users và Sessions trong Google Analytics — chuyên mục Công nghệ trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Công nghệ"
+    },
+    "vai-tro-vietinbank-he-thong-ngan-hang-viet-nam": {
+      "image": "generated/covers/vai-tro-vietinbank-he-thong-ngan-hang-viet-nam.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Vai trò VietinBank trong hệ thống ngân hàng Việt Nam — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-cong-nghe-trai-nghiem-khach-hang": {
+      "image": "generated/covers/vietinbank-cong-nghe-trai-nghiem-khach-hang.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Công nghệ VietinBank thay đổi trải nghiệm khách hàng — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-cuoc-dua-ngan-hang-so-big4": {
+      "image": "generated/covers/vietinbank-cuoc-dua-ngan-hang-so-big4.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngân hàng số VietinBank trong cuộc đua Big 4 — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-hien-dai-hoa-core-banking": {
+      "image": "generated/covers/vietinbank-hien-dai-hoa-core-banking.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Core banking VietinBank: hành trình hiện đại hóa lõi — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-ipay-internet-banking-qua-cac-thoi-ky": {
+      "image": "generated/covers/vietinbank-ipay-internet-banking-qua-cac-thoi-ky.svg",
+      "image_alt": "Ảnh minh hoạ bài viết VietinBank iPay: Internet Banking qua các thời kỳ — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-la-ai-hanh-trinh-hinh-thanh": {
+      "image": "generated/covers/vietinbank-la-ai-hanh-trinh-hinh-thanh.svg",
+      "image_alt": "Ảnh minh hoạ bài viết VietinBank là ai? Hành trình hình thành từ ngày đầu — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-tu-giao-dich-quay-den-ngan-hang-so": {
+      "image": "generated/covers/vietinbank-tu-giao-dich-quay-den-ngan-hang-so.svg",
+      "image_alt": "Ảnh minh hoạ bài viết Ngân hàng số VietinBank: từ giao dịch quầy đến app — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-v-advance-nang-tam-trai-nghiem": {
+      "image": "generated/covers/vietinbank-v-advance-nang-tam-trai-nghiem.svg",
+      "image_alt": "Ảnh minh hoạ bài viết V-Advance VietinBank: đặc quyền Tài chính–Lifestyle — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-v-plus-chi-tiet-quyen-loi": {
+      "image": "generated/covers/vietinbank-v-plus-chi-tiet-quyen-loi.svg",
+      "image_alt": "Ảnh minh hoạ bài viết V-Plus VietinBank: quyền lợi chi tiết chỉ 20.000đ/tháng — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    },
+    "vietinbank-v-plus-v-advance-la-gi": {
+      "image": "generated/covers/vietinbank-v-plus-v-advance-la-gi.svg",
+      "image_alt": "Ảnh minh hoạ bài viết V-Plus & V-Advance VietinBank: gói tiện ích mới là gì? — chuyên mục Ngân hàng trên SEOMONEY",
+      "image_source": "seomoney-generated",
+      "image_license": "owned",
+      "category": "Ngân hàng"
+    }
+  }
+}

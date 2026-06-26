@@ -13,7 +13,6 @@ tags = ["MCC", "corporate-cards", "expense-reporting", "tax"]
 series = "merchant-category-codes-series"
 series_part = 5
 seo_keyword = "MCC corporate cards expense reporting tax compliance"
-thumbnail = "/images/blog/mcc-corporate.jpg"
 +++
 
 ## MCCs as Automation Superpowers for Finance Teams

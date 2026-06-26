@@ -6,7 +6,8 @@ date = 2026-06-26
 categories = ["Tất cả", "Công nghệ"]
 tags = ["Zola", "GitHub Pages", "Rollback", "UX", "Theme Log", "Static Site", "Blog"]
 [extra]
-thumbnail = "https://picsum.photos/seed/lam-theme-log-sua-menu-cong-cu/600/400"
+image_source = "seomoney-generated"
+image_license = "owned"
 seo_keyword = "theme log rollback"
 featured = false
 +++

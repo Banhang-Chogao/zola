@@ -13,7 +13,6 @@ tags = ["MCC", "credit-cards", "international-payments", "cross-border-fees"]
 series = "merchant-category-codes-series"
 series_part = 1
 seo_keyword = "Merchant Category Code MCC international payments cross-border"
-thumbnail = "/images/blog/mcc-decoded.jpg"
 +++
 
 ## What Is a Merchant Category Code?

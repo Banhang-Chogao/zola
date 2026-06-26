@@ -13,7 +13,6 @@ tags = ["MCC", "interchange-fees", "cross-border", "merchant-costs"]
 series = "merchant-category-codes-series"
 series_part = 2
 seo_keyword = "MCC cross-border fees interchange rates merchant category"
-thumbnail = "/images/blog/mcc-fees.jpg"
 +++
 
 ## How Interchange Fees Are Set by Merchant Category Code

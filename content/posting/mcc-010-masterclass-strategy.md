@@ -13,7 +13,6 @@ tags = ["MCC", "strategy", "credit-cards", "optimization"]
 series = "merchant-category-codes-series"
 series_part = 10
 seo_keyword = "MCC strategy credit card optimization international travel"
-thumbnail = "/images/blog/mcc-masterclass.jpg"
 +++
 
 ## The MCC Masterclass: Consolidation & Action

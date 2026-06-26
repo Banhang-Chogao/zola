@@ -13,7 +13,6 @@ tags = ["MCC", "rewards", "cashback", "credit-cards"]
 series = "merchant-category-codes-series"
 series_part = 3
 seo_keyword = "MCC credit card rewards cashback bonus categories"
-thumbnail = "/images/blog/mcc-rewards.jpg"
 +++
 
 ## How Banks Map MCCs to Bonus Categories
