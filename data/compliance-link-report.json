@@ -1,9 +1,19 @@
 {
-  "updated_at": "2026-06-26T22:58:01Z",
+  "updated_at": "2026-06-26T23:22:33Z",
   "summary": {
-    "broken_count": 0,
-    "checked_unique": 129,
-    "status": "pass"
+    "broken_count": 1,
+    "checked_unique": 130,
+    "status": "warn"
   },
-  "links": []
+  "links": [
+    {
+      "source_page": "/baochi/incheon-airport-remote-baggage-2026/",
+      "source_file": "public/baochi/incheon-airport-remote-baggage-2026/index.html",
+      "href": "/zola/@/posting/ai-thay-doi-lap-ke-hoach-du-lich",
+      "target": "/@/posting/ai-thay-doi-lap-ke-hoach-du-lich/",
+      "status": "404",
+      "reason": "Target not found in public/ after zola build",
+      "auto_fix_status": "pending"
+    }
+  ]
 }

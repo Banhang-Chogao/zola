@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-06-26T22:58:01Z",
-  "score": 93.5,
-  "grade": "A",
+  "updated_at": "2026-06-26T23:22:33Z",
+  "score": 95.6,
+  "grade": "A+",
   "mood": "good",
   "stats": {
     "pass": 21,
-    "warn": 1,
-    "fail": 1,
+    "warn": 2,
+    "fail": 0,
     "total": 23
   },
   "categories": [
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "pass",
-          "detail": "694/719 in range"
+          "detail": "699/727 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "719/719 complete"
+          "detail": "727/727 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "719/719 set"
+          "detail": "727/727 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "690/719 single H1"
+          "detail": "697/727 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "719/719 with lang"
+          "detail": "727/727 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "719/719 ready"
+          "detail": "727/727 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "719/719 pages"
+          "detail": "727/727 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "warn",
-          "detail": "545/719 pages covered"
+          "detail": "552/727 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "174/174 articles"
+          "detail": "175/175 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "174/174 tagged"
+          "detail": "175/175 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "174/174 substantive"
+          "detail": "175/175 substantive"
         },
         {
           "label": "Unique titles",
@@ -158,20 +158,31 @@
     {
       "id": "links",
       "label": "Links",
-      "score": 50.0,
+      "score": 75.0,
       "pass": 1,
-      "warn": 0,
-      "fail": 1,
+      "warn": 1,
+      "fail": 0,
       "items": [
         {
           "label": "Internal links",
-          "status": "pass",
-          "detail": "all valid"
+          "status": "warn",
+          "detail": "1 broken / 130 unique",
+          "broken": [
+            {
+              "source_page": "/baochi/incheon-airport-remote-baggage-2026/",
+              "source_file": "public/baochi/incheon-airport-remote-baggage-2026/index.html",
+              "href": "/zola/@/posting/ai-thay-doi-lap-ke-hoach-du-lich",
+              "target": "/@/posting/ai-thay-doi-lap-ke-hoach-du-lich/",
+              "status": "404",
+              "reason": "Target not found in public/ after zola build",
+              "auto_fix_status": "pending"
+            }
+          ]
         },
         {
           "label": "GitHub Pages base path",
-          "status": "fail",
-          "detail": "7 href(s) missing /zola/"
+          "status": "pass",
+          "detail": "all hrefs use /zola/"
         }
       ]
     },
@@ -186,7 +197,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "715/719 pages"
+          "detail": "723/727 pages"
         },
         {
           "label": "Skip navigation",
@@ -202,8 +213,8 @@
       "text": "Media: Image descriptions"
     },
     {
-      "type": "fail",
-      "text": "Links: GitHub Pages base path"
+      "type": "warn",
+      "text": "Links: Internal links"
     },
     {
       "type": "pass",
@@ -222,24 +233,24 @@
       "text": "Structure: Heading focus"
     }
   ],
-  "pages_scanned": 719,
-  "articles_scanned": 179,
+  "pages_scanned": 727,
+  "articles_scanned": 180,
   "fix_log": [
     {
       "category": "Media",
       "label": "Image descriptions",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (545/719 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T22:58:01Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (552/727 pages covered). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T23:22:33Z"
     },
     {
       "category": "Links",
-      "label": "GitHub Pages base path",
-      "check_status": "fail",
+      "label": "Internal links",
+      "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (7 href(s) missing /zola/). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-26T22:58:01Z"
+      "message": "Còn 1 link hỏng — xem data/compliance-link-report.json. Ví dụ: public/baochi/incheon-airport-remote-baggage-2026/index.html → /@/posting/ai-thay-doi-lap-ke-hoach-du-lich/ (Target not found in public/ after zola build)",
+      "at": "2026-06-26T23:22:33Z"
     }
   ],
   "fix_summary": {

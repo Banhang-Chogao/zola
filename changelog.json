@@ -2,6 +2,111 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "feat(worldcup-2026): add WorldCup 2026 News Hub",
+      "tag": "chore",
+      "lines_added": 1326,
+      "lines_removed": 0,
+      "highlights": [
+        "Hero + badges (WorldCup 2026 · Đời sống · Bóng đá) + CTA",
+        "Dashboard nhanh: 4 stat cards (tin/lịch/đội/góc nhìn) tính từ data",
+        "Filter tabs client-side (vanilla JS, no framework; JS tắt vẫn thấy đủ nội dung)",
+        "5 section: Tin mới · Lịch thi đấu (giờ VN GMT+7) · Đội tuyển · Bên lề & Đời sống · FAQ",
+        "Mọi section có empty state đẹp khi data rỗng → không vỡ build"
+      ],
+      "pr": 1031
+    },
+    {
+      "date": "2026-06-26",
+      "title": "docs(readme): refresh SEOMONEY architecture and tech stack",
+      "tag": "chore",
+      "lines_added": 685,
+      "lines_removed": 95,
+      "highlights": [
+        "Updated hero: \"SEOMONEY — SEO, AI WebOps & Personal Finance Blog\"",
+        "Production URL: seomoney.org (from banhang-chogao.github.io/zola)",
+        "Added text-based architecture diagram showing static site + FastAPI backend flow",
+        "Clarified separation: Zola/GitHub Pages for public blog + FastAPI VIPZone on Render for backend",
+        "SSG: Zola 0.22.1, Tera, SCSS (S-DNA design system)"
+      ],
+      "pr": 1026
+    },
+    {
+      "date": "2026-06-26",
+      "title": "add breadcrumb and full datetime display for blog posts",
+      "tag": "feat",
+      "lines_added": 41,
+      "lines_removed": 2,
+      "highlights": [
+        "Format: Home › Category › Post Title",
+        "Links to homepage and category taxonomy pages",
+        "Mobile-responsive with ellipsis truncation",
+        "Semantic HTML with proper ARIA labels",
+        "Styled with S-DNA design system tokens"
+      ],
+      "pr": 1030
+    },
+    {
+      "date": "2026-06-26",
+      "title": "feat(worldcup-2026): add WorldCup 2026 News Hub with static content",
+      "tag": "chore",
+      "lines_added": 1326,
+      "lines_removed": 0,
+      "highlights": [
+        "Layout mobile-first responsive với hero section, stats cards, filter tabs",
+        "5 section chính: Tin mới, Lịch thi đấu, Đội tuyển, Bên lề & Đời sống, FAQ",
+        "Data structure tĩnh trong data/worldcup_2026.json cho phép mở rộng sau",
+        "Client-side filtering với JS nhẹ, không phụ thuộc framework",
+        "Semantic tokens var(--c-*) cho light/dark mode tự động"
+      ],
+      "pr": 1029
+    },
+    {
+      "date": "2026-06-26",
+      "title": "audit(content): comprehensive recovery audit — all 174 posts verified…",
+      "tag": "chore",
+      "lines_added": 742,
+      "lines_removed": 0,
+      "highlights": [
+        "✓ All 144 posting/ files present and properly formatted",
+        "✓ All 30 baochi/ news files present and properly formatted",
+        "✓ Total 174 posts with valid frontmatter (date, title)",
+        "✓ No posts detected as draft or future-dated",
+        "✓ No deleted/rolled-back files in Git history"
+      ],
+      "pr": 1028
+    },
+    {
+      "date": "2026-06-26",
+      "title": "implement MoMo URL admin management page",
+      "tag": "feat",
+      "lines_added": 2044,
+      "lines_removed": 1,
+      "highlights": [
+        "Route: /tools/momo-url/",
+        "Auth: Google OAuth (bắt buộc), whitelist email admin",
+        "Features: View all MoMo URLs → locations → replace link (single/all scope)",
+        "GET /admin/momo-links — scan repo, trả danh sách MoMo URL + vị trí",
+        "POST /admin/momo-links/replace — thay link, validate, update file + re-audit"
+      ],
+      "pr": 1025
+    },
+    {
+      "date": "2026-06-26",
+      "title": "add bb article — incheon-airport-remote-baggage-2026 (inspired by Korea Times) [claude/bb-n9sjpq]",
+      "tag": "feat",
+      "lines_added": 521,
+      "lines_removed": 1,
+      "highlights": [
+        "content/baochi/incheon-airport-remote-baggage-2026.md (added, +92/-0)",
+        "data/references.json (modified, +19/-0)",
+        "data/seo-qa-scores.json (modified, +120/-1)",
+        "QA Gatekeeper (qa-check): ⏳ chưa chạy — qa-check chưa chạy cho head sha",
+        "Auto-merge chỉ chạy khi qa-check xanh (gated qua try_auto_merge.py)."
+      ],
+      "pr": 993
+    },
+    {
+      "date": "2026-06-26",
       "title": "Disconnect Cloudflare from blog (Turnstile + R2 CDN + _headers), reversible [claude/cloudflare-blog-disconnect-rykwlu]",
       "tag": "chore",
       "lines_added": 31,

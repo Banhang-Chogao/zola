@@ -130,7 +130,7 @@ Những gì bạn nên nhận ra từ bây giờ:
 
 ---
 
-**Bước tiếp theo**: Bài 2 giải thích [cách Preferred Sources hoạt động và ai đủ điều kiện sử dụng](/posting/google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong/).
+**Bước tiếp theo**: Bài 2 giải thích [cách Preferred Sources hoạt động và ai đủ điều kiện sử dụng](/zola/posting/google-preferred-sources-2-dieu-kien-va-giac-nay-hoat-dong/).
 
 ---
 

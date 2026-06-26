@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-momo-url">
+  <!-- Auth gate: Google login required -->
+  <div class="auth-gate" id="auth-gate" hidden>
+    <div class="auth-gate__overlay"></div>
+    <div class="auth-gate__dialog">
+      <h1 class="auth-gate__title">Đăng nhập để tiếp tục</h1>
+      <p class="auth-gate__message">Trang này chỉ admin được truy cập.</p>
+      <div class="auth-gate__buttons">
+        <a href="" class="auth-gate__btn auth-gate__btn--google" id="google-login-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+          </svg>
+          Đăng nhập bằng Google
+        </a>
+      </div>
+      <p class="auth-gate__error" id="auth-error" hidden></p>
+    </div>
+  </div>
+
+  <!-- Main content (hidden until auth) -->
+  <div class="admin-momo-url__inner" id="admin-content" hidden>
+    <header class="admin-momo-url__header">
+      <h1 class="admin-momo-url__title">Quản lý MoMo URL</h1>
+      <p class="admin-momo-url__subtitle">Xem và cập nhật tất cả payment link đang sử dụng</p>
+    </header>
+
+    <!-- Loading state -->
+    <div class="admin-momo-url__loading" id="loading-state">
+      <div class="spinner"></div>
+      <p>Đang tải dữ liệu...</p>
+    </div>
+
+    <!-- Data loaded state -->
+    <div class="admin-momo-url__content" id="content-state" hidden>
+      <!-- Summary -->
+      <div class="admin-momo-url__summary">
+        <div class="summary-card">
+          <div class="summary-card__label">Tổng URL</div>
+          <div class="summary-card__value" id="summary-total">0</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card__label">Premium</div>
+          <div class="summary-card__value" id="summary-premium">0</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card__label">Donate</div>
+          <div class="summary-card__value" id="summary-donate">0</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card__label">Custom Post</div>
+          <div class="summary-card__value" id="summary-custom">0</div>
+        </div>
+      </div>
+
+      <!-- Links table -->
+      <div class="admin-momo-url__table-wrapper">
+        <table class="admin-momo-url__table">
+          <thead>
+            <tr>
+              <th class="col-url">Link MoMo</th>
+              <th class="col-category">Loại</th>
+              <th class="col-locations">Vị trí dùng</th>
+              <th class="col-count">Số nơi</th>
+              <th class="col-actions">Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div class="admin-momo-url__error" id="error-state" hidden>
+      <p id="error-message"></p>
+      <button class="btn btn--primary" id="retry-btn">Thử lại</button>
+    </div>
+
+    <!-- Logout button -->
+    <div class="admin-momo-url__footer">
+      <button class="btn btn--secondary" id="logout-btn">Đăng xuất</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Replace link -->
+<dialog class="modal" id="replace-modal">
+  <div class="modal__content">
+    <div class="modal__header">
+      <h2 class="modal__title">Thay đổi MoMo URL</h2>
+      <button class="modal__close" id="close-replace-modal" aria-label="Đóng">&times;</button>
+    </div>
+    <div class="modal__body">
+      <div class="form-group">
+        <label>URL cũ (hiện tại)</label>
+        <input type="text" class="form-control" id="old-url-display" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="new-url-input">URL mới</label>
+        <input type="url" class="form-control" id="new-url-input"
+               placeholder="https://me.momo.vn/..." required>
+        <small class="form-text">Chỉ chấp nhận URL dạng https://me.momo.vn/...</small>
+      </div>
+
+      <div class="form-group">
+        <label>Phạm vi thay thế</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="replace-scope" value="single" checked>
+            Chỉ thay tại vị trí này
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="replace-scope" value="all_same_url">
+            Thay tất cả nơi dùng URL này
+          </label>
+        </div>
+      </div>
+
+      <div id="replace-location" hidden>
+        <div class="form-group">
+          <label for="location-select">Vị trí</label>
+          <select class="form-control" id="location-select">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <div class="alert alert--warning" id="replace-warning" hidden>
+        <strong>⚠️ Chú ý:</strong> Thay toàn bộ sẽ ảnh hưởng <strong id="replace-count">0</strong> vị trí.
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--secondary" id="cancel-replace-btn">Huỷ</button>
+      <button class="btn btn--primary" id="confirm-replace-btn">Lưu thay đổi</button>
+    </div>
+    <div class="modal__status" id="replace-status" hidden role="status">
+      <div class="spinner spinner--small"></div>
+      <span id="replace-status-text">Đang xử lý...</span>
+    </div>
+  </div>
+</dialog>
+
+<!-- Modal: Location details -->
+<dialog class="modal" id="details-modal">
+  <div class="modal__content modal__content--small">
+    <div class="modal__header">
+      <h2 class="modal__title">Vị trí sử dụng</h2>
+      <button class="modal__close" id="close-details-modal" aria-label="Đóng">&times;</button>
+    </div>
+    <div class="modal__body">
+      <div id="details-content">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script type="module" src="{{ get_url(path='/js/admin-momo-url.js') }}"></script>
+{% endblock %}
