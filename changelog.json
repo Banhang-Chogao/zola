@@ -2,6 +2,21 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "add breadcrumb and full datetime display for blog posts",
+      "tag": "feat",
+      "lines_added": 41,
+      "lines_removed": 2,
+      "highlights": [
+        "Format: Home › Category › Post Title",
+        "Links to homepage and category taxonomy pages",
+        "Mobile-responsive with ellipsis truncation",
+        "Semantic HTML with proper ARIA labels",
+        "Styled with S-DNA design system tokens"
+      ],
+      "pr": 1030
+    },
+    {
+      "date": "2026-06-26",
       "title": "feat(worldcup-2026): add WorldCup 2026 News Hub with static content",
       "tag": "chore",
       "lines_added": 1326,
