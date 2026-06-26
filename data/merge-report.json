@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-26T01:14:31Z",
+  "updated_at": "2026-06-26T01:22:36Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 4,
-    "this_week": 181,
+    "today": 5,
+    "this_week": 184,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
+      "unknown": 36,
       "fix": 107,
-      "feature": 42,
-      "unknown": 34,
+      "feature": 40,
       "ci": 3,
       "chore": 10,
       "content": 4
     }
   },
   "merges": [
+    {
+      "pr_number": 934,
+      "pr_title": "Merge remote-tracking branch 'origin/main' into claude/remove-progress-countdown-ltkzf9 [claude/remove-progress-countdown-ltkzf9]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/934",
+      "merged_at": "2026-06-26T01:17:37Z",
+      "merge_commit_sha": "188499a3e8bd29397ff6f45d2e99e5784e6d9dc9",
+      "merge_commit_short": "188499a",
+      "head_branch": "claude/remove-progress-countdown-ltkzf9",
+      "summary_vi": "- Remove progress countdown and IMPROVEMENT PROGRESS sections completely",
+      "change_type": "unknown",
+      "files_changed": 16,
+      "additions": 4,
+      "deletions": 867,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1167,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210916371",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 942,
       "pr_title": "fix: Use hardcoded year in copyright notice [claude/blog-post-ending-complete]",
@@ -36,7 +55,7 @@
       "auto_merged": false,
       "build_run_number": 1166,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 941,
@@ -55,7 +74,7 @@
       "auto_merged": false,
       "build_run_number": 1166,
       "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28210591731",
-      "build_conclusion": "pending"
+      "build_conclusion": "in_progress"
     },
     {
       "pr_number": 933,
@@ -400,6 +419,25 @@
       "build_conclusion": "success"
     },
     {
+      "pr_number": 908,
+      "pr_title": "Claude/stoic feynman rx0m7m",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/908",
+      "merged_at": "2026-06-25T12:02:49Z",
+      "merge_commit_sha": "488ff82222e70fa737accc64b4c0f255ad2c8146",
+      "merge_commit_short": "488ff82",
+      "head_branch": "claude/stoic-feynman-rx0m7m",
+      "summary_vi": "Claude/stoic feynman rx0m7m",
+      "change_type": "unknown",
+      "files_changed": 9,
+      "additions": 2344,
+      "deletions": 207,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1145,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28168666391",
+      "build_conclusion": "success"
+    },
+    {
       "pr_number": 904,
       "pr_title": "refactor: WWDC Priority 2 — Grid (3-column), Card Images, Badge Polish, Hover Effects [claude/stoic-feynman-rx0m7m]",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/904",
@@ -547,9 +585,9 @@
       "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1137,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161880543",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 895,
@@ -566,9 +604,9 @@
       "deletions": 188,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1137,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161880543",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 891,
@@ -585,9 +623,9 @@
       "deletions": 70,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1137,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28161880543",
-      "build_conclusion": "success"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 896,
@@ -2262,6 +2300,25 @@
       "build_conclusion": ""
     },
     {
+      "pr_number": 793,
+      "pr_title": "fix(vaccine-hotfix): required_checks_fail-28034374880",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/793",
+      "merged_at": "2026-06-23T15:27:15Z",
+      "merge_commit_sha": "3657d7b1c01d9b2f4af39dfcf762821002e21f8c",
+      "merge_commit_short": "3657d7b",
+      "head_branch": "vaccine-hotfix/required_checks_fail-28034374880",
+      "summary_vi": "Automated **Vaccine Hotfix** (`required_checks_fail`). Minimal safe delta; QA/build re-run by CI. Auto-merges via auto-merge.yml ONLY when required checks pass. See data/vaccine-hotfix-report.json (\"Autofixer_report_by V",
+      "change_type": "fix",
+      "files_changed": 1,
+      "additions": 1,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
+    },
+    {
       "pr_number": 792,
       "pr_title": "fix(vaccine-hotfix): fix/remove-legacy-theodoi8-assets-20260623-211644",
       "pr_url": "https://github.com/Banhang-Chogao/zola/pull/792",
@@ -3508,63 +3565,6 @@
       "change_type": "unknown",
       "files_changed": 58,
       "additions": 20280,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 706,
-      "pr_title": "feat: add \"Long Bugfix → Blog Draft\" workflow + bugblog shortcut [claude/keen-babbage-owepnm]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/706",
-      "merged_at": "2026-06-21T22:56:35Z",
-      "merge_commit_sha": "d11704b2d1202048b11426ee7662ba6c234dfd9e",
-      "merge_commit_short": "d11704b",
-      "head_branch": "claude/keen-babbage-owepnm",
-      "summary_vi": "feat: add \"Long Bugfix → Blog Draft\" workflow + bugblog shortcut",
-      "change_type": "feature",
-      "files_changed": 3,
-      "additions": 194,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 705,
-      "pr_title": "fix(tools): restore F/L/O/H dashboard routes + V30 route-preservation guard [claude/dreamy-dijkstra-4il1zl]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/705",
-      "merged_at": "2026-06-21T22:49:38Z",
-      "merge_commit_sha": "e0d1e4024ff80c035d07c8e489a8a7d81527e079",
-      "merge_commit_short": "e0d1e40",
-      "head_branch": "claude/dreamy-dijkstra-4il1zl",
-      "summary_vi": "fix(tools): restore F/L/O/H dashboard routes + V30 route-preservation guard",
-      "change_type": "fix",
-      "files_changed": 56,
-      "additions": 20278,
-      "deletions": 0,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 704,
-      "pr_title": "feat(content): bài \"Tạo ảnh OG — gương mặt MXH của blog và tạp chí online\" [claude/inspiring-hypatia-xvyivu]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/704",
-      "merged_at": "2026-06-21T22:46:01Z",
-      "merge_commit_sha": "910adbba762ac15c5fa2c70496945c01fde4222a",
-      "merge_commit_short": "910adbb",
-      "head_branch": "claude/inspiring-hypatia-xvyivu",
-      "summary_vi": "feat(content): bài \"Tạo ảnh OG — gương mặt MXH của blog và tạp chí online\"",
-      "change_type": "feature",
-      "files_changed": 4,
-      "additions": 290,
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
