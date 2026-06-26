@@ -2,6 +2,16 @@
   "items": [
     {
       "date": "2026-06-26",
+      "title": "update vipzone comments to reflect gsc_routes migration",
+      "tag": "chore",
+      "lines_added": 3,
+      "lines_removed": 4,
+      "highlights": [],
+      "commit": "42e2e1964399",
+      "pr": 0
+    },
+    {
+      "date": "2026-06-26",
       "title": "re-enable Cloudflare R2 connection (opt-out kill-switch + CDN endpoint)",
       "tag": "fix",
       "lines_added": 21,
