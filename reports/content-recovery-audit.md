@@ -9,7 +9,7 @@ author: "Content Recovery Bot"
 **Report Date:** 2026-06-26  
 **Repository:** Banhang-Chogao/zola  
 **Branch:** `claude/restore-zola-posts-3m3u7v`  
-**Status:** ✅ **NO RECOVERY NEEDED**
+**Status:** ✅ **CONTENT INTACT — HOMEPAGE VISIBILITY GAP FIXED**
 
 ---
 
@@ -20,7 +20,31 @@ Comprehensive audit of all markdown content files in the SEOMONEY blog repositor
 - ✅ **All 174 posts are present and properly formatted**
 - ✅ **No posts detected as missing from Git history**
 - ✅ **No rollback or deletion detected**
-- ✅ **All posts should render correctly**
+- ✅ **All posts render correctly** (verified with `zola build`: 194 pages, 13 sections)
+
+### ⚠️ Root Cause of "Posts Not Showing" — and the Fix
+
+The posts were **never lost**. The symptom — "the new theme only shows a portion of
+posts" — traces to a **homepage pagination limitation**, not missing content:
+
+- `templates/index.html` paginates over the **root section** (`content/_index.md`),
+  which has **zero direct pages** (all posts live in the `posting/` and `baochi/`
+  **subsections**).
+- Therefore `paginator.number_pagers = 1`, `feed_pages = 1`, the pagination nav
+  **never renders**, and the homepage "Bài mới nhất" grid only ever shows the **10
+  newest** posts.
+- The other 164 posts were reachable **only** via `/categories/tat-ca/` (18 paginated
+  pages) — never from the homepage feed. To a visitor landing on the homepage, it
+  looked like the blog had only ~10 posts.
+
+**Fix applied (theme-safe, no URL changes):** added a dedicated **`/archive/`** page
+listing **all 174 posts** on one page (grouped by year, with a lightweight client-side
+category filter), linked from:
+- the **homepage** — a `Xem tất cả 174 bài viết →` CTA below the latest grid, and
+- the **footer** — `Tất cả bài viết` under "Về SEOMONEY".
+
+This guarantees every valid post is reachable and crawlable from one place, without
+touching the fragile homepage paginator or changing any post URL.
 
 ### Key Statistics
 
@@ -250,9 +274,39 @@ This audit:
 - ✅ Present in repository
 - ✅ Properly formatted with valid frontmatter
 - ✅ Tracked in Git history
-- ✅ Ready to render
+- ✅ Rendered (verified: 194 pages built, all in sitemap + RSS + Atom)
 
-**No recovery action is needed.** The content is intact and should display correctly on the website. If posts are not visible, the issue lies in site rendering (theme/template) rather than missing content files.
+**No content was lost or rolled back.** The "posts not showing" symptom was a
+**homepage visibility limit** (homepage paginated an empty root section and could
+only display the 10 newest posts). This is now fixed with a complete **`/archive/`**
+page that lists every post, linked from both the homepage and the footer.
+
+### Files Changed by This Fix
+
+| File | Change |
+|------|--------|
+| `templates/archive.html` | **New** — archive template (all posts, year groups, category filter) |
+| `content/archive/_index.md` | **New** — archive section page |
+| `sass/_archive.scss` | **New** — archive + home view-all CTA styles (semantic tokens, mobile-first) |
+| `sass/site.scss` | Import archive partial |
+| `templates/index.html` | "Xem tất cả N bài viết →" CTA below latest grid |
+| `templates/base.html` | "Tất cả bài viết" link in footer |
+
+### QA Results
+
+| Check | Result |
+|-------|--------|
+| `zola build` | ✅ PASS — 194 pages, 13 sections |
+| `qa_check.py` | ✅ PASS — 621 files scanned |
+| `qa-404-checker.py` (CI gate) | ✅ PASS — 0 internal broken links (720 pages) |
+| Archive renders all posts | ✅ 174/174 posts listed |
+| Sitemap includes archive + all posts | ✅ Yes |
+| RSS / Atom feeds | ✅ 174 items / 174 entries |
+
+> Note: `check_internal_links.py` reports 11 pre-existing alias-path warnings in the
+> `google-preferred-sources-*` series (cross-links use `/slug/` instead of
+> `/posting/slug/`, which resolve via redirects). These are **unrelated to this change**
+> and are not flagged by the hard CI gate (`qa-404-checker.py`).
 
 ---
 
