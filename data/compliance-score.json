@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-25T23:49:04Z",
+  "updated_at": "2026-06-26T01:08:20Z",
   "score": 89.1,
   "grade": "B",
   "mood": "good",
@@ -21,17 +21,17 @@
         {
           "label": "Page titles",
           "status": "warn",
-          "detail": "786/1067 in range"
+          "detail": "789/1071 in range"
         },
         {
           "label": "Descriptions",
           "status": "pass",
-          "detail": "1039/1067 complete"
+          "detail": "1043/1071 complete"
         },
         {
           "label": "Canonical URLs",
           "status": "pass",
-          "detail": "1065/1067 set"
+          "detail": "1069/1071 set"
         }
       ]
     },
@@ -46,22 +46,22 @@
         {
           "label": "Heading focus",
           "status": "pass",
-          "detail": "1056/1067 single H1"
+          "detail": "1060/1071 single H1"
         },
         {
           "label": "Document language",
           "status": "pass",
-          "detail": "1065/1067 with lang"
+          "detail": "1069/1071 with lang"
         },
         {
           "label": "Mobile viewport",
           "status": "pass",
-          "detail": "1065/1067 ready"
+          "detail": "1069/1071 ready"
         },
         {
           "label": "Structured data",
           "status": "pass",
-          "detail": "1065/1067 pages"
+          "detail": "1069/1071 pages"
         }
       ]
     },
@@ -76,7 +76,7 @@
         {
           "label": "Image descriptions",
           "status": "pass",
-          "detail": "1066/1067 pages covered"
+          "detail": "1070/1071 pages covered"
         },
         {
           "label": "Image weight",
@@ -131,17 +131,17 @@
         {
           "label": "Publish dates",
           "status": "pass",
-          "detail": "277/277 articles"
+          "detail": "278/278 articles"
         },
         {
           "label": "Taxonomies",
           "status": "pass",
-          "detail": "271/277 tagged"
+          "detail": "272/278 tagged"
         },
         {
           "label": "Article depth",
           "status": "pass",
-          "detail": "275/277 substantive"
+          "detail": "276/278 substantive"
         },
         {
           "label": "Unique titles",
@@ -186,7 +186,7 @@
         {
           "label": "Main landmarks",
           "status": "pass",
-          "detail": "1061/1067 pages"
+          "detail": "1065/1071 pages"
         },
         {
           "label": "Skip navigation",
@@ -222,16 +222,16 @@
       "text": "Metadata: Canonical URLs"
     }
   ],
-  "pages_scanned": 1067,
-  "articles_scanned": 284,
+  "pages_scanned": 1071,
+  "articles_scanned": 285,
   "fix_log": [
     {
       "category": "Metadata",
       "label": "Page titles",
       "check_status": "warn",
       "outcome": "failed",
-      "message": "Chưa có auto-fix an toàn cho mục này (786/1067 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-25T23:49:05Z"
+      "message": "Chưa có auto-fix an toàn cho mục này (789/1071 in range). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
+      "at": "2026-06-26T01:08:20Z"
     },
     {
       "category": "Media",
@@ -239,7 +239,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 large file(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-25T23:49:05Z"
+      "at": "2026-06-26T01:08:20Z"
     },
     {
       "category": "Content",
@@ -247,7 +247,7 @@
       "check_status": "warn",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-25T23:49:05Z"
+      "at": "2026-06-26T01:08:20Z"
     },
     {
       "category": "Content",
@@ -255,7 +255,7 @@
       "check_status": "fail",
       "outcome": "failed",
       "message": "Chưa có auto-fix an toàn cho mục này (1 duplicate(s)). Cần can thiệp thủ công hoặc workflow chuyên biệt (SEO11/pef).",
-      "at": "2026-06-25T23:49:05Z"
+      "at": "2026-06-26T01:08:20Z"
     }
   ],
   "fix_summary": {
