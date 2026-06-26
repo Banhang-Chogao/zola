@@ -1,24 +1,43 @@
 {
-  "updated_at": "2026-06-26T05:52:32Z",
+  "updated_at": "2026-06-26T05:59:59Z",
   "policy_effective_at": "2026-06-17T00:00:00Z",
   "source_repo": "https://github.com/Banhang-Chogao/zola",
   "source_label": "GitHub Pull Requests",
   "stats": {
     "total": 200,
-    "today": 34,
+    "today": 35,
     "this_week": 200,
     "this_month": 200,
     "auto_merged": 0,
     "by_change_type": {
-      "unknown": 38,
+      "unknown": 39,
       "fix": 100,
       "feature": 45,
       "ci": 4,
       "chore": 9,
-      "content": 4
+      "content": 3
     }
   },
   "merges": [
+    {
+      "pr_number": 954,
+      "pr_title": "docs: comprehensive README for seomoney.org [claude/seomoney-readme-gen-titho2]",
+      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/954",
+      "merged_at": "2026-06-26T05:54:05Z",
+      "merge_commit_sha": "0495ed64cb752f8824de711f5a0c520fe8499c8f",
+      "merge_commit_short": "0495ed6",
+      "head_branch": "claude/seomoney-readme-gen-titho2",
+      "summary_vi": "docs: comprehensive README for seomoney.org",
+      "change_type": "unknown",
+      "files_changed": 1,
+      "additions": 177,
+      "deletions": 1,
+      "merged_by": "",
+      "auto_merged": false,
+      "build_run_number": 1180,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28220053080",
+      "build_conclusion": "pending"
+    },
     {
       "pr_number": 973,
       "pr_title": "Update SEO scores report after Bài 1 optimization [claude/git-origins-version-control-gfl17c]",
@@ -34,9 +53,9 @@
       "deletions": 2,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1179,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28219791217",
-      "build_conclusion": "in_progress"
+      "build_run_number": 1180,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28220053080",
+      "build_conclusion": "pending"
     },
     {
       "pr_number": 972,
@@ -851,9 +870,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1151,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175968991",
-      "build_conclusion": "cancelled"
+      "build_run_number": 1153,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28177714706",
+      "build_conclusion": "success"
     },
     {
       "pr_number": 913,
@@ -870,8 +889,8 @@
       "deletions": 5,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1150,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175232984",
+      "build_run_number": 1152,
+      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28176803433",
       "build_conclusion": "success"
     },
     {
@@ -908,9 +927,9 @@
       "deletions": 0,
       "merged_by": "",
       "auto_merged": false,
-      "build_run_number": 1151,
-      "build_url": "https://github.com/Banhang-Chogao/zola/actions/runs/28175968991",
-      "build_conclusion": "cancelled"
+      "build_run_number": null,
+      "build_url": "",
+      "build_conclusion": ""
     },
     {
       "pr_number": 910,
@@ -3790,25 +3809,6 @@
       "merge_commit_short": "1362c7a",
       "head_branch": "claude/mysign-digital-signature-series-nzyaxk",
       "summary_vi": "Series tiếng Việt 5 bài về trải nghiệm cá nhân với chữ ký số **MySign** (Viettel-CA) và giải thích quy định pháp luật VN về chữ ký điện tử/chữ ký số. Topic-cluster hub-and-spoke, category `[\"Tất cả\", \"Công nghệ\"]`.",
-      "change_type": "content",
-      "files_changed": 6,
-      "additions": 889,
-      "deletions": 1,
-      "merged_by": "",
-      "auto_merged": false,
-      "build_run_number": null,
-      "build_url": "",
-      "build_conclusion": ""
-    },
-    {
-      "pr_number": 733,
-      "pr_title": "content: series 5 bài chữ ký số MySign (hub + 4 spoke, Công nghệ) [claude/mysign-digital-signature-series-nzyaxk]",
-      "pr_url": "https://github.com/Banhang-Chogao/zola/pull/733",
-      "merged_at": "2026-06-22T14:21:05Z",
-      "merge_commit_sha": "d1b5922391a5e1f9ef92d9d81db6c3d1ee8aeb18",
-      "merge_commit_short": "d1b5922",
-      "head_branch": "claude/mysign-digital-signature-series-nzyaxk",
-      "summary_vi": "content: series 5 bài chữ ký số MySign (hub + 4 spoke, Công nghệ)",
       "change_type": "content",
       "files_changed": 6,
       "additions": 889,
