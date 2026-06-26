@@ -133,8 +133,21 @@
   function showLoginError(code) {
     const el = $("[data-login-error]");
     if (!el) return;
+    el.dataset.code = code || "";
     el.textContent = AUTH_ERROR_MESSAGES[code] || ("Lỗi xác thực: " + code);
     el.hidden = false;
+  }
+
+  // Dismiss a stale provider warning (e.g. an old ?auth_error=google_disabled)
+  // once /auth/config proves that provider is actually available. Only clears the
+  // listed codes so genuine errors (access_denied, invalid_state…) stay visible.
+  function clearLoginErrorCodes(codes) {
+    const el = $("[data-login-error]");
+    if (!el || el.hidden) return;
+    if (codes.indexOf(el.dataset.code || "") === -1) return;
+    el.hidden = true;
+    el.textContent = "";
+    el.dataset.code = "";
   }
 
   function showLoginHint() {
@@ -621,29 +634,61 @@ tags = ${tagsStr}
     googleBtn.addEventListener("click", function () { startOAuth("/auth/google/start"); });
   }
 
-  // Hỏi backend /auth/config xem cổng nào đang bật để render đúng nút:
+  // Provider availability từ /auth/config — bền với cả schema mới (nested) lẫn cũ.
+  //   mới: { provider, google:{enabled,configured}, github:{enabled,configured} }
+  //   cũ : { google:true } | { google_enabled:true } | { providers:{google:true} }
+  // Theo contract backend hiện tại: available khi enabled===true && configured===true
+  // && provider ∈ {dual, <tên>}. Trả null nếu không suy được (giữ default UI).
+  function providerAvailable(cfg, name) {
+    if (!cfg) return null;
+    const provider = cfg.provider || cfg.auth_provider || "";
+    // provider gate: dual bật cả hai; ngược lại phải khớp đúng tên provider.
+    if (provider && provider !== "dual" && provider !== name) return false;
+    const node = cfg[name];
+    if (node && typeof node === "object") {
+      // Schema mới: yêu cầu enabled; configured mặc định true nếu không khai báo.
+      return node.enabled === true && node.configured !== false;
+    }
+    // Schema cũ (boolean) — backward-compatible, không phá GitHub login.
+    if (node === true) return true;
+    if (cfg[name + "_enabled"] === true) return true;
+    if (cfg.providers && cfg.providers[name] === true) return true;
+    if (node === false) return false;
+    // Không có thông tin node → suy theo provider gate (dual/đúng tên ⇒ bật).
+    return provider === "dual" || provider === name;
+  }
+
+  // Fetch /auth/config, render đúng nút (Google primary trong dual/google), và
+  // TRẢ availability để init quyết định có nên hiện cảnh báo *_disabled hay không.
   //   dual   → Google (primary) + GitHub (phụ)
   //   google → chỉ Google
   //   github → chỉ GitHub (mặc định, giữ hành vi cũ nếu fetch lỗi)
   async function applyAuthProviders() {
-    if (!AUTH_API) return;
+    if (!AUTH_API) return null;
     let cfg = null;
     try {
       const res = await fetch(AUTH_API + "/auth/config", { cache: "no-store" });
       if (res.ok) cfg = await res.json();
     } catch (e) { /* network fail → giữ default (cả 2 nút) */ }
-    if (!cfg) return;
+    if (!cfg) return null;
+    const googleOk = providerAvailable(cfg, "google");
+    const githubOk = providerAvailable(cfg, "github");
     const gBtn = $("[data-provider-btn='google']");
     const ghBtn = $("[data-provider-btn='github']");
-    if (gBtn)  gBtn.hidden  = !(cfg.google && cfg.google.enabled);
-    if (ghBtn) ghBtn.hidden = !(cfg.github && cfg.github.enabled);
+    if (gBtn  && googleOk !== null) gBtn.hidden  = !googleOk;
+    if (ghBtn && githubOk !== null) ghBtn.hidden = !githubOk;
     // Trong dual/google, Google là primary; hạ GitHub xuống nút phụ (ghost).
-    if (cfg.google && cfg.google.enabled && gBtn && ghBtn) {
+    if (googleOk && gBtn && ghBtn) {
+      gBtn.classList.add("editor-btn--primary");
       ghBtn.classList.remove("editor-btn--primary");
       ghBtn.classList.add("editor-btn--ghost");
     }
+    // Tự sửa cảnh báo cũ mâu thuẫn: nếu config xác nhận provider đang BẬT thì gỡ
+    // cảnh báo *_disabled còn sót lại (vd ?auth_error=google_disabled cũ).
+    if (googleOk) clearLoginErrorCodes(["google_disabled", "google_not_configured"]);
+    if (githubOk) clearLoginErrorCodes(["github_disabled"]);
+    return { google: googleOk, github: githubOk };
   }
-  applyAuthProviders();
 
   let bakeLoaded = false;
 
@@ -2055,16 +2100,29 @@ tags = ${tagsStr}
     return false;
   }
 
-  // ============= INIT — GitHub OAuth Flow =============
+  // ============= INIT — GitHub/Google OAuth Flow =============
+  // Cảnh báo *_disabled chỉ hợp lệ nếu /auth/config xác nhận provider đang tắt.
+  const _CONTRADICTABLE = {
+    google_disabled: "google",
+    google_not_configured: "google",
+    github_disabled: "github",
+  };
+  function _isContradictedError(code, avail) {
+    const p = _CONTRADICTABLE[code];
+    return !!(p && avail && avail[p] === true);
+  }
+
   async function init() {
     // 1. Consume #sid=... từ callback redirect (nếu vừa OAuth xong)
     consumeUrlHashSid();
-    // 2. Consume ?auth_error=... (backend redirect khi denied)
+    // 2. Consume ?auth_error=... (luôn strip param khỏi URL qua replaceState).
+    //    KHÔNG hiện ngay — chờ /auth/config để bỏ cảnh báo mâu thuẫn (vd
+    //    google_disabled cũ trong khi backend đã bật Google ở chế độ dual).
     const errCode = consumeUrlAuthError();
-    if (errCode) showLoginError(errCode);
 
-    // 3. Nếu backend chưa configure → hiển thị hint trên login view
+    // 3. Nếu backend chưa configure → không verify được config, hiện lỗi thô.
     if (!AUTH_API) {
+      if (errCode) showLoginError(errCode);
       showLoginHint();
       showView("login");
       return;
@@ -2083,7 +2141,12 @@ tags = ${tagsStr}
       // Session expired/invalid → đã clearSid trong fetchMe
     }
 
-    // 5. Chưa login → show login screen
+    // 5. Chưa login → fetch /auth/config TRƯỚC (render đúng nút + biết provider
+    //    nào đang bật), rồi mới quyết định có hiện cảnh báo *_disabled không.
+    const avail = await applyAuthProviders();
+    if (errCode && !_isContradictedError(errCode, avail)) {
+      showLoginError(errCode);
+    }
     showView("login");
   }
 
