@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-06-27T04:45:08.645216+07:00",
+  "generated_at_display": "04:45 27/06/2026",
+  "source": "build_prod_snapshot.py",
+  "shortcut": "??",
+  "main": {
+    "sha": "a34b7a617cceb4527d80a7cfbe63f1291ac29090",
+    "sha_short": "a34b7a6",
+    "title": "main @ a34b7a6",
+    "url": "https://github.com/Banhang-Chogao/zola/commit/a34b7a617cceb4527d80a7cfbe63f1291ac29090"
+  },
+  "deploy": {
+    "sha": "fb432dbd8304321b28a47629cdfbb31a0a037497",
+    "sha_short": "fb432db",
+    "status": "green",
+    "deployed_at": "2026-06-26T18:56:23Z",
+    "deployed_at_display": "01:56 27/06/2026",
+    "run_number": 1211,
+    "status_line": "✅ last success #1211",
+    "deploying": false
+  },
+  "backend": {
+    "ok": true,
+    "sha": "7fe242ca85c2961b0c34dfe6aad210c8da8fc581",
+    "sha_short": "7fe242c",
+    "comments_mounted": true,
+    "oauth_configured": true,
+    "url": "https://blog-vipzone-api.onrender.com"
+  },
+  "drift": {
+    "status": "yellow",
+    "status_vi": "Main mới hơn production",
+    "hint": "Code đã merge nhưng GitHub Pages chưa ship bản mới — đợi deploy hoặc dispatch deploy.yml.",
+    "main_ahead_of_deploy": true,
+    "backend_behind_main": true,
+    "status_line": "main a34b7a6 · deploy fb432db · backend 7fe242c"
+  },
+  "open_prs_count": 0,
+  "deploy_monitor_stale": false,
+  "deploy_monitor_ok": true
+}
