@@ -2,13 +2,15 @@
 title = "Cách Fix Build-Smoke Fail: 3 Bài Học Từ Kinh Nghiệm Zola"
 date = 2026-06-26
 description = "3 bài học từ việc fix build-smoke fail hàng chục lần: log không nói dối, frontmatter là thủ phạm, và quy trình chuẩn để tự fix."
+slug = "kinh-nghiem-xu-ly-build-smoke-fail"
 
 [taxonomies]
 categories = ["Tất cả", "Công nghệ"]
-tags = ["zola", "build", "ci-cd", "debug", "pr-management"]
+tags = ["zola", "build", "ci-cd", "debug"]
 
 [extra]
 seo_keyword = "build-smoke fail zola fix"
+featured = false
 +++
 
 ## Mở đầu
